@@ -2,74 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2675D134D0A
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 21:19:24 +0100 (CET)
-Received: from localhost ([::1]:48942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56CF134D1D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 21:23:54 +0100 (CET)
+Received: from localhost ([::1]:49032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipHnX-0008Hv-50
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 15:19:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39477)
+	id 1ipHrt-0006Fu-Qm
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 15:23:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46149)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ipHaK-0007Dl-T6
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:05:45 -0500
+ (envelope-from <laurent@vivier.eu>) id 1ipHg8-0007jU-AM
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:11:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ipHaI-000794-Sy
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:05:44 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36216)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ipHaI-00077i-Nj
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:05:42 -0500
-Received: by mail-wm1-x342.google.com with SMTP id p17so243670wma.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 12:05:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=aoZmBCHq8KdFyuYwAZ29pK8yo9t5oHzC7+ZipSOnK4o=;
- b=xH3vD3drbsAplx28P//fQaNZ69lvMTMtOaSA31IQ1LlkVvvKFkHTsJqlYOu3yLvKvN
- aZ3EGuvSIeHQ8dJayblsPz4g4G+9lyYHja5rLxlzl+Kj28Vp7GlKbVPdWZfBMcpDDLJE
- RvAKY7G6GPJoT7neR9cazwMijmTOHooJeSFC1jJ3nH/sT4iJCnEqP1jdQb5V+Lzk6iV+
- iBAAKyOxMYz/pN78nDzuXo1Bf2BWZDB8eC4rgRdovOoG3tQAB9CrJwUqwYtESuqHXUYW
- MkcBvjcc560fFhrCkqG4Qpu6yiYaBaV4RoK68K2WUmhgtqm1+yTrVBczc6FPUgp47bcD
- InEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=aoZmBCHq8KdFyuYwAZ29pK8yo9t5oHzC7+ZipSOnK4o=;
- b=piafaAV6I6SMg0sjqVTh48zU1lpYXvVGkL8b69TxbfEGKlDlLEi6MZBPO/ceALGu4P
- znNMKzyPDS+MaHFZu6GWRgakyZM0B2BVap4O/mD74hDuYZQVL+d/4SZcxTcZc70yUftf
- Mi8R0gSa9rpG2iU02WRZN9PE7m/qxaO8cqr0eO+HpCnzTT8NbnTBXN3yoQpMOc78A7/9
- M5Pyn9WzOhxvjKhTOes5IAu3q/Z9FAFiWXDq5pv0fNIVw+q4apFUL4C9oIHZhV6eDjhJ
- 3vutUGybJZ9As2Xgs25Viw2sWxx16NPBMSJ6okV0tzCkL/x//J4g8R3aNjmglGsN1ceA
- L5ig==
-X-Gm-Message-State: APjAAAXSubw77eO7zfUiFA5bjX3p1mZhiRD6LeuFenjT9yxLqAvcubRs
- mJYvS+gVIjuZlZe8l0NMJ5bdqdhFlC8=
-X-Google-Smtp-Source: APXvYqxQOd/CT6GuhQ5W7OLEVnUKro7qH1GUHWinp7c66KcmagTClyqKF2JChvnEzvyTZfmD5UwAzQ==
-X-Received: by 2002:a7b:c949:: with SMTP id i9mr335569wml.131.1578513940140;
- Wed, 08 Jan 2020 12:05:40 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f127sm239202wma.4.2020.01.08.12.05.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 12:05:39 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6D2AD1FF87;
- Wed,  8 Jan 2020 20:05:38 +0000 (GMT)
-References: <20200108192402.19672-1-thuth@redhat.com>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
+ (envelope-from <laurent@vivier.eu>) id 1ipHg7-0005vf-7f
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:11:44 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:41297)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1ipHg4-0005qL-N5; Wed, 08 Jan 2020 15:11:40 -0500
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M8QNy-1ikrpA1hh2-004U2g; Wed, 08 Jan 2020 21:11:36 +0100
 Subject: Re: [PATCH] include/sysemu/sysemu.h: Remove usused variable no_quit
-In-reply-to: <20200108192402.19672-1-thuth@redhat.com>
-Date: Wed, 08 Jan 2020 20:05:38 +0000
-Message-ID: <874kx5k92l.fsf@linaro.org>
+To: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200108192402.19672-1-thuth@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <44f78698-817e-f9a7-8d53-1ba5dba91af7@vivier.eu>
+Date: Wed, 8 Jan 2020 21:11:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
+In-Reply-To: <20200108192402.19672-1-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:c6Xum/QWuyIgn5XIiSyWCmC+oF2zoCqyiDlLqDyKB4uCiMuT86x
+ LLe9yD6TCbUCz3wHGlME//BtgHXRkckGhtWtP1rdZzBHlFX+7I4gO8NessWWeGiavgMGgn5
+ qbNaS11PDsO/emG1pCuQrgZM4fsKpsgdf+vvFP4JdBMOuAMDUCXupNk//Kly3BKfhfoIunr
+ yEMSEvEE5mOLqQ9H2zZwQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Wlv2pEdDvWU=:oRPuNLqhiQS/WestoXG9+W
+ gLz1Vidot5FGOzUGVcFsPk/JQkZcoAzevF2G0ePtt0rSl077WbpdIZGTRyqgzp7X9t8X9avdI
+ rm9S5o043ZWc0QCqa34X+KBT1etl8+PMj/ESLIW9bB7V2+wlGUsWjXJF0BsYQSCqMrFN1bTwI
+ AnGROr7tayYwj27XJLBAsZYMKTAlxBj0K5OA90OWwRt7fWgGwlCHvdoJnh31hX6r/p1d63iRN
+ 6w/XmJT+10ii0UDzbctPTltnzfVLicBsDW766HrI10M5+oNgI+Zfojxa6csILrr4y2MWMGJhu
+ Qc5Xjuf62KawIfrobOWzml3ne1YqDKXOqwGpCdjW1doqhUGS8c8dI1RDkZNe3Z+PVjcoVlke4
+ PtK+HXWe2aS8eQj/IQTk9H0ZqyzeZiDWJ4LRo5uzzvOlP79PsBqKEDnU9fPaG9oUffSp9LTyV
+ s0CkSaRc1pxE44mqf9Bak2o5bTNYWzbF/OabSTEBtkDCF4Q/ix1WVF75iIK+RfdICZYmUcYZV
+ ClJZNtirkTbygcQJRoJoBwRps3PpUnLHGogUu5hYpF6700YiZSHld6eemy8jfhp91BygN0Arn
+ UDRaiIOPn3TaUqLlJbnhplo6zAMnlERsz3HMWM6chmM6rz1upYrgpPz4apUHw7cxDT3zssVwd
+ aFIw005ar16CFVaaOADy7m2uZKI6Y8r+KpNsTlYnSqn/RAhDTyiMKbO76/smNQgvEYiS8GMCs
+ 04HzYwd/lpQTJwBlAUmvOPiHYQ/83p3bCpRKkopOX+EUyBsblJSC5uoag5ttPRSbf+OfkEfWf
+ kUwCLJq3n4bASWi71tCvoxx+i4cHQnyjvpNuLDITENNq4ju8/mrjIb+81tgv88yPR4s4V/Hlt
+ CUdcx3tp31E3faBLoLxl348ya9aKwlnSZgJpsoCPw=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.17.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,25 +111,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+in subject: s/usused/unused/
 
-Thomas Huth <thuth@redhat.com> writes:
-
+Le 08/01/2020 à 20:24, Thomas Huth a écrit :
 > The no_quit variable has been removed in commit 78782712a62d56 ("vl: drop
 > no_quit variable"), so let's remove the extern declaration in the header
 > now, too.
->
+
+Fixes: 78782712a62d ("vl: drop no_quit variable")
+
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
 > ---
 >  include/sysemu/sysemu.h | 1 -
 >  1 file changed, 1 deletion(-)
->
+> 
 > diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
 > index 80c57fdc4e..686f4217a6 100644
 > --- a/include/sysemu/sysemu.h
@@ -112,8 +141,7 @@ Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 >  extern int no_shutdown;
 >  extern int old_param;
 >  extern int boot_menu;
+> 
 
-
---=20
-Alex Benn=C3=A9e
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
