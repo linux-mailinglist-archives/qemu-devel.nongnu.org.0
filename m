@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855A2134251
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:54:17 +0100 (CET)
-Received: from localhost ([::1]:43082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557F4134267
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:56:19 +0100 (CET)
+Received: from localhost ([::1]:43100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipAqm-00089Y-40
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:54:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60699)
+	id 1ipAsj-0002Ms-SF
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:56:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60716)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWl-0004Mu-En
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:36 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWm-0004PA-E3
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWk-0004aU-CR
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:35 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33839)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWl-0004bC-CI
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:36 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:50274)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipAWk-0004a9-6a
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:34 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id t2so3239710wrr.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:34 -0800 (PST)
+ id 1ipAWl-0004ak-67
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:35 -0500
+Received: by mail-wm1-x333.google.com with SMTP id a5so2312312wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8UTL2P0i77cpbG9WgGJIiLpRG//RBVj09gdW5qz0I7M=;
- b=mmGI9Fcu75W2Jk1JspvBkG3FOkI+So/7SWMV/JaSsK5F6nRz0qB5usNydujaOO6D+R
- o+tBHpoVvFdkx2yJwITG8KaphmJUDpcpwqbKzTqvGG/VQB/QKbD7CEsIO3eXL+qdsoWk
- 5KMI/AfnEm+2w0lx1n42q+EwtMwG5kkoQ4wft8fYHKXOI4x0NT+Mj9+KUCuXsW1JN91l
- Aw4Gbd3BYb39u98Q+KUDr2piynow0mMlvwstTHPKrtAVRUVG6jDuFPACTuvqsLckDh6T
- 3AXLZir49gkHY1swtYZqXOARTNwxH4uK9hJ6FvXbjkpPy2dmVweMgh2y7ZVgFcyBmX/4
- Z0Xg==
+ bh=/fSkOiubeSR2RsQ2FE11TyyAzCwnm2uZ+zIHW+a+jmk=;
+ b=k7viQz9hHdRB/kc7Z1yIt1Z1Fpa6raRZepLhOq6A4P7+nJnabr5MTuXWulgle7yKvI
+ VgA0ANDuQruAO3BfZigEtOTGlYbSr9L8Yvv8N/0dFZXXupr0TzUsFeTVgifO0fiUu5Y/
+ DE4kyw12rfH7ejWiX00ue4RMx3AeS9wG7dqOEHae/EEZneIKb8AFu58hxFxDPYlQhaja
+ 9willGtvIb2u4tqgVogp1nuprxAScccDfXwCJdPgKFdlN9tIGNCkOKwaiYhANthemfOb
+ ZWrxg5LvFtYfWgSqBUJ09WnQqTaDn8tR+oPawuwresAybbGey6e4ESXFTajDuaHHRYTn
+ ijBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8UTL2P0i77cpbG9WgGJIiLpRG//RBVj09gdW5qz0I7M=;
- b=fZv4tTVDYgnpSd4jaXmWozXRxQt16dlptKxyEeM+PMSCWxaayKBcuCl54qORPdYre2
- klpy3vj4JHPbXOj8ro+3QMem8feexu9M1DAt6ZblnmVbhgnPZFoG5EMtrK3pbIGQ6J7R
- Fsds2RrXH91eqPHjF0JS+W3LtgtdVa5KV8HF+P+nMzLfOIwv9Jz9Jl0lL9UXnwlCr75+
- Xm1s40B3jOYsFHeKqh+o7pEDmwtNDrniH4FAKFWK7CLQ+XAA1TO+htu23tQAG+zFOPwx
- /ebPUnV6TJHvB5AabgRpl89OJWu52qhzPltwwyvbEQmWPqclW1ArN64kQwYF9EGEFEc9
- 8rNw==
-X-Gm-Message-State: APjAAAU6uK5Va69WItrqPdtaDCmxY/2Pa8UoKE3RQE3812Rt/6nemIPy
- gxOcDg0Ag8Tm34lwoUkoT3uvWU6E
-X-Google-Smtp-Source: APXvYqwGEF5qhrQE+5Jqv/0caK4snd5KntTxb+eio3plZGR6zDxoWQYFa6vdapx+0zlU/jS7XU5KRQ==
-X-Received: by 2002:a05:6000:1288:: with SMTP id
- f8mr4354857wrx.66.1578486812959; 
- Wed, 08 Jan 2020 04:33:32 -0800 (PST)
+ bh=/fSkOiubeSR2RsQ2FE11TyyAzCwnm2uZ+zIHW+a+jmk=;
+ b=ojmjDx4PsYG8k+7vroEhZ+kgUDd/lzg1DWdeJKh4//q1nLF+Wrb7l2lo7PUuZ7m4EP
+ ABsN/1PPvvUMvcvTFD+Ldpdm5gtd8fes56LxB66xg9nutzh5EaFoJNRIevTORnvi6ANo
+ Tp5L06/nqob0JLkI3LqzrCbpqtXo8R8zmswL+lYbUBUsPCrZQdLgaPDcPErrATWql+/x
+ Nqkui0QBEHDoCVswntwUuyKE68YyYmMG2jqnhB5BdnpSwCxAsOPTAPw7qzL3flqqSvhd
+ BUURL6VSn6kiFXcAj3NOV8YCJtV118NdUN7MmEQDPGbicpAvMo5S5IWNTfhFR2G2Zu8a
+ F1AA==
+X-Gm-Message-State: APjAAAXCRIawqQidTlg1WHqUZkOt31VxFN8vh/a3aFFreq7+a2bfzCwa
+ Y0LLo+gbWU/FWkprerUcJ2MrMtlp
+X-Google-Smtp-Source: APXvYqwsdN8LajZk8WgLJ7VW/Lty3R60qSgpIVrvWN5+uoXDjyxb2J3J0UjJ0Qt/jSIPUpYUOeFrww==
+X-Received: by 2002:a7b:c351:: with SMTP id l17mr3777149wmj.25.1578486813980; 
+ Wed, 08 Jan 2020 04:33:33 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.31
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.32
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 04:33:32 -0800 (PST)
+ Wed, 08 Jan 2020 04:33:33 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/38] virtio-console: Explicit we ignore some QEMUChrEvent in
+Subject: [PULL 34/38] monitor/qmp: Explicit we ignore few QEMUChrEvent in
  IOEventHandler
-Date: Wed,  8 Jan 2020 13:32:50 +0100
-Message-Id: <1578486775-52247-34-git-send-email-pbonzini@redhat.com>
+Date: Wed,  8 Jan 2020 13:32:51 +0100
+Message-Id: <1578486775-52247-35-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 References: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,31 +90,31 @@ able to use this enum in the IOEventHandler typedef, we need to
 explicit all the events ignored by this frontend, to silent the
 following GCC warning:
 
-    CC      hw/char/virtio-console.o
-  hw/char/virtio-console.c: In function ‘chr_event’:
-  hw/char/virtio-console.c:154:5: error: enumeration value ‘CHR_EVENT_BREAK’ not handled in switch [-Werror=switch]
-    154 |     switch (event) {
+    CC      monitor/qmp.o
+  monitor/qmp.c: In function ‘monitor_qmp_event’:
+  monitor/qmp.c:345:5: error: enumeration value ‘CHR_EVENT_BREAK’ not handled in switch [-Werror=switch]
+    345 |     switch (event) {
         |     ^~~~~~
-  hw/char/virtio-console.c:154:5: error: enumeration value ‘CHR_EVENT_MUX_IN’ not handled in switch [-Werror=switch]
-  hw/char/virtio-console.c:154:5: error: enumeration value ‘CHR_EVENT_MUX_OUT’ not handled in switch [-Werror=switch]
+  monitor/qmp.c:345:5: error: enumeration value ‘CHR_EVENT_MUX_IN’ not handled in switch [-Werror=switch]
+  monitor/qmp.c:345:5: error: enumeration value ‘CHR_EVENT_MUX_OUT’ not handled in switch [-Werror=switch]
   cc1: all warnings being treated as errors
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20191218172009.8868-11-philmd@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20191218172009.8868-12-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/char/virtio-console.c | 5 +++++
+ monitor/qmp.c | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/hw/char/virtio-console.c b/hw/char/virtio-console.c
-index c13649f..cbb304d 100644
---- a/hw/char/virtio-console.c
-+++ b/hw/char/virtio-console.c
-@@ -162,6 +162,11 @@ static void chr_event(void *opaque, int event)
-         }
-         virtio_serial_close(port);
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index b67a8e7..6c46be4 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -365,6 +365,11 @@ static void monitor_qmp_event(void *opaque, int event)
+         mon_refcount--;
+         monitor_fdsets_cleanup();
          break;
 +    case CHR_EVENT_BREAK:
 +    case CHR_EVENT_MUX_IN:
