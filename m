@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DBA134523
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 15:37:27 +0100 (CET)
-Received: from localhost ([::1]:44906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FFEC13452C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 15:38:37 +0100 (CET)
+Received: from localhost ([::1]:44932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipCSc-0006zD-VL
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 09:37:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51402)
+	id 1ipCTj-0000Zk-VZ
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 09:38:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1ipCNV-0000zE-J3
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:32:11 -0500
+ (envelope-from <slp@redhat.com>) id 1ipCNY-000136-Ae
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:32:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1ipCNT-0005xr-Sl
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:32:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60449
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <slp@redhat.com>) id 1ipCNW-00061B-NF
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:32:12 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41971
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1ipCNT-0005xU-P8
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:32:07 -0500
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1ipCNW-00060m-JU
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:32:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578493927;
+ s=mimecast20190719; t=1578493930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q0ryrbxqwqxBPIPGONKJtab8dVzRHdHjDel4A/DxFF8=;
- b=HokYtYXAQEfA7nrb4rlvI8LWGv7MRzkXSAxtq+O9H+6YA9FS/g7nGB97ZX/fc8VL/fUqpl
- SY7nY+/JWzBgx57Smoe3x+yWoADScQPfod12ycErgFKRlBnT7AS+V3EKHd2fbQQhCIVwCG
- zxFsHGQnNdrvgtJ00q45yTUFWX6lQhg=
+ bh=mMTtFLCmoXcDohIcRMb4cQQJh091sf79PJSYy2RWfNs=;
+ b=Cku7AyWKhyrnD9gzZ5cUtOH2hoD338PnoRmd7Q6ATmlxV8GvlPQNYuywdJr2yyGUAzMd4H
+ 5joxM1Nx78VNjMPe/EksqA54C/pKXeDlhELUaRp6sB3cKYTKDubIUpOTGjhhjTrUJiMUHE
+ bTezgkLC8jhigc2ZtJXrUDsL0lZh8WA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-qHHJYPALPMefmZcGJqgaUA-1; Wed, 08 Jan 2020 09:32:05 -0500
+ us-mta-90-IXQVVHF8PCqnD-PzsB_Jtw-1; Wed, 08 Jan 2020 09:32:08 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08C03800EBF;
- Wed,  8 Jan 2020 14:32:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDB70800D48;
+ Wed,  8 Jan 2020 14:32:07 +0000 (UTC)
 Received: from dritchie.redhat.com (unknown [10.33.36.107])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F8A96FF0F;
- Wed,  8 Jan 2020 14:31:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 63A6E6FF0F;
+ Wed,  8 Jan 2020 14:32:05 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 6/8] blockdev: Acquire AioContext on dirty bitmap functions
-Date: Wed,  8 Jan 2020 15:31:36 +0100
-Message-Id: <20200108143138.129909-7-slp@redhat.com>
+Subject: [PATCH v6 7/8] blockdev: Return bs to the proper context on snapshot
+ abort
+Date: Wed,  8 Jan 2020 15:31:37 +0100
+Message-Id: <20200108143138.129909-8-slp@redhat.com>
 In-Reply-To: <20200108143138.129909-1-slp@redhat.com>
 References: <20200108143138.129909-1-slp@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: qHHJYPALPMefmZcGJqgaUA-1
+X-MC-Unique: IXQVVHF8PCqnD-PzsB_Jtw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,177 +77,127 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dirty map addition and removal functions are not acquiring to BDS
-AioContext, while they may call to code that expects it to be
-acquired.
+external_snapshot_abort() calls to bdrv_set_backing_hd(), which
+returns state->old_bs to the main AioContext, as it's intended to be
+used then the BDS is going to be released. As that's not the case when
+aborting an external snapshot, return it to the AioContext it was
+before the call.
 
-This may trigger a crash with a stack trace like this one:
+This issue can be triggered by issuing a transaction with two actions,
+a proper blockdev-snapshot-sync and a bogus one, so the second will
+trigger a transaction abort. This results in a crash with an stack
+trace like this one:
 
- #0  0x00007f0ef146370f in __GI_raise (sig=3Dsig@entry=3D6)
-     at ../sysdeps/unix/sysv/linux/raise.c:50
- #1  0x00007f0ef144db25 in __GI_abort () at abort.c:79
- #2  0x0000565022294dce in error_exit
-     (err=3D<optimized out>, msg=3Dmsg@entry=3D0x56502243a730 <__func__.163=
-50> "qemu_mutex_unlock_impl") at util/qemu-thread-posix.c:36
- #3  0x00005650222950ba in qemu_mutex_unlock_impl
-     (mutex=3Dmutex@entry=3D0x5650244b0240, file=3Dfile@entry=3D0x565022439=
-adf "util/async.c", line=3Dline@entry=3D526) at util/qemu-thread-posix.c:10=
-8
- #4  0x0000565022290029 in aio_context_release
-     (ctx=3Dctx@entry=3D0x5650244b01e0) at util/async.c:526
- #5  0x000056502221cd08 in bdrv_can_store_new_dirty_bitmap
-     (bs=3Dbs@entry=3D0x5650244dc820, name=3Dname@entry=3D0x56502481d360 "b=
-itmap1", granularity=3Dgranularity@entry=3D65536, errp=3Derrp@entry=3D0x7ff=
-f22831718)
-     at block/dirty-bitmap.c:542
- #6  0x000056502206ae53 in qmp_block_dirty_bitmap_add
-     (errp=3D0x7fff22831718, disabled=3Dfalse, has_disabled=3D<optimized ou=
-t>, persistent=3D<optimized out>, has_persistent=3Dtrue, granularity=3D6553=
-6, has_granularity=3D<optimized out>, name=3D0x56502481d360 "bitmap1", node=
-=3D<optimized out>) at blockdev.c:2894
- #7  0x000056502206ae53 in qmp_block_dirty_bitmap_add
-     (node=3D<optimized out>, name=3D0x56502481d360 "bitmap1", has_granular=
-ity=3D<optimized out>, granularity=3D<optimized out>, has_persistent=3Dtrue=
-, persistent=3D<optimized out>, has_disabled=3Dfalse, disabled=3Dfalse, err=
-p=3D0x7fff22831718) at blockdev.c:2856
- #8  0x00005650221847a3 in qmp_marshal_block_dirty_bitmap_add
-     (args=3D<optimized out>, ret=3D<optimized out>, errp=3D0x7fff22831798)
-     at qapi/qapi-commands-block-core.c:651
- #9  0x0000565022247e6c in do_qmp_dispatch
-     (errp=3D0x7fff22831790, allow_oob=3D<optimized out>, request=3D<optimi=
-zed out>, cmds=3D0x565022b32d60 <qmp_commands>) at qapi/qmp-dispatch.c:132
- #10 0x0000565022247e6c in qmp_dispatch
-     (cmds=3D0x565022b32d60 <qmp_commands>, request=3D<optimized out>, allo=
-w_oob=3D<optimized out>) at qapi/qmp-dispatch.c:175
- #11 0x0000565022166061 in monitor_qmp_dispatch
-     (mon=3D0x56502450faa0, req=3D<optimized out>) at monitor/qmp.c:145
- #12 0x00005650221666fa in monitor_qmp_bh_dispatcher
-     (data=3D<optimized out>) at monitor/qmp.c:234
- #13 0x000056502228f866 in aio_bh_call (bh=3D0x56502440eae0)
-     at util/async.c:117
- #14 0x000056502228f866 in aio_bh_poll (ctx=3Dctx@entry=3D0x56502440d7a0)
-     at util/async.c:117
- #15 0x0000565022292c54 in aio_dispatch (ctx=3D0x56502440d7a0)
-     at util/aio-posix.c:459
- #16 0x000056502228f742 in aio_ctx_dispatch
-     (source=3D<optimized out>, callback=3D<optimized out>, user_data=3D<op=
-timized out>) at util/async.c:260
- #17 0x00007f0ef5ce667d in g_main_dispatch (context=3D0x56502449aa40)
-     at gmain.c:3176
- #18 0x00007f0ef5ce667d in g_main_context_dispatch
-     (context=3Dcontext@entry=3D0x56502449aa40) at gmain.c:3829
- #19 0x0000565022291d08 in glib_pollfds_poll () at util/main-loop.c:219
- #20 0x0000565022291d08 in os_host_main_loop_wait
-     (timeout=3D<optimized out>) at util/main-loop.c:242
- #21 0x0000565022291d08 in main_loop_wait (nonblocking=3D<optimized out>)
-     at util/main-loop.c:518
- #22 0x00005650220743c1 in main_loop () at vl.c:1828
- #23 0x0000565021f20a72 in main
-     (argc=3D<optimized out>, argv=3D<optimized out>, envp=3D<optimized out=
->)
-     at vl.c:4504
+ #0  0x00007fa1048b28df in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/u=
+nix/sysv/linux/raise.c:50
+ #1  0x00007fa10489ccf5 in __GI_abort () at abort.c:79
+ #2  0x00007fa10489cbc9 in __assert_fail_base
+     (fmt=3D0x7fa104a03300 "%s%s%s:%u: %s%sAssertion `%s' failed.\n%n", ass=
+ertion=3D0x5572240b44d8 "bdrv_get_aio_context(old_bs) =3D=3D bdrv_get_aio_c=
+ontext(new_bs)", file=3D0x557224014d30 "block.c", line=3D2240, function=3D<=
+optimized out>) at assert.c:92
+ #3  0x00007fa1048aae96 in __GI___assert_fail
+     (assertion=3Dassertion@entry=3D0x5572240b44d8 "bdrv_get_aio_context(ol=
+d_bs) =3D=3D bdrv_get_aio_context(new_bs)", file=3Dfile@entry=3D0x557224014=
+d30 "block.c", line=3Dline@entry=3D2240, function=3Dfunction@entry=3D0x5572=
+240b5d60 <__PRETTY_FUNCTION__.31620> "bdrv_replace_child_noperm") at assert=
+.c:101
+ #4  0x0000557223e631f8 in bdrv_replace_child_noperm (child=3D0x557225b9c98=
+0, new_bs=3Dnew_bs@entry=3D0x557225c42e40) at block.c:2240
+ #5  0x0000557223e68be7 in bdrv_replace_node (from=3D0x557226951a60, to=3D0=
+x557225c42e40, errp=3D0x5572247d6138 <error_abort>) at block.c:4196
+ #6  0x0000557223d069c4 in external_snapshot_abort (common=3D0x557225d7e170=
+) at blockdev.c:1731
+ #7  0x0000557223d069c4 in external_snapshot_abort (common=3D0x557225d7e170=
+) at blockdev.c:1717
+ #8  0x0000557223d09013 in qmp_transaction (dev_list=3D<optimized out>, has=
+_props=3D<optimized out>, props=3D0x557225cc7d70, errp=3Derrp@entry=3D0x7ff=
+e704c0c98) at blockdev.c:2360
+ #9  0x0000557223e32085 in qmp_marshal_transaction (args=3D<optimized out>,=
+ ret=3D<optimized out>, errp=3D0x7ffe704c0d08) at qapi/qapi-commands-transa=
+ction.c:44
+ #10 0x0000557223ee798c in do_qmp_dispatch (errp=3D0x7ffe704c0d00, allow_oo=
+b=3D<optimized out>, request=3D<optimized out>, cmds=3D0x5572247d3cc0 <qmp_=
+commands>) at qapi/qmp-dispatch.c:132
+ #11 0x0000557223ee798c in qmp_dispatch (cmds=3D0x5572247d3cc0 <qmp_command=
+s>, request=3D<optimized out>, allow_oob=3D<optimized out>) at qapi/qmp-dis=
+patch.c:175
+ #12 0x0000557223e06141 in monitor_qmp_dispatch (mon=3D0x557225c69ff0, req=
+=3D<optimized out>) at monitor/qmp.c:120
+ #13 0x0000557223e0678a in monitor_qmp_bh_dispatcher (data=3D<optimized out=
+>) at monitor/qmp.c:209
+ #14 0x0000557223f2f366 in aio_bh_call (bh=3D0x557225b9dc60) at util/async.=
+c:117
+ #15 0x0000557223f2f366 in aio_bh_poll (ctx=3Dctx@entry=3D0x557225b9c840) a=
+t util/async.c:117
+ #16 0x0000557223f32754 in aio_dispatch (ctx=3D0x557225b9c840) at util/aio-=
+posix.c:459
+ #17 0x0000557223f2f242 in aio_ctx_dispatch (source=3D<optimized out>, call=
+back=3D<optimized out>, user_data=3D<optimized out>) at util/async.c:260
+ #18 0x00007fa10913467d in g_main_dispatch (context=3D0x557225c28e80) at gm=
+ain.c:3176
+ #19 0x00007fa10913467d in g_main_context_dispatch (context=3Dcontext@entry=
+=3D0x557225c28e80) at gmain.c:3829
+ #20 0x0000557223f31808 in glib_pollfds_poll () at util/main-loop.c:219
+ #21 0x0000557223f31808 in os_host_main_loop_wait (timeout=3D<optimized out=
+>) at util/main-loop.c:242
+ #22 0x0000557223f31808 in main_loop_wait (nonblocking=3D<optimized out>) a=
+t util/main-loop.c:518
+ #23 0x0000557223d13201 in main_loop () at vl.c:1828
+ #24 0x0000557223bbfb82 in main (argc=3D<optimized out>, argv=3D<optimized =
+out>, envp=3D<optimized out>) at vl.c:4504
 
-Fix this by acquiring the AioContext at qmp_block_dirty_bitmap_add()
-and qmp_block_dirty_bitmap_add().
-
-RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1782175
+RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1779036
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 ---
- blockdev.c | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+ blockdev.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/blockdev.c b/blockdev.c
-index 1dacbc20ec..292961a88d 100644
+index 292961a88d..cfed87f434 100644
 --- a/blockdev.c
 +++ b/blockdev.c
-@@ -2984,6 +2984,7 @@ void qmp_block_dirty_bitmap_add(const char *node, con=
-st char *name,
- {
-     BlockDriverState *bs;
-     BdrvDirtyBitmap *bitmap;
-+    AioContext *aio_context;
+@@ -1731,6 +1731,8 @@ static void external_snapshot_abort(BlkActionState *c=
+ommon)
+     if (state->new_bs) {
+         if (state->overlay_appended) {
+             AioContext *aio_context;
++            AioContext *tmp_context;
++            int ret;
 =20
-     if (!name || name[0] =3D=3D '\0') {
-         error_setg(errp, "Bitmap name cannot be empty");
-@@ -2995,11 +2996,14 @@ void qmp_block_dirty_bitmap_add(const char *node, c=
-onst char *name,
-         return;
-     }
-=20
-+    aio_context =3D bdrv_get_aio_context(bs);
-+    aio_context_acquire(aio_context);
+             aio_context =3D bdrv_get_aio_context(state->old_bs);
+             aio_context_acquire(aio_context);
+@@ -1738,6 +1740,25 @@ static void external_snapshot_abort(BlkActionState *=
+common)
+             bdrv_ref(state->old_bs);   /* we can't let bdrv_set_backind_hd=
+()
+                                           close state->old_bs; we need it =
+*/
+             bdrv_set_backing_hd(state->new_bs, NULL, &error_abort);
 +
-     if (has_granularity) {
-         if (granularity < 512 || !is_power_of_2(granularity)) {
-             error_setg(errp, "Granularity must be power of 2 "
-                              "and at least 512");
--            return;
-+            goto out;
-         }
-     } else {
-         /* Default to cluster size, if available: */
-@@ -3017,12 +3021,12 @@ void qmp_block_dirty_bitmap_add(const char *node, c=
-onst char *name,
-     if (persistent &&
-         !bdrv_can_store_new_dirty_bitmap(bs, name, granularity, errp))
-     {
--        return;
-+        goto out;
-     }
-=20
-     bitmap =3D bdrv_create_dirty_bitmap(bs, granularity, name, errp);
-     if (bitmap =3D=3D NULL) {
--        return;
-+        goto out;
-     }
-=20
-     if (disabled) {
-@@ -3030,6 +3034,9 @@ void qmp_block_dirty_bitmap_add(const char *node, con=
-st char *name,
-     }
-=20
-     bdrv_dirty_bitmap_set_persistence(bitmap, persistent);
++            /*
++             * The call to bdrv_set_backing_hd() above returns state->old_=
+bs to
++             * the main AioContext. As we're still going to be using it, r=
+eturn
++             * it to the AioContext it was before.
++             */
++            tmp_context =3D bdrv_get_aio_context(state->old_bs);
++            if (aio_context !=3D tmp_context) {
++                aio_context_release(aio_context);
++                aio_context_acquire(tmp_context);
 +
-+out:
-+    aio_context_release(aio_context);
- }
-=20
- static BdrvDirtyBitmap *do_block_dirty_bitmap_remove(
-@@ -3038,20 +3045,26 @@ static BdrvDirtyBitmap *do_block_dirty_bitmap_remov=
-e(
- {
-     BlockDriverState *bs;
-     BdrvDirtyBitmap *bitmap;
-+    AioContext *aio_context;
-=20
-     bitmap =3D block_dirty_bitmap_lookup(node, name, &bs, errp);
-     if (!bitmap || !bs) {
-         return NULL;
-     }
-=20
-+    aio_context =3D bdrv_get_aio_context(bs);
-+    aio_context_acquire(aio_context);
++                ret =3D bdrv_try_set_aio_context(state->old_bs,
++                                               aio_context, NULL);
++                assert(ret =3D=3D 0);
 +
-     if (bdrv_dirty_bitmap_check(bitmap, BDRV_BITMAP_BUSY | BDRV_BITMAP_RO,
-                                 errp)) {
-+        aio_context_release(aio_context);
-         return NULL;
-     }
-=20
-     if (bdrv_dirty_bitmap_get_persistence(bitmap) &&
-         bdrv_remove_persistent_dirty_bitmap(bs, name, errp) < 0)
-     {
-+            aio_context_release(aio_context);
-             return NULL;
-     }
-=20
-@@ -3063,6 +3076,7 @@ static BdrvDirtyBitmap *do_block_dirty_bitmap_remove(
-         *bitmap_bs =3D bs;
-     }
-=20
-+    aio_context_release(aio_context);
-     return release ? NULL : bitmap;
- }
++                aio_context_release(tmp_context);
++                aio_context_acquire(aio_context);
++            }
++
+             bdrv_replace_node(state->new_bs, state->old_bs, &error_abort);
+             bdrv_unref(state->old_bs); /* bdrv_replace_node() ref'ed old_b=
+s */
 =20
 --=20
 2.23.0
