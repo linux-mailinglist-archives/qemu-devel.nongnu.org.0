@@ -2,63 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16C11345D5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 16:10:08 +0100 (CET)
-Received: from localhost ([::1]:45456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F311345E0
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 16:13:05 +0100 (CET)
+Received: from localhost ([::1]:45542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipCyE-0006NC-Cp
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 10:10:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48585)
+	id 1ipD16-0002kg-G8
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 10:13:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50462)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1ipCwd-000526-50
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:08:28 -0500
+ (envelope-from <laurent@vivier.eu>) id 1ipCz9-0000oc-CR
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:11:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1ipCwc-0005Mk-2s
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:08:27 -0500
-Received: from mail-yw1-xc2d.google.com ([2607:f8b0:4864:20::c2d]:35785)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>) id 1ipCwb-0005Lr-Uj
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:08:26 -0500
-Received: by mail-yw1-xc2d.google.com with SMTP id i190so1353117ywc.2
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 07:08:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=985pM4FDuhtUXdsmogKrwW2BBOoYOvdp7XNxJZTjF2Y=;
- b=Di7569janeGys9tyR1UA5NDqSY+y0/otEY+IPnNAcEVvzT71qPrmEgmwwm1vI36uEQ
- aQg/n+ZyXidq+2yHvCxsxpU3i7mBqKGKd0k13DwtQvP1ThhmhmiPqH3b1bNBL4IJ2Tov
- RCVL+0tMWXnm9scpiKGCW2AL0gg9CtlUWZXuRiTECJbld2dbKjTTNjon45Rin6lZB3QN
- fpL6vhPFvfudRXaJMHkeinaEAz7f/BkS0K5nb2yPm/Qe/K2hdKIZgAXUK8J6oNI3DZ+4
- 3Rff+BrZHVmcMfhakE+/fLF4wuAmQM/zGkbN35nL1lD4Y7+aH6FlpIOQsy3wOz5tXfiX
- m5WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=985pM4FDuhtUXdsmogKrwW2BBOoYOvdp7XNxJZTjF2Y=;
- b=qXQIkxYmGkNF7y5mQJpNSISChGPQVlcOBdL79CnDia1Ftw59vi4s9eKwbn2CbDMvk8
- TwEh+vuIlzzb9HUd79Be36liidmaeOF21DwnTHiAuKN4fJRYYrOe7I0DFH7bHalFFN0J
- XhOpZ1V8qNdg5EXqzT4c8ON0fWSEmFastmnSNYTirWFhW1Lveeok6Bz44sC2SwgugMb3
- cbcoGRIVibdERmqHygbG8FQ7DPtKT9W0OElVbgC/yfCoLRmIYI0hKmwQO2dkfUe5VjSL
- rWBOokymqms02OuOhu1O3/EUk2mFWWIuAQaLRjxtQAEzfFazoxACsxyz5J4GelckCxTa
- SuCQ==
-X-Gm-Message-State: APjAAAWavd02EK9iF9XsbpLBg2nFxofdB6Q7iUFUU8HJN/tyZvd6DOMy
- FoT+rTbnzIeBICtQSZ08dTOizaFfQJ2DYKslqCY=
-X-Google-Smtp-Source: APXvYqwyuS4YWFgq0E1cPey6ekWFMQI4UPrSnkF028DVUugEvEW5d8arRdDswq4ThQu3MAPVLFC3yBx4jfLGXFaxaoI=
-X-Received: by 2002:a81:7841:: with SMTP id t62mr3916311ywc.140.1578496104647; 
- Wed, 08 Jan 2020 07:08:24 -0800 (PST)
+ (envelope-from <laurent@vivier.eu>) id 1ipCz8-0007K8-7f
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:11:03 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:44017)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1ipCyi-00075H-Qq; Wed, 08 Jan 2020 10:10:56 -0500
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MatZt-1jQkqz3nFz-00cRhy; Wed, 08 Jan 2020 16:10:31 +0100
+Subject: Re: [PATCH v2] arm/translate-a64: fix uninitialized variable warning
+To: pannengyuan@huawei.com, peter.maydell@linaro.org
+References: <20200108023915.52288-1-pannengyuan@huawei.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <4274ef7b-8a2d-cb4f-c002-97d06211e744@vivier.eu>
+Date: Wed, 8 Jan 2020 16:10:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-References: <CAMAD20mmgEa_W869C961T_1DQnx+J=dKYFJgv=2WEw5iDL5T1A@mail.gmail.com>
-In-Reply-To: <CAMAD20mmgEa_W869C961T_1DQnx+J=dKYFJgv=2WEw5iDL5T1A@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 8 Jan 2020 23:08:13 +0800
-Message-ID: <CAEUhbmX_0Mw2-FiYRtBS3t72v1vDkBLfco6_SuKrFao4hgpuBw@mail.gmail.com>
-Subject: Re: riscv: How to debug a wrong pc after executing ret instruction?
-To: Ian Jiang <ianjiang.ict@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c2d
+In-Reply-To: <20200108023915.52288-1-pannengyuan@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:EXRRJFu6b3cCD7Ongt0goDgiAyC/7vEBVFleNuALvlgtiX2SoyD
+ hq4XxKpNSSoV/mAC9A5+cNcd5mkbzFUgcvilaz8EAGKUyRDudz3Ub9g13wYNbmAKG0lOje+
+ fiR7ZF00ikwzC+Ra28GQfqdTR7q3iLZdYo0IjZcIwy6L6AxeBoR1V7u29dGUh+w3n+x6dPB
+ 7t72eddL2yYVvQFASoT2Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WSoWEOtO0UU=:qaR+bzvh3rTjjV2KfKBJhq
+ 4XDdbbQPBACeJlR65iSkdOCDMSfcy4i/oVzjARp8o3CGPAEoEey72r+HPcAUhzpW+aMbhszd8
+ 7Xi4r84fPU6Du1OjxUpkM4YileEWD7JOFcxImNZaMlsBiWC2c5CBOTfIC7qfj8KPgrErqDtwP
+ 119OpXKibv65uSDefpV5tcUoRnP9Q3Oxz1/oqHJy0fQW6nodKZaZ/z0RrScH7Vev8eTWF1gEy
+ Yek2jR6OuSI60Cm+7c/+QrZGtAjpY7YedJKBBO3FSGYmftBlYZOXbNaNgXnM9pUAQ/lz2z4sG
+ qMWK80emr9g6QZawRWUQ8/uxHOaTYQcAw35eXJm/y+rClG4dv5E8OgaRgifqJZK0wV1+MFO46
+ 5L2uLSFvxeq2B/BZtl4AbxwStN7VA/DWP1krlJkl0Rzs0D6CzIO9gtpGwnK3RREPgW5pV6qfH
+ BNAPzu+7D2jkTSnK5ogHxgA349UAUF8XAqTp5xtXz/uoSWz4DptYx6oZzKJO/2UGbd7j7Smgm
+ lWdvq3CLWfHDwIacmKI0tiHxN47BIE/NDk3vsTOlOa4FIETmvwQgJtMOMx7dnvNRoMk+HBBnE
+ OjhueJwZpE8ihu7lgg/HgLWAbk1vFC4NSFkFMw65rkOs0fhKZRl4wBIjVntZsuPnlk+Xj/CJI
+ gvhFt+KwVf+KBbIHAjwbhJXxqLyL9e7CUOWcA+TxxbiRgas/D4pinuoTRcGaa3oNc/mrDUEnU
+ WHDDq0zWI+m18+ctyFRly9iQRBHX9bkhEA8017AAypCpth7T2nFLTBJharK/gi1qvbaAuwwYG
+ CDsLt+PfgFbmvqQhLIwcw5dHljDPIAQBrRUBjmT7OR411jBnRJAISaeZ2c2V+r2dF4C5MZLGT
+ 4YUIzLbqz7j1byF1lATA==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 217.72.192.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,46 +110,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, Euler Robot <euler.robot@huawei.com>,
+ qemu-arm@nongnu.org, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 8, 2020 at 5:23 PM Ian Jiang <ianjiang.ict@gmail.com> wrote:
->
-> Problem
-> ======
-> The next instruction after executing "ret" (i.e. jalr x0, 0(x1)) is not at 0x000000008000056c (x1/ra) as expected,  but at  0x000000008000056c.
+Le 08/01/2020 à 03:39, pannengyuan@huawei.com a écrit :
+> From: Pan Nengyuan <pannengyuan@huawei.com>
+> 
+> Fixes:
+> target/arm/translate-a64.c: In function 'disas_crypto_three_reg_sha512':
+> target/arm/translate-a64.c:13625:9: error: 'genfn' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>     genfn(tcg_rd_ptr, tcg_rn_ptr, tcg_rm_ptr);
+>     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> qemu/target/arm/translate-a64.c:13609:8: error: 'feature' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>     if (!feature) {
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+> ---
+> Changes v2 to v1:
+> - add a default label to fix uninitialized warnings(suggested by Richard Henderson)
+> ---
+>  target/arm/translate-a64.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+> index d4bebbe629..63a3d26687 100644
+> --- a/target/arm/translate-a64.c
+> +++ b/target/arm/translate-a64.c
+> @@ -13585,6 +13585,8 @@ static void disas_crypto_three_reg_sha512(DisasContext *s, uint32_t insn)
+>              feature = dc_isar_feature(aa64_sha3, s);
+>              genfn = NULL;
+>              break;
+> +        default:
+> +            g_assert_not_reached();
+>          }
+>      } else {
+>          switch (opcode) {
+> 
 
-I don't get this. is not at address A but at address B, but you wrote
-A and B exactly the same?
+Applied to my trivial-patches branch.
 
-> How to debug this issue? Any suggestion is appreciated.
->
-> QEMU command
-> =============
-> qemu-system-riscv64 -nographic -machine virt -kernel my-test.elf -smp 1 -d in_asm,cpu
->
-> Trace (piece)
-> ===========
-> IN:
-> 0x0000000081150000:  00259eb7  lui t4,2461696
-> 0x0000000081150004:  00099b37  lui s6,626688
-> 0x0000000081150008:  01db3023  sd t4,0(s6)
-> 0x000000008115000c:  00008067  ret
->
-> pc        0000000081150000
-> x1/ra    000000008000056c
->
-> IN:
-> 0x0000000080003da0: 10503023  sd t0,256(zero)
-> ...
->
->
-> QEMU version
-> ===========
-> upstream tag v4.2.0
->
-
-Regards,
-Bin
+Thanks,
+Laurent
 
