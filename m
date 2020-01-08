@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1221D133902
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 03:09:17 +0100 (CET)
-Received: from localhost ([::1]:59464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 407CC1338FE
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 03:07:13 +0100 (CET)
+Received: from localhost ([::1]:59398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip0mZ-000853-Ph
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 21:09:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42145)
+	id 1ip0kZ-0004Wv-UJ
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 21:07:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42125)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ip0ie-0002dG-Uh
+ (envelope-from <dgibson@ozlabs.org>) id 1ip0ie-0002dC-AG
  for qemu-devel@nongnu.org; Tue, 07 Jan 2020 21:05:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ip0id-0007gY-1X
+ (envelope-from <dgibson@ozlabs.org>) id 1ip0ic-0007gE-VC
  for qemu-devel@nongnu.org; Tue, 07 Jan 2020 21:05:12 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:48117 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:45097 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ip0ic-0007ef-EV; Tue, 07 Jan 2020 21:05:10 -0500
+ id 1ip0ic-0007er-A6; Tue, 07 Jan 2020 21:05:10 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47ssyV4087z9sRl; Wed,  8 Jan 2020 13:05:06 +1100 (AEDT)
+ id 47ssyV2Dpjz9sP6; Wed,  8 Jan 2020 13:05:06 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1578449106;
- bh=PZWvjiBEX1H9CwPHGyE2BiExj3BmdtPapKnWowh0Clk=;
+ bh=DmMS/4+MWqhgQbtFx7WWFE2qbNMnHLtZSsiPfKWcSGg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OVQQRW7tSsuEf7g6Z6GXrUbBXVKSweCHXWpHDVwx2zY4/sjxTQvo6eWXTwdF+zEwt
- V318S3iJUoaXRS4oGb+YKGXvtVxYm7PF/wvGdCSnB+gN0vLt22+AHjmhumF9hNzFhF
- vFXtgupNoURiNwXRvmVxffhl9ylkooUNDDJwkAVw=
-Date: Wed, 8 Jan 2020 12:04:50 +1100
+ b=ZT7uS/Qx2aLJk6jSchULTjN2HeNgMe28Cqm2tSGmy5pQx3tKS4VMW9XlIBjM6YY9+
+ R7d/7zmQJOseWtE2o6Nf9mGux5zPJZvPBD2yGqozqFbLlJb5DaISeoOXr1ZTJcmJ5K
+ 3yQINlDmVKbsa4VG9y5FFHlub/wXvsxMgHt3vezY=
+Date: Wed, 8 Jan 2020 12:06:04 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Ganesh <ganeshgr@linux.ibm.com>
-Subject: Re: [PATCH v18 5/7] ppc: spapr: Handle "ibm,nmi-register" and
- "ibm,nmi-interlock" RTAS calls
-Message-ID: <20200108010450.GH2137@umbus.fritz.box>
-References: <20200102075111.25308-1-ganeshgr@linux.ibm.com>
- <20200102075111.25308-6-ganeshgr@linux.ibm.com>
- <20200103021959.GR2098@umbus>
- <279e921a-7540-d543-ba16-7fca55aff056@linux.ibm.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v2 09/10] target/ppc: Correct RMLS table
+Message-ID: <20200108010604.GI2137@umbus.fritz.box>
+References: <20200107044827.471355-1-david@gibson.dropbear.id.au>
+ <20200107044827.471355-10-david@gibson.dropbear.id.au>
+ <b4f4b0f9-759d-637d-9b40-d0fd3c0c21f6@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zGQnqpIoxlsbsOfg"
+ protocol="application/pgp-signature"; boundary="VkqCAaSJIySsbD6j"
 Content-Disposition: inline
-In-Reply-To: <279e921a-7540-d543-ba16-7fca55aff056@linux.ibm.com>
+In-Reply-To: <b4f4b0f9-759d-637d-9b40-d0fd3c0c21f6@kaod.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -58,228 +56,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>, aik@ozlabs.ru,
- qemu-devel@nongnu.org, groug@kaod.org, paulus@ozlabs.org, qemu-ppc@nongnu.org
+Cc: lvivier@redhat.com, aik@ozlabs.ru,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org, paulus@samba.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---zGQnqpIoxlsbsOfg
+--VkqCAaSJIySsbD6j
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 07, 2020 at 11:57:08AM +0530, Ganesh wrote:
+On Tue, Jan 07, 2020 at 03:21:42PM +0100, C=E9dric Le Goater wrote:
+> On 1/7/20 5:48 AM, David Gibson wrote:
+> > The table of RMA limits based on the LPCR[RMLS] field is slightly wrong.
+> > We're missing the RMLS =3D=3D 0 =3D> 256 GiB RMA option, which is avail=
+able on
+> > POWER8, so add that.
 >=20
-> On 1/3/20 7:49 AM, David Gibson wrote:
-> > On Thu, Jan 02, 2020 at 01:21:09PM +0530, Ganesh Goudar wrote:
-> > > From: Aravinda Prasad <arawinda.p@gmail.com>
-> > >=20
-> > > This patch adds support in QEMU to handle "ibm,nmi-register"
-> > > and "ibm,nmi-interlock" RTAS calls.
-> > >=20
-> > > The machine check notification address is saved when the
-> > > OS issues "ibm,nmi-register" RTAS call.
-> > >=20
-> > > This patch also handles the case when multiple processors
-> > > experience machine check at or about the same time by
-> > > handling "ibm,nmi-interlock" call. In such cases, as per
-> > > PAPR, subsequent processors serialize waiting for the first
-> > > processor to issue the "ibm,nmi-interlock" call. The second
-> > > processor that also received a machine check error waits
-> > > till the first processor is done reading the error log.
-> > > The first processor issues "ibm,nmi-interlock" call
-> > > when the error log is consumed.
-> > >=20
-> > > [Move fwnmi registration to .apply hook]
-> > > Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
-> > > Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
-> > > ---
-> > >   hw/ppc/spapr_caps.c    |  6 +++++
-> > >   hw/ppc/spapr_rtas.c    | 58 +++++++++++++++++++++++++++++++++++++++=
-+++
-> > >   include/hw/ppc/spapr.h |  7 ++++-
-> > >   3 files changed, 70 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> > > index 3001098601..e922419cfb 100644
-> > > --- a/hw/ppc/spapr_caps.c
-> > > +++ b/hw/ppc/spapr_caps.c
-> > > @@ -502,6 +502,12 @@ static void cap_fwnmi_mce_apply(SpaprMachineStat=
-e *spapr, uint8_t val,
-> > >       if (!val) {
-> > >           return; /* Disabled by default */
-> > >       }
-> > > +
-> > > +    if (!spapr->fwnmi_calls_registered && !kvmppc_set_fwnmi()) {
-> > So, we definitely need the kvmppc_set_fwnmi() call here.  But in the
-> > case where we *do* have KVM, but the call fails, we should fail the
-> > .apply hook, rather than ignoring it silently.
+> Where is this defined ?
+
+It's in the Book4, so not easily available, unfortunately :(.
+
+> > The comment that goes with the table is much more wrong.  We *don't* fi=
+lter
+> > invalid RMLS values when writing the LPCR, and there's not really a
+> > sensible way to do so.  Furthermore, while in theory the set of RMLS va=
+lues
+> > is implementation dependent, it seems in practice the same set has been
+> > available since around POWER4+ up until POWER8, the last model which
+> > supports RMLS at all.  So, correct that as well.
 > >=20
-> > As we've discussed although TCG behaviour with fwnmi isn't 100%
-> > correct, it's close enough to pass for most purposes - so it's
-> > reasonable to continue if the cap is selected.  But if the cap is
-> > selected and we're running with KVM we *must* enable the capability in
-> > KVM or we're not providing the environment the user requested.
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> >  target/ppc/mmu-hash64.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
 > >=20
-> > > +        /* Register ibm,nmi-register and ibm,nmi-interlock RTAS call=
-s */
-> > > +        spapr_fwnmi_register();
-> > We discussed registering the hypercalls here, but I thought after that
-> > I suggested just always registering them, and having them bail out
-> > when called if the cap is not set.  I see that you've implemented that
-> > bailout for register, though not for interlock.  I think that's
-> > simpler than registering them here.
->=20
-> something like this?, with bailout in interlock as well.
->=20
-> {
-> =A0=A0=A0 if (!val) {
-> =A0=A0=A0=A0=A0=A0=A0 return; /* Disabled by default */
-> =A0=A0=A0 }
->=20
-> =A0=A0=A0 if (kvm_enabled()) {
-> =A0=A0=A0=A0=A0=A0=A0 if (kvmppc_set_fwnmi() < 0) {
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 error_report("Could not enable fwnmi ca=
-pability");
-> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 exit(1)
-> =A0=A0=A0 }
->=20
-> =A0=A0=A0 if (!spapr->fwnmi_calls_registered) {
-> =A0=A0=A0=A0=A0=A0=A0 /* Register ibm,nmi-register and ibm,nmi-interlock =
-RTAS calls */
-> =A0=A0=A0=A0=A0=A0=A0 spapr_fwnmi_register();
-> =A0=A0=A0=A0=A0=A0=A0 spapr->fwnmi_calls_registered =3D true;
-> =A0=A0=A0 }
-> }
-
-Uh.. no.. not really.  I was suggesting registering the calls
-unconditionally, but in each of the call implementations you have
-
-
-    if(!fwnmi_enabed)
-         return H_FUNCTION;
-
-or maybe H_NOT_AVAILABLE.
-
->=20
+> > diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> > index bb9ebeaf48..e6f24be93e 100644
+> > --- a/target/ppc/mmu-hash64.c
+> > +++ b/target/ppc/mmu-hash64.c
+> > @@ -760,12 +760,12 @@ static target_ulong rmls_limit(PowerPCCPU *cpu)
+> >  {
+> >      CPUPPCState *env =3D &cpu->env;
+> >      /*
+> > -     * This is the full 4 bits encoding of POWER8. Previous
+> > -     * CPUs only support a subset of these but the filtering
+> > -     * is done when writing LPCR
+> > +     * In theory the meanings of RMLS values are implementation
+> > +     * dependent.  In practice, this seems to have been the set from
+> > +     * POWER4+..POWER8, and RMLS is no longer supported in POWER9.
+> >       */
+> >      const target_ulong rma_sizes[] =3D {
+> > -        [0] =3D 0,
+> > +        [0] =3D 256 * GiB,
+> >          [1] =3D 16 * GiB,
+> >          [2] =3D 1 * GiB,
+> >          [3] =3D 64 * MiB,
 > >=20
-> > > +        spapr->fwnmi_calls_registered =3D true;
-> > > +    }
-> > >   }
-> > >   SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
-> > > diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> > > index 2c066a372d..54b142f35b 100644
-> > > --- a/hw/ppc/spapr_rtas.c
-> > > +++ b/hw/ppc/spapr_rtas.c
-> > > @@ -400,6 +400,56 @@ static void rtas_get_power_level(PowerPCCPU *cpu=
-, SpaprMachineState *spapr,
-> > >       rtas_st(rets, 1, 100);
-> > >   }
-> > > +static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
-> > > +                                  SpaprMachineState *spapr,
-> > > +                                  uint32_t token, uint32_t nargs,
-> > > +                                  target_ulong args,
-> > > +                                  uint32_t nret, target_ulong rets)
-> > > +{
-> > > +    hwaddr rtas_addr;
-> > > +
-> > > +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_O=
-FF) {
-> > > +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    rtas_addr =3D spapr_get_rtas_addr();
-> > > +    if (!rtas_addr) {
-> > > +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
-> > > +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> > > +}
-> > > +
-> > > +static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
-> > > +                                   SpaprMachineState *spapr,
-> > > +                                   uint32_t token, uint32_t nargs,
-> > > +                                   target_ulong args,
-> > > +                                   uint32_t nret, target_ulong rets)
-> > > +{
-> > > +    if (spapr->guest_machine_check_addr =3D=3D -1) {
-> > > +        /* NMI register not called */
-> > > +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    if (spapr->mc_status !=3D cpu->vcpu_id) {
-> > > +        /* The vCPU that hit the NMI should invoke "ibm,nmi-interloc=
-k" */
-> > > +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    /*
-> > > +     * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
-> > > +     * hence unset mc_status.
-> > > +     */
-> > > +    spapr->mc_status =3D -1;
-> > > +    qemu_cond_signal(&spapr->mc_delivery_cond);
-> > > +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> > > +}
-> > > +
-> > >   static struct rtas_call {
-> > >       const char *name;
-> > >       spapr_rtas_fn fn;
-> > > @@ -503,6 +553,14 @@ hwaddr spapr_get_rtas_addr(void)
-> > >       return (hwaddr)fdt32_to_cpu(*rtas_data);
-> > >   }
-> > > +void spapr_fwnmi_register(void)
-> > > +{
-> > > +    spapr_rtas_register(RTAS_IBM_NMI_REGISTER, "ibm,nmi-register",
-> > > +                        rtas_ibm_nmi_register);
-> > > +    spapr_rtas_register(RTAS_IBM_NMI_INTERLOCK, "ibm,nmi-interlock",
-> > > +                        rtas_ibm_nmi_interlock);
-> > > +}
-> > > +
-> > >   static void core_rtas_register_types(void)
-> > >   {
-> > >       spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-character",
-> > > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> > > index 652a5514e8..a90e677cc3 100644
-> > > --- a/include/hw/ppc/spapr.h
-> > > +++ b/include/hw/ppc/spapr.h
-> > > @@ -218,6 +218,8 @@ struct SpaprMachineState {
-> > >       unsigned gpu_numa_id;
-> > >       SpaprTpmProxy *tpm_proxy;
-> > > +
-> > > +    bool fwnmi_calls_registered;
-> > >   };
-> > >   #define H_SUCCESS         0
-> > > @@ -656,8 +658,10 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, ta=
-rget_ulong opcode,
-> > >   #define RTAS_IBM_REMOVE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + =
-0x28)
-> > >   #define RTAS_IBM_RESET_PE_DMA_WINDOW            (RTAS_TOKEN_BASE + =
-0x29)
-> > >   #define RTAS_IBM_SUSPEND_ME                     (RTAS_TOKEN_BASE + =
-0x2A)
-> > > +#define RTAS_IBM_NMI_REGISTER                   (RTAS_TOKEN_BASE + 0=
-x2B)
-> > > +#define RTAS_IBM_NMI_INTERLOCK                  (RTAS_TOKEN_BASE + 0=
-x2C)
-> > > -#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0=
-x2B)
-> > > +#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0=
-x2D)
-> > >   /* RTAS ibm,get-system-parameter token values */
-> > >   #define RTAS_SYSPARM_SPLPAR_CHARACTERISTICS      20
-> > > @@ -908,4 +912,5 @@ void spapr_check_pagesize(SpaprMachineState *spap=
-r, hwaddr pagesize,
-> > >   void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
-> > >   hwaddr spapr_get_rtas_addr(void);
-> > > +void spapr_fwnmi_register(void);
-> > >   #endif /* HW_SPAPR_H */
 >=20
 
 --=20
@@ -288,25 +123,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---zGQnqpIoxlsbsOfg
+--VkqCAaSJIySsbD6j
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4VKrIACgkQbDjKyiDZ
-s5KNww/6A+TsSe/TM+/JIO+JElmdd36Q8X+PKPuqS83FFwD/12Rt3xLEYcDPdrZy
-LJ2XfTq1ArY14isYMI9zwMBKy1rHyq54z+PZorIduTNUGcHjyTkPbdlJ7XnSgwcu
-wZ/3O+UOGdWn6byAhpBa7rmxGoOkX7gIzLtFFfnWLUAsll7nS+Owm/dFq8yPfeup
-qijkPn+9AHP2oiH37aig8bc6AGak2iOhdCcRlJTPUglkceiykrNuwd8zxE2ue6TU
-AzE+pEvpHlm4OX9gj11q13NgwCL7pDoJnDwDeUh5aGsxRT8iOE3V1O2QFi0yn5ui
-MoHzYcE0KyT1RgsCLA6ppsxVixIPRAvLCQs+KYCZquU4nXLQYopDRpwzCj/noL8l
-32oLagQHE5cbb4cJLdZJtiFNbvWSNnoF1M/sLjiMHfe03CMVPqdbCGuYunPDC+mb
-3yq+aBfZ+ou+RPAEWfQaM9ozS2gL1rBPjwWgvBnhX52gopdby7jHIHis993z6Yb5
-f7uZu8LmAskcAnz/ROobs2t6PSTTDwaBIlNOgsSUm8mWiTKdXZuDXZeziGTVPz+T
-spfc61ItLjcZBNxCQ/WMMCr9kHaxsmlcEjLPEI5PaT7hb8+jtlpYw2q5lZI/UcNN
-ozZ2zlSctp2PZAVOmHmAqt1MdviFlhRtAqh9k5qY9wCS8V4uMHY=
-=xq/d
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4VKvwACgkQbDjKyiDZ
+s5JQxA/+LI6wK0mezttiQuuoVA2eDN3yFiG9TuvE68jraz0ameeYfknfZ+i2qcEJ
+BoHWc0KzLf9uFgUirvZ/8KgKFxsbkCG/e4i5SWgpKJI7MUGIFGEjZ4bcO0kaa8xt
+dyPfrXbAc0RkOMieNZQQ5T6N/58dg8OuWP1oLFvJoI9UD5OtYcgtN7I9q462jgrB
+IknRvyjprfsHCTXvORH+eCVtLoC+WxbbLHdxAEnxNBq0Kdh/rdfTYIMthSvjB72d
+Zg5viulaIfRhYvNdW56HLx9mG3yHUxNp3i3j4au8xo6ewDSHh3QTy5t749ajQ5sz
+a97h310DkZ5ZuhxURU7IfpV5faeKjJyrjgebBfgkqQ4m/4Vanzway+gTx3cmHlQr
+tM3H+AVvbDyBwXTx4hoW7spMysKV7+L2OqsS56FrD5Bw5weLUty7VT62KfahpIzs
+6j4Rd0Txffv+p7+1Cpf/zPan5nqmsYVqsRqGB1+lBC/2NWSVPIRkplTxfTa1JJz2
+itsALSOUneBCsLIRGckOgHCiznl7IRK32OOl+RHd88SUYP/6ds1zuH61XlZ48Ldp
+2FutiMC9tmUtNI1IZmM8AxuOsNSYJBHhhK312hhwMHejXIP91gp+/dWNXr1Wz4JJ
+Bq4c1r7DJ8XR/sTXRMbb0hTmDJRlX8jhvFu0Hjq8zeISgd2jHlY=
+=jix6
 -----END PGP SIGNATURE-----
 
---zGQnqpIoxlsbsOfg--
+--VkqCAaSJIySsbD6j--
 
