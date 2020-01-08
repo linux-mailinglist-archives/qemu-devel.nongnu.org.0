@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BBC1337EF
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 01:31:35 +0100 (CET)
-Received: from localhost ([::1]:57406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAE91133822
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 01:46:48 +0100 (CET)
+Received: from localhost ([::1]:57506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iozG2-0007UH-9e
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 19:31:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56841)
+	id 1iozUl-0004Io-Ke
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 19:46:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41276)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1iozF7-00074G-L2
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 19:30:38 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iozTq-0003la-Hx
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 19:45:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <edgar.iglesias@gmail.com>) id 1iozF6-0001rE-Kj
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 19:30:37 -0500
-Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d]:44992)
+ (envelope-from <richard.henderson@linaro.org>) id 1iozTp-0005s1-8R
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 19:45:50 -0500
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:36706)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <edgar.iglesias@gmail.com>)
- id 1iozF5-0001pF-UQ
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 19:30:36 -0500
-Received: by mail-lj1-x22d.google.com with SMTP id u71so1439280lje.11
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 16:30:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=I3hVRQZ2S4pGZMBjHNQmI+7oKqUFc2LBvXHEk2FX7yw=;
- b=mxdY0N5WQi0qiGpYaQgP5Ps/ftym5Obc14SvrBlWvkYpDs3B8dXZm86QOI2cwnMNrx
- Jk/Hdu42sJqEgAOqU89LpcUx+gaHNoX+2i5uZ7YRIJ+WUj23L5gnO4mfauxGlOYUPJYw
- L3NbpkCE2znRa2qxiVZ5iM1kgDmt0UWFmbw4SPLSYmUP6zF7o5JkQgvTcZsdxrWQE+et
- pxUIKj4JHkktoYz1VMzuQkbA3PI3lks+adm5fmTCnHFmrKKfdWZvQfQNF0VlDot83pam
- aFpqMD1TE/YADZlTABH2E3gzQ0gf6EiMteYPzqI7SSrzlLHtkuawurtXpsuSv5aGp3ol
- RAxw==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iozTo-0005rK-W3
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 19:45:49 -0500
+Received: by mail-pj1-x1043.google.com with SMTP id n59so313724pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 16:45:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=MBH1THDQftYD9NEr/nhNb5+NTPmR+h97Q6JEYvjk68Q=;
+ b=dfqfXUpjmBq7UKAL0MjHD1fKJlvZ067Yv7wflEZX3WJP13IfQQIfAW667ATEBjV1KW
+ RQwAgGMx9cUIixnHXbgrhpghhBzp9egQb4Sekr+CRTakG0guhinxGG04lyKHW5j/r+0m
+ NskeVh3m7BZdAr8zIdsDNM9ZmsGxStDcCQnhbGevI4RVLzQCUQ8/iIZgSMcyqK5Ot+VO
+ g1TGk8ktm5s55FX3HylSB2slBq414VqBg7qWRvo1+0W/tQdyb9R7nkpeAeeInBL1K4+e
+ IzCgkhw+T8iidGIGN0Jf3E/p9CR3bg2sGV7QgtmVJVwnzXFp8nrDVXBLJ26Q+3eg1qYN
+ gzsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=I3hVRQZ2S4pGZMBjHNQmI+7oKqUFc2LBvXHEk2FX7yw=;
- b=BswLJ6t/mW1Yunw9+4zX2LKvxt//qsIebTBxS3KM/eB6wxgXnCCyoF3RFN9R2whnsc
- gy/u0ulLus2s04mkiA1JhOr8OE+u94D7QNjOR62c2G1fNUr3gI4UvxWImQVOw0jWhAtT
- GLtdJjlk5Cx1hFR+suMGiPiN72r17tQosi9MWjdsk5X4Q25WpfYfO/A5GBEJfq/X5yt/
- JY0L99J2Sj5mZLxoskkfjPFg2oOwr1TahAoPQF/MF1YG5suwsgxClhOGjVVte7AXXvsl
- MFoduPYbVl+WouEuI0H+7UwxjYslXxIjVdcR4D/CV3cd/xzZpWOmQESdD29of3wV1H4G
- qfpQ==
-X-Gm-Message-State: APjAAAXessTzGXSMtlbog36VyeAm4WUJzrGqe4J1q3F3LBRdkAIMi1/z
- 9/mscmlQ1FG7msER4gAlbQiKFcw/oscGEGhuYXo=
-X-Google-Smtp-Source: APXvYqysdiZyccxsc/oN12/yJrs6X4cOPyyg/PyUQT8Qqct4c12eNw4/vulntNg6nvV720bLAIn+SYaQRExU3cTCvmU=
-X-Received: by 2002:a05:651c:1214:: with SMTP id
- i20mr1232960lja.107.1578443433630; 
- Tue, 07 Jan 2020 16:30:33 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MBH1THDQftYD9NEr/nhNb5+NTPmR+h97Q6JEYvjk68Q=;
+ b=enPbwHr0HP37QkZjOSlzA+LCSXLFnDcnqY9+AOgHRiFMk4+dWQNjoFqG/yFPog1KVa
+ 3C56OXZDwm7/+vrzIjFyz7KKIZ9aoYDD7ebVSZmIg5YodaTuG+O7Cb1Krj4toMuLFXlk
+ 2RQmMORzF96u3geFBJ9xHgN6f12XGbvwUOhQN8gePxwrSBJ4M2zyYpk8Ysxj8mqhD9/0
+ H2ZnL1uMxiBVRbYPxoo7tN8UOO5D+0mt/aT8F07FqXoOo5XiBDHjMVO8EbocU1MzOx4I
+ oUFO4WTzoTWkO0L9dZhITUfKJaItFsiUhnIy/U5clqWSLdtNEh55+oYfgrUZyW/rfP8y
+ aFTg==
+X-Gm-Message-State: APjAAAUGfGr/qo7rAy1IYpreQ7MoHXjmyJqcLRkmJywGDoc76gu74fte
+ Qv4UXvTI3ep9XIQxT7ayXdFKVw==
+X-Google-Smtp-Source: APXvYqx4NRfoJmMHsJ2kLKV9yo6bt2k+w4+UrPPGftkWKn1fFV5Z+vKzzxvzE/VS1MF4LDlwMYqDJg==
+X-Received: by 2002:a17:90a:22e7:: with SMTP id
+ s94mr1509903pjc.12.1578444347594; 
+ Tue, 07 Jan 2020 16:45:47 -0800 (PST)
+Received: from [192.168.15.12] (alanje.lnk.telstra.net. [120.151.179.201])
+ by smtp.gmail.com with ESMTPSA id b4sm802637pfd.18.2020.01.07.16.45.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2020 16:45:46 -0800 (PST)
+Subject: Re: [PATCH v2 4/7] configure: Always detect -no-pie toolchain support
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20191218223441.23852-1-richard.henderson@linaro.org>
+ <20191218223441.23852-5-richard.henderson@linaro.org>
+ <87o8vf4dan.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <54884771-5615-0518-9da0-9c3271e47a65@linaro.org>
+Date: Wed, 8 Jan 2020 10:45:40 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <157658912470.5706.7275804988501900768.malonedeb@gac.canonical.com>
- <bf392e35-7962-38fa-6dce-d4d8bb5ef485@redhat.com>
-In-Reply-To: <bf392e35-7962-38fa-6dce-d4d8bb5ef485@redhat.com>
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Date: Tue, 7 Jan 2020 17:30:21 -0700
-Message-ID: <CAJy5ezqveu3i_YC6hhS9yBipycFWUqNOBbmJuRmw2reqeYhUXA@mail.gmail.com>
-Subject: Re: [Bug 1856706] [NEW] target/mips/op_helper.c:971:duplicated
- branches ?
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000028deec059b9600a1"
+In-Reply-To: <87o8vf4dan.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::22d
+X-Received-From: 2607:f8b0:4864:20::1043
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,101 +85,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Bug 1856706 <1856706@bugs.launchpad.net>
+Cc: philmd@redhat.com, Thomas Huth <thuth@redhat.com>, i@maskray.me,
+ berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000028deec059b9600a1
-Content-Type: text/plain; charset="UTF-8"
+On 1/7/20 11:16 PM, Alex Bennée wrote:
+> 
+> Richard Henderson <richard.henderson@linaro.org> writes:
+> 
+>> The CFLAGS_NOPIE and LDFLAGS_NOPIE variables are used
+>> in pc-bios/optionrom/Makefile, which has nothing to do
+>> with the PIE setting of the main qemu executables.
+>>
+>> This overrides any operating system default to build
+>> all executables as PIE, which is important for ROMs.
+> 
+> But if the compiler doesn't support no-pie it just keeps going on.
+> Should the sub-build be bailing if _NOPIE is empty?
 
-On Tue, 17 Dec. 2019, 09:28 Thomas Huth, <thuth@redhat.com> wrote:
-
-> On 17/12/2019 14.25, dcb wrote:
-> > Public bug reported:
-> >
-> > qemu-4.2.0/target/mips/op_helper.c:971:8: warning: this condition has
-> > identical branches [-Wduplicated-branches]
-> >
-> > Source code is
-> >
-> >    if (other_tc == other->current_tc) {
-> >         tccause = other->CP0_Cause;
-> >     } else {
-> >         tccause = other->CP0_Cause;
-> >     }
-> >
-> > Possible cut'n'paste error ?
->
->  Hi Edgar,
->
-> you added the code in 2011 ... do you still remember the details here,
-> whether that was on purpose or whether it should look differently?
->
->  Thomas
->
+If the compiler doesn't support no-pie, we assume that pie isn't default, and
+so no arguments are required.
 
 
-Hi Thomas,
-
-Sorry but I barely recall yesterday, 2011 was a long time ago... It does
-look weird.
-
-IIRC smp was kinda of working but the multithreading support wasn't. Some
-of these paths were probably not tested too much at the time.
-
-Cheers,
-Edgar
-
->
->
-
---00000000000028deec059b9600a1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Tue, 17 Dec. 2019, 09:28 Thomas Huth, &lt;<a href=
-=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">On 17/12/2019 14.25, dcb wrote:<br>
-&gt; Public bug reported:<br>
-&gt; <br>
-&gt; qemu-4.2.0/target/mips/op_helper.c:971:8: warning: this condition has<=
-br>
-&gt; identical branches [-Wduplicated-branches]<br>
-&gt; <br>
-&gt; Source code is<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 if (other_tc =3D=3D other-&gt;current_tc) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tccause =3D other-&gt;CP0_Cause;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0} else {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tccause =3D other-&gt;CP0_Cause;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; <br>
-&gt; Possible cut&#39;n&#39;paste error ?<br>
-<br>
-=C2=A0Hi Edgar,<br>
-<br>
-you added the code in 2011 ... do you still remember the details here,<br>
-whether that was on purpose or whether it should look differently?<br>
-<br>
-=C2=A0Thomas<br></blockquote></div></div><div dir=3D"auto"><br></div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto">Hi Thomas,=C2=A0</div><div dir=3D"a=
-uto"><br></div><div dir=3D"auto">Sorry but I barely recall yesterday, 2011 =
-was a long time ago... It does look weird.</div><div dir=3D"auto"><br></div=
-><div dir=3D"auto">IIRC smp was kinda of working but the multithreading sup=
-port wasn&#39;t. Some of these paths were probably not tested too much at t=
-he time.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">Cheers,</=
-div><div dir=3D"auto">Edgar</div><div dir=3D"auto"><div class=3D"gmail_quot=
-e"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">
-<br>
-</blockquote></div></div></div>
-
---00000000000028deec059b9600a1--
+r~
 
