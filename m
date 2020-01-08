@@ -2,61 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F71134B02
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 19:56:54 +0100 (CET)
-Received: from localhost ([::1]:48074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AA3A134AED
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 19:50:25 +0100 (CET)
+Received: from localhost ([::1]:48016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipGVh-0007uD-He
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 13:56:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49142)
+	id 1ipGPQ-00048c-4U
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 13:50:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipGUW-0006po-39
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:55:41 -0500
+ (envelope-from <ganeshgr@linux.ibm.com>) id 1ipGOU-0003IZ-2n
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:49:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipGUU-0000Lf-N1
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:55:39 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39610)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipGUU-0000K0-Gx
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:55:38 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipGUT-0008L4-2H
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 18:55:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 032BF2E80BA
- for <qemu-devel@nongnu.org>; Wed,  8 Jan 2020 18:55:37 +0000 (UTC)
+ (envelope-from <ganeshgr@linux.ibm.com>) id 1ipGOR-0003LU-IU
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:49:26 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51328)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ganeshgr@linux.ibm.com>)
+ id 1ipGOR-0003Ko-Ao
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:49:23 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 008IgD0L060577
+ for <qemu-devel@nongnu.org>; Wed, 8 Jan 2020 13:49:22 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xdfxfb2sg-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 13:49:21 -0500
+Received: from localhost
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <ganeshgr@linux.ibm.com>;
+ Wed, 8 Jan 2020 18:49:19 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Wed, 8 Jan 2020 18:49:17 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 008InGF445351140
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Jan 2020 18:49:16 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 16966A405B;
+ Wed,  8 Jan 2020 18:49:16 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C27B5A4054;
+ Wed,  8 Jan 2020 18:49:13 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.102.1.239])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Jan 2020 18:49:13 +0000 (GMT)
+Subject: Re: [PATCH v18 5/7] ppc: spapr: Handle "ibm,nmi-register" and
+ "ibm,nmi-interlock" RTAS calls
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20200102075111.25308-1-ganeshgr@linux.ibm.com>
+ <20200102075111.25308-6-ganeshgr@linux.ibm.com> <20200103021959.GR2098@umbus>
+ <279e921a-7540-d543-ba16-7fca55aff056@linux.ibm.com>
+ <20200108010450.GH2137@umbus.fritz.box>
+From: Ganesh <ganeshgr@linux.ibm.com>
+Date: Thu, 9 Jan 2020 00:19:12 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200108010450.GH2137@umbus.fritz.box>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 20010818-0028-0000-0000-000003CF68A8
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20010818-0029-0000-0000-000024937C30
+Message-Id: <c6c3f717-2122-e2fe-f1b7-d7c7e4db79dc@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-01-08_05:2020-01-08,
+ 2020-01-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ clxscore=1015 lowpriorityscore=0 adultscore=0 suspectscore=0
+ malwarescore=0 impostorscore=0 mlxlogscore=999 mlxscore=0
+ priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-1910280000 definitions=main-2001080149
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 08 Jan 2020 18:45:57 -0000
-From: Aleksandar Markovic <1858461@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aladjev-andrew amarkovic pmaydell
-X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
-X-Launchpad-Bug-Modifier: Aleksandar Markovic (amarkovic)
-References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
-Message-Id: <157850915771.3198.10232902715644845278.malone@soybean.canonical.com>
-Subject: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c0364b72d3db183ff4a3d5ab47184c884c6eb58a
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id 008IgD0L060577
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,75 +99,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1858461 <1858461@bugs.launchpad.net>
+Cc: Aravinda Prasad <arawinda.p@gmail.com>, aik@ozlabs.ru,
+ qemu-devel@nongnu.org, groug@kaod.org, paulus@ozlabs.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Andrew,
 
-Thanks for your input regarding linked patch. The patch is still under
-review, and it is normal for patches under review to perhaps have some
-faults, and that is improved in the process of reviewing - that is,
-among other things, one of benefits of open source development. I will
-take into account your opinion, and fix the patch in the next version of
-the series.
 
-As far your ideas on other improvements, my advice is to submit them to
-the QEMU devel list - possibly as a short series of patches. Try to
-organize your changes in several patches, each representing a logical
-unit. For example:
+On 1/8/20 6:34 AM, David Gibson wrote:
+> On Tue, Jan 07, 2020 at 11:57:08AM +0530, Ganesh wrote:
+>> On 1/3/20 7:49 AM, David Gibson wrote:
+>>> On Thu, Jan 02, 2020 at 01:21:09PM +0530, Ganesh Goudar wrote:
+>>>> From: Aravinda Prasad <arawinda.p@gmail.com>
+>>>>
+>>>> This patch adds support in QEMU to handle "ibm,nmi-register"
+>>>> and "ibm,nmi-interlock" RTAS calls.
+>>>>
+>>>> The machine check notification address is saved when the
+>>>> OS issues "ibm,nmi-register" RTAS call.
+>>>>
+>>>> This patch also handles the case when multiple processors
+>>>> experience machine check at or about the same time by
+>>>> handling "ibm,nmi-interlock" call. In such cases, as per
+>>>> PAPR, subsequent processors serialize waiting for the first
+>>>> processor to issue the "ibm,nmi-interlock" call. The second
+>>>> processor that also received a machine check error waits
+>>>> till the first processor is done reading the error log.
+>>>> The first processor issues "ibm,nmi-interlock" call
+>>>> when the error log is consumed.
+>>>>
+>>>> [Move fwnmi registration to .apply hook]
+>>>> Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
+>>>> Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
+>>>> ---
+>>>>    hw/ppc/spapr_caps.c    |  6 +++++
+>>>>    hw/ppc/spapr_rtas.c    | 58 +++++++++++++++++++++++++++++++++++++=
++++++
+>>>>    include/hw/ppc/spapr.h |  7 ++++-
+>>>>    3 files changed, 70 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+>>>> index 3001098601..e922419cfb 100644
+>>>> --- a/hw/ppc/spapr_caps.c
+>>>> +++ b/hw/ppc/spapr_caps.c
+>>>> @@ -502,6 +502,12 @@ static void cap_fwnmi_mce_apply(SpaprMachineSta=
+te *spapr, uint8_t val,
+>>>>        if (!val) {
+>>>>            return; /* Disabled by default */
+>>>>        }
+>>>> +
+>>>> +    if (!spapr->fwnmi_calls_registered && !kvmppc_set_fwnmi()) {
+>>> So, we definitely need the kvmppc_set_fwnmi() call here.  But in the
+>>> case where we *do* have KVM, but the call fails, we should fail the
+>>> .apply hook, rather than ignoring it silently.
+>>>
+>>> As we've discussed although TCG behaviour with fwnmi isn't 100%
+>>> correct, it's close enough to pass for most purposes - so it's
+>>> reasonable to continue if the cap is selected.  But if the cap is
+>>> selected and we're running with KVM we *must* enable the capability i=
+n
+>>> KVM or we're not providing the environment the user requested.
+>>>
+>>>> +        /* Register ibm,nmi-register and ibm,nmi-interlock RTAS cal=
+ls */
+>>>> +        spapr_fwnmi_register();
+>>> We discussed registering the hypercalls here, but I thought after tha=
+t
+>>> I suggested just always registering them, and having them bail out
+>>> when called if the cap is not set.  I see that you've implemented tha=
+t
+>>> bailout for register, though not for interlock.  I think that's
+>>> simpler than registering them here.
+>> something like this?, with bailout in interlock as well.
+>>
+>> {
+>>  =A0=A0=A0 if (!val) {
+>>  =A0=A0=A0=A0=A0=A0=A0 return; /* Disabled by default */
+>>  =A0=A0=A0 }
+>>
+>>  =A0=A0=A0 if (kvm_enabled()) {
+>>  =A0=A0=A0=A0=A0=A0=A0 if (kvmppc_set_fwnmi() < 0) {
+>>  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 error_report("Could not enable fwnm=
+i capability");
+>>  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 exit(1)
+>>  =A0=A0=A0 }
+>>
+>>  =A0=A0=A0 if (!spapr->fwnmi_calls_registered) {
+>>  =A0=A0=A0=A0=A0=A0=A0 /* Register ibm,nmi-register and ibm,nmi-interl=
+ock RTAS calls */
+>>  =A0=A0=A0=A0=A0=A0=A0 spapr_fwnmi_register();
+>>  =A0=A0=A0=A0=A0=A0=A0 spapr->fwnmi_calls_registered =3D true;
+>>  =A0=A0=A0 }
+>> }
+> Uh.. no.. not really.  I was suggesting registering the calls
+> unconditionally, but in each of the call implementations you have
+Yes I got your point, here I am just trying to avoid registering the
+calls more than once, otherwise we may hit an assert.
+>
+>
+>      if(!fwnmi_enabed)
+>           return H_FUNCTION;
+>
+> or maybe H_NOT_AVAILABLE.
+Sure, ill add this check in interlock call also.
+>
+>>>> +        spapr->fwnmi_calls_registered =3D true;
+>>>> +    }
+>>>>    }
+>>>>    SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
+>>>> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+>>>> index 2c066a372d..54b142f35b 100644
+>>>> --- a/hw/ppc/spapr_rtas.c
+>>>> +++ b/hw/ppc/spapr_rtas.c
+>>>> @@ -400,6 +400,56 @@ static void rtas_get_power_level(PowerPCCPU *cp=
+u, SpaprMachineState *spapr,
+>>>>        rtas_st(rets, 1, 100);
+>>>>    }
+>>>> +static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+>>>> +                                  SpaprMachineState *spapr,
+>>>> +                                  uint32_t token, uint32_t nargs,
+>>>> +                                  target_ulong args,
+>>>> +                                  uint32_t nret, target_ulong rets)
+>>>> +{
+>>>> +    hwaddr rtas_addr;
+>>>> +
+>>>> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_CAP_=
+OFF) {
+>>>> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    rtas_addr =3D spapr_get_rtas_addr();
+>>>> +    if (!rtas_addr) {
+>>>> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
+>>>> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>>>> +}
+>>>> +
+>>>> +static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>>>> +                                   SpaprMachineState *spapr,
+>>>> +                                   uint32_t token, uint32_t nargs,
+>>>> +                                   target_ulong args,
+>>>> +                                   uint32_t nret, target_ulong rets=
+)
+>>>> +{
+>>>> +    if (spapr->guest_machine_check_addr =3D=3D -1) {
+>>>> +        /* NMI register not called */
+>>>> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    if (spapr->mc_status !=3D cpu->vcpu_id) {
+>>>> +        /* The vCPU that hit the NMI should invoke "ibm,nmi-interlo=
+ck" */
+>>>> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    /*
+>>>> +     * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
+>>>> +     * hence unset mc_status.
+>>>> +     */
+>>>> +    spapr->mc_status =3D -1;
+>>>> +    qemu_cond_signal(&spapr->mc_delivery_cond);
+>>>> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>>>> +}
+>>>> +
+>>>>    static struct rtas_call {
+>>>>        const char *name;
+>>>>        spapr_rtas_fn fn;
+>>>> @@ -503,6 +553,14 @@ hwaddr spapr_get_rtas_addr(void)
+>>>>        return (hwaddr)fdt32_to_cpu(*rtas_data);
+>>>>    }
+>>>> +void spapr_fwnmi_register(void)
+>>>> +{
+>>>> +    spapr_rtas_register(RTAS_IBM_NMI_REGISTER, "ibm,nmi-register",
+>>>> +                        rtas_ibm_nmi_register);
+>>>> +    spapr_rtas_register(RTAS_IBM_NMI_INTERLOCK, "ibm,nmi-interlock"=
+,
+>>>> +                        rtas_ibm_nmi_interlock);
+>>>> +}
+>>>> +
+>>>>    static void core_rtas_register_types(void)
+>>>>    {
+>>>>        spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-characte=
+r",
+>>>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>>>> index 652a5514e8..a90e677cc3 100644
+>>>> --- a/include/hw/ppc/spapr.h
+>>>> +++ b/include/hw/ppc/spapr.h
+>>>> @@ -218,6 +218,8 @@ struct SpaprMachineState {
+>>>>        unsigned gpu_numa_id;
+>>>>        SpaprTpmProxy *tpm_proxy;
+>>>> +
+>>>> +    bool fwnmi_calls_registered;
+>>>>    };
+>>>>    #define H_SUCCESS         0
+>>>> @@ -656,8 +658,10 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, t=
+arget_ulong opcode,
+>>>>    #define RTAS_IBM_REMOVE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE =
++ 0x28)
+>>>>    #define RTAS_IBM_RESET_PE_DMA_WINDOW            (RTAS_TOKEN_BASE =
++ 0x29)
+>>>>    #define RTAS_IBM_SUSPEND_ME                     (RTAS_TOKEN_BASE =
++ 0x2A)
+>>>> +#define RTAS_IBM_NMI_REGISTER                   (RTAS_TOKEN_BASE + =
+0x2B)
+>>>> +#define RTAS_IBM_NMI_INTERLOCK                  (RTAS_TOKEN_BASE + =
+0x2C)
+>>>> -#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + =
+0x2B)
+>>>> +#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + =
+0x2D)
+>>>>    /* RTAS ibm,get-system-parameter token values */
+>>>>    #define RTAS_SYSPARM_SPLPAR_CHARACTERISTICS      20
+>>>> @@ -908,4 +912,5 @@ void spapr_check_pagesize(SpaprMachineState *spa=
+pr, hwaddr pagesize,
+>>>>    void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
+>>>>    hwaddr spapr_get_rtas_addr(void);
+>>>> +void spapr_fwnmi_register(void);
+>>>>    #endif /* HW_SPAPR_H */
 
-   - one patch could be titled "linux-user: mips: Refactor enumerating of s=
-yscall numbers"
-   - the second patch could be "linux-user: Automate updating syscall numbe=
-rs" (but, yes, this should work preferably for all targets, as Peter said)
-   - the third patch could be "linux-user: Fix execution of program 'emerge=
-'" (I am not sure if there is a separate portion of code that fixes that)
-   - etc. - whatever you think should be fixed/improved
-
-As Thomas said, follow https://wiki.qemu.org/Contribute/SubmitAPatch .
-For each patch, provide background information, problem that is fixed
-with the patch, and why is the way you propose good.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1858461
-
-Title:
-  Please refactor linux-user/mips/cpu_loop.c
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello. I am working with qemu on test images. I've added a new syscall
-  (436) to qemu but received ENOSYS from mips application.
-
-  Please open "linux-user/mips/cpu_loop.c". I've added at the end of
-  "mips_syscall_args" the following:
-
-  ```
-  MIPS_SYS(sys_getdents64_x32, 3)
-  ```
-
-  But
-
-  ```
-  syscall_num =3D env->active_tc.gpr[2] - 4000;
-  if (syscall_num >=3D sizeof(mips_syscall_args)) {
-    ret =3D -TARGET_ENOSYS;
-  ```
-
-  returns -TARGET_ENOSYS
-
-  We can see that "linux-user/mips/cpu_loop.c" differs a lot from
-  "linux-user/arm/cpu_loop.c". Arm has it's own "ARM_NR_BASE" and etc.
-
-  Can you please refactor mips cpu loop in the same way as arm? Thank
-  you.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1858461/+subscriptions
 
