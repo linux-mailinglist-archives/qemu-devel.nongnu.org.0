@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E16134218
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:45:58 +0100 (CET)
-Received: from localhost ([::1]:42954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4FF134228
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:49:34 +0100 (CET)
+Received: from localhost ([::1]:43016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipAii-0004Xs-OL
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:45:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60444)
+	id 1ipAmD-0000Sz-KK
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:49:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60451)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWV-0003w9-2w
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWV-0003wr-Hw
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWT-0004Ob-S0
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:18 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36679)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWU-0004PE-KS
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:19 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51292)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipAWT-0004O1-Lj
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:17 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id p17so2323907wma.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:17 -0800 (PST)
+ id 1ipAWU-0004Of-Eg
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:18 -0500
+Received: by mail-wm1-x332.google.com with SMTP id d73so2307213wmd.1
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CnOeB/Pwe7MijHlbGwtaQatM9vOSG1aqVBwm/NF6PNU=;
- b=n/yW7GWx3WnhjsAvC6EMfZJjQLwle+CoGy0/kUsagbFjraKgy8hkJel9MzLfhD8Zt4
- INKZb4VCl+EqORRJubSer4RStx4cpPjzo7fFNh9Qg/uwmyUT18RiQxmXCDN1jnQ08hsl
- N1IH5iVFNyaZJwyzRCiQsxOd8BO7DI5ZR6vUJ+Muc+8YaxeABicxjYROcJuqOflzkIxY
- WH1gZH607FXmczypHL+kB8vRe5bhCMnLyt8PhAmXBY228MrCxThltSNlLysFM3ULtRWU
- K3uyQbSP0XEhQud1t01N+epb3VBhyVrGFM5izH4CHZsiy+9qfeJ0j748UTDkMXkGlBWN
- uE8g==
+ bh=ZENGOtMS6+bKQUaERKPKm8qYGAS6+eCRE25grnCOJjk=;
+ b=PWoTVDsnsWBBEB81pkQ8E/z2BjlJZNHqextjiw8AvAw47LiNz7Ge0kEnw/RictIOpq
+ ZDFUfLhOD5JpKxuNrUqHCB3XtiYQ1eTACdD+nfBwGaCG8RZxLgQckLDclRZdwAda4qkw
+ 048jfBQyxdPatXYJJtVlOzpnIKhvJhwtM9GtO+/5xz2KgsaSpv/OUNDt90DwXmPTMKFA
+ P0jxTzOKPWb92Kdnm7PtXASf4aelwR9z2qrcqh7F4WKw94pYysbz3I0qb/TTvQfYhpoD
+ /rt3hOF90EBXeQkhPuGIfF8E2f2CWt1C3dYd2Jq+xemHsvnKcALZFdEpe0Z8grVzyXLy
+ jNtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CnOeB/Pwe7MijHlbGwtaQatM9vOSG1aqVBwm/NF6PNU=;
- b=X9HkxMxD3OQsHZXhO+Xumzx5XVVuvsqewg3aeOSZsOOlIhgRVAsxkfhcncKPYR0pWx
- Nt/Y3ngH3gWv91TLoC+lPS/Yka+O0bi6Rt4z8Q91gxOqGoGnE0R9RYWiscEmBDc8wbEF
- t/ka9vdWMNCO4H+QNeAF19BAbewhakGoNiDnGAmJl2lGw1B+i+r9uLMBAnEM1QQlDzOo
- 8LumZ35cxPjDV7/EcA4bUQbDV+n02QrIY1OjimdOGuj2WQUqthchn4Cka8xs7DaYTZGv
- I4YFFIH5vaacvgFBe6tFKrTS5hr8BIGy7px2lvS8WaM5PE0OYiM7GNO6iC4zNvG3+AVJ
- LkMw==
-X-Gm-Message-State: APjAAAUnZjfJFdhyYF+zeCWvcPghNvV1xw6Vu6DVKnJxmEmXdVttk19M
- D4fhf/LUZPhFiaWK7GJ0zlbLA2oC
-X-Google-Smtp-Source: APXvYqzqI7jwgG5VCKOFfW0SfU6EyiFQ29sk6mWhvbdjlgjUdACDYLR/2be+3I7mWg3Ar4zl64RJ+Q==
-X-Received: by 2002:a7b:c4cc:: with SMTP id g12mr3760579wmk.68.1578486796516; 
- Wed, 08 Jan 2020 04:33:16 -0800 (PST)
+ bh=ZENGOtMS6+bKQUaERKPKm8qYGAS6+eCRE25grnCOJjk=;
+ b=g6Q3RcAp82k4c+CnazdoPfwBhbJ8tF8FQol4/Fvy2XaeU20eG3b2EmlgmNUkx3TaMh
+ MUVjN7UwM0RoDZ/iZgfyFnZG4ycYZQkZ2VLEj+VAok+js2ULalOj8sM9HwG2On9zP1ka
+ mmyG93NbAYfS2yqVd74Z1x2EeMZY/LZIkrx0CrA+IoD6UeYg4X2J0gtEOcDIJQqxUXsY
+ Y0ozjxbgmXGWYt3KB0fiV15xxLCVfCngkJe4/wggNe2NvL/09Cagx1chq9veboY/RTut
+ f/xLYGTHbOSxFQniU/z3q130jpyOn1jimMQSFHjx0fwbf2YibXTjKvrTGvp8DlSEUmMz
+ kmrg==
+X-Gm-Message-State: APjAAAWuK3ry/3sS1G76jRgwOC63TZFDVmeKzkQMnJd2sgzFICR44U1O
+ k8Da+WL3IeOEPMjiq6igWZir2zJf
+X-Google-Smtp-Source: APXvYqwnv/cZtv7N/ojW3GZ3gVip8CNh+hKTEDwS47sKLhKzwdgn94qwPeFQvMK2TJamHGFY7G3j6Q==
+X-Received: by 2002:a05:600c:507:: with SMTP id
+ i7mr3795819wmc.135.1578486797347; 
+ Wed, 08 Jan 2020 04:33:17 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.15
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.16
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 04:33:15 -0800 (PST)
+ Wed, 08 Jan 2020 04:33:16 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/38] hw/nvram/Kconfig: Restrict CHRP NVRAM to machines using
- OpenBIOS or SLOF
-Date: Wed,  8 Jan 2020 13:32:36 +0100
-Message-Id: <1578486775-52247-20-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 20/38] hw/rtc/mc146818: Add missing dependency on ISA Bus
+Date: Wed,  8 Jan 2020 13:32:37 +0100
+Message-Id: <1578486775-52247-21-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 References: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,85 +85,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Only the OpenBIOS and SLOF firmwares use the CHRP NVRAM layout.
+The MC146818 sits on an ISA bus. Since it can not be used
+without it, select ISA in the Kconfig.
 
+Fixes: 82f5181777 ("kconfig: introduce kconfig files", 2019-03-07)
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191231183216.6781-14-philmd@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <20191224111628.3551-1-philmd@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/nvram/Kconfig       | 4 ++++
- hw/nvram/Makefile.objs | 2 +-
- hw/ppc/Kconfig         | 1 +
- hw/sparc/Kconfig       | 1 +
- hw/sparc64/Kconfig     | 1 +
- 5 files changed, 8 insertions(+), 1 deletion(-)
+ hw/rtc/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/nvram/Kconfig b/hw/nvram/Kconfig
-index 24b0ce6..e872fcb 100644
---- a/hw/nvram/Kconfig
-+++ b/hw/nvram/Kconfig
-@@ -7,7 +7,11 @@ config AT24C
+diff --git a/hw/rtc/Kconfig b/hw/rtc/Kconfig
+index 45daa8d..3dc2dd6 100644
+--- a/hw/rtc/Kconfig
++++ b/hw/rtc/Kconfig
+@@ -17,6 +17,7 @@ config TWL92230
+     depends on I2C
  
- config MAC_NVRAM
+ config MC146818RTC
++    depends on ISA_BUS
      bool
-+    select CHRP_NVRAM
  
- # NMC93XX uses the NS uWire interface (similar to SPI but less configurable)
- config NMC93XX_EEPROM
-     bool
-+
-+config CHRP_NVRAM
-+    bool
-diff --git a/hw/nvram/Makefile.objs b/hw/nvram/Makefile.objs
-index a4bdfbf..090df63 100644
---- a/hw/nvram/Makefile.objs
-+++ b/hw/nvram/Makefile.objs
-@@ -2,7 +2,7 @@ common-obj-$(CONFIG_DS1225Y) += ds1225y.o
- common-obj-$(CONFIG_NMC93XX_EEPROM) += eeprom93xx.o
- common-obj-$(CONFIG_AT24C) += eeprom_at24c.o
- common-obj-y += fw_cfg.o
--common-obj-y += chrp_nvram.o
-+common-obj-$(CONFIG_CHRP_NVRAM) += chrp_nvram.o
- common-obj-$(CONFIG_MAC_NVRAM) += mac_nvram.o
- obj-$(CONFIG_PSERIES) += spapr_nvram.o
- obj-$(CONFIG_NRF51_SOC) += nrf51_nvm.o
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 8e62d8f..e27efe9 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -11,6 +11,7 @@ config PSERIES
-     select XIVE_SPAPR
-     select MSI_NONBROKEN
-     select FDT_PPC
-+    select CHRP_NVRAM
- 
- config SPAPR_RNG
-     bool
-diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
-index 2a83a80..22aff2f 100644
---- a/hw/sparc/Kconfig
-+++ b/hw/sparc/Kconfig
-@@ -12,6 +12,7 @@ config SUN4M
-     select LANCE
-     select M48T59
-     select STP2000
-+    select CHRP_NVRAM
- 
- config LEON3
-     bool
-diff --git a/hw/sparc64/Kconfig b/hw/sparc64/Kconfig
-index f9f8b0f..980a201 100644
---- a/hw/sparc64/Kconfig
-+++ b/hw/sparc64/Kconfig
-@@ -12,6 +12,7 @@ config SUN4U
-     select IDE_CMD646
-     select PCKBD
-     select SIMBA
-+    select CHRP_NVRAM
- 
- config NIAGARA
-     bool
+ config SUN4V_RTC
 -- 
 1.8.3.1
 
