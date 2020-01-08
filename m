@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01F9133B4E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 06:41:28 +0100 (CET)
-Received: from localhost ([::1]:37222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A792133B43
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 06:37:44 +0100 (CET)
+Received: from localhost ([::1]:37150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip45v-000398-OU
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 00:41:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47615)
+	id 1ip42I-0005dK-Mi
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 00:37:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48029)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ip3oc-0003u4-Ta
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 00:23:36 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ip3ow-0004Q3-Qj
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 00:23:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ip3ob-0002m1-6l
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 00:23:34 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43869 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ip3ov-0003HE-Fu
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 00:23:54 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:35301 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ip3oa-0002iI-R2; Wed, 08 Jan 2020 00:23:33 -0500
+ id 1ip3ov-0002iS-4I; Wed, 08 Jan 2020 00:23:53 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47syMD2K1qz9sSm; Wed,  8 Jan 2020 16:23:18 +1100 (AEDT)
+ id 47syMD4hKfz9sSj; Wed,  8 Jan 2020 16:23:19 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1578461000;
- bh=s3S48w7lUh4NbJMRnR1fcE0FvP/vfvziUb8fZ1unML4=;
+ bh=tuKlphejUmyjcFGyLZpn0cp3VEzjtRJnKXWMwh6ccwU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ENN/RqJIPyJsld6aZT3kisJP8q189gGt7ZMmJbfYpy6tT4DWPxgOAotdkvWxNPq/w
- TuqYLcGJSWudmDQ0Ve8F+oOItx7MACLaaIl8TI4mWBXPxAnb4ado6TYjFqqIy6RXm7
- WBd0g9koB+6dFTaLmsJdSvVTPfHvk/Hl8a9rYlus=
+ b=m0D2XHtCQFePWJQ8wOTYznZnep+NB9upD3GIld/HU7Je7hn150MOQBQMkzttBFb9O
+ 2LW5O976c4A5H/1IOKzhlcxkBmTpUOPqiLxnMyKtV5wOh9D3+p0uuzpaiNob6kISov
+ 93wmwBQuwLn/ZTWruGn1Cmsj3n1zlQZu7zil02Qk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 19/26] ppc/pnv: Add a "pnor" const link property to the BMC
- internal simulator
-Date: Wed,  8 Jan 2020 16:23:05 +1100
-Message-Id: <20200108052312.238710-20-david@gibson.dropbear.id.au>
+Subject: [PULL 20/26] xive: Add a "presenter" link property to the TCTX object
+Date: Wed,  8 Jan 2020 16:23:06 +1100
+Message-Id: <20200108052312.238710-21-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200108052312.238710-1-david@gibson.dropbear.id.au>
 References: <20200108052312.238710-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,79 +59,140 @@ Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-This allows to get rid of a call to qdev_get_machine().
+This will be used in subsequent patches to access the XIVE associated to
+a TCTX without reaching out to the machine through qdev_get_machine().
 
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+[ groug: - split patch
+         - write subject and changelog ]
 Signed-off-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20200106145645.4539-8-clg@kaod.org>
+Message-Id: <20200106145645.4539-9-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c         | 2 +-
- hw/ppc/pnv_bmc.c     | 8 +++++---
- include/hw/ppc/pnv.h | 2 +-
- 3 files changed, 7 insertions(+), 5 deletions(-)
+ hw/intc/spapr_xive.c  | 2 +-
+ hw/intc/xive.c        | 6 +++++-
+ hw/ppc/pnv.c          | 3 ++-
+ include/hw/ppc/xive.h | 8 +++++---
+ 4 files changed, 13 insertions(+), 6 deletions(-)
 
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index 32322470a8..7663123878 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -601,7 +601,7 @@ static int spapr_xive_cpu_intc_create(SpaprInterruptC=
+ontroller *intc,
+     Object *obj;
+     SpaprCpuState *spapr_cpu =3D spapr_cpu_state(cpu);
+=20
+-    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_ROUTER(xive), errp);
++    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_PRESENTER(xive), errp);
+     if (!obj) {
+         return -1;
+     }
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index 12a362b681..bc8019c4c9 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -654,6 +654,7 @@ static void xive_tctx_realize(DeviceState *dev, Error=
+ **errp)
+     Error *local_err =3D NULL;
+=20
+     assert(tctx->cs);
++    assert(tctx->xptr);
+=20
+     cpu =3D POWERPC_CPU(tctx->cs);
+     env =3D &cpu->env;
+@@ -727,6 +728,8 @@ static const VMStateDescription vmstate_xive_tctx =3D=
+ {
+=20
+ static Property xive_tctx_properties[] =3D {
+     DEFINE_PROP_LINK("cpu", XiveTCTX, cs, TYPE_CPU, CPUState *),
++    DEFINE_PROP_LINK("presenter", XiveTCTX, xptr, TYPE_XIVE_PRESENTER,
++                     XivePresenter *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+=20
+@@ -752,7 +755,7 @@ static const TypeInfo xive_tctx_info =3D {
+     .class_init    =3D xive_tctx_class_init,
+ };
+=20
+-Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp)
++Object *xive_tctx_create(Object *cpu, XivePresenter *xptr, Error **errp)
+ {
+     Error *local_err =3D NULL;
+     Object *obj;
+@@ -761,6 +764,7 @@ Object *xive_tctx_create(Object *cpu, XiveRouter *xrt=
+r, Error **errp)
+     object_property_add_child(cpu, TYPE_XIVE_TCTX, obj, &error_abort);
+     object_unref(obj);
+     object_property_set_link(obj, cpu, "cpu", &error_abort);
++    object_property_set_link(obj, OBJECT(xptr), "presenter", &error_abor=
+t);
+     object_property_set_bool(obj, true, "realized", &local_err);
+     if (local_err) {
+         goto error;
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 6a0aa78d53..f0b8f3ad26 100644
+index f0b8f3ad26..19fc5d4ddb 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -820,7 +820,7 @@ static void pnv_init(MachineState *machine)
-     g_free(chip_typename);
+@@ -925,7 +925,8 @@ static void pnv_chip_power9_intc_create(PnvChip *chip=
+, PowerPCCPU *cpu,
+      * controller object is initialized afterwards. Hopefully, it's
+      * only used at runtime.
+      */
+-    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_ROUTER(&chip9->xive), &lo=
+cal_err);
++    obj =3D xive_tctx_create(OBJECT(cpu), XIVE_PRESENTER(&chip9->xive),
++                           &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 1ded82b1cd..705cf48176 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -311,6 +311,8 @@ void xive_source_set_irq(void *opaque, int srcno, int=
+ val);
+ #define XIVE_TM_RING_COUNT      4
+ #define XIVE_TM_RING_SIZE       0x10
 =20
-     /* Create the machine BMC simulator */
--    pnv->bmc =3D pnv_bmc_create();
-+    pnv->bmc =3D pnv_bmc_create(pnv->pnor);
++typedef struct XivePresenter XivePresenter;
++
+ typedef struct XiveTCTX {
+     DeviceState parent_obj;
 =20
-     /* Instantiate ISA bus on chip 0 */
-     pnv->isa_bus =3D pnv_isa_create(pnv->chips[0], &error_fatal);
-diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
-index 07fa1e1c7e..8863354c1c 100644
---- a/hw/ppc/pnv_bmc.c
-+++ b/hw/ppc/pnv_bmc.c
-@@ -143,8 +143,8 @@ static uint16_t bytes_to_blocks(uint32_t bytes)
- static void hiomap_cmd(IPMIBmcSim *ibs, uint8_t *cmd, unsigned int cmd_l=
-en,
-                        RspBuffer *rsp)
- {
--    PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
--    PnvPnor *pnor =3D pnv->pnor;
-+    PnvPnor *pnor =3D PNV_PNOR(object_property_get_link(OBJECT(ibs), "pn=
-or",
-+                                                      &error_abort));
-     uint32_t pnor_size =3D pnor->size;
-     uint32_t pnor_addr =3D PNOR_SPI_OFFSET;
-     bool readonly =3D false;
-@@ -217,11 +217,13 @@ static const IPMINetfn hiomap_netfn =3D {
-  * Instantiate the machine BMC. PowerNV uses the QEMU internal
-  * simulator but it could also be external.
-  */
--IPMIBmc *pnv_bmc_create(void)
-+IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
- {
-     Object *obj;
+@@ -319,6 +321,8 @@ typedef struct XiveTCTX {
+     qemu_irq    os_output;
 =20
-     obj =3D object_new(TYPE_IPMI_BMC_SIMULATOR);
-+    object_ref(OBJECT(pnor));
-+    object_property_add_const_link(obj, "pnor", OBJECT(pnor), &error_abo=
-rt);
-     object_property_set_bool(obj, true, "realized", &error_fatal);
-=20
-     /* Install the HIOMAP protocol handlers to access the PNOR */
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 4b9012f994..2504d8cd4f 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -229,7 +229,7 @@ PnvChip *pnv_get_chip(uint32_t chip_id);
-  */
- void pnv_dt_bmc_sensors(IPMIBmc *bmc, void *fdt);
- void pnv_bmc_powerdown(IPMIBmc *bmc);
--IPMIBmc *pnv_bmc_create(void);
-+IPMIBmc *pnv_bmc_create(PnvPnor *pnor);
+     uint8_t     regs[XIVE_TM_RING_COUNT * XIVE_TM_RING_SIZE];
++
++    XivePresenter *xptr;
+ } XiveTCTX;
 =20
  /*
-  * POWER8 MMIO base addresses
+@@ -378,8 +382,6 @@ typedef struct XiveTCTXMatch {
+     uint8_t ring;
+ } XiveTCTXMatch;
+=20
+-typedef struct XivePresenter XivePresenter;
+-
+ #define TYPE_XIVE_PRESENTER "xive-presenter"
+ #define XIVE_PRESENTER(obj)                                     \
+     INTERFACE_CHECK(XivePresenter, (obj), TYPE_XIVE_PRESENTER)
+@@ -467,7 +469,7 @@ uint64_t xive_tctx_tm_read(XivePresenter *xptr, XiveT=
+CTX *tctx, hwaddr offset,
+                            unsigned size);
+=20
+ void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
+-Object *xive_tctx_create(Object *cpu, XiveRouter *xrtr, Error **errp);
++Object *xive_tctx_create(Object *cpu, XivePresenter *xptr, Error **errp)=
+;
+ void xive_tctx_reset(XiveTCTX *tctx);
+ void xive_tctx_destroy(XiveTCTX *tctx);
+ void xive_tctx_ipb_update(XiveTCTX *tctx, uint8_t ring, uint8_t ipb);
 --=20
 2.24.1
 
