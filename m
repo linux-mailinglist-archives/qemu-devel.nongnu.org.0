@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B58F1339F3
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 05:07:01 +0100 (CET)
-Received: from localhost ([::1]:35584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7747B1339FE
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 05:09:29 +0100 (CET)
+Received: from localhost ([::1]:35670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip2cW-000738-6J
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 23:07:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49104)
+	id 1ip2eu-00030E-B3
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 23:09:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49288)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ip2IQ-00041J-K4
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:46:15 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ip2Ib-0004I8-3J
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:46:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ip2IP-00035q-Jr
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:46:14 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:37213)
+ (envelope-from <richard.henderson@linaro.org>) id 1ip2IY-0003Ek-Tk
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:46:25 -0500
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:39946)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ip2IP-00034m-57
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:46:13 -0500
-Received: by mail-pg1-x530.google.com with SMTP id q127so873099pga.4
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 19:46:13 -0800 (PST)
+ id 1ip2IY-0003Dm-LF
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:46:22 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id q8so901676pfh.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 19:46:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jQF5VrEZeBR4M+X3J6whzntO7zMYieHMFU8i9iH/tgE=;
- b=SbrmNMJng32wFRhvzM8SJa1KETz0h8384DvU3AHe3dMWiU+jyBoI6UqvLV/yyvEWG3
- FYcFEpJ9iob7FpLOY6GnGfOadVAdcVgBO0C+X4y9R+5hzwGySJHal6FUMK3S0ozAJgDP
- 5zCVlOSVF8uz1vu6ZY3YbzyjjPFEP5mLB1cbZnZNFaMWwriMi3iMSiNhfFonoDs5djUB
- NL5kHDjdJfD/FWQ7VjGmd7aBfhR2hPnRLEU1NN5IsbwdDLf4eEaHjfgsObz5/CE0sOTx
- 1BS9rULH0gh7bSwOrHAmLXed/XhL6ymzIsrE9XOvpP1WykaNyteHPSC+0G9Es9KdpYxp
- fQXw==
+ bh=jGoOsFurbigLva/OV5ICoiqTrBzkpqpbZOpPnVmq+A0=;
+ b=LXInVkbe9OZrS68kcQr1L2VUJm0zZl967oRKZrFgPZecVlQDiX8bcWVoKnWqkeGq1j
+ yYWCbK919CHj7urBtj/xLMYiuyH0cKTUVGKy/4nxxmCQeJ3tItqqwYvDNViXqgBMIjgb
+ k6+iEoireWJ0Anr8u6Obo/HOQb0O/eS+VosT5Ebh/vSFiq0Hk9rFGn1AayRD1/twgRQ0
+ 9xRJb6ryzGlzB1xJuOcpBPrIY9U/hDJUu+lNYgLkLXyGUbPjD56RZZtIK3ibVXtUZqiX
+ aJONS1zEMmbMxJXRdgI/w6k5jqEur+IIxST7rlSNmn1UQPvGCVPH5QECDwrrlvq8iz4s
+ Fbgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jQF5VrEZeBR4M+X3J6whzntO7zMYieHMFU8i9iH/tgE=;
- b=G02vjxvshj3926J526871gkzZwtiyBGYM1r/6kKCUFAL9VnrYDNfFk5ObFcohhgFO7
- 1nv3jTXO5a07RLuYSybuA/ImPn01zBP1edYiHwhdSNJfTe8chCytglDOtWJZdVemOXCx
- 5SMNjIiZeb8wnVoDiT/VTjEOThK1OpD3AkXznMBOaiTknVeYU/4ljv1JYNYoKMIgzj6l
- X+DdjH3aF1xoPuRXbe4QEqF9NxE2yattFRkyv1hqVkl4a362HvuVZY64j7mciITSWBif
- OAiFmX4RpMeQefF5NbCQsB+1X2qwxIivZwucBeCN9TvfB8s8qWzbDrjkkCPrOfsky7PA
- uEOg==
-X-Gm-Message-State: APjAAAWCojkb/vAq1o1oPQXs4xF2bvpAMP7W7qzuoNCo7dv+BDUjACQY
- uG0dqMsBDLFJ0QDncqIYR9CweDgm66PEoA==
-X-Google-Smtp-Source: APXvYqwnyfghpQfqJ3vr/7lCZ+Qvix1s9BB7Kru1cMRULzepn5f+RMOZL3k2bwUvf5wDV/zsrIF4fQ==
-X-Received: by 2002:aa7:86ce:: with SMTP id h14mr2936068pfo.31.1578455171880; 
- Tue, 07 Jan 2020 19:46:11 -0800 (PST)
+ bh=jGoOsFurbigLva/OV5ICoiqTrBzkpqpbZOpPnVmq+A0=;
+ b=ryvmuvjvtuTsDLe/dR2Vh8q4/0ClxpGwGi+/c3VcnH52ZAjlfzse/h5ngjpHWTVh1S
+ qGHeMUoGVqG8It5ybcITuMxEgXLkbS2155+FGEXxEaBk8K/y753UozVC0NbLAitIKDk0
+ DGsBPQGZS4ccQqmuuHUCbuCX8Q6s0rUoJ7oyLSSAt4gJiYFDz/O1fzhwHT3fdgkweLJM
+ TgoghqLKuqhDvZ91hzBgR8ktvlOwcE8zgt2EcfU0gkk/MqMOU4zHXJQFphhH4KoO+/fx
+ KMLboCXSEn23KBsC+zAuSqS/65saEPeACw5DFOqGCbkMl1cNiVChrGO4JLtuk11uCglP
+ DmVQ==
+X-Gm-Message-State: APjAAAWWwVXcCdVWkG51BCKeyM4VHksaB+G2+/Mwj2RiQ6x0wCDIHsgN
+ KUr69pPJwqd9XKc2oKN8q69WMz9TWuF3/Q==
+X-Google-Smtp-Source: APXvYqziRoNAkfV27loPmWJ3OfiW+cDbMX33yK5/0j+iocKcS4JQ5VSGkD36eWdDYq3WaZvdnNYM7g==
+X-Received: by 2002:a63:4d4c:: with SMTP id n12mr3204411pgl.212.1578455181113; 
+ Tue, 07 Jan 2020 19:46:21 -0800 (PST)
 Received: from localhost.localdomain (alanje.lnk.telstra.net.
  [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id f23sm1198433pgj.76.2020.01.07.19.46.08
+ by smtp.gmail.com with ESMTPSA id f23sm1198433pgj.76.2020.01.07.19.46.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 19:46:11 -0800 (PST)
+ Tue, 07 Jan 2020 19:46:20 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/41] linux-user: Include tcg.h in syscall.c
-Date: Wed,  8 Jan 2020 14:44:56 +1100
-Message-Id: <20200108034523.17349-15-richard.henderson@linaro.org>
+Subject: [PULL 17/41] cputlb: Move body of cpu_ldst_template.h out of line
+Date: Wed,  8 Jan 2020 14:44:59 +1100
+Message-Id: <20200108034523.17349-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200108034523.17349-1-richard.henderson@linaro.org>
 References: <20200108034523.17349-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::530
+X-Received-From: 2607:f8b0:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,35 +79,407 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org,
+Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Code movement in an upcoming patch will show that this file
-was implicitly depending on tcg.h being included indirectly.
+With the tracing hooks, the inline functions are no longer
+so simple.  Once out-of-line, the current tlb_entry lookup
+is redundant with the one in the main load/store_helper.
+
+This also begins the introduction of a new target facing
+interface, with suffix *_mmuidx_ra.  This is not yet
+official because the interface is not done for user-only.
+
+Use abi_ptr instead of target_ulong in preparation for
+user-only; the two types are identical for softmmu.
+
+What remains in cpu_ldst_template.h are the expansions
+for _code, _data, and MMU_MODE<N>_SUFFIX.
 
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/exec/cpu_ldst.h          |  25 ++++++-
+ include/exec/cpu_ldst_template.h | 125 +++++++------------------------
+ accel/tcg/cputlb.c               | 116 ++++++++++++++++++++++++++++
+ 3 files changed, 166 insertions(+), 100 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 171c0caef3..34825f15bf 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -115,6 +115,7 @@
- #include "user/syscall-trace.h"
- #include "qapi/error.h"
- #include "fd-trans.h"
-+#include "tcg.h"
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index fd499f7e2f..cf8af36dbc 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -152,7 +152,7 @@ static inline void clear_helper_retaddr(void)
  
- #ifndef CLONE_IO
- #define CLONE_IO                0x80000000      /* Clone io context */
+ #else
+ 
+-/* The memory helpers for tcg-generated code need tcg_target_long etc.  */
++/* Needed for TCG_OVERSIZED_GUEST */
+ #include "tcg.h"
+ 
+ static inline target_ulong tlb_addr_write(const CPUTLBEntry *entry)
+@@ -185,6 +185,29 @@ static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
+     return &env_tlb(env)->f[mmu_idx].table[tlb_index(env, mmu_idx, addr)];
+ }
+ 
++uint32_t cpu_ldub_mmuidx_ra(CPUArchState *env, abi_ptr addr,
++                            int mmu_idx, uintptr_t ra);
++uint32_t cpu_lduw_mmuidx_ra(CPUArchState *env, abi_ptr addr,
++                            int mmu_idx, uintptr_t ra);
++uint32_t cpu_ldl_mmuidx_ra(CPUArchState *env, abi_ptr addr,
++                           int mmu_idx, uintptr_t ra);
++uint64_t cpu_ldq_mmuidx_ra(CPUArchState *env, abi_ptr addr,
++                           int mmu_idx, uintptr_t ra);
++
++int cpu_ldsb_mmuidx_ra(CPUArchState *env, abi_ptr addr,
++                       int mmu_idx, uintptr_t ra);
++int cpu_ldsw_mmuidx_ra(CPUArchState *env, abi_ptr addr,
++                       int mmu_idx, uintptr_t ra);
++
++void cpu_stb_mmuidx_ra(CPUArchState *env, abi_ptr addr, uint32_t val,
++                       int mmu_idx, uintptr_t retaddr);
++void cpu_stw_mmuidx_ra(CPUArchState *env, abi_ptr addr, uint32_t val,
++                       int mmu_idx, uintptr_t retaddr);
++void cpu_stl_mmuidx_ra(CPUArchState *env, abi_ptr addr, uint32_t val,
++                       int mmu_idx, uintptr_t retaddr);
++void cpu_stq_mmuidx_ra(CPUArchState *env, abi_ptr addr, uint64_t val,
++                       int mmu_idx, uintptr_t retaddr);
++
+ #ifdef MMU_MODE0_SUFFIX
+ #define CPU_MMU_INDEX 0
+ #define MEMSUFFIX MMU_MODE0_SUFFIX
+diff --git a/include/exec/cpu_ldst_template.h b/include/exec/cpu_ldst_template.h
+index 0ad5de3ef9..ea39e29c19 100644
+--- a/include/exec/cpu_ldst_template.h
++++ b/include/exec/cpu_ldst_template.h
+@@ -24,13 +24,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#if !defined(SOFTMMU_CODE_ACCESS)
+-#include "trace-root.h"
+-#endif
+-
+-#include "qemu/plugin.h"
+-#include "trace/mem.h"
+-
+ #if DATA_SIZE == 8
+ #define SUFFIX q
+ #define USUFFIX q
+@@ -63,56 +56,40 @@
+ #define RES_TYPE uint32_t
+ #endif
+ 
++/* generic load/store macros */
++
+ #ifdef SOFTMMU_CODE_ACCESS
+-#define ADDR_READ addr_code
+-#define MMUSUFFIX _cmmu
+-#define URETSUFFIX USUFFIX
+-#define SRETSUFFIX glue(s, SUFFIX)
+-#else
+-#define ADDR_READ addr_read
+-#define MMUSUFFIX _mmu
+-#define URETSUFFIX USUFFIX
+-#define SRETSUFFIX glue(s, SUFFIX)
++
++static inline RES_TYPE
++glue(glue(cpu_ld, USUFFIX), _code)(CPUArchState *env, target_ulong ptr)
++{
++    TCGMemOpIdx oi = make_memop_idx(MO_TE | SHIFT, CPU_MMU_INDEX);
++    return glue(glue(helper_ret_ld, USUFFIX), _cmmu)(env, ptr, oi, 0);
++}
++
++#if DATA_SIZE <= 2
++static inline int
++glue(glue(cpu_lds, SUFFIX), _code)(CPUArchState *env, target_ulong ptr)
++{
++    return (DATA_STYPE)glue(glue(cpu_ld, USUFFIX), _code)(env, ptr);
++}
+ #endif
+ 
+-/* generic load/store macros */
++#else
+ 
+ static inline RES_TYPE
+ glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+                                                   target_ulong ptr,
+                                                   uintptr_t retaddr)
+ {
+-    CPUTLBEntry *entry;
+-    RES_TYPE res;
+-    target_ulong addr;
+-    int mmu_idx = CPU_MMU_INDEX;
+-    MemOp op = MO_TE | SHIFT;
+-#if !defined(SOFTMMU_CODE_ACCESS)
+-    uint16_t meminfo = trace_mem_get_info(op, mmu_idx, false);
+-    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+-#endif
+-
+-    addr = ptr;
+-    entry = tlb_entry(env, mmu_idx, addr);
+-    if (unlikely(entry->ADDR_READ !=
+-                 (addr & (TARGET_PAGE_MASK | (DATA_SIZE - 1))))) {
+-        TCGMemOpIdx oi = make_memop_idx(op, mmu_idx);
+-        res = glue(glue(helper_ret_ld, URETSUFFIX), MMUSUFFIX)(env, addr,
+-                                                               oi, retaddr);
+-    } else {
+-        uintptr_t hostaddr = addr + entry->addend;
+-        res = glue(glue(ld, USUFFIX), _p)((uint8_t *)hostaddr);
+-    }
+-#ifndef SOFTMMU_CODE_ACCESS
+-    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+-#endif
+-    return res;
++    return glue(glue(cpu_ld, USUFFIX), _mmuidx_ra)(env, ptr, CPU_MMU_INDEX,
++                                                   retaddr);
+ }
+ 
+ static inline RES_TYPE
+ glue(glue(cpu_ld, USUFFIX), MEMSUFFIX)(CPUArchState *env, target_ulong ptr)
+ {
+-    return glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(env, ptr, 0);
++    return glue(glue(cpu_ld, USUFFIX), _mmuidx_ra)(env, ptr, CPU_MMU_INDEX, 0);
+ }
+ 
+ #if DATA_SIZE <= 2
+@@ -121,42 +98,17 @@ glue(glue(glue(cpu_lds, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+                                                   target_ulong ptr,
+                                                   uintptr_t retaddr)
+ {
+-    CPUTLBEntry *entry;
+-    int res;
+-    target_ulong addr;
+-    int mmu_idx = CPU_MMU_INDEX;
+-    MemOp op = MO_TE | MO_SIGN | SHIFT;
+-#ifndef SOFTMMU_CODE_ACCESS
+-    uint16_t meminfo = trace_mem_get_info(op, mmu_idx, false);
+-    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+-#endif
+-
+-    addr = ptr;
+-    entry = tlb_entry(env, mmu_idx, addr);
+-    if (unlikely(entry->ADDR_READ !=
+-                 (addr & (TARGET_PAGE_MASK | (DATA_SIZE - 1))))) {
+-        TCGMemOpIdx oi = make_memop_idx(op & ~MO_SIGN, mmu_idx);
+-        res = (DATA_STYPE)glue(glue(helper_ret_ld, SRETSUFFIX),
+-                               MMUSUFFIX)(env, addr, oi, retaddr);
+-    } else {
+-        uintptr_t hostaddr = addr + entry->addend;
+-        res = glue(glue(lds, SUFFIX), _p)((uint8_t *)hostaddr);
+-    }
+-#ifndef SOFTMMU_CODE_ACCESS
+-    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+-#endif
+-    return res;
++    return glue(glue(cpu_lds, SUFFIX), _mmuidx_ra)(env, ptr, CPU_MMU_INDEX,
++                                                   retaddr);
+ }
+ 
+ static inline int
+ glue(glue(cpu_lds, SUFFIX), MEMSUFFIX)(CPUArchState *env, target_ulong ptr)
+ {
+-    return glue(glue(glue(cpu_lds, SUFFIX), MEMSUFFIX), _ra)(env, ptr, 0);
++    return glue(glue(cpu_lds, SUFFIX), _mmuidx_ra)(env, ptr, CPU_MMU_INDEX, 0);
+ }
+ #endif
+ 
+-#ifndef SOFTMMU_CODE_ACCESS
+-
+ /* generic store macro */
+ 
+ static inline void
+@@ -164,36 +116,15 @@ glue(glue(glue(cpu_st, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+                                                  target_ulong ptr,
+                                                  RES_TYPE v, uintptr_t retaddr)
+ {
+-    CPUTLBEntry *entry;
+-    target_ulong addr;
+-    int mmu_idx = CPU_MMU_INDEX;
+-    MemOp op = MO_TE | SHIFT;
+-#if !defined(SOFTMMU_CODE_ACCESS)
+-    uint16_t meminfo = trace_mem_get_info(op, mmu_idx, true);
+-    trace_guest_mem_before_exec(env_cpu(env), ptr, meminfo);
+-#endif
+-
+-    addr = ptr;
+-    entry = tlb_entry(env, mmu_idx, addr);
+-    if (unlikely(tlb_addr_write(entry) !=
+-                 (addr & (TARGET_PAGE_MASK | (DATA_SIZE - 1))))) {
+-        TCGMemOpIdx oi = make_memop_idx(op, mmu_idx);
+-        glue(glue(helper_ret_st, SUFFIX), MMUSUFFIX)(env, addr, v, oi,
+-                                                     retaddr);
+-    } else {
+-        uintptr_t hostaddr = addr + entry->addend;
+-        glue(glue(st, SUFFIX), _p)((uint8_t *)hostaddr, v);
+-    }
+-#ifndef SOFTMMU_CODE_ACCESS
+-    qemu_plugin_vcpu_mem_cb(env_cpu(env), ptr, meminfo);
+-#endif
++    glue(glue(cpu_st, SUFFIX), _mmuidx_ra)(env, ptr, v, CPU_MMU_INDEX,
++                                           retaddr);
+ }
+ 
+ static inline void
+ glue(glue(cpu_st, SUFFIX), MEMSUFFIX)(CPUArchState *env, target_ulong ptr,
+                                       RES_TYPE v)
+ {
+-    glue(glue(glue(cpu_st, SUFFIX), MEMSUFFIX), _ra)(env, ptr, v, 0);
++    glue(glue(cpu_st, SUFFIX), _mmuidx_ra)(env, ptr, v, CPU_MMU_INDEX, 0);
+ }
+ 
+ #endif /* !SOFTMMU_CODE_ACCESS */
+@@ -204,8 +135,4 @@ glue(glue(cpu_st, SUFFIX), MEMSUFFIX)(CPUArchState *env, target_ulong ptr,
+ #undef SUFFIX
+ #undef USUFFIX
+ #undef DATA_SIZE
+-#undef MMUSUFFIX
+-#undef ADDR_READ
+-#undef URETSUFFIX
+-#undef SRETSUFFIX
+ #undef SHIFT
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 98221948d6..ddd19718bf 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -34,6 +34,9 @@
+ #include "qemu/atomic.h"
+ #include "qemu/atomic128.h"
+ #include "translate-all.h"
++#include "trace-root.h"
++#include "qemu/plugin.h"
++#include "trace/mem.h"
+ #ifdef CONFIG_PLUGIN
+ #include "qemu/plugin-memory.h"
+ #endif
+@@ -1625,6 +1628,75 @@ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr,
+     return (int32_t)helper_be_ldul_mmu(env, addr, oi, retaddr);
+ }
+ 
++/*
++ * Load helpers for cpu_ldst.h.
++ */
++
++static inline uint64_t cpu_load_helper(CPUArchState *env, abi_ptr addr,
++                                       int mmu_idx, uintptr_t retaddr,
++                                       MemOp op, FullLoadHelper *full_load)
++{
++    uint16_t meminfo;
++    TCGMemOpIdx oi;
++    uint64_t ret;
++
++    meminfo = trace_mem_get_info(op, mmu_idx, false);
++    trace_guest_mem_before_exec(env_cpu(env), addr, meminfo);
++
++    op &= ~MO_SIGN;
++    oi = make_memop_idx(op, mmu_idx);
++    ret = full_load(env, addr, oi, retaddr);
++
++    qemu_plugin_vcpu_mem_cb(env_cpu(env), addr, meminfo);
++
++    return ret;
++}
++
++uint32_t cpu_ldub_mmuidx_ra(CPUArchState *env, abi_ptr addr,
++                            int mmu_idx, uintptr_t ra)
++{
++    return cpu_load_helper(env, addr, mmu_idx, ra, MO_UB, full_ldub_mmu);
++}
++
++int cpu_ldsb_mmuidx_ra(CPUArchState *env, abi_ptr addr,
++                       int mmu_idx, uintptr_t ra)
++{
++    return (int8_t)cpu_load_helper(env, addr, mmu_idx, ra, MO_SB,
++                                   full_ldub_mmu);
++}
++
++uint32_t cpu_lduw_mmuidx_ra(CPUArchState *env, abi_ptr addr,
++                            int mmu_idx, uintptr_t ra)
++{
++    return cpu_load_helper(env, addr, mmu_idx, ra, MO_TEUW,
++                           MO_TE == MO_LE
++                           ? full_le_lduw_mmu : full_be_lduw_mmu);
++}
++
++int cpu_ldsw_mmuidx_ra(CPUArchState *env, abi_ptr addr,
++                       int mmu_idx, uintptr_t ra)
++{
++    return (int16_t)cpu_load_helper(env, addr, mmu_idx, ra, MO_TESW,
++                                    MO_TE == MO_LE
++                                    ? full_le_lduw_mmu : full_be_lduw_mmu);
++}
++
++uint32_t cpu_ldl_mmuidx_ra(CPUArchState *env, abi_ptr addr,
++                           int mmu_idx, uintptr_t ra)
++{
++    return cpu_load_helper(env, addr, mmu_idx, ra, MO_TEUL,
++                           MO_TE == MO_LE
++                           ? full_le_ldul_mmu : full_be_ldul_mmu);
++}
++
++uint64_t cpu_ldq_mmuidx_ra(CPUArchState *env, abi_ptr addr,
++                           int mmu_idx, uintptr_t ra)
++{
++    return cpu_load_helper(env, addr, mmu_idx, ra, MO_TEQ,
++                           MO_TE == MO_LE
++                           ? helper_le_ldq_mmu : helper_be_ldq_mmu);
++}
++
+ /*
+  * Store Helpers
+  */
+@@ -1854,6 +1926,50 @@ void helper_be_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t val,
+     store_helper(env, addr, val, oi, retaddr, MO_BEQ);
+ }
+ 
++/*
++ * Store Helpers for cpu_ldst.h
++ */
++
++static inline void QEMU_ALWAYS_INLINE
++cpu_store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
++                 int mmu_idx, uintptr_t retaddr, MemOp op)
++{
++    TCGMemOpIdx oi;
++    uint16_t meminfo;
++
++    meminfo = trace_mem_get_info(op, mmu_idx, true);
++    trace_guest_mem_before_exec(env_cpu(env), addr, meminfo);
++
++    oi = make_memop_idx(op, mmu_idx);
++    store_helper(env, addr, val, oi, retaddr, op);
++
++    qemu_plugin_vcpu_mem_cb(env_cpu(env), addr, meminfo);
++}
++
++void cpu_stb_mmuidx_ra(CPUArchState *env, target_ulong addr, uint32_t val,
++                       int mmu_idx, uintptr_t retaddr)
++{
++    cpu_store_helper(env, addr, val, mmu_idx, retaddr, MO_UB);
++}
++
++void cpu_stw_mmuidx_ra(CPUArchState *env, target_ulong addr, uint32_t val,
++                       int mmu_idx, uintptr_t retaddr)
++{
++    cpu_store_helper(env, addr, val, mmu_idx, retaddr, MO_TEUW);
++}
++
++void cpu_stl_mmuidx_ra(CPUArchState *env, target_ulong addr, uint32_t val,
++                       int mmu_idx, uintptr_t retaddr)
++{
++    cpu_store_helper(env, addr, val, mmu_idx, retaddr, MO_TEUL);
++}
++
++void cpu_stq_mmuidx_ra(CPUArchState *env, target_ulong addr, uint64_t val,
++                       int mmu_idx, uintptr_t retaddr)
++{
++    cpu_store_helper(env, addr, val, mmu_idx, retaddr, MO_TEQ);
++}
++
+ /* First set of helpers allows passing in of OI and RETADDR.  This makes
+    them callable from other helpers.  */
+ 
 -- 
 2.20.1
 
