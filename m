@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B38D8133B99
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 07:17:20 +0100 (CET)
-Received: from localhost ([::1]:37916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EDC4133B9F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 07:19:24 +0100 (CET)
+Received: from localhost ([::1]:37986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip4ed-0005Og-JG
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 01:17:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49193)
+	id 1ip4gd-0000cf-Ny
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 01:19:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49212)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tao3.xu@intel.com>) id 1ip4ca-0003jV-7U
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 01:15:13 -0500
+ (envelope-from <tao3.xu@intel.com>) id 1ip4ca-0003jX-R8
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 01:15:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1ip4cY-00069i-V9
+ (envelope-from <tao3.xu@intel.com>) id 1ip4cZ-0006A7-Ao
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 01:15:12 -0500
-Received: from mga17.intel.com ([192.55.52.151]:12859)
+Received: from mga17.intel.com ([192.55.52.151]:12862)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1ip4cY-000620-Li
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 01:15:10 -0500
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1ip4cZ-00063A-2J
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 01:15:11 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2020 22:15:04 -0800
+ 07 Jan 2020 22:15:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,408,1571727600"; d="scan'208";a="254121002"
+X-IronPort-AV: E=Sophos;i="5.69,408,1571727600"; d="scan'208";a="254121013"
 Received: from tao-optiplex-7060.sh.intel.com ([10.239.159.36])
- by fmsmga002.fm.intel.com with ESMTP; 07 Jan 2020 22:15:03 -0800
+ by fmsmga002.fm.intel.com with ESMTP; 07 Jan 2020 22:15:04 -0800
 From: Tao Xu <tao3.xu@intel.com>
 To: pbonzini@redhat.com,
 	rth@twiddle.net,
 	ehabkost@redhat.com
-Subject: [PATCH RESEND v2 3/4] target/i386: Add new property note to versioned
- CPU models
-Date: Wed,  8 Jan 2020 14:14:57 +0800
-Message-Id: <20200108061458.8080-4-tao3.xu@intel.com>
+Subject: [PATCH RESEND v2 4/4] target/i386: Add notes for versioned CPU models
+Date: Wed,  8 Jan 2020 14:14:58 +0800
+Message-Id: <20200108061458.8080-5-tao3.xu@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200108061458.8080-1-tao3.xu@intel.com>
 References: <20200108061458.8080-1-tao3.xu@intel.com>
@@ -60,68 +59,285 @@ Cc: tao3.xu@intel.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add additional information for -cpu help to indicate the changes in this
-version of CPU model.
+Add which features are added or removed in this version. Remove the
+changed model-id in versioned CPU models.
 
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
- target/i386/cpu.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+
+Changes in v2:
+    - correct the note of Cascadelake v3 (Xiaoyao)
+---
+ target/i386/cpu.c | 50 +++++++++++++++++++++++------------------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index a6eb1b81fd..736b4c7326 100644
+index 736b4c7326..4daa153bfa 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -1690,6 +1690,7 @@ typedef struct PropValue {
- typedef struct X86CPUVersionDefinition {
-     X86CPUVersion version;
-     const char *alias;
-+    const char *note;
-     PropValue *props;
- } X86CPUVersionDefinition;
- 
-@@ -1720,6 +1721,7 @@ struct X86CPUModel {
-     X86CPUDefinition *cpudef;
-     /* CPU model version */
-     X86CPUVersion version;
-+    const char *note;
-     /*
-      * If true, this is an alias CPU model.
-      * This matters only for "-cpu help" and query-cpu-definitions
-@@ -4846,6 +4848,7 @@ static void x86_cpu_list_entry(gpointer data, gpointer user_data)
-     g_autofree char *name = x86_cpu_class_get_model_name(cc);
-     g_autofree char *desc = g_strdup(cc->model_description);
-     g_autofree char *alias_of = x86_cpu_class_get_alias_of(cc);
-+    g_autofree char *model_id = x86_cpu_class_get_model_id(cc);
- 
-     if (!desc && alias_of) {
-         if (cc->model && cc->model->version == CPU_VERSION_AUTO) {
-@@ -4854,11 +4857,14 @@ static void x86_cpu_list_entry(gpointer data, gpointer user_data)
-             desc = g_strdup_printf("(alias of %s)", alias_of);
-         }
-     }
-+    if (!desc && cc->model && cc->model->note) {
-+        desc = g_strdup_printf("%s [%s]", model_id, cc->model->note);
-+    }
-     if (!desc) {
--        desc = x86_cpu_class_get_model_id(cc);
-+        desc = g_strdup_printf("%s", model_id);
-     }
- 
--    qemu_printf("x86 %-20s  %-48s\n", name, desc);
-+    qemu_printf("x86 %-20s  %-58s\n", name, desc);
- }
- 
- /* list available CPU models and flags */
-@@ -5335,6 +5341,7 @@ static void x86_register_cpudef_types(X86CPUDefinition *def)
-             x86_cpu_versioned_model_name(def, vdef->version);
-         m->cpudef = def;
-         m->version = vdef->version;
-+        m->note = vdef->note;
-         x86_register_cpu_model_type(name, m);
- 
-         if (vdef->alias) {
+@@ -2278,10 +2278,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             {
+                 .version = 2,
+                 .alias = "Nehalem-IBRS",
++                .note = "IBRS",
+                 .props = (PropValue[]) {
+                     { "spec-ctrl", "on" },
+-                    { "model-id",
+-                      "Intel Core i7 9xx (Nehalem Core i7, IBRS update)" },
+                     { /* end of list */ }
+                 }
+             },
+@@ -2359,10 +2358,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             {
+                 .version = 2,
+                 .alias = "Westmere-IBRS",
++                .note = "IBRS",
+                 .props = (PropValue[]) {
+                     { "spec-ctrl", "on" },
+-                    { "model-id",
+-                      "Westmere E56xx/L56xx/X56xx (IBRS update)" },
+                     { /* end of list */ }
+                 }
+             },
+@@ -2445,10 +2443,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             {
+                 .version = 2,
+                 .alias = "SandyBridge-IBRS",
++                .note = "IBRS",
+                 .props = (PropValue[]) {
+                     { "spec-ctrl", "on" },
+-                    { "model-id",
+-                      "Intel Xeon E312xx (Sandy Bridge, IBRS update)" },
+                     { /* end of list */ }
+                 }
+             },
+@@ -2537,10 +2534,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             {
+                 .version = 2,
+                 .alias = "IvyBridge-IBRS",
++                .note = "IBRS",
+                 .props = (PropValue[]) {
+                     { "spec-ctrl", "on" },
+-                    { "model-id",
+-                      "Intel Xeon E3-12xx v2 (Ivy Bridge, IBRS)" },
+                     { /* end of list */ }
+                 }
+             },
+@@ -2634,17 +2630,18 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             {
+                 .version = 2,
+                 .alias = "Haswell-noTSX",
++                .note = "no TSX",
+                 .props = (PropValue[]) {
+                     { "hle", "off" },
+                     { "rtm", "off" },
+                     { "stepping", "1" },
+-                    { "model-id", "Intel Core Processor (Haswell, no TSX)", },
+                     { /* end of list */ }
+                 },
+             },
+             {
+                 .version = 3,
+                 .alias = "Haswell-IBRS",
++                .note = "IBRS",
+                 .props = (PropValue[]) {
+                     /* Restore TSX features removed by -v2 above */
+                     { "hle", "on" },
+@@ -2655,21 +2652,18 @@ static X86CPUDefinition builtin_x86_defs[] = {
+                      */
+                     { "stepping", "4" },
+                     { "spec-ctrl", "on" },
+-                    { "model-id",
+-                      "Intel Core Processor (Haswell, IBRS)" },
+                     { /* end of list */ }
+                 }
+             },
+             {
+                 .version = 4,
+                 .alias = "Haswell-noTSX-IBRS",
++                .note = "no TSX, IBRS",
+                 .props = (PropValue[]) {
+                     { "hle", "off" },
+                     { "rtm", "off" },
+                     /* spec-ctrl was already enabled by -v3 above */
+                     { "stepping", "1" },
+-                    { "model-id",
+-                      "Intel Core Processor (Haswell, no TSX, IBRS)" },
+                     { /* end of list */ }
+                 }
+             },
+@@ -2765,35 +2759,33 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             {
+                 .version = 2,
+                 .alias = "Broadwell-noTSX",
++                .note = "no TSX",
+                 .props = (PropValue[]) {
+                     { "hle", "off" },
+                     { "rtm", "off" },
+-                    { "model-id", "Intel Core Processor (Broadwell, no TSX)", },
+                     { /* end of list */ }
+                 },
+             },
+             {
+                 .version = 3,
+                 .alias = "Broadwell-IBRS",
++                .note = "IBRS",
+                 .props = (PropValue[]) {
+                     /* Restore TSX features removed by -v2 above */
+                     { "hle", "on" },
+                     { "rtm", "on" },
+                     { "spec-ctrl", "on" },
+-                    { "model-id",
+-                      "Intel Core Processor (Broadwell, IBRS)" },
+                     { /* end of list */ }
+                 }
+             },
+             {
+                 .version = 4,
+                 .alias = "Broadwell-noTSX-IBRS",
++                .note = "no TSX, IBRS",
+                 .props = (PropValue[]) {
+                     { "hle", "off" },
+                     { "rtm", "off" },
+                     /* spec-ctrl was already enabled by -v3 above */
+-                    { "model-id",
+-                      "Intel Core Processor (Broadwell, no TSX, IBRS)" },
+                     { /* end of list */ }
+                 }
+             },
+@@ -2893,17 +2885,17 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             { .version = 1 },
+             {
+                 .version = 2,
++                .note = "IBRS",
+                 .alias = "Skylake-Client-IBRS",
+                 .props = (PropValue[]) {
+                     { "spec-ctrl", "on" },
+-                    { "model-id",
+-                      "Intel Core Processor (Skylake, IBRS)" },
+                     { /* end of list */ }
+                 }
+             },
+             {
+                 .version = 3,
+                 .alias = "Skylake-Client-noTSX-IBRS",
++                .note = "no TSX, IBRS",
+                 .props = (PropValue[]) {
+                     { "hle", "off" },
+                     { "rtm", "off" },
+@@ -3014,19 +3006,19 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             {
+                 .version = 2,
+                 .alias = "Skylake-Server-IBRS",
++                .note = "IBRS",
+                 .props = (PropValue[]) {
+                     /* clflushopt was not added to Skylake-Server-IBRS */
+                     /* TODO: add -v3 including clflushopt */
+                     { "clflushopt", "off" },
+                     { "spec-ctrl", "on" },
+-                    { "model-id",
+-                      "Intel Xeon Processor (Skylake, IBRS)" },
+                     { /* end of list */ }
+                 }
+             },
+             {
+                 .version = 3,
+                 .alias = "Skylake-Server-noTSX-IBRS",
++                .note = "no TSX, IBRS",
+                 .props = (PropValue[]) {
+                     { "hle", "off" },
+                     { "rtm", "off" },
+@@ -3138,6 +3130,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+         .versions = (X86CPUVersionDefinition[]) {
+             { .version = 1 },
+             { .version = 2,
++              .note = "ARCH_CAPABILITIES",
+               .props = (PropValue[]) {
+                   { "arch-capabilities", "on" },
+                   { "rdctl-no", "on" },
+@@ -3149,6 +3142,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             },
+             { .version = 3,
+               .alias = "Cascadelake-Server-noTSX",
++              .note = "ARCH_CAPABILITIES, no TSX",
+               .props = (PropValue[]) {
+                   { "hle", "off" },
+                   { "rtm", "off" },
+@@ -3321,6 +3315,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             { .version = 1 },
+             {
+                 .version = 2,
++                .note = "no TSX",
+                 .alias = "Icelake-Client-noTSX",
+                 .props = (PropValue[]) {
+                     { "hle", "off" },
+@@ -3438,6 +3433,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             { .version = 1 },
+             {
+                 .version = 2,
++                .note = "no TSX",
+                 .alias = "Icelake-Server-noTSX",
+                 .props = (PropValue[]) {
+                     { "hle", "off" },
+@@ -3545,6 +3541,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             { .version = 1 },
+             {
+                 .version = 2,
++                .note = "no MPX, no MONITOR",
+                 .props = (PropValue[]) {
+                     { "monitor", "off" },
+                     { "mpx", "off" },
+@@ -3674,14 +3671,15 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             { .version = 1 },
+             {
+                 .version = 2,
++                .note = "no MPX",
+                 .props = (PropValue[]) {
+                     { "mpx", "off" },
+-                    { "model-id", "Intel Atom Processor (Snowridge, no MPX)" },
+                     { /* end of list */ },
+                 },
+             },
+             {
+                 .version = 3,
++                .note = "no MPX, no MONITOR",
+                 .props = (PropValue[]) {
+                     /* mpx was already removed by -v2 above */
+                     { "monitor", "off" },
+@@ -3803,6 +3801,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             { .version = 1 },
+             {
+                 .version = 2,
++                .note = "no MONITOR",
+                 .props = (PropValue[]) {
+                     { "monitor", "off" },
+                     { /* end of list */ },
+@@ -3927,15 +3926,15 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             {
+                 .version = 2,
+                 .alias = "EPYC-IBPB",
++                .note = "IBPB",
+                 .props = (PropValue[]) {
+                     { "ibpb", "on" },
+-                    { "model-id",
+-                      "AMD EPYC Processor (with IBPB)" },
+                     { /* end of list */ }
+                 }
+             },
+             {
+                 .version = 3,
++                .note = "IBPB, no MONITOR",
+                 .props = (PropValue[]) {
+                     /* ibpb was already enabled by -v2 above */
+                     { "monitor", "off" },
+@@ -3998,6 +3997,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             { .version = 1 },
+             {
+                 .version = 2,
++                .note = "no MONITOR",
+                 .props = (PropValue[]) {
+                     { "monitor", "off" },
+                     { /* end of list */ },
 -- 
 2.20.1
 
