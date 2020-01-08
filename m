@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67B9134332
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 14:02:03 +0100 (CET)
-Received: from localhost ([::1]:43270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA03213434B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 14:04:06 +0100 (CET)
+Received: from localhost ([::1]:43288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipAyI-0002EV-OQ
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 08:02:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60649)
+	id 1ipB0H-0004DL-TJ
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 08:04:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWh-0004Fp-Eo
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:32 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWo-0004Rm-15
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWg-0004Y1-Bb
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:31 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37945)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWn-0004cV-22
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:37 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36962)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipAWg-0004Xb-5Q
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:30 -0500
-Received: by mail-wr1-x434.google.com with SMTP id y17so3205170wrh.5
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:30 -0800 (PST)
+ id 1ipAWm-0004bq-SM
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:37 -0500
+Received: by mail-wm1-x333.google.com with SMTP id f129so2321303wmf.2
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WCjKXrdR/R/3qFo/Ai4yhaPyA8z7tZNg/kZgnvxQquU=;
- b=pw7F6tsjEdudvYspXC+m76pFcZ8orsy7euPPjxvmvhmtHKyRLW9F7YaCgryQ+qWSOg
- hVwR2zpIDJqwowsks/JfHPJWp96FnRiIqAbApJutUWkMHhlLsB9lWTQEnUtXvtZRoohu
- poAzsShmfmi4yCjtk61lLjQT0mqZyws/+58d6uoDPPouFZroNykNLSNGlQD5eEIr0k6s
- n3i0dcoKHM5yq+HJT2xjzPGXgzybI/WY6P6huvKJFYkQODltS7btJuMUpxd76RgtdzBk
- XJdnSXlHL1QyXC2NElOcs3et4gaHSxD9RztwwThrys9Pd16a3ewWzVy2kaz4hYJ/hEYR
- nvhA==
+ bh=n98xC83HGR1EyrVTal/VnLJiWwmzPPe4kCosA3uE+Sg=;
+ b=FkLcqMYqcCyzbNoKqkYIO+VQj9dCjTD+g7WsUS7tdRSQSvG5qeuJNQjCRQ8o/zxQhZ
+ bObDlxyiiN23L1qde9WYic81BsdYdWsqUqR14vTuoWVMZVRCnAVUTu4403yfHk303tI7
+ RjgsVMgkFzeRqkcB1TJvmB872SmX8XINGSh6UOYLShxvds2hPvL9hUJQWNySq7oD6GoH
+ AlJM4QihDcI3pfPoKRfxWWUiGAgZeUpSkQIouhTRusvL0xEup7cE0A3Fe+c3FnZ950xJ
+ HGIJ4su/FbfUVMpqk/jitLBCxCA4GPlSSHA1/7dJQausaAoqx7RFic5YRIIhURUyVKGi
+ SoLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=WCjKXrdR/R/3qFo/Ai4yhaPyA8z7tZNg/kZgnvxQquU=;
- b=kOVHwSRYGjFXhk+UrnFdUN2MY8GTcnUrtgsE4bJ2B3DuG9lZ+3DNF12CrjZymFgZPt
- FA+UM5OZUHR7q1rX5ox1Il50tdGJ5sJz4uxwMWTx0uHoCNWbVICOy6VVTphBca0V0Shk
- tUu2zSyljQzecB76GmKML1ynuOYwFhPZhiqpYPi6Vi323+3/13QsRvQ2ZNBfsrk2+lgo
- Vu7lfaMZ48E7lTJf9675EpZSpsQsodls8RF4VPgrrfvm+6vJkoKSpiw5Z6imPGthcMb2
- 29eeFXYfOw0L/bBVn8LLlMx5fmIEa0BLRDpCxA3HAsmdfloNlTn5VTCZqLRZW8+lWqgF
- wq2A==
-X-Gm-Message-State: APjAAAVt0LjZ+B7iSXAPWZFMPNrAFgskYKg8YaG+sU48Iqtt2pD67hJK
- fN9jTi8gmfMpEweLWbxQcc/kl2Dy
-X-Google-Smtp-Source: APXvYqyH5tjfpK1LtyoG+8aQoS8uKNj6Cb07PiZdgEg6OLVQ6Z+vDHVN/mdxpPf+XkhFSwlLm0hFRg==
-X-Received: by 2002:adf:a285:: with SMTP id s5mr4302187wra.118.1578486808982; 
- Wed, 08 Jan 2020 04:33:28 -0800 (PST)
+ bh=n98xC83HGR1EyrVTal/VnLJiWwmzPPe4kCosA3uE+Sg=;
+ b=SWzSYyQltuhqJY4EGbQaKdqSiFvwgHf9eCdmCGabInAiHYga8ABKcHT0YRliQUUYOM
+ 82aZMjyuVjbNrGcjgeFQSM69Hc65tkRF9QdTkMWazSqDZV/EBwplVF50pl+fpNmGHp5v
+ ptz5zAXlZhDoluAhIn5slMfstn2bKEq1l0S8JuOngIfvg5Fs9RDe1zOo4o52JFoBD9dV
+ 89pvVTN9hmqiCDZTwLc4q2Rf9eFZEgfbkQ7GTrP1T5f+nMzKD/RVqjZmBNS21xCuS4fH
+ F7cF3GTk8QW2ttO5hhtamnMxBuyqZ2v9Yu7S3996dXww4HYTbN1yhjMy+O30sF4ew5zM
+ RCZQ==
+X-Gm-Message-State: APjAAAW7cQ4JZF7fVxjPzjY6dbDs9FJgSuSxHcZZjRbdssfF+YScjlKZ
+ SiFVmkIURT5fLejws+GRbDp+asvK
+X-Google-Smtp-Source: APXvYqy7snbyfEYUnr1hwHlU2wXU33NMddA/f75NmId8r28y/QMgLp85MrqgqfXrLUmrLZtgQ4RazA==
+X-Received: by 2002:a7b:c956:: with SMTP id i22mr3631039wml.67.1578486815801; 
+ Wed, 08 Jan 2020 04:33:35 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.27
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.34
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 04:33:27 -0800 (PST)
+ Wed, 08 Jan 2020 04:33:35 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/38] vhost-user-crypto: Explicit we ignore some QEMUChrEvent
- in IOEventHandler
-Date: Wed,  8 Jan 2020 13:32:47 +0100
-Message-Id: <1578486775-52247-31-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 36/38] chardev/char: Explicit we ignore some QEMUChrEvent in
+ IOEventHandler
+Date: Wed,  8 Jan 2020 13:32:53 +0100
+Message-Id: <1578486775-52247-37-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 References: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,39 +90,38 @@ able to use this enum in the IOEventHandler typedef, we need to
 explicit all the events ignored by this frontend, to silent the
 following GCC warning:
 
-    CC      backends/cryptodev-vhost-user.o
-  backends/cryptodev-vhost-user.c: In function ‘cryptodev_vhost_user_event’:
-  backends/cryptodev-vhost-user.c:163:5: error: enumeration value ‘CHR_EVENT_BREAK’ not handled in switch [-Werror=switch]
-    163 |     switch (event) {
+  chardev/char.c: In function ‘qemu_chr_be_event’:
+  chardev/char.c:65:5: error: enumeration value ‘CHR_EVENT_BREAK’ not handled in switch [-Werror=switch]
+     65 |     switch (event) {
         |     ^~~~~~
-  backends/cryptodev-vhost-user.c:163:5: error: enumeration value ‘CHR_EVENT_MUX_IN’ not handled in switch [-Werror=switch]
-  backends/cryptodev-vhost-user.c:163:5: error: enumeration value ‘CHR_EVENT_MUX_OUT’ not handled in switch [-Werror=switch]
+  chardev/char.c:65:5: error: enumeration value ‘CHR_EVENT_MUX_IN’ not handled in switch [-Werror=switch]
+  chardev/char.c:65:5: error: enumeration value ‘CHR_EVENT_MUX_OUT’ not handled in switch [-Werror=switch]
   cc1: all warnings being treated as errors
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20191218172009.8868-8-philmd@redhat.com>
+Message-Id: <20191218172009.8868-14-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- backends/cryptodev-vhost-user.c | 5 +++++
+ chardev/char.c | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/backends/cryptodev-vhost-user.c b/backends/cryptodev-vhost-user.c
-index b344283..f1b4079 100644
---- a/backends/cryptodev-vhost-user.c
-+++ b/backends/cryptodev-vhost-user.c
-@@ -171,6 +171,11 @@ static void cryptodev_vhost_user_event(void *opaque, int event)
-         b->ready = false;
-         cryptodev_vhost_user_stop(queues, s);
-         break;
+diff --git a/chardev/char.c b/chardev/char.c
+index 7b6b2cb..739da11 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -69,6 +69,11 @@ void qemu_chr_be_event(Chardev *s, int event)
+         case CHR_EVENT_CLOSED:
+             s->be_open = 0;
+             break;
 +    case CHR_EVENT_BREAK:
 +    case CHR_EVENT_MUX_IN:
 +    case CHR_EVENT_MUX_OUT:
 +        /* Ignore */
 +        break;
      }
- }
  
+     CHARDEV_GET_CLASS(s)->chr_be_event(s, event);
 -- 
 1.8.3.1
 
