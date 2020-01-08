@@ -2,58 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E884A134361
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 14:07:02 +0100 (CET)
-Received: from localhost ([::1]:43330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 494EE134352
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 14:05:07 +0100 (CET)
+Received: from localhost ([::1]:43302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipB37-0000NN-Tm
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 08:07:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34854)
+	id 1ipB1G-0005lp-9G
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 08:05:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36201)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1ipAcy-0005zo-KT
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:40:01 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ipAez-0000N3-54
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:42:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1ipAcx-0008RK-4S
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:40:00 -0500
-Resent-Date: Wed, 08 Jan 2020 07:40:00 -0500
-Resent-Message-Id: <E1ipAcx-0008RK-4S@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21192)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1ipAcw-0008Pp-Sy
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:39:59 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1578487190; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=TeBWs24pB78SDVDC8rLkvyajD4PS+Z6aktrJcjQ99Fv7R6y05dQNyN/s/nsKblRE53+9Hl8VfvqZAbEw3LuEfx4NmUWg29fudcU6UxkCBK1CNk0JWYITVME9X7GCXNXuhi1WkE18lJ9ExMfDEc0623V6z1CVQYSkVDqKHMtCZ0w=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1578487190;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=H0pZ+M1JJobE4npVqewmDYagq7tcsrkAD569JB3SuRY=; 
- b=TYIMZNyS+Ib4luL439q9kBN1K0b8Tb9rid9DpT2GfRXDYPvcvsB5JQuVDyNm4MTFtzLa+/5v+dKt6iMV22BKNRXcGZHgMx7Q9HnQYH4kMaTB9ye3AOO4RQQMayJVgyiLbc+mR/v17J6ctSD6xdBIZlXUm0mnCiT/uyeN+8udpHU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1578487185517538.1974490469212;
- Wed, 8 Jan 2020 04:39:45 -0800 (PST)
-In-Reply-To: <5245e15fbb05c85112b6c818b0de8c66c8f8b6b3.1578482882.git.tgolembi@redhat.com>
-Subject: Re: [PATCH v7] qga: add command guest-get-devices for reporting
- VirtIO devices
-Message-ID: <157848718447.3775.5293911452580417209@37313f22b938>
+ (envelope-from <pbonzini@redhat.com>) id 1ipAey-0001VK-4n
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:42:05 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24340
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ipAey-0001V3-17
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:42:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578487323;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5l1TtjfinJgnHCD8k5QPFZfXhXSKXrCDYP7wGC45PdU=;
+ b=Ek/u2o0F3VYBrFL6WhddLXgZGZuREeEt0DCAhv/euttet48E2h4m9GOHIV+PWqeXFt3Bdi
+ 1nZlS4H9ZWCVvlLp5avtJuMDmE42YYa8rPlAZjOhtEonoeMVDlOppJwb/rBBcP0XsLpsuL
+ OR8AuG0IBrwG0aLbWMblKJ9e+8QX9eo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-fNC1WEVSOFCY_bC4Rq0n_Q-1; Wed, 08 Jan 2020 07:42:02 -0500
+Received: by mail-wr1-f71.google.com with SMTP id f17so1386657wrt.19
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:42:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5l1TtjfinJgnHCD8k5QPFZfXhXSKXrCDYP7wGC45PdU=;
+ b=LcOsEG0p5BrISRUGGVbmIHziZIP0sgFMsl8PGm0nFqRJIUEpziKOJHTl8o9aYHe/vQ
+ Jruj/f/b4ge1uV0A+6AVxAZQgGT5JZGqzbDa10tQdEik3oKfNFQ6eG+BGSNb6bDmjKc8
+ K37YfGjJVq+paVcR5pxaSNut/S2csMkmlZgnBMq3QBAcYZib6sjcY0xOgMnZgA6B93ZU
+ jTTWD1ixf49L53mowb0TnafmuQCqJTfOuoOgJDPElMu6AmUEpVKgYls5xN4elF4/CWDC
+ TBB7bUPBVQWbZN69qQyJj2DxuVXgoRBV5NYW8c8vuWhFa0iIamXcmCXYi8A4uIfclipe
+ J5oQ==
+X-Gm-Message-State: APjAAAVco+lRzsgCwpWAq3LLdOuwoi1MJ8EHU4f4VeKUiZ5vgrt6j07V
+ blNcP2WTgECCeldiMiN83wAuL671L/+KZ8GyFLnmt1HjG2s4AK0CL4fmVbzsX8+78ExsW4TDPnO
+ Yp7+BduGP68znsqc=
+X-Received: by 2002:a1c:a982:: with SMTP id s124mr3549165wme.132.1578487321248; 
+ Wed, 08 Jan 2020 04:42:01 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy1Obu7tJwz3U0qHlDYSPhBw/lJNy5zaiNV1qSScCFZGLGvqIBxxXLWdMy3fp6rLNwwx7+aow==
+X-Received: by 2002:a1c:a982:: with SMTP id s124mr3549140wme.132.1578487321053; 
+ Wed, 08 Jan 2020 04:42:01 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id m7sm3627160wma.39.2020.01.08.04.41.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jan 2020 04:42:00 -0800 (PST)
+Subject: Re: Priority of -accel (was: [PATCH] tests/qemu-iotests: Update tests
+ to recent desugarized -accel option)
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20200106130951.29873-1-philmd@redhat.com>
+ <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
+ <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
+ <58eb34db-7d32-8b0e-d9ef-98648209486b@redhat.com>
+ <656169fc-1abe-b521-20a3-e7041739b914@redhat.com>
+ <20200107125451.GL3368802@redhat.com>
+ <3241dff4-6223-404f-55d4-846991763046@redhat.com> <87d0bujkpe.fsf@linaro.org>
+ <da2111ee-0644-1d7c-a111-e4209025a1d8@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <60ecc0ec-d8db-2cf6-b21a-799f4cb9ab71@redhat.com>
+Date: Wed, 8 Jan 2020 13:41:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: tgolembi@redhat.com
-Date: Wed, 8 Jan 2020 04:39:45 -0800 (PST)
-X-ZohoMailClient: External
+In-Reply-To: <da2111ee-0644-1d7c-a111-e4209025a1d8@redhat.com>
+Content-Language: en-US
+X-MC-Unique: fNC1WEVSOFCY_bC4Rq0n_Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,44 +99,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, tgolembi@redhat.com, berrange@redhat.com,
- qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS81MjQ1ZTE1ZmJiMDVjODUxMTJi
-NmM4MThiMGRlOGM2NmM4ZjhiNmIzLjE1Nzg0ODI4ODIuZ2l0LnRnb2xlbWJpQHJlZGhhdC5jb20v
-CgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9i
-bGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQ
-QVRDSCB2N10gcWdhOiBhZGQgY29tbWFuZCBndWVzdC1nZXQtZGV2aWNlcyBmb3IgcmVwb3J0aW5n
-IFZpcnRJTyBkZXZpY2VzClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiA1MjQ1ZTE1ZmJiMDVjODUx
-MTJiNmM4MThiMGRlOGM2NmM4ZjhiNmIzLjE1Nzg0ODI4ODIuZ2l0LnRnb2xlbWJpQHJlZGhhdC5j
-b20KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBi
-YXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVs
-aW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0t
-bWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0
-aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3
-LzUyNDVlMTVmYmIwNWM4NTExMmI2YzgxOGIwZGU4YzY2YzhmOGI2YjMuMTU3ODQ4Mjg4Mi5naXQu
-dGdvbGVtYmlAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzUyNDVlMTVmYmIwNWM4NTExMmI2YzgxOGIw
-ZGU4YzY2YzhmOGI2YjMuMTU3ODQ4Mjg4Mi5naXQudGdvbGVtYmlAcmVkaGF0LmNvbQpTd2l0Y2hl
-ZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmY4MTFjZTUgcWdhOiBhZGQgY29tbWFuZCBndWVzdC1n
-ZXQtZGV2aWNlcyBmb3IgcmVwb3J0aW5nIFZpcnRJTyBkZXZpY2VzCgo9PT0gT1VUUFVUIEJFR0lO
-ID09PQpFUlJPUjogc3BhY2UgcmVxdWlyZWQgYWZ0ZXIgdGhhdCAnLCcgKGN0eDpWeFYpCiMyNTA6
-IEZJTEU6IHFnYS9jb21tYW5kcy13aW4zMi5jOjIzOTU6CisgICAgICAgICAgICBkZXZpY2UtPmFk
-ZHJlc3MgPSBnX25ldzAoR3Vlc3REZXZpY2VBZGRyZXNzLDEpOwogICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCnRvdGFsOiAxIGVycm9ycywg
-MCB3YXJuaW5ncywgMzEyIGxpbmVzIGNoZWNrZWQKCkNvbW1pdCBmODExY2U1YTMyZDMgKHFnYTog
-YWRkIGNvbW1hbmQgZ3Vlc3QtZ2V0LWRldmljZXMgZm9yIHJlcG9ydGluZyBWaXJ0SU8gZGV2aWNl
-cykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
-cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
-ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNv
-bW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQK
-aHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvNTI0NWUxNWZiYjA1Yzg1MTEyYjZjODE4YjBkZThjNjZj
-OGY4YjZiMy4xNTc4NDgyODgyLmdpdC50Z29sZW1iaUByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2tw
-YXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkg
-UGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNr
-IHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 08/01/20 11:58, Thomas Huth wrote:
+>> "-accel default" could be considered to have vibes of Do The Right
+>> Thing (tm) and could in time actually become so!
+>
+> "-accel default" sounds like the default behavior that you'd also get if
+> you don't use this option at all ... what about "-accel auto" to say
+> that QEMU should pick an accelerator automatically?
+
+Questions to answer before thinking about the name: how would it
+co-operate with other "-accel" options?  how would you pass sub-options
+to the accelerators?
+
+Paolo
 
 
