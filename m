@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F9513455C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 15:51:43 +0100 (CET)
-Received: from localhost ([::1]:45064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D13AD13456D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 15:55:37 +0100 (CET)
+Received: from localhost ([::1]:45104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipCgQ-0001cQ-3u
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 09:51:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37619)
+	id 1ipCkC-0003r5-Sx
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 09:55:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39622)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ipCfT-0000xz-2d
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:50:44 -0500
+ (envelope-from <philmd@redhat.com>) id 1ipCjP-0003Nk-Dv
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:54:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ipCfR-0002TD-Ee
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:50:42 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32730
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ipCjN-0004c6-Te
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:54:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59182
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipCfR-0002Sf-Av
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:50:41 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipCjN-0004bd-QE
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:54:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578495040;
+ s=mimecast20190719; t=1578495284;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ElzOg0cO/2AmOn8KxOMJ1emVUK8fyK7zTxitNtvOxrE=;
- b=IiDhQIbA6AXepRC8uCa9eD2QRJdSeFuEY17ofhXcL3PTeWYS1nmDiTFhi/IfqXtmj0G4sD
- qmeB22X/Aq/OflP6aN+np3Y6LOQIW4ouhQFGTWJBZ4cJfEELjljbrS21q7DAvWA/E6hnjO
- 2NRLCWfP0xyAgC0TT6GFrY+4Dzr2HuM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-o2J7jYAAOxml1HS0mXM9dA-1; Wed, 08 Jan 2020 09:50:39 -0500
-Received: by mail-wm1-f71.google.com with SMTP id o24so458505wmh.0
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 06:50:39 -0800 (PST)
+ bh=FKMFwHwcp3S4teaTvF5S1W76ib2em1IlING8Bv+AlrE=;
+ b=Wdgkc4E4qzCicQ1dFfIc2ipUpu2Z7K76nQWYvvvas1lEkj6QxAmI1ckugRZki0iOxMZf7e
+ L/0wFOAjPVJku/PkCAcW/vx86vZpS8DEDl2pq4BEhNS6cNm+qUy/LBhN4hGfswlY09RqUw
+ 0NL5Gm6L9cBStmSm/g4BW8s5S5B7zzM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-97-auEnwYjkN_CoQEWB2yvevQ-1; Wed, 08 Jan 2020 09:54:43 -0500
+Received: by mail-wm1-f69.google.com with SMTP id t17so456584wmi.7
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 06:54:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FJVrR+3Ob0SZCyHNwmFYN9uxzyQ0cdH8+Sws1PCFSeM=;
- b=Xv3WI8RkOdku5cPG4bWoCSTmX8zyLa8fkn8OO7NW00Hb63sTi/5FJZZ/Lt++/l0Tdw
- XRVFVDqYNI9fJ5Rk5p3aFx3H8oqy+9wYLcEBD0LuBn2ErH0YLDL67afoNzVmy2fVWfOW
- aHJ7wYCXE2tDtOVRar9NL7TdRu7ldn/ADFvGMhXCQ8o0At1qIcF1Ukz6F1uBtVzKabtC
- XdyL7eZsW3o3JCNK5itk1rJAvUwYJ7+AUrBBgYfFDwtCod5A6dBuhNk/BiywcMLbmK5m
- 327Nu05gMJ0V2E8sbgA4Qt4SjsSoAY1Be//OeDcektHzLdlSZ8l6eGP/iN1Msup6gE5H
- X+sQ==
-X-Gm-Message-State: APjAAAWLzZZLLOznSikhAFmRr+lku/uuvMcEFVp+FoU8OP6TuC+/+T+I
- C/mWXleTs82bVq80UYre96DU57QE7kikzOl1gHWtbjjNlX+Hq1hPj0R0fFKSGe9VsxHAeab9i8I
- 6Hr1zkGfIXcMd6hU=
-X-Received: by 2002:adf:f64b:: with SMTP id x11mr5236186wrp.355.1578495037794; 
- Wed, 08 Jan 2020 06:50:37 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzCTmLqXlIcNq5mUImdwII5LoawnzI8I8xU9evrVKmW+KtX0DkxWQqqzlGuoXl+uRsV7KRckQ==
-X-Received: by 2002:adf:f64b:: with SMTP id x11mr5236170wrp.355.1578495037571; 
- Wed, 08 Jan 2020 06:50:37 -0800 (PST)
+ bh=IRnOR3h18LwvqVjiwUt+1p8pdr8Nc3iMzfbu1+teEjs=;
+ b=QN/HqMb3dJhFEpaRFGKyu5iqnmeJ0noT68iJsNWagTioxpY9jK/jQzCZZtoJBhHmo9
+ IyMPEWT3z6I7wtoZg/LnYy/+tkK8rG2HiLsnv+cDWxHX2ugMBWs4fMp1Slp3vv7YVlJd
+ p1H51zorZk1JhHD7Ez8LYfRQ1m/3x8A8zjBolQ6KoVaf2FQ8MLzPsoSu0KXudUBJBWsm
+ jQet7grV0EhzuCtcsjqcFCAH3C+9yzDYfy10AWGQtWt3/H+Kl5NyQCLQq+TGvyvjGdtN
+ R1vibmWHT4IrfbNAMUdU7GJ0Z5IoJUsfQBQaQpDw4szHbSTnMO+2Xkehqd5zVTCsD6fn
+ yM5A==
+X-Gm-Message-State: APjAAAWHSOIHzDmO7d0pkGgYVE3QpE+YraPMvf+46emDfmxTK8B3yUQ3
+ R/gEvIx52jtz0R9qk73JBdeQgm7N4CAufhttL1IBhvPQDbkqCG8N1ReehzLFWpetfhsv5UwbGtP
+ nwW0dkgdVPihvNek=
+X-Received: by 2002:a05:600c:298:: with SMTP id
+ 24mr4140833wmk.141.1578495282218; 
+ Wed, 08 Jan 2020 06:54:42 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzginRqJtnaAwNtacobE8QKSjLjbkXihLohXcZs6kaSqMFSIsY2r9Ip4WJyW35gj9PYiZZfLQ==
+X-Received: by 2002:a05:600c:298:: with SMTP id
+ 24mr4140817wmk.141.1578495282025; 
+ Wed, 08 Jan 2020 06:54:42 -0800 (PST)
 Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.34])
- by smtp.gmail.com with ESMTPSA id k16sm4520958wru.0.2020.01.08.06.50.36
+ by smtp.gmail.com with ESMTPSA id u22sm4462709wru.30.2020.01.08.06.54.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jan 2020 06:50:37 -0800 (PST)
-Subject: Re: [PATCH v3] ui: Print available display backends with '-display
- help'
-To: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200108144702.29969-1-thuth@redhat.com>
+ Wed, 08 Jan 2020 06:54:41 -0800 (PST)
+Subject: Re: [PATCH v5] display/gtk: get proper refreshrate
+To: pavlica.nikola@gmail.com, qemu-devel@nongnu.org
+References: <20200108121342.29597-1-pavlica.nikola@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c2911df9-f4b3-dc80-3934-127d648243a2@redhat.com>
-Date: Wed, 8 Jan 2020 15:50:36 +0100
+Message-ID: <34341431-40ea-6bab-e93d-5be15c7aa5da@redhat.com>
+Date: Wed, 8 Jan 2020 15:54:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200108144702.29969-1-thuth@redhat.com>
+In-Reply-To: <20200108121342.29597-1-pavlica.nikola@gmail.com>
 Content-Language: en-US
-X-MC-Unique: o2J7jYAAOxml1HS0mXM9dA-1
+X-MC-Unique: auEnwYjkN_CoQEWB2yvevQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,100 +92,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/8/20 3:47 PM, Thomas Huth wrote:
-> We already print availabled devices with "-device help", or available
-> backends with "-netdev help" or "-chardev help". Let's provide a way
-> for the users to query the available display backends, too.
+On 1/8/20 1:13 PM, pavlica.nikola@gmail.com wrote:
+> From: Nikola Pavlica <pavlica.nikola@gmail.com>
 >=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Because some VMs in QEMU can get GPU virtualization (using technologies
+> such as iGVT-g, as mentioned previously), they could produce a video
+> output that had a higher display refresh rate than of what the GTK
+> display was displaying. (fxp. Playing a video game inside of a Windows
+> VM at 60 Hz, while the output stood locked at 33 Hz because of defaults
+> set in include/ui/console.h)
+>=20
+> Since QEMU does indeed have internal systems for determining frame
+> times as defined in ui/console.c.
+> The code checks for a variable called update_interval that it later
+> uses for time calculation. This variable, however, isn't defined
+> anywhere in ui/gtk.c and instead ui/console.c just sets it to
+> GUI_REFRESH_INTERVAL_DEFAULT which is 30
+>=20
+> update_interval represents the number of milliseconds per display
+> refresh, and by doing some math we get that 1000/30 =3D 33.33... Hz
+>=20
+> This creates the mentioned problem and what this patch does is that it
+> checks for the display refresh rate reported by GTK itself (we can take
+> this as a safe value) and just converts it back to a number of
+> milliseconds per display refresh.
+>=20
+> Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
 > ---
->   v3: Mention -display help in the qemu-doc, too (as suggested by Philipp=
-e)
+>   include/ui/gtk.h |  2 ++
+>   ui/gtk.c         | 10 ++++++++++
+>   2 files changed, 12 insertions(+)
 >=20
->   include/ui/console.h |  1 +
->   qemu-options.hx      |  3 ++-
->   ui/console.c         | 15 +++++++++++++++
->   vl.c                 |  5 +++++
->   4 files changed, 23 insertions(+), 1 deletion(-)
->=20
-> diff --git a/include/ui/console.h b/include/ui/console.h
-> index 281f9c145b..f35b4fc082 100644
-> --- a/include/ui/console.h
-> +++ b/include/ui/console.h
-> @@ -442,6 +442,7 @@ void qemu_display_register(QemuDisplay *ui);
->   bool qemu_display_find_default(DisplayOptions *opts);
->   void qemu_display_early_init(DisplayOptions *opts);
->   void qemu_display_init(DisplayState *ds, DisplayOptions *opts);
-> +void qemu_display_help(void);
+> diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+> index d9eedad976..d1b230848a 100644
+> --- a/include/ui/gtk.h
+> +++ b/include/ui/gtk.h
+> @@ -28,6 +28,8 @@
+>   #include "ui/egl-context.h"
+>   #endif
 >  =20
->   /* vnc.c */
->   void vnc_display_init(const char *id, Error **errp);
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index e9d6231438..d593931664 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1586,7 +1586,8 @@ STEXI
->   @item -display @var{type}
->   @findex -display
->   Select type of display to use. This option is a replacement for the
-> -old style -sdl/-curses/... options. Valid values for @var{type} are
-> +old style -sdl/-curses/... options. Use @code{-display help} to list
-> +the available display types. Valid values for @var{type} are
-
-Nicer, thanks!
-
->   @table @option
->   @item sdl
->   Display video output via SDL (usually in a separate graphics
-> diff --git a/ui/console.c b/ui/console.c
-> index ac79d679f5..69339b028b 100644
-> --- a/ui/console.c
-> +++ b/ui/console.c
-> @@ -2333,6 +2333,21 @@ void qemu_display_init(DisplayState *ds, DisplayOp=
-tions *opts)
->       dpys[opts->type]->init(ds, opts);
->   }
->  =20
-> +void qemu_display_help(void)
-> +{
-> +    int idx;
+> +#define MILLISEC_PER_SEC 1000000
 > +
-> +    printf("Available display backend types:\n");
-> +    for (idx =3D DISPLAY_TYPE_NONE; idx < DISPLAY_TYPE__MAX; idx++) {
-> +        if (!dpys[idx]) {
-> +            ui_module_load_one(DisplayType_str(idx));
-> +        }
-> +        if (dpys[idx]) {
-> +            printf("%s\n",  DisplayType_str(dpys[idx]->type));
-> +        }
-> +    }
-> +}
-> +
->   void qemu_chr_parse_vc(QemuOpts *opts, ChardevBackend *backend, Error *=
-*errp)
->   {
->       int val;
-> diff --git a/vl.c b/vl.c
-> index 86474a55c9..ee15055ba2 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -1869,6 +1869,11 @@ static void parse_display(const char *p)
->   {
->       const char *opts;
+>   typedef struct GtkDisplayState GtkDisplayState;
 >  =20
-> +    if (is_help_option(p)) {
-> +        qemu_display_help();
-> +        exit(0);
+>   typedef struct VirtualGfxConsole {
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index 692ccc7bbb..eb0efc70ee 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -1966,6 +1966,10 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, =
+VirtualConsole *vc,
+>                                 GSList *group, GtkWidget *view_menu)
+>   {
+>       bool zoom_to_fit =3D false;
+> +    int refresh_rate_millihz;
+> +    GdkDisplay *dpy =3D gtk_widget_get_display(s->window);
+> +    GdkWindow *win =3D gtk_widget_get_window(s->window);
+> +    GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
+>  =20
+>       vc->label =3D qemu_console_get_label(con);
+>       vc->s =3D s;
+> @@ -2026,6 +2030,12 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, =
+VirtualConsole *vc,
+>  =20
+>       vc->gfx.kbd =3D qkbd_state_init(con);
+>       vc->gfx.dcl.con =3D con;
+> +
+> +    refresh_rate_millihz =3D gdk_monitor_get_refresh_rate(monitor);
+> +    if (refresh_rate_millihz) {
+> +        vc->gfx.dcl.update_interval =3D MILLISEC_PER_SEC / refresh_rate_=
+millihz;
 > +    }
 > +
->       if (strstart(p, "sdl", &opts)) {
->           /*
->            * sdl DisplayType needs hand-crafted parser instead of
+>       register_displaychangelistener(&vc->gfx.dcl);
+>  =20
+>       gd_connect_vc_gfx_signals(vc);
 >=20
 
 
