@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E5D1339FD
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 05:09:29 +0100 (CET)
-Received: from localhost ([::1]:35666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AABEF133A0F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 05:17:08 +0100 (CET)
+Received: from localhost ([::1]:35868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip2eu-0002zz-57
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 23:09:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50221)
+	id 1ip2mJ-0004se-PG
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 23:17:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50285)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ip2JV-0005Wg-HW
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:22 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ip2JZ-0005bt-CV
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ip2JT-0004CE-Ut
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:21 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:38848)
+ (envelope-from <richard.henderson@linaro.org>) id 1ip2JX-0004HD-A0
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:25 -0500
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:40674)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ip2JT-0004Bo-Of
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:19 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id a33so871721pgm.5
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 19:47:19 -0800 (PST)
+ id 1ip2JX-0004FM-1d
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:23 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id k25so866800pgt.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 19:47:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=40U6j5jG8ujheReF1SUs50iurr4GUkD3XD9r1UeyH6c=;
- b=m4avyYIoCC6tv6qVmAExWM6m2ul1/1xEHal95C1kLvoI+3cKfXM/iigLemLyt2UWWq
- aFI+xgt6PXuSizUhQOB/1p2rDlKfuPIeESvTiWRKKtHFjuLEoS7WruuGhUcvWlpQ1fIg
- Iw95HO6IsBUV/YWDRR/82xKJesEQfQJTQtio8HtV0gJfgwMkS3+w6A9bSMLrAznDdBCf
- jKw2UPHTptHn0XeLKy3hkAf4vkGCYgmMHL43cCJW5p8pTcAsA05vwiE/+XyDMlD/hGsp
- iEZrMqPOv1oOOBqEpC9X4koi3P0bOYfJ3PAuR4p/hJ1ET4JbYHSbyRkReWjwu7JwKRYn
- AdWg==
+ bh=t2thyoGvsbaFk+uMDj/uOOcbmAbs4TE41aB8Qd+9rug=;
+ b=qaECD4XoI/yNtkmW4CUXnW0cHCxkDUYb6/A+jxzS827gHrD1cG5aA8s1To/F/qoNqm
+ ZLMIKhmxDo3vp1B1sZf6zJreKnfbqOdCfa04au/hFQaiJl2dnuDulyq3WIVh2AeILHJR
+ SeRWO53UVADNF4s+5/dXbkTKR1A0ylGPKgF+XmQOPJ5woTmGmoJk5cMNWwHo9SJRJOuq
+ EpWkFKmzoUx3yqf8jS8DpN8N/ZHaZrgpIXSHdATSU1zb27ddWfzfPUlb9ZVfMp2ka6V9
+ mEMeIAEeIoSqSEQrO3XMlES52+n+XSAQOwPffENROPHPnA/7qdzDMvvke0w60gRmMiVz
+ xIXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=40U6j5jG8ujheReF1SUs50iurr4GUkD3XD9r1UeyH6c=;
- b=U5AgY8d9fyiSg93twLPaS9ZgmcQcUdb7OGFl2GLROX5WWFpaZo7STb8PtoSdSPyRsL
- JLDCbPz2cZowX2UFmK5acO27tVFNhcXf6QKIdbkVOsopVMiK0edbRiw5lvLdzFlYZzTc
- nP8GTjJrJkF8KaT4DIf+NDmkgkv3SnjPHU3ltcWV0tPIlPTCvsNpdLsF6JQpy4b4v5to
- JJUhPKKE/jmjVcBdyA0eSjPlEBgCLwxStQXT1Zncj1IAewM8lipEcU9V/vfigbbxdpb0
- w48A/xs5lrtymOaGJdk8XgvhfboPC/gKI35I3sXojaINR7TLphuC82HLmdQvOjn1qIZF
- Iqxw==
-X-Gm-Message-State: APjAAAUrwzRoUXd0k1VCeWNvZtvy49aYWP8RafQCxBsvkEzVo+p1CTpD
- PknhTTHSCWgFg5Ybazmya1od+R+RNn21qQ==
-X-Google-Smtp-Source: APXvYqyLxoZbGSXeHCuIMVviR19FvvaTLPxpFzN62fCccV/9uduhOAU4c5g5AhrBekx3Ji0aTLe+6g==
-X-Received: by 2002:a63:cf41:: with SMTP id b1mr3085284pgj.53.1578455238556;
- Tue, 07 Jan 2020 19:47:18 -0800 (PST)
+ bh=t2thyoGvsbaFk+uMDj/uOOcbmAbs4TE41aB8Qd+9rug=;
+ b=SGzeyRWG6r4jNr8F2pM6q8YV26VaWnpetlsnIRLCDRRyqPKB8NOoqdJSbtf4mMuOLG
+ 9uQySni0Q4bj7yGR8KCaPay0GFC70Raj7fsEVIZDRBTTKpj3Z4wuLCJFCtgV33OvAtkK
+ jz3EtBVBsbqd3HaZwGg0fnEHhVzsAUdC6e0Uq6QlRB4plRZVuxHW29ROurOwvR8eYeAc
+ FV5Xym/C4Eq6BdOWg22wAetSzeYv4MS0pL1ihKUWHT/M2VIFLEVDsq54AD9iurbNIt5T
+ 7em47VlyC0gY1najnLFsNFx0BGX+eplksQb0SdvJAw/zgNcAxhnLiGhyCc+4Lh/CapHR
+ 1+fQ==
+X-Gm-Message-State: APjAAAUPFRsNwIu+J+n63YLSh/EnzNiq6zS3CIe7XBfQftYd123ALIS+
+ b07CHScYlem1pTIbQCrMo8yGR/bqbnD7cQ==
+X-Google-Smtp-Source: APXvYqztH5o7VYn3bxDf4rit103ymO9ldZr5nYP8E4qqDBnolxx4y05+mLDkb/QGpwd7YUYsUobBcg==
+X-Received: by 2002:a63:358a:: with SMTP id c132mr3190698pga.286.1578455241650; 
+ Tue, 07 Jan 2020 19:47:21 -0800 (PST)
 Received: from localhost.localdomain (alanje.lnk.telstra.net.
  [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id f23sm1198433pgj.76.2020.01.07.19.47.16
+ by smtp.gmail.com with ESMTPSA id f23sm1198433pgj.76.2020.01.07.19.47.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 19:47:17 -0800 (PST)
+ Tue, 07 Jan 2020 19:47:21 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/41] cputlb: Remove support for MMU_MODE*_SUFFIX
-Date: Wed,  8 Jan 2020 14:45:17 +1100
-Message-Id: <20200108034523.17349-36-richard.henderson@linaro.org>
+Subject: [PULL 36/41] cputlb: Expand cpu_ldst_template.h in cputlb.c
+Date: Wed,  8 Jan 2020 14:45:18 +1100
+Message-Id: <20200108034523.17349-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200108034523.17349-1-richard.henderson@linaro.org>
 References: <20200108034523.17349-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52b
+X-Received-From: 2607:f8b0:4864:20::52e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,30 +81,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All users have now been converted to cpu_*_mmuidx_ra.
+Reduce the amount of preprocessor obfuscation by expanding
+the text of each of the functions generated.  The result is
+only slightly smaller than the original.
 
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu_ldst.h | 230 ----------------------------------------
- 1 file changed, 230 deletions(-)
+ include/exec/cpu_ldst.h          |  67 +++++++-----------
+ include/exec/cpu_ldst_template.h | 117 -------------------------------
+ accel/tcg/cputlb.c               | 107 +++++++++++++++++++++++++++-
+ 3 files changed, 130 insertions(+), 161 deletions(-)
+ delete mode 100644 include/exec/cpu_ldst_template.h
 
 diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index 0f3c49a005..cf4652bf48 100644
+index cf4652bf48..62f38d5a22 100644
 --- a/include/exec/cpu_ldst.h
 +++ b/include/exec/cpu_ldst.h
-@@ -271,236 +271,6 @@ void cpu_stl_mmuidx_ra(CPUArchState *env, abi_ptr addr, uint32_t val,
+@@ -94,32 +94,6 @@ typedef target_ulong abi_ptr;
+ #define TARGET_ABI_FMT_ptr TARGET_ABI_FMT_lx
+ #endif
+ 
+-#if defined(CONFIG_USER_ONLY)
+-
+-extern __thread uintptr_t helper_retaddr;
+-
+-static inline void set_helper_retaddr(uintptr_t ra)
+-{
+-    helper_retaddr = ra;
+-    /*
+-     * Ensure that this write is visible to the SIGSEGV handler that
+-     * may be invoked due to a subsequent invalid memory operation.
+-     */
+-    signal_barrier();
+-}
+-
+-static inline void clear_helper_retaddr(void)
+-{
+-    /*
+-     * Ensure that previous memory operations have succeeded before
+-     * removing the data visible to the signal handler.
+-     */
+-    signal_barrier();
+-    helper_retaddr = 0;
+-}
+-
+-/* In user-only mode we provide only the _code and _data accessors. */
+-
+ uint32_t cpu_ldub_data(CPUArchState *env, abi_ptr ptr);
+ uint32_t cpu_lduw_data(CPUArchState *env, abi_ptr ptr);
+ uint32_t cpu_ldl_data(CPUArchState *env, abi_ptr ptr);
+@@ -148,6 +122,30 @@ void cpu_stl_data_ra(CPUArchState *env, abi_ptr ptr,
+ void cpu_stq_data_ra(CPUArchState *env, abi_ptr ptr,
+                      uint64_t val, uintptr_t retaddr);
+ 
++#if defined(CONFIG_USER_ONLY)
++
++extern __thread uintptr_t helper_retaddr;
++
++static inline void set_helper_retaddr(uintptr_t ra)
++{
++    helper_retaddr = ra;
++    /*
++     * Ensure that this write is visible to the SIGSEGV handler that
++     * may be invoked due to a subsequent invalid memory operation.
++     */
++    signal_barrier();
++}
++
++static inline void clear_helper_retaddr(void)
++{
++    /*
++     * Ensure that previous memory operations have succeeded before
++     * removing the data visible to the signal handler.
++     */
++    signal_barrier();
++    helper_retaddr = 0;
++}
++
+ /*
+  * Provide the same *_mmuidx_ra interface as for softmmu.
+  * The mmu_idx argument is ignored.
+@@ -271,23 +269,6 @@ void cpu_stl_mmuidx_ra(CPUArchState *env, abi_ptr addr, uint32_t val,
  void cpu_stq_mmuidx_ra(CPUArchState *env, abi_ptr addr, uint64_t val,
                         int mmu_idx, uintptr_t retaddr);
  
--#ifdef MMU_MODE0_SUFFIX
--#define CPU_MMU_INDEX 0
--#define MEMSUFFIX MMU_MODE0_SUFFIX
+-/* these access are slower, they must be as rare as possible */
+-#define CPU_MMU_INDEX (cpu_mmu_index(env, false))
+-#define MEMSUFFIX _data
 -#define DATA_SIZE 1
 -#include "exec/cpu_ldst_template.h"
 -
@@ -118,223 +189,265 @@ index 0f3c49a005..cf4652bf48 100644
 -#include "exec/cpu_ldst_template.h"
 -#undef CPU_MMU_INDEX
 -#undef MEMSUFFIX
+-
+ #endif /* defined(CONFIG_USER_ONLY) */
+ 
+ uint32_t cpu_ldub_code(CPUArchState *env, abi_ptr addr);
+diff --git a/include/exec/cpu_ldst_template.h b/include/exec/cpu_ldst_template.h
+deleted file mode 100644
+index e400979f23..0000000000
+--- a/include/exec/cpu_ldst_template.h
++++ /dev/null
+@@ -1,117 +0,0 @@
+-/*
+- *  Software MMU support
+- *
+- * Generate inline load/store functions for one MMU mode and data
+- * size.
+- *
+- * Generate a store function as well as signed and unsigned loads.
+- *
+- * Not used directly but included from cpu_ldst.h.
+- *
+- *  Copyright (c) 2003 Fabrice Bellard
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+- */
+-
+-#if DATA_SIZE == 8
+-#define SUFFIX q
+-#define USUFFIX q
+-#define DATA_TYPE uint64_t
+-#define SHIFT 3
+-#elif DATA_SIZE == 4
+-#define SUFFIX l
+-#define USUFFIX l
+-#define DATA_TYPE uint32_t
+-#define SHIFT 2
+-#elif DATA_SIZE == 2
+-#define SUFFIX w
+-#define USUFFIX uw
+-#define DATA_TYPE uint16_t
+-#define DATA_STYPE int16_t
+-#define SHIFT 1
+-#elif DATA_SIZE == 1
+-#define SUFFIX b
+-#define USUFFIX ub
+-#define DATA_TYPE uint8_t
+-#define DATA_STYPE int8_t
+-#define SHIFT 0
+-#else
+-#error unsupported data size
 -#endif
 -
--#if (NB_MMU_MODES >= 2) && defined(MMU_MODE1_SUFFIX)
--#define CPU_MMU_INDEX 1
--#define MEMSUFFIX MMU_MODE1_SUFFIX
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
+-#if DATA_SIZE == 8
+-#define RES_TYPE uint64_t
+-#else
+-#define RES_TYPE uint32_t
 -#endif
 -
--#if (NB_MMU_MODES >= 3) && defined(MMU_MODE2_SUFFIX)
+-/* generic load/store macros */
 -
--#define CPU_MMU_INDEX 2
--#define MEMSUFFIX MMU_MODE2_SUFFIX
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
+-static inline RES_TYPE
+-glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+-                                                  target_ulong ptr,
+-                                                  uintptr_t retaddr)
+-{
+-    return glue(glue(cpu_ld, USUFFIX), _mmuidx_ra)(env, ptr, CPU_MMU_INDEX,
+-                                                   retaddr);
+-}
 -
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
+-static inline RES_TYPE
+-glue(glue(cpu_ld, USUFFIX), MEMSUFFIX)(CPUArchState *env, target_ulong ptr)
+-{
+-    return glue(glue(cpu_ld, USUFFIX), _mmuidx_ra)(env, ptr, CPU_MMU_INDEX, 0);
+-}
 -
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
+-#if DATA_SIZE <= 2
+-static inline int
+-glue(glue(glue(cpu_lds, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+-                                                  target_ulong ptr,
+-                                                  uintptr_t retaddr)
+-{
+-    return glue(glue(cpu_lds, SUFFIX), _mmuidx_ra)(env, ptr, CPU_MMU_INDEX,
+-                                                   retaddr);
+-}
 -
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
--#endif /* (NB_MMU_MODES >= 3) */
+-static inline int
+-glue(glue(cpu_lds, SUFFIX), MEMSUFFIX)(CPUArchState *env, target_ulong ptr)
+-{
+-    return glue(glue(cpu_lds, SUFFIX), _mmuidx_ra)(env, ptr, CPU_MMU_INDEX, 0);
+-}
+-#endif
 -
--#if (NB_MMU_MODES >= 4) && defined(MMU_MODE3_SUFFIX)
+-/* generic store macro */
 -
--#define CPU_MMU_INDEX 3
--#define MEMSUFFIX MMU_MODE3_SUFFIX
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
+-static inline void
+-glue(glue(glue(cpu_st, SUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
+-                                                 target_ulong ptr,
+-                                                 RES_TYPE v, uintptr_t retaddr)
+-{
+-    glue(glue(cpu_st, SUFFIX), _mmuidx_ra)(env, ptr, v, CPU_MMU_INDEX,
+-                                           retaddr);
+-}
 -
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
+-static inline void
+-glue(glue(cpu_st, SUFFIX), MEMSUFFIX)(CPUArchState *env, target_ulong ptr,
+-                                      RES_TYPE v)
+-{
+-    glue(glue(cpu_st, SUFFIX), _mmuidx_ra)(env, ptr, v, CPU_MMU_INDEX, 0);
+-}
 -
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
--#endif /* (NB_MMU_MODES >= 4) */
--
--#if (NB_MMU_MODES >= 5) && defined(MMU_MODE4_SUFFIX)
--
--#define CPU_MMU_INDEX 4
--#define MEMSUFFIX MMU_MODE4_SUFFIX
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
--#endif /* (NB_MMU_MODES >= 5) */
--
--#if (NB_MMU_MODES >= 6) && defined(MMU_MODE5_SUFFIX)
--
--#define CPU_MMU_INDEX 5
--#define MEMSUFFIX MMU_MODE5_SUFFIX
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
--#endif /* (NB_MMU_MODES >= 6) */
--
--#if (NB_MMU_MODES >= 7) && defined(MMU_MODE6_SUFFIX)
--
--#define CPU_MMU_INDEX 6
--#define MEMSUFFIX MMU_MODE6_SUFFIX
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
--#endif /* (NB_MMU_MODES >= 7) */
--
--#if (NB_MMU_MODES >= 8) && defined(MMU_MODE7_SUFFIX)
--
--#define CPU_MMU_INDEX 7
--#define MEMSUFFIX MMU_MODE7_SUFFIX
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
--#endif /* (NB_MMU_MODES >= 8) */
--
--#if (NB_MMU_MODES >= 9) && defined(MMU_MODE8_SUFFIX)
--
--#define CPU_MMU_INDEX 8
--#define MEMSUFFIX MMU_MODE8_SUFFIX
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
--#endif /* (NB_MMU_MODES >= 9) */
--
--#if (NB_MMU_MODES >= 10) && defined(MMU_MODE9_SUFFIX)
--
--#define CPU_MMU_INDEX 9
--#define MEMSUFFIX MMU_MODE9_SUFFIX
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
--#endif /* (NB_MMU_MODES >= 10) */
--
--#if (NB_MMU_MODES >= 11) && defined(MMU_MODE10_SUFFIX)
--
--#define CPU_MMU_INDEX 10
--#define MEMSUFFIX MMU_MODE10_SUFFIX
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
--#endif /* (NB_MMU_MODES >= 11) */
--
--#if (NB_MMU_MODES >= 12) && defined(MMU_MODE11_SUFFIX)
--
--#define CPU_MMU_INDEX 11
--#define MEMSUFFIX MMU_MODE11_SUFFIX
--#define DATA_SIZE 1
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 2
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 4
--#include "exec/cpu_ldst_template.h"
--
--#define DATA_SIZE 8
--#include "exec/cpu_ldst_template.h"
--#undef CPU_MMU_INDEX
--#undef MEMSUFFIX
--#endif /* (NB_MMU_MODES >= 12) */
--
--#if (NB_MMU_MODES > 12)
--#error "NB_MMU_MODES > 12 is not supported for now"
--#endif /* (NB_MMU_MODES > 12) */
--
- /* these access are slower, they must be as rare as possible */
- #define CPU_MMU_INDEX (cpu_mmu_index(env, false))
- #define MEMSUFFIX _data
+-#undef RES_TYPE
+-#undef DATA_TYPE
+-#undef DATA_STYPE
+-#undef SUFFIX
+-#undef USUFFIX
+-#undef DATA_SIZE
+-#undef SHIFT
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index f0e4b0aee4..a991ea2964 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -35,7 +35,6 @@
+ #include "qemu/atomic128.h"
+ #include "translate-all.h"
+ #include "trace-root.h"
+-#include "qemu/plugin.h"
+ #include "trace/mem.h"
+ #ifdef CONFIG_PLUGIN
+ #include "qemu/plugin-memory.h"
+@@ -1697,6 +1696,68 @@ uint64_t cpu_ldq_mmuidx_ra(CPUArchState *env, abi_ptr addr,
+                            ? helper_le_ldq_mmu : helper_be_ldq_mmu);
+ }
+ 
++uint32_t cpu_ldub_data_ra(CPUArchState *env, target_ulong ptr,
++                          uintptr_t retaddr)
++{
++    return cpu_ldub_mmuidx_ra(env, ptr, cpu_mmu_index(env, false), retaddr);
++}
++
++int cpu_ldsb_data_ra(CPUArchState *env, target_ulong ptr, uintptr_t retaddr)
++{
++    return cpu_ldsb_mmuidx_ra(env, ptr, cpu_mmu_index(env, false), retaddr);
++}
++
++uint32_t cpu_lduw_data_ra(CPUArchState *env, target_ulong ptr,
++                          uintptr_t retaddr)
++{
++    return cpu_lduw_mmuidx_ra(env, ptr, cpu_mmu_index(env, false), retaddr);
++}
++
++int cpu_ldsw_data_ra(CPUArchState *env, target_ulong ptr, uintptr_t retaddr)
++{
++    return cpu_ldsw_mmuidx_ra(env, ptr, cpu_mmu_index(env, false), retaddr);
++}
++
++uint32_t cpu_ldl_data_ra(CPUArchState *env, target_ulong ptr, uintptr_t retaddr)
++{
++    return cpu_ldl_mmuidx_ra(env, ptr, cpu_mmu_index(env, false), retaddr);
++}
++
++uint64_t cpu_ldq_data_ra(CPUArchState *env, target_ulong ptr, uintptr_t retaddr)
++{
++    return cpu_ldq_mmuidx_ra(env, ptr, cpu_mmu_index(env, false), retaddr);
++}
++
++uint32_t cpu_ldub_data(CPUArchState *env, target_ulong ptr)
++{
++    return cpu_ldub_data_ra(env, ptr, 0);
++}
++
++int cpu_ldsb_data(CPUArchState *env, target_ulong ptr)
++{
++    return cpu_ldsb_data_ra(env, ptr, 0);
++}
++
++uint32_t cpu_lduw_data(CPUArchState *env, target_ulong ptr)
++{
++    return cpu_lduw_data_ra(env, ptr, 0);
++}
++
++int cpu_ldsw_data(CPUArchState *env, target_ulong ptr)
++{
++    return cpu_ldsw_data_ra(env, ptr, 0);
++}
++
++uint32_t cpu_ldl_data(CPUArchState *env, target_ulong ptr)
++{
++    return cpu_ldl_data_ra(env, ptr, 0);
++}
++
++uint64_t cpu_ldq_data(CPUArchState *env, target_ulong ptr)
++{
++    return cpu_ldq_data_ra(env, ptr, 0);
++}
++
+ /*
+  * Store Helpers
+  */
+@@ -1970,6 +2031,50 @@ void cpu_stq_mmuidx_ra(CPUArchState *env, target_ulong addr, uint64_t val,
+     cpu_store_helper(env, addr, val, mmu_idx, retaddr, MO_TEQ);
+ }
+ 
++void cpu_stb_data_ra(CPUArchState *env, target_ulong ptr,
++                     uint32_t val, uintptr_t retaddr)
++{
++    cpu_stb_mmuidx_ra(env, ptr, val, cpu_mmu_index(env, false), retaddr);
++}
++
++void cpu_stw_data_ra(CPUArchState *env, target_ulong ptr,
++                     uint32_t val, uintptr_t retaddr)
++{
++    cpu_stw_mmuidx_ra(env, ptr, val, cpu_mmu_index(env, false), retaddr);
++}
++
++void cpu_stl_data_ra(CPUArchState *env, target_ulong ptr,
++                     uint32_t val, uintptr_t retaddr)
++{
++    cpu_stl_mmuidx_ra(env, ptr, val, cpu_mmu_index(env, false), retaddr);
++}
++
++void cpu_stq_data_ra(CPUArchState *env, target_ulong ptr,
++                     uint64_t val, uintptr_t retaddr)
++{
++    cpu_stq_mmuidx_ra(env, ptr, val, cpu_mmu_index(env, false), retaddr);
++}
++
++void cpu_stb_data(CPUArchState *env, target_ulong ptr, uint32_t val)
++{
++    cpu_stb_data_ra(env, ptr, val, 0);
++}
++
++void cpu_stw_data(CPUArchState *env, target_ulong ptr, uint32_t val)
++{
++    cpu_stw_data_ra(env, ptr, val, 0);
++}
++
++void cpu_stl_data(CPUArchState *env, target_ulong ptr, uint32_t val)
++{
++    cpu_stl_data_ra(env, ptr, val, 0);
++}
++
++void cpu_stq_data(CPUArchState *env, target_ulong ptr, uint64_t val)
++{
++    cpu_stq_data_ra(env, ptr, val, 0);
++}
++
+ /* First set of helpers allows passing in of OI and RETADDR.  This makes
+    them callable from other helpers.  */
+ 
 -- 
 2.20.1
 
