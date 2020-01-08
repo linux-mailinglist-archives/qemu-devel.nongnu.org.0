@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472E4134254
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:55:24 +0100 (CET)
-Received: from localhost ([::1]:43096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DD213423A
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:51:50 +0100 (CET)
+Received: from localhost ([::1]:43060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipArr-0001Im-4z
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:55:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60572)
+	id 1ipAoP-0004iF-DK
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:51:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60595)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWc-00047S-C6
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:27 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWd-00049B-ES
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWb-0004UP-7H
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:26 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35590)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWc-0004VQ-DL
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:27 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42671)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipAWb-0004Tv-1U
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:25 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id p17so2338075wmb.0
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:24 -0800 (PST)
+ id 1ipAWc-0004Uk-7J
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:26 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id q6so3158691wro.9
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tU6eadOpHxdCLO2/As2DBQQOOukvsgPCPd77EIUHGOo=;
- b=fKQYfVeiqIzIF9umosjm6GyV5t7AsbxwOW1Btwi1N/+3mKnwbcA6LxJM2rK6WgC/8j
- ZRfxLcA1dwMaOkZlgthhQCHDIscdTtRnXR2Uwy0Tw3m4OPjWBm9RATmGTJPhrI6TjaVK
- K1YIErnCO35gHvVU15n/pxFbyjTvRs0n/N+gzKnyftwrOYakg5mJuOEh2gUpF/D9kfv1
- COtGLt2shB2hUa9OO+Awc6Yec17TTnDwkAvX2vo+bDQLH2sHN+qGkVuk3BOsa/LYbSN3
- w/9CwaMq9HGpiuaPrAzFceruqtDU3FdUag3tWQz9dnmxee1Vmoa7DgazSsfoz6L3+J/Z
- pIbg==
+ bh=dVYlivSLcVgxjDh0k8Ch66Ht/NuPzIrFxYhvD6Dg4w8=;
+ b=PvGuTorwHy7q+rkb5gBmB87gUPgp2T8danLORidRv6qGzwRKsvUvtzxjGictt2zzFO
+ EssczltVXHPB265uyntrC2baxpAP0RqIJMtRcrJBWmN/NcE3G14Y8F4ir1n0IrVzb0o0
+ TrLAPSl8jzboDOp2B3iqS1U0iOaRKxTnQZpAbczgUHmZQ95OJQw9gGOuVhcEEmve35Qc
+ +0w8HZ7pbj35lesFl0tPSHZHcNtrvMhWiFfb4yxwEelMra257X3Au9SntMhs6O6Q0gLP
+ 3t1RsE1030G3YECrpb3kTExslmBv/kvFmoSGAructCfM6dcCPSL007R92zUIDA4vG0E1
+ t+TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tU6eadOpHxdCLO2/As2DBQQOOukvsgPCPd77EIUHGOo=;
- b=mvEVf2dy7M4IL+4j3aPBEMJZDKocA6b2EcyUCffAHVWjP1lr9kHgPvmdQqZ+s/tD6n
- FoDjfs89yBQuoHNHjuzkm5W1k5AYOQqnN3HUxi3Vv83xXQ8DDE5lnqDz5HeDZIrxFTIj
- 4VG+QJqK1nNqF1twxyYN0EC6HJOYl7BwzxbUaPs3FQtKFfCCUI56S5W8IHKOEfXXI3yy
- LD75V/w2d7OZdSFrdtcRPPvs9UGlBUjNSPaTO1chgEu87Euo8lxN3gZLYJ7gq3vtBqev
- 9W0JczwrH0Vgd+nnP1CiY5Uo9MKsoiH/n92sXTOvhUosJObF3bRqSttsBC4OfQWhgeTK
- 5Qsg==
-X-Gm-Message-State: APjAAAXBt4ultTP0J67vbx6XxvigWcuWRDQ91TS8qmxs88OFM8k/a50I
- L7tJ9ql4LtWVDszPBkni7ejDJisZ
-X-Google-Smtp-Source: APXvYqwXilYPPA/5J97+42APDOl8pjk8bA1FK3bWCLj5mvWtst3d8Sc7hCeWklPJsNg5MwVHZYiPWg==
-X-Received: by 2002:a7b:cb01:: with SMTP id u1mr3180513wmj.156.1578486803861; 
- Wed, 08 Jan 2020 04:33:23 -0800 (PST)
+ bh=dVYlivSLcVgxjDh0k8Ch66Ht/NuPzIrFxYhvD6Dg4w8=;
+ b=IZBWmK//dyivo8iqhPUsqCNBtui+JdgD9dTBt1j5ZZSAFR0e6rcXD/PAAG9KafpVQB
+ NvNPIvwQEFuwVKh3ztcn1TiOGzYvGUcRW60S0+yTYcXRfjm72wMI6uuRh026aSNDU1+P
+ vRgmOK6SUqdwdxkxfQY8AQehEPi3guOXjdMk5C5ro6NmgWHkJcgvj9nEbVlA+rnMXwMU
+ 1Ki1E5VC3kcdWcG6dKEnctFHxnlbAI0r9UptlTpOvLBEdDTrjUwKecszIzhxtz/FrxY+
+ W+IA5P9yfiQkByKu04wn0F10e7xLlIvGngG+z4HQnkyH5ZSESC49f1jLSnIuRjlI3tUe
+ FpeA==
+X-Gm-Message-State: APjAAAUgNha5J0vVBNnRlPdUgKG277vdD8l8ZUl25ruSplPuAAWzT7WE
+ fPgrrit5yekisL/DHUKdTyIozvA+
+X-Google-Smtp-Source: APXvYqz7W1D6Je64+ZXLIqJoGYFzJc/kRDyl6qL7tqwAEDqTCxjeLXeS/fA4fPiCfEjBJ+xrXQFB1A==
+X-Received: by 2002:a5d:4b47:: with SMTP id w7mr4575350wrs.276.1578486804998; 
+ Wed, 08 Jan 2020 04:33:24 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.22
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.23
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 04:33:22 -0800 (PST)
+ Wed, 08 Jan 2020 04:33:24 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/38] hw/ipmi: Explicit we ignore some QEMUChrEvent in
+Subject: [PULL 26/38] hw/char/terminal3270: Explicit ignored QEMUChrEvent in
  IOEventHandler
-Date: Wed,  8 Jan 2020 13:32:42 +0100
-Message-Id: <1578486775-52247-26-git-send-email-pbonzini@redhat.com>
+Date: Wed,  8 Jan 2020 13:32:43 +0100
+Message-Id: <1578486775-52247-27-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 References: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,33 +90,32 @@ able to use this enum in the IOEventHandler typedef, we need to
 explicit all the events ignored by this frontend, to silent the
 following GCC warning:
 
-  hw/ipmi/ipmi_bmc_extern.c: In function ‘chr_event’:
-  hw/ipmi/ipmi_bmc_extern.c:389:5: error: enumeration value ‘CHR_EVENT_BREAK’ not handled in switch [-Werror=switch]
-    389 |     switch (event) {
+    CC      s390x-softmmu/hw/char/terminal3270.o
+  hw/char/terminal3270.c: In function ‘chr_event’:
+  hw/char/terminal3270.c:156:5: error: enumeration value ‘CHR_EVENT_BREAK’ not handled in switch [-Werror=switch]
+    156 |     switch (event) {
         |     ^~~~~~
-  hw/ipmi/ipmi_bmc_extern.c:389:5: error: enumeration value ‘CHR_EVENT_MUX_IN’ not handled in switch [-Werror=switch]
-  hw/ipmi/ipmi_bmc_extern.c:389:5: error: enumeration value ‘CHR_EVENT_MUX_OUT’ not handled in switch [-Werror=switch]
+  hw/char/terminal3270.c:156:5: error: enumeration value ‘CHR_EVENT_MUX_IN’ not handled in switch [-Werror=switch]
+  hw/char/terminal3270.c:156:5: error: enumeration value ‘CHR_EVENT_MUX_OUT’ not handled in switch [-Werror=switch]
   cc1: all warnings being treated as errors
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Corey Minyard <cminyard@mvista.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20191218172009.8868-3-philmd@redhat.com>
+Message-Id: <20191218172009.8868-4-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/ipmi/ipmi_bmc_extern.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/char/terminal3270.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
-index 450926e..adf2afe 100644
---- a/hw/ipmi/ipmi_bmc_extern.c
-+++ b/hw/ipmi/ipmi_bmc_extern.c
-@@ -435,6 +435,12 @@ static void chr_event(void *opaque, int event)
-             k->handle_rsp(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
-         }
+diff --git a/hw/char/terminal3270.c b/hw/char/terminal3270.c
+index 6859c1b..2aab04f 100644
+--- a/hw/char/terminal3270.c
++++ b/hw/char/terminal3270.c
+@@ -166,6 +166,11 @@ static void chr_event(void *opaque, int event)
+         sch->curr_status.scsw.dstat = SCSW_DSTAT_DEVICE_END;
+         css_conditional_io_interrupt(sch);
          break;
-+
 +    case CHR_EVENT_BREAK:
 +    case CHR_EVENT_MUX_IN:
 +    case CHR_EVENT_MUX_OUT:
