@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6EEF133CFF
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 09:20:09 +0100 (CET)
-Received: from localhost ([::1]:39600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF14133D0F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 09:26:49 +0100 (CET)
+Received: from localhost ([::1]:39904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip6ZU-00010Y-JI
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 03:20:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53553)
+	id 1ip6fx-0003x8-2u
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 03:26:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56826)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ip6Yk-0000ag-8S
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 03:19:23 -0500
+ (envelope-from <pizhenwei@bytedance.com>) id 1ip6fB-0003LK-IF
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 03:26:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ip6Yh-0004Do-LM
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 03:19:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25937
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ip6Yh-0004Cl-D5
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 03:19:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578471558;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5p7wBkAAMT37Dcaa3Q+E6/DWG923bEwJeikQ09vofIs=;
- b=XE4hSVAfDD3FFtptFG1e3lT6wIB3UsAbYFcRYW0FrQ5fm7wvP5NwBSVVX1TsBjHicDkC5F
- w/qOT9b8RnWm0mKzn41ecn9DTcK1smoNsIMYDIOqY+xU4YUZ7w7BU3Hmwyse2og0YAKoMN
- LutHapK+nlt4kUPM392NDaElxgGpbGI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-LESaEUB_OVSxiqoiIaZHTg-1; Wed, 08 Jan 2020 03:19:14 -0500
-Received: by mail-ed1-f69.google.com with SMTP id u20so1240527eda.7
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 00:19:14 -0800 (PST)
+ (envelope-from <pizhenwei@bytedance.com>) id 1ip6f8-000875-Jq
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 03:25:59 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:39383)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pizhenwei@bytedance.com>)
+ id 1ip6f8-000860-7K
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 03:25:58 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id g6so823080plp.6
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 00:25:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=from:subject:to:cc:message-id:date:user-agent:mime-version
+ :content-language;
+ bh=9fIGVi/07qTm9ZIqBSPTg25qlPyGoP5iVnAMD5cxIYs=;
+ b=DkzjrSWKtn76Cxe56ipuHet8LcB58R35LDlWd6UdviMMmCmYkOID2UZtEH8UMsyMJ1
+ wxs69lj6b9qXyBeKORIbFfaVQa3xg57GUys0JaVXQFMOz4s/dwvXWxyp/2Uydmb0Acy6
+ fwFMKai7UqIrBVOTtavauXhQxyFqWEXT2oI+/9kDsJmvsOnbr3QwvCxLMv+sS8/7Um5j
+ qWTO6Skmgqn4BdZgoVjFfM1gww937P2EiZBQnO6E9KExtL15q35RySI8hPPcg6iANsyo
+ LjzQOnkMbdzMfSF38CIF5C01/gZ7L7hwS4di3T0l37aosaNfjpmt6glYqHFAaOscQx5D
+ u0XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rtVQ+AIvqiEx2ES52b3HolCMYrhq0uELNRfu/w+vMOY=;
- b=fNogyHE2/pBxM9jFXf3OtsBEXyOICA0C4IpvNoHNcaZhEO8oyeEz1u3/DkyoBYJCQ2
- +b9MUcgwB6aLLlkZ9tmFSA3dw2e6DopXkhdaO+5UYijQKtNKK8aOG8utpqExJIpD/dP9
- OiksBp+ABlPsHMIv8BAFF/lCgCA9Oj2TEogevjcFfb3rJNcmcV8dfX891w+6VgHOPZV0
- iBALYYFUVl9wUAmeGvxiensPGBxiWfv43/Cte1Hu+FZS/xxPLy2+UfSUusvMXYQ4141x
- DfWfpFzdOr3sWFrjPCy/MsdfLekmHXDjVXyQta4ns9634+zMC5GRu1AzHzGg2M7CRb/z
- ez/Q==
-X-Gm-Message-State: APjAAAXkDAfqRm02+Ouw3ZWFtjPdqSS4sO739Bh4KbNdW+zZOVsJsb3p
- +HE/RnatU4r5pUnZ85cxyVe4Gotw9B2gGP9VBiazTOp/3rv/3a4P+fSgMV6w4SKeCmZ9tNzHNf6
- dACUWWEY2DJ9CcHvfKtGOSeUFPeT8ia8=
-X-Received: by 2002:a50:ed18:: with SMTP id j24mr4126912eds.124.1578471553292; 
- Wed, 08 Jan 2020 00:19:13 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzRyqIYL9Y5OjQjbgvZhCbluyp6WNQdgCOaFAcS+RsY5Jf6W211EEkjRYD1DrRONEuI8imktgVTCEb//119cPg=
-X-Received: by 2002:a50:ed18:: with SMTP id j24mr4126906eds.124.1578471553099; 
- Wed, 08 Jan 2020 00:19:13 -0800 (PST)
+ h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
+ :mime-version:content-language;
+ bh=9fIGVi/07qTm9ZIqBSPTg25qlPyGoP5iVnAMD5cxIYs=;
+ b=eHysaSpmzjhp/rsBL/DGfJuBx0xnfWLsB3UZSmfvYGIaVtd8hT8GwgymIGbRSHS3LV
+ AFC0QQgoRDC3Zk6XF/hVkw3tFd+2PKYjsjQlSA6JyEAazSE9nPW92F8IvpnIgKmUh5GQ
+ PNQgeSNbXbdtIXOJcl5Ukh6IoBAu2P4UH3TRW0+UNRtLNGCXMXumJxn+PCNqmYSe5w0U
+ hqN6nH01s0vxGQ7jt8CO3L63tVGSb3aNgenI2mBTU7WzAOvPZEo9IhIgaoSP/XZ21/qr
+ 5KK7z+IrEtVOCLBCITPY7mXuNEkQMrlEjrPv7T3v1fXAsX4yi6p9cytN5W0eK3tLOHxJ
+ JOzQ==
+X-Gm-Message-State: APjAAAWsrUiO29XIw2kaq1M+PK5F+STE/lI67dAcRyVdgfIGxY8p24nA
+ 2E+mcMmI9+VoGfBKVyoTtFDGOQ==
+X-Google-Smtp-Source: APXvYqzfQg2H8F4qoR1igNv0HH9J3AJgnnPgbmNB++EfpBMmvd9PkzGaPk95Q9lbdcLfYgIeflh9pQ==
+X-Received: by 2002:a17:90a:8584:: with SMTP id
+ m4mr3058297pjn.123.1578471956259; 
+ Wed, 08 Jan 2020 00:25:56 -0800 (PST)
+Received: from [10.2.24.220] ([61.120.150.77])
+ by smtp.gmail.com with ESMTPSA id j7sm2808911pgn.0.2020.01.08.00.25.53
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 08 Jan 2020 00:25:55 -0800 (PST)
+From: zhenwei pi <pizhenwei@bytedance.com>
+Subject: discuss about pvpanic
+To: pbonzini@redhat.com
+Message-ID: <2feff896-21fe-2bbe-6f68-9edfb476a110@bytedance.com>
+Date: Wed, 8 Jan 2020 16:25:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <1576171754-45138-1-git-send-email-pbonzini@redhat.com>
- <1576171754-45138-7-git-send-email-pbonzini@redhat.com>
- <20200108080355.l762jkzec57iecsv@sirius.home.kraxel.org>
-In-Reply-To: <20200108080355.l762jkzec57iecsv@sirius.home.kraxel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 8 Jan 2020 09:19:01 +0100
-Message-ID: <CABgObfYv1e2ztyed2-4uyWfFYhvCUEGYaVBH1343pcv0m3akOg@mail.gmail.com>
-Subject: Re: [PATCH v2 6/8] x86: move more x86-generic functions out of PC
- files
-To: Gerd Hoffmann <kraxel@redhat.com>
-X-MC-Unique: LESaEUB_OVSxiqoiIaZHTg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/alternative; boundary="000000000000360f0b059b9c8ce8"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Type: multipart/alternative;
+ boundary="------------B451C23F20E8876804ADF693"
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::62c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,76 +80,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, slp@redhat.com
+Cc: Greg KH <gregkh@linuxfoundation.org>, qemu-devel@nongnu.org,
+ linux-kernel@vger.kernel.org, "yelu@bytedance.com" <yelu@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000360f0b059b9c8ce8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This is a multi-part message in MIME format.
+--------------B451C23F20E8876804ADF693
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Yes, I am preparing a pull request now.
+Hey, Paolo
 
-Paolo
+Currently, pvpapic only supports bit 0(PVPANIC_PANICKED).
+We usually expect that guest writes ioport (typical 0x505) in panic_notifier_list callback
+during handling panic, then we can handle pvpapic event PVPANIC_PANICKED in QEMU.
 
-Il mer 8 gen 2020, 09:04 Gerd Hoffmann <kraxel@redhat.com> ha scritto:
+On the other hand, guest wants to handle the crash by kdump-tools, and reboots without any
+panic_notifier_list callback. So QEMU only knows that guest has rebooted (because guest
+write 0xcf9 ioport for RCR request), but QEMU can't identify why guest resets.
 
-> On Thu, Dec 12, 2019 at 06:29:12PM +0100, Paolo Bonzini wrote:
-> > These are needed by microvm too, so move them outside of PC-specific
-> files.
-> > With this patch, microvm.c need not include pc.h anymore.
-> >
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->
-> Current master does not work with libvirt ...
->
-> $ virsh start fedora-org-base
-> error: Failed to start domain fedora-org-base
-> error: internal error: Failed to probe QEMU binary with QMP:
-> /home/kraxel/projects/qemu/target/i386/kvm.c:2176:kvm_arch_init: Object
-> 0x5608f33be1f0 is not an instance of type x86-machine
->
-> ... and git bisect lands at this patch.
->
-> cheers,
->   Gerd
->
->
+In production environment, we hit about 100+ guest reboot event everyday, sadly we
+can't separate the abnormal reboot from normal operation.
 
---000000000000360f0b059b9c8ce8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+We want to add a new bit for pvpanic event(maybe PVPANIC_CRASHLOADED) to represent the guest has crashed,
+and the panic is handled by the guest kernel. (here is the previous patchhttps://lkml.org/lkml/2019/12/14/265)
 
-<div dir=3D"auto">Yes, I am preparing a pull request now.<div dir=3D"auto">=
-<br></div><div dir=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr" class=3D"gmail_attr">Il mer 8 gen 2020, 09:04 Gerd Hoffma=
-nn &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; ha sc=
-ritto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">On Thu, Dec 12, 2019 at 06:2=
-9:12PM +0100, Paolo Bonzini wrote:<br>
-&gt; These are needed by microvm too, so move them outside of PC-specific f=
-iles.<br>
-&gt; With this patch, microvm.c need not include pc.h anymore.<br>
-&gt; <br>
-&gt; Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com=
-" target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
-<br>
-Current master does not work with libvirt ...<br>
-<br>
-$ virsh start fedora-org-base<br>
-error: Failed to start domain fedora-org-base<br>
-error: internal error: Failed to probe QEMU binary with QMP: /home/kraxel/p=
-rojects/qemu/target/i386/kvm.c:2176:kvm_arch_init: Object 0x5608f33be1f0 is=
- not an instance of type x86-machine<br>
-<br>
-... and git bisect lands at this patch.<br>
-<br>
-cheers,<br>
-=C2=A0 Gerd<br>
-<br>
-</blockquote></div>
+What do you think about this solution? Or do you have any other suggestions?
 
---000000000000360f0b059b9c8ce8--
+-- 
+Thanks and Best Regards,
+zhenwei pi
 
+
+--------------B451C23F20E8876804ADF693
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <pre>Hey, Paolo</pre>
+    <pre>
+Currently, pvpapic only supports bit 0(PVPANIC_PANICKED).
+We usually expect that guest writes ioport (typical 0x505) in panic_notifier_list callback
+during handling panic, then we can handle pvpapic event PVPANIC_PANICKED in QEMU.
+
+On the other hand, guest wants to handle the crash by kdump-tools, and reboots without any
+panic_notifier_list callback. So QEMU only knows that guest has rebooted (because guest
+write 0xcf9 ioport for RCR request), but QEMU can't identify why guest resets.
+
+In production environment, we hit about 100+ guest reboot event everyday, sadly we 
+can't separate the abnormal reboot from normal operation.
+
+We want to add a new bit for pvpanic event(maybe PVPANIC_CRASHLOADED) to represent the guest has crashed, 
+and the panic is handled by the guest kernel. (here is the previous patch <a href="https://lkml.org/lkml/2019/12/14/265">https://lkml.org/lkml/2019/12/14/265</a>)
+
+What do you think about this solution? Or do you have any other suggestions?
+</pre>
+    <pre class="moz-signature" cols="72">-- 
+Thanks and Best Regards,
+zhenwei pi</pre>
+  </body>
+</html>
+
+--------------B451C23F20E8876804ADF693--
 
