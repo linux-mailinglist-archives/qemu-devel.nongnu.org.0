@@ -2,59 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C03134732
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 17:08:00 +0100 (CET)
-Received: from localhost ([::1]:46080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25237134755
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 17:13:27 +0100 (CET)
+Received: from localhost ([::1]:46174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipDsE-0003i4-Tn
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 11:07:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36445)
+	id 1ipDxT-0002eu-1Y
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 11:13:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41730)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1ipDnL-0005hq-9r
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 11:02:56 -0500
+ (envelope-from <stefanb@linux.ibm.com>) id 1ipDua-0000XP-JW
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 11:10:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1ipDnK-0001u2-01
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 11:02:55 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:58733)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1ipDnJ-0001sQ-MV; Wed, 08 Jan 2020 11:02:53 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MTzve-1jG4Kg3vVK-00R2Wv; Wed, 08 Jan 2020 17:02:41 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] vl: fix memory leak in configure_accelerators
-Date: Wed,  8 Jan 2020 17:02:33 +0100
-Message-Id: <20200108160233.991134-6-laurent@vivier.eu>
+ (envelope-from <stefanb@linux.ibm.com>) id 1ipDuZ-0000pg-1S
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 11:10:24 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:54022
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
+ id 1ipDuY-0000o5-S9; Wed, 08 Jan 2020 11:10:22 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 008G80NI097036; Wed, 8 Jan 2020 11:10:17 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2xdeb01gg7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Jan 2020 11:10:17 -0500
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 008G80vj097058;
+ Wed, 8 Jan 2020 11:10:16 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2xdeb01gfs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Jan 2020 11:10:16 -0500
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 008G6M55019402;
+ Wed, 8 Jan 2020 16:10:15 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma02wdc.us.ibm.com with ESMTP id 2xajb75r18-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Jan 2020 16:10:15 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 008GAFeX59638142
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Jan 2020 16:10:15 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0EDBB6A057;
+ Wed,  8 Jan 2020 16:10:15 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9E0626A04F;
+ Wed,  8 Jan 2020 16:10:14 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Jan 2020 16:10:14 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.ibm.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v8 0/6] Add vTPM emulator support for ppc64 platform
+Date: Wed,  8 Jan 2020 11:10:06 -0500
+Message-Id: <20200108161012.1821385-1-stefanb@linux.ibm.com>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200108160233.991134-1-laurent@vivier.eu>
-References: <20200108160233.991134-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:dBVTSiGT6cFvz6yTeBe4zQ3GS80X+iAEX9u3kOCQRLeS3Yx6qyC
- Z7Jc8NEZzFMS9OZL2SVwwtgcFeUk1liIDSGHcUEgQYhV+cPkoiVAfYZuc9QT+fvRL1rBuZM
- Pc1y4aBeBiCG3rJ1DBPL0A3OQBgnoZ/dZ7eFHwcpEPBXGEYEN5jT0YrXlAkTrxmsqtMhuYX
- 3w7AyKz6hhJFi5zT4A6Ww==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:RrWxFiTocSE=:WugAK7Vv6c9O8V7GZ+xfjJ
- vz140dfW2NBp/RynMhp1c1FrKrHWMWw3JCge/tdA4qRmRD0RKekaDP5Be1ghGzIUtYmfXz7nq
- lUclvc31IZGoOLviiXBJKTFxCd11D+8dkkFWWya1LQljBAy/i2nsenzc2GaW5FJiIkeode2Nc
- Y01FwKTtHXHIHbD1EubX7aQx/A+l3d+S/Xsk1CrTr2nmSBJYL/rCIKK7sMoM+q7Va9fTMmP2O
- UFpTCxgXqFINQlKuGsQyMlv95RFAvPRaNTjRTlbRrBNFV3uPZBA3rcFm7E5E1YLdOVf5f0RbR
- DDHjdVLvYOwnetDHdvMscEOkdAKd7do6XPT993MMO8bghGxHBVNi1nrcu02JrmIv2BiJiUE97
- D5rwH+ouQf72B5w2WfiGizGCgxBGTX/b4g9tt0d3fdWrVVwOyUYyvTNjTiP9d3+DR2aywIYPF
- DnypHqEkApWtmxcVNzhTa1EhPTxVtKDH33XcyK0ebtoqEcBAPDEcuL1LPtg4TTMaPLJ2DWISA
- 6kiguTSS/zkDkujZWL9p7Hw/LQHlxelqzHA+lYefLxW5jExC2y0DHpVMPSFQLinwjkq8MIxYT
- PXmgOHb2VM3/cOdkyLWk7PqDgp3N+s0vDTT3v8Cv3KN5nK0sEc4vzFesB5SlpwqMWuv/E1vTt
- ZeFr4pgjsYbZhg6bFjBrjvyfwgemmvGbFhRvgCF9u4w+w8qKpR8/GgkLj/inX9zFJMTLPxZ/S
- 2glPheRbEVZokjWzerT87Qs38RP+JezwIOQvMLWSUzCCujIACkgBv0J5eI2IM4I7url9+amBx
- WqOEhXscm6Sem5yjs4Hfyw+EFAHUQ+rLfqCuol9Gozr+3CMqWIxJBOIU13UW/g8mvueeN773O
- +dIcVd3TwuNSFAaJcta742DtrErp9BBV4Vhtzp8Ag=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.227.126.133
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-01-08_04:2020-01-08,
+ 2020-01-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 adultscore=0 clxscore=1015
+ lowpriorityscore=0 impostorscore=0 phishscore=0 mlxlogscore=999
+ spamscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-2001080132
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0b-001b2d01.pphosted.com id 008G80NI097036
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,60 +93,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Euler Robot <euler.robot@huawei.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
- Chen Qun <kuhn.chenqun@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>,
+ qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
 
-The accel_list forgot to free, the asan output:
+The following series of patches adds vTPM emulator support for the
+ppc64 platform (pSeries).=20
 
-Direct leak of 16 byte(s) in 1 object(s) allocated from:
-    #0 0xffff919331cb in __interceptor_malloc (/lib64/libasan.so.4+0xd31cb)
-    #1 0xffff913f7163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
-    #2 0xffff91413d9b in g_strsplit (/lib64/libglib-2.0.so.0+0x73d9b)
-    #3 0xaaab42fb58e7 in configure_accelerators /qemu/vl.c:2777
-    #4 0xaaab42fb58e7 in main /qemu/vl.c:4121
-    #5 0xffff8f9b0b9f in __libc_start_main (/lib64/libc.so.6+0x20b9f)
-    #6 0xaaab42fc1dab  (/qemu/build/aarch64-softmmu/qemu-system-aarch64+0x8b1dab)
+It can be tested as follows with swtpm/libtpms:
 
-Indirect leak of 4 byte(s) in 1 object(s) allocated from:
-    #0 0xffff919331cb in __interceptor_malloc (/lib64/libasan.so.4+0xd31cb)
-    #1 0xffff913f7163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
-    #2 0xffff9141243b in g_strdup (/lib64/libglib-2.0.so.0+0x7243b)
-    #3 0xffff91413e6f in g_strsplit (/lib64/libglib-2.0.so.0+0x73e6f)
-    #4 0xaaab42fb58e7 in configure_accelerators /qemu/vl.c:2777
-    #5 0xaaab42fb58e7 in main /qemu/vl.c:4121
-    #6 0xffff8f9b0b9f in __libc_start_main (/lib64/libc.so.6+0x20b9f)
-    #7 0xaaab42fc1dab  (/qemu/build/aarch64-softmmu/qemu-system-aarch64+0x8b1dab)
+mkdir /tmp/mytpm1
+swtpm socket --tpmstate dir=3D/tmp/mytpm1 \
+  --ctrl type=3Dunixio,path=3D/tmp/mytpm1/swtpm-sock \
+  --log level=3D20
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200108114207.58084-1-kuhn.chenqun@huawei.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- vl.c | 1 +
- 1 file changed, 1 insertion(+)
+If TPM 2 is desired, add --tpm2 as parameter to the above.
 
-diff --git a/vl.c b/vl.c
-index 86474a55c9ef..035a24e52b24 100644
---- a/vl.c
-+++ b/vl.c
-@@ -2788,6 +2788,7 @@ static void configure_accelerators(const char *progname)
-                 error_report("invalid accelerator %s", *tmp);
-             }
-         }
-+        g_strfreev(accel_list);
-     } else {
-         if (accel != NULL) {
-             error_report("The -accel and \"-machine accel=\" options are incompatible");
--- 
+In another terminal start QEMU:
+
+sudo ./ppc64-softmmu/qemu-system-ppc64 -display sdl \
+	-machine pseries,accel=3Dkvm \
+	-m 1024 -bios slof.bin -boot menu=3Don \
+	-nodefaults -device VGA -device pci-ohci -device usb-kbd \
+	-chardev socket,id=3Dchrtpm,path=3D/tmp/mytpm1/swtpm-sock \
+	-tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \
+	-device tpm-spapr,tpmdev=3Dtpm0 \
+	-device spapr-vscsi,id=3Dscsi0,reg=3D0x00002000 \
+	-device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x3,drive=3Ddrive-v=
+irtio-disk0,id=3Dvirtio-disk0 \
+	-drive file=3Dtest.img,format=3Draw,if=3Dnone,id=3Ddrive-virtio-disk0
+
+Links:
+ - libtpms: https://github.com/stefanberger/libtpms/wiki
+ - swtpm: https://github.com/stefanberger/swtpm/wiki
+
+Changes:
+ v7->v8:
+  - Folded documentation patch into 3rd patch
+  - Added Marc-Andr=C3=A9's patch to end of series
+
+ v6->v7:
+  - Implemented get_dt_compatible() and using it
+  - Moved tpm_this_show_buffer to tpm_util.c
+
+ v5->v6:
+  - adjusted names of structures and simplified
+  - only transmitting min. necessary bytes to pass to VM after resume
+  - addressed other issues pointed out by D. Gibson
+
+ v4->v5:
+  - use runstate_check(RUN_STATE_FINISH_MIGRATE) to check whether devices
+    are suspending; ditch 3 patches in this series that tried to do simil=
+ar
+
+ v3->v4:
+  - addressed comments to v3
+  - reworked suspend/resume support that requires extensions to backends
+
+ v2->v3:
+  - patch 1: a TPM 2 is identified by IBM,vtpm20 in the compatible node
+  - patch 1: convert to tracing to display Tx and Rx buffers
+  - added documentation patch
+  - added patch to enable TPM device as part of pSeries
+
+ v1->v2:
+  - followed Cedric Le Goater's suggestions to patch 1
+  - send appropriate CRQ error responses if DMA read or write fails
+  - renamed tpm_spapr_got_payload to tpm_spapr_process_cmd and
+    pass endianess-adjusted data pointer from CRQ to it
+
+Regards,
+    Stefan
+
+
+Marc-Andr=C3=A9 Lureau (1):
+  docs/specs/tpm: reST-ify TPM documentation
+
+Stefan Berger (5):
+  tpm: Move tpm_tis_show_buffer to tpm_util.c
+  spapr: Implement get_dt_compatible() callback
+  tpm_spapr: Support TPM for ppc64 using CRQ based interface
+  tpm_spapr: Support suspend and resume
+  hw/ppc/Kconfig: Enable TPM_SPAPR as part of PSERIES config
+
+ docs/specs/index.rst       |   1 +
+ docs/specs/tpm.rst         | 503 +++++++++++++++++++++++++++++++++++++
+ docs/specs/tpm.txt         | 427 -------------------------------
+ hw/ppc/Kconfig             |   1 +
+ hw/ppc/spapr_vio.c         |  11 +-
+ hw/tpm/Kconfig             |   6 +
+ hw/tpm/Makefile.objs       |   1 +
+ hw/tpm/tpm_spapr.c         | 443 ++++++++++++++++++++++++++++++++
+ hw/tpm/tpm_tis.c           |  32 +--
+ hw/tpm/tpm_util.c          |  25 ++
+ hw/tpm/tpm_util.h          |   3 +
+ hw/tpm/trace-events        |  16 +-
+ include/hw/ppc/spapr_vio.h |   1 +
+ include/sysemu/tpm.h       |   3 +
+ qapi/tpm.json              |   6 +-
+ 15 files changed, 1018 insertions(+), 461 deletions(-)
+ create mode 100644 docs/specs/tpm.rst
+ delete mode 100644 docs/specs/tpm.txt
+ create mode 100644 hw/tpm/tpm_spapr.c
+
+--=20
 2.24.1
 
 
