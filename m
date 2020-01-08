@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A819C13457C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 15:58:21 +0100 (CET)
-Received: from localhost ([::1]:45140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F24134589
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 16:02:07 +0100 (CET)
+Received: from localhost ([::1]:45208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipCmq-0006m1-AX
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 09:58:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40382)
+	id 1ipCqU-0003JG-9z
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 10:02:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40672)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipCkd-0004dF-V6
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:56:05 -0500
+ (envelope-from <philmd@redhat.com>) id 1ipClI-0005Y1-Dg
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:56:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipCkc-0005Re-H8
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:56:03 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36827)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipCkc-0005QY-An; Wed, 08 Jan 2020 09:56:02 -0500
-Received: by mail-wm1-x342.google.com with SMTP id p17so2827647wma.1;
- Wed, 08 Jan 2020 06:56:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=qcVr5U+PaE347gU6Z5SP9PViHvCgA8hEGQiX601oVC8=;
- b=GsVjHs8GQ9BFdj0BD4UH6PXJzPqpOpQy0oD86GYjJIoJO9fhIQMnIiLlC9+hNMBWD4
- LCkvohBVeH1BJxdcYwq80OouFOjcYmp46f2VZUX0G1WValDd1sfkIWRbwAbtNX8zriio
- fKa7OqIHAy1w0Htsa0MU+GMj6aTi0gXnwrgHG7lLU6IQ2Jemo+txGNnYTWB4Z6Z3Gkuz
- ab77vCtmZKIrAghMBDvwqidWvw7YoGE+IrvERy6OGDEVc8qN1dpRABxIzm1/30U7dEHK
- zzbuowZvpizq3tiN0/X/9Ldj5MEXCrwwEQua8R8Tv9qMNQyVinmXfzMbkL8w5AMiCa3t
- irDA==
+ (envelope-from <philmd@redhat.com>) id 1ipClH-0005mP-6c
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:56:44 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37596
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipClH-0005lr-2l
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:56:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578495402;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=859kSLPRB+/IV0xc+rXfbz5TiWbLpt3EloVTTkQXDqY=;
+ b=JPSSjGD8ymTH+koCZO/q19s2jBU71B6iPjgeZy3OSb2DxxLmtDTu6d38Me0f387NMPQXNG
+ 3xB9k41pP1aI48jn57yRA8u2htRg9pEqD7So459DGxekBkDq4nKpzc/MvVr5f0EeOKSc1Q
+ 9p5mG927OQs5hfUxTugrFtvmvje6LnI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-9Jwnlb54NFm6cxrSkf3Rlw-1; Wed, 08 Jan 2020 09:56:41 -0500
+Received: by mail-wm1-f69.google.com with SMTP id 7so458320wmf.9
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 06:56:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=qcVr5U+PaE347gU6Z5SP9PViHvCgA8hEGQiX601oVC8=;
- b=ra8o7X8tSjYiqSbKor4uV1p48BW7gb+U0XW1D4fp3augptq26CuNkilWdfJQLm3cRY
- FOGr0D/k7MqgF0tzzSn/qxRZ09LkAPQImkz7U4/2CJQZGQ25ED6w5fug4/JN6w4vdhIY
- 2HbAAeqEkMB8Awsusm7u208GWlxDTsYK8QCSyJV8Yt3c6duuCwJqvZjsiDws0t3Py2Et
- 9GkLSB3kucLYxpoLuwK9NQ7uZevUBstheTPR1AWP5yJtW6PD3aNRlUHWYyut+bVuyqBf
- DCRD+wYkIW4OZHp9o4xKAvDl7MFGisWy2NbFVIaGgARafxEasNQgFEcUD79m1flEh05b
- 8kcQ==
-X-Gm-Message-State: APjAAAVcxAOaLB6HzLsllYgT4tibBpWqW7va3ODOAiXb+2YUgiXN6qcD
- SCdlNAKXe+jxMMQN0SvFOKl9whub
-X-Google-Smtp-Source: APXvYqyRPzdKIqXLdODIjRSCE1iCy+FJqVlNe/v3O1ohKV6TeM+bYkfXAt3JJo8hoaCpCKtmKXjlwA==
-X-Received: by 2002:a1c:407:: with SMTP id 7mr4208946wme.29.1578495361111;
- Wed, 08 Jan 2020 06:56:01 -0800 (PST)
-Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id g21sm4703529wrb.48.2020.01.08.06.56.00
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 06:56:00 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] block/io: take bs->reqs_lock in
- bdrv_mark_request_serialising
-Date: Wed,  8 Jan 2020 15:55:56 +0100
-Message-Id: <1578495356-46219-4-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1578495356-46219-1-git-send-email-pbonzini@redhat.com>
-References: <1578495356-46219-1-git-send-email-pbonzini@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RkQjN3gzDIXfxEOGnUb0qM3kbk6+rYCuTePE4gd3FFY=;
+ b=DUDnWP0HJRUqqcDX1y0PDS2n1t7csJBxoBN4bU4+DmbHOXfbIX/uwn27nV0lpxZXcV
+ qTaPyFUoUmvsoaxip+JKNCfj92qnxjDHC4AjzGvMEC2dshyr3N6y9Be4kdi5FSi0cFgH
+ /DeWbf3PUG+53IELHCDgVFXovHamo4F53KGEYtNDY6R+Snglynoqd8tydT5Xkr//VU1h
+ KGZCN7PX7zs+urZSdPrSEvKsJhCSjfAOezBWebjeuPBv0UG4SWUAxwrDdQeKW+pgoN/x
+ daF664D78DWJ3YisHcn6d62GR9SEdwNg/8W6RfswCQ4RDdi5CN/1DQCqpRLJVib38v3O
+ Erlw==
+X-Gm-Message-State: APjAAAVCOl4oBKRFh1uhpN6P2g5yhDiZdETqGgu0oLW9XhASCcnd61ZA
+ 28eSWE96IQTw+oioLuVN9NM/uuTgS8sbk1U0jyQPC28nuil7groB7+PzuDgw2162hqxtr4UlO9n
+ gIB6lE05dfO3nvLA=
+X-Received: by 2002:adf:dfc1:: with SMTP id q1mr4961170wrn.155.1578495400073; 
+ Wed, 08 Jan 2020 06:56:40 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwSyrCabfJf9cA1lrS9axV4KMA1eTGY5MldtkmXFJz0ML63cw8NCqPoySUGpRn9D1rXtneXQg==
+X-Received: by 2002:adf:dfc1:: with SMTP id q1mr4961140wrn.155.1578495399809; 
+ Wed, 08 Jan 2020 06:56:39 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id t5sm4495616wrr.35.2020.01.08.06.56.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jan 2020 06:56:39 -0800 (PST)
+Subject: Re: [PATCH] vl: fix memory leak in configure_accelerators
+To: kuhn.chenqun@huawei.com, qemu-devel@nongnu.org, pbonzini@redhat.com
+References: <20200108114207.58084-1-kuhn.chenqun@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <2bf0ae4f-b024-c421-b9d2-eefe99453e04@redhat.com>
+Date: Wed, 8 Jan 2020 15:56:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <20200108114207.58084-1-kuhn.chenqun@huawei.com>
+Content-Language: en-US
+X-MC-Unique: 9Jwnlb54NFm6cxrSkf3Rlw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,190 +90,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org
+Cc: liyiting@huawei.com, pannengyuan@huawei.com, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_mark_request_serialising is writing the overlap_offset and
-overlap_bytes fields of BdrvTrackedRequest.  Take bs->reqs_lock
-for the whole duration of it, and not just when waiting for
-serialising requests, so that tracked_request_overlaps does not
-look at a half-updated request.
+On 1/8/20 12:42 PM, kuhn.chenqun@huawei.com wrote:
+> From: Chen Qun <kuhn.chenqun@huawei.com>
+>=20
+> The accel_list forgot to free, the asan output:
+>=20
+> Direct leak of 16 byte(s) in 1 object(s) allocated from:
+>      #0 0xffff919331cb in __interceptor_malloc (/lib64/libasan.so.4+0xd31=
+cb)
+>      #1 0xffff913f7163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
+>      #2 0xffff91413d9b in g_strsplit (/lib64/libglib-2.0.so.0+0x73d9b)
+>      #3 0xaaab42fb58e7 in configure_accelerators /qemu/vl.c:2777
+>      #4 0xaaab42fb58e7 in main /qemu/vl.c:4121
+>      #5 0xffff8f9b0b9f in __libc_start_main (/lib64/libc.so.6+0x20b9f)
+>      #6 0xaaab42fc1dab  (/qemu/build/aarch64-softmmu/qemu-system-aarch64+=
+0x8b1dab)
+>=20
+> Indirect leak of 4 byte(s) in 1 object(s) allocated from:
+>      #0 0xffff919331cb in __interceptor_malloc (/lib64/libasan.so.4+0xd31=
+cb)
+>      #1 0xffff913f7163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
+>      #2 0xffff9141243b in g_strdup (/lib64/libglib-2.0.so.0+0x7243b)
+>      #3 0xffff91413e6f in g_strsplit (/lib64/libglib-2.0.so.0+0x73e6f)
+>      #4 0xaaab42fb58e7 in configure_accelerators /qemu/vl.c:2777
+>      #5 0xaaab42fb58e7 in main /qemu/vl.c:4121
+>      #6 0xffff8f9b0b9f in __libc_start_main (/lib64/libc.so.6+0x20b9f)
+>      #7 0xaaab42fc1dab  (/qemu/build/aarch64-softmmu/qemu-system-aarch64+=
+0x8b1dab)
+>=20
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 
-The new code does not unlock/relock around retries.  This is unnecessary
-because a retry is always preceded by a CoQueue wait, which already
-releases and reacquires bs->reqs_lock.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Reported-by: Peter Lieven <pl@kamp.de>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- block/io.c | 112 ++++++++++++++++++++++++++++++++++---------------------------
- 1 file changed, 63 insertions(+), 49 deletions(-)
-
-diff --git a/block/io.c b/block/io.c
-index c466df8..1eb2b2b 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -41,7 +41,6 @@
- #define MAX_BOUNCE_BUFFER (32768 << BDRV_SECTOR_BITS)
- 
- static void bdrv_parent_cb_resize(BlockDriverState *bs);
--static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self);
- static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
-     int64_t offset, int bytes, BdrvRequestFlags flags);
- 
-@@ -716,12 +715,69 @@ static void tracked_request_begin(BdrvTrackedRequest *req,
-     qemu_co_mutex_unlock(&bs->reqs_lock);
- }
- 
-+static bool tracked_request_overlaps(BdrvTrackedRequest *req,
-+                                     int64_t offset, uint64_t bytes)
-+{
-+    /*        aaaa   bbbb */
-+    if (offset >= req->overlap_offset + req->overlap_bytes) {
-+        return false;
-+    }
-+    /* bbbb   aaaa        */
-+    if (req->overlap_offset >= offset + bytes) {
-+        return false;
-+    }
-+    return true;
-+}
-+
-+static bool coroutine_fn
-+bdrv_wait_serialising_requests_locked(BlockDriverState *bs,
-+                                      BdrvTrackedRequest *self)
-+{
-+    BdrvTrackedRequest *req;
-+    bool retry;
-+    bool waited = false;
-+
-+    do {
-+        retry = false;
-+        QLIST_FOREACH(req, &bs->tracked_requests, list) {
-+            if (req == self || (!req->serialising && !self->serialising)) {
-+                continue;
-+            }
-+            if (tracked_request_overlaps(req, self->overlap_offset,
-+                                         self->overlap_bytes))
-+            {
-+                /* Hitting this means there was a reentrant request, for
-+                 * example, a block driver issuing nested requests.  This must
-+                 * never happen since it means deadlock.
-+                 */
-+                assert(qemu_coroutine_self() != req->co);
-+
-+                /* If the request is already (indirectly) waiting for us, or
-+                 * will wait for us as soon as it wakes up, then just go on
-+                 * (instead of producing a deadlock in the former case). */
-+                if (!req->waiting_for) {
-+                    self->waiting_for = req;
-+                    qemu_co_queue_wait(&req->wait_queue, &bs->reqs_lock);
-+                    self->waiting_for = NULL;
-+                    retry = true;
-+                    waited = true;
-+                    break;
-+                }
-+            }
-+        }
-+    } while (retry);
-+    return waited;
-+}
-+
- bool bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
- {
-+    BlockDriverState *bs = req->bs;
-     int64_t overlap_offset = req->offset & ~(align - 1);
-     uint64_t overlap_bytes = ROUND_UP(req->offset + req->bytes, align)
-                                - overlap_offset;
-+    bool waited;
- 
-+    qemu_co_mutex_lock(&bs->reqs_lock);
-     if (!req->serialising) {
-         atomic_inc(&req->bs->serialising_in_flight);
-         req->serialising = true;
-@@ -729,7 +785,9 @@ bool bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
- 
-     req->overlap_offset = MIN(req->overlap_offset, overlap_offset);
-     req->overlap_bytes = MAX(req->overlap_bytes, overlap_bytes);
--    return bdrv_wait_serialising_requests(req);
-+    waited = bdrv_wait_serialising_requests_locked(bs, req);
-+    qemu_co_mutex_unlock(&bs->reqs_lock);
-+    return waited;
- }
- 
- /**
-@@ -783,20 +841,6 @@ static int bdrv_get_cluster_size(BlockDriverState *bs)
-     }
- }
- 
--static bool tracked_request_overlaps(BdrvTrackedRequest *req,
--                                     int64_t offset, uint64_t bytes)
--{
--    /*        aaaa   bbbb */
--    if (offset >= req->overlap_offset + req->overlap_bytes) {
--        return false;
--    }
--    /* bbbb   aaaa        */
--    if (req->overlap_offset >= offset + bytes) {
--        return false;
--    }
--    return true;
--}
--
- void bdrv_inc_in_flight(BlockDriverState *bs)
- {
-     atomic_inc(&bs->in_flight);
-@@ -816,45 +860,15 @@ void bdrv_dec_in_flight(BlockDriverState *bs)
- static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self)
- {
-     BlockDriverState *bs = self->bs;
--    BdrvTrackedRequest *req;
--    bool retry;
-     bool waited = false;
- 
-     if (!atomic_read(&bs->serialising_in_flight)) {
-         return false;
-     }
- 
--    do {
--        retry = false;
--        qemu_co_mutex_lock(&bs->reqs_lock);
--        QLIST_FOREACH(req, &bs->tracked_requests, list) {
--            if (req == self || (!req->serialising && !self->serialising)) {
--                continue;
--            }
--            if (tracked_request_overlaps(req, self->overlap_offset,
--                                         self->overlap_bytes))
--            {
--                /* Hitting this means there was a reentrant request, for
--                 * example, a block driver issuing nested requests.  This must
--                 * never happen since it means deadlock.
--                 */
--                assert(qemu_coroutine_self() != req->co);
--
--                /* If the request is already (indirectly) waiting for us, or
--                 * will wait for us as soon as it wakes up, then just go on
--                 * (instead of producing a deadlock in the former case). */
--                if (!req->waiting_for) {
--                    self->waiting_for = req;
--                    qemu_co_queue_wait(&req->wait_queue, &bs->reqs_lock);
--                    self->waiting_for = NULL;
--                    retry = true;
--                    waited = true;
--                    break;
--                }
--            }
--        }
--        qemu_co_mutex_unlock(&bs->reqs_lock);
--    } while (retry);
-+    qemu_co_mutex_lock(&bs->reqs_lock);
-+    waited = bdrv_wait_serialising_requests_locked(bs, self);
-+    qemu_co_mutex_unlock(&bs->reqs_lock);
- 
-     return waited;
- }
--- 
-1.8.3.1
+> ---
+>   vl.c | 1 +
+>   1 file changed, 1 insertion(+)
+>=20
+> diff --git a/vl.c b/vl.c
+> index 86474a55c9..035a24e52b 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -2788,6 +2788,7 @@ static void configure_accelerators(const char *prog=
+name)
+>                   error_report("invalid accelerator %s", *tmp);
+>               }
+>           }
+> +        g_strfreev(accel_list);
+>       } else {
+>           if (accel !=3D NULL) {
+>               error_report("The -accel and \"-machine accel=3D\" options =
+are incompatible");
+>=20
 
 
