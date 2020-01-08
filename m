@@ -2,49 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D3D1349D0
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 18:52:16 +0100 (CET)
-Received: from localhost ([::1]:47450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA6C1349D4
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 18:53:13 +0100 (CET)
+Received: from localhost ([::1]:47488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipFV8-0006rd-GK
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 12:52:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48336)
+	id 1ipFW4-0000bU-SR
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 12:53:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49594)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1ipFTL-0005SM-Tb
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:50:25 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ipFUe-0007Cr-LV
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:51:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1ipFTK-00015t-Nv
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:50:23 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:55161)
+ (envelope-from <peter.maydell@linaro.org>) id 1ipFUd-0002nM-Ij
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:51:44 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40988)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1ipFTK-0000WN-2V; Wed, 08 Jan 2020 12:50:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=7obi6hyBg9iHOq68BveAS3HpKksoZeB2IapeD+aUG5E=; 
- b=L1WHH9FwDvZ8jxGFAS1TjWgWB+hfQs7L+NLdpAkN552GzvCL5ZAq6AhX6EQWJgjTZZGPk9C5KxpLhYOdARzDQQiTRzZDXMiLbo/gVJfu6QbtFZcxfHpcC0cigq81dMSoHmV0pUibTF6FeBLjFhTYrPPvulEN62dHsegDQQzcsePPEFIymXUwijhZjFezSzXVfgdoZQpRmyT1qBxeoo3uVjDe5fVfHQ4+rHxjlSscJo154rxdfO0u4Tg4Oz7cxjb0Z6xR9c9QrMOjnNHhRJC0B3cNKhYCt93X7guhHtsmHHwMqyRCPPZR6GcfA+8t/eTTRn+TVld5aWTS+u2yhwfdCQ==;
-Received: from [213.99.255.143] (helo=perseus.local)
- by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1ipFT1-0001HQ-NR; Wed, 08 Jan 2020 18:50:03 +0100
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1ipFSD-0000Dd-Ci; Wed, 08 Jan 2020 18:49:13 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] qcow2: Use BDRV_SECTOR_SIZE instead of the hardcoded value
-Date: Wed,  8 Jan 2020 18:49:10 +0100
-Message-Id: <f6dcb0d7b17cddb475e3a018a5b802490c7bc21d.1578505678.git.berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1578505678.git.berto@igalia.com>
-References: <cover.1578505678.git.berto@igalia.com>
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ipFUd-0002ly-CA
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:51:43 -0500
+Received: by mail-ot1-x343.google.com with SMTP id r27so4394613otc.8
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 09:51:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EumLXX1XF7D/XgT2FUPJGk5UmCAhXwl1l2QbIwTe7x8=;
+ b=ww6Na8zOQ0Achy4Zm3ObKx+J/XtmBQSktzmMmpNddc/+9aeSV+oEq/F7q8HoWZmX9A
+ kYWhmZO3F3GkK0099+SYh6hoLsAD2Nu2wyJ7Krknuh88PoVPbRr00b2tP/xtrCQ+Xyv4
+ YBhpZsvVQCSpIJx8/UFa1Z1XvAAzbNeZmxmEulLGSm0ggyc+oFthKlOzVGIwsIHYQWfq
+ W7Av51d0QymQ7WAPElg2ZzbSG39opWhO3um9ikzbiXM5Il/gRaod8au1ouyI3YYAvpJG
+ g8HJwZrbzN0niA4KW9xhG8ktXx2B+ajAgHq5g4reSgD1Q3u7UKwGcfH0T8D0Rqb6kFpo
+ oEeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EumLXX1XF7D/XgT2FUPJGk5UmCAhXwl1l2QbIwTe7x8=;
+ b=cCK32aZR/wi1J1hsHLPtuqSJ6EsKcM19GXWTpMOfsVA/1t8wjJjPiM73Ej10UDbRd7
+ zF3MvUav9HU43eKfL87kmg+wrkpmE3APpMxmvlRIM/ZmSqewqTIWzBzqVq6u0kMhIt9X
+ 4wch6WfN5bVxYJnPnwmOp/edxhOSLzrUTTEKRbaQBXiAMBP7l1OZPCmRZXhZd/T3QtGw
+ Cp42yw7JO7kdc0WuOZJOUX75N0gqtB4y7nnJb6iOO3L+IFTy0TANZdxbZ6v3Fk+vnUNo
+ 3gCRhEbm2lSnPhQBdjXNCMQa4SQ2sv40YSlwlwjblv1BfwGXpo82mni8nqrsFLsmV9/r
+ 1COQ==
+X-Gm-Message-State: APjAAAVEzAB4zmD5Jqwr4IpMryYYLcjV6T6GnnCBHDNKP/nw1vDKrJh4
+ yRBZ0i5fLHt456jfsUEyx1oM1lXBEb3doNUTuD4v6A==
+X-Google-Smtp-Source: APXvYqzCD22PBgif05TUFv5KWT98RQsAn7VMZDlw1jfRa7dq8WIvkq5Zohrnl15Oa2K3R1bXGKIQzOnZlMViuNSko+c=
+X-Received: by 2002:a05:6830:13d3:: with SMTP id
+ e19mr5127266otq.135.1578505901742; 
+ Wed, 08 Jan 2020 09:51:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+References: <20200108161618.221116-1-afscoelho@gmail.com>
+In-Reply-To: <20200108161618.221116-1-afscoelho@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 8 Jan 2020 17:51:30 +0000
+Message-ID: <CAFEAcA9v-x31y0CraXkfAN3PVQs+Oyo3F+mTA593Duf0t1Wb0A@mail.gmail.com>
+Subject: Re: [PATCH] virtio: Prevent double swap due to target pre 1.0 VirtIO
+To: Andre Silva <afscoelho@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,95 +72,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This replaces all remaining instances in the qcow2 code.
+On Wed, 8 Jan 2020 at 16:20, Andre Silva <afscoelho@gmail.com> wrote:
+>
+> Remove the bswap function calls after reading and before writing
+> memory bytes in virtio_pci_config_read and virtio_pci_config_write
+> because they are reverting back an already swapped bytes
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- block/qcow2-cluster.c |  2 +-
- block/qcow2.c         | 16 +++++++++-------
- 2 files changed, 10 insertions(+), 8 deletions(-)
+Is "because we wrote it via virtio_pci_config_write" really
+the only way that the data read by virtio_pci_config_read
+is ever set or updated ?
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 932fc48919..777ca2d409 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -219,7 +219,7 @@ static int l2_load(BlockDriverState *bs, uint64_t offset,
-  * Writes one sector of the L1 table to the disk (can't update single entries
-  * and we really don't want bdrv_pread to perform a read-modify-write)
-  */
--#define L1_ENTRIES_PER_SECTOR (512 / 8)
-+#define L1_ENTRIES_PER_SECTOR (BDRV_SECTOR_SIZE / 8)
- int qcow2_write_l1_entry(BlockDriverState *bs, int l1_index)
- {
-     BDRVQcow2State *s = bs->opaque;
-diff --git a/block/qcow2.c b/block/qcow2.c
-index e8ce966f7f..6427c75409 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -2175,7 +2175,7 @@ static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
-                                           offset, bytes, qiov, qiov_offset);
- 
-     case QCOW2_CLUSTER_NORMAL:
--        if ((file_cluster_offset & 511) != 0) {
-+        if ((file_cluster_offset % BDRV_SECTOR_SIZE) != 0) {
-             return -EIO;
-         }
- 
-@@ -2514,7 +2514,7 @@ static coroutine_fn int qcow2_co_pwritev_part(
-             goto out_locked;
-         }
- 
--        assert((cluster_offset & 511) == 0);
-+        assert((cluster_offset % BDRV_SECTOR_SIZE) == 0);
- 
-         ret = qcow2_pre_write_overlap_check(bs, 0,
-                                             cluster_offset + offset_in_cluster,
-@@ -3283,7 +3283,8 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
- 
-     /* Validate options and set default values */
-     if (!QEMU_IS_ALIGNED(qcow2_opts->size, BDRV_SECTOR_SIZE)) {
--        error_setg(errp, "Image size must be a multiple of 512 bytes");
-+        error_setg(errp, "Image size must be a multiple of %u bytes",
-+                   (unsigned) BDRV_SECTOR_SIZE);
-         ret = -EINVAL;
-         goto out;
-     }
-@@ -3839,7 +3840,7 @@ qcow2_co_copy_range_from(BlockDriverState *bs,
-         case QCOW2_CLUSTER_NORMAL:
-             child = s->data_file;
-             copy_offset += offset_into_cluster(s, src_offset);
--            if ((copy_offset & 511) != 0) {
-+            if ((copy_offset % BDRV_SECTOR_SIZE) != 0) {
-                 ret = -EIO;
-                 goto out;
-             }
-@@ -3904,7 +3905,7 @@ qcow2_co_copy_range_to(BlockDriverState *bs,
-             goto fail;
-         }
- 
--        assert((cluster_offset & 511) == 0);
-+        assert((cluster_offset % BDRV_SECTOR_SIZE) == 0);
- 
-         ret = qcow2_pre_write_overlap_check(bs, 0,
-                 cluster_offset + offset_in_cluster, cur_bytes, true);
-@@ -3961,8 +3962,9 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
-         return -ENOTSUP;
-     }
- 
--    if (offset & 511) {
--        error_setg(errp, "The new size must be a multiple of 512");
-+    if (offset % BDRV_SECTOR_SIZE) {
-+        error_setg(errp, "The new size must be a multiple of %u",
-+                   (unsigned) BDRV_SECTOR_SIZE);
-         return -EINVAL;
-     }
- 
--- 
-2.20.1
-
+thanks
+-- PMM
 
