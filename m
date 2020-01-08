@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A86B13406F
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 12:26:43 +0100 (CET)
-Received: from localhost ([::1]:42216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE21134091
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 12:33:28 +0100 (CET)
+Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip9U2-00009B-D3
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 06:26:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49840)
+	id 1ip9aY-000593-QL
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 06:33:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53909)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1ip9QG-0004Db-EZ
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:22:50 -0500
+ (envelope-from <pavlica.nikola@gmail.com>) id 1ip9Xe-0003Pp-3O
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:30:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1ip9QE-0004ek-SS
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:22:48 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51937
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ip9QD-0004e3-OF
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:22:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578482565;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mgOxQ5uyZJfjGUoehj3MJnX8mFael+qy0RPkOBV6Evw=;
- b=gHW5+QLRncxS9jwPZZtWV3xzYmkzIsZ77YzhiljavR12+mgJC/KZdoMVHfwmSWrLs4HyKM
- meaEaFEyJPditHeyeFjYZSUkgCDIzKaAkQbpKRKAE0SXBw6evF16vgwqRY82zwPD+TKNjd
- rx8jwUy0uMr6A0GGx4hPidNrAo1xJyg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-9uWu5wa6NUCV4PN8IDKu1Q-1; Wed, 08 Jan 2020 06:22:44 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 390ABDB23;
- Wed,  8 Jan 2020 11:22:43 +0000 (UTC)
-Received: from localhost (ovpn-116-249.ams2.redhat.com [10.36.116.249])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5348B10018FF;
- Wed,  8 Jan 2020 11:22:40 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
+ (envelope-from <pavlica.nikola@gmail.com>) id 1ip9Xc-000176-Mb
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:30:25 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35726)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pavlica.nikola@gmail.com>)
+ id 1ip9Xc-00016A-Ev
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:30:24 -0500
+Received: by mail-wm1-x343.google.com with SMTP id p17so2130611wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 03:30:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mE2lnlrRD/lR6rpbLiZ24E0msmA8lV+tPD7M/Fd7f3M=;
+ b=I9Eg9LCjsT3Kt8rux7TNLu8q5LNnJPKs/F/wYFUJOGoDuVOaqy3DKW3fx162+cu7K4
+ MIF0jvIJID0jOX5VItlA+KV0Nt+hUVIJv+L+qYX038RNrrN2PLLNLvF8cEjbt/p7wUmN
+ m3UepPBGpN896oxKI655BSoSm9XMPtoYtG+0wd/xFJgc4uIiDnsGtdfE8EHhCA9PPlvx
+ U+KOlz8+t20Gzf7PuZIdPgqbNzQWHbGGswdVuQ0KIuEH0jDlFNIgljoOjNRSPYSqLcmP
+ StAv6ARYMYQzOpaTk9v8266j5gYGdvDvt56BxXitpQ1BLJWghbiB2OHZStFa3BV59qUq
+ JJzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mE2lnlrRD/lR6rpbLiZ24E0msmA8lV+tPD7M/Fd7f3M=;
+ b=IVC75l5cFRADm3JklFFLlD8H9B0EEt2y0a9HHGBCXoAHJ6LjwFhNBxoHMmp7rBhdQs
+ LCQSRSIBO/kxfQLyrC7M5d7O5lqJ8AIB6Nv354VGYq4kpMHseX4t4JKld9P5QcuPrmGY
+ EfRXZMeWZd4EO3J+ImWzBGZMgaGzbSm9bv17RFyZbjHZnJdjA3GfqavYhO3NjtMWVHNR
+ 5Ta/PpEeoGn0lgbjRzFSQcuiefmX1Tf1FurmIIWjdCJkXV4ASHddUeYOBQr81GrxHKPr
+ TLXbcxQ3Bda1fbpZ47oESkQYGtfYDuMYYAZ+kDiY1yUNp00Jj4O4qUny10mGzSe/uA2n
+ 9FzA==
+X-Gm-Message-State: APjAAAVYQy1tigeChDWrEdi6XqcpzQj5opznw5Dl7tYTMtl/kBx/B9bZ
+ kS/GoNizpDY6dE/pmrdlZzpL0ShCInpEzQ==
+X-Google-Smtp-Source: APXvYqxR5eE/rpQpHjVMK9zZACfywR6ZsXQfqO6NwiWlu6kZ7zefuRP32hnbM0X93XHlsx3MI2Ikyw==
+X-Received: by 2002:a7b:c386:: with SMTP id s6mr3257020wmj.105.1578483023327; 
+ Wed, 08 Jan 2020 03:30:23 -0800 (PST)
+Received: from localhost.localdomain (93-139-26-156.adsl.net.t-com.hr.
+ [93.139.26.156])
+ by smtp.gmail.com with ESMTPSA id a14sm4136151wrx.81.2020.01.08.03.30.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2020 03:30:22 -0800 (PST)
+From: pavlica.nikola@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] iotests: add 282 luks qemu-img measure test
-Date: Wed,  8 Jan 2020 11:22:20 +0000
-Message-Id: <20200108112220.499180-5-stefanha@redhat.com>
-In-Reply-To: <20200108112220.499180-1-stefanha@redhat.com>
-References: <20200108112220.499180-1-stefanha@redhat.com>
+Subject: [PATCH v4] display/gtk: get proper refreshrate
+Date: Wed,  8 Jan 2020 12:27:47 +0100
+Message-Id: <20200108112747.25249-1-pavlica.nikola@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 9uWu5wa6NUCV4PN8IDKu1Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,174 +76,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: kraxel@redhat.com, Nikola Pavlica <pavlica.nikola@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test exercises the block/crypto.c "luks" block driver
-.bdrv_measure() code.
+From: Nikola Pavlica <pavlica.nikola@gmail.com>
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Hi,
+QEMU mailing list.
+
+This is the fourth revision of the patch involving the GTK display
+output getting the proper refresh rate for your particular display
+output.
+
+Because some VMs in QEMU can get GPU virtualization (using technologies
+such as iGVT-g, as mentioned previously), they could produce a video
+output that had a higher display refresh rate than of what the GTK
+display was displaying. (fxp. Playing a video game inside of a Windows
+VM at 60 Hz, while the output stood locked at 33 Hz because of defaults
+set in include/ui/console.h)
+
+Since QEMU does indeed have internal systems for determining frame
+times as defined in ui/console.c.
+The code checks for a variable called update_interval that it later
+uses for time calculation. This variable, however, isn't defined
+anywhere in ui/gtk.c and instead ui/console.c just sets it to
+GUI_REFRESH_INTERVAL_DEFAULT which is 30
+
+update_interval represents the number of milliseconds per display
+refresh, and by doing some math we get that 1000/30 = 33.33... Hz
+
+This creates the mentioned problem and what this patch does is that it
+checks for the display refresh rate reported by GTK itself (we can take
+this as a safe value) and just converts it back to a number of
+milliseconds per display refresh.
+
+Explinations of each revision:
+v1: initial patch
+v2: moved code to a more appropriate place and reduced overhead and
+memory usage (by not creating a new GdkDisplay)
+v3: removed magic value and turned it into something more readable and
+added checks for an error state where GTK was unable to get the refresh
+rate, in which case we use the already existing default
+v4: fixed wrapping and repositioned variable names
+
+Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
 ---
- tests/qemu-iotests/282     | 93 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/282.out | 30 ++++++++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 124 insertions(+)
- create mode 100755 tests/qemu-iotests/282
- create mode 100644 tests/qemu-iotests/282.out
+ include/ui/gtk.h |  2 ++
+ ui/gtk.c         | 10 ++++++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/tests/qemu-iotests/282 b/tests/qemu-iotests/282
-new file mode 100755
-index 0000000000..6c62065aef
---- /dev/null
-+++ b/tests/qemu-iotests/282
-@@ -0,0 +1,93 @@
-+#!/usr/bin/env bash
-+#
-+# qemu-img measure tests for LUKS images
-+#
-+# Copyright (C) 2020 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+index d9eedad976..d1b230848a 100644
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -28,6 +28,8 @@
+ #include "ui/egl-context.h"
+ #endif
+ 
++#define MILLISEC_PER_SEC 1000000
 +
-+# creator
-+owner=3Dstefanha@redhat.com
+ typedef struct GtkDisplayState GtkDisplayState;
+ 
+ typedef struct VirtualGfxConsole {
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 692ccc7bbb..eb0efc70ee 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -1966,6 +1966,10 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
+                               GSList *group, GtkWidget *view_menu)
+ {
+     bool zoom_to_fit = false;
++    int refresh_rate_millihz;
++    GdkDisplay *dpy = gtk_widget_get_display(s->window);
++    GdkWindow *win = gtk_widget_get_window(s->window);
++    GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
+ 
+     vc->label = qemu_console_get_label(con);
+     vc->s = s;
+@@ -2026,6 +2030,12 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
+ 
+     vc->gfx.kbd = qkbd_state_init(con);
+     vc->gfx.dcl.con = con;
 +
-+seq=3D`basename $0`
-+echo "QA output created by $seq"
++    refresh_rate_millihz = gdk_monitor_get_refresh_rate(monitor);
++    if (refresh_rate_millihz) {
++        vc->gfx.dcl.update_interval = MILLISEC_PER_SEC / refresh_rate_millihz;
++    }
 +
-+status=3D1    # failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+    rm -f "$TEST_IMG.converted"
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+. ./common.pattern
-+
-+_supported_fmt luks
-+_supported_proto file
-+_supported_os Linux
-+
-+SECRET=3Dsecret,id=3Dsec0,data=3Dpassphrase
-+
-+echo "=3D=3D measure 1G image file =3D=3D"
-+echo
-+
-+$QEMU_IMG measure --object "$SECRET" \
-+=09          -O "$IMGFMT" \
-+=09=09  -o key-secret=3Dsec0,iter-time=3D10 \
-+=09=09  --size 1G
-+
-+echo
-+echo "=3D=3D create 1G image file (size should be no greater than measured=
-) =3D=3D"
-+echo
-+
-+_make_test_img 1G
-+stat -c "image file size in bytes: %s" "$TEST_IMG_FILE"
-+
-+echo
-+echo "=3D=3D modified 1G image file (size should be no greater than measur=
-ed) =3D=3D"
-+echo
-+
-+$QEMU_IO --object "$SECRET" --image-opts "$TEST_IMG" -c "write -P 0x51 0x1=
-0000 0x400" | _filter_qemu_io | _filter_testdir
-+stat -c "image file size in bytes: %s" "$TEST_IMG_FILE"
-+
-+echo
-+echo "=3D=3D measure preallocation=3Dfalloc 1G image file =3D=3D"
-+echo
-+
-+$QEMU_IMG measure --object "$SECRET" \
-+=09          -O "$IMGFMT" \
-+=09=09  -o key-secret=3Dsec0,iter-time=3D10,preallocation=3Dfalloc \
-+=09=09  --size 1G
-+
-+echo
-+echo "=3D=3D measure with input image file =3D=3D"
-+echo
-+
-+IMGFMT=3Draw IMGKEYSECRET=3D IMGOPTS=3D _make_test_img 1G | _filter_imgfmt
-+QEMU_IO_OPTIONS=3D IMGOPTSSYNTAX=3D $QEMU_IO -f raw -c "write -P 0x51 0x10=
-000 0x400" "$TEST_IMG_FILE" | _filter_qemu_io | _filter_testdir
-+$QEMU_IMG measure --object "$SECRET" \
-+=09          -O "$IMGFMT" \
-+=09=09  -o key-secret=3Dsec0,iter-time=3D10 \
-+=09=09  -f raw \
-+=09=09  "$TEST_IMG_FILE"
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/282.out b/tests/qemu-iotests/282.out
-new file mode 100644
-index 0000000000..8f4737aef7
---- /dev/null
-+++ b/tests/qemu-iotests/282.out
-@@ -0,0 +1,30 @@
-+QA output created by 282
-+=3D=3D measure 1G image file =3D=3D
-+
-+required size: 2068480
-+fully allocated size: 1075810304
-+
-+=3D=3D create 1G image file (size should be no greater than measured) =3D=
-=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1073741824
-+image file size in bytes: 1075810304
-+
-+=3D=3D modified 1G image file (size should be no greater than measured) =
-=3D=3D
-+
-+wrote 1024/1024 bytes at offset 65536
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+image file size in bytes: 1075810304
-+
-+=3D=3D measure preallocation=3Dfalloc 1G image file =3D=3D
-+
-+required size: 1075810304
-+fully allocated size: 1075810304
-+
-+=3D=3D measure with input image file =3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1073741824
-+wrote 1024/1024 bytes at offset 65536
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+required size: 2076672
-+fully allocated size: 1075810304
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index cb2b789e44..d114e2c971 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -288,3 +288,4 @@
- 277 rw quick
- 279 rw backing quick
- 280 rw migration quick
-+282 quick
---=20
+     register_displaychangelistener(&vc->gfx.dcl);
+ 
+     gd_connect_vc_gfx_signals(vc);
+-- 
 2.24.1
 
 
