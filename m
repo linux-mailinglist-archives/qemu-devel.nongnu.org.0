@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2EE613438B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 14:13:04 +0100 (CET)
-Received: from localhost ([::1]:43584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F813134384
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 14:12:03 +0100 (CET)
+Received: from localhost ([::1]:43548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipB8x-0008GP-PD
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 08:13:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56740)
+	id 1ipB7y-0006sP-HI
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 08:12:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1ipB5v-0004cM-04
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 08:09:56 -0500
+ (envelope-from <berrange@redhat.com>) id 1ipB6X-0005oc-CG
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 08:10:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1ipB5s-0002Eo-53
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 08:09:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39246
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1ipB6W-0002yr-4N
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 08:10:33 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54286
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ipB5s-0002E9-1d
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 08:09:52 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ipB6W-0002y6-15
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 08:10:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578488991;
+ s=mimecast20190719; t=1578489031;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ViuSItCm4Gf8TH93ZqXZKxJHXGkSkcoRjYUYAhg6l/s=;
- b=WfMYl2UGjvXACehS5g5rOp4tnHCI2tCu5gMwtteg+wdwqS0GJy+aWG2shul34Jk/xaAbSg
- jvs56ktDnl425ZD/APMuIuTzqIV6oh5N2A/xROye8p99OmM5dCQvDvWciX1+/gpNnvo/+W
- SXu0XiIEqonsxbYu99AL1saNVPKiOZY=
+ bh=V28hfkP8FWtZpX39p6KTIcSPQUmjVvX2NKwSIqkCtYk=;
+ b=Uc8M2iSGm3fu4MeItPOqOLgomKPxsxwrt9svlFx6ODBwZcTSw7kTy/vu0nOAzOLHZ58ims
+ T2PYx0t+rCOc21LFXveJiXpVHbQeb8ne2N/YDtqq9XdVV0+1+/JPx/3j782HrFjttFdab1
+ IyRPJcaPBu027vQBxdYhG8/+jyAA3Uo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-2-JmH3KlMem1piqOX4jAeg-1; Wed, 08 Jan 2020 08:09:49 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-167-jGWAtHskMJGOa3zop3G3Rw-1; Wed, 08 Jan 2020 08:10:25 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 787051005514;
- Wed,  8 Jan 2020 13:09:48 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.118.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BB2C19C58;
- Wed,  8 Jan 2020 13:09:42 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v6] migration: Support QLIST migration
-In-Reply-To: <20191122171621.1307-1-eric.auger@redhat.com> (Eric Auger's
- message of "Fri, 22 Nov 2019 18:16:21 +0100")
-References: <20191122171621.1307-1-eric.auger@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Wed, 08 Jan 2020 14:09:38 +0100
-Message-ID: <87tv56gkml.fsf@secure.laptop>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE0C018A6EF9;
+ Wed,  8 Jan 2020 13:10:23 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.16.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83F8586C5C;
+ Wed,  8 Jan 2020 13:10:17 +0000 (UTC)
+Date: Wed, 8 Jan 2020 13:10:15 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Priority of -accel (was: [PATCH] tests/qemu-iotests: Update
+ tests to recent desugarized -accel option)
+Message-ID: <20200108131015.GF3386452@redhat.com>
+References: <20200106130951.29873-1-philmd@redhat.com>
+ <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
+ <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
+ <58eb34db-7d32-8b0e-d9ef-98648209486b@redhat.com>
+ <656169fc-1abe-b521-20a3-e7041739b914@redhat.com>
+ <20200107125451.GL3368802@redhat.com>
+ <3241dff4-6223-404f-55d4-846991763046@redhat.com>
+ <87d0bujkpe.fsf@linaro.org>
+ <da2111ee-0644-1d7c-a111-e4209025a1d8@redhat.com>
+ <60ecc0ec-d8db-2cf6-b21a-799f4cb9ab71@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 2-JmH3KlMem1piqOX4jAeg-1
+In-Reply-To: <60ecc0ec-d8db-2cf6-b21a-799f4cb9ab71@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: jGWAtHskMJGOa3zop3G3Rw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,26 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: peterx@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- eric.auger.pro@gmail.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Auger <eric.auger@redhat.com> wrote:
-> Support QLIST migration using the same principle as QTAILQ:
-> 94869d5c52 ("migration: migrate QTAILQ").
->
-> The VMSTATE_QLIST_V macro has the same proto as VMSTATE_QTAILQ_V.
-> The change mainly resides in QLIST RAW macros: QLIST_RAW_INSERT_HEAD
-> and QLIST_RAW_REVERSE.
->
-> Tests also are provided.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+On Wed, Jan 08, 2020 at 01:41:59PM +0100, Paolo Bonzini wrote:
+> On 08/01/20 11:58, Thomas Huth wrote:
+> >> "-accel default" could be considered to have vibes of Do The Right
+> >> Thing (tm) and could in time actually become so!
+> >
+> > "-accel default" sounds like the default behavior that you'd also get i=
+f
+> > you don't use this option at all ... what about "-accel auto" to say
+> > that QEMU should pick an accelerator automatically?
+>=20
+> Questions to answer before thinking about the name: how would it
+> co-operate with other "-accel" options?  how would you pass sub-options
+> to the accelerators?
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+If people don't have a preference for a specific accelerator, just need
+"a working accelerator", then I think it is reasonable to assume they
+won't want/need to pass options to the accelerators either.
 
-queued
+"-accel default" is targetting the simple "do the right thing" use
+case, so IMHO doesn't need to support per-accelerator options.
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
