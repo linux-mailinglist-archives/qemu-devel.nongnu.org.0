@@ -2,74 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7857F134441
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 14:48:30 +0100 (CET)
-Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0E9134437
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 14:46:07 +0100 (CET)
+Received: from localhost ([::1]:44128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipBhF-0002iP-Ee
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 08:48:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39868)
+	id 1ipBew-00081S-FT
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 08:46:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34790)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stevensd@google.com>) id 1ip98b-0004iN-7D
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:04:34 -0500
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1ip9ji-0002VB-JW
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:42:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stevensd@google.com>) id 1ip98Z-0008SV-0y
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:04:32 -0500
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:42156)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stevensd@google.com>) id 1ip98Y-0008Nk-Ly
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:04:30 -0500
-Received: by mail-lj1-x244.google.com with SMTP id y4so2840268ljj.9
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 03:04:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GPrQXU7r+8TzRDkPJO/Bd8pkbD2/ocdKHXv4Gtb6bio=;
- b=KZr0y4qSlDhNV7qd/WU0KFsW4rQ10koeM7ltZ47PDf/xkOAgPg+CO8SawpL8Nu2Xap
- ZlYe+qjlf9wuKZxJe12MNmC3pIc48j3rbyx+hPUOYZH05ilxdIAdK6Qfo2YpfnUj+/a2
- fEJb1NqaJTe56CToJryA7frL72vlk1R1uJym0zxO207guv+R6aIwTbb77lJuBdgz/Ylc
- cFYgyY1+EE4G9UtMkUNs3LT9+rvSNfL7X9AUJozMXrel9ZjGmqimuovVXGAC5u8dvwSZ
- feaNwQLDDmlv3MXXJly4KfsndCVMuZvMaHnoLPL3+NEw6Zxopalx2bvCLUAo1Q15K0w1
- LSZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GPrQXU7r+8TzRDkPJO/Bd8pkbD2/ocdKHXv4Gtb6bio=;
- b=nojkcfD65uspJGW8zpVoNALHgu2bY/rvRDP/LPxznQ/HNQJfqxH0hdb20um+9mPLdz
- 9fbS/ql/MAG8KsxihF7aQziXSCclUa9pxVTZYoHBidnM2WcsxKj92O5FPlDiTd9WGc4G
- zvSsOcXqNgEBmrDZRLnZCB+3/MxOvbfop151m+Tps0V44XaiAVBuGcpnl2UyXpI9YsbB
- K+ddpGp5LkhmU1gErMrGhVT4P+3US7QJAclZwgtPd5TIk717RfcII7G2c5VljwRLnwdo
- a3Ex1ZZHpHm0Vn0lh4l+hP5ri2+ILnq3X/MF9AMIt5H6K1l99tDxFLqQbQoAeWsRBgKc
- 5mCg==
-X-Gm-Message-State: APjAAAWjqU4vU5eXXKFYPFwvtyExyPLAOt0nct/qF0YjCn3nr72oZAtv
- o3DVap871XUauu6gIjX7NcpJU4db2DNqewP8Mnt3yA==
-X-Google-Smtp-Source: APXvYqws3/HwIKqBCkja9W+hEagukHWxJPaQ99txhgJJvv2brBb8a9BbAtoGAvQgUKcfopn2JcbVrQAwMxEkctRXS8k=
-X-Received: by 2002:a2e:9942:: with SMTP id r2mr2613964ljj.182.1578481466681; 
- Wed, 08 Jan 2020 03:04:26 -0800 (PST)
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1ip9jh-0001wL-9q
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:42:54 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2672 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1ip9jW-0001qv-Gd
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:42:42 -0500
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id D86D518C5FA667C78DE2;
+ Wed,  8 Jan 2020 19:42:33 +0800 (CST)
+Received: from HGHY4C002233111.china.huawei.com (10.133.205.93) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.439.0; Wed, 8 Jan 2020 19:42:27 +0800
+From: <kuhn.chenqun@huawei.com>
+To: <qemu-devel@nongnu.org>, <pbonzini@redhat.com>
+Subject: [PATCH] vl: fix memory leak in configure_accelerators
+Date: Wed, 8 Jan 2020 19:42:07 +0800
+Message-ID: <20200108114207.58084-1-kuhn.chenqun@huawei.com>
+X-Mailer: git-send-email 2.14.1.windows.1
 MIME-Version: 1.0
-References: <CAD=HUj6FA3VoTJqNa+gmAgVOv9zS7Qk9pdg46EY9NvtJOdz5_A@mail.gmail.com>
- <20200108104002.jxh6amnrazhnamej@sirius.home.kraxel.org>
-In-Reply-To: <20200108104002.jxh6amnrazhnamej@sirius.home.kraxel.org>
-From: David Stevens <stevensd@google.com>
-Date: Wed, 8 Jan 2020 20:04:15 +0900
-Message-ID: <CAOiLmNHMAz6UqxuEsiq6Y_dSNcCvtBrFR-FHG6voJAhpF8SeeA@mail.gmail.com>
-Subject: Re: [virtio-dev][RFC PATCH v1 1/2] content: define what exporting a
- resource is
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: David Stevens <stevensd@chromium.org>, virtio-dev@lists.oasis-open.org, 
- Dylan Reid <dgreid@chromium.org>, Tomasz Figa <tfiga@chromium.org>, 
- Zach Reizner <zachr@chromium.org>, Keiichi Watanabe <keiichiw@chromium.org>, 
- Alexandre Courbot <acourbot@chromium.org>, Alex Lau <alexlau@chromium.org>, 
- =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>, 
- Pawel Osciak <posciak@chromium.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>, 
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: multipart/alternative; boundary="0000000000001bcba4059b9edb4b"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::244
+Content-Type: text/plain
+X-Originating-IP: [10.133.205.93]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.190
 X-Mailman-Approved-At: Wed, 08 Jan 2020 08:43:53 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,43 +52,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: liyiting@huawei.com, Chen Qun <kuhn.chenqun@huawei.com>,
+ pannengyuan@huawei.com, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001bcba4059b9edb4b
-Content-Type: text/plain; charset="UTF-8"
+From: Chen Qun <kuhn.chenqun@huawei.com>
 
->
-> Hmm, I'd suggest to move the whole thing into the virtio-gpu section.
-> There is no such thing as a "resource" in general virtio context ...
->
+The accel_list forgot to free, the asan output:
 
-If this is moved into the virtio-gpu section, then any device type that
-imports resources will have to refer to something defined by the GPU device
-type. This would make the GPU device type a sort of special device type
-that isn't just a leaf node of the spec. I think it's better to define
-'resource' as a top level concept for virtio devices, even if the specifics
-of what a 'resource' is are defined by individual device types.
+Direct leak of 16 byte(s) in 1 object(s) allocated from:
+    #0 0xffff919331cb in __interceptor_malloc (/lib64/libasan.so.4+0xd31cb)
+    #1 0xffff913f7163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
+    #2 0xffff91413d9b in g_strsplit (/lib64/libglib-2.0.so.0+0x73d9b)
+    #3 0xaaab42fb58e7 in configure_accelerators /qemu/vl.c:2777
+    #4 0xaaab42fb58e7 in main /qemu/vl.c:4121
+    #5 0xffff8f9b0b9f in __libc_start_main (/lib64/libc.so.6+0x20b9f)
+    #6 0xaaab42fc1dab  (/qemu/build/aarch64-softmmu/qemu-system-aarch64+0x8b1dab)
 
--David
+Indirect leak of 4 byte(s) in 1 object(s) allocated from:
+    #0 0xffff919331cb in __interceptor_malloc (/lib64/libasan.so.4+0xd31cb)
+    #1 0xffff913f7163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
+    #2 0xffff9141243b in g_strdup (/lib64/libglib-2.0.so.0+0x7243b)
+    #3 0xffff91413e6f in g_strsplit (/lib64/libglib-2.0.so.0+0x73e6f)
+    #4 0xaaab42fb58e7 in configure_accelerators /qemu/vl.c:2777
+    #5 0xaaab42fb58e7 in main /qemu/vl.c:4121
+    #6 0xffff8f9b0b9f in __libc_start_main (/lib64/libc.so.6+0x20b9f)
+    #7 0xaaab42fc1dab  (/qemu/build/aarch64-softmmu/qemu-system-aarch64+0x8b1dab)
 
---0000000000001bcba4059b9edb4b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+---
+ vl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">Hmm, I&#39;d suggest to move the whole thing into the vi=
-rtio-gpu section.<br>
-There is no such thing as a &quot;resource&quot; in general virtio context =
-...<br></blockquote><div><br></div><div>If this is moved into the virtio-gp=
-u section, then any device type that imports resources will have to refer t=
-o something defined by the GPU device type. This would make the GPU device =
-type a sort of special device type that isn&#39;t just a leaf node of the s=
-pec. I think it&#39;s better to define &#39;resource&#39; as a top level co=
-ncept for virtio devices, even if the specifics of what a &#39;resource&#39=
-; is are defined by individual device types.</div><div><br></div><div>-Davi=
-d=C2=A0</div></div></div>
+diff --git a/vl.c b/vl.c
+index 86474a55c9..035a24e52b 100644
+--- a/vl.c
++++ b/vl.c
+@@ -2788,6 +2788,7 @@ static void configure_accelerators(const char *progname)
+                 error_report("invalid accelerator %s", *tmp);
+             }
+         }
++        g_strfreev(accel_list);
+     } else {
+         if (accel != NULL) {
+             error_report("The -accel and \"-machine accel=\" options are incompatible");
+-- 
+2.23.0
 
---0000000000001bcba4059b9edb4b--
+
 
