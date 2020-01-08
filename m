@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C6F13383D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 02:05:23 +0100 (CET)
-Received: from localhost ([::1]:57623 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B32133836
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 02:04:29 +0100 (CET)
+Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iozmj-0003c5-SI
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 20:05:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51161)
+	id 1iozlr-0002HP-W8
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 20:04:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51158)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iozjU-0000WL-M8
+ (envelope-from <dgibson@ozlabs.org>) id 1iozjU-0000WK-Lz
  for qemu-devel@nongnu.org; Tue, 07 Jan 2020 20:02:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iozjT-000155-1B
+ (envelope-from <dgibson@ozlabs.org>) id 1iozjS-00014y-Vw
  for qemu-devel@nongnu.org; Tue, 07 Jan 2020 20:02:00 -0500
-Received: from ozlabs.org ([203.11.71.1]:59587)
+Received: from ozlabs.org ([203.11.71.1]:60947)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iozjS-00012L-68; Tue, 07 Jan 2020 20:01:58 -0500
+ id 1iozjS-00012K-AH; Tue, 07 Jan 2020 20:01:58 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47srYZ1Gdbz9sRp; Wed,  8 Jan 2020 12:01:53 +1100 (AEDT)
+ id 47srYZ5jxZz9sSH; Wed,  8 Jan 2020 12:01:53 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1578445314;
- bh=HVgQyNOFPS1MJ4hd15vljSLShz2lxyJu01cy+sOJkGs=;
+ bh=cFopmRMxx9kLWbOuam2AbKOrnMqrSwXXEy3lldNJDe8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nMLGyZOFCaiX5LXK6VhM3y+CbLB+AhvN7nhodvuuGi4v9/gjXG8Fccvfm5SDupUK7
- Bo/85wG5qUQC5Osobj2PoPMPx4K1dTzrZ7Dply+JAy3gEFhTnWaMk6j+kAxc6Enzvd
- W7Pf2sQaNrO1f4FEH5xzGRS5x4auqjy1S6FGwmNM=
-Date: Wed, 8 Jan 2020 11:54:53 +1100
+ b=R09iZ2yxF1C4jWih8uqu2rAWElxSo+xv7aNKjAI/3LRfoy/EAsoEGR3OnqQE+Z2wq
+ VJ0i1Llcru7bdS4LINVDWF6/c8hFomI7L3/zCm+Qh0FKFTEiNdu+UKkFWONe4VjTYS
+ RRvZcf8GIy9HdA3d3p1l1qH3sZqOvIzCBRabS7cA=
+Date: Wed, 8 Jan 2020 11:56:50 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 2/2] pnv/psi: Consolidate some duplicated code in
- pnv_psi_realize()
-Message-ID: <20200108005453.GD2137@umbus.fritz.box>
-References: <157841289975.66386.6463139590245180762.stgit@bahia.tlslab.ibm.com>
- <157841476667.66386.13659183399113837990.stgit@bahia.tlslab.ibm.com>
- <56272b35-c0ed-65de-310d-f97090e2b8c1@redhat.com>
+Subject: Re: [PATCH 1/2] ppc/pnv: check return value of blk_pwrite()
+Message-ID: <20200108005650.GE2137@umbus.fritz.box>
+References: <20200107171809.15556-1-clg@kaod.org>
+ <20200107171809.15556-2-clg@kaod.org>
+ <49613a4e-aec8-8ae3-4443-ede9ed1fd39f@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hYooF8G/hrfVAmum"
+ protocol="application/pgp-signature"; boundary="g7w8+K/95kPelPD2"
 Content-Disposition: inline
-In-Reply-To: <56272b35-c0ed-65de-310d-f97090e2b8c1@redhat.com>
+In-Reply-To: <49613a4e-aec8-8ae3-4443-ede9ed1fd39f@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -57,98 +56,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---hYooF8G/hrfVAmum
+--g7w8+K/95kPelPD2
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 07, 2020 at 07:32:03PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Hi Greg,
->=20
-> On 1/7/20 5:32 PM, Greg Kurz wrote:
-> > The proper way to do that would be to use device_class_set_parent_reali=
-ze(),
-> > but defining a Pnv8PsiClass and a Pnv9PsiClass types with a parent_real=
-ize
-> > pointer adds a fair amount of code. Calling pnv_psi_realize() explicite=
-ly
-> > is fine for now.
+On Tue, Jan 07, 2020 at 07:22:18PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> On 1/7/20 6:18 PM, C=E9dric Le Goater wrote:
+> > When updating the PNOR file contents, we should check for a possible
+> > failure of blk_pwrite().
 > >=20
-> > This should probably be achieved with a device realize hook in the
-> > PSI base class and device_class_set_parent_realize() in the children
-> > classes.
->=20
-> Can you add a note explaining why the POWER10 PSI doesn't need it?
-
-For now, POWER10 uses the Pnv9PsiClass, I believe, so the question
-doesn't arise.
-
->=20
+> > Fixes Coverity issue CID 1412228.
 > >=20
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
 > > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 > > ---
-> >   hw/ppc/pnv_psi.c |   19 ++++++++++++-------
-> >   1 file changed, 12 insertions(+), 7 deletions(-)
+> >   hw/ppc/pnv_pnor.c | 8 ++++++--
+> >   1 file changed, 6 insertions(+), 2 deletions(-)
 > >=20
-> > diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-> > index 6c94781e377d..546232106756 100644
-> > --- a/hw/ppc/pnv_psi.c
-> > +++ b/hw/ppc/pnv_psi.c
-> > @@ -469,6 +469,16 @@ static void pnv_psi_reset_handler(void *dev)
-> >       device_reset(DEVICE(dev));
-> >   }
-> > +static void pnv_psi_realize(DeviceState *dev, Error **errp)
-> > +{
-> > +    PnvPsi *psi =3D PNV_PSI(dev);
-> > +
-> > +    /* Default BAR for MMIO region */
-> > +    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
-> > +
-> > +    qemu_register_reset(pnv_psi_reset_handler, dev);
-> > +}
-> > +
-> >   static void pnv_psi_power8_instance_init(Object *obj)
+> > diff --git a/hw/ppc/pnv_pnor.c b/hw/ppc/pnv_pnor.c
+> > index bfb1e92b0392..0e86ae2feae6 100644
+> > --- a/hw/ppc/pnv_pnor.c
+> > +++ b/hw/ppc/pnv_pnor.c
+> > @@ -33,6 +33,7 @@ static uint64_t pnv_pnor_read(void *opaque, hwaddr ad=
+dr, unsigned size)
+> >   static void pnv_pnor_update(PnvPnor *s, int offset, int size)
 > >   {
-> >       Pnv8Psi *psi8 =3D PNV8_PSI(obj);
-> > @@ -528,9 +538,6 @@ static void pnv_psi_power8_realize(DeviceState *dev=
-, Error **errp)
-> >       memory_region_init_io(&psi->regs_mr, OBJECT(dev), &psi_mmio_ops, =
-psi,
-> >                             "psihb", PNV_PSIHB_SIZE);
-> > -    /* Default BAR for MMIO region */
-> > -    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
-> > -
-> >       /* Default sources in XIVR */
-> >       for (i =3D 0; i < PSI_NUM_INTERRUPTS; i++) {
-> >           uint8_t xivr =3D irq_to_xivr[i];
-> > @@ -538,7 +545,7 @@ static void pnv_psi_power8_realize(DeviceState *dev=
-, Error **errp)
-> >               ((uint64_t) i << PSIHB_XIVR_SRC_SH);
-> >       }
-> > -    qemu_register_reset(pnv_psi_reset_handler, dev);
-> > +    pnv_psi_realize(dev, errp);
+> >       int offset_end;
+> > +    int ret;
+> >       if (s->blk) {
+> >           return;
+> > @@ -42,8 +43,11 @@ static void pnv_pnor_update(PnvPnor *s, int offset, =
+int size)
+> >       offset =3D QEMU_ALIGN_DOWN(offset, BDRV_SECTOR_SIZE);
+> >       offset_end =3D QEMU_ALIGN_UP(offset_end, BDRV_SECTOR_SIZE);
+> > -    blk_pwrite(s->blk, offset, s->storage + offset,
+> > -               offset_end - offset, 0);
+> > +    ret =3D blk_pwrite(s->blk, offset, s->storage + offset,
+> > +                     offset_end - offset, 0);
+> > +    if (ret < 0) {
+> > +        error_report("Could not update PNOR: %s", strerror(-ret));
+>=20
+> Can you report the failed offset too please?
+
+Since this fixes a coverity warning, I'm applying now, and extending
+the error message can be a followup.
+
+>=20
+> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+>=20
+> > +    }
 > >   }
-> >   static int pnv_psi_dt_xscom(PnvXScomInterface *dev, void *fdt, int xs=
-com_offset)
-> > @@ -873,9 +880,7 @@ static void pnv_psi_power9_realize(DeviceState *dev=
-, Error **errp)
-> >       memory_region_init_io(&psi->regs_mr, OBJECT(dev), &pnv_psi_p9_mmi=
-o_ops, psi,
-> >                             "psihb", PNV9_PSIHB_SIZE);
-> > -    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
-> > -
-> > -    qemu_register_reset(pnv_psi_reset_handler, dev);
-> > +    pnv_psi_realize(dev, errp);
-> >   }
-> >   static void pnv_psi_power9_class_init(ObjectClass *klass, void *data)
-> >=20
+> >   static void pnv_pnor_write(void *opaque, hwaddr addr, uint64_t data,
 > >=20
 >=20
 
@@ -158,25 +122,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---hYooF8G/hrfVAmum
+--g7w8+K/95kPelPD2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4VKF0ACgkQbDjKyiDZ
-s5LR8RAAmwZyGeirIhzaxjpqnaVbV5bVjFGhADlERhrB4Q4AHlYe39rN1veDahG9
-npOJGxMRGkZAnRu7Z5xYvRMZPZxD8Zg1Gp7YQ1IcIFdAw12pzotsq/9fg9WImaeJ
-SqJXnqs8ZCCkQPCoWYI69b5Bhyaf4z4uLaM05oIwWUmCxyH+cDsbDNeOynd1Fsg+
-ICf9O4XUzB8D+VNO9eQgdW54Jamf4PiDfHSDIEQiYPv2BbWQlNaDztoXtRarSbPl
-m8f6MhpmGgflbY/aHAOVokNLk19SS+C96RW6u+t4FUl95bMN9LPubWs9+K+AAq0X
-Vaa3x06WGhLHc4O/YFrYZfczn4Dv1KPYH9aWv1fX8kO1Fc+rxwq3nZYVbgX6JPQS
-Zz67GhDVqO44qtQjyjn91ItPmGQhE1x+53QSNkU0rj+lJJm/ZfAfTYYRSkRfYrKn
-XGCPNfbr+58sZA5EDHDqwErbxhqPm+l4+JX9INLsZN9PMVGdozLke579TK6q+97u
-rzgxp1jVkm0PT4C5RyOPNyJ5fL6xCvwD1elrrgPTYARaj08kIexYiTPalnCI3NsC
-/E+r10Y1j/2Pm8F2eRo/uu1rjyj2qkfWKzI2sH3lyyDsKhMrcnRA/Yn8zMkjpxNl
-nwtk7z794Sp1/XpfvvTwOUQVAOcf8z0pvTgkAYjwfV+curoCTeo=
-=pQEH
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4VKNIACgkQbDjKyiDZ
+s5Jb9hAAoATj6z/WTPOsS5j/z5M+e35fzw229QLHJ8g8iVqRpg0yquq6WFV1OWtz
+AqGTG/HWjpdH/9wWy5n2ZFFapES6uXxvARsjIqujkU70YmRebYf8aRnC8GaoBMLE
+lLHbamaIroCC5tfZ+2WBN4WSL3/9VrNVVCxujOaD36kfXbqmwzoBcfRokdXVrrEw
+NqWuKew6sPUxWVjEK7w8kDvlGapsBm0jhEMnc/Sm657EvCbenV8EMQJcQ9PA29Gf
+diaTHDpb2reU5jiaPewouyHtH4hLJCzquE4gWC8GMPw4v4qmjD7NAJnxUlByeEpD
+K+T6LR0+3kVf0esQ8ep1NNMCnuw8nDmIu7/+l08H799SaCD2dAkdgalU4Fp2HUQu
+NGB3ON2ujWrMgjK0bz+Hr+WxSzPnIaxvcwVacYb53QrQgXWiJvRnHkUYmfgjyfLZ
+GS8HvHAgIFXYdFLRrARHx2WqOfJkX1Ha/IAP2c/RvRuFFGh3Zq/KLrRwXMKvBoV6
+bKk814ew47j3NSz8wPmPK/WlKuXry2B14h6rN50fK6oeuackk6EoUe1jWLUMTd8C
+nLLtKM+GnbrTeePk0rV9j4qnFE42AFVN5nvbnetwFOmejZVGdgH9FqGZPRnCDz0o
+YS3jJibtHQ48iYnRa2POt5eY4XdB2CzpYN+SsomxQSH+PVK3Qgc=
+=sRmm
 -----END PGP SIGNATURE-----
 
---hYooF8G/hrfVAmum--
+--g7w8+K/95kPelPD2--
 
