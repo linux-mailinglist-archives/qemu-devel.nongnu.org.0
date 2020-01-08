@@ -2,61 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0591D1348E1
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 18:11:11 +0100 (CET)
-Received: from localhost ([::1]:47086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33EC1348C9
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 18:05:39 +0100 (CET)
+Received: from localhost ([::1]:46936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipErO-0001vf-4R
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 12:11:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55322)
+	id 1ipEm2-00030Q-9x
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 12:05:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipEm5-0003vi-Qt
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:05:42 -0500
+ (envelope-from <stefanha@gmail.com>) id 1ipEiy-0008Ak-BJ
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:02:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipEm4-0000jp-R7
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:05:41 -0500
-Received: from indium.canonical.com ([91.189.90.7]:45842)
+ (envelope-from <stefanha@gmail.com>) id 1ipEix-0006TT-1X
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:02:28 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46682)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipEm4-0000iM-GS
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:05:40 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipEm3-00032R-Me
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 17:05:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A84152E8042
- for <qemu-devel@nongnu.org>; Wed,  8 Jan 2020 17:05:39 +0000 (UTC)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1ipEiw-0006SD-MS
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:02:26 -0500
+Received: by mail-wr1-x442.google.com with SMTP id z7so4107744wrl.13
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 09:02:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=RT+LBwtrs+pIJFlKOpml16o4HIJLwdAdQjf3NKvN6f0=;
+ b=gVOIVxomZZH+oZpd9czekdLzOmB9usKbfLCPm65pzA+DtOpYm3atEfAVrrmXk5NzF9
+ cRRPf3rMiZafMCh1MpaFbB/hoOoJ98742aR6Gy22zjbdwnHUTWdN+f/fsjhXP8POJ1dd
+ yMOCgdKCrTQje2n/sMhCSxui+VcZuVY2g4maYlXQSeEPqHMiO73N9PERrAW60oMGX74n
+ TKLZv0QyZgnJ5msy7CDJSra8UrOXY5vrrBwjet2UIC5RPNQIZY9vpBwAXMfycQTTG3KP
+ 8E0TUNkOxCks5fTdLbfom7HegCMHDd4190R+kX/y/v+Gxk20+8FvdBlyyf1bRr3tH8K1
+ KJhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=RT+LBwtrs+pIJFlKOpml16o4HIJLwdAdQjf3NKvN6f0=;
+ b=ZGNBN4poD20HcslLeXRFMhlA7cdfx7nR2DUnFMKiBFnpVXFP4g45QjJsr8RtfHV4Pi
+ BqAVBHZmH1lrGu8Q4YKUHWzjsCR7KtXM1Fw7+FcuO6p93PP8oPT01wfWS+T/RTcCotlw
+ 3mrOgsmFAH7uAOKXogxMQJFdFhOVtGRHQ245H+7M5wAC3w5lP5xfqMtzj0j6SMuRKHyB
+ RxLIOb3YwEVo+wVSrt5kKSGU1Ok3TV5GSMBmMyTFa4XqpXio4CbW0KU3FjiQR6vcTNJI
+ WSsVchszPawj3tan73xkwHx7FBp3KwbjS/ZFCQQdlCKgqYNvYdfBd9slp2OORxPkFrf+
+ dSYQ==
+X-Gm-Message-State: APjAAAX0R1zpOL3GB2GF4HxRmPHU/PIWFKJvm0c29fytoTrSdf/bMnbq
+ pfyH8hkLM5u7rrqKzkUdVPI=
+X-Google-Smtp-Source: APXvYqwVwrbZohM3tvgiBLU1yU4CFrH62oqr9pkv0QqhXTNUou0zN0ztx2w7U9a4+zU1UgxnGIBx9Q==
+X-Received: by 2002:adf:f58a:: with SMTP id f10mr5923072wro.105.1578502944951; 
+ Wed, 08 Jan 2020 09:02:24 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id t125sm4620483wmf.17.2020.01.08.09.02.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2020 09:02:22 -0800 (PST)
+Date: Wed, 8 Jan 2020 17:02:21 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Subject: Re: [RFC] Implementing vhost-user-blk device backend
+Message-ID: <20200108170221.GC501521@stefanha-x1.localdomain>
+References: <CAJAkqrWm28qXtsFmaENAcsDNQV7gE=sd+YyA5ADmm2Vo9DKrUQ@mail.gmail.com>
+ <20191219143141.GF1624084@stefanha-x1.localdomain>
+ <CAJAkqrXKnwPhQMAT6dhvxDgs+7t3o89QSBPPDeP8AxQmwMi2Xw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 08 Jan 2020 16:58:00 -0000
-From: puchuu <1858461@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aladjev-andrew amarkovic
-X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
-X-Launchpad-Bug-Modifier: puchuu (aladjev-andrew)
-References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
-Message-Id: <157850268022.14847.845500140606628941.malone@wampee.canonical.com>
-Subject: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 992224395761fd73c93dcb392f1ec87b0e260768
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wxDdMuZNg1r63Hyj"
+Content-Disposition: inline
+In-Reply-To: <CAJAkqrXKnwPhQMAT6dhvxDgs+7t3o89QSBPPDeP8AxQmwMi2Xw@mail.gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,52 +79,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1858461 <1858461@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Bharat Singh <bharatlkmlkvm@gmail.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've just written these generators in ruby, but it can be rewritten in
-python, perl, etc.
 
--- =
+--wxDdMuZNg1r63Hyj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1858461
+On Sun, Jan 05, 2020 at 12:06:17AM +0800, Coiby Xu wrote:
+> Hi Stefan,
+>=20
+> Thank you for reviewing my work! All the improvements have been
+> applied except for a small issue regarding object_add.
 
-Title:
-  Please refactor linux-user/mips/cpu_loop.c
+Excellent, thanks for your work!
 
-Status in QEMU:
-  New
+> >  (qemu) object_add vhost-user-server,id=3DID,chardev=3DCHARDEV,writable=
+=3Don|off
+>=20
+> Currently I implement object_add feature in the following syntax which use
+> unix_socket directly instead of chardev,
+>=20
+>   (qemu) object_add
+> vhost-user-server,id=3Did=3Ddisk,unix_socket=3D/tmp/vhost-user-blk_vhost.=
+socket,name=3Ddisk,writable=3Doff
+>=20
+> I know in QEMU we can create a socket server using chardev-add,
+>   (qemu) chardev-add socket,id=3Dchar1,path=3D/tmp/vhost-user-blk_vhost.s=
+ocket
+>=20
+> But it seems it's a bit cumbersome to utilize chardev. Take QMP over sock=
+et
+> as an example,
+>=20
+>   $ x86_64-softmmu/qemu-system-x86_64 -drive
+> file=3Ddpdk.img,format=3Draw,if=3Dnone,id=3Ddisk -device
+> ide-hd,drive=3Ddisk,bootindex=3D0 -m 128 -enable-kvm -chardev
+> socket,id=3Dmon1,path=3D/tmp/mon.sock,server,nowait -mon
+> chardev=3Dmon1,mode=3Dcontrol,pretty=3Don
 
-Bug description:
-  Hello. I am working with qemu on test images. I've added a new syscall
-  (436) to qemu but received ENOSYS from mips application.
+This convenience syntax is fine for now.
 
-  Please open "linux-user/mips/cpu_loop.c". I've added at the end of
-  "mips_syscall_args" the following:
+Maybe later it will be necessary to use chardev instead if the user
+wishes to takes advantage of -chardev socket options (server=3Don|off,
+wait=3Don|off, tls-creds=3D..., etc).
 
-  ```
-  MIPS_SYS(sys_getdents64_x32, 3)
-  ```
+> It doesn't support multiple concurrent client connections because of the
+> limitation of chardev/char-socket.c.
 
-  But
+That's fine, vhost-user UNIX domain sockets typically don't handle
+multiple concurrent connections.
 
-  ```
-  syscall_num =3D env->active_tc.gpr[2] - 4000;
-  if (syscall_num >=3D sizeof(mips_syscall_args)) {
-    ret =3D -TARGET_ENOSYS;
-  ```
+Stefan
 
-  returns -TARGET_ENOSYS
+--wxDdMuZNg1r63Hyj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  We can see that "linux-user/mips/cpu_loop.c" differs a lot from
-  "linux-user/arm/cpu_loop.c". Arm has it's own "ARM_NR_BASE" and etc.
+-----BEGIN PGP SIGNATURE-----
 
-  Can you please refactor mips cpu loop in the same way as arm? Thank
-  you.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4WCx0ACgkQnKSrs4Gr
+c8jQGwf/ez5bwsiavlZAgHInkX2dh3jJ5UhUGy4RULWwrNJpF2KsMUzIz7Z8dFhC
+ofIO//ux7c7CdeXy8Yhcc0XRWVUghyroa9dkmYQFov4Fny3l9AFwhnOJjuDT7e9k
+cvjwJR/d/tyhu5yPE/satn/WNN4SgZqd7/CtysP73LH6pG223Ft64JA3qi0dYV5E
+QZHjIjyEuUOVNwULjLsmCar1nyP/9sYJ/toko7cOtj4nzOp1M7U2Zfr9T7U+aWgj
+fPWpGWa57qMpgt08b8PMEL0ghYpaNeJ0JHi+AgQ6uabMQNfwN3G3e99sdaItDPcT
+45luzGPUry5xIc+yVvvCurdw4+zviQ==
+=F+nz
+-----END PGP SIGNATURE-----
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1858461/+subscriptions
+--wxDdMuZNg1r63Hyj--
 
