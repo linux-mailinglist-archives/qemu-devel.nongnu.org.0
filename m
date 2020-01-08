@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E611134744
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 17:09:58 +0100 (CET)
-Received: from localhost ([::1]:46112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A617B134724
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 17:05:59 +0100 (CET)
+Received: from localhost ([::1]:46038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipDtp-0006GS-Se
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 11:09:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36646)
+	id 1ipDqI-0000VW-99
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 11:05:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36637)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1ipDnX-0005y3-6j
+ (envelope-from <laurent@vivier.eu>) id 1ipDnW-0005xa-RX
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 11:03:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1ipDnS-00020s-9M
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 11:03:07 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:39255)
+ (envelope-from <laurent@vivier.eu>) id 1ipDnV-00023v-KP
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 11:03:06 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:37357)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1ipDnJ-0001sA-EB; Wed, 08 Jan 2020 11:02:53 -0500
+ id 1ipDnJ-0001sl-TQ; Wed, 08 Jan 2020 11:02:54 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N8GhM-1jkA294BG4-014Cq3; Wed, 08 Jan 2020 17:02:38 +0100
+ id 1MSswA-1jH9k041Ms-00ULNl; Wed, 08 Jan 2020 17:02:39 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] util/module: fix a memory leak
-Date: Wed,  8 Jan 2020 17:02:30 +0100
-Message-Id: <20200108160233.991134-3-laurent@vivier.eu>
+Subject: [PULL 3/5] nbd: fix uninitialized variable warning
+Date: Wed,  8 Jan 2020 17:02:31 +0100
+Message-Id: <20200108160233.991134-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200108160233.991134-1-laurent@vivier.eu>
 References: <20200108160233.991134-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:hS/W2JMW7nZSLC0eATbtBj6PivLfM45GzikAafYooWqOMTH/Eae
- 7iyfqSvy+QZsEMwCgFBCGdCN2lO3755qEwf2A5s5iXi/c55NekWtqO0o0nj+XgneyWcm9hR
- zOIYvWOmuyGgG52AKn+Zmz3+lbmUtietPv2AGLu2vrEzB4Aslp1mK0Fi4HTEmmgoboGYb6S
- RLjOe5BZ9BPh5XSKddV9A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:V2H1zfct0lA=:qw+R8WMdzOZiTSvJHc7vHG
- 0SbNg+CnBwgIfzQ6uICPhUe1nt5EiS5WbesfBq40iXKc8RsxsfKdNnS3XazU6XXDoeXve6/gx
- VFaQWVkz8ZXDCCIUNaTgKmbMb8Ma2UPnNB6LxbwulJ4BJP+L/nhHw7/VAgha1PqxLs053MEUV
- RUE0YjMChw21AODNGbTDHmXrIdHKnS1o/Jp8RE/3vrexJ44V4LQCH+7RjHBNF89uIpVhRWnaP
- aG3tbu9LrfivyxRCimlQQ6BpGbI3ZXZKiNFwqelxWzPjeOmRQtBZwHPjOa4JKhAu4N1qtDUeM
- XozihjDBOMx7JNagAyVH5/lMwz7wJpKnLWkcK4oJvu96xGr0qcg08Ksq9PieDqZmK+0XHOvQb
- WWHlR8BqKMxuOCwz4RXh+IoUSfLyOTNIyFPi9/cEhmPGSPUltFQmwOD//uAF1wZ+FenhXa8p4
- xcZg/Pc3XgKabGyeYEF+2VjE0X++MXlgB3ZEkds3d0EVXMB3D5HkI16KWdcDsZWRGNwH59Oav
- C1xkKXwzafLAEEvP7BPKKA5QDt5Z2kFOjlPU2dOHyxfFlGqbvXu0zss0NF5scM1sKB+KFXUg3
- dX2HB9Gtx2DOxkotJV5j8gICaqMLtM0f/kj58Rl3CfSqm2gw8cZDTY+MYt/PklueajohPfVJa
- 82UWDJYPF872CWXvVlC9F/RqK1L9gQLzGoq11TQNsiMSggwSYHVXZSqUgCqsLiRllc/0Ow/ne
- TEpK6sBtSI3LZ6i9MGy8EgXkXEpz8eiYySjWWe8MGegy3tnJGz1cPoqex/7oG21fbP/delnX1
- tyzMjoLJuhFVIkzWrviw9ckMoKF4mQPOzBvHMbmaH8RovYW4RiweZ9X6S2u1hy4AmUDvBXnse
- sx6i+5LUo6PLNg5iivWg==
+X-Provags-ID: V03:K1:/EYbbloMlE/mMInqy/wdNfBC3RP04ti36AzGOyWwDHvqGvzbFHS
+ v208escUAmxXixQMpRzprBjxVZjUoGNrRCODviDRVNYwEugYcBQieTDNwHOOD/6ZIIlIaYw
+ KA+Be91bIDGmuZ0G/UBFArstWuyyb2NLijwwhX6UPa+txMmfD9lRrMyQY5cjXKCQW9iu26V
+ iF8KcNVXo2nNpXAzErDhQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iOjUjdSmKnQ=:6tycorvo7+rtQ6XdOUOAUt
+ H+pbOWqu7gT3UNfWGYuxNfdl6c2ZUoBAoErARBoEQU72X49+mIsnESZ0U7/bB4nvctT/LOOuv
+ B3t5mpG7hmAxMXWw4vTM3y9S+kAToNaKwHRW3Az8rnEX7iDQy9ONUCHT5YJVDAC6waMnsoJiG
+ NgEqnYDMfGq9IKDtd1Tr3Ga0FVO8FnoSEvb9RYjg2j1WeKHSfLWCCovmONA8pImZB4q0uU7rG
+ x5LfCWSBIPmAkAA78x+7NUPWkIgrlE0Vy+PCJIbWNGZuZmzdUsKKa2xUmKFAY0Rj2/EwC7MUZ
+ Evb1vtFiJspXYnYPmiXIlcwKT0OlvgS6mVPJyTQKA8FoGjZqDC05AG9xp/TBn24DtgnNx94oZ
+ TSHXX8xuZNBrmKP7tqhEz3xc4LLQN5IMHB55125TZZQ+FPCDZfCRhzLZBOVaZgtoAsT5s+VV5
+ cE5DSjvWk0sMLo8FtfS79ZVMQaSmRX56H+/YiHN7mgl1mV3RGkuglaPmGr+zq+Y+PTPKbQ8oB
+ Usdkw70/6UqQqARMiLbrZMp17tVyuWlA9anI/HDiJUGmvw3Tfg09GpYWANiUsiA7/KYgjDMsd
+ mboQq8U4UzTSXSjBtm8ByH8I/WSJjDIjFkGpUsSjhCJnlm386Xg7sq0DIxZt8vgmfa6Xy9cob
+ TQV+lDvuhgwu1ntcEmoBcpl7yhzVyjYHM9xc4YQt6SEJHjsxKfHrswa7GPOOejC3egv4pRIR+
+ sxnylE6ZOMNmqZFaKxx/yuLmAxZOef///mCsX36rK35jvrZSirGgkh46ckbqXKnF05ACGgGZd
+ TLLWSonKCtqnm7JaZ+gBsY2Nse5odRhUAa/ZHlQ9Y7CVjd8/r3b94O9ithaZrZdTBUYqOKy0d
+ ZHuvl/3lstAYoyDKpsjA==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 212.227.126.187
@@ -68,37 +68,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
  qemu-trivial@nongnu.org, Pan Nengyuan <pannengyuan@huawei.com>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+ qemu-arm@nongnu.org, Euler Robot <euler.robot@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pan Nengyuan <pannengyuan@huawei.com>
 
-spotted by ASAN
+Fixes:
+/mnt/sdb/qemu/nbd/server.c: In function 'nbd_handle_request':
+/mnt/sdb/qemu/nbd/server.c:2313:9: error: 'ret' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+     int ret;
 
-Fixes: 81d8ccb1bea4fb9eaaf4c8e30bd4021180a9a39f
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <1576805650-16380-1-git-send-email-pannengyuan@huawei.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200108025132.46956-1-pannengyuan@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- util/module.c | 1 +
- 1 file changed, 1 insertion(+)
+ nbd/server.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/util/module.c b/util/module.c
-index e9fe3e5422ad..8c5315a7a307 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -214,6 +214,7 @@ bool module_load_one(const char *prefix, const char *lib_name)
+diff --git a/nbd/server.c b/nbd/server.c
+index 24ebc1a80571..87fcd2e7bfac 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -2384,20 +2384,12 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
+                                                !client->export_meta.bitmap,
+                                                NBD_META_ID_BASE_ALLOCATION,
+                                                errp);
+-                if (ret < 0) {
+-                    return ret;
+-                }
+-            }
+-
+-            if (client->export_meta.bitmap) {
++            } else {              /* client->export_meta.bitmap */
+                 ret = nbd_co_send_bitmap(client, request->handle,
+                                          client->exp->export_bitmap,
+                                          request->from, request->len,
+                                          dont_fragment,
+                                          true, NBD_META_ID_DIRTY_BITMAP, errp);
+-                if (ret < 0) {
+-                    return ret;
+-                }
+             }
  
-     if (!success) {
-         g_hash_table_remove(loaded_modules, module_name);
-+        g_free(module_name);
-     }
- 
-     for (i = 0; i < n_dirs; i++) {
+             return ret;
 -- 
 2.24.1
 
