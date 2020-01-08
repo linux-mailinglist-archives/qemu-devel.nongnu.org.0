@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0AE1349CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 18:52:15 +0100 (CET)
-Received: from localhost ([::1]:47446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4FC1349D5
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 18:53:41 +0100 (CET)
+Received: from localhost ([::1]:47497 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipFV6-0006qo-Md
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 12:52:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48341)
+	id 1ipFWW-0001Vp-Lo
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 12:53:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48349)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1ipFTM-0005Si-11
+ (envelope-from <berto@igalia.com>) id 1ipFTM-0005Sn-8b
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:50:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1ipFTK-000165-OV
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:50:23 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:55163)
+ (envelope-from <berto@igalia.com>) id 1ipFTL-00016Y-0V
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:50:24 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:55159)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1ipFTK-0000YS-2Y; Wed, 08 Jan 2020 12:50:22 -0500
+ id 1ipFTK-0000WP-Nj; Wed, 08 Jan 2020 12:50:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=WHZ4UJ9Q3KqOEAfitcpL3sAcFDRvjYEeqxAs3TRiPiU=; 
- b=fM/DwPbWsNkZVRSwyNvyEOcVzh0NyoORD9BOH7Jc0EFTYEXnEZPznd62tonmB2Juci95IM0+fqi2EmPuzK5MvEaiKGUTnorkRkEEOlPMHf8Yei0Xv1RnAsNJipkJN9rcqlq33d0i6URQlyMVsybfcRLUenmiDrKMrMyqd3h5yAc957xFXC+eD1gtGx39m4nPvk1ah8c4TJP1cmmA07AuYASe6e9jdGDpQuPSXVJvgPCWvsp76T381UIm7bAkWdjxdDTVBNWTfa+HJcRvM3txDzIlUtM9NenvvCzVGvda8B7LonNoq/ueIu2VNSK3PRUV45SYUz05iMw/Yu2aKaEbjg==;
+ bh=oaC6J/0lUcjbOOUGMSdrNrClykmLQMSX94HkHdlFe6U=; 
+ b=PotJdK4r3/RsQOm6I5s8ld9iBhJnItPcFQTeCXCYW49F4E51WfPVGNXIu85ZDJ0+fqKAZ5WSfxuxvANvWVbOh6jJvkk6A/cZiikuw46KoLLmVMWRsZ5G3jlp/vzBsyuYtPMzrjHhX9VLuq0FcQAqLDPPspo1u7Xlkkj7N3FvhxPFxWmCJWFlyNCLXRoOAzUYkiP6Y3AiHDFVz41Ai8jmtwhjXfBQga6YxMyOj3IFE3pWQdpKIzJR9dyvI44E9Rd/Cfip+67DXRTgnBG4o2KaY0Wj3SboOcY/9JhomyaV3K98GTUbxyOrZEJfL9Rdvf9BdjyQPABBgwv1QDB4nueBpQ==;
 Received: from [213.99.255.143] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1ipFT1-0001HP-PO; Wed, 08 Jan 2020 18:50:03 +0100
+ id 1ipFT1-0001HO-Lz; Wed, 08 Jan 2020 18:50:03 +0100
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1ipFSD-0000DZ-Aw; Wed, 08 Jan 2020 18:49:13 +0100
+ id 1ipFSD-0000Db-Bs; Wed, 08 Jan 2020 18:49:13 +0100
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] qcow2: Require that the virtual size is a multiple of the
+Subject: [PATCH 2/3] qcow2: Don't round the L1 table allocation up to the
  sector size
-Date: Wed,  8 Jan 2020 18:49:08 +0100
-Message-Id: <4a27dc359f8211700662949bdecdd992f8918c12.1578505678.git.berto@igalia.com>
+Date: Wed,  8 Jan 2020 18:49:09 +0100
+Message-Id: <672f5b3c7c6bc12548c72ec309a7b2a01d253a72.1578505678.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1578505678.git.berto@igalia.com>
 References: <cover.1578505678.git.berto@igalia.com>
@@ -62,98 +62,77 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qcow2 header specifies the virtual size of the image in bytes, but
-BlockDriverState stores it as a number of 512-byte sectors.
-
-If the user tries to create an image with a size that is not a
-multiple of the sector size then this is fixed on creation by
-silently rounding the image size up (see commit c2eb918e32).
-qcow2_co_truncate() is more strict and returns an error instead.
-
-However when an image is opened the virtual size is rounded down,
-which means that trying to access the last few advertised bytes will
-result in an error. As seen above QEMU cannot create such images and
-there's no good use case that would require us to try to handle them
-so let's just treat them as unsupported.
+The L1 table is read from disk using the byte-based bdrv_pread() and
+is never accessed beyond its last element, so there's no need to
+allocate more memory than that.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- block/qcow2.c              | 7 +++++++
- docs/interop/qcow2.txt     | 3 ++-
- tests/qemu-iotests/080     | 7 +++++++
- tests/qemu-iotests/080.out | 4 ++++
- 4 files changed, 20 insertions(+), 1 deletion(-)
+ block/qcow2-cluster.c  | 5 ++---
+ block/qcow2-refcount.c | 2 +-
+ block/qcow2-snapshot.c | 3 +--
+ block/qcow2.c          | 2 +-
+ 4 files changed, 5 insertions(+), 7 deletions(-)
 
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 8982b7b762..932fc48919 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -124,12 +124,11 @@ int qcow2_grow_l1_table(BlockDriverState *bs, uint64_t min_size,
+ #endif
+ 
+     new_l1_size2 = sizeof(uint64_t) * new_l1_size;
+-    new_l1_table = qemu_try_blockalign(bs->file->bs,
+-                                       ROUND_UP(new_l1_size2, 512));
++    new_l1_table = qemu_try_blockalign(bs->file->bs, new_l1_size2);
+     if (new_l1_table == NULL) {
+         return -ENOMEM;
+     }
+-    memset(new_l1_table, 0, ROUND_UP(new_l1_size2, 512));
++    memset(new_l1_table, 0, new_l1_size2);
+ 
+     if (s->l1_size) {
+         memcpy(new_l1_table, s->l1_table, s->l1_size * sizeof(uint64_t));
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index f67ac6b2d8..c963bc8de1 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -1262,7 +1262,7 @@ int qcow2_update_snapshot_refcount(BlockDriverState *bs,
+      * l1_table_offset when it is the current s->l1_table_offset! Be careful
+      * when changing this! */
+     if (l1_table_offset != s->l1_table_offset) {
+-        l1_table = g_try_malloc0(ROUND_UP(l1_size2, 512));
++        l1_table = g_try_malloc0(l1_size2);
+         if (l1_size2 && l1_table == NULL) {
+             ret = -ENOMEM;
+             goto fail;
+diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
+index 5ab64da1ec..82c32d4c9b 100644
+--- a/block/qcow2-snapshot.c
++++ b/block/qcow2-snapshot.c
+@@ -1024,8 +1024,7 @@ int qcow2_snapshot_load_tmp(BlockDriverState *bs,
+         return ret;
+     }
+     new_l1_bytes = sn->l1_size * sizeof(uint64_t);
+-    new_l1_table = qemu_try_blockalign(bs->file->bs,
+-                                       ROUND_UP(new_l1_bytes, 512));
++    new_l1_table = qemu_try_blockalign(bs->file->bs, new_l1_bytes);
+     if (new_l1_table == NULL) {
+         return -ENOMEM;
+     }
 diff --git a/block/qcow2.c b/block/qcow2.c
-index 7fbaac8457..92474849db 100644
+index 92474849db..e8ce966f7f 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -1326,6 +1326,13 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-         goto fail;
-     }
+@@ -1499,7 +1499,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
  
-+    if (header.size % BDRV_SECTOR_SIZE) {
-+        error_setg(errp, "Virtual size is not a multiple of %u",
-+                   (unsigned) BDRV_SECTOR_SIZE);
-+        ret = -EINVAL;
-+        goto fail;
-+    }
-+
-     if (header.header_length > sizeof(header)) {
-         s->unknown_header_fields_size = header.header_length - sizeof(header);
-         s->unknown_header_fields = g_malloc(s->unknown_header_fields_size);
-diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
-index af5711e533..891f5662d8 100644
---- a/docs/interop/qcow2.txt
-+++ b/docs/interop/qcow2.txt
-@@ -40,7 +40,8 @@ The first cluster of a qcow2 image contains the file header:
-                     with larger cluster sizes.
- 
-          24 - 31:   size
--                    Virtual disk size in bytes.
-+                    Virtual disk size in bytes. qemu can only handle
-+                    sizes that are a multiple of 512 bytes.
- 
-                     Note: qemu has an implementation limit of 32 MB as
-                     the maximum L1 table size.  With a 2 MB cluster
-diff --git a/tests/qemu-iotests/080 b/tests/qemu-iotests/080
-index 4bcb5021e8..2563b2c052 100755
---- a/tests/qemu-iotests/080
-+++ b/tests/qemu-iotests/080
-@@ -48,6 +48,7 @@ header_size=104
- 
- offset_backing_file_offset=8
- offset_backing_file_size=16
-+offset_virtual_size=24
- offset_l1_size=36
- offset_l1_table_offset=40
- offset_refcount_table_offset=48
-@@ -197,6 +198,12 @@ poke_file "$TEST_IMG" "$offset_snap1_l1_size" "\x10\x00\x00\x00"
- { $QEMU_IMG snapshot -d test $TEST_IMG; } 2>&1 | _filter_testdir
- _check_test_img
- 
-+echo
-+echo "== Image size not a multiple of the sector size =="
-+_make_test_img 64k
-+poke_file "$TEST_IMG" "$offset_virtual_size" "\x00\x00\x00\x00\x00\x00\xff\xff"
-+{ $QEMU_IO -c "write 65530 1" $TEST_IMG; } 2>&1 | _filter_qemu_io | _filter_testdir
-+
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/080.out b/tests/qemu-iotests/080.out
-index 45ab01db8e..e1c969e2ba 100644
---- a/tests/qemu-iotests/080.out
-+++ b/tests/qemu-iotests/080.out
-@@ -104,4 +104,8 @@ Data may be corrupted, or further writes to the image may corrupt it.
- 
- 3 leaked clusters were found on the image.
- This means waste of disk space, but no harm to data.
-+
-+== Image size not a multiple of the sector size ==
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=65536
-+qemu-io: can't open device TEST_DIR/t.qcow2: Virtual size is not a multiple of 512
- *** done
+     if (s->l1_size > 0) {
+         s->l1_table = qemu_try_blockalign(bs->file->bs,
+-            ROUND_UP(s->l1_size * sizeof(uint64_t), 512));
++                                          s->l1_size * sizeof(uint64_t));
+         if (s->l1_table == NULL) {
+             error_setg(errp, "Could not allocate L1 table");
+             ret = -ENOMEM;
 -- 
 2.20.1
 
