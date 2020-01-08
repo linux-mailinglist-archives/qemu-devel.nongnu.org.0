@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE21134091
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 12:33:28 +0100 (CET)
-Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C9B13407F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 12:30:29 +0100 (CET)
+Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip9aY-000593-QL
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 06:33:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53909)
+	id 1ip9Xg-0002i1-HH
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 06:30:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53123)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pavlica.nikola@gmail.com>) id 1ip9Xe-0003Pp-3O
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:30:27 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ip9WS-00023j-SA
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:29:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pavlica.nikola@gmail.com>) id 1ip9Xc-000176-Mb
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:30:25 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35726)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pavlica.nikola@gmail.com>)
- id 1ip9Xc-00016A-Ev
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:30:24 -0500
-Received: by mail-wm1-x343.google.com with SMTP id p17so2130611wmb.0
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 03:30:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mE2lnlrRD/lR6rpbLiZ24E0msmA8lV+tPD7M/Fd7f3M=;
- b=I9Eg9LCjsT3Kt8rux7TNLu8q5LNnJPKs/F/wYFUJOGoDuVOaqy3DKW3fx162+cu7K4
- MIF0jvIJID0jOX5VItlA+KV0Nt+hUVIJv+L+qYX038RNrrN2PLLNLvF8cEjbt/p7wUmN
- m3UepPBGpN896oxKI655BSoSm9XMPtoYtG+0wd/xFJgc4uIiDnsGtdfE8EHhCA9PPlvx
- U+KOlz8+t20Gzf7PuZIdPgqbNzQWHbGGswdVuQ0KIuEH0jDlFNIgljoOjNRSPYSqLcmP
- StAv6ARYMYQzOpaTk9v8266j5gYGdvDvt56BxXitpQ1BLJWghbiB2OHZStFa3BV59qUq
- JJzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mE2lnlrRD/lR6rpbLiZ24E0msmA8lV+tPD7M/Fd7f3M=;
- b=IVC75l5cFRADm3JklFFLlD8H9B0EEt2y0a9HHGBCXoAHJ6LjwFhNBxoHMmp7rBhdQs
- LCQSRSIBO/kxfQLyrC7M5d7O5lqJ8AIB6Nv354VGYq4kpMHseX4t4JKld9P5QcuPrmGY
- EfRXZMeWZd4EO3J+ImWzBGZMgaGzbSm9bv17RFyZbjHZnJdjA3GfqavYhO3NjtMWVHNR
- 5Ta/PpEeoGn0lgbjRzFSQcuiefmX1Tf1FurmIIWjdCJkXV4ASHddUeYOBQr81GrxHKPr
- TLXbcxQ3Bda1fbpZ47oESkQYGtfYDuMYYAZ+kDiY1yUNp00Jj4O4qUny10mGzSe/uA2n
- 9FzA==
-X-Gm-Message-State: APjAAAVYQy1tigeChDWrEdi6XqcpzQj5opznw5Dl7tYTMtl/kBx/B9bZ
- kS/GoNizpDY6dE/pmrdlZzpL0ShCInpEzQ==
-X-Google-Smtp-Source: APXvYqxR5eE/rpQpHjVMK9zZACfywR6ZsXQfqO6NwiWlu6kZ7zefuRP32hnbM0X93XHlsx3MI2Ikyw==
-X-Received: by 2002:a7b:c386:: with SMTP id s6mr3257020wmj.105.1578483023327; 
- Wed, 08 Jan 2020 03:30:23 -0800 (PST)
-Received: from localhost.localdomain (93-139-26-156.adsl.net.t-com.hr.
- [93.139.26.156])
- by smtp.gmail.com with ESMTPSA id a14sm4136151wrx.81.2020.01.08.03.30.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 03:30:22 -0800 (PST)
-From: pavlica.nikola@gmail.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4] display/gtk: get proper refreshrate
-Date: Wed,  8 Jan 2020 12:27:47 +0100
-Message-Id: <20200108112747.25249-1-pavlica.nikola@gmail.com>
-X-Mailer: git-send-email 2.24.1
+ (envelope-from <dgilbert@redhat.com>) id 1ip9WR-0000Kt-OF
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:29:12 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24985
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ip9WR-0000KY-Jo
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:29:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578482951;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SLohV8IuPrDwgD/FBT7V9AWBN1NYg8wO5blctv1ibWc=;
+ b=fjJ2JEGhkPm1h2FCkLfOaArF1YgT5lPnV7ptf2xxWacL2vYoTT47I1MTlqFqi5fjl+fXSA
+ BT3sJlmgmqgKV23DFte7seTHsnahz43zeDQKGhiezKSfFg3fx2XhZyDPgYkllNnPc8JfLe
+ K4je528/HA+T3kot2rx4dPI5RS1rzqY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-48-Ug_xdIz2OXmzzUC7I6XcUA-1; Wed, 08 Jan 2020 06:29:10 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3442E8C2F21;
+ Wed,  8 Jan 2020 11:29:09 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 90F2660CD3;
+ Wed,  8 Jan 2020 11:29:05 +0000 (UTC)
+Date: Wed, 8 Jan 2020 11:29:02 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH v2 2/3] tpm-ppi: page-align PPI RAM
+Message-ID: <20200108112902.GB3184@work-vm>
+References: <20200103074000.1006389-1-marcandre.lureau@redhat.com>
+ <20200103074000.1006389-3-marcandre.lureau@redhat.com>
+ <20200103100233.GA3804@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+In-Reply-To: <20200103100233.GA3804@work-vm>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: Ug_xdIz2OXmzzUC7I6XcUA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,98 +74,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kraxel@redhat.com, Nikola Pavlica <pavlica.nikola@gmail.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nikola Pavlica <pavlica.nikola@gmail.com>
+* Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> * Marc-Andr=E9 Lureau (marcandre.lureau@redhat.com) wrote:
+> > post-copy migration fails on destination with error such as:
+> > 2019-12-26T10:22:44.714644Z qemu-kvm: ram_block_discard_range:
+> > Unaligned start address: 0x559d2afae9a0
+>=20
+> Ah good, we got a sane error message!
+>=20
+> > Use qemu_memalign() to constrain the PPI RAM memory alignment.
+> >=20
+> > Cc: qemu-stable@nongnu.org
+> > Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> > ---
+> >  hw/tpm/tpm_ppi.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
+> > index ff314592b4..6d9c1a3e40 100644
+> > --- a/hw/tpm/tpm_ppi.c
+> > +++ b/hw/tpm/tpm_ppi.c
+> > @@ -43,7 +43,8 @@ void tpm_ppi_reset(TPMPPI *tpmppi)
+> >  void tpm_ppi_init(TPMPPI *tpmppi, struct MemoryRegion *m,
+> >                    hwaddr addr, Object *obj)
+> >  {
+> > -    tpmppi->buf =3D g_malloc0(HOST_PAGE_ALIGN(TPM_PPI_ADDR_SIZE));
+> > +    tpmppi->buf =3D qemu_memalign(qemu_real_host_page_size,
+> > +                                HOST_PAGE_ALIGN(TPM_PPI_ADDR_SIZE));
+>=20
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Hi,
-QEMU mailing list.
+I just noticed a bit in the CODING_STYLE that says:
 
-This is the fourth revision of the patch involving the GTK display
-output getting the proper refresh rate for your particular display
-output.
+  Memory allocated by qemu_memalign or qemu_blockalign must be freed with
+  qemu_vfree, since breaking this will cause problems on Win32.
 
-Because some VMs in QEMU can get GPU virtualization (using technologies
-such as iGVT-g, as mentioned previously), they could produce a video
-output that had a higher display refresh rate than of what the GTK
-display was displaying. (fxp. Playing a video game inside of a Windows
-VM at 60 Hz, while the output stood locked at 33 Hz because of defaults
-set in include/ui/console.h)
+so I guess this is wrong?
 
-Since QEMU does indeed have internal systems for determining frame
-times as defined in ui/console.c.
-The code checks for a variable called update_interval that it later
-uses for time calculation. This variable, however, isn't defined
-anywhere in ui/gtk.c and instead ui/console.c just sets it to
-GUI_REFRESH_INTERVAL_DEFAULT which is 30
+Dave
 
-update_interval represents the number of milliseconds per display
-refresh, and by doing some math we get that 1000/30 = 33.33... Hz
-
-This creates the mentioned problem and what this patch does is that it
-checks for the display refresh rate reported by GTK itself (we can take
-this as a safe value) and just converts it back to a number of
-milliseconds per display refresh.
-
-Explinations of each revision:
-v1: initial patch
-v2: moved code to a more appropriate place and reduced overhead and
-memory usage (by not creating a new GdkDisplay)
-v3: removed magic value and turned it into something more readable and
-added checks for an error state where GTK was unable to get the refresh
-rate, in which case we use the already existing default
-v4: fixed wrapping and repositioned variable names
-
-Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
----
- include/ui/gtk.h |  2 ++
- ui/gtk.c         | 10 ++++++++++
- 2 files changed, 12 insertions(+)
-
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index d9eedad976..d1b230848a 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -28,6 +28,8 @@
- #include "ui/egl-context.h"
- #endif
- 
-+#define MILLISEC_PER_SEC 1000000
-+
- typedef struct GtkDisplayState GtkDisplayState;
- 
- typedef struct VirtualGfxConsole {
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 692ccc7bbb..eb0efc70ee 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -1966,6 +1966,10 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-                               GSList *group, GtkWidget *view_menu)
- {
-     bool zoom_to_fit = false;
-+    int refresh_rate_millihz;
-+    GdkDisplay *dpy = gtk_widget_get_display(s->window);
-+    GdkWindow *win = gtk_widget_get_window(s->window);
-+    GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
- 
-     vc->label = qemu_console_get_label(con);
-     vc->s = s;
-@@ -2026,6 +2030,12 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
- 
-     vc->gfx.kbd = qkbd_state_init(con);
-     vc->gfx.dcl.con = con;
-+
-+    refresh_rate_millihz = gdk_monitor_get_refresh_rate(monitor);
-+    if (refresh_rate_millihz) {
-+        vc->gfx.dcl.update_interval = MILLISEC_PER_SEC / refresh_rate_millihz;
-+    }
-+
-     register_displaychangelistener(&vc->gfx.dcl);
- 
-     gd_connect_vc_gfx_signals(vc);
--- 
-2.24.1
+>=20
+> >      memory_region_init_ram_device_ptr(&tpmppi->ram, obj, "tpm-ppi",
+> >                                        TPM_PPI_ADDR_SIZE, tpmppi->buf);
+> >      vmstate_register_ram(&tpmppi->ram, DEVICE(obj));
+> > --=20
+> > 2.24.0.308.g228f53135a
+> >=20
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
