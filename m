@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AE81339E2
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 05:01:44 +0100 (CET)
-Received: from localhost ([::1]:35452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A72C01339E6
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 05:02:29 +0100 (CET)
+Received: from localhost ([::1]:35472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip2XP-0007qC-25
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 23:01:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49890)
+	id 1ip2Y7-0000Os-U1
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 23:02:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49945)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ip2J8-00052H-Iq
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:46:59 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ip2JC-00056T-TU
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ip2J7-0003oz-JD
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:46:58 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:33715)
+ (envelope-from <richard.henderson@linaro.org>) id 1ip2JB-0003tB-Q4
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:02 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:44639)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ip2J7-0003oD-Do
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:46:57 -0500
-Received: by mail-pl1-x636.google.com with SMTP id ay11so524584plb.0
- for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 19:46:57 -0800 (PST)
+ id 1ip2JB-0003ro-KM
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 22:47:01 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id az3so535368plb.11
+ for <qemu-devel@nongnu.org>; Tue, 07 Jan 2020 19:47:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=J0NbyLl5+EmsVs3kA4BMAH1WI7D6bmJtQQCfcSxRCUE=;
- b=W0hf9oMSh32fM/AC4MH+xzti4XfCbDGjqc5jrF+j9ot+ligOAd3wdnWQuPdjCfx8aQ
- FpNmcrY1IWBr6fJnSn5gjMHdSjzg2NLYeaQvrTg66frlqyVF3X9worc4KRPzqsrAwiJ9
- I+sNKoK3qS7pU38xJGmBeTk/wWvnQ+l7x5R4pGUMHJMtKqWl3QnUncYTjxV1/kC7OEVH
- TB7e/VoeJQOcImtFfP8TVb0v++ncj2cJglhPsui2/WmwTfVOMXPeDwi+W1tPXamC/qCG
- Asi7evl2+JGvzvvZD6njGYMPPrrMxnk6Z0xYvQRp65ROperluDNYzHiW72koiv3nBdgf
- fwgQ==
+ bh=oVEAuPQVi3GPH490Dgn06PxWdedtC6S15waZ9SOo96s=;
+ b=sLNM0YvvHhXgT1k/B1PN0paV2le9fJmRGD+ACi8jKcBUpboGpvo25mNwv+eYmrM3/y
+ DQq0IVxUZCVhG66wQw+tE/9F16pxk+HFdmYTrUxkYF+vB5Vn+q19NdvsHGxNnGIr5Kup
+ CHvzsUTnqdLJna31gCy/ey1Pj9B91y6WylsmqfH3sjKlLGn85Z782s3ebb8XwyzCdWuD
+ tvYkLjYSBF3nvIUvvrfMtBLM13R4pyZsl7bHg3PvK1ZzNeGqaQEzh3+IINLLAwVaO6z4
+ QiQiK3Z+2XEvlUkn48JNFr3/YPIkZhxi+axyLLlV2l6dbCj5ATndZXKtZt8FLPMnrjGp
+ igyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=J0NbyLl5+EmsVs3kA4BMAH1WI7D6bmJtQQCfcSxRCUE=;
- b=VCudZdVdNO85NPjF8VlHWUCPJ5A1kQ9erRRmnSU8KytddFkJ2AipifeOraF+0W3b4V
- 63ZSA6ZzJY5BlBspsqDuO/B3xRw+k55eMmCtfzqrbUfwE2TldqWPYFIwryXQShpm1+ar
- KQdT5anlrbvSslfIOYlVg3fKk0OIkat7Y3KdA78lvxjzW2rBCnWORqJubjUOR5jES4SA
- 1j9k6qAZ1h/7diL+4XbhnTqrL8CBcfm/MBjK3YpSTqDJfjYf3PCZiTRcEM67U4rmXkdZ
- jh82P3YFo7Wx6lnWoOJSWKoC5i/6bHGAzk/zDhIAPymLOaurYIN9awWYagLCFBOdNz1Z
- QtwA==
-X-Gm-Message-State: APjAAAVdHXC4brFQ/1RSVixjLSnEYR9lzWMPPd4ZHc8ao421t9JEMgqm
- hWg7ZkoXBdL8jRiX+pr1piBenZgrFrpntg==
-X-Google-Smtp-Source: APXvYqzVvkIyu+gQ+1dLxxzSL51yFzHAhNbLIcnrbJXBKyHePUTmOv9z0mInZF0vzwXdoFpnZ7jMvQ==
-X-Received: by 2002:a17:90a:928a:: with SMTP id
- n10mr2220760pjo.58.1578455216206; 
- Tue, 07 Jan 2020 19:46:56 -0800 (PST)
+ bh=oVEAuPQVi3GPH490Dgn06PxWdedtC6S15waZ9SOo96s=;
+ b=TWsdRk6k5Qn2puom0nPF8SwAq62Ezf6oJOgF6NkggYzauHj76f3B3gxV0UwXP30hOO
+ MD8EzguhEqQaEDUWqYqeW2pkPIQTqLhEbCe2D9w30Nqp4xt+Tb382BehL+ko18P5VYy+
+ 95k6btvWmBK/ciRP+sptviX61mJ1u3E10brryGp49vz2RjA0/jQovPj0GEFvcFzuplAp
+ PM+ykzBZrYzAl7ntWSKu7sx68meleFpZWgGXipkXeLkY2qUApRp0P5unfKhl5/UK5Uw0
+ Rg5xE3uTBp28jC4lPIOPR0TlxfnN/gsOFYJAmaDBcpgr5P49C8Y1WUc62Q485jf3Pooc
+ 91sA==
+X-Gm-Message-State: APjAAAUpFrilId0F4+lu4d7hCxRhb150fy8RzmcvYH5NKQQAc9XV9tIf
+ Ah6tTLIA8wEUFj0cnqdkyF+J+G2ZxvWgsg==
+X-Google-Smtp-Source: APXvYqwInPIvCt3bFtWxTXYyWZKwtnjU72ell/zDr1pYFUt/3hyjmnozS816k4bci9WiXZ3cydqL/A==
+X-Received: by 2002:a17:90a:8912:: with SMTP id
+ u18mr2100717pjn.21.1578455219412; 
+ Tue, 07 Jan 2020 19:46:59 -0800 (PST)
 Received: from localhost.localdomain (alanje.lnk.telstra.net.
  [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id f23sm1198433pgj.76.2020.01.07.19.46.53
+ by smtp.gmail.com with ESMTPSA id f23sm1198433pgj.76.2020.01.07.19.46.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2020 19:46:55 -0800 (PST)
+ Tue, 07 Jan 2020 19:46:58 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/41] target/sh4: Remove MMU_MODE{0,1}_SUFFIX
-Date: Wed,  8 Jan 2020 14:45:10 +1100
-Message-Id: <20200108034523.17349-29-richard.henderson@linaro.org>
+Subject: [PULL 29/41] target/unicore32: Remove MMU_MODE{0,1}_SUFFIX
+Date: Wed,  8 Jan 2020 14:45:11 +1100
+Message-Id: <20200108034523.17349-30-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200108034523.17349-1-richard.henderson@linaro.org>
 References: <20200108034523.17349-1-richard.henderson@linaro.org>
@@ -68,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::636
+X-Received-From: 2607:f8b0:4864:20::62f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,34 +81,33 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+ peter.maydell@linaro.org, Guan Xuetao <gxt@mprc.pku.edu.cn>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The functions generated by these macros are unused.
 
-Cc: Aurelien Jarno <aurelien@aurel32.net>
+Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sh4/cpu.h | 2 --
+ target/unicore32/cpu.h | 2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-index ecaa7a18a9..452a596e67 100644
---- a/target/sh4/cpu.h
-+++ b/target/sh4/cpu.h
-@@ -254,8 +254,6 @@ void cpu_load_tlb(CPUSH4State * env);
- #define cpu_list sh4_cpu_list
+diff --git a/target/unicore32/cpu.h b/target/unicore32/cpu.h
+index 50ed9dd99c..7a32e086ed 100644
+--- a/target/unicore32/cpu.h
++++ b/target/unicore32/cpu.h
+@@ -133,8 +133,6 @@ void cpu_asr_write(CPUUniCore32State *env1, target_ulong val, target_ulong mask)
+ int uc32_cpu_signal_handler(int host_signum, void *pinfo, void *puc);
  
  /* MMU modes definitions */
 -#define MMU_MODE0_SUFFIX _kernel
 -#define MMU_MODE1_SUFFIX _user
  #define MMU_USER_IDX 1
- static inline int cpu_mmu_index (CPUSH4State *env, bool ifetch)
+ static inline int cpu_mmu_index(CPUUniCore32State *env, bool ifetch)
  {
 -- 
 2.20.1
