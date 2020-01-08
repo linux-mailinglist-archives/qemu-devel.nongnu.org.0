@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 030D2133DC4
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 10:03:23 +0100 (CET)
-Received: from localhost ([::1]:40758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C9E133DCA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 10:04:45 +0100 (CET)
+Received: from localhost ([::1]:40772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip7FJ-0003Pf-Us
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 04:03:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50655)
+	id 1ip7Ge-0005Dd-Ae
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 04:04:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50698)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stevensd@chromium.org>) id 1ip7E1-0002Lr-6P
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 04:02:03 -0500
+ (envelope-from <stevensd@chromium.org>) id 1ip7EA-0002QF-Gk
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 04:02:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stevensd@chromium.org>) id 1ip7E0-0005nm-2F
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 04:02:01 -0500
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:34326)
+ (envelope-from <stevensd@chromium.org>) id 1ip7E9-0005xS-I2
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 04:02:10 -0500
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:38756)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <stevensd@chromium.org>)
- id 1ip7Dz-0005mr-Ru
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 04:02:00 -0500
-Received: by mail-qt1-x841.google.com with SMTP id 5so2210583qtz.1
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 01:01:59 -0800 (PST)
+ id 1ip7E9-0005x2-EJ
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 04:02:09 -0500
+Received: by mail-qk1-x72d.google.com with SMTP id k6so1975688qki.5
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 01:02:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:from:date:message-id:subject:to;
- bh=WHSYiEZw5wlSC7tUwmcTwZpPtavvDB2Fab3d3t9x1NE=;
- b=OPOpuuPRQW4jTCBDS2skbSJYwdnxsh7R1ASm6+2ERzVa2g1BauUlMddybPbFUl/RV/
- FaL9PoBhjG0B+vWi9/8QfWxIPJFl0R8VLwTyG3EVn99BAN8aBnTf3RQ2ufA+HcL3+Gsi
- OMfyzZVZ6o/5OfRDeaTE7xiMwYYeZRi+oqz6o=
+ bh=MvBXFmubHjfTSZqX6gGxSDOdnp6QUUqOLQUXD/uSqGE=;
+ b=DYbgTGSP4mdzTCAqDQe0ONLDdXBCvCrs3Gf/qEYQ3nonNazP44qqR3UAJhoN3bcQWX
+ bQ2M/rSn1WnKbQ+SA+qoy1OFUAwukrU7HbG4Inels53VYSIMMPYpRV2TcKUFdlz7IZ+s
+ BlgcIAJI+EA2lI+1aLJOK0EB7NrpI9sWVCWq0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=WHSYiEZw5wlSC7tUwmcTwZpPtavvDB2Fab3d3t9x1NE=;
- b=LdINOplFtOYWZkdHesHTiT47GMulsY1SKVVRJ7lhqdo47seEK4WVRySx3qr9gQCPsA
- ZGe3RtYaeeNHGLV3f8Ap7qBngnA3goUF1lHNTxE2Vl+7k1scxpY7jJ0Kv0zMADskIXYN
- IhHuY+istN9YEofdb1WRHBoYBZFCsqKB/oiBqe7Hwq9l1QKhUQNEC/QeKBhUnc3B3G0O
- ShH3zeE5CuixViLPteXs1/HzCkeOc/1vZJKQYZSZ5GHMn2PYFGyaVrEZt2C+sN/oheV/
- cptjqNimy2ftSQoasI/WwMYbDLteJ4/6I2XJy246dXicrl8QzTAfVvX9QDXXUmM/aPV+
- 0GzA==
-X-Gm-Message-State: APjAAAWNaqpZX1Ge8i9/yqDJN2eZa9PFjfHDDUxegmyCnmxJIEx11fDP
- J+nYdConrznSBG1sPab+U+RupfOCpP3iH0uSPcs2eQ==
-X-Google-Smtp-Source: APXvYqyBRzVeZYL41+XIKfp/Un2raJtMLZFvgW5CdRGhgYmtwbPbqLeuphryWP5P28vmQPxTxDDUC09sPeeUH1PKQXA=
-X-Received: by 2002:ac8:65ce:: with SMTP id t14mr2684487qto.72.1578474118231; 
- Wed, 08 Jan 2020 01:01:58 -0800 (PST)
+ bh=MvBXFmubHjfTSZqX6gGxSDOdnp6QUUqOLQUXD/uSqGE=;
+ b=srTivzQIdwS5mo6kbZo/6SJPfF6dV2NrQ/spSKkOnddinMfc1ZtgdFJiVZWO/uXago
+ qDVRxbwKWBdnOUIS012bOsyQJaDO3iKmz18PCkO9g715Hjwp/kkAVw4HKOLcUIOhrJKS
+ 3+3bZc+yWwpL0HPxzs/7ZUcZS4Q42qy8rcqlpvh7iGOTGAr2j8GhLZq5As8dZsUHBvOT
+ D+HttlJSRRGmnmW/R+5GQ0HnKZO1wuVypx0KSNm/mGlNa16fbjFpdGX+8TTOZJsEivEx
+ Y3mGlVepwKRlK9VKHudrfdEu056cnp+ua6MZp39Xu3hOIydhG2erbQYuBe+AMofwwcFm
+ JFjw==
+X-Gm-Message-State: APjAAAUTwDbrlpFg/V7kwmxztL3xeJau9uBOOsMfe75XR/1eZ1vntf9f
+ OPacis5nQSp+Vx1zNE7J1oEPq5TOSFzyHleMOniuGg==
+X-Google-Smtp-Source: APXvYqweJlXV88c+PKT192DC2KihUtPe6TwZU6GCiLW50z8aM6eR4XRmfbWIQhisZ6FPS+0icbkxvHNLUyZA9fpTYc4=
+X-Received: by 2002:a05:620a:101b:: with SMTP id
+ z27mr3076885qkj.241.1578474128857; 
+ Wed, 08 Jan 2020 01:02:08 -0800 (PST)
 MIME-Version: 1.0
 From: David Stevens <stevensd@chromium.org>
-Date: Wed, 8 Jan 2020 18:01:47 +0900
-Message-ID: <CAD=HUj5AsJSw0rP8YVa2jmK-aK6R3=OyppwcRh5aJw_i=eP-SQ@mail.gmail.com>
-Subject: [virtio-dev][RFC PATCH v1 0/2] Cross-device resource sharing
+Date: Wed, 8 Jan 2020 18:01:58 +0900
+Message-ID: <CAD=HUj6FA3VoTJqNa+gmAgVOv9zS7Qk9pdg46EY9NvtJOdz5_A@mail.gmail.com>
+Subject: [virtio-dev][RFC PATCH v1 1/2] content: define what exporting a
+ resource is
 To: virtio-dev@lists.oasis-open.org, Gerd Hoffmann <kraxel@redhat.com>, 
  Dylan Reid <dgreid@chromium.org>, Tomasz Figa <tfiga@chromium.org>, 
  Zach Reizner <zachr@chromium.org>, Keiichi Watanabe <keiichiw@chromium.org>, 
@@ -61,7 +63,7 @@ To: virtio-dev@lists.oasis-open.org, Gerd Hoffmann <kraxel@redhat.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::841
+X-Received-From: 2607:f8b0:4864:20::72d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,13 +78,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This RFC comes from the recent discussion on buffer sharing [1],
-specifically about the need to share resources between different
-virtio devices. For a concrete use case, this can be used to share
-virtio-gpu allocated buffers with the recently proposed virtio video
-device [2], without the need to memcpy decoded frames through the
-guest.
+Define a mechanism for sharing resources between different virtio
+devices.
 
-[1] https://markmail.org/thread/jeh5xjjxvylyrbur
-[2] https://markmail.org/thread/yb25fim2dqfuktgf
+Signed-off-by: David Stevens <stevensd@chromium.org>
+---
+ content.tex | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/content.tex b/content.tex
+index b1ea9b9..73bd28e 100644
+--- a/content.tex
++++ b/content.tex
+@@ -373,6 +373,24 @@ \section{Driver Notifications}
+\label{sec:Virtqueues / Driver notifications}
+
+ \input{shared-mem.tex}
+
++\section{Exporting Resources}\label{sec:Basic Facilities of a Virtio
+Device / Exporting Resources}
++
++When a resource created by one virtio device needs to be
++shared with a seperate virtio device, the first device can
++export the resource by generating a \field{uuid} which the
++guest can pass to the second device to identify the resource.
++
++What constitutes a resource, how to export resources, and
++how to import resources are defined by the individual device
++types. The generation method of a \field{uuid} is dependent
++upon the implementation of the exporting device.
++
++Whether a particular exported resource can be imported into
++a device is dependent upon the implementations of the exporting
++and importing devices. Generally speaking, the guest should
++have some knowledge of the host configuration before trying to
++use exported resources.
++
+ \chapter{General Initialization And Device
+Operation}\label{sec:General Initialization And Device Operation}
+
+ We start with an overview of device initialization, then expand on the
+-- 
+2.24.1.735.g03f4e72817-goog
 
