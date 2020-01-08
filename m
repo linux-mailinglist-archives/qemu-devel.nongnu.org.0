@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B32133836
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 02:04:29 +0100 (CET)
-Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2986B13383E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 02:06:50 +0100 (CET)
+Received: from localhost ([::1]:57658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iozlr-0002HP-W8
-	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 20:04:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51158)
+	id 1iozo9-00061G-8n
+	for lists+qemu-devel@lfdr.de; Tue, 07 Jan 2020 20:06:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iozjU-0000WK-Lz
+ (envelope-from <dgibson@ozlabs.org>) id 1iozjV-0000Wb-OJ
  for qemu-devel@nongnu.org; Tue, 07 Jan 2020 20:02:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iozjS-00014y-Vw
- for qemu-devel@nongnu.org; Tue, 07 Jan 2020 20:02:00 -0500
-Received: from ozlabs.org ([203.11.71.1]:60947)
+ (envelope-from <dgibson@ozlabs.org>) id 1iozjU-00017B-J6
+ for qemu-devel@nongnu.org; Tue, 07 Jan 2020 20:02:01 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:57191)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iozjS-00012K-AH; Tue, 07 Jan 2020 20:01:58 -0500
+ id 1iozjU-00012I-8W; Tue, 07 Jan 2020 20:02:00 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47srYZ5jxZz9sSH; Wed,  8 Jan 2020 12:01:53 +1100 (AEDT)
+ id 47srYZ55Fcz9sS3; Wed,  8 Jan 2020 12:01:53 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1578445314;
- bh=cFopmRMxx9kLWbOuam2AbKOrnMqrSwXXEy3lldNJDe8=;
+ bh=g4qssSqHe1T8KMThNOUbaYBAb95zxavJOodYQaKkTjU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=R09iZ2yxF1C4jWih8uqu2rAWElxSo+xv7aNKjAI/3LRfoy/EAsoEGR3OnqQE+Z2wq
- VJ0i1Llcru7bdS4LINVDWF6/c8hFomI7L3/zCm+Qh0FKFTEiNdu+UKkFWONe4VjTYS
- RRvZcf8GIy9HdA3d3p1l1qH3sZqOvIzCBRabS7cA=
-Date: Wed, 8 Jan 2020 11:56:50 +1100
+ b=KnJnO+o25iUto34k1CGjZCTraOMPYM/751sK3fOmudaQh1/ZAMsFDFA2lvKn6AiSA
+ HXGGasuYvMrqKB0RAvZr2dxOkEGWtNDpHv3poeci7L6PWLsiM/SR59XRAMPKTVswKD
+ uf7thwzJ7qZokR3d0mC/xAfRE83A8gVYYPZN36Pk=
+Date: Wed, 8 Jan 2020 12:01:46 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 1/2] ppc/pnv: check return value of blk_pwrite()
-Message-ID: <20200108005650.GE2137@umbus.fritz.box>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 2/2] ppc/pnv: fix check on return value of blk_getlength()
+Message-ID: <20200108010146.GF2137@umbus.fritz.box>
 References: <20200107171809.15556-1-clg@kaod.org>
- <20200107171809.15556-2-clg@kaod.org>
- <49613a4e-aec8-8ae3-4443-ede9ed1fd39f@redhat.com>
+ <20200107171809.15556-3-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="g7w8+K/95kPelPD2"
+ protocol="application/pgp-signature"; boundary="vmttodhTwj0NAgWp"
 Content-Disposition: inline
-In-Reply-To: <49613a4e-aec8-8ae3-4443-ede9ed1fd39f@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+In-Reply-To: <20200107171809.15556-3-clg@kaod.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,65 +55,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---g7w8+K/95kPelPD2
+--vmttodhTwj0NAgWp
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 07, 2020 at 07:22:18PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 1/7/20 6:18 PM, C=E9dric Le Goater wrote:
-> > When updating the PNOR file contents, we should check for a possible
-> > failure of blk_pwrite().
-> >=20
-> > Fixes Coverity issue CID 1412228.
-> >=20
-> > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> > ---
-> >   hw/ppc/pnv_pnor.c | 8 ++++++--
-> >   1 file changed, 6 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/pnv_pnor.c b/hw/ppc/pnv_pnor.c
-> > index bfb1e92b0392..0e86ae2feae6 100644
-> > --- a/hw/ppc/pnv_pnor.c
-> > +++ b/hw/ppc/pnv_pnor.c
-> > @@ -33,6 +33,7 @@ static uint64_t pnv_pnor_read(void *opaque, hwaddr ad=
-dr, unsigned size)
-> >   static void pnv_pnor_update(PnvPnor *s, int offset, int size)
-> >   {
-> >       int offset_end;
-> > +    int ret;
-> >       if (s->blk) {
-> >           return;
-> > @@ -42,8 +43,11 @@ static void pnv_pnor_update(PnvPnor *s, int offset, =
-int size)
-> >       offset =3D QEMU_ALIGN_DOWN(offset, BDRV_SECTOR_SIZE);
-> >       offset_end =3D QEMU_ALIGN_UP(offset_end, BDRV_SECTOR_SIZE);
-> > -    blk_pwrite(s->blk, offset, s->storage + offset,
-> > -               offset_end - offset, 0);
-> > +    ret =3D blk_pwrite(s->blk, offset, s->storage + offset,
-> > +                     offset_end - offset, 0);
-> > +    if (ret < 0) {
-> > +        error_report("Could not update PNOR: %s", strerror(-ret));
+On Tue, Jan 07, 2020 at 06:18:09PM +0100, C=E9dric Le Goater wrote:
+> blk_getlength() returns an int64_t but the result is stored in a
+> uint32_t. Errors (negative values) won't be caught by the check in
+> pnv_pnor_realize() and blk_blockalign() will allocate a very large
+> buffer in such cases.
 >=20
-> Can you report the failed offset too please?
+> Fixes Coverity issue CID 1412226.
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Since this fixes a coverity warning, I'm applying now, and extending
-the error message can be a followup.
+Applied to ppc-for-5.0.
 
+> ---
+>  include/hw/ppc/pnv_pnor.h | 2 +-
+>  hw/ppc/pnv_pnor.c         | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 >=20
-> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
->=20
-> > +    }
-> >   }
-> >   static void pnv_pnor_write(void *opaque, hwaddr addr, uint64_t data,
-> >=20
->=20
+> diff --git a/include/hw/ppc/pnv_pnor.h b/include/hw/ppc/pnv_pnor.h
+> index c3dd28643cae..4f96abdfb402 100644
+> --- a/include/hw/ppc/pnv_pnor.h
+> +++ b/include/hw/ppc/pnv_pnor.h
+> @@ -23,7 +23,7 @@ typedef struct PnvPnor {
+>      BlockBackend   *blk;
+> =20
+>      uint8_t        *storage;
+> -    uint32_t       size;
+> +    int64_t        size;
+>      MemoryRegion   mmio;
+>  } PnvPnor;
+> =20
+> diff --git a/hw/ppc/pnv_pnor.c b/hw/ppc/pnv_pnor.c
+> index 0e86ae2feae6..b061106d1c0c 100644
+> --- a/hw/ppc/pnv_pnor.c
+> +++ b/hw/ppc/pnv_pnor.c
+> @@ -111,7 +111,7 @@ static void pnv_pnor_realize(DeviceState *dev, Error =
+**errp)
+>  }
+> =20
+>  static Property pnv_pnor_properties[] =3D {
+> -    DEFINE_PROP_UINT32("size", PnvPnor, size, 128 << 20),
+> +    DEFINE_PROP_INT64("size", PnvPnor, size, 128 << 20),
+>      DEFINE_PROP_DRIVE("drive", PnvPnor, blk),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -122,25 +116,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---g7w8+K/95kPelPD2
+--vmttodhTwj0NAgWp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4VKNIACgkQbDjKyiDZ
-s5Jb9hAAoATj6z/WTPOsS5j/z5M+e35fzw229QLHJ8g8iVqRpg0yquq6WFV1OWtz
-AqGTG/HWjpdH/9wWy5n2ZFFapES6uXxvARsjIqujkU70YmRebYf8aRnC8GaoBMLE
-lLHbamaIroCC5tfZ+2WBN4WSL3/9VrNVVCxujOaD36kfXbqmwzoBcfRokdXVrrEw
-NqWuKew6sPUxWVjEK7w8kDvlGapsBm0jhEMnc/Sm657EvCbenV8EMQJcQ9PA29Gf
-diaTHDpb2reU5jiaPewouyHtH4hLJCzquE4gWC8GMPw4v4qmjD7NAJnxUlByeEpD
-K+T6LR0+3kVf0esQ8ep1NNMCnuw8nDmIu7/+l08H799SaCD2dAkdgalU4Fp2HUQu
-NGB3ON2ujWrMgjK0bz+Hr+WxSzPnIaxvcwVacYb53QrQgXWiJvRnHkUYmfgjyfLZ
-GS8HvHAgIFXYdFLRrARHx2WqOfJkX1Ha/IAP2c/RvRuFFGh3Zq/KLrRwXMKvBoV6
-bKk814ew47j3NSz8wPmPK/WlKuXry2B14h6rN50fK6oeuackk6EoUe1jWLUMTd8C
-nLLtKM+GnbrTeePk0rV9j4qnFE42AFVN5nvbnetwFOmejZVGdgH9FqGZPRnCDz0o
-YS3jJibtHQ48iYnRa2POt5eY4XdB2CzpYN+SsomxQSH+PVK3Qgc=
-=sRmm
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4VKfoACgkQbDjKyiDZ
+s5KAMQ/+KyaysGQPBQpSCE3lRkGkev4mTSKNkW2EXN0Tg4V3Q80wdjFUvi/MOTgV
+gFIIAQy77tcf/UGaxiXwJqWIUfCy9zIFxFLP4UdZOExsHGKiza/Wgtgcg7UvPdYS
+f8AyFZDEYgJATJQl+3jH5fShm83OJ/ajZuIq3ujM+tMN3V5ty9YSK/ebL/VabwTT
+2eT9toAqy1QVZMzQiDSR0hyn6a4keYEpmnu/5DJoKvIZ6sHva0Kz+Fm26BOz8ouc
+cD1kBK49zmbyxwuDh9cb7CvPAi0Q6UKKe2DHG3eN3Qcpnpq1UlDzkkwgFTEt99OH
+J7JnklQOBJEpPN4HWtB22ho7cMnc2eY/NqufdtfpSOHUs/HDQTQN4RFNY5DOCoG3
+n7O2SC2CMVGKFhGPA3Z1HzsubqvuHUvCt4TSCO1fOx1Beds69VfOEvshlga7qIqf
+jOLx4N37diNrfSOfPbQwn8oVJicnocIx9hQNLhMRJAMi5LHdLLGpOUnzJdTTP7nD
+8syabkIkOFZaJtpoNz8AZTnOPaKs82raCG1X7v6HZlT+/htt7QJzVmd3SOOD45am
+7efLBCrmAwOxuEOBAKsYcQvmrSdHY11afYYtcMNINRoWzcf/mzfx7nu85m93R8Uh
+4qyYTFRVPUF7zQzDogahktrp9Jljj5G9t7D7lQeYTn4D9yQ4+gg=
+=5F88
 -----END PGP SIGNATURE-----
 
---g7w8+K/95kPelPD2--
+--vmttodhTwj0NAgWp--
 
