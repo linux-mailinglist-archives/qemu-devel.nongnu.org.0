@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A0F134A86
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 19:36:49 +0100 (CET)
-Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F71134B02
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 19:56:54 +0100 (CET)
+Received: from localhost ([::1]:48074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipGCG-0006Cj-W4
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 13:36:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58458)
+	id 1ipGVh-0007uD-He
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 13:56:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49142)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1ipGBS-0005mq-KC
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:35:59 -0500
+ (envelope-from <bounces@canonical.com>) id 1ipGUW-0006po-39
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:55:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1ipGBR-0004LC-Mu
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:35:58 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:39380)
+ (envelope-from <bounces@canonical.com>) id 1ipGUU-0000Lf-N1
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:55:39 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39610)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>) id 1ipGBR-0004JF-HW
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:35:57 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id b137so1974007pga.6
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 10:35:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=APH/Ma4g1nw3wGoY79dquePdemNvmfvGHZu2u2NXTys=;
- b=L9DmlfAjXaUv4TRi3h4W3AIixzDMfiKhmRJlCnDCmKpJtjX+wutSEzBp/B9vmzteD1
- +sx0LkBFy3bqvFdg7LojcYSrb8UAzzfsKxcVx912TXATTh16wwRHjB46qudu5DeB8p7l
- 7ATIm1hpox7HaL5MXJYO+uBzeWyDb/fItGOa7rhHU9krTTiFy3Esf4VTUMD4DyxxoSDE
- D2K25VsEwwUYcpp79QXHjlYailrbMXvZMoVA7s6HodyTkgR1/XBI+qWqnTVUv4kAffiz
- nGTW6vL2LIII3xdSTOzBljlO8XgEL3atRiYKhbnvwuOIXDPUqb969UzE7Xv43jFfEeYq
- /SGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:subject:message-id
- :mime-version:content-disposition:user-agent;
- bh=APH/Ma4g1nw3wGoY79dquePdemNvmfvGHZu2u2NXTys=;
- b=TBrYErTbFU29RWXGLmtSEuiF5AQN5fWLPRfwdWrOy+AZPjLrh9ADF43nVwyLRjzmU/
- CcDAkxITObFygMQzf7SxiJn6+FBdzH796rWyShRgFeITx3U1AQjz8E2N64oV54O9TpCQ
- OGjV9xyco2SH2OsUaW6z+dz4wAv+B1ED1oxCMOR0b7++ojsLvKX3yGM/mwXK6nia9BJq
- wU3ZmPaRaiqUALIGFDZjRugBW2/oINbL2UQb1TBbIZtB1H9VIKUN9vHd4MwYo0eV/cFS
- Hi0dyPrmntq1Rew9cB7GsdylfJXcoFU3NNlEZnvpPFuWYf6vSEFnwb2g5+qGFBGQ31ru
- eysw==
-X-Gm-Message-State: APjAAAXYM2lANDEX0Ry1r601CgyLK0XWmUsQEHs0qjg/b29C6ASWuIaz
- LD6w7BuzPP8AL4WLMOmISZ/ZiMji
-X-Google-Smtp-Source: APXvYqzb5ITkQ0SdZa+xChvLHvhA4gZCyx4gxJ2Z23fI9qPT0Hel4Up2Z0QZi0qzt8mn1Fzt5EcRRQ==
-X-Received: by 2002:a63:3404:: with SMTP id b4mr6631589pga.438.1578508555529; 
- Wed, 08 Jan 2020 10:35:55 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id a9sm4401042pfn.38.2020.01.08.10.35.53
- for <qemu-devel@nongnu.org>
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 08 Jan 2020 10:35:54 -0800 (PST)
-Date: Wed, 8 Jan 2020 10:35:53 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: qemu-devel@nongnu.org
-Subject: How to tell DMA controller in qemu to terminate transfer ?
-Message-ID: <20200108183553.GA5608@roeck-us.net>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ipGUU-0000K0-Gx
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 13:55:38 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ipGUT-0008L4-2H
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 18:55:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 032BF2E80BA
+ for <qemu-devel@nongnu.org>; Wed,  8 Jan 2020 18:55:37 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::52a
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 08 Jan 2020 18:45:57 -0000
+From: Aleksandar Markovic <1858461@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aladjev-andrew amarkovic pmaydell
+X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
+X-Launchpad-Bug-Modifier: Aleksandar Markovic (amarkovic)
+References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
+Message-Id: <157850915771.3198.10232902715644845278.malone@soybean.canonical.com>
+Subject: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c0364b72d3db183ff4a3d5ab47184c884c6eb58a
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,24 +65,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1858461 <1858461@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Andrew,
 
-I am trying to fix DMA support with Exynos4210. The original commit
-59520dc65e ("hw/arm/exynos4210: Add DMA support for the Exynos4210") doesn't
-really work, primarily because it assigns wrong interrupt lines (no idea
-how I thought I tested that).
+Thanks for your input regarding linked patch. The patch is still under
+review, and it is normal for patches under review to perhaps have some
+faults, and that is improved in the process of reviewing - that is,
+among other things, one of benefits of open source development. I will
+take into account your opinion, and fix the patch in the next version of
+the series.
 
-Problem I have right now is that the pl330 peripheral DMA in Exynos4210
-depends on a signal from the peripheral device (here: serial ports)
-to end a DMA transfer. To make this work, I need a signal from
-exynos4210_uart.c to pl330.c to terminate the DMA after the receive
-buffer is empty.
+As far your ideas on other improvements, my advice is to submit them to
+the QEMU devel list - possibly as a short series of patches. Try to
+organize your changes in several patches, each representing a logical
+unit. For example:
 
-How can I implement this in qemu ?
+   - one patch could be titled "linux-user: mips: Refactor enumerating of s=
+yscall numbers"
+   - the second patch could be "linux-user: Automate updating syscall numbe=
+rs" (but, yes, this should work preferably for all targets, as Peter said)
+   - the third patch could be "linux-user: Fix execution of program 'emerge=
+'" (I am not sure if there is a separate portion of code that fixes that)
+   - etc. - whatever you think should be fixed/improved
 
-Thanks,
-Guenter
+As Thomas said, follow https://wiki.qemu.org/Contribute/SubmitAPatch .
+For each patch, provide background information, problem that is fixed
+with the patch, and why is the way you propose good.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1858461
+
+Title:
+  Please refactor linux-user/mips/cpu_loop.c
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello. I am working with qemu on test images. I've added a new syscall
+  (436) to qemu but received ENOSYS from mips application.
+
+  Please open "linux-user/mips/cpu_loop.c". I've added at the end of
+  "mips_syscall_args" the following:
+
+  ```
+  MIPS_SYS(sys_getdents64_x32, 3)
+  ```
+
+  But
+
+  ```
+  syscall_num =3D env->active_tc.gpr[2] - 4000;
+  if (syscall_num >=3D sizeof(mips_syscall_args)) {
+    ret =3D -TARGET_ENOSYS;
+  ```
+
+  returns -TARGET_ENOSYS
+
+  We can see that "linux-user/mips/cpu_loop.c" differs a lot from
+  "linux-user/arm/cpu_loop.c". Arm has it's own "ARM_NR_BASE" and etc.
+
+  Can you please refactor mips cpu loop in the same way as arm? Thank
+  you.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1858461/+subscriptions
 
