@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8095813458A
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 16:02:41 +0100 (CET)
-Received: from localhost ([::1]:45210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2ABF1345A7
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 16:05:36 +0100 (CET)
+Received: from localhost ([::1]:45330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipCr2-0003jV-EP
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 10:02:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42391)
+	id 1ipCtr-0006xZ-Bo
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 10:05:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43692)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ipCoi-00029u-8r
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:00:17 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ipCrK-0004hQ-Rq
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:02:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ipCog-0007qa-0N
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:00:16 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42209
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ipCoe-0007oK-AB
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:00:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578495611;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lxa/kWRQEkiOz7sBIo3ceOTr8QumRNMa49cKsp3Y8Xk=;
- b=PEEXmeD0ObL5pKWwH3UirWCJzolG/G3Dj/buogj2pkxqVLWaYT7VnD5mtSYhTEbgVjdhli
- i1O+v8M9a2D510fnTzz5dD9zAKKTmAH8Fh2QqJQQKWfKnS3fqmNuW+sm7+DCyZPP2ja+yN
- eOniTF4p3mMBIfFF7nzqx5pEfcD8/54=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-AemsO7ccOuSy8JUg1pUO4w-1; Wed, 08 Jan 2020 10:00:08 -0500
-X-MC-Unique: AemsO7ccOuSy8JUg1pUO4w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18483DB62;
- Wed,  8 Jan 2020 15:00:05 +0000 (UTC)
-Received: from gondolin (dhcp-192-245.str.redhat.com [10.33.192.245])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 12CA35D9E5;
- Wed,  8 Jan 2020 14:59:57 +0000 (UTC)
-Date: Wed, 8 Jan 2020 15:59:55 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v10 Kernel 1/5] vfio: KABI for migration interface for
- device state
-Message-ID: <20200108155955.78e908c1.cohuck@redhat.com>
-In-Reply-To: <20200107115602.25156c41@w520.home>
-References: <1576527700-21805-1-git-send-email-kwankhede@nvidia.com>
- <1576527700-21805-2-git-send-email-kwankhede@nvidia.com>
- <20191216154406.023f912b@x1.home>
- <f773a92a-acbd-874d-34ba-36c1e9ffe442@nvidia.com>
- <20191217114357.6496f748@x1.home>
- <3527321f-e310-8324-632c-339b22f15de5@nvidia.com>
- <20191219102706.0a316707@x1.home>
- <928e41b5-c3fd-ed75-abd6-ada05cda91c9@nvidia.com>
- <20191219140929.09fa24da@x1.home> <20200102182537.GK2927@work-vm>
- <20200106161851.07871e28@w520.home>
- <ce132929-64a7-9a5b-81ff-38616202b757@nvidia.com>
- <20200107100923.2f7b5597@w520.home>
- <08b7f953-6ac5-cd79-b1ff-54338da32d1e@nvidia.com>
- <20200107115602.25156c41@w520.home>
-Organization: Red Hat GmbH
+ (envelope-from <alex.bennee@linaro.org>) id 1ipCrJ-0000rI-P6
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:02:58 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38532)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1ipCrJ-0000qU-Ie
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:02:57 -0500
+Received: by mail-wm1-x341.google.com with SMTP id u2so2849261wmc.3
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 07:02:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZR+fSZ65G9mh9dWenUCDIdFjZP+YKTJKCn5ENAM0Yck=;
+ b=lvuemCdNBwgcFWY3z67e9djxeT0mCluOdSmQvYhKtrKSiUNaMEp5CLuWmDh3RDnhjN
+ zUjFIlwuRgPYq5zjtiMUaG6lkRU8y9fnVY/OrcCO/CvfDbLsSBqwfjdUusQYpJhJSLa6
+ iUOscw4oq8dnR9EKVFDfXXlfa2FOGdHx472hIpZosuIE2y6/aLPI7kXpqCBtVbs8J4+5
+ N4G00M5lNeFa531RzbpsI2sPRuwoUct0wqrXKp33UBOsYRbsTSTHAILuKGE//LfnrgkH
+ jugl7Vb4XRAPGT6i4mYUZ+C1xrjkIP6iKrdvdW7NsqF5VWqpTRBf16/XOVmEUG8SVL22
+ 0v4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZR+fSZ65G9mh9dWenUCDIdFjZP+YKTJKCn5ENAM0Yck=;
+ b=bY9APrYdWxIC1+soS8gVYlKi9FV/k6aZw+UM8/R2r0Zl9srY0Ip0AfXiw5rWJAvmue
+ I0cGim5k0M2zorJJtAUmbRgFHOyTzUCDiaVYKCHZHii1zcQPJ/bqaeKZVjO9LKO0ppIa
+ LcEbncUqh4g1UW9YeTLiA2v5bsUF6EbBhucSOb1sZOIo3YV1jCQj0oVtZiFzB02MFUrq
+ KcPSMA9v+rEQReT2ADrqzUECfTGlc9rha+/3y9QlYR3mp43o4laNw5StzDVfwiKzSOwB
+ F3IJXGrnlin38XaXY2+eFpABnNbemSIMblm5Mbt5bfTXQZ3jTitehEwlvub9LXSgcj5i
+ P3lA==
+X-Gm-Message-State: APjAAAU85ri4tIjd4Hm68EK2uxOnvYR+85A2m0L80o1TLOacPA9DTuQo
+ E1Pi35/GdTGAZRkMC+D+gb9hrA==
+X-Google-Smtp-Source: APXvYqxau346v9TJftgCyciiJsJD68g3lMo/CP7WimLQElcmd5g7PBt68lJB8wFQxVz3s5KB4n0psA==
+X-Received: by 2002:a1c:6a07:: with SMTP id f7mr4496202wmc.171.1578495776354; 
+ Wed, 08 Jan 2020 07:02:56 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id m10sm4566150wrx.19.2020.01.08.07.02.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2020 07:02:53 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E5EA71FF87;
+ Wed,  8 Jan 2020 15:02:52 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v3 0/6] semihosting read console support
+Date: Wed,  8 Jan 2020 15:02:46 +0000
+Message-Id: <20200108150252.6216-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,94 +79,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevin.tian@intel.com, yi.l.liu@intel.com, cjia@nvidia.com,
- kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, Zhengxiao.zx@alibaba-inc.com,
- shuangtai.tst@alibaba-inc.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- zhi.a.wang@intel.com, mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
- Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Cc: keithp@keithp.com, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Jan 2020 11:56:02 -0700
-Alex Williamson <alex.williamson@redhat.com> wrote:
+Hi,
 
-> On Tue, 7 Jan 2020 23:23:17 +0530
-> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+No major changes from the previous version except some tweaking of the
+tests to exercise both thumb and arm modes. There is a minor
+refactoring so the __semi_call helper can be re-used. I'm planning on
+sending the PR in with my gdbstub fixes later this week.
 
-> > There are 3 invalid states:
-> >   *  101b => Invalid state
-> >   *  110b => Invalid state
-> >   *  111b => Invalid state
-> > 
-> > why only 110b should be used to report error from vendor driver to 
-> > report error? Aren't we adding more confusions in the interface?  
-> 
-> I think the only chance of confusion is poor documentation.  If we
-> define all of the above as invalid and then say any invalid state
-> indicates an error condition, then the burden is on the user to
-> enumerate all the invalid states.  That's not a good idea.  Instead we
-> could say 101b (_RESUMING|_RUNNING) is reserved, it's not currently
-> used but it might be useful some day.  Therefore there are no valid
-> transitions into or out of this state.  A vendor driver should fail a
-> write(2) attempting to enter this state.
-> 
-> That leaves 11Xb, where we consider _RESUMING and _SAVING as mutually
-> exclusive, so neither are likely to ever be valid states.  Logically,
-> if the device is in a failed state such that it needs to be reset to be
-> recovered, I would hope the device is not running, so !_RUNNING (110b)
-> seems appropriate.  I'm not sure we need that level of detail yet
-> though, so I was actually just assuming both 11Xb states would indicate
-> an error state and the undefined _RUNNING bit might differentiate
-> something in the future.
-> 
-> Therefore, I think we'd have:
-> 
->  * 101b => Reserved
->  * 11Xb => Error
-> 
-> Where the device can only self transition into the Error state on a
-> failed device_state transition and the only exit from the Error state
-> is via the reset ioctl.  The Reserved state is unreachable.  The vendor
-> driver must error on device_state writes to enter or exit the Error
-> state and must error on writes to enter Reserved states.  Is that still
-> confusing?
+The following patches need review
+  05 - tests tcg extract __semi_call into a header and e
+  06 - tests tcg add user version of dumb as bricks semi
 
-I think one thing we could do is start to tie the meaning more to the
-actual state (bit combination) and less to the individual bits. I.e.
+Alex Bennée (5):
+  target/arm: remove unused EXCP_SEMIHOST leg
+  target/arm: only update pc after semihosting completes
+  tests/tcg: add a dumb-as-bricks semihosting console test
+  tests/tcg: extract __semi_call into a header and expand
+  tests/tcg: add user version of dumb-as-bricks semiconsole test
 
-- bit 0 indicates 'running',
-- bit 1 indicates 'saving',
-- bit 2 indicates 'resuming',
-- bits 3-31 are reserved. [Aside: reserved-and-ignored or
-  reserved-and-must-be-zero?]
+Keith Packard (1):
+  semihosting: add qemu_semihosting_console_inc for SYS_READC
 
-[Note that I don't specify what happens when a bit is set or unset.]
+ include/hw/semihosting/console.h          | 16 +++++
+ include/hw/semihosting/semihost.h         |  4 ++
+ tests/tcg/arm/semicall.h                  | 35 ++++++++++
+ hw/semihosting/console.c                  | 79 +++++++++++++++++++++++
+ linux-user/aarch64/cpu_loop.c             |  1 +
+ linux-user/arm/cpu_loop.c                 |  1 +
+ linux-user/arm/semihost.c                 | 27 ++++++++
+ stubs/semihost.c                          |  4 ++
+ target/arm/arm-semi.c                     |  3 +-
+ target/arm/helper.c                       |  8 +--
+ target/arm/m_helper.c                     |  1 +
+ target/arm/translate-a64.c                |  2 +-
+ target/arm/translate.c                    |  6 +-
+ tests/tcg/aarch64/system/semiconsole.c    | 38 +++++++++++
+ tests/tcg/arm/semiconsole.c               | 27 ++++++++
+ tests/tcg/arm/semihosting.c               | 21 +-----
+ vl.c                                      |  3 +
+ tests/tcg/aarch64/Makefile.softmmu-target |  9 ++-
+ tests/tcg/aarch64/Makefile.target         |  7 ++
+ tests/tcg/arm/Makefile.target             | 28 ++++++++
+ 20 files changed, 287 insertions(+), 33 deletions(-)
+ create mode 100644 tests/tcg/arm/semicall.h
+ create mode 100644 tests/tcg/aarch64/system/semiconsole.c
+ create mode 100644 tests/tcg/arm/semiconsole.c
 
-States are then defined as:
-000b => stopped state (not saving or resuming)
-001b => running state (not saving or resuming)
-010b => stop-and-copy state
-011b => pre-copy state
-100b => resuming state
-
-[Transitions between these states defined, as before.]
-
-101b => reserved [for post-copy; no transitions defined]
-111b => reserved [state does not make sense; no transitions defined]
-110b => error state [state does not make sense per se, but it does not
-        indicate running; transitions into this state *are* possible]
-
-To a 'reserved' state, we can later assign a different meaning (we
-could even re-use 111b for a different error state, if needed); while
-the error state must always stay the error state.
-
-We should probably use some kind of feature indication to signify
-whether a 'reserved' state actually has a meaning. Also, maybe we also
-should designate the states > 111b as 'reserved'.
-
-Does that make sense?
+-- 
+2.20.1
 
 
