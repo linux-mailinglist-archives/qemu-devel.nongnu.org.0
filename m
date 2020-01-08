@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C7F134CFB
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 21:17:30 +0100 (CET)
-Received: from localhost ([::1]:48916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C49F134D0D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 21:20:37 +0100 (CET)
+Received: from localhost ([::1]:48972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipHlg-0005n3-R1
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 15:17:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39658)
+	id 1ipHoi-0001vl-Hv
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 15:20:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39666)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipHaX-0007Zl-9k
+ (envelope-from <bounces@canonical.com>) id 1ipHaX-0007aE-G7
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:05:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipHaW-0007LI-4J
+ (envelope-from <bounces@canonical.com>) id 1ipHaW-0007Ld-A4
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:05:57 -0500
-Received: from indium.canonical.com ([91.189.90.7]:50596)
+Received: from indium.canonical.com ([91.189.90.7]:50616)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipHaV-0007J1-Uj
+ id 1ipHaW-0007JH-2u
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 15:05:56 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipHaS-0006nY-91
+ id 1ipHaS-0006rO-P3
  for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 20:05:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3D3032E80C9
+ by loganberry.canonical.com (Postfix) with ESMTP id A71E92E80C8
  for <qemu-devel@nongnu.org>; Wed,  8 Jan 2020 20:05:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 08 Jan 2020 19:58:14 -0000
-From: Aleksandar Markovic <1858461@bugs.launchpad.net>
+Date: Wed, 08 Jan 2020 19:59:13 -0000
+From: puchuu <1858461@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,9 +41,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: aladjev-andrew amarkovic pmaydell
 X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
-X-Launchpad-Bug-Modifier: Aleksandar Markovic (amarkovic)
+X-Launchpad-Bug-Modifier: puchuu (aladjev-andrew)
 References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
-Message-Id: <157851349453.27484.5948321049740402595.malone@chaenomeles.canonical.com>
+Message-Id: <157851355396.2622.2460330147914727532.malone@soybean.canonical.com>
 Subject: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -51,7 +51,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 113cedb5af0f3a41ce6c4e94245d2f1b6bef11bb
+X-Launchpad-Hash: fa043b3e09d7e8fb930a45db0d49c99e904e9435
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -69,10 +69,15 @@ Reply-To: Bug 1858461 <1858461@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have certain concerns over a refactoring that changes the behavior.
-Refactorings in general should not do it, and if they still do, one
-should at least have a clear explanation. That is why I want more
-details on "emerge" problem.
+Sure, I will try to reproduce permissions issue and create a new issue
+later. I will try to provide small patches too.
+
+I've created a question on kernel bugzilla.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D206135 They should know that
+applications wants much more than "tbl" provides.
+
+** Bug watch added: Linux Kernel Bug Tracker #206135
+   https://bugzilla.kernel.org/show_bug.cgi?id=3D206135
 
 -- =
 
