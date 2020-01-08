@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA6C1349D4
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 18:53:13 +0100 (CET)
-Received: from localhost ([::1]:47488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 363991349E8
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 18:57:39 +0100 (CET)
+Received: from localhost ([::1]:47552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipFW4-0000bU-SR
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 12:53:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49594)
+	id 1ipFaL-0004aR-Ji
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 12:57:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53172)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ipFUe-0007Cr-LV
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:51:45 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ipFZG-0003e6-Ue
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:56:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ipFUd-0002nM-Ij
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:51:44 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40988)
+ (envelope-from <peter.maydell@linaro.org>) id 1ipFZF-0007d8-Vv
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:56:30 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:40091)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ipFUd-0002ly-CA
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:51:43 -0500
-Received: by mail-ot1-x343.google.com with SMTP id r27so4394613otc.8
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 09:51:42 -0800 (PST)
+ id 1ipFZF-0007c8-QM
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:56:29 -0500
+Received: by mail-oi1-x244.google.com with SMTP id c77so3415774oib.7
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 09:56:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EumLXX1XF7D/XgT2FUPJGk5UmCAhXwl1l2QbIwTe7x8=;
- b=ww6Na8zOQ0Achy4Zm3ObKx+J/XtmBQSktzmMmpNddc/+9aeSV+oEq/F7q8HoWZmX9A
- kYWhmZO3F3GkK0099+SYh6hoLsAD2Nu2wyJ7Krknuh88PoVPbRr00b2tP/xtrCQ+Xyv4
- YBhpZsvVQCSpIJx8/UFa1Z1XvAAzbNeZmxmEulLGSm0ggyc+oFthKlOzVGIwsIHYQWfq
- W7Av51d0QymQ7WAPElg2ZzbSG39opWhO3um9ikzbiXM5Il/gRaod8au1ouyI3YYAvpJG
- g8HJwZrbzN0niA4KW9xhG8ktXx2B+ajAgHq5g4reSgD1Q3u7UKwGcfH0T8D0Rqb6kFpo
- oEeg==
+ :cc; bh=bxkJc4vC7HxNDXfNhuedGfCpneYHA71ixPp7hsDXqgs=;
+ b=e8AqVgczCU0W992xRNPT7I1509gmTq89T8xvXwIQfejKcUTPlFzddpsv5kt6i9RoU/
+ CyoSQoXaKARuUeKAfE5qnc7AlID2JRwasI4dakTMYinwvYPDr0ltOqQIivRxUrPrt0FR
+ /nb/4KXmca+ixcBUSeyIbc5emIHtLvifONe7OXeBq70fRSNe0GloWDLj/kiPUeEmrWq8
+ BNYFwKBVSssKyVzI72AeR0ty1l2d5l52ZlHyBRM+EPHn0Hg8Keg8vnmb6Qb4djVwlkxB
+ HRF0xhgvWI+8GXGDMSKRE950alqexMfig2N6vbE1ar2fH2Ev9E3ol6Vt70/v+jtrUusr
+ XRWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EumLXX1XF7D/XgT2FUPJGk5UmCAhXwl1l2QbIwTe7x8=;
- b=cCK32aZR/wi1J1hsHLPtuqSJ6EsKcM19GXWTpMOfsVA/1t8wjJjPiM73Ej10UDbRd7
- zF3MvUav9HU43eKfL87kmg+wrkpmE3APpMxmvlRIM/ZmSqewqTIWzBzqVq6u0kMhIt9X
- 4wch6WfN5bVxYJnPnwmOp/edxhOSLzrUTTEKRbaQBXiAMBP7l1OZPCmRZXhZd/T3QtGw
- Cp42yw7JO7kdc0WuOZJOUX75N0gqtB4y7nnJb6iOO3L+IFTy0TANZdxbZ6v3Fk+vnUNo
- 3gCRhEbm2lSnPhQBdjXNCMQa4SQ2sv40YSlwlwjblv1BfwGXpo82mni8nqrsFLsmV9/r
- 1COQ==
-X-Gm-Message-State: APjAAAVEzAB4zmD5Jqwr4IpMryYYLcjV6T6GnnCBHDNKP/nw1vDKrJh4
- yRBZ0i5fLHt456jfsUEyx1oM1lXBEb3doNUTuD4v6A==
-X-Google-Smtp-Source: APXvYqzCD22PBgif05TUFv5KWT98RQsAn7VMZDlw1jfRa7dq8WIvkq5Zohrnl15Oa2K3R1bXGKIQzOnZlMViuNSko+c=
-X-Received: by 2002:a05:6830:13d3:: with SMTP id
- e19mr5127266otq.135.1578505901742; 
- Wed, 08 Jan 2020 09:51:41 -0800 (PST)
+ bh=bxkJc4vC7HxNDXfNhuedGfCpneYHA71ixPp7hsDXqgs=;
+ b=AYM9Wb/PLFw8/2OCPMJBFSKmjCM07cO5NUtuzMciQJMNWqmOiKVUeqUBkicv//oPmk
+ XGM60TS0lUJrHr/4rGQ485FSOgfGG7pLvVDzxn2kvWLRkuHa4fjMoyLkgYAmTCPeeHdh
+ 6BPjfnfkGjW+DUoomDGYveAoitp8bBei2hTlAWVWReGgO/EYvwVZNCDvuq94vW0sg9Z3
+ Cx64gwCtNGRUw+yy4TWtr8Syx4DfnCox0i3Wg9xB/v77+3vDhdQin0kBTCMjSLxWUgF2
+ Ug9/XUDOEnZm4S9QEHLUM6FNJn8MCBexf29A/xNXRgJHFRk63Bz9UMZZ9gxOtVfN/UvY
+ 4gzg==
+X-Gm-Message-State: APjAAAUUrnm4Xm82pwZN/kTg0FvXIm2cWro8gBSWoR7jYeRdmL2nZxDB
+ t+9nrRjiEJ3GonscOnF3GroQzXz+TbbIIU1fxq5tng==
+X-Google-Smtp-Source: APXvYqwTySZ5Rin1rPyQMDoFnyzcBfgj8CH2rU7iW69nad3lkdCX9sPa2knUE7wXZDTbLlG4PdSRbkYVt2y0BJLLK2s=
+X-Received: by 2002:aca:f484:: with SMTP id s126mr3916553oih.48.1578506189060; 
+ Wed, 08 Jan 2020 09:56:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20200108161618.221116-1-afscoelho@gmail.com>
-In-Reply-To: <20200108161618.221116-1-afscoelho@gmail.com>
+References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
+ <157850256701.5510.8747112724719044821.malone@gac.canonical.com>
+In-Reply-To: <157850256701.5510.8747112724719044821.malone@gac.canonical.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 8 Jan 2020 17:51:30 +0000
-Message-ID: <CAFEAcA9v-x31y0CraXkfAN3PVQs+Oyo3F+mTA593Duf0t1Wb0A@mail.gmail.com>
-Subject: Re: [PATCH] virtio: Prevent double swap due to target pre 1.0 VirtIO
-To: Andre Silva <afscoelho@gmail.com>
+Date: Wed, 8 Jan 2020 17:56:17 +0000
+Message-ID: <CAFEAcA-X5L0j6esqjowx0n=xBdxyuK4XDB_MLUEn2tHya19pOw@mail.gmail.com>
+Subject: Re: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
+To: Bug 1858461 <1858461@bugs.launchpad.net>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,20 +72,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 Jan 2020 at 16:20, Andre Silva <afscoelho@gmail.com> wrote:
+On Wed, 8 Jan 2020 at 17:06, puchuu <1858461@bugs.launchpad.net> wrote:
+> I think about the following development flow:
 >
-> Remove the bswap function calls after reading and before writing
-> memory bytes in virtio_pci_config_read and virtio_pci_config_write
-> because they are reverting back an already swapped bytes
+> 1. Kernel updates and maintains "tbl".
+> 2. Qemu developer wants to implement new syscall (like clone3) in "linux-user/syscall.c".
+> 3. Developer clones new kernel into some directory and runs generators.
+> 4. All syscall related stuff will be updated immediately.
 
-Is "because we wrote it via virtio_pci_config_write" really
-the only way that the data read by virtio_pci_config_read
-is ever set or updated ?
+That seems like quite a lot of effort, given that we don't really
+have to update the set of syscall number #defines very often.
+At the moment it's just "somebody submits a patch which
+updates the list of #defines every so often". (And if you want
+to actually implement a new syscall then the the actual
+implementation is the bulk of the work anyhow.)
+
+In particular if you really want to proceed down the path of
+suggesting scripts for doing the update then I think we would
+want something that works for all our architectures, not just MIPS.
 
 thanks
 -- PMM
