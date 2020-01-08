@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D12134202
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:43:06 +0100 (CET)
-Received: from localhost ([::1]:42920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C9B1341E4
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:40:12 +0100 (CET)
+Received: from localhost ([::1]:42880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipAfx-0000LH-8E
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:43:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60242)
+	id 1ipAd9-00053n-5d
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:40:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60245)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWH-0003b5-7Z
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWH-0003bm-Ls
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWF-0004EK-Qq
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWG-0004Ep-Mw
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:05 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33332)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:35591)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipAWF-0004Dp-KJ
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:03 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id b6so3248440wrq.0
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:03 -0800 (PST)
+ id 1ipAWG-0004ER-H4
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:04 -0500
+Received: by mail-wm1-x332.google.com with SMTP id p17so2337011wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=agawO6TXQ8QKofPYWK1JN+cVyKSPsslwSY+orcmanTg=;
- b=DKSMcsPgSjpTuZpo+8ShGEF30gQ/WwN0TeasPiEiXKoDNRo2SEZHm89bULv1+2eXmS
- gClbr+j+YtCx/lvwLELXCE8Wntz++78EPuyA988bgnX1Mn+oT5U+eXpZruAsMw1s/XaD
- 1tIU67bbtgClEyanO+A6EkTSaf//usFGfp/mzvALpu/lSZ9yjIT6DR0KH6GP/E9uvj+e
- smJNZlBQZ0AeiCKhiUQobx+plrIjSyW9gLMLdUo5/VENSUFhkTWthwIYyvd8w9Zs35U1
- 50Q+bbc4HT9aPg9Eg8rH8eQxlc+CmSpkLeq7pvAcPv+nStiktwKdkvodElTn7ROFR9e4
- neTQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NqwSzhoujF6+WywSNH6TKtDufZjSTHCCK+sRGZfnoPY=;
+ b=DAZxXj7gnqOqrfE2txCQIkjez8OwjzF0b4VDAcJV+BK0p/zKjgDmbIPl3iAVwr2odH
+ Oi1QV60/xLcpEcbtmJR5vsnYjG0ISNiHdSqeUELZzCn3RCl9wuO8WafqhNM8hnUGnICv
+ 64vFFp7cWrrhE2q8zt/cL2X4nepeCQ1VhA8WjIRCZPRdlrfkXnhPmaX1LtT7/86pun+s
+ R9pRwWlti6j60ri9TxMKcI9X+axqM0br/I6c997j+6CsWhYEiWZRbeqx5TIbIOaqlc81
+ TUnQJAjB86ZO/5tpafe+22ujXfnQhN1wFNVALRyQvaWdyTvLoU8kO5srNcsRC6o5eNpS
+ cwUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=agawO6TXQ8QKofPYWK1JN+cVyKSPsslwSY+orcmanTg=;
- b=SoAOt5ad0qkhzt3US6jjRnJmpNySRnWssnnEbnY3VrzYiMIdaJsPc1jp7EckjuRJjF
- 7nqQZ4V+oKcuXiwqcbO7tTsW5ip43hjdsn/8gqIZzlB7wOhq0WwOAECZNAYJEBrMgRGq
- OR+v25T5GhZDA5qnUJ7i38DJJSiOtRvXS9AspU3TfqJntI73Oa1DckttrmMhuLF7/py6
- 6ZWzdinWlfliPMSGqCadvnPDn137PSLTwYXf5zQA1WZTJfJ+0+0zycz/KVDKbZ3k4sle
- yhe+uivdOW9XPBa0tXTMqJhFjFsmHjHlv1GGpLy2Sp9pGrDG3oi2RYlTV+a5fDyp+NV4
- jcCQ==
-X-Gm-Message-State: APjAAAVmcoco41vZEkFa5b+1F8cOXc1v140jV0FBSaCwRwDTMCDb947g
- vQ1A2hhdbe3Y2wR3UwdlDW96a+X3
-X-Google-Smtp-Source: APXvYqwxR8dT45kjmEIyWjPVD9ZCaGrk+F8DCaYI37Ou+6lPMnLUXHGQGyEdczreTNHlD8M8YAWe3A==
-X-Received: by 2002:adf:fa12:: with SMTP id m18mr4116583wrr.309.1578486782175; 
- Wed, 08 Jan 2020 04:33:02 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=NqwSzhoujF6+WywSNH6TKtDufZjSTHCCK+sRGZfnoPY=;
+ b=TRHyPHroTB0FFV51XkTFF3XA2gmKdcHEF4crP53nfqhKZWaqAX0hVFHvfmcAU9MZXe
+ wNN+78UMM2k/WC5mgmNZHJcs9TKorsXdo7+m6flav4n7e3nD80XHs1utU3Y6I02kTKTb
+ WxIWmqQEtxKaGFr71o3wiDJKGSY7EXkRmlpumLavB1x/Mo9dpUeSQtqBIqjQuB6O/vcR
+ +aGaa1U2K3fV1Ak2bIgB3SlM6bLpbPKWoNzF1Vnw0WCyHM1RR3BAeCJpqPGwF0l1pjf7
+ 0YnqNWBwTa0o4IDBL+9L0GGU/uara4ZgNAce8+1pcv3GuRRaQFK8fSY3xqgFWIcJP3oY
+ B15g==
+X-Gm-Message-State: APjAAAX1BPpbtHlu5qg7QU6p/idejsuYgrtoMdO32NACXzGN5CHnCnhK
+ nKyYXfghhKS4va1EnXuMwR0Siu20
+X-Google-Smtp-Source: APXvYqz200Eevm7NCYaOAYm6y77rg31Vk2H3dLaoxIZlhvcH3sb9+hHAyOLTCwA1UaHhfdzv1th7ow==
+X-Received: by 2002:a1c:9c87:: with SMTP id f129mr3547620wme.26.1578486783328; 
+ Wed, 08 Jan 2020 04:33:03 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.01
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.02
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 04:33:01 -0800 (PST)
+ Wed, 08 Jan 2020 04:33:02 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/38] replay: record and replay random number sources
-Date: Wed,  8 Jan 2020 13:32:22 +0100
-Message-Id: <1578486775-52247-6-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 06/38] hw/i386/x86-iommu: Add missing stubs
+Date: Wed,  8 Jan 2020 13:32:23 +0100
+Message-Id: <1578486775-52247-7-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 References: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,205 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>,
- Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Record/replay feature of icount allows deterministic running of execution
-scenarios. Some CPUs and peripheral devices read random numbers from
-external sources making deterministic execution impossible.
-This patch adds recording and replaying of random read operations
-into guest-random module, which is used by the virtual hardware.
+In commit 6c730e4af9 we introduced a stub to build the MicroVM
+machine without Intel IOMMU. This stub is incomplete for the
+other PC machines. Add the missing stubs.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-Message-Id: <157675984852.14505.15709141760677102489.stgit@pasha-Precision-3630-Tower>
+Fixes: 6c730e4af9 ("pc: stubify x86 iommu", 2019-12-17)
+Reported-by: Travis-CI
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20191220154225.25879-1-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/replay.txt          |  1 +
- include/sysemu/replay.h  |  7 +++++++
- replay/Makefile.objs     |  3 ++-
- replay/replay-internal.h |  2 ++
- replay/replay-random.c   | 44 ++++++++++++++++++++++++++++++++++++++++++++
- replay/replay.c          |  2 +-
- stubs/replay.c           |  9 +++++++++
- util/guest-random.c      | 13 +++++++++++--
- 8 files changed, 77 insertions(+), 4 deletions(-)
- create mode 100644 replay/replay-random.c
+ hw/i386/x86-iommu-stub.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/docs/replay.txt b/docs/replay.txt
-index ce97c3f..f4619a6 100644
---- a/docs/replay.txt
-+++ b/docs/replay.txt
-@@ -67,6 +67,7 @@ Modifications of qemu include:
-  * network filter for recording and replaying the packets
-  * block driver for making block layer deterministic
-  * serial port input record and replay
-+ * recording of random numbers obtained from the external sources
- 
- Locking and thread synchronisation
- ----------------------------------
-diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
-index 8df5172..5471bb5 100644
---- a/include/sysemu/replay.h
-+++ b/include/sysemu/replay.h
-@@ -117,6 +117,13 @@ int64_t replay_read_clock(ReplayClockKind kind);
-             ? replay_save_clock((clock), (value), cpu_get_icount_raw_locked()) \
-         : (value))
- 
-+/* Processing data from random generators */
-+
-+/* Saves the values from the random number generator */
-+void replay_save_random(int ret, void *buf, size_t len);
-+/* Loads the saved values for the random number generator */
-+int replay_read_random(void *buf, size_t len);
-+
- /* Events */
- 
- /*! Called when qemu shutdown is requested. */
-diff --git a/replay/Makefile.objs b/replay/Makefile.objs
-index cee6539..939be96 100644
---- a/replay/Makefile.objs
-+++ b/replay/Makefile.objs
-@@ -6,4 +6,5 @@ common-obj-y += replay-input.o
- common-obj-y += replay-char.o
- common-obj-y += replay-snapshot.o
- common-obj-y += replay-net.o
--common-obj-y += replay-audio.o
-\ No newline at end of file
-+common-obj-y += replay-audio.o
-+common-obj-y += replay-random.o
-diff --git a/replay/replay-internal.h b/replay/replay-internal.h
-index 55fca1a..33ac551 100644
---- a/replay/replay-internal.h
-+++ b/replay/replay-internal.h
-@@ -34,6 +34,8 @@ enum ReplayEvents {
-     EVENT_AUDIO_OUT,
-     /* for audio in event */
-     EVENT_AUDIO_IN,
-+    /* for random number generator */
-+    EVENT_RANDOM,
-     /* for clock read/writes */
-     /* some of greater codes are reserved for clocks */
-     EVENT_CLOCK,
-diff --git a/replay/replay-random.c b/replay/replay-random.c
-new file mode 100644
-index 0000000..afc7a0f
---- /dev/null
-+++ b/replay/replay-random.c
-@@ -0,0 +1,44 @@
-+/*
-+ * replay-random.c
-+ *
-+ * Copyright (c) 2010-2020 Institute for System Programming
-+ *                         of the Russian Academy of Sciences.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/error-report.h"
-+#include "sysemu/replay.h"
-+#include "replay-internal.h"
-+
-+void replay_save_random(int ret, void *buf, size_t len)
-+{
-+    g_assert(replay_mutex_locked());
-+
-+    replay_save_instructions();
-+    replay_put_event(EVENT_RANDOM);
-+    replay_put_dword(ret);
-+    replay_put_array(buf, len);
-+}
-+
-+int replay_read_random(void *buf, size_t len)
-+{
-+    int ret = 0;
-+    g_assert(replay_mutex_locked());
-+
-+    replay_account_executed_instructions();
-+    if (replay_next_event_is(EVENT_RANDOM)) {
-+        size_t buf_size = 0;
-+        ret = replay_get_dword();
-+        replay_get_array(buf, &buf_size);
-+        replay_finish_event();
-+        g_assert(buf_size == len);
-+    } else {
-+        error_report("Missing random event in the replay log");
-+        exit(1);
-+    }
-+    return ret;
-+}
-diff --git a/replay/replay.c b/replay/replay.c
-index 5cc25bd..706c7b4 100644
---- a/replay/replay.c
-+++ b/replay/replay.c
-@@ -22,7 +22,7 @@
- 
- /* Current version of the replay mechanism.
-    Increase it when file format changes. */
--#define REPLAY_VERSION              0xe02008
-+#define REPLAY_VERSION              0xe02009
- /* Size of replay log header */
- #define HEADER_SIZE                 (sizeof(uint32_t) + sizeof(uint64_t))
- 
-diff --git a/stubs/replay.c b/stubs/replay.c
-index 10b3925..5974ec1 100644
---- a/stubs/replay.c
-+++ b/stubs/replay.c
-@@ -79,3 +79,12 @@ void replay_mutex_lock(void)
- void replay_mutex_unlock(void)
- {
- }
-+
-+void replay_save_random(int ret, void *buf, size_t len)
-+{
-+}
-+
-+int replay_read_random(void *buf, size_t len)
-+{
-+    return 0;
-+}
-diff --git a/util/guest-random.c b/util/guest-random.c
-index 9453968..086115b 100644
---- a/util/guest-random.c
-+++ b/util/guest-random.c
-@@ -14,6 +14,7 @@
- #include "qapi/error.h"
- #include "qemu/guest-random.h"
- #include "crypto/random.h"
-+#include "sysemu/replay.h"
- 
- 
- static __thread GRand *thread_rand;
-@@ -44,13 +45,21 @@ static int glib_random_bytes(void *buf, size_t len)
- 
- int qemu_guest_getrandom(void *buf, size_t len, Error **errp)
- {
-+    int ret;
-+    if (replay_mode == REPLAY_MODE_PLAY) {
-+        return replay_read_random(buf, len);
-+    }
-     if (unlikely(deterministic)) {
-         /* Deterministic implementation using Glib's Mersenne Twister.  */
--        return glib_random_bytes(buf, len);
-+        ret = glib_random_bytes(buf, len);
-     } else {
-         /* Non-deterministic implementation using crypto routines.  */
--        return qcrypto_random_bytes(buf, len, errp);
-+        ret = qcrypto_random_bytes(buf, len, errp);
-+    }
-+    if (replay_mode == REPLAY_MODE_RECORD) {
-+        replay_save_random(ret, buf, len);
-     }
-+    return ret;
+diff --git a/hw/i386/x86-iommu-stub.c b/hw/i386/x86-iommu-stub.c
+index 03576cd..c5ba077 100644
+--- a/hw/i386/x86-iommu-stub.c
++++ b/hw/i386/x86-iommu-stub.c
+@@ -32,3 +32,12 @@ X86IOMMUState *x86_iommu_get_default(void)
+     return NULL;
  }
  
- void qemu_guest_getrandom_nofail(void *buf, size_t len)
++bool x86_iommu_ir_supported(X86IOMMUState *s)
++{
++    return false;
++}
++
++IommuType x86_iommu_get_type(void)
++{
++    abort();
++}
 -- 
 1.8.3.1
 
