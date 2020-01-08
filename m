@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD9F133B4A
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 06:39:43 +0100 (CET)
-Received: from localhost ([::1]:37184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8A05133B55
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 06:43:06 +0100 (CET)
+Received: from localhost ([::1]:37246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ip44E-0000q6-Pt
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 00:39:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47580)
+	id 1ip47V-0005Mu-RR
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 00:43:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47734)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ip3oc-0003tE-Dr
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 00:23:35 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ip3of-0003ye-5C
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 00:23:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ip3oa-0002l9-R1
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 00:23:34 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43941 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ip3od-0002pW-76
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 00:23:36 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:38725 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ip3oa-0002hR-GX; Wed, 08 Jan 2020 00:23:32 -0500
+ id 1ip3oc-0002mB-Se; Wed, 08 Jan 2020 00:23:35 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47syMC4X3Yz9sSX; Wed,  8 Jan 2020 16:23:18 +1100 (AEDT)
+ id 47syMF1Qh3z9sSd; Wed,  8 Jan 2020 16:23:18 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1578460999;
- bh=+Kba0GZL/Hqaic272S3HeDf3a0FZWcgeDtS8j3jcQaY=;
+ d=gibson.dropbear.id.au; s=201602; t=1578461001;
+ bh=FrX/6SyVjPjJTIn/b/hGmvNuofHIxtxtXwHx5jlXHBI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IOZu6E4qPk0t2ndr7prPeqY27RWBGWXozGXMMsS/ZeAFbkarkG1PjYCiNnwKpL7Gw
- F5mOTox0AD3a6wjq7U43OvcQQUZw+GbJS5eOqdMFqSr2xpyhRU/8pcxwltRu9Kl+uM
- eLJo6KMV1yvicggMmY0lmEGYmAcNgwOdR1WFcgEQ=
+ b=Q9vHQx7e21sz1qxE9XUEZ1cbI9o80guAd+SuT1UIyrS3xBvy4IS/hcEvup2t1XZzR
+ EY7cJwuKyfCxEeuHUE8Vcv1PUnnQndBuXPcTmd3BlGRMK4zlJ8/oLWshxlEP2J6+Cm
+ njSxQDLs3zl6kAC0RwLohIHr4gN/zijgD0IhkFT0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 15/26] pnv/xive: Use device_class_set_parent_realize()
-Date: Wed,  8 Jan 2020 16:23:01 +1100
-Message-Id: <20200108052312.238710-16-david@gibson.dropbear.id.au>
+Subject: [PULL 16/26] spapr, pnv,
+ xive: Add a "xive-fabric" link to the XIVE router
+Date: Wed,  8 Jan 2020 16:23:02 +1100
+Message-Id: <20200108052312.238710-17-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200108052312.238710-1-david@gibson.dropbear.id.au>
 References: <20200108052312.238710-1-david@gibson.dropbear.id.au>
@@ -61,94 +62,128 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The XIVE router base class currently inherits an empty realize hook
-from the sysbus device base class, but it will soon implement one
-of its own to perform some sanity checks. Do the preliminary plumbing
-to have it called.
+In order to get rid of qdev_get_machine(), first add a pointer to the
+XIVE fabric under the XIVE router and make it configurable through a
+QOM link property.
+
+Configure it in the spapr and pnv machine. In the case of pnv, the XIVE
+routers are under the chip, so this is done with a QOM alias property of
+the POWER9 pnv chip.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20200106145645.4539-4-clg@kaod.org>
+Message-Id: <20200106145645.4539-5-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/pnv_xive.c        | 10 ++++++++++
- include/hw/ppc/pnv_xive.h | 10 ++++++++++
- 2 files changed, 20 insertions(+)
+ hw/intc/xive.c        | 8 ++++++++
+ hw/ppc/pnv.c          | 6 ++++++
+ hw/ppc/spapr_irq.c    | 2 ++
+ include/hw/ppc/xive.h | 5 +++--
+ 4 files changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
-index a0a69b98a7..6412cf222e 100644
---- a/hw/intc/pnv_xive.c
-+++ b/hw/intc/pnv_xive.c
-@@ -1816,10 +1816,17 @@ static void pnv_xive_init(Object *obj)
- static void pnv_xive_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+index d4c6e21703..6df89b06da 100644
+--- a/hw/intc/xive.c
++++ b/hw/intc/xive.c
+@@ -1714,12 +1714,19 @@ void xive_router_notify(XiveNotifier *xn, uint32_=
+t lisn)
+                            xive_get_field64(EAS_END_DATA,  eas.w));
+ }
+=20
++static Property xive_router_properties[] =3D {
++    DEFINE_PROP_LINK("xive-fabric", XiveRouter, xfb,
++                     TYPE_XIVE_FABRIC, XiveFabric *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void xive_router_class_init(ObjectClass *klass, void *data)
  {
-     PnvXive *xive =3D PNV_XIVE(dev);
-+    PnvXiveClass *pxc =3D PNV_XIVE_GET_CLASS(dev);
-     XiveSource *xsrc =3D &xive->ipi_source;
-     XiveENDSource *end_xsrc =3D &xive->end_source;
-     Error *local_err =3D NULL;
-=20
-+    pxc->parent_realize(dev, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-     assert(xive->chip);
-=20
-     /*
-@@ -1947,10 +1954,12 @@ static void pnv_xive_class_init(ObjectClass *klas=
-s, void *data)
-     XiveRouterClass *xrc =3D XIVE_ROUTER_CLASS(klass);
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
      XiveNotifierClass *xnc =3D XIVE_NOTIFIER_CLASS(klass);
-     XivePresenterClass *xpc =3D XIVE_PRESENTER_CLASS(klass);
-+    PnvXiveClass *pxc =3D PNV_XIVE_CLASS(klass);
 =20
-     xdc->dt_xscom =3D pnv_xive_dt_xscom;
+     dc->desc    =3D "XIVE Router Engine";
++    dc->props   =3D xive_router_properties;
+     xnc->notify =3D xive_router_notify;
+ }
 =20
-     dc->desc =3D "PowerNV XIVE Interrupt Controller";
-+    device_class_set_parent_realize(dc, pnv_xive_realize, &pxc->parent_r=
-ealize);
-     dc->realize =3D pnv_xive_realize;
-     dc->props =3D pnv_xive_properties;
-=20
-@@ -1971,6 +1980,7 @@ static const TypeInfo pnv_xive_info =3D {
-     .instance_init =3D pnv_xive_init,
-     .instance_size =3D sizeof(PnvXive),
-     .class_init    =3D pnv_xive_class_init,
-+    .class_size    =3D sizeof(PnvXiveClass),
+@@ -1727,6 +1734,7 @@ static const TypeInfo xive_router_info =3D {
+     .name          =3D TYPE_XIVE_ROUTER,
+     .parent        =3D TYPE_SYS_BUS_DEVICE,
+     .abstract      =3D true,
++    .instance_size =3D sizeof(XiveRouter),
+     .class_size    =3D sizeof(XiveRouterClass),
+     .class_init    =3D xive_router_class_init,
      .interfaces    =3D (InterfaceInfo[]) {
-         { TYPE_PNV_XSCOM_INTERFACE },
-         { }
-diff --git a/include/hw/ppc/pnv_xive.h b/include/hw/ppc/pnv_xive.h
-index f4c7caad40..76cf16f644 100644
---- a/include/hw/ppc/pnv_xive.h
-+++ b/include/hw/ppc/pnv_xive.h
-@@ -16,6 +16,10 @@ struct PnvChip;
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 65cba84335..ead92d52b2 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -809,6 +809,10 @@ static void pnv_init(MachineState *machine)
+         if (object_dynamic_cast(OBJECT(pnv), TYPE_XICS_FABRIC)) {
+             object_property_set_link(chip, OBJECT(pnv), "xics", &error_a=
+bort);
+         }
++        if (object_dynamic_cast(OBJECT(pnv), TYPE_XIVE_FABRIC)) {
++            object_property_set_link(chip, OBJECT(pnv), "xive-fabric",
++                                     &error_abort);
++        }
+         object_property_set_bool(chip, true, "realized", &error_fatal);
+     }
+     g_free(chip_typename);
+@@ -1227,6 +1231,8 @@ static void pnv_chip_power9_instance_init(Object *o=
+bj)
 =20
- #define TYPE_PNV_XIVE "pnv-xive"
- #define PNV_XIVE(obj) OBJECT_CHECK(PnvXive, (obj), TYPE_PNV_XIVE)
-+#define PNV_XIVE_CLASS(klass)                                   \
-+    OBJECT_CLASS_CHECK(PnvXiveClass, (klass), TYPE_PNV_XIVE)
-+#define PNV_XIVE_GET_CLASS(obj)                                 \
-+    OBJECT_GET_CLASS(PnvXiveClass, (obj), TYPE_PNV_XIVE)
+     object_initialize_child(obj, "xive", &chip9->xive, sizeof(chip9->xiv=
+e),
+                             TYPE_PNV_XIVE, &error_abort, NULL);
++    object_property_add_alias(obj, "xive-fabric", OBJECT(&chip9->xive),
++                              "xive-fabric", &error_abort);
 =20
- #define XIVE_BLOCK_MAX      16
+     object_initialize_child(obj, "psi",  &chip9->psi, sizeof(chip9->psi)=
+,
+                             TYPE_PNV9_PSI, &error_abort, NULL);
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index 373505d28b..1f630f296b 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -332,6 +332,8 @@ void spapr_irq_init(SpaprMachineState *spapr, Error *=
+*errp)
+          * priority
+          */
+         qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
++        object_property_set_link(OBJECT(dev), OBJECT(spapr), "xive-fabri=
+c",
++                                 &error_abort);
+         qdev_init_nofail(dev);
 =20
-@@ -85,6 +89,12 @@ typedef struct PnvXive {
-     uint64_t      edt[XIVE_TABLE_EDT_MAX];
- } PnvXive;
+         spapr->xive =3D SPAPR_XIVE(dev);
+diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
+index 1b7b89098f..1ded82b1cd 100644
+--- a/include/hw/ppc/xive.h
++++ b/include/hw/ppc/xive.h
+@@ -324,9 +324,12 @@ typedef struct XiveTCTX {
+ /*
+  * XIVE Router
+  */
++typedef struct XiveFabric XiveFabric;
 =20
-+typedef struct PnvXiveClass {
-+    XiveRouterClass parent_class;
+ typedef struct XiveRouter {
+     SysBusDevice    parent;
 +
-+    DeviceRealize parent_realize;
-+} PnvXiveClass;
-+
- void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon);
++    XiveFabric *xfb;
+ } XiveRouter;
 =20
- #endif /* PPC_PNV_XIVE_H */
+ #define TYPE_XIVE_ROUTER "xive-router"
+@@ -402,8 +405,6 @@ int xive_presenter_tctx_match(XivePresenter *xptr, Xi=
+veTCTX *tctx,
+  * XIVE Fabric (Interface between Interrupt Controller and Machine)
+  */
+=20
+-typedef struct XiveFabric XiveFabric;
+-
+ #define TYPE_XIVE_FABRIC "xive-fabric"
+ #define XIVE_FABRIC(obj)                                     \
+     INTERFACE_CHECK(XiveFabric, (obj), TYPE_XIVE_FABRIC)
 --=20
 2.24.1
 
