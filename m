@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4122A134528
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 15:38:20 +0100 (CET)
-Received: from localhost ([::1]:44930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB79134530
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 15:39:34 +0100 (CET)
+Received: from localhost ([::1]:44946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipCTT-00008d-8r
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 09:38:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51523)
+	id 1ipCUf-0001yi-Cf
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 09:39:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52126)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1ipCNb-00017R-FA
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:32:17 -0500
+ (envelope-from <philmd@redhat.com>) id 1ipCOU-0002E0-40
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:33:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1ipCNZ-000636-H1
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:32:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36995
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ipCOS-0006XI-MH
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:33:10 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36320
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1ipCNZ-00062i-Cg
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:32:13 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipCOS-0006W9-Hv
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:33:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578493932;
+ s=mimecast20190719; t=1578493988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=14vK0vgZxcrVgXTApZ8satsEy+e861b7T9N1gndgzGw=;
- b=Zy9tpdDFNCuBWhLdBaJtLsfcTx7liVzmGdlher1ABKtKCCSeSWvD2Ex9MhckvF3PrSewdx
- gEM9IQMyMbbA7SlObEDCfaYV2iRdFKR3Y1OojQcB0xXvgGBM+gNSa4ssFAJ46KWVDabage
- y+TxSdPldmY6429EUTAx4aK6YF8RufU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-MyVQfuh1NLmtWmuVJelzsA-1; Wed, 08 Jan 2020 09:32:11 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71D83800EBF;
- Wed,  8 Jan 2020 14:32:10 +0000 (UTC)
-Received: from dritchie.redhat.com (unknown [10.33.36.107])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 36BB56FF0F;
- Wed,  8 Jan 2020 14:32:08 +0000 (UTC)
-From: Sergio Lopez <slp@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 8/8] iotests: Test handling of AioContexts with some
- blockdev actions
-Date: Wed,  8 Jan 2020 15:31:38 +0100
-Message-Id: <20200108143138.129909-9-slp@redhat.com>
-In-Reply-To: <20200108143138.129909-1-slp@redhat.com>
-References: <20200108143138.129909-1-slp@redhat.com>
+ bh=SD9tAS2fqOSiRhQDHrCuTc8J1fkQfGMjR3EfUfcFYtw=;
+ b=TJsG5a4puA6mcspZDxEWqAlRwD2R1/AmfRUvLKXvhsf7oJlB6eWzLviUbQu4Sv388PYmq4
+ mjY8cKYsiJKD7Iv4VfmSxTexwUcGb9FgCCoofCbCU1nvUtyP75d10FAU4T1pzSTI4EoYmm
+ ovTRWDWmhnkt4FMaT1yrQt6itP4HiGM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-200-LeVe1WNAMkCSKs6lB1DbWg-1; Wed, 08 Jan 2020 09:33:04 -0500
+Received: by mail-wr1-f69.google.com with SMTP id t3so1487903wrm.23
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 06:33:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=y+ZFrQt/4O+BcLCiuqUiQqazBu6klP4jSOde9XUsOFw=;
+ b=VetOAUUFZAX5MYUUJdhc5Kj8QfQaR23ov6DPC6qZR5lsNPYZAGMNtPssT3Y3soNgj6
+ Q+Pnwv183sB2SEppIWj0H964HK3tz6NybFkpZDKBjejZ3w+jL+q3r37kiR+9StYQ/4Cp
+ 9uxtDJdejnl4kcMuQdgUFU0s9OF8kpF/NHfLidNGM276u3aP0xYZE2Wzv06MWVC9EQeK
+ bprb7C/wFbSG0ut7lNXmqLjrAcV09E3h0IVmWnz8v502eEfNUrFoM1fopZ3JIpu6823t
+ oo3aNcZHiBLrp22uuWTTZLU7085hu6WxYj6j/QQnD6KhSJBWTj5hk0K4pve8V3lVFghh
+ ac5Q==
+X-Gm-Message-State: APjAAAXmQZ9Lh1PbNicmBkB18WlEg1XqLdZimWOS0uyZ3Vdnzjvp7M4o
+ XIeduhq97IjRTCu92rTUn0NaJIRAwWIwDR+WtPJVp0glF8I7rt1WV4g305CJXuxSHHbnbD8x01L
+ g9STzGOEUw1fZQs0=
+X-Received: by 2002:a5d:4ec2:: with SMTP id s2mr4689715wrv.291.1578493983551; 
+ Wed, 08 Jan 2020 06:33:03 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw6CXCRZmhgl9+VAA7oWDpAiUd74kyYrpt7cTpVMPRtu0qHVbiUYZWZn1jjtgHrPMwuKfPS7A==
+X-Received: by 2002:a5d:4ec2:: with SMTP id s2mr4689689wrv.291.1578493983287; 
+ Wed, 08 Jan 2020 06:33:03 -0800 (PST)
+Received: from [192.168.1.35] (34.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.34])
+ by smtp.gmail.com with ESMTPSA id i11sm4542120wrs.10.2020.01.08.06.33.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jan 2020 06:33:02 -0800 (PST)
+Subject: Re: [PATCH v2] tests: fix test-qga on macosx
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <1578490555-6363-1-git-send-email-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <aca7f275-71ab-f634-72b7-915b70d42935@redhat.com>
+Date: Wed, 8 Jan 2020 15:33:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: MyVQfuh1NLmtWmuVJelzsA-1
+In-Reply-To: <1578490555-6363-1-git-send-email-pbonzini@redhat.com>
+Content-Language: en-US
+X-MC-Unique: LeVe1WNAMkCSKs6lB1DbWg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,322 +90,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Sergio Lopez <slp@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Includes the following tests:
+On 1/8/20 2:35 PM, Paolo Bonzini wrote:
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>=20
+> Fix Unix socket connection & skip commands that are not implemented.
+>=20
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   tests/Makefile.include |  2 +-
+>   tests/test-qga.c       | 25 ++++++++++++++++++-------
+>   2 files changed, 19 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 49e3b0d..192a08e 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -119,7 +119,7 @@ check-unit-$(CONFIG_BLOCK) +=3D tests/test-crypto-sec=
+ret$(EXESUF)
+>   check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_GNUTLS)) +=3D tests/tes=
+t-crypto-tlscredsx509$(EXESUF)
+>   check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_GNUTLS)) +=3D tests/tes=
+t-crypto-tlssession$(EXESUF)
+>   ifneq (,$(findstring qemu-ga,$(TOOLS)))
+> -check-unit-$(call land,$(CONFIG_LINUX),$(CONFIG_VIRTIO_SERIAL)) +=3D tes=
+ts/test-qga$(EXESUF)
+> +check-unit-$(call land,$(CONFIG_POSIX),$(CONFIG_VIRTIO_SERIAL)) +=3D tes=
+ts/test-qga$(EXESUF)
+>   endif
+>   check-unit-y +=3D tests/test-timed-average$(EXESUF)
+>   check-unit-$(CONFIG_INOTIFY1) +=3D tests/test-util-filemonitor$(EXESUF)
+> diff --git a/tests/test-qga.c b/tests/test-qga.c
+> index d2b2435..191bfca 100644
+> --- a/tests/test-qga.c
+> +++ b/tests/test-qga.c
+> @@ -17,17 +17,17 @@ typedef struct {
+>  =20
+>   static int connect_qga(char *path)
+>   {
+> -    int s, ret, len, i =3D 0;
+> +    int s, ret, i =3D 0;
+>       struct sockaddr_un remote;
 
- - Adding a dirty bitmap.
-   * RHBZ: 1782175
+Or
+         struct sockaddr_un remote =3D { };
+and remove memset().
 
- - Starting a drive-mirror to an NBD-backed target.
-   * RHBZ: 1746217, 1773517
+Regardless:
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
- - Aborting an external snapshot transaction.
-   * RHBZ: 1779036
-
- - Aborting a blockdev backup transaction.
-   * RHBZ: 1782111
-
-For each one of them, a VM with a number of disks running in an
-IOThread AioContext is used.
-
-Signed-off-by: Sergio Lopez <slp@redhat.com>
----
- tests/qemu-iotests/281     | 247 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/281.out |   5 +
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 253 insertions(+)
- create mode 100755 tests/qemu-iotests/281
- create mode 100644 tests/qemu-iotests/281.out
-
-diff --git a/tests/qemu-iotests/281 b/tests/qemu-iotests/281
-new file mode 100755
-index 0000000000..269d583b2c
---- /dev/null
-+++ b/tests/qemu-iotests/281
-@@ -0,0 +1,247 @@
-+#!/usr/bin/env python
-+#
-+# Test cases for blockdev + IOThread interactions
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import os
-+import iotests
-+from iotests import qemu_img
-+
-+image_len =3D 64 * 1024 * 1024
-+
-+# Test for RHBZ#1782175
-+class TestDirtyBitmapIOThread(iotests.QMPTestCase):
-+    drive0_img =3D os.path.join(iotests.test_dir, 'drive0.img')
-+    images =3D { 'drive0': drive0_img }
-+
-+    def setUp(self):
-+        for name in self.images:
-+            qemu_img('create', '-f', iotests.imgfmt,
-+                     self.images[name], str(image_len))
-+
-+        self.vm =3D iotests.VM()
-+        self.vm.add_object('iothread,id=3Diothread0')
-+
-+        for name in self.images:
-+            self.vm.add_blockdev('driver=3Dfile,filename=3D%s,node-name=3D=
-file_%s'
-+                                 % (self.images[name], name))
-+            self.vm.add_blockdev('driver=3Dqcow2,file=3Dfile_%s,node-name=
-=3D%s'
-+                                 % (name, name))
-+
-+        self.vm.launch()
-+        self.vm.qmp('x-blockdev-set-iothread',
-+                    node_name=3D'drive0', iothread=3D'iothread0',
-+                    force=3DTrue)
-+
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        for name in self.images:
-+            os.remove(self.images[name])
-+
-+    def test_add_dirty_bitmap(self):
-+        result =3D self.vm.qmp(
-+            'block-dirty-bitmap-add',
-+            node=3D'drive0',
-+            name=3D'bitmap1',
-+            persistent=3DTrue,
-+        )
-+
-+        self.assert_qmp(result, 'return', {})
-+
-+
-+# Test for RHBZ#1746217 & RHBZ#1773517
-+class TestNBDMirrorIOThread(iotests.QMPTestCase):
-+    nbd_sock =3D os.path.join(iotests.sock_dir, 'nbd.sock')
-+    drive0_img =3D os.path.join(iotests.test_dir, 'drive0.img')
-+    mirror_img =3D os.path.join(iotests.test_dir, 'mirror.img')
-+    images =3D { 'drive0': drive0_img, 'mirror': mirror_img }
-+
-+    def setUp(self):
-+        for name in self.images:
-+            qemu_img('create', '-f', iotests.imgfmt,
-+                     self.images[name], str(image_len))
-+
-+        self.vm_src =3D iotests.VM(path_suffix=3D'src')
-+        self.vm_src.add_object('iothread,id=3Diothread0')
-+        self.vm_src.add_blockdev('driver=3Dfile,filename=3D%s,node-name=3D=
-file0'
-+                          % (self.drive0_img))
-+        self.vm_src.add_blockdev('driver=3Dqcow2,file=3Dfile0,node-name=3D=
-drive0')
-+        self.vm_src.launch()
-+        self.vm_src.qmp('x-blockdev-set-iothread',
-+                        node_name=3D'drive0', iothread=3D'iothread0',
-+                        force=3DTrue)
-+
-+        self.vm_tgt =3D iotests.VM(path_suffix=3D'tgt')
-+        self.vm_tgt.add_object('iothread,id=3Diothread0')
-+        self.vm_tgt.add_blockdev('driver=3Dfile,filename=3D%s,node-name=3D=
-file0'
-+                          % (self.mirror_img))
-+        self.vm_tgt.add_blockdev('driver=3Dqcow2,file=3Dfile0,node-name=3D=
-drive0')
-+        self.vm_tgt.launch()
-+        self.vm_tgt.qmp('x-blockdev-set-iothread',
-+                        node_name=3D'drive0', iothread=3D'iothread0',
-+                        force=3DTrue)
-+
-+    def tearDown(self):
-+        self.vm_src.shutdown()
-+        self.vm_tgt.shutdown()
-+        for name in self.images:
-+            os.remove(self.images[name])
-+
-+    def test_nbd_mirror(self):
-+        result =3D self.vm_tgt.qmp(
-+            'nbd-server-start',
-+            addr=3D{
-+                'type': 'unix',
-+                'data': { 'path': self.nbd_sock }
-+            }
-+        )
-+        self.assert_qmp(result, 'return', {})
-+
-+        result =3D self.vm_tgt.qmp(
-+            'nbd-server-add',
-+            device=3D'drive0',
-+            writable=3DTrue
-+        )
-+        self.assert_qmp(result, 'return', {})
-+
-+        result =3D self.vm_src.qmp(
-+            'drive-mirror',
-+            device=3D'drive0',
-+            target=3D'nbd+unix:///drive0?socket=3D' + self.nbd_sock,
-+            sync=3D'full',
-+            mode=3D'existing',
-+            speed=3D64*1024*1024,
-+            job_id=3D'j1'
-+        )
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.vm_src.event_wait(name=3D"BLOCK_JOB_READY")
-+
-+
-+# Test for RHBZ#1779036
-+class TestExternalSnapshotAbort(iotests.QMPTestCase):
-+    drive0_img =3D os.path.join(iotests.test_dir, 'drive0.img')
-+    snapshot_img =3D os.path.join(iotests.test_dir, 'snapshot.img')
-+    images =3D { 'drive0': drive0_img, 'snapshot': snapshot_img }
-+
-+    def setUp(self):
-+        for name in self.images:
-+            qemu_img('create', '-f', iotests.imgfmt,
-+                     self.images[name], str(image_len))
-+
-+        self.vm =3D iotests.VM()
-+        self.vm.add_object('iothread,id=3Diothread0')
-+        self.vm.add_blockdev('driver=3Dfile,filename=3D%s,node-name=3Dfile=
-0'
-+                          % (self.drive0_img))
-+        self.vm.add_blockdev('driver=3Dqcow2,file=3Dfile0,node-name=3Ddriv=
-e0')
-+        self.vm.launch()
-+        self.vm.qmp('x-blockdev-set-iothread',
-+                    node_name=3D'drive0', iothread=3D'iothread0',
-+                    force=3DTrue)
-+
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        for name in self.images:
-+            os.remove(self.images[name])
-+
-+    def test_external_snapshot_abort(self):
-+        # Use a two actions transaction with a bogus values on the second
-+        # one to trigger an abort of the transaction.
-+        result =3D self.vm.qmp('transaction', actions=3D[
-+            {
-+                'type': 'blockdev-snapshot-sync',
-+                'data': { 'node-name': 'drive0',
-+                          'snapshot-file': self.snapshot_img,
-+                          'snapshot-node-name': 'snap1',
-+                          'mode': 'absolute-paths',
-+                          'format': 'qcow2' }
-+            },
-+            {
-+                'type': 'blockdev-snapshot-sync',
-+                'data': { 'node-name': 'drive0',
-+                          'snapshot-file': '/fakesnapshot',
-+                          'snapshot-node-name': 'snap2',
-+                          'mode': 'absolute-paths',
-+                          'format': 'qcow2' }
-+            },
-+        ])
-+
-+        # Crashes on failure, we expect this error.
-+        self.assert_qmp(result, 'error/class', 'GenericError')
-+
-+
-+# Test for RHBZ#1782111
-+class TestBlockdevBackupAbort(iotests.QMPTestCase):
-+    drive0_img =3D os.path.join(iotests.test_dir, 'drive0.img')
-+    drive1_img =3D os.path.join(iotests.test_dir, 'drive1.img')
-+    snap0_img =3D os.path.join(iotests.test_dir, 'snap0.img')
-+    snap1_img =3D os.path.join(iotests.test_dir, 'snap1.img')
-+    images =3D { 'drive0': drive0_img,
-+               'drive1': drive1_img,
-+               'snap0': snap0_img,
-+               'snap1': snap1_img }
-+
-+    def setUp(self):
-+        for name in self.images:
-+            qemu_img('create', '-f', iotests.imgfmt,
-+                     self.images[name], str(image_len))
-+
-+        self.vm =3D iotests.VM()
-+        self.vm.add_object('iothread,id=3Diothread0')
-+        self.vm.add_device('virtio-scsi,iothread=3Diothread0')
-+
-+        for name in self.images:
-+            self.vm.add_blockdev('driver=3Dfile,filename=3D%s,node-name=3D=
-file_%s'
-+                                 % (self.images[name], name))
-+            self.vm.add_blockdev('driver=3Dqcow2,file=3Dfile_%s,node-name=
-=3D%s'
-+                                 % (name, name))
-+
-+        self.vm.add_device('scsi-hd,drive=3Ddrive0')
-+        self.vm.add_device('scsi-hd,drive=3Ddrive1')
-+        self.vm.launch()
-+
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        for name in self.images:
-+            os.remove(self.images[name])
-+
-+    def test_blockdev_backup_abort(self):
-+        # Use a two actions transaction with a bogus values on the second
-+        # one to trigger an abort of the transaction.
-+        result =3D self.vm.qmp('transaction', actions=3D[
-+            {
-+                'type': 'blockdev-backup',
-+                'data': { 'device': 'drive0',
-+                          'target': 'snap0',
-+                          'sync': 'full',
-+                          'job-id': 'j1' }
-+            },
-+            {
-+                'type': 'blockdev-backup',
-+                'data': { 'device': 'drive1',
-+                          'target': 'snap1',
-+                          'sync': 'full' }
-+            },
-+        ])
-+
-+        # Hangs on failure, we expect this error.
-+        self.assert_qmp(result, 'error/class', 'GenericError')
-+
-+if __name__ =3D=3D '__main__':
-+    iotests.main(supported_fmts=3D['qcow2'],
-+                 supported_protocols=3D['file'])
-diff --git a/tests/qemu-iotests/281.out b/tests/qemu-iotests/281.out
-new file mode 100644
-index 0000000000..89968f35d7
---- /dev/null
-+++ b/tests/qemu-iotests/281.out
-@@ -0,0 +1,5 @@
-+....
-+----------------------------------------------------------------------
-+Ran 4 tests
-+
-+OK
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index cb2b789e44..e041cc1ee3 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -288,3 +288,4 @@
- 277 rw quick
- 279 rw backing quick
- 280 rw migration quick
-+281 rw quick
---=20
-2.23.0
+>  =20
+>       s =3D socket(AF_UNIX, SOCK_STREAM, 0);
+>       g_assert(s !=3D -1);
+>  =20
+> +    memset(&remote, 0, sizeof(struct sockaddr_un));
+>       remote.sun_family =3D AF_UNIX;
+>       do {
+> -        strcpy(remote.sun_path, path);
+> -        len =3D strlen(remote.sun_path) + sizeof(remote.sun_family);
+> -        ret =3D connect(s, (struct sockaddr *)&remote, len);
+> +        strncpy(remote.sun_path, path, sizeof(remote.sun_path) - 1);
+> +        ret =3D connect(s, (struct sockaddr *)&remote, sizeof(struct soc=
+kaddr_un));
+>           if (ret =3D=3D -1) {
+>               g_usleep(G_USEC_PER_SEC);
+>           }
+> @@ -305,6 +305,7 @@ static void test_qga_info(gconstpointer fix)
+>       qobject_unref(ret);
+>   }
+>  =20
+> +#if defined(CONFIG_LINUX)
+>   static void test_qga_get_vcpus(gconstpointer fix)
+>   {
+>       const TestFixture *fixture =3D fix;
+> @@ -324,7 +325,9 @@ static void test_qga_get_vcpus(gconstpointer fix)
+>  =20
+>       qobject_unref(ret);
+>   }
+> +#endif
+>  =20
+> +#if defined(CONFIG_LINUX)
+>   static void test_qga_get_fsinfo(gconstpointer fix)
+>   {
+>       const TestFixture *fixture =3D fix;
+> @@ -348,6 +351,7 @@ static void test_qga_get_fsinfo(gconstpointer fix)
+>  =20
+>       qobject_unref(ret);
+>   }
+> +#endif
+>  =20
+>   static void test_qga_get_memory_block_info(gconstpointer fix)
+>   {
+> @@ -394,6 +398,7 @@ static void test_qga_get_memory_blocks(gconstpointer =
+fix)
+>       qobject_unref(ret);
+>   }
+>  =20
+> +#if defined(CONFIG_LINUX)
+>   static void test_qga_network_get_interfaces(gconstpointer fix)
+>   {
+>       const TestFixture *fixture =3D fix;
+> @@ -412,6 +417,7 @@ static void test_qga_network_get_interfaces(gconstpoi=
+nter fix)
+>  =20
+>       qobject_unref(ret);
+>   }
+> +#endif
+>  =20
+>   static void test_qga_file_ops(gconstpointer fix)
+>   {
+> @@ -682,7 +688,7 @@ static void test_qga_blacklist(gconstpointer data)
+>       qobject_unref(ret);
+>  =20
+>       /* check something work */
+> -    ret =3D qmp_fd(fix.fd, "{'execute': 'guest-get-fsinfo'}");
+> +    ret =3D qmp_fd(fix.fd, "{'execute': 'guest-info'}");
+>       qmp_assert_no_error(ret);
+>       qobject_unref(ret);
+>  =20
+> @@ -766,6 +772,7 @@ static void test_qga_config(gconstpointer data)
+>       g_key_file_free(kf);
+>   }
+>  =20
+> +#if defined(CONFIG_LINUX)
+>   static void test_qga_fsfreeze_status(gconstpointer fix)
+>   {
+>       const TestFixture *fixture =3D fix;
+> @@ -781,6 +788,7 @@ static void test_qga_fsfreeze_status(gconstpointer fi=
+x)
+>  =20
+>       qobject_unref(ret);
+>   }
+> +#endif
+>  =20
+>   static void test_qga_guest_exec(gconstpointer fix)
+>   {
+> @@ -976,12 +984,17 @@ int main(int argc, char **argv)
+>       g_test_add_data_func("/qga/sync", &fix, test_qga_sync);
+>       g_test_add_data_func("/qga/ping", &fix, test_qga_ping);
+>       g_test_add_data_func("/qga/info", &fix, test_qga_info);
+> +#if defined(CONFIG_LINUX)
+>       g_test_add_data_func("/qga/network-get-interfaces", &fix,
+>                            test_qga_network_get_interfaces);
+>       if (!access("/sys/devices/system/cpu/cpu0", F_OK)) {
+>           g_test_add_data_func("/qga/get-vcpus", &fix, test_qga_get_vcpus=
+);
+>       }
+>       g_test_add_data_func("/qga/get-fsinfo", &fix, test_qga_get_fsinfo);
+> +    g_test_add_data_func("/qga/fsfreeze-status", &fix,
+> +                         test_qga_fsfreeze_status);
+> +#endif
+> +
+>       g_test_add_data_func("/qga/get-memory-block-info", &fix,
+>                            test_qga_get_memory_block_info);
+>       g_test_add_data_func("/qga/get-memory-blocks", &fix,
+> @@ -993,8 +1006,6 @@ int main(int argc, char **argv)
+>       g_test_add_data_func("/qga/invalid-oob", &fix, test_qga_invalid_oob=
+);
+>       g_test_add_data_func("/qga/invalid-cmd", &fix, test_qga_invalid_cmd=
+);
+>       g_test_add_data_func("/qga/invalid-args", &fix, test_qga_invalid_ar=
+gs);
+> -    g_test_add_data_func("/qga/fsfreeze-status", &fix,
+> -                         test_qga_fsfreeze_status);
+>  =20
+>       g_test_add_data_func("/qga/blacklist", NULL, test_qga_blacklist);
+>       g_test_add_data_func("/qga/config", NULL, test_qga_config);
+>=20
 
 
