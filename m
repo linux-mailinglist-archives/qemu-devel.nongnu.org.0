@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7DA1341EA
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:40:24 +0100 (CET)
-Received: from localhost ([::1]:42882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689B0134205
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:43:37 +0100 (CET)
+Received: from localhost ([::1]:42932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipAdL-0005Lo-05
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:40:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60348)
+	id 1ipAgS-0000j0-Eu
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:43:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60359)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWO-0003mb-8x
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:13 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWP-0003o9-Ee
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWN-0004KX-7z
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:12 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33334)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWO-0004LA-70
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:13 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38060)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1ipAWN-0004KE-28
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:11 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id b6so3248858wrq.0
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:10 -0800 (PST)
+ id 1ipAWO-0004Km-1G
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:12 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id u2so2317041wmc.3
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:33:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/zR/PnmoD2vd+SET2VXoclQZXazuwhpa+44UehtkdK8=;
- b=e/9xGxpZhSInAdrJvK2/xA1/nCbKQF8BTgToTkTsFGigZ4tLiTWGKyks8gtVK4Onyq
- AsYaizx1ORrNa4MLtQ5XYYhxIDFOGpUlt7vogwiXJVNNjpN2rTcxKA3K3sRCsXkTJxsC
- 0ifVsdXbDYccn9KjUcnDG8A1YBaKIA51imV+p+MNSyAAYhG046cZPzDnpX0Fe5dhBmkd
- 3WU5x3lEelQ8ccuep+djKh5K7OMH0q2MuKPXkyLPXpKc8Yew2WPTV1Ohe+x8VyYuj33a
- ufPAwUb0OPqbc04kEyjlq2PMp2mbxdu1fjkEbWrOkCNS0hDyHMCMHdz+SJR432FN9f2Z
- qTVg==
+ bh=h3yQhB8alBlldX2ihkI73aVBbhIVO77Uu7vlmxTBOs0=;
+ b=NOBTvHzzU+TzTlbk68TFb9Om3wppsaalL9VEV7HAcRNWeHkKC5NUE9LRBcqFsiadNg
+ UR3KazNrjKsaWtFtjVoHQc8bAQmvx4t3cXJyC7eG9/nmbRPqpkK0oiJUUPyMsliYxKKD
+ VQ9HLGoRxWwFVbgjTlrXr3aypxAX3pxsllDxG9hq8NhjvIBwXSBz8N8ge1k17yb4mqT8
+ sRyUBUM2octJwJEMw6osCOpt+CrkdommTzNYSNsEPYlsY4wLiSDhy/fvJAanF2ZjX1kh
+ TbfH4yyMA8JdAoUGsY5eLQg+uaxF/be38Gf0RZm0vyT0SHGQHc6YQUcW+cgQTmX903mS
+ s7aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/zR/PnmoD2vd+SET2VXoclQZXazuwhpa+44UehtkdK8=;
- b=soBTwWGSF+bIOBURksMLj/GJ6kGXc1W8WQa9Lr7sDSWRuu6sbNorDwXQgTGBnScrEo
- HO3QfD89frV3nT5kOPV7pfZN7Scz2NucDA4VkLoGEUZo/lbnE5VjER8LQ/qYDp50oTcw
- ekRgxLaWDWIZ3h0J5V3A/wKQOsPqXO9rAjO8i4yOUpa20IARjY0Mvp1xahdxsHnvaOHH
- bvyaj3v0A8zJWXX37xa1bN/6tWKvAmKo/FhT+WNaLhpjCciY7IZmOWfAxB0C7N8G0cRS
- +0bxWYB/nnRV+GqccWH9Vrepu7hJvZzdb02JZ2zkYDgj/YXKbc6J4w+V1DXVEsJjhAlV
- Xi4g==
-X-Gm-Message-State: APjAAAWS5i+pvpQjB5tzYxarr6z+yJBy5Ez8Q84Scg8BYkIXv+UhTdVb
- J5MtBqXu3b4Q9sXbHWRll82R99+4
-X-Google-Smtp-Source: APXvYqzWaXSEOIoet9f/MiRNa+2M775XLjBMxv22hh45jdkSAvUjywr3EwIEBSi8DA+Vq6TIDw5E7Q==
-X-Received: by 2002:adf:dc8d:: with SMTP id r13mr4500502wrj.357.1578486789987; 
- Wed, 08 Jan 2020 04:33:09 -0800 (PST)
+ bh=h3yQhB8alBlldX2ihkI73aVBbhIVO77Uu7vlmxTBOs0=;
+ b=H9AnSVEu605s5Si9xtKf4LAST1/nGogYOQc2BRmX76Lltl5bIKcDWY4JEvwmt76lA1
+ a7KtXI1U3v3aQYC6T6atf8Yf7m3dWhZKOpK20zUfTksy6Xye03YZxaAfVC70zdZJIRIl
+ 9x1XxITnsthLTWyXCMcnuZeyhWadiNxdPUNB+DV3L/liUzcYmmtKjhScZinCXR7Y21n+
+ yxxoF11LllDsm+4VklrcLD0yfuMwEtuyy93qQDFv0GfveIEqySd3vABGxPhG0e9lHUIG
+ VbDNcYU+Y+dS6i73aO5ieplalNvhwN6EYxN3su349RT8lEoyQZuIZN8/tmmRIJp6xBnm
+ uOrw==
+X-Gm-Message-State: APjAAAWRdkNq5wXJyG3tzoX8BmRl5ox+un9SbaVb7a4gAJvv2PbLKu78
+ Y0GQXMGhOWnOe0yzLUp/TRqB/Zp0
+X-Google-Smtp-Source: APXvYqxyy1jPVw8ZgoBDyqgHBdbp+fvqft/r0Rb+kZcW7GfkvCmpxj7f2GXrQledOffbY3xd+mcgPg==
+X-Received: by 2002:a05:600c:230d:: with SMTP id
+ 13mr3588051wmo.12.1578486790901; 
+ Wed, 08 Jan 2020 04:33:10 -0800 (PST)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.08
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.33.10
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jan 2020 04:33:09 -0800 (PST)
+ Wed, 08 Jan 2020 04:33:10 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/38] hw/ppc/Kconfig: Let the Sam460ex board use the PowerPC
- 405 devices
-Date: Wed,  8 Jan 2020 13:32:30 +0100
-Message-Id: <1578486775-52247-14-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 14/38] hw/ppc/Kconfig: Let the Xilinx Virtex5 ML507 use the
+ PPC-440 devices
+Date: Wed,  8 Jan 2020 13:32:31 +0100
+Message-Id: <1578486775-52247-15-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
 References: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,17 +89,16 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 When configured with --without-default-devices, the build fails:
 
     LINK    ppc-softmmu/qemu-system-ppc
-  /usr/bin/ld: hw/ppc/sam460ex.o: in function `sam460ex_init':
-  hw/ppc/sam460ex.c:313: undefined reference to `ppc4xx_plb_init'
-  /usr/bin/ld: hw/ppc/sam460ex.c:353: undefined reference to `ppc405_ebc_init'
+  /usr/bin/ld: hw/ppc/virtex_ml507.o: in function `ppc440_init_xilinx':
+  hw/ppc/virtex_ml507.c:112: undefined reference to `ppcuic_init'
   collect2: error: ld returned 1 exit status
   make[1]: *** [Makefile:206: qemu-system-ppc] Error 1
+  make: *** [Makefile:483: ppc-softmmu/all] Error 2
 
-Fix by selecting the PPC405 config.
+Fix by selecting the PPC4XX config.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20191231183216.6781-8-philmd@redhat.com>
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+Message-Id: <20191231183216.6781-9-philmd@redhat.com>
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
@@ -106,17 +106,17 @@ Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 0cd8d40..004b7d5 100644
+index 004b7d5..d8482a5 100644
 --- a/hw/ppc/Kconfig
 +++ b/hw/ppc/Kconfig
-@@ -50,6 +50,7 @@ config PPC4XX
+@@ -110,6 +110,7 @@ config E500
  
- config SAM460EX
+ config VIRTEX
      bool
-+    select PPC405
++    select PPC4XX
      select PFLASH_CFI01
-     select IDE_SII3112
-     select M41T80
+     select SERIAL
+     select XILINX
 -- 
 1.8.3.1
 
