@@ -2,56 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DBE2134180
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:17:43 +0100 (CET)
-Received: from localhost ([::1]:42722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 427D71341D9
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 13:37:39 +0100 (CET)
+Received: from localhost ([::1]:42846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipAHO-0007BZ-4K
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:17:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53911)
+	id 1ipAaf-0000Pv-VK
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 07:37:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60185)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1ipAGB-0005uL-1j
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:16:28 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWD-0003ZM-7f
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1ipAG6-0001p0-7e
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:16:25 -0500
-Resent-Date: Wed, 08 Jan 2020 07:16:23 -0500
-Resent-Message-Id: <E1ipAG6-0001p0-7e@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21194)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1ipAG5-0001kO-RD; Wed, 08 Jan 2020 07:16:22 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1578485772; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=kmKGma6U1E0f9P9lreqGZegWBa5HwX5XZY9q4f20E4qfDsDyZ6MeRhKIq1AWJ/bBWAvCuL7I4RmWztmw2H9OH5vehEzn5twAS6izBZa6jIQ1mhLKnV8uqnL1GX8brAvnXUUk14qsGENIsehvkPpEBwE83mTla91mWuDP5k0nHRY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1578485772;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=NyQKkZx9en+Ka52cIC9Rz/z+soXP+Ffu10+K0r6pIV4=; 
- b=GWPrj8IeYfRlZm5z7nJpPWnJxpk+aiaNqhNzCngFvvqKkzl6AoiWTPLT3YHz5J2kB8iuJpg6fPRUWZEkeaXXXjQ1Bnd1WD7S+00nZmF2psqg5AJnHJPScDCf8oeLryIQw1LBsywxFEKv8QLNTtk67vtV/LGHdf6xcQlFKMGSutQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1578485769150825.605564080826;
- Wed, 8 Jan 2020 04:16:09 -0800 (PST)
-In-Reply-To: <20200108112220.499180-1-stefanha@redhat.com>
-Subject: Re: [PATCH 0/4] luks: add qemu-img measure support
-Message-ID: <157848576808.3775.16003679946263305504@37313f22b938>
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipAWB-0004Bi-PP
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:33:01 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:56006)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ipAWB-0004BE-IH
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 07:32:59 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id q9so2275380wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 04:32:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lckuBL5tj6x75rcei0OEN2930GIvL6FAWF6DsoXsxj8=;
+ b=q/vWRaWoy5Xu+TOb4S3naQrFNno6CyTcPuyJroFhoGNlP4sCq+aUsbpMkhVYBhxV5C
+ 3MeB0Mo5NQSE31u4e/1v0BWqWv+zQrsMlQ4k1xIQfJXzPsMr1VnYO+XtNXwpl0vlqJGV
+ nSfIeS8h6I67eFmCbcGuqIagKiy5V7QMnxQ82XwAnj3MobDJcY1D3nS3h2PS7I5XfIEd
+ cyBQ2VKFwTAtupSM8PMgqrBaLvH6+NNucnM2y11MlhjRq5sAlJ4QW9nTIA4wWZVJdUt6
+ Kkiu+9j51AkShIyQPFEEeK471Aw29GkBS6kc9W57ggVW8P7pxP1eiE8I70a1sQEMMpzT
+ 43oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=lckuBL5tj6x75rcei0OEN2930GIvL6FAWF6DsoXsxj8=;
+ b=tU2DblKLwQ40mTSBm4hz4xdl/EC7dTJsUUO0UXHJYdN0R3RaB/Ukmf7OYauZUtjEdS
+ ROChoCXOfFqbmtJ0APtJab2waugXDO52pTYJS2MmDEkHYWXNJvjd1B6do3RJyAC4oaT4
+ MIHUnOrk3rS4RC+Se2KO5znItIQH/dObbQ3EbZN6LJZHTZFEKscriCvITcsMcLBP0BBl
+ vLCykke27K1ZMYH8o5yAuY1SLxS6rf30yj9S2RHc1Y3rMFLl/gNNnCfi88iuvdqXjQKr
+ Tk3q+e38vcHeueKvfiDlocxECzUBzXyyLwkk3mARO6NM/beMgTbvg6SI1Z2DQIirSquq
+ hkPA==
+X-Gm-Message-State: APjAAAVEs/qJNHKRlxqgChkQAxvBpolT/M44HA6TOmm+QhOdD4X8tgkU
+ hhdKG9Fz+Jn3fpeZfjzoyy9OchD/
+X-Google-Smtp-Source: APXvYqzTjd5AUFpeufJysfcXLEVazd2PZ7PBPlYVHN63nIEmP+fTRo5drgDeGL0dsWwy5pEqUmKKvg==
+X-Received: by 2002:a7b:cb86:: with SMTP id m6mr3608816wmi.51.1578486777407;
+ Wed, 08 Jan 2020 04:32:57 -0800 (PST)
+Received: from 640k.lan ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id o4sm4037750wrw.97.2020.01.08.04.32.56
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 08 Jan 2020 04:32:56 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/38] Misc patches for 2020-01-08
+Date: Wed,  8 Jan 2020 13:32:17 +0100
+Message-Id: <1578486775-52247-1-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: stefanha@redhat.com
-Date: Wed, 8 Jan 2020 04:16:09 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,57 +77,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- stefanha@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDEwODExMjIyMC40OTkx
-ODAtMS1zdGVmYW5oYUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
-ZG9ja2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBj
-b21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFs
-bGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NS
-SVBUIEJFR0lOID09PQojISAvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9ja2Vy
-LWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1taW5nd0Bm
-ZWRvcmEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICBp
-by9jaGFubmVsLXdlYnNvY2subwogIENDICAgICAgaW8vY2hhbm5lbC11dGlsLm8KL3RtcC9xZW11
-LXRlc3Qvc3JjL2Jsb2NrL2NyeXB0by5jOiBJbiBmdW5jdGlvbiAnYmxvY2tfY3J5cHRvX21lYXN1
-cmUnOgovdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2svY3J5cHRvLmM6NTczOjYwOiBlcnJvcjogcGFz
-c2luZyBhcmd1bWVudCAzIG9mICdibG9ja19jcnlwdG9fY2FsY3VsYXRlX3BheWxvYWRfb2Zmc2V0
-JyBmcm9tIGluY29tcGF0aWJsZSBwb2ludGVyIHR5cGUgWy1XZXJyb3I9aW5jb21wYXRpYmxlLXBv
-aW50ZXItdHlwZXNdCiAgICAgaWYgKCFibG9ja19jcnlwdG9fY2FsY3VsYXRlX3BheWxvYWRfb2Zm
-c2V0KG9wdHMsIE5VTEwsICZsdWtzX3BheWxvYWRfc2l6ZSwKICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+
-Ci90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9jcnlwdG8uYzoyMTE6NTI6IG5vdGU6IGV4cGVjdGVk
-ICdzaXplX3QgKicge2FrYSAndW5zaWduZWQgaW50IConfSBidXQgYXJndW1lbnQgaXMgb2YgdHlw
-ZSAndWludDY0X3QgKicge2FrYSAnbG9uZyBsb25nIHVuc2lnbmVkIGludCAqJ30KICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzaXplX3QgKmxlbiwKICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB+fn5+fn5+fl5+fgpjYzE6IGFsbCB3
-YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVycm9ycwptYWtlOiAqKiogWy90bXAvcWVtdS10ZXN0
-L3NyYy9ydWxlcy5tYWs6Njk6IGJsb2NrL2NyeXB0by5vXSBFcnJvciAxCm1ha2U6ICoqKiBXYWl0
-aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBs
-YXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDY2MiwgaW4gPG1v
-ZHVsZT4KLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJw
-cm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tl
-cicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTdjOTFjMTg4OGQ5
-NjQ1ODc5ODBkOWUxNTZiYzExOTlhJywgJy11JywgJzEwMDEnLCAnLS1zZWN1cml0eS1vcHQnLCAn
-c2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywg
-J0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywg
-J0RFQlVHPScsICctZScsICdTSE9XX0VOVj0nLCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9j
-Y2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldy8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92
-YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1mazF0
-M3IxeC9zcmMvZG9ja2VyLXNyYy4yMDIwLTAxLTA4LTA3LjEwLjIxLjUzMjk6L3Zhci90bXAvcWVt
-dTp6LHJvJywgJ3FlbXU6ZmVkb3JhJywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtbWluZ3cn
-XScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVs
-PWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9N2M5MWMxODg4ZDk2NDU4Nzk4MGQ5ZTE1NmJjMTE5OWEK
-bWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0
-b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtZmsxdDNyMXgvc3JjJwptYWtlOiAqKiog
-W2RvY2tlci1ydW4tdGVzdC1taW5nd0BmZWRvcmFdIEVycm9yIDIKCnJlYWwgICAgNW00Ny44MDVz
-CnVzZXIgICAgMG04LjUwMXMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9w
-YXRjaGV3Lm9yZy9sb2dzLzIwMjAwMTA4MTEyMjIwLjQ5OTE4MC0xLXN0ZWZhbmhhQHJlZGhhdC5j
-b20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVkb3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
-ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
-ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+The following changes since commit c4d1069c2563f70a5271af6e9e000add64e593be:
+
+  Merge remote-tracking branch 'remotes/elmarco/tags/dbus-vmstate7-pull-request' into staging (2020-01-06 18:22:42 +0000)
+
+are available in the git repository at:
+
+
+  git://github.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 083b266f69f36195aef22cb224f86b99ca0d6feb:
+
+  chardev: Use QEMUChrEvent enum in IOEventHandler typedef (2020-01-08 11:15:35 +0100)
+
+----------------------------------------------------------------
+* Compat machines fix (Denis)
+* Command line parsing fixes (Michal, Peter, Xiaoyao)
+* Cooperlake CPU model fixes (Xiaoyao)
+* i386 gdb fix (mkdolata)
+* IOEventHandler cleanup (Philippe)
+* icount fix (Pavel)
+* RR support for random number sources (Pavel)
+* Kconfig fixes (Philippe)
+
+----------------------------------------------------------------
+Denis Plotnikov (1):
+      hw: fix using 4.2 compat in 5.0 machine types for i440fx/q35
+
+Michal Privoznik (1):
+      x86: Check for machine state object class before typecasting it
+
+Paolo Bonzini (1):
+      chardev: use QEMUChrEvent instead of int
+
+Pavel Dovgaluk (2):
+      replay: check other timers for icount limit
+      replay: record and replay random number sources
+
+Peter Wu (1):
+      hw/i386/pc: fix regression in parsing vga cmdline parameter
+
+Philippe Mathieu-Daudé (28):
+      hw/i386/x86-iommu: Add missing stubs
+      hw/timer/Kconfig: Intel 8254 PIT depends of ISA bus
+      hw/usb/redirect: Do not link 'usb-redir' device when USB not enabled
+      hw/intc/i8259: Fix Kconfig dependency on ISA bus
+      hw/i386/Kconfig: Let the MicroVM machine select the SERIAL_ISA config
+      hw/ppc/Kconfig: Restrict the MPC I2C controller to e500-based platforms
+      hw/ppc/Kconfig: Let the Sam460ex board use the PowerPC 405 devices
+      hw/ppc/Kconfig: Let the Xilinx Virtex5 ML507 use the PPC-440 devices
+      hw/ppc/Makefile: Simplify the sPAPR PCI objects rule
+      hw/ppc/Kconfig: Only select fw_cfg with machines using OpenBIOS
+      hw/ppc/Kconfig: Only select FDT helper for machines using it
+      hw/nvram/Kconfig: Add an entry for the NMC93xx EEPROM
+      hw/nvram/Kconfig: Restrict CHRP NVRAM to machines using OpenBIOS or SLOF
+      hw/rtc/mc146818: Add missing dependency on ISA Bus
+      hw/ipmi: Remove unnecessary declarations
+      hw/ipmi: Explicit we ignore some QEMUChrEvent in IOEventHandler
+      hw/char/terminal3270: Explicit ignored QEMUChrEvent in IOEventHandler
+      hw/usb/dev-serial: Explicit we ignore few QEMUChrEvent in IOEventHandler
+      hw/usb/redirect: Explicit we ignore few QEMUChrEvent in IOEventHandler
+      ccid-card-passthru: Explicit we ignore QEMUChrEvent in IOEventHandler
+      vhost-user-crypto: Explicit we ignore some QEMUChrEvent in IOEventHandler
+      vhost-user-net: Explicit we ignore few QEMUChrEvent in IOEventHandler
+      vhost-user-blk: Explicit we ignore few QEMUChrEvent in IOEventHandler
+      virtio-console: Explicit we ignore some QEMUChrEvent in IOEventHandler
+      monitor/qmp: Explicit we ignore few QEMUChrEvent in IOEventHandler
+      monitor/hmp: Explicit we ignore a QEMUChrEvent in IOEventHandler
+      chardev/char: Explicit we ignore some QEMUChrEvent in IOEventHandler
+      chardev: Use QEMUChrEvent enum in IOEventHandler typedef
+
+Xiaoyao Li (3):
+      accel/kvm: Make "kernel_irqchip" default on
+      target/i386: Add new bit definitions of MSR_IA32_ARCH_CAPABILITIES
+      target/i386: Add missed features to Cooperlake CPU model
+
+mkdolata@us.ibm.com (1):
+      target/i386: Fix handling of k_gs_base register in 32-bit mode in gdbstub
+
+ accel/kvm/kvm-all.c             | 19 ++++++++++-----
+ backends/cryptodev-vhost-user.c |  7 +++++-
+ chardev/char-mux.c              |  8 +++----
+ chardev/char.c                  |  9 ++++++--
+ cpus.c                          |  4 ++++
+ default-configs/ppc-softmmu.mak |  1 -
+ docs/replay.txt                 |  1 +
+ gdbstub.c                       |  2 +-
+ hw/arm/pxa2xx.c                 |  2 +-
+ hw/arm/strongarm.c              |  2 +-
+ hw/block/vhost-user-blk.c       |  7 +++++-
+ hw/char/cadence_uart.c          |  2 +-
+ hw/char/digic-uart.c            |  2 +-
+ hw/char/escc.c                  |  2 +-
+ hw/char/etraxfs_ser.c           |  2 +-
+ hw/char/exynos4210_uart.c       |  2 +-
+ hw/char/grlib_apbuart.c         |  2 +-
+ hw/char/imx_serial.c            |  2 +-
+ hw/char/ipoctal232.c            |  2 +-
+ hw/char/lm32_juart.c            |  2 +-
+ hw/char/lm32_uart.c             |  2 +-
+ hw/char/mcf_uart.c              |  2 +-
+ hw/char/milkymist-uart.c        |  2 +-
+ hw/char/nrf51_uart.c            |  2 +-
+ hw/char/pl011.c                 |  2 +-
+ hw/char/serial.c                |  2 +-
+ hw/char/sh_serial.c             |  2 +-
+ hw/char/terminal3270.c          |  7 +++++-
+ hw/char/virtio-console.c        |  7 +++++-
+ hw/char/xilinx_uartlite.c       |  2 +-
+ hw/i386/Kconfig                 |  2 +-
+ hw/i386/pc_piix.c               |  1 -
+ hw/i386/pc_q35.c                |  1 -
+ hw/i386/x86-iommu-stub.c        |  9 ++++++++
+ hw/i386/x86.c                   |  8 +++----
+ hw/intc/Kconfig                 |  1 +
+ hw/ipmi/ipmi_bmc_extern.c       | 12 ++++++----
+ hw/mips/boston.c                |  2 +-
+ hw/mips/mips_malta.c            |  2 +-
+ hw/net/Kconfig                  |  2 ++
+ hw/nvram/Kconfig                |  8 +++++++
+ hw/nvram/Makefile.objs          |  4 ++--
+ hw/ppc/Kconfig                  | 20 ++++++++++++++++
+ hw/ppc/Makefile.objs            |  9 ++++----
+ hw/riscv/riscv_htif.c           |  2 +-
+ hw/riscv/sifive_uart.c          |  2 +-
+ hw/rtc/Kconfig                  |  1 +
+ hw/scsi/Kconfig                 |  1 +
+ hw/sparc/Kconfig                |  1 +
+ hw/sparc64/Kconfig              |  1 +
+ hw/timer/Kconfig                |  1 +
+ hw/usb/Makefile.objs            |  2 ++
+ hw/usb/ccid-card-passthru.c     |  7 +++++-
+ hw/usb/dev-serial.c             |  6 ++++-
+ hw/usb/redirect.c               |  7 +++++-
+ include/chardev/char-fe.h       |  2 +-
+ include/chardev/char-mux.h      |  2 +-
+ include/chardev/char.h          |  4 ++--
+ include/hw/boards.h             |  3 ---
+ include/sysemu/replay.h         |  7 ++++++
+ monitor/hmp.c                   |  6 ++++-
+ monitor/qmp.c                   |  7 +++++-
+ net/filter-mirror.c             |  2 +-
+ net/vhost-user.c                |  9 ++++++--
+ qtest.c                         |  2 +-
+ replay/Makefile.objs            |  3 ++-
+ replay/replay-internal.h        |  2 ++
+ replay/replay-random.c          | 44 +++++++++++++++++++++++++++++++++++
+ replay/replay.c                 |  2 +-
+ stubs/replay.c                  |  9 ++++++++
+ target/i386/cpu.c               | 51 ++++++++++++++++++++++++++++++++++++++++-
+ target/i386/cpu.h               | 13 +++++++----
+ target/i386/gdbstub.c           |  4 ++--
+ target/i386/kvm.c               |  1 +
+ tests/test-char.c               |  6 ++---
+ tests/vhost-user-test.c         |  2 +-
+ util/guest-random.c             | 13 +++++++++--
+ 77 files changed, 324 insertions(+), 92 deletions(-)
+ create mode 100644 replay/replay-random.c
+-- 
+1.8.3.1
 
 
