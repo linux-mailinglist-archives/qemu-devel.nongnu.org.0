@@ -2,93 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D212C1343C6
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 14:25:38 +0100 (CET)
-Received: from localhost ([::1]:43726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7857F134441
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 14:48:30 +0100 (CET)
+Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipBL7-0000Ta-Tr
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 08:25:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36857)
+	id 1ipBhF-0002iP-Ee
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 08:48:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39868)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ipBKB-0008Ai-EU
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 08:24:43 -0500
+ (envelope-from <stevensd@google.com>) id 1ip98b-0004iN-7D
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:04:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ipBKA-0004wv-D1
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 08:24:39 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47222
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ipBKA-0004wP-9p
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 08:24:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578489877;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qwxW8pl+SCSupDafHVTP3y7AW8offuPg8JxNose/cgM=;
- b=EcPRg8AKfv4cbTQjuJzt0uFqZnVZ3oAhXp7H/UPk4WvoOchQhZlaGNwJtZHxJW7q6+SvLi
- niJ25K+L3yAoggK3gy08Pmd7a3Iy02s6zPyA9Np20EpnrkOZ08C06wHyp+U6y0EFVB75a2
- wXOrgqEeVY/jOzF6xAVc0N9grXdit74=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-vibyVPFLNiqLTSrFF8J_PQ-1; Wed, 08 Jan 2020 08:24:36 -0500
-Received: by mail-wr1-f70.google.com with SMTP id 90so1431701wrq.6
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 05:24:36 -0800 (PST)
+ (envelope-from <stevensd@google.com>) id 1ip98Z-0008SV-0y
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:04:32 -0500
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:42156)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stevensd@google.com>) id 1ip98Y-0008Nk-Ly
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 06:04:30 -0500
+Received: by mail-lj1-x244.google.com with SMTP id y4so2840268ljj.9
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 03:04:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GPrQXU7r+8TzRDkPJO/Bd8pkbD2/ocdKHXv4Gtb6bio=;
+ b=KZr0y4qSlDhNV7qd/WU0KFsW4rQ10koeM7ltZ47PDf/xkOAgPg+CO8SawpL8Nu2Xap
+ ZlYe+qjlf9wuKZxJe12MNmC3pIc48j3rbyx+hPUOYZH05ilxdIAdK6Qfo2YpfnUj+/a2
+ fEJb1NqaJTe56CToJryA7frL72vlk1R1uJym0zxO207guv+R6aIwTbb77lJuBdgz/Ylc
+ cFYgyY1+EE4G9UtMkUNs3LT9+rvSNfL7X9AUJozMXrel9ZjGmqimuovVXGAC5u8dvwSZ
+ feaNwQLDDmlv3MXXJly4KfsndCVMuZvMaHnoLPL3+NEw6Zxopalx2bvCLUAo1Q15K0w1
+ LSZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oNDO+A95BLiPVx8J03CB2ee6cmruYWFGz72FU4GQS+o=;
- b=PPcgbKAJCZprURYz8NeIPbGq55WSCCYUHE0nNuKNaHn/OuBcNFTZLyyIaZwRa7D3aD
- 1pL/qwPwwjbFgCAgcJr0AjOVVX+QfKiFN9sgIm07qITHv0S2+xUT+Kwg8f+D/6QlVpQw
- srgED0i4+q9bi/A34LDKTnEet5l1/7vgO/qMhx9EotKRIwxGMzJo8Di6djqFFo29cWvT
- 8jlrvAOD+g+39xtdqBpx8BQgEct3DNBEHyHFJ9YkD63d/iNEltVXpsnNPx7Vq6UrlaiJ
- xdjIXXJgpNqLf8fDzemxMFzjsECQ+z9+VQTERKdM/7rFX5d7dM6yYlw6CZtUV9Wpf1Tl
- TzgQ==
-X-Gm-Message-State: APjAAAW8ASXpIrhvYQis5mbSsLsX1UzPfEzOCWKwnUju8/Ohzn5xTDUu
- +iQQQ0aEWqVZ52T0Gvo3/ZNs7qxHF8fwDa6Gygw5dw05xAVESNgT/B5XNPQ+ltEk+IibrGk3xhS
- nQMl6N7dL2MZx0sY=
-X-Received: by 2002:a5d:5267:: with SMTP id l7mr4963611wrc.84.1578489875041;
- Wed, 08 Jan 2020 05:24:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy8kQ/jRuwVfRiz9agzRYztYzDhD4aZL1BtL9DZ+RBcXPdiLYGJaH8xLWpxFPo5eoCl5wnZhA==
-X-Received: by 2002:a5d:5267:: with SMTP id l7mr4963584wrc.84.1578489874765;
- Wed, 08 Jan 2020 05:24:34 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
- ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id f16sm4224263wrm.65.2020.01.08.05.24.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jan 2020 05:24:34 -0800 (PST)
-Subject: Re: Priority of -accel (was: [PATCH] tests/qemu-iotests: Update tests
- to recent desugarized -accel option)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200106130951.29873-1-philmd@redhat.com>
- <c493e693-13a7-7dc4-eb2d-5dbc7b3053f1@redhat.com>
- <12334054-4ae7-e580-9727-2d322bfa2bda@redhat.com>
- <58eb34db-7d32-8b0e-d9ef-98648209486b@redhat.com>
- <656169fc-1abe-b521-20a3-e7041739b914@redhat.com>
- <20200107125451.GL3368802@redhat.com>
- <3241dff4-6223-404f-55d4-846991763046@redhat.com> <87d0bujkpe.fsf@linaro.org>
- <da2111ee-0644-1d7c-a111-e4209025a1d8@redhat.com>
- <60ecc0ec-d8db-2cf6-b21a-799f4cb9ab71@redhat.com>
- <20200108131015.GF3386452@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1f454912-5127-d2f3-fbba-0d341947e030@redhat.com>
-Date: Wed, 8 Jan 2020 14:24:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GPrQXU7r+8TzRDkPJO/Bd8pkbD2/ocdKHXv4Gtb6bio=;
+ b=nojkcfD65uspJGW8zpVoNALHgu2bY/rvRDP/LPxznQ/HNQJfqxH0hdb20um+9mPLdz
+ 9fbS/ql/MAG8KsxihF7aQziXSCclUa9pxVTZYoHBidnM2WcsxKj92O5FPlDiTd9WGc4G
+ zvSsOcXqNgEBmrDZRLnZCB+3/MxOvbfop151m+Tps0V44XaiAVBuGcpnl2UyXpI9YsbB
+ K+ddpGp5LkhmU1gErMrGhVT4P+3US7QJAclZwgtPd5TIk717RfcII7G2c5VljwRLnwdo
+ a3Ex1ZZHpHm0Vn0lh4l+hP5ri2+ILnq3X/MF9AMIt5H6K1l99tDxFLqQbQoAeWsRBgKc
+ 5mCg==
+X-Gm-Message-State: APjAAAWjqU4vU5eXXKFYPFwvtyExyPLAOt0nct/qF0YjCn3nr72oZAtv
+ o3DVap871XUauu6gIjX7NcpJU4db2DNqewP8Mnt3yA==
+X-Google-Smtp-Source: APXvYqws3/HwIKqBCkja9W+hEagukHWxJPaQ99txhgJJvv2brBb8a9BbAtoGAvQgUKcfopn2JcbVrQAwMxEkctRXS8k=
+X-Received: by 2002:a2e:9942:: with SMTP id r2mr2613964ljj.182.1578481466681; 
+ Wed, 08 Jan 2020 03:04:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200108131015.GF3386452@redhat.com>
-Content-Language: en-US
-X-MC-Unique: vibyVPFLNiqLTSrFF8J_PQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <CAD=HUj6FA3VoTJqNa+gmAgVOv9zS7Qk9pdg46EY9NvtJOdz5_A@mail.gmail.com>
+ <20200108104002.jxh6amnrazhnamej@sirius.home.kraxel.org>
+In-Reply-To: <20200108104002.jxh6amnrazhnamej@sirius.home.kraxel.org>
+From: David Stevens <stevensd@google.com>
+Date: Wed, 8 Jan 2020 20:04:15 +0900
+Message-ID: <CAOiLmNHMAz6UqxuEsiq6Y_dSNcCvtBrFR-FHG6voJAhpF8SeeA@mail.gmail.com>
+Subject: Re: [virtio-dev][RFC PATCH v1 1/2] content: define what exporting a
+ resource is
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: David Stevens <stevensd@chromium.org>, virtio-dev@lists.oasis-open.org, 
+ Dylan Reid <dgreid@chromium.org>, Tomasz Figa <tfiga@chromium.org>, 
+ Zach Reizner <zachr@chromium.org>, Keiichi Watanabe <keiichiw@chromium.org>, 
+ Alexandre Courbot <acourbot@chromium.org>, Alex Lau <alexlau@chromium.org>, 
+ =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>, 
+ Pawel Osciak <posciak@chromium.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: multipart/alternative; boundary="0000000000001bcba4059b9edb4b"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::244
+X-Mailman-Approved-At: Wed, 08 Jan 2020 08:43:53 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,46 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/01/20 14:10, Daniel P. Berrang=C3=A9 wrote:
-> On Wed, Jan 08, 2020 at 01:41:59PM +0100, Paolo Bonzini wrote:
->> On 08/01/20 11:58, Thomas Huth wrote:
->>>> "-accel default" could be considered to have vibes of Do The Right
->>>> Thing (tm) and could in time actually become so!
->>>
->>> "-accel default" sounds like the default behavior that you'd also get i=
-f
->>> you don't use this option at all ... what about "-accel auto" to say
->>> that QEMU should pick an accelerator automatically?
->>
->> Questions to answer before thinking about the name: how would it
->> co-operate with other "-accel" options?  how would you pass sub-options
->> to the accelerators?
->=20
-> If people don't have a preference for a specific accelerator, just need
-> "a working accelerator", then I think it is reasonable to assume they
-> won't want/need to pass options to the accelerators either.
->=20
-> "-accel default" is targetting the simple "do the right thing" use
-> case, so IMHO doesn't need to support per-accelerator options.
+--0000000000001bcba4059b9edb4b
+Content-Type: text/plain; charset="UTF-8"
 
-So basically the idea is to add an option that means "ignore every other
--accel option and act as if we had "-accel kvm -accel tcg"?  That seems
-like a hack to me, especially since you can achieve the same effect with
-a binary named qemu-kvm and no -accel options at all.
+>
+> Hmm, I'd suggest to move the whole thing into the virtio-gpu section.
+> There is no such thing as a "resource" in general virtio context ...
+>
 
-(As for the reason why TCG is preferred, it's because we already special
-case binaries whose name ends with "kvm" and it keeps consistency
-between all qemu-system-ARCH binaries).
+If this is moved into the virtio-gpu section, then any device type that
+imports resources will have to refer to something defined by the GPU device
+type. This would make the GPU device type a sort of special device type
+that isn't just a leaf node of the spec. I think it's better to define
+'resource' as a top level concept for virtio devices, even if the specifics
+of what a 'resource' is are defined by individual device types.
 
-Paolo
+-David
 
+--0000000000001bcba4059b9edb4b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">Hmm, I&#39;d suggest to move the whole thing into the vi=
+rtio-gpu section.<br>
+There is no such thing as a &quot;resource&quot; in general virtio context =
+...<br></blockquote><div><br></div><div>If this is moved into the virtio-gp=
+u section, then any device type that imports resources will have to refer t=
+o something defined by the GPU device type. This would make the GPU device =
+type a sort of special device type that isn&#39;t just a leaf node of the s=
+pec. I think it&#39;s better to define &#39;resource&#39; as a top level co=
+ncept for virtio devices, even if the specifics of what a &#39;resource&#39=
+; is are defined by individual device types.</div><div><br></div><div>-Davi=
+d=C2=A0</div></div></div>
+
+--0000000000001bcba4059b9edb4b--
 
