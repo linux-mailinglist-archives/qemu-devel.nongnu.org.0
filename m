@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33EC1348C9
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 18:05:39 +0100 (CET)
-Received: from localhost ([::1]:46936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 442DE1348DB
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 18:09:38 +0100 (CET)
+Received: from localhost ([::1]:47048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipEm2-00030Q-9x
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 12:05:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53070)
+	id 1ipEpt-0007uN-5C
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 12:09:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53819)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1ipEiy-0008Ak-BJ
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:02:29 -0500
+ (envelope-from <stefanha@gmail.com>) id 1ipEk3-0001W5-8w
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:03:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1ipEix-0006TT-1X
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:02:28 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46682)
+ (envelope-from <stefanha@gmail.com>) id 1ipEk1-0007NT-E2
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:03:35 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36151)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1ipEiw-0006SD-MS
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:02:26 -0500
-Received: by mail-wr1-x442.google.com with SMTP id z7so4107744wrl.13
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 09:02:26 -0800 (PST)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1ipEk0-0007MQ-Tn
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 12:03:33 -0500
+Received: by mail-wm1-x342.google.com with SMTP id p17so3299296wma.1
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 09:03:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=RT+LBwtrs+pIJFlKOpml16o4HIJLwdAdQjf3NKvN6f0=;
- b=gVOIVxomZZH+oZpd9czekdLzOmB9usKbfLCPm65pzA+DtOpYm3atEfAVrrmXk5NzF9
- cRRPf3rMiZafMCh1MpaFbB/hoOoJ98742aR6Gy22zjbdwnHUTWdN+f/fsjhXP8POJ1dd
- yMOCgdKCrTQje2n/sMhCSxui+VcZuVY2g4maYlXQSeEPqHMiO73N9PERrAW60oMGX74n
- TKLZv0QyZgnJ5msy7CDJSra8UrOXY5vrrBwjet2UIC5RPNQIZY9vpBwAXMfycQTTG3KP
- 8E0TUNkOxCks5fTdLbfom7HegCMHDd4190R+kX/y/v+Gxk20+8FvdBlyyf1bRr3tH8K1
- KJhg==
+ bh=lg9PwxG0WHlA67baDX/lcRy6wsfV3A83QjuJ0K6QUsE=;
+ b=cTnQ/PZ0Vkerl86IteKB3UoR7eVoct6T4bjCXqWWplxYzy40KnNl0geTi9mrbxMmWm
+ km3F+alMFxDSgVghX5VEhlcqSgGDMVBBh9zG4yQAV4K/t2EjdplM/upjNr5iUfO5vg0Q
+ q8jRHXh69jWpdmBf1TAwuhcee5EmZclbGI33pH0EpMjhIsfqG2cIE//bHWTIeYE5GVoZ
+ OeAAR/rjPVdjWGn/qjgQ7zBd7nKzv49APu2vPsCpx0N4REVoS39+rLu0REfD4N+WUVh0
+ wUb5j+4UXFEH3FiLZASJjIy5OZZ35orvLbdvhLOMPkVf/LESpeU2TMl1u5YfJITtFXwX
+ cPeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=RT+LBwtrs+pIJFlKOpml16o4HIJLwdAdQjf3NKvN6f0=;
- b=ZGNBN4poD20HcslLeXRFMhlA7cdfx7nR2DUnFMKiBFnpVXFP4g45QjJsr8RtfHV4Pi
- BqAVBHZmH1lrGu8Q4YKUHWzjsCR7KtXM1Fw7+FcuO6p93PP8oPT01wfWS+T/RTcCotlw
- 3mrOgsmFAH7uAOKXogxMQJFdFhOVtGRHQ245H+7M5wAC3w5lP5xfqMtzj0j6SMuRKHyB
- RxLIOb3YwEVo+wVSrt5kKSGU1Ok3TV5GSMBmMyTFa4XqpXio4CbW0KU3FjiQR6vcTNJI
- WSsVchszPawj3tan73xkwHx7FBp3KwbjS/ZFCQQdlCKgqYNvYdfBd9slp2OORxPkFrf+
- dSYQ==
-X-Gm-Message-State: APjAAAX0R1zpOL3GB2GF4HxRmPHU/PIWFKJvm0c29fytoTrSdf/bMnbq
- pfyH8hkLM5u7rrqKzkUdVPI=
-X-Google-Smtp-Source: APXvYqwVwrbZohM3tvgiBLU1yU4CFrH62oqr9pkv0QqhXTNUou0zN0ztx2w7U9a4+zU1UgxnGIBx9Q==
-X-Received: by 2002:adf:f58a:: with SMTP id f10mr5923072wro.105.1578502944951; 
- Wed, 08 Jan 2020 09:02:24 -0800 (PST)
+ bh=lg9PwxG0WHlA67baDX/lcRy6wsfV3A83QjuJ0K6QUsE=;
+ b=R6dxgpyMzEVvwjALTuynKASl3cNEx8+rVdWVUIZfYE9uxAp1f78fz1IjpQvbHBq+XV
+ EuEZh0LF+7H7fTt9nATMLBH3AFyVY8IOZEFXQwy6JHEULNrQhHoJR1/vURJQQYLByVLA
+ 3cnSQwYFoOTPjnPuxtAy8Nj2HODimDNccrfzm2XbdpzbkYzO7Ak1EenFN8bLhB36jPqo
+ PJrLu/hLVx+ZxTacIHvtQ6p0agN2nA/TU7ONqfGMBPk2LAzqXXk9W4oqyCo4kgpm6GEq
+ vumHuqx/MJt+vCerM0sGGRTK5x+EGCrWmWbxrPOfr5Hse2Z2YFyyKLoN5NfbLlYkVGoy
+ ziHw==
+X-Gm-Message-State: APjAAAX8UyflUibVemD9de4OE/l+ccK7UggGjk9LGZuXakr4+t/aY0I2
+ TFyc9FJXSA2UNF/kbVbsRpA=
+X-Google-Smtp-Source: APXvYqxR63T/PzTbXK/tsM4A/UNi2QwHHc5uyeobXEUtrzheU0Hp2nZZEhEPJihQPP+M5Zsak225jw==
+X-Received: by 2002:a7b:cc6a:: with SMTP id n10mr5295770wmj.170.1578503011727; 
+ Wed, 08 Jan 2020 09:03:31 -0800 (PST)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id t125sm4620483wmf.17.2020.01.08.09.02.22
+ by smtp.gmail.com with ESMTPSA id u13sm4653477wmd.36.2020.01.08.09.03.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 09:02:22 -0800 (PST)
-Date: Wed, 8 Jan 2020 17:02:21 +0000
+ Wed, 08 Jan 2020 09:03:30 -0800 (PST)
+Date: Wed, 8 Jan 2020 17:03:29 +0000
 From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Coiby Xu <coiby.xu@gmail.com>
-Subject: Re: [RFC] Implementing vhost-user-blk device backend
-Message-ID: <20200108170221.GC501521@stefanha-x1.localdomain>
-References: <CAJAkqrWm28qXtsFmaENAcsDNQV7gE=sd+YyA5ADmm2Vo9DKrUQ@mail.gmail.com>
- <20191219143141.GF1624084@stefanha-x1.localdomain>
- <CAJAkqrXKnwPhQMAT6dhvxDgs+7t3o89QSBPPDeP8AxQmwMi2Xw@mail.gmail.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Subject: Re: [PATCH v6 12/21] libqtest: add in-process qtest.c tx/rx handlers
+Message-ID: <20200108170329.GD501521@stefanha-x1.localdomain>
+References: <20191129213424.6290-1-alxndr@bu.edu>
+ <20191129213424.6290-13-alxndr@bu.edu>
+ <20200103111518.GG130240@stefanha-x1.localdomain>
+ <20200105195544.rysht5cz43fzppwz@mozz.bu.edu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wxDdMuZNg1r63Hyj"
+ protocol="application/pgp-signature"; boundary="Q0rSlbzrZN6k9QnT"
 Content-Disposition: inline
-In-Reply-To: <CAJAkqrXKnwPhQMAT6dhvxDgs+7t3o89QSBPPDeP8AxQmwMi2Xw@mail.gmail.com>
+In-Reply-To: <20200105195544.rysht5cz43fzppwz@mozz.bu.edu>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,77 +80,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Bharat Singh <bharatlkmlkvm@gmail.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "bsd@redhat.com" <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---wxDdMuZNg1r63Hyj
+--Q0rSlbzrZN6k9QnT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jan 05, 2020 at 12:06:17AM +0800, Coiby Xu wrote:
-> Hi Stefan,
+On Sun, Jan 05, 2020 at 02:55:44PM -0500, Alexander Bulekov wrote:
+> On 200103 1115, Stefan Hajnoczi wrote:
+> > On Fri, Nov 29, 2019 at 09:34:47PM +0000, Oleinik, Alexander wrote:
+> > > +QTestState *qtest_inproc_init(QTestState **s, bool log, const char* =
+arch,
+> > > +                    void (*send)(void*, const char*))
+> > > +{
+> > > +    QTestState *qts;
+> > > +    qts =3D g_new0(QTestState, 1);
+> > > +    *s =3D qts; /* Expose qts early on, since the query endianness r=
+elies on it */
+> > > +    qts->wstatus =3D 0;
+> > > +    for (int i =3D 0; i < MAX_IRQ; i++) {
+> > > +        qts->irq_level[i] =3D false;
+> > > +    }
+> > > +
+> > > +    qtest_client_set_rx_handler(qts, qtest_client_inproc_recv_line);
+> > > +
+> > > +    /* send() may not have a matching protoype, so use a type-safe w=
+rapper */
+> > > +    qts->ops.external_send =3D send;
+> > > +    qtest_client_set_tx_handler(qts, send_wrapper);
+> > > +
+> > > +    qts->big_endian =3D qtest_query_target_endianness(qts);
+> > > +    gchar *bin_path =3D g_strconcat("/qemu-system-", arch, NULL);
+> > > +    setenv("QTEST_QEMU_BINARY", bin_path, 0);
+> > > +    g_free(bin_path);
+> >=20
+> > Is this a dummy path that is needed to make other code happy?  Or does
+> > the user need to have an actual file at /qemu-system-ARCH?
 >=20
-> Thank you for reviewing my work! All the improvements have been
-> applied except for a small issue regarding object_add.
+> Yes - with the inproc mode this is only needed to make qtest_get_arch
+> happy, which simply returns the suffix of the env variable. Standard
+> qtest initialization relies on it in qtest_init_without_qmp_handshake,
+> but that function is not used by the fuzzer.
 
-Excellent, thanks for your work!
+Cool, please add a comment to the code.
 
-> >  (qemu) object_add vhost-user-server,id=3DID,chardev=3DCHARDEV,writable=
-=3Don|off
->=20
-> Currently I implement object_add feature in the following syntax which use
-> unix_socket directly instead of chardev,
->=20
->   (qemu) object_add
-> vhost-user-server,id=3Did=3Ddisk,unix_socket=3D/tmp/vhost-user-blk_vhost.=
-socket,name=3Ddisk,writable=3Doff
->=20
-> I know in QEMU we can create a socket server using chardev-add,
->   (qemu) chardev-add socket,id=3Dchar1,path=3D/tmp/vhost-user-blk_vhost.s=
-ocket
->=20
-> But it seems it's a bit cumbersome to utilize chardev. Take QMP over sock=
-et
-> as an example,
->=20
->   $ x86_64-softmmu/qemu-system-x86_64 -drive
-> file=3Ddpdk.img,format=3Draw,if=3Dnone,id=3Ddisk -device
-> ide-hd,drive=3Ddisk,bootindex=3D0 -m 128 -enable-kvm -chardev
-> socket,id=3Dmon1,path=3D/tmp/mon.sock,server,nowait -mon
-> chardev=3Dmon1,mode=3Dcontrol,pretty=3Don
-
-This convenience syntax is fine for now.
-
-Maybe later it will be necessary to use chardev instead if the user
-wishes to takes advantage of -chardev socket options (server=3Don|off,
-wait=3Don|off, tls-creds=3D..., etc).
-
-> It doesn't support multiple concurrent client connections because of the
-> limitation of chardev/char-socket.c.
-
-That's fine, vhost-user UNIX domain sockets typically don't handle
-multiple concurrent connections.
-
-Stefan
-
---wxDdMuZNg1r63Hyj
+--Q0rSlbzrZN6k9QnT
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4WCx0ACgkQnKSrs4Gr
-c8jQGwf/ez5bwsiavlZAgHInkX2dh3jJ5UhUGy4RULWwrNJpF2KsMUzIz7Z8dFhC
-ofIO//ux7c7CdeXy8Yhcc0XRWVUghyroa9dkmYQFov4Fny3l9AFwhnOJjuDT7e9k
-cvjwJR/d/tyhu5yPE/satn/WNN4SgZqd7/CtysP73LH6pG223Ft64JA3qi0dYV5E
-QZHjIjyEuUOVNwULjLsmCar1nyP/9sYJ/toko7cOtj4nzOp1M7U2Zfr9T7U+aWgj
-fPWpGWa57qMpgt08b8PMEL0ghYpaNeJ0JHi+AgQ6uabMQNfwN3G3e99sdaItDPcT
-45luzGPUry5xIc+yVvvCurdw4+zviQ==
-=F+nz
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4WC2AACgkQnKSrs4Gr
+c8htIggApVBjXVTTBHuWXoh4o8wXvsghJYTGQB+fKf/FZSM7PrPgHLDIG8Tjh2WT
+1EZXa+IjxI96wQYHdcOZ7KlTAKv2mNyK9dFxL7ZO0tFwuYH5MzRouYdyzug55jbx
+N/2aewsYjFrURuA9eN9ibeG1uNTE6ECNOM4dPCou9gmrN9qAPjrFiTUvSX1DQi3N
+1O3hXtCBZB+H4JdcGTRmpLFBNX25xa/3ylqsUNFQElPO5vJpI3TEgvPFbHqqn+r1
+NPcBcUXyDvu8UsJKQwt4yuHjjZVEQf/STFZkvrFychg73vBt0BINOvWnjhVw27QW
+mf3mB6iaaMoQsVlLuMqVAKV8PIYjXg==
+=Du+v
 -----END PGP SIGNATURE-----
 
---wxDdMuZNg1r63Hyj--
+--Q0rSlbzrZN6k9QnT--
 
