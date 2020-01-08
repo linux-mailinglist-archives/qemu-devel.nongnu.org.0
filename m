@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DD713459C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 16:04:30 +0100 (CET)
-Received: from localhost ([::1]:45324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8095813458A
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Jan 2020 16:02:41 +0100 (CET)
+Received: from localhost ([::1]:45210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipCsn-0005MR-8u
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 10:04:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42157)
+	id 1ipCr2-0003jV-EP
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 10:02:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ipCoM-0001p9-TP
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:59:55 -0500
+ (envelope-from <cohuck@redhat.com>) id 1ipCoi-00029u-8r
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:00:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ipCoL-0007Yc-NJ
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:59:54 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27802
+ (envelope-from <cohuck@redhat.com>) id 1ipCog-0007qa-0N
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:00:16 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42209
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ipCoL-0007YF-Jf
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 09:59:53 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ipCoe-0007oK-AB
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 10:00:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578495593;
+ s=mimecast20190719; t=1578495611;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fFYIF8ZdTAD8k9euNtihp5ry8OyQtjs/RvA8CMTdmh8=;
- b=NT+DlOeQ4tzCY7n5mhFA7YszsnaXmOQP0eyVNm0d0Tq6FDk37ZfieNZwgpEmpCnxUBauM7
- x1zmGTp4fjCbyMKA+4E2bw158q/e1NP4CfPv49tzymhbEmuIL9LK7eo9+MRAg+utbnwX8a
- ZRD6w3gltFIX3m9eFyqwAufp+773mRo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-oTIGoC9JPx29WC0rzbT-hg-1; Wed, 08 Jan 2020 09:59:49 -0500
-Received: by mail-wr1-f70.google.com with SMTP id u12so1533521wrt.15
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 06:59:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MLzIGaZzdEEgusdjGwD6Pmgs5JYLqMw3A2MztWx9gaQ=;
- b=dLHGSFFSIaygdc3lDJgkG0xvMkphdM+F7RZTZakIxOAJIU11azFQrUcQMEWC4JsKeF
- mlx1fRoExCiO9wZoJF55rL4Fjhi2PUihqDFJV1k1wMbk7y/qTK9ysnJiA2hwBRVVnHRW
- Hfg14ZeqZG48glTVmDlBi7lEtjWmHyOUWaD+QIjJkKNRhI/FATU5Fw9D6WT2lbeQ/kRR
- ooeD/65/GoRmvEbWBxwpPLXRbedSR3aoUP0P5UqSutM9BvXmEOcAirPkz2R16QJ5uojd
- a5B0kHeS4gHrM0RRavvCeHh4own8E9YUpW+oUj453V1z+fFiFRktPg37isKNhpVuaVCj
- vC0A==
-X-Gm-Message-State: APjAAAWSudWT0M2g3W26vslW/BAvkss0SwyTvjmv2kuVIX+89Bzq1h+D
- hO1yqGn+Ycus0OEao+nBC827NpFb2T0jY+admkLRR6tdy/VNQTix0IWc/dA0IOwSZKeR7hiCaB9
- pXPys9B8gFJ5+AGU=
-X-Received: by 2002:a1c:a78c:: with SMTP id q134mr4064021wme.98.1578495588503; 
- Wed, 08 Jan 2020 06:59:48 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzylaoxCvjvFJH/G3Q2zllps869qAsZq7b3Fyq1Voff7946Q6iKd0qFU0fXHqA2avPxL5OuBw==
-X-Received: by 2002:a1c:a78c:: with SMTP id q134mr4063997wme.98.1578495588241; 
- Wed, 08 Jan 2020 06:59:48 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
- ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id d10sm4692485wrw.64.2020.01.08.06.59.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jan 2020 06:59:47 -0800 (PST)
-Subject: Re: [PATCH] vl: fix memory leak in configure_accelerators
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- kuhn.chenqun@huawei.com, qemu-devel@nongnu.org
-References: <20200108114207.58084-1-kuhn.chenqun@huawei.com>
- <2bf0ae4f-b024-c421-b9d2-eefe99453e04@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d5626e7e-31fc-9065-7654-028c1af1d979@redhat.com>
-Date: Wed, 8 Jan 2020 15:59:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=lxa/kWRQEkiOz7sBIo3ceOTr8QumRNMa49cKsp3Y8Xk=;
+ b=PEEXmeD0ObL5pKWwH3UirWCJzolG/G3Dj/buogj2pkxqVLWaYT7VnD5mtSYhTEbgVjdhli
+ i1O+v8M9a2D510fnTzz5dD9zAKKTmAH8Fh2QqJQQKWfKnS3fqmNuW+sm7+DCyZPP2ja+yN
+ eOniTF4p3mMBIfFF7nzqx5pEfcD8/54=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-201-AemsO7ccOuSy8JUg1pUO4w-1; Wed, 08 Jan 2020 10:00:08 -0500
+X-MC-Unique: AemsO7ccOuSy8JUg1pUO4w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18483DB62;
+ Wed,  8 Jan 2020 15:00:05 +0000 (UTC)
+Received: from gondolin (dhcp-192-245.str.redhat.com [10.33.192.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 12CA35D9E5;
+ Wed,  8 Jan 2020 14:59:57 +0000 (UTC)
+Date: Wed, 8 Jan 2020 15:59:55 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH v10 Kernel 1/5] vfio: KABI for migration interface for
+ device state
+Message-ID: <20200108155955.78e908c1.cohuck@redhat.com>
+In-Reply-To: <20200107115602.25156c41@w520.home>
+References: <1576527700-21805-1-git-send-email-kwankhede@nvidia.com>
+ <1576527700-21805-2-git-send-email-kwankhede@nvidia.com>
+ <20191216154406.023f912b@x1.home>
+ <f773a92a-acbd-874d-34ba-36c1e9ffe442@nvidia.com>
+ <20191217114357.6496f748@x1.home>
+ <3527321f-e310-8324-632c-339b22f15de5@nvidia.com>
+ <20191219102706.0a316707@x1.home>
+ <928e41b5-c3fd-ed75-abd6-ada05cda91c9@nvidia.com>
+ <20191219140929.09fa24da@x1.home> <20200102182537.GK2927@work-vm>
+ <20200106161851.07871e28@w520.home>
+ <ce132929-64a7-9a5b-81ff-38616202b757@nvidia.com>
+ <20200107100923.2f7b5597@w520.home>
+ <08b7f953-6ac5-cd79-b1ff-54338da32d1e@nvidia.com>
+ <20200107115602.25156c41@w520.home>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <2bf0ae4f-b024-c421-b9d2-eefe99453e04@redhat.com>
-Content-Language: en-US
-X-MC-Unique: oTIGoC9JPx29WC0rzbT-hg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,80 +84,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liyiting@huawei.com, "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- pannengyuan@huawei.com, zhang.zhanghailiang@huawei.com
+Cc: kevin.tian@intel.com, yi.l.liu@intel.com, cjia@nvidia.com,
+ kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, Zhengxiao.zx@alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ zhi.a.wang@intel.com, mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/01/20 15:56, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 1/8/20 12:42 PM, kuhn.chenqun@huawei.com wrote:
->> From: Chen Qun <kuhn.chenqun@huawei.com>
->>
->> The accel_list forgot to free, the asan output:
->>
->> Direct leak of 16 byte(s) in 1 object(s) allocated from:
->> =C2=A0=C2=A0=C2=A0=C2=A0 #0 0xffff919331cb in __interceptor_malloc
->> (/lib64/libasan.so.4+0xd31cb)
->> =C2=A0=C2=A0=C2=A0=C2=A0 #1 0xffff913f7163 in g_malloc (/lib64/libglib-2=
-.0.so.0+0x57163)
->> =C2=A0=C2=A0=C2=A0=C2=A0 #2 0xffff91413d9b in g_strsplit (/lib64/libglib=
--2.0.so.0+0x73d9b)
->> =C2=A0=C2=A0=C2=A0=C2=A0 #3 0xaaab42fb58e7 in configure_accelerators /qe=
-mu/vl.c:2777
->> =C2=A0=C2=A0=C2=A0=C2=A0 #4 0xaaab42fb58e7 in main /qemu/vl.c:4121
->> =C2=A0=C2=A0=C2=A0=C2=A0 #5 0xffff8f9b0b9f in __libc_start_main (/lib64/=
-libc.so.6+0x20b9f)
->> =C2=A0=C2=A0=C2=A0=C2=A0 #6 0xaaab42fc1dab=C2=A0
->> (/qemu/build/aarch64-softmmu/qemu-system-aarch64+0x8b1dab)
->>
->> Indirect leak of 4 byte(s) in 1 object(s) allocated from:
->> =C2=A0=C2=A0=C2=A0=C2=A0 #0 0xffff919331cb in __interceptor_malloc
->> (/lib64/libasan.so.4+0xd31cb)
->> =C2=A0=C2=A0=C2=A0=C2=A0 #1 0xffff913f7163 in g_malloc (/lib64/libglib-2=
-.0.so.0+0x57163)
->> =C2=A0=C2=A0=C2=A0=C2=A0 #2 0xffff9141243b in g_strdup (/lib64/libglib-2=
-.0.so.0+0x7243b)
->> =C2=A0=C2=A0=C2=A0=C2=A0 #3 0xffff91413e6f in g_strsplit (/lib64/libglib=
--2.0.so.0+0x73e6f)
->> =C2=A0=C2=A0=C2=A0=C2=A0 #4 0xaaab42fb58e7 in configure_accelerators /qe=
-mu/vl.c:2777
->> =C2=A0=C2=A0=C2=A0=C2=A0 #5 0xaaab42fb58e7 in main /qemu/vl.c:4121
->> =C2=A0=C2=A0=C2=A0=C2=A0 #6 0xffff8f9b0b9f in __libc_start_main (/lib64/=
-libc.so.6+0x20b9f)
->> =C2=A0=C2=A0=C2=A0=C2=A0 #7 0xaaab42fc1dab=C2=A0
->> (/qemu/build/aarch64-softmmu/qemu-system-aarch64+0x8b1dab)
->>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
->=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->=20
->> ---
->> =C2=A0 vl.c | 1 +
->> =C2=A0 1 file changed, 1 insertion(+)
->>
->> diff --git a/vl.c b/vl.c
->> index 86474a55c9..035a24e52b 100644
->> --- a/vl.c
->> +++ b/vl.c
->> @@ -2788,6 +2788,7 @@ static void configure_accelerators(const char
->> *progname)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_report("invalid accelerator %s", *tmp)=
-;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 }
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 g_strfreev(accel_list);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (accel !=3D NU=
-LL) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 error_report("The -accel and \"-machine accel=3D\" options
->> are incompatible");
->>
->=20
+On Tue, 7 Jan 2020 11:56:02 -0700
+Alex Williamson <alex.williamson@redhat.com> wrote:
 
-Cc; qemu-trivial@nongnu.org
+> On Tue, 7 Jan 2020 23:23:17 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+
+> > There are 3 invalid states:
+> >   *  101b => Invalid state
+> >   *  110b => Invalid state
+> >   *  111b => Invalid state
+> > 
+> > why only 110b should be used to report error from vendor driver to 
+> > report error? Aren't we adding more confusions in the interface?  
+> 
+> I think the only chance of confusion is poor documentation.  If we
+> define all of the above as invalid and then say any invalid state
+> indicates an error condition, then the burden is on the user to
+> enumerate all the invalid states.  That's not a good idea.  Instead we
+> could say 101b (_RESUMING|_RUNNING) is reserved, it's not currently
+> used but it might be useful some day.  Therefore there are no valid
+> transitions into or out of this state.  A vendor driver should fail a
+> write(2) attempting to enter this state.
+> 
+> That leaves 11Xb, where we consider _RESUMING and _SAVING as mutually
+> exclusive, so neither are likely to ever be valid states.  Logically,
+> if the device is in a failed state such that it needs to be reset to be
+> recovered, I would hope the device is not running, so !_RUNNING (110b)
+> seems appropriate.  I'm not sure we need that level of detail yet
+> though, so I was actually just assuming both 11Xb states would indicate
+> an error state and the undefined _RUNNING bit might differentiate
+> something in the future.
+> 
+> Therefore, I think we'd have:
+> 
+>  * 101b => Reserved
+>  * 11Xb => Error
+> 
+> Where the device can only self transition into the Error state on a
+> failed device_state transition and the only exit from the Error state
+> is via the reset ioctl.  The Reserved state is unreachable.  The vendor
+> driver must error on device_state writes to enter or exit the Error
+> state and must error on writes to enter Reserved states.  Is that still
+> confusing?
+
+I think one thing we could do is start to tie the meaning more to the
+actual state (bit combination) and less to the individual bits. I.e.
+
+- bit 0 indicates 'running',
+- bit 1 indicates 'saving',
+- bit 2 indicates 'resuming',
+- bits 3-31 are reserved. [Aside: reserved-and-ignored or
+  reserved-and-must-be-zero?]
+
+[Note that I don't specify what happens when a bit is set or unset.]
+
+States are then defined as:
+000b => stopped state (not saving or resuming)
+001b => running state (not saving or resuming)
+010b => stop-and-copy state
+011b => pre-copy state
+100b => resuming state
+
+[Transitions between these states defined, as before.]
+
+101b => reserved [for post-copy; no transitions defined]
+111b => reserved [state does not make sense; no transitions defined]
+110b => error state [state does not make sense per se, but it does not
+        indicate running; transitions into this state *are* possible]
+
+To a 'reserved' state, we can later assign a different meaning (we
+could even re-use 111b for a different error state, if needed); while
+the error state must always stay the error state.
+
+We should probably use some kind of feature indication to signify
+whether a 'reserved' state actually has a meaning. Also, maybe we also
+should designate the states > 111b as 'reserved'.
+
+Does that make sense?
 
 
