@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20AC4135CEA
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:37:50 +0100 (CET)
-Received: from localhost ([::1]:34320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B0B135CE6
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:37:25 +0100 (CET)
+Received: from localhost ([::1]:34316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipZsb-0002Es-2N
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:37:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51249)
+	id 1ipZsC-0001Lg-0N
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:37:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42111)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <like.xu@linux.intel.com>) id 1ipZft-000237-IR
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:24:42 -0500
+ (envelope-from <bounces@canonical.com>) id 1ipZqi-0008M0-OL
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:35:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <like.xu@linux.intel.com>) id 1ipZfs-0005mM-86
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:24:41 -0500
-Received: from mga02.intel.com ([134.134.136.20]:1926)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
- id 1ipZfr-0005KE-V5
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:24:40 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2020 07:24:34 -0800
-X-IronPort-AV: E=Sophos;i="5.69,414,1571727600"; d="scan'208";a="216331222"
-Received: from likexu-mobl1.ccr.corp.intel.com (HELO [10.255.28.158])
- ([10.255.28.158])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
- 09 Jan 2020 07:24:32 -0800
-Subject: Re: Difference between 'current_machine' vs
- MACHINE(qdev_get_machine())
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
-References: <a88f7647-c061-bf3f-a272-72700078ef26@redhat.com>
- <e6a7197d-1647-4667-dae8-10c8dba1737f@redhat.com>
-From: Like Xu <like.xu@linux.intel.com>
-Organization: Intel OTC
-Message-ID: <a6d997f6-40b3-4a68-a911-7b9d7ebf9514@linux.intel.com>
-Date: Thu, 9 Jan 2020 23:24:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ (envelope-from <bounces@canonical.com>) id 1ipZqh-0008GJ-D2
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:35:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:60650)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ipZqh-0008B5-6P
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:35:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ipZqe-0007fR-UT
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 15:35:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E28892E80F4
+ for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 15:35:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <e6a7197d-1647-4667-dae8-10c8dba1737f@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.20
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Jan 2020 15:24:35 -0000
+From: Paul Clarke <pc@us.ibm.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 7-pc rth th-huth
+X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
+X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
+References: <156686849716.6431.16425651381928336460.malonedeb@gac.canonical.com>
+Message-Id: <157858347556.2711.11048625870513863453.malone@soybean.canonical.com>
+Subject: [Bug 1841491] Re: floating point emulation can fail to set
+ FE_UNDERFLOW
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 47b68223fa4c80e595da82d0f9fd162507e6978a
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,61 +67,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Reply-To: Bug 1841491 <1841491@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/1/9 20:01, Paolo Bonzini wrote:
-> On 09/01/20 12:23, Philippe Mathieu-Daudé wrote:
->>
->>
->>      current_machine =
->> MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
->>      object_property_add_child(object_get_root(), "machine",
->>                                OBJECT(current_machine), &error_abort);
->>
->> The bigger user of 'current_machine' is the accel/KVM code.
->>
->> Recently in a0628599f..cc7d44c2e0 "Replace global smp variables with
->> machine smp properties" we started to use MACHINE(qdev_get_machine()).
->>
->> qdev_get_machine() resolves the machine in the QOM composition tree.
->> I am confused by this comment:
->>
->>    /* qdev_get_machine() can return something that's not TYPE_MACHINE
->>     * if this is one of the user-only emulators; in that case there's
->>     * no need to check the ignore_memory_transaction_failures board flag.
->>     */
->>
->> Following a0628599f..cc7d44c2e0, a5e0b33119 use 'current_machine' again.
->>
->> What are the differences between both form, when should we use one or
->> another (or can we use a single one?). Can this break user-only mode?
-> 
-> I would always use MACHINE(qdev_get_machine()), espeecially outside
-> vl.c.  Ideally, current_machine would be static within vl.c or even
-> unused outside the object_property_add_child() that you quote above.
-> 
-> Most of the times, I noticed from a quick grep, we actually want to
-> access the accelerator, not the machine, so we could add a
-> qemu_get_accelerator() wrapper that does
-> MACHINE(qdev_get_machine())->accelerator.
-> 
-> Paolo
-> 
+Comment #5 suggested splitting the "float" issue to a separate bug,
+which was done some time ago (bug #1841592).
 
-I prefer to use MACHINE(qdev_get_machine()) wherever possible.
+I think this ticket can be closed.
 
-However, the qdev_get_machine() would return non TYPE_MACHINE object if:
-- call qdev_get_machine() before we do 
-"object_property_add_child(object_get_root(), "machine", 
-OBJECT(current_machine), &error_abort);" in vl.c;
-- or in the context with '#ifdef CONFIG_USER_ONLY';
+-- =
 
-Thanks,
-Like Xu
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1841491
 
+Title:
+  floating point emulation can fail to set FE_UNDERFLOW
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Floating point emulation can fail to set FE_UNDERFLOW in some
+  circumstances. This shows up often in glibc's "math" tests. A similar
+  test is attached.
+
+  This is similar to bug #1841442, but not the same problem, and I don't
+  think the fix will be in the same code.
+
+  On ppc64le native:
+  --
+  $ gcc -c -O2 fma.c
+  $ gcc -O2 test-fma.c fma.o -lm -o test-fma
+  $ ./test-fma $(./test-fma)
+  fma(0x1.ffffffffffffcp-1022, 0x1.0000000000001p-1, 0x0.0000000000001p-102=
+2)
+  0x0
+
+  0xa000000
+  FE_INEXACT FE_UNDERFLOW =
+
+  0x1p-1022
+  --
+
+  On qemu-system-ppc64:
+  --
+  $ ./test-fma $(./test-fma)
+  fma(0x1.ffffffffffffcp-1022, 0x1.0000000000001p-1, 0x0.0000000000001p-102=
+2)
+  0x0
+
+  0x2000000
+  FE_INEXACT =
+
+  0x1p-1022
+  --
+
+  QEMU versions vary, but not too much, and are pretty close to git HEAD:
+  - 586f3dced9 (HEAD -> master, origin/master, origin/HEAD) Merge remote-tr=
+acking branch 'remotes/cohuck/tags/s390x-20190822' into staging
+  - 864ab31 Update version for v4.1.0-rc4 release
+
+  There are worse symptoms on qemu-x86_64, but this is apparently not
+  surprising per
+  https://bugs.launchpad.net/qemu/+bug/1841442/comments/6.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1841491/+subscriptions
 
