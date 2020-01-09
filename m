@@ -2,58 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 212E1135A3A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:35:23 +0100 (CET)
-Received: from localhost ([::1]:60464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B230135A46
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:36:59 +0100 (CET)
+Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipXy5-00062R-Ug
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:35:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36790)
+	id 1ipXze-0000IE-0a
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:36:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36787)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipXte-0001DE-R6
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:52 -0500
+ (envelope-from <bounces@canonical.com>) id 1ipXte-0001DB-Sb
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipXta-0000aV-A0
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33068)
+ (envelope-from <bounces@canonical.com>) id 1ipXtZ-0000ZW-OH
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:32916)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipXtZ-0000Ye-Ka
+ id 1ipXtY-0000WX-Fb
  for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:41 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipXtY-0000Wv-At
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 13:30:40 +0000
+ id 1ipXtV-0000SR-BP
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 13:30:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 437332E80C0
- for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 13:30:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5529F2E80C3
+ for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 13:30:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jan 2020 13:23:06 -0000
-From: Thomas Huth <1815423@bugs.launchpad.net>
+Date: Thu, 09 Jan 2020 13:24:58 -0000
+From: Alex Longwall <1859021@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: javascript js softfp
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dibalavs pmaydell
-X-Launchpad-Bug-Reporter: Vasily Dybala (dibalavs)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154987502048.21937.8846396923018937713.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157857618727.3160.16103783506639525037.launchpad@soybean.canonical.com>
-Subject: [Bug 1815423] Re: x86_64 TCG: Incorrect floating point cast to int.
+X-Launchpad-Bug-Commenters: alexlngw
+X-Launchpad-Bug-Reporter: Alex Longwall (alexlngw)
+X-Launchpad-Bug-Modifier: Alex Longwall (alexlngw)
+Message-Id: <157857629827.5165.2496570379985305724.malonedeb@gac.canonical.com>
+Subject: [Bug 1859021] [NEW] qemu-system-aarch64 (tcg): cval + voff overflow
+ not handled, causes qemu to hang
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 8fb964636e1e4b93700e88687d337ebaee838f63
+X-Launchpad-Hash: 7ab610aa8b6eccf7b4473a3969fb7e349b1692d9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -67,104 +65,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1815423 <1815423@bugs.launchpad.net>
+Reply-To: Bug 1859021 <1859021@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+Public bug reported:
+
+The Armv8 architecture reference manual states that for any timer set
+(e.g. CNTP* and CNTV*), the condition for such timer to generate an
+interrupt (if enabled & unmasked) is:
+
+CVAL <=3D CNT(P/V)CT
+
+Although this is arguably sloppy coding, I have seen code that is
+therefore assuming it can set CVAL to a very high value (e.g.
+UINT64_MAX) and leave the interrupt enabled in CTL, and never get the
+interrupt.
+
+On latest master commit as the time of writing, there is an integer
+overflow in target/arm/helper.c gt_recalc_timer affecting the virtual
+timer when the interrupt is enabled in CTL:
+
+    /* Next transition is when we hit cval */
+    nexttick =3D gt->cval + offset;
+
+When this overflow happens, I notice that qemu is no longer responsive and =
+that I have to SIGKILL the process:
+    - qemu takes nearly all the cpu time of the cores it is running on (e.g=
+. 50% cpu usage if running on half the cores) and is completely unresponsive
+    - no guest interrupt (reported via -d int) is generated
+
+Here the minimal code example to reproduce the issue:
+
+    mov     x0, #1
+    msr     cntvoff_el2, x0
+    mov     x0, #-1
+    msr     cntv_cval_el0, x0
+    mov     x0, #1
+    msr     cntv_ctl_el0, x0 // interrupt generation enabled, not masked; q=
+emu will start to hang here
+
+Options used:
+-nographic -machine virt,virtualization=3Don,gic-version=3D2,accel=3Dtcg -c=
+pu cortex-a57
+-smp 4 -m 1024 -kernel whatever.elf -d unimp,guest_errors,int -semihosting-=
+config enable,target=3Dnative
+-serial mon:stdio
+
+Version used: 4.2
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1815423
+https://bugs.launchpad.net/bugs/1859021
 
 Title:
-  x86_64 TCG: Incorrect floating point cast to int.
+  qemu-system-aarch64 (tcg):  cval + voff overflow not handled, causes
+  qemu to hang
 
 Status in QEMU:
-  Fix Released
+  New
 
 Bug description:
-  I used exaample from:
-  https://stackoverflow.com/questions/3986795/what-is-the-result-of-casting=
--float-inf-inf-and-nan-to-integer-in-c
+  The Armv8 architecture reference manual states that for any timer set
+  (e.g. CNTP* and CNTV*), the condition for such timer to generate an
+  interrupt (if enabled & unmasked) is:
 
-  #include <stdio.h>
-  #include <math.h>
+  CVAL <=3D CNT(P/V)CT
 
-  int main(int argc, char** argv) {
-    float a =3D INFINITY;
-    float b =3D -INFINITY;
-    float c =3D NAN;
+  Although this is arguably sloppy coding, I have seen code that is
+  therefore assuming it can set CVAL to a very high value (e.g.
+  UINT64_MAX) and leave the interrupt enabled in CTL, and never get the
+  interrupt.
 
-    printf("float %f %f %f\n", a, b, c); =
+  On latest master commit as the time of writing, there is an integer
+  overflow in target/arm/helper.c gt_recalc_timer affecting the virtual
+  timer when the interrupt is enabled in CTL:
 
-    printf("int %d %d %d\n", (int) a, (int) b, (int) c); =
+      /* Next transition is when we hit cval */
+      nexttick =3D gt->cval + offset;
 
-    printf("uint %u %u %u\n", (unsigned int) a, (unsigned int) b, (unsigned=
- int) c); =
+  When this overflow happens, I notice that qemu is no longer responsive an=
+d that I have to SIGKILL the process:
+      - qemu takes nearly all the cpu time of the cores it is running on (e=
+.g. 50% cpu usage if running on half the cores) and is completely unrespons=
+ive
+      - no guest interrupt (reported via -d int) is generated
 
-    printf("lint %ld %ld %ld\n", (long int) a, (long int) b, (long int) b); =
+  Here the minimal code example to reproduce the issue:
 
-    printf("luint %lu %lu %lu\n", (unsigned long int) a, (unsigned long int=
-) b, (unsigned long int) c); =
+      mov     x0, #1
+      msr     cntvoff_el2, x0
+      mov     x0, #-1
+      msr     cntv_cval_el0, x0
+      mov     x0, #1
+      msr     cntv_ctl_el0, x0 // interrupt generation enabled, not masked;=
+ qemu will start to hang here
 
+  Options used:
+  -nographic -machine virt,virtualization=3Don,gic-version=3D2,accel=3Dtcg =
+-cpu cortex-a57
+  -smp 4 -m 1024 -kernel whatever.elf -d unimp,guest_errors,int -semihostin=
+g-config enable,target=3Dnative
+  -serial mon:stdio
 
-    return 0;
-  }
-
-  And got different results on real computer and on qemu.
-
-  output from real HW is the same as on stackoverflow:
-
-  $ gcc test.c && ./a.out =
-
-  float inf -inf nan
-  int -2147483648 -2147483648 -2147483648
-  uint 0 0 0
-  lint -9223372036854775808 -9223372036854775808 -9223372036854775808
-  luint 0 9223372036854775808 9223372036854775808
-
-  =
-
-  But on qemu I got another results:
-
-  float inf -inf nan
-  int 2147483647 -2147483648 2147483647
-  uint 4294967295 0 4294967295
-  lint 9223372036854775807 -9223372036854775808 -9223372036854775808
-  luint 18446744073709551615 9223372036854775808 9223372036854775807
-
-  qemu launch string:
-  /qemu-system-x86_64 -m 1024 -cpu core2duo -serial stdio -netdev user,id=
-=3Dnetwork0 -device e1000,netdev=3Dnetwork0 -kernel my_kernel
-
-  =
-
-  qemu version:
-  x86_64-softmmu/qemu-system-x86_64 --version
-  QEMU emulator version 3.1.50 (v3.1.0-1676-ge47f81b617-dirty)
-  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
-
-  =
-
-  This bug affect some javascript (surprise) calculations:
-
-  var conversion =3D "01234567890";
-  var x;
-  var result =3D conversion[x & 42];
-  console.log(result)
-
-  =
-
-  In example, var x is "undefined"
-  and when do calculation "x & 42" on js we should get 0 (it is documented =
-feature), but actually got "42"
-
-  and "result" sould be "0" but actually we got "undefined"
+  Version used: 4.2
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1815423/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1859021/+subscriptions
 
