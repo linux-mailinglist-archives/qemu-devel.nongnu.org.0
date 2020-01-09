@@ -2,70 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D320135D0A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:44:27 +0100 (CET)
-Received: from localhost ([::1]:34424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B20135CFC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:42:21 +0100 (CET)
+Received: from localhost ([::1]:34392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipZz0-0003i8-Ga
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:44:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53734)
+	id 1ipZwx-0008Hf-RI
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:42:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32777)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ipZsx-0003X9-PB
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:38:12 -0500
+ (envelope-from <philmd@redhat.com>) id 1ipZue-0006NA-5o
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:40:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ipZsv-0002rK-UE
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:38:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41425
+ (envelope-from <philmd@redhat.com>) id 1ipZud-0001w8-1r
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:39:56 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26360
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ipZsv-0002kO-Ni
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:38:09 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipZuc-0001tW-5d
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:39:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578584288;
+ s=mimecast20190719; t=1578584393;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WehvuzyeF8mf2IdWbytmu7J2YOAFixUN4rzh0E4cOu0=;
- b=Bry8Nq4phkMDpvCWNKSgLgEd5jjOaC6BkF8VtVAFHctde+J64nEXJnlB5YpMcrQJkyArzl
- jKpuJKYAsEkGkF5wCe13tptRVVe5Dfrax4kMuQuWP/v2NGnaQxm1iRFzde/6Xn7ojw/Azw
- 8xaE4S9qP2JCWiRzRYdweUttPbrQjLI=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=X09PFeK12++bcRbpMaVjU50CDKU6kYPNQcQaQtkqakM=;
+ b=JEDELNiaCLjPvcsPbNg+ezH4iZ9SlG6jH5eU6h+AaQFeGyNVX49WX+x+Mj1V7dGL23hWl0
+ jMGeS0QV9/wTYIN7JzdbuF0C3jv6FAekGCZi4HB9nrLBRxrsob0R7y0YA9dv6dVhQWU12s
+ t2Y9TOt7s9dPGgjACVDTIXIuHPd77ko=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-sosroMSPNmCKXDH1KY4oXw-1; Thu, 09 Jan 2020 10:38:07 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-338-vVaEUZE4Mk6Vj0vZehnAag-1; Thu, 09 Jan 2020 10:39:49 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37433CF98E
- for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 15:38:06 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B4726385;
- Thu,  9 Jan 2020 15:38:02 +0000 (UTC)
-Date: Thu, 9 Jan 2020 15:38:00 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 2/2] hyperv/synic: Allocate as ram_device
-Message-ID: <20200109153800.GJ6795@work-vm>
-References: <20200108135353.75471-1-dgilbert@redhat.com>
- <20200108135353.75471-3-dgilbert@redhat.com>
- <20200109064527-mutt-send-email-mst@kernel.org>
- <20200109120820.GB6795@work-vm>
- <20200109071454-mutt-send-email-mst@kernel.org>
- <20200109122237.GD6795@work-vm>
- <20200109080412-mutt-send-email-mst@kernel.org>
- <20200109132242.GF6795@work-vm>
- <3162676e-da40-7a3f-1777-2ed4f3efffe1@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90ADA108141A;
+ Thu,  9 Jan 2020 15:39:48 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-180.brq.redhat.com [10.40.204.180])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 21A0886CA5;
+ Thu,  9 Jan 2020 15:39:42 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] buildsys: Build quicker (mostly tools and linux-user)
+Date: Thu,  9 Jan 2020 16:39:35 +0100
+Message-Id: <20200109153939.27173-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <3162676e-da40-7a3f-1777-2ed4f3efffe1@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: sosroMSPNmCKXDH1KY4oXw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: vVaEUZE4Mk6Vj0vZehnAag-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 205.139.110.120
@@ -80,51 +67,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, vkuznets@redhat.com, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Paolo Bonzini (pbonzini@redhat.com) wrote:
-> On 09/01/20 14:22, Dr. David Alan Gilbert wrote:
-> > * Michael S. Tsirkin (mst@redhat.com) wrote:
-> >> On Thu, Jan 09, 2020 at 12:22:37PM +0000, Dr. David Alan Gilbert wrote=
-:
-> >>> Do we want a new memory_region_init for that or just to be able to ad=
-d
-> >>> a flag?
-> >>>
-> >> I think a flag API is preferable since this can apply to any kind of
-> >> region. But can go either way, Paolo's the maintainer there.
-> >=20
-> > (Copying Paolo in)
-> > So what exactly does this flag mean; to me it's 'no vhost' - but is it
-> > actually more general?
->=20
-> It has two more effects in addition to no vhost:
->=20
-> 1) it is skipped when dumping the guest (is this a good or bad idea for
-> SynIC?)
->=20
-> 2) accesses to the region will use the specified size (e.g. 4-bytes for
-> address_space_stl, 1-byte for address_space_stb) instead of a memcpy.
-> Doesn't really matter for SynIC regions.
->=20
-> If (1) is a good idea, then it's 2 out of 3 and I guess the patch is okay=
-.
+In some configuration (linux-user, tools) we can ignore building
+various objects (and the libfdt).
 
-It's probably best  to keep them in the dump because they give some info
-on the current state of the windows guest and interrupts.
-Also, as Roman points out the ram-device pages aren't migrated, so we
-need to fix that as well.
+Philippe Mathieu-Daud=C3=A9 (4):
+  configure: Do not build libfdt is not required
+  Makefile: Clarify all the codebase requires qom/ objects
+  Makefile: Restrict system emulation and tools objects
+  Makefile: Remove unhelpful comment
 
-So, do we add a new flag? If so, is no-vhost what we want?
+ configure     |  2 ++
+ Makefile.objs | 31 ++++++++++---------------------
+ 2 files changed, 12 insertions(+), 21 deletions(-)
 
-Dave
-
-> Paolo
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+--=20
+2.21.1
 
 
