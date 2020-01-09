@@ -2,52 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 838C5135227
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 05:28:30 +0100 (CET)
-Received: from localhost ([::1]:55150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A2D013524E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 05:59:40 +0100 (CET)
+Received: from localhost ([::1]:55490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipPQr-0004Wl-8T
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 23:28:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37823)
+	id 1ipPv1-0000WV-4i
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 23:59:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58577)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ipPOq-0003AJ-Lz
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:26:25 -0500
+ (envelope-from <eguan@linux.alibaba.com>) id 1ipPu4-0008UA-AK
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:58:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ipPOp-0000m1-8c
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:26:24 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:40861 helo=ozlabs.org)
+ (envelope-from <eguan@linux.alibaba.com>) id 1ipPtw-0007Zm-NY
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:58:34 -0500
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:54978)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ipPOn-0000cA-6D; Wed, 08 Jan 2020 23:26:23 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47tY2x5ff7z9sRf; Thu,  9 Jan 2020 15:26:17 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1578543977;
- bh=EXQm814lr0Y99/MtN92NerWNV6fM7OebiNW3uD1LPoc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kLMpn67PjMNRQKyWUBj/2EeZnR7Yat1e2n/Mp52gy2c6FdMy+TnfuK/BqIbLEr8gx
- 83O8nhH31O5i4MP3nu/QFi8kErSDXMuIZ1AU6q8ShG83dfc/e2Hne1dEkPa3p/dhxx
- guYBkggISdPK/8n6+tFgHkmyBz30gSP3ceiOep1c=
-Date: Thu, 9 Jan 2020 15:25:13 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v2] spapr: Kill SLOF
-Message-ID: <20200109042513.GO8586@umbus.fritz.box>
-References: <20200105234242.78897-1-aik@ozlabs.ru>
- <20200106041940.GV2098@umbus>
- <835b2928-aff9-c2d1-dfdf-60d915706404@ozlabs.ru>
- <20200107055436.GI2098@umbus>
- <cf5bb030-167e-b073-f423-ea2f6c620b1f@ozlabs.ru>
- <90bb7907-5b81-45e4-b227-e037f41af67e@ozlabs.ru>
+ (Exim 4.71) (envelope-from <eguan@linux.alibaba.com>)
+ id 1ipPtw-0007JB-9T
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:58:32 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R181e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e07487; MF=eguan@linux.alibaba.com;
+ NM=1; PH=DS; RN=4; SR=0; TI=SMTPD_---0TnDRs4L_1578545886; 
+Received: from localhost(mailfrom:eguan@linux.alibaba.com
+ fp:SMTPD_---0TnDRs4L_1578545886) by smtp.aliyun-inc.com(127.0.0.1);
+ Thu, 09 Jan 2020 12:58:07 +0800
+Date: Thu, 9 Jan 2020 12:58:06 +0800
+From: Eryu Guan <eguan@linux.alibaba.com>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [BUG qemu 4.0] segfault when unplugging virtio-blk-pci device
+Message-ID: <20200109045806.GB79586@e18g06458.et15sqa>
+References: <20191231103434.GA41863@e18g06458.et15sqa>
+ <20191231115136.7b967604@Igors-MacBook-Pro>
+ <20200102020850.GB41863@e18g06458.et15sqa>
+ <20200107130649.GH41863@e18g06458.et15sqa>
+ <CAMDeoFXdbJB_nn4MR4uZYTEE7N2BT05-Ucqnm9Hkj7=pMqOWwQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2VXyA7JGja7B50zs"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <90bb7907-5b81-45e4-b227-e037f41af67e@ozlabs.ru>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+In-Reply-To: <CAMDeoFXdbJB_nn4MR4uZYTEE7N2BT05-Ucqnm9Hkj7=pMqOWwQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 47.88.44.36
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,88 +55,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Jan 07, 2020 at 03:01:01PM +0100, Julia Suvorova wrote:
+> On Tue, Jan 7, 2020 at 2:06 PM Eryu Guan <eguan@linux.alibaba.com> wrote:
+> >
+> > On Thu, Jan 02, 2020 at 10:08:50AM +0800, Eryu Guan wrote:
+> > > On Tue, Dec 31, 2019 at 11:51:35AM +0100, Igor Mammedov wrote:
+> > > > On Tue, 31 Dec 2019 18:34:34 +0800
+> > > > Eryu Guan <eguan@linux.alibaba.com> wrote:
+> > > >
+> > > > > Hi,
+> > > > >
+> > > > > I'm using qemu 4.0 and hit segfault when tearing down kata sandbox, I
+> > > > > think it's because io completion hits use-after-free when device is
+> > > > > already gone. Is this a known bug that has been fixed? (I went through
+> > > > > the git log but didn't find anything obvious).
+> > > > >
+> > > > > gdb backtrace is:
+> > > > >
+> > > > > Core was generated by `/usr/local/libexec/qemu-kvm -name sandbox-5b8df8c6c6901c3c0a9b02879be10fe8d69d6'.
+> > > > > Program terminated with signal 11, Segmentation fault.
+> > > > > #0 object_get_class (obj=obj@entry=0x0) at /usr/src/debug/qemu-4.0/qom/object.c:903
+> > > > > 903        return obj->class;
+> > > > > (gdb) bt
+> > > > > #0  object_get_class (obj=obj@entry=0x0) at /usr/src/debug/qemu-4.0/qom/object.c:903
+> > > > > #1  0x0000558a2c009e9b in virtio_notify_vector (vdev=0x558a2e7751d0,
+> > > > >     vector=<optimized out>) at /usr/src/debug/qemu-4.0/hw/virtio/virtio.c:1118
+> > > > > #2  0x0000558a2bfdcb1e in virtio_blk_discard_write_zeroes_complete (
+> > > > >     opaque=0x558a2f2fd420, ret=0)
+> > > > >     at /usr/src/debug/qemu-4.0/hw/block/virtio-blk.c:186
+> > > > > #3  0x0000558a2c261c7e in blk_aio_complete (acb=0x558a2eed7420)
+> > > > >     at /usr/src/debug/qemu-4.0/block/block-backend.c:1305
+> > > > > #4  0x0000558a2c3031db in coroutine_trampoline (i0=<optimized out>,
+> > > > >     i1=<optimized out>) at /usr/src/debug/qemu-4.0/util/coroutine-ucontext.c:116
+> > > > > #5  0x00007f45b2f8b080 in ?? () from /lib64/libc.so.6
+> > > > > #6  0x00007fff9ed75780 in ?? ()
+> > > > > #7  0x0000000000000000 in ?? ()
+> > > > >
+> > > > > It seems like qemu was completing a discard/write_zero request, but
+> > > > > parent BusState was already freed & set to NULL.
+> > > > >
+> > > > > Do we need to drain all pending request before unrealizing virtio-blk
+> > > > > device? Like the following patch proposed?
+> > > > >
+> > > > > https://lists.gnu.org/archive/html/qemu-devel/2017-06/msg02945.html
+> > > > >
+> > > > > If more info is needed, please let me know.
+> > > >
+> > > > may be this will help: https://patchwork.kernel.org/patch/11213047/
+> > >
+> > > Yeah, this looks promising! I'll try it out (though it's a one-time
+> > > crash for me). Thanks!
+> >
+> > After applying this patch, I don't see the original segfaut and
+> > backtrace, but I see this crash
+> >
+> > [Thread debugging using libthread_db enabled]
+> > Using host libthread_db library "/lib64/libthread_db.so.1".
+> > Core was generated by `/usr/local/libexec/qemu-kvm -name sandbox-a2f34a11a7e1449496503bbc4050ae040c0d3'.
+> > Program terminated with signal 11, Segmentation fault.
+> > #0  0x0000561216a57609 in virtio_pci_notify_write (opaque=0x5612184747e0, addr=0, val=<optimized out>, size=<optimized out>) at /usr/src/debug/qemu-4.0/hw/virtio/virtio-pci.c:1324
+> > 1324        VirtIOPCIProxy *proxy = VIRTIO_PCI(DEVICE(vdev)->parent_bus->parent);
+> > Missing separate debuginfos, use: debuginfo-install glib2-2.42.2-5.1.alios7.x86_64 glibc-2.17-260.alios7.x86_64 libgcc-4.8.5-28.alios7.1.x86_64 libseccomp-2.3.1-3.alios7.x86_64 libstdc++-4.8.5-28.alios7.1.x86_64 numactl-libs-2.0.9-5.1.alios7.x86_64 pixman-0.32.6-3.1.alios7.x86_64 zlib-1.2.7-16.2.alios7.x86_64
+> > (gdb) bt
+> > #0  0x0000561216a57609 in virtio_pci_notify_write (opaque=0x5612184747e0, addr=0, val=<optimized out>, size=<optimized out>) at /usr/src/debug/qemu-4.0/hw/virtio/virtio-pci.c:1324
+> > #1  0x0000561216835b22 in memory_region_write_accessor (mr=<optimized out>, addr=<optimized out>, value=<optimized out>, size=<optimized out>, shift=<optimized out>, mask=<optimized out>, attrs=...) at /usr/src/debug/qemu-4.0/memory.c:502
+> > #2  0x0000561216833c5d in access_with_adjusted_size (addr=addr@entry=0, value=value@entry=0x7fcdeab1b8a8, size=size@entry=2, access_size_min=<optimized out>, access_size_max=<optimized out>, access_fn=0x561216835ac0 <memory_region_write_accessor>, mr=0x56121846d340, attrs=...)
+> >     at /usr/src/debug/qemu-4.0/memory.c:568
+> > #3  0x0000561216837c66 in memory_region_dispatch_write (mr=mr@entry=0x56121846d340, addr=0, data=<optimized out>, size=2, attrs=attrs@entry=...) at /usr/src/debug/qemu-4.0/memory.c:1503
+> > #4  0x00005612167e036f in flatview_write_continue (fv=fv@entry=0x56121852edd0, addr=addr@entry=841813602304, attrs=..., buf=buf@entry=0x7fce7dd97028 <Address 0x7fce7dd97028 out of bounds>, len=len@entry=2, addr1=<optimized out>, l=<optimized out>, mr=0x56121846d340)
+> >     at /usr/src/debug/qemu-4.0/exec.c:3279
+> > #5  0x00005612167e0506 in flatview_write (fv=0x56121852edd0, addr=841813602304, attrs=..., buf=0x7fce7dd97028 <Address 0x7fce7dd97028 out of bounds>, len=2) at /usr/src/debug/qemu-4.0/exec.c:3318
+> > #6  0x00005612167e4a1b in address_space_write (as=<optimized out>, addr=<optimized out>, attrs=..., buf=<optimized out>, len=<optimized out>) at /usr/src/debug/qemu-4.0/exec.c:3408
+> > #7  0x00005612167e4aa5 in address_space_rw (as=<optimized out>, addr=<optimized out>, attrs=..., attrs@entry=..., buf=buf@entry=0x7fce7dd97028 <Address 0x7fce7dd97028 out of bounds>, len=<optimized out>, is_write=<optimized out>) at /usr/src/debug/qemu-4.0/exec.c:3419
+> > #8  0x0000561216849da1 in kvm_cpu_exec (cpu=cpu@entry=0x56121849aa00) at /usr/src/debug/qemu-4.0/accel/kvm/kvm-all.c:2034
+> > #9  0x000056121682255e in qemu_kvm_cpu_thread_fn (arg=arg@entry=0x56121849aa00) at /usr/src/debug/qemu-4.0/cpus.c:1281
+> > #10 0x0000561216b794d6 in qemu_thread_start (args=<optimized out>) at /usr/src/debug/qemu-4.0/util/qemu-thread-posix.c:502
+> > #11 0x00007fce7bef6e25 in start_thread () from /lib64/libpthread.so.0
+> > #12 0x00007fce7bc1ef1d in clone () from /lib64/libc.so.6
+> >
+> > And I searched and found
+> > https://bugzilla.redhat.com/show_bug.cgi?id=1706759 , which has the same
+> > backtrace as above, and it seems commit 7bfde688fb1b ("virtio-blk: Add
+> > blk_drain() to virtio_blk_device_unrealize()") is to fix this particular
+> > bug.
+> >
+> > But I can still hit the bug even after applying the commit. Do I miss
+> > anything?
+> 
+> Hi Eryu,
+> This backtrace seems to be caused by this bug (there were two bugs in
+> 1706759): https://bugzilla.redhat.com/show_bug.cgi?id=1708480
+> Although the solution hasn't been tested on virtio-blk yet, you may
+> want to apply this patch:
+>     https://lists.nongnu.org/archive/html/qemu-devel/2019-12/msg05197.html
+> Let me know if this works.
 
---2VXyA7JGja7B50zs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Unfortunately, I still see the same segfault & backtrace after applying
+commit 421afd2fe8dd ("virtio: reset region cache when on queue
+deletion")
 
-On Wed, Jan 08, 2020 at 04:53:06PM +1100, Alexey Kardashevskiy wrote:
->=20
->=20
-> On 08/01/2020 15:20, Alexey Kardashevskiy wrote:
-> >=20
-> >=20
-> > On 07/01/2020 16:54, David Gibson wrote:
-> >> On Tue, Jan 07, 2020 at 03:44:35PM +1100, Alexey Kardashevskiy wrote:
-> >>>
-> >>>
-> >>> On 06/01/2020 15:19, David Gibson wrote:
-> >>>>> +
-> >>>>> +static uint32_t client_package_to_path(const void *fdt, uint32_t p=
-handle,
-> >>>>> +                                       uint32_t buf, uint32_t len)
-> >>>>> +{
-> >>>>> +    char tmp[256];
-> >>>>
-> >>>> Fixed sized buffers are icky.  You could either dynamically allocate
-> >>>> this based on the size the client gives, or you could use
-> >>>> memory_region_get_ram_ptr() to read the data from the tree directly
-> >>>> into guest memory.
-> >>>
-> >>> @len comes from the guest, I am really not comfortable with allocating
-> >>> whatever (broken) guest requested. And if I limit @len by 1024 or
-> >>> similar, then a fixed size buffer will do too, no?
-> >>
-> >> I see your point.  Does this call have a way to report failure?  In
-> >> that case you could outright fail the call if it requests too long a
-> >> length.
-> >=20
-> > It returns length which can be 0 to signal an error.
-> >=20
-> > but with this particular method the bigger problem is that I cannot know
-> > in advance the actual path length from fdt_get_path(). I could double
-> > the size until fdt_get_path() succeeded, just seems overkill here.
-> >=20
-> > Property names seem to be limited by 32:
->=20
->=20
-> >>> len("ibm,query-interrupt-source-number")
-> 33
->=20
-> Awesome. Oh well :(
+Anything I can help to debug?
 
-Yeah, as I suspected.  Also 'ibm,associativity-reference-points'.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---2VXyA7JGja7B50zs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4WqykACgkQbDjKyiDZ
-s5IyiA//Su9TCXAjHSLEe+oARhXuP+ctYu+IY5rz3bnm2/OBoz+beW7dwLXYD6Jr
-EgwEsUw30oP/G9WCcE8pTNOYHgQFTPWbDhROw5WUEjnbWgLQ8tHiPj2NtAyJBiKC
-V/bSDPKfXFQ8OtwqVHvwe8C33xGoPJVexeTlBjZ7eIHGK0p9RWKK0VR0iBQn3uCE
-GwvR78N2xwjnmEKbl1nMpCySw+T6HezXhzlEMcm8XCXmK2vecwu5S6ulFbKWSDbd
-mRXYJUi5T3o1D09dFnrO/p8KUVSMnMEspAMYrPIUYcCpRATTw7R/1z9qB9IrFeWu
-bzt561aVjpA1M5fv7gTOU1JcSxW8HICET7xCPMAujRlAjB/BM+xEIMKXe5IfH8rL
-lcEmVR9nOofdpaYZ9F2YabygAnXZ8ILjTwmGuok+e6cYaXLhd1aRBoIDWNWKh75D
-nODADTVnFZAzllTG6Z+wd6E0AX+qGI8EL19MzNC13ivevHLiDRwfd99bE1Jq6xFf
-UDq9rvK+0WsILI9bL6GrAhUKXYRG+CV6RYrrMDDS3HUMmA8qANyxYDq5UYClhJWf
-5Af6Fb1UTqaY0Gz4fBqpC2o+carKxc9sLnxNnbU4NgGZoqzZSQYECdlSrXJH0tAw
-wz4TxpOwMJ+GQcFoREPPkyokRMOSqTYJboY7ahPesTS758HzIhY=
-=iRmw
------END PGP SIGNATURE-----
-
---2VXyA7JGja7B50zs--
+Thanks,
+Eryu
 
