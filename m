@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F37135CD5
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:32:43 +0100 (CET)
-Received: from localhost ([::1]:34216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C66135CE1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:36:19 +0100 (CET)
+Received: from localhost ([::1]:34298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipZnd-000303-GD
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:32:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41237)
+	id 1ipZr8-0007xl-16
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:36:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42613)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ipZe5-0007aU-7P
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:22:50 -0500
+ (envelope-from <philmd@redhat.com>) id 1ipZeM-0007wl-Rs
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:23:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ipZe4-0005QB-7a
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:22:49 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54141
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ipZeJ-0006Ra-Mp
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:23:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57333
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipZe4-0005JK-1K
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:22:48 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipZeJ-0006PA-Ft
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:23:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578583366;
+ s=mimecast20190719; t=1578583383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zSEVdD4q81/iEc/2OJsdkw6WfL0iI9AF0OwFhiGUJrs=;
- b=Jgonsh8Eiaj/GugQWIlYdK2EofFmuu6HaI7UnsNYQ8Z7nu+orSRCX4TGQz3qrk9BjfnXMH
- xpm0TBwvS/PGf+RCz8QvekjsysiQFiUulrpa4aItM2Tp6fr5+MiN8adDxUH2JMbiS1SMuR
- xoxE3oBccAFh/Bc6gohnuiSnTZXu+PQ=
+ bh=hzr8Edx5jAryfh/huxiAkUz4zCXuFwzT7om8QEdCtyk=;
+ b=C+6R538tDUSlBZEE7nrT6P9s3jlyEutfO1g38dDT/PTqgTKT+y6wWQG51jRT2ucriHHgww
+ 3KZBVI3WjSYswOTiulbnn5gvKBihqRVDmgls9ZNti2MJHV0MYTcsjoIv94HiwKaFgUs+JM
+ Wd8jqtzLX3OjySffPMp8T1VjP5jckcw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-YHDvjnUkN62ZEraTmN9r2g-1; Thu, 09 Jan 2020 10:22:45 -0500
-X-MC-Unique: YHDvjnUkN62ZEraTmN9r2g-1
+ us-mta-275-_7PA0sDLPwqBnL2Z-1DRkA-1; Thu, 09 Jan 2020 10:22:59 -0500
+X-MC-Unique: _7PA0sDLPwqBnL2Z-1DRkA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D8698C4B4E;
- Thu,  9 Jan 2020 15:22:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18ED985EE6A;
+ Thu,  9 Jan 2020 15:22:58 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-180.brq.redhat.com [10.40.204.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD97980602;
- Thu,  9 Jan 2020 15:22:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FD0280608;
+ Thu,  9 Jan 2020 15:22:52 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/15] hw/core/machine-qmp-cmds: Replace current_machine by
+Subject: [PATCH 09/15] device_tree: Replace current_machine by
  qdev_get_machine()
-Date: Thu,  9 Jan 2020 16:21:25 +0100
-Message-Id: <20200109152133.23649-8-philmd@redhat.com>
+Date: Thu,  9 Jan 2020 16:21:27 +0100
+Message-Id: <20200109152133.23649-10-philmd@redhat.com>
 In-Reply-To: <20200109152133.23649-1-philmd@redhat.com>
 References: <20200109152133.23649-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,30 +84,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 As we want to remove the global current_machine,
-replace MACHINE_GET_CLASS(current_machine) by
-MACHINE_GET_CLASS(qdev_get_machine()).
+replace 'current_machine' by MACHINE(qdev_get_machine()).
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/core/machine-qmp-cmds.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ device_tree.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index eed5aeb2f7..5a04d00e4f 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -280,9 +280,9 @@ void qmp_cpu_add(int64_t id, Error **errp)
- {
-     MachineClass *mc;
-=20
--    mc =3D MACHINE_GET_CLASS(current_machine);
-+    mc =3D MACHINE_GET_CLASS(qdev_get_machine());
-     if (mc->hot_add_cpu) {
--        mc->hot_add_cpu(current_machine, id, errp);
-+        mc->hot_add_cpu(MACHINE(qdev_get_machine()), id, errp);
-     } else {
-         error_setg(errp, "Not supported");
+diff --git a/device_tree.c b/device_tree.c
+index f8b46b3c73..665ea2f586 100644
+--- a/device_tree.c
++++ b/device_tree.c
+@@ -466,7 +466,9 @@ uint32_t qemu_fdt_alloc_phandle(void *fdt)
+      * which phandle id to start allocating phandles.
+      */
+     if (!phandle) {
+-        phandle =3D machine_phandle_start(current_machine);
++        MachineState *ms =3D MACHINE(qdev_get_machine());
++
++        phandle =3D machine_phandle_start(ms);
      }
+=20
+     if (!phandle) {
 --=20
 2.21.1
 
