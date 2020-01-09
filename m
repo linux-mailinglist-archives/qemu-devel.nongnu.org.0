@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4366B13510F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 02:53:42 +0100 (CET)
-Received: from localhost ([::1]:53090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCAAC135118
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 02:55:15 +0100 (CET)
+Received: from localhost ([::1]:53126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipN12-0005Zn-Kb
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 20:53:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43686)
+	id 1ipN2Y-0007CC-Rq
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 20:55:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ipMzD-0004b9-8J
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 20:51:49 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ipMzE-0004bH-9f
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 20:51:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ipMzA-0000nS-7X
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 20:51:46 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52461 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ipMzA-0000mz-2I
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 20:51:48 -0500
+Received: from ozlabs.org ([203.11.71.1]:58327)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ipMz9-0000ar-4z; Wed, 08 Jan 2020 20:51:44 -0500
+ id 1ipMz8-0000b2-T1; Wed, 08 Jan 2020 20:51:43 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47tTcT451dz9sRf; Thu,  9 Jan 2020 12:51:37 +1100 (AEDT)
+ id 47tTcV3HKfz9sRl; Thu,  9 Jan 2020 12:51:38 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1578534697;
- bh=5z+73++uW+K09ix6A262zZJiXGmBjuSc6+80Yg5XvfY=;
+ d=gibson.dropbear.id.au; s=201602; t=1578534698;
+ bh=AcerTNXaFSKPN5OSm2F72MecNYL1/X0SKLJ4tLwLGZs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p5E3sPoOzRH7gtdLXAFsBlCw2SKN88kn3D8ki2/nD2PhO+aTIycK0QmrdollhZ6jM
- hi0obE9mB6qDeNZqTQ0Dogbq2AxFZHD/OVB7fqIQju22NSYya6FEI1KrcW6NtJeFIg
- mmZq1I6kTKRUzPH3IQoB1pvzW8gCwzR8Wh+Gatso=
-Date: Thu, 9 Jan 2020 12:33:46 +1100
+ b=mTb60/+JOCWbPC3dvI5pukMIlMAWKCF9wBqxhq+PYKib7/eoR9BzHqdNSRVUkawxp
+ 79gx/SKcuaLDbt82muhGOBO0sDNea6i6soevGWnuPUwVNu89Ugw1PuudgqoJQUXLUM
+ swde3dkgjq0zZtTguegOUYRF8B0zYlH7uJ25JXcA=
+Date: Thu, 9 Jan 2020 12:37:00 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 2/2] pnv/psi: Consolidate some duplicated code in
- pnv_psi_realize()
-Message-ID: <20200109013346.GC8586@umbus.fritz.box>
-References: <157841289975.66386.6463139590245180762.stgit@bahia.tlslab.ibm.com>
- <157841476667.66386.13659183399113837990.stgit@bahia.tlslab.ibm.com>
- <56272b35-c0ed-65de-310d-f97090e2b8c1@redhat.com>
- <20200108005453.GD2137@umbus.fritz.box>
- <20200108115845.07f10453@bahia.lan>
+To: Ganesh <ganeshgr@linux.ibm.com>
+Subject: Re: [PATCH v18 5/7] ppc: spapr: Handle "ibm,nmi-register" and
+ "ibm,nmi-interlock" RTAS calls
+Message-ID: <20200109013700.GI8586@umbus.fritz.box>
+References: <20200102075111.25308-1-ganeshgr@linux.ibm.com>
+ <20200102075111.25308-6-ganeshgr@linux.ibm.com>
+ <20200103021959.GR2098@umbus>
+ <279e921a-7540-d543-ba16-7fca55aff056@linux.ibm.com>
+ <20200108010450.GH2137@umbus.fritz.box>
+ <c6c3f717-2122-e2fe-f1b7-d7c7e4db79dc@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="da4uJneut+ArUgXk"
+ protocol="application/pgp-signature"; boundary="9dgjiU4MmWPVapMU"
 Content-Disposition: inline
-In-Reply-To: <20200108115845.07f10453@bahia.lan>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <c6c3f717-2122-e2fe-f1b7-d7c7e4db79dc@linux.ibm.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,127 +60,248 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: Aravinda Prasad <arawinda.p@gmail.com>, aik@ozlabs.ru,
+ qemu-devel@nongnu.org, groug@kaod.org, paulus@ozlabs.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---da4uJneut+ArUgXk
+--9dgjiU4MmWPVapMU
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 08, 2020 at 11:58:45AM +0100, Greg Kurz wrote:
-> On Wed, 8 Jan 2020 11:54:53 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
+On Thu, Jan 09, 2020 at 12:19:12AM +0530, Ganesh wrote:
 >=20
-> > On Tue, Jan 07, 2020 at 07:32:03PM +0100, Philippe Mathieu-Daud=E9 wrot=
-e:
-> > > Hi Greg,
-> > >=20
-> > > On 1/7/20 5:32 PM, Greg Kurz wrote:
-> > > > The proper way to do that would be to use device_class_set_parent_r=
-ealize(),
-> > > > but defining a Pnv8PsiClass and a Pnv9PsiClass types with a parent_=
-realize
-> > > > pointer adds a fair amount of code. Calling pnv_psi_realize() expli=
-citely
-> > > > is fine for now.
+>=20
+> On 1/8/20 6:34 AM, David Gibson wrote:
+> > On Tue, Jan 07, 2020 at 11:57:08AM +0530, Ganesh wrote:
+> > > On 1/3/20 7:49 AM, David Gibson wrote:
+> > > > On Thu, Jan 02, 2020 at 01:21:09PM +0530, Ganesh Goudar wrote:
+> > > > > From: Aravinda Prasad <arawinda.p@gmail.com>
+> > > > >=20
+> > > > > This patch adds support in QEMU to handle "ibm,nmi-register"
+> > > > > and "ibm,nmi-interlock" RTAS calls.
+> > > > >=20
+> > > > > The machine check notification address is saved when the
+> > > > > OS issues "ibm,nmi-register" RTAS call.
+> > > > >=20
+> > > > > This patch also handles the case when multiple processors
+> > > > > experience machine check at or about the same time by
+> > > > > handling "ibm,nmi-interlock" call. In such cases, as per
+> > > > > PAPR, subsequent processors serialize waiting for the first
+> > > > > processor to issue the "ibm,nmi-interlock" call. The second
+> > > > > processor that also received a machine check error waits
+> > > > > till the first processor is done reading the error log.
+> > > > > The first processor issues "ibm,nmi-interlock" call
+> > > > > when the error log is consumed.
+> > > > >=20
+> > > > > [Move fwnmi registration to .apply hook]
+> > > > > Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
+> > > > > Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
+> > > > > ---
+> > > > >    hw/ppc/spapr_caps.c    |  6 +++++
+> > > > >    hw/ppc/spapr_rtas.c    | 58 ++++++++++++++++++++++++++++++++++=
+++++++++
+> > > > >    include/hw/ppc/spapr.h |  7 ++++-
+> > > > >    3 files changed, 70 insertions(+), 1 deletion(-)
+> > > > >=20
+> > > > > diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> > > > > index 3001098601..e922419cfb 100644
+> > > > > --- a/hw/ppc/spapr_caps.c
+> > > > > +++ b/hw/ppc/spapr_caps.c
+> > > > > @@ -502,6 +502,12 @@ static void cap_fwnmi_mce_apply(SpaprMachine=
+State *spapr, uint8_t val,
+> > > > >        if (!val) {
+> > > > >            return; /* Disabled by default */
+> > > > >        }
+> > > > > +
+> > > > > +    if (!spapr->fwnmi_calls_registered && !kvmppc_set_fwnmi()) {
+> > > > So, we definitely need the kvmppc_set_fwnmi() call here.  But in the
+> > > > case where we *do* have KVM, but the call fails, we should fail the
+> > > > .apply hook, rather than ignoring it silently.
 > > > >=20
-> > > > This should probably be achieved with a device realize hook in the
-> > > > PSI base class and device_class_set_parent_realize() in the children
-> > > > classes.
+> > > > As we've discussed although TCG behaviour with fwnmi isn't 100%
+> > > > correct, it's close enough to pass for most purposes - so it's
+> > > > reasonable to continue if the cap is selected.  But if the cap is
+> > > > selected and we're running with KVM we *must* enable the capability=
+ in
+> > > > KVM or we're not providing the environment the user requested.
+> > > >=20
+> > > > > +        /* Register ibm,nmi-register and ibm,nmi-interlock RTAS =
+calls */
+> > > > > +        spapr_fwnmi_register();
+> > > > We discussed registering the hypercalls here, but I thought after t=
+hat
+> > > > I suggested just always registering them, and having them bail out
+> > > > when called if the cap is not set.  I see that you've implemented t=
+hat
+> > > > bailout for register, though not for interlock.  I think that's
+> > > > simpler than registering them here.
+> > > something like this?, with bailout in interlock as well.
 > > >=20
->=20
-> I realize that this last paragraph is a leftover. First paragraph already
-> mentions device_class_set_parent_realize() as being the "proper way".
->=20
-> David,
->=20
-> Can you remove it in your tree ? No big deal if you can't.
+> > > {
+> > >  =A0=A0=A0 if (!val) {
+> > >  =A0=A0=A0=A0=A0=A0=A0 return; /* Disabled by default */
+> > >  =A0=A0=A0 }
+> > >=20
+> > >  =A0=A0=A0 if (kvm_enabled()) {
+> > >  =A0=A0=A0=A0=A0=A0=A0 if (kvmppc_set_fwnmi() < 0) {
+> > >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 error_report("Could not enable fwn=
+mi capability");
+> > >  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 exit(1)
+> > >  =A0=A0=A0 }
+> > >=20
+> > >  =A0=A0=A0 if (!spapr->fwnmi_calls_registered) {
+> > >  =A0=A0=A0=A0=A0=A0=A0 /* Register ibm,nmi-register and ibm,nmi-inter=
+lock RTAS calls */
+> > >  =A0=A0=A0=A0=A0=A0=A0 spapr_fwnmi_register();
+> > >  =A0=A0=A0=A0=A0=A0=A0 spapr->fwnmi_calls_registered =3D true;
+> > >  =A0=A0=A0 }
+> > > }
+> > Uh.. no.. not really.  I was suggesting registering the calls
+> > unconditionally, but in each of the call implementations you have
+> Yes I got your point, here I am just trying to avoid registering the
+> calls more than once, otherwise we may hit an assert.
 
-Sorry, not any more - I've already sent the PR.
+Oh, right.  My point is that an advantage of registering them
+unconditionally is you can do it early with the rest of the statically
+registered calls, and so the problem of multiple registering them no
+longer arises.
 
->=20
-> > > Can you add a note explaining why the POWER10 PSI doesn't need it?
 > >=20
-> > For now, POWER10 uses the Pnv9PsiClass, I believe, so the question
-> > doesn't arise.
 > >=20
->=20
-> This is correct and also a bit confusing, as proves Philippe's remark.
-> Maybe we should come up with a PnvXivePsiClass and specialize it for
-> POWER9 and POWER10.
->=20
-> > >=20
-> > > >=20
-> > > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> > > > ---
-> > > >   hw/ppc/pnv_psi.c |   19 ++++++++++++-------
-> > > >   1 file changed, 12 insertions(+), 7 deletions(-)
-> > > >=20
-> > > > diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
-> > > > index 6c94781e377d..546232106756 100644
-> > > > --- a/hw/ppc/pnv_psi.c
-> > > > +++ b/hw/ppc/pnv_psi.c
-> > > > @@ -469,6 +469,16 @@ static void pnv_psi_reset_handler(void *dev)
-> > > >       device_reset(DEVICE(dev));
-> > > >   }
-> > > > +static void pnv_psi_realize(DeviceState *dev, Error **errp)
-> > > > +{
-> > > > +    PnvPsi *psi =3D PNV_PSI(dev);
-> > > > +
-> > > > +    /* Default BAR for MMIO region */
-> > > > +    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
-> > > > +
-> > > > +    qemu_register_reset(pnv_psi_reset_handler, dev);
-> > > > +}
-> > > > +
-> > > >   static void pnv_psi_power8_instance_init(Object *obj)
-> > > >   {
-> > > >       Pnv8Psi *psi8 =3D PNV8_PSI(obj);
-> > > > @@ -528,9 +538,6 @@ static void pnv_psi_power8_realize(DeviceState =
-*dev, Error **errp)
-> > > >       memory_region_init_io(&psi->regs_mr, OBJECT(dev), &psi_mmio_o=
-ps, psi,
-> > > >                             "psihb", PNV_PSIHB_SIZE);
-> > > > -    /* Default BAR for MMIO region */
-> > > > -    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
-> > > > -
-> > > >       /* Default sources in XIVR */
-> > > >       for (i =3D 0; i < PSI_NUM_INTERRUPTS; i++) {
-> > > >           uint8_t xivr =3D irq_to_xivr[i];
-> > > > @@ -538,7 +545,7 @@ static void pnv_psi_power8_realize(DeviceState =
-*dev, Error **errp)
-> > > >               ((uint64_t) i << PSIHB_XIVR_SRC_SH);
-> > > >       }
-> > > > -    qemu_register_reset(pnv_psi_reset_handler, dev);
-> > > > +    pnv_psi_realize(dev, errp);
-> > > >   }
-> > > >   static int pnv_psi_dt_xscom(PnvXScomInterface *dev, void *fdt, in=
-t xscom_offset)
-> > > > @@ -873,9 +880,7 @@ static void pnv_psi_power9_realize(DeviceState =
-*dev, Error **errp)
-> > > >       memory_region_init_io(&psi->regs_mr, OBJECT(dev), &pnv_psi_p9=
-_mmio_ops, psi,
-> > > >                             "psihb", PNV9_PSIHB_SIZE);
-> > > > -    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
-> > > > -
-> > > > -    qemu_register_reset(pnv_psi_reset_handler, dev);
-> > > > +    pnv_psi_realize(dev, errp);
-> > > >   }
-> > > >   static void pnv_psi_power9_class_init(ObjectClass *klass, void *d=
-ata)
-> > > >=20
-> > > >=20
-> > >=20
+> >      if(!fwnmi_enabed)
+> >           return H_FUNCTION;
 > >=20
+> > or maybe H_NOT_AVAILABLE.
+> Sure, ill add this check in interlock call also.
+> >=20
+> > > > > +        spapr->fwnmi_calls_registered =3D true;
+> > > > > +    }
+> > > > >    }
+> > > > >    SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
+> > > > > diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> > > > > index 2c066a372d..54b142f35b 100644
+> > > > > --- a/hw/ppc/spapr_rtas.c
+> > > > > +++ b/hw/ppc/spapr_rtas.c
+> > > > > @@ -400,6 +400,56 @@ static void rtas_get_power_level(PowerPCCPU =
+*cpu, SpaprMachineState *spapr,
+> > > > >        rtas_st(rets, 1, 100);
+> > > > >    }
+> > > > > +static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+> > > > > +                                  SpaprMachineState *spapr,
+> > > > > +                                  uint32_t token, uint32_t nargs,
+> > > > > +                                  target_ulong args,
+> > > > > +                                  uint32_t nret, target_ulong re=
+ts)
+> > > > > +{
+> > > > > +    hwaddr rtas_addr;
+> > > > > +
+> > > > > +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) =3D=3D SPAPR_C=
+AP_OFF) {
+> > > > > +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+> > > > > +        return;
+> > > > > +    }
+> > > > > +
+> > > > > +    rtas_addr =3D spapr_get_rtas_addr();
+> > > > > +    if (!rtas_addr) {
+> > > > > +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+> > > > > +        return;
+> > > > > +    }
+> > > > > +
+> > > > > +    spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
+> > > > > +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+> > > > > +}
+> > > > > +
+> > > > > +static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+> > > > > +                                   SpaprMachineState *spapr,
+> > > > > +                                   uint32_t token, uint32_t narg=
+s,
+> > > > > +                                   target_ulong args,
+> > > > > +                                   uint32_t nret, target_ulong r=
+ets)
+> > > > > +{
+> > > > > +    if (spapr->guest_machine_check_addr =3D=3D -1) {
+> > > > > +        /* NMI register not called */
+> > > > > +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> > > > > +        return;
+> > > > > +    }
+> > > > > +
+> > > > > +    if (spapr->mc_status !=3D cpu->vcpu_id) {
+> > > > > +        /* The vCPU that hit the NMI should invoke "ibm,nmi-inte=
+rlock" */
+> > > > > +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> > > > > +        return;
+> > > > > +    }
+> > > > > +
+> > > > > +    /*
+> > > > > +     * vCPU issuing "ibm,nmi-interlock" is done with NMI handlin=
+g,
+> > > > > +     * hence unset mc_status.
+> > > > > +     */
+> > > > > +    spapr->mc_status =3D -1;
+> > > > > +    qemu_cond_signal(&spapr->mc_delivery_cond);
+> > > > > +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+> > > > > +}
+> > > > > +
+> > > > >    static struct rtas_call {
+> > > > >        const char *name;
+> > > > >        spapr_rtas_fn fn;
+> > > > > @@ -503,6 +553,14 @@ hwaddr spapr_get_rtas_addr(void)
+> > > > >        return (hwaddr)fdt32_to_cpu(*rtas_data);
+> > > > >    }
+> > > > > +void spapr_fwnmi_register(void)
+> > > > > +{
+> > > > > +    spapr_rtas_register(RTAS_IBM_NMI_REGISTER, "ibm,nmi-register=
+",
+> > > > > +                        rtas_ibm_nmi_register);
+> > > > > +    spapr_rtas_register(RTAS_IBM_NMI_INTERLOCK, "ibm,nmi-interlo=
+ck",
+> > > > > +                        rtas_ibm_nmi_interlock);
+> > > > > +}
+> > > > > +
+> > > > >    static void core_rtas_register_types(void)
+> > > > >    {
+> > > > >        spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-chara=
+cter",
+> > > > > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> > > > > index 652a5514e8..a90e677cc3 100644
+> > > > > --- a/include/hw/ppc/spapr.h
+> > > > > +++ b/include/hw/ppc/spapr.h
+> > > > > @@ -218,6 +218,8 @@ struct SpaprMachineState {
+> > > > >        unsigned gpu_numa_id;
+> > > > >        SpaprTpmProxy *tpm_proxy;
+> > > > > +
+> > > > > +    bool fwnmi_calls_registered;
+> > > > >    };
+> > > > >    #define H_SUCCESS         0
+> > > > > @@ -656,8 +658,10 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu=
+, target_ulong opcode,
+> > > > >    #define RTAS_IBM_REMOVE_PE_DMA_WINDOW           (RTAS_TOKEN_BA=
+SE + 0x28)
+> > > > >    #define RTAS_IBM_RESET_PE_DMA_WINDOW            (RTAS_TOKEN_BA=
+SE + 0x29)
+> > > > >    #define RTAS_IBM_SUSPEND_ME                     (RTAS_TOKEN_BA=
+SE + 0x2A)
+> > > > > +#define RTAS_IBM_NMI_REGISTER                   (RTAS_TOKEN_BASE=
+ + 0x2B)
+> > > > > +#define RTAS_IBM_NMI_INTERLOCK                  (RTAS_TOKEN_BASE=
+ + 0x2C)
+> > > > > -#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE=
+ + 0x2B)
+> > > > > +#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE=
+ + 0x2D)
+> > > > >    /* RTAS ibm,get-system-parameter token values */
+> > > > >    #define RTAS_SYSPARM_SPLPAR_CHARACTERISTICS      20
+> > > > > @@ -908,4 +912,5 @@ void spapr_check_pagesize(SpaprMachineState *=
+spapr, hwaddr pagesize,
+> > > > >    void spapr_set_all_lpcrs(target_ulong value, target_ulong mask=
+);
+> > > > >    hwaddr spapr_get_rtas_addr(void);
+> > > > > +void spapr_fwnmi_register(void);
+> > > > >    #endif /* HW_SPAPR_H */
 >=20
-
-
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -187,25 +309,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---da4uJneut+ArUgXk
+--9dgjiU4MmWPVapMU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4WgvgACgkQbDjKyiDZ
-s5Lk5g/9HKY4cTbGRE7Ie4bDSHTdXQuCyFkUMRXy4IW1IQscExMFWf4RbYmU2fBu
-htq7GchnqdzdvSllaqPxXJcQ6OZYtvPmo7O8aG7hHwNuozcIlNCWNDFynJa4UuWr
-DZdNSqmKM6w2M3lCuU33OjMCp7hTI8Sx34EaRrc8W3+J8sQPQcMXOIB6X19Wgnlr
-2hbJHicIlC7Ri1N7vFCWMqmPWA5ES5QifSpjGbYwLKO7GyGOgOA4M/vsBFF1q9un
-edMA5vXuN54w/jmIjk0H1w45DCIfljrIqMSC4zmkpdpS+OldM9Wv+2Ond66J2uar
-olfFd/COJ+vI33i0EoGiY0UceOIByOdhGFlBJAvl34b8H5jGVNqF0N+b67ammjPw
-x1yZhhxyvZq+zYcdDVBEfXhaMY/Z7uSUxgkrLPiTkDK5alY9YaRY5A+dpL87620t
-hPPgR6FujkGFn249g1EJj7WSsWLvPoPxgerghX8PywS77zakRHk5gTdj14BBWRDw
-30hE/Lb4uVwQ6VpdaRv7XK7skXFdN/XeH3aYuOCMg9Yz1h/ETVVwrFR1vKdD38f5
-SJUJ7/vdV+iUXcK2iLYmh5GMRxyJucFknSiN61BOJizuHfeN4t9uqLpmZRhv6U70
-rhDGUa/ztsNnW8yUhoYvC8P5lwevYH9cHNMdmd3dAoW4yvAmvHM=
-=kOs6
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4Wg7wACgkQbDjKyiDZ
+s5KZdxAAwuFEN7iPXIZQ7ViE6NagM+yUbECFxaBDQj6bCoU6QvLOBaWByAou3Gx9
++xkAeqKFoOZx0NsCWLb2E+ey0/m78wlzcIq7HFkBtDiTiYHPI+xKdYFJVXyd3ofZ
+d2jOIibWcvEgHocqG/rt5vIfZxPrhGhY9n2yBi+7cmM7/++nJst3ujr243ER38PD
+UWtpVMr33HFoJbefKns/vvjludC+QSWTYvdkAqYpbqqxxvcBD6B0tJijE0GccDIN
+vpePRQKjFACrrNq9fyyNB53IOwRVGwbtDBvA14JOrFPVooBy6vsrN7MG5OcYCkJ3
++KFFSgYIRdBApruhv+834yklSKLo9qlkf9wVjP2ZcbU1b9st6o6qdly4Y3G+1p3+
+B48LZtKxNrBIr90qiTgwdVUp9oVb/PLfXp6Ixrs961nUYWbpj4UqhO+yE59wNkGG
+aAFh7HEgHnCaUGMj7E2ikl1ivhkCNue5fv6eicBaJcIncHHQz2YagYn5X1rkvVJ7
+gPdlJHjd+AY2/GF6LABB9mFes8c/YZZvQ0wO+6Hu50FMjnoXTzN3HIx16wLoPFtQ
+oVq+OOJ8JGitORuc8cd7WZjEQcdZXW6E3P81mVFWa8f9AVfDk8RXi6DMctIkf66+
+8fkOc00+0lAgMJdACh41PkBqu/bq4XYxTrX3nZ68bUAUdSq1xEA=
+=XDiO
 -----END PGP SIGNATURE-----
 
---da4uJneut+ArUgXk--
+--9dgjiU4MmWPVapMU--
 
