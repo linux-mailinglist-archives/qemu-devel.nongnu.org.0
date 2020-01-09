@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B837135CFB
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:42:20 +0100 (CET)
-Received: from localhost ([::1]:34390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44964135D1D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:46:00 +0100 (CET)
+Received: from localhost ([::1]:34462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipZww-0008GJ-Tc
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:42:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32950)
+	id 1ipa0V-0005N9-Bk
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:45:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33724)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ipZuh-0006VW-4u
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:40:00 -0500
+ (envelope-from <philmd@redhat.com>) id 1ipZuq-0006oa-IS
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:40:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ipZuf-00025u-U7
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:39:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58001
+ (envelope-from <philmd@redhat.com>) id 1ipZup-0002rZ-Bl
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:40:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51378
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipZuf-00021x-GJ
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:39:57 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipZup-0002or-6T
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:40:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578584396;
+ s=mimecast20190719; t=1578584406;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9HO//71iXE8OmCJAAIB/90n/Er377gGIQDqUFgv6iRs=;
- b=Q0wPHgy+2o4acOi6Wum/K0jJ0GaQf/drdf25TsOSW5gZ2gXgPem+4Ir7zsLtxsksTUzEg3
- 9Y9xDQJIOzgtrgzednj54nodxqVo5n7HEbIYwmP0aCyEf8rt6Sx9vJL3z6kk6g/kXsZ2y7
- 3app9xiH2pUcQ8LyRwtUPXxvS2ioE0w=
+ bh=5zhOhvEQYQgUim1shmmIdvB0/IgzwY3sRGi/2inNpnA=;
+ b=hlJYQm4FnDII1xOtcrRCRBqkFODagB7qxosxdC/eeg4ezs3SzfWI2uvkMWcChNbiTbH8O7
+ gnu4ByQX5V0l/bqmekVYdkJ1NqtjhIs9GECX0ZHFwqtIdtsujsVY+uDcAQu18gizIGNEZ+
+ uFfzFA8WVlSgWGn0NQ9uz6K/Wi0pNHE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-MXzn9x3rPEax8bXZYCLLaA-1; Thu, 09 Jan 2020 10:39:55 -0500
+ us-mta-388--qDzSktSPCOu1QUlw7UJ_g-1; Thu, 09 Jan 2020 10:40:03 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E366F8E9DC4;
- Thu,  9 Jan 2020 15:39:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FCDC12DE2B;
+ Thu,  9 Jan 2020 15:40:02 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-180.brq.redhat.com [10.40.204.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DD8086CB5;
- Thu,  9 Jan 2020 15:39:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 75DB686CB8;
+ Thu,  9 Jan 2020 15:39:54 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] configure: Do not build libfdt is not required
-Date: Thu,  9 Jan 2020 16:39:36 +0100
-Message-Id: <20200109153939.27173-2-philmd@redhat.com>
+Subject: [PATCH 2/4] Makefile: Clarify all the codebase requires qom/ objects
+Date: Thu,  9 Jan 2020 16:39:37 +0100
+Message-Id: <20200109153939.27173-3-philmd@redhat.com>
 In-Reply-To: <20200109153939.27173-1-philmd@redhat.com>
 References: <20200109153939.27173-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: MXzn9x3rPEax8bXZYCLLaA-1
+X-MC-Unique: -qDzSktSPCOu1QUlw7UJ_g-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,38 +78,40 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We only require libfdt for system emulation, in a small set
-of architecture:
-
-4077  # fdt support is mandatory for at least some target architectures,
-4078  # so insist on it if we're building those system emulators.
-4079  fdt_required=3Dno
-4080  for target in $target_list; do
-4081    case $target in
-4082      aarch64*-softmmu|arm*-softmmu|ppc*-softmmu|microblaze*-softmmu|mi=
-ps64el-softmmu|riscv*-softmmu)
-4083        fdt_required=3Dyes
-
-Do not build libfdt if we did not manually specified --enable-fdt.
+QEMU user-mode also requires the qom/ objects, it is not only
+used by "system emulation and qemu-img". As we will use a big
+if() block, move it upper in the "Common libraries for tools
+and emulators" section.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- configure | 2 ++
- 1 file changed, 2 insertions(+)
+ Makefile.objs | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/configure b/configure
-index 0ce2c0354a..266a8386d1 100755
---- a/configure
-+++ b/configure
-@@ -4092,6 +4092,8 @@ if test "$fdt_required" =3D "yes"; then
-       "targets which need it (by specifying a cut down --target-list)."
-   fi
-   fdt=3Dyes
-+elif test "$fdt" !=3D "yes" ; then
-+  fdt=3Dno
- fi
+diff --git a/Makefile.objs b/Makefile.objs
+index 7c1e50f9d6..5aae561984 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -2,6 +2,7 @@
+ # Common libraries for tools and emulators
+ stub-obj-y =3D stubs/
+ util-obj-y =3D crypto/ util/ qobject/ qapi/
++qom-obj-y =3D qom/
 =20
- if test "$fdt" !=3D "no" ; then
+ chardev-obj-y =3D chardev/
+=20
+@@ -26,11 +27,6 @@ block-obj-m =3D block/
+=20
+ crypto-obj-y =3D crypto/
+=20
+-#######################################################################
+-# qom-obj-y is code used by both qemu system emulation and qemu-img
+-
+-qom-obj-y =3D qom/
+-
+ #######################################################################
+ # io-obj-y is code used by both qemu system emulation and qemu-img
+=20
 --=20
 2.21.1
 
