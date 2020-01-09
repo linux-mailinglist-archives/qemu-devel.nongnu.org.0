@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71139135AA0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:53:03 +0100 (CET)
-Received: from localhost ([::1]:60764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6586E135A99
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:52:15 +0100 (CET)
+Received: from localhost ([::1]:60734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipYFC-0001Bg-HX
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:53:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51666)
+	id 1ipYEQ-0007kr-2K
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:52:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51735)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipYCr-0005rY-D3
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:50:38 -0500
+ (envelope-from <bounces@canonical.com>) id 1ipYCs-0005sw-2o
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:50:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipYCp-0006oy-VS
+ (envelope-from <bounces@canonical.com>) id 1ipYCq-0006sE-Kt
  for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:50:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35064)
+Received: from indium.canonical.com ([91.189.90.7]:35134)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipYCp-0006kd-Ns
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:50:35 -0500
+ id 1ipYCq-0006oE-CF
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:50:36 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipYCo-0001rG-7j
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 13:50:34 +0000
+ id 1ipYCp-0001v0-7s
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 13:50:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 383C02E80C9
- for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 13:50:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 005CA2E80D4
+ for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 13:50:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jan 2020 13:41:02 -0000
-From: Thomas Huth <1852115@bugs.launchpad.net>
+Date: Thu, 09 Jan 2020 13:41:27 -0000
+From: Thomas Huth <1838913@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: arm tcg testcase
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: crobinso laurent-vivier pmaydell
-X-Launchpad-Bug-Reporter: Cole Robinson (crobinso)
+X-Launchpad-Bug-Commenters: elouan-appere pmaydell
+X-Launchpad-Bug-Reporter: =?utf-8?q?Elouan_App=C3=A9r=C3=A9_=28elouan-apper?=
+ =?utf-8?q?e=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157349721480.22191.14354362512617460510.malonedeb@soybean.canonical.com>
-Message-Id: <157857726373.3160.9086072880784722168.launchpad@soybean.canonical.com>
-Subject: [Bug 1852115] Re: qemu --static user build fails with fedora rawhide
- glibc-2.30.9000
+References: <156496429682.24531.17468125820972523019.malonedeb@soybean.canonical.com>
+Message-Id: <157857728880.3160.1897739779717705199.launchpad@soybean.canonical.com>
+Subject: [Bug 1838913] Re: Single-step exceptions incorrectly routed to EL1
+ when ELD is EL2 (TDE = 1) (qemu version 3.1)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: dab0ce62986d9481b76fb5049f267ba4f0063005
+X-Launchpad-Hash: f6fd39bdee6175eb1e69d75a2b619b360bff0a56
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -67,7 +69,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1852115 <1852115@bugs.launchpad.net>
+Reply-To: Bug 1838913 <1838913@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -78,71 +80,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1852115
+https://bugs.launchpad.net/bugs/1838913
 
 Title:
-  qemu --static user build fails with fedora rawhide glibc-2.30.9000
+  Single-step exceptions incorrectly routed to EL1 when ELD is EL2 (TDE
+  =3D 1) (qemu version 3.1)
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Building qemu latest git 654efcb511d on fedora rawhide fails with this
-  configure line:
+  Hi,
 
-  ./configure \
-  	--static \
-  	--disable-system \
-  	--enable-linux-user \
-  	--disable-werror \
-  	--disable-tools \
-  	--disable-capstone
+  I've been encountering issues with QEMU 3.1 when trying to single-step
+  EL1 code, with ELD =3D EL2 (MDCR_EL2.TDE =3D 1). I could test with latest
+  commit in a few hours, if you want.
 
-  make fails with:
+  EL1 is Aarch64.
 
-  /usr/bin/ld: linux-user/syscall.o: in function `do_syscall1':
-  /root/qemu.git/linux-user/syscall.c:7769: undefined reference to `stime'
-  collect2: error: ld returned 1 exit status
+  This happens as soon as MDSCR_EL1.SS is set to 1 and ERET is executed:
 
-  Seems related to this glibc change:
-  https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3D12cbde1dae6fa4a9=
-a792b64564c7e0debf7544cc
+  - Single-step exceptions are routed to EL1
 
-  ...
+  Exception return from AArch64 EL2 to AArch64 EL1 PC 0x4000005c
+  Taking exception 1 [Undefined Instruction]
+  ...from EL1 to EL1
+  ...with ESR 0x32/0xca000022
+  ...with ELR 0x4000005c
+  ...to EL1 PC 0x200 PSTATE 0x3c5
 
-  +* The obsolete function stime is no longer available to newly linked
-  +  binaries and it has been removed from <time.h> header.  This function
-  +  has been deprecated in favor of clock_settime.
-  +
+  EC 0x32 (0b110010) is Exception_SoftwareStepLowerEl.
 
-  # rpm -q glibc
-  glibc-2.30.9000-17.fc32.x86_64
+  You can find enclosed minimal code (and resulting .elf) for
+  reproduction.
 
-  =
-
-  FWIW there's some other messages but I don't think they are fatal:
-
-  /usr/bin/ld: /usr/lib/gcc/x86_64-redhat-linux/9/../../../../lib64/libglib=
--2.0.a(gutils.c.o): in function `g_get_user_database_entry':
-  (.text+0x267): warning: Using 'getpwuid' in statically linked application=
-s requires at runtime the shared libraries from the glibc version used for =
-linking
-  /usr/bin/ld: (.text+0xe0): warning: Using 'getpwnam_r' in statically link=
-ed applications requires at runtime the shared libraries from the glibc ver=
-sion used for linking
-  /usr/bin/ld: (.text+0x11e): warning: Using 'getpwuid_r' in statically lin=
-ked applications requires at runtime the shared libraries from the glibc ve=
-rsion used for linking
-
-  =
-
-  Also, --disable-capstone is required to avoid this error, but it is pre-e=
-xisting, not sure if it's a bug, if so I can file a separate one:
-
-    LINK    aarch64-linux-user/qemu-aarch64
-  /usr/bin/ld: cannot find -lcapstone
-  collect2: error: ld returned 1 exit status
+  qemu-system-aarch64 -nographic -machine virt,virtualization=3Don -d
+  unimp,int -cpu cortex-a57 -kernel test_hyp.elf
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1852115/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1838913/+subscriptions
 
