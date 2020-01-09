@@ -2,89 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4364E135A0F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:29:33 +0100 (CET)
-Received: from localhost ([::1]:60384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1B8135A2C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:33:22 +0100 (CET)
+Received: from localhost ([::1]:60442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipXsS-0007sm-8J
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:29:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54284)
+	id 1ipXw9-0002lg-7p
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:33:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36786)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1ipXr2-0006zM-PR
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:28:06 -0500
+ (envelope-from <bounces@canonical.com>) id 1ipXte-0001DA-Qy
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1ipXr1-0001IM-9h
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:28:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27878
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ipXr1-0001Er-2z
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:28:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578576482;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fKFEEzYpbUIAPnzwJnkmWA2blY73X5r+jax/X8uc4bA=;
- b=eABk7xea9jOLh31S77tDALxn3F/hugh2A0nK65ltPwUQHiLsLQr92xuh0sWx5QjTNTZhfg
- Q2V7ef4p3WlFhHTEZrIy0javssF37/0/IE/bwKyutPwRdK3SycnWfj+xhRTra4Nca/PQ10
- iAUe/Nw84u79/rofVwCwriEY58Ue/zA=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-ecKDAukoNYSz9bIpd6ps3A-1; Thu, 09 Jan 2020 08:28:00 -0500
-Received: by mail-qt1-f198.google.com with SMTP id l1so4153405qtp.21
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 05:28:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=a+rAzkv86txIxUnOnVVvHzV4YqkR4aOG+VxfiTMFHkA=;
- b=fbr4rINNWrNIRH1bwRrBG/M9QoUhUzK8dcNJoSm+aWkytIz/wObLKDZ1bjwRejI0AS
- bxlnMVKzMwQXw/hS+HdvGBg/y6JE3FlVsFSk0O+GfGptRfB6nIx05MKVhgtfMqeSBIr3
- 6Nm+m5kzLCn5lce4QwFN9fZD3RExLPDB9TbOoWg1091pIBJ28v1UN4brnyedummc0Oyt
- ioflwro0shHbIcL0gSby1wDoHlX4G5H/skogMFGf+h2jjS2OI/pA0DnIQsK/06b1ue7U
- u4fUbloU2LORYgc1nDctdGnKu2g7WS+lSsfKbDoQRDl7CSeZLMFtymW0CZ/zZYV05lu8
- +bAQ==
-X-Gm-Message-State: APjAAAV8ZTV8yUhGRCAOBCUTywflQ8KWG/En8f2t2ScR7xRikpqhmODU
- S0td9UCTnSsd4V2hMhEekTTDFt7bA0ZToqBR/Q4cBGKD9Gn7FaYvB7UhvLy6dHaNUx88zHlVpnZ
- lL2r3IuZEHZMPKDc=
-X-Received: by 2002:ae9:ef06:: with SMTP id d6mr9159286qkg.402.1578576480477; 
- Thu, 09 Jan 2020 05:28:00 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw7ttLaazeEzAtEAleW8lWSJSRL0e1zE5it+IqO/UGvKbzIYjG5srm2+pr+VpMgbbmYfzYxGA==
-X-Received: by 2002:ae9:ef06:: with SMTP id d6mr9159260qkg.402.1578576480208; 
- Thu, 09 Jan 2020 05:28:00 -0800 (PST)
-Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id x34sm3336144qtd.20.2020.01.09.05.27.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2020 05:27:59 -0800 (PST)
-Date: Thu, 9 Jan 2020 08:27:54 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 2/2] hyperv/synic: Allocate as ram_device
-Message-ID: <20200109082726-mutt-send-email-mst@kernel.org>
-References: <20200108135353.75471-1-dgilbert@redhat.com>
- <20200108135353.75471-3-dgilbert@redhat.com>
- <20200109064527-mutt-send-email-mst@kernel.org>
- <20200109120820.GB6795@work-vm>
- <20200109071454-mutt-send-email-mst@kernel.org>
- <20200109122237.GD6795@work-vm>
- <20200109080412-mutt-send-email-mst@kernel.org>
- <20200109132242.GF6795@work-vm>
+ (envelope-from <bounces@canonical.com>) id 1ipXtZ-0000Zp-PR
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33018)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ipXtZ-0000Xf-GF
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ipXtX-0000SK-L2
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 13:30:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9E2582E80C9
+ for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 13:30:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200109132242.GF6795@work-vm>
-X-MC-Unique: ecKDAukoNYSz9bIpd6ps3A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Thu, 09 Jan 2020 13:22:02 -0000
+From: Thomas Huth <1836558@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee alex-bennee pmaydell scherft th-huth
+X-Launchpad-Bug-Reporter: Daan Scherft (scherft)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <156318593102.28533.3075291509963886255.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157857612241.14410.7288070284421234379.malone@wampee.canonical.com>
+Subject: [Bug 1836558] Re: Qemu-ppc Memory leak creating threads
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 018a2f864bded5e9fff8f37df8dd871305eee3ae
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,142 +67,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, pbonzini@redhat.com, vkuznets@redhat.com,
- qemu-devel@nongnu.org
+Reply-To: Bug 1836558 <1836558@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 09, 2020 at 01:22:42PM +0000, Dr. David Alan Gilbert wrote:
-> * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > On Thu, Jan 09, 2020 at 12:22:37PM +0000, Dr. David Alan Gilbert wrote:
-> > > * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > > > On Thu, Jan 09, 2020 at 12:08:20PM +0000, Dr. David Alan Gilbert wr=
-ote:
-> > > > > * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > > > > > On Wed, Jan 08, 2020 at 01:53:53PM +0000, Dr. David Alan Gilber=
-t (git) wrote:
-> > > > > > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > > > > > >=20
-> > > > > > > Mark the synic pages as ram_device so that they won't be visi=
-ble
-> > > > > > > to vhost.
-> > > > > > >=20
-> > > > > > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > > > >=20
-> > > > > >=20
-> > > > > > I think I disagree with this one.
-> > > > > >  * A RAM device represents a mapping to a physical device, such=
- as to a PCI
-> > > > > >  * MMIO BAR of an vfio-pci assigned device.  The memory region =
-may be mapped
-> > > > > >  * into the VM address space and access to the region will modi=
-fy memory
-> > > > > >  * directly.  However, the memory region should not be included=
- in a memory
-> > > > > >  * dump (device may not be enabled/mapped at the time of the du=
-mp), and
-> > > > > >  * operations incompatible with manipulating MMIO should be avo=
-ided.  Replaces
-> > > > > >  * skip_dump flag.
-> > > > > >=20
-> > > > > > Looks like an abuse of notation.
-> > > > >=20
-> > > > > OK, it did feel a bit like that - any suggestions of another way =
-to do
-> > > > > it?
-> > > > >   This clearly isn't normal RAM.
-> > > > >=20
-> > > > > Dave
-> > > >=20
-> > > > If it's just an optimization for vhost/postcopy/etc, then I think
-> > >=20
-> > > Note it's not an optimisation; postcopy fails unless you can aggregat=
-e
-> > > the members of the hugepage.
-> > > And I think vhost-user will fail if you have too many sections - and
-> > > the 16 sections from synic I think will blow the slots available.
-> >=20
-> > Right, so both are internal reasons.
-> >=20
-> > > > an API that says how this isn't normal ram would be ok.
-> > > > E.g. it's not DMA'd into? Then maybe _nodma?
-> > >=20
-> > > Do we want a new memory_region_init for that or just to be able to ad=
-d
-> > > a flag?
-> > >=20
-> > > Dave
-> >=20
-> > I think a flag API is preferable since this can apply to any kind of
-> > region. But can go either way, Paolo's the maintainer there.
->=20
-> (Copying Paolo in)
-> So what exactly does this flag mean; to me it's 'no vhost' - but is it
-> actually more general?
->=20
-> Dave
+A fix for this bug has been merged here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D28876bf27d2792e6b16cf
+It has been released with QEMU v4.2. Can this bug ticket now be closed?
 
-I think it's also handy for VFIO, that should skip it too.
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836558
+
+Title:
+  Qemu-ppc Memory leak creating threads
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  When creating c++ threads (with c++ std::thread), the resulting binary
+  has memory leaks when running with qemu-ppc.
+
+  Eg the following c++ program, when compiled with gcc, consumes more
+  and more memory while running at qemu-ppc. (does not have memory leaks
+  when compiling for Intel, when running same binary on real powerpc CPU
+  hardware also no memory leaks).
+
+  (Note I used function getCurrentRSS to show available memory, see
+  https://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-
+  runtime-using-c; calls commented out here)
+
+  Compiler: powerpc-linux-gnu-g++ (Debian 8.3.0-2) 8.3.0 (but same problem =
+with older g++ compilers even 4.9)
+  Os: Debian 10.0 ( Buster) (but same problem seen on Debian 9/stetch)
+  qemu: qemu-ppc version 3.1.50
 
 
-> > > > > >=20
-> > > > > >=20
-> > > > > > > ---
-> > > > > > >  hw/hyperv/hyperv.c | 14 ++++++++------
-> > > > > > >  1 file changed, 8 insertions(+), 6 deletions(-)
-> > > > > > >=20
-> > > > > > > diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
-> > > > > > > index da8ce82725..4de3ec411d 100644
-> > > > > > > --- a/hw/hyperv/hyperv.c
-> > > > > > > +++ b/hw/hyperv/hyperv.c
-> > > > > > > @@ -95,12 +95,14 @@ static void synic_realize(DeviceState *de=
-v, Error **errp)
-> > > > > > >      msgp_name =3D g_strdup_printf("synic-%u-msg-page", vp_in=
-dex);
-> > > > > > >      eventp_name =3D g_strdup_printf("synic-%u-event-page", v=
-p_index);
-> > > > > > > =20
-> > > > > > > -    memory_region_init_ram(&synic->msg_page_mr, obj, msgp_na=
-me,
-> > > > > > > -                           sizeof(*synic->msg_page), &error_=
-abort);
-> > > > > > > -    memory_region_init_ram(&synic->event_page_mr, obj, event=
-p_name,
-> > > > > > > -                           sizeof(*synic->event_page), &erro=
-r_abort);
-> > > > > > > -    synic->msg_page =3D memory_region_get_ram_ptr(&synic->ms=
-g_page_mr);
-> > > > > > > -    synic->event_page =3D memory_region_get_ram_ptr(&synic->=
-event_page_mr);
-> > > > > > > +    synic->msg_page =3D qemu_memalign(qemu_real_host_page_si=
-ze,
-> > > > > > > +                                    sizeof(*synic->msg_page)=
-);
-> > > > > > > +    synic->event_page =3D qemu_memalign(qemu_real_host_page_=
-size,
-> > > > > > > +                                      sizeof(*synic->event_p=
-age));
-> > > > > > > +    memory_region_init_ram_device_ptr(&synic->msg_page_mr, o=
-bj, msgp_name,
-> > > > > > > +                           sizeof(*synic->msg_page), synic->=
-msg_page);
-> > > > > > > +    memory_region_init_ram_device_ptr(&synic->event_page_mr,=
- obj, eventp_name,
-> > > > > > > +                           sizeof(*synic->event_page), synic=
-->event_page);
-> > > > > > > =20
-> > > > > > >      g_free(msgp_name);
-> > > > > > >      g_free(eventp_name);
-> > > > > > > --=20
-> > > > > > > 2.24.1
-> > > > > >=20
-> > > > > --
-> > > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> > > >=20
-> > > --
-> > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >=20
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+  ---
 
+  #include <iostream>
+  #include <thread>
+  #include <chrono>
+
+  =
+
+  using namespace std::chrono_literals;
+
+  // Create/run and join a 100 threads.
+  void Fun100()
+  {
+  //    auto b4 =3D getCurrentRSS();
+  //    std::cout << getCurrentRSS() << std::endl;
+      for(int n =3D 0; n < 100; n++)
+      {
+          std::thread t([]
+          {
+              std::this_thread::sleep_for( 10ms );
+          });
+  //        std::cout << n << ' ' << getCurrentRSS() << std::endl;
+          t.join();
+      }
+      std::this_thread::sleep_for( 500ms ); // to give OS some time to wipe=
+ memory...
+  //    auto after =3D getCurrentRSS();
+      std::cout << b4 << ' ' << after << std::endl;
+  }
+
+  =
+
+  int main(int, char **)
+  {
+      Fun100();
+      Fun100();  // memory used keeps increasing
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836558/+subscriptions
 
