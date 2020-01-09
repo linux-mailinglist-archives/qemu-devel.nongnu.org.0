@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CFA7135046
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 01:07:06 +0100 (CET)
-Received: from localhost ([::1]:50634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D0E135053
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 01:11:46 +0100 (CET)
+Received: from localhost ([::1]:50680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipLLt-000547-HB
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 19:07:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39958)
+	id 1ipLQP-0001mZ-DS
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 19:11:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40087)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ipLKN-0003P2-0J
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:05:31 -0500
+ id 1ipLKO-0003RU-DE
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:05:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ipLKL-0007TM-Tm
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:05:30 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50631)
+ id 1ipLKN-0007W8-9w
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:05:32 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53516)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ipLKL-0007RQ-NZ
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:05:29 -0500
-Received: by mail-wm1-x344.google.com with SMTP id a5so908151wmb.0
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 16:05:29 -0800 (PST)
+ id 1ipLKN-0007UT-2a
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:05:31 -0500
+Received: by mail-wm1-x344.google.com with SMTP id m24so890995wmc.3
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 16:05:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=losV8OmGXQZ4fRFeT4I2pKpzAi0vNXizsX/DL7svRT4=;
- b=iO9XO2CSfVfVP81gziM8Lql/NcDW3IhHH1R+kzPxlFnXs2sFMSTDdNEYMQ/5jgGuLS
- JYGRKyNnaPmEf34xOUqoeCqsWmQLtifXM6GjEvltF5qy42N44vZm/Vz4umW3HPaMR4ac
- ZwXArccoyYMdMJJv6QTIstqyK8Pi8o4DO2GKlZjiwBmsilR9QoCfHwtZDODoAcAgryMO
- h4FGt1p5NUW7UmQeHOT5vY4jXN/AJHDI0rN9Gkb4PIR6b9PUcUIwWoLDaamb2/T0s0fR
- 6jadtWu4hSznRamjS51W7vQ5kYfsbyse50mgM3FAY32GDnpP9ugU1kZuMQ/7ekskCreh
- R1xA==
+ bh=F4P/S+s15FJjyYtT27INL9ujLUrPm0+0HaDqwxBvR58=;
+ b=sUwFEXbC1sqXuDZ8wWAiSerV80/6vJJJ1TApYYeE588P3i/QggUgEK+BaG9M0AcYnT
+ zSylRTWPIJoPTkydnyOqyjR5E1lKZJX3phNy+l62qBB9j+6ZUAzCoKim8VwPWecMrVY8
+ pl0PBuXj1VSmTBrmSR5xxIuhl5E2DORiyn8TPjQ1QZRKMv/uFacCKLlw3YergzWP2FD6
+ 8GymagH3IP4pV744NZX5uTD2XupZ0hSQUlsYXcVVvhISwOQk09tPUmvNQunJH/DZ8JGx
+ VfEWUZmUl92D5xHp85ntVu8QQMVFn3iDxYHM14baH07kcOtET06wWrfgiqs1KfENiYH6
+ nB7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=losV8OmGXQZ4fRFeT4I2pKpzAi0vNXizsX/DL7svRT4=;
- b=rx0swsN18UEVHby+NEuOcOSyhpvGNtaLB30vvmaZ2swMQMzcgoyTBY8Kgd7ZOlT+r1
- TMxlH1LuGqY0hXQfPczFAWNc3zwSwJnk00Wo7i4XZ/r/PKLXSkqbLG3u8oI88vJHvw8+
- 7VlLgRQPt6kh7kyJTfx+UYyjcmLhcE9omVPjgH6Qot0sgY94vf7ToYIYgLm158EEi/mz
- hCR8I2UfVt7t7JYikPSFCVVHNp0Qs9bDMpIvDs51YcuozEe/j12JbQfKrr+jQPAaSea3
- Hf61TETw7O/HQM25eKTTh/jYyf3/+2vyUttHGcUfAJBVHsdIlcdydUrYnTVhZCEDhVBd
- 8sQw==
-X-Gm-Message-State: APjAAAVcR8besC4yAHA9xrv/XUDS6ecETj3N7PDhQniOycnZW5rG8y7w
- z1yEQ+4kIF2cPE5Bhd+Y3/c=
-X-Google-Smtp-Source: APXvYqwIFU+6X/hq463dA/joS0koW8zG1FIDm9TeEMHDAM8nKrf/fLlheaxYyMski8JJB5xMwTY69Q==
-X-Received: by 2002:a1c:2187:: with SMTP id h129mr1290514wmh.44.1578528328656; 
- Wed, 08 Jan 2020 16:05:28 -0800 (PST)
+ bh=F4P/S+s15FJjyYtT27INL9ujLUrPm0+0HaDqwxBvR58=;
+ b=fo0rXZCEAc9DjpaEq8vyc0Nd3A9kCH/iFqUHIlh47UwYC1HxAMiqjBekEDr80wZPvb
+ T42hdqmb/lk7DmjPL0AAZi+IgmYsb0RFGCPkzFGIgqSbsyXTKGRAd5EpF/kQeR8koHVo
+ yAFIoAz2R2b+BbebABQMTrTHBulH71Wa5gwFbcfrymUTLnXPq0qYAjc85A17m4B8p9KJ
+ I9t75lXAYBFx0c68YPVDSmFTeg8z6YjQrswhI2VWvAKcWUHm1MUAvvRrehRdK7UmwH83
+ Km/IxXsVs6PyCu6Md3bn7KWy+VrPR9bFo0DUYxXwC+XUxPTSlsLuufLR3Ck2pTwuSSYE
+ vWqg==
+X-Gm-Message-State: APjAAAUwOh3KenvCRx4U+57iF1/o6FcIVRGzzEPu+tr0XiakKdlGryxA
+ ekvfs+V18AzXjkveJz4naLE=
+X-Google-Smtp-Source: APXvYqyZwiXwKc5Ny0ewnNaB3LCfjWCVcGmgVeYEUrExRjK1DyWsRyHYwvel8lbU8Pki6Z0g2jCSBg==
+X-Received: by 2002:a05:600c:20f:: with SMTP id
+ 15mr1257826wmi.128.1578528330235; 
+ Wed, 08 Jan 2020 16:05:30 -0800 (PST)
 Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id w13sm5947827wru.38.2020.01.08.16.05.27
+ by smtp.gmail.com with ESMTPSA id w13sm5947827wru.38.2020.01.08.16.05.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 16:05:28 -0800 (PST)
+ Wed, 08 Jan 2020 16:05:29 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Igor Mammedov <imammedo@redhat.com>, Helge Deller <deller@gmx.de>,
  Sven Schnelle <svens@stackframe.org>, qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] hw/hppa/machine: Correctly check the firmware is in
- PDC range
-Date: Thu,  9 Jan 2020 01:05:23 +0100
-Message-Id: <20200109000525.24744-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/3] hw/hppa/machine: Restrict the total memory size to 3GB
+Date: Thu,  9 Jan 2020 01:05:24 +0100
+Message-Id: <20200109000525.24744-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200109000525.24744-1-f4bug@amsat.org>
 References: <20200109000525.24744-1-f4bug@amsat.org>
@@ -89,29 +89,50 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The firmware has to reside in the PDC range. If the Elf file
-expects to load it below FIRMWARE_START, it is incorrect,
-regardless the RAM size.
+The hardware expects DIMM slots of 1 or 2 GB, allowing up to
+4 GB of memory. We want to accept the same amount of memory the
+hardware can deal with. DIMMs of 768MB are not available.
 
-Acked-by: Helge Deller <deller@gmx.de>
+However we have to deal with a firmware limitation: currently
+SeaBIOS only supports 32-bit, and expects the RAM size in a
+32-bit register. When using a 4GB configuration, the 32-bit
+register get truncated and we report a size of 0MB to SeaBIOS,
+which ends halting the machine:
+
+  $ qemu-system-hppa -m 4g -serial stdio
+
+  SeaBIOS: Machine configured with too little memory (0 MB), minimum is 16 MB.
+
+  SeaBIOS wants SYSTEM HALT.
+
+The easiest way is to restrict the machine to 3GB of memory.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/hppa/machine.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/hppa/machine.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 5d0de26140..6775d879f8 100644
+index 6775d879f8..119ae4d3c8 100644
 --- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -155,7 +155,7 @@ static void machine_hppa_init(MachineState *machine)
-     qemu_log_mask(CPU_LOG_PAGE, "Firmware loaded at 0x%08" PRIx64
-                   "-0x%08" PRIx64 ", entry at 0x%08" PRIx64 ".\n",
-                   firmware_low, firmware_high, firmware_entry);
--    if (firmware_low < ram_size || firmware_high >= FIRMWARE_END) {
-+    if (firmware_low < FIRMWARE_START || firmware_high >= FIRMWARE_END) {
-         error_report("Firmware overlaps with memory or IO space");
-         exit(1);
+@@ -90,12 +90,11 @@ static void machine_hppa_init(MachineState *machine)
+         g_free(name);
      }
+ 
+-    /* Limit main memory. */
+-    if (ram_size > FIRMWARE_START) {
+-        machine->ram_size = ram_size = FIRMWARE_START;
+-    }
+-
+     /* Main memory region. */
++    if (machine->ram_size > 3 * GiB) {
++        error_report("RAM size is currently restricted to 3GB");
++        exit(EXIT_FAILURE);
++    }
+     ram_region = g_new(MemoryRegion, 1);
+     memory_region_allocate_system_memory(ram_region, OBJECT(machine),
+                                          "ram", ram_size);
 -- 
 2.21.1
 
