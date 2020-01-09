@@ -2,50 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB6913607A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 19:50:04 +0100 (CET)
-Received: from localhost ([::1]:36306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 470EA1360EF
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 20:17:54 +0100 (CET)
+Received: from localhost ([::1]:36532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipcsd-0001D7-KM
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 13:50:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37888)
+	id 1ipdJY-00055f-R3
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 14:17:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ipcrk-0000m2-Gi
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 13:49:09 -0500
+ (envelope-from <berto@igalia.com>) id 1ipdGB-0003UW-Qq
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 14:14:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ipcrj-0002hC-5b
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 13:49:08 -0500
-Received: from 4.mo179.mail-out.ovh.net ([46.105.36.149]:35151)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ipcri-0002Wm-RL
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 13:49:07 -0500
-Received: from player789.ha.ovh.net (unknown [10.109.143.183])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 7F22815508B
- for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 19:49:04 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player789.ha.ovh.net (Postfix) with ESMTPSA id 89ADBE152B11;
- Thu,  9 Jan 2020 18:49:02 +0000 (UTC)
-Date: Thu, 9 Jan 2020 19:49:01 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 3/9] hw/9pfs/9p-synth: added directory for readdir test
-Message-ID: <20200109194901.63f67ec7@bahia.lan>
-In-Reply-To: <91905ff817851a76d3becaf27208007dfdbf22e1.1576678644.git.qemu_oss@crudebyte.com>
-References: <cover.1576678644.git.qemu_oss@crudebyte.com>
- <91905ff817851a76d3becaf27208007dfdbf22e1.1576678644.git.qemu_oss@crudebyte.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <berto@igalia.com>) id 1ipdG9-0007GW-JQ
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 14:14:23 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:58345)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1ipdG9-0006B6-8n; Thu, 09 Jan 2020 14:14:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=tzD1Y/0YWIrtdRyTWr/mVf8GtEnqdDKa8qDK9CkB7Os=; 
+ b=iauRMAAWp8J5hDQkUTXetnRc45AZ9yaishrazL6W7PN4pGfUECTkfhSDR3HdeepiXV7klpeENhS2kUUfx032ddQiTz95PD82/J6un8zI4l8eZNAtf6cSuRON7FE3A/rK1uTOri03t+XLEbICoQktgW5ZkCF8DXBLwwlXZv4CnNTs+Bm2EXZw2JVjwaoaaaXZ+fWB3rPNcmyDLoe2xdU57H+96hfJjMbk4SKRvom297qLQ/TmrdDRGN4FvZQFfvuhsRdczk1s1Y8Z79AwlFukA2gnVwRkRfZG9MUEh4Qyh3kSfebVtLsz3bXrSnZjLYNrYo2ogm40NHhANVpbbok+eQ==;
+Received: from [213.99.255.143] (helo=perseus.local)
+ by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1ipdFp-0006Mk-Oi; Thu, 09 Jan 2020 20:14:01 +0100
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1ipdF0-0005Qy-K5; Thu, 09 Jan 2020 20:13:10 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] qcow2: Misc BDRV_SECTOR_SIZE updates
+Date: Thu,  9 Jan 2020 20:12:58 +0100
+Message-Id: <cover.1578596897.git.berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 8475774502416980288
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdeiuddgkedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 46.105.36.149
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,81 +54,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Nir Soffer <nsoffer@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Dec 2019 14:23:48 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+This small series gets rid of all the remaining instances of hardcoded
+sector sizes in the qcow2 code and adds a check for images whose
+virtual size is not a multiple of the sector size.
 
-> This will provide the following virtual files by the 9pfs
-> synth driver:
-> 
->   - /ReadDirDir/ReadDirFile99
->   - /ReadDirDir/ReadDirFile98
->   ...
->   - /ReadDirDir/ReadDirFile1
->   - /ReadDirDir/ReadDirFile0
-> 
-> This virtual directory and its virtual 100 files will be
-> used by the upcoming 9pfs readdir tests.
-> 
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
+See the individual patches for details.
 
-LGTM
+Berto
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+v2:
+- Modify output of iotest 080 to make it easier to understand [Nir]
+- Use the QEMU_IS_ALIGNED() macro instead of the modulus operator [Nir]
+- Tighten some assertions [Kevin]
 
->  hw/9pfs/9p-synth.c | 19 +++++++++++++++++++
->  hw/9pfs/9p-synth.h |  5 +++++
->  2 files changed, 24 insertions(+)
-> 
-> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-> index 54239c9bbf..7eb210ffa8 100644
-> --- a/hw/9pfs/9p-synth.c
-> +++ b/hw/9pfs/9p-synth.c
-> @@ -578,6 +578,25 @@ static int synth_init(FsContext *ctx, Error **errp)
->                                         NULL, v9fs_synth_qtest_flush_write,
->                                         ctx);
->          assert(!ret);
-> +
-> +        /* Directory for READDIR test */
-> +        {
-> +            V9fsSynthNode *dir = NULL;
-> +            ret = qemu_v9fs_synth_mkdir(
-> +                NULL, 0700, QTEST_V9FS_SYNTH_READDIR_DIR, &dir
-> +            );
-> +            assert(!ret);
-> +            for (i = 0; i < QTEST_V9FS_SYNTH_READDIR_NFILES; ++i) {
-> +                char *name = g_strdup_printf(
-> +                    QTEST_V9FS_SYNTH_READDIR_FILE, i
-> +                );
-> +                ret = qemu_v9fs_synth_add_file(
-> +                    dir, 0, name, NULL, NULL, ctx
-> +                );
-> +                assert(!ret);
-> +                g_free(name);
-> +            }
-> +        }
->      }
->  
->      return 0;
-> diff --git a/hw/9pfs/9p-synth.h b/hw/9pfs/9p-synth.h
-> index af7a993a1e..036d7e4a5b 100644
-> --- a/hw/9pfs/9p-synth.h
-> +++ b/hw/9pfs/9p-synth.h
-> @@ -55,6 +55,11 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int mode,
->  #define QTEST_V9FS_SYNTH_LOPEN_FILE "LOPEN"
->  #define QTEST_V9FS_SYNTH_WRITE_FILE "WRITE"
->  
-> +/* for READDIR test */
-> +#define QTEST_V9FS_SYNTH_READDIR_DIR "ReadDirDir"
-> +#define QTEST_V9FS_SYNTH_READDIR_FILE "ReadDirFile%d"
-> +#define QTEST_V9FS_SYNTH_READDIR_NFILES 100
-> +
->  /* Any write to the "FLUSH" file is handled one byte at a time by the
->   * backend. If the byte is zero, the backend returns success (ie, 1),
->   * otherwise it forces the server to try again forever. Thus allowing
+v1: https://lists.gnu.org/archive/html/qemu-block/2020-01/msg00139.html
+
+Alberto Garcia (4):
+  qcow2: Require that the virtual size is a multiple of the sector size
+  qcow2: Don't round the L1 table allocation up to the sector size
+  qcow2: Tighten cluster_offset alignment assertions
+  qcow2: Use BDRV_SECTOR_SIZE instead of the hardcoded value
+
+ block/qcow2-cluster.c      |  7 +++----
+ block/qcow2-refcount.c     |  2 +-
+ block/qcow2-snapshot.c     |  3 +--
+ block/qcow2.c              | 28 +++++++++++++++++-----------
+ docs/interop/qcow2.txt     |  3 ++-
+ tests/qemu-iotests/080     |  8 ++++++++
+ tests/qemu-iotests/080.out |  5 +++++
+ 7 files changed, 37 insertions(+), 19 deletions(-)
+
+-- 
+2.20.1
 
 
