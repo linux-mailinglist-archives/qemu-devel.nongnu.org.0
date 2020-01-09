@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E75713565E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 10:59:14 +0100 (CET)
-Received: from localhost ([::1]:57624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0BD81355F3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 10:40:30 +0100 (CET)
+Received: from localhost ([::1]:57430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipUav-0003vB-5c
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 04:59:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42619)
+	id 1ipUIn-0004Pe-AK
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 04:40:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49739)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fengzhimin1@huawei.com>) id 1ipPvF-00010e-7H
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:59:55 -0500
+ (envelope-from <quintela@redhat.com>) id 1ipUHw-0003td-LM
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 04:39:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fengzhimin1@huawei.com>) id 1ipPvC-0001Nm-5F
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:59:53 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:34920 helo=huawei.com)
+ (envelope-from <quintela@redhat.com>) id 1ipUHt-0008Of-Sf
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 04:39:34 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32299
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <fengzhimin1@huawei.com>)
- id 1ipPvB-0001Gq-B5
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:59:50 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id DA2E65FB4C5DD70D1BED;
- Thu,  9 Jan 2020 12:59:45 +0800 (CST)
-Received: from huawei.com (10.173.220.198) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Thu, 9 Jan 2020
- 12:59:35 +0800
-From: Zhimin Feng <fengzhimin1@huawei.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>, <armbru@redhat.com>,
- <eblake@redhat.com>
-Subject: [PATCH RFC 08/12] migration/rdma: register memory for multiRDMA
- channels
-Date: Thu, 9 Jan 2020 12:59:18 +0800
-Message-ID: <20200109045922.904-9-fengzhimin1@huawei.com>
-X-Mailer: git-send-email 2.24.0.windows.2
-In-Reply-To: <20200109045922.904-1-fengzhimin1@huawei.com>
-References: <20200109045922.904-1-fengzhimin1@huawei.com>
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ipUHt-0008Hk-9S
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 04:39:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578562772;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8rue+wooxEPA251PGo2zyVGDqBiTcv60b/Y8XLxfNjE=;
+ b=CCyLiG8D70R95AyiorQEMS/BFXJ6ZpS+NrZHTTiukAkyAWo5fJfIhJFxFhr3zY0KnlVEWI
+ iuQTutrgN5HG4i+DBYFvfUWsNjwZCAHEzzzgeMXvA3bGA0RHFwUtxC3JibJGWgYgycPs73
+ 58cbUQiEFcmBV0DD2mA7x/T8slfKSTY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-182-3PWOc2_YNV-R7EWevUa1uA-1; Thu, 09 Jan 2020 04:39:29 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C0418024D1;
+ Thu,  9 Jan 2020 09:39:28 +0000 (UTC)
+Received: from redhat.com (ovpn-116-22.ams2.redhat.com [10.36.116.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A72819C69;
+ Thu,  9 Jan 2020 09:39:27 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Subject: Re: [Patch v2 1/6] migration/postcopy: reduce memset when it is zero
+ page and matches_target_page_size
+In-Reply-To: <20191107123907.29791-2-richardw.yang@linux.intel.com> (Wei
+ Yang's message of "Thu, 7 Nov 2019 20:39:02 +0800")
+References: <20191107123907.29791-1-richardw.yang@linux.intel.com>
+ <20191107123907.29791-2-richardw.yang@linux.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Thu, 09 Jan 2020 10:39:25 +0100
+Message-ID: <87lfqh0y0i.fsf@secure.laptop>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 3PWOc2_YNV-R7EWevUa1uA-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain
-X-Originating-IP: [10.173.220.198]
-X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.32
-X-Mailman-Approved-At: Thu, 09 Jan 2020 04:56:54 -0500
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,294 +75,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jemmy858585@gmail.com, fengzhimin <fengzhimin1@huawei.com>,
- qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
+Reply-To: quintela@redhat.com
+Cc: dgilbert@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: fengzhimin <fengzhimin1@huawei.com>
+Wei Yang <richardw.yang@linux.intel.com> wrote:
+> In this case, page_buffer content would not be used.
+>
+> Skip this to save some time.
+>
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-register memory for multiRDMA channels and transmit the destination
-the keys to source to use including the virtual addresses.
-
-Signed-off-by: fengzhimin <fengzhimin1@huawei.com>
----
- migration/rdma.c | 192 ++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 190 insertions(+), 2 deletions(-)
-
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 518a21b0fe..6ecc870844 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -3847,6 +3847,15 @@ static int rdma_load_hook(QEMUFile *f, void *opaqu=
-e, uint64_t flags, void *data)
-         return rdma_block_notification_handle(opaque, data);
-=20
-     case RAM_CONTROL_HOOK:
-+        if (migrate_use_multiRDMA()) {
-+            int i;
-+            int thread_count =3D migrate_multiRDMA_channels();
-+            /* Inform dest recv_thread to poll */
-+            for (i =3D 0; i < thread_count; i++) {
-+                qemu_sem_post(&multiRDMA_recv_state->params[i].sem);
-+            }
-+        }
-+
-         return qemu_rdma_registration_handle(f, opaque);
-=20
-     default:
-@@ -3920,6 +3929,17 @@ static int qemu_rdma_registration_stop(QEMUFile *f=
-, void *opaque,
-         head.type =3D RDMA_CONTROL_RAM_BLOCKS_REQUEST;
-         trace_qemu_rdma_registration_stop_ram();
-=20
-+        if (migrate_use_multiRDMA()) {
-+            /*
-+             * Inform the multiRDMA channels to register memory
-+             */
-+            int i;
-+            int thread_count =3D migrate_multiRDMA_channels();
-+            for (i =3D 0; i < thread_count; i++) {
-+                qemu_sem_post(&multiRDMA_send_state->params[i].sem);
-+            }
-+        }
-+
-         /*
-          * Make sure that we parallelize the pinning on both sides.
-          * For very large guests, doing this serially takes a really
-@@ -3985,6 +4005,15 @@ static int qemu_rdma_registration_stop(QEMUFile *f=
-, void *opaque,
-     head.type =3D RDMA_CONTROL_REGISTER_FINISHED;
-     ret =3D qemu_rdma_exchange_send(rdma, &head, NULL, NULL, NULL, NULL)=
-;
-=20
-+    if (migrate_use_multiRDMA()) {
-+        /* Inform src send_thread to send FINISHED signal */
-+        int i;
-+        int thread_count =3D migrate_multiRDMA_channels();
-+        for (i =3D 0; i < thread_count; i++) {
-+            qemu_sem_post(&multiRDMA_send_state->params[i].sem);
-+        }
-+    }
-+
-     if (ret < 0) {
-         goto err;
-     }
-@@ -4150,18 +4179,119 @@ err:
-     return msg;
- }
-=20
-+static int qemu_multiRDMA_registration_handle(void *opaque)
-+{
-+    RDMAControlHeader blocks =3D { .type =3D RDMA_CONTROL_RAM_BLOCKS_RES=
-ULT,
-+                                 .repeat =3D 1 };
-+    MultiRDMARecvParams *p =3D opaque;
-+    RDMAContext *rdma =3D p->rdma;
-+    RDMALocalBlocks *local =3D &rdma->local_ram_blocks;
-+    RDMAControlHeader head;
-+    int ret =3D 0;
-+    int i =3D 0;
-+
-+    CHECK_ERROR_STATE();
-+
-+    do {
-+        ret =3D qemu_rdma_exchange_recv(rdma, &head, RDMA_CONTROL_NONE);
-+
-+        if (ret < 0) {
-+            break;
-+        }
-+
-+        if (head.repeat > RDMA_CONTROL_MAX_COMMANDS_PER_MESSAGE) {
-+            error_report("rdma: Too many requests in this message (%d)."
-+                         "Bailing.", head.repeat);
-+            ret =3D -EIO;
-+            break;
-+        }
-+
-+        switch (head.type) {
-+        case RDMA_CONTROL_REGISTER_FINISHED:
-+            goto out;
-+        case RDMA_CONTROL_RAM_BLOCKS_REQUEST:
-+            qsort(rdma->local_ram_blocks.block,
-+                  rdma->local_ram_blocks.nb_blocks,
-+                  sizeof(RDMALocalBlock), dest_ram_sort_func);
-+
-+            if (rdma->pin_all) {
-+                ret =3D qemu_rdma_reg_whole_ram_blocks(rdma);
-+                if (ret) {
-+                    error_report("rdma migration: error dest "
-+                                 "registering ram blocks");
-+                    goto out;
-+                }
-+            }
-+
-+            for (i =3D 0; i < local->nb_blocks; i++) {
-+                /*
-+                 * The multiRDMA threads only register ram block
-+                 * to send data, other blocks are sent by main RDMA thre=
-ad.
-+                 */
-+                if (strcmp(local->block[i].block_name, "mach-virt.ram") =
-=3D=3D 0) {
-+                    rdma->dest_blocks[i].remote_host_addr =3D
-+                        (uintptr_t)(local->block[i].local_host_addr);
-+
-+                    if (rdma->pin_all) {
-+                        rdma->dest_blocks[i].remote_rkey =3D
-+                            local->block[i].mr->rkey;
-+                    }
-+
-+                    rdma->dest_blocks[i].offset =3D local->block[i].offs=
-et;
-+                    rdma->dest_blocks[i].length =3D local->block[i].leng=
-th;
-+
-+                    dest_block_to_network(&rdma->dest_blocks[i]);
-+
-+                    break;
-+                }
-+            }
-+
-+            blocks.len =3D rdma->local_ram_blocks.nb_blocks
-+                                                * sizeof(RDMADestBlock);
-+
-+            ret =3D qemu_rdma_post_send_control(rdma,
-+                                              (uint8_t *) rdma->dest_blo=
-cks,
-+                                              &blocks);
-+
-+            if (ret < 0) {
-+                error_report("rdma migration: error sending remote info"=
-);
-+                goto out;
-+            }
-+
-+            break;
-+        default:
-+            error_report("Unknown control message %s", control_desc(head=
-.type));
-+            ret =3D -EIO;
-+            goto out;
-+        }
-+    } while (1);
-+out:
-+    if (ret < 0) {
-+        rdma->error_state =3D ret;
-+    }
-+    return ret;
-+}
-+
- static void *multiRDMA_recv_thread(void *opaque)
- {
-     MultiRDMARecvParams *p =3D opaque;
-+    int ret;
-=20
-     while (true) {
-+        qemu_sem_wait(&p->sem);
-+
-         qemu_mutex_lock(&p->mutex);
-         if (p->quit) {
-             qemu_mutex_unlock(&p->mutex);
-             break;
-         }
-         qemu_mutex_unlock(&p->mutex);
--        qemu_sem_wait(&p->sem);
-+
-+        ret =3D qemu_multiRDMA_registration_handle(opaque);
-+        if (ret < 0) {
-+            qemu_file_set_error(p->file, ret);
-+            break;
-+        }
-     }
-=20
-     qemu_mutex_lock(&p->mutex);
-@@ -4378,18 +4508,76 @@ static void migration_rdma_send_initial_packet(QE=
-MUFile *f, uint8_t id)
- static void *multiRDMA_send_thread(void *opaque)
- {
-     MultiRDMASendParams *p =3D opaque;
-+    RDMAContext *rdma =3D p->rdma;
-+    int ret;
-=20
-     /* send the multiRDMA channels magic */
-     migration_rdma_send_initial_packet(p->file, p->id);
-=20
-+    /* wait for semaphore notification to register memory */
-+    qemu_sem_wait(&p->sem);
-+
-+    RDMAControlHeader resp =3D {.type =3D RDMA_CONTROL_RAM_BLOCKS_RESULT=
- };
-+    RDMALocalBlocks *local =3D &rdma->local_ram_blocks;
-+    int reg_result_idx, i, nb_dest_blocks;
-+    RDMAControlHeader head =3D { .len =3D 0, .repeat =3D 1 };
-+
-+    head.type =3D RDMA_CONTROL_RAM_BLOCKS_REQUEST;
-+
-+    ret =3D qemu_rdma_exchange_send(rdma, &head, NULL, &resp,
-+            &reg_result_idx, rdma->pin_all ?
-+            qemu_rdma_reg_whole_ram_blocks : NULL);
-+    if (ret < 0) {
-+        return NULL;
-+    }
-+
-+    nb_dest_blocks =3D resp.len / sizeof(RDMADestBlock);
-+
-+    if (local->nb_blocks !=3D nb_dest_blocks) {
-+        rdma->error_state =3D -EINVAL;
-+        return NULL;
-+    }
-+
-+    qemu_rdma_move_header(rdma, reg_result_idx, &resp);
-+    memcpy(rdma->dest_blocks,
-+           rdma->wr_data[reg_result_idx].control_curr, resp.len);
-+
-+    for (i =3D 0; i < nb_dest_blocks; i++) {
-+        /*
-+         * The multiRDMA threads only register ram block
-+         * to send data, other blocks are sent by main RDMA thread.
-+         */
-+        if (strcmp(local->block[i].block_name, "mach-virt.ram") =3D=3D 0=
-) {
-+            network_to_dest_block(&rdma->dest_blocks[i]);
-+
-+            /* We require that the blocks are in the same order */
-+            if (rdma->dest_blocks[i].length !=3D local->block[i].length)=
- {
-+                rdma->error_state =3D -EINVAL;
-+                return NULL;
-+            }
-+            local->block[i].remote_host_addr =3D
-+                rdma->dest_blocks[i].remote_host_addr;
-+            local->block[i].remote_rkey =3D rdma->dest_blocks[i].remote_=
-rkey;
-+            break;
-+        }
-+    }
-+
-     while (true) {
-+        qemu_sem_wait(&p->sem);
-+
-         qemu_mutex_lock(&p->mutex);
-         if (p->quit) {
-             qemu_mutex_unlock(&p->mutex);
-             break;
-         }
-         qemu_mutex_unlock(&p->mutex);
--        qemu_sem_wait(&p->sem);
-+
-+        /* Send FINISHED to the destination */
-+        head.type =3D RDMA_CONTROL_REGISTER_FINISHED;
-+        ret =3D qemu_rdma_exchange_send(rdma, &head, NULL, NULL, NULL, N=
-ULL);
-+        if (ret < 0) {
-+            return NULL;
-+        }
-     }
-=20
-     qemu_mutex_lock(&p->mutex);
---=20
-2.19.1
-
+Acked-by: Juan Quintela <quintela@redhat.com>
 
 
