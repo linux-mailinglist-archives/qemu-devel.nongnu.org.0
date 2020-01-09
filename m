@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB43135B36
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 15:20:58 +0100 (CET)
-Received: from localhost ([::1]:32982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6434C135B40
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 15:22:48 +0100 (CET)
+Received: from localhost ([::1]:33036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipYgC-0002NA-Rt
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 09:20:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58900)
+	id 1ipYhz-0005CI-6e
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 09:22:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59123)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ipYeP-000112-Dz
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:06 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ipYeR-00011p-Mo
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ipYeO-0005Vl-2S
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:05 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:34206)
+ (envelope-from <alex.bennee@linaro.org>) id 1ipYeQ-0005i0-L1
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:07 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40446)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ipYeN-0005Qk-Nb
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:03 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id w5so2160959wmi.1
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 06:19:03 -0800 (PST)
+ id 1ipYeQ-0005dY-By
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:06 -0500
+Received: by mail-wr1-x431.google.com with SMTP id c14so7559817wrn.7
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 06:19:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3k7gte9WREY18cEOUU7XwV2AOEIeoNTewUOHfyj7Npw=;
- b=uzJiTLoXKQ1OA9e9KQbGAA9Pgcz7Mu4Ae9h7741IdXM3hHUdZu11pf+qVV7Cz4YJq5
- qXv9hpUMd3tGIA021LR3GaJaVhn7QRbK520lbZkv6cLHVqu/yqbvpc/P7JKAzFIFI0Wd
- e/7uyJh/q83ueI0Y9rxPDc7vTOkAuAJF02fgd7h9xHvcxfR8FxMXHRp4qNdCiid6/T7O
- xQMoPBerqHofsrPBg/FzwCQBceIb+WOWCqhAzNj3b99O6E0irjcDTuQ+LMyhxXF4iviG
- HuGv7doxlQ2Gjhydaqoxd7cmLW3IWglJxuThrVWVjvKKPkO4EqfRsY2mld5wxJ1yA88i
- o3KA==
+ bh=GqdtWUWeRXAcQ+LI4RjLPvjzKZrpMw/yfqPf+ltlCJw=;
+ b=rp7ewkOrR3LWfintaRTrm9deDs3J+mKVD9mGg9Jc+wytz8lwOpGng6arUxWL+V3xBf
+ TMoDBvrWxq2nVlyIiVuAgtMRMaLz6c7y3ATiwZA364KGOyPt4pLtuK6c+SW6BW0519Tg
+ Dz9ml+Aj/5k7vYcRqGjxQTn6qzxTc/3DvfBk5R5FUX7Rpw0tsQbjR17PZ0WJAeClQuuF
+ T7fDxmbzAQI9OPEqvO0T1oaaUi3qEJWghY6tkma44/nRs0Y+26Y3/3ZLKF9steru1vLS
+ M2f3oboQjAOLjRtB2hgFtW4I4KEBlR5mOXoICM7bwCV9qsHGS7YqV+IOwKrJHunrRSrL
+ Sdfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3k7gte9WREY18cEOUU7XwV2AOEIeoNTewUOHfyj7Npw=;
- b=N6N/w5InttTPii5hKr9ly6Dpfn1u3wqpK6yKF+6c/UDTZfuWANOAcqRPUUJr2u3n7K
- KyD2l4hfunPoS0F3DmVH2Zs2jExJG7w33/VG0HkxAwYMVN57zzkRu+jyaumw7goYWaMG
- d1lW1AqiD7+kz8nlvbCsWbLUPrjG+3e1nSc4kIy9FqkPN0jKPZjaWDsuZ7rDq4O6tWoL
- jxdINpoDZpPH/mqbgqf+XIMgWHrG9o9V2/OAFUsIZoTMLZP+/IEnZ6BiYZeG30NJ9RC1
- mIzWeeHngCIsq1aMSEW5CzRK3/4cJJ3PshGJc6FSuv4MyFPmxfUsvJGBTkYJNazVflsC
- 21jA==
-X-Gm-Message-State: APjAAAWkN1jdujE9l/v1ntefCGp7ciq+6qYOyA/XWO9yN91TOGVmnOIH
- HAwMy8JYpAQ3GOGZve+up1WdPA==
-X-Google-Smtp-Source: APXvYqwDguHVDQKFsOBV8BYxmTTrNUGRkHvLELLQGi5Cn5L9bDPOlku1OEvLVunSAjeSPGYhYvrKDg==
-X-Received: by 2002:a7b:cf39:: with SMTP id m25mr5329169wmg.146.1578579542651; 
- Thu, 09 Jan 2020 06:19:02 -0800 (PST)
+ bh=GqdtWUWeRXAcQ+LI4RjLPvjzKZrpMw/yfqPf+ltlCJw=;
+ b=YxmG9zMffHdpg+s4qXkQjMnLbBOYDKlNhYlIIRC8Dm9sT6nHESRNPKqkwqglZ8BbUb
+ Qkj6ubvXQh2HkZ8BqPWdfdNa7FuT9FwWfIwilaCdG6v/ibneTXw3VrfiwNtmfWFmRBNX
+ 1J96C3ZIxOfudvXPWjM/Xj0//WpiVWGoDCP0SzcluaLJ+//yeIkWrB24xg9MPxZyQSni
+ 3PqTn9RIxVCTa5itq1VAOKuNGo5ydP12BdEpWGmx2Vg/J2yuZcv4/5jx0r0AlSxz25pM
+ BwH7dtmW6gB0t9WaSWPJOD/g6UHIwo3BIP8lAy07ELL7FZP7fjflRCOa4QVaR16b78J9
+ AtHQ==
+X-Gm-Message-State: APjAAAWY4oxMjpmh3ieyBEXdHJZpcO/VOziSwqcu8oVEFFLVdqYiENXs
+ HE0F2UezlOdB4+JE4tQLpZGKwg==
+X-Google-Smtp-Source: APXvYqy8AAiODGNXANmni/6xr6FAoFmKQxSKFRpCVIkbqKU81NtXovT4kZEdEKp8rLXe4qSDR4Cqaw==
+X-Received: by 2002:a5d:494b:: with SMTP id r11mr11331391wrs.184.1578579544586; 
+ Thu, 09 Jan 2020 06:19:04 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f1sm8200403wru.6.2020.01.09.06.18.59
+ by smtp.gmail.com with ESMTPSA id f1sm8888304wrp.93.2020.01.09.06.18.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 09 Jan 2020 06:18:59 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 21F561FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id 365441FF90;
  Thu,  9 Jan 2020 14:18:59 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 02/14] tests/vm: update openbsd to release 6.6
-Date: Thu,  9 Jan 2020 14:18:46 +0000
-Message-Id: <20200109141858.14376-3-alex.bennee@linaro.org>
+Subject: [PULL v2 03/14] freebsd: use python37
+Date: Thu,  9 Jan 2020 14:18:47 +0000
+Message-Id: <20200109141858.14376-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200109141858.14376-1-alex.bennee@linaro.org>
 References: <20200109141858.14376-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,36 +82,45 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Brad Smith <brad@comstyle.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
+FreeBSD seems to use python37 by default now, which breaks the build
+script.  Add python to the package list, to explicitly pick the version,
+and also adapt the configure command line.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20191018102443.26469-1-kraxel@redhat.com>
+Message-Id: <20200106123746.18201-1-kraxel@redhat.com>
 
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index 6df5162dbf4..d6173506f78 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -22,8 +22,8 @@ class OpenBSDVM(basevm.BaseVM):
-     name = "openbsd"
-     arch = "x86_64"
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index 1825cc58218..33a736298a9 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -32,6 +32,7 @@ class FreeBSDVM(basevm.BaseVM):
+         "git",
+         "pkgconf",
+         "bzip2",
++        "python37",
  
--    link = "https://cdn.openbsd.org/pub/OpenBSD/6.5/amd64/install65.iso"
--    csum = "38d1f8cadd502f1c27bf05c5abde6cc505dd28f3f34f8a941048ff9a54f9f608"
-+    link = "https://cdn.openbsd.org/pub/OpenBSD/6.6/amd64/install66.iso"
-+    csum = "b22e63df56e6266de6bbeed8e9be0fbe9ee2291551c5bc03f3cc2e4ab9436ee3"
-     size = "20G"
-     pkgs = [
-         # tools
+         # gnu tools
+         "bash",
+@@ -63,7 +64,7 @@ class FreeBSDVM(basevm.BaseVM):
+         mkdir src build; cd src;
+         tar -xf /dev/vtbd1;
+         cd ../build
+-        ../src/configure --python=python3.6 {configure_opts};
++        ../src/configure --python=python3.7 {configure_opts};
+         gmake --output-sync -j{jobs} {target} {verbose};
+     """
+ 
 -- 
 2.20.1
 
