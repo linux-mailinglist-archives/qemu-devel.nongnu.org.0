@@ -2,84 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72ED31359AF
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:04:04 +0100 (CET)
-Received: from localhost ([::1]:59974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA951359D5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:14:04 +0100 (CET)
+Received: from localhost ([::1]:60169 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipXTm-0005Ii-Va
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:04:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
+	id 1ipXdT-0002Rg-HO
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:14:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50943)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vkuznets@redhat.com>) id 1ipXQ2-0002yY-3C
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:00:11 -0500
+ (envelope-from <rkagan@virtuozzo.com>) id 1ipXTo-0007Dg-S0
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:04:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vkuznets@redhat.com>) id 1ipXPx-0001KN-Kw
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:00:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36957
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vkuznets@redhat.com>) id 1ipXPx-0001Ee-8Q
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:00:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578574804;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lfWnWan7BT3e62QOwgAkCvYs8KTTIrzZOd+qDCNBHO4=;
- b=KIU4yoHW6RMf/V7+fv5e5DbtNqo58nfoAaXpTMI0KKgpnm/a3JmGZbNikJvihh6dn4fHhw
- dfSV95+vKJEvd+z4G5Bx2RGO6uXd3COIVC5ymq3IXAQd3EQaj0n86puG6UiQZOiA1JwKrS
- 1bkHl2+C351tCb1VljKVK9XZ83dUUzw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-XsTpxWrYN52oM2Wvg6CEGg-1; Thu, 09 Jan 2020 08:00:03 -0500
-Received: by mail-wr1-f69.google.com with SMTP id d8so2841478wrq.12
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 05:00:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=NNBWZCiiWiw2ggAlD0hwfJwk6zKvpyiPpHzkdIP6wDI=;
- b=fUVM0rP4Y+xsX+OqbpA2q/0jau5kvcsLcB31P1DecigXFKbeU3fbGWs+kflLlXacEo
- 4Bj2He7XZ7OG7Hhts5hCZKQuFlNLxtEAQ6iqfMRJseQ/yzpPv1LXretueA/Jc17aFg+7
- V9mNIx2fpCiN4drhiQEpYQVolI7SAKYWwh1Br5dFQMNU23kxFcd9RNlvGkIMsoeUN45H
- 9Dwf1KWz8zMN9THfDj4sluLOn/cmeWTeCNOsfsLb/7FM+cpdvnWeY4caAZX0wLt/vpc7
- pIEtL5xtORyRIkBRHwD4gQ6366DwYHSN9RbS1uUKfPee6oPbAlmyaTb6NhUq1o85S8xO
- +s3A==
-X-Gm-Message-State: APjAAAVtglqKK9H3DWsjNUQuMWhBx27GSnqEWQwuzoiHE0JQVefbTf68
- 0BzeB86jM6Qz0oRPc8yvQiG5/fdTCg4BuOymiyF3DiOhUDpIp/ezqmzGY6z8AezAEsR5CYUF1ed
- qXzPDtSWDjBWGBVk=
-X-Received: by 2002:adf:9427:: with SMTP id 36mr10861597wrq.166.1578574802025; 
- Thu, 09 Jan 2020 05:00:02 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyhoAcnFbHzXo0sLVYaywMXas9E8PL2ZjkWXnmDQpKZjLYnxFA2klMDv8qem3/wnlqEEVPBXg==
-X-Received: by 2002:adf:9427:: with SMTP id 36mr10861588wrq.166.1578574801833; 
- Thu, 09 Jan 2020 05:00:01 -0800 (PST)
-Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id 2sm7915978wrq.31.2020.01.09.05.00.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2020 05:00:01 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ (envelope-from <rkagan@virtuozzo.com>) id 1ipXTn-0005O0-BH
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:04:04 -0500
+Received: from mail-ve1eur04hn2042.outbound.protection.outlook.com
+ ([52.101.139.42]:45126 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <rkagan@virtuozzo.com>)
+ id 1ipXTm-0005Gy-Mh
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:04:03 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WUEj2c7gcHbaX9OkSEec17KenCSJvAe7pOg079oN59NIgn7iK+zC1Y6/qbjXUcE6IAKQHw/WnQ8do24tv+DesAyBnN/5AdAxViRfPs3TExpDuSQIe0k0fQr8jpAzbUjKNtrQBTxbBi4Gzzs8SDf7GTQP4ZSfPmyDOxa5FMArNVF6X3xKgLTNljuifQESs7jK9EZhtPYXs3BIQNIwh/TRnP49bjiS3iXPgZ2XKdW1MOK28Ff7nxY5ya0xaB38TsCY+c/Y/DJE0dYJInOgXMlTbRikwIQpTKq/NPAlAX4DLhEaK2hivhYYCZ3KxITyBTqdFvudZUp8STKzN1MtcOEvaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+9IvMKyxqppI58OExwY+Nat7uxQmB1yvFSk3C9m4QkM=;
+ b=ad7qm7Qid6n0W5HIN8D3I3GUq8b5jqC7Qf10QOOBxdTTXdKNWCTjL1veml2LA3/l3rRbTLfBfQEJJSFK3/aNT0CUkw03bCv5eUXTco1BVap/QJFyZwWe9o53iF8sBQb1BhlYWWvt+QJmpLlFVrAwwIFJocBtX4U8xi2izqSU/Rxjz+SdanMQ2Kzhiaki4YaG/kYAj1p/j0I+xeW9tFBz6r/bvJr0P4yuohj/oP1yPLQ4pXtjZROQgsGoEiMo5BURCijNI2etyDW9BjpFSRtTDmcetVaQYbO+NhfBVIcvQCu7hntrJBDMF6LrGxyLZR7/tRWUkaPiF1Nk3TuR3fysjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+9IvMKyxqppI58OExwY+Nat7uxQmB1yvFSk3C9m4QkM=;
+ b=dISMdcGXtZDQP03wWr9Bml1MSrtLELl3Ape4Kky+nHMeYHCyjG0c/Cr92B+SJT36uIRy6b3yyc8yIrtH/3p8RQMv8Ny7DoYpHsJBLy/S+emdrAYipXOG8F3b5TPubpQetEZr5fYWurQcHxUn+DVHoQNODI9SPPvBTe/BTCXtv24=
+Received: from VI1PR08MB4608.eurprd08.prod.outlook.com (20.178.80.22) by
+ VI1PR08MB4000.eurprd08.prod.outlook.com (20.178.125.94) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2623.9; Thu, 9 Jan 2020 13:03:52 +0000
+Received: from VI1PR08MB4608.eurprd08.prod.outlook.com
+ ([fe80::acb0:a61d:f08a:1c12]) by VI1PR08MB4608.eurprd08.prod.outlook.com
+ ([fe80::acb0:a61d:f08a:1c12%7]) with mapi id 15.20.2602.018; Thu, 9 Jan 2020
+ 13:03:52 +0000
+Received: from rkaganb.sw.ru (185.231.240.5) by
+ HE1PR07CA0047.eurprd07.prod.outlook.com (2603:10a6:7:66::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2623.5 via Frontend Transport; Thu, 9 Jan 2020 13:03:51 +0000
+From: Roman Kagan <rkagan@virtuozzo.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 Subject: Re: [PATCH 2/2] hyperv/synic: Allocate as ram_device
-In-Reply-To: <20200109122237.GD6795@work-vm>
+Thread-Topic: [PATCH 2/2] hyperv/synic: Allocate as ram_device
+Thread-Index: AQHVxityEM59bZyv8EecProoJvSi/6fiTh8A
+Date: Thu, 9 Jan 2020 13:03:52 +0000
+Message-ID: <20200109130348.GC3147@rkaganb.sw.ru>
 References: <20200108135353.75471-1-dgilbert@redhat.com>
  <20200108135353.75471-3-dgilbert@redhat.com>
- <20200109064527-mutt-send-email-mst@kernel.org>
- <20200109120820.GB6795@work-vm>
- <20200109071454-mutt-send-email-mst@kernel.org>
- <20200109122237.GD6795@work-vm>
-Date: Thu, 09 Jan 2020 14:00:00 +0100
-Message-ID: <87r208rdin.fsf@vitty.brq.redhat.com>
+In-Reply-To: <20200108135353.75471-3-dgilbert@redhat.com>
+Accept-Language: en-US, ru-RU
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+mail-followup-to: Roman Kagan <rkagan@virtuozzo.com>, "Dr. David Alan Gilbert
+ (git)" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ vkuznets@redhat.com, mst@redhat.com,	jasowang@redhat.com
+x-originating-ip: [185.231.240.5]
+x-clientproxiedby: HE1PR07CA0047.eurprd07.prod.outlook.com
+ (2603:10a6:7:66::33) To VI1PR08MB4608.eurprd08.prod.outlook.com
+ (2603:10a6:803:c0::22)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=rkagan@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c6fda76b-418f-4872-8380-08d795046005
+x-ms-traffictypediagnostic: VI1PR08MB4000:|VI1PR08MB4000:|VI1PR08MB4000:
+x-microsoft-antispam-prvs: <VI1PR08MB4000F9D04DB4E8A7F3CE0E95C9390@VI1PR08MB4000.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2958;
+x-forefront-prvs: 02778BF158
+x-forefront-antispam-report: SFV:SPM;
+ SFS:(10019020)(39840400004)(396003)(376002)(366004)(346002)(136003)(199004)(189003)(52116002)(7696005)(55016002)(54906003)(316002)(81166006)(81156014)(33656002)(2906002)(1076003)(5660300002)(4326008)(86362001)(71200400001)(36756003)(6506007)(186003)(16526019)(26005)(8676002)(66946007)(8936002)(64756008)(66476007)(66556008)(66446008)(6916009)(956004)(9686003)(478600001)(30126003);
+ DIR:OUT; SFP:1501; SCL:5; SRVR:VI1PR08MB4000;
+ H:VI1PR08MB4608.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; CAT:OSPM; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: kW1UDNPl2er95LMmYrC0scmre4oPUHiaN7kc08wJXu6FZUop4m3blBGOjXmbo7zWfJjJZOtyn5mBYn9isjK+dx79seU6WlaAFUuNiRoBKOHTEBrbE7/j10nMypkhL9cW39BfF2Y55KytFosL5/OK2nlNpDKv0kQ+XpFiTZPoIAVP6dZg9M9Ay9iMDPeIkhaE/7d7KCr1Q4bVLv9aoRmNabgIsdXXACcLRty/fW7u2ioNVtL50R9jBBSjGso53u8F4o8h6BN7geXqX7Y0A/M27gwGahZPU13Vzrl++pNRJZmf+evdfZaKEFOe15UvyuJ8BZAfafg0RfBmg4frpHSpbBbzcAN2QmWhZZMgx2IvaF94c0OXyj1ckBmJI+ECrpUga3cQBa1XJbOoDf0hHDV9lmEuE6OYm112rdgcufw5nVT9N73WJohEsd97l5dDcgZJUroHHvqwpwQtKSpgCMwvYYh5ynARlrViQC0VXmE9HauHS2EIRXKf+5soiz+KIpeCL5BvsPYQ2RXntW5IFhXbtCHt304E0QF55YupQvzn6PWKQ7fm0xyYIKgp/LSGkR5nO2Ni5wOlBMdYr0cqvS/f3Vsnp2INdSJh+M/xX1dp9tkQFT5T5dmaefK92xJOwPdE0leKjyxo0+1mWNpbdQyeTWKpDfhXgZt5k53oeMkE0SiYFLMOK26jq/DXfpP6dIB0NDGhLpsB70jvBFUvQQzat6lQfGxDCD+WutCcbF7yZWxFSedPBK32ISkpbe6E5GTNMGE2AmpyxlLK0bdlYoDh7Q==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <8D201965007F074E8AA1622DA8B7ADAB@eurprd08.prod.outlook.com>
 MIME-Version: 1.0
-X-MC-Unique: XsTpxWrYN52oM2Wvg6CEGg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6fda76b-418f-4872-8380-08d795046005
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jan 2020 13:03:52.1295 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eO9i8l/9R4e4WnhWvWhHo3qCejEMmmZQixq66q1y72orf3fcdsCPIKccKOpLmaUmuNJJf/EuTXw0nftcY4sLgg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4000
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 52.101.139.42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,21 +114,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Roman Kagan <rkagan@virtuozzo.com>
+Cc: "jasowang@redhat.com" <jasowang@redhat.com>,
+ "vkuznets@redhat.com" <vkuznets@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mst@redhat.com" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
+On Wed, Jan 08, 2020 at 01:53:53PM +0000, Dr. David Alan Gilbert (git) wrote:
+> Mark the synic pages as ram_device so that they won't be visible
+> to vhost.
 
-> And I think vhost-user will fail if you have too many sections - and
-> the 16 sections from synic I think will blow the slots available.
->
+Unless I'm misreading the code this also makes them invisible to
+migration.
 
-SynIC is percpu, it will allocate two 4k pages for every vCPU the guest
-has so we're potentially looking at hundreds of such regions.
+I need some more reading on the ram_device region behavior to better
+understand other potential consequences.
 
---=20
-Vitaly
+Thanks,
+Roman.
 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/hyperv/hyperv.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
+> index da8ce82725..4de3ec411d 100644
+> --- a/hw/hyperv/hyperv.c
+> +++ b/hw/hyperv/hyperv.c
+> @@ -95,12 +95,14 @@ static void synic_realize(DeviceState *dev, Error **errp)
+>      msgp_name = g_strdup_printf("synic-%u-msg-page", vp_index);
+>      eventp_name = g_strdup_printf("synic-%u-event-page", vp_index);
+>  
+> -    memory_region_init_ram(&synic->msg_page_mr, obj, msgp_name,
+> -                           sizeof(*synic->msg_page), &error_abort);
+> -    memory_region_init_ram(&synic->event_page_mr, obj, eventp_name,
+> -                           sizeof(*synic->event_page), &error_abort);
+> -    synic->msg_page = memory_region_get_ram_ptr(&synic->msg_page_mr);
+> -    synic->event_page = memory_region_get_ram_ptr(&synic->event_page_mr);
+> +    synic->msg_page = qemu_memalign(qemu_real_host_page_size,
+> +                                    sizeof(*synic->msg_page));
+> +    synic->event_page = qemu_memalign(qemu_real_host_page_size,
+> +                                      sizeof(*synic->event_page));
+> +    memory_region_init_ram_device_ptr(&synic->msg_page_mr, obj, msgp_name,
+> +                           sizeof(*synic->msg_page), synic->msg_page);
+> +    memory_region_init_ram_device_ptr(&synic->event_page_mr, obj, eventp_name,
+> +                           sizeof(*synic->event_page), synic->event_page);
+>  
+>      g_free(msgp_name);
+>      g_free(eventp_name);
+> -- 
+> 2.24.1
+> 
+> 
 
