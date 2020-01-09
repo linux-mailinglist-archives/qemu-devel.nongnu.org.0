@@ -2,86 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC4DF1358C9
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 13:04:29 +0100 (CET)
-Received: from localhost ([::1]:59084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAED71358D1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 13:05:53 +0100 (CET)
+Received: from localhost ([::1]:59092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipWY8-0003eD-HV
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 07:04:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39496)
+	id 1ipWZU-0005HH-Cb
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 07:05:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43141)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ipWVU-0001Kl-LA
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:01:46 -0500
+ (envelope-from <mst@redhat.com>) id 1ipWWV-0002gT-Ou
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:02:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ipWVP-0008En-E7
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:01:44 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39998
+ (envelope-from <mst@redhat.com>) id 1ipWWT-0002Cs-UD
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:02:47 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46307
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ipWVP-0008CB-6q
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:01:39 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ipWWT-00029D-OA
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:02:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578571298;
+ s=mimecast20190719; t=1578571362;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+Lt22O19QuHTJQu+nzkN/c1IZOGApIUddLF7Q+2xZGM=;
- b=IoUBmqSJ9nn5MLjM7e9gZeVEV1uTOT5E3E9m+XI2S3K6hUJl1+CNWRZMh5Ij2UJ05rAVlZ
- dOGIeeAg+sy8rK+HH/cQziY99I1DP7CCIN2I4rduZPg44TC0ctiOngBUI0wG4Mod61IH/y
- LdIo3EvZzhNWXDberDvrL+tJa+BV4/8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-8-NIkOnbOjuSuJKeTTpCVQ-1; Thu, 09 Jan 2020 07:01:35 -0500
-Received: by mail-wm1-f72.google.com with SMTP id t16so833393wmt.4
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 04:01:35 -0800 (PST)
+ bh=UioHiDxo931qLxqJwxrZXWGpD5NAJmYbzncT05fq5wM=;
+ b=GnmB0vmHW+39/Un4qCkX/v2YUy4xuz8ep54zHC+gLNaKbjAynJiWUJQJEJlJIzVhdP/JCo
+ MlkDxRfVyLaOS3EMzahcopOpNi6fr+r09fSkDctX7ylTv2TlCeIgFmwzCvDz68dZMtX0Ue
+ JmLGcn70IoRzianNK/iF1wyj9fsCCt8=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-l0Uge83GM_COQ3t0mbEr4g-1; Thu, 09 Jan 2020 07:02:11 -0500
+Received: by mail-qk1-f198.google.com with SMTP id g28so3974987qkl.6
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 04:02:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zSJJm3tQWyW9jXotqnOuI37W/l67rnKwDavcCwPaXqQ=;
- b=N6DQXWDiC77Vq5NQP3D0cXSBOlOuz5omrip73ndT2KMJkKH2+kp8oUARNDBhyHthyJ
- laMA8FL4/7ndNwtilCUXo71WW/RR8fVqfA9VpBuNKo9pZQxsgz+CT7P7SE5RNvCp5jLY
- As80WO5wrCMPpx2o1NEcg6+ihTHwAA0OqgUTb6/x7nl28x+t13L1BIa/2t7zn0wj6s23
- BSplfGmR9k+Tea3fHKVTKWHJuScaK7W8vMsyPScmwd2OApEL2POzMARNukWrwsE9YbtX
- I3vsrI2i8aEeMmZ6Nuc/YSu+g0WeqSf/EDM38UFaNDZQvPFuFbjet4DFRq2T5F0TcZzT
- NVVQ==
-X-Gm-Message-State: APjAAAUujTdgAf9H3hEHop1/ppezrGG7jcwhra/7qsrFcIG5L7yDTZ9P
- K7hR6v/bZDVM+T9Uu1puBweSC8gLHoc6e8yGMGghiTm0qLS+CX4a8OJoMuAfW/umE4tHlkAH1rP
- mkSh2rptj4WyrTF8=
-X-Received: by 2002:a7b:c4cc:: with SMTP id g12mr4618794wmk.68.1578571294055; 
- Thu, 09 Jan 2020 04:01:34 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxi2ptEfCZMo1cygJNxqtzs0wzqIqsgN7/whS4o7WtFM5LOsiLlWN1PVGqqZaw0lM8SGYA4sA==
-X-Received: by 2002:a7b:c4cc:: with SMTP id g12mr4618776wmk.68.1578571293829; 
- Thu, 09 Jan 2020 04:01:33 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
- ([2001:b07:6468:f312:c6d:4079:b74c:e329])
- by smtp.gmail.com with ESMTPSA id l18sm2620496wme.30.2020.01.09.04.01.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jan 2020 04:01:33 -0800 (PST)
-Subject: Re: Difference between 'current_machine' vs
- MACHINE(qdev_get_machine())
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Like Xu <like.xu@linux.intel.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <a88f7647-c061-bf3f-a272-72700078ef26@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e6a7197d-1647-4667-dae8-10c8dba1737f@redhat.com>
-Date: Thu, 9 Jan 2020 13:01:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=dm1Fx8oGwOYdwTadI8Cr5xXOlp+v3Rhd4ezGGdDTNQM=;
+ b=OGDtIc+mgl4uHvd0lf7Nt7Yo7aXd7xAdzjliFPqor618K/hK/zMq9MJ1KhHbywzpZJ
+ E+/lfMosjzk0fYAlaMBWcEiKXFHLrd5YpmEB6nV1lQtkgapIPh3yAQHC+ctJBqjgGbjD
+ 0hHNh+B9Wa/Gpbd1dIga8x1OzRBnqimLehYAII6C7FR1Sp8y3kAZMy/9VurtL1rhEZ8f
+ ZkD1I7ieVSjpE1LoQbx3w6p5nV5ULalP8sGYlpiQ/yO/rPU6ABzAhlvRVcgYBayThZOr
+ zDdY1QQXFeUUlIlrU3CDZUvjeVcLklViUttEsLvD1UvXL2Z6Tm628bOH2qeFnh8+4RLr
+ pvTQ==
+X-Gm-Message-State: APjAAAWBn5/AZeb5jQCLjztvGsw6Wk7Hc4aH7cOxTPzd/nNyryQe96L5
+ I3XPRJ5JSMo94I0MHrlpP+1E0dcvC1gdOUJa1qCj012AQtGaF0UzLbdf5vrh9hHgZnQkYIhE+79
+ aTqOr/mReyP9v8B0=
+X-Received: by 2002:a05:6214:13a8:: with SMTP id
+ h8mr8167638qvz.41.1578571330822; 
+ Thu, 09 Jan 2020 04:02:10 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy01AxOfsgaSLIHrZXufNPH7Ah9sD0S/wcOt6BrG5JqN1tWCV+qEbAabtSAV/OI8Ue1n9uZOw==
+X-Received: by 2002:a05:6214:13a8:: with SMTP id
+ h8mr8167610qvz.41.1578571330499; 
+ Thu, 09 Jan 2020 04:02:10 -0800 (PST)
+Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
+ by smtp.gmail.com with ESMTPSA id 21sm2859398qky.41.2020.01.09.04.02.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jan 2020 04:02:09 -0800 (PST)
+Date: Thu, 9 Jan 2020 07:02:03 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH for-5.0 v11 19/20] pc: Add support for virtio-iommu-pci
+Message-ID: <20200109065832-mutt-send-email-mst@kernel.org>
+References: <20191122182943.4656-1-eric.auger@redhat.com>
+ <20191122182943.4656-20-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <a88f7647-c061-bf3f-a272-72700078ef26@redhat.com>
-Content-Language: en-US
-X-MC-Unique: 8-NIkOnbOjuSuJKeTTpCVQ-1
+In-Reply-To: <20191122182943.4656-20-eric.auger@redhat.com>
+X-MC-Unique: l0Uge83GM_COQ3t0mbEr4g-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,53 +89,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
+ tnowicki@marvell.com, quintela@redhat.com, jean-philippe.brucker@arm.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, armbru@redhat.com,
+ bharatb.linux@gmail.com, qemu-arm@nongnu.org, dgilbert@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/01/20 12:23, Philippe Mathieu-Daud=C3=A9 wrote:
+On Fri, Nov 22, 2019 at 07:29:42PM +0100, Eric Auger wrote:
+> The virtio-iommu-pci is instantiated through the -device QEMU
+> option. However if instantiated it also requires an IORT ACPI table
+> to describe the ID mappings between the root complex and the iommu.
 >=20
+> This patch adds the generation of the IORT table if the
+> virtio-iommu-pci device is instantiated.
 >=20
-> =C2=A0=C2=A0=C2=A0 current_machine =3D
-> MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
-> =C2=A0=C2=A0=C2=A0 object_property_add_child(object_get_root(), "machine"=
-,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 OBJECT(current_machine), &error_abort);
+> We also declare the [0xfee00000 - 0xfeefffff] MSI reserved region
+> so that it gets bypassed by the IOMMU.
 >=20
-> The bigger user of 'current_machine' is the accel/KVM code.
->=20
-> Recently in a0628599f..cc7d44c2e0 "Replace global smp variables with
-> machine smp properties" we started to use MACHINE(qdev_get_machine()).
->=20
-> qdev_get_machine() resolves the machine in the QOM composition tree.
-> I am confused by this comment:
->=20
-> =C2=A0 /* qdev_get_machine() can return something that's not TYPE_MACHINE
-> =C2=A0=C2=A0 * if this is one of the user-only emulators; in that case th=
-ere's
-> =C2=A0=C2=A0 * no need to check the ignore_memory_transaction_failures bo=
-ard flag.
-> =C2=A0=C2=A0 */
->=20
-> Following a0628599f..cc7d44c2e0, a5e0b33119 use 'current_machine' again.
->=20
-> What are the differences between both form, when should we use one or
-> another (or can we use a single one?). Can this break user-only mode?
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-I would always use MACHINE(qdev_get_machine()), espeecially outside
-vl.c.  Ideally, current_machine would be static within vl.c or even
-unused outside the object_property_add_child() that you quote above.
+So I'd like us to use virtio config space in preference to ACPI.
 
-Most of the times, I noticed from a quick grep, we actually want to
-access the accelerator, not the machine, so we could add a
-qemu_get_accelerator() wrapper that does
-MACHINE(qdev_get_machine())->accelerator.
+Guest bits for that are not ready yet, but I think it's
+better to wait than maintaining both ACPI and config space forever
+later.
 
-Paolo
+Could you send a smaller patchset without pci/acpi bits for now?
+
+> ---
+>  hw/i386/acpi-build.c | 72 ++++++++++++++++++++++++++++++++++++++++++++
+>  hw/i386/pc.c         | 15 ++++++++-
+>  include/hw/i386/pc.h |  2 ++
+>  3 files changed, 88 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 12ff55fcfb..f09cabdcae 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2744,6 +2744,72 @@ static bool acpi_get_mcfg(AcpiMcfgInfo *mcfg)
+>      return true;
+>  }
+> =20
+> +static inline void
+> +fill_iort_idmap(AcpiIortIdMapping *idmap, int i,
+> +                uint32_t input_base, uint32_t id_count,
+> +                uint32_t output_base, uint32_t output_reference)
+> +{
+> +    idmap[i].input_base =3D cpu_to_le32(input_base);
+> +    idmap[i].id_count =3D cpu_to_le32(id_count);
+> +    idmap[i].output_base =3D cpu_to_le32(output_base);
+> +    idmap[i].output_reference =3D cpu_to_le32(output_reference);
+> +}
+> +
+> +static void
+> +build_iort(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms)
+> +{
+> +    size_t iommu_node_size, rc_node_size, iommu_node_offset;
+> +    int iort_start =3D table_data->len;
+> +    AcpiIortPVIommuPCI *iommu;
+> +    AcpiIortIdMapping *idmap;
+> +    AcpiIortTable *iort;
+> +    size_t iort_length;
+> +    AcpiIortRC *rc;
+> +
+> +    iort =3D acpi_data_push(table_data, sizeof(*iort));
+> +    iort_length =3D sizeof(*iort);
+> +    iort->node_count =3D cpu_to_le32(2);
+> +
+> +    /* virtio-iommu node */
+> +
+> +    iommu_node_offset =3D sizeof(*iort);
+> +    iort->node_offset =3D cpu_to_le32(iommu_node_offset);
+> +    iommu_node_size =3D sizeof(*iommu);
+> +    iort_length +=3D iommu_node_offset;
+> +    iommu =3D acpi_data_push(table_data, iommu_node_size);
+> +    iommu->type =3D ACPI_IORT_NODE_PARAVIRT;
+> +    iommu->length =3D cpu_to_le16(iommu_node_size);
+> +    iommu->mapping_count =3D 0;
+> +    iommu->devid =3D cpu_to_le32(pcms->virtio_iommu_bdf);
+> +    iommu->model =3D cpu_to_le32(ACPI_IORT_NODE_PV_VIRTIO_IOMMU_PCI);
+> +
+> +    /* Root Complex Node */
+> +    rc_node_size =3D sizeof(*rc) + 2 * sizeof(*idmap);
+> +    iort_length +=3D rc_node_size;
+> +    rc =3D acpi_data_push(table_data, rc_node_size);
+> +
+> +    rc->type =3D ACPI_IORT_NODE_PCI_ROOT_COMPLEX;
+> +    rc->length =3D cpu_to_le16(rc_node_size);
+> +    rc->mapping_count =3D cpu_to_le32(2);
+> +    rc->mapping_offset =3D cpu_to_le32(sizeof(*rc));
+> +
+> +    /* fully coherent device */
+> +    rc->memory_properties.cache_coherency =3D cpu_to_le32(1);
+> +    rc->memory_properties.memory_flags =3D 0x3; /* CCA =3D CPM =3D DCAS =
+=3D 1 */
+> +    rc->pci_segment_number =3D 0; /* MCFG pci_segment */
+> +    fill_iort_idmap(rc->id_mapping_array, 0, 0, pcms->virtio_iommu_bdf, =
+0,
+> +                    iommu_node_offset);
+> +    fill_iort_idmap(rc->id_mapping_array, 1, pcms->virtio_iommu_bdf + 1,
+> +                    0xFFFF - pcms->virtio_iommu_bdf,
+> +                    pcms->virtio_iommu_bdf + 1, iommu_node_offset);
+> +
+> +    iort =3D (AcpiIortTable *)(table_data->data + iort_start);
+> +    iort->length =3D cpu_to_le32(iort_length);
+> +
+> +    build_header(linker, table_data, (void *)(table_data->data + iort_st=
+art),
+> +                 "IORT", table_data->len - iort_start, 0, NULL, NULL);
+> +}
+> +
+>  static
+>  void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>  {
+> @@ -2835,6 +2901,12 @@ void acpi_build(AcpiBuildTables *tables, MachineSt=
+ate *machine)
+>              build_slit(tables_blob, tables->linker, machine);
+>          }
+>      }
+> +
+> +    if (pcms->virtio_iommu) {
+> +        acpi_add_table(table_offsets, tables_blob);
+> +        build_iort(tables_blob, tables->linker, pcms);
+> +    }
+> +
+>      if (acpi_get_mcfg(&mcfg)) {
+>          acpi_add_table(table_offsets, tables_blob);
+>          build_mcfg(tables_blob, tables->linker, &mcfg);
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index ac08e63604..af984ee041 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -84,6 +84,7 @@
+>  #include "hw/net/ne2000-isa.h"
+>  #include "standard-headers/asm-x86/bootparam.h"
+>  #include "hw/virtio/virtio-pmem-pci.h"
+> +#include "hw/virtio/virtio-iommu.h"
+>  #include "hw/mem/memory-device.h"
+>  #include "sysemu/replay.h"
+>  #include "qapi/qmp/qerror.h"
+> @@ -1940,6 +1941,11 @@ static void pc_machine_device_pre_plug_cb(HotplugH=
+andler *hotplug_dev,
+>          pc_cpu_pre_plug(hotplug_dev, dev, errp);
+>      } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
+>          pc_virtio_pmem_pci_pre_plug(hotplug_dev, dev, errp);
+> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) =
+{
+> +        /* we declare a VIRTIO_IOMMU_RESV_MEM_T_MSI region */
+> +        qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
+> +        qdev_prop_set_string(dev, "reserved-regions[0]",
+> +                             "0xfee00000, 0xfeefffff, 1");
+>      }
+>  }
+> =20
+> @@ -1952,6 +1958,12 @@ static void pc_machine_device_plug_cb(HotplugHandl=
+er *hotplug_dev,
+>          pc_cpu_plug(hotplug_dev, dev, errp);
+>      } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
+>          pc_virtio_pmem_pci_plug(hotplug_dev, dev, errp);
+> +    } else if (object_dynamic_cast(OBJECT(dev), "virtio-iommu-pci")) {
+> +        PCMachineState *pcms =3D PC_MACHINE(hotplug_dev);
+> +        PCIDevice *pdev =3D PCI_DEVICE(dev);
+> +
+> +        pcms->virtio_iommu =3D true;
+> +        pcms->virtio_iommu_bdf =3D pci_get_bdf(pdev);
+>      }
+>  }
+> =20
+> @@ -1990,7 +2002,8 @@ static HotplugHandler *pc_get_hotplug_handler(Machi=
+neState *machine,
+>  {
+>      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
+>          object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
+> -        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
+> +        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
+> +        object_dynamic_cast(OBJECT(dev), "virtio-iommu-pci")) {
+>          return HOTPLUG_HANDLER(machine);
+>      }
+> =20
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 1f86eba3f9..221b4c6ef9 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -49,6 +49,8 @@ struct PCMachineState {
+>      bool smbus_enabled;
+>      bool sata_enabled;
+>      bool pit_enabled;
+> +    bool virtio_iommu;
+> +    uint16_t virtio_iommu_bdf;
+> =20
+>      /* NUMA information: */
+>      uint64_t numa_nodes;
+> --=20
+> 2.20.1
 
 
