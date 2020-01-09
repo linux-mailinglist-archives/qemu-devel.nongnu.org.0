@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C637513566F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 11:05:21 +0100 (CET)
-Received: from localhost ([::1]:57702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB7D135669
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 11:02:37 +0100 (CET)
+Received: from localhost ([::1]:57672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipUgq-0003u7-4k
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 05:05:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42491)
+	id 1ipUeB-0007tA-EK
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 05:02:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42447)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fengzhimin1@huawei.com>) id 1ipPvE-00010T-F8
+ (envelope-from <fengzhimin1@huawei.com>) id 1ipPvE-00010N-5w
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:59:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fengzhimin1@huawei.com>) id 1ipPvB-0001Mg-Sz
+ (envelope-from <fengzhimin1@huawei.com>) id 1ipPvC-0001Nw-63
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:59:52 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:34922 helo=huawei.com)
+Received: from szxga06-in.huawei.com ([45.249.212.32]:34924 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <fengzhimin1@huawei.com>)
- id 1ipPvB-0001Gr-Dk
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:59:49 -0500
+ id 1ipPvB-0001Gt-Fg
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:59:50 -0500
 Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id E5A532BA8A28ED572297;
+ by Forcepoint Email with ESMTP id E03C13A71F11B0D96E00;
  Thu,  9 Jan 2020 12:59:45 +0800 (CST)
 Received: from huawei.com (10.173.220.198) by DGGEMS411-HUB.china.huawei.com
  (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Thu, 9 Jan 2020
@@ -30,10 +30,10 @@ Received: from huawei.com (10.173.220.198) by DGGEMS411-HUB.china.huawei.com
 From: Zhimin Feng <fengzhimin1@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>, <armbru@redhat.com>,
  <eblake@redhat.com>
-Subject: [PATCH RFC 10/12] migration/rdma: use multiRDMA to send RAM block for
- rdma-pin-all mode
-Date: Thu, 9 Jan 2020 12:59:20 +0800
-Message-ID: <20200109045922.904-11-fengzhimin1@huawei.com>
+Subject: [PATCH RFC 11/12] migration/rdma: use multiRDMA to send RAM block for
+ NOT rdma-pin-all mode
+Date: Thu, 9 Jan 2020 12:59:21 +0800
+Message-ID: <20200109045922.904-12-fengzhimin1@huawei.com>
 X-Mailer: git-send-email 2.24.0.windows.2
 In-Reply-To: <20200109045922.904-1-fengzhimin1@huawei.com>
 References: <20200109045922.904-1-fengzhimin1@huawei.com>
@@ -64,179 +64,190 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: fengzhimin <fengzhimin1@huawei.com>
 
-Send the RAM block through MultiRDMA channels for using rdma-pin-all opti=
-on,
-and we choose the channel to send data through polling the MultiRDMA thre=
-ad.
-
 Signed-off-by: fengzhimin <fengzhimin1@huawei.com>
 ---
- migration/rdma.c | 66 +++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 63 insertions(+), 3 deletions(-)
+ migration/rdma.c | 109 +++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 105 insertions(+), 4 deletions(-)
 
 diff --git a/migration/rdma.c b/migration/rdma.c
-index 425dfa709d..36261f1fc8 100644
+index 36261f1fc8..0a150099e2 100644
 --- a/migration/rdma.c
 +++ b/migration/rdma.c
-@@ -427,6 +427,8 @@ typedef struct {
-     QEMUFile *file;
-     /* sem where to wait for more work */
-     QemuSemaphore sem;
-+    /* syncs main thread and channels */
-+    QemuSemaphore sem_sync;
-     /* this mutex protects the following parameters */
-     QemuMutex mutex;
-     /* is this channel thread running */
-@@ -439,6 +441,8 @@ struct {
-     MultiRDMASendParams *params;
-     /* number of created threads */
-     int count;
-+    /* index of current RDMA channels */
-+    int current_RDMA_index;
-     /* this mutex protects the following parameters */
-     QemuMutex mutex_sync;
-     /* number of registered multiRDMA channels */
-@@ -2043,6 +2047,18 @@ static int qemu_rdma_exchange_recv(RDMAContext *rd=
-ma, RDMAControlHeader *head,
-     return 0;
- }
-=20
-+/*
-+ * Get the multiRDMA channel used to send data.
-+ */
-+static int get_multiRDMA_channel(void)
-+{
-+    int thread_count =3D migrate_multiRDMA_channels();
-+    multiRDMA_send_state->current_RDMA_index++;
-+    multiRDMA_send_state->current_RDMA_index %=3D thread_count;
-+
-+    return multiRDMA_send_state->current_RDMA_index;
-+}
-+
- /*
-  * Write an actual chunk of memory using RDMA.
-  *
-@@ -2068,6 +2084,16 @@ static int qemu_rdma_write_one(QEMUFile *f, RDMACo=
-ntext *rdma,
+@@ -2084,8 +2084,7 @@ static int qemu_rdma_write_one(QEMUFile *f, RDMACon=
+text *rdma,
                                 .repeat =3D 1,
                               };
 =20
-+    if (migrate_use_multiRDMA() &&
-+        migrate_use_rdma_pin_all()) {
-+        /* The multiRDMA threads only send ram block */
-+        if (strcmp(block->block_name, "mach-virt.ram") =3D=3D 0) {
-+            int channel =3D get_multiRDMA_channel();
-+            rdma =3D multiRDMA_send_state->params[channel].rdma;
-+            block =3D &(rdma->local_ram_blocks.block[current_index]);
-+        }
-+    }
-+
- retry:
-     sge.addr =3D (uintptr_t)(block->local_host_addr +
-                             (current_addr - block->offset));
-@@ -2285,8 +2311,22 @@ static int qemu_rdma_write_flush(QEMUFile *f, RDMA=
-Context *rdma)
+-    if (migrate_use_multiRDMA() &&
+-        migrate_use_rdma_pin_all()) {
++    if (migrate_use_multiRDMA()) {
+         /* The multiRDMA threads only send ram block */
+         if (strcmp(block->block_name, "mach-virt.ram") =3D=3D 0) {
+             int channel =3D get_multiRDMA_channel();
+@@ -2311,8 +2310,7 @@ static int qemu_rdma_write_flush(QEMUFile *f, RDMAC=
+ontext *rdma)
      }
 =20
      if (ret =3D=3D 0) {
--        rdma->nb_sent++;
--        trace_qemu_rdma_write_flush(rdma->nb_sent);
-+        if (migrate_use_multiRDMA() &&
-+            migrate_use_rdma_pin_all()) {
-+            /* The multiRDMA threads only send ram block */
-+            RDMALocalBlock *block =3D NULL;
-+            block =3D &(rdma->local_ram_blocks.block[rdma->current_index=
+-        if (migrate_use_multiRDMA() &&
+-            migrate_use_rdma_pin_all()) {
++        if (migrate_use_multiRDMA()) {
+             /* The multiRDMA threads only send ram block */
+             RDMALocalBlock *block =3D NULL;
+             block =3D &(rdma->local_ram_blocks.block[rdma->current_index=
 ]);
-+            if (strcmp(block->block_name, "mach-virt.ram") =3D=3D 0) {
-+                int current_RDMA =3D multiRDMA_send_state->current_RDMA_=
-index;
-+                multiRDMA_send_state->params[current_RDMA].rdma->nb_sent=
-++;
-+            } else {
-+                rdma->nb_sent++;
-+                trace_qemu_rdma_write_flush(rdma->nb_sent);
-+            }
-+        } else {
-+            rdma->nb_sent++;
-+            trace_qemu_rdma_write_flush(rdma->nb_sent);
-+        }
-     }
+@@ -4234,12 +4232,24 @@ err:
 =20
-     rdma->current_length =3D 0;
-@@ -4015,11 +4055,15 @@ static int qemu_rdma_registration_stop(QEMUFile *=
-f, void *opaque,
-     ret =3D qemu_rdma_exchange_send(rdma, &head, NULL, NULL, NULL, NULL)=
-;
+ static int qemu_multiRDMA_registration_handle(void *opaque)
+ {
++    RDMAControlHeader reg_resp =3D { .len =3D sizeof(RDMARegisterResult)=
+,
++                                   .type =3D RDMA_CONTROL_REGISTER_RESUL=
+T,
++                                   .repeat =3D 0,
++                                 };
+     RDMAControlHeader blocks =3D { .type =3D RDMA_CONTROL_RAM_BLOCKS_RES=
+ULT,
+                                  .repeat =3D 1 };
+     MultiRDMARecvParams *p =3D opaque;
+     RDMAContext *rdma =3D p->rdma;
+     RDMALocalBlocks *local =3D &rdma->local_ram_blocks;
+     RDMAControlHeader head;
++    RDMARegister *reg, *registers;
++    RDMACompress *comp;
++    RDMARegisterResult *reg_result;
++    static RDMARegisterResult results[RDMA_CONTROL_MAX_COMMANDS_PER_MESS=
+AGE];
++    RDMALocalBlock *block;
++    void *host_addr;
++    int idx =3D 0;
++    int count =3D 0;
+     int ret =3D 0;
+     int i =3D 0;
 =20
-     if (migrate_use_multiRDMA()) {
--        /* Inform src send_thread to send FINISHED signal */
-+        /*
-+         * Inform src send_thread to send FINISHED signal.
-+         * Wait for multiRDMA send threads to poll the CQE.
-+         */
-         int i;
-         int thread_count =3D migrate_multiRDMA_channels();
-         for (i =3D 0; i < thread_count; i++) {
-             qemu_sem_post(&multiRDMA_send_state->params[i].sem);
-+            qemu_sem_wait(&multiRDMA_send_state->params[i].sem_sync);
+@@ -4260,8 +4270,28 @@ static int qemu_multiRDMA_registration_handle(void=
+ *opaque)
          }
-     }
 =20
-@@ -4592,12 +4636,25 @@ static void *multiRDMA_send_thread(void *opaque)
-         }
-         qemu_mutex_unlock(&p->mutex);
-=20
-+        /* To complete polling(CQE) */
-+        while (rdma->nb_sent) {
-+            ret =3D qemu_rdma_block_for_wrid(rdma, RDMA_WRID_RDMA_WRITE,=
- NULL);
-+            if (ret < 0) {
-+                error_report("multiRDMA migration: "
-+                             "complete polling error!");
-+                return NULL;
-+            }
-+        }
+         switch (head.type) {
++        case RDMA_CONTROL_COMPRESS:
++            comp =3D (RDMACompress *) rdma->wr_data[idx].control_curr;
++            network_to_compress(comp);
 +
-         /* Send FINISHED to the destination */
-         head.type =3D RDMA_CONTROL_REGISTER_FINISHED;
-         ret =3D qemu_rdma_exchange_send(rdma, &head, NULL, NULL, NULL, N=
-ULL);
-         if (ret < 0) {
-             return NULL;
-         }
++            if (comp->block_idx >=3D rdma->local_ram_blocks.nb_blocks) {
++                error_report("rdma: 'compress' bad block index %u (vs %d=
+)",
++                        (unsigned int)comp->block_idx,
++                        rdma->local_ram_blocks.nb_blocks);
++                ret =3D -EIO;
++                goto out;
++            }
++            block =3D &(rdma->local_ram_blocks.block[comp->block_idx]);
 +
-+        /* sync main thread */
-+        qemu_sem_post(&p->sem_sync);
-     }
-=20
-     qemu_mutex_lock(&p->mutex);
-@@ -4637,6 +4694,7 @@ static int multiRDMA_save_setup(const char *host_po=
-rt, Error **errp)
-                                           thread_count);
-     atomic_set(&multiRDMA_send_state->count, 0);
-     atomic_set(&multiRDMA_send_state->reg_mr_channels, 0);
-+    atomic_set(&multiRDMA_send_state->current_RDMA_index, 0);
-     qemu_mutex_init(&multiRDMA_send_state->mutex_sync);
-     qemu_sem_init(&multiRDMA_send_state->sem_sync, 0);
-=20
-@@ -4665,6 +4723,7 @@ static int multiRDMA_save_setup(const char *host_po=
-rt, Error **errp)
-         f =3D qemu_fopen_rdma(multiRDMA_send_state->params[i].rdma, "wb"=
++            host_addr =3D block->local_host_addr +
++                (comp->offset - block->offset);
++
++            ram_handle_compressed(host_addr, comp->value, comp->length);
++            break;
++
+         case RDMA_CONTROL_REGISTER_FINISHED:
+             goto out;
++
+         case RDMA_CONTROL_RAM_BLOCKS_REQUEST:
+             qsort(rdma->local_ram_blocks.block,
+                   rdma->local_ram_blocks.nb_blocks,
+@@ -4310,8 +4340,79 @@ static int qemu_multiRDMA_registration_handle(void=
+ *opaque)
+                 error_report("rdma migration: error sending remote info"=
 );
-         qemu_mutex_init(&p->mutex);
-         qemu_sem_init(&p->sem, 0);
-+        qemu_sem_init(&p->sem_sync, 0);
-         p->quit =3D false;
-         p->id =3D i;
-         p->running =3D true;
-@@ -4730,6 +4789,7 @@ int multiRDMA_save_cleanup(void)
-         MultiRDMASendParams *p =3D &multiRDMA_send_state->params[i];
-         qemu_mutex_destroy(&p->mutex);
-         qemu_sem_destroy(&p->sem);
-+        qemu_sem_destroy(&p->sem_sync);
-         g_free(p->name);
-         p->name =3D NULL;
-         qemu_rdma_cleanup(multiRDMA_send_state->params[i].rdma);
+                 goto out;
+             }
++            break;
++
++        case RDMA_CONTROL_REGISTER_REQUEST:
++            reg_resp.repeat =3D head.repeat;
++            registers =3D (RDMARegister *) rdma->wr_data[idx].control_cu=
+rr;
+=20
++            for (count =3D 0; count < head.repeat; count++) {
++                uint64_t chunk;
++                uint8_t *chunk_start, *chunk_end;
++
++                reg =3D &registers[count];
++                network_to_register(reg);
++
++                reg_result =3D &results[count];
++
++                if (reg->current_index >=3D rdma->local_ram_blocks.nb_bl=
+ocks) {
++                    error_report("rdma: 'register' bad block index %u (v=
+s %d)",
++                            (unsigned int)reg->current_index,
++                            rdma->local_ram_blocks.nb_blocks);
++                    ret =3D -ENOENT;
++                    goto out;
++                }
++                block =3D &(rdma->local_ram_blocks.block[reg->current_in=
+dex]);
++                if (block->is_ram_block) {
++                    if (block->offset > reg->key.current_addr) {
++                        error_report("rdma: bad register address for blo=
+ck %s"
++                                " offset: %" PRIx64 " current_addr: %" P=
+RIx64,
++                                block->block_name, block->offset,
++                                reg->key.current_addr);
++                        ret =3D -ERANGE;
++                        goto out;
++                    }
++                    host_addr =3D (block->local_host_addr +
++                            (reg->key.current_addr - block->offset));
++                    chunk =3D ram_chunk_index(block->local_host_addr,
++                            (uint8_t *) host_addr);
++                } else {
++                    chunk =3D reg->key.chunk;
++                    host_addr =3D block->local_host_addr +
++                        (reg->key.chunk * (1UL << RDMA_REG_CHUNK_SHIFT))=
+;
++                    /* Check for particularly bad chunk value */
++                    if (host_addr < (void *)block->local_host_addr) {
++                        error_report("rdma: bad chunk for block %s"
++                                " chunk: %" PRIx64,
++                                block->block_name, reg->key.chunk);
++                        ret =3D -ERANGE;
++                        goto out;
++                    }
++                }
++                chunk_start =3D ram_chunk_start(block, chunk);
++                chunk_end =3D ram_chunk_end(block, chunk + reg->chunks);
++                if (qemu_rdma_register_and_get_keys(rdma, block,
++                            (uintptr_t)host_addr, NULL, &reg_result->rke=
+y,
++                            chunk, chunk_start, chunk_end)) {
++                    error_report("cannot get rkey");
++                    ret =3D -EINVAL;
++                    goto out;
++                }
++
++                reg_result->host_addr =3D (uintptr_t)block->local_host_a=
+ddr;
++
++                result_to_network(reg_result);
++            }
++
++            ret =3D qemu_rdma_post_send_control(rdma,
++                    (uint8_t *) results, &reg_resp);
++
++            if (ret < 0) {
++                error_report("Failed to send control buffer");
++                goto out;
++            }
+             break;
++
+         default:
+             error_report("Unknown control message %s", control_desc(head=
+.type));
+             ret =3D -EIO;
 --=20
 2.19.1
 
