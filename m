@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603531351A7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 03:56:36 +0100 (CET)
-Received: from localhost ([::1]:54100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17FBE1351B1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 04:02:01 +0100 (CET)
+Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipNzv-0004iX-7c
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 21:56:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54010)
+	id 1ipO5A-0008Lr-5b
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 22:02:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46839)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ipNtB-0003Bi-6P
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 21:49:38 -0500
+ (envelope-from <jasowang@redhat.com>) id 1ipO3s-0007pb-0F
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 22:00:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ipNt9-0006aC-DX
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 21:49:36 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:35631)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ipNt9-0006Xc-3X
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 21:49:35 -0500
-Received: by mail-pf1-x444.google.com with SMTP id i23so2618404pfo.2
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 18:49:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7oSKIrC5QlsP+UfXWHE34ZSkgxpGtuY2yzIIDI3pxVg=;
- b=lOyB9FK9E2skyDHYPmTW/uGY8BzETIK6d+v7I7syXPz7KdzDUd4OgXo2UA1OMycb8G
- S7duWDwInokskO2azizjWsi9ui/BjBnqSmqyMwMugbNIhrxeGfUZUZNszB+j/BNCwwmP
- 5YO56UtDNSIKD0mVEoRCOZf/JUWA3UHhkk9DYF4W9dRuSTy7xNA/urIn3WxzsGL2PAjO
- itTGFacu4PLcGnMPDWrmmiPAuFrMhLhn2q8YW0y5vh+1wxkPQXQzfFzlS3v9RQY5MJQD
- EYjkI1Mo87RgKjFpal4l0BeXDdTt0BhxRUYi+aj6aDKKgkifBPVuDcCHPEI7Wxvqjn3G
- /uzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7oSKIrC5QlsP+UfXWHE34ZSkgxpGtuY2yzIIDI3pxVg=;
- b=h8jH9Yh4aoHNnKyv0hvjMocfDw+NDuYY7kq9XlxoNzNL/jVYmasAb45frlSxm6HNf2
- ybeJZ+9aQYm2Tr/lcQ670qZJpqcjCZcp2mjTA5JTDWo1WeQZ03AYaTaS+CexU3ooaPdm
- TWL7fkrrFyMRD8DzEgJ0001ii4XSqVZlIcLpvoTnj00oOB1lVQ8rE0/UcDlBcMrDeSnB
- EHCwsJxORqelpWe8Nf2RNIH4zQrwayMjMuCN1F7AGoN7oaKAirOgt/3YJxJVXPqUCmqX
- XNL24XU1OTPLoANvUXBF8poJlw9NaGCdJiD0ame0MpyZWFioxuauBe5w3XiMpSJI1MZQ
- lxzA==
-X-Gm-Message-State: APjAAAWp1whNkRvW8/I/NuLwbLaRXv1Pj+q3ZeaU6W0am1v/YUt//CPV
- n/k/DkJWcZDMBdUoj/uGgbouRV+1ClgFhQ==
-X-Google-Smtp-Source: APXvYqxCtUctZcZdDUs528UqTphH25wZkxancVwopX33gwsIEPHrMNaEK1EFg4+oM6Y3AmhngvlCSA==
-X-Received: by 2002:a63:534d:: with SMTP id t13mr8329975pgl.89.1578538173727; 
- Wed, 08 Jan 2020 18:49:33 -0800 (PST)
-Received: from localhost.localdomain (alanje.lnk.telstra.net.
- [120.151.179.201])
- by smtp.gmail.com with ESMTPSA id b4sm5337844pfd.18.2020.01.08.18.49.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 18:49:33 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 9/9] cputlb: Hoist timestamp outside of loops over tlbs
-Date: Thu,  9 Jan 2020 13:49:07 +1100
-Message-Id: <20200109024907.2730-10-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200109024907.2730-1-richard.henderson@linaro.org>
-References: <20200109024907.2730-1-richard.henderson@linaro.org>
+ (envelope-from <jasowang@redhat.com>) id 1ipO3m-0004Jv-PP
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 22:00:37 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43737
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1ipO3m-0004G2-1V
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 22:00:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578538833;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O01+Udo52H5L/qd/P/ro+XqbXcxDKpi9kRJxPDt4YTg=;
+ b=Rv44L5i5HZn4V9kbRVDeQ4XTszyJIwxZykiyQ6xoTzD96UnPyGOFMqS/pp1tAB4KHpvlj4
+ UzABBBvmjtzIwmRSN5Z7BFeywWYAKRs2fnC589Gd7uk6wN+tSbXFt8D3Yn+4Ay8J6jSATl
+ vZOWVfEeI29q41taFxQ2r7OirpMoGOs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-81_wnmO8Oa6oAFEyZDL6bg-1; Wed, 08 Jan 2020 22:00:31 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0D92107ACC5
+ for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 03:00:30 +0000 (UTC)
+Received: from [10.72.12.226] (ovpn-12-226.pek2.redhat.com [10.72.12.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A83F5DA60;
+ Thu,  9 Jan 2020 03:00:26 +0000 (UTC)
+Subject: Re: [PATCH 0/2] exclude hyperv synic sections from vhost
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, vkuznets@redhat.com, mst@redhat.com
+References: <20200108135353.75471-1-dgilbert@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <53359208-3cd9-b0b6-f424-a5135e770fca@redhat.com>
+Date: Thu, 9 Jan 2020 11:00:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+In-Reply-To: <20200108135353.75471-1-dgilbert@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 81_wnmO8Oa6oAFEyZDL6bg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,82 +74,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not call get_clock_realtime() in tlb_mmu_resize_locked,
-but hoist outside of any loop over a set of tlbs.  This is
-only two (indirect) callers, tlb_flush_by_mmuidx_async_work
-and tlb_flush_page_locked, so not onerous.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/cputlb.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+On 2020/1/8 =E4=B8=8B=E5=8D=889:53, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> Hyperv's synic (that we emulate) is a feature that allows the guest
+> to place some magic (4k) pages of RAM anywhere it likes in GPA.
+> This confuses vhost's RAM section merging when these pages
+> land over the top of hugepages.
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 761e9d44d7..9f6cb36921 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -137,12 +137,12 @@ static void tlb_window_reset(CPUTLBDesc *desc, int64_t ns,
-  * high), since otherwise we are likely to have a significant amount of
-  * conflict misses.
-  */
--static void tlb_mmu_resize_locked(CPUTLBDesc *desc, CPUTLBDescFast *fast)
-+static void tlb_mmu_resize_locked(CPUTLBDesc *desc, CPUTLBDescFast *fast,
-+                                  int64_t now)
- {
-     size_t old_size = tlb_n_entries(fast);
-     size_t rate;
-     size_t new_size = old_size;
--    int64_t now = get_clock_realtime();
-     int64_t window_len_ms = 100;
-     int64_t window_len_ns = window_len_ms * 1000 * 1000;
-     bool window_expired = now > desc->window_begin_ns + window_len_ns;
-@@ -222,12 +222,13 @@ static void tlb_mmu_flush_locked(CPUTLBDesc *desc, CPUTLBDescFast *fast)
-     memset(desc->vtable, -1, sizeof(desc->vtable));
- }
- 
--static void tlb_flush_one_mmuidx_locked(CPUArchState *env, int mmu_idx)
-+static void tlb_flush_one_mmuidx_locked(CPUArchState *env, int mmu_idx,
-+                                        int64_t now)
- {
-     CPUTLBDesc *desc = &env_tlb(env)->d[mmu_idx];
-     CPUTLBDescFast *fast = &env_tlb(env)->f[mmu_idx];
- 
--    tlb_mmu_resize_locked(desc, fast);
-+    tlb_mmu_resize_locked(desc, fast, now);
-     tlb_mmu_flush_locked(desc, fast);
- }
- 
-@@ -310,6 +311,7 @@ static void tlb_flush_by_mmuidx_async_work(CPUState *cpu, run_on_cpu_data data)
-     CPUArchState *env = cpu->env_ptr;
-     uint16_t asked = data.host_int;
-     uint16_t all_dirty, work, to_clean;
-+    int64_t now = get_clock_realtime();
- 
-     assert_cpu_is_self(cpu);
- 
-@@ -324,7 +326,7 @@ static void tlb_flush_by_mmuidx_async_work(CPUState *cpu, run_on_cpu_data data)
- 
-     for (work = to_clean; work != 0; work &= work - 1) {
-         int mmu_idx = ctz32(work);
--        tlb_flush_one_mmuidx_locked(env, mmu_idx);
-+        tlb_flush_one_mmuidx_locked(env, mmu_idx, now);
-     }
- 
-     qemu_spin_unlock(&env_tlb(env)->c.lock);
-@@ -446,7 +448,7 @@ static void tlb_flush_page_locked(CPUArchState *env, int midx,
-         tlb_debug("forcing full flush midx %d ("
-                   TARGET_FMT_lx "/" TARGET_FMT_lx ")\n",
-                   midx, lp_addr, lp_mask);
--        tlb_flush_one_mmuidx_locked(env, midx);
-+        tlb_flush_one_mmuidx_locked(env, midx, get_clock_realtime());
-     } else {
-         if (tlb_flush_entry_locked(tlb_entry(env, midx, page), page)) {
-             tlb_n_used_entries_dec(env, midx);
--- 
-2.20.1
+
+Hi David:
+
+A silly question, is this because the alignment when adding sections? If=20
+yes, what's the reason for doing alignment which is not a must for vhost=20
+memory table.
+
+Thanks
+
+
+>
+> Since they're not normal RAM, and they shouldn't have vhost DMAing
+> into them, exclude them from the vhost set.
+>
+> I do that by marking them as device-ram and then excluding device-ram
+> from vhost.
+>
+> bz: https://bugzilla.redhat.com/show_bug.cgi?id=3D1779041
+>
+> Dr. David Alan Gilbert (2):
+>    vhost: Don't pass ram device sections
+>    hyperv/synic: Allocate as ram_device
+>
+>   hw/hyperv/hyperv.c | 14 ++++++++------
+>   hw/virtio/vhost.c  |  1 +
+>   2 files changed, 9 insertions(+), 6 deletions(-)
+>
 
 
