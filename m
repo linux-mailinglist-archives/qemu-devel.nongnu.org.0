@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB27D135A2B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:33:02 +0100 (CET)
-Received: from localhost ([::1]:60432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6881135A70
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:42:55 +0100 (CET)
+Received: from localhost ([::1]:60584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipXvp-0002Jz-JW
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:33:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35170)
+	id 1ipY5O-0006o7-Sj
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:42:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57313)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwankhede@nvidia.com>) id 1ipXsv-0000b9-Qo
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:03 -0500
+ (envelope-from <bounces@canonical.com>) id 1ipY3P-0004bK-1L
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:40:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1ipXst-0007bu-H5
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:01 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13092)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1ipXst-0007Yw-75
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:29:59 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5e172ac20000>; Thu, 09 Jan 2020 05:29:38 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Thu, 09 Jan 2020 05:29:56 -0800
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 09 Jan 2020 05:29:56 -0800
-Received: from [10.40.100.122] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 9 Jan
- 2020 13:29:46 +0000
-Subject: Re: [PATCH v11 Kernel 3/6] vfio iommu: Implementation of ioctl to for
- dirty pages tracking.
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <1576602651-15430-1-git-send-email-kwankhede@nvidia.com>
- <1576602651-15430-4-git-send-email-kwankhede@nvidia.com>
- <20191217151203.342b686a@x1.home>
- <ebd08133-e258-9f5e-5c8f-f88d7165cd7a@nvidia.com>
- <20200107150223.0dab0a85@w520.home>
- <d2faa3fe-d656-5ba7-475a-9646298e3d50@nvidia.com>
- <20200108152934.68cd0e85@w520.home>
-X-Nvconfidentiality: public
-From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <f7db5eae-b650-6078-edb2-7fe20d71bd47@nvidia.com>
-Date: Thu, 9 Jan 2020 18:59:40 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ (envelope-from <bounces@canonical.com>) id 1ipY3N-0004e9-Tw
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:40:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33812)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ipY3M-0004br-3X
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:40:48 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ipY3K-00017N-Fg
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 13:40:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7586D2E8074
+ for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 13:40:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200108152934.68cd0e85@w520.home>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1578576578; bh=WLosg172xkRx+5jPpNCzwwLMPD277ArYB9VNeXC4qMo=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=jcHRgPyPxwJhhWQFJxbmtxPTwGewSuocVbGGZm3NuXxbrLR1fn/P/e3tF7qkJo+I/
- 2xutw/MvLSX/ZzfMlhVoXft2W3Wcyrzvjo84XNv1JEoL19gdRV9DfKSjo1cb6Z6MGq
- uJxHfvsBOPuheyH0/2ARugObm/YH3NzkGmKoN8suGGt3MWO+vPYTlUwkDDvvCs92bR
- HV9WcCSBZtkE/Koz+E6G5yVD22ql0nsQi0ZnEpancsxwn4lA+0ju1rEYOquBc6kROS
- 8XJhtAqonLu+T9ciGEBgpnUkErTfDK8zSRqSRWTdREbwl9bvkHNe6FyGd6zLqHYjrO
- MJiLPHpi/nm0g==
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 216.228.121.64
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Jan 2020 13:32:13 -0000
+From: Thomas Huth <1841491@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 7-pc rth th-huth
+X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <156686849716.6431.16425651381928336460.malonedeb@gac.canonical.com>
+Message-Id: <157857673323.2497.12116916948054570736.malone@soybean.canonical.com>
+Subject: [Bug 1841491] Re: floating point emulation can fail to set
+ FE_UNDERFLOW
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 330b2d80ac5aeb9ef5c7815228950e3a802ae4af
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,274 +67,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Reply-To: Bug 1841491 <1841491@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+A patch for this bug has been merged here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dcbc65a8f22b29680f3
+... can we close this ticket now or is there more to do?
 
+-- =
 
-On 1/9/2020 3:59 AM, Alex Williamson wrote:
-> On Thu, 9 Jan 2020 01:31:16 +0530
-> Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> 
->> On 1/8/2020 3:32 AM, Alex Williamson wrote:
->>> On Wed, 8 Jan 2020 01:37:03 +0530
->>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
->>>    
->>
->> <snip>
->>
->>>>>> +
->>>>>> +	unlocked = vfio_iova_put_vfio_pfn(dma, vpfn, dirty_tracking);
->>>>>>     
->>>>>>     	if (do_accounting)
->>>>>>     		vfio_lock_acct(dma, -unlocked, true);
->>>>>> @@ -571,8 +606,12 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
->>>>>>     
->>>>>>     		vpfn = vfio_iova_get_vfio_pfn(dma, iova);
->>>>>>     		if (vpfn) {
->>>>>> -			phys_pfn[i] = vpfn->pfn;
->>>>>> -			continue;
->>>>>> +			if (vpfn->unpinned)
->>>>>> +				vfio_remove_from_pfn_list(dma, vpfn);
->>>>>
->>>>> This seems inefficient, we have an allocated vpfn at the right places
->>>>> in the list, wouldn't it be better to repin the page?
->>>>>       
->>>>
->>>> vfio_pin_page_external() takes care of pinning and accounting as well.
->>>
->>> Yes, but could we call vfio_pin_page_external() without {unlinking,
->>> freeing} and {re-allocating, linking} on either side of it since it's
->>> already in the list?  That's the inefficient part.  Maybe at least a
->>> TODO comment?
->>>    
->>
->> Changing it as below:
->>
->>                   vpfn = vfio_iova_get_vfio_pfn(dma, iova);
->>                   if (vpfn) {
->> -                       phys_pfn[i] = vpfn->pfn;
->> -                       continue;
->> +                       if (vpfn->ref_count > 1) {
->> +                               phys_pfn[i] = vpfn->pfn;
->> +                               continue;
->> +                       }
->>                   }
->>
->>                   remote_vaddr = dma->vaddr + iova - dma->iova;
->>                   ret = vfio_pin_page_external(dma, remote_vaddr,
->> &phys_pfn[i],
->>                                                do_accounting);
->>                   if (ret)
->>                           goto pin_unwind;
->> -
->> -               ret = vfio_add_to_pfn_list(dma, iova, phys_pfn[i]);
->> -               if (ret) {
->> -                       vfio_unpin_page_external(dma, iova, do_accounting);
->> -                       goto pin_unwind;
->> -               }
->> +               if (!vpfn) {
->> +                       ret = vfio_add_to_pfn_list(dma, iova, phys_pfn[i]);
->> +                       if (ret) {
->> +                               vfio_unpin_page_external(dma, iova,
->> +                                                        do_accounting,
->> false);
->> +                               goto pin_unwind;
->> +                       }
->> +               } else
->> +                       vpfn->pfn = phys_pfn[i];
->>           }
->>
->>
->>
->>
->>>>>> +			else {
->>>>>> +				phys_pfn[i] = vpfn->pfn;
->>>>>> +				continue;
->>>>>> +			}
->>>>>>     		}
->>>>>>     
->>>>>>     		remote_vaddr = dma->vaddr + iova - dma->iova;
->>>>>> @@ -583,7 +622,8 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
->>>>>>     
->>>>>>     		ret = vfio_add_to_pfn_list(dma, iova, phys_pfn[i]);
->>>>>>     		if (ret) {
->>>>>> -			vfio_unpin_page_external(dma, iova, do_accounting);
->>>>>> +			vfio_unpin_page_external(dma, iova, do_accounting,
->>>>>> +						 false);
->>>>>>     			goto pin_unwind;
->>>>>>     		}
->>>>>>     	}
->>
->> <snip>
->>
->>>>   
->>>>>> +		if (range.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_START) {
->>>>>> +			iommu->dirty_page_tracking = true;
->>>>>> +			return 0;
->>>>>> +		} else if (range.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP) {
->>>>>> +			iommu->dirty_page_tracking = false;
->>>>>> +
->>>>>> +			mutex_lock(&iommu->lock);
->>>>>> +			vfio_remove_unpinned_from_dma_list(iommu);
->>>>>> +			mutex_unlock(&iommu->lock);
->>>>>> +			return 0;
->>>>>> +
->>>>>> +		} else if (range.flags &
->>>>>> +				 VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP) {
->>>>>> +			uint64_t iommu_pgmask;
->>>>>> +			unsigned long pgshift = __ffs(range.pgsize);
->>>>>> +			unsigned long *bitmap;
->>>>>> +			long bsize;
->>>>>> +
->>>>>> +			iommu_pgmask =
->>>>>> +			 ((uint64_t)1 << __ffs(vfio_pgsize_bitmap(iommu))) - 1;
->>>>>> +
->>>>>> +			if (((range.pgsize - 1) & iommu_pgmask) !=
->>>>>> +			    (range.pgsize - 1))
->>>>>> +				return -EINVAL;
->>>>>> +
->>>>>> +			if (range.iova & iommu_pgmask)
->>>>>> +				return -EINVAL;
->>>>>> +			if (!range.size || range.size > SIZE_MAX)
->>>>>> +				return -EINVAL;
->>>>>> +			if (range.iova + range.size < range.iova)
->>>>>> +				return -EINVAL;
->>>>>> +
->>>>>> +			bsize = verify_bitmap_size(range.size >> pgshift,
->>>>>> +						   range.bitmap_size);
->>>>>> +			if (bsize < 0)
->>>>>> +				return ret;
->>>>>> +
->>>>>> +			bitmap = kmalloc(bsize, GFP_KERNEL);
->>>>>
->>>>> I think I remember mentioning previously that we cannot allocate an
->>>>> arbitrary buffer on behalf of the user, it's far too easy for them to
->>>>> kill the kernel that way.  kmalloc is also limited in what it can
->>>>> alloc.
->>>>
->>>> That's the reason added verify_bitmap_size(), so that size is verified
->>>
->>> That's only a consistency test, it only verifies that the user claims
->>> to provide a bitmap sized sufficiently for the range they're trying to
->>> request.  range.size is limited to SIZE_MAX, so 2^64, divided by page
->>> size for 2^52 bits, 8bits per byte for 2^49 bytes of bitmap that we'd
->>> try to kmalloc (512TB).  kmalloc is good for a couple MB AIUI.
->>> Meanwhile the user doesn't actually need to allocate that bitmap in
->>> order to crash the kernel.
->>>    
->>>>> Can't we use the user buffer directly or only work on a part of
->>>>> it at a time?
->>>>>       
->>>>
->>>> without copy_from_user(), how?
->>>
->>> For starters, what's the benefit of copying the bitmap from the user
->>> in the first place?  We presume the data is zero'd and if it's not,
->>> that's the user's bug to sort out (we just need to define the API to
->>> specify that).  Therefore the copy_from_user() is unnecessary anyway and
->>> we really just need to copy_to_user() for any places we're setting
->>> bits.  We could just walk through the range with an unsigned long
->>> bitmap buffer, writing it out to userspace any time we reach the end
->>> with bits set, zeroing it and shifting it as a window to the user
->>> buffer.  We could improve batching by allocating a larger buffer in the
->>> kernel, with a kernel defined maximum size and performing the same
->>> windowing scheme.
->>>    
->>
->> Ok removing copy_from_user().
->> But AFAIK, calling copy_to_user() multiple times is not efficient in
->> terms of performance.
-> 
-> Right, but even with a modestly sized internal buffer for batching we
-> can cover quite a large address space.  128MB for a 4KB buffer, 32GB
-> with 1MB buffer.  __put_user() is more lightweight than copy_to_user(),
-> I wonder where the inflection point is in batching the latter versus
-> more iterations of the former.
-> 
->> Checked code in virt/kvm/kvm_main.c: __kvm_set_memory_region() where
->> dirty_bitmap is allocated, that has generic checks, user space address
->> check, memory overflow check and KVM_MEM_MAX_NR_PAGES as below. I'll add
->> access_ok check. I already added overflow check.
->>
->>           /* General sanity checks */
->>           if (mem->memory_size & (PAGE_SIZE - 1))
->>                   goto out;
->>
->>          !access_ok((void __user *)(unsigned long)mem->userspace_addr,
->>                           mem->memory_size)))
->>
->>           if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
->>                   goto out;
->>
->>           if (npages > KVM_MEM_MAX_NR_PAGES)
->>                   goto out;
->>
->>
->> Where KVM_MEM_MAX_NR_PAGES is:
->>
->> /*
->>    * Some of the bitops functions do not support too long bitmaps.
->>    * This number must be determined not to exceed such limits.
->>    */
->> #define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
->>
->> But we can't use KVM specific KVM_MEM_MAX_NR_PAGES check in vfio module.
->> Should we define similar limit in vfio module instead of SIZE_MAX?
-> 
-> If we have ranges that are up to 2^31 pages, that's still 2^28 bytes.
-> Does it seem reasonable to have a kernel interface that potentially
-> allocates 256MB of kernel space with kmalloc accessible to users?  That
-> still seems like a DoS attack vector to me, especially since the user
-> doesn't need to be able to map that much memory (8TB) to access it.
-> 
-> I notice that KVM allocate the bitmap (kvzalloc) relative to the actual
-> size of the memory slot when dirty logging is enabled, maybe that's the
-> right approach rather than walking vpfn lists and maintaining unpinned
-> vpfns for the purposes of tracking.  For example, when dirty logging is
-> enabled, walk all vfio_dmas and allocate a dirty bitmap anywhere the
-> vpfn list is not empty and walk the vpfn list to set dirty bits in the
-> bitmap. 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1841491
 
-Bitmap will be allocated per vfio_dma, not as per 
-VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP request, right?
+Title:
+  floating point emulation can fail to set FE_UNDERFLOW
 
-> When new pages are pinned, allocate a bitmap if not already
-> present and set the dirty bit.  When unpinned, update the vpfn list but
-> leave the dirty bit set.  When the dirty bitmap is read, copy out the
-> current bitmap to the user, memset it to zero, then re-walk the vpfn
-> list to set currently dirty pages.
+Status in QEMU:
+  Confirmed
 
-Why re-walk is required again? Pinning /unpinning or reporting dirty 
-pages are done holding iommu->lock, there shouldn't be race condition.
+Bug description:
+  Floating point emulation can fail to set FE_UNDERFLOW in some
+  circumstances. This shows up often in glibc's "math" tests. A similar
+  test is attached.
 
->  A vfio_dma without a dirty bitmap
-> would consider the entire range dirty.
+  This is similar to bug #1841442, but not the same problem, and I don't
+  think the fix will be in the same code.
 
-That will depend on (!iommu->pinned_page_dirty_scope && 
-dma->iommu_mapped) condition to mark entire range dirty.
-Here even if vpfn list is empty, memory for dirty_bitmap need to be 
-allocated, memset all bits to 1, then copy_to_user().
+  On ppc64le native:
+  --
+  $ gcc -c -O2 fma.c
+  $ gcc -O2 test-fma.c fma.o -lm -o test-fma
+  $ ./test-fma $(./test-fma)
+  fma(0x1.ffffffffffffcp-1022, 0x1.0000000000001p-1, 0x0.0000000000001p-102=
+2)
+  0x0
 
-If we go with this approach, then I think there should be restriction to 
-get bitmap as per the way mappings were created, multiple mappings can 
-be clubbed together, but shouldn't bisect the mappings - similar to 
-unmap restriction.
+  0xa000000
+  FE_INEXACT FE_UNDERFLOW =
 
-Thanks,
-Kirti
+  0x1p-1022
+  --
 
->  At least that way the overhead
-> of the bitmap is just that, overhead rather than a future exploit.
-> Does this seem like a better approach?  Thanks,
-> 
-> Alex
-> 
+  On qemu-system-ppc64:
+  --
+  $ ./test-fma $(./test-fma)
+  fma(0x1.ffffffffffffcp-1022, 0x1.0000000000001p-1, 0x0.0000000000001p-102=
+2)
+  0x0
+
+  0x2000000
+  FE_INEXACT =
+
+  0x1p-1022
+  --
+
+  QEMU versions vary, but not too much, and are pretty close to git HEAD:
+  - 586f3dced9 (HEAD -> master, origin/master, origin/HEAD) Merge remote-tr=
+acking branch 'remotes/cohuck/tags/s390x-20190822' into staging
+  - 864ab31 Update version for v4.1.0-rc4 release
+
+  There are worse symptoms on qemu-x86_64, but this is apparently not
+  surprising per
+  https://bugs.launchpad.net/qemu/+bug/1841442/comments/6.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1841491/+subscriptions
 
