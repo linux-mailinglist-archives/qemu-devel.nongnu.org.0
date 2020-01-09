@@ -2,56 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16ABB135A92
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:51:42 +0100 (CET)
-Received: from localhost ([::1]:60730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AF4135B17
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 15:10:36 +0100 (CET)
+Received: from localhost ([::1]:60982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipYDt-0006gl-1d
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:51:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48960)
+	id 1ipYWB-0003SW-0q
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 09:10:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37726)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <erosca@de.adit-jv.com>) id 1ipYCQ-0004zq-1H
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:50:11 -0500
+ (envelope-from <stefanha@gmail.com>) id 1ipYVJ-0002fV-3z
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:09:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <erosca@de.adit-jv.com>) id 1ipYCO-0004w1-Kb
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:50:09 -0500
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:39867)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <erosca@de.adit-jv.com>)
- id 1ipYCO-0004ek-7z
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:50:08 -0500
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
- by smtp1.de.adit-jv.com (Postfix) with ESMTP id 628BD3C04C0;
- Thu,  9 Jan 2020 14:50:04 +0100 (CET)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
- by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SnVdHi-5nOMk; Thu,  9 Jan 2020 14:49:59 +0100 (CET)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 0D9103C00B7;
- Thu,  9 Jan 2020 14:49:59 +0100 (CET)
-Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Thu, 9 Jan 2020
- 14:49:58 +0100
-Date: Thu, 9 Jan 2020 14:49:56 +0100
-From: Eugeniu Rosca <erosca@de.adit-jv.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
-Message-ID: <20200109134843.GA2558@lxhi-065.adit-jv.com>
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-6-geert+renesas@glider.be>
- <20191203105103.GA20470@x230>
- <CAMuHMdVLaGt5GTXzUbUHrBHn5q--t3JfxO6P_j0GnnhixV+UfA@mail.gmail.com>
+ (envelope-from <stefanha@gmail.com>) id 1ipYVG-0007IO-UD
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:09:39 -0500
+Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:40911)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1ipYVG-0007FV-Ow
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:09:38 -0500
+Received: by mail-qv1-xf2c.google.com with SMTP id dp13so2979815qvb.7
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 06:09:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=8QV7o4T8Kss98lTXcXIWTfPETRl9+zSe6fXYbXvevAE=;
+ b=sVl1xfc92GZB4kAfdA95fiar9VBggNsLhQkfEKj9Q9LzM+VDUW6jhJ7k5c2KpTr6ol
+ hiYaVAOdZsSn3BszeMPd7ftyMSSGOQYfe9sSxIVJx9P6m0XfXdU2PZSmOwi4l+I8kYSl
+ YcgqGbVRQqYMBBqwa6gVj+E594Gt9alpWR9fp1ao57eHWQt5UTid3zYD7O+dUwTVCgdQ
+ LeP38UTL8FmbB48k87CBC9E6z6JrFK7jRVs/qocaIREjmH0GOVWb4aqutThiPSZwFzze
+ M9CQmSe5QCIYJVFT8wJ/VUFNYvbMxy7MqICG+rq7UBaML9G3MXPmyzdq/VXZNzTfxhQ7
+ G0Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=8QV7o4T8Kss98lTXcXIWTfPETRl9+zSe6fXYbXvevAE=;
+ b=mN/Vy8+WlJHb1QYmIxCIB9IJa6dfpUrftnVc/mSLvfV65Y4lEDov4jLoTU2dymt4qV
+ DtZOdY4Stoe8ha9Hudh9nv+InDHxjNveKFG4EP2JG4aV2MNM4Yv6v9pIVxnKyyWutyKB
+ bHc3dUHij4hS5MOhhkRAp4RHZun3gGqttZzmkNDaPLJ5bWuwqfX4RVDtIozAPzF/mvw6
+ biT0hjwqKLnwbJApEFXdJk9Y+4IATsPhsXAGAGzQ9RyFOea/M1P8IcIxAACCzv8HNvwr
+ 9hN3F9PoY021DvFYTgzG4/f3NsxYYyuplQo0dVari8BLkxWYAc35AaAmtudQeHNDpzf3
+ obQw==
+X-Gm-Message-State: APjAAAV516STbw6V0e0AwvNa5w5X80FcD5W9jSMH4/SBV4rJeiFqTGeP
+ Hs6CQ10D9QYElOILPkiGJmw4C5cHaac+OiuqgqSQApQkm+A=
+X-Google-Smtp-Source: APXvYqx0MbY7XXKZZAhD1Uu31ENSh4p0PVArt3wjQGqvodtCD64KSLHLzPYXWV2rCkeCFoEjvHE+TDS5W3E5kMcQ2PM=
+X-Received: by 2002:a05:6214:982:: with SMTP id
+ dt2mr8622222qvb.174.1578578977711; 
+ Thu, 09 Jan 2020 06:09:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVLaGt5GTXzUbUHrBHn5q--t3JfxO6P_j0GnnhixV+UfA@mail.gmail.com>
-X-Originating-IP: [10.72.93.66]
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 93.241.18.167
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 9 Jan 2020 14:09:23 +0000
+Message-ID: <CAJSP0QWysOZdp88vqJSQ-7J8tPk6OdaSL2WDLetJ5+YXsNH-UA@mail.gmail.com>
+Subject: Call for Google Summer of Code 2020 project ideas
+To: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>, 
+ rust-vmm@lists.opendev.org
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::f2c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,79 +69,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Harish Jenny K N <harish_kandiga@mentor.com>,
- Eugeniu Rosca <erosca@de.adit-jv.com>, Jonathan Corbet <corbet@lwn.net>,
- Magnus Damm <magnus.damm@gmail.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE
- TREE BINDINGS" <devicetree@vger.kernel.org>,
- Eugeniu Rosca <roscaeugeniu@gmail.com>, Marc Zyngier <marc.zyngier@arm.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Alexander Graf <graf@amazon.com>,
- Phil Reid <preid@electromag.com.au>,
- Christoffer Dall <christoffer.dall@arm.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Alberto Garcia <berto@igalia.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ Alistair Francis <alistair23@gmail.com>, Yuval Shaia <yuval.shaia@oracle.com>,
+ Valentine Sinitsyn <valentine.sinitsyn@gmail.com>,
+ Alexander Graf <agraf@csgraf.de>, Jan Kiszka <jan.kiszka@web.de>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe@mathieu-daude.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Geert,
+Dear QEMU, KVM, and rust-vmm community,
+QEMU will apply for Google Summer of Code
+(https://summerofcode.withgoogle.com/) again this year.  This internship
+program offers full-time, paid, 12-week, remote work internships for
+contributing to open source.  QEMU can act as an umbrella organization
+for KVM kernel and rust-vmm projects too.
 
-On Thu, Jan 09, 2020 at 02:35:10PM +0100, Geert Uytterhoeven wrote:
-> On Tue, Dec 3, 2019 at 11:51 AM Eugeniu Rosca <roscaeugeniu@gmail.com> wrote:
-> >
-> > FWIW/FTR, doing some blind creation and deletion of gpio aggregator
-> > chips [1] on R-Car H3ULCB overnight, kmemleak reported once [2]. Not
-> > sure this is something 100% reproducible.
-> >
-> > [1] while true; do \
-> >    echo e6055400.gpio 12,13 > /sys/bus/platform/drivers/gpio-aggregator/new_device; \
-> >    echo gpio-aggregator.0 > /sys/bus/platform/drivers/gpio-aggregator/delete_device; \
-> >    done
-> >
-> > [2] unreferenced object 0xffff0006d2c2e000 (size 128):
-> >   comm "kworker/3:1", pid 55, jiffies 4294676978 (age 38546.676s)
-> >   hex dump (first 32 bytes):
-> >     00 d9 d2 d3 06 00 ff ff 0c 00 e0 0f ff ff ff ff  ................
-> >     01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> >   backtrace:
-> >     [<00000000a8e18c13>] slab_post_alloc_hook+0x8c/0x94
-> >     [<000000006f419a4f>] __kmalloc+0x170/0x218
-> >     [<0000000060d185ea>] kobj_map+0x78/0x1c0
-> >     [<00000000c96645f3>] cdev_add+0x68/0x94
-> >     [<00000000a7a5a8ac>] cdev_device_add+0x74/0x90
-> >     [<00000000497871d3>] gpiochip_setup_dev+0x84/0x1f0
-> >     [<00000000b993f95f>] gpiochip_add_data_with_key+0xbcc/0x11f0
-> >     [<00000000fd728c0e>] devm_gpiochip_add_data+0x60/0xa8
-> >     [<00000000442e34c1>] gpio_aggregator_probe+0x210/0x3c8
-> >     [<00000000076e13fb>] platform_drv_probe+0x70/0xe4
-> >     [<00000000de84b58b>] really_probe+0x2d8/0x434
-> >     [<00000000c95c9784>] driver_probe_device+0x15c/0x16c
-> >     [<00000000afb7dd4f>] __device_attach_driver+0xdc/0x120
-> >     [<00000000efa40cae>] bus_for_each_drv+0x12c/0x154
-> >     [<00000000c149acef>] __device_attach+0x148/0x1e0
-> >     [<00000000a74fd158>] device_initial_probe+0x24/0x30
-> 
-> This is the allocation of the GPIO character device, which is allocated
-> in response to the creation of the GPIO chip, from .probe().
-> As that is done using devm_gpiochip_add_data(), the chardev should be
-> deallocated automatically by devm_gpio_chip_release() when
-> platform_device_unregister() is called.
-> 
-> Weird...
+Please post project ideas on the QEMU wiki before February 1st:
+https://wiki.qemu.org/Google_Summer_of_Code_2020
 
-It might have been a false positive. Kmemleak is not w/o flaws.
-I will retest and report later. In any case, it does not look
-severe to me.
+Good project ideas are suitable for 12 weeks of full-time work by a
+competent programmer who is not yet familiar with the codebase.  In
+addition, they are:
+ * Well-defined - the scope is clear
+ * Self-contained - there are few dependencies
+ * Uncontroversial - they are acceptable to the community
+ * Incremental - they produce deliverables along the way
 
--- 
-Best Regards,
-Eugeniu
+Feel free to post ideas even if you are unable to mentor the project.
+It doesn't hurt to share the idea!
+
+I will review project ideas and keep you up-to-date on QEMU's
+acceptance into GSoC.
+
+For more background on QEMU internships, check out this video:
+https://www.youtube.com/watch?v=xNVCX7YMUL8
+
+Stefan
 
