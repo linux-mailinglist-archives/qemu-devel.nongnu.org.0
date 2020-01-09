@@ -2,53 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B5D135228
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 05:28:31 +0100 (CET)
-Received: from localhost ([::1]:55152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F51B13521E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 05:14:19 +0100 (CET)
+Received: from localhost ([::1]:55012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipPQs-0004X2-0K
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 23:28:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37759)
+	id 1ipPD7-0006tY-Hw
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 23:14:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33297)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ipPOq-0003AI-BG
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:26:26 -0500
+ (envelope-from <masahiroy@kernel.org>) id 1ipPCF-0006Lf-8U
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:13:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ipPOo-0000ka-Hl
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:26:24 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58463 helo=ozlabs.org)
+ (envelope-from <masahiroy@kernel.org>) id 1ipPCD-0002Ze-TL
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:13:23 -0500
+Received: from conuserg-08.nifty.com ([210.131.2.75]:62838)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ipPOo-0000c7-2m; Wed, 08 Jan 2020 23:26:22 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47tY2x4HQJz9sRY; Thu,  9 Jan 2020 15:26:17 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1578543977;
- bh=k35VB7jck5EdbAcJ/pE469Ier18LRiHhJg9+zSffLQM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p9xvEC+hQV8S7mojEmKjmOrtLdNQZRfIsnlceV3W/nUXyInUTTfzmzKbpy/s/cizU
- +SK43OYnuqAzoDQQIoR+z5fKlC4vTu9HvVhmKZXI7Hrx4A1wyxky78FchVVGjoMKVp
- rv+K8qsA7oLLTeUSz4NQGkeaET3hzQQkg4ocxZC4=
-Date: Thu, 9 Jan 2020 15:07:15 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v2] spapr: Kill SLOF
-Message-ID: <20200109040715.GM8586@umbus.fritz.box>
-References: <20200105234242.78897-1-aik@ozlabs.ru>
- <20200106041940.GV2098@umbus>
- <80157816-7859-3450-6a2c-ab151be5ee94@ozlabs.ru>
- <20200106085042.GW2098@umbus>
- <741e9b5e-6a7d-66a4-451d-e37c30697b2b@ozlabs.ru>
- <20200107052604.GH2098@umbus>
- <a76e906f-4cf0-aa49-759d-e64b7f219a1b@ozlabs.ru>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xHbokkKX1kTiQeDC"
-Content-Disposition: inline
-In-Reply-To: <a76e906f-4cf0-aa49-759d-e64b7f219a1b@ozlabs.ru>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+ (Exim 4.71) (envelope-from <masahiroy@kernel.org>)
+ id 1ipPC8-0002Hs-Fh; Wed, 08 Jan 2020 23:13:17 -0500
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp
+ [153.142.97.92]) (authenticated)
+ by conuserg-08.nifty.com with ESMTP id 0094CUwT026552;
+ Thu, 9 Jan 2020 13:12:31 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 0094CUwT026552
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+ s=dec2015msa; t=1578543151;
+ bh=BGrV9MYFYy/4lN3+lwdtOSdl3h0m0Dt37S+FF37WHQc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=d/T0X+ZAfspEWoIVTg6beDtFsXcpo+8TfB2VkYDfVX2fDsjd0JLe106hkZ5zWkD+w
+ IbMy5mC2H5icC68IkVKkkOYtG5BHN0x4RDr04zeM4cRbM4x3exNGenvNHRp/0/Hedo
+ OamRG1eZ5De043p7uTnTt3/Hau25+r4DykuhViQV1UCWDrX/WhV1oO0v+6Lwc8fa09
+ DaT+Weq8Rj5RIQU9LWuytgEkytPOorJlh38SaODizyH/IBRioIwa+Jd5Np1BGLLDIj
+ rAgRCfNbx/Vlx6lZKsGw+sLx5zzyVel2vrIMHbdr8oU/DPKp61s5y2OZSflbl+EQE9
+ swYZzQpIuDNig==
+X-Nifty-SrcIP: [153.142.97.92]
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH] target/arm/arm-semi: fix SYS_OPEN to return nonzero filehandle
+Date: Thu,  9 Jan 2020 13:12:28 +0900
+Message-Id: <20200109041228.10131-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 210.131.2.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,157 +55,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+According to the specification "Semihosting for AArch32 and Aarch64",
+the SYS_OPEN operation should return:
 
---xHbokkKX1kTiQeDC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ - A nonzero handle if the call is successful
+ - -1 if the call is not successful
 
-On Wed, Jan 08, 2020 at 03:07:41PM +1100, Alexey Kardashevskiy wrote:
->=20
->=20
-> On 07/01/2020 16:26, David Gibson wrote:
->=20
-> >>>>>> +static uint32_t client_setprop(SpaprMachineState *sm,
-> >>>>>> +                               uint32_t nodeph, uint32_t pname,
-> >>>>>> +                               uint32_t valaddr, uint32_t vallen)
-> >>>>>> +{
-> >>>>>> +    char propname[64];
-> >>>>>> +    uint32_t ret =3D -1;
-> >>>>>> +    int proplen =3D 0;
-> >>>>>> +    const void *prop;
-> >>>>>> +
-> >>>>>> +    readstr(pname, propname);
-> >>>>>> +    if (vallen =3D=3D sizeof(uint32_t) &&
-> >>>>>> +        ((strncmp(propname, "linux,rtas-base", 15) =3D=3D 0) ||
-> >>>>>> +         (strncmp(propname, "linux,rtas-entry", 16) =3D=3D 0))) {
-> >>>>>> +
-> >>>>>> +        sm->rtas_base =3D readuint32(valaddr);
-> >>>>>> +        prop =3D fdt_getprop_namelen(sm->fdt_blob,
-> >>>>>> +                                   fdt_node_offset_by_phandle(sm-=
->fdt_blob,
-> >>>>>> +                                                              nod=
-eph),
-> >>>>>> +                                   propname, strlen(propname), &p=
-roplen);
-> >>>>>> +        if (proplen =3D=3D vallen) {
-> >>>>>> +            *(uint32_t *) prop =3D cpu_to_be32(sm->rtas_base);
-> >>>>>> +            ret =3D proplen;
-> >>>>>> +        }
-> >>>>>
-> >>>>> Is there a particular reason to restrict this to the rtas propertie=
-s,
-> >>>>> rather than just allowing the guest to fdt_setprop() something
-> >>>>> arbitrary?
-> >>>>
-> >>>> The FDT is flatten and I am not quite sure if libfdt can handle upda=
-ting
-> >>>> properties if the length has changed.
-> >>>
-> >>> fdt_setprop() will handle updating properties with changed length (in
-> >>> fact there's a special fdt_setprop_inplace() optimized for the case
-> >>> where you don't need that).  It's not particularly efficient, but it
-> >>> should work fine for the cases we have here.  In fact, I think you're
-> >>> already relying on this for the code that adds the phandles to
-> >>> everything.
-> >>
-> >> Well, I used to add phandles before calling fdt_pack() so it is not ex=
-actly the same.
-> >=20
-> > Ah, right, that's why adding the phandles worked.
-> >=20
-> >>> One complication is that it can return FDT_ERR_NOSPACE if there isn't
-> >>> enough buffer for the increased thing.  We could either trap that,
-> >>> resize and retry, or we could leave a bunch of extra space.  The
-> >>> latter would be basically equivalent to not doing fdt_pack() on the
-> >>> blob in the nobios case.
-> >>
-> >>
-> >> This is what I ended up doing.
-> >>
-> >>
-> >>>> Also, more importantly, potentially property changes like this may h=
-ave
-> >>>> to be reflected in the QEMU device tree so I allowed only the proper=
-ties
-> >>>> which I know how to deal with.
-> >>>
-> >>> That's a reasonable concern, but the nice thing about not having SLOF
-> >>> is that there's only one copy of the device tree - the blob in qemu.
-> >>> So a setprop() on that is automatically a setprop() everywhere (this
-> >>> is another reason not to write the fdt into guest memory in the nobios
-> >>> case - it will become stale as soon as the client changes anything).
-> >>
-> >>
-> >> True to a degree. It is "setprop" to the current fdt blob which we do =
-not
-> >> analyze after we build the fdt. We either need to do parse the tree be=
-fore
-> >> we rebuild it as CAS so we do not lose the updates or do selective cha=
-nges
-> >> to the QEMUs objects from the "setprop" handler (this is what I do
-> >> now).
-> >=20
-> > Hrm.. do those setprops happen before CAS?
->=20
-> Yes, vmlinux/zimage call "setprop" for "linux,initrd-start",
-> "linux,initrd-end", "bootargs", "linux,stdout-path"; vmlinux sets
-> properties if linux,initrd-* came from r3/r4 and zImage sets properties
-> no matter how it discovered them - from r3/r4 or the device tree.
+So, it should never return 0.
 
-Ok, and those setprops happen before CAS?
+Prior to commit 35e9a0a8ce4b ("target/arm/arm-semi: Make semihosting
+code hand out its own file descriptors"), the guest fd matched to the
+host fd. It returned a nonzero handle on success since the fd 0 is
+already used for stdin.
 
-In a sense this is kind of a fundamental problem with rebuilding the
-whole DT at CAS time.  Except that strictly speaking it's a problem
-even without that: we just get away with it by accident because CAS
-isn't likely to change the same things that guest setprops do.
+Now that the guest fd is the index of guestfd_array, it starts from 0.
 
-It's still basically unsynchronized mutations by two parties to a
-shared data structure.
+I noticed this issue particularly because Trusted Firmware-A built with
+PLAT=qemu is no longer working. Its io_semihosting driver only handles
+a positive return value as a valid filehandle.
 
-> btw we write them as "cells" (=3D=3D4bytes long) in qemu but vminux chang=
-es
-> them to 8 bytes and zImage keeps it 4 bytes. Not a problem but an
-> interesting fact, this is why I had to allow extending the properties in
-> "setprop" :)
->=20
->=20
-> >  I would have thought we'd
-> > call CAS before instantiating RTAS.
->=20
-> This is correct but I do not think the order is mandatory.
+Basically, there are two ways to fix this:
 
-Hm, right.
+  - Use (guestfd - 1) as the index of guestfs_arrary. We need to insert
+    increment/decrement to convert the guestfd and the array index back
+    and forth.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+  - Keep using guestfd as the index of guestfs_array. The first entry
+    of guestfs_array is left unused.
 
---xHbokkKX1kTiQeDC
-Content-Type: application/pgp-signature; name="signature.asc"
+I thought the latter is simpler. We end up with wasting a small piece
+of memory for the unused first entry of guestfd_array, but this is
+probably not a big deal.
 
------BEGIN PGP SIGNATURE-----
+Fixes: 35e9a0a8ce4b ("target/arm/arm-semi: Make semihosting code hand out its own file descriptors")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4WpvMACgkQbDjKyiDZ
-s5IUCxAArxHkB46xPz2fbIgd1ZgxUoJRdmhBaLdXt+8WQAHPIiVea1Q29q6RYpkG
-fCrSpu5f4T/dgBbl/fSWVG1WD3jR8zmi9TOgbn9eViL0tUqVfVJEgy/avNsTUIaJ
-N/FYqkp9oOQEbod0Q1dJmxWhya+Cf58L4NZa5/jdFovun7gWZVIFMVUKKIUmJQ+W
-TjtHdPsmCZkzAQiERSORv2jVWknuvghGdIpTGS1Uw0XhQhlLSHZRk5Fl4Xcp8SpA
-vGvpg9iG3OdJ1CpvEsvKHp6DIOzT/WwoIv4kyZibraNoLGhlNxSnL18lHIugK6/D
-tbHTV9iX8EgLGpjeY8wMW8wvD+8B+NtFnKMc6yRq8OQvyOiIRy89KEHgGradDxTX
-8tNZmpHdpNapnlXVRQDW6PdDJKCY5KidnCTrvODEUQ5wYnWmIDLuUC/Cf1v3uDmz
-K/g4Sr3jU2kgKuxiGGVUuXDJIfJ7UslqOsNmVAR49ZFgOfz0h20zOXufg7zDsIIQ
-rmUTWlFZEof/0HpPXoa26Ktf3WEkyb8Ay0+b+6JytSj8dVN3kpXvldNDhCMMK1ME
-Mc93vuD4HvsH/PDJw6y6Eqb8eh4TJzWJyIWU5iL2OaM20O3uObceqzc0gRkMTrvd
-yl/g1UoNeyYitQaQ9oArqrPkGikwuWlhGl679TAIdJBQuFDfki0=
-=iFOZ
------END PGP SIGNATURE-----
+ target/arm/arm-semi.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
---xHbokkKX1kTiQeDC--
+diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+index 6f7b6d801bf9..4275dfc34591 100644
+--- a/target/arm/arm-semi.c
++++ b/target/arm/arm-semi.c
+@@ -144,7 +144,8 @@ static int alloc_guestfd(void)
+         guestfd_array = g_array_new(FALSE, TRUE, sizeof(GuestFD));
+     }
+ 
+-    for (i = 0; i < guestfd_array->len; i++) {
++    /* SYS_OPEN should return nonzero handle on success. Start guestfd from 1 */
++    for (i = 1; i < guestfd_array->len; i++) {
+         GuestFD *gf = &g_array_index(guestfd_array, GuestFD, i);
+ 
+         if (gf->type == GuestFDUnused) {
+@@ -168,7 +169,7 @@ static GuestFD *do_get_guestfd(int guestfd)
+         return NULL;
+     }
+ 
+-    if (guestfd < 0 || guestfd >= guestfd_array->len) {
++    if (guestfd <= 0 || guestfd >= guestfd_array->len) {
+         return NULL;
+     }
+ 
+-- 
+2.17.1
+
 
