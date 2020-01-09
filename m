@@ -2,63 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B25135A7E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:48:16 +0100 (CET)
-Received: from localhost ([::1]:60646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B74B2135A6A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:41:50 +0100 (CET)
+Received: from localhost ([::1]:60568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipYAY-0002ai-Pg
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:48:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55907)
+	id 1ipY4L-0005Oe-I4
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:41:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipY8F-000172-8p
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:45:52 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ipY3K-0004Zu-S9
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:40:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipY8C-0006Bl-TE
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:45:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34560)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipY8C-00060j-Lw
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:45:48 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipY89-0001TC-5O
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 13:45:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C81D52E80D6
- for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 13:45:44 +0000 (UTC)
+ (envelope-from <dgilbert@redhat.com>) id 1ipY3I-0004Yy-AV
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:40:45 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51407
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ipY3H-0004Vy-1W
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:40:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578577241;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eeEwmEw42dqTy8R+7InpdtRvVQ9bBEs/nK5IY/kQ7TM=;
+ b=BV9jFkniIoLMuZBL1CbOn9++kFjt4zaatWqe1MrynL3YL/u2rOP8JwxFeaVEufmVajwIcm
+ VPLv0y2LhcMZl2t+dc2Dv4+c9bQNUBKbjXKEhZSY9fSsgcjExn3KC1HpjmY927qhPKcrC8
+ Vqs4j+v2Tc4Su8nu0CKs590s1OaIJzE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-73-rDXvTp8GMk2y8T9r5rj8pg-1; Thu, 09 Jan 2020 08:40:40 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5A1C10054E3
+ for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 13:40:39 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 850EE1000322;
+ Thu,  9 Jan 2020 13:40:35 +0000 (UTC)
+Date: Thu, 9 Jan 2020 13:40:33 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 2/2] hyperv/synic: Allocate as ram_device
+Message-ID: <20200109134033.GH6795@work-vm>
+References: <20200108135353.75471-1-dgilbert@redhat.com>
+ <20200108135353.75471-3-dgilbert@redhat.com>
+ <20200109064527-mutt-send-email-mst@kernel.org>
+ <20200109120820.GB6795@work-vm>
+ <20200109071454-mutt-send-email-mst@kernel.org>
+ <20200109122237.GD6795@work-vm>
+ <20200109080412-mutt-send-email-mst@kernel.org>
+ <20200109132242.GF6795@work-vm>
+ <20200109082726-mutt-send-email-mst@kernel.org>
+ <20200109082810-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200109082810-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: rDXvTp8GMk2y8T9r5rj8pg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jan 2020 13:40:27 -0000
-From: Thomas Huth <1839428@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: maxujun philmd stefanha
-X-Launchpad-Bug-Reporter: Xujun Ma (maxujun)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156524772160.13996.4537778553837159229.malonedeb@wampee.canonical.com>
-Message-Id: <157857722858.2804.6132589219884778606.launchpad@soybean.canonical.com>
-Subject: [Bug 1839428] Re: qemu core dumped when repeat "system_reset"
- multiple times during guest boot
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b1a4278c1c88fb070c1f0824266550e6d932be4b
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,79 +81,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1839428 <1839428@bugs.launchpad.net>
+Cc: jasowang@redhat.com, pbonzini@redhat.com, vkuznets@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Confirmed =3D> Fix Released
+* Michael S. Tsirkin (mst@redhat.com) wrote:
+> On Thu, Jan 09, 2020 at 08:28:00AM -0500, Michael S. Tsirkin wrote:
+> > On Thu, Jan 09, 2020 at 01:22:42PM +0000, Dr. David Alan Gilbert wrote:
+> > > * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > > > On Thu, Jan 09, 2020 at 12:22:37PM +0000, Dr. David Alan Gilbert wr=
+ote:
+> > > > > * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > > > > > On Thu, Jan 09, 2020 at 12:08:20PM +0000, Dr. David Alan Gilber=
+t wrote:
+> > > > > > > * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > > > > > > > On Wed, Jan 08, 2020 at 01:53:53PM +0000, Dr. David Alan Gi=
+lbert (git) wrote:
+> > > > > > > > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > > > > > > > >=20
+> > > > > > > > > Mark the synic pages as ram_device so that they won't be =
+visible
+> > > > > > > > > to vhost.
+> > > > > > > > >=20
+> > > > > > > > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.co=
+m>
+> > > > > > > >=20
+> > > > > > > >=20
+> > > > > > > > I think I disagree with this one.
+> > > > > > > >  * A RAM device represents a mapping to a physical device, =
+such as to a PCI
+> > > > > > > >  * MMIO BAR of an vfio-pci assigned device.  The memory reg=
+ion may be mapped
+> > > > > > > >  * into the VM address space and access to the region will =
+modify memory
+> > > > > > > >  * directly.  However, the memory region should not be incl=
+uded in a memory
+> > > > > > > >  * dump (device may not be enabled/mapped at the time of th=
+e dump), and
+> > > > > > > >  * operations incompatible with manipulating MMIO should be=
+ avoided.  Replaces
+> > > > > > > >  * skip_dump flag.
+> > > > > > > >=20
+> > > > > > > > Looks like an abuse of notation.
+> > > > > > >=20
+> > > > > > > OK, it did feel a bit like that - any suggestions of another =
+way to do
+> > > > > > > it?
+> > > > > > >   This clearly isn't normal RAM.
+> > > > > > >=20
+> > > > > > > Dave
+> > > > > >=20
+> > > > > > If it's just an optimization for vhost/postcopy/etc, then I thi=
+nk
+> > > > >=20
+> > > > > Note it's not an optimisation; postcopy fails unless you can aggr=
+egate
+> > > > > the members of the hugepage.
+> > > > > And I think vhost-user will fail if you have too many sections - =
+and
+> > > > > the 16 sections from synic I think will blow the slots available.
+> > > >=20
+> > > > Right, so both are internal reasons.
+> > > >=20
+> > > > > > an API that says how this isn't normal ram would be ok.
+> > > > > > E.g. it's not DMA'd into? Then maybe _nodma?
+> > > > >=20
+> > > > > Do we want a new memory_region_init for that or just to be able t=
+o add
+> > > > > a flag?
+> > > > >=20
+> > > > > Dave
+> > > >=20
+> > > > I think a flag API is preferable since this can apply to any kind o=
+f
+> > > > region. But can go either way, Paolo's the maintainer there.
+> > >=20
+> > > (Copying Paolo in)
+> > > So what exactly does this flag mean; to me it's 'no vhost' - but is i=
+t
+> > > actually more general?
+> > >=20
+> > > Dave
+> >=20
+> > I think it's also handy for VFIO, that should skip it too.
+>=20
+> BTW if it's "per cpu" then that is another way to put it.
+> Neither vfio nor vhost have a concept of cpu so neither
+> can support accessing per cpu things.
 
--- =
+In this case it's not really per-cpu in that sense; there's one of these
+regions per cpu, but I think each region is mapped by all cpus.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1839428
+Dave
 
-Title:
-   qemu core dumped when repeat "system_reset" multiple times during
-  guest boot
+> >=20
+> > > > > > > >=20
+> > > > > > > >=20
+> > > > > > > > > ---
+> > > > > > > > >  hw/hyperv/hyperv.c | 14 ++++++++------
+> > > > > > > > >  1 file changed, 8 insertions(+), 6 deletions(-)
+> > > > > > > > >=20
+> > > > > > > > > diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
+> > > > > > > > > index da8ce82725..4de3ec411d 100644
+> > > > > > > > > --- a/hw/hyperv/hyperv.c
+> > > > > > > > > +++ b/hw/hyperv/hyperv.c
+> > > > > > > > > @@ -95,12 +95,14 @@ static void synic_realize(DeviceState=
+ *dev, Error **errp)
+> > > > > > > > >      msgp_name =3D g_strdup_printf("synic-%u-msg-page", v=
+p_index);
+> > > > > > > > >      eventp_name =3D g_strdup_printf("synic-%u-event-page=
+", vp_index);
+> > > > > > > > > =20
+> > > > > > > > > -    memory_region_init_ram(&synic->msg_page_mr, obj, msg=
+p_name,
+> > > > > > > > > -                           sizeof(*synic->msg_page), &er=
+ror_abort);
+> > > > > > > > > -    memory_region_init_ram(&synic->event_page_mr, obj, e=
+ventp_name,
+> > > > > > > > > -                           sizeof(*synic->event_page), &=
+error_abort);
+> > > > > > > > > -    synic->msg_page =3D memory_region_get_ram_ptr(&synic=
+->msg_page_mr);
+> > > > > > > > > -    synic->event_page =3D memory_region_get_ram_ptr(&syn=
+ic->event_page_mr);
+> > > > > > > > > +    synic->msg_page =3D qemu_memalign(qemu_real_host_pag=
+e_size,
+> > > > > > > > > +                                    sizeof(*synic->msg_p=
+age));
+> > > > > > > > > +    synic->event_page =3D qemu_memalign(qemu_real_host_p=
+age_size,
+> > > > > > > > > +                                      sizeof(*synic->eve=
+nt_page));
+> > > > > > > > > +    memory_region_init_ram_device_ptr(&synic->msg_page_m=
+r, obj, msgp_name,
+> > > > > > > > > +                           sizeof(*synic->msg_page), syn=
+ic->msg_page);
+> > > > > > > > > +    memory_region_init_ram_device_ptr(&synic->event_page=
+_mr, obj, eventp_name,
+> > > > > > > > > +                           sizeof(*synic->event_page), s=
+ynic->event_page);
+> > > > > > > > > =20
+> > > > > > > > >      g_free(msgp_name);
+> > > > > > > > >      g_free(eventp_name);
+> > > > > > > > > --=20
+> > > > > > > > > 2.24.1
+> > > > > > > >=20
+> > > > > > > --
+> > > > > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > > > > >=20
+> > > > > --
+> > > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > > >=20
+> > > --
+> > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  commit 864ab314f1d924129d06ac7b571f105a2b76a4b2 (HEAD, tag: v4.1.0-rc4, o=
-rigin/master, origin/HEAD, master)
-  Test arch:x86 and power
-
-  Steps:
-  1.Boot up guest with command
-  power cmdline:
-  /usr/libexec/backup/qemu-kvm \
-   -smp 8 \
-   -m 4096 \
-   -nodefaults \
-   -device virtio-blk-pci,id=3Dimage1,drive=3Ddrive_image1,bootindex=3D1,bu=
-s=3Dpci.0,addr=3D0x7 \
-   -drive file=3Drhel77-ppc64le-virtio.qcow2,if=3Dnone,id=3Ddrive_image1,fo=
-rmat=3Dqcow2,cache=3Dnone \
-   -chardev stdio,mux=3Don,id=3Dserial_id_serial0,server,nowait,signal=3Dof=
-f \
-   -device spapr-vty,id=3Dserial111,chardev=3Dserial_id_serial0 \
-   -mon chardev=3Dserial_id_serial0,mode=3Dreadline \
-  x86 cmdline:
-  /usr/libexec/qemu-kvm \
-   -m 4096 -smp 8 \
-   -boot menu=3Don \
-   -device virtio-blk-pci,id=3Dimage1,drive=3Ddrive_image1\
-   -drive file=3Drhel77-64-virtio.qcow2,if=3Dnone,id=3Ddrive_image1,format=
-=3Dqcow2,cache=3Dnone \
-   -vga std \
-   -vnc :9 \
-   -nographic \
-   -device virtio-net-pci,netdev=3Dnet0,id=3Dnic0,mac=3D52:54:00:c4:e7:84 \
-   -netdev tap,id=3Dnet0,script=3D/etc/qemu-ifup,downscript=3D/etc/qemu-ifd=
-own,vhost=3Don \
-
-  2.when guest start to boot up kernel(when no output infomation),run
-  hmp command "system_reset"
-
-  =
-
-  Result:
-
-  Sometimes,qemu core dumped with error as following:
-  system_reset
-  (qemu) qemu-system-ppc64: /root/qemu/hw/virtio/virtio.c:225: vring_get_re=
-gion_caches: Assertion `caches !=3D NULL' failed.
-  b.sh: line 11: 73679 Aborted                 (core dumped) /usr/local/bin=
-/qemu-system-ppc64 -enable-kvm -smp 8 -m 4096 -nodefaults -device virtio-bl=
-k-pci,id=3Dimage1,drive=3Ddrive_image1,bootindex=3D1,bus=3Dpci.0,addr=3D0x7=
- -drive file=3Drhel77-ppc64le-virtio.qcow2,if=3Dnone,id=3Ddrive_image1,form=
-at=3Dqcow2,cache=3Dnone -chardev stdio,mux=3Don,id=3Dserial_id_serial0,serv=
-er,nowait,signal=3Doff -device spapr-vty,id=3Dserial111,chardev=3Dserial_id=
-_serial0 -mon chardev=3Dserial_id_serial0,mode=3Dreadline
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1839428/+subscriptions
 
