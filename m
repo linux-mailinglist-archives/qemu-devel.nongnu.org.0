@@ -2,62 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F5D135AC0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:57:12 +0100 (CET)
-Received: from localhost ([::1]:60812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16ABB135A92
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:51:42 +0100 (CET)
+Received: from localhost ([::1]:60730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipYJD-0003VM-Du
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:57:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49741)
+	id 1ipYDt-0006gl-1d
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:51:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48960)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipYHo-0002ZF-Uo
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:55:46 -0500
+ (envelope-from <erosca@de.adit-jv.com>) id 1ipYCQ-0004zq-1H
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:50:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipYHn-0002JM-Ki
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:55:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35658)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipYHn-0002Et-Dp
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:55:43 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipYHm-0002Vo-4o
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 13:55:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1AC482E80C7
- for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 13:55:42 +0000 (UTC)
+ (envelope-from <erosca@de.adit-jv.com>) id 1ipYCO-0004w1-Kb
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:50:09 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:39867)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <erosca@de.adit-jv.com>)
+ id 1ipYCO-0004ek-7z
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:50:08 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+ by smtp1.de.adit-jv.com (Postfix) with ESMTP id 628BD3C04C0;
+ Thu,  9 Jan 2020 14:50:04 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+ by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id SnVdHi-5nOMk; Thu,  9 Jan 2020 14:49:59 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 0D9103C00B7;
+ Thu,  9 Jan 2020 14:49:59 +0100 (CET)
+Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Thu, 9 Jan 2020
+ 14:49:58 +0100
+Date: Thu, 9 Jan 2020 14:49:56 +0100
+From: Eugeniu Rosca <erosca@de.adit-jv.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
+Message-ID: <20200109134843.GA2558@lxhi-065.adit-jv.com>
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-6-geert+renesas@glider.be>
+ <20191203105103.GA20470@x230>
+ <CAMuHMdVLaGt5GTXzUbUHrBHn5q--t3JfxO6P_j0GnnhixV+UfA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jan 2020 13:48:23 -0000
-From: Thomas Huth <1846451@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kraxel-redhat rokups th-huth
-X-Launchpad-Bug-Reporter: Rokas Kupstys (rokups)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <157008676845.21009.5220720197845563324.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157857770348.2925.13357463074327806567.malone@soybean.canonical.com>
-Subject: [Bug 1846451] Re: K800 keyboard no longer works when attached to a VM
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e597941e5f310f50f35b6da1e78a2f1acfe29a61
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVLaGt5GTXzUbUHrBHn5q--t3JfxO6P_j0GnnhixV+UfA@mail.gmail.com>
+X-Originating-IP: [10.72.93.66]
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 93.241.18.167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,55 +63,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1846451 <1846451@bugs.launchpad.net>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Harish Jenny K N <harish_kandiga@mentor.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>, Jonathan Corbet <corbet@lwn.net>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE
+ TREE BINDINGS" <devicetree@vger.kernel.org>,
+ Eugeniu Rosca <roscaeugeniu@gmail.com>, Marc Zyngier <marc.zyngier@arm.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Alexander Graf <graf@amazon.com>,
+ Phil Reid <preid@electromag.com.au>,
+ Christoffer Dall <christoffer.dall@arm.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch has been included here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D1dfe2b91dcb1633d0ba450
-... and been released with QEMU v4.2
+Hi Geert,
 
-** Changed in: qemu
-       Status: New =3D> Fix Released
+On Thu, Jan 09, 2020 at 02:35:10PM +0100, Geert Uytterhoeven wrote:
+> On Tue, Dec 3, 2019 at 11:51 AM Eugeniu Rosca <roscaeugeniu@gmail.com> wrote:
+> >
+> > FWIW/FTR, doing some blind creation and deletion of gpio aggregator
+> > chips [1] on R-Car H3ULCB overnight, kmemleak reported once [2]. Not
+> > sure this is something 100% reproducible.
+> >
+> > [1] while true; do \
+> >    echo e6055400.gpio 12,13 > /sys/bus/platform/drivers/gpio-aggregator/new_device; \
+> >    echo gpio-aggregator.0 > /sys/bus/platform/drivers/gpio-aggregator/delete_device; \
+> >    done
+> >
+> > [2] unreferenced object 0xffff0006d2c2e000 (size 128):
+> >   comm "kworker/3:1", pid 55, jiffies 4294676978 (age 38546.676s)
+> >   hex dump (first 32 bytes):
+> >     00 d9 d2 d3 06 00 ff ff 0c 00 e0 0f ff ff ff ff  ................
+> >     01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> >   backtrace:
+> >     [<00000000a8e18c13>] slab_post_alloc_hook+0x8c/0x94
+> >     [<000000006f419a4f>] __kmalloc+0x170/0x218
+> >     [<0000000060d185ea>] kobj_map+0x78/0x1c0
+> >     [<00000000c96645f3>] cdev_add+0x68/0x94
+> >     [<00000000a7a5a8ac>] cdev_device_add+0x74/0x90
+> >     [<00000000497871d3>] gpiochip_setup_dev+0x84/0x1f0
+> >     [<00000000b993f95f>] gpiochip_add_data_with_key+0xbcc/0x11f0
+> >     [<00000000fd728c0e>] devm_gpiochip_add_data+0x60/0xa8
+> >     [<00000000442e34c1>] gpio_aggregator_probe+0x210/0x3c8
+> >     [<00000000076e13fb>] platform_drv_probe+0x70/0xe4
+> >     [<00000000de84b58b>] really_probe+0x2d8/0x434
+> >     [<00000000c95c9784>] driver_probe_device+0x15c/0x16c
+> >     [<00000000afb7dd4f>] __device_attach_driver+0xdc/0x120
+> >     [<00000000efa40cae>] bus_for_each_drv+0x12c/0x154
+> >     [<00000000c149acef>] __device_attach+0x148/0x1e0
+> >     [<00000000a74fd158>] device_initial_probe+0x24/0x30
+> 
+> This is the allocation of the GPIO character device, which is allocated
+> in response to the creation of the GPIO chip, from .probe().
+> As that is done using devm_gpiochip_add_data(), the chardev should be
+> deallocated automatically by devm_gpio_chip_release() when
+> platform_device_unregister() is called.
+> 
+> Weird...
 
--- =
+It might have been a false positive. Kmemleak is not w/o flaws.
+I will retest and report later. In any case, it does not look
+severe to me.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1846451
-
-Title:
-  K800 keyboard no longer works when attached to a VM
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  I use Logitech K800 keyboard which is connected to a PC through
-  Logitech unifying receiver. In order to control my windows VM i attach
-  unifying receiver USB device to a VM using "virsh attach-device VM-
-  Name ./device.xml". Device ID as seen in lsusb is 046d:c52b.
-
-  As of v4.1.0 keyboard no longer works when attached to a windows VM.
-  When attached receiver is still at least partially functional.
-  Logitech pairing utility properly displays paired keyboard, pressing
-  buttons on the keyboard shows changing indicator icon in pairing
-  utility. Pairing and unpairing works. Pressing keys however fails to
-  register any key presses.
-
-  Downgrading to v4.0.0 fixes the issue.
-
-  device.xml used to attach USB device:
-  ```
-  <hostdev mode=3D'subsystem' type=3D'usb'>
-          <source>
-                  <vendor id=3D'0x046d'/>
-                  <product id=3D'0xc52b'/>
-          </source>
-  </hostdev>
-
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1846451/+subscriptions
+-- 
+Best Regards,
+Eugeniu
 
