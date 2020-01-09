@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9002B13566A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 11:02:41 +0100 (CET)
-Received: from localhost ([::1]:57674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E79DA135668
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 11:02:36 +0100 (CET)
+Received: from localhost ([::1]:57670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipUeF-00084B-Kf
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 05:02:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42713)
+	id 1ipUeB-0007sR-6U
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 05:02:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fengzhimin1@huawei.com>) id 1ipPvF-00010n-Nm
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:59:57 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fengzhimin1@huawei.com>) id 1ipPvC-0001Ou-LG
+ (envelope-from <fengzhimin1@huawei.com>) id 1ipPvD-00010L-NA
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:59:53 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2293 helo=huawei.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <fengzhimin1@huawei.com>) id 1ipPvB-0001N1-VJ
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:59:51 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:34928 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <fengzhimin1@huawei.com>)
- id 1ipPvC-0001K3-1i
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:59:50 -0500
+ id 1ipPvB-0001Gp-FD
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 23:59:49 -0500
 Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id DDE967ABED5B9696DBA0;
- Thu,  9 Jan 2020 12:59:40 +0800 (CST)
+ by Forcepoint Email with ESMTP id EAFEF725F85CFF8656CE;
+ Thu,  9 Jan 2020 12:59:45 +0800 (CST)
 Received: from huawei.com (10.173.220.198) by DGGEMS411-HUB.china.huawei.com
  (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Thu, 9 Jan 2020
- 12:59:34 +0800
+ 12:59:35 +0800
 From: Zhimin Feng <fengzhimin1@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>, <armbru@redhat.com>,
  <eblake@redhat.com>
-Subject: [PATCH RFC 06/12] migration/rdma: Transmit initial package
-Date: Thu, 9 Jan 2020 12:59:16 +0800
-Message-ID: <20200109045922.904-7-fengzhimin1@huawei.com>
+Subject: [PATCH RFC 07/12] migration/rdma: Be sure all channels are created
+Date: Thu, 9 Jan 2020 12:59:17 +0800
+Message-ID: <20200109045922.904-8-fengzhimin1@huawei.com>
 X-Mailer: git-send-email 2.24.0.windows.2
 In-Reply-To: <20200109045922.904-1-fengzhimin1@huawei.com>
 References: <20200109045922.904-1-fengzhimin1@huawei.com>
@@ -43,7 +43,7 @@ X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 45.249.212.32
 X-Mailman-Approved-At: Thu, 09 Jan 2020 04:56:54 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,196 +63,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: fengzhimin <fengzhimin1@huawei.com>
 
-Transmit initial package through the multiRDMA channels,
-so that we can identify the main channel and multiRDMA channels.
+We need to build all multiRDMA channels before we start migration.
 
 Signed-off-by: fengzhimin <fengzhimin1@huawei.com>
 ---
- migration/rdma.c | 114 ++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 107 insertions(+), 7 deletions(-)
+ migration/rdma.c | 44 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 42 insertions(+), 2 deletions(-)
 
 diff --git a/migration/rdma.c b/migration/rdma.c
-index 5b780bef36..db75a4372a 100644
+index db75a4372a..518a21b0fe 100644
 --- a/migration/rdma.c
 +++ b/migration/rdma.c
-@@ -116,6 +116,16 @@ static uint32_t known_capabilities =3D RDMA_CAPABILI=
-TY_PIN_ALL;
-=20
- #define RDMA_WRID_CHUNK_MASK (~RDMA_WRID_BLOCK_MASK & ~RDMA_WRID_TYPE_MA=
-SK)
-=20
-+/* Define magic to distinguish multiRDMA and main RDMA */
-+#define MULTIRDMA_MAGIC 0x11223344U
-+#define MAINRDMA_MAGIC 0x55667788U
-+#define ERROR_MAGIC 0xFFFFFFFFU
-+
-+#define MULTIRDMA_VERSION 1
-+#define MAINRDMA_VERSION 1
-+
-+#define UNUSED_ID 0xFFU
-+
- /*
-  * RDMA migration protocol:
-  * 1. RDMA Writes (data messages, i.e. RAM)
-@@ -167,6 +177,14 @@ enum {
-     RDMA_CONTROL_UNREGISTER_FINISHED, /* unpinning finished */
- };
-=20
-+/*
-+ * Identify the MultiRDAM channel info
-+ */
-+typedef struct {
-+    uint32_t magic;
-+    uint32_t version;
-+    uint8_t id;
-+} __attribute__((packed)) RDMAChannelInit_t;
-=20
- /*
-  * Memory and MR structures used to represent an IB Send/Recv work reque=
-st.
-@@ -3430,7 +3448,7 @@ static int qemu_rdma_accept(RDMAContext *rdma)
-         int i;
-         RDMAContext *multi_rdma =3D NULL;
-         thread_count =3D migrate_multiRDMA_channels();
--        /* create the multi Thread RDMA channels */
-+        /* create the multiRDMA channels */
-         for (i =3D 0; i < thread_count; i++) {
-             if (multiRDMA_recv_state->params[i].rdma->cm_id =3D=3D NULL)=
- {
-                 multi_rdma =3D multiRDMA_recv_state->params[i].rdma;
-@@ -4058,6 +4076,48 @@ static QEMUFile *qemu_fopen_rdma(RDMAContext *rdma=
+@@ -4076,6 +4076,38 @@ static QEMUFile *qemu_fopen_rdma(RDMAContext *rdma=
 , const char *mode)
      return rioc->file;
  }
 =20
-+static RDMAChannelInit_t migration_rdma_recv_initial_packet(QEMUFile *f,
-+                                                            Error **errp=
-)
++static bool multiRDMA_send_all_channels_created(void)
 +{
-+    RDMAChannelInit_t msg;
 +    int thread_count =3D migrate_multiRDMA_channels();
-+    qemu_get_buffer(f, (uint8_t *)&msg, sizeof(msg));
-+    be32_to_cpus(&msg.magic);
-+    be32_to_cpus(&msg.version);
 +
-+    if (msg.magic !=3D MULTIRDMA_MAGIC &&
-+        msg.magic !=3D MAINRDMA_MAGIC) {
-+        error_setg(errp, "multiRDMA: received unrecognized "
-+                   "packet magic %x", msg.magic);
-+        goto err;
-+    }
-+
-+    if (msg.magic =3D=3D MULTIRDMA_MAGIC
-+        && msg.version !=3D MULTIRDMA_VERSION) {
-+        error_setg(errp, "multiRDMA: received packet version "
-+                   "%d expected %d", msg.version, MULTIRDMA_VERSION);
-+        goto err;
-+    }
-+
-+    if (msg.magic =3D=3D MAINRDMA_MAGIC && msg.version !=3D MAINRDMA_VER=
-SION) {
-+        error_setg(errp, "multiRDMA: received packet version "
-+                   "%d expected %d", msg.version, MAINRDMA_VERSION);
-+        goto err;
-+    }
-+
-+    if (msg.magic =3D=3D MULTIRDMA_MAGIC && msg.id > thread_count) {
-+        error_setg(errp, "multiRDMA: received channel version %d "
-+                   "expected %d", msg.version, MULTIRDMA_VERSION);
-+        goto err;
-+    }
-+
-+    return msg;
-+err:
-+    msg.magic =3D ERROR_MAGIC;
-+    msg.id =3D UNUSED_ID;
-+    return msg;
++    return thread_count =3D=3D atomic_read(&multiRDMA_send_state->count)=
+;
 +}
 +
- static void *multiRDMA_recv_thread(void *opaque)
- {
-     MultiRDMARecvParams *p =3D opaque;
-@@ -4100,13 +4160,34 @@ static void multiRDMA_recv_new_channel(QEMUFile *=
-f, int id)
- static void migration_multiRDMA_process_incoming(QEMUFile *f, RDMAContex=
-t *rdma)
- {
-     MigrationIncomingState *mis =3D migration_incoming_get_current();
-+    Error *local_err =3D NULL;
-+    RDMAChannelInit_t msg =3D migration_rdma_recv_initial_packet(f, &loc=
-al_err);
-+
-+    switch (msg.magic) {
-+    case MAINRDMA_MAGIC:
-+        if (!mis->from_src_file) {
-+            rdma->migration_started_on_destination =3D 1;
-+            migration_incoming_setup(f);
-+            migration_incoming_process();
-+        }
-+        break;
-=20
--    if (!mis->from_src_file) {
--        rdma->migration_started_on_destination =3D 1;
--        migration_incoming_setup(f);
--        migration_incoming_process();
--    } else {
--        multiRDMA_recv_new_channel(f, multiRDMA_recv_state->count);
-+    case MULTIRDMA_MAGIC:
-+        multiRDMA_recv_new_channel(f, msg.id);
-+        break;
-+
-+    case ERROR_MAGIC:
-+    default:
-+        if (local_err) {
-+            MigrationState *s =3D migrate_get_current();
-+            migrate_set_error(s, local_err);
-+            if (s->state =3D=3D MIGRATION_STATUS_SETUP ||
-+                    s->state =3D=3D MIGRATION_STATUS_ACTIVE) {
-+                migrate_set_state(&s->state, s->state,
-+                        MIGRATION_STATUS_FAILED);
-+            }
-+        }
-+        break;
-     }
- }
-=20
-@@ -4245,10 +4326,26 @@ err:
-     multiRDMA_load_cleanup();
- }
-=20
-+static void migration_rdma_send_initial_packet(QEMUFile *f, uint8_t id)
++static bool multiRDMA_recv_all_channels_created(void)
 +{
-+    RDMAChannelInit_t msg;
++    int thread_count =3D migrate_multiRDMA_channels();
 +
-+    msg.magic =3D cpu_to_be32(id =3D=3D UNUSED_ID ?
-+                            MAINRDMA_MAGIC : MULTIRDMA_MAGIC);
-+    msg.version =3D cpu_to_be32(id =3D=3D UNUSED_ID ?
-+                              MAINRDMA_VERSION : MULTIRDMA_VERSION);
-+    msg.id =3D id;
-+    qemu_put_buffer(f, (uint8_t *)&msg, sizeof(msg));
-+    qemu_fflush(f);
++    return thread_count =3D=3D atomic_read(&multiRDMA_recv_state->count)=
+;
 +}
 +
- static void *multiRDMA_send_thread(void *opaque)
++static bool migration_has_all_rdma_channels(void)
++{
++    bool all_channels;
++    if (multiRDMA_send_state) {
++        MigrationState *ms =3D migrate_get_current();
++        all_channels =3D multiRDMA_send_all_channels_created();
++
++        return all_channels && ms->to_dst_file !=3D NULL;
++    } else {
++        MigrationIncomingState *mis =3D migration_incoming_get_current()=
+;
++        all_channels =3D multiRDMA_recv_all_channels_created();
++
++        return all_channels && mis->from_src_file !=3D NULL;
++    }
++
++    return false;
++}
++
+ static RDMAChannelInit_t migration_rdma_recv_initial_packet(QEMUFile *f,
+                                                             Error **errp=
+)
  {
-     MultiRDMASendParams *p =3D opaque;
+@@ -4168,7 +4200,6 @@ static void migration_multiRDMA_process_incoming(QE=
+MUFile *f, RDMAContext *rdma)
+         if (!mis->from_src_file) {
+             rdma->migration_started_on_destination =3D 1;
+             migration_incoming_setup(f);
+-            migration_incoming_process();
+         }
+         break;
 =20
-+    /* send the multiRDMA channels magic */
-+    migration_rdma_send_initial_packet(p->file, p->id);
+@@ -4189,6 +4220,11 @@ static void migration_multiRDMA_process_incoming(Q=
+EMUFile *f, RDMAContext *rdma)
+         }
+         break;
+     }
 +
-     while (true) {
-         qemu_mutex_lock(&p->mutex);
-         if (p->quit) {
-@@ -4579,6 +4676,9 @@ void rdma_start_outgoing_migration(void *opaque,
-     s->to_dst_file =3D qemu_fopen_rdma(rdma, "wb");
-     /* create multiRDMA channel */
-     if (migrate_use_multiRDMA()) {
-+        /* send the main RDMA channel magic */
-+        migration_rdma_send_initial_packet(s->to_dst_file, UNUSED_ID);
-+
-         if (multiRDMA_save_setup(host_port, errp) !=3D 0) {
++    /* wait for all channels to be established */
++    if (migration_has_all_rdma_channels()) {
++        migration_incoming_process();
++    }
+ }
+=20
+ static void rdma_accept_incoming_migration(void *opaque)
+@@ -4683,7 +4719,11 @@ void rdma_start_outgoing_migration(void *opaque,
              ERROR(errp, "init multiRDMA channels failure!");
              goto err;
+         }
+-        migrate_fd_connect(s, NULL);
++
++        /* wait for all channels to be established */
++        if (migration_has_all_rdma_channels()) {
++            migrate_fd_connect(s, NULL);
++        }
+     } else {
+         migrate_fd_connect(s, NULL);
+     }
 --=20
 2.19.1
 
