@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9221350C1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 02:00:36 +0100 (CET)
-Received: from localhost ([::1]:52626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4366B13510F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 02:53:42 +0100 (CET)
+Received: from localhost ([::1]:53090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipMBe-0001F0-9g
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 20:00:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53883)
+	id 1ipN12-0005Zn-Kb
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 20:53:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43686)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1ipMAC-0000ia-Ps
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:59:07 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ipMzD-0004b9-8J
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 20:51:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1ipMAB-0001z1-35
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:59:04 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:42432)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1ipMA9-0001uK-PA
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:59:02 -0500
-Received: by mail-pl1-x644.google.com with SMTP id p9so1816217plk.9
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 16:59:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:subject:cc:to:in-reply-to:references:message-id
- :mime-version:content-transfer-encoding;
- bh=AeWzA6tBi6Il/1HonnJTvliIFQYNhq8at6n6ZvU3U58=;
- b=A4ZMx/VWDLZehxggBDieHWn91Xt/aHqayDb127at7ERq1+XIK4wusMpKzO6oSBHazH
- ltO32OKlsueshML5bQ93EYfgMfJXR8Q6zRa334TdlVd6XJPOV73vgWBYWwbMFqPsYo1j
- 3a7VChkATEtPR7AY7pOxqPawDdTrlKnS9wUOE87HLrlm6cQVlJPCnt1Pfsq7LeMZhp0n
- ebgmk7emp0yrEfuTiGewWdS0/8L1R0MOTF3rQ8uRJL5mcj0CpSSqHolcUOtuZzo8nPTj
- df+quYqon5DGbA02ZWYnw6ZZoSOQ5SDdQbecI2sl6QatQZjuTvpPEHdkS8twqS+7Gg4m
- HxfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:subject:cc:to:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=AeWzA6tBi6Il/1HonnJTvliIFQYNhq8at6n6ZvU3U58=;
- b=KfjvAwm9VH2D7fjDmACY9YHFKKM90ykhmW6Sw3mgQeZVujknwscmIFiug7E+7Kyyhh
- Lf7IuJ2eW3Och158nsap4OXiGJYXI1C2oDjP4N7lFxAiWj1xNrICy+n/kCyaj/mgatDh
- KK9nLAIu932FHL8Br7gl+06hET8tdGfFSmC/g+M88ErHpm5cO2wBPXtZV+338Y8BKrGY
- guHtyynkz+0OJE8XRQE3bDrMPg/l+9L8X+lCGHMkEHV5T3U4jihVNpo7vBDKM2T6yw6M
- UCzYP/Qy37qXqg5gNF5kDSrzyNV8Babi1TmaVz23AQDXMIJc5LeU054/W+bSoOl/QCFg
- I6Ig==
-X-Gm-Message-State: APjAAAUJeZtA3tQqfiqUCz+fx3urz257Pf6819I5NO0gmHJHqrgpXKvN
- TjFNZQwlOyFb+er9b+wcdxMiwJspdsM=
-X-Google-Smtp-Source: APXvYqw2ZzI+tjvZ1jd9qihxiDExql7i7WDYNkFZcfoNT/bTbigEMSnoMpsUVuuQbmQIFbOLoZvp6A==
-X-Received: by 2002:a17:902:8bc4:: with SMTP id
- r4mr8487712plo.291.1578531539121; 
- Wed, 08 Jan 2020 16:58:59 -0800 (PST)
-Received: from localhost ([2620:0:1000:2514:7f69:cd98:a2a2:a03d])
- by smtp.gmail.com with ESMTPSA id i17sm5038140pfr.67.2020.01.08.16.58.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 16:58:58 -0800 (PST)
-Date: Wed, 08 Jan 2020 16:58:58 -0800 (PST)
-X-Google-Original-Date: Wed, 08 Jan 2020 16:58:47 PST (-0800)
-From: Palmer Dabbelt <palmerdabbelt@google.com>
-X-Google-Original-From: Palmer Dabbelt <palmer@dabbelt.com>
-Subject: Re: [PATCH v1 29/36] target/riscv: Respect MPRV and SPRV for floating
- point ops
-CC: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, alistair23@gmail.com
-To: Alistair Francis <Alistair.Francis@wdc.com>
-In-Reply-To: <f1725ddb8d69edf68ddd2d6e1b6688cd7b2ba550.1575914822.git.alistair.francis@wdc.com>
-References: <f1725ddb8d69edf68ddd2d6e1b6688cd7b2ba550.1575914822.git.alistair.francis@wdc.com><cover.1575914822.git.alistair.francis@wdc.com>
-Message-ID: <mhng-a52e4450-6d1b-4035-aa67-4eb899412231@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ (envelope-from <dgibson@ozlabs.org>) id 1ipMzA-0000nS-7X
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 20:51:46 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52461 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1ipMz9-0000ar-4z; Wed, 08 Jan 2020 20:51:44 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47tTcT451dz9sRf; Thu,  9 Jan 2020 12:51:37 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1578534697;
+ bh=5z+73++uW+K09ix6A262zZJiXGmBjuSc6+80Yg5XvfY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=p5E3sPoOzRH7gtdLXAFsBlCw2SKN88kn3D8ki2/nD2PhO+aTIycK0QmrdollhZ6jM
+ hi0obE9mB6qDeNZqTQ0Dogbq2AxFZHD/OVB7fqIQju22NSYya6FEI1KrcW6NtJeFIg
+ mmZq1I6kTKRUzPH3IQoB1pvzW8gCwzR8Wh+Gatso=
+Date: Thu, 9 Jan 2020 12:33:46 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 2/2] pnv/psi: Consolidate some duplicated code in
+ pnv_psi_realize()
+Message-ID: <20200109013346.GC8586@umbus.fritz.box>
+References: <157841289975.66386.6463139590245180762.stgit@bahia.tlslab.ibm.com>
+ <157841476667.66386.13659183399113837990.stgit@bahia.tlslab.ibm.com>
+ <56272b35-c0ed-65de-310d-f97090e2b8c1@redhat.com>
+ <20200108005453.GD2137@umbus.fritz.box>
+ <20200108115845.07f10453@bahia.lan>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="da4uJneut+ArUgXk"
+Content-Disposition: inline
+In-Reply-To: <20200108115845.07f10453@bahia.lan>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,47 +59,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 09 Dec 2019 10:11:56 PST (-0800), Alistair Francis wrote:
-> mark_fs_dirty() is the only place in translate.c that uses the
-> virt_enabled bool. Let's respect the contents of MSTATUS.MPRV and
-> HSTATUS.SPRV when setting the bool as this is used for performing
-> floating point operations when V=0.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/translate.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 1d879b34db..dd93e12b45 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -748,7 +748,21 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->      ctx->mstatus_fs = ctx->base.tb->flags & TB_FLAGS_MSTATUS_FS;
->      ctx->priv_ver = env->priv_ver;
->  #if !defined(CONFIG_USER_ONLY)
-> -    ctx->virt_enabled = riscv_cpu_virt_enabled(env);
-> +    if (riscv_has_ext(env, RVH)) {
-> +        ctx->virt_enabled = riscv_cpu_virt_enabled(env);
-> +        if (env->priv_ver == PRV_M &&
-> +            get_field(*env->mstatus, MSTATUS_MPRV) &&
-> +            get_field(*env->mstatus, MSTATUS_MPV)) {
-> +            ctx->virt_enabled = true;
-> +        } else if (env->priv == PRV_S &&
-> +                   !riscv_cpu_virt_enabled(env) &&
-> +                   get_field(env->hstatus, HSTATUS_SPRV) &&
-> +                   get_field(env->hstatus, HSTATUS_SPV)) {
-> +            ctx->virt_enabled = true;
-> +        }
-> +    } else {
-> +        ctx->virt_enabled = false;
-> +    }
->  #else
->      ctx->virt_enabled = false;
->  #endif
 
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+--da4uJneut+ArUgXk
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jan 08, 2020 at 11:58:45AM +0100, Greg Kurz wrote:
+> On Wed, 8 Jan 2020 11:54:53 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > On Tue, Jan 07, 2020 at 07:32:03PM +0100, Philippe Mathieu-Daud=E9 wrot=
+e:
+> > > Hi Greg,
+> > >=20
+> > > On 1/7/20 5:32 PM, Greg Kurz wrote:
+> > > > The proper way to do that would be to use device_class_set_parent_r=
+ealize(),
+> > > > but defining a Pnv8PsiClass and a Pnv9PsiClass types with a parent_=
+realize
+> > > > pointer adds a fair amount of code. Calling pnv_psi_realize() expli=
+citely
+> > > > is fine for now.
+> > > >=20
+> > > > This should probably be achieved with a device realize hook in the
+> > > > PSI base class and device_class_set_parent_realize() in the children
+> > > > classes.
+> > >=20
+>=20
+> I realize that this last paragraph is a leftover. First paragraph already
+> mentions device_class_set_parent_realize() as being the "proper way".
+>=20
+> David,
+>=20
+> Can you remove it in your tree ? No big deal if you can't.
+
+Sorry, not any more - I've already sent the PR.
+
+>=20
+> > > Can you add a note explaining why the POWER10 PSI doesn't need it?
+> >=20
+> > For now, POWER10 uses the Pnv9PsiClass, I believe, so the question
+> > doesn't arise.
+> >=20
+>=20
+> This is correct and also a bit confusing, as proves Philippe's remark.
+> Maybe we should come up with a PnvXivePsiClass and specialize it for
+> POWER9 and POWER10.
+>=20
+> > >=20
+> > > >=20
+> > > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > > > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> > > > ---
+> > > >   hw/ppc/pnv_psi.c |   19 ++++++++++++-------
+> > > >   1 file changed, 12 insertions(+), 7 deletions(-)
+> > > >=20
+> > > > diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+> > > > index 6c94781e377d..546232106756 100644
+> > > > --- a/hw/ppc/pnv_psi.c
+> > > > +++ b/hw/ppc/pnv_psi.c
+> > > > @@ -469,6 +469,16 @@ static void pnv_psi_reset_handler(void *dev)
+> > > >       device_reset(DEVICE(dev));
+> > > >   }
+> > > > +static void pnv_psi_realize(DeviceState *dev, Error **errp)
+> > > > +{
+> > > > +    PnvPsi *psi =3D PNV_PSI(dev);
+> > > > +
+> > > > +    /* Default BAR for MMIO region */
+> > > > +    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
+> > > > +
+> > > > +    qemu_register_reset(pnv_psi_reset_handler, dev);
+> > > > +}
+> > > > +
+> > > >   static void pnv_psi_power8_instance_init(Object *obj)
+> > > >   {
+> > > >       Pnv8Psi *psi8 =3D PNV8_PSI(obj);
+> > > > @@ -528,9 +538,6 @@ static void pnv_psi_power8_realize(DeviceState =
+*dev, Error **errp)
+> > > >       memory_region_init_io(&psi->regs_mr, OBJECT(dev), &psi_mmio_o=
+ps, psi,
+> > > >                             "psihb", PNV_PSIHB_SIZE);
+> > > > -    /* Default BAR for MMIO region */
+> > > > -    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
+> > > > -
+> > > >       /* Default sources in XIVR */
+> > > >       for (i =3D 0; i < PSI_NUM_INTERRUPTS; i++) {
+> > > >           uint8_t xivr =3D irq_to_xivr[i];
+> > > > @@ -538,7 +545,7 @@ static void pnv_psi_power8_realize(DeviceState =
+*dev, Error **errp)
+> > > >               ((uint64_t) i << PSIHB_XIVR_SRC_SH);
+> > > >       }
+> > > > -    qemu_register_reset(pnv_psi_reset_handler, dev);
+> > > > +    pnv_psi_realize(dev, errp);
+> > > >   }
+> > > >   static int pnv_psi_dt_xscom(PnvXScomInterface *dev, void *fdt, in=
+t xscom_offset)
+> > > > @@ -873,9 +880,7 @@ static void pnv_psi_power9_realize(DeviceState =
+*dev, Error **errp)
+> > > >       memory_region_init_io(&psi->regs_mr, OBJECT(dev), &pnv_psi_p9=
+_mmio_ops, psi,
+> > > >                             "psihb", PNV9_PSIHB_SIZE);
+> > > > -    pnv_psi_set_bar(psi, psi->bar | PSIHB_BAR_EN);
+> > > > -
+> > > > -    qemu_register_reset(pnv_psi_reset_handler, dev);
+> > > > +    pnv_psi_realize(dev, errp);
+> > > >   }
+> > > >   static void pnv_psi_power9_class_init(ObjectClass *klass, void *d=
+ata)
+> > > >=20
+> > > >=20
+> > >=20
+> >=20
+>=20
+
+
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--da4uJneut+ArUgXk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4WgvgACgkQbDjKyiDZ
+s5Lk5g/9HKY4cTbGRE7Ie4bDSHTdXQuCyFkUMRXy4IW1IQscExMFWf4RbYmU2fBu
+htq7GchnqdzdvSllaqPxXJcQ6OZYtvPmo7O8aG7hHwNuozcIlNCWNDFynJa4UuWr
+DZdNSqmKM6w2M3lCuU33OjMCp7hTI8Sx34EaRrc8W3+J8sQPQcMXOIB6X19Wgnlr
+2hbJHicIlC7Ri1N7vFCWMqmPWA5ES5QifSpjGbYwLKO7GyGOgOA4M/vsBFF1q9un
+edMA5vXuN54w/jmIjk0H1w45DCIfljrIqMSC4zmkpdpS+OldM9Wv+2Ond66J2uar
+olfFd/COJ+vI33i0EoGiY0UceOIByOdhGFlBJAvl34b8H5jGVNqF0N+b67ammjPw
+x1yZhhxyvZq+zYcdDVBEfXhaMY/Z7uSUxgkrLPiTkDK5alY9YaRY5A+dpL87620t
+hPPgR6FujkGFn249g1EJj7WSsWLvPoPxgerghX8PywS77zakRHk5gTdj14BBWRDw
+30hE/Lb4uVwQ6VpdaRv7XK7skXFdN/XeH3aYuOCMg9Yz1h/ETVVwrFR1vKdD38f5
+SJUJ7/vdV+iUXcK2iLYmh5GMRxyJucFknSiN61BOJizuHfeN4t9uqLpmZRhv6U70
+rhDGUa/ztsNnW8yUhoYvC8P5lwevYH9cHNMdmd3dAoW4yvAmvHM=
+=kOs6
+-----END PGP SIGNATURE-----
+
+--da4uJneut+ArUgXk--
 
