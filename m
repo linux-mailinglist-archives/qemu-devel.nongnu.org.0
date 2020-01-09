@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5161E1360F0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 20:17:54 +0100 (CET)
-Received: from localhost ([::1]:36528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88DCE1360F7
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 20:20:31 +0100 (CET)
+Received: from localhost ([::1]:36574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipdJZ-000555-26
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 14:17:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39315)
+	id 1ipdM6-00016w-Ae
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 14:20:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39309)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1ipdGC-0003WV-T3
+ (envelope-from <berto@igalia.com>) id 1ipdGC-0003WS-Rt
  for qemu-devel@nongnu.org; Thu, 09 Jan 2020 14:14:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1ipdGB-0007J6-EI
+ (envelope-from <berto@igalia.com>) id 1ipdGB-0007JK-EN
  for qemu-devel@nongnu.org; Thu, 09 Jan 2020 14:14:24 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:58342)
+Received: from fanzine.igalia.com ([178.60.130.6]:58346)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1ipdG9-0006BE-Fv; Thu, 09 Jan 2020 14:14:22 -0500
+ id 1ipdG9-0006BC-FX; Thu, 09 Jan 2020 14:14:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=rYrNjyo1odRCvrRwXrISC+TPRRtheFI6QJmzzrZY1Qw=; 
- b=WYIM4E/o1s/61ArO3ZGiKM2aUsZZdkh1ptkOJe+Aq06Oy664J9fVmRhdrhXBAfcdNmIkafeLWlUouiDQQEIcpX4AdK1pnHcfaLoNnBftwepjRTnYB8KpDxmtzjTc8anRswXWxTIdDBZqeGdZmxnP4Byjizq5mrcZwb6fCMFABz59UylZVURzeH/W2D0FIng4H6pe52Z6MeqwWNqnWgSPoikyTJKinvUn9qNGJJVEtaVEHiQHk6Jx0i5bFSzDaP25k59yvDW3HPbFs5oRSkP+JczgUGeSa6yphGnc91AaVIzAasbjVd6d6/ll1wUeEFUB0u/glojuO3NToLONTbE5DQ==;
+ bh=Clwr8OmkgLClIPLb5A4r0y5WGdUX1DP4zBqunbRF28Y=; 
+ b=msGUMMPheY916npCnP2Zv70bYMzo4GHL/NYPrwCZ9/Ho0jpO8QpN6xqTmwJJO0ArsgrgKiCnhQSNUNuGOVhcmb/AqiVGaZTy5GXBOITckdONUt8bDuZRCZ0a5ust0jjBmNXLkZi1godGF3u25ZM1sGY5KglbLnXn8kL55ltUHQPLD2RaZET5Yk4ie1ov+O9fuc+vB9JDj94mKwqka7XeN6gbmJtsCPNZ5I4TiuZjeiiWO4wThuv8cVJQMIVIVxFKKqy41CrSgPW/lRiqLn9BjJVA6rVbngqhPHwciXOwGgUCFhh66QCPnPWd2KuiGg1LyE9tJxyksk8hvmCGxMRrYw==;
 Received: from [213.99.255.143] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1ipdFp-0006Ml-Nu; Thu, 09 Jan 2020 20:14:01 +0100
+ id 1ipdFp-0006Mm-P5; Thu, 09 Jan 2020 20:14:01 +0100
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1ipdF0-0005R5-Nf; Thu, 09 Jan 2020 20:13:10 +0100
+ id 1ipdF0-0005R7-Om; Thu, 09 Jan 2020 20:13:10 +0100
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/4] qcow2: Tighten cluster_offset alignment assertions
-Date: Thu,  9 Jan 2020 20:13:01 +0100
-Message-Id: <fe47feb4fc96cf1242ba9e9431f910aef575cf16.1578596897.git.berto@igalia.com>
+Subject: [PATCH v2 4/4] qcow2: Use BDRV_SECTOR_SIZE instead of the hardcoded
+ value
+Date: Thu,  9 Jan 2020 20:13:02 +0100
+Message-Id: <e3982d5118a90db2442c6ac18f339ec8ba006df2.1578596897.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1578596897.git.berto@igalia.com>
 References: <cover.1578596897.git.berto@igalia.com>
@@ -62,52 +63,62 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qcow2_alloc_cluster_offset() and qcow2_get_cluster_offset() always
-return offsets that are cluster-aligned so don't just check that they
-are sector-aligned.
-
-The check in qcow2_co_preadv_task() is also replaced by an assertion
-for the same reason.
+This replaces all remaining instances in the qcow2 code.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- block/qcow2.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ block/qcow2-cluster.c |  2 +-
+ block/qcow2.c         | 10 ++++++----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 932fc48919..777ca2d409 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -219,7 +219,7 @@ static int l2_load(BlockDriverState *bs, uint64_t offset,
+  * Writes one sector of the L1 table to the disk (can't update single entries
+  * and we really don't want bdrv_pread to perform a read-modify-write)
+  */
+-#define L1_ENTRIES_PER_SECTOR (512 / 8)
++#define L1_ENTRIES_PER_SECTOR (BDRV_SECTOR_SIZE / 8)
+ int qcow2_write_l1_entry(BlockDriverState *bs, int l1_index)
+ {
+     BDRVQcow2State *s = bs->opaque;
 diff --git a/block/qcow2.c b/block/qcow2.c
-index 848a6c5182..783d2b9578 100644
+index 783d2b9578..c0f3e715ef 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -2175,10 +2175,7 @@ static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
-                                           offset, bytes, qiov, qiov_offset);
+@@ -3280,7 +3280,8 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
  
-     case QCOW2_CLUSTER_NORMAL:
--        if ((file_cluster_offset & 511) != 0) {
--            return -EIO;
--        }
--
-+        assert(QEMU_IS_ALIGNED(file_cluster_offset, s->cluster_size));
-         if (bs->encrypted) {
-             return qcow2_co_preadv_encrypted(bs, file_cluster_offset,
-                                              offset, bytes, qiov, qiov_offset);
-@@ -2514,7 +2511,7 @@ static coroutine_fn int qcow2_co_pwritev_part(
-             goto out_locked;
-         }
+     /* Validate options and set default values */
+     if (!QEMU_IS_ALIGNED(qcow2_opts->size, BDRV_SECTOR_SIZE)) {
+-        error_setg(errp, "Image size must be a multiple of 512 bytes");
++        error_setg(errp, "Image size must be a multiple of %u bytes",
++                   (unsigned) BDRV_SECTOR_SIZE);
+         ret = -EINVAL;
+         goto out;
+     }
+@@ -3836,7 +3837,7 @@ qcow2_co_copy_range_from(BlockDriverState *bs,
+         case QCOW2_CLUSTER_NORMAL:
+             child = s->data_file;
+             copy_offset += offset_into_cluster(s, src_offset);
+-            if ((copy_offset & 511) != 0) {
++            if (!QEMU_IS_ALIGNED(copy_offset, BDRV_SECTOR_SIZE)) {
+                 ret = -EIO;
+                 goto out;
+             }
+@@ -3958,8 +3959,9 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
+         return -ENOTSUP;
+     }
  
--        assert((cluster_offset & 511) == 0);
-+        assert(QEMU_IS_ALIGNED(cluster_offset, s->cluster_size));
+-    if (offset & 511) {
+-        error_setg(errp, "The new size must be a multiple of 512");
++    if (!QEMU_IS_ALIGNED(offset, BDRV_SECTOR_SIZE)) {
++        error_setg(errp, "The new size must be a multiple of %u",
++                   (unsigned) BDRV_SECTOR_SIZE);
+         return -EINVAL;
+     }
  
-         ret = qcow2_pre_write_overlap_check(bs, 0,
-                                             cluster_offset + offset_in_cluster,
-@@ -3904,7 +3901,7 @@ qcow2_co_copy_range_to(BlockDriverState *bs,
-             goto fail;
-         }
- 
--        assert((cluster_offset & 511) == 0);
-+        assert(QEMU_IS_ALIGNED(cluster_offset, s->cluster_size));
- 
-         ret = qcow2_pre_write_overlap_check(bs, 0,
-                 cluster_offset + offset_in_cluster, cur_bytes, true);
 -- 
 2.20.1
 
