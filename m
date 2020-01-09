@@ -2,53 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D9C135E6D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 17:37:15 +0100 (CET)
-Received: from localhost ([::1]:35038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1AF135E8F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 17:46:02 +0100 (CET)
+Received: from localhost ([::1]:35088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipao6-0004Jp-QJ
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 11:37:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46596)
+	id 1ipawb-0001D6-3M
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 11:46:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34232)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1ipalJ-0000hX-5M
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 11:34:22 -0500
+ (envelope-from <bounces@canonical.com>) id 1ipavN-0000R7-TY
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 11:44:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1ipalH-0007Xo-Ls
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 11:34:21 -0500
-Received: from 2.mo1.mail-out.ovh.net ([178.32.119.250]:37764)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1ipalH-0007PQ-Dg
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 11:34:19 -0500
-Received: from player715.ha.ovh.net (unknown [10.108.16.166])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id AF2A41A66AD
- for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 17:34:17 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player715.ha.ovh.net (Postfix) with ESMTPSA id 36256DDCC0BC;
- Thu,  9 Jan 2020 16:34:11 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 2/2] target/ppc: add support for Hypervisor Facility
- Unavailable Exception
-Date: Thu,  9 Jan 2020 17:33:46 +0100
-Message-Id: <20200109163346.23062-3-clg@kaod.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200109163346.23062-1-clg@kaod.org>
-References: <20200109163346.23062-1-clg@kaod.org>
+ (envelope-from <bounces@canonical.com>) id 1ipavM-0002et-L1
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 11:44:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49692)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ipavM-0002X9-Dp
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 11:44:44 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ipavK-0001UM-JD
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 16:44:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7C89E2E80D3
+ for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 16:44:42 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 6199486366345759718
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdeiuddgheehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeduhedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgepud
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Jan 2020 16:34:45 -0000
+From: Thomas Huth <1528239@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lukasdurfina m-ostapenko th-huth
+X-Launchpad-Bug-Reporter: Maxim Ostapenko (m-ostapenko)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20151221142914.18731.60931.malonedeb@wampee.canonical.com>
+Message-Id: <157858768516.14692.12310351355065765881.malone@wampee.canonical.com>
+Subject: [Bug 1528239] Re: Unable to debug PIE binaries with QEMU gdb stub.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 61e47520fa06dbb5d7e7f005d92e87e6fde4b6eb
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 178.32.119.250
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,172 +66,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, Suraj Jitindar Singh <sjitindarsingh@gmail.com>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1528239 <1528239@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The privileged message send and clear instructions (msgsndp & msgclrp)
-are privileged, but will generate a hypervisor facility unavailable
-exception if not enabled in the HFSCR and executed in privileged
-non-hypervisor state.
+Patch has been included in QEMU v4.2:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Ddc12567a53c88d7a91b9
 
-Add checks when accessing the DPDES register and when using the
-msgsndp and msgclrp isntructions.
+** Changed in: qemu
+       Status: New =3D> Fix Released
 
-Based on previous work from Suraj Jitindar Singh.
+-- =
 
-Cc: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- target/ppc/cpu.h         |  6 ++++++
- target/ppc/excp_helper.c | 13 +++++++++++++
- target/ppc/misc_helper.c | 27 +++++++++++++++++++++++++++
- 3 files changed, 46 insertions(+)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1528239
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index d175ec9a641d..1ff6afbccdb2 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -397,6 +397,10 @@ typedef struct ppc_v3_pate_t {
- #define PSSCR_ESL         PPC_BIT(42) /* Enable State Loss */
- #define PSSCR_EC          PPC_BIT(43) /* Exit Criterion */
-=20
-+/* HFSCR bits */
-+#define HFSCR_MSGP     PPC_BIT(53) /* Privileged Message Send Facilities=
- */
-+#define HFSCR_IC_MSGP  0xA
-+
- #define msr_sf   ((env->msr >> MSR_SF)   & 1)
- #define msr_isf  ((env->msr >> MSR_ISF)  & 1)
- #define msr_shv  ((env->msr >> MSR_SHV)  & 1)
-@@ -1332,6 +1336,8 @@ void cpu_ppc_set_vhyp(PowerPCCPU *cpu, PPCVirtualHy=
-pervisor *vhyp);
- #endif
-=20
- void store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask);
-+void helper_hfscr_facility_check(CPUPPCState *env, uint32_t bit,
-+                                 const char *caller, uint32_t cause);
-=20
- static inline uint64_t ppc_dump_gpr(CPUPPCState *env, int gprn)
- {
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 343f3a6b30c4..3887f8888c6c 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -471,6 +471,15 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
- excp_model, int excp)
-     case POWERPC_EXCP_FU:         /* Facility unavailable exception     =
-     */
- #ifdef TARGET_PPC64
-         env->spr[SPR_FSCR] |=3D ((target_ulong)env->error_code << 56);
-+#endif
-+        break;
-+    case POWERPC_EXCP_HV_FU:     /* Hypervisor Facility Unavailable Exce=
-ption */
-+#ifdef TARGET_PPC64
-+        env->spr[SPR_HFSCR] |=3D ((target_ulong)env->error_code << FSCR_=
-IC_POS);
-+        srr0 =3D SPR_HSRR0;
-+        srr1 =3D SPR_HSRR1;
-+        new_msr |=3D (target_ulong)MSR_HVB;
-+        new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
- #endif
-         break;
-     case POWERPC_EXCP_PIT:       /* Programmable interval timer interrup=
-t    */
-@@ -1287,6 +1296,8 @@ void helper_book3s_msgclrp(CPUPPCState *env, target=
-_ulong rb)
- {
-     int irq =3D book3s_dbell2irq(rb, false);
-=20
-+    helper_hfscr_facility_check(env, HFSCR_MSGP, "msgclrp", HFSCR_IC_MSG=
-P);
-+
-     if (irq < 0) {
-         return;
-     }
-@@ -1303,6 +1314,8 @@ void helper_book3s_msgsndp(CPUPPCState *env, target=
-_ulong rb)
-     int irq =3D book3s_dbell2irq(rb, false);
-     int pir =3D env->spr_cb[SPR_PIR].default_value;
-=20
-+    helper_hfscr_facility_check(env, HFSCR_MSGP, "msgsndp", HFSCR_IC_MSG=
-P);
-+
-     if (irq < 0) {
-         return;
-     }
-diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-index 66b5b0824208..2ff6bed10228 100644
---- a/target/ppc/misc_helper.c
-+++ b/target/ppc/misc_helper.c
-@@ -41,6 +41,18 @@ void helper_store_dump_spr(CPUPPCState *env, uint32_t =
-sprn)
- }
-=20
- #ifdef TARGET_PPC64
-+static void raise_hv_fu_exception(CPUPPCState *env, uint32_t bit,
-+                                  const char *caller, uint32_t cause,
-+                                  uintptr_t raddr)
-+{
-+    qemu_log_mask(LOG_GUEST_ERROR, "HV Facility %d is unavailable (%s)\n=
-",
-+                  bit, caller);
-+
-+    env->spr[SPR_HFSCR] &=3D ~((target_ulong)FSCR_IC_MASK << FSCR_IC_POS=
-);
-+
-+    raise_exception_err_ra(env, POWERPC_EXCP_HV_FU, cause, raddr);
-+}
-+
- static void raise_fu_exception(CPUPPCState *env, uint32_t bit,
-                                uint32_t sprn, uint32_t cause,
-                                uintptr_t raddr)
-@@ -55,6 +67,17 @@ static void raise_fu_exception(CPUPPCState *env, uint3=
-2_t bit,
- }
- #endif
-=20
-+void helper_hfscr_facility_check(CPUPPCState *env, uint32_t bit,
-+                                 const char *caller, uint32_t cause)
-+{
-+#ifdef TARGET_PPC64
-+    if ((env->msr_mask & MSR_HVB) && !msr_hv &&
-+                                     !(env->spr[SPR_HFSCR] & (1UL << bit=
-))) {
-+        raise_hv_fu_exception(env, bit, caller, cause, GETPC());
-+    }
-+#endif
-+}
-+
- void helper_fscr_facility_check(CPUPPCState *env, uint32_t bit,
-                                 uint32_t sprn, uint32_t cause)
- {
-@@ -114,6 +137,8 @@ target_ulong helper_load_dpdes(CPUPPCState *env)
- {
-     target_ulong dpdes =3D 0;
-=20
-+    helper_hfscr_facility_check(env, HFSCR_MSGP, "load DPDES", HFSCR_IC_=
-MSGP);
-+
-     /* TODO: TCG supports only one thread */
-     if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
-         dpdes |=3D (env->spr_cb[SPR_PIR].default_value & DBELL_TIRTAG_MA=
-SK);
-@@ -127,6 +152,8 @@ void helper_store_dpdes(CPUPPCState *env, target_ulon=
-g val)
-     PowerPCCPU *cpu =3D env_archcpu(env);
-     CPUState *cs =3D CPU(cpu);
-=20
-+    helper_hfscr_facility_check(env, HFSCR_MSGP, "store DPDES", HFSCR_IC=
-_MSGP);
-+
-     /* TODO: TCG supports only one thread */
-     if (val & ~0x1) {
-         qemu_log_mask(LOG_GUEST_ERROR, "Invalid DPDES register value "
---=20
-2.21.1
+Title:
+  Unable to debug PIE binaries with QEMU gdb stub.
 
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  The issue occurs on current trunk:
+
+  max@max:~/build/qemu$ cat test.c
+  #include <stdio.h>
+
+  int main() {
+    printf("Hello, world!\n");
+    return 0;
+  }
+
+  max@max:~/build/qemu$ gcc test.c -fPIC -pie -o bad.x
+  max@max:~/build/qemu$ ./x86_64-linux-user/qemu-x86_64 -g 1234 bad.x =
+
+  .............................
+
+  =
+
+  max@max:~/build/qemu$ gdb
+  GNU gdb (Ubuntu 7.7.1-0ubuntu5~14.04.2) 7.7.1
+  .........................................................................=
+...............
+  (gdb) file bad.x
+  Reading symbols from bad.x...(no debugging symbols found)...done.
+  (gdb) b main
+  Breakpoint 1 at 0x779
+  (gdb) target remote localhost:1234
+  Remote debugging using localhost:1234
+  Reading symbols from /lib64/ld-linux-x86-64.so.2...warning: the debug inf=
+ormation found in "/lib64/ld-2.19.so" does not match "/lib64/ld-linux-x86-6=
+4.so.2" (CRC mismatch).
+
+  Reading symbols from /usr/lib/debug//lib/x86_64-linux-gnu/ld-2.19.so...do=
+ne.
+  done.
+  Loaded symbols for /lib64/ld-linux-x86-64.so.2
+  Error in re-setting breakpoint 1: Cannot access memory at address 0x775
+  Error in re-setting breakpoint 1: Cannot access memory at address 0x775
+  0x0000004000a042d0 in _start () from /lib64/ld-linux-x86-64.so.2
+  (gdb) c
+  Continuing.
+  [Inferior 1 (Remote target) exited normally]
+  (gdb) =
+
+
+  =
+
+  max@max:~/build/qemu$ cat config.log
+  # Configured with: '/home/max/src/qemu/configure' '--prefix=3D/home/max/i=
+nstall/qemu' '--target-list=3Darm-linux-user,aarch64-linux-user,x86_64-linu=
+x-user' '--static'
+
+  =
+
+  W/O QEMU or -pie flag breakpoint on main works fine.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1528239/+subscriptions
 
