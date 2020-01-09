@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1572135B39
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 15:21:05 +0100 (CET)
-Received: from localhost ([::1]:32994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB43135B36
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 15:20:58 +0100 (CET)
+Received: from localhost ([::1]:32982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipYgK-0002ad-DI
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 09:21:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58852)
+	id 1ipYgC-0002NA-Rt
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 09:20:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58900)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ipYeP-000110-Ki
+ (envelope-from <alex.bennee@linaro.org>) id 1ipYeP-000112-Dz
  for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ipYeN-0005UE-NG
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:04 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:44543)
+ (envelope-from <alex.bennee@linaro.org>) id 1ipYeO-0005Vl-2S
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:05 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:34206)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ipYeN-0005MB-Bc
+ id 1ipYeN-0005Qk-Nb
  for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:03 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id q10so7534673wrm.11
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 06:19:02 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id w5so2160959wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 06:19:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AeKWqQhPlzaWtXuwJ6mJcGzp66I0kbIvzpPBZPsWdUA=;
- b=oR8N34j842rt7k326qfgLtXb5GUAAgq6fMOj77oq/i9VYaO988l1ePPXx6f2WKEz48
- LZT4uZOGzE2HIVmVPaANbXLHMS0NootkolD63qdDFTHooNlxHSbwg+xnDw2DczhnTw11
- +zhSAqXzZ3jOsE/liQYdwpd3ZNTecLRBmKe827bF8gkL3l7YcrmavHk2BCXm22MEGYQG
- aZXQHDH+38gJxJDKEy48R+EPY222NUlsnC4uoCWUIgJbt5pP08AUIFu0fYxuH70sSeHU
- eXnlOKac1GYcALUia/Qi6UKw/vwqhrq3DOEdFoih9VY+z0ZxNBdS/hEWSDnh7Mevggzq
- BaRA==
+ bh=3k7gte9WREY18cEOUU7XwV2AOEIeoNTewUOHfyj7Npw=;
+ b=uzJiTLoXKQ1OA9e9KQbGAA9Pgcz7Mu4Ae9h7741IdXM3hHUdZu11pf+qVV7Cz4YJq5
+ qXv9hpUMd3tGIA021LR3GaJaVhn7QRbK520lbZkv6cLHVqu/yqbvpc/P7JKAzFIFI0Wd
+ e/7uyJh/q83ueI0Y9rxPDc7vTOkAuAJF02fgd7h9xHvcxfR8FxMXHRp4qNdCiid6/T7O
+ xQMoPBerqHofsrPBg/FzwCQBceIb+WOWCqhAzNj3b99O6E0irjcDTuQ+LMyhxXF4iviG
+ HuGv7doxlQ2Gjhydaqoxd7cmLW3IWglJxuThrVWVjvKKPkO4EqfRsY2mld5wxJ1yA88i
+ o3KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AeKWqQhPlzaWtXuwJ6mJcGzp66I0kbIvzpPBZPsWdUA=;
- b=saCom8+9npCYnZKAQV7Xxc0hlWxn6biCqHDb66JXVbdBOyuadAgeczw248cH3Ribmp
- nEd1WOcxDrRXdT3MhrzUqLZWeJ7oYNbWWumw67+Oc35M0zXdV36A+No5wlGq7y+5BYz6
- FVoi9JJYwojr1GaZmuRJCDTwcCL56+VJEsWIcSDPW1HOHzUyKbBXv0Ah0GPprRt0cvfM
- +XEu9KxKEuyJxKs/IXC1M/25Xi+g1rMP2kTtg3Cqi2wSqp7MknMwOek8dXd72jpmQdBy
- cxUKOTvQptwgoWwd72iLDucBy2sGhwVbVNZ75555zI7wGt2tNHY119wYji2GKtSS1ooW
- G/3g==
-X-Gm-Message-State: APjAAAX1jyr8fv2Z7PJjBTIll103GaUf8GEiMaJXw3EaXpCyWa+Xch2g
- H64c3CAu9YQ33FA7VBpual18bQ==
-X-Google-Smtp-Source: APXvYqyoxVwYmBCSZFrxvDYU2KhKmeANua4dMO+T/UGB6ErKNHWp0Y381Kv5gzN89GN8WE8wFjihTg==
-X-Received: by 2002:adf:ce87:: with SMTP id r7mr10892246wrn.245.1578579541667; 
- Thu, 09 Jan 2020 06:19:01 -0800 (PST)
+ bh=3k7gte9WREY18cEOUU7XwV2AOEIeoNTewUOHfyj7Npw=;
+ b=N6N/w5InttTPii5hKr9ly6Dpfn1u3wqpK6yKF+6c/UDTZfuWANOAcqRPUUJr2u3n7K
+ KyD2l4hfunPoS0F3DmVH2Zs2jExJG7w33/VG0HkxAwYMVN57zzkRu+jyaumw7goYWaMG
+ d1lW1AqiD7+kz8nlvbCsWbLUPrjG+3e1nSc4kIy9FqkPN0jKPZjaWDsuZ7rDq4O6tWoL
+ jxdINpoDZpPH/mqbgqf+XIMgWHrG9o9V2/OAFUsIZoTMLZP+/IEnZ6BiYZeG30NJ9RC1
+ mIzWeeHngCIsq1aMSEW5CzRK3/4cJJ3PshGJc6FSuv4MyFPmxfUsvJGBTkYJNazVflsC
+ 21jA==
+X-Gm-Message-State: APjAAAWkN1jdujE9l/v1ntefCGp7ciq+6qYOyA/XWO9yN91TOGVmnOIH
+ HAwMy8JYpAQ3GOGZve+up1WdPA==
+X-Google-Smtp-Source: APXvYqwDguHVDQKFsOBV8BYxmTTrNUGRkHvLELLQGi5Cn5L9bDPOlku1OEvLVunSAjeSPGYhYvrKDg==
+X-Received: by 2002:a7b:cf39:: with SMTP id m25mr5329169wmg.146.1578579542651; 
+ Thu, 09 Jan 2020 06:19:02 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g2sm8139970wrw.76.2020.01.09.06.18.59
+ by smtp.gmail.com with ESMTPSA id f1sm8200403wru.6.2020.01.09.06.18.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 09 Jan 2020 06:18:59 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0E1F21FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 21F561FF8F;
  Thu,  9 Jan 2020 14:18:59 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 01/14] hw/i386/x86-iommu: Add missing stubs
-Date: Thu,  9 Jan 2020 14:18:45 +0000
-Message-Id: <20200109141858.14376-2-alex.bennee@linaro.org>
+Subject: [PULL v2 02/14] tests/vm: update openbsd to release 6.6
+Date: Thu,  9 Jan 2020 14:18:46 +0000
+Message-Id: <20200109141858.14376-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200109141858.14376-1-alex.bennee@linaro.org>
 References: <20200109141858.14376-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,46 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+ Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Gerd Hoffmann <kraxel@redhat.com>
 
-In commit 6c730e4af9 we introduced a stub to build the MicroVM
-machine without Intel IOMMU. This stub is incomplete for the
-other PC machines. Add the missing stubs.
-
-Fixes: 6c730e4af9
-Reported-by: Travis-CI
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20191220154225.25879-1-philmd@redhat.com>
+Message-Id: <20191018102443.26469-1-kraxel@redhat.com>
 
-diff --git a/hw/i386/x86-iommu-stub.c b/hw/i386/x86-iommu-stub.c
-index 03576cdccb4..c5ba077f9d1 100644
---- a/hw/i386/x86-iommu-stub.c
-+++ b/hw/i386/x86-iommu-stub.c
-@@ -32,3 +32,12 @@ X86IOMMUState *x86_iommu_get_default(void)
-     return NULL;
- }
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index 6df5162dbf4..d6173506f78 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -22,8 +22,8 @@ class OpenBSDVM(basevm.BaseVM):
+     name = "openbsd"
+     arch = "x86_64"
  
-+bool x86_iommu_ir_supported(X86IOMMUState *s)
-+{
-+    return false;
-+}
-+
-+IommuType x86_iommu_get_type(void)
-+{
-+    abort();
-+}
+-    link = "https://cdn.openbsd.org/pub/OpenBSD/6.5/amd64/install65.iso"
+-    csum = "38d1f8cadd502f1c27bf05c5abde6cc505dd28f3f34f8a941048ff9a54f9f608"
++    link = "https://cdn.openbsd.org/pub/OpenBSD/6.6/amd64/install66.iso"
++    csum = "b22e63df56e6266de6bbeed8e9be0fbe9ee2291551c5bc03f3cc2e4ab9436ee3"
+     size = "20G"
+     pkgs = [
+         # tools
 -- 
 2.20.1
 
