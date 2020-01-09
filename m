@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162681358D0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 13:05:35 +0100 (CET)
-Received: from localhost ([::1]:59090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7531358D9
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 13:07:35 +0100 (CET)
+Received: from localhost ([::1]:59136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipWZA-00050v-9S
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 07:05:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41859)
+	id 1ipWb8-0000s3-FL
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 07:07:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34307)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ipWWC-0002Hi-PV
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:02:33 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ipWZx-0007a7-G4
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:06:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ipWWB-0001TX-Cs
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:02:28 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36006
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ipWWB-0001QW-6L
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:02:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578571346;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s/m/DPPmOtvxFMiS2XBx7cvLdh9f++FiEBXDX3B9vo4=;
- b=J1I9j3GX3oPrloPz5f3f4WmjqNW5m4G7R7Plpe8WA7ae6o2l0Lx/cgadWuhftqQkBKxFJt
- iU2XNY1EmIqy03KWGVGpr42qYePq6oVC3pF7noJa2nQxjm2QS72bdXXVo0WlN3YgZrd9u4
- FUZI3BSaNH6+nNlqClVQsCivI/7iGYY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-XCXwtP68MPuwLj1iBAOAgw-1; Thu, 09 Jan 2020 07:02:23 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F3BF107ACC9
- for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 12:02:22 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CEC7D5C241;
- Thu,  9 Jan 2020 12:02:18 +0000 (UTC)
-Date: Thu, 9 Jan 2020 12:02:16 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 0/2] exclude hyperv synic sections from vhost
-Message-ID: <20200109120216.GA6795@work-vm>
-References: <20200108135353.75471-1-dgilbert@redhat.com>
- <53359208-3cd9-b0b6-f424-a5135e770fca@redhat.com>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ipWZw-0004RQ-6x
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:06:21 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42345)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1ipWZv-0004NP-Rq
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:06:20 -0500
+Received: by mail-ot1-x344.google.com with SMTP id 66so6973093otd.9
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 04:06:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=CWJIODVnrXvstJruN4vLTNorc0HpIa9vnRmbcZWVP/s=;
+ b=eOh+erQXnQQxwMG4YrOXBpKvEJyP/VH3tG7EbIBamB7+9w6W2hzwEuGQpZzxQeUqir
+ QbyJMdWD7Q3FevjI6ZhjNr8QnHmOcYA2cSNitCTovHWyKuOegjl6CdA7MxxOm5RYWxG1
+ 7F/cVdet03Q4BtIBkoy3AN0hkXO6n/FYsHgjlpp4/hpfrOxWBV+9m0dA/n4Wz3T8ae5f
+ Y1qD0eqQGSMDsNSveX9yG+HqboFGb6FW2jRNcKIrns4nXBDgAseht9qsb2qW+eksPAWz
+ 41NuhsK4k5VgHu0r+bnJY+rk+SOF0lRS6DzWo4K0EKRqZQ068VVYNrqW9GKW78pre5rp
+ Zhxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=CWJIODVnrXvstJruN4vLTNorc0HpIa9vnRmbcZWVP/s=;
+ b=m0iDe1/i8i4HyqGvyNCKGrU5++DfXwlLJmLNurSN7O6LKyMzkXBe8NPY/O37WAZ7p4
+ pC8XQrDYB7JbsZ3CS3roXd5bHDT14htfskTlVGEB3dvPzo3OSQ90jPG2rGIx50kElSdr
+ EG2JgmDCDob8CTPbDL5RxB43VIZCXdwvNR5YakG9LeCm6dUuNLTJIhfuTozzNT6Am2kz
+ lXLmqWs69/A++l0nHxtlv/sB7gKb025zmOA7L9UCFpK9kcwXoI/oX2KpdLQq8bljto8p
+ Wbr09NgdQjGoVa+gSgddbXomCoY2tCfYeH0N/RUSlKCmZh3SaOcyyBQgm3gPnRbhhMx5
+ uAhA==
+X-Gm-Message-State: APjAAAWq77qmbXAlMVJJ9GUZzjq8Pq2vPBOaR79yuGXW7TrY0wbkdd3l
+ azt9Gdtcd69dImlccsCFB3kka4IRgVhrmofte28=
+X-Google-Smtp-Source: APXvYqxeaOBUjoAosYx/OoE41BipZYqcRmFpd0rmV0irgFR5TPyMwP9Rv5bMAaInTGWOTeRMig0U51UPQ9dRNs/1RSk=
+X-Received: by 2002:a9d:7305:: with SMTP id e5mr7921645otk.64.1578571578890;
+ Thu, 09 Jan 2020 04:06:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <53359208-3cd9-b0b6-f424-a5135e770fca@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: XCXwtP68MPuwLj1iBAOAgw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
+ Thu, 9 Jan 2020 04:06:18 -0800 (PST)
+In-Reply-To: <20200109021710.1219-2-richard.henderson@linaro.org>
+References: <20200109021710.1219-1-richard.henderson@linaro.org>
+ <20200109021710.1219-2-richard.henderson@linaro.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 9 Jan 2020 13:06:18 +0100
+Message-ID: <CAL1e-=hrS87PtxaLMqOZokGtd+Hbv9M596ENiEgQkyzcJ_T2KQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] vl: Remove unused variable in configure_accelerators
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000365e9b059bb3d62d"
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,66 +74,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vkuznets@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Jason Wang (jasowang@redhat.com) wrote:
->=20
-> On 2020/1/8 =E4=B8=8B=E5=8D=889:53, Dr. David Alan Gilbert (git) wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >=20
-> > Hyperv's synic (that we emulate) is a feature that allows the guest
-> > to place some magic (4k) pages of RAM anywhere it likes in GPA.
-> > This confuses vhost's RAM section merging when these pages
-> > land over the top of hugepages.
->=20
->=20
-> Hi David:
->=20
-> A silly question, is this because the alignment when adding sections? If
-> yes, what's the reason for doing alignment which is not a must for vhost
-> memory table.
+--000000000000365e9b059bb3d62d
+Content-Type: text/plain; charset="UTF-8"
 
-Page alignment is a bit odd with vhost-user - it ends up having to mmap
-each of the sections itself; and still has to map them as hugepages
-to be able to mmap - in the old world you could sometimes have
-the daemon mmaping the same chunk of memory twice into the vhost-user
-process; without the aggregation  you'd get a hugepage mapping for the
-0-2MB chunk for the 0-512K mapping, and then maybe another 0-2MB chunk
-for some of the other parts over 512K.
-With postcopy we can't have the multiple mappings of the same part of
-guest memory; we need to have one mapping for userfault.
+On Thursday, January 9, 2020, Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-Also, given the 16 separate synic regions, you'd probably end up having
-a lot of wasted vhost-sections.
-
-Dave
+> The accel_initialised variable no longer has any setters.
+>
+> Fixes: 6f6e1698a68c
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  vl.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+>
+Reviewed by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
 
+> diff --git a/vl.c b/vl.c
+> index 86474a55c9..be79b03c1a 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -2749,7 +2749,6 @@ static void configure_accelerators(const char
+> *progname)
+>  {
+>      const char *accel;
+>      char **accel_list, **tmp;
+> -    bool accel_initialised = false;
+>      bool init_failed = false;
+>
+>      qemu_opts_foreach(qemu_find_opts("icount"),
+> @@ -2776,7 +2775,7 @@ static void configure_accelerators(const char
+> *progname)
+>
+>          accel_list = g_strsplit(accel, ":", 0);
+>
+> -        for (tmp = accel_list; !accel_initialised && tmp && *tmp; tmp++) {
+> +        for (tmp = accel_list; tmp && *tmp; tmp++) {
+>              /*
+>               * Filter invalid accelerators here, to prevent obscenities
+>               * such as "-machine accel=tcg,,thread=single".
+> --
+> 2.20.1
+>
+>
+>
 
+--000000000000365e9b059bb3d62d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Thanks
->=20
->=20
-> >=20
-> > Since they're not normal RAM, and they shouldn't have vhost DMAing
-> > into them, exclude them from the vhost set.
-> >=20
-> > I do that by marking them as device-ram and then excluding device-ram
-> > from vhost.
-> >=20
-> > bz: https://bugzilla.redhat.com/show_bug.cgi?id=3D1779041
-> >=20
-> > Dr. David Alan Gilbert (2):
-> >    vhost: Don't pass ram device sections
-> >    hyperv/synic: Allocate as ram_device
-> >=20
-> >   hw/hyperv/hyperv.c | 14 ++++++++------
-> >   hw/virtio/vhost.c  |  1 +
-> >   2 files changed, 9 insertions(+), 6 deletions(-)
-> >=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+<br><br>On Thursday, January 9, 2020, Richard Henderson &lt;<a href=3D"mail=
+to:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt; wrote=
+:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">The accel_initialised variable no longe=
+r has any setters.<br>
+<br>
+Fixes: 6f6e1698a68c<br>
+Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
+naro.org">richard.henderson@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0vl.c | 3 +--<br>
+=C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
+<br></blockquote><div><br></div><div><span style=3D"color:rgb(34,34,34);fon=
+t-size:14px;line-height:22.1200008392334px">Reviewed by: Aleksandar Markovi=
+c &lt;</span><a href=3D"mailto:amarkovic@wavecomp.com" target=3D"_blank" st=
+yle=3D"font-size:14px;line-height:22.1200008392334px">amarkovic@wavecomp.co=
+m</a><span style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.12000=
+08392334px">&gt;</span><br></div><div>=C2=A0</div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex">
+diff --git a/vl.c b/vl.c<br>
+index 86474a55c9..be79b03c1a 100644<br>
+--- a/vl.c<br>
++++ b/vl.c<br>
+@@ -2749,7 +2749,6 @@ static void configure_accelerators(const char *progna=
+me)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0const char *accel;<br>
+=C2=A0 =C2=A0 =C2=A0char **accel_list, **tmp;<br>
+-=C2=A0 =C2=A0 bool accel_initialised =3D false;<br>
+=C2=A0 =C2=A0 =C2=A0bool init_failed =3D false;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0qemu_opts_foreach(qemu_find_<wbr>opts(&quot;icount&quot=
+;),<br>
+@@ -2776,7 +2775,7 @@ static void configure_accelerators(const char *progna=
+me)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0accel_list =3D g_strsplit(accel, &quot;:&=
+quot;, 0);<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (tmp =3D accel_list; !accel_initialised &a=
+mp;&amp; tmp &amp;&amp; *tmp; tmp++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (tmp =3D accel_list; tmp &amp;&amp; *tmp; =
+tmp++) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Filter invalid accelerat=
+ors here, to prevent obscenities<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * such as &quot;-machine a=
+ccel=3Dtcg,,thread=3Dsingle&quot;.<br>
+-- <br>
+2.20.1<br>
+<br>
+<br>
+</blockquote>
 
+--000000000000365e9b059bb3d62d--
 
