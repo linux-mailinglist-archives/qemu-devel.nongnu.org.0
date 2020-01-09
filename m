@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18DD6135B56
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 15:27:04 +0100 (CET)
-Received: from localhost ([::1]:33130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677F9135B48
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 15:24:42 +0100 (CET)
+Received: from localhost ([::1]:33082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipYm6-00039p-VQ
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 09:27:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59454)
+	id 1ipYjp-0000K1-8Y
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 09:24:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59469)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ipYeV-000152-2y
+ (envelope-from <alex.bennee@linaro.org>) id 1ipYeV-000159-5p
  for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ipYeT-0005yT-Sy
+ (envelope-from <alex.bennee@linaro.org>) id 1ipYeT-0005tk-1o
  for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:10 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35834)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44546)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ipYeT-0005tb-LA
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:09 -0500
-Received: by mail-wm1-x334.google.com with SMTP id p17so3046365wmb.0
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 06:19:09 -0800 (PST)
+ id 1ipYeS-0005pW-Qp
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:08 -0500
+Received: by mail-wr1-x430.google.com with SMTP id q10so7535085wrm.11
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 06:19:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W7giEOoa1246FG2AY+/m5rvSamIbq8aBUgZlAteletA=;
- b=JvIw/UB5rrqP5gpdPQJD9cx1eRXnvsCaiaVPuqq01tHRrIwAwmW+uw4SNb6vbey5TS
- 1eAyNFPcXg0bnen0fVny+36cnKeJCE0vNjRL5yNLgr6TF/wqU4WimLdFYyWejR1hoedQ
- 1CviTzVIpC5inmfM4j7rAifkIYJMSojUM14Cdd/PCxecqH1cgB2r4m8nPT8wLZhArE8k
- FZlKqp9Y5D1G/5QNEPRgo/7ww1zoYWGLUr7mzQXDZFTze2lz5nzMBCD1EooHZGq3mEfv
- JxHzRUnNqld6QIa1bLBxK2cHGj4Uvk+oTXcwpMIWh3YRVvLVXEAEKm88xafXOW5OuIWg
- Zxww==
+ bh=26KkoYcZGF/Z1EiiFPHfujld0lbwHRd6NWNSd+b9VcU=;
+ b=LcxIqMwBlAtpSPOHRRyruqvEbQl0dgyARiOdCDSmmBKhowQ5HVfYKCESyrx6mdTelH
+ gE7w2NuUTgWyY/fcY39fqxqCbyKUXbJTjBCTmMm6ZBEsoD0z0QRtoMLpsLaSsrsDxrNS
+ bE8QGgb4sYDbZBDyTmNSk7dllorI7GNH95YD3j0pyNW/89BNG5xOri5kDJ7FGpLsYPlP
+ CPZl/zYXoJQMkjCDvUZZQSriAWci9QpRGHKWKOlw5Y3XXCkl8pc20LBeLE2dOITuV+Ve
+ tKKpDnsbUft05oW+1vULN4XOxgBc7rJsQ+w/ucVOI5oJoSRMjz3Qo7dtxBGhYXehx2eF
+ MnyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W7giEOoa1246FG2AY+/m5rvSamIbq8aBUgZlAteletA=;
- b=uOPgXx+Ochul2Gt1VlXW2KEsUIfCau2rcyLVE+Jl3dWNvqEOl+QJ1CovdwWDHTRgHi
- A9MFDUtgMpeFT8RzT2CnIe/z497NHVkzyEc74nJP+LxH6xdnOTboA3x5VkEar4sQEw0S
- sgBSubvVfyo9VfvpYFRFyUccfYRMZNzPvlzpl/Odd/nrZOQwRDUdtFYnUWMoFKdOiQn3
- og4+XTdAfZRzbO40tkCpHeoAtKFnPJj47gbl+7SsxMIRAXYySvvQ/Uqobx5DQz12SRXt
- PPr41YmPL2CsJ5yL6lf3H6mg0N+vkbyAfTaN3RejqQ53Ne/4FmAl4ayfNDz7Ku58tWe/
- mQGw==
-X-Gm-Message-State: APjAAAV99TbWw3lN5VdfST1Myaf7kbvaLGJUaLSPOBG55nx4dDt59Slh
- 8OIwpCpj/Etzt9v92IU2JVWd6A==
-X-Google-Smtp-Source: APXvYqx/fAvOmEhMaTpkwKjSVuMml55nuBai4yMq1pk5M52MmEXyWTWsZfYn4g0otUJVCrz6FsKcZg==
-X-Received: by 2002:a05:600c:30a:: with SMTP id
- q10mr5066310wmd.84.1578579548627; 
- Thu, 09 Jan 2020 06:19:08 -0800 (PST)
+ bh=26KkoYcZGF/Z1EiiFPHfujld0lbwHRd6NWNSd+b9VcU=;
+ b=bNb+9zOZW1YpUYeOCHzVDbR8YqXDZWbXATRMtS+b64oOw6WfZ1D/vqpfiXJiZBtOae
+ vlgc5a+geDwrrF9T6XeQkwh58ribs/1SRE9A+wbmG1oU5Ai+SghriB/tzbI+UezJBZd6
+ g19qaAsIQj0sn5Jazq8jgwnP4WSXZz0cEfSWKJdDA5TdQ7TCtS41ypKjwaLMcTlC6/qS
+ jCzsjrZPuWv1lRnHgKOHvgIznKMrEN9KQU86vMfJ2qwAOUuOjnNG+SDLpf++xbz1RoG1
+ Guq943aFCCOLf9VrlrJQCMCNsF7Gy/GP/sKvm47gDvyH1BqSJS0MsTrNhwP8JP6WQwL5
+ fbtg==
+X-Gm-Message-State: APjAAAV7fXBY6NP9L8mp1pPPJLfEtQepzNwAK7Kd042+le8wLmX/W2JK
+ D2sEaYAlg1t8s1csKaaWNrDPOQ==
+X-Google-Smtp-Source: APXvYqz0cpoPWfrNCGE9PaFZD+wAt+kl2nFOAnEhnjan98SPZSpPzlNziCwMi//Yi3m1zwb5uNGVEA==
+X-Received: by 2002:a5d:4a91:: with SMTP id o17mr12008091wrq.232.1578579547641; 
+ Thu, 09 Jan 2020 06:19:07 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v22sm2953278wml.11.2020.01.09.06.19.02
+ by smtp.gmail.com with ESMTPSA id u16sm2984008wmj.41.2020.01.09.06.19.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 09 Jan 2020 06:19:06 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6008E1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 760291FF93;
  Thu,  9 Jan 2020 14:18:59 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 05/14] travis.yml: Detach build and test steps
-Date: Thu,  9 Jan 2020 14:18:49 +0000
-Message-Id: <20200109141858.14376-6-alex.bennee@linaro.org>
+Subject: [PULL v2 06/14] travis.yml: duplicate before_script for MacOSX
+Date: Thu,  9 Jan 2020 14:18:50 +0000
+Message-Id: <20200109141858.14376-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200109141858.14376-1-alex.bennee@linaro.org>
 References: <20200109141858.14376-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,46 +83,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Rather than keep the hack in the global code lets "Think Different"
+and have a special copy for MacOSX.
 
-Currently build and test commands are a single step in a
-Travis's `script` block. In order to see the output
-of the tests one needs to scroll down the log to find where
-the build messages ended and the limit is not clear. If
-they were in different steps then Travis would print the
-result build command, which can be easily grep'ed.
-
-So this change is made to detach those commands
-to ease the visualization of the output.
-
-Note that all steps on the `script` block is executed regardless
-if one previous has failed. To overcome it, let's save the
-return code of the build then check whether succeed or failed on
-the test step.
-
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20191230184327.2800-3-wainersm@redhat.com>
 
 diff --git a/.travis.yml b/.travis.yml
-index 93838bf0f8b..848a2714efe 100644
+index 848a2714efe..6826618ea81 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -94,7 +94,8 @@ before_script:
+@@ -89,7 +89,6 @@ git:
+ 
+ 
+ before_script:
+-  - if [ "$TRAVIS_OS_NAME" == "osx" ] ; then export PATH="/usr/local/opt/ccache/libexec:$PATH" ; fi
+   - if command -v ccache ; then ccache --zero-stats ; fi
    - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
    - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
- script:
--  - make -j3 && travis_retry ${TEST_CMD}
-+  - BUILD_RC=0 && make -j3 || BUILD_RC=$?
-+  - if [ "$BUILD_RC" -eq 0 ] ; then travis_retry ${TEST_CMD} ; else $(exit $BUILD_RC); fi
- after_script:
-   - if command -v ccache ; then ccache --show-stats ; fi
+@@ -240,6 +239,11 @@ matrix:
+       os: osx
+       osx_image: xcode10.3
+       compiler: clang
++      before_script:
++        - export PATH="/usr/local/opt/ccache/libexec:$PATH"
++        - if command -v ccache ; then ccache --zero-stats ; fi
++        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
++        - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
  
+ 
+     # Python builds
 -- 
 2.20.1
 
