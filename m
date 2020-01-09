@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F5B135E6F
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 17:37:53 +0100 (CET)
-Received: from localhost ([::1]:35048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF07D135E51
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 17:31:03 +0100 (CET)
+Received: from localhost ([::1]:34970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipaoi-0005XF-OM
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 11:37:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52028)
+	id 1ipai6-0006Zp-RQ
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 11:31:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58077)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipamg-0002rv-DM
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 11:35:48 -0500
+ (envelope-from <thuth@redhat.com>) id 1ipagp-0005vR-Do
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 11:29:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipamd-00047R-US
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 11:35:45 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47588)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipamd-0003zw-Dn
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 11:35:43 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipama-0000Aw-Bn
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 16:35:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 26D182E80D2
- for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 16:35:39 +0000 (UTC)
+ (envelope-from <thuth@redhat.com>) id 1ipago-0006yH-7c
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 11:29:43 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34508
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ipago-0006vA-2v
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 11:29:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578587378;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=iuEmfYxeIg575cU5DW0Z2Xsuvj/nbR7xSCJ7nlgOU+c=;
+ b=Vua/8xoC8G0A4i7x0gz5d9iAc/QFrVce2fPaWAVyyhQAIobjHpRZLnMx8eIXM5/7ydBO8L
+ czCo8XmlKtMEXChRRkNmbKuF4ds0+6i//pL2XgLUdn4TQgg3QHlryt0wH2lCepjaE+lKrm
+ cjhKc1FDeRTsb8ah3mLb6XEUfMoSVlc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-400-KMouN4aJPjS6W22pSjInUA-1; Thu, 09 Jan 2020 11:29:35 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 153A8935CDA;
+ Thu,  9 Jan 2020 16:29:34 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-117-32.ams2.redhat.com [10.36.117.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 994A360E3E;
+ Thu,  9 Jan 2020 16:29:32 +0000 (UTC)
+Subject: Re: Pre-Christmas meeting notes
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, Qemu-block <qemu-block@nongnu.org>
+References: <eee7656f-8de1-9d44-7de2-db1b5ed68148@redhat.com>
+ <23ba22f5-2990-3821-cfb9-7d448c65240a@virtuozzo.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <4626afdf-ffe9-580c-fe75-f8f2aa506235@redhat.com>
+Date: Thu, 9 Jan 2020 17:29:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <23ba22f5-2990-3821-cfb9-7d448c65240a@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: KMouN4aJPjS6W22pSjInUA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jan 2020 16:25:45 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: arm tcg testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee alexlngw
-X-Launchpad-Bug-Reporter: Alex Longwall (alexlngw)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <157857629827.5165.2496570379985305724.malonedeb@gac.canonical.com>
-Message-Id: <20200109162545.1970-1-alex.bennee@linaro.org>
-Subject: [Bug 1859021] Re: qemu-system-aarch64 (tcg): cval + voff overflow not
- handled, causes qemu to hang
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0305ffc726f9022fd48401809f47d473ebabfd9e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,161 +76,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859021 <1859021@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bug: https://bugs.launchpad.net/bugs/1859021
+On 09/01/2020 16.03, Vladimir Sementsov-Ogievskiy wrote:
+> 06.01.2020 20:15, Max Reitz wrote:
+>> Misc
+>> ----
+>>
+>> The Wiki=E2=80=99s TODO list is horribly outdated.  What should we do ab=
+out
+>> it?  Maybe archive it and start a new one?  (Most of the things on the
+>> current list are either done or we don=E2=80=99t want to do anymore.)
+>=20
+>=20
+> May be, create block/TODO.txt instead? It would be simpler to manage file
+> in git than wiki page.
 
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
----
- tests/tcg/aarch64/system/vtimer.c         | 48 +++++++++++++++++++++++
- tests/tcg/aarch64/Makefile.softmmu-target |  4 ++
- 2 files changed, 52 insertions(+)
- create mode 100644 tests/tcg/aarch64/system/vtimer.c
+Is it? We removed a bunch of stale TODO files in the past already:
 
-diff --git a/tests/tcg/aarch64/system/vtimer.c b/tests/tcg/aarch64/system/v=
-timer.c
-new file mode 100644
-index 00000000000..42f2f7796c7
---- /dev/null
-+++ b/tests/tcg/aarch64/system/vtimer.c
-@@ -0,0 +1,48 @@
-+/*
-+ * Simple Virtual Timer Test
-+ *
-+ * Copyright (c) 2020 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include <inttypes.h>
-+#include <minilib.h>
-+
-+/* grabbed from Linux */
-+#define __stringify_1(x...) #x
-+#define __stringify(x...)   __stringify_1(x)
-+
-+#define read_sysreg(r) ({                                           \
-+            uint64_t __val;                                         \
-+            asm volatile("mrs %0, " __stringify(r) : "=3Dr" (__val)); \
-+            __val;                                                  \
-+})
-+
-+#define write_sysreg(r, v) do {                     \
-+        uint64_t __val =3D (uint64_t)(v);             \
-+        asm volatile("msr " __stringify(r) ", %x0"  \
-+                 : : "rZ" (__val));                 \
-+} while (0)
-+
-+int main(void)
-+{
-+    int i;
-+
-+    ml_printf("VTimer Test\n");
-+
-+    write_sysreg(cntvoff_el2, 1);
-+    write_sysreg(cntv_cval_el0, -1);
-+    write_sysreg(cntv_ctl_el0, 1);
-+
-+    ml_printf("cntvoff_el2=3D%lx\n", read_sysreg(cntvoff_el2));
-+    ml_printf("cntv_cval_el0=3D%lx\n", read_sysreg(cntv_cval_el0));
-+    ml_printf("cntv_ctl_el0=3D%lx\n", read_sysreg(cntv_ctl_el0));
-+
-+    /* Now read cval a few times */
-+    for (i =3D 0; i < 10; i++) {
-+        ml_printf("%d: cntv_cval_el0=3D%lx\n", i, read_sysreg(cntv_cval_el=
-0));
-+    }
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/=
-Makefile.softmmu-target
-index 7b4eede3f07..62cdddbb215 100644
---- a/tests/tcg/aarch64/Makefile.softmmu-target
-+++ b/tests/tcg/aarch64/Makefile.softmmu-target
-@@ -62,3 +62,7 @@ run-memory-replay: memory-replay run-memory-record
- 	  "$< on $(TARGET_NAME)")
- =
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dd494d79eabfdac0
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D9e564a1dde5abc7
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dba43da36983a0bf
 
- EXTRA_TESTS+=3Dmemory-record memory-replay
-+
-+# vtimer test
-+QEMU_EL2_MACHINE=3D-machine virt,virtualization=3Don,gic-version=3D2 -cpu =
-cortex-a57 -smp 4
-+run-vtimer: QEMU_OPTS=3D$(QEMU_EL2_MACHINE) $(QEMU_SEMIHOST)  -kernel
--- =
+And there are some more TODO files in the target/ subfolders which look
+also quite stale... so I somewhat doubt that a TODO list in git is much
+better than a TODO list in the wiki.
 
-2.20.1
+Maybe we just need a proper bug/feature tracker instead (since Launchpad
+is IMHO quite a bad choice for bug tracking, too)...
 
+ Thomas
 
-** Changed in: qemu
-       Status: New =3D> Confirmed
-
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Alex Benn=C3=A9e (ajbennee)
-
-** Tags added: testcase
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859021
-
-Title:
-  qemu-system-aarch64 (tcg):  cval + voff overflow not handled, causes
-  qemu to hang
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  The Armv8 architecture reference manual states that for any timer set
-  (e.g. CNTP* and CNTV*), the condition for such timer to generate an
-  interrupt (if enabled & unmasked) is:
-
-  CVAL <=3D CNT(P/V)CT
-
-  Although this is arguably sloppy coding, I have seen code that is
-  therefore assuming it can set CVAL to a very high value (e.g.
-  UINT64_MAX) and leave the interrupt enabled in CTL, and never get the
-  interrupt.
-
-  On latest master commit as the time of writing, there is an integer
-  overflow in target/arm/helper.c gt_recalc_timer affecting the virtual
-  timer when the interrupt is enabled in CTL:
-
-      /* Next transition is when we hit cval */
-      nexttick =3D gt->cval + offset;
-
-  When this overflow happens, I notice that qemu is no longer responsive an=
-d that I have to SIGKILL the process:
-      - qemu takes nearly all the cpu time of the cores it is running on (e=
-.g. 50% cpu usage if running on half the cores) and is completely unrespons=
-ive
-      - no guest interrupt (reported via -d int) is generated
-
-  Here the minimal code example to reproduce the issue:
-
-      mov     x0, #1
-      msr     cntvoff_el2, x0
-      mov     x0, #-1
-      msr     cntv_cval_el0, x0
-      mov     x0, #1
-      msr     cntv_ctl_el0, x0 // interrupt generation enabled, not masked;=
- qemu will start to hang here
-
-  Options used:
-  -nographic -machine virt,virtualization=3Don,gic-version=3D2,accel=3Dtcg =
--cpu cortex-a57
-  -smp 4 -m 1024 -kernel whatever.elf -d unimp,guest_errors,int -semihostin=
-g-config enable,target=3Dnative
-  -serial mon:stdio
-
-  Version used: 4.2
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859021/+subscriptions
 
