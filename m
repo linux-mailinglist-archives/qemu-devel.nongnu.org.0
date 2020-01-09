@@ -2,71 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F03E5135BE1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 15:57:03 +0100 (CET)
-Received: from localhost ([::1]:33732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F3B135C2F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:04:56 +0100 (CET)
+Received: from localhost ([::1]:33818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipZF8-0000LI-Vk
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 09:57:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52312)
+	id 1ipZMk-0005hH-GX
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:04:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36846)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1ipZBl-0004Az-0x
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:53:34 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ipZLN-0004ly-Vt
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:03:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1ipZBi-0003Zk-T4
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:53:32 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46064)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1ipZBi-0003Rl-Ly
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:53:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578581609;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ByYdTopOFsFIxMLyCUzGAcVQEKqnodxqLRl6jdvTal0=;
- b=WQJ7Fnt2ikXuF2Qio1d3FtV/LAetKTl033vB2PGAxTgMei7U4xeJsTkKIEUPxdXqkRw1T7
- mZfB+rv5I029qF5UcvRFg8hxgEO7izhzz8u3B68i8vN+67Ay8OA4vyAwAZhWmYzn8rBv3E
- 8xp+pYhCrvq3oOJzkVmfxWvlm9zjLVc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-h5j3maQAOtyl2XteOnk__Q-1; Thu, 09 Jan 2020 09:53:25 -0500
-X-MC-Unique: h5j3maQAOtyl2XteOnk__Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EC7C1852E3E;
- Thu,  9 Jan 2020 14:53:23 +0000 (UTC)
-Received: from x1.home (ovpn-116-128.phx2.redhat.com [10.3.116.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C03687EF6;
- Thu,  9 Jan 2020 14:53:05 +0000 (UTC)
-Date: Thu, 9 Jan 2020 07:53:04 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v11 Kernel 3/6] vfio iommu: Implementation of ioctl to
- for dirty pages tracking.
-Message-ID: <20200109075304.27c962dd@x1.home>
-In-Reply-To: <f7db5eae-b650-6078-edb2-7fe20d71bd47@nvidia.com>
-References: <1576602651-15430-1-git-send-email-kwankhede@nvidia.com>
- <1576602651-15430-4-git-send-email-kwankhede@nvidia.com>
- <20191217151203.342b686a@x1.home>
- <ebd08133-e258-9f5e-5c8f-f88d7165cd7a@nvidia.com>
- <20200107150223.0dab0a85@w520.home>
- <d2faa3fe-d656-5ba7-475a-9646298e3d50@nvidia.com>
- <20200108152934.68cd0e85@w520.home>
- <f7db5eae-b650-6078-edb2-7fe20d71bd47@nvidia.com>
-Organization: Red Hat
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ipZLI-0001fb-NB
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:03:29 -0500
+Received: from mail-am6eur05on2090.outbound.protection.outlook.com
+ ([40.107.22.90]:44481 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ipZLI-0001ZL-0c; Thu, 09 Jan 2020 10:03:24 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rq5AUUOSDdezyOUdR6C9EhZTM3NkRuRewK5ylf/HiSQTyQ5jAo7Ym6NHnmH0JWFwhT9l/ZRDNOvFKg/p4+k8MUhFIuCSpo36AvUrk4baBVYd2dcQeMaJ+9Azhwsi3QL1CvZqrFO++cSeQm0+S7aXl16Gxxexz/4DGaYwoDfwKwz+pGK4FDyS/lHPj+jx3bRm8Bx2lCg1BwNxbeBGSAk8lCioI/OtF3k0O6TVTCDoeVA7ZI/oypj3Q315cGMHYtNX7O2DCIbPsDFP8zZ23bvHUU0mERmFdA/0nYfauW1F6I6Ugkj8LpE4f06z2tR+WiC09MCn6lx7ew+/0ZAvx1dxsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=thzAt3uOLQ9axT9vT2G8uVNEqVV0XF3ctFifJCAHFx8=;
+ b=drPJTUJm7w2eLOvo9I7og7+9gD8xzQNjvwaFdXNufAwy5VxvAxiPrKM49nw6SY8fQoDbBza4bKgBzGdXGO1szuB1Zqm7hDFm80hAwMmAtJU9nceh92raDmg5B6khZ9jlby7REIcJiac+MTzV69Za3AhA1y2b5R8gttYvBwdZBAJg0PuCJ2Y4TgetLbyACzZCg7GXHih5yi5wZFGwSuPoZcHYESoVzZnEGBteHyd4GkRV7X5DKaY6dLMnLJ9ZrNeqAzenixzNOFGQUvznBPdeW9zwm2MT32RoI9wzj35VgUwjZsUodEtT2JN8/Ys2T/i8/zj2EpormZZgwUshXxD/SQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=thzAt3uOLQ9axT9vT2G8uVNEqVV0XF3ctFifJCAHFx8=;
+ b=r8XI083FxHqpN/d7ILozYC9Enx1MtJsbahjKd5nNQ7TAOH+9mdZZtIPawW7MTLBuFV8z2dVqN/0Woxe2Ijcldtom/I6VwZ/X/wVCw0GhdFwyiVr8cV4NbLAeRh618WBIVka+FMw93d+JSwRkIGKF3+wPY0PSlbmR8ginkOn5wZg=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB4899.eurprd08.prod.outlook.com (10.255.99.74) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2623.10; Thu, 9 Jan 2020 15:03:21 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2623.008; Thu, 9 Jan 2020
+ 15:03:21 +0000
+Received: from [172.16.24.200] (185.231.240.5) by
+ HE1P192CA0003.EURP192.PROD.OUTLOOK.COM (2603:10a6:3:fe::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2623.9 via Frontend Transport; Thu, 9 Jan 2020 15:03:21 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, Qemu-block <qemu-block@nongnu.org>
+Subject: Re: Pre-Christmas meeting notes
+Thread-Topic: Pre-Christmas meeting notes
+Thread-Index: AQHVxLUvo16uJApLX0WzCyYpfkIZo6ficnCA
+Date: Thu, 9 Jan 2020 15:03:21 +0000
+Message-ID: <23ba22f5-2990-3821-cfb9-7d448c65240a@virtuozzo.com>
+References: <eee7656f-8de1-9d44-7de2-db1b5ed68148@redhat.com>
+In-Reply-To: <eee7656f-8de1-9d44-7de2-db1b5ed68148@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1P192CA0003.EURP192.PROD.OUTLOOK.COM (2603:10a6:3:fe::13)
+ To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20200109180319683
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3eab13b9-bab4-44fa-e0b4-08d795151153
+x-ms-traffictypediagnostic: AM6PR08MB4899:
+x-microsoft-antispam-prvs: <AM6PR08MB4899209E6AC55A3E48596E9BC1390@AM6PR08MB4899.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 02778BF158
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(376002)(396003)(366004)(136003)(39850400004)(199004)(189003)(36756003)(86362001)(31696002)(4326008)(4744005)(6486002)(2906002)(81156014)(66556008)(31686004)(66946007)(5660300002)(16526019)(186003)(81166006)(8676002)(66476007)(66446008)(64756008)(8936002)(54906003)(110136005)(52116002)(3480700007)(316002)(71200400001)(16576012)(26005)(2616005)(478600001)(956004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4899;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NNDJh+U1eG+eS/GdjSXEbxP4/GmgJRV2uFAvVJkYAPGsCdvRTznZ0yVaUbZ18pUXkyP+7LLf0EwF28sMv2WAcwK1vIHpBNGa88yzGA/Hg7we8Tk+3Ann0FrtKzcOUrRpkiBrZjYHUstEs373FY+SRPoH8H6DyAZnaW2gHvrRyMXQ6H6LHLzT8m3vpjr5xmmzu0XjY/2o6QE1oNa2PwObPPvy6AMbpS3YR9neyYnZVJCp5VwDEzTL75KCtRJ2AqDaI8mnidTV4iDiJeVkZJ3u4A6Qa/H+57mh7X78QdqL7M+GMxP3s/m8+aJArsJXSEJZe/DtOHrC9t5ypzZffx6e+y5A2KaoxkYsSWKEcLgaKg0V6Z1kzNPjSM9MhKzDg2NVdpBqEBJLyw1reJd6/BVsJqe3/8db2g9MwG4Dl0aFSu3cwyiNiYJJq3AnFjQtZBUl
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <723F1040AB807741BF66D2CED0A8F252@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3eab13b9-bab4-44fa-e0b4-08d795151153
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jan 2020 15:03:21.5295 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ktcIEZPuhb1H4yf+Z7RqLCBZXS4g3JzAcK6XoYJZ4UCbsGTz+gvCaF9L60tEGAja0aUXEH1hR0KezmoBrii9t44PVujcP/k5r6axwawSQdg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4899
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.22.90
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,287 +111,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 9 Jan 2020 18:59:40 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
-
-> On 1/9/2020 3:59 AM, Alex Williamson wrote:
-> > On Thu, 9 Jan 2020 01:31:16 +0530
-> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> >   
-> >> On 1/8/2020 3:32 AM, Alex Williamson wrote:  
-> >>> On Wed, 8 Jan 2020 01:37:03 +0530
-> >>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> >>>      
-> >>
-> >> <snip>
-> >>  
-> >>>>>> +
-> >>>>>> +	unlocked = vfio_iova_put_vfio_pfn(dma, vpfn, dirty_tracking);
-> >>>>>>     
-> >>>>>>     	if (do_accounting)
-> >>>>>>     		vfio_lock_acct(dma, -unlocked, true);
-> >>>>>> @@ -571,8 +606,12 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
-> >>>>>>     
-> >>>>>>     		vpfn = vfio_iova_get_vfio_pfn(dma, iova);
-> >>>>>>     		if (vpfn) {
-> >>>>>> -			phys_pfn[i] = vpfn->pfn;
-> >>>>>> -			continue;
-> >>>>>> +			if (vpfn->unpinned)
-> >>>>>> +				vfio_remove_from_pfn_list(dma, vpfn);  
-> >>>>>
-> >>>>> This seems inefficient, we have an allocated vpfn at the right places
-> >>>>> in the list, wouldn't it be better to repin the page?
-> >>>>>         
-> >>>>
-> >>>> vfio_pin_page_external() takes care of pinning and accounting as well.  
-> >>>
-> >>> Yes, but could we call vfio_pin_page_external() without {unlinking,
-> >>> freeing} and {re-allocating, linking} on either side of it since it's
-> >>> already in the list?  That's the inefficient part.  Maybe at least a
-> >>> TODO comment?
-> >>>      
-> >>
-> >> Changing it as below:
-> >>
-> >>                   vpfn = vfio_iova_get_vfio_pfn(dma, iova);
-> >>                   if (vpfn) {
-> >> -                       phys_pfn[i] = vpfn->pfn;
-> >> -                       continue;
-> >> +                       if (vpfn->ref_count > 1) {
-> >> +                               phys_pfn[i] = vpfn->pfn;
-> >> +                               continue;
-> >> +                       }
-> >>                   }
-> >>
-> >>                   remote_vaddr = dma->vaddr + iova - dma->iova;
-> >>                   ret = vfio_pin_page_external(dma, remote_vaddr,
-> >> &phys_pfn[i],
-> >>                                                do_accounting);
-> >>                   if (ret)
-> >>                           goto pin_unwind;
-> >> -
-> >> -               ret = vfio_add_to_pfn_list(dma, iova, phys_pfn[i]);
-> >> -               if (ret) {
-> >> -                       vfio_unpin_page_external(dma, iova, do_accounting);
-> >> -                       goto pin_unwind;
-> >> -               }
-> >> +               if (!vpfn) {
-> >> +                       ret = vfio_add_to_pfn_list(dma, iova, phys_pfn[i]);
-> >> +                       if (ret) {
-> >> +                               vfio_unpin_page_external(dma, iova,
-> >> +                                                        do_accounting,
-> >> false);
-> >> +                               goto pin_unwind;
-> >> +                       }
-> >> +               } else
-> >> +                       vpfn->pfn = phys_pfn[i];
-> >>           }
-> >>
-> >>
-> >>
-> >>  
-> >>>>>> +			else {
-> >>>>>> +				phys_pfn[i] = vpfn->pfn;
-> >>>>>> +				continue;
-> >>>>>> +			}
-> >>>>>>     		}
-> >>>>>>     
-> >>>>>>     		remote_vaddr = dma->vaddr + iova - dma->iova;
-> >>>>>> @@ -583,7 +622,8 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
-> >>>>>>     
-> >>>>>>     		ret = vfio_add_to_pfn_list(dma, iova, phys_pfn[i]);
-> >>>>>>     		if (ret) {
-> >>>>>> -			vfio_unpin_page_external(dma, iova, do_accounting);
-> >>>>>> +			vfio_unpin_page_external(dma, iova, do_accounting,
-> >>>>>> +						 false);
-> >>>>>>     			goto pin_unwind;
-> >>>>>>     		}
-> >>>>>>     	}  
-> >>
-> >> <snip>
-> >>  
-> >>>>     
-> >>>>>> +		if (range.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_START) {
-> >>>>>> +			iommu->dirty_page_tracking = true;
-> >>>>>> +			return 0;
-> >>>>>> +		} else if (range.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP) {
-> >>>>>> +			iommu->dirty_page_tracking = false;
-> >>>>>> +
-> >>>>>> +			mutex_lock(&iommu->lock);
-> >>>>>> +			vfio_remove_unpinned_from_dma_list(iommu);
-> >>>>>> +			mutex_unlock(&iommu->lock);
-> >>>>>> +			return 0;
-> >>>>>> +
-> >>>>>> +		} else if (range.flags &
-> >>>>>> +				 VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP) {
-> >>>>>> +			uint64_t iommu_pgmask;
-> >>>>>> +			unsigned long pgshift = __ffs(range.pgsize);
-> >>>>>> +			unsigned long *bitmap;
-> >>>>>> +			long bsize;
-> >>>>>> +
-> >>>>>> +			iommu_pgmask =
-> >>>>>> +			 ((uint64_t)1 << __ffs(vfio_pgsize_bitmap(iommu))) - 1;
-> >>>>>> +
-> >>>>>> +			if (((range.pgsize - 1) & iommu_pgmask) !=
-> >>>>>> +			    (range.pgsize - 1))
-> >>>>>> +				return -EINVAL;
-> >>>>>> +
-> >>>>>> +			if (range.iova & iommu_pgmask)
-> >>>>>> +				return -EINVAL;
-> >>>>>> +			if (!range.size || range.size > SIZE_MAX)
-> >>>>>> +				return -EINVAL;
-> >>>>>> +			if (range.iova + range.size < range.iova)
-> >>>>>> +				return -EINVAL;
-> >>>>>> +
-> >>>>>> +			bsize = verify_bitmap_size(range.size >> pgshift,
-> >>>>>> +						   range.bitmap_size);
-> >>>>>> +			if (bsize < 0)
-> >>>>>> +				return ret;
-> >>>>>> +
-> >>>>>> +			bitmap = kmalloc(bsize, GFP_KERNEL);  
-> >>>>>
-> >>>>> I think I remember mentioning previously that we cannot allocate an
-> >>>>> arbitrary buffer on behalf of the user, it's far too easy for them to
-> >>>>> kill the kernel that way.  kmalloc is also limited in what it can
-> >>>>> alloc.  
-> >>>>
-> >>>> That's the reason added verify_bitmap_size(), so that size is verified  
-> >>>
-> >>> That's only a consistency test, it only verifies that the user claims
-> >>> to provide a bitmap sized sufficiently for the range they're trying to
-> >>> request.  range.size is limited to SIZE_MAX, so 2^64, divided by page
-> >>> size for 2^52 bits, 8bits per byte for 2^49 bytes of bitmap that we'd
-> >>> try to kmalloc (512TB).  kmalloc is good for a couple MB AIUI.
-> >>> Meanwhile the user doesn't actually need to allocate that bitmap in
-> >>> order to crash the kernel.
-> >>>      
-> >>>>> Can't we use the user buffer directly or only work on a part of
-> >>>>> it at a time?
-> >>>>>         
-> >>>>
-> >>>> without copy_from_user(), how?  
-> >>>
-> >>> For starters, what's the benefit of copying the bitmap from the user
-> >>> in the first place?  We presume the data is zero'd and if it's not,
-> >>> that's the user's bug to sort out (we just need to define the API to
-> >>> specify that).  Therefore the copy_from_user() is unnecessary anyway and
-> >>> we really just need to copy_to_user() for any places we're setting
-> >>> bits.  We could just walk through the range with an unsigned long
-> >>> bitmap buffer, writing it out to userspace any time we reach the end
-> >>> with bits set, zeroing it and shifting it as a window to the user
-> >>> buffer.  We could improve batching by allocating a larger buffer in the
-> >>> kernel, with a kernel defined maximum size and performing the same
-> >>> windowing scheme.
-> >>>      
-> >>
-> >> Ok removing copy_from_user().
-> >> But AFAIK, calling copy_to_user() multiple times is not efficient in
-> >> terms of performance.  
-> > 
-> > Right, but even with a modestly sized internal buffer for batching we
-> > can cover quite a large address space.  128MB for a 4KB buffer, 32GB
-> > with 1MB buffer.  __put_user() is more lightweight than copy_to_user(),
-> > I wonder where the inflection point is in batching the latter versus
-> > more iterations of the former.
-> >   
-> >> Checked code in virt/kvm/kvm_main.c: __kvm_set_memory_region() where
-> >> dirty_bitmap is allocated, that has generic checks, user space address
-> >> check, memory overflow check and KVM_MEM_MAX_NR_PAGES as below. I'll add
-> >> access_ok check. I already added overflow check.
-> >>
-> >>           /* General sanity checks */
-> >>           if (mem->memory_size & (PAGE_SIZE - 1))
-> >>                   goto out;
-> >>
-> >>          !access_ok((void __user *)(unsigned long)mem->userspace_addr,
-> >>                           mem->memory_size)))
-> >>
-> >>           if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-> >>                   goto out;
-> >>
-> >>           if (npages > KVM_MEM_MAX_NR_PAGES)
-> >>                   goto out;
-> >>
-> >>
-> >> Where KVM_MEM_MAX_NR_PAGES is:
-> >>
-> >> /*
-> >>    * Some of the bitops functions do not support too long bitmaps.
-> >>    * This number must be determined not to exceed such limits.
-> >>    */
-> >> #define KVM_MEM_MAX_NR_PAGES ((1UL << 31) - 1)
-> >>
-> >> But we can't use KVM specific KVM_MEM_MAX_NR_PAGES check in vfio module.
-> >> Should we define similar limit in vfio module instead of SIZE_MAX?  
-> > 
-> > If we have ranges that are up to 2^31 pages, that's still 2^28 bytes.
-> > Does it seem reasonable to have a kernel interface that potentially
-> > allocates 256MB of kernel space with kmalloc accessible to users?  That
-> > still seems like a DoS attack vector to me, especially since the user
-> > doesn't need to be able to map that much memory (8TB) to access it.
-> > 
-> > I notice that KVM allocate the bitmap (kvzalloc) relative to the actual
-> > size of the memory slot when dirty logging is enabled, maybe that's the
-> > right approach rather than walking vpfn lists and maintaining unpinned
-> > vpfns for the purposes of tracking.  For example, when dirty logging is
-> > enabled, walk all vfio_dmas and allocate a dirty bitmap anywhere the
-> > vpfn list is not empty and walk the vpfn list to set dirty bits in the
-> > bitmap.   
-> 
-> Bitmap will be allocated per vfio_dma, not as per 
-> VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP request, right?
-
-Per vfio_dma when dirty logging is enabled, ie. between
-VFIO_IOMMU_DIRTY_PAGES_FLAG_START and VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP.
-
-> > When new pages are pinned, allocate a bitmap if not already
-> > present and set the dirty bit.  When unpinned, update the vpfn list but
-> > leave the dirty bit set.  When the dirty bitmap is read, copy out the
-> > current bitmap to the user, memset it to zero, then re-walk the vpfn
-> > list to set currently dirty pages.  
-> 
-> Why re-walk is required again? Pinning /unpinning or reporting dirty 
-> pages are done holding iommu->lock, there shouldn't be race condition.
-
-In order to "remember" that a page was dirtied, I proposed above that
-we don't change the bitmap when a page is unpinned.  We can "forget"
-that a page was dirtied if it's no longer pinned and we've told the
-user about it.  Therefore we need to purge the not-currently-pinned
-pages from the bitmap and rebuild it.
-
-> >  A vfio_dma without a dirty bitmap
-> > would consider the entire range dirty.  
-> 
-> That will depend on (!iommu->pinned_page_dirty_scope && 
-> dma->iommu_mapped) condition to mark entire range dirty.
-
-I assumed we wouldn't bother to maintain a bitmap unless these
-conditions are already met.
-
-> Here even if vpfn list is empty, memory for dirty_bitmap need to be 
-> allocated, memset all bits to 1, then copy_to_user().
-
-I was assuming we might use a __put_user() loop to fill such ranges
-rather than waste memory tracking fully populated bitmaps.
-
-> If we go with this approach, then I think there should be restriction to 
-> get bitmap as per the way mappings were created, multiple mappings can 
-> be clubbed together, but shouldn't bisect the mappings - similar to 
-> unmap restriction.
-
-Why?  It seems like it's just some pointer arithmetic to copy out the
-section of the bitmap that the user requests.  Thanks,
-
-Alex
-
+MDYuMDEuMjAyMCAyMDoxNSwgTWF4IFJlaXR6IHdyb3RlOg0KPiBNaXNjDQo+IC0tLS0NCj4gDQo+
+IFRoZSBXaWtp4oCZcyBUT0RPIGxpc3QgaXMgaG9ycmlibHkgb3V0ZGF0ZWQuICBXaGF0IHNob3Vs
+ZCB3ZSBkbyBhYm91dA0KPiBpdD8gIE1heWJlIGFyY2hpdmUgaXQgYW5kIHN0YXJ0IGEgbmV3IG9u
+ZT8gIChNb3N0IG9mIHRoZSB0aGluZ3Mgb24gdGhlDQo+IGN1cnJlbnQgbGlzdCBhcmUgZWl0aGVy
+IGRvbmUgb3Igd2UgZG9u4oCZdCB3YW50IHRvIGRvIGFueW1vcmUuKQ0KDQoNCk1heSBiZSwgY3Jl
+YXRlIGJsb2NrL1RPRE8udHh0IGluc3RlYWQ/IEl0IHdvdWxkIGJlIHNpbXBsZXIgdG8gbWFuYWdl
+IGZpbGUNCmluIGdpdCB0aGFuIHdpa2kgcGFnZS4NCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZs
+YWRpbWlyDQo=
 
