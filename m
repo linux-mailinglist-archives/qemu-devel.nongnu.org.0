@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A141355FF
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 10:42:47 +0100 (CET)
-Received: from localhost ([::1]:57462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC5B135604
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 10:44:08 +0100 (CET)
+Received: from localhost ([::1]:57478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipUL0-0007Rg-N7
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 04:42:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36278)
+	id 1ipUMJ-00019Y-Ki
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 04:44:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37149)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1ipUJY-0005l8-Hs
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 04:41:17 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipUJe-0005qs-0Q
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 04:41:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1ipUJX-0005vN-Hd
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 04:41:16 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58322
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ipUJX-0005tS-CT
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 04:41:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578562874;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I36/l60qVvv05D/EME45Vb97D11lHNchqjVGaxwIeM4=;
- b=W04C6dPoxdoJKDeGtvUvAZeARYoPKFP8VcbCaPBJrDgd9b50LZAqPpOp/hA/VoRXJ4Z8WN
- 0yFFKGCVm/pngU9Wdge2nVkUFcpOsRg/pVM88uIUIi/Qqox/n6ORB8Xh4N2A577Ku/R+dE
- z40RIRCzSsSqNiwYtmoQ9Xu2PfqVwaA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-7b-0RCN5PmK0hPx5SkZrrw-1; Thu, 09 Jan 2020 04:41:11 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 945B0DBE7;
- Thu,  9 Jan 2020 09:41:10 +0000 (UTC)
-Received: from redhat.com (ovpn-116-22.ams2.redhat.com [10.36.116.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 230EA60C88;
- Thu,  9 Jan 2020 09:41:09 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Subject: Re: [Patch v2 3/6] migration/postcopy: count target page number to
- decide the place_needed
-In-Reply-To: <20191107123907.29791-4-richardw.yang@linux.intel.com> (Wei
- Yang's message of "Thu, 7 Nov 2019 20:39:04 +0800")
-References: <20191107123907.29791-1-richardw.yang@linux.intel.com>
- <20191107123907.29791-4-richardw.yang@linux.intel.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Thu, 09 Jan 2020 10:41:08 +0100
-Message-ID: <87d0bt0xxn.fsf@secure.laptop>
+ (envelope-from <paolo.bonzini@gmail.com>) id 1ipUJc-0006Ht-Hz
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 04:41:21 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38436)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1ipUJc-0006CL-81
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 04:41:20 -0500
+Received: by mail-wr1-x441.google.com with SMTP id y17so6646785wrh.5
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 01:41:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9HunfxuiwkdWwxS85akSuSigAnmPoWzb6MKVNjBibIE=;
+ b=lz5hzgJoz17g6ofXpwEcgGRNKmxBEV9tTyzyJGxDgcjwSa3p7q1jn4nug2dmC6liZx
+ 5cKnInOwVmqOQmTptccEXbwENisO0YLhi/A7WDT6wx+VbAOLMb/RNR0pe04Qb2iut8SR
+ +SRX2jl77/zdDGuRxOkC8JgHeA9/3fUJPsXAtF8KNlo5fXuXh6M9xKnAyqgjp1FClwAd
+ bO1PHX1849MW9/bGirGDIiMsrar48C/jj1Fcro6qU4dzcNQJl0A2+5GvG6kkhFMjUFqd
+ x6CsxbJpY7rSUg77yVISn9uyCCSIfaGuNy7uezIf/WYgh43zMZva/filRuA94DlsI8px
+ u6gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=9HunfxuiwkdWwxS85akSuSigAnmPoWzb6MKVNjBibIE=;
+ b=It640TUp+SVCFoxcesdxx5SMWcKXztU+Qp1O+EKV+FME7VkaRAmXTOSEbZU/YXUSua
+ Z9Pg5ahJWmUUEu/eXkBHvMXdDUU3Q+m1Xsl0EGfB6nRz1UJq0MjhvP4WEj2MnOR3/Xhy
+ qPdRXQfw29r9KdDc2HjaTz4nsCqROdsGVSEsGuw+2K1ewD351y6cvpleWOHscaxEk016
+ Dzt3wbNvo6QIC4mu2db0KqsCDTD3oTBc3I2xROTFlgX9xL0rJw2q2eEWJc4vowrs2Ian
+ hGmRFsKjFnrD+6EovCSH4kHw61bxDqUjsC43sQl68QVZuvROzBHwMFS09agKeLlhUVgY
+ 3yIg==
+X-Gm-Message-State: APjAAAUcimDdPuqrO5OMAdAHVRY7i2h9+KM20Uryg9q+y9mvSkB2sMbx
+ 7TO32vXCxnnoxivOWcZw1Yt2FQ3M
+X-Google-Smtp-Source: APXvYqymkDPuSU4unKcsEyWcbrZ0Vai0lakR6LfKnPkhDENri8RQoutbcvsC4fDc+CWh2esHP47RbA==
+X-Received: by 2002:a05:6000:1142:: with SMTP id
+ d2mr9266107wrx.253.1578562878555; 
+ Thu, 09 Jan 2020 01:41:18 -0800 (PST)
+Received: from donizetti.lan ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id g18sm2138894wmh.48.2020.01.09.01.41.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jan 2020 01:41:17 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hyperv: set priority for SynIC pages
+Date: Thu,  9 Jan 2020 10:41:17 +0100
+Message-Id: <20200109094117.16237-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 7b-0RCN5PmK0hPx5SkZrrw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,26 +76,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: dgilbert@redhat.com, qemu-devel@nongnu.org
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Roman Kagan <rkagan@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wei Yang <richardw.yang@linux.intel.com> wrote:
-> In postcopy, it requires to place whole host page instead of target
-> page.
->
-> Currently, it relies on the page offset to decide whether this is the
-> last target page. We also can count the target page number during the
-> iteration. When the number of target page equals
-> (host page size / target page size), this means it is the last target
-> page in the host page.
->
-> This is a preparation for non-ordered target page transmission.
->
-> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On PC systems, system memory is organized like this:
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+- priority -1 is the PCI BARs
+
+- priority 0 is the RAM
+
+- priority 1 pokes holes in RAM whenever PCI BARs should appear instead
+  (for example due to SMRAM or PAM configuration), plus it contains RAM
+  regions in RAM mode (again toggled by PAM configuration).
+
+(SMRAM for CPUs in SMM has "infinite" priority since it is added in a
+completely different address space).
+
+SynIC memory regions are overlaid on top of memory, so they should have
+the highest priority except for SMRAM.  Implement this by giving them
+priority 2.
+
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: Roman Kagan <rkagan@virtuozzo.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/hyperv/hyperv.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
+index da8ce82725..dc8d3b31c3 100644
+--- a/hw/hyperv/hyperv.c
++++ b/hw/hyperv/hyperv.c
+@@ -53,8 +53,8 @@ static void synic_update(SynICState *synic, bool enable,
+                                         &synic->msg_page_mr);
+         }
+         if (msg_page_addr) {
+-            memory_region_add_subregion(get_system_memory(), msg_page_addr,
+-                                        &synic->msg_page_mr);
++            memory_region_add_subregion_overlap(get_system_memory(), msg_page_addr,
++                                                &synic->msg_page_mr, 2);
+         }
+         synic->msg_page_addr = msg_page_addr;
+     }
+@@ -64,8 +64,8 @@ static void synic_update(SynICState *synic, bool enable,
+                                         &synic->event_page_mr);
+         }
+         if (event_page_addr) {
+-            memory_region_add_subregion(get_system_memory(), event_page_addr,
+-                                        &synic->event_page_mr);
++            memory_region_add_subregion_overlap(get_system_memory(), event_page_addr,
++                                                &synic->event_page_mr, 2);
+         }
+         synic->event_page_addr = event_page_addr;
+     }
+-- 
+2.21.0
 
 
