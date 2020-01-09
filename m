@@ -2,69 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02693136260
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 22:20:15 +0100 (CET)
-Received: from localhost ([::1]:37354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C72613629C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 22:33:23 +0100 (CET)
+Received: from localhost ([::1]:37476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipfDx-0007xK-Iy
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 16:20:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52186)
+	id 1ipfQg-0006vW-6B
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 16:33:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44622)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <afscoelho@gmail.com>) id 1ipfD1-0007XY-Ku
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 16:19:17 -0500
+ (envelope-from <tongh@xilinx.com>) id 1ipe8B-0004p4-BK
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 15:10:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <afscoelho@gmail.com>) id 1ipfCz-0004fP-OK
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 16:19:15 -0500
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:36345)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <afscoelho@gmail.com>) id 1ipfCz-0004Ui-Bv
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 16:19:13 -0500
-Received: by mail-lj1-x244.google.com with SMTP id r19so8799333ljg.3
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 13:19:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=EbSxBnxdfVgWnddHjXAK7aaAd5vZDCIBbpoJNXRNrto=;
- b=ig+/edBEzToBSYARjAgqMQo3HAYUDX2RiMXdic7etO+Pze8GPhU1K0EAUPGYF4P+f7
- G8zB0EQeyvaw7PyWIFsGb40S+0z8YCFk1euNdnLv3Iwp/0NR+AHK0eXTv91Wi0P5IbRr
- ZpX4JGzxoOnmgH4m9is24+F6DrfkCHxgJWifU0bC7SAh7X3yyt4CInOK1vJwAXpItgpX
- GGqhH85O/j/giN2yQXu2DFgfiNQpYjZGD/LBqSj0/t+AKeNEX6iskjdfZkx2fPakgI3N
- SGecE06/rQdU5Bk2lKNvq9QYKUEo4gaaYoHU9F275+CmHNEeFm8HDy3yLXCpySXnmscs
- bLvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=EbSxBnxdfVgWnddHjXAK7aaAd5vZDCIBbpoJNXRNrto=;
- b=OECLjKA2shXffQjsd/euTjvg11nUDl9xA84MU+JZ36TktSAAEd7zt4exJTzzHpAWR/
- zhoT2Wns4NNRqZSf2Ke7xV3pUtqF7aPpg4XrSwDF1gOwwJ0BNV4XFY35xALZHDzItawP
- Y+RNitMx5gzF9CC+o09WtvNMN8N2srt2Ic1RQqQvyDXnUdclg6Jmitlo/gDZI4S6loec
- alfeRIc4Na7N5PCPmeWaiMNXMFeYw9/FBrCQlKNRCUMi08Zkin3AxKMu9LsX2LOtL7VG
- GH5KVrLbr6cRmGoEIW1XF3o3BkXdheHHYoD88um7xUj6eUPgwjwmymVxpu+BVVeC/9Vj
- gKlA==
-X-Gm-Message-State: APjAAAXs6I383aoNdN4I/7tZ1aQmN/6rG/j4FA/cZ6u/xdGUhmuW9PhZ
- mrC2JrZ0Zz0hPDls6Y1nvlIqgKXszQMYruGGrJY=
-X-Google-Smtp-Source: APXvYqyZY22IQpsi3n0kqa3UFWHYoxemxyUstlsI/nQW6u3ZFtb0biLUAAy597WUEt4cqynSRen9d/PDFgtYASUc00k=
-X-Received: by 2002:a2e:9015:: with SMTP id h21mr37634ljg.69.1578604749305;
- Thu, 09 Jan 2020 13:19:09 -0800 (PST)
+ (envelope-from <tongh@xilinx.com>) id 1ipe88-0001mJ-VY
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 15:10:09 -0500
+Received: from mail-bn8nam12on2063.outbound.protection.outlook.com
+ ([40.107.237.63]:17594 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tongh@xilinx.com>) id 1ipe88-0001fK-Kw
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 15:10:08 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ei4QH6osrkBaKAI8m8AtawBGG4zszrmwlhhY0nCerHcUcH75MV7vPam9w65XIbxFWH2OAe6TnOTA5wMwFh7IV3ITUvkWQL3mgROK4KiIms0B3GyVuCcG7qWNFFigGnUnYOrGAAbPa1sTq/29+A2HvSSvCSRnZlrcpBohikxhGY8KumnGXL9GTAUocibYDk9xVE73Jb4IctU4G6CQ+Wv9LX6wGV5sbPq2mH2HFPdvxoup/HzApEUdtac5ZOBLs56di9+nk67C4f+MuC9CVmCn2jJE8Hd5mzkWFhobWLX2WloUXwNy1A1Lv2zl904gyERQzqP1ZB6mW889fee1ym9Hww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=04qezzEP62Z37luar5KuKu1tJbrKUxZlJJRjIabZV/k=;
+ b=MASi5BSD3xVLPF0g7FkigkYR4DYhWn75ekVEMVVDVntG0fqPMowdkU7JB3EiJss4gQsovJ5sV5ZmT5tYQZ2kqAl5zmKPI07AKqXSYWZXW2XIzOB1IQiD7BG2CRXpU6N+xeKfFTcsyLon+Hqc4v+Kwf3l8LeBTAS7z7OxCC0WoJGPDtddnI9jgjIAJq3ygkm7mt1BpKbNWbqCtfvkHhMSrT6hFi7HrQjfgBpUFTCtxeWm+/2IPwJo6RiqfBIHxsnEXB9wjIzQK7WymNk/MTutrj/Fv5q5B60SD9WMRRSF2ZAgxI51x2TDxudwctT228kEJP440CPQTuujw0j6vWthdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=redhat.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=04qezzEP62Z37luar5KuKu1tJbrKUxZlJJRjIabZV/k=;
+ b=neHdSYl2Op09t8lGVvdwqN1gsxeGbmMYwW7uHFyj57mcYZ+3dLZhp97PlGRvm0V8xaMna+nW6pmJ5aAagwBNUkyL4y61gm3lmDOlFfS0UkkUkDicPCTePQj2O4qUS06OqWupNlHC9kqgWEg+nDkptYqoEJoTB1vMPM0mNkprL+I=
+Received: from BL0PR02CA0108.namprd02.prod.outlook.com (2603:10b6:208:51::49)
+ by BN6PR02MB2321.namprd02.prod.outlook.com (2603:10b6:404:29::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.9; Thu, 9 Jan
+ 2020 20:10:06 +0000
+Received: from SN1NAM02FT040.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e44::209) by BL0PR02CA0108.outlook.office365.com
+ (2603:10b6:208:51::49) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.11 via Frontend
+ Transport; Thu, 9 Jan 2020 20:10:05 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT040.mail.protection.outlook.com (10.152.72.195) with Microsoft SMTP
+ Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2623.9
+ via Frontend Transport; Thu, 9 Jan 2020 20:10:05 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+ (envelope-from <tong.ho@xilinx.com>)
+ id 1ipe84-0001pp-GJ; Thu, 09 Jan 2020 12:10:04 -0800
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <tong.ho@xilinx.com>)
+ id 1ipe7z-0001Y9-Ci; Thu, 09 Jan 2020 12:09:59 -0800
+Received: from xsj-pvapsmtp01 (xsj-smtp.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 009K9wXF017826; 
+ Thu, 9 Jan 2020 12:09:58 -0800
+Received: from [172.19.2.40] (helo=xsjtongh40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <tong.ho@xilinx.com>)
+ id 1ipe7y-0001Y6-Az; Thu, 09 Jan 2020 12:09:58 -0800
+From: Tong Ho <tong.ho@xilinx.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] crypto: fix getter of a QCryptoSecret's property
+Date: Thu,  9 Jan 2020 12:09:58 -0800
+Message-Id: <1578600598-335744-1-git-send-email-tong.ho@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:; CTRY:US; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(4636009)(136003)(376002)(39860400002)(396003)(346002)(199004)(189003)(4744005)(81156014)(6916009)(4326008)(8676002)(81166006)(70586007)(70206006)(2906002)(36756003)(44832011)(8936002)(478600001)(426003)(316002)(2616005)(356004)(7696005)(5660300002)(336012)(26005)(186003)(9786002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR02MB2321; H:xsj-pvapsmtpgw01; FPR:;
+ SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; A:1; MX:1; 
 MIME-Version: 1.0
-References: <20200108161618.221116-1-afscoelho@gmail.com>
- <20200109054233-mutt-send-email-mst@kernel.org>
- <CAGTcC7yLjP5h4oWfgvrOYobChW-cw-oL5EBmMCH45O41+yuvyA@mail.gmail.com>
- <20200109073529-mutt-send-email-mst@kernel.org>
- <20200109170640.4c3fa148@bahia.lan>
-In-Reply-To: <20200109170640.4c3fa148@bahia.lan>
-From: =?UTF-8?B?QW5kcsOpIFNpbHZh?= <afscoelho@gmail.com>
-Date: Thu, 9 Jan 2020 18:18:57 -0300
-Message-ID: <CAGTcC7wsTkS+E00SjNoyc7EwyviALr0ucYY4JN=w3oykjhkpuw@mail.gmail.com>
-Subject: Re: [PATCH] virtio: Prevent double swap due to target pre 1.0 VirtIO
-To: Greg Kurz <groug@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::244
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5a1b3f5a-2dca-4c1d-3dc9-08d7953feaf4
+X-MS-TrafficTypeDiagnostic: BN6PR02MB2321:
+X-Microsoft-Antispam-PRVS: <BN6PR02MB23219987A913438A5BEDE1C2CD390@BN6PR02MB2321.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:962;
+X-Forefront-PRVS: 02778BF158
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 52xZNjqvIiiD3KdTMvlBINFQ+LtKjlxZWsuRywk5IvJ4Ff1FxbHv2wM9HPNnqL/42YRXM65bpAsCv8FK3w5g0vQe/sVKcnbGKhcdQd2v6hDOXu+po3ljwW9KZlBoEbM7f8lU4cdlLrettJYpXmC2PDCMTK9TPWw6I87p4U29rxmrMm2Q+1n+TsUH4psF4eHDlBsq6u3vb8aQTChuGvNBdFEx80jlxlPnbiHp63aSvyliOdFaZ1tYBXONX9Tyg0Lpuu42WSPmt/+2b/hnkwhwVbBTzzR9lBCJOW14PNJxImYoJU4zG9FnJ0q3Hl3u6HsOdnZ4ql1UHjZFxxuDwdFRHxVXRik2b/W8F1TptzH6uaW3E02Kgh88bA02q7TVysjlAqs3tqXcbhxo4Z8ZMmPvC8zzIS/Pxl+bUWo4i4cSn8Miw6GcTq0B6glhN2UNmfTR
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2020 20:10:05.1626 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a1b3f5a-2dca-4c1d-3dc9-08d7953feaf4
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2321
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.237.63
+X-Mailman-Approved-At: Thu, 09 Jan 2020 16:32:05 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,246 +123,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Greg,
+This fixes the condition-check done by the "loaded" property
+getter, such that the property returns true even when the
+secret is loaded by the 'file' option.
 
-Thanks for the commit info.
-But I'm testing in this scenario, that is, a ppc64le host with a ppc64
-BE guest, and without my patch I can't get virtio to work. The patch
-makes virtio 0.95 (legacy) net, scsi, blk work. I don't get the
-firmware error. I also tested with a ppc64le guest and had no problems
-either. Maybe we have different firmware versions?
+Signed-off-by: Tong Ho <tong.ho@xilinx.com>
+---
+ Pre-existing getter returns true only when the secret is loaded
+ by the 'data' option.
 
-My firmware output:
+ crypto/secret.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-SLOF **********************************************************************
-QEMU Starting
- Build Date =3D Jul  3 2019 12:26:14
- FW Version =3D git-ba1ab360eebe6338
- Press "s" to enter Open Firmware.
+diff --git a/crypto/secret.c b/crypto/secret.c
+index 1cf0ad0..5fb6bbe 100644
+--- a/crypto/secret.c
++++ b/crypto/secret.c
+@@ -221,6 +221,7 @@ qcrypto_secret_prop_set_loaded(Object *obj,
+         secret->rawlen = inputlen;
+     } else {
+         g_free(secret->rawdata);
++        secret->rawdata = NULL;
+         secret->rawlen = 0;
+     }
+ }
+@@ -231,7 +232,7 @@ qcrypto_secret_prop_get_loaded(Object *obj,
+                                Error **errp G_GNUC_UNUSED)
+ {
+     QCryptoSecret *secret = QCRYPTO_SECRET(obj);
+-    return secret->data != NULL;
++    return secret->rawdata != NULL;
+ }
+ 
+ 
+-- 
+2.7.4
 
-Populating /vdevice methods
-Populating /vdevice/vty@71000000
-Populating /vdevice/nvram@71000001
-Populating /vdevice/v-scsi@71000002
-       SCSI: Looking for devices
-          8200000000000000 CD-ROM   : "QEMU     QEMU CD-ROM      2.5+"
-Populating /pci@800000020000000
-                     00 0000 (D) : 1af4 1000    virtio [ net ]
-                     00 0800 (D) : 1af4 1001    virtio [ block ]
-No NVRAM common partition, re-initializing...
-Scanning USB
-Using default console: /vdevice/vty@71000000
-
-  Welcome to Open Firmware
-
-  Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
-  This program and the accompanying materials are made available
-  under the terms of the BSD License available at
-  http://www.opensource.org/licenses/bsd-license.php
-
-
-Trying to load:  from: /pci@800000020000000/scsi@1 ...   Successfully loade=
-d
-
->> FreeBSD/powerpc Open Firmware boot block
-   Boot path:   /pci@800000020000000/scsi@1
-   Boot loader: /boot/loader
-   Boot volume:   /pci@800000020000000/scsi@1:2
-Consoles: Open Firmware console
-
-FreeBSD/powerpc64 Open Firmware loader, Revision 0.1
-(Mon Nov 11 22:33:43 -02 2019 jenkins@FreeBSD_x86)
-Memory: 4194304KB
-Booted from: /pci@800000020000000/scsi@1
-
-Loading /boot/defaults/loader.conf
-/boot/kernel/kernel data=3D0x129f658+0x4aaa88 syms=3D[0x8+0x105120+0x8+0x12=
-5429]
-...
-
-Until now, I was able to test the patch and see virtio working on the
-following systems:
-
-  Qemu     Host             Guest                           Guest VirtIO
-  -------- ---------------- ------------------------------- --------------
-  master   Ubuntu ppc64le   FreeBSD 13.0-current ppc64 BE   legacy
-  master   Ubuntu ppc64le   debian 4.19.0-6-powerpc64le     modern
-  master   Ubuntu ppc64le   debian 4.19.0-6-powerpc64le     legacy
-  master   arch x86_64      FreeBSD 13.0-current ppc64 BE   legacy
-
-Thanks,
-andr=C3=A9
-
-On Thu, Jan 9, 2020 at 1:06 PM Greg Kurz <groug@kaod.org> wrote:
->
-> On Thu, 9 Jan 2020 07:39:17 -0500
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->
-> > On Thu, Jan 09, 2020 at 09:25:42AM -0300, Andr=C3=A9 Silva wrote:
-> > > Hi Michael!
-> > > Thanks for reviewing the patch!
-> > >
-> > > > we always get LE values from memory subsystem,
-> > > > not target endian values:
-> > >
-> > > I see. So do you think the patch is correct in eliminating the extra
-> > > swap (as virtio_config_readw for example already makes a swap)?
-> > >
-> > > Thanks,
-> > > andr=C3=A9
-> >
-> > I don't think it is, I think we do need an extra swap
-> > in some cases. It's possible that some cross-endian
-> > setups are broken now, if so pls include testing
-> > result not just theoretical analysis.
-> >
->
-> I confirm that we must keep the extra swap otherwise
-> read/write in cross-endian setups will have wrong
-> endian. Please read this commit for a more detailed
-> explanation:
->
-> commit 82afa58641b0e67abbaf4da6c325ebd7c2513262
-> Author: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Date:   Tue Jan 10 01:35:11 2012 +0000
->
->     virtio-pci: Fix endianness of virtio config
->
-> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D82afa58641b0e67abba=
-f4da6c325ebd7c2513262
->
-> This is especially critical on ppc64 since _all_ hosts are now LE
-> but the first piece of code in the guest that is likely to drive
-> the device is the SLOF firmware which is BE.
->
-> This is what we get with this patch when trying to run a pseries guest on=
- a
-> ppc64le host:
->
-> Trying to load:  from: /pci@800000020000000/scsi@0 ... virtioblk_transfer=
-: Access beyond end of device!
->
-> Cheers,
->
-> --
-> Greg
->
-> > > On Thu, Jan 9, 2020 at 7:50 AM Michael S. Tsirkin <mst@redhat.com> wr=
-ote:
-> > > >
-> > > > On Wed, Jan 08, 2020 at 01:16:18PM -0300, Andre Silva wrote:
-> > > > > Remove the bswap function calls after reading and before writing
-> > > > > memory bytes in virtio_pci_config_read and virtio_pci_config_writ=
-e
-> > > > > because they are reverting back an already swapped bytes.
-> > > > >
-> > > > > Consider the table below in the context of virtio_pci_config_read
-> > > > > function.
-> > > > >
-> > > > > Host   Target  virtio-config-read[wl]
-> > > > >                swap?                   virtio-is-big-endian?   ex=
-tra bswap?   Should be   Final result   Final result ok?
-> > > > > ----- ------- ------------------------ ----------------------- --=
------------- ----------- -------------- ------------------
-> > > > > LE     BE      s(x)                    true                    s(=
-s(x))        s(x)        x              No
-> > > > > LE     LE      x                       false                   - =
-             x           x              Yes
-> > > > > BE     LE      s(x)                    false                   - =
-             s(x)        s(x)           Yes
-> > > > > BE     BE      x                       true                    s(=
-x)           x           s(x)           No
-> > > >
-> > > > we always get LE values from memory subsystem,
-> > > > not target endian values:
-> > > >
-> > > > static const MemoryRegionOps virtio_pci_config_ops =3D {
-> > > >     .read =3D virtio_pci_config_read,
-> > > >     .write =3D virtio_pci_config_write,
-> > > >     .impl =3D {
-> > > >         .min_access_size =3D 1,
-> > > >         .max_access_size =3D 4,
-> > > >     },
-> > > >     .endianness =3D DEVICE_LITTLE_ENDIAN,
-> > > > };
-> > > >
-> > > >
-> > > > This triggers another swap in address_space_ldl_internal
-> > > > (memory_ldst.inc.c).
-> > > >
-> > > >
-> > > > > In table above, when target is big endian and VirtIO is pre 1.0,
-> > > > > function virtio_is_big_endian would return true and the extra
-> > > > > swap would be executed, reverting the previous swap made by
-> > > > > virtio_config_read[wl].
-> > > > >
-> > > > > The 's(x)' means that a swap function was applied at
-> > > > > address x. 'LE' is little endian and 'BE' is big endian. The
-> > > > > 'Final result' column is the returned value from
-> > > > > virtio_pci_config_read, considering a target Virtio pre 1.0.
-> > > > > 'x' means that target's value was not swapped in Qemu, 's(x)' mea=
-ns
-> > > > > that Qemu will use a swapped value.
-> > > > >
-> > > > > If we remove the extra swap made in virtio_pci_config_read we wil=
-l
-> > > > > have the correct result in any host/target combination, both for
-> > > > > VirtIO pre 1.0 or later versions.
-> > > > >
-> > > > > The same reasoning applies to virtio_pci_config_write.
-> > > > >
-> > > > > Signed-off-by: Andre Silva <afscoelho@gmail.com>
-> > > > > ---
-> > > > >  hw/virtio/virtio-pci.c | 12 ------------
-> > > > >  1 file changed, 12 deletions(-)
-> > > > >
-> > > > > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> > > > > index c6b47a9c73..4ba9e847f3 100644
-> > > > > --- a/hw/virtio/virtio-pci.c
-> > > > > +++ b/hw/virtio/virtio-pci.c
-> > > > > @@ -431,15 +431,9 @@ static uint64_t virtio_pci_config_read(void =
-*opaque, hwaddr addr,
-> > > > >          break;
-> > > > >      case 2:
-> > > > >          val =3D virtio_config_readw(vdev, addr);
-> > > > > -        if (virtio_is_big_endian(vdev)) {
-> > > > > -            val =3D bswap16(val);
-> > > > > -        }
-> > > > >          break;
-> > > > >      case 4:
-> > > > >          val =3D virtio_config_readl(vdev, addr);
-> > > > > -        if (virtio_is_big_endian(vdev)) {
-> > > > > -            val =3D bswap32(val);
-> > > > > -        }
-> > > > >          break;
-> > > > >      }
-> > > > >      return val;
-> > > > > @@ -465,15 +459,9 @@ static void virtio_pci_config_write(void *op=
-aque, hwaddr addr,
-> > > > >          virtio_config_writeb(vdev, addr, val);
-> > > > >          break;
-> > > > >      case 2:
-> > > > > -        if (virtio_is_big_endian(vdev)) {
-> > > > > -            val =3D bswap16(val);
-> > > > > -        }
-> > > > >          virtio_config_writew(vdev, addr, val);
-> > > > >          break;
-> > > > >      case 4:
-> > > > > -        if (virtio_is_big_endian(vdev)) {
-> > > > > -            val =3D bswap32(val);
-> > > > > -        }
-> > > > >          virtio_config_writel(vdev, addr, val);
-> > > > >          break;
-> > > > >      }
-> > > > > --
-> > > > > 2.24.1
-> > > >
-> >
-> >
->
 
