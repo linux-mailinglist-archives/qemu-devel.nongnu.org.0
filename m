@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B1B8135A2C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:33:22 +0100 (CET)
-Received: from localhost ([::1]:60442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABCB2135A2F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:35:04 +0100 (CET)
+Received: from localhost ([::1]:60462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipXw9-0002lg-7p
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:33:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36786)
+	id 1ipXxn-0005lb-Hi
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:35:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36789)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipXte-0001DA-Qy
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:48 -0500
+ (envelope-from <bounces@canonical.com>) id 1ipXte-0001DD-So
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipXtZ-0000Zp-PR
+ (envelope-from <bounces@canonical.com>) id 1ipXtZ-0000Zg-PG
  for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33018)
+Received: from indium.canonical.com ([91.189.90.7]:32988)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipXtZ-0000Xf-GF
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:41 -0500
+ id 1ipXtY-0000XZ-DC
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:30:40 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipXtX-0000SK-L2
+ id 1ipXtX-0000Tp-7d
  for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 13:30:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9E2582E80C9
+ by loganberry.canonical.com (Postfix) with ESMTP id 37C722E80C8
  for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 13:30:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jan 2020 13:22:02 -0000
-From: Thomas Huth <1836558@bugs.launchpad.net>
+Date: Thu, 09 Jan 2020 13:22:45 -0000
+From: Thomas Huth <1847906@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee alex-bennee pmaydell scherft th-huth
-X-Launchpad-Bug-Reporter: Daan Scherft (scherft)
+X-Launchpad-Bug-Commenters: corwin-amber pmaydell zenojevski
+X-Launchpad-Bug-Reporter: Shachar Itzhaky (corwin-amber)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156318593102.28533.3075291509963886255.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157857612241.14410.7288070284421234379.malone@wampee.canonical.com>
-Subject: [Bug 1836558] Re: Qemu-ppc Memory leak creating threads
+References: <157097450557.5820.4200729468686724078.malonedeb@gac.canonical.com>
+Message-Id: <157857616661.3421.17759281630965095006.launchpad@soybean.canonical.com>
+Subject: [Bug 1847906] Re: Cocoa display hangs on macOS 10.15 (Catalina)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 018a2f864bded5e9fff8f37df8dd871305eee3ae
+X-Launchpad-Hash: b793b48e71b2d4bf023d6f581c30aa4769039b1a
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -67,83 +66,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1836558 <1836558@bugs.launchpad.net>
+Reply-To: Bug 1847906 <1847906@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A fix for this bug has been merged here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D28876bf27d2792e6b16cf
-It has been released with QEMU v4.2. Can this bug ticket now be closed?
+** Changed in: qemu
+       Status: Fix Committed =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1836558
+https://bugs.launchpad.net/bugs/1847906
 
 Title:
-  Qemu-ppc Memory leak creating threads
+  Cocoa display hangs on macOS 10.15 (Catalina)
 
 Status in QEMU:
-  Confirmed
+  Fix Released
 
 Bug description:
-  When creating c++ threads (with c++ std::thread), the resulting binary
-  has memory leaks when running with qemu-ppc.
+  I have downloaded the latest stable source tarball 4.1.0 and compiled
+  it (i386-softmmu target).
 
-  Eg the following c++ program, when compiled with gcc, consumes more
-  and more memory while running at qemu-ppc. (does not have memory leaks
-  when compiling for Intel, when running same binary on real powerpc CPU
-  hardware also no memory leaks).
+  After opening a black window, QEMU hangs (spinning beach ball).
+  When building with `--disable-cocoa --enable-sdl`, display seems to work =
+fine.
 
-  (Note I used function getCurrentRSS to show available memory, see
-  https://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-
-  runtime-using-c; calls commented out here)
-
-  Compiler: powerpc-linux-gnu-g++ (Debian 8.3.0-2) 8.3.0 (but same problem =
-with older g++ compilers even 4.9)
-  Os: Debian 10.0 ( Buster) (but same problem seen on Debian 9/stetch)
-  qemu: qemu-ppc version 3.1.50
-
-
-  ---
-
-  #include <iostream>
-  #include <thread>
-  #include <chrono>
-
-  =
-
-  using namespace std::chrono_literals;
-
-  // Create/run and join a 100 threads.
-  void Fun100()
-  {
-  //    auto b4 =3D getCurrentRSS();
-  //    std::cout << getCurrentRSS() << std::endl;
-      for(int n =3D 0; n < 100; n++)
-      {
-          std::thread t([]
-          {
-              std::this_thread::sleep_for( 10ms );
-          });
-  //        std::cout << n << ' ' << getCurrentRSS() << std::endl;
-          t.join();
-      }
-      std::this_thread::sleep_for( 500ms ); // to give OS some time to wipe=
- memory...
-  //    auto after =3D getCurrentRSS();
-      std::cout << b4 << ' ' << after << std::endl;
-  }
-
-  =
-
-  int main(int, char **)
-  {
-      Fun100();
-      Fun100();  // memory used keeps increasing
-  }
+  The same happened when I tried to build QEMU through HomeBrew and
+  MacPorts.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1836558/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1847906/+subscriptions
 
