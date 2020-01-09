@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D37B135CC3
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:29:43 +0100 (CET)
-Received: from localhost ([::1]:34154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E6D135CD4
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:32:43 +0100 (CET)
+Received: from localhost ([::1]:34214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipZkj-0007Hm-NE
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:29:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44478)
+	id 1ipZnd-0002wR-7t
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:32:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40807)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ipZef-0008QN-FY
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:23:26 -0500
+ (envelope-from <philmd@redhat.com>) id 1ipZe1-0007TH-70
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:22:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ipZee-00087J-AP
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:23:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55910
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ipZdz-00051L-2G
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:22:44 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33502
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipZee-00085C-5b
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:23:24 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipZdy-0004yw-Tk
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:22:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578583403;
+ s=mimecast20190719; t=1578583362;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EA7clJKJ1RuwQZV3nJY9EmgysBuWFpNyPg81lJP16ic=;
- b=CLfFxVALDOunx+OFI+P+RX5LQd3qBu88lOVf/PRqUIwe63q+kPlMGG+/Ucr3F+irQjz3Tr
- cr2Z8+vpDZqLIU/8BC5mPRc4+AVvG3sv7Wma5d99yRvxswH5uRfr8VDHmRKjsdBnZSB8bm
- g8X9znrG5TT5ESbbqpID/kWOReuYk9k=
+ bh=QE12T9YoIYg3KiaFxYrMJ0Yi0XSnGIdy/p9v0TlJLU8=;
+ b=LUYQVGDxFAnmlIiseUs6xK8lp4hk3/WqcCptjQ8uZdsFqBUHBMv0q7gVKUcHxOPGBaTZtS
+ QOoI4AtgQ0Seaue4wVckJdeHLvw2CCKVFAqIGmmSYVeRpXCfglYnglugGXItuSSk/svsmr
+ OwPYYd1Oz1ojLiOmTYgjBo5wXXrSd1I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-Bssf6NODNKGQ5QTbYx0F5Q-1; Thu, 09 Jan 2020 10:23:22 -0500
-X-MC-Unique: Bssf6NODNKGQ5QTbYx0F5Q-1
+ us-mta-232-3uSQJtr2O2yD9tYK2nha0g-1; Thu, 09 Jan 2020 10:22:38 -0500
+X-MC-Unique: 3uSQJtr2O2yD9tYK2nha0g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93700107ACC4;
- Thu,  9 Jan 2020 15:23:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E55D84E291;
+ Thu,  9 Jan 2020 15:22:37 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-180.brq.redhat.com [10.40.204.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B76B61CB;
- Thu,  9 Jan 2020 15:23:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D285C1CB;
+ Thu,  9 Jan 2020 15:22:31 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/15] accel: Introduce the current_accel() method
-Date: Thu,  9 Jan 2020 16:21:30 +0100
-Message-Id: <20200109152133.23649-13-philmd@redhat.com>
+Subject: [PATCH 06/15] migration/savevm: Replace current_machine by
+ qdev_get_machine()
+Date: Thu,  9 Jan 2020 16:21:24 +0100
+Message-Id: <20200109152133.23649-7-philmd@redhat.com>
 In-Reply-To: <20200109152133.23649-1-philmd@redhat.com>
 References: <20200109152133.23649-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +58,7 @@ X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,46 +83,55 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to remove the global current_machine. The accel/
-code access few times current_machine->accelerator. Introduce
-the current_accel() method first, it will then be easier to
-replace 'current_machine' by MACHINE(qdev_get_machine()).
+As we want to remove the global current_machine,
+replace MACHINE_GET_CLASS(current_machine) by
+MACHINE_GET_CLASS(qdev_get_machine()).
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/sysemu/accel.h | 2 ++
- accel/accel.c          | 5 +++++
- 2 files changed, 7 insertions(+)
+ migration/savevm.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
-index d4c1429711..47e5788530 100644
---- a/include/sysemu/accel.h
-+++ b/include/sysemu/accel.h
-@@ -70,4 +70,6 @@ int accel_init_machine(AccelState *accel, MachineState =
-*ms);
- /* Called just before os_setup_post (ie just before drop OS privs) */
- void accel_setup_post(MachineState *ms);
-=20
-+AccelState *current_accel(void);
-+
- #endif
-diff --git a/accel/accel.c b/accel/accel.c
-index 1c5c3a6abb..cb555e3b06 100644
---- a/accel/accel.c
-+++ b/accel/accel.c
-@@ -63,6 +63,11 @@ int accel_init_machine(AccelState *accel, MachineState=
- *ms)
-     return ret;
- }
-=20
-+AccelState *current_accel(void)
-+{
-+    return current_machine->accelerator;
-+}
-+
- void accel_setup_post(MachineState *ms)
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 59efc1981d..0e8b6a4715 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -292,7 +292,8 @@ static uint32_t get_validatable_capabilities_count(vo=
+id)
+ static int configuration_pre_save(void *opaque)
  {
-     AccelState *accel =3D ms->accelerator;
+     SaveState *state =3D opaque;
+-    const char *current_name =3D MACHINE_GET_CLASS(current_machine)->nam=
+e;
++    MachineClass *mc =3D MACHINE_GET_CLASS(qdev_get_machine());
++    const char *current_name =3D mc->name;
+     MigrationState *s =3D migrate_get_current();
+     int i, j;
+=20
+@@ -362,7 +363,8 @@ static bool configuration_validate_capabilities(SaveS=
+tate *state)
+ static int configuration_post_load(void *opaque, int version_id)
+ {
+     SaveState *state =3D opaque;
+-    const char *current_name =3D MACHINE_GET_CLASS(current_machine)->nam=
+e;
++    MachineClass *mc =3D MACHINE_GET_CLASS(qdev_get_machine());
++    const char *current_name =3D mc->name;
+=20
+     if (strncmp(state->name, current_name, state->len) !=3D 0) {
+         error_report("Machine type received is '%.*s' and local is '%s'"=
+,
+@@ -615,9 +617,7 @@ static void dump_vmstate_vmsd(FILE *out_file,
+=20
+ static void dump_machine_type(FILE *out_file)
+ {
+-    MachineClass *mc;
+-
+-    mc =3D MACHINE_GET_CLASS(current_machine);
++    MachineClass *mc =3D MACHINE_GET_CLASS(qdev_get_machine());
+=20
+     fprintf(out_file, "  \"vmschkmachine\": {\n");
+     fprintf(out_file, "    \"Name\": \"%s\"\n", mc->name);
 --=20
 2.21.1
 
