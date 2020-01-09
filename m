@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1496B135A6B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:41:51 +0100 (CET)
-Received: from localhost ([::1]:60570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 257F9135A45
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:36:58 +0100 (CET)
+Received: from localhost ([::1]:60498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipY4L-0005RA-SJ
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:41:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57172)
+	id 1ipXzc-0000Ew-RE
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:36:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58133)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipY3O-0004aH-1k
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:40:51 -0500
+ (envelope-from <geert.uytterhoeven@gmail.com>) id 1ipXy9-0007MY-QG
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:35:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipY3M-0004cy-7i
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:40:49 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33796)
+ (envelope-from <geert.uytterhoeven@gmail.com>) id 1ipXy8-0007pY-IA
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:35:25 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:43569)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipY3L-0004a3-W4
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:40:48 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipY3J-00018S-1J
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 13:40:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0804B2E80C3
- for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 13:40:45 +0000 (UTC)
+ (Exim 4.71) (envelope-from <geert.uytterhoeven@gmail.com>)
+ id 1ipXy8-0007lO-CP
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:35:24 -0500
+Received: by mail-qk1-f196.google.com with SMTP id t129so5907149qke.10
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 05:35:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vK5UxuBrViNaXxuMZEsGhiSGSEMvZsYzv98RipTZfGg=;
+ b=L/UaqJvOYzervbmDMg/JgGQJppjDRBoFAMtCtnyw/qnE6fQt/3YsAopnov7RkdQjdc
+ zyUPF1Bn26MvXMZIJtcNEO8uFS2Y28K7Omn6Jhb0YQrBjhWDhFuHFNjob2HjK8Judral
+ lADzlxVpTLzHaZ/bgp6h1QGckcGYR8niEotvKp1TPWnPeDvkfju/htJCacgBGO7Gt9xP
+ oBO0dtQbbA6TqF1lrX/ESh3r2YtDEBI4hmh6Qykq7x9tRNbneOJ1Q1GT3RVe09edPtIW
+ zihNU0WHqKjt5e0qwmpC3JcMyDhIJcQu/Rtzoj6d6YUB1t9pKZjWYd4+RJmvfGsnqNh5
+ mjOw==
+X-Gm-Message-State: APjAAAVBZHTh3iwVecqu6pfEvOn8FmUNGJkElfNnbJ4ae0LC1m3EJuDF
+ n6xW2NlMNd7dOdEk1uatN1ntSzeQEv0YOPpuHj4=
+X-Google-Smtp-Source: APXvYqyRXgYk8j5kdfM4/WS8TEs831mjz2YcxqkRufdK/tyDKS85bDKPS8c3TecGMtuEwZvySvABfGqCivPuJ6qeC0Q=
+X-Received: by 2002:a05:620a:134f:: with SMTP id
+ c15mr9195003qkl.115.1578576923178; 
+ Thu, 09 Jan 2020 05:35:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jan 2020 13:35:08 -0000
-From: Thomas Huth <1844597@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nathanchance pmaydell
-X-Launchpad-Bug-Reporter: Nathan Chancellor (nathanchance)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156885735889.27264.8945287928013294736.malonedeb@soybean.canonical.com>
-Message-Id: <157857691664.5123.9629642231421372082.launchpad@gac.canonical.com>
-Subject: [Bug 1844597] Re: fc1120a7f5f2d4b601003205c598077d3eb11ad2 causes a
- kernel panic in vfp_init on a clang built kernel
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7b276db8feed151bb77170824d83db92af576c7a
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-6-geert+renesas@glider.be> <20191203105103.GA20470@x230>
+In-Reply-To: <20191203105103.GA20470@x230>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 9 Jan 2020 14:35:10 +0100
+Message-ID: <CAMuHMdVLaGt5GTXzUbUHrBHn5q--t3JfxO6P_j0GnnhixV+UfA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
+To: Eugeniu Rosca <roscaeugeniu@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 209.85.222.196
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,151 +64,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1844597 <1844597@bugs.launchpad.net>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <marc.zyngier@arm.com>, Linus Walleij <linus.walleij@linaro.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Harish Jenny K N <harish_kandiga@mentor.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+Hi Eugeniu,
 
--- =
+On Tue, Dec 3, 2019 at 11:51 AM Eugeniu Rosca <roscaeugeniu@gmail.com> wrote:
+> On Wed, Nov 27, 2019 at 09:42:51AM +0100, Geert Uytterhoeven wrote:
+> > +static int gpio_aggregator_probe(struct platform_device *pdev)
+> > +{
+> > +     struct device *dev = &pdev->dev;
+> > +     struct gpio_desc **descs;
+> > +     struct gpiochip_fwd *fwd;
+> > +     int i, n;
+>
+> FWIW/FTR, doing some blind creation and deletion of gpio aggregator
+> chips [1] on R-Car H3ULCB overnight, kmemleak reported once [2]. Not
+> sure this is something 100% reproducible.
+>
+> [1] while true; do \
+>    echo e6055400.gpio 12,13 > /sys/bus/platform/drivers/gpio-aggregator/new_device; \
+>    echo gpio-aggregator.0 > /sys/bus/platform/drivers/gpio-aggregator/delete_device; \
+>    done
+>
+> [2] unreferenced object 0xffff0006d2c2e000 (size 128):
+>   comm "kworker/3:1", pid 55, jiffies 4294676978 (age 38546.676s)
+>   hex dump (first 32 bytes):
+>     00 d9 d2 d3 06 00 ff ff 0c 00 e0 0f ff ff ff ff  ................
+>     01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>   backtrace:
+>     [<00000000a8e18c13>] slab_post_alloc_hook+0x8c/0x94
+>     [<000000006f419a4f>] __kmalloc+0x170/0x218
+>     [<0000000060d185ea>] kobj_map+0x78/0x1c0
+>     [<00000000c96645f3>] cdev_add+0x68/0x94
+>     [<00000000a7a5a8ac>] cdev_device_add+0x74/0x90
+>     [<00000000497871d3>] gpiochip_setup_dev+0x84/0x1f0
+>     [<00000000b993f95f>] gpiochip_add_data_with_key+0xbcc/0x11f0
+>     [<00000000fd728c0e>] devm_gpiochip_add_data+0x60/0xa8
+>     [<00000000442e34c1>] gpio_aggregator_probe+0x210/0x3c8
+>     [<00000000076e13fb>] platform_drv_probe+0x70/0xe4
+>     [<00000000de84b58b>] really_probe+0x2d8/0x434
+>     [<00000000c95c9784>] driver_probe_device+0x15c/0x16c
+>     [<00000000afb7dd4f>] __device_attach_driver+0xdc/0x120
+>     [<00000000efa40cae>] bus_for_each_drv+0x12c/0x154
+>     [<00000000c149acef>] __device_attach+0x148/0x1e0
+>     [<00000000a74fd158>] device_initial_probe+0x24/0x30
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1844597
+This is the allocation of the GPIO character device, which is allocated
+in response to the creation of the GPIO chip, from .probe().
+As that is done using devm_gpiochip_add_data(), the chardev should be
+deallocated automatically by devm_gpio_chip_release() when
+platform_device_unregister() is called.
 
-Title:
-  fc1120a7f5f2d4b601003205c598077d3eb11ad2 causes a kernel panic in
-  vfp_init on a clang built kernel
+Weird...
 
-Status in QEMU:
-  Fix Released
+Gr{oetje,eeting}s,
 
-Bug description:
-  Commit 4cdabee7d6d2 ("ARM: configs: aspeed_g5: Enable AST2600") [1] in
-  the Linux kernel enabled CONFIG_VFP. When building this config with
-  Clang, the resulting kernel does not boot after commit fc1120a7f5
-  ("target/arm: Implement NSACR gating of floating point") [2] (present
-  since the 4.1.0 release).
+                        Geert
 
-  The QEMU command:
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-  qemu-system-arm -m 512m \
-                  -machine romulus-bmc \
-                  -no-reboot \
-                  -dtb out/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dtb \
-                  -initrd rootfs.cpio \
-                  -display none \
-                  -serial mon:stdio \
-                  -kernel ${KBF}/arch/arm/boot/zImage
-
-  If it is needed, the rootfs we are using is provided at a link below
-  [3].
-
-  Debugging with QEMU reveals that the kernel panics in vfp_init,
-  specifically at the line:
-
-  vfpsid =3D fmrx(FPSID);
-
-  in arch/arm/vfp/vfpmodule.c because of an illegal instruction:
-
-  [    0.058685] VFP support v0.3: =
-
-  [    0.059159] Internal error: Oops - undefined instruction: 0 [#1] SMP A=
-RM
-  [    0.059525] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.3.0-next-20190=
-918-dirty #1
-  [    0.059547] Hardware name: Generic DT based system
-  [    0.059702] PC is at vfp_init+0x50/0x1f4
-  [    0.059721] LR is at vfp_init+0x4c/0x1f4
-  [    0.059738] pc : [<80b0383c>]    lr : [<80b03838>]    psr: 60000153
-  [    0.059756] sp : 9e497ec0  ip : 00000020  fp : 9e497ed8
-  [    0.059773] r10: 00000000  r9 : ffffe000  r8 : 80c06048
-  [    0.059792] r7 : 00000000  r6 : 80c0caac  r5 : 80c6c418  r4 : 80b037ec
-  [    0.059811] r3 : 00000000  r2 : 339aa372  r1 : 00000000  r0 : 00000012
-  [    0.059859] Flags: nZCv  IRQs on  FIQs off  Mode SVC_32  ISA ARM  Segm=
-ent none
-  [    0.059883] Control: 00c5387d  Table: 80004008  DAC: 00000051
-  [    0.059997] Process swapper/0 (pid: 1, stack limit =3D 0x(ptrval))
-  [    0.060048] Stack: (0x9e497ec0 to 0x9e498000)
-  [    0.060205] 7ec0: 80b037ec 80b6bf0c 80b037ec ffffffff 00000000 0000000=
-0 9e497f48 80b01100
-  [    0.060310] 7ee0: 00000000 9eeff9e0 80a85734 809eb9be 00000000 8014b7f=
-4 9eeff9e0 80a85734
-  [    0.060408] 7f00: 9e497f48 8014b7f4 000000a4 00000001 00000001 0000000=
-0 80b0133c 9e497f38
-  [    0.060509] 7f20: 00000000 9eeff9d5 339aa372 80b6be80 80b6bf0c 0000000=
-0 00000000 00000000
-  [    0.060606] 7f40: 00000000 00000000 9e497f70 80b01864 00000001 0000000=
-1 00000000 80b0133c
-  [    0.060703] 7f60: 00000001 8085d268 00000000 00000000 9e497f80 80b0175=
-8 00000000 00000000
-  [    0.060800] 7f80: 9e497f90 80b015e4 00000000 8085d268 9e497fa8 8085d27=
-c 00000000 8085d268
-  [    0.060897] 7fa0: 00000000 00000000 00000000 801010e8 00000000 0000000=
-0 00000000 00000000
-  [    0.060993] 7fc0: 00000000 00000000 00000000 00000000 00000000 0000000=
-0 00000000 00000000
-  [    0.061090] 7fe0: 00000000 00000000 00000000 00000000 00000013 0000000=
-0 00000000 00000000
-  [    0.061625] [<80b0383c>] (vfp_init) from [<80b01100>] (do_one_initcall=
-+0xa8/0x1e0)
-  [    0.061722] [<80b01100>] (do_one_initcall) from [<80b01864>] (do_initc=
-all_level+0xfc/0x12c)
-  [    0.061742] [<80b01864>] (do_initcall_level) from [<80b01758>] (do_bas=
-ic_setup+0x2c/0x3c)
-  [    0.061759] [<80b01758>] (do_basic_setup) from [<80b015e4>] (kernel_in=
-it_freeable+0x68/0x104)
-  [    0.061777] [<80b015e4>] (kernel_init_freeable) from [<8085d27c>] (ker=
-nel_init+0x14/0x26c)
-  [    0.061798] [<8085d27c>] (kernel_init) from [<801010e8>] (ret_from_for=
-k+0x14/0x2c)
-  [    0.061835] Exception stack(0x9e497fb0 to 0x9e497ff8)
-  [    0.061896] 7fa0:                                     00000000 0000000=
-0 00000000 00000000
-  [    0.061998] 7fc0: 00000000 00000000 00000000 00000000 00000000 0000000=
-0 00000000 00000000
-  [    0.062080] 7fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-  [    0.062263] Code: e5860000 e59f0174 ebd9d8fc e59f5170 (eef04a10) =
-
-  [    0.062679] ---[ end trace 2d338c91e4e74562 ]---
-
-  Before fc1120a7f5:
-
-  [    0.069418] VFP support v0.3: implementor 41 architecture 1 part 20
-  variant b rev 5
-
-  Should you need to reproduce this locally:
-
-  * clang 9.0.0 or later is needed to build this config. If you do not
-  have easy access to such a build, we have a clang build script
-  available [4] that can help with this:
-
-  % ./build-llvm.py --branch llvmorg-9.0.0-rc6 \
-                    --build-stage1-only \
-                    --projects clang \
-                    --targets ARM
-
-  * Because of an unrelated build issue, linux-next needs to be used (or
-  the singular patch that resolves it needs to be cherry-picked on top
-  of 4cdabee7d6d2 [5]). The kernel make command used:
-
-  % make -j$(nproc) -s \
-         ARCH=3Darm \
-         CC=3Dclang \
-         CROSS_COMPILE=3Darm-linux-gnueabi- \
-         O=3Dout \
-         distclean aspeed_g5_defconfig all
-
-  [1]: https://git.kernel.org/linus/4cdabee7d6d2e439fea726a101e448c4ca6837f4
-  [2]: https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3Dfc1120a7f5f2d4b601=
-003205c598077d3eb11ad2
-  [3]: https://github.com/ClangBuiltLinux/continuous-integration/blob/800d8=
-4bf8c55ee04c50ed4c78144a96d889a91c5/images/arm/rootfs.cpio
-  [4]: https://github.com/ClangBuiltLinux/tc-build
-  [5]: http://git.armlinux.org.uk/cgit/linux-arm.git/commit/?id=3D7b3948597=
-372e5a6b314208ac320362c204b7f0f
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1844597/+subscriptions
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
