@@ -2,65 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77EF9135978
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 13:51:01 +0100 (CET)
-Received: from localhost ([::1]:59718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD4A1359B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 14:05:18 +0100 (CET)
+Received: from localhost ([::1]:59980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipXHA-0005dr-AH
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 07:51:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33882)
+	id 1ipXUz-00076g-Gu
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 08:05:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36666)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ipXFf-0004Dp-2E
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:49:28 -0500
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1ipXQe-0003LT-HL
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:00:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ipXFd-0002nm-GJ
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 07:49:26 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42852)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ipXFd-0002kr-6k; Thu, 09 Jan 2020 07:49:25 -0500
-Received: by mail-ot1-x344.google.com with SMTP id 66so7090632otd.9;
- Thu, 09 Jan 2020 04:49:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=AiMhUtgjKB/D6GYpuP4+LfS+QIpgbkVxzfO/EvO4uq0=;
- b=hPQjUrUnDEQ60OTjE7sLM4IkcnUANAMnQKSSWc9kHoUsfdwuJTNFvbUXKO8wy/dhan
- 0yXKF/mt3ymL7zE3qFjIimkR79HoXzRr9HYytS5Z0qplwvNwX80Vm/dPKuBCeP2q9OFs
- UVU8gOR1CoVyJp0QeWLOZlKXt+JrrzhWEdiGrMSZzLlZr5opy1YwWGR2P6xlwd5zSJop
- P/08NNwa9nQWwuSc9aFZwxadkuRGRfKrBOigGBRxlBV1ICKPWeXmOOz61DPaorBMdlWw
- gPP6Wa6bD+F2MmzwY9O+5jfDhR6upEtbBGsH+meEoPglf1M6AkkCGY5sidAV+uoJdzYY
- 9Ktg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=AiMhUtgjKB/D6GYpuP4+LfS+QIpgbkVxzfO/EvO4uq0=;
- b=uSnG+4Fh97ILh181PgzM8PBNXg0FvEqRBno3CVs5d3RfSjgby18oGwITUYmTbekjI0
- QxQ2aCdXn0OywNgSkM2Y103vMyrJFGjEDxLgBe7/NkvV6wvhGaOp7YZx4BwJh/lg7RLm
- OfOP+w9gkHYEeKJA1M4QhBv6efQ9L9zbeIFqnK3bqjYIErzn5hyegwePQpr+dEJ4rn3/
- LLr8+x+D62IzbuCqbDQVJDvuLYPfWzYWltNgwSHVGxKyiqE43I2oaM5I9DeuNg9v/4Ff
- q+Olxq/5JhZQowUdep23uI0Rsv4XJmivfqKi7WhldgwG9u+9d9KNvDKfsLDvE7igNzSK
- lJuQ==
-X-Gm-Message-State: APjAAAUhMH9V1BSty8WmfDboLZBauZ7PIF6tTfJx9UUTm8d+Yj9UfDPA
- uQF32usarOLzZ2jhCkfpFMS9HBLzeUXYASH3eRw=
-X-Google-Smtp-Source: APXvYqw9LyToFHMwmhbpVobKL+RNAFIRLqAXXAfy7mOtMDgJ9vZPOGzdWAtFgGT6nN2JkdSl+Xl8OvsueGmZfJ0QNnU=
-X-Received: by 2002:a9d:7305:: with SMTP id e5mr8060526otk.64.1578574163603;
- Thu, 09 Jan 2020 04:49:23 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
- Thu, 9 Jan 2020 04:49:23 -0800 (PST)
-In-Reply-To: <20200109095116.18201-1-thuth@redhat.com>
-References: <20200109095116.18201-1-thuth@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 9 Jan 2020 13:49:23 +0100
-Message-ID: <CAL1e-=jnAMtpNNHO1rqG-63K_5uM-QfVYoMcj0NZeHwKCWG4uQ@mail.gmail.com>
-Subject: Re: [PATCH] qemu-deprecated: Remove text about Python 2
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000045f45d059bb470fa"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1ipXQY-00036g-RB
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:00:48 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:38453 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
+ id 1ipXQW-0007zN-IK
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 08:00:42 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id BFCEA1A20A4;
+ Thu,  9 Jan 2020 13:59:33 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
+ [10.10.14.93])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 9F1AE1A1F8D;
+ Thu,  9 Jan 2020 13:59:33 +0100 (CET)
+From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/12] linux-user: Add support for real time clock and
+Date: Thu,  9 Jan 2020 13:59:11 +0100
+Message-Id: <1578574763-8327-1-git-send-email-Filip.Bozuta@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,103 +48,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: riku.voipio@iki.fi, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000045f45d059bb470fa
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thursday, January 9, 2020, Thomas Huth <thuth@redhat.com> wrote:
+This series covers following RTC and sound timer ioctls:
 
-> Python 2 support has been removed, so we should now also remove
-> the announcement text for the deprecation.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  qemu-deprecated.texi | 8 --------
->  1 file changed, 8 deletions(-)
->
->
-Reviewed by: Aleksandar Markovic <amarkovic@wavecomp.com>
+  RTC ioctls(22):
+
+    * RTC_AIE_ON          * RTC_ALM_SET         * RTC_WKALM_SET
+    * RTC_AIE_OFF         * RTC_ALM_READ        * RTC_WKALM_RD
+    * RTC_UIE_ON          * RTC_RD_TIME         * RTC_PLL_GET
+    * RTC_UIE_OFF         * RTC_SET_TIME        * RTC_PLL_SET
+    * RTC_PIE_ON          * RTC_IRQP_READ       * RTC_VL_READ
+    * RTC_PIE_OFF         * RTC_IRQP_SET        * RTC_VL_CLR
+    * RTC_WIE_ON          * RTC_EPOCH_READ
+    * RTC_WIE_OFF         * RTC_EPOCH_SET
+
+  Sound timer ioctls(14):
+
+    * SNDRV_TIMER_IOCTL_PVERSION          * SNDRV_TIMER_IOCTL_INFO
+    * SNDRV_TIMER_IOCTL_NEXT_DEVICE       * SNDRV_TIMER_IOCTL_PARAMS
+    * SNDRV_TIMER_IOCTL_TREAD             * SNDRV_TIMER_IOCTL_STATUS
+    * SNDRV_TIMER_IOCTL_GINFO             * SNDRV_TIMER_IOCTL_START
+    * SNDRV_TIMER_IOCTL_GPARAMS           * SNDRV_TIMER_IOCTL_STOP
+    * SNDRV_TIMER_IOCTL_GSTATUS           * SNDRV_TIMER_IOCTL_CONTINUE
+    * SNDRV_TIMER_IOCTL_SELECT            * SNDRV_TIMER_IOCTL_PAUSE
+
+The functionalities of individual ioctls were described in this series
+patch commit messages.
+
+Testing method for RTC ioctls:
+
+    Mini test programs were written for each ioctl. Those programs were
+    compiled (sometimes using cross-compilers) for the following
+    architectures:
+
+        * Intel 64-bit (little endian)
+        * Power pc 32-bit (big endian)
+        * Power pc 64-bit (big endian)
+
+    The corresponding native programs were executed without using
+    QEMU on following hosts:
+
+        * Intel Core i7-4790K (x86_64 host)
+        * Power 7447A (ppc32 host)
+
+    All applicable compiled programs were in turn executed through QEMU
+    and the results obtained were the same ones gotten for native
+    execution.
+
+    Example of a test program:
+
+        For ioctl RTC_RD_TIME the following test program was used:
+
+        #include <stdio.h>
+        #include <stdlib.h>
+        #include <linux/rtc.h>
+        #include <fcntl.h>
+        #include <linux/input.h>
+        #include <sys/types.h>
+        #include <unistd.h>
+
+        #define ERROR -1
+
+        int main()
+        {
+
+            int fd = open("/dev/rtc", O_RDWR | O_NONBLOCK);
+
+            if(fd == ERROR)
+            {
+                perror("open");
+                return -1;
+            }
+
+            struct rtc_time cur_time;
+
+            if(ioctl(fd, RTC_RD_TIME, &cur_time) < 0)
+            {
+                perror("ioctl");
+                return -1;
+            }
+
+            printf("Second: %d, Minute: %d, Hour: %d, Day: %d, Month: %d, Year: %d,",
+                cur_time.tm_sec, cur_time.tm_min, cur_time.tm_hour, 
+                cur_time.tm_mday, cur_time.tm_mon, cur_time.tm_year);
+
+            return 0;
+        }
+
+    Limitations of testing:
+
+        The test host pc that was used for testing (intel pc) has RTC
+        that doesn't support all RTC features that are accessible
+        through ioctls. This means that testing can't discover
+        functionality errors related to the third argument of ioctls
+        that are used for features which are not supported. For example,
+        running the test program for ioctl RTC_EPOCH_READ gives
+        the error output: inappropriate ioctl for device. As expected,
+        the same output was obtained through QEMU which means that this
+        ioctl is recognized in QEMU but doesn't really do anything
+        because it is not supported in the host computer's RTC.
+
+        Conclusion: Some RTC ioctls need to be tested on computers
+        that support their functionalities so that it can be inferred
+        that they are really supported in QEMU. In absence of such
+        test hosts, the specifications of those ioctls need to be
+        carefully checked manually and the implementations should be
+        updated accordingly.
+
+Testing method for sound timer ioctls:
+
+    The alsa ioctl test suite, that can be found on github
+    ("https://github.com/alsa-project/alsa-utils"), was used the test
+    the implemented ioctls. The file "timer.c", located in this test
+    suite, contains test functions that are used to test alsa timer
+    ioctls. This file was compiled (sometimes using cross-compilers) 
+    for the following architectures:
+
+        * Intel 64-bit (little endian)
+        * Power pc 32-bit (big endian)
+        * Power pc 64-bit (big endian)
+
+    The corresponding compiled test files were executed without using
+    QEMU on following hosts:
+
+        * Intel Core i7-4790K (x86_64 host)
+        * Power 7447A (ppc32 host)
+
+    The corresponding native compiled test files were executed without using
+    QEMU on following hosts:
+
+        * Intel Core i7-4790K (x86_64 host)
+        * Power 7447A (ppc32 host)
+
+    All compiled test files were in turn executed through QEMU
+    and the results obtained were the same ones gotten for native
+    execution.
+
+    Also, mini test programs were written to test further functionalities
+    of individual ioctls. Those programs were, like the file "timer.c",
+    compiled for different architectures and were executed both natively
+    and thgrough QEMU to compare the results.
+
+    Example of a test program:
+
+        For ioctl SNDRV_TIMER_IOCTL_GINFO the following test program was used:
+
+        #include <stdio.h>
+        #include <stdlib.h>
+        #include <sys/types.h>
+        #include <fcntl.h>
+        #include <sys/ioctl.h>
+        #include <sound/asound.h>
+
+        #define ERROR -1
+
+        int main()
+        {
+            int fd = open("/dev/snd/timer", O_RDWR);
+
+            if(fd == ERROR)
+            {
+                perror("open");
+                return -1;
+            }
+
+            struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL, 
+                                      SNDRV_TIMER_SCLASS_NONE, -1, 
+                                      SNDRV_TIMER_GLOBAL_SYSTEM, 0};
+
+            struct snd_timer_ginfo ginfo;
+            ginfo.tid = id;
+
+            if(ioctl(fd, SNDRV_TIMER_IOCTL_GINFO, &ginfo) == ERROR)
+            {
+                perror("ioctl");
+                return -1;
+            }
+
+            printf("flags: %u\n", ginfo.flags);
+            printf("card: %d\n", ginfo.card);
+            printf("id: %s\n", ginfo.id);
+            printf("name: %s\n", ginfo.name);
+            printf("reserved0: %lu\n", ginfo.reserved0);
+            printf("resolution: %lu\n", ginfo.resolution);
+            printf("resolution_min: %lu\n", ginfo.resolution_min);
+            printf("reolution_max: %lu\n", ginfo.resolution_max);
+            printf("clients: %u\n", ginfo.clients);
+            printf("reserved: %s\n", ginfo.reserved);
+
+            return 0;
+        }
+
+v5:
+
+    * added support for alsa sound timer ioctls
+
+v4:
+
+    * changed patch descriptions so that they are better
+      formatted and more cemprehensible
+
+v3:
+
+    * changed two instances of MK_PTR(TYPE_ULONG) to TYPE_ULONG
+
+v2:
+
+    * added description of each ioctl in patches
+    * wrote a more detailed cover letter with description of testing
+    * changed one instance of TYPE_INT to MK_PTR(TYPE_INT)
 
 
-> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-> index 7033e531de..8b23e98474 100644
-> --- a/qemu-deprecated.texi
-> +++ b/qemu-deprecated.texi
-> @@ -341,14 +341,6 @@ they have no effect when used with @option{-n} to
-> skip image creation.
->  Silently ignored options can be confusing, so this combination of
->  options will be made an error in future versions.
->
-> -@section Build system
-> -
-> -@subsection Python 2 support (since 4.1.0)
-> -
-> -In the future, QEMU will require Python 3 to be available at
-> -build time.  Support for Python 2 in scripts shipped with QEMU
-> -is deprecated.
-> -
->  @section Backwards compatibility
->
->  @subsection Runnability guarantee of CPU models (since 4.1.0)
-> --
-> 2.18.1
->
->
->
+Filip Bozuta (12):
+  linux-user: Add support for enabling/disabling RTC features using
+    ioctls
+  linux-user: Add support for getting/setting RTC time and alarm using
+    ioctls
+  linux-user: Add support for getting/setting RTC periodic interrupt and
+    epoch using ioctls
+  linux-user: Add support for getting/setting RTC wakeup alarm using
+    ioctls
+  linux-user: Add support for getting/setting RTC PLL correction using
+    ioctls
+  linux-user: Add support for read/clear RTC voltage low detector using
+    ioctls
+  linux-user: Add support for getting alsa timer version and id
+  linux-user: Add support for setting alsa timer enhanced read using
+    ioctl
+  linux-user: Add support for getting/setting specified alsa timer
+    parameters using ioctls
+  linux-user: Add support for selecting alsa timer using ioctl
+  linux-user: Add support for getting/setting selected alsa timer
+    parameters using ioctls
+  linux-user: Add support for selected alsa timer instructions using
+    ioctls
 
---00000000000045f45d059bb470fa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ linux-user/ioctls.h        |  45 +++++++++++++++++
+ linux-user/syscall.c       |   2 +
+ linux-user/syscall_defs.h  | 121 +++++++++++++++++++++++++++++++++++++++++++++
+ linux-user/syscall_types.h |  91 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 259 insertions(+)
 
-<br><br>On Thursday, January 9, 2020, Thomas Huth &lt;<a href=3D"mailto:thu=
-th@redhat.com">thuth@redhat.com</a>&gt; wrote:<br><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex">Python 2 support has been removed, so we should now also remove<br>
-the announcement text for the deprecation.<br>
-<br>
-Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@re=
-dhat.com</a>&gt;<br>
----<br>
-=C2=A0qemu-deprecated.texi | 8 --------<br>
-=C2=A01 file changed, 8 deletions(-)<br>
-<br></blockquote><div><br></div><div><span style=3D"color:rgb(34,34,34);fon=
-t-size:14px;line-height:22.1200008392334px">Reviewed by: Aleksandar Markovi=
-c &lt;</span><a href=3D"mailto:amarkovic@wavecomp.com" target=3D"_blank" st=
-yle=3D"font-size:14px;line-height:22.1200008392334px">amarkovic@wavecomp.co=
-m</a><span style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.12000=
-08392334px">&gt;</span><br></div><div>=C2=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex">
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi<br>
-index 7033e531de..8b23e98474 100644<br>
---- a/qemu-deprecated.texi<br>
-+++ b/qemu-deprecated.texi<br>
-@@ -341,14 +341,6 @@ they have no effect when used with @option{-n} to skip=
- image creation.<br>
-=C2=A0Silently ignored options can be confusing, so this combination of<br>
-=C2=A0options will be made an error in future versions.<br>
-<br>
--@section Build system<br>
--<br>
--@subsection Python 2 support (since 4.1.0)<br>
--<br>
--In the future, QEMU will require Python 3 to be available at<br>
--build time.=C2=A0 Support for Python 2 in scripts shipped with QEMU<br>
--is deprecated.<br>
--<br>
-=C2=A0@section Backwards compatibility<br>
-<br>
-=C2=A0@subsection Runnability guarantee of CPU models (since 4.1.0)<br>
--- <br>
-2.18.1<br>
-<br>
-<br>
-</blockquote>
+-- 
+2.7.4
 
---00000000000045f45d059bb470fa--
 
