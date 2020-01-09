@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7062F13504C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 01:10:11 +0100 (CET)
-Received: from localhost ([::1]:50654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CFA7135046
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 01:07:06 +0100 (CET)
+Received: from localhost ([::1]:50634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipLOs-0008DK-Iq
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 19:10:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39892)
+	id 1ipLLt-000547-HB
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 19:07:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39958)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ipLKM-0003Ns-H2
+ id 1ipLKN-0003P2-0J
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:05:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ipLKL-0007Ru-67
+ id 1ipLKL-0007TM-Tm
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:05:30 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43699)
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50631)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ipLKK-0007P7-Tu
+ id 1ipLKL-0007RQ-NZ
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:05:29 -0500
-Received: by mail-wr1-x443.google.com with SMTP id d16so5362968wre.10
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 16:05:28 -0800 (PST)
+Received: by mail-wm1-x344.google.com with SMTP id a5so908151wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 16:05:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Z55IlfRBinV8LBpI2kGNYGpYx9irE64uvHL0yFKjFIk=;
- b=eVyQVLTcb8obItjiI/uZ0cKbQBsjbLJyFZL4XkMk3Dd2l+sFM6xtlhbkikcQT31UY2
- 3Dbfrc4128rBpeSQvRyNi7Ytm3i2pXmXHeT+kUSXb22vPn/pee9lMTEB5T+87GeBJASo
- gAtYZPg7mfaIWWG214NmXKQ5yyIF3X5gcYmEM3QoagAlsZTdjSIsPhmE0WY8n4YH9xMe
- iT0ZyZ76f8N179kKSDNynDaGbJRMJIGgbGeRRE4yY6mec9k96IPx2zzQl56mEtkgc9Df
- H0tMelZjrj1S5jrXZPL2zrCt9ORMmgQ0TMVtEDIJgO6wCuFOHCFThIBqdgMGtEZxuMuc
- isww==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=losV8OmGXQZ4fRFeT4I2pKpzAi0vNXizsX/DL7svRT4=;
+ b=iO9XO2CSfVfVP81gziM8Lql/NcDW3IhHH1R+kzPxlFnXs2sFMSTDdNEYMQ/5jgGuLS
+ JYGRKyNnaPmEf34xOUqoeCqsWmQLtifXM6GjEvltF5qy42N44vZm/Vz4umW3HPaMR4ac
+ ZwXArccoyYMdMJJv6QTIstqyK8Pi8o4DO2GKlZjiwBmsilR9QoCfHwtZDODoAcAgryMO
+ h4FGt1p5NUW7UmQeHOT5vY4jXN/AJHDI0rN9Gkb4PIR6b9PUcUIwWoLDaamb2/T0s0fR
+ 6jadtWu4hSznRamjS51W7vQ5kYfsbyse50mgM3FAY32GDnpP9ugU1kZuMQ/7ekskCreh
+ R1xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Z55IlfRBinV8LBpI2kGNYGpYx9irE64uvHL0yFKjFIk=;
- b=hLGGK4+v7VQHwdVBwijKcz5N1Ww/DrxW2x0gqaKd0Gp/8KwyODzGjHnQTXqijIgT/c
- GLCQcLDFNr8MnjqPw4k1hc2YBUYf/oUIHx57qnip8xezJ2PBgvGlAe0COSKEVD+T4AE+
- AoKH98LbrjW6OA8LVgw2W7kjU9EUzKQyDYj2lsLkHiARu/0OGNdAWYFamNEu8VCH7/kj
- iBxFJrD0iL2wHI4oU/3P21vRFYGd2CqduGO3C9C/2olmTHMrZV1V4UsFKwky5FEIH979
- 3arQV81Q3FUxh5PJHdRBqJNLtybO8nB7aar82Z5oFWDPhC1zWOVSMWos2HBZdACS+zBg
- xSCQ==
-X-Gm-Message-State: APjAAAV3ynG3q1GRzQF/mgYOLzOlGKx8aflFIq9icbZriQAcuCE8VovI
- FoDNCS5T8RQ/p7t5HVMpYSg=
-X-Google-Smtp-Source: APXvYqy4o2BN2RJtgUKG9Wrh4e78fP/gyUvXp8ApSmTPmVhxKT1yGMgbVdznqtEOWzCA1svoyWHAxA==
-X-Received: by 2002:adf:e5cf:: with SMTP id a15mr7284173wrn.140.1578528327508; 
- Wed, 08 Jan 2020 16:05:27 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=losV8OmGXQZ4fRFeT4I2pKpzAi0vNXizsX/DL7svRT4=;
+ b=rx0swsN18UEVHby+NEuOcOSyhpvGNtaLB30vvmaZ2swMQMzcgoyTBY8Kgd7ZOlT+r1
+ TMxlH1LuGqY0hXQfPczFAWNc3zwSwJnk00Wo7i4XZ/r/PKLXSkqbLG3u8oI88vJHvw8+
+ 7VlLgRQPt6kh7kyJTfx+UYyjcmLhcE9omVPjgH6Qot0sgY94vf7ToYIYgLm158EEi/mz
+ hCR8I2UfVt7t7JYikPSFCVVHNp0Qs9bDMpIvDs51YcuozEe/j12JbQfKrr+jQPAaSea3
+ Hf61TETw7O/HQM25eKTTh/jYyf3/+2vyUttHGcUfAJBVHsdIlcdydUrYnTVhZCEDhVBd
+ 8sQw==
+X-Gm-Message-State: APjAAAVcR8besC4yAHA9xrv/XUDS6ecETj3N7PDhQniOycnZW5rG8y7w
+ z1yEQ+4kIF2cPE5Bhd+Y3/c=
+X-Google-Smtp-Source: APXvYqwIFU+6X/hq463dA/joS0koW8zG1FIDm9TeEMHDAM8nKrf/fLlheaxYyMski8JJB5xMwTY69Q==
+X-Received: by 2002:a1c:2187:: with SMTP id h129mr1290514wmh.44.1578528328656; 
+ Wed, 08 Jan 2020 16:05:28 -0800 (PST)
 Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id w13sm5947827wru.38.2020.01.08.16.05.26
+ by smtp.gmail.com with ESMTPSA id w13sm5947827wru.38.2020.01.08.16.05.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 16:05:26 -0800 (PST)
+ Wed, 08 Jan 2020 16:05:28 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Igor Mammedov <imammedo@redhat.com>, Helge Deller <deller@gmx.de>,
  Sven Schnelle <svens@stackframe.org>, qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] hw/hppa/machine: Restrict the total memory size to 3GB
-Date: Thu,  9 Jan 2020 01:05:22 +0100
-Message-Id: <20200109000525.24744-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/3] hw/hppa/machine: Correctly check the firmware is in
+ PDC range
+Date: Thu,  9 Jan 2020 01:05:23 +0100
+Message-Id: <20200109000525.24744-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200109000525.24744-1-f4bug@amsat.org>
+References: <20200109000525.24744-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,24 +89,29 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Following the discussion of Igor's patch "hppa: allow max
-ram size upto 4Gb" [1] I tried to simplify the current
-code so Igor's series doesn't change the CLI with this
-machine.
+The firmware has to reside in the PDC range. If the Elf file
+expects to load it below FIRMWARE_START, it is incorrect,
+regardless the RAM size.
 
-v2: Simplify by limiting to 3GB (Helge review)
+Acked-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/hppa/machine.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg667903.html
-[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg669309.html
-
-Philippe Mathieu-Daudé (3):
-  hw/hppa/machine: Correctly check the firmware is in PDC range
-  hw/hppa/machine: Restrict the total memory size to 3GB
-  hw/hppa/machine: Map the PDC memory region with higher priority
-
- hw/hppa/machine.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
-
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 5d0de26140..6775d879f8 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -155,7 +155,7 @@ static void machine_hppa_init(MachineState *machine)
+     qemu_log_mask(CPU_LOG_PAGE, "Firmware loaded at 0x%08" PRIx64
+                   "-0x%08" PRIx64 ", entry at 0x%08" PRIx64 ".\n",
+                   firmware_low, firmware_high, firmware_entry);
+-    if (firmware_low < ram_size || firmware_high >= FIRMWARE_END) {
++    if (firmware_low < FIRMWARE_START || firmware_high >= FIRMWARE_END) {
+         error_report("Firmware overlaps with memory or IO space");
+         exit(1);
+     }
 -- 
 2.21.1
 
