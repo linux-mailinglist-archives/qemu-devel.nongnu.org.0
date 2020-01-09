@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97F91357B9
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 12:14:31 +0100 (CET)
-Received: from localhost ([::1]:58418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42C11357C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 12:17:45 +0100 (CET)
+Received: from localhost ([::1]:58488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipVlm-0002W8-My
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 06:14:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54186)
+	id 1ipVou-0005Yo-TQ
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 06:17:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57897)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1ipVi4-0005l5-C9
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 06:10:42 -0500
+ (envelope-from <jean-philippe@linaro.org>) id 1ipVn8-0004sf-Je
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 06:15:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1ipVi2-00070G-DB
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 06:10:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43826
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ipVi2-0006wX-7b
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 06:10:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578568237;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mgOxQ5uyZJfjGUoehj3MJnX8mFael+qy0RPkOBV6Evw=;
- b=QB0BNK3TT9/U/sfzMcLk7e+maYST4aX/IWANzp9Za8QSSvl5Aoy8uTSW5mNKu7cMvcYAvE
- B4PEmExhl6JP+uHvpIl3BZmyx7H/jS8LJHv1nmxlXSZ+C88LVhxFVM9S9r0wMJQB4zXwXw
- CDbZN6lVtaQXC/VJSv9yDEPIh4QiQEY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-i_jV-WqFObKbq2Qfe0CzRA-1; Thu, 09 Jan 2020 06:10:36 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A146800C78;
- Thu,  9 Jan 2020 11:10:35 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 608315DA2C;
- Thu,  9 Jan 2020 11:10:32 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] iotests: add 282 luks qemu-img measure test
-Date: Thu,  9 Jan 2020 11:10:12 +0000
-Message-Id: <20200109111012.559052-5-stefanha@redhat.com>
-In-Reply-To: <20200109111012.559052-1-stefanha@redhat.com>
-References: <20200109111012.559052-1-stefanha@redhat.com>
+ (envelope-from <jean-philippe@linaro.org>) id 1ipVn7-0000UV-6p
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 06:15:54 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50660)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jean-philippe@linaro.org>)
+ id 1ipVn6-0000P9-QA
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 06:15:53 -0500
+Received: by mail-wm1-x344.google.com with SMTP id a5so2480966wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 03:15:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=pLeVCokKW+fOVWTgJDpb3D6qGp4EKoRi3k3tmToSbwc=;
+ b=pYv/C8ikX34mJ+fA20ULSoqiTmuTQ4UaooXny4FGJQWvuY+zQPelkOalCkKH0Cu1rP
+ uuYiomAPIe5z+RIhbeeSvhkzTiL1MIcGcD9ik2gtsV8R/Ou0WNEsatNhwhHGYA8Z1a3z
+ fKkVnw9CTQlRFTOoSGpaMX4L4L3tozYVMG8AAFrz6tvNNCliqWMDBgy2lekxO8xNY5/A
+ jp5CU8jsXIqXF/LpJt4bNkkCuOtOAJ6pW2WM31Vpr9lwa/0aPqynWGCvL3pPORGpwQxX
+ 4eUWBduxX5nKQKVmPAVZQluMDHHgVAg1trMH08X/gg38DWEh3d4LFSu2gnsamsC502i0
+ JwTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pLeVCokKW+fOVWTgJDpb3D6qGp4EKoRi3k3tmToSbwc=;
+ b=UnWUAcYqX2NHjYsYpC0mj6xYbE4cdAXTZSkVpEcf/3a2uZ0HP8jqvhn41skGO9V91p
+ b/sdFao3gYM3xsRc7IqMn9LN1sAfQ3iU6fRly3+7Dz6bqBBQ2PmborndxHIFxHZntbuv
+ 6qjrozB5Z1JLmnqbxxDggrgPVzSQjLn6WyKyhqlbpLkpYE9W2bn+N/uj4iMfiIl4yiA2
+ Rr5yAWFtwEPkunTogM0wSh8Nj0I3qPEOrQlKJNO+/MfNKO0ICUYsX8MqSZ8NX54hHTDJ
+ YUc9eDtxOGySBn7wrqK/qMp0I8u/yk3fD42SGVtGBaDNCMh1GDhujkujQxPRzXCYvTYS
+ Hr0w==
+X-Gm-Message-State: APjAAAUupkm8zXjoDXchwT/Xv/H6U3HNC33QOEYr1iaC7EKEguOO5uCN
+ uB5vtOWoZBIWpIH4WhY1QVe1zQ==
+X-Google-Smtp-Source: APXvYqzyzJMtOTnQSYBiWajR1phOzqARaEyzsFzZk7eB4ZUutLu44F8U/9NSsNcqLggMkgw839h6bA==
+X-Received: by 2002:a05:600c:2503:: with SMTP id
+ d3mr4110182wma.84.1578568551518; 
+ Thu, 09 Jan 2020 03:15:51 -0800 (PST)
+Received: from myrica (adsl-84-227-176-239.adslplus.ch. [84.227.176.239])
+ by smtp.gmail.com with ESMTPSA id v83sm2561889wmg.16.2020.01.09.03.15.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jan 2020 03:15:50 -0800 (PST)
+Date: Thu, 9 Jan 2020 12:15:44 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH for-5.0 v11 08/20] virtio-iommu: Implement translate
+Message-ID: <20200109111544.GA940335@myrica>
+References: <20191220162642.GA2626852@myrica> <20191220165100.GA3780@xz-x1>
+ <20200106170634.GF2062@myrica> <20200106175850.GC219677@xz-x1>
+ <20200107101024.GB832497@myrica>
+ <aa5fa9e6-6efd-e1a3-96c6-d02ba8eab4c8@redhat.com>
+ <20200109084700.GA934975@myrica>
+ <0beb9d61-05b8-3152-e967-64413def6ab7@redhat.com>
+ <20200109104032.GA937123@myrica>
+ <bcb585ef-f617-e870-72a2-f4028682547b@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: i_jV-WqFObKbq2Qfe0CzRA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bcb585ef-f617-e870-72a2-f4028682547b@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,174 +85,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, kevin.tian@intel.com,
+ tnowicki@marvell.com, mst@redhat.com, jean-philippe.brucker@arm.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ armbru@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
+ dgilbert@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test exercises the block/crypto.c "luks" block driver
-.bdrv_measure() code.
+On Thu, Jan 09, 2020 at 12:01:26PM +0100, Auger Eric wrote:
+> Hi,
+> 
+> On 1/9/20 11:40 AM, Jean-Philippe Brucker wrote:
+> > On Thu, Jan 09, 2020 at 09:58:49AM +0100, Auger Eric wrote:
+> >>>> I share Peter's concern about having a different default policy than x86.
+> >>>
+> >>> Yes I'd say just align with whatever policy is already in place. Do you
+> >>> think we could add a command-line option to let people disable
+> >>> default-bypass, though?  That would be a convenient way to make the IOMMU
+> >>> protection airtight for those who need it.
+> >> Yes I could easily add a device option to disable the default bypass.
+> >>
+> >> Shall we change the meaning of the F_BYPASS feature then? If exposed by
+> >> the device, the device does bypass by default, otherwise it doesn't.
+> >> This would be controlled by the device option.
+> > 
+> > For a device that doesn't do bypass by default, the driver wouldn't have
+> > the ability to enable bypass (feature bit not offered, not negotiable).
+> > 
+> >> The driver then could have means to overwrite this behavior once loaded?
+> > 
+> > Let's keep the bypass feature bit for this. If the bit is offered, the
+> > driver chooses to enable or disable it. If the bit is not offered or not
+> > negotiated, then the behavior is deny. If the bit is offered and
+> > negotiated then the behavior is allow.
+> > 
+> > We can say that before features negotiation (latched at features register
+> > write, I think, in practice?) the behavior is platform dependent. The
+> > current wording about bypass intends to discourage unsafe choices but
+> > makes a strong statement only about the device behavior after features
+> > negotiation. 
+> OK. May be worth adding in the spec later.
+> 
+> By the way what is the plan for the vote?
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- tests/qemu-iotests/282     | 93 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/282.out | 30 ++++++++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 124 insertions(+)
- create mode 100755 tests/qemu-iotests/282
- create mode 100644 tests/qemu-iotests/282.out
+The ballot closed and the spec is accepted for virtio-v1.2-cs01, with the
+condition that the stale statement about padding is removed
+(https://lists.oasis-open.org/archives/virtio-dev/201911/msg00083.html)
 
-diff --git a/tests/qemu-iotests/282 b/tests/qemu-iotests/282
-new file mode 100755
-index 0000000000..6c62065aef
---- /dev/null
-+++ b/tests/qemu-iotests/282
-@@ -0,0 +1,93 @@
-+#!/usr/bin/env bash
-+#
-+# qemu-img measure tests for LUKS images
-+#
-+# Copyright (C) 2020 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=3Dstefanha@redhat.com
-+
-+seq=3D`basename $0`
-+echo "QA output created by $seq"
-+
-+status=3D1    # failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+    rm -f "$TEST_IMG.converted"
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+. ./common.pattern
-+
-+_supported_fmt luks
-+_supported_proto file
-+_supported_os Linux
-+
-+SECRET=3Dsecret,id=3Dsec0,data=3Dpassphrase
-+
-+echo "=3D=3D measure 1G image file =3D=3D"
-+echo
-+
-+$QEMU_IMG measure --object "$SECRET" \
-+=09          -O "$IMGFMT" \
-+=09=09  -o key-secret=3Dsec0,iter-time=3D10 \
-+=09=09  --size 1G
-+
-+echo
-+echo "=3D=3D create 1G image file (size should be no greater than measured=
-) =3D=3D"
-+echo
-+
-+_make_test_img 1G
-+stat -c "image file size in bytes: %s" "$TEST_IMG_FILE"
-+
-+echo
-+echo "=3D=3D modified 1G image file (size should be no greater than measur=
-ed) =3D=3D"
-+echo
-+
-+$QEMU_IO --object "$SECRET" --image-opts "$TEST_IMG" -c "write -P 0x51 0x1=
-0000 0x400" | _filter_qemu_io | _filter_testdir
-+stat -c "image file size in bytes: %s" "$TEST_IMG_FILE"
-+
-+echo
-+echo "=3D=3D measure preallocation=3Dfalloc 1G image file =3D=3D"
-+echo
-+
-+$QEMU_IMG measure --object "$SECRET" \
-+=09          -O "$IMGFMT" \
-+=09=09  -o key-secret=3Dsec0,iter-time=3D10,preallocation=3Dfalloc \
-+=09=09  --size 1G
-+
-+echo
-+echo "=3D=3D measure with input image file =3D=3D"
-+echo
-+
-+IMGFMT=3Draw IMGKEYSECRET=3D IMGOPTS=3D _make_test_img 1G | _filter_imgfmt
-+QEMU_IO_OPTIONS=3D IMGOPTSSYNTAX=3D $QEMU_IO -f raw -c "write -P 0x51 0x10=
-000 0x400" "$TEST_IMG_FILE" | _filter_qemu_io | _filter_testdir
-+$QEMU_IMG measure --object "$SECRET" \
-+=09          -O "$IMGFMT" \
-+=09=09  -o key-secret=3Dsec0,iter-time=3D10 \
-+=09=09  -f raw \
-+=09=09  "$TEST_IMG_FILE"
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/282.out b/tests/qemu-iotests/282.out
-new file mode 100644
-index 0000000000..8f4737aef7
---- /dev/null
-+++ b/tests/qemu-iotests/282.out
-@@ -0,0 +1,30 @@
-+QA output created by 282
-+=3D=3D measure 1G image file =3D=3D
-+
-+required size: 2068480
-+fully allocated size: 1075810304
-+
-+=3D=3D create 1G image file (size should be no greater than measured) =3D=
-=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1073741824
-+image file size in bytes: 1075810304
-+
-+=3D=3D modified 1G image file (size should be no greater than measured) =
-=3D=3D
-+
-+wrote 1024/1024 bytes at offset 65536
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+image file size in bytes: 1075810304
-+
-+=3D=3D measure preallocation=3Dfalloc 1G image file =3D=3D
-+
-+required size: 1075810304
-+fully allocated size: 1075810304
-+
-+=3D=3D measure with input image file =3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1073741824
-+wrote 1024/1024 bytes at offset 65536
-+1 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+required size: 2076672
-+fully allocated size: 1075810304
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index cb2b789e44..d114e2c971 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -288,3 +288,4 @@
- 277 rw quick
- 279 rw backing quick
- 280 rw migration quick
-+282 quick
---=20
-2.24.1
-
+Thanks,
+Jean
 
