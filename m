@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09AD1135825
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 12:38:39 +0100 (CET)
-Received: from localhost ([::1]:58768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F4913582D
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 12:40:27 +0100 (CET)
+Received: from localhost ([::1]:58800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipW97-0001cP-US
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 06:38:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41252)
+	id 1ipWAs-0003gf-Nk
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 06:40:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55829)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1ipW7f-0000QJ-8e
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 06:37:11 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ipW9s-0003DQ-I8
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 06:39:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1ipW7d-0000U2-96
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 06:37:06 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21561
+ (envelope-from <imammedo@redhat.com>) id 1ipW9k-0007xO-39
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 06:39:19 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47989
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1ipW7c-0000ST-ES
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 06:37:04 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ipW9j-0007vY-JF
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 06:39:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578569823;
+ s=mimecast20190719; t=1578569955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0SDNXG5Yi/btrLMOlEi7BNUjLCnWv8a1bpV6Xjevjjg=;
- b=T27P6nlx+FZXdIuSkpXoIU2eB1P8r6rO+cXi5Qvhdxo6EjJioMKnMpBiQyTYdgEa2Q3YP5
- Defbc0c/XzO6s3X3Gb5kDLkVIB7jv/1RsSbTsFOO5BvA2g4lQlrCEnnGtTWud3oxs1Tlsc
- LzPc3IpMFrFbIAqz6FiWb5G2HWoTAlw=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-gb-56Pg9PdeqdV2f87oG-g-1; Thu, 09 Jan 2020 06:37:02 -0500
-Received: by mail-qv1-f70.google.com with SMTP id d7so3919426qvq.12
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 03:37:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=V8wsSytS5VzLMRvoBhbSD6l1trukDJP3qnoOhdNNEMI=;
- b=R1iVrE3KTQjdDbE+jJacJ4ID5pvZ8RydCNcxEmxQeQJIGlhKOok7sxduax/VI+GKSh
- iSxqX6P16NMDGC1squ7htGkDYskNQ6+ogydUKzQj2J/u4Hn9uf9vKeUxQ9LzWYv3Cd4t
- pd7JYjMls36aMFmfbRXHNiwU+dUfS/586MCWCEDhdyeHOCm5smfh3+R+ZHtBoov+ufMl
- HfZXatzjn6TiNh1iOwe1BSiRDBOqGe+Nd3octBZlh+qI2orChJDzZ7v8mjkGGedRDVki
- BX03LucloB9WiBsJULmkJL8+ksjHWAhgP4kBEeh77d5qJ/O7dT+q2r0pcdGy2XLdfSlh
- 4Qpw==
-X-Gm-Message-State: APjAAAUVZ3S26hgOa5+DTlLR9tPtuXAuRcpcLal9WA/8Cl4DVzoE2RG8
- zFI/AClsNW9ly6i0B2wQS8msl+vEQkUdyhFKX9LIW594WVA30dAjCxGWj+YbmLd/kuiwX9qRyaQ
- 9vyPXmw+/O+S8/IA=
-X-Received: by 2002:a37:490d:: with SMTP id w13mr8467981qka.221.1578569821598; 
- Thu, 09 Jan 2020 03:37:01 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyLBAHZYd2fj7Qvov3ZhRHufVOdT5hWC2YnekJvTWDjsp6Bj166cUj2XW7w10uwZxdfB2Q8oQ==
-X-Received: by 2002:a37:490d:: with SMTP id w13mr8467952qka.221.1578569821159; 
- Thu, 09 Jan 2020 03:37:01 -0800 (PST)
-Received: from redhat.com (bzq-79-183-34-164.red.bezeqint.net. [79.183.34.164])
- by smtp.gmail.com with ESMTPSA id r37sm3123789qtj.44.2020.01.09.03.36.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2020 03:37:00 -0800 (PST)
-Date: Thu, 9 Jan 2020 06:36:56 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/smbios/smbios: Remove unused include
-Message-ID: <20200109063646-mutt-send-email-mst@kernel.org>
-References: <20200109112504.32622-1-philmd@redhat.com>
+ bh=DBv6IgDxigcHQkuRs9JmvBvhs7mhO9vNB+yikXxTxm4=;
+ b=FOfFimJwIH5pF/UVzneX55uJIQ7EhRdmeLSDFtJDHSiHdOD+dmgsw/zwRAHH/KL9hCQFwY
+ DaonayVD1rvOSJ8bdFIzYBSKkwtdTb0YEz76fBcNn+uOgQ1wlFcuvJP592J2zJppsDpbic
+ 9fCPmZa6Jmiubh9SoHY20WiD4lE5imw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-902Sx07-MG-qgQ23ifArrg-1; Thu, 09 Jan 2020 06:39:14 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F847477;
+ Thu,  9 Jan 2020 11:39:12 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E696F272A3;
+ Thu,  9 Jan 2020 11:39:07 +0000 (UTC)
+Date: Thu, 9 Jan 2020 12:39:06 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH 2/3] hw/hppa/machine: Do not limit the RAM to 3840MB
+Message-ID: <20200109123906.2a055feb@redhat.com>
+In-Reply-To: <00d20bb2-cd8c-37fd-0709-9df1ca0d1545@redhat.com>
+References: <20200108181425.21485-1-f4bug@amsat.org>
+ <20200108181425.21485-3-f4bug@amsat.org>
+ <20200109111514.3ab4396a@redhat.com>
+ <00d20bb2-cd8c-37fd-0709-9df1ca0d1545@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200109112504.32622-1-philmd@redhat.com>
-X-MC-Unique: gb-56Pg9PdeqdV2f87oG-g-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 902Sx07-MG-qgQ23ifArrg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -87,37 +73,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+Cc: Helge Deller <deller@gmx.de>, Richard Henderson <rth@twiddle.net>,
+ Sven Schnelle <svens@stackframe.org>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 09, 2020 at 12:25:04PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Nothing from "sysemu/cpus.h" is used by smbios.c, remove the include.
+On Thu, 9 Jan 2020 12:09:26 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+
+> On 1/9/20 11:15 AM, Igor Mammedov wrote:
+> > On Wed,  8 Jan 2020 19:14:24 +0100
+> > Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+> >  =20
+> >> The hardware expects DIMM slots of 1 or 2 GB, allowing up to
+> >> 4 GB of memory. Accept the same amount of memory the hardware
+> >> can deal with.
+> >>
+> >> The CPU doesn't have access to the RAM mapped in the
+> >> [0xf0000000 - 0xf1000000] range because this is the PDC area
+> >> (Processor Dependent Code) where the firmware is loaded.
+> >> To keep this region with higher priority than the RAM, lower
+> >> the RAM priority. The PDC will overlap it.
+> >>
+> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =20
+> > Looks good to me (since board doesn't fix up ram_size and uses
+> > whatever user specified, proper support for 4Gb could be done on top la=
+ter).
+> >  =20
+> >> ---
+> >>   hw/hppa/machine.c | 11 +++++------
+> >>   1 file changed, 5 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+> >> index 6775d879f8..d10c967d06 100644
+> >> --- a/hw/hppa/machine.c
+> >> +++ b/hw/hppa/machine.c
+> >> @@ -90,16 +90,15 @@ static void machine_hppa_init(MachineState *machin=
+e)
+> >>           g_free(name);
+> >>       }
+> >>  =20
+> >> -    /* Limit main memory. */
+> >> -    if (ram_size > FIRMWARE_START) {
+> >> -        machine->ram_size =3D ram_size =3D FIRMWARE_START;
+> >> -    }
+> >> -
+> >>       /* Main memory region. */
+> >> +    if (machine->ram_size > 4 * GiB) { =20
+> > Could it break a build on 32-bit mingw host?
+> > (machine->ram_size is 32-bit on that host and condition would be
+> > always false, tripping -Werror) =20
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
-
-
-> ---
->  hw/smbios/smbios.c | 1 -
->  1 file changed, 1 deletion(-)
+> By following Helge tip to restrict to 3GB, v2 of this series doesn't=20
+> have this problem :)
 >=20
-> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-> index ded5f1f4e2..1a0f461541 100644
-> --- a/hw/smbios/smbios.c
-> +++ b/hw/smbios/smbios.c
-> @@ -24,7 +24,6 @@
->  #include "qemu/option.h"
->  #include "sysemu/sysemu.h"
->  #include "qemu/uuid.h"
-> -#include "sysemu/cpus.h"
->  #include "hw/firmware/smbios.h"
->  #include "hw/loader.h"
->  #include "hw/boards.h"
-> --=20
-> 2.21.1
+> > that's why I've worked around it using local uint64_t in the last versi=
+on
+> >   "[PATCH v3 43/86] hppa: allow max ram size upto 4Gb"
+> > coincidentally that would get rid of global ram_size usage
+> > and leave only machine->ram_size on this board. =20
+>=20
+> Since I was not sure how you wanted to clean this, I haven't modified=20
+> it. We can add it on top but I'd rather do a whole codebase cleanup.
+with 3Gb there is no actual need to do that,
+Like you said having a separate tree wide clean up would be a better approa=
+ch.
+
+>=20
+> Note: you also need to modify hppa_machine_reset() by using ms->ram_size=
+=20
+> instead.
+>=20
+> >> +        error_report("RAM size of 4GB or more is not supported");
+> >> +        exit(EXIT_FAILURE);
+> >> +    }
+> >>       ram_region =3D g_new(MemoryRegion, 1);
+> >>       memory_region_allocate_system_memory(ram_region, OBJECT(machine)=
+,
+> >>                                            "ram", ram_size);
+> >> -    memory_region_add_subregion(addr_space, 0, ram_region);
+> >> +    memory_region_add_subregion_overlap(addr_space, 0, ram_region, -1=
+);
+> >>  =20
+> >>       /* Init Dino (PCI host bus chip).  */
+> >>       pci_bus =3D dino_init(addr_space, &rtc_irq, &serial_irq); =20
+> >=20
+> >  =20
+>=20
 
 
