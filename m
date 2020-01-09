@@ -2,50 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88DCE1360F7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 20:20:31 +0100 (CET)
-Received: from localhost ([::1]:36574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A851D1360F9
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 20:21:14 +0100 (CET)
+Received: from localhost ([::1]:36586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipdM6-00016w-Ae
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 14:20:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39309)
+	id 1ipdMn-0001zc-Fw
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 14:21:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53918)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1ipdGC-0003WS-Rt
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 14:14:25 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ipdKt-0000Pf-8o
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 14:19:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1ipdGB-0007JK-EN
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 14:14:24 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:58346)
+ (envelope-from <danielhb413@gmail.com>) id 1ipdKr-0006Yj-Ak
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 14:19:14 -0500
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:42068)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1ipdG9-0006BC-FX; Thu, 09 Jan 2020 14:14:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=Clwr8OmkgLClIPLb5A4r0y5WGdUX1DP4zBqunbRF28Y=; 
- b=msGUMMPheY916npCnP2Zv70bYMzo4GHL/NYPrwCZ9/Ho0jpO8QpN6xqTmwJJO0ArsgrgKiCnhQSNUNuGOVhcmb/AqiVGaZTy5GXBOITckdONUt8bDuZRCZ0a5ust0jjBmNXLkZi1godGF3u25ZM1sGY5KglbLnXn8kL55ltUHQPLD2RaZET5Yk4ie1ov+O9fuc+vB9JDj94mKwqka7XeN6gbmJtsCPNZ5I4TiuZjeiiWO4wThuv8cVJQMIVIVxFKKqy41CrSgPW/lRiqLn9BjJVA6rVbngqhPHwciXOwGgUCFhh66QCPnPWd2KuiGg1LyE9tJxyksk8hvmCGxMRrYw==;
-Received: from [213.99.255.143] (helo=perseus.local)
- by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1ipdFp-0006Mm-P5; Thu, 09 Jan 2020 20:14:01 +0100
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1ipdF0-0005R7-Om; Thu, 09 Jan 2020 20:13:10 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] qcow2: Use BDRV_SECTOR_SIZE instead of the hardcoded
- value
-Date: Thu,  9 Jan 2020 20:13:02 +0100
-Message-Id: <e3982d5118a90db2442c6ac18f339ec8ba006df2.1578596897.git.berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1578596897.git.berto@igalia.com>
-References: <cover.1578596897.git.berto@igalia.com>
+ (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
+ id 1ipdKq-0006Tq-Eh; Thu, 09 Jan 2020 14:19:12 -0500
+Received: by mail-qv1-xf44.google.com with SMTP id dc14so3448115qvb.9;
+ Thu, 09 Jan 2020 11:19:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=G2lVf7Qd2N+HBtyvpViBCVWxn7bUAaymdZdBRaRMzzM=;
+ b=pGr1i0cXqbE5sAp8eEu4ZqwaqcXzlOTgpaY7H/rgzG1Xx4GjI4IPgMSFNObOFatOna
+ d9bjeBsnbr4bMJito7NBVouskm5dJ0rs+tN8EHgUNhg/RpEAoZoqft/KidzYEiyYxw+r
+ oblnLNbYgUaLztc7bKJFVIoabJwg6u0LpKJoT5sVDSvpjYKLscD2FPLujWthZVmithEl
+ 0QVhtvaZL3sqKxsmFE8/YP4bMkmlMkpKDfB5ZYfF/OSWHdiu/xhmsg9zCEUsavnxgclP
+ Mq73MKPgug731PhwefmScan0SyenIcDrBx2J4BNC46jebfizUyQq4lS1aF5tBOp2WCwp
+ 6WMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=G2lVf7Qd2N+HBtyvpViBCVWxn7bUAaymdZdBRaRMzzM=;
+ b=io+Ni9Q6lWaXMrzfgvIzTwvZvfcm5lNjX69bpyhKP/zMsSeIJPT6KrJtvzGRm6Ferb
+ AR0VfgQe8g4y6pPkryVKLMRoeLzr2vMYOtIPOTKP5NzDqp8tyHgvydxtUsri7wxoezL4
+ Lk9tiKJ+2Iq4hpYpwO9Y6SoJ1LpgWyIH8qUV70qWPl/3YUqqcfq7W4MESe6domvWmHCA
+ zOhKXiWj+0btL38srhCJfEaf9zzTsxLOsakox4uXv/2sBLHoa/+cdJeIGEVcadAPcSFS
+ 7wc4SeN5HLMti0lnG9oiTBFx208U8Ya+o2v3o92eO9SDJOWKQBIxAj7+vcKqF+LBU0gM
+ gOvg==
+X-Gm-Message-State: APjAAAX2ihEvippbgD7uoPlBCG/WhBvTfSY350QJ40iT2Lb9V2r0NWAa
+ eA5e97IZagQK+RbZkCNJg/S3kZBDwM8=
+X-Google-Smtp-Source: APXvYqxnPDeGmr6DzZIpgFr6qPlZ9KVc9n8/sdCHmiwcOONx52sAQumS+cDTeCAo0kMP6WgKQLj0Wg==
+X-Received: by 2002:a0c:e58e:: with SMTP id t14mr10052226qvm.131.1578597549762; 
+ Thu, 09 Jan 2020 11:19:09 -0800 (PST)
+Received: from ?IPv6:2804:431:c7c7:541e:7a5e:37ad:989b:4530?
+ ([2804:431:c7c7:541e:7a5e:37ad:989b:4530])
+ by smtp.gmail.com with ESMTPSA id k29sm3625598qtu.54.2020.01.09.11.19.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jan 2020 11:19:09 -0800 (PST)
+Subject: Re: [PATCH v1 00/59] trivial unneeded labels cleanup
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, minyard@acm.org
+References: <20200106182425.20312-1-danielhb413@gmail.com>
+ <20200106195457.GE2886@minyard.net>
+ <f71eb524-571b-54d1-1a99-95d2896f6586@gmail.com>
+ <20200107061613.GB4076@linux.fritz.box>
+ <cacf1a76-366e-7209-3f5e-3bb6728c2e8a@redhat.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <39f056df-40fa-dac1-1868-aef241c37199@gmail.com>
+Date: Thu, 9 Jan 2020 16:19:05 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
+In-Reply-To: <cacf1a76-366e-7209-3f5e-3bb6728c2e8a@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::f44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,69 +86,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Nir Soffer <nsoffer@redhat.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This replaces all remaining instances in the qcow2 code.
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- block/qcow2-cluster.c |  2 +-
- block/qcow2.c         | 10 ++++++----
- 2 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 932fc48919..777ca2d409 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -219,7 +219,7 @@ static int l2_load(BlockDriverState *bs, uint64_t offset,
-  * Writes one sector of the L1 table to the disk (can't update single entries
-  * and we really don't want bdrv_pread to perform a read-modify-write)
-  */
--#define L1_ENTRIES_PER_SECTOR (512 / 8)
-+#define L1_ENTRIES_PER_SECTOR (BDRV_SECTOR_SIZE / 8)
- int qcow2_write_l1_entry(BlockDriverState *bs, int l1_index)
- {
-     BDRVQcow2State *s = bs->opaque;
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 783d2b9578..c0f3e715ef 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3280,7 +3280,8 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
- 
-     /* Validate options and set default values */
-     if (!QEMU_IS_ALIGNED(qcow2_opts->size, BDRV_SECTOR_SIZE)) {
--        error_setg(errp, "Image size must be a multiple of 512 bytes");
-+        error_setg(errp, "Image size must be a multiple of %u bytes",
-+                   (unsigned) BDRV_SECTOR_SIZE);
-         ret = -EINVAL;
-         goto out;
-     }
-@@ -3836,7 +3837,7 @@ qcow2_co_copy_range_from(BlockDriverState *bs,
-         case QCOW2_CLUSTER_NORMAL:
-             child = s->data_file;
-             copy_offset += offset_into_cluster(s, src_offset);
--            if ((copy_offset & 511) != 0) {
-+            if (!QEMU_IS_ALIGNED(copy_offset, BDRV_SECTOR_SIZE)) {
-                 ret = -EIO;
-                 goto out;
-             }
-@@ -3958,8 +3959,9 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
-         return -ENOTSUP;
-     }
- 
--    if (offset & 511) {
--        error_setg(errp, "The new size must be a multiple of 512");
-+    if (!QEMU_IS_ALIGNED(offset, BDRV_SECTOR_SIZE)) {
-+        error_setg(errp, "The new size must be a multiple of %u",
-+                   (unsigned) BDRV_SECTOR_SIZE);
-         return -EINVAL;
-     }
- 
--- 
-2.20.1
+On 1/7/20 4:06 AM, Philippe Mathieu-Daudé wrote:
+> On 1/7/20 7:16 AM, Kevin Wolf wrote:
+>> Am 06.01.2020 um 21:35 hat Daniel Henrique Barboza geschrieben:
+>>> On 1/6/20 4:54 PM, Corey Minyard wrote:
+>>>> On Mon, Jan 06, 2020 at 03:23:26PM -0300, Daniel Henrique Barboza wrote:
+>>>>> Hello,
+>>> [...]
+>>>>>
+>>>>> Which is cleaner and requires less brain cycles to wonder
+>>>>> whether the 'cleanup' label does anything special, such
+>>>>> as a heap memory cleanup.
+>>>>
+>>>> I would disagree with this analysis.  To me, I often wonder
+>>>> when I have to add cleanup code to a routine whether there is
+>>>> some hidden return in the middle of the function.  That's a lot
+>>>> harder to spot than just looking for the cleanup label at the
+>>>> end of the function to see what it does.  For non-trivial
+>>>> functions I prefer to have one point of return at the end
+>>>> (and maybe some minor checks with returns right at the beginning).
+>>>> I'm not adamant about this, just my opinion.
+>>
+>> It depends on the case, but yes, I had similar thoughts, at least when
+>> we're talking about non-trivial parts of a function. (Very short
+>> functions of just some initial checks returning directly are usually
+>> fine.)
+> 
+>  From a debugging point of view, and when adding trace-events, it is easier to have a single function exit path.
+> 
+> In various functions modified by your patches, we can split big functions in smaller ones and avoid the goto label.
+> 
 
+Splitting and refactoring big funcitons wasn't the initial idea of this
+work, but I see no problems in doing it. Care to point out where did you
+see such cases?
+
+
+Thanks,
+
+
+DHB
 
