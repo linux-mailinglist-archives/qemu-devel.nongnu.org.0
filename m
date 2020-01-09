@@ -2,63 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B0B135CE6
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:37:25 +0100 (CET)
-Received: from localhost ([::1]:34316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 957D5135CDB
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:34:22 +0100 (CET)
+Received: from localhost ([::1]:34248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipZsC-0001Lg-0N
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:37:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42111)
+	id 1ipZpF-0004vU-8a
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:34:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipZqi-0008M0-OL
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:35:54 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ipZmn-000369-OG
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:31:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipZqh-0008GJ-D2
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:35:52 -0500
-Received: from indium.canonical.com ([91.189.90.7]:60650)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipZqh-0008B5-6P
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:35:51 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipZqe-0007fR-UT
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 15:35:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E28892E80F4
- for <qemu-devel@nongnu.org>; Thu,  9 Jan 2020 15:35:46 +0000 (UTC)
+ (envelope-from <pbonzini@redhat.com>) id 1ipZmm-0006dE-3h
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:31:49 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33104
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ipZml-0006SM-TG
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:31:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578583906;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FVEqcHTNA7h1M7TpTRNrnVOIfq571zRDt26mkMPtEbo=;
+ b=KZkds5E4Xy9u2DWomrhNkel9/kP2zPfHJRLFqL6ImWLReheNblx8cJ/TLhqsaAJepJAlwf
+ FTOSyhIM7YUPZtIuPsRZDk5bvAR10S+royYCHTqFrihVOPhrYKH/x2PXm9nhIZWuG7/fB9
+ bpjaxNkn+FJeSlxFfb4ma2lCkC8jVmk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-221-VyxUNxL_MxmxWhSyqbhQ6Q-1; Thu, 09 Jan 2020 10:31:45 -0500
+Received: by mail-wr1-f70.google.com with SMTP id f15so3040924wrr.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 07:31:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FVEqcHTNA7h1M7TpTRNrnVOIfq571zRDt26mkMPtEbo=;
+ b=MoEnBX0fSvKZ7ld/Ix9ZwMUv/Meakajg8j472LhLT1H89cYQNKbTcSkjS9MvL1idir
+ yDOpJyEM90c3GdxNBPNKzZqMg05URjz5KUDudw5xEA2sxzlUb88kyabSkqFJVPKmT79K
+ thMXdzbCdmJ8Uh7i8W0RPG9987/Zv93v6p7Qjcb82ziTtwrqyOw7Oe3FVShqPKTRiV35
+ QLIkZKTZAbWo2jWkDYR1+pT7r015MC0ve25bdhQ0zThfY/O5FXlPQngpKUQ8rWYL7Pge
+ dhT6DMZPpvmao9wC2H3FkGlWuvUfBd39aCOG0Jy9t6SOSxwhplOJ5wa10uuzBpu29h6b
+ q6xg==
+X-Gm-Message-State: APjAAAUqtnFybQnuB9h/SHFIM12E+DpV2LzhUEw82jJ23QUQENHKAaOs
+ YTrEKIIMSXfANeJv8zL7fO4Xds0xal4kYxeHx4obI8ETCBlZseePFAcbkYtrsQ7sxkPZaqWKDdF
+ dl0uIkdgP3czMUpk=
+X-Received: by 2002:adf:ca07:: with SMTP id o7mr11997727wrh.49.1578583903988; 
+ Thu, 09 Jan 2020 07:31:43 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx3BsGz1g0Evn20k4LJBRVuAD+tmwdjTLmyCsS7oVZ04BBRi1zJgvl6u9ec81f3LVvFE3nsjw==
+X-Received: by 2002:adf:ca07:: with SMTP id o7mr11997694wrh.49.1578583903641; 
+ Thu, 09 Jan 2020 07:31:43 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c6d:4079:b74c:e329?
+ ([2001:b07:6468:f312:c6d:4079:b74c:e329])
+ by smtp.gmail.com with ESMTPSA id i8sm9140284wro.47.2020.01.09.07.31.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jan 2020 07:31:43 -0800 (PST)
+Subject: Re: [PATCH 2/2] hyperv/synic: Allocate as ram_device
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20200108135353.75471-1-dgilbert@redhat.com>
+ <20200108135353.75471-3-dgilbert@redhat.com>
+ <20200109064527-mutt-send-email-mst@kernel.org>
+ <20200109120820.GB6795@work-vm>
+ <20200109071454-mutt-send-email-mst@kernel.org>
+ <20200109122237.GD6795@work-vm>
+ <20200109080412-mutt-send-email-mst@kernel.org>
+ <20200109132242.GF6795@work-vm>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <3162676e-da40-7a3f-1777-2ed4f3efffe1@redhat.com>
+Date: Thu, 9 Jan 2020 16:31:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 Jan 2020 15:24:35 -0000
-From: Paul Clarke <pc@us.ibm.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 7-pc rth th-huth
-X-Launchpad-Bug-Reporter: Paul Clarke (7-pc)
-X-Launchpad-Bug-Modifier: Paul Clarke (7-pc)
-References: <156686849716.6431.16425651381928336460.malonedeb@gac.canonical.com>
-Message-Id: <157858347556.2711.11048625870513863453.malone@soybean.canonical.com>
-Subject: [Bug 1841491] Re: floating point emulation can fail to set
- FE_UNDERFLOW
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 47b68223fa4c80e595da82d0f9fd162507e6978a
+In-Reply-To: <20200109132242.GF6795@work-vm>
+Content-Language: en-US
+X-MC-Unique: VyxUNxL_MxmxWhSyqbhQ6Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,72 +98,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1841491 <1841491@bugs.launchpad.net>
+Cc: jasowang@redhat.com, vkuznets@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Comment #5 suggested splitting the "float" issue to a separate bug,
-which was done some time ago (bug #1841592).
+On 09/01/20 14:22, Dr. David Alan Gilbert wrote:
+> * Michael S. Tsirkin (mst@redhat.com) wrote:
+>> On Thu, Jan 09, 2020 at 12:22:37PM +0000, Dr. David Alan Gilbert wrote:
+>>> Do we want a new memory_region_init for that or just to be able to add
+>>> a flag?
+>>>
+>> I think a flag API is preferable since this can apply to any kind of
+>> region. But can go either way, Paolo's the maintainer there.
+> 
+> (Copying Paolo in)
+> So what exactly does this flag mean; to me it's 'no vhost' - but is it
+> actually more general?
 
-I think this ticket can be closed.
+It has two more effects in addition to no vhost:
 
--- =
+1) it is skipped when dumping the guest (is this a good or bad idea for
+SynIC?)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1841491
+2) accesses to the region will use the specified size (e.g. 4-bytes for
+address_space_stl, 1-byte for address_space_stb) instead of a memcpy.
+Doesn't really matter for SynIC regions.
 
-Title:
-  floating point emulation can fail to set FE_UNDERFLOW
+If (1) is a good idea, then it's 2 out of 3 and I guess the patch is okay.
 
-Status in QEMU:
-  Confirmed
+Paolo
 
-Bug description:
-  Floating point emulation can fail to set FE_UNDERFLOW in some
-  circumstances. This shows up often in glibc's "math" tests. A similar
-  test is attached.
-
-  This is similar to bug #1841442, but not the same problem, and I don't
-  think the fix will be in the same code.
-
-  On ppc64le native:
-  --
-  $ gcc -c -O2 fma.c
-  $ gcc -O2 test-fma.c fma.o -lm -o test-fma
-  $ ./test-fma $(./test-fma)
-  fma(0x1.ffffffffffffcp-1022, 0x1.0000000000001p-1, 0x0.0000000000001p-102=
-2)
-  0x0
-
-  0xa000000
-  FE_INEXACT FE_UNDERFLOW =
-
-  0x1p-1022
-  --
-
-  On qemu-system-ppc64:
-  --
-  $ ./test-fma $(./test-fma)
-  fma(0x1.ffffffffffffcp-1022, 0x1.0000000000001p-1, 0x0.0000000000001p-102=
-2)
-  0x0
-
-  0x2000000
-  FE_INEXACT =
-
-  0x1p-1022
-  --
-
-  QEMU versions vary, but not too much, and are pretty close to git HEAD:
-  - 586f3dced9 (HEAD -> master, origin/master, origin/HEAD) Merge remote-tr=
-acking branch 'remotes/cohuck/tags/s390x-20190822' into staging
-  - 864ab31 Update version for v4.1.0-rc4 release
-
-  There are worse symptoms on qemu-x86_64, but this is apparently not
-  surprising per
-  https://bugs.launchpad.net/qemu/+bug/1841442/comments/6.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1841491/+subscriptions
 
