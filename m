@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F71135B41
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 15:22:54 +0100 (CET)
-Received: from localhost ([::1]:33040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18DD6135B56
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 15:27:04 +0100 (CET)
+Received: from localhost ([::1]:33130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipYi5-0005Qh-QL
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 09:22:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59184)
+	id 1ipYm6-00039p-VQ
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 09:27:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59454)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ipYeS-00012I-4P
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:09 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ipYeV-000152-2y
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ipYeR-0005jq-05
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:08 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35286)
+ (envelope-from <alex.bennee@linaro.org>) id 1ipYeT-0005yT-Sy
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:10 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35834)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ipYeQ-0005ff-NE
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:06 -0500
-Received: by mail-wr1-x433.google.com with SMTP id g17so7587712wro.2
- for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 06:19:06 -0800 (PST)
+ id 1ipYeT-0005tb-LA
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 09:19:09 -0500
+Received: by mail-wm1-x334.google.com with SMTP id p17so3046365wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 09 Jan 2020 06:19:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vCZ03FZMpXvXS7V1teIe+01LLQlAQMNX0fTq6xTsm/I=;
- b=x7TN+HktNU+968wNq/jBuGKEUOnRuP90Y2nhH8dey7TYn4RC4btxBopLZiZMMcO0FX
- Ws0LnammDJbxIyt2iJqIB3uioz4hj6syFgDevd7iVGtasIX1pZmdAuQwOFDuB0+TspMt
- T4AlHx1biEUuACBHegiacTtA+crhBFP1sbIstQ1v/sir4d3ol6VibSJ56tqT2xGPLTzV
- wyB6vgHZQT+LanrFk4EecrNfKGmhNAXoDZ/7G0Pg8B99Dlxz+cxvRYwWEiV+xMCf7Zd/
- vjzBx8WR2Lpj6B/ULEhK0/qWs1loKLFyY95yG00fM7mO9Jv016eICKp3Bs8cX5gTV5PX
- Sm3w==
+ bh=W7giEOoa1246FG2AY+/m5rvSamIbq8aBUgZlAteletA=;
+ b=JvIw/UB5rrqP5gpdPQJD9cx1eRXnvsCaiaVPuqq01tHRrIwAwmW+uw4SNb6vbey5TS
+ 1eAyNFPcXg0bnen0fVny+36cnKeJCE0vNjRL5yNLgr6TF/wqU4WimLdFYyWejR1hoedQ
+ 1CviTzVIpC5inmfM4j7rAifkIYJMSojUM14Cdd/PCxecqH1cgB2r4m8nPT8wLZhArE8k
+ FZlKqp9Y5D1G/5QNEPRgo/7ww1zoYWGLUr7mzQXDZFTze2lz5nzMBCD1EooHZGq3mEfv
+ JxHzRUnNqld6QIa1bLBxK2cHGj4Uvk+oTXcwpMIWh3YRVvLVXEAEKm88xafXOW5OuIWg
+ Zxww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vCZ03FZMpXvXS7V1teIe+01LLQlAQMNX0fTq6xTsm/I=;
- b=EzCEniiTktfzd9hos3HzaJTu0ywAJpzB2YVGtd1NhW2zts9isaG10EIR+FcM+UGl9t
- p3eIIJi+uxPqKo6zjfmdzc7GkG2KDykityw7LSq3jFLnoOfMcgGnc2Eaid5yJ/b1lWZL
- CJMDMkb26LKfqPTmlzlmTLT+vi7Y04QGN38fkMCHkArGWrK1i8lssdOS0+O2UvO9gyZy
- tB2OpI+rKRRbKy3NTt4mwlbMvTUZfPEm7JGux6gSBeHDhbJVk8ijUqVeSKnLZ+bMgcs6
- Uv5JRIYWzMhfVyxknuP1hlbFu5Ae+cQelnwKtXiJ2BDvcizPiUtarFDFIeOcgfbJga89
- 8H9A==
-X-Gm-Message-State: APjAAAXe5wGe0LXguTksv77o3wg5RwJvi9x82inUDrZqDX16Szu5Wk+o
- XhlsMiuB8234R3ssTZc/rhf8og==
-X-Google-Smtp-Source: APXvYqwnMgQPBCoYIZeuflF5r4aNM4x1Pud2np5pNJIwLd8C0j4od+v+vaQ4KUFPmpCPOJipFzyaQA==
-X-Received: by 2002:adf:f581:: with SMTP id f1mr11667475wro.264.1578579545686; 
- Thu, 09 Jan 2020 06:19:05 -0800 (PST)
+ bh=W7giEOoa1246FG2AY+/m5rvSamIbq8aBUgZlAteletA=;
+ b=uOPgXx+Ochul2Gt1VlXW2KEsUIfCau2rcyLVE+Jl3dWNvqEOl+QJ1CovdwWDHTRgHi
+ A9MFDUtgMpeFT8RzT2CnIe/z497NHVkzyEc74nJP+LxH6xdnOTboA3x5VkEar4sQEw0S
+ sgBSubvVfyo9VfvpYFRFyUccfYRMZNzPvlzpl/Odd/nrZOQwRDUdtFYnUWMoFKdOiQn3
+ og4+XTdAfZRzbO40tkCpHeoAtKFnPJj47gbl+7SsxMIRAXYySvvQ/Uqobx5DQz12SRXt
+ PPr41YmPL2CsJ5yL6lf3H6mg0N+vkbyAfTaN3RejqQ53Ne/4FmAl4ayfNDz7Ku58tWe/
+ mQGw==
+X-Gm-Message-State: APjAAAV99TbWw3lN5VdfST1Myaf7kbvaLGJUaLSPOBG55nx4dDt59Slh
+ 8OIwpCpj/Etzt9v92IU2JVWd6A==
+X-Google-Smtp-Source: APXvYqx/fAvOmEhMaTpkwKjSVuMml55nuBai4yMq1pk5M52MmEXyWTWsZfYn4g0otUJVCrz6FsKcZg==
+X-Received: by 2002:a05:600c:30a:: with SMTP id
+ q10mr5066310wmd.84.1578579548627; 
+ Thu, 09 Jan 2020 06:19:08 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 18sm2928300wmf.1.2020.01.09.06.18.59
+ by smtp.gmail.com with ESMTPSA id v22sm2953278wml.11.2020.01.09.06.19.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2020 06:18:59 -0800 (PST)
+ Thu, 09 Jan 2020 06:19:06 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4C9FD1FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 6008E1FF92;
  Thu,  9 Jan 2020 14:18:59 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v2 04/14] travis.yml: avocado: Print logs of non-pass tests only
-Date: Thu,  9 Jan 2020 14:18:48 +0000
-Message-Id: <20200109141858.14376-5-alex.bennee@linaro.org>
+Subject: [PULL v2 05/14] travis.yml: Detach build and test steps
+Date: Thu,  9 Jan 2020 14:18:49 +0000
+Message-Id: <20200109141858.14376-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200109141858.14376-1-alex.bennee@linaro.org>
 References: <20200109141858.14376-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,33 +91,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-The acceptance tests build on Travis is configured to print
-the entire Avocado's job log in case any test fail. Usually one is
-interested on failed tests only though. So this change the Travis
-configuration in order to show the log of tests which status is
-different from 'PASS' and 'SKIP' only. Note that 'CANCEL'-ed tests
-will have the log printed too because it can help to debug some
-condition on CI environment which is not being fulfilled.
+Currently build and test commands are a single step in a
+Travis's `script` block. In order to see the output
+of the tests one needs to scroll down the log to find where
+the build messages ended and the limit is not clear. If
+they were in different steps then Travis would print the
+result build command, which can be easily grep'ed.
+
+So this change is made to detach those commands
+to ease the visualization of the output.
+
+Note that all steps on the `script` block is executed regardless
+if one previous has failed. To overcome it, let's save the
+return code of the build then check whether succeed or failed on
+the test step.
 
 Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20191230184327.2800-2-wainersm@redhat.com>
+Message-Id: <20191230184327.2800-3-wainersm@redhat.com>
 
 diff --git a/.travis.yml b/.travis.yml
-index 638fba4799a..93838bf0f8b 100644
+index 93838bf0f8b..848a2714efe 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -262,8 +262,8 @@ matrix:
-     - env:
-         - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,sparc-softmmu"
-         - TEST_CMD="make check-acceptance"
--      after_failure:
--        - cat tests/results/latest/job.log
-+      after_script:
-+        - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
-       addons:
-         apt:
-           packages:
+@@ -94,7 +94,8 @@ before_script:
+   - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
+   - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
+ script:
+-  - make -j3 && travis_retry ${TEST_CMD}
++  - BUILD_RC=0 && make -j3 || BUILD_RC=$?
++  - if [ "$BUILD_RC" -eq 0 ] ; then travis_retry ${TEST_CMD} ; else $(exit $BUILD_RC); fi
+ after_script:
+   - if command -v ccache ; then ccache --show-stats ; fi
+ 
 -- 
 2.20.1
 
