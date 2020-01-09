@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6FEF1350A6
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 01:51:00 +0100 (CET)
-Received: from localhost ([::1]:52074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9221350C1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 02:00:36 +0100 (CET)
+Received: from localhost ([::1]:52626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipM2N-0004JC-Nx
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 19:50:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56444)
+	id 1ipMBe-0001F0-9g
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 20:00:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53883)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1ipM0c-0002iy-93
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:49:15 -0500
+ (envelope-from <palmerdabbelt@google.com>) id 1ipMAC-0000ia-Ps
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:59:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1ipM0Y-00087j-5S
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:49:09 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:39735)
+ (envelope-from <palmerdabbelt@google.com>) id 1ipMAB-0001z1-35
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:59:04 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:42432)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1ipM0X-00085C-SR
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:49:05 -0500
-Received: by mail-pg1-x544.google.com with SMTP id b137so2357989pga.6
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 16:49:05 -0800 (PST)
+ id 1ipMA9-0001uK-PA
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:59:02 -0500
+Received: by mail-pl1-x644.google.com with SMTP id p9so1816217plk.9
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 16:59:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:from:subject:cc:to:in-reply-to:references:message-id
  :mime-version:content-transfer-encoding;
- bh=KQfEp3p4VDk1zl6NMFLBM7nYydr2cpxfeNHo46j1imQ=;
- b=NSct3BTVlZw87sPjRg3gcYeUL/bKHx7xEpHMxeZbTfQyLrWLGKcOnUw7sKc98wRPmS
- 9xKkpvGHZFLno+SkXVU2neudyWHCgEeAOGtUqn6k4fDERIpj9XfxZ/nglj5NbM7uR8Tc
- LlQVAi82Jts1YrOZHnQznpR8XQpn+kAJ/AumAqQxXL2SmXny1Ua4yIiqEPPbTKODiW3c
- hpitBNOxBIBCJHY8ebX8kie2k9oK9YVOGZ4OV1Srl3/94KH0OyhzYOJ9CuFMxTPHtVpd
- oZqabKOX5BcTUwG16DFjdCRHxPGV4ajplLS4LeEmayeuSOKvdWVV9seTQmVGiki/MrW9
- kijA==
+ bh=AeWzA6tBi6Il/1HonnJTvliIFQYNhq8at6n6ZvU3U58=;
+ b=A4ZMx/VWDLZehxggBDieHWn91Xt/aHqayDb127at7ERq1+XIK4wusMpKzO6oSBHazH
+ ltO32OKlsueshML5bQ93EYfgMfJXR8Q6zRa334TdlVd6XJPOV73vgWBYWwbMFqPsYo1j
+ 3a7VChkATEtPR7AY7pOxqPawDdTrlKnS9wUOE87HLrlm6cQVlJPCnt1Pfsq7LeMZhp0n
+ ebgmk7emp0yrEfuTiGewWdS0/8L1R0MOTF3rQ8uRJL5mcj0CpSSqHolcUOtuZzo8nPTj
+ df+quYqon5DGbA02ZWYnw6ZZoSOQ5SDdQbecI2sl6QatQZjuTvpPEHdkS8twqS+7Gg4m
+ HxfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:subject:cc:to:in-reply-to:references
  :message-id:mime-version:content-transfer-encoding;
- bh=KQfEp3p4VDk1zl6NMFLBM7nYydr2cpxfeNHo46j1imQ=;
- b=V5csrykrOtPhhdL9GqY2mDP75nXq66LjVlbK5qlOLXw5htm3NxpPAsl8pwKpQnkUND
- x2ShksHw12j3luTsKX619I4xhyYd5ErIrq78OL9g7U04wDOyx2wdpzKoZ+3Qy5Df6QKU
- +0h5RStk0nv2rruW3TF3Bya2LgqrJjhXw1lVV+hPAUXHiU754GizRDJD0L2O+Hkv5KgI
- 4b3za9iMKlccNrf8lcPFMUPCAOgWwaZnWk+vpCVWPwHKOCVvpRWMQ1QU3kizPeLgg3+e
- +bjRvxEc7323nvJWLYO0ndfRK9P3vqAs2N3WRnwrLpMplUEigy5dMhbJavD7R3HatLPv
- YEhQ==
-X-Gm-Message-State: APjAAAXiooq+VkQFdwRveUBlLHnLj/YUSJl/vgSl//Prk5YGWjJ4boyT
- ygSksZV8u0Alk35lpPY/CNNUNw5yej0=
-X-Google-Smtp-Source: APXvYqzhndEtEvRI3a7LIipHv22w+jhMBvDuQwRJ3OwlqGswzepvtxGh6kNurd42JjqAhztGkXgSmw==
-X-Received: by 2002:a62:7883:: with SMTP id t125mr8447867pfc.141.1578530944521; 
- Wed, 08 Jan 2020 16:49:04 -0800 (PST)
+ bh=AeWzA6tBi6Il/1HonnJTvliIFQYNhq8at6n6ZvU3U58=;
+ b=KfjvAwm9VH2D7fjDmACY9YHFKKM90ykhmW6Sw3mgQeZVujknwscmIFiug7E+7Kyyhh
+ Lf7IuJ2eW3Och158nsap4OXiGJYXI1C2oDjP4N7lFxAiWj1xNrICy+n/kCyaj/mgatDh
+ KK9nLAIu932FHL8Br7gl+06hET8tdGfFSmC/g+M88ErHpm5cO2wBPXtZV+338Y8BKrGY
+ guHtyynkz+0OJE8XRQE3bDrMPg/l+9L8X+lCGHMkEHV5T3U4jihVNpo7vBDKM2T6yw6M
+ UCzYP/Qy37qXqg5gNF5kDSrzyNV8Babi1TmaVz23AQDXMIJc5LeU054/W+bSoOl/QCFg
+ I6Ig==
+X-Gm-Message-State: APjAAAUJeZtA3tQqfiqUCz+fx3urz257Pf6819I5NO0gmHJHqrgpXKvN
+ TjFNZQwlOyFb+er9b+wcdxMiwJspdsM=
+X-Google-Smtp-Source: APXvYqw2ZzI+tjvZ1jd9qihxiDExql7i7WDYNkFZcfoNT/bTbigEMSnoMpsUVuuQbmQIFbOLoZvp6A==
+X-Received: by 2002:a17:902:8bc4:: with SMTP id
+ r4mr8487712plo.291.1578531539121; 
+ Wed, 08 Jan 2020 16:58:59 -0800 (PST)
 Received: from localhost ([2620:0:1000:2514:7f69:cd98:a2a2:a03d])
- by smtp.gmail.com with ESMTPSA id bo19sm455227pjb.25.2020.01.08.16.49.03
+ by smtp.gmail.com with ESMTPSA id i17sm5038140pfr.67.2020.01.08.16.58.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 16:49:03 -0800 (PST)
-Date: Wed, 08 Jan 2020 16:49:03 -0800 (PST)
-X-Google-Original-Date: Wed, 08 Jan 2020 16:29:07 PST (-0800)
+ Wed, 08 Jan 2020 16:58:58 -0800 (PST)
+Date: Wed, 08 Jan 2020 16:58:58 -0800 (PST)
+X-Google-Original-Date: Wed, 08 Jan 2020 16:58:47 PST (-0800)
 From: Palmer Dabbelt <palmerdabbelt@google.com>
 X-Google-Original-From: Palmer Dabbelt <palmer@dabbelt.com>
-Subject: Re: [PATCH v1 20/36] target/riscv: Add support for virtual interrupt
- setting
+Subject: Re: [PATCH v1 29/36] target/riscv: Respect MPRV and SPRV for floating
+ point ops
 CC: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
  Alistair Francis <Alistair.Francis@wdc.com>, alistair23@gmail.com
 To: Alistair Francis <Alistair.Francis@wdc.com>
-In-Reply-To: <2389483485d4642a6e5670e2546c62e493e91fd6.1575914822.git.alistair.francis@wdc.com>
-References: <2389483485d4642a6e5670e2546c62e493e91fd6.1575914822.git.alistair.francis@wdc.com><cover.1575914822.git.alistair.francis@wdc.com>
-Message-ID: <mhng-6814f8b9-d54a-4663-900c-83023307a658@palmerdabbelt-glaptop>
+In-Reply-To: <f1725ddb8d69edf68ddd2d6e1b6688cd7b2ba550.1575914822.git.alistair.francis@wdc.com>
+References: <f1725ddb8d69edf68ddd2d6e1b6688cd7b2ba550.1575914822.git.alistair.francis@wdc.com><cover.1575914822.git.alistair.francis@wdc.com>
+Message-ID: <mhng-a52e4450-6d1b-4035-aa67-4eb899412231@palmerdabbelt-glaptop>
 Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,62 +86,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 09 Dec 2019 10:11:32 PST (-0800), Alistair Francis wrote:
+On Mon, 09 Dec 2019 10:11:56 PST (-0800), Alistair Francis wrote:
+> mark_fs_dirty() is the only place in translate.c that uses the
+> virt_enabled bool. Let's respect the contents of MSTATUS.MPRV and
+> HSTATUS.SPRV when setting the bool as this is used for performing
+> floating point operations when V=0.
+>
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  target/riscv/cpu_helper.c | 33 ++++++++++++++++++++++++++++-----
->  1 file changed, 28 insertions(+), 5 deletions(-)
+>  target/riscv/translate.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
 >
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 63439c9370..85eed5d885 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -37,13 +37,36 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
->  #ifndef CONFIG_USER_ONLY
->  static int riscv_cpu_local_irq_pending(CPURISCVState *env)
->  {
-> +    target_ulong irqs;
-> +
->      target_ulong mstatus_mie = get_field(*env->mstatus, MSTATUS_MIE);
->      target_ulong mstatus_sie = get_field(*env->mstatus, MSTATUS_SIE);
-> -    target_ulong pending = env->mip & env->mie;
-> -    target_ulong mie = env->priv < PRV_M || (env->priv == PRV_M && mstatus_mie);
-> -    target_ulong sie = env->priv < PRV_S || (env->priv == PRV_S && mstatus_sie);
-> -    target_ulong irqs = (pending & ~env->mideleg & -mie) |
-> -                        (pending &  env->mideleg & -sie);
-> +    target_ulong hs_mstatus_sie = get_field(env->mstatus_novirt, MSTATUS_SIE);
-> +
-> +    target_ulong pending = env->mip & env->mie &
-> +                               ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
-> +    target_ulong vspending = (env->mip & env->mie &
-> +                              (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP)) >> 1;
-> +
-> +    target_ulong mie    = env->priv < PRV_M ||
-> +                          (env->priv == PRV_M && mstatus_mie);
-> +    target_ulong sie    = env->priv < PRV_S ||
-> +                          (env->priv == PRV_S && mstatus_sie);
-> +    target_ulong hs_sie = env->priv < PRV_S ||
-> +                          (env->priv == PRV_S && hs_mstatus_sie);
-> +
-> +    if (riscv_cpu_virt_enabled(env)) {
-> +        target_ulong pending_hs_irq = pending & -hs_sie;
-> +
-> +        if (pending_hs_irq) {
-> +            riscv_cpu_set_force_hs_excep(env, FORCE_HS_EXCEP);
-> +            return ctz64(pending_hs_irq);
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 1d879b34db..dd93e12b45 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -748,7 +748,21 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>      ctx->mstatus_fs = ctx->base.tb->flags & TB_FLAGS_MSTATUS_FS;
+>      ctx->priv_ver = env->priv_ver;
+>  #if !defined(CONFIG_USER_ONLY)
+> -    ctx->virt_enabled = riscv_cpu_virt_enabled(env);
+> +    if (riscv_has_ext(env, RVH)) {
+> +        ctx->virt_enabled = riscv_cpu_virt_enabled(env);
+> +        if (env->priv_ver == PRV_M &&
+> +            get_field(*env->mstatus, MSTATUS_MPRV) &&
+> +            get_field(*env->mstatus, MSTATUS_MPV)) {
+> +            ctx->virt_enabled = true;
+> +        } else if (env->priv == PRV_S &&
+> +                   !riscv_cpu_virt_enabled(env) &&
+> +                   get_field(env->hstatus, HSTATUS_SPRV) &&
+> +                   get_field(env->hstatus, HSTATUS_SPV)) {
+> +            ctx->virt_enabled = true;
 > +        }
-> +
-> +        pending = vspending;
+> +    } else {
+> +        ctx->virt_enabled = false;
 > +    }
-> +
-> +    irqs = (pending & ~env->mideleg & -mie) | (pending &  env->mideleg & -sie);
-
-Isn't "-unsigned" implementation defined?  I can't get GCC to throw a warning
-and it was already there, so maybe I'm just wrong?
-
->
->      if (irqs) {
->          return ctz64(irqs); /* since non-zero */
+>  #else
+>      ctx->virt_enabled = false;
+>  #endif
 
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
