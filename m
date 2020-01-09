@@ -2,62 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2765135CE0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:36:14 +0100 (CET)
-Received: from localhost ([::1]:34288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20AC4135CEA
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:37:50 +0100 (CET)
+Received: from localhost ([::1]:34320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipZr3-0007na-8R
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:36:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46551)
+	id 1ipZsb-0002Es-2N
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:37:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51249)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ipZf3-0000d0-7x
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:23:50 -0500
+ (envelope-from <like.xu@linux.intel.com>) id 1ipZft-000237-IR
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:24:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ipZf2-0001bS-0y
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:23:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59898
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <like.xu@linux.intel.com>) id 1ipZfs-0005mM-86
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:24:41 -0500
+Received: from mga02.intel.com ([134.134.136.20]:1926)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipZf1-0001Z8-Nc
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:23:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578583427;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4kUKKeAf2s8djmV5zny/Aq4FrGtcS96wgzcVBqpzxsI=;
- b=OGXGnjkBKitaM5lljrqyC2Hjyylr1n3AYJK3tDDITS7w/m9CmMvMXkrLFja/bTXsUwIXQS
- 2+tKlSzbNkjUdNhC60B8fSaUjL4zpCSxJphyWzsPznMAGo+cDysq1rLEkBvYI2PEKxicg6
- pDna9v4Q3kRF4lGuYL89dcLCiE+ZNjk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105--h2u7_6uOF6RjR-my6orjA-1; Thu, 09 Jan 2020 10:23:45 -0500
-X-MC-Unique: -h2u7_6uOF6RjR-my6orjA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E57231800D4E;
- Thu,  9 Jan 2020 15:23:43 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-180.brq.redhat.com [10.40.204.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EE46980608;
- Thu,  9 Jan 2020 15:23:36 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 15/15] vl: Make current_machine a local variable
-Date: Thu,  9 Jan 2020 16:21:33 +0100
-Message-Id: <20200109152133.23649-16-philmd@redhat.com>
-In-Reply-To: <20200109152133.23649-1-philmd@redhat.com>
-References: <20200109152133.23649-1-philmd@redhat.com>
+ (Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
+ id 1ipZfr-0005KE-V5
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:24:40 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2020 07:24:34 -0800
+X-IronPort-AV: E=Sophos;i="5.69,414,1571727600"; d="scan'208";a="216331222"
+Received: from likexu-mobl1.ccr.corp.intel.com (HELO [10.255.28.158])
+ ([10.255.28.158])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
+ 09 Jan 2020 07:24:32 -0800
+Subject: Re: Difference between 'current_machine' vs
+ MACHINE(qdev_get_machine())
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+References: <a88f7647-c061-bf3f-a272-72700078ef26@redhat.com>
+ <e6a7197d-1647-4667-dae8-10c8dba1737f@redhat.com>
+From: Like Xu <like.xu@linux.intel.com>
+Organization: Intel OTC
+Message-ID: <a6d997f6-40b3-4a68-a911-7b9d7ebf9514@linux.intel.com>
+Date: Thu, 9 Jan 2020 23:24:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+In-Reply-To: <e6a7197d-1647-4667-dae8-10c8dba1737f@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,66 +63,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Juan Quintela <quintela@redhat.com>, qemu-ppc@nongnu.org,
- Marcelo Tosatti <mtosatti@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we now only use current_machine in vl.c, stop exporting
-it as a global variable in "hw/board.h", and make it static
-to vl.c.
+On 2020/1/9 20:01, Paolo Bonzini wrote:
+> On 09/01/20 12:23, Philippe Mathieu-Daudé wrote:
+>>
+>>
+>>      current_machine =
+>> MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
+>>      object_property_add_child(object_get_root(), "machine",
+>>                                OBJECT(current_machine), &error_abort);
+>>
+>> The bigger user of 'current_machine' is the accel/KVM code.
+>>
+>> Recently in a0628599f..cc7d44c2e0 "Replace global smp variables with
+>> machine smp properties" we started to use MACHINE(qdev_get_machine()).
+>>
+>> qdev_get_machine() resolves the machine in the QOM composition tree.
+>> I am confused by this comment:
+>>
+>>    /* qdev_get_machine() can return something that's not TYPE_MACHINE
+>>     * if this is one of the user-only emulators; in that case there's
+>>     * no need to check the ignore_memory_transaction_failures board flag.
+>>     */
+>>
+>> Following a0628599f..cc7d44c2e0, a5e0b33119 use 'current_machine' again.
+>>
+>> What are the differences between both form, when should we use one or
+>> another (or can we use a single one?). Can this break user-only mode?
+> 
+> I would always use MACHINE(qdev_get_machine()), espeecially outside
+> vl.c.  Ideally, current_machine would be static within vl.c or even
+> unused outside the object_property_add_child() that you quote above.
+> 
+> Most of the times, I noticed from a quick grep, we actually want to
+> access the accelerator, not the machine, so we could add a
+> qemu_get_accelerator() wrapper that does
+> MACHINE(qdev_get_machine())->accelerator.
+> 
+> Paolo
+> 
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- include/hw/boards.h | 2 --
- vl.c                | 4 ++--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+I prefer to use MACHINE(qdev_get_machine()) wherever possible.
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 61f8bb8e5a..b0c0d4376d 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -59,8 +59,6 @@ void memory_region_allocate_system_memory(MemoryRegion =
-*mr, Object *owner,
- #define MACHINE_CLASS(klass) \
-     OBJECT_CLASS_CHECK(MachineClass, (klass), TYPE_MACHINE)
-=20
--extern MachineState *current_machine;
--
- void machine_run_board_init(MachineState *machine);
- bool machine_usb(MachineState *machine);
- int machine_phandle_start(MachineState *machine);
-diff --git a/vl.c b/vl.c
-index 3ff3548183..7a69af4bef 100644
---- a/vl.c
-+++ b/vl.c
-@@ -214,6 +214,8 @@ static int default_sdcard =3D 1;
- static int default_vga =3D 1;
- static int default_net =3D 1;
-=20
-+static MachineState *current_machine;
-+
- static struct {
-     const char *driver;
-     int *flag;
-@@ -1164,8 +1166,6 @@ static int usb_parse(const char *cmdline)
- /***********************************************************/
- /* machine registration */
-=20
--MachineState *current_machine;
--
- static MachineClass *find_machine(const char *name, GSList *machines)
- {
-     GSList *el;
---=20
-2.21.1
+However, the qdev_get_machine() would return non TYPE_MACHINE object if:
+- call qdev_get_machine() before we do 
+"object_property_add_child(object_get_root(), "machine", 
+OBJECT(current_machine), &error_abort);" in vl.c;
+- or in the context with '#ifdef CONFIG_USER_ONLY';
+
+Thanks,
+Like Xu
 
 
