@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC29A1350AC
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 01:52:38 +0100 (CET)
-Received: from localhost ([::1]:52146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE3691350A5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 01:50:56 +0100 (CET)
+Received: from localhost ([::1]:52060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipM3y-0006NX-08
-	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 19:52:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56415)
+	id 1ipM2J-0003zL-Js
+	for lists+qemu-devel@lfdr.de; Wed, 08 Jan 2020 19:50:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1ipM0b-0002iT-W9
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:49:15 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1ipM0V-00080i-H0
+ (envelope-from <palmerdabbelt@google.com>) id 1ipM0Y-0002gZ-6i
  for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:49:08 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35125)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <palmerdabbelt@google.com>) id 1ipM0W-00082e-AS
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:49:05 -0500
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:35123)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1ipM0V-0007y4-9Q
- for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:49:03 -0500
-Received: by mail-pl1-x644.google.com with SMTP id g6so1820036plt.2
- for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 16:49:03 -0800 (PST)
+ id 1ipM0W-00080r-4C
+ for qemu-devel@nongnu.org; Wed, 08 Jan 2020 19:49:04 -0500
+Received: by mail-pl1-x641.google.com with SMTP id g6so1820058plt.2
+ for <qemu-devel@nongnu.org>; Wed, 08 Jan 2020 16:49:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:from:subject:cc:to:in-reply-to:references:message-id
  :mime-version:content-transfer-encoding;
- bh=oxaYPFpeBulaqXEI8e0zvCoQvUmXj9BsGZbI3S9AAPs=;
- b=nkBNJ+gTd8TFhEZGeXvAhmb3pYpL/KVs8I7Ll0TdBovsXPpv8syPKMpVdE/iLvJ4uX
- WhAQlZGJUWMX4NHeo+/1Tjbzo3G/nbanH2qbJEj/mEq+TsjtbapakzX3ogb4gKy0dKRe
- QJ9NmNtft7veyc95li3xo8mpeqRYxBFfVWHnKmxcgEx4yiZv0Ak45yiwjXHOsO5kNQfE
- JHoef3ZolmCHbGOJDpEgzZSKl/S3dt5Rw2sH95Z+KW76KaLwvHJNKNL61yDZaqjfH+sY
- qj7YV+eM7DHHNaPvi2pGhdkOapeCTr6ma63o7WEOjDT2qIc6noE7zXiyT6Y10PSXDZHg
- s1mQ==
+ bh=H3zSPRBKP4ZzdR/6KbzozHd86904u26K/mFmLx9RqzI=;
+ b=feh1JZ0rixUc1SjMjv50oJb+Uu0jBd1QfUGkdIbmUF5sZoItk0fH7Db7tog+l1OVyA
+ O9NQCNB3K0pra7lD1nuchRau60eAPdIIErh1IksBuIYc8iCau2N4YV9zKFu7WISVT6yQ
+ TslejvK561l3b7IBA6S2mxO8r5zvPGciY6HWySoKnBKNMhISoHLeoUNR9YZtTcyC7qYV
+ af2TWoNv6xqbeZPY8tHdFQ8st2A7+q21hHZKH17TftXAaUgbdiwUQlb2Kyub0atwwukS
+ wE3Dliy7tKS4c5OqmFn6aaibx7MInXh7JDJ6vcd3G5SC4l0mbxFH+NGJgyxyC8a/IowV
+ rI6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:subject:cc:to:in-reply-to:references
  :message-id:mime-version:content-transfer-encoding;
- bh=oxaYPFpeBulaqXEI8e0zvCoQvUmXj9BsGZbI3S9AAPs=;
- b=jzMMnXdzC3aQ5ew8X1GILtWvdNfa201tcDqYhZNVtCknUD9KJ7j+iLWMQ/udmwRBnK
- n8SpO+3Df/rhJ3g2IYnlGpHuHM10NVvOsm4GMYUMlfMz8bkChrG9wv4rhfsTveXhaURx
- zoTYUxGo8qAHwg9sJpSimpRWGcdVaXPcIQPFFJd6jCRYSar+H9hUYhuYnbTDKkSuPGlA
- 8kU3SM9ayJdPBvKeyYQq9nRaw9ADciv7leJMz1/XOYcOmmg3T1D0AHancRtH+tzc0A0h
- kHYDWBn6QcQbV8UZ8Io7/0x9g7s+B5uP9tgoPesKRqe39lNNNz7hdercrFX9Y92FiwaD
- UBow==
-X-Gm-Message-State: APjAAAUTWcD86igPM2V5YIpskqc107AFhQfZ+u09xWob2k1QeOPaVA+S
- Pm36+iGhv0HsRsctBpkWhQqr6yNR1IQ=
-X-Google-Smtp-Source: APXvYqxtbOAz2lj1ecTrwijbnMiRA6uUhDyK2H/O8kDV8Edf+yj07PhtKh5x2enJPb5STdwsU55V+g==
-X-Received: by 2002:a17:902:34d:: with SMTP id
- 71mr8391407pld.140.1578530941637; 
- Wed, 08 Jan 2020 16:49:01 -0800 (PST)
+ bh=H3zSPRBKP4ZzdR/6KbzozHd86904u26K/mFmLx9RqzI=;
+ b=QfeZzS3MuZJgTEMkMU4nPuCXoo8Bd9J1R9RQq2JXnsyEXmtmpjr5DEs2F21YEwG2hG
+ RIIt1ctG2fLljffax47f9Sov/7i3TfGaTVZQvMUuHegVGQVbdS/VKHHq98XEnhKQjN8O
+ rk/BOXz+g7u1ARcq0Vw+yEPEDo/8eH9CqyS8Ke33Hcj9sI/d7T/bayqY6VuSHWxyatbO
+ dfcxdxfakZdW+rP2wwFJeRZKMm8B3DPI9uPN5MkP/knsWzIbv/qFWOOcQKMr5ik/sSd6
+ z2HW13vUuX/81/j8q6Bv3VIStoDaHDuIwEXS0J+lUTlEoaBPJgpfliqZ9xY9xwHO/wCL
+ jUKw==
+X-Gm-Message-State: APjAAAWHSp+9Q3WKsKx8fPHrHKd/y9CHIUZCvzoUt3d5+jqBz3tXKFGj
+ uukR2g4/xtOzsYOPhb9XPhF2uha7t2c=
+X-Google-Smtp-Source: APXvYqxlNnHVU8Ubb9ccyNzIKNObfpQSyuIe2VJ4nm//zGUmzvwpz4fhSU0OO4ISvy8yuiRoUV5gow==
+X-Received: by 2002:a17:90a:a88d:: with SMTP id
+ h13mr1739046pjq.55.1578530942843; 
+ Wed, 08 Jan 2020 16:49:02 -0800 (PST)
 Received: from localhost ([2620:0:1000:2514:7f69:cd98:a2a2:a03d])
- by smtp.gmail.com with ESMTPSA id w7sm451134pjb.31.2020.01.08.16.49.00
+ by smtp.gmail.com with ESMTPSA id z29sm5115273pge.21.2020.01.08.16.49.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2020 16:49:00 -0800 (PST)
-Date: Wed, 08 Jan 2020 16:49:00 -0800 (PST)
-X-Google-Original-Date: Wed, 08 Jan 2020 14:40:34 PST (-0800)
+ Wed, 08 Jan 2020 16:49:02 -0800 (PST)
+Date: Wed, 08 Jan 2020 16:49:02 -0800 (PST)
+X-Google-Original-Date: Wed, 08 Jan 2020 14:40:48 PST (-0800)
 From: Palmer Dabbelt <palmerdabbelt@google.com>
 X-Google-Original-From: Palmer Dabbelt <palmer@dabbelt.com>
-Subject: Re: [PATCH v1 19/36] target/riscv: Extend the SIP CSR to support
- virtulisation
+Subject: Re: [PATCH v1 26/36] target/riscv: Remove the hret instruction
 CC: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
  Alistair Francis <Alistair.Francis@wdc.com>, alistair23@gmail.com
 To: Alistair Francis <Alistair.Francis@wdc.com>
-In-Reply-To: <eecc3f2848d9afa8e640f608bd13112868ca2e5f.1575914822.git.alistair.francis@wdc.com>
-References: <eecc3f2848d9afa8e640f608bd13112868ca2e5f.1575914822.git.alistair.francis@wdc.com><cover.1575914822.git.alistair.francis@wdc.com>
-Message-ID: <mhng-d8e48454-f32d-4bff-8601-38ad43e83134@palmerdabbelt-glaptop>
+In-Reply-To: <c83aac89b3f1825c4c3ae282495a28572031f7d5.1575914822.git.alistair.francis@wdc.com>
+References: <c83aac89b3f1825c4c3ae282495a28572031f7d5.1575914822.git.alistair.francis@wdc.com><cover.1575914822.git.alistair.francis@wdc.com>
+Message-ID: <mhng-5bd4e131-6645-4d27-8255-5837e004f8c2@palmerdabbelt-glaptop>
 Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,37 +85,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 09 Dec 2019 10:11:30 PST (-0800), Alistair Francis wrote:
+On Mon, 09 Dec 2019 10:11:48 PST (-0800), Alistair Francis wrote:
+> The hret instruction does not exist in the new spec versions, so remove
+> it from QEMU.
+>
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  target/riscv/csr.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+>  target/riscv/insn32.decode                     | 1 -
+>  target/riscv/insn_trans/trans_privileged.inc.c | 5 -----
+>  2 files changed, 6 deletions(-)
 >
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 54edfb280e..d028dfb60b 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -744,8 +744,19 @@ static int write_sbadaddr(CPURISCVState *env, int csrno, target_ulong val)
->  static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
->                     target_ulong new_value, target_ulong write_mask)
->  {
-> -    int ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
-> +    int ret;
-> +
-> +    if (riscv_cpu_virt_enabled(env)) {
-> +        /* Shift the new values to line up with the VS bits */
-> +        ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value << 1,
-> +                      (write_mask & sip_writable_mask) << 1 & env->mideleg);
-> +        ret &= vsip_writable_mask;
-> +        ret >>= 1;
-> +    } else {
-> +        ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
->                        write_mask & env->mideleg & sip_writable_mask);
-> +    }
-> +
->      *ret_value &= env->mideleg;
->      return ret;
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index cfd9ca6d2b..b883672e63 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -75,7 +75,6 @@ ecall       000000000000     00000 000 00000 1110011
+>  ebreak      000000000001     00000 000 00000 1110011
+>  uret        0000000    00010 00000 000 00000 1110011
+>  sret        0001000    00010 00000 000 00000 1110011
+> -hret        0010000    00010 00000 000 00000 1110011
+>  mret        0011000    00010 00000 000 00000 1110011
+>  wfi         0001000    00101 00000 000 00000 1110011
+>  hfence_gvma 0110001    ..... ..... 000 00000 1110011 @hfence_gvma
+> diff --git a/target/riscv/insn_trans/trans_privileged.inc.c b/target/riscv/insn_trans/trans_privileged.inc.c
+> index b9b5a89b52..76c2fad71c 100644
+> --- a/target/riscv/insn_trans/trans_privileged.inc.c
+> +++ b/target/riscv/insn_trans/trans_privileged.inc.c
+> @@ -58,11 +58,6 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
+>  #endif
 >  }
+>
+> -static bool trans_hret(DisasContext *ctx, arg_hret *a)
+> -{
+> -    return false;
+> -}
+> -
+>  static bool trans_mret(DisasContext *ctx, arg_mret *a)
+>  {
+>  #ifndef CONFIG_USER_ONLY
 
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
