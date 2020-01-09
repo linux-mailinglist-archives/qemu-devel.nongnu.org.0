@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A376135CC2
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:29:34 +0100 (CET)
-Received: from localhost ([::1]:34142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E255135CB0
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Jan 2020 16:25:58 +0100 (CET)
+Received: from localhost ([::1]:34100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipZka-00072j-Ek
-	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:29:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40228)
+	id 1ipZh7-0002LH-1I
+	for lists+qemu-devel@lfdr.de; Thu, 09 Jan 2020 10:25:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42320)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ipZdu-0007IW-5K
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:22:39 -0500
+ (envelope-from <philmd@redhat.com>) id 1ipZeI-0007st-O1
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:23:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ipZds-0004YC-ML
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:22:37 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20087
+ (envelope-from <philmd@redhat.com>) id 1ipZeG-0006DZ-Kt
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:23:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60021
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipZds-0004WB-HR
- for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:22:36 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipZeG-00066k-Ab
+ for qemu-devel@nongnu.org; Thu, 09 Jan 2020 10:23:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578583356;
+ s=mimecast20190719; t=1578583377;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r3ZQ1yjWg+zwPb7yaMBrPwZ0OBjAylTCAOCJYYSVOiU=;
- b=JWQnO/GEwQeki6hg2zkpXnaujQ0dXboDGQo1kMb/4JglOY5F43Zo5qVco1Q3Nar6dX23Ea
- kpV0TAsD4yj7NWVh2CDJOTJ9JnEy8nEu3Ge9uTot5FR77wQ6Ge0Sk6Vb66juzX59T0wb53
- CdH/G8TEavvBzw5qIso3XD+mzYWso64=
+ bh=H5HnxoPdzrltmBx4GJfO10Gs5/HVEMyNIWg08Qb03H8=;
+ b=gx+M2YOvq6X7Yjgu47VSjPOymnQH5VJep4a38gamElsj0qiJaYw7T1SkgdjmbuXoawinPo
+ v1hifi6XikgOZm66kwFEWdfP2fI5UlOOpDuX46wmD2AWHmH0gqz1TO2XA+zrlXwxYfU2eW
+ kZb7o9s6mu8Oz8kY4nU+hb8vkop6X/w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-fDmWKW9vOzO3WF0mJrsHcQ-1; Thu, 09 Jan 2020 10:22:32 -0500
-X-MC-Unique: fDmWKW9vOzO3WF0mJrsHcQ-1
+ us-mta-393-Hjxm58MoNNa7j3wVE--rPQ-1; Thu, 09 Jan 2020 10:22:54 -0500
+X-MC-Unique: Hjxm58MoNNa7j3wVE--rPQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C49B9FE71;
- Thu,  9 Jan 2020 15:22:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 894668C4B52;
+ Thu,  9 Jan 2020 15:22:52 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-180.brq.redhat.com [10.40.204.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7805D1CB;
- Thu,  9 Jan 2020 15:22:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D8E61CB;
+ Thu,  9 Jan 2020 15:22:43 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/15] device-hotplug: Replace current_machine by
+Subject: [PATCH 08/15] target/arm/monitor: Replace current_machine by
  qdev_get_machine()
-Date: Thu,  9 Jan 2020 16:21:23 +0100
-Message-Id: <20200109152133.23649-6-philmd@redhat.com>
+Date: Thu,  9 Jan 2020 16:21:26 +0100
+Message-Id: <20200109152133.23649-9-philmd@redhat.com>
 In-Reply-To: <20200109152133.23649-1-philmd@redhat.com>
 References: <20200109152133.23649-1-philmd@redhat.com>
 MIME-Version: 1.0
@@ -84,27 +84,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 As we want to remove the global current_machine,
-replace MACHINE_GET_CLASS(current_machine) by
-MACHINE_GET_CLASS(qdev_get_machine()).
+replace 'current_machine' by MACHINE(qdev_get_machine()).
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- device-hotplug.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/monitor.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/device-hotplug.c b/device-hotplug.c
-index f01d53774b..44d687f254 100644
---- a/device-hotplug.c
-+++ b/device-hotplug.c
-@@ -45,7 +45,7 @@ static DriveInfo *add_init_drive(const char *optstr)
-     if (!opts)
-         return NULL;
+diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+index fa054f8a36..bcbf69802d 100644
+--- a/target/arm/monitor.c
++++ b/target/arm/monitor.c
+@@ -136,7 +136,8 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(=
+CpuModelExpansionType type,
+     }
 =20
--    mc =3D MACHINE_GET_CLASS(current_machine);
-+    mc =3D MACHINE_GET_CLASS(qdev_get_machine());
-     dinfo =3D drive_new(opts, mc->block_default_type, &err);
-     if (err) {
-         error_report_err(err);
+     if (kvm_enabled()) {
+-        const char *cpu_type =3D current_machine->cpu_type;
++        MachineState *ms =3D MACHINE(qdev_get_machine());
++        const char *cpu_type =3D ms->cpu_type;
+         int len =3D strlen(cpu_type) - strlen(ARM_CPU_TYPE_SUFFIX);
+         bool supported =3D false;
+=20
 --=20
 2.21.1
 
