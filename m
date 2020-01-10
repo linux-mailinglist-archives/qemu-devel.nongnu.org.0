@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14891137174
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:38:02 +0100 (CET)
-Received: from localhost ([::1]:48114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681741371E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:55:03 +0100 (CET)
+Received: from localhost ([::1]:48346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipwMK-00059M-Pi
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:38:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60378)
+	id 1ipwco-0002vn-Ec
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:55:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60508)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ipwIn-0001HG-PD
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:34:23 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ipwIv-0001N3-3d
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:34:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ipwIh-0004XV-6B
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:34:18 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59529
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ipwIs-0004j9-MV
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:34:27 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55205
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ipwIh-0004RT-1W
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:34:15 -0500
+ id 1ipwIr-0004gU-AT
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:34:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578670453;
+ s=mimecast20190719; t=1578670463;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nwpk7VZAEQIMAD7TtXuj2pmlGsNRAk6j7Nvy1roySqc=;
- b=VTgXvOPsO2/2nCqW3B14Qq9PKz49tLdnUb0JOMjnVmn8dP8vVfOWtyfLXFZRwH49ZNwug2
- yT1gli2IOSyZZeKWF5YUQxxSyMV5Co4pjR+7t6hszLYGF5yMKgqm20VvSzSSrt6u3lwPSj
- z3DRLcvFzekAff8EP4PsafJ4E6ekI3Y=
+ bh=mm78GU9uoQYaLz+WJKZTuaIvHha4mHrrKwq72KJ4AQc=;
+ b=USCFHEvvs3Lqd6zGPRgEw5DZLJLycbJzu2AIMklPqUJ1KAG1ePRk3HE9FSuvx/x0Ogx4sH
+ hoxHPPytj8qI9BDIzPENR18gskgX6eHsmq7Kr5gp5LfINkEAqc7Gil8PeAYRdqwmAOy711
+ JWy/oAXKl2r3H6dzuZyFoZotPyqE2z8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-BNlCamiwMWGsMpc4XlUqRw-1; Fri, 10 Jan 2020 10:34:12 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-243-bPX5vVwvPL-rbHBP7t3WVQ-1; Fri, 10 Jan 2020 10:34:22 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A20F41005502
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 15:34:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ABF41800D6B
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 15:34:21 +0000 (UTC)
 Received: from localhost (ovpn-112-59.ams2.redhat.com [10.36.112.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54CE678E77;
- Fri, 10 Jan 2020 15:34:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A4095C1B5;
+ Fri, 10 Jan 2020 15:34:14 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/26] object: release all props
-Date: Fri, 10 Jan 2020 19:30:30 +0400
-Message-Id: <20200110153039.1379601-18-marcandre.lureau@redhat.com>
+Subject: [PATCH 18/26] object: return self in object_ref()
+Date: Fri, 10 Jan 2020 19:30:31 +0400
+Message-Id: <20200110153039.1379601-19-marcandre.lureau@redhat.com>
 In-Reply-To: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
 References: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: BNlCamiwMWGsMpc4XlUqRw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: bPX5vVwvPL-rbHBP7t3WVQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,55 +79,52 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Class properties may have to release resources when the object is
-destroyed. Let's use the existing release() callback for that, but
-class properties must not release ObjectProperty, as it can be shared
-by various instances.
+This allow for simpler assignment with ref: foo =3D object_ref(bar)
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- qom/object.c | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ include/qom/object.h | 3 ++-
+ qom/object.c         | 5 +++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index ead9129ac8..933e5c6cb9 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1013,8 +1013,9 @@ GSList *object_class_get_list_sorted(const char *impl=
+ements_type,
+  *
+  * Increase the reference count of a object.  A object cannot be freed as =
+long
+  * as its reference count is greater than zero.
++ * Returns: @obj
+  */
+-void object_ref(Object *obj);
++Object *object_ref(Object *obj);
+=20
+ /**
+  * object_unref:
 diff --git a/qom/object.c b/qom/object.c
-index 04f2991716..3924678ec3 100644
+index 3924678ec3..9f76a330ff 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -583,23 +583,22 @@ static inline bool object_property_is_child(ObjectPro=
-perty *prop)
+@@ -1098,12 +1098,13 @@ GSList *object_class_get_list_sorted(const char *im=
+plements_type,
+                         object_class_cmp);
+ }
 =20
- static void object_property_del_all(Object *obj)
+-void object_ref(Object *obj)
++Object *object_ref(Object *obj)
  {
-+    g_autoptr(GHashTable) done =3D g_hash_table_new(NULL, NULL);
-     ObjectProperty *prop;
--    GHashTableIter iter;
--    gpointer key, value;
-+    ObjectPropertyIterator iter;
-     bool released;
+     if (!obj) {
+-        return;
++        return NULL;
+     }
+     atomic_inc(&obj->ref);
++    return obj;
+ }
 =20
-     do {
-         released =3D false;
--        g_hash_table_iter_init(&iter, obj->properties);
--        while (g_hash_table_iter_next(&iter, &key, &value)) {
--            prop =3D value;
--            if (prop->release) {
--                prop->release(obj, prop->name, prop->opaque);
--                prop->release =3D NULL;
--                released =3D true;
--                break;
-+        object_property_iter_init(&iter, obj);
-+        while ((prop =3D object_property_iter_next(&iter)) !=3D NULL) {
-+            if (g_hash_table_add(done, prop)) {
-+                if (prop->release) {
-+                    prop->release(obj, prop->name, prop->opaque);
-+                    released =3D true;
-+                    break;
-+                }
-             }
--            g_hash_table_iter_remove(&iter);
-         }
-     } while (released);
-=20
+ void object_unref(Object *obj)
 --=20
 2.25.0.rc1.20.g2443f3f80d.dirty
 
