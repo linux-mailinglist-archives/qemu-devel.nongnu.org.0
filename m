@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B22136A1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:43:38 +0100 (CET)
-Received: from localhost ([::1]:43178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF1B136A45
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:52:33 +0100 (CET)
+Received: from localhost ([::1]:43262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipqpN-0000GJ-4E
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:43:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48793)
+	id 1ipqy0-0006hH-7a
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:52:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43534)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1ipqo4-000890-LI
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:42:17 -0500
+ (envelope-from <bounces@canonical.com>) id 1ipqwK-00058B-5V
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:50:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1ipqo3-0008P1-NQ
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:42:16 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45871)
+ (envelope-from <bounces@canonical.com>) id 1ipqwI-0005xo-Vz
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:50:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39130)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1ipqo0-00089x-Bj; Fri, 10 Jan 2020 04:42:12 -0500
-Received: by mail-wr1-x444.google.com with SMTP id j42so1101413wrj.12;
- Fri, 10 Jan 2020 01:42:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8dqO2ueHj7gIKIyWyu1BBEDjKzHtdvHlP1LJUdwu2HE=;
- b=P7Fvn1XGTB/A3yaZY22gHasoTZPt6xhhsQdjchKZFFtrYsr847sfz/Chvn9TlYpp5S
- 4vSivyS4L+YtJLF/PSONEn+TVeyBIEu1fiI1rSIZWDpzPjzSBkRYM9RzWwdn0FjfYfUv
- ugT+oTFm4amHIjmqWJE1TEbFy6vbZPeMF7VwkqqayP1su6SJteekXv5GX1UyV+WNN31Y
- MVK2MD5MmWpUvLXAoCebecjxCQombS/p3PekDnfce6ynEvEana3M0nxKULjW6Lj0c4v0
- ePZOxkVtP4Y5ssnDikNVeAkwmxex1sJrNgFXVI2JoTbAsfaCzR1hQk+J5mw9briqlDBM
- KFpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8dqO2ueHj7gIKIyWyu1BBEDjKzHtdvHlP1LJUdwu2HE=;
- b=XDk8+sdh3ckZdMKqyhLCfT2c4fkV20J9+ZN0WucI1eq/1tb86ZnQD7UIDb3nKLZH7/
- VYhXxiwUCEu0LVwNrDhYSnh3xHTDXNkUH7QGs3JyP9cGF8CMnv/sIkDovA1k197liWwQ
- WEABje52DSDlSoXNcDGbPbZbTSjTvn/Rj5TX8jaF3EGRdG3ECcfPvHTb7I/d7s9LnGWs
- ZQOMkScbbr5bVcWc2jpQkQkIVTB/h/9zt6aoacuZKm3WDwju7fulWjo5T4dp0AWo80Nc
- EiJwYurk3jaZvrq0vx4Garuc6BXTgEZgTaNdQJ8nxZDbeyBUXgGJ0QH759xbtXHwNdOd
- a38g==
-X-Gm-Message-State: APjAAAVM9zhm325V1+37EkwZDQpU+bE/TVjrTCW54mQ0a/UZQXPYAGcy
- 0eVs4XGzm4H3b3QXBdEox/5dWfHTdhQtBlvPRv8=
-X-Google-Smtp-Source: APXvYqyEXPaHRzt10u2yvHTvFczu74JAiA4FG/kAdDZKMw8/kosQ2XuzHKMDJZTxvpQhO58mxnr3T21LLDD/AIkr/yU=
-X-Received: by 2002:adf:f10a:: with SMTP id r10mr2483033wro.202.1578649331183; 
- Fri, 10 Jan 2020 01:42:11 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ipqwI-0005rT-QI
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:50:46 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ipqwE-00023P-Hf
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:50:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0CFF12E80F3
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:50:38 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200110091710.53424-1-pannengyuan@huawei.com>
- <20200110091710.53424-3-pannengyuan@huawei.com>
-In-Reply-To: <20200110091710.53424-3-pannengyuan@huawei.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 10 Jan 2020 13:41:58 +0400
-Message-ID: <CAJ+F1CKTDYa50ss4ckd-mHxyuHmc=sF3CmuOFq2ABkzPtSCkrQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] qga/main: Don't mismatch g_strsplit/g_free in
- split_list()
-To: pannengyuan@huawei.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+Date: Fri, 10 Jan 2020 09:42:03 -0000
+From: Thomas Huth <1832281@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: manuelbaesler pmaydell th-huth
+X-Launchpad-Bug-Reporter: manuel baesler (manuelbaesler)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <156021221413.18114.3680605096232908394.malonedeb@wampee.canonical.com>
+Message-Id: <157864932359.2371.3549129679446928281.malone@soybean.canonical.com>
+Subject: [Bug 1832281] Re: tcg bug master / 4.0.0 v8 operation >>> and |=
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0ada7cbdcc011c61ef1cd8357ae8e593c767bc20
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,54 +66,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
- qemu trival <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Reply-To: Bug 1832281 <1832281@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Patch had been included here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D1e8a98b53867f61da9c
 
-On Fri, Jan 10, 2020 at 1:18 PM <pannengyuan@huawei.com> wrote:
->
-> From: Pan Nengyuan <pannengyuan@huawei.com>
->
-> fix a mismatch between g_strsplit and g_free
->
-> Reported-by: Laurent Vivier <laurent@vivier.eu>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+** Changed in: qemu
+       Status: In Progress =3D> Fix Released
 
-NACK, the elements are added to the returned list.
+-- =
 
-> ---
-> Changes v2 to v1:
-> - fix a mismatch in qga/main.c
-> ---
->  qga/main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/qga/main.c b/qga/main.c
-> index c35c2a2120..a72ae074f4 100644
-> --- a/qga/main.c
-> +++ b/qga/main.c
-> @@ -933,7 +933,7 @@ static GList *split_list(const gchar *str, const gcha=
-r *delim)
->      for (i =3D 0; strv[i]; i++) {
->          list =3D g_list_prepend(list, strv[i]);
->      }
-> -    g_free(strv);
-> +    g_strfreev(strv);
->
->      return list;
->  }
-> --
-> 2.21.0.windows.1
->
->
->
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1832281
 
+Title:
+  tcg bug master / 4.0.0 v8 operation >>> and |=3D
 
---=20
-Marc-Andr=C3=A9 Lureau
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  vm guest is linux, executed with tcg
+  running this Node.js snippet leads to
+
+  $ node
+  > a =3D undefined
+  undefined
+  > a >>> 0
+  4294967295
+
+  host node
+  $ node
+  > a =3D undefined
+  undefined
+  > a >>> 0
+  0
+
+  same with |=3D
+
+  node
+  Welcome to Node.js v12.4.0.
+  Type ".help" for more information.
+  > let buffer
+  undefined
+  > buffer |=3D 0
+  0
+
+  vm with tcg:
+
+  $ ./out/Release/node --version
+  v12.4.0
+  ./out/Release/node -e "let buffer; buffer |=3D 0; console.log(buffer);"
+  -1
+
+  vm guest is debian x86_64 latest release
+  vm guest is started with ./x86_64-softmmu/qemu-system-x86_64 -vnc :0 -cdr=
+om debian-9.9.0-amd64-netinst.iso -m 4G -smp cores=3D6,threads=3D1,sockets=
+=3D1 -nic user,hostfwd=3Dtcp:ipv4addr:2233-:22 -cpu qemu64 debian.img
+
+  git tag v4.0.0 and master, commit
+  a578cdfbdd8f9beff5ced52b7826ddb1669abbbf, for building qemu-system-
+  x86_64 was used.
+
+  Node.js is compiled on the vm guest (v12.4.0 / master)
+
+  see also
+  https://github.com/nodejs/node/issues/19348#issuecomment-500465502
+
+  I need further assistance to track down the cause of the bug.
+
+  Kind regards
+  Manuel
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1832281/+subscriptions
 
