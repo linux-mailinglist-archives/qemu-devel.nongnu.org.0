@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90D7136A02
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:31:53 +0100 (CET)
-Received: from localhost ([::1]:43014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C066136A15
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:42:00 +0100 (CET)
+Received: from localhost ([::1]:43154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipqe0-0006et-84
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:31:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40812)
+	id 1ipqnn-00071f-6E
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:41:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45410)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1ipqcV-0005zw-Em
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:30:21 -0500
+ (envelope-from <bounces@canonical.com>) id 1ipqmy-0006YC-D1
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:41:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1ipqcR-0002RV-LU
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:30:17 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45548
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ipqcR-0002MJ-78
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:30:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578648614;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WaMD6NyDwQ5Yb+FqlXoIzVL7wK8YRC2cTZn6U6QC7HQ=;
- b=bzU5zP+XDrjQs443BlIJT8TYHxEFLbVakaD60kMzLv0Nf6COaU3BVFiZD14TPNSWBidfOY
- KZT1FbYIZeay40kW7kyArUORcqGkMKkN4ahRBHWBr6aWC+NI+Q9CEP7TfQvTqVYq2SNfF/
- 9rX6CLFpdzcep+nV1VXBqllIwwD6gqQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-DjoSFZ1MNs-n0nWA9c1hRw-1; Fri, 10 Jan 2020 04:30:12 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E81CB800D53
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:30:11 +0000 (UTC)
-Received: from redhat.com (ovpn-112-65.ams2.redhat.com [10.36.112.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE749277B9;
- Fri, 10 Jan 2020 09:30:07 +0000 (UTC)
-Date: Fri, 10 Jan 2020 09:30:04 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 092/104] virtiofsd: add man page
-Message-ID: <20200110093004.GB3423494@redhat.com>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-93-dgilbert@redhat.com>
- <20200107121328.GD3368802@redhat.com>
- <20200109200213.GT6795@work-vm>
+ (envelope-from <bounces@canonical.com>) id 1ipqmx-00048O-1o
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:41:08 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37812)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ipqmw-000411-RY
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:41:06 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ipqmv-0001W4-46
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:41:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 12CC82E80C8
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:41:05 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200109200213.GT6795@work-vm>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: DjoSFZ1MNs-n0nWA9c1hRw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Fri, 10 Jan 2020 09:30:58 -0000
+From: Thomas Huth <1657841@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: th-huth therock247uk
+X-Launchpad-Bug-Reporter: therock247uk (therock247uk)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20170119170931.14633.66977.malonedeb@soybean.canonical.com>
+Message-Id: <157864865808.5627.18436996078930916436.malone@gac.canonical.com>
+Subject: [Bug 1657841] Re: QEMU Intel HAX Windows
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b82b0bcb43c4587d5dedae80151f9975128b7819
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,211 +66,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Reply-To: Bug 1657841 <1657841@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 09, 2020 at 08:02:13PM +0000, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
-> > On Thu, Dec 12, 2019 at 04:38:52PM +0000, Dr. David Alan Gilbert (git) =
-wrote:
-> > > From: Stefan Hajnoczi <stefanha@redhat.com>
-> > >=20
-> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > ---
-> > >  Makefile                       |  7 +++
-> > >  tools/virtiofsd/virtiofsd.texi | 85 ++++++++++++++++++++++++++++++++=
-++
-> > >  2 files changed, 92 insertions(+)
-> > >  create mode 100644 tools/virtiofsd/virtiofsd.texi
-> >=20
-> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->=20
-> Thanks.
->=20
-> > with some notes at the very end
->=20
-> <snip>
->=20
-> > > +@c man begin DESCRIPTION
-> > > +
-> > > +Share a host directory tree with a guest through a virtio-fs device.=
-  This
-> > > +program is a vhost-user backend that implements the virtio-fs device=
-.  Each
-> > > +virtio-fs device instance requires its own virtiofsd process.
-> > > +
-> > > +This program is designed to work with QEMU's @code{--device vhost-us=
-er-fs-pci}
-> > > +but should work with any virtual machine monitor (VMM) that supports
-> > > +vhost-user.  See the EXAMPLES section below.
-> > > +
-> > > +This program must be run as the root user.
-> >=20
-> > So there's no way for an unprivileged user to do file sharing like they
-> > can with 9p right now ?
->=20
-> Correct.
->=20
-> (Which also makes it a pain for using in a make check)
->=20
-> > >                                              Upon startup the program=
- will
-> > > +switch into a new file system namespace with the shared directory tr=
-ee as its
-> > > +root.  This prevents "file system escapes" due to symlinks and other=
- file
-> > > +system objects that might lead to files outside the shared directory=
-.  The
-> > > +program also sandboxes itself using seccomp(2) to prevent ptrace(2) =
-and other
-> > > +vectors that could allow an attacker to compromise the system after =
-gaining
-> > > +control of the virtiofsd process.
-> > > +
-> > > +@c man end
-> > > +
-> > > +@c man begin OPTIONS
-> > > +@table @option
-> > > +@item -h, --help
-> > > +Print help.
-> > > +@item -V, --version
-> > > +Print version.
-> > > +@item -d, -o debug
-> > > +Enable debug output.
-> > > +@item --syslog
-> > > +Print log messages to syslog instead of stderr.
-> > > +@item -o log_level=3D@var{level}
-> > > +Print only log messages matching @var{level} or more severe.  @var{l=
-evel} is
-> > > +one of @code{err}, @code{warn}, @code{info}, or @code{debug}.  The d=
-efault is
-> > > +@var{info}.
-> > > +@item -o source=3D@var{path}
-> > > +Share host directory tree located at @var{path}.  This option is req=
-uired.
-> > > +@item --socket-path=3D@var{path}, -o vhost_user_socket=3D@var{path}
-> > > +Listen on vhost-user UNIX domain socket at @var{path}.
-> > > +@item --fd=3D@var{fdnum}
-> > > +Accept connections from vhost-user UNIX domain socket file descripto=
-r @var{fdnum}.  The file descriptor must already be listening for connectio=
-ns.
-> > > +@item --thread-pool-size=3D@var{num}
-> > > +Restrict the number of worker threads per request queue to @var{num}=
-.  The default is 64.
-> > > +@item --cache=3D@code{none}|@code{auto}|@code{always}
-> > > +Select the desired trade-off between coherency and performance.  @co=
-de{none}
-> > > +forbids the FUSE client from caching to achieve best coherency at th=
-e cost of
-> > > +performance.  @code{auto} acts similar to NFS with a 1 second metada=
-ta cache
-> > > +timeout.  @code{always} sets a long cache lifetime at the expense of=
- coherency.
-> > > +@item --writeback
-> > > +Enable writeback cache, allowing the FUSE client to buffer and merge=
- write requests.
-> > > +@end table
-> > > +@c man end
-> > > +
-> > > +@c man begin EXAMPLES
-> > > +Export @code{/var/lib/fs/vm001/} on vhost-user UNIX domain socket @c=
-ode{/var/run/vm001-vhost-fs.sock}:
-> > > +
-> > > +@example
-> > > +host# virtiofsd --socket-path=3D/var/run/vm001-vhost-fs.sock -o sour=
-ce=3D/var/lib/fs/vm001
-> > > +host# qemu-system-x86_64 \
-> > > +    -chardev socket,id=3Dchar0,path=3D/var/run/vm001-vhost-fs.sock \
-> > > +    -device vhost-user-fs-pci,chardev=3Dchar0,tag=3Dmyfs \
-> > > +    -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/s=
-hm,share=3Don \
-> > > +    -numa node,memdev=3Dmem \
-> > > +    ...
-> > > +guest# mount -t virtio_fs \
-> > > +    -o default_permissions,allow_other,user_id=3D0,group_id=3D0,root=
-mode=3D040000,dax \
-> > > +    myfs /mnt
-> > > +@end example
-> > > +@c man end
-> > > +
-> > > +@ignore
-> > > +@setfilename virtiofsd
-> > > +@settitle QEMU virtio-fs shared file system daemon
-> > > +
-> > > +@c man begin AUTHOR
-> >=20
-> > s/AUTHOR/COPYRIGHT/
->=20
-> OK
->=20
-> > since this isn't providing any author information.
-> >=20
-> > > +Copyright (C) 2019 Red Hat, Inc.
-> >=20
-> > 2019-2020 !
->=20
-> Time flies...
->=20
-> > And now insert
-> >=20
-> >  @c man end
-> >  @c man begin LICENSE
-> >=20
-> > > +This is free software; see the source for copying conditions.  There=
- is NO
-> > > +warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR P=
-URPOSE.
-> > > +@c man end
-> > > +@end ignore
->=20
-> Hmm, so it ends up like:
->=20
->=20
-> @c man end
->=20
-> @ignore
-> @setfilename virtiofsd
-> @settitle QEMU virtio-fs shared file system daemon
->=20
-> @c man begin COPYRIGHT
-> Copyright (C) 2019-2020 Red Hat, Inc.
-> @c man end
-> @c man begin LICENSE
-> This is free software; see the source for copying conditions.  There is N=
-O
-> warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOS=
-E.
-> @c man end
-> @end ignore
->=20
->=20
-> That results in:
->=20
-> COPYRIGHT
->        Copyright (C) 2019-2020 Red Hat, Inc.
->=20
-> but with no license printed.
-> That's from after a make doing a   nroff -man ./tools/virtiofsd/virtiofsd=
-.1 |more
->=20
-> is that what's expected?  I'd expected to see the license somewhere.
+Which version were you exactly using? Can you still reproduce the
+problem with the latest version of QEMU?
 
-No, that's not expected :-(  It seems my good intentions were killed by
-texi2pod.pl which whitelists the permitted section names, and does not
-allow "LICENSE" as one of them. Either ignore my suggestion, given that
-this bug is pre-existing in all QEMU man pages, or fix texi2pod.pl to
-allow LICENSE.
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1657841
+
+Title:
+  QEMU Intel HAX Windows
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Hi,
+
+  Using the latest exe's from http://qemu.weilnetz.de/w32/
+
+  C:\Users\therock247uk\Desktop\jan\qemu-w64-setup-20170113>qemu-system-i38=
+6 --enable-hax -m 512 -cdrom C:\Users\therock247uk\Desktop\jan\en_windows_x=
+p_professional_with_service_pack_3_x86_cd_x14-80428.iso
+  HAX is working and emulator runs in fast virt mode.
+  Failed to allocate 20000000 memory
+
+  The emulator seems to hang/get stuck during booting from the CD taking
+  out --enable-hax allows it to boot.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1657841/+subscriptions
 
