@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E136313716B
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:36:35 +0100 (CET)
-Received: from localhost ([::1]:48086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B420513717C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:39:25 +0100 (CET)
+Received: from localhost ([::1]:48122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipwKw-00038x-9I
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:36:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51987)
+	id 1ipwNg-0006rn-Hf
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:39:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52092)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ipwGE-0006Ot-Ju
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:31:44 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ipwGI-0006S4-8W
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:31:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ipwGD-0004HE-C4
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:31:42 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25065
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ipwGG-0004MK-Df
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:31:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30875
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ipwGD-0004Dl-44
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:31:41 -0500
+ id 1ipwGG-0004Jv-90
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:31:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578670296;
+ s=mimecast20190719; t=1578670302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6iwpJ+Xcza8S40JbJyuHHs29eFa1MUlrSIufdGxMdbs=;
- b=WD3la8cJz7PVKnlKvd/kNzjjEZtkaFB4qHOKUnSzQElpE582IAVg+t60IfuDwtBuzDOlZI
- sYQF0hoVRzYW2bhRvmjEQXthhOgC2+kF1GjdvzChC4H44he8uKxR2XujZOKT3DLCmpB/iR
- g0CYV6WdcK2Pps8N68bqBidEO33f9mA=
+ bh=9VvJrqxGIRFgUUFb0eu+CzZzOXBYzQDf7ACqkiqvt4I=;
+ b=aFmAnHnKkNpoztY7/GYsAV+HPjhi57AM6EosM8cnjmLmO3+fLua+MnBHWtiDCX2sDHe7wH
+ LxAHiMDe6Ki+c5atzDIFFCfmi/dObY38MRAqF1ELr92Dbe/AVhGUxoSHXxWcyXdL8HFyhS
+ PPIvmeK0bDSKdBP2qdiWkDqdRgqyPQo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-VPqZf1VMPBqMThgwf6C9rg-1; Fri, 10 Jan 2020 10:31:35 -0500
+ us-mta-326--Vvd5IiLMnCxksoGjMzqeQ-1; Fri, 10 Jan 2020 10:31:41 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76DB2911BD
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 15:31:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3A99803065
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 15:31:40 +0000 (UTC)
 Received: from localhost (ovpn-112-59.ams2.redhat.com [10.36.112.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9C6C35C1B5;
- Fri, 10 Jan 2020 15:31:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D6515C1B5;
+ Fri, 10 Jan 2020 15:31:38 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/26] qdev: move helper function to monitor/misc
-Date: Fri, 10 Jan 2020 19:30:17 +0400
-Message-Id: <20200110153039.1379601-5-marcandre.lureau@redhat.com>
+Subject: [PATCH 05/26] object: avoid extra class property key duplication
+Date: Fri, 10 Jan 2020 19:30:18 +0400
+Message-Id: <20200110153039.1379601-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
 References: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: VPqZf1VMPBqMThgwf6C9rg-1
+X-MC-Unique: -Vvd5IiLMnCxksoGjMzqeQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,107 +79,45 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the one-user function to the place it is being used.
+Like object properties, no need to duplicate property name, as it is
+owned already by ObjectProperty value.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- include/hw/qdev-core.h |  2 --
- hw/core/qdev.c         | 26 --------------------------
- monitor/misc.c         | 26 ++++++++++++++++++++++++++
- 3 files changed, 26 insertions(+), 28 deletions(-)
+ qom/object.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 1518495b1e..6b0e7b265d 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -457,8 +457,6 @@ extern bool qdev_hot_removed;
+diff --git a/qom/object.c b/qom/object.c
+index 8453e4ac91..29101fdcd4 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -307,7 +307,7 @@ static void type_initialize(TypeImpl *ti)
+         memcpy(ti->class, parent->class, parent->class_size);
+         ti->class->interfaces =3D NULL;
+         ti->class->properties =3D g_hash_table_new_full(
+-            g_str_hash, g_str_equal, g_free, object_property_free);
++            g_str_hash, g_str_equal, NULL, object_property_free);
 =20
- char *qdev_get_dev_path(DeviceState *dev);
+         for (e =3D parent->class->interfaces; e; e =3D e->next) {
+             InterfaceClass *iface =3D e->data;
+@@ -334,7 +334,7 @@ static void type_initialize(TypeImpl *ti)
+         }
+     } else {
+         ti->class->properties =3D g_hash_table_new_full(
+-            g_str_hash, g_str_equal, g_free, object_property_free);
++            g_str_hash, g_str_equal, NULL, object_property_free);
+     }
 =20
--GSList *qdev_build_hotpluggable_device_list(Object *peripheral);
--
- void qbus_set_hotplug_handler(BusState *bus, Object *handler, Error **errp=
-);
+     ti->class->type =3D ti;
+@@ -1178,7 +1178,7 @@ object_class_property_add(ObjectClass *klass,
+     prop->release =3D release;
+     prop->opaque =3D opaque;
 =20
- void qbus_set_bus_hotplug_handler(BusState *bus, Error **errp);
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index c2aa7f91a6..a520d7fa89 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -760,32 +760,6 @@ void qdev_alias_all_properties(DeviceState *target, Ob=
-ject *source)
-     } while (class !=3D object_class_by_name(TYPE_DEVICE));
+-    g_hash_table_insert(klass->properties, g_strdup(name), prop);
++    g_hash_table_insert(klass->properties, prop->name, prop);
+=20
+     return prop;
  }
-=20
--static int qdev_add_hotpluggable_device(Object *obj, void *opaque)
--{
--    GSList **list =3D opaque;
--    DeviceState *dev =3D (DeviceState *)object_dynamic_cast(OBJECT(obj),
--                                                          TYPE_DEVICE);
--
--    if (dev =3D=3D NULL) {
--        return 0;
--    }
--
--    if (dev->realized && object_property_get_bool(obj, "hotpluggable", NUL=
-L)) {
--        *list =3D g_slist_append(*list, dev);
--    }
--
--    return 0;
--}
--
--GSList *qdev_build_hotpluggable_device_list(Object *peripheral)
--{
--    GSList *list =3D NULL;
--
--    object_child_foreach(peripheral, qdev_add_hotpluggable_device, &list);
--
--    return list;
--}
--
- static bool device_get_realized(Object *obj, Error **errp)
- {
-     DeviceState *dev =3D DEVICE(obj);
-diff --git a/monitor/misc.c b/monitor/misc.c
-index a04d7edde0..be3c700511 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -1954,6 +1954,32 @@ void object_add_completion(ReadLineState *rs, int nb=
-_args, const char *str)
-     g_slist_free(list);
- }
-=20
-+static int qdev_add_hotpluggable_device(Object *obj, void *opaque)
-+{
-+    GSList **list =3D opaque;
-+    DeviceState *dev =3D (DeviceState *)object_dynamic_cast(OBJECT(obj),
-+                                                          TYPE_DEVICE);
-+
-+    if (dev =3D=3D NULL) {
-+        return 0;
-+    }
-+
-+    if (dev->realized && object_property_get_bool(obj, "hotpluggable", NUL=
-L)) {
-+        *list =3D g_slist_append(*list, dev);
-+    }
-+
-+    return 0;
-+}
-+
-+static GSList *qdev_build_hotpluggable_device_list(Object *peripheral)
-+{
-+    GSList *list =3D NULL;
-+
-+    object_child_foreach(peripheral, qdev_add_hotpluggable_device, &list);
-+
-+    return list;
-+}
-+
- static void peripheral_device_del_completion(ReadLineState *rs,
-                                              const char *str, size_t len)
- {
 --=20
 2.25.0.rc1.20.g2443f3f80d.dirty
 
