@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C168137784
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 20:51:35 +0100 (CET)
-Received: from localhost ([::1]:51120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E86013778F
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 20:57:17 +0100 (CET)
+Received: from localhost ([::1]:51188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iq0Ji-0005Tx-BX
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 14:51:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45434)
+	id 1iq0PE-0001Qh-Ez
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 14:57:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46349)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iq0BJ-0002LJ-RR
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 14:42:54 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iq0OP-0000Zt-Bd
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 14:56:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iq0BI-0006Ss-G4
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 14:42:53 -0500
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:45096)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iq0OO-0006Vk-8g
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 14:56:25 -0500
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:42785)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iq0BI-0006Jo-8s
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 14:42:52 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id n16so2851731oie.12
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 11:42:48 -0800 (PST)
+ id 1iq0OO-0006Rt-25
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 14:56:24 -0500
+Received: by mail-ot1-x32d.google.com with SMTP id 66so3105966otd.9
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 11:56:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iOuOSyc9wjfQZVNf3uLAdiiSX40tvJj1DRMsJp182M0=;
- b=NcgceyrOHZs/xX2g512MwqXEnUyHs/bIDb2rhCmNlMwfmWqD4/z89IXFQ+PeQTRSGp
- CQLNG/pKN0A5Z5YZ7isc8BgJ2yNwWKVeI9kDo4D5DVVrrSaEwIb62JIKBkJVxG0Pr8j8
- xfzcpxJvYct+i2gOuHv45s83Vr3jSvo0EXYiVqRBmWb1AjmmFHVpIDvq/ivQdjA02C+Y
- 5XF4ONzf0DIJcVNIlBLUnmvn2i+ThgMXWNA6Xm8I82nMnpcvPqV8RAYSwSQB+9J3qPOx
- K3HE7QNhaKZQ7Dym+H7u5oHcUQQ9uSy/73uDp5S14hdojdGqHwZyhJMhFd61UL9gb01K
- Xejg==
+ :cc; bh=a+E//MlcJw7X7i6kiN0VA1+qmTJPw7LyaSR1hwCzQQw=;
+ b=h8+KDmP1F6EUZiQYF8wJtE3+MUF3gQLn5coMPlxbqk4//u42htUtrG4GSXQqdrzdUd
+ lbUjLvCLXZB0roX42sY3a8mPDngRYO+rTZXtnlCH0eoUa8iYfxoG9wn28rdm0O1s+GSa
+ uqROzVDVBImOAVPMUDj9RqhwiFjy0BnO9ZP91n8LpZX0xJXYNEaBsu2yv0lDrmzNYPAp
+ hq+8AfPt9G6FWs1oSiOxS8X5acU9B01iC+lIDCBwCeLcPtTSyV7+xzx/4xCwKkOYU7ZN
+ tclvXUMC4hNyEvUNm3st3PwSGPU1KOsDbXjX4+Lsg28DytK0dEm7N9Gl0vLyyAvJFoh5
+ yGRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=iOuOSyc9wjfQZVNf3uLAdiiSX40tvJj1DRMsJp182M0=;
- b=dErhXaPld74pxYV8ccu6YFAwYLs0CVBNAIBCcS03UjlZTZ8NaQ+sVrmrs8XEDL5zPK
- snMC4ThQpnrhXZO4oLslv4KgtQib4KfjQ8WV68LVFTBn0R++Sl05FBeo1JsN+UQKnLQP
- TPPQPnHPNq3hFWthP0eLz4Oh9lRpuXV/EAJt13kA1y+asSj6dNQfowEE5Ir83ReobV0V
- uvk6CPEOaQvm10yXxzvwvIkX/vCt8rI4bZDDPmN2Npz9NZAXK/iZ2u/bAZ/DCZINRXu/
- l0AZfpqyHQ3sLhrlgwohvqpAR+B63LDxZsQIwKjNVZ462qDyGHwzVYQR8u40kbnJi84i
- ncnA==
-X-Gm-Message-State: APjAAAV3oYy4c2ok79poLkTwlaTs8tMa87AF4VmVeOKliwGYpEupDLBl
- e04MfbAqDRtLS+1qyXfA/PGy/ihqMwwFEzIHwWI=
-X-Google-Smtp-Source: APXvYqy45LeF9YOTjZuzBYutQu0rS8NDILCBDQ2H1Gq8VioOwQttIe5SrSKHUQkX9o2Syejs7HcXDfFt7E1TRshaSNk=
-X-Received: by 2002:aca:34c1:: with SMTP id b184mr3627548oia.62.1578685367660; 
- Fri, 10 Jan 2020 11:42:47 -0800 (PST)
+ bh=a+E//MlcJw7X7i6kiN0VA1+qmTJPw7LyaSR1hwCzQQw=;
+ b=PR3tZlkJiSryygY6kFhnL5HMMBt6T/G4Yo4IEItbrTfmeRmpqsRUTBHG7mHfdV+OE7
+ /1IAAG9GECmDP4REjKTJg4d/he3sxoGBRTF0TmOYRjh7fv4iVTDCpjHPvNqXvVh2oLXX
+ a+Z7NRMKGR6YdICQFBhaMTbvnJc/Fb+Iy+EMPqWbEnPNOoxeu4bvtKDq3uCXXlygW6iT
+ lhFkd+SiI8e+LTolGVfSUe/C4r0K2p2DJP8cHraARH8+8skdlhE8rBT2zefN7e29shvW
+ KX25QXyuVAu2NikV0bg3DhggMWmbfcREkdgvYsW2Pe4UVbLECx57GVUIOmuFQ1HTttVF
+ vjQw==
+X-Gm-Message-State: APjAAAWwk0jORNhfUR6tERbVPK2Sz5XegApsgZ5qh0lhRKWOV3D8z9N/
+ emUzc2Q/OymcVdG1woRzFLvIGX3dHaEGT87JfGk=
+X-Google-Smtp-Source: APXvYqyIFyVIMf+RuS0fsMqMcwRa/NBpPdpscwIg1yGEFG5YBP5QVBasBq4XJVz07iRY0Fvd9EUIk/8QN0V1u3P+fXA=
+X-Received: by 2002:a9d:7305:: with SMTP id e5mr3814333otk.64.1578686183433;
+ Fri, 10 Jan 2020 11:56:23 -0800 (PST)
 MIME-Version: 1.0
 References: <20190319144013.26584-1-pbonzini@redhat.com>
  <alpine.BSF.2.21.9999.1903192350550.11467@zero.eik.bme.hu>
@@ -56,16 +56,17 @@ References: <20190319144013.26584-1-pbonzini@redhat.com>
  <d9d5ac96-c0f5-dd83-d305-10e20c745dd1@redhat.com>
  <9b92b3c4-c5d5-9a51-7b96-50dcf113ee5a@redhat.com>
  <20200106064526.zh6rt4wbibfjrscu@sirius.home.kraxel.org>
-In-Reply-To: <20200106064526.zh6rt4wbibfjrscu@sirius.home.kraxel.org>
+ <CAL1e-=iD+o7-MOuOAjtp0oEWA6ep9nXQuT0jeR7aOnuN1M6fqw@mail.gmail.com>
+In-Reply-To: <CAL1e-=iD+o7-MOuOAjtp0oEWA6ep9nXQuT0jeR7aOnuN1M6fqw@mail.gmail.com>
 From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 10 Jan 2020 20:42:31 +0100
-Message-ID: <CAL1e-=iD+o7-MOuOAjtp0oEWA6ep9nXQuT0jeR7aOnuN1M6fqw@mail.gmail.com>
+Date: Fri, 10 Jan 2020 20:56:00 +0100
+Message-ID: <CAL1e-=iB7hXKbMZiPthxrA_3OVEL7GXhp-NQ4E3w9g04FEPCaQ@mail.gmail.com>
 Subject: Re: [Qemu-devel] What should a virtual board emulate?
 To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000008d3622059bce547e"
+Content-Type: multipart/alternative; boundary="0000000000002ceac2059bce857c"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22f
+X-Received-From: 2607:f8b0:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,98 +89,123 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008d3622059bce547e
+--0000000000002ceac2059bce857c
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-7:45 AM Pon, 06.01.2020. Gerd Hoffmann <kraxel@redhat.com> =D1=98=D0=B5 =D0=
-=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+8:42 PM Pet, 10.01.2020. Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+=D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
 >
->   Hi,
->
-> > 78c37d88f1b8b0b3ebcc632c458f0c3779fe2951 is the first bad commit
-> > commit 78c37d88f1b8b0b3ebcc632c458f0c3779fe2951
-> > Author: Paolo Bonzini <pbonzini@redhat.com>
-> > Date:   Tue Mar 19 15:37:19 2019 +0100
+> 7:45 AM Pon, 06.01.2020. Gerd Hoffmann <kraxel@redhat.com> =D1=98=D0=B5 =
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
 > >
-> >     mips-fulong2e: obey -vga none
+> >   Hi,
 > >
-> >     Do not create an ATI VGA if "-vga none" was passed on the command
+> > > 78c37d88f1b8b0b3ebcc632c458f0c3779fe2951 is the first bad commit
+> > > commit 78c37d88f1b8b0b3ebcc632c458f0c3779fe2951
+> > > Author: Paolo Bonzini <pbonzini@redhat.com>
+> > > Date:   Tue Mar 19 15:37:19 2019 +0100
+> > >
+> > >     mips-fulong2e: obey -vga none
+> > >
+> > >     Do not create an ATI VGA if "-vga none" was passed on the command
 line.
->
-> > 1/ the Radeon chip is soldered on the motherboard,
 > >
-> > 2/ the default BIOS expects the Radeon chip to be
-> >    unconditionally present,
-> >
-> > I insist this patch is incorrect for the particular case of the
+> > > 1/ the Radeon chip is soldered on the motherboard,
+> > >
+> > > 2/ the default BIOS expects the Radeon chip to be
+> > >    unconditionally present,
+> > >
+> > > I insist this patch is incorrect for the particular case of the
 Fuloong2e
-> > board. I plan to revert it when I post the test.
+> > > board. I plan to revert it when I post the test.
+> >
+> > Yep.  IMHO devices which you can't unplug on the physical board should
+> > be present even with "qemu -nodefaults".
+> >
 >
-> Yep.  IMHO devices which you can't unplug on the physical board should
-> be present even with "qemu -nodefaults".
->
+> I have to agree with Philippe's approach. That is not to say that
+Zoltan's efforts are not appreciated.
 
-I have to agree with Philippe's approach. That is not to say that Zoltan's
-efforts are not appreciated. Just that the patch in question that broke
-Foolong scenario didn't fit quite well, however some other its
-reincarnation may have better destiny.
+I meant to say also Paolo's. But, I didn't mean to fingerpoint. It is quite
+normal that from time to time, a well-intended change may actually produce
+unexpected breaking. All is well, no bad feelings at all.
 
-Sincerely,
+Yours,
 Aleksandar
 
-> cheers,
->   Gerd
+Just that the patch in question that broke Foolong scenario didn't fit
+quite well, however some other its reincarnation may have better destiny.
 >
+> Sincerely,
+> Aleksandar
 >
+> > cheers,
+> >   Gerd
+> >
+> >
 
---0000000000008d3622059bce547e
+--0000000000002ceac2059bce857c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <p dir=3D"ltr"></p>
-<p dir=3D"ltr">7:45 AM Pon, 06.01.2020. Gerd Hoffmann &lt;<a href=3D"mailto=
-:kraxel@redhat.com">kraxel@redhat.com</a>&gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=
-=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+<p dir=3D"ltr">8:42 PM Pet, 10.01.2020. Aleksandar Markovic &lt;<a href=3D"=
+mailto:aleksandar.m.mail@gmail.com">aleksandar.m.mail@gmail.com</a>&gt; =D1=
+=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
 &gt;<br>
-&gt; =C2=A0 Hi,<br>
+&gt; 7:45 AM Pon, 06.01.2020. Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@re=
+dhat.com">kraxel@redhat.com</a>&gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=
+=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+&gt; &gt;<br>
+&gt; &gt; =C2=A0 Hi,<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; 78c37d88f1b8b0b3ebcc632c458f0c3779fe2951 is the first bad co=
+mmit<br>
+&gt; &gt; &gt; commit 78c37d88f1b8b0b3ebcc632c458f0c3779fe2951<br>
+&gt; &gt; &gt; Author: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.=
+com">pbonzini@redhat.com</a>&gt;<br>
+&gt; &gt; &gt; Date:=C2=A0 =C2=A0Tue Mar 19 15:37:19 2019 +0100<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0mips-fulong2e: obey -vga none<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0Do not create an ATI VGA if &quot;-vga no=
+ne&quot; was passed on the command line.<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; 1/ the Radeon chip is soldered on the motherboard,<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; 2/ the default BIOS expects the Radeon chip to be<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 unconditionally present,<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; I insist this patch is incorrect for the particular case of =
+the Fuloong2e<br>
+&gt; &gt; &gt; board. I plan to revert it when I post the test.<br>
+&gt; &gt;<br>
+&gt; &gt; Yep.=C2=A0 IMHO devices which you can&#39;t unplug on the physica=
+l board should<br>
+&gt; &gt; be present even with &quot;qemu -nodefaults&quot;.<br>
+&gt; &gt;<br>
 &gt;<br>
-&gt; &gt; 78c37d88f1b8b0b3ebcc632c458f0c3779fe2951 is the first bad commit<=
-br>
-&gt; &gt; commit 78c37d88f1b8b0b3ebcc632c458f0c3779fe2951<br>
-&gt; &gt; Author: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">=
-pbonzini@redhat.com</a>&gt;<br>
-&gt; &gt; Date:=C2=A0 =C2=A0Tue Mar 19 15:37:19 2019 +0100<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0mips-fulong2e: obey -vga none<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0Do not create an ATI VGA if &quot;-vga none&qu=
-ot; was passed on the command line.<br>
-&gt;<br>
-&gt; &gt; 1/ the Radeon chip is soldered on the motherboard,<br>
-&gt; &gt; <br>
-&gt; &gt; 2/ the default BIOS expects the Radeon chip to be<br>
-&gt; &gt;=C2=A0 =C2=A0 unconditionally present,<br>
-&gt; &gt; <br>
-&gt; &gt; I insist this patch is incorrect for the particular case of the F=
-uloong2e<br>
-&gt; &gt; board. I plan to revert it when I post the test.<br>
-&gt;<br>
-&gt; Yep.=C2=A0 IMHO devices which you can&#39;t unplug on the physical boa=
-rd should<br>
-&gt; be present even with &quot;qemu -nodefaults&quot;.<br>
-&gt;</p>
-<p dir=3D"ltr">I have to agree with Philippe&#39;s approach. That is not to=
- say that Zoltan&#39;s efforts are not appreciated. Just that the patch in =
-question that broke Foolong scenario didn&#39;t fit quite well, however som=
-e other its reincarnation may have better destiny.</p>
-<p dir=3D"ltr">Sincerely,<br>
+&gt; I have to agree with Philippe&#39;s approach. That is not to say that =
+Zoltan&#39;s efforts are not appreciated.</p>
+<p dir=3D"ltr">I meant to say also Paolo&#39;s. But, I didn&#39;t mean to f=
+ingerpoint. It is quite normal that from time to time, a well-intended chan=
+ge may actually produce unexpected breaking. All is well, no bad feelings a=
+t all.</p>
+<p dir=3D"ltr">Yours,<br>
 Aleksandar</p>
-<p dir=3D"ltr">&gt; cheers,<br>
-&gt; =C2=A0 Gerd<br>
+<p dir=3D"ltr"> Just that the patch in question that broke Foolong scenario=
+ didn&#39;t fit quite well, however some other its reincarnation may have b=
+etter destiny.<br>
 &gt;<br>
+&gt; Sincerely,<br>
+&gt; Aleksandar<br>
 &gt;<br>
+&gt; &gt; cheers,<br>
+&gt; &gt; =C2=A0 Gerd<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
 </p>
 
---0000000000008d3622059bce547e--
+--0000000000002ceac2059bce857c--
 
