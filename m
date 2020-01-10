@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32545137198
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:44:51 +0100 (CET)
-Received: from localhost ([::1]:48204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A578137161
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:35:20 +0100 (CET)
+Received: from localhost ([::1]:48040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipwSv-0006dY-O6
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:44:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53337)
+	id 1ipwJi-0000vH-La
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:35:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54106)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ipwGi-0006sy-IC
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:32:13 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ipwGv-00078k-7D
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:32:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ipwGh-0005d1-BV
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:32:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28704
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ipwGt-0006Lz-9f
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:32:25 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43496
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ipwGh-0005bX-6d
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:32:11 -0500
+ id 1ipwGt-0006KA-35
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:32:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578670330;
+ s=mimecast20190719; t=1578670342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LuRnPGYw4ga0F7e6YpZFaN9OO9bJIZy0z2/K6cAho1U=;
- b=FWm5k5Zq9HnkSvE9rpXnDDP9fRifrc9svU+3Mzjm5gnSmW20vItvtixki4DdxMg962lK2p
- oY2ThCCW3EOVq/nnBaqVqEwU+uSn3BAOKF1EVuPVQa6oOGuKK0TAmnhpAGmchmZ0ck5a5s
- InkiKvc/aV7ie3MsUk17fKH9uflogdU=
+ bh=O4UVi3TzSWJaOBDb31vHmvxKuIe5kx5L8jAvH04lmfw=;
+ b=PqkHp2iDcow1lpeHwdEP5UUAOYmmZxrUHL5h1vmRK1aHxhS8epBAaFL6M6yN8BIOMgcoKv
+ 2b/iF7XxKziyCU+pQoezW9UxXlMQW4XwHm0bTWUJ1q2maHVl+9bmyWpz6/hIMuYAE4boHL
+ tMaqIsz4914iFnupRcGhsWVw2vhHu+A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-am0MjwHhMyqp60HxgjqvAw-1; Fri, 10 Jan 2020 10:32:07 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-213-6ngto2FWN_WN7P3d__djhQ-1; Fri, 10 Jan 2020 10:32:21 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D830412CE5C
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 15:32:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87AC3108839F
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 15:32:20 +0000 (UTC)
 Received: from localhost (ovpn-112-59.ams2.redhat.com [10.36.112.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9CED55C1B5;
- Fri, 10 Jan 2020 15:32:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 30202277A4;
+ Fri, 10 Jan 2020 15:32:12 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/26] object: add object_property_get_defaut()
-Date: Fri, 10 Jan 2020 19:30:20 +0400
-Message-Id: <20200110153039.1379601-8-marcandre.lureau@redhat.com>
+Subject: [PATCH 08/26] object: make object_class_property_add* return property
+Date: Fri, 10 Jan 2020 19:30:21 +0400
+Message-Id: <20200110153039.1379601-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
 References: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: am0MjwHhMyqp60HxgjqvAw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 6ngto2FWN_WN7P3d__djhQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,80 +79,340 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The new callback will be used in following "object: add
-object_property_set_defaut_{bool,str,int,uint}()" and "vl: print
-default value in object help" patches.
+This will help calling other ObjectProperty associated functions
+easily after.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- include/qom/object.h | 17 +++++++++++++++++
- qom/object.c         |  9 +++++++++
- 2 files changed, 26 insertions(+)
+ include/qom/object.h | 24 +++++++++++------
+ qom/object.c         | 64 ++++++++++++++++++++++++++++++--------------
+ 2 files changed, 60 insertions(+), 28 deletions(-)
 
 diff --git a/include/qom/object.h b/include/qom/object.h
-index 29f47d3b35..ca47308ac4 100644
+index ca47308ac4..9f52bc365b 100644
 --- a/include/qom/object.h
 +++ b/include/qom/object.h
-@@ -367,6 +367,13 @@ typedef void (ObjectPropertyRelease)(Object *obj,
+@@ -1556,7 +1556,8 @@ void object_property_add_str(Object *obj, const char =
+*name,
+                              void (*set)(Object *, const char *, Error **)=
+,
+                              Error **errp);
+=20
+-void object_class_property_add_str(ObjectClass *klass, const char *name,
++ObjectProperty *object_class_property_add_str(ObjectClass *klass,
++                                   const char *name,
+                                    char *(*get)(Object *, Error **),
+                                    void (*set)(Object *, const char *,
+                                                Error **),
+@@ -1578,7 +1579,8 @@ void object_property_add_bool(Object *obj, const char=
+ *name,
+                               void (*set)(Object *, bool, Error **),
+                               Error **errp);
+=20
+-void object_class_property_add_bool(ObjectClass *klass, const char *name,
++ObjectProperty *object_class_property_add_bool(ObjectClass *klass,
++                                    const char *name,
+                                     bool (*get)(Object *, Error **),
+                                     void (*set)(Object *, bool, Error **),
+                                     Error **errp);
+@@ -1602,7 +1604,8 @@ void object_property_add_enum(Object *obj, const char=
+ *name,
+                               void (*set)(Object *, int, Error **),
+                               Error **errp);
+=20
+-void object_class_property_add_enum(ObjectClass *klass, const char *name,
++ObjectProperty *object_class_property_add_enum(ObjectClass *klass,
++                                    const char *name,
+                                     const char *typename,
+                                     const QEnumLookup *lookup,
+                                     int (*get)(Object *, Error **),
+@@ -1623,7 +1626,8 @@ void object_property_add_tm(Object *obj, const char *=
+name,
+                             void (*get)(Object *, struct tm *, Error **),
+                             Error **errp);
+=20
+-void object_class_property_add_tm(ObjectClass *klass, const char *name,
++ObjectProperty *object_class_property_add_tm(ObjectClass *klass,
++                                  const char *name,
+                                   void (*get)(Object *, struct tm *, Error=
+ **),
+                                   Error **errp);
+=20
+@@ -1639,7 +1643,8 @@ void object_class_property_add_tm(ObjectClass *klass,=
+ const char *name,
   */
- typedef void (ObjectPropertyInit)(Object *obj, ObjectProperty *prop);
+ void object_property_add_uint8_ptr(Object *obj, const char *name,
+                                    const uint8_t *v, Error **errp);
+-void object_class_property_add_uint8_ptr(ObjectClass *klass, const char *n=
+ame,
++ObjectProperty *object_class_property_add_uint8_ptr(ObjectClass *klass,
++                                         const char *name,
+                                          const uint8_t *v, Error **errp);
 =20
-+/**
-+ * ObjectPropertyGetDefault:
-+ *
-+ * Get an allocated string representation of the default value.
-+ */
-+typedef char *(ObjectPropertyGetDefault)(ObjectProperty *prop);
-+
- struct ObjectProperty
- {
-     gchar *name;
-@@ -377,6 +384,7 @@ struct ObjectProperty
-     ObjectPropertyResolve *resolve;
-     ObjectPropertyRelease *release;
-     ObjectPropertyInit *init;
-+    ObjectPropertyGetDefault *get_default;
-     void *opaque;
- };
-=20
-@@ -1233,6 +1241,15 @@ bool object_property_get_bool(Object *obj, const cha=
-r *name,
- void object_property_set_int(Object *obj, int64_t value,
-                              const char *name, Error **errp);
-=20
-+/**
-+ * object_property_get_defaut:
-+ * @prop: the property to get default value
-+ *
-+ * Return an allocated string that represents the default property
-+ * value or NULL.
-+ */
-+char *object_property_get_default(ObjectProperty *prop);
-+
  /**
-  * object_property_get_int:
-  * @obj: the object
+@@ -1654,7 +1659,8 @@ void object_class_property_add_uint8_ptr(ObjectClass =
+*klass, const char *name,
+  */
+ void object_property_add_uint16_ptr(Object *obj, const char *name,
+                                     const uint16_t *v, Error **errp);
+-void object_class_property_add_uint16_ptr(ObjectClass *klass, const char *=
+name,
++ObjectProperty *object_class_property_add_uint16_ptr(ObjectClass *klass,
++                                          const char *name,
+                                           const uint16_t *v, Error **errp)=
+;
+=20
+ /**
+@@ -1669,7 +1675,8 @@ void object_class_property_add_uint16_ptr(ObjectClass=
+ *klass, const char *name,
+  */
+ void object_property_add_uint32_ptr(Object *obj, const char *name,
+                                     const uint32_t *v, Error **errp);
+-void object_class_property_add_uint32_ptr(ObjectClass *klass, const char *=
+name,
++ObjectProperty *object_class_property_add_uint32_ptr(ObjectClass *klass,
++                                          const char *name,
+                                           const uint32_t *v, Error **errp)=
+;
+=20
+ /**
+@@ -1684,7 +1691,8 @@ void object_class_property_add_uint32_ptr(ObjectClass=
+ *klass, const char *name,
+  */
+ void object_property_add_uint64_ptr(Object *obj, const char *name,
+                                     const uint64_t *v, Error **errp);
+-void object_class_property_add_uint64_ptr(ObjectClass *klass, const char *=
+name,
++ObjectProperty *object_class_property_add_uint64_ptr(ObjectClass *klass,
++                                          const char *name,
+                                           const uint64_t *v, Error **errp)=
+;
+=20
+ /**
 diff --git a/qom/object.c b/qom/object.c
-index 1e9113bfc8..b319db4ac6 100644
+index b319db4ac6..a4c7bb01e6 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -1429,6 +1429,15 @@ int64_t object_property_get_int(Object *obj, const c=
-har *name,
-     return retval;
+@@ -2065,7 +2065,8 @@ void object_property_add_str(Object *obj, const char =
+*name,
+     }
  }
 =20
-+char *object_property_get_default(ObjectProperty *prop)
-+{
-+    if (!prop->get_default) {
-+        return NULL;
-+    }
-+
-+    return prop->get_default(prop);
-+}
-+
- void object_property_set_uint(Object *obj, uint64_t value,
-                               const char *name, Error **errp)
+-void object_class_property_add_str(ObjectClass *klass, const char *name,
++ObjectProperty *
++object_class_property_add_str(ObjectClass *klass, const char *name,
+                                    char *(*get)(Object *, Error **),
+                                    void (*set)(Object *, const char *,
+                                                Error **),
+@@ -2073,11 +2074,12 @@ void object_class_property_add_str(ObjectClass *kla=
+ss, const char *name,
  {
+     Error *local_err =3D NULL;
+     StringProperty *prop =3D g_malloc0(sizeof(*prop));
++    ObjectProperty *rv;
+=20
+     prop->get =3D get;
+     prop->set =3D set;
+=20
+-    object_class_property_add(klass, name, "string",
++    rv =3D object_class_property_add(klass, name, "string",
+                               get ? property_get_str : NULL,
+                               set ? property_set_str : NULL,
+                               property_release_str,
+@@ -2086,6 +2088,8 @@ void object_class_property_add_str(ObjectClass *klass=
+, const char *name,
+         error_propagate(errp, local_err);
+         g_free(prop);
+     }
++
++    return rv;
+ }
+=20
+ typedef struct BoolProperty
+@@ -2155,18 +2159,20 @@ void object_property_add_bool(Object *obj, const ch=
+ar *name,
+     }
+ }
+=20
+-void object_class_property_add_bool(ObjectClass *klass, const char *name,
++ObjectProperty *
++object_class_property_add_bool(ObjectClass *klass, const char *name,
+                                     bool (*get)(Object *, Error **),
+                                     void (*set)(Object *, bool, Error **),
+                                     Error **errp)
+ {
+     Error *local_err =3D NULL;
+     BoolProperty *prop =3D g_malloc0(sizeof(*prop));
++    ObjectProperty *rv;
+=20
+     prop->get =3D get;
+     prop->set =3D set;
+=20
+-    object_class_property_add(klass, name, "bool",
++    rv =3D object_class_property_add(klass, name, "bool",
+                               get ? property_get_bool : NULL,
+                               set ? property_set_bool : NULL,
+                               property_release_bool,
+@@ -2175,6 +2181,8 @@ void object_class_property_add_bool(ObjectClass *klas=
+s, const char *name,
+         error_propagate(errp, local_err);
+         g_free(prop);
+     }
++
++    return rv;
+ }
+=20
+ static void property_get_enum(Object *obj, Visitor *v, const char *name,
+@@ -2240,7 +2248,8 @@ void object_property_add_enum(Object *obj, const char=
+ *name,
+     }
+ }
+=20
+-void object_class_property_add_enum(ObjectClass *klass, const char *name,
++ObjectProperty *
++object_class_property_add_enum(ObjectClass *klass, const char *name,
+                                     const char *typename,
+                                     const QEnumLookup *lookup,
+                                     int (*get)(Object *, Error **),
+@@ -2249,12 +2258,13 @@ void object_class_property_add_enum(ObjectClass *kl=
+ass, const char *name,
+ {
+     Error *local_err =3D NULL;
+     EnumProperty *prop =3D g_malloc(sizeof(*prop));
++    ObjectProperty *rv;
+=20
+     prop->lookup =3D lookup;
+     prop->get =3D get;
+     prop->set =3D set;
+=20
+-    object_class_property_add(klass, name, typename,
++    rv =3D object_class_property_add(klass, name, typename,
+                               get ? property_get_enum : NULL,
+                               set ? property_set_enum : NULL,
+                               property_release_enum,
+@@ -2263,6 +2273,8 @@ void object_class_property_add_enum(ObjectClass *klas=
+s, const char *name,
+         error_propagate(errp, local_err);
+         g_free(prop);
+     }
++
++    return rv;
+ }
+=20
+ typedef struct TMProperty {
+@@ -2343,16 +2355,18 @@ void object_property_add_tm(Object *obj, const char=
+ *name,
+     }
+ }
+=20
+-void object_class_property_add_tm(ObjectClass *klass, const char *name,
++ObjectProperty *
++object_class_property_add_tm(ObjectClass *klass, const char *name,
+                                   void (*get)(Object *, struct tm *, Error=
+ **),
+                                   Error **errp)
+ {
+     Error *local_err =3D NULL;
+     TMProperty *prop =3D g_malloc0(sizeof(*prop));
++    ObjectProperty *rv;
+=20
+     prop->get =3D get;
+=20
+-    object_class_property_add(klass, name, "struct tm",
++    rv =3D object_class_property_add(klass, name, "struct tm",
+                               get ? property_get_tm : NULL, NULL,
+                               property_release_tm,
+                               prop, &local_err);
+@@ -2360,6 +2374,8 @@ void object_class_property_add_tm(ObjectClass *klass,=
+ const char *name,
+         error_propagate(errp, local_err);
+         g_free(prop);
+     }
++
++    return rv;
+ }
+=20
+ static char *qdev_get_type(Object *obj, Error **errp)
+@@ -2402,11 +2418,13 @@ void object_property_add_uint8_ptr(Object *obj, con=
+st char *name,
+                         NULL, NULL, (void *)v, errp);
+ }
+=20
+-void object_class_property_add_uint8_ptr(ObjectClass *klass, const char *n=
+ame,
++ObjectProperty *
++object_class_property_add_uint8_ptr(ObjectClass *klass, const char *name,
+                                          const uint8_t *v, Error **errp)
+ {
+-    object_class_property_add(klass, name, "uint8", property_get_uint8_ptr=
+,
+-                              NULL, NULL, (void *)v, errp);
++    return object_class_property_add(klass, name, "uint8",
++                                     property_get_uint8_ptr,
++                                     NULL, NULL, (void *)v, errp);
+ }
+=20
+ void object_property_add_uint16_ptr(Object *obj, const char *name,
+@@ -2416,11 +2434,13 @@ void object_property_add_uint16_ptr(Object *obj, co=
+nst char *name,
+                         NULL, NULL, (void *)v, errp);
+ }
+=20
+-void object_class_property_add_uint16_ptr(ObjectClass *klass, const char *=
+name,
++ObjectProperty *
++object_class_property_add_uint16_ptr(ObjectClass *klass, const char *name,
+                                           const uint16_t *v, Error **errp)
+ {
+-    object_class_property_add(klass, name, "uint16", property_get_uint16_p=
+tr,
+-                              NULL, NULL, (void *)v, errp);
++    return object_class_property_add(klass, name, "uint16",
++                                     property_get_uint16_ptr,
++                                     NULL, NULL, (void *)v, errp);
+ }
+=20
+ void object_property_add_uint32_ptr(Object *obj, const char *name,
+@@ -2430,11 +2450,13 @@ void object_property_add_uint32_ptr(Object *obj, co=
+nst char *name,
+                         NULL, NULL, (void *)v, errp);
+ }
+=20
+-void object_class_property_add_uint32_ptr(ObjectClass *klass, const char *=
+name,
++ObjectProperty *
++object_class_property_add_uint32_ptr(ObjectClass *klass, const char *name,
+                                           const uint32_t *v, Error **errp)
+ {
+-    object_class_property_add(klass, name, "uint32", property_get_uint32_p=
+tr,
+-                              NULL, NULL, (void *)v, errp);
++    return object_class_property_add(klass, name, "uint32",
++                                     property_get_uint32_ptr,
++                                     NULL, NULL, (void *)v, errp);
+ }
+=20
+ void object_property_add_uint64_ptr(Object *obj, const char *name,
+@@ -2444,11 +2466,13 @@ void object_property_add_uint64_ptr(Object *obj, co=
+nst char *name,
+                         NULL, NULL, (void *)v, errp);
+ }
+=20
+-void object_class_property_add_uint64_ptr(ObjectClass *klass, const char *=
+name,
++ObjectProperty *
++object_class_property_add_uint64_ptr(ObjectClass *klass, const char *name,
+                                           const uint64_t *v, Error **errp)
+ {
+-    object_class_property_add(klass, name, "uint64", property_get_uint64_p=
+tr,
+-                              NULL, NULL, (void *)v, errp);
++    return object_class_property_add(klass, name, "uint64",
++                                     property_get_uint64_ptr,
++                                     NULL, NULL, (void *)v, errp);
+ }
+=20
+ typedef struct {
 --=20
 2.25.0.rc1.20.g2443f3f80d.dirty
 
