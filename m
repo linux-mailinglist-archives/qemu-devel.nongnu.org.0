@@ -2,49 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADCF3136B1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 11:32:04 +0100 (CET)
-Received: from localhost ([::1]:43756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BCB136B1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 11:34:58 +0100 (CET)
+Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipraF-0002Ip-Nz
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 05:32:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34404)
+	id 1iprd3-0005NH-Kz
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 05:34:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iprUZ-0003en-Db
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:26:14 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iprW5-0006T1-Sd
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:27:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iprUX-0007CQ-AD
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:26:11 -0500
-Received: from 5.mo177.mail-out.ovh.net ([46.105.39.154]:37362)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iprUX-00078g-1m
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:26:09 -0500
-Received: from player786.ha.ovh.net (unknown [10.108.16.88])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 2EE6711DF7D
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 11:26:07 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player786.ha.ovh.net (Postfix) with ESMTPSA id 35135E3A07DF;
- Fri, 10 Jan 2020 10:25:59 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 5/5] misc/pca9552: Add qom set and get
-Date: Fri, 10 Jan 2020 11:25:18 +0100
-Message-Id: <20200110102518.4233-6-clg@kaod.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200110102518.4233-1-clg@kaod.org>
-References: <20200110102518.4233-1-clg@kaod.org>
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iprW3-0003uq-MP
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:27:45 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34606)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iprW3-0003qz-Dg
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:27:43 -0500
+Received: by mail-wm1-x342.google.com with SMTP id w5so4064538wmi.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 02:27:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=f5zgAssPzGbE/iDLiAMdTnQwPfYUfeczLmwRmPbjmvI=;
+ b=jhk43xYRYEBnQ+gM7eryXvGJUvY+6+vez7xo76JCVDenMNokXCjlQysV4/y4ar+OO8
+ ySXwD5FJ533Rz14M5RCEEgSjY9EJcE6439iewgrnGnDZFv2yrbEfIx/iWVl1gSIV8bPD
+ V/4zWt+LX/aQtZ8tMqgGveQef1d5WTm78uHaNyuQf6sWcH51ioGxS0UOwXSrPTmg7J4q
+ Q82YV7Kj+EF7BAe6eZs2xejbx5mdCT2NMYh05TvafJduS5kw4Mz27mzYF8IDMRrdVdfI
+ qQXRaQM9Ub9n/bf6MPy6nyBQnUuxiD30Fn6nQNqJPi+4PR4KJWyBLnmgZdZlWIoR+4tM
+ 0Cgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=f5zgAssPzGbE/iDLiAMdTnQwPfYUfeczLmwRmPbjmvI=;
+ b=H44git9KHL+ZpMppq+g6AR4+zse+THaHVNaLALqDMwQW231OV34eA9FNSkrkxpwntP
+ oeQODLSyw49O82aX4ZqGIixqV+O0O0qvxT7g7MGhxG+gkSi+BAoW9hdOk3IT27ELQ1zi
+ lGpiWHxfzIlME1E+D6ZrPD73YzxJk0F+5bk9u/YKVIitB8OeOCmd9eyRtvmmCm1XjMiO
+ gfuUxzGfE2pMPEhxgG53NZyTs2m9w++GXIy21qoADurFP/rkhq4qukxO2lFrEXuEaI0E
+ 1KVfNnJn8IsZa6FFg+apTaR/6aELtGjYc1K1Dr0U8ZzJJ8froupL+Wac1MVI7lhfQyD8
+ BxFA==
+X-Gm-Message-State: APjAAAV/gxQIveLMlN0zojqOQNCtIVzfwStyL5nKiZfcTo1qyHpq1ta5
+ exXEE4SFLP8lzM22hmGZyZS7krYibT+Pelu4BTs=
+X-Google-Smtp-Source: APXvYqwK7dpSlbxS63u43nurADAeqRtUaVzfSi/tOsDqQtdj15YSYmsnBO7+A/4d5oAyrH9nfDcWMTz+mdxq5Ev1Cu0=
+X-Received: by 2002:a7b:c7d4:: with SMTP id z20mr3659594wmk.42.1578652061919; 
+ Fri, 10 Jan 2020 02:27:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 5854398043822197521
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdeifedgudehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeekiedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgepud
+References: <98d1e1f0-0e53-d207-78ce-ea9717673985@winaoe.org>
+In-Reply-To: <98d1e1f0-0e53-d207-78ce-ea9717673985@winaoe.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 10 Jan 2020 14:27:29 +0400
+Message-ID: <CAJ+F1CLzR7Q7ei550d+2GhnmcwiGpb2ixem_tr4QUPnsF_KPKg@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/1] Vhost User Cross Cable: Intro
+To: "V." <mail@winaoe.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 46.105.39.154
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,167 +73,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Joel Stanley <joel@jms.id.au>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+Hi
 
-Following the pattern of the work recently done with the ASPEED GPIO
-model, this adds support for inspecting and modifying the PCA9552 LEDs
-from the monitor.
+On Wed, Jan 8, 2020 at 5:57 AM V. <mail@winaoe.org> wrote:
+>
+> Hi List,
+>
+> For my VM setup I tend to use a lot of VM to VM single network links to d=
+o routing, switching and bridging in VM's instead of the host.
+> Also stemming from a silly fetish to sometimes use some OpenBSD VMs as fi=
+rewall, but that is besides the point here.
+> I am using the standard, tested and true method of using a whole bunch  o=
+f bridges, having 2 vhost taps each.
+> This works and it's fast, but it is a nightmare to manage with all the in=
+terfaces on the host.
+>
+> So, I looked a bit into how I can improve this, basically coming down to =
+"How to connect 2 VM's together in a really fast and easy way".
+> This however, is not as straightforward as I thought, without going the w=
+hole route of OVS/Snabb/any other big feature bloated
+> software switch.
+> Cause really, all I want is to connect 2 VM's in a fast and easy way. Sho=
+uldn't be that hard right?
+>
+> Anyways, I end up finding tests/vhost-user-bridge.c, which is very nicely=
+ doing half of what I wanted.
+> After some doubling of the vhosts and eliminating udp, I came up with a V=
+host User Cross Cable. (patch in next post).
+> It just opens 2 vhost sockets instead of 1 and does the forwarding betwee=
+n them.
+> A terrible hack and slash of vhost-user-bridge.c, probably now with bugs =
+causing the dead of many puppies and the end of humanity,
+> but it works!
+>
+> However... I now am left with some questions, which I hope some of you ca=
+n answer.
+>
+> 1.
+> I looked, googled, read and tried things, but it is likely that I am an c=
+omplete and utter moron and my google-fu has just been awful...
+> Very likely... But is there really no other way then I have found to just=
+ link up 2 QEMU's in a fast non-bridge way? (No, not sockets.)
+> Not that OVS and the likes are not fine software, but do we really need t=
+he whole DPDK to do this?
 
- (qemu) qom-set  /machine/unattached/device[17] led0 on
- (qemu) qom-set  /machine/unattached/device[17] led0 off
- (qemu) qom-set  /machine/unattached/device[17] led0 pwm0
- (qemu) qom-set  /machine/unattached/device[17] led0 pwm1
+By "not sockets", you mean the data path should use shared memory?
+Then, I don't think there are other way.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-[clg: - removed the "qom-get" examples from the commit log
-      - merged memory leak fixes from Joel ]
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/misc/pca9552.c | 90 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 90 insertions(+)
+>
+> 2.
+> In the unlikely chance that I'm not an idiot, then I guess now we have a =
+nice simple cross cable.
+> However, I am still a complete vhost/virtio idiot who has no clue how it =
+works and just randomly brute-forced code into submission.
+> Maybe not entirely true, but I would still appreciate it very much if som=
+eone with more knowledge into vhost to have a quick look at
+> how things are done in cc.
+>
+> Specifically this monstrosity in TX (speed_killer is a 1MB buffer and kil=
+ls any speed):
+>   ret =3D iov_from_buf(sg, num, 0, speed_killer,
+>                      iov_to_buf(out_sg, out_num, 0, speed_killer,
+>                                 MIN(iov_size(out_sg, out_num), sizeof spe=
+ed_killer)
+>                                )
+>                     );
+>
+>   vs. the commented:
+>   //ret =3D iov_copy(sg, num, out_sg, out_num, 0,
+>   //               MIN(iov_size(sg, num), iov_size(out_sg, out_num)));
+>
+> The first is obviously a quick fix to get things working, however, in my =
+meager understanding, should the 2nd one not work?
+> Maybe I'm messing up my vectors here, or I am messing up my understanding=
+ of iov_copy, but shouldn't the 2nd form be the way to zero
+> copy?
 
-diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
-index 73be28d9369c..efd961e04148 100644
---- a/hw/misc/pca9552.c
-+++ b/hw/misc/pca9552.c
-@@ -15,12 +15,16 @@
- #include "hw/misc/pca9552.h"
- #include "hw/misc/pca9552_regs.h"
- #include "migration/vmstate.h"
-+#include "qapi/error.h"
-+#include "qapi/visitor.h"
-=20
- #define PCA9552_LED_ON   0x0
- #define PCA9552_LED_OFF  0x1
- #define PCA9552_LED_PWM0 0x2
- #define PCA9552_LED_PWM1 0x3
-=20
-+static const char *led_state[] =3D {"on", "off", "pwm0", "pwm1"};
-+
- static uint8_t pca9552_pin_get_config(PCA9552State *s, int pin)
- {
-     uint8_t reg   =3D PCA9552_LS0 + (pin / 4);
-@@ -169,6 +173,82 @@ static int pca9552_event(I2CSlave *i2c, enum i2c_eve=
-nt event)
-     return 0;
- }
-=20
-+static void pca9552_get_led(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
-+{
-+    PCA9552State *s =3D PCA9552(obj);
-+    int led, rc, reg;
-+    uint8_t state;
-+
-+    rc =3D sscanf(name, "led%2d", &led);
-+    if (rc !=3D 1) {
-+        error_setg(errp, "%s: error reading %s", __func__, name);
-+        return;
-+    }
-+    if (led < 0 || led > s->nr_leds) {
-+        error_setg(errp, "%s invalid led %s", __func__, name);
-+        return;
-+    }
-+    /*
-+     * Get the LSx register as the qom interface should expose the devic=
-e
-+     * state, not the modeled 'input line' behaviour which would come fr=
-om
-+     * reading the INPUTx reg
-+     */
-+    reg =3D PCA9552_LS0 + led / 4;
-+    state =3D (pca9552_read(s, reg) >> (led % 8)) & 0x3;
-+    visit_type_str(v, name, (char **)&led_state[state], errp);
-+}
-+
-+/*
-+ * Return an LED selector register value based on an existing one, with
-+ * the appropriate 2-bit state value set for the given LED number (0-3).
-+ */
-+static inline uint8_t pca955x_ledsel(uint8_t oldval, int led_num, int st=
-ate)
-+{
-+        return (oldval & (~(0x3 << (led_num << 1)))) |
-+                ((state & 0x3) << (led_num << 1));
-+}
-+
-+static void pca9552_set_led(Object *obj, Visitor *v, const char *name,
-+                            void *opaque, Error **errp)
-+{
-+    PCA9552State *s =3D PCA9552(obj);
-+    Error *local_err =3D NULL;
-+    int led, rc, reg, val;
-+    uint8_t state;
-+    char *state_str;
-+
-+    visit_type_str(v, name, &state_str, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+    rc =3D sscanf(name, "led%2d", &led);
-+    if (rc !=3D 1) {
-+        error_setg(errp, "%s: error reading %s", __func__, name);
-+        return;
-+    }
-+    if (led < 0 || led > s->nr_leds) {
-+        error_setg(errp, "%s invalid led %s", __func__, name);
-+        return;
-+    }
-+
-+    for (state =3D 0; state < ARRAY_SIZE(led_state); state++) {
-+        if (!strcmp(state_str, led_state[state])) {
-+            break;
-+        }
-+    }
-+    if (state >=3D ARRAY_SIZE(led_state)) {
-+        error_setg(errp, "%s invalid led state %s", __func__, state_str)=
-;
-+        return;
-+    }
-+
-+    reg =3D PCA9552_LS0 + led / 4;
-+    val =3D pca9552_read(s, reg);
-+    val =3D pca955x_ledsel(val, led % 4, state);
-+    pca9552_write(s, reg, val);
-+}
-+
- static const VMStateDescription pca9552_vmstate =3D {
-     .name =3D "PCA9552",
-     .version_id =3D 0,
-@@ -204,6 +284,7 @@ static void pca9552_reset(DeviceState *dev)
- static void pca9552_initfn(Object *obj)
- {
-     PCA9552State *s =3D PCA9552(obj);
-+    int led;
-=20
-     /* If support for the other PCA955X devices are implemented, these
-      * constant values might be part of class structure describing the
-@@ -211,6 +292,15 @@ static void pca9552_initfn(Object *obj)
-      */
-     s->max_reg =3D PCA9552_LS3;
-     s->nr_leds =3D 16;
-+
-+    for (led =3D 0; led < s->nr_leds; led++) {
-+        char *name;
-+
-+        name =3D g_strdup_printf("led%d", led);
-+        object_property_add(obj, name, "bool", pca9552_get_led, pca9552_=
-set_led,
-+                            NULL, NULL, NULL);
-+        g_free(name);
-+    }
- }
-=20
- static void pca9552_class_init(ObjectClass *klass, void *data)
---=20
-2.21.1
 
+As you noted, the data must be copied from source to dest memory.
+iov_copy() doesn't actually do that, I don't think we have a iov
+function for that.
+
+>
+> 3.
+> Now if Cross Cable is actually a new and (after a code-rewrite of 10) a v=
+iable way to connect 2 QEMU's together, could I actually
+> suggest a better way?
+> I am thinking of a '-netdev vhost-user-slave' option to connect (as clien=
+t or server) to a master QEMU running '-netdev vhost-user'.
+> This way there is no need for any external program at all, the master can=
+ have it's memory unshared and everything would just work
+> and be fast.
+> Also the whole thing can fall back to normal virtio if memory is not shar=
+ed and it would even work in pure usermode without any
+> context switch.
+>
+> Building a patch for this idea I could maybe get around to, don't clearly=
+ have an idea how much work this would be but I've done
+> crazier things.
+> But is this is something that someone might be able to whip up in an hour=
+ or two? Someone who actually does have a clue about vhost
+> and virtio maybe? ;-)
+
+I believe https://wiki.qemu.org/Features/VirtioVhostUser is what you
+are after. It's still being discussed and non-trivial, but not very
+active lately afaik.
+
+>
+> 4.
+> Hacking together cc from bridge I noticed the use of container_of() to ge=
+t from vudev to state in the vu callbacks.
+> Would it be an idea to add a context pointer to the callbacks (possibly g=
+otten from VuDevIface)?
+> And I know. First post and I have the forwardness to even suggest an API =
+change! I know!
+> But it makes things a bit simpler to avoid globals and it makes sense to =
+have some context in a callback to know what's going on,
+> right? ;-)
+
+Well, the callbacks are called with the VuDev, so container_of() is
+quite fine since you can embed the device in your own structure. I
+don't see a compelling reason to change that.
+
+> 5.
+> Last one, promise.
+> I'm very much in the church of "less software =3D=3D less bugs =3D=3D les=
+s security problems".
+> Running cc or a vhost-user-slave means QEMU has fast networking in usermo=
+de without the need for anything else then AF_UNIX + shared
+> mem.
+> So might it be possible to weed out any modern fancy stuff like the Inter=
+net Protocol, TCP, taps, bridges, ethernet and tokenring
+> from a kernel and run QEMU on that?
+> The idea here is a kernel with storage, a serial console, AF_UNIX and vfi=
+o-pci, only running QEMU.
+> Would this be feasible? Or does QEMU need a kernel which at least has a g=
+rasp of understanding of what AF_INET and ethernet is?
+> (Does a modern kernel even still support tokenring? No idea, Probably doe=
+s.)
+
+Sounds like it is possible.
+
+> Finally, an example and some numbers.
+>
+> Compiling and starting the cross cable:
+> ./configure
+> make tests/vhost-user-cc
+> tests/vhost-user-cc -l /tmp/left.sock -r /tmp/right.sock
+>
+> (Note, the cross cable will quit if one of the vm's quits, but the VM's w=
+ill reconnect when cc starts again.)
+>
+> 2 VM's, host1 and host2, Linux guests, run like this:
+>
+> host1:
+> /qemu/bin/qemu-system-x86_64 \
+>   -accel kvm -nodefaults -k en-us -vnc none -machine q35 -cpu host -smp 8=
+,cores=3D8 -m 2G -vga std \
+>   -object memory-backend-file,id=3Dmemory,mem-path=3D/hugetlbfs,share=3Do=
+n,size=3D2G \
+>   -numa node,memdev=3Dmemory \
+>   -drive if=3Dnone,cache=3Dnone,format=3Draw,aio=3Dnative,file=3D/dev/lvm=
+/host1,id=3Dsda \
+>   -device virtio-scsi-pci,id=3Dscsi0 -device scsi-hd,drive=3Dsda,bus=3Dsc=
+si0.0 \
+>   -nic tap,vhost=3Don,helper=3D/usr/libexec/qemu-bridge-helper,id=3Deth0,=
+model=3Dvirtio-net-pci,mac=3D52:54:00:aa:aa:aa,br=3Dbr0 \
+>   -chardev socket,id=3Dleft,path=3D/tmp/left.sock,reconnect=3D1 \
+>   -nic vhost-user,chardev=3Dleft,id=3Deth1,model=3Dvirtio-net-pci,mac=3D5=
+2:54:00:bb:bb:bb
+>
+> host2:
+> /qemu/bin/qemu-system-x86_64 \
+>   -accel kvm -nodefaults -k en-us -vnc none -machine q35 -cpu host -smp 8=
+,cores=3D8 -m 2G -vga std \
+>   -object memory-backend-file,id=3Dmemory,mem-path=3D/hugetlbfs,share=3Do=
+n,size=3D2G \
+>   -numa node,memdev=3Dmemory \
+>   -drive if=3Dnone,cache=3Dnone,format=3Draw,aio=3Dnative,file=3D/dev/lvm=
+/host2,id=3Dsda \
+>   -device virtio-scsi-pci,id=3Dscsi0 -device scsi-hd,drive=3Dsda,bus=3Dsc=
+si0.0 \
+>   -nic tap,vhost=3Don,helper=3D/usr/libexec/qemu-bridge-helper,id=3Deth0,=
+model=3Dvirtio-net-pci,mac=3D52:54:00:cc:cc:cc,br=3Dbr0 \
+>   -chardev socket,id=3Dright,path=3D/tmp/right.sock,reconnect=3D1 \
+>   -nic vhost-user,chardev=3Dright,id=3Deth1,model=3Dvirtio-net-pci,mac=3D=
+52:54:00:dd:dd:dd
+>
+>
+> First, speed via eth0 (bridged tap with vhost, host2 runs './iperf3 -s'):
+>   root@host1:~/iperf-3.1.3/src# ./iperf3 -c 192.168.0.2 -i 1 -t 10
+>   ...
+>   [  4]   0.00-10.00  sec  10.7 GBytes  9.22 Gbits/sec                  r=
+eceiver
+>
+> Second, speed via eth1 (Vhost Cross Cable):
+>   root@host1:~/iperf-3.1.3/src# ./iperf3 -c 192.168.1.2 -i 1 -t 10
+>   ...
+>   [  4]   0.00-10.00  sec  2.05 GBytes  1.76 Gbits/sec                  r=
+eceiver
+>
+> So, a factor of 6 slowdown against bridge. Not too bad, considering the b=
+ad iovec mem-copying I do.
+> Lots of room for improvement though, but at least for me it's also 5 time=
+s faster as socket.
+>
+
+And what performance do you get with -netdev socket ?
+
+--
+Marc-Andr=C3=A9 Lureau
 
