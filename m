@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AC21370B8
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:08:21 +0100 (CET)
-Received: from localhost ([::1]:47338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3141370B4
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:07:50 +0100 (CET)
+Received: from localhost ([::1]:47327 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipvtc-0005AU-IG
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:08:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45134)
+	id 1ipvt7-00046u-Hi
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:07:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50868)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vkuznets@redhat.com>) id 1ipvoT-0006gv-Qj
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:03:02 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ipvqM-0000vD-62
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:04:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vkuznets@redhat.com>) id 1ipvoR-0002Wa-SS
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:03:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34212
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1ipvqK-0008TR-KM
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:04:58 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33249
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vkuznets@redhat.com>) id 1ipvoR-0002TH-Np
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:02:59 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ipvqK-0008R6-DE
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:04:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578668579;
+ s=mimecast20190719; t=1578668695;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uBPTtrBwO/Os2oEoQr9kD/z6Bbab1CkF9YKRfLVY6iE=;
- b=QNHB9mYTpXVi15Mg1iMkbgMZwu5l2fF4kz7TWGNc8skEaPYy9FSmIIzMzaa4eAYpiGTQbx
- TFKHKGkHsUF4y8FW82+Y2iHs7SxqiUzlNIaTuafzobH53cAufaCSSjcBbqPAlfoMt8B9p8
- oefq0bYCKChm+388j78ZRowzPj5KyXc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-QRQdwhysP4OhCViqoXK24w-1; Fri, 10 Jan 2020 10:02:54 -0500
-Received: by mail-wm1-f70.google.com with SMTP id q26so513340wmq.8
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 07:02:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=j9ID5MsDqTyMh6SGiV3GHpxN3lJRpgvwmvNs/3Xk5fg=;
- b=SPGHxW3Lwmg7T6V0/zMnGBNX12YYFp8DeTKxkili7K1HiGoqaP6wdcC1dMhqKzmHtT
- Y63bq0FWzxCsHm4CGqGu/C4lqm1Bm+HU++Pn4ArDTPaYtblODEply3ipEIGuLlHEpf1z
- mPzvnbEuIkXcKuLUM9Hju1e9QL8lvzpCuJ3EeJ6xCnjwV9xyChs4L3TzpM8wriYf72g0
- mDegJh6aXaKJMtWID30hOmZzzjug91tnT+cT1+UdtvWJPcgyyYi+7DsxxG04/5JnsKHM
- leSGEhj3GbV7PeoaW978s3nvyGPrpdl8nbEkVgj2K5d5iUZquAy5+AaTFL3pAlkD5TFz
- eKZQ==
-X-Gm-Message-State: APjAAAXK+hbaziiHlb/gENC6ot/5lL12nshHC7myBlGB79j7LohCWeX3
- zqHH72msM/8y18EZF4IxBWgTHSHOQV46tgXqXpVt0bJSQb36KfaAUFgDt2p6JnATfpNL5fNyWGW
- plw4NlwoQIKVnldQ=
-X-Received: by 2002:a05:6000:1241:: with SMTP id
- j1mr4277303wrx.26.1578668573005; 
- Fri, 10 Jan 2020 07:02:53 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwyG8hbBZtRWyACGraaIOQA4q7fHIBP4rBMGwi82b8UJhN6/yRVjKQRvlf1kKPW9kUeGKqgNQ==
-X-Received: by 2002:a05:6000:1241:: with SMTP id
- j1mr4277262wrx.26.1578668572666; 
- Fri, 10 Jan 2020 07:02:52 -0800 (PST)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id m10sm2475726wrx.19.2020.01.10.07.02.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jan 2020 07:02:52 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH RFC] i386/kvm: fix enlightened VMCS with fine-grained VMX
- feature enablement
-In-Reply-To: <7c4dcca1-a1e6-a00c-56fd-bcc6c8bcc474@redhat.com>
-References: <20200102203926.1179743-1-vkuznets@redhat.com>
- <21556857-3d6a-ad66-5cf5-060b1ab67381@redhat.com>
- <87zhezsc30.fsf@vitty.brq.redhat.com>
- <7c4dcca1-a1e6-a00c-56fd-bcc6c8bcc474@redhat.com>
-Date: Fri, 10 Jan 2020 16:02:50 +0100
-Message-ID: <87zhevpd5x.fsf@vitty.brq.redhat.com>
+ bh=Z3APDwnTTB/HJN0sz/jWl8Td8ELJ6JdRqmTBpUgaqsc=;
+ b=CRIqkEKU1+TbFHg69Rfm5OEfzsVpveW/anx4gZbmiJBdz1+VH0Lmqd77nMmGMZxXQ/qi1Z
+ envE6EO6BLE79hJqv7Kwv9I9duvKpL1uHV2quDwCmQfz3D0I48OowlBQBW8rKnbGk2Yzrt
+ TVzmIFTZrDDlSnck6HJ6gyl+pK22e78=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-143-AzEBc0VCMrm44stxjF6rUQ-1; Fri, 10 Jan 2020 10:04:54 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A0EFDB61
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 15:04:53 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6C2860CD3;
+ Fri, 10 Jan 2020 15:04:49 +0000 (UTC)
+Date: Fri, 10 Jan 2020 15:04:47 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ mszeredi@redhat.com
+Subject: Re: [PATCH 068/104] virtiofsd: passthrough_ll: control readdirplus
+Message-ID: <20200110150447.GH3901@work-vm>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-69-dgilbert@redhat.com>
+ <20200107112316.GL3368802@redhat.com>
 MIME-Version: 1.0
-X-MC-Unique: QRQdwhysP4OhCViqoXK24w-1
+In-Reply-To: <20200107112316.GL3368802@redhat.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: AzEBc0VCMrm44stxjF6rUQ-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,103 +75,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Kagan <rkagan@virtuozzo.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Liran Alon <liran.alon@oracle.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> On Thu, Dec 12, 2019 at 04:38:28PM +0000, Dr. David Alan Gilbert (git) wr=
+ote:
+> > From: Miklos Szeredi <mszeredi@redhat.com>
+> >
+>=20
+> What is readdirplus and what do we need a command line option to
+> control it ? What's the user benefit of changing the setting ?
 
-> On 07/01/20 13:08, Vitaly Kuznetsov wrote:
->> Honestly I forgot the story why we filtered out these features upon
->> eVMCS enablement in KVM. As there are no corresponding eVMCS fields,
->> there's no way a guest can actually use them.
->
-> Well, mostly because we mimicked what Hyper-V was doing I guess.
->
->> I'm going to check that nothing breaks if we remove the filter. I'll go
->> and test Hyper-V 2016 and 2019.
->
-> KVM would break, right?  But we can mark that patch as stable material.
->
+cc'ing Miklos who understands this better than me.
 
-While we are trying to understand how APIC virtualization works without
-apic_access_addr field (maybe it doesn't?), should we fix the immediate
-issue with QEMU-4.2 with a hack like:
+My understanding is that readdirplus is a heuristic inherited from NFS
+where when you iterate over the directory you also pick up stat() data
+for each entry in the directory.  You then cache that stat data
+somewhere.
+The Plus-ness is that a lot of directory operations involve you stating
+each entry (e.g. to figure out if you can access it etc) so rolling it
+into one op avoids the separate stat.  The unplus-ness is that it's an
+overhead and I think changes some of the caching behaviour.
 
-diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
-index 72359709cdc1..038297e63396 100644
---- a/arch/x86/kvm/vmx/evmcs.c
-+++ b/arch/x86/kvm/vmx/evmcs.c
-@@ -357,15 +357,15 @@ int nested_enable_evmcs(struct kvm_vcpu *vcpu,
- =09if (vmcs_version)
- =09=09*vmcs_version =3D nested_get_evmcs_version(vcpu);
-=20
--=09/* We don't support disabling the feature for simplicity. */
--=09if (evmcs_already_enabled)
--=09=09return 0;
--
--=09vmx->nested.msrs.pinbased_ctls_high &=3D ~EVMCS1_UNSUPPORTED_PINCTRL;
--=09vmx->nested.msrs.entry_ctls_high &=3D ~EVMCS1_UNSUPPORTED_VMENTRY_CTRL;
--=09vmx->nested.msrs.exit_ctls_high &=3D ~EVMCS1_UNSUPPORTED_VMEXIT_CTRL;
--=09vmx->nested.msrs.secondary_ctls_high &=3D ~EVMCS1_UNSUPPORTED_2NDEXEC;
--=09vmx->nested.msrs.vmfunc_controls &=3D ~EVMCS1_UNSUPPORTED_VMFUNC;
--
- =09return 0;
- }
-+
-+void nested_evmcs_filter_control_msr(u32 msr_index, u64 *pdata) {
-+=09/*
-+=09 * Enlightened VMCS doesn't have apic_access_addr field but Hyper-V
-+=09 * still tries to enable SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES when
-+=09 * it is available, filter it out
-+=09 */
-+=09if (msr_index =3D=3D MSR_IA32_VMX_PROCBASED_CTLS2)
-+=09=09*pdata &=3D ~((u64)SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES << 32);
-+}
-diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
-index 07ebf6882a45..b88d9807a796 100644
---- a/arch/x86/kvm/vmx/evmcs.h
-+++ b/arch/x86/kvm/vmx/evmcs.h
-@@ -201,5 +201,6 @@ bool nested_enlightened_vmentry(struct kvm_vcpu *vcpu, =
-u64 *evmcs_gpa);
- uint16_t nested_get_evmcs_version(struct kvm_vcpu *vcpu);
- int nested_enable_evmcs(struct kvm_vcpu *vcpu,
- =09=09=09uint16_t *vmcs_version);
-+void nested_evmcs_filter_control_msr(u32 msr_index, u64 *pdata);
-=20
- #endif /* __KVM_X86_VMX_EVMCS_H */
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index e3394c839dea..8eb74618b8d8 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -1849,8 +1849,14 @@ static int vmx_get_msr(struct kvm_vcpu *vcpu, struct=
- msr_data *msr_info)
- =09case MSR_IA32_VMX_BASIC ... MSR_IA32_VMX_VMFUNC:
- =09=09if (!nested_vmx_allowed(vcpu))
- =09=09=09return 1;
--=09=09return vmx_get_vmx_msr(&vmx->nested.msrs, msr_info->index,
--=09=09=09=09       &msr_info->data);
-+=09=09if (vmx_get_vmx_msr(&vmx->nested.msrs, msr_info->index,
-+=09=09=09=09    &msr_info->data))
-+=09=09=09return 1;
-+=09=09if (!msr_info->host_initiated &&
-+=09=09    vmx->nested.enlightened_vmcs_enabled)
-+=09=09=09nested_evmcs_filter_control_msr(msr_info->index,
-+=09=09=09=09=09=09=09&msr_info->data);
-+=09=09break;
- =09case MSR_IA32_RTIT_CTL:
- =09=09if (pt_mode !=3D PT_MODE_HOST_GUEST)
- =09=09=09return 1;
+Dave
 
-This should probably be complemented with a patch to not enable
-unsupported controls when KVM is acting as a guest on eVMCS + a check
-that none of the unsupported controls are enabled.
 
-What do you think?
-
---=20
-Vitaly
+> > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> > ---
+> >  tools/virtiofsd/passthrough_ll.c | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
+ough_ll.c
+> > index 0d70a367bd..c3e8bde5cf 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -118,6 +118,8 @@ struct lo_data {
+> >      double timeout;
+> >      int cache;
+> >      int timeout_set;
+> > +    int readdirplus_set;
+> > +    int readdirplus_clear;
+> >      struct lo_inode root; /* protected by lo->mutex */
+> >      struct lo_map ino_map; /* protected by lo->mutex */
+> >      struct lo_map dirp_map; /* protected by lo->mutex */
+> > @@ -141,6 +143,8 @@ static const struct fuse_opt lo_opts[] =3D {
+> >      { "cache=3Dauto", offsetof(struct lo_data, cache), CACHE_NORMAL },
+> >      { "cache=3Dalways", offsetof(struct lo_data, cache), CACHE_ALWAYS =
+},
+> >      { "norace", offsetof(struct lo_data, norace), 1 },
+> > +    { "readdirplus", offsetof(struct lo_data, readdirplus_set), 1 },
+> > +    { "no_readdirplus", offsetof(struct lo_data, readdirplus_clear), 1=
+ },
+> >      FUSE_OPT_END
+> >  };
+> >  static bool use_syslog =3D false;
+> > @@ -479,7 +483,8 @@ static void lo_init(void *userdata, struct fuse_con=
+n_info *conn)
+> >          fuse_log(FUSE_LOG_DEBUG, "lo_init: activating flock locks\n");
+> >          conn->want |=3D FUSE_CAP_FLOCK_LOCKS;
+> >      }
+> > -    if (lo->cache =3D=3D CACHE_NEVER) {
+> > +    if ((lo->cache =3D=3D CACHE_NEVER && !lo->readdirplus_set) ||
+> > +        lo->readdirplus_clear) {
+> >          fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling readdirplus\n");
+> >          conn->want &=3D ~FUSE_CAP_READDIRPLUS;
+> >      }
+> > --=20
+> > 2.23.0
+> >=20
+> >=20
+>=20
+> Regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
