@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B420513717C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:39:25 +0100 (CET)
-Received: from localhost ([::1]:48122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF48B13718B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:42:13 +0100 (CET)
+Received: from localhost ([::1]:48174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipwNg-0006rn-Hf
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:39:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52092)
+	id 1ipwQO-0002gg-6l
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:42:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ipwGI-0006S4-8W
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:31:47 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ipwGU-0006ey-Mt
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:31:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ipwGG-0004MK-Df
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:31:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30875
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ipwGR-0004tz-Ox
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:31:58 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23780
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ipwGG-0004Jv-90
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:31:44 -0500
+ id 1ipwGR-0004ss-GX
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:31:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578670302;
+ s=mimecast20190719; t=1578670314;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9VvJrqxGIRFgUUFb0eu+CzZzOXBYzQDf7ACqkiqvt4I=;
- b=aFmAnHnKkNpoztY7/GYsAV+HPjhi57AM6EosM8cnjmLmO3+fLua+MnBHWtiDCX2sDHe7wH
- LxAHiMDe6Ki+c5atzDIFFCfmi/dObY38MRAqF1ELr92Dbe/AVhGUxoSHXxWcyXdL8HFyhS
- PPIvmeK0bDSKdBP2qdiWkDqdRgqyPQo=
+ bh=nBHYmbX0RpFJpEW6MFvTV9YldnwclbkL80oUupFq03o=;
+ b=AbQkoZcBsOIsk3TLsZOmkOEqOJCKIEQY4n4taJzU4Y6jc0r7UrAMwJzy3c2GJZKZ+qAmOl
+ XbfdmEVsrvwN1vFfjxIAzdqvFpQ4E0g0LZG6T5IXbRYpmlBQzAK6VwfPYZ6zkXYHrTcvpX
+ ZxUXYHwiN4SbkfQi3g4jzutAv7tZRYY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326--Vvd5IiLMnCxksoGjMzqeQ-1; Fri, 10 Jan 2020 10:31:41 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-269-2iga5b2pM1OE_UuZhGFnYA-1; Fri, 10 Jan 2020 10:31:53 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3A99803065
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 15:31:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8891185432D
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 15:31:52 +0000 (UTC)
 Received: from localhost (ovpn-112-59.ams2.redhat.com [10.36.112.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D6515C1B5;
- Fri, 10 Jan 2020 15:31:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EFB8E272CB;
+ Fri, 10 Jan 2020 15:31:45 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/26] object: avoid extra class property key duplication
-Date: Fri, 10 Jan 2020 19:30:18 +0400
-Message-Id: <20200110153039.1379601-6-marcandre.lureau@redhat.com>
+Subject: [PATCH 06/26] object: add class property initializer
+Date: Fri, 10 Jan 2020 19:30:19 +0400
+Message-Id: <20200110153039.1379601-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
 References: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: -Vvd5IiLMnCxksoGjMzqeQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 2iga5b2pM1OE_UuZhGFnYA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,45 +79,91 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like object properties, no need to duplicate property name, as it is
-owned already by ObjectProperty value.
+This callback is used to set default value in following patch "object:
+add object_property_set_defaut_{bool,str,int,uint}()".
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- qom/object.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/qom/object.h | 16 ++++++++++++++--
+ qom/object.c         | 14 ++++++++++++++
+ 2 files changed, 28 insertions(+), 2 deletions(-)
 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 54a548868c..29f47d3b35 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -309,6 +309,8 @@ typedef struct InterfaceInfo InterfaceInfo;
+  */
+=20
+=20
++typedef struct ObjectProperty ObjectProperty;
++
+ /**
+  * ObjectPropertyAccessor:
+  * @obj: the object that owns the property
+@@ -356,7 +358,16 @@ typedef void (ObjectPropertyRelease)(Object *obj,
+                                      const char *name,
+                                      void *opaque);
+=20
+-typedef struct ObjectProperty
++/**
++ * ObjectPropertyInit:
++ * @obj: the object that owns the property
++ * @prop: the property to set
++ *
++ * Called when a property is initialized.
++ */
++typedef void (ObjectPropertyInit)(Object *obj, ObjectProperty *prop);
++
++struct ObjectProperty
+ {
+     gchar *name;
+     gchar *type;
+@@ -365,8 +376,9 @@ typedef struct ObjectProperty
+     ObjectPropertyAccessor *set;
+     ObjectPropertyResolve *resolve;
+     ObjectPropertyRelease *release;
++    ObjectPropertyInit *init;
+     void *opaque;
+-} ObjectProperty;
++};
+=20
+ /**
+  * ObjectUnparent:
 diff --git a/qom/object.c b/qom/object.c
-index 8453e4ac91..29101fdcd4 100644
+index 29101fdcd4..1e9113bfc8 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -307,7 +307,7 @@ static void type_initialize(TypeImpl *ti)
-         memcpy(ti->class, parent->class, parent->class_size);
-         ti->class->interfaces =3D NULL;
-         ti->class->properties =3D g_hash_table_new_full(
--            g_str_hash, g_str_equal, g_free, object_property_free);
-+            g_str_hash, g_str_equal, NULL, object_property_free);
-=20
-         for (e =3D parent->class->interfaces; e; e =3D e->next) {
-             InterfaceClass *iface =3D e->data;
-@@ -334,7 +334,7 @@ static void type_initialize(TypeImpl *ti)
-         }
-     } else {
-         ti->class->properties =3D g_hash_table_new_full(
--            g_str_hash, g_str_equal, g_free, object_property_free);
-+            g_str_hash, g_str_equal, NULL, object_property_free);
+@@ -469,6 +469,19 @@ void object_apply_compat_props(Object *obj)
      }
-=20
-     ti->class->type =3D ti;
-@@ -1178,7 +1178,7 @@ object_class_property_add(ObjectClass *klass,
-     prop->release =3D release;
-     prop->opaque =3D opaque;
-=20
--    g_hash_table_insert(klass->properties, g_strdup(name), prop);
-+    g_hash_table_insert(klass->properties, prop->name, prop);
-=20
-     return prop;
  }
+=20
++static void object_class_property_init_all(Object *obj)
++{
++    ObjectPropertyIterator iter;
++    ObjectProperty *prop;
++
++    object_class_property_iter_init(&iter, object_get_class(obj));
++    while ((prop =3D object_property_iter_next(&iter))) {
++        if (prop->init) {
++            prop->init(obj, prop);
++        }
++    }
++}
++
+ static void object_initialize_with_type(void *data, size_t size, TypeImpl =
+*type)
+ {
+     Object *obj =3D data;
+@@ -482,6 +495,7 @@ static void object_initialize_with_type(void *data, siz=
+e_t size, TypeImpl *type)
+     memset(obj, 0, type->instance_size);
+     obj->class =3D type->class;
+     object_ref(obj);
++    object_class_property_init_all(obj);
+     obj->properties =3D g_hash_table_new_full(g_str_hash, g_str_equal,
+                                             NULL, object_property_free);
+     object_init_with_type(obj, type);
 --=20
 2.25.0.rc1.20.g2443f3f80d.dirty
 
