@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D6A13753A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 18:50:48 +0100 (CET)
-Received: from localhost ([::1]:50020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB17137595
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 18:57:59 +0100 (CET)
+Received: from localhost ([::1]:50154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipyQo-0000UZ-PA
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 12:50:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51927)
+	id 1ipyXm-0002yb-LP
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 12:57:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52284)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1ipyCD-00073B-Ns
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 12:35:42 -0500
+ (envelope-from <quintela@redhat.com>) id 1ipyCL-0007BR-OB
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 12:35:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1ipyCC-0007EX-Ai
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 12:35:41 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56182
+ (envelope-from <quintela@redhat.com>) id 1ipyCK-0007ag-EQ
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 12:35:49 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33567
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ipyCC-0007CU-4t
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 12:35:40 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ipyCK-0007Yc-1H
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 12:35:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578677739;
+ s=mimecast20190719; t=1578677747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3NgGhtimpsgHYnBlOteURcPsztJP5JapGSQKNnFjsvE=;
- b=ifxR05jjsxL5JlyJOZBB33M5haYKGyfZv6KgDcCajGZ9ns66GivdptbkfiKZteKbbvqits
- lHE6XJZ1Xpqfzn+w/AgrVe4bXsTh2bLPoe9VP3qMu06DU11GESeVvWc/wOc7qRopulTcQY
- +fjPHQfeaO4jsnxHqY+BgyjLtoC4MZs=
+ bh=ipUbyqSi2LbvtRe4A/gxQ9gfFY5LWhrpHClvIgUmIV4=;
+ b=h5BGUg7Jw/HL6BSw7dfsowZkEmsk8C+ZGXdi0j+j/hGFhKkdcD6jtawAyK4D2vSncNViay
+ vPqv1Af/EsF984bzYZjBB3Np99JSyHtkxcyVmFCDV4v57D7rZv6ER3bD/dxm7q6Ih7WTo1
+ pNJSDOx1Sg+x1JBmuV24hG/ZsP2T0fM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-zPECZwk5O_-Xo_UpTyyf0Q-1; Fri, 10 Jan 2020 12:35:38 -0500
+ us-mta-190-AGQADt99M-Kf04wakqCoTA-1; Fri, 10 Jan 2020 12:35:45 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48D08477;
- Fri, 10 Jan 2020 17:35:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8684F1005502;
+ Fri, 10 Jan 2020 17:35:43 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-240.ams2.redhat.com [10.36.116.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D105419C4F;
- Fri, 10 Jan 2020 17:35:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D5AA19C4F;
+ Fri, 10 Jan 2020 17:35:36 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/28] migration/multifd: clean pages after filling packet
-Date: Fri, 10 Jan 2020 18:32:08 +0100
-Message-Id: <20200110173215.3865-22-quintela@redhat.com>
+Subject: [PULL 22/28] migration/multifd: not use multifd during postcopy
+Date: Fri, 10 Jan 2020 18:32:09 +0100
+Message-Id: <20200110173215.3865-23-quintela@redhat.com>
 In-Reply-To: <20200110173215.3865-1-quintela@redhat.com>
 References: <20200110173215.3865-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: zPECZwk5O_-Xo_UpTyyf0Q-1
+X-MC-Unique: AGQADt99M-Kf04wakqCoTA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,51 +87,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wei Yang <richardw.yang@linux.intel.com>
 
-This is a preparation for the next patch:
+We don't support multifd during postcopy, but user still could enable
+both multifd and postcopy. This leads to migration failure.
 
-    not use multifd during postcopy.
-
-Without enabling postcopy, everything looks good. While after enabling
-postcopy, migration may fail even not use multifd during postcopy. The
-reason is the pages is not properly cleared and *old* target page will
-continue to be transferred.
-
-After clean pages, migration succeeds.
+Skip multifd during postcopy.
 
 Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ migration/ram.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index b9eb08f549..57e22cac4c 100644
+index 57e22cac4c..4ba9037e78 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -955,10 +955,10 @@ static int multifd_send_pages(RAMState *rs)
-         }
-         qemu_mutex_unlock(&p->mutex);
+@@ -2587,10 +2587,13 @@ static int ram_save_target_page(RAMState *rs, PageS=
+earchStatus *pss,
      }
--    p->pages->used =3D 0;
-+    assert(!p->pages->used);
-+    assert(!p->pages->block);
 =20
-     p->packet_num =3D multifd_send_state->packet_num++;
--    p->pages->block =3D NULL;
-     multifd_send_state->pages =3D p->pages;
-     p->pages =3D pages;
-     transferred =3D ((uint64_t) pages->used) * TARGET_PAGE_SIZE + p->packe=
-t_len;
-@@ -1154,6 +1154,8 @@ static void *multifd_send_thread(void *opaque)
-             p->flags =3D 0;
-             p->num_packets++;
-             p->num_pages +=3D used;
-+            p->pages->used =3D 0;
-+            p->pages->block =3D NULL;
-             qemu_mutex_unlock(&p->mutex);
+     /*
+-     * do not use multifd for compression as the first page in the new
+-     * block should be posted out before sending the compressed page
++     * Do not use multifd for:
++     * 1. Compression as the first page in the new block should be posted =
+out
++     *    before sending the compressed page
++     * 2. In postcopy as one whole host page should be placed
+      */
+-    if (!save_page_use_compression(rs) && migrate_use_multifd()) {
++    if (!save_page_use_compression(rs) && migrate_use_multifd()
++        && !migration_in_postcopy()) {
+         return ram_save_multifd_page(rs, block, offset);
+     }
 =20
-             trace_multifd_send(p->id, packet_num, used, flags,
 --=20
 2.24.1
 
