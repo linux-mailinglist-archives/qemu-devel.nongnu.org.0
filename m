@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8CBF136A5B
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:58:47 +0100 (CET)
-Received: from localhost ([::1]:43340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86C5136AA2
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 11:09:37 +0100 (CET)
+Received: from localhost ([::1]:43456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipr42-0006f2-UI
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:58:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59057)
+	id 1iprEW-0000Le-Jy
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 05:09:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34295)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1ipr1S-0004Qy-I9
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:56:08 -0500
+ (envelope-from <bounces@canonical.com>) id 1iprBo-0005n6-JB
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:06:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1ipr1Q-00010l-U6
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:56:06 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27068
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ipr1Q-0000z5-Ou
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:56:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578650164;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qcTzU6qzRAR6j9JYMRFJPfCUCTb9RZmymObks+y3xfs=;
- b=NO9FMwqLoqNPKe98T1IqJ0ABK4ELTX0XabFa0gT0j70nthfIoSh0x0JBe6U/huS0psAZAr
- VvpNkUo3yXzPhudnLslYx936eh4aoPDisifaaBnMboF+IX+GQZ6JoQvqGGT/Cibcr8yszJ
- J9FPuadcabpy1rK4WsnUaaVfkAOjyuo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-ibvBEetHPYOpv64fNj_xyg-1; Fri, 10 Jan 2020 04:56:01 -0500
-X-MC-Unique: ibvBEetHPYOpv64fNj_xyg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B87D8014D7;
- Fri, 10 Jan 2020 09:55:59 +0000 (UTC)
-Received: from localhost (ovpn-116-201.ams2.redhat.com [10.36.116.201])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C64D10016E8;
- Fri, 10 Jan 2020 09:55:53 +0000 (UTC)
-Date: Fri, 10 Jan 2020 09:55:52 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 00/15] io_uring: add Linux io_uring AIO engine
-Message-ID: <20200110095552.GC573283@stefanha-x1.localdomain>
-References: <20191218163228.1613099-1-stefanha@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1iprBn-0003ZA-Fu
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:06:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42224)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iprBn-0003Uc-8k
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:06:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iprBk-0004KP-Vk
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 10:06:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A10752E80D4
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 10:06:44 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191218163228.1613099-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4ZLFUWh1odzi/v6L"
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 10 Jan 2020 09:57:57 -0000
+From: Richard Jones <rjones@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ehabkost pmaydell rjones-redhat th-huth
+X-Launchpad-Bug-Reporter: Richard Jones (rjones-redhat)
+X-Launchpad-Bug-Modifier: Richard Jones (rjones-redhat)
+References: <20170117063435.21322.40478.malonedeb@gac.canonical.com>
+Message-Id: <157865027864.27812.7249520388988056532.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1657010] Re: RFE: Please implement -cpu best or a CPU fallback
+ option
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f2e2a2298ef4b72dd91d7e7cf3982220393e7e1c
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,163 +67,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, oleksandr@redhat.com,
- Julia Suvorova <jusual@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>
+Reply-To: Bug 1657010 <1657010@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---4ZLFUWh1odzi/v6L
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
 
-On Wed, Dec 18, 2019 at 04:32:13PM +0000, Stefan Hajnoczi wrote:
-> v12:
->  * Reword BlockdevAioOptions QAPI schema commit description [Markus]
->  * Increase QAPI "Since: 4.2" to "Since: 5.0"
->  * Explain rationale for io_uring stubs in commit description [Kevin]
->  * Tried to use file.aio=3Dio_uring instead of BDRV_O_IO_URING but it's r=
-eally
->    hard to make qemu-iotests work.  Tests build blkdebug: and other graph=
-s so
->    the syntax for io_uring is dependent on the test case.  I scrapped thi=
-s
->    approach and went back to a global flag.
->=20
-> v11:
->  * Drop fd registration because it breaks QEMU's file locking and will ne=
-ed to
->    be resolved in a separate patch series
->  * Drop line-wrapping changes that accidentally broke several qemu-iotest=
-s
->=20
-> v10:
->  * Dropped kernel submission queue polling, it requires root and has addi=
-tional
->    limitations.  It should be benchmarked and considered for inclusion la=
-ter,
->    maybe even together with kernel side changes.
->  * Add io_uring_register_files() return value to trace_luring_fd_register=
-()
->  * Fix indentation in luring_fd_unregister()
->  * Set s->fd_reg.fd_array to NULL after g_free() to avoid dangling pointe=
-rs
->  * Simplify fd registration code
->  * Add luring_fd_unregister() and call it from file-posix.c to prevent
->    fd leaks
->  * Add trace_luring_fd_unregister() trace event
->  * Add missing space to qemu-img command-line documentation
->  * Update MAINTAINERS file [Julia]
->  * Rename MAX_EVENTS to MAX_ENTRIES [Julia]
->  * Define ioq_submit() before callers so the prototype isn't necessary [J=
-ulia]
->  * Declare variables at the beginning of the block in luring_init() [Juli=
-a]
->=20
-> This patch series is based on Aarushi Mehta's v9 patch series written for
-> Google Summer of Code 2019:
->=20
->   https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg00179.html
->=20
-> It adds a new AIO engine that uses the new Linux io_uring API.  This is t=
-he
-> successor to Linux AIO with a number of improvements:
-> 1. Both O_DIRECT and buffered I/O work
-> 2. fdatasync(2) is supported (no need for a separate thread pool!)
-> 3. True async behavior so the syscall doesn't block (Linux AIO got there =
-to some degree...)
-> 4. Advanced performance optimizations are available (file registration, m=
-emory
->    buffer registration, completion polling, submission polling).
->=20
-> Since Aarushi has been busy, I have taken up this patch series.  Booting =
-a
-> guest works with -drive aio=3Dio_uring and -drive aio=3Dio_uring,cache=3D=
-none with a
-> raw file on XFS.
->=20
-> I currently recommend using -drive aio=3Dio_uring only with host block de=
-vices
-> (like NVMe devices).  As of Linux v5.4-rc1 I still hit kernel bugs when u=
-sing
-> image files on ext4 or XFS.
->=20
-> Aarushi Mehta (15):
->   configure: permit use of io_uring
->   qapi/block-core: add option for io_uring
->   block/block: add BDRV flag for io_uring
->   block/io_uring: implements interfaces for io_uring
->   stubs: add stubs for io_uring interface
->   util/async: add aio interfaces for io_uring
->   blockdev: adds bdrv_parse_aio to use io_uring
->   block/file-posix.c: extend to use io_uring
->   block: add trace events for io_uring
->   block/io_uring: adds userspace completion polling
->   qemu-io: adds option to use aio engine
->   qemu-img: adds option to use aio engine for benchmarking
->   qemu-nbd: adds option for aio engines
->   tests/qemu-iotests: enable testing with aio options
->   tests/qemu-iotests: use AIOMODE with various tests
->=20
->  MAINTAINERS                   |   9 +
->  block.c                       |  22 ++
->  block/Makefile.objs           |   3 +
->  block/file-posix.c            |  95 ++++++--
->  block/io_uring.c              | 433 ++++++++++++++++++++++++++++++++++
->  block/trace-events            |  12 +
->  blockdev.c                    |  12 +-
->  configure                     |  27 +++
->  include/block/aio.h           |  16 +-
->  include/block/block.h         |   2 +
->  include/block/raw-aio.h       |  12 +
->  qapi/block-core.json          |   4 +-
->  qemu-img-cmds.hx              |   4 +-
->  qemu-img.c                    |  11 +-
->  qemu-img.texi                 |   5 +-
->  qemu-io.c                     |  25 +-
->  qemu-nbd.c                    |  12 +-
->  qemu-nbd.texi                 |   4 +-
->  stubs/Makefile.objs           |   1 +
->  stubs/io_uring.c              |  32 +++
->  tests/qemu-iotests/028        |   2 +-
->  tests/qemu-iotests/058        |   2 +-
->  tests/qemu-iotests/089        |   4 +-
->  tests/qemu-iotests/091        |   4 +-
->  tests/qemu-iotests/109        |   2 +-
->  tests/qemu-iotests/147        |   5 +-
->  tests/qemu-iotests/181        |   8 +-
->  tests/qemu-iotests/183        |   4 +-
->  tests/qemu-iotests/185        |  10 +-
->  tests/qemu-iotests/200        |   2 +-
->  tests/qemu-iotests/201        |   8 +-
->  tests/qemu-iotests/check      |  15 +-
->  tests/qemu-iotests/common.rc  |  14 ++
->  tests/qemu-iotests/iotests.py |  12 +-
->  util/async.c                  |  36 +++
->  35 files changed, 793 insertions(+), 76 deletions(-)
->  create mode 100644 block/io_uring.c
->  create mode 100644 stubs/io_uring.c
+-- =
 
-Ping?  Any further comments?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1657010
 
---4ZLFUWh1odzi/v6L
-Content-Type: application/pgp-signature; name="signature.asc"
+Title:
+  RFE: Please implement -cpu best or a CPU fallback option
 
------BEGIN PGP SIGNATURE-----
+Status in QEMU:
+  Fix Released
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4YSigACgkQnKSrs4Gr
-c8hqKwf/etiyxka289yxY48QDKqReXIfFm7rHAZFHtqTN6HM8seCopBUjsZlWykY
-gPJfn7qu4GyffjdJwR02gsnu7ljWXjMdW4FnoRJqcIe97EIOnA97204xlx6SOGIO
-Yet9Hc/5uWHL3sSV6tFhqZIAYl9L7oI98pjrVrCXy8o9pgE/ib84ctI6VubswCA5
-13gE3Z54FsMeZfV5Faf4EcVcGrNCum4hGXC8rISMj8fGpQyDzwvL4isHKdqdBUcG
-DkhGbNFPYR8ZXKh5zwigVyFjqcYNeD+FX5QrvvjGUUg5IWHqKW66PS1ZGIYQVIyk
-pHg+Cavtdr0VlS+PLq9XQY/kYYufcg==
-=dKiN
------END PGP SIGNATURE-----
+Bug description:
+  QEMU should implement a -cpu best option or some other way to make
+  this work:
 
---4ZLFUWh1odzi/v6L--
+  qemu -M pc,accel=3Dkvm:tcg -cpu best
 
+  qemu -M pc,accel=3Dkvm:tcg -cpu host:qemu64
+
+  See also:
+
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D1277744#c6
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1657010/+subscriptions
 
