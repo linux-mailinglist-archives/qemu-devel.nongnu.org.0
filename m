@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 291AA137523
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 18:46:25 +0100 (CET)
-Received: from localhost ([::1]:49950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E8D13750F
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 18:42:37 +0100 (CET)
+Received: from localhost ([::1]:49904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipyMZ-0003Zk-GO
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 12:46:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48088)
+	id 1ipyIt-0006bM-Ng
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 12:42:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47569)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1ipyAh-0004qI-Oh
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 12:34:08 -0500
+ (envelope-from <quintela@redhat.com>) id 1ipyAY-0004ar-UL
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 12:33:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1ipyAg-0003j6-LP
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 12:34:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22487
+ (envelope-from <quintela@redhat.com>) id 1ipyAX-0003Gd-M2
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 12:33:58 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49403
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ipyAg-0003hK-GM
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 12:34:06 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ipyAX-0003EM-Gj
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 12:33:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578677646;
+ s=mimecast20190719; t=1578677637;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IK9e0vaf6oFJwdDH1Z3FkKjQHviZuSu3zT8Gr5xF4kk=;
- b=XpvbLD8oCwHGgAWNRe+4aOkn+Ndz6uBb5cTfHTFg0xH2FY7S9gEKYYyYa/gjeJxDBt+m+m
- MkXtfAhtTcSOrAoGpWhzp/JFfEu6Gafjj6wzCOiHKlkRDkFCdox2GFZ1d58vidPOmBawz9
- fL2IHiISLIS791lXhaldmI8VqsiccNE=
+ bh=2p0QKCeBS4+LZOVYBokhIHTSESXgTmLYzL/BOFYcXF4=;
+ b=hg5JRXqdMh6qHgYiRfAXEKPdvAT3/+1GOeX3rRaG7THxanYb0nBQ6sKajaAG6rvfqRocee
+ 7Omve2CbWL7K8i7BgruqCcW664O6LA/IlklGz2kvy3U8Adk4vCrbyjO16EWUAkartx2+gN
+ NHwzBhIDftLGgYJbIEUsgvIbHmnJ9uQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-N9qKbkM6P3-YkKeEKJdSYg-1; Fri, 10 Jan 2020 12:34:04 -0500
+ us-mta-24-nGu7bzSpOF-94JielOxiyg-1; Fri, 10 Jan 2020 12:33:55 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D8731800D6B;
- Fri, 10 Jan 2020 17:33:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C04C1005513;
+ Fri, 10 Jan 2020 17:33:53 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-240.ams2.redhat.com [10.36.116.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B55A419C4F;
- Fri, 10 Jan 2020 17:33:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F4FD19C4F;
+ Fri, 10 Jan 2020 17:33:46 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/28] migration: Fix the re-run check of the migrate-incoming
- command
-Date: Fri, 10 Jan 2020 18:31:57 +0100
-Message-Id: <20200110173215.3865-11-quintela@redhat.com>
+Subject: [PULL 11/28] misc: use QEMU_IS_ALIGNED
+Date: Fri, 10 Jan 2020 18:31:58 +0100
+Message-Id: <20200110173215.3865-12-quintela@redhat.com>
 In-Reply-To: <20200110173215.3865-1-quintela@redhat.com>
 References: <20200110173215.3865-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: N9qKbkM6P3-YkKeEKJdSYg-1
+X-MC-Unique: nGu7bzSpOF-94JielOxiyg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,49 +70,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Yury Kotov <yury-kotov@yandex-team.ru>, Darren Kenny <darren.kenny@oracle.com>,
- qemu-arm@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Corey Minyard <cminyard@mvista.com>,
+ Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yury Kotov <yury-kotov@yandex-team.ru>
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-The current check sets an error but doesn't fail the command.
-This may cause a problem if new connection attempt by the same URI
-affects the first connection.
-
-Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/migration.c | 1 +
- 1 file changed, 1 insertion(+)
+ exec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index f79d0bf89a..e55edee606 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1784,6 +1784,7 @@ void qmp_migrate_incoming(const char *uri, Error **er=
-rp)
-     }
-     if (!once) {
-         error_setg(errp, "The incoming migration has already been started"=
-);
-+        return;
-     }
+diff --git a/exec.c b/exec.c
+index d4b769d0d4..1feda49ca1 100644
+--- a/exec.c
++++ b/exec.c
+@@ -3895,7 +3895,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t st=
+art, size_t length)
 =20
-     qemu_start_incoming_migration(uri, &local_err);
+     uint8_t *host_startaddr =3D rb->host + start;
+=20
+-    if ((uintptr_t)host_startaddr & (rb->page_size - 1)) {
++    if (!QEMU_PTR_IS_ALIGNED(host_startaddr, rb->page_size)) {
+         error_report("ram_block_discard_range: Unaligned start address: %p=
+",
+                      host_startaddr);
+         goto err;
+@@ -3903,7 +3903,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t st=
+art, size_t length)
+=20
+     if ((start + length) <=3D rb->used_length) {
+         bool need_madvise, need_fallocate;
+-        if (length & (rb->page_size - 1)) {
++        if (!QEMU_IS_ALIGNED(length, rb->page_size)) {
+             error_report("ram_block_discard_range: Unaligned length: %zx",
+                          length);
+             goto err;
 --=20
 2.24.1
 
