@@ -2,69 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3555A1368DC
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 09:17:05 +0100 (CET)
-Received: from localhost ([::1]:42432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A611368EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 09:27:19 +0100 (CET)
+Received: from localhost ([::1]:42496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ippTc-0006Qv-3Q
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 03:17:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50090)
+	id 1ippdV-0005Mv-3l
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 03:27:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54619)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ippRt-0005Oa-V2
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 03:15:18 -0500
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ippcX-0004aB-7X
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 03:26:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ippRs-0003Rh-VY
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 03:15:17 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47819
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ippRs-0003Q7-Qb
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 03:15:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578644116;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=EKcbDBofYWHBg3b6jwmkyh1qRf6xzkQBzSj7MJyIkXQ=;
- b=W8wagWaG6H//3HLn+f/QajQT1I4p/mAoG1S0r/OybtFbMq5gyn/+YaIa1rwkd6JMyfnwnj
- fR/hvtKJpmjKA+f5Nc6fp67IItwmelwQ8SBTXHr8TFTouWiOF6tXwvf1fDSijcndg8XCEi
- w+1h6V0cEzlNF8z+Bta2YhcIwCi2jTA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-Tb06N_77OKq5MpD_sTsuYw-1; Fri, 10 Jan 2020 03:15:15 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F298DB22;
- Fri, 10 Jan 2020 08:15:13 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-154.ams2.redhat.com [10.36.116.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BFD525C1B5;
- Fri, 10 Jan 2020 08:15:07 +0000 (UTC)
-Subject: Re: [PATCH 4/4] Makefile: Remove unhelpful comment
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200109153939.27173-1-philmd@redhat.com>
- <20200109153939.27173-5-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <7a6aea2c-8057-d616-6b7b-0075c7cb13e6@redhat.com>
-Date: Fri, 10 Jan 2020 09:15:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ippcT-0004rV-3O
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 03:26:17 -0500
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:38501)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ippcS-0004ny-V2
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 03:26:13 -0500
+Received: by mail-yw1-f67.google.com with SMTP id 10so374466ywv.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 00:26:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vnW91p0D4LbnQOTBltGPp9J5/nmmhN5FkHVlD//TexM=;
+ b=OSqdpfzmPGEFWmsqcJ24tjUT1LiTfT5+MDAS6irD7pbkhyJ/0pUoOOsV9GpishIE0z
+ lUgc+gHa349OZMu3RoBURpHx0mC259cwmk1zI13ng5u4VEpA4LLhR+gBAouO89sN6ob3
+ gdQ5A4NU0qTm9eFtNE5E+Z9jF2bleXN6fxY4kdp6q2vFOI3LjgWiKuCF09FC7O/eZuqZ
+ tUQzMklBWQZnax9nikdQnxaDTyfBZ1/nRnqyRuvKHQIASBEyvhaRcaHoBQ+PpkxfNka7
+ q0mVXeBODk/LbTV+3W2hXS6sGFU5sjWlgQ63sNkqTSYL/sCZ1aqSQvSW3IuXqFGaPNJf
+ 2wmg==
+X-Gm-Message-State: APjAAAV+whYNfj4Dgawl8XT67caAkAwwk8T9LAkD4jM5DS31rL6hSyZX
+ WudnsC2X3Mzk33XlgnPSOsGOZosk0QfekzciY3o=
+X-Google-Smtp-Source: APXvYqwhzkxsAX6fH6tuzi2iR/AT+uBRjN2zd8su3JUGUV8oXjLZLLBRtiB4rSbIOrnfxtcfpDzbNb+RStSrQU78kUQ=
+X-Received: by 2002:a81:3b15:: with SMTP id i21mr1782076ywa.368.1578644771856; 
+ Fri, 10 Jan 2020 00:26:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200109153939.27173-5-philmd@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: Tb06N_77OKq5MpD_sTsuYw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20200109153939.27173-1-philmd@redhat.com>
+ <20200109153939.27173-4-philmd@redhat.com>
+ <fbc4e5a3-afb2-1a6e-5c22-30d2b91cd8db@redhat.com>
+In-Reply-To: <fbc4e5a3-afb2-1a6e-5c22-30d2b91cd8db@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Fri, 10 Jan 2020 09:25:22 +0100
+Message-ID: <CAAdtpL7DQrs1OtkNax9tohOWo4Wabt-SASY1O0eCU7brU0SSNQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] Makefile: Restrict system emulation and tools objects
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000da6892059bc4e004"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 209.85.161.67
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,42 +66,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Markus Armbruster <armbru@redhat.com>,
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/01/2020 16.39, Philippe Mathieu-Daud=C3=A9 wrote:
-> It is pointless to keep qapi/ object separate from the other
-> common-objects. Drop the comment.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  Makefile.objs | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/Makefile.objs b/Makefile.objs
-> index 395dd1e670..c6321d0465 100644
-> --- a/Makefile.objs
-> +++ b/Makefile.objs
-> @@ -71,11 +71,9 @@ qemu-seccomp.o-libs :=3D $(SECCOMP_LIBS)
-> =20
->  common-obj-$(CONFIG_FDT) +=3D device_tree.o
-> =20
-> -######################################################################
-> -# qapi
-> -
->  common-obj-y +=3D qapi/
-> -endif
-> +
-> +endif # CONFIG_SOFTMMU
-> =20
->  #######################################################################
->  # Target-independent parts used in system and user emulation
->=20
+--000000000000da6892059bc4e004
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Le ven. 10 janv. 2020 09:18, Thomas Huth <thuth@redhat.com> a =C3=A9crit :
 
+> On 09/01/2020 16.39, Philippe Mathieu-Daud=C3=A9 wrote:
+> > Restrict all the system emulation and tools objects with a
+> > Makefile IF (CONFIG_SOFTMMU OR CONFIG_TOOLS) check.
+> >
+> > Using the same description over and over is not very helpful.
+> > Use it once, just before the if() block.
+> >
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > ---
+> >  Makefile.objs | 19 +++++++------------
+> >  1 file changed, 7 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/Makefile.objs b/Makefile.objs
+> > index 5aae561984..395dd1e670 100644
+> > --- a/Makefile.objs
+> > +++ b/Makefile.objs
+> > @@ -4,16 +4,15 @@ stub-obj-y =3D stubs/
+> >  util-obj-y =3D crypto/ util/ qobject/ qapi/
+> >  qom-obj-y =3D qom/
+> >
+> > +######################################################################=
+#
+> > +# code used by both qemu system emulation and qemu-img
+> > +
+> > +ifeq ($(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS)),y)
+>
+> That ",y" at the end looks wrong?
+>
+
+It's the result of the logical OR.
+
+--000000000000da6892059bc4e004
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">Le ven. 10 janv. 2020 09:18, Thomas Huth &lt;<a href=3D"mailto=
+:thuth@redhat.com">thuth@redhat.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex">On 09/01/2020 16.39, Philippe Mathieu-Daud=C3=
+=A9 wrote:<br>
+&gt; Restrict all the system emulation and tools objects with a<br>
+&gt; Makefile IF (CONFIG_SOFTMMU OR CONFIG_TOOLS) check.<br>
+&gt; <br>
+&gt; Using the same description over and over is not very helpful.<br>
+&gt; Use it once, just before the if() block.<br>
+&gt; <br>
+&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philm=
+d@redhat.com" target=3D"_blank" rel=3D"noreferrer">philmd@redhat.com</a>&gt=
+;<br>
+&gt; ---<br>
+&gt;=C2=A0 Makefile.objs | 19 +++++++------------<br>
+&gt;=C2=A0 1 file changed, 7 insertions(+), 12 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/Makefile.objs b/Makefile.objs<br>
+&gt; index 5aae561984..395dd1e670 100644<br>
+&gt; --- a/Makefile.objs<br>
+&gt; +++ b/Makefile.objs<br>
+&gt; @@ -4,16 +4,15 @@ stub-obj-y =3D stubs/<br>
+&gt;=C2=A0 util-obj-y =3D crypto/ util/ qobject/ qapi/<br>
+&gt;=C2=A0 qom-obj-y =3D qom/<br>
+&gt;=C2=A0 <br>
+&gt; +#####################################################################=
+##<br>
+&gt; +# code used by both qemu system emulation and qemu-img<br>
+&gt; +<br>
+&gt; +ifeq ($(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS)),y)<br>
+<br>
+That &quot;,y&quot; at the end looks wrong?<br></blockquote></div></div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto">It&#39;s the result of the logic=
+al OR.</div></div>
+
+--000000000000da6892059bc4e004--
 
