@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340CC13707D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:00:09 +0100 (CET)
-Received: from localhost ([::1]:47198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85078137084
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:01:47 +0100 (CET)
+Received: from localhost ([::1]:47214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipvlf-0002Ha-UE
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:00:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53970)
+	id 1ipvnF-0003rD-T3
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:01:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52786)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1ipvgy-0004qA-A6
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 09:55:17 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1ipvgd-0004GM-12
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 09:54:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1ipvgw-0007Dq-VN
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 09:55:16 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27245
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eric.auger@redhat.com>) id 1ipvgb-0005wX-J4
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 09:54:54 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35054
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1ipvgw-0007Bu-Qc
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 09:55:14 -0500
+ id 1ipvgb-0005uF-EU
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 09:54:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578668114;
+ s=mimecast20190719; t=1578668093;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A9N2aRoAuhJExNcXHHKcgXxx/GMzDOlebGq7Fw5BkDk=;
- b=T++sQJcYvd6/4QW72EImRHQF1qU08x/Q92C75XduFj0EAD1fLR7IcXZ4xoI/q+Fi9rKieS
- wjzf2ATHJR440JM8SdI1Y0w9xt8q3Zw8OqBMVfbIBVN0TEkenDZ5Ok9vChIm8f0m/RYHEd
- C0TO78eU7Ny6s4yce+MNGoD2fVNmC8s=
+ bh=So3e0V/LUBPnehm9Y9Au2M9MYM91iN9NSNK40gnxpnE=;
+ b=Y23bUA2INRJS2yeqy3wG9avsoHgfPeTvd7d5nX98FzDZG3lAJoWHdxErTx3C610MZ8Jpz3
+ hctDpabopwoTm5KPlNLoXGwDa0jjc2uJ1/4HjnNgrjoJNq/v6NnzhFTbYFuXyGx0cTl3R0
+ XnSaD2c+fKNT0SHhk0oxJyNw6Fn2+EQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-ePoRKuSlMn2JcuCbsgeOXA-1; Fri, 10 Jan 2020 09:55:13 -0500
-X-MC-Unique: ePoRKuSlMn2JcuCbsgeOXA-1
+ us-mta-36-t4h7zcAyMMmPAqIqHvdivw-1; Fri, 10 Jan 2020 09:54:51 -0500
+X-MC-Unique: t4h7zcAyMMmPAqIqHvdivw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D690318C43CF;
- Fri, 10 Jan 2020 14:55:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF2CE107ACC9;
+ Fri, 10 Jan 2020 14:54:49 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-117-108.ams2.redhat.com [10.36.117.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC5647C3E2;
- Fri, 10 Jan 2020 14:55:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 106DB7BA5F;
+ Fri, 10 Jan 2020 14:54:46 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
  kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
-Subject: [kvm-unit-tests PATCH v2 10/16] arm/arm64: ITS: its_enable_defaults
-Date: Fri, 10 Jan 2020 15:54:06 +0100
-Message-Id: <20200110145412.14937-11-eric.auger@redhat.com>
+Subject: [kvm-unit-tests PATCH v2 06/16] arm/arm64: ITS: Test BASER
+Date: Fri, 10 Jan 2020 15:54:02 +0100
+Message-Id: <20200110145412.14937-7-eric.auger@redhat.com>
 In-Reply-To: <20200110145412.14937-1-eric.auger@redhat.com>
 References: <20200110145412.14937-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,78 +76,223 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-its_enable_defaults() is the top init function that allocates all
-the requested tables (device, collection, lpi config and pending
-tables), enable LPIs at distributor level and ITS level.
-
-gicv3_enable_defaults must be called before.
+Add helper routines to parse and set up BASER registers.
+Add a new test dedicated to BASER<n> accesses.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
----
- lib/arm/asm/gic-v3-its.h |  1 +
- lib/arm/gic-v3-its.c     | 40 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
 
+---
+
+v2 -> v3:
+- remove everything related to memory attributes
+- s/dev_baser/coll_baser/ in report_info
+- add extra line
+- removed index filed in its_baser
+---
+ arm/gic.c                | 21 ++++++++++-
+ arm/unittests.cfg        |  6 +++
+ lib/arm/asm/gic-v3-its.h | 14 +++++++
+ lib/arm/gic-v3-its.c     | 80 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 120 insertions(+), 1 deletion(-)
+
+diff --git a/arm/gic.c b/arm/gic.c
+index adeb981..3597ac3 100644
+--- a/arm/gic.c
++++ b/arm/gic.c
+@@ -531,11 +531,26 @@ static void test_its_introspection(void)
+ 		    typer->collid_bits);
+ 	report(typer->eventid_bits && typer->deviceid_bits &&
+ 	       typer->collid_bits, "ID spaces");
+-	report(!typer->hw_collections, "collections only in ext memory");
+ 	report_info("Target address format %s",
+ 			typer->pta ? "Redist basse address" : "PE #");
+ }
+=20
++static void test_its_baser(void)
++{
++	struct its_baser *dev_baser, *coll_baser;
++
++	if (!gicv3_its_base()) {
++		report_skip("No ITS, skip ...");
++		return;
++	}
++
++	dev_baser =3D its_lookup_baser(GITS_BASER_TYPE_DEVICE);
++	coll_baser =3D its_lookup_baser(GITS_BASER_TYPE_COLLECTION);
++	report(dev_baser && coll_baser, "detect device and collection BASER");
++	report_info("device baser entry_size =3D 0x%x", dev_baser->esz);
++	report_info("collection baser entry_size =3D 0x%x", coll_baser->esz);
++}
++
+ int main(int argc, char **argv)
+ {
+ 	if (!gic_init()) {
+@@ -571,6 +586,10 @@ int main(int argc, char **argv)
+ 		report_prefix_push(argv[1]);
+ 		test_its_introspection();
+ 		report_prefix_pop();
++	} else if (strcmp(argv[1], "its-baser") =3D=3D 0) {
++		report_prefix_push(argv[1]);
++		test_its_baser();
++		report_prefix_pop();
+ 	} else {
+ 		report_abort("Unknown subtest '%s'", argv[1]);
+ 	}
+diff --git a/arm/unittests.cfg b/arm/unittests.cfg
+index bd20460..2234a0f 100644
+--- a/arm/unittests.cfg
++++ b/arm/unittests.cfg
+@@ -128,6 +128,12 @@ smp =3D $MAX_SMP
+ extra_params =3D -machine gic-version=3D3 -append 'its-introspection'
+ groups =3D its
+=20
++[its-baser]
++file =3D gic.flat
++smp =3D $MAX_SMP
++extra_params =3D -machine gic-version=3D3 -append 'its-baser'
++groups =3D its
++
+ # Test PSCI emulation
+ [psci]
+ file =3D psci.flat
 diff --git a/lib/arm/asm/gic-v3-its.h b/lib/arm/asm/gic-v3-its.h
-index d2db292..0e31848 100644
+index 8816d57..5a4dfe9 100644
 --- a/lib/arm/asm/gic-v3-its.h
 +++ b/lib/arm/asm/gic-v3-its.h
-@@ -100,6 +100,7 @@ extern void set_lpi_config(int n, u8 val);
- extern u8 get_lpi_config(int n);
- extern void set_pending_table_bit(int rdist, int n, bool set);
- extern void gicv3_rdist_ctrl_lpi(u32 redist, bool set);
-+extern void its_enable_defaults(void);
+@@ -65,9 +65,20 @@ struct its_typer {
+ 	bool virt_lpi;
+ };
+=20
++struct its_baser {
++	int type;
++	size_t psz;
++	int nr_pages;
++	bool indirect;
++	phys_addr_t table_addr;
++	bool valid;
++	int esz;
++};
++
+ struct its_data {
+ 	void *base;
+ 	struct its_typer typer;
++	struct its_baser baser[GITS_BASER_NR_REGS];
+ };
+=20
+ extern struct its_data its_data;
+@@ -76,6 +87,9 @@ extern struct its_data its_data;
+=20
+ extern void its_parse_typer(void);
+ extern void its_init(void);
++extern int its_parse_baser(int i, struct its_baser *baser);
++extern void its_setup_baser(int i, struct its_baser *baser);
++extern struct its_baser *its_lookup_baser(int type);
 =20
  #endif /* !__ASSEMBLY__ */
  #endif /* _ASMARM_GIC_V3_ITS_H_ */
 diff --git a/lib/arm/gic-v3-its.c b/lib/arm/gic-v3-its.c
-index c7c6f80..f488cca 100644
+index ce607bb..79946c3 100644
 --- a/lib/arm/gic-v3-its.c
 +++ b/lib/arm/gic-v3-its.c
-@@ -217,3 +217,43 @@ void gicv3_rdist_ctrl_lpi(u32 redist, bool set)
- 		val &=3D ~GICR_CTLR_ENABLE_LPIS;
- 	writel(val,  ptr + GICR_CTLR);
+@@ -4,6 +4,7 @@
+  * This work is licensed under the terms of the GNU LGPL, version 2.
+  */
+ #include <asm/gic.h>
++#include <alloc_page.h>
+=20
+ struct its_data its_data;
+=20
+@@ -29,11 +30,90 @@ void its_parse_typer(void)
+ 	its_data.typer.phys_lpi =3D typer & GITS_TYPER_PLPIS;
  }
-+
-+void its_enable_defaults(void)
+=20
++int its_parse_baser(int i, struct its_baser *baser)
 +{
-+	unsigned int i;
++	void *reg_addr =3D gicv3_its_base() + GITS_BASER + i * 8;
++	u64 val =3D readq(reg_addr);
 +
-+	its_parse_typer();
-+
-+	/* Allocate BASER tables (device and collection tables) */
-+	for (i =3D 0; i < GITS_BASER_NR_REGS; i++) {
-+		struct its_baser *baser =3D &its_data.baser[i];
-+		int ret;
-+
-+		ret =3D its_parse_baser(i, baser);
-+		if (ret)
-+			continue;
-+
-+		switch (baser->type) {
-+		case GITS_BASER_TYPE_DEVICE:
-+			baser->valid =3D true;
-+			its_setup_baser(i, baser);
-+			break;
-+		case GITS_BASER_TYPE_COLLECTION:
-+			baser->valid =3D true;
-+			its_setup_baser(i, baser);
-+			break;
-+		default:
-+			break;
-+		}
++	if (!val) {
++		memset(baser, 0, sizeof(*baser));
++		return -1;
 +	}
 +
-+	/* Allocate LPI config and pending tables */
-+	alloc_lpi_tables();
-+
-+	init_cmd_queue();
-+
-+	for (i =3D 0; i < nr_cpus; i++)
-+		gicv3_rdist_ctrl_lpi(i, true);
-+
-+	writel(GITS_CTLR_ENABLE, its_data.base + GITS_CTLR);
++	baser->valid =3D val & GITS_BASER_VALID;
++	baser->indirect =3D val & GITS_BASER_INDIRECT;
++	baser->type =3D GITS_BASER_TYPE(val);
++	baser->esz =3D GITS_BASER_ENTRY_SIZE(val);
++	baser->nr_pages =3D GITS_BASER_NR_PAGES(val);
++	baser->table_addr =3D val & GITS_BASER_PHYS_ADDR_MASK;
++	switch (val & GITS_BASER_PAGE_SIZE_MASK) {
++	case GITS_BASER_PAGE_SIZE_4K:
++		baser->psz =3D SZ_4K;
++		break;
++	case GITS_BASER_PAGE_SIZE_16K:
++		baser->psz =3D SZ_16K;
++		break;
++	case GITS_BASER_PAGE_SIZE_64K:
++		baser->psz =3D SZ_64K;
++		break;
++	default:
++		baser->psz =3D SZ_64K;
++	}
++	return 0;
 +}
++
++struct its_baser *its_lookup_baser(int type)
++{
++	int i;
++
++	for (i =3D 0; i < GITS_BASER_NR_REGS; i++) {
++		struct its_baser *baser =3D &its_data.baser[i];
++
++		if (baser->type =3D=3D type)
++			return baser;
++	}
++	return NULL;
++}
++
+ void its_init(void)
+ {
++	int i;
++
+ 	if (!its_data.base)
+ 		return;
+=20
+ 	its_parse_typer();
++	for (i =3D 0; i < GITS_BASER_NR_REGS; i++)
++		its_parse_baser(i, &its_data.baser[i]);
++}
++
++void its_setup_baser(int i, struct its_baser *baser)
++{
++	unsigned long n =3D (baser->nr_pages * baser->psz) >> PAGE_SHIFT;
++	unsigned long order =3D is_power_of_2(n) ? fls(n) : fls(n) + 1;
++	u64 val;
++
++	baser->table_addr =3D (u64)virt_to_phys(alloc_pages(order));
++
++	val =3D ((u64)baser->table_addr					|
++		((u64)baser->type	<< GITS_BASER_TYPE_SHIFT)	|
++		((u64)(baser->esz - 1)	<< GITS_BASER_ENTRY_SIZE_SHIFT)	|
++		((baser->nr_pages - 1)	<< GITS_BASER_PAGES_SHIFT)	|
++		(u64)baser->indirect	<< 62				|
++		(u64)baser->valid	<< 63);
++
++	switch (baser->psz) {
++	case SZ_4K:
++		val |=3D GITS_BASER_PAGE_SIZE_4K;
++		break;
++	case SZ_16K:
++		val |=3D GITS_BASER_PAGE_SIZE_16K;
++		break;
++	case SZ_64K:
++		val |=3D GITS_BASER_PAGE_SIZE_64K;
++		break;
++	}
++
++	writeq(val, gicv3_its_base() + GITS_BASER + i * 8);
+ }
+=20
 --=20
 2.20.1
 
