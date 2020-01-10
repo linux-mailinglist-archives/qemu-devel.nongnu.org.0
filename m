@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0CD1371C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:51:33 +0100 (CET)
-Received: from localhost ([::1]:48302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBB41371A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:47:40 +0100 (CET)
+Received: from localhost ([::1]:48244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipwZQ-00075R-Qc
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:51:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56459)
+	id 1ipwVf-0001I3-CL
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:47:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57687)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vgoyal@redhat.com>) id 1ipwQF-0003jD-AK
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:42:04 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ipwQZ-0004Jy-7t
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:42:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vgoyal@redhat.com>) id 1ipwQD-0003Ll-UJ
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:42:03 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58499
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vgoyal@redhat.com>) id 1ipwQD-0003Iu-Ph
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:42:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578670921;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jBg45+LpjtXGUrIhyGhSEWIbaLqX0f99qskaxLuoAWc=;
- b=ERnsE6z83ep8w3C0/peWwqkhntr1PuE9853tasadpqf11JQPWmjLwXAG2lf01zeiI2tqSD
- jSqR82aT8wXGYAc/4mncj84xUO08qDQ7VdKa2heZWE69NRMCaRkZDzb5wVL8U8Y4CWys5J
- KgGWz2c3DDdyf2l/VayPqyGds5Pt2kI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-aR4sCtifPc-CNSLnxDV7EA-1; Fri, 10 Jan 2020 10:40:42 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D4C8B20E1
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 15:40:41 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.18.25.35])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 61D5560CC0;
- Fri, 10 Jan 2020 15:40:38 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id E8339220A24; Fri, 10 Jan 2020 10:40:37 -0500 (EST)
-Date: Fri, 10 Jan 2020 10:40:37 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Subject: Re: [PATCH 068/104] virtiofsd: passthrough_ll: control readdirplus
-Message-ID: <20200110154037.GC28043@redhat.com>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-69-dgilbert@redhat.com>
- <20200107112316.GL3368802@redhat.com>
- <20200110150447.GH3901@work-vm>
- <CAOssrKdRn9NGV9TuvCkRRXEwZep6B-R2598iYLY4-9d6zkPUXg@mail.gmail.com>
- <20200110151808.GT3423494@redhat.com>
- <CAOssrKf0ohB66yUpH38jH-dvOCs1zS5zfa5KL9g+0ZCAcMXs4w@mail.gmail.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1ipwQX-0004X9-Vc
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:42:22 -0500
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:36926)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ipwQX-0004TB-Nt
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:42:21 -0500
+Received: by mail-ot1-x330.google.com with SMTP id k14so2357694otn.4
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 07:42:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=DS5jOzktvvDYaxzme9mKbiZMM8VPHyPW82dXGwHiW9c=;
+ b=Pv68MjPm7wg+68pwItyNAwrgIXiDpU8lcsGjHwQBJ6zY5YKgbRuZX/UdAdoCPk1uAY
+ f/OxVVRPaUPGzJ7LNiXpFVT+VMOM2tWBnTKnYqrZqiCXI4JgFf+M5XH76P8IbSjhFqJb
+ woOVxgFiND83LUPYVg8FCCETxdHaat/c5Y8sDP1n9EB5htJfCyGKF4pa5HiJG7IfR5mn
+ F3HJ9wzR3OSBpQ6euuyc0HuBGGm+8945aCBYBuAT18fK6Ozpy9cftea5zfW3haI6Y9W5
+ DTpHUxYUrUQu1G8u7fRyk4szg15Gsx18qpn4f1WmFALGifeKB3F/2/+pJ5qhDLl72vnz
+ 2sCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=DS5jOzktvvDYaxzme9mKbiZMM8VPHyPW82dXGwHiW9c=;
+ b=jsHepaI2JV1FHtuPtNPENimr4WOS/2S4F7aAegvqVy2wBgdhs/mVp/skbXg+LX2T0C
+ 4Td9XyDsgBkCBhDsTnFgSzVWbLtIOM+BwOlVu4efcDCIY3wG+kwHgX2vz5q/zxLQLRed
+ pHtt0AZJqRB3R1RS3nuv2anA4XYq9XzFdOD4NmGDoV0A14FUhRB4gKyPmzJoYzj7o8sN
+ mYRd+WGp9+zYeblaLmQ5j1OWxZ6eucXKnf+MrDdyJqqCgR4dZl1Zl1CvNGU3eM4rxy1R
+ b0x6+1JlCARPgZiqwSGRgzj+47yDVQ//MnMaq1jCwx84fzxuntDpt62DMLaNQdyH5/O4
+ uwFg==
+X-Gm-Message-State: APjAAAVMpuUxRZrNXNOSgE7LYDM9M+xD03Ajw0uQ5sayDTOTMcmNjmRq
+ islaiJ7ck2RR/TPQfiS7noy0Vka3zO9W3G3UGYqtc3SJc8o=
+X-Google-Smtp-Source: APXvYqx3VAYFxkU7SjN39b5kGgwahobOFeHt8n11FhJBmUbbaOEoEkJTdcUiqLeYvhKKZWNsYtTGsZ9mN4oqPdCVPRI=
+X-Received: by 2002:a05:6830:4a4:: with SMTP id
+ l4mr3152781otd.91.1578670940562; 
+ Fri, 10 Jan 2020 07:42:20 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAOssrKf0ohB66yUpH38jH-dvOCs1zS5zfa5KL9g+0ZCAcMXs4w@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: aR4sCtifPc-CNSLnxDV7EA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 Jan 2020 15:42:09 +0000
+Message-ID: <CAFEAcA-dz7f_12QU1_YSkfuKKEk9YYcq8jwLRu90Z85UZ+YKRQ@mail.gmail.com>
+Subject: xlnx-zynqmp doesn't set psci-conduit on the R-cores
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,83 +69,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 10, 2020 at 04:30:01PM +0100, Miklos Szeredi wrote:
-> On Fri, Jan 10, 2020 at 4:18 PM Daniel P. Berrang=E9 <berrange@redhat.com=
-> wrote:
-> >
-> > On Fri, Jan 10, 2020 at 04:13:08PM +0100, Miklos Szeredi wrote:
-> > > On Fri, Jan 10, 2020 at 4:04 PM Dr. David Alan Gilbert
-> > > <dgilbert@redhat.com> wrote:
-> > > >
-> > > > * Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
-> > > > > On Thu, Dec 12, 2019 at 04:38:28PM +0000, Dr. David Alan Gilbert =
-(git) wrote:
-> > > > > > From: Miklos Szeredi <mszeredi@redhat.com>
-> > > > > >
-> > > > >
-> > > > > What is readdirplus and what do we need a command line option to
-> > > > > control it ? What's the user benefit of changing the setting ?
-> > > >
-> > > > cc'ing Miklos who understands this better than me.
-> > > >
-> > > > My understanding is that readdirplus is a heuristic inherited from =
-NFS
-> > > > where when you iterate over the directory you also pick up stat() d=
-ata
-> > > > for each entry in the directory.  You then cache that stat data
-> > > > somewhere.
-> > > > The Plus-ness is that a lot of directory operations involve you sta=
-ting
-> > > > each entry (e.g. to figure out if you can access it etc) so rolling=
- it
-> > > > into one op avoids the separate stat.  The unplus-ness is that it's=
- an
-> > > > overhead and I think changes some of the caching behaviour.
-> > >
-> > > Yeah, so either may give better performance and it's hard to pick a
-> > > clear winner.  NFS also has an option to control this.
-> >
-> > IIUC from the man page, the NFS option for controlling this is a client
-> > side mount option. This makes sense as only the client really has knowl=
-edge
-> > of whether its workload will benefit.
-> >
-> > With this in mind, should the readdirplus control for virtio-fs also be=
- a
-> > guest mount option instead of a host virtiofsd CLI option ? The guest a=
-dmin
-> > seems best placed to know whether their workload will benefit or not.
->=20
-> Definitely.   In fact other options, e.g. ones that control caching,
-> should probably also be client side (cache=3DXXX, writeback,
-> timeout=3DXXX, etc).
+Hi; somebody pointed out to me that hw/arm/xlnx-zynqmp.c only
+sets the psci-conduit on the A-profile cores, not the R. This
+means you can't set the boot-cpu to an R-profile core and
+use PSCI to wake up the other one. Is the omission deliberate?
 
-I am not sure about cache options. So if we want to share a directory
-between multiple guests with stronger coherency (cache=3Dnone), then admin
-should decide that cache=3Dalways/auto is not supported on this export.
-
-Also, how will one client know whether there are other clients same
-directory with strong coherency requirements and it should use cache=3Dnone
-instead of cache=3Dalways/auto.
-
-Having said that, it also makes sense that client knows its workoad
-and can decide if cache=3Dauto works best for it and use that instead.
-
-May be we need both client and server side options. Client will request
-certain cache=3Dxxx options and server can deny these if admin decides
-not to enable that option for that particular mount.
-
-For example, if admin decides that we can only support cache=3Dnone on
-this particular dir due to other guest sharing it, then daemon should
-be able to deny cache=3Dauto/always requests from client.
-
-Thanks
-Vivek
-
+thanks
+-- PMM
 
