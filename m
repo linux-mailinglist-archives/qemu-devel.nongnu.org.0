@@ -2,53 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500ED136A4E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:55:53 +0100 (CET)
-Received: from localhost ([::1]:43306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED98A136A49
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:54:33 +0100 (CET)
+Received: from localhost ([::1]:43284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipr1E-0003rJ-C0
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:55:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44877)
+	id 1ipqzw-00015A-VL
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:54:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49061)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1ipqwv-00066V-00
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:51:26 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ipqy7-0007pJ-NF
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:52:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1ipqwt-0007u1-9b
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:51:24 -0500
-Received: from 4.mo6.mail-out.ovh.net ([87.98.184.159]:34876)
+ (envelope-from <dgilbert@redhat.com>) id 1ipqy5-00052l-OC
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:52:38 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45010
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1ipqwt-0007kx-1T
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:51:23 -0500
-Received: from player688.ha.ovh.net (unknown [10.108.16.42])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id E5FB01F8BE2
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 10:51:20 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id 56885DFACE0A;
- Fri, 10 Jan 2020 09:50:58 +0000 (UTC)
-Date: Fri, 10 Jan 2020 10:50:55 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH 04/15] hw/ppc/spapr_rtas: Restrict variables scope to
- single switch case
-Message-ID: <20200110105055.3e72ddf4@bahia.lan>
-In-Reply-To: <9870f8ed-3fa0-1deb-860d-7481cb3db556@redhat.com>
-References: <20200109152133.23649-1-philmd@redhat.com>
- <20200109152133.23649-5-philmd@redhat.com>
- <20200109184349.1aefa074@bahia.lan>
- <9870f8ed-3fa0-1deb-860d-7481cb3db556@redhat.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ipqy5-0004yx-Hl
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:52:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578649956;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+UWPpEck3ZmDBtj2ZpZeyCti65+1QI3VhxHLYW9D4B0=;
+ b=BLB47DLqVvKpqdKaYz110GmzNszmp716FCDtH0QDDEEo3rXtcBgbo/cvmsxUMkxKPQzdod
+ umNhKnU7iBHeMi/nqycHPniGhoQbsVD7x9IakRI6MxXTOBgchT/QDLX+s63nAbMyWj+NhT
+ 3+LdkrhD1pHEP9FqXRxCpHvVh5NsPPc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-9VsIyrhpM4C2c2MDyby0Mw-1; Fri, 10 Jan 2020 04:52:35 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96E5A1883536
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:52:34 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA6541001B03;
+ Fri, 10 Jan 2020 09:52:30 +0000 (UTC)
+Date: Fri, 10 Jan 2020 09:52:28 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ mszeredi@redhat.com
+Subject: Re: [PATCH 066/104] virtiofsd: passthrough_ll: add renameat2 support
+Message-ID: <20200110095228.GC3901@work-vm>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-67-dgilbert@redhat.com>
+ <20200107112143.GJ3368802@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20200107112143.GJ3368802@redhat.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 9VsIyrhpM4C2c2MDyby0Mw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 5266959766281034019
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdeifedgtdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieekkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 87.98.184.159
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,106 +75,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Juan Quintela <quintela@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <rth@twiddle.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Jan 2020 10:34:07 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> On Thu, Dec 12, 2019 at 04:38:26PM +0000, Dr. David Alan Gilbert (git) wr=
+ote:
+> > From: Miklos Szeredi <mszeredi@redhat.com>
+> >=20
+> > No glibc support yet, so use syscall().
+>=20
+> It exists in glibc in my Fedora 31 install.
+>=20
+> Presumably this is related to an older version
+>=20
+> > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> > ---
+> >  tools/virtiofsd/passthrough_ll.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >=20
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
+ough_ll.c
+> > index 91d3120033..bed2270141 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -1083,7 +1083,17 @@ static void lo_rename(fuse_req_t req, fuse_ino_t=
+ parent, const char *name,
+> >      }
+> > =20
+> >      if (flags) {
+> > +#ifndef SYS_renameat2
+> >          fuse_reply_err(req, EINVAL);
+> > +#else
+> > +        res =3D syscall(SYS_renameat2, lo_fd(req, parent), name,
+> > +                      lo_fd(req, newparent), newname, flags);
+> > +        if (res =3D=3D -1 && errno =3D=3D ENOSYS) {
+> > +            fuse_reply_err(req, EINVAL);
+> > +        } else {
+> > +            fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
+> > +        }
+> > +#endif
+>=20
+> We should use the formal API if available as first choice
 
-> On 1/9/20 6:43 PM, Greg Kurz wrote:
-> > On Thu,  9 Jan 2020 16:21:22 +0100
-> > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> >=20
-> >> We only access these variables in RTAS_SYSPARM_SPLPAR_CHARACTERISTICS
-> >> case, restrict their scope to avoid unnecessary initialization.
-> >>
-> >=20
-> > I guess a decent compiler can be smart enough detect that the initializ=
-ation
-> > isn't needed outside of the RTAS_SYSPARM_SPLPAR_CHARACTERISTICS branch.=
-..
-> > Anyway, reducing scope isn't bad. The only hitch I could see is that so=
-me
-> > people do prefer to have all variables declared upfront, but there's a =
-nested
-> > param_val variable already so I guess it's okay.
->=20
-> I don't want to outsmart compilers :)
->=20
-> The MACHINE() macro is not a simple cast, it does object introspection=20
-> with OBJECT_CHECK(), thus is not free. Since=20
+OK, done - I've kept the 'ifndef SYS_renameat2' that drops back to an
+error for truly ancient cases; although I doubt everything else will
+build on something that old.
 
-Sure, I understand the motivation in avoiding an unneeded call
-to calling object_dynamic_cast_assert().
+Dave
 
-> object_dynamic_cast_assert() argument is not const, I'm not sure the=20
-> compiler can remove the call.
 >=20
-
-Not remove the call, but delay it to the branch that uses it,
-ie. parameter =3D=3D RTAS_SYSPARM_SPLPAR_CHARACTERISTICS.
-
-> Richard, Eric, do you know?
->=20
-> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> >> ---
-> >>   hw/ppc/spapr_rtas.c | 4 ++--
-> >>   1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> >> index 6f06e9d7fe..7237e5ebf2 100644
-> >> --- a/hw/ppc/spapr_rtas.c
-> >> +++ b/hw/ppc/spapr_rtas.c
-> >> @@ -267,8 +267,6 @@ static void rtas_ibm_get_system_parameter(PowerPCC=
-PU *cpu,
-> >>                                             uint32_t nret, target_ulon=
-g rets)
-> >>   {
-> >>       PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> >> -    MachineState *ms =3D MACHINE(spapr);
-> >> -    unsigned int max_cpus =3D ms->smp.max_cpus;
-> >>       target_ulong parameter =3D rtas_ld(args, 0);
-> >>       target_ulong buffer =3D rtas_ld(args, 1);
-> >>       target_ulong length =3D rtas_ld(args, 2);
-> >> @@ -276,6 +274,8 @@ static void rtas_ibm_get_system_parameter(PowerPCC=
-PU *cpu,
-> >>  =20
-> >>       switch (parameter) {
-> >>       case RTAS_SYSPARM_SPLPAR_CHARACTERISTICS: {
-> >> +        MachineState *ms =3D MACHINE(spapr);
-> >> +        unsigned int max_cpus =3D ms->smp.max_cpus;
-> >=20
-> > The max_cpus variable used to be a global. Now that it got moved
-> > below ms->smp, I'm not sure it's worth keeping it IMHO. What about
-> > dropping it completely and do:
-> >=20
-> >          char *param_val =3D g_strdup_printf("MaxEntCap=3D%d,"
-> >                                            "DesMem=3D%" PRIu64 ","
-> >                                            "DesProcs=3D%d,"
-> >                                            "MaxPlatProcs=3D%d",
-> >                                            ms->smp.max_cpus,
-> >                                            current_machine->ram_size / =
-MiB,
-> >                                            ms->smp.cpus,
-> >                                            ms->smp.max_cpus);
->=20
-> OK, good idea.
->=20
-> > And maybe insert an empty line between the declaration of param_val
-> > and the code for a better readability ?
-> >=20
-> >>           char *param_val =3D g_strdup_printf("MaxEntCap=3D%d,"
-> >>                                             "DesMem=3D%" PRIu64 ","
-> >>                                             "DesProcs=3D%d,"
-> >=20
->=20
+> Regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
