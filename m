@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68340136A4A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:54:39 +0100 (CET)
-Received: from localhost ([::1]:43286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B22136A1A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:43:38 +0100 (CET)
+Received: from localhost ([::1]:43178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipr02-0001Vy-7a
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:54:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43575)
+	id 1ipqpN-0000GJ-4E
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:43:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48793)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipqwK-00058E-M0
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:50:49 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1ipqo4-000890-LI
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:42:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipqwJ-0005zz-DH
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:50:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39158)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1ipqo3-0008P1-NQ
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:42:16 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45871)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipqwJ-0005tp-6E
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:50:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipqwG-0002Cu-0d
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:50:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 275B92E810A
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:50:39 +0000 (UTC)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ipqo0-00089x-Bj; Fri, 10 Jan 2020 04:42:12 -0500
+Received: by mail-wr1-x444.google.com with SMTP id j42so1101413wrj.12;
+ Fri, 10 Jan 2020 01:42:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8dqO2ueHj7gIKIyWyu1BBEDjKzHtdvHlP1LJUdwu2HE=;
+ b=P7Fvn1XGTB/A3yaZY22gHasoTZPt6xhhsQdjchKZFFtrYsr847sfz/Chvn9TlYpp5S
+ 4vSivyS4L+YtJLF/PSONEn+TVeyBIEu1fiI1rSIZWDpzPjzSBkRYM9RzWwdn0FjfYfUv
+ ugT+oTFm4amHIjmqWJE1TEbFy6vbZPeMF7VwkqqayP1su6SJteekXv5GX1UyV+WNN31Y
+ MVK2MD5MmWpUvLXAoCebecjxCQombS/p3PekDnfce6ynEvEana3M0nxKULjW6Lj0c4v0
+ ePZOxkVtP4Y5ssnDikNVeAkwmxex1sJrNgFXVI2JoTbAsfaCzR1hQk+J5mw9briqlDBM
+ KFpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8dqO2ueHj7gIKIyWyu1BBEDjKzHtdvHlP1LJUdwu2HE=;
+ b=XDk8+sdh3ckZdMKqyhLCfT2c4fkV20J9+ZN0WucI1eq/1tb86ZnQD7UIDb3nKLZH7/
+ VYhXxiwUCEu0LVwNrDhYSnh3xHTDXNkUH7QGs3JyP9cGF8CMnv/sIkDovA1k197liWwQ
+ WEABje52DSDlSoXNcDGbPbZbTSjTvn/Rj5TX8jaF3EGRdG3ECcfPvHTb7I/d7s9LnGWs
+ ZQOMkScbbr5bVcWc2jpQkQkIVTB/h/9zt6aoacuZKm3WDwju7fulWjo5T4dp0AWo80Nc
+ EiJwYurk3jaZvrq0vx4Garuc6BXTgEZgTaNdQJ8nxZDbeyBUXgGJ0QH759xbtXHwNdOd
+ a38g==
+X-Gm-Message-State: APjAAAVM9zhm325V1+37EkwZDQpU+bE/TVjrTCW54mQ0a/UZQXPYAGcy
+ 0eVs4XGzm4H3b3QXBdEox/5dWfHTdhQtBlvPRv8=
+X-Google-Smtp-Source: APXvYqyEXPaHRzt10u2yvHTvFczu74JAiA4FG/kAdDZKMw8/kosQ2XuzHKMDJZTxvpQhO58mxnr3T21LLDD/AIkr/yU=
+X-Received: by 2002:adf:f10a:: with SMTP id r10mr2483033wro.202.1578649331183; 
+ Fri, 10 Jan 2020 01:42:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20200110091710.53424-1-pannengyuan@huawei.com>
+ <20200110091710.53424-3-pannengyuan@huawei.com>
+In-Reply-To: <20200110091710.53424-3-pannengyuan@huawei.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 10 Jan 2020 13:41:58 +0400
+Message-ID: <CAJ+F1CKTDYa50ss4ckd-mHxyuHmc=sF3CmuOFq2ABkzPtSCkrQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] qga/main: Don't mismatch g_strsplit/g_free in
+ split_list()
+To: pannengyuan@huawei.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 Jan 2020 09:38:28 -0000
-From: Thomas Huth <1656927@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jom-3 th-huth
-X-Launchpad-Bug-Reporter: Joan Moreau (jom-3)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170116193627.27340.49782.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157864910854.27216.9999501496435605365.malone@chaenomeles.canonical.com>
-Subject: [Bug 1656927] Re: Network (TCP) access regression
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: cfba6205f892b77a2c74bf426bbfeec374ca6b9e
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,53 +74,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1656927 <1656927@bugs.launchpad.net>
+Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ qemu trival <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking through old bug tickets... can you still reproduce this issue
-with the latest version of QEMU? Or could we close this ticket nowadays?
+Hi
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+On Fri, Jan 10, 2020 at 1:18 PM <pannengyuan@huawei.com> wrote:
+>
+> From: Pan Nengyuan <pannengyuan@huawei.com>
+>
+> fix a mismatch between g_strsplit and g_free
+>
+> Reported-by: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
 
--- =
+NACK, the elements are added to the returned list.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1656927
+> ---
+> Changes v2 to v1:
+> - fix a mismatch in qga/main.c
+> ---
+>  qga/main.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/qga/main.c b/qga/main.c
+> index c35c2a2120..a72ae074f4 100644
+> --- a/qga/main.c
+> +++ b/qga/main.c
+> @@ -933,7 +933,7 @@ static GList *split_list(const gchar *str, const gcha=
+r *delim)
+>      for (i =3D 0; strv[i]; i++) {
+>          list =3D g_list_prepend(list, strv[i]);
+>      }
+> -    g_free(strv);
+> +    g_strfreev(strv);
+>
+>      return list;
+>  }
+> --
+> 2.21.0.windows.1
+>
+>
+>
 
-Title:
-  Network (TCP) access regression
 
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Starting a VM with
-
-  /usr/bin/qemu-system-x86_64 -machine pc-i440fx-1.7,accel=3Dkvm -usb -usbd=
-evice tablet -usbdevice keyboard -enable-kvm -cpu core2duo -smp 2 -drive fi=
-le=3Dwinp
-  ro.qcow,index=3D0,media=3Ddisk,format=3Dqcow2 -m 4096 -vga vmware -vnc :3=
- -k en-us -device rtl8139,netdev=3Dnic1 -netdev user,id=3Dnic1,smb=3D/data/=
-vps/files/,hostfw
-  d=3Dtcp::10053-:10053,hostfwd=3Dtcp::3387-:3389 -rtc base=3Dutc,clock=3Dh=
-ost -daemonize
-
-  in 2.5.1, all works fine
-
-  in any version after 2.5.1.1, the network terminate TCP connections
-  after a certain period .
-
-  To reproduce, starts an app that use always connected TCP sockets (I
-  am using Metatrader 4), let it run a an hour, the app does not realize
-  the TCP is out of order but the TCP connection is closed by QEMU
-
-  in 2.5.1.x, Metatrader works perfectly
-
-  Thank you for your help
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1656927/+subscriptions
+--=20
+Marc-Andr=C3=A9 Lureau
 
