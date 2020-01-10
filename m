@@ -2,62 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF1B136A45
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:52:33 +0100 (CET)
-Received: from localhost ([::1]:43262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958E7136A1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:44:47 +0100 (CET)
+Received: from localhost ([::1]:43190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipqy0-0006hH-7a
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:52:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43534)
+	id 1ipqqU-0001IS-MS
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:44:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49964)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipqwK-00058B-5V
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:50:49 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ipqot-000054-8r
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:43:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipqwI-0005xo-Vz
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:50:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39130)
+ (envelope-from <alex.bennee@linaro.org>) id 1ipqor-0001gN-QQ
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:43:06 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41015)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipqwI-0005rT-QI
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:50:46 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipqwE-00023P-Hf
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:50:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0CFF12E80F3
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:50:38 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1ipqor-0001UZ-Gm
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:43:05 -0500
+Received: by mail-wr1-x433.google.com with SMTP id c9so1121224wrw.8
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 01:42:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=BYpge1Q13W2WA0qhDnQlmZrrqeRU6pMKIqJmBWGsqbM=;
+ b=uSyhqomAl9PyOcCfSoqe0SvKpLLHB1Jbaq30E2NDY93mReyZH7kUtkZZR46dZMZfhD
+ 8v4DMKrtbqEXNCvlpt3jnWraKBrniiDM59P5kvV9iNzpFS6MRDBCiemY8ovLVYPTelv8
+ 0zyf/Vv0aoeE687g5SsSXq1MC3y0LwMarTArtmBR8E7fCQfbLQhuOP8bhI5RoyuWX0Mj
+ iA9S8H/oc9zymQCm9KYtWsmwGl5eZfrWl7ydGSgLdheqVHtxlAPOBtkL82IXnxMqPLvE
+ dMmAjN73KnwkRYx0gxp71lkNc6RPf0z/MaLdGYeda+y10LHCJVIKXgrYykFuJYd60XWY
+ 4tTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=BYpge1Q13W2WA0qhDnQlmZrrqeRU6pMKIqJmBWGsqbM=;
+ b=rYqYP/GrMuy9DSMEmd1Z5u/OvdBt7D/ZwQuBHswPDhz0JosKinzGF125lILQp7cqrm
+ f0h0EY75msq5UK7JhhniPhzdONCk4zj4SFMbnSMUostQhfYf7weu4Yththe3ELKrIe3O
+ XNqwZLHhnh15irNMmXA/W6vyiGQbr4m3dNUUjyw/0QIRIUhy7yUuPScqhf0/IZGqn/Ik
+ Qzoax2v4Wsojoy0OuoiRNSu8DdLIPxEWWgdGH0orBH7Ss2GebpGqnwncF3W24hyBYtkh
+ uN6Zt7k6ZYHvnwLDm4RwXV6BzdTs45UFy4vtoJiOBiaikXB+jLMoXSu8q+nfWDxZ++eh
+ dA4g==
+X-Gm-Message-State: APjAAAUf2e8Y/OSdd1xoy3WyR6srxqkYBHX/3N636hFk0YI8XcdROMUe
+ RKkk1CxsXYZ++g9wT8wxQOkrTg71EI8=
+X-Google-Smtp-Source: APXvYqzwpQTWjBWAwt5UOtiWnHsMLO7FpkZBnyUGvRi8gz+FwQPHyeYclrwfyndWEnXxohdfhVmDSw==
+X-Received: by 2002:a5d:4b47:: with SMTP id w7mr2605376wrs.276.1578649371035; 
+ Fri, 10 Jan 2020 01:42:51 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t5sm1580797wrr.35.2020.01.10.01.42.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jan 2020 01:42:49 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D39FA1FF87;
+ Fri, 10 Jan 2020 09:42:48 +0000 (GMT)
+References: <CAE2XoE-GatzSG+y9y8HWU7TiRHfP4TX232pvim9sy8muXGVzjw@mail.gmail.com>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: luoyonggang@gmail.com
+Subject: Re: Does ppc target support for MTTCG are stable?
+In-reply-to: <CAE2XoE-GatzSG+y9y8HWU7TiRHfP4TX232pvim9sy8muXGVzjw@mail.gmail.com>
+Date: Fri, 10 Jan 2020 09:42:48 +0000
+Message-ID: <87h813ir53.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 Jan 2020 09:42:03 -0000
-From: Thomas Huth <1832281@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: manuelbaesler pmaydell th-huth
-X-Launchpad-Bug-Reporter: manuel baesler (manuelbaesler)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <156021221413.18114.3680605096232908394.malonedeb@wampee.canonical.com>
-Message-Id: <157864932359.2371.3549129679446928281.malone@soybean.canonical.com>
-Subject: [Bug 1832281] Re: tcg bug master / 4.0.0 v8 operation >>> and |=
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0ada7cbdcc011c61ef1cd8357ae8e593c767bc20
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,81 +81,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1832281 <1832281@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch had been included here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D1e8a98b53867f61da9c
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Released
+=E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail.com> writes:
 
--- =
+> I enabled it and working, but I don't know if there any other issue are
+> still not resolved..
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1832281
+Support for MTTCG for ppc64 guests has been enabled for a while. While
+there is a lot of shared infrastructure in target/ppc between the 32 and
+64 bit implementations I'm not aware of any work done to specifically
+prove all the 32 bit work has been done.
 
-Title:
-  tcg bug master / 4.0.0 v8 operation >>> and |=3D
+See the wiki page: https://wiki.qemu.org/Features/MTTCG#Developer_Details
 
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  vm guest is linux, executed with tcg
-  running this Node.js snippet leads to
-
-  $ node
-  > a =3D undefined
-  undefined
-  > a >>> 0
-  4294967295
-
-  host node
-  $ node
-  > a =3D undefined
-  undefined
-  > a >>> 0
-  0
-
-  same with |=3D
-
-  node
-  Welcome to Node.js v12.4.0.
-  Type ".help" for more information.
-  > let buffer
-  undefined
-  > buffer |=3D 0
-  0
-
-  vm with tcg:
-
-  $ ./out/Release/node --version
-  v12.4.0
-  ./out/Release/node -e "let buffer; buffer |=3D 0; console.log(buffer);"
-  -1
-
-  vm guest is debian x86_64 latest release
-  vm guest is started with ./x86_64-softmmu/qemu-system-x86_64 -vnc :0 -cdr=
-om debian-9.9.0-amd64-netinst.iso -m 4G -smp cores=3D6,threads=3D1,sockets=
-=3D1 -nic user,hostfwd=3Dtcp:ipv4addr:2233-:22 -cpu qemu64 debian.img
-
-  git tag v4.0.0 and master, commit
-  a578cdfbdd8f9beff5ced52b7826ddb1669abbbf, for building qemu-system-
-  x86_64 was used.
-
-  Node.js is compiled on the vm guest (v12.4.0 / master)
-
-  see also
-  https://github.com/nodejs/node/issues/19348#issuecomment-500465502
-
-  I need further assistance to track down the cause of the bug.
-
-  Kind regards
-  Manuel
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1832281/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
