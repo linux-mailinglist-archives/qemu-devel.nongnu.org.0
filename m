@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC77B137769
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 20:44:32 +0100 (CET)
-Received: from localhost ([::1]:51016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1781137776
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 20:47:18 +0100 (CET)
+Received: from localhost ([::1]:51060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iq0Ct-0003gD-F7
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 14:44:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44564)
+	id 1iq0FZ-0007ah-NE
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 14:47:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iq0Ao-0001mG-9Q
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iq0Ao-0001mQ-Dr
  for qemu-devel@nongnu.org; Fri, 10 Jan 2020 14:42:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iq0Am-0004y0-H0
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iq0Am-0004xk-Fh
  for qemu-devel@nongnu.org; Fri, 10 Jan 2020 14:42:22 -0500
-Received: from relay.sw.ru ([185.231.240.75]:53970)
+Received: from relay.sw.ru ([185.231.240.75]:53972)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iq0Am-0004mZ-80; Fri, 10 Jan 2020 14:42:20 -0500
+ id 1iq0Am-0004ma-5b; Fri, 10 Jan 2020 14:42:20 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iq0AT-0008Ob-Ta; Fri, 10 Jan 2020 22:42:02 +0300
+ id 1iq0AU-0008Ob-Dz; Fri, 10 Jan 2020 22:42:02 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 01/11] qapi/error: add (Error **errp) cleaning APIs
-Date: Fri, 10 Jan 2020 22:41:48 +0300
-Message-Id: <20200110194158.14190-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v6 02/11] error: auto propagated local_err
+Date: Fri, 10 Jan 2020 22:41:49 +0300
+Message-Id: <20200110194158.14190-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200110194158.14190-1-vsementsov@virtuozzo.com>
 References: <20200110194158.14190-1-vsementsov@virtuozzo.com>
@@ -62,6 +62,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Here is introduced ERRP_AUTO_PROPAGATE macro, to be used at start of
+functions with errp OUT parameter.
+
+It has three goals:
+
+1. Fix issue with error_fatal & error_prepend/error_append_hint: user
+can't see this additional information, because exit() happens in
+error_setg earlier than information is added. [Reported by Greg Kurz]
+
+2. Fix issue with error_abort & error_propagate: when we wrap
+error_abort by local_err+error_propagate, resulting coredump will
+refer to error_propagate and not to the place where error happened.
+(the macro itself doesn't fix the issue, but it allows to [3.] drop all
+local_err+error_propagate pattern, which will definitely fix the issue)
+[Reported by Kevin Wolf]
+
+3. Drop local_err+error_propagate pattern, which is used to workaround
+void functions with errp parameter, when caller wants to know resulting
+status. (Note: actually these functions could be merely updated to
+return int error code).
+
+To achieve these goals, we need to add invocation of the macro at start
+of functions, which needs error_prepend/error_append_hint (1.); add
+invocation of the macro at start of functions which do
+local_err+error_propagate scenario the check errors, drop local errors
+from them and just use *errp instead (2., 3.).
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
 
@@ -83,46 +110,118 @@ CC: Michael Roth <mdroth@linux.vnet.ibm.com>
 CC: qemu-block@nongnu.org
 CC: xen-devel@lists.xenproject.org
 
- include/qapi/error.h | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ include/qapi/error.h | 84 +++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 83 insertions(+), 1 deletion(-)
 
 diff --git a/include/qapi/error.h b/include/qapi/error.h
-index ad5b6e896d..fa8d51fd6d 100644
+index fa8d51fd6d..532b9afb9e 100644
 --- a/include/qapi/error.h
 +++ b/include/qapi/error.h
-@@ -309,6 +309,32 @@ void warn_reportf_err(Error *err, const char *fmt, ...)
- void error_reportf_err(Error *err, const char *fmt, ...)
-     GCC_FMT_ATTR(2, 3);
+@@ -78,7 +78,7 @@
+  * Call a function treating errors as fatal:
+  *     foo(arg, &error_fatal);
+  *
+- * Receive an error and pass it on to the caller:
++ * Receive an error and pass it on to the caller (DEPRECATED*):
+  *     Error *err = NULL;
+  *     foo(arg, &err);
+  *     if (err) {
+@@ -98,6 +98,50 @@
+  *     foo(arg, errp);
+  * for readability.
+  *
++ * DEPRECATED* This pattern is deprecated now, use ERRP_AUTO_PROPAGATE macro
++ * instead (defined below).
++ * It's deprecated because of two things:
++ *
++ * 1. Issue with error_abort & error_propagate: when we wrap error_abort by
++ * local_err+error_propagate, resulting coredump will refer to error_propagate
++ * and not to the place where error happened.
++ *
++ * 2. A lot of extra code of the same pattern
++ *
++ * How to update old code to use ERRP_AUTO_PROPAGATE?
++ *
++ * All you need is to add ERRP_AUTO_PROPAGATE() invocation at function start,
++ * than you may safely dereference errp to check errors and do not need any
++ * additional local Error variables or calls to error_propagate().
++ *
++ * Example:
++ *
++ * old code
++ *
++ *     void fn(..., Error **errp) {
++ *         Error *err = NULL;
++ *         foo(arg, &err);
++ *         if (err) {
++ *             handle the error...
++ *             error_propagate(errp, err);
++ *             return;
++ *         }
++ *         ...
++ *     }
++ *
++ * updated code
++ *
++ *     void fn(..., Error **errp) {
++ *         ERRP_AUTO_PROPAGATE();
++ *         foo(arg, errp);
++ *         if (*errp) {
++ *             handle the error...
++ *             return;
++ *         }
++ *         ...
++ *     }
++ *
++ *
+  * Receive and accumulate multiple errors (first one wins):
+  *     Error *err = NULL, *local_err = NULL;
+  *     foo(arg, &err);
+@@ -348,6 +392,44 @@ void error_set_internal(Error **errp,
+                         ErrorClass err_class, const char *fmt, ...)
+     GCC_FMT_ATTR(6, 7);
  
++typedef struct ErrorPropagator {
++    Error *local_err;
++    Error **errp;
++} ErrorPropagator;
++
++static inline void error_propagator_cleanup(ErrorPropagator *prop)
++{
++    error_propagate(prop->errp, prop->local_err);
++}
++
++G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(ErrorPropagator, error_propagator_cleanup);
++
 +/*
-+ * Functions to clean Error **errp: call corresponding Error *err cleaning
-+ * function an set pointer to NULL
++ * ERRP_AUTO_PROPAGATE
++ *
++ * This macro is created to be the first line of a function which use
++ * Error **errp parameter to report error. It's needed only in cases where we
++ * want to use error_prepend, error_append_hint or dereference *errp. It's
++ * still safe (but useless) in other cases.
++ *
++ * If errp is NULL or points to error_fatal, it is rewritten to point to a
++ * local Error object, which will be automatically propagated to the original
++ * errp on function exit (see error_propagator_cleanup).
++ *
++ * After invocation of this macro it is always safe to dereference errp
++ * (as it's not NULL anymore) and to add information (by error_prepend or
++ * error_append_hint)
++ * (as, if it was error_fatal, we swapped it with a local_error to be
++ * propagated on cleanup).
++ *
++ * Note: we don't wrap the error_abort case, as we want resulting coredump
++ * to point to the place where the error happened, not to error_propagate.
 + */
-+static inline void error_free_errp(Error **errp)
-+{
-+    assert(errp && *errp);
-+    error_free(*errp);
-+    *errp = NULL;
-+}
-+
-+static inline void error_report_errp(Error **errp)
-+{
-+    assert(errp && *errp);
-+    error_report_err(*errp);
-+    *errp = NULL;
-+}
-+
-+static inline void warn_report_errp(Error **errp)
-+{
-+    assert(errp && *errp);
-+    warn_report_err(*errp);
-+    *errp = NULL;
-+}
-+
++#define ERRP_AUTO_PROPAGATE()                                  \
++    g_auto(ErrorPropagator) _auto_errp_prop = {.errp = errp};  \
++    errp = ((errp == NULL || *errp == error_fatal)             \
++            ? &_auto_errp_prop.local_err : errp)
 +
  /*
-  * Just like error_setg(), except you get to specify the error class.
-  * Note: use of error classes other than ERROR_CLASS_GENERIC_ERROR is
+  * Special error destination to abort on error.
+  * See error_setg() and error_propagate() for details.
 -- 
 2.21.0
 
