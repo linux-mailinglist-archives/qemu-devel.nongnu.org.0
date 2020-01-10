@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED83313718C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:42:21 +0100 (CET)
-Received: from localhost ([::1]:48176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF7D1371D5
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 16:53:52 +0100 (CET)
+Received: from localhost ([::1]:48340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipwQW-0002oy-KE
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:42:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59213)
+	id 1ipwbf-0001Js-83
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 10:53:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59907)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ipwIO-0000ez-GG
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:33:57 -0500
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ipwIa-00010F-6y
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:34:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1ipwIN-0003HF-Cl
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:33:56 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26310
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <marcandre.lureau@redhat.com>) id 1ipwIX-0003yf-SN
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:34:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48071
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ipwIN-0003D6-8O
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:33:55 -0500
+ id 1ipwIX-0003x1-OE
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 10:34:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578670433;
+ s=mimecast20190719; t=1578670445;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RH7a5BXQLPq5MHdJHlXib9TDeL5lNo9hXa6Pnoasx1g=;
- b=F/H3sb0FwmzXRCmhU2clJKKV524ZD3SJjgEAaiT+E7vR/HSqGwQdRGQAiJDwd3SR6Yp1iP
- GJhXkdra1TbJX3iYg5zpvBX5B13Eo5jFd2mlSB2wNqyV2P/3N46FcCT8VFZdj/h8/5jdHZ
- VO99YTiHf8a41CaEF8HZhMHHkSTz04o=
+ bh=Rc6nApTJw8zuI2A8JlzpJpSuzLia3SLwY8UX9/HGp7Y=;
+ b=XD3BxcmVEvNBVDM8WIwfy/PVLmWV0HUlx9IqZ07GYnIBHwK129/0Ygi3MwD9MUj8R6H7RQ
+ 7mI5GiEVCLIrHW0W9w8ovUVIsVpHtTjq07oNNZdDqdTfTJc0IE5Er4bQQsoUdgHfgv9lWp
+ xyxglcisy87lQDbPSQeREmIXuSGqTkI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-zpUXrJeCPMGNKgJ3d_qTsQ-1; Fri, 10 Jan 2020 10:33:50 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-193-D07cb7pSNFCWpunkx01luQ-1; Fri, 10 Jan 2020 10:34:04 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86F831800D6B
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 15:33:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1E1D801E67
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 15:34:02 +0000 (UTC)
 Received: from localhost (ovpn-112-59.ams2.redhat.com [10.36.112.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 60ECB5C1B5;
- Fri, 10 Jan 2020 15:33:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8813E78E89;
+ Fri, 10 Jan 2020 15:33:55 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/26] object: express const link with link property
-Date: Fri, 10 Jan 2020 19:30:28 +0400
-Message-Id: <20200110153039.1379601-16-marcandre.lureau@redhat.com>
+Subject: [PATCH 16/26] object: add object_class_property_add_link()
+Date: Fri, 10 Jan 2020 19:30:29 +0400
+Message-Id: <20200110153039.1379601-17-marcandre.lureau@redhat.com>
 In-Reply-To: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
 References: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: zpUXrJeCPMGNKgJ3d_qTsQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: D07cb7pSNFCWpunkx01luQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,85 +79,124 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's not mix child property and link property callbacks, as this is
-confusing, use LinkProperty with DIRECT flag to hold the target pointer.
-
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- qom/object.c | 41 +++++++++++++++++++++++------------------
- 1 file changed, 23 insertions(+), 18 deletions(-)
+ include/qom/object.h |  9 +++++++++
+ qom/object.c         | 46 +++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 54 insertions(+), 1 deletion(-)
 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 5b02be68ec..ead9129ac8 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1531,6 +1531,7 @@ typedef enum {
+=20
+     /* private */
+     OBJ_PROP_LINK_DIRECT =3D 0x2,
++    OBJ_PROP_LINK_CLASS =3D 0x4,
+ } ObjectPropertyLinkFlags;
+=20
+ /**
+@@ -1579,6 +1580,14 @@ void object_property_add_link(Object *obj, const cha=
+r *name,
+                               ObjectPropertyLinkFlags flags,
+                               Error **errp);
+=20
++ObjectProperty *object_class_property_add_link(ObjectClass *oc,
++                              const char *name,
++                              const char *type, ptrdiff_t offset,
++                              void (*check)(const Object *obj, const char =
+*name,
++                                            Object *val, Error **errp),
++                              ObjectPropertyLinkFlags flags,
++                              Error **errp);
++
+ /**
+  * object_property_add_str:
+  * @obj: the object to add a property to
 diff --git a/qom/object.c b/qom/object.c
-index 30eee0f36b..09d960f254 100644
+index 09d960f254..04f2991716 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -1851,19 +1851,23 @@ static void object_release_link_property(Object *ob=
-j, const char *name,
-     g_free(prop);
- }
-=20
--void object_property_add_link(Object *obj, const char *name,
--                              const char *type, Object **targetp,
--                              void (*check)(const Object *, const char *,
--                                            Object *, Error **),
--                              ObjectPropertyLinkFlags flags,
--                              Error **errp)
-+static void object_add_link_prop(Object *obj, const char *name,
-+                                 const char *type, void *ptr,
-+                                 void (*check)(const Object *, const char =
-*,
-+                                               Object *, Error **),
-+                                 ObjectPropertyLinkFlags flags,
-+                                 Error **errp)
+@@ -1723,6 +1723,7 @@ typedef struct {
+     union {
+         Object **targetp;
+         Object *target; /* if OBJ_PROP_LINK_DIRECT, when holding the point=
+er  */
++        ptrdiff_t offset; /* if OBJ_PROP_LINK_CLASS */
+     };
+     void (*check)(const Object *, const char *, Object *, Error **);
+     ObjectPropertyLinkFlags flags;
+@@ -1733,6 +1734,8 @@ object_link_get_targetp(Object *obj, LinkProperty *lp=
+rop)
  {
-     Error *local_err =3D NULL;
-     LinkProperty *prop =3D g_malloc(sizeof(*prop));
-     gchar *full_type;
-     ObjectProperty *op;
-=20
--    prop->targetp =3D targetp;
-+    if (flags & OBJ_PROP_LINK_DIRECT) {
-+        prop->target =3D ptr;
-+    } else {
-+        prop->targetp =3D ptr;
+     if (lprop->flags & OBJ_PROP_LINK_DIRECT) {
+         return &lprop->target;
++    } else if (lprop->flags & OBJ_PROP_LINK_CLASS) {
++        return (void *)obj + lprop->offset;
+     } else {
+         return lprop->targetp;
+     }
+@@ -1848,7 +1851,9 @@ static void object_release_link_property(Object *obj,=
+ const char *name,
+     if ((prop->flags & OBJ_PROP_LINK_STRONG) && *targetp) {
+         object_unref(*targetp);
+     }
+-    g_free(prop);
++    if (!(prop->flags & OBJ_PROP_LINK_CLASS)) {
++        g_free(prop);
 +    }
-     prop->check =3D check;
-     prop->flags =3D flags;
-=20
-@@ -1887,20 +1891,21 @@ out:
-     g_free(full_type);
  }
 =20
-+void object_property_add_link(Object *obj, const char *name,
-+                              const char *type, Object **targetp,
-+                              void (*check)(const Object *, const char *,
-+                                            Object *, Error **),
-+                              ObjectPropertyLinkFlags flags,
-+                              Error **errp)
+ static void object_add_link_prop(Object *obj, const char *name,
+@@ -1901,6 +1906,45 @@ void object_property_add_link(Object *obj, const cha=
+r *name,
+     object_add_link_prop(obj, name, type, targetp, check, flags, errp);
+ }
+=20
++ObjectProperty *
++object_class_property_add_link(ObjectClass *oc,
++    const char *name,
++    const char *type, ptrdiff_t offset,
++    void (*check)(const Object *obj, const char *name,
++                  Object *val, Error **errp),
++    ObjectPropertyLinkFlags flags,
++    Error **errp)
 +{
-+    object_add_link_prop(obj, name, type, targetp, check, flags, errp);
++    Error *local_err =3D NULL;
++    LinkProperty *prop =3D g_new0(LinkProperty, 1);
++    gchar *full_type;
++    ObjectProperty *op;
++
++    prop->offset =3D offset;
++    prop->check =3D check;
++    prop->flags =3D flags | OBJ_PROP_LINK_CLASS;
++
++    full_type =3D g_strdup_printf("link<%s>", type);
++
++    op =3D object_class_property_add(oc, name, full_type,
++                                   object_get_link_property,
++                                   check ? object_set_link_property : NULL=
+,
++                                   object_release_link_property,
++                                   prop,
++                                   &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        g_free(prop);
++        goto out;
++    }
++
++    op->resolve =3D object_resolve_link_property;
++
++out:
++    g_free(full_type);
++    return op;
 +}
 +
  void object_property_add_const_link(Object *obj, const char *name,
                                      Object *target, Error **errp)
  {
--    char *link_type;
--    ObjectProperty *op;
--
--    link_type =3D g_strdup_printf("link<%s>", object_get_typename(target))=
-;
--    op =3D object_property_add(obj, name, link_type,
--                             object_get_child_property, NULL,
--                             NULL, target, errp);
--    if (op !=3D NULL) {
--        op->resolve =3D object_resolve_child_property;
--    }
--    g_free(link_type);
-+    object_add_link_prop(obj, name, object_get_typename(target), target,
-+                         NULL, OBJ_PROP_LINK_DIRECT, errp);
- }
-=20
- gchar *object_get_canonical_path_component(Object *obj)
 --=20
 2.25.0.rc1.20.g2443f3f80d.dirty
 
