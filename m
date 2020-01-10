@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DDD136973
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:19:27 +0100 (CET)
-Received: from localhost ([::1]:42840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90D7136A02
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:31:53 +0100 (CET)
+Received: from localhost ([::1]:43014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipqRx-0002DP-Mi
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:19:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60216)
+	id 1ipqe0-0006et-84
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:31:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ipqQi-0001mQ-79
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:18:09 -0500
+ (envelope-from <berrange@redhat.com>) id 1ipqcV-0005zw-Em
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:30:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ipqQg-00035j-PM
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:18:08 -0500
-Received: from mail-yw1-f67.google.com ([209.85.161.67]:33554)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ipqQg-00034f-Jd
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:18:06 -0500
-Received: by mail-yw1-f67.google.com with SMTP id 192so420329ywy.0
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 01:18:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zmk7cMCfwSD+03N2dOm+gwYXuFQX/06A/eSjGo4+P4g=;
- b=GMe40CYZcJa8pILEvhNziCyPxO0dnSxlyK9iUUu3PiNB1AQsv8ClhtHKPA+2YK5311
- GhcXE8KxXCTG4xJ2r5RWuZ7/3v/r4vkbPbIfKTSdpZ/3W7wKiJwVoTWRVXgNq75BGyXC
- iAdXAyxcE6OHQpBnmKcwonjxClAX8X3VCxBup9+/hROpgsTkgBNSOaXA3817n7zzMKhG
- mh99cvmI/CIAb8oGeupTuU22nVqLXes4q7SSTXrlaqZb1RjJE5icFM46bj0cyxV33jMl
- cF62IfO3iVAHK6PKPcMEZFar7CRDB0xcxl8ShlaW2Pkq1gcdzCT+ME0Pd0J1eLWV2tQ2
- C00g==
-X-Gm-Message-State: APjAAAUE2W1L//ZG4BjjIuRA4JpIVwc5JEB+hJ7a57XVNrP0AUmMhCpT
- PiZVB3GEvAoruT0mPuwWH/BbTAwego3Zhz864JQ=
-X-Google-Smtp-Source: APXvYqyyHIJrEBeNiBZfTc5Q168Ij8CR0AP3ZviuPW9Gs5n7tOsGeomhCeEurpMvE1pLKgwahbb7TYgDp46Rq2FF4gw=
-X-Received: by 2002:a81:3ad0:: with SMTP id h199mr1846754ywa.37.1578647886021; 
- Fri, 10 Jan 2020 01:18:06 -0800 (PST)
+ (envelope-from <berrange@redhat.com>) id 1ipqcR-0002RV-LU
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:30:17 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45548
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ipqcR-0002MJ-78
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:30:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578648614;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WaMD6NyDwQ5Yb+FqlXoIzVL7wK8YRC2cTZn6U6QC7HQ=;
+ b=bzU5zP+XDrjQs443BlIJT8TYHxEFLbVakaD60kMzLv0Nf6COaU3BVFiZD14TPNSWBidfOY
+ KZT1FbYIZeay40kW7kyArUORcqGkMKkN4ahRBHWBr6aWC+NI+Q9CEP7TfQvTqVYq2SNfF/
+ 9rX6CLFpdzcep+nV1VXBqllIwwD6gqQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-DjoSFZ1MNs-n0nWA9c1hRw-1; Fri, 10 Jan 2020 04:30:12 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E81CB800D53
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:30:11 +0000 (UTC)
+Received: from redhat.com (ovpn-112-65.ams2.redhat.com [10.36.112.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE749277B9;
+ Fri, 10 Jan 2020 09:30:07 +0000 (UTC)
+Date: Fri, 10 Jan 2020 09:30:04 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 092/104] virtiofsd: add man page
+Message-ID: <20200110093004.GB3423494@redhat.com>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-93-dgilbert@redhat.com>
+ <20200107121328.GD3368802@redhat.com>
+ <20200109200213.GT6795@work-vm>
 MIME-Version: 1.0
-References: <20200109153939.27173-1-philmd@redhat.com>
- <d94666ae-df03-0162-e3d0-e0038b68da83@vivier.eu>
-In-Reply-To: <d94666ae-df03-0162-e3d0-e0038b68da83@vivier.eu>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Fri, 10 Jan 2020 10:17:53 +0100
-Message-ID: <CAAdtpL69XLuoZNEank0dC9M-tWCKhJqFKO46u5jjeLpf4TF=Pg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] buildsys: Build quicker (mostly tools and linux-user)
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: multipart/alternative; boundary="00000000000078c8ac059bc59afc"
+In-Reply-To: <20200109200213.GT6795@work-vm>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: DjoSFZ1MNs-n0nWA9c1hRw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.161.67
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,80 +76,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000078c8ac059bc59afc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jan 09, 2020 at 08:02:13PM +0000, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
+> > On Thu, Dec 12, 2019 at 04:38:52PM +0000, Dr. David Alan Gilbert (git) =
+wrote:
+> > > From: Stefan Hajnoczi <stefanha@redhat.com>
+> > >=20
+> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > ---
+> > >  Makefile                       |  7 +++
+> > >  tools/virtiofsd/virtiofsd.texi | 85 ++++++++++++++++++++++++++++++++=
+++
+> > >  2 files changed, 92 insertions(+)
+> > >  create mode 100644 tools/virtiofsd/virtiofsd.texi
+> >=20
+> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>=20
+> Thanks.
+>=20
+> > with some notes at the very end
+>=20
+> <snip>
+>=20
+> > > +@c man begin DESCRIPTION
+> > > +
+> > > +Share a host directory tree with a guest through a virtio-fs device.=
+  This
+> > > +program is a vhost-user backend that implements the virtio-fs device=
+.  Each
+> > > +virtio-fs device instance requires its own virtiofsd process.
+> > > +
+> > > +This program is designed to work with QEMU's @code{--device vhost-us=
+er-fs-pci}
+> > > +but should work with any virtual machine monitor (VMM) that supports
+> > > +vhost-user.  See the EXAMPLES section below.
+> > > +
+> > > +This program must be run as the root user.
+> >=20
+> > So there's no way for an unprivileged user to do file sharing like they
+> > can with 9p right now ?
+>=20
+> Correct.
+>=20
+> (Which also makes it a pain for using in a make check)
+>=20
+> > >                                              Upon startup the program=
+ will
+> > > +switch into a new file system namespace with the shared directory tr=
+ee as its
+> > > +root.  This prevents "file system escapes" due to symlinks and other=
+ file
+> > > +system objects that might lead to files outside the shared directory=
+.  The
+> > > +program also sandboxes itself using seccomp(2) to prevent ptrace(2) =
+and other
+> > > +vectors that could allow an attacker to compromise the system after =
+gaining
+> > > +control of the virtiofsd process.
+> > > +
+> > > +@c man end
+> > > +
+> > > +@c man begin OPTIONS
+> > > +@table @option
+> > > +@item -h, --help
+> > > +Print help.
+> > > +@item -V, --version
+> > > +Print version.
+> > > +@item -d, -o debug
+> > > +Enable debug output.
+> > > +@item --syslog
+> > > +Print log messages to syslog instead of stderr.
+> > > +@item -o log_level=3D@var{level}
+> > > +Print only log messages matching @var{level} or more severe.  @var{l=
+evel} is
+> > > +one of @code{err}, @code{warn}, @code{info}, or @code{debug}.  The d=
+efault is
+> > > +@var{info}.
+> > > +@item -o source=3D@var{path}
+> > > +Share host directory tree located at @var{path}.  This option is req=
+uired.
+> > > +@item --socket-path=3D@var{path}, -o vhost_user_socket=3D@var{path}
+> > > +Listen on vhost-user UNIX domain socket at @var{path}.
+> > > +@item --fd=3D@var{fdnum}
+> > > +Accept connections from vhost-user UNIX domain socket file descripto=
+r @var{fdnum}.  The file descriptor must already be listening for connectio=
+ns.
+> > > +@item --thread-pool-size=3D@var{num}
+> > > +Restrict the number of worker threads per request queue to @var{num}=
+.  The default is 64.
+> > > +@item --cache=3D@code{none}|@code{auto}|@code{always}
+> > > +Select the desired trade-off between coherency and performance.  @co=
+de{none}
+> > > +forbids the FUSE client from caching to achieve best coherency at th=
+e cost of
+> > > +performance.  @code{auto} acts similar to NFS with a 1 second metada=
+ta cache
+> > > +timeout.  @code{always} sets a long cache lifetime at the expense of=
+ coherency.
+> > > +@item --writeback
+> > > +Enable writeback cache, allowing the FUSE client to buffer and merge=
+ write requests.
+> > > +@end table
+> > > +@c man end
+> > > +
+> > > +@c man begin EXAMPLES
+> > > +Export @code{/var/lib/fs/vm001/} on vhost-user UNIX domain socket @c=
+ode{/var/run/vm001-vhost-fs.sock}:
+> > > +
+> > > +@example
+> > > +host# virtiofsd --socket-path=3D/var/run/vm001-vhost-fs.sock -o sour=
+ce=3D/var/lib/fs/vm001
+> > > +host# qemu-system-x86_64 \
+> > > +    -chardev socket,id=3Dchar0,path=3D/var/run/vm001-vhost-fs.sock \
+> > > +    -device vhost-user-fs-pci,chardev=3Dchar0,tag=3Dmyfs \
+> > > +    -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/s=
+hm,share=3Don \
+> > > +    -numa node,memdev=3Dmem \
+> > > +    ...
+> > > +guest# mount -t virtio_fs \
+> > > +    -o default_permissions,allow_other,user_id=3D0,group_id=3D0,root=
+mode=3D040000,dax \
+> > > +    myfs /mnt
+> > > +@end example
+> > > +@c man end
+> > > +
+> > > +@ignore
+> > > +@setfilename virtiofsd
+> > > +@settitle QEMU virtio-fs shared file system daemon
+> > > +
+> > > +@c man begin AUTHOR
+> >=20
+> > s/AUTHOR/COPYRIGHT/
+>=20
+> OK
+>=20
+> > since this isn't providing any author information.
+> >=20
+> > > +Copyright (C) 2019 Red Hat, Inc.
+> >=20
+> > 2019-2020 !
+>=20
+> Time flies...
+>=20
+> > And now insert
+> >=20
+> >  @c man end
+> >  @c man begin LICENSE
+> >=20
+> > > +This is free software; see the source for copying conditions.  There=
+ is NO
+> > > +warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR P=
+URPOSE.
+> > > +@c man end
+> > > +@end ignore
+>=20
+> Hmm, so it ends up like:
+>=20
+>=20
+> @c man end
+>=20
+> @ignore
+> @setfilename virtiofsd
+> @settitle QEMU virtio-fs shared file system daemon
+>=20
+> @c man begin COPYRIGHT
+> Copyright (C) 2019-2020 Red Hat, Inc.
+> @c man end
+> @c man begin LICENSE
+> This is free software; see the source for copying conditions.  There is N=
+O
+> warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOS=
+E.
+> @c man end
+> @end ignore
+>=20
+>=20
+> That results in:
+>=20
+> COPYRIGHT
+>        Copyright (C) 2019-2020 Red Hat, Inc.
+>=20
+> but with no license printed.
+> That's from after a make doing a   nroff -man ./tools/virtiofsd/virtiofsd=
+.1 |more
+>=20
+> is that what's expected?  I'd expected to see the license somewhere.
 
-Le ven. 10 janv. 2020 09:36, Laurent Vivier <laurent@vivier.eu> a =C3=A9cri=
-t :
+No, that's not expected :-(  It seems my good intentions were killed by
+texi2pod.pl which whitelists the permitted section names, and does not
+allow "LICENSE" as one of them. Either ignore my suggestion, given that
+this bug is pre-existing in all QEMU man pages, or fix texi2pod.pl to
+allow LICENSE.
 
-> Le 09/01/2020 =C3=A0 16:39, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit :
-> > In some configuration (linux-user, tools) we can ignore building
-> > various objects (and the libfdt).
-> >
-> > Philippe Mathieu-Daud=C3=A9 (4):
-> >   configure: Do not build libfdt is not required
-> >   Makefile: Clarify all the codebase requires qom/ objects
-> >   Makefile: Restrict system emulation and tools objects
-> >   Makefile: Remove unhelpful comment
-> >
-> >  configure     |  2 ++
-> >  Makefile.objs | 31 ++++++++++---------------------
-> >  2 files changed, 12 insertions(+), 21 deletions(-)
-> >
->
-> Did you test this with all the combinations of --[enable|disable]-tools,
-> --[enable|disable]-user and --[enable|disable]-system
->
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
-I tested 12 of 27 because I thought some sets might overlap but I might
-have missed something, what combination is giving you problem?
-
->
-
---00000000000078c8ac059bc59afc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">Le ven. 10 janv. 2020 09:36, Laurent Vivier &lt;<a href=3D"mai=
-lto:laurent@vivier.eu">laurent@vivier.eu</a>&gt; a =C3=A9crit=C2=A0:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">Le 09/01/2020 =C3=A0 16:39, Philippe Math=
-ieu-Daud=C3=A9 a =C3=A9crit=C2=A0:<br>
-&gt; In some configuration (linux-user, tools) we can ignore building<br>
-&gt; various objects (and the libfdt).<br>
-&gt; <br>
-&gt; Philippe Mathieu-Daud=C3=A9 (4):<br>
-&gt;=C2=A0 =C2=A0configure: Do not build libfdt is not required<br>
-&gt;=C2=A0 =C2=A0Makefile: Clarify all the codebase requires qom/ objects<b=
-r>
-&gt;=C2=A0 =C2=A0Makefile: Restrict system emulation and tools objects<br>
-&gt;=C2=A0 =C2=A0Makefile: Remove unhelpful comment<br>
-&gt; <br>
-&gt;=C2=A0 configure=C2=A0 =C2=A0 =C2=A0|=C2=A0 2 ++<br>
-&gt;=C2=A0 Makefile.objs | 31 ++++++++++---------------------<br>
-&gt;=C2=A0 2 files changed, 12 insertions(+), 21 deletions(-)<br>
-&gt; <br>
-<br>
-Did you test this with all the combinations of --[enable|disable]-tools,<br=
->
---[enable|disable]-user and --[enable|disable]-system<br></blockquote></div=
-></div><div dir=3D"auto"><br></div><div dir=3D"auto">I tested 12 of 27 beca=
-use I thought some sets might overlap but I might have missed something, wh=
-at combination is giving you problem?=C2=A0</div><div dir=3D"auto"><div cla=
-ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
-
---00000000000078c8ac059bc59afc--
 
