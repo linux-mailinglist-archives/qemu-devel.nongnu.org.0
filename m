@@ -2,62 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C066136A15
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:42:00 +0100 (CET)
-Received: from localhost ([::1]:43154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD74136A0B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 10:35:38 +0100 (CET)
+Received: from localhost ([::1]:43082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ipqnn-00071f-6E
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:41:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45410)
+	id 1ipqhc-0002c0-S1
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 04:35:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52635)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ipqmy-0006YC-D1
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:41:09 -0500
+ (envelope-from <philmd@redhat.com>) id 1ipqgQ-0001Sr-Fz
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:34:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ipqmx-00048O-1o
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:41:08 -0500
-Received: from indium.canonical.com ([91.189.90.7]:37812)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ipqmw-000411-RY
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:41:06 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ipqmv-0001W4-46
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:41:05 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 12CC82E80C8
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 09:41:05 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1ipqgP-0000CX-83
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:34:22 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33756
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ipqgP-00008M-4I
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 04:34:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578648860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9lo5GOumNC3bhWoq4aYS5JXPKfb57srj1k4SZXdFFkk=;
+ b=gRfX0JoE/k8atlGSokr0MuacpQ/sTh81FA/vq/vQX7zTwKptpicSzb6LFqifjbrlv1abk0
+ uF/n07Bxo0cmim2u5j8IVLCSKZa7ItxOl0O3IW7wjioidQuHT8z8+/2UnygX5boZFyPyXA
+ FmzVD7xovonTeRHy5DkPdnLDvDZevkw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-339-k51Yc4dlNkGSP6e28jZXlw-1; Fri, 10 Jan 2020 04:34:16 -0500
+Received: by mail-wr1-f70.google.com with SMTP id j4so644935wrs.13
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 01:34:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ukap/D6uM+tm5XLlP0CcTaHbFa/qulLkLeaGy/Fleuc=;
+ b=DWnabvDO16QalwNOrXiHzgXzr+Uz7YeklYnA1kqV0sXbhVe41i9yTTDabmaFtU50zj
+ NtthbZWZ45Lw96ZicBlBodfOADOtIry/0zzx+6kLmF7ayHGgclJGZ8k/BikZ8TAuPdig
+ nAjUdgEUQpV2ebTn8b4ZUh7zj6r4Zr9vxZZDu2gS899xAmbY6CosFsiGKkkXfqw1M4Xd
+ 2a2/XdsDpUWOYZfS7bytoflZhKH1ee1LBwfm8lgqcjIoQFzE7rwCcANGC58VF2QhH838
+ LAA9KTWRfi9eTG5ugH+NbqhK1lYff/P/yPVPJtWYgO5KH7yAvOwkz8HecNR0aLozCCOA
+ NqdQ==
+X-Gm-Message-State: APjAAAU2w/Yh2zE7IZyHNukDR9EPa37b7crV3nH0i6zKOB8dFyONlD4L
+ qRGfNpnJGu1XmEIISZ5HfEh4tNfJXAhjFJ2SxT8LCovWwEJwtKW02I+4P/Q5TxCRAf0fy5ceLcr
+ b1TWTTz2jEdAS5sQ=
+X-Received: by 2002:adf:f789:: with SMTP id q9mr2461820wrp.103.1578648855163; 
+ Fri, 10 Jan 2020 01:34:15 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw60eNDeSeLZaK+zXZdsmOGqFEjjGKDrKCuXrKR/uyM92hpU/dvYO081Du7NvMHfdLGnlYFEA==
+X-Received: by 2002:adf:f789:: with SMTP id q9mr2461773wrp.103.1578648854833; 
+ Fri, 10 Jan 2020 01:34:14 -0800 (PST)
+Received: from [10.101.1.81] ([176.12.107.132])
+ by smtp.gmail.com with ESMTPSA id v3sm1510233wru.32.2020.01.10.01.34.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Jan 2020 01:34:14 -0800 (PST)
+Subject: Re: [PATCH 04/15] hw/ppc/spapr_rtas: Restrict variables scope to
+ single switch case
+To: Greg Kurz <groug@kaod.org>
+References: <20200109152133.23649-1-philmd@redhat.com>
+ <20200109152133.23649-5-philmd@redhat.com>
+ <20200109184349.1aefa074@bahia.lan>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9870f8ed-3fa0-1deb-860d-7481cb3db556@redhat.com>
+Date: Fri, 10 Jan 2020 10:34:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200109184349.1aefa074@bahia.lan>
+Content-Language: en-US
+X-MC-Unique: k51Yc4dlNkGSP6e28jZXlw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 Jan 2020 09:30:58 -0000
-From: Thomas Huth <1657841@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: th-huth therock247uk
-X-Launchpad-Bug-Reporter: therock247uk (therock247uk)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170119170931.14633.66977.malonedeb@soybean.canonical.com>
-Message-Id: <157864865808.5627.18436996078930916436.malone@gac.canonical.com>
-Subject: [Bug 1657841] Re: QEMU Intel HAX Windows
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b82b0bcb43c4587d5dedae80151f9975128b7819
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,42 +92,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1657841 <1657841@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Juan Quintela <quintela@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <rth@twiddle.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Which version were you exactly using? Can you still reproduce the
-problem with the latest version of QEMU?
+On 1/9/20 6:43 PM, Greg Kurz wrote:
+> On Thu,  9 Jan 2020 16:21:22 +0100
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+>=20
+>> We only access these variables in RTAS_SYSPARM_SPLPAR_CHARACTERISTICS
+>> case, restrict their scope to avoid unnecessary initialization.
+>>
+>=20
+> I guess a decent compiler can be smart enough detect that the initializat=
+ion
+> isn't needed outside of the RTAS_SYSPARM_SPLPAR_CHARACTERISTICS branch...
+> Anyway, reducing scope isn't bad. The only hitch I could see is that some
+> people do prefer to have all variables declared upfront, but there's a ne=
+sted
+> param_val variable already so I guess it's okay.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+I don't want to outsmart compilers :)
 
--- =
+The MACHINE() macro is not a simple cast, it does object introspection=20
+with OBJECT_CHECK(), thus is not free. Since=20
+object_dynamic_cast_assert() argument is not const, I'm not sure the=20
+compiler can remove the call.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1657841
+Richard, Eric, do you know?
 
-Title:
-  QEMU Intel HAX Windows
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>   hw/ppc/spapr_rtas.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+>> index 6f06e9d7fe..7237e5ebf2 100644
+>> --- a/hw/ppc/spapr_rtas.c
+>> +++ b/hw/ppc/spapr_rtas.c
+>> @@ -267,8 +267,6 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU=
+ *cpu,
+>>                                             uint32_t nret, target_ulong =
+rets)
+>>   {
+>>       PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
+>> -    MachineState *ms =3D MACHINE(spapr);
+>> -    unsigned int max_cpus =3D ms->smp.max_cpus;
+>>       target_ulong parameter =3D rtas_ld(args, 0);
+>>       target_ulong buffer =3D rtas_ld(args, 1);
+>>       target_ulong length =3D rtas_ld(args, 2);
+>> @@ -276,6 +274,8 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU=
+ *cpu,
+>>  =20
+>>       switch (parameter) {
+>>       case RTAS_SYSPARM_SPLPAR_CHARACTERISTICS: {
+>> +        MachineState *ms =3D MACHINE(spapr);
+>> +        unsigned int max_cpus =3D ms->smp.max_cpus;
+>=20
+> The max_cpus variable used to be a global. Now that it got moved
+> below ms->smp, I'm not sure it's worth keeping it IMHO. What about
+> dropping it completely and do:
+>=20
+>          char *param_val =3D g_strdup_printf("MaxEntCap=3D%d,"
+>                                            "DesMem=3D%" PRIu64 ","
+>                                            "DesProcs=3D%d,"
+>                                            "MaxPlatProcs=3D%d",
+>                                            ms->smp.max_cpus,
+>                                            current_machine->ram_size / Mi=
+B,
+>                                            ms->smp.cpus,
+>                                            ms->smp.max_cpus);
 
-Status in QEMU:
-  Incomplete
+OK, good idea.
 
-Bug description:
-  Hi,
+> And maybe insert an empty line between the declaration of param_val
+> and the code for a better readability ?
+>=20
+>>           char *param_val =3D g_strdup_printf("MaxEntCap=3D%d,"
+>>                                             "DesMem=3D%" PRIu64 ","
+>>                                             "DesProcs=3D%d,"
+>=20
 
-  Using the latest exe's from http://qemu.weilnetz.de/w32/
-
-  C:\Users\therock247uk\Desktop\jan\qemu-w64-setup-20170113>qemu-system-i38=
-6 --enable-hax -m 512 -cdrom C:\Users\therock247uk\Desktop\jan\en_windows_x=
-p_professional_with_service_pack_3_x86_cd_x14-80428.iso
-  HAX is working and emulator runs in fast virt mode.
-  Failed to allocate 20000000 memory
-
-  The emulator seems to hang/get stuck during booting from the CD taking
-  out --enable-hax allows it to boot.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1657841/+subscriptions
 
