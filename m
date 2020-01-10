@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F2A136B2C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 11:37:36 +0100 (CET)
-Received: from localhost ([::1]:43902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4445E136B67
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Jan 2020 11:51:48 +0100 (CET)
+Received: from localhost ([::1]:44012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iprfb-0007TK-8K
-	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 05:37:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36593)
+	id 1iprtL-0004de-9L
+	for lists+qemu-devel@lfdr.de; Fri, 10 Jan 2020 05:51:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50637)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iprec-0006c1-2S
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:36:35 -0500
+ (envelope-from <bounces@canonical.com>) id 1iprsM-0004DS-0P
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:50:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iprea-0002OM-Pa
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:36:33 -0500
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:36461)
+ (envelope-from <bounces@canonical.com>) id 1iprsK-0003uw-J3
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:50:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51614)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iprea-0002KB-KG
- for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:36:32 -0500
-Received: by mail-oi1-x232.google.com with SMTP id c16so1476916oic.3
- for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 02:36:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qfkbt4tPy2nIKQjGkOOmxy45FFpfM1oVWBQlL+upna8=;
- b=ftxP4xVeNI+ImzW3P87bUeLlYE860dU97v4Z+1+Zc8ZJRTVSi8kRsWUNsV9YyXlAMg
- SkimLvoyVMXcy5Vif/g8keXHqMFC+GG8LGIZR/7eSvYQ1Vjmtg9ZQAJJRPw1VykiPvn3
- r5/jYpW4sKfhIx53II/DD2pS3aonMICz6lLkLmyxGQnn9ByzVTe+eGSKyRTp9qpdQo3B
- NiP7gdDw9QWKIBhzN5Fvn2aXfnM8a9KJgjtq7jUDMw82q3Yy8vWTqgBxZ1YRFA4LwiEj
- tspMD06uf7597i194+w4nb+O9NZM/nrzZRsuRTHu8tuSWWuySFNRAEQASF6lxWw0Diyf
- 9XTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qfkbt4tPy2nIKQjGkOOmxy45FFpfM1oVWBQlL+upna8=;
- b=kcPc2I7qi8T8MCwFIzu1WkbYNoga/fAhfZ6uBEw7Bw9za4yFU96aBkzU7KgD4PLVFK
- CW35Bvw89wK4icIpcGekEkU9HxwqDBgoOydBXvGViUI3Y0BAyViZPHp/iYwNxQuce+Ku
- 2blDZWVXmK96COdsWeD2eTIMjBqvP21zX6bFFy9q3eT7DetEEuGNzR6UWQdaMkY1BOvN
- rRbcES6Bsm4yFtJV64hOSLA9UvJhXWsy84q0AMWjciDCUizpd6RaquDPAdMDKzAuSiJl
- CqGaf9kaDm7uZPwzhU4O7JtKy1vhrHWp2NCWX9oiqkO+cuyP01PJLhOc4jRUoKKNDLKf
- jTkA==
-X-Gm-Message-State: APjAAAWMIHrr6vI+QOCY909DAr7zz+IKuO5snOcwMTVPlciZlJ87KCQI
- U0plsT70NgK6O7tEIqVSsk6kL4Ocy7rci+JyHnXhCQ==
-X-Google-Smtp-Source: APXvYqxkI3V15v6eQWmXtItZg/BoVcWLvBMO3vC67ZvSpf6UC2HU2vYhzibXUPf2Gsv8egNfHzX8LErcQO3tWscJO2Y=
-X-Received: by 2002:aca:3d7:: with SMTP id 206mr1684145oid.98.1578652591457;
- Fri, 10 Jan 2020 02:36:31 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iprsK-0003s9-DU
+ for qemu-devel@nongnu.org; Fri, 10 Jan 2020 05:50:44 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iprsH-0001GE-F9
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 10:50:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 058C02E80CF
+ for <qemu-devel@nongnu.org>; Fri, 10 Jan 2020 10:50:41 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200108183553.GA5608@roeck-us.net>
-In-Reply-To: <20200108183553.GA5608@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Jan 2020 10:36:20 +0000
-Message-ID: <CAFEAcA9t4X5Xnk0aS4C-vhKX2c3GA9XQ3zZRGYVGLEQsG=EgeQ@mail.gmail.com>
-Subject: Re: How to tell DMA controller in qemu to terminate transfer ?
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::232
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 10 Jan 2020 10:42:04 -0000
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gkurz nathan-renniewaldock
+X-Launchpad-Bug-Reporter: Nathan Rennie-Waldock (nathan-renniewaldock)
+X-Launchpad-Bug-Modifier: Greg Kurz (gkurz)
+References: <20170103031332.1493.46452.malonedeb@soybean.canonical.com>
+Message-Id: <157865292413.3198.5350818144456318245.malone@soybean.canonical.com>
+Subject: [Bug 1653577] Re: Ability to set umask for 9pfs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 27e22b86956d43c0ab5624188ebd4432fc87552d
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,33 +65,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1653577 <1653577@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 Jan 2020 at 18:36, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> Hi,
->
-> I am trying to fix DMA support with Exynos4210. The original commit
-> 59520dc65e ("hw/arm/exynos4210: Add DMA support for the Exynos4210") doesn't
-> really work, primarily because it assigns wrong interrupt lines (no idea
-> how I thought I tested that).
->
-> Problem I have right now is that the pl330 peripheral DMA in Exynos4210
-> depends on a signal from the peripheral device (here: serial ports)
-> to end a DMA transfer. To make this work, I need a signal from
-> exynos4210_uart.c to pl330.c to terminate the DMA after the receive
-> buffer is empty.
->
-> How can I implement this in qemu ?
+Cannot this be addressed by adjusting the umask in the host before
+starting QEMU ? And maybe also by adjusting the umask inside the guest
+if using the "passthrough" or "none" security model of the "local" fsdev
+backend ?
 
-That depends. How does the UART signal the DMA controller
-in real hardware? If there's a signal line of some kind,
-then you can model that with a qemu_irq line which the UART
-exposes and raises/lowers at the right time, that's then
-plumbed through by the SoC to the DMA controller.
+-- =
 
-thanks
--- PMM
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1653577
+
+Title:
+  Ability to set umask for 9pfs
+
+Status in QEMU:
+  New
+
+Bug description:
+  We should be able to specify the umask for 9pfs so that files created
+  by the guest can be accessed by other users on the host. Currently
+  they're only accessible by the user running qemu (and of course,
+  root).
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1653577/+subscriptions
 
