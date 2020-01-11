@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B41138138
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jan 2020 12:52:01 +0100 (CET)
-Received: from localhost ([::1]:56888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDB39138139
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jan 2020 12:52:03 +0100 (CET)
+Received: from localhost ([::1]:56890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iqFJA-0005Yg-3k
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jan 2020 06:52:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39971)
+	id 1iqFJC-0005ch-Rv
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jan 2020 06:52:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39961)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iqFHq-0004aY-Ep
+ (envelope-from <bounces@canonical.com>) id 1iqFHq-0004aX-Ci
  for qemu-devel@nongnu.org; Sat, 11 Jan 2020 06:50:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iqFHp-0006BV-15
+ (envelope-from <bounces@canonical.com>) id 1iqFHo-0006BH-VQ
  for qemu-devel@nongnu.org; Sat, 11 Jan 2020 06:50:38 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57610)
+Received: from indium.canonical.com ([91.189.90.7]:57620)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iqFHo-00067S-OZ
+ id 1iqFHo-000689-OY
  for qemu-devel@nongnu.org; Sat, 11 Jan 2020 06:50:36 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iqFHn-0005UW-9c
+ id 1iqFHn-0005UO-QQ
  for <qemu-devel@nongnu.org>; Sat, 11 Jan 2020 11:50:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 479D62E8079
+ by loganberry.canonical.com (Postfix) with ESMTP id C5E072E807B
  for <qemu-devel@nongnu.org>; Sat, 11 Jan 2020 11:50:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 11 Jan 2020 11:35:12 -0000
+Date: Sat, 11 Jan 2020 11:39:12 -0000
 From: Laurent Vivier <Laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,8 +44,8 @@ X-Launchpad-Bug-Commenters: ecsdn laurent-vivier
 X-Launchpad-Bug-Reporter: ecsdn (ecsdn)
 X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
 References: <157666458990.14847.6716769636962803095.malonedeb@wampee.canonical.com>
-Message-Id: <157874251257.14296.5831142209187883337.malone@wampee.canonical.com>
-Subject: [Bug 1856834] Re: Virtio broken in qemu ppc in 4.2.0 and other
+Message-Id: <157874275242.3198.10529721400120606674.malone@soybean.canonical.com>
+Subject: [Bug 1856834] Re: PCI broken in qemu ppc e500 in v2.12.0 and other
  versions
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: bba0d7017276b36f05a8d34f7739e1901f46420f
+X-Launchpad-Hash: 7aff54e86491c70fe588660e2e7978d9274754be
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -71,52 +71,7 @@ Reply-To: Bug 1856834 <1856834@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is broken by:
-
-commit 67113c03423a23e60915574275aed7d60e9f85e1
-Author: Michael Davidsaver <mdavidsaver@gmail.com>
-Date:   Sun Nov 26 15:59:05 2017 -0600
-
-    e500: fix pci host bridge class/type
-    =
-
-    Correct some confusion wrt. the PCI facing
-    side of the PCI host bridge (not PCIe root complex).
-    The ref. manual for the mpc8533 (as well as
-    mpc8540 and mpc8540) give the class code as
-    PCI_CLASS_PROCESSOR_POWERPC.
-    While the PCI_HEADER_TYPE field is oddly omitted,
-    the tables in the "PCI Configuration Header"
-    section shows a type 0 layout using all 6 BAR
-    registers (as 2x 32, and 2x 64 bit regions)
-    =
-
-    So 997505065dc92e533debf5cb23012ba4e673d387
-    seems to be in error.  Although there was
-    perhaps some confusion as the mpc8533
-    has a separate PCIe root complex.
-    With PCIe, a root complex has PCI_HEADER_TYPE=3D1.
-    =
-
-    Neither the PCI host bridge, nor the PCIe
-    root complex advertise class PCI_CLASS_BRIDGE_PCI.
-    =
-
-    This was confusing Linux guests, which try
-    to interpret the host bridge as a pci-pci
-    bridge, but get confused and re-enumerate
-    the bus when the primary/secondary/subordinate
-    bus registers don't have valid values.
-    =
-
-    Signed-off-by: Michael Davidsaver <mdavidsaver@gmail.com>
-    Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-
-
-** Summary changed:
-
-- Virtio broken in qemu ppc in 4.2.0 and other versions
-+ PCI broken in qemu ppc e500 in v2.12.0 and other versions
+If I revert 67113c03423a on top of master, vda is correctly detected.
 
 -- =
 
