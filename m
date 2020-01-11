@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3AF138216
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jan 2020 16:46:40 +0100 (CET)
-Received: from localhost ([::1]:58466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA68213821B
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jan 2020 16:49:22 +0100 (CET)
+Received: from localhost ([::1]:58500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iqIyE-0007J4-HI
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jan 2020 10:46:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51347)
+	id 1iqJ0r-00033J-BG
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jan 2020 10:49:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54053)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iqIuS-0003En-3E
- for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:42:45 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iqIvT-00050P-Sf
+ for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:43:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iqIuQ-0003Gr-Tr
- for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:42:43 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:46900 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iqIvS-0007Py-Td
+ for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:43:47 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:48055 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iqIuQ-0003DD-MJ
- for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:42:42 -0500
+ id 1iqIvS-0007KC-Ln
+ for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:43:46 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 919F41A1FDA;
- Sat, 11 Jan 2020 16:42:40 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTP id 6EE1B1A1FDA;
+ Sat, 11 Jan 2020 16:43:44 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 76B9F1A1187;
- Sat, 11 Jan 2020 16:42:40 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 526931A1187;
+ Sat, 11 Jan 2020 16:43:44 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 06/19] linux-user: xtensa: Update syscall numbers to kernel
- 5.5 rc3 level
-Date: Sat, 11 Jan 2020 16:40:28 +0100
-Message-Id: <1578757241-29583-7-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH v4 07/19] linux-user: xtensa: Remove unused constant
+ TARGET_NR_syscall_count
+Date: Sat, 11 Jan 2020 16:40:29 +0100
+Message-Id: <1578757241-29583-8-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1578757241-29583-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1578757241-29583-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -58,65 +58,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Update xtensa syscall numbers based on Linux kernel tag v5.5-rc3
-(commit 46cf053e).
-
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Currently, there is no usage of TARGET_NR_syscall_count for target
+xtensa, and there is no obvious indication if there is some planned
+usage in future.
 
 ---
 
 cc: Max Filippov <jcmvbkbc@gmail.com>
 ---
- linux-user/xtensa/syscall_nr.h | 38 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+ linux-user/xtensa/syscall_nr.h | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/linux-user/xtensa/syscall_nr.h b/linux-user/xtensa/syscall_nr.h
-index 27645be..3d19d0c 100644
+index 3d19d0c..39bff65 100644
 --- a/linux-user/xtensa/syscall_nr.h
 +++ b/linux-user/xtensa/syscall_nr.h
-@@ -431,7 +431,41 @@
- #define TARGET_NR_pkey_free                          350
+@@ -466,6 +466,4 @@
+ #define TARGET_NR_pidfd_open                         434
+ #define TARGET_NR_clone3                             435
  
- #define TARGET_NR_statx                              351
+-#define TARGET_NR_syscall_count                      436
 -
--#define TARGET_NR_syscall_count                      352
-+#define TARGET_NR_rseq                               352
-+/* 353 through 402 are unassigned to sync up with generic numbers */
-+#define TARGET_NR_clock_gettime64                    403
-+#define TARGET_NR_clock_settime64                    404
-+#define TARGET_NR_clock_adjtime64                    405
-+#define TARGET_NR_clock_getres_time64                406
-+#define TARGET_NR_clock_nanosleep_time64             407
-+#define TARGET_NR_timer_gettime64                    408
-+#define TARGET_NR_timer_settime64                    409
-+#define TARGET_NR_timerfd_gettime64                  410
-+#define TARGET_NR_timerfd_settime64                  411
-+#define TARGET_NR_utimensat_time64                   412
-+#define TARGET_NR_pselect6_time64                    413
-+#define TARGET_NR_ppoll_time64                       414
-+#define TARGET_NR_io_pgetevents_time64               416
-+#define TARGET_NR_recvmmsg_time64                    417
-+#define TARGET_NR_mq_timedsend_time64                418
-+#define TARGET_NR_mq_timedreceive_time64             419
-+#define TARGET_NR_semtimedop_time64                  420
-+#define TARGET_NR_rt_sigtimedwait_time64             421
-+#define TARGET_NR_futex_time64                       422
-+#define TARGET_NR_sched_rr_get_interval_time64       423
-+#define TARGET_NR_pidfd_send_signal                  424
-+#define TARGET_NR_io_uring_setup                     425
-+#define TARGET_NR_io_uring_enter                     426
-+#define TARGET_NR_io_uring_register                  427
-+#define TARGET_NR_open_tree                          428
-+#define TARGET_NR_move_mount                         429
-+#define TARGET_NR_fsopen                             430
-+#define TARGET_NR_fsconfig                           431
-+#define TARGET_NR_fsmount                            432
-+#define TARGET_NR_fspick                             433
-+#define TARGET_NR_pidfd_open                         434
-+#define TARGET_NR_clone3                             435
-+
-+#define TARGET_NR_syscall_count                      436
- 
  #endif /* XTENSA_SYSCALL_NR_H */
 -- 
 2.7.4
