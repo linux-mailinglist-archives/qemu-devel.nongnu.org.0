@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6406B138212
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jan 2020 16:44:05 +0100 (CET)
-Received: from localhost ([::1]:58430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 496D0138213
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jan 2020 16:44:08 +0100 (CET)
+Received: from localhost ([::1]:58432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iqIvk-0004VL-AC
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jan 2020 10:44:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50683)
+	id 1iqIvn-0004bC-2C
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jan 2020 10:44:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iqIu3-0002Ws-6H
- for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:42:20 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iqIuB-0002j7-Cx
+ for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:42:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iqItx-0002SJ-0B
- for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:42:17 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:46799 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iqIu9-0002cJ-A1
+ for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:42:27 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:46821 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iqItw-0002O1-EU
- for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:42:12 -0500
+ id 1iqIu8-0002aS-Rx
+ for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:42:25 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 7669C1A1EAC;
- Sat, 11 Jan 2020 16:42:08 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTP id 4E0FB1A1EAC;
+ Sat, 11 Jan 2020 16:42:20 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 5C68B1A1187;
- Sat, 11 Jan 2020 16:42:08 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 355821A1187;
+ Sat, 11 Jan 2020 16:42:20 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/19] linux-user: m68k: Update syscall numbers to kernel
- 5.5 rc3 level
-Date: Sat, 11 Jan 2020 16:40:24 +0100
-Message-Id: <1578757241-29583-3-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH v4 03/19] linux-user: microblaze: Update syscall numbers to
+ kernel 5.5 rc3 level
+Date: Sat, 11 Jan 2020 16:40:25 +0100
+Message-Id: <1578757241-29583-4-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1578757241-29583-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1578757241-29583-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -51,50 +51,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, amarkovic@wavecomp.com
+Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>, laurent@vivier.eu,
+ amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Update m68k syscall numbers based on Linux kernel tag v5.5-rc3
+Update microblaze syscall numbers based on Linux kernel tag v5.5-rc3
 (commit 46cf053e).
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
 ---
 
-cc: Laurent Vivier <laurent@vivier.eu>
+cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
 ---
- linux-user/m68k/syscall_nr.h | 50 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 49 insertions(+), 1 deletion(-)
+ linux-user/microblaze/syscall_nr.h | 45 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-diff --git a/linux-user/m68k/syscall_nr.h b/linux-user/m68k/syscall_nr.h
-index d33d8e9..01aee34 100644
---- a/linux-user/m68k/syscall_nr.h
-+++ b/linux-user/m68k/syscall_nr.h
-@@ -382,5 +382,53 @@
- #define TARGET_NR_copy_file_range       376
- #define TARGET_NR_preadv2               377
- #define TARGET_NR_pwritev2              378
--
-+#define TARGET_NR_statx                 379
-+#define TARGET_NR_seccomp               380
-+#define TARGET_NR_pkey_mprotect         381
-+#define TARGET_NR_pkey_alloc            382
-+#define TARGET_NR_pkey_free             383
-+#define TARGET_NR_rseq                  384
-+/* room for arch specific calls */
-+#define TARGET_NR_semget                393
-+#define TARGET_NR_semctl                394
-+#define TARGET_NR_shmget                395
-+#define TARGET_NR_shmctl                396
-+#define TARGET_NR_shmat                 397
-+#define TARGET_NR_shmdt                 398
-+#define TARGET_NR_msgget                399
-+#define TARGET_NR_msgsnd                400
-+#define TARGET_NR_msgrcv                401
-+#define TARGET_NR_msgctl                402
+diff --git a/linux-user/microblaze/syscall_nr.h b/linux-user/microblaze/syscall_nr.h
+index aa2eb93..ec1758e 100644
+--- a/linux-user/microblaze/syscall_nr.h
++++ b/linux-user/microblaze/syscall_nr.h
+@@ -393,5 +393,50 @@
+ #define TARGET_NR_memfd_create          386
+ #define TARGET_NR_bpf                   387
+ #define TARGET_NR_execveat              388
++#define TARGET_NR_userfaultfd           389
++#define TARGET_NR_membarrier            390
++#define TARGET_NR_mlock2                391
++#define TARGET_NR_copy_file_range       392
++#define TARGET_NR_preadv2               393
++#define TARGET_NR_pwritev2              394
++#define TARGET_NR_pkey_mprotect         395
++#define TARGET_NR_pkey_alloc            396
++#define TARGET_NR_pkey_free             397
++#define TARGET_NR_statx                 398
++#define TARGET_NR_io_pgetevents         399
++#define TARGET_NR_rseq                  400
++/* 401 and 402 are unused */
 +#define TARGET_NR_clock_gettime64       403
 +#define TARGET_NR_clock_settime64       404
 +#define TARGET_NR_clock_adjtime64       405
@@ -126,7 +122,8 @@ index d33d8e9..01aee34 100644
 +#define TARGET_NR_fsmount               432
 +#define TARGET_NR_fspick                433
 +#define TARGET_NR_pidfd_open            434
-+/* 435 reserved for clone3 */
++#define TARGET_NR_clone3                435
+ 
  #endif
 -- 
 2.7.4
