@@ -2,46 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F3E138227
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jan 2020 16:54:52 +0100 (CET)
-Received: from localhost ([::1]:58560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F23713825E
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Jan 2020 17:26:10 +0100 (CET)
+Received: from localhost ([::1]:58874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iqJ6B-0002Oq-75
-	for lists+qemu-devel@lfdr.de; Sat, 11 Jan 2020 10:54:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42327)
+	id 1iqJaS-0005dI-QA
+	for lists+qemu-devel@lfdr.de; Sat, 11 Jan 2020 11:26:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57291)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iqJ1E-0004sA-Fp
- for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:49:45 -0500
+ (envelope-from <bounces@canonical.com>) id 1iqJ6w-0004vr-Dc
+ for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:55:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iqJ1D-00067a-Ba
- for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:49:44 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:50530 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iqJ1D-00061Q-3i
- for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:49:43 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id F41AF1A1FDD;
- Sat, 11 Jan 2020 16:49:40 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id DDB401A1187;
- Sat, 11 Jan 2020 16:49:40 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+ (envelope-from <bounces@canonical.com>) id 1iqJ6u-0002ag-Q5
+ for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:55:38 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44522)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iqJ6u-0002U2-JX
+ for qemu-devel@nongnu.org; Sat, 11 Jan 2020 10:55:36 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iqJ6t-0003SE-2d
+ for <qemu-devel@nongnu.org>; Sat, 11 Jan 2020 15:55:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0EC9C2E8075
+ for <qemu-devel@nongnu.org>; Sat, 11 Jan 2020 15:55:35 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 11 Jan 2020 15:45:59 -0000
+From: Teodori Serge <teodori.serge@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 19/19] linux-user: Add support for KCOV_INIT_TRACE ioctl
-Date: Sat, 11 Jan 2020 16:40:41 +0100
-Message-Id: <1578757241-29583-20-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1578757241-29583-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1578757241-29583-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: risc-v
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: teodori-serge
+X-Launchpad-Bug-Reporter: Teodori Serge (teodori-serge)
+X-Launchpad-Bug-Modifier: Teodori Serge (teodori-serge)
+Message-Id: <157875755996.2711.225801499083245592.malonedeb@soybean.canonical.com>
+Subject: [Bug 1859291] [NEW] RISC-V incorrect exception generated
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 328626a7451669870bb9e5c87020b5bec2888d34
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Sat, 11 Jan 2020 11:25:14 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -50,45 +66,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, amarkovic@wavecomp.com
+Reply-To: Bug 1859291 <1859291@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+Public bug reported:
 
-KCOV_INIT_TRACE ioctl plays the role in kernel coverage tracing.
-This ioctl's third argument is of type 'unsigned long', and the
-implementation in QEMU is straightforward.
+When using 'ecall' from supervisor mode, user exception is raised
+instead of supervisor exception. The problem is located under
+'target/riscv/insn_trans/trans_priviledged.inc.c' in function 'static
+bool trans_ecall(DisasContext *ctx, arg_ecall *a)'. Best regards, Serge
+Teodori
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- linux-user/ioctls.h       | 1 +
- linux-user/syscall_defs.h | 1 +
- 2 files changed, 2 insertions(+)
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 39b3825..1da71dd 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -556,4 +556,5 @@
- #ifdef CONFIG_KCOV
-   IOCTL(KCOV_ENABLE, 0, TYPE_NULL)
-   IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
-+  IOCTL(KCOV_INIT_TRACE, IOC_R, TYPE_ULONG)
- #endif
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 87e390d..209c138 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -2460,6 +2460,7 @@ struct target_mtpos {
- /* kcov ioctls */
- #define TARGET_KCOV_ENABLE     TARGET_IO('c', 100)
- #define TARGET_KCOV_DISABLE    TARGET_IO('c', 101)
-+#define TARGET_KCOV_INIT_TRACE TARGET_IOR('c', 1, abi_ulong)
- 
- struct target_sysinfo {
-     abi_long uptime;                /* Seconds since boot */
--- 
-2.7.4
 
+** Tags: risc-v
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859291
+
+Title:
+  RISC-V incorrect exception generated
+
+Status in QEMU:
+  New
+
+Bug description:
+  When using 'ecall' from supervisor mode, user exception is raised
+  instead of supervisor exception. The problem is located under
+  'target/riscv/insn_trans/trans_priviledged.inc.c' in function 'static
+  bool trans_ecall(DisasContext *ctx, arg_ecall *a)'. Best regards,
+  Serge Teodori
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859291/+subscriptions
 
