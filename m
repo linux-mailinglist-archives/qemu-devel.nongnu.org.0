@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C444138681
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jan 2020 13:55:48 +0100 (CET)
-Received: from localhost ([::1]:37698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568BF13867D
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jan 2020 13:52:24 +0100 (CET)
+Received: from localhost ([::1]:37658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iqcmQ-0001Zu-Vb
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jan 2020 07:55:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33051)
+	id 1iqcj8-0005x0-TT
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jan 2020 07:52:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33021)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1iqcgJ-00043p-03
- for qemu-devel@nongnu.org; Sun, 12 Jan 2020 07:49:29 -0500
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iqcgI-00043n-Ew
+ for qemu-devel@nongnu.org; Sun, 12 Jan 2020 07:49:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1iqcgG-00017p-Le
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iqcgG-00017P-I4
  for qemu-devel@nongnu.org; Sun, 12 Jan 2020 07:49:26 -0500
-Received: from mail03.asahi-net.or.jp ([202.224.55.15]:37304)
+Received: from mail01.asahi-net.or.jp ([202.224.55.13]:33838)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1iqcgG-0000rK-AE
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iqcgG-0000rb-6n
  for qemu-devel@nongnu.org; Sun, 12 Jan 2020 07:49:24 -0500
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
  [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail03.asahi-net.or.jp (Postfix) with ESMTPA id E5F15B8369;
+ by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 2E03640EF5;
  Sun, 12 Jan 2020 21:49:18 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 2020A24008E;
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 5C48924008F;
  Sun, 12 Jan 2020 21:49:18 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v28 00/22] Add RX archtecture support
-Date: Sun, 12 Jan 2020 21:48:51 +0900
-Message-Id: <20200112124913.94959-1-ysato@users.sourceforge.jp>
+Subject: [PATCH v28 01/22] MAINTAINERS: Add RX
+Date: Sun, 12 Jan 2020 21:48:52 +0900
+Message-Id: <20200112124913.94959-2-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200112124913.94959-1-ysato@users.sourceforge.jp>
+References: <20200112124913.94959-1-ysato@users.sourceforge.jp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 202.224.55.15
+X-Received-From: 202.224.55.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,167 +58,52 @@ Cc: richard.henderson@linaro.org, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello.
-This patch series is added Renesas RX target emulation.
+Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20190607091116.49044-18-ysato@users.sourceforge.jp>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ MAINTAINERS | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-Changes for v27.
-Added RX section to qemu-doc.
-Rebase for master
-
-Changes for v26.
-Rebase for 5.0
-Update machine.json for 5.0
-
-Changes for v25.
-Update commit message.
-Squashed qapi/machine.json changes.
-
-Changes for v24.
-Add note for qapi/machine.json.
-Added Acked-by for 6/22.
-git rebase master.
-
-Changes for v23.
-Follow master changes.
-
-Changes for v22.
-Added some include.
-
-Changes for v21.
-rebase latest master.
-Remove unneeded hmp_info_tlb.
-
-Chanegs for v20.
-Reorderd patches.
-Squashed v19 changes.
-
-Changes for v19.
-Follow tcg changes.
-Cleanup cpu.c.
-simplify rx_cpu_class_by_name and rx_load_image move to rx-virt.
-
-My git repository is bellow.
-git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20200112
-
-Testing binaries bellow.
-u-boot
-Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
-
-starting
-$ gzip -d u-boot.bin.gz
-$ qemu-system-rx -bios u-boot.bin
-
-linux and pico-root (only sash)
-Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
-           https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceTre=
-e)
-
-starting
-$ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
-
-Philippe Mathieu-Daud=C3=A9 (3):
-  hw/registerfields.h: Add 8bit and 16bit register macros
-  hw/rx: Restrict the RX62N microcontroller to the RX62N CPU core
-  BootLinuxConsoleTest: Test the RX-Virt machine
-
-Richard Henderson (7):
-  target/rx: Disassemble rx_index_addr into a string
-  target/rx: Replace operand with prt_ldmi in disassembler
-  target/rx: Use prt_ldmi for XCHG_mr disassembly
-  target/rx: Emit all disassembly in one prt()
-  target/rx: Collect all bytes during disassembly
-  target/rx: Dump bytes for each insn during disassembly
-  hw/rx: Honor -accel qtest
-
-Yoshinori Sato (12):
-  MAINTAINERS: Add RX
-  qemu/bitops.h: Add extract8 and extract16
-  target/rx: TCG translation
-  target/rx: TCG helper
-  target/rx: CPU definition
-  target/rx: RX disassembler
-  hw/intc: RX62N interrupt controller (ICUa)
-  hw/timer: RX62N internal timer modules
-  hw/char: RX62N serial communication interface (SCI)
-  hw/rx: RX Target hardware definition
-  Add rx-softmmu
-  qemu-doc.texi: Add RX section.
-
- qemu-doc.texi                          |   25 +
- configure                              |    8 +
- default-configs/rx-softmmu.mak         |    3 +
- qapi/machine.json                      |    3 +-
- include/disas/dis-asm.h                |    5 +
- include/exec/poison.h                  |    1 +
- include/hw/char/renesas_sci.h          |   45 +
- include/hw/intc/rx_icu.h               |   56 +
- include/hw/registerfields.h            |   32 +-
- include/hw/rx/rx.h                     |    7 +
- include/hw/rx/rx62n.h                  |   91 +
- include/hw/timer/renesas_cmt.h         |   38 +
- include/hw/timer/renesas_tmr.h         |   53 +
- include/qemu/bitops.h                  |   38 +
- include/sysemu/arch_init.h             |    1 +
- target/rx/cpu-param.h                  |   31 +
- target/rx/cpu-qom.h                    |   42 +
- target/rx/cpu.h                        |  181 ++
- target/rx/helper.h                     |   31 +
- arch_init.c                            |    2 +
- hw/char/renesas_sci.c                  |  343 ++++
- hw/intc/rx_icu.c                       |  379 ++++
- hw/rx/rx-virt.c                        |  135 ++
- hw/rx/rx62n.c                          |  247 +++
- hw/timer/renesas_cmt.c                 |  278 +++
- hw/timer/renesas_tmr.c                 |  458 +++++
- target/rx/cpu.c                        |  217 +++
- target/rx/disas.c                      | 1446 ++++++++++++++
- target/rx/gdbstub.c                    |  112 ++
- target/rx/helper.c                     |  149 ++
- target/rx/op_helper.c                  |  470 +++++
- target/rx/translate.c                  | 2432 ++++++++++++++++++++++++
- tests/machine-none-test.c              |    1 +
- MAINTAINERS                            |   19 +
- hw/Kconfig                             |    1 +
- hw/char/Kconfig                        |    3 +
- hw/char/Makefile.objs                  |    1 +
- hw/intc/Kconfig                        |    3 +
- hw/intc/Makefile.objs                  |    1 +
- hw/rx/Kconfig                          |   14 +
- hw/rx/Makefile.objs                    |    2 +
- hw/timer/Kconfig                       |    6 +
- hw/timer/Makefile.objs                 |    3 +
- target/rx/Makefile.objs                |   11 +
- target/rx/insns.decode                 |  621 ++++++
- tests/acceptance/boot_linux_console.py |   47 +
- 46 files changed, 8090 insertions(+), 2 deletions(-)
- create mode 100644 default-configs/rx-softmmu.mak
- create mode 100644 include/hw/char/renesas_sci.h
- create mode 100644 include/hw/intc/rx_icu.h
- create mode 100644 include/hw/rx/rx.h
- create mode 100644 include/hw/rx/rx62n.h
- create mode 100644 include/hw/timer/renesas_cmt.h
- create mode 100644 include/hw/timer/renesas_tmr.h
- create mode 100644 target/rx/cpu-param.h
- create mode 100644 target/rx/cpu-qom.h
- create mode 100644 target/rx/cpu.h
- create mode 100644 target/rx/helper.h
- create mode 100644 hw/char/renesas_sci.c
- create mode 100644 hw/intc/rx_icu.c
- create mode 100644 hw/rx/rx-virt.c
- create mode 100644 hw/rx/rx62n.c
- create mode 100644 hw/timer/renesas_cmt.c
- create mode 100644 hw/timer/renesas_tmr.c
- create mode 100644 target/rx/cpu.c
- create mode 100644 target/rx/disas.c
- create mode 100644 target/rx/gdbstub.c
- create mode 100644 target/rx/helper.c
- create mode 100644 target/rx/op_helper.c
- create mode 100644 target/rx/translate.c
- create mode 100644 hw/rx/Kconfig
- create mode 100644 hw/rx/Makefile.objs
- create mode 100644 target/rx/Makefile.objs
- create mode 100644 target/rx/insns.decode
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cd2dc137a3..d28f3ba584 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -272,6 +272,13 @@ F: include/hw/riscv/
+ F: linux-user/host/riscv32/
+ F: linux-user/host/riscv64/
+=20
++RENESAS RX CPUs
++M: Yoshinori Sato <ysato@users.sourceforge.jp>
++S: Maintained
++F: target/rx/
++F: hw/rx/
++F: include/hw/rx/
++
+ S390 TCG CPUs
+ M: Richard Henderson <rth@twiddle.net>
+ M: David Hildenbrand <david@redhat.com>
+@@ -1137,6 +1144,18 @@ F: pc-bios/canyonlands.dt[sb]
+ F: pc-bios/u-boot-sam460ex-20100605.bin
+ F: roms/u-boot-sam460ex
+=20
++RX Machines
++-----------
++rx-virt
++M: Yoshinori Sato <ysato@users.sourceforge.jp>
++S: Maintained
++F: hw/rx/rxqemu.c
++F: hw/intc/rx_icu.c
++F: hw/timer/renesas_*.c
++F: hw/char/renesas_sci.c
++F: include/hw/timer/renesas_*.h
++F: include/hw/char/renesas_sci.h
++
+ SH4 Machines
+ ------------
+ R2D
 --=20
 2.20.1
 
