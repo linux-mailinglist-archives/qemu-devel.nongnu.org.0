@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F28A13867E
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jan 2020 13:52:24 +0100 (CET)
-Received: from localhost ([::1]:37660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01306138684
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Jan 2020 13:55:50 +0100 (CET)
+Received: from localhost ([::1]:37701 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iqcj9-0005yS-8Q
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jan 2020 07:52:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33012)
+	id 1iqcmT-0001iS-Ks
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jan 2020 07:55:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33054)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1iqcgI-00043m-CA
- for qemu-devel@nongnu.org; Sun, 12 Jan 2020 07:49:29 -0500
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iqcgJ-00043q-0W
+ for qemu-devel@nongnu.org; Sun, 12 Jan 2020 07:49:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1iqcgG-00017W-Ic
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iqcgG-00017g-Ja
  for qemu-devel@nongnu.org; Sun, 12 Jan 2020 07:49:26 -0500
-Received: from mail03.asahi-net.or.jp ([202.224.55.15]:37305)
+Received: from mail01.asahi-net.or.jp ([202.224.55.13]:33840)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1iqcgG-0000rU-9f
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iqcgG-0000ry-91
  for qemu-devel@nongnu.org; Sun, 12 Jan 2020 07:49:24 -0500
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
  [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 2B413B8376;
+ by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 8370F41054;
  Sun, 12 Jan 2020 21:49:19 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id DB64E240090;
- Sun, 12 Jan 2020 21:49:18 +0900 (JST)
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 225F4240091;
+ Sun, 12 Jan 2020 21:49:19 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v28 02/22] qemu/bitops.h: Add extract8 and extract16
-Date: Sun, 12 Jan 2020 21:48:53 +0900
-Message-Id: <20200112124913.94959-3-ysato@users.sourceforge.jp>
+Subject: [PATCH v28 03/22] hw/registerfields.h: Add 8bit and 16bit register
+ macros
+Date: Sun, 12 Jan 2020 21:48:54 +0900
+Message-Id: <20200112124913.94959-4-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200112124913.94959-1-ysato@users.sourceforge.jp>
 References: <20200112124913.94959-1-ysato@users.sourceforge.jp>
@@ -41,7 +42,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 202.224.55.15
+X-Received-From: 202.224.55.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,71 +54,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, philmd@redhat.com,
+Cc: richard.henderson@linaro.org, Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Some RX peripheral using 8bit and 16bit registers.
+Added 8bit and 16bit APIs.
+
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190607091116.49044-10-ysato@users.sourceforge.jp>
+Message-Id: <20190607091116.49044-11-ysato@users.sourceforge.jp>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/bitops.h | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ include/hw/registerfields.h | 32 +++++++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
-index 02c1ce6a5d..f55ce8b320 100644
---- a/include/qemu/bitops.h
-+++ b/include/qemu/bitops.h
-@@ -301,6 +301,44 @@ static inline uint32_t extract32(uint32_t value, int=
- start, int length)
-     return (value >> start) & (~0U >> (32 - length));
- }
+diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
+index 2659a58737..a0bb0654d6 100644
+--- a/include/hw/registerfields.h
++++ b/include/hw/registerfields.h
+@@ -22,6 +22,14 @@
+     enum { A_ ## reg =3D (addr) };                                      =
+    \
+     enum { R_ ## reg =3D (addr) / 4 };
 =20
-+/**
-+ * extract8:
-+ * @value: the value to extract the bit field from
-+ * @start: the lowest bit in the bit field (numbered from 0)
-+ * @length: the length of the bit field
-+ *
-+ * Extract from the 8 bit input @value the bit field specified by the
-+ * @start and @length parameters, and return it. The bit field must
-+ * lie entirely within the 8 bit word. It is valid to request that
-+ * all 8 bits are returned (ie @length 8 and @start 0).
-+ *
-+ * Returns: the value of the bit field extracted from the input value.
-+ */
-+static inline uint8_t extract8(uint8_t value, int start, int length)
-+{
-+    assert(start >=3D 0 && length > 0 && length <=3D 8 - start);
-+    return extract32(value, start, length);
-+}
++#define REG8(reg, addr)                                                 =
+ \
++    enum { A_ ## reg =3D (addr) };                                      =
+    \
++    enum { R_ ## reg =3D (addr) };
 +
-+/**
-+ * extract16:
-+ * @value: the value to extract the bit field from
-+ * @start: the lowest bit in the bit field (numbered from 0)
-+ * @length: the length of the bit field
-+ *
-+ * Extract from the 16 bit input @value the bit field specified by the
-+ * @start and @length parameters, and return it. The bit field must
-+ * lie entirely within the 16 bit word. It is valid to request that
-+ * all 16 bits are returned (ie @length 16 and @start 0).
-+ *
-+ * Returns: the value of the bit field extracted from the input value.
-+ */
-+static inline uint16_t extract16(uint16_t value, int start, int length)
-+{
-+    assert(start >=3D 0 && length > 0 && length <=3D 16 - start);
-+    return extract32(value, start, length);
-+}
++#define REG16(reg, addr)                                                =
+  \
++    enum { A_ ## reg =3D (addr) };                                      =
+    \
++    enum { R_ ## reg =3D (addr) / 2 };
 +
- /**
-  * extract64:
-  * @value: the value to extract the bit field from
+ /* Define SHIFT, LENGTH and MASK constants for a field within a register=
+ */
+=20
+ /* This macro will define R_FOO_BAR_MASK, R_FOO_BAR_SHIFT and R_FOO_BAR_=
+LENGTH
+@@ -34,6 +42,12 @@
+                                         MAKE_64BIT_MASK(shift, length)};
+=20
+ /* Extract a field from a register */
++#define FIELD_EX8(storage, reg, field)                                  =
+  \
++    extract8((storage), R_ ## reg ## _ ## field ## _SHIFT,              =
+  \
++              R_ ## reg ## _ ## field ## _LENGTH)
++#define FIELD_EX16(storage, reg, field)                                 =
+  \
++    extract16((storage), R_ ## reg ## _ ## field ## _SHIFT,             =
+  \
++              R_ ## reg ## _ ## field ## _LENGTH)
+ #define FIELD_EX32(storage, reg, field)                                 =
+  \
+     extract32((storage), R_ ## reg ## _ ## field ## _SHIFT,             =
+  \
+               R_ ## reg ## _ ## field ## _LENGTH)
+@@ -49,6 +63,22 @@
+  * Assigning values larger then the target field will result in
+  * compilation warnings.
+  */
++#define FIELD_DP8(storage, reg, field, val) ({                          =
+  \
++    struct {                                                            =
+  \
++        unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;              =
+  \
++    } v =3D { .v =3D val };                                             =
+      \
++    uint8_t d;                                                          =
+  \
++    d =3D deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,       =
+    \
++                  R_ ## reg ## _ ## field ## _LENGTH, v.v);             =
+  \
++    d; })
++#define FIELD_DP16(storage, reg, field, val) ({                         =
+  \
++    struct {                                                            =
+  \
++        unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;              =
+  \
++    } v =3D { .v =3D val };                                             =
+      \
++    uint16_t d;                                                         =
+  \
++    d =3D deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,       =
+    \
++                  R_ ## reg ## _ ## field ## _LENGTH, v.v);             =
+  \
++    d; })
+ #define FIELD_DP32(storage, reg, field, val) ({                         =
+  \
+     struct {                                                            =
+  \
+         unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;              =
+  \
+@@ -57,7 +87,7 @@
+     d =3D deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,       =
+    \
+                   R_ ## reg ## _ ## field ## _LENGTH, v.v);             =
+  \
+     d; })
+-#define FIELD_DP64(storage, reg, field, val) ({                         =
+  \
++#define FIELD_DP64(storage, reg, field, val) ({                         =
+\
+     struct {                                                            =
+  \
+         unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;              =
+  \
+     } v =3D { .v =3D val };                                             =
+      \
 --=20
 2.20.1
 
