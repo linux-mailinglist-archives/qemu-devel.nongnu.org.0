@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B23D41394CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 16:31:39 +0100 (CET)
-Received: from localhost ([::1]:51910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F5E13950F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 16:41:43 +0100 (CET)
+Received: from localhost ([::1]:52000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir1go-0006uC-HC
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 10:31:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59653)
+	id 1ir1qY-0006lh-Jc
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 10:41:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ir1fi-0006OO-80
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:30:31 -0500
+ (envelope-from <bounces@canonical.com>) id 1ir1pi-0006EA-UK
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:40:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ir1fg-0008LV-ID
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:30:29 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29276
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ir1fg-0008KK-EN
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:30:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578929427;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/duRa5/vb9Lj/Vjc4zIyEAeScvgyjgK824vwpH02rQI=;
- b=dvzH6naEc8az6SzXs5arjwhp2kwAD2nYsIiiqP52W9JlOPPxzyS0pMPsjS/7Tt7G8lnKzJ
- +AQqNNNzb9I9T8AoPJu0g6CVnz/KjOuEOY1PM6CSvYeR4pLtQDDuEjgT680fhg1MjVDyiJ
- 7rN8yFsxrZBZHyMCtLfIl0IM+tOfv68=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-aoXpHxnINHaSsGeDd5zm_Q-1; Mon, 13 Jan 2020 10:30:23 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93ABE911BC;
- Mon, 13 Jan 2020 15:30:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
- [10.36.116.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F3BD5C1B0;
- Mon, 13 Jan 2020 15:30:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E5F731138600; Mon, 13 Jan 2020 16:30:20 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Zhimin Feng <fengzhimin1@huawei.com>
-Subject: Re: [PATCH RFC 01/12] migration: Add multiRDMA capability support
-References: <20200109045922.904-1-fengzhimin1@huawei.com>
- <20200109045922.904-2-fengzhimin1@huawei.com>
-Date: Mon, 13 Jan 2020 16:30:20 +0100
-In-Reply-To: <20200109045922.904-2-fengzhimin1@huawei.com> (Zhimin Feng's
- message of "Thu, 9 Jan 2020 12:59:11 +0800")
-Message-ID: <875zhfxtkj.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <bounces@canonical.com>) id 1ir1ph-0003xk-G0
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:40:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55620)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ir1ph-0003wX-AL
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:40:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ir1pf-0000IW-QZ
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 15:40:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C7EAC2E80C7
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 15:40:47 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: aoXpHxnINHaSsGeDd5zm_Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 13 Jan 2020 15:33:57 -0000
+From: Alex Longwall <1859384@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm gic
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee alexlngw pmaydell
+X-Launchpad-Bug-Reporter: Alex Longwall (alexlngw)
+X-Launchpad-Bug-Modifier: Alex Longwall (alexlngw)
+References: <157887973843.5281.117317310678495552.malonedeb@gac.canonical.com>
+Message-Id: <157892963723.14604.17030054826288911696.malone@wampee.canonical.com>
+Subject: [Bug 1859384] Re: arm gic: interrupt model never 1 on non-mpcore and
+ race condition in gic_acknowledge_irq
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e049baf8359f7fbc9859e9108d4021175463a238
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,42 +67,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, jemmy858585@gmail.com
+Reply-To: Bug 1859384 <1859384@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Zhimin Feng <fengzhimin1@huawei.com> writes:
+Err, I meant 3.2 subitem 5 "Note" "In a multiprocessor implementation,
+the GIC handles(...)" too, sorry
 
-> From: fengzhimin <fengzhimin1@huawei.com>
->
-> Signed-off-by: fengzhimin <fengzhimin1@huawei.com>
-> ---
-[...]
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index b7348d0c8b..c995ffdc4c 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -421,6 +421,8 @@
->  # @validate-uuid: Send the UUID of the source to allow the destination
->  #                 to ensure it is the same. (since 4.2)
->  #
-> +# @multirdma: Use more than one channels for rdma migration. (since 4.2)
-> +#
->  # Since: 1.2
->  ##
->  { 'enum': 'MigrationCapability',
-> @@ -428,7 +430,7 @@
->             'compress', 'events', 'postcopy-ram', 'x-colo', 'release-ram'=
-,
->             'block', 'return-path', 'pause-before-switchover', 'multifd',
->             'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
-> -           'x-ignore-shared', 'validate-uuid' ] }
-> +           'x-ignore-shared', 'validate-uuid', 'multirdma' ] }
-> =20
->  ##
->  # @MigrationCapabilityStatus:
+-- =
 
-Spell it multi-rdma?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859384
 
+Title:
+  arm gic: interrupt model never 1 on non-mpcore and race condition in
+  gic_acknowledge_irq
+
+Status in QEMU:
+  New
+
+Bug description:
+  For a 1-N interrupt (any SPI on the GICv2), as mandated by the TRM,
+  only one CPU can acknowledge the IRQ until it becomes inactive.
+
+  The TRM also mandates that SGIs and PPIs follow the N-N model and that
+  SPIs follow the 1-N model.
+
+  However this is not currently the case with QEMU. I have locally (no
+  minimal test case) seen e.g. uart interrupts being acknowledged twice
+  before having been deactivated (expected: irqId on one CPU and 1023 on
+  the other instead).
+
+  I have narrowed the issue down to the following:
+
+  1) arm_gic_common_reset resets all irq_state[id] fields to 0. This
+  means all IRQ will use the N-N model, and if s->revision !=3D
+  REV_11MPCORE, then there's no way to set any interrupt to 1-N.
+
+  If ""fixed"" locally with a hackjob, I still have the following trace:
+
+  pl011_irq_state 534130.800 pid=3D2424 level=3D0x1
+  gic_set_irq 2.900 pid=3D2424 irq=3D0x21 level=3D0x1 cpumask=3D0xff target=
+=3D0xff
+  gic_update_set_irq 3.300 pid=3D2424 cpu=3D0x0 name=3Dirq level=3D0x1
+  gic_update_set_irq 4.200 pid=3D2424 cpu=3D0x1 name=3Dirq level=3D0x1
+  gic_acknowledge_irq 539.400 pid=3D2424 s=3Dcpu cpu=3D0x1 irq=3D0x21
+  gic_update_set_irq 269.800 pid=3D2424 cpu=3D0x0 name=3Dirq level=3D0x1
+  gic_cpu_read 4.100 pid=3D2424 s=3Dcpu cpu=3D0x1 addr=3D0xc val=3D0x21
+  gic_acknowledge_irq 15.600 pid=3D2424 s=3Dcpu cpu=3D0x0 irq=3D0x21
+  gic_cpu_read 265.000 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0xc val=3D0x21
+  pl011_write 1594.700 pid=3D2424 addr=3D0x44 value=3D0x50
+  pl011_irq_state 2.000 pid=3D2424 level=3D0x0
+  gic_set_irq 1.300 pid=3D2424 irq=3D0x21 level=3D0x0 cpumask=3D0xff target=
+=3D0xff
+  pl011_write 30.700 pid=3D2424 addr=3D0x38 value=3D0x0
+  pl011_irq_state 1.200 pid=3D2424 level=3D0x0
+  gic_cpu_write 110.600 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0x10 val=3D0x21
+  gic_cpu_write 193.400 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0x1000 val=3D0x=
+21
+  pl011_irq_state 1169.500 pid=3D2424 level=3D0x0
+
+  This is because:
+
+  2) gic_acknowledge_irq calls gic_clear_pending which uses
+  GIC_DIST_CLEAR_PENDING but this usually has no effect on level-
+  sensitive interrupts.
+
+  With this often being a no-op (ie. assuming ispendr was not written
+  to), any 1-n level-sensitive interrupt is still improperly pending on
+  all the other cores.
+
+  (Also, I don't really know how the qemu thread model works, there
+  might be race conditions in the acknowledgment logic if
+  gic_acknowledge_irq is called by multiple threads, too.)
+
+  Option used:
+  -nographic -machine virt,virtualization=3Don,accel=3Dtcg,gic-version=3D2 =
+-cpu cortex-a57 -smp 4 -m 1024
+  -kernel whatever.elf -d unimp,guest_errors -semihosting-config enable,tar=
+get=3Dnative
+  -chardev stdio,id=3Duart -serial chardev:uart -monitor none
+  -trace gic_update_set_irq -trace gic_acknowledge_irq -trace pl011_irq_sta=
+te -trace pl011_write -trace gic_cpu_read -trace gic_cpu_write
+  -trace gic_set_irq
+
+  Commit used: dc65a5bdc9fa543690a775b50d4ffbeb22c56d6d "Merge remote-
+  tracking branch 'remotes/dgibson/tags/ppc-for-5.0-20200108' into
+  staging"
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859384/+subscriptions
 
