@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 063801393B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:31:58 +0100 (CET)
-Received: from localhost ([::1]:51184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A72D61393EC
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:47:43 +0100 (CET)
+Received: from localhost ([::1]:51356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir0l2-0007B0-IE
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:31:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39801)
+	id 1ir10I-00083I-9F
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:47:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43124)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ir0jo-0006Vm-J6
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:30:42 -0500
+ (envelope-from <bounces@canonical.com>) id 1ir0yL-0007BA-Af
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:45:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ir0jn-0003Au-3Z
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:30:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:60524)
+ (envelope-from <bounces@canonical.com>) id 1ir0yJ-0006Ho-V3
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:45:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37348)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ir0jm-00038H-Tt
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:30:39 -0500
+ id 1ir0yJ-0006Ge-P1
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:45:39 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ir0jl-0004gM-2P
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:30:37 +0000
+ id 1ir0yI-0007P2-5i
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:45:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0F0E22E80C0
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:30:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E30022E8042
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:45:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 Jan 2020 14:23:53 -0000
-From: Alex Longwall <1859384@bugs.launchpad.net>
+Date: Mon, 13 Jan 2020 14:36:47 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -42,9 +42,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: ajbennee alexlngw pmaydell
 X-Launchpad-Bug-Reporter: Alex Longwall (alexlngw)
-X-Launchpad-Bug-Modifier: Alex Longwall (alexlngw)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
 References: <157887973843.5281.117317310678495552.malonedeb@gac.canonical.com>
-Message-Id: <157892543346.15344.2203687213143908778.malone@wampee.canonical.com>
+Message-Id: <157892620732.14410.9250586282956495645.malone@wampee.canonical.com>
 Subject: [Bug 1859384] Re: arm gic: interrupt model never 1 on non-mpcore and
  race condition in gic_acknowledge_irq
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 985ef24c87b0f028c330c12815ff2b0fba413572
+X-Launchpad-Hash: eca705151610b72f76b4d788e3285be8780be7f1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -71,34 +71,8 @@ Reply-To: Bug 1859384 <1859384@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> You might find there is enough in kvm-unit-tests GIC tests already to
-build a test case for what you are seeing.
-
-Right, I will do so as soon as possible.
-
-For bug 1) however, a simpler test can be made
-_start:
-    // x0=3Dgicd
-    mov     x0, #0x08000000
-    // Read icfgr[for irqid=3D32...]
-    ldr     w1, [x0, #(0xc00+32/4)]
-    // Try to write to icfgr
-    mov     w1, #3
-    str     w1, [x0, #(0xc00+32/4)]
-    // Read back
-    ldr     w1, [x0, #(0xc00+32/4)]
-    b .
-
-Running this code through the gdbstub, we can see that the model bits
-((2*id+0) mod 16) in icfgr are always 0, no matter what.
-
-However, even for the GICv2, GIC_DIST_TEST_MODEL is being used in qemu
-source code, meaning all interrupts, including SPIs, are wrongly treated
-as N-N.
-
-The initialization function of the GIC should (at least for GICv2
-devices) initialize these bits as 1 for all SPIs; this is currently not
-the case.
+Oops, yes, missed that use of GIC_DIST_TEST_MODEL because it was in the
+header file...
 
 -- =
 
