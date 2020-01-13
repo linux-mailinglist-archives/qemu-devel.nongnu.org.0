@@ -2,69 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AEF4138A88
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 06:01:55 +0100 (CET)
-Received: from localhost ([::1]:45682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C6C138AAC
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 06:22:21 +0100 (CET)
+Received: from localhost ([::1]:45834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iqrrO-0003RL-8v
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 00:01:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42253)
+	id 1iqsB9-0000UE-V0
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 00:22:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47862)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <coiby.xu@gmail.com>) id 1iqrng-0007o2-D8
- for qemu-devel@nongnu.org; Sun, 12 Jan 2020 23:58:05 -0500
+ (envelope-from <no-reply@patchew.org>) id 1iqsAR-0008VW-QJ
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 00:21:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <coiby.xu@gmail.com>) id 1iqrnf-0007AQ-4C
- for qemu-devel@nongnu.org; Sun, 12 Jan 2020 23:58:04 -0500
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:41011)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <coiby.xu@gmail.com>) id 1iqrne-00078G-TK
- for qemu-devel@nongnu.org; Sun, 12 Jan 2020 23:58:03 -0500
-Received: by mail-pg1-x535.google.com with SMTP id x8so4097279pgk.8
- for <qemu-devel@nongnu.org>; Sun, 12 Jan 2020 20:58:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=EQMyzeRthVsHsvanx1IY5iAxlbRqxtmJUNUIngmWAlk=;
- b=h37HcGKpWzAd4VTJVn7G3SKFYITfFU+wzluErHcVOtv1DXaXJw29GC/wJh8FUX8/U0
- XaSbl46qJVl8JhU9gDuYm6Q9E1PDWsOPhUu1IqHYcOvn+rgZBGewZwoU+3st/Q3sPiUt
- EyzZaKLO2lI250RUGR0j6HUw4YISye1thAPgnSvCd7DnmahEAB+GlzFdY0/9YvvjxcB2
- ksecZ149Mezh7H8UjPYnaRtg2E560lSmPgEvCylVC4UxBwGTn/zDGlOZ3H2OLzrj1eNs
- hwsx3S0oeXwsbaKzR/WV2NX9pKiHne40K44/WxerETgHx0U2YsR+ECnPKsLIPF4r2i6a
- oTCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=EQMyzeRthVsHsvanx1IY5iAxlbRqxtmJUNUIngmWAlk=;
- b=h+cZgIr67QKfnUyEjzlNZ9qaebF9IOnKvAbNkFZ7rtDXP3ua3yoQppTfERm+aBZYxF
- UVGHbxsKObEbu9DLtXIqTl26m5f2Qq5yNuhpVjfmj2kj4wJyKJrxdhSb2sj/0FT2Iy45
- IbXdxUZfxz9PjTn58S9eOQDnn5p/8bghJD2nMNdyr6mr97p/acfZa90zsoKZV6dS+FcS
- KKtu9LXG3fnMK939Pcni4quKsUBYl4yIW7nsjp/DLXpnswT5g4/GJn5icznJkExgg3JV
- DOpeuHlsP42EHFIvvvGXKM0p4xubuP5NsCBfILOyz/wDQSwYp5gOA+CgONWbUvNKRJ0c
- DR2Q==
-X-Gm-Message-State: APjAAAW+MOj+x0QqWQwSzXXleL8ajOEKx/8Pd510oNFjsCn6fQyoO6Vo
- 5iqtu9xmpsO9MGGzlBRb05d7g7JcF6a0Zw==
-X-Google-Smtp-Source: APXvYqxcZ+1XV2qEA92vZkHoV47Ngmrj8t7C0v9bwb2JMF4IJUYUSwDwiXmpQi5lq1mPmSKsUxl/fA==
-X-Received: by 2002:a63:cd06:: with SMTP id i6mr19176519pgg.48.1578891481500; 
- Sun, 12 Jan 2020 20:58:01 -0800 (PST)
-Received: from localhost.localdomain ([175.124.145.172])
- by smtp.googlemail.com with ESMTPSA id o19sm17590552pjr.2.2020.01.12.20.57.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Jan 2020 20:58:00 -0800 (PST)
-From: Coiby Xu <coiby.xu@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 5/5] building configuration files changes
-Date: Mon, 13 Jan 2020 12:57:04 +0800
-Message-Id: <20200113045704.12318-6-coiby.xu@gmail.com>
-X-Mailer: git-send-email 2.24.1
+ (envelope-from <no-reply@patchew.org>) id 1iqsAQ-0004qc-9m
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 00:21:35 -0500
+Resent-Date: Mon, 13 Jan 2020 00:21:35 -0500
+Resent-Message-Id: <E1iqsAQ-0004qc-9m@eggs.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21435)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1iqsAQ-0004p8-1o
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 00:21:34 -0500
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1578892879432273.0177186081702;
+ Sun, 12 Jan 2020 21:21:19 -0800 (PST)
 In-Reply-To: <20200113045704.12318-1-coiby.xu@gmail.com>
-References: <20200113045704.12318-1-coiby.xu@gmail.com>
+Subject: Re: [PATCH v1 0/5] vhost-user block device backend implementation
+Message-ID: <157889287819.17824.5639853317020239861@37313f22b938>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::535
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: coiby.xu@gmail.com
+Date: Sun, 12 Jan 2020 21:21:19 -0800 (PST)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.54
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,101 +51,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, Coiby Xu <coiby.xu@gmail.com>,
- stefanha@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, stefanha@redhat.com,
+ qemu-devel@nongnu.org, coiby.xu@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
----
- Makefile               | 1 +
- Makefile.objs          | 2 +-
- Makefile.target        | 1 +
- configure              | 2 +-
- tests/Makefile.include | 5 ++++-
- 5 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 6b5ad1121b..1b98201d29 100644
---- a/Makefile
-+++ b/Makefile
-@@ -558,6 +558,7 @@ qemu-img.o: qemu-img-cmds.h
-
- qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
- qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
-+qemu-vu$(EXESUF): qemu-vu.o blockdev-vu.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS) libvhost-user.a
- qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
-
- qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
-diff --git a/Makefile.objs b/Makefile.objs
-index 7c1e50f9d6..f77b110fc9 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -42,7 +42,7 @@ io-obj-y = io/
- # single QEMU executable should support all CPUs and machines.
-
- ifeq ($(CONFIG_SOFTMMU),y)
--common-obj-y = blockdev.o blockdev-nbd.o block/
-+common-obj-y = blockdev.o blockdev-nbd.o blockdev-vu.o block/
- common-obj-y += bootdevice.o iothread.o
- common-obj-y += dump/
- common-obj-y += job-qmp.o
-diff --git a/Makefile.target b/Makefile.target
-index 6e61f607b1..51a9a9c349 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -159,6 +159,7 @@ obj-y += monitor/
- obj-y += qapi/
- obj-y += memory.o
- obj-y += memory_mapping.o
-+obj-y += ../contrib/libvhost-user/libvhost-user.o
- obj-y += migration/ram.o
- LIBS := $(libs_softmmu) $(LIBS)
-
-diff --git a/configure b/configure
-index 0ce2c0354a..b13d4a8da7 100755
---- a/configure
-+++ b/configure
-@@ -6165,7 +6165,7 @@ fi
-
- tools=""
- if test "$want_tools" = "yes" ; then
--  tools="qemu-img\$(EXESUF) qemu-io\$(EXESUF) qemu-edid\$(EXESUF) $tools"
-+  tools="qemu-img\$(EXESUF) qemu-vu\$(EXESUF) qemu-io\$(EXESUF) qemu-edid\$(EXESUF) $tools"
-   if [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" ] ; then
-     tools="qemu-nbd\$(EXESUF) $tools"
-   fi
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 49e3b0d319..7d7692734c 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -746,6 +746,7 @@ qos-test-obj-y += tests/libqos/virtio.o
- qos-test-obj-$(CONFIG_VIRTFS) += tests/libqos/virtio-9p.o
- qos-test-obj-y += tests/libqos/virtio-balloon.o
- qos-test-obj-y += tests/libqos/virtio-blk.o
-+qos-test-obj-y += tests/libqos/vhost-user-blk.o
- qos-test-obj-y += tests/libqos/virtio-mmio.o
- qos-test-obj-y += tests/libqos/virtio-net.o
- qos-test-obj-y += tests/libqos/virtio-pci.o
-@@ -788,6 +789,7 @@ qos-test-obj-$(CONFIG_VHOST_NET_USER) += tests/vhost-user-test.o $(chardev-obj-y
- qos-test-obj-y += tests/virtio-test.o
- qos-test-obj-$(CONFIG_VIRTFS) += tests/virtio-9p-test.o
- qos-test-obj-y += tests/virtio-blk-test.o
-+qos-test-obj-y += tests/vhost-user-blk-test.o
- qos-test-obj-y += tests/virtio-net-test.o
- qos-test-obj-y += tests/virtio-rng-test.o
- qos-test-obj-y += tests/virtio-scsi-test.o
-@@ -935,7 +937,8 @@ endef
- $(patsubst %, check-qtest-%, $(QTEST_TARGETS)): check-qtest-%: %-softmmu/all $(check-qtest-y)
- 	$(call do_test_human,$(check-qtest-$*-y) $(check-qtest-generic-y), \
- 	  QTEST_QEMU_BINARY=$*-softmmu/qemu-system-$* \
--	  QTEST_QEMU_IMG=qemu-img$(EXESUF))
-+	  QTEST_QEMU_IMG=./qemu-img$(EXESUF) \
-+	  QTEST_QEMU_VU_BINARY=./qemu-vu$(EXESUF))
-
- check-unit: $(check-unit-y)
- 	$(call do_test_human, $^)
---
-2.24.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDExMzA0NTcwNC4xMjMx
+OC0xLWNvaWJ5Lnh1QGdtYWlsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRv
+Y2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
+bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
+ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
+VCBCRUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRvY2tlci1p
+bWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWluZ3dAZmVk
+b3JhIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgY2hh
+cmRldi9jaGFyLXJpbmdidWYubwogIENDICAgICAgY2hhcmRldi9jaGFyLXNlcmlhbC5vCiAgQ0Mg
+ICAgICBjaGFyZGV2L2NoYXItc29ja2V0Lm8KL3RtcC9xZW11LXRlc3Qvc3JjL2NvbnRyaWIvbGli
+dmhvc3QtdXNlci9saWJ2aG9zdC11c2VyLmM6MjY6MTA6IGZhdGFsIGVycm9yOiBzeXMvc29ja2V0
+Lmg6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkKICNpbmNsdWRlIDxzeXMvc29ja2V0Lmg+CiAg
+ICAgICAgICBefn5+fn5+fn5+fn5+fgpjb21waWxhdGlvbiB0ZXJtaW5hdGVkLgptYWtlOiAqKiog
+Wy90bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IGNvbnRyaWIvbGlidmhvc3QtdXNlci9s
+aWJ2aG9zdC11c2VyLm9dIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQg
+am9icy4uLi4KSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC90bXAvcWVtdS10ZXN0L3NyYy9pbmNsdWRl
+L2Jsb2NrL3Zob3N0LXVzZXIuaDozLAogICAgICAgICAgICAgICAgIGZyb20gL3RtcC9xZW11LXRl
+c3Qvc3JjL2Jsb2NrZGV2LXZ1LmM6MjoKL3RtcC9xZW11LXRlc3Qvc3JjL2NvbnRyaWIvbGlidmhv
+c3QtdXNlci9saWJ2aG9zdC11c2VyLmg6MjA6MTA6IGZhdGFsIGVycm9yOiBzeXMvcG9sbC5oOiBO
+byBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5CiAjaW5jbHVkZSA8c3lzL3BvbGwuaD4KICAgICAgICAg
+IF5+fn5+fn5+fn5+fgpjb21waWxhdGlvbiB0ZXJtaW5hdGVkLgptYWtlOiAqKiogWy90bXAvcWVt
+dS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IGJsb2NrZGV2LXZ1Lm9dIEVycm9yIDEKSW4gZmlsZSBp
+bmNsdWRlZCBmcm9tIC90bXAvcWVtdS10ZXN0L3NyYy9pbmNsdWRlL2Jsb2NrL3Zob3N0LXVzZXIu
+aDozLAogICAgICAgICAgICAgICAgIGZyb20gL3RtcC9xZW11LXRlc3Qvc3JjL3FlbXUtdnUuYzoy
+MjoKL3RtcC9xZW11LXRlc3Qvc3JjL2NvbnRyaWIvbGlidmhvc3QtdXNlci9saWJ2aG9zdC11c2Vy
+Lmg6MjA6MTA6IGZhdGFsIGVycm9yOiBzeXMvcG9sbC5oOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0
+b3J5CiAjaW5jbHVkZSA8c3lzL3BvbGwuaD4KICAgICAgICAgIF5+fn5+fn5+fn5+fgpjb21waWxh
+dGlvbiB0ZXJtaW5hdGVkLgptYWtlOiAqKiogWy90bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6
+Njk6IHFlbXUtdnUub10gRXJyb3IgMQpJbiBmaWxlIGluY2x1ZGVkIGZyb20gL3RtcC9xZW11LXRl
+c3Qvc3JjL2NvbnRyaWIvbGlidmhvc3QtdXNlci9saWJ2aG9zdC11c2VyLWdsaWIuaDoxOSwKICAg
+ICAgICAgICAgICAgICBmcm9tIC90bXAvcWVtdS10ZXN0L3NyYy9jb250cmliL2xpYnZob3N0LXVz
+ZXIvbGlidmhvc3QtdXNlci1nbGliLmM6MTc6Ci90bXAvcWVtdS10ZXN0L3NyYy9jb250cmliL2xp
+YnZob3N0LXVzZXIvbGlidmhvc3QtdXNlci5oOjIwOjEwOiBmYXRhbCBlcnJvcjogc3lzL3BvbGwu
+aDogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQogI2luY2x1ZGUgPHN5cy9wb2xsLmg+CiAgICAg
+ICAgICBefn5+fn5+fn5+fn4KY29tcGlsYXRpb24gdGVybWluYXRlZC4KbWFrZTogKioqIFsvdG1w
+L3FlbXUtdGVzdC9zcmMvcnVsZXMubWFrOjY5OiBjb250cmliL2xpYnZob3N0LXVzZXIvbGlidmhv
+c3QtdXNlci1nbGliLm9dIEVycm9yIDEKVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3Qp
+OgogIEZpbGUgIi4vdGVzdHMvZG9ja2VyL2RvY2tlci5weSIsIGxpbmUgNjYyLCBpbiA8bW9kdWxl
+PgogICAgc3lzLmV4aXQobWFpbigpKQotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihy
+ZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1
+ZG8nLCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNl
+LnV1aWQ9NWEyN2E5YjFmODE2NDljODg1ODhiMjY1MDBhMjQ2MGUnLCAnLXUnLCAnMTAwMycsICct
+LXNlY3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJH
+RVRfTElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1l
+JywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPScsICctZScsICdDQ0FD
+SEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVt
+dS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNo
+ZXctdGVzdGVyLXRtcC16MG02dnc1Mi9zcmMvZG9ja2VyLXNyYy4yMDIwLTAxLTEzLTAwLjE5LjE3
+LjIwNDgzOi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmZlZG9yYScsICcvdmFyL3RtcC9xZW11
+L3J1bicsICd0ZXN0LW1pbmd3J10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZp
+bHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTVhMjdhOWIxZjgxNjQ5
+Yzg4NTg4YjI2NTAwYTI0NjBlCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtl
+WzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXowbTZ2
+dzUyL3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtbWluZ3dAZmVkb3JhXSBFcnJvciAy
+CgpyZWFsICAgIDJtMS4xMjhzCnVzZXIgICAgMG02LjcwNnMKCgpUaGUgZnVsbCBsb2cgaXMgYXZh
+aWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwMTEzMDQ1NzA0LjEyMzE4LTEt
+Y29pYnkueHVAZ21haWwuY29tL3Rlc3RpbmcuZG9ja2VyLW1pbmd3QGZlZG9yYS8/dHlwZT1tZXNz
+YWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6
+Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2
+ZWxAcmVkaGF0LmNvbQ==
 
 
