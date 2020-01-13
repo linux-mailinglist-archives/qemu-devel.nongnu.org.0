@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF50A139E69
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 01:41:27 +0100 (CET)
-Received: from localhost ([::1]:57554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3339B139E5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 01:37:03 +0100 (CET)
+Received: from localhost ([::1]:57478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irAGs-0000q3-D8
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 19:41:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35389)
+	id 1irACc-0004Fm-6K
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 19:37:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34509)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <49ff399635ccfd21858b15417a398df362ff0b90@lizzy.crudebyte.com>)
- id 1irAFS-0007Qf-7r
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:39:59 -0500
+ (envelope-from <0edf21d2cb2a6cf22ba1065bf451b44ad5962cbd@lizzy.crudebyte.com>)
+ id 1irABT-00034W-3y
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:35:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <49ff399635ccfd21858b15417a398df362ff0b90@lizzy.crudebyte.com>)
- id 1irAFR-0004ax-4B
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:39:58 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:58501)
+ (envelope-from <0edf21d2cb2a6cf22ba1065bf451b44ad5962cbd@lizzy.crudebyte.com>)
+ id 1irABS-0001Q7-44
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:35:51 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:49893)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71)
- (envelope-from <49ff399635ccfd21858b15417a398df362ff0b90@lizzy.crudebyte.com>)
- id 1irAFQ-0003nl-UA
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:39:57 -0500
+ (envelope-from <0edf21d2cb2a6cf22ba1065bf451b44ad5962cbd@lizzy.crudebyte.com>)
+ id 1irABQ-0000gb-Cn
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:35:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=+Myfkq98Clr2ORtfWNQein9mN5wHBp4bIQMl85shDKw=; b=R8Jv4
- GqnRIHxyFLv+BjMrQnD054U+toPSm2aqHP0bgsO2m7C8QVmy4XErA80rxYZxAgoZuyVrgFpz8oMY+
- Y67fxwEdKIXjJSERfAmNyamAQjdIL1vuwr63psK2togayyCoJXBO1arm53nzGUHo4INxT+afglLMK
- f4kYYDeAGafaW6FNofxkPOU6ZfWzj9kLZfLBJEwLBVPxCszkjSvLP0z9nHoHxrtGn6hHVXmRLBARu
- PD7VNHmte081vFOi/OK60ixiHQVbv1lXXnDQuf+FcA0VScCL862ky5NWr5a7yGoCiGoFjNxwke0rt
- iAPwRiC2LgkVg4jhXCR1vCfT5/pCw==;
-Message-Id: <49ff399635ccfd21858b15417a398df362ff0b90.1578957500.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=DaJOrz3IZpnkejwrW0e8xc6WCAlOTLpMiIkJfiSMCLg=; b=d5svA
+ 8GGIzqQYlpHqWKvvVolpdWh5F8qt0v09+uqz616hdIBH8B9AslcRZa7mxk1+iBlO0ZLEQyEZkjOrL
+ cXfN8TbWAiPlNY7eadiE4z7XjsJSpYS3bWuuYydjJKUxJYFZCvfw1KzLk+t8krCTWX60dD3FOv53j
+ JYDWGuvhqZeKOHrY1SDjzh2ccC3jg+WxQTygkd0ANnimYANAUsPszEQUtor+XTAZYDgTYmaVL4uk1
+ qiDyTrnT8xnqBfTUceKb/j1euu1AFQg+WdlNU1KxSZCiKIjKi2aUCaG0IqZbDZKkGLemT/L/tIhzd
+ o/Bf14Vyj7mNxALn99uZoHpcB1r+Q==;
+Message-Id: <0edf21d2cb2a6cf22ba1065bf451b44ad5962cbd.1578957500.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1578957500.git.qemu_oss@crudebyte.com>
 References: <cover.1578957500.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Mon, 13 Jan 2020 23:21:04 +0100
-Subject: [PATCH v3 02/11] 9pfs: require msize >= 4096
+Date: Mon, 13 Jan 2020 23:22:08 +0100
+Subject: [PATCH v3 03/11] 9pfs: validate count sent by client with T_readdir
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -58,82 +58,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A client establishes a session by sending a Tversion request along with
-a 'msize' parameter which client uses to suggest server a maximum
-message size ever to be used for communication (for both requests and
-replies) between client and server during that session. If client
-suggests a 'msize' smaller than 4096 then deny session by server
-immediately with an error response (Rlerror for "9P2000.L" clients or
-Rerror for "9P2000.u" clients) instead of replying with Rversion.
-
-Introduction of a minimum msize is required to prevent issues in
-responses to numerous individual request types. For instance with a
-msize of < P9_IOHDRSZ no useful operations would be possible at all.
-Furthermore there are some responses which are not allowed by the 9p
-protocol to be truncated like e.g. Rreadlink which may yield up to
-a size of PATH_MAX which is usually 4096. Hence this size was chosen
-as min. msize for server, which is already the minimum msize of the
-Linux kernel's 9pfs client. By forcing a min. msize already at
-session start (when handling Tversion) we don't have to check for a
-minimum msize on a per request type basis later on during session,
-which would be much harder and more error prone to maintain.
-
-This is a user visible change which should be documented as such
-(i.e. in public QEMU release changelog).
+A good 9p client sends T_readdir with "count" parameter that's
+sufficiently smaller than client's initially negotiated msize
+(maximum message size). We perform a check for that though to
+avoid the server to be interrupted with a "Failed to encode
+VirtFS reply type 41" error message by bad clients.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p.c | 12 ++++++++++++
- hw/9pfs/9p.h | 11 +++++++++++
- 2 files changed, 23 insertions(+)
+ hw/9pfs/9p.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 520177f40c..a5fbe821d4 100644
+index a5fbe821d4..30da2fedf3 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -1363,8 +1363,20 @@ static void coroutine_fn v9fs_version(void *opaque)
-         s->proto_version = V9FS_PROTO_2000L;
-     } else {
-         v9fs_string_sprintf(&version, "unknown");
-+        /* skip min. msize check, reporting invalid version has priority */
-+        goto marshal;
-     }
+@@ -2426,6 +2426,7 @@ static void coroutine_fn v9fs_readdir(void *opaque)
+     int32_t count;
+     uint32_t max_count;
+     V9fsPDU *pdu = opaque;
++    V9fsState *s = pdu->s;
  
-+    if (s->msize < P9_MIN_MSIZE) {
-+        err = -EMSGSIZE;
-+        error_report(
-+            "9pfs: Client requested msize < minimum msize ("
-+            stringify(P9_MIN_MSIZE) ") supported by this server."
+     retval = pdu_unmarshal(pdu, offset, "dqd", &fid,
+                            &initial_offset, &max_count);
+@@ -2434,6 +2435,13 @@ static void coroutine_fn v9fs_readdir(void *opaque)
+     }
+     trace_v9fs_readdir(pdu->tag, pdu->id, fid, initial_offset, max_count);
+ 
++    if (max_count > s->msize - P9_IOHDRSZ) {
++        max_count = s->msize - P9_IOHDRSZ;
++        warn_report_once(
++            "9p: bad client: T_readdir with count > msize - P9_IOHDRSZ"
 +        );
-+        goto out;
 +    }
 +
-+marshal:
-     err = pdu_marshal(pdu, offset, "ds", s->msize, &version);
-     if (err < 0) {
-         goto out;
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index 3904f82901..6fffe44f5a 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -100,6 +100,17 @@ typedef enum P9ProtoVersion {
-     V9FS_PROTO_2000L = 0x02,
- } P9ProtoVersion;
- 
-+/**
-+ * @brief Minimum message size supported by this 9pfs server.
-+ *
-+ * A client establishes a session by sending a Tversion request along with a
-+ * 'msize' parameter which suggests the server a maximum message size ever to be
-+ * used for communication (for both requests and replies) between client and
-+ * server during that session. If client suggests a 'msize' smaller than this
-+ * value then session is denied by server with an error response.
-+ */
-+#define P9_MIN_MSIZE    4096
-+
- #define P9_NOTAG    UINT16_MAX
- #define P9_NOFID    UINT32_MAX
- #define P9_MAXWELEM 16
+     fidp = get_fid(pdu, fid);
+     if (fidp == NULL) {
+         retval = -EINVAL;
 -- 
 2.20.1
 
