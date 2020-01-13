@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82AC01397EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 18:39:58 +0100 (CET)
-Received: from localhost ([::1]:53706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D7B1397FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 18:47:00 +0100 (CET)
+Received: from localhost ([::1]:53788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir3gz-0002N2-Gu
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 12:39:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42402)
+	id 1ir3nn-00072i-H7
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 12:46:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43965)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1ir3fC-0008OF-Ph
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:38:07 -0500
+ (envelope-from <drjones@redhat.com>) id 1ir3mC-00065B-Ic
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:45:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1ir3fB-00036Y-Ns
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:38:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47935
+ (envelope-from <drjones@redhat.com>) id 1ir3mB-0004MW-56
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:45:20 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43617
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1ir3fB-000365-Hg
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:38:05 -0500
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1ir3mA-0004Km-VL
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:45:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578937085;
+ s=mimecast20190719; t=1578937517;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=uceV03oHRXx1E3vMv+AQpLYa8pUwxWrhcTUjGT9wAgg=;
- b=J8pbuSBpre48bblyCitvXaNDA6I/kPUiSQgicqCwyO4iYfxKftXEwgz/xDC+JdjB1trmT8
- y9/rv2DTUwsj0tmbF20ohfVHQ98+Tzp3us76zjkbNJ7HG+Fv11lVDNoqVpbEHJc8bom2ca
- wURys69TEQnEfe8uwbpNXUOyB83PlD4=
+ bh=ZjupOVr34zDecwnMFqtNXPvApC4Q2OCWXOaNuSUosdM=;
+ b=OUz1zbmlFyfKsy8aq822AesXDhNIiPxfF1FYRsN4aVwyfhKj1G84GIIz/2GbKoQ/llDCDs
+ r4RXzfDvHX1TPgzdK5XUxyCPJSrzWbargUL4Azqsy8a8R1KP9nMFmaqWBA5fVBX1HCpKVR
+ eJfZhso//FywyCGUBQIHwbxVy5EgnLs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-e3PBCRvpP2ix9wg3H9ZurA-1; Mon, 13 Jan 2020 12:38:01 -0500
-X-MC-Unique: e3PBCRvpP2ix9wg3H9ZurA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-70-EQyERcpHO2KS3VKae6uwbg-1; Mon, 13 Jan 2020 12:45:14 -0500
+X-MC-Unique: EQyERcpHO2KS3VKae6uwbg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED7FA107ACC4;
- Mon, 13 Jan 2020 17:37:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43FE018B9FC1;
+ Mon, 13 Jan 2020 17:45:10 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 83C367E58B;
- Mon, 13 Jan 2020 17:37:53 +0000 (UTC)
-Date: Mon, 13 Jan 2020 18:37:51 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FB418886A;
+ Mon, 13 Jan 2020 17:44:59 +0000 (UTC)
+Date: Mon, 13 Jan 2020 18:44:57 +0100
 From: Andrew Jones <drjones@redhat.com>
 To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [kvm-unit-tests PATCH v2 08/16] arm/arm64: ITS: Init the command
- queue
-Message-ID: <20200113173751.q344krmw7bdhrrtg@kamzik.brq.redhat.com>
+Subject: Re: [kvm-unit-tests PATCH v2 09/16] arm/arm64: ITS: Enable/Disable
+ LPIs at re-distributor level
+Message-ID: <20200113174457.gg35yyeaftbadqki@kamzik.brq.redhat.com>
 References: <20200110145412.14937-1-eric.auger@redhat.com>
- <20200110145412.14937-9-eric.auger@redhat.com>
+ <20200110145412.14937-10-eric.auger@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200110145412.14937-9-eric.auger@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200110145412.14937-10-eric.auger@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,93 +77,69 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 10, 2020 at 03:54:04PM +0100, Eric Auger wrote:
-> Allocate the command queue and initialize related registers:
-> CBASER, CREADR, CWRITER.
-> 
-> The command queue is 64kB. This aims at not bothing with fullness.
-
-I think these means that the goal isn't completeness? If so, please
-write "minimal implementation" or nothing, as all of kvm-unit-tests
-is a minimal implementation.
-
+On Fri, Jan 10, 2020 at 03:54:05PM +0100, Eric Auger wrote:
+> This helper function enables or disables the signaling of LPIs
+> at redistributor level.
 > 
 > Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> 
 > ---
-> 
-> v2 -> v3:
-> - removed readr
-> ---
->  lib/arm/asm/gic-v3-its.h |  6 ++++++
->  lib/arm/gic-v3-its.c     | 22 ++++++++++++++++++++++
->  2 files changed, 28 insertions(+)
+>  lib/arm/asm/gic-v3-its.h |  1 +
+>  lib/arm/gic-v3-its.c     | 18 ++++++++++++++++++
+>  2 files changed, 19 insertions(+)
 > 
 > diff --git a/lib/arm/asm/gic-v3-its.h b/lib/arm/asm/gic-v3-its.h
-> index 2f8b8f1..93814f7 100644
+> index 93814f7..d2db292 100644
 > --- a/lib/arm/asm/gic-v3-its.h
 > +++ b/lib/arm/asm/gic-v3-its.h
-> @@ -75,10 +75,16 @@ struct its_baser {
->  	int esz;
->  };
+> @@ -99,6 +99,7 @@ extern struct its_baser *its_lookup_baser(int type);
+>  extern void set_lpi_config(int n, u8 val);
+>  extern u8 get_lpi_config(int n);
+>  extern void set_pending_table_bit(int rdist, int n, bool set);
+> +extern void gicv3_rdist_ctrl_lpi(u32 redist, bool set);
 >  
-> +struct its_cmd_block {
-> +	u64     raw_cmd[4];
-
-Do we need these spaces (not even a tab) after the u64?
-
-> +};
-> +
->  struct its_data {
->  	void *base;
->  	struct its_typer typer;
->  	struct its_baser baser[GITS_BASER_NR_REGS];
-> +	struct its_cmd_block *cmd_base;
-> +	struct its_cmd_block *cmd_write;
->  };
->  
->  extern struct its_data its_data;
+>  #endif /* !__ASSEMBLY__ */
+>  #endif /* _ASMARM_GIC_V3_ITS_H_ */
 > diff --git a/lib/arm/gic-v3-its.c b/lib/arm/gic-v3-its.c
-> index 6c97569..3037c84 100644
+> index 3037c84..c7c6f80 100644
 > --- a/lib/arm/gic-v3-its.c
 > +++ b/lib/arm/gic-v3-its.c
-> @@ -177,3 +177,25 @@ void set_pending_table_bit(int rdist, int n, bool set)
->  		byte &= ~mask;
->  	*ptr = byte;
+> @@ -199,3 +199,21 @@ void init_cmd_queue(void)
+>  	its_data.cmd_write = its_data.cmd_base;
+>  	writeq(0, its_data.base + GITS_CWRITER);
 >  }
 > +
-> +/**
-> + * init_cmd_queue: Allocate the command queue and initialize
-> + * CBASER, CREADR, CWRITER
-> + */
-> +void init_cmd_queue(void);
-> +void init_cmd_queue(void)
-
-its_cmd_queue_init
-
+> +void gicv3_rdist_ctrl_lpi(u32 redist, bool set)
 > +{
-> +	unsigned long n = SZ_64K >> PAGE_SHIFT;
-> +	unsigned long order = fls(n);
-> +	u64 cbaser;
+> +	void *ptr;
+> +	u64 val;
 > +
-> +	its_data.cmd_base = (void *)virt_to_phys(alloc_pages(order));
-> +
-> +	cbaser = ((u64)its_data.cmd_base | (SZ_64K / SZ_4K - 1)	|
-> +			GITS_CBASER_VALID);
+> +	if (redist >= nr_cpus)
+> +		report_abort("%s redist=%d >= cpu_count=%d\n",
+> +			     __func__, redist, nr_cpus);
 
-120 chars
+I'd use {} here because of the multiline call. But, we don't
+use the report API in common code. Well, apparently s390 has
+report calls in lib/s390x/interrupt.c, but I don't really
+agree with that. IMO, common code failures should always
+be unexpected and just assert/assert_msg.
 
 > +
-> +	writeq(cbaser, its_data.base + GITS_CBASER);
-> +
-> +	its_data.cmd_write = its_data.cmd_base;
-> +	writeq(0, its_data.base + GITS_CWRITER);
+> +	ptr = gicv3_data.redist_base[redist];
+> +	val = readl(ptr + GICR_CTLR);
+> +	if (set)
+> +		val |= GICR_CTLR_ENABLE_LPIS;
+> +	else
+> +		val &= ~GICR_CTLR_ENABLE_LPIS;
+> +	writel(val,  ptr + GICR_CTLR);
 > +}
 > -- 
 > 2.20.1
->
+> 
+
+Also, you can squash this patch into whatever is going to make use
+of this new helper.
 
 Thanks,
-drew 
+drew
 
 
