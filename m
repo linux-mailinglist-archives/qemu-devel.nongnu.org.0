@@ -2,53 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E811392D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 14:59:11 +0100 (CET)
-Received: from localhost ([::1]:50754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF76139303
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:02:58 +0100 (CET)
+Received: from localhost ([::1]:50860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir0FK-0007qL-LM
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 08:59:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57013)
+	id 1ir0Iz-0002mY-5Q
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:02:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1ir0EQ-0007Hf-EP
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:58:15 -0500
+ (envelope-from <bounces@canonical.com>) id 1ir0H7-00013n-Fu
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:01:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1ir0EP-0000uP-63
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:58:14 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:54242 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1ir0EL-0000ko-VR; Mon, 13 Jan 2020 08:58:10 -0500
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 15102F024933C4CF919E;
- Mon, 13 Jan 2020 21:58:03 +0800 (CST)
-Received: from [127.0.0.1] (10.133.216.73) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.439.0; Mon, 13 Jan 2020
- 21:57:56 +0800
-Subject: Re: [PATCH 2/2] arm/virt/acpi: remove _ADR from devices identified by
- _HID
-To: Igor Mammedov <imammedo@redhat.com>, Andrew Jones <drjones@redhat.com>
-References: <20191219064759.35053-1-guoheyi@huawei.com>
- <20191219064759.35053-3-guoheyi@huawei.com>
- <20200113130802.5a961482@redhat.com>
-From: Guoheyi <guoheyi@huawei.com>
-Message-ID: <b5d91ae3-bf37-d27e-264d-ea21ef23776b@huawei.com>
-Date: Mon, 13 Jan 2020 21:57:55 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <bounces@canonical.com>) id 1ir0H3-0004uh-BC
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:01:01 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53628)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ir0H2-0004sy-Hp
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:00:57 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ir0H0-0000ZO-RN
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:00:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 943482E80C8
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:00:54 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200113130802.5a961482@redhat.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
-X-Originating-IP: [10.133.216.73]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 13 Jan 2020 13:48:36 -0000
+From: Benjamin David Lunt <1859359@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fysnet kraxel-redhat
+X-Launchpad-Bug-Reporter: Benjamin David Lunt (fysnet)
+X-Launchpad-Bug-Modifier: Benjamin David Lunt (fysnet)
+References: <157885971279.5587.15888635675000659382.malonedeb@gac.canonical.com>
+Message-Id: <157892331629.2335.7705332092079266710.malone@soybean.canonical.com>
+Subject: [Bug 1859359] Re: xHCI and event ring handling
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 2aebe82fb401a9d9e2ee4aa08824a015e9d267cd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.35
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,140 +66,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, Shannon
- Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- wanghaibin.wang@huawei.com
+Reply-To: Bug 1859359 <1859359@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The xHCI specification states that after processing the Event TRB,
+software is to write the address of that TRB to the
+xHC_INTERRUPTER_DEQUEUE.  QEMU currently checks this value written and
+compares it to its own current pointer, which is now incremented to the
+next available TRB, therefore not matching.  When finding that it does
+not match, it sends another interrupt.
 
-=D4=DA 2020/1/13 20:08, Igor Mammedov =D0=B4=B5=C0:
-> On Thu, 19 Dec 2019 14:47:59 +0800
-> Heyi Guo <guoheyi@huawei.com> wrote:
->
->> According to ACPI spec, _ADR should be used for device which is on a
->> bus that has a standard enumeration algorithm. It does not make sense
->> to have a _ADR object for devices which already have _HID and will be
->> enumerated by OSPM.
->>
->> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
-> Are you sure it's does not make sense?
-> Have you checked commit f264d51d8, that added _ADR?
+On receiving this interrupt, software will see this interrupt as a
+mismatch in cycle bits and simply write the address of the last
+processed Event TRB to the xHC_INTERRUPTER_DEQUEUE and return again.
+QEMU will then again check the address and find again that it is a
+mismatch, again firing the interrupt.  This causes an infinite loop and
+will halt the USB.
 
-I searched in SPCR spec and ACPI spec, but didn't find such requirement=20
-for serial port device description.
+I do believe this to be in error.
 
-Hi Andrew,
+However, it is up to the majority, which seams to be a Linux based
+majority, so if it works on Linux, if it isn't broken, why fix it.
 
-Could you help to explain the reason?
+As for the multiple segments in the Event Ring, this was more of a
+request than a bug report.  Sorry for the miss representation on that
+part.
 
-Thanks,
+Thank you,
+Ben
 
-Heyi
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859359
 
+Title:
+  xHCI and event ring handling
 
->
->> ---
->> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
->> Cc: Peter Maydell <peter.maydell@linaro.org>
->> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> Cc: Igor Mammedov <imammedo@redhat.com>
->> Cc: qemu-arm@nongnu.org
->> Cc: qemu-devel@nongnu.org
->> ---
->>   hw/arm/virt-acpi-build.c          |   8 --------
->>   tests/data/acpi/virt/DSDT         | Bin 18449 -> 18426 bytes
->>   tests/data/acpi/virt/DSDT.memhp   | Bin 19786 -> 19763 bytes
->>   tests/data/acpi/virt/DSDT.numamem | Bin 18449 -> 18426 bytes
->>   4 files changed, 8 deletions(-)
->>
->> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
->> index 9f4c7d1889..be752c0ad8 100644
->> --- a/hw/arm/virt-acpi-build.c
->> +++ b/hw/arm/virt-acpi-build.c
->> @@ -78,11 +78,6 @@ static void acpi_dsdt_add_uart(Aml *scope, const Me=
-mMapEntry *uart_memmap,
->>                                AML_EXCLUSIVE, &uart_irq, 1));
->>       aml_append(dev, aml_name_decl("_CRS", crs));
->>  =20
->> -    /* The _ADR entry is used to link this device to the UART describ=
-ed
->> -     * in the SPCR table, i.e. SPCR.base_address.address =3D=3D _ADR.
->> -     */
->> -    aml_append(dev, aml_name_decl("_ADR", aml_int(uart_memmap->base))=
-);
->> -
->>       aml_append(scope, dev);
->>   }
->>  =20
->> @@ -170,7 +165,6 @@ static void acpi_dsdt_add_pci(Aml *scope, const Me=
-mMapEntry *memmap,
->>       aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
->>       aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
->>       aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
->> -    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
->>       aml_append(dev, aml_name_decl("_UID", aml_string("PCI0")));
->>       aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device=
-")));
->>       aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
->> @@ -334,7 +328,6 @@ static void acpi_dsdt_add_gpio(Aml *scope, const M=
-emMapEntry *gpio_memmap,
->>   {
->>       Aml *dev =3D aml_device("GPO0");
->>       aml_append(dev, aml_name_decl("_HID", aml_string("ARMH0061")));
->> -    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
->>       aml_append(dev, aml_name_decl("_UID", aml_int(0)));
->>  =20
->>       Aml *crs =3D aml_resource_template();
->> @@ -364,7 +357,6 @@ static void acpi_dsdt_add_power_button(Aml *scope)
->>   {
->>       Aml *dev =3D aml_device(ACPI_POWER_BUTTON_DEVICE);
->>       aml_append(dev, aml_name_decl("_HID", aml_string("PNP0C0C")));
->> -    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
->>       aml_append(dev, aml_name_decl("_UID", aml_int(0)));
->>       aml_append(scope, dev);
->>   }
->> diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
->> index b5895cb22446860a0b9be3d32ec856feb388be4c..a759ff739a071d5fbf5051=
-9a6aea296e5e0f1e0c 100644
->> GIT binary patch
->> delta 72
->> zcmbO@f$>*ABbQ6COUN&G1_q{66S<_BT5Bh&t1wzk^tIeLL4lL8ZSqD=3DgU!!5x$Pt+
->> c1HyxxIO07#U3dfh0t}oDoEbRcLp@y>07w882mk;8
->>
->> delta 94
->> zcmey>&p2@cBbQ6CONgKc0|V26iCof5J#`b+RhV2^Ci+-%al|{i1o1F1FmP^cRp4ao
->> tnY@hCfEg&X`7$S;oxFTNc#soEyoaX?Z-8HbfwO@#16Tu)4E1zj005fm7mWY_
->>
->> diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DS=
-DT.memhp
->> index 69ad844f65d047973a3e55198beecd45a35b8fce..6e5cc61977e4cd24f765fe=
-c0693f75a528c144c1 100644
->> GIT binary patch
->> delta 72
->> zcmX>#i*fTTMlP3Nmk?uL1_q|eiCof5eHSLGt1wzk^tIeLL4lL8ZSqD=3DgU!!5U7RH)
->> c1HyxxIO07#U3dfh0t}oDoEbRcLp@y>03)CjmjD0&
->>
->> delta 94
->> zcmdlyi}BPfMlP3Nmk=3D*s1_q}3iCof5t(PXMt1!8;O!Tqj;)r*23F2X3VBp-?s=3D&$E
->> tGkF=3DO0W(l&^JPwVXL<R6@E|9Scn?n(-T=3DP<17`zg2CxPo8S3f6006qZ7#siq
->>
->> diff --git a/tests/data/acpi/virt/DSDT.numamem b/tests/data/acpi/virt/=
-DSDT.numamem
->> index b5895cb22446860a0b9be3d32ec856feb388be4c..a759ff739a071d5fbf5051=
-9a6aea296e5e0f1e0c 100644
->> GIT binary patch
->> delta 72
->> zcmbO@f$>*ABbQ6COUN&G1_q{66S<_BT5Bh&t1wzk^tIeLL4lL8ZSqD=3DgU!!5x$Pt+
->> c1HyxxIO07#U3dfh0t}oDoEbRcLp@y>07w882mk;8
->>
->> delta 94
->> zcmey>&p2@cBbQ6CONgKc0|V26iCof5J#`b+RhV2^Ci+-%al|{i1o1F1FmP^cRp4ao
->> tnY@hCfEg&X`7$S;oxFTNc#soEyoaX?Z-8HbfwO@#16Tu)4E1zj005fm7mWY_
->>
->
-> .
+Status in QEMU:
+  Invalid
 
+Bug description:
+  I believe that the Event Ring handling in QEMU is not correct.  For
+  example, an Event Ring may have multiple segments.  However, the code
+  in xhci_write_event()
+  (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
+  xhci.c;hb=3DHEAD#l645), starting with line 668, seems to only support a
+  single segment.
+
+  Also, QEMU is sending a spurious interrupt after the Guest writes to
+  the ERDP register due to the fact that the address written does not
+  match the current index.  This is because the index is incremented
+  after sending the event.  The xHCI specification states in section
+  5.5.2.3.3 "When software finishes processing an Event TRB, it will
+  write the address of that Event TRB to the ERDP."
+
+  Since xhci_write_event() has already incremented the index pointer
+  (intr->er_ep_idx), the check at line 3098
+  (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
+  xhci.c;hb=3DHEAD#l3090) no longer is valid.
+
+  I have not studied QEMU's code enough yet to offer a patch.  However,
+  this should be a simple fix.
+
+  intr->er_ep_idx++;
+  if (intr->er_ep_idx >=3D intr->er_table[intr->er_segment].er_size) {
+    intr->er_ep_idx =3D 0;
+    intr->er_segment++;
+    if (intr->er_segment >=3D intr->er_table_size) {
+      intr->er_segment =3D 0;
+      intr->er_pcs =3D !intr->er_pcs;
+    }
+  }
+
+  Being sure to incorporate this new segment member into the above code
+  (possibly as shown) as well as change the lines at 665 to use the new
+  segment member of the structure, and of course in the initialization
+  portion of the event ring.
+
+  As for the spurious interrupt at line 3101, a new member will need to
+  be added to the code to keep track of the last inserted ED (TRB) into
+  the Event Ring and then of course checking against this new member,
+  not the now newly incremented member.
+
+  I have sent an email to the author listed at the top of the file as
+  well, not sure if this is proper bug reporting etiquette or not.
+
+  Thank you.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859359/+subscriptions
 
