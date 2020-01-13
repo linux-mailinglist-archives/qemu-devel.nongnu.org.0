@@ -2,84 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402FF139065
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 12:50:50 +0100 (CET)
-Received: from localhost ([::1]:49168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E7C1390BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 13:06:40 +0100 (CET)
+Received: from localhost ([::1]:49276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iqyF7-0008H2-Ae
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 06:50:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50730)
+	id 1iqyUR-0005J1-Jo
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 07:06:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1iqyDx-0007CB-IA
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 06:49:39 -0500
+ (envelope-from <bounces@canonical.com>) id 1iqyTU-0004dq-Qe
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 07:05:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1iqyDv-0006vx-5v
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 06:49:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47371
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1iqyDu-0006uN-Pm
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 06:49:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578916173;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OHrAAQkGBZpUKREzmpIoBJLz61jD/xc1nSJzAXb+asc=;
- b=gIyvoYlmTyvk0cBe8/t0Bl0xmaHhI1zRJz8f5or8OsevKfoovSnh9DizJm+dSOKFLKoVPH
- 55kqx2NvcrnLDQjhj/W3LdiowjYKcnwabLAbrCBpu7igZUYDzWSeSYJU7s2s4kQpeTLocT
- z2vzONpXHz1uSJIZsZUcFsYb/rJDBVU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-gpybiGsoOT23yGHJ5wjExQ-1; Mon, 13 Jan 2020 06:49:32 -0500
-Received: by mail-wr1-f69.google.com with SMTP id k18so4905028wrw.9
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 03:49:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9zQkQ7ClwoypMuxO3g92z3l4mFsxtkXgId0KEdzXXFA=;
- b=lNTr1EpCweOJXmZDK02s9rL1wX9jN+Y68HdTTkGoAbzpto1swE2oGKz1Uwm7hWaOld
- teOtafRX/6G83ABCkuo9RzvcpVAMm+VXlF0GBuMwFeOkYduWlBuPno0yB4OlqkICZPBk
- nhK2sD0LwHr3L1o5y759bImAiJH9mGQ2lEf1tt2XNAS3tlV3pw3wS+87DqqJwRHdL/P1
- F6ogGiVtj/KZNfyxTetASoTLYxjWuTSAwCT/aWUtDvKC7cGLChMs7PXY4CT/PjLqwvGn
- eJ/n7aonILNoiShL19lJxyNV3bB30Ky52s5EtOFS60mZ9FnJrRyDKklD1K4YiMFUM5UI
- RQaQ==
-X-Gm-Message-State: APjAAAVw9ptDIBhnzQ6QmN2WT1kEhQxx/h6HNfWcuaoXzHyhyWrZkXMZ
- URWfdVNipe/K28kHjhlSOn46Z04HrI7bHFeBDMEt4n/6JD/cSf9GEkwhFGQIVAnl4n4Y+rOH41W
- VrDKiFLvxzskfRKM=
-X-Received: by 2002:a7b:cf2d:: with SMTP id m13mr19832405wmg.163.1578916171084; 
- Mon, 13 Jan 2020 03:49:31 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxHPK4DUBQlhn7Lh/OqTDPocbfuyXtVyYjBYyuutZlNTzuTmquCFhBOwA3zgKtm3JEERtHbRA==
-X-Received: by 2002:a7b:cf2d:: with SMTP id m13mr19832365wmg.163.1578916170767; 
- Mon, 13 Jan 2020 03:49:30 -0800 (PST)
-Received: from steredhat (host84-49-dynamic.31-79-r.retail.telecomitalia.it.
- [79.31.49.84])
- by smtp.gmail.com with ESMTPSA id d8sm14951211wre.13.2020.01.13.03.49.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jan 2020 03:49:30 -0800 (PST)
-Date: Mon, 13 Jan 2020 12:49:27 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v3 08/15] block/file-posix.c: extend to use io_uring
-Message-ID: <20200113114927.zbse5mlua5mq4hct@steredhat>
-References: <20191218163228.1613099-1-stefanha@redhat.com>
- <20191218163228.1613099-9-stefanha@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1iqyTT-0007LL-F4
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 07:05:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55638)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iqyTT-0007Hs-9I
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 07:05:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iqyTR-0003AQ-Nf
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 12:05:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AA2A82E80C0
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 12:05:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191218163228.1613099-9-stefanha@redhat.com>
-X-MC-Unique: gpybiGsoOT23yGHJ5wjExQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Mon, 13 Jan 2020 11:57:33 -0000
+From: Gerd Hoffmann <1859359@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fysnet kraxel-redhat
+X-Launchpad-Bug-Reporter: Benjamin David Lunt (fysnet)
+X-Launchpad-Bug-Modifier: Gerd Hoffmann (kraxel-redhat)
+References: <157885971279.5587.15888635675000659382.malonedeb@gac.canonical.com>
+Message-Id: <157891665345.14768.14058940990012514115.malone@wampee.canonical.com>
+Subject: [Bug 1859359] Re: xHCI and event ring handling
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f5b1fa108c00baa9a39726cc2815592cef7cde75
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,260 +66,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Maxim Levitsky <maximlevitsky@gmail.com>, qemu-block@nongnu.org,
- oleksandr@redhat.com, Julia Suvorova <jusual@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>
+Reply-To: Bug 1859359 <1859359@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 18, 2019 at 04:32:21PM +0000, Stefan Hajnoczi wrote:
-> From: Aarushi Mehta <mehta.aaru20@gmail.com>
->=20
-> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-> Reviewed-by: Maxim Levitsky <maximlevitsky@gmail.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  block/file-posix.c | 95 ++++++++++++++++++++++++++++++++++++----------
->  1 file changed, 75 insertions(+), 20 deletions(-)
->=20
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 1b805bd938..a42a90e59d 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -156,6 +156,7 @@ typedef struct BDRVRawState {
->      bool has_write_zeroes:1;
->      bool discard_zeroes:1;
->      bool use_linux_aio:1;
-> +    bool use_linux_io_uring:1;
->      bool page_cache_inconsistent:1;
->      bool has_fallocate;
->      bool needs_alignment;
-> @@ -444,7 +445,7 @@ static QemuOptsList raw_runtime_opts =3D {
->          {
->              .name =3D "aio",
->              .type =3D QEMU_OPT_STRING,
-> -            .help =3D "host AIO implementation (threads, native)",
-> +            .help =3D "host AIO implementation (threads, native, io_urin=
-g)",
->          },
->          {
->              .name =3D "locking",
-> @@ -503,9 +504,11 @@ static int raw_open_common(BlockDriverState *bs, QDi=
-ct *options,
->          goto fail;
->      }
-> =20
-> -    aio_default =3D (bdrv_flags & BDRV_O_NATIVE_AIO)
-> -                  ? BLOCKDEV_AIO_OPTIONS_NATIVE
-> -                  : BLOCKDEV_AIO_OPTIONS_THREADS;
-> +    if (bdrv_flags & BDRV_O_NATIVE_AIO) {
-> +        aio_default =3D BLOCKDEV_AIO_OPTIONS_NATIVE;
-> +    } else {
-> +        aio_default =3D BLOCKDEV_AIO_OPTIONS_THREADS;
-> +    }
+qemu behavior matches linux guest driver expectations on erdp writes, I
+don't think we have a bug there.
 
-This is only a cosmetic change?
+And, yes, qemu doesn't support multiple segments and correctly says so
+in the capabilities registers.
 
->      aio =3D qapi_enum_parse(&BlockdevAioOptions_lookup,
->                            qemu_opt_get(opts, "aio"),
->                            aio_default, &local_err);
-> @@ -514,7 +517,11 @@ static int raw_open_common(BlockDriverState *bs, QDi=
-ct *options,
->          ret =3D -EINVAL;
->          goto fail;
->      }
-> +
->      s->use_linux_aio =3D (aio =3D=3D BLOCKDEV_AIO_OPTIONS_NATIVE);
-> +#ifdef CONFIG_LINUX_IO_URING
-> +    s->use_linux_io_uring =3D (aio =3D=3D BLOCKDEV_AIO_OPTIONS_IO_URING)=
-;
-> +#endif
-> =20
->      locking =3D qapi_enum_parse(&OnOffAuto_lookup,
->                                qemu_opt_get(opts, "locking"),
-> @@ -578,7 +585,7 @@ static int raw_open_common(BlockDriverState *bs, QDic=
-t *options,
->      s->shared_perm =3D BLK_PERM_ALL;
-> =20
->  #ifdef CONFIG_LINUX_AIO
-> -     /* Currently Linux does AIO only for files opened with O_DIRECT */
-> +    /* Currently Linux does AIO only for files opened with O_DIRECT */
+** Changed in: qemu
+       Status: New =3D> Invalid
 
-Also this is a not related fix, if you respin maybe we should split in a
-new patch or say something in the commit message.
+-- =
 
->      if (s->use_linux_aio) {
->          if (!(s->open_flags & O_DIRECT)) {
->              error_setg(errp, "aio=3Dnative was specified, but it require=
-s "
-> @@ -600,6 +607,22 @@ static int raw_open_common(BlockDriverState *bs, QDi=
-ct *options,
->      }
->  #endif /* !defined(CONFIG_LINUX_AIO) */
-> =20
-> +#ifdef CONFIG_LINUX_IO_URING
-> +    if (s->use_linux_io_uring) {
-> +        if (!aio_setup_linux_io_uring(bdrv_get_aio_context(bs), errp)) {
-> +            error_prepend(errp, "Unable to use io_uring: ");
-> +            goto fail;
-> +        }
-> +    }
-> +#else
-> +    if (s->use_linux_io_uring) {
-> +        error_setg(errp, "aio=3Dio_uring was specified, but is not suppo=
-rted "
-> +                         "in this build.");
-> +        ret =3D -EINVAL;
-> +        goto fail;
-> +    }
-> +#endif /* !defined(CONFIG_LINUX_IO_URING) */
-> +
->      s->has_discard =3D true;
->      s->has_write_zeroes =3D true;
->      if ((bs->open_flags & BDRV_O_NOCACHE) !=3D 0) {
-> @@ -1877,21 +1900,25 @@ static int coroutine_fn raw_co_prw(BlockDriverSta=
-te *bs, uint64_t offset,
->          return -EIO;
-> =20
->      /*
-> -     * Check if the underlying device requires requests to be aligned,
-> -     * and if the request we are trying to submit is aligned or not.
-> -     * If this is the case tell the low-level driver that it needs
-> -     * to copy the buffer.
-> +     * When using O_DIRECT, the request must be aligned to be able to us=
-e
-> +     * either libaio or io_uring interface. If not fail back to regular =
-thread
-> +     * pool read/write code which emulates this for us if we
-> +     * set QEMU_AIO_MISALIGNED.
->       */
-> -    if (s->needs_alignment) {
-> -        if (!bdrv_qiov_is_aligned(bs, qiov)) {
-> -            type |=3D QEMU_AIO_MISALIGNED;
-> +    if (s->needs_alignment && !bdrv_qiov_is_aligned(bs, qiov)) {
-> +        type |=3D QEMU_AIO_MISALIGNED;
-> +#ifdef CONFIG_LINUX_IO_URING
-> +    } else if (s->use_linux_io_uring) {
-> +        LuringState *aio =3D aio_get_linux_io_uring(bdrv_get_aio_context=
-(bs));
-> +        assert(qiov->size =3D=3D bytes);
-> +        return luring_co_submit(bs, aio, s->fd, offset, qiov, type);
-> +#endif
->  #ifdef CONFIG_LINUX_AIO
-> -        } else if (s->use_linux_aio) {
-> -            LinuxAioState *aio =3D aio_get_linux_aio(bdrv_get_aio_contex=
-t(bs));
-> -            assert(qiov->size =3D=3D bytes);
-> -            return laio_co_submit(bs, aio, s->fd, offset, qiov, type);
-> +    } else if (s->use_linux_aio) {
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859359
 
-This code block was executed if "s->needs_alignment" was true, now we don't
-check it. Could this be a problem?
+Title:
+  xHCI and event ring handling
 
-> +        LinuxAioState *aio =3D aio_get_linux_aio(bdrv_get_aio_context(bs=
-));
-> +        assert(qiov->size =3D=3D bytes);
-> +        return laio_co_submit(bs, aio, s->fd, offset, qiov, type);
->  #endif
-> -        }
->      }
-> =20
->      acb =3D (RawPosixAIOData) {
-> @@ -1927,24 +1954,36 @@ static int coroutine_fn raw_co_pwritev(BlockDrive=
-rState *bs, uint64_t offset,
-> =20
->  static void raw_aio_plug(BlockDriverState *bs)
->  {
-> +    BDRVRawState __attribute__((unused)) *s =3D bs->opaque;
->  #ifdef CONFIG_LINUX_AIO
-> -    BDRVRawState *s =3D bs->opaque;
->      if (s->use_linux_aio) {
->          LinuxAioState *aio =3D aio_get_linux_aio(bdrv_get_aio_context(bs=
-));
->          laio_io_plug(bs, aio);
->      }
->  #endif
-> +#ifdef CONFIG_LINUX_IO_URING
-> +    if (s->use_linux_io_uring) {
-> +        LuringState *aio =3D aio_get_linux_io_uring(bdrv_get_aio_context=
-(bs));
-> +        luring_io_plug(bs, aio);
-> +    }
-> +#endif
->  }
-> =20
->  static void raw_aio_unplug(BlockDriverState *bs)
->  {
-> +    BDRVRawState __attribute__((unused)) *s =3D bs->opaque;
->  #ifdef CONFIG_LINUX_AIO
-> -    BDRVRawState *s =3D bs->opaque;
->      if (s->use_linux_aio) {
->          LinuxAioState *aio =3D aio_get_linux_aio(bdrv_get_aio_context(bs=
-));
->          laio_io_unplug(bs, aio);
->      }
->  #endif
-> +#ifdef CONFIG_LINUX_IO_URING
-> +    if (s->use_linux_io_uring) {
-> +        LuringState *aio =3D aio_get_linux_io_uring(bdrv_get_aio_context=
-(bs));
-> +        luring_io_unplug(bs, aio);
-> +    }
-> +#endif
->  }
-> =20
->  static int raw_co_flush_to_disk(BlockDriverState *bs)
-> @@ -1964,14 +2003,20 @@ static int raw_co_flush_to_disk(BlockDriverState =
-*bs)
->          .aio_type       =3D QEMU_AIO_FLUSH,
->      };
-> =20
-> +#ifdef CONFIG_LINUX_IO_URING
-> +    if (s->use_linux_io_uring) {
-> +        LuringState *aio =3D aio_get_linux_io_uring(bdrv_get_aio_context=
-(bs));
-> +        return luring_co_submit(bs, aio, s->fd, 0, NULL, QEMU_AIO_FLUSH)=
-;
-> +    }
-> +#endif
->      return raw_thread_pool_submit(bs, handle_aiocb_flush, &acb);
->  }
-> =20
->  static void raw_aio_attach_aio_context(BlockDriverState *bs,
->                                         AioContext *new_context)
->  {
-> +    BDRVRawState __attribute__((unused)) *s =3D bs->opaque;
->  #ifdef CONFIG_LINUX_AIO
-> -    BDRVRawState *s =3D bs->opaque;
->      if (s->use_linux_aio) {
->          Error *local_err =3D NULL;
->          if (!aio_setup_linux_aio(new_context, &local_err)) {
-> @@ -1981,6 +2026,16 @@ static void raw_aio_attach_aio_context(BlockDriver=
-State *bs,
->          }
->      }
->  #endif
-> +#ifdef CONFIG_LINUX_IO_URING
-> +    if (s->use_linux_io_uring) {
-> +        Error *local_err;
-> +        if (!aio_setup_linux_io_uring(new_context, &local_err)) {
-> +            error_reportf_err(local_err, "Unable to use linux io_uring, =
-"
-> +                                         "falling back to thread pool: "=
-);
-> +            s->use_linux_io_uring =3D false;
-> +        }
-> +    }
-> +#endif
->  }
-> =20
->  static void raw_close(BlockDriverState *bs)
-> --=20
-> 2.23.0
->=20
->=20
+Status in QEMU:
+  Invalid
 
+Bug description:
+  I believe that the Event Ring handling in QEMU is not correct.  For
+  example, an Event Ring may have multiple segments.  However, the code
+  in xhci_write_event()
+  (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
+  xhci.c;hb=3DHEAD#l645), starting with line 668, seems to only support a
+  single segment.
+
+  Also, QEMU is sending a spurious interrupt after the Guest writes to
+  the ERDP register due to the fact that the address written does not
+  match the current index.  This is because the index is incremented
+  after sending the event.  The xHCI specification states in section
+  5.5.2.3.3 "When software finishes processing an Event TRB, it will
+  write the address of that Event TRB to the ERDP."
+
+  Since xhci_write_event() has already incremented the index pointer
+  (intr->er_ep_idx), the check at line 3098
+  (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
+  xhci.c;hb=3DHEAD#l3090) no longer is valid.
+
+  I have not studied QEMU's code enough yet to offer a patch.  However,
+  this should be a simple fix.
+
+  intr->er_ep_idx++;
+  if (intr->er_ep_idx >=3D intr->er_table[intr->er_segment].er_size) {
+    intr->er_ep_idx =3D 0;
+    intr->er_segment++;
+    if (intr->er_segment >=3D intr->er_table_size) {
+      intr->er_segment =3D 0;
+      intr->er_pcs =3D !intr->er_pcs;
+    }
+  }
+
+  Being sure to incorporate this new segment member into the above code
+  (possibly as shown) as well as change the lines at 665 to use the new
+  segment member of the structure, and of course in the initialization
+  portion of the event ring.
+
+  As for the spurious interrupt at line 3101, a new member will need to
+  be added to the code to keep track of the last inserted ED (TRB) into
+  the Event Ring and then of course checking against this new member,
+  not the now newly incremented member.
+
+  I have sent an email to the author listed at the top of the file as
+  well, not sure if this is proper bug reporting etiquette or not.
+
+  Thank you.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859359/+subscriptions
 
