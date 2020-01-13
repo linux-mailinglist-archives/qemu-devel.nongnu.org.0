@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9731394E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 16:36:18 +0100 (CET)
-Received: from localhost ([::1]:51950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A261713951F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 16:47:13 +0100 (CET)
+Received: from localhost ([::1]:52044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir1lJ-0001pQ-O6
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 10:36:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60879)
+	id 1ir1vs-0001R2-Ho
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 10:47:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35776)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ir1jw-0000o1-R3
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:34:54 -0500
+ (envelope-from <bounces@canonical.com>) id 1ir1uO-0000YJ-EV
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:45:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ir1jv-0005Ur-EY
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:34:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52571
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ir1jv-0005Tt-B0
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:34:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578929690;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0CdWt5hd1oCnf6LcNIRVU2ZxFmyC+UbXE6ZzEXrRlwQ=;
- b=YKMAOedDdaBz9ptVgNxIplxs9BPSRZJZtUTpjOx0yJYNqse1Dhh2dy8NgOZFoS7BADwE4h
- D/MJuYhbBISCwIOUsvKszUNLKvZS5IyCswgLA8b4DbxvQjl/PtCbqdsEFdBuStUn35woQ/
- a8vRDWjFaTiWJcrislbaWfwnAXu+ZUg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427--9bl688PM-GAaih9yzFasg-1; Mon, 13 Jan 2020 10:34:49 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF26F18C43C0;
- Mon, 13 Jan 2020 15:34:47 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
- [10.36.116.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C6E687EEC;
- Mon, 13 Jan 2020 15:34:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 139881138600; Mon, 13 Jan 2020 16:34:46 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Zhimin Feng <fengzhimin1@huawei.com>
-Subject: Re: [PATCH RFC 03/12] migration: Create the multi-rdma-channels
- parameter
-References: <20200109045922.904-1-fengzhimin1@huawei.com>
- <20200109045922.904-4-fengzhimin1@huawei.com>
-Date: Mon, 13 Jan 2020 16:34:46 +0100
-In-Reply-To: <20200109045922.904-4-fengzhimin1@huawei.com> (Zhimin Feng's
- message of "Thu, 9 Jan 2020 12:59:13 +0800")
-Message-ID: <87v9pfwesp.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <bounces@canonical.com>) id 1ir1uM-0000qz-Su
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:45:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56866)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ir1uM-0000pO-Mi
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:45:38 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ir1uL-0000zf-Iz
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 15:45:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 86AE52E80C0
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 15:45:37 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: -9bl688PM-GAaih9yzFasg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 13 Jan 2020 15:35:23 -0000
+From: Yonggang Luo <1622582@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=jsnow@redhat.com; 
+X-Launchpad-Bug-Tags: q35 sata windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 4o-ubrgtu-59 jnsnow luoyonggang
+X-Launchpad-Bug-Reporter: Dennis (4o-ubrgtu-59)
+X-Launchpad-Bug-Modifier: Yonggang Luo (luoyonggang)
+References: <20160912115104.2358.5193.malonedeb@wampee.canonical.com>
+Message-Id: <157892972315.27324.12009981949838206410.malone@chaenomeles.canonical.com>
+Subject: [Bug 1622582] Re: Can't install Windows 7 with q35 (SATA)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e9bf8ea9a7b2ab29c3d8cee95daa32545e552394
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,109 +67,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, jemmy858585@gmail.com
+Reply-To: Bug 1622582 <1622582@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Zhimin Feng <fengzhimin1@huawei.com> writes:
+I also face this problem, any idea to resolve.
+I am using qemeu 4.2 + whpx support but failed to install
 
-> From: fengzhimin <fengzhimin1@huawei.com>
->
-> Indicates the number of RDMA threads that we would create.
-> By default we create 2 threads for RDMA migration.
->
-> Signed-off-by: fengzhimin <fengzhimin1@huawei.com>
-[...]
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index c995ffdc4c..ab79bf0600 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -588,6 +588,10 @@
->  # @max-cpu-throttle: maximum cpu throttle percentage.
->  #                    Defaults to 99. (Since 3.1)
->  #
-> +# @multi-rdma-channels: Number of channels used to migrate data in
-> +#                       parallel. This is the same number that the
+./qemu-system-x86_64 -m 4096 \
+-vga vmware \
+-machine q35 \
+-accel whpx \
+-usb -device usb-kbd \
+-device usb-mouse -device usb-audio -boot c \
+-netdev tap,id=3Dmynet0,ifname=3Dtap0,script=3Dno,downscript=3Dno \
+-device e1000,netdev=3Dmynet0,mac=3D52:55:00:d1:55:01 \
+ -smp 4  \
+-cdrom /e/Software/OS/WIN7/en_windows_7_ultimate_with_sp1_x64_dvd_u_677332.=
+iso
 
-same number as
 
-> +#                       number of multiRDMA used for migration.  The
+But when using -accel tcg, it's insalled fine.
 
-Pardon my ignorance: what's "the number of multiRDMA used for
-migration"?
+-- =
 
-> +#                       default value is 2 (since 4.2)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1622582
 
-(since 5.0)
+Title:
+  Can't install Windows 7 with q35 (SATA)
 
->  # Since: 2.4
->  ##
->  { 'enum': 'MigrationParameter',
-> @@ -600,7 +604,8 @@
->             'downtime-limit', 'x-checkpoint-delay', 'block-incremental',
->             'multifd-channels',
->             'xbzrle-cache-size', 'max-postcopy-bandwidth',
-> -           'max-cpu-throttle' ] }
-> +           'max-cpu-throttle',
-> +           'multi-rdma-channels'] }
-> =20
->  ##
->  # @MigrateSetParameters:
-> @@ -690,6 +695,10 @@
->  # @max-cpu-throttle: maximum cpu throttle percentage.
->  #                    The default value is 99. (Since 3.1)
->  #
-> +# @multi-rdma-channels: Number of channels used to migrate data in
-> +#                       parallel. This is the same number that the
-> +#                       number of multiRDMA used for migration.  The
-> +#                       default value is 2 (since 4.2)
+Status in QEMU:
+  Confirmed
 
-See above.
+Bug description:
+  I'm trying to install Windows 7 on a q35 machine on a "SATA disk". If
+  I use q35 the installation is extremely slow. With extremely slow I
+  mean, that the first few minutes (10-15 minutes) on the second
+  installation step (copying files to disk) nothing happens. Than there
+  is some progress, maybe until 9% and than there is "silence" for
+  another 10 minutes or so. Therefore I used iotop (with --only option)
+  in order to see, if there are any disk operations. But as I mentioned,
+  only a few times qemu writes something to disk (with about < 1M/s).
+  But most of the time there is nothing from qemu. Therefore the
+  installation lasts over an hour. But even worse, after installation I
+  can't boot Windows. Windows-Start-Manager tells me, that windows
+  couldn't be loaded because the kernel is missing or corrupt (Status
+  0xc0000221, File: \Windows\system32\ntoskrnl.exe). If I use IDE on q35
+  or pc-i440fx-2.6 everything works fine. There is a continuous
+  installation progress and iotop shows continuous disk writes with max
+  30M/s (but also 5M/s and other values...).
 
->  # Since: 2.4
->  ##
->  # TODO either fuse back into MigrationParameters, or make
-> @@ -715,7 +724,8 @@
->              '*multifd-channels': 'int',
->              '*xbzrle-cache-size': 'size',
->              '*max-postcopy-bandwidth': 'size',
-> -=09    '*max-cpu-throttle': 'int' } }
-> +     =09    '*max-cpu-throttle': 'int',
+  I've tried qemu 2.6.0, 2.6.1 and 2.7.0 (all versions from git).
 
-Please use spaces instead of tab.
+  My host machine: =
 
-> +            '*multi-rdma-channels': 'int'} }
-> =20
->  ##
->  # @migrate-set-parameters:
-> @@ -825,6 +835,10 @@
->  #                    Defaults to 99.
->  #                     (Since 3.1)
->  #
-> +# @multi-rdma-channels: Number of channels used to migrate data in
-> +#                       parallel. This is the same number that the
-> +#                       number of multiRDMA used for migration.  The
-> +#                       default value is 2 (since 4.2)
->  # Since: 2.4
+  Ubuntu 14.04.5 LTS
+  3.13.0-95-generic #142-Ubuntu SMP Fri Aug 12 17:00:09 UTC 2016 x86_64 x86=
+_64 x86_64 GNU/Linux
+  Intel(R) Core(TM) i5-3470 CPU
+  16 GB RAM
 
-See above.
+  =
 
->  ##
->  { 'struct': 'MigrationParameters',
-> @@ -847,8 +861,9 @@
->              '*block-incremental': 'bool' ,
->              '*multifd-channels': 'uint8',
->              '*xbzrle-cache-size': 'size',
-> -=09    '*max-postcopy-bandwidth': 'size',
-> -            '*max-cpu-throttle':'uint8'} }
-> +     =09    '*max-postcopy-bandwidth': 'size',
-> +            '*max-cpu-throttle':'uint8',
-> +            '*multi-rdma-channels':'uint8'} }
-> =20
->  ##
->  # @query-migrate-parameters:
+  I used the following commands:
 
-Please use spaces instead of tab.
+  "Standard" command
+  qemu-system-x86_64 -m 2048 -machine q35,accel=3Dkvm -cpu host,kvm=3Doff -=
+smp 1,sockets=3D1,cores=3D1,threads=3D1 -enable-kvm -hda win7_qemu_standard=
+_q35.qcow2 -cdrom win7proX64.iso -boot order=3Dd
 
+  I think by using -hda sata will be used?!?
+
+  With explicit ahci:
+  qemu-system-x86_64 -m 2048 -machine q35,accel=3Dkvm -cpu host,kvm=3Doff -=
+smp 1,sockets=3D1,cores=3D1,threads=3D1 -enable-kvm -drive file=3Dwin7_qemu=
+_standard_q35.qcow2,media=3Ddisk,if=3Dnone,id=3Dsata-disk -device ich9-ahci=
+,id=3Dahci -device ide-drive,drive=3Dsata-disk,bus=3Dahci.0 -drive file=3Dw=
+in7proX64.iso,media=3Dcdrom,if=3Dnone,id=3Dsata-cdrom -device ide-cd,drive=
+=3Dsata-cdrom,bus=3Dahci.1 -boot order=3Dd
+
+  I don't know if this is totally correct, because it's a little bit
+  weird that I have to use ide-drive on a ich9 bus.
+
+  Without kvm there is a continious disk write with 100 K/s - 5 M/s (works =
+only with qemu 2.7.0, otherwise I get a 0x000000D1 bluescreen on the setup =
+start screen):
+  qemu-system-x86_64 -m 2048 -machine q35 -cpu IvyBridge -hda win7_qemu_sta=
+ndard_q35.qcow2 -cdrom win7proX64.iso -boot order=3Dd
+
+  But with all three commands the installed Windows is not working,
+  because always the same error occurs: windows couldn't be loaded
+  because kernel is missing or corrupt
+
+  Interestingly both commands ("standard" command and with explicit
+  ahci) works very well with a Windows 10 installation.
+
+  In my opinion it's a "SATA problem", because if I use e.g. piix4-ide inst=
+ead of ich9-ahci it works:
+  qemu-system-x86_64 -m 2048 -machine q35,accel=3Dkvm -cpu host,kvm=3Doff -=
+smp 1,sockets=3D1,cores=3D1,threads=3D1 -enable-kvm -drive file=3Dwin7_qemu=
+_standard_q35.qcow2,media=3Ddisk,if=3Dnone,id=3Dide-disk -device piix4-ide,=
+id=3Dide -device ide-drive,drive=3Dide-disk,bus=3Dide.0 -drive file=3Dwin7p=
+roX64.iso,media=3Dcdrom,if=3Dnone,id=3Dide-cdrom -device ide-cd,drive=3Dide=
+-cdrom,bus=3Dide.1 -boot order=3Dd
+
+  With this command there is a continuous disk write and the
+  installation is bootable.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1622582/+subscriptions
 
