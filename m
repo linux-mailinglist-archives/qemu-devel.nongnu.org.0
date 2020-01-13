@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD71A13941A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:58:44 +0100 (CET)
-Received: from localhost ([::1]:51492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EED139449
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 16:07:14 +0100 (CET)
+Received: from localhost ([::1]:51602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir1Ax-0006ka-Qf
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:58:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46215)
+	id 1ir1JB-0005dG-2c
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 10:07:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49098)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ir1AB-0006Jp-Pe
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:57:56 -0500
+ (envelope-from <luoyonggang@gmail.com>) id 1ir1IJ-0005D3-KY
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:06:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ir1AA-00076G-IY
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:57:55 -0500
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:36286)
+ (envelope-from <luoyonggang@gmail.com>) id 1ir1II-0005kb-G2
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:06:19 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53207)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ir1AA-00075U-Bu
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:57:54 -0500
-Received: by mail-ot1-x329.google.com with SMTP id m2so4318820otq.3
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 06:57:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Xyq7j24zCWIHXZH0eLgTyHD6Tpg00NTQhCIM4QS8BrU=;
- b=DI4rXaPPc+lyJ/gnqCFCHnU5jleSEddpybl6gwMDlCfcNOJr1HYQm/qM87jot64jAg
- E0Pa73XXUYpN5cWeqVOQ+NgDIsB5DAzGXX5FZaJ9dVwrmsaCECj5MO2sl17F6F+cOf1+
- j8AVyxPOnUjr4B0OuWVwM6ycGPlM/yqwHvpZvpgeiHkLmY6/nUOfonBVuUI1v2qiw0n9
- FtRwOg6e8DdcPNMTHNsUCsYLsX0upi/PfnE07lBAh/DpniUQkxcvxsM/zu34vggwiUcr
- j9vuYqiqn+UYsB4hSzWEHRqlviPd6a0ZOuaMwXtAHjvrlw1m4hiFexkjOXaX7zkyux2K
- /nIg==
+ (Exim 4.71) (envelope-from <luoyonggang@gmail.com>)
+ id 1ir1II-0005iw-8v
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:06:18 -0500
+Received: by mail-wm1-x329.google.com with SMTP id p9so10082683wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 07:06:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:reply-to:from:date:message-id:subject:to;
+ bh=qlD924yJdSysyHuQoAvMAT1AdU1kxE17JTwVWzBb9uU=;
+ b=I0GgVb/mJU/itYLGnPqvjUZ3MDSb3hsoOAV9nZwEE1oUB0impmdKnXCJe9aSafYx4I
+ i1gqaSZf2b/hpvRA+M81Wpwl0QKWDoaiF8pfDJOV2boXJaikQr8U2HcZPBJySIs4It1v
+ ZCDCFnaWxaqbyXYVcsFwrwwin8ylpXtDIp9JozmSW99EQ7DNyFysPYAuLZwWdRTsFh7I
+ NPwyl95gksdPddQrsPQiMjszrdrvqp9WOzQ9p23SP+b77h01UBbJ7mHwEfXJz2iqK3TV
+ FPrcaIOwRUrlENWfqT0mhHRzupvbkJ/RfvPNGohVSbfN7s5L6QPR3DoVi6ZTYL2wUW4R
+ sfBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Xyq7j24zCWIHXZH0eLgTyHD6Tpg00NTQhCIM4QS8BrU=;
- b=ZJX2BIUNuaEbNf/ZxR++e98OwpYMnG2k021iLzflrtdKHNR4lq8hFO0AHadv6e3VLH
- lcRINVWWJvxV3hlOe1ouRzv8lDFy1bKtwWixUge+ymzUJ8uFdYBlqGFRzQzx5pGGopJi
- 1myIXho4matEAlZf9Cd/M0YIibc1cSu8zST/EW+S6bRVZvJb1hTR3dhZtHurJKKbrZhR
- O5Eh3ECuzeBWGpNl0XH3ebwWP3IOMVOZG4ial7JhlbJsGNY+YW0HsTTWmu2PGeNN0il2
- gyqvZisczTNwxARswaBuEbXkerw5dsG9llqArbRrwDsbEOGxwEgPKo5z18gRp/VhyrrT
- C8ZQ==
-X-Gm-Message-State: APjAAAVAWUBsIjqJBlQ7AoRSNGg3VVX/6LXhsux093ZcNnqn3HDnLR2j
- uDgui3Y+wLJglqsfmxioM/foosYYYYbBJMWyjh47SA==
-X-Google-Smtp-Source: APXvYqyHKaxJdJnj4AVrJPXQ1oyrhuPo98jE6VaEAJgHBInKrwNRv70CRhu02XPNZIXH4h8/Ba33Jg9sCYHp/2RzweE=
-X-Received: by 2002:a05:6830:13da:: with SMTP id
- e26mr12295682otq.97.1578927473206; 
- Mon, 13 Jan 2020 06:57:53 -0800 (PST)
+ h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+ :subject:to;
+ bh=qlD924yJdSysyHuQoAvMAT1AdU1kxE17JTwVWzBb9uU=;
+ b=gfXBr9dYLzxfeLh0qum/sumOeToQkxr6BMLULur27nAKK6KtLh/1HjLItfweddTz67
+ 7vl5FACfwo6OBX+GwNu0XVIuD5F3gwQePlyOyTmadOUXGmQzKppOuZLeipBQGmYPMQYv
+ YtFAZ4+ky7nMeCrPgL8RVJbTALtAjDh5JzcKgD3KVq/ofC5Ce7Fo6YBCX/EEKrYPcecA
+ 0iBCNR3XUvaamBzV5bjp9B/hK7NBY2qvbaYA97MkGLZROA8rPlCxkiYZnTx4xQkrvOQL
+ KDk61U9sK5Dy0V2siiZVtyYz+lFXIbyC0zhZJl1Gs7x54Tlsv0u70Mmx87EC7ny1ZUbW
+ XF/Q==
+X-Gm-Message-State: APjAAAXaW6qvch8ajAByqiQuKwhIqGI+RImjXPE5BEQQFz5i2MYA6MN1
+ Xj0R73u3mQ0s2gus8dcmq7azFNxYkrrlIuGBJoVflLaOm9sjkQ==
+X-Google-Smtp-Source: APXvYqxAk1e6i/5ySDuJ/J7B3zsDv77i8ZpxtBEacuIxOSNZS46LrAmWrmK6PxOu2yp75Dtygl1RBFCDRMrlXPvDx9I=
+X-Received: by 2002:a7b:cd07:: with SMTP id f7mr20064696wmj.37.1578927976176; 
+ Mon, 13 Jan 2020 07:06:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20200113130646.30099-1-kraxel@redhat.com>
-In-Reply-To: <20200113130646.30099-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Jan 2020 14:57:42 +0000
-Message-ID: <CAFEAcA8SRm1_z6uvP923Jouxksu1KrYPFy+Fe2bRsbHDMz_ECg@mail.gmail.com>
-Subject: Re: [PULL 0/5] Usb 20200113 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Mon, 13 Jan 2020 23:06:04 +0800
+Message-ID: <CAE2XoE9y_dR8t7vQABm6xzc03ARyEZ8zqD2XrNL64J9GoEHpLg@mail.gmail.com>
+Subject: Issue: whpx mode can not install windows 7 os.
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000002563b4059c06d1ee"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::329
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,35 +69,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: luoyonggang@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Jan 2020 at 13:08, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit dc65a5bdc9fa543690a775b50d4ffbeb22c56d6d:
->
->   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-5.0-20200108' into staging (2020-01-10 16:15:04 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/usb-20200113-pull-request
->
-> for you to fetch changes up to 236846a019c4f7aa3111026fc9a1fe09684c8978:
->
->   xhci: recheck slot status (2020-01-13 14:05:55 +0100)
->
-> ----------------------------------------------------------------
-> usb: bugfixes for xhci, usb pass-through and usb redirection.
->
-> ----------------------------------------------------------------
+--0000000000002563b4059c06d1ee
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+any idea about how to resolve this problem.
+ENV: MSYS2 newest.
+```
+mkdir build-qemu-x64
+cd build-qemu-x64
+../qemu.org/configure --python=3Dpython3 --prefix=3D/usr --disable-gtk
+--disable-sdl --disable-virtfs --disable-werror \
+  --enable-capstone=3Dsystem \
+  --target-list=3Di386-softmmu,x86_64-softmmu,ppc-softmmu,ppc64-softmmu \
+  --enable-hax --enable-whpx --enable-lzo --enable-vnc-jpeg
+--enable-vnc-png \
+  --enable-vdi --enable-qcow1 --enable-tools \
+  --enable-libusb --enable-usb-redir --enable-membarrier --enable-smartcard
+make install -j10 DESTDIR=3D/e/CI-Cor-Ready/xemu/qemu.org-x64
+```.
 
 
-Applied, thanks.
+--=20
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+--0000000000002563b4059c06d1ee
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- PMM
+<div dir=3D"ltr">any idea about how to resolve this problem.<div>ENV: MSYS2=
+ newest.</div><div>```</div><div>mkdir build-qemu-x64<br>cd build-qemu-x64<=
+br>../<a href=3D"http://qemu.org/configure">qemu.org/configure</a> --python=
+=3Dpython3 --prefix=3D/usr --disable-gtk --disable-sdl --disable-virtfs --d=
+isable-werror \<br>=C2=A0 --enable-capstone=3Dsystem \<br>=C2=A0 --target-l=
+ist=3Di386-softmmu,x86_64-softmmu,ppc-softmmu,ppc64-softmmu \<br>=C2=A0 --e=
+nable-hax --enable-whpx --enable-lzo --enable-vnc-jpeg --enable-vnc-png \<b=
+r>=C2=A0 --enable-vdi --enable-qcow1 --enable-tools \<br>=C2=A0 --enable-li=
+busb --enable-usb-redir --enable-membarrier --enable-smartcard<br>make inst=
+all -j10 DESTDIR=3D/e/CI-Cor-Ready/xemu/qemu.org-x64<br></div><div>```.<div=
+><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_si=
+gnature" data-smartmail=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=
+=A0 =E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours=
+<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<br></div></div></div></div>
+
+--0000000000002563b4059c06d1ee--
 
