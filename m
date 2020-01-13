@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586411394C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 16:28:20 +0100 (CET)
-Received: from localhost ([::1]:51868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23D41394CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 16:31:39 +0100 (CET)
+Received: from localhost ([::1]:51910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir1db-0002iz-1w
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 10:28:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58013)
+	id 1ir1go-0006uC-HC
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 10:31:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59653)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ir1c0-00018T-Ah
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:26:41 -0500
+ (envelope-from <armbru@redhat.com>) id 1ir1fi-0006OO-80
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:30:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ir1bz-0003pN-1H
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:26:40 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32170
+ (envelope-from <armbru@redhat.com>) id 1ir1fg-0008LV-ID
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:30:29 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29276
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ir1by-0003oN-Te
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:26:38 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ir1fg-0008KK-EN
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:30:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578929198;
+ s=mimecast20190719; t=1578929427;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qcDFBLZo+Jb8xGOew4Wd3dTD2HMwSN35pi1u7LgD7js=;
- b=faCThzl6B6rWnao8ypw4RDbSeIOLGVHxp1HyOerldANm4E6QFrGUecyv9DxWLELs7UeNOR
- +mwPTNO8fLFWW8wIgDmfEyLe92rgJ2TTntpBFgiLJ2HoCuw4on5u8B+TPYGoe8xgZZD93G
- uZjUq5Q0VqsawLMi1eeOdqKpgggbH1Q=
+ bh=/duRa5/vb9Lj/Vjc4zIyEAeScvgyjgK824vwpH02rQI=;
+ b=dvzH6naEc8az6SzXs5arjwhp2kwAD2nYsIiiqP52W9JlOPPxzyS0pMPsjS/7Tt7G8lnKzJ
+ +AQqNNNzb9I9T8AoPJu0g6CVnz/KjOuEOY1PM6CSvYeR4pLtQDDuEjgT680fhg1MjVDyiJ
+ 7rN8yFsxrZBZHyMCtLfIl0IM+tOfv68=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-tUrUOBjlNeOyHiewkFDeoA-1; Mon, 13 Jan 2020 10:26:33 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-182-aoXpHxnINHaSsGeDd5zm_Q-1; Mon, 13 Jan 2020 10:30:23 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 785D710054E3;
- Mon, 13 Jan 2020 15:26:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93ABE911BC;
+ Mon, 13 Jan 2020 15:30:22 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
  [10.36.116.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 491CA87EEC;
- Mon, 13 Jan 2020 15:26:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F3BD5C1B0;
+ Mon, 13 Jan 2020 15:30:22 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D0C6F1138600; Mon, 13 Jan 2020 16:26:30 +0100 (CET)
+ id E5F731138600; Mon, 13 Jan 2020 16:30:20 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: Corey Minyard <minyard@acm.org>
-Subject: Re: [PATCH v1 00/59] trivial unneeded labels cleanup
-References: <20200106182425.20312-1-danielhb413@gmail.com>
- <20200106195457.GE2886@minyard.net>
-Date: Mon, 13 Jan 2020 16:26:30 +0100
-In-Reply-To: <20200106195457.GE2886@minyard.net> (Corey Minyard's message of
- "Mon, 6 Jan 2020 13:54:57 -0600")
-Message-ID: <87a76rxtqx.fsf@dusky.pond.sub.org>
+To: Zhimin Feng <fengzhimin1@huawei.com>
+Subject: Re: [PATCH RFC 01/12] migration: Add multiRDMA capability support
+References: <20200109045922.904-1-fengzhimin1@huawei.com>
+ <20200109045922.904-2-fengzhimin1@huawei.com>
+Date: Mon, 13 Jan 2020 16:30:20 +0100
+In-Reply-To: <20200109045922.904-2-fengzhimin1@huawei.com> (Zhimin Feng's
+ message of "Thu, 9 Jan 2020 12:59:11 +0800")
+Message-ID: <875zhfxtkj.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: tUrUOBjlNeOyHiewkFDeoA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: aoXpHxnINHaSsGeDd5zm_Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
@@ -76,61 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-devel@nongnu.org
+Cc: zhang.zhanghailiang@huawei.com, quintela@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, jemmy858585@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Corey Minyard <minyard@acm.org> writes:
+Zhimin Feng <fengzhimin1@huawei.com> writes:
 
-> On Mon, Jan 06, 2020 at 03:23:26PM -0300, Daniel Henrique Barboza wrote:
->> Hello,
->>=20
->> This is the type of cleanup I've contributed to Libvirt
->> during the last year. Figured QEMU also deserves the same
->> care.
->>=20
->> The idea here is remove unneeded labels. By 'unneeded' I
->> mean labels that does nothing but a 'return' call. One
->> common case is something like this:
->>=20
->> if ()
->>     goto cleanup;
->> [...]
->>  cleanup:
->>     return 0;
->>=20
->> This code can be simplified to:
->>=20
->> if ()
->>     return 0;
->>=20
->>=20
->> Which is cleaner and requires less brain cycles to wonder
->> whether the 'cleanup' label does anything special, such
->> as a heap memory cleanup.
+> From: fengzhimin <fengzhimin1@huawei.com>
 >
-> I would disagree with this analysis.  To me, I often wonder
-> when I have to add cleanup code to a routine whether there is
-> some hidden return in the middle of the function.  That's a lot
-> harder to spot than just looking for the cleanup label at the
-> end of the function to see what it does.
+> Signed-off-by: fengzhimin <fengzhimin1@huawei.com>
+> ---
+[...]
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index b7348d0c8b..c995ffdc4c 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -421,6 +421,8 @@
+>  # @validate-uuid: Send the UUID of the source to allow the destination
+>  #                 to ensure it is the same. (since 4.2)
+>  #
+> +# @multirdma: Use more than one channels for rdma migration. (since 4.2)
+> +#
+>  # Since: 1.2
+>  ##
+>  { 'enum': 'MigrationCapability',
+> @@ -428,7 +430,7 @@
+>             'compress', 'events', 'postcopy-ram', 'x-colo', 'release-ram'=
+,
+>             'block', 'return-path', 'pause-before-switchover', 'multifd',
+>             'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+> -           'x-ignore-shared', 'validate-uuid' ] }
+> +           'x-ignore-shared', 'validate-uuid', 'multirdma' ] }
+> =20
+>  ##
+>  # @MigrationCapabilityStatus:
 
-A cleanup label does not preclude existence of return.  You have to
-check for return anyway.
-
->                                           For non-trivial
-> functions I prefer to have one point of return at the end
-> (and maybe some minor checks with returns right at the beginning).
-> I'm not adamant about this, just my opinion.
-
-I'm in Daniel's camp: if there's no need for cleanup, return without
-ado.
-
-> But if we are going to fix things like this, it might be best to add
-> them to the coding style document and checkpatch script.  Otherwise
-> these sorts of things will just continue.
-
-Maybe.
+Spell it multi-rdma?
 
 
