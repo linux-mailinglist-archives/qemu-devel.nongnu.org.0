@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEB71391CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 14:08:27 +0100 (CET)
-Received: from localhost ([::1]:50294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92EA21391D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 14:11:08 +0100 (CET)
+Received: from localhost ([::1]:50340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iqzSE-0005WX-NR
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 08:08:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43121)
+	id 1iqzUp-0000zo-M8
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 08:11:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43176)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iqzQm-0004Tt-OB
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:06:59 -0500
+ (envelope-from <kraxel@redhat.com>) id 1iqzQu-0004h1-Dd
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:07:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iqzQl-0006XS-Fn
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:06:56 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48085
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1iqzQs-0006cS-Oa
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:07:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21302
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iqzQl-0006XC-C8
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:06:55 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iqzQs-0006c1-KU
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:07:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578920814;
+ s=mimecast20190719; t=1578920822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wmzn7Z+CVL3WVdeqryNBNn3lSDikLikHYNpxey9mHwY=;
- b=Oa4XdfJPXf3jKw7sTOAXam6eBqVX7jTWsy6Tfs0o7uU24Duh2tZgU4LM25vipVed8SaRy2
- 0sbmkkdQ4rFhLDAvPvocM3Rg9/cJCpopfLEFD4WB4aL1kwH2DCwIe6v/sHDPi/PWYpR/M5
- vR5C7yS/dMMpH5IIwmxnZiHJtvFtAEE=
+ bh=bgZRu74Ev5zWTcLnXsonTOt1OV2DaaNsGh1rVetOcww=;
+ b=d5goVuK88R+yhWnlfLYTr7LnYU9KdhHUiiX8UrOZtq5P4MTjxXtpMGx/zEHSWDaYMl13pS
+ 1dlxBM7/veHE4tmSxyP4XelvE1Xd2DlytRzL5dNbDu+zmOcsqtH/9UqrM4BUQzk7SXE3ig
+ YVK4CGbZ4cV79zZ3stP7ZszkbnO7NAI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-4B5RGZExO6WrIH7bn1hePw-1; Mon, 13 Jan 2020 08:06:51 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-411-sfgX5eDTP-utgYgRAzsSkQ-1; Mon, 13 Jan 2020 08:06:51 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34AECDB8B;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13AA710CE78F;
  Mon, 13 Jan 2020 13:06:50 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
  [10.36.116.106])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 117CB88867;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 11CD660C88;
  Mon, 13 Jan 2020 13:06:47 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4358C31E49; Mon, 13 Jan 2020 14:06:46 +0100 (CET)
+ id 4D44E31F47; Mon, 13 Jan 2020 14:06:46 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] usb-host: remove 'remote wakeup' flag from configuration
+Subject: [PULL 2/5] usb-redir: remove 'remote wakeup' flag from configuration
  descriptor
-Date: Mon, 13 Jan 2020 14:06:42 +0100
-Message-Id: <20200113130646.30099-2-kraxel@redhat.com>
+Date: Mon, 13 Jan 2020 14:06:43 +0100
+Message-Id: <20200113130646.30099-3-kraxel@redhat.com>
 In-Reply-To: <20200113130646.30099-1-kraxel@redhat.com>
 References: <20200113130646.30099-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 4B5RGZExO6WrIH7bn1hePw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: sfgX5eDTP-utgYgRAzsSkQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,100 +86,77 @@ becomes active, but this will never happen. For example, when
 internal Bluetooth adapter is redirected, keyboards and mice
 connected to it do not work. Current commit removes this
 capability (starting from machine 5.0)
-Set 'usb-host.suppress-remote-wake' property to 'off' to keep
+Set 'usb-redir.suppress-remote-wake' property to 'off' to keep
 'remote wake' as is or to 'on' to remove 'remote wake' on
 4.2 or earlier.
 
 Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-Message-id: 20200108091044.18055-2-yuri.benditovich@daynix.com
+Message-id: 20200108091044.18055-3-yuri.benditovich@daynix.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/core/machine.c    |  1 +
- hw/usb/host-libusb.c | 20 ++++++++++++++++++++
- hw/usb/trace-events  |  1 +
- 3 files changed, 22 insertions(+)
+ hw/core/machine.c |  1 +
+ hw/usb/redirect.c | 20 ++++++++++++++++++++
+ 2 files changed, 21 insertions(+)
 
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 4f30fb56463c..c5d32f56db93 100644
+index c5d32f56db93..3e288bfceb7f 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -32,6 +32,7 @@ GlobalProperty hw_compat_4_2[] =3D {
-     { "virtio-blk-device", "seg-max-adjust", "off"},
+@@ -33,6 +33,7 @@ GlobalProperty hw_compat_4_2[] =3D {
      { "virtio-scsi-device", "seg_max_adjust", "off"},
      { "vhost-blk-device", "seg_max_adjust", "off"},
-+    { "usb-host", "suppress-remote-wake", "off" },
+     { "usb-host", "suppress-remote-wake", "off" },
++    { "usb-redir", "suppress-remote-wake", "off" },
  };
  const size_t hw_compat_4_2_len =3D G_N_ELEMENTS(hw_compat_4_2);
 =20
-diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index fcf48c019333..00e0e3636978 100644
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -88,6 +88,7 @@ struct USBHostDevice {
-     bool                             needs_autoscan;
-     bool                             allow_one_guest_reset;
-     bool                             allow_all_guest_resets;
-+    bool                             suppress_remote_wake;
-=20
-     /* state */
-     QTAILQ_ENTRY(USBHostDevice)      next;
-@@ -386,6 +387,8 @@ static void LIBUSB_CALL usb_host_req_complete_ctrl(stru=
-ct libusb_transfer *xfer)
-     r->p->status =3D status_map[xfer->status];
-     r->p->actual_length =3D xfer->actual_length;
-     if (r->in && xfer->actual_length) {
-+        USBDevice *udev =3D USB_DEVICE(s);
-+        struct libusb_config_descriptor *conf =3D (void *)r->cbuf;
-         memcpy(r->cbuf, r->buffer + 8, xfer->actual_length);
-=20
-         /* Fix up USB-3 ep0 maxpacket size to allow superspeed connected d=
-evices
-@@ -394,6 +397,21 @@ static void LIBUSB_CALL usb_host_req_complete_ctrl(str=
-uct libusb_transfer *xfer)
-             r->cbuf[7] =3D=3D 9) {
-             r->cbuf[7] =3D 64;
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index e0f5ca6f818b..b5c15586874a 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -113,6 +113,7 @@ struct USBRedirDevice {
+     /* Properties */
+     CharBackend cs;
+     bool enable_streams;
++    bool suppress_remote_wake;
+     uint8_t debug;
+     int32_t bootindex;
+     char *filter_str;
+@@ -1989,6 +1990,23 @@ static void usbredir_control_packet(void *priv, uint=
+64_t id,
+             memcpy(dev->dev.data_buf, data, data_len);
          }
+         p->actual_length =3D len;
 +        /*
-+         *If this is GET_DESCRIPTOR request for configuration descriptor,
++         * If this is GET_DESCRIPTOR request for configuration descriptor,
 +         * remove 'remote wakeup' flag from it to prevent idle power down
 +         * in Windows guest
 +         */
-+        if (s->suppress_remote_wake &&
-+            udev->setup_buf[0] =3D=3D USB_DIR_IN &&
-+            udev->setup_buf[1] =3D=3D USB_REQ_GET_DESCRIPTOR &&
-+            udev->setup_buf[3] =3D=3D USB_DT_CONFIG && udev->setup_buf[2] =
-=3D=3D 0 &&
-+            xfer->actual_length >
-+                offsetof(struct libusb_config_descriptor, bmAttributes) &&
-+            (conf->bmAttributes & USB_CFG_ATT_WAKEUP)) {
-+                trace_usb_host_remote_wakeup_removed(s->bus_num, s->addr);
-+                conf->bmAttributes &=3D ~USB_CFG_ATT_WAKEUP;
-+        }
++        if (dev->suppress_remote_wake &&
++            control_packet->requesttype =3D=3D USB_DIR_IN &&
++            control_packet->request =3D=3D USB_REQ_GET_DESCRIPTOR &&
++            control_packet->value =3D=3D (USB_DT_CONFIG << 8) &&
++            control_packet->index =3D=3D 0 &&
++            /* bmAttributes field of config descriptor */
++            len > 7 && (dev->dev.data_buf[7] & USB_CFG_ATT_WAKEUP)) {
++                DPRINTF("Removed remote wake %04X:%04X\n",
++                    dev->device_info.vendor_id,
++                    dev->device_info.product_id);
++                dev->dev.data_buf[7] &=3D ~USB_CFG_ATT_WAKEUP;
++            }
+         usb_generic_async_ctrl_complete(&dev->dev, p);
      }
-     trace_usb_host_req_complete(s->bus_num, s->addr, r->p,
-                                 r->p->status, r->p->actual_length);
-@@ -1596,6 +1614,8 @@ static Property usb_host_dev_properties[] =3D {
-                        LIBUSB_LOG_LEVEL_WARNING),
-     DEFINE_PROP_BIT("pipeline",    USBHostDevice, options,
-                     USB_HOST_OPT_PIPELINE, true),
-+    DEFINE_PROP_BOOL("suppress-remote-wake", USBHostDevice,
+     free(data);
+@@ -2530,6 +2548,8 @@ static Property usbredir_properties[] =3D {
+     DEFINE_PROP_UINT8("debug", USBRedirDevice, debug, usbredirparser_warni=
+ng),
+     DEFINE_PROP_STRING("filter", USBRedirDevice, filter_str),
+     DEFINE_PROP_BOOL("streams", USBRedirDevice, enable_streams, true),
++    DEFINE_PROP_BOOL("suppress-remote-wake", USBRedirDevice,
 +                     suppress_remote_wake, true),
      DEFINE_PROP_END_OF_LIST(),
  };
 =20
-diff --git a/hw/usb/trace-events b/hw/usb/trace-events
-index 2d3713351c38..1c24d82c09c0 100644
---- a/hw/usb/trace-events
-+++ b/hw/usb/trace-events
-@@ -266,3 +266,4 @@ usb_host_parse_config(int bus, int addr, int value, int=
- active) "dev %d:%d, valu
- usb_host_parse_interface(int bus, int addr, int num, int alt, int active) =
-"dev %d:%d, num %d, alt %d, active %d"
- usb_host_parse_endpoint(int bus, int addr, int ep, const char *dir, const =
-char *type, int active) "dev %d:%d, ep %d, %s, %s, active %d"
- usb_host_parse_error(int bus, int addr, const char *errmsg) "dev %d:%d, ms=
-g %s"
-+usb_host_remote_wakeup_removed(int bus, int addr) "dev %d:%d"
 --=20
 2.18.1
 
