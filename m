@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F810139406
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:54:37 +0100 (CET)
-Received: from localhost ([::1]:51452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD71A13941A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:58:44 +0100 (CET)
+Received: from localhost ([::1]:51492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir16y-0005Y5-8P
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:54:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44809)
+	id 1ir1Ax-0006ka-Qf
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:58:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46215)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1ir15n-0004cd-7p
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:53:24 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ir1AB-0006Jp-Pe
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:57:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1ir15i-0003WC-28
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:53:23 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60813
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ir15h-0003Vg-Ua
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:53:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578927197;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=c8gJ8Vjw2GM971v7+eY/mXlqOnqJ53ZXdglBXcMK7eo=;
- b=gHW6t3bojG/GYNz4rMZhkBJIY8sfaeungq0GV0ncWOs5MFmW0dZj/DJRwY8/0FQtaR0ROJ
- 5+bRC632gC7tLcSuUg3ML98SDXpwOTc17tAujyY/8XDwphLvByY+P089AKP4277Kwf6yio
- piov1GaYUEZg+9nZMP2JcqGvnRdavE4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-PgTAkRagMZix3UAdvFZTzQ-1; Mon, 13 Jan 2020 09:53:15 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C4238024E2;
- Mon, 13 Jan 2020 14:53:13 +0000 (UTC)
-Received: from redhat.com (ovpn-116-99.ams2.redhat.com [10.36.116.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5803B60FC4;
- Mon, 13 Jan 2020 14:53:01 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PULL 00/28] Migration pull patches
-In-Reply-To: <20200113132632.GD4033206@redhat.com> ("Daniel P. =?utf-8?Q?B?=
- =?utf-8?Q?errang=C3=A9=22's?=
- message of "Mon, 13 Jan 2020 13:26:32 +0000")
-References: <20200110173215.3865-1-quintela@redhat.com>
- <CAFEAcA97ZqynDV6b6YUL_7iF=zsmB2Mwogi0k4ViAUAFTwsTnA@mail.gmail.com>
- <20200113132632.GD4033206@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Mon, 13 Jan 2020 15:53:00 +0100
-Message-ID: <878smbxvar.fsf@secure.laptop>
+ (envelope-from <peter.maydell@linaro.org>) id 1ir1AA-00076G-IY
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:57:55 -0500
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:36286)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ir1AA-00075U-Bu
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:57:54 -0500
+Received: by mail-ot1-x329.google.com with SMTP id m2so4318820otq.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 06:57:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Xyq7j24zCWIHXZH0eLgTyHD6Tpg00NTQhCIM4QS8BrU=;
+ b=DI4rXaPPc+lyJ/gnqCFCHnU5jleSEddpybl6gwMDlCfcNOJr1HYQm/qM87jot64jAg
+ E0Pa73XXUYpN5cWeqVOQ+NgDIsB5DAzGXX5FZaJ9dVwrmsaCECj5MO2sl17F6F+cOf1+
+ j8AVyxPOnUjr4B0OuWVwM6ycGPlM/yqwHvpZvpgeiHkLmY6/nUOfonBVuUI1v2qiw0n9
+ FtRwOg6e8DdcPNMTHNsUCsYLsX0upi/PfnE07lBAh/DpniUQkxcvxsM/zu34vggwiUcr
+ j9vuYqiqn+UYsB4hSzWEHRqlviPd6a0ZOuaMwXtAHjvrlw1m4hiFexkjOXaX7zkyux2K
+ /nIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Xyq7j24zCWIHXZH0eLgTyHD6Tpg00NTQhCIM4QS8BrU=;
+ b=ZJX2BIUNuaEbNf/ZxR++e98OwpYMnG2k021iLzflrtdKHNR4lq8hFO0AHadv6e3VLH
+ lcRINVWWJvxV3hlOe1ouRzv8lDFy1bKtwWixUge+ymzUJ8uFdYBlqGFRzQzx5pGGopJi
+ 1myIXho4matEAlZf9Cd/M0YIibc1cSu8zST/EW+S6bRVZvJb1hTR3dhZtHurJKKbrZhR
+ O5Eh3ECuzeBWGpNl0XH3ebwWP3IOMVOZG4ial7JhlbJsGNY+YW0HsTTWmu2PGeNN0il2
+ gyqvZisczTNwxARswaBuEbXkerw5dsG9llqArbRrwDsbEOGxwEgPKo5z18gRp/VhyrrT
+ C8ZQ==
+X-Gm-Message-State: APjAAAVAWUBsIjqJBlQ7AoRSNGg3VVX/6LXhsux093ZcNnqn3HDnLR2j
+ uDgui3Y+wLJglqsfmxioM/foosYYYYbBJMWyjh47SA==
+X-Google-Smtp-Source: APXvYqyHKaxJdJnj4AVrJPXQ1oyrhuPo98jE6VaEAJgHBInKrwNRv70CRhu02XPNZIXH4h8/Ba33Jg9sCYHp/2RzweE=
+X-Received: by 2002:a05:6830:13da:: with SMTP id
+ e26mr12295682otq.97.1578927473206; 
+ Mon, 13 Jan 2020 06:57:53 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: PgTAkRagMZix3UAdvFZTzQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <20200113130646.30099-1-kraxel@redhat.com>
+In-Reply-To: <20200113130646.30099-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Jan 2020 14:57:42 +0000
+Message-ID: <CAFEAcA8SRm1_z6uvP923Jouxksu1KrYPFy+Fe2bRsbHDMz_ECg@mail.gmail.com>
+Subject: Re: [PULL 0/5] Usb 20200113 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,92 +72,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Corey Minyard <cminyard@mvista.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Stefan Berger <stefanb@linux.ibm.com>,
- Richard Henderson <rth@twiddle.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
->> I also saw this on aarch32 host (more precisely, on the
->> aarch32-environment-in-aarch64-chroot setup I use for aarch32 build
->> and test):
->>=20
->> malloc_consolidate(): invalid chunk size
->> Broken pipe
->> qemu-system-i386: check_section_footer: Read section footer failed: -5
->> qemu-system-i386: load of migration failed: Invalid argument
->> /home/peter.maydell/qemu/tests/libqtest.c:140: kill_qemu() tried to
->> terminate QEMU process but encountered exit status 1 (expected 0)
->> Aborted
->> ERROR - too few tests run (expected 14, got 13)
->>=20
->> The memory corruption is reproducible running just the
->> /x86_64/migration/multifd/tcp subtest:
->>=20
->> (armhf)pmaydell@mustang-maydell:~/qemu/build/all-a32$
->> QTEST_QEMU_BINARY=3Dx86_64-softmmu/qemu-system-x86_64
->> tests/migration-test -p /x86_64/migration/multifd/tcp
->> /x86_64/migration/multifd/tcp: qemu-system-x86_64: -accel kvm: invalid
->> accelerator kvm
->> qemu-system-x86_64: falling back to tcg
->> qemu-system-x86_64: -accel kvm: invalid accelerator kvm
->> qemu-system-x86_64: falling back to tcg
->> qemu-system-x86_64: multifd_send_sync_main: multifd_send_pages fail
->> qemu-system-x86_64: failed to save SaveStateEntry with id(name): 3(ram)
->> double free or corruption (!prev)
->> Broken pipe
->> qemu-system-x86_64: Unknown combination of migration flags: 0
->> qemu-system-x86_64: error while loading state section id 3(ram)
->> qemu-system-x86_64: load of migration failed: Invalid argument
->> /home/peter.maydell/qemu/tests/libqtest.c:140: kill_qemu() tried to
->> terminate QEMU process but encountered exit status 1 (expected 0)
->> Aborted
->>=20
->> Here's what a valgrind run in that aarch32 setup produces:
->>=20
+On Mon, 13 Jan 2020 at 13:08, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> Missing initialization of     MultiFDInit_t msg; to all zeros
-
-I *thought* it was in.  Sorry.
-
+> The following changes since commit dc65a5bdc9fa543690a775b50d4ffbeb22c56d6d:
 >
->> =3D=3D12102=3D=3D
->> =3D=3D12102=3D=3D Thread 6 multifdsend_1:
->> =3D=3D12102=3D=3D Invalid write of size 4
->> =3D=3D12102=3D=3D    at 0x25CC08: multifd_send_fill_packet (ram.c:806)
->> =3D=3D12102=3D=3D    by 0x25CC08: multifd_send_thread (ram.c:1157)
->> =3D=3D12102=3D=3D    by 0x557551: qemu_thread_start (qemu-thread-posix.c=
-:519)
->> =3D=3D12102=3D=3D    by 0x53BE613: start_thread (pthread_create.c:463)
->> =3D=3D12102=3D=3D    by 0x54767FB: ??? (clone.S:73)
->> =3D=3D12102=3D=3D  Address 0x1d89c470 is 0 bytes after a block of size 8=
-32 alloc'd
->> =3D=3D12102=3D=3D    at 0x4841BC4: calloc (vg_replace_malloc.c:711)
->> =3D=3D12102=3D=3D    by 0x49EE269: g_malloc0 (in
->> /usr/lib/arm-linux-gnueabihf/libglib-2.0.so.0.5600.4)
+>   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-5.0-20200108' into staging (2020-01-10 16:15:04 +0000)
 >
-> This is the same issue that was reported last time this mulitfd unit
-> test was proposed for merge. Back then I pointed out the likely cause.
-> We were allocating  ram_addr_t sized quantity for an array which is
-> uint64_t, and ram_addr_t is probably 32-bit on this particular build.
+> are available in the Git repository at:
 >
->   https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg03428.html
+>   git://git.kraxel.org/qemu tags/usb-20200113-pull-request
 >
-> That suggested fix doesn't seem to have been included
+> for you to fetch changes up to 236846a019c4f7aa3111026fc9a1fe09684c8978:
+>
+>   xhci: recheck slot status (2020-01-13 14:05:55 +0100)
+>
+> ----------------------------------------------------------------
+> usb: bugfixes for xhci, usb pass-through and usb redirection.
+>
+> ----------------------------------------------------------------
 
-Thanks again.
 
-And sorry for the disturbance.
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
+
+-- PMM
 
