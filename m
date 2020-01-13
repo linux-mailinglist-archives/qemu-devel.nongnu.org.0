@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF067139AE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 21:43:53 +0100 (CET)
-Received: from localhost ([::1]:55580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E681139AF5
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 21:49:17 +0100 (CET)
+Received: from localhost ([::1]:55662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir6YL-0002oF-5c
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 15:43:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50990)
+	id 1ir6eC-0002eN-Do
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 15:49:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51006)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ir6TW-0005DA-HP
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:16 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ir6TY-0005Ga-Gh
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ir6TV-0006jN-DS
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:14 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:47079 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ir6TW-0006kK-BH
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:15 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:47085 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1ir6TV-0006ht-6u
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:13 -0500
+ id 1ir6TW-0006jF-55
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:14 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 18EAA1A20B0;
- Mon, 13 Jan 2020 21:38:11 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTP id 0F0411A1F9E;
+ Mon, 13 Jan 2020 21:38:12 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id EBC361A1F9E;
- Mon, 13 Jan 2020 21:38:10 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id ED8141A1DF2;
+ Mon, 13 Jan 2020 21:38:11 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 12/20] linux-user: Add support for FS_IOC_FS<GET|SET>XATTR
- ioctls
-Date: Mon, 13 Jan 2020 21:34:35 +0100
-Message-Id: <1578947683-21011-13-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH v5 13/20] linux-user: Add support for FITRIM ioctl
+Date: Mon, 13 Jan 2020 21:34:36 +0100
+Message-Id: <1578947683-21011-14-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1578947683-21011-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1578947683-21011-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -57,58 +56,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Both FS_IOC_FSGETXATTR and FS_IOC_FSSETXATTR accept a pointer to
-the structure
+FITRIM ioctl accepts a pointer to the structure
 
-struct file_clone_range {
-	__s64 src_fd;
-	__u64 src_offset;
-	__u64 src_length;
-	__u64 dest_offset;
+struct fstrim_range {
+	__u64 start;
+	__u64 len;
+	__u64 minlen;
 };
 
-as their third argument.
+as its third argument.
 
-These ioctls were relatively recently introduced, so the "#ifdef"
-guards are used in this implementation.
+All ioctls in this group (FI* ioctl) are guarded with "#ifdef", so the
+guards are used in this implementation too for consistency (however,
+many of ioctls in FI* group became old enough that their #ifdef guards
+could be removed, bit this is out of the scope of this patch).
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- linux-user/ioctls.h       | 7 +++++++
- linux-user/syscall_defs.h | 2 ++
- 2 files changed, 9 insertions(+)
+ linux-user/ioctls.h       | 3 +++
+ linux-user/syscall_defs.h | 1 +
+ 2 files changed, 4 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 3affd88..e1b89a7 100644
+index e1b89a7..e4f0a04 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -144,6 +144,13 @@
-      IOCTL(FS_IOC32_SETFLAGS, IOC_W, MK_PTR(TYPE_INT))
-      IOCTL(FS_IOC32_GETVERSION, IOC_R, MK_PTR(TYPE_INT))
-      IOCTL(FS_IOC32_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
-+#ifdef FS_IOC_FSGETXATTR
-+     IOCTL(FS_IOC_FSGETXATTR, IOC_W, MK_PTR(MK_STRUCT(STRUCT_fsxattr)))
+@@ -123,6 +123,9 @@
+ #ifdef FIBMAP
+      IOCTL(FIBMAP, IOC_W | IOC_R, MK_PTR(TYPE_LONG))
+ #endif
++#ifdef FITRIM
++     IOCTL(FITRIM, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_fstrim_range)))
 +#endif
-+#ifdef FS_IOC_FSSETXATTR
-+     IOCTL(FS_IOC_FSSETXATTR, IOC_W, MK_PTR(MK_STRUCT(STRUCT_fsxattr)))
-+#endif
-+
- 
- #ifdef CONFIG_USBFS
-   /* USB ioctls */
+ #ifdef FICLONE
+      IOCTL(FICLONE, IOC_W, TYPE_INT)
+      IOCTL(FICLONERANGE, IOC_W, MK_PTR(MK_STRUCT(STRUCT_file_clone_range)))
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index a73cc3d..12cd3de 100644
+index 12cd3de..40851e9 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -924,6 +924,8 @@ struct target_pollfd {
- #define TARGET_FS_IOC32_SETFLAGS TARGET_IOW('f', 2, int)
- #define TARGET_FS_IOC32_GETVERSION TARGET_IOR('v', 1, int)
- #define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
-+#define TARGET_FS_IOC_FSGETXATTR TARGET_IOR('X', 31, struct file_clone_range)
-+#define TARGET_FS_IOC_FSSETXATTR TARGET_IOR('X', 32, struct file_clone_range)
+@@ -908,6 +908,7 @@ struct target_pollfd {
+ #define TARGET_FIBMAP     TARGET_IO(0x00,1)  /* bmap access */
+ #define TARGET_FIGETBSZ   TARGET_IO(0x00,2)  /* get the block size used for bmap */
  
- /* usb ioctls */
- #define TARGET_USBDEVFS_CONTROL TARGET_IOWRU('U', 0)
++#define TARGET_FITRIM     TARGET_IOWR('X', 121, struct fstrim_range)
+ #define TARGET_FICLONE    TARGET_IOW(0x94, 9, int)
+ #define TARGET_FICLONERANGE TARGET_IOW(0x94, 13, struct file_clone_range)
+ 
 -- 
 2.7.4
 
