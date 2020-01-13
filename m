@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5901397D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 18:34:12 +0100 (CET)
-Received: from localhost ([::1]:53654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3741397EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 18:38:56 +0100 (CET)
+Received: from localhost ([::1]:53688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir3bP-0004gK-Ct
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 12:34:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41333)
+	id 1ir3fz-0008Fn-9q
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 12:38:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42232)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1ir3aU-00049P-WD
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:33:15 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ir3e7-0006Wp-9Y
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:37:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1ir3aU-0005lx-2n
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:33:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53472
+ (envelope-from <dgilbert@redhat.com>) id 1ir3e5-00021A-Tp
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:36:59 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27175
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1ir3aT-0005lG-Ug
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:33:14 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ir3e5-00020a-Q5
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:36:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578936793;
+ s=mimecast20190719; t=1578937017;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WYW22dyvB/rUGePxrtipcgCoGo1xD+N9jtUO/xfVRRE=;
- b=GpHyASH+Qfhg6iADGBJwmti2+7rYNFackB0DK/2n0Nk6MiE7egT0A4fBjsb4g0Ex13xf7g
- 2GU36PVwyf2cpq/4TwalexZxaPwDJTBYuHxHPthd9cZVEclkXqfW3/M9WuJ7BfEFVZkGmz
- UOqnfP8wOYfPVMDpM6AgJ0B+b9HSkgs=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Vd+tLD4cNWYyhaWzCvxlFruo6Y1I+QZifVnflRkh57k=;
+ b=CDOlzHdocQRAG6v5v5XIw8h7E5nSGKZBQPfpPlCNdGaifq10+Hz050kGY9YPs8jjNLj81y
+ Gt1UYO79FmbDHPGQhF3TSVpQnsXH+b/I5kKhHF9nGCVkucUuihR23JRCZTV67ZXRWJ8nsx
+ U4NMGv8AAes0fRGpsTMr94oWHd9rtGw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-SHvAVZ53PRaXf6vVpaSz8Q-1; Mon, 13 Jan 2020 12:33:09 -0500
-X-MC-Unique: SHvAVZ53PRaXf6vVpaSz8Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-74-x7Tu-G_qNburn0CQ6dHRQw-1; Mon, 13 Jan 2020 12:36:53 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07B0C107ACC4;
- Mon, 13 Jan 2020 17:33:08 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 690C181E31;
- Mon, 13 Jan 2020 17:33:02 +0000 (UTC)
-Date: Mon, 13 Jan 2020 18:33:00 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [kvm-unit-tests PATCH v2 05/16] arm/arm64: ITS: Introspection
- tests
-Message-ID: <20200113173300.vhycoije77ouk4ls@kamzik.brq.redhat.com>
-References: <20200110145412.14937-1-eric.auger@redhat.com>
- <20200110145412.14937-6-eric.auger@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDB65801E77
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 17:36:52 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.36.118.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 656065C1B0;
+ Mon, 13 Jan 2020 17:36:49 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, vkuznets@redhat.com, mst@redhat.com,
+ jasowang@redhat.com, pbonzini@redhat.com
+Subject: [PATCH v2 0/3] exclude hyperv synic sections from vhost
+Date: Mon, 13 Jan 2020 17:36:44 +0000
+Message-Id: <20200113173647.84842-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200110145412.14937-6-eric.auger@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: x7Tu-G_qNburn0CQ6dHRQw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,39 +68,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, kvm@vger.kernel.org,
- maz@kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- andre.przywara@arm.com, yuzenghui@huawei.com, alexandru.elisei@arm.com,
- kvmarm@lists.cs.columbia.edu, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 10, 2020 at 03:54:01PM +0100, Eric Auger wrote:
-...
-> diff --git a/lib/arm/gic.c b/lib/arm/gic.c
-> index 8416dde..f9a6f57 100644
-> --- a/lib/arm/gic.c
-> +++ b/lib/arm/gic.c
-> @@ -6,6 +6,7 @@
->  #include <devicetree.h>
->  #include <asm/gic.h>
->  #include <asm/io.h>
-> +#include <asm/gic-v3-its.h>
->  
->  struct gicv2_data gicv2_data;
->  struct gicv3_data gicv3_data;
-> @@ -44,12 +45,14 @@ static const struct gic_common_ops gicv3_common_ops = {
->   * Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.txt
->   */
->  static bool
-> -gic_get_dt_bases(const char *compatible, void **base1, void **base2)
-> +gic_get_dt_bases(const char *compatible, void **base1, void **base2,
-> +		 void **base3)
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Here's another place that I would prefer using our 120 chars. No need to
-put base3 on a new line.
+Hyperv's synic (that we emulate) is a feature that allows the guest
+to place some magic (4k) pages of RAM anywhere it likes in GPA.
+This confuses vhost's RAM section merging when these pages
+land over the top of hugepages.
 
-Thanks,
-drew
+Since they're not normal RAM, and they shouldn't have vhost DMAing
+into them, exclude them from the vhost set.
+
+This v2 is a complete rework after the v1 review; I've now got
+a flag on MemoryRegion's that we set.
+
+bz: https://bugzilla.redhat.com/show_bug.cgi?id=3D1779041
+
+
+Dr. David Alan Gilbert (3):
+  vhost: Add names to section rounded warning
+  memory: Allow a MemoryRegion to be marked no_vhost
+  hyperv/synic: Mark regions as no vhost
+
+ hw/hyperv/hyperv.c    |  8 ++++++++
+ hw/virtio/vhost.c     | 10 ++++++----
+ include/exec/memory.h | 21 +++++++++++++++++++++
+ memory.c              | 15 +++++++++++++++
+ 4 files changed, 50 insertions(+), 4 deletions(-)
+
+--=20
+2.24.1
 
 
