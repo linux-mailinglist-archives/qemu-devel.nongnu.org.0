@@ -2,81 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5035F139829
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 18:56:38 +0100 (CET)
-Received: from localhost ([::1]:53894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB6A139854
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 19:06:18 +0100 (CET)
+Received: from localhost ([::1]:54006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir3x7-0001UP-C6
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 12:56:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46369)
+	id 1ir46R-0000KK-Ug
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 13:06:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52488)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ir3wH-0000mc-9B
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:55:46 -0500
+ (envelope-from <bounces@canonical.com>) id 1ir2gv-0005yt-L3
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:35:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ir3wF-0000SP-MI
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:55:45 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54724)
+ (envelope-from <bounces@canonical.com>) id 1ir2gu-0008Kj-5G
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:35:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44304)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ir3wF-0000Qn-Eu
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:55:43 -0500
-Received: by mail-wm1-x344.google.com with SMTP id b19so10737991wmj.4
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 09:55:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=ioY8W0qYvWStTxsIWopMiXVEBB+aQGN7aJKMG6c73pc=;
- b=QcNra/WCbDFcurGPptkS5waBqOu+GbPKNE/PMeS6eBl6vZfUD3Z62iCitb88E/x0a4
- oA/KJUj8uNBwZI8+MqFJFkeu2KviYSj6C7t5B6z4cy8p5jqq7828cEdZxqnEE1Qid77Y
- 91PlT/uG5j8ZC8OghI69xwRMbzWZikJ7hYsjfQadqh3kA2NTmdAchYXLhGdwL9MIumKb
- sUOnkeCaZjuQ+l+vAU2Z8tneMBS87hPnbdVHl0J7mwvn3T2B88ePO0PUeZIKHHsD153z
- 9+WhOxrv62AAQVNrfghKJ3wLLenD4E2N3DIZZouXyhr4vQIoHLZSROtTth4PRQgto60y
- B4Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=ioY8W0qYvWStTxsIWopMiXVEBB+aQGN7aJKMG6c73pc=;
- b=d7lgWkh6iUHQqks0kXoZB41sbMtKUxZa9fqGHfBWZyzYkNVNwqL8eWNiQccQ8pRMrM
- V3Hpc5ZJLCAWEJcVRZorXxrBciPGWqn5gFNXImfXDB0uJDiu+/QdwwgGJ8Hj8UzBwPe0
- eGX85KfKNUsSzS6y3Dm4iai6dxnd2ty49HL7ZzTRqHRiBw3R195wcFDtN/EcuwVjiVs6
- PVKKUDOk77HcIzL7RvoxPXfdhSyIXkqwn/0hHCGMJeTQPoovhWf/q1nQZ7xtLU1DTGj+
- Pq9V+f80GOOmBvuJsnJtp9nAi/DwnqwEh/AuhBauQPg+rfjsre2jKO+MVqbSXLi79WTf
- T5kA==
-X-Gm-Message-State: APjAAAVciQprvWpSbd8dvP5yTIdjK8KWyqg6A3WEIDyQ833OlhdcGqnB
- CC9OvEBcEBS6tr0uuh0E2hPT7A==
-X-Google-Smtp-Source: APXvYqxpJMwRvZNTqgwXh9zNzlnX02uSetL9AOsbONVBjKCvmrSwlSQ9e2V0XhWDRG8ZvSjDmAUETw==
-X-Received: by 2002:a05:600c:228f:: with SMTP id
- 15mr22290951wmf.56.1578938141812; 
- Mon, 13 Jan 2020 09:55:41 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z83sm15642685wmg.2.2020.01.13.09.55.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jan 2020 09:55:40 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CA97E1FF87;
- Mon, 13 Jan 2020 17:55:39 +0000 (GMT)
-References: <157709434917.12933.4351155074716553976.stgit@pasha-Precision-3630-Tower>
- <003a01d5c6b3$df62afd0$9e280f70$@ru>
- <20200109120038.GD9504@linux.fritz.box>
- <87k15v1z71.fsf@dusky.pond.sub.org> <000f01d5c9f4$cfbc1230$6f343690$@ru>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pavel Dovgalyuk <dovgaluk@ispras.ru>
-Subject: Re: [for-5.0 PATCH 00/11] Support for reverse debugging with GDB
-In-reply-to: <000f01d5c9f4$cfbc1230$6f343690$@ru>
-Date: Mon, 13 Jan 2020 17:55:39 +0000
-Message-ID: <87v9pfmeas.fsf@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ir2gt-0008H3-T6
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:35:48 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ir2gr-0001F7-Nv
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 16:35:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9AC652E80C8
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 16:35:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+Date: Mon, 13 Jan 2020 16:27:03 -0000
+From: Hector Martin <hector@marcansoft.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fysnet kraxel-redhat marcan42
+X-Launchpad-Bug-Reporter: Benjamin David Lunt (fysnet)
+X-Launchpad-Bug-Modifier: Hector Martin (marcan42)
+References: <157885971279.5587.15888635675000659382.malonedeb@gac.canonical.com>
+Message-Id: <157893282333.5353.11082727892179775205.malone@gac.canonical.com>
+Subject: [Bug 1859359] Re: xHCI and event ring handling
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e972d0351d6297be074972436298f8243c406684
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Mon, 13 Jan 2020 13:00:08 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,92 +67,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 'Kevin Wolf' <kwolf@redhat.com>, peter.maydell@linaro.org,
- boost.lists@gmail.com, crosthwaite.peter@gmail.com, ciro.santilli@gmail.com,
- jasowang@redhat.com, quintela@redhat.com,
- 'Markus Armbruster' <armbru@redhat.com>, qemu-devel@nongnu.org,
- 'Pavel Dovgalyuk' <pavel.dovgaluk@gmail.com>, maria.klimushenkova@ispras.ru,
- mst@redhat.com, kraxel@redhat.com, pavel.dovgaluk@ispras.ru,
- thomas.dullien@googlemail.com, pbonzini@redhat.com, mreitz@redhat.com,
- artem.k.pisarenko@gmail.com, dgilbert@redhat.com, rth@twiddle.net
+Reply-To: Bug 1859359 <1859359@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The part you're missing is in section 4.9.4.
 
-(looping the list back in)
+> System software shall advance the Event Ring Dequeue Pointer by writing t=
+he address of the last
+processed Event TRB to the Event Ring Dequeue Pointer (ERDP) register. Note=
+, the =E2=80=9Clast processed
+Event TRB=E2=80=9D includes the case where software detects a Cycle bit mis=
+match when evaluating an Event
+TRB and the ring is empty.
 
-Pavel Dovgalyuk <dovgaluk@ispras.ru> writes:
+So the bug is in your code, because it's supposed to check the next TRB,
+find the cycle bit mismatch, and *that* qualifies as "processing" it,
+and then it should write *that* address to the ERDP, which is going to
+equal the actual last valid TRB's address + 1 (modulo wraparound), which
+is exactly what qemu expects, and what Linux does too.
 
->> From: Alex Benn=C3=A9e [mailto:alex.bennee@linaro.org]
->> Pavel Dovgalyuk <dovgaluk@ispras.ru> writes:
->>=20
->> >> From: Markus Armbruster [mailto:armbru@redhat.com]
->> >> Kevin Wolf <kwolf@redhat.com> writes:
->> >>
->> >> > Am 09.01.2020 um 07:13 hat Pavel Dovgalyuk geschrieben:
->> >> >> Ping.
->> >> >
->> >> > I think you have my Acked-by for the block-related patches in this
->> >> > series now. If I missed something, please let me know.
->> >>
->> >> Pavel, whom are you nudging to do what?
->> >
->> > I'm not sure.
->> > My prior patches for record/replay were pulled by Paolo.
->> > But reverse debugging is more like a modification of things,
->> > and not a completely new subsystem.
->> > Everything but gdbstub was already acked by the maintainers.
->>=20
->> I'm having a look at the series now. What would help is if we can have
->> some sort of test case to ensure expected behaviour is protected. We
->> have a basic smoke test for record/replay and my gdbstub series:
->>=20
->>   https://github.com/stsquad/qemu/tree/gdbstub/sve-registers-v5
->>=20
->> introduces some infrastructure for testing thing via gdbstub. The main
->> thing needed now is some sort of gdb capability test to ensure the gdb
->> we are using supports whatever extensions it needs to work.
->
-> The smoke test may be rather easy:
-> 1. Execute qemu record with qcow2 image and rrsnapshot
-> 2. Start qemu replay with -S
-> 3. Connect gdb to qemu
-> 4. stepi
-> 5. break $pc
-> 6. Save pc to X
-> 7. stepi 10
-> 8. Save pc to Y
-> 9. stepi
-> 10. reverse-stepi
-> 11. pc should be Y
-> 12. reverse-continue
-> 13. pc should be X
->
-> Is it possible with your infrastructure?
+-- =
 
-I think so - even if the reverse step instructions are not in the python
-API the script can always do:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859359
 
- gdb.parse_and_eval("command")
+Title:
+  xHCI and event ring handling
 
-The main thing is ensuring probing the gdb for a version/feature first
-so we can safely exit and skip the test if the host gdb isn't capable.
-For the SVE testing I've had to use my own compiled version of GDB which
-is a little ugly:
+Status in QEMU:
+  Invalid
 
- ~/lsrc/qemu.git/tests/guest-debug/run-test.py \
-   --qemu ./aarch64-linux-user/qemu-aarch64 \
-   --qargs "-cpu max" \
-   --bin ./tests/tcg/aarch64-linux-user/sve-ioctls \
-   --test ~/lsrc/qemu.git/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py \
-   --gdb ~/src/tools/binutils-gdb.git/builds/all/install/bin/gdb
+Bug description:
+  I believe that the Event Ring handling in QEMU is not correct.  For
+  example, an Event Ring may have multiple segments.  However, the code
+  in xhci_write_event()
+  (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
+  xhci.c;hb=3DHEAD#l645), starting with line 668, seems to only support a
+  single segment.
 
-We should probably wrap that up into the tests/tcg configure.sh code so
-the GDB used can persist with the build. Maybe via:
+  Also, QEMU is sending a spurious interrupt after the Guest writes to
+  the ERDP register due to the fact that the address written does not
+  match the current index.  This is because the index is incremented
+  after sending the event.  The xHCI specification states in section
+  5.5.2.3.3 "When software finishes processing an Event TRB, it will
+  write the address of that Event TRB to the ERDP."
 
-  ./configure --with-gdb=3D~/src/tools/binutils-gdb.git/builds/all/install/=
-bin/gdb
+  Since xhci_write_event() has already incremented the index pointer
+  (intr->er_ep_idx), the check at line 3098
+  (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
+  xhci.c;hb=3DHEAD#l3090) no longer is valid.
 
---=20
-Alex Benn=C3=A9e
+  I have not studied QEMU's code enough yet to offer a patch.  However,
+  this should be a simple fix.
+
+  intr->er_ep_idx++;
+  if (intr->er_ep_idx >=3D intr->er_table[intr->er_segment].er_size) {
+    intr->er_ep_idx =3D 0;
+    intr->er_segment++;
+    if (intr->er_segment >=3D intr->er_table_size) {
+      intr->er_segment =3D 0;
+      intr->er_pcs =3D !intr->er_pcs;
+    }
+  }
+
+  Being sure to incorporate this new segment member into the above code
+  (possibly as shown) as well as change the lines at 665 to use the new
+  segment member of the structure, and of course in the initialization
+  portion of the event ring.
+
+  As for the spurious interrupt at line 3101, a new member will need to
+  be added to the code to keep track of the last inserted ED (TRB) into
+  the Event Ring and then of course checking against this new member,
+  not the now newly incremented member.
+
+  I have sent an email to the author listed at the top of the file as
+  well, not sure if this is proper bug reporting etiquette or not.
+
+  Thank you.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859359/+subscriptions
 
