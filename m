@@ -2,72 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B37139665
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 17:32:18 +0100 (CET)
-Received: from localhost ([::1]:52636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A677139671
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 17:35:30 +0100 (CET)
+Received: from localhost ([::1]:52660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir2dV-0001hj-CI
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 11:32:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50472)
+	id 1ir2ga-0004YW-ML
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 11:35:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51374)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1ir2bq-0000lf-2x
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:30:35 -0500
+ (envelope-from <laurent@vivier.eu>) id 1ir2dw-0002w1-UL
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:32:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1ir2bo-0007Gt-SP
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:30:34 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39248)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1ir2bo-0007Eh-Kt
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:30:32 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id 20so10374061wmj.4
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 08:30:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=D+Wx+HEwfg70nwq06ML8B9/UCg2j63W79fNEmZTpLB8=;
- b=vR3xuleBy9cK83m/lGNO5YavgHgs6gXWQGm5hlF83jXLTQHmfReusCrBCDvvwPlH4V
- 63qESAtwvBZIdrsw/plPJftiyg03jSTMB+DUhk3JXMLdObm47M5YSAMDmCRLZk55AlVp
- PfjMu7Kp515XeJ8TQwB60XrkNObqPhANgi9d8H3y/wgdDYIaFyENUrLPMrG/iRwv10Nn
- KkYBl5eEvrbAS85Sjy38jpsOYbTOs/3S/44Ml+ZEVK9LMOnypgqU9rbKV0TsZ1tfcZll
- HVKF89LblhiLSBwyII7U5sFPLRxIqnW3JZ6zqPTlpFQ5U+KACawfzJskUGZDZfLnFHGk
- hB9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=D+Wx+HEwfg70nwq06ML8B9/UCg2j63W79fNEmZTpLB8=;
- b=L2oiyvEMFJkT9LCnsetOkDpC3wXOBPs5xpSciI9UEZ13m062M+VDTK+v0Kcxx1Z3pX
- D+L/px0Jjtkvr0xmPAVlTLOodhRQAFCxzweQCaOjqZjIzwStk92D0W3EVquf6h+48v/D
- VGZKj9n6IiMdf6ydXxCmHQjS30FgBa2lJazVn188HlOCv8agB9qseztYreXqS2gxlo7B
- u9DcTxbFyDalvq3dVMzvEx9aAdS1UeAqHguFFXHyuL8m4nPX7rKLm2AV05iq9vLSZCZq
- aNvNRNpcwEOSuG+R/Clc4no7BZGFl4DqR10lligi7HEOvzu+CIoLp3gQybMMOII7oA86
- XL9g==
-X-Gm-Message-State: APjAAAX0O42VSnxyYOx0/FuNIHs4EHPZ3dCk2f4bw3sKNJE8YFBpKgCa
- GAQaK4pQ0mKJEP6Sn1RjG9A=
-X-Google-Smtp-Source: APXvYqzb6VCd/hF8S6WXhVJ1exMtr0ZrAeEgIktg8svWVvFeN7yyXV99SKq2qpoMvf6IYxo73iSMxg==
-X-Received: by 2002:a05:600c:24ca:: with SMTP id
- 10mr20426686wmu.4.1578933030750; 
- Mon, 13 Jan 2020 08:30:30 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id n3sm14972881wrs.8.2020.01.13.08.30.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jan 2020 08:30:29 -0800 (PST)
-Date: Mon, 13 Jan 2020 16:30:28 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Christophe de Dinechin <dinechin@redhat.com>
-Subject: Re: Making QEMU easier for management tools and applications
-Message-ID: <20200113163028.GB103384@stefanha-x1.localdomain>
-References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
- <1EFEF446-AFEA-429F-B6BA-3206A7C41836@redhat.com>
+ (envelope-from <laurent@vivier.eu>) id 1ir2dv-0002m3-U7
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:32:44 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:47331)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1ir2dr-0002YI-2O; Mon, 13 Jan 2020 11:32:39 -0500
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MNKuI-1j2dFT0RrO-00OpyZ; Mon, 13 Jan 2020 17:32:33 +0100
+Subject: Re: [PATCH v1 12/59] virtfs-proxy-helper.c: remove 'err_out' label in
+ setugid()
+To: Markus Armbruster <armbru@redhat.com>, Greg Kurz <groug@kaod.org>
+References: <20200106182425.20312-1-danielhb413@gmail.com>
+ <20200106182425.20312-13-danielhb413@gmail.com>
+ <20200107105113.7a443d51@bahia.lan> <87wo9vxu9n.fsf@dusky.pond.sub.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
+ WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
+ SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
+ UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
+ Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
+ JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
+ q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
+ RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
+ 8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
+ LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
+ dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
+ CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
+ ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
+ HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
+ rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
+ jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
+ NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
+ WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
+ lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
+ BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
+ gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
+ +bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
+ rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
+ 92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
+ wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
+ ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
+ d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
+ 38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
+ tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
+ inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
+ 8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
+ VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
+ US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
+ w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
+ FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
+ hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
+ ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
+ ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
+ OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
+ JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
+ ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
+Message-ID: <c0bb2a92-7361-9ff3-42c2-022906b6dcad@vivier.eu>
+Date: Mon, 13 Jan 2020 17:32:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+g7M9IMkV8truYOl"
-Content-Disposition: inline
-In-Reply-To: <1EFEF446-AFEA-429F-B6BA-3206A7C41836@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+In-Reply-To: <87wo9vxu9n.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:ypA1KnPbK5bjGxgGSpvb8UUDlhYrll+k3yczFeSCRUUsKD665Zh
+ nimD7aFv+Ezw6HBiTCq5g/UerArzGmLaWRTWXRz/F0SSy9LzgclCAb2UHsxkuhm2qal6TCe
+ NmoYXqYYHIFjN+a2nFZlqCKlWt5ekInPu8PaCkMHj9/dE0m/4+PjrKt2CW8kPzxb/POk8A1
+ Fn7yjwhBKVhPM7QjrFBiQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:017bUvLla0M=:9peFF5EsxvxIhPoR+6EIXv
+ ug/LRs5juokRX60MOhsVifhWV6KUXwF1dbzoyPTz1NxAMjCRIdP2Q7esf0OdOP4QQwndYuQBX
+ Ja0SytbbxMCLYLriqP4plfBHLq/+ZR+QXDKINr4pCXPVGrWQ2rQCxaXfPArkYIOsOaqzbFYg7
+ aTP8utKQppZo4cPuFIyYpvxJ0J9D1/8jcCD8qIJxkzWtUvQdrWuZm9u9jwq9BgVplKF8YtwZR
+ CHICJjOS65Ay5LvpNRLqWb8lATTN9RVwEDKQc78KjJ0ClWwLkHB/u/TRH5ipxZAuir8lrCy81
+ 4jbN304nmmTlgx1juZ6ey4wmLoyIyEzFTz0SCLf7aPf3A8oVfNrywbEdin6FsTadmcHS3QJ4z
+ Gp4yT33T+pVA9rC6q/RYKCArxW48j+1wxcAOFCX0XWRiNvs7Mvu8lS/Z7+tq09wpB/9Pp1YkA
+ gsvks/OOJFhoFUyBZHz438+W+JWt/k6QKnPmNV12sXkfv3BNIYbgxpdRxep5qISTKdi5MQxtA
+ 6smxe5CJPVRB+/2kRb5hgcmUMW1EsCeZnv02J9xjnEOD/Q1P2cHPSeUCVizd36ehO7V5yhIjG
+ SPOCnmbGQ3ciG7XX+YUW0nLWt4HxCsGj8VDjPSyjhHEz9s5swYeBuJRny8svm97sR1o5V1SlC
+ fQB+in6eUClBBjrXNnZdZrC5n0QWXk7XF6by89E6HUaP4eS6dVVOy9pjFbyNppqiWaWB6rp/+
+ GCtlvpMdwRXsyBfrekEz7ITFazs7oIpKji713uVhH7CZOz+A3yWdO8WP43YbfieZMTog6yo52
+ PEBgpzVZWTKi4JHgOTzX2adRURAnMRbj0CvAp4v461BLYnP6R8aXzrjw97u2Z73f3QI+2TP4D
+ aZwTNOb8m8vSxNAUDFLH03wBUxVKnnN4k7QTNizKE=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,96 +113,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>
+Cc: qemu-trivial@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 13/01/2020 à 16:15, Markus Armbruster a écrit :
+> Greg Kurz <groug@kaod.org> writes:
+> 
+>> On Mon,  6 Jan 2020 15:23:38 -0300
+>> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+>>
+>>> 'err_out' can be removed and be replaced by 'return -errno'
+>>> in its only instance in the function.
+>>>
+>>> CC: Greg Kurz <groug@kaod.org>
+>>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>> ---
+>>
+>> I don't really mind, but I confirm this doesn't change behavior.
+>>
+>> Acked-by: Greg Kurz <groug@kaod.org>
+>>
+>> What's the plan to get this and the other 9p related patches merged ?
+>> Through the trivial tree or each subsystem tree ?
+> 
+> I guess qemu-trivial will eventually pick up whatever hasn't been merged
+> by maintainers.
+> 
+> [...]
+> 
 
---+g7M9IMkV8truYOl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, but the difficulty will be to sort which ones of the 59 patches
+series to collect...
 
-On Tue, Jan 07, 2020 at 06:11:13PM +0100, Christophe de Dinechin wrote:
-> > On 20 Dec 2019, at 17:13, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> So I think that Daniel is right. We may need at some point to start
-> a NEMU-style offshoot that does not attempt to be compatible,
-> but explores describing an increasing surface of the API using a
-> new meta-language from which we can generate, in a consistent
-> way, at least:
->=20
-> - C bindings
-> - Command-line options
-> - Shell bindings (or =E2=80=9CHMP=E2=80=9D)
-> - JSON schema or qom description
-> - Bindings in other languages (Rust, Go, Python)
-> - Networked versions of the API (socket, REST)
-> - Client-side code e.g. for libvirt.
-> - Serialization / deserialization, e.g. for configuration files
-> - Documentation, including man page and API docs
-> - Command-line help
->=20
-> At the most fundamental level, I think we need to describe:
->=20
-> - Values, e.g. how we represent names, sizes, paths, etc, possibly
-> with some user-friendly aspects, e.g. path shortcuts, memory units,
-> spelling shortcuts (e.g. being able to consistently say -blo for -blockdev
-> if that=E2=80=99s the shortest option that matches)
-> - Relations, e.g. how we represent =E2=80=9Ccontains=E2=80=9D, =E2=80=9Cd=
-erives from=E2=80=9D, =E2=80=9Cneeds=E2=80=9D,
-> =E2=80=9Cone of=E2=80=9D, =E2=80=9Cone or several=E2=80=9D, =E2=80=9Catta=
-ches to=E2=80=9D=E2=80=A6
-> - States, e.g. how do we represent the machine configuration,
-> or the desired new disk setting
-> - Verbs, e.g. how we represent =E2=80=9Cadd=E2=80=9D, =E2=80=9Cconnect=E2=
-=80=9D, =E2=80=9Cremove=E2=80=9D, =E2=80=9Cfind=E2=80=9D,
-> =E2=80=9Cstart=E2=80=9D, =E2=80=9Cnotify=E2=80=9D, etc. and how we descri=
-be the kind of input they need.
-> - Possibly more subtle things like support for transactions, commit/rollb=
-ack,
-> i.e. =E2=80=9CI want to add connect a virtual nic to some host vf, but if=
- anything
-> along the way fails, I=E2=80=99d like all the cleanup to happen automatic=
-ally)
+Thanks,
+Laurent
 
-Extending QAPI to achieve these things is a possibility.
-
-If we afford ourselves the luxury of breaking backwards compatibility
-then I would instead use the opportunity to eliminate complexity:
-1. Get rid of the CLI
-2. Get rid of HMP
-3. No per-command C bindings, just a qmp_call() API
-4. No configuration file, just a sequence of QMP commands
-
-The new QEMU would be very different and solely focussed on QMP (or a
-standards-based RPC system).
-
-It's not very fun working on projects that have a lot of custom
-infrastructure.  Making a one-time change requires a lot of learning
-weird infrastructure that you won't use often.  We already have too much
-of this and it slows down QEMU development.
-
-Stefan
-
---+g7M9IMkV8truYOl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4cmyMACgkQnKSrs4Gr
-c8jZvggAxszC6ihsD7RYHWKixDuMCch3SHn5dJu7h3Z5Mwvx23AXwBhA+PLLeXPN
-oNTIPkme4UQXO9k/8zNNoWS7Zzrr6v4g0qZpHysTJKJIQ1jUMoHMNOe7s48GW7rM
-Hk5MbxYCacpH1oScSKFu5WoPVPH1sXyePxnLbiKcm1p9QOtAvTE7ZzILYRODi+MG
-719PVDkT77Whgczka3zSdJD5iVZWVyvM/s6Cr79mdW0oQl2fgNfvUOr4xNT+CSpA
-8hRkSxpRkc7SnS5DV0z6/8mP7m998F7njrDpnbpbZHzCPReagUjUckqIMSiUhJ8a
-TuAapGHMflVejJWcwFjm62oP6XGRcg==
-=ExeP
------END PGP SIGNATURE-----
-
---+g7M9IMkV8truYOl--
 
