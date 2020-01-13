@@ -2,43 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC52139B01
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 21:54:14 +0100 (CET)
-Received: from localhost ([::1]:55704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D77139B41
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 22:11:57 +0100 (CET)
+Received: from localhost ([::1]:55906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir6hi-0007DX-La
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 15:52:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51211)
+	id 1ir707-0006VQ-R5
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 16:11:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56289)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ir6Tz-0005qG-Ra
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:44 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ir6zC-00064n-66
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 16:10:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ir6Ty-0007MG-U7
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:43 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:48082 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1ir6Ty-00076X-NL
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:42 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 948481A1F9E;
- Mon, 13 Jan 2020 21:38:30 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 782521A1DF2;
- Mon, 13 Jan 2020 21:38:30 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 20/20] linux-user: Add support for KCOV_INIT_TRACE ioctl
-Date: Mon, 13 Jan 2020 21:34:43 +0100
-Message-Id: <1578947683-21011-21-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1578947683-21011-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1578947683-21011-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+ (envelope-from <richard.henderson@linaro.org>) id 1ir6zA-0003GA-VF
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 16:10:57 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:38232)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1ir6zA-0003Fb-Ob
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 16:10:56 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id a33so5302604pgm.5
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 13:10:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=IhYsl/daq9PWkxyOLaQgLx1OJYA7dCqOcGoLfjUufCY=;
+ b=C+vod87Ov74OFq9ohhVlZz5LVRgiktDZIMZq44R+nnp+ViNyxyxiA3V9EwL521HZrZ
+ 1XQsi/fKcVpAnBRJYq7n0L+0uKCPeKclaaG7zMGxf1h7W8t6VSmfcCdGielQdcACEgli
+ Ty8q06DgOGD+R8LmoaQfd1lGlS3YEAU7gj3EjAK8mEkXH7CA4IYkps0aeg6jJrA49NX9
+ 2izEaSLhbIq74jGnnzxZJmTBQJBcBUfdoyGV+TVNt+Lv4E3eA9giEtft7csSbsgEYLTj
+ 0JHKalK2mZFJoN5uI8l0Np4URh9o2JWoY0TOCttnPx6VDpuFW0lXYeX5Jiu52apsRGEN
+ 0sBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IhYsl/daq9PWkxyOLaQgLx1OJYA7dCqOcGoLfjUufCY=;
+ b=nf7xClVpT4X6/+qSjIpmQg4N9ebJt57wnGSeDpTdPswGgND6WJbVjNiSD37pwkzZbf
+ /ZZBGZPSWtkgBjnpXeOXrrZQW0PTidCztXv+3wfLgGclTXGiYIOmcQL6T27kEi6R67NE
+ AjteiFa0YgaP1u9LFS/4ha/3TpscDiKN/6shgRpaXof4MrmTxfFLzrhCUbHWH6wu8wXt
+ ikN0/+bonP/vAAFF1+BwZrabr4tET24ovevxnBUn764PDqB0AvyeXabeFv72IgRHDLBu
+ 07zpj+rsfv0nPTHJZuNPwaW7Q1TZR2Cn8swVmQeS16xwvQb3Oj/j6WLiFXmqLtmbfuTA
+ Fyjw==
+X-Gm-Message-State: APjAAAXhBhQlh50Q+gMLYSErKr7Nk5A0yOAlz8ZPWvyFRfnq+c1tGM/H
+ ynp2dusoJIBk5GK5jM9W+edEIzReRFc=
+X-Google-Smtp-Source: APXvYqxq9rO5uAXNqXO55ajQp/RiZ2NpxfMl9GxM62L02IHWdG6j0aRqkMJxnfm7fRlymAtsL1tWKg==
+X-Received: by 2002:a65:52ca:: with SMTP id z10mr23395546pgp.47.1578949855034; 
+ Mon, 13 Jan 2020 13:10:55 -0800 (PST)
+Received: from [192.168.3.43] (rrcs-66-91-136-155.west.biz.rr.com.
+ [66.91.136.155])
+ by smtp.gmail.com with ESMTPSA id y128sm14927807pfg.17.2020.01.13.13.10.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jan 2020 13:10:54 -0800 (PST)
+Subject: Re: [PULL 00/41] tcg patch queue
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200108034523.17349-1-richard.henderson@linaro.org>
+ <CAFEAcA9P_3enu_M-55aoqWScFFAhw=Jfs92+vCc+yY-2nXUehA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <df405ec5-190e-946d-fc2f-b52c695a39d4@linaro.org>
+Date: Mon, 13 Jan 2020 11:10:47 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA9P_3enu_M-55aoqWScFFAhw=Jfs92+vCc+yY-2nXUehA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::52a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,45 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, amarkovic@wavecomp.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On 1/10/20 5:51 AM, Peter Maydell wrote:
+>> Improve -static and -pie linking
+>> Add cpu_{ld,st}*_mmuidx_ra
+>> Remove MMU_MODE*_SUFFIX
+>> Move tcg headers under include/
+> 
+> This makes the x86-64 'ls' binary in the linux-user-tests
+> tarball segfault:
+> 
+> /home/petmay01/linaro/qemu-for-merges/build/all-linux-static/x86_64-linux-user/qemu-x86_64
+> -L ./gnemul/qemu-x86_64 x86_64/ls -l dummyfile
+> qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+> 
+> (probably
+> http://people.linaro.org/~peter.maydell/linux-user-test-modified-pmm.tgz
+> if you don't have a copy to hand)
 
-KCOV_INIT_TRACE ioctl plays the role in kernel coverage tracing.
-This ioctl's third argument is of type 'unsigned long', and the
-implementation in QEMU is straightforward.
+I do have a copy, and it works for me.  I tried with a rebase vs master, just
+in case, and don't see it there either.
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- linux-user/ioctls.h       | 1 +
- linux-user/syscall_defs.h | 1 +
- 2 files changed, 2 insertions(+)
+Details of this test system?
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 39b3825..1da71dd 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -556,4 +556,5 @@
- #ifdef CONFIG_KCOV
-   IOCTL(KCOV_ENABLE, 0, TYPE_NULL)
-   IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
-+  IOCTL(KCOV_INIT_TRACE, IOC_R, TYPE_ULONG)
- #endif
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 87e390d..209c138 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -2460,6 +2460,7 @@ struct target_mtpos {
- /* kcov ioctls */
- #define TARGET_KCOV_ENABLE     TARGET_IO('c', 100)
- #define TARGET_KCOV_DISABLE    TARGET_IO('c', 101)
-+#define TARGET_KCOV_INIT_TRACE TARGET_IOR('c', 1, abi_ulong)
- 
- struct target_sysinfo {
-     abi_long uptime;                /* Seconds since boot */
--- 
-2.7.4
+I suppose I'll grab your tarball just to see if the binaries are different...
 
+
+r~
 
