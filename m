@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF76139303
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:02:58 +0100 (CET)
-Received: from localhost ([::1]:50860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C0F139302
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:02:51 +0100 (CET)
+Received: from localhost ([::1]:50856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir0Iz-0002mY-5Q
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:02:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58255)
+	id 1ir0Ir-0002d2-UE
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:02:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58204)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ir0H7-00013n-Fu
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:01:02 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ir0H3-0004uh-BC
+ (envelope-from <bounces@canonical.com>) id 1ir0H1-000128-HX
  for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:01:01 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53628)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <bounces@canonical.com>) id 1ir0Gz-0004pI-GB
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:00:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53300)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ir0H2-0004sy-Hp
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:00:57 -0500
+ id 1ir0Gz-0004mW-9R
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:00:53 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ir0H0-0000ZO-RN
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:00:54 +0000
+ id 1ir0Gw-0000Qj-KN
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:00:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 943482E80C8
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:00:54 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 97D8C2E80C8
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:00:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 Jan 2020 13:48:36 -0000
-From: Benjamin David Lunt <1859359@bugs.launchpad.net>
+Date: Mon, 13 Jan 2020 13:53:04 -0000
+From: Benjamin David Lunt <1859378@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
@@ -43,16 +43,17 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: fysnet kraxel-redhat
 X-Launchpad-Bug-Reporter: Benjamin David Lunt (fysnet)
 X-Launchpad-Bug-Modifier: Benjamin David Lunt (fysnet)
-References: <157885971279.5587.15888635675000659382.malonedeb@gac.canonical.com>
-Message-Id: <157892331629.2335.7705332092079266710.malone@soybean.canonical.com>
-Subject: [Bug 1859359] Re: xHCI and event ring handling
+References: <157887453515.27484.18206056235819884101.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157892358444.5958.5912372991631476698.malone@gac.canonical.com>
+Subject: [Bug 1859378] Re: xhci Control Transfer requiring a Status TRB before
+ starting transfer
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2aebe82fb401a9d9e2ee4aa08824a015e9d267cd
+X-Launchpad-Hash: 9d0aa2bc6119ae8fb8653cb83966b5c5085aa54f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -66,96 +67,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859359 <1859359@bugs.launchpad.net>
+Reply-To: Bug 1859378 <1859378@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The xHCI specification states that after processing the Event TRB,
-software is to write the address of that TRB to the
-xHC_INTERRUPTER_DEQUEUE.  QEMU currently checks this value written and
-compares it to its own current pointer, which is now incremented to the
-next available TRB, therefore not matching.  When finding that it does
-not match, it sends another interrupt.
+I believe it is required to send an error event.  It checked for the
+STATUS TRB and found that it was missing, therefore it must send an
+Error Event.
 
-On receiving this interrupt, software will see this interrupt as a
-mismatch in cycle bits and simply write the address of the last
-processed Event TRB to the xHC_INTERRUPTER_DEQUEUE and return again.
-QEMU will then again check the address and find again that it is a
-mismatch, again firing the interrupt.  This causes an infinite loop and
-will halt the USB.
+This is (not so clearly) stated in the specification and I have quoted
+this in a previous comment.
 
-I do believe this to be in error.
+I took it as:
+If the controller checks for the error and then does not processes the tran=
+sfer due to the check, the controller is required to place an Error Event o=
+n the Event ring.
 
-However, it is up to the majority, which seams to be a Linux based
-majority, so if it works on Linux, if it isn't broken, why fix it.
+Therefore, QEMU either needs to follow through with the check and place
+an Error on the Event Ring *or* not do the 'check and return'.
 
-As for the multiple segments in the Event Ring, this was more of a
-request than a bug report.  Sorry for the miss representation on that
-part.
-
-Thank you,
+Anyway, this is just my opinion.  Thank you for your time.
 Ben
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859359
+https://bugs.launchpad.net/bugs/1859378
 
 Title:
-  xHCI and event ring handling
+  xhci Control Transfer requiring a Status TRB before starting transfer
 
 Status in QEMU:
   Invalid
 
 Bug description:
-  I believe that the Event Ring handling in QEMU is not correct.  For
-  example, an Event Ring may have multiple segments.  However, the code
-  in xhci_write_event()
-  (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
-  xhci.c;hb=3DHEAD#l645), starting with line 668, seems to only support a
-  single segment.
+  This may not necessarily be a bug, but more of a change.
 
-  Also, QEMU is sending a spurious interrupt after the Guest writes to
-  the ERDP register due to the fact that the address written does not
-  match the current index.  This is because the index is incremented
-  after sending the event.  The xHCI specification states in section
-  5.5.2.3.3 "When software finishes processing an Event TRB, it will
-  write the address of that Event TRB to the ERDP."
+  A little background may need to be in order.
 
-  Since xhci_write_event() has already incremented the index pointer
-  (intr->er_ep_idx), the check at line 3098
-  (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
-  xhci.c;hb=3DHEAD#l3090) no longer is valid.
+  With all USB Control transfers, there is a SETUP transfer, zero or
+  more DATA transfers, and if successful, a STATUS transfer.  This
+  STATUS transfer is used to indicate to the recipient that the previous
+  transfers were successful.  For example, in a CONTROL IN transfer, the
+  host sends a SETUP packet to the device, receives zero or more DATA
+  packets, and then on successful transfer, the HOST sends the STATUS
+  packet indicating to the device that all was received.
 
-  I have not studied QEMU's code enough yet to offer a patch.  However,
-  this should be a simple fix.
+  If no DATA packets are received, the HOST is not to send a STATUS
+  packet.  This could be due to a STALL or other error.
 
-  intr->er_ep_idx++;
-  if (intr->er_ep_idx >=3D intr->er_table[intr->er_segment].er_size) {
-    intr->er_ep_idx =3D 0;
-    intr->er_segment++;
-    if (intr->er_segment >=3D intr->er_table_size) {
-      intr->er_segment =3D 0;
-      intr->er_pcs =3D !intr->er_pcs;
-    }
-  }
+  With this in mind, the STATUS transfer, in this case an xHCI STATUS
+  TRB, may not even be on the transfer ring yet.  The HOST software may
+  be waiting for a successful transfer before it submits the STATUS
+  transfer.
 
-  Being sure to incorporate this new segment member into the above code
-  (possibly as shown) as well as change the lines at 665 to use the new
-  segment member of the structure, and of course in the initialization
-  portion of the event ring.
+  However, if you look at the test at line 1701
+  (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-xhci.c#l1701),
+  the current code will not start the CONTROL transfer at all if it
+  doesn't see that STATUS TRB on the ring.
 
-  As for the spurious interrupt at line 3101, a new member will need to
-  be added to the code to keep track of the last inserted ED (TRB) into
-  the Event Ring and then of course checking against this new member,
-  not the now newly incremented member.
+  In my opinion, this is in error.  It is not required that a STATUS TRB
+  be on the ring to start the CONTROL transfer.  This STATUS TRB can be
+  placed on the ring after a successful SETUP and zero or more DATA
+  transfers followed by a ring to the door bell.  Then after a
+  successful transfer to this point, placing this STATUS TRB on the ring
+  and another ring to the door bell.
 
-  I have sent an email to the author listed at the top of the file as
-  well, not sure if this is proper bug reporting etiquette or not.
+  In my opinion, the check at line 1701 should be removed.
 
-  Thank you.
+  Thank you,
+  Ben
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859359/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1859378/+subscriptions
 
