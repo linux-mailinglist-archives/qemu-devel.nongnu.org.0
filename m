@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8FD4139800
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 18:47:25 +0100 (CET)
-Received: from localhost ([::1]:53790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42109139801
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 18:48:20 +0100 (CET)
+Received: from localhost ([::1]:53806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir3oC-0007jy-Qu
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 12:47:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44102)
+	id 1ir3p5-0000tr-BW
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 12:48:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44383)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <olaf@aepfle.de>) id 1ir3mX-0006Rg-Rh
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:45:43 -0500
+ (envelope-from <olaf@aepfle.de>) id 1ir3nx-0008S8-Di
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:47:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <olaf@aepfle.de>) id 1ir3mW-0004t7-QA
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:45:41 -0500
-Received: from mo6-p01-ob.smtp.rzone.de ([2a01:238:20a:202:5301::6]:17447)
+ (envelope-from <olaf@aepfle.de>) id 1ir3nw-0006dF-DI
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:47:09 -0500
+Received: from mo6-p01-ob.smtp.rzone.de ([2a01:238:20a:202:5301::11]:29498)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <olaf@aepfle.de>) id 1ir3mV-0004mE-Vw
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:45:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1578937535;
+ (Exim 4.71) (envelope-from <olaf@aepfle.de>) id 1ir3nw-0006b9-6Q
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:47:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1578937626;
  s=strato-dkim-0002; d=aepfle.de;
- h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
- Subject:Sender;
- bh=9fY/ucFujhzjLW+hZylxEQIseW+7N0PYF0kuon6fQCs=;
- b=o+5eMcjYhUM3UpItHBRtSdwE2k2HcCojBNE8cXGvreQHexfTz5Z4JkCoscZEOWa/NW
- hcsJawkj5y6cf49WDnedvOcDxoa7mzatLaplve+2GiV3znZbqb7miLs/sTHSlcydxzGB
- lRD27i4a4ED0tfYIWxxjIsay90UiyXklwctBoluXdXD9xpboso2LgXke41CIMjVdtMj3
- G5Be3aVArHrO3NedG3on925vxMDONEH/Zbysme3HAxxGoPF79wVv39kk30j1Wwx0K+mq
- Pl9LAG6s7iZ+4s4tcKS8HewoNuxOGYgUintyq3ZvvGM2y+CRLFzmjvSrCoBwTZ1TkSN5
- OgeA==
-X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QXkBR9MXjAuzBW/OdlBZQ4AHSS32xLjw=="
+ h=References:In-Reply-To:Message-ID:Subject:To:From:Date:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=5osv5Z8x/E4h/Zk/q9Gps0qjPjy2cinqRfpLKcoRHqM=;
+ b=iYoidXjw81zXPChC5wgiaiQymDlxSldvFYoU/I3fTCkXrm1fTgEkd97JPG8LQe+WUI
+ lre7uyBhT48eHo6WPUYAgpQ9t1dItUsN8jihf7H63Zx6ihpdqmHii5vmMDTlgh/0JOTH
+ 6jdZlwOFEvYwqgvmu6Mx+++qJANqJKyeRjZbX9KVeUDnhBjDf1f5eTz+gKO9dNRBWEO+
+ 9cTpskAj0K5YTb1Jggm3nvT6kXNSwq9nPzRRtDA3CoJisG9hHxRK/JloYqGa2ihgDwIy
+ v0IOUGqj7TWArcSKKhyeGLoztSwh2RxWlZPGgm6sps90HHLsj23jWplUN5NzWEr9L6Qe
+ 8Awg==
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QED/SSGq+wjGiUC4AUztn93FPS2dyuY8phYg=="
 X-RZG-CLASS-ID: mo00
 Received: from sender by smtp.strato.de (RZmta 46.1.4 DYNA|AUTH)
- with ESMTPSA id j08473w0DHjYHAf
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ with ESMTPSA id j08473w0DHl6HAq
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Mon, 13 Jan 2020 18:45:34 +0100 (CET)
+ Mon, 13 Jan 2020 18:47:06 +0100 (CET)
+Date: Mon, 13 Jan 2020 18:46:59 +0100
 From: Olaf Hering <olaf@aepfle.de>
-To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
+ <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH v1] hw/i386: disable smbus migration for xenpv
-Date: Mon, 13 Jan 2020 18:45:21 +0100
-Message-Id: <20200113174521.3336-1-olaf@aepfle.de>
-X-Mailer: git-send-email 2.16.4
+Subject: Re: [PATCH v1] hw/i386: disable smbus migration for xenfv
+Message-ID: <20200113184659.38ee5ff1.olaf@aepfle.de>
+In-Reply-To: <20200113174521.3336-1-olaf@aepfle.de>
+References: <20200113174521.3336-1-olaf@aepfle.de>
+X-Mailer: Claws Mail 2019.12.31 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/k3Z4JWlanmuko1U0+YPR42y"; protocol="application/pgp-signature"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 2a01:238:20a:202:5301::6
+X-Received-From: 2a01:238:20a:202:5301::11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,36 +65,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Olaf Hering <olaf@aepfle.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With commit 7fccf2a06890e3bc3b30e29827ad3fb93fe88fea a new member
-smbus_no_migration_support was added, and enabled in two places.
-With commit 4ab2f2a8aabfea95cc53c64e13b3f67960b27fdf the vmstate_acpi
-got new elements, which are conditionally filled. As a result, an
-incoming migration expected smbus related data unless smbus migration
-was disabled for a given MachineClass.
+--Sig_/k3Z4JWlanmuko1U0+YPR42y
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Since commit 7fccf2a06890e3bc3b30e29827ad3fb93fe88fea forgot to handle
-xenpv, live migration to receiving hosts using qemu-4.0 and later is broken.
-Therefore this patch must be applied to stable-4.x as well.
+Am Mon, 13 Jan 2020 18:45:21 +0100
+schrieb Olaf Hering <olaf@aepfle.de>:
 
-Signed-off-by: Olaf Hering <olaf@aepfle.de>
----
- hw/i386/pc_piix.c | 1 +
- 1 file changed, 1 insertion(+)
+> commit 7fccf2a06890e3bc3b30e29827ad3fb93fe88fea forgot to handle xenpv
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index fa12203079..e19716d0d3 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -952,6 +952,7 @@ static void xenfv_machine_options(MachineClass *m)
-     m->desc = "Xen Fully-virtualized PC";
-     m->max_cpus = HVM_MAX_VCPUS;
-     m->default_machine_opts = "accel=xen";
-+    m->smbus_no_migration_support = true;
- }
- 
- DEFINE_PC_MACHINE(xenfv, "xenfv", pc_xen_hvm_init,
+Actually it is xenFv, but you get the idea.
+
+Olaf
+
+--Sig_/k3Z4JWlanmuko1U0+YPR42y
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAl4crRMACgkQ86SN7mm1
+DoDfUg/8DEF2ZqL+AaCkfanVYurJDqTLbShJxlVRFLdXho+s2tJ1XyUG3BNqcVZS
+BywQwP9LnxV36187RReWTpP6dKfwS+rzsIU5eFnGfNw0LGohZvv4AIipiKMf1Dit
+0H+ciUqH9vlCzKhB/hl2ate+Bxg+NzZl7r2e4hXhgESsy9GM2v+7J3rYdBuFJuXN
+fQ2i2Qp7tUF++Ni59CdnPxp5pRczNQGLhZ6Q/m+Ic0AENjx0VYJXux9L6MIaUawq
+nh3EUV5lEOfNlpCy/56dZ33NrfhCgEUD8VoODpC4ZizM+78cF3fB5emYMmLj2Xuc
+uhbNapLblt/NN/i+1jO7XklxgKbSye0GreF5Qa3FLWw5ZPOCohFA8VeesBKu/3p1
+ZryGviNwjYrWTCgNY2egracifvHz++YfeGPxRdVMg+ZrC7V4Oo+RI6GgJsebn1GA
+2Y1LoABOkmP+8bA4zaSEyBrXSs/hq1Y657MTXPlNvW/vCEwSQ1gVcUqd+xgNairl
+BRYAFwYCTwMzMDV8kTxiKu2o09yeak3twyGXswDv2Pt+xKSmjJ+5a3xe2V9USkDO
+h1A5d4vFKlimYIyClyNXIW/wjmVz/pFkx8kOOE0/c5UxJ3Rj7Ffr13vQBNVcT4f/
+potvxbnL/CeuNzeJ6B6vPhbOYs68L9ImsXF7Tb+ulBSpOw7UST0=
+=YjJp
+-----END PGP SIGNATURE-----
+
+--Sig_/k3Z4JWlanmuko1U0+YPR42y--
 
