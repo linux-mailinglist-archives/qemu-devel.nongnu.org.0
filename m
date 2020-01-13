@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE611397F1
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 18:40:28 +0100 (CET)
-Received: from localhost ([::1]:53714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6AD11397EB
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 18:39:00 +0100 (CET)
+Received: from localhost ([::1]:53694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir3hT-0003ot-DI
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 12:40:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42242)
+	id 1ir3g3-0008Ub-Cz
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 12:38:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42267)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1ir3e7-0006Ws-T7
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:37:00 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1ir3eA-0006ah-S1
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:37:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1ir3e6-000228-On
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:36:59 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23324
+ (envelope-from <dgilbert@redhat.com>) id 1ir3e9-00026M-TS
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:37:02 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24704
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ir3e6-00021e-LI
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:36:58 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1ir3e9-00025p-QA
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:37:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578937018;
+ s=mimecast20190719; t=1578937021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n87xPZmTfhj/+IICBXdLr162eK27C7KrFSNvGBgnX6s=;
- b=dTYxVP3z85Sof99waEQhjZzfDdohwVX1KQs4N+MnUvPkllLP44gB5FPGJewpi2qLYX/ewt
- 6G5otvCj8t2KypLYBb4qG+W3NzEeaO8W+8MT9Eu7Ic71hytk0EVCPeLl2NvDhAsSlNdiQy
- PMJjzTfb24bFpeuMkwdLqIRmQpYfYJY=
+ bh=97O01buc7glABGMtRrqiEagdNJtM8sbG5AB6H/GxU3s=;
+ b=AM+K9xFUcz9dDpbarJ2rurAqnA6UglP1H2hUiJ4cRMVRMV8g0wXXavHcWPOlsnECTIxqyh
+ x/zzOctWhY7/c0guqxShY7V75O0U3hHszqJcGG4E/OxBA6OMRA/NEG4jte6Pos0vgLGqUl
+ HlrcxiwMS9qIMquXtimdc7uL+5UZSJ0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-178-JcY69k9SNxy8mydbfhAt0A-1; Mon, 13 Jan 2020 12:36:56 -0500
+ us-mta-118-SpHKGEKVOluJW7gPNqhoUQ-1; Mon, 13 Jan 2020 12:36:58 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF932107ACC5
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 17:36:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5067210054E3
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 17:36:57 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A85745C1B0;
- Mon, 13 Jan 2020 17:36:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 282515C1B0;
+ Mon, 13 Jan 2020 17:36:55 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, vkuznets@redhat.com, mst@redhat.com,
  jasowang@redhat.com, pbonzini@redhat.com
-Subject: [PATCH v2 2/3] memory: Allow a MemoryRegion to be marked no_vhost
-Date: Mon, 13 Jan 2020 17:36:46 +0000
-Message-Id: <20200113173647.84842-3-dgilbert@redhat.com>
+Subject: [PATCH v2 3/3] hyperv/synic: Mark regions as no vhost
+Date: Mon, 13 Jan 2020 17:36:47 +0000
+Message-Id: <20200113173647.84842-4-dgilbert@redhat.com>
 In-Reply-To: <20200113173647.84842-1-dgilbert@redhat.com>
 References: <20200113173647.84842-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: JcY69k9SNxy8mydbfhAt0A-1
+X-MC-Unique: SpHKGEKVOluJW7gPNqhoUQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -76,98 +76,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Allow a memory region to be marked as 'no_vhost' and
-exclude that region from vhost's list build.
+Mark synic regions as novhost; they are splitting huge page memory
+and breaking vhost region joining.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hw/virtio/vhost.c     |  3 ++-
- include/exec/memory.h | 21 +++++++++++++++++++++
- memory.c              | 15 +++++++++++++++
- 3 files changed, 38 insertions(+), 1 deletion(-)
+ hw/hyperv/hyperv.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 774d87d98e..462498bfe6 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -402,7 +402,8 @@ static bool vhost_section(struct vhost_dev *dev, Memory=
-RegionSection *section)
-     bool log_dirty =3D memory_region_get_dirty_log_mask(section->mr) &
-                      ~(1 << DIRTY_MEMORY_MIGRATION);
-     result =3D memory_region_is_ram(section->mr) &&
--        !memory_region_is_rom(section->mr);
-+             !memory_region_is_rom(section->mr) &&
-+             !memory_region_get_no_vhost(section->mr);
+diff --git a/hw/hyperv/hyperv.c b/hw/hyperv/hyperv.c
+index da8ce82725..5dbbb14fdd 100644
+--- a/hw/hyperv/hyperv.c
++++ b/hw/hyperv/hyperv.c
+@@ -99,6 +99,14 @@ static void synic_realize(DeviceState *dev, Error **errp=
+)
+                            sizeof(*synic->msg_page), &error_abort);
+     memory_region_init_ram(&synic->event_page_mr, obj, eventp_name,
+                            sizeof(*synic->event_page), &error_abort);
++    /*
++     * The guest can put the synic pages anywhere, including
++     * fragmenting something the host might want to keep as a huge
++     * page.
++     */
++    memory_region_set_no_vhost(&synic->msg_page_mr, true);
++    memory_region_set_no_vhost(&synic->event_page_mr, true);
++
+     synic->msg_page =3D memory_region_get_ram_ptr(&synic->msg_page_mr);
+     synic->event_page =3D memory_region_get_ram_ptr(&synic->event_page_mr)=
+;
 =20
-     /* Vhost doesn't handle any block which is doing dirty-tracking other
-      * than migration; this typically fires on VGA areas.
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index aef8123d48..f475c06d63 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -394,6 +394,7 @@ struct MemoryRegion {
-     bool ram_device;
-     bool enabled;
-     bool warning_printed; /* For reservations */
-+    bool no_vhost;
-     uint8_t vga_logging_count;
-     MemoryRegion *alias;
-     hwaddr alias_offset;
-@@ -1625,6 +1626,26 @@ void memory_region_set_readonly(MemoryRegion *mr, bo=
-ol readonly);
-  */
- void memory_region_set_nonvolatile(MemoryRegion *mr, bool nonvolatile);
-=20
-+/**
-+ * memory_region_set_no_vhost: Make vhost ignore a memory region
-+ *
-+ * Makes vhost ignore a memory region, useful if it isn't real
-+ * DMAble memory and is at inconvenient addresses
-+ *
-+ * @mr: the region being updated.
-+ * @no_vhost: true to ignore
-+ */
-+void memory_region_set_no_vhost(MemoryRegion *mr, bool no_vhost);
-+
-+/**
-+ * memory_region_set_no_vhost: Test if memory region is marked no vhost
-+ *
-+ * Test if the no_vhost flag is set on the memory region
-+ *
-+ * @mr: the region being tested.
-+ */
-+bool memory_region_get_no_vhost(const MemoryRegion *mr);
-+
- /**
-  * memory_region_rom_device_set_romd: enable/disable ROMD mode
-  *
-diff --git a/memory.c b/memory.c
-index d7b9bb6951..9371998e30 100644
---- a/memory.c
-+++ b/memory.c
-@@ -2136,6 +2136,21 @@ void memory_region_set_nonvolatile(MemoryRegion *mr,=
- bool nonvolatile)
-     }
- }
-=20
-+void memory_region_set_no_vhost(MemoryRegion *mr, bool no_vhost)
-+{
-+    if (mr->no_vhost !=3D no_vhost) {
-+        memory_region_transaction_begin();
-+        mr->no_vhost =3D no_vhost;
-+        memory_region_update_pending |=3D mr->enabled;
-+        memory_region_transaction_commit();
-+    }
-+}
-+
-+bool memory_region_get_no_vhost(const MemoryRegion *mr)
-+{
-+    return mr->no_vhost;
-+}
-+
- void memory_region_rom_device_set_romd(MemoryRegion *mr, bool romd_mode)
- {
-     if (mr->romd_mode !=3D romd_mode) {
 --=20
 2.24.1
 
