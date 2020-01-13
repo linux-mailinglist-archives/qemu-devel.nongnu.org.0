@@ -2,49 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873711389B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 04:27:07 +0100 (CET)
-Received: from localhost ([::1]:45106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2541D1389E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 04:48:10 +0100 (CET)
+Received: from localhost ([::1]:45238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iqqNe-0001iH-Ho
-	for lists+qemu-devel@lfdr.de; Sun, 12 Jan 2020 22:27:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33631)
+	id 1iqqi0-0007tu-HY
+	for lists+qemu-devel@lfdr.de; Sun, 12 Jan 2020 22:48:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49827)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iqqKq-0007IL-1N
- for qemu-devel@nongnu.org; Sun, 12 Jan 2020 22:24:13 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iqqgZ-0006an-0f
+ for qemu-devel@nongnu.org; Sun, 12 Jan 2020 22:46:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iqqKp-0003If-0r
- for qemu-devel@nongnu.org; Sun, 12 Jan 2020 22:24:11 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:60869)
+ (envelope-from <dgibson@ozlabs.org>) id 1iqqgX-0006LO-GA
+ for qemu-devel@nongnu.org; Sun, 12 Jan 2020 22:46:38 -0500
+Received: from ozlabs.org ([203.11.71.1]:58979)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iqqKk-000375-Gq; Sun, 12 Jan 2020 22:24:07 -0500
+ id 1iqqgX-0006HQ-3p; Sun, 12 Jan 2020 22:46:37 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47wzTB6nylz9s4Y; Mon, 13 Jan 2020 14:23:58 +1100 (AEDT)
+ id 47wzzB2S6tz9s4Y; Mon, 13 Jan 2020 14:46:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1578885838;
- bh=VP7yNU/KIZVHXNs4kkGriW1bjHfnY45nlkhaEeGBXB4=;
+ d=gibson.dropbear.id.au; s=201602; t=1578887190;
+ bh=EH9MnePokeqal3DvDaXfJ+a1a3byOnrbRbYPcdi/3DE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hr6m8MgXuoEXCF8Nsw8V+sFalz3dFQPYhMJ1Ziw2/2EWkg61D5mxEOfjiLpHmeH9b
- 1L/8K2Oz7yx07GGdBRhgxckptYNjfumL/Vpfe+oN2rXw6nSdZGR4tJMJGpXC+pAIZz
- vUD+G5Z77HEVwMxwfpy6rgBwvFpmMVy+qXF/YYDg=
-Date: Mon, 13 Jan 2020 11:11:29 +1000
+ b=D/x4JOzgwuAXFNe7wkwTyncL7+Jjcc+StcSmgLsRkOP54h4idQnlYsymU1vWitrpR
+ dpg9j68h5Vvapmsi0nckBjZ3l4rW4ZTlnAYKWqyYBZvQ9RKhN5jlEaoPXAgzmNnlUK
+ EDDoLq+xGpGe9Nja+KidvjoTR765OJbOa7kidL/o=
+Date: Mon, 13 Jan 2020 13:32:02 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 03/15] hw/ppc/spapr_rtas: Access MachineState via
- SpaprMachineState argument
-Message-ID: <20200113011129.GB7045@umbus>
-References: <20200109152133.23649-1-philmd@redhat.com>
- <20200109152133.23649-4-philmd@redhat.com>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v2] spapr: Kill SLOF
+Message-ID: <20200113033202.GA19995@umbus>
+References: <20200105234242.78897-1-aik@ozlabs.ru>
+ <20200106041940.GV2098@umbus>
+ <80157816-7859-3450-6a2c-ab151be5ee94@ozlabs.ru>
+ <20200106085042.GW2098@umbus>
+ <741e9b5e-6a7d-66a4-451d-e37c30697b2b@ozlabs.ru>
+ <20200107052604.GH2098@umbus>
+ <a76e906f-4cf0-aa49-759d-e64b7f219a1b@ozlabs.ru>
+ <20200109040715.GM8586@umbus.fritz.box>
+ <11640067-3b69-b8f2-bf06-27be0ba019de@ozlabs.ru>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+g7M9IMkV8truYOl"
+ protocol="application/pgp-signature"; boundary="4Ckj6UjgE2iN1+kY"
 Content-Disposition: inline
-In-Reply-To: <20200109152133.23649-4-philmd@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <11640067-3b69-b8f2-bf06-27be0ba019de@ozlabs.ru>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,49 +62,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Juan Quintela <quintela@redhat.com>, qemu-ppc@nongnu.org,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---+g7M9IMkV8truYOl
-Content-Type: text/plain; charset=iso-8859-1
+--4Ckj6UjgE2iN1+kY
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 09, 2020 at 04:21:21PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> We received a SpaprMachineState argument. Since SpaprMachineState
-> inherits of MachineState, use it instead of calling qdev_get_machine.
+On Thu, Jan 09, 2020 at 05:31:24PM +1100, Alexey Kardashevskiy wrote:
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
->  hw/ppc/spapr_rtas.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index e88bb1930e..6f06e9d7fe 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -267,7 +267,7 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU =
-*cpu,
->                                            uint32_t nret, target_ulong re=
-ts)
->  {
->      PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> -    MachineState *ms =3D MACHINE(qdev_get_machine());
-> +    MachineState *ms =3D MACHINE(spapr);
->      unsigned int max_cpus =3D ms->smp.max_cpus;
->      target_ulong parameter =3D rtas_ld(args, 0);
->      target_ulong buffer =3D rtas_ld(args, 1);
+> On 09/01/2020 15:07, David Gibson wrote:
+> > On Wed, Jan 08, 2020 at 03:07:41PM +1100, Alexey Kardashevskiy wrote:
+> >>
+> >>
+> >> On 07/01/2020 16:26, David Gibson wrote:
+> >>
+> >>>>>>>> +static uint32_t client_setprop(SpaprMachineState *sm,
+> >>>>>>>> +                               uint32_t nodeph, uint32_t pname,
+> >>>>>>>> +                               uint32_t valaddr, uint32_t valle=
+n)
+> >>>>>>>> +{
+> >>>>>>>> +    char propname[64];
+> >>>>>>>> +    uint32_t ret =3D -1;
+> >>>>>>>> +    int proplen =3D 0;
+> >>>>>>>> +    const void *prop;
+> >>>>>>>> +
+> >>>>>>>> +    readstr(pname, propname);
+> >>>>>>>> +    if (vallen =3D=3D sizeof(uint32_t) &&
+> >>>>>>>> +        ((strncmp(propname, "linux,rtas-base", 15) =3D=3D 0) ||
+> >>>>>>>> +         (strncmp(propname, "linux,rtas-entry", 16) =3D=3D 0)))=
+ {
+> >>>>>>>> +
+> >>>>>>>> +        sm->rtas_base =3D readuint32(valaddr);
+> >>>>>>>> +        prop =3D fdt_getprop_namelen(sm->fdt_blob,
+> >>>>>>>> +                                   fdt_node_offset_by_phandle(s=
+m->fdt_blob,
+> >>>>>>>> +                                                              n=
+odeph),
+> >>>>>>>> +                                   propname, strlen(propname), =
+&proplen);
+> >>>>>>>> +        if (proplen =3D=3D vallen) {
+> >>>>>>>> +            *(uint32_t *) prop =3D cpu_to_be32(sm->rtas_base);
+> >>>>>>>> +            ret =3D proplen;
+> >>>>>>>> +        }
+> >>>>>>>
+> >>>>>>> Is there a particular reason to restrict this to the rtas propert=
+ies,
+> >>>>>>> rather than just allowing the guest to fdt_setprop() something
+> >>>>>>> arbitrary?
+> >>>>>>
+> >>>>>> The FDT is flatten and I am not quite sure if libfdt can handle up=
+dating
+> >>>>>> properties if the length has changed.
+> >>>>>
+> >>>>> fdt_setprop() will handle updating properties with changed length (=
+in
+> >>>>> fact there's a special fdt_setprop_inplace() optimized for the case
+> >>>>> where you don't need that).  It's not particularly efficient, but it
+> >>>>> should work fine for the cases we have here.  In fact, I think you'=
+re
+> >>>>> already relying on this for the code that adds the phandles to
+> >>>>> everything.
+> >>>>
+> >>>> Well, I used to add phandles before calling fdt_pack() so it is not =
+exactly the same.
+> >>>
+> >>> Ah, right, that's why adding the phandles worked.
+> >>>
+> >>>>> One complication is that it can return FDT_ERR_NOSPACE if there isn=
+'t
+> >>>>> enough buffer for the increased thing.  We could either trap that,
+> >>>>> resize and retry, or we could leave a bunch of extra space.  The
+> >>>>> latter would be basically equivalent to not doing fdt_pack() on the
+> >>>>> blob in the nobios case.
+> >>>>
+> >>>>
+> >>>> This is what I ended up doing.
+> >>>>
+> >>>>
+> >>>>>> Also, more importantly, potentially property changes like this may=
+ have
+> >>>>>> to be reflected in the QEMU device tree so I allowed only the prop=
+erties
+> >>>>>> which I know how to deal with.
+> >>>>>
+> >>>>> That's a reasonable concern, but the nice thing about not having SL=
+OF
+> >>>>> is that there's only one copy of the device tree - the blob in qemu.
+> >>>>> So a setprop() on that is automatically a setprop() everywhere (this
+> >>>>> is another reason not to write the fdt into guest memory in the nob=
+ios
+> >>>>> case - it will become stale as soon as the client changes anything).
+> >>>>
+> >>>>
+> >>>> True to a degree. It is "setprop" to the current fdt blob which we d=
+o not
+> >>>> analyze after we build the fdt. We either need to do parse the tree =
+before
+> >>>> we rebuild it as CAS so we do not lose the updates or do selective c=
+hanges
+> >>>> to the QEMUs objects from the "setprop" handler (this is what I do
+> >>>> now).
+> >>>
+> >>> Hrm.. do those setprops happen before CAS?
+> >>
+> >> Yes, vmlinux/zimage call "setprop" for "linux,initrd-start",
+> >> "linux,initrd-end", "bootargs", "linux,stdout-path"; vmlinux sets
+> >> properties if linux,initrd-* came from r3/r4 and zImage sets properties
+> >> no matter how it discovered them - from r3/r4 or the device tree.
+> >=20
+> > Ok, and those setprops happen before CAS?
+>=20
+> Yes.
+>=20
+> > In a sense this is kind of a fundamental problem with rebuilding the
+> > whole DT at CAS time.  Except that strictly speaking it's a problem
+> > even without that: we just get away with it by accident because CAS
+> > isn't likely to change the same things that guest setprops do.
+>=20
+> > It's still basically unsynchronized mutations by two parties to a
+> > shared data structure.
+>=20
+> True... We may end up not having FDT at all and reuse QOM objects for
+> that, can even use hashes of QObject pointers as phandles :)
+
+Hm, interesting idea.  I suspect the QOM hierarchy won't be quite
+similar enough to the fdt hierarchy (or at least not guaranteed to be)
+to make it work, but it's worth thinking about at least.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -106,25 +200,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---+g7M9IMkV8truYOl
+--4Ckj6UjgE2iN1+kY
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4bw8EACgkQbDjKyiDZ
-s5Ka5BAAhSNLPIhoInFnP9CxnaJbV9mhIjn8pnrM7awPSiWiWJauBXV8BcC7QTL/
-Myc6yEf55vjg+kA3Lt+Z4Q4zk17tSNa777IsYB+Yqi1ZELp2Y1/dLV0uH9qvFZHo
-o3GfEylWJ6s9S2NVrgF6xllliJpnR1yescXMIpU9ecj04rfaJAmkBzW6NqSLAzSN
-YsJHTDebT6ZYG9wyj/BKIup+k/e/wfbKjs+So5lLEN5TasHuyTJjapLxq/g9A0lE
-KLYbBxrHtZt/B3Bmajytcp7zIUvwQUECX10l3PGlitZigvrGQ42Wj/Y8w+8tEmoa
-A6mY/PNqhjP/Lb/fMIWoIq/SiL23B17Y3OjdPUdgYrwRSBkzOd6njW4GDfAkdh/z
-zOAyIrZY0DekDb3lh9NUmOqeUFQ7egRURG/yijA54Fq/t2poieCxqPiNmwhPor/E
-P74T+n7s8FlsYaUoz10jxmCJqHgQYNh6Vr2gET2D7L2U9rf8837nV6pw4FcBScWL
-TzvKCxWSRkP+sXROtw8+AjrUlIxp4q7t4g2Iun2dCQjGQ4A8VbYtsMzKr2Qd7fes
-ReM413SdHXxqpPSlo8u922bU3bArJr3Ljv82/RK+rm4lTiCzRc7khG/eOX+j40pm
-w5nsxgCEZNc+4SdIJFWDhQawZjSpl/0yugafNR8Dq5h+NsL5pxY=
-=Asp2
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4b5LIACgkQbDjKyiDZ
+s5LP+Q/+L+tlAEU8rvikqUZJEvmOn7z5AE3g1x4ee3d0YCcCQg/ALuCDZBQ06UOg
+65PPpWM/ANM9nHm8d//wdm/zeIZbLGaN+gX7MK566PS5AoKNlEqJq5mPF80C2V0m
+9Gybadp8hzPlYuh3dEy64UNnCXLAWSwGxsChKKYG1PJ1sb1PSzkw9qVwZzbEeT+O
+wtY4wfL5ls/GqCbOnKNUhY7jUeIv7kmYBixK7vM9udmq3tLe8RUxqZqHE0S4nULx
+YzEgJ8mOIr5QuhyXBW9YS20WPHVKCzOkkO91Ht7kH5CusrgTd519bLfDlASWi6ns
+z/+UQ4V0Sj1ZN/fOUF1Og6VGGHmDjCwgaLEf0HD5d87Dh2++LBKBX3hDITS9GfuA
+02NedT52ewr7DObm52N7VrQXBE3WfbshGWZzaMgpSzrBP98NSRrX3lwx5OCTb4Tv
+UjeePgriPVv/o5bIkOnqsuztqYOITwGKgZTDpZbyshXTX0IHwn09MJSgbX1b4ICj
+3ywPNW+IVEs2nj/u3FX7Zxh5mbRDNKyjOWGkBMWQOR8WncdyhKIQwkvUssKgvwW2
+XfY+wYrWgRaqTtujUBpSiHE3cK3f8IShTyn/lMNO/Oza+wADF3OvZ66aTf1X4KyP
+WVX0MS4W3veQvydYwB44QiLOIlzBzFSw3Z1CDTfFleZWVFR4JLk=
+=akxi
 -----END PGP SIGNATURE-----
 
---+g7M9IMkV8truYOl--
+--4Ckj6UjgE2iN1+kY--
 
