@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3339B139E5F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 01:37:03 +0100 (CET)
-Received: from localhost ([::1]:57478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A2F139E77
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 01:43:05 +0100 (CET)
+Received: from localhost ([::1]:57596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irACc-0004Fm-6K
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 19:37:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34509)
+	id 1irAIS-0003W9-45
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 19:43:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35680)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <0edf21d2cb2a6cf22ba1065bf451b44ad5962cbd@lizzy.crudebyte.com>)
- id 1irABT-00034W-3y
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:35:52 -0500
+ (envelope-from <14b8f74a5cd10d5cb0cdbe82f1dddb0242cdb285@lizzy.crudebyte.com>)
+ id 1irAHQ-0002EH-Gn
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:42:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <0edf21d2cb2a6cf22ba1065bf451b44ad5962cbd@lizzy.crudebyte.com>)
- id 1irABS-0001Q7-44
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:35:51 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:49893)
+ (envelope-from <14b8f74a5cd10d5cb0cdbe82f1dddb0242cdb285@lizzy.crudebyte.com>)
+ id 1irAHP-0005xt-Ef
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:42:00 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:51357)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71)
- (envelope-from <0edf21d2cb2a6cf22ba1065bf451b44ad5962cbd@lizzy.crudebyte.com>)
- id 1irABQ-0000gb-Cn
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:35:50 -0500
+ (envelope-from <14b8f74a5cd10d5cb0cdbe82f1dddb0242cdb285@lizzy.crudebyte.com>)
+ id 1irAHP-0005HU-81
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:41:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=DaJOrz3IZpnkejwrW0e8xc6WCAlOTLpMiIkJfiSMCLg=; b=d5svA
- 8GGIzqQYlpHqWKvvVolpdWh5F8qt0v09+uqz616hdIBH8B9AslcRZa7mxk1+iBlO0ZLEQyEZkjOrL
- cXfN8TbWAiPlNY7eadiE4z7XjsJSpYS3bWuuYydjJKUxJYFZCvfw1KzLk+t8krCTWX60dD3FOv53j
- JYDWGuvhqZeKOHrY1SDjzh2ccC3jg+WxQTygkd0ANnimYANAUsPszEQUtor+XTAZYDgTYmaVL4uk1
- qiDyTrnT8xnqBfTUceKb/j1euu1AFQg+WdlNU1KxSZCiKIjKi2aUCaG0IqZbDZKkGLemT/L/tIhzd
- o/Bf14Vyj7mNxALn99uZoHpcB1r+Q==;
-Message-Id: <0edf21d2cb2a6cf22ba1065bf451b44ad5962cbd.1578957500.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=fb6OOVIO1AGu0rbOOglAJ88WjD1vPGjm74d52ypJseM=; b=gXzzm
+ N8aNr9Grj6Fbi4qBhIoRGIDoMimlkrfVu9CmiFzcnjp2e13HoF3rbyVyr866waGMY1e0zxR8jXRiU
+ LKMKxqde7L69scguQbc7lzE/k/k9M4/jDr/lz1G9TSiSaKfedAyiBrjjAvVKMtb6Uf9WdsbBm9mAv
+ DyMB7zmFRcAiwTJbxiQNExTsO9sfS5ryj/iAGCwLvLBdqiW7AKYLgz7MKuoroZkAglU0ncLyEt5cK
+ 1ucEJysTyMk5YMmQs6CWjWsqqwPrp/DpOUoiTsvKHrT/XPiM11QxiRr7zYQr3xmb4gYUxe1hlhm8H
+ Auz1rkAuGAugreelaqgDXiUEMMIWw==;
+Message-Id: <14b8f74a5cd10d5cb0cdbe82f1dddb0242cdb285.1578957500.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1578957500.git.qemu_oss@crudebyte.com>
 References: <cover.1578957500.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Mon, 13 Jan 2020 23:22:08 +0100
-Subject: [PATCH v3 03/11] 9pfs: validate count sent by client with T_readdir
+Date: Mon, 13 Jan 2020 23:23:03 +0100
+Subject: [PATCH v3 04/11] hw/9pfs/9p-synth: added directory for readdir test
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -58,43 +58,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A good 9p client sends T_readdir with "count" parameter that's
-sufficiently smaller than client's initially negotiated msize
-(maximum message size). We perform a check for that though to
-avoid the server to be interrupted with a "Failed to encode
-VirtFS reply type 41" error message by bad clients.
+This will provide the following virtual files by the 9pfs
+synth driver:
+
+  - /ReadDirDir/ReadDirFile99
+  - /ReadDirDir/ReadDirFile98
+  ...
+  - /ReadDirDir/ReadDirFile1
+  - /ReadDirDir/ReadDirFile0
+
+This virtual directory and its virtual 100 files will be
+used by the upcoming 9pfs readdir tests.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/9pfs/9p.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/9pfs/9p-synth.c | 19 +++++++++++++++++++
+ hw/9pfs/9p-synth.h |  5 +++++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index a5fbe821d4..30da2fedf3 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -2426,6 +2426,7 @@ static void coroutine_fn v9fs_readdir(void *opaque)
-     int32_t count;
-     uint32_t max_count;
-     V9fsPDU *pdu = opaque;
-+    V9fsState *s = pdu->s;
- 
-     retval = pdu_unmarshal(pdu, offset, "dqd", &fid,
-                            &initial_offset, &max_count);
-@@ -2434,6 +2435,13 @@ static void coroutine_fn v9fs_readdir(void *opaque)
-     }
-     trace_v9fs_readdir(pdu->tag, pdu->id, fid, initial_offset, max_count);
- 
-+    if (max_count > s->msize - P9_IOHDRSZ) {
-+        max_count = s->msize - P9_IOHDRSZ;
-+        warn_report_once(
-+            "9p: bad client: T_readdir with count > msize - P9_IOHDRSZ"
-+        );
-+    }
+diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+index 54239c9bbf..7eb210ffa8 100644
+--- a/hw/9pfs/9p-synth.c
++++ b/hw/9pfs/9p-synth.c
+@@ -578,6 +578,25 @@ static int synth_init(FsContext *ctx, Error **errp)
+                                        NULL, v9fs_synth_qtest_flush_write,
+                                        ctx);
+         assert(!ret);
 +
-     fidp = get_fid(pdu, fid);
-     if (fidp == NULL) {
-         retval = -EINVAL;
++        /* Directory for READDIR test */
++        {
++            V9fsSynthNode *dir = NULL;
++            ret = qemu_v9fs_synth_mkdir(
++                NULL, 0700, QTEST_V9FS_SYNTH_READDIR_DIR, &dir
++            );
++            assert(!ret);
++            for (i = 0; i < QTEST_V9FS_SYNTH_READDIR_NFILES; ++i) {
++                char *name = g_strdup_printf(
++                    QTEST_V9FS_SYNTH_READDIR_FILE, i
++                );
++                ret = qemu_v9fs_synth_add_file(
++                    dir, 0, name, NULL, NULL, ctx
++                );
++                assert(!ret);
++                g_free(name);
++            }
++        }
+     }
+ 
+     return 0;
+diff --git a/hw/9pfs/9p-synth.h b/hw/9pfs/9p-synth.h
+index af7a993a1e..036d7e4a5b 100644
+--- a/hw/9pfs/9p-synth.h
++++ b/hw/9pfs/9p-synth.h
+@@ -55,6 +55,11 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int mode,
+ #define QTEST_V9FS_SYNTH_LOPEN_FILE "LOPEN"
+ #define QTEST_V9FS_SYNTH_WRITE_FILE "WRITE"
+ 
++/* for READDIR test */
++#define QTEST_V9FS_SYNTH_READDIR_DIR "ReadDirDir"
++#define QTEST_V9FS_SYNTH_READDIR_FILE "ReadDirFile%d"
++#define QTEST_V9FS_SYNTH_READDIR_NFILES 100
++
+ /* Any write to the "FLUSH" file is handled one byte at a time by the
+  * backend. If the byte is zero, the backend returns success (ie, 1),
+  * otherwise it forces the server to try again forever. Thus allowing
 -- 
 2.20.1
 
