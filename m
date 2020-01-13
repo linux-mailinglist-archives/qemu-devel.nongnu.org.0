@@ -2,71 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD7D13954F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 16:53:41 +0100 (CET)
-Received: from localhost ([::1]:52086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C18E139560
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 16:59:12 +0100 (CET)
+Received: from localhost ([::1]:52164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir228-0006QN-40
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 10:53:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38173)
+	id 1ir27T-0003nc-3X
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 10:59:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lnkgyv@gmail.com>) id 1ir21E-0005zg-MN
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:52:45 -0500
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ir24C-00087E-Iy
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:55:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lnkgyv@gmail.com>) id 1ir21D-0000zv-Er
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:52:44 -0500
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:36207)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <lnkgyv@gmail.com>) id 1ir21D-0000xf-6s
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:52:43 -0500
-Received: by mail-lf1-x141.google.com with SMTP id n12so7222789lfe.3
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 07:52:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=to:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=MZAuOCEWsb3pRZnFOMvQgW6WSG31BaDcmQyuhu30k6E=;
- b=QZjbg+8U9qPFxH19ws3SmQLhwJcBDpkH5flQI5nT6lnV+EO6yNyv4XaN1L8tWUoJYi
- j8+kYZk5LvWjebhrucV/YfzMzxCKsiZ8mjMIgKFJUdsPUuslqxhxo+bnOjfCES5qxPdA
- CGOTZ8ht5uIxjaWDlk+qh7kx2ldo233a6jz10GWTeWZ5E1RHd0hwedNDkqIbcjsNzG1q
- 3/wS7jwSiHn3XRMLNaxsD8it91u25qJaYYfmGZ7CP3Niu3KVnEEmRPuzJsSpoyI4zdjf
- Q44BiAT1UdIEPvIZcPS7a/8rUYwQQIwfY9RbTCygl0CpR1qdwigzfYPue9lnmX2qT+Rt
- pi3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:from:subject:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=MZAuOCEWsb3pRZnFOMvQgW6WSG31BaDcmQyuhu30k6E=;
- b=cl1tEs2k89Kz9B4vOTsEnkqVP6Ip4AnqWWecSOhpyp/RSZGg4CICgpg2fjGaUH9fLM
- owHcSZBDQaWZnoXvz0oNyR+br/jjLcPASIhBJ2aNCZg7MIsLr32DCfUC1Xgt9jKaHM4+
- w4ANJOJ6yKegWPmACeY81s4ELOKt+jUW4DqW8MUKCRrdE5tT4e1849MuzKWdmWWr4+CB
- LDlltFMlZ8MsWmbrPLfoilbV6kcf0a/k/TLU3p0ZvS3F/yoCROyx0vSQ8Qkr3nvXnb3H
- DOQOyOaDsLcNbtC855xYUB77E5rdjHKiRVoJak4uzDpEaUJf9wRZFON6CS0nVXe4iKJd
- 4TQA==
-X-Gm-Message-State: APjAAAUUZOqJ4UkzPQRlhPEtAhf0hZInM5j7bbE6NFOMftnbnQX2SPL4
- Q7TXlpPWgoxYGY4hecm5rWExeY5s
-X-Google-Smtp-Source: APXvYqwO+CKWf8+o6T6xsnabNpNblQ/ufwLiKovTLbtgLqIda6nf2R2y9vGHfro4o2LUhhMStMRRrg==
-X-Received: by 2002:ac2:5582:: with SMTP id v2mr10068822lfg.183.1578930760814; 
- Mon, 13 Jan 2020 07:52:40 -0800 (PST)
-Received: from [192.168.101.65] ([82.97.198.254])
- by smtp.gmail.com with ESMTPSA id s4sm6237761ljd.94.2020.01.13.07.52.39
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jan 2020 07:52:40 -0800 (PST)
-To: qemu-devel@nongnu.org
-From: yurij <lnkgyv@gmail.com>
-Subject: PCIe device paththrough via vfio issue
-Message-ID: <9ebac151-0a9b-3f64-ccd8-0709088fa2b3@gmail.com>
-Date: Mon, 13 Jan 2020 18:49:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::141
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ir24B-0004Dw-FW
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 10:55:48 -0500
+Received: from relay.sw.ru ([185.231.240.75]:36156)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1ir244-000438-9R; Mon, 13 Jan 2020 10:55:40 -0500
+Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1ir23x-0002bW-Lb; Mon, 13 Jan 2020 18:55:33 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 0/2] Dump QCOW2 metadata
+Date: Mon, 13 Jan 2020 18:55:31 +0300
+Message-Id: <1578930933-69721-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,114 +43,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, andrey.shinkevich@virtuozzo.com, den@openvz.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello everybody!
+The information about QCOW2 metadata allocations in an image ELF-file is
+helpful for finding issues with the image data integrity.
 
-I have a specific PCIe device (sorry, but I can't tell about what is it 
-and what it does) but PCI configuration space consists of 4 BARs (lspci 
-output brief):
+v2: Descriptions of the new key option were added and the names of identifiers
+    were amended (suggested by Eric). Discussed in the email thread with ID
+    <1577447039-400109-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 
-lspci -s 84:00.00 -vvv
+Snapshots dump example:
 
-. . .
-Region 0: Memory at fa000000 (64-bit, non-prefetchable) [size=16M]
-	Region 2: Memory at fb001000 (32-bit, non-prefetchable) [size=4K]
-	Region 3: Memory at fb000000 (32-bit, non-prefetchable) [size=4K]
-	Region 4: Memory at f9000000 (64-bit, non-prefetchable) [size=16M]
-. . .
-Kernel driver in use: vfio-pci
-. . .
+$ sudo ./qemu-img check /.../.../harddisk.hdd -M --output=json
+{
+    "image-end-offset": 24820842496,
+    "total-clusters": 153600,
+    "check-errors": 0,
+    "viscera": {
+        "refcount-table": {
+            "location": {
+                "offset": 3845128192,
+                "size": 1048576
+            }
+        },
+        "active-l1": {
+            "name": "L1 active table",
+            "location": {
+                "offset": 4194304,
+                "size": 16
+            },
+            "l2-list": [
+                {
+                    "offset": 619708416,
+                    "size": 1048576
+                },
+                {
+                    "offset": 1156579328,
+                    "size": 1048576
+                }
+            ]
+        },
+        "qcow2-header": {
+            "location": {
+                "offset": 0,
+                "size": 1048576
+            },
+            "version": 3
+        },
+        "snapshot-table": {
+            "location": {
+                "offset": 648019968,
+                "size": 191
+            },
+            "l1-list": [
+                {
+                    "name": "{3036f6c5-3a1f-44cb-af1f-653cc87fba04}",
+                    "location": {
+                        "offset": 14680064,
+                        "size": 16
+                    },
+                    "l2-list": [
+                        {
+                            "offset": 3957325824,
+                            "size": 1048576
+                        },
+                        {
+                            "offset": 7025459200,
+                            "size": 1048576
+                        }
+                    ]
+                },
+                {
+                    "name": "{0aa1a7d6-16ee-4b44-a515-b5ecc571c959}",
+                    "location": {
+                        "offset": 638582784,
+                        "size": 16
+                    },
+                    "l2-list": [
+                        {
+                            "offset": 3957325824,
+                            "size": 1048576
+                        },
+                        {
+                            "offset": 7025459200,
+                            "size": 1048576
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "allocated-clusters": 22485,
+    "filename": "/.../.../harddisk.hdd",
+    "format": "qcow2",
+    "fragmented-clusters": 3549
+}
 
-BAR0 merged with BAR1, BAR4 merged with BAR5 so they are 64 bit width.
+Bitmaps dump example:
 
-I put this PCIe device in virtual machine via vfio:
+$ ./qemu-img check /home/disk -M --output=json
+{
+    "image-end-offset": 1441792,
+    "total-clusters": 16,
+    "check-errors": 0,
+    "viscera": {
+        "refcount-table": {
+            "location": {
+                "offset": 65536,
+                "size": 65536
+            }
+        },
+        "active-l1": {
+            "name": "L1 active table",
+            "location": {
+                "offset": 196608,
+                "size": 8
+            },
+            "l2-list": [
+                {
+                    "offset": 262144,
+                    "size": 65536
+                }
+            ]
+        },
+        "bitmaps": {
+            "bitmap-dir": {
+                "location": {
+                    "offset": 1048576,
+                    "size": 64
+                },
+                "dir-entries": [
+                    {
+                        "bitmap-table": {
+                            "location": {
+                                "offset": 589824,
+                                "size": 8
+                            },
+                            "table-entries": [
+                                {
+                                    "type": "all-zeros"
+                                }
+                            ]
+                        },
+                        "bitmap-name": "bitmap-1"
+                    },
+                    {
+                        "bitmap-table": {
+                            "location": {
+                                "offset": 983040,
+                                "size": 8
+                            },
+                            "table-entries": [
+                                {
+                                    "cluster": {
+                                        "offset": 655360,
+                                        "size": 65536
+                                    },
+                                    "type": "serialized"
+                                }
+                            ]
+                        },
+                        "bitmap-name": "bitmap-2"
+                    }
+                ]
+            },
+            "nb-bitmaps": 2
+        },
+        "qcow2-header": {
+            "location": {
+                "offset": 0,
+                "size": 65536
+            },
+            "version": 3
+        }
+    },
+    "allocated-clusters": 12,
+    "filename": "/home/disk",
+    "format": "qcow2",
+    "fragmented-clusters": 2
+}
 
--device vfio-pci,host=84:00.0,id=hostdev0,bus=pci.6,addr=0x0
+Andrey Shinkevich (2):
+  qcow2: introduce Qcow2Metadata structure
+  qcow2: dump QCOW2 metadata
 
-Virtual machine successfully boot. PCI configuration space in virtual 
-environment looks OK (lspci output brief):
-
-lspci -s 06:00.0 -vvv
-
-. . .
-Region 0: Memory at f8000000 (64-bit, non-prefetchable) [size=16M]
-	Region 2: Memory at fa000000 (32-bit, non-prefetchable) [size=4K]
-	Region 3: Memory at fa001000 (32-bit, non-prefetchable) [size=4K]
-	Region 4: Memory at f9000000 (64-bit, non-prefetchable) [size=16M]
-. . .
-Kernel driver in use: custom_driver
-
-BAR0 merged with BAR1 and BAR4 merged with BAR5 and so they are also 64 
-bit width.
-
-The main problem in 4K HOLE in REGION 0 in virtual environment. So some 
-device features don't work.
-
-I have enabled iommu trace in host system (trace_event=iommu) and 
-display all events (for i in $(find 
-/sys/kernel/debug/tracing/events/iommu/ -name enable);do echo 1 > $i; 
-done). I saw next events during virtual machine booting:
-
-# cat /sys/kernel/debug/tracing/trace
-. . .
-        CPU 0/KVM-3046  [051] .... 63113.338894: map: IOMMU: 
-iova=0x00000000f8000000 paddr=0x00000000fa000000 size=24576
-        CPU 0/KVM-3046  [051] .... 63113.339177: map: IOMMU: 
-iova=0x00000000f8007000 paddr=0x00000000fa007000 size=16748544
-        CPU 0/KVM-3046  [051] .... 63113.339444: map: IOMMU: 
-iova=0x00000000fa000000 paddr=0x00000000fb001000 size=4096
-        CPU 0/KVM-3046  [051] .... 63113.339697: map: IOMMU: 
-iova=0x00000000fa001000 paddr=0x00000000fb000000 size=4096
-        CPU 0/KVM-3046  [051] .... 63113.340209: map: IOMMU: 
-iova=0x00000000f9000000 paddr=0x00000000f9000000 size=16777216
-. . .
-
-I have enabled qemu trace(-trace events=/root/qemu/trace_events). Trace 
-file consists of the falling functions:
-vfio_region_mmap
-vfio_get_dev_region
-vfio_pci_size_rom
-vfio_pci_read_config
-vfio_pci_write_config
-vfio_iommu_map_notify
-vfio_listener_region_add_iommu
-vfio_listener_region_add_ram
-
-Some important brief from qemu trace:
-. . .
-янв 13 18:17:24 VM qemu-system-x86_64[7131]: vfio_region_mmap Region 
-0000:84:00.0 BAR 0 mmaps[0] [0x0 - 0xffffff]
-янв 13 18:17:24 VM qemu-system-x86_64[7131]: vfio_region_mmap Region 
-0000:84:00.0 BAR 2 mmaps[0] [0x0 - 0xfff]
-янв 13 18:17:24 VM qemu-system-x86_64[7131]: vfio_region_mmap Region 
-0000:84:00.0 BAR 3 mmaps[0] [0x0 - 0xfff]
-янв 13 18:17:24 VM qemu-system-x86_64[7131]: vfio_region_mmap Region 
-0000:84:00.0 BAR 4 mmaps[0] [0x0 - 0xffffff]
-. . .
-янв 13 18:17:37 VM qemu-system-x86_64[7131]: 
-vfio_listener_region_add_ram region_add [ram] 0xf8000000 - 0xf8005fff 
-[0x7f691e800000]
-янв 13 18:17:37 VM qemu-system-x86_64[7131]: 
-vfio_listener_region_add_ram region_add [ram] 0xf8007000 - 0xf8ffffff 
-[0x7f691e807000]
-янв 13 18:17:37 VM qemu-system-x86_64[7131]: 
-vfio_listener_region_add_ram region_add [ram] 0xfa000000 - 0xfa000fff 
-[0x7f6b5de37000]
-янв 13 18:17:37 VM qemu-system-x86_64[7131]: 
-vfio_listener_region_add_ram region_add [ram] 0xfa001000 - 0xfa001fff 
-[0x7f6b58004000]
-янв 13 18:17:37 VM qemu-system-x86_64[7131]: 
-vfio_listener_region_add_ram region_add [ram] 0xf9000000 - 0xf9ffffff 
-[0x7f691d800000]
-
-I use qemu 4.0.0 which I rebuild for tracing support 
-(--enable-trace-backends=syslog).
-
-Please, help me solve this issue. Thank you!
+ block/qcow2-bitmap.c   |  54 ++++++++++++-
+ block/qcow2-refcount.c |  84 ++++++++++++++++----
+ block/qcow2.c          |  30 +++++++
+ block/qcow2.h          |   6 +-
+ include/block/block.h  |   3 +-
+ qapi/block-core.json   | 209 ++++++++++++++++++++++++++++++++++++++++++++++++-
+ qemu-img.c             |  30 ++++++-
+ qemu-img.texi          |   6 +-
+ 8 files changed, 397 insertions(+), 25 deletions(-)
 
 -- 
-with best regards
-Yurij Goncharuk
+1.8.3.1
+
 
