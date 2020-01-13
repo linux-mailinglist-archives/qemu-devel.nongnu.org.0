@@ -2,83 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDAAF139703
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 18:08:55 +0100 (CET)
-Received: from localhost ([::1]:53356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870C8139731
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 18:11:44 +0100 (CET)
+Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir3Cw-0000yz-8f
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 12:08:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32920)
+	id 1ir3Ff-0005Ko-Bw
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 12:11:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34022)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ir39o-0004yW-SW
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:05:42 -0500
+ (envelope-from <kwolf@redhat.com>) id 1ir3EK-0003dR-S8
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:10:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ir39l-0004lr-Hs
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:05:38 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41188
+ (envelope-from <kwolf@redhat.com>) id 1ir3EI-0002SK-GJ
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:10:20 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56103
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ir39l-0004jv-7W
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:05:37 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ir3EI-0002R6-D4
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 12:10:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578935136;
+ s=mimecast20190719; t=1578935417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8akm5y2JIK+SIsf38zIVKEGwGAeiQntPbaAnvyKf3TU=;
- b=DrFHhbygzS0OCRSTDCEzkJvfDaOKL4UpHgnfZ8p6sEQr2A+SWRA/ItALTtxw3uXuoiKTcJ
- 8wHWwLkzzd8Ahp4/Jptg+cszrOyRszAAhQW44lD+HxOEvAU1QrtzaK5QlHQf+rfX3+sw+v
- P7j+COTchXvY9JUJpWWhLSXaqcBYYPI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-C3HcSvHDPxO3xxvuBWX8Ww-1; Mon, 13 Jan 2020 12:05:34 -0500
-Received: by mail-wm1-f72.google.com with SMTP id g26so1386388wmk.6
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 09:05:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3eLu5EnOB+WxW6gFtG3qisQpnTYPKy0enAl1ThZM8Wc=;
- b=k8dPKC4VWaTyrFA5R+GAdt6KqL0CaUVyroc7HErKzLpoDiO6ctT9DJLAiQC91BtGX3
- yzcbB1jbiLdHKxX2GR5dnfi5RNVZRNRh8SfyB1YExw3LUKjGSW5AZZY1M4H33+iIQhpU
- EvNt6Mt1V4qM/gdSTFWk6wIa3YSGcXbAwCINr6esqdaeowfPj1kOw50AmjBj7YWVm1Z+
- xAvgWwbsNgcKORPtDusSiP84cFPyFmJW5lG4KxgL3vNjAtpfSaYzpn3u3xFpRIQ6paQQ
- 6bY6eM89wpT24yXqb4jrELcDqeFX8FzhsEfBjVJgL/oMfVoN23iwNGELoHtraYeB883z
- pcrA==
-X-Gm-Message-State: APjAAAUqxfpM2QfUx2oTZP6zu3oBGJadi2gpJOas2MY8TA+fLRkr694F
- 0VuHeH0YHaVBqiuO+UzAPHqi8D5r10YkGp5/8zM7OwFAGZGZ9jpfvuBD0EzLs20kOMQvt5F9fDC
- YOZJvEypWKBlWRw0=
-X-Received: by 2002:a1c:7203:: with SMTP id n3mr20531533wmc.119.1578935133678; 
- Mon, 13 Jan 2020 09:05:33 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxYMsarVlfIbB0za7AuFgeL+t2Vna2+WiFKEyyrZUPs0zlssOQLalmn50iARH8XI8jyd5eiFw==
-X-Received: by 2002:a1c:7203:: with SMTP id n3mr20531490wmc.119.1578935133375; 
- Mon, 13 Jan 2020 09:05:33 -0800 (PST)
-Received: from [192.168.1.24] (lfbn-mon-1-1519-115.w92-167.abo.wanadoo.fr.
- [92.167.83.115])
- by smtp.gmail.com with ESMTPSA id h8sm16523814wrx.63.2020.01.13.09.05.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jan 2020 09:05:32 -0800 (PST)
-Subject: Re: [PATCH] arm/gicv3: update virtual irq state after IAR register
- read
-To: Jeff Kubascik <jeff.kubascik@dornerworks.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200113154607.97032-1-jeff.kubascik@dornerworks.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7260d4ef-7d51-44c3-95d0-2c88c6e2eb63@redhat.com>
-Date: Mon, 13 Jan 2020 18:05:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ bh=C/ni6dCfjSn31sYgnStARHuOnOCsB/uTL6pO7qpmluQ=;
+ b=YIghEjTsv/fKDEMTDSWU4nhFoVlyqjoHNpXGbEIW0UrnVuBnbT8eW1FUwImSwK7AbCI+L/
+ 6BHje1V8QZkQ0vX1sidVsnIJFgFYtUsm6M7AwF9FV/e2GYqX2b/aSXbR0YlrcJYzA1okH9
+ OXIt4lgsSx5t4qWwyzCBpcUMUghy20g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-mLbzeYNkPouqFEodvQ2O8Q-1; Mon, 13 Jan 2020 12:10:13 -0500
+X-MC-Unique: mLbzeYNkPouqFEodvQ2O8Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 383DF1800D78;
+ Mon, 13 Jan 2020 17:10:12 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-192.ams2.redhat.com [10.36.117.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 12A0A5D9CA;
+ Mon, 13 Jan 2020 17:10:10 +0000 (UTC)
+Date: Mon, 13 Jan 2020 18:10:09 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [PATCH 2/4] block: Mark 'block_resize' as coroutine
+Message-ID: <20200113171009.GH5549@linux.fritz.box>
+References: <20200109183545.27452-1-kwolf@redhat.com>
+ <20200109183545.27452-3-kwolf@redhat.com>
+ <20200113165648.GD103384@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200113154607.97032-1-jeff.kubascik@dornerworks.com>
-Content-Language: en-US
-X-MC-Unique: C3HcSvHDPxO3xxvuBWX8Ww-1
+In-Reply-To: <20200113165648.GD103384@stefanha-x1.localdomain>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="+pHx0qQiF2pBVqBT"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -93,75 +73,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stewart Hildebrand <Stewart.Hildebrand@dornerworks.com>,
- Jarvis Roach <Jarvis.Roach@dornerworks.com>
+Cc: marcandre.lureau@gmail.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/13/20 4:46 PM, Jeff Kubascik wrote:
-> The IAR0/IAR1 register is used to acknowledge an interrupt - a read of th=
-e
-> register activates the highest priority pending interrupt and provides it=
-s
-> interrupt ID. Activating an interrupt can change the CPU's virtual interr=
-upt
-> state - this change makes sure the virtual irq state is updated.
->=20
-> Signed-off-by: Jeff Kubascik <jeff.kubascik@dornerworks.com>
-> ---
-> Hello,
->=20
-> I am using the ARMv8 version of QEMU configured with the gicv3 interrupt
-> controller to run the Xen hypervisor with RTEMS as a guest VM (AArch32). =
-I
-> have noticed that when Xen injects a virtual irq to the guest VM, the gue=
-st
-> gets stuck in the interrupt handler.
->=20
-> The guest's interrupt handler does the following in order:
->    - Reads IAR1 to acknowledge the interrupt and get the INTID
->    - Unmasks interrupts by clearing the I bit in the CPSR register
->    - Dispatches the interrupt to the appropriate driver
->    - Restores the I bit in the CPSR state
->    - Writes the INTID to EOIR1 to drop priority and deactivate the interr=
-upt
->=20
-> However, when the I bit was cleared, QEMU immediately raised the same
-> virtual interrupt again. This process repeated itself indefinitely.
->=20
-> The read of the IAR1 register should activate the interrupt and prevent i=
-t
-> from firing again. However, the gicv3 device code wasn't updating the
-> irq_line_state, so the CPU_INTERRUPT_VIRQ flag remained set. Therefore, w=
-hen
-> I bit was cleared, the CPU immediately switched to the exception handler.
->=20
-> I have tested this patch, and it works for Xen with both an AArch64 Linux
-> guest and an AArch32 RTEMS guest.
->=20
-> Sincerely,
-> Jeff Kubascik
-> ---
->   hw/intc/arm_gicv3_cpuif.c | 3 +++
->   1 file changed, 3 insertions(+)
->=20
-> diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-> index a254b0ce87..08e000e33c 100644
-> --- a/hw/intc/arm_gicv3_cpuif.c
-> +++ b/hw/intc/arm_gicv3_cpuif.c
-> @@ -664,6 +664,9 @@ static uint64_t icv_iar_read(CPUARMState *env, const =
-ARMCPRegInfo *ri)
->  =20
->       trace_gicv3_icv_iar_read(ri->crm =3D=3D 8 ? 0 : 1,
->                                gicv3_redist_affid(cs), intid);
-> +
-> +    gicv3_cpuif_virt_update(cs);
-> +
->       return intid;
->   }
->  =20
->=20
+--+pHx0qQiF2pBVqBT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+Am 13.01.2020 um 17:56 hat Stefan Hajnoczi geschrieben:
+> On Thu, Jan 09, 2020 at 07:35:43PM +0100, Kevin Wolf wrote:
+> > block_resize is safe to run in a coroutine, so use it as an example for
+> > the new 'coroutine': true annotation in the QAPI schema.
+> >=20
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >  qapi/block-core.json | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/qapi/block-core.json b/qapi/block-core.json
+> > index 7ff5e5edaf..1dbb2a9901 100644
+> > --- a/qapi/block-core.json
+> > +++ b/qapi/block-core.json
+> > @@ -1341,7 +1341,8 @@
+> >  { 'command': 'block_resize',
+> >    'data': { '*device': 'str',
+> >              '*node-name': 'str',
+> > -            'size': 'int' } }
+> > +            'size': 'int' },
+> > +  'coroutine': true }
+> > =20
+> >  ##
+> >  # @NewImageMode:
+>=20
+> coroutine_fn is missing on
+> blockdev.c:void qmp_block_resize(bool has_device, const char *device,
+
+It wouldn't even be true until after patch 4. Should I reorder the
+patches so I can add coroutine_fn?
+
+Kevin
+
+--+pHx0qQiF2pBVqBT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAEBAgAGBQJeHKRxAAoJEH8JsnLIjy/WHOAP/iywQ9vkk4ndP6TtjB4hHZCh
+lPZ3TAsBlaXWyFI8NbkVLMhvnskjrg3bsWOmNn2Ee1C5b6vV50lE3+TyXXr7/7f9
+s1r2pyoQU+iLTQa99slgPQQQT5P1nG4xfrvuRVGZEUAbpe3/GNW7718250hJG51f
+1x7cPGQYIe2dnvwkyKhbZuvjX7pKnlEoft3f/PZivADqslvbe0mJSkhNCFZcEYCa
+XnImXwvY/40RGOchdWGnNHK91oSgDahVnH/xcEpW91eqoEwPCSQTJnmJ8JZXQ0/w
+m0H/X5YOS34dZQAnv2c4Lxg9AzH5z7tsF0jUGl+j52RqR2d9+mauzueidDhVW9eZ
+pTdpCZMyzkPr4WcbHmsXPd5Ld+mEIczuxYB1r+fT2tbwKQKa2y39/jGo4gT/Rm1S
+Rgab/smREV36las5wO/6BNFC+BDL355uRDrcxieshm3NALyH+9jr6Qj2p7aZl+9q
+Oh5IxdQt6OlKFR2TcErlq9mv5KHzLlsb+/Bvbu+hWVPAuwJZaHiqlk1TXAm69ztg
+fdyS+VbfKu+CBSrKmzBJIh8h/+iuW+YrmNQ06jO0/e8uUtghc1zi4iHc1+N1K9iG
+eOTAwUIgmmpcnLFzZsPiMeVccf7IaMZiREhJDUz7KEFU5VRz81ckQqfW8RBF05B9
+9isEfCNlR0KT4Xvi1Fqd
+=vk3k
+-----END PGP SIGNATURE-----
+
+--+pHx0qQiF2pBVqBT--
 
 
