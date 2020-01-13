@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1191139AF9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 21:51:35 +0100 (CET)
-Received: from localhost ([::1]:55686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC52139B01
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 21:54:14 +0100 (CET)
+Received: from localhost ([::1]:55704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir6g7-0004ND-GA
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 15:51:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51149)
+	id 1ir6hi-0007DX-La
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 15:52:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51211)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ir6Tp-0005Zc-UP
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:35 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ir6Tz-0005qG-Ra
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ir6To-00077w-Ny
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:33 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:47883 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ir6Ty-0007MG-U7
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:43 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:48082 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1ir6To-00075b-GL
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:32 -0500
+ id 1ir6Ty-00076X-NL
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 15:38:42 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id A1AB51A1FB3;
- Mon, 13 Jan 2020 21:38:29 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTP id 948481A1F9E;
+ Mon, 13 Jan 2020 21:38:30 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 87DB21A1DF2;
- Mon, 13 Jan 2020 21:38:29 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 782521A1DF2;
+ Mon, 13 Jan 2020 21:38:30 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 19/20] linux-user: Add support for KCOV_<ENABLE|DISABLE>
- ioctls
-Date: Mon, 13 Jan 2020 21:34:42 +0100
-Message-Id: <1578947683-21011-20-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH v5 20/20] linux-user: Add support for KCOV_INIT_TRACE ioctl
+Date: Mon, 13 Jan 2020 21:34:43 +0100
+Message-Id: <1578947683-21011-21-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1578947683-21011-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1578947683-21011-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -57,59 +56,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-KCOV_ENABLE and KCOV_DISABLE play the role in kernel coverage
-tracing. These ioctls do not use the third argument of ioctl()
-system call and are straightforward to implement in QEMU.
+KCOV_INIT_TRACE ioctl plays the role in kernel coverage tracing.
+This ioctl's third argument is of type 'unsigned long', and the
+implementation in QEMU is straightforward.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- linux-user/ioctls.h       | 5 +++++
- linux-user/syscall.c      | 3 +++
- linux-user/syscall_defs.h | 4 ++++
- 3 files changed, 12 insertions(+)
+ linux-user/ioctls.h       | 1 +
+ linux-user/syscall_defs.h | 1 +
+ 2 files changed, 2 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index d72cd76..39b3825 100644
+index 39b3825..1da71dd 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -552,3 +552,8 @@
-   IOCTL_IGNORE(TIOCSTART)
-   IOCTL_IGNORE(TIOCSTOP)
+@@ -556,4 +556,5 @@
+ #ifdef CONFIG_KCOV
+   IOCTL(KCOV_ENABLE, 0, TYPE_NULL)
+   IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
++  IOCTL(KCOV_INIT_TRACE, IOC_R, TYPE_ULONG)
  #endif
-+
-+#ifdef CONFIG_KCOV
-+  IOCTL(KCOV_ENABLE, 0, TYPE_NULL)
-+  IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
-+#endif
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 171c0ca..6edcb0d 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -73,6 +73,9 @@
- #ifdef CONFIG_SENDFILE
- #include <sys/sendfile.h>
- #endif
-+#ifdef CONFIG_KCOV
-+#include <sys/kcov.h>
-+#endif
- 
- #define termios host_termios
- #define winsize host_winsize
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 225dcfb..87e390d 100644
+index 87e390d..209c138 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -2457,6 +2457,10 @@ struct target_mtpos {
- #define TARGET_MTIOCGET        TARGET_IOR('m', 2, struct target_mtget)
- #define TARGET_MTIOCPOS        TARGET_IOR('m', 3, struct target_mtpos)
+@@ -2460,6 +2460,7 @@ struct target_mtpos {
+ /* kcov ioctls */
+ #define TARGET_KCOV_ENABLE     TARGET_IO('c', 100)
+ #define TARGET_KCOV_DISABLE    TARGET_IO('c', 101)
++#define TARGET_KCOV_INIT_TRACE TARGET_IOR('c', 1, abi_ulong)
  
-+/* kcov ioctls */
-+#define TARGET_KCOV_ENABLE     TARGET_IO('c', 100)
-+#define TARGET_KCOV_DISABLE    TARGET_IO('c', 101)
-+
  struct target_sysinfo {
      abi_long uptime;                /* Seconds since boot */
-     abi_ulong loads[3];             /* 1, 5, and 15 minute load averages */
 -- 
 2.7.4
 
