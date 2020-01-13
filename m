@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72D61393EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:47:43 +0100 (CET)
-Received: from localhost ([::1]:51356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FEC31393ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:47:46 +0100 (CET)
+Received: from localhost ([::1]:51358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir10I-00083I-9F
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:47:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43124)
+	id 1ir10L-00086O-Cm
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:47:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43128)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ir0yL-0007BA-Af
+ (envelope-from <bounces@canonical.com>) id 1ir0yL-0007BB-DU
  for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:45:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ir0yJ-0006Ho-V3
+ (envelope-from <bounces@canonical.com>) id 1ir0yJ-0006Ht-V2
  for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:45:41 -0500
-Received: from indium.canonical.com ([91.189.90.7]:37348)
+Received: from indium.canonical.com ([91.189.90.7]:37356)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ir0yJ-0006Ge-P1
+ id 1ir0yJ-0006Gi-P7
  for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:45:39 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ir0yI-0007P2-5i
+ id 1ir0yI-0007Op-F0
  for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:45:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E30022E8042
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:45:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6EEBC2E80C7
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:45:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 Jan 2020 14:36:47 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Jan 2020 14:37:13 -0000
+From: Alex Longwall <1859384@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -42,9 +42,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: ajbennee alexlngw pmaydell
 X-Launchpad-Bug-Reporter: Alex Longwall (alexlngw)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+X-Launchpad-Bug-Modifier: Alex Longwall (alexlngw)
 References: <157887973843.5281.117317310678495552.malonedeb@gac.canonical.com>
-Message-Id: <157892620732.14410.9250586282956495645.malone@wampee.canonical.com>
+Message-Id: <157892623405.15184.16393008676700161325.malone@wampee.canonical.com>
 Subject: [Bug 1859384] Re: arm gic: interrupt model never 1 on non-mpcore and
  race condition in gic_acknowledge_irq
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: eca705151610b72f76b4d788e3285be8780be7f1
+X-Launchpad-Hash: ce663be3410016848207cd42fac4899ee078dfcf
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -71,8 +71,24 @@ Reply-To: Bug 1859384 <1859384@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Oops, yes, missed that use of GIC_DIST_TEST_MODEL because it was in the
-header file...
+> about describing the expected versus actual behaviour you see.
+
+Expected behavior:
+
+* core 0 (or 1) reads irqId (irqId becomes active/active-pending)
+* core 1 (or resp. 0) reads 1023
+* core 0 handles and deactivates the interrupt
+
+What I am getting instead:
+
+* core 0 reads irqId
+* core 1 also reads irqId
+* core 0 handles the interrupt, later deactivates it
+* core 1 attempts to handle the interrupt
+
+In arm-gic.c, reads of GICC_IAR call gic_acknowledge_irq.
+gic_acknowledge_irq, in turn, calls gic_clear_pending (in
+gic_internal.h) which eventually evaluates GIC_DIST_TEST_MODEL, line 266
 
 -- =
 
