@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C918C139399
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:22:07 +0100 (CET)
-Received: from localhost ([::1]:51078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 063801393B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:31:58 +0100 (CET)
+Received: from localhost ([::1]:51184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir0bW-0007rW-Sr
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:22:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34591)
+	id 1ir0l2-0007B0-IE
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:31:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39801)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ir0ZT-0006GV-A4
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:20:04 -0500
+ (envelope-from <bounces@canonical.com>) id 1ir0jo-0006Vm-J6
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:30:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ir0ZR-0007De-UB
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:19:59 -0500
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:34472)
+ (envelope-from <bounces@canonical.com>) id 1ir0jn-0003Au-3Z
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:30:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:60524)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ir0ZR-0007Ci-OJ
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:19:57 -0500
-Received: by mail-ot1-x330.google.com with SMTP id a15so9069552otf.1
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 06:19:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=STzwmIRYOk61ICR8hTh3qshOxBGbS4k7FmWvD0R8AbQ=;
- b=zyB29RJeO2p6HmixO+kbYWZN3DE4kykhxin5ysJQZzibKaMS2yXUDmcdify7b4ig1b
- TbZqB4d0h+z6nT/HuzxX7EQHQX1nOKfNAJAbI/Xb/n0ITRupVvDDQH7CvYo0Hh9s8//k
- dNk3w1q4dmsN2BycyNDr4gEvVLFZ9pffU+3+wqY1iqmQzGSq+LBNXJXjt5gc+ghDU4oW
- KpHKYlRX8LqwIiW6zU2CQniCo95FMOKKvOBN+wAQuotnvGplWUjW52oG80z/oZYZf25L
- p4NkYnR6bmow91KDMrjpvs8gRchHnL5L6EVLNgZ48RzWBKJO6oIlW58nLw1tPkydCzH6
- z0iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=STzwmIRYOk61ICR8hTh3qshOxBGbS4k7FmWvD0R8AbQ=;
- b=VrmF3toGhawIsBznHyPsv0mu4g1ysTMb/KqcfNgWcGGe0ljWlEdHEFcdeJ05bmX1ke
- JdBXk8s2Hv7/07XgoEqK+oRcAMJJkCt/gJ4XXxV4t/a9zjSC7R4AjDcIyYmVrAotE1BY
- dglXBIMh/N1SjbflEXlBYoODiLyqOPNKpPVcfdKwOafO9Shipo8gwcSMvd2N+AZEw4aq
- G4TpcdMR8T0gI2B3aQp32bq+LSdTPRmLzHJARRDsArPmO0KWe+olhLT98o64kAeHEMxB
- F34152USvAWr5A9Rlnn92RCbvG5GU8LIJGwnXwrv8E8I13SL00TfzZ+h1RF0APXnVbsz
- 41ew==
-X-Gm-Message-State: APjAAAXTMgAycVYsDcZwc/3W2ULAtnGkZTm91F8Fc4sh8QsdYcJN8zRM
- kfIKEFWpV3HnblMlJs6DYU3ATpAILz5hoR/cWpXc0w==
-X-Google-Smtp-Source: APXvYqyO5w/PZebWBhfS4EunjTN7WdRCysgcvO7WFYbwOaMf0ncGXYtZv9SHuVqaJy9PRuoCTOkAYcO1/+YMa4T5KYs=
-X-Received: by 2002:a05:6830:184:: with SMTP id
- q4mr13393639ota.232.1578925196719; 
- Mon, 13 Jan 2020 06:19:56 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ir0jm-00038H-Tt
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:30:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ir0jl-0004gM-2P
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:30:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0F0E22E80C0
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:30:37 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200112112832.9450-1-thuth@redhat.com>
-In-Reply-To: <20200112112832.9450-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Jan 2020 14:19:45 +0000
-Message-ID: <CAFEAcA9FZhx6HzjpVuYqzd_RF0FEccc53JP3iukh++=RpCZecQ@mail.gmail.com>
-Subject: Re: [PULL v2 0/8] qtests and docs
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::330
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 13 Jan 2020 14:23:53 -0000
+From: Alex Longwall <1859384@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm gic
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee alexlngw pmaydell
+X-Launchpad-Bug-Reporter: Alex Longwall (alexlngw)
+X-Launchpad-Bug-Modifier: Alex Longwall (alexlngw)
+References: <157887973843.5281.117317310678495552.malonedeb@gac.canonical.com>
+Message-Id: <157892543346.15344.2203687213143908778.malone@wampee.canonical.com>
+Subject: [Bug 1859384] Re: arm gic: interrupt model never 1 on non-mpcore and
+ race condition in gic_acknowledge_irq
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 985ef24c87b0f028c330c12815ff2b0fba413572
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,38 +67,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Bug 1859384 <1859384@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 12 Jan 2020 at 11:28, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi Peter!
->
-> The following changes since commit dc65a5bdc9fa543690a775b50d4ffbeb22c56d6d:
->
->   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-5.0-20200108'
->   into staging (2020-01-10 16:15:04 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/huth/qemu.git tags/pull-request-2020-01-12
->
-> for you to fetch changes up to 22108f333d16cbfbd5808bb4f661c394b08fe698:
->
->   docs: build an index page for the HTML docs (2020-01-12 11:42:41 +0100)
->
-> ----------------------------------------------------------------
-> * Move qtests into a separate directory
-> * Build index.html for docs
-> ----------------------------------------------------------------
+> You might find there is enough in kvm-unit-tests GIC tests already to
+build a test case for what you are seeing.
 
+Right, I will do so as soon as possible.
 
-Applied, thanks.
+For bug 1) however, a simpler test can be made
+_start:
+    // x0=3Dgicd
+    mov     x0, #0x08000000
+    // Read icfgr[for irqid=3D32...]
+    ldr     w1, [x0, #(0xc00+32/4)]
+    // Try to write to icfgr
+    mov     w1, #3
+    str     w1, [x0, #(0xc00+32/4)]
+    // Read back
+    ldr     w1, [x0, #(0xc00+32/4)]
+    b .
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+Running this code through the gdbstub, we can see that the model bits
+((2*id+0) mod 16) in icfgr are always 0, no matter what.
 
--- PMM
+However, even for the GICv2, GIC_DIST_TEST_MODEL is being used in qemu
+source code, meaning all interrupts, including SPIs, are wrongly treated
+as N-N.
+
+The initialization function of the GIC should (at least for GICv2
+devices) initialize these bits as 1 for all SPIs; this is currently not
+the case.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859384
+
+Title:
+  arm gic: interrupt model never 1 on non-mpcore and race condition in
+  gic_acknowledge_irq
+
+Status in QEMU:
+  New
+
+Bug description:
+  For a 1-N interrupt (any SPI on the GICv2), as mandated by the TRM,
+  only one CPU can acknowledge the IRQ until it becomes inactive.
+
+  The TRM also mandates that SGIs and PPIs follow the N-N model and that
+  SPIs follow the 1-N model.
+
+  However this is not currently the case with QEMU. I have locally (no
+  minimal test case) seen e.g. uart interrupts being acknowledged twice
+  before having been deactivated (expected: irqId on one CPU and 1023 on
+  the other instead).
+
+  I have narrowed the issue down to the following:
+
+  1) arm_gic_common_reset resets all irq_state[id] fields to 0. This
+  means all IRQ will use the N-N model, and if s->revision !=3D
+  REV_11MPCORE, then there's no way to set any interrupt to 1-N.
+
+  If ""fixed"" locally with a hackjob, I still have the following trace:
+
+  pl011_irq_state 534130.800 pid=3D2424 level=3D0x1
+  gic_set_irq 2.900 pid=3D2424 irq=3D0x21 level=3D0x1 cpumask=3D0xff target=
+=3D0xff
+  gic_update_set_irq 3.300 pid=3D2424 cpu=3D0x0 name=3Dirq level=3D0x1
+  gic_update_set_irq 4.200 pid=3D2424 cpu=3D0x1 name=3Dirq level=3D0x1
+  gic_acknowledge_irq 539.400 pid=3D2424 s=3Dcpu cpu=3D0x1 irq=3D0x21
+  gic_update_set_irq 269.800 pid=3D2424 cpu=3D0x0 name=3Dirq level=3D0x1
+  gic_cpu_read 4.100 pid=3D2424 s=3Dcpu cpu=3D0x1 addr=3D0xc val=3D0x21
+  gic_acknowledge_irq 15.600 pid=3D2424 s=3Dcpu cpu=3D0x0 irq=3D0x21
+  gic_cpu_read 265.000 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0xc val=3D0x21
+  pl011_write 1594.700 pid=3D2424 addr=3D0x44 value=3D0x50
+  pl011_irq_state 2.000 pid=3D2424 level=3D0x0
+  gic_set_irq 1.300 pid=3D2424 irq=3D0x21 level=3D0x0 cpumask=3D0xff target=
+=3D0xff
+  pl011_write 30.700 pid=3D2424 addr=3D0x38 value=3D0x0
+  pl011_irq_state 1.200 pid=3D2424 level=3D0x0
+  gic_cpu_write 110.600 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0x10 val=3D0x21
+  gic_cpu_write 193.400 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0x1000 val=3D0x=
+21
+  pl011_irq_state 1169.500 pid=3D2424 level=3D0x0
+
+  This is because:
+
+  2) gic_acknowledge_irq calls gic_clear_pending which uses
+  GIC_DIST_CLEAR_PENDING but this usually has no effect on level-
+  sensitive interrupts.
+
+  With this often being a no-op (ie. assuming ispendr was not written
+  to), any 1-n level-sensitive interrupt is still improperly pending on
+  all the other cores.
+
+  (Also, I don't really know how the qemu thread model works, there
+  might be race conditions in the acknowledgment logic if
+  gic_acknowledge_irq is called by multiple threads, too.)
+
+  Option used:
+  -nographic -machine virt,virtualization=3Don,accel=3Dtcg,gic-version=3D2 =
+-cpu cortex-a57 -smp 4 -m 1024
+  -kernel whatever.elf -d unimp,guest_errors -semihosting-config enable,tar=
+get=3Dnative
+  -chardev stdio,id=3Duart -serial chardev:uart -monitor none
+  -trace gic_update_set_irq -trace gic_acknowledge_irq -trace pl011_irq_sta=
+te -trace pl011_write -trace gic_cpu_read -trace gic_cpu_write
+  -trace gic_set_irq
+
+  Commit used: dc65a5bdc9fa543690a775b50d4ffbeb22c56d6d "Merge remote-
+  tracking branch 'remotes/dgibson/tags/ppc-for-5.0-20200108' into
+  staging"
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859384/+subscriptions
 
