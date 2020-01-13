@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FE813939A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:23:13 +0100 (CET)
-Received: from localhost ([::1]:51094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833A1139398
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 15:21:26 +0100 (CET)
+Received: from localhost ([::1]:51054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir0ca-0000f8-O4
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:23:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34801)
+	id 1ir0aq-0006U6-IU
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 09:21:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34338)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ir0aE-0006yS-W8
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:20:48 -0500
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1ir0YY-0005iY-RU
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:19:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ir0aD-0007wH-E5
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:20:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57514)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ir0aD-0007sb-84
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:20:45 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ir0a8-00034b-Ez
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:20:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 61C352E80C9
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 14:20:40 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 Jan 2020 14:14:28 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm gic
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee alexlngw pmaydell
-X-Launchpad-Bug-Reporter: Alex Longwall (alexlngw)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <157887973843.5281.117317310678495552.malonedeb@gac.canonical.com>
-Message-Id: <157892486819.5393.7478344786160739975.malone@gac.canonical.com>
-Subject: [Bug 1859384] Re: arm gic: interrupt model never 1 on non-mpcore and
- race condition in gic_acknowledge_irq
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
+ (envelope-from <yury-kotov@yandex-team.ru>) id 1ir0YV-0006P3-N9
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:19:00 -0500
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:57550)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yury-kotov@yandex-team.ru>)
+ id 1ir0YV-0006Md-4v
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 09:18:59 -0500
+Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
+ [IPv6:2a02:6b8:0:1402::301])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 408D22E14CB;
+ Mon, 13 Jan 2020 17:18:56 +0300 (MSK)
+Received: from localhost (localhost [::1])
+ by mxbackcorp1g.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ uh2AMYZbMN-ItUiGiiX; Mon, 13 Jan 2020 17:18:56 +0300
 Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b0b877cc0bba208b0162ed6d8ee6072f9594bb5f
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1578925136; bh=vAUclmrteYCLkVKjwkT9pOpud6Yq+ZPROxH3erBZoCk=;
+ h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
+ b=BZngSCd3rE0AhJ7Fyl2BYarDwULl2Jv0vN9NKZo8BBt5LgUlAm2jUWHeHQL0p7u3U
+ T63ChDYdBc2Gmh5iTS3xMlCDfln34qmyEmMvlvLoeBG8kFu/5kRrsh7UL2zPW7/ZlG
+ a3xx4MBsDXhsgnqPed5N9Q4wn1wRZBCkl28yuNCU=
+Authentication-Results: mxbackcorp1g.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+X-Yandex-Sender-Uid: 1120000000071945
+X-Yandex-Avir: 1
+Received: from mxbackcorp1j.mail.yandex.net (localhost [::1])
+ by mxbackcorp1j.mail.yandex.net with LMTP id M16lFqBCcA-ws9aq3fD
+ for <yury-kotov@yandex-team.ru>; Mon, 13 Jan 2020 17:18:45 +0300
+Received: by vla5-c30c59847b9e.qloud-c.yandex.net with HTTP;
+ Mon, 13 Jan 2020 17:18:44 +0300
+From: Yury Kotov <yury-kotov@yandex-team.ru>
+To: Michael S. Tsirkin <mst@redhat.com>,
+ Dr. David Alan Gilbert <dgilbert@redhat.com>
+In-Reply-To: <20200107150301-mutt-send-email-mst@kernel.org>
+References: <20191209074102.5926-1-yury-kotov@yandex-team.ru>
+ <20191211111655.GC3875@work-vm>
+ <279541577091067@sas1-eb34c5849710.qloud-c.yandex.net>
+ <20200103114427.GD3804@work-vm>
+ <20200107150301-mutt-send-email-mst@kernel.org>
+Subject: Re: [RFC PATCH 0/1] Removing RAMBlocks during migration
+MIME-Version: 1.0
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Mon, 13 Jan 2020 17:18:54 +0300
+Message-Id: <1135331578925124@vla5-c30c59847b9e.qloud-c.yandex.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a02:6b8:0:1472:2741:0:8b6:217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -67,111 +75,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859384 <1859384@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "yc-core@yandex-team.ru" <yc-core@yandex-team.ru>,
+ Juan Quintela <quintela@redhat.com>, "jusual@redhat.com" <jusual@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It would probably help if you were a bit more specific about describing
-the expected versus actual behaviour you see. I think here that we're
-talking about the GICD_ICFGR registers and more specifically the bits
-[2F] that may indicate N-N vs 1-N model.
+Hi!
 
-The GIC architecture specification says that these GICD_IFCGR bits are
-only relevant for "some early GIC implementations", which for QEMU means
-"only for the 11MPcore pre-GICv1 GIC". Our GICv2 implementation follows
-the architecture in having these bits be RAZ/WI (and we implement the
-behaviour of the 1-N-for-SPI vs N-N-for-SGI in code rather than by
-testing the 'model' flag, I think).
+07.01.2020, 23:08, "Michael S. Tsirkin" <mst@redhat.com>:
+> On Fri, Jan 03, 2020 at 11:44:27AM +0000, Dr. David Alan Gilbert wrote:
+>> =C2=A0> 1) Guest: writes to slot's pci config
+>> =C2=A0> 2) QEMU: pcie_cap_slot_write_config -> pcie_unplug_device
+>> =C2=A0>
+>> =C2=A0> So, it's only guest driven action and qdev_unplug doesn't help=
+ here.
+>>
+>> =C2=A0Hmm we need to find a way to stop that; lets see if Michael Tsir=
+kin has
+>> =C2=A0any ideas (cc'd) - I'm thinking if we could defer the unplug unt=
+il the
+>> =C2=A0end of the migration we'd be OK; but it feels racy as to whether=
+ the
+>> =C2=A0destination is started with the device that the guest is unplugg=
+ing.
+>>
+>> =C2=A0Dave
+>
+> It's true - and same is possible with PCI, guest can remove device
+> at will.
+>
+> Also, while libvirt learned not to start device del while migration
+> is active, it's annoying to have to wait for device del
+> to complete before migration can be started.
+>
+> I guess we can make device invisible to guest - that concept
+> now exists because of failover, and can maybe be reused here.
+>
+> Alternatively or additionally - for a while now I wanted to only remove
+> the device if guest powered it out and removal was requested. Again it
+> might be easier now that we have a concept of an invisible device.
+>
 
-For part (2), I think you're saying that we're missing the bit of
-functionality that in the arch spec section 3.2.3 is described as "when
-the GIC recognises an interrupt acknowledge from one of the target
-processors it clears the pending state on all the other targeted
-processors" ? Interestingly, this isn't documented in the section 3.2.4
-set of conditions where the pending state is removed...
+I sent an rfc patch that implements deferred device unplug:
+  pcie: Defer hot unplug until migration is complete
 
--- =
+Please take a look at it.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859384
-
-Title:
-  arm gic: interrupt model never 1 on non-mpcore and race condition in
-  gic_acknowledge_irq
-
-Status in QEMU:
-  New
-
-Bug description:
-  For a 1-N interrupt (any SPI on the GICv2), as mandated by the TRM,
-  only one CPU can acknowledge the IRQ until it becomes inactive.
-
-  The TRM also mandates that SGIs and PPIs follow the N-N model and that
-  SPIs follow the 1-N model.
-
-  However this is not currently the case with QEMU. I have locally (no
-  minimal test case) seen e.g. uart interrupts being acknowledged twice
-  before having been deactivated (expected: irqId on one CPU and 1023 on
-  the other instead).
-
-  I have narrowed the issue down to the following:
-
-  1) arm_gic_common_reset resets all irq_state[id] fields to 0. This
-  means all IRQ will use the N-N model, and if s->revision !=3D
-  REV_11MPCORE, then there's no way to set any interrupt to 1-N.
-
-  If ""fixed"" locally with a hackjob, I still have the following trace:
-
-  pl011_irq_state 534130.800 pid=3D2424 level=3D0x1
-  gic_set_irq 2.900 pid=3D2424 irq=3D0x21 level=3D0x1 cpumask=3D0xff target=
-=3D0xff
-  gic_update_set_irq 3.300 pid=3D2424 cpu=3D0x0 name=3Dirq level=3D0x1
-  gic_update_set_irq 4.200 pid=3D2424 cpu=3D0x1 name=3Dirq level=3D0x1
-  gic_acknowledge_irq 539.400 pid=3D2424 s=3Dcpu cpu=3D0x1 irq=3D0x21
-  gic_update_set_irq 269.800 pid=3D2424 cpu=3D0x0 name=3Dirq level=3D0x1
-  gic_cpu_read 4.100 pid=3D2424 s=3Dcpu cpu=3D0x1 addr=3D0xc val=3D0x21
-  gic_acknowledge_irq 15.600 pid=3D2424 s=3Dcpu cpu=3D0x0 irq=3D0x21
-  gic_cpu_read 265.000 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0xc val=3D0x21
-  pl011_write 1594.700 pid=3D2424 addr=3D0x44 value=3D0x50
-  pl011_irq_state 2.000 pid=3D2424 level=3D0x0
-  gic_set_irq 1.300 pid=3D2424 irq=3D0x21 level=3D0x0 cpumask=3D0xff target=
-=3D0xff
-  pl011_write 30.700 pid=3D2424 addr=3D0x38 value=3D0x0
-  pl011_irq_state 1.200 pid=3D2424 level=3D0x0
-  gic_cpu_write 110.600 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0x10 val=3D0x21
-  gic_cpu_write 193.400 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0x1000 val=3D0x=
-21
-  pl011_irq_state 1169.500 pid=3D2424 level=3D0x0
-
-  This is because:
-
-  2) gic_acknowledge_irq calls gic_clear_pending which uses
-  GIC_DIST_CLEAR_PENDING but this usually has no effect on level-
-  sensitive interrupts.
-
-  With this often being a no-op (ie. assuming ispendr was not written
-  to), any 1-n level-sensitive interrupt is still improperly pending on
-  all the other cores.
-
-  (Also, I don't really know how the qemu thread model works, there
-  might be race conditions in the acknowledgment logic if
-  gic_acknowledge_irq is called by multiple threads, too.)
-
-  Option used:
-  -nographic -machine virt,virtualization=3Don,accel=3Dtcg,gic-version=3D2 =
--cpu cortex-a57 -smp 4 -m 1024
-  -kernel whatever.elf -d unimp,guest_errors -semihosting-config enable,tar=
-get=3Dnative
-  -chardev stdio,id=3Duart -serial chardev:uart -monitor none
-  -trace gic_update_set_irq -trace gic_acknowledge_irq -trace pl011_irq_sta=
-te -trace pl011_write -trace gic_cpu_read -trace gic_cpu_write
-  -trace gic_set_irq
-
-  Commit used: dc65a5bdc9fa543690a775b50d4ffbeb22c56d6d "Merge remote-
-  tracking branch 'remotes/dgibson/tags/ppc-for-5.0-20200108' into
-  staging"
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859384/+subscriptions
+Regards,
+Yury
 
