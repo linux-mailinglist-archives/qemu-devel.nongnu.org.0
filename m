@@ -2,63 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FEE1396D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 17:55:29 +0100 (CET)
-Received: from localhost ([::1]:52942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0201396D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 17:57:04 +0100 (CET)
+Received: from localhost ([::1]:52964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ir2zv-0002VX-Ux
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 11:55:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58225)
+	id 1ir31T-0004hj-68
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 11:57:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58404)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1ir2yV-00017e-GH
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:54:00 -0500
+ (envelope-from <kwolf@redhat.com>) id 1ir2zB-0002IH-JT
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:54:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1ir2yU-0004S9-9t
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:53:59 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24899
+ (envelope-from <kwolf@redhat.com>) id 1ir2z9-0005T1-UV
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:54:41 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35876
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1ir2yU-0004R8-6D
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:53:58 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ir2z9-0005S6-QT
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 11:54:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578934437;
+ s=mimecast20190719; t=1578934479;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CKtxRdjCaSaqdi2jWz4A6HjyFFAIp8K+BeneL4oy634=;
- b=Tyy5hYm3c+N8Gr1wdbU8fkB+h6/KrlwIsViDYohSjwZqPHqX2SqcYM8edg6iCrffLBnV+/
- XUUbSRUJSZPW4S9CBe2LqVqW99sq+7Iz5KxFdPjlaGOAOd4qEjfM8voorPCggYcz+jjdjU
- p37hZz66/ttLY0dPM+18YlHn4jtM6Dw=
+ bh=QYfxt9R85X0iDsHK43TBfAf5XlccozGTjLK0pvzm/ZE=;
+ b=BKRvjhvcUGy78eI9oyxiwnAxf1owuQbz7QYRrxbvNpL1RkFBZdDpOX/on6tkEtvyPUt9ZJ
+ c/ddzc0eIv/0DVSkOsLVWxZAthVn46SwGF4VUhe7+KapMKHdJSsp942h8DZDcBd7+Hi6Jp
+ By3npmHEDDjPrs02LNfiSFeyh2R96tk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-FbMHeSghMTyHtWaMDHSR7w-1; Mon, 13 Jan 2020 11:53:53 -0500
-X-MC-Unique: FbMHeSghMTyHtWaMDHSR7w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-295-A97uRdNgOaSfg6XpK_N1Zw-1; Mon, 13 Jan 2020 11:54:37 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75E441800D78;
- Mon, 13 Jan 2020 16:53:51 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D82CD5C1B0;
- Mon, 13 Jan 2020 16:53:46 +0000 (UTC)
-Date: Mon, 13 Jan 2020 17:53:44 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [kvm-unit-tests PATCH v2 03/16] arm/arm64: gic: Introduce
- setup_irq() helper
-Message-ID: <20200113165344.2focia4mhxtixutg@kamzik.brq.redhat.com>
-References: <20200110145412.14937-1-eric.auger@redhat.com>
- <20200110145412.14937-4-eric.auger@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5A1510054E3;
+ Mon, 13 Jan 2020 16:54:36 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-192.ams2.redhat.com [10.36.117.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 113E760BE2;
+ Mon, 13 Jan 2020 16:54:32 +0000 (UTC)
+Date: Mon, 13 Jan 2020 17:54:31 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v6 00/25] monitor: add asynchronous command type
+Message-ID: <20200113165431.GG5549@linux.fritz.box>
+References: <20191108150123.12213-1-marcandre.lureau@redhat.com>
+ <20191213160330.GD3428@localhost.localdomain>
+ <CAJ+F1CLSfYPFPych4twnvOMt3qR4UnGauWq_k=VN8W5kKUze9g@mail.gmail.com>
+ <20191216120701.GC6610@linux.fritz.box>
+ <CAJ+F1CJjrh3LJs=YtNOkk3rYo-MpmXr3ho9pt0z7tnqm4kp96w@mail.gmail.com>
+ <20200107051728.GA4076@linux.fritz.box>
+ <CAJ+F1CLocmL-9d06jsbfUFq1peV7w-Ho30vKnp7cVVk8jfXVnw@mail.gmail.com>
+ <87h80zwdom.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <87h80zwdom.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: A97uRdNgOaSfg6XpK_N1Zw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <20200110145412.14937-4-eric.auger@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,119 +79,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, kvm@vger.kernel.org,
- maz@kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- andre.przywara@arm.com, yuzenghui@huawei.com, alexandru.elisei@arm.com,
- kvmarm@lists.cs.columbia.edu, eric.auger.pro@gmail.com
+Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 10, 2020 at 03:53:59PM +0100, Eric Auger wrote:
-> ipi_enable() code would be reusable for other interrupts
-> than IPI. Let's rename it setup_irq() and pass an interrupt
-> handler pointer. We also export it to use it in other tests
-> such as the PMU's one.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> ---
->  arm/gic.c         | 24 +++---------------------
->  lib/arm/asm/gic.h |  3 +++
->  lib/arm/gic.c     | 11 +++++++++++
->  3 files changed, 17 insertions(+), 21 deletions(-)
-> 
-> diff --git a/arm/gic.c b/arm/gic.c
-> index fcf4c1f..ba43ae5 100644
-> --- a/arm/gic.c
-> +++ b/arm/gic.c
-> @@ -215,20 +215,9 @@ static void ipi_test_smp(void)
->  	report_prefix_pop();
->  }
->  
-> -static void ipi_enable(void)
-> -{
-> -	gic_enable_defaults();
-> -#ifdef __arm__
-> -	install_exception_handler(EXCPTN_IRQ, ipi_handler);
-> -#else
-> -	install_irq_handler(EL1H_IRQ, ipi_handler);
-> -#endif
-> -	local_irq_enable();
-> -}
-> -
->  static void ipi_send(void)
->  {
-> -	ipi_enable();
-> +	setup_irq(ipi_handler);
->  	wait_on_ready();
->  	ipi_test_self();
->  	ipi_test_smp();
-> @@ -238,7 +227,7 @@ static void ipi_send(void)
->  
->  static void ipi_recv(void)
->  {
-> -	ipi_enable();
-> +	setup_irq(ipi_handler);
->  	cpumask_set_cpu(smp_processor_id(), &ready);
->  	while (1)
->  		wfi();
-> @@ -295,14 +284,7 @@ static void ipi_clear_active_handler(struct pt_regs *regs __unused)
->  static void run_active_clear_test(void)
->  {
->  	report_prefix_push("active");
-> -	gic_enable_defaults();
-> -#ifdef __arm__
-> -	install_exception_handler(EXCPTN_IRQ, ipi_clear_active_handler);
-> -#else
-> -	install_irq_handler(EL1H_IRQ, ipi_clear_active_handler);
-> -#endif
-> -	local_irq_enable();
-> -
-> +	setup_irq(ipi_clear_active_handler);
->  	ipi_test_self();
->  	report_prefix_pop();
->  }
-> diff --git a/lib/arm/asm/gic.h b/lib/arm/asm/gic.h
-> index 21cdb58..55dd84b 100644
-> --- a/lib/arm/asm/gic.h
-> +++ b/lib/arm/asm/gic.h
-> @@ -82,5 +82,8 @@ void gic_set_irq_target(int irq, int cpu);
->  void gic_set_irq_group(int irq, int group);
->  int gic_get_irq_group(int irq);
->  
-> +typedef void (*handler_t)(struct pt_regs *regs __unused);
-> +extern void setup_irq(handler_t handler);
-> +
->  #endif /* !__ASSEMBLY__ */
->  #endif /* _ASMARM_GIC_H_ */
-> diff --git a/lib/arm/gic.c b/lib/arm/gic.c
-> index aa9cb86..8416dde 100644
-> --- a/lib/arm/gic.c
-> +++ b/lib/arm/gic.c
-> @@ -236,3 +236,14 @@ int gic_get_irq_group(int irq)
->  {
->  	return gic_masked_irq_bits(irq, GICD_IGROUPR, 1, 0, ACCESS_READ);
->  }
-> +
-> +void setup_irq(handler_t handler)
-> +{
-> +	gic_enable_defaults();
-> +#ifdef __arm__
-> +	install_exception_handler(EXCPTN_IRQ, handler);
-> +#else
-> +	install_irq_handler(EL1H_IRQ, handler);
-> +#endif
-> +	local_irq_enable();
-> +}
-> -- 
-> 2.20.1
->
+Am 13.01.2020 um 16:58 hat Markus Armbruster geschrieben:
+> Marc-Andr=E9 Lureau <marcandre.lureau@gmail.com> writes:
+>=20
+> > Hi
+> >
+> > On Tue, Jan 7, 2020 at 9:17 AM Kevin Wolf <kwolf@redhat.com> wrote:
+> >>
+> >> Am 06.01.2020 um 19:21 hat Marc-Andr=E9 Lureau geschrieben:
+> >> > > What my patch does is moving everything into a coroutine. This is =
+wrong
+> >> > > because not everything can be run in a coroutine, so it needs to b=
+e made
+> >> > > optional (like you did with your async flag).
+> >> >
+> >> > "everything" is a bit too much ;) You proposal is to replace
+> >> > qmp_dispatch_bh by a coroutine version (except for OOB commands). Th=
+is
+> >> > is nice because indeed, it allows to reenter the mainloop with a
+> >> > simple yield in QMP commands. It is also simpler than my "async"
+> >> > proposal, because some of the state is part of the coroutine, and
+> >> > because it doesn't allow QMP commands concurrency (beside existing
+> >> > OOB).
+> >> >
+> >> > Iow, coroutine (for async) + oob (for concurrency) make my proposal
+> >> > kinda obsolete. I can only regret that a simple callback-based
+> >> > solution looked simpler to me than one that mixes both threads &
+> >> > coroutines, but I don't mind if everybody likes it better :) I can
+> >> > definitely see the point for block commands, which rely on coroutine=
+s
+> >> > anyway, and qemu is already that complex in general.
+> >>
+> >> Callbacks are indeed simple enough for implementing the infrastructure=
+,
+> >> but for the users they only look simple as long as they do trivial
+> >> things. :-)
+> >>
+> >> Anyway, now that you have seen my POC hack, do you agree that this
+> >> should help solving the screendump problem, too?
+> >
+> > Yes, and I will work on it as soon as you have a working patch series
+> > or branch :)
+> >
+> >>
+> >> > > The problem isn't with completely coroutine-unaware code, though: =
+That
+> >> > > one would just work, even if not taking advantage from the corouti=
+ne. A
+> >> > > potential problem exists with code that behaves differently when r=
+un in
+> >> > > a coroutine or outside of coroutine context (generally by checking
+> >> > > qemu_in_coroutine())), or calls of coroutine-unaware code into suc=
+h
+> >> > > functions.
+> >> > >
+> >> > > Running some command handlers outside of coroutine context wouldn'=
+t be
+> >> > > hard to add to my patch (basically just a BH), but I haven't looke=
+d into
+> >> > > the QAPI side of making it an option.
+> >> >
+> >> > Yes, I think we should have a 'coroutine': true, for commands that
+> >> > should be run with a coroutine.
+> >> >
+> >> > Or perhaps replace existing allow-oob with 'dispatch':
+> >> > - 'bh' (default)
+> >> > - 'coroutine'
+> >> > - 'allow-oob' (oob + bh fallback, since oob don't have coroutine - a=
+t
+> >> > this point)
+> >>
+> >> If it's "at this point", then making it two separate bools would make
+> >> more sense. But I seem to remember that OOB handlers are fundamentally
+> >> not supposed to block, so coroutine support would be pointless for the=
+m
+> >> and an enum could work.
+> >
+> > I think so too
+> >
+> >>
+> >> I'll defer to Markus on this one.
+> >
+> > Yup, Markus should take a look at your proposal and give some
+> > guidance. And hopefully, it won't take >2y.
+>=20
+> Is it "[PATCH 0/4] qmp: Optionally run handlers in coroutines"?
 
-I'd rather not add this function to the common code, at least not without
-calling it something with 'defaults' in the name. Also I'd prefer unit
-tests to call local_irq_enable()/disable() themselves. I think it's fine
-to implement this in arm/gic.c and duplicate it in arm/pmu.c, if needed.
+Yes, that's the one.
 
-Thanks,
-drew
+Kevin
 
 
