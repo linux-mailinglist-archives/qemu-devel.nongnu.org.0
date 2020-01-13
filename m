@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29F71391D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 14:10:05 +0100 (CET)
-Received: from localhost ([::1]:50320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4B31391CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Jan 2020 14:09:19 +0100 (CET)
+Received: from localhost ([::1]:50296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iqzTo-00081c-Qa
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 08:10:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43168)
+	id 1iqzT4-0006aA-0y
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 08:09:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43247)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iqzQt-0004gr-Sn
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:07:08 -0500
+ (envelope-from <kraxel@redhat.com>) id 1iqzRQ-0005J6-1z
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:07:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iqzQs-0006cL-Kb
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:07:03 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34798
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1iqzRO-0006xw-Sp
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:07:35 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59156
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iqzQs-0006bv-HC
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:07:02 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iqzRO-0006xZ-Ok
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 08:07:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578920822;
+ s=mimecast20190719; t=1578920854;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8pcY8Q+W0ZLUOtvpY/RL3fptYrhELh5boNrmtE56r94=;
- b=L2qMm+O0VHS9m0hQ65B/5Zw8B40Yx1ogD11l6GxCtN6tJgeFEhoJE2VHTc6GycEWdN46eG
- PHloRK42SjSnGNZE+vLr9cd8foGH1hZN67WpQR7cSulVfVJMiakPoql7kTz/7kqpHfOhF8
- sN1FNzdtkW5XAQ+MfSaX/kEHZom3Hk8=
+ bh=xFdQWj2EHe8YiiQZN2dqFwfUGmPnoSjTPeOFeXJ+oOs=;
+ b=cw9zIBc1yqprU8FraZJwLrya0za5WX0It+ItpwuRV6FaJVJtrW/SOP3iCjnGw1oDNd24Xf
+ Tb7MOVDZkZevX6woRw/NorSHLa8ycQNqII8hSb6U4yktU7GdGbpnpUogAVsw4fcbGyujHd
+ WT0d17IuG9U2IyisTTdj40PtLuPf28I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-qnSGKKJeO6K8NH-6m9WzAw-1; Mon, 13 Jan 2020 08:06:51 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-6-pxGxxomsOy--dahCN5KpFw-1; Mon, 13 Jan 2020 08:06:51 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23A8E1951295;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 008FD106F8C1;
  Mon, 13 Jan 2020 13:06:50 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
  [10.36.116.106])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B3A680921;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 144FF5DA76;
  Mon, 13 Jan 2020 13:06:47 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5595131F63; Mon, 13 Jan 2020 14:06:46 +0100 (CET)
+ id 5DDAF31F68; Mon, 13 Jan 2020 14:06:46 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] usbredir: Prevent recursion in usbredir_write
-Date: Mon, 13 Jan 2020 14:06:44 +0100
-Message-Id: <20200113130646.30099-4-kraxel@redhat.com>
+Subject: [PULL 4/5] xhci: Fix memory leak in xhci_kick_epctx when poweroff
+ GuestOS
+Date: Mon, 13 Jan 2020 14:06:45 +0100
+Message-Id: <20200113130646.30099-5-kraxel@redhat.com>
 In-Reply-To: <20200113130646.30099-1-kraxel@redhat.com>
 References: <20200113130646.30099-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: qnSGKKJeO6K8NH-6m9WzAw-1
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: pxGxxomsOy--dahCN5KpFw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,98 +74,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Chen Qun <kuhn.chenqun@huawei.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Chen Qun <kuhn.chenqun@huawei.com>
 
-I've got a case where usbredir_write manages to call back into itself
-via spice; this patch causes the recursion to fail (0 bytes) the write;
-this seems to avoid the deadlock I was previously seeing.
+start vm with libvirt, when GuestOS running, enter poweroff command using
+the xhci keyboard, then ASAN shows memory leak stack=EF=BC=9A
 
-I can't say I fully understand the interaction of usbredir and spice;
-but there are a few similar guards in spice and usbredir
-to catch other cases especially onces also related to spice_server_char_dev=
-ice_wakeup
+Direct leak of 80 byte(s) in 5 object(s) allocated from:
+    #0 0xfffd1e6431cb in __interceptor_malloc (/lib64/libasan.so.4+0xd31cb)
+    #1 0xfffd1e107163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
+    #2 0xaaad39051367 in qemu_sglist_init /qemu/dma-helpers.c:43
+    #3 0xaaad3947c407 in pci_dma_sglist_init /qemu/include/hw/pci/pci.h:842
+    #4 0xaaad3947c407 in xhci_xfer_create_sgl /qemu/hw/usb/hcd-xhci.c:1446
+    #5 0xaaad3947c407 in xhci_setup_packet /qemu/hw/usb/hcd-xhci.c:1618
+    #6 0xaaad3948625f in xhci_submit /qemu/hw/usb/hcd-xhci.c:1827
+    #7 0xaaad3948625f in xhci_fire_transfer /qemu/hw/usb/hcd-xhci.c:1839
+    #8 0xaaad3948625f in xhci_kick_epctx /qemu/hw/usb/hcd-xhci.c:1991
+    #9 0xaaad3948f537 in xhci_doorbell_write /qemu/hw/usb/hcd-xhci.c:3158
+    #10 0xaaad38bcbfc7 in memory_region_write_accessor /qemu/memory.c:483
+    #11 0xaaad38bc654f in access_with_adjusted_size /qemu/memory.c:544
+    #12 0xaaad38bd1877 in memory_region_dispatch_write /qemu/memory.c:1482
+    #13 0xaaad38b1c77f in flatview_write_continue /qemu/exec.c:3167
+    #14 0xaaad38b1ca83 in flatview_write /qemu/exec.c:3207
+    #15 0xaaad38b268db in address_space_write /qemu/exec.c:3297
+    #16 0xaaad38bf909b in kvm_cpu_exec /qemu/accel/kvm/kvm-all.c:2383
+    #17 0xaaad38bb063f in qemu_kvm_cpu_thread_fn /qemu/cpus.c:1246
+    #18 0xaaad39821c93 in qemu_thread_start /qemu/util/qemu-thread-posix.c:=
+519
+    #19 0xfffd1c8378bb  (/lib64/libpthread.so.0+0x78bb)
+    #20 0xfffd1c77616b  (/lib64/libc.so.6+0xd616b)
 
-This case seems to be triggered by repeated migration+repeated
-reconnection of the viewer; but my debugging suggests the migration
-finished before this hits.
-
-The backtrace of the hang looks like:
-  reds_handle_ticket
-  reds_handle_other_links
-  reds_channel_do_link
-  red_channel_connect
-  spicevmc_connect
-  usbredir_create_parser
-  usbredirparser_do_write
-  usbredir_write
-  qemu_chr_fe_write
-  qemu_chr_write
-  qemu_chr_write_buffer
-  spice_chr_write
-  spice_server_char_device_wakeup
-  red_char_device_wakeup
-  red_char_device_write_to_device
-  vmc_write
-  usbredirparser_do_write
-  usbredir_write
-  qemu_chr_fe_write
-  qemu_chr_write
-  qemu_chr_write_buffer
-  qemu_mutex_lock_impl
-
-and we fail as we lang through qemu_chr_write_buffer's lock
-twice.
-
-Bug: https://bugzilla.redhat.com/show_bug.cgi?id=3D1752320
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20191218113012.13331-1-dgilbert@redhat.com>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Message-id: 20200110105855.81144-1-kuhn.chenqun@huawei.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/redirect.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/usb/hcd-xhci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index b5c15586874a..04614778fea2 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -114,6 +114,7 @@ struct USBRedirDevice {
-     CharBackend cs;
-     bool enable_streams;
-     bool suppress_remote_wake;
-+    bool in_write;
-     uint8_t debug;
-     int32_t bootindex;
-     char *filter_str;
-@@ -291,6 +292,13 @@ static int usbredir_write(void *priv, uint8_t *data, i=
-nt count)
-         return 0;
-     }
-=20
-+    /* Recursion check */
-+    if (dev->in_write) {
-+        DPRINTF("usbredir_write recursion\n");
-+        return 0;
-+    }
-+    dev->in_write =3D true;
-+
-     r =3D qemu_chr_fe_write(&dev->cs, data, count);
-     if (r < count) {
-         if (!dev->watch) {
-@@ -301,6 +309,7 @@ static int usbredir_write(void *priv, uint8_t *data, in=
-t count)
-             r =3D 0;
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index 80988bb305a1..0d3d96d05a00 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -2000,6 +2000,7 @@ static void xhci_kick_epctx(XHCIEPContext *epctx, uns=
+igned int streamid)
+         if (xfer !=3D NULL && xfer->running_retry) {
+             DPRINTF("xhci: xfer nacked, stopping schedule\n");
+             epctx->retry =3D xfer;
++            xhci_xfer_unmap(xfer);
+             break;
          }
-     }
-+    dev->in_write =3D false;
-     return r;
- }
-=20
+         if (count++ > TRANSFER_LIMIT) {
 --=20
 2.18.1
 
