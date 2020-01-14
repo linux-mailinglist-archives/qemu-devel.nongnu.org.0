@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3021E13A4CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 11:02:46 +0100 (CET)
-Received: from localhost ([::1]:35808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7536613A4F0
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 11:04:40 +0100 (CET)
+Received: from localhost ([::1]:35846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irJ24-00029P-R6
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 05:02:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36048)
+	id 1irJ3r-0004dd-Fp
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 05:04:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36122)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1irIyy-0007Qd-4F
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:59:33 -0500
+ (envelope-from <stefanha@gmail.com>) id 1irIzJ-000803-9e
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:59:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1irIyw-0007NR-OG
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:59:32 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41683)
+ (envelope-from <stefanha@gmail.com>) id 1irIzI-0007UC-4B
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:59:53 -0500
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:41539)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1irIyw-0007NC-Gr
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:59:30 -0500
-Received: by mail-ot1-x344.google.com with SMTP id r27so12031063otc.8
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 01:59:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b2DiuJpfAtGeAoUNzZ4klHYPKsCmGPyrHxskQkSSgUg=;
- b=VbWdfXzWosBz2rt7Q96OtBBGxyjJ23tVF22pL0vbVpHsN/sf6yyejPrAGzrRtedjuW
- ZQHqq2nT/tA64qyWt0KEVT0QgUHMSCiEi1G3yko153Uh8/nFZQdl2Uep832aroOMao2g
- BVGAUjG/viB/jNfQ8wcC/SodObiyxgQpfhUAQMZZRvdNZEp6RwqFtnL3Cc41Y1zmH3or
- A65ytUyeEXZ/2i8rlL9dgGLArVbDEVwIlFzEaQcL+sTwgPBZR5MrdyPshQTvWJQEQdak
- va3VuOc3ZyfPSqDt61Heu+Bw8KvD/rV9i0b8KzIXjuOBu/0X0smWgrOiHVfL8vqkypxa
- 29QQ==
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1irIzH-0007Tx-Uk
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:59:52 -0500
+Received: by mail-qk1-x731.google.com with SMTP id x129so11495753qke.8
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 01:59:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=sltQk+3R4u4RoUfKnu7u41rtxOhQ0P5DzbS0zzzBhdM=;
+ b=llsnaESTTsV/4P17RszWw+FbIcXQaSikdZH19MJTHecGYq9jBR0LO7FB6NwRRGbR4Q
+ inmeOeuERQ/i5eEmA01xZe3ZM9b+vNk4lUMgKpU6QWWHY4PiKHUesjLGFP9MR5LTBCxf
+ uOF3xfeg7GqzZFZTXiAz97E/BldsorOZiag2kORgpwEq/h5dWn8QpIM4DYIuVIYCyrKv
+ N/sGTdhboTlaRjQW2G6VIoZRGTU73AZ5Fjqg/MEz3tTMbQ5dsLSKHYhOA+Z016WSfGSw
+ KrR2dfYyp1VmxdCv5ZWne69jRl+ujDnPF7bIpodTx/8T7PBzXn1iN+D4gekJH39qJ1Lc
+ gLsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b2DiuJpfAtGeAoUNzZ4klHYPKsCmGPyrHxskQkSSgUg=;
- b=C70qc5rJZu0wQO25+nUwjZQ9RYeSgTg7QqGKH8MAv0BLABXOthk9v8xaLYk2L2hNd6
- km5PElLkPEzdh9iw+1+M4UudP6N0aro+sEcNexRlZwiGVR88XCnGQkngO/aR41xHdX7O
- J7q0rsZLen1TeaHzQlH9/chq1IcGbJVaImRolgMnh9LekzAwJzHz9mSNMo/zq1rL4J+W
- /NnsIGc1gZr1zaWWIwVirO8sXGYw2xzvOjffeE763DB49Yc5ofvn0PNgcPRMxaVTh6io
- RWoezSrGuOU+cvbZnKOVgkX/FLTgP+it8sbon6Aojjk5qsZEou9R78hiaG/xdpHiJl2P
- y54Q==
-X-Gm-Message-State: APjAAAVheZ3MLiB5vTa0tpgZms3fmX7pvP0oKXj+atUjFtss+tyc/iKH
- qj+uSB+laGgsZ8oPoFyRQ1Cao+ul2850dgpLW6pp2ZkOg80=
-X-Google-Smtp-Source: APXvYqztqi7IYRauvmq7P68h1Pbh39F85X1I1e1h+naKZZKMOViZ/q4V76RDrMrKEJu7EOga9JMCLvnITBC03NhBqLE=
-X-Received: by 2002:a05:6830:184:: with SMTP id
- q4mr16615430ota.232.1578995969450; 
- Tue, 14 Jan 2020 01:59:29 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=sltQk+3R4u4RoUfKnu7u41rtxOhQ0P5DzbS0zzzBhdM=;
+ b=AXhLc7adhi4jU1803sMP0i6x8ub/ubXmx4yHFhXGzFTId+imv2W3LzIiJFwBALCc+1
+ +SOBPwEfqtEyDc+MIcM5u2NML2oyTrMp2lafskedHznaw6U5lF6gNce+2M5D7jEPPzVW
+ j7QDEwlnk6xzU1bGsISvVsR4ERgaOqVXiIWIlwjpsnLsRt1mYKbU1z6CkbZJAIAlchtN
+ rQA+ecPifhu9/2wvYPBbDt+5m9fBdN0ayISz3PXnASGyaevt/Wwo6z05YE4Sp5ivCaTk
+ d0uPSeyDrC3DdFg76Hc5CjBzPcD7Iceuiefe9LmAkHsSXLv+Dcd6bZdbX5Es6EcCrPK3
+ 7PWA==
+X-Gm-Message-State: APjAAAUhH5F3h6wwnxzE1UtLN00mhaoi+npYGtYUBtBtx+prdrHv6M7K
+ F/fkN9G2DDoQZFcLwlArx49xKRIkEEsP4czCS5t8EOV0Jv8=
+X-Google-Smtp-Source: APXvYqwdk59/LAU6Kga1kx6Hy5xf+a82RQyXJlZodMDokvpkh0jQxSjo9AzaLim32iEcRUkw7ZCZ1ykpXGNh4gDvu80=
+X-Received: by 2002:ae9:f714:: with SMTP id s20mr20584909qkg.236.1578995990801; 
+ Tue, 14 Jan 2020 01:59:50 -0800 (PST)
 MIME-Version: 1.0
-References: <11d88b2741eac3f634d5aed9e3355c974b533f7b.camel@kernel.crashing.org>
-In-Reply-To: <11d88b2741eac3f634d5aed9e3355c974b533f7b.camel@kernel.crashing.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Jan 2020 09:59:18 +0000
-Message-ID: <CAFEAcA-A_caQgwi5DzExdZChoTg-Qa73hq7Ho7dPLiN633Yj1Q@mail.gmail.com>
-Subject: Re: Semihosting, arm, riscv, ppc and common code
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 14 Jan 2020 09:59:39 +0000
+Message-ID: <CAJSP0QUjwNF2FEz9zpDBVLDzEuwu1NKD8E35O2QzFQXvqvTOnQ@mail.gmail.com>
+Subject: Call for sponsors for Outreachy 2020 May-August
+To: qemu-devel <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::731
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,43 +67,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Keith Packard <keithp@keithp.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Jan 2020 at 06:29, Benjamin Herrenschmidt
-<benh@kernel.crashing.org> wrote:
->
-> Hi Folks !
->
-> So I started "porting" over (read: copying) the arm semihosting code to
-> ppc to mimmic what Keith did for risv (mostly for picolibc support).
->
-> I noticed that the bulk of arm-semi.c (or riscv-semi.c) is trivially
-> made completely generic by doing a couple of changes:
+QEMU has participated in the Outreachy open source internship program
+for the past years thanks to the generous sponsorship of companies
+supporting our community.  This year QEMU will apply as an Outreachy
+organization again so we can provide internships to anyone who faces
+under-representation, systemic bias, or discrimination in the
+technology industry.
 
-Note that semihosting is not a "here's a handy QEMU feature"
-thing. It's an architecture-specific API and ABI, which should
-be defined somewhere in a standard external to QEMU.
-You need to start by having a definition for PPC of what
-semihosting is. If you're starting from scratch there, there
-are some important things you should do differently to Arm --
-there is no benefit to repeating the mistakes of API definition
-that we made! Most notably, you want to specify and require
-that any unrecognized semihosting call function fails in a
-clean and detectable way; you also should have a semihosting
-function for "ask for a feature bit mask" so you don't need
-the silly magic-filename approach Arm had to go for. You
-also want to standardize what the errno values are, which Arm
-forgot to do and which makes the errno handling in the spec
-pretty useless.
+Internships are 12 weeks long and consist of paid full-time remote
+work.  An internship is paid for by $6,500 of donations.
 
-TLDR: don't start by writing code, start by writing the *API/ABI spec*.
-I tried to push the RISCV folks in this direction as well.
+QEMU relies on sponsors to fund these internships.  If you or your
+organization would like to become a sponsor, please email
+organizers@outreachy.org and CC me.  You can find additional
+information about sponsorship here:
+https://www.outreachy.org/sponsor/
 
-thanks
--- PMM
+Thank you,
+Stefan
 
