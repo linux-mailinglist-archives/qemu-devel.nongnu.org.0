@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC58A13AA51
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 14:06:39 +0100 (CET)
-Received: from localhost ([::1]:39036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E0513AA8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 14:19:01 +0100 (CET)
+Received: from localhost ([::1]:39292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irLu2-0007h3-Ke
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 08:06:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41187)
+	id 1irM5z-0006vB-G8
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 08:18:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41256)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1irLj3-00033t-Vs
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:55:23 -0500
+ (envelope-from <quintela@redhat.com>) id 1irLjB-0003Bx-7X
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:55:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1irLj0-0001nb-59
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:55:17 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35343
+ (envelope-from <quintela@redhat.com>) id 1irLj9-0001pq-D4
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:55:25 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55630
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irLj0-0001n7-0A
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:55:14 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irLj9-0001oz-4B
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:55:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579006513;
+ s=mimecast20190719; t=1579006520;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a+D0Jhjaw7oJJMu/pHqSxLnV5MGTcL/XHY7MlyuPryQ=;
- b=emyApK6axfJWsHQKDHWQ7fcEZ6pc1XpFvvEuXPM5f3iGbZDLtqj5Fh4WbkyWsj5AZ8zPxA
- g+S1GNn9Z3CYhJAlrKVXn1oorPkfkbkArrKnFffak1psIiGBMpSroe+5Cn/EnVczw9xqmc
- ssGUzTTokniUKgNi/hLMg28oUs1v0bw=
+ bh=oNoOcpNKbORBNMo8pTjxpAVl930KpRyU4zX90PB6zXk=;
+ b=cLkwpEwjDUe+5nbjQRWJ4IIx1A43peQ4tB0+XFh8zBeYq86qndRe1x15Uxz3PW/1jqgJBI
+ j7LiwK2uzdgBI+idWGuAz/wv0FwWDgGYc0HmriHQSQSURHqGOcCnSGGMZYOnqHOFNSSTEl
+ zq+gxUimUHLC89BB0ZNvbUk/rPbBoM0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-cATNDCvfOGqZhOhtdNQrfw-1; Tue, 14 Jan 2020 07:55:12 -0500
+ us-mta-111-sX2xQhEuOnaU-QkTdre-cg-1; Tue, 14 Jan 2020 07:55:19 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E05AA107ACC4;
- Tue, 14 Jan 2020 12:55:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40AB9DB61;
+ Tue, 14 Jan 2020 12:55:17 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 441175DA76;
- Tue, 14 Jan 2020 12:55:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C3F95DA70;
+ Tue, 14 Jan 2020 12:55:10 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/30] migration/ram: Yield periodically to the main loop
-Date: Tue, 14 Jan 2020 13:52:39 +0100
-Message-Id: <20200114125254.4515-16-quintela@redhat.com>
+Subject: [PULL 16/30] migration/postcopy: reduce memset when it is zero page
+ and matches_target_page_size
+Date: Tue, 14 Jan 2020 13:52:40 +0100
+Message-Id: <20200114125254.4515-17-quintela@redhat.com>
 In-Reply-To: <20200114125254.4515-1-quintela@redhat.com>
 References: <20200114125254.4515-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: cATNDCvfOGqZhOhtdNQrfw-1
+X-MC-Unique: sX2xQhEuOnaU-QkTdre-cg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -78,64 +79,48 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>, Yury Kotov <yury-kotov@yandex-team.ru>,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Stefan Berger <stefanb@linux.ibm.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yury Kotov <yury-kotov@yandex-team.ru>
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-Usually, incoming migration coroutine yields to the main loop
-while its IO-channel is waiting for data to receive. But there is a case
-when RAM migration and data receive have the same speed: VM with huge
-zeroed RAM. In this case, IO-channel won't read and thus the main loop
-is stuck and for instance, it doesn't respond to QMP commands.
+In this case, page_buffer content would not be used.
 
-For this case, yield periodically, but not too often, so as not to
-affect the speed of migration.
+Skip this to save some time.
 
-Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ migration/ram.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index aa6cc7d47a..0c6992db9a 100644
+index 0c6992db9a..885cd31191 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -4246,7 +4246,7 @@ static void colo_flush_ram_cache(void)
-  */
- static int ram_load_precopy(QEMUFile *f)
- {
--    int flags =3D 0, ret =3D 0, invalid_flags =3D 0, len =3D 0;
-+    int flags =3D 0, ret =3D 0, invalid_flags =3D 0, len =3D 0, i =3D 0;
-     /* ADVISE is earlier, it shows the source has the postcopy capability =
-on */
-     bool postcopy_advised =3D postcopy_is_advised();
-     if (!migrate_use_compression()) {
-@@ -4258,6 +4258,17 @@ static int ram_load_precopy(QEMUFile *f)
-         void *host =3D NULL;
-         uint8_t ch;
-=20
-+        /*
-+         * Yield periodically to let main loop run, but an iteration of
-+         * the main loop is expensive, so do it each some iterations
-+         */
-+        if ((i & 32767) =3D=3D 0 && qemu_in_coroutine()) {
-+            aio_co_schedule(qemu_get_current_aio_context(),
-+                            qemu_coroutine_self());
-+            qemu_coroutine_yield();
-+        }
-+        i++;
-+
-         addr =3D qemu_get_be64(f);
-         flags =3D addr & ~TARGET_PAGE_MASK;
-         addr &=3D TARGET_PAGE_MASK;
+@@ -4126,7 +4126,13 @@ static int ram_load_postcopy(QEMUFile *f)
+         switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
+         case RAM_SAVE_FLAG_ZERO:
+             ch =3D qemu_get_byte(f);
+-            memset(page_buffer, ch, TARGET_PAGE_SIZE);
++            /*
++             * Can skip to set page_buffer when
++             * this is a zero page and (block->page_size =3D=3D TARGET_PAG=
+E_SIZE).
++             */
++            if (ch || !matches_target_page_size) {
++                memset(page_buffer, ch, TARGET_PAGE_SIZE);
++            }
+             if (ch) {
+                 all_zero =3D false;
+             }
 --=20
 2.24.1
 
