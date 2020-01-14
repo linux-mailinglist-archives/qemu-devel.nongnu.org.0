@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EB3139F85
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 03:33:08 +0100 (CET)
-Received: from localhost ([::1]:58432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C76139F88
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 03:34:32 +0100 (CET)
+Received: from localhost ([::1]:58452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irC0x-000278-Np
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 21:33:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50942)
+	id 1irC2J-0004eN-EG
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 21:34:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51097)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pizhenwei@bytedance.com>) id 1irBzD-0000NQ-RN
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 21:31:21 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1irC0E-0001p2-Sg
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 21:32:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pizhenwei@bytedance.com>) id 1irBzB-0003Xt-Kn
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 21:31:19 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:44649)
+ (envelope-from <richard.henderson@linaro.org>) id 1irC0D-0004Uv-M9
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 21:32:22 -0500
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:39435)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pizhenwei@bytedance.com>)
- id 1irBzB-0003WH-ER
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 21:31:17 -0500
-Received: by mail-pg1-x542.google.com with SMTP id x7so5637963pgl.11
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 18:31:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=fshKwfwt9Dp2Wq1APH+4/EX0Jo99Mva81d26eLwAGKU=;
- b=mbpusgzsMyJviGzLEQxRIhG5CgsaAx8t/ft5X1z5SazNaYFCXZiEasmgwJ8TEoihU9
- cHWgmC1irJvovbBccQpNoHt5fYBN/SINI/eW/RDe4qTkg5DkLbo7Yq9OWOxcdefpLgis
- iBoOfuJ9d/IomJghiIXEPuBZilKp8808IXel3ky6o2N6GYo3alGEdd1uik8+qDE/FOHz
- LL/e6XpZW9IsFEYW0OFzryuNAFPekPeEFIaoBL3AFknnB4E897O1JH1dOS8DSpyXh5GX
- Rka8jheQk1p2hk8ShV02Ctq3htxSKMtcQzHaOgrWGnrlXYzja+YWos5yJ9C1RuM1diNe
- PbCw==
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1irC0D-0004Sm-DD
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 21:32:21 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id b137so5651697pga.6
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 18:32:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=JdqfIiYkq/VKmhsBw7D0uiWQSjkGafNQwfuH6P8ZXls=;
+ b=WPq4mNWv60VwEnNpYEK4sQHEH5vKsMc+3bxnP28yojQVDDWURcvta0tiiW2bychPpg
+ 8tZX4ysSNW6Md90jThTFBrZ3+ZkgkujNJfkG5HeSWuXzuie2vOwNZl/JC3vnaCFGNz2o
+ 4PgKbhTvF83AcOm8Ap5Lhm3QnzN1hp1fZEjfgdSpTFOIPHCuFyubiEWXebGjf7XOPu2k
+ YK8VGoWmtQvEQGfgc53NBcwdiu1H/KTMzVNtYDiZy1bzct4zF2dM1UuEjtA+iM1XERIq
+ zJc1ZUAUbMzGFLJu6ORiNWE/4loBtTxLv4SoNgy0jrjAOkVN9O6SjuZzmUGGMxRGsu/4
+ ItDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=fshKwfwt9Dp2Wq1APH+4/EX0Jo99Mva81d26eLwAGKU=;
- b=IK55ZSSZlo1DFNcxgL85wb7dzY6OQNmoTu94DbzSO4nWYayZ1qrWku/TutjaTpZD5P
- JyrYEpAGGJKkXd992IGks4BFh9z3aEWKwGDCPZvH6PBEnaRTFxRvTLxPYHorMfL/OpC6
- peqWhVQp9U9AftFoHfPofpzA+jW4LyVMOoCP5cijUbDjRA9X25KecA/HUh28FXhYtIyU
- LmNZlMZ9lmp/bj6IssY+kn7+beZPj5g1YblmBieVaj7UZpMgAOwuB83EYPssno+WEHVF
- oq3WJuafw34aVz9X/yRsPmdYtCCnEKSQodmyBBfpz53YxzV96VJh6e0OruvFMK4Huu4A
- GsBA==
-X-Gm-Message-State: APjAAAXhBcGJyDKuSdaKmGMJGJN/L9svDp4qOUKpK98hUEz+D/Fsm7Pf
- GhL/XSPB/SFp9delVjTKzZQIpw==
-X-Google-Smtp-Source: APXvYqz/rAPjfjTLludp1mPfVH0zzc8heEjvHX9a2wJqZZzSpTwL0owkyfQXeCkEgofLKB/ffHjdoA==
-X-Received: by 2002:a63:6b07:: with SMTP id g7mr23798378pgc.243.1578969074943; 
- Mon, 13 Jan 2020 18:31:14 -0800 (PST)
-Received: from libai.bytedance.net ([61.120.150.71])
- by smtp.gmail.com with ESMTPSA id w5sm14693898pgb.78.2020.01.13.18.31.12
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 13 Jan 2020 18:31:14 -0800 (PST)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: pbonzini@redhat.com
-Subject: [PATCH 2/2] pvpanic: implement crashloaded event handling
-Date: Tue, 14 Jan 2020 10:31:02 +0800
-Message-Id: <20200114023102.612548-3-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200114023102.612548-1-pizhenwei@bytedance.com>
-References: <20200114023102.612548-1-pizhenwei@bytedance.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JdqfIiYkq/VKmhsBw7D0uiWQSjkGafNQwfuH6P8ZXls=;
+ b=q+cEeG3FzWrj6ScYN9u6LENHpWFSp/sV28lLfwhapyGxCWDV9RnDpHEgMDfLzWtJdu
+ srPVap2fP0sanzUq3oyEU8uUuaXXVgRwJbc/j+CI30f/l9EEgL4TJN8tV6UHuI8uKr1f
+ 9zVyuOE1F7xdKHdQ2Z5vFaLLUI7dpCSCtRCmIGr35i4GFn8kD1JI7T04Cbw7nFQXz4cR
+ 3b+djPtsymfRVL6vf572ZqQJmi5lJwErHdSP8t9c1R4+S9zph5hldQgjTCJ3hTgLOqPT
+ MspUa8ELpmGcXxIqbeFH1Aj6skBmtVlI5UXy9OufBXV8Atmo3LSvvc9xQylpwbY7pQPr
+ 6dJw==
+X-Gm-Message-State: APjAAAWWWD06GQ5jK3sinKXJVVCQA6peNEo6AxCEk3Af1vIn8aMHvOwC
+ Ra3mPaTpSPD9zno8u/NMVzI/hg==
+X-Google-Smtp-Source: APXvYqzs8RpM/TsARJGwA9Qg+uy4YQ9zHVygIku2hvo5QKrWM7T7ovYpuPKsBIi1DkZial4/hAEcqg==
+X-Received: by 2002:a63:e0f:: with SMTP id d15mr24122546pgl.255.1578969138694; 
+ Mon, 13 Jan 2020 18:32:18 -0800 (PST)
+Received: from [192.168.3.43] (rrcs-66-91-136-155.west.biz.rr.com.
+ [66.91.136.155])
+ by smtp.gmail.com with ESMTPSA id d129sm16140203pfd.115.2020.01.13.18.32.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jan 2020 18:32:17 -0800 (PST)
+Subject: Re: [PATCH] target/riscv: Set mstatus.DS & FS correctly
+To: shihpo.hung@sifive.com, qemu-devel@nongnu.org
+References: <1578647134-13216-1-git-send-email-shihpo.hung@sifive.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <19df333a-9a93-d3af-e7ab-fce212bb4978@linaro.org>
+Date: Mon, 13 Jan 2020 16:32:13 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <1578647134-13216-1-git-send-email-shihpo.hung@sifive.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::52d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,142 +82,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, yelu@bytedance.com, qemu-devel@nongnu.org,
- zhenwei pi <pizhenwei@bytedance.com>, mprivozn@redhat.com
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handle bit 1 write, then post event to monitor.
+On 1/9/20 11:05 PM, shihpo.hung@sifive.com wrote:
+> Because ctx->mstatus_fs changes dynamically during runtime, we should
+> remove the mstatus_fs check at the translation stage.
 
-Suggested by Paolo, declear a new event, using GUEST_PANICKED could
-cause upper layers to react by shutting down or rebooting the guest.
+This change is incorrect.
 
-In advance for extention, add GuestPanicInformation in event message.
+The actual bug is in cpu_get_tb_cpu_state(), as I just noticed during review:
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- hw/misc/pvpanic.c         | 11 +++++++++--
- include/sysemu/runstate.h |  1 +
- qapi/run-state.json       | 22 +++++++++++++++++++++-
- vl.c                      | 12 ++++++++++++
- 4 files changed, 43 insertions(+), 3 deletions(-)
+"[PATCH 2/3] RISC-V: use FIELD macro to define tb flags"
+https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg02455.html
 
-diff --git a/hw/misc/pvpanic.c b/hw/misc/pvpanic.c
-index d65ac86478..4ebda7872a 100644
---- a/hw/misc/pvpanic.c
-+++ b/hw/misc/pvpanic.c
-@@ -21,11 +21,13 @@
- #include "hw/qdev-properties.h"
- #include "hw/misc/pvpanic.h"
- 
--/* The bit of supported pv event */
-+/* The bit of supported pv event, TODO: include uapi header and remove this */
- #define PVPANIC_F_PANICKED      0
-+#define PVPANIC_F_CRASHLOADED   1
- 
- /* The pv event value */
- #define PVPANIC_PANICKED        (1 << PVPANIC_F_PANICKED)
-+#define PVPANIC_CRASHLOADED     (1 << PVPANIC_F_CRASHLOADED)
- 
- #define ISA_PVPANIC_DEVICE(obj)    \
-     OBJECT_CHECK(PVPanicState, (obj), TYPE_PVPANIC)
-@@ -34,7 +36,7 @@ static void handle_event(int event)
- {
-     static bool logged;
- 
--    if (event & ~PVPANIC_PANICKED && !logged) {
-+    if (event & ~(PVPANIC_PANICKED | PVPANIC_CRASHLOADED) && !logged) {
-         qemu_log_mask(LOG_GUEST_ERROR, "pvpanic: unknown event %#x.\n", event);
-         logged = true;
-     }
-@@ -43,6 +45,11 @@ static void handle_event(int event)
-         qemu_system_guest_panicked(NULL);
-         return;
-     }
-+
-+    if (event & PVPANIC_CRASHLOADED) {
-+        qemu_system_guest_crashloaded(NULL);
-+        return;
-+    }
- }
- 
- #include "hw/isa/isa.h"
-diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
-index 0b41555609..f760094858 100644
---- a/include/sysemu/runstate.h
-+++ b/include/sysemu/runstate.h
-@@ -63,6 +63,7 @@ ShutdownCause qemu_reset_requested_get(void);
- void qemu_system_killed(int signal, pid_t pid);
- void qemu_system_reset(ShutdownCause reason);
- void qemu_system_guest_panicked(GuestPanicInformation *info);
-+void qemu_system_guest_crashloaded(GuestPanicInformation *info);
- 
- #endif
- 
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index d7477cd715..b7a91f3125 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
-@@ -357,6 +357,26 @@
-   'data': { 'action': 'GuestPanicAction', '*info': 'GuestPanicInformation' } }
- 
- ##
-+# @GUEST_CRASHLOADED:
-+#
-+# Emitted when guest OS crash loaded is detected
-+#
-+# @action: action that has been taken, currently always "run"
-+#
-+# @info: information about a panic (since 2.9)
-+#
-+# Since: 5.0
-+#
-+# Example:
-+#
-+# <- { "event": "GUEST_CRASHLOADED",
-+#      "data": { "action": "run" } }
-+#
-+##
-+{ 'event': 'GUEST_CRASHLOADED',
-+  'data': { 'action': 'GuestPanicAction', '*info': 'GuestPanicInformation' } }
-+
-+##
- # @GuestPanicAction:
- #
- # An enumeration of the actions taken when guest OS panic is detected
-@@ -366,7 +386,7 @@
- # Since: 2.1 (poweroff since 2.8)
- ##
- { 'enum': 'GuestPanicAction',
--  'data': [ 'pause', 'poweroff' ] }
-+  'data': [ 'pause', 'poweroff', 'run' ] }
- 
- ##
- # @GuestPanicInformationType:
-diff --git a/vl.c b/vl.c
-index 86474a55c9..5b1b2ef095 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1468,6 +1468,18 @@ void qemu_system_guest_panicked(GuestPanicInformation *info)
-     }
- }
- 
-+void qemu_system_guest_crashloaded(GuestPanicInformation *info)
-+{
-+    qemu_log_mask(LOG_GUEST_ERROR, "Guest crash loaded");
-+
-+    qapi_event_send_guest_crashloaded(GUEST_PANIC_ACTION_RUN,
-+                                   !!info, info);
-+
-+    if (info) {
-+        qapi_free_GuestPanicInformation(info);
-+    }
-+}
-+
- void qemu_system_reset_request(ShutdownCause reason)
- {
-     if (no_reboot && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
--- 
-2.11.0
 
+r~
 
