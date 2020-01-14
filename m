@@ -2,99 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BBB13A4F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 11:06:11 +0100 (CET)
-Received: from localhost ([::1]:35944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30DB013A4FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 11:08:04 +0100 (CET)
+Received: from localhost ([::1]:36052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irJ5O-00064k-Mc
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 05:06:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37080)
+	id 1irJ7D-0008W9-8x
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 05:08:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37858)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <roger.pau@citrix.com>) id 1irJ41-00052p-7P
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:04:47 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1irJ6Q-0007yR-Jx
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:07:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <roger.pau@citrix.com>) id 1irJ3y-0000GI-9P
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:04:45 -0500
-Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:40059)
+ (envelope-from <dgilbert@redhat.com>) id 1irJ6P-00011f-7p
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:07:14 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46909
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <roger.pau@citrix.com>)
- id 1irJ3x-0000Ev-NJ
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:04:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1578996282;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=qxx3rA9hhMlVPBelH0+xqpyRUHbQaUMIaiHea6JarYk=;
- b=iWC0Zr0AjiMPxvLbTlKu81lrdaUhHwsK5e5GDjkPlarW/iGCMGsUFc6s
- rUx1f8ftYrwgmHiFjkrIZg8KkKcoN51BEpSLT8/lyG9ZuYmdWl4JQcCga
- kuoE7tUcBLUdBDKLncmDJXAdxwMi0Z2bGCQKUxbH7SjzwGLQf0MOPYuTl s=;
-Authentication-Results: esa3.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=roger.pau@citrix.com;
- spf=Pass smtp.mailfrom=roger.pau@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- roger.pau@citrix.com) identity=pra; client-ip=162.221.158.21;
- receiver=esa3.hc3370-68.iphmx.com;
- envelope-from="roger.pau@citrix.com";
- x-sender="roger.pau@citrix.com"; x-conformance=sidf_compatible
-Received-SPF: Pass (esa3.hc3370-68.iphmx.com: domain of
- roger.pau@citrix.com designates 162.221.158.21 as permitted
- sender) identity=mailfrom; client-ip=162.221.158.21;
- receiver=esa3.hc3370-68.iphmx.com;
- envelope-from="roger.pau@citrix.com";
- x-sender="roger.pau@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83
- ip4:168.245.78.127 ~all"
-Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa3.hc3370-68.iphmx.com;
- envelope-from="roger.pau@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: sghE+WHFnhZzApVd7UGFx09uGuh5xokj5Vfu6eoVGE96Nb/Tme3ifWwBRgpOHjJ8Oi3gnppU+z
- XBFOnJHDebAboMUOjp8mRhDLgQngNbUNLx9KTjU5vqZeNXe3ayp49yYNAif7QTSRIKwDsIdada
- xDa0Bc+6xbEVs5lfsI4ee3+K0tfqe+Oh0hIq6Vg9udrdNoIk6DeIFBlA1mEOz2s0aCcX1KCJ3+
- DiH1N+88oUD2sT4jNfinb/1ELpzaTGTD4HWlz/s9HMY9kWNP93IxLzyuA5vngncRmuYlZ0802g
- dw8=
-X-SBRS: 2.7
-X-MesageID: 10874124
-X-Ironport-Server: esa3.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.69,432,1571716800"; d="scan'208";a="10874124"
-Date: Tue, 14 Jan 2020 11:04:06 +0100
-From: Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>
-To: Jason Andryuk <jandryuk@gmail.com>
-Subject: Re: [Xen-devel] [PATCH 6/6] xen-pt: Round pci regions sizes to
- XEN_PAGE_SIZE
-Message-ID: <20200114100406.GF11756@Air-de-Roger>
-References: <20190311180216.18811-1-jandryuk@gmail.com>
- <20190311180216.18811-7-jandryuk@gmail.com>
- <ee0da83d3f054e72ae450437c8834d04@AMSPEX02CL02.citrite.net>
- <CAKf6xpujVs3RPJcb+2vqPZFcYwhdDcjbt=S_+awjPuPFpFHsPw@mail.gmail.com>
- <57dc1083d20a469785f05a2e5250a820@AMSPEX02CL02.citrite.net>
- <cd5f1ecc-576f-b7d0-3090-4f3e4faf6148@citrix.com>
- <CAKf6xpt4XYXn2xHJoVY_ibcaHSw-ED10V7ZGNKuDdkiJ93RS0A@mail.gmail.com>
- <20190322030936.fkiajz5ifgaejkd4@MacBook-Air-de-Roger.local>
- <CAKf6xptP_b-+FuscjsTK9G7pMeVS8drvA_t+xb5bdF2zxxmWfA@mail.gmail.com>
- <CAKf6xpscx9Yukphv7mfK2BPM8HoGW0ddt9zbOZxpV+9LzWxz4g@mail.gmail.com>
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1irJ6P-00011V-3C
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:07:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578996432;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=stfsFp75i47VJlVqquXOjIbx9Xx8xj92dO692LzjoVE=;
+ b=OYTu6lmWq7BXkljrhDLP28vLmB/8acWMlX891LqHPZ3PLYdPprCRjZO0bMFleOsAT4nhk0
+ 76ikN24MC72Cw0P1HqsZ02GYtWYvh46epx2zqOVf6keIlRy2GRS30X0SkirLkx6o2U3hw8
+ GWp2mdA8tT9XL0mL10isBTmo/8SyYFA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-Vk5_zMxPN1OnpwE8SNlYbg-1; Tue, 14 Jan 2020 05:07:10 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5B2A18C8C2C
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 10:07:09 +0000 (UTC)
+Received: from work-vm (ovpn-117-209.ams2.redhat.com [10.36.117.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 071485DA70;
+ Tue, 14 Jan 2020 10:07:05 +0000 (UTC)
+Date: Tue, 14 Jan 2020 10:07:03 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 066/104] virtiofsd: passthrough_ll: add renameat2 support
+Message-ID: <20200114100703.GC2812@work-vm>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-67-dgilbert@redhat.com>
+ <20200107112143.GJ3368802@redhat.com>
+ <20200110095228.GC3901@work-vm> <20200113200624.GB87499@work-vm>
+ <20200114082949.GB4071034@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+In-Reply-To: <20200114082949.GB4071034@redhat.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: Vk5_zMxPN1OnpwE8SNlYbg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKf6xpscx9Yukphv7mfK2BPM8HoGW0ddt9zbOZxpV+9LzWxz4g@mail.gmail.com>
-X-ClientProxiedBy: AMSPEX02CAS02.citrite.net (10.69.22.113) To
- AMSPEX02CL01.citrite.net (10.69.22.125)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 216.71.145.155
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,162 +76,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- "marmarek@invisiblethingslab.com" <marmarek@invisiblethingslab.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Simon Gaiser <simon@invisiblethingslab.com>, Paul
- Durrant <Paul.Durrant@citrix.com>, Anthony Perard <anthony.perard@citrix.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>
+Cc: mszeredi@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 13, 2020 at 02:01:47PM -0500, Jason Andryuk wrote:
-> On Fri, Mar 22, 2019 at 3:43 PM Jason Andryuk <jandryuk@gmail.com> wrote:
+* Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> On Mon, Jan 13, 2020 at 08:06:24PM +0000, Dr. David Alan Gilbert wrote:
+> > * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
+> > > * Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
+> > > > On Thu, Dec 12, 2019 at 04:38:26PM +0000, Dr. David Alan Gilbert (g=
+it) wrote:
+> > > > > From: Miklos Szeredi <mszeredi@redhat.com>
+> > > > >=20
+> > > > > No glibc support yet, so use syscall().
+> > > >=20
+> > > > It exists in glibc in my Fedora 31 install.
+> > > >=20
+> > > > Presumably this is related to an older version
+> > > >=20
+> > > > > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> > > > > ---
+> > > > >  tools/virtiofsd/passthrough_ll.c | 10 ++++++++++
+> > > > >  1 file changed, 10 insertions(+)
+> > > > >=20
+> > > > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/p=
+assthrough_ll.c
+> > > > > index 91d3120033..bed2270141 100644
+> > > > > --- a/tools/virtiofsd/passthrough_ll.c
+> > > > > +++ b/tools/virtiofsd/passthrough_ll.c
+> > > > > @@ -1083,7 +1083,17 @@ static void lo_rename(fuse_req_t req, fuse=
+_ino_t parent, const char *name,
+> > > > >      }
+> > > > > =20
+> > > > >      if (flags) {
+> > > > > +#ifndef SYS_renameat2
+> > > > >          fuse_reply_err(req, EINVAL);
+> > > > > +#else
+> > > > > +        res =3D syscall(SYS_renameat2, lo_fd(req, parent), name,
+> > > > > +                      lo_fd(req, newparent), newname, flags);
+> > > > > +        if (res =3D=3D -1 && errno =3D=3D ENOSYS) {
+> > > > > +            fuse_reply_err(req, EINVAL);
+> > > > > +        } else {
+> > > > > +            fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
+> > > > > +        }
+> > > > > +#endif
+> > > >=20
+> > > > We should use the formal API if available as first choice
+> > >=20
+> > > OK, done - I've kept the 'ifndef SYS_renameat2' that drops back to an
+> > > error for truly ancient cases; although I doubt everything else will
+> > > build on something that old.
+> >=20
+> > Hmm, and this breaks on middle age distros;  older distros don't have i=
+t
+> > at all, new ones have both the syscall and the wrapper; but for the
+> > middle age ones they have the syscall but not the wrapper.
 > >
-> > On Thu, Mar 21, 2019 at 11:09 PM Roger Pau Monné <roger.pau@citrix.com> wrote:
-> > >
-> > > On Wed, Mar 20, 2019 at 01:28:47PM -0400, Jason Andryuk wrote:
-> > > > On Fri, Mar 15, 2019 at 12:28 PM Andrew Cooper
-> > > > <andrew.cooper3@citrix.com> wrote:
-> > > > >
-> > > > > On 15/03/2019 09:17, Paul Durrant wrote:
-> > > > > >> -----Original Message-----
-> > > > > >> From: Jason Andryuk [mailto:jandryuk@gmail.com]
-> > > > > >> Sent: 14 March 2019 18:16
-> > > > > >> To: Paul Durrant <Paul.Durrant@citrix.com>
-> > > > > >> Cc: qemu-devel@nongnu.org; xen-devel@lists.xenproject.org; marmarek@invisiblethingslab.com; Simon
-> > > > > >> Gaiser <simon@invisiblethingslab.com>; Stefano Stabellini <sstabellini@kernel.org>; Anthony Perard
-> > > > > >> <anthony.perard@citrix.com>
-> > > > > >> Subject: Re: [PATCH 6/6] xen-pt: Round pci regions sizes to XEN_PAGE_SIZE
-> > > > > >>
-> > > > > >> On Wed, Mar 13, 2019 at 11:09 AM Paul Durrant <Paul.Durrant@citrix.com> wrote:
-> > > > > >>>> -----Original Message-----
-> > > > > >>>> From: Jason Andryuk [mailto:jandryuk@gmail.com]
-> > > > > >>>> Sent: 11 March 2019 18:02
-> > > > > >>>> To: qemu-devel@nongnu.org
-> > > > > >>>> Cc: xen-devel@lists.xenproject.org; marmarek@invisiblethingslab.com; Simon Gaiser
-> > > > > >>>> <simon@invisiblethingslab.com>; Jason Andryuk <jandryuk@gmail.com>; Stefano Stabellini
-> > > > > >>>> <sstabellini@kernel.org>; Anthony Perard <anthony.perard@citrix.com>; Paul Durrant
-> > > > > >>>> <Paul.Durrant@citrix.com>
-> > > > > >>>> Subject: [PATCH 6/6] xen-pt: Round pci regions sizes to XEN_PAGE_SIZE
-> > > > > >>>>
-> > > > > >>>> From: Simon Gaiser <simon@invisiblethingslab.com>
-> > > > > >>>>
-> > > > > >>>> If a pci memory region has a size < XEN_PAGE_SIZE it can get located at
-> > > > > >>>> an address which is not page aligned.
-> > > > > >>> IIRC the PCI spec says that the minimum memory region size should be at least 4k. Should we even be
-> > > > > >> tolerating BARs smaller than that?
-> > > > > >>>   Paul
-> > > > > >>>
-> > > > > >> Hi, Paul.
-> > > > > >>
-> > > > > >> Simon found this, so it affects a real device.  Simon, do you recall
-> > > > > >> which device was affected?
-> > > > > >>
-> > > > > >> I think BARs only need to be power-of-two size and aligned, and 4k is
-> > > > > >> not a minimum.  16bytes may be a minimum, but I don't know what the
-> > > > > >> spec says.
-> > > > > >>
-> > > > > >> On an Ivy Bridge system, here are some of the devices with BARs smaller than 4K:
-> > > > > >> 00:16.0 Communication controller: Intel Corporation 7 Series/C210
-> > > > > >> Series Chipset Family MEI Controller #1 (rev 04)
-> > > > > >>    Memory at d0735000 (64-bit, non-prefetchable) [disabled] [size=16]
-> > > > > >> 00:1d.0 USB controller: Intel Corporation 7 Series/C210 Series Chipset
-> > > > > >> Family USB Enhanced Host Controller #1 (rev 04) (prog-if 20 [EHCI])
-> > > > > >>    Memory at d0739000 (32-bit, non-prefetchable) [disabled] [size=1K]
-> > > > > >> 00:1f.3 SMBus: Intel Corporation 7 Series/C210 Series Chipset Family
-> > > > > >> SMBus Controller (rev 04)
-> > > > > >>    Memory at d0734000 (64-bit, non-prefetchable) [disabled] [size=256]
-> > > > > >> 02:00.0 System peripheral: JMicron Technology Corp. SD/MMC Host
-> > > > > >> Controller (rev 30)
-> > > > > >>    Memory at d0503000 (32-bit, non-prefetchable) [disabled] [size=256]
-> > > > > >>
-> > > > > >> These examples are all 4K aligned, so this is not an issue on this machine.
-> > > > > >>
-> > > > > >> Reviewing the code, I'm now wondering if the following in
-> > > > > >> hw/xen/xen_pt.c:xen_pt_region_update is wrong:        rc =
-> > > > > >> xc_domain_memory_mapping(xen_xc, xen_domid,
-> > > > > >>                                      XEN_PFN(guest_addr + XC_PAGE_SIZE - 1),
-> > > > > >>                                      XEN_PFN(machine_addr + XC_PAGE_SIZE - 1),
-> > > > > >>                                      XEN_PFN(size + XC_PAGE_SIZE - 1),
-> > > > > >>                                      op);
-> > > > > >>
-> > > > > >> If a bar of size 0x100 is at 0xd0500800, then the machine_addr passed
-> > > > > >> in would be 0xd0501000 which is past the actual location.  Should the
-> > > > > >> call arguments just be XEN_PFN(guest_addr) & XEN_PFN(machine_addr)?
-> > > > > >>
-> > > > > >> BARs smaller than a page would also be a problem if BARs for different
-> > > > > >> devices shared the same page.
-> > > > > > Exactly. We cannot pass them through with any degree of safety (not that passthrough of an arbitrary device is a particularly safe thing to do anyway). The xen-pt code would instead need to trap those BARs and perform the accesses to the real BAR itself. Ultimately though I think we should be retiring the xen-pt code in favour of a standalone emulator.
-> > > > >
-> > > > > It doesn't matter if the BAR is smaller than 4k, if there are holes next
-> > > > > to it.
-> > > > >
-> > > > > Do we know what the case is in practice for these USB controllers?
-> > > > >
-> > > > > If the worst comes to the worst, we can re-enumerate the PCI bus to
-> > > > > ensure that all bars smaller than 4k still have 4k alignment between
-> > > > > them.  That way we can safely pass them through even when they are smaller.
-> > > >
-> > > > Andrew, thanks for checking the spec on the minimum BAR size.
-> > > >
-> > > > Dropping the Round PCI region patch from QMEU, the guest HVM will have:
-> > > >
-> > > > 00:06.0 SD Host controller: Ricoh Co Ltd PCIe SDXC/MMC Host Controller (rev 07)
-> > > >     Memory at f2028800 (32-bit, non-prefetchable) [size=256]
-> > > > 00:07.0 USB controller: NEC Corporation uPD720200 USB 3.0 Host
-> > > > Controller (rev 04) (prog-if 30 [XHCI])
-> > > >     Memory at f2024000 (64-bit, non-prefetchable) [size=8K]
-> > > > 00:08.0 USB controller: Intel Corporation 6 Series/C200 Series Chipset
-> > > > Family USB Enhanced Host Controller #2 (rev 05) (prog-if 20 [EHCI])
-> > > >     Memory at f2028000 (32-bit, non-prefetchable) [size=1K]
-> > > > 00:09.0 USB controller: Intel Corporation 6 Series/C200 Series Chipset
-> > > > Family USB Enhanced Host Controller #1 (rev 05) (prog-if 20 [EHCI])
-> > > >     Memory at f2028400 (32-bit, non-prefetchable) [size=1K]
-> > > >
-> > > > 00:09.0, 00:08.0 & 00:06.0 all share the same page.  Only 00:08.0 is
-> > > > working.  With some added debugging output, you'll see that the same
-> > > > page* is used for three of the BARs.
-> > > >
-> > > > [00:06.0] mapping guest_addr 0xf2028800 gfn 0xf2028 to maddr
-> > > > 0xe1a30000 mfn 0xe1a30
-> > > > [00:07.0] mapping guest_addr 0xf2024000 gfn 0xf2024 to maddr
-> > > > 0xe0800000 mfn 0xe0800
-> > > > [00:09.0] mapping guest_addr 0xf2028400 gfn 0xf2028 to maddr
-> > > > 0xe1900000 mfn 0xe1900
-> > > > [00:08.0] mapping guest_addr 0xf2028000 gfn 0xf2028 to maddr
-> > > > 0xe1a2f000 mfn 0xe1a2f
-> > >
-> > > The patch below should prevent hvmloader from placing multiple BARs on
-> > > the same page, could you give it a try?
-> > >
-> > > Note that this is not going to prevent the guest from moving those
-> > > BARs around and place them in the same page, thus breaking the initial
-> > > placement done by hvmloader.
-> > >
-> > > Thanks, Roger.
-> >
-> > Hi, Roger.
-> >
-> > I've minimally tested this.  Yes, this patch seems to place small BARs
-> > into separate pages.  The linux stubdom and QEMU then use the spacing
-> > as provided by hvmloader.
-> 
-> Roger,
-> 
-> Would you mind submitting this patch to Xen?
+> > Dan: What's your preference here; should I add a config fragment to
+> > detect the wrapper - it seems overkill rather than just reverting it
+> > until it becomes common.
+>=20
+> What specific middle age distro in particular is affected ? My general
+> thought would be to /not/ support such distros. Focus on modern distros
+> since this is a brand new feature in QEMU, where we should try to
+> minimize support for legacy stuff at the start. But depending on the
+> distro impacted, the might be a reason to stay with SYS_..
 
-Hm, I'm half minded regarding this patch. It feels more like a bandaid
-than a proper solution. Mapping BARs not multiple of page-sizes is
-dangerous because AFAIK there's no entity that asserts there isn't any
-other BAR from a different device on the same page, and hence you
-might end up mapping some MMIO region from another device
-inadvertently.
+The report came from Ubuntu 18.04 (which Intel uses on CI); that's not
+that old, so I think it sohuld be supported.   I don't really see the
+justification for insisting on using the wrapper.
 
-Anyway, I can formally submit the patch since it's no worse than
-what's currently done, but I would clearly state this is not safe in
-it's current state.
+Dave
 
-Thanks, Roger.
+> Regards,
+> Daniel
+> --=20
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
