@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4095A13A78E
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 11:40:20 +0100 (CET)
-Received: from localhost ([::1]:36592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5521C13A783
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 11:39:12 +0100 (CET)
+Received: from localhost ([::1]:36578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irJcR-000294-Bc
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 05:40:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43155)
+	id 1irJbL-0000Ku-78
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 05:39:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43232)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1irJXa-00053c-Sz
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:35:22 -0500
+ (envelope-from <clg@kaod.org>) id 1irJXq-0005F2-K8
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:35:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1irJXX-0003hO-6I
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:35:18 -0500
-Received: from 15.mo1.mail-out.ovh.net ([188.165.38.232]:40241)
+ (envelope-from <clg@kaod.org>) id 1irJXm-0003lx-47
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:35:34 -0500
+Received: from 10.mo1.mail-out.ovh.net ([178.32.96.102]:54670)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1irJXX-0003h0-0V
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:35:15 -0500
-Received: from player798.ha.ovh.net (unknown [10.108.16.135])
- by mo1.mail-out.ovh.net (Postfix) with ESMTP id D992A1A9492
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 11:35:12 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1irJXg-0003jS-Dc
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:35:25 -0500
+Received: from player798.ha.ovh.net (unknown [10.108.57.14])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id 6EE651A964F
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 11:35:21 +0100 (CET)
 Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
  (Authenticated sender: clg@kaod.org)
- by player798.ha.ovh.net (Postfix) with ESMTPSA id 9D929E4CFF14;
- Tue, 14 Jan 2020 10:35:03 +0000 (UTC)
+ by player798.ha.ovh.net (Postfix) with ESMTPSA id D107FE4D0003;
+ Tue, 14 Jan 2020 10:35:12 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 3/5] ftgmac100: check RX and TX buffer alignment
-Date: Tue, 14 Jan 2020 11:34:31 +0100
-Message-Id: <20200114103433.30534-4-clg@kaod.org>
+Subject: [PATCH v3 4/5] hw/arm/aspeed: add a 'execute-in-place' property to
+ boot directly from CE0
+Date: Tue, 14 Jan 2020 11:34:32 +0100
+Message-Id: <20200114103433.30534-5-clg@kaod.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200114103433.30534-1-clg@kaod.org>
 References: <20200114103433.30534-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 11051833489830087441
+X-Ovh-Tracer-Id: 11054366761784544017
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdejvddgudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeelkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgepud
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrtddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeelkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 188.165.38.232
+X-Received-From: 178.32.96.102
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,59 +64,128 @@ Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These buffers should be aligned on 16 bytes.
+The overhead for the OpenBMC firmware images using the a custom U-Boot
+is around 2 seconds, which is fine, but with a U-Boot from mainline,
+it takes an extra 50 seconds or so to reach Linux. A quick survey on
+the number of reads performed on the flash memory region gives the
+following figures :
 
-Ignore invalid RX and TX buffer addresses and log an error. All
-incoming and outgoing traffic will be dropped because no valid RX or
-TX descriptors will be available.
+  OpenBMC U-Boot      922478 (~ 3.5 MBytes)
+  Mainline U-Boot   20569977 (~ 80  MBytes)
+
+QEMU must be trashing the TCG TBs and reloading text very often. Some
+addresses are read more than 250.000 times. Until we find a solution
+to improve boot time, execution from MMIO is not activated by default.
+
+Setting this option also breaks migration compatibility.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/net/ftgmac100.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ include/hw/arm/aspeed.h |  2 ++
+ hw/arm/aspeed.c         | 44 ++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 41 insertions(+), 5 deletions(-)
 
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 86ac25894a89..051f7b7af2d6 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -198,6 +198,8 @@ typedef struct {
-     uint32_t        des3;
- } FTGMAC100Desc;
+diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
+index 4423cd0cda71..18521484b90e 100644
+--- a/include/hw/arm/aspeed.h
++++ b/include/hw/arm/aspeed.h
+@@ -19,6 +19,8 @@ typedef struct AspeedBoardState AspeedBoardState;
 =20
-+#define FTGMAC100_DESC_ALIGNMENT 16
+ typedef struct AspeedMachine {
+     MachineState parent_obj;
 +
- /*
-  * Specific RTL8211E MII Registers
-  */
-@@ -722,6 +724,12 @@ static void ftgmac100_write(void *opaque, hwaddr add=
-r,
-         s->itc =3D value;
-         break;
-     case FTGMAC100_RXR_BADR: /* Ring buffer address */
-+        if (!QEMU_IS_ALIGNED(value, FTGMAC100_DESC_ALIGNMENT)) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad RX buffer alignment =
-0x%"
-+                          HWADDR_PRIx "\n", __func__, value);
-+            return;
-+        }
-+
-         s->rx_ring =3D value;
-         s->rx_descriptor =3D s->rx_ring;
-         break;
-@@ -731,6 +739,11 @@ static void ftgmac100_write(void *opaque, hwaddr add=
-r,
-         break;
++    bool mmio_exec;
+ } AspeedMachine;
 =20
-     case FTGMAC100_NPTXR_BADR: /* Transmit buffer address */
-+        if (!QEMU_IS_ALIGNED(value, FTGMAC100_DESC_ALIGNMENT)) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad TX buffer alignment =
-0x%"
-+                          HWADDR_PRIx "\n", __func__, value);
-+            return;
+ #define ASPEED_MACHINE_CLASS(klass) \
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 8702256af1b2..a17843f0d3bf 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -261,11 +261,18 @@ static void aspeed_machine_init(MachineState *machi=
+ne)
+          * SoC and 128MB for the AST2500 SoC, which is twice as big as
+          * needed by the flash modules of the Aspeed machines.
+          */
+-        memory_region_init_rom(boot_rom, OBJECT(bmc), "aspeed.boot_rom",
+-                               fl->size, &error_abort);
+-        memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
+-                                    boot_rom);
+-        write_boot_rom(drive0, FIRMWARE_ADDR, fl->size, &error_abort);
++        if (ASPEED_MACHINE(machine)->mmio_exec) {
++            memory_region_init_alias(boot_rom, OBJECT(bmc), "aspeed.boot=
+_rom",
++                                     &fl->mmio, 0, fl->size);
++            memory_region_add_subregion(get_system_memory(), FIRMWARE_AD=
+DR,
++                                        boot_rom);
++        } else {
++            memory_region_init_rom(boot_rom, OBJECT(bmc), "aspeed.boot_r=
+om",
++                                   fl->size, &error_abort);
++            memory_region_add_subregion(get_system_memory(), FIRMWARE_AD=
+DR,
++                                        boot_rom);
++            write_boot_rom(drive0, FIRMWARE_ADDR, fl->size, &error_abort=
+);
 +        }
-         s->tx_ring =3D value;
-         s->tx_descriptor =3D s->tx_ring;
-         break;
+     }
+=20
+     aspeed_board_binfo.ram_size =3D ram_size;
+@@ -399,6 +406,30 @@ static void witherspoon_bmc_i2c_init(AspeedBoardStat=
+e *bmc)
+     /* Bus 11: TODO ucd90160@64 */
+ }
+=20
++static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
++{
++    return ASPEED_MACHINE(obj)->mmio_exec;
++}
++
++static void aspeed_set_mmio_exec(Object *obj, bool value, Error **errp)
++{
++    ASPEED_MACHINE(obj)->mmio_exec =3D value;
++}
++
++static void aspeed_machine_instance_init(Object *obj)
++{
++    ASPEED_MACHINE(obj)->mmio_exec =3D false;
++}
++
++static void aspeed_machine_class_props_init(ObjectClass *oc)
++{
++    object_class_property_add_bool(oc, "execute-in-place",
++                                   aspeed_get_mmio_exec,
++                                   aspeed_set_mmio_exec, &error_abort);
++    object_class_property_set_description(oc, "execute-in-place",
++                           "boot directly from CE0 flash device", &error=
+_abort);
++}
++
+ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc =3D MACHINE_CLASS(oc);
+@@ -408,6 +439,8 @@ static void aspeed_machine_class_init(ObjectClass *oc=
+, void *data)
+     mc->no_floppy =3D 1;
+     mc->no_cdrom =3D 1;
+     mc->no_parallel =3D 1;
++
++    aspeed_machine_class_props_init(oc);
+ }
+=20
+ static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *da=
+ta)
+@@ -550,6 +583,7 @@ static const TypeInfo aspeed_machine_types[] =3D {
+         .name          =3D TYPE_ASPEED_MACHINE,
+         .parent        =3D TYPE_MACHINE,
+         .instance_size =3D sizeof(AspeedMachine),
++        .instance_init =3D aspeed_machine_instance_init,
+         .class_size    =3D sizeof(AspeedMachineClass),
+         .class_init    =3D aspeed_machine_class_init,
+         .abstract      =3D true,
 --=20
 2.21.1
 
