@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95110139E59
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 01:35:25 +0100 (CET)
-Received: from localhost ([::1]:57434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D53C139E86
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 01:46:20 +0100 (CET)
+Received: from localhost ([::1]:57658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irAB2-00085l-G1
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 19:35:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34089)
+	id 1irALb-0006wE-53
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 19:46:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36008)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aik@ozlabs.ru>) id 1irA9m-0006Pq-Q2
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:34:08 -0500
+ (envelope-from <aik@ozlabs.ru>) id 1irAJT-0005Q6-FM
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:44:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>) id 1irA9k-0008Q2-FQ
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:34:05 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:36710)
+ (envelope-from <aik@ozlabs.ru>) id 1irAJR-0007Ml-BS
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:44:06 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:42879)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1irA9k-0008Op-1p
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:34:04 -0500
-Received: by mail-pf1-x444.google.com with SMTP id x184so5703707pfb.3
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 16:34:03 -0800 (PST)
+ (Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1irAJQ-0007LS-Ge
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:44:04 -0500
+Received: by mail-pf1-x444.google.com with SMTP id 4so5696752pfz.9
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 16:44:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=h82tEPbi1SzihaOlkziOCdOvzGets6i1k2fOOCiJB9Q=;
- b=PyiHSjScX8GMbtD2SfQdbdpW6et9I/Nb/yG1QPvAtPvVG41ro6DM4TcRG4xOPMbTIO
- 9m/ipaodRraauY3fJaRpv6I7yEVRxKpX8WkOYxeN2eb0EGV1Oku0JTX/E9sYvhLnM4oV
- c6xJfS/KoO/b/A0dhMSGGwJPINsBfJQO+5KDgWjkS3C4wD/0frvRkh8QyAtj9Q/QkdLh
- d7S96xi1m/ENKJYdwBeqVvvM5gPGcuJtYpcw0j5odUHop3quomnjqFLu5Q9yszo3eEYB
- piRs6MDyhGk/w/lDMS+wHSdKr6v/HitNtJGGdkgXOz9XfoZglRUOYDs9NlYbrYHpNSlC
- lX8A==
+ bh=RqyisWUcV/neXbPg1Ju+mbJ3qPNN3xZWaSHzumNz/kQ=;
+ b=pxQEfYkDB3DqPglR4nBuXP5Rnwzfug0cHrQeHreGO2o2PWwQXc/zpCbqm61qFEH1j7
+ CHSDYLDXzjdrBSS+q+9Edc9u1UBFEF/bvNVDvZWQdQixpNKeGrSuEvINvM7SJjSM92yL
+ pX0RKzAgmj4tV7A6JFU1Bdrig5QW7uCjhMrq5ESXCz274Duw++w36iCIGDNyjSNvLev4
+ 7Q5m7Z5+2UtGnUrocikuJUXDGnKWYVzjU2FZXULfpWyQ+oE3jTpJvLMs6XfnClxiY1dC
+ L+DduBMm+r1jodKCaFi/ethRr/uCTTZvwZJBSWBrCEr8dyoDaENhV/UKmbilfhyt0C0C
+ 8xcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=h82tEPbi1SzihaOlkziOCdOvzGets6i1k2fOOCiJB9Q=;
- b=h9/g3W7u/SUGZgB/R6w19O+ptdiomH4Uz5YPDqid/yFR+/Un/i7cI/Rtvp6Qj+4/SZ
- iWBoza7Hf1hSHY+0pGdeGcl/OzllB4OOU2KbJCQ24JTjpFfKZtY2usDO0DJ4EG8kwYow
- cxm2QPmQLBzBOWyf7Yf/oqe/rsgLL+ud6bVGPSZ7ohmt7XvDAiryQa5tabJvw5hPJVDG
- 09z8DnDV/emMr2I1BWvE0tmsdnEjAt4QyUYDySXPU4sq8vR0QDxf70U04o5b+jOIXIxn
- 5S0GnaBPf5QrEAzw9W1AfOQMW1Hh9u+vOuS2PsYpnlf3GOw4Uyk1VPUTKxW9cPiGtM0H
- PXdA==
-X-Gm-Message-State: APjAAAUy30ULHo03vkY8o/jGaVdz07sNMPg4zn0ulPo0l3cDCI6NtJ85
- RbqrUBcdGCb1NahRuj+obTuZew==
-X-Google-Smtp-Source: APXvYqw9TfNgczozLb0UDjMCSdyfjMf/hydZ3ZjmcmjBOuPsQQ6Mf40YhFCGWxx7/U36VtX02Ww+NQ==
-X-Received: by 2002:aa7:9205:: with SMTP id 5mr22634518pfo.213.1578962042258; 
- Mon, 13 Jan 2020 16:34:02 -0800 (PST)
+ bh=RqyisWUcV/neXbPg1Ju+mbJ3qPNN3xZWaSHzumNz/kQ=;
+ b=NhfI7IpaUl9A7+h4GUP4aopaEy8s8S4YfmbSO/lsY3bPY+55HNQ/56yYD8xEeyhyzC
+ Po0ZqP/4lbX5oJpxqm3Sm6cZqapnhcTP6GBdA6/LTTldZOY4Hfpyv0GvUeMCzpuoKXp2
+ 2Tz8qbKTDq5k62XQS0uvCtTSGSYGUJ3d4KadcILtIZFIKRC/j5gcO4PxguKsXQIgyq5z
+ /lC4cwSxBPybA+MBh8+qunRXQRuDBJWrYfBtsnmRG7cqHyKtMQJ0e7WFTg7by8CEdrn+
+ acV/WLwvoMAZkH6PtEqfifZ/WPNmocMkSg4USlDvKCE1oXA9CwGQzhBap+BeJFrhWRKH
+ GNag==
+X-Gm-Message-State: APjAAAUvbkUw3f+PXKDEa2O5QBk5RzDvgAt27R2X9XX1Zdc0PuHOx9TN
+ Z7u4Y2UCfVNPyH0jPwoTVcJuDA==
+X-Google-Smtp-Source: APXvYqz7hbbOjiVMOp+sZXLAyvmuzPTN6Mi5sBiHd54XMUkt7unyctK+0VPZ1vOrv6ThpAF2qvkU/g==
+X-Received: by 2002:a63:d66:: with SMTP id 38mr23420177pgn.233.1578962642738; 
+ Mon, 13 Jan 2020 16:44:02 -0800 (PST)
 Received: from [10.61.2.175] ([122.99.82.10])
- by smtp.gmail.com with ESMTPSA id b12sm15227730pfi.157.2020.01.13.16.34.00
+ by smtp.gmail.com with ESMTPSA id u13sm14289846pjn.29.2020.01.13.16.43.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jan 2020 16:34:01 -0800 (PST)
-Subject: Re: [PATCH qemu v4] spapr: Kill SLOF
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20200108061856.4554-1-aik@ozlabs.ru>
- <b4011a6b-d502-b514-84ad-4e6a1580449d@ozlabs.ru>
- <75b2a298-b549-dcc9-519b-7bf7c388110b@ozlabs.ru>
- <684e7d31-04d0-3176-5de2-c817ce1aedf3@ozlabs.ru>
- <20200113070500.GD19995@umbus>
+ Mon, 13 Jan 2020 16:44:02 -0800 (PST)
+Subject: Re: [RFC PATCH qemu] spapr: Kill SLOF
+To: Andrea Bolognani <abologna@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20200103074404.30853-1-aik@ozlabs.ru>
+ <3cf3e733-199a-61ba-7aaa-05e9546cd4d9@ozlabs.ru>
+ <dd98618f-01c6-850f-ac00-454a2f798508@gmail.com>
+ <81f1f752-3ada-2c8d-38b7-1344c7633e14@ozlabs.ru>
+ <e3299f0688127627de96eb2db1f127bf94df9085.camel@redhat.com>
+ <5ed92e2a-4b9f-8092-cb67-8d94c3891e20@ozlabs.ru>
+ <1a8f9121a3cb85d415ff1c67a5379a717ad2b8e0.camel@redhat.com>
 From: Alexey Kardashevskiy <aik@ozlabs.ru>
 Autocrypt: addr=aik@ozlabs.ru; keydata=
  mQINBE+rT0sBEADFEI2UtPRsLLvnRf+tI9nA8T91+jDK3NLkqV+2DKHkTGPP5qzDZpRSH6mD
@@ -135,12 +138,12 @@ Autocrypt: addr=aik@ozlabs.ru; keydata=
  c7E5M+/NpslPCmYnDjs5qg0/3ihh6XuOGggZQOqrYPC3PnsNs3NxirwOkVPQgO6mXxpuifvJ
  DG9EMkK8IBXnLulqVk54kf7fE0jT/d8RTtJIA92GzsgdK2rpT1MBKKVffjRFGwN7nQVOzi4T
  XrB5p+6ML7Bd84xOEGsj/vdaXmz1esuH7BOZAGEZfLRCHJ0GVCSssg==
-Message-ID: <af4205d1-7399-2db1-4dcc-26b16dd73611@ozlabs.ru>
-Date: Tue, 14 Jan 2020 11:33:58 +1100
+Message-ID: <aa44205f-e56c-daba-e2ed-e3c7817676df@ozlabs.ru>
+Date: Tue, 14 Jan 2020 11:43:54 +1100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200113070500.GD19995@umbus>
+In-Reply-To: <1a8f9121a3cb85d415ff1c67a5379a717ad2b8e0.camel@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -158,81 +161,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Jose Ricardo Ziviani <joserz@linux.ibm.com>,
+ Fabiano Rosas <farosas@linux.ibm.com>, Sam Bobroff <sbobroff@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Paul Mackerras <paulus@ozlabs.org>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Leonardo_Augusto_Guimar=c3=a3es_Garcia?= <lagarcia@br.ibm.com>,
+ Leonardo Bras <leonardo@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 13/01/2020 18:05, David Gibson wrote:
-> On Fri, Jan 10, 2020 at 11:51:32AM +1100, Alexey Kardashevskiy wrote:
->>
->>
->> On 10/01/2020 10:32, Alexey Kardashevskiy wrote:
+On 13/01/2020 20:13, Andrea Bolognani wrote:
+> On Wed, 2020-01-08 at 13:34 +1100, Alexey Kardashevskiy wrote:
+>> On 07/01/2020 20:39, Andrea Bolognani wrote:
+>>> On Tue, 2020-01-07 at 12:55 +1100, Alexey Kardashevskiy wrote:
+>>>> Petitboot kernel+initramdisk almost replaces SLOF + GRUB.
 >>>
->>>
->>> On 10/01/2020 10:05, Alexey Kardashevskiy wrote:
->>>>
->>>>
->>>> On 08/01/2020 17:18, Alexey Kardashevskiy wrote:
->>>>> The Petitboot bootloader is way more advanced than SLOF is ever going to
->>>>> be as Petitboot comes with the full-featured Linux kernel with all
->>>>> the drivers, and initramdisk with quite user friendly interface.
->>>>> The problem with ditching SLOF is that an unmodified pseries kernel can
->>>>> either start via:
->>>>> 1. kexec, this requires presence of RTAS and skips
->>>>> ibm,client-architecture-support entirely;
->>>>> 2. normal boot, this heavily relies on the OF1275 client interface to
->>>>> fetch the device tree and do early setup (claim memory).
->>>>>
->>>>> This adds a new bios-less mode to the pseries machine: "bios=on|off".
->>>>> When enabled, QEMU does not load SLOF and jumps to the kernel from
->>>>> "-kernel".
->>>>>
->>>>> The client interface is implemented exactly as RTAS - a 20 bytes blob,
->>>>> right next after the RTAS blob. The entry point is passed to the kernel
->>>>> via GPR5.
->>>>>
->>>>> This implements a handful of client interface methods just to get going.
->>>>> In particular, this implements the device tree fetching,
->>>>> ibm,client-architecture-support and instantiate-rtas.
->>>>>
->>>>> This implements changing FDT properties for RTAS (for vmlinux and zImage)
->>>>> and initramdisk location (for zImage). To make this work, this skips
->>>>> fdt_pack() when bios=off as not packing the blob leaves some room for
->>>>> appending.
->>>>>
->>>>> This assigns "phandles" to device tree nodes as there is no more SLOF
->>>>> and OF nodes addresses of which served as phandle values.
->>>>> This keeps predefined nodes (such as XICS/NVLINK/...) unchanged.
->>>>> phandles are regenerated at every FDT rebuild.
->>>>>
->>>>> This defines phandles for VIO devices to have phandle assigned to
->>>>> the default stdout device at the point when we write "/chosen/stdout"
->>>>> which an ihandle which the OS uses to write to the console.
->>>>
->>>>
->>>> And I do not really need to preallocate phandles for stdout as it is a
->>>> leftover from when I populated /chosen/stdout before populating VIO
->>>> nodes, now /chosen/stdout is added at the very end. Thanks,
->>>
->>>
->>> Ah noo, I do, to implement "write" to the selected stdout as I need to
->>> trace ihandle back to Object* and  object_resolve_path() does not know
->>> about FDT path, it is /machine/peripheral/svty0 in QOM. The commit log
->>> needs an update, or this needs a fix but I cannot think of a nicer one.
->>> Thanks,
+>>> Is this necessarily a good thing?
 >>
->>
->> I just might extend instances to do real instances, i.e. associate
->> ihandle with phandle _and_ Object*, I just need a helper to find Object
->> which matches what qdev_get_fw_dev_path() returns. Fun :)
+>> The bare metal host and the powernv machine in QEMU do not use grub,
+>> they use petitboot which parses all grub configs and supports quite a lot.
 > 
-> If you only allow one instance per device, could you just make
-> ihandles == phandle | CONSTANT?
+> How well does the distro integration work? Eg. if I change something
+> in /etc/default/grub and then run grub2-mkconfig, can I expect my
+> changes to be picked up?
+
+Yes. Even the environment file (/boot/grub/grubenv).
+
+> In which scenarios will that *not* work?
+
+When/if grub adds a big new feature and petitboot won't have support for
+it. Otherwise everything from GRUB is supported today.
 
 
-I started doing real instances so I am not sure such limiting is worth it.
+>> Using Linux for a boot loader is not powerpc-only thing really, some
+>> folks do this too (forgot who, just heard this at the KVM forum).
+> 
+> While other options are available and some architectures use
+> something else entirely, GRUB is the de-facto standard across most
+> of the non-obscure architectures.
+
+True. I am thinking of extending this patch to support GRUB as well. Or
+alternatively we could add a mode to GRUB to run in userspace under
+petitboot's kernel.
+
+It just seems quite an attractive idea to be able to boot from literally
+anything without needing a ROM on whatever device is passed through to
+the guest, or a driver in SLOF.
+
+
+> I guess the question is whether it's more important to be consistent
+> within the architecture or across them. I think the latter might be
+> preferable, especially when we consider what I think is the most
+> common scenario, that is, someone who's used to having GRUB on their
+> x86 machine running a ppc64 guest on the cloud. The more skills they
+> can automatically transfer over, the better.
+
+True. petitboot is not horribly different though, and the user has to
+take exact same steps as if it was GRUB.
+
+>>> Personally I quite like the fact
+>>> that I can use the same bootloader across x86, ppc64 and aarch64.
+>>
+>> I am not suggesting removing SLOF soon
+> 
+> Perhaps the patch subject shouldn't be "kill SLOF" then? ;)
+
+This way I get more attention ;)
 
 
 -- 
