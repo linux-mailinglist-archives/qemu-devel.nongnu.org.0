@@ -2,83 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD9A13A9B6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 13:51:46 +0100 (CET)
-Received: from localhost ([::1]:38630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1D413A9D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 13:55:48 +0100 (CET)
+Received: from localhost ([::1]:38714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irLfd-0007p7-S4
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 07:51:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39900)
+	id 1irLjW-0001yC-P1
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 07:55:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40454)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1irLej-0007Km-S7
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:50:53 -0500
+ (envelope-from <quintela@redhat.com>) id 1irLh1-0008UA-Nn
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:53:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1irLeg-0000RS-1p
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:50:49 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23455
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1irLgx-0001L7-QA
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:53:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56996
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1irLef-0000Pv-Tw
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:50:46 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irLgx-0001Kj-MK
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:53:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579006245;
+ s=mimecast20190719; t=1579006387;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Jznu29L5CZMHphB9FqtzLYXxZbnd4lMQl4XJsbScFxo=;
- b=VRSqmX+aoHmb1rrzhKmSlLydh8s0h3hEDbqCJ8yNtTQaPLMtwyFlhPdn0NlYia986jNLue
- dbrMWJGG/SnS5rKCTJhKr0b6Wy4FllM0nnjaWn7k0lg8ErSbSkzBg3l4eKplwMbzQy41RK
- iqK7xN5oJPBJCZwSBAltYrVZDqrttYM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-qfJijcuVPK-jCtf798g_hQ-1; Tue, 14 Jan 2020 07:50:44 -0500
-Received: by mail-wr1-f69.google.com with SMTP id f10so6466694wro.14
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 04:50:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Jznu29L5CZMHphB9FqtzLYXxZbnd4lMQl4XJsbScFxo=;
- b=kGhFzLIDh7PhOFKO8kjqR3drW73JsloHcX0jQnlCU0ftP28PV2QQnEcRWKYA1M3vDh
- uWXJitoLYLVDSxckJQzKIWOENVqpkcmd5gNSuGaZLTlI43e1SDu/Bic1FZHXUn3xnP9D
- 0m2zBjSXHlYAKlt53W9W7/GFakp/xw6ZIfF4daaiEvZFVGFGi2OglucD9/iDdkCYvPFQ
- DSa+nfofXvA71zu+X2pxsEqvXTR53tPI3Ms+hA5+G/gCIt4uuvJ67CPGRcLZc45MbQzA
- 1jthQJZS2nykNi+E+NkxCJ4xmxBe2wxivWMw4vd49GjE/ml+cm/XzrFOzlLlDIRMTCwp
- gGhg==
-X-Gm-Message-State: APjAAAVgNTRNZqBvrfXG13SJ5X1pFmsZZa8sGhTyQTOM1bGfCsGuVqdd
- nXYnotqAMeSoghw5upJA4GTUnzyat2uPfyQvNT1HaVQeIM1VYwiD4IKVP0d8bvmhmb61wyuwROm
- lfgqvo1CyQgC4oY4=
-X-Received: by 2002:adf:f484:: with SMTP id l4mr24796469wro.207.1579006242961; 
- Tue, 14 Jan 2020 04:50:42 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzgav61kX6uCp6dlTZ/owENK4G74uPEt1NlXQ8sde+zhPqcInlYIBJT7RVqhl2e9TNxTyPEeA==
-X-Received: by 2002:adf:f484:: with SMTP id l4mr24796443wro.207.1579006242637; 
- Tue, 14 Jan 2020 04:50:42 -0800 (PST)
-Received: from [10.0.1.197] (lfbn-mon-1-1103-34.w90-48.abo.wanadoo.fr.
- [90.48.206.34])
- by smtp.gmail.com with ESMTPSA id n3sm18715756wmc.27.2020.01.14.04.50.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Jan 2020 04:50:42 -0800 (PST)
-Subject: Re: [PATCH] block: Use a GString in bdrv_perm_names()
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <20200110171518.22168-1-berto@igalia.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c2436d27-e130-4e38-e981-78c4f929ca5b@redhat.com>
-Date: Tue, 14 Jan 2020 13:50:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IEHxBRqKf6XjgLikiciQ39X3TILgeZdaCu/M3isGJZU=;
+ b=fde65Gv0m8+KUYlUv4YjIyU2EwmwDvbOtQs5UeNByiLAkMoEzkItQ2ys3JGpjSapTEPPH0
+ qGlky2wpUKAzYGAMY5wrZNaLL1C3pDdF4IZYenFbyM2Ukrt/oc6U6SYiNzrEVmwQB7f60x
+ UjvKQMd/+k9EHQqYPojbdTxQoNmqYjo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-255-26yaF45QMbS3gIwxXGrXvw-1; Tue, 14 Jan 2020 07:53:06 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31328801E7A;
+ Tue, 14 Jan 2020 12:53:04 +0000 (UTC)
+Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F2F855DA70;
+ Tue, 14 Jan 2020 12:52:54 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/30] Migration pull patches (take 4)
+Date: Tue, 14 Jan 2020 13:52:24 +0100
+Message-Id: <20200114125254.4515-1-quintela@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200110171518.22168-1-berto@igalia.com>
-Content-Language: en-US
-X-MC-Unique: qfJijcuVPK-jCtf798g_hQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 26yaF45QMbS3gIwxXGrXvw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,51 +67,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Corey Minyard <cminyard@mvista.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/10/20 6:15 PM, Alberto Garcia wrote:
-> This is a bit more efficient than having to allocate and free memory
-> for each new permission.
-> 
-> The default size (30) is enough for "consistent read, write, resize".
-> 
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> ---
->   block.c | 11 ++++++-----
->   1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/block.c b/block.c
-> index 1b6f7c86e8..2bc9e58392 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -1976,18 +1976,19 @@ char *bdrv_perm_names(uint64_t perm)
->           { 0, NULL }
->       };
->   
-> -    char *result = g_strdup("");
-> +    GString *result = g_string_sized_new(30);
->       struct perm_name *p;
->   
->       for (p = permissions; p->name; p++) {
->           if (perm & p->perm) {
-> -            char *old = result;
-> -            result = g_strdup_printf("%s%s%s", old, *old ? ", " : "", p->name);
-> -            g_free(old);
-> +            if (result->len > 0) {
-> +                g_string_append(result, ", ");
-> +            }
-> +            g_string_append(result, p->name);
->           }
->       }
->   
-> -    return result;
-> +    return g_string_free(result, FALSE);
->   }
+The following changes since commit 3c8a6575985b1652b45bfa670b5e1907d642cfa0=
+:
 
-Maybe similar cleanup can be done to report_unsupported_feature() in 
-block/qcow2.c.
+  Merge remote-tracking branch 'remotes/kraxel/tags/usb-20200113-pull-reque=
+st' into staging (2020-01-13 14:19:57 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/juanquintela/qemu.git tags/migration-pull-pull-request
+
+for you to fetch changes up to b039b02c25d1725cf0296721d98e35e024468b20:
+
+  migration: Support QLIST migration (2020-01-14 13:45:29 +0100)
+
+----------------------------------------------------------------
+Migration pull request (take 4)
+
+- both patches for x32 archs in
+- reorder the pages to make git bisect happy
+
+Thanks a lot to Daniel for helping with the bugs.  Twice.
+
+----------------------------------------------------------------
+
+Alexey Romko (1):
+  Bug #1829242 correction.
+
+Daniel Henrique Barboza (1):
+  ram.c: remove unneeded labels
+
+Dr. David Alan Gilbert (1):
+  migration: Rate limit inside host pages
+
+Eric Auger (1):
+  migration: Support QLIST migration
+
+Fangrui Song (1):
+  migration: Fix incorrect integer->float conversion caught by clang
+
+Jiahui Cen (2):
+  migration/multifd: fix nullptr access in terminating multifd threads
+  migration/multifd: fix destroyed mutex access in terminating multifd
+    threads
+
+Juan Quintela (5):
+  multifd: Initialize local variable
+  multifd: Allocate uint64_t instead of ram_addr_t
+  migration-test: Add migration multifd test
+  migration: Make sure that we don't call write() in case of error
+  migration-test: introduce functions to handle string parameters
+
+Laurent Vivier (2):
+  migration-test: ppc64: fix FORTH test program
+  runstate: ignore finishmigrate -> prelaunch transition
+
+Marc-Andr=C3=A9 Lureau (1):
+  misc: use QEMU_IS_ALIGNED
+
+Peter Xu (3):
+  migration: Define VMSTATE_INSTANCE_ID_ANY
+  migration: Change SaveStateEntry.instance_id into uint32_t
+  apic: Use 32bit APIC ID for migration instance ID
+
+Scott Cheloha (2):
+  migration: add savevm_state_handler_remove()
+  migration: savevm_state_handler_insert: constant-time element
+    insertion
+
+Wei Yang (8):
+  migration/postcopy: reduce memset when it is zero page and
+    matches_target_page_size
+  migration/postcopy: wait for decompress thread in precopy
+  migration/postcopy: count target page number to decide the
+    place_needed
+  migration/postcopy: set all_zero to true on the first target page
+  migration/postcopy: enable random order target page arrival
+  migration/postcopy: enable compress during postcopy
+  migration/multifd: clean pages after filling packet
+  migration/multifd: not use multifd during postcopy
+
+Yury Kotov (2):
+  migration: Fix the re-run check of the migrate-incoming command
+  migration/ram: Yield periodically to the main loop
+
+ backends/dbus-vmstate.c      |   3 +-
+ exec.c                       |   4 +-
+ hw/arm/stellaris.c           |   2 +-
+ hw/core/qdev.c               |   3 +-
+ hw/display/ads7846.c         |   2 +-
+ hw/i2c/core.c                |   2 +-
+ hw/input/stellaris_input.c   |   3 +-
+ hw/intc/apic_common.c        |   7 +-
+ hw/misc/max111x.c            |   3 +-
+ hw/net/eepro100.c            |   3 +-
+ hw/pci/pci.c                 |   2 +-
+ hw/ppc/spapr.c               |   2 +-
+ hw/timer/arm_timer.c         |   2 +-
+ hw/tpm/tpm_emulator.c        |   3 +-
+ include/migration/register.h |   2 +-
+ include/migration/vmstate.h  |  25 ++++-
+ include/qemu/queue.h         |  39 ++++++++
+ migration/migration.c        |  72 +++++++-------
+ migration/migration.h        |   1 +
+ migration/ram.c              | 185 ++++++++++++++++++++++++++---------
+ migration/savevm.c           |  61 ++++++++----
+ migration/trace-events       |   9 +-
+ migration/vmstate-types.c    |  70 +++++++++++++
+ stubs/vmstate.c              |   2 +-
+ tests/qtest/migration-test.c |  97 +++++++++++++++++-
+ tests/test-vmstate.c         | 170 ++++++++++++++++++++++++++++++++
+ vl.c                         |  10 +-
+ 27 files changed, 654 insertions(+), 130 deletions(-)
+
+--=20
+2.24.1
 
 
