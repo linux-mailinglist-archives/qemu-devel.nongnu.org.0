@@ -2,49 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F38139F29
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 02:47:15 +0100 (CET)
-Received: from localhost ([::1]:58032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5026E139F39
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 02:57:39 +0100 (CET)
+Received: from localhost ([::1]:58108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irBIX-0002qt-U4
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 20:47:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44121)
+	id 1irBSb-0007an-RG
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 20:57:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46430)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1irBHX-0002L4-TR
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 20:46:13 -0500
+ (envelope-from <john.g.johnson@oracle.com>) id 1irBRo-0007Ak-57
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 20:56:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1irBHW-0000g7-Kt
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 20:46:11 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2295 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1irBHT-0000VX-8r; Mon, 13 Jan 2020 20:46:07 -0500
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 512E2F32255625CCAFA2;
- Tue, 14 Jan 2020 09:46:01 +0800 (CST)
-Received: from [10.184.39.213] (10.184.39.213) by smtp.huawei.com
- (10.3.19.203) with Microsoft SMTP Server (TLS) id 14.3.439.0; Tue, 14 Jan
- 2020 09:45:54 +0800
-Subject: Re: [PATCH] scsi-disk: define props in scsi_block_disk to avoid
- memleaks
-To: John Snow <jsnow@redhat.com>, <pbonzini@redhat.com>, <fam@euphon.net>
-References: <20200113062030.56020-1-pannengyuan@huawei.com>
- <9292c330-0ab5-9a96-4e1b-2cb9ccc4cc33@redhat.com>
-From: Pan Nengyuan <pannengyuan@huawei.com>
-Message-ID: <04ae5085-e40c-a700-a29c-4205e3d9cef5@huawei.com>
-Date: Tue, 14 Jan 2020 09:45:53 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <9292c330-0ab5-9a96-4e1b-2cb9ccc4cc33@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.184.39.213]
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.191
+ (envelope-from <john.g.johnson@oracle.com>) id 1irBRm-0005lX-8a
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 20:56:47 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:54026)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <john.g.johnson@oracle.com>)
+ id 1irBRm-0005jd-0m
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 20:56:46 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00E1rddn125387;
+ Tue, 14 Jan 2020 01:56:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2019-08-05; bh=CVmPPKTD/WLZ9DN1mvqTo4fzHPaNOG+tC1SsXFP6wy4=;
+ b=nrcM30ThBfCkop7okO3CvZdZzrqL4r7Fy0gQnxKc95IYO9EqIb4eNy7C8GRYVYbVjLVm
+ /wGf8khyXOCLJlMVW1J3Cts02E9hm6nqxZboqQS7gYuyaBVYJC1aCSX3UUBF06/duuxZ
+ p1DSuEXpaBexFeHT0nRD93rLSZng0Xs713B4H9CyMyE/oFasP5MA/1/NZWofxcQj2Bwy
+ 8uW8oW9exKXKBGe/4wrFF3uyWYBIvZQ/OuFUUbwbcDKG5ubiSoqUIpG7DBeku2nuAn3L
+ 3DJrTGiu2wc/PaHUkwnolsF3ZFgo24LnqbfRrcaQxkelH1B6iAyHOcBxQ9wKywWlhk9L KA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 2xf73tjtvb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Jan 2020 01:56:33 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00E1n7Zv030433;
+ Tue, 14 Jan 2020 01:56:32 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 2xfrgjq6a9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Jan 2020 01:56:32 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00E1uS8A031439;
+ Tue, 14 Jan 2020 01:56:29 GMT
+Received: from [192.168.10.3] (/24.5.35.151)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 13 Jan 2020 17:56:28 -0800
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+Subject: Re: [RFC v4 PATCH 00/49] Initial support of multi-process qemu -
+ status update
+From: John G Johnson <john.g.johnson@oracle.com>
+In-Reply-To: <20200103155920.GB281236@stefanha-x1.localdomain>
+Date: Mon, 13 Jan 2020 17:56:25 -0800
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <39A027D6-21C3-484F-8F90-9F04DCB9E4CF@oracle.com>
+References: <AFBAD3A1-0E22-4E22-AF22-C56794929D87@nutanix.com>
+ <20191217163316.GB1333385@stefanha-x1.localdomain>
+ <DDE3DA62-31DD-437B-8392-CAD505253EED@nutanix.com>
+ <20191219115545.GD1624084@stefanha-x1.localdomain>
+ <772D9CF3-D15D-42D1-B9CF-1279619D7C20@nutanix.com>
+ <20191219125504.GI1190276@redhat.com>
+ <20191220094712.GA1635864@stefanha-x1.localdomain>
+ <20191220102237.GA1699760@redhat.com>
+ <20200102104255.GF121208@stefanha-x1.localdomain>
+ <C4F6A4B0-607A-4BEE-B722-8F5447F1ADB7@nutanix.com>
+ <20200103155920.GB281236@stefanha-x1.localdomain>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+X-Mailer: Apple Mail (2.3445.104.11)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9499
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001140014
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9499
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001140015
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,121 +102,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
- Qemu-block <qemu-block@nongnu.org>, Euler Robot <euler.robot@huawei.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ "fam@euphon.net" <fam@euphon.net>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Walker,
+ Benjamin" <benjamin.walker@intel.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
+ "jag.raman@oracle.com" <jag.raman@oracle.com>, "Harris,
+ James R" <james.r.harris@intel.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "kanth.ghatraju@oracle.com" <kanth.ghatraju@oracle.com>,
+ Felipe Franciosi <felipe@nutanix.com>, "thuth@redhat.com" <thuth@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "liran.alon@oracle.com" <liran.alon@oracle.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ "rth@twiddle.net" <rth@twiddle.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "ross.lagerwall@citrix.com" <ross.lagerwall@citrix.com>,
+ "marcandre.lureau@gmail.com" <marcandre.lureau@gmail.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 1/14/2020 6:56 AM, John Snow wrote:
-> CC qemu-block
-> 
-> On 1/13/20 1:20 AM, pannengyuan@huawei.com wrote:
->> From: Pan Nengyuan <pannengyuan@huawei.com>
->>
->> scsi_block_realize() use scsi_realize() to init some props, but
->> these props is not defined in scsi_block_disk_properties, so they will
->> not be freed.
->>
->> This patch defines these prop in scsi_block_disk_properties and aslo
->> calls scsi_unrealize to avoid memleaks, the leak stack as
->> follow(it's easy to reproduce by attaching/detaching scsi-block-disks):
->>
->> =================================================================
->> ==qemu-system-x86_64==32195==ERROR: LeakSanitizer: detected memory leaks
->>
->> Direct leak of 57 byte(s) in 3 object(s) allocated from:
->>   #0 0x7f19f8bed768 (/lib64/libasan.so.5+0xef768)  ??:?
->>   #1 0x7f19f64d9445 (/lib64/libglib-2.0.so.0+0x52445)  ??:?
->>   #2 0x7f19f64f2d92 (/lib64/libglib-2.0.so.0+0x6bd92)  ??:?
->>   #3 0x55975366e596 (qemu-system-x86_64+0x35c0596)  /mnt/sdb/qemu/hw/scsi/scsi-disk.c:2399
->>   #4 0x559753671201 (emu-system-x86_64+0x35c3201)  /mnt/sdb/qemu/hw/scsi/scsi-disk.c:2681
->>   #5 0x559753687e3e (qemu-system-x86_64+0x35d9e3e)  /mnt/sdb/qemu/hw/scsi/scsi-bus.c:58
->>   #6 0x55975368ac44 (qemu-system-x86_64+0x35dcc44)  /mnt/sdb/qemu/hw/scsi/scsi-bus.c:216
->>   #7 0x5597532a7840 (qemu-system-x86_64+0x31f9840)  /mnt/sdb/qemu/hw/core/qdev.c:876
->>
->> Direct leak of 15 byte(s) in 3 object(s) allocated from:
->>   #0 0x7f19f8bed768 (/lib64/libasan.so.5+0xef768)  ??:?
->>   #1 0x7f19f64d9445 (/lib64/libglib-2.0.so.0+0x52445)  ??:?
->>   #2 0x7f19f64f2d92 (/lib64/libglib-2.0.so.0+0x6bd92)  ??:?
->>   #3 0x55975366e06f (qemu-system-x86_64+0x35c006f)  /mnt/sdb/qemu/hw/scsi/scsi-disk.c:2388
->>   #4 0x559753671201 (qemu-system-x86_64+0x35c3201)  /mnt/sdb/qemu/hw/scsi/scsi-disk.c:2681
->>   #5 0x559753687e3e (qemu-system-x86_64+0x35d9e3e)  /mnt/sdb/qemu/hw/scsi/scsi-bus.c:58
->>   #6 0x55975368ac44 (qemu-system-x86_64+0x35dcc44)  /mnt/sdb/qemu/hw/scsi/scsi-bus.c:216
->>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
->> ---
->>  hw/scsi/scsi-disk.c | 8 +++++---
->>  1 file changed, 5 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
->> index e44c61eeb4..caec99ae20 100644
->> --- a/hw/scsi/scsi-disk.c
->> +++ b/hw/scsi/scsi-disk.c
->> @@ -2981,7 +2981,6 @@ static const TypeInfo scsi_disk_base_info = {
->>  };
->>  
->>  #define DEFINE_SCSI_DISK_PROPERTIES()                                   \
->> -    DEFINE_PROP_DRIVE_IOTHREAD("drive", SCSIDiskState, qdev.conf.blk),  \
->>      DEFINE_BLOCK_PROPERTIES_BASE(SCSIDiskState, qdev.conf),             \
->>      DEFINE_BLOCK_ERROR_PROPERTIES(SCSIDiskState, qdev.conf),            \
->>      DEFINE_PROP_STRING("ver", SCSIDiskState, version),                  \
->> @@ -2993,6 +2992,7 @@ static const TypeInfo scsi_disk_base_info = {
->>  
->>  static Property scsi_hd_properties[] = {
->>      DEFINE_SCSI_DISK_PROPERTIES(),
->> +    DEFINE_PROP_DRIVE_IOTHREAD("drive", SCSIDiskState, qdev.conf.blk),
->>      DEFINE_PROP_BIT("removable", SCSIDiskState, features,
->>                      SCSI_DISK_F_REMOVABLE, false),
->>      DEFINE_PROP_BIT("dpofua", SCSIDiskState, features,
->> @@ -3048,6 +3048,7 @@ static const TypeInfo scsi_hd_info = {
->>  
-> 
-> Does changing around the property order here break migration?
+> On Jan 3, 2020, at 7:59 AM, Stefan Hajnoczi <stefanha@gmail.com> =
+wrote:
+>=20
+> On Thu, Jan 02, 2020 at 11:03:22AM +0000, Felipe Franciosi wrote:
+>>> On Jan 2, 2020, at 10:42 AM, Stefan Hajnoczi <stefanha@gmail.com> =
+wrote:
+>>> On Fri, Dec 20, 2019 at 10:22:37AM +0000, Daniel P. Berrang=C3=A9 =
+wrote:
+>>>> On Fri, Dec 20, 2019 at 09:47:12AM +0000, Stefan Hajnoczi wrote:
+>>>>> On Thu, Dec 19, 2019 at 12:55:04PM +0000, Daniel P. Berrang=C3=A9 =
+wrote:
+>>>>>> On Thu, Dec 19, 2019 at 12:33:15PM +0000, Felipe Franciosi wrote:
+>>>>>>>> On Dec 19, 2019, at 11:55 AM, Stefan Hajnoczi =
+<stefanha@gmail.com> wrote:
+>>>>>>>> On Tue, Dec 17, 2019 at 10:57:17PM +0000, Felipe Franciosi =
+wrote:
+>>>>>>>>>> On Dec 17, 2019, at 5:33 PM, Stefan Hajnoczi =
+<stefanha@redhat.com> wrote:
+>>>>>>>>>> On Mon, Dec 16, 2019 at 07:57:32PM +0000, Felipe Franciosi =
+wrote:
+>>>>>>>>>>>> On 16 Dec 2019, at 20:47, Elena Ufimtseva =
+<elena.ufimtseva@oracle.com> wrote:
+>>>>>>>>>>>> =EF=BB=BFOn Fri, Dec 13, 2019 at 10:41:16AM +0000, Stefan =
+Hajnoczi wrote:
+>>>>>>> To be clear: I'm very happy to have a userspace-only option for =
+this,
+>>>>>>> I just don't want to ditch the kernel module (yet, anyway). :)
+>>>>>>=20
+>>>>>> If it doesn't create too large of a burden to support both, then =
+I think
+>>>>>> it is very desirable. IIUC, this is saying a kernel based =
+solution as the
+>>>>>> optimized/optimal solution, and userspace UNIX socket based =
+option as the
+>>>>>> generic "works everywhere" fallback solution.
+>>>>>=20
+>>>>> I'm slightly in favor of the kernel implementation because it =
+keeps us
+>>>>> better aligned with VFIO.  That means solving problems in one =
+place only
+>>>>> and less reinventing the wheel.
+>>>>>=20
+>>>>> Knowing that a userspace implementation is possible is a plus =
+though.
+>>>>> Maybe that option will become attractive in the future and someone =
+will
+>>>>> develop it.  In fact, a userspace implementation may be a cool =
+Google
+>>>>> Summer of Code project idea that I'd like to co-mentor.
+>>>>=20
+>>>> If it is technically viable as an approach, then I think  we should =
+be
+>>>> treating a fully unprivileged muser-over-UNIX socket as a higher =
+priority
+>>>> than just "maybe a GSoC student will want todo it".
+>>>>=20
+>>>> Libvirt is getting strong message from KubeVirt project that they =
+want to
+>>>> be running both libvirtd and QEMU fully unprivileged. This allows =
+their
+>>>> containers to be unprivileged. Anything that requires privileges =
+requires
+>>>> jumping through extra hoops writing custom code in KubeVirt to do =
+things
+>>>> outside libvirt in side loaded privileged containers and this =
+limits how
+>>>> where those features can be used.
+>>>=20
+>>> Okay this makes sense.
+>>>=20
+>>> There needs to be a consensus on whether to go with a =
+qdev-over-socket
+>>> approach that is QEMU-specific and strongly discourages third-party
+>>> device distribution or a muser-over-socket approach that offers a =
+stable
+>>> API for VMM interoperability and third-party device distribution.
+>>=20
+>> The reason I dislike yet another offloading protocol (ie. there is
+>> vhost, there is vfio, and then there would be qdev-over-socket) is
+>> that we keep reinventing the wheel. I very much prefer picking
+>> something solid (eg. VFIO) and keep investing on it.
+>=20
+> I like the idea of sticking close to VFIO too.  The first step is
+> figuring out whether VFIO can be mapped to a UNIX domain socket =
+protocol
+> and many non-VFIO protocol messages are required.  Hopefully that =
+extra
+> non-VFIO stuff isn't too large.
+>=20
 
-Yes, it will change the order. I'm not sure what it will affect.
-So I think I should move 'drive' to the front to keep the original order.
 
-I will change it in next version.
+	I looked at this and think we could map VFIO commands over a
+UNIX socket without a lot of difficulty.  We'd have to use SCM
+messages to pass file descriptors from the QEMU process to the
+emulation process for certain operations, but that shouldn't be
+a big problem.  Here are the mission mode operations:
 
-Thanks.
+configuration
 
-> 
->>  static Property scsi_cd_properties[] = {
->>      DEFINE_SCSI_DISK_PROPERTIES(),
->> +    DEFINE_PROP_DRIVE_IOTHREAD("drive", SCSIDiskState, qdev.conf.blk),
->>      DEFINE_PROP_UINT64("wwn", SCSIDiskState, qdev.wwn, 0),
->>      DEFINE_PROP_UINT64("port_wwn", SCSIDiskState, qdev.port_wwn, 0),
->>      DEFINE_PROP_UINT16("port_index", SCSIDiskState, port_index, 0),
->> @@ -3079,9 +3080,8 @@ static const TypeInfo scsi_cd_info = {
->>  
->>  #ifdef __linux__
->>  static Property scsi_block_properties[] = {
->> -    DEFINE_BLOCK_ERROR_PROPERTIES(SCSIDiskState, qdev.conf),         \
->> +    DEFINE_SCSI_DISK_PROPERTIES(),
->>      DEFINE_PROP_DRIVE("drive", SCSIDiskState, qdev.conf.blk),
->> -    DEFINE_PROP_BOOL("share-rw", SCSIDiskState, qdev.conf.share_rw, false),
->>      DEFINE_PROP_UINT16("rotation_rate", SCSIDiskState, rotation_rate, 0),
->>      DEFINE_PROP_UINT64("max_unmap_size", SCSIDiskState, max_unmap_size,
->>                         DEFAULT_MAX_UNMAP_SIZE),
->> @@ -3099,6 +3099,7 @@ static void scsi_block_class_initfn(ObjectClass *klass, void *data)
->>      SCSIDiskClass *sdc = SCSI_DISK_BASE_CLASS(klass);
->>  
->>      sc->realize      = scsi_block_realize;
->> +    sc->unrealize    = scsi_unrealize;
->>      sc->alloc_req    = scsi_block_new_request;
->>      sc->parse_cdb    = scsi_block_parse_cdb;
->>      sdc->dma_readv   = scsi_block_dma_readv;
->> @@ -3119,6 +3120,7 @@ static const TypeInfo scsi_block_info = {
->>  
->>  static Property scsi_disk_properties[] = {
->>      DEFINE_SCSI_DISK_PROPERTIES(),
->> +    DEFINE_PROP_DRIVE_IOTHREAD("drive", SCSIDiskState, qdev.conf.blk),
->>      DEFINE_PROP_BIT("removable", SCSIDiskState, features,
->>                      SCSI_DISK_F_REMOVABLE, false),
->>      DEFINE_PROP_BIT("dpofua", SCSIDiskState, features,
->>
-> 
+	VFIO defines a number of configuration ioctl()s that we could
+turn into messages, but if we make the protocol specific to PCI, then
+all of the information they transmit (e.g., device regions and
+interrupts) can be discovered by parsing the device's PCI config
+space.  A lot of the current VFIO code that parses config space could
+be re-used to do this.
+
+MMIO
+
+	VFIO uses reads and writes on the VFIO file descriptor to
+perform MMIOs to the device.  The read/write offset encodes the VFIO
+region and offset of the MMIO. (the VFIO regions correspond to PCI
+BARs) These would have to be changed to send messages that include the
+VFIO region and offset (and data for writes) to the emulation process.
+
+interrupts
+
+	VFIO creates eventfds that are sent to the kernel driver so it
+can inject interrupts into a guest.  We would have to send these
+eventfds over the socket to the emulation process using SCM messages.
+The emulation process could then trigger interrupts by writing on the
+eventfd.
+
+DMA
+
+	This is one place where I might diverge from VFIO.  It uses an
+ioctl to tell the kernel driver what areas of guest memory the device
+can address.  The driver then pins that memory so it can be programmed
+into a HW IOMMU.  We could avoid pinning of guest memory by adopting
+the vhost-user idea of sending the file descriptors used by QEMU to
+create guest memory to the emulation process, and having it mmap() the
+guest itself.  IOMMUs are handled by having the emulation process
+request device DMA to guest PA translations from QEMU.
+
+
+
+> If implementations can use the kernel uapi vfio header files then =
+we're
+> on track for compatibility with VFIO.
+>=20
+>>> This is just a more elaborate explanation for the "the cat is out of =
+the
+>>> bag" comments that have already been made on licensing.  Does anyone
+>>> still disagree or want to discuss further?
+>>>=20
+>>> If there is agreement that a stable API is okay then I think the
+>>> practical way to do this is to first merge a cleaned-up version of
+>>> multi-process QEMU as an unstable experimental API.  Once it's being
+>>> tested and used we can write a protocol specification and publish it =
+as
+>>> a stable interface when the spec has addressed most use cases.
+>>>=20
+>>> Does this sound good?
+>>=20
+>> In that case, wouldn't it be preferable to revive our proposal from
+>> Edinburgh (KVM Forum 2018)? Our prototypes moved more of the Qemu =
+VFIO
+>> code to "common" and added a "user" backend underneath it, similar to
+>> how vhost-user-scsi moved some of vhost-scsi to vhost-scsi-common and
+>> added vhost-user-scsi. It was centric on PCI, but it doesn't have to
+>> be. The other side can be implemented in libmuser for facilitating =
+things.
+>=20
+> That sounds good.
+>=20
+
+       The emulation program API could be based on the current
+libmuser API or the libvfio-user API.  The protocol itself wouldn=E2=80=99=
+t
+care which is chosen.  Our multi-processQEMU project would have to
+change how devices are specified from the QEMU command line to the
+emulation process command line.
+
+							JJ
+
 
