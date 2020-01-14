@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B96F13AC4B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 15:26:30 +0100 (CET)
-Received: from localhost ([::1]:40745 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D116B13AC53
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 15:30:52 +0100 (CET)
+Received: from localhost ([::1]:40774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irN9J-0004Yf-HU
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 09:26:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57957)
+	id 1irNDX-0006Iz-Tv
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 09:30:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58972)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1irN8A-0003lE-KE
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:25:22 -0500
+ (envelope-from <laurent@vivier.eu>) id 1irNCY-0005T9-HY
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:29:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1irN86-0005EJ-NK
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:25:18 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:37145)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1irN86-0005DI-E3
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:25:14 -0500
+ (envelope-from <laurent@vivier.eu>) id 1irNCU-0007g7-RY
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:29:50 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:42001)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1irNCU-0007fn-H7
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:29:46 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MwwuJ-1jbdys2R23-00yP5s; Tue, 14 Jan 2020 15:24:57 +0100
-Subject: Re: [PATCH v5 11/20] linux-user: Add support for
- FS_IOC32_<GET|SET>VERSION ioctls
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1Mbkac-1jNhPL2S4s-00dIC3; Tue, 14 Jan 2020 15:29:29 +0100
+Subject: Re: [PATCH v5 12/20] linux-user: Add support for
+ FS_IOC_FS<GET|SET>XATTR ioctls
 To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
 References: <1578947683-21011-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1578947683-21011-12-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1578947683-21011-13-git-send-email-aleksandar.markovic@rt-rk.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -71,36 +71,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <63383fe0-116d-743f-582d-955e31386c0e@vivier.eu>
-Date: Tue, 14 Jan 2020 15:24:56 +0100
+Message-ID: <382edf5b-81ee-d971-9bb7-00cac9cb7c47@vivier.eu>
+Date: Tue, 14 Jan 2020 15:29:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <1578947683-21011-12-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1578947683-21011-13-git-send-email-aleksandar.markovic@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:IJvNbb9Y4W+yOfIAVcsQWtiHWIPV1umt63itY50wZaHvxD4DVYB
- +1BPOpvb/9pxWFB8icfyWpIoi1IZB8vSBM5WevoB5nvaqu++NUC51O19kDhNPoXEs0OUk3o
- mxCw2bqo2gwruUgKLImkWl1vaOjG6qfppaR3n0NRE8XTPydqVRwK/kTx34+Jg78wjLJtQET
- CA0zJMgIEFWjG5RmBeuuw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:esP1oG6oVr0=:s99WQYBwFYNF1h2O3GQ1KT
- ClDZxK+4/R5qiR7CbBCM5Mi9NAM5kEc4e3VWKym3XAM8dPdi2wBji+NRlb33l+7HiYlXHgRUJ
- 8PEfEDhXWms7u5kUN7IDxZ3B/9tEss5iFROfqpYTL1hyzwsnxLRVVmW5xwuuylYtGdRgxfKkg
- Ei929sOk3u+2+R6Id2qIgfmUZoMH7kFXr5X4EmrOv9/MhtZYEPAoqyeODGURparo4CZPYvqv2
- OVqocVCJqW23PhCrhnk2vccfb1wKg03wQn6+GNV9T1QlNLZJLL9OIUm7z0dDYmXAGJLU3D+Gw
- fxDr6Uuo/avAA/b3v3OZadbGX1oKF1oVyBjRZiS8T7AHUA0PJzHRoYvtkx7Lc3j+AQhLpkrX/
- 24qcDTnaIU09zAC58xydyIXpM9bfGxRLr/slvWl5l9GSQSJz0+dIZ4fMmI/lxtIrMa70sn8NY
- az/ygQHWbqzB/BzLSWex0Av8XGXDRccFquJdW2s8Wj3KfNIpDKEYZHGo+lihma938tuvooRkM
- 97x9vWfM9wjxy4g2XUg+9FK8YX4xR4A/ZbKcAqTSc3BiVrSnaCuWWsRQaMpi+mW6lgaLREvV4
- 8AnS5xG37rAL55As1a7mP1XFoBz/HVle2P6NvLYDzgjCltuGnVu4GBKeLcE7NG4Q0cldNDR3I
- y75Oa4erCzqUVM+Udg/n0UxJGgclf6qxgBmu3huaDbxXpUpxLYFk7w2CuvlBMs7AtyDVmM0at
- CzfaCrJZC6sene5tC4erQjEXlZ9BpypcKEYGBMv9H3KguNCXxvuN+EAslWDpMp3bHX6VIf+qL
- I3sP9/zX8j7jdI00Fca1EJ75EJNZIr1hzVq7c4P5Qgv6tHG8VqD3bvfkBlFTseT8GCiOUw4Uh
- 4jbdNM/s9uMJAU49v59CKtxZkQRgQTuLEgbRXDoB8=
+X-Provags-ID: V03:K1:i5PLvFaThMvPsoOCTw8kUAMaY3jHRQGTcpUEgKpnYCZGK2tD65r
+ Tm8PyBDH22YlS1mlzYc/uzX0TcP6EF8eAuTDqPAmeyMjjWO8E200Z/iHkR36+htOh5TFFqW
+ NcNW1oAmveLflInY47abZ8FKkco2lI+qTrIbYqlQ7dSaBfbvpm83q+v/ziQVhr+ygn5wh3z
+ j/kZBhSMHDP11E6SduQuA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:YbBfLjLFm3k=:SSssZ8oiRS4r6YXpBwpXMF
+ odcyY/pzo1P03G2VVE7lvSMTWXKUa0qwLU9KLWw7lNWLcjUc39MD+Do7sthp9IvlWFe7f8UGS
+ VO/a7gNzcy0017PXpXFLsXCMsWy87jWTwjAB6R/ye1OayIG9nR2kIBl2FaEdj48nkWKsidpLV
+ X4LH9lYN423xx98quKKRj7wFcTv/ICHHUFdlNhceN3oiYsa4fuPwtAxiXn/WpG+dlRnr1oIDq
+ nDYVdMPOpDqCmf/rZNtPNxPtzv7jhAzyDfHBlthWSG+yyiqxPFhT36te8fPKXFgvswi8iSVcL
+ NrrKS9qiqidZ5b6g4DJd5CYzbtsiInAQvwzEBMdn/7CWe0H0/FpbmP4kcR5fpR4gj7XlzdHZC
+ c2sHcMf4LpN+7WCjZne0GkB1wSKTf3nngGu/IpUvzN1WS4CtqFqgICMZ5/VoxVuPYHE2dgbNi
+ Q+vieMGwioVKkKuMMIz6lVqruld+345WcIPpbPs1pvDoy5CX/MMtD8wN+YFoB5q1pg2SezYTa
+ Ccy0XsfzhwZfD2WRUpW/URghfOqQNrydSiCNgAehHnfLfCxiOp+sR0ph3HokYk5WjH/ctaZ2s
+ Z1AEPechIs3q2r1lhTGxcj3U9re6MfbJ+OhprnoaMpAc8V5leYjx38qT8Ps8pzIhbsW+G0EMl
+ XhJXN8TfUujJ8Z69yQDZoWIICrCdOI4S270sRn53J4or/APTbuOeeveYD92fZ/6LfCXR6h5Vj
+ iss9DYkATsXDK9PHLbjnduD/6f3+SVqx5d3Pvqj/v/xu5BJW8X/g+OK4/78rKVSNdS+s99chb
+ ciuVwkQdvQGjCNVT5HaM1zzSStyfCcPTq56Pgz5AjtRT7iDEDYTnhBRXdSszaie2mUT+skPQ0
+ UipUC1seZoPRJxGtVWhs2SIKKLfPsWAml5X2dmbIo=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.130
+X-Received-From: 212.227.126.187
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -119,44 +119,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Le 13/01/2020 à 21:34, Aleksandar Markovic a écrit :
 > From: Aleksandar Markovic <amarkovic@wavecomp.com>
 > 
-> These FS_IOC32_<GET|SET>VERSION ioctls are identical to
-> FS_IOC_<GET|SET>VERSION ioctls, but without the anomaly of their
-> number defined as if their third argument is of type long, while
-> it is treated internally in kernel as is of type int.
+> Both FS_IOC_FSGETXATTR and FS_IOC_FSSETXATTR accept a pointer to
+> the structure
+> 
+> struct file_clone_range {
+> 	__s64 src_fd;
+> 	__u64 src_offset;
+> 	__u64 src_length;
+> 	__u64 dest_offset;
+> };
+> 
+> as their third argument.
+
+There is a mismatch somewhere: they take 'struct fsxattr'.
+
+'struct file_clone_range' is used by FICLONERANGE.
+
+> 
+> These ioctls were relatively recently introduced, so the "#ifdef"
+> guards are used in this implementation.
 > 
 > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 > ---
->  linux-user/ioctls.h       | 2 ++
+>  linux-user/ioctls.h       | 7 +++++++
 >  linux-user/syscall_defs.h | 2 ++
->  2 files changed, 4 insertions(+)
+>  2 files changed, 9 insertions(+)
 > 
 > diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-> index 4fd6939..3affd88 100644
+> index 3affd88..e1b89a7 100644
 > --- a/linux-user/ioctls.h
 > +++ b/linux-user/ioctls.h
-> @@ -142,6 +142,8 @@
->       IOCTL(FS_IOC_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
->       IOCTL(FS_IOC32_GETFLAGS, IOC_R, MK_PTR(TYPE_INT))
+> @@ -144,6 +144,13 @@
 >       IOCTL(FS_IOC32_SETFLAGS, IOC_W, MK_PTR(TYPE_INT))
-> +     IOCTL(FS_IOC32_GETVERSION, IOC_R, MK_PTR(TYPE_INT))
-> +     IOCTL(FS_IOC32_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
+>       IOCTL(FS_IOC32_GETVERSION, IOC_R, MK_PTR(TYPE_INT))
+>       IOCTL(FS_IOC32_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
+> +#ifdef FS_IOC_FSGETXATTR
+> +     IOCTL(FS_IOC_FSGETXATTR, IOC_W, MK_PTR(MK_STRUCT(STRUCT_fsxattr)))
+> +#endif
+> +#ifdef FS_IOC_FSSETXATTR
+> +     IOCTL(FS_IOC_FSSETXATTR, IOC_W, MK_PTR(MK_STRUCT(STRUCT_fsxattr)))
+> +#endif
+> +
 >  
 >  #ifdef CONFIG_USBFS
 >    /* USB ioctls */
 > diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 964b2b4..a73cc3d 100644
+> index a73cc3d..12cd3de 100644
 > --- a/linux-user/syscall_defs.h
 > +++ b/linux-user/syscall_defs.h
-> @@ -922,6 +922,8 @@ struct target_pollfd {
->  #define TARGET_FS_IOC_FIEMAP TARGET_IOWR('f',11,struct fiemap)
->  #define TARGET_FS_IOC32_GETFLAGS TARGET_IOR('f', 1, int)
+> @@ -924,6 +924,8 @@ struct target_pollfd {
 >  #define TARGET_FS_IOC32_SETFLAGS TARGET_IOW('f', 2, int)
-> +#define TARGET_FS_IOC32_GETVERSION TARGET_IOR('v', 1, int)
-> +#define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
+>  #define TARGET_FS_IOC32_GETVERSION TARGET_IOR('v', 1, int)
+>  #define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
+> +#define TARGET_FS_IOC_FSGETXATTR TARGET_IOR('X', 31, struct file_clone_range)
+> +#define TARGET_FS_IOC_FSSETXATTR TARGET_IOR('X', 32, struct file_clone_range)
+
+Do you need also a "#if" around this?
+Because I think the structure is only defined if the IOCTL is defined.
+
 >  
 >  /* usb ioctls */
 >  #define TARGET_USBDEVFS_CONTROL TARGET_IOWRU('U', 0)
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Thanks,
+Laurent
 
