@@ -2,36 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48E513B397
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 21:23:33 +0100 (CET)
-Received: from localhost ([::1]:45612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D70FC13B3C7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 21:42:53 +0100 (CET)
+Received: from localhost ([::1]:45768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irSiq-0001Ey-DK
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 15:23:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45330)
+	id 1irT1Y-0000tP-CZ
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 15:42:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51546)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1irShy-0000V7-VJ
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 15:22:39 -0500
+ (envelope-from <no-reply@patchew.org>) id 1irT0n-0000KC-OX
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 15:42:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1irShx-0005QT-95
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 15:22:38 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:63979)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1irShx-0005Fo-2e
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 15:22:37 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 0CA1F74594E;
- Tue, 14 Jan 2020 21:22:27 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E859E745702; Tue, 14 Jan 2020 21:22:26 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Date: Tue, 14 Jan 2020 21:13:42 +0100
-Subject: [PATCH] target/m68k: Allow movec only on 68010+
-To: qemu-devel@nongnu.org
-Message-Id: <20200114202226.E859E745702@zero.eik.bme.hu>
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+ (envelope-from <no-reply@patchew.org>) id 1irT0m-0004Rz-4N
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 15:42:05 -0500
+Resent-Date: Tue, 14 Jan 2020 15:42:05 -0500
+Resent-Message-Id: <E1irT0m-0004Rz-4N@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21160)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1irT0l-0004N2-SD; Tue, 14 Jan 2020 15:42:04 -0500
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1579034500326338.95922298001574;
+ Tue, 14 Jan 2020 12:41:40 -0800 (PST)
+In-Reply-To: <20200114182735.5553-1-kwolf@redhat.com>
+Subject: Re: [PATCH v2 0/4] qmp: Optionally run handlers in coroutines
+Message-ID: <157903449903.1076.10596408768402573833@37313f22b938>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kwolf@redhat.com
+Date: Tue, 14 Jan 2020 12:41:40 -0800 (PST)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,32 +50,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, marcandre.lureau@gmail.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The movec opcode does not exist on 68000 and should raise an
-exception. Fix the feature mask to only allow movec on newer 68k CPUs.
-
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- target/m68k/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index fcdb7bc8e4..f19da064c8 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -5988,7 +5988,7 @@ void register_m68k_insns (CPUM68KState *env)
-     BASE(stop,      4e72, ffff);
-     BASE(rte,       4e73, ffff);
-     INSN(cf_movec,  4e7b, ffff, CF_ISA_A);
--    INSN(m68k_movec, 4e7a, fffe, M68000);
-+    INSN(m68k_movec, 4e7a, fffe, FPU);
- #endif
-     BASE(nop,       4e71, ffff);
-     INSN(rtd,       4e74, ffff, RTD);
--- 
-2.13.7
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDExNDE4MjczNS41NTUz
+LTEta3dvbGZAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRvY2tl
+ci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
+bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
+IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
+QkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcgVj0xIE5FVFdP
+Uks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VOVj0xIEo9MTQg
+TkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgphaW9fY29fc2NoZWR1bGU6IENvLXJv
+dXRpbmUgd2FzIGFscmVhZHkgc2NoZWR1bGVkIGluICdhaW9fY29fc2NoZWR1bGUnCkJyb2tlbiBw
+aXBlCi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9xdGVzdC9saWJxdGVzdC5jOjE0OToga2lsbF9x
+ZW11KCkgZGV0ZWN0ZWQgUUVNVSBkZWF0aCBmcm9tIHNpZ25hbCA2IChBYm9ydGVkKSAoY29yZSBk
+dW1wZWQpCkVSUk9SIC0gdG9vIGZldyB0ZXN0cyBydW4gKGV4cGVjdGVkIDQsIGdvdCAxKQptYWtl
+OiAqKiogW2NoZWNrLXF0ZXN0LWFhcmNoNjRdIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9y
+IHVuZmluaXNoZWQgam9icy4uLi4KICBURVNUICAgIGlvdGVzdC1xY293MjogMTE3CiAgVEVTVCAg
+ICBpb3Rlc3QtcWNvdzI6IDEyMAotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRj
+b2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdbJ3N1ZG8n
+LCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3RhbmNlLnV1
+aWQ9N2ExNmFmMzQ5MTEzNDEzYjk5M2E2MTBhOWNjNWVkNTknLCAnLXUnLCAnMTAwMScsICctLXNl
+Y3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdUQVJHRVRf
+TElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9JywgJy1lJywg
+J0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPTEnLCAnLWUnLCAnQ0NBQ0hF
+X0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldy8uY2FjaGUvcWVtdS1k
+b2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXct
+dGVzdGVyLXRtcC0wanZlODg5bS9zcmMvZG9ja2VyLXNyYy4yMDIwLTAxLTE0LTE1LjMyLjIxLjM2
+OTQ6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1
+bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRl
+cj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTdhMTZhZjM0OTExMzQxM2I5
+OTNhNjEwYTljYzVlZDU5Cm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFd
+OiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTBqdmU4ODlt
+L3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoK
+cmVhbCAgICA5bTE4LjM1MnMKdXNlciAgICAwbTkuNDA5cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
+bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDAxMTQxODI3MzUuNTU1My0xLWt3
+b2xmQHJlZGhhdC5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdl
+LgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9w
+YXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxA
+cmVkaGF0LmNvbQ==
 
 
