@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B707E13A400
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 10:41:44 +0100 (CET)
-Received: from localhost ([::1]:35368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AA1A13A3DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 10:33:51 +0100 (CET)
+Received: from localhost ([::1]:35226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irIhj-0007CJ-Cy
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 04:41:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57618)
+	id 1irIa3-0004Ig-Ey
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 04:33:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57661)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1irIUL-0006Qs-9K
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:27:54 -0500
+ (envelope-from <quintela@redhat.com>) id 1irIUQ-0006Yd-5z
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:27:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1irIUK-0006a4-6f
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:27:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47916
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1irIUO-0006bP-RB
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:27:57 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36674
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irIUK-0006Zn-26
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:27:52 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irIUO-0006b7-Mn
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:27:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578994071;
+ s=mimecast20190719; t=1578994076;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8PL3njRMZwxs9uKSpCL5NJoIzl7l80qAcMLLGRwuXdY=;
- b=URtAKKJVfwjAFr7BcsB7aHHdbrqLEZlOrs/QKl/Xa6m71H1UFQrrDAk2b9yJNLeezPg2ce
- 8c7PncoLg6zSgIrEeePfLB9+01kAwvNlsC6tl33FpYLm48q3VbO+clR09UentYG90kAH6K
- 4vIsBuLKBq/4IN+gvwaMCcEOZcyORpM=
+ bh=52j2mgmiA4z5vA2yqyRSfUxDIXdlaCqV+gsG8XIQ6+k=;
+ b=QouqnCnvru4AocsFeatY/EMK3kN57sZIQ2LLEQV2m2LCGkobx5ly3mh654JS85t9VnWJGN
+ 1j/qcpdZoMcC3uNMSN73YrKsmgwbNZz1sptn8EY1FIJW76fczInYL8gm8aG4YHmJVq4nyD
+ 5NlMfJoWzNNbUd5Uhd0ZnPzK782ccSA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-V8m4RVr7NXyD9i9prgXVDg-1; Tue, 14 Jan 2020 04:27:50 -0500
+ us-mta-171-ksFglZtpPySRjnltbFESMw-1; Tue, 14 Jan 2020 04:27:54 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14E55801E6C;
- Tue, 14 Jan 2020 09:27:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E60EF107ACC5;
+ Tue, 14 Jan 2020 09:27:52 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E4B3384;
- Tue, 14 Jan 2020 09:27:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D8D719756;
+ Tue, 14 Jan 2020 09:27:48 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/29] migration: add savevm_state_handler_remove()
-Date: Tue, 14 Jan 2020 10:25:49 +0100
-Message-Id: <20200114092606.1761-13-quintela@redhat.com>
+Subject: [PULL 13/29] migration: savevm_state_handler_insert: constant-time
+ element insertion
+Date: Tue, 14 Jan 2020 10:25:50 +0100
+Message-Id: <20200114092606.1761-14-quintela@redhat.com>
 In-Reply-To: <20200114092606.1761-1-quintela@redhat.com>
 References: <20200114092606.1761-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: V8m4RVr7NXyD9i9prgXVDg-1
+X-MC-Unique: ksFglZtpPySRjnltbFESMw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,57 +88,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Scott Cheloha <cheloha@linux.vnet.ibm.com>
 
-Create a function to abstract common logic needed when removing a
-SaveStateEntry element from the savevm_state.handlers queue.
+savevm_state's SaveStateEntry TAILQ is a priority queue.  Priority
+sorting is maintained by searching from head to tail for a suitable
+insertion spot.  Insertion is thus an O(n) operation.
 
-For now we just remove the element.  Soon it will involve additional
-cleanup.
+If we instead keep track of the head of each priority's subqueue
+within that larger queue we can reduce this operation to O(1) time.
+
+savevm_state_handler_remove() becomes slightly more complex to
+accomodate these gains: we need to replace the head of a priority's
+subqueue when removing it.
+
+With O(1) insertion, booting VMs with many SaveStateEntry objects is
+more plausible.  For example, a ppc64 VM with maxmem=3D8T has 40000 such
+objects to insert.
 
 Signed-off-by: Scott Cheloha <cheloha@linux.vnet.ibm.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/savevm.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ migration/savevm.c | 26 +++++++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
 
 diff --git a/migration/savevm.c b/migration/savevm.c
-index 59efc1981d..30d980caa2 100644
+index 30d980caa2..e57686bca7 100644
 --- a/migration/savevm.c
 +++ b/migration/savevm.c
-@@ -725,6 +725,11 @@ static void savevm_state_handler_insert(SaveStateEntry=
- *nse)
+@@ -250,6 +250,7 @@ typedef struct SaveStateEntry {
+=20
+ typedef struct SaveState {
+     QTAILQ_HEAD(, SaveStateEntry) handlers;
++    SaveStateEntry *handler_pri_head[MIG_PRI_MAX + 1];
+     int global_section_id;
+     uint32_t len;
+     const char *name;
+@@ -261,6 +262,7 @@ typedef struct SaveState {
+=20
+ static SaveState savevm_state =3D {
+     .handlers =3D QTAILQ_HEAD_INITIALIZER(savevm_state.handlers),
++    .handler_pri_head =3D { [MIG_PRI_DEFAULT ... MIG_PRI_MAX] =3D NULL },
+     .global_section_id =3D 0,
+ };
+=20
+@@ -709,24 +711,42 @@ static void savevm_state_handler_insert(SaveStateEntr=
+y *nse)
+ {
+     MigrationPriority priority =3D save_state_priority(nse);
+     SaveStateEntry *se;
++    int i;
+=20
+     assert(priority <=3D MIG_PRI_MAX);
+=20
+-    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
+-        if (save_state_priority(se) < priority) {
++    for (i =3D priority - 1; i >=3D 0; i--) {
++        se =3D savevm_state.handler_pri_head[i];
++        if (se !=3D NULL) {
++            assert(save_state_priority(se) < priority);
+             break;
+         }
      }
+=20
+-    if (se) {
++    if (i >=3D 0) {
+         QTAILQ_INSERT_BEFORE(se, nse, entry);
+     } else {
+         QTAILQ_INSERT_TAIL(&savevm_state.handlers, nse, entry);
+     }
++
++    if (savevm_state.handler_pri_head[priority] =3D=3D NULL) {
++        savevm_state.handler_pri_head[priority] =3D nse;
++    }
  }
 =20
-+static void savevm_state_handler_remove(SaveStateEntry *se)
-+{
-+    QTAILQ_REMOVE(&savevm_state.handlers, se, entry);
-+}
+ static void savevm_state_handler_remove(SaveStateEntry *se)
+ {
++    SaveStateEntry *next;
++    MigrationPriority priority =3D save_state_priority(se);
 +
- /* TODO: Individual devices generally have very little idea about the rest
-    of the system, so instance_id should be removed/replaced.
-    Meanwhile pass -1 as instance_id if you do not already have a clearly
-@@ -777,7 +782,7 @@ void unregister_savevm(VMStateIf *obj, const char *idst=
-r, void *opaque)
++    if (se =3D=3D savevm_state.handler_pri_head[priority]) {
++        next =3D QTAILQ_NEXT(se, entry);
++        if (next !=3D NULL && save_state_priority(next) =3D=3D priority) {
++            savevm_state.handler_pri_head[priority] =3D next;
++        } else {
++            savevm_state.handler_pri_head[priority] =3D NULL;
++        }
++    }
+     QTAILQ_REMOVE(&savevm_state.handlers, se, entry);
+ }
 =20
-     QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se) {
-         if (strcmp(se->idstr, id) =3D=3D 0 && se->opaque =3D=3D opaque) {
--            QTAILQ_REMOVE(&savevm_state.handlers, se, entry);
-+            savevm_state_handler_remove(se);
-             g_free(se->compat);
-             g_free(se);
-         }
-@@ -841,7 +846,7 @@ void vmstate_unregister(VMStateIf *obj, const VMStateDe=
-scription *vmsd,
-=20
-     QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se) {
-         if (se->vmsd =3D=3D vmsd && se->opaque =3D=3D opaque) {
--            QTAILQ_REMOVE(&savevm_state.handlers, se, entry);
-+            savevm_state_handler_remove(se);
-             g_free(se->compat);
-             g_free(se);
-         }
 --=20
 2.24.1
 
