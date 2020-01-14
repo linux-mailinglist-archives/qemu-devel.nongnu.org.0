@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7A413A8A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 12:50:28 +0100 (CET)
-Received: from localhost ([::1]:37890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F355513A896
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 12:43:23 +0100 (CET)
+Received: from localhost ([::1]:37740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irKiJ-0007iu-6D
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 06:50:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55528)
+	id 1irKbS-0007mh-KU
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 06:43:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55582)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1irKYf-000550-Lv
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:40:33 -0500
+ (envelope-from <quintela@redhat.com>) id 1irKYn-0005GU-FH
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:40:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1irKYb-0002wX-NA
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:40:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45376
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1irKYi-0002yS-RM
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:40:37 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32167
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irKYb-0002wA-IW
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:40:25 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irKYi-0002y4-Nk
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:40:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579002025;
+ s=mimecast20190719; t=1579002032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ep/mdFe58oIx18pwRhWkg/D1I02FCTVyA7jE4yQkeXs=;
- b=iZ4dlH3XmMCH5+69MmoM4apzb2XCewYhzNRudDyLFoInrFClt+aekrdRaoSZy5CVZ22dYA
- Ys8vRY2w1CKthoSyXvrvTBVvBEeRST6RLjeqyn14IhRzLUEePFw0Fz16QI1MBYdDVVA/YJ
- MFccrIy7x5+suoQiZKB9Q68YUASLJZo=
+ bh=1X5yO7SYwJyW5YJ1Ti/f3xeheBlw3XFdVPw3SMbN8dw=;
+ b=SpcuTk2vJkZtWMynS/GwGS/ETdNomsF4DmFBlYrzAi+FbuArHFiL+iH1eeCyZkMaSTcckk
+ p99OvXG9yXb8lNiyzTc0WKLf35UQCGMRfgdME4hHe3vOPAz41NMF1HBPDZBiD15yFZJAmb
+ jgCPAH2gPvjvVwXsMwmSq+ruFLk0xJg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-QkwOZzIHNzeHKasIWBBh5g-1; Tue, 14 Jan 2020 06:40:23 -0500
+ us-mta-70-H6fCyE4cObKkJbtCXGEghg-1; Tue, 14 Jan 2020 06:40:28 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAADC18CA243;
- Tue, 14 Jan 2020 11:40:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4BB51800D48;
+ Tue, 14 Jan 2020 11:40:26 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D8825DA70;
- Tue, 14 Jan 2020 11:40:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4BBE05DA32;
+ Tue, 14 Jan 2020 11:40:22 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/30] runstate: ignore finishmigrate -> prelaunch transition
-Date: Tue, 14 Jan 2020 12:39:02 +0100
-Message-Id: <20200114113926.3556-7-quintela@redhat.com>
+Subject: [PULL 07/30] ram.c: remove unneeded labels
+Date: Tue, 14 Jan 2020 12:39:03 +0100
+Message-Id: <20200114113926.3556-8-quintela@redhat.com>
 In-Reply-To: <20200114113926.3556-1-quintela@redhat.com>
 References: <20200114113926.3556-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: QkwOZzIHNzeHKasIWBBh5g-1
+X-MC-Unique: H6fCyE4cObKkJbtCXGEghg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,69 +80,111 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>, Jason Wang <jasowang@redhat.com>,
  Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Commit 1bd71dce4bf2 tries to prevent a finishmigrate -> prelaunch
-transition by exiting at the beginning of the main_loop_should_exit()
-function if the state is already finishmigrate.
+ram_save_queue_pages() has an 'err' label that can be replaced by
+'return -1' instead.
 
-As the finishmigrate state is set in the migration thread it can
-happen concurrently to the function. The migration thread and the
-function are normally protected by the iothread mutex and thus the
-state should no evolve between the start of the function and its end.
+Same thing with ram_discard_range(), and in this case we can also
+get rid of the 'ret' variable and return either '-1' on error
+or the result of ram_block_discard_range().
 
-Unfortunately during the function life the lock is released by
-pause_all_vcpus() just before the point we need to be sure we are
-not in finishmigrate state and if the migration thread is waiting
-for the lock it will take the opportunity to change the state
-to finishmigrate.
-
-The only way to be sure we are not in the finishmigrate state when
-we need is to check the state after the pause_all_vcpus() function.
-
-Fixes: 1bd71dce4bf2 ("runstate: ignore exit request in finish migrate state=
-")
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+CC: Juan Quintela <quintela@redhat.com>
+CC: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- vl.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ migration/ram.c | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
 
-diff --git a/vl.c b/vl.c
-index 158a05ed32..ba3e176094 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1604,9 +1604,6 @@ static bool main_loop_should_exit(void)
-     RunState r;
-     ShutdownCause request;
-=20
--    if (runstate_check(RUN_STATE_FINISH_MIGRATE)) {
--        return false;
--    }
-     if (preconfig_exit_requested) {
-         if (runstate_check(RUN_STATE_PRECONFIG)) {
-             runstate_set(RUN_STATE_PRELAUNCH);
-@@ -1635,8 +1632,13 @@ static bool main_loop_should_exit(void)
-         pause_all_vcpus();
-         qemu_system_reset(request);
-         resume_all_vcpus();
-+        /*
-+         * runstate can change in pause_all_vcpus()
-+         * as iothread mutex is unlocked
-+         */
-         if (!runstate_check(RUN_STATE_RUNNING) &&
--                !runstate_check(RUN_STATE_INMIGRATE)) {
-+                !runstate_check(RUN_STATE_INMIGRATE) &&
-+                !runstate_check(RUN_STATE_FINISH_MIGRATE)) {
-             runstate_set(RUN_STATE_PRELAUNCH);
+diff --git a/migration/ram.c b/migration/ram.c
+index f946282adb..17cd8d524b 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2459,7 +2459,7 @@ int ram_save_queue_pages(const char *rbname, ram_addr=
+_t start, ram_addr_t len)
+              * it's the 1st request.
+              */
+             error_report("ram_save_queue_pages no previous block");
+-            goto err;
++            return -1;
          }
+     } else {
+         ramblock =3D qemu_ram_block_by_name(rbname);
+@@ -2467,7 +2467,7 @@ int ram_save_queue_pages(const char *rbname, ram_addr=
+_t start, ram_addr_t len)
+         if (!ramblock) {
+             /* We shouldn't be asked for a non-existent RAMBlock */
+             error_report("ram_save_queue_pages no block '%s'", rbname);
+-            goto err;
++            return -1;
+         }
+         rs->last_req_rb =3D ramblock;
      }
+@@ -2476,7 +2476,7 @@ int ram_save_queue_pages(const char *rbname, ram_addr=
+_t start, ram_addr_t len)
+         error_report("%s request overrun start=3D" RAM_ADDR_FMT " len=3D"
+                      RAM_ADDR_FMT " blocklen=3D" RAM_ADDR_FMT,
+                      __func__, start, len, ramblock->used_length);
+-        goto err;
++        return -1;
+     }
+=20
+     struct RAMSrcPageRequest *new_entry =3D
+@@ -2492,9 +2492,6 @@ int ram_save_queue_pages(const char *rbname, ram_addr=
+_t start, ram_addr_t len)
+     qemu_mutex_unlock(&rs->src_page_req_mutex);
+=20
+     return 0;
+-
+-err:
+-    return -1;
+ }
+=20
+ static bool save_page_use_compression(RAMState *rs)
+@@ -3097,8 +3094,6 @@ int ram_postcopy_send_discard_bitmap(MigrationState *=
+ms)
+  */
+ int ram_discard_range(const char *rbname, uint64_t start, size_t length)
+ {
+-    int ret =3D -1;
+-
+     trace_ram_discard_range(rbname, start, length);
+=20
+     RCU_READ_LOCK_GUARD();
+@@ -3106,7 +3101,7 @@ int ram_discard_range(const char *rbname, uint64_t st=
+art, size_t length)
+=20
+     if (!rb) {
+         error_report("ram_discard_range: Failed to find block '%s'", rbnam=
+e);
+-        goto err;
++        return -1;
+     }
+=20
+     /*
+@@ -3118,10 +3113,7 @@ int ram_discard_range(const char *rbname, uint64_t s=
+tart, size_t length)
+                      length >> qemu_target_page_bits());
+     }
+=20
+-    ret =3D ram_block_discard_range(rb, start, length);
+-
+-err:
+-    return ret;
++    return ram_block_discard_range(rb, start, length);
+ }
+=20
+ /*
 --=20
 2.24.1
 
