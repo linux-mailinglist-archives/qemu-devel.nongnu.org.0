@@ -2,74 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E24D13ADC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 16:35:15 +0100 (CET)
-Received: from localhost ([::1]:42202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF1213ADA5
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 16:30:31 +0100 (CET)
+Received: from localhost ([::1]:42106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irODq-0002u7-3n
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 10:35:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39836)
+	id 1irO9F-0005fG-VY
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 10:30:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38611)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1irNy1-0008Ve-MF
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:18:54 -0500
+ (envelope-from <laurent@vivier.eu>) id 1irNsf-0001Ls-HK
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:13:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1irNy0-0008CJ-92
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:18:53 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34218)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1irNy0-0008AM-1m
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:18:52 -0500
-Received: by mail-wm1-x341.google.com with SMTP id w5so2542662wmi.1
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 07:18:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xrL98QqACLXFusR89lTBCTfiY5Snnqcv9MdmoeZvdOo=;
- b=NkuuiJr266TnnVPr6qsppAHjvQeT4H7FxJV+ZaH5d9qQ7h/rhsLtxftFLSG9ZghxUl
- tCa63adg9CEC0hEr1FXhiZgtQXfIjPWLL64NXOEaJ4eq4qqdWCy9Ej5huL74YbN8frLm
- +KCVUmOqhFBPG6XkBcGb0Jzi6abxhOahUapxoJ5hZ8BoUweg8POoZk3dHSt1K7tJLtAQ
- hf7w8lnBzn7+K5Jp2cLn5CxHddrpWxUJOzJo3j+Q2ZDQyrY7sBp7MCIXdXUxaXXFqlaP
- H+kXUoStt/kK/S6WODZ9ml/qdNafrFDQo9Hwwucq518kA4mOw64XAYChQRzYjSNhjYX9
- p9TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xrL98QqACLXFusR89lTBCTfiY5Snnqcv9MdmoeZvdOo=;
- b=HAsyVH+nA9U7HcsVMxAm8pw0m9zv2U5SU7ZJNELeGSRHD7DDz2VTKl6HTsNCEVuDqZ
- tMP7tc/MAOsopFGTjsI67+v9oXOB23cRwoHgM3nOq20qpN9hHTL48UEp9Ja5JlvHU1pR
- Gx5E1pi6H6k4n0xQunFOvYv+TzLaUaVNnUQTZeVJS6kb+46EgETyzPMPKkgeipG27HQm
- sktrgXyZDzFZKuhIeZb6A2G48CERfUIIDPvbxE477IJcr+kcgCw+9wzU9N5WI52TcqC2
- F+5HELAiH+8GmyHf6rXxv8B1GLSsnOffA5qdGgLaGVohjBHRPGLWYQtdTaCEKzWQbCyU
- stRA==
-X-Gm-Message-State: APjAAAXubXYo3YGUWWvaSoiIk6eZpnbKM+okclr4IvBgmgzeR/07mylh
- uabmdj0MY6I6/yz92cW/t6AMl5slZiA=
-X-Google-Smtp-Source: APXvYqyE4P1iWZZcynEvHUw0hu6tvepVJWJncA7lu8wLuIWRtcBv8PKkSSnBPQMXBhrG8Ujc1LMSHA==
-X-Received: by 2002:a1c:6707:: with SMTP id b7mr28589201wmc.54.1579015131028; 
- Tue, 14 Jan 2020 07:18:51 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e12sm20071276wrn.56.2020.01.14.07.18.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jan 2020 07:18:46 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4C9141FFA5;
- Tue, 14 Jan 2020 15:09:57 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v5 19/22] tests/tcg/aarch64: add SVE iotcl test
-Date: Tue, 14 Jan 2020 15:09:50 +0000
-Message-Id: <20200114150953.27659-20-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200114150953.27659-1-alex.bennee@linaro.org>
-References: <20200114150953.27659-1-alex.bennee@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1irNsb-0002QV-RQ
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:13:21 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:45641)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1irNsb-0002PG-IH
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:13:17 -0500
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N4eOd-1jpzEY1wvv-011fsw; Tue, 14 Jan 2020 16:12:53 +0100
+Subject: Re: [PATCH v5 02/20] linux-user: alpha: Update syscall numbers to
+ kernel 5.5 rc3 level
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
+References: <1578947683-21011-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1578947683-21011-3-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <36e5c46b-e38e-5440-5536-fc049cc880a4@vivier.eu>
+Date: Tue, 14 Jan 2020 16:12:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <1578947683-21011-3-git-send-email-aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Provags-ID: V03:K1:r3z7Wg36sfG6G5D0xqDBPPPTHiy9M5qgSuUhYbZndVK/fWFBqDf
+ wo1GsVni3Q3cMvTirusbyYXoGDq0AmU0LsiZKr0HY1eIBqOSZHKv5BgE2VYpbUgvw8lqqbt
+ 0KiRlYNE2rTVQ22ZPYBOpbjo2Qe/SHy4L6RITFFokrFh2tYJ8BWdg9ElpEGKo8kYwGG/SwG
+ 4LuvbcNMrBGAxAZH8C/Fg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JclYUtLTjUM=:6Bw0vk3keDuTh8iPdxk/0Z
+ 6RQ5v2bRYqgErH7PXnXDidcIGzfUEUN7+Qhp3MvmJtdl31djBt5OezojD7av3soug9EZyiJU9
+ L/wvN9vKocFXfoiKmuGD9rkDCEv00wZYLs7l0pneOH9BKQ7zDRvdzX9/I/WRKoe5OyC0e13Xu
+ mdHV1FMzeRh4CMgTC2EZF7TcXcy9kQXY9FJBox9tM/jXgwOcoM0sfm8Za5Gi5vaa9F3hcYwIh
+ VsAAKfS6W8DSGQU8YydqsKpUjwiVacL/MuRN1hmJOgMSSb8gJxNhA1ZBZy0hWqRS4s9bMfvH0
+ P9y6dkmbWqKooeGTv9f2qTHf0JQbFbgeRPoj0NQQfJT0B3IrI3YTWXQQCoEEO/BIXE3ogdC4l
+ sCeL+CczNwORM+2Y2vdGpO3aru70RnM7PFm+zdk7y1GqRDkiwXDy0GV1HO3P7omPSH0GkI+9K
+ fO71wPs0LxJ0PTW3n31QduN9cB6jktfZ8AFuXL8MwmjIl8fu9wfZxiA0GzfO32uigohH2OGpd
+ 5hRrS/qplvsCi4RAmYkkeJ8/upfsAhaoSIUEthpPZ8B4M2hVkCM5ZpfMTa0heiayl3qmV70Wz
+ FMJ348u57R3PNHNG7/wIJYWYIqKsK2ZMM5xNZ0x/uNa4NTjEaaEvpi5jMSJyCUB96DELmJvvd
+ 06VgSvnz7WSk9qNIrbf1pgS7WEzh38gzqhULf0lR0ggtT69+ZpVpMPePCu/fycPx/ksoBxoAA
+ b9MaKkwX3R1o3U0wGhB96yt8tIu5aQHcMRc9If1pll9HShv1Zzz1eVzB4NlrVNJqff5B/cDwJ
+ 3ZokeTHn947qwPefK41WtFRCTzsbvpxu2nwbgup7aGRAf/H1p4VUPeCIzo+wtREIi8561Hkgr
+ f4exGfQrd5QtNvsjl0mbvteRapqyNVys4/S6Raj4E=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,131 +112,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: amarkovic@wavecomp.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a fairly bare-bones test of setting the various vector sizes
-for SVE which will only fail if the PR_SVE_SET_VL can't reduce the
-user-space vector length by powers of 2.
+Le 13/01/2020 à 21:34, Aleksandar Markovic a écrit :
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> 
+> Update alpha syscall numbers based on Linux kernel tag v5.5-rc3
+> (commit 46cf053e).
+> 
+> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> 
+> ---
+> 
+> cc: Richard Henderson <rth@twiddle.net>
+> ---
+>  linux-user/alpha/syscall_nr.h | 35 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+> 
+> diff --git a/linux-user/alpha/syscall_nr.h b/linux-user/alpha/syscall_nr.h
+> index 2e5541b..c29fc17 100644
+> --- a/linux-user/alpha/syscall_nr.h
+> +++ b/linux-user/alpha/syscall_nr.h
+> @@ -453,5 +453,40 @@
+>  #define TARGET_NR_getrandom                     511
+>  #define TARGET_NR_memfd_create                  512
+>  #define TARGET_NR_execveat                      513
+> +#define TARGET_NR_seccomp                       514
+> +#define TARGET_NR_bpf                           515
+> +#define TARGET_NR_userfaultfd                   516
+> +#define TARGET_NR_membarrier                    517
+> +#define TARGET_NR_mlock2                        518
+> +#define TARGET_NR_copy_file_range               519
+> +#define TARGET_NR_preadv2                       520
+> +#define TARGET_NR_pwritev2                      521
+> +#define TARGET_NR_statx                         522
+> +#define TARGET_NR_io_pgetevents                 523
+> +#define TARGET_NR_pkey_mprotect                 524
+> +#define TARGET_NR_pkey_alloc                    525
+> +#define TARGET_NR_pkey_free                     526
+> +#define TARGET_NR_rseq                          527
+> +#define TARGET_NR_statfs64                      528
+> +#define TARGET_NR_fstatfs64                     529
+> +#define TARGET_NR_getegid                       530
+> +#define TARGET_NR_geteuid                       531
+> +#define TARGET_NR_getppid                       532
+> +/*
+> + * all other architectures have common numbers for new syscall, alpha
+> + * is the exception.
+> + */
+> +#define TARGET_NR_pidfd_send_signal             534
+> +#define TARGET_NR_io_uring_setup                535
+> +#define TARGET_NR_io_uring_enter                536
+> +#define TARGET_NR_io_uring_register             537
+> +#define TARGET_NR_open_tree                     538
+> +#define TARGET_NR_move_mount                    539
+> +#define TARGET_NR_fsopen                        540
+> +#define TARGET_NR_fsconfig                      541
+> +#define TARGET_NR_fsmount                       542
+> +#define TARGET_NR_fspick                        543
+> +#define TARGET_NR_pidfd_open                    544
+> +/* 545 reserved for clone3 */
+>  
+>  #endif
+> 
 
-However we will also be able to use it in a future test which
-exercises the GDB stub.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
----
-v3
-  - use index to fill zreg
-  - CROSS_CC_HAS_SVE
-v5
-  - merge conflicts
----
- tests/tcg/aarch64/sve-ioctls.c    | 77 +++++++++++++++++++++++++++++++
- tests/tcg/aarch64/Makefile.target |  4 ++
- 2 files changed, 81 insertions(+)
- create mode 100644 tests/tcg/aarch64/sve-ioctls.c
-
-diff --git a/tests/tcg/aarch64/sve-ioctls.c b/tests/tcg/aarch64/sve-ioctls.c
-new file mode 100644
-index 0000000000..d7bb64d53f
---- /dev/null
-+++ b/tests/tcg/aarch64/sve-ioctls.c
-@@ -0,0 +1,77 @@
-+/*
-+ * SVE ioctls tests
-+ *
-+ * Test the SVE width setting ioctls work and provide a base for
-+ * testing the gdbstub.
-+ *
-+ * Copyright (c) 2019 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+#include <sys/prctl.h>
-+#include <asm/hwcap.h>
-+#include <stdio.h>
-+#include <sys/auxv.h>
-+#include <stdint.h>
-+#include <stdlib.h>
-+
-+#ifndef HWCAP_CPUID
-+#define HWCAP_CPUID (1 << 11)
-+#endif
-+
-+#define SVE_MAX_QUADS  (2048 / 128)
-+#define BYTES_PER_QUAD (128 / 8)
-+
-+#define get_cpu_reg(id) ({                                      \
-+            unsigned long __val;                                \
-+            asm("mrs %0, "#id : "=r" (__val));                  \
-+            __val;                                              \
-+        })
-+
-+static int do_sve_ioctl_test(void)
-+{
-+    int i, res, init_vq;
-+
-+    res = prctl(PR_SVE_GET_VL, 0, 0, 0, 0);
-+    if (res < 0) {
-+        printf("FAILED to PR_SVE_GET_VL (%d)", res);
-+        return -1;
-+    }
-+    init_vq = res & PR_SVE_VL_LEN_MASK;
-+
-+    for (i = init_vq; i > 15; i /= 2) {
-+        printf("Checking PR_SVE_SET_VL=%d\n", i);
-+        res = prctl(PR_SVE_SET_VL, i, 0, 0, 0, 0);
-+        if (res < 0) {
-+            printf("FAILED to PR_SVE_SET_VL (%d)", res);
-+            return -1;
-+        }
-+        asm("index z0.b, #0, #1\n"
-+            ".global __sve_ld_done\n"
-+            "__sve_ld_done:\n"
-+            "mov z0.b, #0\n"
-+            : /* no outputs kept */
-+            : /* no inputs */
-+            : "memory", "z0");
-+    }
-+    printf("PASS\n");
-+    return 0;
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    unsigned int sve_feature = (get_cpu_reg(ID_AA64PFR0_EL1) >> 32) & 0xf;
-+    /* Exit early if we don't support SVE at all */
-+    if (sve_feature == 0x1) {
-+        /* we also need to probe for the ioctl support */
-+        if (getauxval(AT_HWCAP) & HWCAP_SVE) {
-+            return do_sve_ioctl_test();
-+        } else {
-+            printf("SKIP: no HWCAP_SVE on this system\n");
-+            return 0;
-+        }
-+    } else {
-+        printf("SKIP: no SVE on this system\n");
-+        return 0;
-+    }
-+}
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index aba17881e9..66addbc52f 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -44,6 +44,10 @@ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_SVE),)
- AARCH64_TESTS += sysregs
- sysregs: CFLAGS+=-march=armv8.1-a+sve
- 
-+# SVE ioctl test
-+AARCH64_TESTS += sve-ioctls
-+sve-ioctls: CFLAGS+=-march=armv8.1-a+sve
-+
- ifneq ($(HAVE_GDB_BIN),)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
- 
--- 
-2.20.1
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
