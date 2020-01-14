@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731E913A436
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 10:49:44 +0100 (CET)
-Received: from localhost ([::1]:35488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B90213A4BD
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 10:59:56 +0100 (CET)
+Received: from localhost ([::1]:35724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irIpS-0000S3-Vc
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 04:49:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59500)
+	id 1irIzL-0007JV-3m
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 04:59:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34185)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1irIcp-000144-38
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:36:40 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1irIrD-0004Za-UA
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:51:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1irIcn-0000b5-Fg
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:36:38 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:45603)
+ (envelope-from <alex.bennee@linaro.org>) id 1irIrC-00052Y-Nq
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:51:31 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:55982)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1irIcn-0000ax-9g
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:36:37 -0500
-Received: by mail-oi1-x243.google.com with SMTP id n16so11160590oie.12
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 01:36:36 -0800 (PST)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1irIrC-00052F-Gk
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:51:30 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id q9so12970025wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 01:51:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cvt4jvo7a8DHkDMPBVqfcYlqKedlVWPjH3H7nEygEQg=;
- b=QlHsOxKnpytN2f609iypsIYGoj2i51avhPClN8CKyNlwMMXyqvqDz3AXy4jQBx3+tR
- HMEMdvSlwJkRZMzgQi+x4VffRjmFe4dJzR1TX88R18bT9CYcwW837tJKSgnPRXHmxDAC
- 3p+tEE9ZGdluXu4U6Sg/w0nAsmr6gUNEg5UB1Cb0KS205UH/xW+k1yhPAeRKbpyn8sh4
- 8v1rNqkJefh0XJ6dEc+oaQr8ENtIcXOffkbTWjf1OvtXkLORdnr/n0RaEHKUrPI2Wtqu
- 5GzFkxpDLNVisTTYmfQu7GGchZZfU5xKPFqU/vvsabeY3XmUZpVL1mcRVwtKxvl739Fc
- cKJQ==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=dOKswLGEPFaBmNIUgF6osbnxjYbbrZmQviQwFYXYFEM=;
+ b=w0Ea8JYUDWVsfrVgRxJYMgYozoJx9VHoHiTi7lhFSzrbKYLMkNRBsnQdVDr6Y1oHJe
+ e9BYdtyYVVISpya12OGarHLyuHbxfNltgM+lF0OyLCapQ+luw7ZVXKeTzG4gNaUslZno
+ GGgs0IUyuGPrw/Gd9qU0SresQllCY5YeJc76G4RPR/yL44Z88cjQCQbWdQKlsPmqaaPn
+ FjpP2dUL5lRz6AjQNk/h2YK8FoSEx+Zj8Y1876/Yxq2igYPQCStVDll5sPYWDwfGyfAP
+ MeVxMjiFecS1T4UFYBByCW6O8VFDI2F+BvTtE8cjdX4lD9brGN7LTAcA5x/TbakpE21p
+ PtfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cvt4jvo7a8DHkDMPBVqfcYlqKedlVWPjH3H7nEygEQg=;
- b=uiVJVSCsWfKIazh0rnUkfNml/coYtNLX5qKrLlAlVv45Ffndgb3Ey/mortILjSeWbN
- KLmZo5IQ24/xPWsKrcokl9iz70ITo8CjF0mA0Xz8gqo8jAud9H7m1zL4pEns+duiJkj6
- lDvVoI57VrNGSopZZ2HxuZbr9EzI5gt+38MOjTt1KoNAu0vPu43x/s+9VqjS86MI0NAi
- k7Ip5A0COMrTIUr1Wp/VOXOpde9HL7ZATvJiPruxZvkwSw7cDa8/AFl6gjXh97RVdCvM
- 2DmTfTuvBlC68ojIXkIVN4Hrg/o1yqUgBqqXZ7I7qALWCpLVwTmocplH96/tTBPVCdAf
- 7uKw==
-X-Gm-Message-State: APjAAAXAXqOAcprao+R86FG783Ik/hg+fud4EOa0rUR63hzDrN4OEfaW
- rAtAglGHwOpIC49U+O1bprcrRMI46LNe6CeBNeWyrw==
-X-Google-Smtp-Source: APXvYqwliHzusqjQ1hHZDPkWaK878IQiozvXPsLzj1imfsBO4PEArdcOjnCywK0VUIJFGg7JqziMrt0vCVcnUAAIoJc=
-X-Received: by 2002:aca:3d7:: with SMTP id 206mr16286957oid.98.1578994596196; 
- Tue, 14 Jan 2020 01:36:36 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=dOKswLGEPFaBmNIUgF6osbnxjYbbrZmQviQwFYXYFEM=;
+ b=kXlVOjHnQk3MhWWo74Pf4mwFCU7Wl1CsjpAN1jAhDpKwr56seKHGryy6GxeGLcUwLg
+ ihCUvz5KF3Dhsrv7PLkODaUZtFFEDbI0d25ikVuvtZXgj3u5Ed54NpIn8lFb8mKMAX/a
+ hmB2RRPFQbDH8pX0xizl/xzyr9mWkWLKeDXnqKp229wrPaThmxooyjUp+u1pbokAuUvG
+ SOwM9yy2Yfsmu0NqvxhIt44t757VX/02n/wsjPMSnJ9uPEhskE7Oy/d053zkhlthiAA2
+ p9k8ZMq+259NuVYI82cuAi1TxZHqyZ4f46ytmt3I9dOcbbIBl4QRpcibCeaAFqjgEtwZ
+ kU/g==
+X-Gm-Message-State: APjAAAWMwfeG4FrOD6xlAtUQEvIgn4djFTzr3mQtGnWOMHBxZgr8jueI
+ z+JiIUlLS0OHDUWqpRLW1geO5A==
+X-Google-Smtp-Source: APXvYqx+hyU45Eq4pPgoRQpwOK8Lo5fwSdPxHWhYa9CaCVhHHNf6gfhY45nYw1j8clq3AJa7A0a5JQ==
+X-Received: by 2002:a1c:1d8c:: with SMTP id d134mr26628772wmd.16.1578995488898; 
+ Tue, 14 Jan 2020 01:51:28 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q3sm17482019wmc.47.2020.01.14.01.51.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jan 2020 01:51:27 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9FC501FF87;
+ Tue, 14 Jan 2020 09:51:25 +0000 (GMT)
+References: <11d88b2741eac3f634d5aed9e3355c974b533f7b.camel@kernel.crashing.org>
+ <AE7841A1-B4D6-4D6D-9AFD-01C4604D7BC4@livius.net>
+ <cd9a2de94700a2781f176247131dceba690d8f31.camel@kernel.crashing.org>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: Re: Semihosting, arm, riscv, ppc and common code
+In-reply-to: <cd9a2de94700a2781f176247131dceba690d8f31.camel@kernel.crashing.org>
+Date: Tue, 14 Jan 2020 09:51:25 +0000
+Message-ID: <87sgkimkma.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200113180812.3442-1-peter.maydell@linaro.org>
- <2b20b548-fb1f-2663-3614-03306595e5d7@redhat.com>
-In-Reply-To: <2b20b548-fb1f-2663-3614-03306595e5d7@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Jan 2020 09:36:25 +0000
-Message-ID: <CAFEAcA8==fs2CL9dm+m5m+w7xjSrT=g2Zqr0TAm+tHDAumZG6Q@mail.gmail.com>
-Subject: Re: [PATCH] qemu-nbd: Convert invocation documentation to rST
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,96 +83,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Liviu Ionescu <ilg@livius.net>, keithp@keithp.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Jan 2020 at 19:58, Eric Blake <eblake@redhat.com> wrote:
->
-> On 1/13/20 12:08 PM, Peter Maydell wrote:
-> > The qemu-nbd documentation is currently in qemu-nbd.texi in Texinfo
-> > format, which we present to the user as:
-> >   * a qemu-nbd manpage
-> >   * a section of the main qemu-doc HTML documentation
-> >
-> > Convert the documentation to rST format, and present it to the user as:
-> >   * a qemu-nbd manpage
-> >   * part of the interop/ Sphinx manual
-> >
-> > This follows the same pattern as commit 27a296fce982 did for the
-> > qemu-ga manpage.
-> >
->
-> I'm not an rST expert, but trust that you compared the resulting
-> renderings.  Is there a quick recipe for doing the build locally so I
-> can easily inspect local artifacts myself?
 
-Yep -- assuming you have the prerequisites installed to
-build the docs (should be just makeinfo, pod2man, sphinx),
-apply the patch and then 'make' will build the docs -- the new
-qemu-nbd.8 should be in docs/interop in the build tree,
-assuming you do builds not in the source tree. If you do
-builds in the source tree then the built artefacts
-are created under docs/built. The html that forms part of
-the interop manpage set is in docs/interop/qemu-nbd.html,
-also in the build tree.
+Benjamin Herrenschmidt <benh@kernel.crashing.org> writes:
 
-> > +++ b/Makefile
-> > @@ -338,7 +338,7 @@ MANUAL_BUILDDIR := docs
-> >   endif
-> >
-> >   ifdef BUILD_DOCS
-> > -DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8 $(MANUAL_BUILDDIR)/interop/qemu-ga.8
-> > +DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 $(MANUAL_BUILDDIR)/interop/qemu-nbd.8 $(MANUAL_BUILDDIR)/interop/qemu-ga.8
+> On Tue, 2020-01-14 at 09:32 +0200, Liviu Ionescu wrote:
+>> > On 14 Jan 2020, at 08:25, Benjamin Herrenschmidt <
+>> > benh@kernel.crashing.org> wrote:
+>> >=20
+>> > I noticed that the bulk of arm-semi.c (or riscv-semi.c) is
+>> > trivially
+>> > made completely generic by doing a couple of changes:
+>>=20
+>> Last year I did a similar exercise in OpenOCD, where I took the Arm
+>> semihosting code from the Arm specific location, extracted the common
+>> part, updated it for latest Arm 64-bit specs, and then used the
+>> common code for both Arm and RISC-V.
+>>=20
+>> If you think useful, you might take a look there too.
 >
-> Worth splitting this long line, either with \-newline, or
+> Well, one of the LCA talks wasn't that interesting so I started doing
+> it and am almost done :-)
 >
-> >   DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7
-> >   DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
->
-> with additional DOCS+= lines?
+> I'll look at doing something for arm, riscv and ppc and send patches
+> once I get it working.
 
-I think I prefer the latter.
+Cool. Are you considering linux-user as well or are these only things
+that make sense for system emulation?
 
-> > +++ b/MAINTAINERS
-> > @@ -2503,6 +2503,7 @@ F: include/block/nbd*
-> >   F: qemu-nbd.*
-> >   F: blockdev-nbd.c
-> >   F: docs/interop/nbd.txt
-> > +F: docs/interop/qemu-nbd.rst
-> >   T: git https://repo.or.cz/qemu/ericb.git nbd
 >
-> Would I be taking this patch through my NBD tree, or would you be
-> bundling it with other doc patches?
+> Cheers,
+> Ben.
+>
+>>=20
+>> Regards,
+>>=20
+>> Liviu
 
-Either way would work for me, depends a bit whether I
-get round to trying to do another doc conversion
-and whether you had any other pending updates to the
-old texinfo doc.
 
-> > +++ b/docs/interop/qemu-nbd.rst
-> > @@ -0,0 +1,263 @@
->
-> > +.. option:: -s, --snapshot
-> > +
-> > +  Use *filename* as an external snapshot, create a temporary
-> > +  file with ``backing_file=``\ *filename*, redirect the write to
-> > +  the temporary one.
->
-> Pre-existing poor grammar. Better might be:
->
-> Use *filename* as an external snapshot, by creating a temporary file
-> with ``backing_file=``\ *filename*, and redirecting writes to the
-> temporary file.
->
-> But that could also be done as a separate patch, to keep this one as
-> mechanical as possible on the conversion.
-
-Yes. I noticed a few things I would consider docs nits
-which I deliberately didn't fix up in this conversion patch;
-I'd prefer those to be done separately afterwards.
-
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
