@@ -2,53 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD9C13AB28
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 14:33:03 +0100 (CET)
-Received: from localhost ([::1]:39786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 919BA13AB25
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 14:32:10 +0100 (CET)
+Received: from localhost ([::1]:39748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irMJa-0000t7-Et
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 08:33:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46389)
+	id 1irMIj-0007jB-AQ
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 08:32:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1irM7m-0002Yn-CN
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:20:53 -0500
+ (envelope-from <quintela@redhat.com>) id 1irMFs-0005LX-2S
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:29:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1irM7i-0001ET-C9
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:20:49 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:40070)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1irM7h-0001E8-Pj; Tue, 14 Jan 2020 08:20:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=F1h5/Fq0caHTUDwzD3ZBcQmWmRRis8CvP4nsIBobSy0=; 
- b=mJjfRypOsv0l8U1hFaXRISIgBsYePL25j6X91KCW/yRAMjW+BJ/uaX3EQcNiun7UcvlMo90H3x0uwnAE5G6xjvaxA+F+c5qyUyDEjXckQ7gPdnWfvdJEyk95fP1zQqRTfJGq/f6/WFn34VBmUVWHKx4zx39TT5MKINg7qX/F8aSA8/xmn9hDfYDWKFh+btUT8iBCLS4rWushCW/zLpa7Wp4vreZTNmOyirUMek0ALzJj+LdDx33z2AW5zCL2x4NdS2+edqxF+wNJQM0h1uFlf4etnKVp8pYynfEYdjckb4vySdmugR6/qQARARKuyB+mFTEtj0IuteOzvwHaKOO9Ag==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1irM7c-0000LQ-Ue; Tue, 14 Jan 2020 14:20:40 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1irM7c-0007m3-KL; Tue, 14 Jan 2020 14:20:40 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 1/4] qcow2: Require that the virtual size is a multiple
- of the sector size
-In-Reply-To: <bd6ca991-c2f7-0e27-5bee-07a7c53f8a8e@redhat.com>
-References: <cover.1578596897.git.berto@igalia.com>
- <6a1cfcbb533b487bac96e1d2282ebf210954d27a.1578596897.git.berto@igalia.com>
- <bd6ca991-c2f7-0e27-5bee-07a7c53f8a8e@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Tue, 14 Jan 2020 14:20:40 +0100
-Message-ID: <w51v9peb2dz.fsf@maestria.local.igalia.com>
+ (envelope-from <quintela@redhat.com>) id 1irMFo-0002eU-5a
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:29:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32314
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irMFo-0002eQ-2C
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:29:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579008547;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=rJbcImH5i0e70GI2sx/dpdxprKBxk63V9AGRCyBHgxk=;
+ b=islBv4DwCAR4tS724F7ULBs4xKAkH410Z69QOgO/02LLDJeBSNYps4K6Kz8deMI+IMlXC/
+ PwIdZW+6S/enoHV2pmXg/lCEbcqilnLOPZzMiEwljzU4HChb6Q/FVSLAYmR25reN10Flrk
+ jPRnCA/NW722j480+1SKOzh9Fvm4i3A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-xZq5XLksPlS1kPDnfvC-nQ-1; Tue, 14 Jan 2020 08:29:04 -0500
+X-MC-Unique: xZq5XLksPlS1kPDnfvC-nQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51230802B85;
+ Tue, 14 Jan 2020 13:29:03 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.118.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5889F19C5B;
+ Tue, 14 Jan 2020 13:29:00 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>
+Subject: Re: KVM call for agenda for 2020-01-14
+In-Reply-To: <87k163qwwh.fsf@trasno.org> (Juan Quintela's message of "Tue, 07
+ Jan 2020 13:22:06 +0100")
+References: <87k163qwwh.fsf@trasno.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Tue, 14 Jan 2020 14:28:58 +0100
+Message-ID: <87wo9ucgkl.fsf@secure.laptop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,23 +69,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- qemu-block@nongnu.org
+Reply-To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue 14 Jan 2020 02:01:03 PM CET, Max Reitz wrote:
->> However when an image is opened the virtual size is rounded down,
->> which means that trying to access the last few advertised bytes will
->> result in an error. As seen above QEMU cannot create such images and
->> there's no good use case that would require us to try to handle them
->> so let's just treat them as unsupported.
+Juan Quintela <quintela@redhat.com> wrote:
+> Hi
 >
-> But isn=E2=80=99t that just a bug in qemu?
+> Please, send any topic that you are interested in covering.
+>
+> We have already one topic for this call already:
+>
+> * Multi-process QEMU and muser
 
-Yes, but does it make sense to try to support images with unaligned
-sizes if no one is going to create them ever and QEMU cannot even
-generate them?
+Hi folks
 
-Berto
+Remember that today is a call in 30 minutes.
+
+Thanks, Juan.
+
+>
+> By popular demand, a google calendar public entry with it
+>
+>   https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
+>
+> (Let me know if you have any problems with the calendar entry.  I just
+> gave up about getting right at the same time CEST, CET, EDT and DST).
+>
+> If you need phone number details,  contact me privately
+>
+> Thanks, Juan.
+
 
