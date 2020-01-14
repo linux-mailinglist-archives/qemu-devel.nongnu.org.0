@@ -2,54 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32ED13A718
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 11:26:12 +0100 (CET)
-Received: from localhost ([::1]:36402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D2413A774
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 11:36:54 +0100 (CET)
+Received: from localhost ([::1]:36556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irJOl-0007oC-4v
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 05:26:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41362)
+	id 1irJZ6-00062h-Ht
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 05:36:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43047)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1irJM6-00058v-Ii
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:23:29 -0500
+ (envelope-from <clg@kaod.org>) id 1irJX9-0004UJ-O7
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:34:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1irJM2-0007iu-B0
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:23:25 -0500
-Received: from 16.mo6.mail-out.ovh.net ([87.98.139.208]:48161)
+ (envelope-from <clg@kaod.org>) id 1irJX5-0003bh-Kx
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:34:51 -0500
+Received: from 7.mo173.mail-out.ovh.net ([46.105.44.159]:46614)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1irJM2-0007co-1k
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:23:22 -0500
-Received: from player692.ha.ovh.net (unknown [10.109.146.1])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 296DF1F7B1B
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 11:23:12 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1irJX5-0003bL-Eg
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:34:47 -0500
+Received: from player798.ha.ovh.net (unknown [10.108.35.240])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 3748F12C716
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 11:34:44 +0100 (CET)
 Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
  (Authenticated sender: clg@kaod.org)
- by player692.ha.ovh.net (Postfix) with ESMTPSA id 3E240E0EA69A;
- Tue, 14 Jan 2020 10:23:02 +0000 (UTC)
-Subject: Re: [PATCH v2 03/10] target/ppc: Correct handling of real mode
- accesses with vhyp on hash MMU
-To: David Gibson <david@gibson.dropbear.id.au>, qemu-devel@nongnu.org,
- groug@kaod.org, philmd@redhat.com
-References: <20200107044827.471355-1-david@gibson.dropbear.id.au>
- <20200107044827.471355-4-david@gibson.dropbear.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <6452c163-b2e4-ab9f-3117-4a19aad3e04e@kaod.org>
-Date: Tue, 14 Jan 2020 11:22:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ by player798.ha.ovh.net (Postfix) with ESMTPSA id 46555E4CFBAB;
+ Tue, 14 Jan 2020 10:34:35 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v3 0/5] aspeed: extensions and fixes
+Date: Tue, 14 Jan 2020 11:34:28 +0100
+Message-Id: <20200114103433.30534-1-clg@kaod.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <20200107044827.471355-4-david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 10849171504429828902
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 11043952188472265489
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdejvddgudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelvddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrvdejvddgudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeelkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 87.98.139.208
+X-Received-From: 46.105.44.159
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,159 +54,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-ppc@nongnu.org, lvivier@redhat.com, paulus@samba.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/20 5:48 AM, David Gibson wrote:
-> On ppc we have the concept of virtual hypervisor ("vhyp") mode, where w=
-e
-> only model the non-hypervisor-privileged parts of the cpu.  Essentially=
- we
-> model the hypervisor's behaviour from the point of view of a guest OS, =
-but
-> we don't model the hypervisor's execution.
->=20
-> In particular, in this mode, qemu's notion of target physical address i=
-s
-> a guest physical address from the vcpu's point of view.  So accesses in
-> guest real mode don't require translation.  If we were modelling the
-> hypervisor mode, we'd need to translate the guest physical address into
-> a host physical address.
->=20
-> Currently, we handle this sloppily: we rely on setting up the virtual L=
-PCR
-> and RMOR registers so that GPAs are simply HPAs plus an offset, which w=
-e
-> set to zero.  This is already conceptually dubious, since the LPCR and =
-RMOR
-> registers don't exist in the non-hypervisor portion of the CPU.  It get=
-s
-> worse with POWER9, where RMOR and LPCR[VPM0] no longer exist at all.
->=20
-> Clean this up by explicitly handling the vhyp case.  While we're there,
-> remove some unnecessary nesting of if statements that made the logic to
-> select the correct real mode behaviour a bit less clear than it could b=
-e.
->=20
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Hi,
 
-I went through the changes and they look correct to me.
+Here is a short series adding :
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+ - a new eMMC controller model for the AST2600 SoC (Andrew)
+ - accessors to control the led state of the pca9552 device (Joel)
+ - a 'execute-in-place' property to boot directly from CE0
+
+Thanks,
 
 C.
 
-> ---
->  target/ppc/mmu-hash64.c | 60 ++++++++++++++++++++++++-----------------
->  1 file changed, 35 insertions(+), 25 deletions(-)
->=20
-> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> index a881876647..5fabd93c92 100644
-> --- a/target/ppc/mmu-hash64.c
-> +++ b/target/ppc/mmu-hash64.c
-> @@ -789,27 +789,30 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, =
-vaddr eaddr,
->           */
->          raddr =3D eaddr & 0x0FFFFFFFFFFFFFFFULL;
-> =20
-> -        /* In HV mode, add HRMOR if top EA bit is clear */
-> -        if (msr_hv || !env->has_hv_mode) {
-> +        if (cpu->vhyp) {
-> +            /*
-> +             * In virtual hypervisor mode, there's nothing to do:
-> +             *   EA =3D=3D GPA =3D=3D qemu guest address
-> +             */
-> +        } else if (msr_hv || !env->has_hv_mode) {
-> +            /* In HV mode, add HRMOR if top EA bit is clear */
->              if (!(eaddr >> 63)) {
->                  raddr |=3D env->spr[SPR_HRMOR];
->              }
-> -        } else {
-> -            /* Otherwise, check VPM for RMA vs VRMA */
-> -            if (env->spr[SPR_LPCR] & LPCR_VPM0) {
-> -                slb =3D &env->vrma_slb;
-> -                if (slb->sps) {
-> -                    goto skip_slb_search;
-> -                }
-> -                /* Not much else to do here */
-> +        } else if (env->spr[SPR_LPCR] & LPCR_VPM0) {
-> +            /* Emulated VRMA mode */
-> +            slb =3D &env->vrma_slb;
-> +            if (!slb->sps) {
-> +                /* Invalid VRMA setup, machine check */
->                  cs->exception_index =3D POWERPC_EXCP_MCHECK;
->                  env->error_code =3D 0;
->                  return 1;
-> -            } else if (raddr < env->rmls) {
-> -                /* RMA. Check bounds in RMLS */
-> -                raddr |=3D env->spr[SPR_RMOR];
-> -            } else {
-> -                /* The access failed, generate the approriate interrup=
-t */
-> +            }
-> +
-> +            goto skip_slb_search;
-> +        } else {
-> +            /* Emulated old-style RMO mode, bounds check against RMLS =
-*/
-> +            if (raddr >=3D env->rmls) {
->                  if (rwx =3D=3D 2) {
->                      ppc_hash64_set_isi(cs, SRR1_PROTFAULT);
->                  } else {
-> @@ -821,6 +824,8 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, va=
-ddr eaddr,
->                  }
->                  return 1;
->              }
-> +
-> +            raddr |=3D env->spr[SPR_RMOR];
->          }
->          tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE=
-_MASK,
->                       PAGE_READ | PAGE_WRITE | PAGE_EXEC, mmu_idx,
-> @@ -953,22 +958,27 @@ hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU =
-*cpu, target_ulong addr)
->          /* In real mode the top 4 effective address bits are ignored *=
-/
->          raddr =3D addr & 0x0FFFFFFFFFFFFFFFULL;
-> =20
-> -        /* In HV mode, add HRMOR if top EA bit is clear */
-> -        if ((msr_hv || !env->has_hv_mode) && !(addr >> 63)) {
-> +        if (cpu->vhyp) {
-> +            /*
-> +             * In virtual hypervisor mode, there's nothing to do:
-> +             *   EA =3D=3D GPA =3D=3D qemu guest address
-> +             */
-> +            return raddr;
-> +        } else if ((msr_hv || !env->has_hv_mode) && !(addr >> 63)) {
-> +            /* In HV mode, add HRMOR if top EA bit is clear */
->              return raddr | env->spr[SPR_HRMOR];
-> -        }
-> -
-> -        /* Otherwise, check VPM for RMA vs VRMA */
-> -        if (env->spr[SPR_LPCR] & LPCR_VPM0) {
-> +        } else if (env->spr[SPR_LPCR] & LPCR_VPM0) {
-> +            /* Emulated VRMA mode */
->              slb =3D &env->vrma_slb;
->              if (!slb->sps) {
->                  return -1;
->              }
-> -        } else if (raddr < env->rmls) {
-> -            /* RMA. Check bounds in RMLS */
-> -            return raddr | env->spr[SPR_RMOR];
->          } else {
-> -            return -1;
-> +            /* Emulated old-style RMO mode, bounds check against RMLS =
-*/
-> +            if (raddr >=3D env->rmls) {
-> +                return -1;
-> +            }
-> +            return raddr | env->spr[SPR_RMOR];
->          }
->      } else {
->          slb =3D slb_lookup(cpu, addr);
->=20
+Changes since v2:
+
+  - wrote a better commit log for the ftgmac100 fixes=20
+  - renamed sdhci object names
+
+Changes since v1:
+
+  - removed ternary operator from sdhci_attach_drive()
+  - changed object name to "emmc"
+
+
+Andrew Jeffery (2):
+  hw/sd: Configure number of slots exposed by the ASPEED SDHCI model
+  hw/arm: ast2600: Wire up the eMMC controller
+
+C=C3=A9dric Le Goater (2):
+  ftgmac100: check RX and TX buffer alignment
+  hw/arm/aspeed: add a 'execute-in-place' property to boot directly from
+    CE0
+
+Joel Stanley (1):
+  misc/pca9552: Add qom set and get
+
+ include/hw/arm/aspeed.h      |  2 +
+ include/hw/arm/aspeed_soc.h  |  2 +
+ include/hw/sd/aspeed_sdhci.h |  1 +
+ hw/arm/aspeed.c              | 72 +++++++++++++++++++++++------
+ hw/arm/aspeed_ast2600.c      | 31 +++++++++++--
+ hw/arm/aspeed_soc.c          |  2 +
+ hw/misc/pca9552.c            | 90 ++++++++++++++++++++++++++++++++++++
+ hw/net/ftgmac100.c           | 13 ++++++
+ hw/sd/aspeed_sdhci.c         | 11 ++++-
+ 9 files changed, 204 insertions(+), 20 deletions(-)
+
+--=20
+2.21.1
 
 
