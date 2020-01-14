@@ -2,64 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F14B113A408
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 10:43:42 +0100 (CET)
-Received: from localhost ([::1]:35400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E47713A41D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 10:47:02 +0100 (CET)
+Received: from localhost ([::1]:35453 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irIjd-0001PH-QI
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 04:43:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58745)
+	id 1irImq-00059x-Lx
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 04:47:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58874)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1irIXV-0002s7-QC
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:31:13 -0500
+ (envelope-from <dovgaluk@ispras.ru>) id 1irIYh-0004FH-8b
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:32:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1irIXS-0007S5-4U
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:31:09 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39105
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1irIXS-0007Rt-1Q
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:31:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578994265;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Bim/vjqkhwVx1YNAeaFTvQoQEI+0/v595gvGn1+RKpg=;
- b=bRjwBzqdjZ3wX59AmkzXBG+qhV9TGzWP0hrNckJ5Ea+Qpa/xSx+XlWmSKoXX0i5zYJZGAx
- IfOWtescGbF8lvgoUDPje68CvqCJCt7xVSYQU9Hu0+QZXTkKCVHZpQNSYo41aOnufIyg/l
- cb4Xh42/yWjLHpEFHzlYzM+/0L7K/xA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-GcMKfJgOMBGk4M79E1WwZw-1; Tue, 14 Jan 2020 04:31:01 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39F07107ACCA;
- Tue, 14 Jan 2020 09:31:00 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8420F8068E;
- Tue, 14 Jan 2020 09:30:57 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] linux-aio: increasing MAX_EVENTS to a larger hardcoded
- value
-Date: Tue, 14 Jan 2020 09:30:52 +0000
-Message-Id: <20200114093052.117848-2-stefanha@redhat.com>
-In-Reply-To: <20200114093052.117848-1-stefanha@redhat.com>
-References: <20200114093052.117848-1-stefanha@redhat.com>
+ (envelope-from <dovgaluk@ispras.ru>) id 1irIYc-0007bU-D6
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:32:22 -0500
+Received: from mail.ispras.ru ([83.149.199.45]:56474)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <dovgaluk@ispras.ru>) id 1irIYc-0007bC-5C
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:32:18 -0500
+Received: from PASHAISP (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 5351A725C0;
+ Tue, 14 Jan 2020 12:32:15 +0300 (MSK)
+From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
+To: =?UTF-8?Q?'Alex_Benn=C3=A9e'?= <alex.bennee@linaro.org>,
+ "'Kevin Wolf'" <kwolf@redhat.com>
+References: <157709434917.12933.4351155074716553976.stgit@pasha-Precision-3630-Tower>
+ <157709442133.12933.4291167191595240519.stgit@pasha-Precision-3630-Tower>
+ <20200109115918.GC9504@linux.fritz.box> <878smbnuxi.fsf@linaro.org>
+In-Reply-To: <878smbnuxi.fsf@linaro.org>
+Subject: RE: [for-5.0 PATCH 03/11] migration: introduce icount field for
+ snapshots
+Date: Tue, 14 Jan 2020 12:32:17 +0300
+Message-ID: <000801d5cabd$8391fc70$8ab5f550$@ru>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: GcMKfJgOMBGk4M79E1WwZw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain;
+	charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdXKNHLGUODbllp2RcaeR38anzP7iwAiMlGA
+Content-Language: ru
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 83.149.199.45
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,46 +55,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Wangyong <wang.yongD@h3c.com>
+Cc: peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru,
+ crosthwaite.peter@gmail.com, ciro.santilli@gmail.com, jasowang@redhat.com,
+ quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ 'Pavel Dovgalyuk' <pavel.dovgaluk@gmail.com>, maria.klimushenkova@ispras.ru,
+ mst@redhat.com, kraxel@redhat.com, boost.lists@gmail.com,
+ thomas.dullien@googlemail.com, pbonzini@redhat.com, mreitz@redhat.com,
+ artem.k.pisarenko@gmail.com, dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wangyong <wang.yongD@h3c.com>
+> From: Alex Benn=C3=A9e [mailto:alex.bennee@linaro.org]
+> Kevin Wolf <kwolf@redhat.com> writes:
+>=20
+> > Am 23.12.2019 um 10:47 hat Pavel Dovgalyuk geschrieben:
+> >> From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+> >>
+> >> Saving icount as a parameters of the snapshot allows navigation =
+between
+> >> them in the execution replay scenario.
+> >> This information can be used for finding a specific snapshot for =
+proceeding
+> >> the recorded execution to the specific moment of the time.
+> >> E.g., 'reverse step' action (introduced in one of the following =
+patches)
+> >> needs to load the nearest snapshot which is prior to the current =
+moment
+> >> of time.
+> >>
+> >> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+> >> Acked-by: Markus Armbruster <armbru@redhat.com>
+> >
+> > Acked-by: Kevin Wolf <kwolf@redhat.com>
+>=20
+> Apologies my mailer ignored my replay-all:
+>=20
+> This commit breaks when of the iotests for me:
+>=20
+>  git bisect run /bin/sh -c "cd builds/all && make -j4 \
+>      && cd tests/qemu-iotests && ./check -qcow2 267"
+>=20
+>=20
+>    List of snapshots present on all disks:
+>   -ID        TAG                 VM SIZE                DATE       VM =
+CLOCK
+>   +ID        TAG               VM SIZE                DATE     VM =
+CLOCK     ICOUNT
+>=20
+> But I've also seen:
+>=20
+>   =
+ERROR:/home/.../qemu.git/replay/replay-events.c:80:replay_flush_events:
+>      assertion failed: (replay_mutex_locked())
 
-Since commit 6040aedddb5f474a9c2304b6a432a652d82b3d3c "virtio-blk:
-make queue size configurable",if the user set the queue size to
-more than 128 ,it will not take effect. That's because linux aio's
-maximum outstanding requests at a time is always less than or equal
-to 128.
+Thank you, I've updated the code.
+I also added a patch for fixing the test output.
 
-This patch simply increase MAX_EVENTS to a larger hardcoded value of
-1024 as a shortterm fix.
-
-Signed-off-by: wangyong <wang.yongD@h3c.com>
-Message-id: faa5781afd354a96a0be152b288f636f@h3c.com
-Message-Id: <faa5781afd354a96a0be152b288f636f@h3c.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/linux-aio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/block/linux-aio.c b/block/linux-aio.c
-index c7eca9a256..91204a25a2 100644
---- a/block/linux-aio.c
-+++ b/block/linux-aio.c
-@@ -26,7 +26,7 @@
-  *      than this we will get EAGAIN from io_submit which is communicated =
-to
-  *      the guest as an I/O error.
-  */
--#define MAX_EVENTS 128
-+#define MAX_EVENTS 1024
-=20
- struct qemu_laiocb {
-     Coroutine *co;
---=20
-2.24.1
+Pavel Dovgalyuk
 
 
