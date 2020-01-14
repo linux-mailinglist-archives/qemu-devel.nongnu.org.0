@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF1213ADA5
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 16:30:31 +0100 (CET)
-Received: from localhost ([::1]:42106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2636113ADBC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 16:34:15 +0100 (CET)
+Received: from localhost ([::1]:42194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irO9F-0005fG-VY
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 10:30:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38611)
+	id 1irOCr-0001Ol-Lj
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 10:34:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39259)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1irNsf-0001Ls-HK
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:13:24 -0500
+ (envelope-from <laurent@vivier.eu>) id 1irNwL-00066E-21
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:17:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1irNsb-0002QV-RQ
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:13:21 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:45641)
+ (envelope-from <laurent@vivier.eu>) id 1irNwH-0006B0-4l
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:17:08 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:58729)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1irNsb-0002PG-IH
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:13:17 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1irNwG-00067T-Rj
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:17:05 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
  (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N4eOd-1jpzEY1wvv-011fsw; Tue, 14 Jan 2020 16:12:53 +0100
-Subject: Re: [PATCH v5 02/20] linux-user: alpha: Update syscall numbers to
+ 1MFsAJ-1islmU1PzT-00HPqM; Tue, 14 Jan 2020 16:16:37 +0100
+Subject: Re: [PATCH v5 06/20] linux-user: x86_64: Update syscall numbers to
  kernel 5.5 rc3 level
 To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
 References: <1578947683-21011-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1578947683-21011-3-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1578947683-21011-7-git-send-email-aleksandar.markovic@rt-rk.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -71,36 +71,36 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <36e5c46b-e38e-5440-5536-fc049cc880a4@vivier.eu>
-Date: Tue, 14 Jan 2020 16:12:52 +0100
+Message-ID: <e8043e91-24e5-341d-1514-35449d874286@vivier.eu>
+Date: Tue, 14 Jan 2020 16:16:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <1578947683-21011-3-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1578947683-21011-7-git-send-email-aleksandar.markovic@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:r3z7Wg36sfG6G5D0xqDBPPPTHiy9M5qgSuUhYbZndVK/fWFBqDf
- wo1GsVni3Q3cMvTirusbyYXoGDq0AmU0LsiZKr0HY1eIBqOSZHKv5BgE2VYpbUgvw8lqqbt
- 0KiRlYNE2rTVQ22ZPYBOpbjo2Qe/SHy4L6RITFFokrFh2tYJ8BWdg9ElpEGKo8kYwGG/SwG
- 4LuvbcNMrBGAxAZH8C/Fg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JclYUtLTjUM=:6Bw0vk3keDuTh8iPdxk/0Z
- 6RQ5v2bRYqgErH7PXnXDidcIGzfUEUN7+Qhp3MvmJtdl31djBt5OezojD7av3soug9EZyiJU9
- L/wvN9vKocFXfoiKmuGD9rkDCEv00wZYLs7l0pneOH9BKQ7zDRvdzX9/I/WRKoe5OyC0e13Xu
- mdHV1FMzeRh4CMgTC2EZF7TcXcy9kQXY9FJBox9tM/jXgwOcoM0sfm8Za5Gi5vaa9F3hcYwIh
- VsAAKfS6W8DSGQU8YydqsKpUjwiVacL/MuRN1hmJOgMSSb8gJxNhA1ZBZy0hWqRS4s9bMfvH0
- P9y6dkmbWqKooeGTv9f2qTHf0JQbFbgeRPoj0NQQfJT0B3IrI3YTWXQQCoEEO/BIXE3ogdC4l
- sCeL+CczNwORM+2Y2vdGpO3aru70RnM7PFm+zdk7y1GqRDkiwXDy0GV1HO3P7omPSH0GkI+9K
- fO71wPs0LxJ0PTW3n31QduN9cB6jktfZ8AFuXL8MwmjIl8fu9wfZxiA0GzfO32uigohH2OGpd
- 5hRrS/qplvsCi4RAmYkkeJ8/upfsAhaoSIUEthpPZ8B4M2hVkCM5ZpfMTa0heiayl3qmV70Wz
- FMJ348u57R3PNHNG7/wIJYWYIqKsK2ZMM5xNZ0x/uNa4NTjEaaEvpi5jMSJyCUB96DELmJvvd
- 06VgSvnz7WSk9qNIrbf1pgS7WEzh38gzqhULf0lR0ggtT69+ZpVpMPePCu/fycPx/ksoBxoAA
- b9MaKkwX3R1o3U0wGhB96yt8tIu5aQHcMRc9If1pll9HShv1Zzz1eVzB4NlrVNJqff5B/cDwJ
- 3ZokeTHn947qwPefK41WtFRCTzsbvpxu2nwbgup7aGRAf/H1p4VUPeCIzo+wtREIi8561Hkgr
- f4exGfQrd5QtNvsjl0mbvteRapqyNVys4/S6Raj4E=
+X-Provags-ID: V03:K1:JMHVgdUD58PZ+T8bn+XtcGa1tzF7pmXyTnlyqw6afbIEaEZy6d8
+ eWINVqNIQhT9PvHozsWu6k1x6aPeHhCxTzMcwmPywmkVDNYHpzVslYp9G9AMjQkG6LNBZUo
+ I2WgCCIVkp/P+erq7PNLsqzttcs9+W2DAZpZhmfD0W6XHW9Q6KIbzjxYfZL22NagqKDY9mr
+ O+U9huZI0SM9krSlcapyw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zQXzo/Sp/xA=:szoVV4oV3Ylh/ZaDD/PfsD
+ 8xegt55icwKohIt7ATdGTx6YXGjdvMRB1CFVFesDYdTfAah9e2MSfxnOmaBJhVgH/diSvBMQf
+ HcRkycTqiMop4Gs3SkVoPVG5th6OmvNOHiM0NEYCD/kT+M+jqkMsuiyeMq5T+LtgpcL3qotWo
+ ptIYm0dyKvirRJhZjCiBHFi4AYO2G0ZAjta0pqz7ISVg3A7V9KMXl/T6EDsZDFeiH/7hpVw7w
+ NYG/Vs/1sEG8nBlEd1nk42P2Gkb0RCL6vCqHOV4SVxgKToTyFMFdCAhPI4rfZ1cU4rVgtp0Op
+ CULQtCNofcLtKzuSPnZGSXeUt6Crx1j95pH5H4kejuUhnvu7jOVM0OYt54bQAIwTxTdHwuRoP
+ 2/+W2vpGNXa/eKpyawuG8Cv30oe6nLErH3F7Dy6T5JSaanfQq+J89Zz+iM4aiONqlFMI4/BsB
+ eiJJqje4fjmL8sIuMSVIx3xGLlnXvJCi2s+QN9X6/PTR6DbqfERt55XBKNp/qeB9DRXNqX7XL
+ 8ODX26or+Uv2hAfDsSYhcjqB9Ymwp+DF2yAhEsJIKVLPfuADaDs8kydBFDbP8zRwsXWjdI1xK
+ jTsVsDdeaz8G+/P3j6XHYzymruI9bj36tlKL2L167xW/wXDlME8re4YsVyJ3q4B1Q8suwiXgt
+ fkPjzk9769dMYIq+VNWTRtWh77W1POMjbm2rRXBwj1yTziqsguv5oXup6093Hwh3X4C+k6oaq
+ 5svBp3sao7VEi6FPZA7Wr1O1q4MOswwnQQqDvfW+ZTDgwkOCB4MZXmj4dDBcrx4Xriccn1kZk
+ ByMCcnlJORbBkwYXrNokFRR0Y/cTThMTSkZqWqxsh/5Zv7Vkep90FATefPhosC8QU4ohuy/Es
+ Nr2ZTASD+jx+hoSWnHHglhSrVQ4QRZW8eAGIYgvrM=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.126.131
+X-Received-From: 212.227.126.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,71 +112,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: amarkovic@wavecomp.com, Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ amarkovic@wavecomp.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 13/01/2020 à 21:34, Aleksandar Markovic a écrit :
 > From: Aleksandar Markovic <amarkovic@wavecomp.com>
 > 
-> Update alpha syscall numbers based on Linux kernel tag v5.5-rc3
+> Update x86_64 syscall numbers based on Linux kernel tag v5.5-rc3
 > (commit 46cf053e).
 > 
 > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 > 
 > ---
 > 
+> cc: Paolo Bonzini <pbonzini@redhat.com>
 > cc: Richard Henderson <rth@twiddle.net>
+> cc: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  linux-user/alpha/syscall_nr.h | 35 +++++++++++++++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
+>  linux-user/x86_64/syscall_nr.h | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
 > 
-> diff --git a/linux-user/alpha/syscall_nr.h b/linux-user/alpha/syscall_nr.h
-> index 2e5541b..c29fc17 100644
-> --- a/linux-user/alpha/syscall_nr.h
-> +++ b/linux-user/alpha/syscall_nr.h
-> @@ -453,5 +453,40 @@
->  #define TARGET_NR_getrandom                     511
->  #define TARGET_NR_memfd_create                  512
->  #define TARGET_NR_execveat                      513
-> +#define TARGET_NR_seccomp                       514
-> +#define TARGET_NR_bpf                           515
-> +#define TARGET_NR_userfaultfd                   516
-> +#define TARGET_NR_membarrier                    517
-> +#define TARGET_NR_mlock2                        518
-> +#define TARGET_NR_copy_file_range               519
-> +#define TARGET_NR_preadv2                       520
-> +#define TARGET_NR_pwritev2                      521
-> +#define TARGET_NR_statx                         522
-> +#define TARGET_NR_io_pgetevents                 523
-> +#define TARGET_NR_pkey_mprotect                 524
-> +#define TARGET_NR_pkey_alloc                    525
-> +#define TARGET_NR_pkey_free                     526
-> +#define TARGET_NR_rseq                          527
-> +#define TARGET_NR_statfs64                      528
-> +#define TARGET_NR_fstatfs64                     529
-> +#define TARGET_NR_getegid                       530
-> +#define TARGET_NR_geteuid                       531
-> +#define TARGET_NR_getppid                       532
+> diff --git a/linux-user/x86_64/syscall_nr.h b/linux-user/x86_64/syscall_nr.h
+> index 9b6981e..e5d14ec 100644
+> --- a/linux-user/x86_64/syscall_nr.h
+> +++ b/linux-user/x86_64/syscall_nr.h
+> @@ -328,5 +328,29 @@
+>  #define TARGET_NR_membarrier            324
+>  #define TARGET_NR_mlock2                325
+>  #define TARGET_NR_copy_file_range       326
+> +#define TARGET_NR_preadv2               327
+> +#define TARGET_NR_pwritev2              328
+> +#define TARGET_NR_pkey_mprotect         329
+> +#define TARGET_NR_pkey_alloc            330
+> +#define TARGET_NR_pkey_free             331
+> +#define TARGET_NR_statx                 332
+> +#define TARGET_NR_io_pgetevents         333
+> +#define TARGET_NR_rseq                  334
 > +/*
-> + * all other architectures have common numbers for new syscall, alpha
-> + * is the exception.
+> + * don't use numbers 387 through 423, add new calls after the last
+> + * 'common' entry
 > + */
-> +#define TARGET_NR_pidfd_send_signal             534
-> +#define TARGET_NR_io_uring_setup                535
-> +#define TARGET_NR_io_uring_enter                536
-> +#define TARGET_NR_io_uring_register             537
-> +#define TARGET_NR_open_tree                     538
-> +#define TARGET_NR_move_mount                    539
-> +#define TARGET_NR_fsopen                        540
-> +#define TARGET_NR_fsconfig                      541
-> +#define TARGET_NR_fsmount                       542
-> +#define TARGET_NR_fspick                        543
-> +#define TARGET_NR_pidfd_open                    544
-> +/* 545 reserved for clone3 */
+> +#define TARGET_NR_pidfd_send_signal     424
+> +#define TARGET_NR_io_uring_setup        425
+> +#define TARGET_NR_io_uring_enter        426
+> +#define TARGET_NR_io_uring_register     427
+> +#define TARGET_NR_open_tree             428
+> +#define TARGET_NR_move_mount            429
+> +#define TARGET_NR_fsopen                430
+> +#define TARGET_NR_fsconfig              431
+> +#define TARGET_NR_fsmount               432
+> +#define TARGET_NR_fspick                433
+> +#define TARGET_NR_pidfd_open            434
+> +#define TARGET_NR_clone3                435
 >  
 >  #endif
 > 
+
+And what about to update linux-user/i386/syscall_nr.h too?
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
