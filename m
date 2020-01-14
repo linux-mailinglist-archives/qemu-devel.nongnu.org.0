@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C20D13A836
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 12:21:36 +0100 (CET)
-Received: from localhost ([::1]:37254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0E713A828
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 12:17:37 +0100 (CET)
+Received: from localhost ([::1]:37184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irKGN-00076Q-E7
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 06:21:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48612)
+	id 1irKCW-0002iU-9a
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 06:17:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48671)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1irJzs-00044j-0L
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:04:32 -0500
+ (envelope-from <stefanha@gmail.com>) id 1irK07-0004Jn-6S
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:04:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1irJzq-000867-Vn
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:04:31 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34065)
+ (envelope-from <stefanha@gmail.com>) id 1irK06-0008D6-7A
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:04:47 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38407)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1irJzq-00085o-MM
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:04:30 -0500
-Received: by mail-wr1-x441.google.com with SMTP id t2so11739228wrr.1
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 03:04:30 -0800 (PST)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1irK05-0008CZ-8c
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:04:45 -0500
+Received: by mail-wm1-x343.google.com with SMTP id u2so13167463wmc.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 03:04:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=B60rghVsmUyeupVC4Y1MNfVn6ltZlF1FDZzj11ztXfg=;
- b=QMu7kSPC3+DhjrE9DpE/2poJPvXrgS1LtEf8aFBAoqD7Cnk5AsIS5lM9ah+hjd0U0i
- L7kiL1XsyglcVzc1VUR6yynvceDibdLBknp/f2xP90iv80Rn5BeBQvtmSK50He5qGjVx
- Dczm1KlGfCS4v+2O040h7gcOY8pVe7TckfQzQmm7uPODIaK1J7Ivc954CBsOwbOlVm3L
- Sgf3u2x5btWWoA8yl4CvAbQk0ydHAK8cNdF2pNIE0iahZdS2U83Gvpmc99ahc3/kys6A
- QH68nFl4b7Zs2cqnRZ1uf9zSDW246+9ZkAOFujl2aeL/m2HE3cwaGUQd3EWydzdoKOKa
- lkLw==
+ bh=poI9+O4rWtN9dout6QdkM+i8vBow/GMm4TrdNefzrXI=;
+ b=itef3uUEk3ASB3Our9ijcrb+ghMNTnmgzI19h7VC9JHRpC1w5gR9OO1VsZUlqu6H3L
+ Gbmfv5ZQqI2y/jmHmVj7k4qlDMUS6pzqnjXk9i8Ok5SsLdmxlSLfiHE6Lv2HE4ujR+6a
+ 7U1Yobh5cm++96BbsVYSinI1VOJorwJ/G41mJ6NHLmNNr1jnKvzVRAZSxP+f8gupbtkc
+ swK8fWLRKRYmSXZweOEZiLr5UZclYxb8I29GJ1541JinvLn8Q9V4QsAs2w4NwW7xG5D5
+ ptMp9TxNml6PzS+293DGPslO/CS06WALB0aRHNnu7D5Wh9g8+7db6fKuvJXZ7rdXQZS0
+ BDUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=B60rghVsmUyeupVC4Y1MNfVn6ltZlF1FDZzj11ztXfg=;
- b=EndnqkYIolfKHodDBo6FBx6JX3u8yMlUu3YAlEkrpKMKtQ1zcvsymqUvsdhdnT9UVh
- AxNsnQGLqoPpl6v/c9Qz2VyWP7mXA1V9E8pPSpMZKDoG7cwZd1NuDvQ8kYpdfYSr9Jhe
- R9OV/jWaIYk9ZGmRAhEweD/NX3m8PORMdk6wHOf0dnrokLZgOF1Qq/EOlT8dNqI0tJk2
- 8UfP9TD8ddpa0tIcbKyiyWJrohA+RGKo9dB9ZkIXdmhzix282wBdEZ0kqqDvCHh3RzaY
- OjVwGmX8Kw4P1ahgeqT1JUZtYT/t5KWrc0H2ldA6WQgLs76s413v38t3LkG5tGDwj8jK
- gHIA==
-X-Gm-Message-State: APjAAAUeIRJRUFBtAUkUfhJ4VY7oU2FDJs3rajXJQIEcokA4yFX/zh0S
- aqSCISScjKBmqFRwaNZ6Y9A=
-X-Google-Smtp-Source: APXvYqzxlvpyhJSMBznq+zLsuUDvjpxVVQiEfntPiGfb8BVEPKxV+mr+kfqjaNom8xSD2ATDhQ64lA==
-X-Received: by 2002:a05:6000:1241:: with SMTP id
- j1mr25481970wrx.26.1578999869486; 
- Tue, 14 Jan 2020 03:04:29 -0800 (PST)
+ bh=poI9+O4rWtN9dout6QdkM+i8vBow/GMm4TrdNefzrXI=;
+ b=AVlgKDlSBt0KUuIyGi2STodGL/2fg1wZWZJRh+B5nbeRyJIuY1r3xDkbVDjSxhCX+A
+ 1qRzdxfXZ7tYOr8EggUd6xgGOURw42od4vV+gnLbVgzUnof0a0RiLmUzFV83iR/b8iDq
+ lvdP5F/Z038da19FqJ04MkULRHyAXVb8j9OWPzYj7YaFLMxHTImejiZ43zvqr9SPBYyE
+ 27A/pJpfKwFD2el4c9bEJNvXLte6BT7m5xC5qvPE9AQUS89yvacn8lc13GmONUkRY/kT
+ DCHKa+SvXu5gC+73yWg3DFy9mLhs0SoUBhlu4usVwi9RYCByjWNO81hqpIQp3hMNFs+M
+ 94Jg==
+X-Gm-Message-State: APjAAAVTLMaY/ynrgZ+maJV9jmScz5lr1gKU23+PiQEYpLCz7wWZgWs1
+ 0vHodFg89gDutJKJKYfB2LI=
+X-Google-Smtp-Source: APXvYqwoPpTQTK/+Lss7T2SlADtv2NOAn3uf2RmA7tGzbhcOZTlXL+nDoOYM412J5HPe5l1qltIq9w==
+X-Received: by 2002:a7b:cc97:: with SMTP id p23mr27420630wma.89.1578999884032; 
+ Tue, 14 Jan 2020 03:04:44 -0800 (PST)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id m10sm19364271wrx.19.2020.01.14.03.04.27
+ by smtp.gmail.com with ESMTPSA id z187sm18789152wme.16.2020.01.14.03.04.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jan 2020 03:04:28 -0800 (PST)
-Date: Tue, 14 Jan 2020 11:04:27 +0000
+ Tue, 14 Jan 2020 03:04:42 -0800 (PST)
+Date: Tue, 14 Jan 2020 11:04:41 +0000
 From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH] docs/devel: fix stable process doc formatting
-Message-ID: <20200114110427.GD118882@stefanha-x1.localdomain>
-References: <20200113103023.31255-1-cohuck@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [qemu-web PATCH] documentation: update links to readthedocs
+Message-ID: <20200114110441.GE118882@stefanha-x1.localdomain>
+References: <20200113103550.1133-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="d9ADC0YsG2v16Js0"
+ protocol="application/pgp-signature"; boundary="MIdTMoZhcV1D07fI"
 Content-Disposition: inline
-In-Reply-To: <20200113103023.31255-1-cohuck@redhat.com>
+In-Reply-To: <20200113103550.1133-1-alex.bennee@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,40 +77,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---d9ADC0YsG2v16Js0
-Content-Type: text/plain; charset=us-ascii
+--MIdTMoZhcV1D07fI
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 13, 2020 at 11:30:23AM +0100, Cornelia Huck wrote:
-> Enumeration of stable criteria needs proper bullet points.
+On Mon, Jan 13, 2020 at 10:35:50AM +0000, Alex Benn=E9e wrote:
+> ..and extemporise a little about their state.
 >=20
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
 > ---
->  docs/devel/stable-process.rst | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  documentation.md | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---d9ADC0YsG2v16Js0
+--MIdTMoZhcV1D07fI
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4doDoACgkQnKSrs4Gr
-c8hl9Af/fblsJavf/Wq+CDWRtgT8EHaGqdLg4IYxvAtynYll0zQNnhutEhFNr4Vj
-GvOovX/K15QROV2CVd+jLr67jYYpOsVkVJeWfV0sUK1oXrpwwO56myL0b95rMTNl
-oWbV3EzRWrs7bVYNnUfNxet0ELY5mYevix+zG+3oZF6BjV7hXXYcBY3KGmYuE92V
-oSUgFFVu9y0VCcBvkTULpF90VAWirPrx2+zK2Y8fNpgcoIoG2SKlFMgXG3y1zSFC
-tRELg3BXr3To+ollstmfqUijQutF7MAdONDqTgVinWOcfg/pxJwTaVFhoRM+sie3
-uwipqSfhCxftPldGTEGoY30v6zS6Tg==
-=NbbU
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4doEkACgkQnKSrs4Gr
+c8ijRAf8Clw4fiQZAjfY8/tYIoVT4kv9V0zHiwkMJmIVHYPfLF5HOmJqTMIsj3BF
+52fDRy+9ADX41L9HR0UVBCo35uCBgHNXcBdg4zJXhsdT8sQ9o7RAWsTGe98FX7J/
+UeFXybsiny9WlK24+LrJfZKh8iN4dTCzuTAD23xUD/uTFI7y6iF3yVp/PBmEfqkx
+o53Vg0sR3o+fi1W8fs1KYK8CgKatd5/nYkPF58Pp2oirS0H/gOf1nBFqHLxgzmMj
+60606H/Rm3aD9ul7vFpjJBiKHXZi/eHGnfPFJjpuNbgVt3tYGXzXT9SI2MDdaKI4
+I81KT/eDPuOsAr09fdkK5948t6i/Bw==
+=gGO1
 -----END PGP SIGNATURE-----
 
---d9ADC0YsG2v16Js0--
+--MIdTMoZhcV1D07fI--
 
