@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA79113A7FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 12:09:31 +0100 (CET)
-Received: from localhost ([::1]:36998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B87F513A7FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 12:09:39 +0100 (CET)
+Received: from localhost ([::1]:37020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irK4g-0007PJ-HR
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 06:09:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47599)
+	id 1irK4o-0000zU-Fh
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 06:09:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48022)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clement.deschamps@greensocs.com>) id 1irJvn-00084n-En
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:00:20 -0500
+ (envelope-from <stefanha@redhat.com>) id 1irJwp-0000cx-GS
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:01:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clement.deschamps@greensocs.com>) id 1irJvl-0006Ug-5V
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:00:18 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:39838)
+ (envelope-from <stefanha@redhat.com>) id 1irJwl-0007Bh-5D
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:01:23 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35030
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clement.deschamps@greensocs.com>)
- id 1irJvZ-0006Ni-TQ; Tue, 14 Jan 2020 06:00:06 -0500
-Received: from chartreuse.bar.greensocs.com (chartreuse.bar.greensocs.com
- [172.16.11.101])
- by beetle.greensocs.com (Postfix) with ESMTPS id 4852196EF0;
- Tue, 14 Jan 2020 11:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1578999603;
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1irJwk-0007BG-SC
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:01:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578999678;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=cloNL1VrTlkhCC6UnZZJThf+E4DFKBoc5EfntjStdqo=;
- b=dDOPSdNsAQCjW9r/uyr8fBSQgpCH5gpLr1w3zT87aCHwbOmCVj2rNRvFTEGOWj2t9Q4gpp
- pV1LgwkoLNVMbfupY3sLs5Rcpf9N6JgHgxnF1EAqHMjV796GB8+/i8ZYyyKoLELeSKsJ+4
- DjcOtjTrn3byYdVWtzsxjZfJzAXCIjI=
-From: Clement Deschamps <clement.deschamps@greensocs.com>
-To: qemu-trivial@nongnu.org,
-	qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org
-Subject: [PATCH] target/arm: add PMU feature to cortex-r5 and cortex-r5f
-Date: Tue, 14 Jan 2020 11:59:18 +0100
-Message-Id: <20200114105918.2366370-1-clement.deschamps@greensocs.com>
-X-Mailer: git-send-email 2.24.1
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QcF76SiLWpgtvCUROTLlRH+nHSE6t2UFIHOWl610TG4=;
+ b=jTLg0mJ8CMBrvhUdpD5ntp3v/rLc8NL+otzK+ISP8jUBxol7ydoo9sjhnocfSQEfRAexj0
+ 6HEQtVLftBlDbD9HanMJPEUtbMFM6Jk3wNuiDXJwVWpwSCXKW0kQntVmazMc44tp6haTRi
+ +3zvlr/5pXYsZ6aaQfAhNpi6LO6nADQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-244-Kb55M265PQSnWNBDba-odA-1; Tue, 14 Jan 2020 06:01:13 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE8961007277;
+ Tue, 14 Jan 2020 11:01:11 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D44C27C456;
+ Tue, 14 Jan 2020 11:01:03 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 12/15] qemu-img: adds option to use aio engine for
+ benchmarking
+Date: Tue, 14 Jan 2020 10:59:18 +0000
+Message-Id: <20200114105921.131880-13-stefanha@redhat.com>
+In-Reply-To: <20200114105921.131880-1-stefanha@redhat.com>
+References: <20200114105921.131880-1-stefanha@redhat.com>
 MIME-Version: 1.0
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1578999603;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=cloNL1VrTlkhCC6UnZZJThf+E4DFKBoc5EfntjStdqo=;
- b=364B+66qvjcdhvbbo0/4rzpG43KCVxq/1nKMyoivs+98cp4HGUsqogsR2dl8yE/zMNs1J1
- 6suFj7wP+fkoauhNYUMaTDgyDRyZ5uS0id9ucDtQqqco5lOT7hwQAoHp3+ikkySgYp8h/4
- 68jZL4LqhWckL+YY0Pqlr+LsnZa2HsI=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1578999603; a=rsa-sha256; cv=none;
- b=0iUNkvtfSNeovBu0JCjXzcbB0dLQJiEO5/2oKJ/t0/aex51hViz4jH33wMncwuAxiVUifL
- MZteASG+s4VrB3sjkngS000mtxWFhG7TUeCkQ9R8eDXIurvbe+lxvDjSGTKE0EbCDfb9r9
- UZ1iLQpAQY9piNDbqRfhWvHZbZcqa2Q=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: Kb55M265PQSnWNBDba-odA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 5.135.226.135
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,32 +71,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Clement Deschamps <clement.deschamps@greensocs.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, oleksandr@redhat.com,
+ Julia Suvorova <jusual@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Clement Deschamps <clement.deschamps@greensocs.com>
----
-See cortex-r5 TRM - 1.3 Features
+From: Aarushi Mehta <mehta.aaru20@gmail.com>
 
-PMU is not optional on cortex-r5 and cortex-r5f
+Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+Acked-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- target/arm/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+v10:
+ * Add missing space to qemu-img command-line documentation
+---
+ qemu-img-cmds.hx |  4 ++--
+ qemu-img.c       | 11 ++++++++++-
+ qemu-img.texi    |  5 ++++-
+ 3 files changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index d62fd5fdc6..64cd0a7d73 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2121,6 +2121,7 @@ static void cortex_r5_initfn(Object *obj)
-     set_feature(&cpu->env, ARM_FEATURE_V7);
-     set_feature(&cpu->env, ARM_FEATURE_V7MP);
-     set_feature(&cpu->env, ARM_FEATURE_PMSA);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-     cpu->midr =3D 0x411fc153; /* r1p3 */
-     cpu->id_pfr0 =3D 0x0131;
-     cpu->id_pfr1 =3D 0x001;
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index 1c93e6d185..77b5a8dda8 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -20,9 +20,9 @@ STEXI
+ ETEXI
+=20
+ DEF("bench", img_bench,
+-    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_interv=
+al] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s buffer_siz=
+e] [-S step_size] [-t cache] [-w] [-U] filename")
++    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_interv=
+al] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s buffer_siz=
+e] [-S step_size] [-t cache] [-i aio] [-w] [-U] filename")
+ STEXI
+-@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-inte=
+rval=3D@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--pattern=
+=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-t @var=
+{cache}] [-w] [-U] @var{filename}
++@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-inte=
+rval=3D@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--pattern=
+=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-t @var=
+{cache}] [-i @var{aio}] [-w] [-U] @var{filename}
+ ETEXI
+=20
+ DEF("check", img_check,
+diff --git a/qemu-img.c b/qemu-img.c
+index 6233b8ca56..2b4562b9d9 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -4187,7 +4187,8 @@ static int img_bench(int argc, char **argv)
+             {"force-share", no_argument, 0, 'U'},
+             {0, 0, 0, 0}
+         };
+-        c =3D getopt_long(argc, argv, ":hc:d:f:no:qs:S:t:wU", long_options=
+, NULL);
++        c =3D getopt_long(argc, argv, ":hc:d:f:ni:o:qs:S:t:wU", long_optio=
+ns,
++                        NULL);
+         if (c =3D=3D -1) {
+             break;
+         }
+@@ -4230,6 +4231,14 @@ static int img_bench(int argc, char **argv)
+         case 'n':
+             flags |=3D BDRV_O_NATIVE_AIO;
+             break;
++        case 'i':
++            ret =3D bdrv_parse_aio(optarg, &flags);
++            if (ret < 0) {
++                error_report("Invalid aio option: %s", optarg);
++                ret =3D -1;
++                goto out;
++            }
++            break;
+         case 'o':
+         {
+             offset =3D cvtnum(optarg);
+diff --git a/qemu-img.texi b/qemu-img.texi
+index b5156d6316..20136fcb94 100644
+--- a/qemu-img.texi
++++ b/qemu-img.texi
+@@ -206,7 +206,7 @@ Command description:
+ Amends the image format specific @var{options} for the image file
+ @var{filename}. Not all file formats support this operation.
+=20
+-@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-inte=
+rval=3D@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--pattern=
+=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-t @var=
+{cache}] [-w] [-U] @var{filename}
++@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-inte=
+rval=3D@var{flush_interval}] [-n] [-i @var{aio}] [--no-drain] [-o @var{offs=
+et}] [--pattern=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_=
+size}] [-t @var{cache}] [-w] [-U] @var{filename}
+=20
+ Run a simple sequential I/O benchmark on the specified image. If @code{-w}=
+ is
+ specified, a write test is performed, otherwise a read test is performed.
+@@ -227,6 +227,9 @@ If @code{-n} is specified, the native AIO backend is us=
+ed if possible. On
+ Linux, this option only works if @code{-t none} or @code{-t directsync} is
+ specified as well.
+=20
++If @code{-i} is specified, aio option can be used to specify different AIO
++backends: @var{threads}, @var{native} or @var{io_uring}.
++
+ For write tests, by default a buffer filled with zeros is written. This ca=
+n be
+ overridden with a pattern byte specified by @var{pattern}.
+=20
 --=20
 2.24.1
 
