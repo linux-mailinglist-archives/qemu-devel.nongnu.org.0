@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4636E13AE62
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 17:07:01 +0100 (CET)
-Received: from localhost ([::1]:42786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8055113AE6E
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 17:09:11 +0100 (CET)
+Received: from localhost ([::1]:42808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irOiZ-0008Tl-B2
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 11:06:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48855)
+	id 1irOkg-0003Ar-9N
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 11:09:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48869)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1irOeg-0004qO-5I
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 11:03:01 -0500
+ (envelope-from <groug@kaod.org>) id 1irOej-0004uC-V7
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 11:03:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1irOec-0005Af-60
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 11:02:58 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4330
+ (envelope-from <groug@kaod.org>) id 1irOee-0005Db-CB
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 11:03:01 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32242
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1irOec-00051W-15
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 11:02:54 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1irOee-000544-7L
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 11:02:56 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00EFlYdD119550
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 11:02:46 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2xhbpr4j1k-1
+ 00EFxpX8015211
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 11:02:48 -0500
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2xhgs5g490-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 11:02:46 -0500
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 11:02:48 -0500
 Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Tue, 14 Jan 2020 16:02:44 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+ Tue, 14 Jan 2020 16:02:46 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 14 Jan 2020 16:02:42 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 00EG1qdm24117708
+ Tue, 14 Jan 2020 16:02:43 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 00EG2gqI56295648
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 14 Jan 2020 16:01:52 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 836A34C052;
- Tue, 14 Jan 2020 16:02:41 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 711204C04E;
- Tue, 14 Jan 2020 16:02:41 +0000 (GMT)
+ Tue, 14 Jan 2020 16:02:42 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 999ADA4040;
+ Tue, 14 Jan 2020 16:02:42 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 868D0A404D;
+ Tue, 14 Jan 2020 16:02:42 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 14 Jan 2020 16:02:41 +0000 (GMT)
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 14 Jan 2020 16:02:42 +0000 (GMT)
 Received: from bahia.ibmuc.com (sig-9-145-1-176.uk.ibm.com [9.145.1.176])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id E4E7C2200E1;
- Tue, 14 Jan 2020 17:02:40 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id CFCD72200E1;
+ Tue, 14 Jan 2020 17:02:41 +0100 (CET)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 2/5] 9p: local: always return -1 on error in
- local_unlinkat_common
-Date: Tue, 14 Jan 2020 17:02:32 +0100
+Subject: [PULL 3/5] 9p: init_in_iov_from_pdu can truncate the size
+Date: Tue, 14 Jan 2020 17:02:33 +0100
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200114160235.308040-1-groug@kaod.org>
 References: <20200114160235.308040-1-groug@kaod.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 20011416-0028-0000-0000-000003D1050D
+x-cbid: 20011416-0012-0000-0000-0000037D4926
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20011416-0029-0000-0000-00002495272C
-Message-Id: <20200114160235.308040-3-groug@kaod.org>
+x-cbparentid: 20011416-0013-0000-0000-000021B97709
+Message-Id: <20200114160235.308040-4-groug@kaod.org>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-01-14_04:2020-01-14,
  2020-01-14 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- impostorscore=0 bulkscore=0 clxscore=1034 lowpriorityscore=0
- suspectscore=2 malwarescore=0 priorityscore=1501 adultscore=0 spamscore=0
- mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ adultscore=0 mlxscore=0
+ malwarescore=0 suspectscore=8 mlxlogscore=999 impostorscore=0 spamscore=0
+ bulkscore=0 lowpriorityscore=0 clxscore=1034 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1910280000 definitions=main-2001140136
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
 X-Received-From: 148.163.158.5
@@ -94,88 +93,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>
+Cc: anthony.perard@citrix.com, roman@zededa.com,
+ Stefano Stabellini <stefano.stabellini@xilinx.com>, qemu_oss@crudebyte.com,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Stefano Stabellini <stefano.stabellini@xilinx.com>
 
-local_unlinkat_common() is supposed to always return -1 on error.
-This is being done by jumps to the 'err_out' label, which is
-a 'return ret' call, and 'ret' is initialized with -1.
+init_in_iov_from_pdu might not be able to allocate the full buffer size
+requested, which comes from the client and could be larger than the
+transport has available at the time of the request. Specifically, this
+can happen with read operations, with the client requesting a read up to
+the max allowed, which might be more than the transport has available at
+the time.
 
-Unfortunately there is a condition in which the function will
-return 0 on error: in a case where flags == AT_REMOVEDIR, 'ret'
-will be 0 when reaching
+Today the implementation of init_in_iov_from_pdu throws an error, both
+Xen and Virtio.
 
-map_dirfd = openat_dir(...)
+Instead, change the V9fsTransport interface so that the size becomes a
+pointer and can be limited by the implementation of
+init_in_iov_from_pdu.
 
-And, if map_dirfd == -1 and errno != ENOENT, the existing 'err_out'
-jump will execute 'return ret', when ret is still set to zero
-at that point.
+Change both the Xen and Virtio implementations to set the size to the
+size of the buffer they managed to allocate, instead of throwing an
+error. However, if the allocated buffer size is less than P9_IOHDRSZ
+(the size of the header) still throw an error as the case is unhandable.
 
-This patch fixes it by changing all 'err_out' labels by
-'return -1' calls, ensuring that the function will always
-return -1 on error conditions. 'ret' can be left unintialized
-since it's now being used just to store the result of 'unlinkat'
-calls.
-
-CC: Greg Kurz <groug@kaod.org>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-[groug: changed prefix in title to be "9p: local:"]
+Signed-off-by: Stefano Stabellini <stefano.stabellini@xilinx.com>
+CC: groug@kaod.org
+CC: anthony.perard@citrix.com
+CC: roman@zededa.com
+CC: qemu_oss@crudebyte.com
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/9pfs/9p-local.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ hw/9pfs/9p.c               | 26 +++++++++++++++++++-------
+ hw/9pfs/9p.h               |  2 +-
+ hw/9pfs/virtio-9p-device.c | 11 +++++++----
+ hw/9pfs/xen-9p-backend.c   | 13 ++++++++-----
+ 4 files changed, 35 insertions(+), 17 deletions(-)
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index d0592c3b4504..54e012e5b442 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -1076,7 +1076,7 @@ out:
- static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
-                                  int flags)
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 520177f40c17..2efed37753ed 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -2090,22 +2090,29 @@ out_nofid:
+  * with qemu_iovec_destroy().
+  */
+ static void v9fs_init_qiov_from_pdu(QEMUIOVector *qiov, V9fsPDU *pdu,
+-                                    size_t skip, size_t size,
++                                    size_t skip, size_t *size,
+                                     bool is_write)
  {
--    int ret = -1;
-+    int ret;
+     QEMUIOVector elem;
+     struct iovec *iov;
+     unsigned int niov;
++    size_t alloc_size = *size + skip;
  
-     if (ctx->export_flags & V9FS_SM_MAPPED_FILE) {
-         int map_dirfd;
-@@ -1094,12 +1094,12 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
- 
-             fd = openat_dir(dirfd, name);
-             if (fd == -1) {
--                goto err_out;
-+                return -1;
-             }
-             ret = unlinkat(fd, VIRTFS_META_DIR, AT_REMOVEDIR);
-             close_preserve_errno(fd);
-             if (ret < 0 && errno != ENOENT) {
--                goto err_out;
-+                return -1;
-             }
-         }
-         map_dirfd = openat_dir(dirfd, VIRTFS_META_DIR);
-@@ -1107,16 +1107,14 @@ static int local_unlinkat_common(FsContext *ctx, int dirfd, const char *name,
-             ret = unlinkat(map_dirfd, name, 0);
-             close_preserve_errno(map_dirfd);
-             if (ret < 0 && errno != ENOENT) {
--                goto err_out;
-+                return -1;
-             }
-         } else if (errno != ENOENT) {
--            goto err_out;
-+            return -1;
-         }
+     if (is_write) {
+-        pdu->s->transport->init_out_iov_from_pdu(pdu, &iov, &niov, size + skip);
++        pdu->s->transport->init_out_iov_from_pdu(pdu, &iov, &niov, alloc_size);
+     } else {
+-        pdu->s->transport->init_in_iov_from_pdu(pdu, &iov, &niov, size + skip);
++        pdu->s->transport->init_in_iov_from_pdu(pdu, &iov, &niov, &alloc_size);
++    }
++
++    if (alloc_size < skip) {
++        *size = 0;
++    } else {
++        *size = alloc_size - skip;
      }
  
--    ret = unlinkat(dirfd, name, flags);
--err_out:
--    return ret;
-+    return unlinkat(dirfd, name, flags);
+     qemu_iovec_init_external(&elem, iov, niov);
+     qemu_iovec_init(qiov, niov);
+-    qemu_iovec_concat(qiov, &elem, skip, size);
++    qemu_iovec_concat(qiov, &elem, skip, *size);
  }
  
- static int local_remove(FsContext *ctx, const char *path)
+ static int v9fs_xattr_read(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
+@@ -2130,7 +2137,7 @@ static int v9fs_xattr_read(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
+     }
+     offset += err;
+ 
+-    v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset, read_count, false);
++    v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset, &read_count, false);
+     err = v9fs_pack(qiov_full.iov, qiov_full.niov, 0,
+                     ((char *)fidp->fs.xattr.value) + off,
+                     read_count);
+@@ -2259,9 +2266,11 @@ static void coroutine_fn v9fs_read(void *opaque)
+         QEMUIOVector qiov_full;
+         QEMUIOVector qiov;
+         int32_t len;
++        size_t size = max_count;
+ 
+-        v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset + 4, max_count, false);
++        v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset + 4, &size, false);
+         qemu_iovec_init(&qiov, qiov_full.niov);
++        max_count = size;
+         do {
+             qemu_iovec_reset(&qiov);
+             qemu_iovec_concat(&qiov, &qiov_full, count, qiov_full.size - count);
+@@ -2504,6 +2513,7 @@ static void coroutine_fn v9fs_write(void *opaque)
+     int32_t len = 0;
+     int32_t total = 0;
+     size_t offset = 7;
++    size_t size;
+     V9fsFidState *fidp;
+     V9fsPDU *pdu = opaque;
+     V9fsState *s = pdu->s;
+@@ -2516,7 +2526,9 @@ static void coroutine_fn v9fs_write(void *opaque)
+         return;
+     }
+     offset += err;
+-    v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset, count, true);
++    size = count;
++    v9fs_init_qiov_from_pdu(&qiov_full, pdu, offset, &size, true);
++    count = size;
+     trace_v9fs_write(pdu->tag, pdu->id, fid, off, count, qiov_full.niov);
+ 
+     fidp = get_fid(pdu, fid);
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index 3904f8290131..8d07a0b301e2 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -425,7 +425,7 @@ struct V9fsTransport {
+     ssize_t     (*pdu_vunmarshal)(V9fsPDU *pdu, size_t offset, const char *fmt,
+                                   va_list ap);
+     void        (*init_in_iov_from_pdu)(V9fsPDU *pdu, struct iovec **piov,
+-                                        unsigned int *pniov, size_t size);
++                                        unsigned int *pniov, size_t *size);
+     void        (*init_out_iov_from_pdu)(V9fsPDU *pdu, struct iovec **piov,
+                                          unsigned int *pniov, size_t size);
+     void        (*push_and_notify)(V9fsPDU *pdu);
+diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
+index b5a7c03f26d5..991e175c826f 100644
+--- a/hw/9pfs/virtio-9p-device.c
++++ b/hw/9pfs/virtio-9p-device.c
+@@ -147,19 +147,22 @@ static ssize_t virtio_pdu_vunmarshal(V9fsPDU *pdu, size_t offset,
+ }
+ 
+ static void virtio_init_in_iov_from_pdu(V9fsPDU *pdu, struct iovec **piov,
+-                                        unsigned int *pniov, size_t size)
++                                        unsigned int *pniov, size_t *size)
+ {
+     V9fsState *s = pdu->s;
+     V9fsVirtioState *v = container_of(s, V9fsVirtioState, state);
+     VirtQueueElement *elem = v->elems[pdu->idx];
+     size_t buf_size = iov_size(elem->in_sg, elem->in_num);
+ 
+-    if (buf_size < size) {
++    if (buf_size < P9_IOHDRSZ) {
+         VirtIODevice *vdev = VIRTIO_DEVICE(v);
+ 
+         virtio_error(vdev,
+-                     "VirtFS reply type %d needs %zu bytes, buffer has %zu",
+-                     pdu->id + 1, size, buf_size);
++                     "VirtFS reply type %d needs %zu bytes, buffer has %zu, less than minimum",
++                     pdu->id + 1, *size, buf_size);
++    }
++    if (buf_size < *size) {
++        *size = buf_size;
+     }
+ 
+     *piov = elem->in_sg;
+diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
+index 71eebe12dd41..18fe5b7c92fa 100644
+--- a/hw/9pfs/xen-9p-backend.c
++++ b/hw/9pfs/xen-9p-backend.c
+@@ -187,7 +187,7 @@ static void xen_9pfs_init_out_iov_from_pdu(V9fsPDU *pdu,
+ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU *pdu,
+                                           struct iovec **piov,
+                                           unsigned int *pniov,
+-                                          size_t size)
++                                          size_t *size)
+ {
+     Xen9pfsDev *xen_9pfs = container_of(pdu->s, Xen9pfsDev, state);
+     Xen9pfsRing *ring = &xen_9pfs->rings[pdu->tag % xen_9pfs->num_rings];
+@@ -197,16 +197,19 @@ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU *pdu,
+     g_free(ring->sg);
+ 
+     ring->sg = g_new0(struct iovec, 2);
+-    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, size);
++    xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, *size);
+ 
+     buf_size = iov_size(ring->sg, num);
+-    if (buf_size  < size) {
++    if (buf_size  < P9_IOHDRSZ) {
+         xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs request type %d"
+-                "needs %zu bytes, buffer has %zu\n", pdu->id, size,
+-                buf_size);
++                "needs %zu bytes, buffer has %zu, less than minimum\n",
++                pdu->id, *size, buf_size);
+         xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
+         xen_9pfs_disconnect(&xen_9pfs->xendev);
+     }
++    if (buf_size  < *size) {
++        *size = buf_size;
++    }
+ 
+     *piov = ring->sg;
+     *pniov = num;
 -- 
 2.21.1
 
