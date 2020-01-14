@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E3813A9DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 13:58:55 +0100 (CET)
-Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F326F13A9D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 13:57:35 +0100 (CET)
+Received: from localhost ([::1]:38852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irLmY-0006N0-N0
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 07:58:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40628)
+	id 1irLlG-00047A-Lk
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 07:57:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40758)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1irLhR-0000fx-Jp
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:53:41 -0500
+ (envelope-from <quintela@redhat.com>) id 1irLi0-0001ay-Ve
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:54:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1irLhN-0001Qk-MB
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:53:37 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31774
+ (envelope-from <quintela@redhat.com>) id 1irLhw-0001Xh-Ak
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:54:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40249
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irLhN-0001QY-Ix
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:53:33 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irLhw-0001XP-7a
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:54:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579006413;
+ s=mimecast20190719; t=1579006447;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JqNxX14HW/WLivX9UNa9yxrv0SVTGvB61OAO+BVcZaw=;
- b=R7YiBBRAc8vmFfUU5YwWWTnEcUe7ZxFxH9WwMrAG5uIm3SS7bz5YsEijPO+eZ1LgXphPgm
- +sk+7ec1ra5cpoPwpe8pj68OqAyrVCZBtDvsP8Kff/0L1TJ+qv4XKPl2axbHpVvq9WsDvW
- 61iQ8TOKgFdT8UkxCBAlkVAQw73gkeY=
+ bh=BrX1W4PqQfRCqbcGSErGINbVpX+XYhnN1Q3v/xMRPg4=;
+ b=bYzbLCIyXH1UC3yJVRF5KE6qHwPjvXZiYpwmZt/rxTGpkjXGHLXpYwwrTGJo0uVYRMqjj9
+ v59VIKxi+LOPe2u4joQC+y5j/2DVj6WUCUBvkpjULo5qvE0IDiGmO5yeEFSESE5gav/OOv
+ Lgr7VcLU0w26c8Ffm3Qz0hjv1neuYlU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-sprUiLntNBi18fyCMww_3Q-1; Tue, 14 Jan 2020 07:53:32 -0500
+ us-mta-211-hHF51gW1OHyAWdDl-MgE8Q-1; Tue, 14 Jan 2020 07:54:06 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 647CF800D54;
- Tue, 14 Jan 2020 12:53:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95DB5189CD13;
+ Tue, 14 Jan 2020 12:54:04 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C68F15D9E5;
- Tue, 14 Jan 2020 12:53:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE94E5D9E5;
+ Tue, 14 Jan 2020 12:53:57 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/30] migration: Make sure that we don't call write() in case
- of error
-Date: Tue, 14 Jan 2020 13:52:28 +0100
-Message-Id: <20200114125254.4515-5-quintela@redhat.com>
+Subject: [PULL 06/30] migration-test: ppc64: fix FORTH test program
+Date: Tue, 14 Jan 2020 13:52:30 +0100
+Message-Id: <20200114125254.4515-7-quintela@redhat.com>
 In-Reply-To: <20200114125254.4515-1-quintela@redhat.com>
 References: <20200114125254.4515-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: sprUiLntNBi18fyCMww_3Q-1
+X-MC-Unique: hHF51gW1OHyAWdDl-MgE8Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,86 +82,63 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  qemu-ppc@nongnu.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- David Gibson <david@gibson.dropbear.id.au>
+ wei@redhat.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we are exiting due to an error/finish/.... Just don't try to even
-touch the channel with one IO operation.
+From: Laurent Vivier <lvivier@redhat.com>
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
+Commit e51e711b1bef has moved the initialization of start_address and
+end_address after the definition of the command line argument,
+where the nvramrc is initialized, and thus the loop is between 0 and 0
+rather than 1 MiB and 100 MiB.
+
+It doesn't affect the result of the test if all the tests are run in
+sequence because the two first tests don't run the loop, so the
+values are correctly initialized when we actually need them.
+
+But it hangs when we ask to run only one test, for instance:
+
+    QTEST_QEMU_BINARY=3Dppc64-softmmu/qemu-system-ppc64 \
+    tests/migration-test -m=3Dquick -p /ppc64/migration/validate_uuid_error
+
+Fixes: e51e711b1bef ("tests/migration: Add migration-test header file")
+Cc: wei@redhat.com
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ tests/qtest/migration-test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index d003538f06..39e7b922ff 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -900,6 +900,12 @@ struct {
-     uint64_t packet_num;
-     /* send channels ready */
-     QemuSemaphore channels_ready;
-+    /*
-+     * Have we already run terminate threads.  There is a race when it
-+     * happens that we got one error while we are exiting.
-+     * We will use atomic operations.  Only valid values are 0 and 1.
-+     */
-+    int exiting;
- } *multifd_send_state;
-=20
- /*
-@@ -928,6 +934,10 @@ static int multifd_send_pages(RAMState *rs)
-     MultiFDPages_t *pages =3D multifd_send_state->pages;
-     uint64_t transferred;
-=20
-+    if (atomic_read(&multifd_send_state->exiting)) {
-+        return -1;
-+    }
-+
-     qemu_sem_wait(&multifd_send_state->channels_ready);
-     for (i =3D next_channel;; i =3D (i + 1) % migrate_multifd_channels()) =
-{
-         p =3D &multifd_send_state->params[i];
-@@ -1009,6 +1019,16 @@ static void multifd_send_terminate_threads(Error *er=
-r)
-         }
-     }
-=20
-+    /*
-+     * We don't want to exit each threads twice.  Depending on where
-+     * we get the error, or if there are two independent errors in two
-+     * threads at the same time, we can end calling this function
-+     * twice.
-+     */
-+    if (atomic_xchg(&multifd_send_state->exiting, 1)) {
-+        return;
-+    }
-+
-     for (i =3D 0; i < migrate_multifd_channels(); i++) {
-         MultiFDSendParams *p =3D &multifd_send_state->params[i];
-=20
-@@ -1118,6 +1138,10 @@ static void *multifd_send_thread(void *opaque)
-=20
-     while (true) {
-         qemu_sem_wait(&p->sem);
-+
-+        if (atomic_read(&multifd_send_state->exiting)) {
-+            break;
-+        }
-         qemu_mutex_lock(&p->mutex);
-=20
-         if (p->pending_job) {
-@@ -1224,6 +1248,7 @@ int multifd_save_setup(void)
-     multifd_send_state->params =3D g_new0(MultiFDSendParams, thread_count)=
-;
-     multifd_send_state->pages =3D multifd_pages_init(page_count);
-     qemu_sem_init(&multifd_send_state->channels_ready, 0);
-+    atomic_set(&multifd_send_state->exiting, 0);
-=20
-     for (i =3D 0; i < thread_count; i++) {
-         MultiFDSendParams *p =3D &multifd_send_state->params[i];
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index b0580dd541..26e2e77289 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -517,14 +517,14 @@ static int test_migrate_start(QTestState **from, QTes=
+tState **to,
+     } else if (strcmp(arch, "ppc64") =3D=3D 0) {
+         machine_opts =3D "vsmt=3D8";
+         memory_size =3D "256M";
++        start_address =3D PPC_TEST_MEM_START;
++        end_address =3D PPC_TEST_MEM_END;
+         arch_source =3D g_strdup_printf("-nodefaults "
+                                       "-prom-env 'use-nvramrc?=3Dtrue' -pr=
+om-env "
+                                       "'nvramrc=3Dhex .\" _\" begin %x %x =
+"
+                                       "do i c@ 1 + i c! 1000 +loop .\" B\"=
+ 0 "
+                                       "until'", end_address, start_address=
+);
+         arch_target =3D g_strdup("");
+-        start_address =3D PPC_TEST_MEM_START;
+-        end_address =3D PPC_TEST_MEM_END;
+     } else if (strcmp(arch, "aarch64") =3D=3D 0) {
+         init_bootfile(bootpath, aarch64_kernel, sizeof(aarch64_kernel));
+         machine_opts =3D "virt,gic-version=3Dmax";
 --=20
 2.24.1
 
