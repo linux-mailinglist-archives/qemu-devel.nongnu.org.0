@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F7213ABF1
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 15:12:11 +0100 (CET)
-Received: from localhost ([::1]:40514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1AB13ABF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 15:13:02 +0100 (CET)
+Received: from localhost ([::1]:40538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irMvS-00078L-C8
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 09:12:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54765)
+	id 1irMwH-000070-1E
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 09:13:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55242)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <coiby.xu@gmail.com>) id 1irMsp-0003Zp-2N
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:09:28 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1irMuw-0007JV-MN
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:11:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <coiby.xu@gmail.com>) id 1irMsn-0008H8-P7
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:09:26 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37329)
+ (envelope-from <peter.maydell@linaro.org>) id 1irMuv-0000vg-9H
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:11:38 -0500
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:46994)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <coiby.xu@gmail.com>) id 1irMsn-0008Fy-Jg
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:09:25 -0500
-Received: by mail-pg1-x544.google.com with SMTP id q127so6452619pga.4
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 06:09:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=i4DDI49kN7XSXGAfcKghDbO8KY6etjG0aejbOuVFbHs=;
- b=MvGwpm/dt5xW9XylAFzJ//mw6CZnt0toHpWbkboAx5/DdKG2/gK79e4gytVbmyudv2
- VsXyeqnXTOWSnDkOmkD7rqJh5OBBDSW7XzMdGwjUqkovLIUuHrjKq1+1BB0cWL7y28eO
- mdOnTOQuQXwwDWlMRdiqLSq6SzQkdqi7n/p/cQtQFeg8cGV+WR1DtvUwhUJDhKkfZe5z
- j+/u/p8Zk+orfLanaDlTA5C+kwUbYUtmoaUDR+WVilmp45/Y5eFRgyWpJTxA9bTrb1i6
- oQX202q5mk3r0SRpSwD9DioXBi6SkJ5L9b3C6ME/0cKsAh+LtNycghc8iPvD2s2RQ6ov
- T/Uw==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1irMuv-0000vV-3H
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:11:37 -0500
+Received: by mail-ot1-x333.google.com with SMTP id r9so12678222otp.13
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 06:11:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WeRmJkSLn6ch6NVoI2gqiMtyrYx3h7Z024QmWrxDom8=;
+ b=RYA0lT1uDnt2HJGdoDkcq2/WlXHnKtWd0NGftnfAcsKw8VJDWz5/pMaiwr3so3A1hu
+ BHdtQuygAI8LBTKHrHkKdxqo2R2lncMhBqjh0PRUmFlarP6q/GMWSNrO9kVtbtx5zWJv
+ cWINcnokgjfvJMFrQiOUyhZTDNm94ZJsKRx3dbEPZpxcZU1+IGgoBpngB4CMvQ0rHi2M
+ YU90WUaY3aKE3lNuCXBc7BcJnJerY//FOXGZ6MwTKIGPCt1CfVy9jQzfZ3WOA8mUJ0a3
+ JdLO4YCg2laIQBU4Sxf4BfN33ms7MilS/QYOIbCe5JLhu2rrSJ8PR+TG/WQaRoEuiwIR
+ JqKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=i4DDI49kN7XSXGAfcKghDbO8KY6etjG0aejbOuVFbHs=;
- b=V5RjrgQyHYwOwcJ4fNJsNPquB/zuAEHjN2pcREOPds7gsHQ3KxOTF+bWSIqcxbbzEx
- +L5aVpdswNZ+u9cHvi2BYYDK0ErlCbI9/5ITlVhwggg8gEt8s3Ba+LGBWnIzBWNE/N+L
- Zrv179Y3GvpHD3P8WPnwqcfOUzr3tZ7O9qBiJskEE/ti1bS1bpRZTa5yIqfd7Mkkkhc+
- i4nl04Ws7qYE2EL8lZLKDhYBPCBAd9VFk0w3QEyPX97HZCSUj+tnkh6G9X7ryoqz30eE
- gyKF2jm2zxek8JvWGn3yBsAiJVzc9Cjg2j89JvqFUYOzPMmPs4RtGw13Pr713l4W+8+p
- mELg==
-X-Gm-Message-State: APjAAAWUwkj4Uy9v60J323rlbfn15zHtVP2Y1FT1ifnEzeeCQTqq/UQx
- oADyZMp/ejMUBz2uwI0c9mPByBLVBEO8sg==
-X-Google-Smtp-Source: APXvYqxKO8lMaLrMYhqL0qp+2Fu9QHrhuWIAOkeOam/zqvv+lpp85RAvD81lUi5dXC0WMTXEs1swPA==
-X-Received: by 2002:a63:d705:: with SMTP id d5mr26766696pgg.24.1579010963348; 
- Tue, 14 Jan 2020 06:09:23 -0800 (PST)
-Received: from localhost.localdomain ([175.124.145.172])
- by smtp.googlemail.com with ESMTPSA id a17sm17264773pjv.6.2020.01.14.06.09.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jan 2020 06:09:22 -0800 (PST)
-From: Coiby Xu <coiby.xu@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] building configuration files changes
-Date: Tue, 14 Jan 2020 22:06:20 +0800
-Message-Id: <20200114140620.10385-6-coiby.xu@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200114140620.10385-1-coiby.xu@gmail.com>
-References: <20200114140620.10385-1-coiby.xu@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WeRmJkSLn6ch6NVoI2gqiMtyrYx3h7Z024QmWrxDom8=;
+ b=ZPKSuOjkG3+BKWN5fSkXT2JKF+ZESR5YrsYDTvJekQtc3hwyvO0NsgdSgI+PaQI9zD
+ 7WeHO64/oA6Ho/Liwq7PShO/maj0vq5NuqTikJnmA7pxZCITaOWRtcdBvRtgGIUQemN/
+ vuoHe37WppQ0q+RK5AIkSwGF4+Kj/WUyJUHPGkT4Uda914KvhJQ/P8FngXNzDJ74/MWb
+ 2WS64Lzlvm3kT0WPhsb3gu6c5y1azVW9kb6XIPGLxe95DYnph395QaZLZHybza/hzN6j
+ MJ5pPWkg2K6h2qFCRR7FAJmcOka5JMdRD+C9RBqoLmOPwNd7WjAHykL0FTPph+d/AtTx
+ HYKA==
+X-Gm-Message-State: APjAAAVDO3qfGG1XAjcCxilyzgxGFhc+NW2RBgseQZZpuoSBq7Xv9cEo
+ yHwIO6kAd7YPVyR2vHDvyIbkGHBKZQ8aDVDcCSnb5A==
+X-Google-Smtp-Source: APXvYqzRBFYrOTX8YNbVq159xX+IPSKuli88xDaTOkyc2CLcAm9q+GwgCcIRyfoNQvKQD6QVGB+jkb9yxT1OdCDl/8o=
+X-Received: by 2002:a05:6830:13d3:: with SMTP id
+ e19mr17216266otq.135.1579011095955; 
+ Tue, 14 Jan 2020 06:11:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200114092918.117399-1-stefanha@redhat.com>
+In-Reply-To: <20200114092918.117399-1-stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 Jan 2020 14:11:25 +0000
+Message-ID: <CAFEAcA9V6tfrw4bj6eT=Uv21jFL=bcs9GMTSuF+5oz-gxQDvAw@mail.gmail.com>
+Subject: Re: [PULL 0/1] Tracing patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,110 +72,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, Coiby Xu <coiby.xu@gmail.com>,
- stefanha@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-libvhost-user depends on sys/poll.h, sys/socket.h and eventfd. Although
-Windows has the equivalent Winsock, it doesn't have eventfd. So only
-enable this feature on Linux.
+On Tue, 14 Jan 2020 at 09:29, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> The following changes since commit dc65a5bdc9fa543690a775b50d4ffbeb22c56d6d:
+>
+>   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-5.0-20200108' into staging (2020-01-10 16:15:04 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stefanha/qemu.git tags/tracing-pull-request
+>
+> for you to fetch changes up to 3f0097169bb60268cc5dda0c5ea47c31ab57b22f:
+>
+>   trace: update qemu-trace-stap to Python 3 (2020-01-13 16:42:20 +0000)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
----
- Makefile               | 1 +
- Makefile.objs          | 2 +-
- Makefile.target        | 1 +
- configure              | 2 +-
- tests/Makefile.include | 5 ++++-
- 5 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 6b5ad1121b..80c514f96b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -558,6 +558,10 @@ qemu-img.o: qemu-img-cmds.h
 
- qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
- qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
-+
-+ifdef CONFIG_LINUX
-+qemu-vu$(EXESUF): qemu-vu.o blockdev-vu.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS) libvhost-user.a
-+endif
- qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+Applied, thanks.
 
- qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
-diff --git a/Makefile.objs b/Makefile.objs
-index 7c1e50f9d6..5404daca00 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -53,6 +53,7 @@ common-obj-$(CONFIG_WIN32) += os-win32.o
- common-obj-$(CONFIG_POSIX) += os-posix.o
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
- common-obj-$(CONFIG_LINUX) += fsdev/
-+common-obj-$(CONFIG_LINUX) += blockdev-vu.o
-
- common-obj-y += accel/
- common-obj-y += migration/
-diff --git a/Makefile.target b/Makefile.target
-index 6e61f607b1..d5405976ce 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -159,6 +159,9 @@ obj-y += monitor/
- obj-y += qapi/
- obj-y += memory.o
- obj-y += memory_mapping.o
-+ifdef CONFIG_LINUX
-+obj-y += ../contrib/libvhost-user/libvhost-user.o
-+endif
- obj-y += migration/ram.o
- LIBS := $(libs_softmmu) $(LIBS)
-
-diff --git a/configure b/configure
-index 0ce2c0354a..8ad4da57be 100755
---- a/configure
-+++ b/configure
-@@ -6169,6 +6169,9 @@ if test "$want_tools" = "yes" ; then
-   if [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" ] ; then
-     tools="qemu-nbd\$(EXESUF) $tools"
-   fi
-+  if [ "$linux" = "yes" ] ; then
-+    tools="qemu-vu\$(EXESUF) $tools"
-+  fi
-   if [ "$ivshmem" = "yes" ]; then
-     tools="ivshmem-client\$(EXESUF) ivshmem-server\$(EXESUF) $tools"
-   fi
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 49e3b0d319..33bd48247b 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -746,6 +746,7 @@ qos-test-obj-y += tests/libqos/virtio.o
- qos-test-obj-$(CONFIG_VIRTFS) += tests/libqos/virtio-9p.o
- qos-test-obj-y += tests/libqos/virtio-balloon.o
- qos-test-obj-y += tests/libqos/virtio-blk.o
-+qos-test-obj-y += tests/libqos/vhost-user-blk.o
- qos-test-obj-y += tests/libqos/virtio-mmio.o
- qos-test-obj-y += tests/libqos/virtio-net.o
- qos-test-obj-y += tests/libqos/virtio-pci.o
-@@ -788,6 +789,7 @@ qos-test-obj-$(CONFIG_VHOST_NET_USER) += tests/vhost-user-test.o $(chardev-obj-y
- qos-test-obj-y += tests/virtio-test.o
- qos-test-obj-$(CONFIG_VIRTFS) += tests/virtio-9p-test.o
- qos-test-obj-y += tests/virtio-blk-test.o
-+qos-test-obj-$(CONFIG_LINUX) += tests/vhost-user-blk-test.o
- qos-test-obj-y += tests/virtio-net-test.o
- qos-test-obj-y += tests/virtio-rng-test.o
- qos-test-obj-y += tests/virtio-scsi-test.o
-@@ -935,7 +937,8 @@ endef
- $(patsubst %, check-qtest-%, $(QTEST_TARGETS)): check-qtest-%: %-softmmu/all $(check-qtest-y)
- 	$(call do_test_human,$(check-qtest-$*-y) $(check-qtest-generic-y), \
- 	  QTEST_QEMU_BINARY=$*-softmmu/qemu-system-$* \
--	  QTEST_QEMU_IMG=qemu-img$(EXESUF))
-+	  QTEST_QEMU_IMG=./qemu-img$(EXESUF) \
-+	  QTEST_QEMU_VU_BINARY=./qemu-vu$(EXESUF))
-
- check-unit: $(check-unit-y)
- 	$(call do_test_human, $^)
---
-2.24.1
-
+-- PMM
 
