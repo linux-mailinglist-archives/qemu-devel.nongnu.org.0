@@ -2,80 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5353F139ED5
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 02:17:40 +0100 (CET)
-Received: from localhost ([::1]:57850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757B1139F2C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 02:48:23 +0100 (CET)
+Received: from localhost ([::1]:58044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irApu-0001nG-4P
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 20:17:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40395)
+	id 1irBJe-0003sR-IX
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 20:48:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44238)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1irAp3-0001KG-LP
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 20:16:46 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1irBIM-00031e-TE
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 20:47:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1irAp2-0000HL-II
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 20:16:45 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:34181)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1irAp2-0000Fr-AG
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 20:16:44 -0500
-Received: by mail-pl1-x634.google.com with SMTP id g9so2325817plq.1
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 17:16:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=l12jUgoZqAtvH/3+kJ8RPVsbu9MReQUH53PMXsDkoAs=;
- b=XWo9ESRj3wIIGMA3gGWvK/NxC1tmLxoo3q64YsKz/cgLUIuY4oQoDoIB0vqTMH56bK
- 8G4fJS4AzVcJY8HgbZ4hXLOLRGjjxNjVwrkiWnDOWMvHc9DWggzM4I+s2dVWpuTrlDmo
- TUkj8LoUo+gD9S7p0j52Wrj6XM6Fdv7bEOEQE5o/1mDfeF+mcmEVseLl6Kg1weVf6AJz
- fR2YE0xKLZo5yg0S+bRlOa57PJYs99AlbcPx8OLDULrQeMTOWUkJtpWs6RZ156SRaR+L
- LQUV2SFoIcIVryqq4ztV0HZeBVr1fKA62cSQpj+ce5U7voAgEv3fVoUvDeJ2PxVInIhN
- I6SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=l12jUgoZqAtvH/3+kJ8RPVsbu9MReQUH53PMXsDkoAs=;
- b=s0CgeNVxWpZhc5yaqoC50/Egd1w4mHnimvYumH39LBEO3DKYfAtq1OoUTZFRwZasTM
- MZEG9MTZQJ0jp/Lk3mreaXJ7WKI+IwOjkhhZnspcFb2LJ8IhVMZugxikemo5qrYkUgd3
- zyXU5wDgAlzf2JupncwLs7Y7NLjmEIaMzuEhCh5Ndcbigl/MSO5lj/qWnIjI7Sejxkj6
- 4a51n43eyRgq+DXCQoykIiiUN06IMtQnpqJrOI+62kII6qzNmnCxhC1CrXCLpTm193oC
- CnravR80rtSZ0nvVUUZ0Dri2p12lN76AYEGWbstmvebnbo5OOkO22O+wxfsbTb2ZUKCS
- lbZQ==
-X-Gm-Message-State: APjAAAXJ8pQzKKwh86AW3DJ8DLCmKTXYCyVg4X9AUsTJMaPyZkB3l1NB
- WJRy+i58tEELFKONApDeBBz0MjPquHk=
-X-Google-Smtp-Source: APXvYqw/OY2vWItzVWSBAyyStFenj7IDR5MMoSK0uR2ULgAO4cJ58q5406mh35csp340NYR8dSYCsg==
-X-Received: by 2002:a17:90a:cb0f:: with SMTP id
- z15mr26086992pjt.131.1578964602454; 
- Mon, 13 Jan 2020 17:16:42 -0800 (PST)
-Received: from [192.168.3.43] (rrcs-66-91-136-155.west.biz.rr.com.
- [66.91.136.155])
- by smtp.gmail.com with ESMTPSA id 11sm15800108pfz.25.2020.01.13.17.16.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jan 2020 17:16:41 -0800 (PST)
-Subject: Re: [PULL 00/41] tcg patch queue
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200108034523.17349-1-richard.henderson@linaro.org>
- <CAFEAcA9P_3enu_M-55aoqWScFFAhw=Jfs92+vCc+yY-2nXUehA@mail.gmail.com>
- <df405ec5-190e-946d-fc2f-b52c695a39d4@linaro.org>
- <d115421a-497d-42d2-5dc5-6a3d4b19b0b0@linaro.org>
- <67615704-a1e9-1d2f-752f-7ab84178e060@linaro.org>
-Message-ID: <7fe29487-f902-1879-2f18-83af30cd2eec@linaro.org>
-Date: Mon, 13 Jan 2020 15:16:38 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <dgibson@ozlabs.org>) id 1irBIL-0001bL-FB
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 20:47:02 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:47473)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1irBIK-0001WU-RT; Mon, 13 Jan 2020 20:47:01 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47xYGl6KZ9z9sPn; Tue, 14 Jan 2020 12:46:55 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1578966415;
+ bh=bZ3ZjexFCfrKEORUsWBWtLyhJaXY3XwTe4TiiLXRj6Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EYFpc68hjpol0bL9GMksyjXY+HR5s4VhA3NwqEVOAICnZ8wb++lT/zPkLcD0pgrOQ
+ qOkgDANTXmtR7dBW3KTh1ySrXen0VG/LGE4y8R0baLGbYgWCpjKbAgfMit9L9FTd0l
+ ILZJNCHDw+jAX15c6tFYVpDyMvd+KoFe2lNIHKbE=
+Date: Tue, 14 Jan 2020 10:48:00 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Andrea Bolognani <abologna@redhat.com>
+Subject: Re: [RFC PATCH qemu] spapr: Kill SLOF
+Message-ID: <20200114004800.GI19995@umbus>
+References: <20200103074404.30853-1-aik@ozlabs.ru>
+ <3cf3e733-199a-61ba-7aaa-05e9546cd4d9@ozlabs.ru>
+ <dd98618f-01c6-850f-ac00-454a2f798508@gmail.com>
+ <81f1f752-3ada-2c8d-38b7-1344c7633e14@ozlabs.ru>
+ <e3299f0688127627de96eb2db1f127bf94df9085.camel@redhat.com>
+ <5ed92e2a-4b9f-8092-cb67-8d94c3891e20@ozlabs.ru>
+ <1a8f9121a3cb85d415ff1c67a5379a717ad2b8e0.camel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <67615704-a1e9-1d2f-752f-7ab84178e060@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZPDwMsyfds7q4mrK"
+Content-Disposition: inline
+In-Reply-To: <1a8f9121a3cb85d415ff1c67a5379a717ad2b8e0.camel@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::634
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,29 +60,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Jose Ricardo Ziviani <joserz@linux.ibm.com>,
+ Fabiano Rosas <farosas@linux.ibm.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Paul Mackerras <paulus@ozlabs.org>, Sam Bobroff <sbobroff@linux.ibm.com>,
+ qemu-ppc@nongnu.org,
+ Leonardo Augusto =?iso-8859-1?Q?Guimar=E3es?= Garcia <lagarcia@br.ibm.com>,
+ Leonardo Bras <leonardo@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/13/20 12:06 PM, Richard Henderson wrote:
-> On 1/13/20 11:50 AM, Richard Henderson wrote:
->> On 1/13/20 11:10 AM, Richard Henderson wrote:
->>> Details of this test system?
->>>
->>> I suppose I'll grab your tarball just to see if the binaries are different...
->>
->> Ho hum.  Something is different.  I reproduce the problem with your tarball.
-> 
-> Well, yes and no.  Your tarball also fails for me with master, v4.2.0, and
-> v4.1.1, so I can't see how I can trust it at all.
 
-One final note for today -- your tarball works for me on all branches
-(tcg-next, master, v4.2.0) on Centos 7.
+--ZPDwMsyfds7q4mrK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I was previously using my desktop, Ubuntu 19.10.
+On Mon, Jan 13, 2020 at 10:13:27AM +0100, Andrea Bolognani wrote:
+> On Wed, 2020-01-08 at 13:34 +1100, Alexey Kardashevskiy wrote:
+> > On 07/01/2020 20:39, Andrea Bolognani wrote:
+> > > On Tue, 2020-01-07 at 12:55 +1100, Alexey Kardashevskiy wrote:
+> > > > Petitboot kernel+initramdisk almost replaces SLOF + GRUB.
+> > >=20
+> > > Is this necessarily a good thing?
+> >=20
+> > The bare metal host and the powernv machine in QEMU do not use grub,
+> > they use petitboot which parses all grub configs and supports quite a l=
+ot.
+>=20
+> How well does the distro integration work? Eg. if I change something
+> in /etc/default/grub and then run grub2-mkconfig, can I expect my
+> changes to be picked up?
 
-So, there's certainly something odd going on...
+Yes, in the most trivial possible way.  AIUI, grub needs to process
+some of the config file information into a form that the early boot
+stages can read before they can read a filesystem.  Petitboot has a
+full Linux kernel beneath it so it parses everything from the grub
+file at boot time, so if it's in the file it will pick it up.
 
+> In which scenarios will that *not* work?
 
-r~
+If you use some grub feature that petitboot doesn't understand /
+support.  I don't know off hand of such a feature, but there might be
+some.
+
+> > Using Linux for a boot loader is not powerpc-only thing really, some
+> > folks do this too (forgot who, just heard this at the KVM forum).
+>=20
+> While other options are available and some architectures use
+> something else entirely, GRUB is the de-facto standard across most
+> of the non-obscure architectures.
+>=20
+> I guess the question is whether it's more important to be consistent
+> within the architecture or across them. I think the latter might be
+> preferable, especially when we consider what I think is the most
+> common scenario, that is, someone who's used to having GRUB on their
+> x86 machine running a ppc64 guest on the cloud. The more skills they
+> can automatically transfer over, the better.
+
+Note that killing SLOF isn't necessarily incompatible with running
+(true) grub.  It is harder though, because we'd have to fake
+significantly more of the OF client interface in qemu to let grub load
+the kernel.
+
+> > > Personally I quite like the fact
+> > > that I can use the same bootloader across x86, ppc64 and aarch64.
+> >=20
+> > I am not suggesting removing SLOF soon
+>=20
+> Perhaps the patch subject shouldn't be "kill SLOF" then? ;)
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--ZPDwMsyfds7q4mrK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4dD74ACgkQbDjKyiDZ
+s5JuoBAAmxIfx3Sz1RRnijxtgKfHrNjnX6ieOO7gbmSkp2r9hJ3AR7Qo+uHMtoEs
+sH1oMJxhBXJVn7hiMPJZWu4lsY8SJdi6rq/Mrazf54rB0YzYDr7a9RJSBvNKbIcb
+ipmXqKQYJWnIAbE5A1izslFoNCwmyDqS6fHDKHLBQKoKmp9RkWz9H8dMxDZPMhK8
+wSBNCggUe7h4rzH+MbW+oBwW92errdJfqixB6fjcwAO7/7EQzW0AI6wmINmg2K5D
+uzTGAqgiW3IZXs4nhJT6Imd6L2k7wRHRFqyNL5YWISs7eOzuM8Xzrs+N3k7N7T76
+AbuHrdmEQY1MJ5SlC+L0uthLXIrlD6hVS+8+WONYF4z/fPW5amUCCIX7GZaiTKnf
+67aej58PPZXkdVblGqmxBF1futyBScttv4HI5QANAOI/sZh9WcNYRtcMR1wx7I2N
+enpx5gGCu9c9RZtKjWPdfSPT3nhvJqwIA9lvORVyXGLUsMsmA1oq1iXsbc+uKFWu
+ecQfrWjWf31ksTpXi1Qkj1PFDOkKOCLaTlS4UOg10oE+cAI2srpwXEuIerKSBrde
+JDn5viHX+geePsIYILySc1Yi40yXXFMGDv8WyOiz4c0SDBkkWcmQAxze5AY0UObv
+yNMeNl+bQUhgZjVHQOG5aYeR4jA/4QGAxGJgS2OT3LYpl8Moclw=
+=Hc2w
+-----END PGP SIGNATURE-----
+
+--ZPDwMsyfds7q4mrK--
 
