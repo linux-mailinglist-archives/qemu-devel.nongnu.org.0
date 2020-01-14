@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E935B13B5A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 00:07:28 +0100 (CET)
-Received: from localhost ([::1]:47004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4A113B5AB
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 00:11:04 +0100 (CET)
+Received: from localhost ([::1]:47043 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irVHT-0004iF-Ki
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 18:07:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51228)
+	id 1irVKx-0000eG-0d
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 18:11:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52243)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1irVFB-0003KP-7v
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 18:05:09 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1irVJd-0008EK-Az
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 18:09:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1irVF6-0005Qy-RL
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 18:05:05 -0500
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:42173)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1irVJY-0001RK-HG
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 18:09:41 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46779)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1irVF6-0005QG-HO; Tue, 14 Jan 2020 18:05:00 -0500
-Received: by mail-io1-xd41.google.com with SMTP id n11so15752552iom.9;
- Tue, 14 Jan 2020 15:05:00 -0800 (PST)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1irVJY-0001PP-7i
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 18:09:36 -0500
+Received: by mail-ot1-x344.google.com with SMTP id r9so14362175otp.13
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 15:09:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TauqHO5/KBnafkzf2xj8Oz2F8nh/vKfKOr1SY9clp5s=;
- b=HOtXNWAtwvdKy937vgdIhhnNAvZyvQQQuQdSbnWDZYhZBPi/fRxlCAKNfheU1dqEnZ
- dNhZeU5kYdp8kmsZzcg7NPX4fgsIAMXOAm/6GhNjZWtQEwbceAU4WM5nBp5jfAhrMtSt
- u+QzCNGbAIEp3VkweYrkAvCCZ1hu0ZQB53Qz2Yb00MVFY0FbqwsJfH6CkL7TSCTCjX6F
- Cvz1JG0N8hoGneVr8d8nXjfPqH0K3NbzBBBF2gIyUZW83LvxVyYfIDDtqF1okzrPbY88
- lOz2nIC5ek41ufJIPjd9HzhQ/hjuGFP2l16yfjMiIt4zYlkD65CrD53WFZIEDEdvxGuq
- 6xSQ==
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=CbCN9BwW/hcDt1pe+cUtmQ56gh0Xzoy7qDXRUhOq3yk=;
+ b=BF5aufht/YqgAQUIy89NTibbSQqaqYOsaQ7Erl5d1jtotRK2iKlO9FV3TVxuRwJZmT
+ PMop9pVI3dvNNEQVO0KPjkBWOb/4ZcYjQpkQZBbB6SA2Lk/QprrxJ1GegYu8nYU8TadP
+ oLV0jtF8OADP3+MXiGzpkFkug6Y+os2HtHKIP2OzDCSe79N4F5jR+zPFHpOOu7BJeKXp
+ 8Rw8hoJSIEBYID+c9v4dOGK7kVlqTMROzsUSLyekdPxkT0romOSWuyHXmcIANvT9ts7/
+ wLpyBqPQ6n/GHe+ap6gBhoyl5YngmeeSdHzB8hMUeDcvRgVhN4c0gEpSv6AgPv9k0pbw
+ huYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
  :message-id:subject:to:cc;
- bh=TauqHO5/KBnafkzf2xj8Oz2F8nh/vKfKOr1SY9clp5s=;
- b=jMyWARirY8lEaUIIuMSx+/pO5tN3qeUwLOQxrlyXCpm1pmapv/6SU7pkjrxKgQOZ2m
- XMP0biTqjV9TOHdfGBXUnmb9cKUldKBwva39mn47/f4jwNJmQjU0dKITKr0LL5Ogm6uR
- KKIRhASVvy2v56lCSM960cAZunm/HIdb0SiDE/ZI+GRAUKrFmsK/Gr62Fv3Rp+VpGrS4
- Na/k2vYpz0F26LYKq94SwJoVZ+/SISzoFU2KJtcylQZxa62yBErS0NSwDVGfqii25bMt
- 4USDuOHxE/u1eJ6H5EDXl2gH6c6EGL10Renp7wQg/8QinLAhcsYVeqAihsmW9ad8fACT
- Sc2g==
-X-Gm-Message-State: APjAAAWgqxH4yHo3rto0rRpTfoD/NMxjEcKlgMiETxcQkWyLqwTnnztQ
- N2EYofEdM5hByLzIqPhBVYH0i8WTw3xxO8HqLqE=
-X-Google-Smtp-Source: APXvYqx2BHXECUMBDDsfiGpe5zT0znX86qAN9ZCDf5+mPy6iOWinAW89sHsImfoWy0RZ08c081XNCaW0xueKnz9XS8U=
-X-Received: by 2002:a02:8817:: with SMTP id r23mr21480325jai.120.1579043099506; 
- Tue, 14 Jan 2020 15:04:59 -0800 (PST)
+ bh=CbCN9BwW/hcDt1pe+cUtmQ56gh0Xzoy7qDXRUhOq3yk=;
+ b=GoeP8zAIfCEV5UCGRCNRz5LsCNVjKmGIHyVIZPOnBQcnp6nWDGRbh7zMv/kZ7atFu1
+ JMcsyzPNLX71xIbs1OrrCah8pbQW0Y8ymy4RH4FI6ziBNSP+PZpIPzcNJnit+myWSDPx
+ xrqKvvnrEND2F6ltldD3VP+sjxOrjgHZUUrVboIJv/v9XjITxroBqI5ZoqEFmH/Y2G1D
+ km90/KGUgcaLC29aIOlgVVBSseHq7h1O+6SreNo0pRGns/64axp6NmxVPlqwkshEZ3vy
+ 2PUkPITeyZ2AAWhfYQI2pXZaiNSCTFd1Ru9+tRB5nDfGR0LobCjRzW5xAOn/l6TtuCbw
+ lwCw==
+X-Gm-Message-State: APjAAAVNCEPh1Kg0jGMjKaiKR/J9sA9t6n0QI0/U0WP1OvCTGxuJ9S1p
+ ZKqtE1oHHt8NSbOy3Bcrooauz1VH+tHF/4YmyAw=
+X-Google-Smtp-Source: APXvYqyp+ZyCAcjdLqQ9ByhHBqQCxV7uLbs0T1Dk0iWLlgd7A3cB1cxKv7g/ablqJ2KkIs9Ng7ewxE6fLVwmifFXLOw=
+X-Received: by 2002:a9d:4c94:: with SMTP id m20mr615804otf.341.1579043374348; 
+ Tue, 14 Jan 2020 15:09:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20200108200020.4745-1-nieklinnenbank@gmail.com>
- <20200108200020.4745-7-nieklinnenbank@gmail.com>
- <8bbf88b2-867a-c95d-a3ae-e819f7dd08ac@redhat.com>
-In-Reply-To: <8bbf88b2-867a-c95d-a3ae-e819f7dd08ac@redhat.com>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Wed, 15 Jan 2020 00:04:48 +0100
-Message-ID: <CAPan3Wo3Li4XZJqHhhk5fnY_PnzGZ8YwUwCud8Ge4Z_+BOwW1w@mail.gmail.com>
-Subject: Re: [PATCH v3 06/17] hw/arm/allwinner: add CPU Configuration module
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000080492059c219f8b"
+Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
+ Tue, 14 Jan 2020 15:09:33 -0800 (PST)
+In-Reply-To: <20200112124913.94959-18-ysato@users.sourceforge.jp>
+References: <20200112124913.94959-1-ysato@users.sourceforge.jp>
+ <20200112124913.94959-18-ysato@users.sourceforge.jp>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Wed, 15 Jan 2020 00:09:33 +0100
+Message-ID: <CAL1e-=hgnr6C=SzUPGV0ZD-5PHXfsbUSVO0-LZ2kj=SgEca7iw@mail.gmail.com>
+Subject: Re: [PATCH v28 17/22] hw/rx: RX Target hardware definition
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Content-Type: multipart/alternative; boundary="00000000000069bd36059c21af8a"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d41
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,1259 +74,1324 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "philmd@redhat.com" <philmd@redhat.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000080492059c219f8b
+--00000000000069bd36059c21af8a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 14, 2020 at 12:14 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
-.com>
+On Sunday, January 12, 2020, Yoshinori Sato <ysato@users.sourceforge.jp>
 wrote:
 
-> On 1/8/20 9:00 PM, Niek Linnenbank wrote:
-> > Various Allwinner System on Chip designs contain multiple processors
-> > that can be configured and reset using the generic CPU Configuration
-> > module interface. This commit adds support for the Allwinner CPU
-> > configuration interface which emulates the following features:
-> >
-> >   * CPU reset
-> >   * CPU status
-> >   * Shared 64-bit timer
-> >
-> > Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-> > ---
-> >   include/hw/arm/allwinner-h3.h      |   3 +
-> >   include/hw/misc/allwinner-cpucfg.h |  54 ++++++
-> >   hw/arm/allwinner-h3.c              |   9 +-
-> >   hw/misc/allwinner-cpucfg.c         | 282 ++++++++++++++++++++++++++++=
-+
-> >   hw/misc/Makefile.objs              |   1 +
-> >   hw/misc/trace-events               |   5 +
-> >   6 files changed, 353 insertions(+), 1 deletion(-)
-> >   create mode 100644 include/hw/misc/allwinner-cpucfg.h
-> >   create mode 100644 hw/misc/allwinner-cpucfg.c
-> >
-> > diff --git a/include/hw/arm/allwinner-h3.h
-> b/include/hw/arm/allwinner-h3.h
-> > index 26706f4fa6..5a25a92eae 100644
-> > --- a/include/hw/arm/allwinner-h3.h
-> > +++ b/include/hw/arm/allwinner-h3.h
-> > @@ -44,6 +44,7 @@
-> >   #include "hw/timer/allwinner-a10-pit.h"
-> >   #include "hw/intc/arm_gic.h"
-> >   #include "hw/misc/allwinner-h3-ccu.h"
-> > +#include "hw/misc/allwinner-cpucfg.h"
-> >   #include "hw/misc/allwinner-h3-sysctrl.h"
-> >   #include "target/arm/cpu.h"
-> >
-> > @@ -80,6 +81,7 @@ enum {
-> >       AW_H3_GIC_CPU,
-> >       AW_H3_GIC_HYP,
-> >       AW_H3_GIC_VCPU,
-> > +    AW_H3_CPUCFG,
-> >       AW_H3_SDRAM
-> >   };
-> >
-> > @@ -111,6 +113,7 @@ typedef struct AwH3State {
-> >       const hwaddr *memmap;
-> >       AwA10PITState timer;
-> >       AwH3ClockCtlState ccu;
-> > +    AwCpuCfgState cpucfg;
-> >       AwH3SysCtrlState sysctrl;
-> >       GICState gic;
-> >       MemoryRegion sram_a1;
-> > diff --git a/include/hw/misc/allwinner-cpucfg.h
-> b/include/hw/misc/allwinner-cpucfg.h
-> > new file mode 100644
-> > index 0000000000..2c0e5b7e03
-> > --- /dev/null
-> > +++ b/include/hw/misc/allwinner-cpucfg.h
-> > @@ -0,0 +1,54 @@
-> > +/*
-> > + * Allwinner CPU Configuration Module emulation
-> > + *
-> > + * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com>
-> > + *
-> > + * This program is free software: you can redistribute it and/or modif=
-y
-> > + * it under the terms of the GNU General Public License as published b=
-y
-> > + * the Free Software Foundation, either version 2 of the License, or
-> > + * (at your option) any later version.
-> > + *
-> > + * This program is distributed in the hope that it will be useful,
-> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> > + * GNU General Public License for more details.
-> > + *
-> > + * You should have received a copy of the GNU General Public License
-> > + * along with this program.  If not, see <http://www.gnu.org/licenses/
-> >.
-> > + */
-> > +
-> > +#ifndef HW_MISC_ALLWINNER_CPUCFG_H
-> > +#define HW_MISC_ALLWINNER_CPUCFG_H
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qom/object.h"
-> > +#include "hw/sysbus.h"
-> > +
-> > +/**
-> > + * Object model
-> > + * @{
-> > + */
-> > +
-> > +#define TYPE_AW_CPUCFG   "allwinner-cpucfg"
-> > +#define AW_CPUCFG(obj) \
-> > +    OBJECT_CHECK(AwCpuCfgState, (obj), TYPE_AW_CPUCFG)
-> > +
-> > +/** @} */
-> > +
-> > +/**
-> > + * Allwinner CPU Configuration Module instance state
-> > + */
-> > +typedef struct AwCpuCfgState {
-> > +    /*< private >*/
-> > +    SysBusDevice parent_obj;
-> > +    /*< public >*/
-> > +
-> > +    MemoryRegion iomem;
-> > +    uint32_t gen_ctrl;
-> > +    uint32_t super_standby;
-> > +    uint32_t entry_addr;
-> > +    uint32_t counter_ctrl;
-> > +
-> > +} AwCpuCfgState;
-> > +
-> > +#endif /* HW_MISC_ALLWINNER_CPUCFG_H */
-> > diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
-> > index d261d7b2be..e9ad6d23df 100644
-> > --- a/hw/arm/allwinner-h3.c
-> > +++ b/hw/arm/allwinner-h3.c
-> > @@ -54,6 +54,7 @@ const hwaddr allwinner_h3_memmap[] =3D {
-> >       [AW_H3_GIC_CPU]    =3D 0x01c82000,
-> >       [AW_H3_GIC_HYP]    =3D 0x01c84000,
-> >       [AW_H3_GIC_VCPU]   =3D 0x01c86000,
-> > +    [AW_H3_CPUCFG]     =3D 0x01f01c00,
-> >       [AW_H3_SDRAM]      =3D 0x40000000
-> >   };
-> >
-> > @@ -120,7 +121,6 @@ struct AwH3Unimplemented {
-> >       { "r_wdog",    0x01f01000, 1 * KiB },
-> >       { "r_prcm",    0x01f01400, 1 * KiB },
-> >       { "r_twd",     0x01f01800, 1 * KiB },
-> > -    { "r_cpucfg",  0x01f01c00, 1 * KiB },
-> >       { "r_cir-rx",  0x01f02000, 1 * KiB },
-> >       { "r_twi",     0x01f02400, 1 * KiB },
-> >       { "r_uart",    0x01f02800, 1 * KiB },
-> > @@ -193,6 +193,9 @@ static void allwinner_h3_init(Object *obj)
-> >
-> >       sysbus_init_child_obj(obj, "sysctrl", &s->sysctrl,
-> sizeof(s->sysctrl),
-> >                             TYPE_AW_H3_SYSCTRL);
-> > +
-> > +    sysbus_init_child_obj(obj, "cpucfg", &s->cpucfg, sizeof(s->cpucfg)=
-,
-> > +                          TYPE_AW_CPUCFG);
-> >   }
-> >
-> >   static void allwinner_h3_realize(DeviceState *dev, Error **errp)
-> > @@ -309,6 +312,10 @@ static void allwinner_h3_realize(DeviceState *dev,
-> Error **errp)
-> >       qdev_init_nofail(DEVICE(&s->sysctrl));
-> >       sysbus_mmio_map(SYS_BUS_DEVICE(&s->sysctrl), 0,
-> s->memmap[AW_H3_SYSCTRL]);
-> >
-> > +    /* CPU Configuration */
-> > +    qdev_init_nofail(DEVICE(&s->cpucfg));
-> > +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->cpucfg), 0,
-> s->memmap[AW_H3_CPUCFG]);
-> > +
-> >       /* Universal Serial Bus */
-> >       sysbus_create_simple(TYPE_AW_H3_EHCI, s->memmap[AW_H3_EHCI0],
-> >                            qdev_get_gpio_in(DEVICE(&s->gic),
-> > diff --git a/hw/misc/allwinner-cpucfg.c b/hw/misc/allwinner-cpucfg.c
-> > new file mode 100644
-> > index 0000000000..58c7a1448d
-> > --- /dev/null
-> > +++ b/hw/misc/allwinner-cpucfg.c
-> > @@ -0,0 +1,282 @@
-> > +/*
-> > + * Allwinner CPU Configuration Module emulation
-> > + *
-> > + * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com>
-> > + *
-> > + * This program is free software: you can redistribute it and/or modif=
-y
-> > + * it under the terms of the GNU General Public License as published b=
-y
-> > + * the Free Software Foundation, either version 2 of the License, or
-> > + * (at your option) any later version.
-> > + *
-> > + * This program is distributed in the hope that it will be useful,
-> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> > + * GNU General Public License for more details.
-> > + *
-> > + * You should have received a copy of the GNU General Public License
-> > + * along with this program.  If not, see <http://www.gnu.org/licenses/
-> >.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qemu/units.h"
-> > +#include "hw/sysbus.h"
-> > +#include "migration/vmstate.h"
-> > +#include "qemu/log.h"
-> > +#include "qemu/module.h"
-> > +#include "qemu/error-report.h"
-> > +#include "qemu/timer.h"
-> > +#include "hw/core/cpu.h"
-> > +#include "arm-powerctl.h"
-> > +#include "hw/misc/allwinner-cpucfg.h"
-> > +#include "trace.h"
-> > +
-> > +/* CPUCFG register offsets */
-> > +enum {
-> > +    REG_CPUS_RST_CTRL       =3D 0x0000, /* CPUs Reset Control */
-> > +    REG_CPU0_RST_CTRL       =3D 0x0040, /* CPU#0 Reset Control */
-> > +    REG_CPU0_CTRL           =3D 0x0044, /* CPU#0 Control */
-> > +    REG_CPU0_STATUS         =3D 0x0048, /* CPU#0 Status */
-> > +    REG_CPU1_RST_CTRL       =3D 0x0080, /* CPU#1 Reset Control */
-> > +    REG_CPU1_CTRL           =3D 0x0084, /* CPU#1 Control */
-> > +    REG_CPU1_STATUS         =3D 0x0088, /* CPU#1 Status */
-> > +    REG_CPU2_RST_CTRL       =3D 0x00C0, /* CPU#2 Reset Control */
-> > +    REG_CPU2_CTRL           =3D 0x00C4, /* CPU#2 Control */
-> > +    REG_CPU2_STATUS         =3D 0x00C8, /* CPU#2 Status */
-> > +    REG_CPU3_RST_CTRL       =3D 0x0100, /* CPU#3 Reset Control */
-> > +    REG_CPU3_CTRL           =3D 0x0104, /* CPU#3 Control */
-> > +    REG_CPU3_STATUS         =3D 0x0108, /* CPU#3 Status */
-> > +    REG_CPU_SYS_RST         =3D 0x0140, /* CPU System Reset */
-> > +    REG_CLK_GATING          =3D 0x0144, /* CPU Clock Gating */
-> > +    REG_GEN_CTRL            =3D 0x0184, /* General Control */
-> > +    REG_SUPER_STANDBY       =3D 0x01A0, /* Super Standby Flag */
-> > +    REG_ENTRY_ADDR          =3D 0x01A4, /* Reset Entry Address */
-> > +    REG_DBG_EXTERN          =3D 0x01E4, /* Debug External */
-> > +    REG_CNT64_CTRL          =3D 0x0280, /* 64-bit Counter Control */
-> > +    REG_CNT64_LOW           =3D 0x0284, /* 64-bit Counter Low */
-> > +    REG_CNT64_HIGH          =3D 0x0288, /* 64-bit Counter High */
-> > +};
-> > +
-> > +/* CPUCFG register flags */
-> > +enum {
-> > +    CPUX_RESET_RELEASED     =3D ((1 << 1) | (1 << 0)),
-> > +    CPUX_STATUS_SMP         =3D (1 << 0),
-> > +    CPU_SYS_RESET_RELEASED  =3D (1 << 0),
-> > +    CLK_GATING_ENABLE       =3D ((1 << 8) | 0xF),
-> > +};
-> > +
-> > +/* CPUCFG register reset values */
-> > +enum {
-> > +    REG_CLK_GATING_RST      =3D 0x0000010F,
-> > +    REG_GEN_CTRL_RST        =3D 0x00000020,
-> > +    REG_SUPER_STANDBY_RST   =3D 0x0,
-> > +    REG_CNT64_CTRL_RST      =3D 0x0,
-> > +};
-> > +
-> > +static void allwinner_cpucfg_cpu_reset(AwCpuCfgState *s, uint8_t cpu_i=
-d)
-> > +{
-> > +    int ret;
-> > +
-> > +    trace_allwinner_cpucfg_cpu_reset(cpu_id, s->entry_addr);
-> > +
-> > +    ret =3D arm_set_cpu_on(cpu_id, s->entry_addr, 0, 3, false);
+> rx62n - RX62N cpu.
+> rx-virt - RX QEMU virtual target.
 >
-> Can you add a definition for 3?
+> v23 changes.
+> Add missing includes.
 >
-> #define CPU_EXCEPTION_LEVEL_ON_RESET 3 /* EL3 */
+> v21 changes.
+> rx_load_image move to rx-virt.c
 >
-
-Sure, I'll add that.
+>
+Hello, Yoshinori.
 
 
->
-> > +    if (ret !=3D QEMU_ARM_POWERCTL_RET_SUCCESS) {
-> > +        error_report("%s: failed to bring up CPU %d: err %d",
-> > +                     __func__, cpu_id, ret);
-> > +        return;
-> > +    }
-> > +}
-> > +
-> > +static uint64_t allwinner_cpucfg_read(void *opaque, hwaddr offset,
-> > +                                      unsigned size)
-> > +{
-> > +    const AwCpuCfgState *s =3D AW_CPUCFG(opaque);
-> > +    uint64_t val =3D 0;
-> > +
-> > +    switch (offset) {
-> > +    case REG_CPUS_RST_CTRL:     /* CPUs Reset Control */
-> > +    case REG_CPU_SYS_RST:       /* CPU System Reset */
-> > +        val =3D CPU_SYS_RESET_RELEASED;
-> > +        break;
-> > +    case REG_CPU0_RST_CTRL:     /* CPU#0 Reset Control */
-> > +    case REG_CPU1_RST_CTRL:     /* CPU#1 Reset Control */
-> > +    case REG_CPU2_RST_CTRL:     /* CPU#2 Reset Control */
-> > +    case REG_CPU3_RST_CTRL:     /* CPU#3 Reset Control */
-> > +        val =3D CPUX_RESET_RELEASED;
-> > +        break;
-> > +    case REG_CPU0_CTRL:         /* CPU#0 Control */
-> > +    case REG_CPU1_CTRL:         /* CPU#1 Control */
-> > +    case REG_CPU2_CTRL:         /* CPU#2 Control */
-> > +    case REG_CPU3_CTRL:         /* CPU#3 Control */
-> > +        val =3D 0;
-> > +        break;
-> > +    case REG_CPU0_STATUS:       /* CPU#0 Status */
-> > +    case REG_CPU1_STATUS:       /* CPU#1 Status */
-> > +    case REG_CPU2_STATUS:       /* CPU#2 Status */
-> > +    case REG_CPU3_STATUS:       /* CPU#3 Status */
-> > +        val =3D CPUX_STATUS_SMP;
-> > +        break;
-> > +    case REG_CLK_GATING:        /* CPU Clock Gating */
-> > +        val =3D CLK_GATING_ENABLE;
-> > +        break;
-> > +    case REG_GEN_CTRL:          /* General Control */
-> > +        val =3D s->gen_ctrl;
-> > +        break;
-> > +    case REG_SUPER_STANDBY:     /* Super Standby Flag */
-> > +        val =3D s->super_standby;
-> > +        break;
-> > +    case REG_ENTRY_ADDR:        /* Reset Entry Address */
-> > +        val =3D s->entry_addr;
-> > +        break;
-> > +    case REG_DBG_EXTERN:        /* Debug External */
-> > +        break;
-> > +    case REG_CNT64_CTRL:        /* 64-bit Counter Control */
-> > +        val =3D s->counter_ctrl;
-> > +        break;
-> > +    case REG_CNT64_LOW:         /* 64-bit Counter Low */
-> > +        val =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) & 0xffffffff;
-> > +        break;
-> > +    case REG_CNT64_HIGH:        /* 64-bit Counter High */
-> > +        val =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) >> 32;
->
-> Consider extract64(), but that's OK too.
->
-> > +        break;
-> > +    default:
-> > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset
-> 0x%04x\n",
-> > +                      __func__, (uint32_t)offset);
-> > +        return 0;
->
-> Please break instead, so we can see these calls when tracing.
->
-Right, I missed that indeed. I'll change it to break.
+These lines:
 
 
+> v23 changes.
+> Add missing includes.
 >
-> > +    }
-> > +
-> > +    trace_allwinner_cpucfg_read(offset, val, size);
-> > +
-> > +    return val;
-> > +}
-> > +
-> > +static void allwinner_cpucfg_write(void *opaque, hwaddr offset,
-> > +                                   uint64_t val, unsigned size)
-> > +{
-> > +    AwCpuCfgState *s =3D AW_CPUCFG(opaque);
-> > +
-> > +    trace_allwinner_cpucfg_write(offset, val, size);
-> > +
-> > +    switch (offset) {
-> > +    case REG_CPUS_RST_CTRL:     /* CPUs Reset Control */
-> > +    case REG_CPU_SYS_RST:       /* CPU System Reset */
-> > +        break;
-> > +    case REG_CPU0_RST_CTRL:     /* CPU#0 Reset Control */
-> > +        if (val) {
-> > +            allwinner_cpucfg_cpu_reset(s, 0);
-> > +        }
-> > +        break;
-> > +    case REG_CPU1_RST_CTRL:     /* CPU#1 Reset Control */
-> > +        if (val) {
-> > +            allwinner_cpucfg_cpu_reset(s, 1);
-> > +        }
-> > +        break;
-> > +    case REG_CPU2_RST_CTRL:     /* CPU#2 Reset Control */
-> > +        if (val) {
-> > +            allwinner_cpucfg_cpu_reset(s, 2);
-> > +        }
-> > +        break;
-> > +    case REG_CPU3_RST_CTRL:     /* CPU#3 Reset Control */
-> > +        if (val) {
-> > +            allwinner_cpucfg_cpu_reset(s, 3);
-> > +        }
-> > +        break;
->
->        case REG_CPU0_RST_CTRL .,. REG_CPU3_RST_CTRL: /* CPU Reset Control
-> */
->             if (val) {
->                 allwinner_cpucfg_cpu_reset(s, (offset -
-> REG_CPU0_RST_CTRL) >> 6);
->             }
->             break;
->
-> OK, that looks more compact and cleaner indeed. Thanks, I'll change it.
-
-
-
-> > +    case REG_CPU0_CTRL:         /* CPU#0 Control */
-> > +    case REG_CPU1_CTRL:         /* CPU#1 Control */
-> > +    case REG_CPU2_CTRL:         /* CPU#2 Control */
-> > +    case REG_CPU3_CTRL:         /* CPU#3 Control */
-> > +    case REG_CPU0_STATUS:       /* CPU#0 Status */
-> > +    case REG_CPU1_STATUS:       /* CPU#1 Status */
-> > +    case REG_CPU2_STATUS:       /* CPU#2 Status */
-> > +    case REG_CPU3_STATUS:       /* CPU#3 Status */
-> > +    case REG_CLK_GATING:        /* CPU Clock Gating */
-> > +    case REG_GEN_CTRL:          /* General Control */
-> > +        s->gen_ctrl =3D val;
-> > +        break;
-> > +    case REG_SUPER_STANDBY:     /* Super Standby Flag */
-> > +        s->super_standby =3D val;
-> > +        break;
-> > +    case REG_ENTRY_ADDR:        /* Reset Entry Address */
-> > +        s->entry_addr =3D val;
-> > +        break;
-> > +    case REG_DBG_EXTERN:        /* Debug External */
-> > +        break;
-> > +    case REG_CNT64_CTRL:        /* 64-bit Counter Control */
-> > +        s->counter_ctrl =3D val;
-> > +        break;
-> > +    case REG_CNT64_LOW:         /* 64-bit Counter Low */
-> > +    case REG_CNT64_HIGH:        /* 64-bit Counter High */
->
-> You forgot to set these. Maybe you can add a int64_t cnt64_diff, set it
-> here to the difference with qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL), and
-> in the read() function return cnt64_diff +
-> qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL).
->
-
-OK I'll need to look into that. Currently this timer is not used by Linux,
-NetBSD or U-Boot as far
-as I know. But since it is there, it should be correct indeed.
-
-
->
-> Rest looks good.
->
-
-Thanks for reviewing Philippe!
-I'll get this in v4.
-
-Regards,
-Niek
-
->
-> > +        break;
-> > +    default:
-> > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset
-> 0x%04x\n",
-> > +                      __func__, (uint32_t)offset);
-> > +        return;
-> > +    }
-> > +}
-> > +
-> > +static const MemoryRegionOps allwinner_cpucfg_ops =3D {
-> > +    .read =3D allwinner_cpucfg_read,
-> > +    .write =3D allwinner_cpucfg_write,
-> > +    .endianness =3D DEVICE_NATIVE_ENDIAN,
-> > +    .valid =3D {
-> > +        .min_access_size =3D 4,
-> > +        .max_access_size =3D 4,
-> > +    },
-> > +    .impl.min_access_size =3D 4,
-> > +};
-> > +
-> > +static void allwinner_cpucfg_reset(DeviceState *dev)
-> > +{
-> > +    AwCpuCfgState *s =3D AW_CPUCFG(dev);
-> > +
-> > +    /* Set default values for registers */
-> > +    s->gen_ctrl =3D REG_GEN_CTRL_RST;
-> > +    s->super_standby =3D REG_SUPER_STANDBY_RST;
-> > +    s->entry_addr =3D 0;
-> > +    s->counter_ctrl =3D REG_CNT64_CTRL_RST;
-> > +}
-> > +
-> > +static void allwinner_cpucfg_init(Object *obj)
-> > +{
-> > +    SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
-> > +    AwCpuCfgState *s =3D AW_CPUCFG(obj);
-> > +
-> > +    /* Memory mapping */
-> > +    memory_region_init_io(&s->iomem, OBJECT(s), &allwinner_cpucfg_ops,
-> s,
-> > +                          TYPE_AW_CPUCFG, 1 * KiB);
-> > +    sysbus_init_mmio(sbd, &s->iomem);
-> > +}
-> > +
-> > +static const VMStateDescription allwinner_cpucfg_vmstate =3D {
-> > +    .name =3D "allwinner-cpucfg",
-> > +    .version_id =3D 1,
-> > +    .minimum_version_id =3D 1,
-> > +    .fields =3D (VMStateField[]) {
-> > +        VMSTATE_UINT32(gen_ctrl, AwCpuCfgState),
-> > +        VMSTATE_UINT32(super_standby, AwCpuCfgState),
-> > +        VMSTATE_UINT32(counter_ctrl, AwCpuCfgState),
-> > +        VMSTATE_END_OF_LIST()
-> > +    }
-> > +};
-> > +
-> > +static void allwinner_cpucfg_class_init(ObjectClass *klass, void *data=
-)
-> > +{
-> > +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> > +
-> > +    dc->reset =3D allwinner_cpucfg_reset;
-> > +    dc->vmsd =3D &allwinner_cpucfg_vmstate;
-> > +}
-> > +
-> > +static const TypeInfo allwinner_cpucfg_info =3D {
-> > +    .name          =3D TYPE_AW_CPUCFG,
-> > +    .parent        =3D TYPE_SYS_BUS_DEVICE,
-> > +    .instance_init =3D allwinner_cpucfg_init,
-> > +    .instance_size =3D sizeof(AwCpuCfgState),
-> > +    .class_init    =3D allwinner_cpucfg_class_init,
-> > +};
-> > +
-> > +static void allwinner_cpucfg_register(void)
-> > +{
-> > +    type_register_static(&allwinner_cpucfg_info);
-> > +}
-> > +
-> > +type_init(allwinner_cpucfg_register)
-> > diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-> > index 2d6b1a4257..12c2c306b5 100644
-> > --- a/hw/misc/Makefile.objs
-> > +++ b/hw/misc/Makefile.objs
-> > @@ -29,6 +29,7 @@ common-obj-$(CONFIG_MACIO) +=3D macio/
-> >   common-obj-$(CONFIG_IVSHMEM_DEVICE) +=3D ivshmem.o
-> >
-> >   common-obj-$(CONFIG_ALLWINNER_H3) +=3D allwinner-h3-ccu.o
-> > +obj-$(CONFIG_ALLWINNER_H3) +=3D allwinner-cpucfg.o
-> >   common-obj-$(CONFIG_ALLWINNER_H3) +=3D allwinner-h3-sysctrl.o
-> >   common-obj-$(CONFIG_REALVIEW) +=3D arm_sysctl.o
-> >   common-obj-$(CONFIG_NSERIES) +=3D cbus.o
-> > diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-> > index 2e0c820834..d3e0952429 100644
-> > --- a/hw/misc/trace-events
-> > +++ b/hw/misc/trace-events
-> > @@ -1,5 +1,10 @@
-> >   # See docs/devel/tracing.txt for syntax documentation.
-> >
-> > +# allwinner-cpucfg.c
-> > +allwinner_cpucfg_cpu_reset(uint8_t cpu_id, uint32_t reset_addr) "id %u=
-,
-> reset_addr 0x%" PRIu32
-> > +allwinner_cpucfg_read(uint64_t offset, uint64_t data, unsigned size)
-> "offset 0x%" PRIx64 " data 0x%" PRIx64 " size %" PRIu32
-> > +allwinner_cpucfg_write(uint64_t offset, uint64_t data, unsigned size)
-> "offset 0x%" PRIx64 " data 0x%" PRIx64 " size %" PRIu32
-> > +
-> >   # eccmemctl.c
-> >   ecc_mem_writel_mer(uint32_t val) "Write memory enable 0x%08x"
-> >   ecc_mem_writel_mdr(uint32_t val) "Write memory delay 0x%08x"
-> >
+> v21 changes.
+> rx_load_image move to rx-virt.c
 >
 >
 
---=20
-Niek Linnenbank
+should be moved further down, to be just above a section describing v19
+changes.
 
---000000000000080492059c219f8b
+The reson for that is that line with three dashes:
+
+---
+
+tells git that anything after that line is not a part of a commut message,
+and at is what we desire: history is useful during review, but shoil net be
+stored permanently as a part of a commit message.
+
+Yours, Aleksandar
+
+
+
+
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+>
+> Message-Id: <20190616142836.10614-17-ysato@users.sourceforge.jp>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Message-Id: <20190607091116.49044-9-ysato@users.sourceforge.jp>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> [PMD: Use TYPE_RX62N_CPU, use #define for RX62N_NR_TMR/CMT/SCI,
+>  renamed CPU -> MCU, device -> microcontroller]
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> v19: Fixed typo (Peter Maydell)
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> ---
+>  include/hw/rx/rx.h    |   7 ++
+>  include/hw/rx/rx62n.h |  91 ++++++++++++++++
+>  hw/rx/rx-virt.c       | 127 ++++++++++++++++++++++
+>  hw/rx/rx62n.c         | 239 ++++++++++++++++++++++++++++++++++++++++++
+>  hw/rx/Kconfig         |  14 +++
+>  hw/rx/Makefile.objs   |   2 +
+>  6 files changed, 480 insertions(+)
+>  create mode 100644 include/hw/rx/rx.h
+>  create mode 100644 include/hw/rx/rx62n.h
+>  create mode 100644 hw/rx/rx-virt.c
+>  create mode 100644 hw/rx/rx62n.c
+>  create mode 100644 hw/rx/Kconfig
+>  create mode 100644 hw/rx/Makefile.objs
+>
+> diff --git a/include/hw/rx/rx.h b/include/hw/rx/rx.h
+> new file mode 100644
+> index 0000000000..ff5924b81f
+> --- /dev/null
+> +++ b/include/hw/rx/rx.h
+> @@ -0,0 +1,7 @@
+> +#ifndef QEMU_RX_H
+> +#define QEMU_RX_H
+> +/* Definitions for RX board emulation.  */
+> +
+> +#include "target/rx/cpu-qom.h"
+> +
+> +#endif
+> diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h
+> new file mode 100644
+> index 0000000000..97ea8ddb8e
+> --- /dev/null
+> +++ b/include/hw/rx/rx62n.h
+> @@ -0,0 +1,91 @@
+> +/*
+> + * RX62N MCU Object
+> + *
+> + * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
+> + * (Rev.1.40 R01UH0033EJ0140)
+> + *
+> + * Copyright (c) 2019 Yoshinori Sato
+> + *
+> + * This program is free software; you can redistribute it and/or modify =
+it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOU=
+T
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+> for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef HW_RX_RX62N_H
+> +#define HW_RX_RX62N_H
+> +
+> +#include "hw/sysbus.h"
+> +#include "hw/intc/rx_icu.h"
+> +#include "hw/timer/renesas_tmr.h"
+> +#include "hw/timer/renesas_cmt.h"
+> +#include "hw/char/renesas_sci.h"
+> +#include "target/rx/cpu.h"
+> +#include "qemu/units.h"
+> +
+> +#define TYPE_RX62N "rx62n"
+> +#define RX62N(obj) OBJECT_CHECK(RX62NState, (obj), TYPE_RX62N)
+> +
+> +#define RX62N_NR_TMR    2
+> +#define RX62N_NR_CMT    2
+> +#define RX62N_NR_SCI    6
+> +
+> +typedef struct RX62NState {
+> +    SysBusDevice parent_obj;
+> +
+> +    RXCPU cpu;
+> +    RXICUState icu;
+> +    RTMRState tmr[RX62N_NR_TMR];
+> +    RCMTState cmt[RX62N_NR_CMT];
+> +    RSCIState sci[RX62N_NR_SCI];
+> +
+> +    MemoryRegion *sysmem;
+> +    bool kernel;
+> +
+> +    MemoryRegion iram;
+> +    MemoryRegion iomem1;
+> +    MemoryRegion d_flash;
+> +    MemoryRegion iomem2;
+> +    MemoryRegion iomem3;
+> +    MemoryRegion c_flash;
+> +    qemu_irq irq[NR_IRQS];
+> +} RX62NState;
+> +
+> +/*
+> + * RX62N Peripheral Address
+> + * See users manual section 5
+> + */
+> +#define RX62N_ICUBASE 0x00087000
+> +#define RX62N_TMRBASE 0x00088200
+> +#define RX62N_CMTBASE 0x00088000
+> +#define RX62N_SCIBASE 0x00088240
+> +
+> +/*
+> + * RX62N Peripheral IRQ
+> + * See users manual section 11
+> + */
+> +#define RX62N_TMR_IRQBASE 174
+> +#define RX62N_CMT_IRQBASE 28
+> +#define RX62N_SCI_IRQBASE 214
+> +
+> +/*
+> + * RX62N Internal Memory
+> + * It is the value of R5F562N8.
+> + * Please change the size for R5F562N7.
+> + */
+> +#define RX62N_IRAM_BASE 0x00000000
+> +#define RX62N_IRAM_SIZE (96 * KiB)
+> +#define RX62N_DFLASH_BASE 0x00100000
+> +#define RX62N_DFLASH_SIZE (32 * KiB)
+> +#define RX62N_CFLASH_BASE 0xfff80000
+> +#define RX62N_CFLASH_SIZE (512 * KiB)
+> +
+> +#define RX62N_PCLK (48 * 1000 * 1000)
+> +#endif
+> diff --git a/hw/rx/rx-virt.c b/hw/rx/rx-virt.c
+> new file mode 100644
+> index 0000000000..4cfe2e3123
+> --- /dev/null
+> +++ b/hw/rx/rx-virt.c
+> @@ -0,0 +1,127 @@
+> +/*
+> + * RX QEMU virtual platform
+> + *
+> + * Copyright (c) 2019 Yoshinori Sato
+> + *
+> + * This program is free software; you can redistribute it and/or modify =
+it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOU=
+T
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+> for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu-common.h"
+> +#include "cpu.h"
+> +#include "hw/hw.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/loader.h"
+> +#include "hw/rx/rx62n.h"
+> +#include "sysemu/sysemu.h"
+> +#include "sysemu/qtest.h"
+> +#include "sysemu/device_tree.h"
+> +#include "hw/boards.h"
+> +
+> +/* Same address of GDB integrated simulator */
+> +#define SDRAM_BASE 0x01000000
+> +
+> +static void rx_load_image(RXCPU *cpu, const char *filename,
+> +                          uint32_t start, uint32_t size)
+> +{
+> +    static uint32_t extable[32];
+> +    long kernel_size;
+> +    int i;
+> +
+> +    kernel_size =3D load_image_targphys(filename, start, size);
+> +    if (kernel_size < 0) {
+> +        fprintf(stderr, "qemu: could not load kernel '%s'\n", filename);
+> +        exit(1);
+> +    }
+> +    cpu->env.pc =3D start;
+> +
+> +    /* setup exception trap trampoline */
+> +    /* linux kernel only works little-endian mode */
+> +    for (i =3D 0; i < ARRAY_SIZE(extable); i++) {
+> +        extable[i] =3D cpu_to_le32(0x10 + i * 4);
+> +    }
+> +    rom_add_blob_fixed("extable", extable, sizeof(extable), 0xffffff80);
+> +}
+> +
+> +static void rxvirt_init(MachineState *machine)
+> +{
+> +    RX62NState *s =3D g_new(RX62NState, 1);
+> +    MemoryRegion *sysmem =3D get_system_memory();
+> +    MemoryRegion *sdram =3D g_new(MemoryRegion, 1);
+> +    const char *kernel_filename =3D machine->kernel_filename;
+> +    const char *dtb_filename =3D machine->dtb;
+> +    void *dtb =3D NULL;
+> +    int dtb_size;
+> +
+> +    /* Allocate memory space */
+> +    memory_region_init_ram(sdram, NULL, "sdram", 16 * MiB,
+> +                           &error_fatal);
+> +    memory_region_add_subregion(sysmem, SDRAM_BASE, sdram);
+> +
+> +    /* Initialize MCU */
+> +    object_initialize_child(OBJECT(machine), "mcu", s,
+> +                            sizeof(RX62NState), TYPE_RX62N,
+> +                            &error_fatal, NULL);
+> +    object_property_set_link(OBJECT(s), OBJECT(get_system_memory()),
+> +                             "memory", &error_abort);
+> +    object_property_set_bool(OBJECT(s), kernel_filename !=3D NULL,
+> +                             "load-kernel", &error_abort);
+> +    object_property_set_bool(OBJECT(s), true, "realized", &error_abort);
+> +
+> +    /* Load kernel and dtb */
+> +    if (kernel_filename) {
+> +        rx_load_image(RXCPU(first_cpu), kernel_filename,
+> +                      SDRAM_BASE + 8 * MiB, 8 * MiB);
+> +        if (dtb_filename) {
+> +            dtb =3D load_device_tree(dtb_filename, &dtb_size);
+> +            if (dtb =3D=3D NULL) {
+> +                fprintf(stderr, "Couldn't open dtb file %s\n",
+> dtb_filename);
+> +                exit(1);
+> +            }
+> +            if (machine->kernel_cmdline &&
+> +                qemu_fdt_setprop_string(dtb, "/chosen", "bootargs",
+> +                                        machine->kernel_cmdline) < 0) {
+> +                fprintf(stderr, "couldn't set /chosen/bootargs\n");
+> +                exit(1);
+> +            }
+> +            rom_add_blob_fixed("dtb", dtb, dtb_size,
+> +                               SDRAM_BASE + 16 * MiB - dtb_size);
+> +            /* Set dtb address to R1 */
+> +            RXCPU(first_cpu)->env.regs[1] =3D 0x02000000 - dtb_size;
+> +        }
+> +    }
+> +}
+> +
+> +static void rxvirt_class_init(ObjectClass *oc, void *data)
+> +{
+> +    MachineClass *mc =3D MACHINE_CLASS(oc);
+> +
+> +    mc->desc =3D "RX QEMU Virtual Target";
+> +    mc->init =3D rxvirt_init;
+> +    mc->is_default =3D 1;
+> +    mc->default_cpu_type =3D TYPE_RX62N_CPU;
+> +}
+> +
+> +static const TypeInfo rxvirt_type =3D {
+> +    .name =3D MACHINE_TYPE_NAME("rx-virt"),
+> +    .parent =3D TYPE_MACHINE,
+> +    .class_init =3D rxvirt_class_init,
+> +};
+> +
+> +static void rxvirt_machine_init(void)
+> +{
+> +    type_register_static(&rxvirt_type);
+> +}
+> +
+> +type_init(rxvirt_machine_init)
+> diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
+> new file mode 100644
+> index 0000000000..ac47f2a397
+> --- /dev/null
+> +++ b/hw/rx/rx62n.c
+> @@ -0,0 +1,239 @@
+> +/*
+> + * RX62N Microcontroller
+> + *
+> + * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
+> + * (Rev.1.40 R01UH0033EJ0140)
+> + *
+> + * Copyright (c) 2019 Yoshinori Sato
+> + *
+> + * This program is free software; you can redistribute it and/or modify =
+it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOU=
+T
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+> for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "hw/hw.h"
+> +#include "hw/rx/rx62n.h"
+> +#include "hw/loader.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/qdev-properties.h"
+> +#include "sysemu/sysemu.h"
+> +#include "cpu.h"
+> +
+> +/*
+> + * IRQ -> IPR mapping table
+> + * 0x00 - 0x91: IPR no (IPR00 to IPR91)
+> + * 0xff: IPR not assigned
+> + * See "11.3.1 Interrupt Vector Table" in hardware manual.
+> + */
+> +static const int ipr_table[NR_IRQS] =3D {
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, /* 15 */
+> +    0x00, 0xff, 0xff, 0xff, 0xff, 0x01, 0xff, 0x02,
+> +    0xff, 0xff, 0xff, 0x03, 0x04, 0x05, 0x06, 0x07, /* 31 */
+> +    0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
+> +    0x10, 0x11, 0x12, 0x13, 0x14, 0x14, 0x14, 0x14, /* 47 */
+> +    0x15, 0x15, 0x15, 0x15, 0xff, 0xff, 0xff, 0xff,
+> +    0x18, 0x18, 0x18, 0x18, 0x18, 0x1d, 0x1e, 0x1f, /* 63 */
+> +    0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
+> +    0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f, /* 79 */
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0x3a, 0x3b, 0x3c, 0xff, 0xff, 0xff, /* 95 */
+> +    0x40, 0xff, 0x44, 0x45, 0xff, 0xff, 0x48, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, /* 111 */
+> +    0xff, 0xff, 0x51, 0x51, 0x51, 0x51, 0x52, 0x52,
+> +    0x52, 0x53, 0x53, 0x54, 0x54, 0x55, 0x55, 0x56, /* 127 */
+> +    0x56, 0x57, 0x57, 0x57, 0x57, 0x58, 0x59, 0x59,
+> +    0x59, 0x59, 0x5a, 0x5b, 0x5b, 0x5b, 0x5c, 0x5c, /* 143 */
+> +    0x5c, 0x5c, 0x5d, 0x5d, 0x5d, 0x5e, 0x5e, 0x5f,
+> +    0x5f, 0x60, 0x60, 0x61, 0x61, 0x62, 0x62, 0x62, /* 159 */
+> +    0x62, 0x63, 0x64, 0x64, 0x64, 0x64, 0x65, 0x66,
+> +    0x66, 0x66, 0x67, 0x67, 0x67, 0x67, 0x68, 0x68, /* 175 */
+> +    0x68, 0x69, 0x69, 0x69, 0x6a, 0x6a, 0x6a, 0x6b,
+> +    0x6b, 0x6b, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, /* 191 */
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x70, 0x71,
+> +    0x72, 0x73, 0x74, 0x75, 0xff, 0xff, 0xff, 0xff, /* 207 */
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x80, 0x80,
+> +    0x80, 0x80, 0x81, 0x81, 0x81, 0x81, 0x82, 0x82, /* 223 */
+> +    0x82, 0x82, 0x83, 0x83, 0x83, 0x83, 0xff, 0xff,
+> +    0xff, 0xff, 0x85, 0x85, 0x85, 0x85, 0x86, 0x86, /* 239 */
+> +    0x86, 0x86, 0xff, 0xff, 0xff, 0xff, 0x88, 0x89,
+> +    0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, /* 255 */
+> +};
+> +
+> +/*
+> + * Level triggerd IRQ list
+> + * Not listed IRQ is Edge trigger.
+> + * See "11.3.1 Interrupt Vector Table" in hardware manual.
+> + */
+> +static const uint32_t levelirq[] =3D {
+> +     16,  21,  32,  44,  47,  48,  51,  64,  65,  66,
+> +     67,  68,  69,  70,  71,  72,  73,  74,  75,  76,
+> +     77,  78,  79,  90,  91, 170, 171, 172, 173, 214,
+> +    217, 218, 221, 222, 225, 226, 229, 234, 237, 238,
+> +    241, 246, 249, 250, 253,
+> +};
+> +
+> +static void register_icu(RX62NState *s)
+> +{
+> +    int i;
+> +    SysBusDevice *icu;
+> +
+> +    object_initialize_child(OBJECT(s), "icu", &s->icu,
+> sizeof(RXICUState),
+> +                            TYPE_RXICU, &error_abort, NULL);
+> +
+> +    icu =3D SYS_BUS_DEVICE(&s->icu);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(icu), 0, RX62N_ICUBASE);
+> +    qdev_prop_set_uint32(DEVICE(icu), "len-ipr-map", NR_IRQS);
+> +    for (i =3D 0; i < NR_IRQS; i++) {
+> +        char propname[32];
+> +        snprintf(propname, sizeof(propname), "ipr-map[%d]", i);
+> +        qdev_prop_set_uint32(DEVICE(icu), propname, ipr_table[i]);
+> +    }
+> +    qdev_prop_set_uint32(DEVICE(icu), "len-trigger-level",
+> +                         ARRAY_SIZE(levelirq));
+> +    for (i =3D 0; i < ARRAY_SIZE(levelirq); i++) {
+> +        char propname[32];
+> +        snprintf(propname, sizeof(propname), "trigger-level[%d]", i);
+> +        qdev_prop_set_uint32(DEVICE(icu), propname, levelirq[i]);
+> +    }
+> +
+> +    for (i =3D 0; i < NR_IRQS; i++) {
+> +        s->irq[i] =3D qdev_get_gpio_in(DEVICE(icu), i);
+> +    }
+> +
+> +    qdev_init_nofail(DEVICE(icu));
+> +    sysbus_connect_irq(icu, 0, qdev_get_gpio_in(DEVICE(&s->cpu),
+> RX_CPU_IRQ));
+> +    sysbus_connect_irq(icu, 1, qdev_get_gpio_in(DEVICE(&s->cpu),
+> RX_CPU_FIR));
+> +    sysbus_connect_irq(icu, 2, s->irq[SWI]);
+> +
+> +}
+> +
+> +static void register_tmr(RX62NState *s, int unit)
+> +{
+> +    SysBusDevice *tmr;
+> +    int i, irqbase;
+> +
+> +    object_initialize_child(OBJECT(s), "tmr[*]", &s->tmr[unit],
+> +                            sizeof(RTMRState), TYPE_RENESAS_TMR,
+> +                            &error_abort, NULL);
+> +
+> +    tmr =3D SYS_BUS_DEVICE(&s->tmr[unit]);
+> +    sysbus_mmio_map(tmr, 0, RX62N_TMRBASE + unit * 0x10);
+> +    qdev_prop_set_uint64(DEVICE(tmr), "input-freq", RX62N_PCLK);
+> +
+> +    qdev_init_nofail(DEVICE(tmr));
+> +    irqbase =3D RX62N_TMR_IRQBASE + TMR_NR_IRQ * unit;
+> +    for (i =3D 0; i < TMR_NR_IRQ; i++) {
+> +        sysbus_connect_irq(tmr, i, s->irq[irqbase + i]);
+> +    }
+> +}
+> +
+> +static void register_cmt(RX62NState *s, int unit)
+> +{
+> +    SysBusDevice *cmt;
+> +    int i, irqbase;
+> +
+> +    object_initialize_child(OBJECT(s), "cmt[*]", &s->cmt[unit],
+> +                            sizeof(RCMTState), TYPE_RENESAS_CMT,
+> +                            &error_abort, NULL);
+> +
+> +    cmt =3D SYS_BUS_DEVICE(&s->cmt[unit]);
+> +    sysbus_mmio_map(cmt, 0, RX62N_CMTBASE + unit * 0x10);
+> +    qdev_prop_set_uint64(DEVICE(cmt), "input-freq", RX62N_PCLK);
+> +
+> +    qdev_init_nofail(DEVICE(cmt));
+> +    irqbase =3D RX62N_CMT_IRQBASE + CMT_NR_IRQ * unit;
+> +    for (i =3D 0; i < CMT_NR_IRQ; i++) {
+> +        sysbus_connect_irq(cmt, i, s->irq[irqbase + i]);
+> +    }
+> +}
+> +
+> +static void register_sci(RX62NState *s, int unit)
+> +{
+> +    SysBusDevice *sci;
+> +    int i, irqbase;
+> +
+> +    object_initialize_child(OBJECT(s), "sci[*]", &s->sci[unit],
+> +                            sizeof(RSCIState), TYPE_RENESAS_SCI,
+> +                            &error_abort, NULL);
+> +
+> +    sci =3D SYS_BUS_DEVICE(&s->sci[unit]);
+> +    sysbus_mmio_map(sci, 0, RX62N_SCIBASE + unit * 0x08);
+> +    qdev_prop_set_chr(DEVICE(sci), "chardev", serial_hd(unit));
+> +    qdev_prop_set_uint64(DEVICE(sci), "input-freq", RX62N_PCLK);
+> +
+> +    qdev_init_nofail(DEVICE(sci));
+> +    irqbase =3D RX62N_SCI_IRQBASE + SCI_NR_IRQ * unit;
+> +    for (i =3D 0; i < SCI_NR_IRQ; i++) {
+> +        sysbus_connect_irq(sci, i, s->irq[irqbase + i]);
+> +    }
+> +}
+> +
+> +static void rx62n_realize(DeviceState *dev, Error **errp)
+> +{
+> +    RX62NState *s =3D RX62N(dev);
+> +
+> +    memory_region_init_ram(&s->iram, NULL, "iram", RX62N_IRAM_SIZE,
+> errp);
+> +    memory_region_add_subregion(s->sysmem, RX62N_IRAM_BASE, &s->iram);
+> +    memory_region_init_rom(&s->d_flash, NULL, "dataflash",
+> +                           RX62N_DFLASH_SIZE, errp);
+> +    memory_region_add_subregion(s->sysmem, RX62N_DFLASH_BASE,
+> &s->d_flash);
+> +    memory_region_init_rom(&s->c_flash, NULL, "codeflash",
+> +                           RX62N_CFLASH_SIZE, errp);
+> +    memory_region_add_subregion(s->sysmem, RX62N_CFLASH_BASE,
+> &s->c_flash);
+> +    if (!s->kernel) {
+> +        rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
+> +    }
+> +
+> +    /* Initialize CPU */
+> +    object_initialize_child(OBJECT(s), "cpu", &s->cpu, sizeof(RXCPU),
+> +                            TYPE_RX62N_CPU, errp, NULL);
+> +    object_property_set_bool(OBJECT(&s->cpu), true, "realized", errp);
+> +
+> +    register_icu(s);
+> +    s->cpu.env.ack =3D qdev_get_gpio_in_named(DEVICE(&s->icu), "ack", 0)=
+;
+> +    register_tmr(s, 0);
+> +    register_tmr(s, 1);
+> +    register_cmt(s, 0);
+> +    register_cmt(s, 1);
+> +    register_sci(s, 0);
+> +}
+> +
+> +static Property rx62n_properties[] =3D {
+> +    DEFINE_PROP_LINK("memory", RX62NState, sysmem, TYPE_MEMORY_REGION,
+> +                     MemoryRegion *),
+> +    DEFINE_PROP_BOOL("load-kernel", RX62NState, kernel, false),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void rx62n_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> +
+> +    dc->realize =3D rx62n_realize;
+> +    dc->props =3D rx62n_properties;
+> +}
+> +
+> +static const TypeInfo rx62n_info =3D {
+> +    .name =3D TYPE_RX62N,
+> +    .parent =3D TYPE_SYS_BUS_DEVICE,
+> +    .instance_size =3D sizeof(RX62NState),
+> +    .class_init =3D rx62n_class_init,
+> +};
+> +
+> +static void rx62n_register_types(void)
+> +{
+> +    type_register_static(&rx62n_info);
+> +}
+> +
+> +type_init(rx62n_register_types)
+> diff --git a/hw/rx/Kconfig b/hw/rx/Kconfig
+> new file mode 100644
+> index 0000000000..a07490a65e
+> --- /dev/null
+> +++ b/hw/rx/Kconfig
+> @@ -0,0 +1,14 @@
+> +config RX
+> +    bool
+> +
+> +config RX62N
+> +    bool
+> +    select RX
+> +    select RX_ICU
+> +    select RENESAS_TMR8
+> +    select RENESAS_CMT
+> +    select RENESAS_SCI
+> +
+> +config RX_VIRT
+> +    bool
+> +    select RX62N
+> diff --git a/hw/rx/Makefile.objs b/hw/rx/Makefile.objs
+> new file mode 100644
+> index 0000000000..63f8be0e82
+> --- /dev/null
+> +++ b/hw/rx/Makefile.objs
+> @@ -0,0 +1,2 @@
+> +obj-$(CONFIG_RX62N) +=3D rx62n.o
+> +obj-$(CONFIG_RX_VIRT) +=3D rx-virt.o
+> --
+> 2.20.1
+>
+>
+>
+
+--00000000000069bd36059c21af8a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 14, 2020 at 12:14 AM Phil=
-ippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@red=
-hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">On 1/8/20 9:00 PM, Niek Linnenbank wrote:<br>
-&gt; Various Allwinner System on Chip designs contain multiple processors<b=
+<br><br>On Sunday, January 12, 2020, Yoshinori Sato &lt;<a href=3D"mailto:y=
+sato@users.sourceforge.jp">ysato@users.sourceforge.jp</a>&gt; wrote:<br><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex">rx62n - RX62N cpu.<br>
+rx-virt - RX QEMU virtual target.<br>
+<br>
+v23 changes.<br>
+Add missing includes.<br>
+<br>
+v21 changes.<br>
+rx_load_image move to rx-virt.c<br>
+<br></blockquote><div><br></div><div>Hello, Yoshinori.</div><div><br></div>=
+<div><br></div><div>These lines:</div><div><br></div><div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
+rder-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">=
+<br>v23 changes.<br>Add missing includes.<br><br>v21 changes.<br>rx_load_im=
+age move to rx-virt.c<br><br></blockquote><div><br></div><div><br></div><di=
+v>should be moved further down, to be just above a section describing v19 c=
+hanges.</div><div><br></div><div>The reson for that is that line with three=
+ dashes:</div><div><br></div><div>---</div><div><br></div><div>tells git th=
+at anything after that line is not a part of a commut message, and at is wh=
+at we desire: history is useful during review, but shoil net be stored perm=
+anently as a part of a commit message.</div></div><div><br></div><div>Yours=
+, Aleksandar</div><div><br></div><div><br></div><div>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">
+Signed-off-by: Yoshinori Sato &lt;<a href=3D"mailto:ysato@users.sourceforge=
+.jp">ysato@users.sourceforge.jp</a>&gt;<br>
+<br>
+Message-Id: &lt;<a href=3D"mailto:20190616142836.10614-17-ysato@users.sourc=
+eforge.jp">20190616142836.10614-17-ysato@users.sourceforge.jp</a>&gt;<br>
+Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.=
+com">philmd@redhat.com</a>&gt;<br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redha=
+t.com">philmd@redhat.com</a>&gt;<br>
+Message-Id: &lt;<a href=3D"mailto:20190607091116.49044-9-ysato@users.source=
+forge.jp">20190607091116.49044-9-ysato@users.sourceforge.jp</a>&gt;<br>
+Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
+naro.org">richard.henderson@linaro.org</a>&gt;<br>
+[PMD: Use TYPE_RX62N_CPU, use #define for RX62N_NR_TMR/CMT/SCI,<br>
+=C2=A0renamed CPU -&gt; MCU, device -&gt; microcontroller]<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@red=
+hat.com">philmd@redhat.com</a>&gt;<br>
+---<br>
+v19: Fixed typo (Peter Maydell)<br>
+Signed-off-by: Yoshinori Sato &lt;<a href=3D"mailto:ysato@users.sourceforge=
+.jp">ysato@users.sourceforge.jp</a>&gt;<br>
+---<br>
+=C2=A0include/hw/rx/rx.h=C2=A0 =C2=A0 |=C2=A0 =C2=A07 ++<br>
+=C2=A0include/hw/rx/rx62n.h |=C2=A0 91 ++++++++++++++++<br>
+=C2=A0hw/rx/rx-virt.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 127 +++++++++++++++++++++=
++<br>
+=C2=A0hw/rx/rx62n.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 239 ++++++++++++++++=
+++++++++++++++<wbr>++++++++++++<br>
+=C2=A0hw/rx/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 14 +++<br>
+=C2=A0hw/rx/Makefile.objs=C2=A0 =C2=A0|=C2=A0 =C2=A02 +<br>
+=C2=A06 files changed, 480 insertions(+)<br>
+=C2=A0create mode 100644 include/hw/rx/rx.h<br>
+=C2=A0create mode 100644 include/hw/rx/rx62n.h<br>
+=C2=A0create mode 100644 hw/rx/rx-virt.c<br>
+=C2=A0create mode 100644 hw/rx/rx62n.c<br>
+=C2=A0create mode 100644 hw/rx/Kconfig<br>
+=C2=A0create mode 100644 hw/rx/Makefile.objs<br>
+<br>
+diff --git a/include/hw/rx/rx.h b/include/hw/rx/rx.h<br>
+new file mode 100644<br>
+index 0000000000..ff5924b81f<br>
+--- /dev/null<br>
++++ b/include/hw/rx/rx.h<br>
+@@ -0,0 +1,7 @@<br>
++#ifndef QEMU_RX_H<br>
++#define QEMU_RX_H<br>
++/* Definitions for RX board emulation.=C2=A0 */<br>
++<br>
++#include &quot;target/rx/cpu-qom.h&quot;<br>
++<br>
++#endif<br>
+diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h<br>
+new file mode 100644<br>
+index 0000000000..97ea8ddb8e<br>
+--- /dev/null<br>
++++ b/include/hw/rx/rx62n.h<br>
+@@ -0,0 +1,91 @@<br>
++/*<br>
++ * RX62N MCU Object<br>
++ *<br>
++ * Datasheet: RX62N Group, RX621 Group User&#39;s Manual: Hardware<br>
++ * (Rev.1.40 R01UH0033EJ0140)<br>
++ *<br>
++ * Copyright (c) 2019 Yoshinori Sato<br>
++ *<br>
++ * This program is free software; you can redistribute it and/or modify it=
+<br>
++ * under the terms and conditions of the GNU General Public License,<br>
++ * version 2 or later, as published by the Free Software Foundation.<br>
++ *<br>
++ * This program is distributed in the hope it will be useful, but WITHOUT<=
+br>
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or<b=
 r>
-&gt; that can be configured and reset using the generic CPU Configuration<b=
++ * FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU General Public Lice=
+nse for<br>
++ * more details.<br>
++ *<br>
++ * You should have received a copy of the GNU General Public License along=
+ with<br>
++ * this program.=C2=A0 If not, see &lt;<a href=3D"http://www.gnu.org/licen=
+ses/" target=3D"_blank">http://www.gnu.org/licenses/</a>&gt;<wbr>.<br>
++ */<br>
++<br>
++#ifndef HW_RX_RX62N_H<br>
++#define HW_RX_RX62N_H<br>
++<br>
++#include &quot;hw/sysbus.h&quot;<br>
++#include &quot;hw/intc/rx_icu.h&quot;<br>
++#include &quot;hw/timer/renesas_tmr.h&quot;<br>
++#include &quot;hw/timer/renesas_cmt.h&quot;<br>
++#include &quot;hw/char/renesas_sci.h&quot;<br>
++#include &quot;target/rx/cpu.h&quot;<br>
++#include &quot;qemu/units.h&quot;<br>
++<br>
++#define TYPE_RX62N &quot;rx62n&quot;<br>
++#define RX62N(obj) OBJECT_CHECK(RX62NState, (obj), TYPE_RX62N)<br>
++<br>
++#define RX62N_NR_TMR=C2=A0 =C2=A0 2<br>
++#define RX62N_NR_CMT=C2=A0 =C2=A0 2<br>
++#define RX62N_NR_SCI=C2=A0 =C2=A0 6<br>
++<br>
++typedef struct RX62NState {<br>
++=C2=A0 =C2=A0 SysBusDevice parent_obj;<br>
++<br>
++=C2=A0 =C2=A0 RXCPU cpu;<br>
++=C2=A0 =C2=A0 RXICUState icu;<br>
++=C2=A0 =C2=A0 RTMRState tmr[RX62N_NR_TMR];<br>
++=C2=A0 =C2=A0 RCMTState cmt[RX62N_NR_CMT];<br>
++=C2=A0 =C2=A0 RSCIState sci[RX62N_NR_SCI];<br>
++<br>
++=C2=A0 =C2=A0 MemoryRegion *sysmem;<br>
++=C2=A0 =C2=A0 bool kernel;<br>
++<br>
++=C2=A0 =C2=A0 MemoryRegion iram;<br>
++=C2=A0 =C2=A0 MemoryRegion iomem1;<br>
++=C2=A0 =C2=A0 MemoryRegion d_flash;<br>
++=C2=A0 =C2=A0 MemoryRegion iomem2;<br>
++=C2=A0 =C2=A0 MemoryRegion iomem3;<br>
++=C2=A0 =C2=A0 MemoryRegion c_flash;<br>
++=C2=A0 =C2=A0 qemu_irq irq[NR_IRQS];<br>
++} RX62NState;<br>
++<br>
++/*<br>
++ * RX62N Peripheral Address<br>
++ * See users manual section 5<br>
++ */<br>
++#define RX62N_ICUBASE 0x00087000<br>
++#define RX62N_TMRBASE 0x00088200<br>
++#define RX62N_CMTBASE 0x00088000<br>
++#define RX62N_SCIBASE 0x00088240<br>
++<br>
++/*<br>
++ * RX62N Peripheral IRQ<br>
++ * See users manual section 11<br>
++ */<br>
++#define RX62N_TMR_IRQBASE 174<br>
++#define RX62N_CMT_IRQBASE 28<br>
++#define RX62N_SCI_IRQBASE 214<br>
++<br>
++/*<br>
++ * RX62N Internal Memory<br>
++ * It is the value of R5F562N8.<br>
++ * Please change the size for R5F562N7.<br>
++ */<br>
++#define RX62N_IRAM_BASE 0x00000000<br>
++#define RX62N_IRAM_SIZE (96 * KiB)<br>
++#define RX62N_DFLASH_BASE 0x00100000<br>
++#define RX62N_DFLASH_SIZE (32 * KiB)<br>
++#define RX62N_CFLASH_BASE 0xfff80000<br>
++#define RX62N_CFLASH_SIZE (512 * KiB)<br>
++<br>
++#define RX62N_PCLK (48 * 1000 * 1000)<br>
++#endif<br>
+diff --git a/hw/rx/rx-virt.c b/hw/rx/rx-virt.c<br>
+new file mode 100644<br>
+index 0000000000..4cfe2e3123<br>
+--- /dev/null<br>
++++ b/hw/rx/rx-virt.c<br>
+@@ -0,0 +1,127 @@<br>
++/*<br>
++ * RX QEMU virtual platform<br>
++ *<br>
++ * Copyright (c) 2019 Yoshinori Sato<br>
++ *<br>
++ * This program is free software; you can redistribute it and/or modify it=
+<br>
++ * under the terms and conditions of the GNU General Public License,<br>
++ * version 2 or later, as published by the Free Software Foundation.<br>
++ *<br>
++ * This program is distributed in the hope it will be useful, but WITHOUT<=
+br>
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or<b=
 r>
-&gt; module interface. This commit adds support for the Allwinner CPU<br>
-&gt; configuration interface which emulates the following features:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0* CPU reset<br>
-&gt;=C2=A0 =C2=A0* CPU status<br>
-&gt;=C2=A0 =C2=A0* Shared 64-bit timer<br>
-&gt; <br>
-&gt; Signed-off-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gm=
-ail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0include/hw/arm/allwinner-h3.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-=C2=A03 +<br>
-&gt;=C2=A0 =C2=A0include/hw/misc/allwinner-cpucfg.h |=C2=A0 54 ++++++<br>
-&gt;=C2=A0 =C2=A0hw/arm/allwinner-h3.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A09 +-<br>
-&gt;=C2=A0 =C2=A0hw/misc/allwinner-cpucfg.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 282 +++++++++++++++++++++++++++++<br>
-&gt;=C2=A0 =C2=A0hw/misc/Makefile.objs=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 =C2=A0hw/misc/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A05 +<br>
-&gt;=C2=A0 =C2=A06 files changed, 353 insertions(+), 1 deletion(-)<br>
-&gt;=C2=A0 =C2=A0create mode 100644 include/hw/misc/allwinner-cpucfg.h<br>
-&gt;=C2=A0 =C2=A0create mode 100644 hw/misc/allwinner-cpucfg.c<br>
-&gt; <br>
-&gt; diff --git a/include/hw/arm/allwinner-h3.h b/include/hw/arm/allwinner-=
-h3.h<br>
-&gt; index 26706f4fa6..5a25a92eae 100644<br>
-&gt; --- a/include/hw/arm/allwinner-h3.h<br>
-&gt; +++ b/include/hw/arm/allwinner-h3.h<br>
-&gt; @@ -44,6 +44,7 @@<br>
-&gt;=C2=A0 =C2=A0#include &quot;hw/timer/allwinner-a10-pit.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;hw/intc/arm_gic.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;hw/misc/allwinner-h3-ccu.h&quot;<br>
-&gt; +#include &quot;hw/misc/allwinner-cpucfg.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;hw/misc/allwinner-h3-sysctrl.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;target/arm/cpu.h&quot;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; @@ -80,6 +81,7 @@ enum {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0AW_H3_GIC_CPU,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0AW_H3_GIC_HYP,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0AW_H3_GIC_VCPU,<br>
-&gt; +=C2=A0 =C2=A0 AW_H3_CPUCFG,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0AW_H3_SDRAM<br>
-&gt;=C2=A0 =C2=A0};<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; @@ -111,6 +113,7 @@ typedef struct AwH3State {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0const hwaddr *memmap;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0AwA10PITState timer;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0AwH3ClockCtlState ccu;<br>
-&gt; +=C2=A0 =C2=A0 AwCpuCfgState cpucfg;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0AwH3SysCtrlState sysctrl;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0GICState gic;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0MemoryRegion sram_a1;<br>
-&gt; diff --git a/include/hw/misc/allwinner-cpucfg.h b/include/hw/misc/allw=
-inner-cpucfg.h<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..2c0e5b7e03<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/include/hw/misc/allwinner-cpucfg.h<br>
-&gt; @@ -0,0 +1,54 @@<br>
-&gt; +/*<br>
-&gt; + * Allwinner CPU Configuration Module emulation<br>
-&gt; + *<br>
-&gt; + * Copyright (C) 2019 Niek Linnenbank &lt;<a href=3D"mailto:nieklinne=
-nbank@gmail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;<br>
-&gt; + *<br>
-&gt; + * This program is free software: you can redistribute it and/or modi=
-fy<br>
-&gt; + * it under the terms of the GNU General Public License as published =
-by<br>
-&gt; + * the Free Software Foundation, either version 2 of the License, or<=
++ * FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU General Public Lice=
+nse for<br>
++ * more details.<br>
++ *<br>
++ * You should have received a copy of the GNU General Public License along=
+ with<br>
++ * this program.=C2=A0 If not, see &lt;<a href=3D"http://www.gnu.org/licen=
+ses/" target=3D"_blank">http://www.gnu.org/licenses/</a>&gt;<wbr>.<br>
++ */<br>
++<br>
++#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qapi/error.h&quot;<br>
++#include &quot;qemu-common.h&quot;<br>
++#include &quot;cpu.h&quot;<br>
++#include &quot;hw/hw.h&quot;<br>
++#include &quot;hw/sysbus.h&quot;<br>
++#include &quot;hw/loader.h&quot;<br>
++#include &quot;hw/rx/rx62n.h&quot;<br>
++#include &quot;sysemu/sysemu.h&quot;<br>
++#include &quot;sysemu/qtest.h&quot;<br>
++#include &quot;sysemu/device_tree.h&quot;<br>
++#include &quot;hw/boards.h&quot;<br>
++<br>
++/* Same address of GDB integrated simulator */<br>
++#define SDRAM_BASE 0x01000000<br>
++<br>
++static void rx_load_image(RXCPU *cpu, const char *filename,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 uint32_t start, uint32_t size)<br>
++{<br>
++=C2=A0 =C2=A0 static uint32_t extable[32];<br>
++=C2=A0 =C2=A0 long kernel_size;<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 kernel_size =3D load_image_targphys(filename, start, size);<=
 br>
-&gt; + * (at your option) any later version.<br>
-&gt; + *<br>
-&gt; + * This program is distributed in the hope that it will be useful,<br=
->
-&gt; + * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-&gt; + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the=
++=C2=A0 =C2=A0 if (kernel_size &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;qemu: could not load ker=
+nel &#39;%s&#39;\n&quot;, filename);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 cpu-&gt;env.pc =3D start;<br>
++<br>
++=C2=A0 =C2=A0 /* setup exception trap trampoline */<br>
++=C2=A0 =C2=A0 /* linux kernel only works little-endian mode */<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(extable); i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 extable[i] =3D cpu_to_le32(0x10 + i * 4);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 rom_add_blob_fixed(&quot;extable&quot;, extable, sizeof(exta=
+ble), 0xffffff80);<br>
++}<br>
++<br>
++static void rxvirt_init(MachineState *machine)<br>
++{<br>
++=C2=A0 =C2=A0 RX62NState *s =3D g_new(RX62NState, 1);<br>
++=C2=A0 =C2=A0 MemoryRegion *sysmem =3D get_system_memory();<br>
++=C2=A0 =C2=A0 MemoryRegion *sdram =3D g_new(MemoryRegion, 1);<br>
++=C2=A0 =C2=A0 const char *kernel_filename =3D machine-&gt;kernel_filename;=
 <br>
-&gt; + * GNU General Public License for more details.<br>
-&gt; + *<br>
-&gt; + * You should have received a copy of the GNU General Public License<=
++=C2=A0 =C2=A0 const char *dtb_filename =3D machine-&gt;dtb;<br>
++=C2=A0 =C2=A0 void *dtb =3D NULL;<br>
++=C2=A0 =C2=A0 int dtb_size;<br>
++<br>
++=C2=A0 =C2=A0 /* Allocate memory space */<br>
++=C2=A0 =C2=A0 memory_region_init_ram(sdram, NULL, &quot;sdram&quot;, 16 * =
+MiB,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0&amp;error_fatal);<br>
++=C2=A0 =C2=A0 memory_region_add_subregion(<wbr>sysmem, SDRAM_BASE, sdram);=
+<br>
++<br>
++=C2=A0 =C2=A0 /* Initialize MCU */<br>
++=C2=A0 =C2=A0 object_initialize_child(<wbr>OBJECT(machine), &quot;mcu&quot=
+;, s,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(RX62NState), TYPE_RX62N,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &amp;error_fatal, NULL);<br>
++=C2=A0 =C2=A0 object_property_set_link(<wbr>OBJECT(s), OBJECT(get_system_m=
+emory()),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;memory&quot;, &amp;error_abort);<br>
++=C2=A0 =C2=A0 object_property_set_bool(<wbr>OBJECT(s), kernel_filename !=
+=3D NULL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;load-kernel&quot;, &amp;error_abort);<=
 br>
-&gt; + * along with this program.=C2=A0 If not, see &lt;<a href=3D"http://w=
-ww.gnu.org/licenses/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.o=
-rg/licenses/</a>&gt;.<br>
-&gt; + */<br>
-&gt; +<br>
-&gt; +#ifndef HW_MISC_ALLWINNER_CPUCFG_H<br>
-&gt; +#define HW_MISC_ALLWINNER_CPUCFG_H<br>
-&gt; +<br>
-&gt; +#include &quot;qemu/osdep.h&quot;<br>
-&gt; +#include &quot;qom/object.h&quot;<br>
-&gt; +#include &quot;hw/sysbus.h&quot;<br>
-&gt; +<br>
-&gt; +/**<br>
-&gt; + * Object model<br>
-&gt; + * @{<br>
-&gt; + */<br>
-&gt; +<br>
-&gt; +#define TYPE_AW_CPUCFG=C2=A0 =C2=A0&quot;allwinner-cpucfg&quot;<br>
-&gt; +#define AW_CPUCFG(obj) \<br>
-&gt; +=C2=A0 =C2=A0 OBJECT_CHECK(AwCpuCfgState, (obj), TYPE_AW_CPUCFG)<br>
-&gt; +<br>
-&gt; +/** @} */<br>
-&gt; +<br>
-&gt; +/**<br>
-&gt; + * Allwinner CPU Configuration Module instance state<br>
-&gt; + */<br>
-&gt; +typedef struct AwCpuCfgState {<br>
-&gt; +=C2=A0 =C2=A0 /*&lt; private &gt;*/<br>
-&gt; +=C2=A0 =C2=A0 SysBusDevice parent_obj;<br>
-&gt; +=C2=A0 =C2=A0 /*&lt; public &gt;*/<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 MemoryRegion iomem;<br>
-&gt; +=C2=A0 =C2=A0 uint32_t gen_ctrl;<br>
-&gt; +=C2=A0 =C2=A0 uint32_t super_standby;<br>
-&gt; +=C2=A0 =C2=A0 uint32_t entry_addr;<br>
-&gt; +=C2=A0 =C2=A0 uint32_t counter_ctrl;<br>
-&gt; +<br>
-&gt; +} AwCpuCfgState;<br>
-&gt; +<br>
-&gt; +#endif /* HW_MISC_ALLWINNER_CPUCFG_H */<br>
-&gt; diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c<br>
-&gt; index d261d7b2be..e9ad6d23df 100644<br>
-&gt; --- a/hw/arm/allwinner-h3.c<br>
-&gt; +++ b/hw/arm/allwinner-h3.c<br>
-&gt; @@ -54,6 +54,7 @@ const hwaddr allwinner_h3_memmap[] =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[AW_H3_GIC_CPU]=C2=A0 =C2=A0 =3D 0x01c82000,=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[AW_H3_GIC_HYP]=C2=A0 =C2=A0 =3D 0x01c84000,=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[AW_H3_GIC_VCPU]=C2=A0 =C2=A0=3D 0x01c86000,=
-<br>
-&gt; +=C2=A0 =C2=A0 [AW_H3_CPUCFG]=C2=A0 =C2=A0 =C2=A0=3D 0x01f01c00,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[AW_H3_SDRAM]=C2=A0 =C2=A0 =C2=A0 =3D 0x4000=
-0000<br>
-&gt;=C2=A0 =C2=A0};<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; @@ -120,7 +121,6 @@ struct AwH3Unimplemented {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0{ &quot;r_wdog&quot;,=C2=A0 =C2=A0 0x01f0100=
-0, 1 * KiB },<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0{ &quot;r_prcm&quot;,=C2=A0 =C2=A0 0x01f0140=
-0, 1 * KiB },<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0{ &quot;r_twd&quot;,=C2=A0 =C2=A0 =C2=A00x01=
-f01800, 1 * KiB },<br>
-&gt; -=C2=A0 =C2=A0 { &quot;r_cpucfg&quot;,=C2=A0 0x01f01c00, 1 * KiB },<br=
++=C2=A0 =C2=A0 object_property_set_bool(<wbr>OBJECT(s), true, &quot;realize=
+d&quot;, &amp;error_abort);<br>
++<br>
++=C2=A0 =C2=A0 /* Load kernel and dtb */<br>
++=C2=A0 =C2=A0 if (kernel_filename) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 rx_load_image(RXCPU(first_cpu)<wbr>, kernel_fi=
+lename,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 SDRAM_BASE + 8 * MiB, 8 * MiB);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dtb_filename) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dtb =3D load_device_tree(dtb_fil=
+ename, &amp;dtb_size);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dtb =3D=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &q=
+uot;Couldn&#39;t open dtb file %s\n&quot;, dtb_filename);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (machine-&gt;kernel_cmdline &=
+amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fdt_setprop_s=
+tring(dtb, &quot;/chosen&quot;, &quot;bootargs&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 machine-=
+&gt;kernel_cmdline) &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &q=
+uot;couldn&#39;t set /chosen/bootargs\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rom_add_blob_fixed(&quot;dtb&quo=
+t;, dtb, dtb_size,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0SDRAM_BASE + 16 * MiB - dtb_size);<br=
 >
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0{ &quot;r_cir-rx&quot;,=C2=A0 0x01f02000, 1 =
-* KiB },<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0{ &quot;r_twi&quot;,=C2=A0 =C2=A0 =C2=A00x01=
-f02400, 1 * KiB },<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0{ &quot;r_uart&quot;,=C2=A0 =C2=A0 0x01f0280=
-0, 1 * KiB },<br>
-&gt; @@ -193,6 +193,9 @@ static void allwinner_h3_init(Object *obj)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0sysbus_init_child_obj(obj, &quot;sysctrl&quo=
-t;, &amp;s-&gt;sysctrl, sizeof(s-&gt;sysctrl),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TYPE_AW_H3_SYSCTRL);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 sysbus_init_child_obj(obj, &quot;cpucfg&quot;, &amp;s-&=
-gt;cpucfg, sizeof(s-&gt;cpucfg),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 TYPE_AW_CPUCFG);<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0static void allwinner_h3_realize(DeviceState *dev, Error *=
-*errp)<br>
-&gt; @@ -309,6 +312,10 @@ static void allwinner_h3_realize(DeviceState *dev=
-, Error **errp)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qdev_init_nofail(DEVICE(&amp;s-&gt;sysctrl))=
-;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0sysbus_mmio_map(SYS_BUS_DEVICE(&amp;s-&gt;sy=
-sctrl), 0, s-&gt;memmap[AW_H3_SYSCTRL]);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +=C2=A0 =C2=A0 /* CPU Configuration */<br>
-&gt; +=C2=A0 =C2=A0 qdev_init_nofail(DEVICE(&amp;s-&gt;cpucfg));<br>
-&gt; +=C2=A0 =C2=A0 sysbus_mmio_map(SYS_BUS_DEVICE(&amp;s-&gt;cpucfg), 0, s=
--&gt;memmap[AW_H3_CPUCFG]);<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Universal Serial Bus */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0sysbus_create_simple(TYPE_AW_H3_EHCI, s-&gt;=
-memmap[AW_H3_EHCI0],<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_get_gpio_in(DEVICE(&amp;s-&gt;gic),<br>
-&gt; diff --git a/hw/misc/allwinner-cpucfg.c b/hw/misc/allwinner-cpucfg.c<b=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Set dtb address to R1 */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 RXCPU(first_cpu)-&gt;env.regs[1]=
+ =3D 0x02000000 - dtb_size;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void rxvirt_class_init(ObjectClass *oc, void *data)<br>
++{<br>
++=C2=A0 =C2=A0 MachineClass *mc =3D MACHINE_CLASS(oc);<br>
++<br>
++=C2=A0 =C2=A0 mc-&gt;desc =3D &quot;RX QEMU Virtual Target&quot;;<br>
++=C2=A0 =C2=A0 mc-&gt;init =3D rxvirt_init;<br>
++=C2=A0 =C2=A0 mc-&gt;is_default =3D 1;<br>
++=C2=A0 =C2=A0 mc-&gt;default_cpu_type =3D TYPE_RX62N_CPU;<br>
++}<br>
++<br>
++static const TypeInfo rxvirt_type =3D {<br>
++=C2=A0 =C2=A0 .name =3D MACHINE_TYPE_NAME(&quot;rx-virt&quot;),<br>
++=C2=A0 =C2=A0 .parent =3D TYPE_MACHINE,<br>
++=C2=A0 =C2=A0 .class_init =3D rxvirt_class_init,<br>
++};<br>
++<br>
++static void rxvirt_machine_init(void)<br>
++{<br>
++=C2=A0 =C2=A0 type_register_static(&amp;rxvirt_<wbr>type);<br>
++}<br>
++<br>
++type_init(rxvirt_machine_<wbr>init)<br>
+diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c<br>
+new file mode 100644<br>
+index 0000000000..ac47f2a397<br>
+--- /dev/null<br>
++++ b/hw/rx/rx62n.c<br>
+@@ -0,0 +1,239 @@<br>
++/*<br>
++ * RX62N Microcontroller<br>
++ *<br>
++ * Datasheet: RX62N Group, RX621 Group User&#39;s Manual: Hardware<br>
++ * (Rev.1.40 R01UH0033EJ0140)<br>
++ *<br>
++ * Copyright (c) 2019 Yoshinori Sato<br>
++ *<br>
++ * This program is free software; you can redistribute it and/or modify it=
+<br>
++ * under the terms and conditions of the GNU General Public License,<br>
++ * version 2 or later, as published by the Free Software Foundation.<br>
++ *<br>
++ * This program is distributed in the hope it will be useful, but WITHOUT<=
+br>
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or<b=
 r>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..58c7a1448d<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/hw/misc/allwinner-cpucfg.c<br>
-&gt; @@ -0,0 +1,282 @@<br>
-&gt; +/*<br>
-&gt; + * Allwinner CPU Configuration Module emulation<br>
-&gt; + *<br>
-&gt; + * Copyright (C) 2019 Niek Linnenbank &lt;<a href=3D"mailto:nieklinne=
-nbank@gmail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;<br>
-&gt; + *<br>
-&gt; + * This program is free software: you can redistribute it and/or modi=
-fy<br>
-&gt; + * it under the terms of the GNU General Public License as published =
-by<br>
-&gt; + * the Free Software Foundation, either version 2 of the License, or<=
-br>
-&gt; + * (at your option) any later version.<br>
-&gt; + *<br>
-&gt; + * This program is distributed in the hope that it will be useful,<br=
++ * FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU General Public Lice=
+nse for<br>
++ * more details.<br>
++ *<br>
++ * You should have received a copy of the GNU General Public License along=
+ with<br>
++ * this program.=C2=A0 If not, see &lt;<a href=3D"http://www.gnu.org/licen=
+ses/" target=3D"_blank">http://www.gnu.org/licenses/</a>&gt;<wbr>.<br>
++ */<br>
++<br>
++#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qapi/error.h&quot;<br>
++#include &quot;hw/hw.h&quot;<br>
++#include &quot;hw/rx/rx62n.h&quot;<br>
++#include &quot;hw/loader.h&quot;<br>
++#include &quot;hw/sysbus.h&quot;<br>
++#include &quot;hw/qdev-properties.h&quot;<br>
++#include &quot;sysemu/sysemu.h&quot;<br>
++#include &quot;cpu.h&quot;<br>
++<br>
++/*<br>
++ * IRQ -&gt; IPR mapping table<br>
++ * 0x00 - 0x91: IPR no (IPR00 to IPR91)<br>
++ * 0xff: IPR not assigned<br>
++ * See &quot;11.3.1 Interrupt Vector Table&quot; in hardware manual.<br>
++ */<br>
++static const int ipr_table[NR_IRQS] =3D {<br>
++=C2=A0 =C2=A0 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,<br>
++=C2=A0 =C2=A0 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, /* 15 */<br>
++=C2=A0 =C2=A0 0x00, 0xff, 0xff, 0xff, 0xff, 0x01, 0xff, 0x02,<br>
++=C2=A0 =C2=A0 0xff, 0xff, 0xff, 0x03, 0x04, 0x05, 0x06, 0x07, /* 31 */<br>
++=C2=A0 =C2=A0 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,<br>
++=C2=A0 =C2=A0 0x10, 0x11, 0x12, 0x13, 0x14, 0x14, 0x14, 0x14, /* 47 */<br>
++=C2=A0 =C2=A0 0x15, 0x15, 0x15, 0x15, 0xff, 0xff, 0xff, 0xff,<br>
++=C2=A0 =C2=A0 0x18, 0x18, 0x18, 0x18, 0x18, 0x1d, 0x1e, 0x1f, /* 63 */<br>
++=C2=A0 =C2=A0 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,<br>
++=C2=A0 =C2=A0 0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f, /* 79 */<br>
++=C2=A0 =C2=A0 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,<br>
++=C2=A0 =C2=A0 0xff, 0xff, 0x3a, 0x3b, 0x3c, 0xff, 0xff, 0xff, /* 95 */<br>
++=C2=A0 =C2=A0 0x40, 0xff, 0x44, 0x45, 0xff, 0xff, 0x48, 0xff,<br>
++=C2=A0 =C2=A0 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, /* 111 */<br=
 >
-&gt; + * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-&gt; + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the=
-<br>
-&gt; + * GNU General Public License for more details.<br>
-&gt; + *<br>
-&gt; + * You should have received a copy of the GNU General Public License<=
-br>
-&gt; + * along with this program.=C2=A0 If not, see &lt;<a href=3D"http://w=
-ww.gnu.org/licenses/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.o=
-rg/licenses/</a>&gt;.<br>
-&gt; + */<br>
-&gt; +<br>
-&gt; +#include &quot;qemu/osdep.h&quot;<br>
-&gt; +#include &quot;qemu/units.h&quot;<br>
-&gt; +#include &quot;hw/sysbus.h&quot;<br>
-&gt; +#include &quot;migration/vmstate.h&quot;<br>
-&gt; +#include &quot;qemu/log.h&quot;<br>
-&gt; +#include &quot;qemu/module.h&quot;<br>
-&gt; +#include &quot;qemu/error-report.h&quot;<br>
-&gt; +#include &quot;qemu/timer.h&quot;<br>
-&gt; +#include &quot;hw/core/cpu.h&quot;<br>
-&gt; +#include &quot;arm-powerctl.h&quot;<br>
-&gt; +#include &quot;hw/misc/allwinner-cpucfg.h&quot;<br>
-&gt; +#include &quot;trace.h&quot;<br>
-&gt; +<br>
-&gt; +/* CPUCFG register offsets */<br>
-&gt; +enum {<br>
-&gt; +=C2=A0 =C2=A0 REG_CPUS_RST_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0000,=
- /* CPUs Reset Control */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU0_RST_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0040,=
- /* CPU#0 Reset Control */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU0_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0044, /* CPU#0 Control */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU0_STATUS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x=
-0048, /* CPU#0 Status */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU1_RST_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0080,=
- /* CPU#1 Reset Control */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU1_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0084, /* CPU#1 Control */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU1_STATUS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x=
-0088, /* CPU#1 Status */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU2_RST_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x00C0,=
- /* CPU#2 Reset Control */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU2_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x00C4, /* CPU#2 Control */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU2_STATUS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x=
-00C8, /* CPU#2 Status */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU3_RST_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0100,=
- /* CPU#3 Reset Control */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU3_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0104, /* CPU#3 Control */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU3_STATUS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x=
-0108, /* CPU#3 Status */<br>
-&gt; +=C2=A0 =C2=A0 REG_CPU_SYS_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x=
-0140, /* CPU System Reset */<br>
-&gt; +=C2=A0 =C2=A0 REG_CLK_GATING=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0x=
-0144, /* CPU Clock Gating */<br>
-&gt; +=C2=A0 =C2=A0 REG_GEN_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=3D 0x0184, /* General Control */<br>
-&gt; +=C2=A0 =C2=A0 REG_SUPER_STANDBY=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x01A0,=
- /* Super Standby Flag */<br>
-&gt; +=C2=A0 =C2=A0 REG_ENTRY_ADDR=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0x=
-01A4, /* Reset Entry Address */<br>
-&gt; +=C2=A0 =C2=A0 REG_DBG_EXTERN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0x=
-01E4, /* Debug External */<br>
-&gt; +=C2=A0 =C2=A0 REG_CNT64_CTRL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0x=
-0280, /* 64-bit Counter Control */<br>
-&gt; +=C2=A0 =C2=A0 REG_CNT64_LOW=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D 0x0284, /* 64-bit Counter Low */<br>
-&gt; +=C2=A0 =C2=A0 REG_CNT64_HIGH=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0x=
-0288, /* 64-bit Counter High */<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +/* CPUCFG register flags */<br>
-&gt; +enum {<br>
-&gt; +=C2=A0 =C2=A0 CPUX_RESET_RELEASED=C2=A0 =C2=A0 =C2=A0=3D ((1 &lt;&lt;=
- 1) | (1 &lt;&lt; 0)),<br>
-&gt; +=C2=A0 =C2=A0 CPUX_STATUS_SMP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D (1=
- &lt;&lt; 0),<br>
-&gt; +=C2=A0 =C2=A0 CPU_SYS_RESET_RELEASED=C2=A0 =3D (1 &lt;&lt; 0),<br>
-&gt; +=C2=A0 =C2=A0 CLK_GATING_ENABLE=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D ((1 &lt=
-;&lt; 8) | 0xF),<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +/* CPUCFG register reset values */<br>
-&gt; +enum {<br>
-&gt; +=C2=A0 =C2=A0 REG_CLK_GATING_RST=C2=A0 =C2=A0 =C2=A0 =3D 0x0000010F,<=
-br>
-&gt; +=C2=A0 =C2=A0 REG_GEN_CTRL_RST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0x00000=
-020,<br>
-&gt; +=C2=A0 =C2=A0 REG_SUPER_STANDBY_RST=C2=A0 =C2=A0=3D 0x0,<br>
-&gt; +=C2=A0 =C2=A0 REG_CNT64_CTRL_RST=C2=A0 =C2=A0 =C2=A0 =3D 0x0,<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +static void allwinner_cpucfg_cpu_reset(AwCpuCfgState *s, uint8_t cpu_=
-id)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 int ret;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 trace_allwinner_cpucfg_cpu_reset(cpu_id, s-&gt;entry_ad=
-dr);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 ret =3D arm_set_cpu_on(cpu_id, s-&gt;entry_addr, 0, 3, =
-false);<br>
-<br>
-Can you add a definition for 3?<br>
-<br>
-#define CPU_EXCEPTION_LEVEL_ON_RESET 3 /* EL3 */<br></blockquote><div><br><=
-/div><div>Sure, I&#39;ll add that.<br></div><div>=C2=A0</div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; +=C2=A0 =C2=A0 if (ret !=3D QEMU_ARM_POWERCTL_RET_SUCCESS) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;%s: failed to bring up=
- CPU %d: err %d&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0__func__, cpu_id, ret);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static uint64_t allwinner_cpucfg_read(void *opaque, hwaddr offset,<br=
++=C2=A0 =C2=A0 0xff, 0xff, 0x51, 0x51, 0x51, 0x51, 0x52, 0x52,<br>
++=C2=A0 =C2=A0 0x52, 0x53, 0x53, 0x54, 0x54, 0x55, 0x55, 0x56, /* 127 */<br=
 >
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned si=
-ze)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 const AwCpuCfgState *s =3D AW_CPUCFG(opaque);<br>
-&gt; +=C2=A0 =C2=A0 uint64_t val =3D 0;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 switch (offset) {<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPUS_RST_CTRL:=C2=A0 =C2=A0 =C2=A0/* CPUs Rese=
-t Control */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU_SYS_RST:=C2=A0 =C2=A0 =C2=A0 =C2=A0/* CPU =
-System Reset */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D CPU_SYS_RESET_RELEASED;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU0_RST_CTRL:=C2=A0 =C2=A0 =C2=A0/* CPU#0 Res=
-et Control */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU1_RST_CTRL:=C2=A0 =C2=A0 =C2=A0/* CPU#1 Res=
-et Control */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU2_RST_CTRL:=C2=A0 =C2=A0 =C2=A0/* CPU#2 Res=
-et Control */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU3_RST_CTRL:=C2=A0 =C2=A0 =C2=A0/* CPU#3 Res=
-et Control */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D CPUX_RESET_RELEASED;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU0_CTRL:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*=
- CPU#0 Control */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU1_CTRL:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*=
- CPU#1 Control */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU2_CTRL:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*=
- CPU#2 Control */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU3_CTRL:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*=
- CPU#3 Control */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU0_STATUS:=C2=A0 =C2=A0 =C2=A0 =C2=A0/* CPU#=
-0 Status */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU1_STATUS:=C2=A0 =C2=A0 =C2=A0 =C2=A0/* CPU#=
-1 Status */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU2_STATUS:=C2=A0 =C2=A0 =C2=A0 =C2=A0/* CPU#=
-2 Status */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU3_STATUS:=C2=A0 =C2=A0 =C2=A0 =C2=A0/* CPU#=
-3 Status */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D CPUX_STATUS_SMP;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CLK_GATING:=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* CPU =
-Clock Gating */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D CLK_GATING_ENABLE;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_GEN_CTRL:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*=
- General Control */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D s-&gt;gen_ctrl;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_SUPER_STANDBY:=C2=A0 =C2=A0 =C2=A0/* Super Sta=
-ndby Flag */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D s-&gt;super_standby;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_ENTRY_ADDR:=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Rese=
-t Entry Address */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D s-&gt;entry_addr;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_DBG_EXTERN:=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Debu=
-g External */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CNT64_CTRL:=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 64-b=
-it Counter Control */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D s-&gt;counter_ctrl;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CNT64_LOW:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*=
- 64-bit Counter Low */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D qemu_clock_get_ns(QEMU_CLOCK_VIRT=
-UAL) &amp; 0xffffffff;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CNT64_HIGH:=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 64-b=
-it Counter High */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D qemu_clock_get_ns(QEMU_CLOCK_VIRT=
-UAL) &gt;&gt; 32;<br>
-<br>
-Consider extract64(), but that&#39;s OK too.<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 default:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: =
-out-of-bounds offset 0x%04x\n&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 __func__, (uint32_t)offset);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-<br>
-Please break instead, so we can see these calls when tracing.<br></blockquo=
-te><div>Right, I missed that indeed. I&#39;ll change it to break.<br></div>=
-<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 trace_allwinner_cpucfg_read(offset, val, size);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 return val;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void allwinner_cpucfg_write(void *opaque, hwaddr offset,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t val, unsig=
-ned size)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 AwCpuCfgState *s =3D AW_CPUCFG(opaque);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 trace_allwinner_cpucfg_write(offset, val, size);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 switch (offset) {<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPUS_RST_CTRL:=C2=A0 =C2=A0 =C2=A0/* CPUs Rese=
-t Control */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU_SYS_RST:=C2=A0 =C2=A0 =C2=A0 =C2=A0/* CPU =
-System Reset */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU0_RST_CTRL:=C2=A0 =C2=A0 =C2=A0/* CPU#0 Res=
-et Control */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (val) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 allwinner_cpucfg_cpu_reset(=
-s, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU1_RST_CTRL:=C2=A0 =C2=A0 =C2=A0/* CPU#1 Res=
-et Control */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (val) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 allwinner_cpucfg_cpu_reset(=
-s, 1);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU2_RST_CTRL:=C2=A0 =C2=A0 =C2=A0/* CPU#2 Res=
-et Control */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (val) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 allwinner_cpucfg_cpu_reset(=
-s, 2);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU3_RST_CTRL:=C2=A0 =C2=A0 =C2=A0/* CPU#3 Res=
-et Control */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (val) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 allwinner_cpucfg_cpu_reset(=
-s, 3);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0case REG_CPU0_RST_CTRL .,. REG_CPU3_RST_CTRL: /*=
- CPU Reset Control */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (val) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 allwinner_cpucfg_cp=
-u_reset(s, (offset - <br>
-REG_CPU0_RST_CTRL) &gt;&gt; 6);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-<br></blockquote><div>OK, that looks more compact and cleaner indeed. Thank=
-s, I&#39;ll change it.<br></div><div><br></div><div>=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
-&gt; +=C2=A0 =C2=A0 case REG_CPU0_CTRL:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*=
- CPU#0 Control */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU1_CTRL:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*=
- CPU#1 Control */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU2_CTRL:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*=
- CPU#2 Control */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU3_CTRL:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*=
- CPU#3 Control */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU0_STATUS:=C2=A0 =C2=A0 =C2=A0 =C2=A0/* CPU#=
-0 Status */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU1_STATUS:=C2=A0 =C2=A0 =C2=A0 =C2=A0/* CPU#=
-1 Status */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU2_STATUS:=C2=A0 =C2=A0 =C2=A0 =C2=A0/* CPU#=
-2 Status */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CPU3_STATUS:=C2=A0 =C2=A0 =C2=A0 =C2=A0/* CPU#=
-3 Status */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CLK_GATING:=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* CPU =
-Clock Gating */<br>
-&gt; +=C2=A0 =C2=A0 case REG_GEN_CTRL:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*=
- General Control */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;gen_ctrl =3D val;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_SUPER_STANDBY:=C2=A0 =C2=A0 =C2=A0/* Super Sta=
-ndby Flag */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;super_standby =3D val;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_ENTRY_ADDR:=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Rese=
-t Entry Address */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;entry_addr =3D val;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_DBG_EXTERN:=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Debu=
-g External */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CNT64_CTRL:=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 64-b=
-it Counter Control */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;counter_ctrl =3D val;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 case REG_CNT64_LOW:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*=
- 64-bit Counter Low */<br>
-&gt; +=C2=A0 =C2=A0 case REG_CNT64_HIGH:=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 64-b=
-it Counter High */<br>
-<br>
-You forgot to set these. Maybe you can add a int64_t cnt64_diff, set it <br=
++=C2=A0 =C2=A0 0x56, 0x57, 0x57, 0x57, 0x57, 0x58, 0x59, 0x59,<br>
++=C2=A0 =C2=A0 0x59, 0x59, 0x5a, 0x5b, 0x5b, 0x5b, 0x5c, 0x5c, /* 143 */<br=
 >
-here to the difference with qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL), and <br>
-in the read() function return cnt64_diff + <br>
-qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL).<br></blockquote><div>=C2=A0</div><di=
-v>OK I&#39;ll need to look into that. Currently this timer is not used by L=
-inux, NetBSD or U-Boot as far</div><div>as I know. But since it is there, i=
-t should be correct indeed.<br></div><div>=C2=A0</div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 0x5c, 0x5c, 0x5d, 0x5d, 0x5d, 0x5e, 0x5e, 0x5f,<br>
++=C2=A0 =C2=A0 0x5f, 0x60, 0x60, 0x61, 0x61, 0x62, 0x62, 0x62, /* 159 */<br=
+>
++=C2=A0 =C2=A0 0x62, 0x63, 0x64, 0x64, 0x64, 0x64, 0x65, 0x66,<br>
++=C2=A0 =C2=A0 0x66, 0x66, 0x67, 0x67, 0x67, 0x67, 0x68, 0x68, /* 175 */<br=
+>
++=C2=A0 =C2=A0 0x68, 0x69, 0x69, 0x69, 0x6a, 0x6a, 0x6a, 0x6b,<br>
++=C2=A0 =C2=A0 0x6b, 0x6b, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, /* 191 */<br=
+>
++=C2=A0 =C2=A0 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x70, 0x71,<br>
++=C2=A0 =C2=A0 0x72, 0x73, 0x74, 0x75, 0xff, 0xff, 0xff, 0xff, /* 207 */<br=
+>
++=C2=A0 =C2=A0 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x80, 0x80,<br>
++=C2=A0 =C2=A0 0x80, 0x80, 0x81, 0x81, 0x81, 0x81, 0x82, 0x82, /* 223 */<br=
+>
++=C2=A0 =C2=A0 0x82, 0x82, 0x83, 0x83, 0x83, 0x83, 0xff, 0xff,<br>
++=C2=A0 =C2=A0 0xff, 0xff, 0x85, 0x85, 0x85, 0x85, 0x86, 0x86, /* 239 */<br=
+>
++=C2=A0 =C2=A0 0x86, 0x86, 0xff, 0xff, 0xff, 0xff, 0x88, 0x89,<br>
++=C2=A0 =C2=A0 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, /* 255 */<br=
+>
++};<br>
++<br>
++/*<br>
++ * Level triggerd IRQ list<br>
++ * Not listed IRQ is Edge trigger.<br>
++ * See &quot;11.3.1 Interrupt Vector Table&quot; in hardware manual.<br>
++ */<br>
++static const uint32_t levelirq[] =3D {<br>
++=C2=A0 =C2=A0 =C2=A016,=C2=A0 21,=C2=A0 32,=C2=A0 44,=C2=A0 47,=C2=A0 48,=
+=C2=A0 51,=C2=A0 64,=C2=A0 65,=C2=A0 66,<br>
++=C2=A0 =C2=A0 =C2=A067,=C2=A0 68,=C2=A0 69,=C2=A0 70,=C2=A0 71,=C2=A0 72,=
+=C2=A0 73,=C2=A0 74,=C2=A0 75,=C2=A0 76,<br>
++=C2=A0 =C2=A0 =C2=A077,=C2=A0 78,=C2=A0 79,=C2=A0 90,=C2=A0 91, 170, 171, =
+172, 173, 214,<br>
++=C2=A0 =C2=A0 217, 218, 221, 222, 225, 226, 229, 234, 237, 238,<br>
++=C2=A0 =C2=A0 241, 246, 249, 250, 253,<br>
++};<br>
++<br>
++static void register_icu(RX62NState *s)<br>
++{<br>
++=C2=A0 =C2=A0 int i;<br>
++=C2=A0 =C2=A0 SysBusDevice *icu;<br>
++<br>
++=C2=A0 =C2=A0 object_initialize_child(<wbr>OBJECT(s), &quot;icu&quot;, &am=
+p;s-&gt;icu, sizeof(RXICUState),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 TYPE_RXICU, &amp;error_abort, NULL);<br>
++<br>
++=C2=A0 =C2=A0 icu =3D SYS_BUS_DEVICE(&amp;s-&gt;icu);<br>
++=C2=A0 =C2=A0 sysbus_mmio_map(SYS_BUS_<wbr>DEVICE(icu), 0, RX62N_ICUBASE);=
 <br>
-Rest looks good.<br></blockquote><div><br></div><div>Thanks for reviewing P=
-hilippe!</div><div>I&#39;ll get this in v4.</div><div><br></div><div>Regard=
-s,</div><div>Niek<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">
++=C2=A0 =C2=A0 qdev_prop_set_uint32(DEVICE(<wbr>icu), &quot;len-ipr-map&quo=
+t;, NR_IRQS);<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NR_IRQS; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 char propname[32];<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 snprintf(propname, sizeof(propname), &quot;ipr=
+-map[%d]&quot;, i);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_prop_set_uint32(DEVICE(<wbr>icu), propnam=
+e, ipr_table[i]);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 qdev_prop_set_uint32(DEVICE(<wbr>icu), &quot;len-trigger-lev=
+el&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0ARRAY_SIZE(levelirq));<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(levelirq); i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 char propname[32];<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 snprintf(propname, sizeof(propname), &quot;tri=
+gger-level[%d]&quot;, i);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_prop_set_uint32(DEVICE(<wbr>icu), propnam=
+e, levelirq[i]);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NR_IRQS; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;irq[i] =3D qdev_get_gpio_in(DEVICE(icu),=
+ i);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 qdev_init_nofail(DEVICE(icu));<br>
++=C2=A0 =C2=A0 sysbus_connect_irq(icu, 0, qdev_get_gpio_in(DEVICE(&amp;s-&g=
+t;<wbr>cpu), RX_CPU_IRQ));<br>
++=C2=A0 =C2=A0 sysbus_connect_irq(icu, 1, qdev_get_gpio_in(DEVICE(&amp;s-&g=
+t;<wbr>cpu), RX_CPU_FIR));<br>
++=C2=A0 =C2=A0 sysbus_connect_irq(icu, 2, s-&gt;irq[SWI]);<br>
++<br>
++}<br>
++<br>
++static void register_tmr(RX62NState *s, int unit)<br>
++{<br>
++=C2=A0 =C2=A0 SysBusDevice *tmr;<br>
++=C2=A0 =C2=A0 int i, irqbase;<br>
++<br>
++=C2=A0 =C2=A0 object_initialize_child(<wbr>OBJECT(s), &quot;tmr[*]&quot;, =
+&amp;s-&gt;tmr[unit],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(RTMRState), TYPE_RENESAS_TMR,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &amp;error_abort, NULL);<br>
++<br>
++=C2=A0 =C2=A0 tmr =3D SYS_BUS_DEVICE(&amp;s-&gt;tmr[unit]);<br>
++=C2=A0 =C2=A0 sysbus_mmio_map(tmr, 0, RX62N_TMRBASE + unit * 0x10);<br>
++=C2=A0 =C2=A0 qdev_prop_set_uint64(DEVICE(<wbr>tmr), &quot;input-freq&quot=
+;, RX62N_PCLK);<br>
++<br>
++=C2=A0 =C2=A0 qdev_init_nofail(DEVICE(tmr));<br>
++=C2=A0 =C2=A0 irqbase =3D RX62N_TMR_IRQBASE + TMR_NR_IRQ * unit;<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; TMR_NR_IRQ; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 sysbus_connect_irq(tmr, i, s-&gt;irq[irqbase +=
+ i]);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void register_cmt(RX62NState *s, int unit)<br>
++{<br>
++=C2=A0 =C2=A0 SysBusDevice *cmt;<br>
++=C2=A0 =C2=A0 int i, irqbase;<br>
++<br>
++=C2=A0 =C2=A0 object_initialize_child(<wbr>OBJECT(s), &quot;cmt[*]&quot;, =
+&amp;s-&gt;cmt[unit],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(RCMTState), TYPE_RENESAS_CMT,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &amp;error_abort, NULL);<br>
++<br>
++=C2=A0 =C2=A0 cmt =3D SYS_BUS_DEVICE(&amp;s-&gt;cmt[unit]);<br>
++=C2=A0 =C2=A0 sysbus_mmio_map(cmt, 0, RX62N_CMTBASE + unit * 0x10);<br>
++=C2=A0 =C2=A0 qdev_prop_set_uint64(DEVICE(<wbr>cmt), &quot;input-freq&quot=
+;, RX62N_PCLK);<br>
++<br>
++=C2=A0 =C2=A0 qdev_init_nofail(DEVICE(cmt));<br>
++=C2=A0 =C2=A0 irqbase =3D RX62N_CMT_IRQBASE + CMT_NR_IRQ * unit;<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; CMT_NR_IRQ; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 sysbus_connect_irq(cmt, i, s-&gt;irq[irqbase +=
+ i]);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void register_sci(RX62NState *s, int unit)<br>
++{<br>
++=C2=A0 =C2=A0 SysBusDevice *sci;<br>
++=C2=A0 =C2=A0 int i, irqbase;<br>
++<br>
++=C2=A0 =C2=A0 object_initialize_child(<wbr>OBJECT(s), &quot;sci[*]&quot;, =
+&amp;s-&gt;sci[unit],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(RSCIState), TYPE_RENESAS_SCI,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &amp;error_abort, NULL);<br>
++<br>
++=C2=A0 =C2=A0 sci =3D SYS_BUS_DEVICE(&amp;s-&gt;sci[unit]);<br>
++=C2=A0 =C2=A0 sysbus_mmio_map(sci, 0, RX62N_SCIBASE + unit * 0x08);<br>
++=C2=A0 =C2=A0 qdev_prop_set_chr(DEVICE(sci), &quot;chardev&quot;, serial_h=
+d(unit));<br>
++=C2=A0 =C2=A0 qdev_prop_set_uint64(DEVICE(<wbr>sci), &quot;input-freq&quot=
+;, RX62N_PCLK);<br>
++<br>
++=C2=A0 =C2=A0 qdev_init_nofail(DEVICE(sci));<br>
++=C2=A0 =C2=A0 irqbase =3D RX62N_SCI_IRQBASE + SCI_NR_IRQ * unit;<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; SCI_NR_IRQ; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 sysbus_connect_irq(sci, i, s-&gt;irq[irqbase +=
+ i]);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void rx62n_realize(DeviceState *dev, Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 RX62NState *s =3D RX62N(dev);<br>
++<br>
++=C2=A0 =C2=A0 memory_region_init_ram(&amp;s-&gt;<wbr>iram, NULL, &quot;ira=
+m&quot;, RX62N_IRAM_SIZE, errp);<br>
++=C2=A0 =C2=A0 memory_region_add_subregion(s-<wbr>&gt;sysmem, RX62N_IRAM_BA=
+SE, &amp;s-&gt;iram);<br>
++=C2=A0 =C2=A0 memory_region_init_rom(&amp;s-&gt;d_<wbr>flash, NULL, &quot;=
+dataflash&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0RX62N_DFLASH_SIZE, errp);<br>
++=C2=A0 =C2=A0 memory_region_add_subregion(s-<wbr>&gt;sysmem, RX62N_DFLASH_=
+BASE, &amp;s-&gt;d_flash);<br>
++=C2=A0 =C2=A0 memory_region_init_rom(&amp;s-&gt;c_<wbr>flash, NULL, &quot;=
+codeflash&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0RX62N_CFLASH_SIZE, errp);<br>
++=C2=A0 =C2=A0 memory_region_add_subregion(s-<wbr>&gt;sysmem, RX62N_CFLASH_=
+BASE, &amp;s-&gt;c_flash);<br>
++=C2=A0 =C2=A0 if (!s-&gt;kernel) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 rom_add_file_fixed(bios_name, RX62N_CFLASH_BAS=
+E, 0);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /* Initialize CPU */<br>
++=C2=A0 =C2=A0 object_initialize_child(<wbr>OBJECT(s), &quot;cpu&quot;, &am=
+p;s-&gt;cpu, sizeof(RXCPU),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 TYPE_RX62N_CPU, errp, NULL);<br>
++=C2=A0 =C2=A0 object_property_set_bool(<wbr>OBJECT(&amp;s-&gt;cpu), true, =
+&quot;realized&quot;, errp);<br>
++<br>
++=C2=A0 =C2=A0 register_icu(s);<br>
++=C2=A0 =C2=A0 s-&gt;cpu.env.ack =3D qdev_get_gpio_in_named(DEVICE(<wbr>&am=
+p;s-&gt;icu), &quot;ack&quot;, 0);<br>
++=C2=A0 =C2=A0 register_tmr(s, 0);<br>
++=C2=A0 =C2=A0 register_tmr(s, 1);<br>
++=C2=A0 =C2=A0 register_cmt(s, 0);<br>
++=C2=A0 =C2=A0 register_cmt(s, 1);<br>
++=C2=A0 =C2=A0 register_sci(s, 0);<br>
++}<br>
++<br>
++static Property rx62n_properties[] =3D {<br>
++=C2=A0 =C2=A0 DEFINE_PROP_LINK(&quot;memory&quot;, RX62NState, sysmem, TYP=
+E_MEMORY_REGION,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0MemoryRegion *),<br>
++=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;load-kernel&quot;<wbr>, RX62NState, k=
+ernel, false),<br>
++=C2=A0 =C2=A0 DEFINE_PROP_END_OF_LIST(),<br>
++};<br>
++<br>
++static void rx62n_class_init(ObjectClass *klass, void *data)<br>
++{<br>
++=C2=A0 =C2=A0 DeviceClass *dc =3D DEVICE_CLASS(klass);<br>
++<br>
++=C2=A0 =C2=A0 dc-&gt;realize =3D rx62n_realize;<br>
++=C2=A0 =C2=A0 dc-&gt;props =3D rx62n_properties;<br>
++}<br>
++<br>
++static const TypeInfo rx62n_info =3D {<br>
++=C2=A0 =C2=A0 .name =3D TYPE_RX62N,<br>
++=C2=A0 =C2=A0 .parent =3D TYPE_SYS_BUS_DEVICE,<br>
++=C2=A0 =C2=A0 .instance_size =3D sizeof(RX62NState),<br>
++=C2=A0 =C2=A0 .class_init =3D rx62n_class_init,<br>
++};<br>
++<br>
++static void rx62n_register_types(void)<br>
++{<br>
++=C2=A0 =C2=A0 type_register_static(&amp;rx62n_<wbr>info);<br>
++}<br>
++<br>
++type_init(rx62n_register_<wbr>types)<br>
+diff --git a/hw/rx/Kconfig b/hw/rx/Kconfig<br>
+new file mode 100644<br>
+index 0000000000..a07490a65e<br>
+--- /dev/null<br>
++++ b/hw/rx/Kconfig<br>
+@@ -0,0 +1,14 @@<br>
++config RX<br>
++=C2=A0 =C2=A0 bool<br>
++<br>
++config RX62N<br>
++=C2=A0 =C2=A0 bool<br>
++=C2=A0 =C2=A0 select RX<br>
++=C2=A0 =C2=A0 select RX_ICU<br>
++=C2=A0 =C2=A0 select RENESAS_TMR8<br>
++=C2=A0 =C2=A0 select RENESAS_CMT<br>
++=C2=A0 =C2=A0 select RENESAS_SCI<br>
++<br>
++config RX_VIRT<br>
++=C2=A0 =C2=A0 bool<br>
++=C2=A0 =C2=A0 select RX62N<br>
+diff --git a/hw/rx/Makefile.objs b/hw/rx/Makefile.objs<br>
+new file mode 100644<br>
+index 0000000000..63f8be0e82<br>
+--- /dev/null<br>
++++ b/hw/rx/Makefile.objs<br>
+@@ -0,0 +1,2 @@<br>
++obj-$(CONFIG_RX62N) +=3D rx62n.o<br>
++obj-$(CONFIG_RX_VIRT) +=3D rx-virt.o<br>
+-- <br>
+2.20.1<br>
 <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-&gt; +=C2=A0 =C2=A0 default:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR, &quot;%s: =
-out-of-bounds offset 0x%04x\n&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 __func__, (uint32_t)offset);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static const MemoryRegionOps allwinner_cpucfg_ops =3D {<br>
-&gt; +=C2=A0 =C2=A0 .read =3D allwinner_cpucfg_read,<br>
-&gt; +=C2=A0 =C2=A0 .write =3D allwinner_cpucfg_write,<br>
-&gt; +=C2=A0 =C2=A0 .endianness =3D DEVICE_NATIVE_ENDIAN,<br>
-&gt; +=C2=A0 =C2=A0 .valid =3D {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 .min_access_size =3D 4,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 .max_access_size =3D 4,<br>
-&gt; +=C2=A0 =C2=A0 },<br>
-&gt; +=C2=A0 =C2=A0 .impl.min_access_size =3D 4,<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +static void allwinner_cpucfg_reset(DeviceState *dev)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 AwCpuCfgState *s =3D AW_CPUCFG(dev);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /* Set default values for registers */<br>
-&gt; +=C2=A0 =C2=A0 s-&gt;gen_ctrl =3D REG_GEN_CTRL_RST;<br>
-&gt; +=C2=A0 =C2=A0 s-&gt;super_standby =3D REG_SUPER_STANDBY_RST;<br>
-&gt; +=C2=A0 =C2=A0 s-&gt;entry_addr =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 s-&gt;counter_ctrl =3D REG_CNT64_CTRL_RST;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static void allwinner_cpucfg_init(Object *obj)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);<br>
-&gt; +=C2=A0 =C2=A0 AwCpuCfgState *s =3D AW_CPUCFG(obj);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /* Memory mapping */<br>
-&gt; +=C2=A0 =C2=A0 memory_region_init_io(&amp;s-&gt;iomem, OBJECT(s), &amp=
-;allwinner_cpucfg_ops, s,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 TYPE_AW_CPUCFG, 1 * KiB);<br>
-&gt; +=C2=A0 =C2=A0 sysbus_init_mmio(sbd, &amp;s-&gt;iomem);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static const VMStateDescription allwinner_cpucfg_vmstate =3D {<br>
-&gt; +=C2=A0 =C2=A0 .name =3D &quot;allwinner-cpucfg&quot;,<br>
-&gt; +=C2=A0 =C2=A0 .version_id =3D 1,<br>
-&gt; +=C2=A0 =C2=A0 .minimum_version_id =3D 1,<br>
-&gt; +=C2=A0 =C2=A0 .fields =3D (VMStateField[]) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(gen_ctrl, AwCpuCfgState),<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(super_standby, AwCpuCfgSta=
-te),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(counter_ctrl, AwCpuCfgStat=
-e),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_END_OF_LIST()<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +static void allwinner_cpucfg_class_init(ObjectClass *klass, void *dat=
-a)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 DeviceClass *dc =3D DEVICE_CLASS(klass);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 dc-&gt;reset =3D allwinner_cpucfg_reset;<br>
-&gt; +=C2=A0 =C2=A0 dc-&gt;vmsd =3D &amp;allwinner_cpucfg_vmstate;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static const TypeInfo allwinner_cpucfg_info =3D {<br>
-&gt; +=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_AW_CPU=
-CFG,<br>
-&gt; +=C2=A0 =C2=A0 .parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_SYS_BUS_DEV=
-ICE,<br>
-&gt; +=C2=A0 =C2=A0 .instance_init =3D allwinner_cpucfg_init,<br>
-&gt; +=C2=A0 =C2=A0 .instance_size =3D sizeof(AwCpuCfgState),<br>
-&gt; +=C2=A0 =C2=A0 .class_init=C2=A0 =C2=A0 =3D allwinner_cpucfg_class_ini=
-t,<br>
-&gt; +};<br>
-&gt; +<br>
-&gt; +static void allwinner_cpucfg_register(void)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 type_register_static(&amp;allwinner_cpucfg_info);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +type_init(allwinner_cpucfg_register)<br>
-&gt; diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs<br>
-&gt; index 2d6b1a4257..12c2c306b5 100644<br>
-&gt; --- a/hw/misc/Makefile.objs<br>
-&gt; +++ b/hw/misc/Makefile.objs<br>
-&gt; @@ -29,6 +29,7 @@ common-obj-$(CONFIG_MACIO) +=3D macio/<br>
-&gt;=C2=A0 =C2=A0common-obj-$(CONFIG_IVSHMEM_DEVICE) +=3D ivshmem.o<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0common-obj-$(CONFIG_ALLWINNER_H3) +=3D allwinner-h3-ccu.o<=
-br>
-&gt; +obj-$(CONFIG_ALLWINNER_H3) +=3D allwinner-cpucfg.o<br>
-&gt;=C2=A0 =C2=A0common-obj-$(CONFIG_ALLWINNER_H3) +=3D allwinner-h3-sysctr=
-l.o<br>
-&gt;=C2=A0 =C2=A0common-obj-$(CONFIG_REALVIEW) +=3D arm_sysctl.o<br>
-&gt;=C2=A0 =C2=A0common-obj-$(CONFIG_NSERIES) +=3D cbus.o<br>
-&gt; diff --git a/hw/misc/trace-events b/hw/misc/trace-events<br>
-&gt; index 2e0c820834..d3e0952429 100644<br>
-&gt; --- a/hw/misc/trace-events<br>
-&gt; +++ b/hw/misc/trace-events<br>
-&gt; @@ -1,5 +1,10 @@<br>
-&gt;=C2=A0 =C2=A0# See docs/devel/tracing.txt for syntax documentation.<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +# allwinner-cpucfg.c<br>
-&gt; +allwinner_cpucfg_cpu_reset(uint8_t cpu_id, uint32_t reset_addr) &quot=
-;id %u, reset_addr 0x%&quot; PRIu32<br>
-&gt; +allwinner_cpucfg_read(uint64_t offset, uint64_t data, unsigned size) =
-&quot;offset 0x%&quot; PRIx64 &quot; data 0x%&quot; PRIx64 &quot; size %&qu=
-ot; PRIu32<br>
-&gt; +allwinner_cpucfg_write(uint64_t offset, uint64_t data, unsigned size)=
- &quot;offset 0x%&quot; PRIx64 &quot; data 0x%&quot; PRIx64 &quot; size %&q=
-uot; PRIu32<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0# eccmemctl.c<br>
-&gt;=C2=A0 =C2=A0ecc_mem_writel_mer(uint32_t val) &quot;Write memory enable=
- 0x%08x&quot;<br>
-&gt;=C2=A0 =C2=A0ecc_mem_writel_mdr(uint32_t val) &quot;Write memory delay =
-0x%08x&quot;<br>
-&gt; <br>
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
-div></div>
+</blockquote>
 
---000000000000080492059c219f8b--
+--00000000000069bd36059c21af8a--
 
