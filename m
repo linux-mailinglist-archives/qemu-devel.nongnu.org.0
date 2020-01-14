@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E28813A85E
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 12:26:08 +0100 (CET)
-Received: from localhost ([::1]:37398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDBF813A85C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 12:25:30 +0100 (CET)
+Received: from localhost ([::1]:37378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irKKl-00047m-DR
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 06:26:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51952)
+	id 1irKK9-0003Jk-Qn
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 06:25:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1irKHE-0008Lb-Dp
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:22:29 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1irKIV-0001y5-1y
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:23:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1irKHA-0005HV-PM
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:22:28 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48982
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irKH9-0005H4-Kh
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:22:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579000942;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=95rfsn43b8vdT617lWevePZoP33VYujDwqJf7PGBIeE=;
- b=D7zibmtbdx2UkLXeRZkYjsNBfJ+Pll6swNoWIPSVDKm03F64qCgU5G34yzy/o8ldb/YLhJ
- Ik6HgttUjKG6NJ0jF9O3jHqg10phHERLnwa+BhW/NOpPHB2z1PeT3YRMhzgW7MA1Ny5BnB
- Cz5naGBkR3G54Gowjoze6fwWHspD6Qg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-CyDF3rQBN6ue5S9zSccwig-1; Tue, 14 Jan 2020 06:22:20 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E03B51800D48;
- Tue, 14 Jan 2020 11:22:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.118.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 638815DA76;
- Tue, 14 Jan 2020 11:22:12 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/29] Migration pull patches (second try)
-In-Reply-To: <CAFEAcA-7aLrp4n9gtD=0MzmMDpzNyJCUpOmY2XPxNOun5MKeGA@mail.gmail.com>
- (Peter Maydell's message of "Tue, 14 Jan 2020 11:15:03 +0000")
+ (envelope-from <peter.maydell@linaro.org>) id 1irKIU-0005T9-4C
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:23:46 -0500
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:45643)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1irKIT-0005Sq-Vh
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 06:23:46 -0500
+Received: by mail-oi1-x22a.google.com with SMTP id n16so11422885oie.12
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 03:23:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eLtOGnrWBSUk7yc4uJqc+K2sQW+NnelyLPsR72FSB60=;
+ b=sW7VMcwksrYyxWd94VSSbQq7sNUx4dcK7CSzCM+8S81ZKRwl3zw9erIIqe1lieBipw
+ E8b03zJO7mIH/58OY5NXE+5yAopFxaPydgs1SJt7YqoAuhbxe9ktGvN+0gfuRb/nW0XI
+ A7qFcs8pH3ia16xaVSMSWe7UyOZq+2yo+kEwS++0Ozfh4oq7x+ASNhQiBMKtJchoElNs
+ CPxvJQhha3Ndc+hU0r7AYrnE1Um+mpg28520avI17FY6J1qHAcv1FUapHCKollYPblr1
+ 8Gz91/8Rx52HA/52Vy5ZQ846KsR7kPBZ61y70N4SRTU1IlrK7+o+Hci7DO3lGjGL8vth
+ 8iIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eLtOGnrWBSUk7yc4uJqc+K2sQW+NnelyLPsR72FSB60=;
+ b=D5uNWEs1JWtXg27bBXZF59Qf58dnR7eCoD8O3dKa9eUN/0IHpiSnGorxM3fDPgLUkZ
+ +Fp7IMyNfv72oChoUxOSbqHKwnaqzhFyL2xqns1WwRFAf2zr6GUyB06vYNwuR3fU6VUu
+ FkHG85BaPtC0b5biyKlIbU6QuJVQ94kEYNwiT8BzxBEO9z3EmapY9bTVBPtL23zhRIre
+ KWjzquAkD+2Y2LcEuh96JhVFs//SDxeMrLCIIt0/EiZqtqINEEgl3PK2IeGhjyNBZXpw
+ PxxPRC8/sOLb5BbzCeZbDNSHrQngOu0uszjakSbYqgo4MVxAqiEf9QhIPOoIPTSrAoBB
+ uwHQ==
+X-Gm-Message-State: APjAAAX8pyj20D3WzddI7xOxdhyKbZ26PUW6fXch9b+S5fTi9zSL53H4
+ YSmpituR2y4QV5eglm7mQU7x+OYMJHHmuNFamNXohQ==
+X-Google-Smtp-Source: APXvYqx23JdE2e2IcUAjjzfkfJ9scPxM8bVHA08lPW6TZucrpph5O8qyFq30HuETMIJJrfbD3+2XmAGksepUeWgZ3cY=
+X-Received: by 2002:aca:570d:: with SMTP id l13mr15625752oib.146.1579001025198; 
+ Tue, 14 Jan 2020 03:23:45 -0800 (PST)
+MIME-Version: 1.0
 References: <20200114092606.1761-1-quintela@redhat.com>
  <CAFEAcA-7aLrp4n9gtD=0MzmMDpzNyJCUpOmY2XPxNOun5MKeGA@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 14 Jan 2020 12:22:10 +0100
-Message-ID: <875zhewae5.fsf@secure.laptop>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: CyDF3rQBN6ue5S9zSccwig-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ <875zhewae5.fsf@secure.laptop>
+In-Reply-To: <875zhewae5.fsf@secure.laptop>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 Jan 2020 11:23:34 +0000
+Message-ID: <CAFEAcA8JCmxx4XGbGnT1gJZ9b=Mj3Tq4yS8-9y2NrKFvSBK3_g@mail.gmail.com>
+Subject: Re: [PULL 00/29] Migration pull patches (second try)
+To: Juan Quintela <quintela@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::22a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,57 +73,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Cc: Laurent Vivier <lvivier@redhat.com>, Corey Minyard <cminyard@mvista.com>,
  Thomas Huth <thuth@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
  qemu-ppc <qemu-ppc@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>,
  Richard Henderson <rth@twiddle.net>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> wrote:
-> On Tue, 14 Jan 2020 at 09:26, Juan Quintela <quintela@redhat.com> wrote:
->>
->> The following changes since commit 3c8a6575985b1652b45bfa670b5e1907d642c=
-fa0:
->>
->>   Merge remote-tracking branch
->> 'remotes/kraxel/tags/usb-20200113-pull-request' into staging
->> (2020-01-13 14:19:57 +0000)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/juanquintela/qemu.git tags/migration-pull-pull-requ=
-est
->>
->> for you to fetch changes up to 4eafab585c091050b5ae63130f46fe46ac919c3a:
->>
->>   migration: Support QLIST migration (2020-01-14 10:17:12 +0100)
->>
->> ----------------------------------------------------------------
->> Migration pull request
->> - updated QList patch
->> - initialize local msg variable
->>
->> ----------------------------------------------------------------
+On Tue, 14 Jan 2020 at 11:22, Juan Quintela <quintela@redhat.com> wrote:
 >
-> Still fails on hosts where ram_addr_t is 32 bits.
-> Looks like you still haven't got the fix for the problem
-> Dan pointed out where multifd_save_setup() is using the
-> wrong type when it calculates p->packetlen to allocate the
-> data structure.
+> Peter Maydell <peter.maydell@linaro.org> wrote:
+> > Still fails on hosts where ram_addr_t is 32 bits.
+> > Looks like you still haven't got the fix for the problem
+> > Dan pointed out where multifd_save_setup() is using the
+> > wrong type when it calculates p->packetlen to allocate the
+> > data structure.
+>
+> Ouch.  Then there is "yet" another different problem. I fixed the one
+> that daniel pointed.
 
-Ouch.  Then there is "yet" another different problem. I fixed the one
-that daniel pointed.
+Daniel pointed out both bugs back in July, in the same email,
+and again this time around...
 
-Working there.
-
+thanks
+-- PMM
 
