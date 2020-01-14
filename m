@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F26E13A4F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 11:06:12 +0100 (CET)
-Received: from localhost ([::1]:35946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69E213A4E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 11:03:41 +0100 (CET)
+Received: from localhost ([::1]:35818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irJ5P-00067k-0t
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 05:06:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
+	id 1irJ2y-0003Km-KC
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 05:03:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36448)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1irJ0v-0001aM-1E
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:01:33 -0500
+ (envelope-from <kraxel@redhat.com>) id 1irJ0x-0001dT-RH
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:01:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1irJ0t-0007x5-UL
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:01:32 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58583
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1irJ0w-0007xq-9V
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:01:35 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22507
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1irJ0t-0007wy-Q2
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:01:31 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1irJ0w-0007xc-5j
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:01:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1578996090;
+ s=mimecast20190719; t=1578996093;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=H4XUnOsATGi+8//7lk3NFGVBjg9LdOPQhVZpHgVFZ3I=;
- b=delZamLZCf9Gn1d06QmtzzJykfvTvvWalfavncJJK+pA5V8NaqpSU3ZenK5yJPw4uep7GF
- Y2w56shPcDFEQCEmJ4paqAW1cqJVVLjamGAlU0dJpAuRmlSq1vcYz4iU7Q0l1w4f+SpQOS
- 3mmXJi0Z3eSvJFek1GZohwL0V5Q8JcU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kR2nVww05ym0vlHchhoZc7r2HWmOi45mH/ICojPZnUA=;
+ b=KDy8QcMLvR4H3Cp/B5VwPJwGEkQy/UeNJeHQmYuHoq1tJ/SO+8ZFNOvCrl1Jgmae8zl5Y5
+ aSJoJYo7WAJjzwPgI0xadlJWzlbw4wA5+A/+F6Fv65ooqmDrlKIkFDusazG72YaomTIs3A
+ WqqZmEuk2sCP7M0l39bnttdLKN9Kwy4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-dwYVR3vYNIOP62L6T2Ga2A-1; Tue, 14 Jan 2020 05:01:29 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-354-wfU8bavKNu-sfIUuM_NkRQ-1; Tue, 14 Jan 2020 05:01:29 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A04EA1005510
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4A82DBA5
  for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 10:01:28 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
  [10.36.116.106])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E22A05C1BB;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC42C19C5B;
  Tue, 14 Jan 2020 10:01:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1BA609B26; Tue, 14 Jan 2020 11:01:25 +0100 (CET)
+ id 275C1784F; Tue, 14 Jan 2020 11:01:25 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] Ui 20200114 patches
-Date: Tue, 14 Jan 2020 11:01:23 +0100
-Message-Id: <20200114100125.31604-1-kraxel@redhat.com>
+Subject: [PULL 1/2] ui: Print available display backends with '-display help'
+Date: Tue, 14 Jan 2020 11:01:24 +0100
+Message-Id: <20200114100125.31604-2-kraxel@redhat.com>
+In-Reply-To: <20200114100125.31604-1-kraxel@redhat.com>
+References: <20200114100125.31604-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: dwYVR3vYNIOP62L6T2Ga2A-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: wfU8bavKNu-sfIUuM_NkRQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,43 +73,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 3c8a6575985b1652b45bfa670b5e1907d642cfa0=
-:
+From: Thomas Huth <thuth@redhat.com>
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/usb-20200113-pull-reque=
-st' into staging (2020-01-13 14:19:57 +0000)
+We already print availabled devices with "-device help", or available
+backends with "-netdev help" or "-chardev help". Let's provide a way
+for the users to query the available display backends, too.
 
-are available in the Git repository at:
-
-  git://git.kraxel.org/qemu tags/ui-20200114-pull-request
-
-for you to fetch changes up to c4c00922cc948bb5e879bfae60764eba1f8745f3:
-
-  display/gtk: get proper refreshrate (2020-01-14 07:26:36 +0100)
-
-----------------------------------------------------------------
-ui: add "-display help", gtk refresh rate.
-
-----------------------------------------------------------------
-
-Nikola Pavlica (1):
-  display/gtk: get proper refreshrate
-
-Thomas Huth (1):
-  ui: Print available display backends with '-display help'
-
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-id: 20200108144702.29969-1-thuth@redhat.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
  include/ui/console.h |  1 +
- include/ui/gtk.h     |  2 ++
  ui/console.c         | 15 +++++++++++++++
- ui/gtk.c             | 11 +++++++++++
  vl.c                 |  5 +++++
  qemu-options.hx      |  3 ++-
- 6 files changed, 36 insertions(+), 1 deletion(-)
+ 4 files changed, 23 insertions(+), 1 deletion(-)
 
+diff --git a/include/ui/console.h b/include/ui/console.h
+index 281f9c145b58..f35b4fc082b4 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -442,6 +442,7 @@ void qemu_display_register(QemuDisplay *ui);
+ bool qemu_display_find_default(DisplayOptions *opts);
+ void qemu_display_early_init(DisplayOptions *opts);
+ void qemu_display_init(DisplayState *ds, DisplayOptions *opts);
++void qemu_display_help(void);
+=20
+ /* vnc.c */
+ void vnc_display_init(const char *id, Error **errp);
+diff --git a/ui/console.c b/ui/console.c
+index ac79d679f576..69339b028bb2 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -2333,6 +2333,21 @@ void qemu_display_init(DisplayState *ds, DisplayOpti=
+ons *opts)
+     dpys[opts->type]->init(ds, opts);
+ }
+=20
++void qemu_display_help(void)
++{
++    int idx;
++
++    printf("Available display backend types:\n");
++    for (idx =3D DISPLAY_TYPE_NONE; idx < DISPLAY_TYPE__MAX; idx++) {
++        if (!dpys[idx]) {
++            ui_module_load_one(DisplayType_str(idx));
++        }
++        if (dpys[idx]) {
++            printf("%s\n",  DisplayType_str(dpys[idx]->type));
++        }
++    }
++}
++
+ void qemu_chr_parse_vc(QemuOpts *opts, ChardevBackend *backend, Error **er=
+rp)
+ {
+     int val;
+diff --git a/vl.c b/vl.c
+index 158a05ed321c..751401214c80 100644
+--- a/vl.c
++++ b/vl.c
+@@ -1869,6 +1869,11 @@ static void parse_display(const char *p)
+ {
+     const char *opts;
+=20
++    if (is_help_option(p)) {
++        qemu_display_help();
++        exit(0);
++    }
++
+     if (strstart(p, "sdl", &opts)) {
+         /*
+          * sdl DisplayType needs hand-crafted parser instead of
+diff --git a/qemu-options.hx b/qemu-options.hx
+index d4b73ef60c1d..709162c159ad 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1669,7 +1669,8 @@ STEXI
+ @item -display @var{type}
+ @findex -display
+ Select type of display to use. This option is a replacement for the
+-old style -sdl/-curses/... options. Valid values for @var{type} are
++old style -sdl/-curses/... options. Use @code{-display help} to list
++the available display types. Valid values for @var{type} are
+ @table @option
+ @item sdl
+ Display video output via SDL (usually in a separate graphics
 --=20
 2.18.1
 
