@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5010913ADB8
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 16:33:52 +0100 (CET)
-Received: from localhost ([::1]:42184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E38713ADCC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 16:38:13 +0100 (CET)
+Received: from localhost ([::1]:42302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irOCV-0000xv-2A
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 10:33:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39996)
+	id 1irOGi-0007cB-BT
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 10:38:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40881)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1irNyO-0000Ru-79
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:19:17 -0500
+ (envelope-from <stefanha@gmail.com>) id 1irO1l-0004wG-De
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:22:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1irNyJ-00009f-I0
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:19:14 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55403
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irNyI-000066-V9
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:19:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579015149;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type; bh=7Av0EBC0wUnvR4uT/GA5tywrrcCx0R1RquP+AjiCYvQ=;
- b=Kly/Vh8zswlXigXTdxh6AihsKpabxESbYJ4oiM21yEA/bMbcV1NJbzOMnEgeMv3YCiHgXD
- hjVbe/W206r4JUJR3LU6iMdJcy6e442Q7FFRrvTJMV30tGQ+1SumaKA7xLu8yUMpDCdHOJ
- gQi3JfdzuSyurtpjlQvLUWWaraS4wso=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-w55Pz8RfMd6pfpM9iq-rKQ-1; Tue, 14 Jan 2020 10:19:06 -0500
-X-MC-Unique: w55Pz8RfMd6pfpM9iq-rKQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 080D3DB20;
- Tue, 14 Jan 2020 15:19:05 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.118.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D62C60BE0;
- Tue, 14 Jan 2020 15:19:04 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
-Subject: KVM call minutes for 2020-01-14
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 14 Jan 2020 16:19:02 +0100
-Message-ID: <87imlecbh5.fsf@secure.laptop>
+ (envelope-from <stefanha@gmail.com>) id 1irO1k-0004t8-6T
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:22:45 -0500
+Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32]:38216)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1irO1k-0004rw-2o
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 10:22:44 -0500
+Received: by mail-qv1-xf32.google.com with SMTP id t6so5815086qvs.5
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 07:22:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=sGSH+IQlQUpGY7KF52LbS3Sr2SWrDfuS4pXyDnX+7v4=;
+ b=MX/NfTe550zuC3FwRtqoTwouP7sKw3LZEpmO+gmJ2rLqORQV+VQluEqKsGa8vdwZk6
+ EtfINcokMyO9rzCOqFlNXoWrWMPhamDn5Gde0WmEaEZV8ZMX1p4eH7dlRQeJQbuVwEHY
+ FlSqsCZL13Isq4FkfJ8cbMYLE1/4GtIBbZ7OghHL9rMlUD1SEVZLACf+omHz7L1iRjhy
+ LRRH4EDx8HKSBNKho59Yu9EwJN1askHQcWuclf2S/RSlTvpQFI4HKKdXCdckjJ6gWmjT
+ Vz5M4stiJ2IFQO16sA0alyU0jdLTOseKUHxSQlzHLG12fquzO3GPwr+wXpn19lAt+F3/
+ jeZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=sGSH+IQlQUpGY7KF52LbS3Sr2SWrDfuS4pXyDnX+7v4=;
+ b=lTkZZtDkE/kqysO2dxCakAHYgsmxg8Mmw+YnQGyw2NdFmHDo/CS97ATS8dkFxETAjx
+ NydSROVf48VV85eqT9n2OkhUb16NqqKefDYZYFJUeX44yLgVuNzxrLPWndjOQgRwobAn
+ tkpEb5WevjfajpUvbqRiPyhDimNXloi8DZipXUPMrAKQSlKsZI+M9Na6UIab4fBmc9P3
+ fVg85Dsc2gSyvbqMuDA6+Q2sGGpcXy5N8N1CBwkx8wYUqzwV+P2xO0irBMDJUqvRgGlV
+ KCk+cQUJOxTX6Rb0yf3GML5iikRePN7zJ84m5SmKVpchtK8gyydTrhsmrtMm8h7RBST5
+ wBUA==
+X-Gm-Message-State: APjAAAXyXruodssOzP0h7W3rczyT3qQqlvph8CXABSHBXsT+KOYy2SUl
+ xWpTsFN/Ychf5ak0dKo0FCNwFC4ZQXvlO4vbZgn5ewStT8s=
+X-Google-Smtp-Source: APXvYqwN4D+3gnhT5ILtw7eyoEFsPo8Oy4a0dP5VSRm1kWk2AgCkKOLDgqG8uLutWOavzkMTjlIU9C68aW4Wo3QaBvc=
+X-Received: by 2002:a0c:ea45:: with SMTP id u5mr16749667qvp.171.1579015363207; 
+ Tue, 14 Jan 2020 07:22:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 14 Jan 2020 15:22:30 +0000
+Message-ID: <CAJSP0QWUfHyAk-xLFA1-sWSU7CvB4yKu0=Okoc7wcv7TinmXWg@mail.gmail.com>
+Subject: Feedback on multi-process QEMU muser prototype
+To: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::f32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,47 +67,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>, Jag Raman <jag.raman@oracle.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I haven't seen the link to the muser prototype shared on the list yet,
+so I'm taking the liberty of posting it for discussion:
+https://github.com/oracle/qemu/tree/multi-process-qemu-v0.4.1-muser
 
-Hi
+Great that a lot of the multi-process patch series is no longer
+necessary.  The muser approach requires less code in QEMU.
 
-This notes are very terse because the discussion was quite technical and
-I am not familiar with this part of qemu.  Feel free to fill this.
+The following points came to mind:
 
+1. Configure PCI configuration space, BARs, and MSI/IRQs based on the PCIDevice
+   instead of hard-coding the LSI SCSI controller's specifics.  That way any
+   PCIDevice can run as an muser device.
 
-- libmuser:
-    * Take all the complication of implementing the device
-    * support several transport types?
-    * mediated devices
-    * tcp or rdma connection
-    * VMI vs VMF
-    * SPDK
-    * Oracle move from unix socket to muser
-    * Will we use it over kernel or over userspace?
-    * For polling we are single process
-    * How do handle recovery, outside process can have quite a bit of state
-- multi-process
-   * trying to integrate multiuser + muser
-   * look if their vision is ok with qemu expectations
-   * one continue with muser kernel module
-   * other is vfio over unix socket
-   * preferrence is going vfio over unix socket
-     this allows all implementations work
-- out of tree device
-   * problematic
-   * require to link with qemu
-   * what about dpdk and other external
-   * other appoarch: vfio with outside device
-- vfio over sockets
-   * who is doing that work?
-   * felipe prototype it long ago
-- best way to get this multiprocess in
-  * they have worked on this for a long time
-  * no idea about how to go from there
+2. Integrate with QEMU's event loop instead of spawning threads and calling
+   lm_ctx_run().  The event loop should monitor the muser fd for activity using
+   aio_set_fd_handler() and then call into libmuser to handle the event.  This
+   will avoid thread model problems in the future and also allow true
+   multi-threading (IOThreads).
 
-Later, Juan.
+3. Drop previous multi-process QEMU commits if they are not needed.
 
+Stefan
 
