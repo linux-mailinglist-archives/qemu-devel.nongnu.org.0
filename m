@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32B5139F7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 03:25:03 +0100 (CET)
-Received: from localhost ([::1]:58362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC53139F84
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 03:33:06 +0100 (CET)
+Received: from localhost ([::1]:58430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irBt8-00062i-SB
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 21:25:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50314)
+	id 1irC0v-000200-Ce
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 21:33:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50896)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1irBsN-0005XV-3k
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 21:24:15 -0500
+ (envelope-from <pizhenwei@bytedance.com>) id 1irBz9-0000FE-8b
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 21:31:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1irBsL-0006fY-Uz
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 21:24:15 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:51896)
+ (envelope-from <pizhenwei@bytedance.com>) id 1irBz5-0003RM-Dt
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 21:31:12 -0500
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:46925)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1irBsL-0006ex-Or
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 21:24:13 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id d15so3642062pjw.1
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 18:24:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=z31S/nb6htj+5TUlFmOwqu5Soel9KqYiiMbI+lCx7bM=;
- b=GS+Y0yXG43sCPaIoXiekmUyMtzXjqqESp6kUvIllIqr+RvYNtDB/8c+ubdU4GPYK7J
- MvQL/xEzjRX/S1q/xldpK7x6sQMfd8E9O6MBrpUg+Ofl823ISEGu3jK2c17+VveQIDde
- bRtBM8G+ed/IdHSs0bpVGREYyJ5AGN4XFAT8msLnGzoqN3/Ay50s7RniZwUpAMtxgWjN
- WZdDn2HsDLKdvvxSkJzAcrNahM8rHL8DLkr8fvr9Tl2Nm1+m0vd9VVSDUD/MBwuSik8w
- lOrS65ETMQmTilc+aLITre69SSnsGTF7TLgQKKO2aogi1o+jY6pugT7bCZG62Db6P7du
- GUKg==
+ (Exim 4.71) (envelope-from <pizhenwei@bytedance.com>)
+ id 1irBz4-0003Oy-Gj
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 21:31:11 -0500
+Received: by mail-pl1-x643.google.com with SMTP id y8so4590277pll.13
+ for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 18:31:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=oDNrvMBkRQQTH00uWpsTcBSbalZCfUJLPRKuqSeoeSo=;
+ b=m57wfhAlYH6hIE57ahyBAmG1u704XJRdyhT/WcMH19BXhsmWCHJpeKF9GfgxF+dHiM
+ TmPvCrTPNU6h304ism86fJDBNmdQ33e6XegIyv4acUL9GV5BHjGGRGYBHo4ypMIj41Nr
+ 9SAUaGYuQz9EefbEX7s+xfqFE/2x7rFl9QgRFzBopWlev0hR27z4SHLwVkAfWp3MlPrs
+ byKXsYkm+svl4SXOrhUZ0UGs4XEGaNrnQjoLxDiPafEXau7392uPlGNqNgNpKJlIOCph
+ RhTRB/+vkKR9Cqp6bDEPIBnWP5S81wP0+U2b21Gxv+X/sInI+rIrfDljpbeRlSA54uzv
+ j6VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=z31S/nb6htj+5TUlFmOwqu5Soel9KqYiiMbI+lCx7bM=;
- b=iB/jZEYnJ7Z6wIjqLsggD2J/H/8lzNEEUG0BU2XhtMKD/Hpsan3/OO3obVQnU8/S6m
- 4vA1zDPc4D3xOfBslArehLgRpCbghTVOI2b2z/4oPi7FKNdDwo8HXlWqHu82fg88KX7b
- TpW5uUSdTxlmGM92xEhw3zxKTxw6fecVz2Xxx4pT1NGrw4X8wuqUur/lQ91QP6vSUKcJ
- bhwKTXbMzQHfvVL/eHKevt51MYbWmPNWZyhTedmvGCX4LAZSmYYQ7DL52e1loOkERUGb
- B9lFRcGnf7jtMvmlLVtfV4rNBtko9tn1Il6rX3+qQWeFqISlwY5sDApQL4EZloudTAF1
- PNxg==
-X-Gm-Message-State: APjAAAXUqk2E1Un+k5Q1pPS2vnR0U/uQf3FuP/ozkK0wC58KD5x8+30X
- 19no7vr2pkBoIUsJkf0Wv0LnNA==
-X-Google-Smtp-Source: APXvYqzlkjpG5hngRWPehXwbVxwLJCl0lV7lPzMe09BUZz2hGts2sDOu9/cpDo2hdsNGZSD4fwCmcg==
-X-Received: by 2002:a17:90a:17e3:: with SMTP id
- q90mr25479314pja.139.1578968652767; 
- Mon, 13 Jan 2020 18:24:12 -0800 (PST)
-Received: from [192.168.3.43] (rrcs-66-91-136-155.west.biz.rr.com.
- [66.91.136.155])
- by smtp.gmail.com with ESMTPSA id z26sm14648245pgu.80.2020.01.13.18.24.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jan 2020 18:24:12 -0800 (PST)
-Subject: Re: [PATCH 3/3] remove redundant check for fpu csr read and write
- interface
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, Alistair.Francis@wdc.com,
- palmer@dabbelt.com, chihmin.chao@sifive.com, jimw@sifive.com,
- bmeng.cn@gmail.com
-References: <20200110081220.891-1-zhiwei_liu@c-sky.com>
- <20200110081220.891-3-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fff313b8-766e-f7e9-4044-837261d38def@linaro.org>
-Date: Mon, 13 Jan 2020 16:24:08 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <20200110081220.891-3-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=oDNrvMBkRQQTH00uWpsTcBSbalZCfUJLPRKuqSeoeSo=;
+ b=lo+vA0u2GsRjv89enUdBZEgS2d8eqbQDEmDCoM28FI0gp20OBFk+Bm7J44POvaU812
+ WB4eIhzgj2Ah/DzutCtTubxC7vEvbHmHSkco8AwHhpvTP6nTaiESDnrGQnfM5E/sYmmp
+ xcQts5cSR4CHbJ4zfG2T0XgVErhxld6xOOHuxVTyFGvEpqKsqVNTtX4EKqUt7f7nF0H9
+ UH59lOUwuYuvYMDdneLA9xxxoX+/c6FKcW0Y6jS/KEGmczJzuKFbS+Szo6K5AEJUsR3p
+ Aw2NTx/fEXr8HeM9PnsoeUdNzsx8KNU2FGhtvJTNDxudfXC3LlMd47pxSZXtqhGFutED
+ ExKA==
+X-Gm-Message-State: APjAAAVmmjZq4R4iJiF5twfMvEkEobkBKm5W3OxmMXc1rcKxjaOOIb5e
+ ueQcQ9JaArtOizAz9Z+2GNdOFQ==
+X-Google-Smtp-Source: APXvYqw2GGKY98QBoPTGSWXcvDPONV8N4+ERhCP4con4+EQ6LX5p7/ETHntC90Q7iT6qefFfxAXz9Q==
+X-Received: by 2002:a17:902:848f:: with SMTP id
+ c15mr17417150plo.182.1578969068845; 
+ Mon, 13 Jan 2020 18:31:08 -0800 (PST)
+Received: from libai.bytedance.net ([61.120.150.71])
+ by smtp.gmail.com with ESMTPSA id w5sm14693898pgb.78.2020.01.13.18.31.05
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 13 Jan 2020 18:31:08 -0800 (PST)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: pbonzini@redhat.com
+Subject: [PATCH 0/2] pvpanic: implement crashloaded event for pvpanic
+Date: Tue, 14 Jan 2020 10:31:00 +0800
+Message-Id: <20200114023102.612548-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.11.0
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1044
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,23 +73,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- wxy194768@alibaba-inc.com
+Cc: gregkh@linuxfoundation.org, yelu@bytedance.com, qemu-devel@nongnu.org,
+ zhenwei pi <pizhenwei@bytedance.com>, mprivozn@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/9/20 10:12 PM, LIU Zhiwei wrote:
-> The read or write interface must be called after the predicate fs return 0.
-> And the predicate will check (!env->debugger && !riscv_cpu_fp_enabled(env)),
-> S0 no need to check again.
-> 
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->  target/riscv/csr.c | 24 ------------------------
->  1 file changed, 24 deletions(-)
+Guest may handle panic by itself, then just reboot without pvpanic
+notification. Then We can't separate the abnormal reboot from
+normal operation.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Declear bit 1 for pvpanic as crashloaded event. It should work with
+guest kernel side. Link: https://lkml.org/lkml/2019/12/14/265
+Before running kexec, guest could wirte this bit to notify host side.
+Host side handles crashloaded event, posts event to upper layer.
+Then guest side continues to run kexec.
 
+Test with libvirt, libvirt could recieve the new event. The patch of
+libvirt will be sent soon.
 
-r~
+Zhenwei Pi (2):
+  pvpanic: introduce crashloaded for pvpanic
+  pvpanic: implement crashloaded event handling
+
+ docs/specs/pvpanic.txt    |  8 ++++++--
+ hw/misc/pvpanic.c         | 11 +++++++++--
+ include/sysemu/runstate.h |  1 +
+ qapi/run-state.json       | 22 +++++++++++++++++++++-
+ vl.c                      | 12 ++++++++++++
+ 5 files changed, 49 insertions(+), 5 deletions(-)
+
+-- 
+2.11.0
+
 
