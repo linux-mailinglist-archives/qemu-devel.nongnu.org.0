@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919BA13AB25
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 14:32:10 +0100 (CET)
-Received: from localhost ([::1]:39748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C78C13AB36
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 14:39:15 +0100 (CET)
+Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irMIj-0007jB-AQ
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 08:32:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47660)
+	id 1irMPZ-000509-RD
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 08:39:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48933)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1irMFs-0005LX-2S
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:29:15 -0500
+ (envelope-from <thuth@redhat.com>) id 1irMOe-0004Gz-88
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:38:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1irMFo-0002eU-5a
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:29:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32314
+ (envelope-from <thuth@redhat.com>) id 1irMOd-0004NS-A8
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:38:16 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57177
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irMFo-0002eQ-2C
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:29:08 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1irMOd-0004NI-70
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:38:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579008547;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=rJbcImH5i0e70GI2sx/dpdxprKBxk63V9AGRCyBHgxk=;
- b=islBv4DwCAR4tS724F7ULBs4xKAkH410Z69QOgO/02LLDJeBSNYps4K6Kz8deMI+IMlXC/
- PwIdZW+6S/enoHV2pmXg/lCEbcqilnLOPZzMiEwljzU4HChb6Q/FVSLAYmR25reN10Flrk
- jPRnCA/NW722j480+1SKOzh9Fvm4i3A=
+ s=mimecast20190719; t=1579009091;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=gPoBcc2aHn1ToeFSiNbgw2VuJX2qesF95FQlmMKDxkc=;
+ b=aM8IrJwqUaCD+mxsnXXHPT47agRklnRFY257FR6Su88ftCs2MMRrxxGkfNBZoZDkWQg8YT
+ E84vm/xoUD6rW6LEgrTHkryL5DDeK1/8DGbbJo0qj8M1xlvve0Wd/VTgPkeAGybi6tV40F
+ MzRfTc3568293lWLgoKRH//zjCUyvx8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-xZq5XLksPlS1kPDnfvC-nQ-1; Tue, 14 Jan 2020 08:29:04 -0500
-X-MC-Unique: xZq5XLksPlS1kPDnfvC-nQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-162-Wpdzd31CPDOT5M_MZpgVGg-1; Tue, 14 Jan 2020 08:38:07 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51230802B85;
- Tue, 14 Jan 2020 13:29:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.118.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5889F19C5B;
- Tue, 14 Jan 2020 13:29:00 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: kvm-devel <kvm@vger.kernel.org>
-Subject: Re: KVM call for agenda for 2020-01-14
-In-Reply-To: <87k163qwwh.fsf@trasno.org> (Juan Quintela's message of "Tue, 07
- Jan 2020 13:22:06 +0100")
-References: <87k163qwwh.fsf@trasno.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 14 Jan 2020 14:28:58 +0100
-Message-ID: <87wo9ucgkl.fsf@secure.laptop>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA6D4184C73C;
+ Tue, 14 Jan 2020 13:38:06 +0000 (UTC)
+Received: from thuth.remote.csb (unknown [10.36.118.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 71E69100164D;
+ Tue, 14 Jan 2020 13:38:05 +0000 (UTC)
+Subject: Re: [PATCH v2] iotests: Add more "skip_if_unsupported" statements to
+ the python tests
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20191218144349.19354-1-thuth@redhat.com>
+ <20191219121928.GH5230@linux.fritz.box>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <31b81415-0679-089b-788b-cc6364c0ebff@redhat.com>
+Date: Tue, 14 Jan 2020 14:38:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20191219121928.GH5230@linux.fritz.box>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: Wpdzd31CPDOT5M_MZpgVGg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,36 +76,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Juan Quintela <quintela@redhat.com> wrote:
-> Hi
->
-> Please, send any topic that you are interested in covering.
->
-> We have already one topic for this call already:
->
-> * Multi-process QEMU and muser
+On 19/12/2019 13.19, Kevin Wolf wrote:
+> Am 18.12.2019 um 15:43 hat Thomas Huth geschrieben:
+>> The python code already contains a possibility to skip tests if the
+>> corresponding driver is not available in the qemu binary - use it
+>> in more spots to avoid that the tests are failing if the driver has
+>> been disabled.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>  v2: Thanks to Max' "iotests: Allow skipping test cases" patch (see
+>>      commit 6be012252018249d3a), this patch has been greatly simplified
+>>      by only marking the setUp functions instead of all functions from
+>>      a class.
+> 
+> Ah, nice. I didn't know this worked on setup() functions.
+> 
+>> diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+>> index f3766f2a81..a585554c61 100755
+>> --- a/tests/qemu-iotests/030
+>> +++ b/tests/qemu-iotests/030
+>> @@ -530,6 +530,7 @@ class TestQuorum(iotests.QMPTestCase):
+>>      children = []
+>>      backing = []
+>>  
+>> +    @iotests.skip_if_unsupported(['quorum'])
+>>      def setUp(self):
+>>          opts = ['driver=quorum', 'vote-threshold=2']
+> 
+> test_stream_quorum(), which is the only test case in this class, already
+> contains a check:
+> 
+>     if not iotests.supports_quorum():
+>         return
+> 
+> We should probably remove this check because it's dead code now.
 
-Hi folks
+Interesting - but apparently, the check did not work right, since the
+test aborts if I run it with a QEMU binary that does not have quorum
+enabled.
+Anyway, I'll respin the patch with the old check removed.
 
-Remember that today is a call in 30 minutes.
-
-Thanks, Juan.
-
->
-> By popular demand, a google calendar public entry with it
->
->   https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
->
-> (Let me know if you have any problems with the calendar entry.  I just
-> gave up about getting right at the same time CEST, CET, EDT and DST).
->
-> If you need phone number details,  contact me privately
->
-> Thanks, Juan.
+ Thanks,
+  Thomas
 
 
