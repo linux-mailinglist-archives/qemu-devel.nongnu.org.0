@@ -2,157 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D53C139E86
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 01:46:20 +0100 (CET)
-Received: from localhost ([::1]:57658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C172B139E95
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 01:51:41 +0100 (CET)
+Received: from localhost ([::1]:57696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irALb-0006wE-53
-	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 19:46:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36008)
+	id 1irAQm-0001FD-ST
+	for lists+qemu-devel@lfdr.de; Mon, 13 Jan 2020 19:51:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36546)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aik@ozlabs.ru>) id 1irAJT-0005Q6-FM
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:44:08 -0500
+ (envelope-from <bounces@canonical.com>) id 1irAPx-0000mb-6u
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:50:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>) id 1irAJR-0007Ml-BS
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:44:06 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:42879)
+ (envelope-from <bounces@canonical.com>) id 1irAPv-0004q5-NJ
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:50:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33744)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1irAJQ-0007LS-Ge
- for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:44:04 -0500
-Received: by mail-pf1-x444.google.com with SMTP id 4so5696752pfz.9
- for <qemu-devel@nongnu.org>; Mon, 13 Jan 2020 16:44:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=RqyisWUcV/neXbPg1Ju+mbJ3qPNN3xZWaSHzumNz/kQ=;
- b=pxQEfYkDB3DqPglR4nBuXP5Rnwzfug0cHrQeHreGO2o2PWwQXc/zpCbqm61qFEH1j7
- CHSDYLDXzjdrBSS+q+9Edc9u1UBFEF/bvNVDvZWQdQixpNKeGrSuEvINvM7SJjSM92yL
- pX0RKzAgmj4tV7A6JFU1Bdrig5QW7uCjhMrq5ESXCz274Duw++w36iCIGDNyjSNvLev4
- 7Q5m7Z5+2UtGnUrocikuJUXDGnKWYVzjU2FZXULfpWyQ+oE3jTpJvLMs6XfnClxiY1dC
- L+DduBMm+r1jodKCaFi/ethRr/uCTTZvwZJBSWBrCEr8dyoDaENhV/UKmbilfhyt0C0C
- 8xcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=RqyisWUcV/neXbPg1Ju+mbJ3qPNN3xZWaSHzumNz/kQ=;
- b=NhfI7IpaUl9A7+h4GUP4aopaEy8s8S4YfmbSO/lsY3bPY+55HNQ/56yYD8xEeyhyzC
- Po0ZqP/4lbX5oJpxqm3Sm6cZqapnhcTP6GBdA6/LTTldZOY4Hfpyv0GvUeMCzpuoKXp2
- 2Tz8qbKTDq5k62XQS0uvCtTSGSYGUJ3d4KadcILtIZFIKRC/j5gcO4PxguKsXQIgyq5z
- /lC4cwSxBPybA+MBh8+qunRXQRuDBJWrYfBtsnmRG7cqHyKtMQJ0e7WFTg7by8CEdrn+
- acV/WLwvoMAZkH6PtEqfifZ/WPNmocMkSg4USlDvKCE1oXA9CwGQzhBap+BeJFrhWRKH
- GNag==
-X-Gm-Message-State: APjAAAUvbkUw3f+PXKDEa2O5QBk5RzDvgAt27R2X9XX1Zdc0PuHOx9TN
- Z7u4Y2UCfVNPyH0jPwoTVcJuDA==
-X-Google-Smtp-Source: APXvYqz7hbbOjiVMOp+sZXLAyvmuzPTN6Mi5sBiHd54XMUkt7unyctK+0VPZ1vOrv6ThpAF2qvkU/g==
-X-Received: by 2002:a63:d66:: with SMTP id 38mr23420177pgn.233.1578962642738; 
- Mon, 13 Jan 2020 16:44:02 -0800 (PST)
-Received: from [10.61.2.175] ([122.99.82.10])
- by smtp.gmail.com with ESMTPSA id u13sm14289846pjn.29.2020.01.13.16.43.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jan 2020 16:44:02 -0800 (PST)
-Subject: Re: [RFC PATCH qemu] spapr: Kill SLOF
-To: Andrea Bolognani <abologna@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20200103074404.30853-1-aik@ozlabs.ru>
- <3cf3e733-199a-61ba-7aaa-05e9546cd4d9@ozlabs.ru>
- <dd98618f-01c6-850f-ac00-454a2f798508@gmail.com>
- <81f1f752-3ada-2c8d-38b7-1344c7633e14@ozlabs.ru>
- <e3299f0688127627de96eb2db1f127bf94df9085.camel@redhat.com>
- <5ed92e2a-4b9f-8092-cb67-8d94c3891e20@ozlabs.ru>
- <1a8f9121a3cb85d415ff1c67a5379a717ad2b8e0.camel@redhat.com>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-Autocrypt: addr=aik@ozlabs.ru; keydata=
- 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
-Message-ID: <aa44205f-e56c-daba-e2ed-e3c7817676df@ozlabs.ru>
-Date: Tue, 14 Jan 2020 11:43:54 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1irAPv-0004oo-H7
+ for qemu-devel@nongnu.org; Mon, 13 Jan 2020 19:50:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1irAPt-0006Hu-9m
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 00:50:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 486542E80CC
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 00:50:45 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1a8f9121a3cb85d415ff1c67a5379a717ad2b8e0.camel@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 14 Jan 2020 00:44:18 -0000
+From: Benjamin David Lunt <1859359@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fysnet kraxel-redhat marcan42
+X-Launchpad-Bug-Reporter: Benjamin David Lunt (fysnet)
+X-Launchpad-Bug-Modifier: Benjamin David Lunt (fysnet)
+References: <157885971279.5587.15888635675000659382.malonedeb@gac.canonical.com>
+Message-Id: <157896265892.2574.9234280502246838128.malone@soybean.canonical.com>
+Subject: [Bug 1859359] Re: xHCI and event ring handling
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: fababb5cc76c9c13c9349310cb909f4b5a6e4ffb
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -161,78 +66,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jose Ricardo Ziviani <joserz@linux.ibm.com>,
- Fabiano Rosas <farosas@linux.ibm.com>, Sam Bobroff <sbobroff@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Nicholas Piggin <npiggin@gmail.com>,
- Paul Mackerras <paulus@ozlabs.org>, qemu-ppc@nongnu.org,
- =?UTF-8?Q?Leonardo_Augusto_Guimar=c3=a3es_Garcia?= <lagarcia@br.ibm.com>,
- Leonardo Bras <leonardo@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1859359 <1859359@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Hector, guys,
 
+I think I have found my/the error:
 
-On 13/01/2020 20:13, Andrea Bolognani wrote:
-> On Wed, 2020-01-08 at 13:34 +1100, Alexey Kardashevskiy wrote:
->> On 07/01/2020 20:39, Andrea Bolognani wrote:
->>> On Tue, 2020-01-07 at 12:55 +1100, Alexey Kardashevskiy wrote:
->>>> Petitboot kernel+initramdisk almost replaces SLOF + GRUB.
->>>
->>> Is this necessarily a good thing?
->>
->> The bare metal host and the powernv machine in QEMU do not use grub,
->> they use petitboot which parses all grub configs and supports quite a lot.
-> 
-> How well does the distro integration work? Eg. if I change something
-> in /etc/default/grub and then run grub2-mkconfig, can I expect my
-> changes to be picked up?
+xHCI, version 1.0, Page 136:
+"Note: The detection of a Cycle bit mismatch in an Event TRB processed =
 
-Yes. Even the environment file (/boot/grub/grubenv).
+ by software indicates the location of the xHC Event Ring Enqueue Pointer =
 
-> In which scenarios will that *not* work?
+ and that the Event Ring is empty. Software shall write the ERDP with the
+ address of this TRB to indicate that it has processed all Events in the
+ ring."
 
-When/if grub adds a big new feature and petitboot won't have support for
-it. Otherwise everything from GRUB is supported today.
+It does not state to advance the Consumer's internal Dequeue pointer.  =
 
+Just the register is mentioned.
 
->> Using Linux for a boot loader is not powerpc-only thing really, some
->> folks do this too (forgot who, just heard this at the KVM forum).
-> 
-> While other options are available and some architectures use
-> something else entirely, GRUB is the de-facto standard across most
-> of the non-obscure architectures.
+This is my error.  I thought that it implied to advance the Consumer's
+internal Dequeue Pointer as well.  (Implied being the big word here)
 
-True. I am thinking of extending this patch to support GRUB as well. Or
-alternatively we could add a mode to GRUB to run in userspace under
-petitboot's kernel.
+Sorry for the bother.  It was my error.  It took me a bit of (re)reading
+and a little more work to find that it was/is indeed my error.
 
-It just seems quite an attractive idea to be able to boot from literally
-anything without needing a ROM on whatever device is passed through to
-the guest, or a driver in SLOF.
+Sorry and thank you for your time,
+Ben
 
+-- =
 
-> I guess the question is whether it's more important to be consistent
-> within the architecture or across them. I think the latter might be
-> preferable, especially when we consider what I think is the most
-> common scenario, that is, someone who's used to having GRUB on their
-> x86 machine running a ppc64 guest on the cloud. The more skills they
-> can automatically transfer over, the better.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859359
 
-True. petitboot is not horribly different though, and the user has to
-take exact same steps as if it was GRUB.
+Title:
+  xHCI and event ring handling
 
->>> Personally I quite like the fact
->>> that I can use the same bootloader across x86, ppc64 and aarch64.
->>
->> I am not suggesting removing SLOF soon
-> 
-> Perhaps the patch subject shouldn't be "kill SLOF" then? ;)
+Status in QEMU:
+  Invalid
 
-This way I get more attention ;)
+Bug description:
+  I believe that the Event Ring handling in QEMU is not correct.  For
+  example, an Event Ring may have multiple segments.  However, the code
+  in xhci_write_event()
+  (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
+  xhci.c;hb=3DHEAD#l645), starting with line 668, seems to only support a
+  single segment.
 
+  Also, QEMU is sending a spurious interrupt after the Guest writes to
+  the ERDP register due to the fact that the address written does not
+  match the current index.  This is because the index is incremented
+  after sending the event.  The xHCI specification states in section
+  5.5.2.3.3 "When software finishes processing an Event TRB, it will
+  write the address of that Event TRB to the ERDP."
 
--- 
-Alexey
+  Since xhci_write_event() has already incremented the index pointer
+  (intr->er_ep_idx), the check at line 3098
+  (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/usb/hcd-
+  xhci.c;hb=3DHEAD#l3090) no longer is valid.
+
+  I have not studied QEMU's code enough yet to offer a patch.  However,
+  this should be a simple fix.
+
+  intr->er_ep_idx++;
+  if (intr->er_ep_idx >=3D intr->er_table[intr->er_segment].er_size) {
+    intr->er_ep_idx =3D 0;
+    intr->er_segment++;
+    if (intr->er_segment >=3D intr->er_table_size) {
+      intr->er_segment =3D 0;
+      intr->er_pcs =3D !intr->er_pcs;
+    }
+  }
+
+  Being sure to incorporate this new segment member into the above code
+  (possibly as shown) as well as change the lines at 665 to use the new
+  segment member of the structure, and of course in the initialization
+  portion of the event ring.
+
+  As for the spurious interrupt at line 3101, a new member will need to
+  be added to the code to keep track of the last inserted ED (TRB) into
+  the Event Ring and then of course checking against this new member,
+  not the now newly incremented member.
+
+  I have sent an email to the author listed at the top of the file as
+  well, not sure if this is proper bug reporting etiquette or not.
+
+  Thank you.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859359/+subscriptions
 
