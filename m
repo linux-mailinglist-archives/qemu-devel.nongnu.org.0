@@ -2,48 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E47713A41D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 10:47:02 +0100 (CET)
-Received: from localhost ([::1]:35453 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 731E913A436
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 10:49:44 +0100 (CET)
+Received: from localhost ([::1]:35488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irImq-00059x-Lx
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 04:47:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58874)
+	id 1irIpS-0000S3-Vc
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 04:49:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59500)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dovgaluk@ispras.ru>) id 1irIYh-0004FH-8b
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:32:24 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1irIcp-000144-38
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:36:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dovgaluk@ispras.ru>) id 1irIYc-0007bU-D6
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:32:22 -0500
-Received: from mail.ispras.ru ([83.149.199.45]:56474)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <dovgaluk@ispras.ru>) id 1irIYc-0007bC-5C
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:32:18 -0500
-Received: from PASHAISP (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 5351A725C0;
- Tue, 14 Jan 2020 12:32:15 +0300 (MSK)
-From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
-To: =?UTF-8?Q?'Alex_Benn=C3=A9e'?= <alex.bennee@linaro.org>,
- "'Kevin Wolf'" <kwolf@redhat.com>
-References: <157709434917.12933.4351155074716553976.stgit@pasha-Precision-3630-Tower>
- <157709442133.12933.4291167191595240519.stgit@pasha-Precision-3630-Tower>
- <20200109115918.GC9504@linux.fritz.box> <878smbnuxi.fsf@linaro.org>
-In-Reply-To: <878smbnuxi.fsf@linaro.org>
-Subject: RE: [for-5.0 PATCH 03/11] migration: introduce icount field for
- snapshots
-Date: Tue, 14 Jan 2020 12:32:17 +0300
-Message-ID: <000801d5cabd$8391fc70$8ab5f550$@ru>
+ (envelope-from <peter.maydell@linaro.org>) id 1irIcn-0000b5-Fg
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:36:38 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:45603)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1irIcn-0000ax-9g
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:36:37 -0500
+Received: by mail-oi1-x243.google.com with SMTP id n16so11160590oie.12
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 01:36:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cvt4jvo7a8DHkDMPBVqfcYlqKedlVWPjH3H7nEygEQg=;
+ b=QlHsOxKnpytN2f609iypsIYGoj2i51avhPClN8CKyNlwMMXyqvqDz3AXy4jQBx3+tR
+ HMEMdvSlwJkRZMzgQi+x4VffRjmFe4dJzR1TX88R18bT9CYcwW837tJKSgnPRXHmxDAC
+ 3p+tEE9ZGdluXu4U6Sg/w0nAsmr6gUNEg5UB1Cb0KS205UH/xW+k1yhPAeRKbpyn8sh4
+ 8v1rNqkJefh0XJ6dEc+oaQr8ENtIcXOffkbTWjf1OvtXkLORdnr/n0RaEHKUrPI2Wtqu
+ 5GzFkxpDLNVisTTYmfQu7GGchZZfU5xKPFqU/vvsabeY3XmUZpVL1mcRVwtKxvl739Fc
+ cKJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cvt4jvo7a8DHkDMPBVqfcYlqKedlVWPjH3H7nEygEQg=;
+ b=uiVJVSCsWfKIazh0rnUkfNml/coYtNLX5qKrLlAlVv45Ffndgb3Ey/mortILjSeWbN
+ KLmZo5IQ24/xPWsKrcokl9iz70ITo8CjF0mA0Xz8gqo8jAud9H7m1zL4pEns+duiJkj6
+ lDvVoI57VrNGSopZZ2HxuZbr9EzI5gt+38MOjTt1KoNAu0vPu43x/s+9VqjS86MI0NAi
+ k7Ip5A0COMrTIUr1Wp/VOXOpde9HL7ZATvJiPruxZvkwSw7cDa8/AFl6gjXh97RVdCvM
+ 2DmTfTuvBlC68ojIXkIVN4Hrg/o1yqUgBqqXZ7I7qALWCpLVwTmocplH96/tTBPVCdAf
+ 7uKw==
+X-Gm-Message-State: APjAAAXAXqOAcprao+R86FG783Ik/hg+fud4EOa0rUR63hzDrN4OEfaW
+ rAtAglGHwOpIC49U+O1bprcrRMI46LNe6CeBNeWyrw==
+X-Google-Smtp-Source: APXvYqwliHzusqjQ1hHZDPkWaK878IQiozvXPsLzj1imfsBO4PEArdcOjnCywK0VUIJFGg7JqziMrt0vCVcnUAAIoJc=
+X-Received: by 2002:aca:3d7:: with SMTP id 206mr16286957oid.98.1578994596196; 
+ Tue, 14 Jan 2020 01:36:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Office Outlook 12.0
-Thread-Index: AdXKNHLGUODbllp2RcaeR38anzP7iwAiMlGA
-Content-Language: ru
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 83.149.199.45
+References: <20200113180812.3442-1-peter.maydell@linaro.org>
+ <2b20b548-fb1f-2663-3614-03306595e5d7@redhat.com>
+In-Reply-To: <2b20b548-fb1f-2663-3614-03306595e5d7@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 Jan 2020 09:36:25 +0000
+Message-ID: <CAFEAcA8==fs2CL9dm+m5m+w7xjSrT=g2Zqr0TAm+tHDAumZG6Q@mail.gmail.com>
+Subject: Re: [PATCH] qemu-nbd: Convert invocation documentation to rST
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,62 +72,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru,
- crosthwaite.peter@gmail.com, ciro.santilli@gmail.com, jasowang@redhat.com,
- quintela@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- 'Pavel Dovgalyuk' <pavel.dovgaluk@gmail.com>, maria.klimushenkova@ispras.ru,
- mst@redhat.com, kraxel@redhat.com, boost.lists@gmail.com,
- thomas.dullien@googlemail.com, pbonzini@redhat.com, mreitz@redhat.com,
- artem.k.pisarenko@gmail.com, dgilbert@redhat.com, rth@twiddle.net
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Alex Benn=C3=A9e [mailto:alex.bennee@linaro.org]
-> Kevin Wolf <kwolf@redhat.com> writes:
->=20
-> > Am 23.12.2019 um 10:47 hat Pavel Dovgalyuk geschrieben:
-> >> From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-> >>
-> >> Saving icount as a parameters of the snapshot allows navigation =
-between
-> >> them in the execution replay scenario.
-> >> This information can be used for finding a specific snapshot for =
-proceeding
-> >> the recorded execution to the specific moment of the time.
-> >> E.g., 'reverse step' action (introduced in one of the following =
-patches)
-> >> needs to load the nearest snapshot which is prior to the current =
-moment
-> >> of time.
-> >>
-> >> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
-> >> Acked-by: Markus Armbruster <armbru@redhat.com>
+On Mon, 13 Jan 2020 at 19:58, Eric Blake <eblake@redhat.com> wrote:
+>
+> On 1/13/20 12:08 PM, Peter Maydell wrote:
+> > The qemu-nbd documentation is currently in qemu-nbd.texi in Texinfo
+> > format, which we present to the user as:
+> >   * a qemu-nbd manpage
+> >   * a section of the main qemu-doc HTML documentation
 > >
-> > Acked-by: Kevin Wolf <kwolf@redhat.com>
->=20
-> Apologies my mailer ignored my replay-all:
->=20
-> This commit breaks when of the iotests for me:
->=20
->  git bisect run /bin/sh -c "cd builds/all && make -j4 \
->      && cd tests/qemu-iotests && ./check -qcow2 267"
->=20
->=20
->    List of snapshots present on all disks:
->   -ID        TAG                 VM SIZE                DATE       VM =
-CLOCK
->   +ID        TAG               VM SIZE                DATE     VM =
-CLOCK     ICOUNT
->=20
-> But I've also seen:
->=20
->   =
-ERROR:/home/.../qemu.git/replay/replay-events.c:80:replay_flush_events:
->      assertion failed: (replay_mutex_locked())
+> > Convert the documentation to rST format, and present it to the user as:
+> >   * a qemu-nbd manpage
+> >   * part of the interop/ Sphinx manual
+> >
+> > This follows the same pattern as commit 27a296fce982 did for the
+> > qemu-ga manpage.
+> >
+>
+> I'm not an rST expert, but trust that you compared the resulting
+> renderings.  Is there a quick recipe for doing the build locally so I
+> can easily inspect local artifacts myself?
 
-Thank you, I've updated the code.
-I also added a patch for fixing the test output.
+Yep -- assuming you have the prerequisites installed to
+build the docs (should be just makeinfo, pod2man, sphinx),
+apply the patch and then 'make' will build the docs -- the new
+qemu-nbd.8 should be in docs/interop in the build tree,
+assuming you do builds not in the source tree. If you do
+builds in the source tree then the built artefacts
+are created under docs/built. The html that forms part of
+the interop manpage set is in docs/interop/qemu-nbd.html,
+also in the build tree.
 
-Pavel Dovgalyuk
+> > +++ b/Makefile
+> > @@ -338,7 +338,7 @@ MANUAL_BUILDDIR := docs
+> >   endif
+> >
+> >   ifdef BUILD_DOCS
+> > -DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8 $(MANUAL_BUILDDIR)/interop/qemu-ga.8
+> > +DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 $(MANUAL_BUILDDIR)/interop/qemu-nbd.8 $(MANUAL_BUILDDIR)/interop/qemu-ga.8
+>
+> Worth splitting this long line, either with \-newline, or
+>
+> >   DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7
+> >   DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
+>
+> with additional DOCS+= lines?
 
+I think I prefer the latter.
+
+> > +++ b/MAINTAINERS
+> > @@ -2503,6 +2503,7 @@ F: include/block/nbd*
+> >   F: qemu-nbd.*
+> >   F: blockdev-nbd.c
+> >   F: docs/interop/nbd.txt
+> > +F: docs/interop/qemu-nbd.rst
+> >   T: git https://repo.or.cz/qemu/ericb.git nbd
+>
+> Would I be taking this patch through my NBD tree, or would you be
+> bundling it with other doc patches?
+
+Either way would work for me, depends a bit whether I
+get round to trying to do another doc conversion
+and whether you had any other pending updates to the
+old texinfo doc.
+
+> > +++ b/docs/interop/qemu-nbd.rst
+> > @@ -0,0 +1,263 @@
+>
+> > +.. option:: -s, --snapshot
+> > +
+> > +  Use *filename* as an external snapshot, create a temporary
+> > +  file with ``backing_file=``\ *filename*, redirect the write to
+> > +  the temporary one.
+>
+> Pre-existing poor grammar. Better might be:
+>
+> Use *filename* as an external snapshot, by creating a temporary file
+> with ``backing_file=``\ *filename*, and redirecting writes to the
+> temporary file.
+>
+> But that could also be done as a separate patch, to keep this one as
+> mechanical as possible on the conversion.
+
+Yes. I noticed a few things I would consider docs nits
+which I deliberately didn't fix up in this conversion patch;
+I'd prefer those to be done separately afterwards.
+
+thanks
+-- PMM
 
