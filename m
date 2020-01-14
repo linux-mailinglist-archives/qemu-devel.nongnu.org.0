@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780B213ABF7
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 15:12:49 +0100 (CET)
-Received: from localhost ([::1]:40534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE9E13AC05
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 15:14:13 +0100 (CET)
+Received: from localhost ([::1]:40554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irMw4-00087o-BR
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 09:12:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54712)
+	id 1irMxQ-0001Kg-KQ
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 09:14:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54738)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <coiby.xu@gmail.com>) id 1irMsd-0003JC-OG
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:09:17 -0500
+ (envelope-from <coiby.xu@gmail.com>) id 1irMsh-0003O8-DA
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:09:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <coiby.xu@gmail.com>) id 1irMsc-00088e-2p
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:09:15 -0500
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:39391)
+ (envelope-from <coiby.xu@gmail.com>) id 1irMsf-0008BN-Og
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:09:19 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:43216)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <coiby.xu@gmail.com>) id 1irMsb-000885-QP
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:09:14 -0500
-Received: by mail-pj1-x1042.google.com with SMTP id e11so4376432pjt.4
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 06:09:13 -0800 (PST)
+ (Exim 4.71) (envelope-from <coiby.xu@gmail.com>) id 1irMsf-0008Au-Hv
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 09:09:17 -0500
+Received: by mail-pg1-x542.google.com with SMTP id k197so6440439pga.10
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 06:09:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Smb5q2JKehl018b2NdA+yhR2A85PIPWYcZo1EvMvLD0=;
- b=srh6vFXGxAbVDEH8fr4rTUTjjGzx3vdvQqWL7aOmkGE+QBaonllHcByknlqcMmIeU9
- K3w4gzhdX0GqR6BMGt4eBHoxPHJEKbUKG6gD/NMwACVn1OOKP0RVBMspG4dqpGUkkEpn
- p+PNlSa7AwdPpVJtPmQ/rvrK0prrwqKrd5cM80y1dxKujTE3EsuQTpNnxYZf6jSqQ5i5
- DqvPjYTK/XnJOHdH2K/j2BioPZBUOdKlx7QbiW/iR5N5sYYkJ/wPVAHdxgFnHi9CcM+l
- wVOzJRPVbLNTC+zo3d7kWm9m0Sy/5Pdjf6gsbUrGxERkPE1iZB9hpibhf6VqqtB5GBlZ
- sZPg==
+ bh=+o2xLjvifsgfa/4owhRKctXKFUi1fuVO/+UjjYkEsiY=;
+ b=rTps+s1HILr49CSsa8JsYe9iQPcU9H7Go2nk6yfOE5IU9gf+WGFwSoPXo2j8Ijj+u0
+ hsdAvGwxuh/jW2rUkuPmsN1kF/XeYfYUJAR39EdegTT4JueTVQp5HlAtapSKht/LsKT1
+ BBVujYNKJxAWOEJZhyEESQibC+iCSP5QrYGKb8myfYFV9c2Idj0utt2TzZIL3uihVflK
+ YI0X61nSFdlNWRW2CuV9tmoUyHUgu37Nx/6B7QTnO+syuWwlmIdwDzboiKk3LcAeYwoZ
+ XdeWwxkQJf6v3zDhPb6eQw1bWJwd8PWN+gSa0gN0JUxsJezl9ED1umfK2EDLRrbsAbEU
+ 3zbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Smb5q2JKehl018b2NdA+yhR2A85PIPWYcZo1EvMvLD0=;
- b=W9txW0cclUJViM6VzpvlsEBvYcNzCvEVUBl9euqfbxJ8rnewDmWIP6KtVwkag7q1ox
- bzjWaIsqEMIr5ZPBqSqPms5dOFLA626LiFXbVRsDE64Lmnqo6nuEtDTidpRaeVpDfOu3
- c/bBNNTJ2+tKsRex4foHboBIs9SGnXqr0vq/cZS5J93qorYGJHtqCubDcdj9qUCJzESr
- 7/sVoiWbk7VhUqYaZ8ttQt0LnAAZDCEsRGSQnBuORDuKC88+0GHOapnzQM4InLjbDa+x
- pH728TiFagOmK4UKX+/ptCbpugUNy2RCi+4QpNoOaeLg/DpqiVjEMRWHIle5RypUuMua
- Waog==
-X-Gm-Message-State: APjAAAX2yBz0WP3OhKdR9k7x89cgbQrxnoJXBBDLU1XcFzFkZW96Mx1D
- oFgbM9VaaVe+JJMuNCv1CIfOBPbpnHS0vw==
-X-Google-Smtp-Source: APXvYqzHy4kzIwkF/vUDRGM2ToTtNjH1WVAwh38S/2NZHi4Aalf+CCBhQryHJKko3i/0Hi6DZZsBGA==
-X-Received: by 2002:a17:902:d694:: with SMTP id
- v20mr20370915ply.127.1579010952200; 
- Tue, 14 Jan 2020 06:09:12 -0800 (PST)
+ bh=+o2xLjvifsgfa/4owhRKctXKFUi1fuVO/+UjjYkEsiY=;
+ b=RiBhMv9oVyfTuWljiUHTdNkL1PmyziEhNxPa98gmbnqMSnhUb0LeX43l+6c1xFGqjZ
+ nc2HO8sx1Dq8GCvsMgi6BVTBYYWNYcpqJerWtnf9XjHCEfGC/BMB2TDpCjytUZZYkdv0
+ PJDJQTbc0AURjd1CkRzJ5GoTVv9/dRlLddMgsrjOBRFdcBczfNTp3dxwtK3VZuCJthKH
+ ovzGJJMVjAWn3FgdPO+FQfY+WJGGJKtdfeDeFYOgenDchE4zuFq55LzrViXOWcXlxn7y
+ GBnre/x4NtjVpxBz9bWu/eRlaaQkZlatWBKDvpwEgwUOETlqSVx+RHbE79csz1sVIShG
+ aPkA==
+X-Gm-Message-State: APjAAAVurOq3DAkDOynVCy5piPe19Nw+PBdCoPtbPCHdhm9N//qZLt0q
+ QmZSx1yjA4xABY1XaO6GtcnfzDi6hreSBg==
+X-Google-Smtp-Source: APXvYqy9zdN2rwFup0b/mUBSq8YUwEYFlZyQIvaerB7xFOqlCRawvBuO5BhR0c4kYRhlQDhkVrtbZw==
+X-Received: by 2002:a63:5162:: with SMTP id r34mr27675600pgl.227.1579010956172; 
+ Tue, 14 Jan 2020 06:09:16 -0800 (PST)
 Received: from localhost.localdomain ([175.124.145.172])
- by smtp.googlemail.com with ESMTPSA id a17sm17264773pjv.6.2020.01.14.06.09.08
+ by smtp.googlemail.com with ESMTPSA id a17sm17264773pjv.6.2020.01.14.06.09.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jan 2020 06:09:11 -0800 (PST)
+ Tue, 14 Jan 2020 06:09:15 -0800 (PST)
 From: Coiby Xu <coiby.xu@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/5] extend libvhost to support IOThread
-Date: Tue, 14 Jan 2020 22:06:17 +0800
-Message-Id: <20200114140620.10385-3-coiby.xu@gmail.com>
+Subject: [PATCH v2 3/5] a standone-alone tool to directly share disk image
+ file via vhost-user protocol
+Date: Tue, 14 Jan 2020 22:06:18 +0800
+Message-Id: <20200114140620.10385-4-coiby.xu@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200114140620.10385-1-coiby.xu@gmail.com>
 References: <20200114140620.10385-1-coiby.xu@gmail.com>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,252 +82,284 @@ Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, Coiby Xu <coiby.xu@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previously libvhost dispatch events in its own GMainContext. Now vhost-user client's kick event can be dispatched in block device drive's AioContext thus IOThread is supported.
+vhost-user-blk can have played as vhost-user backend but it only supports raw file and don't support VIRTIO_BLK_T_DISCARD and VIRTIO_BLK_T_WRITE_ZEROES operations on raw file (ioctl(fd, BLKDISCARD) is only valid for real block device).
 
 Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 ---
- contrib/libvhost-user/libvhost-user.c | 64 ++++++++++++++++++++++-----
- contrib/libvhost-user/libvhost-user.h | 36 ++++++++++++++-
- 2 files changed, 87 insertions(+), 13 deletions(-)
+ qemu-vu.c | 264 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 264 insertions(+)
+ create mode 100644 qemu-vu.c
 
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index ec27b78ff1..cd328c1509 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -67,7 +67,6 @@
- /* The version of inflight buffer */
- #define INFLIGHT_VERSION 1
-
--#define VHOST_USER_HDR_SIZE offsetof(VhostUserMsg, payload.u64)
-
- /* The version of the protocol we support */
- #define VHOST_USER_VERSION 1
-@@ -260,7 +259,7 @@ have_userfault(void)
- }
-
- static bool
--vu_message_read(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
-+vu_message_read_(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
- {
-     char control[CMSG_SPACE(VHOST_MEMORY_MAX_NREGIONS * sizeof(int))] = { };
-     struct iovec iov = {
-@@ -286,6 +285,8 @@ vu_message_read(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
-         return false;
-     }
-
-+    assert(rc == VHOST_USER_HDR_SIZE || rc == 0);
-+
-     vmsg->fd_num = 0;
-     for (cmsg = CMSG_FIRSTHDR(&msg);
-          cmsg != NULL;
-@@ -328,6 +329,17 @@ fail:
-     return false;
- }
-
-+static bool vu_message_read(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
-+{
-+    vu_read_msg_cb read_msg;
-+    if (dev->iface->read_msg) {
-+        read_msg = dev->iface->read_msg;
-+    } else {
-+        read_msg = vu_message_read_;
-+    }
-+    return read_msg(dev, conn_fd, vmsg);
-+}
-+
- static bool
- vu_message_write(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
- {
-@@ -400,7 +412,6 @@ vu_process_message_reply(VuDev *dev, const VhostUserMsg *vmsg)
-     if ((vmsg->flags & VHOST_USER_NEED_REPLY_MASK) == 0) {
-         return true;
-     }
--
-     if (!vu_message_read(dev, dev->slave_fd, &msg_reply)) {
-         return false;
-     }
-@@ -644,7 +655,8 @@ vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg *vmsg)
-                     "%s: Failed to madvise(DONTNEED) region %d: %s\n",
-                     __func__, i, strerror(errno));
-         }
--        /* Turn off transparent hugepages so we dont get lose wakeups
-+        /*
-+         * Turn off transparent hugepages so we don't get lose wakeups
-          * in neighbouring pages.
-          * TODO: Turn this backon later.
-          */
-@@ -1047,9 +1059,13 @@ vu_set_vring_kick_exec(VuDev *dev, VhostUserMsg *vmsg)
-     }
-
-     if (dev->vq[index].kick_fd != -1 && dev->vq[index].handler) {
--        dev->set_watch(dev, dev->vq[index].kick_fd, VU_WATCH_IN,
--                       vu_kick_cb, (void *)(long)index);
--
-+        if (dev->set_watch_packed_data) {
-+            dev->set_watch_packed_data(dev, dev->vq[index].kick_fd, VU_WATCH_IN,
-+                           dev->iface->kick_callback, (void *)(long)index);
-+        } else {
-+            dev->set_watch(dev, dev->vq[index].kick_fd, VU_WATCH_IN,
-+                           vu_kick_cb, (void *)(long)index);
-+        }
-         DPRINT("Waiting for kicks on fd: %d for vq: %d\n",
-                dev->vq[index].kick_fd, index);
-     }
-@@ -1069,8 +1085,13 @@ void vu_set_queue_handler(VuDev *dev, VuVirtq *vq,
-     vq->handler = handler;
-     if (vq->kick_fd >= 0) {
-         if (handler) {
--            dev->set_watch(dev, vq->kick_fd, VU_WATCH_IN,
--                           vu_kick_cb, (void *)(long)qidx);
-+            if (dev->set_watch_packed_data) {
-+                dev->set_watch_packed_data(dev, vq->kick_fd, VU_WATCH_IN,
-+                        dev->iface->kick_callback, (void *)(long)qidx);
-+            } else {
-+                dev->set_watch(dev, vq->kick_fd, VU_WATCH_IN,
-+                        vu_kick_cb, (void *)(long)qidx);
-+            }
-         } else {
-             dev->remove_watch(dev, vq->kick_fd);
-         }
-@@ -1596,6 +1617,12 @@ vu_deinit(VuDev *dev)
-         }
-
-         if (vq->kick_fd != -1) {
-+            /* remove watch for kick_fd
-+             * When client process is running in gdb and
-+             * quit command is run in gdb, QEMU will still dispatch the event
-+             * which will cause segment fault in the callback function
-+             */
-+            dev->remove_watch(dev, vq->kick_fd);
-             close(vq->kick_fd);
-             vq->kick_fd = -1;
-         }
-@@ -1647,10 +1674,9 @@ vu_init(VuDev *dev,
-         const VuDevIface *iface)
- {
-     uint16_t i;
--
-     assert(max_queues > 0);
-     assert(socket >= 0);
--    assert(set_watch);
-+    /* assert(set_watch); */
-     assert(remove_watch);
-     assert(iface);
-     assert(panic);
-@@ -1682,6 +1708,22 @@ vu_init(VuDev *dev,
-     return true;
- }
-
-+bool
-+vu_init_packed_data(VuDev *dev,
-+        uint16_t max_queues,
-+        int socket,
-+        vu_panic_cb panic,
-+        vu_set_watch_cb_packed_data set_watch_packed_data,
-+        vu_remove_watch_cb remove_watch,
-+        const VuDevIface *iface)
-+{
-+    if (vu_init(dev, max_queues, socket, panic, NULL, remove_watch, iface)) {
-+        dev->set_watch_packed_data = set_watch_packed_data;
-+        return true;
-+    }
-+    return false;
-+}
-+
- VuVirtq *
- vu_get_queue(VuDev *dev, int qidx)
- {
-diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index 46b600799b..5230d55092 100644
---- a/contrib/libvhost-user/libvhost-user.h
-+++ b/contrib/libvhost-user/libvhost-user.h
-@@ -34,6 +34,9 @@ typedef enum VhostSetConfigType {
-     VHOST_SET_CONFIG_TYPE_MIGRATION = 1,
- } VhostSetConfigType;
-
-+
-+#define VHOST_USER_HDR_SIZE offsetof(VhostUserMsg, payload.u64)
-+
- /*
-  * Maximum size of virtio device config space
-  */
-@@ -200,6 +203,7 @@ typedef uint64_t (*vu_get_features_cb) (VuDev *dev);
- typedef void (*vu_set_features_cb) (VuDev *dev, uint64_t features);
- typedef int (*vu_process_msg_cb) (VuDev *dev, VhostUserMsg *vmsg,
-                                   int *do_reply);
-+typedef bool (*vu_read_msg_cb) (VuDev *dev, int sock, VhostUserMsg *vmsg);
- typedef void (*vu_queue_set_started_cb) (VuDev *dev, int qidx, bool started);
- typedef bool (*vu_queue_is_processed_in_order_cb) (VuDev *dev, int qidx);
- typedef int (*vu_get_config_cb) (VuDev *dev, uint8_t *config, uint32_t len);
-@@ -207,6 +211,15 @@ typedef int (*vu_set_config_cb) (VuDev *dev, const uint8_t *data,
-                                  uint32_t offset, uint32_t size,
-                                  uint32_t flags);
-
-+typedef struct vu_watch_cb_data {
-+   long index;
-+   VuDev *vu_dev;
-+} vu_watch_cb_data;
-+typedef void (*vu_watch_cb_packed_data) (void *packed_data);
-+
-+typedef void (*vu_set_watch_cb_packed_data) (VuDev *dev, int fd, int condition,
-+                                 vu_watch_cb_packed_data cb, void *data);
-+
- typedef struct VuDevIface {
-     /* called by VHOST_USER_GET_FEATURES to get the features bitmask */
-     vu_get_features_cb get_features;
-@@ -220,8 +233,11 @@ typedef struct VuDevIface {
-     /* process_msg is called for each vhost-user message received */
-     /* skip libvhost-user processing if return value != 0 */
-     vu_process_msg_cb process_msg;
-+    vu_read_msg_cb read_msg;
-+    vu_watch_cb_packed_data kick_callback;
-     /* tells when queues can be processed */
-     vu_queue_set_started_cb queue_set_started;
-+
-     /*
-      * If the queue is processed in order, in which case it will be
-      * resumed to vring.used->idx. This can help to support resuming
-@@ -366,7 +382,8 @@ struct VuDev {
-     /* @set_watch: add or update the given fd to the watch set,
-      * call cb when condition is met */
-     vu_set_watch_cb set_watch;
--
-+    /* AIO dispatch will only one data pointer to callback function */
-+    vu_set_watch_cb_packed_data set_watch_packed_data;
-     /* @remove_watch: remove the given fd from the watch set */
-     vu_remove_watch_cb remove_watch;
-
-@@ -398,7 +415,7 @@ typedef struct VuVirtqElement {
-  * @remove_watch: a remove_watch callback
-  * @iface: a VuDevIface structure with vhost-user device callbacks
-  *
-- * Intializes a VuDev vhost-user context.
-+ * Initializes a VuDev vhost-user context.
-  *
-  * Returns: true on success, false on failure.
-  **/
-@@ -411,6 +428,21 @@ bool vu_init(VuDev *dev,
-              const VuDevIface *iface);
-
-
-+/**
-+ * vu_init_packed_data:
-+ * Same as vu_init except for set_watch_packed_data which will pack
-+ * two parameters into a struct thus QEMU aio_dispatch can pass the
-+ * required data to callback function.
+diff --git a/qemu-vu.c b/qemu-vu.c
+new file mode 100644
+index 0000000000..25c32c2c6d
+--- /dev/null
++++ b/qemu-vu.c
+@@ -0,0 +1,264 @@
++/*
++ *  Copyright (C) 2020  Coiby Xu <coiby.xu@gmail.com>
 + *
-+ * Returns: true on success, false on failure.
-+ **/
-+bool vu_init_packed_data(VuDev *dev,
-+             uint16_t max_queues,
-+             int socket,
-+             vu_panic_cb panic,
-+             vu_set_watch_cb_packed_data set_watch_packed_data,
-+             vu_remove_watch_cb remove_watch,
-+             const VuDevIface *iface);
- /**
-  * vu_deinit:
-  * @dev: a VuDev context
++ *  Vhost-user-blk device backend
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; under version 2 of the License.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include <getopt.h>
++#include <libgen.h>
++#include "block/vhost-user.h"
++#include "qemu-common.h"
++#include "qapi/error.h"
++#include "qemu/cutils.h"
++#include "sysemu/block-backend.h"
++#include "block/block_int.h"
++#include "qemu/main-loop.h"
++#include "qemu/module.h"
++#include "qemu/option.h"
++#include "qemu/error-report.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qstring.h"
++#include "qom/object_interfaces.h"
++#include "io/net-listener.h"
++#include "qemu-version.h"
++
++#define QEMU_VU_OPT_CACHE         256
++
++#define QEMU_VU_OPT_AIO           257
++
++static char *srcpath;
++
++static void usage(const char *name)
++{
++    (printf) (
++"Usage: %s [OPTIONS] FILE\n"
++"  or:  %s -L [OPTIONS]\n"
++"QEMU Vhost-user Server Utility\n"
++"\n"
++"  -h, --help                display this help and exit\n"
++"  -V, --version             output version information and exit\n"
++"\n"
++"Connection properties:\n"
++"  -k, --socket=PATH         path to the unix socket\n"
++"\n"
++"General purpose options:\n"
++"  -e, -- exit-panic         When the panic callback is called, the program\n"
++"                            will exit. Useful for make check-qtest.\n"
++"\n"
++"Block device options:\n"
++"  -f, --format=FORMAT       set image format (raw, qcow2, ...)\n"
++"  -r, --read-only           export read-only\n"
++"  -n, --nocache             disable host cache\n"
++"      --cache=MODE          set cache mode (none, writeback, ...)\n"
++"      --aio=MODE            set AIO mode (native or threads)\n"
++"\n"
++QEMU_HELP_BOTTOM "\n"
++    , name, name);
++}
++
++static void version(const char *name)
++{
++    printf(
++"%s " QEMU_FULL_VERSION "\n"
++"Written by Coiby Xu, based on qemu-nbd by Anthony Liguori\n"
++"\n"
++QEMU_COPYRIGHT "\n"
++"This is free software; see the source for copying conditions.  There is NO\n"
++"warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
++    , name);
++}
++
++static VubDev *vub_device;
++
++static void vus_shutdown(void)
++{
++    job_cancel_sync_all();
++    bdrv_close_all();
++    vub_free(vub_device, false);
++}
++
++int main(int argc, char **argv)
++{
++    BlockBackend *blk;
++    BlockDriverState *bs;
++    bool readonly = false;
++    char *sockpath = NULL;
++    int64_t fd_size;
++    const char *sopt = "hVrnvek:f:";
++    struct option lopt[] = {
++        { "help", no_argument, NULL, 'h' },
++        { "version", no_argument, NULL, 'V' },
++        { "exit-panic", no_argument, NULL, 'e' },
++        { "socket", required_argument, NULL, 'k' },
++        { "read-only", no_argument, NULL, 'r' },
++        { "nocache", no_argument, NULL, 'n' },
++        { "cache", required_argument, NULL, QEMU_VU_OPT_CACHE },
++        { "aio", required_argument, NULL, QEMU_VU_OPT_AIO },
++        { "format", required_argument, NULL, 'f' },
++        { NULL, 0, NULL, 0 }
++    };
++    int ch;
++    int opt_ind = 0;
++    int flags = BDRV_O_RDWR;
++    bool seen_cache = false;
++    bool seen_aio = false;
++    const char *fmt = NULL;
++    Error *local_err = NULL;
++    QDict *options = NULL;
++    bool writethrough = true;
++    bool exit_panic = false;
++
++    error_init(argv[0]);
++
++    module_call_init(MODULE_INIT_QOM);
++    qemu_init_exec_dir(argv[0]);
++
++    while ((ch = getopt_long(argc, argv, sopt, lopt, &opt_ind)) != -1) {
++        switch (ch) {
++        case 'e':
++            exit_panic = true;
++            break;
++        case 'n':
++            optarg = (char *) "none";
++            /* fallthrough */
++        case QEMU_VU_OPT_CACHE:
++            if (seen_cache) {
++                error_report("-n and --cache can only be specified once");
++                exit(EXIT_FAILURE);
++            }
++            seen_cache = true;
++            if (bdrv_parse_cache_mode(optarg, &flags, &writethrough) == -1) {
++                error_report("Invalid cache mode `%s'", optarg);
++                exit(EXIT_FAILURE);
++            }
++            break;
++        case QEMU_VU_OPT_AIO:
++            if (seen_aio) {
++                error_report("--aio can only be specified once");
++                exit(EXIT_FAILURE);
++            }
++            seen_aio = true;
++            if (!strcmp(optarg, "native")) {
++                flags |= BDRV_O_NATIVE_AIO;
++            } else if (!strcmp(optarg, "threads")) {
++                /* this is the default */
++            } else {
++               error_report("invalid aio mode `%s'", optarg);
++               exit(EXIT_FAILURE);
++            }
++            break;
++        case 'r':
++            readonly = true;
++            flags &= ~BDRV_O_RDWR;
++            break;
++        case 'k':
++            sockpath = optarg;
++            if (sockpath[0] != '/') {
++                error_report("socket path must be absolute");
++                exit(EXIT_FAILURE);
++            }
++            break;
++        case 'f':
++            fmt = optarg;
++            break;
++        case 'V':
++            version(argv[0]);
++            exit(0);
++            break;
++        case 'h':
++            usage(argv[0]);
++            exit(0);
++            break;
++        case '?':
++            error_report("Try `%s --help' for more information.", argv[0]);
++            exit(EXIT_FAILURE);
++        }
++    }
++
++    if ((argc - optind) != 1) {
++        error_report("Invalid number of arguments");
++        error_printf("Try `%s --help' for more information.\n", argv[0]);
++        exit(EXIT_FAILURE);
++    }
++
++    if (qemu_init_main_loop(&local_err)) {
++        error_report_err(local_err);
++        exit(EXIT_FAILURE);
++    }
++    bdrv_init();
++
++    srcpath = argv[optind];
++    if (fmt) {
++        options = qdict_new();
++        qdict_put_str(options, "driver", fmt);
++    }
++    blk = blk_new_open(srcpath, NULL, options, flags, &local_err);
++
++    if (!blk) {
++        error_reportf_err(local_err, "Failed to blk_new_open '%s': ",
++                          argv[optind]);
++        exit(EXIT_FAILURE);
++    }
++    bs = blk_bs(blk);
++
++    blk_set_enable_write_cache(blk, !writethrough);
++
++    fd_size = blk_getlength(blk);
++    if (fd_size < 0) {
++        error_report("Failed to determine the image length: %s",
++                     strerror(-fd_size));
++        exit(EXIT_FAILURE);
++    }
++
++    AioContext *ctx = bdrv_get_aio_context(bs);
++    bdrv_invalidate_cache(bs, NULL);
++
++    vub_device = g_new0(VubDev, 1);
++    vub_device->unix_socket = g_strdup(sockpath);
++    vub_device->writable = !readonly;
++    vub_device->blkcfg.wce = !writethrough;
++    vub_device->backend = blk;
++    vub_device->ctx = ctx;
++    vub_initialize_config(bs, &vub_device->blkcfg);
++    vub_device->listener = qio_net_listener_new();
++    vub_device->exit_panic = exit_panic;
++
++    qio_net_listener_set_name(vub_device->listener,
++                              "vhost-user-backend-listener");
++
++    SocketAddress *addr = g_new0(SocketAddress, 1);
++    addr->u.q_unix.path = (char *) sockpath;
++    addr->type = SOCKET_ADDRESS_TYPE_UNIX;
++    Error **errp = NULL;
++    if (qio_net_listener_open_sync(vub_device->listener, addr, 1, errp) < 0) {
++        goto error;
++    }
++
++    qio_net_listener_set_client_func(vub_device->listener,
++                                     vub_accept,
++                                     vub_device,
++                                     NULL);
++
++    QTAILQ_INIT(&vub_device->clients);
++
++    do {
++        main_loop_wait(false);
++    } while (!vub_device->exit_panic || !vub_device->close);
++
++ error:
++    vus_shutdown();
++    exit(EXIT_SUCCESS);
++}
 --
 2.24.1
 
