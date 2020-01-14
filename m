@@ -2,105 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A3A13A9E8
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 14:02:51 +0100 (CET)
-Received: from localhost ([::1]:38976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A17C13AA60
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 14:13:27 +0100 (CET)
+Received: from localhost ([::1]:39168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irLqL-00027D-JM
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 08:02:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40662)
+	id 1irM0c-0008Kk-5t
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 08:13:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41475)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1irLhf-00011m-UK
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:53:55 -0500
+ (envelope-from <ysato@users.sourceforge.jp>) id 1irLjf-0003at-ES
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:56:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1irLhc-0001Sd-9U
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:53:51 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:50365)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1irLhc-0001SS-0U
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:53:48 -0500
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MYNaE-1jDuu40jVy-00VLaR; Tue, 14 Jan 2020 13:53:34 +0100
-Subject: Re: [PATCH 10/12] linux-user: Add support for selecting alsa timer
- using ioctl
-To: Filip Bozuta <Filip.Bozuta@rt-rk.com>, qemu-devel@nongnu.org
-References: <1578574763-8327-1-git-send-email-Filip.Bozuta@rt-rk.com>
- <1578574763-8327-11-git-send-email-Filip.Bozuta@rt-rk.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <aca4a927-d7d4-795a-4530-980032e20208@vivier.eu>
-Date: Tue, 14 Jan 2020 13:53:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
-MIME-Version: 1.0
-In-Reply-To: <1578574763-8327-11-git-send-email-Filip.Bozuta@rt-rk.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:k+mieKyjrnPuX+OXYVyy0wiiCawdC0MB7DDx8FtmNaJ5E/6f7DY
- VUX+sXrko8Mth659T01Ym4IpacL/3KLznOiH+p/ok0kP64Bdp02+CsCB1LRssEP2zTrrNQz
- ndzJ3K7TCDYb+XPqC2M2BbM/E/bG+tRYWIoEsUq0D/e0Ialf+8sJO0gcDYEw8HjvBsk4W7x
- iohKtjeq8OfF/U1RvvrVA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dTt2IuV/DNk=:vxEFs9YUiErxpj5tfWfpBP
- JgHi8a2qWYjiIVspckO3sjYhLEA3f6yvUXyhp5P2x7pki0SkUm69YG0fJHkRJDaNB55vG4mCU
- 5vVePJaOnCnDFEl8dR0Z3fe/WRIU2tTmvXWlnrHrZPYbpMAHQr0wXt3/OZZozv+ioq24nn9t0
- whQ4qMAM+qtogdGBXtYCE1aNIPMnAFuTIjDo3QezzHwosFd1N6Gv5/f3Dst0XxWkTNJScJLh7
- VSx+8QhNRqG7nKl3Uy8+RqP4ugIvb3ieCaC8mqa2wimoBY7rWLmv7VPXVOjlXfSTF9S6LgJHN
- muAanRaEjJ2McqAhcTRcmwWOwZyIhyphxQYkBxFIrvMXVvCkeGmMFu35uxIW7+qyur/Q7fw2p
- FUDmbhddIibaIdisql+e9iyzSHt9mYJXTtJTEWEKlddAGIeqIO+o4BOdeYBQdSqXHj7ArhOa8
- hy2tPJBJke2fNXhcYjzf+sevHkBYOhknMi/+nyiJGQV4GAgrZfp/BcocKmjfKCP712j7Vgg7l
- xN4i+SP13kDArxkz3PdfcCnzDMqCx8t93b+D5w4tQflse+UBicvabbBb1/vLKZ1qPEOK2Xo2T
- 3uIe0m+lNAKxUDdVTv8etIoroMEeVEaKbRnq+QsVS6XbN0T2tZ6ZzI3KfIzLZBYZAQ3uiTKAs
- hNYG5MUQffuLiccKGImMYIVSkIDSFAB54lokQHELTUkqahTUXc5F2NHFhyGUK+hlY6SRgs9oH
- ZlsU1aZkB1PdcNlqw1AB1UJK23hVcwjWIQb0d/McyPgZQxZA6pz3Om0W0gyetkpZM7izP5bl0
- ZAWTlZ0vhsSabEUiPGzWTqggRklp8yzDFfmURFqJ27xhggBkoEWiHz6QOYfJgG5UjWEHeqF4B
- /DAzrArNFgR/0cpbrlUg==
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 212.227.126.134
+ (envelope-from <ysato@users.sourceforge.jp>) id 1irLjb-000250-G3
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:55:55 -0500
+Received: from mail01.asahi-net.or.jp ([202.224.55.13]:48818)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1irLjb-00022t-0h
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:55:51 -0500
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
+ [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
+ by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 1FB3B42BD4;
+ Tue, 14 Jan 2020 21:55:43 +0900 (JST)
+Received: from yo-satoh-debian.ysato.ml (p033034.dynamic.ppp.asahi-net.or.jp
+ [221.113.33.34])
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 33CDC24008E;
+ Tue, 14 Jan 2020 21:55:43 +0900 (JST)
+Date: Tue, 14 Jan 2020 21:55:42 +0900
+Message-ID: <87tv4yp581.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v28 17/22] hw/rx: RX Target hardware definition
+In-Reply-To: <20200113101714.2ae82a0c@redhat.com>
+References: <20200112124913.94959-1-ysato@users.sourceforge.jp>
+ <20200112124913.94959-18-ysato@users.sourceforge.jp>
+ <20200113101714.2ae82a0c@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL/10.8 EasyPG/1.0.0 Emacs/26
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 202.224.55.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,98 +57,613 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: riku.voipio@iki.fi
+Cc: philmd@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/01/2020 à 13:59, Filip Bozuta a écrit :
-> This patch implements functionality of following ioctl:
-> 
-> SNDRV_TIMER_IOCTL_SELECT - Selecting timer
-> 
->     Selects the timer which id is specified. The timer id is specified in the
->     following strcuture:
-> 
->     struct snd_timer_select {
->         struct snd_timer_id id;         /* timer ID */
->         unsigned char reserved[32];     /* reserved */
->     };
-> 
->     A pointer to this structure should be passed as the third ioctl's argument.
->     Before calling the ioctl, the field "tid" should be initialized with the id
->     information for the timer which is to be selected. If there is no timer
->     device with the specified id, the error ENODEV ("No such device") is
->     returned.
-> 
-> Implementation notes:
-> 
->     Ioctl implemented in this patch has a pointer to a
->     'struct snd_timer_select' as its third argument.
->     That is the reason why a corresponding definition
->     was added in 'linux-user/syscall_types.h'. The rest
->     of the implementation was straightforward.
-> 
-> Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-> ---
->  linux-user/ioctls.h        | 2 ++
->  linux-user/syscall_defs.h  | 7 +++++++
->  linux-user/syscall_types.h | 4 ++++
->  3 files changed, 13 insertions(+)
-> 
-> diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-> index 989eb9b..7652117 100644
-> --- a/linux-user/ioctls.h
-> +++ b/linux-user/ioctls.h
-> @@ -459,6 +459,8 @@
->          MK_PTR(MK_STRUCT(STRUCT_snd_timer_gparams)))
->    IOCTL(SNDRV_TIMER_IOCTL_GSTATUS, IOC_RW,
->          MK_PTR(MK_STRUCT(STRUCT_snd_timer_gstatus)))
-> +  IOCTL(SNDRV_TIMER_IOCTL_SELECT, IOC_W,
-> +        MK_PTR(MK_STRUCT(STRUCT_snd_timer_select)))
->  
->    IOCTL(HDIO_GETGEO, IOC_R, MK_PTR(MK_STRUCT(STRUCT_hd_geometry)))
->    IOCTL(HDIO_GET_UNMASKINTR, IOC_R, MK_PTR(TYPE_INT))
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 4d4dad3..9a33b71 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -2462,6 +2462,11 @@ struct target_snd_timer_gstatus {
->      unsigned char reserved[32];
->  };
->  
-> +struct target_snd_timer_select {
-> +    struct target_snd_timer_id id;
-> +    unsigned char reserved[32];
-> +};
-> +
->  /* alsa timer ioctls */
->  #define TARGET_SNDRV_TIMER_IOCTL_PVERSION     TARGET_IOR('T', 0x00, int)
->  #define TARGET_SNDRV_TIMER_IOCTL_NEXT_DEVICE  TARGET_IOWR('T', 0x01,                     \
-> @@ -2473,6 +2478,8 @@ struct target_snd_timer_gstatus {
->                                                           struct target_snd_timer_gparams)
->  #define TARGET_SNDRV_TIMER_IOCTL_GSTATUS      TARGET_IOWR('T', 0x05,                     \
->                                                            struct target_snd_timer_gstatus)
-> +#define TARGET_SNDRV_TIMER_IOCTL_SELECT       TARGET_IOW('T', 0x10,                      \
-> +                                                         struct target_snd_timer_select)
->  
->  /* vfat ioctls */
->  #define TARGET_VFAT_IOCTL_READDIR_BOTH    TARGET_IORU('r', 1)
-> diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-> index 4e90716..767632d 100644
-> --- a/linux-user/syscall_types.h
-> +++ b/linux-user/syscall_types.h
-> @@ -116,6 +116,10 @@ STRUCT(snd_timer_gstatus,
->         TYPE_ULONG, /* resolution_den */
->         MK_ARRAY(TYPE_CHAR, 32)) /* reserved */
->  
-> +STRUCT(snd_timer_select,
-> +       MK_STRUCT(STRUCT_snd_timer_id), /* id */
-> +       MK_ARRAY(TYPE_CHAR, 32)) /* reserved */
-> +
->  /* loop device ioctls */
->  STRUCT(loop_info,
->         TYPE_INT,                 /* lo_number */
-> 
+On Mon, 13 Jan 2020 18:17:14 +0900,
+Igor Mammedov wrote:
+>=20
+> On Sun, 12 Jan 2020 21:49:08 +0900
+> Yoshinori Sato <ysato@users.sourceforge.jp> wrote:
+>=20
+> > rx62n - RX62N cpu.
+> > rx-virt - RX QEMU virtual target.
+> >=20
+> > v23 changes.
+> > Add missing includes.
+> >=20
+> > v21 changes.
+> > rx_load_image move to rx-virt.c
+> >=20
+> > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> >=20
+> > Message-Id: <20190616142836.10614-17-ysato@users.sourceforge.jp>
+> > Tested-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> > Message-Id: <20190607091116.49044-9-ysato@users.sourceforge.jp>
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > [PMD: Use TYPE_RX62N_CPU, use #define for RX62N_NR_TMR/CMT/SCI,
+> >  renamed CPU -> MCU, device -> microcontroller]
+> > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> > ---
+> > v19: Fixed typo (Peter Maydell)
+> > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> > ---
+> >  include/hw/rx/rx.h    |   7 ++
+> >  include/hw/rx/rx62n.h |  91 ++++++++++++++++
+> >  hw/rx/rx-virt.c       | 127 ++++++++++++++++++++++
+> >  hw/rx/rx62n.c         | 239 ++++++++++++++++++++++++++++++++++++++++++
+> >  hw/rx/Kconfig         |  14 +++
+> >  hw/rx/Makefile.objs   |   2 +
+> >  6 files changed, 480 insertions(+)
+> >  create mode 100644 include/hw/rx/rx.h
+> >  create mode 100644 include/hw/rx/rx62n.h
+> >  create mode 100644 hw/rx/rx-virt.c
+> >  create mode 100644 hw/rx/rx62n.c
+> >  create mode 100644 hw/rx/Kconfig
+> >  create mode 100644 hw/rx/Makefile.objs
+> >=20
+> > diff --git a/include/hw/rx/rx.h b/include/hw/rx/rx.h
+> > new file mode 100644
+> > index 0000000000..ff5924b81f
+> > --- /dev/null
+> > +++ b/include/hw/rx/rx.h
+> > @@ -0,0 +1,7 @@
+> > +#ifndef QEMU_RX_H
+> > +#define QEMU_RX_H
+> > +/* Definitions for RX board emulation.  */
+> > +
+> > +#include "target/rx/cpu-qom.h"
+> > +
+> > +#endif
+> > diff --git a/include/hw/rx/rx62n.h b/include/hw/rx/rx62n.h
+> > new file mode 100644
+> > index 0000000000..97ea8ddb8e
+> > --- /dev/null
+> > +++ b/include/hw/rx/rx62n.h
+> > @@ -0,0 +1,91 @@
+> > +/*
+> > + * RX62N MCU Object
+> > + *
+> > + * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
+> > + * (Rev.1.40 R01UH0033EJ0140)
+> > + *
+> > + * Copyright (c) 2019 Yoshinori Sato
+> > + *
+> > + * This program is free software; you can redistribute it and/or modif=
+y it
+> > + * under the terms and conditions of the GNU General Public License,
+> > + * version 2 or later, as published by the Free Software Foundation.
+> > + *
+> > + * This program is distributed in the hope it will be useful, but WITH=
+OUT
+> > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY =
+or
+> > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public Licen=
+se for
+> > + * more details.
+> > + *
+> > + * You should have received a copy of the GNU General Public License a=
+long with
+> > + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> > + */
+> > +
+> > +#ifndef HW_RX_RX62N_H
+> > +#define HW_RX_RX62N_H
+> > +
+> > +#include "hw/sysbus.h"
+> > +#include "hw/intc/rx_icu.h"
+> > +#include "hw/timer/renesas_tmr.h"
+> > +#include "hw/timer/renesas_cmt.h"
+> > +#include "hw/char/renesas_sci.h"
+> > +#include "target/rx/cpu.h"
+> > +#include "qemu/units.h"
+> > +
+> > +#define TYPE_RX62N "rx62n"
+> > +#define RX62N(obj) OBJECT_CHECK(RX62NState, (obj), TYPE_RX62N)
+> > +
+> > +#define RX62N_NR_TMR    2
+> > +#define RX62N_NR_CMT    2
+> > +#define RX62N_NR_SCI    6
+> > +
+> > +typedef struct RX62NState {
+> > +    SysBusDevice parent_obj;
+> > +
+> > +    RXCPU cpu;
+> > +    RXICUState icu;
+> > +    RTMRState tmr[RX62N_NR_TMR];
+> > +    RCMTState cmt[RX62N_NR_CMT];
+> > +    RSCIState sci[RX62N_NR_SCI];
+> > +
+> > +    MemoryRegion *sysmem;
+> > +    bool kernel;
+> > +
+> > +    MemoryRegion iram;
+> > +    MemoryRegion iomem1;
+> > +    MemoryRegion d_flash;
+> > +    MemoryRegion iomem2;
+> > +    MemoryRegion iomem3;
+> > +    MemoryRegion c_flash;
+> > +    qemu_irq irq[NR_IRQS];
+> > +} RX62NState;
+> > +
+> > +/*
+> > + * RX62N Peripheral Address
+> > + * See users manual section 5
+> > + */
+> > +#define RX62N_ICUBASE 0x00087000
+> > +#define RX62N_TMRBASE 0x00088200
+> > +#define RX62N_CMTBASE 0x00088000
+> > +#define RX62N_SCIBASE 0x00088240
+> > +
+> > +/*
+> > + * RX62N Peripheral IRQ
+> > + * See users manual section 11
+> > + */
+> > +#define RX62N_TMR_IRQBASE 174
+> > +#define RX62N_CMT_IRQBASE 28
+> > +#define RX62N_SCI_IRQBASE 214
+> > +
+> > +/*
+> > + * RX62N Internal Memory
+> > + * It is the value of R5F562N8.
+> > + * Please change the size for R5F562N7.
+> > + */
+> > +#define RX62N_IRAM_BASE 0x00000000
+> > +#define RX62N_IRAM_SIZE (96 * KiB)
+> > +#define RX62N_DFLASH_BASE 0x00100000
+> > +#define RX62N_DFLASH_SIZE (32 * KiB)
+> > +#define RX62N_CFLASH_BASE 0xfff80000
+> > +#define RX62N_CFLASH_SIZE (512 * KiB)
+> > +
+> > +#define RX62N_PCLK (48 * 1000 * 1000)
+> > +#endif
+> > diff --git a/hw/rx/rx-virt.c b/hw/rx/rx-virt.c
+> > new file mode 100644
+> > index 0000000000..4cfe2e3123
+> > --- /dev/null
+> > +++ b/hw/rx/rx-virt.c
+> > @@ -0,0 +1,127 @@
+> > +/*
+> > + * RX QEMU virtual platform
+> > + *
+> > + * Copyright (c) 2019 Yoshinori Sato
+> > + *
+> > + * This program is free software; you can redistribute it and/or modif=
+y it
+> > + * under the terms and conditions of the GNU General Public License,
+> > + * version 2 or later, as published by the Free Software Foundation.
+> > + *
+> > + * This program is distributed in the hope it will be useful, but WITH=
+OUT
+> > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY =
+or
+> > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public Licen=
+se for
+> > + * more details.
+> > + *
+> > + * You should have received a copy of the GNU General Public License a=
+long with
+> > + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qapi/error.h"
+> > +#include "qemu-common.h"
+> > +#include "cpu.h"
+> > +#include "hw/hw.h"
+> > +#include "hw/sysbus.h"
+> > +#include "hw/loader.h"
+> > +#include "hw/rx/rx62n.h"
+> > +#include "sysemu/sysemu.h"
+> > +#include "sysemu/qtest.h"
+> > +#include "sysemu/device_tree.h"
+> > +#include "hw/boards.h"
+> > +
+> > +/* Same address of GDB integrated simulator */
+> > +#define SDRAM_BASE 0x01000000
+> > +
+> > +static void rx_load_image(RXCPU *cpu, const char *filename,
+> > +                          uint32_t start, uint32_t size)
+> > +{
+> > +    static uint32_t extable[32];
+> > +    long kernel_size;
+> > +    int i;
+> > +
+> > +    kernel_size =3D load_image_targphys(filename, start, size);
+> > +    if (kernel_size < 0) {
+> > +        fprintf(stderr, "qemu: could not load kernel '%s'\n", filename=
+);
+> > +        exit(1);
+> > +    }
+> > +    cpu->env.pc =3D start;
+> > +
+> > +    /* setup exception trap trampoline */
+> > +    /* linux kernel only works little-endian mode */
+> > +    for (i =3D 0; i < ARRAY_SIZE(extable); i++) {
+> > +        extable[i] =3D cpu_to_le32(0x10 + i * 4);
+> > +    }
+> > +    rom_add_blob_fixed("extable", extable, sizeof(extable), 0xffffff80=
+);
+> > +}
+> > +
+> > +static void rxvirt_init(MachineState *machine)
+> > +{
+> > +    RX62NState *s =3D g_new(RX62NState, 1);
+> > +    MemoryRegion *sysmem =3D get_system_memory();
+> > +    MemoryRegion *sdram =3D g_new(MemoryRegion, 1);
+> > +    const char *kernel_filename =3D machine->kernel_filename;
+> > +    const char *dtb_filename =3D machine->dtb;
+> > +    void *dtb =3D NULL;
+> > +    int dtb_size;
+>=20
+> this board doesn't really care about what RAM size user specified
+> with -m, but since we don't have any generic way to describe that
+> just add a check here in case user provided -m and it doesn't
+> match expected size, like
+>=20
+>       if (machine->ram_size !=3D 16 * MiB)
+>           error_report (invalid ram size, must be ...)
+>           exit(ERROR_FATAL)
+>       }
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+OK.
+This target has the same configuration as the gdb simulator,
+so the RAM size is undefined.
+I think that it is good to be able to set it to optional capacity by option.
+
+>=20
+> > +    /* Allocate memory space */
+> > +    memory_region_init_ram(sdram, NULL, "sdram", 16 * MiB,
+> > +                           &error_fatal);
+> > +    memory_region_add_subregion(sysmem, SDRAM_BASE, sdram);
+> > +
+> > +    /* Initialize MCU */
+> > +    object_initialize_child(OBJECT(machine), "mcu", s,
+> > +                            sizeof(RX62NState), TYPE_RX62N,
+> > +                            &error_fatal, NULL);
+> > +    object_property_set_link(OBJECT(s), OBJECT(get_system_memory()),
+> > +                             "memory", &error_abort);
+> > +    object_property_set_bool(OBJECT(s), kernel_filename !=3D NULL,
+> > +                             "load-kernel", &error_abort);
+> > +    object_property_set_bool(OBJECT(s), true, "realized", &error_abort=
+);
+> > +
+> > +    /* Load kernel and dtb */
+> > +    if (kernel_filename) {
+> > +        rx_load_image(RXCPU(first_cpu), kernel_filename,
+> > +                      SDRAM_BASE + 8 * MiB, 8 * MiB);
+> > +        if (dtb_filename) {
+> > +            dtb =3D load_device_tree(dtb_filename, &dtb_size);
+> > +            if (dtb =3D=3D NULL) {
+> > +                fprintf(stderr, "Couldn't open dtb file %s\n", dtb_fil=
+ename);
+> > +                exit(1);
+> > +            }
+> > +            if (machine->kernel_cmdline &&
+> > +                qemu_fdt_setprop_string(dtb, "/chosen", "bootargs",
+> > +                                        machine->kernel_cmdline) < 0) {
+> > +                fprintf(stderr, "couldn't set /chosen/bootargs\n");
+> > +                exit(1);
+> > +            }
+> > +            rom_add_blob_fixed("dtb", dtb, dtb_size,
+> > +                               SDRAM_BASE + 16 * MiB - dtb_size);
+> > +            /* Set dtb address to R1 */
+> > +            RXCPU(first_cpu)->env.regs[1] =3D 0x02000000 - dtb_size;
+> > +        }
+> > +    }
+> > +}
+> > +
+> > +static void rxvirt_class_init(ObjectClass *oc, void *data)
+> > +{
+> > +    MachineClass *mc =3D MACHINE_CLASS(oc);
+> > +
+> > +    mc->desc =3D "RX QEMU Virtual Target";
+> > +    mc->init =3D rxvirt_init;
+> > +    mc->is_default =3D 1;
+> > +    mc->default_cpu_type =3D TYPE_RX62N_CPU;
+> > +}
+> > +
+> > +static const TypeInfo rxvirt_type =3D {
+> > +    .name =3D MACHINE_TYPE_NAME("rx-virt"),
+> > +    .parent =3D TYPE_MACHINE,
+> > +    .class_init =3D rxvirt_class_init,
+> > +};
+> > +
+> > +static void rxvirt_machine_init(void)
+> > +{
+> > +    type_register_static(&rxvirt_type);
+> > +}
+> > +
+> > +type_init(rxvirt_machine_init)
+> > diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
+> > new file mode 100644
+> > index 0000000000..ac47f2a397
+> > --- /dev/null
+> > +++ b/hw/rx/rx62n.c
+> > @@ -0,0 +1,239 @@
+> > +/*
+> > + * RX62N Microcontroller
+> > + *
+> > + * Datasheet: RX62N Group, RX621 Group User's Manual: Hardware
+> > + * (Rev.1.40 R01UH0033EJ0140)
+> > + *
+> > + * Copyright (c) 2019 Yoshinori Sato
+> > + *
+> > + * This program is free software; you can redistribute it and/or modif=
+y it
+> > + * under the terms and conditions of the GNU General Public License,
+> > + * version 2 or later, as published by the Free Software Foundation.
+> > + *
+> > + * This program is distributed in the hope it will be useful, but WITH=
+OUT
+> > + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY =
+or
+> > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public Licen=
+se for
+> > + * more details.
+> > + *
+> > + * You should have received a copy of the GNU General Public License a=
+long with
+> > + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qapi/error.h"
+> > +#include "hw/hw.h"
+> > +#include "hw/rx/rx62n.h"
+> > +#include "hw/loader.h"
+> > +#include "hw/sysbus.h"
+> > +#include "hw/qdev-properties.h"
+> > +#include "sysemu/sysemu.h"
+> > +#include "cpu.h"
+> > +
+> > +/*
+> > + * IRQ -> IPR mapping table
+> > + * 0x00 - 0x91: IPR no (IPR00 to IPR91)
+> > + * 0xff: IPR not assigned
+> > + * See "11.3.1 Interrupt Vector Table" in hardware manual.
+> > + */
+> > +static const int ipr_table[NR_IRQS] =3D {
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, /* 15 */
+> > +    0x00, 0xff, 0xff, 0xff, 0xff, 0x01, 0xff, 0x02,
+> > +    0xff, 0xff, 0xff, 0x03, 0x04, 0x05, 0x06, 0x07, /* 31 */
+> > +    0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
+> > +    0x10, 0x11, 0x12, 0x13, 0x14, 0x14, 0x14, 0x14, /* 47 */
+> > +    0x15, 0x15, 0x15, 0x15, 0xff, 0xff, 0xff, 0xff,
+> > +    0x18, 0x18, 0x18, 0x18, 0x18, 0x1d, 0x1e, 0x1f, /* 63 */
+> > +    0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
+> > +    0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f, /* 79 */
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> > +    0xff, 0xff, 0x3a, 0x3b, 0x3c, 0xff, 0xff, 0xff, /* 95 */
+> > +    0x40, 0xff, 0x44, 0x45, 0xff, 0xff, 0x48, 0xff,
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, /* 111 */
+> > +    0xff, 0xff, 0x51, 0x51, 0x51, 0x51, 0x52, 0x52,
+> > +    0x52, 0x53, 0x53, 0x54, 0x54, 0x55, 0x55, 0x56, /* 127 */
+> > +    0x56, 0x57, 0x57, 0x57, 0x57, 0x58, 0x59, 0x59,
+> > +    0x59, 0x59, 0x5a, 0x5b, 0x5b, 0x5b, 0x5c, 0x5c, /* 143 */
+> > +    0x5c, 0x5c, 0x5d, 0x5d, 0x5d, 0x5e, 0x5e, 0x5f,
+> > +    0x5f, 0x60, 0x60, 0x61, 0x61, 0x62, 0x62, 0x62, /* 159 */
+> > +    0x62, 0x63, 0x64, 0x64, 0x64, 0x64, 0x65, 0x66,
+> > +    0x66, 0x66, 0x67, 0x67, 0x67, 0x67, 0x68, 0x68, /* 175 */
+> > +    0x68, 0x69, 0x69, 0x69, 0x6a, 0x6a, 0x6a, 0x6b,
+> > +    0x6b, 0x6b, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, /* 191 */
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x70, 0x71,
+> > +    0x72, 0x73, 0x74, 0x75, 0xff, 0xff, 0xff, 0xff, /* 207 */
+> > +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x80, 0x80,
+> > +    0x80, 0x80, 0x81, 0x81, 0x81, 0x81, 0x82, 0x82, /* 223 */
+> > +    0x82, 0x82, 0x83, 0x83, 0x83, 0x83, 0xff, 0xff,
+> > +    0xff, 0xff, 0x85, 0x85, 0x85, 0x85, 0x86, 0x86, /* 239 */
+> > +    0x86, 0x86, 0xff, 0xff, 0xff, 0xff, 0x88, 0x89,
+> > +    0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, /* 255 */
+> > +};
+> > +
+> > +/*
+> > + * Level triggerd IRQ list
+> > + * Not listed IRQ is Edge trigger.
+> > + * See "11.3.1 Interrupt Vector Table" in hardware manual.
+> > + */
+> > +static const uint32_t levelirq[] =3D {
+> > +     16,  21,  32,  44,  47,  48,  51,  64,  65,  66,
+> > +     67,  68,  69,  70,  71,  72,  73,  74,  75,  76,
+> > +     77,  78,  79,  90,  91, 170, 171, 172, 173, 214,
+> > +    217, 218, 221, 222, 225, 226, 229, 234, 237, 238,
+> > +    241, 246, 249, 250, 253,
+> > +};
+> > +
+> > +static void register_icu(RX62NState *s)
+> > +{
+> > +    int i;
+> > +    SysBusDevice *icu;
+> > +
+> > +    object_initialize_child(OBJECT(s), "icu", &s->icu, sizeof(RXICUSta=
+te),
+> > +                            TYPE_RXICU, &error_abort, NULL);
+> > +
+> > +    icu =3D SYS_BUS_DEVICE(&s->icu);
+> > +    sysbus_mmio_map(SYS_BUS_DEVICE(icu), 0, RX62N_ICUBASE);
+> > +    qdev_prop_set_uint32(DEVICE(icu), "len-ipr-map", NR_IRQS);
+> > +    for (i =3D 0; i < NR_IRQS; i++) {
+> > +        char propname[32];
+> > +        snprintf(propname, sizeof(propname), "ipr-map[%d]", i);
+> > +        qdev_prop_set_uint32(DEVICE(icu), propname, ipr_table[i]);
+> > +    }
+> > +    qdev_prop_set_uint32(DEVICE(icu), "len-trigger-level",
+> > +                         ARRAY_SIZE(levelirq));
+> > +    for (i =3D 0; i < ARRAY_SIZE(levelirq); i++) {
+> > +        char propname[32];
+> > +        snprintf(propname, sizeof(propname), "trigger-level[%d]", i);
+> > +        qdev_prop_set_uint32(DEVICE(icu), propname, levelirq[i]);
+> > +    }
+> > +
+> > +    for (i =3D 0; i < NR_IRQS; i++) {
+> > +        s->irq[i] =3D qdev_get_gpio_in(DEVICE(icu), i);
+> > +    }
+> > +
+> > +    qdev_init_nofail(DEVICE(icu));
+> > +    sysbus_connect_irq(icu, 0, qdev_get_gpio_in(DEVICE(&s->cpu), RX_CP=
+U_IRQ));
+> > +    sysbus_connect_irq(icu, 1, qdev_get_gpio_in(DEVICE(&s->cpu), RX_CP=
+U_FIR));
+> > +    sysbus_connect_irq(icu, 2, s->irq[SWI]);
+> > +
+> > +}
+> > +
+> > +static void register_tmr(RX62NState *s, int unit)
+> > +{
+> > +    SysBusDevice *tmr;
+> > +    int i, irqbase;
+> > +
+> > +    object_initialize_child(OBJECT(s), "tmr[*]", &s->tmr[unit],
+> > +                            sizeof(RTMRState), TYPE_RENESAS_TMR,
+> > +                            &error_abort, NULL);
+> > +
+> > +    tmr =3D SYS_BUS_DEVICE(&s->tmr[unit]);
+> > +    sysbus_mmio_map(tmr, 0, RX62N_TMRBASE + unit * 0x10);
+> > +    qdev_prop_set_uint64(DEVICE(tmr), "input-freq", RX62N_PCLK);
+> > +
+> > +    qdev_init_nofail(DEVICE(tmr));
+> > +    irqbase =3D RX62N_TMR_IRQBASE + TMR_NR_IRQ * unit;
+> > +    for (i =3D 0; i < TMR_NR_IRQ; i++) {
+> > +        sysbus_connect_irq(tmr, i, s->irq[irqbase + i]);
+> > +    }
+> > +}
+> > +
+> > +static void register_cmt(RX62NState *s, int unit)
+> > +{
+> > +    SysBusDevice *cmt;
+> > +    int i, irqbase;
+> > +
+> > +    object_initialize_child(OBJECT(s), "cmt[*]", &s->cmt[unit],
+> > +                            sizeof(RCMTState), TYPE_RENESAS_CMT,
+> > +                            &error_abort, NULL);
+> > +
+> > +    cmt =3D SYS_BUS_DEVICE(&s->cmt[unit]);
+> > +    sysbus_mmio_map(cmt, 0, RX62N_CMTBASE + unit * 0x10);
+> > +    qdev_prop_set_uint64(DEVICE(cmt), "input-freq", RX62N_PCLK);
+> > +
+> > +    qdev_init_nofail(DEVICE(cmt));
+> > +    irqbase =3D RX62N_CMT_IRQBASE + CMT_NR_IRQ * unit;
+> > +    for (i =3D 0; i < CMT_NR_IRQ; i++) {
+> > +        sysbus_connect_irq(cmt, i, s->irq[irqbase + i]);
+> > +    }
+> > +}
+> > +
+> > +static void register_sci(RX62NState *s, int unit)
+> > +{
+> > +    SysBusDevice *sci;
+> > +    int i, irqbase;
+> > +
+> > +    object_initialize_child(OBJECT(s), "sci[*]", &s->sci[unit],
+> > +                            sizeof(RSCIState), TYPE_RENESAS_SCI,
+> > +                            &error_abort, NULL);
+> > +
+> > +    sci =3D SYS_BUS_DEVICE(&s->sci[unit]);
+> > +    sysbus_mmio_map(sci, 0, RX62N_SCIBASE + unit * 0x08);
+> > +    qdev_prop_set_chr(DEVICE(sci), "chardev", serial_hd(unit));
+> > +    qdev_prop_set_uint64(DEVICE(sci), "input-freq", RX62N_PCLK);
+> > +
+> > +    qdev_init_nofail(DEVICE(sci));
+> > +    irqbase =3D RX62N_SCI_IRQBASE + SCI_NR_IRQ * unit;
+> > +    for (i =3D 0; i < SCI_NR_IRQ; i++) {
+> > +        sysbus_connect_irq(sci, i, s->irq[irqbase + i]);
+> > +    }
+> > +}
+> > +
+> > +static void rx62n_realize(DeviceState *dev, Error **errp)
+> > +{
+> > +    RX62NState *s =3D RX62N(dev);
+> > +
+> > +    memory_region_init_ram(&s->iram, NULL, "iram", RX62N_IRAM_SIZE, er=
+rp);
+> > +    memory_region_add_subregion(s->sysmem, RX62N_IRAM_BASE, &s->iram);
+> > +    memory_region_init_rom(&s->d_flash, NULL, "dataflash",
+> > +                           RX62N_DFLASH_SIZE, errp);
+> > +    memory_region_add_subregion(s->sysmem, RX62N_DFLASH_BASE, &s->d_fl=
+ash);
+> > +    memory_region_init_rom(&s->c_flash, NULL, "codeflash",
+> > +                           RX62N_CFLASH_SIZE, errp);
+> > +    memory_region_add_subregion(s->sysmem, RX62N_CFLASH_BASE, &s->c_fl=
+ash);
+> > +    if (!s->kernel) {
+> > +        rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
+> > +    }
+> > +
+> > +    /* Initialize CPU */
+> > +    object_initialize_child(OBJECT(s), "cpu", &s->cpu, sizeof(RXCPU),
+> > +                            TYPE_RX62N_CPU, errp, NULL);
+> > +    object_property_set_bool(OBJECT(&s->cpu), true, "realized", errp);
+> > +
+> > +    register_icu(s);
+> > +    s->cpu.env.ack =3D qdev_get_gpio_in_named(DEVICE(&s->icu), "ack", =
+0);
+> > +    register_tmr(s, 0);
+> > +    register_tmr(s, 1);
+> > +    register_cmt(s, 0);
+> > +    register_cmt(s, 1);
+> > +    register_sci(s, 0);
+> > +}
+> > +
+> > +static Property rx62n_properties[] =3D {
+> > +    DEFINE_PROP_LINK("memory", RX62NState, sysmem, TYPE_MEMORY_REGION,
+> > +                     MemoryRegion *),
+> > +    DEFINE_PROP_BOOL("load-kernel", RX62NState, kernel, false),
+> > +    DEFINE_PROP_END_OF_LIST(),
+> > +};
+> > +
+> > +static void rx62n_class_init(ObjectClass *klass, void *data)
+> > +{
+> > +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> > +
+> > +    dc->realize =3D rx62n_realize;
+> > +    dc->props =3D rx62n_properties;
+> > +}
+> > +
+> > +static const TypeInfo rx62n_info =3D {
+> > +    .name =3D TYPE_RX62N,
+> > +    .parent =3D TYPE_SYS_BUS_DEVICE,
+> > +    .instance_size =3D sizeof(RX62NState),
+> > +    .class_init =3D rx62n_class_init,
+> > +};
+> > +
+> > +static void rx62n_register_types(void)
+> > +{
+> > +    type_register_static(&rx62n_info);
+> > +}
+> > +
+> > +type_init(rx62n_register_types)
+> > diff --git a/hw/rx/Kconfig b/hw/rx/Kconfig
+> > new file mode 100644
+> > index 0000000000..a07490a65e
+> > --- /dev/null
+> > +++ b/hw/rx/Kconfig
+> > @@ -0,0 +1,14 @@
+> > +config RX
+> > +    bool
+> > +
+> > +config RX62N
+> > +    bool
+> > +    select RX
+> > +    select RX_ICU
+> > +    select RENESAS_TMR8
+> > +    select RENESAS_CMT
+> > +    select RENESAS_SCI
+> > +
+> > +config RX_VIRT
+> > +    bool
+> > +    select RX62N
+> > diff --git a/hw/rx/Makefile.objs b/hw/rx/Makefile.objs
+> > new file mode 100644
+> > index 0000000000..63f8be0e82
+> > --- /dev/null
+> > +++ b/hw/rx/Makefile.objs
+> > @@ -0,0 +1,2 @@
+> > +obj-$(CONFIG_RX62N) +=3D rx62n.o
+> > +obj-$(CONFIG_RX_VIRT) +=3D rx-virt.o
+>=20
+
+--=20
+Yosinori Sato
 
