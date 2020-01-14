@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619D713AA9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 14:20:56 +0100 (CET)
-Received: from localhost ([::1]:39316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4163E13AABC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 14:22:53 +0100 (CET)
+Received: from localhost ([::1]:39454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irM7r-0001bz-DJ
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 08:20:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41781)
+	id 1irM9k-0004Kt-44
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 08:22:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41844)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1irLkT-0004Os-Jg
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:56:49 -0500
+ (envelope-from <quintela@redhat.com>) id 1irLkb-0004ZL-Rm
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:56:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1irLkP-0002Jn-Iz
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:56:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57873
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1irLka-0002Nz-2B
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:56:53 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26956
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irLkP-0002JP-Eo
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:56:41 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irLkZ-0002NR-Uo
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 07:56:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579006598;
+ s=mimecast20190719; t=1579006611;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pWrM4tTgAcr3IjSP+Dc3j+8p78JiYlrCeLYCKUIobhM=;
- b=KceVoNVEul9Brse1pcHtE2SimWRToWyFYd6qPXc5ctShyFonpdq0QO6LPpBCTDv8+aWMCz
- kYp5S9mKeb/nUrqhhyCrhcXvaMwJjcoTca2IY59UGIeKA+XyGtZ1fSmhw1TtqK/FmMBus1
- CDpjDmQW2YbjRMJG0tVUV5igOVDrTjA=
+ bh=A9ILjMmGuIyM1P2hRnpWbTP5WXqnScSgd+A/btvZYmk=;
+ b=Nu+TJRyVdCgoPONg/yBy9e2pI0R5CKAHLDHR881fpedDURf231Z/GkKWV2Qp4dBkc3mEAg
+ x2dc4TpshpZ37LtBu67QeGieMKPoTjXaQvOpfTRDzsz+ZlG54apV3rguh3ydCAxRNtMNOr
+ tPM4aH6AYIKdhybe24CX8J0Vmc0Cjkk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-CR6ExrTCPHGusxRqTBDgxA-1; Tue, 14 Jan 2020 07:56:36 -0500
+ us-mta-403-ct9GR9yINdSwSFjUmuvLYg-1; Tue, 14 Jan 2020 07:56:50 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D27D800D41;
- Tue, 14 Jan 2020 12:56:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 665D58024CE;
+ Tue, 14 Jan 2020 12:56:48 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FD7C5D9E5;
- Tue, 14 Jan 2020 12:56:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73F525D9E5;
+ Tue, 14 Jan 2020 12:56:34 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/30] Bug #1829242 correction.
-Date: Tue, 14 Jan 2020 13:52:50 +0100
-Message-Id: <20200114125254.4515-27-quintela@redhat.com>
+Subject: [PULL 27/30] migration: Define VMSTATE_INSTANCE_ID_ANY
+Date: Tue, 14 Jan 2020 13:52:51 +0100
+Message-Id: <20200114125254.4515-28-quintela@redhat.com>
 In-Reply-To: <20200114125254.4515-1-quintela@redhat.com>
 References: <20200114125254.4515-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: CR6ExrTCPHGusxRqTBDgxA-1
+X-MC-Unique: ct9GR9yINdSwSFjUmuvLYg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,8 +76,8 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Alexey Romko <nevilad@yahoo.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
  Stefan Berger <stefanb@linux.ibm.com>, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -86,127 +86,270 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexey Romko <nevilad@yahoo.com>
+From: Peter Xu <peterx@redhat.com>
 
-Added type conversions to ram_addr_t before all left shifts of page
-indexes to TARGET_PAGE_BITS, to correct overflows when the page
-address was 4Gb and more.
+Define the new macro VMSTATE_INSTANCE_ID_ANY for callers who wants to
+auto-generate the vmstate instance ID.  Previously it was hard coded
+as -1 instead of this macro.  It helps to change this default value in
+the follow up patches.  No functional change.
 
-Signed-off-by: Alexey Romko <nevilad@yahoo.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 29 ++++++++++++++++++-----------
- 1 file changed, 18 insertions(+), 11 deletions(-)
+ backends/dbus-vmstate.c     | 3 ++-
+ hw/arm/stellaris.c          | 2 +-
+ hw/core/qdev.c              | 3 ++-
+ hw/display/ads7846.c        | 2 +-
+ hw/i2c/core.c               | 2 +-
+ hw/input/stellaris_input.c  | 3 ++-
+ hw/intc/apic_common.c       | 2 +-
+ hw/misc/max111x.c           | 3 ++-
+ hw/net/eepro100.c           | 3 ++-
+ hw/pci/pci.c                | 2 +-
+ hw/ppc/spapr.c              | 2 +-
+ hw/timer/arm_timer.c        | 2 +-
+ hw/tpm/tpm_emulator.c       | 3 ++-
+ include/migration/vmstate.h | 2 ++
+ migration/savevm.c          | 8 ++++----
+ 15 files changed, 25 insertions(+), 17 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 0e1d95cd73..ba6e0eea15 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1768,7 +1768,7 @@ static inline bool migration_bitmap_clear_dirty(RAMSt=
-ate *rs,
-     if (rb->clear_bmap && clear_bmap_test_and_clear(rb, page)) {
-         uint8_t shift =3D rb->clear_bmap_shift;
-         hwaddr size =3D 1ULL << (TARGET_PAGE_BITS + shift);
--        hwaddr start =3D (page << TARGET_PAGE_BITS) & (-size);
-+        hwaddr start =3D (((ram_addr_t)page) << TARGET_PAGE_BITS) & (-size=
-);
-=20
-         /*
-          * CLEAR_BITMAP_SHIFT_MIN should always guarantee this... this
-@@ -2005,7 +2005,7 @@ static void ram_release_pages(const char *rbname, uin=
-t64_t offset, int pages)
+diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
+index 56b482a7d6..cc594a722e 100644
+--- a/backends/dbus-vmstate.c
++++ b/backends/dbus-vmstate.c
+@@ -412,7 +412,8 @@ dbus_vmstate_complete(UserCreatable *uc, Error **errp)
          return;
      }
 =20
--    ram_discard_range(rbname, offset, pages << TARGET_PAGE_BITS);
-+    ram_discard_range(rbname, offset, ((ram_addr_t)pages) << TARGET_PAGE_B=
-ITS);
+-    if (vmstate_register(VMSTATE_IF(self), -1, &dbus_vmstate, self) < 0) {
++    if (vmstate_register(VMSTATE_IF(self), VMSTATE_INSTANCE_ID_ANY,
++                         &dbus_vmstate, self) < 0) {
+         error_setg(errp, "Failed to register vmstate");
+     }
+ }
+diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
+index b198066b54..bb025e0bd0 100644
+--- a/hw/arm/stellaris.c
++++ b/hw/arm/stellaris.c
+@@ -708,7 +708,7 @@ static int stellaris_sys_init(uint32_t base, qemu_irq i=
+rq,
+     memory_region_init_io(&s->iomem, NULL, &ssys_ops, s, "ssys", 0x0000100=
+0);
+     memory_region_add_subregion(get_system_memory(), base, &s->iomem);
+     ssys_reset(s);
+-    vmstate_register(NULL, -1, &vmstate_stellaris_sys, s);
++    vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_stellaris_sys=
+, s);
+     return 0;
+ }
+=20
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 9f1753f5cf..58e87d336d 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -879,7 +879,8 @@ static void device_set_realized(Object *obj, bool value=
+, Error **errp)
+=20
+         if (qdev_get_vmsd(dev)) {
+             if (vmstate_register_with_alias_id(VMSTATE_IF(dev),
+-                                               -1, qdev_get_vmsd(dev), dev=
+,
++                                               VMSTATE_INSTANCE_ID_ANY,
++                                               qdev_get_vmsd(dev), dev,
+                                                dev->instance_id_alias,
+                                                dev->alias_required_for_ver=
+sion,
+                                                &local_err) < 0) {
+diff --git a/hw/display/ads7846.c b/hw/display/ads7846.c
+index c12272ae72..9228b40b1a 100644
+--- a/hw/display/ads7846.c
++++ b/hw/display/ads7846.c
+@@ -154,7 +154,7 @@ static void ads7846_realize(SSISlave *d, Error **errp)
+=20
+     ads7846_int_update(s);
+=20
+-    vmstate_register(NULL, -1, &vmstate_ads7846, s);
++    vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_ads7846, s);
+ }
+=20
+ static void ads7846_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index 92cd489069..d770035ba0 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -61,7 +61,7 @@ I2CBus *i2c_init_bus(DeviceState *parent, const char *nam=
+e)
+=20
+     bus =3D I2C_BUS(qbus_create(TYPE_I2C_BUS, parent, name));
+     QLIST_INIT(&bus->current_devs);
+-    vmstate_register(NULL, -1, &vmstate_i2c_bus, bus);
++    vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_i2c_bus, bus)=
+;
+     return bus;
+ }
+=20
+diff --git a/hw/input/stellaris_input.c b/hw/input/stellaris_input.c
+index 59892b07fc..e6ee5e11f1 100644
+--- a/hw/input/stellaris_input.c
++++ b/hw/input/stellaris_input.c
+@@ -88,5 +88,6 @@ void stellaris_gamepad_init(int n, qemu_irq *irq, const i=
+nt *keycode)
+     }
+     s->num_buttons =3D n;
+     qemu_add_kbd_event_handler(stellaris_gamepad_put_key, s);
+-    vmstate_register(NULL, -1, &vmstate_stellaris_gamepad, s);
++    vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY,
++                     &vmstate_stellaris_gamepad, s);
+ }
+diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
+index 375cb6abe9..f2c3a7f309 100644
+--- a/hw/intc/apic_common.c
++++ b/hw/intc/apic_common.c
+@@ -284,7 +284,7 @@ static void apic_common_realize(DeviceState *dev, Error=
+ **errp)
+     }
+=20
+     if (s->legacy_instance_id) {
+-        instance_id =3D -1;
++        instance_id =3D VMSTATE_INSTANCE_ID_ANY;
+     }
+     vmstate_register_with_alias_id(NULL, instance_id, &vmstate_apic_common=
+,
+                                    s, -1, 0, NULL);
+diff --git a/hw/misc/max111x.c b/hw/misc/max111x.c
+index 211008ce02..2b87bdee5b 100644
+--- a/hw/misc/max111x.c
++++ b/hw/misc/max111x.c
+@@ -146,7 +146,8 @@ static int max111x_init(SSISlave *d, int inputs)
+     s->input[7] =3D 0x80;
+     s->com =3D 0;
+=20
+-    vmstate_register(VMSTATE_IF(dev), -1, &vmstate_max111x, s);
++    vmstate_register(VMSTATE_IF(dev), VMSTATE_INSTANCE_ID_ANY,
++                     &vmstate_max111x, s);
+     return 0;
+ }
+=20
+diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
+index cc71a7a036..6cc97769d9 100644
+--- a/hw/net/eepro100.c
++++ b/hw/net/eepro100.c
+@@ -1874,7 +1874,8 @@ static void e100_nic_realize(PCIDevice *pci_dev, Erro=
+r **errp)
+=20
+     s->vmstate =3D g_memdup(&vmstate_eepro100, sizeof(vmstate_eepro100));
+     s->vmstate->name =3D qemu_get_queue(s->nic)->model;
+-    vmstate_register(VMSTATE_IF(&pci_dev->qdev), -1, s->vmstate, s);
++    vmstate_register(VMSTATE_IF(&pci_dev->qdev), VMSTATE_INSTANCE_ID_ANY,
++                     s->vmstate, s);
+ }
+=20
+ static void eepro100_instance_init(Object *obj)
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index e3d310365d..3ac7961451 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -122,7 +122,7 @@ static void pci_bus_realize(BusState *qbus, Error **err=
+p)
+     bus->machine_done.notify =3D pcibus_machine_done;
+     qemu_add_machine_init_done_notifier(&bus->machine_done);
+=20
+-    vmstate_register(NULL, -1, &vmstate_pcibus, bus);
++    vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_pcibus, bus);
+ }
+=20
+ static void pcie_bus_realize(BusState *qbus, Error **errp)
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 30a5fbd3be..02cf53fc5b 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2948,7 +2948,7 @@ static void spapr_machine_init(MachineState *machine)
+      * interface, this is a legacy from the sPAPREnvironment structure
+      * which predated MachineState but had a similar function */
+     vmstate_register(NULL, 0, &vmstate_spapr, spapr);
+-    register_savevm_live("spapr/htab", -1, 1,
++    register_savevm_live("spapr/htab", VMSTATE_INSTANCE_ID_ANY, 1,
+                          &savevm_htab_handlers, spapr);
+=20
+     qbus_set_hotplug_handler(sysbus_get_default(), OBJECT(machine),
+diff --git a/hw/timer/arm_timer.c b/hw/timer/arm_timer.c
+index af524fabf7..beaa285685 100644
+--- a/hw/timer/arm_timer.c
++++ b/hw/timer/arm_timer.c
+@@ -180,7 +180,7 @@ static arm_timer_state *arm_timer_init(uint32_t freq)
+     s->control =3D TIMER_CTRL_IE;
+=20
+     s->timer =3D ptimer_init(arm_timer_tick, s, PTIMER_POLICY_DEFAULT);
+-    vmstate_register(NULL, -1, &vmstate_arm_timer, s);
++    vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_arm_timer, s)=
+;
+     return s;
+ }
+=20
+diff --git a/hw/tpm/tpm_emulator.c b/hw/tpm/tpm_emulator.c
+index 10d587ed40..3a0fc442f3 100644
+--- a/hw/tpm/tpm_emulator.c
++++ b/hw/tpm/tpm_emulator.c
+@@ -914,7 +914,8 @@ static void tpm_emulator_inst_init(Object *obj)
+     tpm_emu->cur_locty_number =3D ~0;
+     qemu_mutex_init(&tpm_emu->mutex);
+=20
+-    vmstate_register(NULL, -1, &vmstate_tpm_emulator, obj);
++    vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY,
++                     &vmstate_tpm_emulator, obj);
  }
 =20
  /*
-@@ -2093,7 +2093,7 @@ static int ram_save_page(RAMState *rs, PageSearchStat=
-us *pss, bool last_stage)
-     uint8_t *p;
-     bool send_async =3D true;
-     RAMBlock *block =3D pss->block;
--    ram_addr_t offset =3D pss->page << TARGET_PAGE_BITS;
-+    ram_addr_t offset =3D ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
-     ram_addr_t current_addr =3D block->offset + offset;
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index 4aef72c426..ed74dd5624 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -1157,6 +1157,8 @@ int vmstate_save_state_v(QEMUFile *f, const VMStateDe=
+scription *vmsd,
 =20
-     p =3D block->host + offset;
-@@ -2280,7 +2280,8 @@ static bool find_dirty_block(RAMState *rs, PageSearch=
-Status *pss, bool *again)
-         *again =3D false;
-         return false;
-     }
--    if ((pss->page << TARGET_PAGE_BITS) >=3D pss->block->used_length) {
-+    if ((((ram_addr_t)pss->page) << TARGET_PAGE_BITS)
-+        >=3D pss->block->used_length) {
-         /* Didn't find anything in this RAM Block */
-         pss->page =3D 0;
-         pss->block =3D QLIST_NEXT_RCU(pss->block, next);
-@@ -2571,7 +2572,7 @@ static int ram_save_target_page(RAMState *rs, PageSea=
-rchStatus *pss,
-                                 bool last_stage)
- {
-     RAMBlock *block =3D pss->block;
--    ram_addr_t offset =3D pss->page << TARGET_PAGE_BITS;
-+    ram_addr_t offset =3D ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
-     int res;
+ bool vmstate_save_needed(const VMStateDescription *vmsd, void *opaque);
 =20
-     if (control_save_page(rs, block, offset, &res)) {
-@@ -2657,7 +2658,8 @@ static int ram_save_host_page(RAMState *rs, PageSearc=
-hStatus *pss,
-         /* Allow rate limiting to happen in the middle of huge pages */
-         migration_rate_limit();
-     } while ((pss->page & (pagesize_bits - 1)) &&
--             offset_in_ramblock(pss->block, pss->page << TARGET_PAGE_BITS)=
-);
-+             offset_in_ramblock(pss->block,
-+                                ((ram_addr_t)pss->page) << TARGET_PAGE_BIT=
-S));
++#define  VMSTATE_INSTANCE_ID_ANY  -1
++
+ /* Returns: 0 on success, -1 on failure */
+ int vmstate_register_with_alias_id(VMStateIf *obj, int instance_id,
+                                    const VMStateDescription *vmsd,
+diff --git a/migration/savevm.c b/migration/savevm.c
+index e57686bca7..8dab99efc4 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -775,7 +775,7 @@ int register_savevm_live(const char *idstr,
 =20
-     /* The offset we leave with is the last one we looked at */
-     pss->page--;
-@@ -2874,8 +2876,10 @@ void ram_postcopy_migrated_memory_release(MigrationS=
-tate *ms)
+     pstrcat(se->idstr, sizeof(se->idstr), idstr);
 =20
-         while (run_start < range) {
-             unsigned long run_end =3D find_next_bit(bitmap, range, run_sta=
-rt + 1);
--            ram_discard_range(block->idstr, run_start << TARGET_PAGE_BITS,
--                              (run_end - run_start) << TARGET_PAGE_BITS);
-+            ram_discard_range(block->idstr,
-+                              ((ram_addr_t)run_start) << TARGET_PAGE_BITS,
-+                              ((ram_addr_t)(run_end - run_start))
-+                                << TARGET_PAGE_BITS);
-             run_start =3D find_next_zero_bit(bitmap, range, run_end + 1);
+-    if (instance_id =3D=3D -1) {
++    if (instance_id =3D=3D VMSTATE_INSTANCE_ID_ANY) {
+         se->instance_id =3D calculate_new_instance_id(se->idstr);
+     } else {
+         se->instance_id =3D instance_id;
+@@ -842,14 +842,14 @@ int vmstate_register_with_alias_id(VMStateIf *obj, in=
+t instance_id,
+=20
+             se->compat =3D g_new0(CompatEntry, 1);
+             pstrcpy(se->compat->idstr, sizeof(se->compat->idstr), vmsd->na=
+me);
+-            se->compat->instance_id =3D instance_id =3D=3D -1 ?
++            se->compat->instance_id =3D instance_id =3D=3D VMSTATE_INSTANC=
+E_ID_ANY ?
+                          calculate_compat_instance_id(vmsd->name) : instan=
+ce_id;
+-            instance_id =3D -1;
++            instance_id =3D VMSTATE_INSTANCE_ID_ANY;
          }
      }
-@@ -4273,13 +4277,16 @@ static void colo_flush_ram_cache(void)
-         while (block) {
-             offset =3D migration_bitmap_find_dirty(ram_state, block, offse=
-t);
+     pstrcat(se->idstr, sizeof(se->idstr), vmsd->name);
 =20
--            if (offset << TARGET_PAGE_BITS >=3D block->used_length) {
-+            if (((ram_addr_t)offset) << TARGET_PAGE_BITS
-+                >=3D block->used_length) {
-                 offset =3D 0;
-                 block =3D QLIST_NEXT_RCU(block, next);
-             } else {
-                 migration_bitmap_clear_dirty(ram_state, block, offset);
--                dst_host =3D block->host + (offset << TARGET_PAGE_BITS);
--                src_host =3D block->colo_cache + (offset << TARGET_PAGE_BI=
-TS);
-+                dst_host =3D block->host
-+                         + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
-+                src_host =3D block->colo_cache
-+                         + (((ram_addr_t)offset) << TARGET_PAGE_BITS);
-                 memcpy(dst_host, src_host, TARGET_PAGE_SIZE);
-             }
-         }
+-    if (instance_id =3D=3D -1) {
++    if (instance_id =3D=3D VMSTATE_INSTANCE_ID_ANY) {
+         se->instance_id =3D calculate_new_instance_id(se->idstr);
+     } else {
+         se->instance_id =3D instance_id;
 --=20
 2.24.1
 
