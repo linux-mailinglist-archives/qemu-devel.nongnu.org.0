@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D2913B304
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 20:37:19 +0100 (CET)
-Received: from localhost ([::1]:45136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A221113B314
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 20:39:59 +0100 (CET)
+Received: from localhost ([::1]:45176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irS06-0004PC-A1
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 14:37:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38250)
+	id 1irS2g-0008Su-40
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 14:39:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38268)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1irRy3-0002nd-Hk
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 14:35:15 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1irRy6-0002qM-LR
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 14:35:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1irRxz-0007Jw-MK
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 14:35:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43335
+ (envelope-from <mlevitsk@redhat.com>) id 1irRy2-0007MU-P7
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 14:35:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54282
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1irRxz-0007Jk-JM
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 14:35:07 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1irRy2-0007M7-M2
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 14:35:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579030507;
+ s=mimecast20190719; t=1579030510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LDfsfm+SWA5+Kiwatmpc6gkezr981Jx3Sa8/C7IeaCc=;
- b=Zb3L+hf3ez7fHOPyXfxHVQsbbF+Z7NsLLPp3I4BkbWNS6HmbJY+OD0iKIL8ERuil9fuxGa
- Hk1TkRmcJM5UnqvN11ZoAFWZrYEOQqF7dP8hlDLREVzPtLpy+H50JXN4PdOBpKyidWbwpt
- E0yCJe13Rnbf25TLsIZdDafBxiGcThg=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mEid+kqmtREdcGXsS/B0DLkuAdFUGXFLmGn8yhd1QZs=;
+ b=b5soKyJDrtSYuBqwq8NB4QeFgPXW8gWtmR2HX9TUmnrutBfG6Bdn9inqac7qb8GRyLOSie
+ YDi5KzHb5y/ojP9WB8qoccRif3uPHF0CWMyW9Yi6yVCdXb99uulCbJXPzSRI6Sac+9XBQL
+ pdNUSm5h0cfNeHav214usTXn7Lt8NUE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-AkAtIDI_O1CWi7-QEgvbmw-1; Tue, 14 Jan 2020 14:33:58 -0500
+ us-mta-143-x-rPJ7SXMvCRCy-ffzuXhA-1; Tue, 14 Jan 2020 14:34:01 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B0C41800D78;
- Tue, 14 Jan 2020 19:33:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D14B8DF660;
+ Tue, 14 Jan 2020 19:34:00 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFCF77C83A;
- Tue, 14 Jan 2020 19:33:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 026B17C83A;
+ Tue, 14 Jan 2020 19:33:57 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/13] LUKS: encryption slot management using amend interface
-Date: Tue, 14 Jan 2020 21:33:37 +0200
-Message-Id: <20200114193350.10830-1-mlevitsk@redhat.com>
-MIME-Version: 1.0
+Subject: [PATCH 01/13] qcrypto: add generic infrastructure for crypto options
+ amendment
+Date: Tue, 14 Jan 2020 21:33:38 +0200
+Message-Id: <20200114193350.10830-2-mlevitsk@redhat.com>
+In-Reply-To: <20200114193350.10830-1-mlevitsk@redhat.com>
+References: <20200114193350.10830-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: AkAtIDI_O1CWi7-QEgvbmw-1
+X-MC-Unique: x-rPJ7SXMvCRCy-ffzuXhA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,92 +78,185 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi!
+This will be used first to implement luks keyslot management.
 
-Here is the updated series of my patches, incorporating all the feedback I =
-received.
+block_crypto_amend_opts_init will be used to convert
+qemu-img cmdline to QCryptoBlockAmendOptions
 
-Patches are strictly divided by topic to 3 groups, and each group depends o=
-n former groups.
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ block/crypto.c         | 17 +++++++++++++++++
+ block/crypto.h         |  3 +++
+ crypto/block.c         | 31 +++++++++++++++++++++++++++++++
+ crypto/blockpriv.h     |  8 ++++++++
+ include/crypto/block.h | 22 ++++++++++++++++++++++
+ qapi/crypto.json       | 16 ++++++++++++++++
+ 6 files changed, 97 insertions(+)
 
-* Patches 1,2 implement qcrypto generic amend interface, including definiti=
-on
-  of structs used in crypto.json and implement this in luks crypto driver
-  Nothing is exposed to the user at this stage
-
-* Patches 3-9 use the code from patches 1,2 to implement qemu-img amend bas=
-ed encryption slot management
-  for luks and for qcow2, and add a bunch of iotests to cover that.
-
-* Patches 10-13 add x-blockdev-amend (I'll drop the -x prefix if you like),=
- and wire it
-  to luks and qcow2 driver to implement qmp based encryption slot managemen=
-t also using
-  the code from patches 1,2, and also add a bunch of iotests to cover this.
-
-Best regards,
-        Maxim Levitsky
-
-Maxim Levitsky (13):
-  qcrypto: add generic infrastructure for crypto options amendment
-  qcrypto-luks: implement encryption key management
-  block: amend: add 'force' option
-  block: amend: separate amend and create options for qemu-img
-  block/crypto: rename two functions
-  block/crypto: implement the encryption key management
-  qcow2: extend qemu-img amend interface with crypto options
-  iotests: filter few more luks specific create options
-  qemu-iotests: qemu-img tests for luks key management
-  block: add generic infrastructure for x-blockdev-amend qmp command
-  block/crypto: implement blockdev-amend
-  block/qcow2: implement blockdev-amend
-  iotests: add tests for blockdev-amend
-
- block.c                          |   4 +-
- block/Makefile.objs              |   2 +-
- block/amend.c                    | 108 +++++++++
- block/crypto.c                   | 204 +++++++++++++++--
- block/crypto.h                   |  34 +++
- block/qcow2.c                    | 269 +++++++++++++++-------
- crypto/block-luks.c              | 374 ++++++++++++++++++++++++++++++-
- crypto/block.c                   |  31 +++
- crypto/blockpriv.h               |   8 +
- include/block/block.h            |   1 +
- include/block/block_int.h        |  24 +-
- include/crypto/block.h           |  22 ++
- qapi/block-core.json             |  68 ++++++
- qapi/crypto.json                 |  64 ++++++
- qapi/job.json                    |   4 +-
- qemu-img-cmds.hx                 |   4 +-
- qemu-img.c                       |  26 ++-
- qemu-img.texi                    |   6 +-
- tests/qemu-iotests/087.out       |   6 +-
- tests/qemu-iotests/134.out       |   2 +-
- tests/qemu-iotests/158.out       |   4 +-
- tests/qemu-iotests/188.out       |   2 +-
- tests/qemu-iotests/189.out       |   4 +-
- tests/qemu-iotests/198.out       |   4 +-
- tests/qemu-iotests/300           | 207 +++++++++++++++++
- tests/qemu-iotests/300.out       |  99 ++++++++
- tests/qemu-iotests/301           |  90 ++++++++
- tests/qemu-iotests/301.out       |  30 +++
- tests/qemu-iotests/302           | 284 +++++++++++++++++++++++
- tests/qemu-iotests/302.out       |  40 ++++
- tests/qemu-iotests/303           | 235 +++++++++++++++++++
- tests/qemu-iotests/303.out       |  33 +++
- tests/qemu-iotests/common.filter |   6 +-
- tests/qemu-iotests/group         |   6 +
- 34 files changed, 2174 insertions(+), 131 deletions(-)
- create mode 100644 block/amend.c
- create mode 100755 tests/qemu-iotests/300
- create mode 100644 tests/qemu-iotests/300.out
- create mode 100755 tests/qemu-iotests/301
- create mode 100644 tests/qemu-iotests/301.out
- create mode 100644 tests/qemu-iotests/302
- create mode 100644 tests/qemu-iotests/302.out
- create mode 100644 tests/qemu-iotests/303
- create mode 100644 tests/qemu-iotests/303.out
-
+diff --git a/block/crypto.c b/block/crypto.c
+index 24823835c1..ecf96a7a9b 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -184,6 +184,23 @@ block_crypto_create_opts_init(QDict *opts, Error **err=
+p)
+     return ret;
+ }
+=20
++QCryptoBlockAmendOptions *
++block_crypto_amend_opts_init(QDict *opts, Error **errp)
++{
++    Visitor *v;
++    QCryptoBlockAmendOptions *ret;
++
++    v =3D qobject_input_visitor_new_flat_confused(opts, errp);
++    if (!v) {
++        return NULL;
++    }
++
++    visit_type_QCryptoBlockAmendOptions(v, NULL, &ret, errp);
++
++    visit_free(v);
++    return ret;
++}
++
+=20
+ static int block_crypto_open_generic(QCryptoBlockFormat format,
+                                      QemuOptsList *opts_spec,
+diff --git a/block/crypto.h b/block/crypto.h
+index b935695e79..06e044c9be 100644
+--- a/block/crypto.h
++++ b/block/crypto.h
+@@ -91,6 +91,9 @@
+ QCryptoBlockCreateOptions *
+ block_crypto_create_opts_init(QDict *opts, Error **errp);
+=20
++QCryptoBlockAmendOptions *
++block_crypto_amend_opts_init(QDict *opts, Error **errp);
++
+ QCryptoBlockOpenOptions *
+ block_crypto_open_opts_init(QDict *opts, Error **errp);
+=20
+diff --git a/crypto/block.c b/crypto/block.c
+index 325752871c..0ce67db641 100644
+--- a/crypto/block.c
++++ b/crypto/block.c
+@@ -115,6 +115,37 @@ QCryptoBlock *qcrypto_block_create(QCryptoBlockCreateO=
+ptions *options,
+ }
+=20
+=20
++int qcrypto_block_amend_options(QCryptoBlock *block,
++                                QCryptoBlockReadFunc readfunc,
++                                QCryptoBlockWriteFunc writefunc,
++                                void *opaque,
++                                QCryptoBlockAmendOptions *options,
++                                bool force,
++                                Error **errp)
++{
++    if (options->format !=3D block->format) {
++        error_setg(errp,
++                   "Cannot amend encryption format");
++        return -1;
++    }
++
++    if (!block->driver->amend) {
++        error_setg(errp,
++                   "Crypto format %s doesn't support format options amendm=
+ent",
++                   QCryptoBlockFormat_str(block->format));
++        return -1;
++    }
++
++    return block->driver->amend(block,
++                                readfunc,
++                                writefunc,
++                                opaque,
++                                options,
++                                force,
++                                errp);
++}
++
++
+ QCryptoBlockInfo *qcrypto_block_get_info(QCryptoBlock *block,
+                                          Error **errp)
+ {
+diff --git a/crypto/blockpriv.h b/crypto/blockpriv.h
+index 71c59cb542..3c7ccea504 100644
+--- a/crypto/blockpriv.h
++++ b/crypto/blockpriv.h
+@@ -62,6 +62,14 @@ struct QCryptoBlockDriver {
+                   void *opaque,
+                   Error **errp);
+=20
++    int (*amend)(QCryptoBlock *block,
++                 QCryptoBlockReadFunc readfunc,
++                 QCryptoBlockWriteFunc writefunc,
++                 void *opaque,
++                 QCryptoBlockAmendOptions *options,
++                 bool force,
++                 Error **errp);
++
+     int (*get_info)(QCryptoBlock *block,
+                     QCryptoBlockInfo *info,
+                     Error **errp);
+diff --git a/include/crypto/block.h b/include/crypto/block.h
+index d49d2c2da9..e4553cf33d 100644
+--- a/include/crypto/block.h
++++ b/include/crypto/block.h
+@@ -144,6 +144,28 @@ QCryptoBlock *qcrypto_block_create(QCryptoBlockCreateO=
+ptions *options,
+                                    void *opaque,
+                                    Error **errp);
+=20
++/**
++ * qcrypto_block_amend_options:
++ * @block: the block encryption object
++ *
++ * @readfunc: callback for reading data from the volume header
++ * @writefunc: callback for writing data to the volume header
++ * @opaque: data to pass to @readfunc and @writefunc
++ * @options: the new/amended encryption options
++ * @force: hint for the driver to allow unsafe operation
++ * @errp: error pointer
++ *
++ * Changes the crypto options of the encryption format
++ *
++ */
++int qcrypto_block_amend_options(QCryptoBlock *block,
++                                QCryptoBlockReadFunc readfunc,
++                                QCryptoBlockWriteFunc writefunc,
++                                void *opaque,
++                                QCryptoBlockAmendOptions *options,
++                                bool force,
++                                Error **errp);
++
+=20
+ /**
+  * qcrypto_block_get_info:
+diff --git a/qapi/crypto.json b/qapi/crypto.json
+index b2a4cff683..9faebd03d4 100644
+--- a/qapi/crypto.json
++++ b/qapi/crypto.json
+@@ -309,3 +309,19 @@
+   'base': 'QCryptoBlockInfoBase',
+   'discriminator': 'format',
+   'data': { 'luks': 'QCryptoBlockInfoLUKS' } }
++
++
++
++##
++# @QCryptoBlockAmendOptions:
++#
++# The options that are available for all encryption formats
++# when initializing a new volume
++#
++# Since: 5.0
++##
++{ 'union': 'QCryptoBlockAmendOptions',
++  'base': 'QCryptoBlockOptionsBase',
++  'discriminator': 'format',
++  'data': {
++            } }
 --=20
 2.17.2
 
