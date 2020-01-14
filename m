@@ -2,65 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A7313AB13
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 14:29:22 +0100 (CET)
-Received: from localhost ([::1]:39694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0F013AB26
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 14:32:15 +0100 (CET)
+Received: from localhost ([::1]:39770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irMG1-0004b4-Ke
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 08:29:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47457)
+	id 1irMIo-0007pG-30
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 08:32:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42590)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1irMEW-00038T-VT
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:27:49 -0500
+ (envelope-from <mreitz@redhat.com>) id 1irLos-0001bP-LA
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:01:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1irMES-0002Qt-SO
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:27:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37879
+ (envelope-from <mreitz@redhat.com>) id 1irLoo-0003M4-3J
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:01:18 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26367
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1irMES-0002Qb-Om
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:27:44 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1irLon-0003Lj-VS
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 08:01:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579008463;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EhhtFILhKtdjWEYXn99X1dEASzhcaptVYqZRtT+cK+4=;
- b=Z/Xid/uylRS5onWxbnWHA2B09CKg33afrYUKsrg/xrIDaQFoq2yi9Sy4b4KUx2dIJrt7ee
- a86AiRPsFDw8LYeR5t5KU+lndkn7Q71J6sVjltmWxibeQf6t7PIk4bl9O8blcQDOU3rUoY
- N8oXB9X+2jc1QjLGY9HKEwlwQheDKMo=
+ s=mimecast20190719; t=1579006873;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NQyLhKXNtBKxf5J2XYQ4GMzjw1cMqPMGCt4eh75uFik=;
+ b=aIkQP7bJB5G8dj5JceV9DPF8WHyiyCsU7TC+RbKtp6n/oh+lOb/IPdzttb4tsGuC/JF8js
+ j+sOq5npi1nSCRElYWa81AOWTGDqMAci6KkUYE8MWByi7Giv+5Ku3wIP+iv+zauDq4sFNZ
+ B9dUIkGoJmlSWcke9oQYI58lv7Obchg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-K2y3wvQDPTyUR5TpzpjyeA-1; Tue, 14 Jan 2020 08:27:42 -0500
-X-MC-Unique: K2y3wvQDPTyUR5TpzpjyeA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-5-a52DP1AtPvGmGyVDX-XWwg-1; Tue, 14 Jan 2020 08:01:09 -0500
+X-MC-Unique: a52DP1AtPvGmGyVDX-XWwg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 205081014DE0;
- Tue, 14 Jan 2020 13:27:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.118.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CC4160BF1;
- Tue, 14 Jan 2020 13:27:36 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 06/15] migration/savevm: Replace current_machine by
- qdev_get_machine()
-In-Reply-To: <20200109152133.23649-7-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 9 Jan 2020 16:21:24
- +0100")
-References: <20200109152133.23649-1-philmd@redhat.com>
- <20200109152133.23649-7-philmd@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 14 Jan 2020 14:27:34 +0100
-Message-ID: <871rs2dv7d.fsf@secure.laptop>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E1FA10120C2;
+ Tue, 14 Jan 2020 13:01:08 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6064850A8F;
+ Tue, 14 Jan 2020 13:01:05 +0000 (UTC)
+Subject: Re: [PATCH v2 1/4] qcow2: Require that the virtual size is a multiple
+ of the sector size
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1578596897.git.berto@igalia.com>
+ <6a1cfcbb533b487bac96e1d2282ebf210954d27a.1578596897.git.berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <bd6ca991-c2f7-0e27-5bee-07a7c53f8a8e@redhat.com>
+Date: Tue, 14 Jan 2020 14:01:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <6a1cfcbb533b487bac96e1d2282ebf210954d27a.1578596897.git.berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Jh0fby5pNHjFFMs9Ou1NPAaoTqY7xcysN"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -75,27 +98,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- qemu-ppc@nongnu.org, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> As we want to remove the global current_machine,
-> replace MACHINE_GET_CLASS(current_machine) by
-> MACHINE_GET_CLASS(qdev_get_machine()).
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--Jh0fby5pNHjFFMs9Ou1NPAaoTqY7xcysN
+Content-Type: multipart/mixed; boundary="FDdP9P9UQzVE2eELRE36HCNhvtMCy3Jod"
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+--FDdP9P9UQzVE2eELRE36HCNhvtMCy3Jod
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-by the migration bits.
+On 09.01.20 20:12, Alberto Garcia wrote:
+> The qcow2 header specifies the virtual size of the image in bytes, but
+> BlockDriverState stores it as a number of 512-byte sectors.
+>=20
+> If the user tries to create an image with a size that is not a
+> multiple of the sector size then this is fixed on creation by
+> silently rounding the image size up (see commit c2eb918e32).
+> qcow2_co_truncate() is more strict and returns an error instead.
+>=20
+> However when an image is opened the virtual size is rounded down,
+> which means that trying to access the last few advertised bytes will
+> result in an error. As seen above QEMU cannot create such images and
+> there's no good use case that would require us to try to handle them
+> so let's just treat them as unsupported.
+
+But isn=E2=80=99t that just a bug in qemu?
+
+Max
+
+
+--FDdP9P9UQzVE2eELRE36HCNhvtMCy3Jod--
+
+--Jh0fby5pNHjFFMs9Ou1NPAaoTqY7xcysN
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl4du48ACgkQ9AfbAGHV
+z0DKIggAmPzezF+qGQ8ZHQNU8ANWXD44aDCxu/sAd24x7eYormUT3X6unzTpwAVA
+qFLj7PitipVo8dwzQyxawV559qR5C+K8mCeYGLuEqTLNZhonpDElgAZPTakA+0TW
+v9GUYWgYhU38H/+M17D2R1T3DfslNK6JQrnEUuGIfseP9tlWDm1JC8vdrZAtw8lU
+JDU67gz55nJRXkQprpHnDRsOqNsp1U0z2ZL4aVmrpV0BcfDWnDrvKI1F5BTlvz1e
+Z3CBShNGeM85jr1S+XfwnkW6rzWe/vMb1NExFigtS3KfpKrySPnGzloBDglW+thC
+34TmmzUukKkqHNIONgxW4n6QSyU9og==
+=QIaZ
+-----END PGP SIGNATURE-----
+
+--Jh0fby5pNHjFFMs9Ou1NPAaoTqY7xcysN--
 
 
