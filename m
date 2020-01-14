@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7536613A4F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 11:04:40 +0100 (CET)
-Received: from localhost ([::1]:35846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4FA13A4CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 11:02:59 +0100 (CET)
+Received: from localhost ([::1]:35816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irJ3r-0004dd-Fp
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 05:04:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36122)
+	id 1irJ2I-0002Lw-1Y
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 05:02:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36218)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1irIzJ-000803-9e
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:59:54 -0500
+ (envelope-from <armbru@redhat.com>) id 1irIzq-0000J0-1G
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:00:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1irIzI-0007UC-4B
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:59:53 -0500
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:41539)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1irIzH-0007Tx-Uk
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 04:59:52 -0500
-Received: by mail-qk1-x731.google.com with SMTP id x129so11495753qke.8
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 01:59:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=sltQk+3R4u4RoUfKnu7u41rtxOhQ0P5DzbS0zzzBhdM=;
- b=llsnaESTTsV/4P17RszWw+FbIcXQaSikdZH19MJTHecGYq9jBR0LO7FB6NwRRGbR4Q
- inmeOeuERQ/i5eEmA01xZe3ZM9b+vNk4lUMgKpU6QWWHY4PiKHUesjLGFP9MR5LTBCxf
- uOF3xfeg7GqzZFZTXiAz97E/BldsorOZiag2kORgpwEq/h5dWn8QpIM4DYIuVIYCyrKv
- N/sGTdhboTlaRjQW2G6VIoZRGTU73AZ5Fjqg/MEz3tTMbQ5dsLSKHYhOA+Z016WSfGSw
- KrR2dfYyp1VmxdCv5ZWne69jRl+ujDnPF7bIpodTx/8T7PBzXn1iN+D4gekJH39qJ1Lc
- gLsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=sltQk+3R4u4RoUfKnu7u41rtxOhQ0P5DzbS0zzzBhdM=;
- b=AXhLc7adhi4jU1803sMP0i6x8ub/ubXmx4yHFhXGzFTId+imv2W3LzIiJFwBALCc+1
- +SOBPwEfqtEyDc+MIcM5u2NML2oyTrMp2lafskedHznaw6U5lF6gNce+2M5D7jEPPzVW
- j7QDEwlnk6xzU1bGsISvVsR4ERgaOqVXiIWIlwjpsnLsRt1mYKbU1z6CkbZJAIAlchtN
- rQA+ecPifhu9/2wvYPBbDt+5m9fBdN0ayISz3PXnASGyaevt/Wwo6z05YE4Sp5ivCaTk
- d0uPSeyDrC3DdFg76Hc5CjBzPcD7Iceuiefe9LmAkHsSXLv+Dcd6bZdbX5Es6EcCrPK3
- 7PWA==
-X-Gm-Message-State: APjAAAUhH5F3h6wwnxzE1UtLN00mhaoi+npYGtYUBtBtx+prdrHv6M7K
- F/fkN9G2DDoQZFcLwlArx49xKRIkEEsP4czCS5t8EOV0Jv8=
-X-Google-Smtp-Source: APXvYqwdk59/LAU6Kga1kx6Hy5xf+a82RQyXJlZodMDokvpkh0jQxSjo9AzaLim32iEcRUkw7ZCZ1ykpXGNh4gDvu80=
-X-Received: by 2002:ae9:f714:: with SMTP id s20mr20584909qkg.236.1578995990801; 
- Tue, 14 Jan 2020 01:59:50 -0800 (PST)
+ (envelope-from <armbru@redhat.com>) id 1irIzm-0007hE-OF
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:00:23 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26286
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1irIzm-0007gD-KO
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 05:00:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1578996019;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AdW706mGMELjFKPefet8+wZuDp3fcXCwxLlEEhjT1T4=;
+ b=FQdFD+uwjI84rVYmRZP1XdEynqHmZ91UYyIaEw+ycDOZ0dAhZCpUJO46dW4uxrdErC0LQC
+ PV6XtXXFwMUwmI4GBe86SApqofGwEdQSTYqo+Jg6Q/FcZ+lMpeE4KDdvzz7f/HpioGD/Na
+ 0UCnbMVo6Ptjtksn/71gvOfJSo5JU28=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-97-j82rfiFJOuivhsrvKKVAWQ-1; Tue, 14 Jan 2020 05:00:16 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC9E110054E3;
+ Tue, 14 Jan 2020 10:00:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
+ [10.36.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 910ED843F4;
+ Tue, 14 Jan 2020 10:00:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1C0A61138600; Tue, 14 Jan 2020 11:00:14 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v3 1/2] migration: Fix incorrect integer->float conversion
+ caught by clang
+References: <20191122080039.12771-1-armbru@redhat.com>
+ <20191122080039.12771-2-armbru@redhat.com> <87zhgoi93z.fsf@trasno.org>
+ <87r220qa5p.fsf@dusky.pond.sub.org>
+Date: Tue, 14 Jan 2020 11:00:14 +0100
+In-Reply-To: <87r220qa5p.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Fri, 22 Nov 2019 15:05:06 +0100")
+Message-ID: <874kwygxxt.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 14 Jan 2020 09:59:39 +0000
-Message-ID: <CAJSP0QUjwNF2FEz9zpDBVLDzEuwu1NKD8E35O2QzFQXvqvTOnQ@mail.gmail.com>
-Subject: Call for sponsors for Outreachy 2020 May-August
-To: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::731
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: j82rfiFJOuivhsrvKKVAWQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,25 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fangrui Song <i@maskray.me>, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU has participated in the Outreachy open source internship program
-for the past years thanks to the generous sponsorship of companies
-supporting our community.  This year QEMU will apply as an Outreachy
-organization again so we can provide internships to anyone who faces
-under-representation, systemic bias, or discrimination in the
-technology industry.
+Markus Armbruster <armbru@redhat.com> writes:
 
-Internships are 12 weeks long and consist of paid full-time remote
-work.  An internship is paid for by $6,500 of donations.
+> Juan Quintela <quintela@redhat.com> writes:
+>
+>> Markus Armbruster <armbru@redhat.com> wrote:
+>>> From: Fangrui Song <i@maskray.me>
+>>>
+>>> Clang does not like qmp_migrate_set_downtime()'s code to clamp double
+>>> @value to 0..INT64_MAX:
+>>>
+>>>     qemu/migration/migration.c:2038:24: error: implicit conversion from=
+ 'long' to 'double' changes value from 9223372036854775807 to 9223372036854=
+775808 [-Werror,-Wimplicit-int-float-conversion]
+>>>
+>>> The warning will be enabled by default in clang 10. It is not
+>>> available for clang <=3D 9.
+>>>
+>>> The clamp is actually useless; @value is checked to be within
+>>> 0..MAX_MIGRATE_DOWNTIME_SECONDS immediately before.  Delete it.
+>>>
+>>> While there, make the conversion from double to int64_t explicit.
+>>>
+>>> Signed-off-by: Fangrui Song <i@maskray.me>
+>>> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>>> [Patch split, commit message improved]
+>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>
+>> Reviewed-by: Juan Quintela <quintela@redhat.com>
+>>
+>> Should I get this through migration tree, or are you going to pull it?
+>
+> Plase take this patch through the migration tree.
 
-QEMU relies on sponsors to fund these internships.  If you or your
-organization would like to become a sponsor, please email
-organizers@outreachy.org and CC me.  You can find additional
-information about sponsorship here:
-https://www.outreachy.org/sponsor/
+Ping...
 
-Thank you,
-Stefan
 
