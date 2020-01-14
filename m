@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AEDA13A2ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 09:24:20 +0100 (CET)
-Received: from localhost ([::1]:34400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8300B13A2EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Jan 2020 09:24:16 +0100 (CET)
+Received: from localhost ([::1]:34396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irHUo-0003u1-VG
-	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 03:24:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48272)
+	id 1irHUk-0003lZ-T7
+	for lists+qemu-devel@lfdr.de; Tue, 14 Jan 2020 03:24:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48288)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1irHT2-00022W-N6
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 03:22:29 -0500
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1irHT3-00023a-9o
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 03:22:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1irHT1-0006lW-9o
- for qemu-devel@nongnu.org; Tue, 14 Jan 2020 03:22:28 -0500
-Received: from relay.sw.ru ([185.231.240.75]:36838)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1irHT1-0006lt-PO
+ for qemu-devel@nongnu.org; Tue, 14 Jan 2020 03:22:29 -0500
+Received: from relay.sw.ru ([185.231.240.75]:36844)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1irHSy-0006jm-In; Tue, 14 Jan 2020 03:22:24 -0500
+ id 1irHSy-0006jo-Io; Tue, 14 Jan 2020 03:22:24 -0500
 Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1irHSr-0005Ix-KN; Tue, 14 Jan 2020 11:22:17 +0300
+ id 1irHSr-0005Ix-RP; Tue, 14 Jan 2020 11:22:17 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 0/3] Dump QCOW2 metadata
-Date: Tue, 14 Jan 2020 11:22:14 +0300
-Message-Id: <1578990137-308222-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v3 1/3] qcow2: introduce Qcow2Metadata structure
+Date: Tue, 14 Jan 2020 11:22:15 +0300
+Message-Id: <1578990137-308222-2-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1578990137-308222-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+References: <1578990137-308222-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
@@ -49,200 +51,250 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The information about QCOW2 metadata allocations in an image ELF-file is
-helpful for finding issues with the image data integrity.
+The preliminary patch to provide an extendable structure for dumping
+QCOW2 metadata allocations in image. The command line optional key is
+introduced in the patch that follows.
 
-v3: Descriptions of the new key option were added. The names of identifiers
-    were amended. The QEMU-IMG key options were put in the sorted order in
-    the code. All suggested by Eric. Discussed in the email thread with ID
-    <1577447039-400109-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+---
+ qapi/block-core.json | 209 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 208 insertions(+), 1 deletion(-)
 
-Snapshots dump example:
-
-$ sudo ./qemu-img check /.../.../harddisk.hdd -M --output=json
-{
-    "image-end-offset": 24820842496,
-    "total-clusters": 153600,
-    "check-errors": 0,
-    "viscera": {
-        "refcount-table": {
-            "location": {
-                "offset": 3845128192,
-                "size": 1048576
-            }
-        },
-        "active-l1": {
-            "name": "L1 active table",
-            "location": {
-                "offset": 4194304,
-                "size": 16
-            },
-            "l2-list": [
-                {
-                    "offset": 619708416,
-                    "size": 1048576
-                },
-                {
-                    "offset": 1156579328,
-                    "size": 1048576
-                }
-            ]
-        },
-        "qcow2-header": {
-            "location": {
-                "offset": 0,
-                "size": 1048576
-            },
-            "version": 3
-        },
-        "snapshot-table": {
-            "location": {
-                "offset": 648019968,
-                "size": 191
-            },
-            "l1-list": [
-                {
-                    "name": "{3036f6c5-3a1f-44cb-af1f-653cc87fba04}",
-                    "location": {
-                        "offset": 14680064,
-                        "size": 16
-                    },
-                    "l2-list": [
-                        {
-                            "offset": 3957325824,
-                            "size": 1048576
-                        },
-                        {
-                            "offset": 7025459200,
-                            "size": 1048576
-                        }
-                    ]
-                },
-                {
-                    "name": "{0aa1a7d6-16ee-4b44-a515-b5ecc571c959}",
-                    "location": {
-                        "offset": 638582784,
-                        "size": 16
-                    },
-                    "l2-list": [
-                        {
-                            "offset": 3957325824,
-                            "size": 1048576
-                        },
-                        {
-                            "offset": 7025459200,
-                            "size": 1048576
-                        }
-                    ]
-                }
-            ]
-        }
-    },
-    "allocated-clusters": 22485,
-    "filename": "/.../.../harddisk.hdd",
-    "format": "qcow2",
-    "fragmented-clusters": 3549
-}
-
-Bitmaps dump example:
-
-$ ./qemu-img check /home/disk -M --output=json
-{
-    "image-end-offset": 1441792,
-    "total-clusters": 16,
-    "check-errors": 0,
-    "viscera": {
-        "refcount-table": {
-            "location": {
-                "offset": 65536,
-                "size": 65536
-            }
-        },
-        "active-l1": {
-            "name": "L1 active table",
-            "location": {
-                "offset": 196608,
-                "size": 8
-            },
-            "l2-list": [
-                {
-                    "offset": 262144,
-                    "size": 65536
-                }
-            ]
-        },
-        "bitmaps": {
-            "bitmap-dir": {
-                "location": {
-                    "offset": 1048576,
-                    "size": 64
-                },
-                "dir-entries": [
-                    {
-                        "bitmap-table": {
-                            "location": {
-                                "offset": 589824,
-                                "size": 8
-                            },
-                            "table-entries": [
-                                {
-                                    "type": "all-zeros"
-                                }
-                            ]
-                        },
-                        "bitmap-name": "bitmap-1"
-                    },
-                    {
-                        "bitmap-table": {
-                            "location": {
-                                "offset": 983040,
-                                "size": 8
-                            },
-                            "table-entries": [
-                                {
-                                    "cluster": {
-                                        "offset": 655360,
-                                        "size": 65536
-                                    },
-                                    "type": "serialized"
-                                }
-                            ]
-                        },
-                        "bitmap-name": "bitmap-2"
-                    }
-                ]
-            },
-            "nb-bitmaps": 2
-        },
-        "qcow2-header": {
-            "location": {
-                "offset": 0,
-                "size": 65536
-            },
-            "version": 3
-        }
-    },
-    "allocated-clusters": 12,
-    "filename": "/home/disk",
-    "format": "qcow2",
-    "fragmented-clusters": 2
-}
-
-Andrey Shinkevich (3):
-  qcow2: introduce Qcow2Metadata structure
-  qemu-img: sort key options alphabetically
-  qcow2: dump QCOW2 metadata
-
- block/qcow2-bitmap.c   |  54 ++++++++++++-
- block/qcow2-refcount.c |  84 ++++++++++++++++----
- block/qcow2.c          |  30 +++++++
- block/qcow2.h          |   6 +-
- include/block/block.h  |   3 +-
- qapi/block-core.json   | 209 ++++++++++++++++++++++++++++++++++++++++++++++++-
- qemu-img.c             |  50 +++++++++---
- qemu-img.texi          |   7 +-
- 8 files changed, 408 insertions(+), 35 deletions(-)
-
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 7ff5e5e..fab7435 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -176,6 +176,209 @@
+            '*backing-image': 'ImageInfo',
+            '*format-specific': 'ImageInfoSpecific' } }
+ 
++
++##
++# @Qcow2Metadata:
++#
++# Encapsulates QCOW2 metadata information
++#
++# @qcow2-header: QCOW2 header info
++#
++# @active-l1: L1 active table info
++#
++# @refcount-table: refcount table info
++#
++# @crypt-header: encryption header info
++#
++# @bitmaps: bitmap tables info
++#
++# @snapshot-table: snapshot tables info
++#
++# Since: 5.0
++##
++{ 'struct': 'Qcow2Metadata',
++  'data': { 'qcow2-header': 'Qcow2Header',
++            'refcount-table': 'Qcow2RefcountTable',
++            'active-l1': 'Qcow2L1Table',
++            '*crypt-header': 'Qcow2EncryptionHeader',
++            '*bitmaps': 'Qcow2Bitmaps',
++            '*snapshot-table': 'Qcow2SnapshotsTable' } }
++
++##
++# @Qcow2Header:
++#
++# QCOW2 header information
++#
++# @version: version number
++#
++# @location: header offset and size in image
++#
++# Since: 5.0
++##
++{ 'struct': 'Qcow2Header',
++  'data': {'version': 'int',
++           'location': 'Qcow2Allocation' } }
++
++##
++# @Qcow2EncryptionHeader:
++#
++# QCOW2 encryption header information
++#
++# @location: header offset and size in image
++#
++# Since: 5.0
++##
++{ 'struct': 'Qcow2EncryptionHeader',
++  'data': {'location': 'Qcow2Allocation' } }
++
++##
++# @Qcow2RefcountTable:
++#
++# QCOW2 refcount table information
++#
++# @location: refcount table offset and size in image
++#
++# Since: 5.0
++##
++{ 'struct': 'Qcow2RefcountTable',
++  'data': {'location': 'Qcow2Allocation' } }
++
++##
++# @Qcow2L1Table:
++#
++# L1 table information
++#
++# @l2-list: list of L2 table locations
++#
++# @location: L1 table offset and size in image
++#
++# @name: entity name the table relates to
++#
++# Since: 5.0
++##
++{ 'struct': 'Qcow2L1Table',
++  'data': {'l2-list': ['Qcow2Allocation'],
++           'location': 'Qcow2Allocation',
++           'name': 'str'} }
++
++##
++# @Qcow2Allocation:
++#
++# QCOW2 data location in image
++#
++# @offset: data offset
++#
++# @size: data size
++#
++# Since: 5.0
++##
++{ 'struct': 'Qcow2Allocation',
++  'data': {'offset': 'uint64', 'size': 'uint64' } }
++
++##
++# @Qcow2Bitmaps:
++#
++# QCOW2 bitmaps information
++#
++# @nb-bitmaps: the number of bitmaps contained in the image
++#
++# @bitmap-dir: bitmap directory information
++#
++# Since: 5.0
++##
++{ 'struct': 'Qcow2Bitmaps',
++  'data': {'nb-bitmaps': 'int',
++           'bitmap-dir': 'Qcow2BitmapDir' } }
++
++##
++# @Qcow2BitmapDir:
++#
++# QCOW2 bitmap directory information
++#
++# @dir-entries: list of bitmap directory entries
++#
++# @location: bitmap directory offset and size in image
++#
++# Since: 5.0
++##
++{ 'struct': 'Qcow2BitmapDir',
++  'data': {'dir-entries': ['Qcow2BitmapDirectoryEntry'],
++           'location': 'Qcow2Allocation' } }
++
++##
++# @Qcow2BitmapDirectoryEntry:
++#
++# QCOW2 bitmap directory entry information
++#
++# @bitmap-table: bitmap table offset and size in image
++#
++# Since: 5.0
++##
++{ 'struct': 'Qcow2BitmapDirectoryEntry',
++  'data': {'bitmap-table': 'Qcow2BitmapTableInfo',
++           'bitmap-name': 'str' } }
++
++##
++# @Qcow2BitmapTableInfo:
++#
++# QCOW2 bitmap table information
++#
++# @table-entries: list of bitmap table entries
++#
++# @location: bitmap table offset and size in image
++#
++# Since: 5.0
++##
++{ 'struct': 'Qcow2BitmapTableInfo',
++  'data': {'table-entries': ['Qcow2BitmapTableInfoEntry'],
++           'location': 'Qcow2Allocation' } }
++
++##
++# @Qcow2BitmapTableInfoEntry:
++#
++# QCOW2 bitmap table entry information
++#
++# @type: bitmap table entry type
++#
++# @cluster: bitmap table entry offset and size in image
++#
++# Since: 5.0
++##
++{ 'struct': 'Qcow2BitmapTableInfoEntry',
++  'data': {'type': 'Qcow2BitmapTableInfoEntryType',
++           '*cluster': 'Qcow2Allocation' } }
++
++##
++# @Qcow2BitmapTableInfoEntryType:
++#
++# An enumeration of cluster types in bitmap table
++#
++# @all-zeroes: cluster should be read as all zeroes
++#
++# @all-ones: cluster should be read as all ones
++#
++# @serialized: cluster data are written on disk
++#
++# Since: 5.0
++##
++{ 'enum': 'Qcow2BitmapTableInfoEntryType',
++  'data': ['all-zeroes', 'all-ones', 'serialized'] }
++
++##
++# @Qcow2SnapshotsTable:
++#
++# Snapshots table location in image file.
++#
++# @location: offset and size of snapshot table
++#
++# @l1-list: list of snapshots L1 tables
++#
++# Since: 5.0
++##
++{ 'struct': 'Qcow2SnapshotsTable',
++  'data': {'location': 'Qcow2Allocation',
++           'l1-list': ['Qcow2L1Table'] } }
++
+ ##
+ # @ImageCheck:
+ #
+@@ -215,6 +418,9 @@
+ #                       field is present if the driver for the image format
+ #                       supports it
+ #
++# @metadata: encapsulates QCOW2 tables allocation information (default: none,
++#            turned on with the command line optional key; since 5.0)
++#
+ # Since: 1.4
+ #
+ ##
+@@ -223,7 +429,8 @@
+            '*image-end-offset': 'int', '*corruptions': 'int', '*leaks': 'int',
+            '*corruptions-fixed': 'int', '*leaks-fixed': 'int',
+            '*total-clusters': 'int', '*allocated-clusters': 'int',
+-           '*fragmented-clusters': 'int', '*compressed-clusters': 'int' } }
++           '*fragmented-clusters': 'int', '*compressed-clusters': 'int',
++           '*metadata': 'Qcow2Metadata' } }
+ 
+ ##
+ # @MapEntry:
 -- 
 1.8.3.1
 
