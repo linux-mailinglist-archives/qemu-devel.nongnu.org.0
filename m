@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A946313C827
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:42:00 +0100 (CET)
-Received: from localhost ([::1]:55994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FAE13C840
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:44:20 +0100 (CET)
+Received: from localhost ([::1]:56020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irknv-0001Te-1U
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:41:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49586)
+	id 1irkqB-00057r-Nv
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:44:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49624)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkKk-0000Qh-OQ
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:53 -0500
+ (envelope-from <imammedo@redhat.com>) id 1irkKo-0000U5-Rp
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkKj-0000IQ-NG
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:50 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56359
+ (envelope-from <imammedo@redhat.com>) id 1irkKn-0000K3-Mc
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:54 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54712
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKj-0000II-Jp
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:49 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKn-0000JG-IN
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579101109;
+ s=mimecast20190719; t=1579101111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N9+eaR5fvDxO9T4kATKwsj3SuYIb/q3n+negNlE64ws=;
- b=C4uOBee7Nkw8mzH7fOaXyzKfuxtwxCM+368zngujenJvgyVo5WEUPIpY7VYGO9KMVX7DOM
- oVMGya5SdSiKlVd48hfqWrrYqjaTnD5Xt4vxEy70kODvrKAYsdHM+nFl8ugy8NIC8Lbvw0
- SIfVKnK5PG5UN+UHS3S7lkpDDycGDrc=
+ bh=pPzVlH+o38rTXHsZJgriGMy4GdxYvF6RaPMQYtgvk/I=;
+ b=HpKLmFhYun8eCWVLXdrQ8SJThYHKFPCGQHLV6AFUK1EPkEjXhYItaEdyfQ3+pA/yyZuF19
+ P5ZLI0lruhKGaHe9LNUJKXULzBsnjN+AefB3n3MWCFisoB1RTMkH/PjN3zeL10w4L22KjB
+ B1NNHslRrnDnq1G8zr+lZdlkHfmGOCQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-0Woq4eeYMnmpi20qLrfpXg-1; Wed, 15 Jan 2020 10:11:48 -0500
+ us-mta-43-uhnkgsyDM--CDGBLL2dtag-1; Wed, 15 Jan 2020 10:11:49 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A1FA1952F85
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08C22930FB0
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:48 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3EA619757
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8331419757
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:47 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 56/86] mips:mips_malta: use memdev for RAM
-Date: Wed, 15 Jan 2020 16:07:11 +0100
-Message-Id: <1579100861-73692-57-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 57/86] mips:mips_mipssim: use memdev for RAM
+Date: Wed, 15 Jan 2020 16:07:12 +0100
+Message-Id: <1579100861-73692-58-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 0Woq4eeYMnmpi20qLrfpXg-1
+X-MC-Unique: uhnkgsyDM--CDGBLL2dtag-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -87,55 +87,61 @@ Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/mips/mips_malta.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/mips/mips_mipssim.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index 5aaeaa8..77995a5 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -1223,7 +1223,6 @@ void mips_malta_init(MachineState *machine)
+diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
+index 84c03dd..8df16d8 100644
+--- a/hw/mips/mips_mipssim.c
++++ b/hw/mips/mips_mipssim.c
+@@ -143,14 +143,12 @@ static void mipsnet_init(int base, qemu_irq irq, NICI=
+nfo *nd)
+ static void
+ mips_mipssim_init(MachineState *machine)
+ {
+-    ram_addr_t ram_size =3D machine->ram_size;
+     const char *kernel_filename =3D machine->kernel_filename;
+     const char *kernel_cmdline =3D machine->kernel_cmdline;
+     const char *initrd_filename =3D machine->initrd_filename;
      char *filename;
-     PFlashCFI01 *fl;
-     MemoryRegion *system_memory =3D get_system_memory();
--    MemoryRegion *ram_high =3D g_new(MemoryRegion, 1);
-     MemoryRegion *ram_low_preio =3D g_new(MemoryRegion, 1);
-     MemoryRegion *ram_low_postio;
-     MemoryRegion *bios, *bios_copy =3D g_new(MemoryRegion, 1);
-@@ -1261,13 +1260,11 @@ void mips_malta_init(MachineState *machine)
+     MemoryRegion *address_space_mem =3D get_system_memory();
+     MemoryRegion *isa =3D g_new(MemoryRegion, 1);
+-    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
+     MemoryRegion *bios =3D g_new(MemoryRegion, 1);
+     MIPSCPU *cpu;
+     CPUMIPSState *env;
+@@ -167,13 +165,11 @@ mips_mipssim_init(MachineState *machine)
+     qemu_register_reset(main_cpu_reset, reset_info);
+=20
+     /* Allocate RAM. */
+-    memory_region_allocate_system_memory(ram, NULL, "mips_mipssim.ram",
+-                                         ram_size);
+     memory_region_init_ram(bios, NULL, "mips_mipssim.bios", BIOS_SIZE,
+                            &error_fatal);
+     memory_region_set_readonly(bios, true);
+=20
+-    memory_region_add_subregion(address_space_mem, 0, ram);
++    memory_region_add_subregion(address_space_mem, 0, machine->ram);
+=20
+     /* Map the BIOS / boot exception handler. */
+     memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
+@@ -200,7 +196,7 @@ mips_mipssim_init(MachineState *machine)
      }
 =20
-     /* register RAM at high address where it is undisturbed by IO */
--    memory_region_allocate_system_memory(ram_high, NULL, "mips_malta.ram",
--                                         ram_size);
--    memory_region_add_subregion(system_memory, 0x80000000, ram_high);
-+    memory_region_add_subregion(system_memory, 0x80000000, machine->ram);
-=20
-     /* alias for pre IO hole access */
-     memory_region_init_alias(ram_low_preio, NULL, "mips_malta_low_preio.ra=
-m",
--                             ram_high, 0, MIN(ram_size, 256 * MiB));
-+                             machine->ram, 0, MIN(ram_size, 256 * MiB));
-     memory_region_add_subregion(system_memory, 0, ram_low_preio);
-=20
-     /* alias for post IO hole access, if there is enough RAM */
-@@ -1275,7 +1272,7 @@ void mips_malta_init(MachineState *machine)
-         ram_low_postio =3D g_new(MemoryRegion, 1);
-         memory_region_init_alias(ram_low_postio, NULL,
-                                  "mips_malta_low_postio.ram",
--                                 ram_high, 512 * MiB,
-+                                 machine->ram, 512 * MiB,
-                                  ram_size - 512 * MiB);
-         memory_region_add_subregion(system_memory, 512 * MiB,
-                                     ram_low_postio);
-@@ -1447,6 +1444,7 @@ static void mips_malta_machine_init(MachineClass *mc)
+     if (kernel_filename) {
+-        loaderparams.ram_size =3D ram_size;
++        loaderparams.ram_size =3D machine->ram_size;
+         loaderparams.kernel_filename =3D kernel_filename;
+         loaderparams.kernel_cmdline =3D kernel_cmdline;
+         loaderparams.initrd_filename =3D initrd_filename;
+@@ -245,6 +241,7 @@ static void mips_mipssim_machine_init(MachineClass *mc)
  #else
      mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("24Kf");
  #endif
-+    mc->default_ram_id =3D "mips_malta.ram";
++    mc->default_ram_id =3D "mips_mipssim.ram";
  }
 =20
- DEFINE_MACHINE("malta", mips_malta_machine_init)
+ DEFINE_MACHINE("mipssim", mips_mipssim_machine_init)
 --=20
 2.7.4
 
