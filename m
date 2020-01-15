@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD7613C97D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:37:36 +0100 (CET)
-Received: from localhost ([::1]:56900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 024F813C9C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:41:26 +0100 (CET)
+Received: from localhost ([::1]:56962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irlfj-0002bC-Cg
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:37:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57107)
+	id 1irljQ-0000H9-SR
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:41:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57106)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0Q-0005zm-BR
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0Q-0005zj-Bl
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0M-0006Ez-Fg
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0M-0006F5-Hz
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:54 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:34648 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:34650 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
- id 1irl0M-0006E5-8y
+ id 1irl0M-0006E9-BT
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:50 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 3D6A41A21A3;
+ by mail.rt-rk.com (Postfix) with ESMTP id 77C4F1A2115;
  Wed, 15 Jan 2020 16:53:44 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
  [10.10.14.93])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 0F9571A2173;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 4C06F1A2173;
  Wed, 15 Jan 2020 16:53:44 +0100 (CET)
 From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/12] linux-user: Add support for read/clear RTC voltage low
- detector using ioctls
-Date: Wed, 15 Jan 2020 16:53:32 +0100
-Message-Id: <1579103618-20217-7-git-send-email-Filip.Bozuta@rt-rk.com>
+Subject: [PATCH 08/12] linux-user: Add support for setting alsa timer enhanced
+ read using ioctl
+Date: Wed, 15 Jan 2020 16:53:34 +0100
+Message-Id: <1579103618-20217-9-git-send-email-Filip.Bozuta@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1579103618-20217-1-git-send-email-Filip.Bozuta@rt-rk.com>
 References: <1579103618-20217-1-git-send-email-Filip.Bozuta@rt-rk.com>
@@ -57,58 +57,50 @@ Cc: peter.maydell@linaro.org, berrange@redhat.com, arnd@arndb.de,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implements functionalities of following ioctls:
+This patch implements functionality of following ioctl:
 
-RTC_VL_READ - Read voltage low detection information
+SNDRV_TIMER_IOCTL_TREAD - Setting enhanced time read
 
-    Read the voltage low for RTCs that support voltage low.
-    The third ioctl's' argument points to an int in which
-    the voltage low is returned.
-
-RTC_VL_CLR - Clear voltage low information
-
-    Clear the information about voltage low for RTCs that
-    support voltage low. The third ioctl(2) argument is
-    ignored.
+    Sets enhanced time read which is used for reading time with timestamps
+    and events. The third ioctl's argument is a pointer to an 'int'. Enhanced
+    reading is set if the third argument is different than 0, otherwise normal
+    time reading is set.
 
 Implementation notes:
 
-    Since one ioctl has a pointer to 'int' as its third agrument,
-    and another ioctl has NULL as its third argument, their
+    Because the implemented ioctl has 'int' as its third argument, the
     implementation was straightforward.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 ---
- linux-user/ioctls.h       | 2 ++
- linux-user/syscall_defs.h | 2 ++
- 2 files changed, 4 insertions(+)
+ linux-user/ioctls.h       | 1 +
+ linux-user/syscall_defs.h | 1 +
+ 2 files changed, 2 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 0a4e3f1..1f1f3e6 100644
+index ed1bd4c..9106773 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -89,6 +89,8 @@
-      IOCTL(RTC_WKALM_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_wkalrm)))
-      IOCTL(RTC_PLL_GET, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
-      IOCTL(RTC_PLL_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
-+     IOCTL(RTC_VL_READ, IOC_R, MK_PTR(TYPE_INT))
-+     IOCTL(RTC_VL_CLR, 0, TYPE_NULL)
+@@ -452,6 +452,7 @@
+   IOCTL(SNDRV_TIMER_IOCTL_PVERSION, IOC_R, MK_PTR(TYPE_INT))
+   IOCTL(SNDRV_TIMER_IOCTL_NEXT_DEVICE, IOC_RW,
+         MK_PTR(MK_STRUCT(STRUCT_snd_timer_id)))
++  IOCTL(SNDRV_TIMER_IOCTL_TREAD, IOC_W, MK_PTR(TYPE_INT))
  
-      IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
-      IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
+   IOCTL(HDIO_GETGEO, IOC_R, MK_PTR(MK_STRUCT(STRUCT_hd_geometry)))
+   IOCTL(HDIO_GET_UNMASKINTR, IOC_R, MK_PTR(TYPE_INT))
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 8370f41..af4f366 100644
+index 7409021..8d505c1 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -796,6 +796,8 @@ struct target_rtc_pll_info {
-                                                struct target_rtc_pll_info)
- #define TARGET_RTC_PLL_SET          TARGET_IOW('p', 0x12,                      \
-                                                struct target_rtc_pll_info)
-+#define TARGET_RTC_VL_READ          TARGET_IOR('p', 0x13, int)
-+#define TARGET_RTC_VL_CLR           TARGET_IO('p', 0x14)
+@@ -2429,6 +2429,7 @@ struct target_statfs64 {
+ #define TARGET_SNDRV_TIMER_IOCTL_PVERSION     TARGET_IOR('T', 0x00, int)
+ #define TARGET_SNDRV_TIMER_IOCTL_NEXT_DEVICE  TARGET_IOWR('T', 0x01,                     \
+                                                           struct snd_timer_id)
++#define TARGET_SNDRV_TIMER_IOCTL_TREAD        TARGET_IOW('T', 0x02, int)
  
- #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
-        defined(TARGET_XTENSA)
+ /* vfat ioctls */
+ #define TARGET_VFAT_IOCTL_READDIR_BOTH    TARGET_IORU('r', 1)
 -- 
 2.7.4
 
