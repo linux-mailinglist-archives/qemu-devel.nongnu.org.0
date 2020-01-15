@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6535313C881
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:56:19 +0100 (CET)
-Received: from localhost ([::1]:56170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F1A13C88C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:57:58 +0100 (CET)
+Received: from localhost ([::1]:56203 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irl1l-0006X7-T8
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:56:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50135)
+	id 1irl3N-0000dT-FI
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:57:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49770)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkLN-0001fM-GH
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:31 -0500
+ (envelope-from <imammedo@redhat.com>) id 1irkKx-0000o9-O5
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkLL-0000h6-OM
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:29 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46002
+ (envelope-from <imammedo@redhat.com>) id 1irkKv-0000PS-Pv
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:03 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51749
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkLL-0000gl-JZ
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:27 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKv-0000Ng-Ik
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579101147;
+ s=mimecast20190719; t=1579101121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PJlCD2JradsghflyEMq7rSMnpFDz8KzEvNJhvIgn0qw=;
- b=fxI8ltNKwc83lsW85akfmhAnGVi4NALb/j4DX//tKiY2ZW3ZI+VjkHa5Cv/yrUYL1ilIh1
- dpMYeaM4OFhitwriNUJ8mpMZ8mm32mnQzO91bMWaLYEPg2+v4ia2k+H5JpkEgjPMRV7C1/
- czaBQ1q3ZT+GSZ/41CHTP+3H7T6PeMQ=
+ bh=2SYNha3X1HhMzztypPP7ZFvfrMyQgCZMN+0y5jbOdVU=;
+ b=HOmcBgFuH54zJ+9ay2+quxsRpJlWEkB3yKDFQjk6c7Rw1RimkAU7gSyg0K6vMNtM3WZRk8
+ 2nbmG/RYSVI7g1HqtPHg0sDR9o9/3+61Mn00qJ2BRc9hnZaBWsJuajepnJlIMKYgSHLZW1
+ LxKElmssHhPhH61kDr36JB+i8CNZxYQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-PX7tDXq-Mrm36JZDvXVhgg-1; Wed, 15 Jan 2020 10:12:25 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-273-gZgL6WPnOWKH43eLdsTxpA-1; Wed, 15 Jan 2020 10:11:57 -0500
+X-MC-Unique: gZgL6WPnOWKH43eLdsTxpA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 112471005527;
- Wed, 15 Jan 2020 15:12:24 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 197F4194B2;
- Wed, 15 Jan 2020 15:12:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70597109E3FA;
+ Wed, 15 Jan 2020 15:11:54 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E56CB5D9C9;
+ Wed, 15 Jan 2020 15:11:50 +0000 (UTC)
+Date: Wed, 15 Jan 2020 16:11:49 +0100
 From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 82/86] numa: forbid '-numa node,
- mem' for 5.0 and newer machine types
-Date: Wed, 15 Jan 2020 16:07:37 +0100
-Message-Id: <1579100861-73692-83-git-send-email-imammedo@redhat.com>
-In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
-References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: PX7tDXq-Mrm36JZDvXVhgg-1
-X-Mimecast-Spam-Score: 0
+To: Dongjiu Geng <gengdongjiu@huawei.com>
+Subject: Re: [PATCH v22 2/9] docs: APEI GHES generation and CPER record
+ description
+Message-ID: <20200115161149.19481a4a@redhat.com>
+In-Reply-To: <1578483143-14905-3-git-send-email-gengdongjiu@huawei.com>
+References: <1578483143-14905-1-git-send-email-gengdongjiu@huawei.com>
+ <1578483143-14905-3-git-send-email-gengdongjiu@huawei.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,202 +71,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- libvir-list@redhat.com, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- pbonzini@redhat.com, david@gibson.dropbear.id.au, rth@twiddle.net
+Cc: fam@euphon.net, peter.maydell@linaro.org, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, linuxarm@huawei.com, shannon.zhaosl@gmail.com,
+ zhengxiang9@huawei.com, qemu-arm@nongnu.org, james.morse@arm.com,
+ xuwei5@huawei.com, jonathan.cameron@huawei.com, pbonzini@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Deprecation period is ran out and it's a time to flip the switch
-introduced by cd5ff8333a.
-Disable legacy option for new machine types and amend documentation.
+On Wed, 8 Jan 2020 19:32:16 +0800
+Dongjiu Geng <gengdongjiu@huawei.com> wrote:
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-CC: peter.maydell@linaro.org
-CC: ehabkost@redhat.com
-CC: marcel.apfelbaum@gmail.com
-CC: mst@redhat.com
-CC: pbonzini@redhat.com
-CC: rth@twiddle.net
-CC: david@gibson.dropbear.id.au
-CC: libvir-list@redhat.com
-CC: qemu-arm@nongnu.org
-CC: qemu-ppc@nongnu.org
----
- hw/arm/virt.c        |  2 +-
- hw/core/numa.c       |  6 ++++++
- hw/i386/pc.c         |  1 -
- hw/i386/pc_piix.c    |  1 +
- hw/i386/pc_q35.c     |  1 +
- hw/ppc/spapr.c       |  2 +-
- qemu-deprecated.texi | 16 ----------------
- qemu-options.hx      |  8 ++++----
- 8 files changed, 14 insertions(+), 23 deletions(-)
+> Add APEI/GHES detailed design document
+> 
+> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index e2fbca3..49de0d8 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2049,7 +2049,6 @@ static void virt_machine_class_init(ObjectClass *oc, =
-void *data)
-     hc->pre_plug =3D virt_machine_device_pre_plug_cb;
-     hc->plug =3D virt_machine_device_plug_cb;
-     hc->unplug_request =3D virt_machine_device_unplug_request_cb;
--    mc->numa_mem_supported =3D true;
-     mc->auto_enable_numa_with_memhp =3D true;
-     mc->default_ram_id =3D "mach-virt.ram";
- }
-@@ -2153,6 +2152,7 @@ DEFINE_VIRT_MACHINE_AS_LATEST(5, 0)
- static void virt_machine_4_2_options(MachineClass *mc)
- {
-     compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
-+    mc->numa_mem_supported =3D true;
- }
- DEFINE_VIRT_MACHINE(4, 2)
-=20
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 0970a30..3177066 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -117,6 +117,12 @@ static void parse_numa_node(MachineState *ms, NumaNode=
-Options *node,
-     }
-=20
-     if (node->has_mem) {
-+        if (!mc->numa_mem_supported) {
-+            error_setg(errp, "Parameter -numa node,mem is not supported by=
- this"
-+                      " machine type. Use -numa node,memdev instead");
-+            return;
-+        }
-+
-         numa_info[nodenr].node_mem =3D node->mem;
-         if (!qtest_enabled()) {
-             warn_report("Parameter -numa node,mem is deprecated,"
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 21b8290..fa8d024 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1947,7 +1947,6 @@ static void pc_machine_class_init(ObjectClass *oc, vo=
-id *data)
-     hc->unplug =3D pc_machine_device_unplug_cb;
-     mc->default_cpu_type =3D TARGET_DEFAULT_CPU_TYPE;
-     mc->nvdimm_supported =3D true;
--    mc->numa_mem_supported =3D true;
-     mc->default_ram_id =3D "pc.ram";
-=20
-     object_class_property_add(oc, PC_MACHINE_DEVMEM_REGION_SIZE, "int",
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index fa12203..0a9b9e0 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -435,6 +435,7 @@ static void pc_i440fx_4_2_machine_options(MachineClass =
-*m)
-     pc_i440fx_5_0_machine_options(m);
-     m->alias =3D NULL;
-     m->is_default =3D 0;
-+    m->numa_mem_supported =3D true;
-     compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
-     compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
- }
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 84cf925..4d6e2be 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -363,6 +363,7 @@ static void pc_q35_4_2_machine_options(MachineClass *m)
- {
-     pc_q35_5_0_machine_options(m);
-     m->alias =3D NULL;
-+    m->numa_mem_supported =3D true;
-     compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
-     compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
- }
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index bcbe1f1..2686b73 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4383,7 +4383,6 @@ static void spapr_machine_class_init(ObjectClass *oc,=
- void *data)
-      * in which LMBs are represented and hot-added
-      */
-     mc->numa_mem_align_shift =3D 28;
--    mc->numa_mem_supported =3D true;
-     mc->auto_enable_numa =3D true;
-=20
-     smc->default_caps.caps[SPAPR_CAP_HTM] =3D SPAPR_CAP_OFF;
-@@ -4465,6 +4464,7 @@ static void spapr_machine_4_2_class_options(MachineCl=
-ass *mc)
- {
-     spapr_machine_5_0_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
-+    mc->numa_mem_supported =3D true;
- }
-=20
- DEFINE_SPAPR_MACHINE(4_2, "4.2", false);
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 982af95..17a0e1d 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -89,22 +89,6 @@ error in the future.
- The @code{-realtime mlock=3Don|off} argument has been replaced by the
- @code{-overcommit mem-lock=3Don|off} argument.
-=20
--@subsection -numa node,mem=3D@var{size} (since 4.1)
--
--The parameter @option{mem} of @option{-numa node} is used to assign a part=
- of
--guest RAM to a NUMA node. But when using it, it's impossible to manage spe=
-cified
--RAM chunk on the host side (like bind it to a host node, setting bind poli=
-cy, ...),
--so guest end-ups with the fake NUMA configuration with suboptiomal perform=
-ance.
--However since 2014 there is an alternative way to assign RAM to a NUMA nod=
-e
--using parameter @option{memdev}, which does the same as @option{mem} and a=
-dds
--means to actualy manage node RAM on the host side. Use parameter @option{m=
-emdev}
--with @var{memory-backend-ram} backend as an replacement for parameter @opt=
-ion{mem}
--to achieve the same fake NUMA effect or a properly configured
--@var{memory-backend-file} backend to actually benefit from NUMA configurat=
-ion.
--In future new machine versions will not accept the option but it will stil=
-l
--work with old machine types. User can check QAPI schema to see if the lega=
-cy
--option is supported by looking at MachineInfo::numa-mem-supported property=
-.
--
- @subsection -numa node (without memory specified) (since 4.1)
-=20
- Splitting RAM by default between NUMA nodes has the same issues as @option=
-{mem}
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 709162c..55500bd 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -223,10 +223,10 @@ For example:
- -numa cpu,node-id=3D0,socket-id=3D0 -numa cpu,node-id=3D1,socket-id=3D1
- @end example
-=20
--@samp{mem} assigns a given RAM amount to a node. @samp{memdev}
--assigns RAM from a given memory backend device to a node. If
--@samp{mem} and @samp{memdev} are omitted in all nodes, RAM is
--split equally between them.
-+Legacy @samp{mem} assigns a given RAM amount to a node (not supported for =
-5.0
-+and newer machine types). @samp{memdev} assigns RAM from a given memory ba=
-ckend
-+device to a node. If @samp{mem} and @samp{memdev} are omitted in all nodes=
-, RAM
-+is split equally between them.
-=20
- @samp{mem} and @samp{memdev} are mutually exclusive. Furthermore,
- if one node uses @samp{memdev}, all of them have to use it.
---=20
-2.7.4
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  docs/specs/acpi_hest_ghes.rst | 110 ++++++++++++++++++++++++++++++++++++++++++
+>  docs/specs/index.rst          |   1 +
+>  2 files changed, 111 insertions(+)
+>  create mode 100644 docs/specs/acpi_hest_ghes.rst
+> 
+> diff --git a/docs/specs/acpi_hest_ghes.rst b/docs/specs/acpi_hest_ghes.rst
+> new file mode 100644
+> index 0000000..7a1aa90
+> --- /dev/null
+> +++ b/docs/specs/acpi_hest_ghes.rst
+> @@ -0,0 +1,110 @@
+> +APEI tables generating and CPER record
+> +======================================
+> +
+> +..
+> +   Copyright (c) 2019 HUAWEI TECHNOLOGIES CO., LTD.
+> +
+> +   This work is licensed under the terms of the GNU GPL, version 2 or later.
+> +   See the COPYING file in the top-level directory.
+> +
+> +Design Details
+> +--------------
+> +
+> +::
+> +
+> +         etc/acpi/tables                           etc/hardware_errors
+> +      ====================                   ===============================
+> +  + +--------------------------+            +----------------------------+
+> +  | | HEST                     | +--------->|    error_block_address1    |------+
+> +  | +--------------------------+ |          +----------------------------+      |
+> +  | | GHES1                    | | +------->|    error_block_address2    |------+-+
+> +  | +--------------------------+ | |        +----------------------------+      | |
+> +  | | .................        | | |        |      ..............        |      | |
+> +  | | error_status_address-----+-+ |        -----------------------------+      | |
+> +  | | .................        |   |   +--->|    error_block_addressN    |------+-+---+
+> +  | | read_ack_register--------+-+ |   |    +----------------------------+      | |   |
+> +  | | read_ack_preserve        | +-+---+--->|     read_ack_register1     |      | |   |
+> +  | | read_ack_write           |   |   |    +----------------------------+      | |   |
+> +  + +--------------------------+   | +-+--->|     read_ack_register2     |      | |   |
+> +  | | GHES2                    |   | | |    +----------------------------+      | |   |
+> +  + +--------------------------+   | | |    |       .............        |      | |   |
+> +  | | .................        |   | | |    +----------------------------+      | |   |
+> +  | | error_status_address-----+---+ | | +->|     read_ack_registerN     |      | |   |
+> +  | | .................        |     | | |  +----------------------------+      | |   |
+> +  | | read_ack_register--------+-----+ | |  |Generic Error Status Block 1|<-----+ |   |
+> +  | | read_ack_preserve        |       | |  |-+------------------------+-+        |   |
+> +  | | read_ack_write           |       | |  | |          CPER          | |        |   |
+> +  + +--------------------------|       | |  | |          CPER          | |        |   |
+> +  | | ...............          |       | |  | |          ....          | |        |   |
+> +  + +--------------------------+       | |  | |          CPER          | |        |   |
+> +  | | GHESN                    |       | |  |-+------------------------+-|        |   |
+> +  + +--------------------------+       | |  |Generic Error Status Block 2|<-------+   |
+> +  | | .................        |       | |  |-+------------------------+-+            |
+> +  | | error_status_address-----+-------+ |  | |           CPER         | |            |
+> +  | | .................        |         |  | |           CPER         | |            |
+> +  | | read_ack_register--------+---------+  | |           ....         | |            |
+> +  | | read_ack_preserve        |            | |           CPER         | |            |
+> +  | | read_ack_write           |            +-+------------------------+-+            |
+> +  + +--------------------------+            |         ..........         |            |
+> +                                            |----------------------------+            |
+> +                                            |Generic Error Status Block N |<----------+
+> +                                            |-+-------------------------+-+
+> +                                            | |          CPER           | |
+> +                                            | |          CPER           | |
+> +                                            | |          ....           | |
+> +                                            | |          CPER           | |
+> +                                            +-+-------------------------+-+
+> +
+> +
+> +(1) QEMU generates the ACPI HEST table. This table goes in the current
+> +    "etc/acpi/tables" fw_cfg blob. Each error source has different
+> +    notification types.
+> +
+> +(2) A new fw_cfg blob called "etc/hardware_errors" is introduced. QEMU
+> +    also needs to populate this blob. The "etc/hardware_errors" fw_cfg blob
+> +    contains an address registers table and an Error Status Data Block table.
+> +
+> +(3) The address registers table contains N Error Block Address entries
+> +    and N Read Ack Register entries. The size for each entry is 8-byte.
+> +    The Error Status Data Block table contains N Error Status Data Block
+> +    entries. The size for each entry is 4096(0x1000) bytes. The total size
+> +    for the "etc/hardware_errors" fw_cfg blob is (N * 8 * 2 + N * 4096) bytes.
+> +    N is the number of the kinds of hardware error sources.
+> +
+> +(4) QEMU generates the ACPI linker/loader script for the firmware. The
+> +    firmware pre-allocates memory for "etc/acpi/tables", "etc/hardware_errors"
+> +    and copies blob contents there.
+> +
+> +(5) QEMU generates N ADD_POINTER commands, which patch addresses in the
+> +    "error_status_address" fields of the HEST table with a pointer to the
+> +    corresponding "address registers" in the "etc/hardware_errors" blob.
+> +
+> +(6) QEMU generates N ADD_POINTER commands, which patch addresses in the
+> +    "read_ack_register" fields of the HEST table with a pointer to the
+> +    corresponding "read_ack_register" within the "etc/hardware_errors" blob.
+> +
+> +(7) QEMU generates N ADD_POINTER commands for the firmware, which patch
+> +    addresses in the "error_block_address" fields with a pointer to the
+> +    respective "Error Status Data Block" in the "etc/hardware_errors" blob.
+> +
+> +(8) QEMU defines a third and write-only fw_cfg blob which is called
+> +    "etc/hardware_errors_addr". Through that blob, the firmware can send back
+> +    the guest-side allocation addresses to QEMU. The "etc/hardware_errors_addr"
+> +    blob contains a 8-byte entry. QEMU generates a single WRITE_POINTER command
+> +    for the firmware. The firmware will write back the start address of
+> +    "etc/hardware_errors" blob to the fw_cfg file "etc/hardware_errors_addr".
+> +
+> +(9) When QEMU gets a SIGBUS from the kernel, QEMU writes CPER into corresponding
+> +    "Error Status Data Block", guest memory, and then injects platform specific
+> +    interrupt (in case of arm/virt machine it's Synchronous External Abort) as a
+> +    notification which is necessary for notifying the guest.
+> +
+> +(10) This notification (in virtual hardware) will be handled by the guest
+> +     kernel, on receiving notification, guest APEI driver could read the CPER error
+> +     and take appropriate action.
+> +
+> +(11) kvm_arch_on_sigbus_vcpu() uses source_id as index in "etc/hardware_errors" to
+> +     find out "Error Status Data Block" entry corresponding to error source. So supported
+> +     source_id values should be assigned here and not be changed afterwards to make sure
+> +     that guest will write error into expected "Error Status Data Block" even if guest was
+> +     migrated to a newer QEMU.
+> diff --git a/docs/specs/index.rst b/docs/specs/index.rst
+> index 984ba44..3019b9c 100644
+> --- a/docs/specs/index.rst
+> +++ b/docs/specs/index.rst
+> @@ -13,3 +13,4 @@ Contents:
+>     ppc-xive
+>     ppc-spapr-xive
+>     acpi_hw_reduced_hotplug
+> +   acpi_hest_ghes
 
 
