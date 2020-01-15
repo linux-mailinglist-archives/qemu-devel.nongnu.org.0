@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE7F13C724
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:15:03 +0100 (CET)
-Received: from localhost ([::1]:55578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3BF113C72A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:16:47 +0100 (CET)
+Received: from localhost ([::1]:55592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irkNq-0004tc-C3
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:15:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48624)
+	id 1irkPW-0006vt-3U
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:16:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkJo-0007KL-HH
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:10:54 -0500
+ (envelope-from <imammedo@redhat.com>) id 1irkJn-0007JM-W8
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:10:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkJj-0007wN-26
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:10:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44409
+ (envelope-from <imammedo@redhat.com>) id 1irkJm-0007xw-NX
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:10:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48934
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkJi-0007w6-Um
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:10:47 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkJm-0007xa-JV
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:10:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579101046;
+ s=mimecast20190719; t=1579101050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ypFRqS+a3wlU2LOPkBoPKegZFlXkDsukESJrS6Z+0aw=;
- b=NL52oUBNu3PjPxWYquCmt93vlfYCn6fKdT4s/cXXqgpEUtTpBRBVFO0xnz8XOXfMQzZpcF
- jhPQBNa4jd3zi7jK+d5NxeD4ett+1vvCbXKHB5piyX6SIoV2VRBZ/hbAT0KAwFugWTV5lz
- wPgL0CfP4fQDzn+ZMmh4S45Dl7Mtk9Q=
+ bh=4soJN4twqCsyiZf2IKg4Jq2p25zl6bq/jZfw+9W8Pvs=;
+ b=dCwRyB/vLrA88fz/a7PF5Vzypdvqjsde0BQx63qE2T6QVbWI30049ZOEKswe/3HCmW+2U/
+ LG8ILv9UCankiPxkeKyHeKO7YnbtYoHtSHABsFm5X6gal5jQNUCPX3bYY9Yt7VswNoUVku
+ wy6+6ik8zR25CvsjhK1HjctCjapCHrk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-Y74NKRvLNCSQRSds83KvPw-1; Wed, 15 Jan 2020 10:10:43 -0500
+ us-mta-8-gAbeYznaO9SMa2KIQhLpyw-1; Wed, 15 Jan 2020 10:10:46 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B58BB061A;
- Wed, 15 Jan 2020 15:10:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA6A410832CC;
+ Wed, 15 Jan 2020 15:10:44 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 86B1728997;
- Wed, 15 Jan 2020 15:10:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 50A3628988;
+ Wed, 15 Jan 2020 15:10:42 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/86] arm:aspeed: convert valid RAM sizes to data
-Date: Wed, 15 Jan 2020 16:06:22 +0100
-Message-Id: <1579100861-73692-8-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 08/86] arm:aspeed: actually check RAM size
+Date: Wed, 15 Jan 2020 16:06:23 +0100
+Message-Id: <1579100861-73692-9-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: Y74NKRvLNCSQRSds83KvPw-1
+X-MC-Unique: gAbeYznaO9SMa2KIQhLpyw-1
 X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,14 +76,48 @@ Cc: andrew@aj.id.au, peter.maydell@linaro.org, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-various foo_rambits() hardcode mapping of RAM sizes to RAM feature bits,
-which is hard to reuse and repeats over and over.
+It's supposed that SOC will check if "-m" provided
+RAM size is valid by setting "ram-size" property and
+then board would read back valid (possibly corrected
+value) to map RAM MemoryReging with valid size.
+Well it isn't doing so, since check is called only
+indirectly from
+  aspeed_sdmc_reset()->asc->compute_conf()
+or much later when guest writes to configuration
+register.
 
-Convert maps into GLib's hash tables and perform mapping using
-common mapping function.
+So depending on "-m" value QEMU end-ups with a warning
+and an invalid MemoryRegion size allocated and mapped.
+(examples:
+ -M ast2500-evb -m 1M
+    0000000080000000-000000017ffffffe (prio 0, i/o): aspeed-ram-container
+      0000000080000000-00000000800fffff (prio 0, ram): ram
+      0000000080100000-00000000bfffffff (prio 0, i/o): max_ram
+ -M ast2500-evb -m 3G
+    0000000080000000-000000017ffffffe (prio 0, i/o): aspeed-ram-container
+      0000000080000000-000000013fffffff (prio 0, ram): ram
+      [DETECTED OVERFLOW!] 0000000140000000-00000000bfffffff (prio 0, i/o):=
+ max_ram
+)
+On top of that sdmc falls back and reports to guest
+"default" size, it thinks machine should have.
 
-Follow up patch will reuse tables for actually checking ram-size
-property.
+I don't know how hardware is supposed to work so
+I've kept it as is.
+But as for CLI side machine should honor whatever
+user configured or error out to make user fix CLI.
+
+This patch makes ram-size check actually work and
+changes behavior from a warning later on during
+machine reset to error_fatal at the moment SOC is
+realized so user will have to fix RAM size on CLI
+to start machine.
+
+It also gets out of the way mutable ram-size logic,
+so we could consolidate RAM allocation logic around
+pre-allocated hostmem backend (supplied by user or
+auto created by generic machine code depending on
+supplied -m/mem-path/mem-prealloc options.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
@@ -92,228 +127,48 @@ CC: andrew@aj.id.au
 CC: joel@jms.id.au
 CC: qemu-arm@nongnu.org
 ---
- include/hw/misc/aspeed_sdmc.h |   2 +
- hw/misc/aspeed_sdmc.c         | 116 ++++++++++++++++----------------------=
-----
- 2 files changed, 47 insertions(+), 71 deletions(-)
+ hw/arm/aspeed.c       | 9 +--------
+ hw/misc/aspeed_sdmc.c | 5 +++++
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/misc/aspeed_sdmc.h b/include/hw/misc/aspeed_sdmc.h
-index 5dbde59..de1501f 100644
---- a/include/hw/misc/aspeed_sdmc.h
-+++ b/include/hw/misc/aspeed_sdmc.h
-@@ -39,6 +39,8 @@ typedef struct AspeedSDMCState {
- typedef struct AspeedSDMCClass {
-     SysBusDeviceClass parent_class;
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index cc06af4..525c547 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -213,14 +213,7 @@ static void aspeed_machine_init(MachineState *machine)
+                                 "hw-prot-key", &error_abort);
+     }
+     object_property_set_bool(OBJECT(&bmc->soc), true, "realized",
+-                             &error_abort);
+-
+-    /*
+-     * Allocate RAM after the memory controller has checked the size
+-     * was valid. If not, a default value is used.
+-     */
+-    ram_size =3D object_property_get_uint(OBJECT(&bmc->soc), "ram-size",
+-                                        &error_abort);
++                             &error_fatal);
 =20
-+    GHashTable *ram2feat;
-+    int fallback_ram_size;
-     uint64_t max_ram_size;
-     uint32_t (*compute_conf)(AspeedSDMCState *s, uint32_t data);
-     void (*write)(AspeedSDMCState *s, uint32_t reg, uint32_t data);
+     memory_region_allocate_system_memory(&bmc->ram, NULL, "ram", ram_size)=
+;
+     memory_region_add_subregion(&bmc->ram_container, 0, &bmc->ram);
 diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index 2df3244..3fc80f0 100644
+index 3fc80f0..b398e36 100644
 --- a/hw/misc/aspeed_sdmc.c
 +++ b/hw/misc/aspeed_sdmc.c
-@@ -148,72 +148,6 @@ static const MemoryRegionOps aspeed_sdmc_ops =3D {
-     .valid.max_access_size =3D 4,
- };
-=20
--static int ast2400_rambits(AspeedSDMCState *s)
--{
--    switch (s->ram_size >> 20) {
--    case 64:
--        return ASPEED_SDMC_DRAM_64MB;
--    case 128:
--        return ASPEED_SDMC_DRAM_128MB;
--    case 256:
--        return ASPEED_SDMC_DRAM_256MB;
--    case 512:
--        return ASPEED_SDMC_DRAM_512MB;
--    default:
--        break;
--    }
--
--    /* use a common default */
--    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 256M",
--                s->ram_size);
--    s->ram_size =3D 256 << 20;
--    return ASPEED_SDMC_DRAM_256MB;
--}
--
--static int ast2500_rambits(AspeedSDMCState *s)
--{
--    switch (s->ram_size >> 20) {
--    case 128:
--        return ASPEED_SDMC_AST2500_128MB;
--    case 256:
--        return ASPEED_SDMC_AST2500_256MB;
--    case 512:
--        return ASPEED_SDMC_AST2500_512MB;
--    case 1024:
--        return ASPEED_SDMC_AST2500_1024MB;
--    default:
--        break;
--    }
--
--    /* use a common default */
--    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 512M",
--                s->ram_size);
--    s->ram_size =3D 512 << 20;
--    return ASPEED_SDMC_AST2500_512MB;
--}
--
--static int ast2600_rambits(AspeedSDMCState *s)
--{
--    switch (s->ram_size >> 20) {
--    case 256:
--        return ASPEED_SDMC_AST2600_256MB;
--    case 512:
--        return ASPEED_SDMC_AST2600_512MB;
--    case 1024:
--        return ASPEED_SDMC_AST2600_1024MB;
--    case 2048:
--        return ASPEED_SDMC_AST2600_2048MB;
--    default:
--        break;
--    }
--
--    /* use a common default */
--    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 1024M",
--                s->ram_size);
--    s->ram_size =3D 1024 << 20;
--    return ASPEED_SDMC_AST2600_1024MB;
--}
--
- static void aspeed_sdmc_reset(DeviceState *dev)
- {
+@@ -165,6 +165,11 @@ static void aspeed_sdmc_realize(DeviceState *dev, Erro=
+r **errp)
      AspeedSDMCState *s =3D ASPEED_SDMC(dev);
-@@ -257,11 +191,14 @@ static Property aspeed_sdmc_properties[] =3D {
- static void aspeed_sdmc_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-+    AspeedSDMCClass *asc =3D ASPEED_SDMC_CLASS(klass);
-+
-     dc->realize =3D aspeed_sdmc_realize;
-     dc->reset =3D aspeed_sdmc_reset;
-     dc->desc =3D "ASPEED SDRAM Memory Controller";
-     dc->vmsd =3D &vmstate_aspeed_sdmc;
-     dc->props =3D aspeed_sdmc_properties;
-+    asc->ram2feat =3D g_hash_table_new(g_direct_hash, g_direct_equal);
- }
+     AspeedSDMCClass *asc =3D ASPEED_SDMC_GET_CLASS(s);
 =20
- static const TypeInfo aspeed_sdmc_info =3D {
-@@ -273,10 +210,28 @@ static const TypeInfo aspeed_sdmc_info =3D {
-     .abstract   =3D true,
- };
-=20
-+static int aspeed_get_ram_feat(AspeedSDMCState *s)
-+{
-+    AspeedSDMCClass *asc =3D ASPEED_SDMC_GET_CLASS(s);
-+    int ram_mb =3D s->ram_size >> 20;
-+    gpointer val;
-+
-+    if (g_hash_table_contains(asc->ram2feat, GINT_TO_POINTER(ram_mb))) {
-+        val =3D g_hash_table_lookup(asc->ram2feat, GINT_TO_POINTER(ram_mb)=
-);
-+        return GPOINTER_TO_INT(val);
++    if (!g_hash_table_contains(asc->ram2feat,
++                               GINT_TO_POINTER(s->ram_size >> 20))) {
++        error_setg(errp, "Invalid RAM size 0x%" PRIx64, s->ram_size);
++        return;
 +    }
-+
-+    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default %dM",
-+                 s->ram_size, asc->fallback_ram_size);
-+    s->ram_size =3D asc->fallback_ram_size << 20;
-+    val =3D g_hash_table_lookup(asc->ram2feat, &asc->fallback_ram_size);
-+    return GPOINTER_TO_INT(val);
-+}
-+
- static uint32_t aspeed_2400_sdmc_compute_conf(AspeedSDMCState *s, uint32_t=
- data)
- {
--    uint32_t fixed_conf =3D ASPEED_SDMC_VGA_COMPAT |
--        ASPEED_SDMC_DRAM_SIZE(ast2400_rambits(s));
-+    int ram_f =3D aspeed_get_ram_feat(s);
-+    uint32_t fixed_conf =3D ASPEED_SDMC_VGA_COMPAT | ASPEED_SDMC_DRAM_SIZE=
-(ram_f);
+     s->max_ram_size =3D asc->max_ram_size;
 =20
-     /* Make sure readonly bits are kept */
-     data &=3D ~ASPEED_SDMC_READONLY_MASK;
-@@ -298,6 +253,9 @@ static void aspeed_2400_sdmc_write(AspeedSDMCState *s, =
-uint32_t reg,
-     s->regs[reg] =3D data;
- }
-=20
-+#define REGISTER_RAM_SIZE(h, k, v) \
-+    g_hash_table_insert(h->ram2feat, GINT_TO_POINTER(k), GINT_TO_POINTER(v=
-))
-+
- static void aspeed_2400_sdmc_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -307,6 +265,11 @@ static void aspeed_2400_sdmc_class_init(ObjectClass *k=
-lass, void *data)
-     asc->max_ram_size =3D 512 << 20;
-     asc->compute_conf =3D aspeed_2400_sdmc_compute_conf;
-     asc->write =3D aspeed_2400_sdmc_write;
-+    asc->fallback_ram_size =3D 256;
-+    REGISTER_RAM_SIZE(asc, 64, ASPEED_SDMC_DRAM_64MB);
-+    REGISTER_RAM_SIZE(asc, 128, ASPEED_SDMC_DRAM_128MB);
-+    REGISTER_RAM_SIZE(asc, 256, ASPEED_SDMC_DRAM_256MB);
-+    REGISTER_RAM_SIZE(asc, 512, ASPEED_SDMC_DRAM_512MB);
- }
-=20
- static const TypeInfo aspeed_2400_sdmc_info =3D {
-@@ -317,10 +280,10 @@ static const TypeInfo aspeed_2400_sdmc_info =3D {
-=20
- static uint32_t aspeed_2500_sdmc_compute_conf(AspeedSDMCState *s, uint32_t=
- data)
- {
-+    int ram_f =3D aspeed_get_ram_feat(s);
-     uint32_t fixed_conf =3D ASPEED_SDMC_HW_VERSION(1) |
-         ASPEED_SDMC_VGA_APERTURE(ASPEED_SDMC_VGA_64MB) |
--        ASPEED_SDMC_CACHE_INITIAL_DONE |
--        ASPEED_SDMC_DRAM_SIZE(ast2500_rambits(s));
-+        ASPEED_SDMC_CACHE_INITIAL_DONE | ASPEED_SDMC_DRAM_SIZE(ram_f);
-=20
-     /* Make sure readonly bits are kept */
-     data &=3D ~ASPEED_SDMC_AST2500_READONLY_MASK;
-@@ -360,6 +323,11 @@ static void aspeed_2500_sdmc_class_init(ObjectClass *k=
-lass, void *data)
-     asc->max_ram_size =3D 1024 << 20;
-     asc->compute_conf =3D aspeed_2500_sdmc_compute_conf;
-     asc->write =3D aspeed_2500_sdmc_write;
-+    asc->fallback_ram_size =3D 512;
-+    REGISTER_RAM_SIZE(asc, 128, ASPEED_SDMC_AST2500_128MB);
-+    REGISTER_RAM_SIZE(asc, 256, ASPEED_SDMC_AST2500_256MB);
-+    REGISTER_RAM_SIZE(asc, 512, ASPEED_SDMC_AST2500_512MB);
-+    REGISTER_RAM_SIZE(asc, 1024, ASPEED_SDMC_AST2500_1024MB);
- }
-=20
- static const TypeInfo aspeed_2500_sdmc_info =3D {
-@@ -370,9 +338,10 @@ static const TypeInfo aspeed_2500_sdmc_info =3D {
-=20
- static uint32_t aspeed_2600_sdmc_compute_conf(AspeedSDMCState *s, uint32_t=
- data)
- {
-+    int ram_f =3D aspeed_get_ram_feat(s);
-     uint32_t fixed_conf =3D ASPEED_SDMC_HW_VERSION(3) |
-         ASPEED_SDMC_VGA_APERTURE(ASPEED_SDMC_VGA_64MB) |
--        ASPEED_SDMC_DRAM_SIZE(ast2600_rambits(s));
-+        ASPEED_SDMC_DRAM_SIZE(ram_f);
-=20
-     /* Make sure readonly bits are kept (use ast2500 mask) */
-     data &=3D ~ASPEED_SDMC_AST2500_READONLY_MASK;
-@@ -413,6 +382,11 @@ static void aspeed_2600_sdmc_class_init(ObjectClass *k=
-lass, void *data)
-     asc->max_ram_size =3D 2048 << 20;
-     asc->compute_conf =3D aspeed_2600_sdmc_compute_conf;
-     asc->write =3D aspeed_2600_sdmc_write;
-+    asc->fallback_ram_size =3D 512;
-+    REGISTER_RAM_SIZE(asc, 256, ASPEED_SDMC_AST2600_256MB);
-+    REGISTER_RAM_SIZE(asc, 512, ASPEED_SDMC_AST2600_512MB);
-+    REGISTER_RAM_SIZE(asc, 1024, ASPEED_SDMC_AST2600_1024MB);
-+    REGISTER_RAM_SIZE(asc, 2048, ASPEED_SDMC_AST2600_2048MB);
- }
-=20
- static const TypeInfo aspeed_2600_sdmc_info =3D {
+     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_sdmc_ops, s,
 --=20
 2.7.4
 
