@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3639F13CCFE
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:22:12 +0100 (CET)
-Received: from localhost ([::1]:59324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46BFF13CD06
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:24:33 +0100 (CET)
+Received: from localhost ([::1]:59362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iroF0-0002qc-VJ
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:22:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34169)
+	id 1iroHH-0006af-Vj
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:24:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iro5T-0006vp-2z
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:12:20 -0500
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iro5b-00077Q-1o
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:12:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iro5P-0002sK-VX
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:12:18 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53841 helo=mail.rt-rk.com)
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iro5Z-00030g-Sc
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:12:26 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:53843 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
- id 1iro5P-0002r3-L5
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:12:15 -0500
+ id 1iro5Z-0002rA-Lv
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:12:25 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 9BBF21A21B7;
+ by mail.rt-rk.com (Postfix) with ESMTP id A43871A21BC;
  Wed, 15 Jan 2020 20:12:10 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
  [10.10.14.93])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 2D68F1A21D6;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 376FC1A21FF;
  Wed, 15 Jan 2020 20:12:10 +0100 (CET)
 From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 12/13] linux-user: Add support for selected alsa timer
- instructions using ioctls
-Date: Wed, 15 Jan 2020 20:12:02 +0100
-Message-Id: <1579115523-4159-13-git-send-email-Filip.Bozuta@rt-rk.com>
+Subject: [PATCH v7 13/13] linux-user: Add support for TYPE_LONG and TYPE_ULONG
+ in do_ioctl()
+Date: Wed, 15 Jan 2020 20:12:03 +0100
+Message-Id: <1579115523-4159-14-git-send-email-Filip.Bozuta@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1579115523-4159-1-git-send-email-Filip.Bozuta@rt-rk.com>
 References: <1579115523-4159-1-git-send-email-Filip.Bozuta@rt-rk.com>
@@ -57,81 +57,36 @@ Cc: peter.maydell@linaro.org, berrange@redhat.com, arnd@arndb.de,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implements functionalities of following ioctls:
+Function "do_ioctl()" located in file "syscall.c" was missing
+an option for TYPE_LONG and TYPE_ULONG. This caused some ioctls
+to not be recognised because they had the third argument that was
+of type 'long' or 'unsigned long'.
 
-SNDRV_TIMER_IOCTL_START - Start selected alsa timer
+For example:
 
-    Starts the timer device that is selected. The third ioctl's argument is
-    ignored. Before calling this ioctl, the ioctl "SNDRV_TIMER_IOCTL_SELECT"
-    should be called first to select the timer that is to be started. If no
-    timer is selected, the error EBADFD ("File descriptor in bad shape")
-    is returned.
-
-SNDRV_TIMER_IOCTL_STOP - Stop selected alsa timer
-
-    Stops the timer device that is selected. The third ioctl's argument is
-    ignored. Before calling this ioctl, the ioctl "SNDRV_TIMER_IOCTL_SELECT"
-    should be called first to select the timer that is to be stopped. If no
-    timer is selected, the error EBADFD ("File descriptor in bad shape")
-    is returned.
-
-SNDRV_TIMER_IOCTL_CONTINUE - Continue selected alsa timer
-
-    Continues the timer device that is selected. The third ioctl's argument is
-    ignored. Before calling this ioctl, the ioctl "SNDRV_TIMER_IOCTL_SELECT"
-    should be called first to select the timer that is to be continued. If no
-    timer is selected, the error EBADFD ("File descriptor in bad shape")
-    is returned.
-
-SNDRV_TIMER_IOCTL_PAUSE - Pause selected alsa timer
-
-    Pauses the timer device that is selected. The third ioctl's argument is
-    ignored. Before calling this ioctl, the ioctl "SNDRV_TIMER_IOCTL_SELECT"
-    should be called first to select the timer that is to be paused. If no
-    timer is selected, the error EBADFD ("File descriptor in bad shape")
-    is returned.
-
-Implementation notes:
-
-    Since all of the implemented ioctls have NULL as their third argument,
-    their implementation was straightforward.
+Since implemented ioctls RTC_IRQP_SET and RTC_EPOCH_SET
+are of type IOW(writing type) that have unsigned long as
+their third argument, they were not recognised in QEMU
+before the changes of this patch.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 ---
- linux-user/ioctls.h       | 4 ++++
- linux-user/syscall_defs.h | 4 ++++
- 2 files changed, 8 insertions(+)
+ linux-user/syscall.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 43e7e5d..75a2f0e 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -466,6 +466,10 @@
-         MK_PTR(MK_STRUCT(STRUCT_snd_timer_params)))
-   IOCTL(SNDRV_TIMER_IOCTL_STATUS, IOC_R,
-         MK_PTR(MK_STRUCT(STRUCT_snd_timer_status)))
-+  IOCTL(SNDRV_TIMER_IOCTL_START, 0, TYPE_NULL)
-+  IOCTL(SNDRV_TIMER_IOCTL_STOP, 0, TYPE_NULL)
-+  IOCTL(SNDRV_TIMER_IOCTL_CONTINUE, 0, TYPE_NULL)
-+  IOCTL(SNDRV_TIMER_IOCTL_PAUSE, 0, TYPE_NULL)
- 
-   IOCTL(HDIO_GETGEO, IOC_R, MK_PTR(MK_STRUCT(STRUCT_hd_geometry)))
-   IOCTL(HDIO_GET_UNMASKINTR, IOC_R, MK_PTR(TYPE_INT))
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index d5f5cad..2d86d78 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -2505,6 +2505,10 @@ struct target_snd_timer_status {
-                                                 struct snd_timer_params)
- #define TARGET_SNDRV_TIMER_IOCTL_STATUS       TARGET_IOR('T', 0x14,            \
-                                                 struct target_snd_timer_status)
-+#define TARGET_SNDRV_TIMER_IOCTL_START        TARGET_IO('T', 0xa0)
-+#define TARGET_SNDRV_TIMER_IOCTL_STOP         TARGET_IO('T', 0xa1)
-+#define TARGET_SNDRV_TIMER_IOCTL_CONTINUE     TARGET_IO('T', 0xa2)
-+#define TARGET_SNDRV_TIMER_IOCTL_PAUSE        TARGET_IO('T', 0xa3)
- 
- /* vfat ioctls */
- #define TARGET_VFAT_IOCTL_READDIR_BOTH    TARGET_IORU('r', 1)
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index a3993a2..2ba2c5c 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -5176,6 +5176,8 @@ static abi_long do_ioctl(int fd, int cmd, abi_long arg)
+         break;
+     case TYPE_PTRVOID:
+     case TYPE_INT:
++    case TYPE_LONG:
++    case TYPE_ULONG:
+         ret = get_errno(safe_ioctl(fd, ie->host_cmd, arg));
+         break;
+     case TYPE_PTR:
 -- 
 2.7.4
 
