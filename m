@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D45D213C84B
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:48:10 +0100 (CET)
-Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8CC13C868
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:53:18 +0100 (CET)
+Received: from localhost ([::1]:56140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irktt-0001aG-GM
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:48:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49797)
+	id 1irkyq-00024j-TG
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:53:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49855)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkL2-0000ui-1G
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:09 -0500
+ (envelope-from <imammedo@redhat.com>) id 1irkL4-0000yj-1N
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkKx-0000Qx-Bu
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:07 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58587
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1irkL2-0000UJ-3G
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:09 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43014
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKx-0000QQ-7V
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:03 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkL1-0000TM-VG
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579101122;
+ s=mimecast20190719; t=1579101126;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gjtDcTLkJi7lSKoreI9kV98fpwKzQn4B89YPAJOriIE=;
- b=Zf97JAEHN4LW7Z4n76Iz4rYndj3Tumslm+SURFlK2EYojsgP5GThn5Oix9A17RdqLjZ4DU
- /d+VO7FlwDTWfq5iy0+6VKzve9n8MfwN0HPBV8Dto8Y6ElSaslxM1QzxAcajdbHIYK5GTH
- 8ca7y2RIu9c4Kq/PfEz7F1TrJxdZwi8=
+ bh=fFocPLsxX9YDrZFgytvz47uLlKHKZTB5GR32HEzkFic=;
+ b=CUG5duDznqksMScEGpS4vdumowKy0Dj6d475X4Mfan91UTFr5NStze/60uWs1nvJ0/zYUB
+ KZuEKAMP1VMnQHGPLqewJL9oKfgE756gPgPQtEcjrCzlRitdId/3FJ8XMod0N1SMMmZYxv
+ iDiLzrxd3tu34C//J8RdjkvqSnkCtHk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-IXCdFYoTMRyMKpBNhG5vog-1; Wed, 15 Jan 2020 10:11:59 -0500
+ us-mta-202-90E9P1BiOqmnzcKzLjtx2Q-1; Wed, 15 Jan 2020 10:12:03 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BB5D1852AE;
- Wed, 15 Jan 2020 15:11:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58D621140DA5;
+ Wed, 15 Jan 2020 15:12:01 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5593319757;
- Wed, 15 Jan 2020 15:11:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E1A219757;
+ Wed, 15 Jan 2020 15:12:00 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 65/86] ppc:ppc405_boards: use memdev for RAM
-Date: Wed, 15 Jan 2020 16:07:20 +0100
-Message-Id: <1579100861-73692-66-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 67/86] ppc:ppc440_bamboo/sam460ex: use memdev for RAM
+Date: Wed, 15 Jan 2020 16:07:22 +0100
+Message-Id: <1579100861-73692-68-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: IXCdFYoTMRyMKpBNhG5vog-1
+X-MC-Unique: 90E9P1BiOqmnzcKzLjtx2Q-1
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,84 +82,119 @@ to memdev scheme by providing
 and using MachineState::ram instead of manually initializing
 RAM memory region.
 
-PS:
-in ref405ep alias RAM into ram_memories[] to avoid re-factoring
-its user ppc405ep_init(), which would be invasive and out of
-scope this patch.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
+CC: balaton@eik.bme.hu
 CC: david@gibson.dropbear.id.au
 CC: qemu-ppc@nongnu.org
 ---
- hw/ppc/ppc405_boards.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ include/hw/ppc/ppc4xx.h | 2 +-
+ hw/ppc/ppc440_bamboo.c  | 3 ++-
+ hw/ppc/ppc4xx_devs.c    | 9 +++------
+ hw/ppc/sam460ex.c       | 3 ++-
+ 4 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index a7a432d..f447e6e 100644
---- a/hw/ppc/ppc405_boards.c
-+++ b/hw/ppc/ppc405_boards.c
-@@ -168,8 +168,8 @@ static void ref405ep_init(MachineState *machine)
-     }
+diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+index 103c875..f0bef46 100644
+--- a/include/hw/ppc/ppc4xx.h
++++ b/include/hw/ppc/ppc4xx.h
+@@ -42,7 +42,7 @@ enum {
+ qemu_irq *ppcuic_init (CPUPPCState *env, qemu_irq *irqs,
+                        uint32_t dcr_base, int has_ssr, int has_vr);
 =20
-     /* XXX: fix this */
--    memory_region_allocate_system_memory(&ram_memories[0], NULL, "ef405ep.=
-ram",
--                                         machine->ram_size);
-+    memory_region_init_alias(&ram_memories[0], NULL, "ef405ep.ram.alias",
-+                             machine->ram, 0, machine->ram_size);
-     ram_bases[0] =3D 0;
-     ram_sizes[0] =3D machine->ram_size;
-     memory_region_init(&ram_memories[1], NULL, "ef405ep.ram1", 0);
-@@ -310,6 +310,7 @@ static void ref405ep_class_init(ObjectClass *oc, void *=
-data)
-     mc->desc =3D "ref405ep";
-     mc->init =3D ref405ep_init;
-     mc->default_ram_size =3D 0x08000000;
-+    mc->default_ram_id =3D "ef405ep.ram";
+-void ppc4xx_sdram_prep(ram_addr_t ram_size, int nr_banks,
++void ppc4xx_sdram_prep(MemoryRegion *ram, int nr_banks,
+                        MemoryRegion ram_memories[],
+                        hwaddr ram_bases[], hwaddr ram_sizes[],
+                        const ram_addr_t sdram_bank_sizes[]);
+diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+index c162598..cb4a1ad 100644
+--- a/hw/ppc/ppc440_bamboo.c
++++ b/hw/ppc/ppc440_bamboo.c
+@@ -202,7 +202,7 @@ static void bamboo_init(MachineState *machine)
+     /* SDRAM controller */
+     memset(ram_bases, 0, sizeof(ram_bases));
+     memset(ram_sizes, 0, sizeof(ram_sizes));
+-    ppc4xx_sdram_prep(ram_size, PPC440EP_SDRAM_NR_BANKS, ram_memories,
++    ppc4xx_sdram_prep(machine->ram, PPC440EP_SDRAM_NR_BANKS, ram_memories,
+                       ram_bases, ram_sizes, ppc440ep_sdram_bank_sizes);
+     /* XXX 440EP's ECC interrupts are on UIC1, but we've only created UIC0=
+. */
+     ppc4xx_sdram_init(env, pic[14], PPC440EP_SDRAM_NR_BANKS, ram_memories,
+@@ -289,6 +289,7 @@ static void bamboo_machine_init(MachineClass *mc)
+     mc->desc =3D "bamboo";
+     mc->init =3D bamboo_init;
+     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("440epb");
++    mc->default_ram_id =3D "ppc4xx.sdram";
  }
 =20
- static const TypeInfo ref405ep_type =3D {
-@@ -422,7 +423,6 @@ static void taihu_405ep_init(MachineState *machine)
-     MemoryRegion *sysmem =3D get_system_memory();
-     MemoryRegion *bios;
-     MemoryRegion *ram_memories =3D g_new(MemoryRegion, 2);
+ DEFINE_MACHINE("bamboo", bamboo_machine_init)
+diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+index 92d33a4..9c3762d 100644
+--- a/hw/ppc/ppc4xx_devs.c
++++ b/hw/ppc/ppc4xx_devs.c
+@@ -673,13 +673,12 @@ void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq ir=
+q, int nbanks,
+  * The 4xx SDRAM controller supports a small number of banks, and each ban=
+k
+  * must be one of a small set of sizes. The number of banks and the suppor=
+ted
+  * sizes varies by SoC. */
+-void ppc4xx_sdram_prep(ram_addr_t ram_size, int nr_banks,
++void ppc4xx_sdram_prep(MemoryRegion *ram, int nr_banks,
+                        MemoryRegion ram_memories[],
+                        hwaddr ram_bases[], hwaddr ram_sizes[],
+                        const ram_addr_t sdram_bank_sizes[])
+ {
 -    MemoryRegion *ram =3D g_malloc0(sizeof(*ram));
-     hwaddr ram_bases[2], ram_sizes[2];
-     long bios_size;
-     target_ulong kernel_base, initrd_base;
-@@ -436,18 +436,16 @@ static void taihu_405ep_init(MachineState *machine)
-                      mc->default_ram_size);
+-    ram_addr_t size_left =3D ram_size;
++    ram_addr_t size_left =3D memory_region_size(ram);
+     ram_addr_t base =3D 0;
+     ram_addr_t bank_size;
+     int last_bank =3D 0;
+@@ -704,7 +703,7 @@ void ppc4xx_sdram_prep(ram_addr_t ram_size, int nr_bank=
+s,
+     }
+=20
+     if (size_left) {
+-        ram_addr_t used_size =3D ram_size - size_left;
++        ram_addr_t used_size =3D memory_region_size(ram) - size_left;
+         GString *s =3D g_string_new(NULL);
+=20
+         for (i =3D 0; sdram_bank_sizes[i]; i++) {
+@@ -721,8 +720,6 @@ void ppc4xx_sdram_prep(ram_addr_t ram_size, int nr_bank=
+s,
          exit(EXIT_FAILURE);
      }
--    memory_region_allocate_system_memory(ram, NULL, "taihu_405ep.ram",
--                                         machine->ram_size);
 =20
-     ram_bases[0] =3D 0;
-     ram_sizes[0] =3D 0x04000000;
-     memory_region_init_alias(&ram_memories[0], NULL,
--                             "taihu_405ep.ram-0", ram, ram_bases[0],
-+                             "taihu_405ep.ram-0", machine->ram, ram_bases[=
-0],
-                              ram_sizes[0]);
-     ram_bases[1] =3D 0x04000000;
-     ram_sizes[1] =3D 0x04000000;
-     memory_region_init_alias(&ram_memories[1], NULL,
--                             "taihu_405ep.ram-1", ram, ram_bases[1],
-+                             "taihu_405ep.ram-1", machine->ram, ram_bases[=
-1],
-                              ram_sizes[1]);
-     ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
-                   33333333, &pic, kernel_filename =3D=3D NULL ? 0 : 1);
-@@ -543,6 +541,7 @@ static void taihu_class_init(ObjectClass *oc, void *dat=
-a)
-     mc->desc =3D "taihu";
-     mc->init =3D taihu_405ep_init;
-     mc->default_ram_size =3D 0x08000000;
-+    mc->default_ram_id =3D "ef405ep.ram";
+-    memory_region_allocate_system_memory(ram, NULL, "ppc4xx.sdram", ram_si=
+ze);
+-
+     for (i =3D 0; i <=3D last_bank; i++) {
+         char name[32];
+         snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index ec7ac1f..8d27a3f 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -324,7 +324,7 @@ static void sam460ex_init(MachineState *machine)
+     /* SDRAM controller */
+     /* put all RAM on first bank because board has one slot
+      * and firmware only checks that */
+-    ppc4xx_sdram_prep(machine->ram_size, 1, ram_memories, ram_bases, ram_s=
+izes,
++    ppc4xx_sdram_prep(machine->ram, 1, ram_memories, ram_bases, ram_sizes,
+                       ppc460ex_sdram_bank_sizes);
+=20
+     /* FIXME: does 460EX have ECC interrupts? */
+@@ -483,6 +483,7 @@ static void sam460ex_machine_init(MachineClass *mc)
+     mc->init =3D sam460ex_init;
+     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("460exb");
+     mc->default_ram_size =3D 512 * MiB;
++    mc->default_ram_id =3D "ppc4xx.sdram";
  }
 =20
- static const TypeInfo taihu_type =3D {
+ DEFINE_MACHINE("sam460ex", sam460ex_machine_init)
 --=20
 2.7.4
 
