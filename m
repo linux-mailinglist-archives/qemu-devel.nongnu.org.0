@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B90EF13C1FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 13:54:29 +0100 (CET)
-Received: from localhost ([::1]:53356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E7313C162
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 13:45:22 +0100 (CET)
+Received: from localhost ([::1]:53268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iriBo-0006Yv-Lo
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 07:54:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49713)
+	id 1iri2z-0007Nk-4v
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 07:45:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49735)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1irhuj-0002MU-7G
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 07:36:50 -0500
+ (envelope-from <damien.hedde@greensocs.com>) id 1irhuj-0002Mh-M7
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 07:36:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1irhuh-00035b-71
+ (envelope-from <damien.hedde@greensocs.com>) id 1irhui-00036u-0P
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 07:36:49 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:53576)
+Received: from beetle.greensocs.com ([5.135.226.135]:53588)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1irhug-000343-U1; Wed, 15 Jan 2020 07:36:47 -0500
+ id 1irhuh-000352-NA; Wed, 15 Jan 2020 07:36:47 -0500
 Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
  [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id 6550496F54;
- Wed, 15 Jan 2020 12:36:45 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 1AD7F96F56;
+ Wed, 15 Jan 2020 12:36:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1579091805;
+ s=mail; t=1579091806;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gkyGk7NyoDpVOzRr9M+POqcI/hKXDSH+9wGTwV0JCFM=;
- b=pcB+W5CMxmBGgeyDl5dO7yynkOQgc29fjmpqLztBjXiqyzOIzfCdxfc5RX+ObbqIOFinTb
- 6/qgZfPr5zojhP3A8KCpwoxHec7+2VUnuwAn+1eWILQLBqr1dmIUOoh6hk8rMM/sa7kg9k
- Pa94HhwPqSPjh9oAAbESd09dmq+WKJc=
+ bh=TaTucAelcar7/Tq5fUlcZtDaa3gxXAfZz25prtJ0NvI=;
+ b=epnVG4vrWiCM7+MfE1NQPTL04XMMeC0LTTHRZSA+s/9CMMFBXmeEuY4mafo/6Fm8k8NnH6
+ 5bMibwSsxJUt2huevGldfGToPPjTI7/7F7nN/A2Kfsbmc+oCSl+eNdIpFAYssWw+m4CYgG
+ w7XaeKJx7EKavSBdMgs3DhXe2gqyMhU=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 06/11] hw/core/qdev: handle parent bus change regarding
+Subject: [PATCH v7 07/11] hw/core/qdev: update hotplug reset regarding
  resettable
-Date: Wed, 15 Jan 2020 13:36:15 +0100
-Message-Id: <20200115123620.250132-7-damien.hedde@greensocs.com>
+Date: Wed, 15 Jan 2020 13:36:16 +0100
+Message-Id: <20200115123620.250132-8-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200115123620.250132-1-damien.hedde@greensocs.com>
 References: <20200115123620.250132-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1579091805;
+ s=mail; t=1579091806;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gkyGk7NyoDpVOzRr9M+POqcI/hKXDSH+9wGTwV0JCFM=;
- b=YjasE5nY/bdl9lagYPYVXAGNe4ZhKV0a6ht+mEInZDejAj+M4aMdu6IF/aIXRMHcCzRdnu
- YrIiDdcj/SUIwRFLNgGtsd4cFRd2COkEBLSq1nOE6I8ys9c1bG7pIhAHVT8Z5I5N2u7VWb
- 5nIwz1I67K9rKXZINFEoq11ZfmyD+/g=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1579091805; a=rsa-sha256; cv=none;
- b=BWVWtEJJW/DbraSTr4LtIAItV0OqdRX/wy0nhuwSsiLCQi5fMdfchNkIiX5y+n06zaYbmT
- cH15HsEYTFMa4cUgeWECennkCFF4UNRgpjHNDADEtuJ5fvOVuU/JQ0R6lAWSuTTtLkW95/
- G0WOLi+Pnpaqt4u4oylTfk5NR69hRkc=
+ bh=TaTucAelcar7/Tq5fUlcZtDaa3gxXAfZz25prtJ0NvI=;
+ b=iOLfm/W0Q/B85PUet4WLkRqn+IO0lovEt9sVHsbKBsAWRM0xO0qVNab6QYM1n0G1L7uOhu
+ H0MGlujrpaZi5IkQs5vF8oBSCmpSG+viufz+yWPHBLyUHt4KVjC6Cmq+YlMLloJgNJ1fhk
+ GY8bAtyP7gtfM/278m5MrqgwYsI1STA=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1579091806; a=rsa-sha256; cv=none;
+ b=BH96CwjmPPwAtwrYqEayq9pHd1FyY7wGKfUYH8sA3XAN9GGHPwrqpDE8luX6/yxOVEYUFB
+ PgomI2cZdEMnwj0hrl7qJjFamG4HA2NehvaAjj9VwWR+vdFRPcgZN7TFIWkHmlgwVHdlEY
+ Vqyy48r8V2ogCfedte45Lvc53WSzrbw=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -84,157 +84,100 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In qdev_set_parent_bus(), when changing the parent bus of a
-realized device, if the source and destination buses are not in the
-same reset state, some adaptations are required. This patch adds
-needed call to resettable_change_parent() to make sure a device reset
-state stays coherent with its parent bus.
+This commit make use of the resettable API to reset the device being
+hotplugged when it is realized. Also it ensures it is put in a reset
+state coherent with the parent it is plugged into.
 
-The addition is a no-op if:
-1. the device being parented is not realized.
-2. the device is realized, but both buses are not under reset.
+Note that there is a difference in the reset. Instead of resetting
+only the hotplugged device, we reset also its subtree (switch to
+resettable API). This is not expected to be a problem because
+sub-buses are just realized too. If a hotplugged device has any
+sub-buses it is logical to reset them too at this point.
 
-Case 2 means that as long as qdev_set_parent_bus() is called
-during the machine realization procedure (which is before the
-machine reset so nothing is in reset), it is a no op.
-
-There are 52 call sites of qdev_set_parent_bus(). All but one fall
-into the no-op case:
-+ 29 trivial calls related to virtio (in hw/{s390x,display,virtio}/
-  {vhost,virtio}-xxx.c) to set a vdev(or vgpu) composing device
-  parent bus just before realizing the same vdev(vgpu).
-+ hw/core/qdev.c: when creating a device in qdev_try_create()
-+ hw/core/sysbus.c: when initializing a device in the sysbus
-+ hw/i386/amd_iommu.c: before realizing AMDVIState/pci
-+ hw/isa/piix4.c: before realizing PIIX4State/rtc
-+ hw/misc/auxbus.c: when creating an AUXBus
-+ hw/misc/auxbus.c: when creating an AUXBus child
-+ hw/misc/macio/macio.c: when initializing a MACIOState child
-+ hw/misc/macio/macio.c: before realizing NewWorldMacIOState/pmu
-+ hw/misc/macio/macio.c: before realizing NewWorldMacIOState/cuda
-+ hw/net/virtio-net.c: Used for migration when using the failover
-                       mechanism to migration a vfio-pci/net. It is
-                       a no-op because at this point the device is
-                       already on the bus.
-+ hw/pci-host/designware.c: before realizing DesignwarePCIEHost/root
-+ hw/pci-host/gpex.c: before realizing GPEXHost/root
-+ hw/pci-host/prep.c: when initializaing PREPPCIState/pci_dev
-+ hw/pci-host/q35.c: before realizing Q35PCIHost/mch
-+ hw/pci-host/versatile.c: when initializing PCIVPBState/pci_dev
-+ hw/pci-host/xilinx-pcie.c: before realizing XilinxPCIEHost/root
-+ hw/s390x/event-facility.c: when creating SCLPEventFacility/
-                             TYPE_SCLP_QUIESCE
-+ hw/s390x/event-facility.c: ditto with SCLPEventFacility/
-                             TYPE_SCLP_CPU_HOTPLUG
-+ hw/s390x/sclp.c: Not trivial because it is called on a SLCPDevice
-  just after realizing it. Ok because at this point the destination
-  bus (sysbus) is not in reset; the realize step is before the
-  machine reset.
-+ hw/sd/core.c: Not OK. Used in sdbus_reparent_card(). See below.
-+ hw/ssi/ssi.c: Used to put spi slave on spi bus and connect the cs
-  line in ssi_auto_connect_slave(). Ok because this function is only
-  used in realize step in hw/ssi/aspeed_smc.ci, hw/ssi/imx_spi.c,
-  hw/ssi/mss-spi.c, hw/ssi/xilinx_spi.c and hw/ssi/xilinx_spips.c.
-+ hw/xen/xen-legacy-backend.c: when creating a XenLegacyDevice device
-+ qdev-monitor.c: in device hotplug creation procedure before realize
-
-Note that this commit alone will have no effect, right now there is no
-use of resettable API to reset anything. So a bus will never be tagged
-as in-reset by this same API.
-
-The one place where side-effect will occurs is in hw/sd/core.c in
-sdbus_reparent_card(). This function is only used in the raspi machines,
-including during the sysbus reset procedure. This case will be
-carrefully handled when doing the multiple phase reset transition.
+The recently added should_be_hidden and PCI's partially_hotplugged
+mechanisms do not interfere with realize operation:
++ In the should_be_hidden use case, device creation is
+delayed.
++ The partially_hotplugged mechanism prevents a device to be
+unplugged and unrealized from qdev POV and unrealized.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
 
-v6 update: there are now 3 more call sites (52 instead of 49).
-+ hw/isa/piix4.c
-+ hw/net/virtio-net.c
-+ hw/virtio/vhost-user-fs-pci.c (in list below)
+v7 update: inline resettable_state_clear()
 
-Exhaustive list of the 29 "virtio" caller to qdev_set_parent_bus():
-+ hw/display/virtio-gpu-pci.c:     VirtIOGPUPCIBase/vgpu realize
-+ hw/display/virtio-vga.c:         VirtIOVGABase/vgpu realize
-+ hw/s390x/vhost-vsock-ccw.c:      VHostVSockCCWState/vdev realize
-+ hw/s390x/virtio-ccw-9p.c:        V9fsCCWState/vdev realize
-+ hw/s390x/virtio-ccw-balloon.c:   VirtIOBalloonCcw/vdev realize
-+ hw/s390x/virtio-ccw-blk.c:       VirtIOBlkCcw/vdev realize
-+ hw/s390x/virtio-ccw-crypto.c:    VirtIOCryptoCcw/vdev realize
-+ hw/s390x/virtio-ccw-gpu.c:       VirtIOGPUCcw/vdev realize
-+ hw/s390x/virtio-ccw-input.c:     VirtIOInputCcw/vdev realize
-+ hw/s390x/virtio-ccw-net.c:       VirtIONetCcw/vdev realize
-+ hw/s390x/virtio-ccw-rng.c:       VirtIORNGCcw/vdev realize
-+ hw/s390x/virtio-ccw-scsi.c:      VirtIOSCSICcw/vdev realize
-+ hw/s390x/virtio-ccw-scsi.c:      VHostSCSICcw/vdev realize
-+ hw/s390x/virtio-ccw-serial.c:    VirtioSerialCcw/vdev realize
-+ hw/virtio/vhost-scsi-pci.c:      VHostSCSIPCI/vdev realize
-+ hw/virtio/vhost-user-blk-pci.c:  VHostUserBlkPCI/vdev realize
-+ hw/virtio/vhost-user-fs-pci.c:   VHostUserFSPCI/vdev realize
-+ hw/virtio/vhost-user-scsi-pci.c: VHostUserSCSIPCI/vdev realize
-+ hw/virtio/vhost-vsock-pci.c:     VHostVSockPCI/vdev realize
-+ hw/virtio/virtio-9p-pci.c:       V9fsPCIState/vdev realize
-+ hw/virtio/virtio-balloon-pci.c:  VirtIOBalloonPCI/vdev realize
-+ hw/virtio/virtio-blk-pci.c:      VirtIOBlkPCI/vdev realize
-+ hw/virtio/virtio-crypto-pci.c:   VirtIOCryptoPCI/vdev realize
-+ hw/virtio/virtio-input-pci.c:    VirtIOInputPCI/vdev realize
-+ hw/virtio/virtio-net-pci.c:      VirtIONetPCI/vdev realize
-+ hw/virtio/virtio-pmem-pci.c:     VirtIOPMEMPCI/vdev realize
-+ hw/virtio/virtio-rng-pci.c:      VirtIORngPCI/vdev realize
-+ hw/virtio/virtio-scsi-pci.c:     VirtIOSCSIPCI/vdev realize
-+ hw/virtio/virtio-serial-pci.c:   VirtIOSerialPCI/vdev realize
+v6 update: clear the reset state before doing any reset. Although it
+is apparently highly improbable that a device be realized again after
+being unrealized. See here for a discussion about this point and the
+partially_hotplugged/shoud_be_hidden cases.
+https://lists.nongnu.org/archive/html/qemu-devel/2019-11/msg04897.html
 ---
- hw/core/qdev.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ include/hw/resettable.h | 11 +++++++++++
+ hw/core/qdev.c          | 15 ++++++++++++++-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
+diff --git a/include/hw/resettable.h b/include/hw/resettable.h
+index 3c87ab86c7..3f90da5b5b 100644
+--- a/include/hw/resettable.h
++++ b/include/hw/resettable.h
+@@ -153,6 +153,17 @@ struct ResettableState {
+     bool exit_phase_in_progress;
+ };
+=20
++/**
++ * resettable_state_clear:
++ * Clear the state. It puts the state to the initial (zeroed) state requ=
+ired
++ * to reuse an object. Typically used in realize step of base classes
++ * implementing the interface.
++ */
++static inline void resettable_state_clear(ResettableState *state)
++{
++    memset(state, 0, sizeof(ResettableState));
++}
++
+ /**
+  * resettable_reset:
+  * Trigger a reset on an object @obj of type @type. @obj must implement
 diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index d431a020fc..310b87e25a 100644
+index 310b87e25a..5fac4cd8fc 100644
 --- a/hw/core/qdev.c
 +++ b/hw/core/qdev.c
-@@ -96,25 +96,31 @@ static void bus_add_child(BusState *bus, DeviceState =
-*child)
+@@ -937,6 +937,12 @@ static void device_set_realized(Object *obj, bool va=
+lue, Error **errp)
+             }
+         }
 =20
- void qdev_set_parent_bus(DeviceState *dev, BusState *bus)
- {
--    bool replugging =3D dev->parent_bus !=3D NULL;
-+    BusState *old_parent_bus =3D dev->parent_bus;
-=20
--    if (replugging) {
-+    if (old_parent_bus) {
-         trace_qdev_update_parent_bus(dev, object_get_typename(OBJECT(dev=
-)),
--            dev->parent_bus, object_get_typename(OBJECT(dev->parent_bus)=
++        /*
++         * Clear the reset state, in case the object was previously unre=
+alized
++         * with a dirty state.
++         */
++        resettable_state_clear(&dev->reset);
++
+         QLIST_FOREACH(bus, &dev->child_bus, sibling) {
+             object_property_set_bool(OBJECT(bus), true, "realized",
+                                          &local_err);
+@@ -945,7 +951,14 @@ static void device_set_realized(Object *obj, bool va=
+lue, Error **errp)
+             }
+         }
+         if (dev->hotplugged) {
+-            device_legacy_reset(dev);
++            /*
++             * Reset the device, as well as its subtree which, at this p=
+oint,
++             * should be realized too.
++             */
++            resettable_assert_reset(OBJECT(dev), RESET_TYPE_COLD);
++            resettable_change_parent(OBJECT(dev), OBJECT(dev->parent_bus=
 ),
-+            old_parent_bus, object_get_typename(OBJECT(old_parent_bus)),
-             OBJECT(bus), object_get_typename(OBJECT(bus)));
-         /*
-          * Keep a reference to the device while it's not plugged into
-          * any bus, to avoid it potentially evaporating when it is
-          * dereffed in bus_remove_child().
-+         * Also keep the ref of the parent bus until the end, so that
-+         * we can safely call resettable_change_parent() below.
-          */
-         object_ref(OBJECT(dev));
-         bus_remove_child(dev->parent_bus, dev);
--        object_unref(OBJECT(dev->parent_bus));
-     }
-     dev->parent_bus =3D bus;
-     object_ref(OBJECT(bus));
-     bus_add_child(bus, dev);
--    if (replugging) {
-+    if (dev->realized) {
-+        resettable_change_parent(OBJECT(dev), OBJECT(bus),
-+                                 OBJECT(old_parent_bus));
-+    }
-+    if (old_parent_bus) {
-+        object_unref(OBJECT(old_parent_bus));
-         object_unref(OBJECT(dev));
-     }
- }
++                                     NULL);
++            resettable_release_reset(OBJECT(dev), RESET_TYPE_COLD);
+         }
+         dev->pending_deleted_event =3D false;
+=20
 --=20
 2.24.1
 
