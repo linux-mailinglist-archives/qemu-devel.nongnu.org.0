@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6498313CD3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:41:26 +0100 (CET)
-Received: from localhost ([::1]:59762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F258613CD61
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:46:44 +0100 (CET)
+Received: from localhost ([::1]:59870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iroXd-0002oI-46
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:41:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38637)
+	id 1irocm-0001u3-24
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:46:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38677)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iroTZ-0005et-Mu
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:37:17 -0500
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iroTc-0005gG-BT
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:37:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iroTS-0004p6-PZ
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:37:10 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:43305 helo=mail.rt-rk.com)
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iroTU-0004q6-Db
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:37:16 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:43308 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
- id 1iroTS-0004nk-IQ
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:37:06 -0500
+ id 1iroTS-0004np-Il
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:37:07 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 413B01A21D0;
+ by mail.rt-rk.com (Postfix) with ESMTP id 4D9F41A2151;
  Wed, 15 Jan 2020 20:36:53 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
  [10.10.14.93])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 0A27A1A20AB;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 148AB1A20B0;
  Wed, 15 Jan 2020 20:36:53 +0100 (CET)
 From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 06/13] linux-user: Add support for read/clear RTC voltage
- low detector using ioctls
-Date: Wed, 15 Jan 2020 20:36:40 +0100
-Message-Id: <1579117007-7565-7-git-send-email-Filip.Bozuta@rt-rk.com>
+Subject: [PATCH v8 07/13] linux-user: Add support for getting alsa timer
+ version and id
+Date: Wed, 15 Jan 2020 20:36:41 +0100
+Message-Id: <1579117007-7565-8-git-send-email-Filip.Bozuta@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1579117007-7565-1-git-send-email-Filip.Bozuta@rt-rk.com>
 References: <1579117007-7565-1-git-send-email-Filip.Bozuta@rt-rk.com>
@@ -59,57 +59,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch implements functionalities of following ioctls:
 
-RTC_VL_READ - Read voltage low detection information
+SNDRV_TIMER_IOCTL_PVERSION - Getting the sound timer version
 
-    Read the voltage low for RTCs that support voltage low.
-    The third ioctl's' argument points to an int in which
-    the voltage low is returned.
+    Read the sound timer version. The third ioctl's argument is
+    a pointer to an int in which the specified timers version
+    is returned.
 
-RTC_VL_CLR - Clear voltage low information
+SNDRV_TIMER_IOCTL_NEXT_DEVICE - Getting id information about next timer
 
-    Clear the information about voltage low for RTCs that
-    support voltage low. The third ioctl(2) argument is
-    ignored.
+    Read id information about the next timer device from the sound timer
+    device list. The id infomration is returned in the following structure:
+
+        struct snd_timer_id {
+            int dev_class;    /* timer device class number */
+            int dev_sclass;   /* slave device class number (unused) */
+            int card;         /* card number */
+            int device;       /* device number */
+            int subdevice;    /* sub-device number */
+        };
+
+    The devices in the sound timer device list are arranged by the fields
+    of this structure respectively (first by dev_class number, then by
+    card number, ...). A pointer to this structure should be passed as
+    the third ioctl's argument. Before calling the ioctl, the parameters
+    of this structure should be initialized in relation to the next timer
+    device which information is to be obtained. For example, if a wanted
+    timer device has the device class number equal to or bigger then 2,
+    the field dev_class should be initialized to 2. After the ioctl call,
+    the structure fields are filled with values from the next device in
+    the sound timer device list. If there is no next device in the list,
+    the structure is filled with "zero" id values (in that case all
+    fields are filled with value -1).
 
 Implementation notes:
 
-    Since one ioctl has a pointer to 'int' as its third agrument,
-    and another ioctl has NULL as its third argument, their
-    implementation was straightforward.
+    The ioctl 'SNDRV_TIMER_IOCTL_NEXT_DEVICE' has a pointer to a
+    'struct snd_timer_id' as its third argument. That is the reason why
+    corresponding definition is added in 'linux-user/syscall_types.h'.
+    Since all elements of this structure are of type 'int', the rest of
+    the implementation was straightforward.
+
+    The line '#include <linux/rtc.h>' was added to recognize
+    preprocessor definitions for these ioctls. This needs to be
+    done only once in this series of commits. Also, the content
+    of this file (with respect to ioctl definitions) remained
+    unchanged for a long time, therefore there is no need to
+    worry about supporting older Linux kernel version.
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 ---
- linux-user/ioctls.h       | 2 ++
- linux-user/syscall_defs.h | 2 ++
- 2 files changed, 4 insertions(+)
+ linux-user/ioctls.h        | 4 ++++
+ linux-user/syscall.c       | 1 +
+ linux-user/syscall_defs.h  | 5 +++++
+ linux-user/syscall_types.h | 7 +++++++
+ 4 files changed, 17 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 0a4e3f1..1f1f3e6 100644
+index 1f1f3e6..ed1bd4c 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -89,6 +89,8 @@
-      IOCTL(RTC_WKALM_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_wkalrm)))
-      IOCTL(RTC_PLL_GET, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
-      IOCTL(RTC_PLL_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
-+     IOCTL(RTC_VL_READ, IOC_R, MK_PTR(TYPE_INT))
-+     IOCTL(RTC_VL_CLR, 0, TYPE_NULL)
+@@ -449,6 +449,10 @@
+   IOCTL(SOUND_MIXER_WRITE_LOUD, IOC_W, MK_PTR(TYPE_INT))
+   IOCTL(SOUND_MIXER_WRITE_RECSRC, IOC_W, MK_PTR(TYPE_INT))
  
-      IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
-      IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
++  IOCTL(SNDRV_TIMER_IOCTL_PVERSION, IOC_R, MK_PTR(TYPE_INT))
++  IOCTL(SNDRV_TIMER_IOCTL_NEXT_DEVICE, IOC_RW,
++        MK_PTR(MK_STRUCT(STRUCT_snd_timer_id)))
++
+   IOCTL(HDIO_GETGEO, IOC_R, MK_PTR(MK_STRUCT(STRUCT_hd_geometry)))
+   IOCTL(HDIO_GET_UNMASKINTR, IOC_R, MK_PTR(TYPE_INT))
+   IOCTL(HDIO_GET_MULTCOUNT, IOC_R, MK_PTR(TYPE_INT))
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 74c3c08..a3993a2 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -108,6 +108,7 @@
+ #include <linux/netlink.h>
+ #include <linux/if_alg.h>
+ #include <linux/rtc.h>
++#include <sound/asound.h>
+ #include "linux_loop.h"
+ #include "uname.h"
+ 
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 8370f41..af4f366 100644
+index af4f366..7ceb6f8 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -796,6 +796,8 @@ struct target_rtc_pll_info {
-                                                struct target_rtc_pll_info)
- #define TARGET_RTC_PLL_SET          TARGET_IOW('p', 0x12,                      \
-                                                struct target_rtc_pll_info)
-+#define TARGET_RTC_VL_READ          TARGET_IOR('p', 0x13, int)
-+#define TARGET_RTC_VL_CLR           TARGET_IO('p', 0x14)
+@@ -2425,6 +2425,11 @@ struct target_statfs64 {
  
- #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
-        defined(TARGET_XTENSA)
+ #define TARGET_SOUND_MIXER_WRITE_RECSRC	TARGET_MIXER_WRITE(SOUND_MIXER_RECSRC)
+ 
++/* alsa timer ioctls */
++#define TARGET_SNDRV_TIMER_IOCTL_PVERSION     TARGET_IOR('T', 0x00, int)
++#define TARGET_SNDRV_TIMER_IOCTL_NEXT_DEVICE  TARGET_IOWR('T', 0x01,           \
++                                                struct snd_timer_id)
++
+ /* vfat ioctls */
+ #define TARGET_VFAT_IOCTL_READDIR_BOTH    TARGET_IORU('r', 1)
+ #define TARGET_VFAT_IOCTL_READDIR_SHORT   TARGET_IORU('r', 2)
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index 4027272..2f4cd78 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -83,6 +83,13 @@ STRUCT(buffmem_desc,
+ STRUCT(mixer_info,
+        MK_ARRAY(TYPE_CHAR, 16), MK_ARRAY(TYPE_CHAR, 32), TYPE_INT, MK_ARRAY(TYPE_INT, 10))
+ 
++STRUCT(snd_timer_id,
++       TYPE_INT, /* dev_class */
++       TYPE_INT, /* dev_sclass */
++       TYPE_INT, /* card */
++       TYPE_INT, /* device */
++       TYPE_INT) /* subdevice */
++
+ /* loop device ioctls */
+ STRUCT(loop_info,
+        TYPE_INT,                 /* lo_number */
 -- 
 2.7.4
 
