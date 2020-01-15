@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582CE13C9F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:49:13 +0100 (CET)
-Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E9513C9FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:51:54 +0100 (CET)
+Received: from localhost ([::1]:57160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irlqx-0001Tp-NK
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:49:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33580)
+	id 1irltZ-0005Ew-R7
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:51:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34837)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <arnd@arndb.de>) id 1irlNV-000470-4z
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:18:46 -0500
+ (envelope-from <armbru@redhat.com>) id 1irlUy-0004hv-Mv
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:26:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <arnd@arndb.de>) id 1irlNU-0006PO-0J
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:18:45 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:54369)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <arnd@arndb.de>) id 1irlNT-0006Ok-NS
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:18:43 -0500
-Received: from mail-qt1-f171.google.com ([209.85.160.171]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1M5x9B-1ikJGU0fYx-007Uc5 for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020
- 17:18:41 +0100
-Received: by mail-qt1-f171.google.com with SMTP id d18so16218181qtj.10
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 08:18:40 -0800 (PST)
-X-Gm-Message-State: APjAAAXFiXiU6mugc+AL4Va4xEmqQZUmVSGB2RrlADfol2Bhj3+HpslM
- oxtzgACQVxx1gGa+W0HVG3TrX+YYFMpMQP32ESk=
-X-Google-Smtp-Source: APXvYqybpDh5/Db2ZQpe0RYQyp8rWxu8RfxnsSIo+8WV60Od78UfPRpVScjMTrP+LjE22inNyPe0V5Tvsgk+iij7zBY=
-X-Received: by 2002:ac8:709a:: with SMTP id y26mr4315649qto.304.1579105119852; 
- Wed, 15 Jan 2020 08:18:39 -0800 (PST)
+ (envelope-from <armbru@redhat.com>) id 1irlUw-0001a9-Ao
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:26:27 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44617
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1irlUw-0001Zp-6w
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:26:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579105585;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I/zHCq700K0aiEhkWXSk8n4MnRi4kSoqQVbI4wPrC2w=;
+ b=PnndKk20cf5yusaIWXIytWZcx4+2vsvc/cjZ85WoAIsJJheQ6j/br52xwY+kdLKxu4qp3b
+ 5+2+DHVf395rVbRtv0OsE710tIb7SIsb9qCK7N0JraEzJsQ8Zywmqshqurjmr66pA4gsci
+ 4T9wBMfl7L4qUpzBcZ5d270LCCEj6mU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-B8sQRWToP5KHeK8_hfLCVQ-1; Wed, 15 Jan 2020 11:26:23 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8787318B9FD5;
+ Wed, 15 Jan 2020 16:26:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
+ [10.36.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 12BA2620D8;
+ Wed, 15 Jan 2020 16:26:20 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 976451138600; Wed, 15 Jan 2020 17:26:18 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v3 2/4] vl: Initialise main loop earlier
+References: <20200115122326.26393-1-kwolf@redhat.com>
+ <20200115122326.26393-3-kwolf@redhat.com>
+Date: Wed, 15 Jan 2020 17:26:18 +0100
+In-Reply-To: <20200115122326.26393-3-kwolf@redhat.com> (Kevin Wolf's message
+ of "Wed, 15 Jan 2020 13:23:24 +0100")
+Message-ID: <87ftgg65zp.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <1579103618-20217-1-git-send-email-Filip.Bozuta@rt-rk.com>
- <1579103618-20217-9-git-send-email-Filip.Bozuta@rt-rk.com>
-In-Reply-To: <1579103618-20217-9-git-send-email-Filip.Bozuta@rt-rk.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Wed, 15 Jan 2020 17:18:23 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a187rPhma7Q6o+hCF3h0=5MLZwh49+JqKt6BvVsAB1efQ@mail.gmail.com>
-Message-ID: <CAK8P3a187rPhma7Q6o+hCF3h0=5MLZwh49+JqKt6BvVsAB1efQ@mail.gmail.com>
-Subject: Re: [PATCH 08/12] linux-user: Add support for setting alsa timer
- enhanced read using ioctl
-To: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:7xjCVA8t3THif4cGsGZKG+GOAV0YydVOW+uffGNaJ50Urjj9q6l
- G4INPc/5925G74JEeuq+JMTwBXwC3x+u/cSfCXoh8HlohItJBdK2hT9q4AsMc79zvYUjsSm
- /vdA/j2VnrfvgURINXizs9Fr3gMD26Ao3+7t330ysZmrr8HevKfDE42MSRZWRjHQM6Aagu1
- r/H6fxg0xA22rYVf7DLBQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sIP5IADuAXM=:s11myjbi2Y4ivuTWHpjtTx
- o5aLmR6oFqe91YNpbvcKzgFkpzl+HHARi8poQY1tguFx3lniLKFDPcPjOfwyoUYg4aS7LAJVm
- fO6XzT4tp+f/m/Kee/da8xQc1iEPqc41sZExtdkwx6H1of7gklAjFQmOX1wWmyfFzp20goApI
- 3GH1jz07IjEVk3UWyGRFkMUJTm/vD5TEcVM1kUDBiKCw/5oh4rspid8tQT8F6B16e1tru8UZ0
- xcnabzrhb1vAX6xiN3cB86i9Vo+D8jGkjqr4WPrAlvOCkV1YPmHQDYb2CAzrbBV3d/LPgIFoX
- 24k4yi3xknL6fMCjIRXdzuWsfs2LriTyFelgW3ItU4vbjdT6FbN03EecHyfFfx7g478THNc6k
- IS59JYlBp6FVuqBRmtP/7eV8vWNhJrnYB0N8xRlpGu4bw04q1mTOOfCf/XmQto+zBzmUiZAuX
- UYSradSmhR7fqUNqkX0UlPNPDgMFwsPTMOd0HaDRVoS8vRMAsbKoKZagsU9oj7KQ2zSS5dlt+
- OeOye8mkxp6FHpFJJeYC+2IN7jzWuDcR2kdzwIKqz2AA6Yc+S1P2bYNCFxWKaXOYcGHa+yGzF
- HMg1GTU21TFhH0cdqyBM5TaE4k/k7vRPhYYMqFzajkLBanavroPeqqkSoHTlI84wcb4fe2y55
- 1sJAq3N9a9Zjo18xKEZgxsdu/AbKAuOByN74uzl9tVvFiQ6+8vSglfsWR/voykHcDSop5eWrD
- ntwl3cEnSFtEs5DRcniHZhFXeBc6YHu5Mt2Ju+ymSdCYltlpOKjdVH8RB6GH/9UGptD1lg21e
- N37bkGNI1mvmbkSHf31y/O9235Lvbtsp32YHVACuOCNDRj54W7sfbADnuCQHisM2VVEhd3llL
- VwKYA53M1U+3WolV8O/Q==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: B8sQRWToP5KHeK8_hfLCVQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 217.72.192.73
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,39 +76,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
- amarkovic@wavecomp.com, philmd@redhat.com
+Cc: stefanha@redhat.com, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 15, 2020 at 4:53 PM Filip Bozuta <Filip.Bozuta@rt-rk.com> wrote:
->
-> This patch implements functionality of following ioctl:
->
-> SNDRV_TIMER_IOCTL_TREAD - Setting enhanced time read
->
->     Sets enhanced time read which is used for reading time with timestamps
->     and events. The third ioctl's argument is a pointer to an 'int'. Enhanced
->     reading is set if the third argument is different than 0, otherwise normal
->     time reading is set.
->
-> Implementation notes:
->
->     Because the implemented ioctl has 'int' as its third argument, the
->     implementation was straightforward.
->
-> Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Kevin Wolf <kwolf@redhat.com> writes:
 
-I think this one is wrong when you go between 32-bit and 64-bit
-targets, and it gets worse with the kernel patches that just got
-merged for linux-5.5, which extends the behavior to deal with
-64-bit time_t on 32-bit architectures.
+> We want to be able to use qemu_aio_context in the monitor
+> initialisation.
+>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  vl.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/vl.c b/vl.c
+> index 86474a55c9..4c79a00857 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -2903,6 +2903,11 @@ int main(int argc, char **argv, char **envp)
+>      runstate_init();
+>      precopy_infrastructure_init();
+>      postcopy_infrastructure_init();
+> +
+> +    if (qemu_init_main_loop(&main_loop_err)) {
+> +        error_report_err(main_loop_err);
+> +        exit(1);
+> +    }
+>      monitor_init_globals();
+> =20
+>      if (qcrypto_init(&err) < 0) {
+> @@ -3817,11 +3822,6 @@ int main(int argc, char **argv, char **envp)
+>      qemu_unlink_pidfile_notifier.notify =3D qemu_unlink_pidfile;
+>      qemu_add_exit_notifier(&qemu_unlink_pidfile_notifier);
+> =20
+> -    if (qemu_init_main_loop(&main_loop_err)) {
+> -        error_report_err(main_loop_err);
+> -        exit(1);
+> -    }
+> -
+>  #ifdef CONFIG_SECCOMP
+>      olist =3D qemu_find_opts_err("sandbox", NULL);
+>      if (olist) {
 
-Please have a look at
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log/?h=80fe7430c70859
+Can't see anything wrong with this.  Doesn't mean much; every time I do
+something like it, it comes back to bite me.
 
-       Arnd
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
 
