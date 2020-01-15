@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A2B13C890
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:58:54 +0100 (CET)
-Received: from localhost ([::1]:56210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B601213C878
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:54:54 +0100 (CET)
+Received: from localhost ([::1]:56158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irl4H-0001Uu-B4
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:58:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49600)
+	id 1irl0P-0004DD-4w
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:54:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49580)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkKn-0000Qx-Lg
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:54 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkKk-0000Iv-Nu
+ (envelope-from <imammedo@redhat.com>) id 1irkKk-0000QV-9Y
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:53 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:38792
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKk-0000Ii-KR
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <imammedo@redhat.com>) id 1irkKj-0000I8-05
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:50 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54921
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKi-0000Hu-SG
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579101110;
+ s=mimecast20190719; t=1579101108;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UDdK4xL2H3P09ZIjZb6btMySQYNE2B4/e8N5Hq259EE=;
- b=YdHftGJ5WTI6Uyb2j0EHlBqdhTHOTl6lq//GX6yMWhRxcBnmpok7Up0fDGwxsxHZfG8apY
- UZoM0AsC/6owwyaSYqQjZwGta2Aq/E+orScRqWEsJBij0wNL48E8bk1CCyg4xncZs3yikD
- qAwNLC4dXu5/xBbeVNqwuHvtcyzk7U4=
+ bh=ZfM7q9msFQx4RKHxWpBafPXSVkSpawD0pwjnCLj2tFI=;
+ b=Ri8L39YsmVORfTzPZD3+kFgGezDEKiJgoYJGySgCaScsEWuHp+jrpzQGudFTrpjOPPvh9g
+ PBwSgIrY1f7OR3dtBBImMOkS3kAgo9u28jxBzUiUdcBQmAHb69uVk1ixLwRm0VLmz3iE8G
+ +y9+Hfull6GH0mMorXgVxWVTRbE5qVg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-SVlDFV_bNeWnTh4l-4obOA-1; Wed, 15 Jan 2020 10:11:46 -0500
+ us-mta-402-nh6HQNTjP8qq2OLdxfEY6g-1; Wed, 15 Jan 2020 10:11:47 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A03918B8B2D;
- Wed, 15 Jan 2020 15:11:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A2CE18B8B5F
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:46 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B496196AE;
- Wed, 15 Jan 2020 15:11:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E297619757
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:45 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 54/86] mips:mips_fulong2e: use memdev for RAM
-Date: Wed, 15 Jan 2020 16:07:09 +0100
-Message-Id: <1579100861-73692-55-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 55/86] mips:mips_jazz: use memdev for RAM
+Date: Wed, 15 Jan 2020 16:07:10 +0100
+Message-Id: <1579100861-73692-56-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: SVlDFV_bNeWnTh4l-4obOA-1
+X-MC-Unique: nh6HQNTjP8qq2OLdxfEY6g-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,8 +71,6 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@rt-rk.com, philmd@redhat.com, aurelien@aurel32.net,
- amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,51 +83,52 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-CC: philmd@redhat.com
-CC: amarkovic@wavecomp.com
-CC: aurelien@aurel32.net
-CC: aleksandar.rikalo@rt-rk.com
----
- hw/mips/mips_fulong2e.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ hw/mips/mips_jazz.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-index 7e7dcd6..5dc1166 100644
---- a/hw/mips/mips_fulong2e.c
-+++ b/hw/mips/mips_fulong2e.c
-@@ -294,7 +294,6 @@ static void mips_fulong2e_init(MachineState *machine)
-     const char *initrd_filename =3D machine->initrd_filename;
-     char *filename;
-     MemoryRegion *address_space_mem =3D get_system_memory();
+diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
+index 66fd4d8..85d49cf 100644
+--- a/hw/mips/mips_jazz.c
++++ b/hw/mips/mips_jazz.c
+@@ -159,7 +159,6 @@ static void mips_jazz_init(MachineState *machine,
+     ISABus *isa_bus;
+     ISADevice *pit;
+     DriveInfo *fds[MAX_FD];
 -    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
      MemoryRegion *bios =3D g_new(MemoryRegion, 1);
-     long bios_size;
-     uint8_t *spd_data;
-@@ -320,13 +319,11 @@ static void mips_fulong2e_init(MachineState *machine)
-     }
+     MemoryRegion *bios2 =3D g_new(MemoryRegion, 1);
+     SysBusESPState *sysbus_esp;
+@@ -191,9 +190,7 @@ static void mips_jazz_init(MachineState *machine,
+     cc->do_transaction_failed =3D mips_jazz_do_transaction_failed;
 =20
      /* allocate RAM */
--    memory_region_allocate_system_memory(ram, NULL, "fulong2e.ram",
+-    memory_region_allocate_system_memory(ram, NULL, "mips_jazz.ram",
 -                                         machine->ram_size);
-     memory_region_init_ram(bios, NULL, "fulong2e.bios", BIOS_SIZE,
+-    memory_region_add_subregion(address_space, 0, ram);
++    memory_region_add_subregion(address_space, 0, machine->ram);
+=20
+     memory_region_init_ram(bios, NULL, "mips_jazz.bios", MAGNUM_BIOS_SIZE,
                             &error_fatal);
-     memory_region_set_readonly(bios, true);
-=20
--    memory_region_add_subregion(address_space_mem, 0, ram);
-+    memory_region_add_subregion(address_space_mem, 0, machine->ram);
-     memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
-=20
-     /*
-@@ -402,6 +399,7 @@ static void mips_fulong2e_machine_init(MachineClass *mc=
-)
-     mc->block_default_type =3D IF_IDE;
-     mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("Loongson-2E");
-     mc->default_ram_size =3D 256 * MiB;
-+    mc->default_ram_id =3D "fulong2e.ram";
+@@ -393,6 +390,7 @@ static void mips_magnum_class_init(ObjectClass *oc, voi=
+d *data)
+     mc->init =3D mips_magnum_init;
+     mc->block_default_type =3D IF_SCSI;
+     mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("R4000");
++    mc->default_ram_id =3D "mips_jazz.ram";
  }
 =20
- DEFINE_MACHINE("fulong2e", mips_fulong2e_machine_init)
+ static const TypeInfo mips_magnum_type =3D {
+@@ -409,6 +407,7 @@ static void mips_pica61_class_init(ObjectClass *oc, voi=
+d *data)
+     mc->init =3D mips_pica61_init;
+     mc->block_default_type =3D IF_SCSI;
+     mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("R4000");
++    mc->default_ram_id =3D "mips_jazz.ram";
+ }
+=20
+ static const TypeInfo mips_pica61_type =3D {
 --=20
 2.7.4
 
