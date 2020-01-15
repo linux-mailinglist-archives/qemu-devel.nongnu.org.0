@@ -2,87 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F76613CD0B
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:26:44 +0100 (CET)
-Received: from localhost ([::1]:59420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7EB13CD02
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:23:10 +0100 (CET)
+Received: from localhost ([::1]:59336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iroJP-0001ct-DI
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:26:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34668)
+	id 1iroFx-0004TX-Ax
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:23:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35205)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iro7Y-0001hJ-1w
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:14:29 -0500
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iroAH-0006HJ-EA
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:17:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iro7W-0004Wo-Si
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:14:27 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28096
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iroAD-00070k-Rh
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:17:17 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:57503 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iro7W-0004WH-P1
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:14:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579115666;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pTTLMLIvukkldS+fu/A59m1PCasZJjH2HbPuugTQUZw=;
- b=B1g3TXwa2wl9DydR/trE8XqQD4T2Twy8xblU5L8lU62JskG5kxoO45KM0UVXJjL0cP9fdw
- p+y0sbePTWweSX1tDPqCZ8WIkqRbLJtHA9Hj2xbrFie6bWtT9W4jP6KiRzC/1od5jfnIoD
- 3An89904pJyA+VK3ffZZlXNfpJoo2ks=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-y9JC0InZM3q9V9gMSCNoEw-1; Wed, 15 Jan 2020 14:14:24 -0500
-Received: by mail-wm1-f71.google.com with SMTP id t4so294394wmf.2
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 11:14:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Tyq3pBuF6TOo7kMQJPTlqteZYvGOewaYnB/341dfiYA=;
- b=m+lZogLn+ZES6KBBc65d+1K1wsj9vLSJgF/iJrRSCCHVturTdX0c9g8STordMVvmL4
- RtQ1jkjLi6cjWbsZ98HUIa8nKSSWjAKFVynGtPaIqhFfBri+X/DV7H3xB9gHvLefKOtT
- 3zmNOzSXfG7fWhMIU//z2r35MdrDFBnaAmFW5vhjhJkWjAt9y6JbiiKXFuJHZvv6MXQG
- wjQCs2MEDQy+Uo80egjQTuibNZgXA1Dt1QCw4AbFuU4N02L6SHccqNf2xQZU3ESDQRPX
- eIBTt/qTZI5bVPWUxe1oQ21rjFgarkJlK+OwQCAU9jsW2R3bmRvw9On7rWPbbKdrXe0M
- pw+g==
-X-Gm-Message-State: APjAAAWTS1kFxRozzhx3B63RjPAm5wOSUMr5IhuIiaAkQTkkGbz1NTyr
- INIHNJrpzpdUbvUA1YGK0aMbU4yTD98EM4rwWe74FtlvQ+n+LNJO60V057iDWftSKYsAE7RY6D6
- 1BQlyfmGE7/00oWE=
-X-Received: by 2002:a5d:458d:: with SMTP id p13mr34050726wrq.314.1579115663269; 
- Wed, 15 Jan 2020 11:14:23 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz26r7stOkOGWBOWASzSeuVzUDIJcThqs7qm12tZxCRwgFZWR3szzXMEg1zurIcpT9DxcyL6g==
-X-Received: by 2002:a5d:458d:: with SMTP id p13mr34050711wrq.314.1579115663013; 
- Wed, 15 Jan 2020 11:14:23 -0800 (PST)
-Received: from ?IPv6:2a01:cb1d:8a0a:f500:48c1:8eab:256a:caf9?
- ([2a01:cb1d:8a0a:f500:48c1:8eab:256a:caf9])
- by smtp.gmail.com with ESMTPSA id h2sm27051333wrt.45.2020.01.15.11.14.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jan 2020 11:14:22 -0800 (PST)
-Subject: Re: [PATCH v2 41/86] hw/hppa/machine: Correctly check the firmware is
- in PDC range
-To: BALATON Zoltan <balaton@eik.bme.hu>, Igor Mammedov <imammedo@redhat.com>
-References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-42-git-send-email-imammedo@redhat.com>
- <alpine.BSF.2.21.99999.352.2001151914440.24151@zero.eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <caded923-2daa-9ec2-8129-fb76a744042f@redhat.com>
-Date: Wed, 15 Jan 2020 20:14:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
+ id 1iroAD-0006zV-Jf
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:17:13 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 308921A20FF;
+ Wed, 15 Jan 2020 20:17:11 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from [10.10.14.93] (rtrkw493-lin.domain.local [10.10.14.93])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 14C361A1FFA;
+ Wed, 15 Jan 2020 20:17:11 +0100 (CET)
+Subject: Re: [PATCH 08/12] linux-user: Add support for setting alsa timer
+ enhanced read using ioctl
+To: Arnd Bergmann <arnd@arndb.de>, Laurent Vivier <laurent@vivier.eu>
+References: <1579103618-20217-1-git-send-email-Filip.Bozuta@rt-rk.com>
+ <1579103618-20217-9-git-send-email-Filip.Bozuta@rt-rk.com>
+ <CAK8P3a187rPhma7Q6o+hCF3h0=5MLZwh49+JqKt6BvVsAB1efQ@mail.gmail.com>
+ <ceaf44c0-fd6c-c280-7f95-7bc133553089@vivier.eu>
+ <CAK8P3a36KqWD4fKBLDpFhJg079bNdJDSDUAP2Zu_i1+H62Q6ZQ@mail.gmail.com>
+From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Message-ID: <518d717d-9f1e-e00e-f2a9-df8861241d1c@rt-rk.com>
+Date: Wed, 15 Jan 2020 20:17:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <alpine.BSF.2.21.99999.352.2001151914440.24151@zero.eik.bme.hu>
-Content-Language: en-US
-X-MC-Unique: y9JC0InZM3q9V9gMSCNoEw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAK8P3a36KqWD4fKBLDpFhJg079bNdJDSDUAP2Zu_i1+H62Q6ZQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,51 +59,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>, amarkovic@wavecomp.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/15/20 7:15 PM, BALATON Zoltan wrote:
-> On Wed, 15 Jan 2020, Igor Mammedov wrote:
->> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>
->> The firmware has to reside in the PDC range. If the Elf file
->> expects to load it below FIRMWARE_START, it is incorrect,
->> regardless the RAM size.
->>
->> Acked-by: Helge Deller <deller@gmx.de>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
->> ---
->> hw/hppa/machine.c | 2 +-
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
->> index 5d0de26..6775d87 100644
->> --- a/hw/hppa/machine.c
->> +++ b/hw/hppa/machine.c
->> @@ -155,7 +155,7 @@ static void machine_hppa_init(MachineState *machine)
->> =C2=A0=C2=A0=C2=A0 qemu_log_mask(CPU_LOG_PAGE, "Firmware loaded at 0x%08=
-" PRIx64
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "-0x%08" PRIx64 ", entry at 0x%08" PRIx64 ".=
-\n",
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 firmware_low, firmware_high, firmware_entry)=
-;
->> -=C2=A0=C2=A0=C2=A0 if (firmware_low < ram_size || firmware_high >=3D FI=
-RMWARE_END) {
->> +=C2=A0=C2=A0=C2=A0 if (firmware_low < FIRMWARE_START || firmware_high >=
-=3D=20
->> FIRMWARE_END) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_report("Firmware overla=
-ps with memory or IO space");
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exit(1);
->=20
-> Should this also be EXIT_FAILURE like in other places when you're=20
-> changing the line nearby?
 
-I didn't changed this line, this seems unrelated to the patch purpose.
+On 15.1.20. 17:37, Arnd Bergmann wrote:
+> On Wed, Jan 15, 2020 at 5:32 PM Laurent Vivier <laurent@vivier.eu> wrot=
+e:
+>> Le 15/01/2020 =C3=A0 17:18, Arnd Bergmann a =C3=A9crit :
+>>> On Wed, Jan 15, 2020 at 4:53 PM Filip Bozuta <Filip.Bozuta@rt-rk.com>=
+ wrote:
+>>>> This patch implements functionality of following ioctl:
+>>>>
+>>>> SNDRV_TIMER_IOCTL_TREAD - Setting enhanced time read
+>>>>
+>>>>      Sets enhanced time read which is used for reading time with tim=
+estamps
+>>>>      and events. The third ioctl's argument is a pointer to an 'int'=
+. Enhanced
+>>>>      reading is set if the third argument is different than 0, other=
+wise normal
+>>>>      time reading is set.
+>>>>
+>>>> Implementation notes:
+>>>>
+>>>>      Because the implemented ioctl has 'int' as its third argument, =
+the
+>>>>      implementation was straightforward.
+>>>>
+>>>> Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+>>> I think this one is wrong when you go between 32-bit and 64-bit
+>> kernel uses an "int" and "int" is always 32bit.
+>> The problem is most likely with timespec I think.
+>>
+>>> targets, and it gets worse with the kernel patches that just got
+>>> merged for linux-5.5, which extends the behavior to deal with
+>>> 64-bit time_t on 32-bit architectures.
+>>>
+>>> Please have a look at
+>>> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/l=
+og/?h=3D80fe7430c70859
+>> Yes, we already had the same kind of problem with SIOCGSTAMP and
+>> SIOCGSTAMPNS.
+>>
+>> Do the kernel patches add new ioctl numbers to differentiate 32bit and
+>> 64bit time_t?
+> Yes, though SNDRV_TIMER_IOCTL_TREAD is worse: the ioctl argument
+> is a pure 'int' that decides what format you get when you 'read' from t=
+he
+> same file descriptor.
+>
+> For emulating 64-bit on 32-bit kernels, you have to use the new
+> SNDRV_TIMER_IOCTL_TREAD64, and for emulating 32-bit on
+> 64-bit kernels, you probably have to return -ENOTTY to
+> SNDRV_TIMER_IOCTL_TREAD_OLD unless you also want to
+> emulate the read() behavior.
+> When a 32-bit process calls SNDRV_TIMER_IOCTL_TREAD64,
+> you can translate that into the 64-bit
+> SNDRV_TIMER_IOCTL_TREAD_OLD.
+>
+>       Arnd
+
+
+Thank you for bringing this up to my attention. Unfortunately i have=20
+some duties of academic nature in next month so i won't have much time=20
+fix this bug. I will try to fix this as soon as possible.
+
+Best regards,
+
+Filip Bozuta
 
 
