@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E226C13CACA
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 18:21:02 +0100 (CET)
-Received: from localhost ([::1]:57922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B36813CB04
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 18:29:37 +0100 (CET)
+Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irmLl-0006FD-UT
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 12:21:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43701)
+	id 1irmU4-0003rQ-3V
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 12:29:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45256)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1irmKY-0005Bg-HQ
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 12:19:47 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1irmTC-0003ON-9d
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 12:28:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1irmKX-00054W-AN
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 12:19:46 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29452
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1irmKX-00053y-6i
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 12:19:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579108784;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VF4mtv5nQFeA6Uw4ivE6szeo0Lmn0OiOCaHj9m7FAJI=;
- b=cYNKbHhooT68/6BNQfzDgQIGA9v1J9x2D5npsihzfPbJ4KkKzUWFAG+aGnr/v8JyP2GBmZ
- SkgFx1lYwAPdG/fxHldJPhEEY+6+U86phZBsZR5IDd/+ZpOSO0lyHeoYUuQDSjkBUyYbLi
- hvdRKifiIkJ7HRWl0E0ZwuNAOMOmmTE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-_iPuXWCTNt2f0hAcBJQa3A-1; Wed, 15 Jan 2020 12:19:43 -0500
-Received: by mail-wr1-f72.google.com with SMTP id z14so8319754wrs.4
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 09:19:42 -0800 (PST)
+ (envelope-from <richard.henderson@linaro.org>) id 1irmTB-000692-41
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 12:28:42 -0500
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41403)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1irmTA-00068M-SO
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 12:28:41 -0500
+Received: by mail-pl1-x642.google.com with SMTP id bd4so7105553plb.8
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 09:28:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ASaSkeThfmLst7zANy5Q8D/BLEpt/ttPyBlD2zckJ7g=;
+ b=nethbzO7x2CtfEB+IUizbnrsOnNZEdd2nGoW8oyvHq7K62rZ4Z5B+CMNNefzKxm5uf
+ QNNc4Mk2r9SYqTTzc6qRTehP5krgtM1ZVatCgzwGKWT6M0ej6gRL+J5FZKCVp9ljN/Se
+ AKbHqI58dMT8RolAxQJPZnnSdb1aZ6i1/Nqd3fPZcVGJATr11zzPzKqPo5iCcro1FXGv
+ JQ/pK/lRr73Gnj+TG/31jtIl/rijA7UEXC7vL3eaRe02LmmzGLapFplB4Tb7ONx2oLfb
+ WV2fdgAALX1OeZ6tNirSb6tFk3zNfs2txl+RDOCVouYtXuT9S4YqZXFIi8LIXF41wwbl
+ b0oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=O1+XWyzL/ZcSdP7c8NBmpMoxOwt7Rplzr0Aa0suUigM=;
- b=SzDgYhIZGVw3zCzcQkXhUT/XMUqaa2e7sxQ2KDFCwWkoLeGI4sRx9l71f/s2Bwikfi
- vKxczoU+Wa4Ec/4auagBlLwvBq4WaKGyA0+xVr7hwwS8dY/Dekd93yEmBuyKLIZ6zYf9
- /hEYFrJtMTeh54OL5uzjr/PY63GGp5xElOBe8G7MmjxNm+GKP5cp+a9sxp9bMGwaoAsj
- Z9S3BosBiOl/ZdpbHJGrD7RLTJ/u80eWHKjirjrnvTfI9SkJoj2sPHJUxio+gI0lbbm7
- ezf2wM8GRgy0loi4vUKaR/RFftl/kZC+U8bUqhNU58zdukB4xto2Sdfjr+WXsJzxjs16
- NLjQ==
-X-Gm-Message-State: APjAAAXSSIx7ptlvT7tzlj07XVV3qekS95JnUZvnr1BW1uQ8sc5V2tIS
- o+Qt1N+Sei/ZUBwWRnnNsp80ii1SYj8mpun+iZP1ho92VcUioXkUfjEHmHal+OymNiMgDrcJhH5
- nNpteU2Eyp0evHd4=
-X-Received: by 2002:adf:e5cf:: with SMTP id a15mr12900812wrn.140.1579108781963; 
- Wed, 15 Jan 2020 09:19:41 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz+8fx0VAJtaqqpM069z5w1oy1oluHKIBYBHfLSPOGd9zvGNnWmzUAcnf4iRT++BTJU7y9aeQ==
-X-Received: by 2002:adf:e5cf:: with SMTP id a15mr12900786wrn.140.1579108781690; 
- Wed, 15 Jan 2020 09:19:41 -0800 (PST)
-Received: from [192.168.1.24] (lfbn-mon-1-1519-115.w92-167.abo.wanadoo.fr.
- [92.167.83.115])
- by smtp.gmail.com with ESMTPSA id z187sm685309wme.16.2020.01.15.09.19.40
+ bh=ASaSkeThfmLst7zANy5Q8D/BLEpt/ttPyBlD2zckJ7g=;
+ b=X4hR4JNwIcbQVHS3BtbX3rfxd7xy/dEjchw/Ih4+0GKBooxMsy81SfJUwC5lsW1vTJ
+ KODmLi8ZVivWCLfUDmrBYXla4qAIHpcR0hN+CRUlkAnqKEfFR3acIx0SjLJc5kUb6hd5
+ mm0bWPutD6r2pRmBisH7qjhzu5r5ZyhvkQbtSUtnuEa2Bd4Y10xHcXY0nDaWi4fCbB67
+ 6TC0y8fF9fvN44n/Fhh/FWPaJYM/sRUDNqcRQTeRe9A78oEGLNeuL2T72htDACIEsQ9a
+ JCE6qSYG1E+mF3Zv9aOsuNO0imtCqHegATEIi3UW6GvZ5kp7iE5SvCu2d+8Td69v6JtV
+ ZNwQ==
+X-Gm-Message-State: APjAAAWUJ3CI0sbRpUWOwxA8j+WM4Y+w17AnRtVT99RcXmDEBoudzha5
+ E41IZ2PDjp6KtMlDq0YUaaR6hA==
+X-Google-Smtp-Source: APXvYqyIvVWwsMTo4CWFSKDWuNK7QO+uvPxKKsWxTIgKG8Kd6P4VhgdEM71LUIIALV/kYf1xiDqDoA==
+X-Received: by 2002:a17:902:8642:: with SMTP id
+ y2mr32864705plt.306.1579109319420; 
+ Wed, 15 Jan 2020 09:28:39 -0800 (PST)
+Received: from [192.168.3.43] (rrcs-66-91-136-155.west.biz.rr.com.
+ [66.91.136.155])
+ by smtp.gmail.com with ESMTPSA id d3sm21919952pfn.113.2020.01.15.09.28.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jan 2020 09:19:41 -0800 (PST)
-Subject: Re: [PATCH 031/104] virtiofs: Add maintainers entry
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-32-dgilbert@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <66b55418-dae9-0956-51ea-d409c9f2da3e@redhat.com>
-Date: Wed, 15 Jan 2020 18:19:40 +0100
+ Wed, 15 Jan 2020 09:28:38 -0800 (PST)
+Subject: Re: [PATCH 0/3] linux-user: Implement x86_64 vsyscalls
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20200114210921.11216-1-richard.henderson@linaro.org>
+ <7f8c782f-6ee2-bc7c-db94-4b0784ed58eb@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d47ef447-6888-aae3-a1b0-25fe35686a8e@linaro.org>
+Date: Wed, 15 Jan 2020 07:28:34 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-32-dgilbert@redhat.com>
+In-Reply-To: <7f8c782f-6ee2-bc7c-db94-4b0784ed58eb@vivier.eu>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-MC-Unique: _iPuXWCTNt2f0hAcBJQa3A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,57 +84,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pbonzini@redhat.com, riku.voipio@iki.fi, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/12/19 5:37 PM, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->=20
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->   MAINTAINERS | 8 ++++++++
->   1 file changed, 8 insertions(+)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5e5e3e52d6..d1b3e262d2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1575,6 +1575,14 @@ T: git https://github.com/cohuck/qemu.git s390-nex=
-t
->   T: git https://github.com/borntraeger/qemu.git s390-next
->   L: qemu-s390x@nongnu.org
->  =20
-> +virtiofs
-> +M: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> +M: Stefan Hajnoczi <stefanha@redhat.com>
-> +S: Supported
-> +F: tools/virtiofsd/*
+On 1/15/20 12:14 AM, Laurent Vivier wrote:
+> I'll take this series through the linux-user branch except if you prefer
+> to do the pull request yourself via another branch (x86 tcg?).
 
-^ The files added by this series
+Through the linux-user branch is the right way, I think.
+Thanks,
 
-> +F: hw/virtio/vhost-user-fs*
-> +F: include/hw/virtio/vhost-user-fs.h
-
-^ Files already present in the repository:
-
-$ ./scripts/get_maintainer.pl -f hw/virtio/vhost-user-fs.c
-"Michael S. Tsirkin" <mst@redhat.com> (supporter:vhost)
-
-$ ./scripts/get_maintainer.pl -f hw/virtio/vhost-user-fs-pci.c
-"Michael S. Tsirkin" <mst@redhat.com> (supporter:vhost)
-
-$ ./scripts/get_maintainer.pl -f include/hw/virtio/vhost-user-fs.h
-"Michael S. Tsirkin" <mst@redhat.com> (supporter:virtio)
-
-Now these get more maintainers, good.
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-> +
->   virtio-input
->   M: Gerd Hoffmann <kraxel@redhat.com>
->   S: Maintained
->=20
-
+r~
 
