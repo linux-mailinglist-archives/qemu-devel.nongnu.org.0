@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641AB13C7AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:28:08 +0100 (CET)
-Received: from localhost ([::1]:55802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D08E13C749
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:20:30 +0100 (CET)
+Received: from localhost ([::1]:55650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irkaU-0007ZE-Su
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:28:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48890)
+	id 1irkT6-00031v-UO
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:20:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48799)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkK3-0007gC-P9
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:08 -0500
+ (envelope-from <imammedo@redhat.com>) id 1irkJz-0007ZF-ML
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkJy-000863-NP
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41298
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1irkJy-00085J-9u
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:03 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50278
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkJy-000845-KP
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkJy-000847-5a
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1579101060;
@@ -27,38 +27,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WGir6q82slFOjFYnkUiU9sNv5trsbaAGmoJhvyA1yqo=;
- b=VXl5RThc+YC84kaw6p0VCnZ0sb6phAgZKvos3z2DZ0YG2Yr70+HdEodd3jOIosYlXdAPbq
- go2gojePTYPkFyJRncXCS2GXTSQAg2bP20p7x5Q7fMQpX3MiOIRTxgsaTQjYaDZxgx6bbc
- cuEBFzL8dXTGraY8/x8atpS6GIUqRlM=
+ bh=mTuMoXmoMaCPb4eB1ejoUR1uYIcyvf+72g20PKYllXE=;
+ b=Tv9eJ3zQb+way+Rv/palTkQjuYTTqIM2luXiwxStN6PRPCpAVV5UyKyqbxWJxXIedy9mM0
+ NeV8Aq3dYZzurf6tq4qNz4YS2L49F3IfeeMDPzRkH8aCeDwZq/45OgkCur7BiSruvAxuMI
+ IciCep1kUJ2SPBQAeqZayP7JzwBgaC4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-oaXu1JnUMSy_u25b0yjgUw-1; Wed, 15 Jan 2020 10:10:57 -0500
+ us-mta-162-ueF_zfzeNfiarOfskqZWcA-1; Wed, 15 Jan 2020 10:10:59 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCC758E4DA0;
- Wed, 15 Jan 2020 15:10:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9003C10CA9EB;
+ Wed, 15 Jan 2020 15:10:57 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5FA819757;
- Wed, 15 Jan 2020 15:10:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3216619757;
+ Wed, 15 Jan 2020 15:10:56 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/86] arm:imx25_pdk: use memdev for RAM
-Date: Wed, 15 Jan 2020 16:06:31 +0100
-Message-Id: <1579100861-73692-17-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 17/86] arm:integratorcp: use memdev for RAM
+Date: Wed, 15 Jan 2020 16:06:32 +0100
+Message-Id: <1579100861-73692-18-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: oaXu1JnUMSy_u25b0yjgUw-1
+X-MC-Unique: ueF_zfzeNfiarOfskqZWcA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, jcd@tribudubois.net
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, peter.chubb@nicta.com.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,58 +84,53 @@ RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-CC: jcd@tribudubois.net
+CC: peter.chubb@nicta.com.au
 CC: peter.maydell@linaro.org
 CC: qemu-arm@nongnu.org
 ---
- hw/arm/imx25_pdk.c | 9 ++++-----
+ hw/arm/integratorcp.c | 9 ++++-----
  1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/imx25_pdk.c b/hw/arm/imx25_pdk.c
-index a2b7b35..9087fcb 100644
---- a/hw/arm/imx25_pdk.c
-+++ b/hw/arm/imx25_pdk.c
-@@ -58,7 +58,6 @@
+diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
+index 5249708..89c223b 100644
+--- a/hw/arm/integratorcp.c
++++ b/hw/arm/integratorcp.c
+@@ -585,7 +585,6 @@ static void integratorcp_init(MachineState *machine)
+     Object *cpuobj;
+     ARMCPU *cpu;
+     MemoryRegion *address_space_mem =3D get_system_memory();
+-    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
+     MemoryRegion *ram_alias =3D g_new(MemoryRegion, 1);
+     qemu_irq pic[32];
+     DeviceState *dev, *sic, *icp;
+@@ -605,14 +604,13 @@ static void integratorcp_init(MachineState *machine)
 =20
- typedef struct IMX25PDK {
-     FslIMX25State soc;
--    MemoryRegion ram;
-     MemoryRegion ram_alias;
- } IMX25PDK;
+     cpu =3D ARM_CPU(cpuobj);
 =20
-@@ -84,10 +83,8 @@ static void imx25_pdk_init(MachineState *machine)
-         exit(EXIT_FAILURE);
-     }
+-    memory_region_allocate_system_memory(ram, NULL, "integrator.ram",
+-                                         ram_size);
+     /* ??? On a real system the first 1Mb is mapped as SSRAM or boot flash=
+.  */
+     /* ??? RAM should repeat to fill physical memory space.  */
+     /* SDRAM at address zero*/
+-    memory_region_add_subregion(address_space_mem, 0, ram);
++    memory_region_add_subregion(address_space_mem, 0, machine->ram);
+     /* And again at address 0x80000000 */
+-    memory_region_init_alias(ram_alias, NULL, "ram.alias", ram, 0, ram_siz=
+e);
++    memory_region_init_alias(ram_alias, NULL, "ram.alias", machine->ram,
++                             0, ram_size);
+     memory_region_add_subregion(address_space_mem, 0x80000000, ram_alias);
 =20
--    memory_region_allocate_system_memory(&s->ram, NULL, "imx25.ram",
--                                         machine->ram_size);
-     memory_region_add_subregion(get_system_memory(), FSL_IMX25_SDRAM0_ADDR=
-,
--                                &s->ram);
-+                                machine->ram);
-=20
-     /* initialize the alias memory if any */
-     for (i =3D 0, ram_size =3D machine->ram_size, alias_offset =3D 0;
-@@ -107,7 +104,8 @@ static void imx25_pdk_init(MachineState *machine)
-=20
-         if (size < ram[i].size) {
-             memory_region_init_alias(&s->ram_alias, NULL, "ram.alias",
--                                     &s->ram, alias_offset, ram[i].size - =
-size);
-+                                     machine->ram,
-+                                     alias_offset, ram[i].size - size);
-             memory_region_add_subregion(get_system_memory(),
-                                         ram[i].addr + size, &s->ram_alias)=
-;
-         }
-@@ -135,6 +133,7 @@ static void imx25_pdk_machine_init(MachineClass *mc)
-     mc->desc =3D "ARM i.MX25 PDK board (ARM926)";
-     mc->init =3D imx25_pdk_init;
+     dev =3D qdev_create(NULL, TYPE_INTEGRATOR_CM);
+@@ -660,6 +658,7 @@ static void integratorcp_machine_init(MachineClass *mc)
+     mc->init =3D integratorcp_init;
      mc->ignore_memory_transaction_failures =3D true;
-+    mc->default_ram_id =3D "imx25.ram";
+     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm926");
++    mc->default_ram_id =3D "integrator.ram";
  }
 =20
- DEFINE_MACHINE("imx25-pdk", imx25_pdk_machine_init)
+ DEFINE_MACHINE("integratorcp", integratorcp_machine_init)
 --=20
 2.7.4
 
