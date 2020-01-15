@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D785913B968
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 07:17:14 +0100 (CET)
-Received: from localhost ([::1]:49920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C69B13B96D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 07:19:21 +0100 (CET)
+Received: from localhost ([::1]:49988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irbzN-0005Qi-FA
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 01:17:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58677)
+	id 1irc1Q-0007Nr-0U
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 01:19:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58904)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shihpo.hung@sifive.com>) id 1irbyR-0004xo-DH
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 01:16:16 -0500
+ (envelope-from <shihpo.hung@sifive.com>) id 1irbzx-00063z-03
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 01:17:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shihpo.hung@sifive.com>) id 1irbyQ-0002m5-9R
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 01:16:15 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42169)
+ (envelope-from <shihpo.hung@sifive.com>) id 1irbzv-0003XG-SU
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 01:17:48 -0500
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:33049)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <shihpo.hung@sifive.com>)
- id 1irbyQ-0002lR-2M
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 01:16:14 -0500
-Received: by mail-wr1-x430.google.com with SMTP id q6so14465937wro.9
- for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 22:16:13 -0800 (PST)
+ id 1irbzv-0003Wt-NV
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 01:17:47 -0500
+Received: by mail-pj1-x1042.google.com with SMTP id u63so1700797pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Jan 2020 22:17:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZD6xhsHq7LG4gxxxAyq+0gHrm8TRJbCiS/LOxD19Kpk=;
- b=liH9E3y3exHsayNri1Vim8t9LT4jfNLdOjNJ++ImUA6aVTo0sOHAOQFn3NE5fadXU8
- 6XbArikhc5FjBEL189P3yGyJtde13wAOs9B2SMOzl+oLiADP5cRcFYCBerOrv2mc1tgX
- YpmrUZ9p+nabKaYfQ3TEypDa3zZ1mKyHNJeNXwj8OoYe81erGoU4tGpls+jOYXsOXVai
- 5yD3bVNRNTD5jZz6VW9N6NPInXq2a0d8mCevoA9Tx5pduVHyNugjLmFjQ2i7lEiU/2lS
- H42cDWEph/oMoDTW9FS1OHvU7OdoSyUZmDJOzL3iI73+IU9JAEZgLS9IU0ymNJ/lcLYI
- G+Dg==
+ h=from:to:cc:subject:date:message-id;
+ bh=Jx3r2seKwSeUadPVhjH4OOR8DMwWWFpbD6d3Ui5d1O8=;
+ b=Iy6Wlf8FywDmtcjxTWf0Q1wvPc/Miuzbi2uWt3BzSrgtQWcGESmCLvGAglCiN2qN98
+ 9/ZWl02NeLoRXGURZ9ysiTXOyj/NYq4EuePi6qF4leEOtMi8rwErIrpz390+3WPhvoje
+ bEoqdvJ2Xux1CBZrBw1DnQXFJ6OiZtWc29Krn8RyAPTUa6axQowYWqcLty+btNPap4ad
+ cTyFdHkwRGcwIIzbDvSH/XXY/1U6P5OfLM40FOloJm3+PMDzVM4sxs4k1s86Qx2jIdGf
+ oRMnykzfLQRdl16aFOnXe1s243fujiCPU6nkG4AlF/qIsNuLzzVLhUjCaFrpkh79xPnq
+ jCTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZD6xhsHq7LG4gxxxAyq+0gHrm8TRJbCiS/LOxD19Kpk=;
- b=qvBZ7UgnUsKmtbFpk79qOP1spPD8k5p82cMjHmPAtiAhRheutfzWQUlXNUmQu7L39C
- rI+fIkvyApp80iAN2lTuEOeGFP19SsUoJNN1i3MDvkEVXQWDm8KkHxBGUb3vk4m+QziR
- rbCArROZiNDNb9LP6c85yR/Bd1J2eSMBNT0qsuWcSCIN5qkImnMEEdYeZUXAjKgiQRft
- LI+QfmsbkYwQJlhgam2Sp9uk15DA+0sOCPLY50K8FL4vfEAb6Tvq4XOuiss2e5VRqZ97
- /s2LS/iRLw1qhVsSdE4YVUb0JSQi/8nws3JDDPTS2SUxf0DkeHkQmOvm1Gq7JQfIyzMJ
- jyeQ==
-X-Gm-Message-State: APjAAAXQMJpYCd/CMpdu/PtOmyXp65Mg8fHP8T4EO1Fjx0tjVwyfHzYD
- EdP1dsPzesjOckgAE4kUsM/1u+Kk9CeQ9HCNifyRIQ==
-X-Google-Smtp-Source: APXvYqw95TPJeF6OA/vZoEYN7DzHfzepl76uQSQI+K/IZhWoTabouWOYMfbrPyBmUpYp2kfHrsGXJI5FepO9ZMOOS6g=
-X-Received: by 2002:a5d:4cc9:: with SMTP id c9mr28636876wrt.70.1579068972669; 
- Tue, 14 Jan 2020 22:16:12 -0800 (PST)
-MIME-Version: 1.0
-References: <1578996840-14863-1-git-send-email-shihpo.hung@sifive.com>
- <6fb13179-c56b-8270-5c64-06ba1d05943e@linaro.org>
-In-Reply-To: <6fb13179-c56b-8270-5c64-06ba1d05943e@linaro.org>
-From: ShihPo Hung <shihpo.hung@sifive.com>
-Date: Wed, 15 Jan 2020 14:16:00 +0800
-Message-ID: <CALoQrwdKx+YwgFLSyjUo0vGzGKjjyAdZ9CMhGq1eXazUeJbq6Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] target/riscv: Fix tb->flags FS status
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000313337059c27a5e6"
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Jx3r2seKwSeUadPVhjH4OOR8DMwWWFpbD6d3Ui5d1O8=;
+ b=JPOIi1/pUmGiNKxAbYZOVXENmtQn8JZfiEm5EukwzybMdiNufu7iVrlH29ByiouSHJ
+ EBEADjuuGSDIKkE+cmhLptf/5JuzfW2t+G4vd3tu5X0+LFYB/R53DnrNWSyiHIiQupDd
+ Y4imZzBzYpVuuAivMzN0HJfBM8ul4BpJB0PPutj5H2x/CVXSv86EhoqLazB6LyU0gPDd
+ qBB+USMeUEfkVVXVwjJBJdB09h36rNDi95HY6Dkr+lYJtj7WruCVv7qVkAC1CDly1oKF
+ HDtiLQQUh+N+v4yKRDdSDK5m3OFNXqV7r0I66MYdgTd76BTfiH+oNebk1Fje19Sk4/qV
+ RW4A==
+X-Gm-Message-State: APjAAAWXbLU/EF6Uxl7cgdB4gxbKEPS18R+r3f/DCrFGi+LZhaXMSNil
+ gyTg1IsBXOfMA9AOgHhnRWo2yw==
+X-Google-Smtp-Source: APXvYqzrCCLc5US08o/zjGzN1k1QnbEN+ADAX5uJfoWSEM5Y8AvoExONDVL82wqaP4iwY2Twitnmkw==
+X-Received: by 2002:a17:90a:d995:: with SMTP id
+ d21mr34127974pjv.118.1579069066564; 
+ Tue, 14 Jan 2020 22:17:46 -0800 (PST)
+Received: from gamma04.internal.sifive.com ([64.62.193.194])
+ by smtp.gmail.com with ESMTPSA id w123sm20633601pfb.167.2020.01.14.22.17.45
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Tue, 14 Jan 2020 22:17:45 -0800 (PST)
+From: shihpo.hung@sifive.com
+To: qemu-riscv@nongnu.org
+Subject: [PATCH v3 1/3] target/riscv: Fix tb->flags FS status
+Date: Tue, 14 Jan 2020 22:17:31 -0800
+Message-Id: <1579069053-22190-1-git-send-email-shihpo.hung@sifive.com>
+X-Mailer: git-send-email 2.7.4
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,62 +72,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, ShihPo Hung <shihpo.hung@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000313337059c27a5e6
-Content-Type: text/plain; charset="UTF-8"
+It was found that running libquantum on riscv-linux qemu produced an
+incorrect result. After investigation, FP registers are not saved
+during context switch due to incorrect mstatus.FS.
 
-On Tue, Jan 14, 2020 at 11:29 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+In current implementation tb->flags merges all non-disabled state to
+dirty. This means the code in mark_fs_dirty in translate.c that
+handles initial and clean states is unreachable.
 
-> On 1/14/20 12:13 AM, shihpo.hung@sifive.com wrote:
-> >      if (riscv_cpu_fp_enabled(env)) {
-> > -        *flags |= TB_FLAGS_MSTATUS_FS;
-> > +        *flags |= env->mstatus & MSTATUS_FS;
-> >      }
->
-> Note that riscv_cpu_fp_enabled is *also* testing env->mstatus, and that
-> this
-> assignment can be made unconditional.
->
-> Otherwise,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
+This patch fixes it and is successfully tested with:
+  libquantum
 
-I'll send v3 that cleans up the patch accordingly.
-Thanks for the review!
+Thanks to Richard for pointing out the actual bug.
 
---000000000000313337059c27a5e6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v3: remove the redundant condition
+v2: root cause FS problem
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 14, 2020 at 11:29 PM Rich=
-ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
-enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">On 1/14/20 12:13 AM, <a href=3D"mailto:shihpo.hung@sifiv=
-e.com" target=3D"_blank">shihpo.hung@sifive.com</a> wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if (riscv_cpu_fp_enabled(env)) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 *flags |=3D TB_FLAGS_MSTATUS_FS;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 *flags |=3D env-&gt;mstatus &amp; MSTATUS=
-_FS;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-Note that riscv_cpu_fp_enabled is *also* testing env-&gt;mstatus, and that =
-this<br>
-assignment can be made unconditional.<br>
-<br>
-Otherwise,<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br></blockqu=
-ote><div><br></div><div>I&#39;ll send v3 that cleans up the patch according=
-ly.</div><div>Thanks for the review!</div></div></div>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: ShihPo Hung <shihpo.hung@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/riscv/cpu.h | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
---000000000000313337059c27a5e6--
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index e59343e..de0a8d8 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -293,10 +293,7 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+ #ifdef CONFIG_USER_ONLY
+     *flags = TB_FLAGS_MSTATUS_FS;
+ #else
+-    *flags = cpu_mmu_index(env, 0);
+-    if (riscv_cpu_fp_enabled(env)) {
+-        *flags |= TB_FLAGS_MSTATUS_FS;
+-    }
++    *flags = cpu_mmu_index(env, 0) | (env->mstatus & MSTATUS_FS);
+ #endif
+ }
+ 
+-- 
+2.7.4
+
 
