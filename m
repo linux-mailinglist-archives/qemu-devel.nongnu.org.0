@@ -2,84 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9A113CEED
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 22:29:13 +0100 (CET)
-Received: from localhost ([::1]:60872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D1A13CF28
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 22:33:16 +0100 (CET)
+Received: from localhost ([::1]:60940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irqDw-0000Tw-BT
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 16:29:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53176)
+	id 1irqHr-0004Jl-6t
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 16:33:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53445)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1irqD9-0008P3-8z
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 16:28:24 -0500
+ (envelope-from <bounces@canonical.com>) id 1irqFa-0002IU-1I
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 16:30:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1irqD7-0005vF-Ut
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 16:28:22 -0500
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:37648)
+ (envelope-from <bounces@canonical.com>) id 1irqFW-00076N-5n
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 16:30:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49870)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1irqD7-0005uO-Ov
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 16:28:21 -0500
-Received: by mail-pf1-x430.google.com with SMTP id p14so9120489pfn.4
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 13:28:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GjlaLraBKsptUGCtLv6cppvVT81pJhdKQc7NnUI8J5U=;
- b=RgW4x10a8OB0jZ4sxX600KFHr8Ds2KuihfKHpPVpDEX2LGqMRONKwNEntfKZ+VaHGd
- 9FUQ3FQZD6uTlNd5i3VMH0+pc58GYCT9Y0eRMUcL2TIienFAYwEihViT8xUt06pDQjlM
- a4KST5d9VLGH25rqmTXB58DxJIfy/w0Y7bReVNMiVduYlZ7Yjphk9arkN2bG7TsIw6xv
- UF/7oMajR/J17rnv4H11HrhUcTfGZuE43d+JgEQo4Ez9kki6+qFiXHPOXJBSFgbVNrwH
- XbJJgULslw2AWfodZdLXuVeGkDEifd1TBXhjxzHVf3U9BJMVrFEJtvWTH6cfDL8nxOOP
- Kmfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GjlaLraBKsptUGCtLv6cppvVT81pJhdKQc7NnUI8J5U=;
- b=h5zK36KRIZVVK71iMQf+q00lvUNz7FvezsOCksI+LughJ9iGtvteXGSX0SdxlHHg0o
- wn3K4sS84akPJDuBW2IvKUWBSbVfdqQciIhv0pmwDvz9leYfbCxTC7lCCZbDNpwuGVXg
- iEwApD6MzFHGeamBuxBZ8k9RoxK5EaQ3doOdP/0+HhghePBEf1T5N2jt2GuKA2d0WZLA
- vsBODp36htNxJgC+izmte0C8Z7Qmz+TuKrayrIjR2b484M3ROCdCGvDwYpN3m69R9tWu
- pDv+lSWQAPz8wYWt4duYlZNPIz2EnyHCIS+6OCHwNdSbp0biGH1WDgKWnEuTE8xbdzvr
- 0vaw==
-X-Gm-Message-State: APjAAAXJfOq/ouqkl0GxVQJlXuHs56hddHPEoDgP1euqsgDXYd5QUfAu
- r8QfUarDY8l2gf1jKNX7OLI42g==
-X-Google-Smtp-Source: APXvYqykKFIci5e1pFUm9V0MfNzpNC8l0HY+e7b2U4fuCJoqtBReNv1b5wQr94qkKcdm31R5kJTacA==
-X-Received: by 2002:a63:2a49:: with SMTP id q70mr34564054pgq.265.1579123700176; 
- Wed, 15 Jan 2020 13:28:20 -0800 (PST)
-Received: from [192.168.3.43] (rrcs-66-91-136-155.west.biz.rr.com.
- [66.91.136.155])
- by smtp.gmail.com with ESMTPSA id s7sm746379pjk.22.2020.01.15.13.28.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jan 2020 13:28:19 -0800 (PST)
-Subject: Re: Semihosting, arm, riscv, ppc and common code
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>
-References: <11d88b2741eac3f634d5aed9e3355c974b533f7b.camel@kernel.crashing.org>
- <AE7841A1-B4D6-4D6D-9AFD-01C4604D7BC4@livius.net>
- <cd9a2de94700a2781f176247131dceba690d8f31.camel@kernel.crashing.org>
- <87sgkimkma.fsf@linaro.org>
- <1309ca0ab6405d88cfd949c73130ad0f2af944a6.camel@kernel.crashing.org>
- <87wo9tkjxz.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <81f25a9e-a52c-ca8d-4d4b-ca36fcee73ed@linaro.org>
-Date: Wed, 15 Jan 2020 11:28:14 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1irqFW-00075R-09
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 16:30:50 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1irqFS-00041u-L3
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 21:30:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3B8DE2E80CC
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 21:30:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <87wo9tkjxz.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::430
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 15 Jan 2020 21:23:49 -0000
+From: puchuu <1858461@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aladjev-andrew amarkovic pmaydell
+X-Launchpad-Bug-Reporter: puchuu (aladjev-andrew)
+X-Launchpad-Bug-Modifier: puchuu (aladjev-andrew)
+References: <157833123209.15024.12557979334447840996.malonedeb@wampee.canonical.com>
+Message-Id: <157912342930.5239.16958727978161229843.malone@gac.canonical.com>
+Subject: [Bug 1858461] Re: Please refactor linux-user/mips/cpu_loop.c
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 8b460bd911ddcce1970b4aa5156495503c2ba2da
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,23 +65,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liviu Ionescu <ilg@livius.net>, keithp@keithp.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1858461 <1858461@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/15/20 2:01 AM, Alex Bennée wrote:
-> Hmm, I'm not so sure. QEMU tries to emulate real HW although I
-> appreciate that is a somewhat loose definition once you get to things
-> like -M virt and other such SW like abstractions. Is semihosting even
-> going to be a thing on real RiscV/Power silicon?
+I've created a new patches for getdents bug
+https://sourceware.org/bugzilla/show_bug.cgi?id=3D23960 and I can't
+reproduce python permissions issue anymore. My mips image built with
+qemu user works perfect.
 
-For risc-v, the odd nop-full semi-hosting call sequence was chosen to work with
-jtag debuggers on real silicon.
+** Bug watch added: Sourceware.org Bugzilla #23960
+   https://sourceware.org/bugzilla/show_bug.cgi?id=3D23960
 
-As for the rest of the abi, the stuff after the debugger/emulator has gotten
-control, they did have the opportunity to do better, and did not.
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1858461
 
-r~
+Title:
+  Please refactor linux-user/mips/cpu_loop.c
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello. I am working with qemu on test images. I've added a new syscall
+  (436) to qemu but received ENOSYS from mips application.
+
+  Please open "linux-user/mips/cpu_loop.c". I've added at the end of
+  "mips_syscall_args" the following:
+
+  ```
+  MIPS_SYS(sys_getdents64_x32, 3)
+  ```
+
+  But
+
+  ```
+  syscall_num =3D env->active_tc.gpr[2] - 4000;
+  if (syscall_num >=3D sizeof(mips_syscall_args)) {
+    ret =3D -TARGET_ENOSYS;
+  ```
+
+  returns -TARGET_ENOSYS
+
+  We can see that "linux-user/mips/cpu_loop.c" differs a lot from
+  "linux-user/arm/cpu_loop.c". Arm has it's own "ARM_NR_BASE" and etc.
+
+  Can you please refactor mips cpu loop in the same way as arm? Thank
+  you.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1858461/+subscriptions
 
