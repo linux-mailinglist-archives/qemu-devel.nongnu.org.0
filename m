@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A20F13D044
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 23:43:46 +0100 (CET)
-Received: from localhost ([::1]:33562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF77413D061
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 23:58:01 +0100 (CET)
+Received: from localhost ([::1]:33751 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irrO5-0006t0-Iu
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 17:43:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39872)
+	id 1irrbs-0007pB-Q9
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 17:58:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jusual@redhat.com>) id 1irrLO-0003T0-SS
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 17:41:00 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1irrOE-0007Uc-0R
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 17:43:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jusual@redhat.com>) id 1irrLN-0002R8-Sg
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 17:40:58 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51483
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jusual@redhat.com>) id 1irrLN-0002K3-PQ
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 17:40:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579128054;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+9yw6/LNnvDWadt4xul8KRf2PtWuDEuatVXr8ZmJnkk=;
- b=hTHYIjjw5wC7v62pFRPTKE/mLPsmyM3ASUwK6zD47JJY4bDQUSYw2+kmWWr9KnvPBKaRs7
- uVCfgZvCgNPe/vgmEOnMVOR7N13+XRxfHnJ4GLeSqIgCmVA0pOe+QahRl4WcmNpTHz10Mt
- w88mnmJKVkOtKF8PnqFS0Ta+7NyuU8A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-ulfZk2JMPSeVumHLOZQH6Q-1; Wed, 15 Jan 2020 17:40:53 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CBD7800D41
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 22:40:52 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-204-94.brq.redhat.com
- [10.40.204.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD63182062;
- Wed, 15 Jan 2020 22:40:48 +0000 (UTC)
-From: Julia Suvorova <jusual@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] virtio-balloon: Reject qmp_balloon during hot-unplug
-Date: Wed, 15 Jan 2020 23:40:25 +0100
-Message-Id: <20200115224025.538368-3-jusual@redhat.com>
-In-Reply-To: <20200115224025.538368-1-jusual@redhat.com>
-References: <20200115224025.538368-1-jusual@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1irrOD-000194-41
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 17:43:53 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:33401)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1irrOC-000157-TU
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 17:43:53 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id ay11so7458416plb.0
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 14:43:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=un57dcIx5HObytcanXfgeTfwBeEsPp+Rk2OinvRYvgg=;
+ b=z8tDhmcRvojP3laN7mukL6HMH24VYVGC55BpUC4xRunLgenll7Z8ReukFQuTfWSwBf
+ MM2qw3uH+tFGNaOz95KQV0ZclbdQcpWD3x98ECg9r8V8NP570r+S3SJOQ54jGGaPYnZu
+ TRmOgvkwTUnC0jiwJPrzonMC/DP1mVlw3SGznBsvW46TCQMf9xbUCrhaD97IwvQtdMsU
+ o5y8Y5XcKYAYBCEkcFfkFmM6lUzOUzp4pTx9XXZM5EvSKLlkGb0IkyUUFk0MKUDYYEf8
+ hqtIj9uX8lJOr+1HOt+x5MvaG9w4/4tEiavHbdPt4ha9VIB6PsBfC9RV8hnzCzEYNy4Z
+ a2fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=un57dcIx5HObytcanXfgeTfwBeEsPp+Rk2OinvRYvgg=;
+ b=isAf0qpJPVyQ6RpA1CDl5f8I6LS4X6HMbeXZb6o6hrQh9FlP375de+y+xUYW7t8pST
+ TchIfGQSDOQUeS6p31fc/QN31isM523Nft/IR7M9VuvPaPjlEGt8G2xQkG5K0ZfgRNyl
+ Zqg7x+xav6RYCybllIHSaLT/dzMdGEsbobVOV1Piqxg0usXoZhNHYwAQVVqexdZZa2tB
+ gX1ShbVAKGAlrn0BnGQ7jyYvpY59gF0cMzVu1lALnG4PEf9tuyNO0dDUDI+yu2juG04M
+ dAaLMyarOiovjYI5BJM+c78Xtzs7hUUlhauOVguuj/20CEryps3yHqcO7Lu+j6cF/lWI
+ nNyw==
+X-Gm-Message-State: APjAAAXpXGaNl1hfRFzw482g7L8AqQWEwPKcSSBD4ii3T+osvSc+GiNG
+ 6U7UYXRo4mbYiaHjGETOnM0gaQ==
+X-Google-Smtp-Source: APXvYqxkRAgcWXlkpbuNCz0tCzMIrTdeh9aZJfHtXK0NY/wf/N9lK9zNsfxvkUNQDol/2CneFJCgeg==
+X-Received: by 2002:a17:90a:98d:: with SMTP id
+ 13mr2793552pjo.102.1579128231675; 
+ Wed, 15 Jan 2020 14:43:51 -0800 (PST)
+Received: from [192.168.3.43] (rrcs-66-91-136-155.west.biz.rr.com.
+ [66.91.136.155])
+ by smtp.gmail.com with ESMTPSA id r7sm23563614pfg.34.2020.01.15.14.43.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jan 2020 14:43:50 -0800 (PST)
+Subject: Re: [PATCH v5 17/22] tests/guest-debug: add a simple test runner
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200114150953.27659-1-alex.bennee@linaro.org>
+ <20200114150953.27659-18-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f8d576d7-4d4f-fc29-3898-872848ef1aa7@linaro.org>
+Date: Wed, 15 Jan 2020 12:43:43 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: ulfZk2JMPSeVumHLOZQH6Q-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+In-Reply-To: <20200114150953.27659-18-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::62f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,75 +85,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hot-unplug takes some time due to communication with the guest.
-Do not change the device while freeing up resources.
+On 1/14/20 5:09 AM, Alex Bennée wrote:
+> +    if "system" in args.qemu:
+> +        cmd = "%s %s %s -s -S" % (args.qemu, args.qargs, args.binary)
+> +    else:
+> +        cmd = "%s %s -g 1234 %s" % (args.qemu, args.qargs, args.binary)
 
-Signed-off-by: Julia Suvorova <jusual@redhat.com>
----
- balloon.c                  | 2 +-
- hw/virtio/virtio-balloon.c | 9 ++++++++-
- include/sysemu/balloon.h   | 2 +-
- 3 files changed, 10 insertions(+), 3 deletions(-)
+Oh, hard-coding of the port is going to cause failures.  Multiple users on the
+system both running qemu tests.  Parallel make.  Anything.
 
-diff --git a/balloon.c b/balloon.c
-index f104b42961..998ec53a0f 100644
---- a/balloon.c
-+++ b/balloon.c
-@@ -119,5 +119,5 @@ void qmp_balloon(int64_t target, Error **errp)
-     }
-=20
-     trace_balloon_event(balloon_opaque, target);
--    balloon_event_fn(balloon_opaque, target);
-+    balloon_event_fn(balloon_opaque, target, errp);
- }
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 57f3b9f22d..0fa4e4454b 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -717,12 +717,19 @@ static void virtio_balloon_stat(void *opaque, Balloon=
-Info *info)
-                                              VIRTIO_BALLOON_PFN_SHIFT);
- }
-=20
--static void virtio_balloon_to_target(void *opaque, ram_addr_t target)
-+static void virtio_balloon_to_target(void *opaque, ram_addr_t target,
-+                                     Error **errp)
- {
-+    DeviceState *bus_dev =3D qdev_get_bus_device(DEVICE(opaque));
-     VirtIOBalloon *dev =3D VIRTIO_BALLOON(opaque);
-     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-     ram_addr_t vm_ram_size =3D get_current_ram_size();
-=20
-+    if (bus_dev && bus_dev->pending_deleted_event) {
-+        error_setg(errp, "Hot-unplug of %s is in progress", vdev->name);
-+        return;
-+    }
-+
-     if (target > vm_ram_size) {
-         target =3D vm_ram_size;
-     }
-diff --git a/include/sysemu/balloon.h b/include/sysemu/balloon.h
-index aea0c44985..b3a09ca946 100644
---- a/include/sysemu/balloon.h
-+++ b/include/sysemu/balloon.h
-@@ -17,7 +17,7 @@
- #include "exec/cpu-common.h"
- #include "qapi/qapi-types-misc.h"
-=20
--typedef void (QEMUBalloonEvent)(void *opaque, ram_addr_t target);
-+typedef void (QEMUBalloonEvent)(void *opaque, ram_addr_t target, Error **e=
-rrp);
- typedef void (QEMUBalloonStatus)(void *opaque, BalloonInfo *info);
-=20
- int qemu_add_balloon_handler(QEMUBalloonEvent *event_func,
---=20
-2.24.1
+I think we should really consider adding support for debugging over unix
+sockets or named pipes, both of which work well with the file system to avoid
+conflict.
 
+
+r~
 
