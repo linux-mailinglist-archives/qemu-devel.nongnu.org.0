@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239C813C838
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:43:24 +0100 (CET)
-Received: from localhost ([::1]:56016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F27F613C848
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:46:51 +0100 (CET)
+Received: from localhost ([::1]:56052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irkpG-0003jt-QO
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:43:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49369)
+	id 1irksc-0007qZ-I5
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:46:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49407)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkKQ-0008Kj-Sf
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:31 -0500
+ (envelope-from <imammedo@redhat.com>) id 1irkKS-0008NV-7O
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkKP-00005L-Nh
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26755
+ (envelope-from <imammedo@redhat.com>) id 1irkKR-00007W-58
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:32 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35268
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKP-0008WM-KI
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:29 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKR-00006I-1M
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579101089;
+ s=mimecast20190719; t=1579101090;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+oiQc8NaNBXLeA3/o/qT78K7ynZ9uKGx55J7M9SQrlY=;
- b=BLocsf5lUb07ztlYbIV5IFvynXuPTSIBqxCe6HrtkY1s0Kl/iiz+KpyuFN86o7X7Y9U+14
- FLsJsHndj8qKRlUQlGWVyApjvMMr85xq8eB7ybJJhC/WdzhAdH/rsc2y7Wv9WGnwDfPwEs
- RqKqf4zlow+0PMzFRlfLAeB1h1aQFQI=
+ bh=1ld594RNSU9tNCy7tXud1+L/+Y2NAqw7B+ndTpuJVPA=;
+ b=PN0jvUPglruPlHszJpUqMURBHSWmE/DijiQiQbhnQVrnzmiLRGSBd83Rdrl02UwhWjOLyO
+ IhC77XqVrFxpYhLc/mGslLmUPOklrZ10mAMGKnBhKMpdfc7BHevfXZGvj5Hq9/hZgbKJSR
+ TgEwvbbLgfv7qpLhAUB6412YhEXGMwk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-SszJoUwrOyCNeG-PAbWMwA-1; Wed, 15 Jan 2020 10:11:27 -0500
+ us-mta-326-UEFSBwcGO5eMRqErqriofw-1; Wed, 15 Jan 2020 10:11:29 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C480F8DF0A8;
- Wed, 15 Jan 2020 15:11:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97E501136A67
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:27 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 22247196AE;
- Wed, 15 Jan 2020 15:11:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1893828579
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:26 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 40/86] cris:axis_dev88: use memdev for RAM
-Date: Wed, 15 Jan 2020 16:06:55 +0100
-Message-Id: <1579100861-73692-41-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 41/86] hw/hppa/machine: Correctly check the firmware is in
+ PDC range
+Date: Wed, 15 Jan 2020 16:06:56 +0100
+Message-Id: <1579100861-73692-42-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: SszJoUwrOyCNeG-PAbWMwA-1
+X-MC-Unique: UEFSBwcGO5eMRqErqriofw-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -70,64 +72,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
+The firmware has to reside in the PDC range. If the Elf file
+expects to load it below FIRMWARE_START, it is incorrect,
+regardless the RAM size.
+
+Acked-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-CC: edgar.iglesias@gmail.com
----
- hw/cris/axis_dev88.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ hw/hppa/machine.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/cris/axis_dev88.c b/hw/cris/axis_dev88.c
-index be77604..cf6790f 100644
---- a/hw/cris/axis_dev88.c
-+++ b/hw/cris/axis_dev88.c
-@@ -249,7 +249,6 @@ static struct cris_load_info li;
- static
- void axisdev88_init(MachineState *machine)
- {
--    ram_addr_t ram_size =3D machine->ram_size;
-     const char *kernel_filename =3D machine->kernel_filename;
-     const char *kernel_cmdline =3D machine->kernel_cmdline;
-     CRISCPU *cpu;
-@@ -261,16 +260,12 @@ void axisdev88_init(MachineState *machine)
-     struct etraxfs_dma_client *dma_eth;
-     int i;
-     MemoryRegion *address_space_mem =3D get_system_memory();
--    MemoryRegion *phys_ram =3D g_new(MemoryRegion, 1);
-     MemoryRegion *phys_intmem =3D g_new(MemoryRegion, 1);
-=20
-     /* init CPUs */
-     cpu =3D CRIS_CPU(cpu_create(machine->cpu_type));
-=20
--    /* allocate RAM */
--    memory_region_allocate_system_memory(phys_ram, NULL, "axisdev88.ram",
--                                         ram_size);
--    memory_region_add_subregion(address_space_mem, 0x40000000, phys_ram);
-+    memory_region_add_subregion(address_space_mem, 0x40000000, machine->ra=
-m);
-=20
-     /* The ETRAX-FS has 128Kb on chip ram, the docs refer to it as the=20
-        internal memory.  */
-@@ -351,6 +346,7 @@ static void axisdev88_machine_init(MachineClass *mc)
-     mc->init =3D axisdev88_init;
-     mc->is_default =3D 1;
-     mc->default_cpu_type =3D CRIS_CPU_TYPE_NAME("crisv32");
-+    mc->default_ram_id =3D "axisdev88.ram";
- }
-=20
- DEFINE_MACHINE("axis-dev88", axisdev88_machine_init)
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index 5d0de26..6775d87 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -155,7 +155,7 @@ static void machine_hppa_init(MachineState *machine)
+     qemu_log_mask(CPU_LOG_PAGE, "Firmware loaded at 0x%08" PRIx64
+                   "-0x%08" PRIx64 ", entry at 0x%08" PRIx64 ".\n",
+                   firmware_low, firmware_high, firmware_entry);
+-    if (firmware_low < ram_size || firmware_high >=3D FIRMWARE_END) {
++    if (firmware_low < FIRMWARE_START || firmware_high >=3D FIRMWARE_END) =
+{
+         error_report("Firmware overlaps with memory or IO space");
+         exit(1);
+     }
 --=20
 2.7.4
 
