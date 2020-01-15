@@ -2,47 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94BF13CC0A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 19:26:14 +0100 (CET)
-Received: from localhost ([::1]:58630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D01713CC15
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 19:28:08 +0100 (CET)
+Received: from localhost ([::1]:58664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irnMr-00026V-Gf
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 13:26:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54433)
+	id 1irnOh-0004ps-5x
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 13:28:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54760)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1irnLL-00018x-8I
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:24:40 -0500
+ (envelope-from <lvivier@redhat.com>) id 1irnNB-0003qf-66
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:26:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1irnLJ-0007vs-SP
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:24:39 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:26906)
+ (envelope-from <lvivier@redhat.com>) id 1irnN6-0000VV-Tg
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:26:32 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41092
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1irnLJ-0007uy-Iv; Wed, 15 Jan 2020 13:24:37 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 0D94A748DC6;
- Wed, 15 Jan 2020 19:24:35 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id ACA01748DC5; Wed, 15 Jan 2020 19:24:34 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id AB3877482D3;
- Wed, 15 Jan 2020 19:24:34 +0100 (CET)
-Date: Wed, 15 Jan 2020 19:24:34 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2 64/86] ppc:ppc405_boards: add RAM size checks
-In-Reply-To: <1579100861-73692-65-git-send-email-imammedo@redhat.com>
-Message-ID: <alpine.BSF.2.21.99999.352.2001151923450.24151@zero.eik.bme.hu>
-References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-65-git-send-email-imammedo@redhat.com>
-User-Agent: Alpine 2.21.99999 (BSF 352 2019-06-22)
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1irnN6-0000UU-A7
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:26:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579112787;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+jBPZtzHHrA4OuaU4hKD0xnwoW/KuNLEhzY/ch75b+E=;
+ b=Mqh603n8BXa6bMtNq5xJWKSNDd+NEMeCxzBMi+jSVff9MmEyT9XE1vqDZ/LGTlmtT2q8rY
+ KXbpeFS+958zGGHKSX+jNfdolhvN4N1adECXX8wA70SjxwA3+sJScz8k847jA7dRnQ10n7
+ LA+rum54JkX4uYV55QduFkxeo/whXiY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-135-tEF5F5zHOy-nQszBnGnCgQ-1; Wed, 15 Jan 2020 13:26:24 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48F6DDB61;
+ Wed, 15 Jan 2020 18:26:22 +0000 (UTC)
+Received: from [10.40.204.119] (ovpn-204-119.brq.redhat.com [10.40.204.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB7515C219;
+ Wed, 15 Jan 2020 18:26:19 +0000 (UTC)
+Subject: Re: [PATCH] spapr: Migrate CAS reboot flag
+From: Laurent Vivier <lvivier@redhat.com>
+To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+References: <157911051688.345768.16136592081655557565.stgit@bahia.lan>
+ <ed2df775-b4d5-4ea7-ccf6-637c037f897b@redhat.com>
+Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
+Message-ID: <58c966da-45a6-3c31-589b-ebce5a489ff3@redhat.com>
+Date: Wed, 15 Jan 2020 19:26:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-607929231-1579112674=:24151"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:738:2001:2001::2001
+In-Reply-To: <ed2df775-b4d5-4ea7-ccf6-637c037f897b@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: tEF5F5zHOy-nQszBnGnCgQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,192 +128,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Lukas Doktor <ldoktor@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 15/01/2020 19:10, Laurent Vivier wrote:
+> Hi,
+>=20
+> On 15/01/2020 18:48, Greg Kurz wrote:
+>> Migration can potentially race with CAS reboot. If the migration thread
+>> completes migration after CAS has set spapr->cas_reboot but before the
+>> mainloop could pick up the reset request and reset the machine, the
+>> guest is migrated unrebooted and the destination doesn't reboot it
+>> either because it isn't aware a CAS reboot was needed (eg, because a
+>> device was added before CAS). This likely result in a broken or hung
+>> guest.
+>>
+>> Even if it is small, the window between CAS and CAS reboot is enough to
+>> re-qualify spapr->cas_reboot as state that we should migrate. Add a new
+>> subsection for that and always send it when a CAS reboot is pending.
+>> This may cause migration to older QEMUs to fail but it is still better
+>> than end up with a broken guest.
+>>
+>> The destination cannot honour the CAS reboot request from a post load
+>> handler because this must be done after the guest is fully restored.
+>> It is thus done from a VM change state handler.
+>>
+>> Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
+>> Signed-off-by: Greg Kurz <groug@kaod.org>
+>> ---
+>>
+>=20
+> I'm wondering if the problem can be related with the fact that
+> main_loop_should_exit() could release qemu_global_mutex in
+> pause_all_vcpus() in the reset case?
+>=20
+> 1602 static bool main_loop_should_exit(void)
+> 1603 {
+> ...
+> 1633     request =3D qemu_reset_requested();
+> 1634     if (request) {
+> 1635         pause_all_vcpus();
+> 1636         qemu_system_reset(request);
+> 1637         resume_all_vcpus();
+> 1638         if (!runstate_check(RUN_STATE_RUNNING) &&
+> 1639                 !runstate_check(RUN_STATE_INMIGRATE)) {
+> 1640             runstate_set(RUN_STATE_PRELAUNCH);
+> 1641         }
+> 1642     }
+> ...
+>=20
+> I already sent a patch for this kind of problem (in current Juan pull
+> request):
+>=20
+> "runstate: ignore finishmigrate -> prelaunch transition"
+>=20
+> but I don't know if it could fix this one.
 
---3866299591-607929231-1579112674=:24151
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+I think it should be interesting to have the state transition on source
+and destination when the problem occurs (with something like "-trace
+runstate_set").
 
-On Wed, 15 Jan 2020, Igor Mammedov wrote:
-> If user provided non-sense RAM size, board will ignore it
-> and continue running with fixed RAM size.
->
-> Also RAM is going to be allocated by generic code, so it
-> won't be possible for board to fix CLI.
->
-> Make it error message and exit to force user fix CLI,
-> instead of accepting non-sense CLI values.
->
-> PS:
-> move fixed RAM size into mc->default_ram_size, so that
-> generic code will know how much to allocate.
->
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
-> v2:
->  * fix format string causing build failure on 32-bit host
->    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
->
-> CC: david@gibson.dropbear.id.au
-> CC: qemu-ppc@nongnu.org
-> ---
-> hw/ppc/ppc405_boards.c | 36 +++++++++++++++++++++++-------------
-> 1 file changed, 23 insertions(+), 13 deletions(-)
->
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 1f721fe..a7a432d 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -137,7 +137,7 @@ static void ref405ep_fpga_init(MemoryRegion *sysmem=
-, uint32_t base)
->
-> static void ref405ep_init(MachineState *machine)
-> {
-> -    ram_addr_t ram_size =3D machine->ram_size;
-> +    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
->     const char *kernel_filename =3D machine->kernel_filename;
->     const char *kernel_cmdline =3D machine->kernel_cmdline;
->     const char *initrd_filename =3D machine->initrd_filename;
-> @@ -161,15 +161,20 @@ static void ref405ep_init(MachineState *machine)
->     DriveInfo *dinfo;
->     MemoryRegion *sysmem =3D get_system_memory();
->
-> +    if (machine->ram_size !=3D mc->default_ram_size) {
-> +        error_report("Invalid RAM size, should be " RAM_ADDR_UFMT " By=
-tes",
-> +                     mc->default_ram_size);
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
->     /* XXX: fix this */
->     memory_region_allocate_system_memory(&ram_memories[0], NULL, "ef405=
-ep.ram",
-> -                                         0x08000000);
-> +                                         machine->ram_size);
->     ram_bases[0] =3D 0;
-> -    ram_sizes[0] =3D 0x08000000;
-> +    ram_sizes[0] =3D machine->ram_size;
->     memory_region_init(&ram_memories[1], NULL, "ef405ep.ram1", 0);
->     ram_bases[1] =3D 0x00000000;
->     ram_sizes[1] =3D 0x00000000;
-> -    ram_size =3D 128 * MiB;
->     env =3D ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
->                         33333333, &pic, kernel_filename =3D=3D NULL ? 0=
- : 1);
->     /* allocate SRAM */
-> @@ -227,7 +232,7 @@ static void ref405ep_init(MachineState *machine)
->     if (linux_boot) {
->         memset(&bd, 0, sizeof(bd));
->         bd.bi_memstart =3D 0x00000000;
-> -        bd.bi_memsize =3D ram_size;
-> +        bd.bi_memsize =3D machine->ram_size;
->         bd.bi_flashstart =3D -bios_size;
->         bd.bi_flashsize =3D -bios_size;
->         bd.bi_flashoffset =3D 0;
-> @@ -255,7 +260,7 @@ static void ref405ep_init(MachineState *machine)
->         kernel_base =3D KERNEL_LOAD_ADDR;
->         /* now we can load the kernel */
->         kernel_size =3D load_image_targphys(kernel_filename, kernel_bas=
-e,
-> -                                          ram_size - kernel_base);
-> +                                          machine->ram_size - kernel_b=
-ase);
->         if (kernel_size < 0) {
->             error_report("could not load kernel '%s'", kernel_filename)=
-;
->             exit(1);
-> @@ -266,7 +271,7 @@ static void ref405ep_init(MachineState *machine)
->         if (initrd_filename) {
->             initrd_base =3D INITRD_LOAD_ADDR;
->             initrd_size =3D load_image_targphys(initrd_filename, initrd=
-_base,
-> -                                              ram_size - initrd_base);
-> +                                              machine->ram_size - init=
-rd_base);
->             if (initrd_size < 0) {
->                 error_report("could not load initial ram disk '%s'",
->                              initrd_filename);
-> @@ -304,6 +309,7 @@ static void ref405ep_class_init(ObjectClass *oc, vo=
-id *data)
->
->     mc->desc =3D "ref405ep";
->     mc->init =3D ref405ep_init;
-> +    mc->default_ram_size =3D 0x08000000;
-> }
->
-> static const TypeInfo ref405ep_type =3D {
-> @@ -408,7 +414,7 @@ static void taihu_cpld_init(MemoryRegion *sysmem, u=
-int32_t base)
->
-> static void taihu_405ep_init(MachineState *machine)
-> {
-> -    ram_addr_t ram_size =3D machine->ram_size;
-> +    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
->     const char *kernel_filename =3D machine->kernel_filename;
->     const char *initrd_filename =3D machine->initrd_filename;
->     char *filename;
-> @@ -425,10 +431,13 @@ static void taihu_405ep_init(MachineState *machin=
-e)
->     int fl_idx;
->     DriveInfo *dinfo;
->
-> -    /* RAM is soldered to the board so the size cannot be changed */
-> -    ram_size =3D 0x08000000;
-> +    if (machine->ram_size !=3D mc->default_ram_size) {
-> +        error_report("Invalid RAM size, should be " RAM_ADDR_UFMT " By=
-tes",
+Thanks,
+Laurent
 
-Likewise, should this rather print valid value in M instead of bytes?
-
-Regards,
-BALATON Zoltan
-
-> +                     mc->default_ram_size);
-> +        exit(EXIT_FAILURE);
-> +    }
->     memory_region_allocate_system_memory(ram, NULL, "taihu_405ep.ram",
-> -                                         ram_size);
-> +                                         machine->ram_size);
->
->     ram_bases[0] =3D 0;
->     ram_sizes[0] =3D 0x04000000;
-> @@ -500,7 +509,7 @@ static void taihu_405ep_init(MachineState *machine)
->         kernel_base =3D KERNEL_LOAD_ADDR;
->         /* now we can load the kernel */
->         kernel_size =3D load_image_targphys(kernel_filename, kernel_bas=
-e,
-> -                                          ram_size - kernel_base);
-> +                                          machine->ram_size - kernel_b=
-ase);
->         if (kernel_size < 0) {
->             error_report("could not load kernel '%s'", kernel_filename)=
-;
->             exit(1);
-> @@ -509,7 +518,7 @@ static void taihu_405ep_init(MachineState *machine)
->         if (initrd_filename) {
->             initrd_base =3D INITRD_LOAD_ADDR;
->             initrd_size =3D load_image_targphys(initrd_filename, initrd=
-_base,
-> -                                              ram_size - initrd_base);
-> +                                              machine->ram_size - init=
-rd_base);
->             if (initrd_size < 0) {
->                 error_report("could not load initial ram disk '%s'",
->                              initrd_filename);
-> @@ -533,6 +542,7 @@ static void taihu_class_init(ObjectClass *oc, void =
-*data)
->
->     mc->desc =3D "taihu";
->     mc->init =3D taihu_405ep_init;
-> +    mc->default_ram_size =3D 0x08000000;
-> }
->
-> static const TypeInfo taihu_type =3D {
->
---3866299591-607929231-1579112674=:24151--
 
