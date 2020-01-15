@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C6B13CC04
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 19:24:11 +0100 (CET)
-Received: from localhost ([::1]:58602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94BF13CC0A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 19:26:14 +0100 (CET)
+Received: from localhost ([::1]:58630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irnKs-0008EL-4b
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 13:24:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53987)
+	id 1irnMr-00026V-Gf
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 13:26:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54433)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1irnIc-0005A7-Ku
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:21:52 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1irnLL-00018x-8I
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:24:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1irnIb-0006Vt-Ga
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:21:50 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:26880)
+ (envelope-from <balaton@eik.bme.hu>) id 1irnLJ-0007vs-SP
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:24:39 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:26906)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1irnIb-0006VT-A5
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:21:49 -0500
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1irnLJ-0007uy-Iv; Wed, 15 Jan 2020 13:24:37 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2C4C57482D2;
- Wed, 15 Jan 2020 19:21:48 +0100 (CET)
+ by localhost (Postfix) with SMTP id 0D94A748DC6;
+ Wed, 15 Jan 2020 19:24:35 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0CB3D7482D0; Wed, 15 Jan 2020 19:21:48 +0100 (CET)
+ id ACA01748DC5; Wed, 15 Jan 2020 19:24:34 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 0B6A4745702;
- Wed, 15 Jan 2020 19:21:48 +0100 (CET)
-Date: Wed, 15 Jan 2020 19:21:48 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id AB3877482D3;
+ Wed, 15 Jan 2020 19:24:34 +0100 (CET)
+Date: Wed, 15 Jan 2020 19:24:34 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v3 80/86] hostmem: introduce "prealloc-threads"
- property
-In-Reply-To: <1579108533-162236-1-git-send-email-imammedo@redhat.com>
-Message-ID: <alpine.BSF.2.21.99999.352.2001151920060.24151@zero.eik.bme.hu>
-References: <128a6dc6-4dcd-0d60-2112-d495426b184d@redhat.com>
- <1579108533-162236-1-git-send-email-imammedo@redhat.com>
+Subject: Re: [PATCH v2 64/86] ppc:ppc405_boards: add RAM size checks
+In-Reply-To: <1579100861-73692-65-git-send-email-imammedo@redhat.com>
+Message-ID: <alpine.BSF.2.21.99999.352.2001151923450.24151@zero.eik.bme.hu>
+References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+ <1579100861-73692-65-git-send-email-imammedo@redhat.com>
 User-Agent: Alpine 2.21.99999 (BSF 352 2019-06-22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+Content-Type: multipart/mixed;
+ boundary="3866299591-607929231-1579112674=:24151"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,83 +54,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-607929231-1579112674=:24151
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
 On Wed, 15 Jan 2020, Igor Mammedov wrote:
-> diff --git a/backends/hostmem.c b/backends/hostmem.c
-> index e773bdf..4c23c77 100644
-> --- a/backends/hostmem.c
-> +++ b/backends/hostmem.c
-> @@ -223,7 +223,6 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
+> If user provided non-sense RAM size, board will ignore it
+> and continue running with fixed RAM size.
+>
+> Also RAM is going to be allocated by generic code, so it
+> won't be possible for board to fix CLI.
+>
+> Make it error message and exit to force user fix CLI,
+> instead of accepting non-sense CLI values.
+>
+> PS:
+> move fixed RAM size into mc->default_ram_size, so that
+> generic code will know how much to allocate.
+>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> v2:
+>  * fix format string causing build failure on 32-bit host
+>    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
+>
+> CC: david@gibson.dropbear.id.au
+> CC: qemu-ppc@nongnu.org
+> ---
+> hw/ppc/ppc405_boards.c | 36 +++++++++++++++++++++++-------------
+> 1 file changed, 23 insertions(+), 13 deletions(-)
+>
+> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> index 1f721fe..a7a432d 100644
+> --- a/hw/ppc/ppc405_boards.c
+> +++ b/hw/ppc/ppc405_boards.c
+> @@ -137,7 +137,7 @@ static void ref405ep_fpga_init(MemoryRegion *sysmem=
+, uint32_t base)
+>
+> static void ref405ep_init(MachineState *machine)
 > {
->     Error *local_err = NULL;
->     HostMemoryBackend *backend = MEMORY_BACKEND(obj);
-> -    MachineState *ms = MACHINE(qdev_get_machine());
+> -    ram_addr_t ram_size =3D machine->ram_size;
+> +    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+>     const char *kernel_filename =3D machine->kernel_filename;
+>     const char *kernel_cmdline =3D machine->kernel_cmdline;
+>     const char *initrd_filename =3D machine->initrd_filename;
+> @@ -161,15 +161,20 @@ static void ref405ep_init(MachineState *machine)
+>     DriveInfo *dinfo;
+>     MemoryRegion *sysmem =3D get_system_memory();
 >
->     if (backend->force_prealloc) {
->         if (value) {
-> @@ -243,7 +242,7 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
->         void *ptr = memory_region_get_ram_ptr(&backend->mr);
->         uint64_t sz = memory_region_size(&backend->mr);
+> +    if (machine->ram_size !=3D mc->default_ram_size) {
+> +        error_report("Invalid RAM size, should be " RAM_ADDR_UFMT " By=
+tes",
+> +                     mc->default_ram_size);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+>     /* XXX: fix this */
+>     memory_region_allocate_system_memory(&ram_memories[0], NULL, "ef405=
+ep.ram",
+> -                                         0x08000000);
+> +                                         machine->ram_size);
+>     ram_bases[0] =3D 0;
+> -    ram_sizes[0] =3D 0x08000000;
+> +    ram_sizes[0] =3D machine->ram_size;
+>     memory_region_init(&ram_memories[1], NULL, "ef405ep.ram1", 0);
+>     ram_bases[1] =3D 0x00000000;
+>     ram_sizes[1] =3D 0x00000000;
+> -    ram_size =3D 128 * MiB;
+>     env =3D ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
+>                         33333333, &pic, kernel_filename =3D=3D NULL ? 0=
+ : 1);
+>     /* allocate SRAM */
+> @@ -227,7 +232,7 @@ static void ref405ep_init(MachineState *machine)
+>     if (linux_boot) {
+>         memset(&bd, 0, sizeof(bd));
+>         bd.bi_memstart =3D 0x00000000;
+> -        bd.bi_memsize =3D ram_size;
+> +        bd.bi_memsize =3D machine->ram_size;
+>         bd.bi_flashstart =3D -bios_size;
+>         bd.bi_flashsize =3D -bios_size;
+>         bd.bi_flashoffset =3D 0;
+> @@ -255,7 +260,7 @@ static void ref405ep_init(MachineState *machine)
+>         kernel_base =3D KERNEL_LOAD_ADDR;
+>         /* now we can load the kernel */
+>         kernel_size =3D load_image_targphys(kernel_filename, kernel_bas=
+e,
+> -                                          ram_size - kernel_base);
+> +                                          machine->ram_size - kernel_b=
+ase);
+>         if (kernel_size < 0) {
+>             error_report("could not load kernel '%s'", kernel_filename)=
+;
+>             exit(1);
+> @@ -266,7 +271,7 @@ static void ref405ep_init(MachineState *machine)
+>         if (initrd_filename) {
+>             initrd_base =3D INITRD_LOAD_ADDR;
+>             initrd_size =3D load_image_targphys(initrd_filename, initrd=
+_base,
+> -                                              ram_size - initrd_base);
+> +                                              machine->ram_size - init=
+rd_base);
+>             if (initrd_size < 0) {
+>                 error_report("could not load initial ram disk '%s'",
+>                              initrd_filename);
+> @@ -304,6 +309,7 @@ static void ref405ep_class_init(ObjectClass *oc, vo=
+id *data)
 >
-> -        os_mem_prealloc(fd, ptr, sz, ms->smp.cpus, &local_err);
-> +        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads, &local_err);
->         if (local_err) {
->             error_propagate(errp, local_err);
->             return;
-> @@ -252,14 +251,45 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
->     }
+>     mc->desc =3D "ref405ep";
+>     mc->init =3D ref405ep_init;
+> +    mc->default_ram_size =3D 0x08000000;
 > }
 >
-> +static void host_memory_backend_get_prealloc_threads(Object *obj, Visitor *v,
-> +    const char *name, void *opaque, Error **errp)
-> +{
-> +    HostMemoryBackend *backend = MEMORY_BACKEND(obj);
-> +    visit_type_uint32(v, name, &backend->prealloc_threads, errp);
-> +}
-> +
-> +static void host_memory_backend_set_prealloc_threads(Object *obj, Visitor *v,
-> +    const char *name, void *opaque, Error **errp)
-> +{
-> +    HostMemoryBackend *backend = MEMORY_BACKEND(obj);
-> +    Error *local_err = NULL;
-> +    uint32_t value;
-> +
-> +    visit_type_uint32(v, name, &value, &local_err);
-> +    if (local_err) {
-> +        goto out;
-> +    }
-> +    if (value <= 0) {
-> +        error_setg(&local_err,
-> +                   "property '%s' of %s doesn't take value '%d'",
-> +                   name, object_get_typename(obj), value);
-> +        goto out;
-> +    }
-> +    backend->prealloc_threads = value;
-> +out:
-> +    error_propagate(errp, local_err);
-> +}
-> +
-> static void host_memory_backend_init(Object *obj)
-> {
->     HostMemoryBackend *backend = MEMORY_BACKEND(obj);
->     MachineState *machine = MACHINE(qdev_get_machine());
+> static const TypeInfo ref405ep_type =3D {
+> @@ -408,7 +414,7 @@ static void taihu_cpld_init(MemoryRegion *sysmem, u=
+int32_t base)
 >
-> +    /* TODO: convert this compat properties */
+> static void taihu_405ep_init(MachineState *machine)
+> {
+> -    ram_addr_t ram_size =3D machine->ram_size;
+> +    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+>     const char *kernel_filename =3D machine->kernel_filename;
+>     const char *initrd_filename =3D machine->initrd_filename;
+>     char *filename;
+> @@ -425,10 +431,13 @@ static void taihu_405ep_init(MachineState *machin=
+e)
+>     int fl_idx;
+>     DriveInfo *dinfo;
+>
+> -    /* RAM is soldered to the board so the size cannot be changed */
+> -    ram_size =3D 0x08000000;
+> +    if (machine->ram_size !=3D mc->default_ram_size) {
+> +        error_report("Invalid RAM size, should be " RAM_ADDR_UFMT " By=
+tes",
 
-Did you mean "convert these compat properties" or "convert this compat 
-property"?
+Likewise, should this rather print valid value in M instead of bytes?
 
 Regards,
 BALATON Zoltan
 
->     backend->merge = machine_mem_merge(machine);
->     backend->dump = machine_dump_guest_core(machine);
->     backend->prealloc = mem_prealloc;
-> +    backend->prealloc_threads = 1;
+> +                     mc->default_ram_size);
+> +        exit(EXIT_FAILURE);
+> +    }
+>     memory_region_allocate_system_memory(ram, NULL, "taihu_405ep.ram",
+> -                                         ram_size);
+> +                                         machine->ram_size);
+>
+>     ram_bases[0] =3D 0;
+>     ram_sizes[0] =3D 0x04000000;
+> @@ -500,7 +509,7 @@ static void taihu_405ep_init(MachineState *machine)
+>         kernel_base =3D KERNEL_LOAD_ADDR;
+>         /* now we can load the kernel */
+>         kernel_size =3D load_image_targphys(kernel_filename, kernel_bas=
+e,
+> -                                          ram_size - kernel_base);
+> +                                          machine->ram_size - kernel_b=
+ase);
+>         if (kernel_size < 0) {
+>             error_report("could not load kernel '%s'", kernel_filename)=
+;
+>             exit(1);
+> @@ -509,7 +518,7 @@ static void taihu_405ep_init(MachineState *machine)
+>         if (initrd_filename) {
+>             initrd_base =3D INITRD_LOAD_ADDR;
+>             initrd_size =3D load_image_targphys(initrd_filename, initrd=
+_base,
+> -                                              ram_size - initrd_base);
+> +                                              machine->ram_size - init=
+rd_base);
+>             if (initrd_size < 0) {
+>                 error_report("could not load initial ram disk '%s'",
+>                              initrd_filename);
+> @@ -533,6 +542,7 @@ static void taihu_class_init(ObjectClass *oc, void =
+*data)
+>
+>     mc->desc =3D "taihu";
+>     mc->init =3D taihu_405ep_init;
+> +    mc->default_ram_size =3D 0x08000000;
 > }
 >
-> static void host_memory_backend_post_init(Object *obj)
+> static const TypeInfo taihu_type =3D {
+>
+--3866299591-607929231-1579112674=:24151--
 
