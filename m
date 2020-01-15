@@ -2,45 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40A613C908
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:18:26 +0100 (CET)
-Received: from localhost ([::1]:56588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D9B13C8D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:09:53 +0100 (CET)
+Received: from localhost ([::1]:56412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irlNB-0002hl-HQ
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:18:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57077)
+	id 1irlEt-0007C1-VI
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:09:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57114)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0P-0005xs-Do
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0Q-0005zr-Ff
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0L-0006DY-5m
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:53 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:34171 helo=mail.rt-rk.com)
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0M-0006FD-Kj
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:54 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:34647 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
- id 1irl0K-0005hQ-QZ
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:49 -0500
+ id 1irl0M-0006E2-A6
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:50 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id E13371A2196;
- Wed, 15 Jan 2020 16:53:43 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTP id 1EB3E1A21A0;
+ Wed, 15 Jan 2020 16:53:44 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
  [10.10.14.93])
- by mail.rt-rk.com (Postfix) with ESMTPSA id B33871A2115;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id E8B081A2115;
  Wed, 15 Jan 2020 16:53:43 +0100 (CET)
 From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/12] linux-user: Add support for getting/setting RTC
- periodic interrupt and epoch using ioctls
-Date: Wed, 15 Jan 2020 16:53:29 +0100
-Message-Id: <1579103618-20217-4-git-send-email-Filip.Bozuta@rt-rk.com>
+Subject: [PATCH 05/12] linux-user: Add support for getting/setting RTC PLL
+ correction using ioctls
+Date: Wed, 15 Jan 2020 16:53:31 +0100
+Message-Id: <1579103618-20217-6-git-send-email-Filip.Bozuta@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1579103618-20217-1-git-send-email-Filip.Bozuta@rt-rk.com>
 References: <1579103618-20217-1-git-send-email-Filip.Bozuta@rt-rk.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,108 +59,112 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch implements functionalities of following ioctls:
 
-RTC_IRQP_READ, RTC_IRQP_SET - Getting/Setting IRQ rate
+RTC_PLL_GET - Getting PLL correction
 
-    Read and set the frequency for periodic interrupts, for RTCs
-    that support periodic interrupts. The periodic interrupt must
-    be separately enabled or disabled using the RTC_PIE_ON,
-    RTC_PIE_OFF requests. The third ioctl's argument is an
-    unsigned long * or an unsigned long, respectively. The value
-    is the frequency in interrupts per second. The set of allow=E2=80=90
-    able frequencies is the multiples of two in the range 2 to
-    8192. Only a privileged process (i.e., one having the
-    CAP_SYS_RESOURCE capability) can set frequencies above the
-    value specified in /proc/sys/dev/rtc/max-user-freq. (This
-    file contains the value 64 by default.)
+    Read the PLL correction for RTCs that support PLL. The PLL correction
+    is returned in the following structure:
 
-RTC_EPOCH_READ, RTC_EPOCH_SET - Getting/Setting epoch
+        struct rtc_pll_info {
+            int pll_ctrl;        /* placeholder for fancier control */
+            int pll_value;       /* get/set correction value */
+            int pll_max;         /* max +ve (faster) adjustment value */
+            int pll_min;         /* max -ve (slower) adjustment value */
+            int pll_posmult;     /* factor for +ve correction */
+            int pll_negmult;     /* factor for -ve correction */
+            long pll_clock;      /* base PLL frequency */
+        };
 
-    Many RTCs encode the year in an 8-bit register which is either
-    interpreted as an 8-bit binary number or as a BCD number. In
-    both cases, the number is interpreted relative to this RTC's
-    Epoch. The RTC's Epoch is initialized to 1900 on most systems
-    but on Alpha and MIPS it might also be initialized to 1952,
-    1980, or 2000, depending on the value of an RTC register for
-    the year. With some RTCs, these operations can be used to
-    read or to set the RTC's Epoch, respectively. The third
-    ioctl's argument is an unsigned long * or an unsigned long,
-    respectively, and the value returned (or assigned) is the
-    Epoch. To set the RTC's Epoch the process must be privileged
-    (i.e., have the CAP_SYS_TIME capability).
+    A pointer to this structure should be passed as the third
+    ioctl's argument.
+
+RTC_PLL_SET - Setting PLL correction
+
+    Sets the PLL correction for RTCs that support PLL. The PLL correction
+    that is set is specified by the rtc_pll_info structure pointed to by
+    the third ioctl's' argument.
 
 Implementation notes:
 
-    All ioctls in this patch have a pointer to 'ulong' as their
-    third argument. That is the reason why corresponding parts
-    of added code in linux-user/syscall_defs.h contain special
-    handling related to 'ulong' type: they use 'abi_ulong' type
-    to make sure that ioctl's code is calculated correctly for
-    both 32-bit and 64-bit targets. Also, 'MK_PTR(TYPE_ULONG)'
-    is used for the similar reason in linux-user/ioctls.h.
-    Because ioctls RTC_IRQP_SET and RTC_EPOCH_SET are ioctls of
-    type IOW(writing type) that have unsigned long as their
-    third argument, a case statement for "TYPE_ULONG" was added
-    in the appropriate place for function "abi_ulong do_ioctl"
-    in file "syscall.c". There were no implemented ioctls of
-    type IOW with unsigned long as third argument before this
-    patch, which is the reason why this case statement was added
-    now for the first time.
+    All ioctls in this patch have a pointer to a structure rtc_pll_info
+    as their third argument. All elements of this structure are of
+    type 'int', except the last one that is of type 'long'. That is
+    the reason why a separate target structure (target_rtc_pll_info)
+    is defined in linux-user/syscall_defs. The rest of the
+    implementation is straightforward.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 ---
- linux-user/ioctls.h       | 4 ++++
- linux-user/syscall.c      | 1 +
- linux-user/syscall_defs.h | 4 ++++
- 3 files changed, 9 insertions(+)
+ linux-user/ioctls.h        |  2 ++
+ linux-user/syscall_defs.h  | 14 ++++++++++++++
+ linux-user/syscall_types.h |  9 +++++++++
+ 3 files changed, 25 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index f472794..accbdee 100644
+index b09396e..0a4e3f1 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -81,6 +81,10 @@
-      IOCTL(RTC_ALM_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
-      IOCTL(RTC_RD_TIME, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
-      IOCTL(RTC_SET_TIME, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
-+     IOCTL(RTC_IRQP_READ, IOC_R, MK_PTR(TYPE_ULONG))
-+     IOCTL(RTC_IRQP_SET, IOC_W, TYPE_ULONG)
-+     IOCTL(RTC_EPOCH_READ, IOC_R, MK_PTR(TYPE_ULONG))
-+     IOCTL(RTC_EPOCH_SET, IOC_W, TYPE_ULONG)
-=20
+@@ -87,6 +87,8 @@
+      IOCTL(RTC_EPOCH_SET, IOC_W, TYPE_ULONG)
+      IOCTL(RTC_WKALM_RD, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_wkalrm)))
+      IOCTL(RTC_WKALM_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_wkalrm)))
++     IOCTL(RTC_PLL_GET, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
++     IOCTL(RTC_PLL_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
+ 
       IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
       IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 74c3c08..c0b7314 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -5175,6 +5175,7 @@ static abi_long do_ioctl(int fd, int cmd, abi_long =
-arg)
-         break;
-     case TYPE_PTRVOID:
-     case TYPE_INT:
-+    case TYPE_ULONG:
-         ret =3D get_errno(safe_ioctl(fd, ie->host_cmd, arg));
-         break;
-     case TYPE_PTR:
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index f0bf09d..bbfa935 100644
+index 37504a2..8370f41 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -776,6 +776,10 @@ struct target_pollfd {
- #define TARGET_RTC_ALM_SET          TARGET_IOW('p', 0x07, struct rtc_tim=
-e)
- #define TARGET_RTC_RD_TIME          TARGET_IOR('p', 0x09, struct rtc_tim=
-e)
- #define TARGET_RTC_SET_TIME         TARGET_IOW('p', 0x0a, struct rtc_tim=
-e)
-+#define TARGET_RTC_IRQP_READ        TARGET_IOR('p', 0x0b, abi_ulong)
-+#define TARGET_RTC_IRQP_SET         TARGET_IOW('p', 0x0c, abi_ulong)
-+#define TARGET_RTC_EPOCH_READ       TARGET_IOR('p', 0x0d, abi_ulong)
-+#define TARGET_RTC_EPOCH_SET        TARGET_IOW('p', 0x0e, abi_ulong)
-=20
- #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4)=
- ||    \
+@@ -763,6 +763,16 @@ struct target_pollfd {
+ #define TARGET_KDSETLED        0x4B32	/* set led state [lights, not flags] */
+ #define TARGET_KDSIGACCEPT     0x4B4E
+ 
++struct target_rtc_pll_info {
++    int pll_ctrl;
++    int pll_value;
++    int pll_max;
++    int pll_min;
++    int pll_posmult;
++    int pll_negmult;
++    abi_long pll_clock;
++};
++
+ /* real time clock ioctls */
+ #define TARGET_RTC_AIE_ON           TARGET_IO('p', 0x01)
+ #define TARGET_RTC_AIE_OFF          TARGET_IO('p', 0x02)
+@@ -782,6 +792,10 @@ struct target_pollfd {
+ #define TARGET_RTC_EPOCH_SET        TARGET_IOW('p', 0x0e, abi_ulong)
+ #define TARGET_RTC_WKALM_RD         TARGET_IOR('p', 0x10, struct rtc_wkalrm)
+ #define TARGET_RTC_WKALM_SET        TARGET_IOW('p', 0x0f, struct rtc_wkalrm)
++#define TARGET_RTC_PLL_GET          TARGET_IOR('p', 0x11,                      \
++                                               struct target_rtc_pll_info)
++#define TARGET_RTC_PLL_SET          TARGET_IOW('p', 0x12,                      \
++                                               struct target_rtc_pll_info)
+ 
+ #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
         defined(TARGET_XTENSA)
---=20
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index 820bc8e..4027272 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -271,6 +271,15 @@ STRUCT(rtc_wkalrm,
+        TYPE_CHAR, /* pending */
+        MK_STRUCT(STRUCT_rtc_time)) /* time */
+ 
++STRUCT(rtc_pll_info,
++       TYPE_INT, /* pll_ctrl */
++       TYPE_INT, /* pll_value */
++       TYPE_INT, /* pll_max */
++       TYPE_INT, /* pll_min */
++       TYPE_INT, /* pll_posmult */
++       TYPE_INT, /* pll_negmult */
++       TYPE_LONG) /* pll_clock */
++
+ STRUCT(blkpg_ioctl_arg,
+        TYPE_INT, /* op */
+        TYPE_INT, /* flags */
+-- 
 2.7.4
 
 
