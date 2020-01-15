@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446EA13C8AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:04:11 +0100 (CET)
-Received: from localhost ([::1]:56326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40A613C908
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:18:26 +0100 (CET)
+Received: from localhost ([::1]:56588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irl9N-0007GZ-KK
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:04:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57072)
+	id 1irlNB-0002hl-HQ
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:18:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57077)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0P-0005xM-96
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:56 -0500
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0P-0005xs-Do
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0L-0006Dp-7K
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:52 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:34153 helo=mail.rt-rk.com)
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0L-0006DY-5m
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:53 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:34171 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
- id 1irl0K-0005h8-Rh
+ id 1irl0K-0005hQ-QZ
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:49 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id A14FF1A1F8E;
+ by mail.rt-rk.com (Postfix) with ESMTP id E13371A2196;
  Wed, 15 Jan 2020 16:53:43 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
  [10.10.14.93])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 757CC1A2115;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id B33871A2115;
  Wed, 15 Jan 2020 16:53:43 +0100 (CET)
 From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/12] linux-user: Add support for enabling/disabling RTC
- features using ioctls
-Date: Wed, 15 Jan 2020 16:53:27 +0100
-Message-Id: <1579103618-20217-2-git-send-email-Filip.Bozuta@rt-rk.com>
+Subject: [PATCH 03/12] linux-user: Add support for getting/setting RTC
+ periodic interrupt and epoch using ioctls
+Date: Wed, 15 Jan 2020 16:53:29 +0100
+Message-Id: <1579103618-20217-4-git-send-email-Filip.Bozuta@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1579103618-20217-1-git-send-email-Filip.Bozuta@rt-rk.com>
 References: <1579103618-20217-1-git-send-email-Filip.Bozuta@rt-rk.com>
@@ -62,106 +62,107 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch implements functionalities of following ioctls:
 
-RTC_AIE_ON, RTC_AIE_OFF - Alarm interrupt enabling on/off
+RTC_IRQP_READ, RTC_IRQP_SET - Getting/Setting IRQ rate
 
-    Enable or disable the alarm interrupt, for RTCs that support
-    alarms.  The third ioctl's argument is ignored.
+    Read and set the frequency for periodic interrupts, for RTCs
+    that support periodic interrupts. The periodic interrupt must
+    be separately enabled or disabled using the RTC_PIE_ON,
+    RTC_PIE_OFF requests. The third ioctl's argument is an
+    unsigned long * or an unsigned long, respectively. The value
+    is the frequency in interrupts per second. The set of allow=E2=80=90
+    able frequencies is the multiples of two in the range 2 to
+    8192. Only a privileged process (i.e., one having the
+    CAP_SYS_RESOURCE capability) can set frequencies above the
+    value specified in /proc/sys/dev/rtc/max-user-freq. (This
+    file contains the value 64 by default.)
 
-RTC_UIE_ON, RTC_UIE_OFF - Update interrupt enabling on/off
+RTC_EPOCH_READ, RTC_EPOCH_SET - Getting/Setting epoch
 
-    Enable or disable the interrupt on every clock update, for
-    RTCs that support this once-per-second interrupt. The third
-    ioctl's argument is ignored.
-
-RTC_PIE_ON, RTC_PIE_OFF - Periodic interrupt enabling on/off
-
-    Enable or disable the periodic interrupt, for RTCs that sup=E2=80=90
-    port these periodic interrupts. The third ioctl's argument
-    is ignored. Only a privileged process (i.e., one having the
-    CAP_SYS_RESOURCE capability) can enable the periodic interrupt
-    if the frequency is currently set above the value specified in
-    /proc/sys/dev/rtc/max-user-freq.
-
-RTC_WIE_ON, RTC_WIE_OFF - Watchdog interrupt enabling on/off
-
-    Enable or disable the Watchdog interrupt, for RTCs that sup-
-    port this Watchdog interrupt. The third ioctl's argument is
-    ignored.
+    Many RTCs encode the year in an 8-bit register which is either
+    interpreted as an 8-bit binary number or as a BCD number. In
+    both cases, the number is interpreted relative to this RTC's
+    Epoch. The RTC's Epoch is initialized to 1900 on most systems
+    but on Alpha and MIPS it might also be initialized to 1952,
+    1980, or 2000, depending on the value of an RTC register for
+    the year. With some RTCs, these operations can be used to
+    read or to set the RTC's Epoch, respectively. The third
+    ioctl's argument is an unsigned long * or an unsigned long,
+    respectively, and the value returned (or assigned) is the
+    Epoch. To set the RTC's Epoch the process must be privileged
+    (i.e., have the CAP_SYS_TIME capability).
 
 Implementation notes:
 
-    Since all of involved ioctls have NULL as their third argument,
-    their implementation was straightforward.
-
-    The line '#include <linux/rtc.h>' was added to recognize
-    preprocessor definitions for these ioctls. This needs to be
-    done only once in this series of commits. Also, the content
-    of this file (with respect to ioctl definitions) remained
-    unchanged for a long time, therefore there is no need to
-    worry about supporting older Linux kernel version.
+    All ioctls in this patch have a pointer to 'ulong' as their
+    third argument. That is the reason why corresponding parts
+    of added code in linux-user/syscall_defs.h contain special
+    handling related to 'ulong' type: they use 'abi_ulong' type
+    to make sure that ioctl's code is calculated correctly for
+    both 32-bit and 64-bit targets. Also, 'MK_PTR(TYPE_ULONG)'
+    is used for the similar reason in linux-user/ioctls.h.
+    Because ioctls RTC_IRQP_SET and RTC_EPOCH_SET are ioctls of
+    type IOW(writing type) that have unsigned long as their
+    third argument, a case statement for "TYPE_ULONG" was added
+    in the appropriate place for function "abi_ulong do_ioctl"
+    in file "syscall.c". There were no implemented ioctls of
+    type IOW with unsigned long as third argument before this
+    patch, which is the reason why this case statement was added
+    now for the first time.
 
 Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 ---
- linux-user/ioctls.h       |  9 +++++++++
- linux-user/syscall.c      |  1 +
- linux-user/syscall_defs.h | 10 ++++++++++
- 3 files changed, 20 insertions(+)
+ linux-user/ioctls.h       | 4 ++++
+ linux-user/syscall.c      | 1 +
+ linux-user/syscall_defs.h | 4 ++++
+ 3 files changed, 9 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index c6b9d6a..97741c7 100644
+index f472794..accbdee 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -69,6 +69,15 @@
-      IOCTL(KDSETLED, 0, TYPE_INT)
-      IOCTL_SPECIAL(KDSIGACCEPT, 0, do_ioctl_kdsigaccept, TYPE_INT)
+@@ -81,6 +81,10 @@
+      IOCTL(RTC_ALM_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
+      IOCTL(RTC_RD_TIME, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
+      IOCTL(RTC_SET_TIME, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
++     IOCTL(RTC_IRQP_READ, IOC_R, MK_PTR(TYPE_ULONG))
++     IOCTL(RTC_IRQP_SET, IOC_W, TYPE_ULONG)
++     IOCTL(RTC_EPOCH_READ, IOC_R, MK_PTR(TYPE_ULONG))
++     IOCTL(RTC_EPOCH_SET, IOC_W, TYPE_ULONG)
 =20
-+     IOCTL(RTC_AIE_ON, 0, TYPE_NULL)
-+     IOCTL(RTC_AIE_OFF, 0, TYPE_NULL)
-+     IOCTL(RTC_UIE_ON, 0, TYPE_NULL)
-+     IOCTL(RTC_UIE_OFF, 0, TYPE_NULL)
-+     IOCTL(RTC_PIE_ON, 0, TYPE_NULL)
-+     IOCTL(RTC_PIE_OFF, 0, TYPE_NULL)
-+     IOCTL(RTC_WIE_ON, 0, TYPE_NULL)
-+     IOCTL(RTC_WIE_OFF, 0, TYPE_NULL)
-+
       IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
       IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
-      IOCTL(BLKRRPART, 0, TYPE_NULL)
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ce399a5..74c3c08 100644
+index 74c3c08..c0b7314 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -107,6 +107,7 @@
- #include <netpacket/packet.h>
- #include <linux/netlink.h>
- #include <linux/if_alg.h>
-+#include <linux/rtc.h>
- #include "linux_loop.h"
- #include "uname.h"
-=20
+@@ -5175,6 +5175,7 @@ static abi_long do_ioctl(int fd, int cmd, abi_long =
+arg)
+         break;
+     case TYPE_PTRVOID:
+     case TYPE_INT:
++    case TYPE_ULONG:
+         ret =3D get_errno(safe_ioctl(fd, ie->host_cmd, arg));
+         break;
+     case TYPE_PTR:
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 98c2119..f91579a 100644
+index f0bf09d..bbfa935 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -763,6 +763,16 @@ struct target_pollfd {
- #define TARGET_KDSETLED        0x4B32	/* set led state [lights, not flag=
-s] */
- #define TARGET_KDSIGACCEPT     0x4B4E
+@@ -776,6 +776,10 @@ struct target_pollfd {
+ #define TARGET_RTC_ALM_SET          TARGET_IOW('p', 0x07, struct rtc_tim=
+e)
+ #define TARGET_RTC_RD_TIME          TARGET_IOR('p', 0x09, struct rtc_tim=
+e)
+ #define TARGET_RTC_SET_TIME         TARGET_IOW('p', 0x0a, struct rtc_tim=
+e)
++#define TARGET_RTC_IRQP_READ        TARGET_IOR('p', 0x0b, abi_ulong)
++#define TARGET_RTC_IRQP_SET         TARGET_IOW('p', 0x0c, abi_ulong)
++#define TARGET_RTC_EPOCH_READ       TARGET_IOR('p', 0x0d, abi_ulong)
++#define TARGET_RTC_EPOCH_SET        TARGET_IOW('p', 0x0e, abi_ulong)
 =20
-+/* real time clock ioctls */
-+#define TARGET_RTC_AIE_ON           TARGET_IO('p', 0x01)
-+#define TARGET_RTC_AIE_OFF          TARGET_IO('p', 0x02)
-+#define TARGET_RTC_UIE_ON           TARGET_IO('p', 0x03)
-+#define TARGET_RTC_UIE_OFF          TARGET_IO('p', 0x04)
-+#define TARGET_RTC_PIE_ON           TARGET_IO('p', 0x05)
-+#define TARGET_RTC_PIE_OFF          TARGET_IO('p', 0x06)
-+#define TARGET_RTC_WIE_ON           TARGET_IO('p', 0x0f)
-+#define TARGET_RTC_WIE_OFF          TARGET_IO('p', 0x10)
-+
  #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4)=
  ||    \
         defined(TARGET_XTENSA)
- #define TARGET_FIOGETOWN       TARGET_IOR('f', 123, int)
 --=20
 2.7.4
 
