@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD1C13C94E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:28:02 +0100 (CET)
-Received: from localhost ([::1]:56762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5238B13C93E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:26:33 +0100 (CET)
+Received: from localhost ([::1]:56746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irlWO-0005jQ-Eo
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:27:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50095)
+	id 1irlV2-00043E-7V
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:26:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50206)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkLH-0001Td-NE
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:25 -0500
+ (envelope-from <imammedo@redhat.com>) id 1irkLW-0001xv-OW
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkLD-0000dd-UA
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26364
+ (envelope-from <imammedo@redhat.com>) id 1irkLV-0000l7-EB
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55335
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkLD-0000dM-P7
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:19 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkLV-0000kx-AD
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579101139;
+ s=mimecast20190719; t=1579101156;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9J6V0+dZnHG/tqOANrbge3o0jF7qLMaZyF2zdsZBpPs=;
- b=YKD+X1nt85WgDCIjm2AAhsWGgJCBloQratVD6BVx/CUL+DSA89dVr2XnpN8rlW0ZX2tSnl
- 1tM5iEqaCMybFIuzHvkoa8LNkvLUoz1uP3/IWGxC6cmkHmPyyuuckW2xPdj4BOq5mPWM1b
- 7fsjJDD4HEZqK1obeXyFoVsDkMBWnp0=
+ bh=U+lowBzoIY0dDCl+bQ5sJ8da8WshYhW4HCkTZVjSGac=;
+ b=jUpnqlZc2oNk4t9uloVcv5FMmOGN8jSZRNIO/YDzbqXcl82o7feraKhRHAMoQAKWYtCxTL
+ qSvb8yQL3pZHW4XRlg0+asXo0lEIhKz8FbUKfuUYt32PfNWHoKLAqcK8h4SqaJz/PBvara
+ 5/RacKxRzJuuATDNkXpkt6icodcZWmI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-m7JbU-Y3Mb2xrTb60-31xw-1; Wed, 15 Jan 2020 10:12:17 -0500
+ us-mta-285-gTSNLX0NN72C6BFnUslEOg-1; Wed, 15 Jan 2020 10:12:26 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C78321083E81;
- Wed, 15 Jan 2020 15:12:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C95218B641A
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:12:25 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C727619757;
- Wed, 15 Jan 2020 15:12:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 55D8E381;
+ Wed, 15 Jan 2020 15:12:24 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 81/86] hostmem: fix strict bind policy
-Date: Wed, 15 Jan 2020 16:07:36 +0100
-Message-Id: <1579100861-73692-82-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 83/86] tests:numa-test: make top level args dynamic and
+ g_autofree(cli) cleanups
+Date: Wed, 15 Jan 2020 16:07:38 +0100
+Message-Id: <1579100861-73692-84-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: m7JbU-Y3Mb2xrTb60-31xw-1
+X-MC-Unique: gTSNLX0NN72C6BFnUslEOg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,208 +71,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, ehabkost@redhat.com, rth@twiddle.net
+Cc: lvivier@redhat.com, thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When option -mem-prealloc is used with one or more memory-backend
-objects, created backends may not obey configured bind policy or
-creation may fail after kernel attempts to move pages according
-to bind policy.
-Reason is in file_ram_alloc(), which will pre-allocate
-any descriptor based RAM if global mem_prealloc !=3D 0 and that
-happens way before bind policy is applied to memory range.
+Use GString to pass argument to make_cli() so that it would be easy
+to dynamically change test case arguments from main(). The follow up
+patch will use it to change RAM size options depending on target.
 
-One way to fix it would be to extend memory_region_foo() API
-and add more invariants that could broken later due implicit
-dependencies that's hard to track.
-
-Another approach is to drop adhoc main RAM allocation and
-consolidate it around memory-backend. That allows to have
-single place that allocates guest RAM (main and memdev)
-in the same way and then global mem_prealloc could be
-replaced by backend's property[s] that will affect created
-memory-backend objects but only in correct order this time.
-
-With main RAM now converted to hostmem backends, there is no
-point in keeping global mem_prealloc around, so alias
- -mem-prealloc to "memory-backend.prealloc=3Don"
-machine compat[*] property and make mem_prealloc a local
-variable to only stir registration of compat property.
-
-*) currently user accessible -global works only with DEVICE
-   based objects and extra work is needed to make it work
-   with hostmem backends. But that is convenience option
-   and out of scope of this already huge refactoring.
-   Hence machine compat properties were used.
+While at it cleanup 'cli' freeing, using g_autofree annotation.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-CC: pbonzini@redhat.com
-CC: ehabkost@redhat.com
-CC: rth@twiddle.net
----
- include/sysemu/hostmem.h |  2 +-
- include/sysemu/sysemu.h  |  1 -
- backends/hostmem-file.c  |  1 -
- backends/hostmem-memfd.c |  1 -
- backends/hostmem.c       | 12 +-----------
- exec.c                   | 11 -----------
- vl.c                     |  3 ++-
- 7 files changed, 4 insertions(+), 27 deletions(-)
+PS:
+  made as a separate patch so it won't clutter followup testcase changes.
 
-diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
-index bdf8666..8276e53 100644
---- a/include/sysemu/hostmem.h
-+++ b/include/sysemu/hostmem.h
-@@ -70,7 +70,7 @@ struct HostMemoryBackend {
-     /* protected */
-     uint64_t size;
-     bool merge, dump, use_canonical_path;
--    bool prealloc, force_prealloc, is_mapped, share;
-+    bool prealloc, is_mapped, share;
-     uint32_t prealloc_threads;
-     DECLARE_BITMAP(host_nodes, MAX_NODES + 1);
-     HostMemPolicy policy;
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 8de9065..b72c773 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -53,7 +53,6 @@ extern uint8_t *boot_splash_filedata;
- extern bool enable_mlock;
- extern bool enable_cpu_pm;
- extern QEMUClockType rtc_clock;
--extern int mem_prealloc;
+CC: thuth@redhat.com
+CC: lvivier@redhat.com
+---
+ tests/qtest/numa-test.c | 38 ++++++++++++++------------------------
+ 1 file changed, 14 insertions(+), 24 deletions(-)
+
+diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
+index 17dd807..a696dfd 100644
+--- a/tests/qtest/numa-test.c
++++ b/tests/qtest/numa-test.c
+@@ -14,16 +14,16 @@
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qlist.h"
 =20
- #define MAX_OPTION_ROMS 16
- typedef struct QEMUOptionRom {
-diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
-index cb319a9..c8c355f 100644
---- a/backends/hostmem-file.c
-+++ b/backends/hostmem-file.c
-@@ -51,7 +51,6 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Err=
-or **errp)
-         return;
-     }
-=20
--    backend->force_prealloc =3D mem_prealloc;
-     name =3D host_memory_backend_get_name(backend);
-     memory_region_init_ram_from_file(&backend->mr, OBJECT(backend),
-                                      name,
-diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
-index 26070b4..74ba987 100644
---- a/backends/hostmem-memfd.c
-+++ b/backends/hostmem-memfd.c
-@@ -45,7 +45,6 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Er=
-ror **errp)
-         return;
-     }
-=20
--    backend->force_prealloc =3D mem_prealloc;
-     fd =3D qemu_memfd_create(TYPE_MEMORY_BACKEND_MEMFD, backend->size,
-                            m->hugetlb, m->hugetlbsize, m->seal ?
-                            F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL : 0,
-diff --git a/backends/hostmem.c b/backends/hostmem.c
-index 4c23c77..1f09ade 100644
---- a/backends/hostmem.c
-+++ b/backends/hostmem.c
-@@ -215,7 +215,7 @@ static bool host_memory_backend_get_prealloc(Object *ob=
-j, Error **errp)
+-static char *make_cli(const char *generic_cli, const char *test_cli)
++static char *make_cli(const GString *generic_cli, const char *test_cli)
  {
-     HostMemoryBackend *backend =3D MEMORY_BACKEND(obj);
-=20
--    return backend->prealloc || backend->force_prealloc;
-+    return backend->prealloc;
+-    return g_strdup_printf("%s %s", generic_cli ? generic_cli : "", test_c=
+li);
++    return g_strdup_printf("%s %s", generic_cli->str, test_cli);
  }
 =20
- static void host_memory_backend_set_prealloc(Object *obj, bool value,
-@@ -224,14 +224,6 @@ static void host_memory_backend_set_prealloc(Object *o=
-bj, bool value,
-     Error *local_err =3D NULL;
-     HostMemoryBackend *backend =3D MEMORY_BACKEND(obj);
-=20
--    if (backend->force_prealloc) {
--        if (value) {
--            error_setg(errp,
--                       "remove -mem-prealloc to use the prealloc property"=
-);
--            return;
--        }
--    }
--
-     if (!host_memory_backend_mr_inited(backend)) {
-         backend->prealloc =3D value;
-         return;
-@@ -288,8 +280,6 @@ static void host_memory_backend_init(Object *obj)
-     /* TODO: convert this compat properties */
-     backend->merge =3D machine_mem_merge(machine);
-     backend->dump =3D machine_dump_guest_core(machine);
--    backend->prealloc =3D mem_prealloc;
--    backend->prealloc_threads =3D 1;
- }
-=20
- static void host_memory_backend_post_init(Object *obj)
-diff --git a/exec.c b/exec.c
-index d0a7e7e..cbe5bc5 100644
---- a/exec.c
-+++ b/exec.c
-@@ -1802,8 +1802,6 @@ static void *file_ram_alloc(RAMBlock *block,
-                             bool truncate,
-                             Error **errp)
+ static void test_mon_explicit(const void *data)
  {
--    Error *err =3D NULL;
--    MachineState *ms =3D MACHINE(qdev_get_machine());
-     void *area;
+-    char *s;
+-    char *cli;
+     QTestState *qts;
++    g_autofree char *s =3D NULL;
++    g_autofree char *cli =3D NULL;
 =20
-     block->page_size =3D qemu_fd_getpagesize(fd);
-@@ -1859,15 +1857,6 @@ static void *file_ram_alloc(RAMBlock *block,
-         return NULL;
+     cli =3D make_cli(data, "-smp 8 "
+                    "-numa node,nodeid=3D0,cpus=3D0-3 "
+@@ -33,17 +33,15 @@ static void test_mon_explicit(const void *data)
+     s =3D qtest_hmp(qts, "info numa");
+     g_assert(strstr(s, "node 0 cpus: 0 1 2 3"));
+     g_assert(strstr(s, "node 1 cpus: 4 5 6 7"));
+-    g_free(s);
+=20
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static void test_mon_default(const void *data)
+ {
+-    char *s;
+-    char *cli;
+     QTestState *qts;
++    g_autofree char *s =3D NULL;
++    g_autofree char *cli =3D NULL;
+=20
+     cli =3D make_cli(data, "-smp 8 -numa node -numa node");
+     qts =3D qtest_init(cli);
+@@ -51,17 +49,15 @@ static void test_mon_default(const void *data)
+     s =3D qtest_hmp(qts, "info numa");
+     g_assert(strstr(s, "node 0 cpus: 0 2 4 6"));
+     g_assert(strstr(s, "node 1 cpus: 1 3 5 7"));
+-    g_free(s);
+=20
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static void test_mon_partial(const void *data)
+ {
+-    char *s;
+-    char *cli;
+     QTestState *qts;
++    g_autofree char *s =3D NULL;
++    g_autofree char *cli =3D NULL;
+=20
+     cli =3D make_cli(data, "-smp 8 "
+                    "-numa node,nodeid=3D0,cpus=3D0-1 "
+@@ -71,10 +67,8 @@ static void test_mon_partial(const void *data)
+     s =3D qtest_hmp(qts, "info numa");
+     g_assert(strstr(s, "node 0 cpus: 0 1 2 3 6 7"));
+     g_assert(strstr(s, "node 1 cpus: 4 5"));
+-    g_free(s);
+=20
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static QList *get_cpus(QTestState *qts, QDict **resp)
+@@ -87,11 +81,11 @@ static QList *get_cpus(QTestState *qts, QDict **resp)
+=20
+ static void test_query_cpus(const void *data)
+ {
+-    char *cli;
+     QDict *resp;
+     QList *cpus;
+     QObject *e;
+     QTestState *qts;
++    g_autofree char *cli =3D NULL;
+=20
+     cli =3D make_cli(data, "-smp 8 -numa node,cpus=3D0-3 -numa node,cpus=
+=3D4-7");
+     qts =3D qtest_init(cli);
+@@ -120,16 +114,15 @@ static void test_query_cpus(const void *data)
+=20
+     qobject_unref(resp);
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static void pc_numa_cpu(const void *data)
+ {
+-    char *cli;
+     QDict *resp;
+     QList *cpus;
+     QObject *e;
+     QTestState *qts;
++    g_autofree char *cli =3D NULL;
+=20
+     cli =3D make_cli(data, "-cpu pentium -smp 8,sockets=3D2,cores=3D2,thre=
+ads=3D2 "
+         "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
+@@ -174,16 +167,15 @@ static void pc_numa_cpu(const void *data)
+=20
+     qobject_unref(resp);
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static void spapr_numa_cpu(const void *data)
+ {
+-    char *cli;
+     QDict *resp;
+     QList *cpus;
+     QObject *e;
+     QTestState *qts;
++    g_autofree char *cli =3D NULL;
+=20
+     cli =3D make_cli(data, "-smp 4,cores=3D4 "
+         "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
+@@ -220,16 +212,15 @@ static void spapr_numa_cpu(const void *data)
+=20
+     qobject_unref(resp);
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static void aarch64_numa_cpu(const void *data)
+ {
+-    char *cli;
+     QDict *resp;
+     QList *cpus;
+     QObject *e;
+     QTestState *qts;
++    g_autofree char *cli =3D NULL;
+=20
+     cli =3D make_cli(data, "-smp 2 "
+         "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
+@@ -264,7 +255,6 @@ static void aarch64_numa_cpu(const void *data)
+=20
+     qobject_unref(resp);
+     qtest_quit(qts);
+-    g_free(cli);
+ }
+=20
+ static void pc_dynamic_cpu_cfg(const void *data)
+@@ -539,11 +529,11 @@ static void pc_hmat_erange_cfg(const void *data)
+=20
+ int main(int argc, char **argv)
+ {
+-    const char *args =3D NULL;
++    g_autoptr(GString) args =3D g_string_new("");
+     const char *arch =3D qtest_get_arch();
+=20
+     if (strcmp(arch, "aarch64") =3D=3D 0) {
+-        args =3D "-machine virt";
++        g_string_append(args, " -machine virt");
      }
 =20
--    if (mem_prealloc) {
--        os_mem_prealloc(fd, area, memory, ms->smp.cpus, &err);
--        if (err) {
--            error_propagate(errp, err);
--            qemu_ram_munmap(fd, area, memory);
--            return NULL;
--        }
--    }
--
-     block->fd =3D fd;
-     return area;
- }
-diff --git a/vl.c b/vl.c
-index 39d78a9..781930e 100644
---- a/vl.c
-+++ b/vl.c
-@@ -140,7 +140,6 @@ enum vga_retrace_method vga_retrace_method =3D VGA_RETR=
-ACE_DUMB;
- int display_opengl;
- const char* keyboard_layout =3D NULL;
- ram_addr_t ram_size;
--int mem_prealloc =3D 0; /* force preallocation of physical target memory *=
-/
- bool enable_mlock =3D false;
- bool enable_cpu_pm =3D false;
- int nb_nics;
-@@ -2874,6 +2873,7 @@ int main(int argc, char **argv, char **envp)
-     const char *mem_path =3D NULL;
-     BlockdevOptionsQueue bdo_queue =3D QSIMPLEQ_HEAD_INITIALIZER(bdo_queue=
-);
-     QemuPluginList plugin_list =3D QTAILQ_HEAD_INITIALIZER(plugin_list);
-+    int mem_prealloc =3D 0; /* force preallocation of physical target memo=
-ry */
-=20
-     os_set_line_buffering();
-=20
-@@ -3974,6 +3974,7 @@ int main(int argc, char **argv, char **envp)
-     if (mem_prealloc) {
-         static GlobalProperty p[] =3D {
-             {"memory-backend", "prealloc-threads", NULL},
-+            {"memory-backend", "prealloc", "on"},
-         };
-=20
-         p[0].value =3D g_strdup_printf("%d", current_machine->smp.cpus);
+     g_test_init(&argc, &argv, NULL);
 --=20
 2.7.4
 
