@@ -2,65 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619C313C9C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:41:43 +0100 (CET)
-Received: from localhost ([::1]:56965 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0064213C9E1
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:44:36 +0100 (CET)
+Received: from localhost ([::1]:57004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irlji-0000hl-1Y
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:41:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36986)
+	id 1irlmU-0004Uf-QE
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:44:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37545)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irlhp-0007Qk-45
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:39:48 -0500
+ (envelope-from <no-reply@patchew.org>) id 1irlkm-0002wp-KN
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:42:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irlhl-00074L-7J
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:39:45 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31373
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irlhl-000742-3J
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:39:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579106380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hJ4Z5YRPzkg1zPbSaw71a/0MWwD5LEv3ibRX91MX2wI=;
- b=OQCMkYdRP0KhFGWcLcBqASHWmXpGcQmrsK7ji9AXRNuVmy2YbxjR6cmONWFahENPs7ZVM5
- hC0QWF/Li267SnAy8l2W6/dznXx8HpZSqVj6+hS0FeAQWMOkCusr1UHc2M3tBsiM9XhYw8
- 96FIVqoEmKmb4aNG8WfAKDkYI7uZ5lE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-OF9kuqtUOWWN6sxjP1yDPQ-1; Wed, 15 Jan 2020 11:39:38 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1534919586C7
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 16:39:38 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D5DB5DDAA;
- Wed, 15 Jan 2020 16:39:37 +0000 (UTC)
-Date: Wed, 15 Jan 2020 17:39:35 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 02/86] machine: introduce ram-memdev property
-Message-ID: <20200115173935.0a527c9a@redhat.com>
-In-Reply-To: <80dae4c8-a902-4f9e-9878-95b69f9390df@redhat.com>
-References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-3-git-send-email-imammedo@redhat.com>
- <80dae4c8-a902-4f9e-9878-95b69f9390df@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1irlki-00005t-QD
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:42:48 -0500
+Resent-Date: Wed, 15 Jan 2020 11:42:48 -0500
+Resent-Message-Id: <E1irlki-00005t-QD@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21176)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1irlki-00004s-Id
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:42:44 -0500
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1579106555404743.3051766154573;
+ Wed, 15 Jan 2020 08:42:35 -0800 (PST)
+In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+Subject: Re: [PATCH v2 00/86] refactor main RAM allocation to use hostmem
+ backend
+Message-ID: <157910655419.7467.10684433461943845070@37313f22b938>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: OF9kuqtUOWWN6sxjP1yDPQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: imammedo@redhat.com
+Date: Wed, 15 Jan 2020 08:42:35 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,35 +52,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, ehabkost@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Jan 2020 16:56:30 +0100
-Paolo Bonzini <pbonzini@redhat.com> wrote:
-
-> On 15/01/20 16:06, Igor Mammedov wrote:
-> >  
-> > +    object_property_add_link(obj, "ram-memdev", TYPE_MEMORY_BACKEND,
-> > +                             (Object **)&ms->ram_memdev,
-> > +                             object_property_allow_set_link,
-> > +                             OBJ_PROP_LINK_STRONG, &error_abort);
-> > +    object_property_set_description(obj, "ram-memdev",
-> > +                                    "Set RAM backend"
-> > +                                    "Valid value is ID of hostmem based backend",
-> > +                                     &error_abort);
-> > +  
-> 
-> Obligatory bikeshedding, why not just ram (the MachineState field can
-> remain "ram_memdev").  Or memory-backend matching the QOM type names.
-
-I'd say it was inspired by "-numa node,memdev" option for some sort of consistency.
-But I'm fine with any other name as far as there is consensus.
-If I had to choose between 'ram' and 'memory-backend', I'd go for the later.
-
-
-> 
-> Paolo
-> 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTc5MTAwODYxLTczNjkyLTEt
+Z2l0LXNlbmQtZW1haWwtaW1hbW1lZG9AcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBm
+YWlsZWQgdGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRo
+ZSB0ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERv
+Y2tlciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9
+PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNl
+bnRvczcgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBT
+SE9XX0VOVj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIFRFU1Qg
+ICAgaW90ZXN0LXFjb3cyOiAyMTcKc29ja2V0X2FjY2VwdCBmYWlsZWQ6IFJlc291cmNlIHRlbXBv
+cmFyaWx5IHVuYXZhaWxhYmxlCioqCkVSUk9SOi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9xdGVz
+dC9saWJxdGVzdC5jOjI3MjpxdGVzdF9pbml0X3dpdGhvdXRfcW1wX2hhbmRzaGFrZTogYXNzZXJ0
+aW9uIGZhaWxlZDogKHMtPmZkID49IDAgJiYgcy0+cW1wX2ZkID49IDApCi90bXAvcWVtdS10ZXN0
+L3NyYy90ZXN0cy9xdGVzdC9saWJxdGVzdC5jOjE0MDoga2lsbF9xZW11KCkgdHJpZWQgdG8gdGVy
+bWluYXRlIFFFTVUgcHJvY2VzcyBidXQgZW5jb3VudGVyZWQgZXhpdCBzdGF0dXMgMSAoZXhwZWN0
+ZWQgMCkKRVJST1IgLSBCYWlsIG91dCEgRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3F0
+ZXN0L2xpYnF0ZXN0LmM6MjcyOnF0ZXN0X2luaXRfd2l0aG91dF9xbXBfaGFuZHNoYWtlOiBhc3Nl
+cnRpb24gZmFpbGVkOiAocy0+ZmQgPj0gMCAmJiBzLT5xbXBfZmQgPj0gMCkKbWFrZTogKioqIFtj
+aGVjay1xdGVzdC14ODZfNjRdIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNo
+ZWQgam9icy4uLi4KICBURVNUICAgIGNoZWNrLXF0ZXN0LWFhcmNoNjQ6IHRlc3RzL3F0ZXN0L3Rl
+c3QtaG1wCiAgVEVTVCAgICBpb3Rlc3QtcWNvdzI6IDIyMAotLS0KICAgIHJhaXNlIENhbGxlZFBy
+b2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBD
+b21tYW5kICdbJ3N1ZG8nLCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5x
+ZW11Lmluc3RhbmNlLnV1aWQ9MTJjOWRkOTM1OTM0NDkwZWFmYWQ5NDNiYTAyMzYyMjYnLCAnLXUn
+LCAnMTAwMycsICctLXNlY3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScs
+ICctZScsICdUQVJHRVRfTElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1l
+JywgJ1Y9JywgJy1lJywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPTEn
+LCAnLWUnLCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hl
+dzIvLmNhY2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcv
+dmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtcjdieTBrczMvc3JjL2RvY2tlci1zcmMuMjAyMC0w
+MS0xNS0xMS4zMC4zMi4yMzk4MDovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpjZW50b3M3Jywg
+Jy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhp
+dCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9
+MTJjOWRkOTM1OTM0NDkwZWFmYWQ5NDNiYTAyMzYyMjYKbWFrZVsxXTogKioqIFtkb2NrZXItcnVu
+XSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRl
+c3Rlci10bXAtcjdieTBrczMvc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0Bj
+ZW50b3M3XSBFcnJvciAyCgpyZWFsICAgIDEybTEuNTIxcwp1c2VyICAgIDBtOC44MjJzCgoKVGhl
+IGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8xNTc5MTAw
+ODYxLTczNjkyLTEtZ2l0LXNlbmQtZW1haWwtaW1hbW1lZG9AcmVkaGF0LmNvbS90ZXN0aW5nLmRv
+Y2tlci1xdWlja0BjZW50b3M3Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0
+b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5k
+IHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
 
