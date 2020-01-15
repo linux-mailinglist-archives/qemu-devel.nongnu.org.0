@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E2C13C26E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 14:17:19 +0100 (CET)
-Received: from localhost ([::1]:53944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01EEC13C33B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 14:33:24 +0100 (CET)
+Received: from localhost ([::1]:54214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iriXu-0007OB-Dj
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 08:17:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55393)
+	id 1irinS-0000bk-Ot
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 08:33:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58068)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1iriWn-0006in-N5
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 08:16:10 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1irimT-0008Fv-2Q
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 08:32:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1iriWk-0007hd-Pd
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 08:16:08 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57579
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1iriWk-0007h1-La
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 08:16:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579094166;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uIjkDaB3m7Drix+JBb+7JSwNjXSmbcxRKCoudm3wKO4=;
- b=dptgOzXi0v3jt3xaWIIPI0IiqAWGTlC/aipl45KUPCEgYLw2UuO07iJmFZNn/FTzulhHLx
- TgaxsZTgwjd1etMpmhn518dy81onZw4750spp/yOPhu2ct8nU3mJepJM4tUkhoreaJNT5L
- nwTxixu7xo/FivrjpdHS0G51/AER93A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-2-s1A1z0NKaelmA28kmn-Q-1; Wed, 15 Jan 2020 08:16:05 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75CED800D4C;
- Wed, 15 Jan 2020 13:16:03 +0000 (UTC)
-Received: from [10.36.117.108] (ovpn-117-108.ams2.redhat.com [10.36.117.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E71580890;
- Wed, 15 Jan 2020 13:15:55 +0000 (UTC)
-Subject: Re: [PATCH v12 05/13] virtio-iommu: Endpoint and domains structs and
- helpers
-To: Peter Xu <peterx@redhat.com>
-References: <20200109144319.15912-1-eric.auger@redhat.com>
- <20200109144319.15912-6-eric.auger@redhat.com>
- <20200113202301.GD201624@xz-x1>
- <51267d84-c805-a4a1-8084-b278721a5b3f@redhat.com>
- <20200114180734.GB225163@xz-x1>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <cc2d028f-70ee-b6b1-0603-9bcff3249f43@redhat.com>
-Date: Wed, 15 Jan 2020 14:15:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <peter.maydell@linaro.org>) id 1irimQ-0002Mq-Os
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 08:32:20 -0500
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:33602)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1irimQ-0002LG-IJ
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 08:32:18 -0500
+Received: by mail-ot1-x32e.google.com with SMTP id b18so16115891otp.0
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 05:32:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/qC7LfI0GU9GYF/RzGSxqWfl63MVN3CJgjG7Md3SD2k=;
+ b=fB62mJUGIxCLCfDTEFnx3mFz9+0c/4Ved8CRsFunCjbUcn8PF6iQjeEvN7awubxuYg
+ 3JGDhZAt9ogdv2zcAMQIM8DZCLM3hwkOUiGQREDb8dR8t4pb6j74XJH5rU03Fihw/VYT
+ 0TFoqQfgrcCgEzaPa0+kh0nChlzyb6bn9Xto7kkYT2bK04kxljKuC9NwPqD+EBDDUvNl
+ mSc6h+exTEgTh/Y8E3wMRshOVSfRR4ghCafDAX7Eh9C/gZovYcBWK2VjvYaLOR2fVWaN
+ HKXwDner1+GQB1GlN+rkP8L81A/nGp4pdr6dhZBb/W0mvTOVaClbx0l0VgwqjgBirxk/
+ VWaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/qC7LfI0GU9GYF/RzGSxqWfl63MVN3CJgjG7Md3SD2k=;
+ b=UGJ8JjbuFU161yR8QegAlwKVm+cS4WXIQauYlMm9BU2WXunCIXABicai7BROKus91X
+ xFhYvq73rCAzPmWTN+hrds0ySMMtiU9gKNtMxpJ7JLTSwmqxxWG8rEvl2uF43f1+KwXk
+ 4rZ9WOjYStkek8Qd8n1lKMyoe4sU60qcNPXYbscX+wSdcc3PwiLG90OZAQS9pcNMXsH1
+ +iFQTtl2OnZKaauE+OmPygbQJ11TUiDO8g7pU+9kNVLSYYA6fR0qwOYzBZlMIRtHfAXV
+ zqcC7JKwbPTV5SUNMfPVh99WyfDfQZfaZ548Y9G2ee5rDx9V8ipJADrEX5rUob/gV6Ti
+ dPfg==
+X-Gm-Message-State: APjAAAU7eGn8Y6Sv2vL4ajqkdGQ0KtqU//Qo9xWmm8N9dPA/sW9TEgLE
+ S6jXUfaszXlsp/6wX0ljeCjrpc9XZ5HIvvQO+S3xAw==
+X-Google-Smtp-Source: APXvYqwjaV3uaYdFtLb1OmV40Z+tpi2faV9rWGGcgVvlfd6pscpJAFJs1+9uHWSX6hp8dXNGwT7GrxvUTXij8qaGFrw=
+X-Received: by 2002:a05:6830:184:: with SMTP id
+ q4mr2782901ota.232.1579095136812; 
+ Wed, 15 Jan 2020 05:32:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200114180734.GB225163@xz-x1>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 2-s1A1z0NKaelmA28kmn-Q-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <11d88b2741eac3f634d5aed9e3355c974b533f7b.camel@kernel.crashing.org>
+ <CAFEAcA-A_caQgwi5DzExdZChoTg-Qa73hq7Ho7dPLiN633Yj1Q@mail.gmail.com>
+ <3ab2ca1f7a9b37b201a58f3a817edc5193e8b1f4.camel@kernel.crashing.org>
+In-Reply-To: <3ab2ca1f7a9b37b201a58f3a817edc5193e8b1f4.camel@kernel.crashing.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 15 Jan 2020 13:32:05 +0000
+Message-ID: <CAFEAcA8mphBky9Q2HTdOpQHiizd+5-o=yRnBbd_k1y6Uk-h8dA@mail.gmail.com>
+Subject: Re: Semihosting, arm, riscv, ppc and common code
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,73 +74,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, kevin.tian@intel.com, tnowicki@marvell.com,
- jean-philippe@linaro.org, quintela@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
- mst@redhat.com, eric.auger.pro@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Keith Packard <keithp@keithp.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-On 1/14/20 7:07 PM, Peter Xu wrote:
-> On Tue, Jan 14, 2020 at 09:51:59AM +0100, Auger Eric wrote:
->> Hi Peter,
-> 
-> Hi, Eric,
-> 
-> [...]
-> 
->>>
->>>> +{
->>>> +    VirtIOIOMMUEndpoint *ep;
->>>> +
->>>> +    ep = g_tree_lookup(s->endpoints, GUINT_TO_POINTER(ep_id));
->>>> +    if (ep) {
->>>> +        return ep;
->>>> +    }
->>>> +    if (!virtio_iommu_mr(s, ep_id)) {
->>>
->>> Could I ask when this will trigger?
->>
->> This can happen when a device is attached to a domain and its RID does
->> not correspond to one of the devices protected by the iommu.
-> 
-> So will it happen only because of a kernel driver bug?
-> 
-> Also, I think the name of "virtio_iommu_mr" is confusing on that it
-> returned explicitly a MemoryRegion however it's never been used:
-> 
-> (since they're not in the same patch I'm pasting)
-> 
-> static IOMMUMemoryRegion *virtio_iommu_mr(VirtIOIOMMU *s, uint32_t sid)
-> {
->     uint8_t bus_n, devfn;
->     IOMMUPciBus *iommu_pci_bus;
->     IOMMUDevice *dev;
-> 
->     bus_n = PCI_BUS_NUM(sid);
->     iommu_pci_bus = iommu_find_iommu_pcibus(s, bus_n);
->     if (iommu_pci_bus) {
->         devfn = sid & 0xFF;
->         dev = iommu_pci_bus->pbdev[devfn];
->         if (dev) {
->             return &dev->iommu_mr;
->         }
->     }
->     return NULL;
-> }
-> 
-> Maybe "return !!dev" would be enough, then make the return a boolean?
-> Then we can rename it to virtio_iommu_has_device().
-> 
-> PS. I think we can also drop IOMMU_PCI_DEVFN_MAX (after all you even
-> didn't use it here!) and use PCI_DEVFN_MAX, and replace 0xFF.
-Oh yes I can use PCI_DEVFN_MAX directly. Sorry.
+On Wed, 15 Jan 2020 at 01:17, Benjamin Herrenschmidt
+<benh@kernel.crashing.org> wrote:
+> On Tue, 2020-01-14 at 09:59 +0000, Peter Maydell wrote:
+> > Note that semihosting is not a "here's a handy QEMU feature"
+> > thing. It's an architecture-specific API and ABI, which should
+> > be defined somewhere in a standard external to QEMU.
+>
+> There is no such standard for powerpc today that I know of.
 
-Eric
+So you need to write one down somewhere. You're proposing
+an ABI which will be implemented by multiple implementors
+and used by multiple consumers. That needs a spec, not
+just code. I don't want to see more semihosting implementations
+added to QEMU that don't have a specification written
+down somewhere.
 
-> 
-> Thanks,
-> 
+The riscv single paragraph in their arch spec that vaguely
+says "works like arm semihosting" is not sufficient detail, incidentally.
 
+> Keith and I are somewhat of a different mind here. From the perspective
+> of the user of that API (picolibc is one), it's easier to deal with a
+> single one and have everybody inherit the same bugs.
+>
+> Now I understand the point of wanting to fix the mistakes made but I
+> would suggest we do so by proposing extensions to the existing one to
+> do so.
+
+The point about the mistakes is that you can't easily fix
+them by adding extensions, because the core of the biggest
+mistake is "we didn't provide a good way to allow extensions to
+be added and probed for by the user". So we had to implement
+an ugly and hard to implement mechanism instead. New
+architectures could mandate providing the good way from the start
+and avoid the painful-to-implement approach entirely.
+(I think RISCV has already missed this window of opportunity,
+which is a shame.)
+
+thanks
+-- PMM
 
