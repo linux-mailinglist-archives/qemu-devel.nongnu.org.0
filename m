@@ -2,69 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D2E13C25F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 14:14:09 +0100 (CET)
-Received: from localhost ([::1]:53898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6165813C282
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 14:21:48 +0100 (CET)
+Received: from localhost ([::1]:53970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iriUq-0004vO-DZ
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 08:14:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55058)
+	id 1iricE-0001N9-BL
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 08:21:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55323)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1iriTK-0003nr-Lh
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 08:12:36 -0500
+ (envelope-from <n54@gmx.com>) id 1iriWM-0006P7-AE
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 08:15:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1iriTJ-00059N-5b
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 08:12:34 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52620
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1iriTI-00058o-VV
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 08:12:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579093952;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lRtlBIlRG22NDwjLZS+xtBq4H5JjBkREdqV9c7G0F38=;
- b=V3RfF1HQjdhqDeg3YgJqux/JWIJui36bXAc4mKg4ZcfVoylcCJg1TS103XoqEJFlr8uhIr
- vNCAnSrIfTP/1rEjVGsuBkXZhKU5YjiaOS9uR/tPdvBD78ftPfMqoBsHZUb3/BcC8ojraV
- g6WVHLjq+Ik3ga8RJrMHhJJUVgHPQlI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-2edH_nM6P_ijDOsgfgn3TQ-1; Wed, 15 Jan 2020 08:12:31 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9C2D10CE786;
- Wed, 15 Jan 2020 13:12:29 +0000 (UTC)
-Received: from [10.36.117.108] (ovpn-117-108.ams2.redhat.com [10.36.117.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D475E5D9C5;
- Wed, 15 Jan 2020 13:12:21 +0000 (UTC)
-Subject: Re: [PATCH v12 09/13] virtio-iommu: Implement fault reporting
-To: Peter Xu <peterx@redhat.com>
-References: <20200109144319.15912-1-eric.auger@redhat.com>
- <20200109144319.15912-10-eric.auger@redhat.com>
- <20200114190433.GE225163@xz-x1>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <2a060fcf-f9d6-c6bf-d444-018df532e475@redhat.com>
-Date: Wed, 15 Jan 2020 14:12:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <n54@gmx.com>) id 1iriWI-0007JC-5r
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 08:15:42 -0500
+Received: from mout.gmx.net ([212.227.15.15]:52633)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <n54@gmx.com>) id 1iriWH-0007Hi-NT
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 08:15:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1579094131;
+ bh=7rMloQxfTONr+Ip7fDqtWzl7kWYk2nEhEz2lY1Zas0Y=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=HXxC8Zl0BHCN5vN0/ugAzykzQvxE4qfo+Nbw+WF/sqVjPSp92J66flabdlWOM9qgo
+ rD5bOdd5J9G1H2f28qewfgy5SMgQBQSLkr7LmTi3ETCoXjirkT8pQOwuUUvl/gNYA4
+ lK1nLtF1FwQC6NwCrD1XEzd2BD/K3RbBmah/Q1Kg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.0.241] ([89.71.135.231]) by mail.gmx.com (mrgmx004
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MbRk3-1jOaUt3rz7-00boMj; Wed, 15
+ Jan 2020 14:15:31 +0100
+Subject: Re: [PATCH 0/4] Implements the NetBSD Virtual Machine Monitor
+ accelerator
+To: qemu-devel@nongnu.org
+References: <20200107125401.18126-1-n54@gmx.com>
+From: Kamil Rytarowski <n54@gmx.com>
+Autocrypt: addr=n54@gmx.com; prefer-encrypt=mutual; keydata=
+ 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
+ 4XSbcg==
+Message-ID: <7f786d62-fafb-13d1-df1a-5a706ad4a665@gmx.com>
+Date: Wed, 15 Jan 2020 14:14:52 +0100
+User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-In-Reply-To: <20200114190433.GE225163@xz-x1>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 2edH_nM6P_ijDOsgfgn3TQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200107125401.18126-1-n54@gmx.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="mNeOW42JNWQ2LtO10nkaeGvEfP4x72ccP"
+X-Provags-ID: V03:K1:LbwdgvYkgTPRWDSQ2EGZjNw8yIOm4fFQFL71gQZg+o+Oo1mruT7
+ GQKbevm7vRVy+I/aw8jbwobdPAwZPY1Qa8hSFo80W/xOC9kukwomrRjCBjxkxHKkR8jliWI
+ xVUrj26U91iyXPffgGqY03rXGPQ1EVfs3VHX6gR7BgHM3KN2EuRocWzxYbrTsqWrlYzDWl3
+ 2e01ipLwe92USGexJhuNQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Twex7BnEvo8=:8pZSILnu+jmTuFnRf/hZnR
+ HTVM/68VTTTK1z3F5++AXelinAYkwwZV+u/pt0RU68wsBl6Wq0sbtammx+5VsqojePpUldhz5
+ /gJiXd8zkljcWRnLlPo694Rw6asV0+ARb/b+HHCnF/ey6/LTqUdO75OlojjRCVGUJM0CAW79Q
+ ZN2ySulK91kcgGqegxZPAMY9lrnwDozbhQz+IXaTIqG7nfprnKgbysfrq19eYrC2m+KRD7xm0
+ jEk2ZteE2UaIbVmaoJ4YOkuKJjf8jZimUqMwrGIv6D7b/btdMCpGlp7xkf7xBDRG3QBsdwKSL
+ lIa2T0vN2kntkjwWNq+WlCcsvfau6pXklwTEkxCVbWoddFRiFg1sy+Db84obU2jeD+eQZo7JL
+ QoAPjNJYEnRQ5HwPoMswgeW06K1DEEUb/TtU3WRFztC8c24koDZSjQt2KxNjzc/1XecaLkWhb
+ yFiGqIxQ/9kTWMAXP6fF3S7RGwgc1rFQtvTzgWoPDgK8TPXVQrmQ41DRc129TtqRBQ9xjZ0cd
+ nUahMuEp55d9U75cG/ae36EbonaThBfhIoTqp36xeFd+F4mZYmyJg++L8DYFZ0AN6KoYOMRYI
+ 5JkbpEhF+ZIDUEZHCHIzBDi+yUJjUEYyVvrVrHaRLbEldPYcAFTZbdf2RN7bv5zCF2nErYQHU
+ h1diPMaT9ShE24DTF8mrfUezt93YCzWXCkE6wGlYKwZ90YncghVczq24yd3pTyIEMyUpO1uuu
+ dLktqGuXnr4PhG9mHEsGbYH3tp37pRmuz74h5jY+n0kVjynZ0Q0j5+oygkK3gLjtbC1fesWlL
+ HuIwgiE1+mrIYV2Uid2foLx3/Z1svqYI3dCuG31kRfVTO7TGl1X6wYHsYt2UhnwEAH2uIaEPY
+ drRK9pnRmvrZykXpWLLNV5PozAxzxt2XcnTOhS19aJtK/PnI0LVUXvA8y1bSvyfPnCxeJ1eA0
+ +hslRnSzXV8SToOMvebRcNpsu50c/8nJ1PJhSpqrYbDepukdAJH477btIqrRh9xduFq1IWJhy
+ HwsFkdiILEXjcNaf9q2GuosWUJLk0Ev8nOUHKgoXK93MYvq/cytMfXRVlT1QfDLnwYv2l2nMx
+ 4jigUQfbrwnEP7lCcYGw714T1ETZIZdAf9ci5choAbSSoEYGEBf8CXAK0Tq/+MseBu4wJJ38y
+ arpj0hJOI3UdkND1PZMp1HKjnfF2GWjHSZjjKmsAxYXRS35xoYFxhLRyHiEKbRFAbHv8krrSF
+ EqvLSdgUfoHCNTLya6HTbalBk7H7vKsVwHjm1Vw==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 212.227.15.15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,185 +125,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, kevin.tian@intel.com, tnowicki@marvell.com,
- jean-philippe@linaro.org, quintela@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
- mst@redhat.com, eric.auger.pro@gmail.com
+Cc: pbonzini@redhat.com, Maxime Villard <maxv@netbsd.org>,
+ peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--mNeOW42JNWQ2LtO10nkaeGvEfP4x72ccP
+Content-Type: multipart/mixed; boundary="Fyzsk3iBQaJjsaYL9TmDoGO98BRwRhvH5";
+ protected-headers="v1"
+From: Kamil Rytarowski <n54@gmx.com>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, peter.maydell@linaro.org,
+ Maxime Villard <maxv@netbsd.org>
+Message-ID: <7f786d62-fafb-13d1-df1a-5a706ad4a665@gmx.com>
+Subject: Re: [PATCH 0/4] Implements the NetBSD Virtual Machine Monitor
+ accelerator
+References: <20200107125401.18126-1-n54@gmx.com>
+In-Reply-To: <20200107125401.18126-1-n54@gmx.com>
 
-On 1/14/20 8:04 PM, Peter Xu wrote:
-> On Thu, Jan 09, 2020 at 03:43:15PM +0100, Eric Auger wrote:
->> The event queue allows to report asynchronous errors.
->> The translate function now injects faults when relevant.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>
->> ---
->>
->> v11 -> v12:
->> - reporting the addr associated with the fault and set the
->>   VIRTIO_IOMMU_FAULT_F_ADDRESS flag.
->> - added cpu_to_le<n>
->>
->> v10 -> v11:
->> - change a virtio_error into an error_report_once
->>   (no buffer available for output faults)
->> ---
->>  hw/virtio/trace-events   |  1 +
->>  hw/virtio/virtio-iommu.c | 73 +++++++++++++++++++++++++++++++++++++---
->>  2 files changed, 69 insertions(+), 5 deletions(-)
->>
->> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
->> index 095aa8b509..e83500bee9 100644
->> --- a/hw/virtio/trace-events
->> +++ b/hw/virtio/trace-events
->> @@ -72,3 +72,4 @@ virtio_iommu_put_endpoint(uint32_t ep_id) "Free endpoint=%d"
->>  virtio_iommu_get_domain(uint32_t domain_id) "Alloc domain=%d"
->>  virtio_iommu_put_domain(uint32_t domain_id) "Free domain=%d"
->>  virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, uint32_t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=%d"
->> +virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpoint, uint64_t addr) "FAULT reason=%d flags=%d endpoint=%d address =0x%"PRIx64
->> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
->> index d192bcb505..09193970ee 100644
->> --- a/hw/virtio/virtio-iommu.c
->> +++ b/hw/virtio/virtio-iommu.c
->> @@ -477,6 +477,51 @@ out:
->>      }
->>  }
->>  
->> +static void virtio_iommu_report_fault(VirtIOIOMMU *viommu, uint8_t reason,
->> +                                      int flags, uint32_t endpoint,
->> +                                      uint64_t address)
->> +{
->> +    VirtIODevice *vdev = &viommu->parent_obj;
->> +    VirtQueue *vq = viommu->event_vq;
->> +    struct virtio_iommu_fault fault;
->> +    VirtQueueElement *elem;
->> +    size_t sz;
->> +
->> +    memset(&fault, 0, sizeof(fault));
->> +    fault.reason = reason;
->> +    fault.flags = cpu_to_le32(flags);
->> +    fault.endpoint = cpu_to_le32(endpoint);
->> +    fault.address = cpu_to_le64(address);
->> +
->> +    for (;;) {
->> +        elem = virtqueue_pop(vq, sizeof(VirtQueueElement));
->> +
->> +        if (!elem) {
->> +            error_report_once(
->> +                "no buffer available in event queue to report event");
-> 
-> (Should this also be a guest issue?  IIRC you are still using a
->  mixture of both qemu_log_mask and error_report()... I'll stop
->  commenting on this, assuming that you prefer both ways to be used...)
+--Fyzsk3iBQaJjsaYL9TmDoGO98BRwRhvH5
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-I've just removed the qemu_log_mask in virtio_iommu_unmap(). So now you
-should not find any qemu_log_mask anymore. Sorry for the oversight.
-> 
->> +            return;
->> +        }
->> +
->> +        if (iov_size(elem->in_sg, elem->in_num) < sizeof(fault)) {
->> +            virtio_error(vdev, "error buffer of wrong size");
->> +            virtqueue_detach_element(vq, elem, 0);
->> +            g_free(elem);
->> +            continue;
-> 
-> If virtio_error(), should we stop rather than continue?
-My understanding is the buffer just popped had a wrong size so it is not
-usable. We skip it we try to use another one if any. Does it make sense?
+Ping?
 
-Thanks
+On 07.01.2020 13:53, Kamil Rytarowski wrote:
+> Hello QEMU Community!
+>=20
+> Over the past year the NetBSD team has been working hard on a new user-=
+mode API
+> for our hypervisor that will be released as part of the upcoming NetBSD=
+ 9.0.
+> This new API adds user-mode capabilities to create and manage virtual m=
+achines,
+> configure memory mappings for guest machines, and create and control ex=
+ecution
+> of virtual processors.
+>=20
+> With this new API we are now able to bring our hypervisor to the QEMU
+> community! The following patches implement the NetBSD Virtual Machine M=
+onitor
+> accelerator (NVMM) for QEMU on NetBSD 9.0 and newer hosts.
+>=20
+> When compiling QEMU for x86_64 passing the --enable-nvmm flag will comp=
+ile the
+> accelerator for use. At runtime using the '-accel nvmm' should see a
+> significant performance improvement over emulation, much like when usin=
+g 'hax'
+> on NetBSD.
+>=20
+> The documentation for this new API is visible at https://man.netbsd.org=
+ under
+> the libnvmm(3) and nvmm(4) pages.
+>=20
+> NVMM was designed and implemented by Maxime Villard.
+>=20
+> Thank you for your feedback.
+>=20
+> Maxime Villard (4):
+>   Add the NVMM vcpu API
+>   Add the NetBSD Virtual Machine Monitor accelerator.
+>   Introduce the NVMM impl
+>   Add the NVMM acceleration enlightenments
+>=20
+>  accel/stubs/Makefile.objs |    1 +
+>  accel/stubs/nvmm-stub.c   |   43 ++
+>  configure                 |   36 ++
+>  cpus.c                    |   58 ++
+>  include/sysemu/hw_accel.h |   14 +
+>  include/sysemu/nvmm.h     |   35 ++
+>  qemu-options.hx           |    4 +-
+>  target/i386/Makefile.objs |    1 +
+>  target/i386/helper.c      |    2 +-
+>  target/i386/nvmm-all.c    | 1222 +++++++++++++++++++++++++++++++++++++=
 
-Eric
-> 
->> +        }
->> +        break;
->> +    }
->> +    /* we have a buffer to fill in */
->> +    sz = iov_from_buf(elem->in_sg, elem->in_num, 0,
->> +                      &fault, sizeof(fault));
->> +    assert(sz == sizeof(fault));
->> +
->> +    trace_virtio_iommu_report_fault(reason, flags, endpoint, address);
->> +    virtqueue_push(vq, elem, sz);
->> +    virtio_notify(vdev, vq);
->> +    g_free(elem);
->> +
->> +}
->> +
->>  static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->>                                              IOMMUAccessFlags flag,
->>                                              int iommu_idx)
->> @@ -485,9 +530,10 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->>      VirtIOIOMMUInterval interval, *mapping_key;
->>      VirtIOIOMMUMapping *mapping_value;
->>      VirtIOIOMMU *s = sdev->viommu;
->> +    bool read_fault, write_fault;
->>      VirtIOIOMMUEndpoint *ep;
->> +    uint32_t sid, flags;
->>      bool bypass_allowed;
->> -    uint32_t sid;
->>      bool found;
->>  
->>      interval.low = addr;
->> @@ -513,6 +559,9 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->>      if (!ep) {
->>          if (!bypass_allowed) {
->>              error_report_once("%s sid=%d is not known!!", __func__, sid);
->> +            virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_UNKNOWN,
->> +                                      VIRTIO_IOMMU_FAULT_F_ADDRESS,
->> +                                      sid, addr);
->>          } else {
->>              entry.perm = flag;
->>          }
->> @@ -524,6 +573,9 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->>              error_report_once("%s %02x:%02x.%01x not attached to any domain",
->>                                __func__, PCI_BUS_NUM(sid),
->>                                PCI_SLOT(sid), PCI_FUNC(sid));
->> +            virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_DOMAIN,
->> +                                      VIRTIO_IOMMU_FAULT_F_ADDRESS,
->> +                                      sid, addr);
->>          } else {
->>              entry.perm = flag;
->>          }
->> @@ -536,15 +588,26 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
->>      if (!found) {
->>          error_report_once("%s no mapping for 0x%"PRIx64" for sid=%d",
->>                            __func__, addr, sid);
->> +        virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_MAPPING,
->> +                                  VIRTIO_IOMMU_FAULT_F_ADDRESS,
->> +                                  sid, addr);
->>          goto unlock;
->>      }
->>  
->> -    if (((flag & IOMMU_RO) &&
->> -            !(mapping_value->flags & VIRTIO_IOMMU_MAP_F_READ)) ||
->> -        ((flag & IOMMU_WO) &&
->> -            !(mapping_value->flags & VIRTIO_IOMMU_MAP_F_WRITE))) {
->> +    read_fault = (flag & IOMMU_RO) &&
->> +                    !(mapping_value->flags & VIRTIO_IOMMU_MAP_F_READ);
->> +    write_fault = (flag & IOMMU_WO) &&
->> +                    !(mapping_value->flags & VIRTIO_IOMMU_MAP_F_WRITE);
->> +
->> +    flags = read_fault ? VIRTIO_IOMMU_FAULT_F_READ : 0;
->> +    flags |= write_fault ? VIRTIO_IOMMU_FAULT_F_WRITE : 0;
->> +    if (flags) {
->>          error_report_once("%s permission error on 0x%"PRIx64"(%d): allowed=%d",
->>                            __func__, addr, flag, mapping_value->flags);
->> +        flags |= VIRTIO_IOMMU_FAULT_F_ADDRESS;
->> +        virtio_iommu_report_fault(s, VIRTIO_IOMMU_FAULT_R_MAPPING,
->> +                                  flags | VIRTIO_IOMMU_FAULT_F_ADDRESS,
->> +                                  sid, addr);
->>          goto unlock;
->>      }
->>      entry.translated_addr = addr - mapping_key->low + mapping_value->phys_addr;
->> -- 
->> 2.20.1
->>
-> 
+>  10 files changed, 1413 insertions(+), 3 deletions(-)
+>  create mode 100644 accel/stubs/nvmm-stub.c
+>  create mode 100644 include/sysemu/nvmm.h
+>  create mode 100644 target/i386/nvmm-all.c
+>=20
+> --
+> 2.24.0
+>=20
 
+
+
+--Fyzsk3iBQaJjsaYL9TmDoGO98BRwRhvH5--
+
+--mNeOW42JNWQ2LtO10nkaeGvEfP4x72ccP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEELaxVpweEzw+lMDwuS7MI6bAudmwFAl4fEFIACgkQS7MI6bAu
+dmyMbA//VzeSFIPJ4J8oiKdrBY6An4mTyQllLmsjhIbrhOdIS3zA3W1mPe5cYF5o
+0f2QJbFo984TEOned1tc9w4PYrpGefbzHfe01A1sxd6Z6S6F/6edpeU8asHdZNwC
+LMhZSVzobGso8UmIdPPOoJqXkQCMT0NFVC57nYC1++WnJi1IXGANYWbygBuvGjJN
+QJsI2//AwN5xSWJuCNTINoJVkCaVI8zyd7eNrSD+1dY3ZqbFgfBHYNLmnCUsavfm
+6SGwzFoT92i5ijtK9WxUpbHspyHlXg25yD9wTbbXd49lsFFqMVsc3NN0+y4vEnGQ
+UoBkc2TktS1qYiA6/5D9iFxfp+8ahku37I9aIfIookxatvp2KTHLj/bNnt+1L3zW
+shy+K9rdj9c57eMb1Du/lLnScdEGeLgWiFp0S9f/+MVDKJskkaLfD/kAs1+IbVZf
+u6Ormqsh9WcgmZSca8QQSm6cJWJSGjJHIgQCYJG7jX5n9/awucLeuea2siew9MtG
+cXPbORbXD8W/eYqNKar2Ex50ml70Uh2HTm4VRy+dhj51tFiU/gTk7z7hIucTyW7U
+hYHnlDkZm63FWx9YZ963cvVdk3+PtavuK17TYuDbgpQ6f5MCsZm2tP7CXf1speK/
+wJr/ZE2JHFlf66uSFVVedVWyqakcoIgvv59smIhfRh8V/YRRRLg=
+=S3xC
+-----END PGP SIGNATURE-----
+
+--mNeOW42JNWQ2LtO10nkaeGvEfP4x72ccP--
 
