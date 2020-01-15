@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11B313C7FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:36:58 +0100 (CET)
-Received: from localhost ([::1]:55922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4536913C80B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:39:25 +0100 (CET)
+Received: from localhost ([::1]:55950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irkj3-0001ia-EC
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:36:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49424)
+	id 1irklP-0005o0-Ny
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:39:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49456)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkKT-0008PC-1u
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:37 -0500
+ (envelope-from <imammedo@redhat.com>) id 1irkKY-0008Sn-Je
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkKR-00008j-Tw
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39995
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1irkKX-0000CF-Db
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:38 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56706
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKR-00007o-Px
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:31 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKX-0000Bx-AN
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579101091;
+ s=mimecast20190719; t=1579101097;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WV1vSk+tjh6xNbYHYgEON0N9FleWECMsdzY10U96mGg=;
- b=czz3tLy2Li3j3cSzV4aACCvCT5fE2N2+NxqtsNGHa7G/ti8oacq9rhD2kazedxQii0ieK7
- BkF6vfz3/Hz0RXdUORwlVpwyOKm53GT7MFsF4Nu2C+OhXagP2h+Mivs5GGhDWcEDtBrU6U
- 8EfFhN3Qov9BEIj/iHJMmkFFBhzXmXI=
+ bh=2CK3QXj2Sco51NzUwWk16BScvgoKQdBpN9s/7+wQuqU=;
+ b=KcLGPlxWTfW05EMDEP3EB/l+2CLUy+eKrhwKCLB3KvKiGGY9AxHciXl7aF/v3GoCL6kbbr
+ 1+gcsdE8KQXkOV3tfLxN8xZA406Sreg0w8rxs0LMzrtKzqXehoJE8yE83MOodSf1D8+EBC
+ o7MdBDsxviF12TN8omhQJmg+4M/oKSs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-ThXDhk6KPdyyTljHtiNhxg-1; Wed, 15 Jan 2020 10:11:30 -0500
+ us-mta-285-aS3wNC-hNNqdZjopMYvUiA-1; Wed, 15 Jan 2020 10:11:31 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31D7F179DD5
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64C53F65CB;
+ Wed, 15 Jan 2020 15:11:30 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB60D19757
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A3F5194B2;
+ Wed, 15 Jan 2020 15:11:29 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 43/86] hw/hppa/machine: Map the PDC memory region with
- higher priority
-Date: Wed, 15 Jan 2020 16:06:58 +0100
-Message-Id: <1579100861-73692-44-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 44/86] hppa: use memdev for RAM
+Date: Wed, 15 Jan 2020 16:06:59 +0100
+Message-Id: <1579100861-73692-45-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: ThXDhk6KPdyyTljHtiNhxg-1
+X-MC-Unique: aS3wNC-hNNqdZjopMYvUiA-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,45 +70,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: deller@gmx.de, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+memory_region_allocate_system_memory() API is going away, so
+replace it with memdev allocated MemoryRegion. The later is
+initialized by generic code, so board only needs to opt in
+to memdev scheme by providing
+  MachineClass::default_ram_id
+and using MachineState::ram instead of manually initializing
+RAM memory region.
 
-The region in range [0xf0000000 - 0xf1000000] is the PDC area
-(Processor Dependent Code), where the firmware is loaded.
-This region has higher priority than the main memory.
-
-When the machine has more than 3840MB of RAM, there is an
-overlap. Since the PDC is closer to the CPU in the bus
-hierarchy, it gets accessed first, and the CPU does not have
-access to the RAM in this range.
-
-To model the same behavior and keep a simple memory layout,
-reduce the priority of the RAM region. The PDC region ends
-overlapping the RAM.
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/hppa/machine.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+CC: rth@twiddle.net
+CC: deller@gmx.de
+---
+ hw/hppa/machine.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 119ae4d..810e671 100644
+index 810e671..7e0c0ca 100644
 --- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -98,7 +98,7 @@ static void machine_hppa_init(MachineState *machine)
-     ram_region =3D g_new(MemoryRegion, 1);
-     memory_region_allocate_system_memory(ram_region, OBJECT(machine),
-                                          "ram", ram_size);
--    memory_region_add_subregion(addr_space, 0, ram_region);
-+    memory_region_add_subregion_overlap(addr_space, 0, ram_region, -1);
+@@ -70,13 +70,10 @@ static void machine_hppa_init(MachineState *machine)
+     uint64_t kernel_entry =3D 0, kernel_low, kernel_high;
+     MemoryRegion *addr_space =3D get_system_memory();
+     MemoryRegion *rom_region;
+-    MemoryRegion *ram_region;
+     MemoryRegion *cpu_region;
+     long i;
+     unsigned int smp_cpus =3D machine->smp.cpus;
+=20
+-    ram_size =3D machine->ram_size;
+-
+     /* Create CPUs.  */
+     for (i =3D 0; i < smp_cpus; i++) {
+         char *name =3D g_strdup_printf("cpu%ld-io-eir", i);
+@@ -95,10 +92,8 @@ static void machine_hppa_init(MachineState *machine)
+         error_report("RAM size is currently restricted to 3GB");
+         exit(EXIT_FAILURE);
+     }
+-    ram_region =3D g_new(MemoryRegion, 1);
+-    memory_region_allocate_system_memory(ram_region, OBJECT(machine),
+-                                         "ram", ram_size);
+-    memory_region_add_subregion_overlap(addr_space, 0, ram_region, -1);
++    memory_region_add_subregion_overlap(addr_space, 0, machine->ram, -1);
++
 =20
      /* Init Dino (PCI host bus chip).  */
      pci_bus =3D dino_init(addr_space, &rtc_irq, &serial_irq);
+@@ -282,6 +277,7 @@ static void machine_hppa_machine_init(MachineClass *mc)
+     mc->is_default =3D 1;
+     mc->default_ram_size =3D 512 * MiB;
+     mc->default_boot_order =3D "cd";
++    mc->default_ram_id =3D "ram";
+ }
+=20
+ DEFINE_MACHINE("hppa", machine_hppa_machine_init)
 --=20
 2.7.4
 
