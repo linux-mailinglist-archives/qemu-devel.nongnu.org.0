@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C093F13CBFF
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 19:21:55 +0100 (CET)
-Received: from localhost ([::1]:58570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A8D13CBEE
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 19:18:15 +0100 (CET)
+Received: from localhost ([::1]:58524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irnIg-00040e-6Y
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 13:21:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53024)
+	id 1irnF7-0007cW-Tz
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 13:18:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53010)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>) id 1irnCi-0006Zk-Ds
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:15:45 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geert@linux-m68k.org>) id 1irnCh-0003aJ-0o
+ (envelope-from <geert@linux-m68k.org>) id 1irnCh-0006Z8-UF
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:15:44 -0500
-Received: from albert.telenet-ops.be ([2a02:1800:110:4::f00:1a]:55256)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <geert@linux-m68k.org>) id 1irnCg-0003a0-Oj
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:15:43 -0500
+Received: from laurent.telenet-ops.be ([2a02:1800:110:4::f00:19]:56408)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <geert@linux-m68k.org>)
- id 1irnCg-0003Xx-Qj
+ id 1irnCg-0003Xy-FM
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 13:15:42 -0500
-Received: from ramsan ([84.195.182.253]) by albert.telenet-ops.be with bizsmtp
- id qiFR2100Y5USYZQ06iFRqv; Wed, 15 Jan 2020 19:15:37 +0100
+Received: from ramsan ([84.195.182.253]) by laurent.telenet-ops.be with bizsmtp
+ id qiFR2100K5USYZQ01iFRFT; Wed, 15 Jan 2020 19:15:37 +0100
 Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1irnCP-00012d-IT; Wed, 15 Jan 2020 19:15:25 +0100
+ id 1irnCP-00012j-K6; Wed, 15 Jan 2020 19:15:25 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1irnCP-00069F-GU; Wed, 15 Jan 2020 19:15:25 +0100
+ id 1irnCP-00069I-HY; Wed, 15 Jan 2020 19:15:25 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Linus Walleij <linus.walleij@linaro.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
  Jonathan Corbet <corbet@lwn.net>,
  Harish Jenny K N <harish_kandiga@mentor.com>,
  Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: [PATCH v4 4/5] docs: gpio: Add GPIO Aggregator documentation
-Date: Wed, 15 Jan 2020 19:15:22 +0100
-Message-Id: <20200115181523.23556-5-geert+renesas@glider.be>
+Subject: [PATCH v4 5/5] MAINTAINERS: Add GPIO Aggregator section
+Date: Wed, 15 Jan 2020 19:15:23 +0100
+Message-Id: <20200115181523.23556-6-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200115181523.23556-1-geert+renesas@glider.be>
 References: <20200115181523.23556-1-geert+renesas@glider.be>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 2a02:1800:110:4::f00:1a
+X-Received-From: 2a02:1800:110:4::f00:19
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,147 +65,38 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Document the GPIO Aggregator, and the two typical use-cases.
+Add a maintainership section for the GPIO Aggregator, covering
+documentation and driver source code.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 ---
 v4:
-  - Add Reviewed-by,
   - Drop controversial GPIO repeater,
-  - Clarify industrial control use case,
-  - Fix typo s/communicated/communicate/,
-  - Replace abstract frobnicator example by concrete door example with
-    gpio-line-names,
 
 v3:
   - New.
 ---
- .../admin-guide/gpio/gpio-aggregator.rst      | 102 ++++++++++++++++++
- Documentation/admin-guide/gpio/index.rst      |   1 +
- 2 files changed, 103 insertions(+)
- create mode 100644 Documentation/admin-guide/gpio/gpio-aggregator.rst
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/admin-guide/gpio/gpio-aggregator.rst b/Documentation/admin-guide/gpio/gpio-aggregator.rst
-new file mode 100644
-index 0000000000000000..954ed568b0b833b3
---- /dev/null
-+++ b/Documentation/admin-guide/gpio/gpio-aggregator.rst
-@@ -0,0 +1,102 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+GPIO Aggregator
-+===============
-+
-+The GPIO Aggregator allows to aggregate GPIOs, and expose them as a new
-+gpio_chip.  This supports the following use cases.
-+
-+
-+Aggregating GPIOs using Sysfs
-+-----------------------------
-+
-+GPIO controllers are exported to userspace using /dev/gpiochip* character
-+devices.  Access control to these devices is provided by standard UNIX file
-+system permissions, on an all-or-nothing basis: either a GPIO controller is
-+accessible for a user, or it is not.
-+
-+The GPIO Aggregator allows access control for individual GPIOs, by aggregating
-+them into a new gpio_chip, which can be assigned to a group or user using
-+standard UNIX file ownership and permissions.  Furthermore, this simplifies and
-+hardens exporting GPIOs to a virtual machine, as the VM can just grab the full
-+GPIO controller, and no longer needs to care about which GPIOs to grab and
-+which not, reducing the attack surface.
-+
-+Aggregated GPIO controllers are instantiated and destroyed by writing to
-+write-only attribute files in sysfs.
-+
-+    /sys/bus/platform/drivers/gpio-aggregator/
-+
-+	"new_device" ...
-+		Userspace may ask the kernel to instantiate an aggregated GPIO
-+		controller by writing a string describing the GPIOs to
-+		aggregate to the "new_device" file, using the format
-+
-+		.. code-block:: none
-+
-+		    [<gpioA>] [<gpiochipB> <offsets>] ...
-+
-+		Where:
-+
-+		    "<gpioA>" ...
-+			    is a GPIO line name,
-+
-+		    "<gpiochipB>" ...
-+			    is a GPIO chip label or name, and
-+
-+		    "<offsets>" ...
-+			    is a comma-separated list of GPIO offsets and/or
-+			    GPIO offset ranges denoted by dashes.
-+
-+		Example: Instantiate a new GPIO aggregator by aggregating GPIO
-+		19 of "e6052000.gpio" and GPIOs 20-21 of "gpiochip2" into a new
-+		gpio_chip:
-+
-+		.. code-block:: bash
-+
-+		    echo 'e6052000.gpio 19 gpiochip2 20-21' > new_device
-+
-+	"delete_device" ...
-+		Userspace may ask the kernel to destroy an aggregated GPIO
-+		controller after use by writing its device name to the
-+		"delete_device" file.
-+
-+		Example: Destroy the previously-created aggregated GPIO
-+		controller "gpio-aggregator.0":
-+
-+		.. code-block:: bash
-+
-+		    echo gpio-aggregator.0 > delete_device
-+
-+
-+Generic GPIO Driver
-+-------------------
-+
-+The GPIO Aggregator can also be used as a generic driver for a simple
-+GPIO-operated device described in DT, without a dedicated in-kernel driver.
-+This is useful in industrial control, and is not unlike e.g. spidev, which
-+allows to communicate with an SPI device from userspace.
-+
-+Binding a device to the GPIO Aggregator is performed either by modifying the
-+gpio-aggregator driver, or by writing to the "driver_override" file in Sysfs.
-+
-+Example: If "door" is a GPIO-operated device described in DT, using its own
-+compatible value::
-+
-+        door {
-+                compatible = "myvendor,mydoor";
-+
-+                gpios = <&gpio2 19 GPIO_ACTIVE_HIGH>,
-+                        <&gpio2 20 GPIO_ACTIVE_LOW>;
-+		gpio-line-names = "open", "lock";
-+        };
-+
-+it can be bound to the GPIO Aggregator by either:
-+
-+1. Adding its compatible value to ``gpio_aggregator_dt_ids[]``,
-+2. Binding manually using "driver_override":
-+
-+.. code-block:: bash
-+
-+    echo gpio-aggregator > /sys/bus/platform/devices/door/driver_override
-+    echo door > /sys/bus/platform/drivers/gpio-aggregator/bind
-diff --git a/Documentation/admin-guide/gpio/index.rst b/Documentation/admin-guide/gpio/index.rst
-index a244ba4e87d5398a..ef2838638e967777 100644
---- a/Documentation/admin-guide/gpio/index.rst
-+++ b/Documentation/admin-guide/gpio/index.rst
-@@ -7,6 +7,7 @@ gpio
- .. toctree::
-     :maxdepth: 1
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 74533d307d67321a..a28e25fd6a0c169f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7091,6 +7091,13 @@ F:	Documentation/firmware-guide/acpi/gpio-properties.rst
+ F:	drivers/gpio/gpiolib-acpi.c
+ F:	drivers/gpio/gpiolib-acpi.h
  
-+    gpio-aggregator
-     sysfs
- 
- .. only::  subproject and html
++GPIO AGGREGATOR
++M:	Geert Uytterhoeven <geert+renesas@glider.be>
++L:	linux-gpio@vger.kernel.org
++S:	Maintained
++F:	Documentation/admin-guide/gpio/gpio-aggregator.rst
++F:	drivers/gpio/gpio-aggregator.c
++
+ GPIO IR Transmitter
+ M:	Sean Young <sean@mess.org>
+ L:	linux-media@vger.kernel.org
 -- 
 2.17.1
 
