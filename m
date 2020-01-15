@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45EA13C7EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:34:58 +0100 (CET)
-Received: from localhost ([::1]:55884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D423113C7C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:31:36 +0100 (CET)
+Received: from localhost ([::1]:55844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irkh7-0007og-E5
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:34:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49166)
+	id 1irkdr-0003ax-0Y
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:31:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49167)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkKH-00082u-Hp
+ (envelope-from <imammedo@redhat.com>) id 1irkKH-00082x-Jf
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkKF-0008Nn-M2
+ (envelope-from <imammedo@redhat.com>) id 1irkKE-0008NB-RP
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25752
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32691
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKF-0008NK-GX
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:19 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKE-0008MI-79
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579101078;
+ s=mimecast20190719; t=1579101077;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SagVUdG2WaGuT4qgYSl7NBvOsnHYzLbuOb0tXuQrz/E=;
- b=cSf1PnGi8lDY40QXYxMAw2ymoysRcojzIuKhf4aIEu/vBgFD+PT0U1vi7zsCItmQ0wyALw
- fkJL/jGlHrcPggbItun5LIMBbpWBRgHuoE6iVGmR1OdOjD32o1B+4lVKiCBgNDyruI8PZX
- 9iWeq9CIGekjnimYSH2dixZ+tUGnXeg=
+ bh=zgHH2SwpVB9yr1iiztjM3jhFax+dJqyn+USZPKYKRxI=;
+ b=UZhIITiHJtGIrMr9kie80rLfNxnrqGECGWA0BRSlkCrDtRzn+AvVm17nO99gjVt/l2nXx8
+ NY6iA91Cyas2Md3CxX6C3oI3miKqzR8xXLUhPvmbsD6/ghXr8fdtQ7uTnYmgjSnInkoI7C
+ Ooz6thJ6PCotnM9nJIJP+z66CJdk6cI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-y6IR6RL4OkaWq1BbcMOYrg-1; Wed, 15 Jan 2020 10:11:15 -0500
+ us-mta-147-Oo6bPFHjMa6JKyKgYniv2A-1; Wed, 15 Jan 2020 10:11:16 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6366892735B;
- Wed, 15 Jan 2020 15:11:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80A65176F89;
+ Wed, 15 Jan 2020 15:11:15 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3EB77196AE;
- Wed, 15 Jan 2020 15:11:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACE4E28992;
+ Wed, 15 Jan 2020 15:11:14 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 30/86] arm:sbsa-ref: use memdev for RAM
-Date: Wed, 15 Jan 2020 16:06:45 +0100
-Message-Id: <1579100861-73692-31-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 31/86] arm:versatilepb: use memdev for RAM
+Date: Wed, 15 Jan 2020 16:06:46 +0100
+Message-Id: <1579100861-73692-32-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: y6IR6RL4OkaWq1BbcMOYrg-1
+X-MC-Unique: Oo6bPFHjMa6JKyKgYniv2A-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,8 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org,
- radoslaw.biernacki@linaro.org, leif.lindholm@linaro.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -87,46 +86,55 @@ Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
 CC: peter.maydell@linaro.org
 CC: qemu-arm@nongnu.org
-CC: radoslaw.biernacki@linaro.org
-CC: leif.lindholm@linaro.org
 ---
- hw/arm/sbsa-ref.c | 7 +++----
+ hw/arm/versatilepb.c | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 9b5bcb5..1cba9fc 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -593,7 +593,6 @@ static void sbsa_ref_init(MachineState *machine)
-     MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
+index e86af01..f3c4a50 100644
+--- a/hw/arm/versatilepb.c
++++ b/hw/arm/versatilepb.c
+@@ -184,7 +184,6 @@ static void versatile_init(MachineState *machine, int b=
+oard_id)
+     Object *cpuobj;
+     ARMCPU *cpu;
      MemoryRegion *sysmem =3D get_system_memory();
-     MemoryRegion *secure_sysmem =3D g_new(MemoryRegion, 1);
 -    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     bool firmware_loaded;
-     const CPUArchIdList *possible_cpus;
-     int n, sbsa_max_cpus;
-@@ -685,9 +684,8 @@ static void sbsa_ref_init(MachineState *machine)
-         object_unref(cpuobj);
-     }
+     qemu_irq pic[32];
+     qemu_irq sic[32];
+     DeviceState *dev, *sysctl;
+@@ -220,11 +219,9 @@ static void versatile_init(MachineState *machine, int =
+board_id)
 =20
--    memory_region_allocate_system_memory(ram, NULL, "sbsa-ref.ram",
+     cpu =3D ARM_CPU(cpuobj);
+=20
+-    memory_region_allocate_system_memory(ram, NULL, "versatile.ram",
 -                                         machine->ram_size);
--    memory_region_add_subregion(sysmem, sbsa_ref_memmap[SBSA_MEM].base, ra=
-m);
-+    memory_region_add_subregion(sysmem, sbsa_ref_memmap[SBSA_MEM].base,
-+                                machine->ram);
+     /* ??? RAM should repeat to fill physical memory space.  */
+     /* SDRAM at address zero.  */
+-    memory_region_add_subregion(sysmem, 0, ram);
++    memory_region_add_subregion(sysmem, 0, machine->ram);
 =20
-     create_fdt(sms);
+     sysctl =3D qdev_create(NULL, "realview_sysctl");
+     qdev_prop_set_uint32(sysctl, "sys_id", 0x41007004);
+@@ -398,6 +395,7 @@ static void versatilepb_class_init(ObjectClass *oc, voi=
+d *data)
+     mc->block_default_type =3D IF_SCSI;
+     mc->ignore_memory_transaction_failures =3D true;
+     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm926");
++    mc->default_ram_id =3D "versatile.ram";
+ }
 =20
-@@ -785,6 +783,7 @@ static void sbsa_ref_class_init(ObjectClass *oc, void *=
-data)
-     mc->block_default_type =3D IF_IDE;
-     mc->no_cdrom =3D 1;
-     mc->default_ram_size =3D 1 * GiB;
-+    mc->default_ram_id =3D "sbsa-ref.ram";
-     mc->default_cpus =3D 4;
-     mc->possible_cpu_arch_ids =3D sbsa_ref_possible_cpu_arch_ids;
-     mc->cpu_index_to_instance_props =3D sbsa_ref_cpu_index_to_props;
+ static const TypeInfo versatilepb_type =3D {
+@@ -415,6 +413,7 @@ static void versatileab_class_init(ObjectClass *oc, voi=
+d *data)
+     mc->block_default_type =3D IF_SCSI;
+     mc->ignore_memory_transaction_failures =3D true;
+     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm926");
++    mc->default_ram_id =3D "versatile.ram";
+ }
+=20
+ static const TypeInfo versatileab_type =3D {
 --=20
 2.7.4
 
