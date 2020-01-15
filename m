@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5753913CA08
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:54:55 +0100 (CET)
-Received: from localhost ([::1]:57218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B75413CA11
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:56:40 +0100 (CET)
+Received: from localhost ([::1]:57336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irlwT-0008R2-UH
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:54:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38998)
+	id 1irlyB-0002fe-9I
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:56:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39535)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irluX-0006e8-TB
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:52:57 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1irlxH-00020N-Iw
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:55:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irluT-0004AH-Jh
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:52:52 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57427
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eric.auger@redhat.com>) id 1irlxD-0005Jr-0r
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:55:43 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40972
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irluT-00049n-GS
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:52:49 -0500
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1irlxC-0005Iz-Rv
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 11:55:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579107168;
+ s=mimecast20190719; t=1579107338;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IGiacmmsuMvdFZjM5gE21vfxb0JBz0ak8D+4clahb4c=;
- b=dmvgbRa3fng2je5aUvQ8JnsQl3Fi0Y+WsNZhUFI+2BGJkYMfC27sT5GGnIg5UDK42FW0bI
- Fyb3Ht7Q3CuD390J4jVJIY3eRUgjPelbU5Q53VKZFIdlRCfQFJhj43+D9bWnG28i99PvNg
- SxVdCZtW8P/Uf3gJzPN/qbSp5M68fZw=
+ bh=t/wTDE4jdWS9FgI/GkDaABI42NAxsjSjCDyfRGFLSfc=;
+ b=Ha8ELRZGtzcouE68kOTzp3wSTOYSR3wm9jicn3YbGMQqB0PJKSH7hb+DwKoG7brgmrOQ2m
+ oPt4kC68IX33LOPCVOUNzGzSX/aucqXxG+IQw2cSABuMtifmPMluWZTDh4tRtE30EiJQ3w
+ R9D+Sl78632F/Tq7rIzuTjzONDpB0TA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-e8cSHBHcPL2LM4bVqv8U7w-1; Wed, 15 Jan 2020 11:52:47 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-379-w0KvfzskN1SbxspMeXOpvg-1; Wed, 15 Jan 2020 11:55:32 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6DE614E1;
- Wed, 15 Jan 2020 16:52:45 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A0FD05C219;
- Wed, 15 Jan 2020 16:52:38 +0000 (UTC)
-Date: Wed, 15 Jan 2020 17:52:37 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Peter Krempa <pkrempa@redhat.com>
-Subject: Re: [libvirt] [PATCH v2 82/86] numa: forbid '-numa node, mem' for
- 5.0 and newer machine types
-Message-ID: <20200115175237.325055f3@redhat.com>
-In-Reply-To: <20200115153453.GL3243410@angien.pipo.sk>
-References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-83-git-send-email-imammedo@redhat.com>
- <20200115153453.GL3243410@angien.pipo.sk>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 210762F2E;
+ Wed, 15 Jan 2020 16:55:31 +0000 (UTC)
+Received: from [10.36.117.108] (ovpn-117-108.ams2.redhat.com [10.36.117.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6060C811E0;
+ Wed, 15 Jan 2020 16:55:23 +0000 (UTC)
+Subject: Re: [PATCH v12 05/13] virtio-iommu: Endpoint and domains structs and
+ helpers
+To: Peter Xu <peterx@redhat.com>
+References: <20200109144319.15912-1-eric.auger@redhat.com>
+ <20200109144319.15912-6-eric.auger@redhat.com>
+ <20200113202301.GD201624@xz-x1>
+ <51267d84-c805-a4a1-8084-b278721a5b3f@redhat.com>
+ <20200114180734.GB225163@xz-x1>
+ <f3da181d-094b-a647-31ea-bdb47eab5c1b@redhat.com>
+ <20200115145949.GC233443@xz-x1>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <fefed4d1-9397-2e7a-703c-5571081019be@redhat.com>
+Date: Wed, 15 Jan 2020 17:55:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: e8cSHBHcPL2LM4bVqv8U7w-1
+In-Reply-To: <20200115145949.GC233443@xz-x1>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: w0KvfzskN1SbxspMeXOpvg-1
 X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,50 +81,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- libvir-list@redhat.com, mprivozn@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, pbonzini@redhat.com, rth@twiddle.net,
- david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org, kevin.tian@intel.com, tnowicki@marvell.com,
+ jean-philippe@linaro.org, quintela@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
+ mst@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Jan 2020 16:34:53 +0100
-Peter Krempa <pkrempa@redhat.com> wrote:
+Hi Peter,
 
-> On Wed, Jan 15, 2020 at 16:07:37 +0100, Igor Mammedov wrote:
-> > Deprecation period is ran out and it's a time to flip the switch
-> > introduced by cd5ff8333a.
-> > Disable legacy option for new machine types and amend documentation.
-> > 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> > CC: peter.maydell@linaro.org
-> > CC: ehabkost@redhat.com
-> > CC: marcel.apfelbaum@gmail.com
-> > CC: mst@redhat.com
-> > CC: pbonzini@redhat.com
-> > CC: rth@twiddle.net
-> > CC: david@gibson.dropbear.id.au
-> > CC: libvir-list@redhat.com
-> > CC: qemu-arm@nongnu.org
-> > CC: qemu-ppc@nongnu.org
-> > ---
-> >  hw/arm/virt.c        |  2 +-
-> >  hw/core/numa.c       |  6 ++++++
-> >  hw/i386/pc.c         |  1 -
-> >  hw/i386/pc_piix.c    |  1 +
-> >  hw/i386/pc_q35.c     |  1 +
-> >  hw/ppc/spapr.c       |  2 +-
-> >  qemu-deprecated.texi | 16 ----------------
-> >  qemu-options.hx      |  8 ++++----
-> >  8 files changed, 14 insertions(+), 23 deletions(-)  
-> 
-> I'm afraid nobody bothered to fix it yet:
-> 
-> https://bugzilla.redhat.com/show_bug.cgi?id=1783355
+On 1/15/20 3:59 PM, Peter Xu wrote:
+> On Wed, Jan 15, 2020 at 02:00:22PM +0100, Auger Eric wrote:
+>> Hi Peter,
+>>
+>>
+>> On 1/14/20 7:07 PM, Peter Xu wrote:
+>>> On Tue, Jan 14, 2020 at 09:51:59AM +0100, Auger Eric wrote:
+>>>> Hi Peter,
+>>>
+>>> Hi, Eric,
+>>>
+>>> [...]
+>>>
+>>>>>
+>>>>>> +{
+>>>>>> +    VirtIOIOMMUEndpoint *ep;
+>>>>>> +
+>>>>>> +    ep =3D g_tree_lookup(s->endpoints, GUINT_TO_POINTER(ep_id));
+>>>>>> +    if (ep) {
+>>>>>> +        return ep;
+>>>>>> +    }
+>>>>>> +    if (!virtio_iommu_mr(s, ep_id)) {
+>>>>>
+>>>>> Could I ask when this will trigger?
+>>>>
+>>>> This can happen when a device is attached to a domain and its RID does
+>>>> not correspond to one of the devices protected by the iommu.
+>>
+>>>
+>>> So will it happen only because of a kernel driver bug?
+>>
+>> Yes, at the moment, because virtio_iommu_mr() only gets called on device
+>> attach to a domain.
+>>
+>> The spec says:
+>> "If the endpoint identified by endpoint doesn=E2=80=99t exist, the devic=
+e MUST
+>> reject the request and set status to VIRTIO_IOMMU_S_NOENT"
+>=20
+> Sure.  I just wanted to make sure I didn't miss anything, because I
+> really can't see when this extra logic can help, say, right now we
+> only have one vIOMMU at least for VT-d, so all devices will be managed
+> by that.  But yeah if that's explicitly mentioned in the spec, I'd
+> agree we should follow that.
+>=20
+>>>
+>>> Also, I think the name of "virtio_iommu_mr" is confusing on that it
+>>> returned explicitly a MemoryRegion however it's never been used:
+>>
+>> I use the same prototype as for smmu_iommu_mr(). Returning the iommu mr
+>> will allow to proceed with further RID based operations like invalidatio=
+ns.
+>>
+>> The same logic is used in vtd_context_device_invalidate.
+>=20
+> I'm fine with this.  Let's keep virtio_iommu_mr() as you prefer.
+>=20
+> Another thing I'd like to mention is that, I don't think "the same
+> logic is used in VT-d" matters much. If we think something is wrong
+> (even if it's the same in VT-d), why not we fix both? :-)
+Sure ;-)
 
-It's time to start working on it :)
-(looks like just deprecating stuff isn't sufficient motivation,
-maybe actual switch flipping would work out better)
+Thank you for your time
+
+Eric
+>=20
+> Thanks,
+>=20
+>>
+>>
+>>>
+>>> (since they're not in the same patch I'm pasting)
+>>>
+>>> static IOMMUMemoryRegion *virtio_iommu_mr(VirtIOIOMMU *s, uint32_t sid)
+>>> {
+>>>     uint8_t bus_n, devfn;
+>>>     IOMMUPciBus *iommu_pci_bus;
+>>>     IOMMUDevice *dev;
+>>>
+>>>     bus_n =3D PCI_BUS_NUM(sid);
+>>>     iommu_pci_bus =3D iommu_find_iommu_pcibus(s, bus_n);
+>>>     if (iommu_pci_bus) {
+>>>         devfn =3D sid & 0xFF;
+>>>         dev =3D iommu_pci_bus->pbdev[devfn];
+>>>         if (dev) {
+>>>             return &dev->iommu_mr;
+>>>         }
+>>>     }
+>>>     return NULL;
+>>> }
+>>>
+>>> Maybe "return !!dev" would be enough, then make the return a boolean?
+>>> Then we can rename it to virtio_iommu_has_device().
+>>>
+>>> PS. I think we can also drop IOMMU_PCI_DEVFN_MAX (after all you even
+>>> didn't use it here!) and use PCI_DEVFN_MAX, and replace 0xFF.
+>> well intel iommu and smmu use a similar constant (PCI_DEVFN_MAX,
+>> SMMU_PCI_DEVFN_MAX resp.). I use it in virtio_iommu_find_add_as
+>=20
 
 
