@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CFE13C732
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:18:36 +0100 (CET)
-Received: from localhost ([::1]:55626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B35513C74E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:21:31 +0100 (CET)
+Received: from localhost ([::1]:55675 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irkRH-0000aL-Bq
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:18:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48697)
+	id 1irkU5-0004R9-JK
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:21:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48732)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkJs-0007Qx-Iv
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:10:57 -0500
+ (envelope-from <imammedo@redhat.com>) id 1irkJu-0007Tv-FQ
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkJr-00081V-8l
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:10:56 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48811
+ (envelope-from <imammedo@redhat.com>) id 1irkJs-00082o-Sx
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:10:58 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38334
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkJr-000815-4f
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:10:55 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkJs-00082N-PD
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:10:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579101054;
+ s=mimecast20190719; t=1579101056;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rUlnYNueS8jddAQ+SP4gjg91935JfzLTka12JcrM6P0=;
- b=Zji1QqJrwElgtDhHL6GLXGGZXygMMprJO5FZLCTjx+Ktj88AaIx+jhZrp/z8GuvYYZuAy4
- Pfn2XNhOhlnIS8YaHfR2BsZifUBFV0GPgL92nWzG4kiN2WYEepPKpgsOzGt5QhGonLlC4P
- tM8pmRnaEzoK5tBS/M7FQvNT/ztlKcw=
+ bh=UVE2+gHs9Or+VE8ba2VQCLVxvDchVeA3YkOiGVofBpg=;
+ b=gQ2DQig113VT+qjmE/FyqTrnS3dB3I88uH/M6hfcLfVlrTbVxp5c0am5ZJ/CyA/eY9ZSxp
+ bg7gu0C1LMWm4q7fBlsk/T+6xaJ5ClV1CrJOhgWcXg7Bri7jWIxGOETehvY5gfMgxw+WYj
+ gJ3LHD52TyBOxKmNBN6gse6ii+LisLA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-lqhQ8JvyMounTqkBd2ihfQ-1; Wed, 15 Jan 2020 10:10:51 -0500
+ us-mta-302-GGy2GM2eMLWhhIpsz6chAg-1; Wed, 15 Jan 2020 10:10:53 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D2EC8DDCC6;
- Wed, 15 Jan 2020 15:10:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE23D1924403;
+ Wed, 15 Jan 2020 15:10:51 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 564A6289A3;
- Wed, 15 Jan 2020 15:10:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A120F47385;
+ Wed, 15 Jan 2020 15:10:50 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/86] arm:cubieboard: use memdev for RAM
-Date: Wed, 15 Jan 2020 16:06:27 +0100
-Message-Id: <1579100861-73692-13-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 13/86] arm:digic_boards: use memdev for RAM
+Date: Wed, 15 Jan 2020 16:06:28 +0100
+Message-Id: <1579100861-73692-14-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: lqhQ8JvyMounTqkBd2ihfQ-1
+X-MC-Unique: GGy2GM2eMLWhhIpsz6chAg-1
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: b.galvani@gmail.com, peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, antonynpavlov@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,93 +84,129 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 PS:
-While at it, get rid of no longer needed CubieBoardState wrapper.
+ remove no longer needed DigicBoardState
+
+PS2:
+ while at it add check for user supplied RAM size and error
+ out if it mismatches board expected value.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-CC: b.galvani@gmail.com
+v2:
+  * fix format string causing build failure on 32-bit host
+    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
+
+CC: antonynpavlov@gmail.com
 CC: peter.maydell@linaro.org
 CC: qemu-arm@nongnu.org
 ---
- hw/arm/cubieboard.c | 25 ++++++++-----------------
- 1 file changed, 8 insertions(+), 17 deletions(-)
+ hw/arm/digic_boards.c | 36 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
-index 6dc2f1d..089f9a3 100644
---- a/hw/arm/cubieboard.c
-+++ b/hw/arm/cubieboard.c
-@@ -28,52 +28,42 @@ static struct arm_boot_info cubieboard_binfo =3D {
-     .board_id =3D 0x1008,
+diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
+index ef3fc2b..9f094d4 100644
+--- a/hw/arm/digic_boards.c
++++ b/hw/arm/digic_boards.c
+@@ -35,39 +35,38 @@
+ #include "hw/loader.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/qtest.h"
++#include "qemu/units.h"
+=20
+ #define DIGIC4_ROM0_BASE      0xf0000000
+ #define DIGIC4_ROM1_BASE      0xf8000000
+ #define DIGIC4_ROM_MAX_SIZE   0x08000000
+=20
+-typedef struct DigicBoardState {
+-    DigicState *digic;
+-    MemoryRegion ram;
+-} DigicBoardState;
+-
+ typedef struct DigicBoard {
+-    hwaddr ram_size;
+-    void (*add_rom0)(DigicBoardState *, hwaddr, const char *);
++    void (*add_rom0)(DigicState *, hwaddr, const char *);
+     const char *rom0_def_filename;
+-    void (*add_rom1)(DigicBoardState *, hwaddr, const char *);
++    void (*add_rom1)(DigicState *, hwaddr, const char *);
+     const char *rom1_def_filename;
+ } DigicBoard;
+=20
+-static void digic4_board_init(DigicBoard *board)
++static void digic4_board_init(MachineState *machine, DigicBoard *board)
+ {
+     Error *err =3D NULL;
++    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+=20
+-    DigicBoardState *s =3D g_new(DigicBoardState, 1);
++    if (machine->ram_size !=3D mc->default_ram_size) {
++        error_report("Invalid RAM size, should be " RAM_ADDR_UFMT " Bytes"=
+,
++                      mc->default_ram_size);
++        exit(EXIT_FAILURE);
++    }
+=20
+-    s->digic =3D DIGIC(object_new(TYPE_DIGIC));
+-    object_property_set_bool(OBJECT(s->digic), true, "realized", &err);
++    DigicState *s =3D DIGIC(object_new(TYPE_DIGIC));
++    object_property_set_bool(OBJECT(s), true, "realized", &err);
+     if (err !=3D NULL) {
+         error_reportf_err(err, "Couldn't realize DIGIC SoC: ");
+         exit(1);
+     }
+=20
+-    memory_region_allocate_system_memory(&s->ram, NULL, "ram", board->ram_=
+size);
+-    memory_region_add_subregion(get_system_memory(), 0, &s->ram);
++    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+=20
+     if (board->add_rom0) {
+         board->add_rom0(s, DIGIC4_ROM0_BASE, board->rom0_def_filename);
+@@ -78,7 +77,7 @@ static void digic4_board_init(DigicBoard *board)
+     }
+ }
+=20
+-static void digic_load_rom(DigicBoardState *s, hwaddr addr,
++static void digic_load_rom(DigicState *s, hwaddr addr,
+                            hwaddr max_size, const char *def_filename)
+ {
+     target_long rom_size;
+@@ -118,7 +117,7 @@ static void digic_load_rom(DigicBoardState *s, hwaddr a=
+ddr,
+  * Samsung K8P3215UQB
+  * 64M Bit (4Mx16) Page Mode / Multi-Bank NOR Flash Memory
+  */
+-static void digic4_add_k8p3215uqb_rom(DigicBoardState *s, hwaddr addr,
++static void digic4_add_k8p3215uqb_rom(DigicState *s, hwaddr addr,
+                                       const char *def_filename)
+ {
+ #define FLASH_K8P3215UQB_SIZE (4 * 1024 * 1024)
+@@ -135,14 +134,13 @@ static void digic4_add_k8p3215uqb_rom(DigicBoardState=
+ *s, hwaddr addr,
+ }
+=20
+ static DigicBoard digic4_board_canon_a1100 =3D {
+-    .ram_size =3D 64 * 1024 * 1024,
+     .add_rom1 =3D digic4_add_k8p3215uqb_rom,
+     .rom1_def_filename =3D "canon-a1100-rom1.bin",
  };
 =20
--typedef struct CubieBoardState {
--    AwA10State *a10;
--    MemoryRegion sdram;
--} CubieBoardState;
--
- static void cubieboard_init(MachineState *machine)
+ static void canon_a1100_init(MachineState *machine)
  {
--    CubieBoardState *s =3D g_new(CubieBoardState, 1);
-+    AwA10State *a10 =3D AW_A10(object_new(TYPE_AW_A10));
-     Error *err =3D NULL;
-=20
--    s->a10 =3D AW_A10(object_new(TYPE_AW_A10));
--
--    object_property_set_int(OBJECT(&s->a10->emac), 1, "phy-addr", &err);
-+    object_property_set_int(OBJECT(&a10->emac), 1, "phy-addr", &err);
-     if (err !=3D NULL) {
-         error_reportf_err(err, "Couldn't set phy address: ");
-         exit(1);
-     }
-=20
--    object_property_set_int(OBJECT(&s->a10->timer), 32768, "clk0-freq", &e=
-rr);
-+    object_property_set_int(OBJECT(&a10->timer), 32768, "clk0-freq", &err)=
-;
-     if (err !=3D NULL) {
-         error_reportf_err(err, "Couldn't set clk0 frequency: ");
-         exit(1);
-     }
-=20
--    object_property_set_int(OBJECT(&s->a10->timer), 24000000, "clk1-freq",
--                            &err);
-+    object_property_set_int(OBJECT(&a10->timer), 24000000, "clk1-freq", &e=
-rr);
-     if (err !=3D NULL) {
-         error_reportf_err(err, "Couldn't set clk1 frequency: ");
-         exit(1);
-     }
-=20
--    object_property_set_bool(OBJECT(s->a10), true, "realized", &err);
-+    object_property_set_bool(OBJECT(a10), true, "realized", &err);
-     if (err !=3D NULL) {
-         error_reportf_err(err, "Couldn't realize Allwinner A10: ");
-         exit(1);
-     }
-=20
--    memory_region_allocate_system_memory(&s->sdram, NULL, "cubieboard.ram"=
-,
--                                         machine->ram_size);
-     memory_region_add_subregion(get_system_memory(), AW_A10_SDRAM_BASE,
--                                &s->sdram);
-+                                machine->ram);
-=20
-     /* TODO create and connect IDE devices for ide_drive_get() */
-=20
-     cubieboard_binfo.ram_size =3D machine->ram_size;
--    arm_load_kernel(&s->a10->cpu, machine, &cubieboard_binfo);
-+    arm_load_kernel(&a10->cpu, machine, &cubieboard_binfo);
+-    digic4_board_init(&digic4_board_canon_a1100);
++    digic4_board_init(machine, &digic4_board_canon_a1100);
  }
 =20
- static void cubieboard_machine_init(MachineClass *mc)
-@@ -84,6 +74,7 @@ static void cubieboard_machine_init(MachineClass *mc)
-     mc->block_default_type =3D IF_IDE;
-     mc->units_per_default_bus =3D 1;
+ static void canon_a1100_machine_init(MachineClass *mc)
+@@ -150,6 +148,8 @@ static void canon_a1100_machine_init(MachineClass *mc)
+     mc->desc =3D "Canon PowerShot A1100 IS";
+     mc->init =3D &canon_a1100_init;
      mc->ignore_memory_transaction_failures =3D true;
-+    mc->default_ram_id =3D "cubieboard.ram";
++    mc->default_ram_size =3D 64 * MiB;
++    mc->default_ram_id =3D "ram";
  }
 =20
- DEFINE_MACHINE("cubieboard", cubieboard_machine_init)
+ DEFINE_MACHINE("canon-a1100", canon_a1100_machine_init)
 --=20
 2.7.4
 
