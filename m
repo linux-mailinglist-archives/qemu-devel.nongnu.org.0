@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BF013C1A4
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 13:50:13 +0100 (CET)
-Received: from localhost ([::1]:53314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B51DD13C202
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 13:55:04 +0100 (CET)
+Received: from localhost ([::1]:53360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iri7g-0003OA-CC
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 07:50:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49805)
+	id 1iriCN-0006vY-M0
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 07:55:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49948)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1irhul-0002OO-MT
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 07:36:52 -0500
+ (envelope-from <damien.hedde@greensocs.com>) id 1irhv6-0002dh-8Y
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 07:37:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1irhuk-0003A1-5o
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 07:36:51 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:53632)
+ (envelope-from <damien.hedde@greensocs.com>) id 1irhv4-0003UE-VJ
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 07:37:11 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:53642)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1irhuj-00038H-RB; Wed, 15 Jan 2020 07:36:50 -0500
+ id 1irhv4-00039e-Kc; Wed, 15 Jan 2020 07:37:10 -0500
 Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
  [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id 377D596F59;
+ by beetle.greensocs.com (Postfix) with ESMTPS id F272A96F5A;
  Wed, 15 Jan 2020 12:36:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1579091808;
+ s=mail; t=1579091809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PU1ZxUE7d3iu7/38+fBqpfQ/iPdaI4G6S9CtKCw10J4=;
- b=y4E2ODTIGnpgoS7L/PpDp/4kgtIY+nuCQSPXVYW4VnKbPP7SiOvPTNpwSAVn1GGXykggAl
- JzVRO5nPyk356IpRwSZ2Jmiimq4LxrkqS/dJy/FkSSK0x0CZ+YOulC/xwOuS26FRFpfy8q
- YDeeWi4vL1VxEpdO3+TV8RwqXDJ04b0=
+ bh=A200JO54MkQoOmODnSQmBmwrO6FBHxiDZCez46fi7Ok=;
+ b=x/tu4ldajJWG58Z6tZ+0OLLjuUuQlgkfY4jCLCu3D0TrCatAtDVCLLg0DSXes9mUJi23gm
+ MNd9TcYUr6Hynzbdq0kcZg6HW/Dp4NUfEXbY8SAYM9djMJz3GkhBKvlJmcbwbrUbrxMZql
+ QdN6ckUx4kEKl1jYXCp85/O/q3Jlavg=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 10/11] vl: replace deprecated qbus_reset_all registration
-Date: Wed, 15 Jan 2020 13:36:19 +0100
-Message-Id: <20200115123620.250132-11-damien.hedde@greensocs.com>
+Subject: [PATCH v7 11/11] hw/s390x/ipl: replace deprecated qdev_reset_all
+ registration
+Date: Wed, 15 Jan 2020 13:36:20 +0100
+Message-Id: <20200115123620.250132-12-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200115123620.250132-1-damien.hedde@greensocs.com>
 References: <20200115123620.250132-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1579091808;
+ s=mail; t=1579091809;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PU1ZxUE7d3iu7/38+fBqpfQ/iPdaI4G6S9CtKCw10J4=;
- b=Wdimckom2ruXxwoKB0cXx5WJYV6NlPJ54f0vpEN8Sekv1tE/gy9UJbQ9vaNIuGPUL4YZwR
- tN9ewFbz1pHjOU/wfy8YVwf5pBoE77O1KmotUA0ohnhCDaemTZXmeEqezxj3qskkl1AtiS
- NVTrkue75EHJhKNLajuSGkaBHu6b/6o=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1579091808; a=rsa-sha256; cv=none;
- b=M7eVeq+44rakfbE74L/XQTzF58RC4i1L8ncwmcQbeQHk9uNJkr9P5ZzJx5M7bwJ57Q2aqM
- xP1RaUgwOLG09xWBXwn7lj7UCQj92Q+IMRxqbsRvF9hi1rNK8EQ3PUiwLLXHOMdKN9EwPp
- L/97TIJLMDbzehyjm3whdraQi/NUajo=
+ bh=A200JO54MkQoOmODnSQmBmwrO6FBHxiDZCez46fi7Ok=;
+ b=JkQ1sl83yadXvhL60HLz80osbb9HZz4ghFLgPiE5SbHICuC1nP3omyjUr+Us5rmsQbulka
+ ZroS2WI63V6RPqlvqTT3DCAAFXX/NIQtx73Ahm5TrxcAR0gQx6LSU2tKPucXbzyvD50C7j
+ r7Gl+TR39A7Z/FDqaysBzIAUWGS/RJY=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1579091809; a=rsa-sha256; cv=none;
+ b=lveSePYfu5IazCZo/1ximFuR4YJDe4UcmQAAD4lQlHr/5GJzA76wsJ9s8RU1SGCUPUddA4
+ WW+7nH4Jrz/fs9pJOjDlG8nDlQ7mr5fluq06INkLF4WZCzkMMG2b1ASM3X4sY+Fsz/2RJg
+ +rYI2tbswU1gzau992s6VEhn5X/+6aI=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -76,116 +78,61 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- berrange@redhat.com, ehabkost@redhat.com,
+ Thomas Huth <thuth@redhat.com>, berrange@redhat.com, ehabkost@redhat.com,
  Richard Henderson <richard.henderson@linaro.org>, cohuck@redhat.com,
- mark.burton@greensocs.com, qemu-s390x@nongnu.org, edgari@xilinx.com,
+ mark.burton@greensocs.com, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, edgari@xilinx.com,
  pbonzini@redhat.com, philmd@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace deprecated qbus_reset_all by resettable_cold_reset_fn for
-the sysbus reset registration.
+Replace deprecated qdev_reset_all by resettable_cold_reset_fn for
+the ipl registration in the main reset handlers.
 
-Apart for the raspi machines, this does not impact the behavior
-because:
-+ at this point resettable just calls the old reset methods of devices
-  and buses in the same order as qdev/qbus.
+This does not impact the behavior for the following reasons:
++ at this point resettable just call the old reset methods of devices
+  and buses in the same order than qdev/qbus.
 + resettable handlers registered with qemu_register_reset are
   serialized; there is no interleaving.
 + eventual explicit calls to legacy reset API (device_reset or
   qdev/qbus_reset) inside this reset handler will not be masked out
   by resettable mechanism; they do not go through resettable api.
 
-For the raspi machines, during the sysbus reset the sd-card is not
-reset twice anymore but only once. This is a consequence of switching
-both sysbus reset and changing parent to resettable; it detects the
-second reset is not needed. This has no impact on the state after
-reset; the sd-card reset method only reset local state and query
-information from the block backend.
-
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-
-The raspi reset change can be observed by using the following command
-(reset will occurs, then do Ctrl-C to end qemu; no firmware is
-given here).
-qemu-system-aarch64 -M raspi3 \
-    -trace resettable_phase_hold_exec \
-    -trace qdev_update_parent_bus \
-    -trace resettable_change_parent \
-    -trace qdev_reset -trace qbus_reset
-
-Before the patch, the qdev/qbus_reset traces show when reset method are
-called. After the patch, the resettable_phase_hold_exec show when reset
-method are called.
-
-The traced reset order of the raspi3 is listed below. I've added empty
-lines and the tree structure.
-
- +->bcm2835-peripherals reset
- |
- |       +->sd-card reset
- |   +->sd-bus reset
- +->bcm2835_gpio reset
- |      -> dev_update_parent_bus (move the sd-card on the sdhci-bus)
- |      -> resettable_change_parent
- |
- +->bcm2835-dma reset
- |
- |   +->bcm2835-sdhost-bus reset
- +->bcm2835-sdhost reset
- |
- |       +->sd-card (reset ONLY BEFORE BEFORE THE PATCH)
- |   +->sdhci-bus reset
- +->generic-sdhci reset
- |
- +->bcm2835-rng reset
- +->bcm2835-property reset
- +->bcm2835-fb reset
- +->bcm2835-mbox reset
- +->bcm2835-aux reset
- +->pl011 reset
- +->bcm2835-ic reset
- +->bcm2836-control reset
-System reset
-
-In both case, the sd-card is reset (being on bcm2835_gpio/sd-bus) then mo=
-ved
-to generic-sdhci/sdhci-bus by the bcm2835_gpio reset method.
-
-Before the patch, it is then reset again being part of generic-sdhci/sdhc=
-i-bus.
-After the patch, it considered again for reset but its reset method is no=
-t
-called because it is already flagged as reset.
+Cc: qemu-s390x@nongnu.org
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Thomas Huth <thuth@redhat.com>
 ---
- vl.c | 10 +++++++++-
+ hw/s390x/ipl.c | 10 +++++++++-
  1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/vl.c b/vl.c
-index 751401214c..e5a537d4f9 100644
---- a/vl.c
-+++ b/vl.c
-@@ -4362,7 +4362,15 @@ int main(int argc, char **argv, char **envp)
-=20
-     /* TODO: once all bus devices are qdevified, this should be done
-      * when bus is created by qdev.c */
--    qemu_register_reset(qbus_reset_all_fn, sysbus_get_default());
+diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
+index ca544d64c5..2689f7a017 100644
+--- a/hw/s390x/ipl.c
++++ b/hw/s390x/ipl.c
+@@ -237,7 +237,15 @@ static void s390_ipl_realize(DeviceState *dev, Error=
+ **errp)
+      */
+     ipl->compat_start_addr =3D ipl->start_addr;
+     ipl->compat_bios_start_addr =3D ipl->bios_start_addr;
+-    qemu_register_reset(qdev_reset_all_fn, dev);
 +    /*
-+     * TODO: If we had a main 'reset container' that the whole system
-+     * lived in, we could reset that using the multi-phase reset
-+     * APIs. For the moment, we just reset the sysbus, which will cause
-+     * all devices hanging off it (and all their child buses, recursivel=
-y)
-+     * to be reset. Note that this will *not* reset any Device objects
-+     * which are not attached to some part of the qbus tree!
++     * Because this Device is not on any bus in the qbus tree (it is
++     * not a sysbus device and it's not on some other bus like a PCI
++     * bus) it will not be automatically reset by the 'reset the
++     * sysbus' hook registered by vl.c like most devices. So we must
++     * manually register a reset hook for it.
++     * TODO: there should be a better way to do this.
 +     */
-+    qemu_register_reset(resettable_cold_reset_fn, sysbus_get_default());
-     qemu_run_machine_init_done_notifiers();
-=20
-     if (rom_check_and_register_reset() !=3D 0) {
++    qemu_register_reset(resettable_cold_reset_fn, dev);
+ error:
+     error_propagate(errp, err);
+ }
 --=20
 2.24.1
 
