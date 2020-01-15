@@ -2,69 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 581ED13C96A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:34:29 +0100 (CET)
-Received: from localhost ([::1]:56846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C8113C979
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:37:06 +0100 (CET)
+Received: from localhost ([::1]:56898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irlch-0006bM-Nk
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:34:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53501)
+	id 1irlfF-0001pa-RE
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:37:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57084)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pkrempa@redhat.com>) id 1irkhR-0000xP-To
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:35:21 -0500
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0P-0005yP-FW
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pkrempa@redhat.com>) id 1irkhO-0005pt-FW
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:35:17 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60171
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1irl0L-0006Du-7s
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:53 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:34141 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1irkhO-0005oJ-AT
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:35:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579102512;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9/uTMn24Zke4DRuhEw7wyZIybd89ak3R1ZI5+FRteL8=;
- b=X6DnYPh/lpFiUVhDNsafA10R8XCBd1hS3TldemyxxNIXpY5N8d0MitlVO5vrqBCG6z6TUo
- PdAN5dOG4BRQzHFWS84lRrbnn3gEJ+A6WynJY5Jb7LuGGmXsUqVutFk1KHi2HwTVDGcPgi
- 3URailnTVVsBm+NRMc6Y6ntj/UiWoDQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-VBWK8jUzPMWpm1R8SUoEOQ-1; Wed, 15 Jan 2020 10:35:09 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C3F6928C3C;
- Wed, 15 Jan 2020 15:35:07 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.43.2.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 063EC675AF;
- Wed, 15 Jan 2020 15:34:55 +0000 (UTC)
-Date: Wed, 15 Jan 2020 16:34:53 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [libvirt] [PATCH v2 82/86] numa: forbid '-numa node, mem' for
- 5.0 and newer machine types
-Message-ID: <20200115153453.GL3243410@angien.pipo.sk>
-References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-83-git-send-email-imammedo@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <1579100861-73692-83-git-send-email-imammedo@redhat.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: VBWK8jUzPMWpm1R8SUoEOQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+ (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
+ id 1irl0K-0005h5-RN
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:54:49 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 894651A2164;
+ Wed, 15 Jan 2020 16:53:43 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
+ [10.10.14.93])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 527DC1A1F8E;
+ Wed, 15 Jan 2020 16:53:43 +0100 (CET)
+From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/12] linux-user: Add support for real time clock and
+Date: Wed, 15 Jan 2020 16:53:26 +0100
+Message-Id: <1579103618-20217-1-git-send-email-Filip.Bozuta@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,43 +48,264 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- libvir-list@redhat.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, pbonzini@redhat.com, rth@twiddle.net,
- david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org, berrange@redhat.com, arnd@arndb.de,
+ richard.henderson@linaro.org, laurent@vivier.eu, jcmvbkbc@gmail.com,
+ amarkovic@wavecomp.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 15, 2020 at 16:07:37 +0100, Igor Mammedov wrote:
-> Deprecation period is ran out and it's a time to flip the switch
-> introduced by cd5ff8333a.
-> Disable legacy option for new machine types and amend documentation.
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
-> CC: peter.maydell@linaro.org
-> CC: ehabkost@redhat.com
-> CC: marcel.apfelbaum@gmail.com
-> CC: mst@redhat.com
-> CC: pbonzini@redhat.com
-> CC: rth@twiddle.net
-> CC: david@gibson.dropbear.id.au
-> CC: libvir-list@redhat.com
-> CC: qemu-arm@nongnu.org
-> CC: qemu-ppc@nongnu.org
-> ---
->  hw/arm/virt.c        |  2 +-
->  hw/core/numa.c       |  6 ++++++
->  hw/i386/pc.c         |  1 -
->  hw/i386/pc_piix.c    |  1 +
->  hw/i386/pc_q35.c     |  1 +
->  hw/ppc/spapr.c       |  2 +-
->  qemu-deprecated.texi | 16 ----------------
->  qemu-options.hx      |  8 ++++----
->  8 files changed, 14 insertions(+), 23 deletions(-)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-I'm afraid nobody bothered to fix it yet:
+This series covers following RTC and sound timer ioctls:
 
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1783355
+  RTC ioctls(22):
+
+    * RTC_AIE_ON          * RTC_ALM_SET         * RTC_WKALM_SET
+    * RTC_AIE_OFF         * RTC_ALM_READ        * RTC_WKALM_RD
+    * RTC_UIE_ON          * RTC_RD_TIME         * RTC_PLL_GET
+    * RTC_UIE_OFF         * RTC_SET_TIME        * RTC_PLL_SET
+    * RTC_PIE_ON          * RTC_IRQP_READ       * RTC_VL_READ
+    * RTC_PIE_OFF         * RTC_IRQP_SET        * RTC_VL_CLR
+    * RTC_WIE_ON          * RTC_EPOCH_READ
+    * RTC_WIE_OFF         * RTC_EPOCH_SET
+
+  Sound timer ioctls(14):
+
+    * SNDRV_TIMER_IOCTL_PVERSION          * SNDRV_TIMER_IOCTL_INFO
+    * SNDRV_TIMER_IOCTL_NEXT_DEVICE       * SNDRV_TIMER_IOCTL_PARAMS
+    * SNDRV_TIMER_IOCTL_TREAD             * SNDRV_TIMER_IOCTL_STATUS
+    * SNDRV_TIMER_IOCTL_GINFO             * SNDRV_TIMER_IOCTL_START
+    * SNDRV_TIMER_IOCTL_GPARAMS           * SNDRV_TIMER_IOCTL_STOP
+    * SNDRV_TIMER_IOCTL_GSTATUS           * SNDRV_TIMER_IOCTL_CONTINUE
+    * SNDRV_TIMER_IOCTL_SELECT            * SNDRV_TIMER_IOCTL_PAUSE
+
+The functionalities of individual ioctls were described in this series
+patch commit messages.
+
+Testing method for RTC ioctls:
+
+    Mini test programs were written for each ioctl. Those programs were
+    compiled (sometimes using cross-compilers) for the following
+    architectures:
+
+        * Intel 64-bit (little endian)
+        * Power pc 32-bit (big endian)
+        * Power pc 64-bit (big endian)
+
+    The corresponding native programs were executed without using
+    QEMU on following hosts:
+
+        * Intel Core i7-4790K (x86_64 host)
+        * Power 7447A (ppc32 host)
+
+    All applicable compiled programs were in turn executed through QEMU
+    and the results obtained were the same ones gotten for native
+    execution.
+
+    Example of a test program:
+
+        For ioctl RTC_RD_TIME the following test program was used:
+
+        #include <stdio.h>
+        #include <stdlib.h>
+        #include <linux/rtc.h>
+        #include <fcntl.h>
+        #include <linux/input.h>
+        #include <sys/types.h>
+        #include <unistd.h>
+
+        #define ERROR -1
+
+        int main()
+        {
+
+            int fd = open("/dev/rtc", O_RDWR | O_NONBLOCK);
+
+            if(fd == ERROR)
+            {
+                perror("open");
+                return -1;
+            }
+
+            struct rtc_time cur_time;
+
+            if(ioctl(fd, RTC_RD_TIME, &cur_time) < 0)
+            {
+                perror("ioctl");
+                return -1;
+            }
+
+            printf("Second: %d, Minute: %d, Hour: %d, Day: %d, Month: %d, Year: %d,",
+                cur_time.tm_sec, cur_time.tm_min, cur_time.tm_hour, 
+                cur_time.tm_mday, cur_time.tm_mon, cur_time.tm_year);
+
+            return 0;
+        }
+
+    Limitations of testing:
+
+        The test host pc that was used for testing (intel pc) has RTC
+        that doesn't support all RTC features that are accessible
+        through ioctls. This means that testing can't discover
+        functionality errors related to the third argument of ioctls
+        that are used for features which are not supported. For example,
+        running the test program for ioctl RTC_EPOCH_READ gives
+        the error output: inappropriate ioctl for device. As expected,
+        the same output was obtained through QEMU which means that this
+        ioctl is recognized in QEMU but doesn't really do anything
+        because it is not supported in the host computer's RTC.
+
+        Conclusion: Some RTC ioctls need to be tested on computers
+        that support their functionalities so that it can be inferred
+        that they are really supported in QEMU. In absence of such
+        test hosts, the specifications of those ioctls need to be
+        carefully checked manually and the implementations should be
+        updated accordingly.
+
+Testing method for sound timer ioctls:
+
+    The alsa ioctl test suite, that can be found on github
+    ("https://github.com/alsa-project/alsa-utils"), was used the test
+    the implemented ioctls. The file "timer.c", located in this test
+    suite, contains test functions that are used to test alsa timer
+    ioctls. This file was compiled (sometimes using cross-compilers) 
+    for the following architectures:
+
+        * Intel 64-bit (little endian)
+        * Power pc 32-bit (big endian)
+        * Power pc 64-bit (big endian)
+
+    The corresponding compiled test files were executed without using
+    QEMU on following hosts:
+
+        * Intel Core i7-4790K (x86_64 host)
+        * Power 7447A (ppc32 host)
+
+    The corresponding native compiled test files were executed without using
+    QEMU on following hosts:
+
+        * Intel Core i7-4790K (x86_64 host)
+        * Power 7447A (ppc32 host)
+
+    All compiled test files were in turn executed through QEMU
+    and the results obtained were the same ones gotten for native
+    execution.
+
+    Also, mini test programs were written to test further functionalities
+    of individual ioctls. Those programs were, like the file "timer.c",
+    compiled for different architectures and were executed both natively
+    and thgrough QEMU to compare the results.
+
+    Example of a test program:
+
+        For ioctl SNDRV_TIMER_IOCTL_GINFO the following test program was used:
+
+        #include <stdio.h>
+        #include <stdlib.h>
+        #include <sys/types.h>
+        #include <fcntl.h>
+        #include <sys/ioctl.h>
+        #include <sound/asound.h>
+
+        #define ERROR -1
+
+        int main()
+        {
+            int fd = open("/dev/snd/timer", O_RDWR);
+
+            if(fd == ERROR)
+            {
+                perror("open");
+                return -1;
+            }
+
+            struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL, 
+                                      SNDRV_TIMER_SCLASS_NONE, -1, 
+                                      SNDRV_TIMER_GLOBAL_SYSTEM, 0};
+
+            struct snd_timer_ginfo ginfo;
+            ginfo.tid = id;
+
+            if(ioctl(fd, SNDRV_TIMER_IOCTL_GINFO, &ginfo) == ERROR)
+            {
+                perror("ioctl");
+                return -1;
+            }
+
+            printf("flags: %u\n", ginfo.flags);
+            printf("card: %d\n", ginfo.card);
+            printf("id: %s\n", ginfo.id);
+            printf("name: %s\n", ginfo.name);
+            printf("reserved0: %lu\n", ginfo.reserved0);
+            printf("resolution: %lu\n", ginfo.resolution);
+            printf("resolution_min: %lu\n", ginfo.resolution_min);
+            printf("reolution_max: %lu\n", ginfo.resolution_max);
+            printf("clients: %u\n", ginfo.clients);
+            printf("reserved: %s\n", ginfo.reserved);
+
+            return 0;
+        }
+
+v6:
+
+    * fixed one patch by adding a case statement for 'unsigned long'
+      to recognize two ioctls that are implemented in that patch
+
+    * changed patch descriptions a little bit so that they are more
+      comprehensible
+
+v5:
+
+    * added support for alsa sound timer ioctls
+
+v4:
+
+    * changed patch descriptions so that they are better
+      formatted and more comprehensible
+
+v3:
+
+    * changed two instances of MK_PTR(TYPE_ULONG) to TYPE_ULONG
+
+v2:
+
+    * added description of each ioctl in patches
+    * wrote a more detailed cover letter with description of testing
+    * changed one instance of TYPE_INT to MK_PTR(TYPE_INT)
+
+Filip Bozuta (12):
+  linux-user: Add support for enabling/disabling RTC features using
+    ioctls
+  linux-user: Add support for getting/setting RTC time and alarm using
+    ioctls
+  linux-user: Add support for getting/setting RTC periodic interrupt and
+    epoch using ioctls
+  linux-user: Add support for getting/setting RTC wakeup alarm using
+    ioctls
+  linux-user: Add support for getting/setting RTC PLL correction using
+    ioctls
+  linux-user: Add support for read/clear RTC voltage low detector using
+    ioctls
+  linux-user: Add support for getting alsa timer version and id
+  linux-user: Add support for setting alsa timer enhanced read using
+    ioctl
+  linux-user: Add support for getting/setting specified alsa timer
+    parameters using ioctls
+  linux-user: Add support for selecting alsa timer using ioctl
+  linux-user: Add support for getting/setting selected alsa timer
+    parameters using ioctls
+  linux-user: Add support for selected alsa timer instructions using
+    ioctls
+
+ linux-user/ioctls.h        |  45 +++++++++++++++++
+ linux-user/syscall.c       |   3 ++
+ linux-user/syscall_defs.h  | 121 +++++++++++++++++++++++++++++++++++++++++++++
+ linux-user/syscall_types.h |  91 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 260 insertions(+)
+
+-- 
+2.7.4
 
 
