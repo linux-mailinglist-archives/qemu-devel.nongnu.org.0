@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A0CF13CD18
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:28:55 +0100 (CET)
-Received: from localhost ([::1]:59454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A977D13CD21
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:30:40 +0100 (CET)
+Received: from localhost ([::1]:59474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iroLW-0005Lj-0x
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:28:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35874)
+	id 1iroND-0007gU-J4
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:30:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35478)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iroDn-0002Ij-8G
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:20:59 -0500
+ (envelope-from <philmd@redhat.com>) id 1iroBk-0000QM-MN
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:18:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iroDh-0001Oy-DP
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:20:54 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24070
+ (envelope-from <philmd@redhat.com>) id 1iroBh-0008Ic-6a
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:18:48 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45433
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iroDh-0001OX-AC
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:20:49 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iroBh-0008IH-3R
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:18:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579116048;
+ s=mimecast20190719; t=1579115924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lr+NKYaXofPcR7RhfeN0IXT7lsyX1EfsRocFjD8LXa4=;
- b=WeHUk40anFSZiCM0gyhJ7/Kf2tZMECp27ZthWi+t7z6wfs1C3PJu5DfPQTJXp1/9TXEhfK
- NW0cGX0O0x1xC5huvtr8iUXa27/QqLEtkhNVTRw/8laW+7iUQFlUu0U11vrBkb/Vz24zUb
- 2JNtYeBcxjCKd0vai+bFkKXxoT0F8cg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-frMzcgTaN4ac0HEAuX1THw-1; Wed, 15 Jan 2020 14:20:47 -0500
-Received: by mail-wm1-f72.google.com with SMTP id t4so300840wmf.2
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 11:20:47 -0800 (PST)
+ bh=a1G9F6OaC6r8VcMdrUFe/BQIWU0G0oM1nX4/KoUtdok=;
+ b=dDgOvu4ZoYGgtAG35Gzbz3AdZRFRmr6H55zqFp44YcMtOr+/i++QXNZ9baKaU++ISQlJjU
+ T0IIPGFUY/n7aYXXqYpGDeK+rP9yJ3vEeN+mkbveSxylqflPl2L9KwnVrOCkp8fK1LVYEE
+ jQPL991pdC4/+Bz42QBq41bMssnbNfE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-jP5SoIAZOT6kXoWO_Hn9GA-1; Wed, 15 Jan 2020 14:18:43 -0500
+Received: by mail-wr1-f69.google.com with SMTP id u18so8317422wrn.11
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 11:18:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=CoCbto6KEXlFgRfezNSysfUhqWHr1+YzcWoymJRp9Ls=;
- b=loyXC2HFYuV/cZBaNisvjHIAF+TeDmDyxBvRphW+EzCwzHV62a2rOxs5JZ9+Wy/4x3
- TyvZjDjaP8YU/ShruWbVXJqJYH2BJDVnEdANj8fB/4xrvn/lGzZBdm9JvM01g93xl66P
- QeBHYE69SSuN2IBV5p2Oqt8rFNBgzU9EWE89ngvKcEbVZqrJ3ZAb7mE/iTb/uo3rlouy
- 3KSvh7crQmdn5/t16hpJ9CNMi7TZPMFKi1XOBTASC6VcaVRnWUU6YG52OV5fBUrAL2F9
- ZrTbB1d6tNLKdkGGek/CpXyDyuL1lxoyK/XNFG1VTudycTugpON6GVdmnTjhvnYrqNaG
- CCvg==
-X-Gm-Message-State: APjAAAXyMl5E8IWPHZg67g5OgzCc6BPTgEcM/Jta8UeTHGrbQm89hmtp
- R1iAASWFbfG8+1smq2eh619dsf1mwyAtVuHxjp2QMxOAOsUSc7SZXMq2xfhZQUAhuerc/getHKV
- o/TiKEotpz1OdLZg=
-X-Received: by 2002:a5d:6441:: with SMTP id d1mr32728630wrw.93.1579116046016; 
- Wed, 15 Jan 2020 11:20:46 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyhG/rlnDTNqTEPH0H0OHHwQz3ZxLG+zcQ2P1vhRzhW8ws4Amf35Evj7eFgGjEuz5LoyH4wfg==
-X-Received: by 2002:a5d:6441:: with SMTP id d1mr32728612wrw.93.1579116045806; 
- Wed, 15 Jan 2020 11:20:45 -0800 (PST)
+ bh=vXDQhNlLeoCnvPYVearnv8QPy7p0K1LW31op/Zn5Eyo=;
+ b=FqX/gWfV6Q5PyIgQFIOelyL3iDG226J0mwKORzfgaOA0V2UZCtL5Mlcm8fi5p5bXjY
+ KbKciTNZf0lh340xScTQ+JFLor7BEtsMziGEkd9oIq+J/PDEkmy4e7CjW/oMC5P9F5Vd
+ K22u5UWJNp7pWNzZVoL2uKlMzX38EcxFahu6owk7Lcm9q8Jghy5+eonyEfsxykVmmgSY
+ DGhD1SJTB3KNECMEqX0YvyeaewXrB+m4b6RjlnbB5WA70kVS4MyIn1jO7HnAPw5E1WNn
+ P7gfY8gmV4fCxfhuWUwAjVIJCC9BcSG3oaVRcdi/TBUJ91xmf6F3AnK59t7DSdgUijw/
+ O/EA==
+X-Gm-Message-State: APjAAAXmCWHKrNyS8CvokK2Y9/rhTLOZ4MqP8kHGrmfRGdEbC5AdkpmT
+ zGXzCttW8N/8c5Jua+Z0cKXpv3BNx9Mj66yTEmH9C/APVc5FrWgJJLEhkAlv0d+fZo+lF84T61F
+ D889a1R34aQBxBkM=
+X-Received: by 2002:a1c:e108:: with SMTP id y8mr1489392wmg.147.1579115922617; 
+ Wed, 15 Jan 2020 11:18:42 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzCmucc/THfWzTPwAIXEjBqNdRYZXnuoomubPDS2D/ADKMZsSQ+Bg6uYuzePn/QqFrFloWwRw==
+X-Received: by 2002:a1c:e108:: with SMTP id y8mr1489375wmg.147.1579115922441; 
+ Wed, 15 Jan 2020 11:18:42 -0800 (PST)
 Received: from ?IPv6:2a01:cb1d:8a0a:f500:48c1:8eab:256a:caf9?
  ([2a01:cb1d:8a0a:f500:48c1:8eab:256a:caf9])
- by smtp.gmail.com with ESMTPSA id z4sm1100765wma.2.2020.01.15.11.20.44
+ by smtp.gmail.com with ESMTPSA id a1sm1095094wmj.40.2020.01.15.11.18.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jan 2020 11:20:45 -0800 (PST)
-Subject: Re: [PATCH v2 31/86] arm:versatilepb: use memdev for RAM
+ Wed, 15 Jan 2020 11:18:41 -0800 (PST)
+Subject: Re: [PATCH v2 14/86] arm:highbank: use memdev for RAM
 To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-32-git-send-email-imammedo@redhat.com>
+ <1579100861-73692-15-git-send-email-imammedo@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5043dca5-2b49-9f9f-fe56-db286643fe0a@redhat.com>
-Date: Wed, 15 Jan 2020 20:20:44 +0100
+Message-ID: <1177e3ef-6c18-b6e7-d96f-bfb7a906250f@redhat.com>
+Date: Wed, 15 Jan 2020 20:18:41 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <1579100861-73692-32-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1579100861-73692-15-git-send-email-imammedo@redhat.com>
 Content-Language: en-US
-X-MC-Unique: frMzcgTaN4ac0HEAuX1THw-1
+X-MC-Unique: jP5SoIAZOT6kXoWO_Hn9GA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,7 +91,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: robh@kernel.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -106,57 +106,79 @@ On 1/15/20 4:06 PM, Igor Mammedov wrote:
 >=20
 > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 > ---
+> CC: robh@kernel.org
 > CC: peter.maydell@linaro.org
 > CC: qemu-arm@nongnu.org
 > ---
->   hw/arm/versatilepb.c | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
+>   hw/arm/highbank.c | 10 ++++------
+>   1 file changed, 4 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
-> index e86af01..f3c4a50 100644
-> --- a/hw/arm/versatilepb.c
-> +++ b/hw/arm/versatilepb.c
-> @@ -184,7 +184,6 @@ static void versatile_init(MachineState *machine, int=
- board_id)
->       Object *cpuobj;
->       ARMCPU *cpu;
->       MemoryRegion *sysmem =3D get_system_memory();
-> -    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
->       qemu_irq pic[32];
->       qemu_irq sic[32];
->       DeviceState *dev, *sysctl;
-> @@ -220,11 +219,9 @@ static void versatile_init(MachineState *machine, in=
-t board_id)
+> diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
+> index 518d935..ac9de94 100644
+> --- a/hw/arm/highbank.c
+> +++ b/hw/arm/highbank.c
+> @@ -236,7 +236,6 @@ enum cxmachines {
+>    */
+>   static void calxeda_init(MachineState *machine, enum cxmachines machine=
+_id)
+>   {
+> -    ram_addr_t ram_size =3D machine->ram_size;
+>       DeviceState *dev =3D NULL;
+>       SysBusDevice *busdev;
+>       qemu_irq pic[128];
+> @@ -247,7 +246,6 @@ static void calxeda_init(MachineState *machine, enum =
+cxmachines machine_id)
+>       qemu_irq cpu_virq[4];
+>       qemu_irq cpu_vfiq[4];
+>       MemoryRegion *sysram;
+> -    MemoryRegion *dram;
+>       MemoryRegion *sysmem;
+>       char *sysboot_filename;
 >  =20
->       cpu =3D ARM_CPU(cpuobj);
+> @@ -290,10 +288,8 @@ static void calxeda_init(MachineState *machine, enum=
+ cxmachines machine_id)
+>       }
 >  =20
-> -    memory_region_allocate_system_memory(ram, NULL, "versatile.ram",
-> -                                         machine->ram_size);
->       /* ??? RAM should repeat to fill physical memory space.  */
+>       sysmem =3D get_system_memory();
+> -    dram =3D g_new(MemoryRegion, 1);
+> -    memory_region_allocate_system_memory(dram, NULL, "highbank.dram", ra=
+m_size);
 >       /* SDRAM at address zero.  */
-> -    memory_region_add_subregion(sysmem, 0, ram);
+> -    memory_region_add_subregion(sysmem, 0, dram);
 > +    memory_region_add_subregion(sysmem, 0, machine->ram);
 >  =20
->       sysctl =3D qdev_create(NULL, "realview_sysctl");
->       qdev_prop_set_uint32(sysctl, "sys_id", 0x41007004);
-> @@ -398,6 +395,7 @@ static void versatilepb_class_init(ObjectClass *oc, v=
-oid *data)
->       mc->block_default_type =3D IF_SCSI;
+>       sysram =3D g_new(MemoryRegion, 1);
+>       memory_region_init_ram(sysram, NULL, "highbank.sysram", 0x8000,
+> @@ -387,7 +383,7 @@ static void calxeda_init(MachineState *machine, enum =
+cxmachines machine_id)
+>  =20
+>       /* TODO create and connect IDE devices for ide_drive_get() */
+>  =20
+> -    highbank_binfo.ram_size =3D ram_size;
+> +    highbank_binfo.ram_size =3D machine->ram_size;
+>       /* highbank requires a dtb in order to boot, and the dtb will overr=
+ide
+>        * the board ID. The following value is ignored, so set it to -1 to=
+ be
+>        * clear that the value is meaningless.
+> @@ -430,6 +426,7 @@ static void highbank_class_init(ObjectClass *oc, void=
+ *data)
+>       mc->units_per_default_bus =3D 1;
+>       mc->max_cpus =3D 4;
 >       mc->ignore_memory_transaction_failures =3D true;
->       mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm926");
-> +    mc->default_ram_id =3D "versatile.ram";
+> +    mc->default_ram_id =3D "highbank.dram";
 >   }
 >  =20
->   static const TypeInfo versatilepb_type =3D {
-> @@ -415,6 +413,7 @@ static void versatileab_class_init(ObjectClass *oc, v=
-oid *data)
->       mc->block_default_type =3D IF_SCSI;
+>   static const TypeInfo highbank_type =3D {
+> @@ -448,6 +445,7 @@ static void midway_class_init(ObjectClass *oc, void *=
+data)
+>       mc->units_per_default_bus =3D 1;
+>       mc->max_cpus =3D 4;
 >       mc->ignore_memory_transaction_failures =3D true;
->       mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm926");
-> +    mc->default_ram_id =3D "versatile.ram";
+> +    mc->default_ram_id =3D "highbank.dram";
 >   }
 >  =20
->   static const TypeInfo versatileab_type =3D {
+>   static const TypeInfo midway_type =3D {
 >=20
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
