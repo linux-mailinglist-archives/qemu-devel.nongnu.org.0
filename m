@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5238B13C93E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:26:33 +0100 (CET)
-Received: from localhost ([::1]:56746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29AAD13C92E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 17:24:47 +0100 (CET)
+Received: from localhost ([::1]:56720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irlV2-00043E-7V
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:26:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50206)
+	id 1irlTK-0001sx-4G
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 11:24:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50150)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkLW-0001xv-OW
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:40 -0500
+ (envelope-from <imammedo@redhat.com>) id 1irkLO-0001he-Kq
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkLV-0000l7-EB
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55335
+ (envelope-from <imammedo@redhat.com>) id 1irkLN-0000hf-2L
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21263
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkLV-0000kx-AD
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:37 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkLM-0000hR-V6
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:12:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579101156;
+ s=mimecast20190719; t=1579101148;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U+lowBzoIY0dDCl+bQ5sJ8da8WshYhW4HCkTZVjSGac=;
- b=jUpnqlZc2oNk4t9uloVcv5FMmOGN8jSZRNIO/YDzbqXcl82o7feraKhRHAMoQAKWYtCxTL
- qSvb8yQL3pZHW4XRlg0+asXo0lEIhKz8FbUKfuUYt32PfNWHoKLAqcK8h4SqaJz/PBvara
- 5/RacKxRzJuuATDNkXpkt6icodcZWmI=
+ bh=RYwuaRf7QSb72c9iSmfSb+rO2tJO/VYOiBm0aUBATX4=;
+ b=Rh4B461oVaLdS8f/FgA7rkOIwhLrHipcfHPXtJS/rLKoZim0lPVCWKMODqcvhOyl3WoV8+
+ FJHgTonDgor/ks44o7N3yJA0SifLos7/lSn2aZobUjPNltLpwLg20RBLEoYmhvie9lkMjy
+ 9sLqVPi6+JfRO8wvz/WBmqWTfX7F9yM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-gTSNLX0NN72C6BFnUslEOg-1; Wed, 15 Jan 2020 10:12:26 -0500
+ us-mta-377-qlBphB-vM6i87SD6ESet_Q-1; Wed, 15 Jan 2020 10:12:27 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C95218B641A
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:12:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AC3A917313
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:12:26 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55D8E381;
- Wed, 15 Jan 2020 15:12:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 740FC196AE;
+ Wed, 15 Jan 2020 15:12:25 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 83/86] tests:numa-test: make top level args dynamic and
- g_autofree(cli) cleanups
-Date: Wed, 15 Jan 2020 16:07:38 +0100
-Message-Id: <1579100861-73692-84-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 84/86] tests:numa-test: use explicit memdev to specify node
+ RAM
+Date: Wed, 15 Jan 2020 16:07:39 +0100
+Message-Id: <1579100861-73692-85-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: gTSNLX0NN72C6BFnUslEOg-1
+X-MC-Unique: qlBphB-vM6i87SD6ESet_Q-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
@@ -75,191 +75,180 @@ Cc: lvivier@redhat.com, thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use GString to pass argument to make_cli() so that it would be easy
-to dynamically change test case arguments from main(). The follow up
-patch will use it to change RAM size options depending on target.
+Follow up patches will remove automatic RAM distribution
+between nodes and will make default machine types require
+"memdev" option instead of legacy "mem" option.
 
-While at it cleanup 'cli' freeing, using g_autofree annotation.
+Make tests to follow new rules and add an additional test
+for legacy "mem" option on old machine type, to make sure
+it won't regress in the future.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-PS:
-  made as a separate patch so it won't clutter followup testcase changes.
-
 CC: thuth@redhat.com
 CC: lvivier@redhat.com
 ---
- tests/qtest/numa-test.c | 38 ++++++++++++++------------------------
- 1 file changed, 14 insertions(+), 24 deletions(-)
+ tests/qtest/numa-test.c | 52 ++++++++++++++++++++++++++++++++++++---------=
+----
+ 1 file changed, 38 insertions(+), 14 deletions(-)
 
 diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-index 17dd807..a696dfd 100644
+index a696dfd..322d2ef 100644
 --- a/tests/qtest/numa-test.c
 +++ b/tests/qtest/numa-test.c
-@@ -14,16 +14,16 @@
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qlist.h"
+@@ -25,9 +25,8 @@ static void test_mon_explicit(const void *data)
+     g_autofree char *s =3D NULL;
+     g_autofree char *cli =3D NULL;
 =20
--static char *make_cli(const char *generic_cli, const char *test_cli)
-+static char *make_cli(const GString *generic_cli, const char *test_cli)
- {
--    return g_strdup_printf("%s %s", generic_cli ? generic_cli : "", test_c=
-li);
-+    return g_strdup_printf("%s %s", generic_cli->str, test_cli);
- }
-=20
- static void test_mon_explicit(const void *data)
- {
--    char *s;
--    char *cli;
-     QTestState *qts;
-+    g_autofree char *s =3D NULL;
-+    g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-smp 8 "
-                    "-numa node,nodeid=3D0,cpus=3D0-3 "
-@@ -33,17 +33,15 @@ static void test_mon_explicit(const void *data)
-     s =3D qtest_hmp(qts, "info numa");
-     g_assert(strstr(s, "node 0 cpus: 0 1 2 3"));
-     g_assert(strstr(s, "node 1 cpus: 4 5 6 7"));
--    g_free(s);
-=20
-     qtest_quit(qts);
--    g_free(cli);
- }
-=20
- static void test_mon_default(const void *data)
- {
--    char *s;
--    char *cli;
-     QTestState *qts;
-+    g_autofree char *s =3D NULL;
-+    g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-smp 8 -numa node -numa node");
+-    cli =3D make_cli(data, "-smp 8 "
+-                   "-numa node,nodeid=3D0,cpus=3D0-3 "
+-                   "-numa node,nodeid=3D1,cpus=3D4-7 ");
++    cli =3D make_cli(data, "-smp 8 -numa node,nodeid=3D0,memdev=3Dram,cpus=
+=3D0-3 "
++                         "-numa node,nodeid=3D1,cpus=3D4-7");
      qts =3D qtest_init(cli);
-@@ -51,17 +49,15 @@ static void test_mon_default(const void *data)
-     s =3D qtest_hmp(qts, "info numa");
-     g_assert(strstr(s, "node 0 cpus: 0 2 4 6"));
-     g_assert(strstr(s, "node 1 cpus: 1 3 5 7"));
--    g_free(s);
 =20
+     s =3D qtest_hmp(qts, "info numa");
+@@ -37,13 +36,13 @@ static void test_mon_explicit(const void *data)
      qtest_quit(qts);
--    g_free(cli);
  }
 =20
+-static void test_mon_default(const void *data)
++static void test_def_cpu_split(const void *data)
+ {
+     QTestState *qts;
+     g_autofree char *s =3D NULL;
+     g_autofree char *cli =3D NULL;
+=20
+-    cli =3D make_cli(data, "-smp 8 -numa node -numa node");
++    cli =3D make_cli(data, "-smp 8 -numa node,memdev=3Dram -numa node");
+     qts =3D qtest_init(cli);
+=20
+     s =3D qtest_hmp(qts, "info numa");
+@@ -53,6 +52,23 @@ static void test_mon_default(const void *data)
+     qtest_quit(qts);
+ }
+=20
++static void test_pc_legacy_mem(const void *data)
++{
++    QTestState *qts;
++    g_autofree char *s =3D NULL;
++    g_autofree char *cli =3D NULL;
++
++    cli =3D make_cli(data, "-M pc-i440fx-4.2 -smp 8 "
++                         "-numa node,mem=3D64M -numa node,mem=3D64M");
++    qts =3D qtest_init(cli);
++
++    s =3D qtest_hmp(qts, "info numa");
++    g_assert(strstr(s, "node 0 size: 64 MB"));
++    g_assert(strstr(s, "node 1 size: 64 MB"));
++
++    qtest_quit(qts);
++}
++
  static void test_mon_partial(const void *data)
  {
--    char *s;
--    char *cli;
      QTestState *qts;
-+    g_autofree char *s =3D NULL;
-+    g_autofree char *cli =3D NULL;
+@@ -60,7 +76,7 @@ static void test_mon_partial(const void *data)
+     g_autofree char *cli =3D NULL;
 =20
      cli =3D make_cli(data, "-smp 8 "
-                    "-numa node,nodeid=3D0,cpus=3D0-1 "
-@@ -71,10 +67,8 @@ static void test_mon_partial(const void *data)
-     s =3D qtest_hmp(qts, "info numa");
-     g_assert(strstr(s, "node 0 cpus: 0 1 2 3 6 7"));
-     g_assert(strstr(s, "node 1 cpus: 4 5"));
--    g_free(s);
-=20
-     qtest_quit(qts);
--    g_free(cli);
- }
-=20
- static QList *get_cpus(QTestState *qts, QDict **resp)
-@@ -87,11 +81,11 @@ static QList *get_cpus(QTestState *qts, QDict **resp)
-=20
- static void test_query_cpus(const void *data)
- {
--    char *cli;
-     QDict *resp;
-     QList *cpus;
-     QObject *e;
-     QTestState *qts;
-+    g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-smp 8 -numa node,cpus=3D0-3 -numa node,cpus=
-=3D4-7");
+-                   "-numa node,nodeid=3D0,cpus=3D0-1 "
++                   "-numa node,nodeid=3D0,memdev=3Dram,cpus=3D0-1 "
+                    "-numa node,nodeid=3D1,cpus=3D4-5 ");
      qts =3D qtest_init(cli);
-@@ -120,16 +114,15 @@ static void test_query_cpus(const void *data)
 =20
-     qobject_unref(resp);
-     qtest_quit(qts);
--    g_free(cli);
- }
-=20
- static void pc_numa_cpu(const void *data)
- {
--    char *cli;
-     QDict *resp;
-     QList *cpus;
-     QObject *e;
+@@ -87,7 +103,8 @@ static void test_query_cpus(const void *data)
      QTestState *qts;
-+    g_autofree char *cli =3D NULL;
+     g_autofree char *cli =3D NULL;
+=20
+-    cli =3D make_cli(data, "-smp 8 -numa node,cpus=3D0-3 -numa node,cpus=
+=3D4-7");
++    cli =3D make_cli(data, "-smp 8 -numa node,memdev=3Dram,cpus=3D0-3 "
++                         "-numa node,cpus=3D4-7");
+     qts =3D qtest_init(cli);
+     cpus =3D get_cpus(qts, &resp);
+     g_assert(cpus);
+@@ -125,7 +142,7 @@ static void pc_numa_cpu(const void *data)
+     g_autofree char *cli =3D NULL;
 =20
      cli =3D make_cli(data, "-cpu pentium -smp 8,sockets=3D2,cores=3D2,thre=
 ads=3D2 "
-         "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-@@ -174,16 +167,15 @@ static void pc_numa_cpu(const void *data)
-=20
-     qobject_unref(resp);
-     qtest_quit(qts);
--    g_free(cli);
- }
-=20
- static void spapr_numa_cpu(const void *data)
- {
--    char *cli;
-     QDict *resp;
-     QList *cpus;
-     QObject *e;
-     QTestState *qts;
-+    g_autofree char *cli =3D NULL;
+-        "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
++        "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
+         "-numa cpu,node-id=3D1,socket-id=3D0 "
+         "-numa cpu,node-id=3D0,socket-id=3D1,core-id=3D0 "
+         "-numa cpu,node-id=3D0,socket-id=3D1,core-id=3D1,thread-id=3D0 "
+@@ -178,7 +195,7 @@ static void spapr_numa_cpu(const void *data)
+     g_autofree char *cli =3D NULL;
 =20
      cli =3D make_cli(data, "-smp 4,cores=3D4 "
-         "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-@@ -220,16 +212,15 @@ static void spapr_numa_cpu(const void *data)
-=20
-     qobject_unref(resp);
-     qtest_quit(qts);
--    g_free(cli);
- }
-=20
- static void aarch64_numa_cpu(const void *data)
- {
--    char *cli;
-     QDict *resp;
-     QList *cpus;
-     QObject *e;
-     QTestState *qts;
-+    g_autofree char *cli =3D NULL;
+-        "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
++        "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
+         "-numa cpu,node-id=3D0,core-id=3D0 "
+         "-numa cpu,node-id=3D0,core-id=3D1 "
+         "-numa cpu,node-id=3D0,core-id=3D2 "
+@@ -223,7 +240,7 @@ static void aarch64_numa_cpu(const void *data)
+     g_autofree char *cli =3D NULL;
 =20
      cli =3D make_cli(data, "-smp 2 "
-         "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-@@ -264,7 +255,6 @@ static void aarch64_numa_cpu(const void *data)
+-        "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
++        "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
+         "-numa cpu,node-id=3D1,thread-id=3D0 "
+         "-numa cpu,node-id=3D0,thread-id=3D1");
+     qts =3D qtest_init(cli);
+@@ -263,13 +280,14 @@ static void pc_dynamic_cpu_cfg(const void *data)
+     QDict *resp;
+     QList *cpus;
+     QTestState *qs;
++    g_autofree char *cli =3D NULL;
 =20
-     qobject_unref(resp);
-     qtest_quit(qts);
--    g_free(cli);
- }
+-    qs =3D qtest_initf("%s -nodefaults --preconfig -smp 2",
+-                     data ? (char *)data : "");
++    cli =3D make_cli(data, "-nodefaults --preconfig -smp 2");
++    qs =3D qtest_init(cli);
 =20
- static void pc_dynamic_cpu_cfg(const void *data)
-@@ -539,11 +529,11 @@ static void pc_hmat_erange_cfg(const void *data)
+     /* create 2 numa nodes */
+     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
+-        " 'arguments': { 'type': 'node', 'nodeid': 0 } }")));
++        " 'arguments': { 'type': 'node', 'nodeid': 0, 'memdev': 'ram' } }"=
+)));
+     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
+         " 'arguments': { 'type': 'node', 'nodeid': 1 } }")));
 =20
- int main(int argc, char **argv)
- {
--    const char *args =3D NULL;
-+    g_autoptr(GString) args =3D g_string_new("");
-     const char *arch =3D qtest_get_arch();
-=20
+@@ -535,10 +553,15 @@ int main(int argc, char **argv)
      if (strcmp(arch, "aarch64") =3D=3D 0) {
--        args =3D "-machine virt";
-+        g_string_append(args, " -machine virt");
+         g_string_append(args, " -machine virt");
      }
++    if (!strcmp(arch, "ppc64")) {
++        g_string_append(args, " -object memory-backend-ram,id=3Dram,size=
+=3D512M");
++    } else {
++        g_string_append(args, " -object memory-backend-ram,id=3Dram,size=
+=3D128M");
++    }
 =20
      g_test_init(&argc, &argv, NULL);
+=20
+-    qtest_add_data_func("/numa/mon/default", args, test_mon_default);
++    qtest_add_data_func("/numa/mon/cpus/default", args, test_def_cpu_split=
+);
+     qtest_add_data_func("/numa/mon/cpus/explicit", args, test_mon_explicit=
+);
+     qtest_add_data_func("/numa/mon/cpus/partial", args, test_mon_partial);
+     qtest_add_data_func("/numa/qmp/cpus/query-cpus", args, test_query_cpus=
+);
+@@ -549,6 +572,7 @@ int main(int argc, char **argv)
+         qtest_add_data_func("/numa/pc/hmat/build", args, pc_hmat_build_cfg=
+);
+         qtest_add_data_func("/numa/pc/hmat/off", args, pc_hmat_off_cfg);
+         qtest_add_data_func("/numa/pc/hmat/erange", args, pc_hmat_erange_c=
+fg);
++        qtest_add_data_func("/numa/pc/legacy/mem", args, test_pc_legacy_me=
+m);
+     }
+=20
+     if (!strcmp(arch, "ppc64")) {
 --=20
 2.7.4
 
