@@ -2,45 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5C113CD58
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:45:16 +0100 (CET)
-Received: from localhost ([::1]:59826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2FD13CD7B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:53:06 +0100 (CET)
+Received: from localhost ([::1]:59942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irobL-0000OW-30
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:45:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39006)
+	id 1iroiv-0000CO-8S
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:53:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40390)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iroW3-0001Je-EP
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:39:48 -0500
+ (envelope-from <arnd@arndb.de>) id 1irohr-0007wI-SO
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:52:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iroW1-00066i-90
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:39:47 -0500
-Resent-Date: Wed, 15 Jan 2020 14:39:47 -0500
-Resent-Message-Id: <E1iroW1-00066i-90@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21157)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iroW1-00065T-1N
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:39:45 -0500
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 157911717475746.28844896268515;
- Wed, 15 Jan 2020 11:39:34 -0800 (PST)
-In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
-Subject: Re: [PATCH v2 00/86] refactor main RAM allocation to use hostmem
- backend
-Message-ID: <157911717375.8290.17349808340085664729@37313f22b938>
+ (envelope-from <arnd@arndb.de>) id 1iroho-0005ea-1V
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:51:59 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:46305)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <arnd@arndb.de>) id 1irohn-0005do-P6
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:51:55 -0500
+Received: from mail-qk1-f172.google.com ([209.85.222.172]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1MQdI8-1j3JPT4C18-00NjGi for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020
+ 20:51:54 +0100
+Received: by mail-qk1-f172.google.com with SMTP id z76so16878925qka.2
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 11:51:53 -0800 (PST)
+X-Gm-Message-State: APjAAAXbzcxO/mfpU1+aEnvnN4WTsaoB+4t3PNfRGQdszB/fRGrrD+Pc
+ ++JHqtgndn/mkqPlyZNI0Sz78Msb1Cx6FAtJCnk=
+X-Google-Smtp-Source: APXvYqzjf4XvyloOxlvpfsbN9zEoivGnfwTXgDIvHxbwLHz4X8wjNjXCPgymm8pmS4v/zKVhhIX7/21yXIXb0Wklns4=
+X-Received: by 2002:a37:2f02:: with SMTP id v2mr28691998qkh.3.1579117912698;
+ Wed, 15 Jan 2020 11:51:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: imammedo@redhat.com
-Date: Wed, 15 Jan 2020 11:39:34 -0800 (PST)
-X-ZohoMailClient: External
+References: <1579103618-20217-1-git-send-email-Filip.Bozuta@rt-rk.com>
+ <1579103618-20217-9-git-send-email-Filip.Bozuta@rt-rk.com>
+ <CAK8P3a187rPhma7Q6o+hCF3h0=5MLZwh49+JqKt6BvVsAB1efQ@mail.gmail.com>
+ <ceaf44c0-fd6c-c280-7f95-7bc133553089@vivier.eu>
+ <CAK8P3a36KqWD4fKBLDpFhJg079bNdJDSDUAP2Zu_i1+H62Q6ZQ@mail.gmail.com>
+ <518d717d-9f1e-e00e-f2a9-df8861241d1c@rt-rk.com>
+In-Reply-To: <518d717d-9f1e-e00e-f2a9-df8861241d1c@rt-rk.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Wed, 15 Jan 2020 20:51:36 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a10N3PCkN2mUk7qLTrz6iaO8CYZjGFLWntzwc4L4n_JXw@mail.gmail.com>
+Message-ID: <CAK8P3a10N3PCkN2mUk7qLTrz6iaO8CYZjGFLWntzwc4L4n_JXw@mail.gmail.com>
+Subject: Re: [PATCH 08/12] linux-user: Add support for setting alsa timer
+ enhanced read using ioctl
+To: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ArrVC6qXYjde3SZ9bZAq2CIiNPakTDVLoeilBVkr7dSyetITBLD
+ RjO8NZK118td/cszgH4lxmTqKcAJzSRbLDSetAlw6EgELlZQ/sOqhJMkwtUNzhLXgJKp15x
+ Z4aWe3YfERsLcuPV8P1JqtxxZPzKkO60j5p24FExLbgQwVgZkP7Aa52jeHcNp3g3pPoxj/f
+ NxtF7n3JgMsM0DF0jyChw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KI3/+PvDZfg=:yEnq2W8iJJE5DTEAb2EHzs
+ D+w9OdGfGDzkHCervzujL0kMvq7rsgidbxX/J4dvSZDMyFLN/Bha4NQ2CiNSeiZ8M0SZYCOeZ
+ X+iFNhX6MmcREmDeQx1wqPGRx0INxp9QXtp8g62EGilSkiuXZpaq5LN3z7g/Z/p+8o/wtK02Y
+ XxvDJTzzjDgsG3NxvAGuqXKF2nEVwcpG2Dkyau5hU5wwWuoe8mX7TOOmvjSNWQGmzETu1dalM
+ mr5bMRyptJZl598q+hc2bG8M6s6tyNXoBeLaK+MGQWzezYrM9qfZS02MBcLD3lFevkC+S5mgU
+ K0+mD6ig3SAB5YU9t58YwfDZwX+y89FFIy0Zv3wX3UWk89FpB/3nmLcytZTnwYFnd56rc5uZl
+ Mwc5osUfSWG3WRt2PWG/+8iB0cMXGh6lu1U8ojSuKlcRdqczKqt15/rXdNf9Xc4qFc5Mbrd+e
+ VvHkhjBGKCmtmHx34yHmP72x4llEmqT2GeZ8m1Dt8Z+gEsOLA1Kai4pRMAhUU+m6+7IEpU0cY
+ rmFUsjjgwjekNW6qztaLW9yMA5Wz1YZhDjR81KKJ1U9X8KwjwPv5qhKm7lwR3Pe0X7TBblyxh
+ 2RfnulHl8DDzleAVN5jQXLktaKqYfJRqScJc25APeOUDPqvLYQXCcKOOQ+2/RHdabVWq2LixH
+ 2fjpBpSXS7nFWMf2QGKBUDB7uDogriiEqhTCWDgATvIjo2ULVCMcKcbfterIdgBPoshutGHS5
+ 1rNkWdDyFSJleibGxEbCrwzoTfduMaR/k9Ot3bSsye84jCj6e3kJQ11B1KkFe3+R2IkCwbBOW
+ YJL57e0mB8hGA09beeAFVf4tuTGD9SCTcd12vM+filGlzbJiOphxUeLZiVzMXhRMzDlPZ46/3
+ 3dc3eolvHKEfwShtmOgg==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 212.227.17.10
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,51 +80,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>, amarkovic@wavecomp.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTc5MTAwODYxLTczNjkyLTEt
-Z2l0LXNlbmQtZW1haWwtaW1hbW1lZG9AcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBm
-YWlsZWQgdGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRo
-ZSB0ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERv
-Y2tlciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9
-PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNl
-bnRvczcgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBT
-SE9XX0VOVj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIFRFU1Qg
-ICAgaW90ZXN0LXFjb3cyOiAxODQKc29ja2V0X2FjY2VwdCBmYWlsZWQ6IFJlc291cmNlIHRlbXBv
-cmFyaWx5IHVuYXZhaWxhYmxlCioqCkVSUk9SOi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9xdGVz
-dC9saWJxdGVzdC5jOjI3MjpxdGVzdF9pbml0X3dpdGhvdXRfcW1wX2hhbmRzaGFrZTogYXNzZXJ0
-aW9uIGZhaWxlZDogKHMtPmZkID49IDAgJiYgcy0+cW1wX2ZkID49IDApCi90bXAvcWVtdS10ZXN0
-L3NyYy90ZXN0cy9xdGVzdC9saWJxdGVzdC5jOjE0MDoga2lsbF9xZW11KCkgdHJpZWQgdG8gdGVy
-bWluYXRlIFFFTVUgcHJvY2VzcyBidXQgZW5jb3VudGVyZWQgZXhpdCBzdGF0dXMgMSAoZXhwZWN0
-ZWQgMCkKRVJST1IgLSBCYWlsIG91dCEgRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3F0
-ZXN0L2xpYnF0ZXN0LmM6MjcyOnF0ZXN0X2luaXRfd2l0aG91dF9xbXBfaGFuZHNoYWtlOiBhc3Nl
-cnRpb24gZmFpbGVkOiAocy0+ZmQgPj0gMCAmJiBzLT5xbXBfZmQgPj0gMCkKICBURVNUICAgIGlv
-dGVzdC1xY293MjogMTg2Cm1ha2U6ICoqKiBbY2hlY2stcXRlc3QteDg2XzY0XSBFcnJvciAxCm1h
-a2U6ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCiAgVEVTVCAgICBpb3Rlc3Qt
-cWNvdzI6IDE4NwogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAxOTAKLS0tCiAgICByYWlzZSBDYWxs
-ZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJv
-cjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdj
-b20ucWVtdS5pbnN0YW5jZS51dWlkPTIyNjY2YjMzZjg2OTQ1NTM4NjExMWI4MzliNGQ0OTRjJywg
-Jy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0t
-cm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScs
-ICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VO
-Vj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3Bh
-dGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYn
-LCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTJ0YW5vczhfL3NyYy9kb2NrZXItc3JjLjIw
-MjAtMDEtMTUtMTQuMjguNDYuNDg0NDovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpjZW50b3M3
-JywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8g
-ZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1
-aWQ9MjI2NjZiMzNmODY5NDU1Mzg2MTExYjgzOWI0ZDQ5NGMKbWFrZVsxXTogKioqIFtkb2NrZXIt
-cnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3
-LXRlc3Rlci10bXAtMnRhbm9zOF8vc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlj
-a0BjZW50b3M3XSBFcnJvciAyCgpyZWFsICAgIDEwbTQ3LjU2M3MKdXNlciAgICAwbTguMjgzcwoK
-ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTU3
-OTEwMDg2MS03MzY5Mi0xLWdpdC1zZW5kLWVtYWlsLWltYW1tZWRvQHJlZGhhdC5jb20vdGVzdGlu
-Zy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVk
-IGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ug
-c2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Wed, Jan 15, 2020 at 8:17 PM Filip Bozuta <Filip.Bozuta@rt-rk.com> wrote=
+:
+> On 15.1.20. 17:37, Arnd Bergmann wrote:
+> > On Wed, Jan 15, 2020 at 5:32 PM Laurent Vivier <laurent@vivier.eu> wrot=
+e:
+> >> Le 15/01/2020 =C3=A0 17:18, Arnd Bergmann a =C3=A9crit :
+> >>> On Wed, Jan 15, 2020 at 4:53 PM Filip Bozuta <Filip.Bozuta@rt-rk.com>=
+ wrote:
+> >> Do the kernel patches add new ioctl numbers to differentiate 32bit and
+> >> 64bit time_t?
+> >
+> > Yes, though SNDRV_TIMER_IOCTL_TREAD is worse: the ioctl argument
+> > is a pure 'int' that decides what format you get when you 'read' from t=
+he
+> > same file descriptor.
+> >
+> > For emulating 64-bit on 32-bit kernels, you have to use the new
+> > SNDRV_TIMER_IOCTL_TREAD64, and for emulating 32-bit on
+> > 64-bit kernels, you probably have to return -ENOTTY to
+> > SNDRV_TIMER_IOCTL_TREAD_OLD unless you also want to
+> > emulate the read() behavior.
+> > When a 32-bit process calls SNDRV_TIMER_IOCTL_TREAD64,
+> > you can translate that into the 64-bit
+> > SNDRV_TIMER_IOCTL_TREAD_OLD.
 
+>
+> Thank you for bringing this up to my attention. Unfortunately i have
+> some duties of academic nature in next month so i won't have much time
+> fix this bug. I will try to fix this as soon as possible.
+
+One more thing: I just realized it gets worse when emulating cross-endian,
+as then even without calling SNDRV_TIMER_IOCTL_TREAD, reading
+data from /dev/snd/timer requires byteswapping the two words.
+
+     Arnd
 
