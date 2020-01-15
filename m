@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE3613C867
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:53:11 +0100 (CET)
-Received: from localhost ([::1]:56136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 209C513C880
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:55:58 +0100 (CET)
+Received: from localhost ([::1]:56162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irkyk-0001tx-9x
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:53:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49546)
+	id 1irl1Q-0005xb-VT
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:55:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49549)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkKd-0000DM-St
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:45 -0500
+ (envelope-from <imammedo@redhat.com>) id 1irkKe-0000Du-4r
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkKc-0000Fj-LF
+ (envelope-from <imammedo@redhat.com>) id 1irkKc-0000Fr-Si
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24301
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60714
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKc-0000FM-Hd
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKc-0000Fd-PH
  for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1579101102;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N5dK9wKgEZzA+7aNL3OJSRdYpKQmq/nb/tAWzoaID24=;
- b=HSB9ZZrYZTI8N2WISCZG2luUuEUttl7TWz/OJzEpIgSNtmQRTwVHmQoGHa3v1c6YTqaUTu
- gQZpAm94PrBxvenh1SXKpBdn0ASQWShcG2VdeI+oMlP4+xKxac0ftGntDPuVWkcCaVz1FW
- 06NKJ1917K7NRgYalv+B1RfS1IbIj34=
+ bh=HW2hOlGHatT+KWCr9tF0l4lc+WU/7nCQ2rjNsVVusxs=;
+ b=Sc23eyVFi1fufrTRwFqaZ1TVjfuBVqIjllj8zBUEQ1gx8xegZjgBgzrAnnrR/MgumbYytF
+ iQ26bp3ZR7YfKGkWLFeN4JWk5fGeDp0wnUQmF0vA8i0Ldg5qm5rzMKV/O97DKeNqKCdAgC
+ KxTbcTSdNzmRpP5+oYTEtFx+OIIus1Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-frfRcU-qNMaIUfD_EX70yA-1; Wed, 15 Jan 2020 10:11:39 -0500
+ us-mta-393-_wsFDSQcOdCvptSFA2n-Zg-1; Wed, 15 Jan 2020 10:11:40 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04561109B4E0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6917909316
  for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:39 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E70919757
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C01319757
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 15:11:39 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 51/86] m68k:next-cube: use memdev for RAM
-Date: Wed, 15 Jan 2020 16:07:06 +0100
-Message-Id: <1579100861-73692-52-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 52/86] mips:boston-cube: use memdev for RAM
+Date: Wed, 15 Jan 2020 16:07:07 +0100
+Message-Id: <1579100861-73692-53-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: frfRcU-qNMaIUfD_EX70yA-1
+X-MC-Unique: _wsFDSQcOdCvptSFA2n-Zg-1
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -83,42 +83,52 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/m68k/next-cube.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/mips/boston.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
-index e534334..cd93d9e 100644
---- a/hw/m68k/next-cube.c
-+++ b/hw/m68k/next-cube.c
-@@ -860,7 +860,6 @@ static void next_cube_init(MachineState *machine)
- {
-     M68kCPU *cpu;
-     CPUM68KState *env;
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     MemoryRegion *rom =3D g_new(MemoryRegion, 1);
-     MemoryRegion *mmiomem =3D g_new(MemoryRegion, 1);
-     MemoryRegion *scrmem =3D g_new(MemoryRegion, 1);
-@@ -893,8 +892,7 @@ static void next_cube_init(MachineState *machine)
-     memcpy(ns->rtc.ram, rtc_ram2, 32);
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index 0df3a77..98ecd25 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -427,7 +427,7 @@ static void boston_mach_init(MachineState *machine)
+     DeviceState *dev;
+     BostonState *s;
+     Error *err =3D NULL;
+-    MemoryRegion *flash, *ddr, *ddr_low_alias, *lcd, *platreg;
++    MemoryRegion *flash, *ddr_low_alias, *lcd, *platreg;
+     MemoryRegion *sys_mem =3D get_system_memory();
+     XilinxPCIEHost *pcie2;
+     PCIDevice *ahci;
+@@ -473,14 +473,12 @@ static void boston_mach_init(MachineState *machine)
+     memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB, &err);
+     memory_region_add_subregion_overlap(sys_mem, 0x18000000, flash, 0);
 =20
-     /* 64MB RAM starting at 0x04000000  */
--    memory_region_allocate_system_memory(ram, NULL, "next.ram", ram_size);
--    memory_region_add_subregion(sysmem, 0x04000000, ram);
-+    memory_region_add_subregion(sysmem, 0x04000000, machine->ram);
+-    ddr =3D g_new(MemoryRegion, 1);
+-    memory_region_allocate_system_memory(ddr, NULL, "boston.ddr",
+-                                         machine->ram_size);
+-    memory_region_add_subregion_overlap(sys_mem, 0x80000000, ddr, 0);
++    memory_region_add_subregion_overlap(sys_mem, 0x80000000, machine->ram,=
+ 0);
 =20
-     /* Framebuffer */
-     dev =3D qdev_create(NULL, TYPE_NEXTFB);
-@@ -967,6 +965,7 @@ static void next_machine_class_init(ObjectClass *oc, vo=
-id *data)
-     mc->desc =3D "NeXT Cube";
-     mc->init =3D next_cube_init;
-     mc->default_ram_size =3D RAM_SIZE;
-+    mc->default_ram_id =3D "next.ram";
-     mc->default_cpu_type =3D M68K_CPU_TYPE_NAME("m68040");
+     ddr_low_alias =3D g_new(MemoryRegion, 1);
+     memory_region_init_alias(ddr_low_alias, NULL, "boston_low.ddr",
+-                             ddr, 0, MIN(machine->ram_size, (256 * MiB)));
++                             machine->ram, 0,
++                             MIN(machine->ram_size, (256 * MiB)));
+     memory_region_add_subregion_overlap(sys_mem, 0, ddr_low_alias, 0);
+=20
+     xilinx_pcie_init(sys_mem, 0,
+@@ -552,6 +550,7 @@ static void boston_mach_class_init(MachineClass *mc)
+     mc->init =3D boston_mach_init;
+     mc->block_default_type =3D IF_IDE;
+     mc->default_ram_size =3D 1 * GiB;
++    mc->default_ram_id =3D "boston.ddr";
+     mc->max_cpus =3D 16;
+     mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("I6400");
  }
-=20
 --=20
 2.7.4
 
