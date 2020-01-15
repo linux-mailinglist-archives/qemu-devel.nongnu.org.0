@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD79C13CCBC
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:02:55 +0100 (CET)
-Received: from localhost ([::1]:59056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B6513CCD9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:09:14 +0100 (CET)
+Received: from localhost ([::1]:59106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irnwM-0001B2-KZ
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:02:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60536)
+	id 1iro2T-0004Jw-Np
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:09:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33295)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1irnut-0008R8-8e
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:01:26 -0500
+ (envelope-from <philmd@redhat.com>) id 1iro12-0003TP-MZ
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:07:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1irnup-00050c-75
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:01:22 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:56955
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iro0y-00007b-NU
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:07:44 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31425
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1irnup-0004yy-2Y
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:01:19 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iro0y-000066-JN
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:07:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579114876;
+ s=mimecast20190719; t=1579115259;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UuQLGzgmKwdYQbCUGfTuunVa5Cdppnywdo26qugUDpk=;
- b=bmeOmCbVA13St6MGEXlB+dnFVwlsCBENj4unnfzU4GVq/Ox1FUl+S4FxumhV/vDSWeag/j
- ksVAe4nn//AIU5VeFtPg9EQ0zQOr1/1WVv51FKyLGb4zCHBpXbzF29onUYH9fbjXdkCF4Z
- OApcGPeDYbhYyEBNGdkWXZw0qxIb76Y=
+ bh=oTf/X9JRU1S5mb/cQiyKrPQrCvNfEz5GOFJu6fVFXwU=;
+ b=LxXsI7qZfZqoH6UulbyjmyQae7jJGHgSKR48VF4eVA7IeJUPLdGToBHNqzDt9fCd3uDBVO
+ KWSAymeip5x73tkSxWyB8CwAmtMI6+hIBFSeyuoZD/H2dJ7OwBw9K0pBy1ciSAys8SBHwq
+ qO487xGkpQaQlgeCV6nMJ7ugdzxrqzU=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-MvdwmylJM9eYl2pFecFotw-1; Wed, 15 Jan 2020 14:01:15 -0500
-Received: by mail-wr1-f70.google.com with SMTP id k18so8368617wrw.9
- for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 11:01:15 -0800 (PST)
+ us-mta-276-sSkI_7zKNb6eRwTm9MCcmA-1; Wed, 15 Jan 2020 14:07:37 -0500
+Received: by mail-wr1-f70.google.com with SMTP id h30so8325566wrh.5
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 11:07:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=2gUAuuy9ejenWLB4RsCZ6mGR1t6R2WZ7s/fAGzHi2Pk=;
- b=spRxMYbMG6/939TN9AuTRXPipoCfdUIl+mShm3FzGzVgJ67p1b4uzkmeKSeRwKLy9n
- tXdudx/zP1JoPfz8BJAGEzhNe16PnQRA/W7C2QhXTEYY2h+FNMeglLnKvM548NQloNQu
- UmCZTAoHe4UdVSHG8CsTk7TSmy/uZ3sd0jFTuYJ3zAPugwCr/t5BM90QOUqRs9/r7P1w
- UNEFbncYEmhQevDKwZ3gR3FhB5pvAQbEYwVxAvf+eu66Zs4R0e8+UW8C3hO3s22BsM54
- ygYVasvnxCl8QRUoo8a6BVBOqUMUgyTsE2qQY+Qfj3gqbJ4hvgPHRQMLryEzAm+UNqqD
- u4jA==
-X-Gm-Message-State: APjAAAXAFg7so70xEbiSYUZiLTAy4qmPZpyo07IMKopSu8c42Lwv1dQF
- zzTjWEbGmAAECvwK3AuLsBNobQYxFHJTx1bLV+M+EkTW9CIQta1pfBY14C/ZY7Y/yqKcuJWmzAr
- Tj/6ER/LZIjFHIZY=
-X-Received: by 2002:a5d:6211:: with SMTP id y17mr32674666wru.344.1579114874512; 
- Wed, 15 Jan 2020 11:01:14 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz1n45aoNSTyxsb41ILwQ0uG+L5pYQmqk7+bjjG4Hj+7nyS6brJ2awmtj0u/N/X9PwA+cFBRg==
-X-Received: by 2002:a5d:6211:: with SMTP id y17mr32674638wru.344.1579114874227; 
- Wed, 15 Jan 2020 11:01:14 -0800 (PST)
+ bh=ZPXg09kSF/iW30BhuqrDyViJr5YAO5qJXilf3ProNx4=;
+ b=JaCczz8bvq7PwybJzARBMjcFjs7SBHcgCN7+AeRU2T7wvkiUUAth3YY+o6mhw9V33w
+ miOkMJ733+wNeSqoF/EsfEQVp80hTn2B/0FT5UDXhRJUJhvpD+ZYX7O3mwhih7desxM6
+ Cbf3KuWtt806lcEaia+Sqq17cqYDNvFDaPmBcaAE2qiVtMT9yX0ymB7FdEAlUSDXBj+s
+ 5NXAI4NiBEPpJqJLRH1iswWqtZd1SKE2AGE0XKtsz5aKhEgwKkq9kc45pqJfco58rp2J
+ BRHbdlqlgMCz0Q3rAo3+0VWxbzFKbKqyZTQiC8hPf58W7wi5JcyjDw8jQUxjIKeL2Ts+
+ 7v5A==
+X-Gm-Message-State: APjAAAVuvwAJF7Zy4Js5NPmyS41T2Y2M2NiLRHcO/PUw9mmzUZibmZDs
+ Uh22RUKjA5gbg6HY+z0j9yur7FnKDBHZsVJ/XE+rinMI07YM/BMSGl3juarCJFXWD6yYI1CViIB
+ 0YyipOHGH84NhiAA=
+X-Received: by 2002:adf:f80c:: with SMTP id s12mr32720256wrp.1.1579115256438; 
+ Wed, 15 Jan 2020 11:07:36 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy/K/ojuc5XG32+R26oxU202yEfxHZKIXbzKB1WG+wuzx1nD7Pi+Vs+jHVPzWohWRVE8DlcuQ==
+X-Received: by 2002:adf:f80c:: with SMTP id s12mr32720229wrp.1.1579115256112; 
+ Wed, 15 Jan 2020 11:07:36 -0800 (PST)
 Received: from ?IPv6:2a01:cb1d:8a0a:f500:48c1:8eab:256a:caf9?
  ([2a01:cb1d:8a0a:f500:48c1:8eab:256a:caf9])
- by smtp.gmail.com with ESMTPSA id z123sm1132669wme.18.2020.01.15.11.01.13
+ by smtp.gmail.com with ESMTPSA id p7sm964604wmp.31.2020.01.15.11.07.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jan 2020 11:01:13 -0800 (PST)
-Subject: Re: [PATCH v2 35/86] arm:xilinx_zynq: use memdev for RAM
+ Wed, 15 Jan 2020 11:07:35 -0800 (PST)
+Subject: Re: [PATCH v2 28/86] arm:raspi: use memdev for RAM
 To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-36-git-send-email-imammedo@redhat.com>
+ <1579100861-73692-29-git-send-email-imammedo@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2131c7ec-943e-1806-03c4-fe49371caa08@redhat.com>
-Date: Wed, 15 Jan 2020 20:01:12 +0100
+Message-ID: <b2162130-041f-e709-a33d-56c0beb880b9@redhat.com>
+Date: Wed, 15 Jan 2020 20:07:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <1579100861-73692-36-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1579100861-73692-29-git-send-email-imammedo@redhat.com>
 Content-Language: en-US
-X-MC-Unique: MvdwmylJM9eYl2pFecFotw-1
+X-MC-Unique: sSkI_7zKNb6eRwTm9MCcmA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,8 +91,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, alistair@alistair23.me,
- edgar.iglesias@gmail.com
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, Andrew.Baumann@microsoft.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -105,50 +104,136 @@ On 1/15/20 4:06 PM, Igor Mammedov wrote:
 > and using MachineState::ram instead of manually initializing
 > RAM memory region.
 >=20
+> PS:
+>   remove no longer needed RasPiState
+>=20
 > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 > ---
+> CC: Andrew.Baumann@microsoft.com
+> CC: philmd@redhat.com
 > CC: peter.maydell@linaro.org
 > CC: qemu-arm@nongnu.org
-> CC: edgar.iglesias@gmail.com
-> CC: alistair@alistair23.me
 > ---
->   hw/arm/xilinx_zynq.c | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
+>   hw/arm/raspi.c | 34 +++++++++++++---------------------
+>   1 file changed, 13 insertions(+), 21 deletions(-)
 >=20
-> diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-> index df950fc..0ef9688 100644
-> --- a/hw/arm/xilinx_zynq.c
-> +++ b/hw/arm/xilinx_zynq.c
-> @@ -160,7 +160,6 @@ static void zynq_init(MachineState *machine)
+> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+> index 6a510aa..33ace66 100644
+> --- a/hw/arm/raspi.c
+> +++ b/hw/arm/raspi.c
+> @@ -32,11 +32,6 @@
+>   /* Table of Linux board IDs for different Pi versions */
+>   static const int raspi_boardid[] =3D {[1] =3D 0xc42, [2] =3D 0xc43, [3]=
+ =3D 0xc44};
+>  =20
+> -typedef struct RasPiState {
+> -    BCM283XState soc;
+> -    MemoryRegion ram;
+> -} RasPiState;
+> -
+>   static void write_smpboot(ARMCPU *cpu, const struct arm_boot_info *info=
+)
 >   {
->       ARMCPU *cpu;
->       MemoryRegion *address_space_mem =3D get_system_memory();
-> -    MemoryRegion *ext_ram =3D g_new(MemoryRegion, 1);
->       MemoryRegion *ocm_ram =3D g_new(MemoryRegion, 1);
->       DeviceState *dev;
->       SysBusDevice *busdev;
-> @@ -190,9 +189,7 @@ static void zynq_init(MachineState *machine)
->       object_property_set_bool(OBJECT(cpu), true, "realized", &error_fata=
-l);
+>       static const uint32_t smpboot[] =3D {
+> @@ -166,7 +161,7 @@ static void setup_boot(MachineState *machine, int ver=
+sion, size_t ram_size)
 >  =20
->       /* DDR remapped to address zero.  */
-> -    memory_region_allocate_system_memory(ext_ram, NULL, "zynq.ext_ram",
+>   static void raspi_init(MachineState *machine, int version)
+>   {
+> -    RasPiState *s =3D g_new0(RasPiState, 1);
+> +    Object *soc;
+>       uint32_t vcram_size;
+>       DriveInfo *di;
+>       BlockBackend *blk;
+> @@ -179,30 +174,26 @@ static void raspi_init(MachineState *machine, int v=
+ersion)
+>           exit(1);
+>       }
+>  =20
+> -    object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->s=
+oc),
+> -                            version =3D=3D 3 ? TYPE_BCM2837 : TYPE_BCM28=
+36,
+> -                            &error_abort, NULL);
+> +    soc =3D object_new(version =3D=3D 3 ? TYPE_BCM2837 : TYPE_BCM2836);
+> +    object_property_add_child(OBJECT(machine), "soc", soc, &error_fatal)=
+;
+>  =20
+> -    /* Allocate and map RAM */
+> -    memory_region_allocate_system_memory(&s->ram, OBJECT(machine), "ram"=
+,
 > -                                         machine->ram_size);
-> -    memory_region_add_subregion(address_space_mem, 0, ext_ram);
-> +    memory_region_add_subregion(address_space_mem, 0, machine->ram);
+>       /* FIXME: Remove when we have custom CPU address space support */
+> -    memory_region_add_subregion_overlap(get_system_memory(), 0, &s->ram,=
+ 0);
+> +    memory_region_add_subregion_overlap(get_system_memory(), 0,
+> +                                        machine->ram, 0);
 >  =20
->       /* 256K of on-chip memory */
->       memory_region_init_ram(ocm_ram, NULL, "zynq.ocm_ram", 256 * KiB,
-> @@ -318,6 +315,7 @@ static void zynq_machine_init(MachineClass *mc)
->       mc->no_sdcard =3D 1;
->       mc->ignore_memory_transaction_failures =3D true;
->       mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a9");
-> +    mc->default_ram_id =3D "zynq.ext_ram";
+>       /* Setup the SOC */
+> -    object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(&s->ra=
+m),
+> +    object_property_add_const_link(soc, "ram", OBJECT(machine->ram),
+>                                      &error_abort);
+> -    object_property_set_int(OBJECT(&s->soc), machine->smp.cpus, "enabled=
+-cpus",
+> +    object_property_set_int(soc, machine->smp.cpus, "enabled-cpus",
+>                               &error_abort);
+>       int board_rev =3D version =3D=3D 3 ? 0xa02082 : 0xa21041;
+> -    object_property_set_int(OBJECT(&s->soc), board_rev, "board-rev",
+> -                            &error_abort);
+> -    object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_a=
+bort);
+> +    object_property_set_int(soc, board_rev, "board-rev", &error_abort);
+> +    object_property_set_bool(soc, true, "realized", &error_abort);
+>  =20
+>       /* Create and plug in the SD cards */
+>       di =3D drive_get_next(IF_SD);
+>       blk =3D di ? blk_by_legacy_dinfo(di) : NULL;
+> -    bus =3D qdev_get_child_bus(DEVICE(&s->soc), "sd-bus");
+> +    bus =3D qdev_get_child_bus(DEVICE(soc), "sd-bus");
+>       if (bus =3D=3D NULL) {
+>           error_report("No SD bus found in SOC object");
+>           exit(1);
+> @@ -211,8 +202,7 @@ static void raspi_init(MachineState *machine, int ver=
+sion)
+>       qdev_prop_set_drive(carddev, "drive", blk, &error_fatal);
+>       object_property_set_bool(OBJECT(carddev), true, "realized", &error_=
+fatal);
+>  =20
+> -    vcram_size =3D object_property_get_uint(OBJECT(&s->soc), "vcram-size=
+",
+> -                                          &error_abort);
+> +    vcram_size =3D object_property_get_uint(soc, "vcram-size", &error_ab=
+ort);
+>       setup_boot(machine, version, machine->ram_size - vcram_size);
 >   }
 >  =20
->   DEFINE_MACHINE("xilinx-zynq-a9", zynq_machine_init)
+> @@ -233,6 +223,7 @@ static void raspi2_machine_init(MachineClass *mc)
+>       mc->min_cpus =3D BCM283X_NCPUS;
+>       mc->default_cpus =3D BCM283X_NCPUS;
+>       mc->default_ram_size =3D 1 * GiB;
+> +    mc->default_ram_id =3D "ram";
+>       mc->ignore_memory_transaction_failures =3D true;
+>   };
+>   DEFINE_MACHINE("raspi2", raspi2_machine_init)
+> @@ -255,6 +246,7 @@ static void raspi3_machine_init(MachineClass *mc)
+>       mc->min_cpus =3D BCM283X_NCPUS;
+>       mc->default_cpus =3D BCM283X_NCPUS;
+>       mc->default_ram_size =3D 1 * GiB;
+> +    mc->default_ram_id =3D "ram";
+>   }
+>   DEFINE_MACHINE("raspi3", raspi3_machine_init)
+>   #endif
 >=20
 
+This patch diverges a lot from my current work:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg653818.html
+So I'm not very happy about it. Maybe my bad I should ping more=20
+aggressively my patches. I can respin mine preparing for your series on top=
+.
+
+Meanwhile if you are in a hurry I tested yours, so:
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
