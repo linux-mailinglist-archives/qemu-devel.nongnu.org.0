@@ -2,44 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46BFF13CD06
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:24:33 +0100 (CET)
-Received: from localhost ([::1]:59362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B32813CD0C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 20:26:50 +0100 (CET)
+Received: from localhost ([::1]:59422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iroHH-0006af-Vj
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:24:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34246)
+	id 1iroJV-0001qa-Ck
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 14:26:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34437)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iro5b-00077Q-1o
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:12:29 -0500
+ (envelope-from <philmd@redhat.com>) id 1iro6I-0008Cq-JH
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:13:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1iro5Z-00030g-Sc
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:12:26 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53843 helo=mail.rt-rk.com)
+ (envelope-from <philmd@redhat.com>) id 1iro6G-0003Vy-6n
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:13:10 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23398
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
- id 1iro5Z-0002rA-Lv
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:12:25 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id A43871A21BC;
- Wed, 15 Jan 2020 20:12:10 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
- [10.10.14.93])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 376FC1A21FF;
- Wed, 15 Jan 2020 20:12:10 +0100 (CET)
-From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 13/13] linux-user: Add support for TYPE_LONG and TYPE_ULONG
- in do_ioctl()
-Date: Wed, 15 Jan 2020 20:12:03 +0100
-Message-Id: <1579115523-4159-14-git-send-email-Filip.Bozuta@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1579115523-4159-1-git-send-email-Filip.Bozuta@rt-rk.com>
-References: <1579115523-4159-1-git-send-email-Filip.Bozuta@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iro6F-0003UT-1Q
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 14:13:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579115586;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GDomOs4ePwSwi3gp1Drl6ElWftkWoN6MYS7+HsQX5O4=;
+ b=Dg3ei8rzgAV+0XV2VJEMdgieMZf8Fi8PtZcUs7np0PhBP3XgWOk4XjvpWjyK6dnpBZnnJH
+ QE9YzvLPA91GBeWN+W7cxMcy+FocjO18FJ6rllp78aPSVNGTKmlaFl1YZnXErp8rmPuiJA
+ ZqRxESR07uOJ5GTX6qJSZaC9PYOh62A=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-e5f_4pA6OTC40hdeW17C-Q-1; Wed, 15 Jan 2020 14:13:05 -0500
+Received: by mail-wr1-f72.google.com with SMTP id z10so8277614wrt.21
+ for <qemu-devel@nongnu.org>; Wed, 15 Jan 2020 11:13:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GDomOs4ePwSwi3gp1Drl6ElWftkWoN6MYS7+HsQX5O4=;
+ b=IM3KntXsPzzSKoFDk0Bk+5rBvwdvnXzlIwQ7PVv3CI3foZj91erEgIMHH6uPzbjMu3
+ YeM/mquEwMHIlZFF+HjG7y7URAhgU9He9kwvF79cqnPHO2uneLlkMesn7qXITX1V4EZr
+ ZeZSGw6JDyZ/Q0qGMhxX8EVQ3tqyZIFkmMy5sSkazdNuvVRL4ILNgKtXLv2M7XzJd/2p
+ kvQ0sxGz81rDX8MMn97cD/nx5698wlf6yOChoggTVYqdRD4iFQtFxj1l0T/kP/jk3DvF
+ ZDSSWP6ay+nhV81g9c9e8R6+gxGcsiX3paJk8DuNVRJ4FNTNIu5fAW2Zw3HMTaM87gs4
+ oDfg==
+X-Gm-Message-State: APjAAAUd9a6FUi4P7VQ1ZAhmkd+xtvMrAv7mX+zTfiUwJRKt2v+8A8cu
+ 3NxRFqkvsKHH2tYKnvHYrzPg2lMqarbcFiPY7zBLu+rbKxKd/5ledVVyuxY0MVfDiz2BUqpGzav
+ 0utQ953Z9GccdnI8=
+X-Received: by 2002:a7b:cb01:: with SMTP id u1mr1424181wmj.156.1579115583258; 
+ Wed, 15 Jan 2020 11:13:03 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx8Zuxnbn+nIJDzXccXjESOp9h17bfYjVFJVDHIB0AGogTTSx6X0ORHF5MLp+4Hni21aPRumw==
+X-Received: by 2002:a7b:cb01:: with SMTP id u1mr1424172wmj.156.1579115583080; 
+ Wed, 15 Jan 2020 11:13:03 -0800 (PST)
+Received: from ?IPv6:2a01:cb1d:8a0a:f500:48c1:8eab:256a:caf9?
+ ([2a01:cb1d:8a0a:f500:48c1:8eab:256a:caf9])
+ by smtp.gmail.com with ESMTPSA id z6sm25610562wrw.36.2020.01.15.11.13.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jan 2020 11:13:01 -0800 (PST)
+Subject: Re: [PATCH v2 00/86] refactor main RAM allocation to use hostmem
+ backend
+To: Igor Mammedov <imammedo@redhat.com>, no-reply@patchew.org
+References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+ <157910661287.7467.969397900495856191@37313f22b938>
+ <20200115180957.74ccc5f4@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <30de05ac-ca5b-5956-6d88-09ab9b6b4572@redhat.com>
+Date: Wed, 15 Jan 2020 20:13:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <20200115180957.74ccc5f4@redhat.com>
+Content-Language: en-US
+X-MC-Unique: e5f_4pA6OTC40hdeW17C-Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,43 +93,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, arnd@arndb.de,
- richard.henderson@linaro.org, laurent@vivier.eu, jcmvbkbc@gmail.com,
- amarkovic@wavecomp.com, philmd@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Function "do_ioctl()" located in file "syscall.c" was missing
-an option for TYPE_LONG and TYPE_ULONG. This caused some ioctls
-to not be recognised because they had the third argument that was
-of type 'long' or 'unsigned long'.
+On 1/15/20 6:09 PM, Igor Mammedov wrote:
+> On Wed, 15 Jan 2020 08:43:33 -0800 (PST)
+> no-reply@patchew.org wrote:
+> 
+>> Patchew URL: https://patchew.org/QEMU/1579100861-73692-1-git-send-email-imammedo@redhat.com/
+>>
+>>
+>>
+>> Hi,
+>>
+>> This series seems to have some coding style problems. See output below for
+>> more information:
+> [...]
+> 
+>> 6/86 Checking commit b9b1823833a3 (alpha:dp264: use memdev for RAM)
+>> ERROR: spaces required around that '*' (ctx:WxV)
+>> #30: FILE: hw/alpha/alpha_sys.h:14:
+>> +PCIBus *typhoon_init(MemoryRegion *, ISABus **, qemu_irq *, AlphaCPU *[4],
+> 
+> patch keeps the same style that was used in original code
+> I can rewrite it on the next respin to mach current codestyle
 
-For example:
-
-Since implemented ioctls RTC_IRQP_SET and RTC_EPOCH_SET
-are of type IOW(writing type) that have unsigned long as
-their third argument, they were not recognised in QEMU
-before the changes of this patch.
-
-Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
----
- linux-user/syscall.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index a3993a2..2ba2c5c 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -5176,6 +5176,8 @@ static abi_long do_ioctl(int fd, int cmd, abi_long arg)
-         break;
-     case TYPE_PTRVOID:
-     case TYPE_INT:
-+    case TYPE_LONG:
-+    case TYPE_ULONG:
-         ret = get_errno(safe_ioctl(fd, ie->host_cmd, arg));
-         break;
-     case TYPE_PTR:
--- 
-2.7.4
+False positive I think.
 
 
