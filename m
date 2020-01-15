@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3619713C850
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:49:40 +0100 (CET)
-Received: from localhost ([::1]:56098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 654BB13C863
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 16:52:16 +0100 (CET)
+Received: from localhost ([::1]:56134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irkvK-0004kI-SQ
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:49:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49490)
+	id 1irkxq-0000fH-64
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 10:52:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49507)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1irkKa-000053-Bc
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:41 -0500
+ (envelope-from <imammedo@redhat.com>) id 1irkKb-00007F-A5
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1irkKY-0000DR-Rt
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:40 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59845
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1irkKa-0000Dw-0C
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42255
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKY-0000Cw-Nk
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:38 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1irkKZ-0000Dk-Ss
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 10:11:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579101098;
+ s=mimecast20190719; t=1579101099;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VzsJrY7USrcupssm3Hdsal2emGxk3YF8K5DMlh8WvSk=;
- b=dDS8pY1frNkemvzvwBohFvegLWbp5ZMMplxLkh9MYSbp0jw71qy8cV9vzzQ4uTsi1f/o/m
- M0cQRyBYLBh/5j9KtbTTF0eZReqc/dpq3mT9oOPlemEr2gnr+AgPU5MhzjVS+dObiqsN2R
- d/Q7FT17OfAFlRGTRIoQ3+HxU1dUMqM=
+ bh=/enYbyHxk3Z12MMC45GqMAUDK5glkL5hLGowK9Sj5jI=;
+ b=aEFCFNj09vJckP/Ag6c+4vKy7GZrp2b2PVAtHi6hAdyElBQzBmIT38nn5V/K40NzLqOCbY
+ fvl9AjcaYZST5/k319ViK7inYZhXzppLrG3vxau4hFFpGxQfB6oOfpe0dV3n3mMpL7/Hvb
+ 4DdDsg+yA27b5JIw+iGtp17cgr+pHGM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-OgJExPE-NEmSSN-DTxlpJw-1; Wed, 15 Jan 2020 10:11:36 -0500
+ us-mta-103-c5vueoCVM_K29n5d48n7Zg-1; Wed, 15 Jan 2020 10:11:37 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A732C17BEBC;
- Wed, 15 Jan 2020 15:11:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9883A1135558;
+ Wed, 15 Jan 2020 15:11:36 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE65F194B2;
- Wed, 15 Jan 2020 15:11:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC444196AE;
+ Wed, 15 Jan 2020 15:11:35 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 47/86] lm32:lm32_boards: use memdev for RAM
-Date: Wed, 15 Jan 2020 16:07:02 +0100
-Message-Id: <1579100861-73692-48-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v2 48/86] lm32:milkymist: use memdev for RAM
+Date: Wed, 15 Jan 2020 16:07:03 +0100
+Message-Id: <1579100861-73692-49-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: OgJExPE-NEmSSN-DTxlpJw-1
+X-MC-Unique: c5vueoCVM_K29n5d48n7Zg-1
 X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,82 +96,30 @@ v2:
 
 CC: michael@walle.cc
 ---
- hw/lm32/lm32_boards.c | 36 +++++++++++++++++++++++-------------
- 1 file changed, 23 insertions(+), 13 deletions(-)
+ hw/lm32/milkymist.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/hw/lm32/lm32_boards.c b/hw/lm32/lm32_boards.c
-index 5ae308b..5b19a3d 100644
---- a/hw/lm32/lm32_boards.c
-+++ b/hw/lm32/lm32_boards.c
-@@ -75,22 +75,27 @@ static void main_cpu_reset(void *opaque)
-=20
- static void lm32_evr_init(MachineState *machine)
- {
-+    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
-     const char *kernel_filename =3D machine->kernel_filename;
-     LM32CPU *cpu;
-     CPULM32State *env;
-     DriveInfo *dinfo;
-     MemoryRegion *address_space_mem =3D  get_system_memory();
--    MemoryRegion *phys_ram =3D g_new(MemoryRegion, 1);
-     qemu_irq irq[32];
-     ResetInfo *reset_info;
-     int i;
-=20
-+    if (machine->ram_size !=3D mc->default_ram_size) {
-+        error_report("Invalid RAM size, should be " RAM_ADDR_UFMT " Bytes"=
-,
-+                     mc->default_ram_size);
-+        exit(EXIT_FAILURE);
-+    }
-+
-     /* memory map */
-     hwaddr flash_base  =3D 0x04000000;
-     size_t flash_sector_size       =3D 256 * KiB;
-     size_t flash_size              =3D 32 * MiB;
-     hwaddr ram_base    =3D 0x08000000;
--    size_t ram_size                =3D 64 * MiB;
-     hwaddr timer0_base =3D 0x80002000;
-     hwaddr uart0_base  =3D 0x80006000;
-     hwaddr timer1_base =3D 0x8000a000;
-@@ -107,9 +112,7 @@ static void lm32_evr_init(MachineState *machine)
-=20
-     reset_info->flash_base =3D flash_base;
-=20
--    memory_region_allocate_system_memory(phys_ram, NULL, "lm32_evr.sdram",
--                                         ram_size);
--    memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
-+    memory_region_add_subregion(address_space_mem, ram_base, machine->ram)=
-;
-=20
-     dinfo =3D drive_get(IF_PFLASH, 0, 0);
-     /* Spansion S29NS128P */
-@@ -144,7 +147,7 @@ static void lm32_evr_init(MachineState *machine)
-=20
-         if (kernel_size < 0) {
-             kernel_size =3D load_image_targphys(kernel_filename, ram_base,
--                                              ram_size);
-+                                              machine->ram_size);
-             reset_info->bootstrap_pc =3D ram_base;
-         }
-=20
-@@ -159,6 +162,7 @@ static void lm32_evr_init(MachineState *machine)
-=20
- static void lm32_uclinux_init(MachineState *machine)
+diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
+index 460d322..73c28f4 100644
+--- a/hw/lm32/milkymist.c
++++ b/hw/lm32/milkymist.c
+@@ -82,6 +82,7 @@ static void main_cpu_reset(void *opaque)
+ static void
+ milkymist_init(MachineState *machine)
  {
 +    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
      const char *kernel_filename =3D machine->kernel_filename;
      const char *kernel_cmdline =3D machine->kernel_cmdline;
      const char *initrd_filename =3D machine->initrd_filename;
-@@ -166,18 +170,22 @@ static void lm32_uclinux_init(MachineState *machine)
-     CPULM32State *env;
+@@ -90,22 +91,26 @@ milkymist_init(MachineState *machine)
+     int kernel_size;
      DriveInfo *dinfo;
-     MemoryRegion *address_space_mem =3D  get_system_memory();
--    MemoryRegion *phys_ram =3D g_new(MemoryRegion, 1);
+     MemoryRegion *address_space_mem =3D get_system_memory();
+-    MemoryRegion *phys_sdram =3D g_new(MemoryRegion, 1);
      qemu_irq irq[32];
-     HWSetup *hw;
-     ResetInfo *reset_info;
      int i;
+     char *bios_filename;
+     ResetInfo *reset_info;
 =20
 +    if (machine->ram_size !=3D mc->default_ram_size) {
 +        error_report("Invalid RAM size, should be " RAM_ADDR_UFMT " Bytes"=
@@ -180,64 +129,52 @@ index 5ae308b..5b19a3d 100644
 +    }
 +
      /* memory map */
-     hwaddr flash_base   =3D 0x04000000;
-     size_t flash_sector_size        =3D 256 * KiB;
+     hwaddr flash_base   =3D 0x00000000;
+     size_t flash_sector_size        =3D 128 * KiB;
      size_t flash_size               =3D 32 * MiB;
-     hwaddr ram_base     =3D 0x08000000;
--    size_t ram_size                 =3D 64 * MiB;
-     hwaddr uart0_base   =3D 0x80000000;
-     hwaddr timer0_base  =3D 0x80002000;
-     hwaddr timer1_base  =3D 0x80010000;
-@@ -200,9 +208,7 @@ static void lm32_uclinux_init(MachineState *machine)
+     hwaddr sdram_base   =3D 0x40000000;
+-    size_t sdram_size               =3D 128 * MiB;
 =20
-     reset_info->flash_base =3D flash_base;
+     hwaddr initrd_base  =3D sdram_base + 0x1002000;
+     hwaddr cmdline_base =3D sdram_base + 0x1000000;
+-    size_t initrd_max =3D sdram_size - 0x1002000;
++    size_t initrd_max =3D machine->ram_size - 0x1002000;
 =20
--    memory_region_allocate_system_memory(phys_ram, NULL,
--                                         "lm32_uclinux.sdram", ram_size);
--    memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
-+    memory_region_add_subregion(address_space_mem, ram_base, machine->ram)=
+     reset_info =3D g_malloc0(sizeof(ResetInfo));
+=20
+@@ -116,9 +121,7 @@ milkymist_init(MachineState *machine)
+=20
+     cpu_lm32_set_phys_msb_ignore(env, 1);
+=20
+-    memory_region_allocate_system_memory(phys_sdram, NULL, "milkymist.sdra=
+m",
+-                                         sdram_size);
+-    memory_region_add_subregion(address_space_mem, sdram_base, phys_sdram)=
 ;
++    memory_region_add_subregion(address_space_mem, sdram_base, machine->ra=
+m);
 =20
      dinfo =3D drive_get(IF_PFLASH, 0, 0);
-     /* Spansion S29NS128P */
-@@ -238,7 +244,7 @@ static void lm32_uclinux_init(MachineState *machine)
+     /* Numonyx JS28F256J3F105 */
+@@ -183,7 +186,7 @@ milkymist_init(MachineState *machine)
 =20
          if (kernel_size < 0) {
-             kernel_size =3D load_image_targphys(kernel_filename, ram_base,
--                                              ram_size);
+             kernel_size =3D load_image_targphys(kernel_filename, sdram_bas=
+e,
+-                                              sdram_size);
 +                                              machine->ram_size);
-             reset_info->bootstrap_pc =3D ram_base;
+             reset_info->bootstrap_pc =3D sdram_base;
          }
 =20
-@@ -252,7 +258,7 @@ static void lm32_uclinux_init(MachineState *machine)
-     hw =3D hwsetup_init();
-     hwsetup_add_cpu(hw, "LM32", 75000000);
-     hwsetup_add_flash(hw, "flash", flash_base, flash_size);
--    hwsetup_add_ddr_sdram(hw, "ddr_sdram", ram_base, ram_size);
-+    hwsetup_add_ddr_sdram(hw, "ddr_sdram", ram_base, machine->ram_size);
-     hwsetup_add_timer(hw, "timer0", timer0_base, timer0_irq);
-     hwsetup_add_timer(hw, "timer1_dev_only", timer1_base, timer1_irq);
-     hwsetup_add_timer(hw, "timer2_dev_only", timer2_base, timer2_irq);
-@@ -288,6 +294,8 @@ static void lm32_evr_class_init(ObjectClass *oc, void *=
-data)
-     mc->init =3D lm32_evr_init;
-     mc->is_default =3D 1;
-     mc->default_cpu_type =3D LM32_CPU_TYPE_NAME("lm32-full");
-+    mc->default_ram_size =3D 64 * MiB;
-+    mc->default_ram_id =3D "lm32_evr.sdram";
- }
-=20
- static const TypeInfo lm32_evr_type =3D {
-@@ -304,6 +312,8 @@ static void lm32_uclinux_class_init(ObjectClass *oc, vo=
-id *data)
-     mc->init =3D lm32_uclinux_init;
+@@ -216,6 +219,8 @@ static void milkymist_machine_init(MachineClass *mc)
+     mc->init =3D milkymist_init;
      mc->is_default =3D 0;
      mc->default_cpu_type =3D LM32_CPU_TYPE_NAME("lm32-full");
-+    mc->default_ram_size =3D 64 * MiB;
-+    mc->default_ram_id =3D "lm32_uclinux.sdram";
++    mc->default_ram_size =3D 128 * MiB;
++    mc->default_ram_id =3D "milkymist.sdram";
  }
 =20
- static const TypeInfo lm32_uclinux_type =3D {
+ DEFINE_MACHINE("milkymist", milkymist_machine_init)
 --=20
 2.7.4
 
