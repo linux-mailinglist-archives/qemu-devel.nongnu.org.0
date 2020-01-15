@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3081A13C226
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 13:59:33 +0100 (CET)
-Received: from localhost ([::1]:53424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BF013C1A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Jan 2020 13:50:13 +0100 (CET)
+Received: from localhost ([::1]:53314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iriGi-0001DP-4F
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 07:59:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49755)
+	id 1iri7g-0003OA-CC
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 07:50:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49805)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1irhuk-0002NF-5p
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 07:36:51 -0500
+ (envelope-from <damien.hedde@greensocs.com>) id 1irhul-0002OO-MT
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 07:36:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1irhui-00037t-Nz
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 07:36:50 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:53600)
+ (envelope-from <damien.hedde@greensocs.com>) id 1irhuk-0003A1-5o
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 07:36:51 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:53632)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1irhui-00036G-Cw; Wed, 15 Jan 2020 07:36:48 -0500
+ id 1irhuj-00038H-RB; Wed, 15 Jan 2020 07:36:50 -0500
 Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
  [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id C228C96F57;
- Wed, 15 Jan 2020 12:36:46 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 377D596F59;
+ Wed, 15 Jan 2020 12:36:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1579091807;
+ s=mail; t=1579091808;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ByZlpBg1Ioa2n8uk60WzpeK2/nY478exBwfI3pflHII=;
- b=KPMTWVfMzkcm5jcBEV6/y169evlaYcOPmJub5oX57w2r9kje6jnbHfyhafOfJMNvMDXShn
- qImQIiYDZoRh9q5BYSjLO5cQh2YX00QSF/7lW9tmKl47i1wfLW0vB7G3Jo1Mgl9ebV/yfZ
- co7ynud8EeRp3Y+vHbTlrUQFPbLbUKI=
+ bh=PU1ZxUE7d3iu7/38+fBqpfQ/iPdaI4G6S9CtKCw10J4=;
+ b=y4E2ODTIGnpgoS7L/PpDp/4kgtIY+nuCQSPXVYW4VnKbPP7SiOvPTNpwSAVn1GGXykggAl
+ JzVRO5nPyk356IpRwSZ2Jmiimq4LxrkqS/dJy/FkSSK0x0CZ+YOulC/xwOuS26FRFpfy8q
+ YDeeWi4vL1VxEpdO3+TV8RwqXDJ04b0=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 08/11] hw/core: deprecate old reset functions and introduce
- new ones
-Date: Wed, 15 Jan 2020 13:36:17 +0100
-Message-Id: <20200115123620.250132-9-damien.hedde@greensocs.com>
+Subject: [PATCH v7 10/11] vl: replace deprecated qbus_reset_all registration
+Date: Wed, 15 Jan 2020 13:36:19 +0100
+Message-Id: <20200115123620.250132-11-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200115123620.250132-1-damien.hedde@greensocs.com>
 References: <20200115123620.250132-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1579091807;
+ s=mail; t=1579091808;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ByZlpBg1Ioa2n8uk60WzpeK2/nY478exBwfI3pflHII=;
- b=GQNNq3S1QwTqmVNziEzqgPaeiMYubVkq5PpmLjs0wGKsIAfKWkkkWlwEfNU+WjvQa9nZgz
- hAJjhBCByaRl1Bf0/tErQGaJ4tSKwzdaMALs4rjvYjb9j2vhjdp5zpP0/4HWv8NGu3lnlL
- eIOSJa/Vp8jwkdc93pvkMVhrLv0KzA0=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1579091807; a=rsa-sha256; cv=none;
- b=bpARWuzcFn/F9NbmwUMimAmCzVT0NSCDcmGHtuLSM1uTLWugTLMUv5OJPwR4B9JZOkELGl
- J9S4S5RWeZwScoC5YxmnYdPufzJayHkAd4OYFxGrXyPQQEdmbRLckmVrl1umZX/o9bSYDK
- lbgwy2aeOUsfY63rqE0b7Ar3T8ACa/Y=
+ bh=PU1ZxUE7d3iu7/38+fBqpfQ/iPdaI4G6S9CtKCw10J4=;
+ b=Wdimckom2ruXxwoKB0cXx5WJYV6NlPJ54f0vpEN8Sekv1tE/gy9UJbQ9vaNIuGPUL4YZwR
+ tN9ewFbz1pHjOU/wfy8YVwf5pBoE77O1KmotUA0ohnhCDaemTZXmeEqezxj3qskkl1AtiS
+ NVTrkue75EHJhKNLajuSGkaBHu6b/6o=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1579091808; a=rsa-sha256; cv=none;
+ b=M7eVeq+44rakfbE74L/XQTzF58RC4i1L8ncwmcQbeQHk9uNJkr9P5ZzJx5M7bwJ57Q2aqM
+ xP1RaUgwOLG09xWBXwn7lj7UCQj92Q+IMRxqbsRvF9hi1rNK8EQ3PUiwLLXHOMdKN9EwPp
+ L/97TIJLMDbzehyjm3whdraQi/NUajo=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
@@ -85,162 +83,109 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Deprecate device_legacy_reset(), qdev_reset_all() and
-qbus_reset_all() to be replaced by new functions
-device_cold_reset() and bus_cold_reset() which uses resettable API.
+Replace deprecated qbus_reset_all by resettable_cold_reset_fn for
+the sysbus reset registration.
 
-Also introduce resettable_cold_reset_fn() which may be used as a
-replacement for qdev_reset_all_fn and qbus_reset_all_fn().
+Apart for the raspi machines, this does not impact the behavior
+because:
++ at this point resettable just calls the old reset methods of devices
+  and buses in the same order as qdev/qbus.
++ resettable handlers registered with qemu_register_reset are
+  serialized; there is no interleaving.
++ eventual explicit calls to legacy reset API (device_reset or
+  qdev/qbus_reset) inside this reset handler will not be masked out
+  by resettable mechanism; they do not go through resettable api.
 
-Following patches will be needed to look at legacy reset call sites
-and switch to resettable api. The legacy functions will be removed
-when unused.
+For the raspi machines, during the sysbus reset the sd-card is not
+reset twice anymore but only once. This is a consequence of switching
+both sysbus reset and changing parent to resettable; it detects the
+second reset is not needed. This has no impact on the state after
+reset; the sd-card reset method only reset local state and query
+information from the block backend.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/qdev-core.h  | 27 +++++++++++++++++++++++++++
- include/hw/resettable.h |  9 +++++++++
- hw/core/bus.c           |  5 +++++
- hw/core/qdev.c          |  5 +++++
- hw/core/resettable.c    |  5 +++++
- 5 files changed, 51 insertions(+)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 1b4b420617..b84fcc32bf 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -406,6 +406,13 @@ int qdev_walk_children(DeviceState *dev,
-                        qdev_walkerfn *post_devfn, qbus_walkerfn *post_bu=
-sfn,
-                        void *opaque);
+The raspi reset change can be observed by using the following command
+(reset will occurs, then do Ctrl-C to end qemu; no firmware is
+given here).
+qemu-system-aarch64 -M raspi3 \
+    -trace resettable_phase_hold_exec \
+    -trace qdev_update_parent_bus \
+    -trace resettable_change_parent \
+    -trace qdev_reset -trace qbus_reset
+
+Before the patch, the qdev/qbus_reset traces show when reset method are
+called. After the patch, the resettable_phase_hold_exec show when reset
+method are called.
+
+The traced reset order of the raspi3 is listed below. I've added empty
+lines and the tree structure.
+
+ +->bcm2835-peripherals reset
+ |
+ |       +->sd-card reset
+ |   +->sd-bus reset
+ +->bcm2835_gpio reset
+ |      -> dev_update_parent_bus (move the sd-card on the sdhci-bus)
+ |      -> resettable_change_parent
+ |
+ +->bcm2835-dma reset
+ |
+ |   +->bcm2835-sdhost-bus reset
+ +->bcm2835-sdhost reset
+ |
+ |       +->sd-card (reset ONLY BEFORE BEFORE THE PATCH)
+ |   +->sdhci-bus reset
+ +->generic-sdhci reset
+ |
+ +->bcm2835-rng reset
+ +->bcm2835-property reset
+ +->bcm2835-fb reset
+ +->bcm2835-mbox reset
+ +->bcm2835-aux reset
+ +->pl011 reset
+ +->bcm2835-ic reset
+ +->bcm2836-control reset
+System reset
+
+In both case, the sd-card is reset (being on bcm2835_gpio/sd-bus) then mo=
+ved
+to generic-sdhci/sdhci-bus by the bcm2835_gpio reset method.
+
+Before the patch, it is then reset again being part of generic-sdhci/sdhc=
+i-bus.
+After the patch, it considered again for reset but its reset method is no=
+t
+called because it is already flagged as reset.
+---
+ vl.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/vl.c b/vl.c
+index 751401214c..e5a537d4f9 100644
+--- a/vl.c
++++ b/vl.c
+@@ -4362,7 +4362,15 @@ int main(int argc, char **argv, char **envp)
 =20
-+/**
-+ * @qdev_reset_all:
-+ * Reset @dev. See @qbus_reset_all() for more details.
-+ *
-+ * Note: This function is deprecated and will be removed when it becomes=
- unused.
-+ * Please use device_cold_reset() now.
-+ */
- void qdev_reset_all(DeviceState *dev);
- void qdev_reset_all_fn(void *opaque);
+     /* TODO: once all bus devices are qdevified, this should be done
+      * when bus is created by qdev.c */
+-    qemu_register_reset(qbus_reset_all_fn, sysbus_get_default());
++    /*
++     * TODO: If we had a main 'reset container' that the whole system
++     * lived in, we could reset that using the multi-phase reset
++     * APIs. For the moment, we just reset the sysbus, which will cause
++     * all devices hanging off it (and all their child buses, recursivel=
+y)
++     * to be reset. Note that this will *not* reset any Device objects
++     * which are not attached to some part of the qbus tree!
++     */
++    qemu_register_reset(resettable_cold_reset_fn, sysbus_get_default());
+     qemu_run_machine_init_done_notifiers();
 =20
-@@ -418,10 +425,28 @@ void qdev_reset_all_fn(void *opaque);
-  * hard reset means that qbus_reset_all will reset all state of the devi=
-ce.
-  * For PCI devices, for example, this will include the base address regi=
-sters
-  * or configuration space.
-+ *
-+ * Note: This function is deprecated and will be removed when it becomes=
- unused.
-+ * Please use bus_cold_reset() now.
-  */
- void qbus_reset_all(BusState *bus);
- void qbus_reset_all_fn(void *opaque);
-=20
-+/**
-+ * device_cold_reset:
-+ * Reset device @dev and perform a recursive processing using the resett=
-able
-+ * interface. It triggers a RESET_TYPE_COLD.
-+ */
-+void device_cold_reset(DeviceState *dev);
-+
-+/**
-+ * bus_cold_reset:
-+ *
-+ * Reset bus @bus and perform a recursive processing using the resettabl=
-e
-+ * interface. It triggers a RESET_TYPE_COLD.
-+ */
-+void bus_cold_reset(BusState *bus);
-+
- /**
-  * device_is_in_reset:
-  * Return true if the device @dev is currently being reset.
-@@ -452,6 +477,8 @@ void qdev_machine_init(void);
-  * device_legacy_reset:
-  *
-  * Reset a single device (by calling the reset method).
-+ * Note: This function is deprecated and will be removed when it becomes=
- unused.
-+ * Please use device_cold_reset() now.
-  */
- void device_legacy_reset(DeviceState *dev);
-=20
-diff --git a/include/hw/resettable.h b/include/hw/resettable.h
-index 3f90da5b5b..0c1adf49ee 100644
---- a/include/hw/resettable.h
-+++ b/include/hw/resettable.h
-@@ -221,6 +221,15 @@ bool resettable_is_in_reset(Object *obj);
-  */
- void resettable_change_parent(Object *obj, Object *newp, Object *oldp);
-=20
-+/**
-+ * resettable_cold_reset_fn:
-+ * Helper to call resettable_reset((Object *) opaque, RESET_TYPE_COLD).
-+ *
-+ * This function is typically useful to register a reset handler with
-+ * qemu_register_reset.
-+ */
-+void resettable_cold_reset_fn(void *opaque);
-+
- /**
-  * resettable_class_set_parent_phases:
-  *
-diff --git a/hw/core/bus.c b/hw/core/bus.c
-index 2698f715bd..3dc0a825f0 100644
---- a/hw/core/bus.c
-+++ b/hw/core/bus.c
-@@ -68,6 +68,11 @@ int qbus_walk_children(BusState *bus,
-     return 0;
- }
-=20
-+void bus_cold_reset(BusState *bus)
-+{
-+    resettable_reset(OBJECT(bus), RESET_TYPE_COLD);
-+}
-+
- bool bus_is_in_reset(BusState *bus)
- {
-     return resettable_is_in_reset(OBJECT(bus));
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 5fac4cd8fc..a7a7abe569 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -361,6 +361,11 @@ void qbus_reset_all_fn(void *opaque)
-     qbus_reset_all(bus);
- }
-=20
-+void device_cold_reset(DeviceState *dev)
-+{
-+    resettable_reset(OBJECT(dev), RESET_TYPE_COLD);
-+}
-+
- bool device_is_in_reset(DeviceState *dev)
- {
-     return resettable_is_in_reset(OBJECT(dev));
-diff --git a/hw/core/resettable.c b/hw/core/resettable.c
-index e99bb30058..7647ef6863 100644
---- a/hw/core/resettable.c
-+++ b/hw/core/resettable.c
-@@ -264,6 +264,11 @@ void resettable_change_parent(Object *obj, Object *n=
-ewp, Object *oldp)
-     }
- }
-=20
-+void resettable_cold_reset_fn(void *opaque)
-+{
-+    resettable_reset((Object *) opaque, RESET_TYPE_COLD);
-+}
-+
- void resettable_class_set_parent_phases(ResettableClass *rc,
-                                         ResettableEnterPhase enter,
-                                         ResettableHoldPhase hold,
+     if (rom_check_and_register_reset() !=3D 0) {
 --=20
 2.24.1
 
