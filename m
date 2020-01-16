@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3574E13F9C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 20:48:03 +0100 (CET)
-Received: from localhost ([::1]:47666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930A813F9BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 20:46:22 +0100 (CET)
+Received: from localhost ([::1]:47608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isB7Z-0001es-R5
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 14:48:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50262)
+	id 1isB5x-0007q1-5K
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 14:46:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50299)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1isB3c-00055x-1w
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:43:56 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1isB3e-00058x-Th
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:44:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1isB3a-0007SU-RG
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:43:55 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46222)
+ (envelope-from <richard.henderson@linaro.org>) id 1isB3d-0007Ua-Rr
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:43:58 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38680)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1isB3a-0007RY-LC
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:43:54 -0500
-Received: by mail-pg1-x543.google.com with SMTP id z124so10404163pgb.13
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 11:43:54 -0800 (PST)
+ id 1isB3c-0007Sw-2E
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:43:56 -0500
+Received: by mail-pl1-x644.google.com with SMTP id f20so8775210plj.5
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 11:43:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mlmrkeJpIzrykZtBoNNBzf4mMw31J+DYkBhjDwHekRc=;
- b=LFuUOFE0E970h9rzr6EFoFYOv2230PPKeJzHn3Ps17vThQ31K6HLEg5ZfQ4BL56/ql
- ZT04Sb+WEUdedU2ESw0aw0quwzLJr/EZ84SupQvlyQINgClfZizfb5PrU5fNay6pzmYZ
- lgxsfqE/G1V3MQmSJoUZjyy5eBhHf1AhTH4o2t+U+jAJzUqISOf1MQ4T29++dw+0CFW/
- BEX5pSBsI8eF97oFxS31DkJEKV875CyMuCGFG5zaQTHStGeABteZfi8VC1GEa10xoiOD
- XEN6cuAqe5eqqmJ5B3wOZBzkDtvO5YvVxokoqhG8J5UWahuKRi1rTLhvA0m1A5fTdPKz
- mU5w==
+ bh=BF/LvenLVteHucTa2gOslze21R5NBa9gmgvuCLp0CGM=;
+ b=v9eWnaT4uk14sUqPhUBJHZNkGk0PkX99tH3ogHXmtHQ3VhZrzOEeZmpD9XApE1vn9Y
+ PsGUX6L+SIiqiBy5BMpOm3g2jt/YhDvVO52z9+QBrblWqLkmp+yXq/ymPPsGvtaYOecn
+ 1G/P8lXkXCq1aL9M4xiv6bFrLDAzyJOKLkBl+lOkeXXV7Qq09wTxWJnJGCpzWd4F/g4/
+ b+Ck51pHLQ+OEw6gOqg2iNqWkIsY0MoPh8I7NiprSb1bzKLo3GkLKLyoAZTG98gtCKhR
+ BRuI6j3Y9O++RvsvTkp3nxfHjgrQegrqXhckBRFiZlpmFXbK3Vn6X6SZiL0Y/BRT41sM
+ 9YZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mlmrkeJpIzrykZtBoNNBzf4mMw31J+DYkBhjDwHekRc=;
- b=KVAhu35d0G+/eV3Bo6Txbzh3pSqep8bUPVMDfnmfdZ5YLjtlEv8i5P3YiHE1I0BSlI
- v4DdFXoFSZ0BZFjUWhmpwkoBqRh9Yx5/c795XxIDZzPMKzWjMZoV+LONOmDB0XrF8A12
- RzmISSkcTDTjpemiivNCfcxs171uBHsojh8xEHqI6jGYz+zbczYqAo3kROkEHnYoGdGG
- sv+m6ZjcW+s4xbB8z11evQlO9ZUojKB0iq9kM9cesGKbMA9Aw+oQ1sPIaEN70wUcfwRe
- FVSccq78E/fFatYTL7OCnNBBkek0KHq+udF6H8Ky99jONXhdR0Wiwoaoadoa0jYEWFmV
- Jnow==
-X-Gm-Message-State: APjAAAVcGO4vnMRr7z2rFGCmmu0HPKq+49FKnIunoyPQcyo0VH2hk/pn
- 2tt2dzY85+IgeUWNTekir/szMqAOYJE=
-X-Google-Smtp-Source: APXvYqzhrW9lxQeR8BHFha5JSUbw0KRD785JlC4MaJXnLIhGQcUBD3cbwCEKOjAn4wRwRILd9xcLIg==
-X-Received: by 2002:a62:1783:: with SMTP id 125mr39653076pfx.189.1579203833454; 
- Thu, 16 Jan 2020 11:43:53 -0800 (PST)
+ bh=BF/LvenLVteHucTa2gOslze21R5NBa9gmgvuCLp0CGM=;
+ b=KZApnvN31k8YL9RlWevKQwaXn1mEnbXQ871nHms2bQ6FSPCH7R41Z7SFfPEKHH74u3
+ Quz5+7V+OWwrlmPm3G7ZD1m5GbqJ2AVkuwfeAOvVtaljFhgPra1tfqdXIdW/wEK0FL1W
+ levXu3ecJhZ27pfV36Xf5Pd0/NH91BgsGpAoqDrjGkwseTycfbPea3zYZqCCAXEJ0Dj3
+ 8tFKaA3i3XSybuWFWMGgE/o5Wo/cxcyTQQu8g8PSxChzEtN6fKUwzySpATBPhIPg06Ae
+ sHaxLlzHyuxCb4i8FkcYGt3zIwWJxtApKh3FtZvqrsLw57oNlQJBA7Or67PJIwCZF6xA
+ NTrQ==
+X-Gm-Message-State: APjAAAWbgZzEiyfqfGgSMTBLCnEdPICvxfeDOWbjx65QNozSqM8/wsa0
+ +Bk3T+rgsNCljUng0pTIL/38iBrKyVI=
+X-Google-Smtp-Source: APXvYqzk5IeP4GoyZA1rSIFEdBxOsGPw5rpOcm/lpjNEcTdFZO9Z/MPGvIc3RUKGoH3wMYVtXC8Pwg==
+X-Received: by 2002:a17:90a:17e5:: with SMTP id
+ q92mr1033873pja.28.1579203834928; 
+ Thu, 16 Jan 2020 11:43:54 -0800 (PST)
 Received: from localhost.localdomain (rrcs-66-91-136-155.west.biz.rr.com.
  [66.91.136.155])
- by smtp.gmail.com with ESMTPSA id g2sm26411831pgn.59.2020.01.16.11.43.51
+ by smtp.gmail.com with ESMTPSA id g2sm26411831pgn.59.2020.01.16.11.43.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2020 11:43:52 -0800 (PST)
+ Thu, 16 Jan 2020 11:43:54 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/5] linux-user: Add x86_64 vsyscall page to /proc/self/maps
-Date: Thu, 16 Jan 2020 09:43:40 -1000
-Message-Id: <20200116194341.402-5-richard.henderson@linaro.org>
+Subject: [PATCH v2 5/5] linux-user: Flush out implementation of gettimeofday
+Date: Thu, 16 Jan 2020 09:43:41 -1000
+Message-Id: <20200116194341.402-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116194341.402-1-richard.henderson@linaro.org>
 References: <20200116194341.402-1-richard.henderson@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,38 +83,63 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The page isn't (necessarily) present in the host /proc/self/maps,
-and even if it might be it isn't present in page_flags, and even
-if it was it might not have the same set of page permissions.
+The first argument, timeval, is allowed to be NULL.
 
-The easiest thing to do, particularly when it comes to the
-"[vsyscall]" note at the end of line, is to special case it.
+The second argument, timezone, was missing.  While its use is
+deprecated, it is still present in the syscall.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ linux-user/syscall.c | 27 +++++++++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 171c0caef3..eb867a5296 100644
+index eb867a5296..628b4de9a1 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -7005,6 +7005,15 @@ static int open_self_maps(void *cpu_env, int fd)
-         }
-     }
+@@ -1219,6 +1219,23 @@ static inline abi_long host_to_target_timespec64(abi_ulong target_addr,
+     return 0;
+ }
  
-+#ifdef TARGET_X86_64
-+    /*
-+     * We only support execution from the vsyscall page.
-+     * This is as if CONFIG_LEGACY_VSYSCALL_XONLY=y from v5.3.
-+     */
-+    dprintf(fd, "ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0"
-+                "          [vsyscall]\n");
-+#endif
++static inline abi_long copy_to_user_timezone(abi_ulong target_tz_addr,
++                                             struct timezone *tz)
++{
++    struct target_timezone *target_tz;
 +
-     free(line);
-     fclose(fp);
- 
++    if (!lock_user_struct(VERIFY_WRITE, target_tz, target_tz_addr, 1)) {
++        return -TARGET_EFAULT;
++    }
++
++    __put_user(tz->tz_minuteswest, &target_tz->tz_minuteswest);
++    __put_user(tz->tz_dsttime, &target_tz->tz_dsttime);
++
++    unlock_user_struct(target_tz, target_tz_addr, 1);
++
++    return 0;
++}
++
+ static inline abi_long copy_from_user_timezone(struct timezone *tz,
+                                                abi_ulong target_tz_addr)
+ {
+@@ -8567,10 +8584,16 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+     case TARGET_NR_gettimeofday:
+         {
+             struct timeval tv;
+-            ret = get_errno(gettimeofday(&tv, NULL));
++            struct timezone tz;
++
++            ret = get_errno(gettimeofday(&tv, &tz));
+             if (!is_error(ret)) {
+-                if (copy_to_user_timeval(arg1, &tv))
++                if (arg1 && copy_to_user_timeval(arg1, &tv)) {
+                     return -TARGET_EFAULT;
++                }
++                if (arg2 && copy_to_user_timezone(arg2, &tz)) {
++                    return -TARGET_EFAULT;
++                }
+             }
+         }
+         return ret;
 -- 
 2.20.1
 
