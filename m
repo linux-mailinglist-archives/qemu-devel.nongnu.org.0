@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ACBF13D87D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 12:02:06 +0100 (CET)
-Received: from localhost ([::1]:39884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E12213D884
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 12:03:55 +0100 (CET)
+Received: from localhost ([::1]:39954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is2ua-0007nd-BA
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 06:02:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50779)
+	id 1is2wM-0002aN-6b
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 06:03:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50825)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1is2rw-0005v7-2h
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 05:59:23 -0500
+ (envelope-from <stefanha@redhat.com>) id 1is2s2-00064j-G1
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 05:59:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1is2rr-0008SD-E2
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 05:59:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35572
+ (envelope-from <stefanha@redhat.com>) id 1is2ry-00004s-Hd
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 05:59:26 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32487
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1is2rr-0008Ry-96
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 05:59:15 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1is2ry-0008W4-DD
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 05:59:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579172354;
+ s=mimecast20190719; t=1579172362;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FO3ciqLIW+McLfC6WRnXcY6Q4TbB9eEpMOV+jy4G19E=;
- b=QnJEG0LNA9xemhaI3nYriK2CjJG8IA3CDQloLGDPdT/lfWkfFc+iZMrF5XPKrvWnxftXqe
- imVlr4ZQkQLY4aEv+mtmX7soX9ySIgH+GmensNFuNl/0iPucwemCw9f7zogicy5fBpoabk
- Lfp2gJXyXyKhFUWubH+gDarjBsmot5o=
+ bh=1EJUAyINaXAVU17lKziI/hzu+/NjWM5FzY/Y9KFvO6g=;
+ b=gyXgj8Fe7hIu3DT31G033Q/bPlbfe21Za9qNn9mAoKlplniLdTxuG6QSDVBLepZcTo1ctH
+ zhVxkdR8+aGJMZoo34p+mmWGJ6PHwCqSuA8nlzqDqu4/wf4lDd8QwKgvm5z3w9wSK3Ra5w
+ y8YZYFskWyjM814B+quJlEdwp0YMS0Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-Yu1f1f4fOcGfadT4lrH89Q-1; Thu, 16 Jan 2020 05:59:12 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-9-ldWcLZtmNiyCgIbDYhJ2jQ-1; Thu, 16 Jan 2020 05:59:19 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4D4D8010C0;
- Thu, 16 Jan 2020 10:59:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36C6C107ACC9;
+ Thu, 16 Jan 2020 10:59:18 +0000 (UTC)
 Received: from localhost (ovpn-117-207.ams2.redhat.com [10.36.117.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 374301000328;
- Thu, 16 Jan 2020 10:59:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 112A419C5B;
+ Thu, 16 Jan 2020 10:59:12 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] virtio-blk: default num_queues to -smp N
-Date: Thu, 16 Jan 2020 10:58:41 +0000
-Message-Id: <20200116105842.271179-5-stefanha@redhat.com>
+Subject: [PATCH 5/5] vhost-user-blk: default num_queues to -smp N
+Date: Thu, 16 Jan 2020 10:58:42 +0000
+Message-Id: <20200116105842.271179-6-stefanha@redhat.com>
 In-Reply-To: <20200116105842.271179-1-stefanha@redhat.com>
 References: <20200116105842.271179-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: Yu1f1f4fOcGfadT4lrH89Q-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: ldWcLZtmNiyCgIbDYhJ2jQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,118 +83,121 @@ of vCPUs.  This ensures that completion interrupts are handled on the
 same vCPU that submitted the request.  No IPI is necessary to complete
 an I/O request and performance is improved.
 
+This patch duplicates the .get_num_virtqueues() function because
+vhost-user-blk defines its own qdev property fields and does not share
+VirtIOBlkConf.
+
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/block/virtio-blk.c          | 17 +++++++++++++++++
- hw/core/machine.c              |  1 +
- hw/virtio/virtio-blk-pci.c     |  3 ++-
- include/hw/virtio/virtio-blk.h |  1 +
- 4 files changed, 21 insertions(+), 1 deletion(-)
+ hw/block/vhost-user-blk.c          | 15 +++++++++++++++
+ hw/core/machine.c                  |  1 +
+ hw/virtio/vhost-user-blk-pci.c     |  3 ++-
+ include/hw/virtio/vhost-user-blk.h |  1 +
+ 4 files changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 9bee514c4e..8966b5a571 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -18,6 +18,7 @@
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 98b383f90e..ac61ce9835 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -21,6 +21,7 @@
  #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- #include "trace.h"
+ #include "qemu/cutils.h"
+ #include "qom/object.h"
 +#include "hw/boards.h"
- #include "hw/block/block.h"
+ #include "hw/qdev-core.h"
  #include "hw/qdev-properties.h"
- #include "sysemu/blockdev.h"
-@@ -1119,6 +1120,18 @@ static const BlockDevOps virtio_block_ops =3D {
-     .resize_cb =3D virtio_blk_resize,
- };
+ #include "hw/virtio/vhost.h"
+@@ -391,6 +392,17 @@ static void vhost_user_blk_event(void *opaque, QEMUChr=
+Event event)
+     }
+ }
 =20
-+static uint32_t virtio_blk_get_num_virtqueues(VirtIODevice *vdev)
++static uint32_t vhost_user_blk_get_num_virtqueues(VirtIODevice *vdev)
 +{
-+    VirtIOBlock *s =3D VIRTIO_BLK(vdev);
-+    VirtIOBlkConf *conf =3D &s->conf;
++    VHostUserBlk *s =3D VHOST_USER_BLK(vdev);
 +
-+    if (conf->num_queues =3D=3D 1 && conf->auto_num_queues) {
++    if (s->num_queues =3D=3D 1 && s->auto_num_queues) {
 +        return current_machine->smp.cpus;
 +    }
 +
-+    return conf->num_queues;
++    return s->num_queues;
 +}
 +
- static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
+ static void vhost_user_blk_device_realize(DeviceState *dev, Error **errp)
  {
      VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-@@ -1135,6 +1148,7 @@ static void virtio_blk_device_realize(DeviceState *de=
-v, Error **errp)
-         error_setg(errp, "Device needs media, but drive is empty");
+@@ -403,6 +415,7 @@ static void vhost_user_blk_device_realize(DeviceState *=
+dev, Error **errp)
          return;
      }
-+    conf->num_queues =3D virtio_blk_get_num_virtqueues(vdev);
-     if (!conf->num_queues) {
-         error_setg(errp, "num-queues property must be larger than 0");
+=20
++    s->num_queues =3D vhost_user_blk_get_num_virtqueues(vdev);
+     if (!s->num_queues || s->num_queues > VIRTIO_QUEUE_MAX) {
+         error_setg(errp, "vhost-user-blk: invalid number of IO queues");
          return;
-@@ -1272,6 +1286,8 @@ static Property virtio_blk_properties[] =3D {
-     DEFINE_PROP_BIT("request-merging", VirtIOBlock, conf.request_merging, =
-0,
-                     true),
-     DEFINE_PROP_UINT16("num-queues", VirtIOBlock, conf.num_queues, 1),
-+    DEFINE_PROP_BOOL("auto-num-queues", VirtIOBlock,
-+                     conf.auto_num_queues, true),
-     DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 128),
-     DEFINE_PROP_BOOL("seg-max-adjust", VirtIOBlock, conf.seg_max_adjust, t=
-rue),
-     DEFINE_PROP_LINK("iothread", VirtIOBlock, conf.iothread, TYPE_IOTHREAD=
-,
-@@ -1297,6 +1313,7 @@ static void virtio_blk_class_init(ObjectClass *klass,=
- void *data)
-     dc->props =3D virtio_blk_properties;
-     dc->vmsd =3D &vmstate_virtio_blk;
+@@ -501,6 +514,7 @@ static const VMStateDescription vmstate_vhost_user_blk =
+=3D {
+ static Property vhost_user_blk_properties[] =3D {
+     DEFINE_PROP_CHR("chardev", VHostUserBlk, chardev),
+     DEFINE_PROP_UINT16("num-queues", VHostUserBlk, num_queues, 1),
++    DEFINE_PROP_BOOL("auto-num-queues", VHostUserBlk, auto_num_queues, tru=
+e),
+     DEFINE_PROP_UINT32("queue-size", VHostUserBlk, queue_size, 128),
+     DEFINE_PROP_BIT("config-wce", VHostUserBlk, config_wce, 0, true),
+     DEFINE_PROP_END_OF_LIST(),
+@@ -514,6 +528,7 @@ static void vhost_user_blk_class_init(ObjectClass *klas=
+s, void *data)
+     dc->props =3D vhost_user_blk_properties;
+     dc->vmsd =3D &vmstate_vhost_user_blk;
      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+    vdc->get_num_virtqueues =3D virtio_blk_get_num_virtqueues;
-     vdc->realize =3D virtio_blk_device_realize;
-     vdc->unrealize =3D virtio_blk_device_unrealize;
-     vdc->get_config =3D virtio_blk_update_config;
++    vdc->get_num_virtqueues =3D vhost_user_blk_get_num_virtqueues;
+     vdc->realize =3D vhost_user_blk_device_realize;
+     vdc->unrealize =3D vhost_user_blk_device_unrealize;
+     vdc->get_config =3D vhost_user_blk_update_config;
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 41da19d85b..a33d1e93b1 100644
+index a33d1e93b1..0d4142c3c8 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -28,6 +28,7 @@
- #include "hw/mem/nvdimm.h"
-=20
- GlobalProperty hw_compat_4_2[] =3D {
-+    { "virtio-blk-device", "auto-num-queues", "off"},
-     { "virtio-blk-device", "x-enable-wce-if-config-wce", "off" },
-     { "virtio-blk-device", "seg-max-adjust", "off"},
-     { "virtio-scsi-device", "auto_num_queues", "off"},
-diff --git a/hw/virtio/virtio-blk-pci.c b/hw/virtio/virtio-blk-pci.c
-index d9b69a5af3..5131955cec 100644
---- a/hw/virtio/virtio-blk-pci.c
-+++ b/hw/virtio/virtio-blk-pci.c
-@@ -50,9 +50,10 @@ static void virtio_blk_pci_realize(VirtIOPCIProxy *vpci_=
-dev, Error **errp)
+@@ -35,6 +35,7 @@ GlobalProperty hw_compat_4_2[] =3D {
+     { "virtio-scsi-device", "seg_max_adjust", "off"},
+     { "vhost-blk-device", "seg_max_adjust", "off"},
+     { "vhost-scsi", "auto_num_queues", "off"},
++    { "vhost-user-blk", "auto-num-queues", "off"},
+     { "vhost-user-scsi", "auto_num_queues", "off"},
+     { "usb-host", "suppress-remote-wake", "off" },
+     { "usb-redir", "suppress-remote-wake", "off" },
+diff --git a/hw/virtio/vhost-user-blk-pci.c b/hw/virtio/vhost-user-blk-pci.=
+c
+index 1dc834a3ff..328c6a4066 100644
+--- a/hw/virtio/vhost-user-blk-pci.c
++++ b/hw/virtio/vhost-user-blk-pci.c
+@@ -53,9 +53,10 @@ static void vhost_user_blk_pci_realize(VirtIOPCIProxy *v=
+pci_dev, Error **errp)
  {
-     VirtIOBlkPCI *dev =3D VIRTIO_BLK_PCI(vpci_dev);
+     VHostUserBlkPCI *dev =3D VHOST_USER_BLK_PCI(vpci_dev);
      DeviceState *vdev =3D DEVICE(&dev->vdev);
 +    VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_GET_CLASS(vdev);
 =20
      if (vpci_dev->nvectors =3D=3D DEV_NVECTORS_UNSPECIFIED) {
--        vpci_dev->nvectors =3D dev->vdev.conf.num_queues + 1;
+-        vpci_dev->nvectors =3D dev->vdev.num_queues + 1;
 +        vpci_dev->nvectors =3D vdc->get_num_virtqueues(VIRTIO_DEVICE(vdev)=
 ) + 1;
      }
 =20
      qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
-diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-blk.=
-h
-index 1e62f869b2..375d7b920a 100644
---- a/include/hw/virtio/virtio-blk.h
-+++ b/include/hw/virtio/virtio-blk.h
-@@ -37,6 +37,7 @@ struct VirtIOBlkConf
-     char *serial;
-     uint32_t request_merging;
+diff --git a/include/hw/virtio/vhost-user-blk.h b/include/hw/virtio/vhost-u=
+ser-blk.h
+index 108bfadeeb..09d1fdf722 100644
+--- a/include/hw/virtio/vhost-user-blk.h
++++ b/include/hw/virtio/vhost-user-blk.h
+@@ -31,6 +31,7 @@ typedef struct VHostUserBlk {
+     int32_t bootindex;
+     struct virtio_blk_config blkcfg;
      uint16_t num_queues;
 +    bool auto_num_queues;
-     uint16_t queue_size;
-     bool seg_max_adjust;
-     uint32_t max_discard_sectors;
+     uint32_t queue_size;
+     uint32_t config_wce;
+     struct vhost_dev dev;
 --=20
 2.24.1
 
