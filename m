@@ -2,73 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FBFC13D9E4
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 13:26:31 +0100 (CET)
-Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF5813D9C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 13:18:39 +0100 (CET)
+Received: from localhost ([::1]:40770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is4EI-0005dS-7Z
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 07:26:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33858)
+	id 1is46g-0005BJ-Hm
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 07:18:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60922)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1is4Cn-0004fV-3w
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:24:58 -0500
+ (envelope-from <misono.tomohiro@fujitsu.com>) id 1is45j-0004EV-Gv
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:17:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1is4Ch-0000vu-L3
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:24:56 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37905)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1is4Ch-0000ur-7K
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:24:51 -0500
-Received: by mail-ot1-x344.google.com with SMTP id z9so17032550oth.5
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 04:24:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qC7hBoaIL8oUCA1xX16AOy/PcPLtnMR4zhXz9UbIBh8=;
- b=LWCkTYNsBWjgaf7cJPj8Ofy+vDMVLYHWW5kgTp/vzPLycGQXNGJF+eRm1pcEZ/l+AK
- tRE7RVfcY5zEBKCgF1on24P6HMv6dLnm667MlZ+4lSJvP7iKylp618O1bvtP5UZWntcx
- URlQUeO/9sWMFyhoWnEEOlohN1GE5+igbYcjLxlFhQlpHfb/pWcKSPt0wnTvjGJBHpLw
- jnpQB1OzeONRvfPK5DvcY1eo08AWd5dKluEn3CfyzkOeKV1WqaJryy5h09/6I1SJt4Nf
- W8hqUNQiPcOiP4O3zzOTs3TBJzrajqA1kRGClHPlBVvZMMLUpChywGBwn93b+aS3MaPM
- CkYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qC7hBoaIL8oUCA1xX16AOy/PcPLtnMR4zhXz9UbIBh8=;
- b=tRExucw4L1MSTwhnC6xbZ5jTT4xGO/rM7hlahx4xiRIa1zbjpaE/54x41EIet9rLry
- ZVy421TkaJXzvHU7fBr/bZYrul/8YBH84FyfeX8nVS4uwMzJOrv1wk00hq4rLXnLZGvP
- UpZb2ERw7cTraywKSHwx8IxQam5DlJjJ74LMEfC5SPmQ0ruaMMx33VHMukdqoGYXpb4N
- a+CuxQT4wfscYvg1Tl6cQDDZDv8LvmzKZWHqP4CDb/cjM/xUtKLfwhh55CWZfXG5clYw
- 2yiunVJZNfpE03VFdk5J3eh+t9wM/ksx2aaqdEWd95N6i8e9MH00SJjSGl8z38G5pCRi
- BeYA==
-X-Gm-Message-State: APjAAAWv+AYbFNyFWqnHAemCjQYJdvyzDyDVlIhpAyVHMbloqB5+/kaq
- F438+foJ3cwbnAYJmt+e6z8J1Z2IjxW9KDXxT+CxQMmeXKA=
-X-Google-Smtp-Source: APXvYqyObHPk2DOi39llRElgRwCKKdx7tlntEYnIY8/eYp5hkN6XifC3eUHf/VFPU3uRULeTPY1oXmGHp1dI1kabmPU=
-X-Received: by 2002:a05:6830:184:: with SMTP id
- q4mr1741706ota.232.1579177490204; 
- Thu, 16 Jan 2020 04:24:50 -0800 (PST)
+ (envelope-from <misono.tomohiro@fujitsu.com>) id 1is45f-000325-1E
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:17:38 -0500
+Received: from mgwkm02.jp.fujitsu.com ([202.219.69.169]:49005)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
+ id 1is45e-0002yV-B6
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:17:34 -0500
+Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
+ mgwkm02.jp.fujitsu.com with smtp
+ id 11aa_1e22_ef0b02c8_72e1_49a6_954f_4dfbda4cf5b3;
+ Thu, 16 Jan 2020 21:17:23 +0900
+Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
+ (g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
+ by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 740CCAC0058
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 21:17:22 +0900 (JST)
+Received: from G01JPEXCHKW14.g01.fujitsu.local
+ (G01JPEXCHKW14.g01.fujitsu.local [10.0.194.53])
+ by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id 68F1FBD675A;
+ Thu, 16 Jan 2020 21:17:21 +0900 (JST)
+Received: from luna3.soft.fujitsu.com (10.124.196.199) by
+ G01JPEXCHKW14.g01.fujitsu.local (10.0.194.53) with Microsoft SMTP Server id
+ 14.3.439.0; Thu, 16 Jan 2020 21:17:21 +0900
+From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+To: <dgilbert@redhat.com>
+Subject: Re: [PATCH 093/104] virtiofsd: introduce inode refcount to prevent
+ use-after-free
+Date: Thu, 16 Jan 2020 21:25:42 +0900
+Message-ID: <20200116122542.20873-1-misono.tomohiro@jp.fujitsu.com>
+X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20191212163904.159893-94-dgilbert@redhat.com>
+References: <20191212163904.159893-94-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20191219064759.35053-1-guoheyi@huawei.com>
- <20191219064759.35053-3-guoheyi@huawei.com>
- <20200105072504-mutt-send-email-mst@kernel.org>
- <CAFEAcA-sduqVO3rrG2V1VsysE2chgd0SnSySvEXFfue-aZN8dg@mail.gmail.com>
- <bbf347fe-c4a4-c5bb-19c2-3a18571b658f@huawei.com>
- <20200115011412-mutt-send-email-mst@kernel.org>
- <7732900c-5490-6483-ca10-71c565e81945@huawei.com>
- <20200115055408-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200115055408-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Jan 2020 12:24:38 +0000
-Message-ID: <CAFEAcA9AZS=aNBYNntTDNB0k4kORjMFJ6qOimASVV9JWs4VzTA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm/virt/acpi: remove _ADR from devices identified by
- _HID
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-GCONF: 00
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 202.219.69.169
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,84 +64,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>, Guoheyi <guoheyi@huawei.com>,
- wanghaibin.wang@huawei.com
+Cc: misono.tomohiro@jp.fujitsu.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Jan 2020 at 10:55, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> Here's a hopefully better patch. Peter does this address the issue?
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
->
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index f1ac2d7e96..3ab4872bd7 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -16,7 +16,10 @@
->   * 1. add empty files for new tables, if any, under tests/data/acpi
->   * 2. list any changed files in tests/bios-tables-test-allowed-diff.h
->   * 3. commit the above *before* making changes that affect the tables
-> - * Maintainer:
-> + *
-> + * Contributor or ACPI Maintainer (steps 4-7 need to be redone to resolve conflicts
-> + * in binary commit created in step 6):
-> + *
->   * After 1-3 above tests will pass but ignore differences with the expected files.
->   * You will also notice that tests/bios-tables-test-allowed-diff.h lists
->   * a bunch of files. This is your hint that you need to do the below:
-> @@ -28,13 +31,23 @@
->   * output. If not - disassemble them yourself in any way you like.
->   * Look at the differences - make sure they make sense and match what the
->   * changes you are merging are supposed to do.
-> + * Save the changes, preferably in form of ASL diff for the commit log in
-> + * step 6.
->   *
->   * 5. From build directory, run:
->   *      $(SRC_PATH)/tests/data/acpi/rebuild-expected-aml.sh
-> - * 6. Now commit any changes.
-> - * 7. Before doing a pull request, make sure tests/bios-tables-test-allowed-diff.h
-> - *    is empty - this will ensure following changes to ACPI tables will
-> - *    be noticed.
-> + * 6. Now commit any changes to the expected binary, include diff from step 4
-> + *    in commit log.
-> + * 7. Before sending patches to the list (Contributor)
-> + *    or before doing a pull request (Maintainer), make sure
-> + *    tests/bios-tables-test-allowed-diff.h is empty - this will ensure
-> + *    following changes to ACPI tables will be noticed.
-> + *
-> + * The resulting patchset/pull request then looks like this:
-> + * - patch 1: list changed files in tests/bios-tables-test-allowed-diff.h.
-> + * - patches 2 - n: real changes, may contain multiple patches.
-> + * - patch n + 1: update golden master binaries and empty
-> + *   tests/bios-tables-test-allowed-diff.h
->   */
+> From: Stefan Hajnoczi <stefanha@redhat.com>
+> 
+> If thread A is using an inode it must not be deleted by thread B when
+> processing a FUSE_FORGET request.
+> 
+> The FUSE protocol itself already has a counter called nlookup that is
+> used in FUSE_FORGET messages.  We cannot trust this counter since the
+> untrusted client can manipulate it via FUSE_FORGET messages.
+> 
+> Introduce a new refcount to keep inodes alive for the required lifespan.
+> lo_inode_put() must be called to release a reference.  FUSE's nlookup
+> counter holds exactly one reference so that the inode stays alive as
+> long as the client still wants to remember it.
+> 
+> Note that the lo_inode->is_symlink field is moved to avoid creating a
+> hole in the struct due to struct field alignment.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  tools/virtiofsd/passthrough_ll.c | 168 ++++++++++++++++++++++++++-----
+>  1 file changed, 145 insertions(+), 23 deletions(-)
+> 
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index b19c9ee328..8f4ab8351c 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -99,7 +99,13 @@ struct lo_key {
+>  
+>  struct lo_inode {
+>      int fd;
+> -    bool is_symlink;
+> +
+> +    /*
+> +     * Atomic reference count for this object.  The nlookup field holds a
+> +     * reference and release it when nlookup reaches 0.
+> +     */
+> +    gint refcount;
+> +
+>      struct lo_key key;
+>  
+>      /*
+> @@ -118,6 +124,8 @@ struct lo_inode {
+>      fuse_ino_t fuse_ino;
+>      pthread_mutex_t plock_mutex;
+>      GHashTable *posix_locks; /* protected by lo_inode->plock_mutex */
+> +
+> +    bool is_symlink;
+>  };
+>  
+>  struct lo_cred {
+> @@ -473,6 +481,23 @@ static ssize_t lo_add_inode_mapping(fuse_req_t req, struct lo_inode *inode)
+>      return elem - lo_data(req)->ino_map.elems;
+>  }
+>  
+> +static void lo_inode_put(struct lo_data *lo, struct lo_inode **inodep)
+> +{
+> +    struct lo_inode *inode = *inodep;
+> +
+> +    if (!inode) {
+> +        return;
+> +    }
+> +
+> +    *inodep = NULL;
+> +
+> +    if (g_atomic_int_dec_and_test(&inode->refcount)) {
+> +        close(inode->fd);
+> +        free(inode);
+> +    }
+> +}
+> +
+> +/* Caller must release refcount using lo_inode_put() */
+>  static struct lo_inode *lo_inode(fuse_req_t req, fuse_ino_t ino)
+>  {
+>      struct lo_data *lo = lo_data(req);
+> @@ -480,6 +505,9 @@ static struct lo_inode *lo_inode(fuse_req_t req, fuse_ino_t ino)
+>  
+>      pthread_mutex_lock(&lo->mutex);
+>      elem = lo_map_get(&lo->ino_map, ino);
+> +    if (elem) {
+> +        g_atomic_int_inc(&elem->inode->refcount);
+> +    }
+>      pthread_mutex_unlock(&lo->mutex);
+>  
+>      if (!elem) {
+> @@ -489,10 +517,23 @@ static struct lo_inode *lo_inode(fuse_req_t req, fuse_ino_t ino)
+>      return elem->inode;
+>  }
+>  
+> +/*
+> + * TODO Remove this helper and force callers to hold an inode refcount until
+> + * they are done with the fd.  This will be done in a later patch to make
+> + * review easier.
+> + */
+>  static int lo_fd(fuse_req_t req, fuse_ino_t ino)
+>  {
+>      struct lo_inode *inode = lo_inode(req, ino);
+> -    return inode ? inode->fd : -1;
+> +    int fd;
+> +
+> +    if (!inode) {
+> +        return -1;
+> +    }
+> +
+> +    fd = inode->fd;
+> +    lo_inode_put(lo_data(req), &inode);
+> +    return fd;
+>  }
+>  
+>  static void lo_init(void *userdata, struct fuse_conn_info *conn)
+> @@ -547,6 +588,10 @@ static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
+>      fuse_reply_attr(req, &buf, lo->timeout);
+>  }
+>  
+> +/*
+> + * Increments parent->nlookup and caller must release refcount using
+> + * lo_inode_put(&parent).
+> + */
+>  static int lo_parent_and_name(struct lo_data *lo, struct lo_inode *inode,
+>                                char path[PATH_MAX], struct lo_inode **parent)
+>  {
+> @@ -584,6 +629,7 @@ retry:
+>          p = &lo->root;
+>          pthread_mutex_lock(&lo->mutex);
+>          p->nlookup++;
+> +        g_atomic_int_inc(&p->refcount);
+>          pthread_mutex_unlock(&lo->mutex);
+>      } else {
+>          *last = '\0';
 
-I think that seems reasonable, but you're the ACPI expert.
-As long as the patches on list:
- * can be reviewed by somebody for whether their ACPI changes
-   are correct, including whether the golden-master changes are right
- * can be applied by a maintainer without having to do anything
-   special
- * don't break bisection
+We need lo_ionde_put() in error path, right?:
+https://gitlab.com/virtio-fs/qemu/blob/virtio-fs-as-posted-2019-12-12/tools/virtiofsd/passthrough_ll.c#L680
 
-then I'm happy. It sounds like those steps will work for that.
+nit: if yes, unref_inode_lolocked() is always paired with lo_inode_put().
+So how about combine them in one function? As p->nloockup and p->refcount
+are both incremented in one place (lo_find/lo_parent_and_name) in these case,
+it seems natural for me to decrement them in one function as well.
 
-> diff --git a/roms/seabios b/roms/seabios
-> index f21b5a4aeb..c9ba5276e3 160000
-> --- a/roms/seabios
-> +++ b/roms/seabios
-> @@ -1 +1 @@
-> -Subproject commit f21b5a4aeb020f2a5e2c6503f906a9349dd2f069
-> +Subproject commit c9ba5276e3217ac6a1ec772dbebf568ba3a8a55d
-
-You have a stray submodule update in your patch, though :-)
-
-thanks
--- PMM
+Thanks,
+Misono
 
