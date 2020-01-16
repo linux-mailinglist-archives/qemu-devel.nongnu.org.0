@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3F313E1D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 17:53:16 +0100 (CET)
-Received: from localhost ([::1]:45050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3EE13E24D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 17:55:29 +0100 (CET)
+Received: from localhost ([::1]:45084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is8OR-0001Lt-34
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 11:53:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51206)
+	id 1is8Qa-0003G9-0i
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 11:55:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51980)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qemu_oss@crudebyte.com>) id 1is8Mc-0007db-K1
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:51:26 -0500
+ (envelope-from <laurent@vivier.eu>) id 1is8PV-0002ox-Qn
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:54:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1is8MY-00077j-LK
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:51:22 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:40577)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1is8MY-00076T-46
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:51:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=gOf05fYM51+BEY5BgOPdJbAqbo/DiHVfIwPIrJAlRDA=; b=G4tc5O51J6i5rehav4IOaz5iXE
- V4KeZs2qtWTx8AWyYBt65xePmFWXXF4obzSkjarwO8orNO6kgIwRf+hwGKbsJBdXuXBjTDU1MDvRw
- QW9rIDEcXbeOCb1XougAAZr7Bm469wwfelyvuPtb/c4ty8KPW3201wVoakQWb+EjZKDki78sIIJLg
- KfwzPGKu52auQHhSRfO1XnuvduCgZN3gCk3Jk5bJNE/fHvqgcPZnQPQ0Nj6PL/7B7FmTujtbs/dog
- lT62l5S/tbOW65V3g425ydcn9O7A6FbMsn8IeCbHIcCwngZPz2ZicAWEqklV0xCFTpyvP+ok81FPf
- HNkSBRjc9hwOE1XO6ODmLAmO5D0rvBERCNT9bLhfJjBsRns+6clQaYrjINHZ2rIyKquPWN8cmHyG+
- buNruOqwD/PAPSg3ks0s8324vfF0uYSRu+EWlKTG7lFT5n4lEbUnYjpoOZLn7mBxfNUb6ditfnPu5
- q1V4D234TPiWNte0wN191BDkxSX8DUjHkvDA/0seVWM8GWQ58l94cJCZJ9L8t5b6MO/0hFK7+LgJC
- zXv+3Vvp8uZQ0IEMNE7aCZLcjd5W3XCk2hTXjx+0jgbQsjAtfviuUQoGohZwGQIzCHTJFcH+BapZo
- ADkPHCXDIi8bO7InYSvy1uBsy7bL85EiAz8ilbV50=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ (envelope-from <laurent@vivier.eu>) id 1is8PR-0000ci-T5
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:54:21 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:58801)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1is8PR-0000bk-JO
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:54:17 -0500
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MqK6l-1jNdey2JMZ-00nQdW; Thu, 16 Jan 2020 17:54:11 +0100
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v3 03/11] 9pfs: validate count sent by client with
- T_readdir
-Date: Thu, 16 Jan 2020 17:51:10 +0100
-Message-ID: <5915926.WqdOhGH810@silver>
-In-Reply-To: <20200116143342.4d518b30@bahia.lan>
-References: <cover.1578957500.git.qemu_oss@crudebyte.com>
- <0edf21d2cb2a6cf22ba1065bf451b44ad5962cbd.1578957500.git.qemu_oss@crudebyte.com>
- <20200116143342.4d518b30@bahia.lan>
+Subject: [PATCH v2] m68k: Fix regression causing Single-Step via GDB/RSP to
+ not single step
+Date: Thu, 16 Jan 2020 17:54:10 +0100
+Message-Id: <20200116165410.2076012-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Wni8AbMesIINrO+TEM6raf3K+aRP38wOKuwnqyEMaxQtbGh8Mm5
+ 309PsLNqKmjkuY9/tdjOrSrtphdOKSteXfT1tgYmasprtSHCHRQJOuRYG5CVQyy4mjsZd/j
+ 7M10MlFg+YSmax3aBfULjp659V1JUF5o11Il/X3KjJ8cJZkYmYqQsdam9VNowm5qzeoZ8vM
+ WEXz7uGwxaf4cdO4r7n9A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GGVtj4xCsGs=:7gbu4KYtD2o+RWWoOrAj+M
+ 9cY0+eiIJBnxfaMX8jEj1O3UmnYxeyX0VqIhLzMC9ayN0+OpzAg2e78+cb6ukz+voyt6keKBg
+ F5s33DizPW3ZQv1u4FITbuMLe6v46Trleu7Fp+MpSkZ+v6umCMW5ZV9Lbh/zo17MHr/A4SMfC
+ u0hg3gudD3uyW0XeU7G0axQhBECDw2oMf6eoPKhHcJEx1sx2mICsr7URfvV7y8exhREwYieAc
+ GJC0h9dd9BD9QGzze+LE/lBhgBr1J7pbYKZPlbNXL2qma38SHE6nTrhE+Dc30M5dpaufWtC4Z
+ abYm8YQJwwPzXJmMec56wPMGqn1E3Z54P7Blrh0r9/QnUJ52AxHrdzLNi0MIiiEEuvfIZnAHs
+ bOkeMKq/LwAyAAC+/Cyj/pS64FZ7F0GkCT+ywKBoIAEAzGBtoqMMREF74LnO3vX9XRuMCKypW
+ 0YAIDt+aEP5W+izpONsndKAhKtgf6Gja7cfSavotRWRMkFJGWl6BFkRxJSHm1NmfiyVRFbcX3
+ BkhgKC+qw6dqCGSKogJlQkNHwd06rgBfABL0MUA2VwbnquqR7HdCrwgZT1MVfN8NgRKumKges
+ Aejhwer+GhDxKbwjoysTb3SaBaUe5cwdj6sjWJNa/T2n3jneb4eRDwDb94Df6UprjcZ1rfBHM
+ WVsKSCcuYgorTkkHh5NkpGDbU/iHeMq+NGzpSp/MZIXCag+6qk+qZ6KpIT/kYybZPMdvBY9Z0
+ enlMy2Pt+T4rvAZax/3F6EstwVSMoMgtWT6Hud8GTOVxY8AVkukK36l+OghHdl2lwIHtFTXkm
+ Iu+kpSNlEstUM/3XxyPo+GZWe+s0hhJfQPf24+DUYryfX3rCnXY2iO2lR5yiJVOlvbfQ6gbkJ
+ jPBfjVMBjL5FVaYMJ5bA==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 5.189.157.229
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,93 +64,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Lucien Murray-Pitts <lucienmp_antispam@yahoo.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 16. Januar 2020 14:33:42 CET Greg Kurz wrote:
-> On Mon, 13 Jan 2020 23:22:08 +0100
-> 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > A good 9p client sends T_readdir with "count" parameter that's
-> > sufficiently smaller than client's initially negotiated msize
-> > (maximum message size). We perform a check for that though to
-> > avoid the server to be interrupted with a "Failed to encode
-> > VirtFS reply type 41" error message by bad clients.
-> > 
-> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > ---
-> > 
-> >  hw/9pfs/9p.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > index a5fbe821d4..30da2fedf3 100644
-> > --- a/hw/9pfs/9p.c
-> > +++ b/hw/9pfs/9p.c
-> > @@ -2426,6 +2426,7 @@ static void coroutine_fn v9fs_readdir(void *opaque)
-> > 
-> >      int32_t count;
-> >      uint32_t max_count;
-> >      V9fsPDU *pdu = opaque;
-> > 
-> > +    V9fsState *s = pdu->s;
-> > 
-> >      retval = pdu_unmarshal(pdu, offset, "dqd", &fid,
-> >      
-> >                             &initial_offset, &max_count);
-> > 
-> > @@ -2434,6 +2435,13 @@ static void coroutine_fn v9fs_readdir(void *opaque)
-> > 
-> >      }
-> >      trace_v9fs_readdir(pdu->tag, pdu->id, fid, initial_offset,
-> >      max_count);
-> > 
-> > +    if (max_count > s->msize - P9_IOHDRSZ) {
-> 
-> P9_IOHDRSZ relates to Twrite. The Rreaddir message has a smaller header
-> of size 11:
-> 
-> size[4] Rreaddir tag[2] count[4]
+A regression that was introduced, with the refactor to TranslatorOps,
+drops two lines that update the PC when single-stepping is being performed.
 
-Right, looks like I have falsely picked P9_IOHDRSZ after looking at:
+Fixes: 11ab74b01e0a ("target/m68k: Convert to TranslatorOps")
+Reported-by: Lucien Murray-Pitts <lucienmp_antispam@yahoo.com>
+Suggested-by: Lucien Murray-Pitts <lucienmp_antispam@yahoo.com>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
 
-static size_t v9fs_readdir_data_size(V9fsString *name)
-{
-    /*
-     * Size of each dirent on the wire: size of qid (13) + size of offset (8)
-     * size of type (1) + size of name.size (2) + strlen(name.data)
-     */
-    return 24 + v9fs_string_size(name);
-}
+Notes:
+    v3: introduce gen_raise_exception() (Richard)
+    
+    v2: update patch from Lucien with changes from Richard
+        update subject to prefix it with "m68k:"
+        rebase
 
-I'll have to correct that in the test cases as well. So no need to comment on 
-them for now.
+ target/m68k/translate.c | 42 ++++++++++++++++++++++++++---------------
+ 1 file changed, 27 insertions(+), 15 deletions(-)
 
-But if you have an idea about the issue mentioned in cover letter (patch 7), 
-let me know. I have a feeling that there is some problem with the test 
-environment, because I also get strange error messages when I just add some 
-more e.g. noop 9pfs test cases (empty test cases doing nothing) or by copy 
-pasting existing tests and then running 
-
-tests/qos-test -l
-
-which obviously should just list the test cases, but not executing any of 
-them. I'd end up with "cannot push stack" error messages for some reason.
-
-> > +        max_count = s->msize - P9_IOHDRSZ;
-> > +        warn_report_once(
-> > +            "9p: bad client: T_readdir with count > msize - P9_IOHDRSZ"
-> > +        );
-> > +    }
-> > +
-> > 
-> >      fidp = get_fid(pdu, fid);
-> >      if (fidp == NULL) {
-> >      
-> >          retval = -EINVAL;
-
-Best regards,
-Christian Schoenebeck
-
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index fcdb7bc8e4..16fae5ac9e 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -289,16 +289,21 @@ static void gen_jmp(DisasContext *s, TCGv dest)
+     s->base.is_jmp = DISAS_JUMP;
+ }
+ 
+-static void gen_exception(DisasContext *s, uint32_t dest, int nr)
++static void gen_raise_exception(int nr)
+ {
+     TCGv_i32 tmp;
+ 
+-    update_cc_op(s);
+-    tcg_gen_movi_i32(QREG_PC, dest);
+-
+     tmp = tcg_const_i32(nr);
+     gen_helper_raise_exception(cpu_env, tmp);
+     tcg_temp_free_i32(tmp);
++}
++
++static void gen_exception(DisasContext *s, uint32_t dest, int nr)
++{
++    update_cc_op(s);
++    tcg_gen_movi_i32(QREG_PC, dest);
++
++    gen_raise_exception(nr);
+ 
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+@@ -6198,29 +6203,36 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+ {
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
+ 
+-    if (dc->base.is_jmp == DISAS_NORETURN) {
+-        return;
+-    }
+-    if (dc->base.singlestep_enabled) {
+-        gen_helper_raise_exception(cpu_env, tcg_const_i32(EXCP_DEBUG));
+-        return;
+-    }
+-
+     switch (dc->base.is_jmp) {
++    case DISAS_NORETURN:
++        break;
+     case DISAS_TOO_MANY:
+         update_cc_op(dc);
+-        gen_jmp_tb(dc, 0, dc->pc);
++        if (dc->base.singlestep_enabled) {
++            tcg_gen_movi_i32(QREG_PC, dc->pc);
++            gen_raise_exception(EXCP_DEBUG);
++        } else {
++            gen_jmp_tb(dc, 0, dc->pc);
++        }
+         break;
+     case DISAS_JUMP:
+         /* We updated CC_OP and PC in gen_jmp/gen_jmp_im.  */
+-        tcg_gen_lookup_and_goto_ptr();
++        if (dc->base.singlestep_enabled) {
++            gen_raise_exception(EXCP_DEBUG);
++        } else {
++            tcg_gen_lookup_and_goto_ptr();
++        }
+         break;
+     case DISAS_EXIT:
+         /*
+          * We updated CC_OP and PC in gen_exit_tb, but also modified
+          * other state that may require returning to the main loop.
+          */
+-        tcg_gen_exit_tb(NULL, 0);
++        if (dc->base.singlestep_enabled) {
++            gen_raise_exception(EXCP_DEBUG);
++        } else {
++            tcg_gen_exit_tb(NULL, 0);
++        }
+         break;
+     default:
+         g_assert_not_reached();
+-- 
+2.24.1
 
 
