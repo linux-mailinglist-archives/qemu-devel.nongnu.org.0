@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1F513E140
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 17:49:10 +0100 (CET)
-Received: from localhost ([::1]:44958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 188C313E1D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 17:53:37 +0100 (CET)
+Received: from localhost ([::1]:45058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is8KS-0002ev-Oo
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 11:49:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46192)
+	id 1is8Om-000209-4G
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 11:53:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46821)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1is8FH-0004Um-Ey
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:43:51 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1is8Fh-0005Ac-Hs
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:44:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1is8FC-0008CE-8G
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:43:46 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54550
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1is8FC-0008Bl-4q
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:43:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579193021;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=buRSOiILco/oIeYSzDuxM5jHpqQZMWxy7dVdhOgoewo=;
- b=dB19CtixoMTB22QL/f9dDH3J4uuEbm54eh8lQwShcsYKWhxJ+rO9DUkgEtA8Z92DIABo0g
- 0Fnfy8s7+zlBusrjaZNBTuer3oz/Qv7sdEIpd6gB8J2vpjzVNQu2tb9XTWpLPB/baKINQl
- r/Ty6ssuRLh9n4qlJhqeRgTHGFZkgwc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-MKQcxyWUPdO4kFesoEcFOA-1; Thu, 16 Jan 2020 11:43:38 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2214018FE860;
- Thu, 16 Jan 2020 16:43:37 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-204-105.brq.redhat.com [10.40.204.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 082C51001281;
- Thu, 16 Jan 2020 16:43:32 +0000 (UTC)
-Subject: Re: [PATCH v2 85/86] numa: make exit() usage consistent
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-86-git-send-email-imammedo@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <a4feb8cd-a105-bcfd-b8c3-27ac5bb0f474@redhat.com>
-Date: Thu, 16 Jan 2020 17:43:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <peter.maydell@linaro.org>) id 1is8Fg-0000G6-DJ
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:44:13 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43870)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1is8Fg-0000F0-7R
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:44:12 -0500
+Received: by mail-oi1-x243.google.com with SMTP id p125so19413029oif.10
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 08:44:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nbt9ZpWqqdD6vIQRKy1qyLMQca6b/HxDSA+FsokmcTw=;
+ b=Ze19MaB/y1XsL4yRJAYS7+aOJ29PUXv+3+2hmEqRDnag03+g1ye3cgUk7xQcL0z7Pf
+ TlNX68znKCEYKCfow5hxU6VaTzw1i6KdPA/nB9h2H2P8z8BO0CncLNsMvxjdPU8QI0Cu
+ AWKu15pI+kuTXZKA9AJtmfk6xPJIOrxvOsMA+ATDNwHDvqT8BxqsAN1uo0ANE/q6gWzY
+ ANkjYzCzeq7V/JsFD8tay9ko/THXZO6gxV8rxKD4BZ1Jp+dISbjr1Sn9LfpfCZK3E1Pu
+ 7gXzmonJl+xa8QW281fmbxr9EhWik8NrHPvDiIkmm8AxdxGUfP6Ffg2qpDOtLbCI5RO0
+ Ii5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nbt9ZpWqqdD6vIQRKy1qyLMQca6b/HxDSA+FsokmcTw=;
+ b=gc5J7XzAtZCSnSbrhmDoNuuSvw1afaNRB2mDbaQE6Rvli7OwPOcgVdxQKElfJssjwv
+ XvVXPHCTwya/WYoX444oAVd/rULXSwxRWdWrnhTo+0u0bkWXUejcTWQS/vDWAH3RDYiJ
+ elUnMtp97W1S5RV3gnRO8gv3NAhMaG7sXf+1BdVtiLyN9jKRJzx5wklstiABUfXRwj2x
+ uIFpac6FnEaH2UzD5aPk+0kN2z/FEwRhTwMFljUOEfm4JDQWQbTQr/M84QMDqX4CO5XN
+ bWstEgFeLP1FqgDBQEjo4eF6u/koMz1SOO0TPTfMnw78+ZnaUSLfBERoZVPMgoi1Cn6r
+ PrfA==
+X-Gm-Message-State: APjAAAWGmjy6OyFAubLg2SPe48Uur3B2qzLFGPBchHSQdoKczl16BWll
+ SRlnuoigPDCiSoQU9sJZa05MnsheXLNoS6VHnBk7IA==
+X-Google-Smtp-Source: APXvYqy2Ea0ZSpaXvRx0kSDWa4cAPhZR203J8lHCxJ4EET5zN+o2QBNrDh+pFMTnItNoG/JnqzuXjV62Cr3+/XULQqo=
+X-Received: by 2002:aca:d78b:: with SMTP id o133mr4860165oig.163.1579193051335; 
+ Thu, 16 Jan 2020 08:44:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1579100861-73692-86-git-send-email-imammedo@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: MKQcxyWUPdO4kFesoEcFOA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <1578483143-14905-1-git-send-email-gengdongjiu@huawei.com>
+ <1578483143-14905-6-git-send-email-gengdongjiu@huawei.com>
+In-Reply-To: <1578483143-14905-6-git-send-email-gengdongjiu@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Jan 2020 16:44:00 +0000
+Message-ID: <CAFEAcA9z9KDHmvh6WsrCPj_FTvNmOfhatxNQDftNG+ZKZN0wAA@mail.gmail.com>
+Subject: Re: [PATCH v22 5/9] ACPI: Record the Generic Error Status Block
+ address
+To: Dongjiu Geng <gengdongjiu@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,57 +73,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@linaro.org>,
- ehabkost@redhat.com, David Gibson <dgibson@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Linuxarm <linuxarm@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Zheng Xiang <zhengxiang9@huawei.com>, qemu-arm <qemu-arm@nongnu.org>,
+ James Morse <james.morse@arm.com>, "xuwei \(O\)" <xuwei5@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/01/2020 16.07, Igor Mammedov wrote:
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+On Wed, 8 Jan 2020 at 11:33, Dongjiu Geng <gengdongjiu@huawei.com> wrote:
+>
+> Record the GHEB address via fw_cfg file, when recording
+> a error to CPER, it will use this address to find out
+> Generic Error Data Entries and write the error.
+>
+> Make the HEST GHES to a GED device.
+>
+> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
 > ---
-> CC: ehabkost@redhat.com
-> ---
->  hw/core/numa.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/core/numa.c b/hw/core/numa.c
-> index 3177066..47d5ea1 100644
-> --- a/hw/core/numa.c
-> +++ b/hw/core/numa.c
-> @@ -718,7 +718,7 @@ void numa_complete_configuration(MachineState *ms)
->          /* Report large node IDs first, to make mistakes easier to spot =
-*/
->          if (!numa_info[i].present) {
->              error_report("numa: Node ID missing: %d", i);
-> -            exit(1);
-> +            exit(EXIT_FAILURE);
->          }
+>  hw/acpi/generic_event_device.c         | 15 ++++++++++++++-
+>  hw/acpi/ghes.c                         | 16 ++++++++++++++++
+>  hw/arm/virt-acpi-build.c               | 13 ++++++++++++-
+>  include/hw/acpi/generic_event_device.h |  2 ++
+>  include/hw/acpi/ghes.h                 |  6 ++++++
+>  5 files changed, 50 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+> index 9cee90c..9bf37e4 100644
+> --- a/hw/acpi/generic_event_device.c
+> +++ b/hw/acpi/generic_event_device.c
+> @@ -234,12 +234,25 @@ static const VMStateDescription vmstate_ged_state = {
 >      }
-> =20
-> @@ -759,7 +759,7 @@ void numa_complete_configuration(MachineState *ms)
->              error_report("total memory for NUMA nodes (0x%" PRIx64 ")"
->                           " should equal RAM size (0x" RAM_ADDR_FMT ")",
->                           numa_total, ram_size);
-> -            exit(1);
-> +            exit(EXIT_FAILURE);
->          }
-> =20
->          if (!numa_uses_legacy_mem()) {
+>  };
+>
+> +static const VMStateDescription vmstate_ghes_state = {
+> +    .name = "acpi-ghes-state",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields      = (VMStateField[]) {
+> +        VMSTATE_UINT64(ghes_addr_le, AcpiGhesState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static const VMStateDescription vmstate_acpi_ged = {
+>      .name = "acpi-ged",
+>      .version_id = 1,
+>      .minimum_version_id = 1,
+>      .fields = (VMStateField[]) {
+> -        VMSTATE_STRUCT(ged_state, AcpiGedState, 1, vmstate_ged_state, GEDState),
+> +        VMSTATE_STRUCT(ged_state, AcpiGedState, 1,
+> +                       vmstate_ged_state, GEDState),
+> +        VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
+> +                       vmstate_ghes_state, AcpiGhesState),
+>          VMSTATE_END_OF_LIST(),
+>      },
+>      .subsections = (const VMStateDescription * []) {
 
-Please don't. We've had exit(1) vs. exit(EXIT_FAILURE) discussions in
-the past already, and IIRC there was no clear conclusion which one we
-want to use. There are examples of changes to the numeric value in our
-git history (see d54e4d7659ebecd0e1fa7ffc3e954197e09f8a1f for example),
-and example of the other way round (see 4d1275c24d5d64d22ec4a30ce1b6a0
-for example).
+You can't just add fields to an existing VMStateDescription
+like this -- it will break migration compatibility. Instead you
+need to add a new subsection to this vmstate, with a '.needed'
+function which indicates when the subsection should be present.
 
-Your patch series here is already big enough, so I suggest to drop this
-patch from the series. If you want to change this, please suggest an
-update to CODING_STYLE.rst first so that we agree upon one style for
-exit() ... otherwise somebody else might change this back into numeric
-values in a couple of months just because they have a different taste.
-
- Thomas
-
+thanks
+-- PMM
 
