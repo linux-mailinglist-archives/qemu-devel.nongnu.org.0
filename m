@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2A313F1AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 19:31:12 +0100 (CET)
-Received: from localhost ([::1]:46786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BF113F211
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 19:33:06 +0100 (CET)
+Received: from localhost ([::1]:46854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is9vD-0006vl-JG
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 13:31:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37282)
+	id 1is9x4-00014U-0L
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 13:33:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37559)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1is9tJ-0005ux-0x
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:29:16 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1is9v9-00081g-Cf
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:31:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1is9tF-0007so-En
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:29:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46248
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1is9tF-0007ri-By
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:29:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579199348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e7fkFnyJ97vi5GklBVKq9hju9opwZ7Tq7OW+Ppw6Qxg=;
- b=QmevbgZAYR79B/hqbKuJrEbjAJ4JP0+AkCE6X/4dkwzyJHMLyfyCf2aoKpYKWNEbvUM3ZE
- lasK10PyzwrDBGPhjOi2MdbFW1ecxqcnt1mDWuHXAlUXbGj9Pf9jMz6yLRW0erYWE1sDK6
- q4e9hnNXPWpMa5m2qSgz4Z9BWjIHPfc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-8KF7Xqx0MaiU7JUGm6iiUA-1; Thu, 16 Jan 2020 13:29:07 -0500
-Received: by mail-wr1-f70.google.com with SMTP id f15so9644229wrr.2
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 10:29:06 -0800 (PST)
+ (envelope-from <richard.henderson@linaro.org>) id 1is9v7-0001DD-Vc
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:31:07 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:45191)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1is9v7-0001Bs-Nu
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:31:05 -0500
+Received: by mail-pg1-x541.google.com with SMTP id b9so10295991pgk.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 10:31:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=aRYc9++vppC68niNgxhrBYIGTUxhmzkEilcEDZiNFuA=;
+ b=D6S7v/9kQ5egwCRZcEVs5Zca/cjDHmXmy9IjCrOhWD9VM2oLiIvvhDTIQnDA+Cq/GG
+ 6DWcb8jkCwc+MFtkHprVxkMEPEwjUXkbkxT4fVPCY5yGyCiEoY6eCd9SNratP1vDiFgN
+ /0J+WyQ6dnrLch+QTRcLNC7/ohXyjT0kwr/AuU+/TYcrhm32VwT4QIbLaZFulTKNclUn
+ sZYlvlX3Eqn/E7iaY0pYlGyrJ4igXbnbugNFLRPLqIREpHj528E1B704U3ErJOwXFQgs
+ Tam3fFrbGVmtgHgXHQSwpUnybaBrNuFUvlDM+3N5Ff2sRl5kRVSH6mVu0EiCh6ArEHuF
+ JV3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GZ1XLkSfhFj3IIcYvd9R2n76IwFJwihRIlmhN6wQ1gE=;
- b=FTFA1XjWPmcj76rGBEUox+bezkJ2ndWJaeo1LuE8D1AsOYwyrwumCag7eHCZGGVKUk
- 1uCxeeARbHUm3MF2duc90DeDMuZw9aqzqxQIMB2ZniLh94XlPgXrian7ZLJIsN5OdceD
- 8m4PrWV9AJLdbQQRA8oyTrE5kzYYFjDP4NCjcktWue46jXRvvVjYD2M+WxRkEBHEJ7Ov
- Bh3j+fzES7l2+dOryBwhfkpSobwkPfTOtBN/25eEqSSg7yE+VOZsZ65QMPUt/U5sOEec
- MhM9DN+4bGxo4DgNt77OC3qgxzBtnr2+5X2WlIbN+rm8s18cUNe682CVFAkrzRsTmVmw
- Drlg==
-X-Gm-Message-State: APjAAAXv9QxxmXp+bXFahs//E/Wy+9C5aPYo1lwH3iQ1KRFxRIiBEFIx
- MtETi59/zlF+TdThwRAnpMvC1tDIh/y3RIJFl4SbqtnVpNRERrMmREQJEGAt9ztSeO0kqHFRRaW
- 5dsu0GaHtJuPH5Hw=
-X-Received: by 2002:a7b:c85a:: with SMTP id c26mr334896wml.107.1579199345799; 
- Thu, 16 Jan 2020 10:29:05 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw1Ek6ECnPIZOEKFBqmMOG+pmDCMVMdr6e69OM+y+SSc+2D9Hg0uS8HArUwbt1A7FNNC/djsA==
-X-Received: by 2002:a7b:c85a:: with SMTP id c26mr334874wml.107.1579199345579; 
- Thu, 16 Jan 2020 10:29:05 -0800 (PST)
-Received: from [10.101.1.81] ([176.12.107.132])
- by smtp.gmail.com with ESMTPSA id l15sm29108043wrv.39.2020.01.16.10.29.04
+ bh=aRYc9++vppC68niNgxhrBYIGTUxhmzkEilcEDZiNFuA=;
+ b=FdGvmYBt6y5lKa8uYRjnti0AiegoYX92OLuEAFUs5QKWQACVmarDRA+BnvPyx9F9HU
+ 7/lECahu5mPMuoE6iCGa8UwPu6Kq3Z0uIhF6S5e4RZJmKQZtgyx+ZtoI4PLLsMlgGbty
+ nVOHw3+FaX73C9EsefARzPvgMpv3t57sEKGNw0/jCc1TP8q6UBGXV0oeX4rf+Wav92t/
+ bGT++EMov0/68eYJ8CHHuMceyWaHnvU+XhyoOUqUkWFSfqirnVQMAA6gOVJbbIi2eaAj
+ uUTFh6wC1UOJ+Dtp+oddvsye0FTKR7rZuoTh7A8hzQXFyrBkLO7lZsBy2Co3weMmo7Fa
+ nb0A==
+X-Gm-Message-State: APjAAAUnsnUHhacaCxu4NqJvRcrbTvI68XEskjg2q6LCWpBmVEJ7+IAU
+ KaLqKvlYRTOG/4K6FIRwWhaVBhw637U=
+X-Google-Smtp-Source: APXvYqxkOWyxzq9D/JFi97Rs8cvSRc32ec3A+gbJ2CwJZw8rw1q1jsbdNDC2KaHhz59bVNnSHe5GBg==
+X-Received: by 2002:a63:1d1a:: with SMTP id d26mr38760622pgd.98.1579199464498; 
+ Thu, 16 Jan 2020 10:31:04 -0800 (PST)
+Received: from [192.168.3.43] (rrcs-66-91-136-155.west.biz.rr.com.
+ [66.91.136.155])
+ by smtp.gmail.com with ESMTPSA id z16sm27216482pff.125.2020.01.16.10.31.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jan 2020 10:29:05 -0800 (PST)
-Subject: Re: [PATCH] spapr: Fail CAS if option vector table cannot be parsed
-To: Greg Kurz <groug@kaod.org>
-References: <157918715618.376249.7891210201270364781.stgit@bahia.lan>
- <ee5bcc16-2e86-a9b2-423d-bc82d327f581@redhat.com>
- <20200116171351.57fc442a@bahia.lan>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3ed534a9-e5b7-3379-489a-758a6a898cd7@redhat.com>
-Date: Thu, 16 Jan 2020 19:29:02 +0100
+ Thu, 16 Jan 2020 10:31:03 -0800 (PST)
+Subject: Re: [PATCH 0/3] linux-user: Implement x86_64 vsyscalls
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20200114210921.11216-1-richard.henderson@linaro.org>
+ <87imlblbi3.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7435787b-7bf0-66c6-b520-120fa74904b8@linaro.org>
+Date: Thu, 16 Jan 2020 08:31:00 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200116171351.57fc442a@bahia.lan>
+In-Reply-To: <87imlblbi3.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-MC-Unique: 8KF7Xqx0MaiU7JUGm6iiUA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,112 +83,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, riku.voipio@iki.fi,
+ laurent@vivier.eu, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/16/20 5:13 PM, Greg Kurz wrote:
-> On Thu, 16 Jan 2020 16:34:06 +0100
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
->=20
->> Hi Greg,
->>
->=20
-> Hi Phil,
->=20
->> On 1/16/20 4:05 PM, Greg Kurz wrote:
->>> Most of the option vector helpers have assertions to check their
->>> arguments aren't null. The guest can provide an arbitrary address
->>> for the CAS structure that would result in such null arguments.
->>> Fail CAS with H_PARAMETER instead of aborting QEMU.
->>>
->>> Signed-off-by: Greg Kurz <groug@kaod.org>
->>> ---
->>>    hw/ppc/spapr_hcall.c |    9 +++++++++
->>>    1 file changed, 9 insertions(+)
->>>
->>> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
->>> index 84e1612595bb..051869ae20ec 100644
->>> --- a/hw/ppc/spapr_hcall.c
->>> +++ b/hw/ppc/spapr_hcall.c
->>> @@ -1701,9 +1701,18 @@ static target_ulong h_client_architecture_suppor=
-t(PowerPCCPU *cpu,
->>>   =20
->>>        /* For the future use: here @ov_table points to the first option=
- vector */
->>>        ov_table =3D addr;
->>> +    if (!ov_table) {
->>> +        return H_PARAMETER;
->>> +    }
->>
->> This doesn't look right to check ov_table, I'd check addr directly inste=
-ad:
->>
->=20
-> I decided to check ov_table because this is what we pass to
-> spapr_ovec_parse_vector() and that shouldn't be NULL.
+On 1/16/20 4:30 AM, Alex Bennée wrote:
+> /x86_64-linux-user/qemu-x86_64 ~/lsrc/linux.git/tools/testing/selftests/x86/test_vsyscall_64
+> [WARN]  failed to find vDSO
+>         no vsyscall map in /proc/self/maps
+> [RUN]   test gettimeofday()
+> [RUN]   test time()
+> [RUN]   getcpu() on CPU 0
+> [RUN]   getcpu() on CPU 1
+> [RUN]   Checking read access to the vsyscall page
+> [OK]    We do not have read access: #PF(0x4)
+> [RUN]   Make sure that vsyscalls really page fault
+> **
+> ERROR:/home/alex/lsrc/qemu.git/linux-user/x86_64/../i386/cpu_loop.c:185:emulate_vsyscall: assertion failed: (ret != -TARGET_EFAULT)
+> qemu:handle_cpu_signal received signal outside vCPU context @ pc=0x7f6eed31b613
 
-OK, it makes sense.
+Ok, thanks.
 
->> -- >8 --
->> @@ -1679,12 +1679,16 @@ static target_ulong
->> h_client_architecture_support(PowerPCCPU *cpu,
->>
->>        cas_pvr =3D cas_check_pvr(spapr, cpu, &addr, &raw_mode_supported,
->> &local_err);
->>        if (local_err) {
->>            error_report_err(local_err);
->>            return H_HARDWARE;
->>        }
->> +    if (!addr) {
->> +        // error_report*()
->> +        return H_PARAMETER;
->> +    }
->>
->=20
-> I don't really care one way or another, but adding an error_report() is a
-> good idea since linux just print out the following in case of CAS failure=
-:
->=20
-> WARNING: ibm,client-architecture-support call FAILED!
 
-With some error_report:
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
->>        /* Update CPUs */
->>        if (cpu->compat_pvr !=3D cas_pvr) {
->> ---
->>
->> Still I'm not sure it makes sense, because the guest can also set other
->> invalid addresses such addr=3D0x69.
->>
->=20
-> The point of this patch is just to avoid hitting the assertions. 0x69
-> is probably bullshit but it passes the g_assert() at least.
->=20
->>>   =20
->>>        ov1_guest =3D spapr_ovec_parse_vector(ov_table, 1);
->>> +    if (!ov1_guest) {
->>> +        return H_PARAMETER;
->>> +    }
->>
->> This one is OK (unlikely case where vector 1 isn't present).
->>
->>>        ov5_guest =3D spapr_ovec_parse_vector(ov_table, 5);
->>> +    if (!ov5_guest) {
->>> +        return H_PARAMETER;
->>> +    }
->>
->> This one is OK too (unlikely case where vector 5 isn't present).
->>
->>>        if (spapr_ovec_test(ov5_guest, OV5_MMU_BOTH)) {
->>>            error_report("guest requested hash and radix MMU, which is i=
-nvalid.");
->>>            exit(EXIT_FAILURE);
->>>
->>>
->>
->=20
+r~
 
 
