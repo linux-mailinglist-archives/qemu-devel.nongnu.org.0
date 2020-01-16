@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B161313F9DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 20:48:53 +0100 (CET)
-Received: from localhost ([::1]:47670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7626E13FA64
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 21:16:06 +0100 (CET)
+Received: from localhost ([::1]:47898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isB8O-0003Aq-NT
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 14:48:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50680)
+	id 1isBYj-0002bJ-4w
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 15:16:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54643)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1isB61-0000d2-Sx
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:46:26 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1isBXp-00029y-M6
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 15:15:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1isB60-0000uB-Sf
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:46:25 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:43061)
+ (envelope-from <alex.bennee@linaro.org>) id 1isBXo-0006yj-3j
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 15:15:09 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50928)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1isB60-0000t6-Lr
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:46:24 -0500
-Received: by mail-pl1-x641.google.com with SMTP id p27so8769851pli.10
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 11:46:24 -0800 (PST)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1isBXn-0006xb-Qm
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 15:15:08 -0500
+Received: by mail-wm1-x341.google.com with SMTP id a5so5149878wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 12:15:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=G0HsCZociEsx/t7TxSOdrKk2JcF9xuAN8pW4YIA0PWc=;
- b=wGa5jg+YhJ+u19iQJe3T2VLmJ09qRE5O0+ruFGl85OQtXO18aaE661QE/QYuWnLaRb
- 5vBArk/WT7WskFQ1/hB8afFW1h7OcIwa5DJ1OhGHXnW5tDayBwvKhrZgybKn6peD57Dc
- W0c1lffOGbiOJlOnClNJAOpTchzLu+fIqZ5e3YHkq1a92BVdsLnccZTIs+1O3s1Lbpyt
- nlxAINBU9kZf40EgIbqv0bhsCfmXJoBNMeW84FdFNBP45ju77os8ZBwrZO+C2HCHAlf1
- TW9JsPb/IIw9Jk6R2LwKhoimrrYEjEFtroU8fK7W0DfmAs2e37JNvXZlahQ8F5xaFEpn
- mqiQ==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=fXaesIKoGQGeZU0nbRX/pIXE+M1iLPRYjJ8BP8agBZ0=;
+ b=V+LjWOoESG65Zn3JggSeVw+MYq24Ri46LSMcBASGi8OwVdzsx4rkazgTkzbNUgU86Y
+ NrhipiWabFuvKsQySLjm4mcs3VG5uKZMgI5d7s/n+PanDhZV2PC3sKO6lnzluA7pYBVQ
+ Cs/bPtajZ6zyDEcJB8Cgjk5buF+Bl1eFvXOm/Axq7miJGqIsr7cJfSqSt5rAKtW3PJVI
+ 7ElXEGLIakj3KxfpFebn6C97JU+uQ3ClHbJCFc3wEhIfCoQYQEhV4tjZU0vi0dx+C+n8
+ 3a+x6h0d+RczIVXFW4ydyN03Pdw5NzF6TEuMg1PWNo3FDeEYCJSd0tiVxipQfuExsbGS
+ Tc0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=G0HsCZociEsx/t7TxSOdrKk2JcF9xuAN8pW4YIA0PWc=;
- b=qGOL6iKarpFcbjhAHqWXrksEtgWZ+hgUCQoTAkCI8/w+M3J8vezjRkc5P83+b4HfKm
- NM/oopSeCPHJGyaMFoUlltM2qnskjdvY6NGLXXqQdFfjGJp2x9S1+WJ/UUc5iO2jO514
- oSbxER7SiqxyxTDN5LMgfbEl7S5xzfxYAzF/4uyWcczeWyPWIGOD9UTAaag/1UjabJ1U
- C6RrjgdTHGYEOjnH2J5ez0ikusNc8/PEaGzfWTbuwKHVHaizVIXb6b2QobsKmL21EQx4
- u4KdG2diyqys8at9wwfV4xzGODh7mfi36lqHCWfm0mYRXpapeyY3Yf2p3fYCwUi84N3+
- H97g==
-X-Gm-Message-State: APjAAAXlcKpTzeRNcTtZ6z4JV8KcHqN9Pvgcs1K+jpjfVaXZwMivRQ2q
- +ABNeZtuhHLiop+w8N7SizGbMuBwGuA=
-X-Google-Smtp-Source: APXvYqy92vadcf5hOoalrJqFllaXHvYKmIXmph0y4nZ5zreehAxn3QboEQMKgyzA9FULY1+nPjz7Aw==
-X-Received: by 2002:a17:90a:ac0e:: with SMTP id
- o14mr1010300pjq.11.1579203983680; 
- Thu, 16 Jan 2020 11:46:23 -0800 (PST)
-Received: from [192.168.3.43] (rrcs-66-91-136-155.west.biz.rr.com.
- [66.91.136.155])
- by smtp.gmail.com with ESMTPSA id o7sm28261356pfg.138.2020.01.16.11.46.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jan 2020 11:46:22 -0800 (PST)
-Subject: Re: [PATCH v2 0/5] linux-user: Implement x86_64 vsyscalls
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20200116194341.402-1-richard.henderson@linaro.org>
-Message-ID: <449c665f-711b-62b2-8b25-7dd9ece30d13@linaro.org>
-Date: Thu, 16 Jan 2020 09:46:19 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=fXaesIKoGQGeZU0nbRX/pIXE+M1iLPRYjJ8BP8agBZ0=;
+ b=cFLz+vq1VmjVdkgMgO/40q70ub68RAiyaAuKstKl3A0gj+b/H6+DGc36bGW+O5Obj1
+ 780Wg0NU8OmG2ifUgLcBPdB9+6lXjDtcGGakhTBFuE/3yyliRIgldqRgd3wbaQtmL3Da
+ 2HELrjn0x0Oxva759kHi5nFja7LJsAy8syJPxhjgyXHUzisqyiTHP02JD55AzC5mrT/U
+ k+P9QCVpGt2TKQFVCXClLgS6lD+FP98kL9DtOuy3/ebfcnYMUuzRJf1bJLBPUqmWAm2l
+ MAcFlYrZ2queb5cI4IIEYHBNI0EMNOPc0aCprXCaGvbLUmhccxo4K0J/P7rpxf3UU7Gj
+ 6WMQ==
+X-Gm-Message-State: APjAAAWBCbClTffh0UVFjMJP89P2Zss5CXgikynIZPQvSEIlRwAolod0
+ FjIAtVPPgW6hTEj/iKktBLjojQ==
+X-Google-Smtp-Source: APXvYqy5H+okbQiNxBIX1lSl3as19FOak3Q03pKBlnpUNB3XsU+Yu3txeCMalDbJv1WCmkpgmFxFHA==
+X-Received: by 2002:a1c:dc85:: with SMTP id t127mr876629wmg.16.1579205706078; 
+ Thu, 16 Jan 2020 12:15:06 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z6sm30373579wrw.36.2020.01.16.12.15.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jan 2020 12:15:04 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 22C4F1FF87;
+ Thu, 16 Jan 2020 20:15:04 +0000 (GMT)
+References: <20200114210921.11216-1-richard.henderson@linaro.org>
+ <20200114210921.11216-4-richard.henderson@linaro.org>
+ <87ftgfl64x.fsf@linaro.org>
+ <3733f2cd-9262-d7f9-ab9c-c8a3032732df@linaro.org>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 3/3] linux-user/i386: Emulate x86_64 vsyscalls
+In-reply-to: <3733f2cd-9262-d7f9-ab9c-c8a3032732df@linaro.org>
+Date: Thu, 16 Jan 2020 20:15:04 +0000
+Message-ID: <87d0bjkvjr.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200116194341.402-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,27 +84,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, riku.voipio@iki.fi,
+ laurent@vivier.eu, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/16/20 9:43 AM, Richard Henderson wrote:
-> Changes since v2:
-> 
->   * Add /proc/self/maps line
-> 
-> 	I'm not sure this is really necessary.  The linux kernel
-> 	self-test checks for it, and modifies the set of tests that
-> 	it runs based on it.  But otherwise I think it's unused.
-> 
->   * Fix errors in base gettimeofday syscall
-> 
-> 	This is also checked by test_vsyscall, as noticed by AJB.
 
-Oh, and
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-    * Set error_code in write_ok_or_segv (patch 2)
+> On 1/16/20 6:26 AM, Alex Benn=C3=A9e wrote:
+>>> +    /*
+>>> +     * Perform the syscall.  None of the vsyscalls should need restart=
+ing,
+>>> +     * and all faults should have been caught above.
+>>> +     */
+>>> +    ret =3D do_syscall(env, syscall, env->regs[R_EDI], env->regs[R_ESI=
+],
+>>> +                     env->regs[R_EDX], env->regs[10], env->regs[8],
+>>> +                     env->regs[9], 0, 0);
+>>=20
+>> How come the register ABI to the syscall is different to the others. I
+>> can see why syscall doesn't come from EAX but the others are a different
+>> set to normal syscalls which might be why:
+>
+> Cut and paste error, I assume.
+>
+> That said, the three syscalls have a maximum of 2 arguments,
+> so I could really just pass EDI and ESI and 0 for the rest...
+>
+>> I'm seeing a EFAULT on the gettimeofday failure:
+>
+> What getttimeofday failure?  Is this related to the mention of /sbin/ldco=
+nfig
+> in your previous message?
+
+No - the buster x86064 ldconfig seg is unrelated to this series. It has
+however spawned an additional bug in gdbstub while it was at it ;-)
+
+>
+>>    #0  do_syscall (cpu_env=3Dcpu_env@entry=3D0x5555577d2b10, num=3Dnum@e=
+ntry=3D96, arg1=3D0, arg2=3D0, arg3=3D4211016, arg4=3D8, arg5=3D27488867718=
+4, arg6=3D274886295415, arg7=3D0, arg8=3D0) at /home/alex/lsrc/qemu.git/lin=
+ux-user/syscall.c:12076=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20
+>>    #1  0x0000555555609b6e in emulate_vsyscall (env=3D0x5555577d2b10) at =
+/home/alex/lsrc/qemu.git/linux-user/x86_64/../i386/cpu_loop.c:180
+>>    #2  cpu_loop (env=3D0x5555577d2b10) at /home/alex/lsrc/qemu.git/linux=
+-user/x86_64/../i386/cpu_loop.c:246=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+>>    #3  0x000055555559640e in main (argc=3D<optimized out>, argv=3D<optim=
+ized
+>>    #out>, envp=3D<optimized out>) at
+>>    #/home/alex/lsrc/qemu.git/linux-user/main.c:865
+>>=20
+>> arg1/arg2 don't seem right here.
+>
+> Why?  NULL value for arg1 is legal, though semi-useless.
+>
+> Ah, I see that our implementation of gettimeofday doesn't honor NULL.
+>
+>
+> r~
 
 
-r~
+--=20
+Alex Benn=C3=A9e
 
