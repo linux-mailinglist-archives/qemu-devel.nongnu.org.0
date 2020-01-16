@@ -2,43 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6DC113FC71
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 23:53:16 +0100 (CET)
-Received: from localhost ([::1]:49394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0027B13FCB7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 00:09:44 +0100 (CET)
+Received: from localhost ([::1]:49586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isE0p-0001iS-A8
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 17:53:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49092)
+	id 1isEGl-0003Vz-LO
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 18:09:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51398)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1isDz0-0008NO-8e
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 17:51:24 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1isEFV-0002fe-JE
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1isDyz-0002hC-7Q
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 17:51:22 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53726 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1isDyy-0002fk-Un
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 17:51:21 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 7D5761A21C4;
- Thu, 16 Jan 2020 23:50:16 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 174641A21DD;
- Thu, 16 Jan 2020 23:50:14 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1isEFU-00083L-Eh
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:25 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:55957)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1isEFU-00080i-8k
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:24 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id d5so2271329pjz.5
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 15:08:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DmQHc5bzsOAilfmxs+IZ22O3FD0s0+ykfMYFN/uiYsw=;
+ b=BaI0poiGZgengjeVxzaev1PnThL39vYvHzNhJuD14eE9eCt99SBC/fsrIKyL5dzk0x
+ PniSeCnbu3kGY0Fd3Y4eU7s2T2xLqebf2L2nF47k8h0h6rVLqn/H6Ur1ah7RWDKJng+f
+ ZvWHfG16aSjygfDGtTfJl6+ltXLt2hOMEn0qjr4tulnyFnX7+SE7ylv+ylE4PAykGQ4j
+ rEbRJiQDtPHBylD1KaZyLotegWE3p0Luohlvq6c3di8+d1VNZ/3MFZ4GqCKt5RNV6L77
+ yD0Lk4nhhXF0Cpbxk+f7b/IfS+bAJsBCfk0kx8TV799ZfLHso7/bdmVEEGfNJP+bpOOo
+ 8dew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DmQHc5bzsOAilfmxs+IZ22O3FD0s0+ykfMYFN/uiYsw=;
+ b=WUIrtfY47pTGlrfMz0F+0nQaYbWFWPw/neqx4+RMob7u7O81OHZFUbzxS7IKfhHKlB
+ Vk7rBifNxx7N/xBxOp8zWmcsepTuJhdkbiDt8PEw51DywWz0copD0uVUQxEKIVzO1Ksa
+ CaEAaz1CYdF0SF7TR+xbD6NuHqVW88Abq5NX4V80F01PwF1Nb4oGhbBHSe8tA7HuqlP7
+ 773z0Y8PWdzjwJPE5JuHRYgSiYp7piG0xUtXMkyhcJQui82T/HfHO9YCLzOEc5twk2ll
+ C7BAQx/ypwxkd7Llz5uJHpu9DI1zgCwgu+/XZ4ExHSCXeHuebsYT2h4k/CFo763cU3UH
+ iPZg==
+X-Gm-Message-State: APjAAAVKyQl9wYx2AL46LDz7BqWlhbHgPYBdT/poC3woAvgpyyXNlj/Q
+ NN/4rWq1JU9KIIeVeecX+j0/PJHJqaI=
+X-Google-Smtp-Source: APXvYqwEh43rwF4ZTIVbhkmaMcgfLNEB3xJX8bjoCz1ksUd89R4l01iuMUF+VTqsl/DDUOpmdWmktQ==
+X-Received: by 2002:a17:90b:30c8:: with SMTP id
+ hi8mr2021393pjb.73.1579216097714; 
+ Thu, 16 Jan 2020 15:08:17 -0800 (PST)
+Received: from cloudburst.ASUS (rrcs-66-91-136-155.west.biz.rr.com.
+ [66.91.136.155])
+ by smtp.gmail.com with ESMTPSA id s7sm5111578pjk.22.2020.01.16.15.08.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jan 2020 15:08:17 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/12] linux-user: Add support for KCOV_INIT_TRACE ioctl
-Date: Thu, 16 Jan 2020 23:49:51 +0100
-Message-Id: <1579214991-19602-13-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1579214991-19602-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1579214991-19602-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+Subject: [PATCH 0/4] target/arm: Fix ComputePAC (LP 1859713)
+Date: Thu, 16 Jan 2020 13:08:05 -1000
+Message-Id: <20200116230809.19078-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1034
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,46 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, amarkovic@wavecomp.com
+Cc: peter.maydell@linaro.org, vincent.dehors@smile.fr, alex.bennee@linaro.org,
+ adrien.grassein@smile.fr
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+Thanks to Vincent and Adrien for both reporting the bug and
+providing the solution.  I've converted their manual testing
+into executable tests.
 
-KCOV_INIT_TRACE ioctl plays the role in kernel coverage tracing.
-This ioctl's third argument is of type 'unsigned long', and the
-implementation in QEMU is straightforward.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- linux-user/ioctls.h       | 1 +
- linux-user/syscall_defs.h | 1 +
- 2 files changed, 2 insertions(+)
+r~
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 39b3825..1da71dd 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -556,4 +556,5 @@
- #ifdef CONFIG_KCOV
-   IOCTL(KCOV_ENABLE, 0, TYPE_NULL)
-   IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
-+  IOCTL(KCOV_INIT_TRACE, IOC_R, TYPE_ULONG)
- #endif
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index c8999ef..bf71b3a 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -2464,6 +2464,7 @@ struct target_mtpos {
- /* kcov ioctls */
- #define TARGET_KCOV_ENABLE     TARGET_IO('c', 100)
- #define TARGET_KCOV_DISABLE    TARGET_IO('c', 101)
-+#define TARGET_KCOV_INIT_TRACE TARGET_IOR('c', 1, abi_ulong)
- 
- struct target_sysinfo {
-     abi_long uptime;                /* Seconds since boot */
+
+Richard Henderson (3):
+  tests/tcg/aarch64: Fix compilation parameters for pauth-%
+  tests/tcg/aarch64: Add pauth-3
+  tests/tcg/aarch64: Add pauth-4
+
+Vincent Dehors (1):
+  target/arm: Fix PAuth sbox functions
+
+ target/arm/pauth_helper.c                 |  4 +--
+ tests/tcg/aarch64/pauth-1.c               |  2 --
+ tests/tcg/aarch64/pauth-2.c               |  2 --
+ tests/tcg/aarch64/pauth-4.c               | 25 ++++++++++++++
+ tests/tcg/aarch64/system/pauth-3.c        | 40 +++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.softmmu-target |  5 ++-
+ tests/tcg/aarch64/Makefile.target         |  3 +-
+ 7 files changed, 73 insertions(+), 8 deletions(-)
+ create mode 100644 tests/tcg/aarch64/pauth-4.c
+ create mode 100644 tests/tcg/aarch64/system/pauth-3.c
+
 -- 
-2.7.4
+2.20.1
 
 
