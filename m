@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B94113DA2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 13:38:53 +0100 (CET)
-Received: from localhost ([::1]:41139 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C0913DA2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 13:39:57 +0100 (CET)
+Received: from localhost ([::1]:41166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is4QG-00073v-2q
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 07:38:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35455)
+	id 1is4RI-0000sC-7Y
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 07:39:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35469)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1is4Oj-0005bb-Od
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:37:21 -0500
+ (envelope-from <imammedo@redhat.com>) id 1is4Ol-0005cR-9H
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:37:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1is4Of-00076a-Sv
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:37:17 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46773
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1is4Oh-00077e-Ox
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:37:19 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31274
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1is4Oe-00075y-Kf
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:37:13 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1is4Oh-00077A-Du
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:37:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579178232;
+ s=mimecast20190719; t=1579178235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=M6gMA224XdlEvjzouDJg3C1I1QdcAIZUhp49KsLBcWY=;
- b=N8jzdqHZTM2BdL4O5VIrQCZlwEI9Q87/v5O1O/PshYgWg8fYOwfaNv3+ZlUBesuXWlFcdr
- u5pIj4z7QtTjzJ1QNtX2BM38lXhHVAPMsGHM9bhgLmIOvmzPeIJO/ujXpGH35k92hm/X7b
- JtnNtcQc4VOimMLuriDSrADDutF3fU4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E2U1XuLTgxp52sKLJtlis6HwlaEIREo1sR0zlgxMg7o=;
+ b=NtfWrX2gyMe8HHbzLK8QEYuKHJ4KrsAVSBc4H/RFX8xVLGsSypDiz2tYIvhe98HF+p0p7H
+ 1hiuMW2wr1GcrzX6srLWSwou+d61MFcaVEin9Wu+ugZ491Z/J5sPK3b57BM0iJCKjHDaPw
+ 8OTg0eYP3iZdaPGAIr18tDpMFAnaUtE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-EGXm9640N5ackl0UHegazA-1; Thu, 16 Jan 2020 07:37:08 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-299-NYR5XtZGOVa6DSTXjOTjYA-1; Thu, 16 Jan 2020 07:37:13 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B72CC1137858;
- Thu, 16 Jan 2020 12:37:07 +0000 (UTC)
-Received: from localhost (unknown [10.36.117.255])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F247927098;
- Thu, 16 Jan 2020 12:37:06 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: [PATCH] s390x/flic: adapter routes handling if !kernel_irqchip
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69408800D55;
+ Thu, 16 Jan 2020 12:37:12 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 00B9060F88;
+ Thu, 16 Jan 2020 12:37:04 +0000 (UTC)
 Date: Thu, 16 Jan 2020 13:37:03 +0100
-Message-Id: <20200116123703.14624-1-cohuck@redhat.com>
+From: Igor Mammedov <imammedo@redhat.com>
+To: Michal Privoznik <mprivozn@redhat.com>
+Subject: Re: [libvirt] [PATCH v2 82/86] numa: forbid '-numa node, mem' for
+ 5.0 and newer machine types
+Message-ID: <20200116133703.11248ead@redhat.com>
+In-Reply-To: <8b9be103-d550-853a-86ff-1dc504daab64@redhat.com>
+References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+ <1579100861-73692-83-git-send-email-imammedo@redhat.com>
+ <20200115153453.GL3243410@angien.pipo.sk>
+ <20200115175237.325055f3@redhat.com>
+ <8b9be103-d550-853a-86ff-1dc504daab64@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: EGXm9640N5ackl0UHegazA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: NYR5XtZGOVa6DSTXjOTjYA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,58 +76,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, Peter Krempa <pkrempa@redhat.com>,
+ ehabkost@redhat.com, mst@redhat.com, libvir-list@redhat.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ pbonzini@redhat.com, rth@twiddle.net, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the kernel irqchip has been disabled, we don't want the
-{add,release}_adapter_routes routines to call any kvm_irqchip_*
-interfaces, as they may rely on an irqchip actually having been
-created. Just take a quick exit in that case instead.
+On Thu, 16 Jan 2020 11:42:09 +0100
+Michal Privoznik <mprivozn@redhat.com> wrote:
 
-Fixes: d426d9fba8ea ("s390x/virtio-ccw: wire up irq routing and irqfds")
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
+> On 1/15/20 5:52 PM, Igor Mammedov wrote:
+> > On Wed, 15 Jan 2020 16:34:53 +0100
+> > Peter Krempa <pkrempa@redhat.com> wrote:
+> >   
+> >> On Wed, Jan 15, 2020 at 16:07:37 +0100, Igor Mammedov wrote:  
+> >>> Deprecation period is ran out and it's a time to flip the switch
+> >>> introduced by cd5ff8333a.
+> >>> Disable legacy option for new machine types and amend documentation.
+> >>>
+> >>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> >>> ---
+> >>> CC: peter.maydell@linaro.org
+> >>> CC: ehabkost@redhat.com
+> >>> CC: marcel.apfelbaum@gmail.com
+> >>> CC: mst@redhat.com
+> >>> CC: pbonzini@redhat.com
+> >>> CC: rth@twiddle.net
+> >>> CC: david@gibson.dropbear.id.au
+> >>> CC: libvir-list@redhat.com
+> >>> CC: qemu-arm@nongnu.org
+> >>> CC: qemu-ppc@nongnu.org
+> >>> ---
+> >>>   hw/arm/virt.c        |  2 +-
+> >>>   hw/core/numa.c       |  6 ++++++
+> >>>   hw/i386/pc.c         |  1 -
+> >>>   hw/i386/pc_piix.c    |  1 +
+> >>>   hw/i386/pc_q35.c     |  1 +
+> >>>   hw/ppc/spapr.c       |  2 +-
+> >>>   qemu-deprecated.texi | 16 ----------------
+> >>>   qemu-options.hx      |  8 ++++----
+> >>>   8 files changed, 14 insertions(+), 23 deletions(-)  
+> >>
+> >> I'm afraid nobody bothered to fix it yet:
+> >>
+> >> https://bugzilla.redhat.com/show_bug.cgi?id=1783355  
+> > 
+> > It's time to start working on it :)
+> > (looks like just deprecating stuff isn't sufficient motivation,
+> > maybe actual switch flipping would work out better)
+> >   
+> 
+> So how was the upgrade from older to newer version resolved? I mean, if 
+> the old qemu used -numa node,mem=XXX and it is migrated to a host with 
+> newer qemu, the cmd line can't be switched to -numa node,memdev=node0, 
+> can it? I'm asking because I've just started working on this.
 
-Without this patch, QEMU with kernel_irqchip=3Doff will crash in
-kvm_irqchip_release_virq(), so alternatively, we could add a check
-there. kvm_irqchip_add_adapter_route() is actually fine.
+see commit cd5ff8333a3c87 for detailed info.
+Short answer is it's not really resolved [*],
+-numa node,mem will keep working on newer QEMU but only for old machine types
+new machine types will accept only -numa node,memdev.
 
----
- hw/intc/s390_flic_kvm.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+One can check if "mem=' is supported by using QAPI query-machines
+and checking numa-mem-supported field. That field is flipped to false
+for 5.0 and later machine types in this patch.
 
-diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
-index dddd33ea61c8..44b7960ebcc8 100644
---- a/hw/intc/s390_flic_kvm.c
-+++ b/hw/intc/s390_flic_kvm.c
-@@ -331,6 +331,10 @@ static int kvm_s390_add_adapter_routes(S390FLICState *=
-fs,
-     int ret, i;
-     uint64_t ind_offset =3D routes->adapter.ind_offset;
-=20
-+    if (!kvm_gsi_routing_enabled()) {
-+        return -ENOSYS;
-+    }
-+
-     for (i =3D 0; i < routes->num_routes; i++) {
-         ret =3D kvm_irqchip_add_adapter_route(kvm_state, &routes->adapter)=
-;
-         if (ret < 0) {
-@@ -358,6 +362,10 @@ static void kvm_s390_release_adapter_routes(S390FLICSt=
-ate *fs,
- {
-     int i;
-=20
-+    if (!kvm_gsi_routing_enabled()) {
-+        return;
-+    }
-+
-     for (i =3D 0; i < routes->num_routes; i++) {
-         if (routes->gsi[i] >=3D 0) {
-             kvm_irqchip_release_virq(kvm_state, routes->gsi[i]);
---=20
-2.21.1
+
+*) I might give another try to removing 'mem' completely in migration
+compatible manner but that's well beyond the scope of this series
+So far I hasn't been able to convince myself that previous attempts
+to do it were absolutely correct for all corner cases that are there.
+
+> Michal
 
 
