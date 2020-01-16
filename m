@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E6313D322
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 05:29:17 +0100 (CET)
-Received: from localhost ([::1]:36204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCF113D33A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 05:40:26 +0100 (CET)
+Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irwmS-0005sc-Qa
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 23:29:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56759)
+	id 1irwxF-0005Zs-8n
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 23:40:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58236)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1irwkw-0004NK-27
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 23:27:43 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1irwvs-0004Q7-Dw
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 23:39:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1irwku-0004y2-KC
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 23:27:42 -0500
-Received: from ozlabs.org ([203.11.71.1]:38201)
+ (envelope-from <dgibson@ozlabs.org>) id 1irwvq-00057I-L3
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 23:38:59 -0500
+Received: from ozlabs.org ([203.11.71.1]:53081)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1irwku-0004wk-8M; Wed, 15 Jan 2020 23:27:40 -0500
+ id 1irwvp-00054H-F5; Wed, 15 Jan 2020 23:38:58 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 47yrlF73F3z9sPW; Thu, 16 Jan 2020 15:27:37 +1100 (AEDT)
+ id 47ys0G1Vf4z9sR4; Thu, 16 Jan 2020 15:38:54 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1579148857;
- bh=lby+7OQlty8UIZ0varJoGZppZVfh/6knE6FXRFYaJzo=;
+ d=gibson.dropbear.id.au; s=201602; t=1579149534;
+ bh=3R4iToycLP5I+1yHx+I3m8g3PTYnpri1s2I185rTIbw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jxDYeasvUzTk41Y0RPlUtIkhIjgyF/kjLvn/0pzeJX+A+L84VuAHt+Q5T4u4ViE6y
- Sgm/H2+/5qK7DMa+nm6BIhOxYILCOlw96rO47UCBWQKbBYY+0iUKo+wqkmZl5Hv4jH
- dnPffnVB5nymxat9qsuPpY7UupWctQP7JZiQzaFg=
-Date: Thu, 16 Jan 2020 14:27:26 +1000
+ b=As4ZLFJVAkjaKlyCpxGlg4bO3PWqWgmqyl8Jj4r7tQxBDNR9b5onx+gVJOLiN9Ena
+ RjHA7s5qS13uC+mageeH4yutZo4vhbBglXbc1V6V3dmqmdTfQSRR5EOHQk/CLCudjk
+ OsoANSlr7k7AI3ir9MB/uBVSbdeqU86omdo9qoyc=
+Date: Thu, 16 Jan 2020 14:31:57 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2 69/86] ppc:spapr: use memdev for RAM
-Message-ID: <20200116042726.GM54439@umbus>
+Subject: Re: [PATCH v2 71/86] ppc:virtex_ml507: use memdev for RAM
+Message-ID: <20200116043157.GN54439@umbus>
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-70-git-send-email-imammedo@redhat.com>
+ <1579100861-73692-72-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cGfB/trNgB3WtPHu"
+ protocol="application/pgp-signature"; boundary="UExESr5xZTMxdOWv"
 Content-Disposition: inline
-In-Reply-To: <1579100861-73692-70-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1579100861-73692-72-git-send-email-imammedo@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -55,17 +55,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: edgar.iglesias@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---cGfB/trNgB3WtPHu
+--UExESr5xZTMxdOWv
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 15, 2020 at 04:07:24PM +0100, Igor Mammedov wrote:
+On Wed, Jan 15, 2020 at 04:07:26PM +0100, Igor Mammedov wrote:
 > memory_region_allocate_system_memory() API is going away, so
 > replace it with memdev allocated MemoryRegion. The later is
 > initialized by generic code, so board only needs to opt in
@@ -78,51 +78,86 @@ On Wed, Jan 15, 2020 at 04:07:24PM +0100, Igor Mammedov wrote:
 
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
+Since this is (AFAICT) independent of the main purpose of your series,
+I've also applied it to my ppc-for-5.0 tree.  If we get a conflict
+because of that it should be easy to resolve.
+
 > ---
 > CC: david@gibson.dropbear.id.au
 > CC: qemu-ppc@nongnu.org
+> CC: edgar.iglesias@gmail.com
 > ---
->  hw/ppc/spapr.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
+>  hw/ppc/virtex_ml507.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 30a5fbd..bcbe1f1 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -2587,7 +2587,6 @@ static void spapr_machine_init(MachineState *machin=
-e)
->      PCIHostState *phb;
+> diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+> index 651d8db..b74a269 100644
+> --- a/hw/ppc/virtex_ml507.c
+> +++ b/hw/ppc/virtex_ml507.c
+> @@ -193,7 +193,6 @@ static int xilinx_load_device_tree(hwaddr addr,
+> =20
+>  static void virtex_init(MachineState *machine)
+>  {
+> -    ram_addr_t ram_size =3D machine->ram_size;
+>      const char *kernel_filename =3D machine->kernel_filename;
+>      const char *kernel_cmdline =3D machine->kernel_cmdline;
+>      hwaddr initrd_base =3D 0;
+> @@ -204,7 +203,6 @@ static void virtex_init(MachineState *machine)
+>      CPUPPCState *env;
+>      hwaddr ram_base =3D 0;
+>      DriveInfo *dinfo;
+> -    MemoryRegion *phys_ram =3D g_new(MemoryRegion, 1);
+>      qemu_irq irq[32], *cpu_irq;
+>      int kernel_size;
 >      int i;
->      MemoryRegion *sysmem =3D get_system_memory();
-> -    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
->      hwaddr node0_size =3D spapr_node0_size(machine);
->      long load_limit, fw_size;
->      char *filename;
-> @@ -2766,10 +2765,8 @@ static void spapr_machine_init(MachineState *machi=
-ne)
->          kvmppc_enable_h_page_init();
->      }
+> @@ -221,8 +219,7 @@ static void virtex_init(MachineState *machine)
 > =20
-> -    /* allocate RAM */
-> -    memory_region_allocate_system_memory(ram, NULL, "ppc_spapr.ram",
-> -                                         machine->ram_size);
-> -    memory_region_add_subregion(sysmem, 0, ram);
-> +    /* map RAM */
-> +    memory_region_add_subregion(sysmem, 0, machine->ram);
+>      qemu_register_reset(main_cpu_reset, cpu);
 > =20
->      /* always allocate the device memory information */
->      machine->device_memory =3D g_malloc0(sizeof(*machine->device_memory)=
+> -    memory_region_allocate_system_memory(phys_ram, NULL, "ram", ram_size=
 );
-> @@ -4344,6 +4341,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
->      mc->no_parallel =3D 1;
->      mc->default_boot_order =3D "";
->      mc->default_ram_size =3D 512 * MiB;
-> +    mc->default_ram_id =3D "ppc_spapr.ram";
->      mc->default_display =3D "std";
->      mc->kvm_type =3D spapr_kvm_type;
->      machine_class_allow_dynamic_sysbus_dev(mc, TYPE_SPAPR_PCI_HOST_BRIDG=
-E);
+> -    memory_region_add_subregion(address_space_mem, ram_base, phys_ram);
+> +    memory_region_add_subregion(address_space_mem, ram_base, machine->ra=
+m);
+> =20
+>      dinfo =3D drive_get(IF_PFLASH, 0, 0);
+>      pflash_cfi01_register(PFLASH_BASEADDR, "virtex.flash", FLASH_SIZE,
+> @@ -265,7 +262,7 @@ static void virtex_init(MachineState *machine)
+>              /* If we failed loading ELF's try a raw image.  */
+>              kernel_size =3D load_image_targphys(kernel_filename,
+>                                                boot_offset,
+> -                                              ram_size);
+> +                                              machine->ram_size);
+>              boot_info.bootstrap_pc =3D boot_offset;
+>              high =3D boot_info.bootstrap_pc + kernel_size + 8192;
+>          }
+> @@ -276,7 +273,7 @@ static void virtex_init(MachineState *machine)
+>          if (machine->initrd_filename) {
+>              initrd_base =3D high =3D ROUND_UP(high, 4);
+>              initrd_size =3D load_image_targphys(machine->initrd_filename,
+> -                                              high, ram_size - high);
+> +                                              high, machine->ram_size - =
+high);
+> =20
+>              if (initrd_size < 0) {
+>                  error_report("couldn't load ram disk '%s'",
+> @@ -290,7 +287,7 @@ static void virtex_init(MachineState *machine)
+>          boot_info.fdt =3D high + (8192 * 2);
+>          boot_info.fdt &=3D ~8191;
+> =20
+> -        xilinx_load_device_tree(boot_info.fdt, ram_size,
+> +        xilinx_load_device_tree(boot_info.fdt, machine->ram_size,
+>                                  initrd_base, initrd_size,
+>                                  kernel_cmdline);
+>      }
+> @@ -302,6 +299,7 @@ static void virtex_machine_init(MachineClass *mc)
+>      mc->desc =3D "Xilinx Virtex ML507 reference design";
+>      mc->init =3D virtex_init;
+>      mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("440-xilinx");
+> +    mc->default_ram_id =3D "ram";
+>  }
+> =20
+>  DEFINE_MACHINE("virtex-ml507", virtex_machine_init)
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -130,25 +165,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---cGfB/trNgB3WtPHu
+--UExESr5xZTMxdOWv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4f5i4ACgkQbDjKyiDZ
-s5ItrxAA2XLaJT6Fo+nBXdWLuSoqvOOxptEadXeJq5WDrWjRAR6a6+Q1yUdh4t7k
-/j3nz2GGbJNhbkUj2Zg96nS8DsaIW5GcOZJZfAGlDgf0VgdeD8YUfZSt9KGsg9KN
-yo7aWoQuDLhD0vxxbAnMynPKVhJqM281lPcBdBa6XbrE3fNX6if0TjgOI1iq5hzs
-F5biyirzYZEY/kXL1XWnCig30r/27WxyxEeNmpIBMHAbUhSyVXjyElUEcmRFTkbs
-7VRJqVs+gQzY6vT5XPAe7d6kdN1ZbzjRZT+gocD6YjGQ+BY5apW+wTVCJNj8qt8w
-SnVbGKhggr7pYMPeRsKG59YA8ZoDpO+eFvZkZJmREB0Z4Cw/0QqCsQdsTvnAjmcg
-EjHGGc6jX5oQH/4/vRCRkREXm06aiYo2YxxiahZg7+vTGKdG5aK8KXQyn6IwvAiw
-VIgqUE90EMaluIDKLU2IP52dNmoh7ocaVyMscLxLo2EGU//cVf9d48PRy20QN3EP
-r5pQEX0UkcRetWlvmJNLjfZH2vDltApMNlM7B5c8t2qGe2FKqI6iagvEiB7mSMcB
-nBjjHej7R0OJFWxBVYC82b25pvnP9vcijqhNvaqnLL1x2tAQV1QXilLl1T79xA6p
-VoMNk9Uj+w9QXi/Bo+0DtII9BZtRJ7sie1EXhTqBhd8LDUmBiIA=
-=8/s9
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4f5zwACgkQbDjKyiDZ
+s5KW+hAA3FbBwQyxbwuaPa2r7mRU7PqqgIGeYjqjI4Rrq1ahjIvG+bWWiyhWhyZ5
+NS0FUavCwUuks8lKYiuvFaKIafvLDSJuby02Lbr6Fp7GTkfOYjZkpY6O+6PZQByQ
+pnWfnrsOvV6/iTSwuaOE8hX/hS6XrAHPSMlo5OTlKSzFpmRjZExWgTuPt3IqGFw6
+dkHfbreP46+rm+g6PXsZmG617bvmLv7mSnctDzoePRUg5xok4pROaGTKe5W/tpAK
+Ny96Xqcah5F6+W4a158RLhTY1YR9eFNMrgdHRElBDg/NVtqVeOxhbWx/2phKnK4d
+huNGSmrb7+gHkgpOg6PMq5XCI45CqtFlPjrDyoRPfrfrPp0jIHUiX0yqmd9YEYiN
+igB4D54ALBNDp+9DqxTDQuF3cRuWYE4QdE4OSbY2ka+kaF8vX8544fDd3HtP86JN
+hbsrwQtxNCwZuu2SW1Mv1EgA+sMMX+dltlT5PKv9aXAJ0kyHw9Zqwfshty/OIvRK
+fnTxikdW9BhmV9zzPr7p9gcLrXb/br9nYvJiJw5t0Y2hpGziEHaSH7fqlg5bhZ8H
+aey0l/e2SzhrhJzTQX0Mx+BMzFFJMNBtNmLm/2qSF/RCe6jjWd4+aU7wv6g0KpJN
+m8p3PJFuMMX3BJ0hc592AoKFXjkgXKgO+IMCxTfJWZGYRInRXbE=
+=vGx0
 -----END PGP SIGNATURE-----
 
---cGfB/trNgB3WtPHu--
+--UExESr5xZTMxdOWv--
 
