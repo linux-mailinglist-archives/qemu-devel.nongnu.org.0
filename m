@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D559013DF42
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 16:52:43 +0100 (CET)
-Received: from localhost ([::1]:44148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B56713DF3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 16:51:18 +0100 (CET)
+Received: from localhost ([::1]:44126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is7Rq-0002qa-Tj
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 10:52:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35696)
+	id 1is7QT-0000YF-4I
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 10:51:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35679)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1is7MJ-0003wU-AL
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:47:01 -0500
+ (envelope-from <philmd@redhat.com>) id 1is7MD-0003rn-Tq
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:46:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1is7MH-0004as-U5
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:46:59 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23523
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1is7MA-0004Wx-DK
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:46:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32356
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1is7MH-0004ae-Qf
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:46:57 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1is7MA-0004Wi-9o
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:46:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579189617;
+ s=mimecast20190719; t=1579189609;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x81oKoBNemPIgSNaiA9yfIbpfegvWNrEes2MbA9OUGw=;
- b=gELo/ltYvjtm0dfipi+aVUjwjfJd/QuajQAYSNVLue8azeRSRFy2TsHM5HI2oMPG6uHonT
- IWtuaJbHIPi+XOx6s4PT7a8jNKRN59Vwy5blwXpIEcoFrCmmOmhJHZTsq/qnyyi4RK51RW
- FkgzMxeOB43Ziwja5cX4XBsyLBCfg+Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-J9Q12a_wN36suQUvEazP9Q-1; Thu, 16 Jan 2020 10:46:54 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95A88801E6C
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 15:46:53 +0000 (UTC)
-Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 18E156684B;
- Thu, 16 Jan 2020 15:46:49 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/5] migration-test: Make sure that multifd and cancel works
-Date: Thu, 16 Jan 2020 16:46:16 +0100
-Message-Id: <20200116154616.11569-6-quintela@redhat.com>
-In-Reply-To: <20200116154616.11569-1-quintela@redhat.com>
-References: <20200116154616.11569-1-quintela@redhat.com>
+ bh=v3HoVc7xv+KJtHHn6NKnlNPTo4XA5OiLoHvWdtECvAY=;
+ b=K/SWG5ZKwtKHssJkZv3wAodFX5xyt6KTxGyfm1sTd5oq1v4dj4bz5HrmOFw1pqebwR+AJp
+ dcGs1fm8mATIrL42CcDtsbSoKevG3ZQNLd8LNPkpZYcjDKd4Gpv0xeHgsFPoq2sMP7amXj
+ 34nH46kdrkkmEFsOy3YKFv7zwrQyViY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217-DxwDH2JJMHaT9mRp2WIE_A-1; Thu, 16 Jan 2020 10:46:48 -0500
+Received: by mail-wr1-f71.google.com with SMTP id w6so9339407wrm.16
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 07:46:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=f2zYStu2ck5cR/8DK54YTy4pUS0R3HFqp+k6jgDDUMg=;
+ b=NFtprwFGuwtc8Fx3C8/dMHqGecfiFgCCOxbVk77Pl98UlVqaIYQAYoRp2TDAoVh46y
+ sqMpaUJIkAB1R2lOrvaYwZPEO8Uyay/W/g9iPquMJkQnyNyxVRbPLU6c01vbS8hPlIPf
+ QqfspvRBdDeRtUsXOGLbVJKxBq9dvIwtJTc6LnLqxkrlfuC6o/Vaizyq268n0I0tM3dp
+ 442K/CFIvHE9HFFPWxMNFF+fzeUmErKGL1pjNUEcgLS2bFPedwnCrA2ieqnsEBZbLOD6
+ J8NpJBt1Nb9kMZn4Y+SRqxec6Vc6sPax9+8wWz/3htDbNVAsQBFhcpw3/e8Y56CY1ZOn
+ UkUg==
+X-Gm-Message-State: APjAAAVsxTfOFEE64bTKqyRxiwfVEReRiU1pKbX5ytSGa0nwWSZT+UAo
+ 0OSJYP0PkfZI285dZahSFF856aqYOvjboILv9UsvDKmMx2U27Fi3/lrbylc72LQsf47b7GLKknH
+ GqK+WaZjTNxtq1kU=
+X-Received: by 2002:a7b:cb01:: with SMTP id u1mr4715wmj.156.1579189607196;
+ Thu, 16 Jan 2020 07:46:47 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzsoXkzJzxjR7csly048TJkwlGLqewTS6nIM567gGRroFWR8I6foAlMt+bbIIj1FfmzFGqH2Q==
+X-Received: by 2002:a7b:cb01:: with SMTP id u1mr4696wmj.156.1579189606984;
+ Thu, 16 Jan 2020 07:46:46 -0800 (PST)
+Received: from [10.101.1.81] ([176.12.107.132])
+ by smtp.gmail.com with ESMTPSA id x11sm810300wmg.46.2020.01.16.07.46.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Jan 2020 07:46:46 -0800 (PST)
+Subject: Re: [PATCH] tests/qtest/vhost-user-test: Fix memory leaks
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20200116140736.9498-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <cac2dc95-9010-f901-c697-659308ece831@redhat.com>
+Date: Thu, 16 Jan 2020 16:46:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: J9Q12a_wN36suQUvEazP9Q-1
+In-Reply-To: <20200116140736.9498-1-thuth@redhat.com>
+Content-Language: en-US
+X-MC-Unique: DxwDH2JJMHaT9mRp2WIE_A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,193 +91,78 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+ Pan Nengyuan <pannengyuan@huawei.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test that this sequerce works:
+On 1/16/20 3:07 PM, Thomas Huth wrote:
+> Do not allocate resources in case we return early, and make sure
+> to free dest_cmdline at the end.
+>=20
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Reported-by: Pan Nengyuan <pannengyuan@huawei.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   Based on a similar patch by Pan Nengyuan:
+>    https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg02183.html
+>   ... but that was causing some very weird problems in the gitlab CI
+>   for unknown reasons. This version now works fine in the gitlab CI.
 
-- launch source
-- launch target
-- start migration
-- cancel migration
-- relaunch target
-- do migration again
+Odd...
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>   =20
+>   tests/qtest/vhost-user-test.c | 11 ++++++++---
+>   1 file changed, 8 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.=
+c
+> index 2324b964ad..9ee0f1e4fd 100644
+> --- a/tests/qtest/vhost-user-test.c
+> +++ b/tests/qtest/vhost-user-test.c
+> @@ -707,9 +707,9 @@ static void test_read_guest_mem(void *obj, void *arg,=
+ QGuestAllocator *alloc)
+>   static void test_migrate(void *obj, void *arg, QGuestAllocator *alloc)
+>   {
+>       TestServer *s =3D arg;
+> -    TestServer *dest =3D test_server_new("dest");
+> -    GString *dest_cmdline =3D g_string_new(qos_get_current_command_line(=
+));
+> -    char *uri =3D g_strdup_printf("%s%s", "unix:", dest->mig_path);
+> +    TestServer *dest;
+> +    GString *dest_cmdline;
+> +    char *uri;
+>       QTestState *to;
+>       GSource *source;
+>       QDict *rsp;
+> @@ -720,6 +720,10 @@ static void test_migrate(void *obj, void *arg, QGues=
+tAllocator *alloc)
+>           return;
+>       }
+>  =20
+> +    dest =3D test_server_new("dest");
+> +    dest_cmdline =3D g_string_new(qos_get_current_command_line());
+> +    uri =3D g_strdup_printf("%s%s", "unix:", dest->mig_path);
+> +
+>       size =3D get_log_size(s);
+>       g_assert_cmpint(size, =3D=3D, (256 * 1024 * 1024) / (VHOST_LOG_PAGE=
+ * 8));
+>  =20
+> @@ -778,6 +782,7 @@ static void test_migrate(void *obj, void *arg, QGuest=
+Allocator *alloc)
+>       qtest_quit(to);
+>       test_server_free(dest);
+>       g_free(uri);
+> +    g_string_free(dest_cmdline, true);
 
----
+Simpler, good.
 
-- Wait for 1st trhead to move to cancelled before launching second
-  migration
-- Add 'to2' parameter to diferentiate 1st and second target.
----
- tests/qtest/migration-test.c | 112 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 111 insertions(+), 1 deletion(-)
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 26e2e77289..4bf4901970 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -424,6 +424,14 @@ static void migrate_recover(QTestState *who, const cha=
-r *uri)
-     qobject_unref(rsp);
- }
-=20
-+static void migrate_cancel(QTestState *who)
-+{
-+    QDict *rsp;
-+
-+    rsp =3D wait_command(who, "{ 'execute': 'migrate_cancel' }");
-+    qobject_unref(rsp);
-+}
-+
- static void migrate_set_capability(QTestState *who, const char *capability=
-,
-                                    bool value)
- {
-@@ -456,6 +464,8 @@ static void migrate_postcopy_start(QTestState *from, QT=
-estState *to)
- typedef struct {
-     bool hide_stderr;
-     bool use_shmem;
-+    /* only launch the target process */
-+    bool only_target;
-     char *opts_source;
-     char *opts_target;
- } MigrateStart;
-@@ -571,7 +581,9 @@ static int test_migrate_start(QTestState **from, QTestS=
-tate **to,
-                                  arch_source, shmem_opts, args->opts_sourc=
-e,
-                                  ignore_stderr);
-     g_free(arch_source);
--    *from =3D qtest_init(cmd_source);
-+    if (!args->only_target) {
-+        *from =3D qtest_init(cmd_source);
-+    }
-     g_free(cmd_source);
-=20
-     cmd_target =3D g_strdup_printf("-accel kvm -accel tcg%s%s "
-@@ -1294,6 +1306,103 @@ static void test_multifd_tcp(void)
-     free(uri);
- }
-=20
-+/*
-+ * This test does:
-+ *  source               target
-+ *                       migrate_incoming
-+ *     migrate
-+ *     migrate_cancel
-+ *                       launch another target
-+ *     migrate
-+ *
-+ *  And see that it works
-+ */
-+
-+static void test_multifd_tcp_cancel(void)
-+{
-+    MigrateStart *args =3D migrate_start_new();
-+    QTestState *from, *to, *to2;
-+    QDict *rsp;
-+    char *uri;
-+
-+    args->hide_stderr =3D true;
-+
-+    if (test_migrate_start(&from, &to, "defer", args)) {
-+        return;
-+    }
-+
-+    /*
-+     * We want to pick a speed slow enough that the test completes
-+     * quickly, but that it doesn't complete precopy even on a slow
-+     * machine, so also set the downtime.
-+     */
-+    /* 1 ms should make it not converge*/
-+    migrate_set_parameter_int(from, "downtime-limit", 1);
-+    /* 300MB/s */
-+    migrate_set_parameter_int(from, "max-bandwidth", 30000000);
-+
-+    migrate_set_parameter_int(from, "multifd-channels", 16);
-+    migrate_set_parameter_int(to, "multifd-channels", 16);
-+
-+    migrate_set_capability(from, "multifd", "true");
-+    migrate_set_capability(to, "multifd", "true");
-+
-+    /* Start incoming migration from the 1st socket */
-+    rsp =3D wait_command(to, "{ 'execute': 'migrate-incoming',"
-+                           "  'arguments': { 'uri': 'tcp:127.0.0.1:0' }}")=
-;
-+    qobject_unref(rsp);
-+
-+    /* Wait for the first serial output from the source */
-+    wait_for_serial("src_serial");
-+
-+    uri =3D migrate_get_socket_address(to, "socket-address");
-+
-+    migrate_qmp(from, uri, "{}");
-+
-+    wait_for_migration_pass(from);
-+
-+    migrate_cancel(from);
-+
-+    args =3D migrate_start_new();
-+    args->only_target =3D true;
-+
-+    if (test_migrate_start(&from, &to2, "defer", args)) {
-+        return;
-+    }
-+
-+    migrate_set_parameter_int(to2, "multifd-channels", 16);
-+
-+    migrate_set_capability(to2, "multifd", "true");
-+
-+    /* Start incoming migration from the 1st socket */
-+    rsp =3D wait_command(to2, "{ 'execute': 'migrate-incoming',"
-+                            "  'arguments': { 'uri': 'tcp:127.0.0.1:0' }}"=
-);
-+    qobject_unref(rsp);
-+
-+    uri =3D migrate_get_socket_address(to2, "socket-address");
-+
-+    wait_for_migration_status(from, "cancelled", NULL);
-+
-+    /* 300ms it should converge */
-+    migrate_set_parameter_int(from, "downtime-limit", 300);
-+    /* 1GB/s */
-+    migrate_set_parameter_int(from, "max-bandwidth", 1000000000);
-+
-+    migrate_qmp(from, uri, "{}");
-+
-+    wait_for_migration_pass(from);
-+
-+    if (!got_stop) {
-+        qtest_qmp_eventwait(from, "STOP");
-+    }
-+    qtest_qmp_eventwait(to2, "RESUME");
-+
-+    wait_for_serial("dest_serial");
-+    wait_for_migration_complete(from);
-+    test_migrate_end(from, to2, true);
-+    free(uri);
-+}
-+
- int main(int argc, char **argv)
- {
-     char template[] =3D "/tmp/migration-test-XXXXXX";
-@@ -1359,6 +1468,7 @@ int main(int argc, char **argv)
-=20
-     qtest_add_func("/migration/auto_converge", test_migrate_auto_converge)=
-;
-     qtest_add_func("/migration/multifd/tcp", test_multifd_tcp);
-+    qtest_add_func("/migration/multifd/tcp/cancel", test_multifd_tcp_cance=
-l);
-=20
-     ret =3D g_test_run();
-=20
---=20
-2.24.1
+>   }
+>  =20
+>   static void wait_for_rings_started(TestServer *s, size_t count)
+>=20
 
 
