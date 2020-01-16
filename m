@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9897B13F9B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 20:45:27 +0100 (CET)
-Received: from localhost ([::1]:47580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338AF13F9C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 20:47:57 +0100 (CET)
+Received: from localhost ([::1]:47662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isB53-0006hG-Vw
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 14:45:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50159)
+	id 1isB7T-0001Mb-SA
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 14:47:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50176)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1isB3V-0004yX-1c
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:43:50 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1isB3W-000512-JX
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:43:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1isB3T-0007M8-H4
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:43:48 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:36878)
+ (envelope-from <richard.henderson@linaro.org>) id 1isB3V-0007NA-47
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:43:50 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:51534)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1isB3T-0007LG-9r
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:43:47 -0500
-Received: by mail-pl1-x642.google.com with SMTP id c23so8781474plz.4
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 11:43:46 -0800 (PST)
+ id 1isB3U-0007MZ-V2
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 14:43:49 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id d15so2036567pjw.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 11:43:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jXy/1lL6+e+ldr6xT+nT+01QQf0eUPsN0Q7trNJBae8=;
- b=ECyfWCRPimOGHp0w01lz+hjD4lxUWkbGtOhNIWMQSpOOXMOHx33Cn2zXBvFlCjAcwt
- UVlvf6ZEBzyaV15kY5pKAfZ/T+ae+cPVcxCCPN3gDpSv6h9rhDgMRFsT3Na5N86bVFrY
- nU8eD9yUMp3UBZCrDgbmrXqCMPTlO6phL7IpmFHYxn1NS7EMi8pScG1IIczY1XKS7SnI
- iV30gMe8PqfGyEbqk7KtkJ+zGD+KpILYkfNpbKfftx60Rg5kwyJPijuQ7ThZL7Tj/ndQ
- d0pDUgy9Eoicj5dg28NunfiH7+RpY6utlgGgf0az1cWAXxWHprWFYVv+99BYbd6N7K4E
- l7wQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=dVQPchFReqgJ20ne23FViP6RomyZ4oPHwhQNUV4fK+E=;
+ b=ML24+9fN/mPfbJl4KFpjnO4mg2OiA/FfkJksOrTBE2dNmyi92coy9UOVwd3u9wcrZV
+ wVjiPVCMTXtfYWhmfs2DNg5DqE8F9rZRayB0FrRFmdRMdxsaqVIiwt0jpAotjSOjoHlx
+ vzKt3bC7L41RVkZF5UtR7rDy1zxE9IKySrsLwCZiXJD0mS4x4LyFWsHDXBrACXNUwpRu
+ KCjAfPvht2+PQs8ZWtYkGObJF9w+w2Yjd56u3vLm4XyCtfqMo1SAGKAlLeqFIdeNc2Zh
+ 6ZVRMuK9htpMJmeKl9qt+mJCaIoQD4Oj9D7lhS7yQ01/VUPXbx2G4VIbAW2BS3ThoFxY
+ kezg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jXy/1lL6+e+ldr6xT+nT+01QQf0eUPsN0Q7trNJBae8=;
- b=BSzqNeme++8jP3kg6gapyJxlos01K5pMm+R4Rq2MFliXH972t9aS+zecjbA1sSe+CM
- 1nlC4bp5gNPYdovcNcUfu8gEl+CQ2CqGg39GBteEV3bJ7+nkyR91gJWu0+lPDm6V9shA
- DqwmlsYK0334jk84YrQ47IUO6i+HppZG6Xx2s6Wu3j2VOrqGz6vKjcSzAHjdQL7CtAej
- cTjD2rlrOhZxE4Rv0Dap4Vv68FCOu3Kf27LF+k1qQPW6m3BZwcEfD9ploLgMH71rQMdQ
- HQqIJ4LtJCjwatnpeIJGPXu+WeDRnM0C5L24YmorAEh/1Y+GYDyLxoKangtwfuDS8pr3
- E7kg==
-X-Gm-Message-State: APjAAAX4UwAkG+lq55VGa9fttobuSKr2POsSBWvWbLyzL8/3RIJ6KeUu
- SlR4OcdETOA6Acw1oQ5+LQuGjEg9HFs=
-X-Google-Smtp-Source: APXvYqwMkJYhe7YKdZG5hSmsAJNZ0l0dNhyXkGbhGTlqoDrDx7acOViuev8Zv8uZdJxHILgLxx5fYA==
-X-Received: by 2002:a17:90a:d081:: with SMTP id k1mr959314pju.57.1579203825380; 
- Thu, 16 Jan 2020 11:43:45 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dVQPchFReqgJ20ne23FViP6RomyZ4oPHwhQNUV4fK+E=;
+ b=nyJdmPdNnXSp9jstQRcDgLs+Jhe18NP8WZpxSTOVe5GBHRstce3T2xPjYLmYPQp/Oi
+ J0wANb1DJ8uq6qQup4PbjKFu9aPPPWWboZ9YTupp65t/KShwUnykRSETwxO6SmijLfID
+ BemvL8F99RJ5c8iUtioEKVSUxgOZ56rCS1Yk4wZqWyajT1zWLQUFN3Kpz9/SONVP023r
+ 95VvIfrys99eKjHD5XfBmuQITygbxqgJ59PqWAoM/Y6C0NnnEl+KxVrC2jSKkTX19MDw
+ WB7D9TZyXML9ghwIHmMt+j8/KliEyKdUJCob2TUWmAZ1GqfTFNv2l7I4qPUlMTC8/Hre
+ bV8g==
+X-Gm-Message-State: APjAAAXNQjsOyumhTb1FKeU+hIST6FHO9XU7ZyWNgjY768HH6bu0OdNT
+ wkAecH4QRHUbaQOwfqU9J6qThrPkEVA=
+X-Google-Smtp-Source: APXvYqziYvnUGXcIGB5Hg5fLJjqx7KhOsgXGDzYJjQ3xf4dO9xZi+ufZfcQcg4FeYG3k6DWcEPp8JA==
+X-Received: by 2002:a17:90a:d205:: with SMTP id
+ o5mr1015731pju.46.1579203827602; 
+ Thu, 16 Jan 2020 11:43:47 -0800 (PST)
 Received: from localhost.localdomain (rrcs-66-91-136-155.west.biz.rr.com.
  [66.91.136.155])
- by smtp.gmail.com with ESMTPSA id g2sm26411831pgn.59.2020.01.16.11.43.43
+ by smtp.gmail.com with ESMTPSA id g2sm26411831pgn.59.2020.01.16.11.43.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2020 11:43:44 -0800 (PST)
+ Thu, 16 Jan 2020 11:43:46 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/5] linux-user: Implement x86_64 vsyscalls
-Date: Thu, 16 Jan 2020 09:43:36 -1000
-Message-Id: <20200116194341.402-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 1/5] target/i386: Renumber EXCP_SYSCALL
+Date: Thu, 16 Jan 2020 09:43:37 -1000
+Message-Id: <20200116194341.402-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200116194341.402-1-richard.henderson@linaro.org>
+References: <20200116194341.402-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,76 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
+Cc: Paolo Bonzini <pbonzini@redhat.com>, alex.bennee@linaro.org,
+ laurent@vivier.eu,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes since v2:
+We are not short of numbers for EXCP_*.  There is no need to confuse things
+by having EXCP_VMEXIT and EXCP_SYSCALL overlap, even though the former is
+only used for system mode and the latter is only used for user mode.
 
-  * Add /proc/self/maps line
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/i386/cpu.h | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-	I'm not sure this is really necessary.  The linux kernel
-	self-test checks for it, and modifies the set of tests that
-	it runs based on it.  But otherwise I think it's unused.
-
-  * Fix errors in base gettimeofday syscall
-
-	This is also checked by test_vsyscall, as noticed by AJB.
-
-
-r~
-
-
-Original blurb:
-
-The x86_64 abi has a legacy vsyscall page.  The kernel folk
-have been trying to deprecate this since at least v3.1, but
-
-(1) We don't implement the vdso that replaces vsyscalls,
-(2) As of v5.5, the vsyscall page is still enabled by default.
-
-This lack is affecting Peter's linux-user testing.
-
-The dependency is not obvious because Peter is running the tests
-on x86_64, so the host is providing a vsyscall page to qemu.
-
-Because of how user-only memory operations are handled, with no
-validation of guest vs host pages, so long as qemu chooses to
-run with guest_base == 0, the guest may Just So Happen to read
-the host's vsyscall page.
-
-Complicating this, new OS releases may use a kernel configured
-with CONFIG_LEGACY_VSYSCALL_XONLY=y, which means the the vsyscall
-page cannot be read, only executed.  Which means that the guest
-then cannot read the host vsyscall page during translation and
-will SIGSEGV.
-
-Exactly which of these many variables is affecting Peter's testing
-with Ubuntu 18.04 of my TCG merge, I'm not exactly sure.  I suspect
-that it is the change to drop the textseg_addr adjustment to user-only
-static binaries.  IIRC bionic does not support -static-pie, which is
-the preferred replacement.  This could mean that the host and guest
-binaries overlap, which leads to guest_base != 0.
-
-I vaguely remember someone (Paolo?) implementing something like
-this many years ago, but clearly it never got merged.
-
-In any case, this emulation has been missing for too long.
-
-
-Richard Henderson (5):
-  target/i386: Renumber EXCP_SYSCALL
-  linux-user/i386: Split out gen_signal
-  linux-user/i386: Emulate x86_64 vsyscalls
-  linux-user: Add x86_64 vsyscall page to /proc/self/maps
-  linux-user: Flush out implementation of gettimeofday
-
- target/i386/cpu.h          |   6 +-
- linux-user/i386/cpu_loop.c | 198 ++++++++++++++++++++++++++-----------
- linux-user/syscall.c       |  36 ++++++-
- target/i386/translate.c    |  16 ++-
- 4 files changed, 190 insertions(+), 66 deletions(-)
-
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 594326a794..164d038d1f 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -998,9 +998,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define EXCP11_ALGN	17
+ #define EXCP12_MCHK	18
+ 
+-#define EXCP_SYSCALL    0x100 /* only happens in user only emulation
+-                                 for syscall instruction */
+-#define EXCP_VMEXIT     0x100
++#define EXCP_VMEXIT     0x100 /* only for system emulation */
++#define EXCP_SYSCALL    0x101 /* only for user emulation */
+ 
+ /* i386-specific interrupt pending bits.  */
+ #define CPU_INTERRUPT_POLL      CPU_INTERRUPT_TGT_EXT_1
 -- 
 2.20.1
 
