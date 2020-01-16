@@ -2,67 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0D913FCCE
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 00:15:02 +0100 (CET)
-Received: from localhost ([::1]:49656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A76513FD8E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 00:27:16 +0100 (CET)
+Received: from localhost ([::1]:49758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isELs-0001uU-VL
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 18:15:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52063)
+	id 1isEXj-0000oP-3X
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 18:27:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jkz@google.com>) id 1isEL2-0000zM-6V
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:14:09 -0500
+ (envelope-from <berto@igalia.com>) id 1isEWg-0008Od-NJ
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:26:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jkz@google.com>) id 1isEL1-0004PA-5P
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:14:08 -0500
-Received: from mail-vk1-xa2c.google.com ([2607:f8b0:4864:20::a2c]:33070)
+ (envelope-from <berto@igalia.com>) id 1isEWd-0004fY-Oe
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:26:10 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:44330)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jkz@google.com>) id 1isEL0-0004Om-Vp
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:14:07 -0500
-Received: by mail-vk1-xa2c.google.com with SMTP id i78so6168469vke.0
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 15:14:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ceCc4dSOPvn5wagwALp9uRtD1NhUZMLrl8qf8ieBmQo=;
- b=t97N1QcJcZSLBgLomJNgqlDvhMVW6Y5Os9H5BuZbS/VyTWaz572CVYuW+sQb1ZM+Zz
- zy+2bEdd5WYwsbofVsDUEYHWDR+H89/D+Yw55iYRLEnBRlwgzvA7WyPxQmUKSDw9xZx1
- p1Ty8GWvn8KOggV3gnCpv+ouTt8RgDQGg8sH51SDM6uMlhFbHIH0xQrvt+o1nHa4DV1/
- mRaZnfyZB0YgUT3R7RTueR3n9stSVUY/Tprko8daCL+Q6N0buHEEaAmV/Y+kTbvdFMP7
- A2pYWdUoEoMmGlBqcURCJlrXF9Rz98EVunoQ0OnXOiZhZ38z79qvvEKifYpxWR9omawo
- sOTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ceCc4dSOPvn5wagwALp9uRtD1NhUZMLrl8qf8ieBmQo=;
- b=oaAW9kps7LH2Mt7aay+8cDiY9QPK9oH712O3+rV+XMP0DqoLDtJsq22WAOP8CysyG4
- 8hc9j0p2Vn9I+Osqj5+BXGNXT7qYb6h9o9KN6vAzNcP/pHlQLQT6r5ryPZzgnvHv+nd5
- f0Gib0Cs4RzFdweuvbqbqXs0u/662moLs/qcMKr9dZmZ16TuSa3EKPfkjn/3H8Cz/Tz1
- wpzarzV91914ZWydGghbuK/m07FYGjgWyApLHqSrTqBgnSjhSLauYtKWrU6n+8P85NAj
- SUBl7horKHs8wPZIrg43CQoMFXHre+xj6e/Naq98EbCWxZ9Nc2k17YwlcOlQMZJsN3hk
- iZeQ==
-X-Gm-Message-State: APjAAAV63kQiLOtxwnBhPIaTEm0THLXaT6kY01P6ZIQwiJGmD30L8OJY
- /2PKl3+uH+JRMQnFMjIcYV2npcXhlQAkJKwuiBL5mV1U
-X-Google-Smtp-Source: APXvYqwpDSz0Q1TFsBItB+xfZgxCDJmzI7p0BgbeLYGVHsJZj1lwdf5wMitGKye9Tk7vcrMgyb4ge904E5BDz7uYXZY=
-X-Received: by 2002:a1f:5fc1:: with SMTP id t184mr19434167vkb.57.1579216445799; 
- Thu, 16 Jan 2020 15:14:05 -0800 (PST)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1isEWd-0004eC-5e; Thu, 16 Jan 2020 18:26:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=qWyxUFBqbTwOfxKgzmRMlH2LPLN1sPbaesWDG1PqPaI=; 
+ b=QyTva4QVk99afG0P3l2mnYP6/UOREsmhYQSGppoPy2l6xSVLUdo2Hy8e7mY7C5WTsu80IbmvstnkhGOMfdx3S8IGXAzqHk9lgdspsVnunOHR9LYyu7kDp10+tiY/VarAWi9CXlAqybJYRMNtNL3MxDsIJQlL8847Q27Wwc7DZUuZIRkCc40pNbGOk2uwvQ/bqa7oPc2D44fJf32cLM+oA/dR5GDzdhYXMKCevq08tmYx/NhfvqJplw3fdbDX47dOYnZHcwcHmT9vFACy7uFbreAaCzsDIHxsyn9BdNmQSRhIGDEc4YiDWkDp4i8DYodSJ9hAlYh2Guf8bvpWJ/Y4oQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1isEWZ-0002E7-Jq; Fri, 17 Jan 2020 00:26:03 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1isEWZ-0001Bn-AK; Fri, 17 Jan 2020 00:26:03 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 4/4] qcow2: Use BDRV_SECTOR_SIZE instead of the
+ hardcoded value
+In-Reply-To: <02552511-6fcf-d678-362c-707ce6d73659@redhat.com>
+References: <cover.1578596897.git.berto@igalia.com>
+ <e3982d5118a90db2442c6ac18f339ec8ba006df2.1578596897.git.berto@igalia.com>
+ <02552511-6fcf-d678-362c-707ce6d73659@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Fri, 17 Jan 2020 00:26:03 +0100
+Message-ID: <w517e1rf0fo.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-References: <20200114030138.260347-1-jkz@google.com>
- <CANCZdfq66Fsw=C0YSi6zWs_=r+0cNfPjhvchiSJnfY2MBWT8LA@mail.gmail.com>
-In-Reply-To: <CANCZdfq66Fsw=C0YSi6zWs_=r+0cNfPjhvchiSJnfY2MBWT8LA@mail.gmail.com>
-From: Josh Kunz <jkz@google.com>
-Date: Thu, 16 Jan 2020 15:13:54 -0800
-Message-ID: <CADgy-2ukDWB_nCTqsUa4yhOr-d0PS05rpenfi2FPh6RodjkpmA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] migration: Replace gemu_log with qemu_log
-To: Warner Losh <imp@bsdimp.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Riku Voipio <riku.voipio@iki.fi>, 
- Laurent Vivier <laurent@vivier.eu>, alex.bennee@linaro.org,
- armbru@redhat.com
-Content-Type: multipart/alternative; boundary="00000000000046e739059c49fb9f"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::a2c
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,37 +60,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000046e739059c49fb9f
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, Jan 13, 2020 at 7:06 PM Warner Losh <imp@bsdimp.com> wrote:
-
-> The bsd-user that is in tree doesn't work. I've been trying to catch up to
-> qemu head of tree, but I'm only up to 3.2... chances are the bsd-user
-> changes will not change the state of things...
+On Tue 14 Jan 2020 03:15:48 PM CET, Max Reitz wrote:
+>> @@ -219,7 +219,7 @@ static int l2_load(BlockDriverState *bs, uint64_t of=
+fset,
+>>   * Writes one sector of the L1 table to the disk (can't update single e=
+ntries
+>>   * and we really don't want bdrv_pread to perform a read-modify-write)
+>>   */
+>> -#define L1_ENTRIES_PER_SECTOR (512 / 8)
+>> +#define L1_ENTRIES_PER_SECTOR (BDRV_SECTOR_SIZE / 8)
+>>  int qcow2_write_l1_entry(BlockDriverState *bs, int l1_index)
 >
+> Here it=E2=80=99s because the comment is wrong: =E2=80=9CCan=E2=80=99t up=
+date single entries=E2=80=9D =E2=80=93
+> yes, we can.  We=E2=80=99d just have to do a bdrv_pwrite() to a single en=
+try.
 
-Ah good to know. Would you all prefer I don't modify it at all, to try and
-keep the code "pristine"? Or is it OK to keep the patch as is?
+What's the point of qcow2_write_l1_entry() then?
 
---00000000000046e739059c49fb9f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>> @@ -3836,7 +3837,7 @@ qcow2_co_copy_range_from(BlockDriverState *bs,
+>>          case QCOW2_CLUSTER_NORMAL:
+>>              child =3D s->data_file;
+>>              copy_offset +=3D offset_into_cluster(s, src_offset);
+>> -            if ((copy_offset & 511) !=3D 0) {
+>> +            if (!QEMU_IS_ALIGNED(copy_offset, BDRV_SECTOR_SIZE)) {
+>
+> Hm.  I don=E2=80=99t get this one.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 13, 2020 at 7:06 PM Warne=
-r Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt; wrote:<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"auto"><d=
-iv dir=3D"auto">The bsd-user that is in tree doesn&#39;t work. I&#39;ve bee=
-n trying to catch up to qemu head of tree, but I&#39;m only up to 3.2... ch=
-ances are the bsd-user changes will not change the state of things...</div>=
-</div></blockquote><div><br></div><div>Ah good to know. Would you all prefe=
-r I don&#39;t modify it at all, to try and keep the code &quot;pristine&quo=
-t;? Or is it OK to keep the patch as is?</div></div></div>
+Checking the code (e.g. block_copy_do_copy()) it seems that the whole
+chunk must be cluster aligned so I don't get this one either.
 
---00000000000046e739059c49fb9f--
+Berto
 
