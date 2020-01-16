@@ -2,93 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8842613DE06
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 15:53:50 +0100 (CET)
-Received: from localhost ([::1]:43406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C2413DE23
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 15:55:35 +0100 (CET)
+Received: from localhost ([::1]:43430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is6Wr-00027H-J8
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 09:53:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55970)
+	id 1is6YY-00040F-M4
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 09:55:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56605)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mjrosato@linux.ibm.com>) id 1is6Uv-0008UF-Ua
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:51:53 -0500
+ (envelope-from <rjones@redhat.com>) id 1is6XF-0002k2-20
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:54:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mjrosato@linux.ibm.com>) id 1is6Us-0002q2-9X
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:51:49 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41810
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mjrosato@linux.ibm.com>)
- id 1is6Us-0002nx-3q; Thu, 16 Jan 2020 09:51:46 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00GEiugt138782; Thu, 16 Jan 2020 09:51:42 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2xjmynjjqv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Jan 2020 09:51:42 -0500
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 00GEj1g4139439;
- Thu, 16 Jan 2020 09:51:41 -0500
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2xjmynjjqj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Jan 2020 09:51:41 -0500
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 00GEpFbP017025;
- Thu, 16 Jan 2020 14:51:41 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma03wdc.us.ibm.com with ESMTP id 2xhmfa05fn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Jan 2020 14:51:40 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 00GEpdKr51446184
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Jan 2020 14:51:39 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 73E937805E;
- Thu, 16 Jan 2020 14:51:39 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7281B7805F;
- Thu, 16 Jan 2020 14:51:38 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.80.227.51])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 16 Jan 2020 14:51:38 +0000 (GMT)
-Subject: Re: [PATCH] target/s390x/kvm: Enable adapter interruption suppression
- again
-To: Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-References: <20200116122026.5804-1-thuth@redhat.com>
- <20200116135038.2c8cf3c6.cohuck@redhat.com>
- <20b2df78-8d5c-3508-cc80-06cf127ca635@redhat.com>
- <1e181d83-98ec-a8dd-2b43-0371b8eb65af@de.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <bc3edeb0-8c32-f750-7ccb-ae51eeadd5b3@linux.ibm.com>
-Date: Thu, 16 Jan 2020 09:51:37 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (envelope-from <rjones@redhat.com>) id 1is6XA-0004ou-Uf
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:54:12 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47209
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <rjones@redhat.com>) id 1is6XA-0004oG-Qf
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:54:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579186447;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LkTpGjSngT+63eT11k7EYoND9omNu8vZmjzQZ3GmGOc=;
+ b=QLlFohpet6tCUYgpr9Ds1gyS5AgK/DBNNav7h2QxwpFACV7Wan1cupeO28BIvFSpuNHnju
+ YBKHgDHTngW+sEj81iGHArVAcQAMAQDkyVAXloXdCso1YUFBGRawKWc8wj68tpSNmBBAMm
+ AAmUfTYmvOjk/6W3cSPfHX9ZldgKmYE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-115-qFrH3xoRNmagJAQaMFYshw-1; Thu, 16 Jan 2020 09:54:01 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7BA0107ACC9;
+ Thu, 16 Jan 2020 14:54:00 +0000 (UTC)
+Received: from localhost (ovpn-117-237.ams2.redhat.com [10.36.117.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B44160C85;
+ Thu, 16 Jan 2020 14:54:00 +0000 (UTC)
+Date: Thu, 16 Jan 2020 14:53:59 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: Bug? qemu-img convert to preallocated image makes it sparse
+Message-ID: <20200116145359.GR3888@redhat.com>
+References: <20200116141352.GA32053@redhat.com>
+ <962aa54b-f6e5-bb43-50a0-c4cad59cd22e@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1e181d83-98ec-a8dd-2b43-0371b8eb65af@de.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-16_04:2020-01-16,
- 2020-01-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- priorityscore=1501 suspectscore=0 clxscore=1011 lowpriorityscore=0
- impostorscore=0 phishscore=0 spamscore=0 mlxlogscore=999 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-2001160123
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+In-Reply-To: <962aa54b-f6e5-bb43-50a0-c4cad59cd22e@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: qFrH3xoRNmagJAQaMFYshw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,80 +74,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
+Cc: ptoscano@redhat.com, sgarzare@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mlevitsk@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/16/20 8:22 AM, Christian Borntraeger wrote:
-> 
-> 
-> On 16.01.20 13:55, Thomas Huth wrote:
->> On 16/01/2020 13.50, Cornelia Huck wrote:
->>> On Thu, 16 Jan 2020 13:20:26 +0100
->>> Thomas Huth <thuth@redhat.com> wrote:
->>>
->>>> The AIS feature has been disabled late in the v2.10 development
->>>> cycle since there were some issues with migration (see commit
->>>> 3f2d07b3b01ea61126b - "s390x/ais: for 2.10 stable: disable ais
->>>> facility"). We originally wanted to enable it again for newer
->>>> machine types, but apparently we forgot to do this so far. Let's
->>>> do it for the new s390-ccw-virtio-5.0 machine now.
->>>>
->>>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1756946
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>   hw/s390x/s390-virtio-ccw.c         |  4 ++++
->>>>   include/hw/s390x/s390-virtio-ccw.h |  4 ++++
->>>>   target/s390x/kvm.c                 | 11 ++++++++---
->>>>   3 files changed, 16 insertions(+), 3 deletions(-)
->>>>
->>>
->>>> @@ -365,10 +367,13 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>>>       /*
->>>>        * The migration interface for ais was introduced with kernel 4.13
->>>>        * but the capability itself had been active since 4.12. As migration
->>>> -     * support is considered necessary let's disable ais in the 2.10
->>>> -     * machine.
->>>> +     * support is considered necessary we only enable this for newer
->>>
->>> s/necessary we only enable this/necessary, we only try to enable this/
->>>
->>>> +     * machine types and if KVM_CAP_S390_AIS_MIGRATION is available.
->>>
->>> maybe s/and if/if/
->>
->> Sure ... could you fix it up when picking up the patch (in case I don't
->> have to respin), or do you want me to send a v2?
->>
->>>>        */
->>>> -    /* kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0); */
->>>> +    if (smc->kvm_ais_allowed &&
->>>> +        kvm_check_extension(s, KVM_CAP_S390_AIS_MIGRATION)) {
->>>> +        kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0);
->>>> +    }
->>>>   
->>>>       kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
->>>>       return 0;
->>>
->>> Looks good.
->>>
->>> Remind me again: ais only made a difference for pci devices, right? Is
->>> it enough to give this a quick whirl with virtio-pci devices?
->>
->> I don't remember the details, Christian, could you please answer this
->> question?
-> 
-> Yes, IIRC AIS was there for PCI, but not for Crypto or virtio.
+On Thu, Jan 16, 2020 at 03:47:30PM +0100, Max Reitz wrote:
+> On 16.01.20 15:13, Richard W.M. Jones wrote:
+> > I'm not necessarily saying this is a bug, but a change in behaviour in
+> > qemu has caused virt-v2v to fail.  The reproducer is quite simple.
+> >=20
+> > Create sparse and preallocated qcow2 files of the same size:
+> >=20
+> >   $ qemu-img create -f qcow2 sparse.qcow2 50M
+> >   Formatting 'sparse.qcow2', fmt=3Dqcow2 size=3D52428800 cluster_size=
+=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
+> >=20
+> >   $ qemu-img create -f qcow2 prealloc.qcow2 50M -o preallocation=3Dfall=
+oc,compat=3D1.1
+> >   Formatting 'prealloc.qcow2', fmt=3Dqcow2 size=3D52428800 compat=3D1.1=
+ cluster_size=3D65536 preallocation=3Dfalloc lazy_refcounts=3Doff refcount_=
+bits=3D16
+> >=20
+> >   $ du -m sparse.qcow2 prealloc.qcow2=20
+> >   1 sparse.qcow2
+> >   51=09prealloc.qcow2
+> >=20
+> > Now copy the sparse file into the preallocated file using the -n
+> > option so qemu-img doesn't create the target:
+> >=20
+> >   $ qemu-img convert -p -n -f qcow2 -O qcow2 sparse.qcow2 prealloc.qcow=
+2
+> >       (100.00/100%)
+> >=20
+> > In new qemu that makes the target file sparse:
+> >=20
+> >   $ du -m sparse.qcow2 prealloc.qcow2=20
+> >   1 sparse.qcow2
+> >   1 prealloc.qcow2         <-- should still be 51
+> >=20
+> > In old qemu the target file remained preallocated, which is what
+> > I and virt-v2v are expecting.
+> >=20
+> > I bisected this to the following commit:
+> >=20
+> > 4d7c487eac1652dfe4498fe84f32900ad461d61b is the first bad commit
+> > commit 4d7c487eac1652dfe4498fe84f32900ad461d61b
+> > Author: Max Reitz <mreitz@redhat.com>
+> > Date:   Wed Jul 24 19:12:29 2019 +0200
+> >=20
+> >     qemu-img: Fix bdrv_has_zero_init() use in convert
+> >    =20
+> >     bdrv_has_zero_init() only has meaning for newly created images or i=
+mage
+> >     areas.  If qemu-img convert did not create the image itself, it can=
+not
+> >     rely on bdrv_has_zero_init()'s result to carry any meaning.
+> >    =20
+> >     Signed-off-by: Max Reitz <mreitz@redhat.com>
+> >     Message-id: 20190724171239.8764-2-mreitz@redhat.com
+> >     Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+> >     Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> >     Signed-off-by: Max Reitz <mreitz@redhat.com>
+> >=20
+> >  qemu-img.c | 11 ++++++++---
+> >  1 file changed, 8 insertions(+), 3 deletions(-)
+> >=20
+> > Reverting this commit on the current master branch restores the
+> > expected behaviour.
+>=20
+> So what this commit changed was that when you take an existing image as
+> the destination, you can=E2=80=99t assume anything about its contents.  B=
+efore
+> this commit, we assumed it=E2=80=99s zero.  That=E2=80=99s clearly wrong,=
+ because it can
+> be anything.
+>=20
+> So when you convert to the target image, you have to make sure all areas
+> that are zero in the source are zero in the target, too.  The way we do
+> that is to write zeroes to the target.  The problem is that this
+> operation disregards the previous preallocation and discards the
+> preallocated space.
+>=20
+> As for fixing the bug...  Can we fix it in qemu(-img)?
+>=20
+> We could try to detect whether areas that are zero in the source are
+> zero in the (preallocated) target image, too.  But doing so what require
+> reading the data from those areas and comparing it to zero.  That would
+> take time and it isn=E2=80=99t trivial.  So that=E2=80=99s something I=E2=
+=80=99d rather avoid.
+>=20
+> Off the top of my head, the only thing that comes to my mind would be to
+> add a flag to qemu-img convert with which you can let it know that you
+> guarantee the target image is zero.  I suppose we could document it also
+> to imply that given this flag, areas that are zero in the source will
+> then not be changed in the target image; i.e. that preallocation stays
+> intact in those areas.
+>=20
+>=20
+> OTOH, can it be fixed in virt-v2v?  Is there already a safe way to call
+> qemu-img convert -n and keeping the target=E2=80=99s preallocation intact=
+?
+> Unfortunately, I don=E2=80=99t think so.  I don=E2=80=99t think we ever g=
+uaranteed it
+> would, and well, now it broke.
 
-This matches my understanding as well.
+From the fixing virt-v2v point of view, it's a bit tricky since the
+code has to deal with all kinds of output targets.  (For example we
+sometimes qemu-img convert into an NBD target.)
 
-> The patch looks sane, but it would be good if someone could try
-> the AIS stuff.
-> 
-> Matt, can you have a look?
+However we do know when the target contains zeroes - in fact it always
+contains zeroes, so:
 
-Sure.  But my PCI environment is currently down for a maintenance 
-window, will try again later today.
+> So would you be OK with a --target-is-zero flag?  (I think we could let
+> this flag guarantee that your use case works, so it should be future-safe=
+.)
+
+this one should work.
+
+Rich.
+
+--=20
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjon=
+es
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
 
 
