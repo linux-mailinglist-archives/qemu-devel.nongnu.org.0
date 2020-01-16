@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B4C13FCCD
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 00:13:45 +0100 (CET)
-Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0D913FCCE
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 00:15:02 +0100 (CET)
+Received: from localhost ([::1]:49656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isEKe-0008Vj-4W
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 18:13:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51948)
+	id 1isELs-0001uU-VL
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 18:15:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52063)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jkz@google.com>) id 1isEJm-0007yv-0R
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:12:50 -0500
+ (envelope-from <jkz@google.com>) id 1isEL2-0000zM-6V
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:14:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jkz@google.com>) id 1isEJk-0003T4-Tu
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:12:49 -0500
-Received: from mail-vk1-xa43.google.com ([2607:f8b0:4864:20::a43]:39912)
+ (envelope-from <jkz@google.com>) id 1isEL1-0004PA-5P
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:14:08 -0500
+Received: from mail-vk1-xa2c.google.com ([2607:f8b0:4864:20::a2c]:33070)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jkz@google.com>) id 1isEJk-0003Ru-Nr
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:12:48 -0500
-Received: by mail-vk1-xa43.google.com with SMTP id t129so6170514vkg.6
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 15:12:48 -0800 (PST)
+ (Exim 4.71) (envelope-from <jkz@google.com>) id 1isEL0-0004Om-Vp
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:14:07 -0500
+Received: by mail-vk1-xa2c.google.com with SMTP id i78so6168469vke.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 15:14:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=btw7PgBg32bJXHLppoSQjQfUVuZmpY67KLb9SiiqWHU=;
- b=XjF61TQVmZey5ejZGrVSwvyKomgziMMPGvzCmHeNE88PiF6ak2cmz9eQVn5rVnWCio
- LuUkwMzPUGk4wIcEGFZYwqzk7Qg1hyXbSuAQcFkRUfuMBKrT7t6LOhBUHfTVUYuQ9CE/
- WdBedbLOJBPl0qz79XPxHdh4+Q1ijEZcJ+c+gftDtSGRYwkzmubY2KkBLuY8RfnkSHpx
- RPO7Ya/MMsQrmbQimQBR5XlklMMQkGLv9eARbblisncdmxjM1KcYOL1R6dpcFlQxXB2x
- MCAKHiwDq9OvjCeoxPcmvXE++809c3bySJyYkzkopX4D/2Kj50OjJBC2RJKvqLS9DOU1
- Omrw==
+ :cc; bh=ceCc4dSOPvn5wagwALp9uRtD1NhUZMLrl8qf8ieBmQo=;
+ b=t97N1QcJcZSLBgLomJNgqlDvhMVW6Y5Os9H5BuZbS/VyTWaz572CVYuW+sQb1ZM+Zz
+ zy+2bEdd5WYwsbofVsDUEYHWDR+H89/D+Yw55iYRLEnBRlwgzvA7WyPxQmUKSDw9xZx1
+ p1Ty8GWvn8KOggV3gnCpv+ouTt8RgDQGg8sH51SDM6uMlhFbHIH0xQrvt+o1nHa4DV1/
+ mRaZnfyZB0YgUT3R7RTueR3n9stSVUY/Tprko8daCL+Q6N0buHEEaAmV/Y+kTbvdFMP7
+ A2pYWdUoEoMmGlBqcURCJlrXF9Rz98EVunoQ0OnXOiZhZ38z79qvvEKifYpxWR9omawo
+ sOTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=btw7PgBg32bJXHLppoSQjQfUVuZmpY67KLb9SiiqWHU=;
- b=ib491PiUO+0YxkFaOABriT1XskSXBnN1W6lxwBr+Hg8SHlQEFbmWKOGmjoZC7vn1ej
- /YhUMjmuJFgtNc1iJqKZmm5PuSYgE2nxGlD3GCvhRjppiJ78Fsel8dWwU4j7XjgStfEq
- J0vIap3LhzDUoUe89UdjWUoxbbV03x6HRJYt3HImoFLgedjbq/GlUzNOIlqiF3oDSFNs
- G405m1V459CTja8VDKW9ftGI0eNT2gic91OqdjxcWmHJa3CQwyVNNxFn5Tcqk/M0PMZX
- jEzGdvE+jcHSY6OHJJZXro2nqjVFVC7GVMvucZ2Yg3ht/H+L8Rdkdvf18TLmN1gm1AVC
- ehVg==
-X-Gm-Message-State: APjAAAWohJ4Qo5LOoLzBbVzCIdCoRDi203IzpJ8IF7vhBMsVhbT1Tx3+
- +q6L2RbggTKbTVxuRR3djzxghNbwj3IstPsWnCairQ==
-X-Google-Smtp-Source: APXvYqwmbTbPfY1ih8tKOD30er92PoepKIOowRF2dxdHMthHiI6+GCYzsSYbxdnGyNDcy4E75RK+RpOyX/W65QB4FgQ=
-X-Received: by 2002:a1f:fccb:: with SMTP id a194mr22503970vki.92.1579216367108; 
- Thu, 16 Jan 2020 15:12:47 -0800 (PST)
+ bh=ceCc4dSOPvn5wagwALp9uRtD1NhUZMLrl8qf8ieBmQo=;
+ b=oaAW9kps7LH2Mt7aay+8cDiY9QPK9oH712O3+rV+XMP0DqoLDtJsq22WAOP8CysyG4
+ 8hc9j0p2Vn9I+Osqj5+BXGNXT7qYb6h9o9KN6vAzNcP/pHlQLQT6r5ryPZzgnvHv+nd5
+ f0Gib0Cs4RzFdweuvbqbqXs0u/662moLs/qcMKr9dZmZ16TuSa3EKPfkjn/3H8Cz/Tz1
+ wpzarzV91914ZWydGghbuK/m07FYGjgWyApLHqSrTqBgnSjhSLauYtKWrU6n+8P85NAj
+ SUBl7horKHs8wPZIrg43CQoMFXHre+xj6e/Naq98EbCWxZ9Nc2k17YwlcOlQMZJsN3hk
+ iZeQ==
+X-Gm-Message-State: APjAAAV63kQiLOtxwnBhPIaTEm0THLXaT6kY01P6ZIQwiJGmD30L8OJY
+ /2PKl3+uH+JRMQnFMjIcYV2npcXhlQAkJKwuiBL5mV1U
+X-Google-Smtp-Source: APXvYqwpDSz0Q1TFsBItB+xfZgxCDJmzI7p0BgbeLYGVHsJZj1lwdf5wMitGKye9Tk7vcrMgyb4ge904E5BDz7uYXZY=
+X-Received: by 2002:a1f:5fc1:: with SMTP id t184mr19434167vkb.57.1579216445799; 
+ Thu, 16 Jan 2020 15:14:05 -0800 (PST)
 MIME-Version: 1.0
 References: <20200114030138.260347-1-jkz@google.com>
- <87h80ymhcd.fsf@linaro.org>
-In-Reply-To: <87h80ymhcd.fsf@linaro.org>
+ <CANCZdfq66Fsw=C0YSi6zWs_=r+0cNfPjhvchiSJnfY2MBWT8LA@mail.gmail.com>
+In-Reply-To: <CANCZdfq66Fsw=C0YSi6zWs_=r+0cNfPjhvchiSJnfY2MBWT8LA@mail.gmail.com>
 From: Josh Kunz <jkz@google.com>
-Date: Thu, 16 Jan 2020 15:12:35 -0800
-Message-ID: <CADgy-2vNk5RKV5VdcaFANiopezPKEgdSSHsQc=a_WaWgsAvxzA@mail.gmail.com>
+Date: Thu, 16 Jan 2020 15:13:54 -0800
+Message-ID: <CADgy-2ukDWB_nCTqsUa4yhOr-d0PS05rpenfi2FPh6RodjkpmA@mail.gmail.com>
 Subject: Re: [PATCH 0/4] migration: Replace gemu_log with qemu_log
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Riku Voipio <riku.voipio@iki.fi>, 
- Laurent Vivier <laurent@vivier.eu>, armbru@redhat.com
-Content-Type: multipart/alternative; boundary="000000000000965e01059c49f669"
+To: Warner Losh <imp@bsdimp.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Riku Voipio <riku.voipio@iki.fi>, 
+ Laurent Vivier <laurent@vivier.eu>, alex.bennee@linaro.org,
+ armbru@redhat.com
+Content-Type: multipart/alternative; boundary="00000000000046e739059c49fb9f"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::a43
+X-Received-From: 2607:f8b0:4864:20::a2c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,64 +77,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000965e01059c49f669
+--00000000000046e739059c49fb9f
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 14, 2020 at 3:02 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
+On Mon, Jan 13, 2020 at 7:06 PM Warner Losh <imp@bsdimp.com> wrote:
 
->
-> Josh Kunz <jkz@google.com> writes:
->
-> <snip>
-> >
-> > Not tested:
-> >   * Build/logging with bsd-user. I do not have easy access to a BSD
-> > system.
->
-> If you have the time we have vm-build-netbsd:
->
->   make vm-build-netbsd EXTRA_CONFIGURE_OPTS=3D"--disable-system"
->
-> Which will create a NetBSD image for you and run the build through it.
-> Other images are available ;-)
+> The bsd-user that is in tree doesn't work. I've been trying to catch up to
+> qemu head of tree, but I'm only up to 3.2... chances are the bsd-user
+> changes will not change the state of things...
 >
 
-This works, but it looks like it only runs the tests on BSD, even with
-`configure --enable-bsd-user` first. I don't see the bsd-user binaries
-being produced in the output of this command.
+Ah good to know. Would you all prefer I don't modify it at all, to try and
+keep the code "pristine"? Or is it OK to keep the patch as is?
 
---000000000000965e01059c49f669
+--00000000000046e739059c49fb9f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 14, 2020 at 3:02 AM Alex =
-Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linar=
-o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex"><br>
-Josh Kunz &lt;<a href=3D"mailto:jkz@google.com" target=3D"_blank">jkz@googl=
-e.com</a>&gt; writes:<br>
-<br>
-&lt;snip&gt;<br>
-&gt;<br>
-&gt; Not tested:<br>
-&gt;=C2=A0 =C2=A0* Build/logging with bsd-user. I do not have easy access t=
-o a BSD<br>
-&gt; system.<br>
-<br>
-If you have the time we have vm-build-netbsd:<br>
-<br>
-=C2=A0 make vm-build-netbsd EXTRA_CONFIGURE_OPTS=3D&quot;--disable-system&q=
-uot;<br>
-<br>
-Which will create a NetBSD image for you and run the build through it.<br>
-Other images are available ;-)<br></blockquote><div><br></div><div>This wor=
-ks, but it looks like it only runs the tests on BSD, even with `configure -=
--enable-bsd-user` first. I don&#39;t see the bsd-user binaries being produc=
-ed in the output of this command.</div></div></div>
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 13, 2020 at 7:06 PM Warne=
+r Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt; wrote:<=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"auto"><d=
+iv dir=3D"auto">The bsd-user that is in tree doesn&#39;t work. I&#39;ve bee=
+n trying to catch up to qemu head of tree, but I&#39;m only up to 3.2... ch=
+ances are the bsd-user changes will not change the state of things...</div>=
+</div></blockquote><div><br></div><div>Ah good to know. Would you all prefe=
+r I don&#39;t modify it at all, to try and keep the code &quot;pristine&quo=
+t;? Or is it OK to keep the patch as is?</div></div></div>
 
---000000000000965e01059c49f669--
+--00000000000046e739059c49fb9f--
 
