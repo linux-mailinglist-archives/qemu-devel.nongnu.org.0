@@ -2,57 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98B2013D94B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 12:48:51 +0100 (CET)
-Received: from localhost ([::1]:40446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AE313D96A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 12:57:33 +0100 (CET)
+Received: from localhost ([::1]:40542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is3dq-0002Cb-Dt
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 06:48:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57364)
+	id 1is3mG-00009o-Pa
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 06:57:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58406)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1is3d2-0001QR-W5
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 06:48:04 -0500
+ (envelope-from <guoheyi@huawei.com>) id 1is3lP-00084B-HI
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 06:56:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1is3cy-0002tD-Mg
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 06:48:00 -0500
-Received: from mgwym03.jp.fujitsu.com ([211.128.242.42]:24020)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1is3cx-0002pP-WA
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 06:47:56 -0500
-Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
- mgwym03.jp.fujitsu.com with smtp
- id 2a40_6602_fc948adb_3aa9_4dd4_a59b_c3ee697d68cc;
- Thu, 16 Jan 2020 20:47:45 +0900
-Received: from g01jpfmpwyt01.exch.g01.fujitsu.local
- (g01jpfmpwyt01.exch.g01.fujitsu.local [10.128.193.38])
- by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 3708BAC010A
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 20:47:45 +0900 (JST)
-Received: from G01JPEXCHYT14.g01.fujitsu.local
- (G01JPEXCHYT14.g01.fujitsu.local [10.128.194.53])
- by g01jpfmpwyt01.exch.g01.fujitsu.local (Postfix) with ESMTP id 347396D677E;
- Thu, 16 Jan 2020 20:47:44 +0900 (JST)
-Received: from luna3.soft.fujitsu.com (10.124.196.199) by
- G01JPEXCHYT14.g01.fujitsu.local (10.128.194.53) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 16 Jan 2020 20:47:43 +0900
-From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-To: <dgilbert@redhat.com>
-Subject: Re: [PATCH 072/104] virtiofsd: passthrough_ll: fix refcounting on
- remove/rename
-Date: Thu, 16 Jan 2020 20:56:03 +0900
-Message-ID: <20200116115603.5415-1-misono.tomohiro@jp.fujitsu.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20191212163904.159893-73-dgilbert@redhat.com>
-References: <20191212163904.159893-73-dgilbert@redhat.com>
+ (envelope-from <guoheyi@huawei.com>) id 1is3lN-0007d2-UL
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 06:56:39 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2734 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
+ id 1is3lK-0007VO-4G; Thu, 16 Jan 2020 06:56:34 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id BD75186001D17EDC454E;
+ Thu, 16 Jan 2020 19:56:27 +0800 (CST)
+Received: from [127.0.0.1] (10.133.216.73) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.439.0; Thu, 16 Jan 2020
+ 19:56:20 +0800
+Subject: Re: [PATCH 2/2] arm/virt/acpi: remove _ADR from devices identified by
+ _HID
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20191219064759.35053-1-guoheyi@huawei.com>
+ <20191219064759.35053-3-guoheyi@huawei.com>
+ <20200105072504-mutt-send-email-mst@kernel.org>
+ <20200105074308-mutt-send-email-mst@kernel.org>
+From: Guoheyi <guoheyi@huawei.com>
+Message-ID: <a4992b63-e8e7-7f54-341e-f7dd3d7e8880@huawei.com>
+Date: Thu, 16 Jan 2020 19:56:19 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-GCONF: 00
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 211.128.242.42
+In-Reply-To: <20200105074308-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+X-Originating-IP: [10.133.216.73]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,136 +58,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: misono.tomohiro@jp.fujitsu.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- vgoyal@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Corey Minyard <cminyard@mvista.com>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Miklos Szeredi <mszeredi@redhat.com>
-> 
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 
-I'm not familiar with qemu convention but shouldn't we put
-at least one line of description like linux kernel?
+=E5=9C=A8 2020/1/5 20:53, Michael S. Tsirkin =E5=86=99=E9=81=93:
+> On Sun, Jan 05, 2020 at 07:34:01AM -0500, Michael S. Tsirkin wrote:
+>> On Thu, Dec 19, 2019 at 02:47:59PM +0800, Heyi Guo wrote:
+>>> According to ACPI spec, _ADR should be used for device which is on a
+>>> bus that has a standard enumeration algorithm. It does not make sense
+>>> to have a _ADR object for devices which already have _HID and will be
+>>> enumerated by OSPM.
+>>>
+>>> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+>> Are you sure? I would think this depends on the ID and the device
+>> really. E.g. PCI devices all are expected to have _ADR and some of the=
+m
+>> have a _HID.
+>
+> To clarify I am not commenting on patches.
+> The spec says this:
+> 	6.1.5 _HID (Hardware ID)
+>
+> 	This object is used to supply OSPM with the device=E2=80=99s PNP ID or=
+ ACPI ID. 1
+>
+> 	When describing a platform, use of any _HID objects is optional. Howev=
+er, a _HID object must be
+>
+> 	used to describe any device that will be enumerated by OSPM. OSPM only=
+ enumerates a device
+>
+> 	when no bus enumerator can detect the device ID. For example, devices =
+on an ISA bus are
+>
+> 	enumerated by OSPM. Use the _ADR object to describe devices enumerated=
+ by bus enumerators
+>
+> 	other than OSPM.
+>
+>
+> Note: "detect the device ID" not "enumerate the device" which I think
+> means there's a driver matching this vendor/device ID.
+>
+> So it seems fine to have _ADR so device is enumerated, and still have
+> _HID e.g. so ACPI driver can be loaded as fallback if there's
+> no bus driver.
+>
+>
+> Note I am not saying the patch itself is not correct.
+> Maybe these devices are not on any standard bus and that
+> is why they should not have _ADR? I have not looked.
+>
+> I am just saying that spec does not seem to imply _HID and _ADR
+> can't coexist.
 
-For code itself:
- Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+More reading on the spec, I found a statement as below=20
+(https://uefi.org/sites/default/files/resources/ACPI_6_3_May16.pdf,=20
+section 6.1, on top of page 343):
 
-> ---
->  tools/virtiofsd/passthrough_ll.c | 50 +++++++++++++++++++++++++++++++-
->  1 file changed, 49 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 0f33c3c5e9..1b84d4f313 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -1077,17 +1077,42 @@ out_err:
->      fuse_reply_err(req, saverr);
->  }
->  
-> +static struct lo_inode *lookup_name(fuse_req_t req, fuse_ino_t parent,
-> +                                    const char *name)
-> +{
-> +    int res;
-> +    struct stat attr;
-> +
-> +    res = fstatat(lo_fd(req, parent), name, &attr,
-> +                  AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-> +    if (res == -1) {
-> +        return NULL;
-> +    }
-> +
-> +    return lo_find(lo_data(req), &attr);
-> +}
-> +
->  static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
->  {
->      int res;
-> +    struct lo_inode *inode;
-> +    struct lo_data *lo = lo_data(req);
-> +
->      if (!is_safe_path_component(name)) {
->          fuse_reply_err(req, EINVAL);
->          return;
->      }
->  
-> +    inode = lookup_name(req, parent, name);
-> +    if (!inode) {
-> +        fuse_reply_err(req, EIO);
-> +        return;
-> +    }
-> +
->      res = unlinkat(lo_fd(req, parent), name, AT_REMOVEDIR);
->  
->      fuse_reply_err(req, res == -1 ? errno : 0);
-> +    unref_inode_lolocked(lo, inode, 1);
->  }
->  
->  static void lo_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
-> @@ -1095,12 +1120,23 @@ static void lo_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
->                        unsigned int flags)
->  {
->      int res;
-> +    struct lo_inode *oldinode;
-> +    struct lo_inode *newinode;
-> +    struct lo_data *lo = lo_data(req);
->  
->      if (!is_safe_path_component(name) || !is_safe_path_component(newname)) {
->          fuse_reply_err(req, EINVAL);
->          return;
->      }
->  
-> +    oldinode = lookup_name(req, parent, name);
-> +    newinode = lookup_name(req, newparent, newname);
-> +
-> +    if (!oldinode) {
-> +        fuse_reply_err(req, EIO);
-> +        goto out;
-> +    }
-> +
->      if (flags) {
->  #ifndef SYS_renameat2
->          fuse_reply_err(req, EINVAL);
-> @@ -1113,26 +1149,38 @@ static void lo_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
->              fuse_reply_err(req, res == -1 ? errno : 0);
->          }
->  #endif
-> -        return;
-> +        goto out;
->      }
->  
->      res = renameat(lo_fd(req, parent), name, lo_fd(req, newparent), newname);
->  
->      fuse_reply_err(req, res == -1 ? errno : 0);
-> +out:
-> +    unref_inode_lolocked(lo, oldinode, 1);
-> +    unref_inode_lolocked(lo, newinode, 1);
->  }
->  
->  static void lo_unlink(fuse_req_t req, fuse_ino_t parent, const char *name)
->  {
->      int res;
-> +    struct lo_inode *inode;
-> +    struct lo_data *lo = lo_data(req);
->  
->      if (!is_safe_path_component(name)) {
->          fuse_reply_err(req, EINVAL);
->          return;
->      }
->  
-> +    inode = lookup_name(req, parent, name);
-> +    if (!inode) {
-> +        fuse_reply_err(req, EIO);
-> +        return;
-> +    }
-> +
->      res = unlinkat(lo_fd(req, parent), name, 0);
->  
->      fuse_reply_err(req, res == -1 ? errno : 0);
-> +    unref_inode_lolocked(lo, inode, 1);
->  }
->  
->  static void unref_inode_lolocked(struct lo_data *lo, struct lo_inode *inode,
-> -- 
-> 2.23.0
+A device object must contain either an _HID object or an _ADR object,=20
+but should not contain both
+
+So I think it is at least not recomended to use both _HID and _ADR in a=20
+single device object.
+
+Thanks,
+
+Heyi
+
+
+>
+>
+>> CC Corey who added a device with both HID and ADR to x86 recenly.
+>>
+>> Apropos Corey, why was HID APP0005 chosen?
+>>
+>>> ---
+>>> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+>>> Cc: Peter Maydell <peter.maydell@linaro.org>
+>>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>>> Cc: Igor Mammedov <imammedo@redhat.com>
+>>> Cc: qemu-arm@nongnu.org
+>>> Cc: qemu-devel@nongnu.org
+>>> ---
+>>>   hw/arm/virt-acpi-build.c          |   8 --------
+>>>   tests/data/acpi/virt/DSDT         | Bin 18449 -> 18426 bytes
+>>>   tests/data/acpi/virt/DSDT.memhp   | Bin 19786 -> 19763 bytes
+>>>   tests/data/acpi/virt/DSDT.numamem | Bin 18449 -> 18426 bytes
+>>>   4 files changed, 8 deletions(-)
+>>>
+>>> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+>>> index 9f4c7d1889..be752c0ad8 100644
+>>> --- a/hw/arm/virt-acpi-build.c
+>>> +++ b/hw/arm/virt-acpi-build.c
+>>> @@ -78,11 +78,6 @@ static void acpi_dsdt_add_uart(Aml *scope, const M=
+emMapEntry *uart_memmap,
+>>>                                AML_EXCLUSIVE, &uart_irq, 1));
+>>>       aml_append(dev, aml_name_decl("_CRS", crs));
+>>>  =20
+>>> -    /* The _ADR entry is used to link this device to the UART descri=
+bed
+>>> -     * in the SPCR table, i.e. SPCR.base_address.address =3D=3D _ADR=
+.
+>>> -     */
+>>> -    aml_append(dev, aml_name_decl("_ADR", aml_int(uart_memmap->base)=
+));
+>>> -
+>>>       aml_append(scope, dev);
+>>>   }
+>>>  =20
+>>> @@ -170,7 +165,6 @@ static void acpi_dsdt_add_pci(Aml *scope, const M=
+emMapEntry *memmap,
+>>>       aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
+>>>       aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
+>>>       aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
+>>> -    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+>>>       aml_append(dev, aml_name_decl("_UID", aml_string("PCI0")));
+>>>       aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Devic=
+e")));
+>>>       aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
+>>> @@ -334,7 +328,6 @@ static void acpi_dsdt_add_gpio(Aml *scope, const =
+MemMapEntry *gpio_memmap,
+>>>   {
+>>>       Aml *dev =3D aml_device("GPO0");
+>>>       aml_append(dev, aml_name_decl("_HID", aml_string("ARMH0061")));
+>>> -    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+>>>       aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+>>>  =20
+>>>       Aml *crs =3D aml_resource_template();
+>>> @@ -364,7 +357,6 @@ static void acpi_dsdt_add_power_button(Aml *scope=
+)
+>>>   {
+>>>       Aml *dev =3D aml_device(ACPI_POWER_BUTTON_DEVICE);
+>>>       aml_append(dev, aml_name_decl("_HID", aml_string("PNP0C0C")));
+>>> -    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+>>>       aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+>>>       aml_append(scope, dev);
+>>>   }
+>>> diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
+>>
+>> Please do not include binary changes in acpi patches.
+>>
+>> See comment at the top of tests/bios-tables-test.c for documentation
+>> on how to update these.
+>>
+>> --=20
+>> MST
+>
+> .
+
 
