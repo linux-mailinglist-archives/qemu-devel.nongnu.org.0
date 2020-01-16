@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47A713FCBA
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 00:09:48 +0100 (CET)
-Received: from localhost ([::1]:49590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8859E13FCBD
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 00:11:32 +0100 (CET)
+Received: from localhost ([::1]:49626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isEGp-0003bf-O9
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 18:09:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51405)
+	id 1isEIV-0005va-Hw
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 18:11:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51429)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1isEFV-0002fi-Uo
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:27 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1isEFZ-0002ix-Dd
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1isEFU-00083V-JX
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:25 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:38482)
+ (envelope-from <richard.henderson@linaro.org>) id 1isEFY-00085Y-BM
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:29 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:45625)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1isEFU-000830-E8
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:24 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id l35so2386452pje.3
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 15:08:24 -0800 (PST)
+ id 1isEFY-00085G-6L
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:28 -0500
+Received: by mail-pg1-x535.google.com with SMTP id b9so10655000pgk.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 15:08:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=stg+e2AWftdtGimCGELoLi5XJTSvE6Z/YM/75Jku7WI=;
- b=D0oqySV8LJ8grKcCh5HHIZ2ipDkwodX3bQlK0laaOctxQ5U6BqQZZfzXITL5mrT5j1
- ASlEjCj2DoEt0Lu7mEyZZDidGEglfh13jp7Lz+1qf225Js5Y9R3ALB1/1ltt5YQNXoQB
- N8dUvS+IE55tpw0oU9A5qr2hCKu1QrSyTIEyb/gEdW+zSMCIJzkssmWqm89tZmInJuw8
- 5GUSj5o9Zx4PK6B47VYrZw0cqQvXHjnarD/vsXpYfegdCmux+D4p0zn+uPJDBFZJ/EU4
- ViDct44a411BXPH/N5On/yMuwTK6k6xhkEx18FfJ/kuRKN6y42ji448RBvwLD7ARnTV3
- D2dg==
+ bh=Tr0oxdmAfzE1nW8KiWlCJDKgMy/qK0eB4ARHFT7qrQI=;
+ b=PXBXpD555MuimMsvzvUvu/yFuV61mYbPW7BErCgkYo3m1v/dm2qfjmbOxxUKK2z48f
+ umWOyCx0NQDytwBwcHui2OUCkTv9ojUpDu7YuxVcd0IdRkcs0tkNtYfUM0ZQMXawBUBq
+ 9ctitZkvBBfvAkAH3GpJAyS94ObiaGfq/HyknG8kpX+j56Ae78Ud3wExDo6ziVEV35hu
+ lawwzkcRsVqObrQJk/4kUpVDf7fFfbWyLZzG8DeaIrUzE1D+/HNhC99CKkrTXElU8eBC
+ ALUWY5O4sFNSx9dCTVnkoJ9JGllHXioA90+7oIzYwgE0DcPocV8FfKjy/O3L0BEU3hoW
+ GxSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=stg+e2AWftdtGimCGELoLi5XJTSvE6Z/YM/75Jku7WI=;
- b=NXfdL/LTGRJchHHQDKW48wWa8nI+towV2DZaulWuEsR0W+F+Xwok6/sctGohrYsPXD
- MyJsvDD3PsujmQ/XivYtj0BGSeYT2mvqyZ6NLOdB3p56F8aY9Susbkym3tiLDGvoFHcO
- ZdmNEkwYmI2pofVN+YV7PyP/mKsMrlHWDuRA8b59nqYPApSNVNvsEiYaiV737GB6Nx3q
- 11hDkSVSkyvIgcMi6+cAvzJWC/OBBX2RPCGTef1qxnP9D1jAMOS2ThVrtIwDiTblXP7P
- Eoy6Dkb0Wmkp03R9Ojp5pX5PDQQxS8CMEWfE+ytuA50L1Nad/qM1fYBy6xbEHAGpI2zW
- X0pQ==
-X-Gm-Message-State: APjAAAXgCkGbSxsdd8JG3+O/rWtDxnSLAkYS716UXiyjj9qLKRAo/h8M
- LSMHEAAE3EEgOWYGBlitWAgl7wYovNQ=
-X-Google-Smtp-Source: APXvYqwzbTV0eZ0wMahPSoFM7fxp8Iq9TwQet1uF7AvOKQTxheDl7XpaRv/NbcA4RFXQWx6V/UL1/A==
-X-Received: by 2002:a17:90b:258:: with SMTP id
- fz24mr2002106pjb.6.1579216103138; 
- Thu, 16 Jan 2020 15:08:23 -0800 (PST)
+ bh=Tr0oxdmAfzE1nW8KiWlCJDKgMy/qK0eB4ARHFT7qrQI=;
+ b=hDjr6cfOgJoBI+ymzNp/DgXDX2ZMyhAoNfAfALwGApKkztraePxp0vFAh9JG24jW2c
+ yAK5Aq0TqTU+gXpLH3tnid9ltJAcpbVUbRYC4zwxX+xNd+2+x9BHtIH3Wn5rUeKGbr6w
+ 3sDp1yupoYmvumivOhC652zNEEAwuWIFMQ8aXLE428j4Aaezhaxv2S3EPCQZDQQxAGos
+ PpIVKlw5zUJ3mfz2JR93mFXsX5Hfx1ZKA52r5iO5DddoGMZAe0f2g/g2JIwI73jgbJYa
+ OhBYQM9H/+4MRToMb16ArD/XI+qtMSN0i+XGirvCbFE5LtiwwaLBsnXujpUN28T6YHB4
+ gEHA==
+X-Gm-Message-State: APjAAAWMhEHsWyCUtH4+GHcpHSqJwEpvnh6bE2AxGe1rUWVnPiHqXJKW
+ zrb+jVuBf+CEF9OQibaEMvk2aoGx6Wo=
+X-Google-Smtp-Source: APXvYqyOiXAOqTSky9MAEDwVv2DNq+yVeywQx46rb51Rq45g6S9fOYx3D/pDtzN4qU/saIvfpBWgtA==
+X-Received: by 2002:a63:5964:: with SMTP id j36mr42477266pgm.225.1579216106685; 
+ Thu, 16 Jan 2020 15:08:26 -0800 (PST)
 Received: from cloudburst.ASUS (rrcs-66-91-136-155.west.biz.rr.com.
  [66.91.136.155])
- by smtp.gmail.com with ESMTPSA id s7sm5111578pjk.22.2020.01.16.15.08.21
+ by smtp.gmail.com with ESMTPSA id s7sm5111578pjk.22.2020.01.16.15.08.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2020 15:08:22 -0800 (PST)
+ Thu, 16 Jan 2020 15:08:26 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] tests/tcg/aarch64: Add pauth-3
-Date: Thu, 16 Jan 2020 13:08:08 -1000
-Message-Id: <20200116230809.19078-4-richard.henderson@linaro.org>
+Subject: [PATCH 4/4] tests/tcg/aarch64: Add pauth-4
+Date: Thu, 16 Jan 2020 13:08:09 -1000
+Message-Id: <20200116230809.19078-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116230809.19078-1-richard.henderson@linaro.org>
 References: <20200116230809.19078-1-richard.henderson@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1044
+X-Received-From: 2607:f8b0:4864:20::535
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,75 +83,60 @@ Cc: peter.maydell@linaro.org, vincent.dehors@smile.fr, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the test vector from the QARMA paper, run through PACGA.
+Perform the set of operations and test described in LP 1859713.
 
-Suggested-by: Vincent Dehors <vincent.dehors@smile.fr>
+Suggested-by: Adrien GRASSEIN <adrien.grassein@smile.fr>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/aarch64/system/pauth-3.c        | 40 +++++++++++++++++++++++
- tests/tcg/aarch64/Makefile.softmmu-target |  5 ++-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 tests/tcg/aarch64/system/pauth-3.c
+ tests/tcg/aarch64/pauth-4.c       | 25 +++++++++++++++++++++++++
+ tests/tcg/aarch64/Makefile.target |  2 +-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/aarch64/pauth-4.c
 
-diff --git a/tests/tcg/aarch64/system/pauth-3.c b/tests/tcg/aarch64/system/pauth-3.c
+diff --git a/tests/tcg/aarch64/pauth-4.c b/tests/tcg/aarch64/pauth-4.c
 new file mode 100644
-index 0000000000..42eff4d5ea
+index 0000000000..4b22e6e282
 --- /dev/null
-+++ b/tests/tcg/aarch64/system/pauth-3.c
-@@ -0,0 +1,40 @@
-+#include <inttypes.h>
-+#include <minilib.h>
++++ b/tests/tcg/aarch64/pauth-4.c
+@@ -0,0 +1,25 @@
++#include <stdint.h>
++#include <assert.h>
 +
 +int main()
 +{
-+    /*
-+     * Test vector from QARMA paper (https://eprint.iacr.org/2016/444.pdf)
-+     * to verify one computation of the pauth_computepac() function,
-+     * which uses sbox2.
-+     *
-+     * Use PACGA, because it returns the most bits from ComputePAC.
-+     * We still only get the most significant 32-bits of the result.
-+     */
++  uintptr_t x, y;
 +
-+    static const uint64_t d[5] = {
-+        0xfb623599da6e8127ull,
-+        0x477d469dec0b8762ull,
-+        0x84be85ce9804e94bull,
-+        0xec2802d4e0a488e9ull,
-+        0xc003b93999b33765ull & 0xffffffff00000000ull
-+    };
-+    uint64_t r;
++  asm("mov %0, lr\n\t"
++      "pacia %0, sp\n\t"	/* sigill if pauth not supported */
++      "eor %0, %0, #4\n\t"	/* corrupt single bit */
++      "mov %1, %0\n\t"
++      "autia %1, sp\n\t"	/* validate corrupted pointer */
++      "xpaci %0\n\t"		/* strip pac from corrupted pointer */
++      : "=r"(x), "=r"(y));
 +
-+    asm("msr apgakeyhi_el1, %[w0]\n\t"
-+        "msr apgakeylo_el1, %[k0]\n\t"
-+        "pacga %[r], %[P], %[T]"
-+        : [r] "=r"(r)
-+        : [P] "r" (d[0]),
-+          [T] "r" (d[1]),
-+          [w0] "r" (d[2]),
-+          [k0] "r" (d[3]));
-+
-+    if (r == d[4]) {
-+        ml_printf("OK\n");
-+        return 0;
-+    } else {
-+        ml_printf("FAIL: %lx != %lx\n", r, d[4]);
-+        return 1;
-+    }
++  /*
++   * Once stripped, the corrupted pointer is of the form 0x0000...wxyz.
++   * We expect the autia to indicate failure, producing a pointer of the
++   * form 0x000e....wxyz.  Use xpaci and != for the test, rather than
++   * extracting explicit bits from the top, because the location of the
++   * error code "e" depends on the configuration of virtual memory.
++   */
++  assert(x != y);
++  return 0;
 +}
-diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
-index 7b4eede3f0..f6b5121f5c 100644
---- a/tests/tcg/aarch64/Makefile.softmmu-target
-+++ b/tests/tcg/aarch64/Makefile.softmmu-target
-@@ -61,4 +61,7 @@ run-memory-replay: memory-replay run-memory-record
- 	   	  $(QEMU_OPTS) memory, \
- 	  "$< on $(TARGET_NAME)")
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 374c8d6830..efa67cf1e9 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -18,7 +18,7 @@ run-fcvt: fcvt
+ 	$(call diff-out,$<,$(AARCH64_SRC)/fcvt.ref)
  
--EXTRA_TESTS+=memory-record memory-replay
-+run-pauth-3: pauth-3
-+pauth-3: CFLAGS += -march=armv8.3-a
-+
-+EXTRA_TESTS+=memory-record memory-replay pauth-3
+ # Pauth Tests
+-AARCH64_TESTS += pauth-1 pauth-2
++AARCH64_TESTS += pauth-1 pauth-2 pauth-4
+ run-pauth-%: QEMU_OPTS += -cpu max
+ pauth-%: CFLAGS += -march=armv8.3-a
+ 
 -- 
 2.20.1
 
