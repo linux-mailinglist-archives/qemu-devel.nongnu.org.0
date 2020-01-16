@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A41C13D1D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 03:05:08 +0100 (CET)
-Received: from localhost ([::1]:35238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077FE13D1DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 03:05:51 +0100 (CET)
+Received: from localhost ([::1]:35246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iruWw-0007AG-Ny
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 21:05:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41594)
+	id 1iruXe-0007xu-0k
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 21:05:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41550)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iruUR-00059y-3X
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 21:02:33 -0500
+ (envelope-from <benh@kernel.crashing.org>) id 1iruTk-0004Cp-NV
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 21:01:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iruUP-0007aE-2l
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 21:02:30 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:46255 helo=ozlabs.org)
+ (envelope-from <benh@kernel.crashing.org>) id 1iruTi-0007C3-SV
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 21:01:48 -0500
+Received: from kernel.crashing.org ([76.164.61.194]:55072)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iruUO-0007XD-N8; Wed, 15 Jan 2020 21:02:29 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47ynWh1ttLz9sRQ; Thu, 16 Jan 2020 13:02:23 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1579140144;
- bh=fsU60vkfFxLn6UXYA57JdeliRCeDEc1SvrpH2moGRwY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PC/48g8CVuS8xB4dQHSPKAH9MOFsyrJzGWYzI/+gw5XnUJoZEYFnXoy1p6+dLhX0q
- 18ta2aTOLK9O5/g4DXnyT2BlRm4V8EZFK3l1sb1gqK9Ke56wa3wYEaELf+vkKoQ0Dz
- +DzbJFLbzzOzm6orcPr99MSB8rxGzXQ+yUzBt3KQ=
-Date: Thu, 16 Jan 2020 12:01:09 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2 61/86] ppc:mac_newworld: use memdev for RAM
-Message-ID: <20200116020109.GF54439@umbus>
-References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-62-git-send-email-imammedo@redhat.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qp4W5+cUSnZs0RIF"
-Content-Disposition: inline
-In-Reply-To: <1579100861-73692-62-git-send-email-imammedo@redhat.com>
+ (Exim 4.71) (envelope-from <benh@kernel.crashing.org>)
+ id 1iruTf-00078W-5u; Wed, 15 Jan 2020 21:01:43 -0500
+Received: from localhost (gate.crashing.org [63.228.1.57])
+ (authenticated bits=0)
+ by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 00G21PXT024767
+ (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 15 Jan 2020 20:01:31 -0600
+Message-ID: <5dabf7d9e2af43d6c01d2e7e51e466616d84a8df.camel@kernel.crashing.org>
+Subject: Re: Semihosting, arm, riscv, ppc and common code
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Jan 2020 13:01:23 +1100
+In-Reply-To: <CAFEAcA8mphBky9Q2HTdOpQHiizd+5-o=yRnBbd_k1y6Uk-h8dA@mail.gmail.com>
+References: <11d88b2741eac3f634d5aed9e3355c974b533f7b.camel@kernel.crashing.org>
+ <CAFEAcA-A_caQgwi5DzExdZChoTg-Qa73hq7Ho7dPLiN633Yj1Q@mail.gmail.com>
+ <3ab2ca1f7a9b37b201a58f3a817edc5193e8b1f4.camel@kernel.crashing.org>
+ <CAFEAcA8mphBky9Q2HTdOpQHiizd+5-o=yRnBbd_k1y6Uk-h8dA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 76.164.61.194
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,97 +53,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Keith Packard <keithp@keithp.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 2020-01-15 at 13:32 +0000, Peter Maydell wrote:
+> On Wed, 15 Jan 2020 at 01:17, Benjamin Herrenschmidt
+> <benh@kernel.crashing.org> wrote:
+> > On Tue, 2020-01-14 at 09:59 +0000, Peter Maydell wrote:
+> > > Note that semihosting is not a "here's a handy QEMU feature"
+> > > thing. It's an architecture-specific API and ABI, which should
+> > > be defined somewhere in a standard external to QEMU.
+> > 
+> > There is no such standard for powerpc today that I know of.
+> 
+> So you need to write one down somewhere. You're proposing
+> an ABI which will be implemented by multiple implementors
+> and used by multiple consumers. That needs a spec, not
+> just code. I don't want to see more semihosting implementations
+> added to QEMU that don't have a specification written
+> down somewhere.
 
---qp4W5+cUSnZs0RIF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That's ok, I can probably get openpower to put a link to the ARM one
+somewhere :-)
 
-On Wed, Jan 15, 2020 at 04:07:16PM +0100, Igor Mammedov wrote:
-> memory_region_allocate_system_memory() API is going away, so
-> replace it with memdev allocated MemoryRegion. The later is
-> initialized by generic code, so board only needs to opt in
-> to memdev scheme by providing
->   MachineClass::default_ram_id
-> and using MachineState::ram instead of manually initializing
-> RAM memory region.
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> The point about the mistakes is that you can't easily fix
+> them by adding extensions, because the core of the biggest
+> mistake is "we didn't provide a good way to allow extensions to
+> be added and probed for by the user". So we had to implement
+> an ugly and hard to implement mechanism instead.
+>  New
+> architectures could mandate providing the good way from the start
+> and avoid the painful-to-implement approach entirely.
+> (I think RISCV has already missed this window of opportunity,
+> which is a shame.)
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+It is done and so now we have two architectures using that standard, I
+think the value in using the same overweight the value in fixing it but
+yes, we should try to agree on a method of extending at least. Is it
+really that hard ?
 
-> ---
-> CC: david@gibson.dropbear.id.au
-> CC: qemu-ppc@nongnu.org
-> CC: mark.cave-ayland@ilande.co.uk
-> ---
->  hw/ppc/mac_newworld.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-> index 3594517..2546d33 100644
-> --- a/hw/ppc/mac_newworld.c
-> +++ b/hw/ppc/mac_newworld.c
-> @@ -118,7 +118,7 @@ static void ppc_core99_init(MachineState *machine)
->      char *filename;
->      IrqLines *openpic_irqs;
->      int linux_boot, i, j, k;
-> -    MemoryRegion *ram =3D g_new(MemoryRegion, 1), *bios =3D g_new(Memory=
-Region, 1);
-> +    MemoryRegion *bios =3D g_new(MemoryRegion, 1);
->      hwaddr kernel_base, initrd_base, cmdline_base =3D 0;
->      long kernel_size, initrd_size;
->      UNINHostState *uninorth_pci;
-> @@ -152,8 +152,7 @@ static void ppc_core99_init(MachineState *machine)
->      }
-> =20
->      /* allocate RAM */
-> -    memory_region_allocate_system_memory(ram, NULL, "ppc_core99.ram", ra=
-m_size);
-> -    memory_region_add_subregion(get_system_memory(), 0, ram);
-> +    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
-> =20
->      /* allocate and load BIOS */
->      memory_region_init_ram(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
-> @@ -586,6 +585,7 @@ static void core99_machine_class_init(ObjectClass *oc=
-, void *data)
->  #else
->      mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("7400_v2.9");
->  #endif
-> +    mc->default_ram_id =3D "ppc_core99.ram";
->      mc->ignore_boot_device_suffixes =3D true;
->      fwc->get_dev_path =3D core99_fw_dev_path;
->  }
+IE. We could add a new call for capabilities that takes a pointer to
+a region which we pre-zero before calling in the client and if remains
+zero after the call, then the new stuff isn't there for example. That
+sort of stuff is easy, or am I missing something ?
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Cheers,
+Ben.
 
---qp4W5+cUSnZs0RIF
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4fw+UACgkQbDjKyiDZ
-s5K3hxAAvsiuunWfd6jDJZJAOF5MDShIsMQMwQgCqLxDFgKGJRAw3xUVmWVWR4V8
-sjIzz160elXcgu1MSHGIFsC6r7mPgHHZCAIfAVVdTtq5UjAPgRySM7+MuasduNr2
-sYC5e2FQ9KA9MEExRCm7NbVOzjq78T5wQBKdiigCwcRijSGzaJtpODB5T3BRFZOB
-N5SU0/iJdnPTRHg+5YkjakfwM8K6TGRnrYLLFf+d58OpUiPlrsd4+rdaK+evuaik
-/6O0rfQddeTcyQ8cVvpPdirRrcByigmLZoo8KqSq706TJNRsfvPiRS4SaIwWiL/H
-y/JMt5O2EtiHgjw4pOngwP73FCGnffQUtmowU8WD9tZfHGP+vyXFaNxO6mwfub8P
-O1D7yqZLe+/ia6mTTuDMpFGxSTcZYMttsZxgU2JzvAqt+7HtrZQnD/w5sW4g4PF4
-8og9FosUXPV7qyr27Q72Vdx9on3XbhmPhpaDUbY+P8g6R79IubGFSq+ctX4I1EHS
-Y3HBe0vAk8uG7NgMK0KNgg5z/mpfp30PSLRFJUnpDWcSqqHwauWegtyPVX4TuWD0
-45pXe6tARZdAXJAiImnarNiwPqrGCy0q19DaiUqgfGREe7zfoswIFtjQjVIs67kD
-XmQP0VdpOvwCpkkQkdepLyyelOaZIEEMTYv8+29j9e+B7mydJgU=
-=uVLk
------END PGP SIGNATURE-----
-
---qp4W5+cUSnZs0RIF--
 
