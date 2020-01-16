@@ -2,62 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE3F913DDAE
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 15:41:59 +0100 (CET)
-Received: from localhost ([::1]:43200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58B213DD79
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 15:31:46 +0100 (CET)
+Received: from localhost ([::1]:43046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is6LO-0006bQ-EJ
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 09:41:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49175)
+	id 1is6BV-0004HE-Qz
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 09:31:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1is5rF-0005qF-6k
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:10:50 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1is6AM-0003W5-0D
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:30:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1is5rD-0003sh-Qp
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:10:49 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48352)
+ (envelope-from <alex.bennee@linaro.org>) id 1is6AK-0007ze-Le
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:30:33 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36678)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1is5rD-0003sC-LA
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:10:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1is5rC-00070b-AQ
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 14:10:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 466DD2E80C0
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 14:10:46 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1is6AK-0007zA-D5
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:30:32 -0500
+Received: by mail-wm1-x342.google.com with SMTP id p17so4052991wma.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 06:30:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=jDeWn4KMWvKfXeptFKRM1nCWg4CoKMdgNTp06h55Gws=;
+ b=DNugCwK8GOTzSRJmhO6ZTZG8EBgPdkx95wp6FIuJRTXCwxIU1Jqc0EmdirxRbwZkGP
+ L12iOhl9/B67/smNXWpI7blst5n7SAc1/Q1tDl+YeFU4UGIPxt/zbly8+1dCW7/kf0sb
+ XaCghhyHSffs/3X3FFF5OWxCHGj1a43/82e6PeCNt7K1ZF6CVxX7RrahVqV1sexQhm5l
+ 8lsceM85fQHaZ3P/foI7P8yjZ0ANGNHsbCtaZm7rd78Ue2k9VGs/kYHSOvKqsvA5mhRQ
+ qexxXY4PGmxD80qWxHO9BVj5fcKtkZvNJ6UV1H/kzQKThwO3fbS8zA2cvyRsJBRCACIj
+ rtXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=jDeWn4KMWvKfXeptFKRM1nCWg4CoKMdgNTp06h55Gws=;
+ b=WIv74QCXZJVV5F59iz5zMJwh1gt+cPK5kK2bSRS0W5mFRo6HYkOau7iBoAYDUR6A0u
+ TRia8ROz9WRxmKPwF/WNyF2W4uqmRDvBZl7Ux5TFomTLU6+zS7u7t3aWQRo32oz3kRJc
+ hPjB8ZfBwqovdCCWlKSpHs6F1xuoV+LvW6vKMhiW/tLzUHtp2ct3rRkH+r7urVVfehvW
+ jZqx/8WCXwFtzAh4i5e0drfj1vIKGSdRHiPnxvEFXKQecA7yJvMJg1z0O/5LMFMOPj2K
+ 1iiPfP0JbUv/JsFHxPlwddyU/I64J8fwByfxsYK0YLA3+QLzZsj00DEtN5ddVOmSpC76
+ LVtA==
+X-Gm-Message-State: APjAAAX7u7+Y48GK/Tg70S7MHlGIH72W9E4ZpxS0gpRM0qRw59h7fMzp
+ KC8uj5KPB+I0JLY4f80VfLJwKQ==
+X-Google-Smtp-Source: APXvYqx2pXQMBW7h3d5lgeKlg+un/K0xuTtL1xKYr05bM/zf9EDtCShbyZKBHs1ZisBpMRqxKVt+dQ==
+X-Received: by 2002:a7b:cd11:: with SMTP id f17mr6597250wmj.48.1579185031062; 
+ Thu, 16 Jan 2020 06:30:31 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i16sm5163926wmb.36.2020.01.16.06.30.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jan 2020 06:30:29 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9FA601FF87;
+ Thu, 16 Jan 2020 14:30:28 +0000 (GMT)
+References: <20200114210921.11216-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 0/3] linux-user: Implement x86_64 vsyscalls
+In-reply-to: <20200114210921.11216-1-richard.henderson@linaro.org>
+Date: Thu, 16 Jan 2020 14:30:28 +0000
+Message-ID: <87imlblbi3.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 16 Jan 2020 13:59:26 -0000
-From: pevogam <plamen@pevogam.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 5-plamen
-X-Launchpad-Bug-Reporter: pevogam (5-plamen)
-X-Launchpad-Bug-Modifier: pevogam (5-plamen)
-Message-Id: <157918316689.4864.12553262908100217782.malonedeb@wampee.canonical.com>
-Subject: [Bug 1859989] [NEW] qemu-img has broken output with large snapshot
- names
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: cadd867df627f96f1f4e3368e42f5e1975a59c16
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Thu, 16 Jan 2020 09:38:36 -0500
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,132 +81,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859989 <1859989@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, riku.voipio@iki.fi,
+ laurent@vivier.eu, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-On Qemu 4.1.1 the output of snalshots breaks if the chosen state name is
-too long:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-```
-# qemu-img snapshot -l /mnt/local/some_image.qcow2
-Snapshot list:
-ID        TAG                 VM SIZE                DATE       VM CLOCK
-1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45.8=
-73
-```
+> The x86_64 abi has a legacy vsyscall page.  The kernel folk
+> have been trying to deprecate this since at least v3.1, but
+>
+> (1) We don't implement the vdso that replaces vsyscalls,
+> (2) As of v5.5, the vsyscall page is still enabled by default.
+>
+> This lack is affecting Peter's linux-user testing.
+>
+> The dependency is not obvious because Peter is running the tests
+> on x86_64, so the host is providing a vsyscall page to qemu.
+>
+> Because of how user-only memory operations are handled, with no
+> validation of guest vs host pages, so long as qemu chooses to
+> run with guest_base =3D=3D 0, the guest may Just So Happen to read
+> the host's vsyscall page.
+>
+> Complicating this, new OS releases may use a kernel configured
+> with CONFIG_LEGACY_VSYSCALL_XONLY=3Dy, which means the the vsyscall
+> page cannot be read, only executed.  Which means that the guest
+> then cannot read the host vsyscall page during translation and
+> will SIGSEGV.
+>
+> Exactly which of these many variables is affecting Peter's testing
+> with Ubuntu 18.04 of my TCG merge, I'm not exactly sure.  I suspect
+> that it is the change to drop the textseg_addr adjustment to user-only
+> static binaries.  IIRC bionic does not support -static-pie, which is
+> the preferred replacement.  This could mean that the host and guest
+> binaries overlap, which leads to guest_base !=3D 0.
+>
+> I vaguely remember someone (Paolo?) implementing something like
+> this many years ago, but clearly it never got merged.
+>
+> In any case, this emulation has been missing for too long.
+>
+>
+> r~
+>
+>
+> Richard Henderson (3):
+>   target/i386: Renumber EXCP_SYSCALL
+>   linux-user/i386: Split out gen_signal
+>   linux-user/i386: Emulate x86_64 vsyscalls
 
-Prior to 4.1.1 this used to work with extra tabs for the VM SIZE values.
-The collision is also disabling us from using a regex on top of this
-input to detect the snapshot.
+And realising I didn't read it properly:
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+/x86_64-linux-user/qemu-x86_64 ~/lsrc/linux.git/tools/testing/selftests/x86=
+/test_vsyscall_64
+[WARN]  failed to find vDSO
+        no vsyscall map in /proc/self/maps
+[RUN]   test gettimeofday()
+[RUN]   test time()
+[RUN]   getcpu() on CPU 0
+[RUN]   getcpu() on CPU 1
+[RUN]   Checking read access to the vsyscall page
+[OK]    We do not have read access: #PF(0x4)
+[RUN]   Make sure that vsyscalls really page fault
+**
+ERROR:/home/alex/lsrc/qemu.git/linux-user/x86_64/../i386/cpu_loop.c:185:emu=
+late_vsyscall: assertion failed: (ret !=3D -TARGET_EFAULT)
+qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x7f6eed=
+31b613
 
-** Summary changed:
-
-- qemu-img has broken input on large snapshot name
-+ qemu-img has broken output on large snapshot name
-
-** Summary changed:
-
-- qemu-img has broken output on large snapshot name
-+ qemu-img has broken output with large snapshot names
-
-** Description changed:
-
-- On Qemu 4.1.1 the output of snalshots breaks if the chosen state name is
-+ On Qemu 4.1.1 the output of snapshots breaks if the chosen state name is
-  too long:
-  =
-
-  # qemu-img snapshot -l /mnt/local/some_image.qcow2
-  Snapshot list:
-  ID        TAG                 VM SIZE                DATE       VM CLOCK
-  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
-.873
-  =
-
-  Prior to 4.1.1 this used to work with extra tabs for the VM SIZE values.
-  The collision is also disabling us from using a regex on top of this
-  input to detect the snapshot.
-
-** Description changed:
-
-  On Qemu 4.1.1 the output of snapshots breaks if the chosen state name is
-  too long:
-  =
-
-  # qemu-img snapshot -l /mnt/local/some_image.qcow2
-  Snapshot list:
-  ID        TAG                 VM SIZE                DATE       VM CLOCK
-  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
-.873
-  =
-
-- Prior to 4.1.1 this used to work with extra tabs for the VM SIZE values.
-- The collision is also disabling us from using a regex on top of this
-- input to detect the snapshot.
-+ Prior to 4.1.1, this used to work with extra tabs for the VM SIZE
-+ values. The collision is also disabling us from using a regex on top of
-+ this input to detect the snapshot unless we forbid numbers in the
-+ snapshot name.
-
-** Description changed:
-
-- On Qemu 4.1.1 the output of snapshots breaks if the chosen state name is
-+ On Qemu 4.1.1 the output of snalshots breaks if the chosen state name is
-  too long:
-  =
-
-+ ```
-  # qemu-img snapshot -l /mnt/local/some_image.qcow2
-  Snapshot list:
-  ID        TAG                 VM SIZE                DATE       VM CLOCK
-  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
-.873
-+ ```
-  =
-
-- Prior to 4.1.1, this used to work with extra tabs for the VM SIZE
-- values. The collision is also disabling us from using a regex on top of
-- this input to detect the snapshot unless we forbid numbers in the
-- snapshot name.
-+ Prior to 4.1.1 this used to work with extra tabs for the VM SIZE values.
-+ The collision is also disabling us from using a regex on top of this
-+ input to detect the snapshot.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859989
-
-Title:
-  qemu-img has broken output with large snapshot names
-
-Status in QEMU:
-  New
-
-Bug description:
-  On Qemu 4.1.1 the output of snalshots breaks if the chosen state name
-  is too long:
-
-  ```
-  # qemu-img snapshot -l /mnt/local/some_image.qcow2
-  Snapshot list:
-  ID        TAG                 VM SIZE                DATE       VM CLOCK
-  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
-.873
-  ```
-
-  Prior to 4.1.1 this used to work with extra tabs for the VM SIZE
-  values. The collision is also disabling us from using a regex on top
-  of this input to detect the snapshot.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859989/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
