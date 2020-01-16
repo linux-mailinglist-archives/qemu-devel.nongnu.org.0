@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077E013DF55
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 16:56:50 +0100 (CET)
-Received: from localhost ([::1]:44214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722EC13DF60
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 16:58:48 +0100 (CET)
+Received: from localhost ([::1]:44242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is7Vo-0007C1-Fq
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 10:56:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36846)
+	id 1is7Xj-0000wX-DL
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 10:58:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1is7UH-0005no-Ac
+ (envelope-from <vsementsov@virtuozzo.com>) id 1is7UH-0005nq-Aw
  for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:55:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1is7UF-0001bF-Rr
+ (envelope-from <vsementsov@virtuozzo.com>) id 1is7UF-0001bJ-Rs
  for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:55:13 -0500
-Received: from relay.sw.ru ([185.231.240.75]:58016)
+Received: from relay.sw.ru ([185.231.240.75]:58024)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1is7UA-0001VK-Vf; Thu, 16 Jan 2020 10:55:07 -0500
+ id 1is7UB-0001VM-3q; Thu, 16 Jan 2020 10:55:07 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1is7Tz-00021t-W2; Thu, 16 Jan 2020 18:54:56 +0300
+ id 1is7U0-00021t-47; Thu, 16 Jan 2020 18:54:56 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/2] block/backup-top: fix failure path
-Date: Thu, 16 Jan 2020 18:54:51 +0300
-Message-Id: <20200116155452.30972-2-vsementsov@virtuozzo.com>
+Subject: [PATCH 2/2] iotests: add test for backup-top failure on permission
+ activation
+Date: Thu, 16 Jan 2020 18:54:52 +0300
+Message-Id: <20200116155452.30972-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200116155452.30972-1-vsementsov@virtuozzo.com>
 References: <20200116155452.30972-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 185.231.240.75
@@ -52,87 +54,122 @@ Cc: kwolf@redhat.com, qemu-stable@nongnu.org, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can't access top after call bdrv_backup_top_drop, as it is already
-freed at this time.
+This test checks that bug is really fixed by previous commit.
 
-Also, no needs to unref target child by hand, it will be unrefed on
-bdrv_close() automatically.
-
-So, just do bdrv_backup_top_drop if append succeed and one bdrv_unref
-otherwise.
-
-Note, that in !appended case bdrv_unref(top) moved into drained section
-on source. It doesn't really matter, but just for code simplicity.
-
-Fixes: 7df7868b96404
 Cc: qemu-stable@nongnu.org # v4.2.0
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/backup-top.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ tests/qemu-iotests/283     | 75 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/283.out |  8 ++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 84 insertions(+)
+ create mode 100644 tests/qemu-iotests/283
+ create mode 100644 tests/qemu-iotests/283.out
 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index 818d3f26b4..19f18d541b 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -190,6 +190,7 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
-     BlockDriverState *top = bdrv_new_open_driver(&bdrv_backup_top_filter,
-                                                  filter_node_name,
-                                                  BDRV_O_RDWR, errp);
-+    bool appended = false;
- 
-     if (!top) {
-         return NULL;
-@@ -212,8 +213,9 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
-     bdrv_append(top, source, &local_err);
-     if (local_err) {
-         error_prepend(&local_err, "Cannot append backup-top filter: ");
--        goto append_failed;
-+        goto fail;
-     }
-+    appended = true;
- 
-     /*
-      * bdrv_append() finished successfully, now we can require permissions
-@@ -224,14 +226,14 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
-     if (local_err) {
-         error_prepend(&local_err,
-                       "Cannot set permissions for backup-top filter: ");
--        goto failed_after_append;
-+        goto fail;
-     }
- 
-     state->bcs = block_copy_state_new(top->backing, state->target,
-                                       cluster_size, write_flags, &local_err);
-     if (local_err) {
-         error_prepend(&local_err, "Cannot create block-copy-state: ");
--        goto failed_after_append;
-+        goto fail;
-     }
-     *bcs = state->bcs;
- 
-@@ -239,14 +241,15 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
- 
-     return top;
- 
--failed_after_append:
--    state->active = false;
--    bdrv_backup_top_drop(top);
-+fail:
-+    if (appended) {
-+        state->active = false;
-+        bdrv_backup_top_drop(top);
-+    } else {
-+        bdrv_unref(top);
-+    }
- 
--append_failed:
-     bdrv_drained_end(source);
--    bdrv_unref_child(top, state->target);
--    bdrv_unref(top);
-     error_propagate(errp, local_err);
- 
-     return NULL;
+diff --git a/tests/qemu-iotests/283 b/tests/qemu-iotests/283
+new file mode 100644
+index 0000000000..f0f216d109
+--- /dev/null
++++ b/tests/qemu-iotests/283
+@@ -0,0 +1,75 @@
++#!/usr/bin/env python
++#
++# Test for backup-top filter permission activation failure
++#
++# Copyright (c) 2019 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++import iotests
++
++# The test is unrelated to formats, restrict it to qcow2 to avoid extra runs
++iotests.verify_image_format(supported_fmts=['qcow2'])
++
++size = 1024 * 1024
++
++"""
++On activation, backup-top is going to unshare write permission on its
++source child. It will be impossible for the following configuration:
++
++    ┌────────┐  target  ┌─────────────┐
++    │ target │ ◀─────── │ backup_top  │
++    └────────┘          └─────────────┘
++                            │
++                            │ backing
++                            ▼
++                        ┌─────────────┐
++                        │   source    │
++                        └─────────────┘
++                            │
++                            │ file
++                            ▼
++                        ┌─────────────┐  write perm   ┌───────┐
++                        │    base     │ ◀──────────── │ other │
++                        └─────────────┘               └───────┘
++
++Write unsharing will be propagated to the "source->base"link and will
++conflict with other node write permission.
++
++(Note, that we can't just consider source to be direct child of other,
++as in this case this link will be broken, when backup_top is appended)
++"""
++
++vm = iotests.VM()
++vm.launch()
++
++vm.qmp_log('blockdev-add', **{'node-name': 'target', 'driver': 'null-co'})
++
++vm.qmp_log('blockdev-add', **{
++    'node-name': 'source',
++    'driver': 'blkdebug',
++    'image': {'node-name': 'base', 'driver': 'null-co', 'size': size}
++})
++
++vm.qmp_log('blockdev-add', **{
++    'node-name': 'other',
++    'driver': 'blkdebug',
++    'image': 'base',
++    'take-child-perms': ['write']
++})
++
++vm.qmp_log('blockdev-backup', sync='full', device='source', target='target')
++
++vm.shutdown()
+diff --git a/tests/qemu-iotests/283.out b/tests/qemu-iotests/283.out
+new file mode 100644
+index 0000000000..daaf5828c1
+--- /dev/null
++++ b/tests/qemu-iotests/283.out
+@@ -0,0 +1,8 @@
++{"execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "target"}}
++{"return": {}}
++{"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "image": {"driver": "null-co", "node-name": "base", "size": 1048576}, "node-name": "source"}}
++{"return": {}}
++{"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "image": "base", "node-name": "other", "take-child-perms": ["write"]}}
++{"return": {}}
++{"execute": "blockdev-backup", "arguments": {"device": "source", "sync": "full", "target": "target"}}
++{"error": {"class": "GenericError", "desc": "Cannot set permissions for backup-top filter: Conflicts with use by other as 'image', which uses 'write' on base"}}
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index cb2b789e44..d827e8c821 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -288,3 +288,4 @@
+ 277 rw quick
+ 279 rw backing quick
+ 280 rw migration quick
++283 auto quick
 -- 
 2.21.0
 
