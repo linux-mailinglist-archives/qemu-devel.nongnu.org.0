@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8682013DD2B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 15:15:24 +0100 (CET)
-Received: from localhost ([::1]:42614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB37013DD36
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 15:17:33 +0100 (CET)
+Received: from localhost ([::1]:42722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is5ve-0007n8-Bi
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 09:15:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49781)
+	id 1is5xk-00021e-Ls
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 09:17:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49948)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rjones@redhat.com>) id 1is5uO-0006lG-Jd
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:14:08 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1is5vZ-00008s-Ve
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:15:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rjones@redhat.com>) id 1is5uL-0005dv-1y
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:14:04 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55449
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rjones@redhat.com>) id 1is5uK-0005cK-Ua
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:14:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579184038;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ZveQj1LFTWiYdGDJswQVsZyoOvvwQTRsf7Ry6Olo5j0=;
- b=Q8WiRhfkJqkLVnPSwZODDtqSeJwWGCXXgopyxNokju8P8OJuRLgDN5f4ywsl6+IeTq/LhZ
- RgpGEVyhL3pxUB8HTDnCeBO8pj3EpUqnra/UeQAwE3j6nY6ae6DJgsOxU1G85uBPSoLX95
- 7KtWaCAhWPKbUKbBXzA+lLHLH4uRKGc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-A-sqFkd3P-eeZb-1wsiK3A-1; Thu, 16 Jan 2020 09:13:54 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC7181800D48;
- Thu, 16 Jan 2020 14:13:53 +0000 (UTC)
-Received: from localhost (ovpn-117-237.ams2.redhat.com [10.36.117.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 66C6B5DA32;
- Thu, 16 Jan 2020 14:13:53 +0000 (UTC)
-Date: Thu, 16 Jan 2020 14:13:52 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com,
- mlevitsk@redhat.com, sgarzare@redhat.com
-Subject: Bug? qemu-img convert to preallocated image makes it sparse
-Message-ID: <20200116141352.GA32053@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1is5vY-0006iv-DO
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:15:17 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42595)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1is5vY-0006hX-5J
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:15:16 -0500
+Received: by mail-wr1-x443.google.com with SMTP id q6so19232954wro.9
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 06:15:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2vYF/4fmY7dZ9cFlkXYTdoV/gf/dTlcMfrNDaRXvM8k=;
+ b=J5/Xvs6A8p2Scu0OA6Lb49PAm9y2VmlCwzwXkWj9yOwx30T13HG1jp/MKl1wex6YWm
+ wz5KRVzW7pBjmCGKU/AyC9w4E+gjfZkpGAQ1VSC2jvnV1Ha7l8qiXBoeUX3SiJXx9qx1
+ H6IvHN8v16CsQpO/qA1Cp62D/QYlRLZynft4pbD1R7F95VeDWpxO97QuCIoG2Gzc82rF
+ pAJm8yLMlpc2bFxssZPHPk+uMoSVd5pcm5u6XGAPfDVxtNrfSnsS1B1EYHJE+BHD3x/v
+ BhP+FOoYmg7Sh59fFK3Yu90VUb78SqHg+bCwjkehVXLdMu/FjvfaPrPV9cuFRNjMVTZz
+ Fj/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2vYF/4fmY7dZ9cFlkXYTdoV/gf/dTlcMfrNDaRXvM8k=;
+ b=l+CAUw6+u3RwmIO9HtxHtpgjdSf8NcVl26IpxmRx6sAkbP6BWi/CCSXXhPR2HAHxTv
+ jDTO7bmKh7VnNGhYf+8a5kwOVEALSs6Rg2R7qUBwpYuwT8sq5/NCXOYz94jC+ldsVA6Q
+ PqSYMgJBDerZn0cBy5sLxPVQgUzSm2BrjLKVhzibD69EhMc0Cb3ckHG+EcPg4LGLvcMW
+ IBFqGwStVpqpi6zYtcLNOk6Iix/xvywtryksbh+UFF6SaIMP8pCnFxW4JI7ko0WTqpLG
+ qNzfWJpbsakakbMp9KlCOfHqmTQ4Qbz8JxaSrJnzGX2MNp++4NRipLoiswIPqnrJkzOU
+ o8hw==
+X-Gm-Message-State: APjAAAX+Lta0bZgJe9OtwL0dI22lzLB1xQLmVZNexAA4kCVRdI2wEwn4
+ zCx5qkqvewjCHYzyPSWMyW9tEG8aHkDB1A==
+X-Google-Smtp-Source: APXvYqzEtSr+KwKiGqoBogCQ3+MAPa0k3RcDrHv5KQdWu8t1kUCgcifNRmuirNUSH/QRXV1CEgKpLA==
+X-Received: by 2002:a5d:62d0:: with SMTP id o16mr3491561wrv.197.1579184114553; 
+ Thu, 16 Jan 2020 06:15:14 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id 25sm4584169wmi.32.2020.01.16.06.15.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jan 2020 06:15:14 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] convert qemu-nbd, qemu-block-drivers to rST
+Date: Thu, 16 Jan 2020 14:15:08 +0000
+Message-Id: <20200116141511.16849-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: A-sqFkd3P-eeZb-1wsiK3A-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,77 +75,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm not necessarily saying this is a bug, but a change in behaviour in
-qemu has caused virt-v2v to fail.  The reproducer is quite simple.
+This patchset converts the qemu-nbd and qemu-block-drivers
+documentation from texinfo to rST. For both of these,
+currently the documentation is in texinfo, which we present
+to the user as:
+ * a manpage
+ * a section of the qemu-doc HTML documentation
 
-Create sparse and preallocated qcow2 files of the same size:
+The conversion results in the docs being in rST format,
+presented to the user as:
+ * a manpage
+ * a section of one of the Sphinx manuals (interop/
+   for qemu-nbd, and system/ for qemu-block-drivers)
 
-  $ qemu-img create -f qcow2 sparse.qcow2 50M
-  Formatting 'sparse.qcow2', fmt=3Dqcow2 size=3D52428800 cluster_size=3D655=
-36 lazy_refcounts=3Doff refcount_bits=3D16
+The first patch is the same as the "qemu-nbd: Convert invocation
+documentation to rST" patch I sent a couple of days ago, except that
+I have folded some of the long Makefile lines as Eric suggested.
 
-  $ qemu-img create -f qcow2 prealloc.qcow2 50M -o preallocation=3Dfalloc,c=
-ompat=3D1.1
-  Formatting 'prealloc.qcow2', fmt=3Dqcow2 size=3D52428800 compat=3D1.1 clu=
-ster_size=3D65536 preallocation=3Dfalloc lazy_refcounts=3Doff refcount_bits=
-=3D16
+Patch 2 creates the new 'system' manual; this has always
+been in our plan for the docs as described in
+https://wiki.qemu.org/Features/Documentation
+but this is the first point where we have some actual
+content for it.
 
-  $ du -m sparse.qcow2 prealloc.qcow2=20
-  1 sparse.qcow2
-  51=09prealloc.qcow2
+Patch 3 converts the qemu-block-drivers docs/manpage.  As noted in
+the commit message for that patch, this requires dropping a minor
+cross-reference from the '-cdrom' option documentation to this
+(because they're no longer in the same big texinfo document).  There
+is also a slightly ugly compromise in the manpage output in order to
+provide better HTML output, which is forced on us by limitations in
+Sphinx.
 
-Now copy the sparse file into the preallocated file using the -n
-option so qemu-img doesn't create the target:
+Apologies for the size of patch 3, but a single big-bang conversion
+of this 1000 page document seemed better than artificially trying to
+split it somehow, since only one of the two formats can actually
+produce the manpage at once.
 
-  $ qemu-img convert -p -n -f qcow2 -O qcow2 sparse.qcow2 prealloc.qcow2
-      (100.00/100%)
+PS: the old docs/qemu-block-drivers.texi is not covered by
+any MAINTAINERS section, so I haven't added the new
+docs/system/qemu-block-drivers.rst anywhere either.
+Perhaps it should go in the "Block layer core" section?
 
-In new qemu that makes the target file sparse:
+thanks
+-- PMM
 
-  $ du -m sparse.qcow2 prealloc.qcow2=20
-  1 sparse.qcow2
-  1 prealloc.qcow2         <-- should still be 51
+Peter Maydell (3):
+  qemu-nbd: Convert invocation documentation to rST
+  docs: Create stub system manual
+  qemu-block-drivers: Convert to rST
 
-In old qemu the target file remained preallocated, which is what
-I and virt-v2v are expecting.
+ Makefile                               |  37 +-
+ MAINTAINERS                            |   1 +
+ docs/interop/conf.py                   |   4 +-
+ docs/interop/index.rst                 |   1 +
+ docs/interop/qemu-nbd.rst              | 263 +++++++
+ docs/interop/qemu-option-trace.rst.inc |  30 +
+ docs/qemu-block-drivers.texi           | 889 ----------------------
+ docs/{interop => system}/conf.py       |  10 +-
+ docs/system/index.rst                  |  17 +
+ docs/system/qemu-block-drivers.rst     | 985 +++++++++++++++++++++++++
+ qemu-doc.texi                          |  18 -
+ qemu-nbd.texi                          | 214 ------
+ qemu-option-trace.texi                 |   4 +
+ qemu-options.hx                        |   2 +-
+ 14 files changed, 1336 insertions(+), 1139 deletions(-)
+ create mode 100644 docs/interop/qemu-nbd.rst
+ create mode 100644 docs/interop/qemu-option-trace.rst.inc
+ delete mode 100644 docs/qemu-block-drivers.texi
+ copy docs/{interop => system}/conf.py (64%)
+ create mode 100644 docs/system/index.rst
+ create mode 100644 docs/system/qemu-block-drivers.rst
+ delete mode 100644 qemu-nbd.texi
 
-I bisected this to the following commit:
-
-4d7c487eac1652dfe4498fe84f32900ad461d61b is the first bad commit
-commit 4d7c487eac1652dfe4498fe84f32900ad461d61b
-Author: Max Reitz <mreitz@redhat.com>
-Date:   Wed Jul 24 19:12:29 2019 +0200
-
-    qemu-img: Fix bdrv_has_zero_init() use in convert
-   =20
-    bdrv_has_zero_init() only has meaning for newly created images or image
-    areas.  If qemu-img convert did not create the image itself, it cannot
-    rely on bdrv_has_zero_init()'s result to carry any meaning.
-   =20
-    Signed-off-by: Max Reitz <mreitz@redhat.com>
-    Message-id: 20190724171239.8764-2-mreitz@redhat.com
-    Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-    Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-    Signed-off-by: Max Reitz <mreitz@redhat.com>
-
- qemu-img.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-Reverting this commit on the current master branch restores the
-expected behaviour.
-
-Thoughts?
-
-Rich.
-
---=20
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjon=
-es
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-libguestfs lets you edit virtual machines.  Supports shell scripting,
-bindings from many languages.  http://libguestfs.org
+-- 
+2.20.1
 
 
