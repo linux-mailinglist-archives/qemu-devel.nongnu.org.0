@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4D013DE4A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 16:10:03 +0100 (CET)
-Received: from localhost ([::1]:43642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5802B13DE51
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 16:12:47 +0100 (CET)
+Received: from localhost ([::1]:43692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is6mX-0000WB-SA
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 10:10:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58993)
+	id 1is6pC-00050z-Dd
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 10:12:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59333)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1is6kf-0007Ed-B9
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:08:06 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1is6mf-0001jk-3M
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:10:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1is6kd-0006q5-KQ
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:08:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55345
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1is6me-00082q-2Q
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:10:09 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41534
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1is6kd-0006oo-G1
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:08:03 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1is6md-00082F-Tj
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 10:10:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579187282;
+ s=mimecast20190719; t=1579187407;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xqx8onJkFwRaxbtn/yTJuM8dq8+DussPiH5hqaBh7mg=;
- b=OL4ut5C0pKJ7okxIxrTKbn5BslRdRU2Y+XmawqU4bvhiu+p5LoZnJvqTU0ncegnduIPNwf
- 2w9tL2e12Fw6jkjpy3o0Mj928AX41D98mJiPpEuTTvtpYngbfgu9fLJGo+7igQTYpcIe5j
- xgi3rwVSXHkpIYerz06h9Jbb/1TnfDE=
+ bh=yMSQ1i+RFrNHRJejFHFm0eh8blRFauB4+6pGjqc90j8=;
+ b=cnW4QpXpLRRU70o9mos5cxKKojbTTkUcZVUVNM4XzclZeGVqJTC5OVS3kLCo/mxoUM5UN8
+ azZ5kyn+WBQBrpp+j/PIP9+KoFQbPkePm+1f9TrVlrS3O/H43jTj12X1RSVxpXxahuKEVT
+ qeYCRSJcnjJaPUF5HDqZ/RFIsYus7Ik=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-ly234l9iOiKSKRfidk3vrA-1; Thu, 16 Jan 2020 10:08:00 -0500
-Received: by mail-wr1-f70.google.com with SMTP id f17so9382072wrt.19
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 07:08:00 -0800 (PST)
+ us-mta-120-tplBK8MZNg-8o0GUEcxGOg-1; Thu, 16 Jan 2020 10:10:03 -0500
+Received: by mail-wr1-f70.google.com with SMTP id r2so9353703wrp.7
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 07:10:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=utdWfp7ymQUKhwO0mN+1Ng1mKtF6uE+xQ50My6J3OQw=;
- b=qCjy9lgVEDgLcPpTuKg1f+Jn6bZwAGzrPSrDJlG6JWXtH5GmQ1IohpRMW71J8jFXH1
- RYGtmCcV3pO0q8KE2D0NWjmBUnrzggI4AigiQVoG8OE+UrEegQYcbtD1RHhbvknCHTZv
- JZ6IXHCRZvI+W+sbeM29mKmtzD+oGkMwf7f5SMSvqXP6sTIvv6saniBts6LDQQWdZiGk
- oRsE40LPCG8y67yYgX/T8+Iw7q1aIXZJwInHZZaBQtwNj02yKkd78lNA58vf3mOqRa9a
- MT/z9TehCE4GC5U+hIlbri0QlMPGzvGVFPClQabJof+BEdJPbAXr/jlmddxGd9poxuEW
- xFXQ==
-X-Gm-Message-State: APjAAAUPjGr4VTebPNyl1X+OoPUzFK1JhW+JdP8QOUL6GC1jZPrPuv7K
- C63CXv/YMvxY3XoLx2LOLk5uH6nr1jsaPyfDHjuF3JtENbvguQS6mD/75bqnOZ03aUM91gQcFcX
- 5uRAjEsuSPn0b8Wo=
-X-Received: by 2002:a7b:c3d2:: with SMTP id t18mr6801472wmj.90.1579187279395; 
- Thu, 16 Jan 2020 07:07:59 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxQ/gcZp+HDBdw0282FNlHRWShCa2svAIjcDBVYk77yMWthfrgRuXXqKN4f7evaarPhJxNciw==
-X-Received: by 2002:a7b:c3d2:: with SMTP id t18mr6801451wmj.90.1579187279117; 
- Thu, 16 Jan 2020 07:07:59 -0800 (PST)
-Received: from [10.101.1.81] ([176.12.107.132])
- by smtp.gmail.com with ESMTPSA id w8sm369250wmd.2.2020.01.16.07.07.57
+ bh=yMSQ1i+RFrNHRJejFHFm0eh8blRFauB4+6pGjqc90j8=;
+ b=YsQcQJZ1B7wZBEH3k+KkzNNDrjWtyBUyaj/6QVdTvhhAW1XO35ysVnAKkfgoElRde3
+ ChP4VyTWt3CBNxWk3+4iaQKwzmSlVKczy+HUAs9xl68+6rqtlvn+LjAQI52IhEGa8YKD
+ Y+6s+wO0ey2at5ysGMJ8bb2T/0AB4wmH+hYraHNoChuGaVlWhgSeY1Ovomqsa6uWhcCK
+ wDaG/ZIGG0ap/flUbZFmuJFxLAv40Dvq9bzyjOo7OOMLDtqeT2JEiHyQ/rjLBvytc4/N
+ 6ltaxLqKaMJt4RyoYUfgyhx9UjSWJ46IgFdKMk1ol+PCM/wIWg9fv6/cyP4GbhaQFYIE
+ 6P7g==
+X-Gm-Message-State: APjAAAVKhFKNEY1z/74QAw3Pid+BRsA7B5+AqLnCGL90oPZ0Y2UogpcV
+ JhvV0DUrjBFQ/YiaO3r4GZ8LgUU0qt5qNjDzDCreejsneZV/npMqpgT+DLtW42b8HawEGssMEfO
+ p6BC50X4juct9UNk=
+X-Received: by 2002:a1c:2dcd:: with SMTP id t196mr6506706wmt.22.1579187402343; 
+ Thu, 16 Jan 2020 07:10:02 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwulFOMgJFbccyv/HwXTBWZmNN0WwpZtkSeRwocOEAMsP9DVR2h7eHHyFFpb+Q7XtRtk868tg==
+X-Received: by 2002:a1c:2dcd:: with SMTP id t196mr6506676wmt.22.1579187402000; 
+ Thu, 16 Jan 2020 07:10:02 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:436:e17d:1fd9:d92a?
+ ([2001:b07:6468:f312:436:e17d:1fd9:d92a])
+ by smtp.gmail.com with ESMTPSA id n10sm29222379wrt.14.2020.01.16.07.10.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jan 2020 07:07:58 -0800 (PST)
-Subject: Re: [PATCH v5 02/22] gdbstub: stop passing GDBState * around and use
- global
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200114150953.27659-1-alex.bennee@linaro.org>
- <20200114150953.27659-3-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e8625a1b-3264-b6a6-21bf-82a11d0fdcef@redhat.com>
-Date: Thu, 16 Jan 2020 16:07:56 +0100
+ Thu, 16 Jan 2020 07:10:01 -0800 (PST)
+Subject: Re: [PULL 20/87] vl: warn for unavailable accelerators, clarify
+ messages
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+References: <1576670573-48048-1-git-send-email-pbonzini@redhat.com>
+ <1576670573-48048-21-git-send-email-pbonzini@redhat.com>
+ <7378ae78-818f-723f-88a7-1556791135f2@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <cf6088f9-dbd7-c45d-a3df-8dd7ee0ceaaf@redhat.com>
+Date: Thu, 16 Jan 2020 16:10:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20200114150953.27659-3-alex.bennee@linaro.org>
+In-Reply-To: <7378ae78-818f-723f-88a7-1556791135f2@redhat.com>
 Content-Language: en-US
-X-MC-Unique: ly234l9iOiKSKRfidk3vrA-1
+X-MC-Unique: tplBK8MZNg-8o0GUEcxGOg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,26 +94,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/14/20 4:09 PM, Alex Benn=C3=A9e wrote:
-> We only have one GDBState which should be allocated at the time we
-> process any commands. This will make further clean-up a bit easier.
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->=20
-> ---
-> v3
->    - remove final *s paramters from function calls
-> v4
->    - a few fixups for coding style
-> ---
->   gdbstub.c | 561 +++++++++++++++++++++++++++---------------------------
->   1 file changed, 278 insertions(+), 283 deletions(-)
+On 16/01/20 15:50, Laurent Vivier wrote:
+> Every time I run a non native VM I have this message:
+> 
+> $ uname -m
+> x86_64
+> $ ./ppc64-softmmu/qemu-system-ppc64
+> qemu-system-ppc64: invalid accelerator kvm
+> qemu-system-ppc64: falling back to tcg
+> 
+> Is that expected?
+> 
+> At least it's annoying... it was silently falling back to tcg before
+> that patch.
+> 
+> Should the default be set to tcg to avoid the fallback?
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Richard has posted a patch to fix it, I expect him to include it in his
+pull request.
+
+Paolo
 
 
