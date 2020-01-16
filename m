@@ -2,64 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6679413D95D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 12:56:01 +0100 (CET)
-Received: from localhost ([::1]:40488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B2013D94B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 12:48:51 +0100 (CET)
+Received: from localhost ([::1]:40446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is3km-00071I-E4
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 06:56:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58092)
+	id 1is3dq-0002Cb-Dt
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 06:48:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57364)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1is3jM-00062j-K7
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 06:54:34 -0500
+ (envelope-from <misono.tomohiro@fujitsu.com>) id 1is3d2-0001QR-W5
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 06:48:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1is3jL-0006Kv-1W
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 06:54:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23388
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1is3jK-0006KW-Tn
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 06:54:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579175670;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dw7ujOXLwa+PKc7y7QJELjNb1B3b/iHPsrV+oPqmMOk=;
- b=iU2yOOZl34BhjvuV2iHYDBgH2tk0PZQ62X0Stwb7NZZkIcsti5w+qD+twro6LBsaNtgmao
- d1ej+h9Fujd+8zkPzT5c5YDIN8rquebswgKlN5zlLjtnPcSFIxAcNxTX+T5a6Pm0ciN97F
- 0Tzrq7gZodEyV+LN1dwTiApAQQ2VQuw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-czAqtSOEMh2_GvDaHMvNeA-1; Thu, 16 Jan 2020 06:54:28 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 337588010C6;
- Thu, 16 Jan 2020 11:54:27 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-205-187.brq.redhat.com [10.40.205.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2099219C5B;
- Thu, 16 Jan 2020 11:54:15 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2] ui/gtk: Get display refresh rate with GDK version 3.22 or
- later
-Date: Thu, 16 Jan 2020 12:54:13 +0100
-Message-Id: <20200116115413.31650-1-philmd@redhat.com>
+ (envelope-from <misono.tomohiro@fujitsu.com>) id 1is3cy-0002tD-Mg
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 06:48:00 -0500
+Received: from mgwym03.jp.fujitsu.com ([211.128.242.42]:24020)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
+ id 1is3cx-0002pP-WA
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 06:47:56 -0500
+Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
+ mgwym03.jp.fujitsu.com with smtp
+ id 2a40_6602_fc948adb_3aa9_4dd4_a59b_c3ee697d68cc;
+ Thu, 16 Jan 2020 20:47:45 +0900
+Received: from g01jpfmpwyt01.exch.g01.fujitsu.local
+ (g01jpfmpwyt01.exch.g01.fujitsu.local [10.128.193.38])
+ by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id 3708BAC010A
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 20:47:45 +0900 (JST)
+Received: from G01JPEXCHYT14.g01.fujitsu.local
+ (G01JPEXCHYT14.g01.fujitsu.local [10.128.194.53])
+ by g01jpfmpwyt01.exch.g01.fujitsu.local (Postfix) with ESMTP id 347396D677E;
+ Thu, 16 Jan 2020 20:47:44 +0900 (JST)
+Received: from luna3.soft.fujitsu.com (10.124.196.199) by
+ G01JPEXCHYT14.g01.fujitsu.local (10.128.194.53) with Microsoft SMTP Server id
+ 14.3.439.0; Thu, 16 Jan 2020 20:47:43 +0900
+From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+To: <dgilbert@redhat.com>
+Subject: Re: [PATCH 072/104] virtiofsd: passthrough_ll: fix refcounting on
+ remove/rename
+Date: Thu, 16 Jan 2020 20:56:03 +0900
+Message-ID: <20200116115603.5415-1-misono.tomohiro@jp.fujitsu.com>
+X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20191212163904.159893-73-dgilbert@redhat.com>
+References: <20191212163904.159893-73-dgilbert@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: czAqtSOEMh2_GvDaHMvNeA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-GCONF: 00
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 211.128.242.42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,143 +64,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Nikola Pavlica <pavlica.nikola@gmail.com>
+Cc: misono.tomohiro@jp.fujitsu.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit c4c00922cc introduced the use of the GdkMonitor API, which
-was introduced in GTK+ 3.22:
-https://developer.gnome.org/gdk3/stable/api-index-3-22.html#api-index-3.22
+> From: Miklos Szeredi <mszeredi@redhat.com>
+> 
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 
-Unfortunately this break building with older versions, as on Ubuntu
-Xenial which provides GTK+ 3.18:
+I'm not familiar with qemu convention but shouldn't we put
+at least one line of description like linux kernel?
 
-  $ lsb_release -cd
-  Description:    Ubuntu 16.04.5 LTS
-  Codename:       xenial
+For code itself:
+ Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
 
-  $ ./configure && make
-  GTK support       yes (3.18.9)
-  GTK GL support    no
-  [...]
-    CC      ui/gtk.o
-  qemu/ui/gtk.c: In function =E2=80=98gd_vc_gfx_init=E2=80=99:
-  qemu/ui/gtk.c:1973:5: error: unknown type name =E2=80=98GdkMonitor=E2=80=
-=99
-       GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
-       ^
-  qemu/ui/gtk.c:1973:27: error: implicit declaration of function =E2=80=98g=
-dk_display_get_monitor_at_window=E2=80=99 [-Werror=3Dimplicit-function-decl=
-aration]
-       GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
-                             ^
-  qemu/ui/gtk.c:1973:5: error: nested extern declaration of =E2=80=98gdk_di=
-splay_get_monitor_at_window=E2=80=99 [-Werror=3Dnested-externs]
-       GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
-       ^
-  qemu/ui/gtk.c:1973:27: error: initialization makes pointer from integer w=
-ithout a cast [-Werror=3Dint-conversion]
-       GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
-                             ^
-  qemu/ui/gtk.c:2035:28: error: implicit declaration of function =E2=80=98g=
-dk_monitor_get_refresh_rate=E2=80=99 [-Werror=3Dimplicit-function-declarati=
-on]
-       refresh_rate_millihz =3D gdk_monitor_get_refresh_rate(monitor);
-                              ^
-  qemu/ui/gtk.c:2035:5: error: nested extern declaration of =E2=80=98gdk_mo=
-nitor_get_refresh_rate=E2=80=99 [-Werror=3Dnested-externs]
-       refresh_rate_millihz =3D gdk_monitor_get_refresh_rate(monitor);
-       ^
-  cc1: all warnings being treated as errors
-  qemu/rules.mak:69: recipe for target 'ui/gtk.o' failed
-  make: *** [ui/gtk.o] Error 1
-
-GTK+ provides convenient definition in <gdk/gdkversionmacros.h>
-(already include by <gdk/gdk.h>) to check which API are available.
-
-We only use the GdkMonitor API to get the monitor refresh rate.
-
-Extract this code as a new gd_refresh_rate_millihz() function,
-and check GDK_VERSION_3_22 is defined before calling its API.
-If it is not defined, return 0. This is safe and fixes our build
-failure (see https://travis-ci.org/qemu/qemu/builds/636992508).
-
-Reported-by: Travis-CI
-Fixes: c4c00922cc (display/gtk: get proper refreshrate)
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-v2: Improved commit description
-
-Sorry I missed that, I only tested Nikola's patch on my workstation
-which runs Fedora 30:
-
-  $ pkg-config --modversion gtk+-3.0
-  3.24.11
-
-And Gerd tested on RHEL-7 which has a gtk version new enough for that.
-
-This patch could get applied directly on master as a build fix to
-fix the Travis-CI failures.
----
- ui/gtk.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
-
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 7355d34fcf..d18892d1de 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -1961,6 +1961,23 @@ static GtkWidget *gd_create_menu_machine(GtkDisplayS=
-tate *s)
-     return machine_menu;
- }
-=20
-+/*
-+ * If available, return the refresh rate of the display in milli-Hertz,
-+ * else return 0.
-+ */
-+static int gd_refresh_rate_millihz(GtkDisplayState *s)
-+{
-+#ifdef GDK_VERSION_3_22
-+    GdkDisplay *dpy =3D gtk_widget_get_display(s->window);
-+    GdkWindow *win =3D gtk_widget_get_window(s->window);
-+    GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
-+
-+    return gdk_monitor_get_refresh_rate(monitor);
-+#else
-+    return 0;
-+#endif
-+}
-+
- static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-                               QemuConsole *con, int idx,
-                               GSList *group, GtkWidget *view_menu)
-@@ -1968,10 +1985,6 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, Vi=
-rtualConsole *vc,
-     bool zoom_to_fit =3D false;
-     int refresh_rate_millihz;
-=20
--    GdkDisplay *dpy =3D gtk_widget_get_display(s->window);
--    GdkWindow *win =3D gtk_widget_get_window(s->window);
--    GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
--
-     vc->label =3D qemu_console_get_label(con);
-     vc->s =3D s;
-     vc->gfx.scale_x =3D 1.0;
-@@ -2032,7 +2045,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, Vir=
-tualConsole *vc,
-     vc->gfx.kbd =3D qkbd_state_init(con);
-     vc->gfx.dcl.con =3D con;
-=20
--    refresh_rate_millihz =3D gdk_monitor_get_refresh_rate(monitor);
-+    refresh_rate_millihz =3D gd_refresh_rate_millihz(s);
-     if (refresh_rate_millihz) {
-         vc->gfx.dcl.update_interval =3D MILLISEC_PER_SEC / refresh_rate_mi=
-llihz;
-     }
---=20
-2.21.1
-
+> ---
+>  tools/virtiofsd/passthrough_ll.c | 50 +++++++++++++++++++++++++++++++-
+>  1 file changed, 49 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index 0f33c3c5e9..1b84d4f313 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -1077,17 +1077,42 @@ out_err:
+>      fuse_reply_err(req, saverr);
+>  }
+>  
+> +static struct lo_inode *lookup_name(fuse_req_t req, fuse_ino_t parent,
+> +                                    const char *name)
+> +{
+> +    int res;
+> +    struct stat attr;
+> +
+> +    res = fstatat(lo_fd(req, parent), name, &attr,
+> +                  AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
+> +    if (res == -1) {
+> +        return NULL;
+> +    }
+> +
+> +    return lo_find(lo_data(req), &attr);
+> +}
+> +
+>  static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
+>  {
+>      int res;
+> +    struct lo_inode *inode;
+> +    struct lo_data *lo = lo_data(req);
+> +
+>      if (!is_safe_path_component(name)) {
+>          fuse_reply_err(req, EINVAL);
+>          return;
+>      }
+>  
+> +    inode = lookup_name(req, parent, name);
+> +    if (!inode) {
+> +        fuse_reply_err(req, EIO);
+> +        return;
+> +    }
+> +
+>      res = unlinkat(lo_fd(req, parent), name, AT_REMOVEDIR);
+>  
+>      fuse_reply_err(req, res == -1 ? errno : 0);
+> +    unref_inode_lolocked(lo, inode, 1);
+>  }
+>  
+>  static void lo_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
+> @@ -1095,12 +1120,23 @@ static void lo_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
+>                        unsigned int flags)
+>  {
+>      int res;
+> +    struct lo_inode *oldinode;
+> +    struct lo_inode *newinode;
+> +    struct lo_data *lo = lo_data(req);
+>  
+>      if (!is_safe_path_component(name) || !is_safe_path_component(newname)) {
+>          fuse_reply_err(req, EINVAL);
+>          return;
+>      }
+>  
+> +    oldinode = lookup_name(req, parent, name);
+> +    newinode = lookup_name(req, newparent, newname);
+> +
+> +    if (!oldinode) {
+> +        fuse_reply_err(req, EIO);
+> +        goto out;
+> +    }
+> +
+>      if (flags) {
+>  #ifndef SYS_renameat2
+>          fuse_reply_err(req, EINVAL);
+> @@ -1113,26 +1149,38 @@ static void lo_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
+>              fuse_reply_err(req, res == -1 ? errno : 0);
+>          }
+>  #endif
+> -        return;
+> +        goto out;
+>      }
+>  
+>      res = renameat(lo_fd(req, parent), name, lo_fd(req, newparent), newname);
+>  
+>      fuse_reply_err(req, res == -1 ? errno : 0);
+> +out:
+> +    unref_inode_lolocked(lo, oldinode, 1);
+> +    unref_inode_lolocked(lo, newinode, 1);
+>  }
+>  
+>  static void lo_unlink(fuse_req_t req, fuse_ino_t parent, const char *name)
+>  {
+>      int res;
+> +    struct lo_inode *inode;
+> +    struct lo_data *lo = lo_data(req);
+>  
+>      if (!is_safe_path_component(name)) {
+>          fuse_reply_err(req, EINVAL);
+>          return;
+>      }
+>  
+> +    inode = lookup_name(req, parent, name);
+> +    if (!inode) {
+> +        fuse_reply_err(req, EIO);
+> +        return;
+> +    }
+> +
+>      res = unlinkat(lo_fd(req, parent), name, 0);
+>  
+>      fuse_reply_err(req, res == -1 ? errno : 0);
+> +    unref_inode_lolocked(lo, inode, 1);
+>  }
+>  
+>  static void unref_inode_lolocked(struct lo_data *lo, struct lo_inode *inode,
+> -- 
+> 2.23.0
 
