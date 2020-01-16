@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA6A13DD5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 15:27:10 +0100 (CET)
-Received: from localhost ([::1]:42944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FF5713DD60
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 15:27:47 +0100 (CET)
+Received: from localhost ([::1]:42950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is673-0006U9-3B
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 09:27:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51437)
+	id 1is67e-0007l0-IC
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 09:27:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51575)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1is64s-0004b0-Q1
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:24:56 -0500
+ (envelope-from <slp@redhat.com>) id 1is65e-0005tB-PG
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:25:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1is64q-0004sL-0R
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:24:54 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:40077)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1is64p-0004lW-FJ; Thu, 16 Jan 2020 09:24:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=IiCaZziZPacMcbVQ9RLheo3fn4G5bGB8e0He/NJ7oBo=; 
- b=CoRONq8qbRFaBenkzgPOOXbWxRzzJaoQKXvq+YmnwA9HidmAd++zLX6HLaNQO3XCY/bmt5xjai8ZS3egQG/W7jvEKld4QLfUNnSa3fLLLpvomMdnBqrU17/lkcikmDM/kAAg6dLX9VUpiiR64z2kWIsX5JRqq/t8n7D6vLHLcvNNP0EcHWGUBxbMODvrIU4+6mXxYGsF9xLL+qpF51x1EqPAu42/gMb7P5K5I19nrfqoGJvozg5SGiLiPaJiCMU8L4oabuxWn1tSFWnM7EfAyf9f80oPTwLkaOArTNj8hv7Blh0u55vcg6fNdNscIoItPykxW/M8EwfeGey4h7wYKQ==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1is64X-0007QI-F7; Thu, 16 Jan 2020 15:24:33 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1is64W-0003s6-QL; Thu, 16 Jan 2020 15:24:32 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 1/4] qcow2: Require that the virtual size is a multiple
- of the sector size
-In-Reply-To: <70f3996c-e62d-c560-b7a3-e0653f38493d@redhat.com>
-References: <cover.1578596897.git.berto@igalia.com>
- <6a1cfcbb533b487bac96e1d2282ebf210954d27a.1578596897.git.berto@igalia.com>
- <bd6ca991-c2f7-0e27-5bee-07a7c53f8a8e@redhat.com>
- <w51v9peb2dz.fsf@maestria.local.igalia.com>
- <9f7ab60c-c9d4-527b-55dd-40f487a36895@redhat.com>
- <w51sgkib0n3.fsf@maestria.local.igalia.com>
- <70f3996c-e62d-c560-b7a3-e0653f38493d@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Thu, 16 Jan 2020 15:24:32 +0100
-Message-ID: <w51a76nfpi7.fsf@maestria.local.igalia.com>
+ (envelope-from <slp@redhat.com>) id 1is65a-0005Ke-0O
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:25:42 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42020
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1is65Y-0005JO-VF
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:25:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579184735;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gIxMsqPMfimPFe44n4bKsLCEwI7dt7AE9NZT3z6LG/8=;
+ b=TeSP3ra4AmUoMieVF9l5p4FokXeU9kmAp1Zx8gsyvpy8Klf9cnph6xL1NYl7F1MwblweYk
+ r9DmFpmNP8NCz5Rgl/qsr+/e9qWCpf4a1LcNIzdKeEuUJgtKaR1ik7c38bkkVl32cX2fY5
+ GTvQgftmdIdrylKuy09KlC2RP24ivw0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-258-yvr_3rWAN1GAkoyik8awUg-1; Thu, 16 Jan 2020 09:25:32 -0500
+X-MC-Unique: yvr_3rWAN1GAkoyik8awUg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB7498010C8
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 14:25:31 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DD731001B03;
+ Thu, 16 Jan 2020 14:25:28 +0000 (UTC)
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-44-dgilbert@redhat.com>
+User-agent: mu4e 1.2.0; emacs 26.3
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 043/104] virtiofsd: check input buffer size in
+ fuse_lowlevel.c ops
+In-reply-to: <20191212163904.159893-44-dgilbert@redhat.com>
+Date: Thu, 16 Jan 2020 15:25:25 +0100
+Message-ID: <87tv4vwka2.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,19 +73,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- qemu-block@nongnu.org
+Cc: "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue 14 Jan 2020 03:03:31 PM CET, Max Reitz wrote:
->> 3. QEMU can open them but it gets the size wrong.
+--=-=-=
+Content-Type: text/plain
+
+
+Dr. David Alan Gilbert (git) <dgilbert@redhat.com> writes:
+
+> From: Stefan Hajnoczi <stefanha@redhat.com>
 >
-> Yes, but in a safe way.  The user simply doesn=E2=80=99t get access to th=
-ose
-> 13 bytes.
+> Each FUSE operation involves parsing the input buffer.  Currently the
+> code assumes the input buffer is large enough for the expected
+> arguments.  This patch uses fuse_mbuf_iter to check the size.
+>
+> Most operations are simple to convert.  Some are more complicated due to
+> variable-length inputs or different sizes depending on the protocol
+> version.
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  tools/virtiofsd/fuse_lowlevel.c | 581 +++++++++++++++++++++++++-------
+>  1 file changed, 456 insertions(+), 125 deletions(-)
 
-Ok, I think I'll withdraw the patch then :-)
+Reviewed-by: Sergio Lopez <slp@redhat.com>
 
-Berto
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl4gclUACgkQ9GknjS8M
+AjUucw//algDEUEshXcXSaQZUqL+wRNbXJ1vVSVPPkcGIY+SJKfLbfBwOG3UxNPx
+oDYRxKSJWx+ulzNA4BKYG/ekYn2sPJqYXuPagU0bnKR/Q9SAWuCP48Gv4oV0rx5k
+bxnRLFGzgbJSafyGjUPxaCs2wJaopwuZc4UembwEzxnLtUDaa4FsWM2otMhQ7P2c
+SN9tzJrFWySOlxFudswdGz9yXzg6NNIugYp++C3jq/xeL6kx2UVjENrogdTDehPk
+5ys+QCwgqjVsSXBHq4KJtC8UGl6bvPNwkVGAJAhfgqp1UCXI8ARWTI83HBJZDayD
+FJJbRMsS3nmYaFqu4oNfEJvNjIXKJOC2PDdRn5Kune22sg4vqv5XP0SX4zlPoCTC
+yCoP2lPTwVrnCs2ktMU17fpShh9QU6bB5bAm2YF80r3Hvz8W5avKW/mYbaakY0tU
+9rHQXsNM3b0sqsytGLmM8Ejkv0wEgOTcEGILcgaABx1PMWSDXZ1FWMTsZd3OofHj
+nFW2rpE6Bj1WLuRkAkBu/v+Hxg8OXECh5qUxh9RNOjSZZDiizwK6PAcKaPMRz6kS
+UrpJVX4X4oq0aLDXLkrlKmKeQFUvjjl7BwI2gNaMp07mOU+0RtUaS/AwzGG+9H9X
+64AHKqSoNdMZTiaS2O5uZl6146wPwYONVAekP9urWVeNscmDgt8=
+=kMC/
+-----END PGP SIGNATURE-----
+--=-=-=--
+
 
