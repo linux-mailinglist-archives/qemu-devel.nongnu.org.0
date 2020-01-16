@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A14E13E4D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 18:11:14 +0100 (CET)
-Received: from localhost ([::1]:45564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C79813E5F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 18:18:33 +0100 (CET)
+Received: from localhost ([::1]:45652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is8fo-0004yJ-Np
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 12:11:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55263)
+	id 1is8mu-0008Hm-Ly
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 12:18:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56063)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1is8eu-0004FY-5N
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 12:10:20 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1is8lb-0007fV-B2
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 12:17:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1is8ep-0002lt-Bs
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 12:10:15 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22993
+ (envelope-from <pbonzini@redhat.com>) id 1is8lW-00073O-Jq
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 12:17:10 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22110
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1is8ep-0002l8-4N
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 12:10:11 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1is8lW-00072j-Es
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 12:17:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579194609;
+ s=mimecast20190719; t=1579195025;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p+YK8qYKOtZxmyeDoFXqKuKE3uRsglNGylMKmX4bJrA=;
- b=UOvjlgQK+Aq6k2CFCcI8PWah6iAoU15gews1KVpCWgCEu7LWvem++xqQYm4fBc4/+BGJpe
- h5oVuVAqS1tnaRHxevDKGJ4KK74h18Wi7UeEKHpJhmsPJq59M6OpH8GqAshtG9BVxIi1EZ
- z/hEbHFI0Hc+GHYgtq5wQR8hXzM8b7A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-HELCeKoBP-G5n1O61nEeoA-1; Thu, 16 Jan 2020 12:10:06 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9AB7800EBF;
- Thu, 16 Jan 2020 17:10:05 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E9CB858B4;
- Thu, 16 Jan 2020 17:10:01 +0000 (UTC)
-Date: Thu, 16 Jan 2020 18:10:00 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 85/86] numa: make exit() usage consistent
-Message-ID: <20200116181000.7ab83443@redhat.com>
-In-Reply-To: <a4feb8cd-a105-bcfd-b8c3-27ac5bb0f474@redhat.com>
-References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-86-git-send-email-imammedo@redhat.com>
- <a4feb8cd-a105-bcfd-b8c3-27ac5bb0f474@redhat.com>
+ bh=kJB+bdjusuwgJFTBM5V6hLwv2GyvQ1lKSplcsGc5q2A=;
+ b=HIeAjzmEadHVAUArAQKl1LfMLBlnW5hjK+ZoLWvbL0BO+85C13I4n5gLFCA/bMUeMYsAo0
+ XROvMzJNKT47OGaQo/DBi+zgoB8pF9LWLJZL8Vl4CG8WcSW8YSQN28G2wyhWyr+Zsf88RP
+ VaeDI0U8Q+Op6W4nVmINoNVmXgk8RUY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-LehrB83hM0i5oLn6YI0o1A-1; Thu, 16 Jan 2020 12:17:04 -0500
+Received: by mail-wr1-f70.google.com with SMTP id y7so9524506wrm.3
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 09:17:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kJB+bdjusuwgJFTBM5V6hLwv2GyvQ1lKSplcsGc5q2A=;
+ b=mAQfdVgTtzBwN7avKhX6XRy1WHjN1Bru82yVHK+Qq1Z2zfTFuTnr37p3azTf3WMxgX
+ u9zfx5iFayaHdYWkXy6uoAjdTA2p+kZ6kJ3zfKVnGR1qSxS6LPRQLw3Hc/MM9uVcz0zy
+ L+8gmEc3Xn0WiCnbwcrE/PVLdLjx7UxDZMP2NZNDFHbBbMj356jwyi7Ol+I4IvF/dsdm
+ O27toG3NrCDHzR/rNMh5JwrZKdvFIX1hg8HlMrBGnPR2X4+90ktQ1/s/CTi07EI2swgp
+ N7l3HeOlUTzXAq/+wy4R1lYfzK1wS5C9AZM4FjQXuHEeZ+yESECZm6kGUnme7c5o95pL
+ XXwg==
+X-Gm-Message-State: APjAAAX9Xb4dSQnVCV5SDwHp2ckpuNcTBqbMQy9WurXdfAp5+/iQRa5m
+ 5hcuheYp0FwGqgz8k1z5S2Pr2I3FCWwXQ1+dVuuk0eHGaEHRQm3RtpZmoLleoCnRj18zDOuLcYQ
+ nbdz+umUKinBLS2M=
+X-Received: by 2002:a5d:42c5:: with SMTP id t5mr4518957wrr.73.1579195022930;
+ Thu, 16 Jan 2020 09:17:02 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxhgeYGYbU7/hjdcPlbIu8YKkmUnD8+PDPqORrDP4/5H5RsosQDNiDn23K7TVbSfi7UdS7rNw==
+X-Received: by 2002:a5d:42c5:: with SMTP id t5mr4518924wrr.73.1579195022667;
+ Thu, 16 Jan 2020 09:17:02 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:436:e17d:1fd9:d92a?
+ ([2001:b07:6468:f312:436:e17d:1fd9:d92a])
+ by smtp.gmail.com with ESMTPSA id i5sm5568768wml.31.2020.01.16.09.17.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Jan 2020 09:17:01 -0800 (PST)
+Subject: Re: [PATCH v6 0/8] blockdev: Fix AioContext handling for various
+ blockdev actions
+To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
+References: <20200108143138.129909-1-slp@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <98068559-2270-d329-583b-8bf5afac086c@redhat.com>
+Date: Thu, 16 Jan 2020 18:17:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: HELCeKoBP-G5n1O61nEeoA-1
+In-Reply-To: <20200108143138.129909-1-slp@redhat.com>
+Content-Language: en-US
+X-MC-Unique: LehrB83hM0i5oLn6YI0o1A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -73,67 +92,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, ehabkost@redhat.com,
- Riku Voipio <riku.voipio@linaro.org>, qemu-devel@nongnu.org,
- David Gibson <dgibson@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Jan 2020 17:43:30 +0100
-Thomas Huth <thuth@redhat.com> wrote:
-
-> On 15/01/2020 16.07, Igor Mammedov wrote:
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> > CC: ehabkost@redhat.com
-> > ---
-> >  hw/core/numa.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/hw/core/numa.c b/hw/core/numa.c
-> > index 3177066..47d5ea1 100644
-> > --- a/hw/core/numa.c
-> > +++ b/hw/core/numa.c
-> > @@ -718,7 +718,7 @@ void numa_complete_configuration(MachineState *ms)
-> >          /* Report large node IDs first, to make mistakes easier to spot */
-> >          if (!numa_info[i].present) {
-> >              error_report("numa: Node ID missing: %d", i);
-> > -            exit(1);
-> > +            exit(EXIT_FAILURE);
-> >          }
-> >      }
-> >  
-> > @@ -759,7 +759,7 @@ void numa_complete_configuration(MachineState *ms)
-> >              error_report("total memory for NUMA nodes (0x%" PRIx64 ")"
-> >                           " should equal RAM size (0x" RAM_ADDR_FMT ")",
-> >                           numa_total, ram_size);
-> > -            exit(1);
-> > +            exit(EXIT_FAILURE);
-> >          }
-> >  
-> >          if (!numa_uses_legacy_mem()) {  
+On 08/01/20 15:31, Sergio Lopez wrote:
+> This patch series includes fixes for various issues related to
+> AioContext mismanagement for various blockdev-initiated actions.
 > 
-> Please don't. We've had exit(1) vs. exit(EXIT_FAILURE) discussions in
-> the past already, and IIRC there was no clear conclusion which one we
-> want to use. There are examples of changes to the numeric value in our
-> git history (see d54e4d7659ebecd0e1fa7ffc3e954197e09f8a1f for example),
-> and example of the other way round (see 4d1275c24d5d64d22ec4a30ce1b6a0
-> for example).
+> It also adds tests for those actions when executed on drives running
+> on an IOThread AioContext.
+
+Testing the latest addition to Patchew:
+
+Supersedes: <20191128104129.250206-1-slp@redhat.com>
+
+:)
+
+Paolo
+
+> ---
+> Changelog:
 > 
-> Your patch series here is already big enough, so I suggest to drop this
-> patch from the series. If you want to change this, please suggest an
-> update to CODING_STYLE.rst first so that we agree upon one style for
-> exit() ... otherwise somebody else might change this back into numeric
-> values in a couple of months just because they have a different taste.
-
-Ok, will do.
-
-There are other patches that introduce new exit(EXIT_FAILURE),
-is it fine to use that or should I stick to the style used in nearby code?
-
+> v6:
+>  - Rename the patch series.
+>  - Add "block/backup-top: Don't acquire context while dropping top"
+>  - Add "blockdev: Acquire AioContext on dirty bitmap functions"
+>  - Add "blockdev: Return bs to the proper context on snapshot abort"
+>  - Add "iotests: Test handling of AioContexts with some blockdev
+>    actions" (thanks Kevin Wolf)
+>  - Fix context release on error. (thanks Kevin Wolf)
 > 
->  Thomas
+> v5:
+>  - Include fix for iotest 141 in patch 2. (thanks Max Reitz)
+>  - Also fix iotest 185 and 219 in patch 2. (thanks Max Reitz)
+>  - Move error block after context acquisition/release, to we can use
+>    goto to bail out and release resources. (thanks Max Reitz)
+>  - Properly release old_context in qmp_blockdev_mirror. (thanks Max
+>    Reitz)
+> 
+> v4:
+>  - Unify patches 1-4 and 5-7 to avoid producing broken interim
+>    states. (thanks Max Reitz)
+>  - Include a fix for iotest 141. (thanks Kevin Wolf)
+> 
+> v3:
+>  - Rework the whole patch series to fix the issue by consolidating all
+>    operations in the transaction model. (thanks Kevin Wolf)
+> 
+> v2:
+>  - Honor bdrv_try_set_aio_context() context acquisition requirements
+>    (thanks Max Reitz).
+>  - Release the context at drive_backup_prepare() instead of avoiding
+>    re-acquiring it at do_drive_baclup(). (thanks Max Reitz)
+>  - Convert a single patch into a two-patch series.
+> ---
+> 
+> Sergio Lopez (8):
+>   blockdev: fix coding style issues in drive_backup_prepare
+>   blockdev: unify qmp_drive_backup and drive-backup transaction paths
+>   blockdev: unify qmp_blockdev_backup and blockdev-backup transaction
+>     paths
+>   blockdev: honor bdrv_try_set_aio_context() context requirements
+>   block/backup-top: Don't acquire context while dropping top
+>   blockdev: Acquire AioContext on dirty bitmap functions
+>   blockdev: Return bs to the proper context on snapshot abort
+>   iotests: Test handling of AioContexts with some blockdev actions
+> 
+>  block/backup-top.c         |   5 -
+>  block/backup.c             |   3 +
+>  blockdev.c                 | 391 ++++++++++++++++++++-----------------
+>  tests/qemu-iotests/141.out |   2 +
+>  tests/qemu-iotests/185.out |   2 +
+>  tests/qemu-iotests/219     |   7 +-
+>  tests/qemu-iotests/219.out |   8 +
+>  tests/qemu-iotests/281     | 247 +++++++++++++++++++++++
+>  tests/qemu-iotests/281.out |   5 +
+>  tests/qemu-iotests/group   |   1 +
+>  10 files changed, 484 insertions(+), 187 deletions(-)
+>  create mode 100755 tests/qemu-iotests/281
+>  create mode 100644 tests/qemu-iotests/281.out
+> 
 
 
