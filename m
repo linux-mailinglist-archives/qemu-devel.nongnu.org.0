@@ -2,73 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3BA13FB1A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 22:09:42 +0100 (CET)
-Received: from localhost ([::1]:48446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B515313FB22
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 22:12:26 +0100 (CET)
+Received: from localhost ([::1]:48512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isCOb-0006s6-5F
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 16:09:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33479)
+	id 1isCRF-00059l-IK
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 16:12:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35962)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1isCKk-0002Zi-1W
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 16:05:43 -0500
+ (envelope-from <pl@kamp.de>) id 1isCPW-0001aB-7K
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 16:10:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1isCKi-0007Wd-Sr
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 16:05:41 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44212)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1isCKi-0007W2-Mu
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 16:05:40 -0500
-Received: by mail-pg1-x541.google.com with SMTP id x7so10501289pgl.11
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 13:05:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mwvRgQcQ/nPioMHiLOS0giLq/Ty193xjRxMFlibh2LA=;
- b=kvM93qUhSTD/C6wdIOndRAjqp1apYqeI0UBTUvLHB6s64Jbq++WTZUTC5npi34KitU
- CYBr8SR3+Kq1WMGzO+o1DDNiARvOMq3uPKQGHv+fatcS8kR1pKzq+gblKxftDGcoaF5o
- aSkm4akUF5Nk+QDhoAlDhi+DFgPzTtmonj6dzPpv73ddsLUyRXFrUWbyKN9EeNMIpyWX
- cJKX8YZ1eQhSWrQyk/JI+xtU38le7VN7GhTwz+h1YNtp6jk/koraf90ZtqsWgJKlQSS1
- Npkn+Z9o+jhzny4c9dA5z9W9mwR0GMg1/d4xtpOokwIV9tsgQF+8xp9BDzOMgA6JnGTI
- hiNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mwvRgQcQ/nPioMHiLOS0giLq/Ty193xjRxMFlibh2LA=;
- b=UTxvEaV5ENqvV+SK3q2nJUfCr9OxHOXtRx+9xInnLsizd6p357yZro55bxk3J7cXw4
- AzODXX7igJPkC3fNRPM0C4SrMmN3ygxU4AOaGYrc079UobRPGwRv35iil+dAYG1LpviV
- BjOYGmgGlPTRDHBDZufWG/wHLK28c4jKfQPik5/f6IRl+fDa7ohktuYtDpsnO2GxDDI8
- DTp3LAnZED3F/xk1DHDrtpKNMM+UqOMcg732z5aqkxL4rNnKZT5IFaOIpNhmoWb4F3IC
- HQ/ALM6dXWz/lZ0zn5Kgc3nJ1TbYKDdheZrzkQnQPtTn3QTkIUR8/gho2UwQugFLiDYd
- USgw==
-X-Gm-Message-State: APjAAAVmYgpDrQs+sfsed0p4ZgqBr2esYyo5Z65i5KZ03FK2y66xhpfx
- HMmH9QFV+3nBp51LNT7hI63sviKD6aA=
-X-Google-Smtp-Source: APXvYqxv3s9N0djwe4jul7S2IyGuxCQXEeQ661t6vEaLmXrPuWEnIyv6xEYOnRlAP8+D6lkPa3yJ4w==
-X-Received: by 2002:a63:cf41:: with SMTP id b1mr41122897pgj.53.1579208739432; 
- Thu, 16 Jan 2020 13:05:39 -0800 (PST)
-Received: from localhost.localdomain (rrcs-66-91-136-155.west.biz.rr.com.
- [66.91.136.155])
- by smtp.gmail.com with ESMTPSA id k21sm25494907pgt.22.2020.01.16.13.05.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2020 13:05:38 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] vl: Only choose enabled accelerators in
- configure_accelerators
-Date: Thu, 16 Jan 2020 11:05:28 -1000
-Message-Id: <20200116210528.31953-5-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116210528.31953-1-richard.henderson@linaro.org>
-References: <20200116210528.31953-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+ (envelope-from <pl@kamp.de>) id 1isCPR-0003ni-TK
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 16:10:37 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:51444)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pl@kamp.de>) id 1isCPQ-0003js-Ks
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 16:10:33 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from [82.141.7.18] ([79.200.90.31]) (authenticated user pl@kamp.de)
+ by kerio.kamp.de with ESMTPSA
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
+ Thu, 16 Jan 2020 22:10:26 +0100
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.40.2.2.4\))
+Subject: Re: qemu-4.0.1: vhost_region_add_section:Section rounded to 0 prior
+ to previous a0000
+From: Peter Lieven <pl@kamp.de>
+In-Reply-To: <20200116202605.GN3108@work-vm>
+Date: Thu, 16 Jan 2020 22:10:28 +0100
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <15F1B192-D4B2-4092-9B97-CA1BB4C95B9A@kamp.de>
+References: <985fea06-ede6-dcb7-8829-a48a9416bc09@kamp.de>
+ <20200108150458.GC3184@work-vm>
+ <ca222a5f-1ec6-477c-ed83-6ef52ea9e97f@kamp.de>
+ <20200109184440.GR6795@work-vm>
+ <b89e8ba2-49e9-8c0d-1129-116afa76366a@kamp.de>
+ <cd316fb8-b56b-2913-8b57-f085ca4426d7@kamp.de>
+ <11bd7f7a-9022-6c35-3b92-27d6e66f3295@kamp.de>
+ <20200116202605.GN3108@work-vm>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+X-Mailer: Apple Mail (2.3608.40.2.2.4)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 195.62.97.192
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,70 +59,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, aleksandar.m.mail@gmail.com,
- philmd@redhat.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By choosing "tcg:kvm" when kvm is not enabled, we generate
-an incorrect warning: "invalid accelerator kvm".
 
-At the same time, use g_str_has_suffix rather than open-coding
-the same operation.
 
-Presumably the inverse is also true with --disable-tcg.
+> Am 16.01.2020 um 21:26 schrieb Dr. David Alan Gilbert =
+<dgilbert@redhat.com>:
+>=20
+> * Peter Lieven (pl@kamp.de) wrote:
+>> Am 16.01.20 um 13:47 schrieb Peter Lieven:
+>>> Am 13.01.20 um 17:25 schrieb Peter Lieven:
+>>>> Am 09.01.20 um 19:44 schrieb Dr. David Alan Gilbert:
+>>>>> * Peter Lieven (pl@kamp.de) wrote:
+>>>>>> Am 08.01.20 um 16:04 schrieb Dr. David Alan Gilbert:
+>>>>>>> * Peter Lieven (pl@kamp.de) wrote:
+>>>>>>>> Hi,
+>>>>>>>>=20
+>>>>>>>>=20
+>>>>>>>> I have a Qemu 4.0.1 machine with vhost-net network adapter, =
+thats polluting the log with the above message.
+>>>>>>>>=20
+>>>>>>>> Is this something known? Googling revealed the following patch =
+in Nemu (with seems to be a Qemu fork from Intel):
+>>>>>>>>=20
+>>>>>>>> =
+https://github.com/intel/nemu/commit/03940ded7f5370ce7492c619dccced114ef7f=
+56e
+>>>>>>>>=20
+>>>>>>>>=20
+>>>>>>>> The network stopped functioning. After a live-migration the =
+vServer is reachable again.
+>>>>>>>>=20
+>>>>>>>>=20
+>>>>>>>> Any ideas?
+>>>>>>> What guest are you running and what does your qemu commandline =
+look
+>>>>>>> like?
+>>>>>>=20
+>>>>>> Its running debian9. We have hundreds of other VMs with identical =
+setup. Do not know why this one makes trouble.
+>>>>> Could you extract an 'info mtree' from it - particularly the
+>>>>> 'address-space: memory' near the top.
+>>>>=20
+>>>>=20
+>>>> Here we go:
+>>>>=20
+>>>>=20
+>>>> address-space: memory
+>>>>   0000000000000000-ffffffffffffffff (prio 0, i/o): system
+>>>>     0000000000000000-000000003fffffff (prio 0, i/o): alias =
+ram-below-4g @pc.ram 0000000000000000-000000003fffffff
+>>>>     0000000000000000-ffffffffffffffff (prio -1, i/o): pci
+>>>>       00000000000a0000-00000000000affff (prio 2, i/o): alias =
+vga.chain4 @vga.vram 0000000000000000-000000000000ffff
+>>>>       00000000000a0000-00000000000bffff (prio 1, i/o): vga-lowmem
+>>>=20
+>>>=20
+>>> What seems special is that the RAM area is prio2. Any idea if this =
+makes trouble?
+>>=20
+>>=20
+>> Update from my side. This happens when I have Debian 10 with XFCE =
+when the Graphical User Interface is initialized.
+>>=20
+>> I see the log message when I specify -M pc-i440fx-2.9. If I obmit the =
+machine type the error does not appear.
+>=20
+> I can't persuade this to reproduce here on the images I currently =
+have;
+> but if you can rebuild, can you try the v3 of 'Fix hyperv synic on
+> vhost' I've just posted?  It turns off the alignment code that's
+> spitting that error in vhost-kernel cases, so should go away.
 
-Fixes: 28a0961757fc
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-v2: Use g_str_has_suffix (ajb)
----
- vl.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/vl.c b/vl.c
-index 8ae8a5d241..40ac9c5544 100644
---- a/vl.c
-+++ b/vl.c
-@@ -2764,21 +2764,26 @@ static void configure_accelerators(const char *progname)
- 
-         if (accel == NULL) {
-             /* Select the default accelerator */
--            if (!accel_find("tcg") && !accel_find("kvm")) {
--                error_report("No accelerator selected and"
--                             " no default accelerator available");
--                exit(1);
--            } else {
--                int pnlen = strlen(progname);
--                if (pnlen >= 3 && g_str_equal(&progname[pnlen - 3], "kvm")) {
-+            bool have_tcg = accel_find("tcg");
-+            bool have_kvm = accel_find("kvm");
-+
-+            if (have_tcg && have_kvm) {
-+                if (g_str_has_suffix(progname, "kvm")) {
-                     /* If the program name ends with "kvm", we prefer KVM */
-                     accel = "kvm:tcg";
-                 } else {
-                     accel = "tcg:kvm";
-                 }
-+            } else if (have_kvm) {
-+                accel = "kvm";
-+            } else if (have_tcg) {
-+                accel = "tcg";
-+            } else {
-+                error_report("No accelerator selected and"
-+                             " no default accelerator available");
-+                exit(1);
-             }
-         }
--
-         accel_list = g_strsplit(accel, ":", 0);
- 
-         for (tmp = accel_list; *tmp; tmp++) {
--- 
-2.20.1
+I will definitely give it a try tomorrow. The fix to change the machine =
+type was not working. I was too fast with my assumption.
+
+What I see is the following:
+
+Machine boots up (cold start), has network connectivity. As soon as the =
+Graphics are initialized, the vhost_region_add_section error pops up and
+Networking is interrupted. When I then migrate the vServer to another =
+host Networking works again. It even seems to keep working when I do a
+soft reset (shutdown -r). The only thing that breaks networking again =
+when the graphic is initialized is a hard reset (system reset via hmp or =
+amp).
+
+Thank you,
+Peter
+
 
 
