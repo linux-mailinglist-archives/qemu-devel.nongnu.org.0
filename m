@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51BEC13D621
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 09:50:43 +0100 (CET)
-Received: from localhost ([::1]:38454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8291113D62B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 09:51:56 +0100 (CET)
+Received: from localhost ([::1]:38504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is0rS-0002e1-80
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 03:50:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60559)
+	id 1is0sd-00059C-Hm
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 03:51:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60815)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1is0pr-0001Bl-2e
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 03:49:05 -0500
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1is0rS-0003mE-LG
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 03:50:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1is0pp-0004aQ-VD
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 03:49:03 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38058
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1is0rR-0005X0-Dj
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 03:50:42 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38118
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1is0pn-0004Yc-Iv; Thu, 16 Jan 2020 03:48:59 -0500
+ id 1is0rO-0005VQ-GX; Thu, 16 Jan 2020 03:50:38 -0500
 Received: from host86-191-119-91.range86-191.btcentralplus.com
  ([86.191.119.91] helo=[192.168.1.65])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1is0pk-0005fu-MY; Thu, 16 Jan 2020 08:48:58 +0000
+ id 1is0rI-0005gM-3O; Thu, 16 Jan 2020 08:50:34 +0000
 To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-63-git-send-email-imammedo@redhat.com>
+ <1579100861-73692-69-git-send-email-imammedo@redhat.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
@@ -55,18 +55,18 @@ Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
  KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
  imgcU9TTGC5qd9g=
-Message-ID: <87ed6ca3-913f-aaab-9cdc-f725490417ba@ilande.co.uk>
-Date: Thu, 16 Jan 2020 08:48:55 +0000
+Message-ID: <f9614930-c04e-772d-2bb7-dd55a140e4c5@ilande.co.uk>
+Date: Thu, 16 Jan 2020 08:50:31 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <1579100861-73692-63-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1579100861-73692-69-git-send-email-imammedo@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 86.191.119.91
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 62/86] ppc:mac_oldworld: use memdev for RAM
+Subject: Re: [PATCH v2 68/86] ppc:prep: use memdev for RAM
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: No (on mail.default.ilande.uk0.bigv.io); Unknown failure
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
@@ -83,7 +83,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: hpoussin@reactos.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -99,43 +99,89 @@ On 15/01/2020 15:07, Igor Mammedov wrote:
 > 
 > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 > ---
-> CC: mark.cave-ayland@ilande.co.uk
+> CC: hpoussin@reactos.org
 > CC: david@gibson.dropbear.id.au
 > CC: qemu-ppc@nongnu.org
 > ---
->  hw/ppc/mac_oldworld.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+>  hw/ppc/prep.c | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
 > 
-> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-> index 0fa680b..2be0602 100644
-> --- a/hw/ppc/mac_oldworld.c
-> +++ b/hw/ppc/mac_oldworld.c
-> @@ -91,7 +91,6 @@ static void ppc_heathrow_init(MachineState *machine)
->      CPUPPCState *env = NULL;
->      char *filename;
->      int linux_boot, i;
+> diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+> index 862345c..bf75dde 100644
+> --- a/hw/ppc/prep.c
+> +++ b/hw/ppc/prep.c
+> @@ -400,7 +400,6 @@ static int PPC_NVRAM_set_params (Nvram *nvram, uint16_t NVRAM_size,
+>  /* PowerPC PREP hardware initialisation */
+>  static void ppc_prep_init(MachineState *machine)
+>  {
+> -    ram_addr_t ram_size = machine->ram_size;
+>      const char *kernel_filename = machine->kernel_filename;
+>      const char *kernel_cmdline = machine->kernel_cmdline;
+>      const char *initrd_filename = machine->initrd_filename;
+> @@ -413,7 +412,6 @@ static void ppc_prep_init(MachineState *machine)
+>      MemoryRegion *xcsr = g_new(MemoryRegion, 1);
+>  #endif
+>      int linux_boot, i, nb_nics1;
 > -    MemoryRegion *ram = g_new(MemoryRegion, 1);
->      MemoryRegion *bios = g_new(MemoryRegion, 1);
->      uint32_t kernel_base, initrd_base, cmdline_base = 0;
->      int32_t kernel_size, initrd_size;
-> @@ -127,9 +126,7 @@ static void ppc_heathrow_init(MachineState *machine)
->          exit(1);
+>      uint32_t kernel_base, initrd_base;
+>      long kernel_size, initrd_size;
+>      DeviceState *dev;
+> @@ -444,15 +442,14 @@ static void ppc_prep_init(MachineState *machine)
+>          qemu_register_reset(ppc_prep_reset, cpu);
 >      }
 >  
-> -    memory_region_allocate_system_memory(ram, NULL, "ppc_heathrow.ram",
-> -                                         ram_size);
+> -    /* allocate RAM */
+> -    memory_region_allocate_system_memory(ram, NULL, "ppc_prep.ram", ram_size);
 > -    memory_region_add_subregion(sysmem, 0, ram);
+> +    /* map RAM */
 > +    memory_region_add_subregion(sysmem, 0, machine->ram);
 >  
->      /* allocate and load BIOS */
->      memory_region_init_ram(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
-> @@ -446,6 +443,7 @@ static void heathrow_class_init(ObjectClass *oc, void *data)
->      mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("750_v3.1");
+>      if (linux_boot) {
+>          kernel_base = KERNEL_LOAD_ADDR;
+>          /* now we can load the kernel */
+>          kernel_size = load_image_targphys(kernel_filename, kernel_base,
+> -                                          ram_size - kernel_base);
+> +                                          machine->ram_size - kernel_base);
+>          if (kernel_size < 0) {
+>              error_report("could not load kernel '%s'", kernel_filename);
+>              exit(1);
+> @@ -461,7 +458,7 @@ static void ppc_prep_init(MachineState *machine)
+>          if (initrd_filename) {
+>              initrd_base = INITRD_LOAD_ADDR;
+>              initrd_size = load_image_targphys(initrd_filename, initrd_base,
+> -                                              ram_size - initrd_base);
+> +                                              machine->ram_size - initrd_base);
+>              if (initrd_size < 0) {
+>                  error_report("could not load initial ram disk '%s'",
+>                               initrd_filename);
+> @@ -576,7 +573,7 @@ static void ppc_prep_init(MachineState *machine)
+>      sysctrl->nvram = m48t59;
+>  
+>      /* Initialise NVRAM */
+> -    PPC_NVRAM_set_params(m48t59, NVRAM_SIZE, "PREP", ram_size,
+> +    PPC_NVRAM_set_params(m48t59, NVRAM_SIZE, "PREP", machine->ram_size,
+>                           ppc_boot_device,
+>                           kernel_base, kernel_size,
+>                           kernel_cmdline,
+> @@ -596,6 +593,7 @@ static void prep_machine_init(MachineClass *mc)
+>      mc->default_boot_order = "cad";
+>      mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("602");
 >      mc->default_display = "std";
->      mc->ignore_boot_device_suffixes = true;
-> +    mc->default_ram_id = "ppc_heathrow.ram";
->      fwc->get_dev_path = heathrow_fw_dev_path;
+> +    mc->default_ram_id = "ppc_prep.ram";
 >  }
+>  
+>  static int prep_set_cmos_checksum(DeviceState *dev, void *opaque)
+> @@ -814,6 +812,7 @@ static void ibm_40p_machine_init(MachineClass *mc)
+>      mc->init = ibm_40p_init;
+>      mc->max_cpus = 1;
+>      mc->default_ram_size = 128 * MiB;
+> +    mc->default_ram_id = "ppc_prep.ram";
+>      mc->block_default_type = IF_SCSI;
+>      mc->default_boot_order = "c";
+>      mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("604");
+
+Note that the prep machine is scheduled for removal soon (I believe Thomas has posted
+a patch on-list for this), but the 40p part looks fine.
 
 Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
