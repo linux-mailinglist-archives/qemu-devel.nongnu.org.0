@@ -2,109 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D14713D14F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 01:56:50 +0100 (CET)
-Received: from localhost ([::1]:34688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D1A13D167
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 02:15:28 +0100 (CET)
+Received: from localhost ([::1]:34838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irtSq-00031E-PR
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 19:56:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33835)
+	id 1irtks-00017C-Tx
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 20:15:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36354)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1irtRp-0002Zq-3Z
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 19:55:46 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1irtk0-0000bB-3F
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 20:14:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1irtRn-0005eM-9D
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 19:55:44 -0500
-Received: from esa14.fujitsucc.c3s2.iphmx.com ([68.232.156.101]:19976)
+ (envelope-from <dgibson@ozlabs.org>) id 1irtjy-0007E8-Kc
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 20:14:31 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60011 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1irtRm-0005cd-PC
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 19:55:43 -0500
-IronPort-SDR: Q1ZwBQxWT+G2hJGuFzkbecpKun72uTGgOTW/EQF5oCgzCvMl0Q3Ur5w09jAP72xXXvci+kAiSM
- gKzpH5Zx6pJXeZWwXZ+cuT7OfJ+Lzltzt/LgcZ3j3AmjCWLK8P83a8CsA4MgtCEB1qmYkoDcZU
- PFG/I9uo19EefYJpPqG8/dsBRb1DbpBY562LlpJUGakBw0xH6W/MNoGodRY5SpAV/1TParUC2o
- eN9R/6jRg9ICIo9qLPKkNeXnLRdRssdGiZdaGdzHDJ+pfb2j4LF3ehYPSBGXuMe2i7E8HlQMmR
- hkA=
-X-IronPort-AV: E=McAfee;i="6000,8403,9501"; a="9405482"
-X-IronPort-AV: E=Sophos;i="5.70,323,1574089200"; 
-   d="scan'208";a="9405482"
-Received: from mail-os2jpn01lp2055.outbound.protection.outlook.com (HELO
- JPN01-OS2-obe.outbound.protection.outlook.com) ([104.47.92.55])
- by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2020 09:55:38 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CudERjj1B9PYWKz64B59UcdYTZXSOrTZI6JhEMEE+KbtJP5sKdEOKFRRRjscC2mrp5m2g8KaEmqE2JsCp1I0ydBbLhh7zVRS+L1j1Iffa5lkm8Zw4Vi9VbdV35iprLhABV8rmH5dFUL1dutVVaPJ/F9jkT+Xz/7xkZJmdOM54Ikkm9XcY1hcuwIKEi8o2j8wjySL9AXagftoh8q4QYJPMrFXD6D8z6oq9o1lLOsO8DKS5DNaLXjfugXA+nTyapDPv+xtligL0/NjKpJCOzzrGms8hmnIhJ4SNdw+5N/hw0JuDWMPlL1ow+ERXsXgCMrs00f9Ioh1MdUTby5XbG/pRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Yf+fZ4mCg9/whppBYdP24EDDYJlXCj7kybGpS68cP4=;
- b=ZIxQHi/y+k6ipsG7pH4MFC1DlNbLpSJGp5KOEMJOnPsch8BycqExh/jKu8Y8VeVEVjP8du9P2SJyMj3MTpkWDb9FbYlrzGIAa1S9670SROCNQ2RhHoM4EloCTEYzFrUopHuSsvop/TNFcIiT7Xc6tuw71Z1QIGsERbGMZn0HtnibWF8GCzYVrNUKFc875Yzli36mgQEaWZtJh6IZlLrlLIwJ5UZe8TbjmmPFuZamiHB33nbRPcp1dWuJYWScT8VmYBRmD7UR3iM+DB6fjY5/38SA5AmGwWt4WyddzDGTzeBsbOQ0YEaK83hLoOg/D2KJL5OXp7cxMoMhOpZhHyojCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Yf+fZ4mCg9/whppBYdP24EDDYJlXCj7kybGpS68cP4=;
- b=jy8kTh3SM5lz8GelkHlUlSDPkkm8tTsSQMTe6kw3ttQmQgcUcWzvZWK+g82+525pvUyAQF2dkDOBazT5hDkSCeWabHZSkrwYeJEgE0ZyDqBdFUpqapjgz8bGY69RQpFg2iwg3dOgQPfEvbx9MEtvs6M2BxjbDzsaVVydUlOiq0g=
-Received: from OSBPR01MB4582.jpnprd01.prod.outlook.com (20.179.181.21) by
- OSBPR01MB4805.jpnprd01.prod.outlook.com (20.179.182.209) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2623.10; Thu, 16 Jan 2020 00:55:34 +0000
-Received: from OSBPR01MB4582.jpnprd01.prod.outlook.com
- ([fe80::1127:602f:66e2:ba38]) by OSBPR01MB4582.jpnprd01.prod.outlook.com
- ([fe80::1127:602f:66e2:ba38%4]) with mapi id 15.20.2623.017; Thu, 16 Jan 2020
- 00:55:34 +0000
-From: "misono.tomohiro@fujitsu.com" <misono.tomohiro@fujitsu.com>
-To: "'Dr. David Alan Gilbert'" <dgilbert@redhat.com>
-Subject: RE: [PATCH 084/104] Virtiofsd: fix memory leak on fuse queueinfo
-Thread-Topic: [PATCH 084/104] Virtiofsd: fix memory leak on fuse queueinfo
-Thread-Index: AQHVy5Sip5x02RmsOEiCFdeq59uyeafr8oAAgACD55A=
-Date: Thu, 16 Jan 2020 00:54:24 +0000
-Deferred-Delivery: Thu, 16 Jan 2020 00:55:24 +0000
-Message-ID: <OSBPR01MB4582846F726005E9405A84C2E5360@OSBPR01MB4582.jpnprd01.prod.outlook.com>
-References: <20191212163904.159893-85-dgilbert@redhat.com>
- <20200115112006.32659-1-misono.tomohiro@jp.fujitsu.com>
- <20200115165712.GE3811@work-vm>
-In-Reply-To: <20200115165712.GE3811@work-vm>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-shieldmailcheckermailid: dfc70c58aecc4cc297d3bfd1412c569a
-x-securitypolicycheck: OK by SHieldMailChecker v2.6.3
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=misono.tomohiro@fujitsu.com; 
-x-originating-ip: [210.170.118.190]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 392dd01a-9802-44ca-7998-08d79a1ecb50
-x-ms-traffictypediagnostic: OSBPR01MB4805:
-x-microsoft-antispam-prvs: <OSBPR01MB4805BA3FEEE4136B3D0C78BDE5360@OSBPR01MB4805.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1751;
-x-forefront-prvs: 02843AA9E0
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(346002)(366004)(376002)(39860400002)(136003)(189003)(199004)(7696005)(85182001)(33656002)(8936002)(478600001)(66476007)(66556008)(55016002)(5660300002)(6916009)(6666004)(81156014)(64756008)(66446008)(52536014)(4326008)(6506007)(8676002)(316002)(54906003)(71200400001)(66946007)(186003)(26005)(86362001)(81166006)(2906002)(9686003)(76116006)(777600001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:OSBPR01MB4805;
- H:OSBPR01MB4582.jpnprd01.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: KmLx9TA2Pzhj1LpXUvF2uKqE86Yt61dMV+o2R80k2lEB7zdLOvu048Z9ZTN+jUU43FN2TwNQgbo8cptevGWB4fdw8xYaU2v7xnMmjJedZgkclBVoUIJv8EDmeLThWeFZhFDKLG9mPJDz+axasqb2Bc3g3FYmJKGsNwLXf8bnimWOx2uJzKT9xoqyRGWDZJYkUkVhOjPOZ0gETu9qX9Lf/ctJMzDoPNaYXka6ct+QCeqVvuwnvm7wuUizI1iHpfhbxXumfW68Dg+cMr2ICPFEEFPglHbiR7iThMGKcf44CycU3DifFwxa7jc8eoISArQj+PKfAPdgi1FE3hEiUUNco1boPLCWq7WoxqM+eOKfUXX0j6R0ByWKrGksZWD5TLo40x1RwUOQz8jUfGSZsZt4xEy04HZrILabSx51wiu6zYN3Ilm8p5mrfZR0SaJGuG0HSHKcw3VWLDm0Qi2pm21WHo/iMpiY1k2Sr7zbrdqVvDuJvmcY1HGfJVsIbg0OKX4a
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1irtjx-0007BC-Of; Wed, 15 Jan 2020 20:14:30 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 47ymSK1NKHz9sR0; Thu, 16 Jan 2020 12:14:25 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1579137265;
+ bh=clS9+EvTnJAgbcn8Qk58XBFuVl4DOoKbCYc+GfSkwkc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=i7/g4jdy1IEwx9cK6kGs3MzQW0Gi/F7/QwhMeSRWeedGnm9X9qc59/Dzb3c6ZLSPK
+ 4nf8LsfpXK1fjBq6T8JmLnWjUKDpZjk13StTVrRO3OmOkuSm4yRfE08a7BOcwAVM4f
+ 5McdKJDP9PifElo8YFcLJ8MaByBm7ze2rN4oKBmo=
+Date: Thu, 16 Jan 2020 11:08:10 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v2 59/86] ppc:e500: drop RAM size fixup
+Message-ID: <20200116010810.GC54439@umbus>
+References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+ <1579100861-73692-60-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 392dd01a-9802-44ca-7998-08d79a1ecb50
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2020 00:55:34.6280 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0k6wnIHdwNqN/JviFG/1QdtFoHvp6EEFwkhdXgtIIcrPSAq7HA3UsLbtd7IzPdPQ2cs6YQSEVeVwbsWRtRF75TZbUqAC+ijBf8L5IT8VOKs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4805
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 68.232.156.101
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="4jXrM3lyYWu4nBt5"
+Content-Disposition: inline
+In-Reply-To: <1579100861-73692-60-git-send-email-imammedo@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,76 +55,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "vgoyal@redhat.com" <vgoyal@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> * Misono Tomohiro (misono.tomohiro@jp.fujitsu.com) wrote:
-> > > From: Liu Bo <bo.liu@linux.alibaba.com>
-> > >
-> > > For fuse's queueinfo, both queueinfo array and queueinfos are
-> > > allocated in
-> > > fv_queue_set_started() but not cleaned up when the daemon process qui=
-ts.
-> > >
-> > > This fixes the leak in proper places.
-> > >
-> > > Signed-off-by: Liu Bo <bo.liu@linux.alibaba.com>
-> > > Signed-off-by: Eric Ren <renzhen@linux.alibaba.com>
-> > > ---
-> > >  tools/virtiofsd/fuse_virtio.c | 9 +++++++++
-> > >  1 file changed, 9 insertions(+)
-> > >
-> > > diff --git a/tools/virtiofsd/fuse_virtio.c
-> > > b/tools/virtiofsd/fuse_virtio.c index 7b22ae8d4f..a364f23d5d 100644
-> > > --- a/tools/virtiofsd/fuse_virtio.c
-> > > +++ b/tools/virtiofsd/fuse_virtio.c
-> > > @@ -671,6 +671,8 @@ static void fv_queue_set_started(VuDev *dev, int =
-qidx, bool started)
-> > >          }
-> > >          close(ourqi->kill_fd);
-> > >          ourqi->kick_fd =3D -1;
-> > > +        free(vud->qi[qidx]);
-> > > +        vud->qi[qidx] =3D NULL;
-> > >      }
-> > >  }
-> > >
-> > > @@ -878,6 +880,13 @@ int virtio_session_mount(struct fuse_session
-> > > *se)  void virtio_session_close(struct fuse_session *se)  {
-> > >      close(se->vu_socketfd);
-> >
-> > I beleve above close() should be removed as it is called 6 line below.
->=20
-> You're right, I think that's my fault from when I merged this patch with =
-'Virtiofsd: fix segfault when quit before dev init'.
->=20
-> Fixed.
 
-Given that:
- Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+--4jXrM3lyYWu4nBt5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks.
-
-> Thanks.
+On Wed, Jan 15, 2020 at 04:07:14PM +0100, Igor Mammedov wrote:
+> If user provided non-sense RAM size, board will complain and
+> continue running with max RAM size supported.
+> Also RAM is going to be allocated by generic code, so it won't be
+> possible for board to fix things up for user.
 >=20
-> Dave
+> Make it error message and exit to force user fix CLI,
+> instead of accepting non-sense CLI values.
 >=20
-> > > +
-> > > +    if (!se->virtio_dev) {
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    close(se->vu_socketfd);
-> > > +    free(se->virtio_dev->qi);
-> > >      free(se->virtio_dev);
-> > >      se->virtio_dev =3D NULL;
-> > >  }
-> > > --
-> > > 2.23.0
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> While at it, replace usage of global ram_size with
+> machine->ram_size
+>=20
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
+>=20
+> ---
+> v2:
+>  * fix format string cousing build failure on 32-bit host
+>    (Philippe Mathieu-Daud=E9 <philmd@redhat.com>)
+>=20
+> CC: david@gibson.dropbear.id.au
+> CC: qemu-ppc@nongnu.org
+> ---
+>  hw/ppc/e500.c | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> index 12b6a5b..6d119fe 100644
+> --- a/hw/ppc/e500.c
+> +++ b/hw/ppc/e500.c
+> @@ -906,12 +906,14 @@ void ppce500_init(MachineState *machine)
+> =20
+>      env =3D firstenv;
+> =20
+> -    /* Fixup Memory size on a alignment boundary */
+> -    ram_size &=3D ~(RAM_SIZES_ALIGN - 1);
+> -    machine->ram_size =3D ram_size;
+> +    if (!QEMU_IS_ALIGNED(machine->ram_size, RAM_SIZES_ALIGN)) {
+> +        error_report("RAM size must be multiple of %" PRIu64, RAM_SIZES_=
+ALIGN);
+> +        exit(EXIT_FAILURE);
+> +    }
+> =20
+>      /* Register Memory */
+> -    memory_region_allocate_system_memory(ram, NULL, "mpc8544ds.ram", ram=
+_size);
+> +    memory_region_allocate_system_memory(ram, NULL, "mpc8544ds.ram",
+> +                                         machine->ram_size);
+>      memory_region_add_subregion(address_space_mem, 0, ram);
+> =20
+>      dev =3D qdev_create(NULL, "e500-ccsr");
+> @@ -1083,7 +1085,7 @@ void ppce500_init(MachineState *machine)
+>          kernel_base =3D cur_base;
+>          kernel_size =3D load_image_targphys(machine->kernel_filename,
+>                                            cur_base,
+> -                                          ram_size - cur_base);
+> +                                          machine->ram_size - cur_base);
+>          if (kernel_size < 0) {
+>              error_report("could not load kernel '%s'",
+>                           machine->kernel_filename);
+> @@ -1097,7 +1099,7 @@ void ppce500_init(MachineState *machine)
+>      if (machine->initrd_filename) {
+>          initrd_base =3D (cur_base + INITRD_LOAD_PAD) & ~INITRD_PAD_MASK;
+>          initrd_size =3D load_image_targphys(machine->initrd_filename, in=
+itrd_base,
+> -                                          ram_size - initrd_base);
+> +                                          machine->ram_size - initrd_bas=
+e);
+> =20
+>          if (initrd_size < 0) {
+>              error_report("could not load initial ram disk '%s'",
+> @@ -1115,7 +1117,7 @@ void ppce500_init(MachineState *machine)
+>       * ensures enough space between kernel and initrd.
+>       */
+>      dt_base =3D (loadaddr + payload_size + DTC_LOAD_PAD) & ~DTC_PAD_MASK;
+> -    if (dt_base + DTB_MAX_SIZE > ram_size) {
+> +    if (dt_base + DTB_MAX_SIZE > machine->ram_size) {
+>              error_report("not enough memory for device tree");
+>              exit(1);
+>      }
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--4jXrM3lyYWu4nBt5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4ft3gACgkQbDjKyiDZ
+s5IrYg//SrrO46Wf7Z0+3YxdCa/nJYPM55RRcorJnM4tu6AYerusdHLvk+AHZn8V
++pdfIYaFOM5DHnxjKZsR5vcGNFaPS1C/LMZTVfebX/IC88Dv8bG4azwZo0JjtFqY
+TVLiJNlouXLgS8gbK6Wy1JBBiU96siEeb6epBTNWUgPaIT7F2OD4rR+xx1p/jVDC
+r9CsTYj4BSL5BRi9oPWqKUzuq6rYZ8fv484tELvF3pqFmp5NFj/zhP6sOfxIBr2F
+M5AOTHQ6kBAL9KB4syogg8x5EI3g32CrD2vJPVwMXmSfn2cbKV6PQoLPgw9IOb0i
+2GihFECLShWLgjKzsHVNIZuNYgDczIFDTYC+w5JZPn2oyJxbX6g+kP3Af1l7swyS
+I4VkBL/zJ9r+Kyg0tXnG7DkwBHydCizHAqVQeqUveq+n3ArxhL56pRUMLmEZKsT3
+QhkV/gFII7DhHKFcJqd+nqpkPMYAaqaE4vovqNXkjllLLZxUYYTnPWIcSp+rRhru
+1TZOi+6s/IP7eqiYYge+Imy//jm+NdXo8QDcJnvAlpJWuOs799BTjja3PW6EKXWz
+hWDMKfHwRFFwTdHVHw4k70o6zdqK0WuB5g3l8HwlDNf7Svhw16+K46n88PDPIEz4
+VkGgaI0GQxfq+axUgsHtBwSQuzhse3o4W+yHaqOSVwXzAIlaaQI=
+=dTyj
+-----END PGP SIGNATURE-----
+
+--4jXrM3lyYWu4nBt5--
 
