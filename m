@@ -2,53 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA80613D45F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 07:34:54 +0100 (CET)
-Received: from localhost ([::1]:37232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 464A813D49A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 07:47:08 +0100 (CET)
+Received: from localhost ([::1]:37304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iryk1-0007Vk-Gw
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 01:34:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43429)
+	id 1iryvr-0004Cj-Cb
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 01:47:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <benh@kernel.crashing.org>) id 1iryjF-0006Ul-KU
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 01:34:06 -0500
+ (envelope-from <bounces@canonical.com>) id 1iryuk-0002ip-0G
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 01:46:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <benh@kernel.crashing.org>) id 1iryjE-00075G-L1
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 01:34:05 -0500
-Received: from kernel.crashing.org ([76.164.61.194]:55218)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <benh@kernel.crashing.org>)
- id 1iryjC-00071X-5g; Thu, 16 Jan 2020 01:34:02 -0500
-Received: from localhost (gate.crashing.org [63.228.1.57])
- (authenticated bits=0)
- by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 00G6XiWk027019
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 16 Jan 2020 00:33:48 -0600
-Message-ID: <15ba2e1f782eec69173fe9c0f85a4dcff1d57f14.camel@kernel.crashing.org>
-Subject: Re: Semihosting, arm, riscv, ppc and common code
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Date: Thu, 16 Jan 2020 17:33:41 +1100
-In-Reply-To: <87wo9tkjxz.fsf@linaro.org>
-References: <11d88b2741eac3f634d5aed9e3355c974b533f7b.camel@kernel.crashing.org>
- <AE7841A1-B4D6-4D6D-9AFD-01C4604D7BC4@livius.net>
- <cd9a2de94700a2781f176247131dceba690d8f31.camel@kernel.crashing.org>
- <87sgkimkma.fsf@linaro.org>
- <1309ca0ab6405d88cfd949c73130ad0f2af944a6.camel@kernel.crashing.org>
- <87wo9tkjxz.fsf@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
+ (envelope-from <bounces@canonical.com>) id 1iryua-0003yn-TK
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 01:45:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34580)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iryuZ-0003xB-D3
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 01:45:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iryuY-0003uG-3E
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 06:45:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 175D62E80C0
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 06:45:46 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by kernel.crashing.org id
- 00G6XiWk027019
+Date: Thu, 16 Jan 2020 06:34:37 -0000
+From: JS <1859920@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: js1943
+X-Launchpad-Bug-Reporter: JS (js1943)
+X-Launchpad-Bug-Modifier: JS (js1943)
+Message-Id: <157915647770.15306.7117337280333115892.malonedeb@wampee.canonical.com>
+Subject: [Bug 1859920] [NEW] daemoniz not working on MacOS
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bceb5ef013b87ef7aafe0755545ceb689ca7ac60";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c1436278af91eec48ee9a48cbef29a5d62561e03
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 76.164.61.194
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,47 +64,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liviu Ionescu <ilg@livius.net>, keithp@keithp.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1859920 <1859920@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2020-01-15 at 12:01 +0000, Alex Benn=C3=A9e wrote:
->=20
-> > There seem to be some linux-user stuff in there, I'm mostly consideri=
-ng
-> > whatever ARM does today but we can certainly extend later.
->=20
-> Depends on if it is to be used. AFAIK the main users of arm linux user
-> are compiler test cases for M-profile CPUs.=20
+Public bug reported:
 
-For microwatt I was going to implement HW support as well via JTAG
-but the user linux-user bits are less obviously useful to me.
+OS: MacOS Catalina 10.15.2
+Qemu install via brew: brew install qemu
 
-That said, most of that code can trivially be made arch neutral by
-replacing the use of the arch specific CPU type with CPUState as
-the first argument to most functions. There are only a handful of arch
-specific helpers needed from there to extract the op & arg, set the
-result etc..
+qemu-system-x86_64 -version
+QEMU emulator version 4.2.50 (v4.2.0-13-g084a398bf8-dirty)
+Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
 
-> > The idea is to make sure ARM, RiscV and POWER use the same protocol a=
-nd
-> > code base to make picolibc (and others) life easier. Bug compatible
-> > :-)
->=20
-> Hmm, I'm not so sure. QEMU tries to emulate real HW although I
-> appreciate that is a somewhat loose definition once you get to things
-> like -M virt and other such SW like abstractions. Is semihosting even
-> going to be a thing on real RiscV/Power silicon?
+---
 
-It will be on microwatt once I add support for it. We could probably
-make it work on real power9 if the systems give access to the external
-debug facilities of the processor as well. I'm no longer involved with
-powerpc in a professional capacity but I can ask Anton or Paul to help
-there.
+Start Ubuntu Desktop 18.04 client as follow:
 
-Cheers,
-Ben.
+IMG_CD=3D$HOME/Downloads/iso/ubuntu-18.04.3-desktop-amd64.iso
+IMG_FILE=3D$HOME/code/vm/qemu/u64d01.qcow2
+MAC_ADDR=3Dxx:xx:xx:xx:xx:xx
+
+qemu-system-x86_64 \
+-no-user-config -nodefaults \
+-show-cursor \
+-name u64d01 \
+-M q35,accel=3Dhvf,usb=3Doff,vmport=3Doff \
+-cpu host -smp 4 -m 2048 \
+-overcommit mem-lock=3Doff \
+-overcommit cpu-pm=3Doff \
+-rtc base=3Dutc,clock=3Dhost \
+\
+-device virtio-tablet-pci \
+-device virtio-vga \
+\
+-device virtio-blk-pci,drive=3Dssd1 \
+-drive id=3Dssd1,file=3D$IMG_FILE,if=3Dnone,format=3Dqcow2 \
+\
+-device virtio-net-pci,netdev=3Dnic1,mac=3D$MAC_ADDR \
+-netdev user,id=3Dnic1,ipv4=3Don,ipv6=3Don,hostname=3Du64d01,hostfwd=3Dtcp:=
+:2222-:22 \
+\
+-device ich9-intel-hda,id=3Dsnd,msi=3Don \
+-device hda-output,id=3Dsnd-codec0,bus=3Dsnd.0,cad=3D0,audiodev=3Dsnd0 \
+-audiodev coreaudio,id=3Dsnd0,out.buffer-count=3D10000 \
+\
+-daemonize
+
+Give following error:
+
+objc[3432]: +[NSNumber initialize] may have been in progress in another thr=
+ead when fork() was called.
+objc[3432]: +[NSNumber initialize] may have been in progress in another thr=
+ead when fork() was called. We cannot safely call it or ignore it in the fo=
+rk() child process. Crashing instead. Set a breakpoint on objc_initializeAf=
+terForkError to debug.
 
 
+I checked "ps -ef|grep qemu" before and after the command, there was no qem=
+u process running.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859920
+
+Title:
+  daemoniz not working on MacOS
+
+Status in QEMU:
+  New
+
+Bug description:
+  OS: MacOS Catalina 10.15.2
+  Qemu install via brew: brew install qemu
+
+  qemu-system-x86_64 -version
+  QEMU emulator version 4.2.50 (v4.2.0-13-g084a398bf8-dirty)
+  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+
+  ---
+
+  Start Ubuntu Desktop 18.04 client as follow:
+
+  IMG_CD=3D$HOME/Downloads/iso/ubuntu-18.04.3-desktop-amd64.iso
+  IMG_FILE=3D$HOME/code/vm/qemu/u64d01.qcow2
+  MAC_ADDR=3Dxx:xx:xx:xx:xx:xx
+
+  qemu-system-x86_64 \
+  -no-user-config -nodefaults \
+  -show-cursor \
+  -name u64d01 \
+  -M q35,accel=3Dhvf,usb=3Doff,vmport=3Doff \
+  -cpu host -smp 4 -m 2048 \
+  -overcommit mem-lock=3Doff \
+  -overcommit cpu-pm=3Doff \
+  -rtc base=3Dutc,clock=3Dhost \
+  \
+  -device virtio-tablet-pci \
+  -device virtio-vga \
+  \
+  -device virtio-blk-pci,drive=3Dssd1 \
+  -drive id=3Dssd1,file=3D$IMG_FILE,if=3Dnone,format=3Dqcow2 \
+  \
+  -device virtio-net-pci,netdev=3Dnic1,mac=3D$MAC_ADDR \
+  -netdev user,id=3Dnic1,ipv4=3Don,ipv6=3Don,hostname=3Du64d01,hostfwd=3Dtc=
+p::2222-:22 \
+  \
+  -device ich9-intel-hda,id=3Dsnd,msi=3Don \
+  -device hda-output,id=3Dsnd-codec0,bus=3Dsnd.0,cad=3D0,audiodev=3Dsnd0 \
+  -audiodev coreaudio,id=3Dsnd0,out.buffer-count=3D10000 \
+  \
+  -daemonize
+
+  Give following error:
+
+  objc[3432]: +[NSNumber initialize] may have been in progress in another t=
+hread when fork() was called.
+  objc[3432]: +[NSNumber initialize] may have been in progress in another t=
+hread when fork() was called. We cannot safely call it or ignore it in the =
+fork() child process. Crashing instead. Set a breakpoint on objc_initialize=
+AfterForkError to debug.
+
+  =
+
+  I checked "ps -ef|grep qemu" before and after the command, there was no q=
+emu process running.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859920/+subscriptions
 
