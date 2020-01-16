@@ -2,66 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188C313E1D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 17:53:37 +0100 (CET)
-Received: from localhost ([::1]:45058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C81513E1B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 17:51:35 +0100 (CET)
+Received: from localhost ([::1]:45010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is8Om-000209-4G
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 11:53:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46821)
+	id 1is8Mn-0006ha-KS
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 11:51:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46754)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1is8Fh-0005Ac-Hs
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:44:14 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1is8Fg-0000G6-DJ
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:44:13 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43870)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1is8Fg-0000F0-7R
+ (envelope-from <pl@kamp.de>) id 1is8Fd-000545-Nn
  for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:44:12 -0500
-Received: by mail-oi1-x243.google.com with SMTP id p125so19413029oif.10
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 08:44:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nbt9ZpWqqdD6vIQRKy1qyLMQca6b/HxDSA+FsokmcTw=;
- b=Ze19MaB/y1XsL4yRJAYS7+aOJ29PUXv+3+2hmEqRDnag03+g1ye3cgUk7xQcL0z7Pf
- TlNX68znKCEYKCfow5hxU6VaTzw1i6KdPA/nB9h2H2P8z8BO0CncLNsMvxjdPU8QI0Cu
- AWKu15pI+kuTXZKA9AJtmfk6xPJIOrxvOsMA+ATDNwHDvqT8BxqsAN1uo0ANE/q6gWzY
- ANkjYzCzeq7V/JsFD8tay9ko/THXZO6gxV8rxKD4BZ1Jp+dISbjr1Sn9LfpfCZK3E1Pu
- 7gXzmonJl+xa8QW281fmbxr9EhWik8NrHPvDiIkmm8AxdxGUfP6Ffg2qpDOtLbCI5RO0
- Ii5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nbt9ZpWqqdD6vIQRKy1qyLMQca6b/HxDSA+FsokmcTw=;
- b=gc5J7XzAtZCSnSbrhmDoNuuSvw1afaNRB2mDbaQE6Rvli7OwPOcgVdxQKElfJssjwv
- XvVXPHCTwya/WYoX444oAVd/rULXSwxRWdWrnhTo+0u0bkWXUejcTWQS/vDWAH3RDYiJ
- elUnMtp97W1S5RV3gnRO8gv3NAhMaG7sXf+1BdVtiLyN9jKRJzx5wklstiABUfXRwj2x
- uIFpac6FnEaH2UzD5aPk+0kN2z/FEwRhTwMFljUOEfm4JDQWQbTQr/M84QMDqX4CO5XN
- bWstEgFeLP1FqgDBQEjo4eF6u/koMz1SOO0TPTfMnw78+ZnaUSLfBERoZVPMgoi1Cn6r
- PrfA==
-X-Gm-Message-State: APjAAAWGmjy6OyFAubLg2SPe48Uur3B2qzLFGPBchHSQdoKczl16BWll
- SRlnuoigPDCiSoQU9sJZa05MnsheXLNoS6VHnBk7IA==
-X-Google-Smtp-Source: APXvYqy2Ea0ZSpaXvRx0kSDWa4cAPhZR203J8lHCxJ4EET5zN+o2QBNrDh+pFMTnItNoG/JnqzuXjV62Cr3+/XULQqo=
-X-Received: by 2002:aca:d78b:: with SMTP id o133mr4860165oig.163.1579193051335; 
- Thu, 16 Jan 2020 08:44:11 -0800 (PST)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <pl@kamp.de>) id 1is8FZ-00007R-1K
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:44:09 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:48995)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pl@kamp.de>) id 1is8FY-0008VQ-Qs
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:44:04 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
+ by kerio.kamp.de with ESMTPSA
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
+ Thu, 16 Jan 2020 17:43:59 +0100
+Subject: Re: qemu-4.0.1: vhost_region_add_section:Section rounded to 0 prior
+ to previous a0000
+From: Peter Lieven <pl@kamp.de>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <985fea06-ede6-dcb7-8829-a48a9416bc09@kamp.de>
+ <20200108150458.GC3184@work-vm>
+ <ca222a5f-1ec6-477c-ed83-6ef52ea9e97f@kamp.de>
+ <20200109184440.GR6795@work-vm>
+ <b89e8ba2-49e9-8c0d-1129-116afa76366a@kamp.de>
+ <cd316fb8-b56b-2913-8b57-f085ca4426d7@kamp.de>
+Message-ID: <11bd7f7a-9022-6c35-3b92-27d6e66f3295@kamp.de>
+Date: Thu, 16 Jan 2020 17:44:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <1578483143-14905-1-git-send-email-gengdongjiu@huawei.com>
- <1578483143-14905-6-git-send-email-gengdongjiu@huawei.com>
-In-Reply-To: <1578483143-14905-6-git-send-email-gengdongjiu@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Jan 2020 16:44:00 +0000
-Message-ID: <CAFEAcA9z9KDHmvh6WsrCPj_FTvNmOfhatxNQDftNG+ZKZN0wAA@mail.gmail.com>
-Subject: Re: [PATCH v22 5/9] ACPI: Record the Generic Error Status Block
- address
-To: Dongjiu Geng <gengdongjiu@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+In-Reply-To: <cd316fb8-b56b-2913-8b57-f085ca4426d7@kamp.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 195.62.97.192
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,73 +58,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Linuxarm <linuxarm@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Zheng Xiang <zhengxiang9@huawei.com>, qemu-arm <qemu-arm@nongnu.org>,
- James Morse <james.morse@arm.com>, "xuwei \(O\)" <xuwei5@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 Jan 2020 at 11:33, Dongjiu Geng <gengdongjiu@huawei.com> wrote:
+Am 16.01.20 um 13:47 schrieb Peter Lieven:
+> Am 13.01.20 um 17:25 schrieb Peter Lieven:
+>> Am 09.01.20 um 19:44 schrieb Dr. David Alan Gilbert:
+>>> * Peter Lieven (pl@kamp.de) wrote:
+>>>> Am 08.01.20 um 16:04 schrieb Dr. David Alan Gilbert:
+>>>>> * Peter Lieven (pl@kamp.de) wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>>
+>>>>>> I have a Qemu 4.0.1 machine with vhost-net network adapter, thats polluting the log with the above message.
+>>>>>>
+>>>>>> Is this something known? Googling revealed the following patch in Nemu (with seems to be a Qemu fork from Intel):
+>>>>>>
+>>>>>> https://github.com/intel/nemu/commit/03940ded7f5370ce7492c619dccced114ef7f56e
+>>>>>>
+>>>>>>
+>>>>>> The network stopped functioning. After a live-migration the vServer is reachable again.
+>>>>>>
+>>>>>>
+>>>>>> Any ideas?
+>>>>> What guest are you running and what does your qemu commandline look
+>>>>> like?
+>>>>
+>>>> Its running debian9. We have hundreds of other VMs with identical setup. Do not know why this one makes trouble.
+>>> Could you extract an 'info mtree' from it - particularly the
+>>> 'address-space: memory' near the top.
+>>
+>>
+>> Here we go:
+>>
+>>
+>> address-space: memory
+>>   0000000000000000-ffffffffffffffff (prio 0, i/o): system
+>>     0000000000000000-000000003fffffff (prio 0, i/o): alias ram-below-4g @pc.ram 0000000000000000-000000003fffffff
+>>     0000000000000000-ffffffffffffffff (prio -1, i/o): pci
+>>       00000000000a0000-00000000000affff (prio 2, i/o): alias vga.chain4 @vga.vram 0000000000000000-000000000000ffff
+>>       00000000000a0000-00000000000bffff (prio 1, i/o): vga-lowmem
 >
-> Record the GHEB address via fw_cfg file, when recording
-> a error to CPER, it will use this address to find out
-> Generic Error Data Entries and write the error.
 >
-> Make the HEST GHES to a GED device.
->
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
-> ---
->  hw/acpi/generic_event_device.c         | 15 ++++++++++++++-
->  hw/acpi/ghes.c                         | 16 ++++++++++++++++
->  hw/arm/virt-acpi-build.c               | 13 ++++++++++++-
->  include/hw/acpi/generic_event_device.h |  2 ++
->  include/hw/acpi/ghes.h                 |  6 ++++++
->  5 files changed, 50 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-> index 9cee90c..9bf37e4 100644
-> --- a/hw/acpi/generic_event_device.c
-> +++ b/hw/acpi/generic_event_device.c
-> @@ -234,12 +234,25 @@ static const VMStateDescription vmstate_ged_state = {
->      }
->  };
->
-> +static const VMStateDescription vmstate_ghes_state = {
-> +    .name = "acpi-ghes-state",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields      = (VMStateField[]) {
-> +        VMSTATE_UINT64(ghes_addr_le, AcpiGhesState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static const VMStateDescription vmstate_acpi_ged = {
->      .name = "acpi-ged",
->      .version_id = 1,
->      .minimum_version_id = 1,
->      .fields = (VMStateField[]) {
-> -        VMSTATE_STRUCT(ged_state, AcpiGedState, 1, vmstate_ged_state, GEDState),
-> +        VMSTATE_STRUCT(ged_state, AcpiGedState, 1,
-> +                       vmstate_ged_state, GEDState),
-> +        VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
-> +                       vmstate_ghes_state, AcpiGhesState),
->          VMSTATE_END_OF_LIST(),
->      },
->      .subsections = (const VMStateDescription * []) {
+> What seems special is that the RAM area is prio2. Any idea if this makes trouble?
 
-You can't just add fields to an existing VMStateDescription
-like this -- it will break migration compatibility. Instead you
-need to add a new subsection to this vmstate, with a '.needed'
-function which indicates when the subsection should be present.
 
-thanks
--- PMM
+Update from my side. This happens when I have Debian 10 with XFCE when the Graphical User Interface is initialized.
+
+I see the log message when I specify -M pc-i440fx-2.9. If I obmit the machine type the error does not appear.
+
+
+Peter
+
+
 
