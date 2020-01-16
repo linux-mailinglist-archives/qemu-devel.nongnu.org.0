@@ -2,49 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998C213D33B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 05:41:39 +0100 (CET)
-Received: from localhost ([::1]:36308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8389313D32A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 05:35:00 +0100 (CET)
+Received: from localhost ([::1]:36248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irwyQ-00074e-N1
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 23:41:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58277)
+	id 1irwrz-0001Zm-K1
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 23:34:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1irwvw-0004Qb-4S
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 23:39:05 -0500
+ (envelope-from <misono.tomohiro@fujitsu.com>) id 1irwrB-0000lp-VF
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 23:34:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1irwvu-0005A9-FW
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 23:39:04 -0500
-Received: from ozlabs.org ([203.11.71.1]:42807)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1irwvp-00054E-GM; Wed, 15 Jan 2020 23:38:58 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47ys0G2ZNFz9sRQ; Thu, 16 Jan 2020 15:38:54 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1579149534;
- bh=uXHXnxQ6z4+rqzdt+wC4wGT9VHSh7NbeJd8FvrssXew=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZcYG8WoxUTmhcOm9PBTFEWYB2aOSyNz5iqsK5Z9k8J+HFI965CSi4XRlAll/j+F2l
- ovPlSwYbvqflXe6n5O684hgei1b5TDwsynmYErTgfAjESLuOPXbjDH93eL88bvkR+F
- jeJ3UoiibtPXc3U4O16YTJ7h62btY3NDyf/98BI0=
-Date: Thu, 16 Jan 2020 14:36:08 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2 82/86] numa: forbid '-numa node, mem' for 5.0 and newer
- machine types
-Message-ID: <20200116043608.GP54439@umbus>
-References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-83-git-send-email-imammedo@redhat.com>
+ (envelope-from <misono.tomohiro@fujitsu.com>) id 1irwr9-0001Fe-Nx
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 23:34:08 -0500
+Received: from mgwym04.jp.fujitsu.com ([211.128.242.43]:45784)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
+ id 1irwr9-00018i-1k
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 23:34:07 -0500
+Received: from yt-mxoi2.gw.nic.fujitsu.com (unknown [192.168.229.69]) by
+ mgwym04.jp.fujitsu.com with smtp
+ id 7307_5d0d_5707555f_938a_420a_b69f_0a54a77a20c8;
+ Thu, 16 Jan 2020 13:33:59 +0900
+Received: from g01jpfmpwyt03.exch.g01.fujitsu.local
+ (g01jpfmpwyt03.exch.g01.fujitsu.local [10.128.193.57])
+ by yt-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 24938AC00BC
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 13:33:58 +0900 (JST)
+Received: from g01jpexchyt35.g01.fujitsu.local (unknown [10.128.193.4])
+ by g01jpfmpwyt03.exch.g01.fujitsu.local (Postfix) with ESMTP id 1CF9C46E714;
+ Thu, 16 Jan 2020 13:33:57 +0900 (JST)
+Received: from luna3.soft.fujitsu.com (10.124.196.199) by
+ g01jpexchyt35.g01.fujitsu.local (10.128.193.50) with Microsoft SMTP Server id
+ 14.3.439.0; Thu, 16 Jan 2020 13:33:57 +0900
+From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+To: <dgilbert@redhat.com>
+Subject: Re: [PATCH 053/104] virtiofsd: Drop CAP_FSETID if client asked for it
+Date: Thu, 16 Jan 2020 13:41:48 +0900
+Message-ID: <20200116044148.3346-1-misono.tomohiro@jp.fujitsu.com>
+X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20191212163904.159893-54-dgilbert@redhat.com>
+References: <20191212163904.159893-54-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="aC33ObtQAkNdOZ6b"
-Content-Disposition: inline
-In-Reply-To: <1579100861-73692-83-git-send-email-imammedo@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-GCONF: 00
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 211.128.242.43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,239 +62,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- libvir-list@redhat.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, pbonzini@redhat.com, rth@twiddle.net
+Cc: misono.tomohiro@jp.fujitsu.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+> From: Vivek Goyal <vgoyal@redhat.com>
+> 
+> If client requested killing setuid/setgid bits on file being written, drop
+> CAP_FSETID capability so that setuid/setgid bits are cleared upon write
+> automatically.
+> 
+> pjdfstest chown/12.t needs this.
+> 
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+>   dgilbert: reworked for libcap-ng
 
---aC33ObtQAkNdOZ6b
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jan 15, 2020 at 04:07:37PM +0100, Igor Mammedov wrote:
-> Deprecation period is ran out and it's a time to flip the switch
-> introduced by cd5ff8333a.
-> Disable legacy option for new machine types and amend documentation.
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-
-ppc parts
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Looks good to me.
+ Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
 
 > ---
-> CC: peter.maydell@linaro.org
-> CC: ehabkost@redhat.com
-> CC: marcel.apfelbaum@gmail.com
-> CC: mst@redhat.com
-> CC: pbonzini@redhat.com
-> CC: rth@twiddle.net
-> CC: david@gibson.dropbear.id.au
-> CC: libvir-list@redhat.com
-> CC: qemu-arm@nongnu.org
-> CC: qemu-ppc@nongnu.org
-> ---
->  hw/arm/virt.c        |  2 +-
->  hw/core/numa.c       |  6 ++++++
->  hw/i386/pc.c         |  1 -
->  hw/i386/pc_piix.c    |  1 +
->  hw/i386/pc_q35.c     |  1 +
->  hw/ppc/spapr.c       |  2 +-
->  qemu-deprecated.texi | 16 ----------------
->  qemu-options.hx      |  8 ++++----
->  8 files changed, 14 insertions(+), 23 deletions(-)
->=20
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index e2fbca3..49de0d8 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2049,7 +2049,6 @@ static void virt_machine_class_init(ObjectClass *oc=
-, void *data)
->      hc->pre_plug =3D virt_machine_device_pre_plug_cb;
->      hc->plug =3D virt_machine_device_plug_cb;
->      hc->unplug_request =3D virt_machine_device_unplug_request_cb;
-> -    mc->numa_mem_supported =3D true;
->      mc->auto_enable_numa_with_memhp =3D true;
->      mc->default_ram_id =3D "mach-virt.ram";
+>  tools/virtiofsd/passthrough_ll.c | 105 +++++++++++++++++++++++++++++++
+>  1 file changed, 105 insertions(+)
+> 
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index 6a09b28608..ab318a6f36 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -201,6 +201,91 @@ static int load_capng(void)
+>      return 0;
 >  }
-> @@ -2153,6 +2152,7 @@ DEFINE_VIRT_MACHINE_AS_LATEST(5, 0)
->  static void virt_machine_4_2_options(MachineClass *mc)
+>  
+> +/*
+> + * Helpers for dropping and regaining effective capabilities. Returns 0
+> + * on success, error otherwise
+> + */
+> +static int drop_effective_cap(const char *cap_name, bool *cap_dropped)
+> +{
+> +    int cap, ret;
+> +
+> +    cap = capng_name_to_capability(cap_name);
+> +    if (cap < 0) {
+> +        ret = errno;
+> +        fuse_log(FUSE_LOG_ERR, "capng_name_to_capability(%s) failed:%s\n",
+> +                 cap_name, strerror(errno));
+> +        goto out;
+> +    }
+> +
+> +    if (load_capng()) {
+> +        ret = errno;
+> +        fuse_log(FUSE_LOG_ERR, "load_capng() failed\n");
+> +        goto out;
+> +    }
+> +
+> +    /* We dont have this capability in effective set already. */
+> +    if (!capng_have_capability(CAPNG_EFFECTIVE, cap)) {
+> +        ret = 0;
+> +        goto out;
+> +    }
+> +
+> +    if (capng_update(CAPNG_DROP, CAPNG_EFFECTIVE, cap)) {
+> +        ret = errno;
+> +        fuse_log(FUSE_LOG_ERR, "capng_update(DROP,) failed\n");
+> +        goto out;
+> +    }
+> +
+> +    if (capng_apply(CAPNG_SELECT_CAPS)) {
+> +        ret = errno;
+> +        fuse_log(FUSE_LOG_ERR, "drop:capng_apply() failed\n");
+> +        goto out;
+> +    }
+> +
+> +    ret = 0;
+> +    if (cap_dropped) {
+> +        *cap_dropped = true;
+> +    }
+> +
+> +out:
+> +    return ret;
+> +}
+> +
+> +static int gain_effective_cap(const char *cap_name)
+> +{
+> +    int cap;
+> +    int ret = 0;
+> +
+> +    cap = capng_name_to_capability(cap_name);
+> +    if (cap < 0) {
+> +        ret = errno;
+> +        fuse_log(FUSE_LOG_ERR, "capng_name_to_capability(%s) failed:%s\n",
+> +                 cap_name, strerror(errno));
+> +        goto out;
+> +    }
+> +
+> +    if (load_capng()) {
+> +        ret = errno;
+> +        fuse_log(FUSE_LOG_ERR, "load_capng() failed\n");
+> +        goto out;
+> +    }
+> +
+> +    if (capng_update(CAPNG_ADD, CAPNG_EFFECTIVE, cap)) {
+> +        ret = errno;
+> +        fuse_log(FUSE_LOG_ERR, "capng_update(ADD,) failed\n");
+> +        goto out;
+> +    }
+> +
+> +    if (capng_apply(CAPNG_SELECT_CAPS)) {
+> +        ret = errno;
+> +        fuse_log(FUSE_LOG_ERR, "gain:capng_apply() failed\n");
+> +        goto out;
+> +    }
+> +    ret = 0;
+> +
+> +out:
+> +    return ret;
+> +}
+> +
+>  static void lo_map_init(struct lo_map *map)
 >  {
->      compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
-> +    mc->numa_mem_supported =3D true;
->  }
->  DEFINE_VIRT_MACHINE(4, 2)
-> =20
-> diff --git a/hw/core/numa.c b/hw/core/numa.c
-> index 0970a30..3177066 100644
-> --- a/hw/core/numa.c
-> +++ b/hw/core/numa.c
-> @@ -117,6 +117,12 @@ static void parse_numa_node(MachineState *ms, NumaNo=
-deOptions *node,
+>      map->elems = NULL;
+> @@ -1559,6 +1644,7 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t ino,
+>      (void)ino;
+>      ssize_t res;
+>      struct fuse_bufvec out_buf = FUSE_BUFVEC_INIT(fuse_buf_size(in_buf));
+> +    bool cap_fsetid_dropped = false;
+>  
+>      out_buf.buf[0].flags = FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK;
+>      out_buf.buf[0].fd = lo_fi_fd(req, fi);
+> @@ -1570,12 +1656,31 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t ino,
+>                   out_buf.buf[0].size, (unsigned long)off);
 >      }
-> =20
->      if (node->has_mem) {
-> +        if (!mc->numa_mem_supported) {
-> +            error_setg(errp, "Parameter -numa node,mem is not supported =
-by this"
-> +                      " machine type. Use -numa node,memdev instead");
+>  
+> +    /*
+> +     * If kill_priv is set, drop CAP_FSETID which should lead to kernel
+> +     * clearing setuid/setgid on file.
+> +     */
+> +    if (fi->kill_priv) {
+> +        res = drop_effective_cap("FSETID", &cap_fsetid_dropped);
+> +        if (res != 0) {
+> +            fuse_reply_err(req, res);
 > +            return;
 > +        }
+> +    }
 > +
->          numa_info[nodenr].node_mem =3D node->mem;
->          if (!qtest_enabled()) {
->              warn_report("Parameter -numa node,mem is deprecated,"
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 21b8290..fa8d024 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1947,7 +1947,6 @@ static void pc_machine_class_init(ObjectClass *oc, =
-void *data)
->      hc->unplug =3D pc_machine_device_unplug_cb;
->      mc->default_cpu_type =3D TARGET_DEFAULT_CPU_TYPE;
->      mc->nvdimm_supported =3D true;
-> -    mc->numa_mem_supported =3D true;
->      mc->default_ram_id =3D "pc.ram";
-> =20
->      object_class_property_add(oc, PC_MACHINE_DEVMEM_REGION_SIZE, "int",
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index fa12203..0a9b9e0 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -435,6 +435,7 @@ static void pc_i440fx_4_2_machine_options(MachineClas=
-s *m)
->      pc_i440fx_5_0_machine_options(m);
->      m->alias =3D NULL;
->      m->is_default =3D 0;
-> +    m->numa_mem_supported =3D true;
->      compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
->      compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
+>      res = fuse_buf_copy(&out_buf, in_buf, 0);
+>      if (res < 0) {
+>          fuse_reply_err(req, -res);
+>      } else {
+>          fuse_reply_write(req, (size_t)res);
+>      }
+> +
+> +    if (cap_fsetid_dropped) {
+> +        res = gain_effective_cap("FSETID");
+> +        if (res) {
+> +            fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_FSETID\n");
+> +        }
+> +    }
 >  }
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 84cf925..4d6e2be 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -363,6 +363,7 @@ static void pc_q35_4_2_machine_options(MachineClass *=
-m)
->  {
->      pc_q35_5_0_machine_options(m);
->      m->alias =3D NULL;
-> +    m->numa_mem_supported =3D true;
->      compat_props_add(m->compat_props, hw_compat_4_2, hw_compat_4_2_len);
->      compat_props_add(m->compat_props, pc_compat_4_2, pc_compat_4_2_len);
->  }
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index bcbe1f1..2686b73 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4383,7 +4383,6 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
->       * in which LMBs are represented and hot-added
->       */
->      mc->numa_mem_align_shift =3D 28;
-> -    mc->numa_mem_supported =3D true;
->      mc->auto_enable_numa =3D true;
-> =20
->      smc->default_caps.caps[SPAPR_CAP_HTM] =3D SPAPR_CAP_OFF;
-> @@ -4465,6 +4464,7 @@ static void spapr_machine_4_2_class_options(Machine=
-Class *mc)
->  {
->      spapr_machine_5_0_class_options(mc);
->      compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
-> +    mc->numa_mem_supported =3D true;
->  }
-> =20
->  DEFINE_SPAPR_MACHINE(4_2, "4.2", false);
-> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-> index 982af95..17a0e1d 100644
-> --- a/qemu-deprecated.texi
-> +++ b/qemu-deprecated.texi
-> @@ -89,22 +89,6 @@ error in the future.
->  The @code{-realtime mlock=3Don|off} argument has been replaced by the
->  @code{-overcommit mem-lock=3Don|off} argument.
-> =20
-> -@subsection -numa node,mem=3D@var{size} (since 4.1)
-> -
-> -The parameter @option{mem} of @option{-numa node} is used to assign a pa=
-rt of
-> -guest RAM to a NUMA node. But when using it, it's impossible to manage s=
-pecified
-> -RAM chunk on the host side (like bind it to a host node, setting bind po=
-licy, ...),
-> -so guest end-ups with the fake NUMA configuration with suboptiomal perfo=
-rmance.
-> -However since 2014 there is an alternative way to assign RAM to a NUMA n=
-ode
-> -using parameter @option{memdev}, which does the same as @option{mem} and=
- adds
-> -means to actualy manage node RAM on the host side. Use parameter @option=
-{memdev}
-> -with @var{memory-backend-ram} backend as an replacement for parameter @o=
-ption{mem}
-> -to achieve the same fake NUMA effect or a properly configured
-> -@var{memory-backend-file} backend to actually benefit from NUMA configur=
-ation.
-> -In future new machine versions will not accept the option but it will st=
-ill
-> -work with old machine types. User can check QAPI schema to see if the le=
-gacy
-> -option is supported by looking at MachineInfo::numa-mem-supported proper=
-ty.
-> -
->  @subsection -numa node (without memory specified) (since 4.1)
-> =20
->  Splitting RAM by default between NUMA nodes has the same issues as @opti=
-on{mem}
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 709162c..55500bd 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -223,10 +223,10 @@ For example:
->  -numa cpu,node-id=3D0,socket-id=3D0 -numa cpu,node-id=3D1,socket-id=3D1
->  @end example
-> =20
-> -@samp{mem} assigns a given RAM amount to a node. @samp{memdev}
-> -assigns RAM from a given memory backend device to a node. If
-> -@samp{mem} and @samp{memdev} are omitted in all nodes, RAM is
-> -split equally between them.
-> +Legacy @samp{mem} assigns a given RAM amount to a node (not supported fo=
-r 5.0
-> +and newer machine types). @samp{memdev} assigns RAM from a given memory =
-backend
-> +device to a node. If @samp{mem} and @samp{memdev} are omitted in all nod=
-es, RAM
-> +is split equally between them.
-> =20
->  @samp{mem} and @samp{memdev} are mutually exclusive. Furthermore,
->  if one node uses @samp{memdev}, all of them have to use it.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---aC33ObtQAkNdOZ6b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4f6DgACgkQbDjKyiDZ
-s5Jz8hAAtJSEA/OwyWMrBT+QIA/F59pEoz5a8yE9XHxuH8a8WAWR09q0KzMccEfc
-p7YWtWa6UWDszHby+Y7Tj+UsRQ+gpixglKngmlOR6dP33J3HFrM2tM9p6CT7124x
-bKGr5y5VwStsZWhk0lUncy6yRArEY5+wQfb4adLPM+AT+FN9mik2xnKLVPd7XlYp
-bim0/WAPZ7TrUSNslZ+eUE98vuol2Y/tTQNsw5b6LpWktAcQnePEmh5zPJ/A4LsA
-3YTShjc1agPi46hkJYv5XsxHZ33HPrM7bUmJ7eWbdrSf7+/Glx0mUVuWc7/kcVRe
-BPNj75lRHlTyK8Eh3Saoq6LvQnQb5DJrXVuoSeWV/sLNPcK1P/2f7g2tYT+NbvIA
-3ub9BlGVfJF1xsGbBYn+2GCjRMmf/ZY49IwoAvFdYPrESuiqG7wfeW+OJpOXWZvw
-jVC4+2qCut99LXQ3p8DJERztIBH+ElfnnsjQJHe5oUaGvpyIgzkAxVbcuYKNBHcM
-s2PXEQ1CwevdyvBcxyzoIfSq3fohayMD7rF1xy0RZP0iqff+nZ1E5kVyoiaoRTeH
-9HoOzkcZNAjkTq3dlsNQFFO3KqS4dh7ME7QxAW87DDW1Mz5bLZJoaL71bicrlulx
-WLY1QbxsZ+BFxesI/wUdwZg6/ZhqsW96iYGhdw20Vx3ZxJrkWY8=
-=c4bQ
------END PGP SIGNATURE-----
-
---aC33ObtQAkNdOZ6b--
+>  
+>  static void lo_statfs(fuse_req_t req, fuse_ino_t ino)
+> -- 
+> 2.23.0
 
