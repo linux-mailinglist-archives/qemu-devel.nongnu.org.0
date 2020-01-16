@@ -2,57 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF5813D9C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 13:18:39 +0100 (CET)
-Received: from localhost ([::1]:40770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC4113D9E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 13:28:08 +0100 (CET)
+Received: from localhost ([::1]:40966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is46g-0005BJ-Hm
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 07:18:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60922)
+	id 1is4Fr-0007Ik-D2
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 07:28:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34073)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1is45j-0004EV-Gv
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:17:43 -0500
+ (envelope-from <thuth@redhat.com>) id 1is4Eo-0006fJ-Oe
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:27:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1is45f-000325-1E
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:17:38 -0500
-Received: from mgwkm02.jp.fujitsu.com ([202.219.69.169]:49005)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1is45e-0002yV-B6
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:17:34 -0500
-Received: from kw-mxoi2.gw.nic.fujitsu.com (unknown [192.168.231.133]) by
- mgwkm02.jp.fujitsu.com with smtp
- id 11aa_1e22_ef0b02c8_72e1_49a6_954f_4dfbda4cf5b3;
- Thu, 16 Jan 2020 21:17:23 +0900
-Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
- (g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
- by kw-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 740CCAC0058
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 21:17:22 +0900 (JST)
-Received: from G01JPEXCHKW14.g01.fujitsu.local
- (G01JPEXCHKW14.g01.fujitsu.local [10.0.194.53])
- by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id 68F1FBD675A;
- Thu, 16 Jan 2020 21:17:21 +0900 (JST)
-Received: from luna3.soft.fujitsu.com (10.124.196.199) by
- G01JPEXCHKW14.g01.fujitsu.local (10.0.194.53) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 16 Jan 2020 21:17:21 +0900
-From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-To: <dgilbert@redhat.com>
-Subject: Re: [PATCH 093/104] virtiofsd: introduce inode refcount to prevent
- use-after-free
-Date: Thu, 16 Jan 2020 21:25:42 +0900
-Message-ID: <20200116122542.20873-1-misono.tomohiro@jp.fujitsu.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20191212163904.159893-94-dgilbert@redhat.com>
-References: <20191212163904.159893-94-dgilbert@redhat.com>
+ (envelope-from <thuth@redhat.com>) id 1is4El-0002MD-GR
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:27:02 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52418
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1is4El-0002Lz-C0
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 07:26:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579177618;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=hoJ6cAvgWe/GOPmoU4dvaFYnBK3qXH2Bmi55JBpGKQg=;
+ b=TmZZEe7WxbSqf3cz0pSfONnCRhUYsckamUJAaoURI/IqNB6dKK37g0jmEPW8baKSeNw2hq
+ AVfRaEjQsp4tBJkLpo9UBalpLhxQJV9HjFeiZzRPdvnG5O9EPAQGAhPYwIBhHEI8FRoIT6
+ rZDD0w+jl0uoJKTAtIcjGBc8O3FUAYk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-360-g_nM43bINpSoX3fcBv3_8Q-1; Thu, 16 Jan 2020 07:26:55 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F5E3195AD20;
+ Thu, 16 Jan 2020 12:26:54 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-204-105.brq.redhat.com [10.40.204.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D2B960C63;
+ Thu, 16 Jan 2020 12:26:49 +0000 (UTC)
+Subject: Re: [PATCH] target/s390x/kvm: Enable adapter interruption suppression
+ again
+To: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
+References: <20200116122026.5804-1-thuth@redhat.com>
+ <7c5da42a-2de0-d9e6-f838-f2b0757cbcaa@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <6d489327-b37d-73ae-6706-03f1e4c6b495@redhat.com>
+Date: Thu, 16 Jan 2020 13:26:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-GCONF: 00
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 202.219.69.169
+In-Reply-To: <7c5da42a-2de0-d9e6-f838-f2b0757cbcaa@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: g_nM43bINpSoX3fcBv3_8Q-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,148 +78,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: misono.tomohiro@jp.fujitsu.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- vgoyal@redhat.com
+Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Stefan Hajnoczi <stefanha@redhat.com>
+On 16/01/2020 13.23, David Hildenbrand wrote:
+> On 16.01.20 13:20, Thomas Huth wrote:
+>> The AIS feature has been disabled late in the v2.10 development
+>> cycle since there were some issues with migration (see commit
+>> 3f2d07b3b01ea61126b - "s390x/ais: for 2.10 stable: disable ais
+>> facility"). We originally wanted to enable it again for newer
+>> machine types, but apparently we forgot to do this so far. Let's
+>> do it for the new s390-ccw-virtio-5.0 machine now.
+>>
+>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1756946
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>  hw/s390x/s390-virtio-ccw.c         |  4 ++++
+>>  include/hw/s390x/s390-virtio-ccw.h |  4 ++++
+>>  target/s390x/kvm.c                 | 11 ++++++++---
+>>  3 files changed, 16 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index e7eadd14e8..6f43136396 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -456,6 +456,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
+>>      s390mc->cpu_model_allowed = true;
+>>      s390mc->css_migration_enabled = true;
+>>      s390mc->hpage_1m_allowed = true;
+>> +    s390mc->kvm_ais_allowed = true;
+>>      mc->init = ccw_init;
+>>      mc->reset = s390_machine_reset;
+>>      mc->hot_add_cpu = s390_hot_add_cpu;
+>> @@ -662,6 +663,9 @@ static void ccw_machine_4_2_instance_options(MachineState *machine)
+>>  
+>>  static void ccw_machine_4_2_class_options(MachineClass *mc)
+>>  {
+>> +    S390CcwMachineClass *s390mc = S390_MACHINE_CLASS(mc);
+>> +
+>> +    s390mc->kvm_ais_allowed = false;
+>>      ccw_machine_5_0_class_options(mc);
+>>      compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
+>>  }
+>> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+>> index 8aa27199c9..f142d379c6 100644
+>> --- a/include/hw/s390x/s390-virtio-ccw.h
+>> +++ b/include/hw/s390x/s390-virtio-ccw.h
+>> @@ -21,6 +21,9 @@
+>>  #define S390_MACHINE_CLASS(klass) \
+>>      OBJECT_CLASS_CHECK(S390CcwMachineClass, (klass), TYPE_S390_CCW_MACHINE)
+>>  
+>> +#define S390_CCW_MACHINE_OBJ_GET_CLASS(obj) \
+>> +    OBJECT_GET_CLASS(S390CcwMachineClass, obj, TYPE_S390_CCW_MACHINE)
+>> +
+>>  typedef struct S390CcwMachineState {
+>>      /*< private >*/
+>>      MachineState parent_obj;
+>> @@ -40,6 +43,7 @@ typedef struct S390CcwMachineClass {
+>>      bool cpu_model_allowed;
+>>      bool css_migration_enabled;
+>>      bool hpage_1m_allowed;
+>> +    bool kvm_ais_allowed;
+>>  } S390CcwMachineClass;
+>>  
+>>  /* runtime-instrumentation allowed by the machine */
+>> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+>> index 15260aeb9a..4c1c8c0208 100644
+>> --- a/target/s390x/kvm.c
+>> +++ b/target/s390x/kvm.c
+>> @@ -329,6 +329,8 @@ static void ccw_machine_class_foreach(ObjectClass *oc, void *opaque)
+>>  
+>>  int kvm_arch_init(MachineState *ms, KVMState *s)
+>>  {
+>> +    S390CcwMachineClass *smc = S390_CCW_MACHINE_OBJ_GET_CLASS(ms);
+>> +
+>>      object_class_foreach(ccw_machine_class_foreach, TYPE_S390_CCW_MACHINE,
+>>                           false, NULL);
+>>  
+>> @@ -365,10 +367,13 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>>      /*
+>>       * The migration interface for ais was introduced with kernel 4.13
+>>       * but the capability itself had been active since 4.12. As migration
+>> -     * support is considered necessary let's disable ais in the 2.10
+>> -     * machine.
+>> +     * support is considered necessary we only enable this for newer
+>> +     * machine types and if KVM_CAP_S390_AIS_MIGRATION is available.
+>>       */
+>> -    /* kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0); */
+>> +    if (smc->kvm_ais_allowed &&
+>> +        kvm_check_extension(s, KVM_CAP_S390_AIS_MIGRATION)) {
+>> +        kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0);
+>> +    }
+>>  
+>>      kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
+>>      return 0;
+>>
 > 
-> If thread A is using an inode it must not be deleted by thread B when
-> processing a FUSE_FORGET request.
+> We have ri_allowed(), cpu_model_allowed(), hpage_1m_allowed().
 > 
-> The FUSE protocol itself already has a counter called nlookup that is
-> used in FUSE_FORGET messages.  We cannot trust this counter since the
-> untrusted client can manipulate it via FUSE_FORGET messages.
-> 
-> Introduce a new refcount to keep inodes alive for the required lifespan.
-> lo_inode_put() must be called to release a reference.  FUSE's nlookup
-> counter holds exactly one reference so that the inode stays alive as
-> long as the client still wants to remember it.
-> 
-> Note that the lo_inode->is_symlink field is moved to avoid creating a
-> hole in the struct due to struct field alignment.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 168 ++++++++++++++++++++++++++-----
->  1 file changed, 145 insertions(+), 23 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index b19c9ee328..8f4ab8351c 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -99,7 +99,13 @@ struct lo_key {
->  
->  struct lo_inode {
->      int fd;
-> -    bool is_symlink;
-> +
-> +    /*
-> +     * Atomic reference count for this object.  The nlookup field holds a
-> +     * reference and release it when nlookup reaches 0.
-> +     */
-> +    gint refcount;
-> +
->      struct lo_key key;
->  
->      /*
-> @@ -118,6 +124,8 @@ struct lo_inode {
->      fuse_ino_t fuse_ino;
->      pthread_mutex_t plock_mutex;
->      GHashTable *posix_locks; /* protected by lo_inode->plock_mutex */
-> +
-> +    bool is_symlink;
->  };
->  
->  struct lo_cred {
-> @@ -473,6 +481,23 @@ static ssize_t lo_add_inode_mapping(fuse_req_t req, struct lo_inode *inode)
->      return elem - lo_data(req)->ino_map.elems;
->  }
->  
-> +static void lo_inode_put(struct lo_data *lo, struct lo_inode **inodep)
-> +{
-> +    struct lo_inode *inode = *inodep;
-> +
-> +    if (!inode) {
-> +        return;
-> +    }
-> +
-> +    *inodep = NULL;
-> +
-> +    if (g_atomic_int_dec_and_test(&inode->refcount)) {
-> +        close(inode->fd);
-> +        free(inode);
-> +    }
-> +}
-> +
-> +/* Caller must release refcount using lo_inode_put() */
->  static struct lo_inode *lo_inode(fuse_req_t req, fuse_ino_t ino)
->  {
->      struct lo_data *lo = lo_data(req);
-> @@ -480,6 +505,9 @@ static struct lo_inode *lo_inode(fuse_req_t req, fuse_ino_t ino)
->  
->      pthread_mutex_lock(&lo->mutex);
->      elem = lo_map_get(&lo->ino_map, ino);
-> +    if (elem) {
-> +        g_atomic_int_inc(&elem->inode->refcount);
-> +    }
->      pthread_mutex_unlock(&lo->mutex);
->  
->      if (!elem) {
-> @@ -489,10 +517,23 @@ static struct lo_inode *lo_inode(fuse_req_t req, fuse_ino_t ino)
->      return elem->inode;
->  }
->  
-> +/*
-> + * TODO Remove this helper and force callers to hold an inode refcount until
-> + * they are done with the fd.  This will be done in a later patch to make
-> + * review easier.
-> + */
->  static int lo_fd(fuse_req_t req, fuse_ino_t ino)
->  {
->      struct lo_inode *inode = lo_inode(req, ino);
-> -    return inode ? inode->fd : -1;
-> +    int fd;
-> +
-> +    if (!inode) {
-> +        return -1;
-> +    }
-> +
-> +    fd = inode->fd;
-> +    lo_inode_put(lo_data(req), &inode);
-> +    return fd;
->  }
->  
->  static void lo_init(void *userdata, struct fuse_conn_info *conn)
-> @@ -547,6 +588,10 @@ static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
->      fuse_reply_attr(req, &buf, lo->timeout);
->  }
->  
-> +/*
-> + * Increments parent->nlookup and caller must release refcount using
-> + * lo_inode_put(&parent).
-> + */
->  static int lo_parent_and_name(struct lo_data *lo, struct lo_inode *inode,
->                                char path[PATH_MAX], struct lo_inode **parent)
->  {
-> @@ -584,6 +629,7 @@ retry:
->          p = &lo->root;
->          pthread_mutex_lock(&lo->mutex);
->          p->nlookup++;
-> +        g_atomic_int_inc(&p->refcount);
->          pthread_mutex_unlock(&lo->mutex);
->      } else {
->          *last = '\0';
+> Care to create a similar wrapper?
 
-We need lo_ionde_put() in error path, right?:
-https://gitlab.com/virtio-fs/qemu/blob/virtio-fs-as-posted-2019-12-12/tools/virtiofsd/passthrough_ll.c#L680
+Honestly, why do we need these wrappers at all? They look cumbersome to
+me. I'd rather remove them in case they are not urgently needed (so far
+I don't see the point... could someone enlighten me why we have them?).
 
-nit: if yes, unref_inode_lolocked() is always paired with lo_inode_put().
-So how about combine them in one function? As p->nloockup and p->refcount
-are both incremented in one place (lo_find/lo_parent_and_name) in these case,
-it seems natural for me to decrement them in one function as well.
+ Thomas
 
-Thanks,
-Misono
 
