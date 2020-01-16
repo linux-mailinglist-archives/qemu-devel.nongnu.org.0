@@ -2,63 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01A513D165
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 02:13:42 +0100 (CET)
-Received: from localhost ([::1]:34824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2895A13D19B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 02:38:43 +0100 (CET)
+Received: from localhost ([::1]:34980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1irtjB-00006F-6A
-	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 20:13:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36088)
+	id 1iru7N-0002SH-Nl
+	for lists+qemu-devel@lfdr.de; Wed, 15 Jan 2020 20:38:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1irtiC-00086R-Nk
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 20:12:42 -0500
+ (envelope-from <fengzhimin1@huawei.com>) id 1iru6a-0001Kj-G9
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 20:37:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1irti8-00064V-U9
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 20:12:38 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27946
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <fengzhimin1@huawei.com>) id 1iru6Y-0005A7-EJ
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 20:37:52 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2052 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1irti8-00063Q-NJ
- for qemu-devel@nongnu.org; Wed, 15 Jan 2020 20:12:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579137155;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uZf4xXGSrgu0iJ1m2di8r/o8rrTh6BO8CM7Fjof1QBs=;
- b=YY3bS4glBzMwHC/r6WhnNQaUGfkDLLoiMx7hnMQ4xAt+XwrB9bQoaRlkGseqKNBfE/RKJR
- E+UJHFaFYb82mkxCbZKYdODJLwuojMoJ82QvznWI5sLb8PHWc4UhJh+dbRTZ2O69hEShAC
- yWfO+AFQsy0QG0I7EaX7RbIj1aM+C40=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-DmSoJL1JOlO5PRQOokNapw-1; Wed, 15 Jan 2020 20:12:32 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA7CB100550E;
- Thu, 16 Jan 2020 01:12:30 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-18.brq.redhat.com [10.40.204.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41F875D9C9;
- Thu, 16 Jan 2020 01:12:19 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH] ui/gtk: Get display refresh rate with GDK version 3.22 or
- later
-Date: Thu, 16 Jan 2020 02:12:17 +0100
-Message-Id: <20200116011217.2144-1-philmd@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: DmSoJL1JOlO5PRQOokNapw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.71) (envelope-from <fengzhimin1@huawei.com>)
+ id 1iru6Y-00055v-4A
+ for qemu-devel@nongnu.org; Wed, 15 Jan 2020 20:37:50 -0500
+Received: from dggemi402-hub.china.huawei.com (unknown [172.30.72.57])
+ by Forcepoint Email with ESMTP id E046D7A06898A84C5F42;
+ Thu, 16 Jan 2020 09:37:39 +0800 (CST)
+Received: from DGGEMI424-HUB.china.huawei.com (10.1.199.153) by
+ dggemi402-hub.china.huawei.com (10.3.17.135) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 16 Jan 2020 09:37:39 +0800
+Received: from DGGEMI529-MBX.china.huawei.com ([169.254.6.126]) by
+ DGGEMI424-HUB.china.huawei.com ([10.1.199.153]) with mapi id 14.03.0439.000;
+ Thu, 16 Jan 2020 09:37:29 +0800
+From: fengzhimin <fengzhimin1@huawei.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: RE: [PATCH RFC 00/12] *** mulitple RDMA channels for migration ***
+Thread-Topic: [PATCH RFC 00/12] *** mulitple RDMA channels for migration ***
+Thread-Index: AQHVxqmab+9P2XNBF02K7i5pLeYjYKfrqJIAgADiZSA=
+Date: Thu, 16 Jan 2020 01:37:29 +0000
+Message-ID: <03C2A65461456D4EBE9E6D4D0D96C583FBC921@DGGEMI529-MBX.china.huawei.com>
+References: <20200109045922.904-1-fengzhimin1@huawei.com>
+ <20200115195724.GL3811@work-vm>
+In-Reply-To: <20200115195724.GL3811@work-vm>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.173.220.198]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 45.249.212.189
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,127 +63,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Nikola Pavlica <pavlica.nikola@gmail.com>
+Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "jemmy858585@gmail.com" <jemmy858585@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GdkMonitor was introduced in GTK+ 3.22:
-https://developer.gnome.org/gdk3/stable/api-index-3-22.html#api-index-3.22
+Thanks for your review. I will add more trace_ calls in the next version(V2=
+) and modify its according to your suggestions.
 
-If we build with older GTK+, the build fails:
+-----Original Message-----
+From: Dr. David Alan Gilbert [mailto:dgilbert@redhat.com]=20
+Sent: Thursday, January 16, 2020 3:57 AM
+To: fengzhimin <fengzhimin1@huawei.com>
+Cc: quintela@redhat.com; armbru@redhat.com; eblake@redhat.com; qemu-devel@n=
+ongnu.org; Zhanghailiang <zhang.zhanghailiang@huawei.com>; jemmy858585@gmai=
+l.com
+Subject: Re: [PATCH RFC 00/12] *** mulitple RDMA channels for migration ***
 
-    CC      ui/gtk.o
-  qemu/ui/gtk.c: In function =E2=80=98gd_vc_gfx_init=E2=80=99:
-  qemu/ui/gtk.c:1973:5: error: unknown type name =E2=80=98GdkMonitor=E2=80=
-=99
-       GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
-       ^
-  qemu/ui/gtk.c:1973:27: error: implicit declaration of function =E2=80=98g=
-dk_display_get_monitor_at_window=E2=80=99 [-Werror=3Dimplicit-function-decl=
-aration]
-       GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
-                             ^
-  qemu/ui/gtk.c:1973:5: error: nested extern declaration of =E2=80=98gdk_di=
-splay_get_monitor_at_window=E2=80=99 [-Werror=3Dnested-externs]
-       GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
-       ^
-  qemu/ui/gtk.c:1973:27: error: initialization makes pointer from integer w=
-ithout a cast [-Werror=3Dint-conversion]
-       GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
-                             ^
-  qemu/ui/gtk.c:2035:28: error: implicit declaration of function =E2=80=98g=
-dk_monitor_get_refresh_rate=E2=80=99 [-Werror=3Dimplicit-function-declarati=
-on]
-       refresh_rate_millihz =3D gdk_monitor_get_refresh_rate(monitor);
-                              ^
-  qemu/ui/gtk.c:2035:5: error: nested extern declaration of =E2=80=98gdk_mo=
-nitor_get_refresh_rate=E2=80=99 [-Werror=3Dnested-externs]
-       refresh_rate_millihz =3D gdk_monitor_get_refresh_rate(monitor);
-       ^
-  cc1: all warnings being treated as errors
-  qemu/rules.mak:69: recipe for target 'ui/gtk.o' failed
-  make: *** [ui/gtk.o] Error 1
+* Zhimin Feng (fengzhimin1@huawei.com) wrote:
+> From: fengzhimin <fengzhimin1@huawei.com>
+>=20
+> Currently there is a single channel for RDMA migration, this causes=20
+> the problem that the network bandwidth is not fully utilized for=20
+> 25Gigabit NIC. Inspired by the Multifd, we use two RDMA channels to=20
+> send RAM pages, which we call MultiRDMA.
+>=20
+> We compare the migration performance of MultiRDMA with origin RDMA=20
+> migration. The VM specifications for migration are as follows:
+> - VM use 4k page;
+> - the number of VCPU is 4;
+> - the total memory is 16Gigabit;
+> - use 'mempress' tool to pressurize VM(mempress 8000 500);
+> - use 25Gigabit network card to migrate;
+>=20
+> For origin RDMA and MultiRDMA migration, the total migration times of=20
+> VM are as follows:
+> +++++++++++++++++++++++++++++++++++++++++++++++++
+> |             | NOT rdma-pin-all | rdma-pin-all |
+> +++++++++++++++++++++++++++++++++++++++++++++++++
+> | origin RDMA |       18 s       |     23 s     |
+> -------------------------------------------------
+> |  MultiRDMA  |       13 s       |     18 s     |
+> +++++++++++++++++++++++++++++++++++++++++++++++++
 
-We only use the GdkMonitor API to get the monitor refresh rate.
+Very nice.
 
-GTK+ provides convenient definition in <gdk/gdkversionmacros.h>
-(already include by <gdk/gdk.h>) to check which API are available.
+> For NOT rdma-pin-all migration, the multiRDMA can improve the total=20
+> migration time by about 27.8%.
+> For rdma-pin-all migration, the multiRDMA can improve the total=20
+> migration time by about 21.7%.
+>=20
+> Test the multiRDMA migration like this:
+> 'virsh migrate --live --rdma-parallel --migrateuri rdma://hostname=20
+> domain qemu+tcp://hostname/system'
 
-Extract this code as a new gd_refresh_rate_millihz() function,
-and check GDK_VERSION_3_22 is defined before calling its API.
-If it is not defined, return 0. This is safe and fixes our build
-failure.
+It will take me a while to finish the review; but another general suggestio=
+n is add more trace_ calls; it will make it easier to diagnose problems lat=
+er.
 
-Fixes: c4c00922cc (display/gtk: get proper refreshrate)
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Sorry I missed that, I only tested Nikola's patch on my workstation
-which runs Fedora 30:
+Dave
 
-  $ pkg-config --modversion gtk+-3.0
-  3.24.11
-
-If Gerd acks this patch, we might consider having it directly
-applied as a build fix.
----
- ui/gtk.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
-
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 7355d34fcf..d18892d1de 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -1961,6 +1961,23 @@ static GtkWidget *gd_create_menu_machine(GtkDisplayS=
-tate *s)
-     return machine_menu;
- }
-=20
-+/*
-+ * If available, return the refresh rate of the display in milli-Hertz,
-+ * else return 0.
-+ */
-+static int gd_refresh_rate_millihz(GtkDisplayState *s)
-+{
-+#ifdef GDK_VERSION_3_22
-+    GdkDisplay *dpy =3D gtk_widget_get_display(s->window);
-+    GdkWindow *win =3D gtk_widget_get_window(s->window);
-+    GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
-+
-+    return gdk_monitor_get_refresh_rate(monitor);
-+#else
-+    return 0;
-+#endif
-+}
-+
- static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-                               QemuConsole *con, int idx,
-                               GSList *group, GtkWidget *view_menu)
-@@ -1968,10 +1985,6 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, Vi=
-rtualConsole *vc,
-     bool zoom_to_fit =3D false;
-     int refresh_rate_millihz;
-=20
--    GdkDisplay *dpy =3D gtk_widget_get_display(s->window);
--    GdkWindow *win =3D gtk_widget_get_window(s->window);
--    GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
--
-     vc->label =3D qemu_console_get_label(con);
-     vc->s =3D s;
-     vc->gfx.scale_x =3D 1.0;
-@@ -2032,7 +2045,7 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, Vir=
-tualConsole *vc,
-     vc->gfx.kbd =3D qkbd_state_init(con);
-     vc->gfx.dcl.con =3D con;
-=20
--    refresh_rate_millihz =3D gdk_monitor_get_refresh_rate(monitor);
-+    refresh_rate_millihz =3D gd_refresh_rate_millihz(s);
-     if (refresh_rate_millihz) {
-         vc->gfx.dcl.update_interval =3D MILLISEC_PER_SEC / refresh_rate_mi=
-llihz;
-     }
---=20
-2.21.1
+>=20
+> fengzhimin (12):
+>   migration: Add multiRDMA capability support
+>   migration: Export the 'migration_incoming_setup' function          =20
+>              and add the 'migrate_use_rdma_pin_all' function
+>   migration: Create the multi-rdma-channels parameter
+>   migration/rdma: Create multiRDMA migration threads
+>   migration/rdma: Create the multiRDMA channels
+>   migration/rdma: Transmit initial package
+>   migration/rdma: Be sure all channels are created
+>   migration/rdma: register memory for multiRDMA channels
+>   migration/rdma: Wait for all multiRDMA to complete registration
+>   migration/rdma: use multiRDMA to send RAM block for rdma-pin-all mode
+>   migration/rdma: use multiRDMA to send RAM block for NOT rdma-pin-all
+>                   mode
+>   migration/rdma: only register the virt-ram block for MultiRDMA
+>=20
+>  migration/migration.c |   55 +-
+>  migration/migration.h |    6 +
+>  migration/rdma.c      | 1320 +++++++++++++++++++++++++++++++++++++----
+>  monitor/hmp-cmds.c    |    7 +
+>  qapi/migration.json   |   27 +-
+>  5 files changed, 1285 insertions(+), 130 deletions(-)
+>=20
+> --
+> 2.19.1
+>=20
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
