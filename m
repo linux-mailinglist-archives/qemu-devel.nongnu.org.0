@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2590213FC76
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 23:55:39 +0100 (CET)
-Received: from localhost ([::1]:49418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9835113FC83
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 23:57:35 +0100 (CET)
+Received: from localhost ([::1]:49448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isE37-00053W-UM
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 17:55:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49122)
+	id 1isE50-0007uK-EK
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 17:57:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49124)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1isDz1-0008O5-KT
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1isDz1-0008O7-Kd
  for qemu-devel@nongnu.org; Thu, 16 Jan 2020 17:51:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1isDyz-0002hV-8q
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 17:51:22 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53728 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1isDyz-0002hj-AS
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 17:51:23 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:53724 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1isDyy-0002fs-VY
+ id 1isDyy-0002ff-Ub
  for qemu-devel@nongnu.org; Thu, 16 Jan 2020 17:51:21 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 867081A217B;
+ by mail.rt-rk.com (Postfix) with ESMTP id F11871A21AB;
  Thu, 16 Jan 2020 23:50:15 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 3740C1A21DB;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 407771A21E2;
  Thu, 16 Jan 2020 23:50:13 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/12] linux-user: Add support for FIFREEZE and FITHAW ioctls
-Date: Thu, 16 Jan 2020 23:49:45 +0100
-Message-Id: <1579214991-19602-7-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH 07/12] linux-user: Add support for
+ FD<SETEMSGTRESH|SETMAXERRS|GETMAXERRS> ioctls
+Date: Thu, 16 Jan 2020 23:49:46 +0100
+Message-Id: <1579214991-19602-8-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1579214991-19602-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1579214991-19602-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -56,51 +57,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Both FIFREEZE and FITHAW ioctls accept an integer as their third
-argument.
+FDSETEMSGTRESH, FDSETMAXERRS, and FDGETMAXERRS ioctls are commands
+for controlling error reporting of a floppy drive.
 
-All ioctls in this group (FI* ioctl) are guarded with "#ifdef", so the
-guards are used in this implementation too for consistency (however,
-many of ioctls in FI* group became old enough that their #ifdef guards
-could be removed, bit this is out of the scope of this patch).
+FDSETEMSGTRESH's third agrument is a pointer to the structure:
+
+struct floppy_max_errors {
+    unsigned int
+      abort,      /* number of errors to be reached before aborting */
+      read_track, /* maximal number of errors permitted to read an
+                   * entire track at once */
+      reset,      /* maximal number of errors before a reset is tried */
+      recal,      /* maximal number of errors before a recalibrate is
+                   * tried */
+      /*
+       * Threshold for reporting FDC errors to the console.
+       * Setting this to zero may flood your screen when using
+       * ultra cheap floppies ;-)
+       */
+      reporting;
+};
+
+defined in Linux kernel header <linux/fd.h>.
+
+Since all fields of the structure are of type 'unsigned int', there is
+no need to define "target_floppy_max_errors".
+
+FDSETMAXERRS and FDGETMAXERRS ioctls do not use the third argument.
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- linux-user/ioctls.h       | 6 ++++++
- linux-user/syscall_defs.h | 2 ++
- 2 files changed, 8 insertions(+)
+ linux-user/ioctls.h        | 3 +++
+ linux-user/syscall_defs.h  | 3 +++
+ linux-user/syscall_types.h | 7 +++++++
+ 3 files changed, 13 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index e4f0a04..66f8c4e 100644
+index 66f8c4e..9e3ca90 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -123,6 +123,12 @@
- #ifdef FIBMAP
-      IOCTL(FIBMAP, IOC_W | IOC_R, MK_PTR(TYPE_LONG))
- #endif
-+#ifdef FIFREEZE
-+     IOCTL(FIFREEZE, IOC_W | IOC_R, TYPE_INT)
-+#endif
-+#ifdef FITHAW
-+     IOCTL(FITHAW, IOC_W | IOC_R, TYPE_INT)
-+#endif
- #ifdef FITRIM
-      IOCTL(FITRIM, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_fstrim_range)))
- #endif
+@@ -114,7 +114,10 @@
+ 
+      IOCTL(FDMSGON, 0, TYPE_NULL)
+      IOCTL(FDMSGOFF, 0, TYPE_NULL)
++     IOCTL(FDSETEMSGTRESH, 0, TYPE_NULL)
+      IOCTL(FDFLUSH, 0, TYPE_NULL)
++     IOCTL(FDSETMAXERRS, IOC_W, MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
++     IOCTL(FDGETMAXERRS, IOC_R, MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
+      IOCTL(FDRESET, 0, TYPE_NULL)
+      IOCTL(FDRAWCMD, 0, TYPE_NULL)
+      IOCTL(FDTWADDLE, 0, TYPE_NULL)
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 97ab3e1..d4d39de 100644
+index d4d39de..e317115 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -908,6 +908,8 @@ struct target_pollfd {
- #define TARGET_FIBMAP     TARGET_IO(0x00,1)  /* bmap access */
- #define TARGET_FIGETBSZ   TARGET_IO(0x00,2)  /* get the block size used for bmap */
+@@ -899,7 +899,10 @@ struct target_pollfd {
  
-+#define TARGET_FIFREEZE   TARGET_IOWR('X', 119, int)    /* Freeze */
-+#define TARGET_FITHAW     TARGET_IOWR('X', 120, int)    /* Thaw */
- #define TARGET_FITRIM     TARGET_IOWR('X', 121, struct fstrim_range)
- #define TARGET_FICLONE    TARGET_IOW(0x94, 9, int)
- #define TARGET_FICLONERANGE TARGET_IOW(0x94, 13, struct file_clone_range)
+ #define TARGET_FDMSGON        TARGET_IO(2, 0x45)
+ #define TARGET_FDMSGOFF       TARGET_IO(2, 0x46)
++#define TARGET_FDSETEMSGTRESH TARGET_IO(2, 0x4a)
+ #define TARGET_FDFLUSH        TARGET_IO(2, 0x4b)
++#define TARGET_FDSETMAXERRS  TARGET_IOW(2, 0x4c, struct floppy_max_errors)
++#define TARGET_FDGETMAXERRS  TARGET_IOR(2, 0x0e, struct floppy_max_errors)
+ #define TARGET_FDRESET        TARGET_IO(2, 0x54)
+ #define TARGET_FDRAWCMD       TARGET_IO(2, 0x58)
+ #define TARGET_FDTWADDLE      TARGET_IO(2, 0x59)
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index ca9429e..434ce1c 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -266,6 +266,13 @@ STRUCT(blkpg_ioctl_arg,
+        TYPE_INT, /* datalen */
+        TYPE_PTRVOID) /* data */
+ 
++STRUCT(floppy_max_errors,
++       TYPE_INT, /* abort */
++       TYPE_INT, /* read_track */
++       TYPE_INT, /* reset */
++       TYPE_INT, /* recal */
++       TYPE_INT) /* reporting */
++
+ #if defined(CONFIG_USBFS)
+ /* usb device ioctls */
+ STRUCT(usbdevfs_ctrltransfer,
 -- 
 2.7.4
 
