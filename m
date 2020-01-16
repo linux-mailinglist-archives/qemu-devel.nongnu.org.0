@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C3B13FCE6
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 00:21:41 +0100 (CET)
-Received: from localhost ([::1]:49716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1444713FCBC
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 00:11:26 +0100 (CET)
+Received: from localhost ([::1]:49622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isESK-0004t6-Il
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 18:21:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51396)
+	id 1isEIP-0005mK-1A
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 18:11:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51442)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1isEFV-0002fa-IK
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:26 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1isEFb-0002lf-1g
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1isEFU-000834-2y
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:25 -0500
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:54154)
+ (envelope-from <richard.henderson@linaro.org>) id 1isEFa-00086c-19
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:30 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:37208)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1isEFT-00081v-SC
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:24 -0500
-Received: by mail-pj1-x1043.google.com with SMTP id n96so2277576pjc.3
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 15:08:20 -0800 (PST)
+ id 1isEFZ-00082W-Rm
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 18:08:29 -0500
+Received: by mail-pl1-x644.google.com with SMTP id c23so9018679plz.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 15:08:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/Jxac41ScZ9wklqoaoJ1ujuvSIgK3pa8BvU4q8iE/qg=;
- b=DHbB57ykUvSpDmrZzJBQzelX/Q4mRPA0rkl9wlyr6Dbbn5Swd19bcjKOcquJO5bwMi
- EWZi4us5RfWM3PNg4C5hgS8l2j9x2LESi0HfNVIIDpzfaiqbEpGL+U6rCwH8DZ8LZhhZ
- VCkvemRaQd93b80ZS/f31nSZdwYb3OULptLLd4Zy/UEzNuc9/3olXCAsAT/Ghy3Y1+ek
- vjEcSxFYnbqRCMuTNMsQRUlL/vL4QDnGpsDJVN6G2tX4G6aVofuwWy4oVjq2Ev8exb5W
- yhyVXUdWLidb55BEf28JV/XMXYcp6YlufYxCWI6Gm9Y7aBpanha0hRxHgaa4gdmsKY48
- ieCg==
+ bh=NVbq1Jag2Ekov4ET8qNdfiaIvA8EZAKN4xv0TeisvTw=;
+ b=zsizWUveFCD+JR7XI8QiMaGtfBljiK39Fy4uai3KKQ5ijeft74PT/v0THXRAA+ow+W
+ 75MlADDz3qG5mc5VMeziRgrsGXCkX/NFo74Ra+xBUWUkDkBeEcs32pfzAikXabRDpuD5
+ DII0IMMHQ7Q1fZzF/SMmgD4+TSuGH9NE20g+vEN4lixsfs4gOS2fan87XylRPK90eeyR
+ MLtuUt5sZbYcXWFzH3XWJfC31hHJoCGYRAURIEEw7fscpllTvAVy8RclV76Dmw7VIjLr
+ 44Y5Rot6hrGnjEWg1S5x1m2NGXYoj6RSizvEKyfXCsRcZ+GcLfzpxzQb6GcO/S5AtalS
+ 9n0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/Jxac41ScZ9wklqoaoJ1ujuvSIgK3pa8BvU4q8iE/qg=;
- b=VPdo7bmUsFQutVKVE+ZjFH7gTX9jal81i7dMmJexyCMy9lTY/gjORarYOBxHtXhGd7
- LaNH3yNZCWQdFcqACon9GE7tjoXbu7iLVqFYKLNpvBC4l89VMJrvwWcppJ2aP3Cug46i
- PA14GiKYIrWn8dZlt6eGJ9qlomdNbUfPbyTku6qimut3yjME/Oo4u6i9YNSSpRncXAdG
- om89lLb57HbJKJCa3yBEIIql4hs+chqK2lxMzYYqHOtFkpd1TvtMbUdCzQYMML9ixPO9
- zXOmLMea+jWxBOSd+5qnJ5gWGYRPAHM+sJskoi/UzpDHoT9l5L9N2cSNtFg8HvZxWfO7
- O39g==
-X-Gm-Message-State: APjAAAVQ6k4I29/CGyXKsJngaIC6X53u6Z99Bw92SeYVju+6tUQa/4yw
- IIIpgSHvAE4g99q9YLkB/SxQ04AUX5c=
-X-Google-Smtp-Source: APXvYqxenawD/zo7RWmeGAEuzpcNrQDUOQTMILLR2z+Zg/h+GrnMY0AumNfnwgJahG6Kt1f6i8aIcw==
-X-Received: by 2002:a17:90a:950b:: with SMTP id
- t11mr1987656pjo.79.1579216099560; 
- Thu, 16 Jan 2020 15:08:19 -0800 (PST)
+ bh=NVbq1Jag2Ekov4ET8qNdfiaIvA8EZAKN4xv0TeisvTw=;
+ b=gDtokNNKTwDvTGAVCPZXr6QhWwlqiDH8ncdF+4sVdr6qShp8Y45AwSr9eJ+rIL8p9L
+ djoibDwWxSFceARHLUoCpWrGJjSFuE3SX2mU3MDZy6BP/UUKs6y/y3CPjNe20jv7pztP
+ ninsRS3YFRk8oNdJMwujiW9dLQCs0GbZLtcfsQumwgI3CACg7+kaQ1vziDc2MEcegD6O
+ xefByvUY/NDrleKlPXGpfmHXm1X4TkofMht0cZjCCvZ1ugMzLCLuyT08/TQBfVeynVkv
+ XOiHHeRASEwo6pBIxY5Gq6m+1+7Cj4CpZwgdXjdx2RNgpf4CDUowbu5kQLvOgdSdZTht
+ 0vwQ==
+X-Gm-Message-State: APjAAAXzHPUb3aMYMMbbYzxRtEnceVWFRsbPYYE8CBuYA+yLasXrbYc4
+ U1PmTMvvmarhR0fHw3iuyFVuxv9XqeU=
+X-Google-Smtp-Source: APXvYqzs5na07qLW5vghc3yt+NlTJJxnxj3J6IP4MxGdEP+NtR2U5HRPDU0A0da9Z27/35M4b7Gnug==
+X-Received: by 2002:a17:90b:2289:: with SMTP id
+ kx9mr2058984pjb.94.1579216101221; 
+ Thu, 16 Jan 2020 15:08:21 -0800 (PST)
 Received: from cloudburst.ASUS (rrcs-66-91-136-155.west.biz.rr.com.
  [66.91.136.155])
- by smtp.gmail.com with ESMTPSA id s7sm5111578pjk.22.2020.01.16.15.08.17
+ by smtp.gmail.com with ESMTPSA id s7sm5111578pjk.22.2020.01.16.15.08.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2020 15:08:18 -0800 (PST)
+ Thu, 16 Jan 2020 15:08:20 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] target/arm: Fix PAuth sbox functions
-Date: Thu, 16 Jan 2020 13:08:06 -1000
-Message-Id: <20200116230809.19078-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/4] tests/tcg/aarch64: Fix compilation parameters for pauth-%
+Date: Thu, 16 Jan 2020 13:08:07 -1000
+Message-Id: <20200116230809.19078-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116230809.19078-1-richard.henderson@linaro.org>
 References: <20200116230809.19078-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1043
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,45 +84,54 @@ Cc: peter.maydell@linaro.org, vincent.dehors@smile.fr, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vincent Dehors <vincent.dehors@smile.fr>
+Hiding the required architecture within asm() is not correct.
+Add it to the cflags of the (cross-) compiler.
 
-In the PAC computation, sbox was applied over wrong bits.
-As this is a 4-bit sbox, bit index should be incremented by 4 instead of 16.
-
-Test vector from QARMA paper (https://eprint.iacr.org/2016/444.pdf) was
-used to verify one computation of the pauth_computepac() function which
-uses sbox2.
-
-Launchpad: https://bugs.launchpad.net/bugs/1859713
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Vincent DEHORS <vincent.dehors@smile.fr>
-Signed-off-by: Adrien GRASSEIN <adrien.grassein@smile.fr>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/pauth_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/tcg/aarch64/pauth-1.c       | 2 --
+ tests/tcg/aarch64/pauth-2.c       | 2 --
+ tests/tcg/aarch64/Makefile.target | 1 +
+ 3 files changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/target/arm/pauth_helper.c b/target/arm/pauth_helper.c
-index d3194f2043..0a5f41e10c 100644
---- a/target/arm/pauth_helper.c
-+++ b/target/arm/pauth_helper.c
-@@ -89,7 +89,7 @@ static uint64_t pac_sub(uint64_t i)
-     uint64_t o = 0;
-     int b;
+diff --git a/tests/tcg/aarch64/pauth-1.c b/tests/tcg/aarch64/pauth-1.c
+index a3c1443cd0..ea0984ea82 100644
+--- a/tests/tcg/aarch64/pauth-1.c
++++ b/tests/tcg/aarch64/pauth-1.c
+@@ -2,8 +2,6 @@
+ #include <sys/prctl.h>
+ #include <stdio.h>
  
--    for (b = 0; b < 64; b += 16) {
-+    for (b = 0; b < 64; b += 4) {
-         o |= (uint64_t)sub[(i >> b) & 0xf] << b;
-     }
-     return o;
-@@ -104,7 +104,7 @@ static uint64_t pac_inv_sub(uint64_t i)
-     uint64_t o = 0;
-     int b;
+-asm(".arch armv8.4-a");
+-
+ #ifndef PR_PAC_RESET_KEYS
+ #define PR_PAC_RESET_KEYS  54
+ #define PR_PAC_APDAKEY     (1 << 2)
+diff --git a/tests/tcg/aarch64/pauth-2.c b/tests/tcg/aarch64/pauth-2.c
+index 2fe030ba3d..9bba0beb63 100644
+--- a/tests/tcg/aarch64/pauth-2.c
++++ b/tests/tcg/aarch64/pauth-2.c
+@@ -1,8 +1,6 @@
+ #include <stdint.h>
+ #include <assert.h>
  
--    for (b = 0; b < 64; b += 16) {
-+    for (b = 0; b < 64; b += 4) {
-         o |= (uint64_t)inv_sub[(i >> b) & 0xf] << b;
-     }
-     return o;
+-asm(".arch armv8.4-a");
+-
+ void do_test(uint64_t value)
+ {
+     uint64_t salt1, salt2;
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index df3fe8032c..374c8d6830 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -20,6 +20,7 @@ run-fcvt: fcvt
+ # Pauth Tests
+ AARCH64_TESTS += pauth-1 pauth-2
+ run-pauth-%: QEMU_OPTS += -cpu max
++pauth-%: CFLAGS += -march=armv8.3-a
+ 
+ # Semihosting smoke test for linux-user
+ AARCH64_TESTS += semihosting
 -- 
 2.20.1
 
