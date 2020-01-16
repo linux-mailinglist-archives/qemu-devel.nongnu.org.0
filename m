@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF5713DD60
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 15:27:47 +0100 (CET)
-Received: from localhost ([::1]:42950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3F913DDAE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 15:41:59 +0100 (CET)
+Received: from localhost ([::1]:43200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is67e-0007l0-IC
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 09:27:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51575)
+	id 1is6LO-0006bQ-EJ
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 09:41:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49175)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1is65e-0005tB-PG
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:25:47 -0500
+ (envelope-from <bounces@canonical.com>) id 1is5rF-0005qF-6k
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:10:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1is65a-0005Ke-0O
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:25:42 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42020
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1is65Y-0005JO-VF
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:25:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579184735;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gIxMsqPMfimPFe44n4bKsLCEwI7dt7AE9NZT3z6LG/8=;
- b=TeSP3ra4AmUoMieVF9l5p4FokXeU9kmAp1Zx8gsyvpy8Klf9cnph6xL1NYl7F1MwblweYk
- r9DmFpmNP8NCz5Rgl/qsr+/e9qWCpf4a1LcNIzdKeEuUJgtKaR1ik7c38bkkVl32cX2fY5
- GTvQgftmdIdrylKuy09KlC2RP24ivw0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-yvr_3rWAN1GAkoyik8awUg-1; Thu, 16 Jan 2020 09:25:32 -0500
-X-MC-Unique: yvr_3rWAN1GAkoyik8awUg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB7498010C8
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 14:25:31 +0000 (UTC)
-Received: from dritchie.redhat.com (unknown [10.33.36.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DD731001B03;
- Thu, 16 Jan 2020 14:25:28 +0000 (UTC)
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-44-dgilbert@redhat.com>
-User-agent: mu4e 1.2.0; emacs 26.3
-From: Sergio Lopez <slp@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 043/104] virtiofsd: check input buffer size in
- fuse_lowlevel.c ops
-In-reply-to: <20191212163904.159893-44-dgilbert@redhat.com>
-Date: Thu, 16 Jan 2020 15:25:25 +0100
-Message-ID: <87tv4vwka2.fsf@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1is5rD-0003sh-Qp
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:10:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48352)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1is5rD-0003sC-LA
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:10:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1is5rC-00070b-AQ
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 14:10:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 466DD2E80C0
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 14:10:46 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 16 Jan 2020 13:59:26 -0000
+From: pevogam <plamen@pevogam.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 5-plamen
+X-Launchpad-Bug-Reporter: pevogam (5-plamen)
+X-Launchpad-Bug-Modifier: pevogam (5-plamen)
+Message-Id: <157918316689.4864.12553262908100217782.malonedeb@wampee.canonical.com>
+Subject: [Bug 1859989] [NEW] qemu-img has broken output with large snapshot
+ names
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: cadd867df627f96f1f4e3368e42f5e1975a59c16
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Thu, 16 Jan 2020 09:38:36 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,53 +66,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>, stefanha@redhat.com,
- vgoyal@redhat.com
+Reply-To: Bug 1859989 <1859989@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
+Public bug reported:
 
+On Qemu 4.1.1 the output of snalshots breaks if the chosen state name is
+too long:
 
-Dr. David Alan Gilbert (git) <dgilbert@redhat.com> writes:
+```
+# qemu-img snapshot -l /mnt/local/some_image.qcow2
+Snapshot list:
+ID        TAG                 VM SIZE                DATE       VM CLOCK
+1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45.8=
+73
+```
 
-> From: Stefan Hajnoczi <stefanha@redhat.com>
->
-> Each FUSE operation involves parsing the input buffer.  Currently the
-> code assumes the input buffer is large enough for the expected
-> arguments.  This patch uses fuse_mbuf_iter to check the size.
->
-> Most operations are simple to convert.  Some are more complicated due to
-> variable-length inputs or different sizes depending on the protocol
-> version.
->
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  tools/virtiofsd/fuse_lowlevel.c | 581 +++++++++++++++++++++++++-------
->  1 file changed, 456 insertions(+), 125 deletions(-)
+Prior to 4.1.1 this used to work with extra tabs for the VM SIZE values.
+The collision is also disabling us from using a regex on top of this
+input to detect the snapshot.
 
-Reviewed-by: Sergio Lopez <slp@redhat.com>
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+** Summary changed:
 
------BEGIN PGP SIGNATURE-----
+- qemu-img has broken input on large snapshot name
++ qemu-img has broken output on large snapshot name
 
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl4gclUACgkQ9GknjS8M
-AjUucw//algDEUEshXcXSaQZUqL+wRNbXJ1vVSVPPkcGIY+SJKfLbfBwOG3UxNPx
-oDYRxKSJWx+ulzNA4BKYG/ekYn2sPJqYXuPagU0bnKR/Q9SAWuCP48Gv4oV0rx5k
-bxnRLFGzgbJSafyGjUPxaCs2wJaopwuZc4UembwEzxnLtUDaa4FsWM2otMhQ7P2c
-SN9tzJrFWySOlxFudswdGz9yXzg6NNIugYp++C3jq/xeL6kx2UVjENrogdTDehPk
-5ys+QCwgqjVsSXBHq4KJtC8UGl6bvPNwkVGAJAhfgqp1UCXI8ARWTI83HBJZDayD
-FJJbRMsS3nmYaFqu4oNfEJvNjIXKJOC2PDdRn5Kune22sg4vqv5XP0SX4zlPoCTC
-yCoP2lPTwVrnCs2ktMU17fpShh9QU6bB5bAm2YF80r3Hvz8W5avKW/mYbaakY0tU
-9rHQXsNM3b0sqsytGLmM8Ejkv0wEgOTcEGILcgaABx1PMWSDXZ1FWMTsZd3OofHj
-nFW2rpE6Bj1WLuRkAkBu/v+Hxg8OXECh5qUxh9RNOjSZZDiizwK6PAcKaPMRz6kS
-UrpJVX4X4oq0aLDXLkrlKmKeQFUvjjl7BwI2gNaMp07mOU+0RtUaS/AwzGG+9H9X
-64AHKqSoNdMZTiaS2O5uZl6146wPwYONVAekP9urWVeNscmDgt8=
-=kMC/
------END PGP SIGNATURE-----
---=-=-=--
+** Summary changed:
 
+- qemu-img has broken output on large snapshot name
++ qemu-img has broken output with large snapshot names
+
+** Description changed:
+
+- On Qemu 4.1.1 the output of snalshots breaks if the chosen state name is
++ On Qemu 4.1.1 the output of snapshots breaks if the chosen state name is
+  too long:
+  =
+
+  # qemu-img snapshot -l /mnt/local/some_image.qcow2
+  Snapshot list:
+  ID        TAG                 VM SIZE                DATE       VM CLOCK
+  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
+.873
+  =
+
+  Prior to 4.1.1 this used to work with extra tabs for the VM SIZE values.
+  The collision is also disabling us from using a regex on top of this
+  input to detect the snapshot.
+
+** Description changed:
+
+  On Qemu 4.1.1 the output of snapshots breaks if the chosen state name is
+  too long:
+  =
+
+  # qemu-img snapshot -l /mnt/local/some_image.qcow2
+  Snapshot list:
+  ID        TAG                 VM SIZE                DATE       VM CLOCK
+  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
+.873
+  =
+
+- Prior to 4.1.1 this used to work with extra tabs for the VM SIZE values.
+- The collision is also disabling us from using a regex on top of this
+- input to detect the snapshot.
++ Prior to 4.1.1, this used to work with extra tabs for the VM SIZE
++ values. The collision is also disabling us from using a regex on top of
++ this input to detect the snapshot unless we forbid numbers in the
++ snapshot name.
+
+** Description changed:
+
+- On Qemu 4.1.1 the output of snapshots breaks if the chosen state name is
++ On Qemu 4.1.1 the output of snalshots breaks if the chosen state name is
+  too long:
+  =
+
++ ```
+  # qemu-img snapshot -l /mnt/local/some_image.qcow2
+  Snapshot list:
+  ID        TAG                 VM SIZE                DATE       VM CLOCK
+  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
+.873
++ ```
+  =
+
+- Prior to 4.1.1, this used to work with extra tabs for the VM SIZE
+- values. The collision is also disabling us from using a regex on top of
+- this input to detect the snapshot unless we forbid numbers in the
+- snapshot name.
++ Prior to 4.1.1 this used to work with extra tabs for the VM SIZE values.
++ The collision is also disabling us from using a regex on top of this
++ input to detect the snapshot.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859989
+
+Title:
+  qemu-img has broken output with large snapshot names
+
+Status in QEMU:
+  New
+
+Bug description:
+  On Qemu 4.1.1 the output of snalshots breaks if the chosen state name
+  is too long:
+
+  ```
+  # qemu-img snapshot -l /mnt/local/some_image.qcow2
+  Snapshot list:
+  ID        TAG                 VM SIZE                DATE       VM CLOCK
+  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
+.873
+  ```
+
+  Prior to 4.1.1 this used to work with extra tabs for the VM SIZE
+  values. The collision is also disabling us from using a regex on top
+  of this input to detect the snapshot.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859989/+subscriptions
 
