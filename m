@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF79413DD53
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 15:23:35 +0100 (CET)
-Received: from localhost ([::1]:42870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE43013DD4C
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 15:21:30 +0100 (CET)
+Received: from localhost ([::1]:42822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is63a-0002Lc-QB
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 09:23:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50383)
+	id 1is61Z-0007QC-F4
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 09:21:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50445)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1is5xL-0002a5-9w
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:17:11 -0500
+ (envelope-from <slp@redhat.com>) id 1is5xW-0002of-W7
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:17:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1is5xG-0008EA-9l
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:17:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60657
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <slp@redhat.com>) id 1is5xT-0008Pv-3l
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:17:18 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37057
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1is5xG-0008DP-4z
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:17:02 -0500
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1is5xS-0008P2-Mr
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 09:17:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579184221;
+ s=mimecast20190719; t=1579184233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iqnMHwRuY4RC6PtS4IJXcZfRQCZidUznt1pwiS4r0TE=;
- b=glboqRkMhfaafxUMdcmF2k+dULeGC9pPnVTemBlu3sPzkO+IXzWvjc4OgUuGCh1FwUKzuS
- ITCMpw75P1EOKHeX4RloMgPBvrKGC4NtfefFdeuvdZlvGhuZBKKUQMaJ8HFkmdjMRJHg0M
- u2ZQ6aMJTvK3PSPNo3QY64gNmGekIzA=
+ bh=FkISfMjS34h75Nu6r1yzGIY0abJW5mdb3XVJXEbbn1Y=;
+ b=Iyo7oZSL4BMHaCoM5YAfXpiB9hSfR0it1pTfRlRC+jVklIgsev5H8/usROy0cZYGY/3guJ
+ BixsutR/2Y5CRUrn64MhVtM8hFNlaS9m0s5LuvplmbUNzALrPybnJzsxXDm8pNGQ3m+/A0
+ IDhF9iU6WRwyly+nbRO1Hl0eWG1d4/A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-hFteMBXoNiaEC1DO5lbIaw-1; Thu, 16 Jan 2020 09:16:59 -0500
-X-MC-Unique: hFteMBXoNiaEC1DO5lbIaw-1
+ us-mta-201-j_Ui2pu7OWaaYsVJtv1n1Q-1; Thu, 16 Jan 2020 09:17:12 -0500
+X-MC-Unique: j_Ui2pu7OWaaYsVJtv1n1Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FDE519057A9;
- Thu, 16 Jan 2020 14:16:58 +0000 (UTC)
-Received: from localhost (ovpn-117-207.ams2.redhat.com [10.36.117.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 54F9C5C28D;
- Thu, 16 Jan 2020 14:16:54 +0000 (UTC)
-Date: Thu, 16 Jan 2020 14:16:54 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH 3/5] virtio-scsi: default num_queues to -smp N
-Message-ID: <20200116141654.GK163546@stefanha-x1.localdomain>
-References: <20200116105842.271179-1-stefanha@redhat.com>
- <20200116105842.271179-4-stefanha@redhat.com>
- <20200116125349.6a3aeaa9.cohuck@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2005F107ACC7
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 14:17:11 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD9FE5C28D;
+ Thu, 16 Jan 2020 14:17:07 +0000 (UTC)
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-42-dgilbert@redhat.com>
+User-agent: mu4e 1.2.0; emacs 26.3
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 041/104] virtiofsd: add fuse_mbuf_iter API
+In-reply-to: <20191212163904.159893-42-dgilbert@redhat.com>
+Date: Thu, 16 Jan 2020 15:17:04 +0100
+Message-ID: <87wo9rwknz.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200116125349.6a3aeaa9.cohuck@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ee6FjwWxuMujAVRe"
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,104 +72,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: vgoyal@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ee6FjwWxuMujAVRe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--=-=-=
+Content-Type: text/plain
 
-On Thu, Jan 16, 2020 at 12:53:49PM +0100, Cornelia Huck wrote:
-> On Thu, 16 Jan 2020 10:58:40 +0000
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
->=20
-> > Automatically size the number of request virtqueues to match the number
-> > of vCPUs.  This ensures that completion interrupts are handled on the
-> > same vCPU that submitted the request.  No IPI is necessary to complete
-> > an I/O request and performance is improved.
-> >=20
-> > Remember that virtqueue numbering assumptions are being removed from th=
-e
-> > virtio-pci proxy object, so the Control and Event virtqueues are counte=
-d
-> > by ->get_num_virtqueues() and we only add 1 for the Configuration Chang=
-e
-> > interrupt:
-> >=20
-> >      if (vpci_dev->nvectors =3D=3D DEV_NVECTORS_UNSPECIFIED) {
-> > -        vpci_dev->nvectors =3D vs->conf.num_queues + 3;
-> > +        vpci_dev->nvectors =3D vdc->get_num_virtqueues(VIRTIO_DEVICE(v=
-dev)) + 1;
-> >      }
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  hw/core/machine.c               |  3 +++
-> >  hw/scsi/vhost-scsi.c            |  2 ++
-> >  hw/scsi/vhost-user-scsi.c       |  2 ++
-> >  hw/scsi/virtio-scsi.c           | 18 ++++++++++++++++++
-> >  hw/virtio/vhost-scsi-pci.c      |  4 ++--
-> >  hw/virtio/vhost-user-scsi-pci.c |  4 ++--
-> >  hw/virtio/virtio-scsi-pci.c     |  4 ++--
-> >  include/hw/virtio/virtio-scsi.h |  1 +
-> >  8 files changed, 32 insertions(+), 6 deletions(-)
-> >=20
->=20
-> > @@ -878,6 +879,18 @@ static struct SCSIBusInfo virtio_scsi_scsi_info =
-=3D {
-> >      .load_request =3D virtio_scsi_load_request,
-> >  };
-> > =20
-> > +static uint32_t virtio_scsi_get_num_virtqueues(VirtIODevice *vdev)
-> > +{
-> > +    VirtIOSCSICommon *s =3D VIRTIO_SCSI_COMMON(vdev);
-> > +    uint32_t request_queues =3D s->conf.num_queues;
-> > +
-> > +    if (s->conf.num_queues =3D=3D 1 && s->conf.auto_num_queues) {
-> > +        request_queues =3D current_machine->smp.cpus;
-> > +    }
-> > +
-> > +    return VIRTIO_SCSI_VQ_NUM_FIXED + request_queues;
->=20
-> I'm not sure doing this at the device level is the right thing to do.
-> For now, only virtio-pci will call this function, and there basing the
-> number of virtqueues off the number of cpus makes sense; but that's a
-> property of the transport, not of the device.
->=20
-> Consider e.g. a virtio-scsi-ccw device: If we wanted to introduce a way
-> to automatically pick a good number of virtqueues there, this functions
-> likely would not return a particularly useful value, as queue interrupt
-> processing does not really relate to the number of cpus with adapter
-> interrupts. It's not a problem right now, as only virtio-pci calls
-> this, but someone looking at this callback is likely getting the
-> impression that this is a generically useful function.
 
-That's a great point.  Maybe the direction should be reversed so that
-the device asks the transport to suggest the optimal number of queues
-when auto-num-queues is enabled.
+Dr. David Alan Gilbert (git) <dgilbert@redhat.com> writes:
 
-Stefan
+> From: Stefan Hajnoczi <stefanha@redhat.com>
+>
+> Introduce an API for consuming bytes from a buffer with size checks.
+> All FUSE operations will be converted to use this safe API instead of
+> void *inarg.
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  tools/virtiofsd/buffer.c      | 28 ++++++++++++++++++++
+>  tools/virtiofsd/fuse_common.h | 49 ++++++++++++++++++++++++++++++++++-
+>  2 files changed, 76 insertions(+), 1 deletion(-)
 
---ee6FjwWxuMujAVRe
+Reviewed-by: Sergio Lopez <slp@redhat.com>
+
+--=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4gcFYACgkQnKSrs4Gr
-c8huOwf+N1HE5t25dobgSpZ6ecmge36+v0qU0W6iYHYnE74P2xYM/jgoHDh+AKwG
-idqWy9+El+zJDRsh8XGF4z/okz+ZXvFwjFqh/njmtFu8zrt0bq+aZS2U0kB8b7RS
-5RDIX0jWo/o4BN5DDEONBONSCHcys86X1Q/DAcfZj7mKSoxtsv0WJNK4GwttCXhN
-nHFWK02BY+Z2hA9oHDK4BMms8yEIn/EbIMwG48s3S2tBZiM56yyxepYW1bgHcMrw
-93sfN7wcNcoqdI6os5s/zy2N686TU32u6UUN+87x9sZ9OxIktA1wDuxqhDR1UwfR
-0sAnh+HqvjQTbRf5OgYXwMSeEI3t8g==
-=5snB
+iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl4gcGAACgkQ9GknjS8M
+AjXPMw/8CSrMxOaY/EqW7s+zaK9NgMcu+lNVIEXOM/Q45wBEUnQ+SajkiqZIWPp5
+AtSSUne1AZXxqVTD82CfIFfVMAKjijNwfq0aXK6vuJdfYhqDVVdsIgZacdutZrHv
+sF5KN1W3jjNe44quecTxSk8J3R5i7UMAzJkPxoP2zq/4+fh2agJC1AMHfQzxkNXN
+QMFdWzydpZOSh4pXJm2K9VhBuJH16AZ9ASg4Axz/4YnLHlksbVdMUvr7lGA7dFYu
+lC+jcz1esHiA2jc8BDvH0ls8RkrupOG5aZdZE6WomN9klmoGj/iVYfJwDiqYtIuo
+JY9zHi0Fp4U7TeSILpZTwsfeRPnir04MiuOXh9P8eLHUWUfIY0KWk2bET9tcUJ2W
+BNAoMtuDC7jyANpAomJgyUmzXn6USF8hvlna/xlDSRg2vX+kdobMQXTwvzKKDiL+
+wW0c5kEuk4pJxS5qiy9IIBaJrzZU73Bqtcw6nWkPfJR8EDxDXA/HlI6d/JLnUqG4
+Y9131LlXg6d8jHrFASZV9dybUekh9cqQrBuSOYl0rwxYtAgqkdpNOAE9JRbgfKgs
+4rOLH63X5uAgDDjF2m61fiLW8eP+y5ateF5irArGvjjJDFkadiikffUVf66sP20O
+fUu46rfXU207uhzEBH03GSEx7DgaFVLs/6zYOP4mwXKlMoIIj3A=
+=enbU
 -----END PGP SIGNATURE-----
-
---ee6FjwWxuMujAVRe--
+--=-=-=--
 
 
