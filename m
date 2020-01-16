@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71A813F075
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 19:22:14 +0100 (CET)
-Received: from localhost ([::1]:46614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1345813F0DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 19:25:10 +0100 (CET)
+Received: from localhost ([::1]:46706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is9mX-0000CG-LG
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 13:22:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36173)
+	id 1is9pN-0003Cc-3w
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 13:25:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36407)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1is9lU-00088Q-TU
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:21:12 -0500
+ (envelope-from <philmd@redhat.com>) id 1is9mc-0000h1-Qm
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:22:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1is9lR-0000Gf-27
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:21:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30910
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1is9mZ-00013p-Bu
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:22:18 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22348
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1is9lQ-0000GA-UG
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:21:05 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1is9mZ-000138-7c
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:22:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579198864;
+ s=mimecast20190719; t=1579198934;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9IgRdZsHjR8wE/bAcN8Wfvtyqipw6ruE8fcINiAlIVA=;
- b=HddmxWFep3AFLvUpZE7zMqMK90DVW13XFpgRGKySw8RV6L96jsuKMp/N3ICWBauPO9Rm7j
- JfmnxVzRS12f1jlbXCGAI1EKjCGkWxi/tPLHhtelmXZmgTFoSy3z1HerynnoUSX8D3hCsH
- rmOY4rAoVOYezBCi60CLjEWITU1jdk4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-uQ5WaPZcOKC6sC3UoPlfgw-1; Thu, 16 Jan 2020 13:21:00 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C3E9107ACC7
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 18:20:59 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5051160C87;
- Thu, 16 Jan 2020 18:20:58 +0000 (UTC)
-Date: Thu, 16 Jan 2020 18:20:55 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v3 1/5] multifd: Make sure that we don't do any IO after
- an error
-Message-ID: <20200116182055.GM3108@work-vm>
-References: <20200116154616.11569-1-quintela@redhat.com>
- <20200116154616.11569-2-quintela@redhat.com>
+ bh=rhWoR3Ih7/md/kmjJ9inJ8JlkIrkEedEevUNAczPh9M=;
+ b=EOXx0fFmigb+RrCdY9qUNesx0J7B198DPF4/OOVjOJ8WyWkSHdaAl7t9xXjN6MLhp1n72D
+ ehHK+kMWA1jr9FHjS0bg4bGe1Uay46rcG64fy00piZC7xDReQI7CNrmeMJ1Zc2tNI7EoMv
+ 3AXwldSok1CByeZ9CWG7wIT7Dbl5Qjs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-gFAVKRTDNdCSVax0UdXVWQ-1; Thu, 16 Jan 2020 13:22:13 -0500
+Received: by mail-wr1-f71.google.com with SMTP id z10so9473159wrt.21
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 10:22:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qtCklIdwpPVYr8Ly0ddeLirsK2OiFfS7Z5uBy8Fp7LM=;
+ b=BDexyzF59SKixWs1UsClq0BN7Gcz/INL0C7q5XduPj5ebdk1hYK9PaH8+2SyIOixG0
+ xQNosC+qVVcDN9np4ZPhbwQiFASWrVqWY4CCfdU4rSGdwpQ6rdOubpKQSTCuPiiid/rE
+ NgGMwhlqcV9AgK+YuI3M3Bfti3lznXOb0RzxpS0JKYtoMnkBvw/b+TrtKMb40+LgTVvq
+ 3p1eQsH6kS3HXNHjNWmbqQi4PRIghHoZ6/vAw0oiO53j7twShYTYXngjOIV90FgeUJ76
+ qThISaou5kp32mGm+4W6oJ1IIRF+X6QYNQLkiccVqvXLwGh8ObGZvagrkqq7c57L9Btv
+ uD8g==
+X-Gm-Message-State: APjAAAWCIB+fZVeosjZ5e3pKjH5ox8ot3C2oQ3nn3CHZn4an1TTT2c1V
+ HePCpEqQI7aySJMaqGu4fMu9ZjGZNtspgI94dfQHx/nopquNF6nVSrpFkJ/WMArRxr6Uv5XdaDB
+ zxx88rAYZZj1qVAc=
+X-Received: by 2002:a05:600c:248:: with SMTP id 8mr300044wmj.175.1579198932402; 
+ Thu, 16 Jan 2020 10:22:12 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzVf7cf9OViQS7i2j1VE5qIOsxIEk2vSX+ypOQLB9IrOb3Fhjbt9cRvzcfSrQmTU7l5qu2OoA==
+X-Received: by 2002:a05:600c:248:: with SMTP id 8mr300030wmj.175.1579198932228; 
+ Thu, 16 Jan 2020 10:22:12 -0800 (PST)
+Received: from [10.101.1.81] ([176.12.107.132])
+ by smtp.gmail.com with ESMTPSA id 2sm29598142wrq.31.2020.01.16.10.22.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Jan 2020 10:22:11 -0800 (PST)
+Subject: Re: [PATCH v3 18/86] arm:kzm: drop RAM size fixup
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <87sgkgv6dh.wl-Peter.Chubb@data61.csiro.au>
+ <1579195564-95459-1-git-send-email-imammedo@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <dc8d8594-0bf8-e6c2-9ce8-94bf5361bca3@redhat.com>
+Date: Thu, 16 Jan 2020 19:22:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200116154616.11569-2-quintela@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: uQ5WaPZcOKC6sC3UoPlfgw-1
+In-Reply-To: <1579195564-95459-1-git-send-email-imammedo@redhat.com>
+Content-Language: en-US
+X-MC-Unique: gFAVKRTDNdCSVax0UdXVWQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,75 +91,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter.Chubb@data61.csiro.au, peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ peter.chubb@nicta.com.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+On 1/16/20 6:26 PM, Igor Mammedov wrote:
+> If the user provided too large a RAM size, the code used to
+> complain and trim it to the max size.  Now tht RAM is allocated by
+> generic code, that's no longer possible, so generate an error and
+> exit instead.
+>=20
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 > ---
->  migration/ram.c | 22 +++++++++++++---------
->  1 file changed, 13 insertions(+), 9 deletions(-)
+> v3:
+>   * rephrase commit message in nicer way
+>     ("Chubb, Peter (Data61, Kensington NSW)" <Peter.Chubb@data61.csiro.au=
+>)
+>   * reword error message and use size_to_str() to pretty print suggested =
+size
+>     ("Chubb, Peter (Data61, Kensington NSW)" <Peter.Chubb@data61.csiro.au=
+>)
 >=20
-> diff --git a/migration/ram.c b/migration/ram.c
-> index ba6e0eea15..8f9f3bba5b 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -3442,7 +3442,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaq=
-ue)
->  {
->      RAMState **temp =3D opaque;
->      RAMState *rs =3D *temp;
-> -    int ret;
-> +    int ret =3D 0;
->      int i;
->      int64_t t0;
->      int done =3D 0;
-> @@ -3521,12 +3521,14 @@ static int ram_save_iterate(QEMUFile *f, void *op=
-aque)
->      ram_control_after_iterate(f, RAM_CONTROL_ROUND);
-> =20
->  out:
-> -    multifd_send_sync_main(rs);
-> -    qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-> -    qemu_fflush(f);
-> -    ram_counters.transferred +=3D 8;
-> +    if (ret >=3D 0) {
-> +        multifd_send_sync_main(rs);
-> +        qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-> +        qemu_fflush(f);
-> +        ram_counters.transferred +=3D 8;
-> =20
-> -    ret =3D qemu_file_get_error(f);
-> +        ret =3D qemu_file_get_error(f);
-> +    }
->      if (ret < 0) {
->          return ret;
->      }
-> @@ -3578,9 +3580,11 @@ static int ram_save_complete(QEMUFile *f, void *op=
-aque)
->          ram_control_after_iterate(f, RAM_CONTROL_FINISH);
->      }
-> =20
-> -    multifd_send_sync_main(rs);
-> -    qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-> -    qemu_fflush(f);
-> +    if (ret >=3D 0) {
-> +        multifd_send_sync_main(rs);
-> +        qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-> +        qemu_fflush(f);
-> +    }
-> =20
->      return ret;
->  }
-> --=20
-> 2.24.1
+> CC: peter.chubb@nicta.com.au
+> CC: peter.maydell@linaro.org
+> CC: qemu-arm@nongnu.org
+> ---
+>   hw/arm/kzm.c | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
 >=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> diff --git a/hw/arm/kzm.c b/hw/arm/kzm.c
+> index 1d5ef28..94cbac1 100644
+> --- a/hw/arm/kzm.c
+> +++ b/hw/arm/kzm.c
+> @@ -25,6 +25,7 @@
+>   #include "hw/char/serial.h"
+>   #include "sysemu/qtest.h"
+>   #include "sysemu/sysemu.h"
+> +#include "qemu/cutils.h"
+>  =20
+>   /* Memory map for Kzm Emulation Baseboard:
+>    * 0x00000000-0x7fffffff See i.MX31 SOC for support
+> @@ -78,10 +79,10 @@ static void kzm_init(MachineState *machine)
+>  =20
+>       /* Check the amount of memory is compatible with the SOC */
+>       if (machine->ram_size > (FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM1_S=
+IZE)) {
+> -        warn_report("RAM size " RAM_ADDR_FMT " above max supported, "
+> -                    "reduced to %x", machine->ram_size,
+> -                    FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM1_SIZE);
+> -        machine->ram_size =3D FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM1_S=
+IZE;
+> +        char *sz =3D size_to_str(FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM=
+1_SIZE);
+> +        error_report("RAM size more than %s is not supported", sz);
+
+Yay! Can you use this pattern the other patches too?
+
+You might want to add:
+
+#define FSL_IMX31_SDRAM_SIZE_MAX \
+   (FSL_IMX31_SDRAM0_SIZE + FSL_IMX31_SDRAM1_SIZE)
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+> +        g_free(sz);
+> +        exit(EXIT_FAILURE);
+>       }
+>  =20
+>       memory_region_allocate_system_memory(&s->ram, NULL, "kzm.ram",
+>=20
 
 
