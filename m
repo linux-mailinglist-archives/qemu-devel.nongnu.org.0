@@ -2,76 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A1213FA92
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 21:28:01 +0100 (CET)
-Received: from localhost ([::1]:48046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 964A213FAE7
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 21:57:04 +0100 (CET)
+Received: from localhost ([::1]:48274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isBkG-0003al-Pz
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 15:28:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56106)
+	id 1isCCN-00041U-5O
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 15:57:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60046)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1isBif-0001WI-LS
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 15:26:25 -0500
+ (envelope-from <bounces@canonical.com>) id 1isCBT-0003VN-Fz
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 15:56:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1isBia-00082D-L8
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 15:26:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58544
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1isBia-00080l-Gu
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 15:26:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579206373;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ATwMHOBFnMkoUL0Ov4nqFQfte3qrWcDlKu/r7xNwBZg=;
- b=Gq5TZr9uaE0KjdK6ukesb1CR/s18/ZhLDVA1YIz6ep4dF4HzewOEQFOP9RuX1V3KM3crdx
- E8QuK4XUTuGgldwyF42J1JrOSm8xOln9z1bqo2NG9jPQdWgvyz/RlF+9c0iBq6FbjCY1yI
- 0Dv3Tkp/rR/auWqhMkRqzvv00FI/99w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-Zd-Q2NpaO--SeAbPwNmNSg-1; Thu, 16 Jan 2020 15:26:10 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 082EDA0CC1;
- Thu, 16 Jan 2020 20:26:09 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 56FF326172;
- Thu, 16 Jan 2020 20:26:08 +0000 (UTC)
-Date: Thu, 16 Jan 2020 20:26:05 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Lieven <pl@kamp.de>
-Subject: Re: qemu-4.0.1: vhost_region_add_section:Section rounded to 0 prior
- to previous a0000
-Message-ID: <20200116202605.GN3108@work-vm>
-References: <985fea06-ede6-dcb7-8829-a48a9416bc09@kamp.de>
- <20200108150458.GC3184@work-vm>
- <ca222a5f-1ec6-477c-ed83-6ef52ea9e97f@kamp.de>
- <20200109184440.GR6795@work-vm>
- <b89e8ba2-49e9-8c0d-1129-116afa76366a@kamp.de>
- <cd316fb8-b56b-2913-8b57-f085ca4426d7@kamp.de>
- <11bd7f7a-9022-6c35-3b92-27d6e66f3295@kamp.de>
+ (envelope-from <bounces@canonical.com>) id 1isCBP-0007Su-Bt
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 15:56:07 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58054)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1isCBO-0007PC-G1
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 15:56:03 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1isCBI-0007dc-C1
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 20:55:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 579112E80CC
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 20:55:56 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <11bd7f7a-9022-6c35-3b92-27d6e66f3295@kamp.de>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: Zd-Q2NpaO--SeAbPwNmNSg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Thu, 16 Jan 2020 20:47:05 -0000
+From: Vincent Dehors <1859713@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: grassead vdehors
+X-Launchpad-Bug-Reporter: Adrien Grassein (grassead)
+X-Launchpad-Bug-Modifier: Vincent Dehors (vdehors)
+References: <157903678645.2454.11578772527064917210.malonedeb@soybean.canonical.com>
+Message-Id: <157920762588.4755.16961982198208317994.malone@wampee.canonical.com>
+Subject: [Bug 1859713] Re: ARM v8.3a pauth not working
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ea27a602cf1bf73e4512cdb8e3f21fa6ec409582
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,81 +67,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: Bug 1859713 <1859713@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Lieven (pl@kamp.de) wrote:
-> Am 16.01.20 um 13:47 schrieb Peter Lieven:
-> > Am 13.01.20 um 17:25 schrieb Peter Lieven:
-> > > Am 09.01.20 um 19:44 schrieb Dr. David Alan Gilbert:
-> > > > * Peter Lieven (pl@kamp.de) wrote:
-> > > > > Am 08.01.20 um 16:04 schrieb Dr. David Alan Gilbert:
-> > > > > > * Peter Lieven (pl@kamp.de) wrote:
-> > > > > > > Hi,
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > I have a Qemu 4.0.1 machine with vhost-net network adapter, t=
-hats polluting the log with the above message.
-> > > > > > >=20
-> > > > > > > Is this something known? Googling revealed the following patc=
-h in Nemu (with seems to be a Qemu fork from Intel):
-> > > > > > >=20
-> > > > > > > https://github.com/intel/nemu/commit/03940ded7f5370ce7492c619=
-dccced114ef7f56e
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > The network stopped functioning. After a live-migration the v=
-Server is reachable again.
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > Any ideas?
-> > > > > > What guest are you running and what does your qemu commandline =
-look
-> > > > > > like?
-> > > > >=20
-> > > > > Its running debian9. We have hundreds of other VMs with identical=
- setup. Do not know why this one makes trouble.
-> > > > Could you extract an 'info mtree' from it - particularly the
-> > > > 'address-space: memory' near the top.
-> > >=20
-> > >=20
-> > > Here we go:
-> > >=20
-> > >=20
-> > > address-space: memory
-> > > =A0 0000000000000000-ffffffffffffffff (prio 0, i/o): system
-> > > =A0=A0=A0 0000000000000000-000000003fffffff (prio 0, i/o): alias ram-=
-below-4g @pc.ram 0000000000000000-000000003fffffff
-> > > =A0=A0=A0 0000000000000000-ffffffffffffffff (prio -1, i/o): pci
-> > > =A0=A0=A0=A0=A0 00000000000a0000-00000000000affff (prio 2, i/o): alia=
-s vga.chain4 @vga.vram 0000000000000000-000000000000ffff
-> > > =A0=A0=A0=A0=A0 00000000000a0000-00000000000bffff (prio 1, i/o): vga-=
-lowmem
-> >=20
-> >=20
-> > What seems special is that the RAM area is prio2. Any idea if this make=
-s trouble?
->=20
->=20
-> Update from my side. This happens when I have Debian 10 with XFCE when th=
-e Graphical User Interface is initialized.
->=20
-> I see the log message when I specify -M pc-i440fx-2.9. If I obmit the mac=
-hine type the error does not appear.
+Hi,
 
-I can't persuade this to reproduce here on the images I currently have;
-but if you can rebuild, can you try the v3 of 'Fix hyperv synic on
-vhost' I've just posted?  It turns off the alignment code that's
-spitting that error in vhost-kernel cases, so should go away.
+Here is a patch for this bug. The sbox function was using "b+=3D16"
+instead of "b+=3D4".
 
-Dave
+Also, you check test vector using :
 
->=20
-> Peter
->=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+```c
+    uint64_t P =3D 0xfb623599da6e8127ull;
+    uint64_t T =3D 0x477d469dec0b8762ull;
+    uint64_t w0 =3D 0x84be85ce9804e94bull;
+    uint64_t k0 =3D 0xec2802d4e0a488e9ull;
+    ARMPACKey key =3D { .hi =3D w0, .lo =3D k0 };
+    uint64_t C5 =3D pauth_computepac(P, T, key);
+    /* C5 should be 0xc003b93999b33765 */
+```
 
+** Patch added: "0001-target-arm-Fix-PAuth-sbox-functions.patch"
+   https://bugs.launchpad.net/qemu/+bug/1859713/+attachment/5320937/+files/=
+0001-target-arm-Fix-PAuth-sbox-functions.patch
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859713
+
+Title:
+  ARM v8.3a pauth not working
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Host: Ubuntu 19.10 - x86_64 machine
+  QEMU version: 3a63b24a1bbf166e6f455fe43a6bbd8dea413d92 (master)
+
+  ARMV8.3 pauth is not working well.
+
+  With a test code containing two pauth instructions:
+      - paciasp that sign LR with A key and sp as context;
+      - autiasp that verify the signature.
+
+  Test:
+      - Run the program and corrupt LR just before autiasp (ex 0x3e00000400=
+660 instead of 0x3e000000400664)
+
+  Expected:
+      - autiasp places an invalid pointer in LR
+
+  Result:
+      - autiasp successfully auth the pointer and places 0x0400660 in LR.
+
+  Further explanations:
+      Adding traces in qemu code shows that "pauth_computepac" is not robus=
+t enough against truncating.
+      With 0x31000000400664 as input of pauth_auth, we obtain "0x55b1d65b2c=
+138e14" for PAC, "0x30" for bot_bit and "0x38" for top_bit.
+      With 0x310040008743ec as input of pauth (with same key), we obtain "0=
+x55b1d65b2c138ef4" for PAC, "0x30" for bot_bit and "0x38" for top_bit.
+      Values of top_bit and bottom_bit are strictly the same and it should =
+not.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859713/+subscriptions
 
