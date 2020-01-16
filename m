@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1B2213F583
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 19:57:05 +0100 (CET)
-Received: from localhost ([::1]:47150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9586913F3F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 19:46:53 +0100 (CET)
+Received: from localhost ([::1]:47034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isAKG-0005hZ-Om
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 13:57:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40695)
+	id 1isAAN-0005IG-Pp
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 13:46:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39436)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1isAJ5-0004pY-Ka
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:55:55 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1isA90-0004CG-1k
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:45:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1isAJ0-0002HO-W6
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:55:51 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35968)
+ (envelope-from <peter.maydell@linaro.org>) id 1isA8y-0003ii-GJ
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:45:25 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43702)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1isAJ0-0002GD-OX
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:55:46 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1isAIz-0001Tb-5J
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 18:55:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 24F892E80CB
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 18:55:45 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1isA8y-0003iA-92
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:45:24 -0500
+Received: by mail-ot1-x344.google.com with SMTP id p8so20288357oth.10
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 10:45:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=TR9f1ok6iW3VkN7SoUvSSrDpC6U7lDL9AuOXaWKii4w=;
+ b=oyiVEyYUbvEHYxDkO37+T9kqj/t4aq5GYH5nF49NCaYwwPlgCEXiirOMQhE/F3n2tf
+ Rg1wNsEVwy1Hv+By18nv/cv7h5Htd8KX6s6mQ8OZayt3NDpbplms0RePcMDJEmFSoi1s
+ /Ouolg9gCvJaFJJDEwKDyh4q2fCQhRgnbjktdw314wdP7F/a2c3BsMWpbtdAho1zgTBv
+ 6uns2fJjV5LNjBLFiIiXsUe0xsgnFGGp0hKqNVNU2D+K8lbS8mmQBs9mRGZfeDn5mxVU
+ wP9Kw0GGbZBnX/sb4p0vgMonXGDzNzrVbnKXzBhnYJ3nuZbE9hHXuAZjXM+5iAYRR/2N
+ r4+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TR9f1ok6iW3VkN7SoUvSSrDpC6U7lDL9AuOXaWKii4w=;
+ b=PcFYhICUrYy5WtzlT1c32UAWwBb8CvNqPBTNxK9BIRTeD3f3biYHemfMjqLd9aXGAo
+ KwIhv1VUbr97MBjxAWizehe+2ltkinTa/WkHIJbqtlExrzh7J6BDO32QDhrXnLVqvBvG
+ ghdJKILhX5T62ihqaM6zRPSguu/1kGWDU4wZKhLBtBgy2cTpyByXpgGTPKSE3uDnYTOz
+ LzmL9pkjK2LZl9Ey7KdGtWFxXnsvPZfhd+PlQHE1iFrEDdqQ2WBMeAEOomG4vK7OmwPk
+ o4poR4ZUNtAi47doNH7GpMkVwd8LA4hEilBwLg6M+YwwBCxJ75u7oJE+209IvZy8NYMh
+ miVg==
+X-Gm-Message-State: APjAAAXQoYs62DLbJditfmky3fojGVm3hc1Jh2p8fQf+7sFIaPjsPGdY
+ jM/GL8ddQ8UxuGiBGgSxwkb2ePqkzYWNwvEVsmLXZw==
+X-Google-Smtp-Source: APXvYqwa4EPzfP9xdOFoZbiT+5NEaYYybMg4bsvicufUkGr/0nbm2k3Cy6iTqLNnJLVRrXWFnes8pYxRzwnnq9cUoFg=
+X-Received: by 2002:a05:6830:13da:: with SMTP id
+ e26mr3017295otq.97.1579200323297; 
+ Thu, 16 Jan 2020 10:45:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 16 Jan 2020 18:45:12 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: arm tcg testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee alexlngw pmaydell
-X-Launchpad-Bug-Reporter: Alex Longwall (alexlngw)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <157857629827.5165.2496570379985305724.malonedeb@gac.canonical.com>
+References: <20200110161626.31943-1-alex.bennee@linaro.org>
  <20200110161626.31943-2-alex.bennee@linaro.org>
-Message-Id: <CAFEAcA9nNH9pu+8E_YYkiNtzePjZdrEBjK_9zJv+XJaSvcnhmA@mail.gmail.com>
-Subject: [Bug 1859021] Re: [PATCH v1 1/2] target/arm: detect 64 bit overflow
- caused by high cval + voff
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2a64c832864dfbf31298643d31a00b7664c75c23
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+In-Reply-To: <20200110161626.31943-2-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Jan 2020 18:45:12 +0000
+Message-ID: <CAFEAcA9nNH9pu+8E_YYkiNtzePjZdrEBjK_9zJv+XJaSvcnhmA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] target/arm: detect 64 bit overflow caused by high
+ cval + voff
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,7 +76,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859021 <1859021@bugs.launchpad.net>
+Cc: 1859021@bugs.launchpad.net, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -136,65 +144,4 @@ go tomorrow if nobody else gets there first...
 
 thanks
 -- PMM
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859021
-
-Title:
-  qemu-system-aarch64 (tcg):  cval + voff overflow not handled, causes
-  qemu to hang
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  The Armv8 architecture reference manual states that for any timer set
-  (e.g. CNTP* and CNTV*), the condition for such timer to generate an
-  interrupt (if enabled & unmasked) is:
-
-  CVAL <=3D CNT(P/V)CT
-
-  Although this is arguably sloppy coding, I have seen code that is
-  therefore assuming it can set CVAL to a very high value (e.g.
-  UINT64_MAX) and leave the interrupt enabled in CTL, and never get the
-  interrupt.
-
-  On latest master commit as the time of writing, there is an integer
-  overflow in target/arm/helper.c gt_recalc_timer affecting the virtual
-  timer when the interrupt is enabled in CTL:
-
-      /* Next transition is when we hit cval */
-      nexttick =3D gt->cval + offset;
-
-  When this overflow happens, I notice that qemu is no longer responsive an=
-d that I have to SIGKILL the process:
-      - qemu takes nearly all the cpu time of the cores it is running on (e=
-.g. 50% cpu usage if running on half the cores) and is completely unrespons=
-ive
-      - no guest interrupt (reported via -d int) is generated
-
-  Here the minimal code example to reproduce the issue:
-
-      mov     x0, #1
-      msr     cntvoff_el2, x0
-      mov     x0, #-1
-      msr     cntv_cval_el0, x0
-      mov     x0, #1
-      msr     cntv_ctl_el0, x0 // interrupt generation enabled, not masked;=
- qemu will start to hang here
-
-  Options used:
-  -nographic -machine virt,virtualization=3Don,gic-version=3D2,accel=3Dtcg =
--cpu cortex-a57
-  -smp 4 -m 1024 -kernel whatever.elf -d unimp,guest_errors,int -semihostin=
-g-config enable,target=3Dnative
-  -serial mon:stdio
-
-  Version used: 4.2
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859021/+subscriptions
 
