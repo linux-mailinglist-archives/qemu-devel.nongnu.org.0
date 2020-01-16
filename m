@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8548313FB1B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 22:10:01 +0100 (CET)
-Received: from localhost ([::1]:48450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B4F313FB19
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 22:09:41 +0100 (CET)
+Received: from localhost ([::1]:48442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isCOu-0007Pp-ER
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 16:10:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33444)
+	id 1isCOZ-0006pk-SQ
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 16:09:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33463)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1isCKg-0002TK-4O
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 16:05:39 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1isCKi-0002Wn-3c
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 16:05:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1isCKf-0007Rr-0h
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 16:05:38 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:44766)
+ (envelope-from <richard.henderson@linaro.org>) id 1isCKg-0007UU-Vi
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 16:05:39 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:46056)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1isCKe-0007RA-Q3
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 16:05:36 -0500
-Received: by mail-pf1-x441.google.com with SMTP id 62so4183767pfu.11
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 13:05:36 -0800 (PST)
+ id 1isCKg-0007TF-Pf
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 16:05:38 -0500
+Received: by mail-pf1-x444.google.com with SMTP id 2so10815747pfg.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 13:05:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=H4QnzckU0LL28w0wQX6tx5bhPXYdOpaHqvueD20Pzw4=;
- b=q2nHp+7rN05vWxg+MFugnxb6VHeo3d71Kz7sEa9Y80rwOml6ZLzDzLyE6VZFWXtMSH
- fFVXEyQzpKKC3QurcA2YzQIBlEWvKpI2ZtaY1qrbWflxHLX0vdCeFdDmSKhkLjCIauOV
- sRhlFs79N7tJyUl1DJE4ztmZ6IsAHzOuRKqDiQW1ryVr5LQqk56LDSDElByoaInxn/c3
- qgG5+RFWmi5THue7fMh9PmSrnDG1sfZFvKKXpI8mvHg8jT9LRS+jIcdpRez8ywxCkSaU
- xk0GEuAUetl/om/3eK/h1ek9M7r6u4+JIH7zjMuDeV7Z47ozuIkDyfJf3Q2Z87pObWW+
- B4ug==
+ bh=ncyinpMmDKy28yziRLqa0f0i557ZSdsPadwgIMhtoD8=;
+ b=TfnIR0pc2BgqyNOTZwgucsEvmC8Nsp8gd0WKM+wpmyS0srNV0sYfQz2m5NcJs1BIUj
+ BHtelKdHOuT1os3b0LvX+hyVGYQU/XWA2Y5UACwCuUzUL5SJPWIZSkurf5rYunLZYF0A
+ E91BjEZzXzpqjMretOLEaA1o5f6Az6SwzyZeQfcjSnSK10hu3RLnPurdnpJZganDGm0H
+ cryrqdkejbpIZpRjD8TkD6m7xEdmrWpnEyZTN/JJ54Jn71dUl70i9maus1VgqPexmHVQ
+ 1VPYEfR0GiARH6JVwt4tBDLsbF8cawTMQOyOpFMJtPQbs8gGC3aVtxrD0HEopVV/oUYx
+ G0WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=H4QnzckU0LL28w0wQX6tx5bhPXYdOpaHqvueD20Pzw4=;
- b=sT3ZjdBul0xIm4TDyUHjVCWpF7C+4HDSrtZjhDmt9mMf57v94IEXZmYR077/s8NDpn
- hKSh8nQB8vBh7zz7wYT5BGL7zpZJTfSttJPFojLPG73S2b2fcx0AxtTSZaeYkh8S2+8J
- JpfP29sJkkrYKnlhzJy9LsJj+IS4FLyTTC+CgnD+VKaLjljBA819WDStUVjxb87S5iXm
- 8bXwTwc0Wg4dr2S6yVAgaQETz1IpN++wYJLqm+V3NQ9a/5JSm15KibXg7zD6w8MnltUL
- e9dIGoRC1mfDXZKDmxjwhSuqjp65QpMZ06T4//HSRpCvEOWRTxAc2a52cEiBMf0vNhcr
- Shuw==
-X-Gm-Message-State: APjAAAXuH8oxGbG4fmKvX+WkOqiqBV+2Mb5YSM021CIJh6QAzvMK4C1U
- Qc3eonSbBZzx+LRRe7u7m4MCMvRJcR0=
-X-Google-Smtp-Source: APXvYqwqFuXXCilBqSrTe89hSNEV01TW/+DppEBq0VyayJcOCDDM2C1uSB9rMjPNFktRllxj3yhwVA==
-X-Received: by 2002:a63:1e47:: with SMTP id p7mr40886916pgm.339.1579208735554; 
- Thu, 16 Jan 2020 13:05:35 -0800 (PST)
+ bh=ncyinpMmDKy28yziRLqa0f0i557ZSdsPadwgIMhtoD8=;
+ b=NSK2ATHcoICGEFic+Iza0aAs2OyMtyp+KauTb3Ys1wJV07vf75R9Sn2XRsoB2Vf1xY
+ mivNJFBhiRwwKroImeqgMzKrlbBqCtfnrqPj1/E5L+tNZfv1NQ3obRXiUlC6EmmatPEC
+ HecL+qNy80uggwE5b3dNd6TA9d7vJk8M6D4qMYY6dTJoYZrvXFJhovaiSyUwuTELtyfG
+ Ea8JBWeikNKSehAlnTvBUwdBM4WtnZSBbAYkxWZ6CBasa1VTZWjAhawgJis1S4jD7uTT
+ dY1nOYwjfittTSzJ1rFOHI1PZkC6NxJvfR+JUEbk/Nlkm1t11fOQazqMm90tiiHSf0WU
+ 3cCw==
+X-Gm-Message-State: APjAAAVmuBIE5DC0A29X+whmL/cglGIzIjRefDg+yilwa4D1XrcTa020
+ b5K+ubOP3BKH5wlKF8uBcsjrTCDLC/s=
+X-Google-Smtp-Source: APXvYqyUa9RISP966WWhk58TQ6bQjz0g5tCkw6Iwo7TzJLK1w6ii0jbuP9n6wFzwopiW4t674b45mg==
+X-Received: by 2002:a63:358a:: with SMTP id
+ c132mr42324420pga.286.1579208737494; 
+ Thu, 16 Jan 2020 13:05:37 -0800 (PST)
 Received: from localhost.localdomain (rrcs-66-91-136-155.west.biz.rr.com.
  [66.91.136.155])
- by smtp.gmail.com with ESMTPSA id k21sm25494907pgt.22.2020.01.16.13.05.33
+ by smtp.gmail.com with ESMTPSA id k21sm25494907pgt.22.2020.01.16.13.05.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2020 13:05:34 -0800 (PST)
+ Thu, 16 Jan 2020 13:05:36 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] vl: Reduce scope of variables in configure_accelerators
-Date: Thu, 16 Jan 2020 11:05:26 -1000
-Message-Id: <20200116210528.31953-3-richard.henderson@linaro.org>
+Subject: [PATCH v2 3/4] vl: Remove useless test in configure_accelerators
+Date: Thu, 16 Jan 2020 11:05:27 -1000
+Message-Id: <20200116210528.31953-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116210528.31953-1-richard.henderson@linaro.org>
 References: <20200116210528.31953-1-richard.henderson@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,40 +85,30 @@ Cc: pbonzini@redhat.com, alex.bennee@linaro.org, aleksandar.m.mail@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The accel_list and tmp variables are only used when manufacturing
--machine accel, options based on -accel.
+The result of g_strsplit is never NULL.
 
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: The freeing of accel_list was fixed in adb464ff671d.
----
- vl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ vl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/vl.c b/vl.c
-index 6a5abf2f54..3e2b77a4e8 100644
+index 3e2b77a4e8..8ae8a5d241 100644
 --- a/vl.c
 +++ b/vl.c
-@@ -2753,7 +2753,6 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
- static void configure_accelerators(const char *progname)
- {
-     const char *accel;
--    char **accel_list, **tmp;
-     bool init_failed = false;
+@@ -2781,7 +2781,7 @@ static void configure_accelerators(const char *progname)
  
-     qemu_opts_foreach(qemu_find_opts("icount"),
-@@ -2761,6 +2760,8 @@ static void configure_accelerators(const char *progname)
+         accel_list = g_strsplit(accel, ":", 0);
  
-     accel = qemu_opt_get(qemu_get_machine_opts(), "accel");
-     if (QTAILQ_EMPTY(&qemu_accel_opts.head)) {
-+        char **accel_list, **tmp;
-+
-         if (accel == NULL) {
-             /* Select the default accelerator */
-             if (!accel_find("tcg") && !accel_find("kvm")) {
+-        for (tmp = accel_list; tmp && *tmp; tmp++) {
++        for (tmp = accel_list; *tmp; tmp++) {
+             /*
+              * Filter invalid accelerators here, to prevent obscenities
+              * such as "-machine accel=tcg,,thread=single".
 -- 
 2.20.1
 
