@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77FEB13FC6F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 23:53:12 +0100 (CET)
-Received: from localhost ([::1]:49390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC4C13FC70
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 23:53:13 +0100 (CET)
+Received: from localhost ([::1]:49392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isE0l-0001cs-7r
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 17:53:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49034)
+	id 1isE0m-0001e2-JZ
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 17:53:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49035)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1isDyz-0008ML-9g
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1isDyz-0008MM-9S
  for qemu-devel@nongnu.org; Thu, 16 Jan 2020 17:51:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1isDyx-0002fP-Ql
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1isDyx-0002fF-QV
  for qemu-devel@nongnu.org; Thu, 16 Jan 2020 17:51:20 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:52004 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:52008 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1isDyv-00024S-VE
+ id 1isDyv-00024f-VH
  for qemu-devel@nongnu.org; Thu, 16 Jan 2020 17:51:18 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id C4EC71A21A0;
+ by mail.rt-rk.com (Postfix) with ESMTP id D91A51A21FF;
  Thu, 16 Jan 2020 23:50:13 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 2592D1A21BC;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 5197A1A2160;
  Thu, 16 Jan 2020 23:50:12 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/12] linux-user: Add support for FS_IOC32_<GET|SET>FLAGS
+Subject: [PATCH 03/12] linux-user: Add support for FS_IOC32_<GET|SET>VERSION
  ioctls
-Date: Thu, 16 Jan 2020 23:49:41 +0100
-Message-Id: <1579214991-19602-3-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Thu, 16 Jan 2020 23:49:42 +0100
+Message-Id: <1579214991-19602-4-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1579214991-19602-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1579214991-19602-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -57,8 +57,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-These FS_IOC32_<GET|SET>FLAGS ioctls are identical to
-FS_IOC_<GET|SET>FLAGS ioctls, but without the anomaly of their
+These FS_IOC32_<GET|SET>VERSION ioctls are identical to
+FS_IOC_<GET|SET>VERSION ioctls, but without the anomaly of their
 number defined as if their third argument is of type long, while
 it is treated internally in kernel as is of type int.
 
@@ -70,28 +70,28 @@ Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
  2 files changed, 4 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index c44f42e..4fd6939 100644
+index 4fd6939..3affd88 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -140,6 +140,8 @@
-      IOCTL(FS_IOC_SETFLAGS, IOC_W, MK_PTR(TYPE_INT))
-      IOCTL(FS_IOC_GETVERSION, IOC_R, MK_PTR(TYPE_INT))
+@@ -142,6 +142,8 @@
       IOCTL(FS_IOC_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
-+     IOCTL(FS_IOC32_GETFLAGS, IOC_R, MK_PTR(TYPE_INT))
-+     IOCTL(FS_IOC32_SETFLAGS, IOC_W, MK_PTR(TYPE_INT))
+      IOCTL(FS_IOC32_GETFLAGS, IOC_R, MK_PTR(TYPE_INT))
+      IOCTL(FS_IOC32_SETFLAGS, IOC_W, MK_PTR(TYPE_INT))
++     IOCTL(FS_IOC32_GETVERSION, IOC_R, MK_PTR(TYPE_INT))
++     IOCTL(FS_IOC32_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
  
  #ifdef CONFIG_USBFS
    /* USB ioctls */
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index f68a8b6..964b2b4 100644
+index 964b2b4..a73cc3d 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -920,6 +920,8 @@ struct target_pollfd {
- #define TARGET_FS_IOC_GETVERSION TARGET_IOR('v', 1, abi_long)
- #define TARGET_FS_IOC_SETVERSION TARGET_IOW('v', 2, abi_long)
+@@ -922,6 +922,8 @@ struct target_pollfd {
  #define TARGET_FS_IOC_FIEMAP TARGET_IOWR('f',11,struct fiemap)
-+#define TARGET_FS_IOC32_GETFLAGS TARGET_IOR('f', 1, int)
-+#define TARGET_FS_IOC32_SETFLAGS TARGET_IOW('f', 2, int)
+ #define TARGET_FS_IOC32_GETFLAGS TARGET_IOR('f', 1, int)
+ #define TARGET_FS_IOC32_SETFLAGS TARGET_IOW('f', 2, int)
++#define TARGET_FS_IOC32_GETVERSION TARGET_IOR('v', 1, int)
++#define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
  
  /* usb ioctls */
  #define TARGET_USBDEVFS_CONTROL TARGET_IOWRU('U', 0)
