@@ -2,65 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B087414AD6C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 02:08:39 +0100 (CET)
-Received: from localhost ([::1]:52872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B556014AFC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 07:25:24 +0100 (CET)
+Received: from localhost ([::1]:54512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwFMs-0003T3-Q2
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 20:08:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51744)
+	id 1iwKJP-0001pC-0p
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 01:25:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51406)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iwFLc-0002Cr-RX
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 20:07:22 -0500
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1iwKIK-0000h0-1s
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 01:24:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iwFLb-0003UE-Ds
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 20:07:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44375
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iwFLb-0003Tt-9q
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 20:07:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580173639;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZyRxWrOGbv9to/iNkAWzvepPIhJ+AKRYBpvFEqPlzw8=;
- b=R0//kZWEIEmniTpJLtHS8UL6YJi/FPYUCY40WXVPQEreH+/g7EWc6WBeemfDReqy95MSTJ
- KthK9ELsuDN+bZgo5HY5cXjhpi2FanCjoJJxf0PhqlQg32KJutzUSv68v/KbeI7kaOqdx6
- wY/MNaX6fIOUwkgx/oJD0YQpheMF65g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-na_2oIgKO9iEKx9qbxPvFg-1; Mon, 27 Jan 2020 20:07:14 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51331800D48;
- Tue, 28 Jan 2020 01:07:13 +0000 (UTC)
-Received: from probe.bos.redhat.com (dhcp-17-116.bos.redhat.com [10.18.17.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 88A475D9CA;
- Tue, 28 Jan 2020 01:07:12 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 2/2] tests/ide-test: Create a single unit-test covering more
- PRDT cases
-Date: Mon, 27 Jan 2020 20:07:07 -0500
-Message-Id: <20200128010707.19572-3-jsnow@redhat.com>
-In-Reply-To: <20200128010707.19572-1-jsnow@redhat.com>
-References: <20200128010707.19572-1-jsnow@redhat.com>
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1iwKIH-0003XC-VW
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 01:24:15 -0500
+Received: from [192.146.154.1] (port=52897 helo=mcp01.nutanix.com)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1iwKIH-0003WW-Ol
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 01:24:13 -0500
+Received: from localhost.localdomain.com (unknown [10.40.36.165])
+ by mcp01.nutanix.com (Postfix) with ESMTP id 97CBD1007D19;
+ Tue, 28 Jan 2020 06:24:12 +0000 (UTC)
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: qemu-devel@nongnu.org,
+	mst@redhat.com
+Subject: [PATCH v2 0/3] vhost-user: Lift Max Ram Slots Limitation
+Date: Wed, 15 Jan 2020 21:57:03 -0500
+Message-Id: <1579143426-18305-1-git-send-email-raphael.norwitz@nutanix.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: na_2oIgKO9iEKx9qbxPvFg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 192.146.154.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,234 +46,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alexander Popov <alex.popov@linux.com>,
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: raphael.s.norwitz@gmail.com, Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Popov <alex.popov@linux.com>
+In QEMU today, a VM with a vhost-user device can hot add memory a
+maximum of 8 times. See these threads, among others:
 
-Fuzzing the Linux kernel with syzkaller allowed to find how to crash qemu
-using a special SCSI_IOCTL_SEND_COMMAND. It hits the assertion in
-ide_dma_cb() introduced in the commit a718978ed58a in July 2015.
-Currently this bug is not reproduced by the unit tests.
+[1] https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01046.html
+    https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01236.html
 
-Let's improve the ide-test to cover more PRDT cases including one
-that causes this particular qemu crash.
+[2] https://lists.gnu.org/archive/html/qemu-devel/2017-11/msg04656.html
 
-The test is developed according to the Programming Interface for
-Bus Master IDE Controller (Revision 1.0 5/16/94).
+This series introduces a new protocol feature
+VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS which, when enabled, lifts the
+restriction on the maximum number RAM slots imposed by vhost-user.
 
-Signed-off-by: Alexander Popov <alex.popov@linux.com>
-Message-id: 20191223175117.508990-3-alex.popov@linux.com
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- tests/qtest/ide-test.c | 176 ++++++++++++++++++-----------------------
- 1 file changed, 75 insertions(+), 101 deletions(-)
+The patch consists of 3 changes:
+1. Fixed assert in vhost_user_set_mem_table_postcopy:
+   This is a bug fix in the postcopy migration path
+2. Refactor vhost_user_set_mem_table functions:
+   This is a non-functional change refractoring the
+   vhost_user_set_mem_table and vhost_user_set_mem_table_postcopy
+   functions such that the feature can be more cleanly added.
+3. Lift max memory slots limit imposed by vhost-user:
+   This change introduces the new protocol feature
+   VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS.
 
-diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-index 0277e7d5a9..5cfd97f915 100644
---- a/tests/qtest/ide-test.c
-+++ b/tests/qtest/ide-test.c
-@@ -445,104 +445,81 @@ static void test_bmdma_trim(void)
-     test_bmdma_teardown(qts);
- }
-=20
--static void test_bmdma_short_prdt(void)
-+/*
-+ * This test is developed according to the Programming Interface for
-+ * Bus Master IDE Controller (Revision 1.0 5/16/94)
-+ */
-+static void test_bmdma_various_prdts(void)
- {
--    QTestState *qts;
--    QPCIDevice *dev;
--    QPCIBar bmdma_bar, ide_bar;
--    uint8_t status;
--
--    PrdtEntry prdt[] =3D {
--        {
--            .addr =3D 0,
--            .size =3D cpu_to_le32(0x10 | PRDT_EOT),
--        },
--    };
--
--    qts =3D test_bmdma_setup();
--
--    dev =3D get_pci_device(qts, &bmdma_bar, &ide_bar);
--
--    /* Normal request */
--    status =3D send_dma_request(qts, CMD_READ_DMA, 0, 1,
--                              prdt, ARRAY_SIZE(prdt), NULL);
--    g_assert_cmphex(status, =3D=3D, 0);
--    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
--
--    /* Abort the request before it completes */
--    status =3D send_dma_request(qts, CMD_READ_DMA | CMDF_ABORT, 0, 1,
--                              prdt, ARRAY_SIZE(prdt), NULL);
--    g_assert_cmphex(status, =3D=3D, 0);
--    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
--    free_pci_device(dev);
--    test_bmdma_teardown(qts);
--}
--
--static void test_bmdma_one_sector_short_prdt(void)
--{
--    QTestState *qts;
--    QPCIDevice *dev;
--    QPCIBar bmdma_bar, ide_bar;
--    uint8_t status;
--
--    /* Read 2 sectors but only give 1 sector in PRDT */
--    PrdtEntry prdt[] =3D {
--        {
--            .addr =3D 0,
--            .size =3D cpu_to_le32(0x200 | PRDT_EOT),
--        },
--    };
--
--    qts =3D test_bmdma_setup();
--
--    dev =3D get_pci_device(qts, &bmdma_bar, &ide_bar);
--
--    /* Normal request */
--    status =3D send_dma_request(qts, CMD_READ_DMA, 0, 2,
--                              prdt, ARRAY_SIZE(prdt), NULL);
--    g_assert_cmphex(status, =3D=3D, 0);
--    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
--
--    /* Abort the request before it completes */
--    status =3D send_dma_request(qts, CMD_READ_DMA | CMDF_ABORT, 0, 2,
--                              prdt, ARRAY_SIZE(prdt), NULL);
--    g_assert_cmphex(status, =3D=3D, 0);
--    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
--    free_pci_device(dev);
--    test_bmdma_teardown(qts);
--}
--
--static void test_bmdma_long_prdt(void)
--{
--    QTestState *qts;
--    QPCIDevice *dev;
--    QPCIBar bmdma_bar, ide_bar;
--    uint8_t status;
--
--    PrdtEntry prdt[] =3D {
--        {
--            .addr =3D 0,
--            .size =3D cpu_to_le32(0x1000 | PRDT_EOT),
--        },
--    };
--
--    qts =3D test_bmdma_setup();
--
--    dev =3D get_pci_device(qts, &bmdma_bar, &ide_bar);
--
--    /* Normal request */
--    status =3D send_dma_request(qts, CMD_READ_DMA, 0, 1,
--                              prdt, ARRAY_SIZE(prdt), NULL);
--    g_assert_cmphex(status, =3D=3D, BM_STS_ACTIVE | BM_STS_INTR);
--    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
--
--    /* Abort the request before it completes */
--    status =3D send_dma_request(qts, CMD_READ_DMA | CMDF_ABORT, 0, 1,
--                              prdt, ARRAY_SIZE(prdt), NULL);
--    g_assert_cmphex(status, =3D=3D, BM_STS_INTR);
--    assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF | ERR);
--    free_pci_device(dev);
--    test_bmdma_teardown(qts);
-+    int sectors =3D 0;
-+    uint32_t size =3D 0;
-+
-+    for (sectors =3D 1; sectors <=3D 256; sectors *=3D 2) {
-+        QTestState *qts =3D NULL;
-+        QPCIDevice *dev =3D NULL;
-+        QPCIBar bmdma_bar, ide_bar;
-+
-+        qts =3D test_bmdma_setup();
-+        dev =3D get_pci_device(qts, &bmdma_bar, &ide_bar);
-+
-+        for (size =3D 0; size < 65536; size +=3D 256) {
-+            uint32_t req_size =3D sectors * 512;
-+            uint32_t prd_size =3D size & 0xfffe; /* bit 0 is always set to=
- 0 */
-+            uint8_t ret =3D 0;
-+            uint8_t req_status =3D 0;
-+            uint8_t abort_req_status =3D 0;
-+            PrdtEntry prdt[] =3D {
-+                {
-+                    .addr =3D 0,
-+                    .size =3D cpu_to_le32(size | PRDT_EOT),
-+                },
-+            };
-+
-+            /* A value of zero in PRD size indicates 64K */
-+            if (prd_size =3D=3D 0) {
-+                prd_size =3D 65536;
-+            }
-+
-+            /*
-+             * 1. If PRDs specified a smaller size than the IDE transfer
-+             * size, then the Interrupt and Active bits in the Controller
-+             * status register are not set (Error Condition).
-+             *
-+             * 2. If the size of the physical memory regions was equal to
-+             * the IDE device transfer size, the Interrupt bit in the
-+             * Controller status register is set to 1, Active bit is set t=
-o 0.
-+             *
-+             * 3. If PRDs specified a larger size than the IDE transfer si=
-ze,
-+             * the Interrupt and Active bits in the Controller status regi=
-ster
-+             * are both set to 1.
-+             */
-+            if (prd_size < req_size) {
-+                req_status =3D 0;
-+                abort_req_status =3D 0;
-+            } else if (prd_size =3D=3D req_size) {
-+                req_status =3D BM_STS_INTR;
-+                abort_req_status =3D BM_STS_INTR;
-+            } else {
-+                req_status =3D BM_STS_ACTIVE | BM_STS_INTR;
-+                abort_req_status =3D BM_STS_INTR;
-+            }
-+
-+            /* Test the request */
-+            ret =3D send_dma_request(qts, CMD_READ_DMA, 0, sectors,
-+                                   prdt, ARRAY_SIZE(prdt), NULL);
-+            g_assert_cmphex(ret, =3D=3D, req_status);
-+            assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF |=
- ERR);
-+
-+            /* Now test aborting the same request */
-+            ret =3D send_dma_request(qts, CMD_READ_DMA | CMDF_ABORT, 0,
-+                                   sectors, prdt, ARRAY_SIZE(prdt), NULL);
-+            g_assert_cmphex(ret, =3D=3D, abort_req_status);
-+            assert_bit_clear(qpci_io_readb(dev, ide_bar, reg_status), DF |=
- ERR);
-+        }
-+
-+        free_pci_device(dev);
-+        test_bmdma_teardown(qts);
-+    }
- }
-=20
- static void test_bmdma_no_busmaster(void)
-@@ -1066,10 +1043,7 @@ int main(int argc, char **argv)
-=20
-     qtest_add_func("/ide/bmdma/simple_rw", test_bmdma_simple_rw);
-     qtest_add_func("/ide/bmdma/trim", test_bmdma_trim);
--    qtest_add_func("/ide/bmdma/short_prdt", test_bmdma_short_prdt);
--    qtest_add_func("/ide/bmdma/one_sector_short_prdt",
--                   test_bmdma_one_sector_short_prdt);
--    qtest_add_func("/ide/bmdma/long_prdt", test_bmdma_long_prdt);
-+    qtest_add_func("/ide/bmdma/various_prdts", test_bmdma_various_prdts);
-     qtest_add_func("/ide/bmdma/no_busmaster", test_bmdma_no_busmaster);
-=20
-     qtest_add_func("/ide/flush", test_flush);
+The implementation details are explained in more detail in the commit
+messages, but at a high level the new protocol feature works as follows:
+- If the VHOST_USER_PROTCOL_F_CONFIGURE_SLOTS feature is enabled, QEMU wi=
+ll
+  send multiple VHOST_USER_ADD_MEM_REG and VHOST_USER_REM_MEM_REG
+  messages to map and unmap individual memory regions instead of one larg=
+e
+  VHOST_USER_SET_MEM_TABLE message containing all memory regions.
+- The vhost-user struct maintains a =E2=80=99shadow state=E2=80=99 of mem=
+ory regions
+  already sent to the guest. Each time vhost_user_set_mem_table is called=
+,
+  the shadow state is compared with the new device state. A
+  VHOST_USER_REM_MEM_REG will be sent for each region in the shadow state
+  not in the device state. Then, a VHOST_USER_ADD_MEM_REG will be sent
+  for each region in the device state but not the shadow state. After
+  these messages have been sent, the shadow state will be updated to
+  reflect the new device state.
+
+The VHOST_USER_SET_MEM_TABLE message was not reused because as the number=
+ of
+regions grows, the message becomes very large. In practice, such large
+messages caused problems (truncated messages) and in the past it seems th=
+e
+community has opted for smaller fixed size messages where possible. VRING=
+s,
+for example, are sent to the backend individually instead of in one massi=
+ve
+message.
+
+Current Limitations:
+- postcopy migration is not supported when the
+  VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS has been negotiated.=20
+- VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS cannot be negotiated when
+  VHOST_USER_PROTOCOL_F_REPLY_ACK has also been negotiated.
+
+Both of these limitations are due to resource contraints. They are not
+imposed for technical reasons.
+
+Changes since V1:
+    * Kept the assert in vhost_user_set_mem_table_postcopy, but moved it
+      to prevent corruption
+    * Made QEMU send a single VHOST_USER_GET_MAX_MEMSLOTS message at
+      startup and cache the returned value so that QEMU does not need to
+      query the backend every time vhost_backend_memslots_limit is called=
+.
+
+Best,
+Raphael
+
+Raphael Norwitz (3):
+  Fixed assert in vhost_user_set_mem_table_postcopy
+  Refactor vhost_user_set_mem_table functions
+  Lift max memory slots limit imposed by vhost-user
+
+ docs/interop/vhost-user.rst |  43 +++++
+ hw/virtio/vhost-user.c      | 385 +++++++++++++++++++++++++++++++++-----=
+------
+ 2 files changed, 336 insertions(+), 92 deletions(-)
+
 --=20
-2.21.0
+1.8.3.1
 
 
