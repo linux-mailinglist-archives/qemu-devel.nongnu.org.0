@@ -2,90 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E63E13F164
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 19:28:42 +0100 (CET)
-Received: from localhost ([::1]:46762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18EEA13F1E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 19:32:32 +0100 (CET)
+Received: from localhost ([::1]:46828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is9sn-0005RJ-BB
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 13:28:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36967)
+	id 1is9wV-00007p-27
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 13:32:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37429)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1is9qy-0004Pd-MG
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:26:49 -0500
+ (envelope-from <liewkj@yahoo.com>) id 1is9u6-00070H-Gj
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:30:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1is9qu-0005R8-Fo
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:26:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55812
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1is9qu-0005QG-Bj
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:26:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579199203;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TSPx7brIB3VlPtEScmGQABuZFIV9qpk5/FgW5hSetCY=;
- b=K8ZVUrSuypWD3ZeNazk3iR8Ym+MT+1cJfTog65L24Sb+P2pfzwPtXx6iLjM3eQNYWnrgDs
- +lnosc2F01Bch7znMPwF6Y8wI6QU7zr1Uf14xpdposMr82Eyp4NodYqMKyLjyI/NE4dPrn
- hqN0U4vF9EMk75WnMhGjSnur5T0D1sk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-orA6F_9fOlu4EVrRKho6Tg-1; Thu, 16 Jan 2020 13:26:42 -0500
-Received: by mail-wr1-f72.google.com with SMTP id i9so9551074wru.1
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 10:26:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TSPx7brIB3VlPtEScmGQABuZFIV9qpk5/FgW5hSetCY=;
- b=UdNj9dKUCGR7l6Dfa/uZ4IdOWVcsjz3m7repvJbZUPf6wB5zei+APoqvQekApvJfl9
- FA+yAkialNxlBr9Hda6Z156jiEJUjJ1rcQFf0BK5JBBhVy6C7Qd1caGwe+SEOf17rBzT
- 3e2vQ9kRsIbCCmQ2gjyZUTw9SYjD7Z4WGhB/2bnbKS+8XjfVv4vVIKBLgL3BXYX44cMS
- 6/+BDBtYeTmLDgIsP8pT8quZ7VWDQKBFdWcrJ578yF/67ljyEPCDEF1MBMWhUm4rKBbu
- zrfCo6tdteI2oaKc1wVvi2TdyoFB1sOKsbL/0B3RINKn0lEoRTvKADwkeOUCC0vOLmo1
- hgSw==
-X-Gm-Message-State: APjAAAV/nYtap9W0uRuNx8BlHJ5NqxzNNOimdTPUxWueVBSeg2egdZcI
- RYhzLiNgmHBxrJZREe+XtNzxdXhHG23P9bAdGjRCNYSvpUxd2QpxZa3GLZtId7A8ctOMFlM0wpA
- qRMFE/o5tLES2oYc=
-X-Received: by 2002:adf:d850:: with SMTP id k16mr4544623wrl.96.1579199201080; 
- Thu, 16 Jan 2020 10:26:41 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzhm3EPHrHSOhWu5NeguxVx/gjYuv2SrNvgpzZHZbLrl8HvFa4K1Xm1kMh/aZCyQ24UGjuIFw==
-X-Received: by 2002:adf:d850:: with SMTP id k16mr4544591wrl.96.1579199200761; 
- Thu, 16 Jan 2020 10:26:40 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:436:e17d:1fd9:d92a?
- ([2001:b07:6468:f312:436:e17d:1fd9:d92a])
- by smtp.gmail.com with ESMTPSA id u18sm29930479wrt.26.2020.01.16.10.26.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jan 2020 10:26:40 -0800 (PST)
-Subject: Re: [PATCH v2] hw/i386: disable smbus migration for xenfv
-To: Olaf Hering <olaf@aepfle.de>, Stefano Stabellini
- <sstabellini@kernel.org>, Anthony Perard <anthony.perard@citrix.com>,
- Paul Durrant <paul@xen.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20200113174521.3336-1-olaf@aepfle.de>
- <20200116180321.24968-1-olaf@aepfle.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <0335edd2-3d33-88f8-2ab4-4791f7289885@redhat.com>
-Date: Thu, 16 Jan 2020 19:26:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <liewkj@yahoo.com>) id 1is9u2-0000CY-5J
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:30:02 -0500
+Received: from sonic302-49.consmr.mail.ne1.yahoo.com ([66.163.186.175]:34773)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <liewkj@yahoo.com>) id 1is9u1-0000BR-Th
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:29:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1579199396; bh=ikC7tfnjvwKDZUP/GZ0mw2t0Yq7u5wMDeuaWkuERGeQ=;
+ h=To:From:Subject:Date:From:Subject;
+ b=lRarsm2p7paB0tDUc1kvcUtniCIH/uKYeCMS4khovA9QPjEYWBsHXuFQ66pmeAwGPIPizLInQU7lrkFuaug8Lqb7C/SErDjp401vq5gLR4FY1ZPjiQ3gGkSi7tFOFaxix9LkuVY2a96kl4NmY8oWQVQb7qYG8WBBBFYnY/jL6HxUdH1sAwhmnoukkRElWUW2CtJlpEqMby3YuiXwonxFBgtXR0It/zIAl0sj67xm1/xbW71Z1vg1KyJQWLRlxSRnWaH6rMWa9EZb3TVRVuGeVKbw2UgoYhUMY/PiBBU52CGlkFhMskloxAWDprRnukG3CIwqhauyvtsNDpT3HLkInw==
+X-YMail-OSG: N_6BpMEVRDvd.miR6A7lED5GPdAEx7ojsA--
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic302.consmr.mail.ne1.yahoo.com with HTTP; Thu, 16 Jan 2020 18:29:56 +0000
+Received: by smtp401.mail.ne1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
+ ID 4578ede4a4603a83d0d8939b329614be; 
+ Thu, 16 Jan 2020 18:27:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200116180321.24968-1-olaf@aepfle.de>
-Content-Language: en-US
-X-MC-Unique: orA6F_9fOlu4EVrRKho6Tg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+From: KJ Liew <liewkj@yahoo.com>
+Subject: Fixed unknown audio format with SDL2
+Date: Thu, 16 Jan 2020 10:27:54 -0800
+Importance: normal
+X-Priority: 3
+Content-Type: multipart/alternative;
+ boundary="_CF1149E1-8C72-45AB-A0D7-8AC725A428E6_"
+X-Mailer: WebService/1.1.14873 hermes Apache-HttpAsyncClient/4.1.4
+ (Java/1.8.0_181)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+Message-ID: <E1is9u1-0000BR-Th@eggs.gnu.org>
+X-Received-From: 66.163.186.175
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,47 +58,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/01/20 19:03, Olaf Hering wrote:
-> With commit 7fccf2a06890e3bc3b30e29827ad3fb93fe88fea a new member
-> smbus_no_migration_support was added, and enabled in two places.
-> With commit 4ab2f2a8aabfea95cc53c64e13b3f67960b27fdf the vmstate_acpi
-> got new elements, which are conditionally filled. As a result, an
-> incoming migration expected smbus related data unless smbus migration
-> was disabled for a given MachineClass.
-> 
-> Since commit 7fccf2a06890e3bc3b30e29827ad3fb93fe88fea forgot to handle
-> xenfv, live migration to receiving hosts using qemu-4.0 and later is broken.
-> 
-> Therefore this patch must be applied to stable-4.x as well.
-> 
-> Signed-off-by: Olaf Hering <olaf@aepfle.de>
-> ---
-> 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index fa12203079..e19716d0d3 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -952,6 +952,7 @@ static void xenfv_machine_options(MachineClass *m)
->      m->desc = "Xen Fully-virtualized PC";
->      m->max_cpus = HVM_MAX_VCPUS;
->      m->default_machine_opts = "accel=xen";
-> +    m->smbus_no_migration_support = true;
->  }
->  
->  DEFINE_PC_MACHINE(xenfv, "xenfv", pc_xen_hvm_init,
-> 
+--_CF1149E1-8C72-45AB-A0D7-8AC725A428E6_
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-This patch is wrong; xenfv does not support cross-version migration
-compatibility.  Even if the migration stream does not change, the
-hardware exposed to the guest will.
 
-My understanding is that Xen is able to use "-M
-pc-i440fx-VERSION,accel=xen".  The presence of the version in the
-machine type guarantees that the migration stream is compatible and that
-the hardware exposed to the guest is the same on the source and destination.
+SDL2 (version >=3D2.0) prefers float32 audio format over integer audio form=
+at. QEMU sdlaudio.c does not handle any kind of AUDIO_F32 formats, but SDL_=
+OpenAudio(req, obt) will return float32 audio format in obt and QEMU prints=
+ error about unknown format 33056 (0x8120).
 
-Is this incorrect?
+The following simple patch fix the error by forcing SDL2 internal audio for=
+mat conversion.
 
-Paolo
+diff -ru ../orig/qemu-4.2.0/audio/sdlaudio.c ../qemu-4.2.0/audio/sdlaudio.c
+--- ../orig/qemu-4.2.0/audio/sdlaudio.c 2019-12-12 10:20:47.000000000 -0800
++++ ../qemu-4.2.0/audio/sdlaudio.c      2020-01-15 15:56:25.059841600 -0800
+@@ -147,10 +147,11 @@
+     }
+ #endif
+
+-    status =3D SDL_OpenAudio (req, obt);
++    status =3D SDL_OpenAudio (req, NULL);
+     if (status) {
+         sdl_logerr ("SDL_OpenAudio failed\n");
+     }
++    memcpy(obt, req, sizeof(SDL_AudioSpec));
+
+ #ifndef _WIN32
+     err =3D pthread_sigmask (SIG_SETMASK, &old, NULL);
+
+--_CF1149E1-8C72-45AB-A0D7-8AC725A428E6_
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="utf-8"
+
+<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
+hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
+fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta ht=
+tp-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta name=
+=3DGenerator content=3D"Microsoft Word 15 (filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:DengXian;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"\@DengXian";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style></head><body lang=3DEN-US><div class=3DWordSection1><p class=3DM=
+soNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>SDL2 (version &gt;=3D2.0=
+) prefers float32 audio format over integer audio format. QEMU sdlaudio.c d=
+oes not handle any kind of AUDIO_F32 formats, but SDL_OpenAudio(req, obt) w=
+ill return float32 audio format in obt and QEMU prints error about unknown =
+format 33056 (0x8120).</p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p clas=
+s=3DMsoNormal>The following simple patch fix the error by forcing SDL2 inte=
+rnal audio format conversion.</p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p>=
+<p class=3DMsoNormal>diff -ru ../orig/qemu-4.2.0/audio/sdlaudio.c ../qemu-4=
+.2.0/audio/sdlaudio.c</p><p class=3DMsoNormal>--- ../orig/qemu-4.2.0/audio/=
+sdlaudio.c 2019-12-12 10:20:47.000000000 -0800</p><p class=3DMsoNormal>+++ =
+../qemu-4.2.0/audio/sdlaudio.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2020-01-15 15:=
+56:25.059841600 -0800</p><p class=3DMsoNormal>@@ -147,10 +147,11 @@</p><p c=
+lass=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0 }</p><p class=3DMsoNormal> #endif=
+</p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>-=C2=A0=
+=C2=A0=C2=A0 status =3D SDL_OpenAudio (req, obt);</p><p class=3DMsoNormal>+=
+=C2=A0=C2=A0=C2=A0 status =3D SDL_OpenAudio (req, NULL);</p><p class=3DMsoN=
+ormal>=C2=A0=C2=A0=C2=A0=C2=A0 if (status) {</p><p class=3DMsoNormal>=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sdl_logerr (&quot;SDL_OpenAudio =
+failed\n&quot;);</p><p class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0 }</p><p c=
+lass=3DMsoNormal>+=C2=A0=C2=A0=C2=A0 memcpy(obt, req, sizeof(SDL_AudioSpec)=
+);</p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal> #ifnd=
+ef _WIN32</p><p class=3DMsoNormal>=C2=A0=C2=A0=C2=A0=C2=A0 err =3D pthread_=
+sigmask (SIG_SETMASK, &amp;old, NULL);</p></div></body></html>=
+
+--_CF1149E1-8C72-45AB-A0D7-8AC725A428E6_--
 
 
