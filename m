@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9586913F3F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 19:46:53 +0100 (CET)
-Received: from localhost ([::1]:47034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313DA13F582
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 19:56:59 +0100 (CET)
+Received: from localhost ([::1]:47148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isAAN-0005IG-Pp
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 13:46:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39436)
+	id 1isAKA-0005cC-6M
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 13:56:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40679)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1isA90-0004CG-1k
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:45:27 -0500
+ (envelope-from <bounces@canonical.com>) id 1isAIy-0004nm-0J
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:55:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1isA8y-0003ii-GJ
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:45:25 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43702)
+ (envelope-from <bounces@canonical.com>) id 1isAIt-0002CI-Sm
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:55:43 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35660)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1isA8y-0003iA-92
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:45:24 -0500
-Received: by mail-ot1-x344.google.com with SMTP id p8so20288357oth.10
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 10:45:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=TR9f1ok6iW3VkN7SoUvSSrDpC6U7lDL9AuOXaWKii4w=;
- b=oyiVEyYUbvEHYxDkO37+T9kqj/t4aq5GYH5nF49NCaYwwPlgCEXiirOMQhE/F3n2tf
- Rg1wNsEVwy1Hv+By18nv/cv7h5Htd8KX6s6mQ8OZayt3NDpbplms0RePcMDJEmFSoi1s
- /Ouolg9gCvJaFJJDEwKDyh4q2fCQhRgnbjktdw314wdP7F/a2c3BsMWpbtdAho1zgTBv
- 6uns2fJjV5LNjBLFiIiXsUe0xsgnFGGp0hKqNVNU2D+K8lbS8mmQBs9mRGZfeDn5mxVU
- wP9Kw0GGbZBnX/sb4p0vgMonXGDzNzrVbnKXzBhnYJ3nuZbE9hHXuAZjXM+5iAYRR/2N
- r4+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TR9f1ok6iW3VkN7SoUvSSrDpC6U7lDL9AuOXaWKii4w=;
- b=PcFYhICUrYy5WtzlT1c32UAWwBb8CvNqPBTNxK9BIRTeD3f3biYHemfMjqLd9aXGAo
- KwIhv1VUbr97MBjxAWizehe+2ltkinTa/WkHIJbqtlExrzh7J6BDO32QDhrXnLVqvBvG
- ghdJKILhX5T62ihqaM6zRPSguu/1kGWDU4wZKhLBtBgy2cTpyByXpgGTPKSE3uDnYTOz
- LzmL9pkjK2LZl9Ey7KdGtWFxXnsvPZfhd+PlQHE1iFrEDdqQ2WBMeAEOomG4vK7OmwPk
- o4poR4ZUNtAi47doNH7GpMkVwd8LA4hEilBwLg6M+YwwBCxJ75u7oJE+209IvZy8NYMh
- miVg==
-X-Gm-Message-State: APjAAAXQoYs62DLbJditfmky3fojGVm3hc1Jh2p8fQf+7sFIaPjsPGdY
- jM/GL8ddQ8UxuGiBGgSxwkb2ePqkzYWNwvEVsmLXZw==
-X-Google-Smtp-Source: APXvYqwa4EPzfP9xdOFoZbiT+5NEaYYybMg4bsvicufUkGr/0nbm2k3Cy6iTqLNnJLVRrXWFnes8pYxRzwnnq9cUoFg=
-X-Received: by 2002:a05:6830:13da:: with SMTP id
- e26mr3017295otq.97.1579200323297; 
- Thu, 16 Jan 2020 10:45:23 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1isAIt-0002Bd-BM
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 13:55:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1isAIs-0001SK-0f
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 18:55:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EFD642E80C8
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 18:55:37 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200110161626.31943-1-alex.bennee@linaro.org>
- <20200110161626.31943-2-alex.bennee@linaro.org>
-In-Reply-To: <20200110161626.31943-2-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Jan 2020 18:45:12 +0000
-Message-ID: <CAFEAcA9nNH9pu+8E_YYkiNtzePjZdrEBjK_9zJv+XJaSvcnhmA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] target/arm: detect 64 bit overflow caused by high
- cval + voff
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+Date: Thu, 16 Jan 2020 18:49:23 -0000
+From: pevogam <plamen@pevogam.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 5-plamen
+X-Launchpad-Bug-Reporter: pevogam (5-plamen)
+X-Launchpad-Bug-Modifier: pevogam (5-plamen)
+References: <157918316689.4864.12553262908100217782.malonedeb@wampee.canonical.com>
+Message-Id: <157920056418.5290.2596395508393289067.launchpad@wampee.canonical.com>
+Subject: [Bug 1859989] Re: qemu-img has broken output with large snapshot names
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9f8326917f16ba28c35c95527418e94129ee5d98
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,72 +65,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: 1859021@bugs.launchpad.net, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1859989 <1859989@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Jan 2020 at 16:16, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> If we don't detect this we will be stuck in a busy loop as we schedule
-> a timer for before now which will continually trigger gt_recalc_timer
-> even though we haven't reached the state required to trigger the IRQ.
->
-> Bug: https://bugs.launchpad.net/bugs/1859021
-> Cc: 1859021@bugs.launchpad.net
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  target/arm/helper.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 19a57a17da5..eb17106f7bd 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -2481,6 +2481,9 @@ static void gt_recalc_timer(ARMCPU *cpu, int timeri=
-dx)
->          } else {
->              /* Next transition is when we hit cval */
->              nexttick =3D gt->cval + offset;
-> +            if (nexttick < gt->cval) {
-> +                nexttick =3D UINT64_MAX;
-> +            }
->          }
+** Description changed:
 
-There's something odd going on with this code. Adding a bit of context:
+- On Qemu 4.1.1 the output of snalshots breaks if the chosen state name is
++ On Qemu 4.1.1 the output of snapshots breaks if the chosen state name is
+  too long:
+  =
 
-        uint64_t offset =3D timeridx =3D=3D GTIMER_VIRT ?
-                                      cpu->env.cp15.cntvoff_el2 : 0;
-        uint64_t count =3D gt_get_countervalue(&cpu->env);
-        /* Note that this must be unsigned 64 bit arithmetic: */
-        int istatus =3D count - offset >=3D gt->cval;
-        [...]
-        if (istatus) {
-            /* Next transition is when count rolls back over to zero */
-            nexttick =3D UINT64_MAX;
-        } else {
-            /* Next transition is when we hit cval */
-            nexttick =3D gt->cval + offset;
-        }
+  ```
+  # qemu-img snapshot -l /mnt/local/some_image.qcow2
+  Snapshot list:
+  ID        TAG                 VM SIZE                DATE       VM CLOCK
+  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
+.873
+  ```
+  =
 
-I think this patch is correct, in that the 'nexttick' values
-are all absolute and this cval/offset combination implies
-that the next timer interrupt is going to be in a future
-so distant we can't even fit the duration in a uint64_t.
+  Prior to 4.1.1 this used to work with extra tabs for the VM SIZE values.
+  The collision is also disabling us from using a regex on top of this
+  input to detect the snapshot.
 
-But the other half of the 'if' also looks wrong: that's
-for the case of "timer has fired, how long until the
-wraparound causes the interrupt line to go low again?".
-UINT64_MAX is right for the EL1 case where offset is 0,
-but the offset might actually be set such that the wrap
-around happens fairly soon. We want to calculate the
-tick when (count - offset) hits 0, saturated to
-UINT64_MAX. It's getting late here and I couldn't figure
-out what that expression should be with 15 minutes of
-fiddling around with pen and paper diagrams. I'll have another
-go tomorrow if nobody else gets there first...
+** Description changed:
 
-thanks
--- PMM
+  On Qemu 4.1.1 the output of snapshots breaks if the chosen state name is
+  too long:
+  =
+
+  ```
+  # qemu-img snapshot -l /mnt/local/some_image.qcow2
+  Snapshot list:
+  ID        TAG                 VM SIZE                DATE       VM CLOCK
+  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
+.873
+  ```
+  =
+
+  Prior to 4.1.1 this used to work with extra tabs for the VM SIZE values.
+  The collision is also disabling us from using a regex on top of this
+- input to detect the snapshot.
++ output to detect the snapshot.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859989
+
+Title:
+  qemu-img has broken output with large snapshot names
+
+Status in QEMU:
+  New
+
+Bug description:
+  On Qemu 4.1.1 the output of snapshots breaks if the chosen state name
+  is too long:
+
+  ```
+  # qemu-img snapshot -l /mnt/local/some_image.qcow2
+  Snapshot list:
+  ID        TAG                 VM SIZE                DATE       VM CLOCK
+  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
+.873
+  ```
+
+  Prior to 4.1.1 this used to work with extra tabs for the VM SIZE
+  values. The collision is also disabling us from using a regex on top
+  of this output to detect the snapshot.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859989/+subscriptions
 
