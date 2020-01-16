@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C81513E1B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 17:51:35 +0100 (CET)
-Received: from localhost ([::1]:45010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E80913E13F
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Jan 2020 17:49:07 +0100 (CET)
+Received: from localhost ([::1]:44956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1is8Mn-0006ha-KS
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 11:51:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46754)
+	id 1is8KQ-0002Yh-78
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 11:49:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47928)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pl@kamp.de>) id 1is8Fd-000545-Nn
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:44:12 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1is8Gy-0007OU-Ch
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:45:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pl@kamp.de>) id 1is8FZ-00007R-1K
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:44:09 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:48995)
+ (envelope-from <dgilbert@redhat.com>) id 1is8Gr-0001WX-G6
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:45:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38284
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pl@kamp.de>) id 1is8FY-0008VQ-Qs
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:44:04 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
- by kerio.kamp.de with ESMTPSA
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits));
- Thu, 16 Jan 2020 17:43:59 +0100
-Subject: Re: qemu-4.0.1: vhost_region_add_section:Section rounded to 0 prior
- to previous a0000
-From: Peter Lieven <pl@kamp.de>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <985fea06-ede6-dcb7-8829-a48a9416bc09@kamp.de>
- <20200108150458.GC3184@work-vm>
- <ca222a5f-1ec6-477c-ed83-6ef52ea9e97f@kamp.de>
- <20200109184440.GR6795@work-vm>
- <b89e8ba2-49e9-8c0d-1129-116afa76366a@kamp.de>
- <cd316fb8-b56b-2913-8b57-f085ca4426d7@kamp.de>
-Message-ID: <11bd7f7a-9022-6c35-3b92-27d6e66f3295@kamp.de>
-Date: Thu, 16 Jan 2020 17:44:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1is8Gp-0001TM-NV
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 11:45:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579193122;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q4pGY4zfLx97UvjWbeFH9Sa1S6YMGWpAMZ1qiLr+Zs0=;
+ b=CtCaSHZI8uxfXgr9/tYgDzuPUhGG59ooPe6yGHDgPA+lXDdtQPq3OyMLR2Q2p9i7fo5bB0
+ ZfskU3kSjcOOBMKw3C4i8SYEAlcp0Lz1vHYQ6EF2W+o2qojnlWptoVpPqWN77c6y42t7wM
+ K/J6d0PaDxmlsTNjqwf6ai8HAgUyol0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-gv1cLK_OMF26Iy2bY4gDeA-1; Thu, 16 Jan 2020 11:45:19 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32267800D4E;
+ Thu, 16 Jan 2020 16:45:18 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2318619C5B;
+ Thu, 16 Jan 2020 16:45:13 +0000 (UTC)
+Date: Thu, 16 Jan 2020 16:45:11 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>, mszeredi@redhat.com
+Subject: Re: [PATCH 072/104] virtiofsd: passthrough_ll: fix refcounting on
+ remove/rename
+Message-ID: <20200116164511.GJ3108@work-vm>
+References: <20191212163904.159893-73-dgilbert@redhat.com>
+ <20200116115603.5415-1-misono.tomohiro@jp.fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <cd316fb8-b56b-2913-8b57-f085ca4426d7@kamp.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20200116115603.5415-1-misono.tomohiro@jp.fujitsu.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: gv1cLK_OMF26Iy2bY4gDeA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 195.62.97.192
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,58 +75,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 16.01.20 um 13:47 schrieb Peter Lieven:
-> Am 13.01.20 um 17:25 schrieb Peter Lieven:
->> Am 09.01.20 um 19:44 schrieb Dr. David Alan Gilbert:
->>> * Peter Lieven (pl@kamp.de) wrote:
->>>> Am 08.01.20 um 16:04 schrieb Dr. David Alan Gilbert:
->>>>> * Peter Lieven (pl@kamp.de) wrote:
->>>>>> Hi,
->>>>>>
->>>>>>
->>>>>> I have a Qemu 4.0.1 machine with vhost-net network adapter, thats polluting the log with the above message.
->>>>>>
->>>>>> Is this something known? Googling revealed the following patch in Nemu (with seems to be a Qemu fork from Intel):
->>>>>>
->>>>>> https://github.com/intel/nemu/commit/03940ded7f5370ce7492c619dccced114ef7f56e
->>>>>>
->>>>>>
->>>>>> The network stopped functioning. After a live-migration the vServer is reachable again.
->>>>>>
->>>>>>
->>>>>> Any ideas?
->>>>> What guest are you running and what does your qemu commandline look
->>>>> like?
->>>>
->>>> Its running debian9. We have hundreds of other VMs with identical setup. Do not know why this one makes trouble.
->>> Could you extract an 'info mtree' from it - particularly the
->>> 'address-space: memory' near the top.
->>
->>
->> Here we go:
->>
->>
->> address-space: memory
->>   0000000000000000-ffffffffffffffff (prio 0, i/o): system
->>     0000000000000000-000000003fffffff (prio 0, i/o): alias ram-below-4g @pc.ram 0000000000000000-000000003fffffff
->>     0000000000000000-ffffffffffffffff (prio -1, i/o): pci
->>       00000000000a0000-00000000000affff (prio 2, i/o): alias vga.chain4 @vga.vram 0000000000000000-000000000000ffff
->>       00000000000a0000-00000000000bffff (prio 1, i/o): vga-lowmem
->
->
-> What seems special is that the RAM area is prio2. Any idea if this makes trouble?
+* Misono Tomohiro (misono.tomohiro@jp.fujitsu.com) wrote:
+> > From: Miklos Szeredi <mszeredi@redhat.com>
+> >=20
+> > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+>=20
+> I'm not familiar with qemu convention but shouldn't we put
+> at least one line of description like linux kernel?
 
+Miklos: would you like to suggest a better commit message?
 
-Update from my side. This happens when I have Debian 10 with XFCE when the Graphical User Interface is initialized.
+> For code itself:
+>  Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
 
-I see the log message when I specify -M pc-i440fx-2.9. If I obmit the machine type the error does not appear.
+Thanks!
 
-
-Peter
-
+>=20
+> > ---
+> >  tools/virtiofsd/passthrough_ll.c | 50 +++++++++++++++++++++++++++++++-
+> >  1 file changed, 49 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
+ough_ll.c
+> > index 0f33c3c5e9..1b84d4f313 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -1077,17 +1077,42 @@ out_err:
+> >      fuse_reply_err(req, saverr);
+> >  }
+> > =20
+> > +static struct lo_inode *lookup_name(fuse_req_t req, fuse_ino_t parent,
+> > +                                    const char *name)
+> > +{
+> > +    int res;
+> > +    struct stat attr;
+> > +
+> > +    res =3D fstatat(lo_fd(req, parent), name, &attr,
+> > +                  AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
+> > +    if (res =3D=3D -1) {
+> > +        return NULL;
+> > +    }
+> > +
+> > +    return lo_find(lo_data(req), &attr);
+> > +}
+> > +
+> >  static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *na=
+me)
+> >  {
+> >      int res;
+> > +    struct lo_inode *inode;
+> > +    struct lo_data *lo =3D lo_data(req);
+> > +
+> >      if (!is_safe_path_component(name)) {
+> >          fuse_reply_err(req, EINVAL);
+> >          return;
+> >      }
+> > =20
+> > +    inode =3D lookup_name(req, parent, name);
+> > +    if (!inode) {
+> > +        fuse_reply_err(req, EIO);
+> > +        return;
+> > +    }
+> > +
+> >      res =3D unlinkat(lo_fd(req, parent), name, AT_REMOVEDIR);
+> > =20
+> >      fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
+> > +    unref_inode_lolocked(lo, inode, 1);
+> >  }
+> > =20
+> >  static void lo_rename(fuse_req_t req, fuse_ino_t parent, const char *n=
+ame,
+> > @@ -1095,12 +1120,23 @@ static void lo_rename(fuse_req_t req, fuse_ino_=
+t parent, const char *name,
+> >                        unsigned int flags)
+> >  {
+> >      int res;
+> > +    struct lo_inode *oldinode;
+> > +    struct lo_inode *newinode;
+> > +    struct lo_data *lo =3D lo_data(req);
+> > =20
+> >      if (!is_safe_path_component(name) || !is_safe_path_component(newna=
+me)) {
+> >          fuse_reply_err(req, EINVAL);
+> >          return;
+> >      }
+> > =20
+> > +    oldinode =3D lookup_name(req, parent, name);
+> > +    newinode =3D lookup_name(req, newparent, newname);
+> > +
+> > +    if (!oldinode) {
+> > +        fuse_reply_err(req, EIO);
+> > +        goto out;
+> > +    }
+> > +
+> >      if (flags) {
+> >  #ifndef SYS_renameat2
+> >          fuse_reply_err(req, EINVAL);
+> > @@ -1113,26 +1149,38 @@ static void lo_rename(fuse_req_t req, fuse_ino_=
+t parent, const char *name,
+> >              fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
+> >          }
+> >  #endif
+> > -        return;
+> > +        goto out;
+> >      }
+> > =20
+> >      res =3D renameat(lo_fd(req, parent), name, lo_fd(req, newparent), =
+newname);
+> > =20
+> >      fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
+> > +out:
+> > +    unref_inode_lolocked(lo, oldinode, 1);
+> > +    unref_inode_lolocked(lo, newinode, 1);
+> >  }
+> > =20
+> >  static void lo_unlink(fuse_req_t req, fuse_ino_t parent, const char *n=
+ame)
+> >  {
+> >      int res;
+> > +    struct lo_inode *inode;
+> > +    struct lo_data *lo =3D lo_data(req);
+> > =20
+> >      if (!is_safe_path_component(name)) {
+> >          fuse_reply_err(req, EINVAL);
+> >          return;
+> >      }
+> > =20
+> > +    inode =3D lookup_name(req, parent, name);
+> > +    if (!inode) {
+> > +        fuse_reply_err(req, EIO);
+> > +        return;
+> > +    }
+> > +
+> >      res =3D unlinkat(lo_fd(req, parent), name, 0);
+> > =20
+> >      fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
+> > +    unref_inode_lolocked(lo, inode, 1);
+> >  }
+> > =20
+> >  static void unref_inode_lolocked(struct lo_data *lo, struct lo_inode *=
+inode,
+> > --=20
+> > 2.23.0
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
