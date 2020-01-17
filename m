@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 933C2140AE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:36:55 +0100 (CET)
-Received: from localhost ([::1]:57388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C444140B10
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:39:01 +0100 (CET)
+Received: from localhost ([::1]:57408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isRny-0005Cm-Co
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:36:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48883)
+	id 1isRq0-0007vo-9N
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:39:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48900)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ianjiang.ict@gmail.com>) id 1isRkL-0002WK-F3
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:10 -0500
+ (envelope-from <philmd@redhat.com>) id 1isRkS-0002cB-FX
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ianjiang.ict@gmail.com>) id 1isRkK-00082i-GA
+ (envelope-from <philmd@redhat.com>) id 1isRkM-000843-1H
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:15 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44765
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isRkL-00083F-Qu
  for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:09 -0500
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:42513)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <ianjiang.ict@gmail.com>)
- id 1isRkK-00081a-BQ
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:08 -0500
-Received: by mail-io1-xd34.google.com with SMTP id n11so25988689iom.9
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:33:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=vKbJroWiEVHvl8EOr3Fy9ww1XDr7npx1GYhdzb5dwBQ=;
- b=HrOMbT0E5enOIyhrJqDP7ld0zo4p5QB0HbYdbnb7NWOp0VbDjCvICMulsR1ToCWXuy
- xXGAd6cUDa7Ew/V8CZALgEA7URA0HmWyK4XKJLUVBvM0frEM1irXabyQ5f9fltai5yHg
- naniJbVKlS5N4LxTixNp4XGGlPlnwCbM7URyMUHk36Qs9J7w6wD1JUfFycuypsUVBah8
- 4l7EsUwueyezkBNop6W/DsitZly+04FVWhKmj5m+oyLKUZnjX/e8QKLV3Pc+wvii45rJ
- qwbs4xEGmyeW09JMTe6QF3vNSzMVCpMAe6L8R17gMpMiQI6GojeRC2I8UZSF9qIv2jRE
- tWog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=vKbJroWiEVHvl8EOr3Fy9ww1XDr7npx1GYhdzb5dwBQ=;
- b=bJwFh9APmu/ITdqooRx5hnxDIRxYlInTCjE5vzyhOGVyyw27vcw5a7kYWE9ET/Igbn
- BvikSal82x4XREFOQE/XjVCwtevUzqAp7oO4O3qo7+ARIp/CZ/50BelQqsR1ydDwMMMY
- Ow7bvh9qfHGIh6pVbLZI8kqhCQkpCxaKtz9pLrbTFA/XkS7EDU0Povah15dJTCVxdyhC
- sMaWwZpJl1mr3/Yab2sM288hiUsuM8k20KJhcH6SApAMQX8m2dsip/5uGXZmuMLXp0zk
- WIBuq6/UW3ewwbSEOiiEWIgJqd+HQWzAp2Tl0x75Mpe2UGjyg+cdvksu+hm6JG2MYVcX
- F4zQ==
-X-Gm-Message-State: APjAAAVYWCjPFav7oPN9Ep+eq8quK4ez703w5RscxpOAJEjP/dlIzHY5
- 4r0WqFHD7gWV1+70NjeUTfHQi9Walu6reKMDKagf3FFtkHs=
-X-Google-Smtp-Source: APXvYqyEbcB18NYAQVMUeBu01dV7ogblSRouGfibTk1CWbjsL4CsVvfU/5d4Rp+qGz7Xytn/JAlG0qG6WNH8b1HvfHY=
-X-Received: by 2002:a6b:92d4:: with SMTP id
- u203mr31446405iod.288.1579267986437; 
- Fri, 17 Jan 2020 05:33:06 -0800 (PST)
-MIME-Version: 1.0
-From: Ian Jiang <ianjiang.ict@gmail.com>
-Date: Fri, 17 Jan 2020 21:32:55 +0800
-Message-ID: <CAMAD20nGNi3N=Nj0x_ifUkH0Hb465eG77w6VG-vPLb1u1mPCsw@mail.gmail.com>
-Subject: riscv: How to get more CSR information in debug trace?
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579267989;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ln0Og2iIEXgA6Vm/1Vi7glo705g6JbWtKjkhmoo+5Qk=;
+ b=VbNptmWIuchmCAhm/FqAFsrHDWZn5YIZlt98Xi+mpjqOez9axOJ/FnElBD7fGjmm/dHL/A
+ eQHwCny3aU3I58luQIFkgsQXmtLOH8yweZBdG3KsIy945gjAgHnbfbMQHFvVuzvxvCJWA0
+ 4L1oiXDCvJ7aah6lSfJV5cS3Hrf8JiE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-LFfcayQeOpaY3-ARgCJIuA-1; Fri, 17 Jan 2020 08:33:07 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4229100550E
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 13:33:06 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-206-6.brq.redhat.com [10.40.206.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B6E0760FC2;
+ Fri, 17 Jan 2020 13:32:59 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000563f1f059c55fbcf"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d34
+Subject: [PATCH 105/104] virtiofsd: Unref old/new inodes with the same mutex
+ lock in lo_rename()
+Date: Fri, 17 Jan 2020 14:32:57 +0100
+Message-Id: <20200117133257.16906-1-philmd@redhat.com>
+In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: LFfcayQeOpaY3-ARgCJIuA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,51 +72,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, stefanha@redhat.com,
+ Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000563f1f059c55fbcf
-Content-Type: text/plain; charset="UTF-8"
+We can unref both old/new inodes with the same mutex lock.
 
-The following registers are given in QEMU debug trace with "-d cpu"
-parameter.
-pc       0000000000001000
-mhartid  0000000000000000
-mstatus  0000000000000000
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+Based-on: <20191212163904.159893-1-dgilbert@redhat.com>
+"virtiofs daemon"
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg664652.html
 
-mip      0x0
-mie      0000000000000000
-mideleg  0000000000000000
-medeleg  0000000000000000
-mtvec    0000000000000000
-mepc     0000000000000000
-mcause   0000000000000000
+ tools/virtiofsd/passthrough_ll.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-I want more information of other CSRs, such as sstatus, misa, pmpconfig0.
-How to get debug trace on all CSRs defined in RISC-V specification?
-Thanks!
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 57f58aef26..5c717cb5a1 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -1461,8 +1461,10 @@ static void lo_rename(fuse_req_t req, fuse_ino_t par=
+ent, const char *name,
+     }
+=20
+ out:
+-    unref_inode_lolocked(lo, oldinode, 1);
+-    unref_inode_lolocked(lo, newinode, 1);
++    pthread_mutex_lock(&lo->mutex);
++    unref_inode(lo, oldinode, 1);
++    unref_inode(lo, newinode, 1);
++    pthread_mutex_unlock(&lo->mutex);
+     lo_inode_put(lo, &oldinode);
+     lo_inode_put(lo, &newinode);
+     lo_inode_put(lo, &parent_inode);
+--=20
+2.21.1
 
---
-Ian Jiang
-
---000000000000563f1f059c55fbcf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>The following registers are given in QEMU debug trace=
- with &quot;-d cpu&quot; parameter.</div>pc =C2=A0 =C2=A0 =C2=A0 0000000000=
-001000<br>mhartid =C2=A00000000000000000<br>mstatus =C2=A00000000000000000 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0<br>mip =C2=A0 =C2=A0 =C2=A00x0<br>mie =C2=A0 =C2=A0 =C2=A0000=
-0000000000000<br>mideleg =C2=A00000000000000000<br>medeleg =C2=A00000000000=
-000000<br>mtvec =C2=A0 =C2=A00000000000000000<br>mepc =C2=A0 =C2=A0 0000000=
-000000000<br>mcause =C2=A0 0000000000000000<div><br></div><div>I want more =
-information of other CSRs, such as sstatus, misa, pmpconfig0.</div><div>How=
- to get debug trace on all CSRs defined in RISC-V specification?</div><div>=
-Thanks!</div><div><br></div><div>--</div><div>Ian Jiang</div></div>
-
---000000000000563f1f059c55fbcf--
 
