@@ -2,69 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1BF1408C4
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 12:16:50 +0100 (CET)
-Received: from localhost ([::1]:55620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE7491408D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 12:22:19 +0100 (CET)
+Received: from localhost ([::1]:55660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isPcP-0008He-KS
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 06:16:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33281)
+	id 1isPhi-0002BX-QK
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 06:22:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33937)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1isPbL-0007nB-3W
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:15:46 -0500
+ (envelope-from <philmd@redhat.com>) id 1isPgQ-0001EZ-W6
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:21:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1isPbG-00012M-FM
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:15:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49206
+ (envelope-from <philmd@redhat.com>) id 1isPgM-0004ve-Pg
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:20:58 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52126
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1isPbF-0000z3-UB
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:15:38 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isPgM-0004u7-MJ
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:20:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579259737;
+ s=mimecast20190719; t=1579260053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=d1PdSWMRtd6953JUHtBtID0euIUVVyV+EPPDgg/+qng=;
- b=UjC8e8fvWoBZbkBwIz9hv0xNlDGxKf7XXQ2PrYFORvl9ATpBHyyhnf6drCE/W/hvoTYrdg
- S2xt0oJI7GLpNcwSLLzJVjNub8ytXG7w8gtVgmB+m2gHPmTB0x19Gv+0yeVainPDvsRkgw
- IX4Shrlst/n7vWG8fQ41sEP2vNAwIDY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-TwIiJulLMt21rU-X2Aji6Q-1; Fri, 17 Jan 2020 06:15:36 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C33E800D41;
- Fri, 17 Jan 2020 11:15:35 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-212.ams2.redhat.com [10.36.116.212])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA3D260C87;
- Fri, 17 Jan 2020 11:15:31 +0000 (UTC)
-Subject: Re: [PATCH v2] s390x: adapter routes error handling
-To: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>
-References: <20200117111147.5006-1-cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <206366f0-ac14-cead-8ebe-dc46aced83d4@redhat.com>
-Date: Fri, 17 Jan 2020 12:15:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ in-reply-to:in-reply-to:references:references;
+ bh=6S8HYxyTaHNmJ7tlat8zD3fa2C4NSzbVkeYnDgLV5lw=;
+ b=b5bhvRysNuHhaaB953h3V2/W1Ai/vXocrRGp3+q/9dUbXuZixN0i1HM+AR5Zu4UFJJ6oTo
+ BXsyqne/0AdOLI82vjVph/avQbtqHM9k6Kg4q9zlh7YskxfyZ+2gEYfawEWYac8yJdFXdi
+ hTZGxSCr1jX9tgnI/ohftsf/kEn43KU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-120-z1kX666BPkSD-3jOj8XoSg-1; Fri, 17 Jan 2020 06:20:52 -0500
+Received: by mail-wm1-f69.google.com with SMTP id q26so1108799wmq.8
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 03:20:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VJ0nYIT6yhxd6M+kh3bKnXFh5D4k4gQhd0i0eGOHsl8=;
+ b=s0k0PN0fIF/sLQ+gLgyD0jM7etNvBOmhkb2ohfcG78G/ttTdIeatGwl8wzuJnkXpE+
+ WYB5sAa6Y1HndmPBpIurL1TUT5/rjvYDc8oC54rgP7neAy1yXiM9ZbafVpQF78D5neEN
+ v/fJsUQUQFT4nbOQwj96RjkZO3tEDdc6VicqiIA03Qyq3LkP9+NuBz2rk1Ppypzg5snJ
+ 1Uwy45sqPWc09L6ekvwfD3j//3ZbmBgbNY4ca15jtnmRSye4tFFxURFtpG+94F7tD4Tz
+ cOqawXbzuinmjJsO7hzIVcePGvr7L0twqDxfbQUvJSE5PXCUXT+5mCRJW4CWYfoAEfpC
+ WloQ==
+X-Gm-Message-State: APjAAAURmLUnuUPUrLWZ5a/+StvlWMJwCTvcT0SsQ5XL6yYqu449iQfL
+ FHyxDTmcOEUHbYubVwChAUCQ87KqdvvKJq0KWC1sOhPAqoMTlV9pHlhV7dDxgIiFOpOYYVIPPRg
+ PRJCqC1nKLpChzy8=
+X-Received: by 2002:a5d:6ca1:: with SMTP id a1mr2497914wra.36.1579260051119;
+ Fri, 17 Jan 2020 03:20:51 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzPtoRLTxRLbjJbwIsWYdE5olFrOaGUCCU7lOaYXQKHPrY66Xj8i1zfubM2IJckPew0SxOfZw==
+X-Received: by 2002:a5d:6ca1:: with SMTP id a1mr2497874wra.36.1579260050752;
+ Fri, 17 Jan 2020 03:20:50 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id u16sm7059167wmj.41.2020.01.17.03.20.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jan 2020 03:20:50 -0800 (PST)
+Subject: Re: [PATCH v22 5/9] ACPI: Record the Generic Error Status Block
+ address
+To: gengdongjiu <gengdongjiu@huawei.com>, pbonzini@redhat.com,
+ mst@redhat.com, imammedo@redhat.com, shannon.zhaosl@gmail.com,
+ peter.maydell@linaro.org, fam@euphon.net, rth@twiddle.net,
+ ehabkost@redhat.com, mtosatti@redhat.com, xuwei5@huawei.com,
+ jonathan.cameron@huawei.com, james.morse@arm.com, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, qemu-arm@nongnu.org
+References: <1578483143-14905-1-git-send-email-gengdongjiu@huawei.com>
+ <1578483143-14905-6-git-send-email-gengdongjiu@huawei.com>
+ <11c62b51-7a94-5e34-39c6-60c5e989a63b@redhat.com>
+ <de0dbaaa-01aa-aba7-df9a-ddfb9a2164b0@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <86db126c-cfec-6057-3724-a52eecb6c681@redhat.com>
+Date: Fri, 17 Jan 2020 12:20:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200117111147.5006-1-cohuck@redhat.com>
+In-Reply-To: <de0dbaaa-01aa-aba7-df9a-ddfb9a2164b0@huawei.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: TwIiJulLMt21rU-X2Aji6Q-1
+X-MC-Unique: z1kX666BPkSD-3jOj8XoSg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,83 +100,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: zhengxiang9@huawei.com, linuxarm@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/01/2020 12.11, Cornelia Huck wrote:
-> If the kernel irqchip has been disabled, we don't want the
-> {add,release}_adapter_routes routines to call any kvm_irqchip_*
-> interfaces, as they may rely on an irqchip actually having been
-> created. Just take a quick exit in that case instead.
-> 
-> Also initialize routes->gsi[] with -1 in the virtio-ccw handling,
-> to make sure we don't trip over other errors, either. (Nobody
-> else uses the gsi array in that structure.)
-> 
-> Fixes: d426d9fba8ea ("s390x/virtio-ccw: wire up irq routing and irqfds")
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
-> 
-> v1->v2:
->   - also initialize the gsi array with -1
-> 
-> ---
->  hw/intc/s390_flic_kvm.c | 8 ++++++++
->  hw/s390x/virtio-ccw.c   | 4 ++++
->  2 files changed, 12 insertions(+)
-> 
-> diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
-> index dddd33ea61c8..44b7960ebcc8 100644
-> --- a/hw/intc/s390_flic_kvm.c
-> +++ b/hw/intc/s390_flic_kvm.c
-> @@ -331,6 +331,10 @@ static int kvm_s390_add_adapter_routes(S390FLICState *fs,
->      int ret, i;
->      uint64_t ind_offset = routes->adapter.ind_offset;
->  
-> +    if (!kvm_gsi_routing_enabled()) {
-> +        return -ENOSYS;
-> +    }
-> +
->      for (i = 0; i < routes->num_routes; i++) {
->          ret = kvm_irqchip_add_adapter_route(kvm_state, &routes->adapter);
->          if (ret < 0) {
-> @@ -358,6 +362,10 @@ static void kvm_s390_release_adapter_routes(S390FLICState *fs,
->  {
->      int i;
->  
-> +    if (!kvm_gsi_routing_enabled()) {
-> +        return;
-> +    }
-> +
->      for (i = 0; i < routes->num_routes; i++) {
->          if (routes->gsi[i] >= 0) {
->              kvm_irqchip_release_virq(kvm_state, routes->gsi[i]);
-> diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-> index 6580ce5907dd..13f57e7b67f1 100644
-> --- a/hw/s390x/virtio-ccw.c
-> +++ b/hw/s390x/virtio-ccw.c
-> @@ -697,6 +697,7 @@ static void virtio_ccw_device_realize(VirtioCcwDevice *dev, Error **errp)
->      CCWDeviceClass *ck = CCW_DEVICE_GET_CLASS(ccw_dev);
->      SubchDev *sch;
->      Error *err = NULL;
-> +    int i;
->  
->      sch = css_create_sch(ccw_dev->devno, errp);
->      if (!sch) {
-> @@ -717,6 +718,9 @@ static void virtio_ccw_device_realize(VirtioCcwDevice *dev, Error **errp)
->      ccw_dev->sch = sch;
->      dev->indicators = NULL;
->      dev->revision = -1;
-> +    for (i = 0; i < ADAPTER_ROUTES_MAX_GSI; i++) {
-> +        dev->routes.gsi[i] = -1;
-> +    }
->      css_sch_build_virtual_schib(sch, 0, VIRTIO_CCW_CHPID_TYPE);
->  
->      trace_virtio_ccw_new_device(
-> 
+On 1/17/20 11:47 AM, gengdongjiu wrote:
+> On 2020/1/17 15:39, Philippe Mathieu-Daud=E9 wrote:
+>>>  =A0 =A0=A0=A0=A0=A0 table_offsets =3D g_array_new(false, true /* clear=
+ */,
+>>>  =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 sizeof(uint32_t));
+>>> @@ -831,7 +832,9 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBui=
+ldTables *tables)
+>>>  =A0=A0=A0=A0=A0 acpi_add_table(table_offsets, tables_blob);
+>>>  =A0=A0=A0=A0=A0 build_spcr(tables_blob, tables->linker, vms);
+>>>  =A0 -=A0=A0=A0 if (vms->ras) {
+>>> +=A0=A0=A0 acpi_ged_state =3D ACPI_GED(object_resolve_path_type("", TYP=
+E_ACPI_GED,
+>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0 NULL));
+>>
+>> Testing vms->ras first is cheaper than calling object_resolve_path_type(=
+). Since some people are spending lot of time to reduce VM boot time, it mi=
+ght be worth considering.
+> Thanks Philippe's comments.
+>=20
+> Do you think it should be written to below[1]? right?
+>=20
+> [1]:
+> if (vms->ras && acpi_ged_state)
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+No, as:
+
+   if (vms->ras) {
+     AcpiGedState *acpi_ged_state;
+
+     acpi_ged_state =3D ACPI_GED(object_resolve_path_type("",=20
+TYPE_ACPI_GED, NULL));
+     if (acpi_ged_state) {
+       acpi_add_table(table_offsets, tables_blob);
+       ...
+
+Maybe I'm wrong and there is not much impact in VM boot time here,=20
+reviews welcomed :)
+
+>>
+>>> +=A0=A0=A0 if (acpi_ged_state &&=A0 vms->ras) {
+>>>  =A0=A0=A0=A0=A0=A0=A0=A0=A0 acpi_add_table(table_offsets, tables_blob)=
+;
+>>>  =A0=A0=A0=A0=A0=A0=A0=A0=A0 build_ghes_error_table(tables->hardware_er=
+rors, tables->linker);
+>>>  =A0=A0=A0=A0=A0=A0=A0=A0=A0 acpi_build_hest(tables_blob, tables->hardw=
+are_errors,
+>>> @@ -925,6 +928,7 @@ void virt_acpi_setup(VirtMachineState *vms)
+>>>  =A0 {
+>=20
 
 
