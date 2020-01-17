@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29CB7140BC5
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:54:56 +0100 (CET)
-Received: from localhost ([::1]:57726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90AD6140BCF
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:57:11 +0100 (CET)
+Received: from localhost ([::1]:57802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isS5O-0008LJ-Jn
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:54:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51776)
+	id 1isS7a-0003F9-K4
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:57:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52038)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1isS3N-0006Si-Em
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:52:50 -0500
+ (envelope-from <philmd@redhat.com>) id 1isS4h-0008TK-78
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:54:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1isS3K-0007kt-Ch
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:52:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59757
+ (envelope-from <philmd@redhat.com>) id 1isS4e-0000NT-Pt
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:54:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39392
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isS3K-0007kJ-65
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:52:46 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isS4e-0000N0-Jb
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:54:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579269165;
+ s=mimecast20190719; t=1579269247;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N7eTtJqEAQfvfEUt6nFk+8B15m1B+zw/i44hn/2v7NQ=;
- b=BstwlQ5wh/+7gxSJ+gPjaGDrbSWaim8hxrp6zb2p3SMuhNTAOELyrRrBlhzaaNFyikNN+I
- BHPLejIK01V7eCY4FcfkPqtouhrLezKPG/z+apWLKJJtKGHKlJQ1+TW/rSR+rRs8Cqulm2
- cJl19/MkHSt91J2jyT2IT8CvNHQRmOg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-VGvPq0FSMbil6BCR-elsXQ-1; Fri, 17 Jan 2020 08:52:42 -0500
-Received: by mail-wm1-f71.google.com with SMTP id 7so1170017wmf.9
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:52:42 -0800 (PST)
+ bh=omMXBaG/R3j6SwCE3i9uictJ6jYSnGPYMl8jnAGjeis=;
+ b=iuJ/9C516jesEJhvn5iiNp9J7K6Fo1sAMaMng0P1J23FVyuG9EmICVnG80avsVMMLCjuAe
+ DYd4srxK0NqLe8WoZ3s5cyOQeoIoVimIH1bBmYSioqfvMRjuTilLoJWIOhILHqIPPf1Usq
+ SeJnS6nrEcFG3Lu2GrXoxaZpKwE1/MA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-bXCNJOWHN5OxYcJYFIJxIg-1; Fri, 17 Jan 2020 08:54:04 -0500
+Received: by mail-wr1-f71.google.com with SMTP id y7so10589269wrm.3
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:54:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ZzM3gZR0JofKUoSKFb+dfja1apuSWx8c+ZWQR65GCPA=;
- b=VJtVdI0gnYDDaWM51hSL/s4qVKzJ1Fa/JdYeEnUJ7XBwTUWOYcv2nQ8dEuA3wKNlht
- +eqOJ4RXL4JD2dPIteQM6E7t5lvif8ZqQstUmJWVPFNOTRXvW9k3uNlJ621EGl7ZryFX
- QEQE6UPKbkZT30mYDz/mh5X2NeXwUAcSXmGUCNMkyqGFqoQ5IlIo1uFyWmR+07IoxEMO
- 3x4SM3W4sPIkaqTOpGFRq9iQcAJ3LlX11CC3Vu+0FpdcKI15hy+tUHPGZrIiiJR46Rvd
- 40yATgATdYW6HRaRz2o3JoNqUXY27ssgCsUIlNoyMX2H8eanW1Lvp08Jb3sUsOOqU6XV
- Bf3A==
-X-Gm-Message-State: APjAAAWmxtRIwG08dBJGJeK63O3oBaGtTpUKZhIMIJqM9mlV3YRayYaZ
- TtJLANYAZx08jdhEnGqtlZo0cPLBQk6JAYXj5+mkguQ2ZtTHdnToJu5bG1jU5m52NnwhkQCJxBr
- +FgnYw73HxqQ/q8g=
-X-Received: by 2002:a1c:4454:: with SMTP id r81mr4746655wma.117.1579269161695; 
- Fri, 17 Jan 2020 05:52:41 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzf43YHoqm1d+eMVEAu/7PzRGpG4n7JlXz68Gq+sd5Cr1sIES1GKm9vGWjRcxcJxl+fVBE+Bw==
-X-Received: by 2002:a1c:4454:: with SMTP id r81mr4746640wma.117.1579269161481; 
- Fri, 17 Jan 2020 05:52:41 -0800 (PST)
+ bh=q7EAGhzf+w7ihkbYMlBIx6rnGz5kICUq0lHscyy23NQ=;
+ b=i8yL6OKQ1qqRQfjcAnvK4CQKR/sWeW3AfOAxvApgWJ2ePS1zvKq6LzDWq9alx2ZvUH
+ 4tsMfvjRIOHCK4TYtZnEHy3qI8C4C4tB6ELOE+e9E1p3rZ9G9kfY/XyF13XxPoKg9O+I
+ 0MvhQJN8y9h9ctomIHZgvLlwLjbZMoeOyIHX6vAcvK/Yhiu9Ucy7XLaWvLrPXqROGj8u
+ U/7uURVuqHAC4P5vaHhAhL3Zc6rGFQMV4nu1w9K8qf6/QEaIcYCcr0S9Haq8dlug1MR8
+ 33u2eC2XJiGlXZS8rByaCDcd2QcB+7Y4oZ34KHaPBJNlqK2BJxtWEikHehNWL7eHLrPc
+ Atvg==
+X-Gm-Message-State: APjAAAWvy/Qr4CAGoslBSRrNKAJIPcJzDS67AZrzYHeV6yO0zjaZCI3C
+ 4pOHc0YW07z66E1mcjnnuWjbHXWqVYMz1HOiVhaY6fifNHce4KorNZjFo9+eThi2fYU+UO2lhwX
+ DsPkj1JEWGnZT1eU=
+X-Received: by 2002:adf:cd92:: with SMTP id q18mr3095893wrj.261.1579269243235; 
+ Fri, 17 Jan 2020 05:54:03 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzZsJ6CJ36lnTXxUlDEmU+RqHNndBhQSQsj73LDlCDAw0yGTHqajPPBgiBMhOqVWzLnDrQzkA==
+X-Received: by 2002:adf:cd92:: with SMTP id q18mr3095862wrj.261.1579269242914; 
+ Fri, 17 Jan 2020 05:54:02 -0800 (PST)
 Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id n10sm33547379wrt.14.2020.01.17.05.52.40
+ by smtp.gmail.com with ESMTPSA id x11sm12474wmg.46.2020.01.17.05.54.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jan 2020 05:52:40 -0800 (PST)
-Subject: Re: [PATCH 089/104] virtiofsd: prevent races with lo_dirp_put()
+ Fri, 17 Jan 2020 05:54:02 -0800 (PST)
+Subject: Re: [PATCH 090/104] virtiofsd: rename inode->refcount to
+ inode->nlookup
 To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
  qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-90-dgilbert@redhat.com>
+ <20191212163904.159893-91-dgilbert@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8c4145c2-b4a3-bacc-b68e-9c2230765c4d@redhat.com>
-Date: Fri, 17 Jan 2020 14:52:39 +0100
+Message-ID: <e7785611-bc4b-8c52-08d2-4208cf3dfe38@redhat.com>
+Date: Fri, 17 Jan 2020 14:54:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-90-dgilbert@redhat.com>
+In-Reply-To: <20191212163904.159893-91-dgilbert@redhat.com>
 Content-Language: en-US
-X-MC-Unique: VGvPq0FSMbil6BCR-elsXQ-1
+X-MC-Unique: bXCNJOWHN5OxYcJYFIJxIg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,137 +100,132 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 12/12/19 5:38 PM, Dr. David Alan Gilbert (git) wrote:
 > From: Stefan Hajnoczi <stefanha@redhat.com>
 >=20
-> Introduce lo_dirp_put() so that FUSE_RELEASEDIR does not cause
-> use-after-free races with other threads that are accessing lo_dirp.
->=20
-> Also make lo_releasedir() atomic to prevent FUSE_RELEASEDIR racing with
-> itself.  This prevents double-frees.
+> This reference counter plays a specific role in the FUSE protocol.  It's
+> not a generic object reference counter and the FUSE kernel code calls it
+> "nlookup".
 >=20
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   tools/virtiofsd/passthrough_ll.c | 41 +++++++++++++++++++++++++++-----
->   1 file changed, 35 insertions(+), 6 deletions(-)
+>   tools/virtiofsd/passthrough_ll.c | 37 +++++++++++++++++++++-----------
+>   1 file changed, 25 insertions(+), 12 deletions(-)
 >=20
 > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
 gh_ll.c
-> index eadd568435..7663e574d8 100644
+> index 7663e574d8..b19c9ee328 100644
 > --- a/tools/virtiofsd/passthrough_ll.c
 > +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -1317,11 +1317,28 @@ static void lo_readlink(fuse_req_t req, fuse_ino_=
-t ino)
->   }
->  =20
->   struct lo_dirp {
-> +    gint refcount;
->       DIR *dp;
->       struct dirent *entry;
->       off_t offset;
->   };
->  =20
-> +static void lo_dirp_put(struct lo_dirp **dp)
-> +{
-> +    struct lo_dirp *d =3D *dp;
+> @@ -101,7 +101,20 @@ struct lo_inode {
+>       int fd;
+>       bool is_symlink;
+>       struct lo_key key;
+> -    uint64_t refcount; /* protected by lo->mutex */
 > +
-> +    if (!d) {
-> +        return;
-> +    }
-> +    *dp =3D NULL;
+> +    /*
+> +     * This counter keeps the inode alive during the FUSE session.
+> +     * Incremented when the FUSE inode number is sent in a reply
+> +     * (FUSE_LOOKUP, FUSE_READDIRPLUS, etc).  Decremented when an inode =
+is
+> +     * released by requests like FUSE_FORGET, FUSE_RMDIR, FUSE_RENAME, e=
+tc.
+> +     *
+> +     * Note that this value is untrusted because the client can manipula=
+te
+> +     * it arbitrarily using FUSE_FORGET requests.
+> +     *
+> +     * Protected by lo->mutex.
+> +     */
+> +    uint64_t nlookup;
 > +
-> +    if (g_atomic_int_dec_and_test(&d->refcount)) {
-> +        closedir(d->dp);
-> +        free(d);
-> +    }
-> +}
-> +
-> +/* Call lo_dirp_put() on the return value when no longer needed */
->   static struct lo_dirp *lo_dirp(fuse_req_t req, struct fuse_file_info *f=
-i)
->   {
->       struct lo_data *lo =3D lo_data(req);
-> @@ -1329,6 +1346,9 @@ static struct lo_dirp *lo_dirp(fuse_req_t req, stru=
-ct fuse_file_info *fi)
->  =20
->       pthread_mutex_lock(&lo->mutex);
->       elem =3D lo_map_get(&lo->dirp_map, fi->fh);
-> +    if (elem) {
-> +        g_atomic_int_inc(&elem->dirp->refcount);
-> +    }
->       pthread_mutex_unlock(&lo->mutex);
->       if (!elem) {
->           return NULL;
-> @@ -1364,6 +1384,7 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t i=
-no,
->       d->offset =3D 0;
->       d->entry =3D NULL;
->  =20
-> +    g_atomic_int_set(&d->refcount, 1); /* paired with lo_releasedir() */
->       pthread_mutex_lock(&lo->mutex);
->       fh =3D lo_add_dirp_mapping(req, d);
->       pthread_mutex_unlock(&lo->mutex);
-> @@ -1397,7 +1418,7 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_=
-t ino, size_t size,
->                             off_t offset, struct fuse_file_info *fi, int =
-plus)
->   {
->       struct lo_data *lo =3D lo_data(req);
-> -    struct lo_dirp *d;
-> +    struct lo_dirp *d =3D NULL;
->       struct lo_inode *dinode;
->       char *buf =3D NULL;
->       char *p;
-> @@ -1487,6 +1508,8 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_=
-t ino, size_t size,
->  =20
->       err =3D 0;
->   error:
-> +    lo_dirp_put(&d);
-> +
->       /*
->        * If there's an error, we can only signal it if we haven't stored
->        * any entries yet - otherwise we'd end up with wrong lookup
-> @@ -1517,22 +1540,25 @@ static void lo_releasedir(fuse_req_t req, fuse_in=
-o_t ino,
->                             struct fuse_file_info *fi)
->   {
->       struct lo_data *lo =3D lo_data(req);
-> +    struct lo_map_elem *elem;
->       struct lo_dirp *d;
->  =20
->       (void)ino;
->  =20
-> -    d =3D lo_dirp(req, fi);
-> -    if (!d) {
-> +    pthread_mutex_lock(&lo->mutex);
-> +    elem =3D lo_map_get(&lo->dirp_map, fi->fh);
-> +    if (!elem) {
-> +        pthread_mutex_unlock(&lo->mutex);
->           fuse_reply_err(req, EBADF);
->           return;
->       }
->  =20
-> -    pthread_mutex_lock(&lo->mutex);
-> +    d =3D elem->dirp;
->       lo_map_remove(&lo->dirp_map, fi->fh);
->       pthread_mutex_unlock(&lo->mutex);
->  =20
-> -    closedir(d->dp);
-> -    free(d);
-> +    lo_dirp_put(&d); /* paired with lo_opendir() */
-> +
->       fuse_reply_err(req, 0);
->   }
->  =20
-> @@ -1743,6 +1769,9 @@ static void lo_fsyncdir(fuse_req_t req, fuse_ino_t =
-ino, int datasync,
+>       fuse_ino_t fuse_ino;
+>       pthread_mutex_t plock_mutex;
+>       GHashTable *posix_locks; /* protected by lo_inode->plock_mutex */
+> @@ -570,7 +583,7 @@ retry:
+>       if (last =3D=3D path) {
+>           p =3D &lo->root;
+>           pthread_mutex_lock(&lo->mutex);
+> -        p->refcount++;
+> +        p->nlookup++;
+>           pthread_mutex_unlock(&lo->mutex);
 >       } else {
->           res =3D fsync(fd);
+>           *last =3D '\0';
+> @@ -788,8 +801,8 @@ static struct lo_inode *lo_find(struct lo_data *lo, s=
+truct stat *st)
+>       pthread_mutex_lock(&lo->mutex);
+>       p =3D g_hash_table_lookup(lo->inodes, &key);
+>       if (p) {
+> -        assert(p->refcount > 0);
+> -        p->refcount++;
+> +        assert(p->nlookup > 0);
+> +        p->nlookup++;
 >       }
-> +
-> +    lo_dirp_put(&d);
-> +
->       fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
+>       pthread_mutex_unlock(&lo->mutex);
+>  =20
+> @@ -857,7 +870,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t pa=
+rent, const char *name,
+>           }
+>  =20
+>           inode->is_symlink =3D S_ISLNK(e->attr.st_mode);
+> -        inode->refcount =3D 1;
+> +        inode->nlookup =3D 1;
+>           inode->fd =3D newfd;
+>           newfd =3D -1;
+>           inode->key.ino =3D e->attr.st_ino;
+> @@ -1097,7 +1110,7 @@ static void lo_link(fuse_req_t req, fuse_ino_t ino,=
+ fuse_ino_t parent,
+>       }
+>  =20
+>       pthread_mutex_lock(&lo->mutex);
+> -    inode->refcount++;
+> +    inode->nlookup++;
+>       pthread_mutex_unlock(&lo->mutex);
+>       e.ino =3D inode->fuse_ino;
+>  =20
+> @@ -1226,9 +1239,9 @@ static void unref_inode_lolocked(struct lo_data *lo=
+, struct lo_inode *inode,
+>       }
+>  =20
+>       pthread_mutex_lock(&lo->mutex);
+> -    assert(inode->refcount >=3D n);
+> -    inode->refcount -=3D n;
+> -    if (!inode->refcount) {
+> +    assert(inode->nlookup >=3D n);
+> +    inode->nlookup -=3D n;
+> +    if (!inode->nlookup) {
+>           lo_map_remove(&lo->ino_map, inode->fuse_ino);
+>           g_hash_table_remove(lo->inodes, &inode->key);
+>           if (g_hash_table_size(inode->posix_locks)) {
+> @@ -1249,7 +1262,7 @@ static int unref_all_inodes_cb(gpointer key, gpoint=
+er value, gpointer user_data)
+>       struct lo_inode *inode =3D value;
+>       struct lo_data *lo =3D user_data;
+>  =20
+> -    inode->refcount =3D 0;
+> +    inode->nlookup =3D 0;
+>       lo_map_remove(&lo->ino_map, inode->fuse_ino);
+>       close(inode->fd);
+>  =20
+> @@ -1274,7 +1287,7 @@ static void lo_forget_one(fuse_req_t req, fuse_ino_=
+t ino, uint64_t nlookup)
+>       }
+>  =20
+>       fuse_log(FUSE_LOG_DEBUG, "  forget %lli %lli -%lli\n",
+> -             (unsigned long long)ino, (unsigned long long)inode->refcoun=
+t,
+> +             (unsigned long long)ino, (unsigned long long)inode->nlookup=
+,
+>                (unsigned long long)nlookup);
+>  =20
+>       unref_inode_lolocked(lo, inode, nlookup);
+> @@ -2642,7 +2655,7 @@ static void setup_root(struct lo_data *lo, struct l=
+o_inode *root)
+>       root->fd =3D fd;
+>       root->key.ino =3D stat.st_ino;
+>       root->key.dev =3D stat.st_dev;
+> -    root->refcount =3D 2;
+> +    root->nlookup =3D 2;
 >   }
 >  =20
+>   static guint lo_key_hash(gconstpointer key)
 >=20
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
