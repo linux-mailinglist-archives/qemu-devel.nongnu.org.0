@@ -2,87 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D411140A37
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 13:53:49 +0100 (CET)
-Received: from localhost ([::1]:56620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74370140A3D
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 13:54:43 +0100 (CET)
+Received: from localhost ([::1]:56628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isR8G-0000WX-HQ
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 07:53:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44228)
+	id 1isR98-0001U8-IT
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 07:54:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44240)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1isR7S-00005c-D9
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:53:02 -0500
+ (envelope-from <qemu_oss@crudebyte.com>) id 1isR7W-00005f-6W
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:53:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1isR7O-0003Q2-I8
+ (envelope-from <qemu_oss@crudebyte.com>) id 1isR7S-0003TI-KM
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:53:02 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:57027)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1isR7S-0003S7-89
  for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:52:58 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34520
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1isR7O-0003PA-Dn
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:52:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579265573;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tsJ6tc5re05NNrZASY4tN+onAxEd1rUC3njodQZSW5o=;
- b=NsBXLQQb4lCNw6fLCPDxt/IzxIR3Q9l7/5+IHddFdwiqsb8J+99S9E2QiYJGBOwTdKyiZP
- pwRK23ihtJ+pnKy11VQkHnWOK04tm5Iyn/5I90n16k78jnaaue/hReaJ6LQo/tmQqOlveh
- o5JbY0OWliHtBQoB0cx55x3i60TO+HE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-3DiDolYhMIKHQm1dgGftSA-1; Fri, 17 Jan 2020 07:52:50 -0500
-Received: by mail-wr1-f71.google.com with SMTP id w6so10429621wrm.16
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 04:52:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tsJ6tc5re05NNrZASY4tN+onAxEd1rUC3njodQZSW5o=;
- b=QZuj6h6Xe8nPRBAITONeuaDiQiwHq30VubJNcZbmpVz/rxGNWh6UwkS9vh0xJ/RcFP
- 4qUzI4/Ojcj394w6S+FAfZoA9DBpYPjZWQx98bnPPsxbQXx23RGRyXw54udLyO+QRUUD
- cX7GjLMOxN6i6vdBZ1QRde/C1/WRq2yNUhlZtNG+XQzUYIGkP6YlRdqnaElbM27WHHVJ
- 03C4Xu+PYYTkxTQl95RylPdtXiUMVDHXy91SoOwZyC9ZekWw7Ab5TqzhIymd9vLoQ379
- 42N12j8jZLd/Nou+yHkEoi3qjHDf4eDC3qqaijPxcI95VWOrf+29v5Dm6AbLnBWSxx4f
- WVtg==
-X-Gm-Message-State: APjAAAUDvAZD6C7UPJS2gwfyNKhjFn1+oikN8GZKb42inspf4bRTxGwG
- pRm08VjqIo8Dd/Mh1mMls6TYYgXPVR5uT7AHWgkf1cghKfqt1Q115sIGG8FV/+NY8QNTYrP9zQv
- rw0ZQliZ8ZdrQB5M=
-X-Received: by 2002:a1c:5f8a:: with SMTP id t132mr4470250wmb.162.1579265569184; 
- Fri, 17 Jan 2020 04:52:49 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyaqW8hRoZHSYz9z4mBDY+3GxXhJb5O/PCKY/FVwv0yIKfhfdK4qY+2jWmz/j3nu6YOgxc9MA==
-X-Received: by 2002:a1c:5f8a:: with SMTP id t132mr4470229wmb.162.1579265568965; 
- Fri, 17 Jan 2020 04:52:48 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:436:e17d:1fd9:d92a?
- ([2001:b07:6468:f312:436:e17d:1fd9:d92a])
- by smtp.gmail.com with ESMTPSA id u22sm35458332wru.30.2020.01.17.04.52.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jan 2020 04:52:47 -0800 (PST)
-Subject: Re: [PATCH v3 2/2] vhost: Only align sections for vhost-user
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, vkuznets@redhat.com, mst@redhat.com,
- jasowang@redhat.com
-References: <20200116202414.157959-1-dgilbert@redhat.com>
- <20200116202414.157959-3-dgilbert@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4bf72509-3e60-0d78-c2ba-665a71a978e1@redhat.com>
-Date: Fri, 17 Jan 2020 13:52:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=WWAxBM0HwRtqtr8gFAXHwZg5jhKzLmk9kV/zFBlG+Xw=; b=omcygCyxUWTkBDJUS4eSlndNEa
+ 9xWKLpylRlrftaaG5MbvJcO/LjL2ZmHpcXI04jYEN+gaLXm/60+LJ1IF50hTbEcvSArgRgBC2c1Lv
+ e2cRs4dlJmc4sP0ECpj1OnehZjJNpT2suZdd45YOIaDxD74V+ioNYdsz315tEYALH+4DUWxpo5KbL
+ ZhMP2OFp1RGLcsE3pqcpqcClFVFj9gIV3yaojGQ/ApvZaGZLTVyQUGQDJu/ZjaVwDQmLj/6O4GGGh
+ 7p5okwc2hNUXC5WDhmofjiRFpex8oTFeWZngAuOiM0SMwHo1Qw159ik8f4ERpj7w9xE5/8avNlPcs
+ KBDjJYjF1kRCK0AqJLk8firKKUnzrD6UBPrQ3Crp0J9v9VmP/qZBDw2VPZULwY+md+FKRI+fPKyFA
+ mKOINrpNOwbMo3ued/qXbGHspJd+3HylK3vTqMvZyzVe3dceDY+je/odUuo+/IglUyqE3KGTOJdl4
+ 2yjJTeE+KioWLAuA013cWbxaHHXPeY3AGZcsnb5Rrd9NXRIPNKxP8xOfYZQSZIY4zi/eEEu9vdVYh
+ C2rq16BAjrB2Mz5oe9YciRh7EOuNtE6az0WnITyJ6Aib54O+lwnFmwmLJk4ihMGumaNv2zG++ECYt
+ /SJYWfoxq5+chDwrG9ZuGeSCteiw/zpNgVP0Ugong=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: pannengyuan@huawei.com, mst@redhat.com, groug@kaod.org,
+ Euler Robot <euler.robot@huawei.com>, zhang.zhanghailiang@huawei.com
+Subject: Re: [PATCH v2 1/2] virtio-9p-device: fix memleak in
+ virtio_9p_device_unrealize
+Date: Fri, 17 Jan 2020 13:52:53 +0100
+Message-ID: <7781044.dIsAdKOGtE@silver>
+In-Reply-To: <20200117060927.51996-2-pannengyuan@huawei.com>
+References: <20200117060927.51996-1-pannengyuan@huawei.com>
+ <20200117060927.51996-2-pannengyuan@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20200116202414.157959-3-dgilbert@redhat.com>
-Content-Language: en-US
-X-MC-Unique: 3DiDolYhMIKHQm1dgGftSA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 5.189.157.229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,39 +66,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/01/20 21:24, Dr. David Alan Gilbert (git) wrote:
-> +    if (dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_USER) {   
-> +        /* Round the section to it's page size */
-> +        /* First align the start down to a page boundary */
-> +        size_t mrs_page = qemu_ram_pagesize(mrs_rb);
-> +        uint64_t alignage = mrs_host & (mrs_page - 1);
-> +        if (alignage) {
-> +            mrs_host -= alignage;
-> +            mrs_size += alignage;
-> +            mrs_gpa  -= alignage;
-> +        }
-> +        /* Now align the size up to a page boundary */
-> +        alignage = mrs_size & (mrs_page - 1);
-> +        if (alignage) {
-> +            mrs_size += mrs_page - alignage;
-> +        }
-> +        trace_vhost_region_add_section_aligned(section->mr->name, mrs_gpa, mrs_size,
-> +                                               mrs_host);
-> +    }
+On Freitag, 17. Januar 2020 07:09:26 CET pannengyuan@huawei.com wrote:
+> From: Pan Nengyuan <pannengyuan@huawei.com>
+> 
+> v->vq forgot to cleanup in virtio_9p_device_unrealize, the memory leak
+> stack is as follow:
+> 
+> Direct leak of 14336 byte(s) in 2 object(s) allocated from:
+>   #0 0x7f819ae43970 (/lib64/libasan.so.5+0xef970)  ??:?
+>   #1 0x7f819872f49d (/lib64/libglib-2.0.so.0+0x5249d)  ??:?
+>   #2 0x55a3a58da624 (./x86_64-softmmu/qemu-system-x86_64+0x2c14624) 
+> /mnt/sdb/qemu/hw/virtio/virtio.c:2327 #3 0x55a3a571bac7
+> (./x86_64-softmmu/qemu-system-x86_64+0x2a55ac7) 
+> /mnt/sdb/qemu/hw/9pfs/virtio-9p-device.c:209 #4 0x55a3a58e7bc6
+> (./x86_64-softmmu/qemu-system-x86_64+0x2c21bc6) 
+> /mnt/sdb/qemu/hw/virtio/virtio.c:3504 #5 0x55a3a5ebfb37
+> (./x86_64-softmmu/qemu-system-x86_64+0x31f9b37) 
+> /mnt/sdb/qemu/hw/core/qdev.c:876
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
 
-Ok, now I understand!
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 
-So it seems to me that the vhost-user protocol is deficient, it should
-have had two different fields for the region size and the region
-alignment (so that mmap does not fail).  But I guess that's just yet
-another thing to remember for vhost-user v2.
+Maybe you could add this patch to your revised PR Greg?
 
-I would add a comment to explain why the alignment is needed in the
-first place, but this fix is certainly much more pleasant.  Thanks very
-much.
+> ---
+> Changes V2 to V1:
+> - use old function virtio_del_queue to make it easier for stable branch
+> to merge (suggested by Christian Schoenebeck)
+> ---
+>  hw/9pfs/virtio-9p-device.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
+> index b5a7c03f26..910dc5045e 100644
+> --- a/hw/9pfs/virtio-9p-device.c
+> +++ b/hw/9pfs/virtio-9p-device.c
+> @@ -215,6 +215,7 @@ static void virtio_9p_device_unrealize(DeviceState *dev,
+> Error **errp) V9fsVirtioState *v = VIRTIO_9P(dev);
+>      V9fsState *s = &v->state;
+> 
+> +    virtio_del_queue(vdev, 0);
+>      virtio_cleanup(vdev);
+>      v9fs_device_unrealize_common(s, errp);
+>  }
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Paolo
+
 
 
