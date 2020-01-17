@@ -2,62 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8DD140FF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 18:34:07 +0100 (CET)
-Received: from localhost ([::1]:60864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A13140FF7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 18:36:13 +0100 (CET)
+Received: from localhost ([::1]:60924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isVVV-0002af-Ip
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 12:34:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53505)
+	id 1isVXY-0005QS-7O
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 12:36:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53743)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1isVSS-0000SE-Db
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:30:57 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1isVUF-00027y-OG
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:32:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1isVSR-0002RE-4j
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:30:56 -0500
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:35012)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1isVSQ-0002QZ-W5
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:30:55 -0500
-Received: by mail-ot1-x335.google.com with SMTP id i15so23219558oto.2
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 09:30:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=2wHVw6YI0c0F4tPkWzzLnCpXdVZBUb1tkEffK1ygTfA=;
- b=wrJtNyXZ7ggEWeJDVW0K4Enj1UMjq70TTkP0x9+EHjjDZQ270lPz132i6oZ89cD3ZL
- eHLZNb9b6OZqjHwdTi6PeJrDSn6RfXYLtLarKa4AeHYzragAPsHtLuG06dbz9gxwmJxf
- Z29vMGfsTghCgv2SioFGQwO3XpEgde1/RNJEDhy1/iltZCxq1LKAAWWxvS99633kCyE+
- 2zDccOKyiNpSY9uhxHIHBplmyit5Ml0SreijU9WOcrzLSd3Z6Uhmi2PjW+19kUatzqaL
- 2CTaIdzswAsP5QZ1FNo2AVhdnMbN5A6tc3SP4gvyOVq7HstUyON211TBio7Jgrwtqhp2
- NodQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=2wHVw6YI0c0F4tPkWzzLnCpXdVZBUb1tkEffK1ygTfA=;
- b=QpCW/2Qu1Zj2/pgQp336Rkd9RuJhztsjLktR6A+x2EOKRv5wt20+f/sp1jx0Jze8B8
- LAYj1To3u4elv6umLfP2NXMLvEXswnz/eQf4FTF5aiytN9WcgQcBEH/l0eD+6pUkBGRj
- b9CSXT7z/GI6Co0gxJIHEuthWj4Oq8qdpOy4xxSJRz61VEvOIVWpEo1UDqbdwEigB50c
- J5mPRd4FD/7B8CxBhBMruyNfg8jQE8q4Xtf10iQWmPjLvNFG2vRvuQ/LiPkXl+FEinMU
- Rw8d8nEpHnwyXIPHBcSN4m/bDihSOsGqyykSZFHKwkcfp97CFP9I0yve4MunkAbOXVtE
- hZEw==
-X-Gm-Message-State: APjAAAWTWU7ykgqlkiqvR00NydrLAkiIPRGFnyiMVVogY40B/4s/x1//
- PgaSPkN78+oxOpY5TJhzwuSFbOR0vly4/wLd9LKyakdNpNg=
-X-Google-Smtp-Source: APXvYqyqGD8rAo6E1bmKNzOXgUWPZK3jz4naQ8in4RSwph2o+Uat57Diln6QCB3WDHZ2G2hrssxqk8aQe4p+fxlUhiU=
-X-Received: by 2002:a05:6830:184:: with SMTP id
- q4mr6985291ota.232.1579282253879; 
- Fri, 17 Jan 2020 09:30:53 -0800 (PST)
+ (envelope-from <balaton@eik.bme.hu>) id 1isVUD-0003nU-ID
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:32:47 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:13307)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1isVUD-0003e7-7I; Fri, 17 Jan 2020 12:32:45 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id D21BB7475F9;
+ Fri, 17 Jan 2020 18:32:32 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id A1A7E7475F6; Fri, 17 Jan 2020 18:32:32 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 9F6767456F8;
+ Fri, 17 Jan 2020 18:32:32 +0100 (CET)
+Date: Fri, 17 Jan 2020 18:32:32 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v2 66/86] ppc/{ppc440_bamboo,sam460x}: drop RAM size fixup
+In-Reply-To: <20200117173926.7d52023c@redhat.com>
+Message-ID: <alpine.BSF.2.21.99999.352.2001171819040.86714@zero.eik.bme.hu>
+References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+ <1579100861-73692-67-git-send-email-imammedo@redhat.com>
+ <alpine.BSF.2.21.99999.352.2001152149120.24151@zero.eik.bme.hu>
+ <20200117114629.5b245c83@redhat.com>
+ <d3d50fff-3449-ba3e-12f2-5b74e20a1e4c@redhat.com>
+ <20200117173926.7d52023c@redhat.com>
+User-Agent: Alpine 2.21.99999 (BSF 352 2019-06-22)
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Jan 2020 17:30:43 +0000
-Message-ID: <CAFEAcA-_Y0Qaw-S83tMAph21opaDx-2y6aPbv5J_J0Bo4bgJuA@mail.gmail.com>
-Subject: Proposal for handling .hx files with Sphinx
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/mixed;
+ boundary="3866299591-309490024-1579282352=:86714"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::335
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,96 +58,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-ppc@nongnu.org,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently our manual creation includes some .texi files which
-are autogenerated from .hx files by running scripts/hxtool.
-.hx files are a simple format, where where a line is either a
-directive or literal text to be output:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-HXCOMM
- -- comment lines, ignored
-STEXI/ETEXI
- -- mark start/end of chunks of text to put into the texinfo output only
-DEFHEADING/ARCHHEADING
- -- appear in the .h file output verbatim (they are defined as C macros);
-    for texi output they are parsed to add in header sections
+--3866299591-309490024-1579282352=:86714
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-For Sphinx, rather than creating a file to include, the most
-natural way to handle this is to have a small custom Sphinx
-extension which will read the .hx file and process it. So
-instead of "makefile produces foo.texi from foo.hx, qemu-doc.texi
-says '@include foo.texi'", we have "qemu-doc.rst says
-'hxtool-doc:: foo.hx', the Sphinx extension for hxtool has
-code that runs to handle that Sphinx directive, it reads the .hx
-file and emits the appropriate documentation contents". (This is
-pretty much the same way the kerneldoc extension works right now.
-It also has the advantage that it should work for third-party
-services like readthedocs that expect to build the docs directly
-with sphinx rather than by invoking our makefiles.)
+On Fri, 17 Jan 2020, Igor Mammedov wrote:
+> On Fri, 17 Jan 2020 16:38:02 +0100
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+>
+>> On 1/17/20 11:46 AM, Igor Mammedov wrote:
+>>> On Wed, 15 Jan 2020 22:33:46 +0100 (CET)
+>>> BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>>>
+>> [...]
+>>> v2 basically works the same as original code, except of that
+>>> instead of fixing up ram_size, it ask user to fix CLI to
+>>> the same value.
+>>>
+>>>> but I've not yet given up to keep current functionality
+>>>> (also for other boards where this series would drop it). If you don'=
+t like
+>>>> a generic callback then how about letting the board optionally speci=
+fy in
+>>>> the machine class next to default_ram_size some constraints such as
+>>>> min_ram_size, max_ram_size and an array of valid_ram_sizes (like
+>>>> ppc460ex_sdram_bank_sizes[]) that the generic code doing the allocat=
+ion
+>>>> could check and clamp sizes to the nearest valid one emitting a warn=
+ing
+>>>> and only bail out if constraints are not given. This would cover mos=
+t
+>>>> cases expect the e500 where it has an alignment without max so
+>>>> representing it as a list of valid values is probably not practical =
+(could
+>>>> also have ram_alignment but then a generic callback may be simpler).=
+ Would
+>>>> that way work for you?
+>>>
+>>> I agree that we need to consolidate ram_size checks,
+>>> that would allow to clean up boards that practically do
+>>> the mostly the same. In the end it would allow to introspect
+>>> supported ram_sizes which would be good for upper layers.
+>>>
+>>> I even started something in that direction but dropped
+>>> all of that patches as not directly related to this
+>>> series purpose.
+>>> Phillipe is also trying to something like this for raspi
+>>> board.
+>>>
+>>> As for clamping, I still think that it's not good idea
+>>> to accept invalid value and fix it up.
+>>> Users should get what they asked for or get a clear error
+>>> (it's double true if user is management software as it
+>>> won't read any sort of warnings, well not all human users
+>>> would head warnings either as far as QEMU continues to run)
+>>>
+>>> Anyways, most maintainers agreed to dropping fixups
+>>> and generalizing checks or generalizing fix up for convenience
+>>> of users frameworks are out of scope of this series.
+>>>
+>>> Someone can work on these refactorings later on
+>>> (assuming someone is enough interested in it)
+>>>
+>>> PS:
+>>> If you insist on fixing ram_size up, it would still be possible
+>>> to do so locally within board. One can take all RAM that user
+>>> provided and then create clamped memory region alias.
+>>> It's rather ugly but will do the job without affecting generic
+>>> code. (though I wouldn't volunteer to write up such a hack)
+>>
+>> I think from the virtualization point of view, you don't want to
+>> allocate unused resources. Is that why you say it is "ugly"?
+>>
+>>  From the emulation point of view, it is easier to stay as close as
+>> possible to the hardware, where sometimes resources are wasted to
+>> simplify the design (or reduce production delays).
+>> If it matches hardware, clamping doesn't look "ugly" to me.
+>>
+>
+> gist of discussion in this case is that:
+>
+> bamboo HW supports 4 banks of RAM that could be populated by
+> 256/128/64/32/16/8Mb DIMMs
 
-We'll need to update what the markup is to handle having rST
-fragments in it. A very minimalist approach to this would
-simply define a new pair of SRST/ERST directives marking the
-start/end of chunks of rST text to go into the rST only.
-(We might be able to do better than that later, as there's
-some repetition currently going on. But we'll probably get
-a better idea of how easy it is to avoid the repetition if
-we start with a simple conversion.)
+I care more about sam460ex but limitations are similar (with different=20
+list of supported DIMMs). This comes from how the SoC's memory controller=
+=20
+stores memory size (that's similar to how SPD data encodes it) so we can'=
+t=20
+represent different size.
 
-Here's what we do with hx files at the moment. We have four:
+> so -m XXX must be multiple of that, otherwise we are not
+> able distribute all -m specified size between supported banks.
+>
+> Current patch then would error out with
+>  "Max 4 banks of 256, 128, 64, 32, 16, 8 MB DIMM/bank supported"
+>  "Possible valid RAM size: XXX"
+> where XXX is clamped value original code uses to after fixup
+>
+> Argument was that it's not convenient for users do what they
+> would do on real hw (i.e. calculate desired size manually
+> based on available banks/DIMMs).
 
- hmp-commands.hx
-   -- defines monitor commands used by monitor.c; generates
-      qemu-monitor.texi, used by qemu-doc.texi
- hmp-commands-info.hx
-   -- ditto, for the "info" command's subcommand;
-      generates qemu-monitor-info.texi, used by qemu-doc.texi
+On real hardware one cannot have invalid RAM size because you can only=20
+plug DIMMs of above sizes so the problem does not happen. The argument wa=
+s=20
+more that it worked before and now users may find their previously workin=
+g=20
+options to error out. Current version of this patch is better as it gives=
+=20
+valid option so the user who does not know about SoC limitations can just=
+=20
+use the printed value and doesn't have to calculate valid value.
 
-These two use only the "put this in the texi or in the .h file"
-functionality, alternating "raw C code defining an entry for the
-monitor command array" with "lump of raw texi for the docs".
+> I gave an attempt to dumping all possible sizes and it results
+> in not practically useful unique ~80 entries list, so that idea
+> also goes down the drain.
+>
+> I agree that it's not convenient, but I think that human user
+> can easily adapt to error message and either fix CLI to use
+> suggested value (i.e. what they are getting now) or pick desired
+> DIMMs number/size and do the math.
 
- qemu-img-cmds.hx
-   -- defines options for qemu-img, used by qemu-img.texi
+This version is acceptable and I can live with it. If every other board i=
+s=20
+happy with returning error then it's OK to do the same here as long as=20
+it's easy for users to fix their command line by using the printed value.
 
-This uses the STEXI/ETEXI directives to alternate C and texi.
-In the for-the-h-file section the only content is always a DEF()
-macro invocation defining the option; in the texi is only the
-synopsis of the command. This means there's a lot of repetition,
-as the DEF macro includes an argument giving the text of the
-option synopsis, and then the texi also has that synopsis with
-some extra markup. Finally the main qemu-img.texi repeats the
-marked-up synopsis later on when it has the actual main documentation
-of each command.
-
- qemu-options.hx
-   -- options for qemu proper, used by qemu-doc.texi
-
-This uses only the DEF, DEFHEADING, ARCHHEADING macros
-in the for-the-h-file sections (and the DEFHEADING/ARCHHEADING
-are read also for texi generation). This also repeats the
-synopsis in the DEF macro and in the texi fragment.
-
-So I think my current view is that we should do the very
-simple "add SRST/ERST directives" to start with:
- * scripts/hxtool needs to recognize them and just ignore
-   the text inside them
- * write the hxtool sphinx extension (shouldn't be too hard)
- * conversion of any particular .hx file then involves
-   replacing the STEXI ...texi stuff... ETEXI sections with
-   SRST ...rst stuff... ERST. There's no need for any
-   particular .hx file to support both texi and rst output
-   at the same time
-
-I would initially start with qemu-img-cmds.hx, since that's
-pulled in by qemu-img.texi, which we can convert in the
-same way I've been doing qemu-nbd and other standalone-ish
-manpages. The others are part of the big fat qemu-doc.texi,
-which is probably going to be the very last thing we convert...
-
-thanks
--- PMM
+Regards,
+BALATON Zoltan
+--3866299591-309490024-1579282352=:86714--
 
