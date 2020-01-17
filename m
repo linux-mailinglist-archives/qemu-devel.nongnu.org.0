@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381EB140EF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 17:27:24 +0100 (CET)
-Received: from localhost ([::1]:59876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C29E4140F45
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 17:48:03 +0100 (CET)
+Received: from localhost ([::1]:60102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isUSx-0005pd-1s
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 11:27:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45352)
+	id 1isUmw-0005Nu-3l
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 11:48:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46949)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1isUS0-0005GY-UO
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:26:29 -0500
+ (envelope-from <imammedo@redhat.com>) id 1isUes-0001op-3Q
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:39:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1isURw-0005KW-4N
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:26:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59174
+ (envelope-from <imammedo@redhat.com>) id 1isUeo-0004cx-Fb
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:39:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46455
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1isURw-0005JO-00
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:26:20 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1isUeo-0004c8-Cp
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:39:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579278378;
+ s=mimecast20190719; t=1579279177;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o1SCoHGlwxSj2pWHzUDgSzNc0S7n42hRqUof4YgbeH8=;
- b=JRxv7baw9TUkvBLcoOyQnYjbe1iXJEpOABLK/taH6coFknKNH5qn5KOnBlof4pLSi4Y5RA
- 6PnPWzXrO8A7/+1WFHk3Rm0S7DtQRfZgibJyJeDVA3AuiZ1H23PGbdOfKwkCbFO3VVVtFD
- oaS714oCeNqxKyK9f+bT2dXB3ToUzqY=
+ bh=HWSPb2SK3PdbAdniD0q+Hyh4vmQVYHsdwyq/ijGZpr8=;
+ b=BRWWrFByow8qKm2QrGy85nteFzez4MrbE6yM1OWPz8FjugxOYbuD/q+dPz7g6PvbTxGu2j
+ xl4fhCF8h4aGdyahvlWbvIsX0jj0Z6xdoM//3osTwCgHJzH9eDni4v8rkd+uBEnZ81+DMF
+ /JYUzjkd1T4qgRdGCIYPYWMPb9UXkyg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-CMyulCCvObi7XEME9zswrg-1; Fri, 17 Jan 2020 11:26:17 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-321-FzI8bvx9M0KJ8-vJLVsdGA-1; Fri, 17 Jan 2020 11:39:34 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 794F1107ACCC
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 16:26:16 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 33A5281207;
- Fri, 17 Jan 2020 16:26:15 +0000 (UTC)
-Date: Fri, 17 Jan 2020 16:26:12 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v3 2/5] migration: Create MigrationState active field
-Message-ID: <20200117162612.GN3209@work-vm>
-References: <20200116154616.11569-1-quintela@redhat.com>
- <20200116154616.11569-3-quintela@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48378100550E;
+ Fri, 17 Jan 2020 16:39:32 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E03160BE1;
+ Fri, 17 Jan 2020 16:39:27 +0000 (UTC)
+Date: Fri, 17 Jan 2020 17:39:26 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 66/86] ppc/{ppc440_bamboo,sam460x}: drop RAM size fixup
+Message-ID: <20200117173926.7d52023c@redhat.com>
+In-Reply-To: <d3d50fff-3449-ba3e-12f2-5b74e20a1e4c@redhat.com>
+References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+ <1579100861-73692-67-git-send-email-imammedo@redhat.com>
+ <alpine.BSF.2.21.99999.352.2001152149120.24151@zero.eik.bme.hu>
+ <20200117114629.5b245c83@redhat.com>
+ <d3d50fff-3449-ba3e-12f2-5b74e20a1e4c@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200116154616.11569-3-quintela@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: CMyulCCvObi7XEME9zswrg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: FzI8bvx9M0KJ8-vJLVsdGA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,135 +75,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> Right now, there is no easy way to dectect if we have already
-> cancelled/finished/failed a migration.  This field is setup to true
-> when we start a migration, and it is set to false as soon as we stop
-> it.
->=20
-> It fixes a real bug, in ram_save_iterate() we call functions that
-> wrote to the channel even if we know that migration has stopped for
-> any reason.  This gives problems with multifd because we need to
-> synchronize various semoaphores that we don't want to take.
->=20
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+On Fri, 17 Jan 2020 16:38:02 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-Why can't you use migration_is_active() in the ram.c case?
-My preference would be just to stick with something derived
-from the state rather than tacking another state bit on.
-
-> ---
->  migration/migration.c | 5 +++++
->  migration/migration.h | 5 +++++
->  migration/ram.c       | 2 +-
->  migration/savevm.c    | 2 ++
->  4 files changed, 13 insertions(+), 1 deletion(-)
+> On 1/17/20 11:46 AM, Igor Mammedov wrote:
+> > On Wed, 15 Jan 2020 22:33:46 +0100 (CET)
+> > BALATON Zoltan <balaton@eik.bme.hu> wrote:
+> >  =20
+> [...]
+> > v2 basically works the same as original code, except of that
+> > instead of fixing up ram_size, it ask user to fix CLI to
+> > the same value.
+> >  =20
+> >> but I've not yet given up to keep current functionality
+> >> (also for other boards where this series would drop it). If you don't =
+like
+> >> a generic callback then how about letting the board optionally specify=
+ in
+> >> the machine class next to default_ram_size some constraints such as
+> >> min_ram_size, max_ram_size and an array of valid_ram_sizes (like
+> >> ppc460ex_sdram_bank_sizes[]) that the generic code doing the allocatio=
+n
+> >> could check and clamp sizes to the nearest valid one emitting a warnin=
+g
+> >> and only bail out if constraints are not given. This would cover most
+> >> cases expect the e500 where it has an alignment without max so
+> >> representing it as a list of valid values is probably not practical (c=
+ould
+> >> also have ram_alignment but then a generic callback may be simpler). W=
+ould
+> >> that way work for you? =20
+> >=20
+> > I agree that we need to consolidate ram_size checks,
+> > that would allow to clean up boards that practically do
+> > the mostly the same. In the end it would allow to introspect
+> > supported ram_sizes which would be good for upper layers.
+> >=20
+> > I even started something in that direction but dropped
+> > all of that patches as not directly related to this
+> > series purpose.
+> > Phillipe is also trying to something like this for raspi
+> > board.
+> >=20
+> > As for clamping, I still think that it's not good idea
+> > to accept invalid value and fix it up.
+> > Users should get what they asked for or get a clear error
+> > (it's double true if user is management software as it
+> > won't read any sort of warnings, well not all human users
+> > would head warnings either as far as QEMU continues to run)
+> >=20
+> > Anyways, most maintainers agreed to dropping fixups
+> > and generalizing checks or generalizing fix up for convenience
+> > of users frameworks are out of scope of this series.
+> >=20
+> > Someone can work on these refactorings later on
+> > (assuming someone is enough interested in it)
+> >=20
+> > PS:
+> > If you insist on fixing ram_size up, it would still be possible
+> > to do so locally within board. One can take all RAM that user
+> > provided and then create clamped memory region alias.
+> > It's rather ugly but will do the job without affecting generic
+> > code. (though I wouldn't volunteer to write up such a hack) =20
 >=20
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 990bff00c0..60bc8710b6 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1583,6 +1583,8 @@ static void migrate_fd_cancel(MigrationState *s)
->      QEMUFile *f =3D migrate_get_current()->to_dst_file;
->      trace_migrate_fd_cancel();
-> =20
-> +    s->active =3D false;
-> +
->      if (s->rp_state.from_dst_file) {
->          /* shutdown the rp socket, so causing the rp thread to shutdown =
-*/
->          qemu_file_shutdown(s->rp_state.from_dst_file);
-> @@ -2834,6 +2836,7 @@ static void migration_completion(MigrationState *s)
->      }
-> =20
->      if (!migrate_colo_enabled()) {
-> +        s->active =3D false;
->          migrate_set_state(&s->state, current_active_state,
->                            MIGRATION_STATUS_COMPLETED);
-
-You've not always got these two the same way around - i.e. do you change
-the state first or do you set the active state first?  I think it needs
-to be consistent.
-
->      }
-> @@ -2859,6 +2862,7 @@ fail_invalidate:
->      }
-> =20
->  fail:
-> +    s->active =3D false;
->      migrate_set_state(&s->state, current_active_state,
->                        MIGRATION_STATUS_FAILED);
->  }
-> @@ -3289,6 +3293,7 @@ static void *migration_thread(void *opaque)
->      }
-> =20
->      qemu_savevm_state_setup(s->to_dst_file);
-> +    s->active =3D true;
-> =20
->      if (qemu_savevm_nr_failover_devices()) {
->          migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-> diff --git a/migration/migration.h b/migration/migration.h
-> index aa9ff6f27b..e0386efe95 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -169,6 +169,11 @@ struct MigrationState
-> =20
->      int state;
-> =20
-> +    /* Is the migration channel still open.  When migration finish,
-> +     * gets an error or is cancelled this becomes false.
-> +     */
-> +
-> +    bool active;
->      /* State related to return path */
->      struct {
->          QEMUFile     *from_dst_file;
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 8f9f3bba5b..44ca56e1ea 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -3521,7 +3521,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaq=
-ue)
->      ram_control_after_iterate(f, RAM_CONTROL_ROUND);
-> =20
->  out:
-> -    if (ret >=3D 0) {
-> +    if (ret >=3D 0 && migrate_get_current()->active) {
->          multifd_send_sync_main(rs);
->          qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
->          qemu_fflush(f);
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index adfdca26ac..3efde5b3dd 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1550,6 +1550,7 @@ static int qemu_savevm_state(QEMUFile *f, Error **e=
-rrp)
->      qemu_mutex_unlock_iothread();
->      qemu_savevm_state_header(f);
->      qemu_savevm_state_setup(f);
-> +    ms->active =3D true;
->      qemu_mutex_lock_iothread();
-> =20
->      while (qemu_file_get_error(f) =3D=3D 0) {
-> @@ -1574,6 +1575,7 @@ static int qemu_savevm_state(QEMUFile *f, Error **e=
-rrp)
->          status =3D MIGRATION_STATUS_COMPLETED;
->      }
->      migrate_set_state(&ms->state, MIGRATION_STATUS_SETUP, status);
-> +    ms->active =3D false;
-> =20
->      /* f is outer parameter, it should not stay in global migration stat=
-e after
->       * this function finished */
-> --=20
-> 2.24.1
+> I think from the virtualization point of view, you don't want to=20
+> allocate unused resources. Is that why you say it is "ugly"?
 >=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>  From the emulation point of view, it is easier to stay as close as=20
+> possible to the hardware, where sometimes resources are wasted to=20
+> simplify the design (or reduce production delays).
+> If it matches hardware, clamping doesn't look "ugly" to me.
+>=20
+
+gist of discussion in this case is that:
+
+bamboo HW supports 4 banks of RAM that could be populated by
+256/128/64/32/16/8Mb DIMMs
+
+so -m XXX must be multiple of that, otherwise we are not
+able distribute all -m specified size between supported banks.
+
+Current patch then would error out with
+  "Max 4 banks of 256, 128, 64, 32, 16, 8 MB DIMM/bank supported"
+  "Possible valid RAM size: XXX"
+where XXX is clamped value original code uses to after fixup
+
+Argument was that it's not convenient for users do what they
+would do on real hw (i.e. calculate desired size manually
+based on available banks/DIMMs).
+
+I gave an attempt to dumping all possible sizes and it results
+in not practically useful unique ~80 entries list, so that idea
+also goes down the drain.
+
+I agree that it's not convenient, but I think that human user
+can easily adapt to error message and either fix CLI to use
+suggested value (i.e. what they are getting now) or pick desired
+DIMMs number/size and do the math.
 
 
