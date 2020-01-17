@@ -2,47 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C411407B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 11:14:02 +0100 (CET)
-Received: from localhost ([::1]:54820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C94A1407D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 11:21:51 +0100 (CET)
+Received: from localhost ([::1]:54904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isOdd-0001Td-5l
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 05:14:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53602)
+	id 1isOlC-0006Q5-Er
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 05:21:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54555)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1isOcv-000117-BL
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:13:18 -0500
+ (envelope-from <bounces@canonical.com>) id 1isOk7-0005f3-7p
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:20:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1isOcs-0001IG-Nh
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:13:16 -0500
-Resent-Date: Fri, 17 Jan 2020 05:13:16 -0500
-Resent-Message-Id: <E1isOcs-0001IG-Nh@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21111)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1isOcs-0001HM-Fh
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:13:14 -0500
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1579255975285943.3267080258317;
- Fri, 17 Jan 2020 02:12:55 -0800 (PST)
-In-Reply-To: <1579227117-6310-1-git-send-email-aleksandar.markovic@rt-rk.com>
-Subject: Re: [PATCH 0/4] linux-user: Fix some issues in termbits.h files 
-Message-ID: <157925597419.3991.2478032997321602729@197193fa8d23>
+ (envelope-from <bounces@canonical.com>) id 1isOk3-0007PX-2c
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:20:43 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41188)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1isOk2-0007OQ-Sv
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:20:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1isOk1-00009v-F0
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:20:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6ED702E80C8
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:20:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: aleksandar.markovic@rt-rk.com
-Date: Fri, 17 Jan 2020 02:12:55 -0800 (PST)
-X-ZohoMailClient: External
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 17 Jan 2020 10:13:35 -0000
+From: Max Reitz <1859989@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 5-plamen xanclic
+X-Launchpad-Bug-Reporter: pevogam (5-plamen)
+X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
+References: <157918316689.4864.12553262908100217782.malonedeb@wampee.canonical.com>
+Message-Id: <157925601569.23128.14572633577549563237.malone@gac.canonical.com>
+Subject: [Bug 1859989] Re: qemu-img has broken output with large snapshot names
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4d8cfe4cbcde9dbc5bdd53d15cbcee9823e6ecf5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -51,48 +65,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, amarkovic@wavecomp.com, laurent@vivier.eu
+Reply-To: Bug 1859989 <1859989@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTc5MjI3MTE3LTYzMTAtMS1n
-aXQtc2VuZC1lbWFpbC1hbGVrc2FuZGFyLm1hcmtvdmljQHJ0LXJrLmNvbS8KCgoKSGksCgpUaGlz
-IHNlcmllcyBzZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0
-cHV0IGJlbG93IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMTU3OTIyNzExNy02
-MzEwLTEtZ2l0LXNlbmQtZW1haWwtYWxla3NhbmRhci5tYXJrb3ZpY0BydC1yay5jb20KVHlwZTog
-c2VyaWVzClN1YmplY3Q6IFtQQVRDSCAwLzRdIGxpbnV4LXVzZXI6IEZpeCBzb21lIGlzc3VlcyBp
-biB0ZXJtYml0cy5oIGZpbGVzIAoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFz
-aApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1s
-b2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBU
-cnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRz
-L2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0K
-CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFn
-XSAgICAgICAgIHBhdGNoZXcvMTU3OTIyNzExNy02MzEwLTEtZ2l0LXNlbmQtZW1haWwtYWxla3Nh
-bmRhci5tYXJrb3ZpY0BydC1yay5jb20gLT4gcGF0Y2hldy8xNTc5MjI3MTE3LTYzMTAtMS1naXQt
-c2VuZC1lbWFpbC1hbGVrc2FuZGFyLm1hcmtvdmljQHJ0LXJrLmNvbQpTd2l0Y2hlZCB0byBhIG5l
-dyBicmFuY2ggJ3Rlc3QnCjJhMTgzOTQgbGludXgtdXNlcjogRml4IHNvbWUgY29uc3RhbnRzIGlu
-IHJlbWFpbmluZyB0ZXJtYml0cy5oCjExYWNhZjYgbGludXgtdXNlcjogeHRlbnNhOiBGaXggc29t
-ZSBjb25zdGFudHMgaW4gdGVybWJpdHMuaAo1ZjY0MDk4IGxpbnV4LXVzZXI6IG1pcHM6IFN5bmNo
-cm9uaXplIHRlcm1iaXRzLmggd2l0aCBrZXJuZWwKMGQ1MjMxYSBsaW51eC11c2VyOiBhbHBoYTog
-U3luY2hyb25pemUgdGVybWJpdHMuaCB3aXRoIGtlcm5lbAoKPT09IE9VVFBVVCBCRUdJTiA9PT0K
-MS80IENoZWNraW5nIGNvbW1pdCAwZDUyMzFhNWM1OGYgKGxpbnV4LXVzZXI6IGFscGhhOiBTeW5j
-aHJvbml6ZSB0ZXJtYml0cy5oIHdpdGgga2VybmVsKQoyLzQgQ2hlY2tpbmcgY29tbWl0IDVmNjQw
-OTgwZThmMyAobGludXgtdXNlcjogbWlwczogU3luY2hyb25pemUgdGVybWJpdHMuaCB3aXRoIGtl
-cm5lbCkKRVJST1I6IGlmIHRoaXMgY29kZSBpcyByZWR1bmRhbnQgY29uc2lkZXIgcmVtb3Zpbmcg
-aXQKIzgzOiBGSUxFOiBsaW51eC11c2VyL21pcHMvdGVybWJpdHMuaDo2MDoKKyNpZiAwCgp0b3Rh
-bDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDE4NyBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzQgaGFz
-IHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwph
-cmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hF
-Q0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvNCBDaGVja2luZyBjb21taXQgMTFhY2FmNmIwNDYw
-IChsaW51eC11c2VyOiB4dGVuc2E6IEZpeCBzb21lIGNvbnN0YW50cyBpbiB0ZXJtYml0cy5oKQo0
-LzQgQ2hlY2tpbmcgY29tbWl0IDJhMTgzOTRiMGQzYyAobGludXgtdXNlcjogRml4IHNvbWUgY29u
-c3RhbnRzIGluIHJlbWFpbmluZyB0ZXJtYml0cy5oKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3Qg
-Y29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBh
-dApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8xNTc5MjI3MTE3LTYzMTAtMS1naXQtc2VuZC1lbWFp
-bC1hbGVrc2FuZGFyLm1hcmtvdmljQHJ0LXJrLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9
-bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
-dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
-LWRldmVsQHJlZGhhdC5jb20=
+I=E2=80=99ve just seen that launchpad collapses the spaces in the snapshot.=
+..
+All I can say is that diff tells me the output from 2.12.0 and 4.1.1 is
+exactly the same, with only one difference: 2.12.0 prints the VM SIZE as
+=E2=80=9C0=E2=80=9D (without a unit), whereas 4.1.1 prints =E2=80=9C0 B=E2=
+=80=9D.
 
+But now I just realized you probably mean that there is no space between
+the snapshot name and the VM state size in your example.  OK, I thought
+you meant the fact that the headers are not aligned to the table body
+columns.
+
+That seems to be because the size is printed in a 7-wide field, which
+isn=E2=80=99t sufficient for three-digit sizes with unit prefixes; so =E2=
+=80=9C747 MiB=E2=80=9D
+is not prefixed by a space.  I think de38b5005e9 is to blame which which
+(from what I can tell) effectively changed the output from using SI
+prefixes to IEC prefixes (which requires one more character), adds a
+space before and a =E2=80=9CB=E2=80=9D after the prefix (another two additi=
+onal
+characters), and by always printing three digits, which may require a
+decimal point (so another character).  But it didn=E2=80=99t grow the field
+width.  So I think we should do that.
+
+Max
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859989
+
+Title:
+  qemu-img has broken output with large snapshot names
+
+Status in QEMU:
+  New
+
+Bug description:
+  On Qemu 4.1.1 the output of snapshots breaks if the chosen state name
+  is too long:
+
+  ```
+  # qemu-img snapshot -l /mnt/local/some_image.qcow2
+  Snapshot list:
+  ID        TAG                 VM SIZE                DATE       VM CLOCK
+  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
+.873
+  ```
+
+  Prior to 4.1.1 this used to work with extra tabs for the VM SIZE
+  values. The collision is also disabling us from using a regex on top
+  of this output to detect the snapshot.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859989/+subscriptions
 
