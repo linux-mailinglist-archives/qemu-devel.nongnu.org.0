@@ -2,63 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F74140426
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 07:51:52 +0100 (CET)
-Received: from localhost ([::1]:53140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A28140408
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 07:39:17 +0100 (CET)
+Received: from localhost ([::1]:53044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isLTz-0002om-Qb
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 01:51:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54886)
+	id 1isLHo-0001wU-87
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 01:39:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53430)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1isLT4-0002Or-Mb
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 01:50:58 -0500
+ (envelope-from <philmd@redhat.com>) id 1isLGY-0001GJ-Ah
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 01:37:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1isLT0-0004Za-E8
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 01:50:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:37156)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1isLT0-0004UG-88
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 01:50:50 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1isLSx-0001jC-LM
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:50:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8C86B2E80C8
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:50:47 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1isLGW-00011z-Mf
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 01:37:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41112
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isLG4-0000hO-Hs
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 01:37:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579243047;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=axgy/C/X8S+Unss4rvrGoCjua5WL21OATxGXSOxwsf0=;
+ b=SGnTxus7DEhTfX0RviOHIJvuqrPn0LoUfm+z/yxbTB+TtEDrVWUVNsN/nz+PXRmOy8QqRz
+ MZeg/lkkrrP8jiUD0PlASnN9LK8vsIyDoYZL7OJ3Vixk6VDZWjGssmmyhlbsU0/Rg7U50f
+ d/bMHqpB/SKkILi/mUCtem7UHRUL078=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-49-pT3xZzlPNIKkZIQwMBWT0A-1; Fri, 17 Jan 2020 01:37:24 -0500
+Received: by mail-wm1-f69.google.com with SMTP id b9so1877140wmj.6
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 22:37:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GlIcaRcVkjvqtX/E55/LVZ/lCyqpqFpKRwHrpYuNVV4=;
+ b=tAiW6AbNXos8Qtzj6lADKcJR/nk3cR5HlHxFPsuiiw25FNlEoGoHQNIccq7zUi07ZP
+ QIuHYu13XFHlVVMCocqvUkT0T5jBe1wwGcR6HmUtsNW27YJp9yRFv77uTzL8E2HnGjDZ
+ 8ZZOYW791E3nShSbSQt9GsC4buLD3eCEz1Ma/JWIVFDhkL9J2cta8xd0S1vFnTPeJDD9
+ ctfwNVf6YRTjQ9vrprcipTEUus7/BNlPSaps1uEOIkcEyt1GydU5iZFZT0SZ76yzJaKY
+ arwBr5xWO5P2y0d2Lmz4JyMAf9P5JJe2D7M7x+9vbL5qdbv0B27daJTnRDa76UDMqsy7
+ tz8Q==
+X-Gm-Message-State: APjAAAUdgiRa3Gtgx81nEB7jPCDO7C2+uYWzBLqKQIRvpp7gFsj8a2ME
+ B5AvLVp/JT3h7ol5s+V+/VXBrc592HyZdi/51nClXo3UngnXUbyawqmIlKKCcTyaQfmxmgMXdQk
+ C2Ml9azAx9QOQ+UU=
+X-Received: by 2002:adf:f885:: with SMTP id u5mr1309022wrp.359.1579243043415; 
+ Thu, 16 Jan 2020 22:37:23 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyOqOKDwR+wN7p7cxxchUDXTtgUKGDDfGzMXPeV/WnlpZ+rIXEyvwszI20gfCnTweiycK2ASA==
+X-Received: by 2002:adf:f885:: with SMTP id u5mr1308989wrp.359.1579243043059; 
+ Thu, 16 Jan 2020 22:37:23 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id s15sm30323481wrp.4.2020.01.16.22.37.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Jan 2020 22:37:22 -0800 (PST)
+Subject: Re: [PATCH v2 5/5] linux-user: Flush out implementation of
+ gettimeofday
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200116194341.402-1-richard.henderson@linaro.org>
+ <20200116194341.402-6-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <da0fef63-2a14-ce3e-7328-efa689ad19ea@redhat.com>
+Date: Fri, 17 Jan 2020 07:37:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200116194341.402-6-richard.henderson@linaro.org>
+Content-Language: en-US
+X-MC-Unique: pT3xZzlPNIKkZIQwMBWT0A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 Jan 2020 06:36:07 -0000
-From: Mark Zealey <1859418@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jnsnow mark.zealey
-X-Launchpad-Bug-Reporter: Mark Zealey (mark.zealey)
-X-Launchpad-Bug-Modifier: Mark Zealey (mark.zealey)
-References: <157890928787.14410.16804441855204869910.malonedeb@wampee.canonical.com>
-Message-Id: <157924296798.24902.6315244866407660439.malone@chaenomeles.canonical.com>
-Subject: [Bug 1859418] Re: disk driver with iothread setting hangs live
- migrations
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a825fa446e94afb8f1bf6e06de4f140d9433ca66
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,61 +93,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859418 <1859418@bugs.launchpad.net>
+Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I will try the newest version as you suggest. However please note that
-this is a redhat/centos 2.12 version which means it has a load of the
-newest patches on it so probably closer to a 4-series than real 2.12...
+On 1/16/20 8:43 PM, Richard Henderson wrote:
+> The first argument, timeval, is allowed to be NULL.
+>=20
+> The second argument, timezone, was missing.  While its use is
+> deprecated, it is still present in the syscall.
+>=20
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   linux-user/syscall.c | 27 +++++++++++++++++++++++++--
+>   1 file changed, 25 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index eb867a5296..628b4de9a1 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -1219,6 +1219,23 @@ static inline abi_long host_to_target_timespec64(a=
+bi_ulong target_addr,
+>       return 0;
+>   }
+>  =20
+> +static inline abi_long copy_to_user_timezone(abi_ulong target_tz_addr,
+> +                                             struct timezone *tz)
+> +{
+> +    struct target_timezone *target_tz;
+> +
+> +    if (!lock_user_struct(VERIFY_WRITE, target_tz, target_tz_addr, 1)) {
+> +        return -TARGET_EFAULT;
+> +    }
+> +
+> +    __put_user(tz->tz_minuteswest, &target_tz->tz_minuteswest);
+> +    __put_user(tz->tz_dsttime, &target_tz->tz_dsttime);
+> +
+> +    unlock_user_struct(target_tz, target_tz_addr, 1);
+> +
+> +    return 0;
+> +}
+> +
+>   static inline abi_long copy_from_user_timezone(struct timezone *tz,
+>                                                  abi_ulong target_tz_addr=
+)
+>   {
+> @@ -8567,10 +8584,16 @@ static abi_long do_syscall1(void *cpu_env, int nu=
+m, abi_long arg1,
+>       case TARGET_NR_gettimeofday:
+>           {
+>               struct timeval tv;
+> -            ret =3D get_errno(gettimeofday(&tv, NULL));
+> +            struct timezone tz;
+> +
+> +            ret =3D get_errno(gettimeofday(&tv, &tz));
+>               if (!is_error(ret)) {
+> -                if (copy_to_user_timeval(arg1, &tv))
+> +                if (arg1 && copy_to_user_timeval(arg1, &tv)) {
+>                       return -TARGET_EFAULT;
+> +                }
+> +                if (arg2 && copy_to_user_timezone(arg2, &tz)) {
+> +                    return -TARGET_EFAULT;
+> +                }
+>               }
+>           }
+>           return ret;
+>=20
 
-Mark
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859418
-
-Title:
-  disk driver with iothread setting hangs live migrations
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Per report raised at
-  https://bugzilla.redhat.com/show_bug.cgi?id=3D1790093
-
-  Description of problem:
-
-  A disk driver definition using iothread parameter causes live
-  migration with copy storage to hang during or just before the final
-  ram sync stage.
-
-  Interestingly, having the scsi controller as a separate iothread does
-  not trigger the issue.
-
-  Version-Release number of selected component (if applicable):
-
-  I can reproduce this on centos7 with qemu-ev and with centos 8:
-
-  qemu-kvm-ev-2.12.0-33.1.el7_7.4.x86_64
-  qemu-kvm-2.12.0-65.module_el8.0.0+189+f9babebb.5.x86_64
-
-  Steps to Reproduce:
-  1. Create a definition with 1 iothread on the disk image:
-
-        <driver name=3D'qemu' type=3D'qcow2' iothread=3D'1' />
-
-  2. Issue a live migrate request like: virsh migrate --live --copy-storage=
--all vm qemu+tcp://remote/system
-  3. Live migrate on source copies storage and then hangs at 80-99%, I gues=
-s during the ram copy phase.
-
-  Keeping exactly the same config but without the iothread on the disk
-  driver has successful migrations every time.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859418/+subscriptions
 
