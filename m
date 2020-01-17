@@ -2,78 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 825351407C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 11:20:56 +0100 (CET)
-Received: from localhost ([::1]:54884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1F51407E3
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 11:26:20 +0100 (CET)
+Received: from localhost ([::1]:54940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isOkJ-0005T6-Kb
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 05:20:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54409)
+	id 1isOpX-0000aR-0Q
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 05:26:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55034)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mszeredi@redhat.com>) id 1isOjS-00051P-GH
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:20:06 -0500
+ (envelope-from <groug@kaod.org>) id 1isOno-0007pm-BD
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:24:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mszeredi@redhat.com>) id 1isOjO-0006ed-4f
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:20:01 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44942
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <groug@kaod.org>) id 1isOnk-0003NQ-Ce
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:24:31 -0500
+Received: from 8.mo3.mail-out.ovh.net ([87.98.172.249]:47084)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mszeredi@redhat.com>) id 1isOjN-0006dO-U4
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:19:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579256396;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iHCE37nFJLmVidUAZB6boOVKuBXUfksbG87JYOGeO+8=;
- b=RTUjTaV5bmsaL8uu1DXl1q2JMwV6BonC24OrFPz1z0O6mgvGQcqDMHCJFkwRhjrCzPPEoC
- zXnvSoJkSErkej+rik3N1loMaDSWefmsoqjl+OwQCDbzMSV8GitV9Kn+XG8YmH3XT6obsi
- rhJ5Ojn4rl0vAkUNAbq1YRnpZlht2jM=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-gikY7e-hOdC_PLUctYQTBQ-1; Fri, 17 Jan 2020 05:19:55 -0500
-Received: by mail-io1-f71.google.com with SMTP id d10so14845698iod.19
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 02:19:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WjhOne+MEOOT/CkKKaKV+EI+4cHrZ5ufoDIXkZDsqNI=;
- b=aqtEyVcRVRRDxpLY4ISUdF/GspSpWlNJ8/ai14cyJdXQnGVW+SFQu5cHG53sSLxXlX
- dY5iNebyr0ZsUPCCAKH+eMgbBRYJKBH+qYVmniQrZQMt/d6qGMJEUBeW2bQOr+lm7/V0
- NcquqtnwZ178k3pqb5pIJ9Nw3UDBSoOaIavEU02Vq1pgFx8gOrTU5RJjKxizhVLKddpa
- 6oLy71EOHmYDVB28jTahpYX6OGOX8G0p4OKmpLr+WkAA4+kYloHBZPVP7TQb+gT5ucik
- mUOPOIdEfstTkamv3iCjaACTWbWRksGUGXl5kIMfdq8bSyviCd3fnUl7QUentOiimxNg
- gDPQ==
-X-Gm-Message-State: APjAAAWGsueJrg3BbG8yxVKA5/YKbbygmwN+4U1Qu2kh9YeQiDNA7T3P
- hhlDA4ZuNYs5OxuOvspKjlgIhg8IADLvfb5+EBJVOhukDSzjqHXXUZ+XQ+lnm285bff6zFTUBuI
- ZNjIRtNvokifsRboQ9ktV37UlIlfxT/I=
-X-Received: by 2002:a92:9c04:: with SMTP id h4mr2523839ili.6.1579256395193;
- Fri, 17 Jan 2020 02:19:55 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwY4raw0OA2mIDE5tPBgp1K75idkOIdIHy0hQw9+Ob/WmSWDXwCd90bGmcUEUGYv448lx4bQi+Mmc5DQsPo3dg=
-X-Received: by 2002:a92:9c04:: with SMTP id h4mr2523830ili.6.1579256394969;
- Fri, 17 Jan 2020 02:19:54 -0800 (PST)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1isOnk-0003JQ-61
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:24:28 -0500
+Received: from player794.ha.ovh.net (unknown [10.108.16.68])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 84C0223DCF4
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 11:24:25 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player794.ha.ovh.net (Postfix) with ESMTPSA id ADA28B52EA1A;
+ Fri, 17 Jan 2020 10:24:23 +0000 (UTC)
+Date: Fri, 17 Jan 2020 11:24:21 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v3 02/11] 9pfs: require msize >= 4096
+Message-ID: <20200117112421.4311c21f@bahia.lan>
+In-Reply-To: <2330562.Ag4oC6Dxye@silver>
+References: <cover.1578957500.git.qemu_oss@crudebyte.com>
+ <2705438.6bQikqVx44@silver> <20200116190748.6a656af8@bahia.lan>
+ <2330562.Ag4oC6Dxye@silver>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20191212163904.159893-73-dgilbert@redhat.com>
- <20200116115603.5415-1-misono.tomohiro@jp.fujitsu.com>
- <20200116164511.GJ3108@work-vm>
-In-Reply-To: <20200116164511.GJ3108@work-vm>
-From: Miklos Szeredi <mszeredi@redhat.com>
-Date: Fri, 17 Jan 2020 11:19:43 +0100
-Message-ID: <CAOssrKfO1PZkR-Fonxae_b2oAOQMgx0=vU8A2UvCNKsgthKMbg@mail.gmail.com>
-Subject: Re: [PATCH 072/104] virtiofsd: passthrough_ll: fix refcounting on
- remove/rename
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-X-MC-Unique: gikY7e-hOdC_PLUctYQTBQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 10041056846381029696
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrtdejgdduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeelgedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 87.98.172.249
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,34 +58,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vivek Goyal <vgoyal@redhat.com>,
- Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 16, 2020 at 5:45 PM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
->
-> * Misono Tomohiro (misono.tomohiro@jp.fujitsu.com) wrote:
-> > > From: Miklos Szeredi <mszeredi@redhat.com>
-> > >
-> > > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> >
-> > I'm not familiar with qemu convention but shouldn't we put
-> > at least one line of description like linux kernel?
->
-> Miklos: would you like to suggest a better commit message?
+On Thu, 16 Jan 2020 22:39:19 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Hmm, the patch doesn't really make sense, since the looked up inode is not =
-used.
+> On Donnerstag, 16. Januar 2020 19:07:48 CET Greg Kurz wrote:
+> > > The point here was that there must be some kind of absolute minimum msize,
+> > 
+> > Then the absolute minimum size is 7, the size of the header part that is
+> > common to all messages:
+> > 
+> > size[4] Message tag[2]
+> > 
+> > > even though the protocol specs officially don't mandate one. And if a
+> > > client choses a msize < P9_IOHDRSZ, what useful actions shall it be able
+> > > to do?
+> > I haven't checked but I guess some messages can fit in 24 bytes.
+> > 
+> > > That's why I mentioned P9_IOHDRSZ just in case somebody might come up
+> > > later
+> > > asking to lower that minimum msize value for whatever reason.
+> > 
+> > That's precisely what I want to avoid. The semantic of P9_IOHDRSZ is
+> > that it is the header size of a Twrite message and as such it is used
+> > to compute the 'iounit' which the guest later uses to compute a
+> > suitable 'count' for Tread/Twrite messages only. It shouldn't be
+> > involved in msize considerations IMHO.
+> > 
+> > > But np, IMO this sentence makes the fundamental requirement for this patch
+> > > more clear, but I have no problem dropping this sentence.
+> > 
+> > Then you can mention 7 has the true minimal size.
+> 
+> Ok, I'll drop P9_IOHDRSZ completely and mention literal 7 as absolute 
+> theoretical minimum instead.
+> 
+> > > > > Furthermore there are some responses which are not allowed by the 9p
+> > > > > protocol to be truncated like e.g. Rreadlink which may yield up to
+> > > > 
+> > > > No message may be truncated in any way actually. The spec just allows
+> > > > an exception with the string part of Rerror.
+> > > 
+> > > Rreaddir, Rread, Twrite, Rerror can be truncated. So I suggest I'll just
+> > > change that to s/some/most/ semantically.
+> > 
+> > I mean truncate with loss of data. Rreaddir can return less than 'count'
+> > but it won't truncate an individual entry. It rewinds to the previous
+> > one and returns its offset for the next Treaddir. Same goes with Rread
+> > and Twrite, we always return a 'count' that can be used by the client
+> > to continue reading or writing.
+> 
+> Individual entries are not truncated, correct, but data loss: Example, you 
+> have this directory and say server's fs would deliver entries by readdir() in 
+> this order (from top down):
+> 
+> 	.
+> 	..
+> 	a
+> 	1234567890
+> 	b
+> 	c
+> 	d
+> 
+> and say 37 >= msize < 45, then client would receive 3 entries ".", "..", "a" 
+> and that's it.
+> 
 
-Not sure what happened here, this seems to be for supporting shared
-versions, and these changes are part of commit 06f78a397f00
-("virtiofsd: add initial support for shared versions") in our gitlab
-qemu tree.  Was this intentionally split out?
+Yes msize < 45 isn't enough to send the Rreaddir for "1234567890"
+and since it is forbidden to truncate, we bail out... but we
+did not send a truncated message still.
 
-Thanks,
-Miklos
+> > Rerror is really the only message where we can deliberately drop
+> > data (but we actually don't do that).
+> > 
+> > > > Maybe just mention that and say we choose 4096 to be able to send
+> > > > big Rreadlink messages.
+> > > 
+> > > That's not the point for this patch. The main purpose is to avoid having
+> > > to
+> > > maintain individual error prone minimum msize checks all over the code
+> > > base. If we would allow very small msizes (much smaller than 4096), then
+> > > we would need to add numerous error handlers all over the code base, each
+> > > one checking for different values (depending on the specific message
+> > > type).
+> > 
+> > I'm not sure what you mean by 'minimum msize checks all over the code
+> > base'... Please provide an example.
+> 
+> 1. Like done in this patch series: Treaddir has to limit client's 'count'
+>    parameter according to msize (by subtracting with msize).
+> 
+
+Hmm... this patch does a sanity check on 'count', not on 'msize'... I
+mean no matter what msize is, clipping count to msize - 11 gives a
+chance to stop processing the entries before overflowing the transport
+buffer.
+
+> 2. get_iounit() does this:
+> 
+> 		iounit = stbuf.f_bsize;
+> 		iounit *= (s->msize - P9_IOHDRSZ) / stbuf.f_bsize;
+> 
+>    without checking anywhere for a potential negative outcome
+>    (i.e. when msize < P9_IOHDRSZ)
+> 
+
+This function should even have an assert() for that, just to be
+sure no one tries to call it before s->msize is even set, which
+would clearly be a bug in QEMU. But this can be done in a
+follow-up patch.
+
+> 3. Example of directory entry name length with Rreaddir above.
+> 
+
+msize being too small to accommodate an Rreaddir with a single
+entry is a different problem as we cannot do anything about it
+at this point but fail... That's why the minimum msize should
+rather be chosen with file names in mind, which are likely to
+be longer than any message header. Rreadlink being the one with
+the higher potential since it will usually return a string
+containing a path name (while Rreaddir entries only contain
+a single path element).
+
+> Individual issues that can easily be overlooked but also easily avoided by not 
+> allowing small msizes in the first place.
+> 
+
+My point is that we're not going to check msize in Tversion in
+order to to avoid multiple checks everywhere. We're going to do
+it there because it is the only place where it makes sense to
+do it.
+
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
 
