@@ -2,48 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3831409B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 13:29:19 +0100 (CET)
-Received: from localhost ([::1]:56340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5247B140972
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 13:02:43 +0100 (CET)
+Received: from localhost ([::1]:56068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isQkX-00011P-Gn
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 07:29:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41423)
+	id 1isQKo-0003Dc-3p
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 07:02:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38527)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1isQiJ-0007n0-2K
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:27:01 -0500
+ (envelope-from <qemu_oss@crudebyte.com>) id 1isQJl-0002Zq-Jt
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:01:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1isQiG-0005px-Sr
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:26:59 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46777 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1isQiG-0005jt-9C; Fri, 17 Jan 2020 07:26:56 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 47zgKh3Tglz9sS3; Fri, 17 Jan 2020 23:26:48 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1579264008;
- bh=t8A80+2kLtremAL2dbKilBe9s1N5QVyEOiRptfdgN3s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WvEjzrc33/6mnDdqMv5ElLscssDfUh+7ffgsbcVQXubLCctqOc69OIgkeI41GpXrt
- GjDROWrMERUJCLRwnChQMzNbicj1a56YC5xW9SSyoSA1RN2ahSc+9cnvmU+y8gx3K+
- xGRSa7CFmy2shFjZM2kdF2+xyC5fhhJLlPlUJHtM=
-Date: Fri, 17 Jan 2020 19:46:45 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 1/2] target/ppc: Add privileged message send facilities
-Message-ID: <20200117094645.GA54439@umbus>
-References: <20200109163346.23062-1-clg@kaod.org>
- <20200109163346.23062-2-clg@kaod.org>
+ (envelope-from <qemu_oss@crudebyte.com>) id 1isQJh-0004Qz-Tp
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:01:37 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:33869)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1isQJh-0004Pf-Bt
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:01:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=HCd3t52fvRoOe4w+g/Vc05i39HPz/PheR6OKWMgTXcU=; b=lFrNEb5yEUMmNLjLJ5oPqh2Pw9
+ TkcuCoRjiBofv4CxHP2PBwXwESw3C4a7EqlqJxHG/g3KNbmpOHzgzfDGZcqm2WCHURp8v9++PXH1q
+ or709evIHPyfRjeAOyGOzpgdb88AR7L9dYKfBuRLghyxlWB27e9TVzjo0nSDMJLJz7o/ckEX7l/ER
+ +38ARY/cOpRhIigMFXbR3wGgDRbEhU0xy9pGxQrxamMjtyvL70Rij+szTcy4wW88eMcwP2i+DyKsG
+ qfnVa1OYCw99RvwT9brG/PUF5KtmcI0bG8X3Zx72fk3mnu/gX72mwHgTveIrJ7FWVIpeTa2sgubU/
+ omAVY2GzqIH2fGzU7flp/PdAuYfvZf6bmZXWqStHDuV+fykaug8lRcVIbUSVTJMJiKkDQ98xS0x5m
+ sJfyRuxc8AQZDOlm1wCDNyLdpHQzWziQjbuVOQnb1JeA7NQ0Usw4Bh0QXqKQ82O6p+kBx/g522LYS
+ n8jRnpBtwJDx3J1WBa+bt0FMjf453xb6qCzRdivAGEhqWKWVB4MlQVwVB13Gft1C4W9YdwlcEU46E
+ 4TF1GscqGPj8Fa4P4oBnEdzI6XtloETyCVurTppusdrOK73WZJX930+rgH9clH2EbDknOWwrHFSen
+ 53sL1CxkMPYqNa1nMjvhppAKS4PQJ6xotnH1avw/M=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v3 02/11] 9pfs: require msize >= 4096
+Date: Fri, 17 Jan 2020 13:01:30 +0100
+Message-ID: <5046978.lqI2Hv0RVs@silver>
+In-Reply-To: <20200117112421.4311c21f@bahia.lan>
+References: <cover.1578957500.git.qemu_oss@crudebyte.com>
+ <2330562.Ag4oC6Dxye@silver> <20200117112421.4311c21f@bahia.lan>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KjcUHqqCp23GY06r"
-Content-Disposition: inline
-In-Reply-To: <20200109163346.23062-2-clg@kaod.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 5.189.157.229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,397 +61,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- Suraj Jitindar Singh <sjitindarsingh@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Freitag, 17. Januar 2020 11:24:21 CET Greg Kurz wrote:
+> On Thu, 16 Jan 2020 22:39:19 +0100
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > On Donnerstag, 16. Januar 2020 19:07:48 CET Greg Kurz wrote:
+> > > > The point here was that there must be some kind of absolute minimum
+> > > > msize,
+> > > 
+> > > Then the absolute minimum size is 7, the size of the header part that is
+> > > common to all messages:
+> > > 
+> > > size[4] Message tag[2]
+> > > 
+> > > > even though the protocol specs officially don't mandate one. And if a
+> > > > client choses a msize < P9_IOHDRSZ, what useful actions shall it be
+> > > > able
+> > > > to do?
+> > > 
+> > > I haven't checked but I guess some messages can fit in 24 bytes.
+> > > 
+> > > > That's why I mentioned P9_IOHDRSZ just in case somebody might come up
+> > > > later
+> > > > asking to lower that minimum msize value for whatever reason.
+> > > 
+> > > That's precisely what I want to avoid. The semantic of P9_IOHDRSZ is
+> > > that it is the header size of a Twrite message and as such it is used
+> > > to compute the 'iounit' which the guest later uses to compute a
+> > > suitable 'count' for Tread/Twrite messages only. It shouldn't be
+> > > involved in msize considerations IMHO.
+> > > 
+> > > > But np, IMO this sentence makes the fundamental requirement for this
+> > > > patch
+> > > > more clear, but I have no problem dropping this sentence.
+> > > 
+> > > Then you can mention 7 has the true minimal size.
+> > 
+> > Ok, I'll drop P9_IOHDRSZ completely and mention literal 7 as absolute
+> > theoretical minimum instead.
+> > 
+> > > > > > Furthermore there are some responses which are not allowed by the
+> > > > > > 9p
+> > > > > > protocol to be truncated like e.g. Rreadlink which may yield up to
+> > > > > 
+> > > > > No message may be truncated in any way actually. The spec just
+> > > > > allows
+> > > > > an exception with the string part of Rerror.
+> > > > 
+> > > > Rreaddir, Rread, Twrite, Rerror can be truncated. So I suggest I'll
+> > > > just
+> > > > change that to s/some/most/ semantically.
+> > > 
+> > > I mean truncate with loss of data. Rreaddir can return less than 'count'
+> > > but it won't truncate an individual entry. It rewinds to the previous
+> > > one and returns its offset for the next Treaddir. Same goes with Rread
+> > > and Twrite, we always return a 'count' that can be used by the client
+> > > to continue reading or writing.
+> > 
+> > Individual entries are not truncated, correct, but data loss: Example, you
+> > have this directory and say server's fs would deliver entries by readdir()
+> > in> 
+> > this order (from top down):
+> > 	.
+> > 	..
+> > 	a
+> > 	1234567890
+> > 	b
+> > 	c
+> > 	d
+> > 
+> > and say 37 >= msize < 45, then client would receive 3 entries ".", "..",
+> > "a" and that's it.
+> 
+> Yes msize < 45 isn't enough to send the Rreaddir for "1234567890"
+> and since it is forbidden to truncate, we bail out... but we
+> did not send a truncated message still.
 
---KjcUHqqCp23GY06r
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I really think we're discussing semantical interpretation details here which 
+bring us nowhere.
 
-On Thu, Jan 09, 2020 at 05:33:45PM +0100, C=E9dric Le Goater wrote:
-> The Processor Control facility POWER8 processors and later provides
-> a mechanism for the hypervisor to send messages to other threads
-> in the system (msgsnd instruction) and cause hypervisor-level
-> exceptions. Privileged non-hypervisor programs are also able to
-> send messages (msgsndp instruction) but are restricted to the
-> threads of the same core and cause privileged-level exceptions.
->=20
-> The Directed Privileged Doorbell Exception State (DPDES) register
-> reflects the state of pending privileged doorbell exceptions and can
-> also be used to modify that state. The register can be used to read
-> and modify the state of privileged doorbell exceptions for all threads
-> of a subprocessor and thus is a shared facility for that subprocessor.
-> The register can be read/written by the hypervisor and read by the
-> supervisor if enabled in the HFSCR, otherwise a hypervisor facility
-> unavailable exception is generated.
->=20
-> The privileged message send and clear instructions (msgsndp & msgclrp)
-> are used to generate and clear the presence of a directed privileged
-> doorbell exception, respectively. The msgsndp instruction can be used
-> to target any thread of the current subprocessor, msgclrp acts on the
-> thread issuing the instruction. These instructions are privileged, but
-> will generate a hypervisor facility unavailable exception if not
-> enabled in the HFSCR and executed in privileged non-hypervisor
-> state. The HV facility unavailable exception will be addressed in
-> other patch.
->=20
-> Add and implement this register and instructions by reading or
-> modifying the pending interrupt state of the cpu.
->=20
-> Note that TCG only supports one thread per core and so we only need to
-> worry about the cpu making the access.
->=20
-> Based on previous work from Suraj Jitindar Singh.
->=20
-> Cc: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-> [clg: took ownership due to the amount of changes ]
+> > > Rerror is really the only message where we can deliberately drop
+> > > data (but we actually don't do that).
+> > > 
+> > > > > Maybe just mention that and say we choose 4096 to be able to send
+> > > > > big Rreadlink messages.
+> > > > 
+> > > > That's not the point for this patch. The main purpose is to avoid
+> > > > having
+> > > > to
+> > > > maintain individual error prone minimum msize checks all over the code
+> > > > base. If we would allow very small msizes (much smaller than 4096),
+> > > > then
+> > > > we would need to add numerous error handlers all over the code base,
+> > > > each
+> > > > one checking for different values (depending on the specific message
+> > > > type).
+> > > 
+> > > I'm not sure what you mean by 'minimum msize checks all over the code
+> > > base'... Please provide an example.
+> > 
+> > 1. Like done in this patch series: Treaddir has to limit client's 'count'
+> > 
+> >    parameter according to msize (by subtracting with msize).
+> 
+> Hmm... this patch does a sanity check on 'count', not on 'msize'... 
 
-Hrm, I think this need's Suraj's S-o-b as well.  AIUI the primary
-purpose of S-o-b lines isn't about credit or ownership, but about
-tracking where code came from in case of questions of providence.  So
-even if you've taken ownership and reworked substantially, it would
-retain the original author's S-o-b.
+Yes ... :)
 
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> ---
->  target/ppc/cpu.h                |  1 +
->  target/ppc/helper.h             |  4 ++
->  target/ppc/excp_helper.c        | 68 +++++++++++++++++++++++++++------
->  target/ppc/misc_helper.c        | 36 +++++++++++++++++
->  target/ppc/translate.c          | 26 +++++++++++++
->  target/ppc/translate_init.inc.c | 20 ++++++++--
->  6 files changed, 140 insertions(+), 15 deletions(-)
->=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 103bfe9dc274..d175ec9a641d 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -935,6 +935,7 @@ enum {
->  #define DBELL_PIRTAG_MASK              0x3fff
-> =20
->  #define DBELL_PROCIDTAG_MASK           PPC_BITMASK(44, 63)
-> +#define DBELL_TIRTAG_MASK              PPC_BITMASK(57, 63)
-> =20
->  #define PPC_PAGE_SIZES_MAX_SZ   8
-> =20
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index cd0dfe383a2a..cfb4c07085ca 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -657,6 +657,10 @@ DEF_HELPER_FLAGS_1(load_601_rtcu, TCG_CALL_NO_RWG, t=
-l, env)
->  DEF_HELPER_FLAGS_1(load_purr, TCG_CALL_NO_RWG, tl, env)
->  DEF_HELPER_FLAGS_2(store_purr, TCG_CALL_NO_RWG, void, env, tl)
->  DEF_HELPER_2(store_ptcr, void, env, tl)
-> +DEF_HELPER_FLAGS_1(load_dpdes, TCG_CALL_NO_RWG, tl, env)
-> +DEF_HELPER_FLAGS_2(store_dpdes, TCG_CALL_NO_RWG, void, env, tl)
-> +DEF_HELPER_2(book3s_msgsndp, void, env, tl)
-> +DEF_HELPER_2(book3s_msgclrp, void, env, tl)
->  #endif
->  DEF_HELPER_2(store_sdr1, void, env, tl)
->  DEF_HELPER_2(store_pidr, void, env, tl)
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 5752ed4a4d83..343f3a6b30c4 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -900,7 +900,11 @@ static void ppc_hw_interrupt(CPUPPCState *env)
->          }
->          if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
->              env->pending_interrupts &=3D ~(1 << PPC_INTERRUPT_DOORBELL);
-> -            powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_DOORI);
-> +            if (env->insns_flags & PPC_SEGMENT_64B) {
+> I mean no matter what msize is, clipping count to msize - 11 gives a
+> chance to stop processing the entries before overflowing the transport
+> buffer.
 
-I don't love detecting this based on insns_flags this way, but there
-are lots of places we do similarly ugly things, so it's probably the
-most expedient way forward in the short term.
+... and no, this cannot happen if minimum msize of 4096 is forced already by 
+Tversion. Maybe you now get my point -> It is about avoiding exactly such kind 
+of issues in the first place. Most file systems have a name limit of 255 
+bytes:
 
-> +                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_SDOOR);
-> +            } else {
-> +                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_DOORI);
-> +            }
->              return;
->          }
->          if (env->pending_interrupts & (1 << PPC_INTERRUPT_HDOORBELL)) {
-> @@ -1221,7 +1225,7 @@ void helper_msgsnd(target_ulong rb)
->  }
-> =20
->  /* Server Processor Control */
-> -static int book3s_dbell2irq(target_ulong rb)
-> +static int book3s_dbell2irq(target_ulong rb, bool hv_dbell)
->  {
->      int msg =3D rb & DBELL_TYPE_MASK;
-> =20
-> @@ -1230,12 +1234,16 @@ static int book3s_dbell2irq(target_ulong rb)
->       * message type is 5. All other types are reserved and the
->       * instruction is a no-op
->       */
-> -    return msg =3D=3D DBELL_TYPE_DBELL_SERVER ? PPC_INTERRUPT_HDOORBELL =
-: -1;
-> +    if (msg =3D=3D DBELL_TYPE_DBELL_SERVER) {
-> +        return hv_dbell ? PPC_INTERRUPT_HDOORBELL : PPC_INTERRUPT_DOORBE=
-LL;
-> +    }
-> +
-> +    return -1;
->  }
+https://en.wikipedia.org/wiki/Comparison_of_file_systems#Limits
 
-This function kind of seems like overkill, and also doesn't have a
-great name.  Mostly it just tests if we're dealing with a doorbell at
-all.  Selecting the right irq number here is a bit weird, since its
-based only on hv_dbell, which is a literal parameter for all callers,
-so they might as well just use the right doorbell irq inline.
+So by forcing a minimum 'msize' of 4096 you avoid having to deal with this  
+issue (and similar ones) on Treaddir request level (and other request type 
+handlers), including ReiserFS BTW because 4032+35 < 4096.
 
-> =20
->  void helper_book3s_msgclr(CPUPPCState *env, target_ulong rb)
->  {
-> -    int irq =3D book3s_dbell2irq(rb);
-> +    int irq =3D book3s_dbell2irq(rb, true);
-> =20
->      if (irq < 0) {
->          return;
-> @@ -1244,16 +1252,10 @@ void helper_book3s_msgclr(CPUPPCState *env, targe=
-t_ulong rb)
->      env->pending_interrupts &=3D ~(1 << irq);
->  }
-> =20
-> -void helper_book3s_msgsnd(target_ulong rb)
-> +static void book3s_msgsnd_common(int pir, int irq)
->  {
-> -    int irq =3D book3s_dbell2irq(rb);
-> -    int pir =3D rb & DBELL_PROCIDTAG_MASK;
->      CPUState *cs;
-> =20
-> -    if (irq < 0) {
-> -        return;
-> -    }
-> -
->      qemu_mutex_lock_iothread();
->      CPU_FOREACH(cs) {
->          PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> @@ -1267,6 +1269,50 @@ void helper_book3s_msgsnd(target_ulong rb)
->      }
->      qemu_mutex_unlock_iothread();
->  }
-> +
-> +void helper_book3s_msgsnd(target_ulong rb)
-> +{
-> +    int pir =3D rb & DBELL_PROCIDTAG_MASK;
-> +    int irq =3D book3s_dbell2irq(rb, true);
-> +
-> +    if (irq < 0) {
-> +        return;
-> +    }
-> +
-> +    book3s_msgsnd_common(pir, irq);
-> +}
-> +
-> +#if defined(TARGET_PPC64)
-> +void helper_book3s_msgclrp(CPUPPCState *env, target_ulong rb)
-> +{
-> +    int irq =3D book3s_dbell2irq(rb, false);
-> +
-> +    if (irq < 0) {
-> +        return;
-> +    }
-> +
-> +    env->pending_interrupts &=3D ~(1 << irq);
-> +}
-> +
-> +/*
-> + * sends a message to other threads that are on the same
-> + * multi-threaded processor
-> + */
-> +void helper_book3s_msgsndp(CPUPPCState *env, target_ulong rb)
-> +{
-> +    int irq =3D book3s_dbell2irq(rb, false);
-> +    int pir =3D env->spr_cb[SPR_PIR].default_value;
-> +
-> +    if (irq < 0) {
-> +        return;
-> +    }
-> +
-> +    pir &=3D ~DBELL_TIRTAG_MASK;
-> +    pir |=3D rb & DBELL_TIRTAG_MASK;
+If you would allow smaller 'msize' values by Tversion, then you would need to 
+suffer some kind of death when handling Treaddir with certain high file name 
+length. Either a transport error (with an error message that a normal user 
+would not be able to understand at all) or by returning an incomplete Treaddir 
+response sequence with { Rreaddir count=0 }, or ... any other kind of death.
 
-This seems overkill since we don't actually support > 1 thread/core.
-Won't the answer always be equal to pir?
+No matter which death you would choose here, it would be horrible from 
+usability perspective, because the system would most of the time work 
+flawlessy, and an error case would just be triggered if guest hits a file/dir 
+beyond some certain name length. It is not worth it! Force 4kiB already at 
+Tversion and that's it.
 
-> +
-> +    book3s_msgsnd_common(pir, irq);
-> +}
-> +#endif
->  #endif
-> =20
->  void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
-> diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-> index 2318f3ab45b2..66b5b0824208 100644
-> --- a/target/ppc/misc_helper.c
-> +++ b/target/ppc/misc_helper.c
-> @@ -105,6 +105,42 @@ void helper_store_pcr(CPUPPCState *env, target_ulong=
- value)
-> =20
->      env->spr[SPR_PCR] =3D value & pcc->pcr_mask;
->  }
-> +
-> +/*
-> + * DPDES register is shared. Each bit reflects the state of the
-> + * doorbell interrupt of a thread of the same core.
-> + */
-> +target_ulong helper_load_dpdes(CPUPPCState *env)
-> +{
-> +    target_ulong dpdes =3D 0;
-> +
-> +    /* TODO: TCG supports only one thread */
-> +    if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
-> +        dpdes |=3D (env->spr_cb[SPR_PIR].default_value & DBELL_TIRTAG_MA=
-SK);
+> > 2. get_iounit() does this:
+> > 		iounit = stbuf.f_bsize;
+> > 		iounit *= (s->msize - P9_IOHDRSZ) / stbuf.f_bsize;
+> > 		
+> >    without checking anywhere for a potential negative outcome
+> >    (i.e. when msize < P9_IOHDRSZ)
+> 
+> This function should even have an assert() for that, just to be
+> sure no one tries to call it before s->msize is even set, which
+> would clearly be a bug in QEMU. But this can be done in a
+> follow-up patch.
+> 
+> > 3. Example of directory entry name length with Rreaddir above.
+> 
+> msize being too small to accommodate an Rreaddir with a single
+> entry is a different problem as we cannot do anything about it
+> at this point but fail... That's why the minimum msize should
+> rather be chosen with file names in mind, which are likely to
+> be longer than any message header. Rreadlink being the one with
+> the higher potential since it will usually return a string
+> containing a path name (while Rreaddir entries only contain
+> a single path element).
+> 
+> > Individual issues that can easily be overlooked but also easily avoided by
+> > not allowing small msizes in the first place.
+> 
+> My point is that we're not going to check msize in Tversion in
+> order to to avoid multiple checks everywhere. We're going to do
+> it there because it is the only place where it makes sense to
+> do it.
 
-Likewise, won't this just be 0 or 1?  I dislike half-measures to
-achieve something we don't actually support at this stage.
+Also yes and no. Of course it just makes sense to handle it already at 
+Tversion. But no, you could theoretically also allow much smaller minimum 
+'msize' value << 4096 (i.e. somewhere closely >7 as we discussed), then you 
+would indeed still need to add msize checks at other places of the code base 
+as you just found out now. So forcing a minimum 'msize' which is high enough, 
+avoids having to add such individual checks and having to deal with them in 
+some kind of unpleasant way.
 
-> +    }
-> +
-> +    return dpdes;
-> +}
-> +
-> +void helper_store_dpdes(CPUPPCState *env, target_ulong val)
-> +{
-> +    PowerPCCPU *cpu =3D env_archcpu(env);
-> +    CPUState *cs =3D CPU(cpu);
-> +
-> +    /* TODO: TCG supports only one thread */
-> +    if (val & ~0x1) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "Invalid DPDES register value "
-> +                      TARGET_FMT_lx"\n", val);
-> +        return;
-> +    }
-> +
-> +    if (val & 0x1) {
-> +        env->pending_interrupts |=3D 1 << PPC_INTERRUPT_DOORBELL;
-> +        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-> +    } else {
-> +        env->pending_interrupts &=3D ~(1 << PPC_INTERRUPT_DOORBELL);
-> +    }
-> +}
->  #endif /* defined(TARGET_PPC64) */
-> =20
->  void helper_store_pidr(CPUPPCState *env, target_ulong val)
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index f5fe5d06118a..a3a4a95cdf53 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -6645,6 +6645,28 @@ static void gen_msgsnd(DisasContext *ctx)
->  #endif /* defined(CONFIG_USER_ONLY) */
->  }
-> =20
-> +#if defined(TARGET_PPC64)
-> +static void gen_msgclrp(DisasContext *ctx)
-> +{
-> +#if defined(CONFIG_USER_ONLY)
-> +    GEN_PRIV;
-> +#else
-> +    CHK_SV;
-> +    gen_helper_book3s_msgclrp(cpu_env, cpu_gpr[rB(ctx->opcode)]);
-> +#endif /* defined(CONFIG_USER_ONLY) */
-> +}
-> +
-> +static void gen_msgsndp(DisasContext *ctx)
-> +{
-> +#if defined(CONFIG_USER_ONLY)
-> +    GEN_PRIV;
-> +#else
-> +    CHK_SV;
-> +    gen_helper_book3s_msgsndp(cpu_env, cpu_gpr[rB(ctx->opcode)]);
-> +#endif /* defined(CONFIG_USER_ONLY) */
-> +}
-> +#endif
-> +
->  static void gen_msgsync(DisasContext *ctx)
->  {
->  #if defined(CONFIG_USER_ONLY)
-> @@ -7187,6 +7209,10 @@ GEN_HANDLER(vmladduhm, 0x04, 0x11, 0xFF, 0x0000000=
-0, PPC_ALTIVEC),
->  GEN_HANDLER_E(maddhd_maddhdu, 0x04, 0x18, 0xFF, 0x00000000, PPC_NONE,
->                PPC2_ISA300),
->  GEN_HANDLER_E(maddld, 0x04, 0x19, 0xFF, 0x00000000, PPC_NONE, PPC2_ISA30=
-0),
-> +GEN_HANDLER2_E(msgsndp, "msgsndp", 0x1F, 0x0E, 0x04, 0x03ff0001,
-> +               PPC_NONE, PPC2_ISA207S),
-> +GEN_HANDLER2_E(msgclrp, "msgclrp", 0x1F, 0x0E, 0x05, 0x03ff0001,
-> +               PPC_NONE, PPC2_ISA207S),
->  #endif
-> =20
->  #undef GEN_INT_ARITH_ADD
-> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-> index d33d65dff702..9e2396a7b5a1 100644
-> --- a/target/ppc/translate_init.inc.c
-> +++ b/target/ppc/translate_init.inc.c
-> @@ -464,6 +464,17 @@ static void spr_write_pcr(DisasContext *ctx, int spr=
-n, int gprn)
->  {
->      gen_helper_store_pcr(cpu_env, cpu_gpr[gprn]);
->  }
-> +
-> +/* DPDES */
-> +static void spr_read_dpdes(DisasContext *ctx, int gprn, int sprn)
-> +{
-> +    gen_helper_load_dpdes(cpu_gpr[gprn], cpu_env);
-> +}
-> +
-> +static void spr_write_dpdes(DisasContext *ctx, int sprn, int gprn)
-> +{
-> +    gen_helper_store_dpdes(cpu_env, cpu_gpr[gprn]);
-> +}
->  #endif
->  #endif
-> =20
-> @@ -8238,10 +8249,11 @@ static void gen_spr_power8_dpdes(CPUPPCState *env)
->  {
->  #if !defined(CONFIG_USER_ONLY)
->      /* Directed Privileged Door-bell Exception State, used for IPI */
-> -    spr_register(env, SPR_DPDES, "DPDES",
-> -                 SPR_NOACCESS, SPR_NOACCESS,
-> -                 &spr_read_generic, SPR_NOACCESS,
-> -                 0x00000000);
-> +    spr_register_kvm_hv(env, SPR_DPDES, "DPDES",
-> +                        SPR_NOACCESS, SPR_NOACCESS,
-> +                        &spr_read_dpdes, SPR_NOACCESS,
-> +                        &spr_read_dpdes, &spr_write_dpdes,
-> +                        KVM_REG_PPC_DPDES, 0x00000000);
->  #endif
->  }
-> =20
+I hope this makes it more clear now.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Best regards,
+Christian Schoenebeck
 
---KjcUHqqCp23GY06r
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4hgoMACgkQbDjKyiDZ
-s5LEXhAAtoOGd3bVtfYwQcXqq10zmjfTRb7FLnfHTE9JXKywOt7q2dMxHqiovgLa
-rPKrOE9jDA+7GqHXCK9ty25nwR2OyLsFw0L6ghHS9rsbPPuGcZWU+IibpgRI0WT8
-IZRFao1XAT1epbOZSLuEmRl5+fhARaOk4yzIRRpd1Xp95uqezpoZMweDHxhwaJzZ
-xMygYL1n0lnGUJ7BqpDcqFII8rRCYEhRFakx+RHxShBQkl+sGTBKw/plGuGZxUUg
-VSjZh8MeaqDEue9yKlVyn3uaoIQLEhwRuPxpwwEeWTfjwgdTon4PoHGEXN8mFlG4
-tMQ9nvyeq6OUdHdiDUTiJA6SQuw4DtNp4H5LJ6g6wxDh7IPAEfdWhHf/VDbCboFF
-6y9SEqcFC8fAssBK7MTTtBs4hj/x+OJOO+liEqSvdYWhlwFL28jLpeTlDCli6YRg
-Vu1ttYLB6ShCethL1/BzeH1dfbufBJMKyjr8HEQyPvDGyZaIAy5eTYDHfJLpoS++
-u2eg0HXb+wSexSEQ0aEDaGgAE8pxfQqp6LhhsHIWKW9H4SmRD02kfcgTK1TXZ+0p
-trdgyRxTgFM4I4gKrGozjB2votx6rqTwyPl26lFaY7RGfVLpQDQMeDGT0HY8+dVN
-Dz2qEB28uxCuV7nNBLWrjoLp3jvoHietsUOwWIAhslpLPcXryko=
-=wk2C
------END PGP SIGNATURE-----
-
---KjcUHqqCp23GY06r--
 
