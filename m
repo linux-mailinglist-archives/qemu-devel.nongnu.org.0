@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0848B1408B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 12:13:59 +0100 (CET)
-Received: from localhost ([::1]:55552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24951408BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 12:15:23 +0100 (CET)
+Received: from localhost ([::1]:55590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isPZe-0005Av-4E
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 06:13:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60874)
+	id 1isPb0-0007Hp-O9
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 06:15:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33080)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1isPXg-0003qv-Nz
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:11:57 -0500
+ (envelope-from <thuth@redhat.com>) id 1isPZz-0006Tl-4x
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:14:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1isPXd-000681-LC
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:11:56 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32520
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1isPZx-0007zW-Sr
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:14:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35875
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1isPXd-00066r-He
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:11:53 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1isPZx-0007zG-Oi
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:14:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579259513;
+ s=mimecast20190719; t=1579259657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DQoeUs8RjX3SvhRvCAQ+pSnjH1DKZnNp7o9RSzUgDyA=;
- b=G7hRgtTK5y2pIWelMWljjMDFkgjELTJ4V/TyY2lQjM+Y8zm0Vfr21e2N67BJvbsLF+0Ve3
- oVs0cAyL2v747OdlbKIHEnm/pZxE/3SkN64LW9kdQC2ADoq5EFlqSmOMT0hTuEKkfij2iC
- XGXUUGsH87kpdRndWe7z2cN0xyIEs28=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=zIH648Ouzn7zX1EtyMYcYr8CC0I2MOighb1c1IHPJHw=;
+ b=Zykv//E94lY3ofHNKHt3/sRJ5m8oztv3muij/Fawawwnfbbmf3xBISXtHBU/IM+dwvcDZj
+ Kf/wibjXXetID2OCzML5BlZiq3jItsXi0wbGaFHy4GTP2CuaD3MacUukttjC0lluzik1Rx
+ VEPvDgygyhnpMlRJumC1lw9gLqcHGIU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-dCR3BLhDP2q2wwLUV06e6w-1; Fri, 17 Jan 2020 06:11:52 -0500
+ us-mta-376-Q9f9QVH2MxSBp3szZHtkDg-1; Fri, 17 Jan 2020 06:14:15 -0500
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D028C1005516;
- Fri, 17 Jan 2020 11:11:50 +0000 (UTC)
-Received: from localhost (dhcp-192-245.str.redhat.com [10.33.192.245])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6287F845B2;
- Fri, 17 Jan 2020 11:11:50 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: [PATCH v2] s390x: adapter routes error handling
-Date: Fri, 17 Jan 2020 12:11:47 +0100
-Message-Id: <20200117111147.5006-1-cohuck@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C215800D5C
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 11:14:14 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-212.ams2.redhat.com [10.36.116.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 154351BC6D;
+ Fri, 17 Jan 2020 11:14:12 +0000 (UTC)
+Subject: Re: [PATCH v2 83/86] tests:numa-test: make top level args dynamic and
+ g_autofree(cli) cleanups
+To: Igor Mammedov <imammedo@redhat.com>
+References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+ <1579100861-73692-84-git-send-email-imammedo@redhat.com>
+ <20e88588-13b4-8c7d-3f97-cb2d50b85edd@redhat.com>
+ <20200116180606.134cb1a6@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <a0b60484-d5fb-7409-b13e-4e70d1177138@redhat.com>
+Date: Fri, 17 Jan 2020 12:14:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20200116180606.134cb1a6@redhat.com>
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: dCR3BLhDP2q2wwLUV06e6w-1
+X-MC-Unique: Q9f9QVH2MxSBp3szZHtkDg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,87 +79,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the kernel irqchip has been disabled, we don't want the
-{add,release}_adapter_routes routines to call any kvm_irqchip_*
-interfaces, as they may rely on an irqchip actually having been
-created. Just take a quick exit in that case instead.
+On 16/01/2020 18.06, Igor Mammedov wrote:
+> On Thu, 16 Jan 2020 17:35:32 +0100
+> Thomas Huth <thuth@redhat.com> wrote:
+> 
+>> On 15/01/2020 16.07, Igor Mammedov wrote:
+>>> Use GString to pass argument to make_cli() so that it would be easy
+>>> to dynamically change test case arguments from main(). The follow up
+>>> patch will use it to change RAM size options depending on target.
+>>>
+>>> While at it cleanup 'cli' freeing, using g_autofree annotation.  
+>>
+>> Hmm, I'd use g_autofree for new code or do it in a separate cleanup
+>> patch, but doing this here distracts quite a bit from the real changes
+>> that you are doing...
+> I'll split it into separate patch
+> 
+>>
+>>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+>>> ---
+>>> PS:
+>>>   made as a separate patch so it won't clutter followup testcase changes.
+>>>
+>>> CC: thuth@redhat.com
+>>> CC: lvivier@redhat.com
+>>> ---
+>>>  tests/qtest/numa-test.c | 38 ++++++++++++++------------------------
+>>>  1 file changed, 14 insertions(+), 24 deletions(-)
+>>>
+>>> diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
+>>> index 17dd807..a696dfd 100644
+>>> --- a/tests/qtest/numa-test.c
+>>> +++ b/tests/qtest/numa-test.c
+>>> @@ -14,16 +14,16 @@
+>>>  #include "qapi/qmp/qdict.h"
+>>>  #include "qapi/qmp/qlist.h"
+>>>  
+>>> -static char *make_cli(const char *generic_cli, const char *test_cli)
+>>> +static char *make_cli(const GString *generic_cli, const char *test_cli)
+>>>  {
+>>> -    return g_strdup_printf("%s %s", generic_cli ? generic_cli : "", test_cli);
+>>> +    return g_strdup_printf("%s %s", generic_cli->str, test_cli);
+>>>  }  
+>> [...]
+>>> @@ -539,11 +529,11 @@ static void pc_hmat_erange_cfg(const void *data)
+>>>  
+>>>  int main(int argc, char **argv)
+>>>  {
+>>> -    const char *args = NULL;
+>>> +    g_autoptr(GString) args = g_string_new("");  
+>>
+>> I think g_string_new(NULL) would be better?
+>>
+>>>      const char *arch = qtest_get_arch();
+>>>  
+>>>      if (strcmp(arch, "aarch64") == 0) {
+>>> -        args = "-machine virt";
+>>> +        g_string_append(args, " -machine virt")>      }  
+>>
+>> Is this really required? Looking at your next patch, you could also
+>> simply do
+>>
+>>           args = " -object memory-backend-ram,id=ram,size=xxxM"
+> xxx is variable so options are
+>  1 build this part of CLI dynamically
+>  2 mostly duplicate testcase function and include per target size there
+>  3 make up a test data structure and pass that to test cases
+> 
+> Given simplicity of current testcases, I'd prefer continue with
+> passing CLI as testcase data (option #1).
 
-Also initialize routes->gsi[] with -1 in the virtio-ccw handling,
-to make sure we don't trip over other errors, either. (Nobody
-else uses the gsi array in that structure.)
+Sorry, I think I missed something here... currently I see in the next patch:
 
-Fixes: d426d9fba8ea ("s390x/virtio-ccw: wire up irq routing and irqfds")
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
-
-v1->v2:
-  - also initialize the gsi array with -1
-
----
- hw/intc/s390_flic_kvm.c | 8 ++++++++
- hw/s390x/virtio-ccw.c   | 4 ++++
- 2 files changed, 12 insertions(+)
-
-diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
-index dddd33ea61c8..44b7960ebcc8 100644
---- a/hw/intc/s390_flic_kvm.c
-+++ b/hw/intc/s390_flic_kvm.c
-@@ -331,6 +331,10 @@ static int kvm_s390_add_adapter_routes(S390FLICState *=
-fs,
-     int ret, i;
-     uint64_t ind_offset =3D routes->adapter.ind_offset;
-=20
-+    if (!kvm_gsi_routing_enabled()) {
-+        return -ENOSYS;
++    if (!strcmp(arch, "ppc64")) {
++        g_string_append(args, " -object
+memory-backend-ram,id=ram,size=512M");
++    } else {
++        g_string_append(args, " -object
+memory-backend-ram,id=ram,size=128M");
 +    }
-+
-     for (i =3D 0; i < routes->num_routes; i++) {
-         ret =3D kvm_irqchip_add_adapter_route(kvm_state, &routes->adapter)=
-;
-         if (ret < 0) {
-@@ -358,6 +362,10 @@ static void kvm_s390_release_adapter_routes(S390FLICSt=
-ate *fs,
- {
-     int i;
-=20
-+    if (!kvm_gsi_routing_enabled()) {
-+        return;
-+    }
-+
-     for (i =3D 0; i < routes->num_routes; i++) {
-         if (routes->gsi[i] >=3D 0) {
-             kvm_irqchip_release_virq(kvm_state, routes->gsi[i]);
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 6580ce5907dd..13f57e7b67f1 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -697,6 +697,7 @@ static void virtio_ccw_device_realize(VirtioCcwDevice *=
-dev, Error **errp)
-     CCWDeviceClass *ck =3D CCW_DEVICE_GET_CLASS(ccw_dev);
-     SubchDev *sch;
-     Error *err =3D NULL;
-+    int i;
-=20
-     sch =3D css_create_sch(ccw_dev->devno, errp);
-     if (!sch) {
-@@ -717,6 +718,9 @@ static void virtio_ccw_device_realize(VirtioCcwDevice *=
-dev, Error **errp)
-     ccw_dev->sch =3D sch;
-     dev->indicators =3D NULL;
-     dev->revision =3D -1;
-+    for (i =3D 0; i < ADAPTER_ROUTES_MAX_GSI; i++) {
-+        dev->routes.gsi[i] =3D -1;
-+    }
-     css_sch_build_virtual_schib(sch, 0, VIRTIO_CCW_CHPID_TYPE);
-=20
-     trace_virtio_ccw_new_device(
---=20
-2.21.1
+
+... so these are static strings which could also be handled fine without
+GString? Or do you plan to update this in later patches?
+
+ Thomas
 
 
