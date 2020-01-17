@@ -2,131 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F72140E64
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 16:56:15 +0100 (CET)
-Received: from localhost ([::1]:59382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3DE140E50
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 16:51:53 +0100 (CET)
+Received: from localhost ([::1]:59354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isTyn-0003YU-V3
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 10:56:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39620)
+	id 1isTua-0001Ht-Cv
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 10:51:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <deller@gmx.de>) id 1isTsU-0007yC-Jg
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:49:43 -0500
+ (envelope-from <groug@kaod.org>) id 1isTtj-0000gN-SX
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:51:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <deller@gmx.de>) id 1isTsT-00010Y-39
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:49:42 -0500
-Received: from mout.gmx.net ([212.227.17.20]:38223)
+ (envelope-from <groug@kaod.org>) id 1isTtf-0002CF-Qn
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:50:59 -0500
+Received: from 20.mo6.mail-out.ovh.net ([178.32.124.17]:60026)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <deller@gmx.de>) id 1isTsS-0000uM-LL
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:49:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1579276174;
- bh=2SUcImC9l/i24s+gkMXJYCZ/XZPC584l/C9I5BKCvMM=;
- h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=NlP12gS31MoeekC5engTzNVPLqTQrJb+0snkosvxvMdA+X4FC32SLBgSh3ZmkGbxc
- jh/wOOJTySChxW8iWbA7YED7JsOKBXWdNaCYdenNr6yJMiuA1Dflz7Tncn2PX7S+3d
- qwN+aX2TnxZU/8XVUtZi91tFIxZ95HplxIji/jhI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [10.20.71.116] ([193.16.224.4]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MGhuU-1ioe8S1wDi-00DrXR; Fri, 17
- Jan 2020 16:49:34 +0100
-Subject: Re: [PATCH] target/hppa: Allow, but diagnose, LDCW aligned only mod 4
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200117015322.12953-1-richard.henderson@linaro.org>
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
- c2TFWAS8k6RLkk41ZUU8ENX8+qZx/Q==
-Message-ID: <7b14c840-0d3f-0c67-06be-81b058c727fb@gmx.de>
-Date: Fri, 17 Jan 2020 16:49:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1isTtf-0002BL-Js
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:50:55 -0500
+Received: from player692.ha.ovh.net (unknown [10.109.146.86])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 237981F9E2C
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 16:50:53 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player692.ha.ovh.net (Postfix) with ESMTPSA id 91A58E36BE6C;
+ Fri, 17 Jan 2020 15:50:51 +0000 (UTC)
+Date: Fri, 17 Jan 2020 16:50:50 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v3 03/11] 9pfs: validate count sent by client with
+ T_readdir
+Message-ID: <20200117165050.27604cf0@bahia.lan>
+In-Reply-To: <5915926.WqdOhGH810@silver>
+References: <cover.1578957500.git.qemu_oss@crudebyte.com>
+ <0edf21d2cb2a6cf22ba1065bf451b44ad5962cbd.1578957500.git.qemu_oss@crudebyte.com>
+ <20200116143342.4d518b30@bahia.lan> <5915926.WqdOhGH810@silver>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200117015322.12953-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:B5rov7XRMpttgCvEzppnvb1QJT+jlABY2wrXdleQqgLCawDpVn9
- krqTglHu0TE9JqTKqyp5GzKVTYgnNCB7oBHV1e0wzp31IP5u8QvKLqZoucrMYeESX10BRz4
- J+7g8n/A1Nti84N65ItuQ44hlfyYwDWq19fL2aYEnJWYfijy96Q18XvBt9mYrI4LPWYkd3B
- wThNsOTA0+RChXANRFPlw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0tcmzAFIx00=:F8UTv5fPGxiF74u5nFd9LH
- wWsRn33WuuZ/tLhm/Z+ws7aDz9J9+Q9BQwnElvLKetF9NnRhtKpIoP57t3SDiSqtp1mxXr2DO
- nuCRFHe3E5guApkU0hkvRkg61UufX0PwtbJCLni5Ox4DhKVAWDcyVrplpv9A4RFNJFJ1xGd8Q
- mrVwIt6jO+S0/CdTUem8S+ZpN8jZlGoY1UrOV7KAwlI8tetspSzFsxAsHZy9QX5pYZ+A4MUhl
- KY/hysHLVwqNLd/b3yg2palOD/wa2r6kTVvLxylPQkv4bsY6jhBjZSFx8thkijBM7i5Ih4gcI
- pPIRRvK5lVdXmTZ4vxr5oo5A1imm3LFh1UJqHRMRr3s2hpicBP6Lk1hVtox/PDrdhxRdeAja0
- naTXbXHg6NIep7xdADVVbW/Uu9EyLtMSkdAF+aDahepeo203p0/GTzWLtog8YxOeig3B0+jRN
- mRxRZw8Gus9WEENl0rsa+6ofjTyaYBx3ZFT+69BjdYaTSp4HARKPl23Q00jwd0of+wwlKiHpY
- Lq9nLyzPXneZNz5vaCNFXJI+MVlu8Jfxgd57CFdiXnFpcdqApHyqgz/NVLauipGrXb2fpbDmN
- VwbT4d1VeJhDXfWFiYL9gHlVbh5BSjIYEJIAi1coV7l8NuafkDXxna6D6E2LFZQ1nx3qjXpIt
- jDxV4kzgNqZdfb3aYthVghuMZyvUn5qqA7DEMxEi+aLQ6RJi0T7+W1P+ltoAUzWqoQVGLPAb9
- UiMZ/HGhuro81Q1OLhY3grUIdAAWR7WBpfSz4R8XfHCPYkv6Bwm4hdHFn9aSZYuZ5wsOnXaqv
- q20Q+ClQ3a+DPUyne+2Q4C/dtjA5v16epQkxiK4T6NZhFRSOuPI022VztVQMdNqyz3OZu7hn/
- Ld7Ovi0E7fL6jDKUk65RV+hZ7jmTIEr641EbxjGyHtfgm0t/GEYA2ihehHGRgG1rywujzQlf/
- WYEhwaU3sQ0If7rJODgoow5d6ixBUBjLSE/ioH5t1zwfPkcR79+62xEEO96ETTEhsyXO1t7vl
- yJ7Me6U49A0xT8Y4nTcHRxLwd5edNWkEJ5ksTKipkBRXGLbXAwffJuAO/nq+O3+//VAKrOiFq
- IedUGIl/G7yCljjMVsIIqOwtDS10goS0ID5MlqHL+c3eRgqyat2YL4b1JmmNJxCtJaH2Iz1x7
- MmWmy1wuGN2FK55QePaOeUVcAWIcPNEZdS7WWpWQT+3/MMxmyEOSrM9qSFIU70uq8KqHlCyxN
- Z7qYxps5t6trXFEULx8jlVPON7sza/fz0G+U4kw==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 15554307213065099584
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrtdejgdekudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelvddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.20
+X-Received-From: 178.32.124.17
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -138,121 +59,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dave.anglin@bell.net
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.01.20 02:53, Richard Henderson wrote:
-> The PA-RISC 1.1 specification says that LDCW must be aligned mod 16
-> or the operation is undefined.  However, real hardware only generates
-> an unaligned access trap for unaligned mod 4.
->
-> Match real hardware, but diagnose with GUEST_ERROR a violation of the
-> specification.
->
-> Reported-by: Helge Deller <deller@gmx.de>
-> Suggested-by: John David Anglin <dave.anglin@bell.net>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->
-> Helge, can you please test this against your failing kernel?
-> You will of course want to add -D logfile -d guest_errors to
-> you qemu command-line.
+On Thu, 16 Jan 2020 17:51:10 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Yes, works as expected.
-Thanks!
+> On Donnerstag, 16. Januar 2020 14:33:42 CET Greg Kurz wrote:
+> > On Mon, 13 Jan 2020 23:22:08 +0100
+> > 
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > A good 9p client sends T_readdir with "count" parameter that's
+> > > sufficiently smaller than client's initially negotiated msize
+> > > (maximum message size). We perform a check for that though to
+> > > avoid the server to be interrupted with a "Failed to encode
+> > > VirtFS reply type 41" error message by bad clients.
+> > > 
+> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > ---
+> > > 
+> > >  hw/9pfs/9p.c | 8 ++++++++
+> > >  1 file changed, 8 insertions(+)
+> > > 
+> > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> > > index a5fbe821d4..30da2fedf3 100644
+> > > --- a/hw/9pfs/9p.c
+> > > +++ b/hw/9pfs/9p.c
+> > > @@ -2426,6 +2426,7 @@ static void coroutine_fn v9fs_readdir(void *opaque)
+> > > 
+> > >      int32_t count;
+> > >      uint32_t max_count;
+> > >      V9fsPDU *pdu = opaque;
+> > > 
+> > > +    V9fsState *s = pdu->s;
+> > > 
+> > >      retval = pdu_unmarshal(pdu, offset, "dqd", &fid,
+> > >      
+> > >                             &initial_offset, &max_count);
+> > > 
+> > > @@ -2434,6 +2435,13 @@ static void coroutine_fn v9fs_readdir(void *opaque)
+> > > 
+> > >      }
+> > >      trace_v9fs_readdir(pdu->tag, pdu->id, fid, initial_offset,
+> > >      max_count);
+> > > 
+> > > +    if (max_count > s->msize - P9_IOHDRSZ) {
+> > 
+> > P9_IOHDRSZ relates to Twrite. The Rreaddir message has a smaller header
+> > of size 11:
+> > 
+> > size[4] Rreaddir tag[2] count[4]
+> 
+> Right, looks like I have falsely picked P9_IOHDRSZ after looking at:
+> 
+> static size_t v9fs_readdir_data_size(V9fsString *name)
+> {
+>     /*
+>      * Size of each dirent on the wire: size of qid (13) + size of offset (8)
+>      * size of type (1) + size of name.size (2) + strlen(name.data)
+>      */
+>     return 24 + v9fs_string_size(name);
+> }
+> 
+> I'll have to correct that in the test cases as well. So no need to comment on 
+> them for now.
+> 
+> But if you have an idea about the issue mentioned in cover letter (patch 7), 
+> let me know. I have a feeling that there is some problem with the test 
+> environment, because I also get strange error messages when I just add some 
+> more e.g. noop 9pfs test cases (empty test cases doing nothing) or by copy 
+> pasting existing tests and then running 
+> 
+> tests/qos-test -l
+> 
+> which obviously should just list the test cases, but not executing any of 
+> them. I'd end up with "cannot push stack" error messages for some reason.
+> 
 
-Please add:
-Tested-by: Helge Deller <deller@gmx.de>
+No idea. I'll have to look more.
 
-
-[deller]$ tail -f logfile
-Undefined ldc to address unaligned mod 16: 00000504fa6c7848
-Undefined ldc to address unaligned mod 16: 00000504fa6c7a48
-Undefined ldc to address unaligned mod 16: 00000506f9434848
-Undefined ldc to address unaligned mod 16: 00000506f9434a48
-Undefined ldc to address unaligned mod 16: 00000508fa036848
-Undefined ldc to address unaligned mod 16: 00000508fa036a48
-Undefined ldc to address unaligned mod 16: 0000050afa8c4848
-Undefined ldc to address unaligned mod 16: 0000050afa8c4a48
-Undefined ldc to address unaligned mod 16: 0000050cf94d1848
-Undefined ldc to address unaligned mod 16: 0000050cf94d1a48
-....
-
-
-
->
->
-> r~
->
-> ---
->  target/hppa/helper.h    | 2 ++
->  target/hppa/op_helper.c | 9 +++++++++
->  target/hppa/translate.c | 6 +++++-
->  3 files changed, 16 insertions(+), 1 deletion(-)
->
-> diff --git a/target/hppa/helper.h b/target/hppa/helper.h
-> index 38d834ef6b..2d483aab58 100644
-> --- a/target/hppa/helper.h
-> +++ b/target/hppa/helper.h
-> @@ -17,6 +17,8 @@ DEF_HELPER_FLAGS_3(stby_b_parallel, TCG_CALL_NO_WG, vo=
-id, env, tl, tr)
->  DEF_HELPER_FLAGS_3(stby_e, TCG_CALL_NO_WG, void, env, tl, tr)
->  DEF_HELPER_FLAGS_3(stby_e_parallel, TCG_CALL_NO_WG, void, env, tl, tr)
->
-> +DEF_HELPER_FLAGS_1(ldc_check, TCG_CALL_NO_RWG, void, tl)
-> +
->  DEF_HELPER_FLAGS_4(probe, TCG_CALL_NO_WG, tr, env, tl, i32, i32)
->
->  DEF_HELPER_FLAGS_1(loaded_fr0, TCG_CALL_NO_RWG, void, env)
-> diff --git a/target/hppa/op_helper.c b/target/hppa/op_helper.c
-> index f0516e81f1..345cef2c08 100644
-> --- a/target/hppa/op_helper.c
-> +++ b/target/hppa/op_helper.c
-> @@ -153,6 +153,15 @@ void HELPER(stby_e_parallel)(CPUHPPAState *env, tar=
-get_ulong addr,
->      do_stby_e(env, addr, val, true, GETPC());
->  }
->
-> +void HELPER(ldc_check)(target_ulong addr)
-> +{
-> +    if (unlikely(addr & 0xf)) {
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "Undefined ldc to address unaligned mod 16: "
-> +                      TARGET_FMT_lx "\n", addr);
-> +    }
-> +}
-> +
->  target_ureg HELPER(probe)(CPUHPPAState *env, target_ulong addr,
->                            uint32_t level, uint32_t want)
->  {
-> diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-> index 2f8d407a82..669381dc1d 100644
-> --- a/target/hppa/translate.c
-> +++ b/target/hppa/translate.c
-> @@ -2942,7 +2942,7 @@ static bool trans_st(DisasContext *ctx, arg_ldst *=
-a)
->
->  static bool trans_ldc(DisasContext *ctx, arg_ldst *a)
->  {
-> -    MemOp mop =3D MO_TEUL | MO_ALIGN_16 | a->size;
-> +    MemOp mop =3D MO_TE | MO_ALIGN | a->size;
->      TCGv_reg zero, dest, ofs;
->      TCGv_tl addr;
->
-> @@ -2958,8 +2958,12 @@ static bool trans_ldc(DisasContext *ctx, arg_ldst=
- *a)
->
->      form_gva(ctx, &addr, &ofs, a->b, a->x, a->scale ? a->size : 0,
->               a->disp, a->sp, a->m, ctx->mmu_idx =3D=3D MMU_PHYS_IDX);
-> +
-> +    gen_helper_ldc_check(addr);
->      zero =3D tcg_const_reg(0);
->      tcg_gen_atomic_xchg_reg(dest, addr, zero, ctx->mmu_idx, mop);
-> +    tcg_temp_free(zero);
-> +
->      if (a->m) {
->          save_gpr(ctx, a->b, ofs);
->      }
->
+> > > +        max_count = s->msize - P9_IOHDRSZ;
+> > > +        warn_report_once(
+> > > +            "9p: bad client: T_readdir with count > msize - P9_IOHDRSZ"
+> > > +        );
+> > > +    }
+> > > +
+> > > 
+> > >      fidp = get_fid(pdu, fid);
+> > >      if (fidp == NULL) {
+> > >      
+> > >          retval = -EINVAL;
+> 
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
 
