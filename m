@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34866140BC3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:54:15 +0100 (CET)
-Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02BD6140B99
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:51:45 +0100 (CET)
+Received: from localhost ([::1]:57648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isS4j-0007Gh-Pt
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:54:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50974)
+	id 1isS2J-0004Mx-Iy
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:51:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51036)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1isRya-0001kO-6q
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:47:56 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1isRz3-0002Fu-S2
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:48:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1isRyV-0002aN-No
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:47:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22458
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1isRyV-0002Zc-IR
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:47:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579268866;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bV5k4TzKWjBKJhukXd6s+AD/pumU6Z5zkhrMunoKB0o=;
- b=ZP+zX/ZY2K467Z81A8v0QxbeFcoqTxXbNC+9RSsaeYmRVNUFtc9o/tTFbGhf1O4smdKOyY
- LQH7EutmnnCBCdokAqHHeyCq9sXGyuhFbgXVT+JJ5GX0EzLKsyOcT1QB0AeLkPbbWnZhaS
- 6BCPtM2+Y6rt8pUj7eKT7XMdVs1sHIE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-USaj5mKrNe2rovSP4Ibu3g-1; Fri, 17 Jan 2020 08:47:44 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7C5D800A02
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 13:47:43 +0000 (UTC)
-Received: from [10.3.117.16] (ovpn-117-16.phx2.redhat.com [10.3.117.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 837FB86CB7;
- Fri, 17 Jan 2020 13:47:43 +0000 (UTC)
-Subject: Re: Extraneous nesting in QAPI schema
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <87r214qk98.fsf@dusky.pond.sub.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <aab70b86-8b0c-5058-c7f6-21ab3d352d46@redhat.com>
-Date: Fri, 17 Jan 2020 07:47:42 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ (envelope-from <peter.maydell@linaro.org>) id 1isRz2-0002xp-Kl
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:48:21 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:44167)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1isRz2-0002v6-E9
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:48:20 -0500
+Received: by mail-oi1-x241.google.com with SMTP id d62so22160592oia.11
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:48:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8rJJ11zKAnCxLPJdTkuCFT0idGhjpwtf3W0G6yikRvc=;
+ b=LgqA4PWNstFMAgGotuGAycqrEN6eahf2LL0OR3K5KgPFgVxg8qIV5zexb+uKlN7i77
+ zG6hDhzT7eq86Wh/NOxieLaoF82w4zPKpOaAok6JzMs2rsMeJ5H9RGOFuuPCdx1AJuW1
+ ATEKx+ov7hlXJvxfxPpu8sE4H1yYUCKQHQsENAFWC0E/+3C5VAZvk8QQLu6TZv1Iq9pC
+ KGhyhAHGvdBqneK9FuzH+ZlBzVqu5/NVmAbCn945EU6aHkhuzO+wQZPaWuNhYcXGGiRc
+ /3M/pRZfJpmo4BE8lOz6+A5ddLtaOnsMz6/7xv66nLowlhvT1Y/j0Vo9moIDeUZ5zDZZ
+ LGpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8rJJ11zKAnCxLPJdTkuCFT0idGhjpwtf3W0G6yikRvc=;
+ b=JHNfAh0xoCnE42VQnVaFC8iR/VDeO2oyhwFZo7Xo+lLlsP41mbFzhb6T4drT1ZC3e6
+ Ck6PvstkzYc+efhnGE1wnAOvVzl6KrRO/lNNA//x3v2uLsXM2rIu8o5nsC946s/eYkAt
+ BOkvHzD9ERKFoQD1dkLai4h1U9bT0Q9poWD2qaljEETW3Zo6SP61rLgF8l+jL8p0Ygqb
+ dtIp3mmn7jxLgIY9RRqzKzBIW52yzBW9FMINGcQUkIDtlg/78n+S+jQVevkT6wXyu334
+ OfaJ+MEVHyUP3/4NPIOwSVe8veOUfcLU7Kto0JzQNqiHdF6F7T9qR4HsMuYSuW+h2uDy
+ uK5g==
+X-Gm-Message-State: APjAAAX7G50AYEno/CnZMVfgmY9jzveXNrvldvZd+GoIRqeRHLqVAHBJ
+ uD3ptzZGxkdaKFFNoLNc8UD2lkOC1oClgAJ4afrZIQ==
+X-Google-Smtp-Source: APXvYqxpdr7mcmlKLHlz6ejeZyaGg89gNnxKOaffrz03F4dBZoKakDMk3W6C73XCxC2E8srPhS9ytDoLo+MLIaVwTG4=
+X-Received: by 2002:aca:570d:: with SMTP id l13mr3363950oib.146.1579268896810; 
+ Fri, 17 Jan 2020 05:48:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87r214qk98.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: USaj5mKrNe2rovSP4Ibu3g-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <20200110203942.5745-1-linux@roeck-us.net>
+ <20200110203942.5745-7-linux@roeck-us.net>
+In-Reply-To: <20200110203942.5745-7-linux@roeck-us.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 17 Jan 2020 13:48:06 +0000
+Message-ID: <CAFEAcA_v98GcR06PWfm+=VnteQN_Q7iKK4wobAg6NrVSP1AyDg@mail.gmail.com>
+Subject: Re: [PATCH 6/6] hw/arm/exynos4210: Connect serial port DMA busy
+ signals with pl330
+To: Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,144 +73,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/19 10:59 AM, Markus Armbruster wrote:
-> Extra nesting is merely another set of braces in QMP.  It's bloody
-> annoying in QAPIfied CLI using dotted keys syntax.  Example:
-> 
-> QMP command
-> 
->      {"execute": "chardev-add",
+On Fri, 10 Jan 2020 at 20:39, Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> The Exynos4210 serial driver uses an interrupt line to signal if receive
+> data is available. Connect that interrupt with the DMA controller's
+> 'peripheral busy' gpio pin.
+>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+>  hw/arm/exynos4210.c | 39 ++++++++++++++++++++++++++-------------
+>  1 file changed, 26 insertions(+), 13 deletions(-)
+>
+> diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+> index c7b5c587b1..498d79ebb2 100644
+> --- a/hw/arm/exynos4210.c
+> +++ b/hw/arm/exynos4210.c
+> @@ -166,8 +166,8 @@ static uint64_t exynos4210_calc_affinity(int cpu)
+>      return (0x9 << ARM_AFF1_SHIFT) | cpu;
+>  }
+>
+> -static void pl330_create(uint32_t base, qemu_irq irq, int nreq, int nevents,
+> -                         int width)
+> +static DeviceState *pl330_create(uint32_t base, qemu_irq irq, int nreq,
+> +                                 int nevents, int width)
+>  {
+>      SysBusDevice *busdev;
+>      DeviceState *dev;
+> @@ -191,6 +191,7 @@ static void pl330_create(uint32_t base, qemu_irq irq, int nreq, int nevents,
+>      for (i = 0; i < nevents; i++) {
+>          sysbus_connect_irq(busdev, i + 1, irq); /* event irq lines */
+>      }
+> +    return dev;
+>  }
+>
+>  static void exynos4210_realize(DeviceState *socdev, Error **errp)
+> @@ -199,7 +200,7 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+>      MemoryRegion *system_mem = get_system_memory();
+>      qemu_irq gate_irq[EXYNOS4210_NCPUS][EXYNOS4210_IRQ_GATE_NINPUTS];
+>      SysBusDevice *busdev;
+> -    DeviceState *dev;
+> +    DeviceState *dev, *uart[4], *pl330[3];
 
-<snipped, but concur>
+Rather than having the uart and pl330 pointers be locals,
+they should be fields in Exynos4210State. (Otherwise technically
+we leak them, though this is unnoticeable in practice because there's
+no way to destroy an Exynos4210State.)
 
+Patch looks good otherwise.
 
-> Let's start with trying to understand the sources of extra nesting.
-> 
-> The obvious source of nesting is struct members of struct or union type.
-> The example above has two: backend and backend.data.addr.
-> 
-> This kind of nesting can sometimes be avoided by making the member
-> (struct) type a base type of the containing type.  Possible when we can
-> arrange the base types into a single chain.  In the example above, we'd
-> make the implicit argument type of chardev-add explicit, then replace
-> member 'backend': 'ChardevBackend' by 'base': 'ChardevBackend'.
-> 
-> A more general solution would be adding "unboxed" members to the schema
-> language.  A member that is normally a JSON object on the wire would
-> instead have its JSON object members "spliced in".  Worth the trouble?
-> Not sure.
-
-It may also be possible to permit a discriminated union to be the branch 
-value of yet another discriminated union: as long as the set of member 
-names made visible by the inner union do not collide with any of the 
-visible members elsewhere in the outer union, this should be okay, and 
-give the same effect of being an unboxed member.
-
-> 
-> Special case: &rest arguments.  Example 1: object-add argument @props:
-> 
->      {"execute": "object-add",
->       "arguments": {
->           "qom-type": "memory-backend-file",
->           "id": "shmmem-shmem0",
->           "props": {"mem-path": "/dev/shm/my_shmem0",
->                     "size":4194304,
->                     "share":true}}}
-> 
-> Example 2:
-> 
->      {"execute": "device_add",
->       "arguments": {
->           "driver": "virtio-scsi-pci",
->           "bus": "pci.0",
->           "id": "virtio_scsi_pci2",
->           "addr": "0xb"}}
-> 
-> object-add wraps the properties in an object.  Device_add doesn't, but
-> it needs to bypass the generated marshaller with 'gen': false.  We could
-> add support for &rest arguments to the schema language.  Worth the
-> trouble?  Not sure.
-> 
-> Another source is "simple" unions.  Both backend and backend.data.addr
-> are actually "simple" unions, giving rise to backend.data and
-> backend.data.addr.data.
-> 
-> We wouldn't use "simple" unions today.  With "flat" unions, we'd avoid
-> the .data.
-> 
-> How widespread are "simple" unions today?  Let's have a look.  Five
-> occur as command arguments:
-> 
-> * ChardevBackend
-> 
->    Used for command chardev-add and chardev-change argument @backend.
-> 
-> * SocketAddressLegacy
-> 
->    Used for command nbd-server-start argument @addr, and in command
->    chardev-add and chardev-change argument @backend.
-
-I really want to improve at least nbd-server-start to avoid the nesting 
-(it was a pain to use that much nesting while working on incremental 
-backup).
-
-> 
-> * TransactionAction
-> 
->    Used for command transaction argument @actions.
-> 
-> * KeyValue
-> 
->    Used for command send-key argument @keys, and in InputEvent (next
->    item)
-> 
-> * InputEvent
-> 
->    Used for command input-send-event argument @events.
-> 
-> Six commands: chardev-add, chardev-change, nbd-server-start,
-> transaction, send-key, input-send-event.  Could be worse.
-> 
-> Flattening could be done in at least two ways.  One, replace the nested
-> commands by flat ones, deprecate.  Two, make the existing commands
-> accept both nested and flat, deprecate use of nested.  Two is more
-> difficult.
-
-Agree that two is more difficult. For at least nbd-server-start, I'm 
-fine with replace-and-deprecate.
-
-> 
-> Name clashes could prevent the flattening.  I haven't checked for them.
-> 
-> Three more "simple" unions appear to occur only in results:
-> 
-> * ImageInfoSpecific
-> 
->    Occurs in value of commands query-named-block-nodes and query-block.
-> 
-> * MemoryDeviceInfo
-> 
->    Occurs in value of command query-memory-devices.
-> 
-> * TpmTypeOptions
-> 
->    Occurs in value of command query-tpm.
-> 
-> There, the only way to get rid of nesting is replace & deprecate.
-> 
-> I'd love to eliminate "simple" unions from the schema language.
-> Possible because any "simple" union can also be expressed as a flat
-> union.
-
-And less special code to maintain.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+thanks
+-- PMM
 
