@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9536D14149F
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 00:07:35 +0100 (CET)
-Received: from localhost ([::1]:35476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421C9141509
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 01:02:46 +0100 (CET)
+Received: from localhost ([::1]:35782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isaiE-00072f-Lq
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 18:07:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60909)
+	id 1isbZc-0004MR-Qw
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 19:02:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36859)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wlosh@bsdimp.com>) id 1isahR-0006DR-Oy
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 18:06:46 -0500
+ (envelope-from <bounces@canonical.com>) id 1isbY2-0003b4-Cb
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 19:01:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wlosh@bsdimp.com>) id 1isahQ-0000EO-Ox
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 18:06:45 -0500
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:44464)
+ (envelope-from <bounces@canonical.com>) id 1isbY1-0002TE-0I
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 19:01:06 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42974)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <wlosh@bsdimp.com>) id 1isahQ-0000Di-Ea
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 18:06:44 -0500
-Received: by mail-qk1-x735.google.com with SMTP id w127so24352488qkb.11
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 15:06:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fbWvjh6hkaqsHmmLlzKZ+NrFiMbkbi6dxezBkCNXVIc=;
- b=SMaatiur2uP/TuNn4g0N1oq4i0PoquQqDW6JUTTR47vjYqEQ/kZ63gzoy7bYiveX5e
- XAKerB0aa/BD/jNbCxUDyh9WuVdymKUvCd9QhCF7ErYV+IZ/U5gMkRi1Euo3d3UleTjd
- v06ENoyxdoIOKK9F9aTWGq6ZNZ2+NyPhgfmdpG9tXq1i7q0IGhLOhbfOuWfq+Lt1DJiF
- T6lY+DXpcJVBB2rbBMrZ/lFa0D1BPoTexG6EmktUbi0BjhArwRxJPzdxSqwoboSXV99N
- fzMBqp2WQdXVy73sjSgW4xFeVQQDofpxa2B8yXOj67y1khgTN7nGrVSKtxwvsRqejQ1O
- kkZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fbWvjh6hkaqsHmmLlzKZ+NrFiMbkbi6dxezBkCNXVIc=;
- b=ZGRxlYBSA3iEUZGa+zmec794P5WBKv+LUID5nyE93fi91/7lR7TfjyQYpPMz8n9XBv
- YpLiqAwWowIqCI1pA8GFi0iUiCd7sKgRoIIfbap/WajXF8AImwR6sG42CX9lGxmjPRHh
- Uf0FotpH31c1L/7Rkskqof7ux8SEf//f8vZACJ25fZikG6FdAwH6pl16GHXjD7d3iadh
- /OxHfkA6jiZnwEqykY7/Y0/bHWmLul0/YEhppEVLwTjL+cuvEPFvZCs8axMzSssFH/OE
- Bm6ye7TBcQnpynrzEKLfUKGNasSx9c4UT6l8sh9rZs8Sn++Bcu9jZerKRxi7gyEwaj2/
- bz8Q==
-X-Gm-Message-State: APjAAAUWh5IBSM1rZrGYhWo8lS/85AXJe2l5CYaniL3PIxTxtj2GXDPh
- G9cAeZpq8SidXiPWr1qR5lEeor5qDiq3JhW2i6vkqA==
-X-Google-Smtp-Source: APXvYqze5LpEC1Y/4zJQPk4yNKzxaurV1eF7Tj2489Rw/U/AdpZJk66BLIZqujC41LZERCCmRa2Q2MOv0AjOjvMIaFU=
-X-Received: by 2002:a37:a80a:: with SMTP id r10mr38083487qke.240.1579302403414; 
- Fri, 17 Jan 2020 15:06:43 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1isbY0-0002Rj-Qc
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 19:01:04 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1isbXz-0000Kz-0I
+ for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 00:01:03 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 014902E8054
+ for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 00:01:03 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200117230245.5040-1-richard.henderson@linaro.org>
-In-Reply-To: <20200117230245.5040-1-richard.henderson@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Fri, 17 Jan 2020 16:06:32 -0700
-Message-ID: <CANCZdfpNWaLOureeFTc78+EoAW+t9tu+NzcO7d61=AwuTQWDDQ@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: Reserve space for brk
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000bfad7b059c5dfe76"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::735
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 17 Jan 2020 23:52:57 -0000
+From: Richard Henderson <rth@twiddle.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Confirmed; importance=Undecided; assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: doko gerard-f-vidal-4 hertzog janitor peterogden
+ pmaydell rth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Rapha=C3=ABl_Hertzog_=28hertzog=29?=
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <151859702399.9461.6832978283203997178.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157930517741.24733.17865378491485452759.malone@chaenomeles.canonical.com>
+Subject: [Bug 1749393] Re: sbrk() not working under qemu-user with a
+ PIE-compiled binary?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 498354ecb680a23cb2204e00513ce586c3609cd0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,59 +70,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, laurent@vivier.eu
+Reply-To: Bug 1749393 <1749393@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bfad7b059c5dfe76
-Content-Type: text/plain; charset="UTF-8"
+Another proposed patch:
+https://patchew.org/QEMU/20200117230245.5040-1-richard.henderson@linaro.org/
 
-On Fri, Jan 17, 2020 at 4:03 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+** Changed in: qemu (Ubuntu)
+     Assignee: (unassigned) =3D> Richard Henderson (rth)
 
-> With bad luck, we can wind up with no space at all for brk,
-> which will generally cause the guest malloc to fail.
->
-...
+-- =
 
-> The choice of 16MB is somewhat arbitrary.  It's enough for libc
-> to get going, but without being so large that 32-bit guests or
-> 32-bit hosts are in danger of running out of virtual address space.
-> It is expected that libc will be able to fall back to mmap arenas
-> after the limited brk space is exhausted.
->
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1749393
 
-The biggest abuser of brk() is emacs, so according to one old wag
-this should be 80MB. Eighty Megabytes And Continuously Swapping.
+Title:
+  sbrk() not working under qemu-user with a PIE-compiled binary?
 
-Sorry that I don't have anything constructive to add.
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  Confirmed
 
-Warner
+Bug description:
+  In Debian unstable, we recently switched bash to be a PIE-compiled
+  binary (for hardening). Unfortunately this resulted in bash being
+  broken when run under qemu-user (for all target architectures, host
+  being amd64 for me).
 
---000000000000bfad7b059c5dfe76
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  $ sudo chroot /srv/chroots/sid-i386/ qemu-i386-static /bin/bash
+  bash: xmalloc: .././shell.c:1709: cannot allocate 10 bytes (0 bytes alloc=
+ated)
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 17, 2020 at 4:03 PM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
-nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">With bad luck, we can wind up with no space at all for br=
-k,<br>
-which will generally cause the guest malloc to fail.<br></blockquote><div>.=
-..=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The choice =
-of 16MB is somewhat arbitrary.=C2=A0 It&#39;s enough for libc<br>
-to get going, but without being so large that 32-bit guests or<br>
-32-bit hosts are in danger of running out of virtual address space.<br>
-It is expected that libc will be able to fall back to mmap arenas<br>
-after the limited brk space is exhausted.<br></blockquote><div><br></div><d=
-iv>The biggest abuser of brk() is emacs, so according to one old wag</div><=
-div>this should be 80MB. Eighty Megabytes And Continuously Swapping.</div><=
-div><br></div><div>Sorry that I don&#39;t have anything constructive to add=
-.</div><div><br></div><div>Warner</div><div><br></div></div></div>
+  bash has its own malloc implementation based on sbrk():
+  https://git.savannah.gnu.org/cgit/bash.git/tree/lib/malloc/malloc.c
 
---000000000000bfad7b059c5dfe76--
+  When we disable this internal implementation and rely on glibc's
+  malloc, then everything is fine. But it might be that glibc has a
+  fallback when sbrk() is not working properly and it might hide the
+  underlying problem in qemu-user.
+
+  This issue has also been reported to the bash upstream author and he sugg=
+ested that the issue might be in qemu-user so I'm opening a ticket here. He=
+re's the discussion with the bash upstream author:
+  https://lists.gnu.org/archive/html/bug-bash/2018-02/threads.html#00080
+
+  You can find the problematic bash binary in that .deb file:
+  http://snapshot.debian.org/archive/debian/20180206T154716Z/pool/main/b/ba=
+sh/bash_4.4.18-1_i386.deb
+
+  The version of qemu I have been using is 2.11 (Debian package qemu-
+  user-static version 1:2.11+dfsg-1) but I have had reports that the
+  problem is reproducible with older versions (back to 2.8 at least).
+
+  Here are the related Debian bug reports:
+  https://bugs.debian.org/889869
+  https://bugs.debian.org/865599
+
+  It's worth noting that bash used to have this problem (when compiled as a=
+ PIE binary) even when run directly but then something got fixed in the ker=
+nel and now the problem only appears when run under qemu-user:
+  https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1518483
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1749393/+subscriptions
 
