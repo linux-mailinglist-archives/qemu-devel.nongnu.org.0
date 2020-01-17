@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA27140CB2
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:39:03 +0100 (CET)
-Received: from localhost ([::1]:58588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EF5140CC2
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:40:22 +0100 (CET)
+Received: from localhost ([::1]:58620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isSm6-00013Q-4q
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:39:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56526)
+	id 1isSnN-0002oY-VA
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:40:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56551)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1isSbu-0006Io-I7
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:31 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1isSbv-0006LJ-TK
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1isSbt-00074y-BG
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:30 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46884)
+ (envelope-from <peter.maydell@linaro.org>) id 1isSbu-00075p-Gv
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:31 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39362)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1isSbt-000747-59
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:29 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id z7so22863831wrl.13
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:28:29 -0800 (PST)
+ id 1isSbu-000756-9J
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:30 -0500
+Received: by mail-wr1-x444.google.com with SMTP id y11so22907587wrt.6
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:28:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=yAXStqvSo75J+RhFz6OTyKrPT64wS5FAux7gYRx0+CQ=;
- b=ZsC0beMfjQld6iTNEYAfF8YBq+Xlb5u843+eo3HMe4lSTqUrcud3L1/kBLQ/IP4GH4
- NznG4kHxSp3CDK2dfl1uytDuqXAKfqxvp8HakADQ9AbobC+YLIitxbVhrlrT+/G0fCjj
- JZIwaoZrpJGv9FoJkpVVCL/UiB35lA9Yf43A+kJIPEx5so6+w1wPaRztB5pLubg3YPTJ
- tL1SzRKZsHUQN8O+z/1s8n2Cszxf4A0tMkkIC9b53ZDStZjxaSYxkFOKgFHqTu23te8c
- OWlt/kBEepzVUKc9OtNxdwpvoPGIeqHV2iMu6XSe4B2J7BpjYFJMtOoK8TbCtN6WKNWG
- uh0g==
+ bh=wHewatig1WxOwt8qBOmxg33iHOr1ClM0+duepeP3lHk=;
+ b=THFBNxjj7kwt29WZRwwfdM8E0AgveREHQOK9/X1xCwQ3gY9tWnJ2qURNo688JpoQuf
+ BzvvZ7aAxQ+9swTUr9QQ3Rar44sKu20xUaljRHgKYNQhVYacez47rEAgNwPtna0w0CX4
+ YF+hByxgtzHWyndXhC7yYyJZvjdLeQZnjpnUeWPc5nFl3po7rjnPFNWp0lHuS3/4CUl2
+ UqkVe0rQxa6DmVAw6LmHIFFAIuGz5yhELJlkGs8q8shFTzA3RvJWubhHdoQRtcjk7Qn8
+ qYwJuJ6o51ABQu8O+9iNCdxZckD9TEYVOP8+7O8opmn+wXK62qhOzv3cJ0HcHdSkpSWS
+ CgQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yAXStqvSo75J+RhFz6OTyKrPT64wS5FAux7gYRx0+CQ=;
- b=JgbX7zh5GQvOE913E1F4PCv599nKjUq4axKfCq1nlwsaBC21p/c4L+ZOEmLW+Y3+TG
- LlTb6U4HSfybWiGeZjUsSUEo0oxGbJYdzVaRYxa/QbLow15j6QGY0wXX2GYYBaokRBOm
- 9a66S8WFHYpfMSUcpn1hxt1R9afapcUJtW9vau8EshcPpT64UqbHczhUM8GsPArvFYp6
- O5uFIpBfuKR87ZP6jOBGAMGa1J+43xM1kyh30vyOkaj8Jrjk9Ektx5xpb9GtoAmKnUe6
- i8i+D+osOA1COh9FOsxYyTA3BE+UyNzjrmL7QHxF17/Cl0zIx3VAeMfHogHUKmezTv6Z
- HWgA==
-X-Gm-Message-State: APjAAAW0thK0Fxz9P62BVBpwp35mtqGqTWMZdu958QG9kuCuc3V2pqyA
- 4T24RMNMYkKlYDoxgnVkti8HE/+sOsSfTA==
-X-Google-Smtp-Source: APXvYqxNF/2R/T8vABiouIZfp1Bcpg7Y1YWV1sUbzAJOoxL/2vA43Bf+ruytc2zgPut8OXNGBJ25UA==
-X-Received: by 2002:a5d:6408:: with SMTP id z8mr3361568wru.122.1579271307867; 
- Fri, 17 Jan 2020 06:28:27 -0800 (PST)
+ bh=wHewatig1WxOwt8qBOmxg33iHOr1ClM0+duepeP3lHk=;
+ b=p8RLN+VKE7yi2/Co4ivIPKULWX8QhxXU/hruYfddX6ET8oq0s9UkAHxVvfhYUreEql
+ RA0PmFqftTvIsZt255stGmEpz2jr1c1aPVx91v/nJCSMedIhdvyyuUB70Gz7oOpTo5O0
+ dAFErthhQZ1N9v0slxGPRPskgBfsKxTQ5Bd4zfRwKMoltnzPTRNU9YAbD8JmFH7oI0y7
+ 9pwZhBlMb3P8nYrWAxO9wL0dzysxkuRDMX17XFRP0aQD+Sti9RBpawzr/hnK2Q9nU9SR
+ ixS5xag4143DdK69Z78BnVlNpRagczYL4YwB92XU4dDtKSZVP/xtG+0FxiVOSGLlyQlv
+ HHLg==
+X-Gm-Message-State: APjAAAU1QlVOeKM8/vc8Gp1TmDOrEjOv/YUR/Mg1fdbqK+kY597yu7mN
+ o1/9gGIupaJo8sBdPkeSudY6kMIfmjXDTA==
+X-Google-Smtp-Source: APXvYqxGqQOE0Xb247lAS7tqVZgkOmbENqMOmT9hcokx1uxu5fuhmGXppsJdpCQckIrjjU0/WQv9og==
+X-Received: by 2002:adf:8150:: with SMTP id 74mr3424813wrm.114.1579271309037; 
+ Fri, 17 Jan 2020 06:28:29 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e18sm33811146wrw.70.2020.01.17.06.28.26
+ by smtp.gmail.com with ESMTPSA id e18sm33811146wrw.70.2020.01.17.06.28.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jan 2020 06:28:27 -0800 (PST)
+ Fri, 17 Jan 2020 06:28:28 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/15] hw/arm/allwinner-a10: Move SoC definitions out of header
-Date: Fri, 17 Jan 2020 14:28:08 +0000
-Message-Id: <20200117142816.15110-8-peter.maydell@linaro.org>
+Subject: [PULL 08/15] hw/arm/allwinner-a10: Simplify by passing IRQs with
+ qdev_pass_gpios()
+Date: Fri, 17 Jan 2020 14:28:09 +0000
+Message-Id: <20200117142816.15110-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200117142816.15110-1-peter.maydell@linaro.org>
 References: <20200117142816.15110-1-peter.maydell@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,52 +85,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-These definitions are specific to the A10 SoC and don't need
-to be exported to the different Allwinner peripherals.
+By calling qdev_pass_gpios() we don't need to hold a copy of the
+IRQs from the INTC into the SoC state.
+Instead of filling an array of qemu_irq and passing it around, we
+can now directly call qdev_get_gpio_in() on the SoC.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20191230110953.25496-4-f4bug@amsat.org
+Message-id: 20191230110953.25496-5-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/allwinner-a10.h | 6 ------
- hw/arm/allwinner-a10.c         | 6 ++++++
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ include/hw/arm/allwinner-a10.h |  1 -
+ hw/arm/allwinner-a10.c         | 24 +++++++++++-------------
+ 2 files changed, 11 insertions(+), 14 deletions(-)
 
 diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.h
-index 7d2d2156308..941c61e5336 100644
+index 941c61e5336..40d0b1d9c05 100644
 --- a/include/hw/arm/allwinner-a10.h
 +++ b/include/hw/arm/allwinner-a10.h
-@@ -12,12 +12,6 @@
- #include "target/arm/cpu.h"
+@@ -23,7 +23,6 @@ typedef struct AwA10State {
+     /*< public >*/
  
- 
--#define AW_A10_PIC_REG_BASE     0x01c20400
--#define AW_A10_PIT_REG_BASE     0x01c20c00
--#define AW_A10_UART0_REG_BASE   0x01c28000
--#define AW_A10_EMAC_BASE        0x01c0b000
--#define AW_A10_SATA_BASE        0x01c18000
--
- #define AW_A10_SDRAM_BASE       0x40000000
- 
- #define TYPE_AW_A10 "allwinner-a10"
+     ARMCPU cpu;
+-    qemu_irq irq[AW_A10_PIC_INT_NR];
+     AwA10PITState timer;
+     AwA10PICState intc;
+     AwEmacState emac;
 diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-index 118032c8c72..0f1af5a880f 100644
+index 0f1af5a880f..966fbd4a6e5 100644
 --- a/hw/arm/allwinner-a10.c
 +++ b/hw/arm/allwinner-a10.c
-@@ -25,6 +25,12 @@
- #include "hw/misc/unimp.h"
- #include "sysemu/sysemu.h"
- 
-+#define AW_A10_PIC_REG_BASE     0x01c20400
-+#define AW_A10_PIT_REG_BASE     0x01c20c00
-+#define AW_A10_UART0_REG_BASE   0x01c28000
-+#define AW_A10_EMAC_BASE        0x01c0b000
-+#define AW_A10_SATA_BASE        0x01c18000
-+
- static void aw_a10_init(Object *obj)
+@@ -55,7 +55,6 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
  {
-     AwA10State *s = AW_A10(obj);
+     AwA10State *s = AW_A10(dev);
+     SysBusDevice *sysbusdev;
+-    uint8_t i;
+     qemu_irq fiq, irq;
+     Error *err = NULL;
+ 
+@@ -76,9 +75,7 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+     sysbus_mmio_map(sysbusdev, 0, AW_A10_PIC_REG_BASE);
+     sysbus_connect_irq(sysbusdev, 0, irq);
+     sysbus_connect_irq(sysbusdev, 1, fiq);
+-    for (i = 0; i < AW_A10_PIC_INT_NR; i++) {
+-        s->irq[i] = qdev_get_gpio_in(DEVICE(&s->intc), i);
+-    }
++    qdev_pass_gpios(DEVICE(&s->intc), dev, NULL);
+ 
+     object_property_set_bool(OBJECT(&s->timer), true, "realized", &err);
+     if (err != NULL) {
+@@ -87,12 +84,12 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+     }
+     sysbusdev = SYS_BUS_DEVICE(&s->timer);
+     sysbus_mmio_map(sysbusdev, 0, AW_A10_PIT_REG_BASE);
+-    sysbus_connect_irq(sysbusdev, 0, s->irq[22]);
+-    sysbus_connect_irq(sysbusdev, 1, s->irq[23]);
+-    sysbus_connect_irq(sysbusdev, 2, s->irq[24]);
+-    sysbus_connect_irq(sysbusdev, 3, s->irq[25]);
+-    sysbus_connect_irq(sysbusdev, 4, s->irq[67]);
+-    sysbus_connect_irq(sysbusdev, 5, s->irq[68]);
++    sysbus_connect_irq(sysbusdev, 0, qdev_get_gpio_in(dev, 22));
++    sysbus_connect_irq(sysbusdev, 1, qdev_get_gpio_in(dev, 23));
++    sysbus_connect_irq(sysbusdev, 2, qdev_get_gpio_in(dev, 24));
++    sysbus_connect_irq(sysbusdev, 3, qdev_get_gpio_in(dev, 25));
++    sysbus_connect_irq(sysbusdev, 4, qdev_get_gpio_in(dev, 67));
++    sysbus_connect_irq(sysbusdev, 5, qdev_get_gpio_in(dev, 68));
+ 
+     memory_region_init_ram(&s->sram_a, OBJECT(dev), "sram A", 48 * KiB,
+                            &error_fatal);
+@@ -111,7 +108,7 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+     }
+     sysbusdev = SYS_BUS_DEVICE(&s->emac);
+     sysbus_mmio_map(sysbusdev, 0, AW_A10_EMAC_BASE);
+-    sysbus_connect_irq(sysbusdev, 0, s->irq[55]);
++    sysbus_connect_irq(sysbusdev, 0, qdev_get_gpio_in(dev, 55));
+ 
+     object_property_set_bool(OBJECT(&s->sata), true, "realized", &err);
+     if (err) {
+@@ -119,10 +116,11 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->sata), 0, AW_A10_SATA_BASE);
+-    sysbus_connect_irq(SYS_BUS_DEVICE(&s->sata), 0, s->irq[56]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->sata), 0, qdev_get_gpio_in(dev, 56));
+ 
+     /* FIXME use a qdev chardev prop instead of serial_hd() */
+-    serial_mm_init(get_system_memory(), AW_A10_UART0_REG_BASE, 2, s->irq[1],
++    serial_mm_init(get_system_memory(), AW_A10_UART0_REG_BASE, 2,
++                   qdev_get_gpio_in(dev, 1),
+                    115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
+ }
+ 
 -- 
 2.20.1
 
