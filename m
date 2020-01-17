@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9EE4140C95
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:34:46 +0100 (CET)
-Received: from localhost ([::1]:58480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89F8140CA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:37:14 +0100 (CET)
+Received: from localhost ([::1]:58553 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isShx-0003FP-BL
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:34:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56561)
+	id 1isSkL-0006on-LK
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:37:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56582)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1isSbw-0006MF-HX
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:33 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1isSbx-0006OE-Se
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1isSbv-00076u-Bf
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:32 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44006)
+ (envelope-from <peter.maydell@linaro.org>) id 1isSbw-000780-IZ
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:33 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36723)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1isSbv-00075o-4t
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:31 -0500
-Received: by mail-wr1-x443.google.com with SMTP id d16so22922164wre.10
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:28:31 -0800 (PST)
+ id 1isSbw-00077G-CH
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:32 -0500
+Received: by mail-wm1-x341.google.com with SMTP id p17so7853860wma.1
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:28:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9ihMRZaqTi8wqlyYAIMxsLPUqHE0JADm0wdNtQRrCbs=;
- b=N0vaTMbWxUDE/fgqtC3RnZEDFQsCKZ/RXUH+WBhECfYTOtwGiLuEAxq2kp/8Y75X/C
- OhTHmk93ZLUTMXM6x3DGG8C/C6983ERmlNxt8wNeJuEi6oECBh3lO7pcoo7qdjlHEDmn
- WDtaHhXZLoqEFcxQ7FIwVXSEjWt2NvxNj4z7fZixg+HSe5a9Ecf9StaG9+AT3sxjK672
- ERZuhL/JdzBRKC7Iv5Yh5qjna+ZwLsUnP+yPPVnrw3PpU8utBjHE+FO81k2WLHGSHa+I
- DOBrakbFKreSVBJDA3eYHZohpmXJNU4P9Yq3yygqfv/tw+p2NMXa5kpWD7yVfg4aINJI
- HzCA==
+ bh=AaqDeBCgzc+sx2R4havB3j4EW9JA28b8FSR+NXh6Mrk=;
+ b=YEywvG5SHK9b0nUi6p+fpSDGpVxLtWFdrB0t6+SpKxPv0c3XDTGMIGf/0s6COk9sVu
+ FjO7is4LyhYDPZfigdaSI1x0ljJ7HwCPA+VaN/JHfKmAmZtcuDi5gcvSFxTXGnKiYhoS
+ moufayVlBQHongGC6PHOzWV1HBe5y76BNEJdQTnmc6RLwXK7GD5Vxu+MMXAEqMZHHf+Q
+ /B5MD8KJfIumlZI7KSgkw8rtTdbKolWvjrNvaqjvyTclwfGZZY/E7FOMQi+A+XlafKma
+ yCowPX+DUMoYQRhOKAcn3jcsyTisy+wKHeoJ113jXNMd/QeWlBDqSoLXUUjyim4gKM3b
+ 63qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9ihMRZaqTi8wqlyYAIMxsLPUqHE0JADm0wdNtQRrCbs=;
- b=WiBZRhP6csRaoAdnCRU5QLAfvXOQDflg8AMBhB2u1og9nu6RpTUmxzJVMWCA0pDWG5
- TYh1X9kzT7UsbkQ4u62JRzrQVtgfR4cDnG751ZoQz4CISfRVIx/BCQfGn14s8WmjTVi8
- JatLN2+1/MQJjZt5d5FfcPmUNO8yMjnN07/hkdF5IAJy05O7xWQ4V96qhbexUhAv40tl
- 8u6Z5+cwfJmn/FkUWL2ylXYIW9aCcRfIF0EWdCxQjAZY4xOUOFn6oD3z9MWqqmqSnTeK
- qBNHI17FjkbOnSo/Nx2Sa1tMkbgED0m0sjbckf5qEY+M86hBj9H+lH4fogUoIBvA3FLu
- 2TOA==
-X-Gm-Message-State: APjAAAXw2WAuVIM4WxMjJ5rXl6IS7vtaaniDw/k+qNa7IPhevxg1vJmc
- K3gKoml9hzOeCvy9kZMY+cFt/T8VvsmNUg==
-X-Google-Smtp-Source: APXvYqwv8nzOO3bkLkivAKXPKwe4Ue/J5QbihhHQ1dglM3GENIAeTlPDvllA/8/wwZyRVDofBNAcUA==
-X-Received: by 2002:adf:e2cf:: with SMTP id d15mr3381084wrj.225.1579271309878; 
- Fri, 17 Jan 2020 06:28:29 -0800 (PST)
+ bh=AaqDeBCgzc+sx2R4havB3j4EW9JA28b8FSR+NXh6Mrk=;
+ b=QasfQMQ43j/aXTQcnRHdtSmzEcjfrZ4D2rK7S4H/sUKVEHfe8fzfhBQKcJwe4V4PbK
+ qI3Y/sAAKUI7hVq08D4xgCAHJzf56Wmo5SxI475UyNE1DuMeJY9XzyDCvYg+ZZWTvhYr
+ eOE8NrCrOdX6FNNHR9HaLHx3kPmULXV49JmlDd/JZOLv4GNkfmuSfluNxrmVjvn+1SFt
+ K02gsOoTeJmC2vcqReOTGFC8KopB2jDesV3TyvUuqQJss15hjMwiIuyhWk1JbVpTOWYm
+ FjSZi2rhDIa8mNKap4hX8HozthQx7NLyEqfQxk6l/d0Xr3ugVPpqdMJpdjamkR2SCMMX
+ 7izQ==
+X-Gm-Message-State: APjAAAWqXQmz85H8bpeJnBqF1OMI3LRYez6N0uK5IIy9ohoKG1AEI4y3
+ HV7F55TteXDF5KXFWrhVfCnyuDLTpR3g0g==
+X-Google-Smtp-Source: APXvYqz24ekb1v9Wb+EgUWKRI01BKSNF8V66S+prW+An3r2ANcFzBl4IffJHkGYlfpe7O5zaH71u6g==
+X-Received: by 2002:a05:600c:2218:: with SMTP id
+ z24mr4864747wml.50.1579271310901; 
+ Fri, 17 Jan 2020 06:28:30 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id e18sm33811146wrw.70.2020.01.17.06.28.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jan 2020 06:28:29 -0800 (PST)
+ Fri, 17 Jan 2020 06:28:30 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/15] hw/arm/allwinner-a10: Remove local qemu_irq variables
-Date: Fri, 17 Jan 2020 14:28:10 +0000
-Message-Id: <20200117142816.15110-10-peter.maydell@linaro.org>
+Subject: [PULL 10/15] target/arm/arm-semi: fix SYS_OPEN to return nonzero
+ filehandle
+Date: Fri, 17 Jan 2020 14:28:11 +0000
+Message-Id: <20200117142816.15110-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200117142816.15110-1-peter.maydell@linaro.org>
 References: <20200117142816.15110-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,53 +83,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-We won't reuse the CPU IRQ/FIQ variables. Simplify by calling
-qdev_get_gpio_in() in place.
+According to the specification "Semihosting for AArch32 and Aarch64",
+the SYS_OPEN operation should return:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20191230110953.25496-6-f4bug@amsat.org
+ - A nonzero handle if the call is successful
+ - -1 if the call is not successful
+
+So, it should never return 0.
+
+Prior to commit 35e9a0a8ce4b ("target/arm/arm-semi: Make semihosting
+code hand out its own file descriptors"), the guest fd matched to the
+host fd. It returned a nonzero handle on success since the fd 0 is
+already used for stdin.
+
+Now that the guest fd is the index of guestfd_array, it starts from 0.
+
+I noticed this issue particularly because Trusted Firmware-A built with
+PLAT=qemu is no longer working. Its io_semihosting driver only handles
+a positive return value as a valid filehandle.
+
+Basically, there are two ways to fix this:
+
+  - Use (guestfd - 1) as the index of guestfs_arrary. We need to insert
+    increment/decrement to convert the guestfd and the array index back
+    and forth.
+
+  - Keep using guestfd as the index of guestfs_array. The first entry
+    of guestfs_array is left unused.
+
+I thought the latter is simpler. We end up with wasting a small piece
+of memory for the unused first entry of guestfd_array, but this is
+probably not a big deal.
+
+Fixes: 35e9a0a8ce4b ("target/arm/arm-semi: Make semihosting code hand out its own file descriptors")
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200109041228.10131-1-masahiroy@kernel.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/allwinner-a10.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ target/arm/arm-semi.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-index 966fbd4a6e5..1cde1656116 100644
---- a/hw/arm/allwinner-a10.c
-+++ b/hw/arm/allwinner-a10.c
-@@ -55,7 +55,6 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
- {
-     AwA10State *s = AW_A10(dev);
-     SysBusDevice *sysbusdev;
--    qemu_irq fiq, irq;
-     Error *err = NULL;
- 
-     object_property_set_bool(OBJECT(&s->cpu), true, "realized", &err);
-@@ -63,8 +62,6 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
-         error_propagate(errp, err);
-         return;
+diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+index 47d61f6fe1f..788fe61b51a 100644
+--- a/target/arm/arm-semi.c
++++ b/target/arm/arm-semi.c
+@@ -144,7 +144,8 @@ static int alloc_guestfd(void)
+         guestfd_array = g_array_new(FALSE, TRUE, sizeof(GuestFD));
      }
--    irq = qdev_get_gpio_in(DEVICE(&s->cpu), ARM_CPU_IRQ);
--    fiq = qdev_get_gpio_in(DEVICE(&s->cpu), ARM_CPU_FIQ);
  
-     object_property_set_bool(OBJECT(&s->intc), true, "realized", &err);
-     if (err != NULL) {
-@@ -73,8 +70,10 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+-    for (i = 0; i < guestfd_array->len; i++) {
++    /* SYS_OPEN should return nonzero handle on success. Start guestfd from 1 */
++    for (i = 1; i < guestfd_array->len; i++) {
+         GuestFD *gf = &g_array_index(guestfd_array, GuestFD, i);
+ 
+         if (gf->type == GuestFDUnused) {
+@@ -168,7 +169,7 @@ static GuestFD *do_get_guestfd(int guestfd)
+         return NULL;
      }
-     sysbusdev = SYS_BUS_DEVICE(&s->intc);
-     sysbus_mmio_map(sysbusdev, 0, AW_A10_PIC_REG_BASE);
--    sysbus_connect_irq(sysbusdev, 0, irq);
--    sysbus_connect_irq(sysbusdev, 1, fiq);
-+    sysbus_connect_irq(sysbusdev, 0,
-+                       qdev_get_gpio_in(DEVICE(&s->cpu), ARM_CPU_IRQ));
-+    sysbus_connect_irq(sysbusdev, 1,
-+                       qdev_get_gpio_in(DEVICE(&s->cpu), ARM_CPU_FIQ));
-     qdev_pass_gpios(DEVICE(&s->intc), dev, NULL);
  
-     object_property_set_bool(OBJECT(&s->timer), true, "realized", &err);
+-    if (guestfd < 0 || guestfd >= guestfd_array->len) {
++    if (guestfd <= 0 || guestfd >= guestfd_array->len) {
+         return NULL;
+     }
+ 
 -- 
 2.20.1
 
