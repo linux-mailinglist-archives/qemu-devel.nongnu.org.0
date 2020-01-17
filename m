@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91ABF140C84
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:30:40 +0100 (CET)
-Received: from localhost ([::1]:58402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10CD4140C89
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:31:49 +0100 (CET)
+Received: from localhost ([::1]:58420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isSdz-0007p8-6D
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:30:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56421)
+	id 1isSf5-0000Lu-Dv
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:31:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56434)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1isSbn-00066o-1A
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:24 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1isSbo-000694-DR
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1isSbl-0006wJ-HC
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:22 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44149)
+ (envelope-from <peter.maydell@linaro.org>) id 1isSbm-0006x4-DE
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:24 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35639)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1isSbl-0006vY-AU
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:21 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id q10so22909273wrm.11
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:28:21 -0800 (PST)
+ id 1isSbm-0006wG-5i
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:22 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id g17so22888091wro.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:28:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=HjJC86jDrpR4P0xOPBsqjBhSbqX1xtk2MoFgZHvUW8U=;
- b=PNJDmKih/6jItbaMEwLfR6A3CbxGxcRzYO89kU+B+pQq6sNmuzb+zjq4WKB4SpZ27v
- rJfMCloRcfBjY6akBRH/30httW/c7Pngc7jgAMTEELFAnJ+ts8FPYh3afua7NQBZA+84
- Ry2nHH0o8ciez2DogJ93XQRNRdRP+wEldjuQ3OQhYCfL4y2kzukL/kJvp4lv94kyU+A1
- McKDkNV9bcHJNe5nqLtmXms+q7yq+aA6rgKjcrLj6mJ9w01L1qVTjKgONGgFynCuU0WW
- tzN76w5py/ewM9OHNKnILyPp6qa+/6Q3CJCpJMs/9Tdy9JUS/mrqJ1zY23X1IAPqrNJK
- XOPg==
+ bh=8L/sHDFwo4i09g6Pvt2MPaZEFrZG+pe79PZn44UrRAE=;
+ b=y2CEbQ1rl5Sv3/aMvh2+VY8sLv7Soy7FKGra8YpxDq3IuBqzdK6fbWL53CPq5F8NqW
+ eAjyRLhqjrRv+j6eI3lHxqRtqi3FADqO6o52FZVVfbBbrFj7TulvJ+fZo0JYFuPpmWge
+ PWhQ9voO72s1BO/31cMV8d7Hyte5NEmodU4di69Q/Na+6SCuxUfz0YvNo33FRK9trFiQ
+ gsaevGWYFbcrvECDLpamOujkW5q3cxQXGnwG5xxHIUckRN15StBAbrg0TMU0jgFpVJVC
+ WMsVhge0CpR7gSa0YfVaB6MaixqmhRh4paKoufAXKrb9emePH7UvCIjCTfEkHa139LhN
+ Ycyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HjJC86jDrpR4P0xOPBsqjBhSbqX1xtk2MoFgZHvUW8U=;
- b=nJR6qn4OvKcWJ8C5+mP9tUB2T5U4wcaV7ewI+YhixvqMQbaiLMXtHYG8DqbeX6V/RK
- R++a6knTNR3reaqroZK2GMDc0dGVAZs+lBX297bSjJd8p83CvZC5TI1vwNT5YdnrZFH3
- 0VLuT7ipvcNJP2voiM27nKD9s1LPV3HqbkiQuvYiXqDLm4qg3UlxPcMBB2O2oHqkihz0
- AwGh8VOFBOsVmNGEeGrP8tAreDNF/PwNrvbouqJsZLzeZUzUUAZPgAkkTWfFkcu0mBms
- mzkXmO6s563hkglaYfeyj69CWNaihoQjAByN8n31MuGUhjX/46194rWT8r3TJLDx2l5Z
- TY6A==
-X-Gm-Message-State: APjAAAWi+ILA6Fpzx6+6fp4mqQ6b1g5Oj7Oh+1GfvJ47FedlWD+259W1
- ZCttSq8Ckx97ogjZmugJWfjh4d3EIv7OxA==
-X-Google-Smtp-Source: APXvYqyjJfktcdeIQOJxGkA5vxjheJ9IZvHPRgWMldl1ndlCHLJ2JGMz7/q3bm/cH26iS+nd+DD2qA==
-X-Received: by 2002:adf:fe12:: with SMTP id n18mr3602869wrr.158.1579271299402; 
- Fri, 17 Jan 2020 06:28:19 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8L/sHDFwo4i09g6Pvt2MPaZEFrZG+pe79PZn44UrRAE=;
+ b=P+IOQks9CuygD0tbpN2NAIJ5jSsox6eyp4z79bTIo06Z30ps5GNpR1gZJ9ypXtUDAF
+ gA0v8CpB90IYWWviDZcl1lHtthSlLyidp0DN6Aqkvkh8QkTTeHPYcAN0AF2GWJTocdz3
+ iYhII1B/KrDAUtgECDeIoumlvGQZ6y8Kh9ao4j4qIRkeneZjtmteAMaiJin7dIbOWQRU
+ 3ddpFVoQh+BTI9gWrYwOXOj4RTy+x/o2au7bKbQMA8A/GfEU/Qd3YN/we3U2rRJo0Upu
+ DoUnIVuKcIyU6uyx/aeHm6r15/lSuxZ+tySGYF2ErOdPtp+K5dNuf4XNhaXdXrTzE1Iw
+ 7H+w==
+X-Gm-Message-State: APjAAAX13QKjhSJj0R2mqMwPuuG7zIphJyRa/sKkjO771q0W+/MYXmYV
+ HZWcEqBod4lTPpMngyQSGZfpQ7diBu7NFA==
+X-Google-Smtp-Source: APXvYqyTgsnF2e3sfjXT1E0YtaI/+jAXTiFoMjsE3ekIMeyg8xa372pCsVFInE+d8bA/w3b29ezOaA==
+X-Received: by 2002:a5d:6408:: with SMTP id z8mr3361026wru.122.1579271300485; 
+ Fri, 17 Jan 2020 06:28:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e18sm33811146wrw.70.2020.01.17.06.28.18
+ by smtp.gmail.com with ESMTPSA id e18sm33811146wrw.70.2020.01.17.06.28.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jan 2020 06:28:18 -0800 (PST)
+ Fri, 17 Jan 2020 06:28:19 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/15] target-arm queue
-Date: Fri, 17 Jan 2020 14:28:01 +0000
-Message-Id: <20200117142816.15110-1-peter.maydell@linaro.org>
+Subject: [PULL 01/15] hw/misc: Add the STM32F4xx Sysconfig device
+Date: Fri, 17 Jan 2020 14:28:02 +0000
+Message-Id: <20200117142816.15110-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200117142816.15110-1-peter.maydell@linaro.org>
+References: <20200117142816.15110-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,95 +81,351 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Latest arm queue, a mixed bag of features and bug fixes.
+From: Alistair Francis <alistair@alistair23.me>
 
-thanks
--- PMM
-
-The following changes since commit cbf01142b2aef0c0b4e995cecd7e79d342bbc47e:
-
-  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20200115' into staging (2020-01-17 12:13:17 +0000)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200117-1
-
-for you to fetch changes up to 1a1fbc6cbb34c26d43d8360c66c1d21681af14a9:
-
-  target/arm: Set ISSIs16Bit in make_issinfo (2020-01-17 14:27:16 +0000)
-
-----------------------------------------------------------------
-Add model of the Netduino Plus 2 board
-Some allwinner-a10 code cleanup
-New test cases for cubieboard
-target/arm/arm-semi: fix SYS_OPEN to return nonzero filehandle
-i.MX: add an emulation for RNGC device
-target/arm: adjust program counter for wfi exception in AArch32
-arm/gicv3: update virtual irq state after IAR register read
-Set IL bit correctly for syndrome information for data aborts
-
-----------------------------------------------------------------
-Alistair Francis (4):
-      hw/misc: Add the STM32F4xx Sysconfig device
-      hw/misc: Add the STM32F4xx EXTI device
-      hw/arm: Add the STM32F4xx SoC
-      hw/arm: Add the Netduino Plus 2
-
-Jeff Kubascik (3):
-      target/arm: adjust program counter for wfi exception in AArch32
-      arm/gicv3: update virtual irq state after IAR register read
-      target/arm: Return correct IL bit in merge_syn_data_abort
-
-Martin Kaiser (1):
-      i.MX: add an emulation for RNGC
-
-Masahiro Yamada (1):
-      target/arm/arm-semi: fix SYS_OPEN to return nonzero filehandle
-
-Philippe Mathieu-Daudé (5):
-      tests/boot_linux_console: Add initrd test for the CubieBoard
-      tests/boot_linux_console: Add a SD card test for the CubieBoard
-      hw/arm/allwinner-a10: Move SoC definitions out of header
-      hw/arm/allwinner-a10: Simplify by passing IRQs with qdev_pass_gpios()
-      hw/arm/allwinner-a10: Remove local qemu_irq variables
-
-Richard Henderson (1):
-      target/arm: Set ISSIs16Bit in make_issinfo
-
- hw/arm/Makefile.objs                   |   2 +
- hw/misc/Makefile.objs                  |   3 +
- include/hw/arm/allwinner-a10.h         |   7 -
- include/hw/arm/fsl-imx25.h             |   5 +
- include/hw/arm/stm32f405_soc.h         |  73 ++++++++
- include/hw/misc/imx_rngc.h             |  35 ++++
- include/hw/misc/stm32f4xx_exti.h       |  60 +++++++
- include/hw/misc/stm32f4xx_syscfg.h     |  61 +++++++
- hw/arm/allwinner-a10.c                 |  39 +++--
- hw/arm/fsl-imx25.c                     |  11 ++
- hw/arm/netduinoplus2.c                 |  52 ++++++
- hw/arm/stm32f405_soc.c                 | 302 +++++++++++++++++++++++++++++++++
- hw/intc/arm_gicv3_cpuif.c              |   3 +
- hw/misc/imx_rngc.c                     | 278 ++++++++++++++++++++++++++++++
- hw/misc/stm32f4xx_exti.c               | 188 ++++++++++++++++++++
- hw/misc/stm32f4xx_syscfg.c             | 171 +++++++++++++++++++
- target/arm/arm-semi.c                  |   5 +-
- target/arm/op_helper.c                 |   7 +-
- target/arm/tlb_helper.c                |   2 +-
- target/arm/translate.c                 |   3 +
- MAINTAINERS                            |  14 ++
- default-configs/arm-softmmu.mak        |   1 +
- hw/arm/Kconfig                         |  10 ++
- hw/misc/Kconfig                        |   6 +
- hw/misc/trace-events                   |  11 ++
- tests/acceptance/boot_linux_console.py |  85 ++++++++++
- 26 files changed, 1405 insertions(+), 29 deletions(-)
- create mode 100644 include/hw/arm/stm32f405_soc.h
- create mode 100644 include/hw/misc/imx_rngc.h
- create mode 100644 include/hw/misc/stm32f4xx_exti.h
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 49b01423a09cef2ca832ff73a84a996568f1a8fc.1576658572.git.alistair@alistair23.me
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/misc/Makefile.objs              |   1 +
+ include/hw/misc/stm32f4xx_syscfg.h |  61 ++++++++++
+ hw/misc/stm32f4xx_syscfg.c         | 171 +++++++++++++++++++++++++++++
+ default-configs/arm-softmmu.mak    |   1 +
+ hw/arm/Kconfig                     |   9 ++
+ hw/misc/Kconfig                    |   3 +
+ hw/misc/trace-events               |   6 +
+ 7 files changed, 252 insertions(+)
  create mode 100644 include/hw/misc/stm32f4xx_syscfg.h
- create mode 100644 hw/arm/netduinoplus2.c
- create mode 100644 hw/arm/stm32f405_soc.c
- create mode 100644 hw/misc/imx_rngc.c
- create mode 100644 hw/misc/stm32f4xx_exti.c
  create mode 100644 hw/misc/stm32f4xx_syscfg.c
+
+diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+index ba898a5781a..ea8025e0bb1 100644
+--- a/hw/misc/Makefile.objs
++++ b/hw/misc/Makefile.objs
+@@ -58,6 +58,7 @@ common-obj-$(CONFIG_SLAVIO) += slavio_misc.o
+ common-obj-$(CONFIG_ZYNQ) += zynq_slcr.o
+ common-obj-$(CONFIG_ZYNQ) += zynq-xadc.o
+ common-obj-$(CONFIG_STM32F2XX_SYSCFG) += stm32f2xx_syscfg.o
++common-obj-$(CONFIG_STM32F4XX_SYSCFG) += stm32f4xx_syscfg.o
+ obj-$(CONFIG_MIPS_CPS) += mips_cmgcr.o
+ obj-$(CONFIG_MIPS_CPS) += mips_cpc.o
+ obj-$(CONFIG_MIPS_ITU) += mips_itu.o
+diff --git a/include/hw/misc/stm32f4xx_syscfg.h b/include/hw/misc/stm32f4xx_syscfg.h
+new file mode 100644
+index 00000000000..c62c6629e54
+--- /dev/null
++++ b/include/hw/misc/stm32f4xx_syscfg.h
+@@ -0,0 +1,61 @@
++/*
++ * STM32F4xx SYSCFG
++ *
++ * Copyright (c) 2014 Alistair Francis <alistair@alistair23.me>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifndef HW_STM_SYSCFG_H
++#define HW_STM_SYSCFG_H
++
++#include "hw/sysbus.h"
++#include "hw/hw.h"
++
++#define SYSCFG_MEMRMP  0x00
++#define SYSCFG_PMC     0x04
++#define SYSCFG_EXTICR1 0x08
++#define SYSCFG_EXTICR2 0x0C
++#define SYSCFG_EXTICR3 0x10
++#define SYSCFG_EXTICR4 0x14
++#define SYSCFG_CMPCR   0x20
++
++#define TYPE_STM32F4XX_SYSCFG "stm32f4xx-syscfg"
++#define STM32F4XX_SYSCFG(obj) \
++    OBJECT_CHECK(STM32F4xxSyscfgState, (obj), TYPE_STM32F4XX_SYSCFG)
++
++#define SYSCFG_NUM_EXTICR 4
++
++typedef struct {
++    /* <private> */
++    SysBusDevice parent_obj;
++
++    /* <public> */
++    MemoryRegion mmio;
++
++    uint32_t syscfg_memrmp;
++    uint32_t syscfg_pmc;
++    uint32_t syscfg_exticr[SYSCFG_NUM_EXTICR];
++    uint32_t syscfg_cmpcr;
++
++    qemu_irq irq;
++    qemu_irq gpio_out[16];
++} STM32F4xxSyscfgState;
++
++#endif
+diff --git a/hw/misc/stm32f4xx_syscfg.c b/hw/misc/stm32f4xx_syscfg.c
+new file mode 100644
+index 00000000000..dbcdca59f8e
+--- /dev/null
++++ b/hw/misc/stm32f4xx_syscfg.c
+@@ -0,0 +1,171 @@
++/*
++ * STM32F4xx SYSCFG
++ *
++ * Copyright (c) 2014 Alistair Francis <alistair@alistair23.me>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "trace.h"
++#include "hw/irq.h"
++#include "migration/vmstate.h"
++#include "hw/misc/stm32f4xx_syscfg.h"
++
++static void stm32f4xx_syscfg_reset(DeviceState *dev)
++{
++    STM32F4xxSyscfgState *s = STM32F4XX_SYSCFG(dev);
++
++    s->syscfg_memrmp = 0x00000000;
++    s->syscfg_pmc = 0x00000000;
++    s->syscfg_exticr[0] = 0x00000000;
++    s->syscfg_exticr[1] = 0x00000000;
++    s->syscfg_exticr[2] = 0x00000000;
++    s->syscfg_exticr[3] = 0x00000000;
++    s->syscfg_cmpcr = 0x00000000;
++}
++
++static void stm32f4xx_syscfg_set_irq(void *opaque, int irq, int level)
++{
++    STM32F4xxSyscfgState *s = opaque;
++    int icrreg = irq / 4;
++    int startbit = (irq & 3) * 4;
++    uint8_t config = config = irq / 16;
++
++    trace_stm32f4xx_syscfg_set_irq(irq / 16, irq % 16, level);
++
++    g_assert(icrreg < SYSCFG_NUM_EXTICR);
++
++    if (extract32(s->syscfg_exticr[icrreg], startbit, 4) == config) {
++        qemu_set_irq(s->gpio_out[irq], level);
++        trace_stm32f4xx_pulse_exti(irq);
++   }
++}
++
++static uint64_t stm32f4xx_syscfg_read(void *opaque, hwaddr addr,
++                                     unsigned int size)
++{
++    STM32F4xxSyscfgState *s = opaque;
++
++    trace_stm32f4xx_syscfg_read(addr);
++
++    switch (addr) {
++    case SYSCFG_MEMRMP:
++        return s->syscfg_memrmp;
++    case SYSCFG_PMC:
++        return s->syscfg_pmc;
++    case SYSCFG_EXTICR1...SYSCFG_EXTICR4:
++        return s->syscfg_exticr[addr / 4 - SYSCFG_EXTICR1 / 4];
++    case SYSCFG_CMPCR:
++        return s->syscfg_cmpcr;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad offset 0x%"HWADDR_PRIx"\n", __func__, addr);
++        return 0;
++    }
++}
++
++static void stm32f4xx_syscfg_write(void *opaque, hwaddr addr,
++                       uint64_t val64, unsigned int size)
++{
++    STM32F4xxSyscfgState *s = opaque;
++    uint32_t value = val64;
++
++    trace_stm32f4xx_syscfg_write(value, addr);
++
++    switch (addr) {
++    case SYSCFG_MEMRMP:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: Changing the memory mapping isn't supported " \
++                      "in QEMU\n", __func__);
++        return;
++    case SYSCFG_PMC:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: Changing the memory mapping isn't supported " \
++                      "in QEMU\n", __func__);
++        return;
++    case SYSCFG_EXTICR1...SYSCFG_EXTICR4:
++        s->syscfg_exticr[addr / 4 - SYSCFG_EXTICR1 / 4] = (value & 0xFFFF);
++        return;
++    case SYSCFG_CMPCR:
++        s->syscfg_cmpcr = value;
++        return;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad offset 0x%"HWADDR_PRIx"\n", __func__, addr);
++    }
++}
++
++static const MemoryRegionOps stm32f4xx_syscfg_ops = {
++    .read = stm32f4xx_syscfg_read,
++    .write = stm32f4xx_syscfg_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static void stm32f4xx_syscfg_init(Object *obj)
++{
++    STM32F4xxSyscfgState *s = STM32F4XX_SYSCFG(obj);
++
++    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq);
++
++    memory_region_init_io(&s->mmio, obj, &stm32f4xx_syscfg_ops, s,
++                          TYPE_STM32F4XX_SYSCFG, 0x400);
++    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
++
++    qdev_init_gpio_in(DEVICE(obj), stm32f4xx_syscfg_set_irq, 16 * 9);
++    qdev_init_gpio_out(DEVICE(obj), s->gpio_out, 16);
++}
++
++static const VMStateDescription vmstate_stm32f4xx_syscfg = {
++    .name = TYPE_STM32F4XX_SYSCFG,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(syscfg_memrmp, STM32F4xxSyscfgState),
++        VMSTATE_UINT32(syscfg_pmc, STM32F4xxSyscfgState),
++        VMSTATE_UINT32_ARRAY(syscfg_exticr, STM32F4xxSyscfgState,
++                             SYSCFG_NUM_EXTICR),
++        VMSTATE_UINT32(syscfg_cmpcr, STM32F4xxSyscfgState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void stm32f4xx_syscfg_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->reset = stm32f4xx_syscfg_reset;
++    dc->vmsd = &vmstate_stm32f4xx_syscfg;
++}
++
++static const TypeInfo stm32f4xx_syscfg_info = {
++    .name          = TYPE_STM32F4XX_SYSCFG,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(STM32F4xxSyscfgState),
++    .instance_init = stm32f4xx_syscfg_init,
++    .class_init    = stm32f4xx_syscfg_class_init,
++};
++
++static void stm32f4xx_syscfg_register_types(void)
++{
++    type_register_static(&stm32f4xx_syscfg_info);
++}
++
++type_init(stm32f4xx_syscfg_register_types)
+diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmmu.mak
+index 1f2e0e7fdeb..645e6201bb5 100644
+--- a/default-configs/arm-softmmu.mak
++++ b/default-configs/arm-softmmu.mak
+@@ -30,6 +30,7 @@ CONFIG_Z2=y
+ CONFIG_COLLIE=y
+ CONFIG_ASPEED_SOC=y
+ CONFIG_NETDUINO2=y
++CONFIG_NETDUINOPLUS2=y
+ CONFIG_MPS2=y
+ CONFIG_RASPI=y
+ CONFIG_DIGIC=y
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index c6e77825803..4660d147156 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -101,6 +101,10 @@ config NETDUINO2
+     bool
+     select STM32F205_SOC
+ 
++config NETDUINOPLUS2
++    bool
++    select STM32F405_SOC
++
+ config NSERIES
+     bool
+     select OMAP
+@@ -307,6 +311,11 @@ config STM32F205_SOC
+     select STM32F2XX_ADC
+     select STM32F2XX_SPI
+ 
++config STM32F405_SOC
++    bool
++    select ARM_V7M
++    select STM32F4XX_SYSCFG
++
+ config XLNX_ZYNQMP_ARM
+     bool
+     select AHCI
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 2164646553a..72609650b7a 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -82,6 +82,9 @@ config IMX
+ config STM32F2XX_SYSCFG
+     bool
+ 
++config STM32F4XX_SYSCFG
++    bool
++
+ config MIPS_ITU
+     bool
+ 
+diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+index 2e0c8208349..44b4f72f57f 100644
+--- a/hw/misc/trace-events
++++ b/hw/misc/trace-events
+@@ -84,6 +84,12 @@ mos6522_set_sr_int(void) "set sr_int"
+ mos6522_write(uint64_t addr, uint64_t val) "reg=0x%"PRIx64 " val=0x%"PRIx64
+ mos6522_read(uint64_t addr, unsigned val) "reg=0x%"PRIx64 " val=0x%x"
+ 
++# stm32f4xx_syscfg
++stm32f4xx_syscfg_set_irq(int gpio, int line, int level) "Interupt: GPIO: %d, Line: %d; Level: %d"
++stm32f4xx_pulse_exti(int irq) "Pulse EXTI: %d"
++stm32f4xx_syscfg_read(uint64_t addr) "reg read: addr: 0x%" PRIx64 " "
++stm32f4xx_syscfg_write(uint64_t addr, uint64_t data) "reg write: addr: 0x%" PRIx64 " val: 0x%" PRIx64 ""
++
+ # tz-mpc.c
+ tz_mpc_reg_read(uint32_t offset, uint64_t data, unsigned size) "TZ MPC regs read: offset 0x%x data 0x%" PRIx64 " size %u"
+ tz_mpc_reg_write(uint32_t offset, uint64_t data, unsigned size) "TZ MPC regs write: offset 0x%x data 0x%" PRIx64 " size %u"
+-- 
+2.20.1
+
 
