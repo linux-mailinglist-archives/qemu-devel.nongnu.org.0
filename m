@@ -2,89 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51671140415
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 07:43:19 +0100 (CET)
-Received: from localhost ([::1]:53086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7606D140432
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 08:02:09 +0100 (CET)
+Received: from localhost ([::1]:53198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isLLi-00074t-EL
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 01:43:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54011)
+	id 1isLdw-0007Sk-6r
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 02:02:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55892)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1isLKx-0006D0-4I
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 01:42:32 -0500
+ (envelope-from <bounces@canonical.com>) id 1isLcj-0006YR-TQ
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 02:00:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1isLKw-0004Pc-5p
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 01:42:31 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37256
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isLKw-0004P2-2E
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 01:42:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579243349;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cNh2iarTwW04r8WJLvqFdZ+tBa2yksb3g9CA+7+7gQ0=;
- b=Iudx1DaOzrvpAea5acdIxE4DrgQ+EYmSPwYfx7LgLKgEo5bRIPhJBUYwqbkNFYz1wkn08L
- o6xkKfeTzvf93V2M9pVCh1o1gAVUkhFqpOeCX8T8BEHY/CsFwpEePCC1SvRQbcROHyjN+5
- BlGxglrvxGsD6UJYhKu0/6uA8drUw/0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-bjdK7SCoMECbABKVa3ap5A-1; Fri, 17 Jan 2020 01:42:28 -0500
-Received: by mail-wr1-f69.google.com with SMTP id 90so10092440wrq.6
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 22:42:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+dEQQPJi6po0tnmAODXwZodY93cxaCQNnaOzieI1y7w=;
- b=cYlkfgGraG1h8E8oIiau7Pi3YLolLWAzhVlL+IK19rGDDcSULrVd/y90CBNjch/Z0s
- EBiikuNk3i1By7PBQOBfIT559dDSGqen5GIrOdMEdmTqvtqVcKn4cMw2zq5Sx90wZe8R
- smIYcdwoVHDlWBxNbYyiYq8E+04szn8YgYueKp82Zi/TdYlo/yajVAjvTuYesLWHfmGW
- CbVVeHLDC5PXnvUGTMvHTT5COBmmKr9MJYKUGMmX/nlbdAETk6FUE4/v207nsdPxesm5
- 40f+ywqnnJJic5VykDGVMkV+u8tlR48rcDlFNYlAm9tOUnHbmLQkQsag7c5Ydu+kVsMV
- Rifw==
-X-Gm-Message-State: APjAAAXOjtiZ2oC12yUXvbsexkqXOI7nswEbHdxTKxaB8fq7mx7w1fN7
- IRzEzS2kmuoHDMStvXD+uGCAKrpHC2K8dO8cytTanA9nBtr6TJR22Rm4qEOWolUZGgGQjg+/b9C
- nk+KQX7CpAg4Y9yg=
-X-Received: by 2002:a5d:4a91:: with SMTP id o17mr1281748wrq.232.1579243345678; 
- Thu, 16 Jan 2020 22:42:25 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxHsz2C4fmT4EQWNmNVs8RQZu+oInSCVjhotLbabQhRYQu06mV6ceXEDOCmLbSfMCWqD8nwGg==
-X-Received: by 2002:a5d:4a91:: with SMTP id o17mr1281725wrq.232.1579243345418; 
- Thu, 16 Jan 2020 22:42:25 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id b18sm33015548wru.50.2020.01.16.22.42.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jan 2020 22:42:24 -0800 (PST)
-Subject: Re: [PATCH 2/4] tests/tcg/aarch64: Fix compilation parameters for
- pauth-%
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200116230809.19078-1-richard.henderson@linaro.org>
- <20200116230809.19078-3-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <cbc8fdd9-ddc8-641d-2614-380ffab5d10f@redhat.com>
-Date: Fri, 17 Jan 2020 07:42:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <bounces@canonical.com>) id 1isLcd-0004Xt-L2
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 02:00:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37536)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1isLcd-0004X9-FE
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 02:00:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1isLcc-0002ds-AN
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 07:00:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 48B722E80C0
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 07:00:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200116230809.19078-3-richard.henderson@linaro.org>
-Content-Language: en-US
-X-MC-Unique: bjdK7SCoMECbABKVa3ap5A-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 17 Jan 2020 06:46:01 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1860053@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: patrickmeiring
+X-Launchpad-Bug-Reporter: Patrick Meiring (patrickmeiring)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <157921754479.22473.5594149461755090250.malonedeb@gac.canonical.com>
+Message-Id: <157924356233.4940.5683793718485548578.launchpad@soybean.canonical.com>
+Subject: [Bug 1860053] Re: Possible lack of precision when calling
+ clock_gettime via vDSO on user mode ppc64le
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1c4c9d3c3f731500f8c1857b917fe457a9d2d6d8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,64 +68,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, vincent.dehors@smile.fr, alex.bennee@linaro.org,
- adrien.grassein@smile.fr
+Reply-To: Bug 1860053 <1860053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/17/20 12:08 AM, Richard Henderson wrote:
-> Hiding the required architecture within asm() is not correct.
-> Add it to the cflags of the (cross-) compiler.
->=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tests/tcg/aarch64/pauth-1.c       | 2 --
->   tests/tcg/aarch64/pauth-2.c       | 2 --
->   tests/tcg/aarch64/Makefile.target | 1 +
->   3 files changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git a/tests/tcg/aarch64/pauth-1.c b/tests/tcg/aarch64/pauth-1.c
-> index a3c1443cd0..ea0984ea82 100644
-> --- a/tests/tcg/aarch64/pauth-1.c
-> +++ b/tests/tcg/aarch64/pauth-1.c
-> @@ -2,8 +2,6 @@
->   #include <sys/prctl.h>
->   #include <stdio.h>
->  =20
-> -asm(".arch armv8.4-a");
-> -
->   #ifndef PR_PAC_RESET_KEYS
->   #define PR_PAC_RESET_KEYS  54
->   #define PR_PAC_APDAKEY     (1 << 2)
-> diff --git a/tests/tcg/aarch64/pauth-2.c b/tests/tcg/aarch64/pauth-2.c
-> index 2fe030ba3d..9bba0beb63 100644
-> --- a/tests/tcg/aarch64/pauth-2.c
-> +++ b/tests/tcg/aarch64/pauth-2.c
-> @@ -1,8 +1,6 @@
->   #include <stdint.h>
->   #include <assert.h>
->  =20
-> -asm(".arch armv8.4-a");
-> -
->   void do_test(uint64_t value)
->   {
->       uint64_t salt1, salt2;
-> diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefi=
-le.target
-> index df3fe8032c..374c8d6830 100644
-> --- a/tests/tcg/aarch64/Makefile.target
-> +++ b/tests/tcg/aarch64/Makefile.target
-> @@ -20,6 +20,7 @@ run-fcvt: fcvt
->   # Pauth Tests
->   AARCH64_TESTS +=3D pauth-1 pauth-2
->   run-pauth-%: QEMU_OPTS +=3D -cpu max
-> +pauth-%: CFLAGS +=3D -march=3Darmv8.3-a
+** Tags added: linux-user ppc
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+-- =
 
->  =20
->   # Semihosting smoke test for linux-user
->   AARCH64_TESTS +=3D semihosting
->=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1860053
 
+Title:
+  Possible lack of precision when calling clock_gettime via vDSO on user
+  mode ppc64le
+
+Status in QEMU:
+  New
+
+Bug description:
+  Occurs on QEMU v4.2.0 run on docker (via the qemu-user-static:v4.2.0-2
+  image) on an AMD64 Ubuntu 18.04.3 LTS machine provided by travis-
+  ci.org.
+
+  From golang's https://github.com/golang/go/issues/36592:
+
+  It was discovered that golang's time.NewTicker() and time.Sleep()
+  malfunction when a compiled application was run via QEMU's ppc64le
+  emulator in user mode.
+
+  The methods did not malfunction on actual PowerPC hardware or when the
+  same golang application was compiled for golang's arm, arm64 or 386
+  targets and was run via user mode QEMU on the same system.
+
+  Curiously, the methods also worked when the program was compiled under
+  go 1.11, but do malfunction in go 1.12 and 1.13.
+
+  It was identified the change in behaviour was most likely attributable to=
+ golang switching to using vSDO for calling clock_gettime() on PowerPC 64 a=
+rchitectures in 1.12. I.E:
+  https://github.com/golang/go/commit/dbd8af74723d2c98cbdcc70f7e2801f69b57a=
+c5b
+
+  We therefore suspect there may be a bug in QEMU's user-mode emulation
+  of ppc64le as relates to vDSO calls to clock_gettime().
+
+  The nature of the malfunction of time.NewTicker() and time.Sleep() is
+  such that sleeps or ticks with a granularity of less than one second
+  do not appear to be possible (they all revert to 1 second
+  sleeps/ticks). Could it be that the nanoseconds field of
+  clock_gettime() is getting lost in the vDSO version but not in the
+  syscall? Or some other issue calling these methods via vDSO?
+
+  Thanks in advance.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1860053/+subscriptions
 
