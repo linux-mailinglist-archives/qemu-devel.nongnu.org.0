@@ -2,61 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CA71408D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 12:22:08 +0100 (CET)
-Received: from localhost ([::1]:55658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C901408AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 12:12:33 +0100 (CET)
+Received: from localhost ([::1]:55530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isPhW-0001vl-W9
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 06:22:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33908)
+	id 1isPYG-0003hl-2v
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 06:12:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60442)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1isPgK-0001Dd-I2
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:20:56 -0500
+ (envelope-from <kwolf@redhat.com>) id 1isPUr-0007u8-8g
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:09:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1isPgG-0004qo-KU
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:20:52 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49798)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1isPgG-0004qB-Ex
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:20:48 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1isPgE-0006Ut-N7
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 11:20:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A7A832E80BA
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 11:20:46 +0000 (UTC)
+ (envelope-from <kwolf@redhat.com>) id 1isPUn-0004CQ-JB
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:09:01 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35891
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1isPUn-0004C8-F5
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:08:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579259337;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X/1VLxblv7R4MFqqFxBQsFWc/H32sXM1IgiOnHxXYR0=;
+ b=D0L0lvW0f8rgUoXvC3wSBNF59pbljD2NQHHfgZoZTDmc0HmNi+J5Y1FGLVz4kJx1lFvyDt
+ kmLJeOv+Cmi25oCci7erOKzfW7t7z6n7eWxZS7jLvyy2FOlPJqaB+tJLtHAeB1Us1AFkc1
+ EMaQOmBbRlJU0CS/gJ80gl8AhxRAJZs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-414-xJLP27KpNtC8qJctXN_nXA-1; Fri, 17 Jan 2020 06:08:55 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4287C190B2A0;
+ Fri, 17 Jan 2020 11:08:54 +0000 (UTC)
+Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E0AA360C87;
+ Fri, 17 Jan 2020 11:08:50 +0000 (UTC)
+Date: Fri, 17 Jan 2020 12:08:49 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 1/4] qapi: Add a 'coroutine' flag for commands
+Message-ID: <20200117110849.GD7394@dhcp-200-226.str.redhat.com>
+References: <20200115122326.26393-1-kwolf@redhat.com>
+ <20200115122326.26393-2-kwolf@redhat.com>
+ <875zhc9360.fsf@dusky.pond.sub.org>
+ <20200115155850.GG5505@linux.fritz.box>
+ <871rrzy2sg.fsf@dusky.pond.sub.org>
+ <20200116150214.GH9470@linux.fritz.box>
+ <87o8v2o6r2.fsf@dusky.pond.sub.org>
+ <20200117094050.GA7394@dhcp-200-226.str.redhat.com>
+ <8736cemkh4.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <8736cemkh4.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: xJLP27KpNtC8qJctXN_nXA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 Jan 2020 11:08:09 -0000
-From: Max Reitz <1859989@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 5-plamen xanclic
-X-Launchpad-Bug-Reporter: pevogam (5-plamen)
-X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
-References: <157918316689.4864.12553262908100217782.malonedeb@wampee.canonical.com>
-Message-Id: <157925928974.4144.4979931538166834820.malone@soybean.canonical.com>
-Subject: [Bug 1859989] Re: qemu-img has broken output with large snapshot names
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5164688bf1ed64f522d85c1d0a5269ddc875e880
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,41 +82,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859989 <1859989@bugs.launchpad.net>
+Cc: qemu-block@nongnu.org, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sent a patch: https://lists.nongnu.org/archive/html/qemu-
-block/2020-01/msg00376.html
+Am 17.01.2020 um 11:43 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+>=20
+> > Am 17.01.2020 um 08:57 hat Markus Armbruster geschrieben:
+> >> Kevin Wolf <kwolf@redhat.com> writes:
+> >>=20
+> >> > Am 16.01.2020 um 14:00 hat Markus Armbruster geschrieben:
+> >> >> Kevin Wolf <kwolf@redhat.com> writes:
+> >> >> > I have no idea if we will eventually get a case where the command=
+ wants
+> >> >> > to behave different between the two modes and actually has use fo=
+r a
+> >> >> > coroutine. I hope not.
+> >> >> >
+> >> >> > But using two bools rather than a single enum keeps the code simp=
+le and
+> >> >> > leaves us all options open if it turns out that we do have a use =
+case.
+> >> >>=20
+> >> >> I can buy the argument "the two are conceptually orthogonal, althou=
+gh we
+> >> >> don't haven't found a use for one of the four cases".
+> >> >>=20
+> >> >> Let's review the four combinations of the two flags once more:
+> >> >>=20
+> >> >> * allow-oob: false, coroutine: false
+> >> >>=20
+> >> >>   Handler runs in main loop, outside coroutine context.  Okay.
+> >> >>=20
+> >> >> * allow-oob: false, coroutine: true
+> >> >>=20
+> >> >>   Handler runs in main loop, in coroutine context.  Okay.
+> >> >>=20
+> >> >> * allow-oob: true, coroutine: false
+> >> >>=20
+> >> >>   Handler may run in main loop or in iothread, outside coroutine
+> >> >>   context.  Okay.
+> >> >>=20
+> >> >> * allow-oob: true, coroutine: true
+> >> >>=20
+> >> >>   Handler may run (in main loop, in coroutine context) or (in iothr=
+ead,
+> >> >>   outside coroutine context).  This "in coroutine context only with
+> >> >>   execute, not with exec-oob" behavior is a bit surprising.
+> >> >>=20
+> >> >>   We could document it, noting that it may change to always run in
+> >> >>   coroutine context.  Or we simply reject this case as "not
+> >> >>   implemented".  Since we have no uses, I'm leaning towards reject.=
+  One
+> >> >>   fewer case to test then.
+> >> >
+> >> > What would be the right mode of rejecting it?
+> >> >
+> >> > I assume we should catch it somewhere in the QAPI generator (where?)=
+ and
+> >>=20
+> >> check_flags() in expr.py?
+> >
+> > Looks like the right place, thanks.
+> >
+> >> > then just assert in the C code that both flags aren't set at the sam=
+e
+> >> > time?
+> >>=20
+> >> I think you already do, in do_qmp_dispatch():
+> >>=20
+> >>     assert(!(oob && qemu_in_coroutine()));
+> >>=20
+> >> Not sure that's the best spot.  Let's see when I review PATCH 3.
+> >
+> > This asserts that exec-oob handlers aren't executed in coroutine
+> > context. It doesn't assert that the handler doesn't have QCO_COROUTINE
+> > and QCO_ALLOW_OOB set at the same time.
+>=20
+> Asserting this explicitly can't hurt.  qmp_register_command()?
 
--- =
+Yes, that's where I put it.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859989
+> >> >> >> > @@ -194,8 +195,9 @@ out:
+> >> >> >> >      return ret
+> >> >> >> > =20
+> >> >> >> > =20
+> >> >> >> > -def gen_register_command(name, success_response, allow_oob, a=
+llow_preconfig):
+> >> >> >> > -    options =3D []
+> >> >> >> > +def gen_register_command(name: str, success_response: bool, a=
+llow_oob: bool,
+> >> >> >> > +                         allow_preconfig: bool, coroutine: bo=
+ol) -> str:
+> >> >> >> > +    options =3D [] # type: List[str]
+> >> >>=20
+> >> >> One more: this is a PEP 484 type hint.  With Python 3, we can use P=
+EP
+> >> >> 526 instead:
+> >> >>=20
+> >> >>           options: List[str] =3D []
+> >> >>=20
+> >> >> I think we should.
+> >> >
+> >> > This requires Python 3.6, unfortunately. The minimum requirement for
+> >> > building QEMU is 3.5.
+> >>=20
+> >> *Sigh*
+> >
+> > One of the reasons why I would have preferred 3.6 as the minimum, but
+> > our policy says that Debian oldstabe is still relevant for another two
+> > years. *shrug*
+>=20
+> 3.5 EOL is scheduled for 2020-09-13.
+> https://devguide.python.org/#status-of-python-branches
+>=20
+> Whether Debian can support it beyond that date seems doubtful.
 
-Title:
-  qemu-img has broken output with large snapshot names
+You may doubt the quality of their support, but I think it's even more
+doubtful that they'll do a version upgrade in oldstable.
 
-Status in QEMU:
-  New
+> For another reason to want 3.6, see
+> [PATCH] qapi: Fix code generation with Python 3.5
+> Message-Id: <20200116202558.31473-1-armbru@redhat.com>
 
-Bug description:
-  On Qemu 4.1.1 the output of snapshots breaks if the chosen state name
-  is too long:
+The release notes for 3.6 call this an implementation detail that you
+shouldn't rely on. However, 3.7 guarantees the order, so I guess we can
+effectively rely on it starting from 3.6.
 
-  ```
-  # qemu-img snapshot -l /mnt/local/some_image.qcow2
-  Snapshot list:
-  ID        TAG                 VM SIZE                DATE       VM CLOCK
-  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
-.873
-  ```
+Kevin
 
-  Prior to 4.1.1 this used to work with extra tabs for the VM SIZE
-  values. The collision is also disabling us from using a regex on top
-  of this output to detect the snapshot.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859989/+subscriptions
 
