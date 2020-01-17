@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1ECA140C88
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:31:03 +0100 (CET)
-Received: from localhost ([::1]:58410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA27140CB2
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:39:03 +0100 (CET)
+Received: from localhost ([::1]:58588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isSeL-00086d-R1
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:31:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56513)
+	id 1isSm6-00013Q-4q
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:39:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56526)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1isSbt-0006Hf-TE
+ (envelope-from <peter.maydell@linaro.org>) id 1isSbu-0006Io-I7
  for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1isSbs-00073d-B7
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:29 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38527)
+ (envelope-from <peter.maydell@linaro.org>) id 1isSbt-00074y-BG
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:30 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46884)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1isSbs-00072x-2m
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:28 -0500
-Received: by mail-wr1-x432.google.com with SMTP id y17so22924112wrh.5
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:28:27 -0800 (PST)
+ id 1isSbt-000747-59
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:29 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id z7so22863831wrl.13
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:28:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=UIJjBBrcEssCJUvEirLVLBLNjRWDmjlxVAfKAEb3+ko=;
- b=ONlRKys3HFHCKhWX6oeBUJHN5I0VGkP31+9wB01e6rx7H2DMJhPuoS3fVdjl03URzk
- 9dQf4V95ZothMFpJRgG53820RlYJxsfE5D4fmg86b+5N9iT7ZOWHDelrguQEQxtw/0bl
- +f9Rk70R3sRlytHVJA7umHAXHevkWHE/X15SjLkZikspeitOdtnK1tslJWKWjI90wAnV
- QFq5SPOnBx9R83Cs7av37VyKaf4y7P0blClyxdNR0hr0+9iV36DibEqh/XUW/VLva6Ji
- dBk64KaacXxLjjjeRDXCbce0B++KYHpq7Iz+yvN3CU1AfCQqDw9GQdwLohGPA7hNYUAZ
- UxTw==
+ bh=yAXStqvSo75J+RhFz6OTyKrPT64wS5FAux7gYRx0+CQ=;
+ b=ZsC0beMfjQld6iTNEYAfF8YBq+Xlb5u843+eo3HMe4lSTqUrcud3L1/kBLQ/IP4GH4
+ NznG4kHxSp3CDK2dfl1uytDuqXAKfqxvp8HakADQ9AbobC+YLIitxbVhrlrT+/G0fCjj
+ JZIwaoZrpJGv9FoJkpVVCL/UiB35lA9Yf43A+kJIPEx5so6+w1wPaRztB5pLubg3YPTJ
+ tL1SzRKZsHUQN8O+z/1s8n2Cszxf4A0tMkkIC9b53ZDStZjxaSYxkFOKgFHqTu23te8c
+ OWlt/kBEepzVUKc9OtNxdwpvoPGIeqHV2iMu6XSe4B2J7BpjYFJMtOoK8TbCtN6WKNWG
+ uh0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UIJjBBrcEssCJUvEirLVLBLNjRWDmjlxVAfKAEb3+ko=;
- b=Lz3tB3hluoJcHXUMEh+mF75O093NdDbG4HFiz5XgdJJrxeju4qtb3oD/v2pWVKutkM
- aW6WqyiNyIl7YCi6Wsb4eheeyfPavQr/DyCAGYqwKZvgD7jovqzwxdLd8jqIoIogLZuG
- NfVNGXeGnbICA5b1VbOBGWdPU2RExxZu81WEuFuX77H4LXoCruzEBkeNvZglJ27Lkuax
- xK4ITOxi8soRAQ4DK95BxOomjE257RDnCoEuKYrvkbAUB/FhK8fO5rH1v0C1/FJ2CaRW
- 1/Cryjkoc5oX2mwuO+TuDSJa6F3+GzVf0oRNOtDphD7lo0lEYb3cISQnIV3Y94qGdqI8
- 1lVA==
-X-Gm-Message-State: APjAAAVYEaiIarV2Kae5bfjgyFAt/mNOyD2l+cn83izMZEp9OyCE0aJ3
- UE2hMWE3KVVyaXFnWgZQQe7pP98nW2QN6w==
-X-Google-Smtp-Source: APXvYqyGw4XMZrozlx5SAwk3XyMZtH9DdY09VDOKWkeumXr1HXg8wXWUANs0iWZvd3NM/lK2bCYrnw==
-X-Received: by 2002:adf:cf12:: with SMTP id o18mr3361926wrj.361.1579271306700; 
- Fri, 17 Jan 2020 06:28:26 -0800 (PST)
+ bh=yAXStqvSo75J+RhFz6OTyKrPT64wS5FAux7gYRx0+CQ=;
+ b=JgbX7zh5GQvOE913E1F4PCv599nKjUq4axKfCq1nlwsaBC21p/c4L+ZOEmLW+Y3+TG
+ LlTb6U4HSfybWiGeZjUsSUEo0oxGbJYdzVaRYxa/QbLow15j6QGY0wXX2GYYBaokRBOm
+ 9a66S8WFHYpfMSUcpn1hxt1R9afapcUJtW9vau8EshcPpT64UqbHczhUM8GsPArvFYp6
+ O5uFIpBfuKR87ZP6jOBGAMGa1J+43xM1kyh30vyOkaj8Jrjk9Ektx5xpb9GtoAmKnUe6
+ i8i+D+osOA1COh9FOsxYyTA3BE+UyNzjrmL7QHxF17/Cl0zIx3VAeMfHogHUKmezTv6Z
+ HWgA==
+X-Gm-Message-State: APjAAAW0thK0Fxz9P62BVBpwp35mtqGqTWMZdu958QG9kuCuc3V2pqyA
+ 4T24RMNMYkKlYDoxgnVkti8HE/+sOsSfTA==
+X-Google-Smtp-Source: APXvYqxNF/2R/T8vABiouIZfp1Bcpg7Y1YWV1sUbzAJOoxL/2vA43Bf+ruytc2zgPut8OXNGBJ25UA==
+X-Received: by 2002:a5d:6408:: with SMTP id z8mr3361568wru.122.1579271307867; 
+ Fri, 17 Jan 2020 06:28:27 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e18sm33811146wrw.70.2020.01.17.06.28.25
+ by smtp.gmail.com with ESMTPSA id e18sm33811146wrw.70.2020.01.17.06.28.26
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jan 2020 06:28:25 -0800 (PST)
+ Fri, 17 Jan 2020 06:28:27 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/15] tests/boot_linux_console: Add a SD card test for the
- CubieBoard
-Date: Fri, 17 Jan 2020 14:28:07 +0000
-Message-Id: <20200117142816.15110-7-peter.maydell@linaro.org>
+Subject: [PULL 07/15] hw/arm/allwinner-a10: Move SoC definitions out of header
+Date: Fri, 17 Jan 2020 14:28:08 +0000
+Message-Id: <20200117142816.15110-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200117142816.15110-1-peter.maydell@linaro.org>
 References: <20200117142816.15110-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,127 +84,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The kernel image and DeviceTree blob are built by the Armbian
-project (based on Debian):
-https://docs.armbian.com/Developer-Guide_Build-Preparation/
-
-The cpio image used comes from the linux-build-test project:
-https://github.com/groeck/linux-build-test
-
-If ARM is a target being built, "make check-acceptance" will
-automatically include this test by the use of the "arch:arm" tags.
-
-Alternatively, this test can be run using:
-
-  $ avocado --show=console run -t machine:cubieboard tests/acceptance/boot_linux_console.py
-  console: Uncompressing Linux... done, booting the kernel.
-  console: Booting Linux on physical CPU 0x0
-  console: Linux version 4.20.7-sunxi (root@armbian.com) (gcc version 7.2.1 20171011 (Linaro GCC 7.2-2017.11)) #5.75 SMP Fri Feb 8 09:02:10 CET 2019
-  [...]
-  console: ahci-sunxi 1c18000.sata: Linked as a consumer to regulator.4
-  console: ahci-sunxi 1c18000.sata: controller can't do 64bit DMA, forcing 32bit
-  console: ahci-sunxi 1c18000.sata: AHCI 0001.0000 32 slots 1 ports 1.5 Gbps 0x1 impl platform mode
-  console: ahci-sunxi 1c18000.sata: flags: ncq only
-  console: scsi host0: ahci-sunxi
-  console: ata1: SATA max UDMA/133 mmio [mem 0x01c18000-0x01c18fff] port 0x100 irq 27
-  console: of_cfs_init
-  console: of_cfs_init: OK
-  console: vcc3v0: disabling
-  console: vcc5v0: disabling
-  console: usb1-vbus: disabling
-  console: usb2-vbus: disabling
-  console: ata1: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
-  console: ata1.00: ATA-7: QEMU HARDDISK, 2.5+, max UDMA/100
-  console: ata1.00: 40960 sectors, multi 16: LBA48 NCQ (depth 32)
-  console: ata1.00: applying bridge limits
-  console: ata1.00: configured for UDMA/100
-  console: scsi 0:0:0:0: Direct-Access     ATA      QEMU HARDDISK    2.5+ PQ: 0 ANSI: 5
-  console: sd 0:0:0:0: Attached scsi generic sg0 type 0
-  console: sd 0:0:0:0: [sda] 40960 512-byte logical blocks: (21.0 MB/20.0 MiB)
-  console: sd 0:0:0:0: [sda] Write Protect is off
-  console: sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-  console: sd 0:0:0:0: [sda] Attached SCSI disk
-  console: EXT4-fs (sda): mounting ext2 file system using the ext4 subsystem
-  console: EXT4-fs (sda): mounted filesystem without journal. Opts: (null)
-  console: VFS: Mounted root (ext2 filesystem) readonly on device 8:0.
-  [...]
-  console: cat /proc/partitions
-  console: / # cat /proc/partitions
-  console: major minor  #blocks  name
-  console: 1        0       4096 ram0
-  console: 1        1       4096 ram1
-  console: 1        2       4096 ram2
-  console: 1        3       4096 ram3
-  console: 8        0      20480 sda
-  console: reboot
-  console: / # reboot
-  [...]
-  console: sd 0:0:0:0: [sda] Synchronizing SCSI cache
-  console: reboot: Restarting system
-  PASS (48.39 s)
+These definitions are specific to the A10 SoC and don't need
+to be exported to the different Allwinner peripherals.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20191230110953.25496-3-f4bug@amsat.org
+Message-id: 20191230110953.25496-4-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/acceptance/boot_linux_console.py | 44 ++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ include/hw/arm/allwinner-a10.h | 6 ------
+ hw/arm/allwinner-a10.c         | 6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 4643f60e376..e40b84651b0 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -441,6 +441,50 @@ class BootLinuxConsole(Test):
-         exec_command_and_wait_for_pattern(self, 'reboot',
-                                                 'reboot: Restarting system')
+diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.h
+index 7d2d2156308..941c61e5336 100644
+--- a/include/hw/arm/allwinner-a10.h
++++ b/include/hw/arm/allwinner-a10.h
+@@ -12,12 +12,6 @@
+ #include "target/arm/cpu.h"
  
-+    def test_arm_cubieboard_sata(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:cubieboard
-+        """
-+        deb_url = ('https://apt.armbian.com/pool/main/l/'
-+                   'linux-4.20.7-sunxi/linux-image-dev-sunxi_5.75_armhf.deb')
-+        deb_hash = '1334c29c44d984ffa05ed10de8c3361f33d78315'
-+        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
-+        kernel_path = self.extract_from_deb(deb_path,
-+                                            '/boot/vmlinuz-4.20.7-sunxi')
-+        dtb_path = '/usr/lib/linux-image-dev-sunxi/sun4i-a10-cubieboard.dtb'
-+        dtb_path = self.extract_from_deb(deb_path, dtb_path)
-+        rootfs_url = ('https://github.com/groeck/linux-build-test/raw/'
-+                      '2eb0a73b5d5a28df3170c546ddaaa9757e1e0848/rootfs/'
-+                      'arm/rootfs-armv5.ext2.gz')
-+        rootfs_hash = '093e89d2b4d982234bf528bc9fb2f2f17a9d1f93'
-+        rootfs_path_gz = self.fetch_asset(rootfs_url, asset_hash=rootfs_hash)
-+        rootfs_path = os.path.join(self.workdir, 'rootfs.cpio')
-+        archive.gzip_uncompress(rootfs_path_gz, rootfs_path)
+ 
+-#define AW_A10_PIC_REG_BASE     0x01c20400
+-#define AW_A10_PIT_REG_BASE     0x01c20c00
+-#define AW_A10_UART0_REG_BASE   0x01c28000
+-#define AW_A10_EMAC_BASE        0x01c0b000
+-#define AW_A10_SATA_BASE        0x01c18000
+-
+ #define AW_A10_SDRAM_BASE       0x40000000
+ 
+ #define TYPE_AW_A10 "allwinner-a10"
+diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
+index 118032c8c72..0f1af5a880f 100644
+--- a/hw/arm/allwinner-a10.c
++++ b/hw/arm/allwinner-a10.c
+@@ -25,6 +25,12 @@
+ #include "hw/misc/unimp.h"
+ #include "sysemu/sysemu.h"
+ 
++#define AW_A10_PIC_REG_BASE     0x01c20400
++#define AW_A10_PIT_REG_BASE     0x01c20c00
++#define AW_A10_UART0_REG_BASE   0x01c28000
++#define AW_A10_EMAC_BASE        0x01c0b000
++#define AW_A10_SATA_BASE        0x01c18000
 +
-+        self.vm.set_console()
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0,115200 '
-+                               'usbcore.nousb '
-+                               'root=/dev/sda ro '
-+                               'panic=-1 noreboot')
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-dtb', dtb_path,
-+                         '-drive', 'if=none,format=raw,id=disk0,file='
-+                                   + rootfs_path,
-+                         '-device', 'ide-hd,bus=ide.0,drive=disk0',
-+                         '-append', kernel_command_line,
-+                         '-no-reboot')
-+        self.vm.launch()
-+        self.wait_for_console_pattern('Boot successful.')
-+
-+        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-+                                                'Allwinner sun4i/sun5i')
-+        exec_command_and_wait_for_pattern(self, 'cat /proc/partitions',
-+                                                'sda')
-+        exec_command_and_wait_for_pattern(self, 'reboot',
-+                                                'reboot: Restarting system')
-+
-     def test_s390x_s390_ccw_virtio(self):
-         """
-         :avocado: tags=arch:s390x
+ static void aw_a10_init(Object *obj)
+ {
+     AwA10State *s = AW_A10(obj);
 -- 
 2.20.1
 
