@@ -2,88 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB27F140833
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 11:44:54 +0100 (CET)
-Received: from localhost ([::1]:55144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B125514085F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 11:52:19 +0100 (CET)
+Received: from localhost ([::1]:55258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isP7V-0000rW-Ue
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 05:44:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57303)
+	id 1isPEg-0007Fm-QL
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 05:52:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david.edmondson@oracle.com>) id 1isP6B-00006C-FI
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:43:35 -0500
+ (envelope-from <bounces@canonical.com>) id 1isPDs-0006gw-Ob
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:51:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david.edmondson@oracle.com>) id 1isP67-0003t7-Mi
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:43:31 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:36742)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david.edmondson@oracle.com>)
- id 1isP67-0003s9-EJ
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:43:27 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00HAXUe1177271
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:43:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2019-08-05;
- bh=GwwlSnoVkavbdrMM6cWwlxzkg7OeFn735HfbnWHuxeA=;
- b=LJ2ZefcZtsxHdbBpHckFbTl//xN6+1K5CFGAAOFuqfOYg/X2WJJJgodWBaV/foQkRr0+
- YMflMXH2sbL7FwDdF3xyRhln6hk0sDGPRk0uzwD7Pp2mE+XIuoQZOqS1rglrjSyvvnVm
- hjpzuKr6WqCVNsF9z4y3Z0a7bmzHuZKQU2SV7knH2HeLvoCSLMUmi5279h0qI90uwqah
- L6ewsBnQhwvo8ZW70tIM+u38EhOD10tV0uwcqG7h8NpYnvzADi7iJQ9UKPyE3L6n3iC3
- FfNs3OOAElE/rvGwihf20t4C/n28NOkJcufPRaHnZfjxl6hZ1/swkgY2QGZLZBe2wCaD lA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 2xf74000a3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:43:25 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00HAhEsj086350
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:43:25 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 2xk231knsg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:43:17 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00HAggWe008501
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:42:42 GMT
-Received: from disaster-area.hh.sledj.net (/81.149.164.25)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 17 Jan 2020 02:42:42 -0800
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 752cccbe;
- Fri, 17 Jan 2020 10:42:40 +0000 (UTC)
-From: David Edmondson <david.edmondson@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-img: Add --target-is-zero to convert
-Date: Fri, 17 Jan 2020 10:41:57 +0000
-Message-Id: <20200117104156.1364069-1-david.edmondson@oracle.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <id:m21rryz8al.fsf@dme.org>
-References: <id:m21rryz8al.fsf@dme.org>
+ (envelope-from <bounces@canonical.com>) id 1isPDq-00016Z-O0
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:51:28 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45176)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1isPDq-000162-IR
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:51:26 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1isPDp-0003Ct-69
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:51:25 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2D0F22E8048
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:51:25 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9502
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=914
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001170083
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9502
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=959 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001170082
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.85
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 17 Jan 2020 10:42:13 -0000
+From: pevogam <plamen@pevogam.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 5-plamen xanclic
+X-Launchpad-Bug-Reporter: pevogam (5-plamen)
+X-Launchpad-Bug-Modifier: pevogam (5-plamen)
+References: <157918316689.4864.12553262908100217782.malonedeb@wampee.canonical.com>
+Message-Id: <157925773334.5033.6807670911098130881.malone@wampee.canonical.com>
+Subject: [Bug 1859989] Re: qemu-img has broken output with large snapshot names
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: bf14505281e4600b979f8769aa17f357e2540e21
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,99 +65,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Edmondson <david.edmondson@oracle.com>
+Reply-To: Bug 1859989 <1859989@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In many cases the target of a convert operation is a newly provisioned
-target that the user knows is blank (filled with zeroes). In this
-situation there is no requirement for qemu-img to wastefully zero out
-the entire device.
+Hi Max,
 
-Add a new option, --target-is-zero, allowing the user to indicate that
-an existing target device is already zero filled.
----
+It last worked in (previous version we used):
+[root@c15 ~]# qemu-img --version
+qemu-img version 3.1.1 (qemu-3.1.1-2.fc30)
+Copyright (c) 2003-2018 Fabrice Bellard and the QEMU Project developers
 
-Apologies if this arrives twice - this From address wasn't subscribed
-the first time around.
+Yes, unfortunately Launchpad doesn't seem to support any literal
+formatting which is why I tried to use the ``` to signal this. I will
+attach some images from both version to counter this effect and make it
+clearer to you where the problem is which is indeed in the clash between
+the state name and the size. The IEC prefixes were something new and we
+could handle that but not the lack of space which is new in this version
+we tried.
 
- qemu-img.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+** Attachment added: "qemu.png"
+   https://bugs.launchpad.net/qemu/+bug/1859989/+attachment/5321101/+files/=
+qemu.png
 
-diff --git a/qemu-img.c b/qemu-img.c
-index 95a24b9762..56ca727e8c 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -70,6 +70,7 @@ enum {
-     OPTION_PREALLOCATION = 265,
-     OPTION_SHRINK = 266,
-     OPTION_SALVAGE = 267,
-+    OPTION_TARGET_IS_ZERO = 268,
- };
- 
- typedef enum OutputFormat {
-@@ -1593,6 +1594,7 @@ typedef struct ImgConvertState {
-     bool copy_range;
-     bool salvage;
-     bool quiet;
-+    bool target_is_zero;
-     int min_sparse;
-     int alignment;
-     size_t cluster_sectors;
-@@ -1984,10 +1986,11 @@ static int convert_do_copy(ImgConvertState *s)
-     int64_t sector_num = 0;
- 
-     /* Check whether we have zero initialisation or can get it efficiently */
--    if (s->target_is_new && s->min_sparse && !s->target_has_backing) {
-+    s->has_zero_init = s->target_is_zero;
-+
-+    if (!s->has_zero_init && s->target_is_new && s->min_sparse &&
-+        !s->target_has_backing) {
-         s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
--    } else {
--        s->has_zero_init = false;
-     }
- 
-     if (!s->has_zero_init && !s->target_has_backing &&
-@@ -2076,6 +2079,7 @@ static int img_convert(int argc, char **argv)
-         .buf_sectors        = IO_BUF_SIZE / BDRV_SECTOR_SIZE,
-         .wr_in_order        = true,
-         .num_coroutines     = 8,
-+        .target_is_zero     = false,
-     };
- 
-     for(;;) {
-@@ -2086,6 +2090,7 @@ static int img_convert(int argc, char **argv)
-             {"force-share", no_argument, 0, 'U'},
-             {"target-image-opts", no_argument, 0, OPTION_TARGET_IMAGE_OPTS},
-             {"salvage", no_argument, 0, OPTION_SALVAGE},
-+            {"target-is-zero", no_argument, 0, OPTION_TARGET_IS_ZERO},
-             {0, 0, 0, 0}
-         };
-         c = getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WU",
-@@ -2209,6 +2214,9 @@ static int img_convert(int argc, char **argv)
-         case OPTION_TARGET_IMAGE_OPTS:
-             tgt_image_opts = true;
-             break;
-+        case OPTION_TARGET_IS_ZERO:
-+            s.target_is_zero = true;
-+            break;
-         }
-     }
- 
-@@ -2247,6 +2255,11 @@ static int img_convert(int argc, char **argv)
-         warn_report("This will become an error in future QEMU versions.");
-     }
- 
-+    if (s.target_is_zero && !skip_create) {
-+        error_report("--target-is-zero requires use of -n flag");
-+        goto fail_getopt;
-+    }
-+
-     s.src_num = argc - optind - 1;
-     out_filename = s.src_num >= 1 ? argv[argc - 1] : NULL;
- 
--- 
-2.24.1
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859989
+
+Title:
+  qemu-img has broken output with large snapshot names
+
+Status in QEMU:
+  New
+
+Bug description:
+  On Qemu 4.1.1 the output of snapshots breaks if the chosen state name
+  is too long:
+
+  ```
+  # qemu-img snapshot -l /mnt/local/some_image.qcow2
+  Snapshot list:
+  ID        TAG                 VM SIZE                DATE       VM CLOCK
+  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
+.873
+  ```
+
+  Prior to 4.1.1 this used to work with extra tabs for the VM SIZE
+  values. The collision is also disabling us from using a regex on top
+  of this output to detect the snapshot.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859989/+subscriptions
 
