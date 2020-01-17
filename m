@@ -2,55 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6883B140F3F
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 17:46:20 +0100 (CET)
-Received: from localhost ([::1]:60062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52794140F49
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 17:48:57 +0100 (CET)
+Received: from localhost ([::1]:60112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isUlG-00043U-Lk
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 11:46:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47627)
+	id 1isUno-0006lo-6N
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 11:48:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47777)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qemu_oss@crudebyte.com>) id 1isUjh-0003Wg-J1
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:44:43 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1isUlB-0004it-VC
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:46:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1isUjf-0002Xx-WE
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:44:41 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:49327)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1isUjf-0002X7-Nh
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:44:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=wUX2jeNOUTgeYGzKNgp7wPB1qcAEO3PsPi0irFyaIYc=; b=AGglFYfb8WYs46aVS+LixthWvv
- 2CHZ57Bi2Ktzam9BaiWxyHh5JnyfT5G8cz+BZQUR6Wx8eZYJwrzYZ/2xS6m/aaEDaLdJ6dHUYAEr7
- tjf+q1kWHAuGTelLOUgv0qUUsABOHGDoAHXvMKxgVbplmc3S58hklfq7sPswlBr/ywccWyVv8Jr8E
- Hc4jLhlbm5J0LQG8Se+wwNS4miBg1gx7v9GG3uxADAasTgP9bCql0MaJX6XTd+FLds/y8dUuO6eBm
- M87Hk1K1yBCY7diToctK0jOE6cq+Ns8BePfogef/GiqW2oRFORFpY4RyZZaDD3FRWTyZCIj04e4S3
- rX2ZaN4A44GIr43b1izGpYaloYtz2yXPO4L4epOwFShorWlEP8+5m3eDYpjMbqV11UZVYWzeqIP17
- pA7cQBB5Gv+3t1FGrMs6jiwWz8vQztJst/Ozioubx4WHtBDjdqxQ+q620tQRCX7MuaZ6uJi+d21Pt
- 6ym/KB8ANbd2DE8CJ5I3QHGvjcNy/dE6jOVc/ibWe8i4uAVW9rkqJ4vBSSQ09EefV21OU42NHYmJt
- y/m31YOWA4asLkj50NvBgZlT6NLGsxXar17DDmDrdp6L2vE7mCl9tZRzsw1o/XTegt+VSeUbmZNnW
- OXTQWlQZV3nWxSyBtmg3b3jJmo2u0sFHppEWDkDPA=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v3 05/11] tests/virtio-9p: added readdir test
-Date: Fri, 17 Jan 2020 17:44:33 +0100
-Message-ID: <3128954.or4cCn8GAH@silver>
-In-Reply-To: <20200117165129.064fbb30@bahia.lan>
-References: <cover.1578957500.git.qemu_oss@crudebyte.com>
- <d48e21f83d8a8c766368190e872c7b72a5f7e881.1578957500.git.qemu_oss@crudebyte.com>
- <20200117165129.064fbb30@bahia.lan>
+ (envelope-from <dgilbert@redhat.com>) id 1isUl6-0003vC-C0
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:46:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24774
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1isUl6-0003se-1n
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:46:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579279567;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0dIHBVJvfd6VRHzx+otOXi4HOPzuYtCH5vAbuYTMvlg=;
+ b=D4JnjT6QprWaA5sHh1jMEi9U7LK9S/iJEnhHPRkTEwYmbTZTaCE+5XfcI2bzODl6z/1G0K
+ i9kgCcYZNNmYVWhyDliGllEYTIiEllxScxQbEfcV1pAkIoGIF9cpjvwRFAHS01LZSCvRTw
+ z2gN+wBBj8ZEcexQng8g2ehOyHcjCCM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-nqDHvuQrNyiaQ53e5lbKyg-1; Fri, 17 Jan 2020 11:46:05 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F570DB66
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 16:46:04 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E22619C7F;
+ Fri, 17 Jan 2020 16:45:59 +0000 (UTC)
+Date: Fri, 17 Jan 2020 16:45:56 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v3 3/5] migration: Don't wait in semaphore for thread we
+ know has finished
+Message-ID: <20200117164556.GO3209@work-vm>
+References: <20200116154616.11569-1-quintela@redhat.com>
+ <20200116154616.11569-4-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20200116154616.11569-4-quintela@redhat.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: nqDHvuQrNyiaQ53e5lbKyg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 5.189.157.229
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,280 +75,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 17. Januar 2020 16:51:29 CET Greg Kurz wrote:
-> On Tue, 14 Jan 2020 00:08:51 +0100
-> 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > The first readdir test simply checks the amount of directory
-> > entries returned by 9pfs server, according to the created amount
-> > of virtual files on 9pfs synth driver side. Then the subsequent
-> > readdir test also checks whether all directory entries have the
-> > expected file names (as created on 9pfs synth driver side),
-> > ignoring their precise order in result list though.
-> > 
-> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > ---
-> 
-> LGTM but I'm afraid this needs rebasing because virtio-9p-test.c got moved
-> to tests/qtest/ by this commit (merged earlier this week):
-> 
-> commit 1e8a1fae7464ef79c9e50aa0f807d2c511be3c8e
-> Author: Thomas Huth <thuth@redhat.com>
-> Date:   Mon Sep 9 12:04:01 2019 +0200
-> 
->     test: Move qtests to a separate directory
-> 
->     The tests directory itself is pretty overcrowded, and it's hard to
->     see which test belongs to which test subsystem (unit, qtest, ...).
->     Let's move the qtests to a separate folder for more clarity.
-> 
->     Message-Id: <20191218103059.11729-6-thuth@redhat.com>
->     Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
->     Signed-off-by: Thomas Huth <thuth@redhat.com>
+* Juan Quintela (quintela@redhat.com) wrote:
+> If p->quit is true for any channel, we know that it has finished for
+> any reason.  So don't wait for it, just continue.
+>=20
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>=20
+> ---
+>=20
+> I could be convinced that the right thing to do in that case is to
+> just do a break instead of a continue.  Each option has its own
+> advantages/disadvantanges.
+> ---
+>  migration/ram.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 44ca56e1ea..bc918ef28d 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -1118,6 +1118,12 @@ static void multifd_send_sync_main(RAMState *rs)
+>          MultiFDSendParams *p =3D &multifd_send_state->params[i];
+> =20
+>          trace_multifd_send_sync_main_wait(p->id);
+> +        qemu_mutex_lock(&p->mutex);
+> +        if (p->quit) {
+> +            qemu_mutex_unlock(&p->mutex);
+> +            continue;
+> +        }
+> +        qemu_mutex_unlock(&p->mutex);
 
-Sure, I'll take care of that, and like previously discussed ...
+Why is this needed/helps?
+You can't depend on the p->quit happening before the=20
+sem_wait, so the main thread still has to do a post on sem_sync before
+the join, even with the addition of the check for p->quit.
 
-> >  tests/virtio-9p-test.c | 149 +++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 149 insertions(+)
-> > 
-> > diff --git a/tests/virtio-9p-test.c b/tests/virtio-9p-test.c
-> > index 06263edb53..721f13c1fb 100644
-> > --- a/tests/virtio-9p-test.c
-> > +++ b/tests/virtio-9p-test.c
-> > @@ -68,6 +68,11 @@ static void v9fs_memread(P9Req *req, void *addr, size_t
-> > len)> 
-> >      req->r_off += len;
-> >  
-> >  }
-> > 
-> > +static void v9fs_uint8_read(P9Req *req, uint8_t *val)
-> > +{
-> > +    v9fs_memread(req, val, 1);
-> > +}
-> > +
-> > 
-> >  static void v9fs_uint16_write(P9Req *req, uint16_t val)
-> >  {
-> >  
-> >      uint16_t le_val = cpu_to_le16(val);
-> > 
-> > @@ -101,6 +106,12 @@ static void v9fs_uint32_read(P9Req *req, uint32_t
-> > *val)> 
-> >      le32_to_cpus(val);
-> >  
-> >  }
-> > 
-> > +static void v9fs_uint64_read(P9Req *req, uint64_t *val)
-> > +{
-> > +    v9fs_memread(req, val, 8);
-> > +    le64_to_cpus(val);
-> > +}
-> > +
-> > 
-> >  /* len[2] string[len] */
-> >  static uint16_t v9fs_string_size(const char *string)
-> >  {
-> > 
-> > @@ -191,6 +202,7 @@ static const char *rmessage_name(uint8_t id)
-> > 
-> >          id == P9_RLOPEN ? "RLOPEN" :
-> >          id == P9_RWRITE ? "RWRITE" :
-> > 
-> >          id == P9_RFLUSH ? "RFLUSH" :
-> > +        id == P9_RREADDIR ? "READDIR" :
-> >          "<unknown>";
-> >  
-> >  }
-> > 
-> > @@ -348,6 +360,82 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid,
-> > v9fs_qid **wqid)> 
-> >      v9fs_req_free(req);
-> >  
-> >  }
-> > 
-> > +/* size[4] Treaddir tag[2] fid[4] offset[8] count[4] */
-> > +static P9Req *v9fs_treaddir(QVirtio9P *v9p, uint32_t fid, uint64_t
-> > offset,
-> > +                            uint32_t count, uint16_t tag)
-> > +{
-> > +    P9Req *req;
-> > +
-> > +    req = v9fs_req_init(v9p, 4 + 8 + 4, P9_TREADDIR, tag);
-> > +    v9fs_uint32_write(req, fid);
-> > +    v9fs_uint64_write(req, offset);
-> > +    v9fs_uint32_write(req, count);
-> > +    v9fs_req_send(req);
-> > +    return req;
-> > +}
-> > +
-> > +struct V9fsDirent {
-> > +    v9fs_qid qid;
-> > +    uint64_t offset;
-> > +    uint8_t type;
-> > +    char *name;
-> > +    struct V9fsDirent *next;
-> > +};
-> > +
-> > +/* size[4] Rreaddir tag[2] count[4] data[count] */
-> > +static void v9fs_rreaddir(P9Req *req, uint32_t *count, uint32_t
-> > *nentries,
-> > +                          struct V9fsDirent **entries)
-> > +{
-> > +    uint32_t local_count;
-> > +    struct V9fsDirent *e = NULL;
-> > +    uint16_t slen;
-> > +    uint32_t n = 0;
-> > +
-> > +    v9fs_req_recv(req, P9_RREADDIR);
-> > +    v9fs_uint32_read(req, &local_count);
-> > +
-> > +    if (count) {
-> > +        *count = local_count;
-> > +    }
-> > +
-> > +    for (int32_t togo = (int32_t)local_count;
-> > +         togo >= 13 + 8 + 1 + 2;
-> > +         togo -= 13 + 8 + 1 + 2 + slen, ++n)
-> > +    {
-> > +        if (!e) {
-> > +            e = g_malloc(sizeof(struct V9fsDirent));
-> > +            if (entries) {
-> > +                *entries = e;
-> > +            }
-> > +        } else {
-> > +            e = e->next = g_malloc(sizeof(struct V9fsDirent));
-> > +        }
-> > +        e->next = NULL;
-> > +        /* qid[13] offset[8] type[1] name[s] */
-> > +        v9fs_memread(req, &e->qid, 13);
-> > +        v9fs_uint64_read(req, &e->offset);
-> > +        v9fs_uint8_read(req, &e->type);
-> > +        v9fs_string_read(req, &slen, &e->name);
-> > +    }
-> > +
-> > +    if (nentries) {
-> > +        *nentries = n;
-> > +    }
-> > +
-> > +    v9fs_req_free(req);
-> > +}
-> > +
-> > +static void v9fs_free_dirents(struct V9fsDirent *e)
-> > +{
-> > +    struct V9fsDirent *next = NULL;
-> > +
-> > +    for (; e; e = next) {
-> > +        next = e->next;
-> > +        g_free(e->name);
-> > +        g_free(e);
-> > +    }
-> > +}
-> > +
-> > 
-> >  /* size[4] Tlopen tag[2] fid[4] flags[4] */
-> >  static P9Req *v9fs_tlopen(QVirtio9P *v9p, uint32_t fid, uint32_t flags,
-> >  
-> >                            uint16_t tag)
-> > 
-> > @@ -480,6 +568,66 @@ static void fs_walk(void *obj, void *data,
-> > QGuestAllocator *t_alloc)> 
-> >      g_free(wqid);
-> >  
-> >  }
-> > 
-> > +static bool fs_dirents_contain_name(struct V9fsDirent *e, const char*
-> > name) +{
-> > +    for (; e; e = e->next) {
-> > +        if (!strcmp(e->name, name)) {
-> > +            return true;
-> > +        }
-> > +    }
-> > +    return false;
-> > +}
-> > +
-> > +static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
-> > +{
-> > +    QVirtio9P *v9p = obj;
-> > +    alloc = t_alloc;
-> > +    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
-> > +    uint16_t nqid;
-> > +    v9fs_qid qid;
-> > +    uint32_t count, nentries;
-> > +    struct V9fsDirent *entries = NULL;
-> > +    P9Req *req;
-> > +
-> > +    fs_attach(v9p, NULL, t_alloc);
-> > +    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-> > +    v9fs_req_wait_for_reply(req, NULL);
-> > +    v9fs_rwalk(req, &nqid, NULL);
-> > +    g_assert_cmpint(nqid, ==, 1);
-> > +
-> > +    req = v9fs_tlopen(v9p, 1, O_DIRECTORY, 0);
-> > +    v9fs_req_wait_for_reply(req, NULL);
-> > +    v9fs_rlopen(req, &qid, NULL);
-> > +
-> > +    req = v9fs_treaddir(v9p, 1, 0, P9_MAX_SIZE - P9_IOHDRSZ, 0);
+Dave
 
-... I'll have to change that to:
-
-	req = v9fs_treaddir(v9p, 1, 0, P9_MAX_SIZE - 11, 0);
-
-
-> > +    v9fs_req_wait_for_reply(req, NULL);
-> > +    v9fs_rreaddir(req, &count, &nentries, &entries);
-> > +
-> > +    /*
-> > +     * Assuming msize (P9_MAX_SIZE) is large enough so we can retrieve
-> > all
-> > +     * dir entries with only one readdir request.
-> > +     */
-> > +    g_assert_cmpint(
-> > +        nentries, ==,
-> > +        QTEST_V9FS_SYNTH_READDIR_NFILES + 2 /* "." and ".." */
-> > +    );
-> > +
-> > +    /*
-> > +     * Check all file names exist in returned entries, ignore their order
-> > +     * though.
-> > +     */
-> > +    g_assert_cmpint(fs_dirents_contain_name(entries, "."), ==, true);
-> > +    g_assert_cmpint(fs_dirents_contain_name(entries, ".."), ==, true);
-> > +    for (int i = 0; i < QTEST_V9FS_SYNTH_READDIR_NFILES; ++i) {
-> > +        char *name = g_strdup_printf(QTEST_V9FS_SYNTH_READDIR_FILE, i);
-> > +        g_assert_cmpint(fs_dirents_contain_name(entries, name), ==,
-> > true);
-> > +        g_free(name);
-> > +    }
-> > +
-> > +    v9fs_free_dirents(entries);
-> > +    g_free(wnames[0]);
-> > +}
-> > +
-> > 
-> >  static void fs_walk_no_slash(void *obj, void *data, QGuestAllocator
-> >  *t_alloc) {
-> >  
-> >      QVirtio9P *v9p = obj;
-> > 
-> > @@ -658,6 +806,7 @@ static void register_virtio_9p_test(void)
-> > 
-> >                   NULL);
-> >      
-> >      qos_add_test("fs/flush/ignored", "virtio-9p", fs_flush_ignored,
-> >      
-> >                   NULL);
-> > 
-> > +    qos_add_test("fs/readdir/basic", "virtio-9p", fs_readdir, NULL);
-> > 
-> >  }
-> >  
-> >  libqos_init(register_virtio_9p_test);
-
-Best regards,
-Christian Schoenebeck
-
+>          qemu_sem_wait(&p->sem_sync);
+>      }
+>      trace_multifd_send_sync_main(multifd_send_state->packet_num);
+> --=20
+> 2.24.1
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
