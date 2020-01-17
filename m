@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C444140B10
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:39:01 +0100 (CET)
-Received: from localhost ([::1]:57408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0D4140B25
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:40:59 +0100 (CET)
+Received: from localhost ([::1]:57442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isRq0-0007vo-9N
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:39:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48900)
+	id 1isRru-0002Eu-Pi
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:40:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48901)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1isRkS-0002cB-FX
+ (envelope-from <imammedo@redhat.com>) id 1isRkS-0002cC-FD
  for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1isRkM-000843-1H
+ (envelope-from <imammedo@redhat.com>) id 1isRkM-00084d-Hy
  for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44765
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39261
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isRkL-00083F-Qu
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:09 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1isRkM-00083c-Di
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1579267989;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ln0Og2iIEXgA6Vm/1Vi7glo705g6JbWtKjkhmoo+5Qk=;
- b=VbNptmWIuchmCAhm/FqAFsrHDWZn5YIZlt98Xi+mpjqOez9axOJ/FnElBD7fGjmm/dHL/A
- eQHwCny3aU3I58luQIFkgsQXmtLOH8yweZBdG3KsIy945gjAgHnbfbMQHFvVuzvxvCJWA0
- 4L1oiXDCvJ7aah6lSfJV5cS3Hrf8JiE=
+ bh=Hnzy45dwlG0rl6JrsPjiOMNPuy28u2DoYDAroEsLWbs=;
+ b=YJXaRx4ND0/wOulrUVUPGe/65kHvOT4PNfHM8eKNnjOFb+ypl7fJM7xG2WjSiIBk/+k6TO
+ PGGMMqsPAwExJ3xT1jvtkuJkx2CjY3IEzLb/CmlOJkD+AnfgEU/rR+9y2LpgjpuhYz/GoY
+ g31HR8KkV6yx5rFOinRpPcFRPJtHqps=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-LFfcayQeOpaY3-ARgCJIuA-1; Fri, 17 Jan 2020 08:33:07 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-204-Q2rzLsdCOsKiC3VFzkUzDQ-1; Fri, 17 Jan 2020 08:33:08 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4229100550E
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 13:33:06 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-206-6.brq.redhat.com [10.40.206.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B6E0760FC2;
- Fri, 17 Jan 2020 13:32:59 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 105/104] virtiofsd: Unref old/new inodes with the same mutex
- lock in lo_rename()
-Date: Fri, 17 Jan 2020 14:32:57 +0100
-Message-Id: <20200117133257.16906-1-philmd@redhat.com>
-In-Reply-To: <20191212163904.159893-1-dgilbert@redhat.com>
-References: <20191212163904.159893-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A3B5DB62
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 13:33:07 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9BBBD19C4F;
+ Fri, 17 Jan 2020 13:33:06 +0000 (UTC)
+Date: Fri, 17 Jan 2020 14:33:05 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 83/86] tests:numa-test: make top level args dynamic
+ and g_autofree(cli) cleanups
+Message-ID: <20200117143305.7eb9571e@redhat.com>
+In-Reply-To: <a0b60484-d5fb-7409-b13e-4e70d1177138@redhat.com>
+References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
+ <1579100861-73692-84-git-send-email-imammedo@redhat.com>
+ <20e88588-13b4-8c7d-3f97-cb2d50b85edd@redhat.com>
+ <20200116180606.134cb1a6@redhat.com>
+ <a0b60484-d5fb-7409-b13e-4e70d1177138@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: LFfcayQeOpaY3-ARgCJIuA-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: Q2rzLsdCOsKiC3VFzkUzDQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,43 +76,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, stefanha@redhat.com,
- Vivek Goyal <vgoyal@redhat.com>
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can unref both old/new inodes with the same mutex lock.
+On Fri, 17 Jan 2020 12:14:11 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Based-on: <20191212163904.159893-1-dgilbert@redhat.com>
-"virtiofs daemon"
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg664652.html
+> On 16/01/2020 18.06, Igor Mammedov wrote:
+> > On Thu, 16 Jan 2020 17:35:32 +0100
+> > Thomas Huth <thuth@redhat.com> wrote:
+> >   
+> >> On 15/01/2020 16.07, Igor Mammedov wrote:  
+> >>> Use GString to pass argument to make_cli() so that it would be easy
+> >>> to dynamically change test case arguments from main(). The follow up
+> >>> patch will use it to change RAM size options depending on target.
+> >>>
+> >>> While at it cleanup 'cli' freeing, using g_autofree annotation.    
+> >>
+> >> Hmm, I'd use g_autofree for new code or do it in a separate cleanup
+> >> patch, but doing this here distracts quite a bit from the real changes
+> >> that you are doing...  
+> > I'll split it into separate patch
+> >   
+> >>  
+> >>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> >>> ---
+> >>> PS:
+> >>>   made as a separate patch so it won't clutter followup testcase changes.
+> >>>
+> >>> CC: thuth@redhat.com
+> >>> CC: lvivier@redhat.com
+> >>> ---
+> >>>  tests/qtest/numa-test.c | 38 ++++++++++++++------------------------
+> >>>  1 file changed, 14 insertions(+), 24 deletions(-)
+> >>>
+> >>> diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
+> >>> index 17dd807..a696dfd 100644
+> >>> --- a/tests/qtest/numa-test.c
+> >>> +++ b/tests/qtest/numa-test.c
+> >>> @@ -14,16 +14,16 @@
+> >>>  #include "qapi/qmp/qdict.h"
+> >>>  #include "qapi/qmp/qlist.h"
+> >>>  
+> >>> -static char *make_cli(const char *generic_cli, const char *test_cli)
+> >>> +static char *make_cli(const GString *generic_cli, const char *test_cli)
+> >>>  {
+> >>> -    return g_strdup_printf("%s %s", generic_cli ? generic_cli : "", test_cli);
+> >>> +    return g_strdup_printf("%s %s", generic_cli->str, test_cli);
+> >>>  }    
+> >> [...]  
+> >>> @@ -539,11 +529,11 @@ static void pc_hmat_erange_cfg(const void *data)
+> >>>  
+> >>>  int main(int argc, char **argv)
+> >>>  {
+> >>> -    const char *args = NULL;
+> >>> +    g_autoptr(GString) args = g_string_new("");    
+> >>
+> >> I think g_string_new(NULL) would be better?
+> >>  
+> >>>      const char *arch = qtest_get_arch();
+> >>>  
+> >>>      if (strcmp(arch, "aarch64") == 0) {
+> >>> -        args = "-machine virt";
+> >>> +        g_string_append(args, " -machine virt")>      }    
+> >>
+> >> Is this really required? Looking at your next patch, you could also
+> >> simply do
+> >>
+> >>           args = " -object memory-backend-ram,id=ram,size=xxxM"  
+> > xxx is variable so options are
+> >  1 build this part of CLI dynamically
+> >  2 mostly duplicate testcase function and include per target size there
+> >  3 make up a test data structure and pass that to test cases
+> > 
+> > Given simplicity of current testcases, I'd prefer continue with
+> > passing CLI as testcase data (option #1).  
+> 
+> Sorry, I think I missed something here... currently I see in the next patch:
+> 
+> +    if (!strcmp(arch, "ppc64")) {
+> +        g_string_append(args, " -object
+> memory-backend-ram,id=ram,size=512M");
+> +    } else {
+> +        g_string_append(args, " -object
+> memory-backend-ram,id=ram,size=128M");
+> +    }
+> 
+> ... so these are static strings which could also be handled fine without
+> GString? Or do you plan to update this in later patches?
+it's 1 or concatenation of 2 strings
+  " -object memory-backend-ram,id=ram,size=128M"
+  " -object memory-backend-ram,id=ram,size=512M"
+  " -machine virt" + " -object memory-backend-ram,id=ram,size=128M"
 
- tools/virtiofsd/passthrough_ll.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+It's possible to use static strings in expense of a bit of duplication
+and long winded "if" chain. So using dynamic string here, looks better to me.
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 57f58aef26..5c717cb5a1 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -1461,8 +1461,10 @@ static void lo_rename(fuse_req_t req, fuse_ino_t par=
-ent, const char *name,
-     }
-=20
- out:
--    unref_inode_lolocked(lo, oldinode, 1);
--    unref_inode_lolocked(lo, newinode, 1);
-+    pthread_mutex_lock(&lo->mutex);
-+    unref_inode(lo, oldinode, 1);
-+    unref_inode(lo, newinode, 1);
-+    pthread_mutex_unlock(&lo->mutex);
-     lo_inode_put(lo, &oldinode);
-     lo_inode_put(lo, &newinode);
-     lo_inode_put(lo, &parent_inode);
---=20
-2.21.1
+>  Thomas
 
 
