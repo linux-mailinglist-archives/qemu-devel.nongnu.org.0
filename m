@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D290140AD1
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:34:51 +0100 (CET)
-Received: from localhost ([::1]:57342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933C2140AE0
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:36:55 +0100 (CET)
+Received: from localhost ([::1]:57388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isRly-00031a-3x
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:34:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48747)
+	id 1isRny-0005Cm-Co
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:36:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48883)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1isRjX-0001eN-Jg
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:32:20 -0500
+ (envelope-from <ianjiang.ict@gmail.com>) id 1isRkL-0002WK-F3
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1isRjV-0007QO-Nx
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:32:19 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45616)
+ (envelope-from <ianjiang.ict@gmail.com>) id 1isRkK-00082i-GA
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:09 -0500
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:42513)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1isRjV-0007Ig-Ip
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:32:17 -0500
-Received: by mail-ot1-x344.google.com with SMTP id 59so22495805otp.12
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:32:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Hy18uxb89ZZQrsLX5KmzibiBKtF/Qypel7x5Z2d3dsQ=;
- b=bBqhwJ+9IuA7HmwDo1/5Gk8LgevyWIx7EB4TKepe529xZWcOOsm4ImGJnLnVlJtgHE
- O+wSYzecH6SMYoG8Auym2qvL9ECLzbZYhl+0R5/8cFTltHDcv9+tgXP/YLMaSKfF0ZLZ
- vUOmVh8aaX9ZIu0w01mESHQWvqWxot2tbfMEq9mIgf62t2wJmqGdeQ1d9Of2//CC3+mV
- 8YxMsZnvBxFXOk5CGIDSQV5bv7DCAh0Ip2pbEOvIv5Kq3BW9FKzqL2rg3kS409hhGQDu
- uqIAAEyYhuZIcfATT3mDRGo00VfIVxKXdaZznyUZTaaLAQicc//5pTlJLL2LufGPgBg6
- FpVA==
+ (Exim 4.71) (envelope-from <ianjiang.ict@gmail.com>)
+ id 1isRkK-00081a-BQ
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:08 -0500
+Received: by mail-io1-xd34.google.com with SMTP id n11so25988689iom.9
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:33:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=vKbJroWiEVHvl8EOr3Fy9ww1XDr7npx1GYhdzb5dwBQ=;
+ b=HrOMbT0E5enOIyhrJqDP7ld0zo4p5QB0HbYdbnb7NWOp0VbDjCvICMulsR1ToCWXuy
+ xXGAd6cUDa7Ew/V8CZALgEA7URA0HmWyK4XKJLUVBvM0frEM1irXabyQ5f9fltai5yHg
+ naniJbVKlS5N4LxTixNp4XGGlPlnwCbM7URyMUHk36Qs9J7w6wD1JUfFycuypsUVBah8
+ 4l7EsUwueyezkBNop6W/DsitZly+04FVWhKmj5m+oyLKUZnjX/e8QKLV3Pc+wvii45rJ
+ qwbs4xEGmyeW09JMTe6QF3vNSzMVCpMAe6L8R17gMpMiQI6GojeRC2I8UZSF9qIv2jRE
+ tWog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Hy18uxb89ZZQrsLX5KmzibiBKtF/Qypel7x5Z2d3dsQ=;
- b=J05pZWqhHRntNICjw5/0rqlCo5/2WMZJ6jMZ2Fdoh2jXnMzrLNkIleu9ddWCQDzVgJ
- A1biKcTl6snpi2tfRNyF1CyjERMUu34kS0ZEgc+sGkLt9sRsF8V9u6u8iLkaBo38seUb
- b7+AICSWi7oa0zWGa1+XxCMEEXfjMpihYg77bKMNDKKGkO4UasmwNTXg5tGVqd+r//g2
- LzX1v5Fg3AIkzS5It507zMm8KbgnCF1Znm7t/sg2tZbhscnKO42ovqEh2jrC5cwJ/VmR
- dNAOUXevNaNsCOJEWE1gGy2q9Tp0FYcGU0P9ccb3DmIwg8plseF3KB4VW8e+jlVAVDx1
- hsUA==
-X-Gm-Message-State: APjAAAUdceCrPjiTmYAxaf3VyX12EdVzrM12FbNh0AejUI5icXCyRdEm
- ooUzIy1rl7PgOvF9kYGNewHz3+4n2nF7YX/1jOMKswG8tzc=
-X-Google-Smtp-Source: APXvYqzpjFnnjcWXvm9DPAgiFo9UfxH2Mz6agDxEsnaxcmhOVfi5UkQwjnpRsBCicl34SspXm/wBW1yjW7dtuaHRKxg=
-X-Received: by 2002:a05:6830:184:: with SMTP id
- q4mr6133219ota.232.1579267925453; 
- Fri, 17 Jan 2020 05:32:05 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=vKbJroWiEVHvl8EOr3Fy9ww1XDr7npx1GYhdzb5dwBQ=;
+ b=bJwFh9APmu/ITdqooRx5hnxDIRxYlInTCjE5vzyhOGVyyw27vcw5a7kYWE9ET/Igbn
+ BvikSal82x4XREFOQE/XjVCwtevUzqAp7oO4O3qo7+ARIp/CZ/50BelQqsR1ydDwMMMY
+ Ow7bvh9qfHGIh6pVbLZI8kqhCQkpCxaKtz9pLrbTFA/XkS7EDU0Povah15dJTCVxdyhC
+ sMaWwZpJl1mr3/Yab2sM288hiUsuM8k20KJhcH6SApAMQX8m2dsip/5uGXZmuMLXp0zk
+ WIBuq6/UW3ewwbSEOiiEWIgJqd+HQWzAp2Tl0x75Mpe2UGjyg+cdvksu+hm6JG2MYVcX
+ F4zQ==
+X-Gm-Message-State: APjAAAVYWCjPFav7oPN9Ep+eq8quK4ez703w5RscxpOAJEjP/dlIzHY5
+ 4r0WqFHD7gWV1+70NjeUTfHQi9Walu6reKMDKagf3FFtkHs=
+X-Google-Smtp-Source: APXvYqyEbcB18NYAQVMUeBu01dV7ogblSRouGfibTk1CWbjsL4CsVvfU/5d4Rp+qGz7Xytn/JAlG0qG6WNH8b1HvfHY=
+X-Received: by 2002:a6b:92d4:: with SMTP id
+ u203mr31446405iod.288.1579267986437; 
+ Fri, 17 Jan 2020 05:33:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20200110203942.5745-1-linux@roeck-us.net>
- <20200110203942.5745-4-linux@roeck-us.net>
-In-Reply-To: <20200110203942.5745-4-linux@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Jan 2020 13:31:54 +0000
-Message-ID: <CAFEAcA8UdoaCO7WFJXuUzz-T4B8JrptUBJ+Wdp3fzUesYT-qcg@mail.gmail.com>
-Subject: Re: [PATCH 3/6] hw/char/exynos4210_uart: Convert to support tracing
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+From: Ian Jiang <ianjiang.ict@gmail.com>
+Date: Fri, 17 Jan 2020 21:32:55 +0800
+Message-ID: <CAMAD20nGNi3N=Nj0x_ifUkH0Hb465eG77w6VG-vPLb1u1mPCsw@mail.gmail.com>
+Subject: riscv: How to get more CSR information in debug trace?
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000563f1f059c55fbcf"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::d34
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,23 +69,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Jan 2020 at 20:39, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> Replace debug code with tracing to aid debugging.
->
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
->  hw/char/exynos4210_uart.c | 96 ++++++++++++---------------------------
->  hw/char/trace-events      | 17 +++++++
->  2 files changed, 47 insertions(+), 66 deletions(-)
+--000000000000563f1f059c55fbcf
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The following registers are given in QEMU debug trace with "-d cpu"
+parameter.
+pc       0000000000001000
+mhartid  0000000000000000
+mstatus  0000000000000000
 
-thanks
--- PMM
+mip      0x0
+mie      0000000000000000
+mideleg  0000000000000000
+medeleg  0000000000000000
+mtvec    0000000000000000
+mepc     0000000000000000
+mcause   0000000000000000
+
+I want more information of other CSRs, such as sstatus, misa, pmpconfig0.
+How to get debug trace on all CSRs defined in RISC-V specification?
+Thanks!
+
+--
+Ian Jiang
+
+--000000000000563f1f059c55fbcf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>The following registers are given in QEMU debug trace=
+ with &quot;-d cpu&quot; parameter.</div>pc =C2=A0 =C2=A0 =C2=A0 0000000000=
+001000<br>mhartid =C2=A00000000000000000<br>mstatus =C2=A00000000000000000 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0<br>mip =C2=A0 =C2=A0 =C2=A00x0<br>mie =C2=A0 =C2=A0 =C2=A0000=
+0000000000000<br>mideleg =C2=A00000000000000000<br>medeleg =C2=A00000000000=
+000000<br>mtvec =C2=A0 =C2=A00000000000000000<br>mepc =C2=A0 =C2=A0 0000000=
+000000000<br>mcause =C2=A0 0000000000000000<div><br></div><div>I want more =
+information of other CSRs, such as sstatus, misa, pmpconfig0.</div><div>How=
+ to get debug trace on all CSRs defined in RISC-V specification?</div><div>=
+Thanks!</div><div><br></div><div>--</div><div>Ian Jiang</div></div>
+
+--000000000000563f1f059c55fbcf--
 
