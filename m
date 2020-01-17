@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6926F1412A9
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 22:14:36 +0100 (CET)
-Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40EC14128E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 22:03:21 +0100 (CET)
+Received: from localhost ([::1]:34568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isYwt-00062g-EV
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 16:14:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40661)
+	id 1isYm0-0002NA-IW
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 16:03:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49989)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fairouz.fsegs@gmail.com>) id 1isXKz-0007to-2E
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 14:31:22 -0500
+ (envelope-from <msys.mizuma@gmail.com>) id 1isYkf-0001aQ-Vv
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 16:01:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fairouz.fsegs@gmail.com>) id 1isXKx-0006FD-Tw
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 14:31:20 -0500
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:45841)
+ (envelope-from <msys.mizuma@gmail.com>) id 1isYke-0004DH-EK
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 16:01:57 -0500
+Received: from mail-qv1-xf44.google.com ([2607:f8b0:4864:20::f44]:37133)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <fairouz.fsegs@gmail.com>)
- id 1isXKx-0006EF-PK
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 14:31:19 -0500
-Received: by mail-oi1-x231.google.com with SMTP id n16so23190311oie.12
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 11:31:19 -0800 (PST)
+ (Exim 4.71) (envelope-from <msys.mizuma@gmail.com>)
+ id 1isYke-0004CY-9X
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 16:01:56 -0500
+Received: by mail-qv1-xf44.google.com with SMTP id f16so11341909qvi.4
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 13:01:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=/uBY9fCAQSyeZdYF9jAsudL5P9yVjLAeINdgiZzi03M=;
- b=SG+HgYet7p2bHkuf1HXLgo/XVFdNimzJEACaBZB1Io2cyaYYOTx1F68cwujM4T4O0c
- +TR4olqAr9fEqVctA5LUbrhMDZQRJuTDxHbRmK8KmgnVnrmYydKgOCH0g/ABV0lrgsUp
- FBlbTShs7PRlDn4RLvfZJDBEQks5SRliUNKA7TgOp7VqqmxjR11rDs5wRkmHoUkkXJED
- E/nk7TasAqdyOdF7WWfeMmTvdjudMgzmx3dZcBRvd248nKGsD1hgf9bHKLYgDM6fZNxF
- hRogGCW4qFedUPs3xMuo4e1I/BTjtnpFtZgSnZvY7fiXVq0QwKDYpT2wTERFsk/FwZpW
- aSHg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=kiUukwd4mg8ssVMVdhOABYVtemuBuBFjegzFBONPi7w=;
+ b=Pg4fr+gSa0rO26A7QJZrNOraH/uAAOX809S46tIAF61P8INNDcjAWqLjwr3XXu/UUU
+ eVn4gcRxZCkWzd2rq1/AE6W4jsYsTaPUtjx2IUIoKPtjSg27WO+r2+W9t3cgIg0LP4vv
+ IrCgcy4/D7uH9hpC2Nj5D5QybqpZeTbCYIfhgpN6XSzQzMH7jRelqUqBHeCCLzVV5B2M
+ p0tZ8byYngkYL5uMhQLTkZz3BH6AVhG2EA66e/i1RWK9d+5d6ZgzDPoeWKISuPN/kzLD
+ e1AajXfDcwU9hUkuriPyUvJN5Rf/jbmUBFLkdZCQwEBSExj3gfSoro7XzhVm8wgG8Ekx
+ zRng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=/uBY9fCAQSyeZdYF9jAsudL5P9yVjLAeINdgiZzi03M=;
- b=Ra9rwVI2AnMFtYWBrDEo1xTeDu3jxMI7GOibxNE3DuiKKCWBikxTJaBoj9gE5oMNB/
- Z51zEGr3IP0HbwnnTALhyLnMk2ZVrhAuCgVpPdUnN8gbL0M51TjA4JCh7PDoZTQ27u+m
- LkK0T1ANellfjoESF8wPDPtF6tEmYr4tT1XYg7AaKNOb8fnuVGp4jq+jc8PuVo4Nk5hJ
- 8FiLJk033ecfjPaJPTe1L4h1M3+l2oDar5jalcYN0a72a+7cHLVBbTi0lDYohMGbEbgK
- 45PFi8ZVM24UoTSHjEnIM/9GuQLsx2ruzFsKjtGDw7sYhcKVMTbC/6ni6eBtvIkPhjjA
- fk0w==
-X-Gm-Message-State: APjAAAWCJuXofkrB+WfOekVdUWk25dln9lhs0zAuyN0I6MhAk3dSJyZp
- mD8rFin01R060HuL0nAblUfNh5BnnheUpuBcs6gqeeA4
-X-Google-Smtp-Source: APXvYqxa/CM8g4H/jGC9h4pFcmdK4Fb3eMWgntAw2lc3H0kmrKNmP+M2wmKXVwR6nH1YuimlgRVI1hAl9F6/7F/4a2g=
-X-Received: by 2002:a05:6808:a83:: with SMTP id q3mr4798066oij.0.1579289478123; 
- Fri, 17 Jan 2020 11:31:18 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kiUukwd4mg8ssVMVdhOABYVtemuBuBFjegzFBONPi7w=;
+ b=Sbl8bC4e1Z1+1FiF7m5nz2CcbaOyGn222jT+col6RzSGTda8PjwQzXpJ310VjIyrfV
+ V13CS0uxJivWSOwmBAEezCPsJx3GdMtX+hfmHxsBDLchN4F7bz5cVEvrwEn6LnaTNvb3
+ ZJRao1P4BrNnc4CrL0P1XJbQOOiGr3qTDE1qntW01E+JgN3QOGVzVwAK25HQmATvtyQB
+ RrUElMVpj8FZgTiwdM8Q33p53f9MisDEm2mQwJc4zk4QcbpyUyEFz8+YX6jdJgua5/VL
+ E+JPBKpEnGupe7XqE+P6AY4oBta0DCkO1NuJ97Y01wtvmCHRzABVGS5iBrA1uMr7Dr8Q
+ 7fPw==
+X-Gm-Message-State: APjAAAXUx+vGb2r7ugH8INyrOB5WUgxMNGCYswILR0Rp5Ak9Dmd79JJ0
+ p8uY0s2efcHSOrSSG1azFg==
+X-Google-Smtp-Source: APXvYqxhU1HgtE1WXsrDRJhsUxvHZ9f56tS5oDOPfsR71x4Pi8H7fdv/Pg1KhcBpudboQzkGawAMzQ==
+X-Received: by 2002:a0c:e610:: with SMTP id z16mr9654286qvm.215.1579294915300; 
+ Fri, 17 Jan 2020 13:01:55 -0800 (PST)
+Received: from gabell
+ (209-6-122-159.s2973.c3-0.arl-cbr1.sbo-arl.ma.cable.rcncustomer.com.
+ [209.6.122.159])
+ by smtp.gmail.com with ESMTPSA id w60sm13423204qte.39.2020.01.17.13.01.54
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 17 Jan 2020 13:01:54 -0800 (PST)
+Date: Fri, 17 Jan 2020 16:01:49 -0500
+From: Masayoshi Mizuma <msys.mizuma@gmail.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 039/104] virtiofsd: Plumb fuse_bufvec through to
+ do_write_buf
+Message-ID: <20200117210149.cvj3lb2tufz54hcg@gabell>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-40-dgilbert@redhat.com>
 MIME-Version: 1.0
-From: Fairouz Fakhfakh <fairouz.fsegs@gmail.com>
-Date: Fri, 17 Jan 2020 20:31:08 +0100
-Message-ID: <CABeOJJXwH05-fKDumR=vLV8aJvxyZhaqD7S+LMAqEz-53MOmYQ@mail.gmail.com>
-Subject: help
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="00000000000057533a059c5afc2a"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191212163904.159893-40-dgilbert@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::231
-X-Mailman-Approved-At: Fri, 17 Jan 2020 16:13:05 -0500
+X-Received-From: 2607:f8b0:4864:20::f44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,30 +81,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000057533a059c5afc2a
-Content-Type: text/plain; charset="UTF-8"
+On Thu, Dec 12, 2019 at 04:37:59PM +0000, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> Let fuse_session_process_buf_int take a fuse_bufvec * instead of a
+> fuse_buf;  and then through to do_write_buf - where in the best
+> case it can pass that straight through to op.write_buf without copying
+> (other than skipping a header).
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  tools/virtiofsd/fuse_i.h        |  2 +-
+>  tools/virtiofsd/fuse_lowlevel.c | 61 ++++++++++++++++++++++-----------
+>  tools/virtiofsd/fuse_virtio.c   |  3 +-
+>  3 files changed, 44 insertions(+), 22 deletions(-)
+> 
+> diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+> index cb1ca70ffa..d0679508cd 100644
+> --- a/tools/virtiofsd/fuse_i.h
+> +++ b/tools/virtiofsd/fuse_i.h
+> @@ -119,7 +119,7 @@ int fuse_send_reply_iov_nofree(fuse_req_t req, int error, struct iovec *iov,
+>  void fuse_free_req(fuse_req_t req);
+>  
+>  void fuse_session_process_buf_int(struct fuse_session *se,
+> -                                  const struct fuse_buf *buf,
+> +                                  struct fuse_bufvec *bufv,
+>                                    struct fuse_chan *ch);
+>  
+>  
+> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+> index bea092b454..7d33bbf539 100644
+> --- a/tools/virtiofsd/fuse_lowlevel.c
+> +++ b/tools/virtiofsd/fuse_lowlevel.c
+> @@ -1006,11 +1006,12 @@ static void do_write(fuse_req_t req, fuse_ino_t nodeid, const void *inarg)
+>  }
+>  
+>  static void do_write_buf(fuse_req_t req, fuse_ino_t nodeid, const void *inarg,
+> -                         const struct fuse_buf *ibuf)
+> +                         struct fuse_bufvec *ibufv)
+>  {
+>      struct fuse_session *se = req->se;
+> -    struct fuse_bufvec bufv = {
+> -        .buf[0] = *ibuf,
+> +    struct fuse_bufvec *pbufv = ibufv;
+> +    struct fuse_bufvec tmpbufv = {
+> +        .buf[0] = ibufv->buf[0],
+>          .count = 1,
+>      };
+>      struct fuse_write_in *arg = (struct fuse_write_in *)inarg;
+> @@ -1020,22 +1021,31 @@ static void do_write_buf(fuse_req_t req, fuse_ino_t nodeid, const void *inarg,
+>      fi.fh = arg->fh;
+>      fi.writepage = arg->write_flags & FUSE_WRITE_CACHE;
+>  
+> -    fi.lock_owner = arg->lock_owner;
+> -    fi.flags = arg->flags;
+> -    if (!(bufv.buf[0].flags & FUSE_BUF_IS_FD)) {
+> -        bufv.buf[0].mem = PARAM(arg);
+> -    }
+> -
+> -    bufv.buf[0].size -=
+> -        sizeof(struct fuse_in_header) + sizeof(struct fuse_write_in);
+> -    if (bufv.buf[0].size < arg->size) {
+> -        fuse_log(FUSE_LOG_ERR, "fuse: do_write_buf: buffer size too small\n");
+> -        fuse_reply_err(req, EIO);
+> -        return;
+> +    if (ibufv->count == 1) {
+> +        fi.lock_owner = arg->lock_owner;
+> +        fi.flags = arg->flags;
+> +        if (!(tmpbufv.buf[0].flags & FUSE_BUF_IS_FD)) {
+> +            tmpbufv.buf[0].mem = PARAM(arg);
+> +        }
+> +        tmpbufv.buf[0].size -=
+> +            sizeof(struct fuse_in_header) + sizeof(struct fuse_write_in);
+> +        if (tmpbufv.buf[0].size < arg->size) {
+> +            fuse_log(FUSE_LOG_ERR,
+> +                     "fuse: do_write_buf: buffer size too small\n");
+> +            fuse_reply_err(req, EIO);
+> +            return;
+> +        }
+> +        tmpbufv.buf[0].size = arg->size;
+> +        pbufv = &tmpbufv;
+> +    } else {
+> +        /*
+> +         *  Input bufv contains the headers in the first element
+> +         * and the data in the rest, we need to skip that first element
+> +         */
+> +        ibufv->buf[0].size = 0;
+>      }
+> -    bufv.buf[0].size = arg->size;
+>  
+> -    se->op.write_buf(req, nodeid, &bufv, arg->offset, &fi);
+> +    se->op.write_buf(req, nodeid, pbufv, arg->offset, &fi);
+>  }
+>  
+>  static void do_flush(fuse_req_t req, fuse_ino_t nodeid, const void *inarg)
+> @@ -2027,13 +2037,24 @@ static const char *opname(enum fuse_opcode opcode)
+>  void fuse_session_process_buf(struct fuse_session *se,
+>                                const struct fuse_buf *buf)
+>  {
+> -    fuse_session_process_buf_int(se, buf, NULL);
+> +    struct fuse_bufvec bufv = { .buf[0] = *buf, .count = 1 };
+> +    fuse_session_process_buf_int(se, &bufv, NULL);
+>  }
+>  
+> +/*
+> + * Restriction:
+> + *   bufv is normally a single entry buffer, except for a write
+> + *   where (if it's in memory) then the bufv may be multiple entries,
+> + *   where the first entry contains all headers and subsequent entries
+> + *   contain data
+> + *   bufv shall not use any offsets etc to make the data anything
+> + *   other than contiguous starting from 0.
+> + */
+>  void fuse_session_process_buf_int(struct fuse_session *se,
+> -                                  const struct fuse_buf *buf,
+> +                                  struct fuse_bufvec *bufv,
+>                                    struct fuse_chan *ch)
+>  {
+> +    const struct fuse_buf *buf = bufv->buf;
+>      struct fuse_in_header *in;
+>      const void *inarg;
+>      struct fuse_req *req;
+> @@ -2111,7 +2132,7 @@ void fuse_session_process_buf_int(struct fuse_session *se,
+>  
+>      inarg = (void *)&in[1];
+>      if (in->opcode == FUSE_WRITE && se->op.write_buf) {
+> -        do_write_buf(req, in->nodeid, inarg, buf);
+> +        do_write_buf(req, in->nodeid, inarg, bufv);
+>      } else {
+>          fuse_ll_ops[in->opcode].func(req, in->nodeid, inarg);
+>      }
+> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+> index fa6e53e7d0..99c877ea2e 100644
+> --- a/tools/virtiofsd/fuse_virtio.c
+> +++ b/tools/virtiofsd/fuse_virtio.c
+> @@ -499,7 +499,8 @@ static void *fv_queue_thread(void *opaque)
+>              /* TODO! Endianness of header */
+>  
+>              /* TODO: Add checks for fuse_session_exited */
+> -            fuse_session_process_buf_int(se, &fbuf, &ch);
+> +            struct fuse_bufvec bufv = { .buf[0] = fbuf, .count = 1 };
+> +            fuse_session_process_buf_int(se, &bufv, &ch);
+>  
+>              if (!qi->reply_sent) {
+>                  fuse_log(FUSE_LOG_DEBUG, "%s: elem %d no reply sent\n",
 
-Hello,
-I would like to use qemu to install a virtual machine (VM) in Ubuntu.
-I need a minimal VM  which contains only jdk (openjdk).
+Looks good to me.
 
-Can someone help me, please.
-Thank you in advance.
-
---00000000000057533a059c5afc2a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello,</div><div>I would like to use qemu to install =
-a virtual machine (VM) in Ubuntu.<br>I need a minimal VM =C2=A0which contai=
-ns only jdk (openjdk).<br><br>Can someone help me, please.<br>Thank you in =
-advance.<br></div></div><img src=3D"https://my-email-signature.link/signatu=
-re.gif?u=3D43490&amp;e=3D82146786&amp;v=3Dac8ccdef42c4fd4b7d102b7c8d6f15c85=
-0fefb5c9a5bd6adaad6257e36bcd7cd" style=3D"width:2px;max-height:0;overflow:h=
-idden">
-
---00000000000057533a059c5afc2a--
+Reviewed-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
 
