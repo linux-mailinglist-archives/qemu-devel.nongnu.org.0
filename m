@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB214140B11
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:39:11 +0100 (CET)
-Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33207140AE8
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:37:51 +0100 (CET)
+Received: from localhost ([::1]:57394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isRqA-00084t-CX
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:39:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48966)
+	id 1isRor-0006SR-0Z
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:37:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49223)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1isRlE-00039M-Dg
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:34:08 -0500
+ (envelope-from <philmd@redhat.com>) id 1isRn7-000530-0Q
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:36:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1isRlA-0000Al-Lx
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:34:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51558
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1isRn5-0001hF-QR
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:36:00 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45500
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isRl3-00004x-Dh
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:34:00 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isRn5-0001gT-MS
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:35:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579268032;
+ s=mimecast20190719; t=1579268158;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y3SzMAzbADTBE0GYRSa4giIWDbHlwzbWRE4u8/8geyI=;
- b=HHYVppGejpLCMlVJqWmEOWEXxOHiNM5aL/XSbGlvJMeXiqczlvMq6YY5/EJhuUdb+7XeLh
- Use36/JV+sbdyJWP6KnJOK6fmxzJbzPboiaFrXirEGpO8ikXR1gWmXbnVfRjU7Rt45gcsZ
- Gjia7pPN4GrClzb1VThmok37DgwlrsY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-zo5eHLedNqGh5dXf5HbR_g-1; Fri, 17 Jan 2020 08:33:49 -0500
-Received: by mail-wr1-f69.google.com with SMTP id u18so10483170wrn.11
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:33:49 -0800 (PST)
+ bh=Th/SkgwkFWkEs4o4ayRq7xGuMNJxo3Vi/QWVO57M8A8=;
+ b=etDOn2xLI+6kwVdGVOz7/lesSMMgWbsxkGR1V6YirLXrT0s4/AX4PRmA7AGPXMMXVJUu1z
+ 48C1F0oHEj3hajruVyRJ6LtsaNG7dfv9qEn0llAMjx+WqG3aocTSZ7/f0qmX/VwDavarAm
+ aPR6rNr7IEo41Tt/ZycVU47IzMltbt0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-237-E2XUFgX0OWy4s-TN7-b2Sg-1; Fri, 17 Jan 2020 08:35:52 -0500
+Received: by mail-wr1-f70.google.com with SMTP id o6so10490223wrp.8
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:35:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9G7/8bbJigEpulwrvNvAKN7AbKqJ5FQn9jZVZd9SbGw=;
- b=FlTnvDCpESl59P2pDk4kW9mIxMfeVgtOdkFePuXpj+7Pw275ZgSSo6nRSRApKh7KdV
- N2uQJxqkLJZOXg/xd2MOo/BK5z2nwX+oPXG6VK/l/qPoMVEnH9Xq/WkzrrMf6ZAEIHbf
- II36NAzi34B2YqV0DdB1BUSGQfNSHapoP1s1k4n4kTMiM9I6OUqlH+kZZ6NKUK0eIUS2
- HFsPhMynboi7JZdpZMJKatNBd6yC4SV3IVW4OMO2s+RlGVoNa15IKvBqi/qd/9hRje1n
- YjpyUr68KwqKT5gavn1CAzKezXm5e60ltxH08zSFmsySrgxnvK/h7ZQgSOkkwuT4Gn/F
- 6fMg==
-X-Gm-Message-State: APjAAAWE9oRNhol1lUFgPGTNlwEvhBOxwU9zlt7uwT5Xq6TsD6mU+CGm
- i58oK2aOoNXI/pfC+HqA+7z+XTCDek3YnxY2yaBFILzrFW67xODSQh6pmShbU3xl7n1EKtoOjh0
- vdHOCupg3h8s6fY4=
-X-Received: by 2002:adf:a41c:: with SMTP id d28mr3218166wra.410.1579268028454; 
- Fri, 17 Jan 2020 05:33:48 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxAsvB+2bw8nN3Q9v9L3aSI+FX+OeRzWax7umEeJl10atz7ihIoPG21KRiF5oKhr6OxQmGfBg==
-X-Received: by 2002:adf:a41c:: with SMTP id d28mr3218152wra.410.1579268028202; 
- Fri, 17 Jan 2020 05:33:48 -0800 (PST)
+ bh=J3qPvvKTD+YPX2lVjkTcF2R+XThWz6YykrWtOGVU8BE=;
+ b=OP+GuJCnLlDN2sDeKc7yvzCIxDJ6P67IrG766IqGMVdKXd0Q7MLL0DEcfEMCdhFYUW
+ 9zfdh3BDegcpxdomyTwOqVcfB2QNXGad+ooKB3Q3pq08/2IXiVQAEj5+s7xRdMgiAdr8
+ BJYfeAJ2Xz7gyUxDBTfeXt2H+50ayCK9SjFP7Y7i++0wWWJ3/8z+j1BNYEaiBa2aSfOF
+ pD7Fik/+L7Jf3Y2BZ5neSiQ0lPPchaZO6/vHQNo53S9u519FRf7k8HU1KEa/hzrive7y
+ XAiB3a3l22kOm55u73m0Eak/jadnNlau2zG4Afug97dD0ozVrZn40FpiUKJeG6nTHhkX
+ zkBw==
+X-Gm-Message-State: APjAAAVtJ3lrZsImagkyaWy8x2NMHjoLPfo1su2eU+lQLCFFHexJlPfT
+ mzx+mSirEYohpMjCTKtJl1nGnijprP09zpjQGR/mOezWhSkD8AGbAv4qGEBlRkyifAnFxAWgO2a
+ p8AoP6pVJou+KqE0=
+X-Received: by 2002:a05:600c:2c2:: with SMTP id
+ 2mr4790770wmn.155.1579268151321; 
+ Fri, 17 Jan 2020 05:35:51 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyvjZE/wJN4/TDkp88TPDAbE4nvEGFcQvM5Pxus6GCdAdiQZZgUzpTPzgJLtP82jzvIznQEJQ==
+X-Received: by 2002:a05:600c:2c2:: with SMTP id
+ 2mr4790758wmn.155.1579268151125; 
+ Fri, 17 Jan 2020 05:35:51 -0800 (PST)
 Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id t5sm33402157wrr.35.2020.01.17.05.33.47
+ by smtp.gmail.com with ESMTPSA id u14sm33451221wrm.51.2020.01.17.05.35.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jan 2020 05:33:47 -0800 (PST)
-Subject: Re: [PATCH 104/104] virtiofsd: Convert lo_destroy to take the
- lo->mutex lock itself
+ Fri, 17 Jan 2020 05:35:50 -0800 (PST)
+Subject: Re: [PATCH 103/104] virtiofsd: add --thread-pool-size=NUM option
 To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
  qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-105-dgilbert@redhat.com>
+ <20191212163904.159893-104-dgilbert@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <fc2bbbfa-4a10-f01f-c681-5e1fbe6c249d@redhat.com>
-Date: Fri, 17 Jan 2020 14:33:46 +0100
+Message-ID: <dcac828c-b100-014e-fd77-808262a56777@redhat.com>
+Date: Fri, 17 Jan 2020 14:35:49 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-105-dgilbert@redhat.com>
+In-Reply-To: <20191212163904.159893-104-dgilbert@redhat.com>
 Content-Language: en-US
-X-MC-Unique: zo5eHLedNqGh5dXf5HbR_g-1
+X-MC-Unique: E2XUFgX0OWy4s-TN7-b2Sg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,102 +99,99 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/12/19 5:39 PM, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> From: Stefan Hajnoczi <stefanha@redhat.com>
 >=20
-> lo_destroy was relying on some implicit knowledge of the locking;
-> we can avoid this if we create an unref_inode that doesn't take
-> the lock and then grab it for the whole of the lo_destroy.
+> Add an option to control the size of the thread pool.  Requests are now
+> processed in parallel by default.
 >=20
-> Suggested-by: Vivek Goyal <vgoyal@redhat.com>
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   tools/virtiofsd/passthrough_ll.c | 31 +++++++++++++++++--------------
->   1 file changed, 17 insertions(+), 14 deletions(-)
+>   tools/virtiofsd/fuse_i.h        | 1 +
+>   tools/virtiofsd/fuse_lowlevel.c | 7 ++++++-
+>   tools/virtiofsd/fuse_virtio.c   | 5 +++--
+>   3 files changed, 10 insertions(+), 3 deletions(-)
 >=20
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
-gh_ll.c
-> index 38f4948e61..c37f57157e 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -1328,14 +1328,13 @@ static void lo_unlink(fuse_req_t req, fuse_ino_t =
-parent, const char *name)
->       lo_inode_put(lo, &inode);
+> diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+> index 8a4a05b319..4da6a242ba 100644
+> --- a/tools/virtiofsd/fuse_i.h
+> +++ b/tools/virtiofsd/fuse_i.h
+> @@ -72,6 +72,7 @@ struct fuse_session {
+>       int   vu_listen_fd;
+>       int   vu_socketfd;
+>       struct fv_VuDev *virtio_dev;
+> +    int thread_pool_size;
+>   };
+>  =20
+>   struct fuse_chan {
+> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowle=
+vel.c
+> index 9f01c05e3e..09a7b23726 100644
+> --- a/tools/virtiofsd/fuse_lowlevel.c
+> +++ b/tools/virtiofsd/fuse_lowlevel.c
+> @@ -27,6 +27,7 @@
+>   #include <sys/file.h>
+>   #include <unistd.h>
+>  =20
+> +#define THREAD_POOL_SIZE 64
+>  =20
+>   #define OFFSET_MAX 0x7fffffffffffffffLL
+>  =20
+> @@ -2523,6 +2524,7 @@ static const struct fuse_opt fuse_ll_opts[] =3D {
+>       LL_OPTION("--socket-path=3D%s", vu_socket_path, 0),
+>       LL_OPTION("vhost_user_socket=3D%s", vu_socket_path, 0),
+>       LL_OPTION("--fd=3D%d", vu_listen_fd, 0),
+> +    LL_OPTION("--thread-pool-size=3D%d", thread_pool_size, 0),
+>       FUSE_OPT_END
+>   };
+>  =20
+> @@ -2544,7 +2546,9 @@ void fuse_lowlevel_help(void)
+>           "    --socket-path=3DPATH         path for the vhost-user socke=
+t\n"
+>           "    -o vhost_user_socket=3DPATH  path for the vhost-user socke=
+t\n"
+>           "    --fd=3DFDNUM                 fd number of vhost-user socke=
+t\n"
+> -        "    -o auto_unmount            auto unmount on process terminat=
+ion\n");
+> +        "    -o auto_unmount            auto unmount on process terminat=
+ion\n"
+> +        "    --thread-pool-size=3DNUM     thread pool size limit (defaul=
+t %d)\n",
+> +        THREAD_POOL_SIZE);
 >   }
 >  =20
-> -static void unref_inode_lolocked(struct lo_data *lo, struct lo_inode *in=
-ode,
-> -                                 uint64_t n)
-> +/* To be called with lo->mutex held */
-> +static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint=
-64_t n)
->   {
->       if (!inode) {
->           return;
+>   void fuse_session_destroy(struct fuse_session *se)
+> @@ -2598,6 +2602,7 @@ struct fuse_session *fuse_session_new(struct fuse_a=
+rgs *args,
 >       }
+>       se->fd =3D -1;
+>       se->vu_listen_fd =3D -1;
+> +    se->thread_pool_size =3D THREAD_POOL_SIZE;
+>       se->conn.max_write =3D UINT_MAX;
+>       se->conn.max_readahead =3D UINT_MAX;
 >  =20
-> -    pthread_mutex_lock(&lo->mutex);
->       assert(inode->nlookup >=3D n);
->       inode->nlookup -=3D n;
->       if (!inode->nlookup) {
-> @@ -1346,15 +1345,24 @@ static void unref_inode_lolocked(struct lo_data *=
-lo, struct lo_inode *inode,
->           }
->           g_hash_table_destroy(inode->posix_locks);
->           pthread_mutex_destroy(&inode->plock_mutex);
-> -        pthread_mutex_unlock(&lo->mutex);
+> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.=
+c
+> index b696ac3135..7bc6ff2f19 100644
+> --- a/tools/virtiofsd/fuse_virtio.c
+> +++ b/tools/virtiofsd/fuse_virtio.c
+> @@ -570,10 +570,11 @@ static void *fv_queue_thread(void *opaque)
+>       struct fv_QueueInfo *qi =3D opaque;
+>       struct VuDev *dev =3D &qi->virtio_dev->dev;
+>       struct VuVirtq *q =3D vu_get_queue(dev, qi->qidx);
+> +    struct fuse_session *se =3D qi->virtio_dev->se;
+>       GThreadPool *pool;
 >  =20
->           /* Drop our refcount from lo_do_lookup() */
->           lo_inode_put(lo, &inode);
-> -    } else {
-> -        pthread_mutex_unlock(&lo->mutex);
->       }
->   }
->  =20
-> +static void unref_inode_lolocked(struct lo_data *lo, struct lo_inode *in=
-ode,
-> +                                 uint64_t n)
-> +{
-> +    if (!inode) {
-> +        return;
-> +    }
-> +
-> +    pthread_mutex_lock(&lo->mutex);
-> +    unref_inode(lo, inode, n);
-> +    pthread_mutex_unlock(&lo->mutex);
-> +}
-> +
->   static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nloo=
-kup)
->   {
->       struct lo_data *lo =3D lo_data(req);
-> @@ -2441,13 +2449,7 @@ static void lo_destroy(void *userdata)
->   {
->       struct lo_data *lo =3D (struct lo_data *)userdata;
->  =20
-> -    /*
-> -     * Normally lo->mutex must be taken when traversing lo->inodes but
-> -     * lo_destroy() is a serialized request so no races are possible her=
-e.
-> -     *
-> -     * In addition, we cannot acquire lo->mutex since unref_inode() take=
-s it
-> -     * too and this would result in a recursive lock.
-> -     */
-> +    pthread_mutex_lock(&lo->mutex);
->       while (true) {
->           GHashTableIter iter;
->           gpointer key, value;
-> @@ -2458,8 +2460,9 @@ static void lo_destroy(void *userdata)
->           }
->  =20
->           struct lo_inode *inode =3D value;
-> -        unref_inode_lolocked(lo, inode, inode->nlookup);
-> +        unref_inode(lo, inode, inode->nlookup);
->       }
-> +    pthread_mutex_unlock(&lo->mutex);
->   }
->  =20
->   static struct fuse_lowlevel_ops lo_oper =3D {
+> -    pool =3D g_thread_pool_new(fv_queue_worker, qi, 1 /* TODO max_thread=
+s */,
+> -                             TRUE, NULL);
+> +    pool =3D g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_size=
+, TRUE,
+> +                             NULL);
+>       if (!pool) {
+>           fuse_log(FUSE_LOG_ERR, "%s: g_thread_pool_new failed\n", __func=
+__);
+>           return NULL;
 >=20
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
