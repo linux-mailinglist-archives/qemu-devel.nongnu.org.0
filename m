@@ -2,74 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69143141016
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 18:42:33 +0100 (CET)
-Received: from localhost ([::1]:32780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB40A141033
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 18:49:17 +0100 (CET)
+Received: from localhost ([::1]:32874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isVdg-0000HX-GW
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 12:42:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55083)
+	id 1isVkC-00045s-Ei
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 12:49:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55791)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1isVcW-0007pn-TP
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:41:21 -0500
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1isVi2-0002GW-Ol
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:47:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1isVcV-0003D6-VW
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:41:20 -0500
-Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:39425)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1isVcT-0003Au-RB; Fri, 17 Jan 2020 12:41:17 -0500
-Received: by mail-yb1-xb41.google.com with SMTP id x18so6228267ybk.6;
- Fri, 17 Jan 2020 09:41:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ZbltzGJaQyeZ5szrL/Z/7BbqWF9ObYIMgsWiX8bTni0=;
- b=EneSngpjXgwzpEA+r9mmFqfJlO9Bb6VHgfMHEfHQpZ4sYAt9HI76FdfAILGdcREYDh
- ZoIlAkp32QPh1sTcl/bP8rNtTql6DBWiZrj19tgQ8YqKob5itxkFwP+Ot5y5s6ScOlGe
- wi7W85mKGFMR3SzknwrGMxCxyb3gxScNMcvBHdSSkAUFdKkxi9hZ1MdiZjExjSvEYhgQ
- ymWJvnY/esEKaP0GpxUAIWDX9GnBimBcWtSsk6/IsInoQ44F6EujVF3UdaXmBWKkp8v7
- 0wQlHzpGR7dZkpsNBS6LslpuTE3mQYXroQv8e6BIcuX+blVlm6vau+X49IZe1ZH3Hf3d
- tCXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=ZbltzGJaQyeZ5szrL/Z/7BbqWF9ObYIMgsWiX8bTni0=;
- b=Nh341DlpQggVCV+odr6dOV4dCGFjh9whOKz5ATm7t/V8I138lUgSf21tfeAQv78MeU
- AiZMffRfZpmcaKCTrtf8ytzlJebQjH7rOhkAjm7VocLoCPvEDQbZRDtKz4hGY5X2s+Lj
- LXp4AA2uB5PpHvdE4lCSGot8fZT9OnleAv8G+Cb6tsTKXfjdgooX+EcM1e2bKetsskmY
- 7vzWZ+G6Jq39UX1wnO0UVz3x1eM1fZhFAUHi6pJMFw0EljsHOtdrg1dzRarElMOxg586
- V2q+eXC6Vww5rHbFxjTbgoOn0MsaRHp6T4L1D0OdGBuZMh58fgUzI/iIB23L9Ef/XoCz
- dssw==
-X-Gm-Message-State: APjAAAU0/1cU/Mdp3AE9E4LYD2pBvnqYZCX7ZCj7ujJwQpzyqEsk3Wtz
- VAsxZdZ+5oLcC8nTOjKhdj8=
-X-Google-Smtp-Source: APXvYqwUaVwl0ml5TIYeuAzfUMDRNuS6hPVTolghJucfLLJX0mhhtWLm13wTpqPlLUjoWLwzHPjbjQ==
-X-Received: by 2002:a25:1a55:: with SMTP id a82mr13416432yba.497.1579282877052; 
- Fri, 17 Jan 2020 09:41:17 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id 71sm11389007ywd.59.2020.01.17.09.41.15
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 17 Jan 2020 09:41:16 -0800 (PST)
-Date: Fri, 17 Jan 2020 09:41:14 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 1/6] dma/pl330: Convert to support tracing
-Message-ID: <20200117174114.GA32278@roeck-us.net>
-References: <20200110203942.5745-1-linux@roeck-us.net>
- <20200110203942.5745-2-linux@roeck-us.net>
- <CAFEAcA_k8xdzmsgMK+m6wSgnBN53UjCNU4nTBx=hnHnHz+Su6g@mail.gmail.com>
- <20200117164625.GA27197@roeck-us.net>
- <CAFEAcA9dvOQpPxkjG4XqYiMXbVsZ1VMCZWEWegeTu-GNW0Znaw@mail.gmail.com>
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1isVi1-0007gp-IL
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:47:02 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:46894 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1isVhw-0007Uh-UA; Fri, 17 Jan 2020 12:46:57 -0500
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 7FA3720316FEC9BDA05E;
+ Sat, 18 Jan 2020 01:46:46 +0800 (CST)
+Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.439.0; Sat, 18 Jan 2020 01:46:38 +0800
+From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
+ <imammedo@redhat.com>
+Subject: [PATCH v2 0/7] ARM virt: Add NVDIMM support
+Date: Fri, 17 Jan 2020 17:45:15 +0000
+Message-ID: <20200117174522.22044-1-shameerali.kolothum.thodi@huawei.com>
+X-Mailer: git-send-email 2.12.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9dvOQpPxkjG4XqYiMXbVsZ1VMCZWEWegeTu-GNW0Znaw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b41
+Content-Type: text/plain
+X-Originating-IP: [10.202.227.237]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,34 +53,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, mst@redhat.com,
+ linuxarm@huawei.com, xuwei5@hisilicon.com, shannon.zhaosl@gmail.com,
+ lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 17, 2020 at 05:05:07PM +0000, Peter Maydell wrote:
-> On Fri, 17 Jan 2020 at 16:46, Guenter Roeck <linux@roeck-us.net> wrote:
-> >
-> > On Fri, Jan 17, 2020 at 01:23:46PM +0000, Peter Maydell wrote:
-> > > Won't this now do all the work of constructing the hexdump strings,
-> > > even if tracing is disabled ?
-> > >
-> > That is correct. Can I check
-> >         if (trace_event_get_state(TRACE_PL330_HEXDUMP) &&
-> >             qemu_loglevel_mask(LOG_TRACE)) {
-> > directly in pl330_hexdump(), or is there some other means to handle
-> > this kind of situation ?
-> 
-> It's not something I've had to do before.
-> docs/devel/tracing.txt says "just use the TRACE_FOO_ENABLED
-> macro", but looking at what it does that doesn't seem to check
-> the runtime state of the trace event, so maybe those docs are out
-> of date. Stefan, what's the current best way to guard expensive
-> computations used only for trace output ?
-> 
-trace_event_get_state_backends(TRACE_PL330_HEXDUMP), maybe ?
+This series adds NVDIMM support to arm/virt platform.
+The series reuses some of the patches posted by Eric
+in his earlier attempt here[1].
+
+Patch #1 is a fix to the Guest reboot issue on NVDIMM
+hot add case described here[2] and patch #2 is another
+fix to the nvdimm aml issue discussed here[3].
+
+I have done a basic sanity testing of NVDIMM deviecs
+with Guest booting with both ACPI and DT. Further testing
+is always welcome.
+
+Please let me know your feedback.
 
 Thanks,
-Guenter
+Shameer
+
+[1] https://patchwork.kernel.org/cover/10830777/
+[2] https://patchwork.kernel.org/patch/11154757/
+[3] https://patchwork.kernel.org/cover/11174959/
+
+v1 --> v2
+ -Reworked patch #1 and now fix is inside qemu_ram_resize().
+ -Added patch #2 to fix the nvdim aml issue.
+ -Dropped support to DT cold plug.
+ -Updated test_acpi_virt_tcg_memhp() with pc-dimm and nvdimms(patch #7)
+
+Kwangwoo Lee (2):
+  nvdimm: Use configurable ACPI IO base and size
+  hw/arm/virt: Add nvdimm hot-plug infrastructure
+
+Shameer Kolothum (5):
+  exec: Fix for qemu_ram_resize() callback
+  hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM output  buffer  length
+  hw/arm/virt: Add nvdimm hotplug support
+  tests: Update ACPI tables list for upcoming arm/virt test changes
+  tests/bios-tables-test: Update arm/virt memhp test
+
+ docs/specs/acpi_hw_reduced_hotplug.rst      |  1 +
+ exec.c                                      | 36 +++++++----
+ hw/acpi/generic_event_device.c              | 13 ++++
+ hw/acpi/nvdimm.c                            | 68 +++++++++++++++++----
+ hw/arm/Kconfig                              |  1 +
+ hw/arm/virt-acpi-build.c                    |  6 ++
+ hw/arm/virt.c                               | 35 +++++++++--
+ hw/i386/acpi-build.c                        |  6 ++
+ hw/i386/acpi-build.h                        |  3 +
+ hw/i386/pc_piix.c                           |  2 +
+ hw/i386/pc_q35.c                            |  2 +
+ hw/mem/Kconfig                              |  2 +-
+ include/exec/ram_addr.h                     |  5 +-
+ include/hw/acpi/generic_event_device.h      |  1 +
+ include/hw/arm/virt.h                       |  1 +
+ include/hw/mem/nvdimm.h                     |  3 +
+ tests/data/acpi/virt/NFIT.memhp             |  0
+ tests/data/acpi/virt/SSDT.memhp             |  0
+ tests/qtest/bios-tables-test-allowed-diff.h |  5 ++
+ tests/qtest/bios-tables-test.c              |  9 ++-
+ 20 files changed, 163 insertions(+), 36 deletions(-)
+ create mode 100644 tests/data/acpi/virt/NFIT.memhp
+ create mode 100644 tests/data/acpi/virt/SSDT.memhp
+
+-- 
+2.17.1
+
+
 
