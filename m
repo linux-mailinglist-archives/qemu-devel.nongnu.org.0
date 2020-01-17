@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9174F140C3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:16:35 +0100 (CET)
-Received: from localhost ([::1]:58166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03954140BE8
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:02:33 +0100 (CET)
+Received: from localhost ([::1]:57950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isSQM-0007gg-Bb
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:16:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56422)
+	id 1isSCm-000888-3P
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:02:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david.edmondson@oracle.com>) id 1isOyw-0005SY-0q
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:36:05 -0500
+ (envelope-from <philmd@redhat.com>) id 1isS9P-0005hO-4Z
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:59:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david.edmondson@oracle.com>) id 1isOyr-0006W0-MG
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:36:01 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:57992)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david.edmondson@oracle.com>)
- id 1isOyr-0006UG-F2
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:35:57 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00HAY3iO161391
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:35:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2019-08-05;
- bh=549lWEneC6AQVgxJMNmbCEU/IPhzDWcy3LOeI993BkU=;
- b=KpoKCehBCSIPdGMfKU+L5gfv8Fh13Qn3o8WaXxRnc428wf/fosmLz9tX3ozyBSpgAYd/
- nhHyzcvjKnJTvyqCX1uJroJZpBLg1QUR+N4cxmO0oqUDBtR54CPESTlTz+0p6CjjAmv0
- j3eksxl/XJLXK/BMS4jPX0OF9A0V1ez8o+qZ3BSlsXsWLivKoWwn2CQPCRleP2POvPyK
- Ycs0zQggOfkLOTnkh2d/Cnaak5HJzpzW1hulaKpN+9jhRGALbu+f2gqDQdLEK/NNpeOO
- R2NJND1ou09WEFL/kaLmDvyAxdSJO7F/L/ZD2kshkZI3Nwm9Z7ubGOitrqk5H+EptJ7r Sw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 2xf73u7vev-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:35:55 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00HAXRgr042775
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:35:54 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 2xjxm8nkgv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:35:54 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00HAZrjS005660
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:35:53 GMT
-Received: from disaster-area.hh.sledj.net (/81.149.164.25)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 17 Jan 2020 02:35:53 -0800
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 9f9f2f3a;
- Fri, 17 Jan 2020 10:35:51 +0000 (UTC)
-From: David Edmondson <david.edmondson@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-img: Add --target-is-zero to convert
-Date: Fri, 17 Jan 2020 10:34:35 +0000
-Message-Id: <20200117103434.1363985-1-david.edmondson@oracle.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <id:m21rryz8al.fsf@dme.org>
-References: <id:m21rryz8al.fsf@dme.org>
+ (envelope-from <philmd@redhat.com>) id 1isS9N-0004iO-Nm
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:59:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32513
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isS9N-0004i0-JG
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:59:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579269541;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mzB1RIQ/lUNDHRd0+2BDiQtQqEzSUGjRXo4yhZW4rV8=;
+ b=ZieiqZhPujUuRWQ4gLLcQrdC9biF5QcBnKBQbZhh1QHmZ8ZzW0hbEHnMPYW2gd2sGDqz1u
+ EI+dzxq1MgTW71hKGLdVM7mz+wFWPwCkGcp2TUEUJXNCzC4o4KRqGagOOCGeNzQfxU6jFd
+ /NU4oRlkK+RMmyHZp8OaAJQtqPLMswk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-5Zhi-BigMISR2kMNkTvNag-1; Fri, 17 Jan 2020 08:58:59 -0500
+Received: by mail-wm1-f72.google.com with SMTP id t16so2297658wmt.4
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:58:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BfpUXc/9hUikSKkEYEvic3CEQR4WqX0Pa6KAzpRWJ3M=;
+ b=KiKMm5BxIxF/bCTn3YpkxKTZsd4N8BiSxMXnnDgq5ojuZAO80w0PimeS+kRDvvt0Iq
+ oqMFb2wYpPWJBvBBLCGiK50dlC6WocNmat1Dircfhn5rgECAK9GvYyvkSAvwWqpSrxDW
+ kEwuNhYec0X0LQPEyiR14pzcUrQyD072KZt4iXEfSJIp0cbSgVuG58WHRCq3O9Yn6WOv
+ bzaGfg1XkB98+IND/v30/wiUj6Prf87XefigYmRTtK7PnNEGk18V6DzJeMn2u4h0FqM/
+ N7eLicuFkXI5sTLA1ZGkliW7uvfLFvbpQ85W4uI6aP8c5MZt+9LDc3pxn2gCFr4t/Zyw
+ JFjA==
+X-Gm-Message-State: APjAAAVie2unKmyIb0QPVcaBnuVqbTy4R0ziH6+waIW6F39A6ANzieRO
+ buw1kArgGW3ST6dEXXqHopF5oI+QpCi2qpPCz18MqEOLZZivxQb90n722AHde59hpN89Ld8QMcC
+ HyTcVMFHjFT5wxC4=
+X-Received: by 2002:a5d:4acb:: with SMTP id y11mr3251699wrs.106.1579269538537; 
+ Fri, 17 Jan 2020 05:58:58 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyhGt8ZNuR715J9NltGsVL4Zn0Y1tmhvIjmztnKFWZVQUl/QZDFixTKveV3K3yo0bzv3/6SJA==
+X-Received: by 2002:a5d:4acb:: with SMTP id y11mr3251661wrs.106.1579269538179; 
+ Fri, 17 Jan 2020 05:58:58 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id i5sm34751971wrv.34.2020.01.17.05.58.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jan 2020 05:58:57 -0800 (PST)
+Subject: Re: [PATCH 035/104] virtiofsd: passthrough_ll: add dirp_map to hide
+ lo_dirp pointers
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-36-dgilbert@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ba0a0624-04df-0211-5ff6-2f7f94fe8e68@redhat.com>
+Date: Fri, 17 Jan 2020 14:58:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9502
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=877
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001170082
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9502
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=922 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001170082
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
-X-Mailman-Approved-At: Fri, 17 Jan 2020 09:15:33 -0500
+In-Reply-To: <20191212163904.159893-36-dgilbert@redhat.com>
+Content-Language: en-US
+X-MC-Unique: 5Zhi-BigMISR2kMNkTvNag-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,95 +94,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Edmondson <david.edmondson@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In many cases the target of a convert operation is a newly provisioned
-target that the user knows is blank (filled with zeroes). In this
-situation there is no requirement for qemu-img to wastefully zero out
-the entire device.
+On 12/12/19 5:37 PM, Dr. David Alan Gilbert (git) wrote:
+> From: Stefan Hajnoczi <stefanha@redhat.com>
+>=20
+> Do not expose lo_dirp pointers to clients.
+>=20
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   tools/virtiofsd/passthrough_ll.c | 103 +++++++++++++++++++++++--------
+>   1 file changed, 76 insertions(+), 27 deletions(-)
+>=20
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
+gh_ll.c
+> index fd1d88bddf..face8910b0 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -56,27 +56,10 @@
+>   #include "passthrough_helpers.h"
+>  =20
+>   #define HAVE_POSIX_FALLOCATE 1
+> -/*
+> - * We are re-using pointers to our `struct lo_inode`
+> - * elements as inodes. This means that we must be able to
+> - * store uintptr_t values in a fuse_ino_t variable. The following
+> - * incantation checks this condition at compile time.
+> - */
+> -#if defined(__GNUC__) &&                                      \
+> -    (__GNUC__ > 4 || __GNUC__ =3D=3D 4 && __GNUC_MINOR__ >=3D 6) && \
+> -    !defined __cplusplus
+> -_Static_assert(sizeof(fuse_ino_t) >=3D sizeof(uintptr_t),
+> -               "fuse_ino_t too small to hold uintptr_t values!");
+> -#else
+> -struct _uintptr_to_must_hold_fuse_ino_t_dummy_struct {
+> -    unsigned _uintptr_to_must_hold_fuse_ino_t
+> -        : ((sizeof(fuse_ino_t) >=3D sizeof(uintptr_t)) ? 1 : -1);
+> -};
+> -#endif
+> -
+>   struct lo_map_elem {
+>       union {
+>           struct lo_inode *inode;
+> +        struct lo_dirp *dirp;
+>           ssize_t freelist;
+>       };
+>       bool in_use;
+> @@ -123,6 +106,7 @@ struct lo_data {
+>       int timeout_set;
+>       struct lo_inode root; /* protected by lo->mutex */
+>       struct lo_map ino_map; /* protected by lo->mutex */
+> +    struct lo_map dirp_map; /* protected by lo->mutex */
+>   };
+>  =20
+>   static const struct fuse_opt lo_opts[] =3D {
+> @@ -252,6 +236,20 @@ static void lo_map_remove(struct lo_map *map, size_t=
+ key)
+>       map->freelist =3D key;
+>   }
+>  =20
+> +/* Assumes lo->mutex is held */
+> +static ssize_t lo_add_dirp_mapping(fuse_req_t req, struct lo_dirp *dirp)
+> +{
+> +    struct lo_map_elem *elem;
+> +
+> +    elem =3D lo_map_alloc_elem(&lo_data(req)->dirp_map);
+> +    if (!elem) {
+> +        return -1;
+> +    }
+> +
+> +    elem->dirp =3D dirp;
+> +    return elem - lo_data(req)->dirp_map.elems;
+> +}
+> +
+>   /* Assumes lo->mutex is held */
+>   static ssize_t lo_add_inode_mapping(fuse_req_t req, struct lo_inode *in=
+ode)
+>   {
+> @@ -844,9 +842,19 @@ struct lo_dirp {
+>       off_t offset;
+>   };
+>  =20
+> -static struct lo_dirp *lo_dirp(struct fuse_file_info *fi)
+> +static struct lo_dirp *lo_dirp(fuse_req_t req, struct fuse_file_info *fi=
+)
+>   {
+> -    return (struct lo_dirp *)(uintptr_t)fi->fh;
+> +    struct lo_data *lo =3D lo_data(req);
+> +    struct lo_map_elem *elem;
+> +
+> +    pthread_mutex_lock(&lo->mutex);
+> +    elem =3D lo_map_get(&lo->dirp_map, fi->fh);
+> +    pthread_mutex_unlock(&lo->mutex);
+> +    if (!elem) {
+> +        return NULL;
+> +    }
+> +
+> +    return elem->dirp;
+>   }
+>  =20
+>   static void lo_opendir(fuse_req_t req, fuse_ino_t ino,
+> @@ -856,6 +864,7 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t ino=
+,
+>       struct lo_data *lo =3D lo_data(req);
+>       struct lo_dirp *d;
+>       int fd;
+> +    ssize_t fh;
+>  =20
+>       d =3D calloc(1, sizeof(struct lo_dirp));
+>       if (d =3D=3D NULL) {
+> @@ -875,7 +884,14 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t in=
+o,
+>       d->offset =3D 0;
+>       d->entry =3D NULL;
+>  =20
+> -    fi->fh =3D (uintptr_t)d;
+> +    pthread_mutex_lock(&lo->mutex);
+> +    fh =3D lo_add_dirp_mapping(req, d);
+> +    pthread_mutex_unlock(&lo->mutex);
+> +    if (fh =3D=3D -1) {
+> +        goto out_err;
+> +    }
+> +
+> +    fi->fh =3D fh;
+>       if (lo->cache =3D=3D CACHE_ALWAYS) {
+>           fi->keep_cache =3D 1;
+>       }
+> @@ -886,6 +902,9 @@ out_errno:
+>       error =3D errno;
+>   out_err:
+>       if (d) {
+> +        if (d->dp) {
+> +            closedir(d->dp);
+> +        }
+>           if (fd !=3D -1) {
+>               close(fd);
+>           }
+> @@ -903,17 +922,21 @@ static int is_dot_or_dotdot(const char *name)
+>   static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
+>                             off_t offset, struct fuse_file_info *fi, int =
+plus)
+>   {
+> -    struct lo_dirp *d =3D lo_dirp(fi);
+> -    char *buf;
+> +    struct lo_dirp *d;
+> +    char *buf =3D NULL;
+>       char *p;
+>       size_t rem =3D size;
+> -    int err;
+> +    int err =3D ENOMEM;
+>  =20
+>       (void)ino;
+>  =20
+> +    d =3D lo_dirp(req, fi);
+> +    if (!d) {
+> +        goto error;
+> +    }
+> +
+>       buf =3D calloc(1, size);
+>       if (!buf) {
+> -        err =3D ENOMEM;
+>           goto error;
+>       }
+>       p =3D buf;
+> @@ -1011,8 +1034,21 @@ static void lo_readdirplus(fuse_req_t req, fuse_in=
+o_t ino, size_t size,
+>   static void lo_releasedir(fuse_req_t req, fuse_ino_t ino,
+>                             struct fuse_file_info *fi)
+>   {
+> -    struct lo_dirp *d =3D lo_dirp(fi);
+> +    struct lo_data *lo =3D lo_data(req);
+> +    struct lo_dirp *d;
+> +
+>       (void)ino;
+> +
+> +    d =3D lo_dirp(req, fi);
+> +    if (!d) {
+> +        fuse_reply_err(req, EBADF);
+> +        return;
+> +    }
+> +
+> +    pthread_mutex_lock(&lo->mutex);
+> +    lo_map_remove(&lo->dirp_map, fi->fh);
+> +    pthread_mutex_unlock(&lo->mutex);
+> +
+>       closedir(d->dp);
+>       free(d);
+>       fuse_reply_err(req, 0);
+> @@ -1064,8 +1100,18 @@ static void lo_fsyncdir(fuse_req_t req, fuse_ino_t=
+ ino, int datasync,
+>                           struct fuse_file_info *fi)
+>   {
+>       int res;
+> -    int fd =3D dirfd(lo_dirp(fi)->dp);
+> +    struct lo_dirp *d;
+> +    int fd;
+> +
+>       (void)ino;
+> +
+> +    d =3D lo_dirp(req, fi);
+> +    if (!d) {
+> +        fuse_reply_err(req, EBADF);
+> +        return;
+> +    }
+> +
+> +    fd =3D dirfd(d->dp);
+>       if (datasync) {
+>           res =3D fdatasync(fd);
+>       } else {
+> @@ -1597,6 +1643,8 @@ int main(int argc, char *argv[])
+>       root_elem =3D lo_map_reserve(&lo.ino_map, lo.root.fuse_ino);
+>       root_elem->inode =3D &lo.root;
+>  =20
+> +    lo_map_init(&lo.dirp_map);
+> +
+>       if (fuse_parse_cmdline(&args, &opts) !=3D 0) {
+>           return 1;
+>       }
+> @@ -1693,6 +1741,7 @@ err_out2:
+>   err_out1:
+>       fuse_opt_free_args(&args);
+>  =20
+> +    lo_map_destroy(&lo.dirp_map);
+>       lo_map_destroy(&lo.ino_map);
+>  =20
+>       if (lo.root.fd >=3D 0) {
+>=20
 
-Add a new option, --target-is-zero, allowing the user to indicate that
-an existing target device is already zero filled.
----
- qemu-img.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
-
-diff --git a/qemu-img.c b/qemu-img.c
-index 95a24b9762..56ca727e8c 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -70,6 +70,7 @@ enum {
-     OPTION_PREALLOCATION = 265,
-     OPTION_SHRINK = 266,
-     OPTION_SALVAGE = 267,
-+    OPTION_TARGET_IS_ZERO = 268,
- };
- 
- typedef enum OutputFormat {
-@@ -1593,6 +1594,7 @@ typedef struct ImgConvertState {
-     bool copy_range;
-     bool salvage;
-     bool quiet;
-+    bool target_is_zero;
-     int min_sparse;
-     int alignment;
-     size_t cluster_sectors;
-@@ -1984,10 +1986,11 @@ static int convert_do_copy(ImgConvertState *s)
-     int64_t sector_num = 0;
- 
-     /* Check whether we have zero initialisation or can get it efficiently */
--    if (s->target_is_new && s->min_sparse && !s->target_has_backing) {
-+    s->has_zero_init = s->target_is_zero;
-+
-+    if (!s->has_zero_init && s->target_is_new && s->min_sparse &&
-+        !s->target_has_backing) {
-         s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
--    } else {
--        s->has_zero_init = false;
-     }
- 
-     if (!s->has_zero_init && !s->target_has_backing &&
-@@ -2076,6 +2079,7 @@ static int img_convert(int argc, char **argv)
-         .buf_sectors        = IO_BUF_SIZE / BDRV_SECTOR_SIZE,
-         .wr_in_order        = true,
-         .num_coroutines     = 8,
-+        .target_is_zero     = false,
-     };
- 
-     for(;;) {
-@@ -2086,6 +2090,7 @@ static int img_convert(int argc, char **argv)
-             {"force-share", no_argument, 0, 'U'},
-             {"target-image-opts", no_argument, 0, OPTION_TARGET_IMAGE_OPTS},
-             {"salvage", no_argument, 0, OPTION_SALVAGE},
-+            {"target-is-zero", no_argument, 0, OPTION_TARGET_IS_ZERO},
-             {0, 0, 0, 0}
-         };
-         c = getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WU",
-@@ -2209,6 +2214,9 @@ static int img_convert(int argc, char **argv)
-         case OPTION_TARGET_IMAGE_OPTS:
-             tgt_image_opts = true;
-             break;
-+        case OPTION_TARGET_IS_ZERO:
-+            s.target_is_zero = true;
-+            break;
-         }
-     }
- 
-@@ -2247,6 +2255,11 @@ static int img_convert(int argc, char **argv)
-         warn_report("This will become an error in future QEMU versions.");
-     }
- 
-+    if (s.target_is_zero && !skip_create) {
-+        error_report("--target-is-zero requires use of -n flag");
-+        goto fail_getopt;
-+    }
-+
-     s.src_num = argc - optind - 1;
-     out_filename = s.src_num >= 1 ? argv[argc - 1] : NULL;
- 
--- 
-2.24.1
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
