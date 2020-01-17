@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2152140C93
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:34:28 +0100 (CET)
-Received: from localhost ([::1]:58472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 843EA140CB0
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:38:44 +0100 (CET)
+Received: from localhost ([::1]:58584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isShf-00031d-9S
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:34:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56600)
+	id 1isSln-0000ct-FW
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:38:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56618)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1isSbz-0006R2-Iv
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:36 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1isSc0-0006TD-QY
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1isSby-00079U-FU
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:35 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56302)
+ (envelope-from <peter.maydell@linaro.org>) id 1isSbz-0007AF-Hk
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:36 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44005)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1isSby-00078m-9a
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:34 -0500
-Received: by mail-wm1-x341.google.com with SMTP id q9so7627175wmj.5
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:28:34 -0800 (PST)
+ id 1isSbz-00079m-BH
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:28:35 -0500
+Received: by mail-wr1-x441.google.com with SMTP id d16so22922393wre.10
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:28:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=XSB+zAsWZUDGNHpX0mNxRRCfRkaNaQwB2Quv9BibAR4=;
- b=mvI23ykY09oyAGFo4gpvS743JZQSG2MHG6SccKDRIi9PAIpdxXMDwevv3UhTYOUGZ0
- UgmkssitzSTxdzeXnNBEofQtc9CvJ2YiHJh+wSerfQIZKK67ENg3FL606Bu8//8SPui9
- VraroxkI7e8Km60Q2s44E7Ad9Yq29UV01yhWwLRWJMlUWmvFHrRH+JUz5MJ8vsTgPRYA
- XzJw4EKDoeAkXGp7Y0oO4HXArdUToFRzEy1DMGotbRV9SVlFSxkAwRMKBpkY1m8JwHZX
- p2gbpeEe88i7Jflq8dQ/fB1agCCZEwr7tFZBh/yKcD/SPb2kUmbAPlnSJVoDI55+yMUd
- F/tA==
+ bh=aGWtB9UH19COcWMMvKkPVSBWPGm7CEQmDN4rSUNlND0=;
+ b=EF6KphAzQO3fkApaFQGEtwbhBtB98NRUsuCDlwZz0qEtcvZerOL3wqYmqFbcslE8En
+ eXtMIcb2EePX3ZS2+eK4v9NQuB3qKtMY9l5Xyx/cEPS5G/vNaHBj3h2gqT/iFHyyaaPZ
+ z0AOy56pTX/ZRPfPb6XYklQcaCECEzfUHytAVLJXExDeZW7Sn2h4yIGzMTKxusZ3dWqW
+ I1YWlU2hjtufcFvL0T7DKCKeQ75qS5eKhpl3JGKpQmIALvRvrzWkieMeZs/ySRvbosHP
+ zj+KQcQGvBsJPqFnT7dbctsMXoqP3Wa/VRX5SAQzoAfDXbfqak0Jcbfr1/OSQ+imY/Qo
+ Cizg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XSB+zAsWZUDGNHpX0mNxRRCfRkaNaQwB2Quv9BibAR4=;
- b=cYZlXWGG/TEmZeskSB6D9J/3YkSW3ic/JGLRk6SlSm4EheTA584jah5QyrXMKMrvQP
- g8owTUNySpiQqboP6LPcF1iwEDr6d8tPwAqyVJZ6oR0Jyy0eLF3p9a61+Puo7VB3avrK
- eiohrN3DR3EOisBvy2inHd3jUkimCusgTEwSw2FGDge0f0tn9rJeEfWj25vcgVkLcjtG
- efaDDJnSiItOXEHFP/697KprXU9rgv3au0xK8gOdNYP4GcLUQhBZSNiteA00VcRuAoaC
- j5zy1phfxdQJPuesaKUthdN86/EEMB8wUMgtXp61oJ/421aAAJnMNiQqeKP2qQ7r+Vm0
- MwNA==
-X-Gm-Message-State: APjAAAUFGUrTduekt41c/tpfS6Vv8kZzw+jzEN7itOlGa84Mu4wCMNk3
- e3PAmjSvO1CVYU/uMTcZDV71A3Z85b2Oqw==
-X-Google-Smtp-Source: APXvYqzhZRkdaraJIIj8o7KiYwrU1ZetEVCfJJR64gm3bMb+nqYphLK39Z9gBRkT8m0qVQlEuYy2EA==
-X-Received: by 2002:a1c:9ac6:: with SMTP id c189mr5049773wme.59.1579271313142; 
- Fri, 17 Jan 2020 06:28:33 -0800 (PST)
+ bh=aGWtB9UH19COcWMMvKkPVSBWPGm7CEQmDN4rSUNlND0=;
+ b=aBD51bCrji2hRXud8VkWd8vPumKJIJ+WYFEJ1/T0KQHuabnzfldXfht0OlSyCtDjhf
+ 8yLbIj4de5eAIg4SXCV1TW9+Hzwfay2Dkyu9e/FjF9qutm6W8gJdO95tmYN3/Xc/GzgL
+ Ukv3DA52foE1qGRB63yDq0aaFisZisy2k0PA6ctTKAnhMwXN47TXcda/v/D1sGxxxJug
+ ua9W0eQYj49ktj0A5SWuwdoQGtOl2Ij0fSwLEHrgoDCTV5FRMysEuRTrqACBMSOrIeO2
+ lTN5UOd3LWpEqRzVemiL2E1vk6vjxylUf4CIyapxFGyatqyI8d/Aw/FJIeZWfuMvR6n7
+ EKpg==
+X-Gm-Message-State: APjAAAW4eEh2l7Kv9ULVR0u2XMfmeDU/GbTdRJppHABvlC1dhN2a3DjD
+ pTFQ90lMHPujaA5c+Ed5RY3wLfRpQUA0LQ==
+X-Google-Smtp-Source: APXvYqyRiqp0D92R3bBAgA05A+J7MVZ+f8rDoh6gRsubisHfzXo/g/xDsBDe5eSBe1kQz9hO3VFO8g==
+X-Received: by 2002:adf:eb09:: with SMTP id s9mr3358325wrn.61.1579271314127;
+ Fri, 17 Jan 2020 06:28:34 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e18sm33811146wrw.70.2020.01.17.06.28.32
+ by smtp.gmail.com with ESMTPSA id e18sm33811146wrw.70.2020.01.17.06.28.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jan 2020 06:28:32 -0800 (PST)
+ Fri, 17 Jan 2020 06:28:33 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/15] target/arm: adjust program counter for wfi exception in
- AArch32
-Date: Fri, 17 Jan 2020 14:28:13 +0000
-Message-Id: <20200117142816.15110-13-peter.maydell@linaro.org>
+Subject: [PULL 13/15] arm/gicv3: update virtual irq state after IAR register
+ read
+Date: Fri, 17 Jan 2020 14:28:14 +0000
+Message-Id: <20200117142816.15110-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200117142816.15110-1-peter.maydell@linaro.org>
 References: <20200117142816.15110-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,42 +85,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jeff Kubascik <jeff.kubascik@dornerworks.com>
 
-The wfi instruction can be configured to be trapped by a higher exception
-level, such as the EL2 hypervisor. When the instruction is trapped, the
-program counter should contain the address of the wfi instruction that
-caused the exception. The program counter is adjusted for this in the wfi op
-helper function.
-
-However, this correction is done to env->pc, which only applies to AArch64
-mode. For AArch32, the program counter is stored in env->regs[15]. This
-adds an if-else statement to modify the correct program counter location
-based on the the current CPU mode.
+The IAR0/IAR1 register is used to acknowledge an interrupt - a read of the
+register activates the highest priority pending interrupt and provides its
+interrupt ID. Activating an interrupt can change the CPU's virtual interrupt
+state - this change makes sure the virtual irq state is updated.
 
 Signed-off-by: Jeff Kubascik <jeff.kubascik@dornerworks.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200113154607.97032-1-jeff.kubascik@dornerworks.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/op_helper.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/intc/arm_gicv3_cpuif.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index e5a346cb87a..27d16ad9ad9 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -295,7 +295,12 @@ void HELPER(wfi)(CPUARMState *env, uint32_t insn_len)
-     }
+diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+index a254b0ce875..08e000e33c6 100644
+--- a/hw/intc/arm_gicv3_cpuif.c
++++ b/hw/intc/arm_gicv3_cpuif.c
+@@ -664,6 +664,9 @@ static uint64_t icv_iar_read(CPUARMState *env, const ARMCPRegInfo *ri)
  
-     if (target_el) {
--        env->pc -= insn_len;
-+        if (env->aarch64) {
-+            env->pc -= insn_len;
-+        } else {
-+            env->regs[15] -= insn_len;
-+        }
+     trace_gicv3_icv_iar_read(ri->crm == 8 ? 0 : 1,
+                              gicv3_redist_affid(cs), intid);
 +
-         raise_exception(env, EXCP_UDEF, syn_wfx(1, 0xe, 0, insn_len == 2),
-                         target_el);
-     }
++    gicv3_cpuif_virt_update(cs);
++
+     return intid;
+ }
+ 
 -- 
 2.20.1
 
