@@ -2,61 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C94A1407D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 11:21:51 +0100 (CET)
-Received: from localhost ([::1]:54904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 817D81407BF
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 11:18:33 +0100 (CET)
+Received: from localhost ([::1]:54864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isOlC-0006Q5-Er
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 05:21:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54555)
+	id 1isOi0-0004Cq-7K
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 05:18:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54051)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1isOk7-0005f3-7p
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:20:46 -0500
+ (envelope-from <gengdongjiu@huawei.com>) id 1isOgl-0003aF-3s
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:17:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1isOk3-0007PX-2c
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:20:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41188)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1isOk2-0007OQ-Sv
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:20:39 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1isOk1-00009v-F0
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:20:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6ED702E80C8
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:20:37 +0000 (UTC)
+ (envelope-from <gengdongjiu@huawei.com>) id 1isOgk-00048M-0r
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:17:15 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:49332 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
+ id 1isOgd-00040U-5o; Fri, 17 Jan 2020 05:17:07 -0500
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 0F497E896FAF0E365F54;
+ Fri, 17 Jan 2020 18:17:02 +0800 (CST)
+Received: from [127.0.0.1] (10.142.68.147) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.439.0; Fri, 17 Jan 2020
+ 18:16:53 +0800
+Subject: Re: [PATCH v22 9/9] MAINTAINERS: Add ACPI/HEST/GHES entries
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>
+References: <1578483143-14905-1-git-send-email-gengdongjiu@huawei.com>
+ <1578483143-14905-10-git-send-email-gengdongjiu@huawei.com>
+ <CAFEAcA-mLgD8rQ211ep44nd8oxTKSnxc7YmY+nPtADpKZk5asA@mail.gmail.com>
+ <1c45a8b4-1ea4-ddfd-cce3-c42699d2b3b9@redhat.com>
+From: gengdongjiu <gengdongjiu@huawei.com>
+Message-ID: <d502bd34-79e4-45f8-e1b7-54265623db15@huawei.com>
+Date: Fri, 17 Jan 2020 18:16:51 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.3.0
 MIME-Version: 1.0
+In-Reply-To: <1c45a8b4-1ea4-ddfd-cce3-c42699d2b3b9@redhat.com>
 Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+X-Originating-IP: [10.142.68.147]
+X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 Jan 2020 10:13:35 -0000
-From: Max Reitz <1859989@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 5-plamen xanclic
-X-Launchpad-Bug-Reporter: pevogam (5-plamen)
-X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
-References: <157918316689.4864.12553262908100217782.malonedeb@wampee.canonical.com>
-Message-Id: <157925601569.23128.14572633577549563237.malone@gac.canonical.com>
-Subject: [Bug 1859989] Re: qemu-img has broken output with large snapshot names
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 4d8cfe4cbcde9dbc5bdd53d15cbcee9823e6ecf5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,64 +59,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859989 <1859989@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Linuxarm <linuxarm@huawei.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Zheng Xiang <zhengxiang9@huawei.com>,
+ qemu-arm <qemu-arm@nongnu.org>, James Morse <james.morse@arm.com>,
+ "xuwei \(O\)" <xuwei5@huawei.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I=E2=80=99ve just seen that launchpad collapses the spaces in the snapshot.=
-..
-All I can say is that diff tells me the output from 2.12.0 and 4.1.1 is
-exactly the same, with only one difference: 2.12.0 prints the VM SIZE as
-=E2=80=9C0=E2=80=9D (without a unit), whereas 4.1.1 prints =E2=80=9C0 B=E2=
-=80=9D.
+On 2020/1/17 15:22, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Peter,
+>=20
+> On 1/16/20 5:46 PM, Peter Maydell wrote:
+>> On Wed, 8 Jan 2020 at 11:32, Dongjiu Geng <gengdongjiu@huawei.com> wro=
+te:
+>>>
+>>> I and Xiang are willing to review the APEI-related patches and
+>>> volunteer as the reviewers for the HEST/GHES part.
+>>>
+>>> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+>>> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+>>> ---
+>>> =C2=A0 MAINTAINERS | 9 +++++++++
+>>> =C2=A0 1 file changed, 9 insertions(+)
+>>>
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index 387879a..5af70a5 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -1423,6 +1423,15 @@ F: tests/bios-tables-test.c
+>>> =C2=A0 F: tests/acpi-utils.[hc]
+>>> =C2=A0 F: tests/data/acpi/
+>>>
+>>> +ACPI/HEST/GHES
+>>> +R: Dongjiu Geng <gengdongjiu@huawei.com>
+>>> +R: Xiang Zheng <zhengxiang9@huawei.com>
+>>> +L: qemu-arm@nongnu.org
+>>> +S: Maintained
+>>> +F: hw/acpi/ghes.c
+>>> +F: include/hw/acpi/ghes.h
+>>> +F: docs/specs/acpi_hest_ghes.rst
+>>> +
+>>> =C2=A0 ppc4xx
+>>> =C2=A0 M: David Gibson <david@gibson.dropbear.id.au>
+>>> =C2=A0 L: qemu-ppc@nongnu.org
+>>> --=20
+>>
+>> Michael, Igor: since this new MAINTAINERS section is
+>> moving files out of the 'ACPI/SMBIOS' section that you're
+>> currently responsible for, do you want to provide an
+>> acked-by: that you think this division of files makes sense?
+>=20
+> The files are not 'moved out', Michael and Igor are still the maintaine=
+rs of the supported ACPI/SMBIOS subsystem:
+>=20
+> ACPI/SMBIOS
+> M: Michael S. Tsirkin <mst@redhat.com>
+> M: Igor Mammedov <imammedo@redhat.com>
+> S: Supported
+> F: include/hw/acpi/*
+> F: hw/acpi/*
+>=20
+> Dongjiu and Xiang only add themselves as reviewers to get notified on c=
+hanges on these specific files. The more eyes the better :)
+>=20
+> The docs/specs/acpi_hest_ghes.rst document has no maintainer, as these =
+others too:
+If this file has no maintainer, may be it needs a M tag for this file, ot=
+herwise when people change this file, and use "./scripts/get_maintainer.p=
+l xxxxx" to get maintainer, it will be empty.
 
-But now I just realized you probably mean that there is no space between
-the snapshot name and the VM state size in your example.  OK, I thought
-you meant the fact that the headers are not aligned to the table body
-columns.
+>=20
+> - docs/specs/acpi_cpu_hotplug.txt
+> - docs/specs/acpi_hw_reduced_hotplug.rst
+> - docs/specs/acpi_mem_hotplug.txt
+> - docs/specs/acpi_nvdimm.txt
+>=20
+> The only ACPI file reported as maintained in docs/specs/ is acpi_pci_ho=
+tplug.txt, from this entry:
+>=20
+> PCI
+> M: Michael S. Tsirkin <mst@redhat.com>
+> M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> S: Supported
+> F: docs/specs/*pci*
+>=20
+> FWIW:
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>=20
+> .
+>=20
 
-That seems to be because the size is printed in a 7-wide field, which
-isn=E2=80=99t sufficient for three-digit sizes with unit prefixes; so =E2=
-=80=9C747 MiB=E2=80=9D
-is not prefixed by a space.  I think de38b5005e9 is to blame which which
-(from what I can tell) effectively changed the output from using SI
-prefixes to IEC prefixes (which requires one more character), adds a
-space before and a =E2=80=9CB=E2=80=9D after the prefix (another two additi=
-onal
-characters), and by always printing three digits, which may require a
-decimal point (so another character).  But it didn=E2=80=99t grow the field
-width.  So I think we should do that.
-
-Max
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859989
-
-Title:
-  qemu-img has broken output with large snapshot names
-
-Status in QEMU:
-  New
-
-Bug description:
-  On Qemu 4.1.1 the output of snapshots breaks if the chosen state name
-  is too long:
-
-  ```
-  # qemu-img snapshot -l /mnt/local/some_image.qcow2
-  Snapshot list:
-  ID        TAG                 VM SIZE                DATE       VM CLOCK
-  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
-.873
-  ```
-
-  Prior to 4.1.1 this used to work with extra tabs for the VM SIZE
-  values. The collision is also disabling us from using a regex on top
-  of this output to detect the snapshot.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859989/+subscriptions
 
