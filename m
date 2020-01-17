@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BA0140BE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:00:29 +0100 (CET)
-Received: from localhost ([::1]:57862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9174F140C3C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:16:35 +0100 (CET)
+Received: from localhost ([::1]:58166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isSAm-0006Ql-DI
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:00:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52824)
+	id 1isSQM-0007gg-Bb
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:16:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56422)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1isS9I-0005a5-By
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:58:57 -0500
+ (envelope-from <david.edmondson@oracle.com>) id 1isOyw-0005SY-0q
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:36:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1isS9H-0004eI-FW
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:58:56 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36096)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1isS9H-0004dt-BY
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:58:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579269534;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l18SNX+nE9Vm2Eui15pFKarn3ipS0jHpsdjrlI840bY=;
- b=ZRhca+rGXPv7r10iz7NKahOiI5PJXY+jF+Am5LaqnNxgKV1rY5Xa9YDTdgSqB/IKA8aV0c
- V+1Hs7CV+5a2G3vFldaln4zmdgtC72T6XOqfiDOGNXfpRf8HKW4bjeWTrI2eW1GpNq/X1K
- RqBlSPuR+M2OmyGMilcOrJcWZ1Zdgtc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-u0q8OQGsPa--rlUg9numFw-1; Fri, 17 Jan 2020 08:58:53 -0500
-Received: by mail-wr1-f72.google.com with SMTP id t3so10486317wrm.23
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:58:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=l18SNX+nE9Vm2Eui15pFKarn3ipS0jHpsdjrlI840bY=;
- b=rA3nK+vfv2q0jMJRZb7IBoI+QkuilV+1q9US7mTbNlRRzqGSlgIpUubpIQYoOExjrc
- wMQD6mjKeuTcbbYxh4y44LW0Zpnyj2+Y8S+ffrLyhSmauXGQ2uLqE5Xzs1vDEvg3ozxa
- NAzcYggmFO0mPrWM2DbTpApZjftdClw86S8vfV2xIch3j7w3Nvh/aKnhdUiEbAuIS4V0
- T/SsWPJhVMNKiPC89106jsWVEoxVGw9+ZSBs4A/vkbbFmhT2IZij2KevNS11Bu+k6ysU
- ER0IZt4EFADC6za79PyB6twzE1N1TqbBT0koTFbO1a+r2cV/UPzUFSDF8txHMk7qqiWQ
- SDnA==
-X-Gm-Message-State: APjAAAWSIXy2+8pLt151tmj6P5g94feV7N0h0rFY7KQlBILrdWVV7W3p
- HFpaOO3rZVB/yhqjN6oRqVZri1ExqOW4e79vLASzHYuuvp+2Zxn8XLs0qXpDsT2/3hUjF07J6dU
- QA1CFSnMB9VD8wy0=
-X-Received: by 2002:a5d:6a88:: with SMTP id s8mr3171133wru.173.1579269532475; 
- Fri, 17 Jan 2020 05:58:52 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy4W2I3UvDoceg12So9Un3E7ZM7Ft71pVk7GEe/y1OvP9UDE+uGka/KSdQsixmK0S005LaAUQ==
-X-Received: by 2002:a5d:6a88:: with SMTP id s8mr3171101wru.173.1579269532195; 
- Fri, 17 Jan 2020 05:58:52 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:436:e17d:1fd9:d92a?
- ([2001:b07:6468:f312:436:e17d:1fd9:d92a])
- by smtp.gmail.com with ESMTPSA id x14sm984268wmj.42.2020.01.17.05.58.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jan 2020 05:58:51 -0800 (PST)
-Subject: Re: [PATCH v3 2/2] vhost: Only align sections for vhost-user
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200116202414.157959-1-dgilbert@redhat.com>
- <20200116202414.157959-3-dgilbert@redhat.com>
- <4bf72509-3e60-0d78-c2ba-665a71a978e1@redhat.com>
- <20200117083232-mutt-send-email-mst@kernel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ca54fc82-828b-158b-fadb-07abfbb9418f@redhat.com>
-Date: Fri, 17 Jan 2020 14:58:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <david.edmondson@oracle.com>) id 1isOyr-0006W0-MG
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:36:01 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:57992)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david.edmondson@oracle.com>)
+ id 1isOyr-0006UG-F2
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:35:57 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00HAY3iO161391
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:35:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2019-08-05;
+ bh=549lWEneC6AQVgxJMNmbCEU/IPhzDWcy3LOeI993BkU=;
+ b=KpoKCehBCSIPdGMfKU+L5gfv8Fh13Qn3o8WaXxRnc428wf/fosmLz9tX3ozyBSpgAYd/
+ nhHyzcvjKnJTvyqCX1uJroJZpBLg1QUR+N4cxmO0oqUDBtR54CPESTlTz+0p6CjjAmv0
+ j3eksxl/XJLXK/BMS4jPX0OF9A0V1ez8o+qZ3BSlsXsWLivKoWwn2CQPCRleP2POvPyK
+ Ycs0zQggOfkLOTnkh2d/Cnaak5HJzpzW1hulaKpN+9jhRGALbu+f2gqDQdLEK/NNpeOO
+ R2NJND1ou09WEFL/kaLmDvyAxdSJO7F/L/ZD2kshkZI3Nwm9Z7ubGOitrqk5H+EptJ7r Sw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 2xf73u7vev-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:35:55 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00HAXRgr042775
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:35:54 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 2xjxm8nkgv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:35:54 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00HAZrjS005660
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:35:53 GMT
+Received: from disaster-area.hh.sledj.net (/81.149.164.25)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 17 Jan 2020 02:35:53 -0800
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 9f9f2f3a;
+ Fri, 17 Jan 2020 10:35:51 +0000 (UTC)
+From: David Edmondson <david.edmondson@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qemu-img: Add --target-is-zero to convert
+Date: Fri, 17 Jan 2020 10:34:35 +0000
+Message-Id: <20200117103434.1363985-1-david.edmondson@oracle.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <id:m21rryz8al.fsf@dme.org>
+References: <id:m21rryz8al.fsf@dme.org>
 MIME-Version: 1.0
-In-Reply-To: <20200117083232-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
-X-MC-Unique: u0q8OQGsPa--rlUg9numFw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9502
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=877
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001170082
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9502
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=922 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001170082
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 141.146.126.78
+X-Mailman-Approved-At: Fri, 17 Jan 2020 09:15:33 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,25 +93,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, vkuznets@redhat.com,
- "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: David Edmondson <david.edmondson@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/01/20 14:40, Michael S. Tsirkin wrote:
-> We don't really need v2 just to add a field. Compatibility is maintained
-> using feature bits. Adding that is a subject for another patch.
-> But I'm not sure I understand why does remote need to know about alignment.
-> This patch seems to handle it locally ...
+In many cases the target of a convert operation is a newly provisioned
+target that the user knows is blank (filled with zeroes). In this
+situation there is no requirement for qemu-img to wastefully zero out
+the entire device.
 
-Because the remote vhost here will not be able to use the synic regions.
- If it did, it would have the same overlap problem as vhost-kernel.
+Add a new option, --target-is-zero, allowing the user to indicate that
+an existing target device is already zero filled.
+---
+ qemu-img.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-The alignment is needed because, even if you are mapping only [768k,1M)
-of a 2M hugepage, you need to mmap [0,2M).  You can then discard the
-rest, but IIUC if you only mmap [768k,1M) then the kernel will fail the
-mmap.
-
-Paolo
+diff --git a/qemu-img.c b/qemu-img.c
+index 95a24b9762..56ca727e8c 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -70,6 +70,7 @@ enum {
+     OPTION_PREALLOCATION = 265,
+     OPTION_SHRINK = 266,
+     OPTION_SALVAGE = 267,
++    OPTION_TARGET_IS_ZERO = 268,
+ };
+ 
+ typedef enum OutputFormat {
+@@ -1593,6 +1594,7 @@ typedef struct ImgConvertState {
+     bool copy_range;
+     bool salvage;
+     bool quiet;
++    bool target_is_zero;
+     int min_sparse;
+     int alignment;
+     size_t cluster_sectors;
+@@ -1984,10 +1986,11 @@ static int convert_do_copy(ImgConvertState *s)
+     int64_t sector_num = 0;
+ 
+     /* Check whether we have zero initialisation or can get it efficiently */
+-    if (s->target_is_new && s->min_sparse && !s->target_has_backing) {
++    s->has_zero_init = s->target_is_zero;
++
++    if (!s->has_zero_init && s->target_is_new && s->min_sparse &&
++        !s->target_has_backing) {
+         s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
+-    } else {
+-        s->has_zero_init = false;
+     }
+ 
+     if (!s->has_zero_init && !s->target_has_backing &&
+@@ -2076,6 +2079,7 @@ static int img_convert(int argc, char **argv)
+         .buf_sectors        = IO_BUF_SIZE / BDRV_SECTOR_SIZE,
+         .wr_in_order        = true,
+         .num_coroutines     = 8,
++        .target_is_zero     = false,
+     };
+ 
+     for(;;) {
+@@ -2086,6 +2090,7 @@ static int img_convert(int argc, char **argv)
+             {"force-share", no_argument, 0, 'U'},
+             {"target-image-opts", no_argument, 0, OPTION_TARGET_IMAGE_OPTS},
+             {"salvage", no_argument, 0, OPTION_SALVAGE},
++            {"target-is-zero", no_argument, 0, OPTION_TARGET_IS_ZERO},
+             {0, 0, 0, 0}
+         };
+         c = getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WU",
+@@ -2209,6 +2214,9 @@ static int img_convert(int argc, char **argv)
+         case OPTION_TARGET_IMAGE_OPTS:
+             tgt_image_opts = true;
+             break;
++        case OPTION_TARGET_IS_ZERO:
++            s.target_is_zero = true;
++            break;
+         }
+     }
+ 
+@@ -2247,6 +2255,11 @@ static int img_convert(int argc, char **argv)
+         warn_report("This will become an error in future QEMU versions.");
+     }
+ 
++    if (s.target_is_zero && !skip_create) {
++        error_report("--target-is-zero requires use of -n flag");
++        goto fail_getopt;
++    }
++
+     s.src_num = argc - optind - 1;
+     out_filename = s.src_num >= 1 ? argv[argc - 1] : NULL;
+ 
+-- 
+2.24.1
 
 
