@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A02140DAF
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 16:17:35 +0100 (CET)
-Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC985140D7A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 16:11:16 +0100 (CET)
+Received: from localhost ([::1]:58968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isTNO-0001vM-Qp
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 10:17:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34945)
+	id 1isTHH-0008QA-UH
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 10:11:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34209)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1isTLj-0000t3-DY
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:15:55 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1isTGO-0007us-Gr
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:10:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1isTLf-0002rV-8s
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:15:51 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38046)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1isTLf-0002qh-3S
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:15:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1isTLd-00031d-Eb
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 15:15:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 553CD2E80C8
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 15:15:45 +0000 (UTC)
+ (envelope-from <dgilbert@redhat.com>) id 1isTGJ-0006sD-UO
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:10:20 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46915
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1isTGI-0006qT-P2
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:10:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579273813;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q2DY4j93tXIVFncA4lAI3dKxOHGP8OOque1jQcH8GKk=;
+ b=c9trqlih/+r6PaMIvjSRh2lJvuWyKJbM9JtxtPz7nAvuoVMRsajqkoo51ny+OMngTi8N1+
+ 1ez6q9dO5bTRDMlglNLpL0ynegGJv+ZO7eWBfEBORQl6NQr3vn2JW0kcLp32TOviqgbBg0
+ ccOxBlOIzadEHth8AFk5gFD6Y10bAG0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-350-mDaST11YP1G7vE48CFif6Q-1; Fri, 17 Jan 2020 10:10:12 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 237C7477
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 15:10:11 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 53D2E84343;
+ Fri, 17 Jan 2020 15:10:07 +0000 (UTC)
+Date: Fri, 17 Jan 2020 15:10:04 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v3 2/2] vhost: Only align sections for vhost-user
+Message-ID: <20200117151004.GI3209@work-vm>
+References: <20200116202414.157959-1-dgilbert@redhat.com>
+ <20200116202414.157959-3-dgilbert@redhat.com>
+ <4bf72509-3e60-0d78-c2ba-665a71a978e1@redhat.com>
+ <20200117083232-mutt-send-email-mst@kernel.org>
+ <ca54fc82-828b-158b-fadb-07abfbb9418f@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <ca54fc82-828b-158b-fadb-07abfbb9418f@redhat.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: mDaST11YP1G7vE48CFif6Q-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 Jan 2020 15:08:14 -0000
-From: Alex Longwall <1859384@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm gic testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee alexlngw pmaydell
-X-Launchpad-Bug-Reporter: Alex Longwall (alexlngw)
-X-Launchpad-Bug-Modifier: Alex Longwall (alexlngw)
-References: <157887973843.5281.117317310678495552.malonedeb@gac.canonical.com>
-Message-Id: <157927369485.5209.11691422478244132214.launchpad@wampee.canonical.com>
-Subject: [Bug 1859384] Re: arm gic: gic_acknowledge_irq doesn't clear line
- level for other cores for 1-n level-sensitive interrupts and
- gic_clear_pending uses GIC_DIST_TEST_MODEL (even on v2 where it always read 0
- - "N-N")
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: da3604e322bd626f74b038b1e9254d2db3bd4450
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,101 +77,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859384 <1859384@bugs.launchpad.net>
+Cc: jasowang@redhat.com, vkuznets@redhat.com, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Summary changed:
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> On 17/01/20 14:40, Michael S. Tsirkin wrote:
+> > We don't really need v2 just to add a field. Compatibility is maintaine=
+d
+> > using feature bits. Adding that is a subject for another patch.
+> > But I'm not sure I understand why does remote need to know about alignm=
+ent.
+> > This patch seems to handle it locally ...
+>=20
+> Because the remote vhost here will not be able to use the synic regions.
+>  If it did, it would have the same overlap problem as vhost-kernel.
+>=20
+> The alignment is needed because, even if you are mapping only [768k,1M)
+> of a 2M hugepage, you need to mmap [0,2M).  You can then discard the
+> rest, but IIUC if you only mmap [768k,1M) then the kernel will fail the
+> mmap.
 
-- arm gic: interrupt model never 1 on non-mpcore and race condition in gic_=
-acknowledge_irq
-+ arm gic: gic_acknowledge_irq doesn't clear line level for other cores for=
- 1-n level-sensitive interrupts and gic_clear_pending uses GIC_DIST_TEST_MO=
-DEL (even on v2 where it always read 0 - "N-N")
+The vhost-user problem is worse than that.
 
--- =
+Lets ignore the synic regions for a minute;  imagine a normal PC,
+0-512k ish, and a 512k-1GB map; the client side can do the alignment
+to allow an mmap to work for each of those two mappings, you then
+end up with two mmap's on the client, both aligned at 0, each covering
+part of the same range.  If the client is careful in normal use it can
+make sure it's OK, but you do end up with two mappings which is odd.
+Once you add userfault for psotcopy, having those two mappings of the same
+range gets even more problematic when we wait for one of the pages
+to become available.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859384
+The other problem is that there's a limited number of slots for mappings
+in the vhost-user protocol; and they easily get filled up if you
+break up the memory ranges.
 
-Title:
-  arm gic: gic_acknowledge_irq doesn't clear line level for other cores
-  for 1-n level-sensitive interrupts and gic_clear_pending uses
-  GIC_DIST_TEST_MODEL (even on v2 where it always read 0 - "N-N")
+Doing the aggregation on the qemu side keeps your slot usage down and
+also removes the problem of the double mappings.
 
-Status in QEMU:
-  New
+The client can't easily resolve the double mapping alignment because it
+can't tell if the two fd's it's been passed actually refer to the
+same backing file; so it can't aggregate (from memory).
 
-Bug description:
-  For a 1-N interrupt (any SPI on the GICv2), as mandated by the TRM,
-  only one CPU can acknowledge the IRQ until it becomes inactive.
+Dave
 
-  The TRM also mandates that SGIs and PPIs follow the N-N model and that
-  SPIs follow the 1-N model.
 
-  However this is not currently the case with QEMU. I have locally (no
-  minimal test case) seen e.g. uart interrupts being acknowledged twice
-  before having been deactivated (expected: irqId on one CPU and 1023 on
-  the other instead).
 
-  I have narrowed the issue down to the following:
+> Paolo
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-  1) arm_gic_common_reset resets all irq_state[id] fields to 0. This
-  means all IRQ will use the N-N model, and if s->revision !=3D
-  REV_11MPCORE, then there's no way to set any interrupt to 1-N.
-
-  If ""fixed"" locally with a hackjob, I still have the following trace:
-
-  pl011_irq_state 534130.800 pid=3D2424 level=3D0x1
-  gic_set_irq 2.900 pid=3D2424 irq=3D0x21 level=3D0x1 cpumask=3D0xff target=
-=3D0xff
-  gic_update_set_irq 3.300 pid=3D2424 cpu=3D0x0 name=3Dirq level=3D0x1
-  gic_update_set_irq 4.200 pid=3D2424 cpu=3D0x1 name=3Dirq level=3D0x1
-  gic_acknowledge_irq 539.400 pid=3D2424 s=3Dcpu cpu=3D0x1 irq=3D0x21
-  gic_update_set_irq 269.800 pid=3D2424 cpu=3D0x0 name=3Dirq level=3D0x1
-  gic_cpu_read 4.100 pid=3D2424 s=3Dcpu cpu=3D0x1 addr=3D0xc val=3D0x21
-  gic_acknowledge_irq 15.600 pid=3D2424 s=3Dcpu cpu=3D0x0 irq=3D0x21
-  gic_cpu_read 265.000 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0xc val=3D0x21
-  pl011_write 1594.700 pid=3D2424 addr=3D0x44 value=3D0x50
-  pl011_irq_state 2.000 pid=3D2424 level=3D0x0
-  gic_set_irq 1.300 pid=3D2424 irq=3D0x21 level=3D0x0 cpumask=3D0xff target=
-=3D0xff
-  pl011_write 30.700 pid=3D2424 addr=3D0x38 value=3D0x0
-  pl011_irq_state 1.200 pid=3D2424 level=3D0x0
-  gic_cpu_write 110.600 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0x10 val=3D0x21
-  gic_cpu_write 193.400 pid=3D2424 s=3Dcpu cpu=3D0x0 addr=3D0x1000 val=3D0x=
-21
-  pl011_irq_state 1169.500 pid=3D2424 level=3D0x0
-
-  This is because:
-
-  2) gic_acknowledge_irq calls gic_clear_pending which uses
-  GIC_DIST_CLEAR_PENDING but this usually has no effect on level-
-  sensitive interrupts.
-
-  With this often being a no-op (ie. assuming ispendr was not written
-  to), any 1-n level-sensitive interrupt is still improperly pending on
-  all the other cores.
-
-  (Also, I don't really know how the qemu thread model works, there
-  might be race conditions in the acknowledgment logic if
-  gic_acknowledge_irq is called by multiple threads, too.)
-
-  Option used:
-  -nographic -machine virt,virtualization=3Don,accel=3Dtcg,gic-version=3D2 =
--cpu cortex-a57 -smp 4 -m 1024
-  -kernel whatever.elf -d unimp,guest_errors -semihosting-config enable,tar=
-get=3Dnative
-  -chardev stdio,id=3Duart -serial chardev:uart -monitor none
-  -trace gic_update_set_irq -trace gic_acknowledge_irq -trace pl011_irq_sta=
-te -trace pl011_write -trace gic_cpu_read -trace gic_cpu_write
-  -trace gic_set_irq
-
-  Commit used: dc65a5bdc9fa543690a775b50d4ffbeb22c56d6d "Merge remote-
-  tracking branch 'remotes/dgibson/tags/ppc-for-5.0-20200108' into
-  staging"
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1859384/+subscriptions
 
