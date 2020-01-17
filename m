@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E7614011A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 01:48:02 +0100 (CET)
-Received: from localhost ([::1]:50696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360F714011E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 01:49:27 +0100 (CET)
+Received: from localhost ([::1]:50722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isFns-0003Bs-TH
-	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 19:48:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38404)
+	id 1isFpG-0004i2-AN
+	for lists+qemu-devel@lfdr.de; Thu, 16 Jan 2020 19:49:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38426)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1isFmQ-0001rE-RJ
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 19:46:31 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1isFmT-0001vi-5g
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 19:46:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1isFmP-0005zz-J1
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 19:46:30 -0500
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:42033)
+ (envelope-from <richard.henderson@linaro.org>) id 1isFmS-00061O-3a
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 19:46:33 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44814)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1isFmP-0005zU-Bj
- for qemu-devel@nongnu.org; Thu, 16 Jan 2020 19:46:29 -0500
-Received: by mail-pg1-x533.google.com with SMTP id s64so10769556pgb.9
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 16:46:28 -0800 (PST)
+ id 1isFmR-00060n-V0
+ for qemu-devel@nongnu.org; Thu, 16 Jan 2020 19:46:32 -0500
+Received: by mail-pg1-x541.google.com with SMTP id x7so10766758pgl.11
+ for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 16:46:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xiFIm0ldyrjVNogQ3aHi2+1VAbwRXPGCKZqKhUePPa0=;
- b=dD89FT5gBSZGknnFbR4zz2L2bGSjGkekqwFwnRKTkpvBYBVZu/hgbezUclzeGYy5Cq
- PLBwq4CcDspSopeX42E/sIshG5QcHQyyLNFgUGyjPVFJugLNoVj8l9uH3pk+Zj10VR92
- S6lEcEapdQuRGZFejnI+lm+9mJKkIOxLKkumXBMx38gnl6i0SbuWqp8Wa2v7Z56fq+SM
- JvSKU5Yhx/J/cOpTbbWZwiG08kSdvpPAR9lfsUa1PFCT4RgRvQMp3eTpSdTqOc+E7OHT
- 4JL6eZhIAAFqzk1DmuI3VPFIY/yqeAoMJtfsDLPB9XFqhSB6h8WIy3pgDSTQtgewCOz7
- 6vUQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=a5HiIt6oABJ3BG1J/pu1JEnVUU32r0DSl4PyBFcvPG8=;
+ b=PupseyDCsu0UZJWJT7y4Vyn1WDbUOInc55gtEHuKx5+8s2EC1pF4KeFSa/mPx9H5IZ
+ wXnwTtvE8fHjwoHdf7J0Mv/xv3dyIoFdzDzIYpIpERvxdzv8XCB+IGk/rlFjbdLPdViz
+ fnQqpHCs7i0gOVMNjcnl3eX9BSqJoZSY5B4V+A7O/yTuZGb7X7VvHjUBK5zoBF/YZTi/
+ Vayl+lOkFUZtJAVaSYY/+TxeK4xeqD/NSDDTpLmSONirwepxk4S6Gl8TR4B0EnpgJyrX
+ H5/S6SCQKftVBlCtg7OHfdJCJSvN6T2i58I88sMCyNY1ia5cEV7OfQt9RZNuEZlpXl//
+ rbmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xiFIm0ldyrjVNogQ3aHi2+1VAbwRXPGCKZqKhUePPa0=;
- b=KGq9WE6vfSl5zyUxC9jWYgmUjiYZb8YwpVGg8t7Qk9eRFo4ERxOKnptB7+bq8g7Vk9
- r1J0rKP8GFXiD224thi5N3nIzvtKLzTcgQd8WGimwFQaNZlcQ2Ks8HccgSxkDvGcD/5R
- Q2MqxqGrkzxPUEzXfLnwm2DtEoDyVVXyoSmypzq/z96N1diNiWRYpsfZFOh4nzMKXKhW
- Wb6fC7tc0007awaO+I0qpbCb4haKww1eyuBkcuVQ6Zk1tEno+3GAd5JeIo6QfPoQE/B/
- G1488MoPC6U83aQCNhzvNxjWki4a/CBGjA/jhSF42xYFqFnI8YUw5ROwqrFRzan/1Bb1
- uOQw==
-X-Gm-Message-State: APjAAAW9NgzIbIO4PRDCe9bfJ9u0RYfI9XkYDnDLDxkDsBiLKDcz4SN0
- FFIrXlLz0rXBosx1T1VDljVF5XI3Peo=
-X-Google-Smtp-Source: APXvYqw7PlZqBuj/5BH3ZJautxITLJSft/mTyAUK9ClBrwLVHH9d0sq+Z1YN+H/LtyphpcOakAPgBQ==
-X-Received: by 2002:a63:4664:: with SMTP id v36mr41838509pgk.147.1579221987376; 
- Thu, 16 Jan 2020 16:46:27 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=a5HiIt6oABJ3BG1J/pu1JEnVUU32r0DSl4PyBFcvPG8=;
+ b=g7eXF+raKUDJ8XPE0hv4aKJAfNQRpykMVIoOdR+XpkRg6iK3fYZJu2e2mdFzBBH77O
+ t9d9aDcYltCSiZeZdOpjy41vd3ZzezgYnLqojWTpXlOpNMuPtAhIwkypL1QM/4Kepb5N
+ vfBFxtPsiUPj4UTj4b2kp3+yTCkZgVXmDthIV4ZEk/lEOca9QGrySaaVdozD07Rsav3t
+ qVpbMKeijtadZHDUNP1Clygw/sVKisPLdWnpLbieHRrQgQckKVvxpGoCaUgAsilzBQy6
+ S7YW4CqnJEzwlbW2VgL7qo0s9cqLl1S7kwr9W8jiM1n7oYobyluSd9QmK5kucKZPRvsD
+ tdoQ==
+X-Gm-Message-State: APjAAAWOfvzE192ycyIEStnfzlErUi+VbYJ0hySJM4qgaMjNEgkFn/w1
+ CwBSDqUk+DGYxUBcKl8qVGBIFzi73Gs=
+X-Google-Smtp-Source: APXvYqx1jvQfKqUz48aRGpDAMRxNuVRcDMvbZZJ16Rg8lRiYUh+bh+3HEFnJoTOS8n8ZHLLoXU67qA==
+X-Received: by 2002:a63:111e:: with SMTP id g30mr43679271pgl.251.1579221990703; 
+ Thu, 16 Jan 2020 16:46:30 -0800 (PST)
 Received: from localhost.localdomain (rrcs-66-91-136-155.west.biz.rr.com.
  [66.91.136.155])
- by smtp.gmail.com with ESMTPSA id 81sm27663582pfx.30.2020.01.16.16.46.24
+ by smtp.gmail.com with ESMTPSA id 81sm27663582pfx.30.2020.01.16.16.46.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2020 16:46:26 -0800 (PST)
+ Thu, 16 Jan 2020 16:46:30 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] target/arm: Fix ISSIs16Bit
-Date: Thu, 16 Jan 2020 14:46:16 -1000
-Message-Id: <20200117004618.2742-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 1/2] target/arm: Return correct IL bit in
+ merge_syn_data_abort
+Date: Thu, 16 Jan 2020 14:46:17 -1000
+Message-Id: <20200117004618.2742-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200117004618.2742-1-richard.henderson@linaro.org>
+References: <20200117004618.2742-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::533
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,28 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org,
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, qemu-stable@nongnu.org,
  jeff.kubascik@dornerworks.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes in v2:
-  - Include the merge_syn_data_abort fix, as a self-contained patch.
+From: Jeff Kubascik <jeff.kubascik@dornerworks.com>
 
+The IL bit is set for 32-bit instructions, thus passing false
+with the is_16bit parameter to syn_data_abort_with_iss() makes
+a syn mask that always has the IL bit set.
 
-r~
+Pass is_16bit as true to make the initial syn mask have IL=0,
+so that the final IL value comes from or'ing template_syn.
 
-
-Jeff Kubascik (1):
-  target/arm: Return correct IL bit in merge_syn_data_abort
-
-Richard Henderson (1):
-  target/arm: Set ISSIs16Bit in make_issinfo
-
+Cc: qemu-stable@nongnu.org
+Fixes: aaa1f954d4ca ("target-arm: A64: Create Instruction Syndromes for Data Aborts")
+Signed-off-by: Jeff Kubascik <jeff.kubascik@dornerworks.com>
+[rth: Extracted this as a self-contained bug fix from a larger patch]
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
  target/arm/tlb_helper.c | 2 +-
- target/arm/translate.c  | 3 +++
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+index 5feb312941..e63f8bda29 100644
+--- a/target/arm/tlb_helper.c
++++ b/target/arm/tlb_helper.c
+@@ -44,7 +44,7 @@ static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
+         syn = syn_data_abort_with_iss(same_el,
+                                       0, 0, 0, 0, 0,
+                                       ea, 0, s1ptw, is_write, fsc,
+-                                      false);
++                                      true);
+         /* Merge the runtime syndrome with the template syndrome.  */
+         syn |= template_syn;
+     }
 -- 
 2.20.1
 
