@@ -2,44 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67CC5140F54
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 17:53:11 +0100 (CET)
-Received: from localhost ([::1]:60180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E614B140F4B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 17:49:44 +0100 (CET)
+Received: from localhost ([::1]:60118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isUru-0002Qg-DP
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 11:53:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47892)
+	id 1isUoZ-0007YI-Rh
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 11:49:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47872)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1isUlY-0005Bw-8j
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:46:39 -0500
+ (envelope-from <groeck7@gmail.com>) id 1isUlV-00058V-31
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:46:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1isUlU-0004bC-Fu
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:46:35 -0500
-Resent-Date: Fri, 17 Jan 2020 11:46:35 -0500
-Resent-Message-Id: <E1isUlU-0004bC-Fu@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21181)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1isUlU-0004YC-81
+ (envelope-from <groeck7@gmail.com>) id 1isUlT-0004aY-VX
  for qemu-devel@nongnu.org; Fri, 17 Jan 2020 11:46:32 -0500
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1579279580013783.2055555033722;
- Fri, 17 Jan 2020 08:46:20 -0800 (PST)
-In-Reply-To: <20200117110758.1995-1-thuth@redhat.com>
-Subject: Re: [PULL 0/4] qtests and gitlab-CI
-Message-ID: <157927957887.5569.10481248275615880712@197193fa8d23>
+Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:33294)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <groeck7@gmail.com>)
+ id 1isUlR-0004U9-Jp; Fri, 17 Jan 2020 11:46:29 -0500
+Received: by mail-yb1-xb43.google.com with SMTP id n66so6440758ybg.0;
+ Fri, 17 Jan 2020 08:46:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ajV1/PYLosp7/N6LIdluScNNKiTvqm6he4Yn7gT2BVk=;
+ b=vJc3fUX/SPC68z1LqhjIEpwwAF515l5Xg+AbNcKbj3bCcTJHWPm1yoONSGD3VTwIIi
+ C3KOmR7fhGnn8vOIUP4FF4QhfelSDzlgK1QF4CdeX2vBBCklqPAh8DdgXlqy9pwV+1aK
+ ifxhs/sQKt7QcyX9K4FFkAUE93tAqmOASVfNFcrd6akO5oSU75Sri06YHKZ3mpLlB9je
+ yKdqsH142zoYjEUjxm4TCFK1AzzBIq11xxrmXOJg+XaBiUF43M9zmovMDuAnbvx2EkuZ
+ UGjhukj24rGO60GbMitNk0ScGQXAvnvgPgBoIjrKxEYdGCl8/Cgx5HpMo++I/tZq0eR1
+ d39g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ajV1/PYLosp7/N6LIdluScNNKiTvqm6he4Yn7gT2BVk=;
+ b=BpaVdHknOYdK6iEgosGKvW7LJ7A+/veLUx7nVtq9W/apasvmJDhZLL2aGq+rb6JIrg
+ 6qKlldbbg4+jDcc9nF4hmxTUlItCtnP3Kwv7NnWbtpnIB+/TTMt4QSEN5VBAMg344fqC
+ F/aM5lNTvVMMypksI9bvFXT58NlrOKw/WQnsF6F52yCLJLzq8cAMKJuqNhv3yOSmnq1n
+ T1hZnY/qveqD89PgCqB+z546qZ41mMI8RgF5C9matna44fFHd1nz6Z/vjqVDePUO1uFe
+ uQ1UwIEUahil9kBzf/Fl6TOgHt0RSnC0qayRPS0gjPkFSZBdMc8UhR8JE+9Aip0S9tsX
+ 9p2w==
+X-Gm-Message-State: APjAAAXVtDu2REsrzbfRkuQBlcSCnky6902EHC//E67ESWTdXm+b5HcJ
+ WDo8Ld0xPXkjOmh5kIbNzd8=
+X-Google-Smtp-Source: APXvYqwIE7RyAiG3R2ZYx/eBv1e7x+gEokHKcOdlefsWchOegil3Xb4imjTX/yj4vRiX0vMgXnfkbw==
+X-Received: by 2002:a25:6e04:: with SMTP id j4mr30706909ybc.36.1579279587601; 
+ Fri, 17 Jan 2020 08:46:27 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id q185sm11316617ywh.61.2020.01.17.08.46.26
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 17 Jan 2020 08:46:26 -0800 (PST)
+Date: Fri, 17 Jan 2020 08:46:25 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 1/6] dma/pl330: Convert to support tracing
+Message-ID: <20200117164625.GA27197@roeck-us.net>
+References: <20200110203942.5745-1-linux@roeck-us.net>
+ <20200110203942.5745-2-linux@roeck-us.net>
+ <CAFEAcA_k8xdzmsgMK+m6wSgnBN53UjCNU4nTBx=hnHnHz+Su6g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: thuth@redhat.com
-Date: Fri, 17 Jan 2020 08:46:20 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_k8xdzmsgMK+m6wSgnBN53UjCNU4nTBx=hnHnHz+Su6g@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::b43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,46 +79,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDExNzExMDc1OC4xOTk1
-LTEtdGh1dGhAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
-bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
-bWF0aW9uOgoKTWVzc2FnZS1pZDogMjAyMDAxMTcxMTA3NTguMTk5NS0xLXRodXRoQHJlZGhhdC5j
-b20KVHlwZTogc2VyaWVzClN1YmplY3Q6IFtQVUxMIDAvNF0gcXRlc3RzIGFuZCBnaXRsYWItQ0kK
-Cj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNl
-ID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1p
-dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFp
-bGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHVi
-LmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIw
-MjAwMTE3MTEwNzU4LjE5OTUtMS10aHV0aEByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMDAxMTcx
-MTA3NTguMTk5NS0xLXRodXRoQHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0
-ZXN0Jwo3ZmJiYWY3IGdpdGxhYi1jaS55bWw6IFJ1biB0Y2cgdGVzdCB3aXRoIHRjaQoxYzRkMTA0
-IHRlc3RzL3F0ZXN0L3Zob3N0LXVzZXItdGVzdDogRml4IG1lbW9yeSBsZWFrcwoyZTE3MjhjIG1p
-Z3JhdGlvbi10ZXN0OiBwcGM2NDogZml4IEZPUlRIIHRlc3QgcHJvZ3JhbQoyNDdhNmEwIHRlc3Rz
-OiBhY3BpOiB1cGRhdGUgcGF0aCBpbiByZWJ1aWxkLWV4cGVjdGVkLWFtbAoKPT09IE9VVFBVVCBC
-RUdJTiA9PT0KMS80IENoZWNraW5nIGNvbW1pdCAyNDdhNmEwMzM5MzcgKHRlc3RzOiBhY3BpOiB1
-cGRhdGUgcGF0aCBpbiByZWJ1aWxkLWV4cGVjdGVkLWFtbCkKRVJST1I6IGxpbmUgb3ZlciA5MCBj
-aGFyYWN0ZXJzCiM0NDogRklMRTogdGVzdHMvZGF0YS9hY3BpL3JlYnVpbGQtZXhwZWN0ZWQtYW1s
-LnNoOjM0OgorZWNobyAnLyogTGlzdCBvZiBjb21tYS1zZXBhcmF0ZWQgY2hhbmdlZCBBTUwgZmls
-ZXMgdG8gaWdub3JlICovJyA+ICR7U1JDX1BBVEh9L3Rlc3RzL3F0ZXN0L2Jpb3MtdGFibGVzLXRl
-c3QtYWxsb3dlZC1kaWZmLmgKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgMjEgbGluZXMg
-Y2hlY2tlZAoKUGF0Y2ggMS80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
-IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
-aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyLzQgQ2hlY2tp
-bmcgY29tbWl0IDJlMTcyOGMzNGYyYiAobWlncmF0aW9uLXRlc3Q6IHBwYzY0OiBmaXggRk9SVEgg
-dGVzdCBwcm9ncmFtKQozLzQgQ2hlY2tpbmcgY29tbWl0IDFjNGQxMDQ5N2U2OSAodGVzdHMvcXRl
-c3Qvdmhvc3QtdXNlci10ZXN0OiBGaXggbWVtb3J5IGxlYWtzKQo0LzQgQ2hlY2tpbmcgY29tbWl0
-IDdmYmJhZjdhMGRmNiAoZ2l0bGFiLWNpLnltbDogUnVuIHRjZyB0ZXN0IHdpdGggdGNpKQo9PT0g
-T1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1
-bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDExNzEx
-MDc1OC4xOTk1LTEtdGh1dGhAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVz
-c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
-Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
-dmVsQHJlZGhhdC5jb20=
+On Fri, Jan 17, 2020 at 01:23:46PM +0000, Peter Maydell wrote:
+> On Fri, 10 Jan 2020 at 20:39, Guenter Roeck <linux@roeck-us.net> wrote:
+> >
+> > Replace debug logging code with tracing.
+> >
+> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> > ---
+> >  hw/dma/pl330.c      | 88 +++++++++++++++++++++++----------------------
+> >  hw/dma/trace-events | 24 +++++++++++++
+> 
+> > +static void pl330_hexdump(uint8_t *buf, size_t size)
+> > +{
+> > +    unsigned int b, i, len;
+> > +    char tmpbuf[80];
+> > +
+> > +    for (b = 0; b < size; b += 16) {
+> > +        len = size - b;
+> > +        if (len > 16) {
+> > +            len = 16;
+> > +        }
+> > +        tmpbuf[0] = '\0';
+> > +        for (i = 0; i < len; i++) {
+> > +            if ((i % 4) == 0) {
+> > +                strcat(tmpbuf, " ");
+> > +            }
+> > +            sprintf(tmpbuf + strlen(tmpbuf), " %02x", buf[b + i]);
+> > +        }
+> > +        trace_pl330_hexdump(b, tmpbuf);
+> > +    }
+> > +}
+> >
+> 
+> > @@ -1175,11 +1186,8 @@ static int pl330_exec_cycle(PL330Chan *channel)
+> >          int len = q->len - (q->addr & (q->len - 1));
+> >
+> >          dma_memory_read(&address_space_memory, q->addr, buf, len);
+> > -        if (PL330_ERR_DEBUG > 1) {
+> > -            DB_PRINT("PL330 read from memory @%08" PRIx32 " (size = %08x):\n",
+> > -                      q->addr, len);
+> > -            qemu_hexdump((char *)buf, stderr, "", len);
+> > -        }
+> > +        trace_pl330_exec_cycle(q->addr, len);
+> > +        pl330_hexdump(buf, len);
+> 
+> Won't this now do all the work of constructing the hexdump strings,
+> even if tracing is disabled ?
+> 
+That is correct. Can I check
+	if (trace_event_get_state(TRACE_PL330_HEXDUMP) &&
+	    qemu_loglevel_mask(LOG_TRACE)) {
+directly in pl330_hexdump(), or is there some other means to handle
+this kind of situation ?
 
+Thanks,
+Guenter
 
