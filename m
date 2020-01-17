@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A6914094D
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 12:52:49 +0100 (CET)
-Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84ABB140968
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 12:59:53 +0100 (CET)
+Received: from localhost ([::1]:56006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isQBE-0006fX-Jk
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 06:52:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37416)
+	id 1isQI4-0000vD-Jy
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 06:59:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38132)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1isQ9m-0005cg-6Z
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:51:23 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1isQHI-0000Uw-UB
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:59:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1isQ9f-0004VG-5O
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:51:16 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37259
+ (envelope-from <pbonzini@redhat.com>) id 1isQHE-0002Nn-NR
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:59:04 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60264
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1isQ9e-0004UV-Nk
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:51:11 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1isQHE-0002NQ-JD
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:59:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579261869;
+ s=mimecast20190719; t=1579262339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aLrln4+VSajByokn3+3/SH9r01GWIU1icd0vzUYCsFs=;
- b=AkT+gD1Dit8qfnsWecf1jgpZ871obcNyS0nIbkhMtZ89/hHUFGP7nVcjxOById4Az2kWGi
- 2SfTJJSJNkzymzQv6B6Oln9ultVpKyF/g7fHTDEc7n+CABMdglAv8EeLJ9h7nMqmLOsGMh
- jTazh5j9I5EYuSHffB4/Nz+0avf8Aj4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-kDHVvgK-MGm8gC0GWrbPLA-1; Fri, 17 Jan 2020 06:51:08 -0500
-X-MC-Unique: kDHVvgK-MGm8gC0GWrbPLA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99196DB61;
- Fri, 17 Jan 2020 11:51:07 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 579571BC6D;
- Fri, 17 Jan 2020 11:51:05 +0000 (UTC)
-Date: Fri, 17 Jan 2020 12:51:04 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH v2 4/4] qcow2: Use BDRV_SECTOR_SIZE instead of the
- hardcoded value
-Message-ID: <20200117115104.GE7394@dhcp-200-226.str.redhat.com>
-References: <cover.1578596897.git.berto@igalia.com>
- <e3982d5118a90db2442c6ac18f339ec8ba006df2.1578596897.git.berto@igalia.com>
- <02552511-6fcf-d678-362c-707ce6d73659@redhat.com>
- <w517e1rf0fo.fsf@maestria.local.igalia.com>
- <56ec1ead-bba9-f4de-5c87-e81f802dfc79@redhat.com>
- <20200117095538.GB7394@dhcp-200-226.str.redhat.com>
- <f0de9a2b-6ce2-22a5-8bfe-526100fcd544@redhat.com>
+ bh=E1WupT6ecj+fEkonJfMMq0eKozXvvoyyW0KybizD4OQ=;
+ b=TZftuVEDCzaP3tvO9svIyGfuGHQUUmIPWQCyRKLfB7EwzDhFADNhxjRSThMIZF83aOXeRT
+ DP1GtBsaSKH+4aKWA3wlskFVGyBV2VMmGYyanrWHpEWa/Y5aFdKqzCKCPlUQBdDuyjXY2B
+ hI20CpvowIARGVLXort8UtBTnQii+30=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-z6-HgOWHP3eoX5WudExZsA-1; Fri, 17 Jan 2020 06:58:56 -0500
+Received: by mail-wm1-f70.google.com with SMTP id h130so2174671wme.7
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 03:58:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=E1WupT6ecj+fEkonJfMMq0eKozXvvoyyW0KybizD4OQ=;
+ b=sXQBN0pMQ0qsrwaX3brVk78Pm7MC3xmHa6nXcVcntDpVs1RwvNQ2Rd1PouV3qpJcb8
+ tFmPw5SXvdsQS0HFVBOFdMnZ3AxxnRmVR1RkNp1lFIfxNXWqlUfvB18882EsnWlJEnyK
+ pAgf367L+wpfvHoi8dx70LjEiEq4PX6lIIbTb5zOkpfRC+QZioQhPRP+E4qLlbHf4c2x
+ U9Xo7dZhbjhDDCHbOLA40IBbHaQVyZj94UCJSWz5/S3gbq0WterIYBAGP/DOrd5YXAFf
+ cwCnJjZ4280PaDk9GHRV5N5pwBKE/i/4xhENCe7fR3+Kk5OyApSJprpo9I7SOU+M9/jn
+ N4CQ==
+X-Gm-Message-State: APjAAAXXMrCw9pBg6mramUGxEFageEq9v8jxT5RFZQQoMMSXWpZlYMVv
+ 22QhKWrrRFV9jAH4Gwytj+rmlLhoc0s0HIEVxZDo2JJQYx8kcCqb4AX9k7MLSCUUrDGk8EvsLO9
+ mvmZgbwUh5A2hj40=
+X-Received: by 2002:a05:600c:22d3:: with SMTP id
+ 19mr4332547wmg.92.1579262335735; 
+ Fri, 17 Jan 2020 03:58:55 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy6FQeSpF0PsLQsgl49hYy3tuNU0kZlLTLF2Osu5FPY04TG/5QV47+ojlV5r2mbrj4gpc59Mg==
+X-Received: by 2002:a05:600c:22d3:: with SMTP id
+ 19mr4332534wmg.92.1579262335542; 
+ Fri, 17 Jan 2020 03:58:55 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:436:e17d:1fd9:d92a?
+ ([2001:b07:6468:f312:436:e17d:1fd9:d92a])
+ by smtp.gmail.com with ESMTPSA id f16sm33591858wrm.65.2020.01.17.03.58.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jan 2020 03:58:54 -0800 (PST)
+Subject: Re: [PATCH v2 0/4] vl: Fixes for cleanups to -accel
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200116210528.31953-1-richard.henderson@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <fa4fb940-6ece-58e8-2c37-61a677906581@redhat.com>
+Date: Fri, 17 Jan 2020 12:58:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <f0de9a2b-6ce2-22a5-8bfe-526100fcd544@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200116210528.31953-1-richard.henderson@linaro.org>
+Content-Language: en-US
+X-MC-Unique: z6-HgOWHP3eoX5WudExZsA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="wzJLGUyc3ArbnUjN"
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,97 +93,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nir Soffer <nsoffer@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: philmd@redhat.com, alex.bennee@linaro.org, aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---wzJLGUyc3ArbnUjN
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 16/01/20 22:05, Richard Henderson wrote:
+> Running qemu-system-foo with no options should not generate
+> a warning for "invalid accelerator bar".
+> 
+> Changes in v2:
+>   * Rebase on master, getting the free accel_list fix from upstream.
+>     Re-word the resulting patch 2 to merely reduce the scope of the
+>     local variables.
+>   * Use g_str_has_suffix (ajb)
+> 
+> 
+> r~
+> 
+> 
+> Richard Henderson (4):
+>   vl: Remove unused variable in configure_accelerators
+>   vl: Reduce scope of variables in configure_accelerators
+>   vl: Remove useless test in configure_accelerators
+>   vl: Only choose enabled accelerators in configure_accelerators
+> 
+>  vl.c | 27 ++++++++++++++++-----------
+>  1 file changed, 16 insertions(+), 11 deletions(-)
+> 
 
-Am 17.01.2020 um 12:01 hat Max Reitz geschrieben:
-> On 17.01.20 10:55, Kevin Wolf wrote:
-> > Am 17.01.2020 um 10:12 hat Max Reitz geschrieben:
-> >> On 17.01.20 00:26, Alberto Garcia wrote:
-> >>> On Tue 14 Jan 2020 03:15:48 PM CET, Max Reitz wrote:
-> >>>>> @@ -219,7 +219,7 @@ static int l2_load(BlockDriverState *bs, uint64=
-_t offset,
-> >>>>>   * Writes one sector of the L1 table to the disk (can't update sin=
-gle entries
-> >>>>>   * and we really don't want bdrv_pread to perform a read-modify-wr=
-ite)
-> >>>>>   */
-> >>>>> -#define L1_ENTRIES_PER_SECTOR (512 / 8)
-> >>>>> +#define L1_ENTRIES_PER_SECTOR (BDRV_SECTOR_SIZE / 8)
-> >>>>>  int qcow2_write_l1_entry(BlockDriverState *bs, int l1_index)
-> >>>>
-> >>>> Here it=E2=80=99s because the comment is wrong: =E2=80=9CCan=E2=80=
-=99t update single entries=E2=80=9D =E2=80=93
-> >>>> yes, we can.  We=E2=80=99d just have to do a bdrv_pwrite() to a sing=
-le entry.
-> >>>
-> >>> What's the point of qcow2_write_l1_entry() then?
-> >>
-> >> I think the point was that we couldn=E2=80=99t, for a long time, becau=
-se the
-> >> block layer only provided sector-granularity access.  This function
-> >> simply was never changed when the block layer gained the ability to do
-> >> byte-granularity I/O.
-> >>
-> >> (We=E2=80=99d still need this function, but only for the endian swap, =
-I think.)
-> >=20
-> > We still can't do byte-granularity writes with O_DIRECT, because that's
-> > a kernel requirement.
->=20
-> Ah, yes.  But that makes BDRV_SECTOR_SIZE the wrong choice.
->=20
-> > The comment explains that we don't want to do a RMW cycle to write a
-> > single entry because that would be slower than just writing a whole
-> > sector. I think this is still accurate. Maybe we should change the
-> > comment to say "can't necessarily update". (The part that looks really
-> > wrong in the comment is "bdrv_pread", that should be "bdrv_pwrite"...)
->=20
-> Hm.  But we wouldn=E2=80=99t do an RMW cycle without O_DIRECT, would we?
-
-file-posix with a regular file has request_alignment =3D=3D 1 and wouldn't
-cause an RMW cycle, I think. I won't try to make a statement about all
-non-O_DIRECT cases in all protocols.
-
-The important point is that some cases exist which would get us RMW.
-
-> > Now, what's wrong about the logic to avoid the RMW is that it assumes
-> > a fixed required alignment of 512. What it should do is looking at
-> > bs->file->bl.request_alignment and rounding accordingly.
->=20
-> Yes.
-
-Who'll write the patch? :-)
-
-Kevin
-
---wzJLGUyc3ArbnUjN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBAgAGBQJeIZ+oAAoJEH8JsnLIjy/WOF0P/AxFCZf5ElfxFHWIbAWKJBTg
-OqnSwaguSFIeM3u2d2QFW5JDJiP2mHkiJ5W1ue+FyeAqqhFcX1Ri3XkqErydDR1s
-prOo8DQwbY8cM2b6rO/CrYlMqRDTG/Wp6q2CkV793waZmC61kOw77UgcJPOItrry
-9pIsiEV9KNPiuKqBYK62Eqz1pbJGsNRXb+UFRktm7gkadpp4qIsD/Hmu53m6S1eL
-uXSUz53G4j7SchUfISKMesxbh3sj/k0aqvlsDxrAmCijoTNqYa7wiA9h3DpkYu8t
-Ytmf+6ii/fFmiW7P05dOvFG7PQpz2PCg+TEnMz/L9PzzSIR5+IaHvL2Bp7T2YgSo
-/7aGrrMHvOtdR05JFUN6YYEgL28e/54rDEfcFS6KhV9w5ZTQ7d75uREQE+BHmPJr
-Dhp0//7QGEs+nG3dg0hbu6+LzQhky2ENh/HODyF/PJ30dj5Rjp/tnrJJpGrVjnJa
-wvx/YQR94UHMYz5wIHlXdPmJEP0w4kBH/sr4BndaPOfDpGKLkewlPZLYcP3dSGMh
-yfqwFoTPwZG4debHclQrSW+LyeSE1o+cwGCukFYys/inYKWgCP7QxHbafNysE1Bx
-mlU4Nt93W+P3vY4KJT9YOEpbYO8XFX2NcHQnN7V1+gDf0YDgia5ZwNX8L8fHLseb
-QyBQwJ76ky5Ev4ddqbfV
-=ylSo
------END PGP SIGNATURE-----
-
---wzJLGUyc3ArbnUjN--
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
 
