@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B4E140AE1
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:36:58 +0100 (CET)
-Received: from localhost ([::1]:57390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB214140B11
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:39:11 +0100 (CET)
+Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isRo1-0005Pw-HA
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:36:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48952)
+	id 1isRqA-00084t-CX
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:39:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1isRl1-0002wD-HN
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:52 -0500
+ (envelope-from <philmd@redhat.com>) id 1isRlE-00039M-Dg
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:34:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1isRl0-0008V5-IE
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:51 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52761)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1isRkx-0008RU-1d; Fri, 17 Jan 2020 08:33:47 -0500
-Received: by mail-wm1-x344.google.com with SMTP id p9so7481858wmc.2;
- Fri, 17 Jan 2020 05:33:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=yT+sU+iEPYv6vcV3y79HbWr4gfQRlPyXmRwCd7eoCkI=;
- b=NhWuiQsWE1zBblBcC4P9XLVjxoTMFApAZh1Mycx8VTPuXvZJXvrrDrVLgwt8UC14Hx
- y8bXyx1CYaxfYK8jSW79Syd4frMyglY0BwlkVsPxBXw2CMlhmvRfCHcXwL7G3Yo4AT/L
- 9J1in+KvbxFKg7jaBnOOIkj+YBUsqYvN7C7fa8DyDFVE1dCLephAXtpfn4wKHOzmFfoD
- r3bdsV/0eTJNYd3FmlWIrOPVSigbLxMKxhr5453eiJ43mfMqGZ1pS0MDuk2zB/p7F/9J
- r1KT1XZ5crS1IYXgAk6t8Dw14d5NkSyPvdIAIJgcRVIIgcKF9Nn8LON1LMcM2WiTyqmg
- gizw==
+ (envelope-from <philmd@redhat.com>) id 1isRlA-0000Al-Lx
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:34:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51558
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isRl3-00004x-Dh
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:34:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579268032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y3SzMAzbADTBE0GYRSa4giIWDbHlwzbWRE4u8/8geyI=;
+ b=HHYVppGejpLCMlVJqWmEOWEXxOHiNM5aL/XSbGlvJMeXiqczlvMq6YY5/EJhuUdb+7XeLh
+ Use36/JV+sbdyJWP6KnJOK6fmxzJbzPboiaFrXirEGpO8ikXR1gWmXbnVfRjU7Rt45gcsZ
+ Gjia7pPN4GrClzb1VThmok37DgwlrsY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-404-zo5eHLedNqGh5dXf5HbR_g-1; Fri, 17 Jan 2020 08:33:49 -0500
+Received: by mail-wr1-f69.google.com with SMTP id u18so10483170wrn.11
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:33:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=yT+sU+iEPYv6vcV3y79HbWr4gfQRlPyXmRwCd7eoCkI=;
- b=QqpnrZlFFkeQV41evJKj00P5nL+8mK9Ed5TlUU1kb2CifMEf0aUCdmJx6QuBAeH6ZH
- iDbgsG2eLjLSJFkiq4OStq7tjujArfJQLQVx4d+df78+W1xneFP+JFQi/ml0RA7vgLZ7
- NkfIP3lfCJZJxhyUzUSFgmXLXc4bDWA0GNV7AU1YfkVNpFXq/kaV3E3IzMkarDH9rim/
- /mP88b4d1EqPHUC/GIT4LMj3lFLxjiuJnM+UChVbKYX7rP42yVS/eO/SCj9CCZlu+c+p
- PFpPpBCFW2yMqZNakF2P+TKlZBt5wIHMBcy+ywPrdPTsXol9iW+sNBKsh563B4AiZ8CY
- Y8wA==
-X-Gm-Message-State: APjAAAUE6AsmZoLwl8PqGs6/iv3YDRoibjJ9Jn7AVKrxofKgb1kZSUDi
- aMqmyzlzr7mZUHl5uSRR+4MUJqqdpJwP+HAhN00=
-X-Google-Smtp-Source: APXvYqwOPbQ4nXWygK/DER8YSQi6Fptt9beqiPyZx9YLDn5dItDbPTyKvtL41BuJWNJ1bxAnsLew0+F/0g1gg0NUwww=
-X-Received: by 2002:a05:600c:2215:: with SMTP id
- z21mr4604402wml.55.1579268024350; 
- Fri, 17 Jan 2020 05:33:44 -0800 (PST)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9G7/8bbJigEpulwrvNvAKN7AbKqJ5FQn9jZVZd9SbGw=;
+ b=FlTnvDCpESl59P2pDk4kW9mIxMfeVgtOdkFePuXpj+7Pw275ZgSSo6nRSRApKh7KdV
+ N2uQJxqkLJZOXg/xd2MOo/BK5z2nwX+oPXG6VK/l/qPoMVEnH9Xq/WkzrrMf6ZAEIHbf
+ II36NAzi34B2YqV0DdB1BUSGQfNSHapoP1s1k4n4kTMiM9I6OUqlH+kZZ6NKUK0eIUS2
+ HFsPhMynboi7JZdpZMJKatNBd6yC4SV3IVW4OMO2s+RlGVoNa15IKvBqi/qd/9hRje1n
+ YjpyUr68KwqKT5gavn1CAzKezXm5e60ltxH08zSFmsySrgxnvK/h7ZQgSOkkwuT4Gn/F
+ 6fMg==
+X-Gm-Message-State: APjAAAWE9oRNhol1lUFgPGTNlwEvhBOxwU9zlt7uwT5Xq6TsD6mU+CGm
+ i58oK2aOoNXI/pfC+HqA+7z+XTCDek3YnxY2yaBFILzrFW67xODSQh6pmShbU3xl7n1EKtoOjh0
+ vdHOCupg3h8s6fY4=
+X-Received: by 2002:adf:a41c:: with SMTP id d28mr3218166wra.410.1579268028454; 
+ Fri, 17 Jan 2020 05:33:48 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxAsvB+2bw8nN3Q9v9L3aSI+FX+OeRzWax7umEeJl10atz7ihIoPG21KRiF5oKhr6OxQmGfBg==
+X-Received: by 2002:adf:a41c:: with SMTP id d28mr3218152wra.410.1579268028202; 
+ Fri, 17 Jan 2020 05:33:48 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id t5sm33402157wrr.35.2020.01.17.05.33.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jan 2020 05:33:47 -0800 (PST)
+Subject: Re: [PATCH 104/104] virtiofsd: Convert lo_destroy to take the
+ lo->mutex lock itself
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-105-dgilbert@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <fc2bbbfa-4a10-f01f-c681-5e1fbe6c249d@redhat.com>
+Date: Fri, 17 Jan 2020 14:33:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20200108161012.1821385-1-stefanb@linux.ibm.com>
- <20200108161012.1821385-6-stefanb@linux.ibm.com>
-In-Reply-To: <20200108161012.1821385-6-stefanb@linux.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 17 Jan 2020 17:33:32 +0400
-Message-ID: <CAJ+F1CK+XJ2vcZdZG0-__S8Tx2PzpLWbV_JcwF63m7cb6OohJQ@mail.gmail.com>
-Subject: Re: [PATCH v8 5/6] hw/ppc/Kconfig: Enable TPM_SPAPR as part of
- PSERIES config
-To: Stefan Berger <stefanb@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191212163904.159893-105-dgilbert@redhat.com>
+Content-Language: en-US
+X-MC-Unique: zo5eHLedNqGh5dXf5HbR_g-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,46 +94,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>,
- "open list:sPAPR pseries" <qemu-ppc@nongnu.org>, QEMU <qemu-devel@nongnu.org>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 8, 2020 at 8:13 PM Stefan Berger <stefanb@linux.ibm.com> wrote:
->
-> From: Stefan Berger <stefanb@linux.vnet.ibm.com>
->
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-
-
-(trivial conflict on master)
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
+On 12/12/19 5:39 PM, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> lo_destroy was relying on some implicit knowledge of the locking;
+> we can avoid this if we create an unref_inode that doesn't take
+> the lock and then grab it for the whole of the lo_destroy.
+>=20
+> Suggested-by: Vivek Goyal <vgoyal@redhat.com>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->  hw/ppc/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index f927ec9c74..b5b3519158 100644
-> --- a/hw/ppc/Kconfig
-> +++ b/hw/ppc/Kconfig
-> @@ -10,6 +10,7 @@ config PSERIES
->      select XICS_SPAPR
->      select XIVE_SPAPR
->      select MSI_NONBROKEN
-> +    select TPM_SPAPR
->
->  config SPAPR_RNG
->      bool
-> --
-> 2.24.1
->
->
+>   tools/virtiofsd/passthrough_ll.c | 31 +++++++++++++++++--------------
+>   1 file changed, 17 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
+gh_ll.c
+> index 38f4948e61..c37f57157e 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -1328,14 +1328,13 @@ static void lo_unlink(fuse_req_t req, fuse_ino_t =
+parent, const char *name)
+>       lo_inode_put(lo, &inode);
+>   }
+>  =20
+> -static void unref_inode_lolocked(struct lo_data *lo, struct lo_inode *in=
+ode,
+> -                                 uint64_t n)
+> +/* To be called with lo->mutex held */
+> +static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint=
+64_t n)
+>   {
+>       if (!inode) {
+>           return;
+>       }
+>  =20
+> -    pthread_mutex_lock(&lo->mutex);
+>       assert(inode->nlookup >=3D n);
+>       inode->nlookup -=3D n;
+>       if (!inode->nlookup) {
+> @@ -1346,15 +1345,24 @@ static void unref_inode_lolocked(struct lo_data *=
+lo, struct lo_inode *inode,
+>           }
+>           g_hash_table_destroy(inode->posix_locks);
+>           pthread_mutex_destroy(&inode->plock_mutex);
+> -        pthread_mutex_unlock(&lo->mutex);
+>  =20
+>           /* Drop our refcount from lo_do_lookup() */
+>           lo_inode_put(lo, &inode);
+> -    } else {
+> -        pthread_mutex_unlock(&lo->mutex);
+>       }
+>   }
+>  =20
+> +static void unref_inode_lolocked(struct lo_data *lo, struct lo_inode *in=
+ode,
+> +                                 uint64_t n)
+> +{
+> +    if (!inode) {
+> +        return;
+> +    }
+> +
+> +    pthread_mutex_lock(&lo->mutex);
+> +    unref_inode(lo, inode, n);
+> +    pthread_mutex_unlock(&lo->mutex);
+> +}
+> +
+>   static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nloo=
+kup)
+>   {
+>       struct lo_data *lo =3D lo_data(req);
+> @@ -2441,13 +2449,7 @@ static void lo_destroy(void *userdata)
+>   {
+>       struct lo_data *lo =3D (struct lo_data *)userdata;
+>  =20
+> -    /*
+> -     * Normally lo->mutex must be taken when traversing lo->inodes but
+> -     * lo_destroy() is a serialized request so no races are possible her=
+e.
+> -     *
+> -     * In addition, we cannot acquire lo->mutex since unref_inode() take=
+s it
+> -     * too and this would result in a recursive lock.
+> -     */
+> +    pthread_mutex_lock(&lo->mutex);
+>       while (true) {
+>           GHashTableIter iter;
+>           gpointer key, value;
+> @@ -2458,8 +2460,9 @@ static void lo_destroy(void *userdata)
+>           }
+>  =20
+>           struct lo_inode *inode =3D value;
+> -        unref_inode_lolocked(lo, inode, inode->nlookup);
+> +        unref_inode(lo, inode, inode->nlookup);
+>       }
+> +    pthread_mutex_unlock(&lo->mutex);
+>   }
+>  =20
+>   static struct fuse_lowlevel_ops lo_oper =3D {
+>=20
 
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
---=20
-Marc-Andr=C3=A9 Lureau
 
