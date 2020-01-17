@@ -2,76 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE34D1407F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 11:29:46 +0100 (CET)
-Received: from localhost ([::1]:54972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E0D14081C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 11:38:09 +0100 (CET)
+Received: from localhost ([::1]:55070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isOsr-0003Qb-UP
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 05:29:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55668)
+	id 1isP0y-0006Gm-2k
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 05:38:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56561)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dme@dme.org>) id 1isOrX-0002HY-Ky
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:28:24 -0500
+ (envelope-from <gengdongjiu@huawei.com>) id 1isOzv-0005kC-Ir
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:37:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dme@dme.org>) id 1isOrW-00089b-II
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:28:23 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34340)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dme@dme.org>) id 1isOrW-000889-42
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:28:22 -0500
-Received: by mail-wr1-x436.google.com with SMTP id t2so22172170wrr.1
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 02:28:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dme-org.20150623.gappssmtp.com; s=20150623;
- h=to:subject:in-reply-to:references:from:date:message-id:mime-version;
- bh=U7KmxzvVqdcER3V8vwzwrSZAgdisHy/4SoLCFnAuZrE=;
- b=BzMrtSKKvU7Afb7yYHtT+Ik2ig06C/wdHM2xf2GRxLF7uLOEjNu7RHTVLTSgMaQ7+c
- xZbwzORVRFqVgdRizakphETPTkruqsutzFSLKPMK7rTMvyQtI9v9PRAP7Uu7xN3HyECe
- 2iwLPY40kWyN1UDAF2QRk0weAHIslP34DFrUt7WC7XVCyxaew31xqehRNWuiNP0MGfHm
- oj5yebgbH+qjvyHK81wCkXWMnDTRcw4chglZpf7bZM0khmF67ZgJDymlT411f7k+EslB
- IGnvoIc5USLCFGcKoK5W7snQugan0U05kXJX9eIw5kzsyMvh4qfTQaucx2hmK8A1j+yY
- Qiyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:subject:in-reply-to:references:from:date
- :message-id:mime-version;
- bh=U7KmxzvVqdcER3V8vwzwrSZAgdisHy/4SoLCFnAuZrE=;
- b=gbzzAVvCBJkpawq32E5ouy6pjZbsGok/931otRiKNz2ZQcDLC2dg4jx54eqzJYj9Df
- AjZ5+9wEKAiegRGa/mxOvNlmtCYfnl8jZFW7931D2actDsVo62B8lgOl9uPT0gl+FRS4
- GwBngAPl/Yln+kbd7QmSL/ZsG+7S6XMmb+2wU/Rn02hJS662+oV7vdX/DvT4BFBHAwzJ
- MtA3X8R1PHoWy2vCobGHJbdKcfSrSWUwo+2V9NzXkKodNiw6OhSb+Iy8yWYt62hHlpWU
- vjcWjf7qEL6wucrypoAcfblK/DEG7Ea390PGAhEz66XQTWJbcl4HPUEEnHEb/W4MAJZD
- QExA==
-X-Gm-Message-State: APjAAAUikEc1/niosBkaRLu6WHsVGlTrcJFC+nZhmaepUALFEP6SIWx1
- 9nwcBGqzACRpsvd8NewZZDx6Pw==
-X-Google-Smtp-Source: APXvYqwyMtROBmjdflraqrjX8lpoww1Si017EEpVc6zvXicB9pXromcxwur9GJ/y4ZARcYN1PvZ/6g==
-X-Received: by 2002:adf:fe0e:: with SMTP id n14mr2422915wrr.116.1579256900344; 
- Fri, 17 Jan 2020 02:28:20 -0800 (PST)
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
- [81.149.164.25])
- by smtp.gmail.com with ESMTPSA id b10sm34206790wrt.90.2020.01.17.02.28.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jan 2020 02:28:19 -0800 (PST)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 32e39b41;
- Fri, 17 Jan 2020 10:28:18 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, "Richard W.M. Jones" <rjones@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, mlevitsk@redhat.com,
- sgarzare@redhat.com
-Subject: Re: Bug? qemu-img convert to preallocated image makes it sparse
-In-Reply-To: <7586b832-ecd2-e766-6781-3a25f382c9ed@redhat.com>
-References: <20200116141352.GA32053@redhat.com>
- <7586b832-ecd2-e766-6781-3a25f382c9ed@redhat.com>
-X-HGTTG: heart-of-gold
-From: David Edmondson <dme@dme.org>
-Date: Fri, 17 Jan 2020 10:28:18 +0000
-Message-ID: <m21rryz8al.fsf@dme.org>
+ (envelope-from <gengdongjiu@huawei.com>) id 1isOzu-0007Zs-Kf
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 05:37:03 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:54466 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
+ id 1isOzl-0007Ms-Vn; Fri, 17 Jan 2020 05:36:54 -0500
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 14ED5F094E649266C5B6;
+ Fri, 17 Jan 2020 18:36:48 +0800 (CST)
+Received: from [127.0.0.1] (10.142.68.147) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.439.0; Fri, 17 Jan 2020
+ 18:36:39 +0800
+Subject: Re: [PATCH v22 5/9] ACPI: Record the Generic Error Status Block
+ address
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <1578483143-14905-1-git-send-email-gengdongjiu@huawei.com>
+ <1578483143-14905-6-git-send-email-gengdongjiu@huawei.com>
+ <CAFEAcA9z9KDHmvh6WsrCPj_FTvNmOfhatxNQDftNG+ZKZN0wAA@mail.gmail.com>
+From: gengdongjiu <gengdongjiu@huawei.com>
+Message-ID: <9110de9c-7522-2823-22be-4ba9212026fb@huawei.com>
+Date: Fri, 17 Jan 2020 18:36:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.3.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::436
+In-Reply-To: <CAFEAcA9z9KDHmvh6WsrCPj_FTvNmOfhatxNQDftNG+ZKZN0wAA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.142.68.147]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,27 +58,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, QEMU
+ Developers <qemu-devel@nongnu.org>, Linuxarm <linuxarm@huawei.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Zheng Xiang <zhengxiang9@huawei.com>,
+ qemu-arm <qemu-arm@nongnu.org>, James Morse <james.morse@arm.com>,
+ "xuwei \(O\)" <xuwei5@huawei.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thursday, 2020-01-16 at 15:37:22 +01, Max Reitz wrote:
+On 2020/1/17 0:44, Peter Maydell wrote:
+>>      .minimum_version_id = 1,
+>>      .fields = (VMStateField[]) {
+>> -        VMSTATE_STRUCT(ged_state, AcpiGedState, 1, vmstate_ged_state, GEDState),
+>> +        VMSTATE_STRUCT(ged_state, AcpiGedState, 1,
+>> +                       vmstate_ged_state, GEDState),
+>> +        VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
+>> +                       vmstate_ghes_state, AcpiGhesState),
+>>          VMSTATE_END_OF_LIST(),
+>>      },
+>>      .subsections = (const VMStateDescription * []) {
+> You can't just add fields to an existing VMStateDescription
+> like this -- it will break migration compatibility. Instead you
+> need to add a new subsection to this vmstate, with a '.needed'
+> function which indicates when the subsection should be present.
+Thanks Peter's pointing out. I will change it.
 
-> So I suppose the best idea I can come up with is indeed a
-> --target-is-zero flag for qemu-img convert -n.  Would that work for you?
 
-I was looking at adding this for a slightly different reason (converting
-sparse images to newly provisioned LUNs).
+> 
+> thanks
+> -- PMM
+> .
+> 
 
-Followup is a naive patch (I'm new to hacking on qemu and the block
-layer seems complex due to maturity) that works in my tests. Feedback
-much appreciated.
-
-The patch specifically targets the initial blanking of the image rather
-than any other attempt to write zeroes, as I couldn't convince myself
-that there was no control flow where qemu-img convert might need to
-overwrite (with zeroes) data that it itself had previously written.
-
-dme.
--- 
-Stop the music and go home.
 
