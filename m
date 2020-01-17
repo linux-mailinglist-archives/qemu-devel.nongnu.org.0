@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14FC140B5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:48:13 +0100 (CET)
-Received: from localhost ([::1]:57572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D85140B94
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:51:34 +0100 (CET)
+Received: from localhost ([::1]:57646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isRyu-00012C-Ii
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:48:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50252)
+	id 1isS28-0004As-Pi
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:51:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50348)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1isRu7-0005jh-Vu
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:43:17 -0500
+ (envelope-from <mst@redhat.com>) id 1isRuj-0006UF-Bs
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:43:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1isRu6-0006vM-Rn
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:43:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22149
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1isRui-0007SC-2u
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:43:53 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33174
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isRu6-0006u0-OA
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:43:14 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1isRuh-0007Rc-VJ
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:43:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579268593;
+ s=mimecast20190719; t=1579268631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XLT60pF5ceWltFSTznm0nEFT2CDklKayKYDBwxDBlHw=;
- b=JcbzSgKISJUtowaDdKxHHpU2rQFGFu5MKgxZ17vJMPTfUpa+QRDrDqKyUfOMvotD7XbUl+
- 90xe8JjzrBzvEJQTaEIxWW4PcP33Jtz0jkFIGgcSLRHzrraeltUpDyVUX7t3psSeLNSj3P
- 5U3HOv6vltbMOzaAAF8zrllmaKpYfhs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-oceR1C56NIybDc_L2Ecx4w-1; Fri, 17 Jan 2020 08:43:12 -0500
-Received: by mail-wr1-f71.google.com with SMTP id i9so10536976wru.1
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:43:12 -0800 (PST)
+ bh=fQ27qtdSLnctcp86p3J3CfLOCOUqmqOh+XZLSSfyyhU=;
+ b=NroQSwnWBEAzt2Ic7jhXHVKvBawYEy6+pBtNzQG9r68lCj8CNhGbzif8+YBVg5dXiQ1jYt
+ LepPo4duGbOUC0Hegt2D/9Xw3DD+kZ1tfgNwqh/1MNGYEHLQM+88ZprcPE9zTboVc7KHkJ
+ HJb/GM7dlDdA1CyDqI59D6BSaJwRItw=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-0O-5FZS3MPmeKRYBYdSgyQ-1; Fri, 17 Jan 2020 08:43:48 -0500
+Received: by mail-qt1-f199.google.com with SMTP id k27so15883818qtu.12
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 05:43:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=d5Oz69Cb3gs8qrJD23OzNOutCE7KFa7jd3ApfXMTIqg=;
- b=T43jPBbF2wJXnuWWDG7glRgHWbVnDn2PuyWBe4zM8veMnvjVyCMuIEjjMmR9PLtJXu
- 2R55srgEmegWN6yewgMJyT3Fu4EqEXQnyOKEgSsfIpCMzabfH4lM5AnEhQR2qIrR931b
- 7NFZY3oyR3OAPrg/CmkcQPkBWZqwlrTiC/yicmtrAaLNQIJgJ/6Q0crCeqz9sEXkOJSg
- WuHuubLEAArExrqaB+k5a2SUucIniyjC7H2Nyvz8XF/KY7WXhRXNsW5FzKZGbhpsol1U
- /Qjx5OIo+Rt5PdzatyJEYz2gOQ9IyiDNIOVd3Q9X2JmJUdKxp4i5ZaxtX9vS5xG1CGNq
- QN6Q==
-X-Gm-Message-State: APjAAAWsWtfng9FQIKG+xuBGudj9Ddk/7RF5C8T8jk2FmDiis7VIk0Tu
- QcN5BuXsEGfSzO/UV1l+aohBc6S4bTFjE376OhIKr1s98K8hXAoca0mEdtAJ/45FGoXMbrnRx9C
- VoDNWaP1/UjOB5BU=
-X-Received: by 2002:a7b:cc6a:: with SMTP id n10mr4670521wmj.170.1579268590816; 
- Fri, 17 Jan 2020 05:43:10 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwxGq3nkNeF5qVy8eSAQafX4dotX3TajT8qmbHDDXuxUPEJxbAN01MYU7q9LEndNoGbKqrHKA==
-X-Received: by 2002:a7b:cc6a:: with SMTP id n10mr4670498wmj.170.1579268590622; 
- Fri, 17 Jan 2020 05:43:10 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id o15sm34545861wra.83.2020.01.17.05.43.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jan 2020 05:43:10 -0800 (PST)
-Subject: Re: [PATCH 102/104] virtiofsd: fix lo_destroy() resource leaks
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-103-dgilbert@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b28f876f-95ea-278d-c42d-2674ca15029a@redhat.com>
-Date: Fri, 17 Jan 2020 14:43:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=yiz/0Yu5NB5bF4aCasqNPtEYa/c/w4kZyJEv8MhIzyY=;
+ b=LpoNt0Rb2PienGKfBXDoPa9fQgHwynDzFl2B0BuIwwLG1FYwhMdzi3sBnLvnQb3RSD
+ 54OvFe6cEExNI2xQeimSgwS84KwFQ59MDWba6VLEFReyYMmyaGr6JqNBzvEkYikcm2Tj
+ aqsBG3IyNIeqdadvG3q39/Z5erlmSLLBHUIwJd8zmC+qMBERcEidMoNiOsANV5F7dnta
+ FDHw71driz4DfeDGYcioMucawAPPYAm+2dvDmYOZ+GY5RJeNtDUhVPbxaJKAsWbttoIq
+ G08uHzvvOQQxe1NJzP4EX5jWGTcZ5cXBUd5rwQumXtoFb3950l8zPa8o64Umw5bfDgud
+ oYcQ==
+X-Gm-Message-State: APjAAAXpez5asOdepvha0dqcG7r3xy8tB4nJSN9/2JBycgNSypiCF0ZR
+ nXhD8R4KDg/NUa9I/cwwHkeCNUkghVXyxYqJU9XSnlcFVhFGoCQ8axLvEy40UmnJtBjQ/ysgcW8
+ a1ai0TBjZThqLTxY=
+X-Received: by 2002:ac8:514c:: with SMTP id h12mr2609393qtn.332.1579268627735; 
+ Fri, 17 Jan 2020 05:43:47 -0800 (PST)
+X-Google-Smtp-Source: APXvYqztJw7OYoLZyQ3SPPw/uBfN/DVQYV6sVMcn7xqLAjhvxZY4Adx+GApNU0ndU97CPF2qw/n7Gw==
+X-Received: by 2002:ac8:514c:: with SMTP id h12mr2609385qtn.332.1579268627482; 
+ Fri, 17 Jan 2020 05:43:47 -0800 (PST)
+Received: from redhat.com (bzq-79-179-85-180.red.bezeqint.net. [79.179.85.180])
+ by smtp.gmail.com with ESMTPSA id 201sm11919306qkf.10.2020.01.17.05.43.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Jan 2020 05:43:46 -0800 (PST)
+Date: Fri, 17 Jan 2020 08:43:42 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v2 1/2] virtio-9p-device: fix memleak in
+ virtio_9p_device_unrealize
+Message-ID: <20200117084322-mutt-send-email-mst@kernel.org>
+References: <20200117060927.51996-1-pannengyuan@huawei.com>
+ <20200117060927.51996-2-pannengyuan@huawei.com>
+ <7781044.dIsAdKOGtE@silver>
 MIME-Version: 1.0
-In-Reply-To: <20191212163904.159893-103-dgilbert@redhat.com>
-Content-Language: en-US
-X-MC-Unique: oceR1C56NIybDc_L2Ecx4w-1
+In-Reply-To: <7781044.dIsAdKOGtE@silver>
+X-MC-Unique: 0O-5FZS3MPmeKRYBYdSgyQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,90 +90,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: zhang.zhanghailiang@huawei.com, Euler Robot <euler.robot@huawei.com>,
+ pannengyuan@huawei.com, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/12/19 5:39 PM, Dr. David Alan Gilbert (git) wrote:
-> From: Stefan Hajnoczi <stefanha@redhat.com>
+On Fri, Jan 17, 2020 at 01:52:53PM +0100, Christian Schoenebeck wrote:
+> On Freitag, 17. Januar 2020 07:09:26 CET pannengyuan@huawei.com wrote:
+> > From: Pan Nengyuan <pannengyuan@huawei.com>
+> >=20
+> > v->vq forgot to cleanup in virtio_9p_device_unrealize, the memory leak
+> > stack is as follow:
+> >=20
+> > Direct leak of 14336 byte(s) in 2 object(s) allocated from:
+> >   #0 0x7f819ae43970 (/lib64/libasan.so.5+0xef970)  ??:?
+> >   #1 0x7f819872f49d (/lib64/libglib-2.0.so.0+0x5249d)  ??:?
+> >   #2 0x55a3a58da624 (./x86_64-softmmu/qemu-system-x86_64+0x2c14624)=20
+> > /mnt/sdb/qemu/hw/virtio/virtio.c:2327 #3 0x55a3a571bac7
+> > (./x86_64-softmmu/qemu-system-x86_64+0x2a55ac7)=20
+> > /mnt/sdb/qemu/hw/9pfs/virtio-9p-device.c:209 #4 0x55a3a58e7bc6
+> > (./x86_64-softmmu/qemu-system-x86_64+0x2c21bc6)=20
+> > /mnt/sdb/qemu/hw/virtio/virtio.c:3504 #5 0x55a3a5ebfb37
+> > (./x86_64-softmmu/qemu-system-x86_64+0x31f9b37)=20
+> > /mnt/sdb/qemu/hw/core/qdev.c:876
+> >=20
+> > Reported-by: Euler Robot <euler.robot@huawei.com>
+> > Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
 >=20
-> Now that lo_destroy() is serialized we can call unref_inode() so that
-> all inode resources are freed.
+> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 >=20
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->   tools/virtiofsd/passthrough_ll.c | 41 ++++++++++++++++----------------
->   1 file changed, 20 insertions(+), 21 deletions(-)
->=20
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
-gh_ll.c
-> index 1bf251a91d..38f4948e61 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -1355,26 +1355,6 @@ static void unref_inode_lolocked(struct lo_data *l=
-o, struct lo_inode *inode,
->       }
->   }
->  =20
-> -static int unref_all_inodes_cb(gpointer key, gpointer value, gpointer us=
-er_data)
-> -{
-> -    struct lo_inode *inode =3D value;
-> -    struct lo_data *lo =3D user_data;
-> -
-> -    inode->nlookup =3D 0;
-> -    lo_map_remove(&lo->ino_map, inode->fuse_ino);
-> -    close(inode->fd);
-> -    lo_inode_put(lo, &inode); /* Drop our refcount from lo_do_lookup() *=
-/
-> -
-> -    return TRUE;
-> -}
-> -
-> -static void unref_all_inodes(struct lo_data *lo)
-> -{
-> -    pthread_mutex_lock(&lo->mutex);
-> -    g_hash_table_foreach_remove(lo->inodes, unref_all_inodes_cb, lo);
-> -    pthread_mutex_unlock(&lo->mutex);
-> -}
-> -
->   static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nloo=
-kup)
->   {
->       struct lo_data *lo =3D lo_data(req);
-> @@ -2460,7 +2440,26 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t in=
-o, off_t off, int whence,
->   static void lo_destroy(void *userdata)
->   {
->       struct lo_data *lo =3D (struct lo_data *)userdata;
-> -    unref_all_inodes(lo);
-> +
-> +    /*
-> +     * Normally lo->mutex must be taken when traversing lo->inodes but
-> +     * lo_destroy() is a serialized request so no races are possible her=
-e.
-> +     *
-> +     * In addition, we cannot acquire lo->mutex since unref_inode() take=
-s it
-> +     * too and this would result in a recursive lock.
-> +     */
-> +    while (true) {
-> +        GHashTableIter iter;
-> +        gpointer key, value;
-> +
-> +        g_hash_table_iter_init(&iter, lo->inodes);
-> +        if (!g_hash_table_iter_next(&iter, &key, &value)) {
-> +            break;
-> +        }
-> +
-> +        struct lo_inode *inode =3D value;
-> +        unref_inode_lolocked(lo, inode, inode->nlookup);
-> +    }
->   }
->  =20
->   static struct fuse_lowlevel_ops lo_oper =3D {
->=20
+> Maybe you could add this patch to your revised PR Greg?
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+I'm testing all the related virtio changes and they will be
+in my next PR.
+
+> > ---
+> > Changes V2 to V1:
+> > - use old function virtio_del_queue to make it easier for stable branch
+> > to merge (suggested by Christian Schoenebeck)
+> > ---
+> >  hw/9pfs/virtio-9p-device.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
+> > index b5a7c03f26..910dc5045e 100644
+> > --- a/hw/9pfs/virtio-9p-device.c
+> > +++ b/hw/9pfs/virtio-9p-device.c
+> > @@ -215,6 +215,7 @@ static void virtio_9p_device_unrealize(DeviceState =
+*dev,
+> > Error **errp) V9fsVirtioState *v =3D VIRTIO_9P(dev);
+> >      V9fsState *s =3D &v->state;
+> >=20
+> > +    virtio_del_queue(vdev, 0);
+> >      virtio_cleanup(vdev);
+> >      v9fs_device_unrealize_common(s, errp);
+> >  }
+>=20
+>=20
+>=20
 
 
