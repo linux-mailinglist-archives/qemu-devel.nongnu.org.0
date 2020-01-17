@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4041F1408AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 12:12:43 +0100 (CET)
-Received: from localhost ([::1]:55540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35CA71408D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 12:22:08 +0100 (CET)
+Received: from localhost ([::1]:55658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isPYQ-0003sU-5V
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 06:12:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60325)
+	id 1isPhW-0001vl-W9
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 06:22:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33908)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1isPUG-0006wr-AE
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:08:25 -0500
+ (envelope-from <bounces@canonical.com>) id 1isPgK-0001Dd-I2
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:20:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1isPUC-0003oj-EV
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:08:24 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21405
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1isPUC-0003oV-B9
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:08:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579259299;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oMTMGpxtSHxsDoSc2IO75R119iBtH87I1K69gvCCnzw=;
- b=K3UInWbZY2/wnn3L/XWFwAdCEuMTA1CJnuzzYbKg00Cy+gmCD2ffqYxrCbVlyYKBklx2eK
- 1ot3mStzGyEj00nH7lK0DnnznbL5bvzQjBDO0I6LUJq5ENypDfrrwqqX2g+pG3+Uyfqu1a
- 6Sx7R2n1sMG855BO0qc4JEFUFJS8LqE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-BEsFnOJxPm-coQyk_jcmxA-1; Fri, 17 Jan 2020 06:08:14 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42C05190B2A0;
- Fri, 17 Jan 2020 11:08:13 +0000 (UTC)
-Received: from thuth.com (ovpn-116-212.ams2.redhat.com [10.36.116.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4523E60C87;
- Fri, 17 Jan 2020 11:08:12 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/4] gitlab-ci.yml: Run tcg test with tci
-Date: Fri, 17 Jan 2020 12:07:58 +0100
-Message-Id: <20200117110758.1995-5-thuth@redhat.com>
-In-Reply-To: <20200117110758.1995-1-thuth@redhat.com>
-References: <20200117110758.1995-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: BEsFnOJxPm-coQyk_jcmxA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (envelope-from <bounces@canonical.com>) id 1isPgG-0004qo-KU
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:20:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49798)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1isPgG-0004qB-Ex
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:20:48 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1isPgE-0006Ut-N7
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 11:20:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A7A832E80BA
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 11:20:46 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 17 Jan 2020 11:08:09 -0000
+From: Max Reitz <1859989@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 5-plamen xanclic
+X-Launchpad-Bug-Reporter: pevogam (5-plamen)
+X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
+References: <157918316689.4864.12553262908100217782.malonedeb@wampee.canonical.com>
+Message-Id: <157925928974.4144.4979931538166834820.malone@soybean.canonical.com>
+Subject: [Bug 1859989] Re: qemu-img has broken output with large snapshot names
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5164688bf1ed64f522d85c1d0a5269ddc875e880
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,36 +65,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1859989 <1859989@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 2f160e0f9797c7522bfd0d09218d0c9340a5137c ("tci: Add
-implementation for INDEX_op_ld16u_i64") has been included now, we
-can also run the TCG tests with tci, so let's enable them in our
-Gitlab CI now.
+Sent a patch: https://lists.nongnu.org/archive/html/qemu-
+block/2020-01/msg00376.html
 
-Message-Id: <20191127155105.3784-1-thuth@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .gitlab-ci.yml | 1 +
- 1 file changed, 1 insertion(+)
+-- =
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index dce8f2d3f5..d9a90f795d 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -87,6 +87,7 @@ build-tci:
-  - ../configure --enable-tcg-interpreter
-       --target-list=3D"$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; =
-done)"
-  - make -j2
-+ - make run-tcg-tests-x86_64-softmmu
-  - make tests/qtest/boot-serial-test tests/qtest/cdrom-test tests/qtest/px=
-e-test
-  - for tg in $TARGETS ; do
-      export QTEST_QEMU_BINARY=3D"${tg}-softmmu/qemu-system-${tg}" ;
---=20
-2.18.1
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859989
 
+Title:
+  qemu-img has broken output with large snapshot names
+
+Status in QEMU:
+  New
+
+Bug description:
+  On Qemu 4.1.1 the output of snapshots breaks if the chosen state name
+  is too long:
+
+  ```
+  # qemu-img snapshot -l /mnt/local/some_image.qcow2
+  Snapshot list:
+  ID        TAG                 VM SIZE                DATE       VM CLOCK
+  1         online_provider_with_dhcp747 MiB 2020-01-15 12:05:01   00:00:45=
+.873
+  ```
+
+  Prior to 4.1.1 this used to work with extra tabs for the VM SIZE
+  values. The collision is also disabling us from using a regex on top
+  of this output to detect the snapshot.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859989/+subscriptions
 
