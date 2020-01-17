@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E61140492
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 08:45:08 +0100 (CET)
-Received: from localhost ([::1]:53602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0035140497
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 08:48:34 +0100 (CET)
+Received: from localhost ([::1]:53632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isMJX-0005Hz-5F
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 02:45:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33297)
+	id 1isMMr-0007B1-DV
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 02:48:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33499)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1isMIi-0004tE-Pc
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 02:44:17 -0500
+ (envelope-from <kraxel@redhat.com>) id 1isMKH-0005xj-JF
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 02:45:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1isMIg-0005GW-6h
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 02:44:16 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60362
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1isMKD-0006Sl-1u
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 02:45:53 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44887
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isMIg-0005Fw-2u
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 02:44:14 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1isMKC-0006SI-UV
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 02:45:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579247053;
+ s=mimecast20190719; t=1579247148;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e/HmA3SefVHUh7JmnFjYDZ3fzyjMTjsb9PKSBXqjml8=;
- b=eyfpENoFkCtesSh9rYxfTSVg46iYfZ++uBDxgWuLg6SzM3CPMgHcZzpRGtPXTDV6VGgAvA
- FYtvk3HSfUguk942XWFeuQVY69jlH/evAW86w3HPV1PIKpBme6rgEIyZfVHM2WyrFoSRFg
- T9t+r8qneavZ3SG9Eq5eYtXKH15nvr0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-f8pF2WFROjqs-zdI92FMXg-1; Fri, 17 Jan 2020 02:44:09 -0500
-Received: by mail-wr1-f70.google.com with SMTP id f15so10305198wrr.2
- for <qemu-devel@nongnu.org>; Thu, 16 Jan 2020 23:44:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BaQw8QBrwD0sf6D087e6fT9PrJms/hMHlTVeKpKQhLs=;
- b=sQzwrZuDsbmfLA3j5pK3KQIbFL5YEDn9qPsf81ShyuX1q8PkirKmSX0RGUaadEndVm
- 3MfYyHG1U8Zpk+5y4FKgKnjKKb8y+DPG9G0yQB9xwPZVfSYlZWUmP5IEcSh+pEZdLKdM
- MtpwL7wQMs+GMSmOI659R5XEB6zaOrWDkOx4g3cOCpjsr/65RfOLxTvE3aaSt/EDjFiw
- yiysuT1LEAYeQsp/HEWV8dcy54gM3+JgS9aXACxtbHnh/J/dFn0+0J4AnI5WOkqp1556
- b4T7YzSu9iQJs1Eb3mrjZIEqdiimXRdLr5PnXk6PXjDkw/uxoG6jzb72/P1YUrkDqT/6
- 6T/A==
-X-Gm-Message-State: APjAAAWdT8p9czbsoEdQUxdY+eB56cJspX4EV1X08vR6njAdZkn40uz0
- JiKW8gx01im0t/xhD1Urwwkim2eUb0XBYspoP6uzsxJ3hwuIAPRVP2ItuDJRI/Ruyps2zEe0QUU
- 7M/kLaEr/+daSwbw=
-X-Received: by 2002:a05:600c:2254:: with SMTP id
- a20mr3030107wmm.97.1579247048552; 
- Thu, 16 Jan 2020 23:44:08 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz6lMQuy3UEHW/YhoYaVFu+kgkSu+9nfD7Tq/yYfxDpHpy2wUrYVasqFOWUZDv2jhRw7CAL6w==
-X-Received: by 2002:a05:600c:2254:: with SMTP id
- a20mr3030095wmm.97.1579247048387; 
- Thu, 16 Jan 2020 23:44:08 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id g9sm33096328wro.67.2020.01.16.23.44.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jan 2020 23:44:07 -0800 (PST)
-Subject: Re: [PATCH v2] uas: fix super speed bMaxPacketSize0
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200117073716.31335-1-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8528f463-2bfc-d148-022d-a769b129cc03@redhat.com>
-Date: Fri, 17 Jan 2020 08:44:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ bh=MFkQI0+WRwSCWnWSROARUw5HrTsB5hfe//ZEG0pOmIA=;
+ b=ZZM2DvcV+R8vhlfpS4HVqDDV2ANXgWJn5mcSWLYgjU00Ta9ELi3X0nw7U/9ucbkGdn89Y7
+ bs8NpSAJ/tUw4CtNzQ2p7PU4zEY+6Gi5yxBJSCjNZWWi4rKOhL/Wmsk1xOZOUISnnZXHCd
+ rUbxywlUtfzFoQ3CpZQ9EgxlkJBtKOQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-100-MUFko7JGPYyg2nCvWXuRyA-1; Fri, 17 Jan 2020 02:45:32 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8B4A107ACC4;
+ Fri, 17 Jan 2020 07:45:31 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
+ [10.36.116.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7DC5781219;
+ Fri, 17 Jan 2020 07:45:31 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B33C497C2; Fri, 17 Jan 2020 08:45:30 +0100 (CET)
+Date: Fri, 17 Jan 2020 08:45:30 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Cameron Esfahani <dirty@apple.com>
+Subject: Re: [PATCH v1] vnc: fix VNC artifacts
+Message-ID: <20200117074530.mt2upbm7y5knyj7j@sirius.home.kraxel.org>
+References: <7cb1f22ef8d575238c84f091f03dee8e7fedb78d.1579232679.git.dirty@apple.com>
 MIME-Version: 1.0
-In-Reply-To: <20200117073716.31335-1-kraxel@redhat.com>
-Content-Language: en-US
-X-MC-Unique: f8pF2WFROjqs-zdI92FMXg-1
+In-Reply-To: <7cb1f22ef8d575238c84f091f03dee8e7fedb78d.1579232679.git.dirty@apple.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: MUFko7JGPYyg2nCvWXuRyA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,51 +75,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fys@fysnet.net
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/17/20 8:37 AM, Gerd Hoffmann wrote:
-> For usb2 bMaxPacketSize0 is "n", for usb3 it is "1 << n",
-> so it must be 9 not 64 ...
->=20
-> rom "Universal Serial Bus 3.1 Specification":
+On Thu, Jan 16, 2020 at 07:50:58PM -0800, Cameron Esfahani wrote:
+> Remove VNC optimization to reencode framebuffer update as raw if it's
+> smaller than the default encoding.  QEMU's implementation was naive and
+> didn't account for the ZLIB z_stream mutating with each compression.  Jus=
+t
+> saving and restoring the output buffer offset wasn't sufficient to "rewin=
+d"
+> the previous encoding.  Considering that ZRLE is never larger than raw an=
+d
+> even though ZLIB can occasionally be fractionally larger than raw, the
+> overhead of implementing this optimization correctly isn't worth it.
 
-Oops typo "From" ;) You can obviously fix that directly on your tree, no=20
-need for v3.
+So just revert de3f7de7f4e257 then ...
 
-Thanks for the v2!
+> In my investigation, ZRLE always compresses better than ZLIB so
+> prioritize ZRLE over ZLIB, even if the client hints that ZLIB is
+> preferred.
 
->=20
->     If the device is operating at Gen X speed, the bMaxPacketSize0
->     field shall be set to 09H indicating a 512-byte maximum packet.
->     An Enhanced SuperSpeed device shall not support any other maximum
->     packet sizes for the default control pipe (endpoint 0) control
->     endpoint.
->=20
-> We now announce a 512-byte maximum packet.
->=20
-> Fixes: 89a453d4a5c ("uas-uas: usb3 streams")
-> Reported-by: Benjamin David Lunt <fys@fysnet.net>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->   hw/usb/dev-uas.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
-> index 6d6d1073b907..1bc4dd4fafb8 100644
-> --- a/hw/usb/dev-uas.c
-> +++ b/hw/usb/dev-uas.c
-> @@ -303,7 +303,7 @@ static const USBDescDevice desc_device_high =3D {
->  =20
->   static const USBDescDevice desc_device_super =3D {
->       .bcdUSB                        =3D 0x0300,
-> -    .bMaxPacketSize0               =3D 64,
-> +    .bMaxPacketSize0               =3D 9,
->       .bNumConfigurations            =3D 1,
->       .confs =3D (USBDescConfig[]) {
->           {
->=20
+... and make this a separate patch?
+
+cheers,
+  Gerd
 
 
