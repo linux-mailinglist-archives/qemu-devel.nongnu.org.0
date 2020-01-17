@@ -2,53 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402AB140E4B
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 16:50:44 +0100 (CET)
-Received: from localhost ([::1]:59310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F72140E64
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 16:56:15 +0100 (CET)
+Received: from localhost ([::1]:59382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isTtT-0008FH-Bl
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 10:50:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39546)
+	id 1isTyn-0003YU-V3
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 10:56:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39620)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1isTsI-0007oP-F3
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:49:31 -0500
+ (envelope-from <deller@gmx.de>) id 1isTsU-0007yC-Jg
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:49:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1isTsH-0000ce-00
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:49:30 -0500
-Received: from 5.mo5.mail-out.ovh.net ([87.98.173.103]:43980)
+ (envelope-from <deller@gmx.de>) id 1isTsT-00010Y-39
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:49:42 -0500
+Received: from mout.gmx.net ([212.227.17.20]:38223)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1isTsG-0000Zi-PZ
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:49:28 -0500
-Received: from player786.ha.ovh.net (unknown [10.109.146.163])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 20FD9267E9F
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 16:49:25 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player786.ha.ovh.net (Postfix) with ESMTPSA id 28411E813337;
- Fri, 17 Jan 2020 15:49:16 +0000 (UTC)
-Date: Fri, 17 Jan 2020 16:49:14 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH] spapr: Migrate CAS reboot flag
-Message-ID: <20200117164914.34575e98@bahia.lan>
-In-Reply-To: <22499afe-20e9-da7c-5bdf-b22848104884@redhat.com>
-References: <157911051688.345768.16136592081655557565.stgit@bahia.lan>
- <ed2df775-b4d5-4ea7-ccf6-637c037f897b@redhat.com>
- <58c966da-45a6-3c31-589b-ebce5a489ff3@redhat.com>
- <20200117124932.2cd9edfb@bahia.lan>
- <22499afe-20e9-da7c-5bdf-b22848104884@redhat.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <deller@gmx.de>) id 1isTsS-0000uM-LL
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 10:49:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1579276174;
+ bh=2SUcImC9l/i24s+gkMXJYCZ/XZPC584l/C9I5BKCvMM=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=NlP12gS31MoeekC5engTzNVPLqTQrJb+0snkosvxvMdA+X4FC32SLBgSh3ZmkGbxc
+ jh/wOOJTySChxW8iWbA7YED7JsOKBXWdNaCYdenNr6yJMiuA1Dflz7Tncn2PX7S+3d
+ qwN+aX2TnxZU/8XVUtZi91tFIxZ95HplxIji/jhI=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [10.20.71.116] ([193.16.224.4]) by mail.gmx.com (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MGhuU-1ioe8S1wDi-00DrXR; Fri, 17
+ Jan 2020 16:49:34 +0100
+Subject: Re: [PATCH] target/hppa: Allow, but diagnose, LDCW aligned only mod 4
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200117015322.12953-1-richard.henderson@linaro.org>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+ c2TFWAS8k6RLkk41ZUU8ENX8+qZx/Q==
+Message-ID: <7b14c840-0d3f-0c67-06be-81b058c727fb@gmx.de>
+Date: Fri, 17 Jan 2020 16:49:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20200117015322.12953-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 15529818893550983462
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrtdejgdektdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
+X-Provags-ID: V03:K1:B5rov7XRMpttgCvEzppnvb1QJT+jlABY2wrXdleQqgLCawDpVn9
+ krqTglHu0TE9JqTKqyp5GzKVTYgnNCB7oBHV1e0wzp31IP5u8QvKLqZoucrMYeESX10BRz4
+ J+7g8n/A1Nti84N65ItuQ44hlfyYwDWq19fL2aYEnJWYfijy96Q18XvBt9mYrI4LPWYkd3B
+ wThNsOTA0+RChXANRFPlw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0tcmzAFIx00=:F8UTv5fPGxiF74u5nFd9LH
+ wWsRn33WuuZ/tLhm/Z+ws7aDz9J9+Q9BQwnElvLKetF9NnRhtKpIoP57t3SDiSqtp1mxXr2DO
+ nuCRFHe3E5guApkU0hkvRkg61UufX0PwtbJCLni5Ox4DhKVAWDcyVrplpv9A4RFNJFJ1xGd8Q
+ mrVwIt6jO+S0/CdTUem8S+ZpN8jZlGoY1UrOV7KAwlI8tetspSzFsxAsHZy9QX5pYZ+A4MUhl
+ KY/hysHLVwqNLd/b3yg2palOD/wa2r6kTVvLxylPQkv4bsY6jhBjZSFx8thkijBM7i5Ih4gcI
+ pPIRRvK5lVdXmTZ4vxr5oo5A1imm3LFh1UJqHRMRr3s2hpicBP6Lk1hVtox/PDrdhxRdeAja0
+ naTXbXHg6NIep7xdADVVbW/Uu9EyLtMSkdAF+aDahepeo203p0/GTzWLtog8YxOeig3B0+jRN
+ mRxRZw8Gus9WEENl0rsa+6ofjTyaYBx3ZFT+69BjdYaTSp4HARKPl23Q00jwd0of+wwlKiHpY
+ Lq9nLyzPXneZNz5vaCNFXJI+MVlu8Jfxgd57CFdiXnFpcdqApHyqgz/NVLauipGrXb2fpbDmN
+ VwbT4d1VeJhDXfWFiYL9gHlVbh5BSjIYEJIAi1coV7l8NuafkDXxna6D6E2LFZQ1nx3qjXpIt
+ jDxV4kzgNqZdfb3aYthVghuMZyvUn5qqA7DEMxEi+aLQ6RJi0T7+W1P+ltoAUzWqoQVGLPAb9
+ UiMZ/HGhuro81Q1OLhY3grUIdAAWR7WBpfSz4R8XfHCPYkv6Bwm4hdHFn9aSZYuZ5wsOnXaqv
+ q20Q+ClQ3a+DPUyne+2Q4C/dtjA5v16epQkxiK4T6NZhFRSOuPI022VztVQMdNqyz3OZu7hn/
+ Ld7Ovi0E7fL6jDKUk65RV+hZ7jmTIEr641EbxjGyHtfgm0t/GEYA2ihehHGRgG1rywujzQlf/
+ WYEhwaU3sQ0If7rJODgoow5d6ixBUBjLSE/ioH5t1zwfPkcR79+62xEEO96ETTEhsyXO1t7vl
+ yJ7Me6U49A0xT8Y4nTcHRxLwd5edNWkEJ5ksTKipkBRXGLbXAwffJuAO/nq+O3+//VAKrOiFq
+ IedUGIl/G7yCljjMVsIIqOwtDS10goS0ID5MlqHL+c3eRgqyat2YL4b1JmmNJxCtJaH2Iz1x7
+ MmWmy1wuGN2FK55QePaOeUVcAWIcPNEZdS7WWpWQT+3/MMxmyEOSrM9qSFIU70uq8KqHlCyxN
+ Z7qYxps5t6trXFEULx8jlVPON7sza/fz0G+U4kw==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 87.98.173.103
+X-Received-From: 212.227.17.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,140 +138,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Doktor <ldoktor@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-ppc@nongnu.org, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: dave.anglin@bell.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Jan 2020 13:10:35 +0100
-Laurent Vivier <lvivier@redhat.com> wrote:
+On 17.01.20 02:53, Richard Henderson wrote:
+> The PA-RISC 1.1 specification says that LDCW must be aligned mod 16
+> or the operation is undefined.  However, real hardware only generates
+> an unaligned access trap for unaligned mod 4.
+>
+> Match real hardware, but diagnose with GUEST_ERROR a violation of the
+> specification.
+>
+> Reported-by: Helge Deller <deller@gmx.de>
+> Suggested-by: John David Anglin <dave.anglin@bell.net>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>
+> Helge, can you please test this against your failing kernel?
+> You will of course want to add -D logfile -d guest_errors to
+> you qemu command-line.
 
-> On 17/01/2020 12:49, Greg Kurz wrote:
-> > On Wed, 15 Jan 2020 19:26:18 +0100
-> > Laurent Vivier <lvivier@redhat.com> wrote:
-> >=20
-> >> On 15/01/2020 19:10, Laurent Vivier wrote:
-> >>> Hi,
-> >>>
-> >>> On 15/01/2020 18:48, Greg Kurz wrote:
-> >>>> Migration can potentially race with CAS reboot. If the migration thr=
-ead
-> >>>> completes migration after CAS has set spapr->cas_reboot but before t=
-he
-> >>>> mainloop could pick up the reset request and reset the machine, the
-> >>>> guest is migrated unrebooted and the destination doesn't reboot it
-> >>>> either because it isn't aware a CAS reboot was needed (eg, because a
-> >>>> device was added before CAS). This likely result in a broken or hung
-> >>>> guest.
-> >>>>
-> >>>> Even if it is small, the window between CAS and CAS reboot is enough=
- to
-> >>>> re-qualify spapr->cas_reboot as state that we should migrate. Add a =
-new
-> >>>> subsection for that and always send it when a CAS reboot is pending.
-> >>>> This may cause migration to older QEMUs to fail but it is still bett=
-er
-> >>>> than end up with a broken guest.
-> >>>>
-> >>>> The destination cannot honour the CAS reboot request from a post load
-> >>>> handler because this must be done after the guest is fully restored.
-> >>>> It is thus done from a VM change state handler.
-> >>>>
-> >>>> Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
-> >>>> Signed-off-by: Greg Kurz <groug@kaod.org>
-> >>>> ---
-> >>>>
-> >>>
-> >>> I'm wondering if the problem can be related with the fact that
-> >>> main_loop_should_exit() could release qemu_global_mutex in
-> >>> pause_all_vcpus() in the reset case?
-> >>>
-> >>> 1602 static bool main_loop_should_exit(void)
-> >>> 1603 {
-> >>> ...
-> >>> 1633     request =3D qemu_reset_requested();
-> >>> 1634     if (request) {
-> >>> 1635         pause_all_vcpus();
-> >>> 1636         qemu_system_reset(request);
-> >>> 1637         resume_all_vcpus();
-> >>> 1638         if (!runstate_check(RUN_STATE_RUNNING) &&
-> >>> 1639                 !runstate_check(RUN_STATE_INMIGRATE)) {
-> >>> 1640             runstate_set(RUN_STATE_PRELAUNCH);
-> >>> 1641         }
-> >>> 1642     }
-> >>> ...
-> >>>
-> >>> I already sent a patch for this kind of problem (in current Juan pull
-> >>> request):
-> >>>
-> >>> "runstate: ignore finishmigrate -> prelaunch transition"
-> >>>
-> >>> but I don't know if it could fix this one.
-> >>
-> >> I think it should be interesting to have the state transition on source
-> >> and destination when the problem occurs (with something like "-trace
-> >> runstate_set").
-> >>
-> >=20
-> > With "-serial mon:stdio -trace runstate_set -trace -trace guest_cpu_res=
-et" :
-> >=20
-> > OF stdout device is: /vdevice/vty@71000000
-> > Preparing to boot Linux version 4.18.0-80.el8.ppc64le (mockbuild@ppc-06=
-1.build.eng.bos.redhat.com) (gcc version 8.2.1 20180905 (Red Hat 8.2.1-3) (=
-GCC)) #1 SMP Wed Mar 13 11:26:21 UTC 2019
-> > Detected machine type: 0000000000000101
-> > command line: BOOT_IMAGE=3D/boot/vmlinuz-4.18.0-80.el8.ppc64le root=3DU=
-UID=3D012b83a5-2594-48ac-b936-12fec7cdbb9a ro console=3DttyS0 console=3Dtty=
-S0,115200n8 no_timer_check net.ifnames=3D0 crashkernel=3Dauto
-> > Max number of cores passed to firmware: 2048 (NR_CPUS =3D 2048)
-> > Calling ibm,client-architecture-support.
-> >=20
-> >  Migration starts here.
-> >=20
-> > ..qemu-system-ppc64: warning: kernel_irqchip allowed but unavailable: I=
-RQ_XIVE capability must be present for KVM
-> > Falling back to kernel-irqchip=3Doff
-> >=20
-> >  This ^^ indicates that CAS was called and switched to XIVE, for which
-> >  we lack proper KVM support on GA boston machines.
-> >=20
-> > 23348@1579260982.315795:runstate_set current_run_state 9 (running) new_=
-state 7 (finish-migrate)
-> > 23348@1579260982.360821:runstate_set current_run_state 7 (finish-migrat=
-e) new_state 5 (postmigrate)
-> >=20
-> >  The migration thread is holding the global QEMU mutex at this point. It
-> >  has stopped all CPUs. It now streams the full state to the destination
-> >  before releasing the mutex.
-> >=20
-> > 23340@1579260982.797279:guest_cpu_reset cpu=3D0xf9dbb48a5e0=20
-> > 23340@1579260982.797319:guest_cpu_reset cpu=3D0xf9dbb4d56a0=20
-> >=20
-> >  The main loop regained control and could process the CAS reboot request
-> >  but it is too late...
-> >=20
-> > 23340@1579260982.866071:runstate_set current_run_state 5 (postmigrate) =
-new_state 6 (prelaunch)
->=20
-> Thank you Greg.
->=20
-> So I think the best we can do is to migrate cas_reboot.
->=20
-> To delay the H_CAS call would be cleaner but I don't know if H_BUSY is a
-> valid return state and this forces to update SLOF too.
->=20
+Yes, works as expected.
+Thanks!
 
-Since SLOF is currently the only user of H_CAS, I guess we have some
-flexibility with the valid return codes... but anyway, David doesn't
-like the idea :)
+Please add:
+Tested-by: Helge Deller <deller@gmx.de>
 
-> Reviewed-by: Laurent Vivier <lvivier@redhat.com>
->=20
-> Thanks,
-> Laurent
->=20
+
+[deller]$ tail -f logfile
+Undefined ldc to address unaligned mod 16: 00000504fa6c7848
+Undefined ldc to address unaligned mod 16: 00000504fa6c7a48
+Undefined ldc to address unaligned mod 16: 00000506f9434848
+Undefined ldc to address unaligned mod 16: 00000506f9434a48
+Undefined ldc to address unaligned mod 16: 00000508fa036848
+Undefined ldc to address unaligned mod 16: 00000508fa036a48
+Undefined ldc to address unaligned mod 16: 0000050afa8c4848
+Undefined ldc to address unaligned mod 16: 0000050afa8c4a48
+Undefined ldc to address unaligned mod 16: 0000050cf94d1848
+Undefined ldc to address unaligned mod 16: 0000050cf94d1a48
+....
+
+
+
+>
+>
+> r~
+>
+> ---
+>  target/hppa/helper.h    | 2 ++
+>  target/hppa/op_helper.c | 9 +++++++++
+>  target/hppa/translate.c | 6 +++++-
+>  3 files changed, 16 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/hppa/helper.h b/target/hppa/helper.h
+> index 38d834ef6b..2d483aab58 100644
+> --- a/target/hppa/helper.h
+> +++ b/target/hppa/helper.h
+> @@ -17,6 +17,8 @@ DEF_HELPER_FLAGS_3(stby_b_parallel, TCG_CALL_NO_WG, vo=
+id, env, tl, tr)
+>  DEF_HELPER_FLAGS_3(stby_e, TCG_CALL_NO_WG, void, env, tl, tr)
+>  DEF_HELPER_FLAGS_3(stby_e_parallel, TCG_CALL_NO_WG, void, env, tl, tr)
+>
+> +DEF_HELPER_FLAGS_1(ldc_check, TCG_CALL_NO_RWG, void, tl)
+> +
+>  DEF_HELPER_FLAGS_4(probe, TCG_CALL_NO_WG, tr, env, tl, i32, i32)
+>
+>  DEF_HELPER_FLAGS_1(loaded_fr0, TCG_CALL_NO_RWG, void, env)
+> diff --git a/target/hppa/op_helper.c b/target/hppa/op_helper.c
+> index f0516e81f1..345cef2c08 100644
+> --- a/target/hppa/op_helper.c
+> +++ b/target/hppa/op_helper.c
+> @@ -153,6 +153,15 @@ void HELPER(stby_e_parallel)(CPUHPPAState *env, tar=
+get_ulong addr,
+>      do_stby_e(env, addr, val, true, GETPC());
+>  }
+>
+> +void HELPER(ldc_check)(target_ulong addr)
+> +{
+> +    if (unlikely(addr & 0xf)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "Undefined ldc to address unaligned mod 16: "
+> +                      TARGET_FMT_lx "\n", addr);
+> +    }
+> +}
+> +
+>  target_ureg HELPER(probe)(CPUHPPAState *env, target_ulong addr,
+>                            uint32_t level, uint32_t want)
+>  {
+> diff --git a/target/hppa/translate.c b/target/hppa/translate.c
+> index 2f8d407a82..669381dc1d 100644
+> --- a/target/hppa/translate.c
+> +++ b/target/hppa/translate.c
+> @@ -2942,7 +2942,7 @@ static bool trans_st(DisasContext *ctx, arg_ldst *=
+a)
+>
+>  static bool trans_ldc(DisasContext *ctx, arg_ldst *a)
+>  {
+> -    MemOp mop =3D MO_TEUL | MO_ALIGN_16 | a->size;
+> +    MemOp mop =3D MO_TE | MO_ALIGN | a->size;
+>      TCGv_reg zero, dest, ofs;
+>      TCGv_tl addr;
+>
+> @@ -2958,8 +2958,12 @@ static bool trans_ldc(DisasContext *ctx, arg_ldst=
+ *a)
+>
+>      form_gva(ctx, &addr, &ofs, a->b, a->x, a->scale ? a->size : 0,
+>               a->disp, a->sp, a->m, ctx->mmu_idx =3D=3D MMU_PHYS_IDX);
+> +
+> +    gen_helper_ldc_check(addr);
+>      zero =3D tcg_const_reg(0);
+>      tcg_gen_atomic_xchg_reg(dest, addr, zero, ctx->mmu_idx, mop);
+> +    tcg_temp_free(zero);
+> +
+>      if (a->m) {
+>          save_gpr(ctx, a->b, ofs);
+>      }
+>
 
 
