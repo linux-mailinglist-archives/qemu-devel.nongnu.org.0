@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75D75140C10
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:08:33 +0100 (CET)
-Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB90140C4B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 15:20:15 +0100 (CET)
+Received: from localhost ([::1]:58188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isSIa-0005LV-H3
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:08:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53966)
+	id 1isSTu-0000RM-6v
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 09:20:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1isSHj-0004pL-Kf
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:07:40 -0500
+ (envelope-from <eblake@redhat.com>) id 1isSSe-0008IC-LM
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:18:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1isSHi-0001UE-Aj
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:07:39 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35349)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1isSHi-0001Sx-4J
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:07:38 -0500
-Received: by mail-oi1-x241.google.com with SMTP id k4so22294040oik.2
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 06:07:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=RwbD3gvEWa+hMsrQyvQGMC4eF/bJwAhYBiV4S+/BsuU=;
- b=dRwLMoYDSnk5Oeg9kRsxLS2gM/YVtXjFN6QB0B05zD1YXKOE4qNTDUyfAHtcdZV2yR
- VveNXcphgf47S4eVkTzQs4KatrWOS2OSBxZdjtWNMI1vsNKNvJRJpu4jjYspbwbt/NI6
- PlwJkk7caNtvwdikWmt6GZCfRPhu8g0hgo25kS8kPVtG7NMqPykdG3HgYbGCM6iYfDGm
- YzPfJoJsAEKHnuBaVEdaODf8WQUU08Mc0Gu2hq8VIVUC+JWx+1iQrlUoB8HYd5wvcNfW
- xj3+SDi0qbmxLU40eu1+MFi8489q5CQPPYopijbKzkyfy88obbrUNi2NEVgYPDQGx+FT
- CvvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RwbD3gvEWa+hMsrQyvQGMC4eF/bJwAhYBiV4S+/BsuU=;
- b=B+/yAsAliN44yNXHSiPdE/bWHLOJBFcVld5bRYj81GsxBHPyiKOn/6JZeghgzjRPJg
- +fmaSi7EJCgldBwViezEgwj0R1GUzEp6zvtp7yWS3DanIZOfsC5j7dN7yA9yOh6kHl8M
- F9t4X5plawfeQKn67cOYdBL057kimZv0PFTsGj36HIFam4GspBn/RsqjzsWjBaZ9863F
- TZ5owDFyxdIF7rbdwsPsyzKJtgfYg1XylhzDrNb3jfmxXTNIGri/LIgjde1ntFSG3nuX
- nKYNV6yxoszSllnHJl9wU2dgHcC6fK7XMNpONxAQ4zxsNQG8Z8sGzNcAebNF1bZ0bLbh
- cUHA==
-X-Gm-Message-State: APjAAAWrD+FepeTzRG/4TLGR9KmBJn3g+Ko3k8gmOPXafz2oIF1OBZpi
- PbcpqQ54EetlG5ZLmu4nS0OJ/GZ9XJcAdR6EMGZDGBDgZ+A=
-X-Google-Smtp-Source: APXvYqzcnA6xnHJUTN7zD+Y/Um0YD0i/IU/jrWhLIuXdM7J0XdG9QPyyy5qyxwzYaiRKbmLnylDZMjtb/dmZt8sCUxs=
-X-Received: by 2002:aca:3182:: with SMTP id x124mr3579334oix.170.1579270056529; 
- Fri, 17 Jan 2020 06:07:36 -0800 (PST)
+ (envelope-from <eblake@redhat.com>) id 1isSSZ-0000rQ-OP
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:18:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51782
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1isSSZ-0000qg-LK
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 09:18:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579270730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=35qmtPvrRFjgXhduzB5j7ovXY4i2VhZtNdB1mTF6Ai0=;
+ b=GA+wgWj2+fSji9XcSfz/1G924pHWBgasrYfzlLyGfaeSxM+4eozM/U0PgE9AEdCa+IrUnd
+ laZ4+MZb7GydtKZ4NgV+OOlVagYgHsd0iVDEG9+KA/ZMlImnJtMKkVtD0fQn4rXHBoxJBb
+ FrqhuGZuh0CuZy7FjUqpnh60VAq6eWs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-YcGS1C0wO0yiTAf5oWf2oQ-1; Fri, 17 Jan 2020 09:18:47 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 401741800D48;
+ Fri, 17 Jan 2020 14:18:45 +0000 (UTC)
+Received: from [10.3.117.16] (ovpn-117-16.phx2.redhat.com [10.3.117.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9174119481;
+ Fri, 17 Jan 2020 14:18:36 +0000 (UTC)
+Subject: Re: [PATCH v6 02/11] error: auto propagated local_err
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20200110194158.14190-1-vsementsov@virtuozzo.com>
+ <20200110194158.14190-3-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d15df303-7152-d1e6-47b4-4a4c7d68ccf3@redhat.com>
+Date: Fri, 17 Jan 2020 08:18:35 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-References: <20200110161626.31943-1-alex.bennee@linaro.org>
- <20200110161626.31943-3-alex.bennee@linaro.org>
-In-Reply-To: <20200110161626.31943-3-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Jan 2020 14:07:25 +0000
-Message-ID: <CAFEAcA9H8oNBX4QcKjSB3jFqDq==6tr392yEzJwF2Dxnw9EFcw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] tests/tcg: add a vtimer test for aarch64
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+In-Reply-To: <20200110194158.14190-3-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: YcGS1C0wO0yiTAf5oWf2oQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,52 +77,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Paul Durrant <paul@xen.org>, Laszlo Ersek <lersek@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Jan 2020 at 16:16, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> Bug: https://bugs.launchpad.net/bugs/1859021
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+On 1/10/20 1:41 PM, Vladimir Sementsov-Ogievskiy wrote:
+> Here is introduced ERRP_AUTO_PROPAGATE macro, to be used at start of
+> functions with errp OUT parameter.
+
+s/with/with an/
+
+> 
+> It has three goals:
+> 
+> 1. Fix issue with error_fatal & error_prepend/error_append_hint: user
+
+maybe s/&/and/ so it doesn't look like the C & operator.
+
+> can't see this additional information, because exit() happens in
+> error_setg earlier than information is added. [Reported by Greg Kurz]
+> 
+> 2. Fix issue with error_abort & error_propagate: when we wrap
+
+and again
+
+> error_abort by local_err+error_propagate, resulting coredump will
+
+s/,/, the/
+
+> refer to error_propagate and not to the place where error happened.
+> (the macro itself doesn't fix the issue, but it allows to [3.] drop all
+
+s/allows/allows us/
+s/all/the/
+
+> local_err+error_propagate pattern, which will definitely fix the issue)
+> [Reported by Kevin Wolf]
+> 
+> 3. Drop local_err+error_propagate pattern, which is used to workaround
+> void functions with errp parameter, when caller wants to know resulting
+> status. (Note: actually these functions could be merely updated to
+> return int error code).
+> 
+> To achieve these goals, we need to add invocation of the macro at start
+> of functions, which needs error_prepend/error_append_hint (1.); add
+> invocation of the macro at start of functions which do
+> local_err+error_propagate scenario the check errors, drop local errors
+> from them and just use *errp instead (2., 3.).
+
+To achieve these goals, later patches will add invocations of this macro 
+at the start of functions with either use 
+error_prepend/error_append_hint (solving 1) or which use 
+local_err+error_propagate to check errors, switching those functions to 
+use *errp instead (solving 2 and 3).
+
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  tests/tcg/aarch64/system/vtimer.c         | 80 +++++++++++++++++++++++
->  tests/tcg/aarch64/Makefile.softmmu-target |  4 ++
->  2 files changed, 84 insertions(+)
->  create mode 100644 tests/tcg/aarch64/system/vtimer.c
->
-> diff --git a/tests/tcg/aarch64/system/vtimer.c b/tests/tcg/aarch64/system=
-/vtimer.c
-> new file mode 100644
-> index 00000000000..2f6299b5d2c
-> --- /dev/null
-> +++ b/tests/tcg/aarch64/system/vtimer.c
-> @@ -0,0 +1,80 @@
+> 
+
+> - * Receive an error and pass it on to the caller:
+> + * Receive an error and pass it on to the caller (DEPRECATED*):
+>    *     Error *err = NULL;
+>    *     foo(arg, &err);
+>    *     if (err) {
+> @@ -98,6 +98,50 @@
+>    *     foo(arg, errp);
+>    * for readability.
+>    *
+> + * DEPRECATED* This pattern is deprecated now, use ERRP_AUTO_PROPAGATE macro
+
+s/use/use the/
+
+> + * instead (defined below).
+> + * It's deprecated because of two things:
+> + *
+> + * 1. Issue with error_abort & error_propagate: when we wrap error_abort by
+
+s/&/and/
+
+> + * local_err+error_propagate, resulting coredump will refer to error_propagate
+
+s/,/, the/
+
+> + * and not to the place where error happened.
+> + *
+> + * 2. A lot of extra code of the same pattern
+> + *
+
 > +/*
-> + * Simple Virtual Timer Tests
+> + * ERRP_AUTO_PROPAGATE
 > + *
-> + * Note: kvm-unit-tests has a much more comprehensive exercising of
-> + * the timer sub-system. However this test case can tweak _EL2 values
-> + * to trigger bugs which can't be done with that.
+> + * This macro is created to be the first line of a function which use
+> + * Error **errp parameter to report error. It's needed only in cases where we
+> + * want to use error_prepend, error_append_hint or dereference *errp. It's
+> + * still safe (but useless) in other cases.
+
+It doesn't _have_ to be the first line to compile (we require C99+ 
+compilers, which allow declarations after statements); but rather 
+because it makes it easier for our Coccinelle conversion script to catch 
+outliers.  But I think this text is okay, without calling out that extra 
+information (maybe the commit message should mention it, though).
+
 > + *
-> + * Copyright (c) 2020 Linaro Ltd
+> + * If errp is NULL or points to error_fatal, it is rewritten to point to a
+> + * local Error object, which will be automatically propagated to the original
+> + * errp on function exit (see error_propagator_cleanup).
 > + *
-> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + * After invocation of this macro it is always safe to dereference errp
+> + * (as it's not NULL anymore) and to add information (by error_prepend or
+> + * error_append_hint)
+> + * (as, if it was error_fatal, we swapped it with a local_error to be
+> + * propagated on cleanup).
+
+double () () looks odd, as does the mid-sentence newline.
+
+> + *
+> + * Note: we don't wrap the error_abort case, as we want resulting coredump
+> + * to point to the place where the error happened, not to error_propagate.
 > + */
+> +#define ERRP_AUTO_PROPAGATE()                                  \
+> +    g_auto(ErrorPropagator) _auto_errp_prop = {.errp = errp};  \
+> +    errp = ((errp == NULL || *errp == error_fatal)             \
+> +            ? &_auto_errp_prop.local_err : errp)
 > +
-> +#include <inttypes.h>
-> +#include <minilib.h>
-> +
-> +/* grabbed from Linux */
-> +#define __stringify_1(x...) #x
-> +#define __stringify(x...)   __stringify_1(x)
+>   /*
+>    * Special error destination to abort on error.
+>    * See error_setg() and error_propagate() for details.
+> 
 
-Code 'grabbed from Linux' is unlikely to be GPL-2-or-later...
+The macro itself is fine, my comments are solely on the commit message 
+and comments.  Depending on how much cleanup Markus is willing to do 
+rather than require a respin, you can add:
 
-QEMU already has a stringify() macro in compiler.h.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-thanks
--- PMM
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
