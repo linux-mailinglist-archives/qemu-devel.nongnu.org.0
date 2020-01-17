@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF9B1410B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 19:22:41 +0100 (CET)
-Received: from localhost ([::1]:33230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B761410C4
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 19:27:35 +0100 (CET)
+Received: from localhost ([::1]:33262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isWGW-0003Wc-BD
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 13:22:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60911)
+	id 1isWLG-0005qp-NK
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 13:27:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33126)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1isWFT-0002Vw-P3
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 13:21:36 -0500
+ (envelope-from <liewkj@yahoo.com>) id 1isWKF-00050q-Mv
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 13:26:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1isWFS-00032U-N1
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 13:21:35 -0500
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:39761)
+ (envelope-from <liewkj@yahoo.com>) id 1isWKA-0007B9-M3
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 13:26:31 -0500
+Received: from sonic310-24.consmr.mail.ne1.yahoo.com ([66.163.186.205]:36213)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1isWFQ-0002zT-0c; Fri, 17 Jan 2020 13:21:32 -0500
-Received: by mail-yb1-xb44.google.com with SMTP id x18so6286626ybk.6;
- Fri, 17 Jan 2020 10:21:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=u9shOCD9O1+12r3IyiFFm4tISZkGsIgPercoRilwGsk=;
- b=Iin/iOB3SKzNFH6118zWBmdpqwRqox1lN/pUQaOr0WzKC0uW+e571oN+v/Mg6I94Js
- EAu4F1yM/+2kvxXgwximMJafM5W/hMtKhWDf2WcwHmL9PWKtfNQ/ChWGB//6VEjTswhp
- IhiZxUtWsv9B4r6iLw8c1+rVQnVvgbyGp8plgF+ACMOrdm7j6MRKqUYIJqwAnilYx32A
- gZlKpojdUDjOkIAW0XNAvFpHFMqEa/d8hFTOmlw+NPzfnHh0rgdloIW9MRTxCrrgvt8P
- A02g5uoaDiTX7o+kv5fBfycDDwV5UeB28PpU98h1+dc9HHKyZ8WdjSvL9pS/ZPa88i6A
- 2yOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=u9shOCD9O1+12r3IyiFFm4tISZkGsIgPercoRilwGsk=;
- b=LdP11CoNcY1pB1nhCO6fqhluLVx7+yjoyQcEuF2gerRYm+82XHZS3vlo2O/b9r6NtL
- 3+LkCOcrHSoywV5afK1CkJ0eK9qEET07ROCaoJoo7KEz8E3YXZ+Br6CPOBQsja8mNiV3
- H2VfmIiuBYF/u4KLSaIAl/xgHdY5urcEUXJRokclmTC86gsB3RVG4rBR3RQlymr0XwTP
- quazyUgxlBqkt3vhfyJtR05G3ruQ818Tsr4SRR9VzyoixiiVONJ9sbes1Z3ztraOw20I
- fthee9AdFWQLSs9viDjw0eDKC63G8aSJbh0l4g3l2ZwoG2klExc01cJtfjEDU7xyG1z/
- Wqww==
-X-Gm-Message-State: APjAAAUF6/sbXOIsbg+Wk1fjXgPSmEUQWoPhgswHpLeSm3p+udQ28HnN
- /F5RWMj/qAm67PI0PWCIgOY=
-X-Google-Smtp-Source: APXvYqzDfi6vcV4lebvIji2KQ9CHmOQX+Kim00RqTRFMIA6g1FlV3RBhC1jzHXhpVdNd/TR6LPyH4Q==
-X-Received: by 2002:a25:abf2:: with SMTP id
- v105mr15317290ybi.518.1579285291296; 
- Fri, 17 Jan 2020 10:21:31 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id w142sm11782737ywa.87.2020.01.17.10.21.30
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 17 Jan 2020 10:21:30 -0800 (PST)
-Date: Fri, 17 Jan 2020 10:21:29 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 4/6] hw/char/exynos4210_uart: Implement receive FIFO
-Message-ID: <20200117182129.GB13396@roeck-us.net>
-References: <20200110203942.5745-1-linux@roeck-us.net>
- <20200110203942.5745-5-linux@roeck-us.net>
- <CAFEAcA81V46N8eqTtBo7YZE0kDaqVNz=iAjbqdv8m=GPRsaewg@mail.gmail.com>
+ (Exim 4.71) (envelope-from <liewkj@yahoo.com>) id 1isWKA-0007AB-HD
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 13:26:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1579285585; bh=xm5FYwtSgINxrZCgUNPJWpqKAU6luAW6mvgPqAjV22k=;
+ h=Date:From:To:Subject:References:From:Subject;
+ b=MzhaU1m6gI/dHhjtWhnjKg5X/mHjQgRhnJLwmD8gIi4Rn0+BoQA6LqCxb0WG5pZLwhD78Hq1YuYHVO181XogoN7RpJ08/gHmnlkScnJHpxUxfTWGwkvpnfzMrY51gdipu/TNtpA0fox2wwRZZyWO8TmJVVvGJZmrFn17ybAq+FDK8fHC79U66PcWImOM0z0yTkCgiiyLHdlw0apQNKOXzh3LX1nzlnkNrIskbLugDlcGSrXf7FfNo4U9nZyLtesCaB/y6yPckUB8RkddxW4/HE63xhrvlJybqqAEN8PRixiMVIi5uAdUIdcI9YCGeUfbUyiFXSWz2PawjwttSSSIxw==
+X-YMail-OSG: rTY2390VM1m0dMk48sjMqHthtoijmAoB7maUfLsvlrmZNni2dxVYOa2.MXLK9Lu
+ g6CLnCS_lzB4U0NKMVx2BYa2Vv8B9dJ_xcjai_LHLJNMZtXs_wG35FMA5ceTHdyGyRXKKdVAfauf
+ 5Jcx6mE38kPZmHDnHC3ARX4boWVVPotUHGN9TYlIIpPTRODiAOQY764z9O89rNHAk748fBUZAJ.7
+ TlZ9Zfn5Z9vDh8M5sPcBXjYnBirwYUQnljPguoXUPUbwrAyj3R6Japym6JcIGPzcVgUS8m83gVOk
+ MBwEk6zaREhrv7J0mRWNnmHmztSjIjBrPjOn0OM7lnEH_FKPFKyo6F7bAaYhR0wFgX3SQXC_cPtq
+ KQGVzHJitNltoZ.Dl8YwJeNKtWxFMMQdeLtRTdn_ugxwQblgBmSZ8QF44KvzNAsrO.6.7SGSnkcG
+ Utc6Iy1dF88vl54951eIwmXkRFxmV3X2lR9NEk.gfCJous6F3fTzHUl0A8zrdDnnFCVHUNMRpvET
+ z0OEsYXMHMQV7Kq_5AMWT9JNK9xNQc_x9JTdcvylh74jmZso_DQwD44N69G2muBtDzvc_E_aiUTV
+ v.XmfJezJUXlu2ffCHyTY9FheV7KlGK_Hofoi.T.JwVR0Jw9WxnBLTorSBen6N8LPkUI.ngQVslU
+ Gk4sCgnJU2.taucWzyRPM6Vty8KfBH56KHIpRNdDLKOJV9YV2Oqt32nMe7P2naYkWpMLWYPDM7nL
+ fTXyT5xcwjTC4Ma6yg6Aa2r7STzcPMYtv6eIDe90vchmPehzvgTSMtyH48gPkQbQzJElEie8HL7k
+ 4cIrjFKMcDfQhEsp1snXSFrMz84CJ.i9V6R7C_wujrozcZAhSI_EYH08tq9vSc7QlYfgf54cKhAH
+ rxeQBu88rSNzWKL95CwN3g5QZLYHHJmo2az0wFc_nn59Sowr6TesP8wwMREdQJciL84YAcog.1Gf
+ kraTcRAv9y6UbyZKBXVd.AP8OYMLZHg0sokfGRUXd.BGKuOJf.5Dbnc4PuOSy7PQPnmgtc0GwM68
+ StI9242RVNoFzRO4yaqmtCBzEcyMFoRKnrFKxN_IjpO7g_L_SYieIjS2ucwVRetXFeIjeAIlwjku
+ sLTJbbaOx6.rVqs9fiCtoUcyDKrKwuVMph9H0bKe6HuL7QfBQ6RHz0bBiJ56azmfx_hGYP4SP2YY
+ _9SWqCN4R5rFne5h3J44NQVK9hUuIl06C6L2h52fXAI6ZjGOqRHEUIDqVu10GBnVEcDADLKcvH3p
+ PXkt6ZrQ_TlqYWbel1Mnp09WFaaCPgdpF9rHvPGppOg39GOzY7g5hSyEcjlhG4A6.SUOBsKGV3yf
+ 3cqFewzflpWsjcPXUlYXqB1U6mzq_NDBcWwXGOa5ykeQO8DAijnvvHLj8v7Id2z3fYWLggQ--
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic310.consmr.mail.ne1.yahoo.com with HTTP; Fri, 17 Jan 2020 18:26:25 +0000
+Received: by smtp430.mail.ne1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
+ ID ddc13d78cfad84e37aab329e7a6a0888; 
+ Fri, 17 Jan 2020 18:26:23 +0000 (UTC)
+Date: Fri, 17 Jan 2020 10:26:21 -0800
+From: KJ Liew <liewkj@yahoo.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] audio/dsound: fix invalid parameters error
+Message-ID: <20200117182621.GB13724@chuwi-lt0>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA81V46N8eqTtBo7YZE0kDaqVNz=iAjbqdv8m=GPRsaewg@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b44
+References: <20200117182621.GB13724.ref@chuwi-lt0>
+X-Mailer: WebService/1.1.15077 hermes Apache-HttpAsyncClient/4.1.4
+ (Java/1.8.0_181)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 66.163.186.205
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,67 +72,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+QEMU Windows has broken dsound backend since the rewrite of audio API in
+version 4.2.0. Both playback and capture buffers failed to lock with
+invalid parameters error.
 
-On Fri, Jan 17, 2020 at 01:42:54PM +0000, Peter Maydell wrote:
-> On Fri, 10 Jan 2020 at 20:39, Guenter Roeck <linux@roeck-us.net> wrote:
-> 
-> The subject just says "implement receive FIFO", but the
-> existing code clearly has an "Exynos4210UartFIFO   rx"
-> which it does some storing and retrieving data from.
-> Could the patch be more accurately described as something
-> like "Implement interrupts for rx FIFO level triggers and
-> timeouts" ?
-> 
-Sure, no problem.
-
-> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> > ---
-> >  hw/char/exynos4210_uart.c | 120 ++++++++++++++++++++++++++++++--------
-> >  hw/char/trace-events      |   3 +-
-> >  2 files changed, 97 insertions(+), 26 deletions(-)
-> >
-> > diff --git a/hw/char/exynos4210_uart.c b/hw/char/exynos4210_uart.c
-> > index fb7a3ebd09..61134a7bdc 100644
-> > --- a/hw/char/exynos4210_uart.c
-> > +++ b/hw/char/exynos4210_uart.c
-> > @@ -24,6 +24,7 @@
-> >  #include "migration/vmstate.h"
-> >  #include "qemu/error-report.h"
-> >  #include "qemu/module.h"
-> > +#include "qemu/timer.h"
-> >  #include "chardev/char-fe.h"
-> >  #include "chardev/char-serial.h"
-> >
-> > @@ -118,6 +119,7 @@ static const Exynos4210UartReg exynos4210_uart_regs[] = {
-> >  #define ULCON_STOP_BIT_SHIFT  1
-> >
-> >  /* UART Tx/Rx Status */
-> > +#define UTRSTAT_Rx_TIMEOUT              0x8
-> >  #define UTRSTAT_TRANSMITTER_EMPTY       0x4
-> >  #define UTRSTAT_Tx_BUFFER_EMPTY         0x2
-> >  #define UTRSTAT_Rx_BUFFER_DATA_READY    0x1
-> > @@ -147,6 +149,9 @@ typedef struct Exynos4210UartState {
-> >      ";
-> >      Exynos4210UartFIFO   tx;
-> >
-> > +    QEMUTimer *fifo_timeout_timer;
-> > +    uint64_t wordtime;        /* word time in ns */
-> 
-> You need to do something on incoming migration to handle
-> the new fields. This probably looks like a .post_load function
-> that calculates the wordtime based on the register values
-> that have been set by the incoming migration and set the
-> QEMUTimer appropriately.
-> 
-Doesn't that mean that the .post_load function is missing even today,
-and that it should call exynos4210_uart_update_parameters() ?
-
-Thanks,
-Guenter
+--- ../orig/qemu-4.2.0/audio/dsoundaudio.c	2019-12-12 10:20:47.000000000 -0800
++++ ../qemu-4.2.0/audio/dsoundaudio.c	2020-01-17 08:05:46.783966900 -0800
+@@ -53,6 +53,7 @@
+ typedef struct {
+     HWVoiceOut hw;
+     LPDIRECTSOUNDBUFFER dsound_buffer;
++    void *last_buf;
+     dsound *s;
+ } DSoundVoiceOut;
+ 
+@@ -414,10 +415,10 @@
+     DSoundVoiceOut *ds = (DSoundVoiceOut *) hw;
+     LPDIRECTSOUNDBUFFER dsb = ds->dsound_buffer;
+     HRESULT hr;
+-    DWORD ppos, act_size;
++    DWORD ppos, act_size, last_size;
+     size_t req_size;
+     int err;
+-    void *ret;
++    void *ret, *last_ret;
+ 
+     hr = IDirectSoundBuffer_GetCurrentPosition(dsb, &ppos, NULL);
+     if (FAILED(hr)) {
+@@ -426,17 +427,24 @@
+         return NULL;
+     }
+ 
++    if (ppos == hw->pos_emul) {
++        *size = 0;
++        return ds->last_buf;
++    }
++
+     req_size = audio_ring_dist(ppos, hw->pos_emul, hw->size_emul);
+     req_size = MIN(req_size, hw->size_emul - hw->pos_emul);
+ 
+-    err = dsound_lock_out(dsb, &hw->info, hw->pos_emul, req_size, &ret, NULL,
+-                          &act_size, NULL, false, ds->s);
++    err = dsound_lock_out(dsb, &hw->info, hw->pos_emul, req_size, &ret, &last_ret,
++                          &act_size, &last_size, false, ds->s);
+     if (err) {
+         dolog("Failed to lock buffer\n");
+         *size = 0;
+         return NULL;
+     }
+ 
++    ds->last_buf = g_realloc(ds->last_buf, act_size);
++    memcpy(ds->last_buf, ret, act_size);
+     *size = act_size;
+     return ret;
+ }
+@@ -445,6 +453,8 @@
+ {
+     DSoundVoiceOut *ds = (DSoundVoiceOut *) hw;
+     LPDIRECTSOUNDBUFFER dsb = ds->dsound_buffer;
++    if (len == 0)
++        return 0;
+     int err = dsound_unlock_out(dsb, buf, NULL, len, 0);
+ 
+     if (err) {
+@@ -508,10 +518,10 @@
+     DSoundVoiceIn *ds = (DSoundVoiceIn *) hw;
+     LPDIRECTSOUNDCAPTUREBUFFER dscb = ds->dsound_capture_buffer;
+     HRESULT hr;
+-    DWORD cpos, act_size;
++    DWORD cpos, act_size, last_size;
+     size_t req_size;
+     int err;
+-    void *ret;
++    void *ret, *last_ret;
+ 
+     hr = IDirectSoundCaptureBuffer_GetCurrentPosition(dscb, &cpos, NULL);
+     if (FAILED(hr)) {
+@@ -520,11 +530,16 @@
+         return NULL;
+     }
+ 
++    if (cpos == hw->pos_emul) {
++        *size = 0;
++        return NULL;
++    }
++
+     req_size = audio_ring_dist(cpos, hw->pos_emul, hw->size_emul);
+     req_size = MIN(req_size, hw->size_emul - hw->pos_emul);
+ 
+-    err = dsound_lock_in(dscb, &hw->info, hw->pos_emul, req_size, &ret, NULL,
+-                         &act_size, NULL, false, ds->s);
++    err = dsound_lock_in(dscb, &hw->info, hw->pos_emul, req_size, &ret, &last_ret,
++                         &act_size, &last_size, false, ds->s);
+     if (err) {
+         dolog("Failed to lock buffer\n");
+         *size = 0;
 
