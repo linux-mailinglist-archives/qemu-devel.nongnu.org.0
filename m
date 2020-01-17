@@ -2,63 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAB11410C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 19:26:35 +0100 (CET)
-Received: from localhost ([::1]:33252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66081410B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 19:21:41 +0100 (CET)
+Received: from localhost ([::1]:33218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isWKI-0004k6-Vk
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 13:26:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33029)
+	id 1isWFY-0002GD-E6
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 13:21:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1isWJT-0004DZ-5x
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 13:25:46 -0500
+ (envelope-from <philmd@redhat.com>) id 1isWEc-0001oY-Q1
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 13:20:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1isWJP-0006Po-A9
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 13:25:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:60606)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1isWJP-0006OJ-42
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 13:25:39 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1isWJN-0004ij-HW
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 18:25:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7F3142E80C0
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 18:25:37 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1isWEZ-0002PK-0o
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 13:20:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31850
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isWEY-0002OJ-HV
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 13:20:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579285237;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YNDYC9FA7o+/y27WLZf2NpWMg8YDtsn7f1Bt3pfZJRE=;
+ b=ErwxnScEKds/EgK1eYf8u5wnBTzQbXBl2paLihjhYIMAM0SY1NuJJ71kIa4vr+TXoseAEY
+ kizBNmQZn+UWy66qPv/VegffjrpK7/A/0EevctIBcb0AP48Srkn/sLIggMjJ+dDkrPhbP+
+ oHw0pDvCwJ4NJCtn5LQ/e+zRrbPOuM4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-I7caYlEDNemC2yZtvEwZNw-1; Fri, 17 Jan 2020 13:20:35 -0500
+Received: by mail-wr1-f71.google.com with SMTP id y7so10871438wrm.3
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 10:20:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/7sZxFASlxP6N35izqnlqfH2FE8gpvo1uvTH9UvtGp0=;
+ b=RvbMWWTf0S8vzEn6E9gYiiCUPHjm+XblV0IsvTEx7Zoj/64gciu3G7nqAY394oWq7r
+ u4zyLcBy3iz8FwGKQB6stih0vSVpMz+h9yOdtPbO+qH+f4XHAcf///beWjJzBBpnak6a
+ AnAYm2DSMWg2sD0Eaj0TKt1PWprlMe0NW816ytaAv8lZYbCIQ252eqUV6BpH5bkBcDru
+ ArkpnPXgYZSulCMxscYeOQb0E11ZskJwm9patF43clN8/bkVIiRBXwxFTlD4stkVg6/r
+ wgUdGCenMhsFt8O0YlgjZPZmf7aXxR+tTwdMYLL8rb3bHQoi3GfINLnsaobbY3bwNXHO
+ WrSA==
+X-Gm-Message-State: APjAAAUnNFBFEoYJTgX1UWri4cARP6F9bFMurcahIjsdxaKMZeyEeLms
+ 8q4azIySRceYKlkaMTPyyAsn2n9bmsEdZdg1VKrLsRhqkltnqGgFofNTYCUpb/FWs5gvXGCbBuc
+ I/j0VMcxoR20hZl8=
+X-Received: by 2002:a5d:65cf:: with SMTP id e15mr4413625wrw.126.1579285234609; 
+ Fri, 17 Jan 2020 10:20:34 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzIdcEKr+uq/1nejpm4Pg4fA63bnQJW+2WYlOL0oPdEoRUiB91nZKmV2w620Xpq9XJzMdNjBQ==
+X-Received: by 2002:a5d:65cf:: with SMTP id e15mr4413606wrw.126.1579285234340; 
+ Fri, 17 Jan 2020 10:20:34 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id u14sm34451118wrm.51.2020.01.17.10.20.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jan 2020 10:20:33 -0800 (PST)
+Subject: Re: [PATCH] target/hppa: Allow, but diagnose, LDCW aligned only mod 4
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+References: <20200117015322.12953-1-richard.henderson@linaro.org>
+ <7b14c840-0d3f-0c67-06be-81b058c727fb@gmx.de>
+ <08c4bdcb-b07d-eb30-a38d-f27ed6400952@redhat.com>
+ <57d3bd1a-0597-8353-46bd-09dd93347f7b@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <55a08a64-79ee-48f3-e19b-4f0c2380b09f@redhat.com>
+Date: Fri, 17 Jan 2020 19:20:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <57d3bd1a-0597-8353-46bd-09dd93347f7b@linaro.org>
+Content-Language: en-US
+X-MC-Unique: I7caYlEDNemC2yZtvEwZNw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 Jan 2020 18:19:38 -0000
-From: Richard Henderson <rth@twiddle.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: patrickmeiring rth
-X-Launchpad-Bug-Reporter: Patrick Meiring (patrickmeiring)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <157921754479.22473.5594149461755090250.malonedeb@gac.canonical.com>
-Message-Id: <157928517887.4712.2210982312409298134.malone@wampee.canonical.com>
-Subject: [Bug 1860053] Re: Possible lack of precision when calling
- clock_gettime via vDSO on user mode ppc64le
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 4295e0990b1f28729d15e682812aa759a46b07f9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,61 +95,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1860053 <1860053@bugs.launchpad.net>
+Cc: dave.anglin@bell.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU does not implement any vDSO, so this cannot be the explanation.
+On 1/17/20 6:30 PM, Richard Henderson wrote:
+> On 1/17/20 6:13 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>> -=C2=A0=C2=A0=C2=A0 MemOp mop =3D MO_TEUL | MO_ALIGN_16 | a->size;
+>>>> +=C2=A0=C2=A0=C2=A0 MemOp mop =3D MO_TE | MO_ALIGN | a->size;
+>>
+>>
+>> Hmmm you changed MO_TEUL -> MO_TE, so from MO_32 to MO_8.
+>>
+>> Per your description, shouldn't this be MO_TEUL | MO_ALIGN_4?
+>=20
+> The "UL" part is also being added by a->size.  This code was written this=
+ way
+> in preparation for the 64-bit ldc, and the bug was not noticable because =
+we
+> don't have that yet.
 
--- =
+Ah I missed the a->size.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1860053
+So on 32-bit the hw trap doesn't trap on unaligned 16, but traps on=20
+unaligned 4.
 
-Title:
-  Possible lack of precision when calling clock_gettime via vDSO on user
-  mode ppc64le
+On 64-bit we don't know yet, but IIUC we expect to not trap on unaligned 8.
 
-Status in QEMU:
-  New
+Looking at target/hppa/insns.decode:
 
-Bug description:
-  Occurs on QEMU v4.2.0 run on docker (via the qemu-user-static:v4.2.0-2
-  image) on an AMD64 Ubuntu 18.04.3 LTS machine provided by travis-
-  ci.org.
+&ldst           t b x disp sp m scale size
 
-  From golang's https://github.com/golang/go/issues/36592:
+@ldstx          ...... b:5 x:5 sp:2 scale:1 ....... m:1 t:5     &ldst disp=
+=3D0
+@ldim5          ...... b:5 ..... sp:2 ......... t:5     \
+                 &ldst disp=3D%im5_16 x=3D0 scale=3D0 m=3D%ma_to_m
 
-  It was discovered that golang's time.NewTicker() and time.Sleep()
-  malfunction when a compiled application was run via QEMU's ppc64le
-  emulator in user mode.
+ldc             000011 ..... ..... .. . 1 -- 0111      ......   @ldim5=20
+size=3D2
+ldc             000011 ..... ..... .. . 0 -- 0111      ......   @ldstx=20
+size=3D2
 
-  The methods did not malfunction on actual PowerPC hardware or when the
-  same golang application was compiled for golang's arm, arm64 or 386
-  targets and was run via user mode QEMU on the same system.
+We have a->size =3D 2 =3D MO_32 =3D MO_UL.
 
-  Curiously, the methods also worked when the program was compiled under
-  go 1.11, but do malfunction in go 1.12 and 1.13.
+So do you plan to add LDCD from PA2.0 using size=3D3, OK.
 
-  It was identified the change in behaviour was most likely attributable to=
- golang switching to using vSDO for calling clock_gettime() on PowerPC 64 a=
-rchitectures in 1.12. I.E:
-  https://github.com/golang/go/commit/dbd8af74723d2c98cbdcc70f7e2801f69b57a=
-c5b
+ From "exec/memop.h":
 
-  We therefore suspect there may be a bug in QEMU's user-mode emulation
-  of ppc64le as relates to vDSO calls to clock_gettime().
+      * MO_ALIGN supposes the alignment size is the size of a memory access=
+.
+      *
+      * There are three options:
+      * - unaligned access permitted (MO_UNALN).
+      * - an alignment to the size of an access (MO_ALIGN);
 
-  The nature of the malfunction of time.NewTicker() and time.Sleep() is
-  such that sleeps or ticks with a granularity of less than one second
-  do not appear to be possible (they all revert to 1 second
-  sleeps/ticks). Could it be that the nanoseconds field of
-  clock_gettime() is getting lost in the vDSO version but not in the
-  syscall? Or some other issue calling these methods via vDSO?
+Ah so with LDCW we already access a word, so MO_ALIGN -> MO_ALIGN_4.
 
-  Thanks in advance.
+With LDLD we'll have MO_ALIGN -> MO_ALIGN_8.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1860053/+subscriptions
+Now "MemOp mop =3D MO_TE | MO_ALIGN | a->size;" makes sense!
+
+The power of your decodetree script amazed me again :)
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
 
