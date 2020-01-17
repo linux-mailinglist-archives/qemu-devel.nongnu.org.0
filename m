@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0D4140B25
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:40:59 +0100 (CET)
-Received: from localhost ([::1]:57442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B4E140AE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 14:36:58 +0100 (CET)
+Received: from localhost ([::1]:57390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isRru-0002Eu-Pi
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:40:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48901)
+	id 1isRo1-0005Pw-HA
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 08:36:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48952)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1isRkS-0002cC-FD
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:21 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1isRl1-0002wD-HN
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1isRkM-00084d-Hy
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39261
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1isRkM-00083c-Di
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579267989;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Hnzy45dwlG0rl6JrsPjiOMNPuy28u2DoYDAroEsLWbs=;
- b=YJXaRx4ND0/wOulrUVUPGe/65kHvOT4PNfHM8eKNnjOFb+ypl7fJM7xG2WjSiIBk/+k6TO
- PGGMMqsPAwExJ3xT1jvtkuJkx2CjY3IEzLb/CmlOJkD+AnfgEU/rR+9y2LpgjpuhYz/GoY
- g31HR8KkV6yx5rFOinRpPcFRPJtHqps=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-Q2rzLsdCOsKiC3VFzkUzDQ-1; Fri, 17 Jan 2020 08:33:08 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A3B5DB62
- for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 13:33:07 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BBBD19C4F;
- Fri, 17 Jan 2020 13:33:06 +0000 (UTC)
-Date: Fri, 17 Jan 2020 14:33:05 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 83/86] tests:numa-test: make top level args dynamic
- and g_autofree(cli) cleanups
-Message-ID: <20200117143305.7eb9571e@redhat.com>
-In-Reply-To: <a0b60484-d5fb-7409-b13e-4e70d1177138@redhat.com>
-References: <1579100861-73692-1-git-send-email-imammedo@redhat.com>
- <1579100861-73692-84-git-send-email-imammedo@redhat.com>
- <20e88588-13b4-8c7d-3f97-cb2d50b85edd@redhat.com>
- <20200116180606.134cb1a6@redhat.com>
- <a0b60484-d5fb-7409-b13e-4e70d1177138@redhat.com>
+ (envelope-from <marcandre.lureau@gmail.com>) id 1isRl0-0008V5-IE
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 08:33:51 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52761)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1isRkx-0008RU-1d; Fri, 17 Jan 2020 08:33:47 -0500
+Received: by mail-wm1-x344.google.com with SMTP id p9so7481858wmc.2;
+ Fri, 17 Jan 2020 05:33:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=yT+sU+iEPYv6vcV3y79HbWr4gfQRlPyXmRwCd7eoCkI=;
+ b=NhWuiQsWE1zBblBcC4P9XLVjxoTMFApAZh1Mycx8VTPuXvZJXvrrDrVLgwt8UC14Hx
+ y8bXyx1CYaxfYK8jSW79Syd4frMyglY0BwlkVsPxBXw2CMlhmvRfCHcXwL7G3Yo4AT/L
+ 9J1in+KvbxFKg7jaBnOOIkj+YBUsqYvN7C7fa8DyDFVE1dCLephAXtpfn4wKHOzmFfoD
+ r3bdsV/0eTJNYd3FmlWIrOPVSigbLxMKxhr5453eiJ43mfMqGZ1pS0MDuk2zB/p7F/9J
+ r1KT1XZ5crS1IYXgAk6t8Dw14d5NkSyPvdIAIJgcRVIIgcKF9Nn8LON1LMcM2WiTyqmg
+ gizw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yT+sU+iEPYv6vcV3y79HbWr4gfQRlPyXmRwCd7eoCkI=;
+ b=QqpnrZlFFkeQV41evJKj00P5nL+8mK9Ed5TlUU1kb2CifMEf0aUCdmJx6QuBAeH6ZH
+ iDbgsG2eLjLSJFkiq4OStq7tjujArfJQLQVx4d+df78+W1xneFP+JFQi/ml0RA7vgLZ7
+ NkfIP3lfCJZJxhyUzUSFgmXLXc4bDWA0GNV7AU1YfkVNpFXq/kaV3E3IzMkarDH9rim/
+ /mP88b4d1EqPHUC/GIT4LMj3lFLxjiuJnM+UChVbKYX7rP42yVS/eO/SCj9CCZlu+c+p
+ PFpPpBCFW2yMqZNakF2P+TKlZBt5wIHMBcy+ywPrdPTsXol9iW+sNBKsh563B4AiZ8CY
+ Y8wA==
+X-Gm-Message-State: APjAAAUE6AsmZoLwl8PqGs6/iv3YDRoibjJ9Jn7AVKrxofKgb1kZSUDi
+ aMqmyzlzr7mZUHl5uSRR+4MUJqqdpJwP+HAhN00=
+X-Google-Smtp-Source: APXvYqwOPbQ4nXWygK/DER8YSQi6Fptt9beqiPyZx9YLDn5dItDbPTyKvtL41BuJWNJ1bxAnsLew0+F/0g1gg0NUwww=
+X-Received: by 2002:a05:600c:2215:: with SMTP id
+ z21mr4604402wml.55.1579268024350; 
+ Fri, 17 Jan 2020 05:33:44 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: Q2rzLsdCOsKiC3VFzkUzDQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+References: <20200108161012.1821385-1-stefanb@linux.ibm.com>
+ <20200108161012.1821385-6-stefanb@linux.ibm.com>
+In-Reply-To: <20200108161012.1821385-6-stefanb@linux.ibm.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 17 Jan 2020 17:33:32 +0400
+Message-ID: <CAJ+F1CK+XJ2vcZdZG0-__S8Tx2PzpLWbV_JcwF63m7cb6OohJQ@mail.gmail.com>
+Subject: Re: [PATCH v8 5/6] hw/ppc/Kconfig: Enable TPM_SPAPR as part of
+ PSERIES config
+To: Stefan Berger <stefanb@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,103 +75,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-devel@nongnu.org
+Cc: David Gibson <david@gibson.dropbear.id.au>,
+ "open list:sPAPR pseries" <qemu-ppc@nongnu.org>, QEMU <qemu-devel@nongnu.org>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Jan 2020 12:14:11 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+On Wed, Jan 8, 2020 at 8:13 PM Stefan Berger <stefanb@linux.ibm.com> wrote:
+>
+> From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+>
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 
-> On 16/01/2020 18.06, Igor Mammedov wrote:
-> > On Thu, 16 Jan 2020 17:35:32 +0100
-> > Thomas Huth <thuth@redhat.com> wrote:
-> >   
-> >> On 15/01/2020 16.07, Igor Mammedov wrote:  
-> >>> Use GString to pass argument to make_cli() so that it would be easy
-> >>> to dynamically change test case arguments from main(). The follow up
-> >>> patch will use it to change RAM size options depending on target.
-> >>>
-> >>> While at it cleanup 'cli' freeing, using g_autofree annotation.    
-> >>
-> >> Hmm, I'd use g_autofree for new code or do it in a separate cleanup
-> >> patch, but doing this here distracts quite a bit from the real changes
-> >> that you are doing...  
-> > I'll split it into separate patch
-> >   
-> >>  
-> >>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> >>> ---
-> >>> PS:
-> >>>   made as a separate patch so it won't clutter followup testcase changes.
-> >>>
-> >>> CC: thuth@redhat.com
-> >>> CC: lvivier@redhat.com
-> >>> ---
-> >>>  tests/qtest/numa-test.c | 38 ++++++++++++++------------------------
-> >>>  1 file changed, 14 insertions(+), 24 deletions(-)
-> >>>
-> >>> diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-> >>> index 17dd807..a696dfd 100644
-> >>> --- a/tests/qtest/numa-test.c
-> >>> +++ b/tests/qtest/numa-test.c
-> >>> @@ -14,16 +14,16 @@
-> >>>  #include "qapi/qmp/qdict.h"
-> >>>  #include "qapi/qmp/qlist.h"
-> >>>  
-> >>> -static char *make_cli(const char *generic_cli, const char *test_cli)
-> >>> +static char *make_cli(const GString *generic_cli, const char *test_cli)
-> >>>  {
-> >>> -    return g_strdup_printf("%s %s", generic_cli ? generic_cli : "", test_cli);
-> >>> +    return g_strdup_printf("%s %s", generic_cli->str, test_cli);
-> >>>  }    
-> >> [...]  
-> >>> @@ -539,11 +529,11 @@ static void pc_hmat_erange_cfg(const void *data)
-> >>>  
-> >>>  int main(int argc, char **argv)
-> >>>  {
-> >>> -    const char *args = NULL;
-> >>> +    g_autoptr(GString) args = g_string_new("");    
-> >>
-> >> I think g_string_new(NULL) would be better?
-> >>  
-> >>>      const char *arch = qtest_get_arch();
-> >>>  
-> >>>      if (strcmp(arch, "aarch64") == 0) {
-> >>> -        args = "-machine virt";
-> >>> +        g_string_append(args, " -machine virt")>      }    
-> >>
-> >> Is this really required? Looking at your next patch, you could also
-> >> simply do
-> >>
-> >>           args = " -object memory-backend-ram,id=ram,size=xxxM"  
-> > xxx is variable so options are
-> >  1 build this part of CLI dynamically
-> >  2 mostly duplicate testcase function and include per target size there
-> >  3 make up a test data structure and pass that to test cases
-> > 
-> > Given simplicity of current testcases, I'd prefer continue with
-> > passing CLI as testcase data (option #1).  
-> 
-> Sorry, I think I missed something here... currently I see in the next patch:
-> 
-> +    if (!strcmp(arch, "ppc64")) {
-> +        g_string_append(args, " -object
-> memory-backend-ram,id=ram,size=512M");
-> +    } else {
-> +        g_string_append(args, " -object
-> memory-backend-ram,id=ram,size=128M");
-> +    }
-> 
-> ... so these are static strings which could also be handled fine without
-> GString? Or do you plan to update this in later patches?
-it's 1 or concatenation of 2 strings
-  " -object memory-backend-ram,id=ram,size=128M"
-  " -object memory-backend-ram,id=ram,size=512M"
-  " -machine virt" + " -object memory-backend-ram,id=ram,size=128M"
 
-It's possible to use static strings in expense of a bit of duplication
-and long winded "if" chain. So using dynamic string here, looks better to me.
+(trivial conflict on master)
 
->  Thomas
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
+
+> ---
+>  hw/ppc/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> index f927ec9c74..b5b3519158 100644
+> --- a/hw/ppc/Kconfig
+> +++ b/hw/ppc/Kconfig
+> @@ -10,6 +10,7 @@ config PSERIES
+>      select XICS_SPAPR
+>      select XIVE_SPAPR
+>      select MSI_NONBROKEN
+> +    select TPM_SPAPR
+>
+>  config SPAPR_RNG
+>      bool
+> --
+> 2.24.1
+>
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
