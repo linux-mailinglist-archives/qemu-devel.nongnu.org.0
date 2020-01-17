@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B722D1409C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 13:32:29 +0100 (CET)
-Received: from localhost ([::1]:56400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A0E1409DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 13:36:26 +0100 (CET)
+Received: from localhost ([::1]:56468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isQnc-0005fx-Ai
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 07:32:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41838)
+	id 1isQrR-0001mV-Hn
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 07:36:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42716)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1isQlD-0003Ol-2U
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:30:02 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1isQqQ-0000nl-7c
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:35:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1isQl9-0008DU-4x
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:29:58 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28918
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1isQqK-0004gE-TT
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:35:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38769
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1isQl9-0008D4-1u
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:29:55 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1isQqK-0004ea-Oz
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 07:35:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579264194;
+ s=mimecast20190719; t=1579264515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=VBafu5OwPiNavQVJmDrgjZ7TKIqOnk6paaUqerkMzmU=;
- b=ZAuKgfXqrb1rMy+G+pK9YesgzOzDAdmtd63PKed/E4B79R0HrVsVnpi6O759jLhD/elGOA
- wX4LfHLgrjXJjYayII9IYQ1wyWF/jv5s7aiD/jnqTT8ULrisfXaXNeOdtDyXWOWniZkfq9
- en1VvsEvWF2vkNqovYClgDnEyPZHK4o=
+ in-reply-to:in-reply-to:references:references;
+ bh=wIj+MczCG4WSldzv1cpuWJYm1AJ4IdHHZXML962KjOw=;
+ b=XraR7ilb/w19GdonU2lITXyfaTFC51ilbWQY0XQ07gCQj/ioTSAd61geH5BU5Xo7JO70lt
+ qn1mFNudQek3DiIK4sWUyKki4wNm37ptTwOWRXRPBKI+qHgT5sRxBMfr1f/b6lDoGhNl2p
+ 7itqH9XKj/XoYeDJF9wTqXPyDnTCOdI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-CLE8r4L_OqSbFLWDFtKkLg-1; Fri, 17 Jan 2020 07:29:50 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-431-ZEnuW-tyPsuI7IMKqjtLjw-1; Fri, 17 Jan 2020 07:35:14 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2566F195AD2F;
- Fri, 17 Jan 2020 12:29:49 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-212.ams2.redhat.com [10.36.116.212])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A5B460C84;
- Fri, 17 Jan 2020 12:29:48 +0000 (UTC)
-Subject: Re: [PATCH] tests/vhost-user-bridge: Fix build
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20200117122648.137862-1-dgilbert@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <ecc04ad4-8e42-1cbe-927c-96fbfee365a5@redhat.com>
-Date: Fri, 17 Jan 2020 13:29:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98F76800D4E
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 12:35:13 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5630B5DA60;
+ Fri, 17 Jan 2020 12:35:07 +0000 (UTC)
+Date: Fri, 17 Jan 2020 12:35:04 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 0/3] exclude hyperv synic sections from vhost
+Message-ID: <20200117123504.GF3209@work-vm>
+References: <20200113173647.84842-1-dgilbert@redhat.com>
+ <1bab529a-8655-ee28-f137-0311fb7839ff@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200117122648.137862-1-dgilbert@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: CLE8r4L_OqSbFLWDFtKkLg-1
+In-Reply-To: <1bab529a-8655-ee28-f137-0311fb7839ff@redhat.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: ZEnuW-tyPsuI7IMKqjtLjw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,53 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: jasowang@redhat.com, vkuznets@redhat.com, qemu-devel@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/01/2020 13.26, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> vhost-user-bridge isn't actually a test, it's just a helper
-> (that should probably move somewhere else) - but the build was
-> broken in the qtest move.
-> 
-> Fixes: 833884f37adc9f125fa2
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  tests/Makefile.include       | 1 +
->  tests/qtest/Makefile.include | 1 -
->  2 files changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index c6827ce8c2..7833684bac 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -585,6 +585,7 @@ include $(SRC_PATH)/tests/qtest/Makefile.include
->  
->  tests/test-qga$(EXESUF): qemu-ga$(EXESUF)
->  tests/test-qga$(EXESUF): tests/test-qga.o $(qtest-obj-y)
-> +tests/vhost-user-bridge$(EXESUF): tests/vhost-user-bridge.o $(test-util-obj-y) libvhost-user.a
->  
->  SPEED = quick
->  
-> diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
-> index e6bb4ab28c..eb0f23b108 100644
-> --- a/tests/qtest/Makefile.include
-> +++ b/tests/qtest/Makefile.include
-> @@ -290,7 +290,6 @@ tests/qtest/test-filter-redirector$(EXESUF): tests/qtest/test-filter-redirector.
->  tests/qtest/test-x86-cpuid-compat$(EXESUF): tests/qtest/test-x86-cpuid-compat.o $(qtest-obj-y)
->  tests/qtest/ivshmem-test$(EXESUF): tests/qtest/ivshmem-test.o contrib/ivshmem-server/ivshmem-server.o $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
->  tests/qtest/dbus-vmstate-test$(EXESUF): tests/qtest/dbus-vmstate-test.o tests/qtest/migration-helpers.o tests/qtest/dbus-vmstate1.o $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
-> -tests/qtest/vhost-user-bridge$(EXESUF): tests/qtest/vhost-user-bridge.o $(test-util-obj-y) libvhost-user.a
->  tests/qtest/test-arm-mptimer$(EXESUF): tests/qtest/test-arm-mptimer.o
->  tests/qtest/numa-test$(EXESUF): tests/qtest/numa-test.o
->  tests/qtest/vmgenid-test$(EXESUF): tests/qtest/vmgenid-test.o tests/qtest/boot-sector.o tests/qtest/acpi-utils.o
-> 
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> On 13/01/20 18:36, Dr. David Alan Gilbert (git) wrote:
+> >=20
+> > Hyperv's synic (that we emulate) is a feature that allows the guest
+> > to place some magic (4k) pages of RAM anywhere it likes in GPA.
+> > This confuses vhost's RAM section merging when these pages
+> > land over the top of hugepages.
+>=20
+> Can you explain what is the confusion like?  The memory API should just
+> tell vhost to treat it as three sections (RAM before synIC, synIC
+> region, RAM after synIC) and it's not clear to me why postcopy breaks
+> either.
 
-Thanks!
+See my v3 I posted yesterday; I've made this a lot simpler by just
+turning the alignment off for vhost-kernel and only enabling it for
+vhost-user;  vhost-user skips any section without a backing fd anyway,
+so the synic problem goes away, as does another problem reported by
+Peter Lieven that he was seeing that seemed like one of the VGA regions
+getting in the way (which I'd not seen before).
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Dave
 
-(and cc: qemu-trivial)
+> Paolo
+>=20
+> > Since they're not normal RAM, and they shouldn't have vhost DMAing
+> > into them, exclude them from the vhost set.
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
