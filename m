@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C901408AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 12:12:33 +0100 (CET)
-Received: from localhost ([::1]:55530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD4C1408B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 12:14:29 +0100 (CET)
+Received: from localhost ([::1]:55564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isPYG-0003hl-2v
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 06:12:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60442)
+	id 1isPa8-00068F-AK
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 06:14:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60515)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1isPUr-0007u8-8g
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:09:04 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1isPVA-0008Qu-PL
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:09:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1isPUn-0004CQ-JB
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:09:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35891
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1isPUn-0004C8-F5
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:08:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579259337;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X/1VLxblv7R4MFqqFxBQsFWc/H32sXM1IgiOnHxXYR0=;
- b=D0L0lvW0f8rgUoXvC3wSBNF59pbljD2NQHHfgZoZTDmc0HmNi+J5Y1FGLVz4kJx1lFvyDt
- kmLJeOv+Cmi25oCci7erOKzfW7t7z6n7eWxZS7jLvyy2FOlPJqaB+tJLtHAeB1Us1AFkc1
- EMaQOmBbRlJU0CS/gJ80gl8AhxRAJZs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-xJLP27KpNtC8qJctXN_nXA-1; Fri, 17 Jan 2020 06:08:55 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4287C190B2A0;
- Fri, 17 Jan 2020 11:08:54 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E0AA360C87;
- Fri, 17 Jan 2020 11:08:50 +0000 (UTC)
-Date: Fri, 17 Jan 2020 12:08:49 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 1/4] qapi: Add a 'coroutine' flag for commands
-Message-ID: <20200117110849.GD7394@dhcp-200-226.str.redhat.com>
-References: <20200115122326.26393-1-kwolf@redhat.com>
- <20200115122326.26393-2-kwolf@redhat.com>
- <875zhc9360.fsf@dusky.pond.sub.org>
- <20200115155850.GG5505@linux.fritz.box>
- <871rrzy2sg.fsf@dusky.pond.sub.org>
- <20200116150214.GH9470@linux.fritz.box>
- <87o8v2o6r2.fsf@dusky.pond.sub.org>
- <20200117094050.GA7394@dhcp-200-226.str.redhat.com>
- <8736cemkh4.fsf@dusky.pond.sub.org>
+ (envelope-from <peter.maydell@linaro.org>) id 1isPV9-0004Q0-Lo
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:09:20 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44393)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1isPV9-0004PR-Gb
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 06:09:19 -0500
+Received: by mail-ot1-x342.google.com with SMTP id h9so22153271otj.11
+ for <qemu-devel@nongnu.org>; Fri, 17 Jan 2020 03:09:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gbXB0P9QCutfJwh5bxSt0gaR/2MQOgUW3YIPDErTpMs=;
+ b=i/hObo2Coyw6R1RMzadNOZCcC7uqZBLv1tLHojzXwWVXlWPg+lHfFAI3SjUrXNVGim
+ mJcvP8AhEsxcr10M0xVv5oz5X5aeohzpyQUiOSKQH09p58UclcGBmqjw/BMU0ib5GmBR
+ Gk9ytDH+R1SxqVrtsl53fW9GeRFbfrPxN0Bfs9tYuTRkNwfi+hXTAk1sv//ISPzmzRJB
+ mR3TzsTH7nY0pc8TbkP0t/M9dusljyONZG+hWSyve2mcj1WWXfEYzusZQQ1a5uLxgW2G
+ UfHU99CjEap0U7FxFGEj38TEv5DzS4Qp1dvTHkCuhNUrl9HLAuNGM7vX9stXAtGtrPdp
+ eZPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gbXB0P9QCutfJwh5bxSt0gaR/2MQOgUW3YIPDErTpMs=;
+ b=tBH68KDA5NMe6EQIfpSaXv836Sapu9v+ntfGmzmMuEe1WXQI/xxrqKzrorGya2rvag
+ coE8gVuCim9ktAyxDYuQhcUimMor3e+yPLW2+0GG7DvaSadqAtxpi/UN7TI2x1NdZqaI
+ h9pMi9/7r3U/dr63DbQ7wv3/kZBZqHuVR+b5MtOGugCfxxCo4T2N4QlpBYj3t7SH1Cjv
+ dbHnQkzlVVOSToi6jXJK4kNE2PsyqP2DsKuwMrFWwgI8XRNowN0Lt7jvsw6AztZ58gqY
+ K8QzfMcCLET6KcL1An4mA4qbjJXrvf998dm1yWieSliKOBXFD93B4vxGo2uQy5n6AM3x
+ GU4g==
+X-Gm-Message-State: APjAAAVDX5UbZkWUz7+9nn43LzS02ziXDtJuojW+JHIbCnP3jkkaILta
+ bApvjN8IrXZtdyDm78Cwz/7pJ/VF+zgzRq9i2S+B3A==
+X-Google-Smtp-Source: APXvYqxV3TQAndl+llmiRHs5DARwMKS8Wj7YHgw6RIQUStary+feOw7gbTbEz/h6MXfQdxPZzAvqjR0as5c6J5wLsec=
+X-Received: by 2002:a05:6830:4a4:: with SMTP id
+ l4mr5710541otd.91.1579259358567; 
+ Fri, 17 Jan 2020 03:09:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <8736cemkh4.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: xJLP27KpNtC8qJctXN_nXA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+References: <1578483143-14905-1-git-send-email-gengdongjiu@huawei.com>
+ <1578483143-14905-10-git-send-email-gengdongjiu@huawei.com>
+ <CAFEAcA-mLgD8rQ211ep44nd8oxTKSnxc7YmY+nPtADpKZk5asA@mail.gmail.com>
+ <1c45a8b4-1ea4-ddfd-cce3-c42699d2b3b9@redhat.com>
+In-Reply-To: <1c45a8b4-1ea4-ddfd-cce3-c42699d2b3b9@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 17 Jan 2020 11:09:07 +0000
+Message-ID: <CAFEAcA_QO1t10EJySQ5tbOHNuXgzQnJrN28n7fmZt_7aP=hvzA@mail.gmail.com>
+Subject: Re: [PATCH v22 9/9] MAINTAINERS: Add ACPI/HEST/GHES entries
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,135 +77,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, marcandre.lureau@gmail.com, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Linuxarm <linuxarm@huawei.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Zheng Xiang <zhengxiang9@huawei.com>, qemu-arm <qemu-arm@nongnu.org>,
+ James Morse <james.morse@arm.com>, "xuwei \(O\)" <xuwei5@huawei.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.01.2020 um 11:43 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
->=20
-> > Am 17.01.2020 um 08:57 hat Markus Armbruster geschrieben:
-> >> Kevin Wolf <kwolf@redhat.com> writes:
-> >>=20
-> >> > Am 16.01.2020 um 14:00 hat Markus Armbruster geschrieben:
-> >> >> Kevin Wolf <kwolf@redhat.com> writes:
-> >> >> > I have no idea if we will eventually get a case where the command=
- wants
-> >> >> > to behave different between the two modes and actually has use fo=
-r a
-> >> >> > coroutine. I hope not.
-> >> >> >
-> >> >> > But using two bools rather than a single enum keeps the code simp=
-le and
-> >> >> > leaves us all options open if it turns out that we do have a use =
-case.
-> >> >>=20
-> >> >> I can buy the argument "the two are conceptually orthogonal, althou=
-gh we
-> >> >> don't haven't found a use for one of the four cases".
-> >> >>=20
-> >> >> Let's review the four combinations of the two flags once more:
-> >> >>=20
-> >> >> * allow-oob: false, coroutine: false
-> >> >>=20
-> >> >>   Handler runs in main loop, outside coroutine context.  Okay.
-> >> >>=20
-> >> >> * allow-oob: false, coroutine: true
-> >> >>=20
-> >> >>   Handler runs in main loop, in coroutine context.  Okay.
-> >> >>=20
-> >> >> * allow-oob: true, coroutine: false
-> >> >>=20
-> >> >>   Handler may run in main loop or in iothread, outside coroutine
-> >> >>   context.  Okay.
-> >> >>=20
-> >> >> * allow-oob: true, coroutine: true
-> >> >>=20
-> >> >>   Handler may run (in main loop, in coroutine context) or (in iothr=
-ead,
-> >> >>   outside coroutine context).  This "in coroutine context only with
-> >> >>   execute, not with exec-oob" behavior is a bit surprising.
-> >> >>=20
-> >> >>   We could document it, noting that it may change to always run in
-> >> >>   coroutine context.  Or we simply reject this case as "not
-> >> >>   implemented".  Since we have no uses, I'm leaning towards reject.=
-  One
-> >> >>   fewer case to test then.
-> >> >
-> >> > What would be the right mode of rejecting it?
-> >> >
-> >> > I assume we should catch it somewhere in the QAPI generator (where?)=
- and
-> >>=20
-> >> check_flags() in expr.py?
+On Fri, 17 Jan 2020 at 07:22, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> Hi Peter,
+>
+> On 1/16/20 5:46 PM, Peter Maydell wrote:
+> > On Wed, 8 Jan 2020 at 11:32, Dongjiu Geng <gengdongjiu@huawei.com> wrot=
+e:
+> >>
+> >> I and Xiang are willing to review the APEI-related patches and
+> >> volunteer as the reviewers for the HEST/GHES part.
+> >>
+> >> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> >> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+> >> ---
+> >>   MAINTAINERS | 9 +++++++++
+> >>   1 file changed, 9 insertions(+)
+> >>
+> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> index 387879a..5af70a5 100644
+> >> --- a/MAINTAINERS
+> >> +++ b/MAINTAINERS
+> >> @@ -1423,6 +1423,15 @@ F: tests/bios-tables-test.c
+> >>   F: tests/acpi-utils.[hc]
+> >>   F: tests/data/acpi/
+> >>
+> >> +ACPI/HEST/GHES
+> >> +R: Dongjiu Geng <gengdongjiu@huawei.com>
+> >> +R: Xiang Zheng <zhengxiang9@huawei.com>
+> >> +L: qemu-arm@nongnu.org
+> >> +S: Maintained
+> >> +F: hw/acpi/ghes.c
+> >> +F: include/hw/acpi/ghes.h
+> >> +F: docs/specs/acpi_hest_ghes.rst
+> >> +
+> >>   ppc4xx
+> >>   M: David Gibson <david@gibson.dropbear.id.au>
+> >>   L: qemu-ppc@nongnu.org
+> >> --
 > >
-> > Looks like the right place, thanks.
-> >
-> >> > then just assert in the C code that both flags aren't set at the sam=
-e
-> >> > time?
-> >>=20
-> >> I think you already do, in do_qmp_dispatch():
-> >>=20
-> >>     assert(!(oob && qemu_in_coroutine()));
-> >>=20
-> >> Not sure that's the best spot.  Let's see when I review PATCH 3.
-> >
-> > This asserts that exec-oob handlers aren't executed in coroutine
-> > context. It doesn't assert that the handler doesn't have QCO_COROUTINE
-> > and QCO_ALLOW_OOB set at the same time.
->=20
-> Asserting this explicitly can't hurt.  qmp_register_command()?
+> > Michael, Igor: since this new MAINTAINERS section is
+> > moving files out of the 'ACPI/SMBIOS' section that you're
+> > currently responsible for, do you want to provide an
+> > acked-by: that you think this division of files makes sense?
+>
+> The files are not 'moved out', Michael and Igor are still the
+> maintainers of the supported ACPI/SMBIOS subsystem:
 
-Yes, that's where I put it.
+Does get_maintainer.pl print the answers for all matching
+sections, rather than just the most specific, then?
 
-> >> >> >> > @@ -194,8 +195,9 @@ out:
-> >> >> >> >      return ret
-> >> >> >> > =20
-> >> >> >> > =20
-> >> >> >> > -def gen_register_command(name, success_response, allow_oob, a=
-llow_preconfig):
-> >> >> >> > -    options =3D []
-> >> >> >> > +def gen_register_command(name: str, success_response: bool, a=
-llow_oob: bool,
-> >> >> >> > +                         allow_preconfig: bool, coroutine: bo=
-ol) -> str:
-> >> >> >> > +    options =3D [] # type: List[str]
-> >> >>=20
-> >> >> One more: this is a PEP 484 type hint.  With Python 3, we can use P=
-EP
-> >> >> 526 instead:
-> >> >>=20
-> >> >>           options: List[str] =3D []
-> >> >>=20
-> >> >> I think we should.
-> >> >
-> >> > This requires Python 3.6, unfortunately. The minimum requirement for
-> >> > building QEMU is 3.5.
-> >>=20
-> >> *Sigh*
-> >
-> > One of the reasons why I would have preferred 3.6 as the minimum, but
-> > our policy says that Debian oldstabe is still relevant for another two
-> > years. *shrug*
->=20
-> 3.5 EOL is scheduled for 2020-09-13.
-> https://devguide.python.org/#status-of-python-branches
->=20
-> Whether Debian can support it beyond that date seems doubtful.
+In any case, I'd still like an acked-by from them.
 
-You may doubt the quality of their support, but I think it's even more
-doubtful that they'll do a version upgrade in oldstable.
-
-> For another reason to want 3.6, see
-> [PATCH] qapi: Fix code generation with Python 3.5
-> Message-Id: <20200116202558.31473-1-armbru@redhat.com>
-
-The release notes for 3.6 call this an implementation detail that you
-shouldn't rely on. However, 3.7 guarantees the order, so I guess we can
-effectively rely on it starting from 3.6.
-
-Kevin
-
+thanks
+-- PMM
 
