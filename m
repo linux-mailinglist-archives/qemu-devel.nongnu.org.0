@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120F7141038
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 18:51:20 +0100 (CET)
-Received: from localhost ([::1]:32910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A0D14103D
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Jan 2020 18:52:41 +0100 (CET)
+Received: from localhost ([::1]:32922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isVmB-0006oS-43
-	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 12:51:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55873)
+	id 1isVnU-0000F7-KC
+	for lists+qemu-devel@lfdr.de; Fri, 17 Jan 2020 12:52:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55891)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1isVi8-0002MA-3v
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:47:09 -0500
+ id 1isViA-0002Pv-FU
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:47:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1isVi6-0007mL-LE
- for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:47:07 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:47266 helo=huawei.com)
+ id 1isVi9-0007p8-3R
+ for qemu-devel@nongnu.org; Fri, 17 Jan 2020 12:47:10 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:47276 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1isVi3-0007hV-L0; Fri, 17 Jan 2020 12:47:03 -0500
+ id 1isVi3-0007hZ-MN; Fri, 17 Jan 2020 12:47:03 -0500
 Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id B288129EE4A26EDCDC6E;
+ by Forcepoint Email with ESMTP id B9288ADAA69314790517;
  Sat, 18 Jan 2020 01:47:01 +0800 (CST)
 Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
  DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.439.0; Sat, 18 Jan 2020 01:46:51 +0800
+ 14.3.439.0; Sat, 18 Jan 2020 01:46:54 +0800
 From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
  <imammedo@redhat.com>
-Subject: [PATCH v2 4/7] hw/arm/virt: Add nvdimm hot-plug infrastructure
-Date: Fri, 17 Jan 2020 17:45:19 +0000
-Message-ID: <20200117174522.22044-5-shameerali.kolothum.thodi@huawei.com>
+Subject: [PATCH v2 5/7] hw/arm/virt: Add nvdimm hotplug support
+Date: Fri, 17 Jan 2020 17:45:20 +0000
+Message-ID: <20200117174522.22044-6-shameerali.kolothum.thodi@huawei.com>
 X-Mailer: git-send-email 2.12.0.windows.1
 In-Reply-To: <20200117174522.22044-1-shameerali.kolothum.thodi@huawei.com>
 References: <20200117174522.22044-1-shameerali.kolothum.thodi@huawei.com>
@@ -61,131 +61,147 @@ Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kwangwoo Lee <kwangwoo.lee@sk.com>
+This adds support for nvdimm hotplug events through GED
+and enables nvdimm for the arm/virt. Now Guests with ACPI
+can have both cold and hot plug of nvdimms.
 
-Prepare pre-plug and plug handlers for NVDIMM support.
-Please note nvdimm_support is not yet enabled.
+Hot removal functionality is not yet supported.
 
-Signed-off-by: Kwangwoo Lee <kwangwoo.lee@sk.com>
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/arm/Kconfig           |  1 +
- hw/arm/virt-acpi-build.c |  6 ++++++
- hw/arm/virt.c            | 19 +++++++++++++++++++
- hw/mem/Kconfig           |  2 +-
- include/hw/arm/virt.h    |  1 +
- 5 files changed, 28 insertions(+), 1 deletion(-)
+ docs/specs/acpi_hw_reduced_hotplug.rst |  1 +
+ hw/acpi/generic_event_device.c         | 13 +++++++++++++
+ hw/arm/virt.c                          | 16 +++++++++++-----
+ include/hw/acpi/generic_event_device.h |  1 +
+ 4 files changed, 26 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index c6e7782580..851dd81289 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -24,6 +24,7 @@ config ARM_VIRT
-     select DIMM
-     select ACPI_MEMORY_HOTPLUG
-     select ACPI_HW_REDUCED
-+    select ACPI_NVDIMM
+diff --git a/docs/specs/acpi_hw_reduced_hotplug.rst b/docs/specs/acpi_hw_reduced_hotplug.rst
+index 911a98255b..e3abe975bf 100644
+--- a/docs/specs/acpi_hw_reduced_hotplug.rst
++++ b/docs/specs/acpi_hw_reduced_hotplug.rst
+@@ -63,6 +63,7 @@ GED IO interface (4 byte access)
+     bits:
+        0: Memory hotplug event
+        1: System power down event
++       2: NVDIMM hotplug event
+     2-31: Reserved
  
- config CHEETAH
-     bool
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index bd5f771e9b..c51eae549e 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -44,6 +44,7 @@
- #include "hw/pci/pcie_host.h"
- #include "hw/pci/pci.h"
- #include "hw/arm/virt.h"
+ **write_access:**
+diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+index 9cee90cc70..ad1b684304 100644
+--- a/hw/acpi/generic_event_device.c
++++ b/hw/acpi/generic_event_device.c
+@@ -16,6 +16,7 @@
+ #include "hw/acpi/generic_event_device.h"
+ #include "hw/irq.h"
+ #include "hw/mem/pc-dimm.h"
 +#include "hw/mem/nvdimm.h"
- #include "sysemu/numa.h"
- #include "sysemu/reset.h"
- #include "kvm_arm.h"
-@@ -839,6 +840,11 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-         }
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "qemu/error-report.h"
+@@ -23,6 +24,7 @@
+ static const uint32_t ged_supported_events[] = {
+     ACPI_GED_MEM_HOTPLUG_EVT,
+     ACPI_GED_PWR_DOWN_EVT,
++    ACPI_GED_NVDIMM_HOTPLUG_EVT,
+ };
+ 
+ /*
+@@ -110,6 +112,11 @@ void build_ged_aml(Aml *table, const char *name, HotplugHandler *hotplug_dev,
+                            aml_notify(aml_name(ACPI_POWER_BUTTON_DEVICE),
+                                       aml_int(0x80)));
+                 break;
++            case ACPI_GED_NVDIMM_HOTPLUG_EVT:
++                aml_append(if_ctx,
++                           aml_notify(aml_name("\\_SB.NVDR"),
++                                      aml_int(0x80)));
++                break;
+             default:
+                 /*
+                  * Please make sure all the events in ged_supported_events[]
+@@ -175,7 +182,11 @@ static void acpi_ged_device_plug_cb(HotplugHandler *hotplug_dev,
+     AcpiGedState *s = ACPI_GED(hotplug_dev);
+ 
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
++        if (object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)) {
++            nvdimm_acpi_plug_cb(hotplug_dev, dev);
++        } else {
+             acpi_memory_plug_cb(hotplug_dev, &s->memhp_state, dev, errp);
++        }
+     } else {
+         error_setg(errp, "virt: device plug request for unsupported device"
+                    " type: %s", object_get_typename(OBJECT(dev)));
+@@ -192,6 +203,8 @@ static void acpi_ged_send_event(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
+         sel = ACPI_GED_MEM_HOTPLUG_EVT;
+     } else if (ev & ACPI_POWER_DOWN_STATUS) {
+         sel = ACPI_GED_PWR_DOWN_EVT;
++    } else if (ev & ACPI_NVDIMM_HOTPLUG_STATUS) {
++        sel = ACPI_GED_NVDIMM_HOTPLUG_EVT;
+     } else {
+         /* Unknown event. Return without generating interrupt. */
+         warn_report("GED: Unsupported event %d. No irq injected", ev);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 7987c8f5b8..5ea2584491 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -543,6 +543,10 @@ static inline DeviceState *create_acpi_ged(VirtMachineState *vms)
+         event |= ACPI_GED_MEM_HOTPLUG_EVT;
      }
  
 +    if (ms->nvdimms_state->is_enabled) {
-+        nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
-+                          ms->nvdimms_state, ms->ram_slots);
++        event |= ACPI_GED_NVDIMM_HOTPLUG_EVT;
 +    }
 +
-     if (its_class_name() && !vmc->no_its) {
-         acpi_add_table(table_offsets, tables_blob);
-         build_iort(tables_blob, tables->linker, vms);
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 39ab5f47e0..7987c8f5b8 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -143,6 +143,7 @@ static const MemMapEntry base_memmap[] = {
-     [VIRT_SMMU] =               { 0x09050000, 0x00020000 },
-     [VIRT_PCDIMM_ACPI] =        { 0x09070000, MEMORY_HOTPLUG_IO_LEN },
-     [VIRT_ACPI_GED] =           { 0x09080000, ACPI_GED_EVT_SEL_LEN },
-+    [VIRT_NVDIMM_ACPI] =        { 0x09090000, NVDIMM_ACPI_IO_LEN},
-     [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
-     /* ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that size */
-     [VIRT_PLATFORM_BUS] =       { 0x0c000000, 0x02000000 },
-@@ -1749,6 +1750,18 @@ static void machvirt_init(MachineState *machine)
+     dev = qdev_create(NULL, TYPE_ACPI_GED);
+     qdev_prop_set_uint32(dev, "ged-event", event);
  
-     create_platform_bus(vms);
- 
-+    if (machine->nvdimms_state->is_enabled) {
-+        const struct AcpiGenericAddress arm_virt_nvdimm_acpi_dsmio = {
-+            .space_id = AML_AS_SYSTEM_MEMORY,
-+            .address = vms->memmap[VIRT_NVDIMM_ACPI].base,
-+            .bit_width = NVDIMM_ACPI_IO_LEN << 3
-+        };
-+
-+        nvdimm_init_acpi_state(machine->nvdimms_state, sysmem,
-+                               arm_virt_nvdimm_acpi_dsmio,
-+                               vms->fw_cfg, OBJECT(vms));
-+    }
-+
-     vms->bootinfo.ram_size = machine->ram_size;
-     vms->bootinfo.nb_cpus = smp_cpus;
-     vms->bootinfo.board_id = -1;
-@@ -1936,6 +1949,8 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
+@@ -1928,19 +1932,20 @@ static void virt_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+                                  Error **errp)
  {
-     HotplugHandlerClass *hhc;
      VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
-+    MachineState *ms = MACHINE(hotplug_dev);
-+    bool is_nvdimm = object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
-     Error *local_err = NULL;
++    const MachineState *ms = MACHINE(hotplug_dev);
+     const bool is_nvdimm = object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
  
-     pc_dimm_plug(PC_DIMM(dev), MACHINE(vms), &local_err);
-@@ -1943,6 +1958,10 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
-         goto out;
+-    if (is_nvdimm) {
+-        error_setg(errp, "nvdimm is not yet supported");
+-        return;
+-    }
+-
+     if (!vms->acpi_dev) {
+         error_setg(errp,
+                    "memory hotplug is not enabled: missing acpi-ged device");
+         return;
      }
  
-+    if (is_nvdimm) {
-+        nvdimm_plug(ms->nvdimms_state);
++    if (is_nvdimm && !ms->nvdimms_state->is_enabled) {
++        error_setg(errp, "nvdimm is not enabled: missing 'nvdimm' in '-M'");
++        return;
 +    }
 +
-     hhc = HOTPLUG_HANDLER_GET_CLASS(vms->acpi_dev);
-     hhc->plug(HOTPLUG_HANDLER(vms->acpi_dev), dev, &error_abort);
- out:
-diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
-index 620fd4cb59..0d5f8f321a 100644
---- a/hw/mem/Kconfig
-+++ b/hw/mem/Kconfig
-@@ -8,4 +8,4 @@ config MEM_DEVICE
- config NVDIMM
-     bool
-     default y
--    depends on PC
-+    depends on PC || ARM_VIRT
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 38f0c33c77..9c9eaaa89d 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -79,6 +79,7 @@ enum {
-     VIRT_SECURE_MEM,
-     VIRT_PCDIMM_ACPI,
-     VIRT_ACPI_GED,
-+    VIRT_NVDIMM_ACPI,
-     VIRT_LOWMEMMAP_LAST,
- };
+     pc_dimm_pre_plug(PC_DIMM(dev), MACHINE(hotplug_dev), NULL, errp);
+ }
  
+@@ -2071,6 +2076,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     hc->plug = virt_machine_device_plug_cb;
+     hc->unplug_request = virt_machine_device_unplug_request_cb;
+     mc->numa_mem_supported = true;
++    mc->nvdimm_supported = true;
+     mc->auto_enable_numa_with_memhp = true;
+ }
+ 
+diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
+index d157eac088..9eb86ca4fd 100644
+--- a/include/hw/acpi/generic_event_device.h
++++ b/include/hw/acpi/generic_event_device.h
+@@ -82,6 +82,7 @@
+  */
+ #define ACPI_GED_MEM_HOTPLUG_EVT   0x1
+ #define ACPI_GED_PWR_DOWN_EVT      0x2
++#define ACPI_GED_NVDIMM_HOTPLUG_EVT 0x4
+ 
+ typedef struct GEDState {
+     MemoryRegion io;
 -- 
 2.17.1
 
