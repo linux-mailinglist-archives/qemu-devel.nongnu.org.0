@@ -2,44 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC3E1417E4
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 15:12:10 +0100 (CET)
-Received: from localhost ([::1]:40696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5ED1417E2
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 15:10:53 +0100 (CET)
+Received: from localhost ([::1]:40662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isopd-00076F-GI
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 09:12:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45806)
+	id 1isooO-0004eH-CU
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 09:10:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45692)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Aleksandar.Markovic@rt-rk.com>) id 1isonM-0004Xm-Ct
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:09:51 -0500
+ (envelope-from <philmd@redhat.com>) id 1isomV-0003HZ-GD
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:08:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Aleksandar.Markovic@rt-rk.com>) id 1isonJ-0000s3-7t
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:09:47 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53168 helo=mail.rt-rk.com)
+ (envelope-from <philmd@redhat.com>) id 1isomS-0000RD-C2
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:08:55 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26446
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Aleksandar.Markovic@rt-rk.com>)
- id 1isonI-0000Ld-SM
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:09:45 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id BD3A61A151E
- for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 15:08:39 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: by mail.rt-rk.com (Postfix, from userid 492)
- id 774301A1E96; Sat, 18 Jan 2020 15:08:37 +0100 (CET)
-from: "Aleksandar Markovic" <Aleksandar.Markovic@rt-rk.com>
-X-Forward: 127.0.0.1
-content-type: multipart/alternative;
- boundary="----=_=-_OpenGroupware_org_NGMime-12874-1579356517.468211-3------"
-date: Sat, 18 Jan 2020 15:08:37 +0100
-subject: =?utf-8?q?=5BGSoC=2FOutreachy?= QEMU project =?utf-8?q?proposal=5D?= 
- Measure and Analyze QEMU Performance
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isomS-0000Qu-7r
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:08:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579356531;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=acaehvqFXPFMXgtntQcHdZtFbTbCxMhB9wKeq9UgstQ=;
+ b=WF9TSN1ixLVhPCKHE0eGUMttkFFdvxSkYOGv1R4AnnabkM8xcEhy67FpO/H5Mp4Pc/ZoK+
+ KfImyaIukAQS/wmgu9XV4N+Su/NAL5kt08POjrmGxjqge+hFuXdBNJpBwbzhE5CcPt4CfR
+ DVngVXi6ifEqiizgMfoCiRb32eS6OY4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-VNUmmUVTMe6wXR5NwzCuzw-1; Sat, 18 Jan 2020 09:08:46 -0500
+Received: by mail-wm1-f71.google.com with SMTP id w205so2892366wmb.5
+ for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 06:08:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vxQA79pIPKP3QDwFzCqgqjHORU6gVBFkdrvMXKo6xvQ=;
+ b=sRB33bgGGWH3YR/xufruwihqrsy/tGYf6W9F1uRfGEQTbKnOeC3902fL9O9VZpnxZc
+ 1+g3C1VqUTHoPyC2FfDszt5Rd1purLczVEt9lpd+ZJlk3kMTJ5vTq0tfYW6WDPgDNLzM
+ EszqINWe5EY8ssdDRNDSCYT+BKMjBKxYpsEcnfQAlU6McMCSZjuXPrbP0s85SIOYB21C
+ 4cDD3hz2TYM64z2pDQ9FXLiSESGG+53HMxewri0MgCsJhmd3byx3lP7P1ieyS0HJMTkm
+ AUuq5Vmy0lJFRXVuodhAIZgPIvVz8EFe2WHX+gXgbwt5wFs4s01EHzd/4BG9meiz8DSF
+ aqHQ==
+X-Gm-Message-State: APjAAAW4dOWc1XbS408lK+hgRhHdc8zNX/K9uj47JRlnj7kmI1DDSggO
+ Ugnrp4/Ife4G0QZ5eh59lqHkCYtNZ6BM5h4Oi9OcYK/t7d5B/3S/NZ9bgKNg1NmYHMcXIbup3u5
+ W9LVXoIcHSg92PCE=
+X-Received: by 2002:adf:ee52:: with SMTP id w18mr8691303wro.416.1579356524548; 
+ Sat, 18 Jan 2020 06:08:44 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxGVGCKHmO6loJPKISTF2nhPhIJDWYEInQp8SmAHc7MkWMw5q2oX8+L1vAAJ+i4q7jUONabRg==
+X-Received: by 2002:adf:ee52:: with SMTP id w18mr8691278wro.416.1579356524287; 
+ Sat, 18 Jan 2020 06:08:44 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id b21sm3256996wmd.37.2020.01.18.06.08.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 18 Jan 2020 06:08:43 -0800 (PST)
+Subject: Re: [PATCH] mailmap: Add more entries to sanitize 'git log' output
+To: Markus Armbruster <armbru@redhat.com>
+References: <20191218185723.7738-1-philmd@redhat.com>
+ <87h80ts0ii.fsf@dusky.pond.sub.org>
+ <aef8102c-23d5-7cdc-7183-673c116a44b2@redhat.com>
+ <87tv4sq4hn.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <73f18b1d-c680-4db7-a682-9f65aeac79a9@redhat.com>
+Date: Sat, 18 Jan 2020 15:08:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-to: qemu-devel@nongnu.org
-message-id: <324a-5e231180-7-6946d180@169257031>
-User-Agent: SOGoMail 2.3.10
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+In-Reply-To: <87tv4sq4hn.fsf@dusky.pond.sub.org>
+Content-Language: en-US
+X-MC-Unique: VNUmmUVTMe6wXR5NwzCuzw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,153 +94,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_=-_OpenGroupware_org_NGMime-12874-1579356517.468211-3------
-content-type: text/plain; charset=utf-8
-content-length: 3077
-content-transfer-encoding: quoted-printable
+On 1/18/20 2:27 PM, Markus Armbruster wrote:
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>=20
+>> On 1/18/20 8:10 AM, Markus Armbruster wrote:
+>>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>>>
+>>>> Most of these developers have the Signed-off-by tag properly
+>>>> written, but not the author/commiter name. Fix this.
+>>>> Also we incorrectly wrote Arei Gonglei name, update and reorder.
+>>>>
+>>>> git-log does not use this file by default until you specify the
+>>>> --use-mailmap flag:
+>>>>
+>>>>     $ git log --use-mailmap
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>>> ---
+>>>>    .mailmap | 29 ++++++++++++++++++++++++++++-
+>>>>    1 file changed, 28 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/.mailmap b/.mailmap
+>>>> index 3816e4effe..1a859d9e65 100644
+>>>> --- a/.mailmap
+>>>> +++ b/.mailmap
+>>>> @@ -56,6 +56,10 @@ Aaron Lindsay <aaron@os.amperecomputing.com>
+>>>>    Alexey Gerasimenko <x1917x@gmail.com>
+>>>>    Alex Ivanov <void@aleksoft.net>
+>>>>    Andreas F=C3=A4rber <afaerber@suse.de>
+>>>> +Andreas F=C3=A4rber <andreas.faerber@web.de>
+>>>> +Andreas F=C3=A4rber <andreas.faerber@web.de> <andreas.faerber>
+>>>> +Arei Gonglei <arei.gonglei@huawei.com>
+>>>> +Arei Gonglei <arei.gonglei@huawei.com> <root@ceth6.(none)>
+>>>
+>>> I can't find this one in git-log.
+>>
+>> I was first surprised:
+>>
+>> $ git log -1 3b08098b40
+>> commit 3b08098b409c0fb28f85436ba1adeb1d401ec8f7
+>> Author:     Gonglei <arei.gonglei@huawei.com>
+>> AuthorDate: Wed Dec 3 18:25:46 2014 +0000
+>> Commit:     root <root@ceth6.(none)>
+>> CommitDate: Mon Dec 22 14:39:21 2014 +0800
+>>
+>>      bootdevice: add validate check for qemu_boot_set()
+>>
+>>      Signed-off-by: Gonglei <arei.gonglei@huawei.com>
+>>      Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>>
+>> After thinking for a bit I remembered I once changed my default format:
+>>
+>> $ git config format.pretty
+>> fuller
+>=20
+> Aha!  Could've thought of this myself...
+>=20
+>> I suppose I should add this in the commit description.
+>=20
+> Can't hurt.
 
+OK will do, thank for the review!
 
-Hi, everybody.
-
-I am going to propose several ideas for QEMU participation in GSoC/Outr=
-eachy in next few days. This is the first one. Please feel free to give=
- an honest feedback.
-
-Yours,
-Aleksandar
-
-
-
-Measure and Analyze Performance of
-QEMU User and System Mode Emulation
-
-
-PLANNED ACTIVITIES
-
-PART I: (user mode)
-
-=C2=A0=C2=A0 a) select around a dozen test programs (resembling compone=
-nts of SPEC benchmark, but must be open source, and preferably license =
-compatible with QEMU); test programs should be distributed like this: 4=
--5 FPU CPU-intensive, 4-5 non-FPU CPU intensive, 1-2 I/O intensive;
-=C2=A0=C2=A0 b) measure execution time and other performance data in us=
-er mode across all platforms for ToT:
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - try to improve performance if th=
-ere is an obvious bottleneck (but this is unlikely);
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - develop tests that will be prote=
-ction against performance regressions in future.
-=C2=A0=C2=A0 c) measure execution time in user-mode for selected platfo=
-rms for all QEMU versions in last 5 years:
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - confirm performance improvements=
- and/or detect performance degradations.
-=C2=A0=C2=A0 d) summarize all results in a comprehensive form, using al=
-so graphics/data visualization.
-
-PART II: (system mode)
-
-=C2=A0=C2=A0 a) measure execution time and other performance data for b=
-oot/shutdown cycle for selected machines for ToT:
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - try to improve performance if th=
-ere is an obvious bottleneck;
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - develop tests that will be prote=
-ction against performance regressions in future.
-=C2=A0=C2=A0 b) summarize all results in a comprehensive form.
-
-
-DELIVERABLES
-
-1) Each maintainer for target will be given a list of top 25 functions =
-in terms of spent host time for each benchmark described in the previou=
-s section. Additional information and observations will be also provide=
-d, if the judgment is they are useful and relevant.
-
-2) Each maintainer for machine (that has successful boot/shutdown cycle=
-) will be given a list of top 25 functions in terms of spent host time =
-during boot/shutdown cycle. Additional information and observations wil=
-l be also provided, if the judgment is they are useful and relevant.
-
-3) The community will be given all devised performance measurement meth=
-ods in the form of easily reproducible step-by-step setup and execution=
- procedures.
-
-(parts 1) and 2) will be, of course, published to everybody, maintainer=
-s are simply singled out as main recipients and decision-makers on poss=
-ible next action items)
-
-Deliverable will be distributed over wide time interval (in other words=
-, they will not be presented just at the end of project, but gradually =
-during project execution).
-
-
-Mentor: Aleksandar Markovic (myself) (but, I am perfectly fine if someb=
-ody else wants to mentor the project, if interested)
-
-Student: open
-
-
-That would be all, feel free to ask for additional info and/or clarific=
-ation.
-=C2=A0
-
-------=_=-_OpenGroupware_org_NGMime-12874-1579356517.468211-3------
-content-type: text/html; charset=utf-8
-content-length: 3635
-content-transfer-encoding: quoted-printable
-
-<html>Hi, everybody.<br /><br />I am going to propose several ideas for=
- QEMU participation in GSoC/Outreachy in next few days. This is the fir=
-st one. Please feel free to give an honest feedback.<br /><br />Yours,<=
-br />Aleksandar<br /><br /><br /><br /><span style=3D"font-size:16px;">=
-<strong><span style=3D"font-size:20px;">Measure and Analyze Performance=
- of<br />QEMU User and System Mode Emulation</span></strong></span><br =
-/><br /><br /><span style=3D"font-size:16px;"><u><em>PLANNED ACTIVITIES=
-</em></u></span><br /><br />PART I: (user mode)<br /><br />&nbsp;&nbsp;=
- a) select around a dozen test programs (resembling components of SPEC =
-benchmark, but must be open source, and preferably license compatible w=
-ith QEMU); test programs should be distributed like this: 4-5 FPU CPU-i=
-ntensive, 4-5 non-FPU CPU intensive, 1-2 I/O intensive;<br />&nbsp;&nbs=
-p; b) measure execution time and other performance data in user mode ac=
-ross all platforms for ToT:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -=
- try to improve performance if there is an obvious bottleneck (but this=
- is unlikely);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - develop test=
-s that will be protection against performance regressions in future.<br=
- />&nbsp;&nbsp; c) measure execution time in user-mode for selected pla=
-tforms for all QEMU versions in last 5 years:<br />&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; - confirm performance improvements and/or detect perfo=
-rmance degradations.<br />&nbsp;&nbsp; d) summarize all results in a co=
-mprehensive form, using also graphics/data visualization.<br /><br />PA=
-RT II: (system mode)<br /><br />&nbsp;&nbsp; a) measure execution time =
-and other performance data for boot/shutdown cycle for selected machine=
-s for ToT:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - try to improve p=
-erformance if there is an obvious bottleneck;<br />&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; - develop tests that will be protection against perfor=
-mance regressions in future.<br />&nbsp;&nbsp; b) summarize all results=
- in a comprehensive form.<br /><br /><br /><span style=3D"font-size:16p=
-x;"><em><u>DELIVERABLES</u></em></span><br /><br />1) Each maintainer f=
-or target will be given a list of top 25 functions in terms of spent ho=
-st time for each benchmark described in the previous section. Additiona=
-l information and observations will be also provided, if the judgment i=
-s they are useful and relevant.<br /><br />2) Each maintainer for machi=
-ne (that has successful boot/shutdown cycle) will be given a list of to=
-p 25 functions in terms of spent host time during boot/shutdown cycle. =
-Additional information and observations will be also provided, if the j=
-udgment is they are useful and relevant.<br /><br />3) The community wi=
-ll be given all devised performance measurement methods in the form of =
-easily reproducible step-by-step setup and execution procedures.<br /><=
-br />(parts 1) and 2) will be, of course, published to everybody, maint=
-ainers are simply singled out as main recipients and decision-makers on=
- possible next action items)<br /><br />Deliverable will be distributed=
- over wide time interval (in other words, they will not be presented ju=
-st at the end of project, but gradually during project execution).<br /=
-><br /><br /><em>Mentor:</em> Aleksandar Markovic (myself) (but, I am p=
-erfectly fine if somebody else wants to mentor the project, if interest=
-ed)<br /><br /><em>Student:</em> open<br /><br /><br />That would be al=
-l, feel free to ask for additional info and/or clarification.<br />&nbs=
-p;</html>
-
-------=_=-_OpenGroupware_org_NGMime-12874-1579356517.468211-3--------
+> [...]
+>>>>    Shin'ichiro Kawasaki <kawasaki@juno.dti.ne.jp>
+>>>>    Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+>>>> +Siwei Zhuang <siwei.zhuang@data61.csiro.au>
+>>>
+>>> It's actually spelled Siwei.Zhuang@data61.csiro.au in git-log.
+>>> Shouldn't matter.
+>>
+>> Correct:
+>>
+>> $ git shortlog -e 6478dd745d~..6478dd745d
+>> Zhuang, Siwei (Data61, Kensington NSW) <Siwei.Zhuang@data61.csiro.au> (1=
+):
+>>        hw/riscv: Add optional symbol callback ptr to riscv_load_kernel()
+>>
+>> $ git shortlog -e 6478dd745d~..6478dd745d
+>> Siwei Zhuang <Siwei.Zhuang@data61.csiro.au> (1):
+>>        hw/riscv: Add optional symbol callback ptr to riscv_load_kernel()
+>=20
+> Suggest to adjust case if you respin.
+>=20
+>> Thanks for caring checking all entries!
+>=20
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>=20
+> [...]
+>=20
 
 
