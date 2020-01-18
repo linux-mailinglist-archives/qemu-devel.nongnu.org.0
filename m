@@ -2,50 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8961418DE
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 19:09:01 +0100 (CET)
-Received: from localhost ([::1]:43390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E88014190C
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:12:23 +0100 (CET)
+Received: from localhost ([::1]:43836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1issWp-0007Ge-Qj
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 13:08:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42722)
+	id 1istW9-0003I0-SQ
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:12:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48525)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1issW4-0006mH-38
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 13:08:13 -0500
+ (envelope-from <berto@igalia.com>) id 1istTs-0001Sp-HU
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:10:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1issW2-0001nZ-VY
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 13:08:11 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:39621)
+ (envelope-from <berto@igalia.com>) id 1istTr-0004Oj-7i
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:10:00 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:48333)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1issW2-0001YP-Ac; Sat, 18 Jan 2020 13:08:10 -0500
+ id 1istTq-0004N4-Sv; Sat, 18 Jan 2020 14:09:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=T624l/Dr+wBcdJsOrht2d+jJe9UJUn0ouA0Jzix1WzQ=; 
- b=fhwPA7RN+a/flOVAVkNdVaApEMmABZLzwlvC5nZcm3+ZVP11tycQr0KiDw44uYc/xavsDWo6x544sEg33/4zyfTaIkC7uP8WNv7R6f75U3mFDlZDBNdakAKkR2jouRqpp4AU/Jg0Cy47GsXd027+Qcoee0QXj2jywVsW0wpxqGkVTF+5+x7Eak9M/ttLGT9UXpOEGmExpIzZlIQ27yX6vInf77OeeTVwTuowwo268OHClQdOlttNK8oYd2piY4CtcWkPqusItRs9tlmkbR/mlQ6BMP2rhGdnXwBFnPBmlWqEjPo4tYmk+tRxSEo6+YdqCZgkOEtsx3GLzyR0qONTLw==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1issVh-0007wL-Gg; Sat, 18 Jan 2020 19:07:49 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1issVh-000158-6L; Sat, 18 Jan 2020 19:07:49 +0100
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=jj7eKp47Dqs+1Ph2YMZLgJzB6XaqJGC3MNK0nOIJeHE=; 
+ b=OLuohjgCZPGxVGMA588eIU1TNwVmuiHED8bww7fu/BOfDdxCBj2Xj0f0o8/AY5qGHBqEbZVzOYEahGmRS+5KisMwggOikGFyC61rKdQl0RbnXU623OC/93x1ZTsln5az5EoWOHuybAb8Hu8bx3aII6tbwwl8wVhJoEgF7BRxtn3EVCV2RuFbEa9u/uTxeVjFpf5KShn77/kjIQx9InWtiUtupSvA30nX5pbtJRo4oC5Hp2NuJjskvvCiyVqG9l9Gm7m4G/twbf+FbVWlMUigay3X3alU9AJiPv+7Lhqxc6u9LbFlL0jqWA+36DKrXkd5Q1QX2yICmBmh5trIGLaaBw==;
+Received: from [80.30.177.7] (helo=perseus.local)
+ by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1istTn-000657-7D; Sat, 18 Jan 2020 20:09:55 +0100
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1istTW-0002JT-NL; Sat, 18 Jan 2020 20:09:38 +0100
 From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 4/4] qcow2: Use BDRV_SECTOR_SIZE instead of the
- hardcoded value
-In-Reply-To: <02552511-6fcf-d678-362c-707ce6d73659@redhat.com>
-References: <cover.1578596897.git.berto@igalia.com>
- <e3982d5118a90db2442c6ac18f339ec8ba006df2.1578596897.git.berto@igalia.com>
- <02552511-6fcf-d678-362c-707ce6d73659@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Sat, 18 Jan 2020 19:07:49 +0100
-Message-ID: <w51muak3afe.fsf@maestria.local.igalia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/5] Misc BDRV_SECTOR_SIZE updates
+Date: Sat, 18 Jan 2020 20:09:25 +0100
+Message-Id: <cover.1579374329.git.berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
  timestamps) [generic] [fuzzy]
 X-Received-From: 178.60.130.6
@@ -60,33 +54,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Nir Soffer <nsoffer@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue 14 Jan 2020 03:15:48 PM CET, Max Reitz <mreitz@redhat.com> wrote:
->> @@ -3836,7 +3837,7 @@ qcow2_co_copy_range_from(BlockDriverState *bs,
->>          case QCOW2_CLUSTER_NORMAL:
->>              child =3D s->data_file;
->>              copy_offset +=3D offset_into_cluster(s, src_offset);
->> -            if ((copy_offset & 511) !=3D 0) {
->> +            if (!QEMU_IS_ALIGNED(copy_offset, BDRV_SECTOR_SIZE)) {
->
-> Hm.  I don=E2=80=99t get this one.
+This series gets rid of all the remaining instances of hardcoded
+sector sizes in the qcow2 code and adds a check for images whose
+virtual size is not a multiple of the sector size.
 
-Ok, this came with Fam's "qemu-img convert with copy offloading" series:
-
-   https://lists.gnu.org/archive/html/qemu-block/2018-06/msg00015.html
-
-and qemu-img uses sectors here:
-
-   blk_co_copy_range(..., sector_num << BDRV_SECTOR_BITS,
-                     n << BDRV_SECTOR_BITS, ...)
-
-so I guess that's why the check is there. Again, I think this should be
-bl.request_alignment, because as far as I can tell copy_file_range()
-works just fine unless O_DIRECT is used.
+See the individual patches for details.
 
 Berto
+
+v3:
+- Patch 2: Use offset_into_cluster() instead of QEMU_IS_ALIGNED
+- Patch 3: Rewrite qcow2_write_l1_entry() to use bl.request_alignment [Kevin]
+- Patch 4: Remove alignment check in qcow2_co_copy_range_from()
+
+v2: https://lists.gnu.org/archive/html/qemu-block/2020-01/msg00169.html
+- Modify output of iotest 080 to make it easier to understand [Nir]
+- Use the QEMU_IS_ALIGNED() macro instead of the modulus operator [Nir]
+- Tighten some assertions [Kevin]
+
+v1: https://lists.gnu.org/archive/html/qemu-block/2020-01/msg00139.html
+
+Alberto Garcia (5):
+  qcow2: Don't round the L1 table allocation up to the sector size
+  qcow2: Tighten cluster_offset alignment assertions
+  qcow2: Use bs->bl.request_alignment when updating an L1 entry
+  qcow2: Don't require aligned offsets in qcow2_co_copy_range_from()
+  qcow2: Use BDRV_SECTOR_SIZE instead of the hardcoded value
+
+ block/qcow2-cluster.c  | 30 +++++++++++++++++-------------
+ block/qcow2-refcount.c |  2 +-
+ block/qcow2-snapshot.c |  3 +--
+ block/qcow2.c          | 23 +++++++++--------------
+ 4 files changed, 28 insertions(+), 30 deletions(-)
+
+-- 
+2.20.1
+
 
