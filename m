@@ -2,67 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF1F141881
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 17:47:49 +0100 (CET)
-Received: from localhost ([::1]:42628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8961418DE
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 19:09:01 +0100 (CET)
+Received: from localhost ([::1]:43390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isrGF-0001uA-KD
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 11:47:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36237)
+	id 1issWp-0007Ge-Qj
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 13:08:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1isrBR-0004Gl-Nt
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 11:42:50 -0500
+ (envelope-from <berto@igalia.com>) id 1issW4-0006mH-38
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 13:08:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1isrBQ-0002GQ-EF
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 11:42:49 -0500
-Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:42604)
+ (envelope-from <berto@igalia.com>) id 1issW2-0001nZ-VY
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 13:08:11 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:39621)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1isrBN-0002EM-Lv; Sat, 18 Jan 2020 11:42:45 -0500
-Received: by mail-yb1-xb41.google.com with SMTP id c8so7090726ybk.9;
- Sat, 18 Jan 2020 08:42:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=c40RYyx9s3sT53ibofaJCji2c/+rsUXzNeVTcJNsgco=;
- b=EeHUOeT2ynvb0l0grMvGxJrogdt9ELUZXqy2G53G0bdUVaA5MnPZUddKpKkETVEOiA
- dp27F0lP9yffDhKHJ2PGYN62NgcjWau/QGhQ85l/car79urFv6Da18CjmnMwKusgFrlh
- wojq6hHOm3cIpkHXRrYXtgYQb8Vt15Opjbsby0qZsyFNS6ToIaLZrSvm2gd0xR6LTNj3
- 2HFsaO+YmSYBOdnYOhpzHdczsKAhh3L6+1vNY//o224EC1o4OxTdedpQy4/78PPGGXns
- RgKcL2WFmpNWxSGh6UaP7vk3Hjnpq2KW3cvbRj/9b2LSLBLXWFrWFoRyCQrVL57J95lI
- tADg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=c40RYyx9s3sT53ibofaJCji2c/+rsUXzNeVTcJNsgco=;
- b=THLvVfFDvJ8hdOpKBaBpbKAoqojtaErBMCE47l8X0SfDWR0M0XVHiy2Yk5adeZD3Ic
- IZjvEx3YhGyjXnEBQQ2Xd1WFfJjWmXWuDKdJ0iNeOhR49kUbZ9gSiGmDUMGhsPrLNPSY
- NKdQByZqWXZHTmJ8E2qz42qyaBcZv8UNte9jV6zCv7POqAsNTGR5g7xIq/gM5MHSy75a
- Pcks6L3l3k5Uc1VjxoRv9jzSeb1WFMxe6N3EVWjC8et0Kk6hQUCNw5gll24RoEdZAOz8
- Cd+58737NabFfl45i3Fq0kQyaCWXf6OlX/taZr274Hb2bGMThLwVFAXhuoNgGgiBNJ9K
- +tQg==
-X-Gm-Message-State: APjAAAW8lBI+GYjsA+WB1ubgVlYJpKPZAj1ztHm7COzVBrD8hJO9vCuj
- Kcs4b+XoTqOnGehSppnYK18=
-X-Google-Smtp-Source: APXvYqxZ2tZYZQhV7Q8tZKByJQU977sxj/nk47y6UWiQKsaGATrGDtrK9II9JOuKajmbQS1brB9mxQ==
-X-Received: by 2002:a25:d297:: with SMTP id j145mr32024675ybg.44.1579365765171; 
- Sat, 18 Jan 2020 08:42:45 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id n8sm13263285ywh.75.2020.01.18.08.42.44
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sat, 18 Jan 2020 08:42:44 -0800 (PST)
-From: Guenter Roeck <linux@roeck-us.net>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 7/7] hw/arm/exynos4210: Connect serial port DMA busy
- signals with pl330
-Date: Sat, 18 Jan 2020 08:42:29 -0800
-Message-Id: <20200118164229.22539-8-linux@roeck-us.net>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200118164229.22539-1-linux@roeck-us.net>
-References: <20200118164229.22539-1-linux@roeck-us.net>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b41
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1issW2-0001YP-Ac; Sat, 18 Jan 2020 13:08:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=T624l/Dr+wBcdJsOrht2d+jJe9UJUn0ouA0Jzix1WzQ=; 
+ b=fhwPA7RN+a/flOVAVkNdVaApEMmABZLzwlvC5nZcm3+ZVP11tycQr0KiDw44uYc/xavsDWo6x544sEg33/4zyfTaIkC7uP8WNv7R6f75U3mFDlZDBNdakAKkR2jouRqpp4AU/Jg0Cy47GsXd027+Qcoee0QXj2jywVsW0wpxqGkVTF+5+x7Eak9M/ttLGT9UXpOEGmExpIzZlIQ27yX6vInf77OeeTVwTuowwo268OHClQdOlttNK8oYd2piY4CtcWkPqusItRs9tlmkbR/mlQ6BMP2rhGdnXwBFnPBmlWqEjPo4tYmk+tRxSEo6+YdqCZgkOEtsx3GLzyR0qONTLw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1issVh-0007wL-Gg; Sat, 18 Jan 2020 19:07:49 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1issVh-000158-6L; Sat, 18 Jan 2020 19:07:49 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 4/4] qcow2: Use BDRV_SECTOR_SIZE instead of the
+ hardcoded value
+In-Reply-To: <02552511-6fcf-d678-362c-707ce6d73659@redhat.com>
+References: <cover.1578596897.git.berto@igalia.com>
+ <e3982d5118a90db2442c6ac18f339ec8ba006df2.1578596897.git.berto@igalia.com>
+ <02552511-6fcf-d678-362c-707ce6d73659@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Sat, 18 Jan 2020 19:07:49 +0100
+Message-ID: <w51muak3afe.fsf@maestria.local.igalia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 178.60.130.6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,124 +60,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Exynos4210 serial driver uses an interrupt line to signal if receive
-data is available. Connect that interrupt with the DMA controller's
-'peripheral busy' gpio pin to stop the DMA if there is no more receive
-data available. Without this patch, receive DMA runs wild and fills the
-entire receive DMA buffer with invalid data. 
+On Tue 14 Jan 2020 03:15:48 PM CET, Max Reitz <mreitz@redhat.com> wrote:
+>> @@ -3836,7 +3837,7 @@ qcow2_co_copy_range_from(BlockDriverState *bs,
+>>          case QCOW2_CLUSTER_NORMAL:
+>>              child =3D s->data_file;
+>>              copy_offset +=3D offset_into_cluster(s, src_offset);
+>> -            if ((copy_offset & 511) !=3D 0) {
+>> +            if (!QEMU_IS_ALIGNED(copy_offset, BDRV_SECTOR_SIZE)) {
+>
+> Hm.  I don=E2=80=99t get this one.
 
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
-v2: Context changes; improved description
-    This patch has an outstanding review comment, suggesting that
-    uart and pl330 device states should be kept in Exynos4210State.
-    I did not address this comment for a number of reasons.
-    It looks like the problem is hypothetical, the problem may
-    apply to all devices created in exynos4210_realize(), and I am
-    not sure I understand what would need to be done to fix
-    the problem for good (ie for all devices created in the same
-    function which have the same problem). Overall, I think that
-    handling this situation would be better left for a separate patch.
+Ok, this came with Fam's "qemu-img convert with copy offloading" series:
 
- hw/arm/exynos4210.c | 42 +++++++++++++++++++++++++++++-------------
- 1 file changed, 29 insertions(+), 13 deletions(-)
+   https://lists.gnu.org/archive/html/qemu-block/2018-06/msg00015.html
 
-diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
-index 76c0e2a3e8..6b050bb5c9 100644
---- a/hw/arm/exynos4210.c
-+++ b/hw/arm/exynos4210.c
-@@ -166,8 +166,8 @@ static uint64_t exynos4210_calc_affinity(int cpu)
-     return (0x9 << ARM_AFF1_SHIFT) | cpu;
- }
- 
--static void pl330_create(uint32_t base, qemu_or_irq *orgate, qemu_irq irq,
--                         int nreq, int nevents, int width)
-+static DeviceState *pl330_create(uint32_t base, qemu_or_irq *orgate,
-+                                 qemu_irq irq, int nreq, int nevents, int width)
- {
-     SysBusDevice *busdev;
-     DeviceState *dev;
-@@ -196,6 +196,7 @@ static void pl330_create(uint32_t base, qemu_or_irq *orgate, qemu_irq irq,
-         sysbus_connect_irq(busdev, i, qdev_get_gpio_in(DEVICE(orgate), i));
-     }
-     qdev_connect_gpio_out(DEVICE(orgate), 0, irq);
-+    return dev;
- }
- 
- static void exynos4210_realize(DeviceState *socdev, Error **errp)
-@@ -204,7 +205,7 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
-     MemoryRegion *system_mem = get_system_memory();
-     qemu_irq gate_irq[EXYNOS4210_NCPUS][EXYNOS4210_IRQ_GATE_NINPUTS];
-     SysBusDevice *busdev;
--    DeviceState *dev;
-+    DeviceState *dev, *uart[4], *pl330[3];
-     int i, n;
- 
-     for (n = 0; n < EXYNOS4210_NCPUS; n++) {
-@@ -390,19 +391,19 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
- 
- 
-     /*** UARTs ***/
--    exynos4210_uart_create(EXYNOS4210_UART0_BASE_ADDR,
-+    uart[0] = exynos4210_uart_create(EXYNOS4210_UART0_BASE_ADDR,
-                            EXYNOS4210_UART0_FIFO_SIZE, 0, serial_hd(0),
-                   s->irq_table[exynos4210_get_irq(EXYNOS4210_UART_INT_GRP, 0)]);
- 
--    exynos4210_uart_create(EXYNOS4210_UART1_BASE_ADDR,
-+    uart[1] = exynos4210_uart_create(EXYNOS4210_UART1_BASE_ADDR,
-                            EXYNOS4210_UART1_FIFO_SIZE, 1, serial_hd(1),
-                   s->irq_table[exynos4210_get_irq(EXYNOS4210_UART_INT_GRP, 1)]);
- 
--    exynos4210_uart_create(EXYNOS4210_UART2_BASE_ADDR,
-+    uart[2] = exynos4210_uart_create(EXYNOS4210_UART2_BASE_ADDR,
-                            EXYNOS4210_UART2_FIFO_SIZE, 2, serial_hd(2),
-                   s->irq_table[exynos4210_get_irq(EXYNOS4210_UART_INT_GRP, 2)]);
- 
--    exynos4210_uart_create(EXYNOS4210_UART3_BASE_ADDR,
-+    uart[3] = exynos4210_uart_create(EXYNOS4210_UART3_BASE_ADDR,
-                            EXYNOS4210_UART3_FIFO_SIZE, 3, serial_hd(3),
-                   s->irq_table[exynos4210_get_irq(EXYNOS4210_UART_INT_GRP, 3)]);
- 
-@@ -450,12 +451,27 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
-             s->irq_table[exynos4210_get_irq(28, 3)]);
- 
-     /*** DMA controllers ***/
--    pl330_create(EXYNOS4210_PL330_BASE0_ADDR, &s->pl330_irq_orgate[0],
--                 s->irq_table[exynos4210_get_irq(21, 0)], 32, 30, 32);
--    pl330_create(EXYNOS4210_PL330_BASE1_ADDR, &s->pl330_irq_orgate[1],
--                 s->irq_table[exynos4210_get_irq(21, 1)], 32, 30, 32);
--    pl330_create(EXYNOS4210_PL330_BASE2_ADDR, &s->pl330_irq_orgate[2],
--                 s->irq_table[exynos4210_get_irq(20, 1)], 1, 30, 64);
-+    pl330[0] = pl330_create(EXYNOS4210_PL330_BASE0_ADDR,
-+                            &s->pl330_irq_orgate[0],
-+                            s->irq_table[exynos4210_get_irq(21, 0)],
-+                            32, 30, 32);
-+    pl330[1] = pl330_create(EXYNOS4210_PL330_BASE1_ADDR,
-+                            &s->pl330_irq_orgate[1],
-+                            s->irq_table[exynos4210_get_irq(21, 1)],
-+                            32, 30, 32);
-+    pl330[2] = pl330_create(EXYNOS4210_PL330_BASE2_ADDR,
-+                            &s->pl330_irq_orgate[2],
-+                            s->irq_table[exynos4210_get_irq(20, 1)],
-+                            1, 30, 64);
-+
-+    sysbus_connect_irq(SYS_BUS_DEVICE(uart[0]), 1,
-+                       qdev_get_gpio_in(pl330[0], 15));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(uart[1]), 1,
-+                       qdev_get_gpio_in(pl330[1], 15));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(uart[2]), 1,
-+                       qdev_get_gpio_in(pl330[0], 17));
-+    sysbus_connect_irq(SYS_BUS_DEVICE(uart[3]), 1,
-+                       qdev_get_gpio_in(pl330[1], 17));
- }
- 
- static void exynos4210_init(Object *obj)
--- 
-2.17.1
+and qemu-img uses sectors here:
 
+   blk_co_copy_range(..., sector_num << BDRV_SECTOR_BITS,
+                     n << BDRV_SECTOR_BITS, ...)
+
+so I guess that's why the check is there. Again, I think this should be
+bl.request_alignment, because as far as I can tell copy_file_range()
+works just fine unless O_DIRECT is used.
+
+Berto
 
