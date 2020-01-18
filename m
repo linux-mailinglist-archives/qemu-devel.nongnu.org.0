@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1FA14187E
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 17:44:43 +0100 (CET)
-Received: from localhost ([::1]:42558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F0B141880
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 17:45:22 +0100 (CET)
+Received: from localhost ([::1]:42562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isrDF-0005uC-GZ
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 11:44:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36129)
+	id 1isrDt-0006qI-2y
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 11:45:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1isrBJ-00042r-LE
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 11:42:43 -0500
+ (envelope-from <groeck7@gmail.com>) id 1isrBJ-00042t-M8
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 11:42:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1isrBH-0002AI-Ja
+ (envelope-from <groeck7@gmail.com>) id 1isrBI-0002Au-DB
  for qemu-devel@nongnu.org; Sat, 18 Jan 2020 11:42:41 -0500
-Received: from mail-yw1-xc36.google.com ([2607:f8b0:4864:20::c36]:33299)
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:41572)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1isrBD-000245-Oe; Sat, 18 Jan 2020 11:42:35 -0500
-Received: by mail-yw1-xc36.google.com with SMTP id 192so15878608ywy.0;
- Sat, 18 Jan 2020 08:42:35 -0800 (PST)
+ id 1isrBF-00026y-E8; Sat, 18 Jan 2020 11:42:37 -0500
+Received: by mail-yb1-xb41.google.com with SMTP id z15so7674679ybm.8;
+ Sat, 18 Jan 2020 08:42:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=AwPwh2AA501F4MFYWrsZRKLaZSZaHflqS70l8N/9q3s=;
- b=bR9vDAPZr8KYdxKOjMnxbQUwm+JvIOhICVBGBmCkcrZln0yywbX25nLrb57XxhdN9U
- ATWSoBeFJk129plcIJ39SrsWKWk3CMjKyw5DFmtZeQe8gO864d9bm970jaLefb4iC2Qb
- vkHRg2r59xWARsPJjxeRa0D2Jk0FIozlH0bmX+EH4sq2qEPFpWk9OzlPoLbUh/uB+CM5
- cPxeZurHMzum9Cfu0j6aSy+mAF55EsqM4x/e/ivcmOtQNkaiq/kjbphAfXdaINEKxUqp
- W2iRfwcIhWn2Ozlt+e+VZEnks3bJalDhpZn7c/BLigxIePTyHFhFzhKNE14AgUmYYqSI
- y9jw==
+ bh=ldTrGfmguJmXL3eSQF5uN0jHMmEr5R4Wn7Le7S6JTWM=;
+ b=qMFW3kHxzSZO2JcAflvVutUH/zWG3/zXlSaqe2vtxpjsv2WR9FJN2+5F32EupBUUW6
+ r5rR4skqXurVzbiB8Jeql3Qf/Lgd2mecHldz9hgAfEqeYk2+m8eM0fM55pU0+wT8sSzu
+ ZCPlYJt2QCFck9zvQeIG54xZBhV5q/Vi/nNSyWfBueKiBOByvXfpjPDmFVSByEWD8UJM
+ tv6RL5GDvfMBUKstlKtCvlQYQ5BDwK3ZCU3MpMfu8+ezRvwMNq/jrVg5Yfj9aSQgrvtS
+ k+HFILg9Me+7N7ePhC3uDeYqiqYytoRJJFXVx7wWLCkhI5MVtFCpkJiB5kKxAMGBX7pq
+ cGZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=AwPwh2AA501F4MFYWrsZRKLaZSZaHflqS70l8N/9q3s=;
- b=hYY4qYMBSfE/gumZh4qOUULAPfuj3a5tLCIcI9shNd4VdGvc/8ytQOBK1NrWgIUUFu
- oVZ/7zIYptTiKg/gw8EBXpfP4252jbrAx0KsZqgnKrMNCOa6DhouBx8grz/xkckh2mwf
- Gi8UexviHfIiv5Xf/ePEEVNH1oOryg+EFXmbQzzYKNriW0x3UVaRy7JnnC66cw5NhJcR
- Na0kxpjtxAiHSNC7taLxjnsZ2iipwALndOvqomcY60L4guReZlI5DKaJut22OHP7ON1i
- db8NbslWQkPdiZSNh1SLYrApze4/mzOUWFP4km+8L+PC9iok4WRZ0sV4+T7sXGKhx6m9
- TVGw==
-X-Gm-Message-State: APjAAAXuvRYoRpXaBlsMq3WsJiuhXjnynp197hvUqI5ePwLdy3/D9HRQ
- RK2pzK++qvsm3e0lgYRChcs=
-X-Google-Smtp-Source: APXvYqynGferM8C0+0cFzn+80b/MOj5wyBUJYRqpIUy120Avc9o3ryxVQpfQcE/aSOK4WvJRYRFbSQ==
-X-Received: by 2002:a81:9893:: with SMTP id
- p141mr32609644ywg.360.1579365755074; 
- Sat, 18 Jan 2020 08:42:35 -0800 (PST)
+ bh=ldTrGfmguJmXL3eSQF5uN0jHMmEr5R4Wn7Le7S6JTWM=;
+ b=JMjhgfbTjNOhDjC8eOkLXPhiktQTry18dFF3wSjjlTZgvAqwkQy0asLP+3DRdQ7CIq
+ mAc6kD3k7JD18nJyh7CQhoEWLm/wsruRWmZ7BEbIZBWdED8ykagLR+mOM3st38gUVLpG
+ ydGMSszFr1+/82EOxTHVRv3yMfWPrQNaRMZsCof2Ml9z/22uyJx2D0zJLL9cjuBh3Guf
+ tRMdaTSpgVZe8pWgepkW4n4UTh9o8oogReDa16lDRGrBuHutCmfbBKMK9+rqgVhKMCD7
+ i1+OtMdjToeE2JxW6mbiZHgbUCktRoJdB5hX5D2djj4uBzUG1w0hbeeveBDM80/R1SQG
+ XhlA==
+X-Gm-Message-State: APjAAAWw8uD1XtpmjOFO1aJpRccucbc47WHGqZMtW95sLI5NXqQ6dgwq
+ AFKUk2r/prPAfAPv8yoZFqc=
+X-Google-Smtp-Source: APXvYqzb6pu0LagOQbWIGJ2oYkWpnfK/1EY9jvG2dWQSrAP5UqtSw1iuBvaIbVmz4gGIyH94uMiDFQ==
+X-Received: by 2002:a25:230d:: with SMTP id j13mr34605263ybj.22.1579365756861; 
+ Sat, 18 Jan 2020 08:42:36 -0800 (PST)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id h203sm12623654ywb.98.2020.01.18.08.42.34
+ by smtp.gmail.com with ESMTPSA id l74sm13213723ywc.45.2020.01.18.08.42.36
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sat, 18 Jan 2020 08:42:34 -0800 (PST)
+ Sat, 18 Jan 2020 08:42:36 -0800 (PST)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 1/7] dma/pl330: Convert to support tracing
-Date: Sat, 18 Jan 2020 08:42:23 -0800
-Message-Id: <20200118164229.22539-2-linux@roeck-us.net>
+Subject: [PATCH v2 2/7] hw/arm/exynos4210: Fix DMA initialization
+Date: Sat, 18 Jan 2020 08:42:24 -0800
+Message-Id: <20200118164229.22539-3-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200118164229.22539-1-linux@roeck-us.net>
 References: <20200118164229.22539-1-linux@roeck-us.net>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c36
+X-Received-From: 2607:f8b0:4864:20::b41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,316 +78,148 @@ Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace debug logging code with tracing.
+First parameter to exynos4210_get_irq() is not the SPI port number,
+but the interrupt group number. Interrupt groups are 20 for mdma
+and 21 for pdma. Interrupts are not inverted. Controllers support 32
+events (pdma) or 31 events (mdma). Events must all be routed to a single
+interrupt line. Set other parameters as documented in Exynos4210 datasheet,
+section 8 (DMA controller).
 
+Reduce the number of DMA events to 30 for both pdma and mdma. QEMU's OR
+interrupt gates are currently limited to less than 32, and we would need
+33 gates to support 32 event interrupts plus the abort interrupt.
+Operationally this should not make a difference since they are all
+routed to a single interrupt line anyway.
+
+Fixes: 59520dc65e ("hw/arm/exynos4210: Add DMA support for the Exynos4210")
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
-v2: Make call to pl330_hexdump() conditional
+v2: Use interrupt combiner instead of connecting all events to a
+    single interrupt. Limit number of events per DMA channel
+    to 31 to meet qemu interrupt combiner limitations.
+    [Not sure if "assert(s->num_lines < MAX_OR_LINES);" should be
+     "assert(s->num_lines <= MAX_OR_LINES);"]
+    Introduce exynos4210_init() to handle interrupt combiner
+    initialization.
 
- hw/dma/pl330.c      | 88 ++++++++++++++++++++++++---------------------
- hw/dma/trace-events | 24 +++++++++++++
- 2 files changed, 72 insertions(+), 40 deletions(-)
+ hw/arm/exynos4210.c         | 51 +++++++++++++++++++++++++++++++------
+ include/hw/arm/exynos4210.h |  4 +++
+ 2 files changed, 47 insertions(+), 8 deletions(-)
 
-diff --git a/hw/dma/pl330.c b/hw/dma/pl330.c
-index f2bb2d9ac1..64519971ef 100644
---- a/hw/dma/pl330.c
-+++ b/hw/dma/pl330.c
-@@ -25,19 +25,12 @@
- #include "sysemu/dma.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "trace.h"
+diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+index 77fbe1baab..91586fe265 100644
+--- a/hw/arm/exynos4210.c
++++ b/hw/arm/exynos4210.c
+@@ -166,17 +166,36 @@ static uint64_t exynos4210_calc_affinity(int cpu)
+     return (0x9 << ARM_AFF1_SHIFT) | cpu;
+ }
  
- #ifndef PL330_ERR_DEBUG
- #define PL330_ERR_DEBUG 0
- #endif
+-static void pl330_create(uint32_t base, qemu_irq irq, int nreq)
++static void pl330_create(uint32_t base, qemu_or_irq *orgate, qemu_irq irq,
++                         int nreq, int nevents, int width)
+ {
+     SysBusDevice *busdev;
+     DeviceState *dev;
++    int i;
  
--#define DB_PRINT_L(lvl, fmt, args...) do {\
--    if (PL330_ERR_DEBUG >= lvl) {\
--        fprintf(stderr, "PL330: %s:" fmt, __func__, ## args);\
--    } \
--} while (0)
--
--#define DB_PRINT(fmt, args...) DB_PRINT_L(1, fmt, ## args)
--
- #define PL330_PERIPH_NUM            32
- #define PL330_MAX_BURST_LEN         128
- #define PL330_INSN_MAXSIZE          6
-@@ -319,6 +312,26 @@ typedef struct PL330InsnDesc {
-     void (*exec)(PL330Chan *, uint8_t opcode, uint8_t *args, int len);
- } PL330InsnDesc;
- 
-+static void pl330_hexdump(uint8_t *buf, size_t size)
-+{
-+    unsigned int b, i, len;
-+    char tmpbuf[80];
+     dev = qdev_create(NULL, "pl330");
++    qdev_prop_set_uint8(dev, "num_events", nevents);
++    qdev_prop_set_uint8(dev, "num_chnls",  8);
+     qdev_prop_set_uint8(dev, "num_periph_req",  nreq);
 +
-+    for (b = 0; b < size; b += 16) {
-+        len = size - b;
-+        if (len > 16) {
-+            len = 16;
-+        }
-+        tmpbuf[0] = '\0';
-+        for (i = 0; i < len; i++) {
-+            if ((i % 4) == 0) {
-+                strcat(tmpbuf, " ");
-+            }
-+            sprintf(tmpbuf + strlen(tmpbuf), " %02x", buf[b + i]);
-+        }
-+        trace_pl330_hexdump(b, tmpbuf);
++    qdev_prop_set_uint8(dev, "wr_cap", 4);
++    qdev_prop_set_uint8(dev, "wr_q_dep", 8);
++    qdev_prop_set_uint8(dev, "rd_cap", 4);
++    qdev_prop_set_uint8(dev, "rd_q_dep", 8);
++    qdev_prop_set_uint8(dev, "data_width", width);
++    qdev_prop_set_uint16(dev, "data_buffer_dep", width);
+     qdev_init_nofail(dev);
+     busdev = SYS_BUS_DEVICE(dev);
+     sysbus_mmio_map(busdev, 0, base);
+-    sysbus_connect_irq(busdev, 0, irq);
++
++    object_property_set_int(OBJECT(orgate), nevents + 1, "num-lines",
++                            &error_abort);
++    object_property_set_bool(OBJECT(orgate), true, "realized", &error_abort);
++
++    for (i = 0; i < nevents + 1; i++) {
++        sysbus_connect_irq(busdev, i, qdev_get_gpio_in(DEVICE(orgate), i));
 +    }
++    qdev_connect_gpio_out(DEVICE(orgate), 0, irq);
+ }
+ 
+ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+@@ -431,12 +450,27 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+             s->irq_table[exynos4210_get_irq(28, 3)]);
+ 
+     /*** DMA controllers ***/
+-    pl330_create(EXYNOS4210_PL330_BASE0_ADDR,
+-                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(35, 1)]), 32);
+-    pl330_create(EXYNOS4210_PL330_BASE1_ADDR,
+-                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(36, 1)]), 32);
+-    pl330_create(EXYNOS4210_PL330_BASE2_ADDR,
+-                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(34, 1)]), 1);
++    pl330_create(EXYNOS4210_PL330_BASE0_ADDR, &s->pl330_irq_orgate[0],
++                 s->irq_table[exynos4210_get_irq(21, 0)], 32, 30, 32);
++    pl330_create(EXYNOS4210_PL330_BASE1_ADDR, &s->pl330_irq_orgate[1],
++                 s->irq_table[exynos4210_get_irq(21, 1)], 32, 30, 32);
++    pl330_create(EXYNOS4210_PL330_BASE2_ADDR, &s->pl330_irq_orgate[2],
++                 s->irq_table[exynos4210_get_irq(20, 1)], 1, 30, 64);
 +}
- 
- /* MFIFO Implementation
-  *
-@@ -582,7 +595,7 @@ static inline void pl330_queue_remove_tagged(PL330Queue *s, uint8_t tag)
- 
- static inline void pl330_fault(PL330Chan *ch, uint32_t flags)
- {
--    DB_PRINT("ch: %p, flags: %" PRIx32 "\n", ch, flags);
-+    trace_pl330_fault(ch, flags);
-     ch->fault_type |= flags;
-     if (ch->state == pl330_chan_fault) {
-         return;
-@@ -590,7 +603,7 @@ static inline void pl330_fault(PL330Chan *ch, uint32_t flags)
-     ch->state = pl330_chan_fault;
-     ch->parent->num_faulting++;
-     if (ch->parent->num_faulting == 1) {
--        DB_PRINT("abort interrupt raised\n");
-+        trace_pl330_fault_abort();
-         qemu_irq_raise(ch->parent->irq_abort);
-     }
- }
-@@ -648,7 +661,7 @@ static void pl330_dmaend(PL330Chan *ch, uint8_t opcode,
-             return;
-         }
-     }
--    DB_PRINT("DMA ending!\n");
-+    trace_pl330_dmaend();
-     pl330_fifo_tagged_remove(&s->fifo, ch->tag);
-     pl330_queue_remove_tagged(&s->read_queue, ch->tag);
-     pl330_queue_remove_tagged(&s->write_queue, ch->tag);
-@@ -683,7 +696,7 @@ static void pl330_dmago(PL330Chan *ch, uint8_t opcode, uint8_t *args, int len)
-     uint32_t pc;
-     PL330Chan *s;
- 
--    DB_PRINT("\n");
-+    trace_pl330_dmago();
- 
-     if (!ch->is_manager) {
-         pl330_fault(ch, PL330_FAULT_UNDEF_INSTR);
-@@ -740,9 +753,7 @@ static void pl330_dmald(PL330Chan *ch, uint8_t opcode, uint8_t *args, int len)
-     ch->stall = pl330_queue_put_insn(&ch->parent->read_queue, ch->src,
-                                     size, num, inc, 0, ch->tag);
-     if (!ch->stall) {
--        DB_PRINT("channel:%" PRId8 " address:%08" PRIx32 " size:%" PRIx32
--                 " num:%" PRId32 " %c\n",
--                 ch->tag, ch->src, size, num, inc ? 'Y' : 'N');
-+        trace_pl330_dmald(ch->tag, ch->src, size, num, inc ? 'Y' : 'N');
-         ch->src += inc ? size * num - (ch->src & (size - 1)) : 0;
-     }
- }
-@@ -782,7 +793,7 @@ static void pl330_dmakill(PL330Chan *ch, uint8_t opcode, uint8_t *args, int len)
-         ch->fault_type = 0;
-         ch->parent->num_faulting--;
-         if (ch->parent->num_faulting == 0) {
--            DB_PRINT("abort interrupt lowered\n");
-+            trace_pl330_dmakill();
-             qemu_irq_lower(ch->parent->irq_abort);
-         }
-     }
-@@ -800,6 +811,8 @@ static void pl330_dmalpend(PL330Chan *ch, uint8_t opcode,
-     uint8_t bs = opcode & 3;
-     uint8_t lc = (opcode & 4) >> 2;
- 
-+    trace_pl330_dmalpend(nf, bs, lc, ch->lc[lc], ch->request_flag);
 +
-     if (bs == 2) {
-         pl330_fault(ch, PL330_FAULT_OPERAND_INVALID);
-         return;
-@@ -813,12 +826,12 @@ static void pl330_dmalpend(PL330Chan *ch, uint8_t opcode,
-         if (nf) {
-             ch->lc[lc]--;
-         }
--        DB_PRINT("loop reiteration\n");
-+        trace_pl330_dmalpiter();
-         ch->pc -= args[0];
-         ch->pc -= len + 1;
-         /* "ch->pc -= args[0] + len + 1" is incorrect when args[0] == 256 */
-     } else {
--        DB_PRINT("loop fallthrough\n");
-+        trace_pl330_dmalpfallthrough();
-     }
- }
- 
-@@ -886,10 +899,10 @@ static void pl330_dmasev(PL330Chan *ch, uint8_t opcode, uint8_t *args, int len)
-     }
-     if (ch->parent->inten & (1 << ev_id)) {
-         ch->parent->int_status |= (1 << ev_id);
--        DB_PRINT("event interrupt raised %" PRId8 "\n", ev_id);
-+        trace_pl330_dmasev_evirq(ev_id);
-         qemu_irq_raise(ch->parent->irq[ev_id]);
-     }
--    DB_PRINT("event raised %" PRId8 "\n", ev_id);
-+    trace_pl330_dmasev_event(ev_id);
-     ch->parent->ev_status |= (1 << ev_id);
- }
- 
-@@ -914,9 +927,7 @@ static void pl330_dmast(PL330Chan *ch, uint8_t opcode, uint8_t *args, int len)
-     ch->stall = pl330_queue_put_insn(&ch->parent->write_queue, ch->dst,
-                                     size, num, inc, 0, ch->tag);
-     if (!ch->stall) {
--        DB_PRINT("channel:%" PRId8 " address:%08" PRIx32 " size:%" PRIx32
--                 " num:%" PRId32 " %c\n",
--                 ch->tag, ch->dst, size, num, inc ? 'Y' : 'N');
-+        trace_pl330_dmast(ch->tag, ch->dst, size, num, inc ? 'Y' : 'N');
-         ch->dst += inc ? size * num - (ch->dst & (size - 1)) : 0;
-     }
- }
-@@ -992,7 +1003,7 @@ static void pl330_dmawfe(PL330Chan *ch, uint8_t opcode,
-             }
-         }
-         ch->parent->ev_status &= ~(1 << ev_id);
--        DB_PRINT("event lowered %" PRIx8 "\n", ev_id);
-+        trace_pl330_dmawfe(ev_id);
-     } else {
-         ch->stall = 1;
-     }
-@@ -1135,7 +1146,7 @@ static int pl330_chan_exec(PL330Chan *ch)
-     ch->stall = 0;
-     insn = pl330_fetch_insn(ch);
-     if (!insn) {
--        DB_PRINT("pl330 undefined instruction\n");
-+        trace_pl330_chan_exec_undef();
-         pl330_fault(ch, PL330_FAULT_UNDEF_INSTR);
-         return 0;
-     }
-@@ -1175,10 +1186,9 @@ static int pl330_exec_cycle(PL330Chan *channel)
-         int len = q->len - (q->addr & (q->len - 1));
- 
-         dma_memory_read(&address_space_memory, q->addr, buf, len);
--        if (PL330_ERR_DEBUG > 1) {
--            DB_PRINT("PL330 read from memory @%08" PRIx32 " (size = %08x):\n",
--                      q->addr, len);
--            qemu_hexdump((char *)buf, stderr, "", len);
-+        trace_pl330_exec_cycle(q->addr, len);
-+        if (trace_event_get_state_backends(TRACE_PL330_HEXDUMP)) {
-+            pl330_hexdump(buf, len);
-         }
-         fifo_res = pl330_fifo_push(&s->fifo, buf, len, q->tag);
-         if (fifo_res == PL330_FIFO_OK) {
-@@ -1207,10 +1217,9 @@ static int pl330_exec_cycle(PL330Chan *channel)
-         }
-         if (fifo_res == PL330_FIFO_OK || q->z) {
-             dma_memory_write(&address_space_memory, q->addr, buf, len);
--            if (PL330_ERR_DEBUG > 1) {
--                DB_PRINT("PL330 read from memory @%08" PRIx32
--                         " (size = %08x):\n", q->addr, len);
--                qemu_hexdump((char *)buf, stderr, "", len);
-+            trace_pl330_exec_cycle(q->addr, len);
-+            if (trace_event_get_state_backends(TRACE_PL330_HEXDUMP)) {
-+                pl330_hexdump(buf, len);
-             }
-             if (q->inc) {
-                 q->addr += len;
-@@ -1252,8 +1261,8 @@ static int pl330_exec_channel(PL330Chan *channel)
- 
- static inline void pl330_exec(PL330State *s)
- {
--    DB_PRINT("\n");
-     int i, insr_exec;
-+    trace_pl330_exec();
-     do {
-         insr_exec = pl330_exec_channel(&s->manager);
- 
-@@ -1298,7 +1307,7 @@ static void pl330_debug_exec(PL330State *s)
-     args[2] = (s->dbg[1] >>  8) & 0xff;
-     args[3] = (s->dbg[1] >> 16) & 0xff;
-     args[4] = (s->dbg[1] >> 24) & 0xff;
--    DB_PRINT("chan id: %" PRIx8 "\n", chan_id);
-+    trace_pl330_debug_exec(chan_id);
-     if (s->dbg[0] & 1) {
-         ch = &s->chan[chan_id];
-     } else {
-@@ -1320,6 +1329,7 @@ static void pl330_debug_exec(PL330State *s)
-         ch->fault_type |= PL330_FAULT_DBG_INSTR;
-     }
-     if (ch->stall) {
-+        trace_pl330_debug_exec_stall();
-         qemu_log_mask(LOG_UNIMP, "pl330: stall of debug instruction not "
-                       "implemented\n");
-     }
-@@ -1334,7 +1344,7 @@ static void pl330_iomem_write(void *opaque, hwaddr offset,
-     PL330State *s = (PL330State *) opaque;
-     int i;
- 
--    DB_PRINT("addr: %08x data: %08x\n", (unsigned)offset, (unsigned)value);
-+    trace_pl330_iomem_write((unsigned)offset, (unsigned)value);
- 
-     switch (offset) {
-     case PL330_REG_INTEN:
-@@ -1343,7 +1353,7 @@ static void pl330_iomem_write(void *opaque, hwaddr offset,
-     case PL330_REG_INTCLR:
-         for (i = 0; i < s->num_events; i++) {
-             if (s->int_status & s->inten & value & (1 << i)) {
--                DB_PRINT("event interrupt lowered %d\n", i);
-+                trace_pl330_iomem_write_clr(i);
-                 qemu_irq_lower(s->irq[i]);
-             }
-         }
-@@ -1361,11 +1371,9 @@ static void pl330_iomem_write(void *opaque, hwaddr offset,
-         }
-         break;
-     case PL330_REG_DBGINST0:
--        DB_PRINT("s->dbg[0] = %08x\n", (unsigned)value);
-         s->dbg[0] = value;
-         break;
-     case PL330_REG_DBGINST1:
--        DB_PRINT("s->dbg[1] = %08x\n", (unsigned)value);
-         s->dbg[1] = value;
-         break;
-     default:
-@@ -1489,7 +1497,7 @@ static uint64_t pl330_iomem_read(void *opaque, hwaddr offset,
-         unsigned size)
- {
-     uint32_t ret = pl330_iomem_read_imp(opaque, offset);
--    DB_PRINT("addr: %08" HWADDR_PRIx " data: %08" PRIx32 "\n", offset, ret);
-+    trace_pl330_iomem_read((uint32_t)offset, ret);
-     return ret;
- }
- 
-diff --git a/hw/dma/trace-events b/hw/dma/trace-events
-index e4498428c5..5902ac5969 100644
---- a/hw/dma/trace-events
-+++ b/hw/dma/trace-events
-@@ -20,3 +20,27 @@ sparc32_dma_enable_lower(void) "Lower DMA enable"
- 
- # i8257.c
- i8257_unregistered_dma(int nchan, int dma_pos, int dma_len) "unregistered DMA channel used nchan=%d dma_pos=%d dma_len=%d"
++static void exynos4210_init(Object *obj)
++{
++    Exynos4210State *s = EXYNOS4210_SOC(obj);
++    int i;
 +
-+# pl330.c
-+pl330_fault(void *ptr, uint32_t flags) "ch: %p, flags: 0x%"PRIx32
-+pl330_fault_abort(void) "abort interrupt raised"
-+pl330_dmaend(void) "DMA ending"
-+pl330_dmago(void) "DMA run"
-+pl330_dmald(uint32_t chan, uint32_t addr, uint32_t size, uint32_t num, uint32_t ch) "channel:%"PRId8" address:0x%08"PRIx32" size:0x%"PRIx32" num:%"PRId32"%c"
-+pl330_dmakill(void) "abort interrupt lowered"
-+pl330_dmalpend(uint8_t nf, uint8_t bs, uint8_t lc, uint8_t ch, uint8_t flag) "nf=0x%02x bs=0x%02x lc=0x%02x ch=0x%02x flag=0x%02x"
-+pl330_dmalpiter(void) "loop reiteration"
-+pl330_dmalpfallthrough(void) "loop fallthrough"
-+pl330_dmasev_evirq(uint8_t ev_id) "event interrupt raised %"PRId8
-+pl330_dmasev_event(uint8_t ev_id) "event raised %"PRId8
-+pl330_dmast(uint32_t chn, uint32_t addr, uint32_t sz, uint32_t num, uint32_t c) "channel:%"PRId8" address:0x%08"PRIx32" size:0x%"PRIx32" num:%"PRId32" %c"
-+pl330_dmawfe(uint8_t ev_id) "event lowered 0x%"PRIx8
-+pl330_chan_exec_undef(void) "undefined instruction"
-+pl330_exec_cycle(uint32_t addr, uint32_t size) "PL330 read from memory @0x%08"PRIx32" (size = 0x%08"PRIx32")"
-+pl330_hexdump(uint32_t offset, char *str) " 0x%04"PRIx32":%s"
-+pl330_exec(void) "pl330_exec"
-+pl330_debug_exec(uint8_t ch) "chan id: 0x%"PRIx8
-+pl330_debug_exec_stall(void) "stall of debug instruction not implemented"
-+pl330_iomem_write(uint32_t offset, uint32_t value) "addr: 0x%08"PRIx32" data: 0x%08"PRIx32
-+pl330_iomem_write_clr(int i) "event interrupt lowered %d"
-+pl330_iomem_read(uint32_t addr, uint32_t data) "addr: 0x%08"PRIx32" data: 0x%08"PRIx32
++    for (i = 0; i < ARRAY_SIZE(s->pl330_irq_orgate); i++) {
++        char *name = g_strdup_printf("pl330-irq-orgate%d", i);
++        qemu_or_irq *orgate = &s->pl330_irq_orgate[i];
++
++        object_initialize_child(obj, name, orgate, sizeof(*orgate),
++                                TYPE_OR_IRQ, &error_abort, NULL);
++        g_free(name);
++    }
+ }
+ 
+ static void exynos4210_class_init(ObjectClass *klass, void *data)
+@@ -450,6 +484,7 @@ static const TypeInfo exynos4210_info = {
+     .name = TYPE_EXYNOS4210_SOC,
+     .parent = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(Exynos4210State),
++    .instance_init = exynos4210_init,
+     .class_init = exynos4210_class_init,
+ };
+ 
+diff --git a/include/hw/arm/exynos4210.h b/include/hw/arm/exynos4210.h
+index f0f23b0e9b..55260394af 100644
+--- a/include/hw/arm/exynos4210.h
++++ b/include/hw/arm/exynos4210.h
+@@ -24,6 +24,7 @@
+ #ifndef EXYNOS4210_H
+ #define EXYNOS4210_H
+ 
++#include "hw/or-irq.h"
+ #include "hw/sysbus.h"
+ #include "target/arm/cpu-qom.h"
+ 
+@@ -74,6 +75,8 @@
+ 
+ #define EXYNOS4210_I2C_NUMBER               9
+ 
++#define EXYNOS4210_NUM_DMA      3
++
+ typedef struct Exynos4210Irq {
+     qemu_irq int_combiner_irq[EXYNOS4210_MAX_INT_COMBINER_IN_IRQ];
+     qemu_irq ext_combiner_irq[EXYNOS4210_MAX_EXT_COMBINER_IN_IRQ];
+@@ -97,6 +100,7 @@ typedef struct Exynos4210State {
+     MemoryRegion boot_secondary;
+     MemoryRegion bootreg_mem;
+     I2CBus *i2c_if[EXYNOS4210_I2C_NUMBER];
++    qemu_or_irq pl330_irq_orgate[EXYNOS4210_NUM_DMA];
+ } Exynos4210State;
+ 
+ #define TYPE_EXYNOS4210_SOC "exynos4210"
 -- 
 2.17.1
 
