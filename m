@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E88014190C
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:12:23 +0100 (CET)
-Received: from localhost ([::1]:43836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C52F141910
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:14:03 +0100 (CET)
+Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1istW9-0003I0-SQ
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:12:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48525)
+	id 1istXm-00069o-KW
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:14:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48549)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1istTs-0001Sp-HU
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:10:01 -0500
+ (envelope-from <berto@igalia.com>) id 1istTt-0001UJ-8w
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:10:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1istTr-0004Oj-7i
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:10:00 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:48333)
+ (envelope-from <berto@igalia.com>) id 1istTs-0004PG-4k
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:10:01 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:48327)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1istTq-0004N4-Sv; Sat, 18 Jan 2020 14:09:59 -0500
+ id 1istTr-0004N5-Nt; Sat, 18 Jan 2020 14:10:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
- bh=jj7eKp47Dqs+1Ph2YMZLgJzB6XaqJGC3MNK0nOIJeHE=; 
- b=OLuohjgCZPGxVGMA588eIU1TNwVmuiHED8bww7fu/BOfDdxCBj2Xj0f0o8/AY5qGHBqEbZVzOYEahGmRS+5KisMwggOikGFyC61rKdQl0RbnXU623OC/93x1ZTsln5az5EoWOHuybAb8Hu8bx3aII6tbwwl8wVhJoEgF7BRxtn3EVCV2RuFbEa9u/uTxeVjFpf5KShn77/kjIQx9InWtiUtupSvA30nX5pbtJRo4oC5Hp2NuJjskvvCiyVqG9l9Gm7m4G/twbf+FbVWlMUigay3X3alU9AJiPv+7Lhqxc6u9LbFlL0jqWA+36DKrXkd5Q1QX2yICmBmh5trIGLaaBw==;
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
+ bh=tU0tqKTyF6mG4OdZGy/YoITFRev2rTHsJBdgq0mqCIQ=; 
+ b=pgoRITyVH0dH6Xi56ZsgyXrA/+ibRZcHdokopw/ATnTXtPrD0rwkg70u49oQnw+fSStZnrCXVjiVkLE217W6v494CmW9mvgwsBzdLiH95jYLZexG+kDRBfmjzVw1vZ+9KlmcmjSb3vlXZV7DtrduyUolK0zaupQIak05g3kq3aCJcsmQ4c9KZyUJHMzSo30/m1ULP0VBdfrPQpV03ARSVVs/ik2uRfuh320ESBEpv3aO+AxtNcTE5vY7Uq9y9K2pJybSAfqytzw0rAdRUNkuqQz9ExZS5fvbm56ghTahAstvMjNoJzTZaG5ffS0aavllxJl/ucmK462J/6H89JNPOg==;
 Received: from [80.30.177.7] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1istTn-000657-7D; Sat, 18 Jan 2020 20:09:55 +0100
+ id 1istTn-000659-9d; Sat, 18 Jan 2020 20:09:55 +0100
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1istTW-0002JT-NL; Sat, 18 Jan 2020 20:09:38 +0100
+ id 1istTW-0002JV-Ob; Sat, 18 Jan 2020 20:09:38 +0100
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/5] Misc BDRV_SECTOR_SIZE updates
-Date: Sat, 18 Jan 2020 20:09:25 +0100
-Message-Id: <cover.1579374329.git.berto@igalia.com>
+Subject: [PATCH v3 1/5] qcow2: Don't round the L1 table allocation up to the
+ sector size
+Date: Sat, 18 Jan 2020 20:09:26 +0100
+Message-Id: <b2e27214ec7b03a585931bcf383ee1ac3a641a10.1579374329.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1579374329.git.berto@igalia.com>
+References: <cover.1579374329.git.berto@igalia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
@@ -60,39 +63,78 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series gets rid of all the remaining instances of hardcoded
-sector sizes in the qcow2 code and adds a check for images whose
-virtual size is not a multiple of the sector size.
+The L1 table is read from disk using the byte-based bdrv_pread() and
+is never accessed beyond its last element, so there's no need to
+allocate more memory than that.
 
-See the individual patches for details.
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+---
+ block/qcow2-cluster.c  | 5 ++---
+ block/qcow2-refcount.c | 2 +-
+ block/qcow2-snapshot.c | 3 +--
+ block/qcow2.c          | 2 +-
+ 4 files changed, 5 insertions(+), 7 deletions(-)
 
-Berto
-
-v3:
-- Patch 2: Use offset_into_cluster() instead of QEMU_IS_ALIGNED
-- Patch 3: Rewrite qcow2_write_l1_entry() to use bl.request_alignment [Kevin]
-- Patch 4: Remove alignment check in qcow2_co_copy_range_from()
-
-v2: https://lists.gnu.org/archive/html/qemu-block/2020-01/msg00169.html
-- Modify output of iotest 080 to make it easier to understand [Nir]
-- Use the QEMU_IS_ALIGNED() macro instead of the modulus operator [Nir]
-- Tighten some assertions [Kevin]
-
-v1: https://lists.gnu.org/archive/html/qemu-block/2020-01/msg00139.html
-
-Alberto Garcia (5):
-  qcow2: Don't round the L1 table allocation up to the sector size
-  qcow2: Tighten cluster_offset alignment assertions
-  qcow2: Use bs->bl.request_alignment when updating an L1 entry
-  qcow2: Don't require aligned offsets in qcow2_co_copy_range_from()
-  qcow2: Use BDRV_SECTOR_SIZE instead of the hardcoded value
-
- block/qcow2-cluster.c  | 30 +++++++++++++++++-------------
- block/qcow2-refcount.c |  2 +-
- block/qcow2-snapshot.c |  3 +--
- block/qcow2.c          | 23 +++++++++--------------
- 4 files changed, 28 insertions(+), 30 deletions(-)
-
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 8982b7b762..932fc48919 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -124,12 +124,11 @@ int qcow2_grow_l1_table(BlockDriverState *bs, uint64_t min_size,
+ #endif
+ 
+     new_l1_size2 = sizeof(uint64_t) * new_l1_size;
+-    new_l1_table = qemu_try_blockalign(bs->file->bs,
+-                                       ROUND_UP(new_l1_size2, 512));
++    new_l1_table = qemu_try_blockalign(bs->file->bs, new_l1_size2);
+     if (new_l1_table == NULL) {
+         return -ENOMEM;
+     }
+-    memset(new_l1_table, 0, ROUND_UP(new_l1_size2, 512));
++    memset(new_l1_table, 0, new_l1_size2);
+ 
+     if (s->l1_size) {
+         memcpy(new_l1_table, s->l1_table, s->l1_size * sizeof(uint64_t));
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index f67ac6b2d8..c963bc8de1 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -1262,7 +1262,7 @@ int qcow2_update_snapshot_refcount(BlockDriverState *bs,
+      * l1_table_offset when it is the current s->l1_table_offset! Be careful
+      * when changing this! */
+     if (l1_table_offset != s->l1_table_offset) {
+-        l1_table = g_try_malloc0(ROUND_UP(l1_size2, 512));
++        l1_table = g_try_malloc0(l1_size2);
+         if (l1_size2 && l1_table == NULL) {
+             ret = -ENOMEM;
+             goto fail;
+diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
+index 5ab64da1ec..82c32d4c9b 100644
+--- a/block/qcow2-snapshot.c
++++ b/block/qcow2-snapshot.c
+@@ -1024,8 +1024,7 @@ int qcow2_snapshot_load_tmp(BlockDriverState *bs,
+         return ret;
+     }
+     new_l1_bytes = sn->l1_size * sizeof(uint64_t);
+-    new_l1_table = qemu_try_blockalign(bs->file->bs,
+-                                       ROUND_UP(new_l1_bytes, 512));
++    new_l1_table = qemu_try_blockalign(bs->file->bs, new_l1_bytes);
+     if (new_l1_table == NULL) {
+         return -ENOMEM;
+     }
+diff --git a/block/qcow2.c b/block/qcow2.c
+index cef9d72b3a..ba71a815b6 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1492,7 +1492,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+ 
+     if (s->l1_size > 0) {
+         s->l1_table = qemu_try_blockalign(bs->file->bs,
+-            ROUND_UP(s->l1_size * sizeof(uint64_t), 512));
++                                          s->l1_size * sizeof(uint64_t));
+         if (s->l1_table == NULL) {
+             error_setg(errp, "Could not allocate L1 table");
+             ret = -ENOMEM;
 -- 
 2.20.1
 
