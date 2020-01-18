@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C52F141910
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:14:03 +0100 (CET)
-Received: from localhost ([::1]:43888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA80814190B
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:12:22 +0100 (CET)
+Received: from localhost ([::1]:43832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1istXm-00069o-KW
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:14:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48549)
+	id 1istW9-0003Hd-52
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:12:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48519)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1istTt-0001UJ-8w
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:10:02 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1istTs-0004PG-4k
+ (envelope-from <berto@igalia.com>) id 1istTs-0001S0-9J
  for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:10:01 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:48327)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <berto@igalia.com>) id 1istTr-0004Od-7S
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:10:00 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:48332)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1istTr-0004N5-Nt; Sat, 18 Jan 2020 14:10:00 -0500
+ id 1istTq-0004N6-5G; Sat, 18 Jan 2020 14:09:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=tU0tqKTyF6mG4OdZGy/YoITFRev2rTHsJBdgq0mqCIQ=; 
- b=pgoRITyVH0dH6Xi56ZsgyXrA/+ibRZcHdokopw/ATnTXtPrD0rwkg70u49oQnw+fSStZnrCXVjiVkLE217W6v494CmW9mvgwsBzdLiH95jYLZexG+kDRBfmjzVw1vZ+9KlmcmjSb3vlXZV7DtrduyUolK0zaupQIak05g3kq3aCJcsmQ4c9KZyUJHMzSo30/m1ULP0VBdfrPQpV03ARSVVs/ik2uRfuh320ESBEpv3aO+AxtNcTE5vY7Uq9y9K2pJybSAfqytzw0rAdRUNkuqQz9ExZS5fvbm56ghTahAstvMjNoJzTZaG5ffS0aavllxJl/ucmK462J/6H89JNPOg==;
+ bh=m9u8SBcxUh+7uhuAIPbMfHUfenn9UwZvCzhHkBhyjA8=; 
+ b=j0okyTSf3Wyt1lgbyvesdjmiZe49WNahJpOBPpnRee5yLq3MIkPC//swAuGIcuYm8XJIKf5/BSzGhhusIgEEqvBsVDxdJG11QrMmYrvKqPxAcmPfzZ2K3ZjafVdq56xsGVKBz073eMCTLQQ0YgwwUgge0epBKJvIhzqycyZYEpq6OG5sU8SrJNUQS0JqLUS/SlXf5/PN2oZSahp7yszKbXfdZqK1xSXhMO1V7NN5slOKQh9nESyR5juEVPgmR5RdBU6f7z0KnHc6WmyB9vjp7dXpXI0XKi6hMJ7o8SJNI0mDGtv8OGKtfvVfqUU/T7sHr4six1GNzl2ViGanHhDOZQ==;
 Received: from [80.30.177.7] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1istTn-000659-9d; Sat, 18 Jan 2020 20:09:55 +0100
+ id 1istTn-000658-4r; Sat, 18 Jan 2020 20:09:55 +0100
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1istTW-0002JV-Ob; Sat, 18 Jan 2020 20:09:38 +0100
+ id 1istTW-0002JX-PY; Sat, 18 Jan 2020 20:09:38 +0100
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/5] qcow2: Don't round the L1 table allocation up to the
- sector size
-Date: Sat, 18 Jan 2020 20:09:26 +0100
-Message-Id: <b2e27214ec7b03a585931bcf383ee1ac3a641a10.1579374329.git.berto@igalia.com>
+Subject: [PATCH v3 2/5] qcow2: Tighten cluster_offset alignment assertions
+Date: Sat, 18 Jan 2020 20:09:27 +0100
+Message-Id: <558ba339965f858bede4c73ce3f50f0c0493597d.1579374329.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1579374329.git.berto@igalia.com>
 References: <cover.1579374329.git.berto@igalia.com>
@@ -63,78 +62,53 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The L1 table is read from disk using the byte-based bdrv_pread() and
-is never accessed beyond its last element, so there's no need to
-allocate more memory than that.
+qcow2_alloc_cluster_offset() and qcow2_get_cluster_offset() always
+return offsets that are cluster-aligned so don't just check that they
+are sector-aligned.
+
+The check in qcow2_co_preadv_task() is also replaced by an assertion
+for the same reason.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-cluster.c  | 5 ++---
- block/qcow2-refcount.c | 2 +-
- block/qcow2-snapshot.c | 3 +--
- block/qcow2.c          | 2 +-
- 4 files changed, 5 insertions(+), 7 deletions(-)
+ block/qcow2.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 8982b7b762..932fc48919 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -124,12 +124,11 @@ int qcow2_grow_l1_table(BlockDriverState *bs, uint64_t min_size,
- #endif
- 
-     new_l1_size2 = sizeof(uint64_t) * new_l1_size;
--    new_l1_table = qemu_try_blockalign(bs->file->bs,
--                                       ROUND_UP(new_l1_size2, 512));
-+    new_l1_table = qemu_try_blockalign(bs->file->bs, new_l1_size2);
-     if (new_l1_table == NULL) {
-         return -ENOMEM;
-     }
--    memset(new_l1_table, 0, ROUND_UP(new_l1_size2, 512));
-+    memset(new_l1_table, 0, new_l1_size2);
- 
-     if (s->l1_size) {
-         memcpy(new_l1_table, s->l1_table, s->l1_size * sizeof(uint64_t));
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index f67ac6b2d8..c963bc8de1 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -1262,7 +1262,7 @@ int qcow2_update_snapshot_refcount(BlockDriverState *bs,
-      * l1_table_offset when it is the current s->l1_table_offset! Be careful
-      * when changing this! */
-     if (l1_table_offset != s->l1_table_offset) {
--        l1_table = g_try_malloc0(ROUND_UP(l1_size2, 512));
-+        l1_table = g_try_malloc0(l1_size2);
-         if (l1_size2 && l1_table == NULL) {
-             ret = -ENOMEM;
-             goto fail;
-diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
-index 5ab64da1ec..82c32d4c9b 100644
---- a/block/qcow2-snapshot.c
-+++ b/block/qcow2-snapshot.c
-@@ -1024,8 +1024,7 @@ int qcow2_snapshot_load_tmp(BlockDriverState *bs,
-         return ret;
-     }
-     new_l1_bytes = sn->l1_size * sizeof(uint64_t);
--    new_l1_table = qemu_try_blockalign(bs->file->bs,
--                                       ROUND_UP(new_l1_bytes, 512));
-+    new_l1_table = qemu_try_blockalign(bs->file->bs, new_l1_bytes);
-     if (new_l1_table == NULL) {
-         return -ENOMEM;
-     }
 diff --git a/block/qcow2.c b/block/qcow2.c
-index cef9d72b3a..ba71a815b6 100644
+index ba71a815b6..100393fd3b 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -1492,7 +1492,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+@@ -2168,10 +2168,7 @@ static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
+                                           offset, bytes, qiov, qiov_offset);
  
-     if (s->l1_size > 0) {
-         s->l1_table = qemu_try_blockalign(bs->file->bs,
--            ROUND_UP(s->l1_size * sizeof(uint64_t), 512));
-+                                          s->l1_size * sizeof(uint64_t));
-         if (s->l1_table == NULL) {
-             error_setg(errp, "Could not allocate L1 table");
-             ret = -ENOMEM;
+     case QCOW2_CLUSTER_NORMAL:
+-        if ((file_cluster_offset & 511) != 0) {
+-            return -EIO;
+-        }
+-
++        assert(offset_into_cluster(s, file_cluster_offset) == 0);
+         if (bs->encrypted) {
+             return qcow2_co_preadv_encrypted(bs, file_cluster_offset,
+                                              offset, bytes, qiov, qiov_offset);
+@@ -2507,7 +2504,7 @@ static coroutine_fn int qcow2_co_pwritev_part(
+             goto out_locked;
+         }
+ 
+-        assert((cluster_offset & 511) == 0);
++        assert(offset_into_cluster(s, cluster_offset) == 0);
+ 
+         ret = qcow2_pre_write_overlap_check(bs, 0,
+                                             cluster_offset + offset_in_cluster,
+@@ -3897,7 +3894,7 @@ qcow2_co_copy_range_to(BlockDriverState *bs,
+             goto fail;
+         }
+ 
+-        assert((cluster_offset & 511) == 0);
++        assert(offset_into_cluster(s, cluster_offset) == 0);
+ 
+         ret = qcow2_pre_write_overlap_check(bs, 0,
+                 cluster_offset + offset_in_cluster, cur_bytes, true);
 -- 
 2.20.1
 
