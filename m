@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A6C141930
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:34:53 +0100 (CET)
-Received: from localhost ([::1]:44212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63452141934
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:37:41 +0100 (CET)
+Received: from localhost ([::1]:44246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1istrw-0004VF-Dx
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:34:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50031)
+	id 1istue-0007Wv-2M
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:37:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50056)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1isteb-0005QW-V6
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:07 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1istew-0005tR-QJ
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1istea-000749-7c
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:05 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38968)
+ (envelope-from <mrolnik@gmail.com>) id 1isteu-0007NK-KL
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:26 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43740)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1istea-00073R-0p
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:04 -0500
-Received: by mail-wm1-x344.google.com with SMTP id 20so10815088wmj.4
- for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 11:21:03 -0800 (PST)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1isteu-0007Lo-E6
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:24 -0500
+Received: by mail-wr1-x444.google.com with SMTP id d16so25737973wre.10
+ for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 11:21:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=f0Dp6GGDhBgnTynbqKq3B4A9OGC9gPqHD+W52wlMqDQ=;
- b=QO5GzDsloym+/hNaz1n2WF3h2aqL3vhWs/9aSMmD7YyOa9fO9FmgSCLLZCeTveMyAU
- JJ6rDK21hEipE8xau2ifxBg0vZaws2mJeXkNZwpeWMsPd0yjU3AtxwG//ZhcMVQvi+Yl
- 9Tk4XvwQ39XHLpJqjvj6SjYanKQDcgZA8Mdj8GR861+ZRIUNDbCBwE7nrmD1Cldvhj5C
- inDEMORecCPQKXDzbiscogVDB1D2uB7AwxbV0/PgC+PZay8f7cZ4og2t2mOoNjbKN+FH
- 9Ieqj1UZNu8i1jv49fuKbedq1tmjzkD1N7WxoBIfmhQ6+vFnl3zXjz7DZOC4qmsp3ZEy
- Ikfg==
+ bh=FlUSLH2uEvNEQP+btvkmtajQHzIok4pqbEhuKlNXr9w=;
+ b=jw4bSh4m8O03y1OtPK65fJ5UEHgDvLgOZgnTGfZm+wfw+uvaVpM+EHIGL0jts+uVvW
+ iEZgZGZpg5wgVXp1lM681bs5A3z7W5P4bilbhTpYKfrUvkWovgXvGP+6ci0qxXB7EaNN
+ xDrwOhuY/aQH7MmVAoXXdIq5mDaSigzOLe7ZurUmJpMuovstQZKb4RUE2tcOh+ZkN466
+ Mi3TBlaXAWi1WKwO2xn1d/2awDCDuQfqvgyqYyNTLKbC4OeyZ/e/6kcWUnSvBNq8vqeQ
+ YdvOhj5NodnEKhTlqsL8/QWh8VS2tlZ1EJE5HiDlZ52t8s3X3CmF/JKIHPXh0HMJ0rGm
+ 7Vmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=f0Dp6GGDhBgnTynbqKq3B4A9OGC9gPqHD+W52wlMqDQ=;
- b=HdcTKyIV6QgWFdC2wE2vUoW/kZJmTLzYZ6hFvAhJTY4t/F36NR4zBJphra469o5LHk
- KGdgqz1ZGPqsiL4UJuBR+07JzaKeoOSXqmEtljSEIEik9I+b2xdU0TWw277ki/dhrV6s
- dzwH78eSlz+rjMkEb4msx5+9a3MRRHbgnsdhU3bDVEdjiLNR7zqSo0O/HmmgxYxtTLYO
- LIUINcFK/iRKXjDMB87kRfY+CACWSE0A3JNZC2Ph2YBbs/Ld2ybglFWk0UlCBeiQIwnp
- awMJitQmd7heuDXJIBELmzfwuxR5CJRk4mip+ZcRxxrPXlkdq12CoVP1FX+/+K34+kxt
- wq2w==
-X-Gm-Message-State: APjAAAWDl30v33T1KQJjiDwiylX96UTbMqOcAot2bZovVfy+87nonPo6
- e5izm/+Ta/5H6PW7xO+kDIje6TP/ZEpmQT1E
-X-Google-Smtp-Source: APXvYqzTo81wqKMf2MxAtr5D6NpLwKaXLU+/ITZTQnZncsPDRYhbM1Ki13ncn6lkruuEjgC03czTTg==
-X-Received: by 2002:a05:600c:2551:: with SMTP id
- e17mr10754711wma.26.1579375262827; 
- Sat, 18 Jan 2020 11:21:02 -0800 (PST)
+ bh=FlUSLH2uEvNEQP+btvkmtajQHzIok4pqbEhuKlNXr9w=;
+ b=Kz8AGudIzYQTwybX+3OSsQGCSJdPLx2v9PHiw+AYu6qJt8PL/eVCottnKzQ6RM6Wus
+ uqtk+abT9VRP1AfqbX3YVs69POd112sjBbtkoNVzG+a+Zzwl2OVAQO9h4ZB8V2Gh4LKc
+ en82qS7n3lunYkiPnuk+EZ6XpwhTWMHflj/9bcgb4UZnm90QV93UncEYMwiUE4vL+3z9
+ E3mO9netp7VjojCWgOPR2eKZii+Tg6BEvcQ70jytwfSOCgW5xvrSJaFr/3cxDMT9+Tt+
+ upUiPRlWAiYICq2dUDdsChShDR4Pr+eySO1fA7b3jTR0zHatQ6XhhEhi4ov472mFVdez
+ Q+9w==
+X-Gm-Message-State: APjAAAXaAJE7+A7HF2fUaODgG2Noxs4g2Eua+k0Kx9d4nHlGkzCSXo6s
+ m3fQS6eOm+6tJv3VdVtqsJRZ9gfMHpOj4eO7
+X-Google-Smtp-Source: APXvYqyeGRmZFg7VVTsMuE1v0eCCHgYhs7WVFV/jmJp5Jpx4KvX/XL8gQ/k8oGd8uZfrhYAxArNyOw==
+X-Received: by 2002:a5d:6ac3:: with SMTP id u3mr10276142wrw.25.1579375282213; 
+ Sat, 18 Jan 2020 11:21:22 -0800 (PST)
 Received: from 8c859074c0ff.ant.amazon.com.com
  (bzq-109-65-108-13.red.bezeqint.net. [109.65.108.13])
- by smtp.gmail.com with ESMTPSA id o16sm2875468wmc.18.2020.01.18.11.20.59
+ by smtp.gmail.com with ESMTPSA id o16sm2875468wmc.18.2020.01.18.11.21.13
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sat, 18 Jan 2020 11:21:02 -0800 (PST)
+ Sat, 18 Jan 2020 11:21:21 -0800 (PST)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v41 13/21] hw/avr: Add dummy mask device
-Date: Sat, 18 Jan 2020 21:14:08 +0200
-Message-Id: <20200118191416.19934-14-mrolnik@gmail.com>
+Subject: [PATCH v41 15/21] target/avr: Add section about AVR into QEMU
+ documentation
+Date: Sat, 18 Jan 2020 21:14:10 +0200
+Message-Id: <20200118191416.19934-16-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 In-Reply-To: <20200118191416.19934-1-mrolnik@gmail.com>
 References: <20200118191416.19934-1-mrolnik@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,213 +81,80 @@ Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a simple device of just one register, whenver this register is
-written it calls qemu_set_irq function for each of 8 bits/IRQs..
-It is used to implement AVR Power Reduction
-
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 ---
- include/hw/misc/avr_mask.h |  47 ++++++++++++++++
- hw/misc/avr_mask.c         | 112 +++++++++++++++++++++++++++++++++++++
- hw/misc/Kconfig            |   3 +
- hw/misc/Makefile.objs      |   2 +
- 4 files changed, 164 insertions(+)
- create mode 100644 include/hw/misc/avr_mask.h
- create mode 100644 hw/misc/avr_mask.c
+ qemu-doc.texi | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/include/hw/misc/avr_mask.h b/include/hw/misc/avr_mask.h
-new file mode 100644
-index 0000000000..d3e21972d8
---- /dev/null
-+++ b/include/hw/misc/avr_mask.h
-@@ -0,0 +1,47 @@
-+/*
-+ * AVR Power Reduction
-+ *
-+ * Copyright (c) 2019 Michael Rolnik
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#ifndef HW_avr_mask_H
-+#define HW_avr_mask_H
-+
-+#include "hw/sysbus.h"
-+#include "chardev/char-fe.h"
-+#include "hw/hw.h"
-+
-+
-+#define TYPE_AVR_MASK "avr-mask"
-+#define AVR_MASK(obj) OBJECT_CHECK(AVRMaskState, (obj), TYPE_AVR_MASK)
-+
-+typedef struct {
-+    /* <private> */
-+    SysBusDevice parent_obj;
-+
-+    /* <public> */
-+    MemoryRegion iomem;
-+
-+    uint8_t val;
-+    qemu_irq irq[8];
-+} AVRMaskState;
-+
-+#endif /* HW_avr_mask_H */
-diff --git a/hw/misc/avr_mask.c b/hw/misc/avr_mask.c
-new file mode 100644
-index 0000000000..3af82ed9c1
---- /dev/null
-+++ b/hw/misc/avr_mask.c
-@@ -0,0 +1,112 @@
-+/*
-+ * AVR Power Reduction
-+ *
-+ * Copyright (c) 2019 Michael Rolnik
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/misc/avr_mask.h"
-+#include "qemu/log.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/irq.h"
-+
-+#define DB_PRINT(fmt, args...) /* Nothing */
-+/*#define DB_PRINT(fmt, args...) printf("%s: " fmt "\n", __func__, ## args)*/
-+
-+static void avr_mask_reset(DeviceState *dev)
-+{
-+    AVRMaskState *s = AVR_MASK(dev);
-+
-+    s->val = 0x00;
-+
-+    for (int i = 0; i < 8; i++) {
-+        qemu_set_irq(s->irq[i], 0);
-+    }
-+}
-+
-+static uint64_t avr_mask_read(void *opaque, hwaddr offset, unsigned size)
-+{
-+    assert(size == 1);
-+    assert(offset == 0);
-+    AVRMaskState *s = opaque;
-+
-+    return (uint64_t)s->val;
-+}
-+
-+static void avr_mask_write(void *opaque, hwaddr offset,
-+                              uint64_t val64, unsigned size)
-+{
-+    assert(size == 1);
-+    assert(offset == 0);
-+    AVRMaskState *s = opaque;
-+    uint8_t val8 = val64;
-+
-+    DB_PRINT("write %d to offset %d", val8, (uint8_t)offset);
-+
-+    s->val = val8;
-+    for (int i = 0; i < 8; i++) {
-+        qemu_set_irq(s->irq[i], (val8 & (1 << i)) != 0);
-+    }
-+}
-+
-+static const MemoryRegionOps avr_mask_ops = {
-+    .read = avr_mask_read,
-+    .write = avr_mask_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {.max_access_size = 1}
-+};
-+
-+static void avr_mask_init(Object *dev)
-+{
-+    AVRMaskState *s = AVR_MASK(dev);
-+    SysBusDevice *busdev = SYS_BUS_DEVICE(dev);
-+
-+    memory_region_init_io(&s->iomem, dev, &avr_mask_ops, s, TYPE_AVR_MASK,
-+            0x01);
-+    sysbus_init_mmio(busdev, &s->iomem);
-+
-+    for (int i = 0; i < 8; i++) {
-+        sysbus_init_irq(busdev, &s->irq[i]);
-+    }
-+    s->val = 0x00;
-+}
-+
-+static void avr_mask_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->reset = avr_mask_reset;
-+}
-+
-+static const TypeInfo avr_mask_info = {
-+    .name          = TYPE_AVR_MASK,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(AVRMaskState),
-+    .class_init    = avr_mask_class_init,
-+    .instance_init = avr_mask_init,
-+};
-+
-+static void avr_mask_register_types(void)
-+{
-+    type_register_static(&avr_mask_info);
-+}
-+
-+type_init(avr_mask_register_types)
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index bdd77d8020..74a1e9a241 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -131,4 +131,7 @@ config MAC_VIA
-     select MOS6522
-     select ADB
+diff --git a/qemu-doc.texi b/qemu-doc.texi
+index 39f950471f..515aacfae9 100644
+--- a/qemu-doc.texi
++++ b/qemu-doc.texi
+@@ -1741,6 +1741,7 @@ differences are mentioned in the following sections.
+ * Microblaze System emulator::
+ * SH4 System emulator::
+ * Xtensa System emulator::
++* AVR System emulator::
+ @end menu
  
-+config AVR_MASK
-+    bool
-+
- source macio/Kconfig
-diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-index da993f45b7..bbf17f651b 100644
---- a/hw/misc/Makefile.objs
-+++ b/hw/misc/Makefile.objs
-@@ -85,3 +85,5 @@ common-obj-$(CONFIG_NRF51_SOC) += nrf51_rng.o
- obj-$(CONFIG_MAC_VIA) += mac_via.o
+ @node PowerPC System emulator
+@@ -2514,6 +2515,56 @@ so should only be used with trusted guest OS.
  
- common-obj-$(CONFIG_GRLIB) += grlib_ahb_apb_pnp.o
+ @c man end
+ 
++@node AVR System emulator
++@section AVR System emulator
++@cindex system emulation (AVR)
 +
-+obj-$(CONFIG_AVR_MASK) += avr_mask.o
++Use the executable @file{qemu-system-avr} to emulates a AVR 8 bit based machine having one for the following cores: avr1, avr2, avr25, avr3, avr31, avr35, avr4, avr5, avr51, avr6, avrtiny, xmega2, xmega3, xmega4, xmega5, xmega6 and xmega7.
++
++As for now it does not support any real MCUs. However, it does support a "sample" board for educational and testing purposes. This "sample" board hosts USART & 16 bit timer devices and it's enought to run FreeRTOS based applicaton (like this @url{https://github.com/seharris/qemu-avr-tests/blob/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf,,demo})
++
++Following are examples of possible usages, assuming program.elf is compiled for AVR cpu
++@itemize
++
++@item Continious non interrupted execution
++@example
++qemu-system-avr -kernel program.elf
++@end example
++
++@item Continious non interrupted execution with serial output into telnet window
++@example
++qemu-system-avr -kernel program.elf -serial tcp::5678,server,nowait -nographic
++@end example
++and then in another shell
++@example
++telent localhost 5678
++@end example
++
++@item Continious non interrupted execution with serial output into stdout
++@example
++qemu-system-avr -kernel program.elf -serial stdio
++@end example
++
++@item Debugging wit GDB debugger
++@example
++qemu-system-avr -kernel program.elf -s -S
++@end example
++and then in another shell
++@example
++avr-gdb program.elf
++@end example
++and then within GDB shell
++@example
++target remote :1234
++@end example
++
++@item Print out executed instructions
++@example
++qemu-system-avr -kernel program.elf -d in_asm
++@end example
++
++@end itemize
++
+ @node QEMU User space emulator
+ @chapter QEMU User space emulator
+ 
 -- 
 2.17.2 (Apple Git-113)
 
