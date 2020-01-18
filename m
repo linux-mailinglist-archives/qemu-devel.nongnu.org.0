@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFDF1141936
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:38:43 +0100 (CET)
-Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0641B14193C
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:42:40 +0100 (CET)
+Received: from localhost ([::1]:44340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1istve-00007a-Ke
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:38:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50140)
+	id 1istzT-0005u8-49
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:42:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50145)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1istfT-0006ZN-E6
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:22:00 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1istfU-0006ae-82
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:22:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1istfS-0007pq-3K
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:59 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:32999)
+ (envelope-from <mrolnik@gmail.com>) id 1istfS-0007r8-Jk
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:22:00 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37610)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1istfR-0007o5-Ks
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:57 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id d139so11830268wmd.0
- for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 11:21:56 -0800 (PST)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1istfS-0007pM-BK
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:58 -0500
+Received: by mail-wm1-x342.google.com with SMTP id f129so10819862wmf.2
+ for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 11:21:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=a8XNKbJukO9kBpqm/Qv2mq3ysWrme/1jTK6NG2Oci+Q=;
- b=gOmET2CppQ1/rlmfs6eRDVEv6ZAzXS52ZH8blnrKXX6gVt3bTMPtYss9iWS/XeCIuz
- lzDqDz5d2Z+ksTm51vDDt2+5KjeXBKbeogEJA3hTuXdZJ7B3fg7Veo1FPoWNqyWHadlX
- D+skK8AiYAeJZMLZ06pCon4KHMSkiWrx7xLmoeE2Bd5cakjdAtGR8aRaS84AvgsrW1y/
- toGxWYjBjgT71+XRypAGguL27L8ev+6+PPn2QA15VRDkSIvGzREbTA2sykyYlq71/dqb
- 6/Mv56ilrwMHXqPXpj9SKB2nhtxShAsDZOG7bZPdMPhEFeMTmoWL2QllO6dGlOuOKy61
- HV5g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=FO1i9jNY/IqNN8OXTh2PCvWPjBwlbpfjWssHyPnRa18=;
+ b=qImf7M5EQ99XuQFvror3XsENnmzxKFdvcFOuudghmB2Fbla4po5PelnVkSOKQWqTbM
+ CqmofMnjVS27k2Hq3Xqxe73CymoPiQ9sCkA9AnxKaHLsg2V124VYLEwsvEyOO6GzCwmY
+ obQoajy017nSUZzeAirKu5+kZnxupQBHOnZqzIJPJmiYiES984LptKgnlJFZnEGy9b4N
+ SJxUifh3uYztQOu517bLDP3SfM2+ANRiHTgcH5XWweFUiH8+WtrHj6HPFutI9/IEsyYF
+ oY3TWtbXqyQ+Mrehf24xpJj5TeuISfus0zJGc6+wok4OXXN0qU3qxC4DhT+2nDK7sU1U
+ x6LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=a8XNKbJukO9kBpqm/Qv2mq3ysWrme/1jTK6NG2Oci+Q=;
- b=feLS58YotA0zQlRSbxk3N4atNHPdcHcG/CgoN7AXOBdj1aafGXq37AonoaTj4Ykvv1
- iCdBfIPAOdER1/yiqVtB9mCrrTPHmkNDYIuCLMifBWVvqZU0kPPObDKi+VN41bE6MaKo
- eUuZj9UJ6k7pWkmHEisW10G67cJmXgcvKBozoQeaROubPDMSFQxohhtB1CczybcfHiN6
- Jv1PuTQDlD6BpvuzGlNhs/1Eim8wNr6zhsLdeylivYfI/BQHRC9hSdwF/SPDpfguzhHD
- R5GxjqYPfaE+Xc+GGeEbhz3Bb+mqDPg1x2dVRcCqG03jfXj8TazVYSfhhhVJQbKnogj3
- Fx8w==
-X-Gm-Message-State: APjAAAVPp1uSl9vTEviZH8m9HqqJ6ZYsOcxdAaKCWdLqcDf0/ua0hFYd
- pBoEhxvZTwPww/HoGLZuKf8OK4AB496R13My
-X-Google-Smtp-Source: APXvYqx3EWGaC5clsNKqRt4t6ffUJT7Z1W0sKYL077lh2kkIVBwFL9gwuBzP6QSSH4znkty/dDPrDQ==
-X-Received: by 2002:a05:600c:1009:: with SMTP id
- c9mr10842129wmc.162.1579375315721; 
- Sat, 18 Jan 2020 11:21:55 -0800 (PST)
+ :references;
+ bh=FO1i9jNY/IqNN8OXTh2PCvWPjBwlbpfjWssHyPnRa18=;
+ b=pefLSq9xmwNSkxRmQanckfDonnhE+XR6dLAbcojSF6bjRxQHxzxNyOxhwbC/zfRHl/
+ VQCMPNfs8m0rMelE0EjTSns+FsKo1j0zhMl9RNvksshzB9c5Pzc0MyYQm70zQVXZMp+H
+ s6AfxZ1/4Y6HNQNDuUP2zj5h3DucxG8QJTNSU4v5P4O8+ALnvNpPZuMVNF5VVuZEtEbA
+ oP89zdVWKfm4pCwREqOaMhcnReaYrichxpNwzl/DAIeLor7Hj6v0kVqjWfWDZYsAKEif
+ FA0fLFjJBnxn4NIcMYEV7zgoif201VnlkB6GzWTF1fZS4zLkGx+R7IFgCTq/zatTz4oE
+ OG6w==
+X-Gm-Message-State: APjAAAVHYHiq9pwxc56IGDUj7RLOQj2bgzU/odtGcDre1snIisWb+avW
+ YYUFlT0IrvcBNjic5l8ann/5ws4VC4i965U0
+X-Google-Smtp-Source: APXvYqwab2NOFlD0egcRdDcdMt2BJXDVFFyoRJY0UCiIpsXfu3DoEqD7zW89351X0RxWGK4NajO/tg==
+X-Received: by 2002:a1c:48c1:: with SMTP id v184mr10808505wma.5.1579375317202; 
+ Sat, 18 Jan 2020 11:21:57 -0800 (PST)
 Received: from 8c859074c0ff.ant.amazon.com.com
  (bzq-109-65-108-13.red.bezeqint.net. [109.65.108.13])
- by smtp.gmail.com with ESMTPSA id o16sm2875468wmc.18.2020.01.18.11.21.54
+ by smtp.gmail.com with ESMTPSA id o16sm2875468wmc.18.2020.01.18.11.21.55
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sat, 18 Jan 2020 11:21:55 -0800 (PST)
+ Sat, 18 Jan 2020 11:21:56 -0800 (PST)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v41 20/21] target/avr: Add Avocado test
-Date: Sat, 18 Jan 2020 21:14:15 +0200
-Message-Id: <20200118191416.19934-21-mrolnik@gmail.com>
+Subject: [PATCH v41 21/21] target/avr: Update MAINTAINERS file
+Date: Sat, 18 Jan 2020 21:14:16 +0200
+Message-Id: <20200118191416.19934-22-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 In-Reply-To: <20200118191416.19934-1-mrolnik@gmail.com>
 References: <20200118191416.19934-1-mrolnik@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,79 +80,52 @@ Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test is based on
-https://github.com/seharris/qemu-avr-tests/tree/master/free-rtos/Demo
-demo which. If working correctly, prints 'ABCDEFGHIJKLMNOPQRSTUVWX' out.
-it also demostrates that timer and IRQ are working
+Include AVR maintaners in MAINTAINERS file
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/acceptance/machine_avr6.py | 53 ++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
- create mode 100644 tests/acceptance/machine_avr6.py
+ MAINTAINERS | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_avr6.py
-new file mode 100644
-index 0000000000..43501b26a3
---- /dev/null
-+++ b/tests/acceptance/machine_avr6.py
-@@ -0,0 +1,53 @@
-+#
-+# QEMU AVR
-+#
-+# Copyright (c) 2019 Michael Rolnik <mrolnik@gmail.com>
-+#
-+# This program is free software: you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation, either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 55d3642e6c..c70d77b1ae 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -163,6 +163,15 @@ S: Maintained
+ F: hw/arm/smmu*
+ F: include/hw/arm/smmu*
+ 
++AVR TCG CPUs
++M: Michael Rolnik <mrolnik@gmail.com>
++R: Sarah Harris <S.E.Harris@kent.ac.uk>
++S: Maintained
++F: target/avr/
++F: tests/acceptance/machine_avr6.py
++F: default-configs/avr-softmmu.mak
++F: gdb-xml/avr-cpu.xml
 +
-+import time
+ CRIS TCG CPUs
+ M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+ S: Maintained
+@@ -481,6 +490,18 @@ F: hw/*/allwinner*
+ F: include/hw/*/allwinner*
+ F: hw/arm/cubieboard.c
+ 
++AVR Machines
++M: Michael Rolnik <mrolnik@gmail.com>
++R: Sarah Harris <S.E.Harris@kent.ac.uk>
++S: Maintained
++F: hw/avr/
++F: hw/char/avr_usart.c
++F: include/hw/char/avr_usart.h
++F: hw/timer/avr_timer16.c
++F: include/hw/timer/avr_timer16.h
++F: hw/misc/avr_mask.c
++F: include/hw/misc/avr_mask.h
 +
-+from avocado_qemu import Test
-+
-+class AVR6Machine(Test):
-+    timeout = 5
-+
-+    def test_freertos(self):
-+        """
-+        :avocado: tags=arch:avr
-+        :avocado: tags=machine:sample
-+        """
-+        """
-+        https://github.com/seharris/qemu-avr-tests/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
-+        constantly prints out 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
-+        """
-+        rom_url = 'https://github.com/seharris/qemu-avr-tests'
-+        rom_sha1= '36c3e67b8755dcf37e06af6730ef5d477b8ed16d'
-+        rom_url += '/raw/'
-+        rom_url += rom_sha1
-+        rom_url += '/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf'
-+        rom_hash = '7eb521f511ca8f2622e0a3c5e8dd686efbb911d4'
-+        rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
-+
-+        self.vm.set_machine('sample')
-+        self.vm.add_args('-bios', rom_path)
-+        self.vm.add_args('-nographic')
-+        self.vm.launch()
-+
-+        time.sleep(2)
-+        self.vm.shutdown()
-+
-+        self.assertIn('ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX',
-+                self.vm.get_log())
+ ARM PrimeCell and CMSDK devices
+ M: Peter Maydell <peter.maydell@linaro.org>
+ L: qemu-arm@nongnu.org
 -- 
 2.17.2 (Apple Git-113)
 
