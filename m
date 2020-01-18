@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4B814193B
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:41:38 +0100 (CET)
-Received: from localhost ([::1]:44334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFDF1141936
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:38:43 +0100 (CET)
+Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1istyT-0004QS-It
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:41:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50124)
+	id 1istve-00007a-Ke
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:38:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50140)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1istfR-0006W6-H5
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:58 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1istfT-0006ZN-E6
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:22:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1istfP-0007nU-QR
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:56 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36243)
+ (envelope-from <mrolnik@gmail.com>) id 1istfS-0007pq-3K
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:59 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:32999)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1istfP-0007ma-A3
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:55 -0500
-Received: by mail-wr1-x444.google.com with SMTP id z3so25753233wru.3
- for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 11:21:55 -0800 (PST)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1istfR-0007o5-Ks
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:21:57 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id d139so11830268wmd.0
+ for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 11:21:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=z/uYPTbZi5GeID8IkJbTa8iPY1aSdd1sKIGwyUQSAnE=;
- b=pLtg9OI0lVjqSq7iaDvQQe47SmB+6oJY2DQ/rL3EO9m9UDjTEiUe+kZymj0n2AvWxd
- zmChXbuWqu7AjN0Ee5RvOeJCnFqG7ngM2t0zHraIZBygzP6SBEdLB7wJRZumetNZbvG8
- ep3BIQGHdHqw4tOSW3bQWt224R19Hmvj9YtA+9Uu4Vs48clq+MwP8wSyaYHf4sSQA1oI
- 2qLqEtpKER0AjMEQNnj8tELR3FKuMwe1fYl4gLIRX6LXNhdzr5kyqdXP7tlE3I7XLzJ7
- aW316RQyQeGVV/KbPHcoAiPYiFltDPXnIx7R4rUQwC0y17m4NXWlOZL4r2Eu2iygVnpV
- 7x+A==
+ bh=a8XNKbJukO9kBpqm/Qv2mq3ysWrme/1jTK6NG2Oci+Q=;
+ b=gOmET2CppQ1/rlmfs6eRDVEv6ZAzXS52ZH8blnrKXX6gVt3bTMPtYss9iWS/XeCIuz
+ lzDqDz5d2Z+ksTm51vDDt2+5KjeXBKbeogEJA3hTuXdZJ7B3fg7Veo1FPoWNqyWHadlX
+ D+skK8AiYAeJZMLZ06pCon4KHMSkiWrx7xLmoeE2Bd5cakjdAtGR8aRaS84AvgsrW1y/
+ toGxWYjBjgT71+XRypAGguL27L8ev+6+PPn2QA15VRDkSIvGzREbTA2sykyYlq71/dqb
+ 6/Mv56ilrwMHXqPXpj9SKB2nhtxShAsDZOG7bZPdMPhEFeMTmoWL2QllO6dGlOuOKy61
+ HV5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z/uYPTbZi5GeID8IkJbTa8iPY1aSdd1sKIGwyUQSAnE=;
- b=OTYlTbA1gzWyafj2Gc0PLA1WprPxF5srMrVutIjY3pqpCALtdBnSm8xLZ7e5z2WayF
- rCOiuSTnYZubRHD68DU3J3lZVn9ZyI3cXFz+ZwA9XLEO6obllmzOh5EENcfu62ie+G12
- JBL76J+PIUD0/AMr0HLEaahUcNrhP/gpwSQ0Ck79loPiRh2b3BwEfUbS1DWUXh0j3n/C
- iCxR6zfNJZ05/BlCr0OVYPzRgbp8HGw9XH9lQOMYSGrQpz9+yNnmJcN1Qr85cc0KwdlC
- eqhvHDHVD5X2OESCdocPshpGnXvIVstvkFsLNn82YQ4KaqOnzc0wgw3MAbnCCaPktXXO
- yj4g==
-X-Gm-Message-State: APjAAAVgum7Q7wMTgPzhdOmIcTNr4xz3uGF17Vx0toKFpRBTta00JaWn
- MSWJNiFbW1rISdbnx6M26J8l8MUrjh85p7AW
-X-Google-Smtp-Source: APXvYqwlLaBa+vf9SfbKr2Ze4Ee4eVU4w/56rxfTcu10qUT/usYzuc1USHaRepmire0l4cm+yx/1BA==
-X-Received: by 2002:adf:b605:: with SMTP id f5mr9385028wre.383.1579375314144; 
- Sat, 18 Jan 2020 11:21:54 -0800 (PST)
+ bh=a8XNKbJukO9kBpqm/Qv2mq3ysWrme/1jTK6NG2Oci+Q=;
+ b=feLS58YotA0zQlRSbxk3N4atNHPdcHcG/CgoN7AXOBdj1aafGXq37AonoaTj4Ykvv1
+ iCdBfIPAOdER1/yiqVtB9mCrrTPHmkNDYIuCLMifBWVvqZU0kPPObDKi+VN41bE6MaKo
+ eUuZj9UJ6k7pWkmHEisW10G67cJmXgcvKBozoQeaROubPDMSFQxohhtB1CczybcfHiN6
+ Jv1PuTQDlD6BpvuzGlNhs/1Eim8wNr6zhsLdeylivYfI/BQHRC9hSdwF/SPDpfguzhHD
+ R5GxjqYPfaE+Xc+GGeEbhz3Bb+mqDPg1x2dVRcCqG03jfXj8TazVYSfhhhVJQbKnogj3
+ Fx8w==
+X-Gm-Message-State: APjAAAVPp1uSl9vTEviZH8m9HqqJ6ZYsOcxdAaKCWdLqcDf0/ua0hFYd
+ pBoEhxvZTwPww/HoGLZuKf8OK4AB496R13My
+X-Google-Smtp-Source: APXvYqx3EWGaC5clsNKqRt4t6ffUJT7Z1W0sKYL077lh2kkIVBwFL9gwuBzP6QSSH4znkty/dDPrDQ==
+X-Received: by 2002:a05:600c:1009:: with SMTP id
+ c9mr10842129wmc.162.1579375315721; 
+ Sat, 18 Jan 2020 11:21:55 -0800 (PST)
 Received: from 8c859074c0ff.ant.amazon.com.com
  (bzq-109-65-108-13.red.bezeqint.net. [109.65.108.13])
- by smtp.gmail.com with ESMTPSA id o16sm2875468wmc.18.2020.01.18.11.21.52
+ by smtp.gmail.com with ESMTPSA id o16sm2875468wmc.18.2020.01.18.11.21.54
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sat, 18 Jan 2020 11:21:53 -0800 (PST)
+ Sat, 18 Jan 2020 11:21:55 -0800 (PST)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v41 19/21] target/avr: Add boot serial test
-Date: Sat, 18 Jan 2020 21:14:14 +0200
-Message-Id: <20200118191416.19934-20-mrolnik@gmail.com>
+Subject: [PATCH v41 20/21] target/avr: Add Avocado test
+Date: Sat, 18 Jan 2020 21:14:15 +0200
+Message-Id: <20200118191416.19934-21-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 In-Reply-To: <20200118191416.19934-1-mrolnik@gmail.com>
 References: <20200118191416.19934-1-mrolnik@gmail.com>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,60 +85,79 @@ Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Print out 'T' through serial port
+The test is based on
+https://github.com/seharris/qemu-avr-tests/tree/master/free-rtos/Demo
+demo which. If working correctly, prints 'ABCDEFGHIJKLMNOPQRSTUVWX' out.
+it also demostrates that timer and IRQ are working
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Thomas Huth <thuth@redhat.com>
-
-tests/Makefile.include
 ---
- tests/qtest/boot-serial-test.c | 10 ++++++++++
- tests/qtest/Makefile.include   |  2 ++
- 2 files changed, 12 insertions(+)
+ tests/acceptance/machine_avr6.py | 53 ++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
+ create mode 100644 tests/acceptance/machine_avr6.py
 
-diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
-index 05c7f44457..e556f09db8 100644
---- a/tests/qtest/boot-serial-test.c
-+++ b/tests/qtest/boot-serial-test.c
-@@ -16,6 +16,15 @@
- #include "qemu/osdep.h"
- #include "libqtest.h"
- 
-+static const uint8_t bios_avr[] = {
-+    0x88, 0xe0,             /* ldi r24, 0x08   */
-+    0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
-+    0x86, 0xe0,             /* ldi r24, 0x06   */
-+    0x80, 0x93, 0xc2, 0x00, /* sts 0x00C2, r24 ; Set the data bits to 8 */
-+    0x84, 0xe5,             /* ldi r24, 0x54   */
-+    0x80, 0x93, 0xc6, 0x00, /* sts 0x00C6, r24 ; Output 'T' */
-+};
+diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_avr6.py
+new file mode 100644
+index 0000000000..43501b26a3
+--- /dev/null
++++ b/tests/acceptance/machine_avr6.py
+@@ -0,0 +1,53 @@
++#
++# QEMU AVR
++#
++# Copyright (c) 2019 Michael Rolnik <mrolnik@gmail.com>
++#
++# This program is free software: you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation, either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
- static const uint8_t kernel_mcf5208[] = {
-     0x41, 0xf9, 0xfc, 0x06, 0x00, 0x00,     /* lea 0xfc060000,%a0 */
-     0x10, 0x3c, 0x00, 0x54,                 /* move.b #'T',%d0 */
-@@ -103,6 +112,7 @@ typedef struct testdef {
- 
- static testdef_t tests[] = {
-     { "alpha", "clipper", "", "PCI:" },
-+    { "avr", "sample", "", "T", sizeof(bios_avr), NULL, bios_avr },
-     { "ppc", "ppce500", "", "U-Boot" },
-     { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
-     { "ppc", "g3beige", "", "PowerPC,750" },
-diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
-index e6bb4ab28c..4817b6320f 100644
---- a/tests/qtest/Makefile.include
-+++ b/tests/qtest/Makefile.include
-@@ -65,6 +65,8 @@ check-qtest-i386-y += numa-test
- 
- check-qtest-x86_64-y += $(check-qtest-i386-y)
- 
-+check-qtest-avr-y += boot-serial-test
++import time
 +
- check-qtest-alpha-y += boot-serial-test
- check-qtest-alpha-$(CONFIG_VGA) += display-vga-test
- 
++from avocado_qemu import Test
++
++class AVR6Machine(Test):
++    timeout = 5
++
++    def test_freertos(self):
++        """
++        :avocado: tags=arch:avr
++        :avocado: tags=machine:sample
++        """
++        """
++        https://github.com/seharris/qemu-avr-tests/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
++        constantly prints out 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
++        """
++        rom_url = 'https://github.com/seharris/qemu-avr-tests'
++        rom_sha1= '36c3e67b8755dcf37e06af6730ef5d477b8ed16d'
++        rom_url += '/raw/'
++        rom_url += rom_sha1
++        rom_url += '/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf'
++        rom_hash = '7eb521f511ca8f2622e0a3c5e8dd686efbb911d4'
++        rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
++
++        self.vm.set_machine('sample')
++        self.vm.add_args('-bios', rom_path)
++        self.vm.add_args('-nographic')
++        self.vm.launch()
++
++        time.sleep(2)
++        self.vm.shutdown()
++
++        self.assertIn('ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX',
++                self.vm.get_log())
 -- 
 2.17.2 (Apple Git-113)
 
