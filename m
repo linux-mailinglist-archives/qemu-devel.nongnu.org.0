@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F0B141880
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 17:45:22 +0100 (CET)
-Received: from localhost ([::1]:42562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DADB7141882
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 17:48:31 +0100 (CET)
+Received: from localhost ([::1]:42630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isrDt-0006qI-2y
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 11:45:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36130)
+	id 1isrGw-0002aw-CW
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 11:48:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36171)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1isrBJ-00042t-M8
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 11:42:42 -0500
+ (envelope-from <groeck7@gmail.com>) id 1isrBM-00047N-C9
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 11:42:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1isrBI-0002Au-DB
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 11:42:41 -0500
-Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:41572)
+ (envelope-from <groeck7@gmail.com>) id 1isrBK-0002CP-LF
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 11:42:44 -0500
+Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:42605)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1isrBF-00026y-E8; Sat, 18 Jan 2020 11:42:37 -0500
-Received: by mail-yb1-xb41.google.com with SMTP id z15so7674679ybm.8;
- Sat, 18 Jan 2020 08:42:37 -0800 (PST)
+ id 1isrBH-00029f-5K; Sat, 18 Jan 2020 11:42:39 -0500
+Received: by mail-yb1-xb44.google.com with SMTP id c8so7090633ybk.9;
+ Sat, 18 Jan 2020 08:42:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ldTrGfmguJmXL3eSQF5uN0jHMmEr5R4Wn7Le7S6JTWM=;
- b=qMFW3kHxzSZO2JcAflvVutUH/zWG3/zXlSaqe2vtxpjsv2WR9FJN2+5F32EupBUUW6
- r5rR4skqXurVzbiB8Jeql3Qf/Lgd2mecHldz9hgAfEqeYk2+m8eM0fM55pU0+wT8sSzu
- ZCPlYJt2QCFck9zvQeIG54xZBhV5q/Vi/nNSyWfBueKiBOByvXfpjPDmFVSByEWD8UJM
- tv6RL5GDvfMBUKstlKtCvlQYQ5BDwK3ZCU3MpMfu8+ezRvwMNq/jrVg5Yfj9aSQgrvtS
- k+HFILg9Me+7N7ePhC3uDeYqiqYytoRJJFXVx7wWLCkhI5MVtFCpkJiB5kKxAMGBX7pq
- cGZw==
+ bh=39fHTiyX/0J89e65TbMGqFwEY3KsN+AI+pGbkAukXfQ=;
+ b=sFW2aYdUhMxuwFY398GTHxnAGKRiloK0WdK7yhT1Ud4dvdX0MkA3K5aQ3zpd4DxBip
+ lXadXpH50VRKPmkXU3W8xCyqtOAfi8j2PzEfYqXBNE8c8igc8OivYIiNQdiV7XKn0yzG
+ c1vbROh662Yncu5w1mGAOS4Ft/X+NrSXTuFdgscNLPyqJVlJIHN1BJXVylaOqcMnhx03
+ MymKSlcqIB7yV8Bn3q0QMZFDAWnppnJ/I6J7PucZ8QoH0MiKvmV2gUvS5jheflmCmPOw
+ qb1LFGbWNDgIwLVERBly0ITYJjRHh85tSZgF6QsO4NouK3TAhkWQiZwBKQQhe3LhRSdA
+ 2Vzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=ldTrGfmguJmXL3eSQF5uN0jHMmEr5R4Wn7Le7S6JTWM=;
- b=JMjhgfbTjNOhDjC8eOkLXPhiktQTry18dFF3wSjjlTZgvAqwkQy0asLP+3DRdQ7CIq
- mAc6kD3k7JD18nJyh7CQhoEWLm/wsruRWmZ7BEbIZBWdED8ykagLR+mOM3st38gUVLpG
- ydGMSszFr1+/82EOxTHVRv3yMfWPrQNaRMZsCof2Ml9z/22uyJx2D0zJLL9cjuBh3Guf
- tRMdaTSpgVZe8pWgepkW4n4UTh9o8oogReDa16lDRGrBuHutCmfbBKMK9+rqgVhKMCD7
- i1+OtMdjToeE2JxW6mbiZHgbUCktRoJdB5hX5D2djj4uBzUG1w0hbeeveBDM80/R1SQG
- XhlA==
-X-Gm-Message-State: APjAAAWw8uD1XtpmjOFO1aJpRccucbc47WHGqZMtW95sLI5NXqQ6dgwq
- AFKUk2r/prPAfAPv8yoZFqc=
-X-Google-Smtp-Source: APXvYqzb6pu0LagOQbWIGJ2oYkWpnfK/1EY9jvG2dWQSrAP5UqtSw1iuBvaIbVmz4gGIyH94uMiDFQ==
-X-Received: by 2002:a25:230d:: with SMTP id j13mr34605263ybj.22.1579365756861; 
- Sat, 18 Jan 2020 08:42:36 -0800 (PST)
+ bh=39fHTiyX/0J89e65TbMGqFwEY3KsN+AI+pGbkAukXfQ=;
+ b=LUOFcdunGT+xMoLV+V7Lh8oOv7umZb9ggCGkaOB4VPjKNNsAqpOmtW/oQOofrrW7Tx
+ 7VFpf6qb5yfBpMAs8o2TQbtLQpsgVlF4LKoJExic73d8pyvhQ2FNBQlbIEkuuXKrNhJw
+ M8AbN9AkBS9V8gC4BNhncNs9LjrYiQ93NFjHTpOgXOenU+Q7mhpFRblJgQULYn5bMkgj
+ Gg06XIte1E4HcEwb762xFu82NvbWGRXJzCruCQvDNDn06vAs681ZP2fkSblMwWTYxU15
+ yl0CtXmbVwkoIxZ2LAML/1QSCqNw9yDMSqJiMdGlC8IerqUkFUnyW66OzURAyIUv/MXQ
+ 1kjA==
+X-Gm-Message-State: APjAAAVdjV2K1sSWopSCji9Bn5XgghKIUqGR1ERYFlGG70sU6Idj7ESK
+ nQTqGKuNHsgkLIg4yEdGLgk=
+X-Google-Smtp-Source: APXvYqxP038PvuV1FLgf/qJe3xkAHSlpiyuDb5dwsngIMudoi82SBETawDlLBkEq08kSt6lWIW9Rvw==
+X-Received: by 2002:a25:c5d1:: with SMTP id
+ v200mr32497273ybe.450.1579365758481; 
+ Sat, 18 Jan 2020 08:42:38 -0800 (PST)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id l74sm13213723ywc.45.2020.01.18.08.42.36
+ by smtp.gmail.com with ESMTPSA id g190sm12790274ywf.41.2020.01.18.08.42.37
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sat, 18 Jan 2020 08:42:36 -0800 (PST)
+ Sat, 18 Jan 2020 08:42:38 -0800 (PST)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 2/7] hw/arm/exynos4210: Fix DMA initialization
-Date: Sat, 18 Jan 2020 08:42:24 -0800
-Message-Id: <20200118164229.22539-3-linux@roeck-us.net>
+Subject: [PATCH v2 3/7] hw/char/exynos4210_uart: Convert to support tracing
+Date: Sat, 18 Jan 2020 08:42:25 -0800
+Message-Id: <20200118164229.22539-4-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200118164229.22539-1-linux@roeck-us.net>
 References: <20200118164229.22539-1-linux@roeck-us.net>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::b41
+X-Received-From: 2607:f8b0:4864:20::b44
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,148 +79,271 @@ Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First parameter to exynos4210_get_irq() is not the SPI port number,
-but the interrupt group number. Interrupt groups are 20 for mdma
-and 21 for pdma. Interrupts are not inverted. Controllers support 32
-events (pdma) or 31 events (mdma). Events must all be routed to a single
-interrupt line. Set other parameters as documented in Exynos4210 datasheet,
-section 8 (DMA controller).
+Replace debug code with tracing to aid debugging.
 
-Reduce the number of DMA events to 30 for both pdma and mdma. QEMU's OR
-interrupt gates are currently limited to less than 32, and we would need
-33 gates to support 32 event interrupts plus the abort interrupt.
-Operationally this should not make a difference since they are all
-routed to a single interrupt line anyway.
-
-Fixes: 59520dc65e ("hw/arm/exynos4210: Add DMA support for the Exynos4210")
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
-v2: Use interrupt combiner instead of connecting all events to a
-    single interrupt. Limit number of events per DMA channel
-    to 31 to meet qemu interrupt combiner limitations.
-    [Not sure if "assert(s->num_lines < MAX_OR_LINES);" should be
-     "assert(s->num_lines <= MAX_OR_LINES);"]
-    Introduce exynos4210_init() to handle interrupt combiner
-    initialization.
+v2: Added Reviewed-by: tag
 
- hw/arm/exynos4210.c         | 51 +++++++++++++++++++++++++++++++------
- include/hw/arm/exynos4210.h |  4 +++
- 2 files changed, 47 insertions(+), 8 deletions(-)
+ hw/char/exynos4210_uart.c | 96 ++++++++++++---------------------------
+ hw/char/trace-events      | 17 +++++++
+ 2 files changed, 47 insertions(+), 66 deletions(-)
 
-diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
-index 77fbe1baab..91586fe265 100644
---- a/hw/arm/exynos4210.c
-+++ b/hw/arm/exynos4210.c
-@@ -166,17 +166,36 @@ static uint64_t exynos4210_calc_affinity(int cpu)
-     return (0x9 << ARM_AFF1_SHIFT) | cpu;
- }
+diff --git a/hw/char/exynos4210_uart.c b/hw/char/exynos4210_uart.c
+index d6b6b62366..fb7a3ebd09 100644
+--- a/hw/char/exynos4210_uart.c
++++ b/hw/char/exynos4210_uart.c
+@@ -31,45 +31,7 @@
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
  
--static void pl330_create(uint32_t base, qemu_irq irq, int nreq)
-+static void pl330_create(uint32_t base, qemu_or_irq *orgate, qemu_irq irq,
-+                         int nreq, int nevents, int width)
+-#undef DEBUG_UART
+-#undef DEBUG_UART_EXTEND
+-#undef DEBUG_IRQ
+-#undef DEBUG_Rx_DATA
+-#undef DEBUG_Tx_DATA
+-
+-#define DEBUG_UART            0
+-#define DEBUG_UART_EXTEND     0
+-#define DEBUG_IRQ             0
+-#define DEBUG_Rx_DATA         0
+-#define DEBUG_Tx_DATA         0
+-
+-#if DEBUG_UART
+-#define  PRINT_DEBUG(fmt, args...)  \
+-        do { \
+-            fprintf(stderr, "  [%s:%d]   "fmt, __func__, __LINE__, ##args); \
+-        } while (0)
+-
+-#if DEBUG_UART_EXTEND
+-#define  PRINT_DEBUG_EXTEND(fmt, args...) \
+-        do { \
+-            fprintf(stderr, "  [%s:%d]   "fmt, __func__, __LINE__, ##args); \
+-        } while (0)
+-#else
+-#define  PRINT_DEBUG_EXTEND(fmt, args...) \
+-        do {} while (0)
+-#endif /* EXTEND */
+-
+-#else
+-#define  PRINT_DEBUG(fmt, args...)  \
+-        do {} while (0)
+-#define  PRINT_DEBUG_EXTEND(fmt, args...) \
+-        do {} while (0)
+-#endif
+-
+-#define  PRINT_ERROR(fmt, args...) \
+-        do { \
+-            fprintf(stderr, "  [%s:%d]   "fmt, __func__, __LINE__, ##args); \
+-        } while (0)
++#include "trace.h"
+ 
+ /*
+  *  Offsets for UART registers relative to SFR base address
+@@ -193,8 +155,7 @@ typedef struct Exynos4210UartState {
+ } Exynos4210UartState;
+ 
+ 
+-#if DEBUG_UART
+-/* Used only for debugging inside PRINT_DEBUG_... macros */
++/* Used only for tracing */
+ static const char *exynos4210_uart_regname(hwaddr  offset)
  {
-     SysBusDevice *busdev;
-     DeviceState *dev;
-+    int i;
  
-     dev = qdev_create(NULL, "pl330");
-+    qdev_prop_set_uint8(dev, "num_events", nevents);
-+    qdev_prop_set_uint8(dev, "num_chnls",  8);
-     qdev_prop_set_uint8(dev, "num_periph_req",  nreq);
-+
-+    qdev_prop_set_uint8(dev, "wr_cap", 4);
-+    qdev_prop_set_uint8(dev, "wr_q_dep", 8);
-+    qdev_prop_set_uint8(dev, "rd_cap", 4);
-+    qdev_prop_set_uint8(dev, "rd_q_dep", 8);
-+    qdev_prop_set_uint8(dev, "data_width", width);
-+    qdev_prop_set_uint16(dev, "data_buffer_dep", width);
-     qdev_init_nofail(dev);
-     busdev = SYS_BUS_DEVICE(dev);
-     sysbus_mmio_map(busdev, 0, base);
--    sysbus_connect_irq(busdev, 0, irq);
-+
-+    object_property_set_int(OBJECT(orgate), nevents + 1, "num-lines",
-+                            &error_abort);
-+    object_property_set_bool(OBJECT(orgate), true, "realized", &error_abort);
-+
-+    for (i = 0; i < nevents + 1; i++) {
-+        sysbus_connect_irq(busdev, i, qdev_get_gpio_in(DEVICE(orgate), i));
-+    }
-+    qdev_connect_gpio_out(DEVICE(orgate), 0, irq);
+@@ -208,7 +169,6 @@ static const char *exynos4210_uart_regname(hwaddr  offset)
+ 
+     return NULL;
+ }
+-#endif
+ 
+ 
+ static void fifo_store(Exynos4210UartFIFO *q, uint8_t ch)
+@@ -271,7 +231,7 @@ static uint32_t exynos4210_uart_Tx_FIFO_trigger_level(const Exynos4210UartState
+         break;
+     default:
+         level = 0;
+-        PRINT_ERROR("Wrong UART channel number: %d\n", s->channel);
++        trace_exynos_uart_channel_error(s->channel);
+     }
+ 
+     return level;
+@@ -297,14 +257,10 @@ static void exynos4210_uart_update_irq(Exynos4210UartState *s)
+ 
+     if (s->reg[I_(UINTP)]) {
+         qemu_irq_raise(s->irq);
+-
+-#if DEBUG_IRQ
+-        fprintf(stderr, "UART%d: IRQ has been raised: %08x\n",
+-                s->channel, s->reg[I_(UINTP)]);
+-#endif
+-
++        trace_exynos_uart_irq_raised(s->channel, s->reg[I_(UINTP)]);
+     } else {
+         qemu_irq_lower(s->irq);
++        trace_exynos_uart_irq_lowered(s->channel);
+     }
  }
  
- static void exynos4210_realize(DeviceState *socdev, Error **errp)
-@@ -431,12 +450,27 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
-             s->irq_table[exynos4210_get_irq(28, 3)]);
+@@ -348,7 +304,7 @@ static void exynos4210_uart_update_parameters(Exynos4210UartState *s)
  
-     /*** DMA controllers ***/
--    pl330_create(EXYNOS4210_PL330_BASE0_ADDR,
--                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(35, 1)]), 32);
--    pl330_create(EXYNOS4210_PL330_BASE1_ADDR,
--                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(36, 1)]), 32);
--    pl330_create(EXYNOS4210_PL330_BASE2_ADDR,
--                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(34, 1)]), 1);
-+    pl330_create(EXYNOS4210_PL330_BASE0_ADDR, &s->pl330_irq_orgate[0],
-+                 s->irq_table[exynos4210_get_irq(21, 0)], 32, 30, 32);
-+    pl330_create(EXYNOS4210_PL330_BASE1_ADDR, &s->pl330_irq_orgate[1],
-+                 s->irq_table[exynos4210_get_irq(21, 1)], 32, 30, 32);
-+    pl330_create(EXYNOS4210_PL330_BASE2_ADDR, &s->pl330_irq_orgate[2],
-+                 s->irq_table[exynos4210_get_irq(20, 1)], 1, 30, 64);
-+}
-+
-+static void exynos4210_init(Object *obj)
-+{
-+    Exynos4210State *s = EXYNOS4210_SOC(obj);
-+    int i;
-+
-+    for (i = 0; i < ARRAY_SIZE(s->pl330_irq_orgate); i++) {
-+        char *name = g_strdup_printf("pl330-irq-orgate%d", i);
-+        qemu_or_irq *orgate = &s->pl330_irq_orgate[i];
-+
-+        object_initialize_child(obj, name, orgate, sizeof(*orgate),
-+                                TYPE_OR_IRQ, &error_abort, NULL);
-+        g_free(name);
-+    }
+     qemu_chr_fe_ioctl(&s->chr, CHR_IOCTL_SERIAL_SET_PARAMS, &ssp);
+ 
+-    PRINT_DEBUG("UART%d: speed: %d, parity: %c, data: %d, stop: %d\n",
++    trace_exynos_uart_update_params(
+                 s->channel, speed, parity, data_bits, stop_bits);
  }
  
- static void exynos4210_class_init(ObjectClass *klass, void *data)
-@@ -450,6 +484,7 @@ static const TypeInfo exynos4210_info = {
-     .name = TYPE_EXYNOS4210_SOC,
-     .parent = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(Exynos4210State),
-+    .instance_init = exynos4210_init,
-     .class_init = exynos4210_class_init,
- };
+@@ -358,8 +314,8 @@ static void exynos4210_uart_write(void *opaque, hwaddr offset,
+     Exynos4210UartState *s = (Exynos4210UartState *)opaque;
+     uint8_t ch;
  
-diff --git a/include/hw/arm/exynos4210.h b/include/hw/arm/exynos4210.h
-index f0f23b0e9b..55260394af 100644
---- a/include/hw/arm/exynos4210.h
-+++ b/include/hw/arm/exynos4210.h
-@@ -24,6 +24,7 @@
- #ifndef EXYNOS4210_H
- #define EXYNOS4210_H
+-    PRINT_DEBUG_EXTEND("UART%d: <0x%04x> %s <- 0x%08llx\n", s->channel,
+-        offset, exynos4210_uart_regname(offset), (long long unsigned int)val);
++    trace_exynos_uart_write(s->channel, offset,
++                            exynos4210_uart_regname(offset), val);
  
-+#include "hw/or-irq.h"
- #include "hw/sysbus.h"
- #include "target/arm/cpu-qom.h"
+     switch (offset) {
+     case ULCON:
+@@ -373,12 +329,12 @@ static void exynos4210_uart_write(void *opaque, hwaddr offset,
+         if (val & UFCON_Rx_FIFO_RESET) {
+             fifo_reset(&s->rx);
+             s->reg[I_(UFCON)] &= ~UFCON_Rx_FIFO_RESET;
+-            PRINT_DEBUG("UART%d: Rx FIFO Reset\n", s->channel);
++            trace_exynos_uart_rx_fifo_reset(s->channel);
+         }
+         if (val & UFCON_Tx_FIFO_RESET) {
+             fifo_reset(&s->tx);
+             s->reg[I_(UFCON)] &= ~UFCON_Tx_FIFO_RESET;
+-            PRINT_DEBUG("UART%d: Tx FIFO Reset\n", s->channel);
++            trace_exynos_uart_tx_fifo_reset(s->channel);
+         }
+         break;
  
-@@ -74,6 +75,8 @@
+@@ -390,9 +346,7 @@ static void exynos4210_uart_write(void *opaque, hwaddr offset,
+             /* XXX this blocks entire thread. Rewrite to use
+              * qemu_chr_fe_write and background I/O callbacks */
+             qemu_chr_fe_write_all(&s->chr, &ch, 1);
+-#if DEBUG_Tx_DATA
+-            fprintf(stderr, "%c", ch);
+-#endif
++            trace_exynos_uart_tx(s->channel, ch);
+             s->reg[I_(UTRSTAT)] |= UTRSTAT_TRANSMITTER_EMPTY |
+                     UTRSTAT_Tx_BUFFER_EMPTY;
+             s->reg[I_(UINTSP)]  |= UINTSP_TXD;
+@@ -403,8 +357,7 @@ static void exynos4210_uart_write(void *opaque, hwaddr offset,
+     case UINTP:
+         s->reg[I_(UINTP)] &= ~val;
+         s->reg[I_(UINTSP)] &= ~val;
+-        PRINT_DEBUG("UART%d: UINTP [%04x] have been cleared: %08x\n",
+-                    s->channel, offset, s->reg[I_(UINTP)]);
++        trace_exynos_uart_intclr(s->channel, s->reg[I_(UINTP)]);
+         exynos4210_uart_update_irq(s);
+         break;
+     case UTRSTAT:
+@@ -412,7 +365,7 @@ static void exynos4210_uart_write(void *opaque, hwaddr offset,
+     case UFSTAT:
+     case UMSTAT:
+     case URXH:
+-        PRINT_DEBUG("UART%d: Trying to write into RO register: %s [%04x]\n",
++        trace_exynos_uart_ro_write(
+                     s->channel, exynos4210_uart_regname(offset), offset);
+         break;
+     case UINTSP:
+@@ -439,6 +392,8 @@ static uint64_t exynos4210_uart_read(void *opaque, hwaddr offset,
+     case UERSTAT: /* Read Only */
+         res = s->reg[I_(UERSTAT)];
+         s->reg[I_(UERSTAT)] = 0;
++        trace_exynos_uart_read(s->channel, offset,
++                               exynos4210_uart_regname(offset), res);
+         return res;
+     case UFSTAT: /* Read Only */
+         s->reg[I_(UFSTAT)] = fifo_elements_number(&s->rx) & 0xff;
+@@ -446,20 +401,22 @@ static uint64_t exynos4210_uart_read(void *opaque, hwaddr offset,
+             s->reg[I_(UFSTAT)] |= UFSTAT_Rx_FIFO_FULL;
+             s->reg[I_(UFSTAT)] &= ~0xff;
+         }
++        trace_exynos_uart_read(s->channel, offset,
++                               exynos4210_uart_regname(offset),
++                               s->reg[I_(UFSTAT)]);
+         return s->reg[I_(UFSTAT)];
+     case URXH:
+         if (s->reg[I_(UFCON)] & UFCON_FIFO_ENABLE) {
+             if (fifo_elements_number(&s->rx)) {
+                 res = fifo_retrieve(&s->rx);
+-#if DEBUG_Rx_DATA
+-                fprintf(stderr, "%c", res);
+-#endif
++                trace_exynos_uart_rx(s->channel, res);
+                 if (!fifo_elements_number(&s->rx)) {
+                     s->reg[I_(UTRSTAT)] &= ~UTRSTAT_Rx_BUFFER_DATA_READY;
+                 } else {
+                     s->reg[I_(UTRSTAT)] |= UTRSTAT_Rx_BUFFER_DATA_READY;
+                 }
+             } else {
++                trace_exynos_uart_rx_error(s->channel);
+                 s->reg[I_(UINTSP)] |= UINTSP_ERROR;
+                 exynos4210_uart_update_irq(s);
+                 res = 0;
+@@ -468,15 +425,22 @@ static uint64_t exynos4210_uart_read(void *opaque, hwaddr offset,
+             s->reg[I_(UTRSTAT)] &= ~UTRSTAT_Rx_BUFFER_DATA_READY;
+             res = s->reg[I_(URXH)];
+         }
++        trace_exynos_uart_read(s->channel, offset,
++                               exynos4210_uart_regname(offset), res);
+         return res;
+     case UTXH:
+-        PRINT_DEBUG("UART%d: Trying to read from WO register: %s [%04x]\n",
+-                    s->channel, exynos4210_uart_regname(offset), offset);
++        trace_exynos_uart_wo_read(s->channel, exynos4210_uart_regname(offset),
++                                  offset);
+         break;
+     default:
++        trace_exynos_uart_read(s->channel, offset,
++                               exynos4210_uart_regname(offset),
++                               s->reg[I_(offset)]);
+         return s->reg[I_(offset)];
+     }
  
- #define EXYNOS4210_I2C_NUMBER               9
++    trace_exynos_uart_read(s->channel, offset, exynos4210_uart_regname(offset),
++                           0);
+     return 0;
+ }
  
-+#define EXYNOS4210_NUM_DMA      3
+@@ -555,7 +519,7 @@ static void exynos4210_uart_reset(DeviceState *dev)
+     fifo_reset(&s->rx);
+     fifo_reset(&s->tx);
+ 
+-    PRINT_DEBUG("UART%d: Rx FIFO size: %d\n", s->channel, s->rx.size);
++    trace_exynos_uart_rxsize(s->channel, s->rx.size);
+ }
+ 
+ static const VMStateDescription vmstate_exynos4210_uart_fifo = {
+diff --git a/hw/char/trace-events b/hw/char/trace-events
+index 2ce7f2f998..ba28b45b53 100644
+--- a/hw/char/trace-events
++++ b/hw/char/trace-events
+@@ -77,3 +77,20 @@ cmsdk_apb_uart_set_params(int speed) "CMSDK APB UART: params set to %d 8N1"
+ # nrf51_uart.c
+ nrf51_uart_read(uint64_t addr, uint64_t r, unsigned int size) "addr 0x%" PRIx64 " value 0x%" PRIx64 " size %u"
+ nrf51_uart_write(uint64_t addr, uint64_t value, unsigned int size) "addr 0x%" PRIx64 " value 0x%" PRIx64 " size %u"
 +
- typedef struct Exynos4210Irq {
-     qemu_irq int_combiner_irq[EXYNOS4210_MAX_INT_COMBINER_IN_IRQ];
-     qemu_irq ext_combiner_irq[EXYNOS4210_MAX_EXT_COMBINER_IN_IRQ];
-@@ -97,6 +100,7 @@ typedef struct Exynos4210State {
-     MemoryRegion boot_secondary;
-     MemoryRegion bootreg_mem;
-     I2CBus *i2c_if[EXYNOS4210_I2C_NUMBER];
-+    qemu_or_irq pl330_irq_orgate[EXYNOS4210_NUM_DMA];
- } Exynos4210State;
- 
- #define TYPE_EXYNOS4210_SOC "exynos4210"
++# exynos4210_uart.c
++exynos_uart_irq_raised(uint32_t channel, uint32_t reg) "UART%d: IRQ raised: 0x%08"PRIx32
++exynos_uart_irq_lowered(uint32_t channel) "UART%d: IRQ lowered"
++exynos_uart_update_params(uint32_t channel, int speed, uint8_t parity, int data, int stop) "UART%d: speed: %d, parity: %c, data bits: %d, stop bits: %d"
++exynos_uart_write(uint32_t channel, uint32_t offset, const char *name, uint64_t val) "UART%d: <0x%04x> %s <- 0x%" PRIx64
++exynos_uart_read(uint32_t channel, uint32_t offset, const char *name, uint64_t val) "UART%d: <0x%04x> %s -> 0x%" PRIx64
++exynos_uart_rx_fifo_reset(uint32_t channel) "UART%d: Rx FIFO Reset"
++exynos_uart_tx_fifo_reset(uint32_t channel) "UART%d: Tx FIFO Reset"
++exynos_uart_tx(uint32_t channel, uint8_t ch) "UART%d: Tx 0x%02"PRIx32
++exynos_uart_intclr(uint32_t channel, uint32_t reg) "UART%d: interrupts cleared: 0x%08"PRIx32
++exynos_uart_ro_write(uint32_t channel, const char *name, uint32_t reg) "UART%d: Trying to write into RO register: %s [0x%04"PRIx32"]"
++exynos_uart_rx(uint32_t channel, uint8_t ch) "UART%d: Rx 0x%02"PRIx32
++exynos_uart_rx_error(uint32_t channel) "UART%d: Rx error"
++exynos_uart_wo_read(uint32_t channel, const char *name, uint32_t reg) "UART%d: Trying to read from WO register: %s [0x%04"PRIx32"]"
++exynos_uart_rxsize(uint32_t channel, uint32_t size) "UART%d: Rx FIFO size: %d"
++exynos_uart_channel_error(uint32_t channel) "Wrong UART channel number: %d"
 -- 
 2.17.1
 
