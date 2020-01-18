@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2BF3141924
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:27:57 +0100 (CET)
-Received: from localhost ([::1]:44138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB0D14192B
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 20:30:02 +0100 (CET)
+Received: from localhost ([::1]:44154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1istlE-0005NU-M4
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:27:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49895)
+	id 1istnF-00083y-KA
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 14:30:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1istdk-0004Ks-GH
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:20:17 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1istdx-0004ZY-Ga
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:20:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1istdj-0006Fq-4x
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:20:12 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34106)
+ (envelope-from <mrolnik@gmail.com>) id 1istdv-0006V7-Uc
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:20:25 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36028)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1istdi-0006Dm-VA
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:20:11 -0500
-Received: by mail-wr1-x443.google.com with SMTP id t2so25742136wrr.1
- for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 11:20:10 -0800 (PST)
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1istdv-0006UQ-NS
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 14:20:23 -0500
+Received: by mail-wm1-x342.google.com with SMTP id p17so10835837wma.1
+ for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 11:20:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=CeCJIWj7KEsbYgi+WRu8j/SFE70+Y+4bb7FIq+Fj++s=;
- b=gvdph8/6CB7tTUmABDfI0RjsCMG37bjnGz3rwyKw1W+w3mDD56nAQmOEZN5jSrIAPj
- xE6LogXs8tyffxrek24+k9QtYg5AD4RBCz4SdHmqPh6Lp6Nz8IyjZVQWXsPgIMzDFeV6
- 3Q7t5ScyIdIvrpLNnxlGOf0SF61hgxva+IZtAGdNopKPSrxWqyhyJmTeWJ/Itlznv7cV
- XSkQSnsdXnhTpCP/WQfyTDWqXM47DEXTpi/NZN7aXYo5Fo3/gLRXoI/yjYc9OcW4BZQ5
- M86v8KJqphXw49za2YLTfohlzjxZgrKBe2gWoio6ikzBJdeN4wwju3tFPuh400Tc/rNj
- AIVQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5yfz9MQo280PT/NsGT7YR9biuc52GxSK6GWnkktDRwc=;
+ b=sSfET0ThVxbxOMAnVvGcz3tqR5Nl1at90AP4B+lXQ1Ti+w6m/XYmr6FTRreAjw1XgY
+ jPRvkG3xO/cB4byJYyeXqe7WKekn5LU0guYllvR/MM4MZKCoMYo1bl5md49//LY5WwiH
+ p3KB1RXs0yztEfGzAf8jYVB39bbJHolHeYAZjgiNc013mu1Ut4ItXe+PnoJIWa63Hf9K
+ dvknSfcm/HXLC/X5M1pFb6Q70iZo9flTmkTa1DE5Uxwb+ecZFtyDg1PLJmNWasPiW4yf
+ yyLmG8PwTYyVdlQZyKnBcGP1fv2gfjPAevCCofbD5CD667CR0KwrPPg9lGa9xzmqQple
+ y9cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=CeCJIWj7KEsbYgi+WRu8j/SFE70+Y+4bb7FIq+Fj++s=;
- b=o1PwXuIltN683U67BRehRL+mAbmHthQs0bRcF+PRkeMDZepfzI8J47X6qtc2uOvz6m
- H+FtVDHHXlisN5ehqjfv+GNvCAHSiaflSQTnBiE6MP2d2JwoXLAAYiGEat7z1/NNzBQC
- YBIWr5RLgWclt8v5dUHrPXYwGrcRmPjsDxLTiXh2UsPav4NCbckAhrdPKjPPn0JsjNqk
- 02KrUPKnKCMNVKFPx0QN/66vZmnAyWk6VBdwcY8Zv6vVdMg/jjlWNtLfdUyejjfKBqSV
- cVr6u58NSTGwH4UxzbXo5LO/qGcSORJwL38l05yj3cdlmXMhJLer3Ll3h5ODL2Pl49j3
- 3LRA==
-X-Gm-Message-State: APjAAAXXw+nDwDrVhiQ5Safi+1iNoLNrUKMjL9ogQDTAShGoLjxO9Rss
- l+i0bw7tFJO8VPFTVjzea6g3sxXSD7YyBYgB
-X-Google-Smtp-Source: APXvYqxZV4ciit8T30CCoHZjmYWHZUER8dFKWpM6SUHv0nG+UCCB9jaWrXBDqJJpOpPsL+tgKRXWhw==
-X-Received: by 2002:adf:e6d2:: with SMTP id y18mr9769815wrm.262.1579375209751; 
- Sat, 18 Jan 2020 11:20:09 -0800 (PST)
+ :references:mime-version:content-transfer-encoding;
+ bh=5yfz9MQo280PT/NsGT7YR9biuc52GxSK6GWnkktDRwc=;
+ b=lOwxZI6m9lkuScZuY5LBbTQ/rk7gSTNvbr8cQ0hPwkP58SOTMp+HGN91DBtw09A5cn
+ 3Efd3K2THYpPwZV8laGBz/6lfakj5ox8y82Ymoqmh+O+0P2VRQq4kfz0mE4cDNEI2gxb
+ dMuFuPEjQ8ERBgFxce+ard/vaUfzZY6VNeMgNF/FS2H7j1+zr+IccZW18482YJVZJrr0
+ SbC++2xAO3Qkf0dMJkY3e7Myu5+EJWg5a8AteIkDPhKcEhqY1zaUww1IlZusvmXxcQp4
+ ca2kxLr4LPVdGG4Zrz/i/aIBehfSzzwwnyeEs1ots9fxlZDpDYPtn5ScClZek9fy75tN
+ rvWA==
+X-Gm-Message-State: APjAAAWeMfJSP5Tm8z8h4sm0POYqO+Qc8uxHH78/neMsEtehM5ci6U9m
+ ctv/gHZXji1lT1c0sVc0aOVN2a/FfRzPABX4
+X-Google-Smtp-Source: APXvYqwYzWZQ19XFyIRk7zKDyp8gWEetzZXjJH/mvWwmISrcvsfB0cEvDnVSslfNa8lBYTkQ+ThVXQ==
+X-Received: by 2002:a05:600c:2050:: with SMTP id
+ p16mr10804773wmg.176.1579375222475; 
+ Sat, 18 Jan 2020 11:20:22 -0800 (PST)
 Received: from 8c859074c0ff.ant.amazon.com.com
  (bzq-109-65-108-13.red.bezeqint.net. [109.65.108.13])
- by smtp.gmail.com with ESMTPSA id o16sm2875468wmc.18.2020.01.18.11.20.02
+ by smtp.gmail.com with ESMTPSA id o16sm2875468wmc.18.2020.01.18.11.20.10
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sat, 18 Jan 2020 11:20:09 -0800 (PST)
+ Sat, 18 Jan 2020 11:20:22 -0800 (PST)
 From: Michael Rolnik <mrolnik@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v41 08/21] target/avr: Add instruction translation - MCU
- Control Instructions
-Date: Sat, 18 Jan 2020 21:14:03 +0200
-Message-Id: <20200118191416.19934-9-mrolnik@gmail.com>
+Subject: [PATCH v41 09/21] target/avr: Add instruction translation - CPU main
+ translation function
+Date: Sat, 18 Jan 2020 21:14:04 +0200
+Message-Id: <20200118191416.19934-10-mrolnik@gmail.com>
 X-Mailer: git-send-email 2.17.2 (Apple Git-113)
 In-Reply-To: <20200118191416.19934-1-mrolnik@gmail.com>
 References: <20200118191416.19934-1-mrolnik@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,111 +86,257 @@ Cc: thuth@redhat.com, Michael Rolnik <mrolnik@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes:
-    - BREAK
-    - NOP
-    - SLEEP
-    - WDR
+Co-developed-by: Richard Henderson <richard.henderson@linaro.org>
+Co-developed-by: Michael Rolnik <mrolnik@gmail.com>
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- target/avr/translate.c | 68 ++++++++++++++++++++++++++++++++++++++++++
- target/avr/insn.decode |  9 ++++++
- 2 files changed, 77 insertions(+)
+ target/avr/translate.c | 234 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 234 insertions(+)
 
 diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 58775af17c..4c680070e2 100644
+index 4c680070e2..af88bb2e5a 100644
 --- a/target/avr/translate.c
 +++ b/target/avr/translate.c
-@@ -2681,3 +2681,71 @@ static bool trans_BCLR(DisasContext *ctx, arg_BCLR *a)
+@@ -2749,3 +2749,237 @@ static bool trans_WDR(DisasContext *ctx, arg_WDR *a)
  
      return true;
  }
 +
-+/*
-+ * MCU Control Instructions
-+ */
 +
-+/*
-+ *  The BREAK instruction is used by the On-chip Debug system, and is
-+ *  normally not used in the application software. When the BREAK instruction is
-+ *  executed, the AVR CPU is set in the Stopped Mode. This gives the On-chip
-+ *  Debugger access to internal resources.  If any Lock bits are set, or either
-+ *  the JTAGEN or OCDEN Fuses are unprogrammed, the CPU will treat the BREAK
-+ *  instruction as a NOP and will not enter the Stopped mode.  This instruction
-+ *  is not available in all devices. Refer to the device specific instruction
-+ *  set summary.
-+ */
-+static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)
++void avr_cpu_tcg_init(void)
 +{
-+    if (!avr_have_feature(ctx, AVR_FEATURE_BREAK)) {
-+        return true;
++    int i;
++
++#define AVR_REG_OFFS(x) offsetof(CPUAVRState, x)
++    cpu_pc = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(pc_w), "pc");
++    cpu_Cf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregC), "Cf");
++    cpu_Zf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregZ), "Zf");
++    cpu_Nf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregN), "Nf");
++    cpu_Vf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregV), "Vf");
++    cpu_Sf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregS), "Sf");
++    cpu_Hf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregH), "Hf");
++    cpu_Tf = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregT), "Tf");
++    cpu_If = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregI), "If");
++    cpu_rampD = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampD), "rampD");
++    cpu_rampX = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampX), "rampX");
++    cpu_rampY = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampY), "rampY");
++    cpu_rampZ = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampZ), "rampZ");
++    cpu_eind = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(eind), "eind");
++    cpu_sp = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sp), "sp");
++    cpu_skip = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(skip), "skip");
++
++    for (i = 0; i < NUMBER_OF_CPU_REGISTERS; i++) {
++        cpu_r[i] = tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(r[i]),
++                                          reg_names[i]);
++    }
++#undef AVR_REG_OFFS
++}
++
++static void translate(DisasContext *ctx)
++{
++    uint32_t opcode = next_word(ctx);
++
++    if (!decode_insn(ctx, opcode)) {
++        gen_helper_unsupported(cpu_env);
++        ctx->bstate = DISAS_NORETURN;
++    }
++}
++
++/* Standardize the cpu_skip condition to NE.  */
++static bool canonicalize_skip(DisasContext *ctx)
++{
++    switch (ctx->skip_cond) {
++    case TCG_COND_NEVER:
++        /* Normal case: cpu_skip is known to be false.  */
++        return false;
++
++    case TCG_COND_ALWAYS:
++        /*
++         * Breakpoint case: cpu_skip is known to be true, via TB_FLAGS_SKIP.
++         * The breakpoint is on the instruction being skipped, at the start
++         * of the TranslationBlock.  No need to update.
++         */
++        return false;
++
++    case TCG_COND_NE:
++        if (ctx->skip_var1 == NULL) {
++            tcg_gen_mov_tl(cpu_skip, ctx->skip_var0);
++        } else {
++            tcg_gen_xor_tl(cpu_skip, ctx->skip_var0, ctx->skip_var1);
++            ctx->skip_var1 = NULL;
++        }
++        break;
++
++    default:
++        /* Convert to a NE condition vs 0. */
++        if (ctx->skip_var1 == NULL) {
++            tcg_gen_setcondi_tl(ctx->skip_cond, cpu_skip, ctx->skip_var0, 0);
++        } else {
++            tcg_gen_setcond_tl(ctx->skip_cond, cpu_skip,
++                               ctx->skip_var0, ctx->skip_var1);
++            ctx->skip_var1 = NULL;
++        }
++        ctx->skip_cond = TCG_COND_NE;
++        break;
++    }
++    if (ctx->free_skip_var0) {
++        tcg_temp_free(ctx->skip_var0);
++        ctx->free_skip_var0 = false;
++    }
++    ctx->skip_var0 = cpu_skip;
++    return true;
++}
++
++void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
++{
++    CPUAVRState *env = cs->env_ptr;
++    DisasContext ctx = {
++        .tb = tb,
++        .cs = cs,
++        .env = env,
++        .memidx = 0,
++        .bstate = DISAS_NEXT,
++        .skip_cond = TCG_COND_NEVER,
++        .singlestep = cs->singlestep_enabled,
++    };
++    target_ulong pc_start = tb->pc / 2;
++    int num_insns = 0;
++
++    if (tb->flags & TB_FLAGS_FULL_ACCESS) {
++        /*
++         * This flag is set by ST/LD instruction we will regenerate it ONLY
++         * with mem/cpu memory access instead of mem access
++         */
++        max_insns = 1;
++    }
++    if (ctx.singlestep) {
++        max_insns = 1;
 +    }
 +
-+#ifdef BREAKPOINT_ON_BREAK
-+    tcg_gen_movi_tl(cpu_pc, ctx->npc - 1);
-+    gen_helper_debug(cpu_env);
-+    ctx->bstate = DISAS_EXIT;
-+#else
-+    /* NOP */
-+#endif
++    gen_tb_start(tb);
 +
-+    return true;
++    ctx.npc = pc_start;
++    if (tb->flags & TB_FLAGS_SKIP) {
++        ctx.skip_cond = TCG_COND_ALWAYS;
++        ctx.skip_var0 = cpu_skip;
++    }
++
++    do {
++        TCGLabel *skip_label = NULL;
++
++        /* translate current instruction */
++        tcg_gen_insn_start(ctx.npc);
++        num_insns++;
++
++        /*
++         * this is due to some strange GDB behavior
++         * let's assume main has address 0x100
++         * b main   - sets breakpoint at address 0x00000100 (code)
++         * b *0x100 - sets breakpoint at address 0x00800100 (data)
++         */
++        if (unlikely(!ctx.singlestep &&
++                (cpu_breakpoint_test(cs, OFFSET_CODE + ctx.npc * 2, BP_ANY) ||
++                 cpu_breakpoint_test(cs, OFFSET_DATA + ctx.npc * 2, BP_ANY)))) {
++            canonicalize_skip(&ctx);
++            tcg_gen_movi_tl(cpu_pc, ctx.npc);
++            gen_helper_debug(cpu_env);
++            goto done_generating;
++        }
++
++        /* Conditionally skip the next instruction, if indicated.  */
++        if (ctx.skip_cond != TCG_COND_NEVER) {
++            skip_label = gen_new_label();
++            if (ctx.skip_var0 == cpu_skip) {
++                /*
++                 * Copy cpu_skip so that we may zero it before the branch.
++                 * This ensures that cpu_skip is non-zero after the label
++                 * if and only if the skipped insn itself sets a skip.
++                 */
++                ctx.free_skip_var0 = true;
++                ctx.skip_var0 = tcg_temp_new();
++                tcg_gen_mov_tl(ctx.skip_var0, cpu_skip);
++                tcg_gen_movi_tl(cpu_skip, 0);
++            }
++            if (ctx.skip_var1 == NULL) {
++                tcg_gen_brcondi_tl(ctx.skip_cond, ctx.skip_var0, 0, skip_label);
++            } else {
++                tcg_gen_brcond_tl(ctx.skip_cond, ctx.skip_var0,
++                                  ctx.skip_var1, skip_label);
++                ctx.skip_var1 = NULL;
++            }
++            if (ctx.free_skip_var0) {
++                tcg_temp_free(ctx.skip_var0);
++                ctx.free_skip_var0 = false;
++            }
++            ctx.skip_cond = TCG_COND_NEVER;
++            ctx.skip_var0 = NULL;
++        }
++
++        translate(&ctx);
++
++        if (skip_label) {
++            canonicalize_skip(&ctx);
++            gen_set_label(skip_label);
++            if (ctx.bstate == DISAS_NORETURN) {
++                ctx.bstate = DISAS_CHAIN;
++            }
++        }
++    } while (ctx.bstate == DISAS_NEXT
++             && num_insns < max_insns
++             && (ctx.npc - pc_start) * 2 < TARGET_PAGE_SIZE - 4
++             && !tcg_op_buf_full());
++
++    if (tb->cflags & CF_LAST_IO) {
++        gen_io_end();
++    }
++
++    bool nonconst_skip = canonicalize_skip(&ctx);
++
++    switch (ctx.bstate) {
++    case DISAS_NORETURN:
++        assert(!nonconst_skip);
++        break;
++    case DISAS_NEXT:
++    case DISAS_TOO_MANY:
++    case DISAS_CHAIN:
++        if (!nonconst_skip) {
++            /* Note gen_goto_tb checks singlestep.  */
++            gen_goto_tb(&ctx, 1, ctx.npc);
++            break;
++        }
++        tcg_gen_movi_tl(cpu_pc, ctx.npc);
++        /* fall through */
++    case DISAS_LOOKUP:
++        if (!ctx.singlestep) {
++            tcg_gen_lookup_and_goto_ptr();
++            break;
++        }
++        /* fall through */
++    case DISAS_EXIT:
++        if (ctx.singlestep) {
++            gen_helper_debug(cpu_env);
++        } else {
++            tcg_gen_exit_tb(NULL, 0);
++        }
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++done_generating:
++    gen_tb_end(tb, num_insns);
++
++    tb->size = (ctx.npc - pc_start) * 2;
++    tb->icount = num_insns;
 +}
 +
-+
-+/*
-+ *  This instruction performs a single cycle No Operation.
-+ */
-+static bool trans_NOP(DisasContext *ctx, arg_NOP *a)
++void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
++                            target_ulong *data)
 +{
-+
-+    /* NOP */
-+
-+    return true;
++    env->pc_w = data[0];
 +}
-+
-+
-+/*
-+ *  This instruction sets the circuit in sleep mode defined by the MCU
-+ *  Control Register.
-+ */
-+static bool trans_SLEEP(DisasContext *ctx, arg_SLEEP *a)
-+{
-+    gen_helper_sleep(cpu_env);
-+    ctx->bstate = DISAS_NORETURN;
-+    return true;
-+}
-+
-+
-+/*
-+ *  This instruction resets the Watchdog Timer. This instruction must be
-+ *  executed within a limited time given by the WD prescaler. See the Watchdog
-+ *  Timer hardware specification.
-+ */
-+static bool trans_WDR(DisasContext *ctx, arg_WDR *a)
-+{
-+    gen_helper_wdr(cpu_env);
-+
-+    return true;
-+}
-diff --git a/target/avr/insn.decode b/target/avr/insn.decode
-index 4ee55862b2..0e4ec9ddf0 100644
---- a/target/avr/insn.decode
-+++ b/target/avr/insn.decode
-@@ -172,3 +172,12 @@ BST             1111 101 rd:5 0 bit:3
- BLD             1111 100 rd:5 0 bit:3
- BSET            1001 0100 0 bit:3 1000
- BCLR            1001 0100 1 bit:3 1000
-+
-+#
-+# MCU Control Instructions
-+#
-+BREAK           1001 0101 1001 1000
-+NOP             0000 0000 0000 0000
-+SLEEP           1001 0101 1000 1000
-+WDR             1001 0101 1010 1000
-+
 -- 
 2.17.2 (Apple Git-113)
 
