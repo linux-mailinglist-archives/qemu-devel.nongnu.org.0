@@ -2,89 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD60D1417E7
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 15:13:52 +0100 (CET)
-Received: from localhost ([::1]:40720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC3E1417E4
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 15:12:10 +0100 (CET)
+Received: from localhost ([::1]:40696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isorH-0000cz-Rx
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 09:13:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45551)
+	id 1isopd-00076F-GI
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 09:12:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1isolo-000277-6n
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:08:15 -0500
+ (envelope-from <Aleksandar.Markovic@rt-rk.com>) id 1isonM-0004Xm-Ct
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:09:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1isoll-00004q-Dg
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:08:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25790
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <Aleksandar.Markovic@rt-rk.com>) id 1isonJ-0000s3-7t
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:09:47 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:53168 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isoll-0008Vw-A6
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:08:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579356488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Iu7vbZou4Mkqkj+xWBLbpLkoGfA0UBUnIAfcX2ZZffA=;
- b=D6zo+p95EQr39nyRF8vOdPTSDGXVEj2ktk2S32asAN6WgpCkk0RQAcWdi952QRg8rTOtPo
- a2DOKNxYQzJV0xoJrEYn3RCkPf+P1X7UOr42lQzSJx5Brmg9j+2oHUZ24XQy3B3VZptX+1
- rfS39bSjDmtA3lFcCrll0Y5/Tgb47Ao=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-kRpz5jcKM9O2rt7I1TQsAw-1; Sat, 18 Jan 2020 09:08:07 -0500
-Received: by mail-wr1-f70.google.com with SMTP id t3so11716297wrm.23
- for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 06:08:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9o3S4O25WsiD4zcH7WvaRM+9ICaD1wM7brIRiW5nnkk=;
- b=nUUntIBBMVzcvnM1wSzxX1Qn5wetaWgfTyNMFH3Rx+LsNP3QdqAqyLm7LOMehw4CTY
- wXtNghaSyvB5orAuE0aK9mb/djy7+5/5eypi5bA9JPdViL7wBKdaDAfAYsmuOMMh23k/
- rO+P/4IrqXp7u6rliDEdesHqVnTyN7Awraz5tJUnPHhMFqYw8jk8Zat3xOrEy6boqxDW
- UyLY61vU7+0i2IT2PGUpd+ss4sNhlXkcNrvdy+d/7OdsU+TSVszPbEtIcZiwv8ZxVmf1
- 7zalRPhPEZAYvaa+P19RbnTPswufojlwK8s0SL7izGpH3HmCCu9dPDHo53UQZnh/Ajvd
- xlEA==
-X-Gm-Message-State: APjAAAWSDBm1tIr8B5kBP5P5oCIpxQ3ILEASqEkSFjnCmrkC+Swu3axV
- ee82yAd5i31mrQABaobrAHhSYm4OWRjf1le5JbFfWmsts1rQu6+c/dBJ3dsHLsh2KQNhywgKM66
- U6soLBXKS1wBbH84=
-X-Received: by 2002:a05:600c:d7:: with SMTP id
- u23mr9989786wmm.145.1579356485941; 
- Sat, 18 Jan 2020 06:08:05 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyo8oLx+2Uoma9B9ZuTxpsO1h0KCe8dqGp3Wz4ymq8GIlfNEGaM/UeKV2tZfBtTZntcKXifZQ==
-X-Received: by 2002:a05:600c:d7:: with SMTP id
- u23mr9989751wmm.145.1579356485643; 
- Sat, 18 Jan 2020 06:08:05 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id g21sm3731471wmh.17.2020.01.18.06.08.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 18 Jan 2020 06:08:05 -0800 (PST)
-Subject: Re: [PATCH v2 2/2] MAINTAINERS: Move the OMAP section inside the ARM
- Machines one
-To: Markus Armbruster <armbru@redhat.com>
-References: <20200118085509.30182-1-philmd@redhat.com>
- <20200118085509.30182-3-philmd@redhat.com>
- <87pnfgq4ca.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ed3f9476-212e-18b3-7fe8-2242eef63515@redhat.com>
-Date: Sat, 18 Jan 2020 15:08:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <Aleksandar.Markovic@rt-rk.com>)
+ id 1isonI-0000Ld-SM
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:09:45 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id BD3A61A151E
+ for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 15:08:39 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: by mail.rt-rk.com (Postfix, from userid 492)
+ id 774301A1E96; Sat, 18 Jan 2020 15:08:37 +0100 (CET)
+from: "Aleksandar Markovic" <Aleksandar.Markovic@rt-rk.com>
+X-Forward: 127.0.0.1
+content-type: multipart/alternative;
+ boundary="----=_=-_OpenGroupware_org_NGMime-12874-1579356517.468211-3------"
+date: Sat, 18 Jan 2020 15:08:37 +0100
+subject: =?utf-8?q?=5BGSoC=2FOutreachy?= QEMU project =?utf-8?q?proposal=5D?= 
+ Measure and Analyze QEMU Performance
 MIME-Version: 1.0
-In-Reply-To: <87pnfgq4ca.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-MC-Unique: kRpz5jcKM9O2rt7I1TQsAw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+to: qemu-devel@nongnu.org
+message-id: <324a-5e231180-7-6946d180@169257031>
+User-Agent: SOGoMail 2.3.10
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,62 +51,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/18/20 2:30 PM, Markus Armbruster wrote:
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->=20
->> Add the Siemens SX1 (OMAP310) machines with the other ARM machines.
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->>   MAINTAINERS | 14 +++++++-------
->>   1 file changed, 7 insertions(+), 7 deletions(-)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 52fbc18566..e2c148d8d8 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -560,6 +560,13 @@ F: include/hw/arm/digic.h
->>   F: hw/*/digic*
->>   F: include/hw/*/digic*
->>  =20
->> +OMAP
->> +M: Peter Maydell <peter.maydell@linaro.org>
->> +L: qemu-arm@nongnu.org
->> +S: Maintained
->> +F: hw/*/omap*
->> +F: include/hw/arm/omap.h
->> +
->>   Gumstix
->>   M: Peter Maydell <peter.maydell@linaro.org>
->>   R: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> @@ -1404,13 +1411,6 @@ F: include/hw/block/fdc.h
->>   F: tests/qtest/fdc-test.c
->>   T: git https://github.com/jnsnow/qemu.git ide
->>  =20
->> -OMAP
->> -M: Peter Maydell <peter.maydell@linaro.org>
->> -L: qemu-arm@nongnu.org
->> -S: Maintained
->> -F: hw/*/omap*
->> -F: include/hw/arm/omap.h
->> -
->>   IPack
->>   M: Alberto Garcia <berto@igalia.com>
->>   S: Odd Fixes
->=20
-> Commit message says "add", patch seems to merely move an existing
-> entry.  What am I missing?
+------=_=-_OpenGroupware_org_NGMime-12874-1579356517.468211-3------
+content-type: text/plain; charset=utf-8
+content-length: 3077
+content-transfer-encoding: quoted-printable
 
-Ah yes indeed. Peter, can you modify s/Add/Move/ in the description or=20
-do you prefer a respin?
 
-Thanks,
+Hi, everybody.
 
-Phil.
+I am going to propose several ideas for QEMU participation in GSoC/Outr=
+eachy in next few days. This is the first one. Please feel free to give=
+ an honest feedback.
+
+Yours,
+Aleksandar
+
+
+
+Measure and Analyze Performance of
+QEMU User and System Mode Emulation
+
+
+PLANNED ACTIVITIES
+
+PART I: (user mode)
+
+=C2=A0=C2=A0 a) select around a dozen test programs (resembling compone=
+nts of SPEC benchmark, but must be open source, and preferably license =
+compatible with QEMU); test programs should be distributed like this: 4=
+-5 FPU CPU-intensive, 4-5 non-FPU CPU intensive, 1-2 I/O intensive;
+=C2=A0=C2=A0 b) measure execution time and other performance data in us=
+er mode across all platforms for ToT:
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - try to improve performance if th=
+ere is an obvious bottleneck (but this is unlikely);
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - develop tests that will be prote=
+ction against performance regressions in future.
+=C2=A0=C2=A0 c) measure execution time in user-mode for selected platfo=
+rms for all QEMU versions in last 5 years:
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - confirm performance improvements=
+ and/or detect performance degradations.
+=C2=A0=C2=A0 d) summarize all results in a comprehensive form, using al=
+so graphics/data visualization.
+
+PART II: (system mode)
+
+=C2=A0=C2=A0 a) measure execution time and other performance data for b=
+oot/shutdown cycle for selected machines for ToT:
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - try to improve performance if th=
+ere is an obvious bottleneck;
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - develop tests that will be prote=
+ction against performance regressions in future.
+=C2=A0=C2=A0 b) summarize all results in a comprehensive form.
+
+
+DELIVERABLES
+
+1) Each maintainer for target will be given a list of top 25 functions =
+in terms of spent host time for each benchmark described in the previou=
+s section. Additional information and observations will be also provide=
+d, if the judgment is they are useful and relevant.
+
+2) Each maintainer for machine (that has successful boot/shutdown cycle=
+) will be given a list of top 25 functions in terms of spent host time =
+during boot/shutdown cycle. Additional information and observations wil=
+l be also provided, if the judgment is they are useful and relevant.
+
+3) The community will be given all devised performance measurement meth=
+ods in the form of easily reproducible step-by-step setup and execution=
+ procedures.
+
+(parts 1) and 2) will be, of course, published to everybody, maintainer=
+s are simply singled out as main recipients and decision-makers on poss=
+ible next action items)
+
+Deliverable will be distributed over wide time interval (in other words=
+, they will not be presented just at the end of project, but gradually =
+during project execution).
+
+
+Mentor: Aleksandar Markovic (myself) (but, I am perfectly fine if someb=
+ody else wants to mentor the project, if interested)
+
+Student: open
+
+
+That would be all, feel free to ask for additional info and/or clarific=
+ation.
+=C2=A0
+
+------=_=-_OpenGroupware_org_NGMime-12874-1579356517.468211-3------
+content-type: text/html; charset=utf-8
+content-length: 3635
+content-transfer-encoding: quoted-printable
+
+<html>Hi, everybody.<br /><br />I am going to propose several ideas for=
+ QEMU participation in GSoC/Outreachy in next few days. This is the fir=
+st one. Please feel free to give an honest feedback.<br /><br />Yours,<=
+br />Aleksandar<br /><br /><br /><br /><span style=3D"font-size:16px;">=
+<strong><span style=3D"font-size:20px;">Measure and Analyze Performance=
+ of<br />QEMU User and System Mode Emulation</span></strong></span><br =
+/><br /><br /><span style=3D"font-size:16px;"><u><em>PLANNED ACTIVITIES=
+</em></u></span><br /><br />PART I: (user mode)<br /><br />&nbsp;&nbsp;=
+ a) select around a dozen test programs (resembling components of SPEC =
+benchmark, but must be open source, and preferably license compatible w=
+ith QEMU); test programs should be distributed like this: 4-5 FPU CPU-i=
+ntensive, 4-5 non-FPU CPU intensive, 1-2 I/O intensive;<br />&nbsp;&nbs=
+p; b) measure execution time and other performance data in user mode ac=
+ross all platforms for ToT:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -=
+ try to improve performance if there is an obvious bottleneck (but this=
+ is unlikely);<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - develop test=
+s that will be protection against performance regressions in future.<br=
+ />&nbsp;&nbsp; c) measure execution time in user-mode for selected pla=
+tforms for all QEMU versions in last 5 years:<br />&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; - confirm performance improvements and/or detect perfo=
+rmance degradations.<br />&nbsp;&nbsp; d) summarize all results in a co=
+mprehensive form, using also graphics/data visualization.<br /><br />PA=
+RT II: (system mode)<br /><br />&nbsp;&nbsp; a) measure execution time =
+and other performance data for boot/shutdown cycle for selected machine=
+s for ToT:<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - try to improve p=
+erformance if there is an obvious bottleneck;<br />&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; - develop tests that will be protection against perfor=
+mance regressions in future.<br />&nbsp;&nbsp; b) summarize all results=
+ in a comprehensive form.<br /><br /><br /><span style=3D"font-size:16p=
+x;"><em><u>DELIVERABLES</u></em></span><br /><br />1) Each maintainer f=
+or target will be given a list of top 25 functions in terms of spent ho=
+st time for each benchmark described in the previous section. Additiona=
+l information and observations will be also provided, if the judgment i=
+s they are useful and relevant.<br /><br />2) Each maintainer for machi=
+ne (that has successful boot/shutdown cycle) will be given a list of to=
+p 25 functions in terms of spent host time during boot/shutdown cycle. =
+Additional information and observations will be also provided, if the j=
+udgment is they are useful and relevant.<br /><br />3) The community wi=
+ll be given all devised performance measurement methods in the form of =
+easily reproducible step-by-step setup and execution procedures.<br /><=
+br />(parts 1) and 2) will be, of course, published to everybody, maint=
+ainers are simply singled out as main recipients and decision-makers on=
+ possible next action items)<br /><br />Deliverable will be distributed=
+ over wide time interval (in other words, they will not be presented ju=
+st at the end of project, but gradually during project execution).<br /=
+><br /><br /><em>Mentor:</em> Aleksandar Markovic (myself) (but, I am p=
+erfectly fine if somebody else wants to mentor the project, if interest=
+ed)<br /><br /><em>Student:</em> open<br /><br /><br />That would be al=
+l, feel free to ask for additional info and/or clarification.<br />&nbs=
+p;</html>
+
+------=_=-_OpenGroupware_org_NGMime-12874-1579356517.468211-3--------
 
 
