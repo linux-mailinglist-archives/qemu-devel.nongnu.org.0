@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5ED1417E2
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 15:10:53 +0100 (CET)
-Received: from localhost ([::1]:40662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 908881417F4
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Jan 2020 15:23:38 +0100 (CET)
+Received: from localhost ([::1]:40804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isooO-0004eH-CU
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 09:10:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45692)
+	id 1isp0j-0003PM-DO
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 09:23:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47126)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1isomV-0003HZ-GD
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:08:58 -0500
+ (envelope-from <philmd@redhat.com>) id 1isozx-0002zF-Hw
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:22:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1isomS-0000RD-C2
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:08:55 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26446
+ (envelope-from <philmd@redhat.com>) id 1isozv-0000Lm-Fz
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:22:48 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52979
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isomS-0000Qu-7r
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:08:52 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1isozv-0000L2-C8
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 09:22:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579356531;
+ s=mimecast20190719; t=1579357366;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=acaehvqFXPFMXgtntQcHdZtFbTbCxMhB9wKeq9UgstQ=;
- b=WF9TSN1ixLVhPCKHE0eGUMttkFFdvxSkYOGv1R4AnnabkM8xcEhy67FpO/H5Mp4Pc/ZoK+
- KfImyaIukAQS/wmgu9XV4N+Su/NAL5kt08POjrmGxjqge+hFuXdBNJpBwbzhE5CcPt4CfR
- DVngVXi6ifEqiizgMfoCiRb32eS6OY4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-VNUmmUVTMe6wXR5NwzCuzw-1; Sat, 18 Jan 2020 09:08:46 -0500
-Received: by mail-wm1-f71.google.com with SMTP id w205so2892366wmb.5
- for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 06:08:45 -0800 (PST)
+ bh=7g1Bc9E2Tsk8bxO1iW9dj64GTkNL8PNSnI+qRsAZZ1k=;
+ b=L6oObKMMgYRzBSMYNOahAiSvwT/JdPocVRTvC+hV5czybaBf93X3pLjN7yZFqvzkwQ2iZs
+ XW+S876L5o1O+oIb4daoEjalJK1bKw580MnxNvAj0bOSwK4V9mz16bJqMFnyUHQt9x2EdJ
+ aAgU1TmmdInTDRhQQIwhXv8H0fdhLls=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-6aX9F01OPAaEIVa9JMZY4A-1; Sat, 18 Jan 2020 09:22:41 -0500
+Received: by mail-wr1-f72.google.com with SMTP id i9so11799205wru.1
+ for <qemu-devel@nongnu.org>; Sat, 18 Jan 2020 06:22:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vxQA79pIPKP3QDwFzCqgqjHORU6gVBFkdrvMXKo6xvQ=;
- b=sRB33bgGGWH3YR/xufruwihqrsy/tGYf6W9F1uRfGEQTbKnOeC3902fL9O9VZpnxZc
- 1+g3C1VqUTHoPyC2FfDszt5Rd1purLczVEt9lpd+ZJlk3kMTJ5vTq0tfYW6WDPgDNLzM
- EszqINWe5EY8ssdDRNDSCYT+BKMjBKxYpsEcnfQAlU6McMCSZjuXPrbP0s85SIOYB21C
- 4cDD3hz2TYM64z2pDQ9FXLiSESGG+53HMxewri0MgCsJhmd3byx3lP7P1ieyS0HJMTkm
- AUuq5Vmy0lJFRXVuodhAIZgPIvVz8EFe2WHX+gXgbwt5wFs4s01EHzd/4BG9meiz8DSF
- aqHQ==
-X-Gm-Message-State: APjAAAW4dOWc1XbS408lK+hgRhHdc8zNX/K9uj47JRlnj7kmI1DDSggO
- Ugnrp4/Ife4G0QZ5eh59lqHkCYtNZ6BM5h4Oi9OcYK/t7d5B/3S/NZ9bgKNg1NmYHMcXIbup3u5
- W9LVXoIcHSg92PCE=
-X-Received: by 2002:adf:ee52:: with SMTP id w18mr8691303wro.416.1579356524548; 
- Sat, 18 Jan 2020 06:08:44 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxGVGCKHmO6loJPKISTF2nhPhIJDWYEInQp8SmAHc7MkWMw5q2oX8+L1vAAJ+i4q7jUONabRg==
-X-Received: by 2002:adf:ee52:: with SMTP id w18mr8691278wro.416.1579356524287; 
- Sat, 18 Jan 2020 06:08:44 -0800 (PST)
+ bh=nhXWYkCCU8BlICNnT7qsr+rygBlLlK19jL72KO4oH98=;
+ b=NNITAJCVnYtBBp1VAI5RQYqpQjzojZz+IqI1oztCD/cw8E/b0vn+GjqTDk7dgXAeF6
+ RRs8O9IURK21TWaUf8vs301PrC1NhJZnEWi5tvqJudnnT0IFs/7B11TppiJsgy6IRndM
+ 1U9tvrCmlzu5GfgJVZOcC7t9jpRZVoyqe5huVrKtDFsm/heDA3/BUC9VpfVTvydJrb2H
+ 7GZ0TftF4MThcwUoWpsH1NC6KC50KoSkFrxT4YLWdVLoC5GUPuzOqN8oWG4SRMhokuEy
+ M85E+Xn0UguOBdPEfYp4g0T0ClKovjVsGMlqZcqittfcadydf2eQuQyAhkz4hySXP8ND
+ v3eQ==
+X-Gm-Message-State: APjAAAV4cDZX6mTPw6Lp8Ar2H6dkx6yXK0piIWH/w0MwqjHyeGkEVB4f
+ APdsBdGLgt5TNd1m/PawX2VbgB4R04oAR9FJYuONrBjnHmwlJNsmh2+It0u6T4ILvwt10aOljPt
+ wf95Hxx5KfgDBKsM=
+X-Received: by 2002:a5d:540f:: with SMTP id g15mr8378732wrv.86.1579357360344; 
+ Sat, 18 Jan 2020 06:22:40 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzwcVDxAJFr9G7IxykY/E93t4dBc8aZ9gHBoxtedAUy0D+by+vExGFFtVZI6Cjj1cHok5JoaA==
+X-Received: by 2002:a5d:540f:: with SMTP id g15mr8378711wrv.86.1579357360107; 
+ Sat, 18 Jan 2020 06:22:40 -0800 (PST)
 Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id b21sm3256996wmd.37.2020.01.18.06.08.43
+ by smtp.gmail.com with ESMTPSA id x17sm37857653wrt.74.2020.01.18.06.22.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 18 Jan 2020 06:08:43 -0800 (PST)
-Subject: Re: [PATCH] mailmap: Add more entries to sanitize 'git log' output
-To: Markus Armbruster <armbru@redhat.com>
-References: <20191218185723.7738-1-philmd@redhat.com>
- <87h80ts0ii.fsf@dusky.pond.sub.org>
- <aef8102c-23d5-7cdc-7183-673c116a44b2@redhat.com>
- <87tv4sq4hn.fsf@dusky.pond.sub.org>
+ Sat, 18 Jan 2020 06:22:39 -0800 (PST)
+Subject: Re: [PATCH v2 0/6] buildsys: Build faster (mostly tools and
+ linux-user)
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20200118140619.26333-1-philmd@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <73f18b1d-c680-4db7-a682-9f65aeac79a9@redhat.com>
-Date: Sat, 18 Jan 2020 15:08:42 +0100
+Message-ID: <4b4dfacf-47d2-65f2-c6cf-5e9d540bc239@redhat.com>
+Date: Sat, 18 Jan 2020 15:22:37 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <87tv4sq4hn.fsf@dusky.pond.sub.org>
+In-Reply-To: <20200118140619.26333-1-philmd@redhat.com>
 Content-Language: en-US
-X-MC-Unique: VNUmmUVTMe6wXR5NwzCuzw-1
+X-MC-Unique: 6aX9F01OPAaEIVa9JMZY4A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -94,99 +93,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/18/20 2:27 PM, Markus Armbruster wrote:
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+On 1/18/20 3:06 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> In some configuration (linux-user, tools) we can ignore building
+> various objects (and the libfdt).
 >=20
->> On 1/18/20 8:10 AM, Markus Armbruster wrote:
->>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->>>
->>>> Most of these developers have the Signed-off-by tag properly
->>>> written, but not the author/commiter name. Fix this.
->>>> Also we incorrectly wrote Arei Gonglei name, update and reorder.
->>>>
->>>> git-log does not use this file by default until you specify the
->>>> --use-mailmap flag:
->>>>
->>>>     $ git log --use-mailmap
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>>> ---
->>>>    .mailmap | 29 ++++++++++++++++++++++++++++-
->>>>    1 file changed, 28 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/.mailmap b/.mailmap
->>>> index 3816e4effe..1a859d9e65 100644
->>>> --- a/.mailmap
->>>> +++ b/.mailmap
->>>> @@ -56,6 +56,10 @@ Aaron Lindsay <aaron@os.amperecomputing.com>
->>>>    Alexey Gerasimenko <x1917x@gmail.com>
->>>>    Alex Ivanov <void@aleksoft.net>
->>>>    Andreas F=C3=A4rber <afaerber@suse.de>
->>>> +Andreas F=C3=A4rber <andreas.faerber@web.de>
->>>> +Andreas F=C3=A4rber <andreas.faerber@web.de> <andreas.faerber>
->>>> +Arei Gonglei <arei.gonglei@huawei.com>
->>>> +Arei Gonglei <arei.gonglei@huawei.com> <root@ceth6.(none)>
->>>
->>> I can't find this one in git-log.
->>
->> I was first surprised:
->>
->> $ git log -1 3b08098b40
->> commit 3b08098b409c0fb28f85436ba1adeb1d401ec8f7
->> Author:     Gonglei <arei.gonglei@huawei.com>
->> AuthorDate: Wed Dec 3 18:25:46 2014 +0000
->> Commit:     root <root@ceth6.(none)>
->> CommitDate: Mon Dec 22 14:39:21 2014 +0800
->>
->>      bootdevice: add validate check for qemu_boot_set()
->>
->>      Signed-off-by: Gonglei <arei.gonglei@huawei.com>
->>      Reviewed-by: Markus Armbruster <armbru@redhat.com>
->>
->> After thinking for a bit I remembered I once changed my default format:
->>
->> $ git config format.pretty
->> fuller
+> Tested with all the combinations of --[enable|disable]-tools,
+> --[enable|disable]-user and --[enable|disable]-system using the
+> following commands (suggested by Laurent Vivier in v1):
 >=20
-> Aha!  Could've thought of this myself...
+>    $ mkdir build
+>    $ cd build
+>    $ for user in enable disable; do \
+>          for tools in enable disable; do \
+>              for system in enable disable; do \
+>                  rm -fr build-$user-$system-$tools && \
+>                  mkdir build-$user-$system-$tools && \
+>                      (cd build-$user-$system-$tools && \
+>                       ../../configure \
+>                                       --${user}-user \
+>                                       --${system}-system \
+>                                       --${tools}-tools \
+>                                       --disable-docs \
+>                      ); \
+>              done; \
+>          done; \
+>      done
 >=20
->> I suppose I should add this in the commit description.
+> Then building each of the 8 subdirectories on x86_64 and aarch64
+> hosts, running 'make check', and only on x86_64:
+> 'make run-tcg-tests-x86_64-linux-user'.
 >=20
-> Can't hurt.
+> All CI green:
+> https://gitlab.com/philmd/qemu/pipelines/110420332
+> https://travis-ci.org/philmd/qemu/builds/638781159
+> https://app.shippable.com/github/philmd/qemu/runs/587/summary/console
+>=20
+> Since v1:
+> - no code change, improved commit description, added review tags
+> - added 2 new patches touching hw/core/ (remove reset.o from linux-user)
+>=20
+> $ git backport-diff -u v1
+> Key:
+> [----] : patches are identical
+> [####] : number of functional differences between upstream/downstream pat=
+ch
+> [down] : patch is downstream-only
+> The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
+>=20
+> 001/6:[----] [--] 'configure: Do not build libfdt if not required'
+> 002/6:[----] [--] 'Makefile: Clarify all the codebase requires qom/ objec=
+ts'
+> 003/6:[----] [--] 'Makefile: Restrict system emulation and tools objects'
+> 004/6:[----] [--] 'Makefile: Remove unhelpful comment'
+> 005/6:[down] 'hw/core: Restrict reset handlers API to system-mode'
+> 006/6:[down] 'hw/core/Makefile: Group generic objects versus system-mode =
+objects'
+>=20
+> Supersedes: <20200109153939.27173-1-philmd@redhat.com>
 
-OK will do, thank for the review!
+   ^ testing latest patchew feature, v2 has different subject name
+     than v1, but patchew successfully linked them :)
 
-> [...]
->>>>    Shin'ichiro Kawasaki <kawasaki@juno.dti.ne.jp>
->>>>    Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
->>>> +Siwei Zhuang <siwei.zhuang@data61.csiro.au>
->>>
->>> It's actually spelled Siwei.Zhuang@data61.csiro.au in git-log.
->>> Shouldn't matter.
->>
->> Correct:
->>
->> $ git shortlog -e 6478dd745d~..6478dd745d
->> Zhuang, Siwei (Data61, Kensington NSW) <Siwei.Zhuang@data61.csiro.au> (1=
-):
->>        hw/riscv: Add optional symbol callback ptr to riscv_load_kernel()
->>
->> $ git shortlog -e 6478dd745d~..6478dd745d
->> Siwei Zhuang <Siwei.Zhuang@data61.csiro.au> (1):
->>        hw/riscv: Add optional symbol callback ptr to riscv_load_kernel()
->=20
-> Suggest to adjust case if you respin.
->=20
->> Thanks for caring checking all entries!
->=20
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
->=20
-> [...]
->=20
+See "Diff against v1" in v2:
+https://patchew.org/QEMU/20200118140619.26333-1-philmd@redhat.com/
+
+https://patchew.org/QEMU/20200109153939.27173-1-philmd@redhat.com/diff/2020=
+0118140619.26333-1-philmd@redhat.com/
+
+Thanks Kevin & Paolo for this feature :)
 
 
