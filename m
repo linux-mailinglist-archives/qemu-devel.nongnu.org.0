@@ -2,45 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9446141E3F
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jan 2020 14:34:21 +0100 (CET)
-Received: from localhost ([::1]:50284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E05E141F30
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jan 2020 18:26:48 +0100 (CET)
+Received: from localhost ([::1]:51988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itAia-0003qW-Ck
-	for lists+qemu-devel@lfdr.de; Sun, 19 Jan 2020 08:34:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33577)
+	id 1itELW-0008Fx-KM
+	for lists+qemu-devel@lfdr.de; Sun, 19 Jan 2020 12:26:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54397)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yuzenghui@huawei.com>) id 1itAgy-0003J2-DS
- for qemu-devel@nongnu.org; Sun, 19 Jan 2020 08:32:41 -0500
+ (envelope-from <svens@stackframe.org>) id 1itEHK-0007ki-Io
+ for qemu-devel@nongnu.org; Sun, 19 Jan 2020 12:22:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuzenghui@huawei.com>) id 1itAgx-0007zE-Ai
- for qemu-devel@nongnu.org; Sun, 19 Jan 2020 08:32:40 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2688 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yuzenghui@huawei.com>)
- id 1itAgu-0007uI-Hl; Sun, 19 Jan 2020 08:32:36 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 0BB7FE69CDB940A01276;
- Sun, 19 Jan 2020 21:32:27 +0800 (CST)
-Received: from DESKTOP-8RFUVS3.china.huawei.com (10.173.222.27) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.439.0; Sun, 19 Jan 2020 21:32:17 +0800
-From: Zenghui Yu <yuzenghui@huawei.com>
-To: <peter.maydell@linaro.org>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH] hw/intc/arm_gicv3_kvm: Stop wrongly programming
- GICR_PENDBASER.PTZ bit
-Date: Sun, 19 Jan 2020 21:30:51 +0800
-Message-ID: <20200119133051.642-1-yuzenghui@huawei.com>
-X-Mailer: git-send-email 2.23.0.windows.1
+ (envelope-from <svens@stackframe.org>) id 1itEHI-0005TZ-4s
+ for qemu-devel@nongnu.org; Sun, 19 Jan 2020 12:22:26 -0500
+Received: from propper.duncanthrax.net ([91.207.61.48]:55204
+ helo=smtp.duncanthrax.net)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <svens@stackframe.org>)
+ id 1itEHH-0005Rq-HS
+ for qemu-devel@nongnu.org; Sun, 19 Jan 2020 12:22:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=duncanthrax.net; s=dkim; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=IaPB6sEvBXtD9yZAJOTgkcbRrghXoh4lmTZRESqr1JE=; b=kSMacf/tO49RXylgim/8B2h5Nk
+ kjjlPKcf1MzWvBqF/nVCCRrWyuoFMz8Ju7FUHUJv3OALPTxeSWwx3eJa/+KLGrxEAbzINti4I8xsd
+ H83whtyQXu48v/SDXFjLkc2zIEpGUUIs3XEQqk30Vw6ZKS9jemfX2exPvBUKTb0eFr+E=;
+Received: from hsi-kbw-046-005-233-221.hsi8.kabel-badenwuerttemberg.de
+ ([46.5.233.221] helo=t470p.stackframe.org)
+ by smtp.duncanthrax.net with esmtpa (Exim 4.90_1)
+ (envelope-from <svens@stackframe.org>)
+ id 1itEH6-0007jL-H3; Sun, 19 Jan 2020 18:22:12 +0100
+Date: Sun, 19 Jan 2020 18:22:04 +0100
+From: Sven Schnelle <svens@stackframe.org>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v5 4/6] hppa: add emulation of LASI PS2 controllers
+Message-ID: <20200119172204.GA4835@t470p.stackframe.org>
+References: <20191220211512.3289-1-svens@stackframe.org>
+ <20191220211512.3289-5-svens@stackframe.org>
+ <8eff8c1b-1d56-19a1-a8dd-743517716007@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.173.222.27]
-X-CFilter-Loop: Reflected
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8eff8c1b-1d56-19a1-a8dd-743517716007@redhat.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.190
+X-Received-From: 91.207.61.48
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,67 +64,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, maz@kernel.org,
- kvmarm@lists.cs.columbia.edu, wanghaibin.wang@huawei.com,
- eric.auger@redhat.com
+Cc: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If LPIs are disabled, KVM will just ignore the GICR_PENDBASER.PTZ bit whe=
-n
-restoring GICR_CTLR.  Setting PTZ here makes littlt sense in "reduce GIC
-initialization time".
+On Fri, Jan 03, 2020 at 07:15:49AM +0100, Philippe Mathieu-Daudé wrote:
+> On 12/20/19 10:15 PM, Sven Schnelle wrote:
+> > Signed-off-by: Sven Schnelle <svens@stackframe.org>
+> > ---
+> >   hw/hppa/Kconfig            |   1 +
+> >   hw/hppa/lasi.c             |  10 +-
+> >   hw/input/Kconfig           |   3 +
+> >   hw/input/Makefile.objs     |   1 +
+> >   hw/input/lasips2.c         | 289 +++++++++++++++++++++++++++++++++++++
+> >   hw/input/ps2.c             |   5 +
+> >   hw/input/trace-events      |   5 +
+> >   include/hw/input/lasips2.h |  16 ++
+> >   include/hw/input/ps2.h     |   1 +
+> >   9 files changed, 330 insertions(+), 1 deletion(-)
+> >   create mode 100644 hw/input/lasips2.c
+> >   create mode 100644 include/hw/input/lasips2.h
+> > 
+> > diff --git a/hw/hppa/Kconfig b/hw/hppa/Kconfig
+> > index 2a7b38d6d6..7f9be7f25c 100644
+> > --- a/hw/hppa/Kconfig
+> > +++ b/hw/hppa/Kconfig
+> > @@ -11,3 +11,4 @@ config DINO
+> >       select MC146818RTC
+> >       select LSI_SCSI_PCI
+> >       select LASI_82596
+> > +    select LASIPS2
+> 
+> If these components are part of the LASI chipset, you don't need an specific
+> Kconfig entry for each, you can simply use the LASI one.
+> 
+> Add a LASI entry in hw/hppa/Kconfig such:
+> 
+> config LASI
+>     bool
+>     select I82596_COMMON
+>     select PS2
+> 
 
-And what's worse, PTZ is generally programmed by guest to indicate to the
-Redistributor whether the LPI Pending table is zero when enabling LPIs.
-If migration is triggered when the PTZ has just been cleared by guest (an=
-d
-before enabling LPIs), we will see PTZ=3D=3D1 on the destination side, wh=
-ich
-is not as expected.  Let's just drop this hackish userspace behavior.
+I'll send a patch as soon as this series is merged - that's easier than
+resending the whole series.
 
-Also take this chance to refine the comment a bit.
-
-Fixes: 367b9f527bec ("hw/intc/arm_gicv3_kvm: Implement get/put functions"=
-)
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
----
- hw/intc/arm_gicv3_kvm.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
-
-diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
-index 9c7f4ab871..49304ca589 100644
---- a/hw/intc/arm_gicv3_kvm.c
-+++ b/hw/intc/arm_gicv3_kvm.c
-@@ -336,7 +336,10 @@ static void kvm_arm_gicv3_put(GICv3State *s)
-     kvm_gicd_access(s, GICD_CTLR, &reg, true);
-=20
-     if (redist_typer & GICR_TYPER_PLPIS) {
--        /* Set base addresses before LPIs are enabled by GICR_CTLR write=
- */
-+        /*
-+         * Restore base addresses before LPIs are potentially enabled by
-+         * GICR_CTLR write
-+         */
-         for (ncpu =3D 0; ncpu < s->num_cpu; ncpu++) {
-             GICv3CPUState *c =3D &s->cpu[ncpu];
-=20
-@@ -347,12 +350,6 @@ static void kvm_arm_gicv3_put(GICv3State *s)
-             kvm_gicr_access(s, GICR_PROPBASER + 4, ncpu, &regh, true);
-=20
-             reg64 =3D c->gicr_pendbaser;
--            if (!(c->gicr_ctlr & GICR_CTLR_ENABLE_LPIS)) {
--                /* Setting PTZ is advised if LPIs are disabled, to reduc=
-e
--                 * GIC initialization time.
--                 */
--                reg64 |=3D GICR_PENDBASER_PTZ;
--            }
-             regl =3D (uint32_t)reg64;
-             kvm_gicr_access(s, GICR_PENDBASER, ncpu, &regl, true);
-             regh =3D (uint32_t)(reg64 >> 32);
---=20
-2.19.1
-
-
+Regards
+Sven
 
