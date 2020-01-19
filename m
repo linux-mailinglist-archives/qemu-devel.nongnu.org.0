@@ -2,35 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EBC21420A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 00:12:17 +0100 (CET)
-Received: from localhost ([::1]:54854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2571420AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 00:14:11 +0100 (CET)
+Received: from localhost ([::1]:54888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itJjr-0001CH-S2
-	for lists+qemu-devel@lfdr.de; Sun, 19 Jan 2020 18:12:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55896)
+	id 1itJli-00047C-43
+	for lists+qemu-devel@lfdr.de; Sun, 19 Jan 2020 18:14:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55890)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fthain@telegraphics.com.au>) id 1itJfi-00049g-GC
+ (envelope-from <fthain@telegraphics.com.au>) id 1itJfi-00049V-7v
  for qemu-devel@nongnu.org; Sun, 19 Jan 2020 18:07:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>) id 1itJfh-0003lg-52
+ (envelope-from <fthain@telegraphics.com.au>) id 1itJfg-0003lQ-Vg
  for qemu-devel@nongnu.org; Sun, 19 Jan 2020 18:07:58 -0500
 Received: from kvm5.telegraphics.com.au ([98.124.60.144]:54734)
  by eggs.gnu.org with esmtp (Exim 4.71)
  (envelope-from <fthain@telegraphics.com.au>)
- id 1itJfh-0003lA-0s; Sun, 19 Jan 2020 18:07:57 -0500
+ id 1itJfg-0003lA-Rh; Sun, 19 Jan 2020 18:07:56 -0500
 Received: by kvm5.telegraphics.com.au (Postfix, from userid 502)
- id 5AF022997C; Sun, 19 Jan 2020 18:07:55 -0500 (EST)
+ id 36E7D2996F; Sun, 19 Jan 2020 18:07:55 -0500 (EST)
 To: Jason Wang <jasowang@redhat.com>,
     qemu-devel@nongnu.org
-Message-Id: <b971aa27c59c56f5c7c6bfaf26080fd97bb5cb9f.1579474761.git.fthain@telegraphics.com.au>
+Message-Id: <620ed4e86dd176b7382d9b115350a135d00687b5.1579474761.git.fthain@telegraphics.com.au>
 In-Reply-To: <cover.1579474761.git.fthain@telegraphics.com.au>
 References: <cover.1579474761.git.fthain@telegraphics.com.au>
 From: Finn Thain <fthain@telegraphics.com.au>
-Subject: [PATCH v3 09/14] dp8393x: Use long-word-aligned RRA pointers in
- 32-bit mode
+Subject: [PATCH v3 06/14] dp8393x: Clear RRRA command register bit only when
+ appropriate
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Date: Mon, 20 Jan 2020 09:59:21 +1100
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 98.124.60.144
 X-BeenThere: qemu-devel@nongnu.org
@@ -50,47 +53,44 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Section 3.4.1 of the datasheet says,
-
-    The alignment of the RRA is confined to either word or long word
-    boundaries, depending upon the data width mode. In 16-bit mode,
-    the RRA must be aligned to a word boundary (A0 is always zero)
-    and in 32-bit mode, the RRA is aligned to a long word boundary
-    (A0 and A1 are always zero).
-
-This constraint has been implemented for 16-bit mode; implement it
-for 32-bit mode too.
+It doesn't make sense to clear the command register bit unless the
+command was actually issued.
 
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/net/dp8393x.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ hw/net/dp8393x.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 947ceef37c..b052e2c854 100644
+index 249be403af..2e976781e2 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -663,12 +663,16 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
-                 qemu_flush_queued_packets(qemu_get_queue(s->nic));
-             }
-             break;
--        /* Ignore least significant bit */
-+        /* The guest is required to store aligned pointers here */
-         case SONIC_RSA:
-         case SONIC_REA:
-         case SONIC_RRP:
-         case SONIC_RWP:
--            s->regs[reg] = val & 0xfffe;
-+            if (s->regs[SONIC_DCR] & SONIC_DCR_DW) {
-+                s->regs[reg] = val & 0xfffc;
-+            } else {
-+                s->regs[reg] = val & 0xfffe;
-+            }
-             break;
-         /* Invert written value for some registers */
-         case SONIC_CRCT:
--- 
+@@ -352,9 +352,6 @@ static void dp8393x_do_read_rra(dp8393xState *s)
+         s->regs[SONIC_ISR] |=3D SONIC_ISR_RBE;
+         dp8393x_update_irq(s);
+     }
+-
+-    /* Done */
+-    s->regs[SONIC_CR] &=3D ~SONIC_CR_RRRA;
+ }
+=20
+ static void dp8393x_do_software_reset(dp8393xState *s)
+@@ -563,8 +560,10 @@ static void dp8393x_do_command(dp8393xState *s, uint=
+16_t command)
+         dp8393x_do_start_timer(s);
+     if (command & SONIC_CR_RST)
+         dp8393x_do_software_reset(s);
+-    if (command & SONIC_CR_RRRA)
++    if (command & SONIC_CR_RRRA) {
+         dp8393x_do_read_rra(s);
++        s->regs[SONIC_CR] &=3D ~SONIC_CR_RRRA;
++    }
+     if (command & SONIC_CR_LCAM)
+         dp8393x_do_load_cam(s);
+ }
+--=20
 2.24.1
 
 
