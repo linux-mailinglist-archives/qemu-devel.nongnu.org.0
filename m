@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6938D141AC5
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jan 2020 02:07:52 +0100 (CET)
-Received: from localhost ([::1]:46492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BFB141ACA
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jan 2020 02:10:15 +0100 (CET)
+Received: from localhost ([::1]:46510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isz4B-0003Xn-HD
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 20:07:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47097)
+	id 1isz6U-0005bo-C8
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 20:10:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47202)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1isyoO-0007Aj-5r
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 19:51:33 -0500
+ (envelope-from <nieklinnenbank@gmail.com>) id 1isyoR-0007HC-RX
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 19:51:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1isyoM-0008Rf-QD
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 19:51:31 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40387)
+ (envelope-from <nieklinnenbank@gmail.com>) id 1isyoO-0008Sr-9L
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 19:51:35 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46526)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1isyoM-0008R9-Jw; Sat, 18 Jan 2020 19:51:30 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id t14so11161283wmi.5;
- Sat, 18 Jan 2020 16:51:30 -0800 (PST)
+ id 1isyoO-0008S7-1y; Sat, 18 Jan 2020 19:51:32 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id z7so26027682wrl.13;
+ Sat, 18 Jan 2020 16:51:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=L8aTerMeWcsMXP4TJC7rS1Fx5gyQ/tHzqzZUZvCWPPA=;
- b=EpVnW+p1pvtHulH/HfG35ccOR6YyIg7+MQpftC+toClCRsAN2mZL3u6Jz4IhS78jOH
- PXoywau3TvxAf0uU1ziz/Fwn12zt4zAjZsknt7cyz1EbYGyxQvLdyoSw7WMzYwaentGO
- qeNU4q/4yAhOQ+3CQ3G3kQ8vGyhqAnsc7+HODXm9t3rZmBZoESqFrx8TF5FURy5tMnzH
- tldexQYyJuLlv/f3K+OLcFIqYhLrVmp9jOgi7qcfDhyUIYaDMqhZJS13iNeD/VFMsANN
- 1F899QBSGU1ETpu1LV5jcC7n/uC4dhX7/jkp33wRGOw3rhF0egc9zkXCSkpRhLuCuAow
- vpPA==
+ bh=ib1KKasC+2A1O5V3Yud3LwKZ+/ygnXDjriPxFl86R7M=;
+ b=u5UPEGme0zw0UDut+wh4wyc+7/qyeCWffRTBZG4iVgKEJVoXiGBsZaqxAoY2cpQe8I
+ s9/nZLrYfI4AUSHXZngzsxs8+TjzgKdVxuveeXLqMsTmfP5mwifyLgqaBCD6PVOjeCGG
+ XuoKYhdAVi8AEti8mRfvCxilbpgOirILXUbwKi2f/02zir5Jtsl0v3kP5xtE4rouM3Lr
+ EDmgjxAc484QsrQOT/Rc/EYOuYtZdZYWS3e4zIi5rihDU1b/9xjluCEdS3OXJOLuhIIJ
+ J8ngc3+ok56V48dvv7OHWm/u3AerN2ogET59eAgGsOnwUD3OALpFvb7VBXTfyVFz+a6s
+ GwZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=L8aTerMeWcsMXP4TJC7rS1Fx5gyQ/tHzqzZUZvCWPPA=;
- b=GmiIjIwekCe02SoA4o5/Ntxl3EYQUqBS6LrqKJtP4HyP6YH4kvpLFjJ+3xphhMRTOs
- KKlB1UgdnBKGcLW2ppIrEmxwZUCUSuvvIZ/htma1S4pSB0Ft8/fBOC2aONWiO80D/Ve8
- 4Eoeqtqs/rSf5AjBAsQT3pgjA1MPp5+j8JG8smxUn2KfNw37geIiFwkGIQhs2Wko0ys9
- 2UlmBm7PNCG5vGp5lSzl2RnC1HwZ+JC9XczZPkTIpXLfG2PmoVw59aZEE4NnKyYHVF94
- FkmFt0ONEwYYL6eqfG20/suCVbBRbYh6PwTugw876tVuXarXLnOnbvY0yd4ZT/xpwDSG
- 4DBQ==
-X-Gm-Message-State: APjAAAX8+QoMzy541ruhDOw/gY2aNmaEY7ypU7ChpFXydEzmynDyinrw
- N2nhhWaQgK9QiNa3uW0MIMkMoC2TvLQ=
-X-Google-Smtp-Source: APXvYqyI1hqwTBLcORj3dcLFwrp8knVbcJs89umOzr7P4oDwGrq2IMLaf5GUOXsqOy2t+y/AAcSbVg==
-X-Received: by 2002:a7b:c946:: with SMTP id i6mr11963402wml.28.1579395089446; 
- Sat, 18 Jan 2020 16:51:29 -0800 (PST)
+ bh=ib1KKasC+2A1O5V3Yud3LwKZ+/ygnXDjriPxFl86R7M=;
+ b=niOcXstXvL2KxWP2nL/m9tyPTv7uGQtxpc2zuE23Tey/F5KSL+98wYu8uxFcfDIgol
+ e1pG+5urvyLCPEbcbym66t9r6Qek44oL8uc2lH2/qLJF9QS3PxUC5ENgNzvQyFgN6fFu
+ 06GYbyPcoJ5r8TerkndqaL3g08GTdxDPO4M+aVQZ02gQN8Yy3d+9Yw8aYmolQ3daDyY6
+ kTIZREX7jN3bjx2xUpUsuXIVzv4V11n1DzIxGPmXPKt9+EsCt6hjtBUNR0J2TMMzq/qA
+ mOVRG6JPIkwi08JRaChUlvxgsvzeP6k7DWhJ29+NdIoNQB1jDXCzuLPf5h+Ly8hQpEsy
+ 3W+w==
+X-Gm-Message-State: APjAAAUTtCYw30UC2LL8t1qO7bvU7qjrHc0FH5mdKtSZebzwWLuuM143
+ TiOpzcO4JvkXx5FQpdxHI9B1aN4X7bk=
+X-Google-Smtp-Source: APXvYqzJYGgFbIhgR8T+zgf//DXHTCGxtsmNDIUtz7Yg9Oqax/0tWBEwLof0ZvmeyrWDK0XMi2V5+A==
+X-Received: by 2002:a5d:540f:: with SMTP id g15mr10420325wrv.86.1579395090704; 
+ Sat, 18 Jan 2020 16:51:30 -0800 (PST)
 Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
- by smtp.gmail.com with ESMTPSA id h2sm41763568wrv.66.2020.01.18.16.51.28
+ by smtp.gmail.com with ESMTPSA id h2sm41763568wrv.66.2020.01.18.16.51.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 18 Jan 2020 16:51:29 -0800 (PST)
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 18/20] Acceptance tests: Add
- interrupt_interactive_console_until_pattern()
-Date: Sun, 19 Jan 2020 01:51:00 +0100
-Message-Id: <20200119005102.3847-19-nieklinnenbank@gmail.com>
+Subject: [PATCH v4 19/20] tests/boot_linux_console: Test booting NetBSD via
+ U-Boot on OrangePi PC
+Date: Sun, 19 Jan 2020 01:51:01 +0100
+Message-Id: <20200119005102.3847-20-nieklinnenbank@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200119005102.3847-1-nieklinnenbank@gmail.com>
 References: <20200119005102.3847-1-nieklinnenbank@gmail.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,72 +87,160 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-We need a function to interrupt interactive consoles.
+This test boots U-Boot then NetBSD (stored on a SD card) on
+a OrangePi PC board.
 
-Example: Interrupt U-Boot to set different environment values.
+As it requires ~1.3GB of storage, it is disabled by default.
+
+U-Boot is built by the Debian project [1], and the SD card image
+is provided by the NetBSD organization [2].
+
+Once the compressed SD card image is downloaded (304MB) and
+extracted, this test is fast:
+
+  $ AVOCADO_ALLOW_LARGE_STORAGE=yes \
+    avocado --show=app,console run -t machine:orangepi-pc \
+      tests/acceptance/boot_linux_console.py
+  console: U-Boot SPL 2020.01+dfsg-1 (Jan 08 2020 - 08:19:44 +0000)
+  console: DRAM: 1024 MiB
+  console: U-Boot 2020.01+dfsg-1 (Jan 08 2020 - 08:19:44 +0000) Allwinner Technology
+  console: CPU:   Allwinner H3 (SUN8I 0000)
+  console: scanning bus usb@1c1b000 for devices... 1 USB Device(s) found
+  console: scanning bus usb@1c1d000 for devices... 1 USB Device(s) found
+  console: scanning usb for storage devices... 0 Storage Device(s) found
+  console: Hit any key to stop autoboot:  0
+  console: => setenv bootargs root=ld0a
+  console: => setenv kernel netbsd-GENERIC.ub
+  console: => setenv fdtfile dtb/sun8i-h3-orangepi-pc.dtb
+  console: => boot
+  console: ## Booting kernel from Legacy Image at 42000000 ...
+  console: Image Name:   NetBSD/earmv7hf 9.0_RC1
+  console: Image Type:   ARM Linux Kernel Image (no loading done) (uncompressed)
+  console: XIP Kernel Image (no loading done)
+  console: Loading Device Tree to 49ff6000, end 49fffe01 ... OK
+  console: Starting kernel ...
+  console: [   1.0000000] NetBSD/evbarm (fdt) booting ...
+  console: [   1.0000000] NetBSD 9.0_RC1 (GENERIC) #0: Wed Nov 27 16:14:52 UTC 2019
+  console: [   1.0000000] simplebus0 at armfdt0: Xunlong Orange Pi PC
+  console: [   1.0000000] cpu0 at cpus0: Cortex-A7 r0p5 (Cortex V7A core)
+  console: [   1.0000000] cpu0: DC enabled IC enabled WB enabled LABT branch prediction enabled
+  console: [   1.0000000] cpu0: 32KB/64B 2-way L1 VIPT Instruction cache
+  console: [   1.0000000] cpu0: 32KB/64B 2-way write-back-locking-C L1 PIPT Data cache
+  console: [   1.0000000] cpu0: 2304KB/64B 16-way write-through L2 PIPT Unified cache
+  console: [   1.0000000] vfp0 at cpu0: NEON MPE (VFP 3.0+), rounding, NaN propagation, denormals
+  ...
+  console: [   2.8171937] sdmmc0: SD card status: 4-bit, C0
+  console: [   2.8234040] ld0 at sdmmc0: <0xaa:0x5859:QEMU!:0x01:0xdeadbeef:0x062>
+  console: [   2.8743967] ld0: 1290 MB, 655 cyl, 64 head, 63 sec, 512 bytes/sect x 2642944 sectors
+  console: [   3.1588850] ld0: 4-bit width, High-Speed/SDR25, 50.000 MHz
+  console: [   4.9942260] WARNING: 4 errors while detecting hardware; check system log.
+  console: [   5.0142912] boot device: ld0
+  console: [   5.0551260] root on ld0a dumps on ld0b
+  console: [   5.2175484] root file system type: ffs
+  console: [   5.2858559] kern.module.path=/stand/evbarm/9.0/modules
+  console: Tue Jan 18 18:15:15 UTC 2050
+  console: Starting root file system check:
+  PASS (35.96 s)
+  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 36.09 s
+
+Note, this test only took ~65 seconds to run on Travis-CI, see: [3].
+
+This test is based on a description from Niek Linnenbank from [4].
+
+[1] https://wiki.debian.org/InstallingDebianOn/Allwinner#Creating_a_bootable_SD_Card_with_u-boot
+[2] https://wiki.netbsd.org/ports/evbarm/allwinner/
+[3] https://travis-ci.org/philmd/qemu/jobs/638823612#L3778
+[4] https://www.mail-archive.com/qemu-devel@nongnu.org/msg669347.html
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 ---
- tests/acceptance/avocado_qemu/__init__.py | 32 +++++++++++++++++++++--
- 1 file changed, 30 insertions(+), 2 deletions(-)
+ tests/acceptance/boot_linux_console.py | 63 ++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
 
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index 0a50fcf2be..d4358eb431 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -56,13 +56,15 @@ def pick_default_qemu_bin(arch=None):
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 399d5062db..b883d7778f 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -16,6 +16,7 @@ import shutil
+ from avocado import skipUnless
+ from avocado_qemu import Test
+ from avocado_qemu import exec_command_and_wait_for_pattern
++from avocado_qemu import interrupt_interactive_console_until_pattern
+ from avocado_qemu import wait_for_console_pattern
+ from avocado.utils import process
+ from avocado.utils import archive
+@@ -632,6 +633,68 @@ class BootLinuxConsole(Test):
+                                       'to <orangepipc>')
+         self.wait_for_console_pattern('Starting Load Kernel Modules...')
  
- 
- def _console_interaction(test, success_message, failure_message,
--                         send_string):
-+                         send_string, keep_sending=False):
-+    assert not keep_sending or send_string
-     console = test.vm.console_socket.makefile()
-     console_logger = logging.getLogger('console')
-     while True:
-         if send_string:
-             test.vm.console_socket.sendall(send_string.encode())
--            send_string = None # send only once
-+            if not keep_sending:
-+                send_string = None # send only once
-         msg = console.readline().strip()
-         if not msg:
-             continue
-@@ -74,6 +76,32 @@ def _console_interaction(test, success_message, failure_message,
-             fail = 'Failure message found in console: %s' % failure_message
-             test.fail(fail)
- 
-+def interrupt_interactive_console_until_pattern(test, success_message,
-+                                                failure_message=None,
-+                                                interrupt_string='\r'):
-+    """
-+    Keep sending a string to interrupt a console prompt, while logging the
-+    console output. Typical use case is to break a boot loader prompt, such:
++    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
++    def test_arm_orangepi_uboot_netbsd9(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:orangepi-pc
++        """
++        # This test download a 304MB compressed image and expand it to 1.3GB...
++        deb_url = ('http://snapshot.debian.org/archive/debian/'
++                   '20200108T145233Z/pool/main/u/u-boot/'
++                   'u-boot-sunxi_2020.01%2Bdfsg-1_armhf.deb')
++        deb_hash = 'f67f404a80753ca3d1258f13e38f2b060e13db99'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        # We use the common OrangePi PC 'plus' build of U-Boot for our secondary
++        # program loader (SPL). We will then set the path to the more specific
++        # OrangePi "PC" device tree blob with 'setenv fdtfile' in U-Boot prompt,
++        # before to boot NetBSD.
++        uboot_path = '/usr/lib/u-boot/orangepi_plus/u-boot-sunxi-with-spl.bin'
++        uboot_path = self.extract_from_deb(deb_path, uboot_path)
++        image_url = ('https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.0_RC1/'
++                     'evbarm-earmv7hf/binary/gzimg/armv7.img.gz')
++        image_hash = '7f58d5c36600430a8bcebe7e999a8945a2be4d1f'
++        image_path_gz = self.fetch_asset(image_url, asset_hash=image_hash)
++        image_path = os.path.join(self.workdir, 'armv7.img')
++        image_drive_args = 'if=sd,format=raw,snapshot=on,file=' + image_path
++        archive.gzip_uncompress(image_path_gz, image_path)
 +
-+        Press a key within 5 seconds to interrupt boot process.
-+        5
-+        4
-+        3
-+        2
-+        1
-+        Booting default image...
++        # dd if=u-boot-sunxi-with-spl.bin of=armv7.img bs=1K seek=8 conv=notrunc
++        with open(uboot_path, 'rb') as f_in:
++            with open(image_path, 'r+b') as f_out:
++                f_out.seek(8 * 1024)
++                shutil.copyfileobj(f_in, f_out)
 +
-+    :param test: an Avocado test containing a VM that will have its console
-+                 read and probed for a success or failure message
-+    :type test: :class:`avocado_qemu.Test`
-+    :param success_message: if this message appears, test succeeds
-+    :param failure_message: if this message appears, test fails
-+    :param interrupt_string: a string to send to the console before trying
-+                             to read a new line
-+    """
-+    _console_interaction(test, success_message, failure_message,
-+                         interrupt_string, True)
++        self.vm.set_console()
++        self.vm.add_args('-nic', 'user',
++                         '-drive', image_drive_args,
++                         '-no-reboot')
++        self.vm.launch()
++        wait_for_console_pattern(self, 'U-Boot 2020.01+dfsg-1')
++        interrupt_interactive_console_until_pattern(self,
++                                       'Hit any key to stop autoboot:',
++                                       'switch to partitions #0, OK')
 +
- def wait_for_console_pattern(test, success_message, failure_message=None):
-     """
-     Waits for messages to appear on the console, while logging the content
++        exec_command_and_wait_for_pattern(self, '', '=>')
++        cmd = 'setenv bootargs root=ld0a'
++        exec_command_and_wait_for_pattern(self, cmd, '=>')
++        cmd = 'setenv kernel netbsd-GENERIC.ub'
++        exec_command_and_wait_for_pattern(self, cmd, '=>')
++        cmd = 'setenv fdtfile dtb/sun8i-h3-orangepi-pc.dtb'
++        exec_command_and_wait_for_pattern(self, cmd, '=>')
++        cmd = ("setenv bootcmd 'fatload mmc 0:1 ${kernel_addr_r} ${kernel}; "
++               "fatload mmc 0:1 ${fdt_addr_r} ${fdtfile}; "
++               "fdt addr ${fdt_addr_r}; "
++               "bootm ${kernel_addr_r} - ${fdt_addr_r}'")
++        exec_command_and_wait_for_pattern(self, cmd, '=>')
++
++        exec_command_and_wait_for_pattern(self, 'boot',
++                                          'Booting kernel from Legacy Image')
++        wait_for_console_pattern(self, 'Starting kernel ...')
++        wait_for_console_pattern(self, 'NetBSD 9.0_RC1 (GENERIC)')
++        # Wait for user-space
++        wait_for_console_pattern(self, 'Starting root file system check')
++
+     def test_s390x_s390_ccw_virtio(self):
+         """
+         :avocado: tags=arch:s390x
 -- 
 2.17.1
 
