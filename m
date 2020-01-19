@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE8C1420B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 00:17:59 +0100 (CET)
-Received: from localhost ([::1]:54976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F018E1420A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 00:11:01 +0100 (CET)
+Received: from localhost ([::1]:54812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itJpO-0000NW-2C
-	for lists+qemu-devel@lfdr.de; Sun, 19 Jan 2020 18:17:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55977)
+	id 1itJie-0007Uc-Lg
+	for lists+qemu-devel@lfdr.de; Sun, 19 Jan 2020 18:11:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56284)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fthain@telegraphics.com.au>) id 1itJfj-0004AU-KB
- for qemu-devel@nongnu.org; Sun, 19 Jan 2020 18:08:00 -0500
+ (envelope-from <fthain@telegraphics.com.au>) id 1itJg2-0004f0-Bm
+ for qemu-devel@nongnu.org; Sun, 19 Jan 2020 18:08:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>) id 1itJfh-0003mX-E0
- for qemu-devel@nongnu.org; Sun, 19 Jan 2020 18:07:59 -0500
-Received: from kvm5.telegraphics.com.au ([98.124.60.144]:54652)
+ (envelope-from <fthain@telegraphics.com.au>) id 1itJg1-00041A-BN
+ for qemu-devel@nongnu.org; Sun, 19 Jan 2020 18:08:18 -0500
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:54734)
  by eggs.gnu.org with esmtp (Exim 4.71)
  (envelope-from <fthain@telegraphics.com.au>)
- id 1itJfh-0003k6-7O; Sun, 19 Jan 2020 18:07:57 -0500
+ id 1itJg1-0003lA-7K; Sun, 19 Jan 2020 18:08:17 -0500
 Received: by kvm5.telegraphics.com.au (Postfix, from userid 502)
- id 0A10B2991B; Sun, 19 Jan 2020 18:07:55 -0500 (EST)
+ id 8469D29984; Sun, 19 Jan 2020 18:07:55 -0500 (EST)
 To: Jason Wang <jasowang@redhat.com>,
     qemu-devel@nongnu.org
-Message-Id: <9c3243048ebb89a2af674847c0570d0c84cc3e79.1579474761.git.fthain@telegraphics.com.au>
+Message-Id: <34caf9dea82cd30dc51b4f8768adb7a90b236bf2.1579474761.git.fthain@telegraphics.com.au>
 In-Reply-To: <cover.1579474761.git.fthain@telegraphics.com.au>
 References: <cover.1579474761.git.fthain@telegraphics.com.au>
 From: Finn Thain <fthain@telegraphics.com.au>
-Subject: [PATCH v3 03/14] dp8393x: Clean up endianness hacks
+Subject: [PATCH v3 13/14] dp8393x: Don't reset Silicon Revision register
 Date: Mon, 20 Jan 2020 09:59:21 +1100
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 98.124.60.144
@@ -49,62 +49,40 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the datasheet, section 3.4.4, "in 32-bit mode ... the SONIC
-always writes long words".
+The jazzsonic driver in Linux uses the Silicon Revision register value
+to probe the chip. The driver fails unless the SR register contains 4.
+Unfortunately, reading this register in QEMU usually returns 0 because
+the s->regs[] array gets wiped after a software reset.
 
-Therefore, use the same technique for the 'in_use' field that is used
-everywhere else, and write the full long word.
-
+Fixes: bd8f1ebce4 ("net/dp8393x: fix hardware reset")
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
-Tested-by: Laurent Vivier <laurent@vivier.eu>
 ---
-Changed since v1:
- - Use existing 'address' variable rather than declare a new one.
-
-Laurent tells me that a similar clean-up has been tried before.
-He referred me to commit c744cf7879 ("dp8393x: fix dp8393x_receive()")
-and commit 409b52bfe1 ("net/dp8393x: correctly reset in_use field").
-I believe the underlying issue has been fixed by the preceding patch,
-as this no longer breaks NetBSD 5.1.
----
- hw/net/dp8393x.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ hw/net/dp8393x.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index b2fd44bc2f..2d2ace2549 100644
+index 1b73a8703b..71af0fad51 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -776,8 +776,6 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-         return -1;
-     }
+@@ -591,6 +591,10 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
+                 val |= s->cam[s->regs[SONIC_CEP] & 0xf][2* (SONIC_CAP0 - reg)];
+             }
+             break;
++        /* Read-only */
++        case SONIC_SR:
++            val = 4; /* only revision recognized by Linux/mips */
++            break;
+         /* All other registers have no special contrainst */
+         default:
+             val = s->regs[reg];
+@@ -971,7 +975,6 @@ static void dp8393x_realize(DeviceState *dev, Error **errp)
+     qemu_format_nic_info_str(qemu_get_queue(s->nic), s->conf.macaddr.a);
  
--    /* XXX: Check byte ordering */
--
-     /* Check for EOL */
-     if (s->regs[SONIC_LLFA] & SONIC_DESC_EOL) {
-         /* Are we still in resource exhaustion? */
-@@ -847,15 +845,12 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-         /* EOL detected */
-         s->regs[SONIC_ISR] |= SONIC_ISR_RDE;
-     } else {
--        /* Clear in_use, but it is always 16bit wide */
--        int offset = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
--        if (s->big_endian && width == 2) {
--            /* we need to adjust the offset of the 16bit field */
--            offset += sizeof(uint16_t);
--        }
--        s->data[0] = 0;
--        address_space_rw(&s->as, offset, MEMTXATTRS_UNSPECIFIED,
--                         (uint8_t *)s->data, sizeof(uint16_t), 1);
-+        /* Clear in_use */
-+        size = sizeof(uint16_t) * width;
-+        address = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
-+        dp8393x_put(s, width, 0, 0);
-+        address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
-+                         (uint8_t *)s->data, size, 1);
-         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
-         s->regs[SONIC_ISR] |= SONIC_ISR_PKTRX;
-         s->regs[SONIC_RSC] = (s->regs[SONIC_RSC] & 0xff00) | (((s->regs[SONIC_RSC] & 0x00ff) + 1) & 0x00ff);
+     s->watchdog = timer_new_ns(QEMU_CLOCK_VIRTUAL, dp8393x_watchdog, s);
+-    s->regs[SONIC_SR] = 0x0004; /* only revision recognized by Linux */
+ 
+     memory_region_init_ram(&s->prom, OBJECT(dev),
+                            "dp8393x-prom", SONIC_PROM_SIZE, &local_err);
 -- 
 2.24.1
 
