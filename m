@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAE9141AB8
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jan 2020 02:01:38 +0100 (CET)
-Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 483D1141AC4
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Jan 2020 02:06:56 +0100 (CET)
+Received: from localhost ([::1]:46470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1isyy8-0003S7-Vc
-	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 20:01:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47059)
+	id 1isz3H-0002MK-Cx
+	for lists+qemu-devel@lfdr.de; Sat, 18 Jan 2020 20:06:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47080)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1isyoN-00078r-1n
+ (envelope-from <nieklinnenbank@gmail.com>) id 1isyoN-00079u-L3
  for qemu-devel@nongnu.org; Sat, 18 Jan 2020 19:51:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1isyoL-0008Qj-Aq
- for qemu-devel@nongnu.org; Sat, 18 Jan 2020 19:51:30 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40814)
+ (envelope-from <nieklinnenbank@gmail.com>) id 1isyoM-0008RD-3C
+ for qemu-devel@nongnu.org; Sat, 18 Jan 2020 19:51:31 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38208)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1isyoL-0008Q0-3L; Sat, 18 Jan 2020 19:51:29 -0500
-Received: by mail-wm1-x341.google.com with SMTP id t14so11161261wmi.5;
+ id 1isyoL-0008Qg-Rz; Sat, 18 Jan 2020 19:51:29 -0500
+Received: by mail-wr1-x435.google.com with SMTP id y17so26095080wrh.5;
  Sat, 18 Jan 2020 16:51:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VULQN3UBgBd5VnhIE53vuqYwbx1WLZtkqFzjaxFSeRE=;
- b=StXOEcSES18w36R+ZzRULyl+z4z4/+RCMuWBHFt2C2Y/Bhpdf9czWSVMio/fBdfEFG
- 6INYZR9oErpKqg6MZHwHXRCAaLpiXdUdTArAHT663xvSwnwS7zSPntslkUCOrtRCp1o0
- rUeDxg/fekhUhwSU9YS5eAXb+ilmM1rkuXcL/y+KLZ5XLz4KACB8KsSEMqLS/fxAc6AZ
- c3rYHyBUQOSM3/bJImEo5QzA7rTSHuEHawq5DNDtBDNAftidsIT/SFP1F8Ps+nnKteS5
- SgrT2gwPw1L6E1olx3jVLw5Mhdq5OMHwOxBRieHxTbEBwCE7QAjYGe1vnIeIP/xUzEv7
- mFXQ==
+ bh=ySTKs9tAs68j06j0Ef+8j/MLezzl+CwbmdUNKgUrBaM=;
+ b=nMSZsmYTAHyA6JnaupSLr5kU/FO7EbHwb5VwlT7mOjeX+HVq3Nf6vzHINgBugHrib0
+ OoKjewcNjzANxkoNkaHIm6Pe948mlhTZZeZN9SfKsVfR7L/T0Y9rqS8Sq+sqfmOUJbb1
+ 6rctgJQ3R+WCRmDVtx+AlUBQpu+FtsUliBHMz59TpcklYgj6uvsKl/N8WWxIow2bDXzx
+ XplQMiRz+kEe5ioqvpKM6TR5cY4vP1qYrMv2aQrRjbxBQik7UbZhPCZLoPJq1mLIlkAp
+ WM6INQomlO406LaUm1RKIsoHn668M9Ung2SsHUEeNylJU63uH7pJ1QMmTFOimfGCI0q0
+ RtzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VULQN3UBgBd5VnhIE53vuqYwbx1WLZtkqFzjaxFSeRE=;
- b=rZyoNsgqAkSiAbVyFCUT/13/KQSMk4LTNUD534tmArq0kKporrzA25kTG6jZVvrEo5
- aT1u//kt0fTUaL6uP8v3A2sRWL2CphjtnNtI+r+RYK2DbiFmSDGvh2Fk66ChL5wkC3uM
- hzSwPADaoun/7pWDNr8UpTvFGWq96oWHs7zt8XWWbidfljyxwskZwTNbCzgsLBXice4H
- RVzQkNNcuyFzKUp5zFBkhoJC2iwwN7vttngeEkgvcWYwWWCQ93JS9OCRSuYZw//RSYq1
- iBvHYLScV4EGULz14nQAWmKMMxZRBqKFtYVOK0imdKk8wZOg1ELzAXRHzMdYrrlse4Cj
- zUTA==
-X-Gm-Message-State: APjAAAXPwJMY2WZHOJXhPfCHTawPEJQtjPwEjWP1UCyRyQQ6bSOEJBoB
- lJmkN7L70QrJQww365Fk/8nDSSF5Gw4=
-X-Google-Smtp-Source: APXvYqx46TSmu3IwAwsguD4nQYPEF39FQ1Ilh2Vd4+mgSM+2U9C7EOG7b8DAZFl83Owc7MzEs/Qkmg==
-X-Received: by 2002:a1c:1fd0:: with SMTP id
- f199mr11575244wmf.113.1579395087949; 
- Sat, 18 Jan 2020 16:51:27 -0800 (PST)
+ bh=ySTKs9tAs68j06j0Ef+8j/MLezzl+CwbmdUNKgUrBaM=;
+ b=Ub9NVCeu/hVa9WvVNR5M3n+MuuOdEWXRNWSCRgV7OrZjR70TyTUrJwXfdFhHG/rOa8
+ 1SEd9YBrmx6ZyTnI6ZXn2sMrnE3bJrXafx2yjtlU9/pzXaobJ7X87p1mSuL2q+JEyElQ
+ 6CqulnB9rWMLZM1SRm1IdxfNaeV7Is43Repp6rCqLnjk3HLRun0OfdPGK+iGxK1Rwxjf
+ gCaJWs6GZWeOEbss6T6lcvx4lhYPOON02pSwJA2wSxgiiDN0qNIplMEqXdn5t5K+mrrM
+ OcwWX53Prm3IyqqXgsSM+AsSq1IB+aHPvxzO2EUH8LT12+MwuVsLiBtRGF5M6PmNL/9f
+ PMlg==
+X-Gm-Message-State: APjAAAUmlXzPDlndccQi6ESd0Y2pMrx6Bwi+tuBaDKjR9QQVCSNxbGLh
+ FiZIUHq/5FUMfGopdfamMKve1lJkCc8=
+X-Google-Smtp-Source: APXvYqw/qdZBSc6Mn1g0Vj+ttp0yC8fXZ6vruHXfGDUF0JNFzASxgwNDKPhITKJs5FlZiS4GLXp72g==
+X-Received: by 2002:a5d:6b47:: with SMTP id x7mr11090966wrw.277.1579395088706; 
+ Sat, 18 Jan 2020 16:51:28 -0800 (PST)
 Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
- by smtp.gmail.com with ESMTPSA id h2sm41763568wrv.66.2020.01.18.16.51.26
+ by smtp.gmail.com with ESMTPSA id h2sm41763568wrv.66.2020.01.18.16.51.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Jan 2020 16:51:27 -0800 (PST)
+ Sat, 18 Jan 2020 16:51:28 -0800 (PST)
 From: Niek Linnenbank <nieklinnenbank@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 16/20] tests/boot_linux_console: Add a SLOW test booting
- Ubuntu on OrangePi PC
-Date: Sun, 19 Jan 2020 01:50:58 +0100
-Message-Id: <20200119005102.3847-17-nieklinnenbank@gmail.com>
+Subject: [PATCH v4 17/20] Acceptance tests: Extract _console_interaction()
+Date: Sun, 19 Jan 2020 01:50:59 +0100
+Message-Id: <20200119005102.3847-18-nieklinnenbank@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200119005102.3847-1-nieklinnenbank@gmail.com>
 References: <20200119005102.3847-1-nieklinnenbank@gmail.com>
@@ -67,7 +65,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,113 +86,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-This test boots Ubuntu Bionic on a OrangePi PC board.
-
-As it requires 1GB of storage, and is slow, this test is disabled
-on automatic CI testing.
-
-It is useful for workstation testing. Currently Avocado timeouts too
-quickly, so we can't run userland commands.
-
-The kernel image and DeviceTree blob are built by the Armbian
-project (based on Debian):
-https://www.armbian.com/orange-pi-pc/
-
-The Ubuntu image is downloaded from:
-https://dl.armbian.com/orangepipc/Bionic_current
-
-This test can be run using:
-
-  $ AVOCADO_ALLOW_LARGE_STORAGE=yes \
-    avocado --show=app,console run -t machine:orangepi-pc \
-      tests/acceptance/boot_linux_console.py
-  console: U-Boot SPL 2019.04-armbian (Nov 18 2019 - 23:08:35 +0100)
-  console: DRAM: 1024 MiB
-  console: Failed to set core voltage! Can't set CPU frequency
-  console: Trying to boot from MMC1
-  console: U-Boot 2019.04-armbian (Nov 18 2019 - 23:08:35 +0100) Allwinner Technology
-  console: CPU:   Allwinner H3 (SUN8I 0000)
-  console: Model: Xunlong Orange Pi PC
-  console: DRAM:  1 GiB
-  console: MMC:   mmc@1c0f000: 0
-  [...]
-  console: Uncompressing Linux... done, booting the kernel.
-  console: Booting Linux on physical CPU 0x0
-  console: Linux version 5.3.9-sunxi (root@builder) (gcc version 8.3.0 (GNU Toolchain for the A-profile Architecture 8.3-2019.03 (arm-rel-8.36))) #19.11.3 SMP Mon Nov 18 18:49:43 CET 2019
-  console: CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=50c5387d
-  console: CPU: div instructions available: patching division code
-  console: CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
-  console: OF: fdt: Machine model: Xunlong Orange Pi PC
-  [...]
-  console: EXT4-fs (mmcblk0p1): mounted filesystem with writeback data mode. Opts: (null)
-  console: done.
-  console: Begin: Running /scripts/local-bottom ... done.
-  console: Begin: Running /scripts/init-bottom ... done.
-  console: systemd[1]: systemd 237 running in system mode. (...)
-  console: systemd[1]: Detected architecture arm.
-  console: Welcome to Ubuntu 18.04.3 LTS!
-  console: systemd[1]: Set hostname to <orangepipc>.
+Since we are going to re-use the code shared between
+wait_for_console_pattern() and exec_command_and_wait_for_pattern(),
+extract the common part into a local function.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-[NL: rename in commit message Raspbian to Armbian, remove vm.set_machine()]
-[NL: changed test to boot from SD card via BootROM]
+Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 ---
- tests/acceptance/boot_linux_console.py | 41 ++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ tests/acceptance/avocado_qemu/__init__.py | 31 +++++++++++++----------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 50294e1675..399d5062db 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -591,6 +591,47 @@ class BootLinuxConsole(Test):
-         exec_command_and_wait_for_pattern(self, 'reboot',
-                                                 'reboot: Restarting system')
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index 6618ea67c1..0a50fcf2be 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -55,19 +55,14 @@ def pick_default_qemu_bin(arch=None):
+         return qemu_bin_from_src_dir_path
  
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
-+    def test_arm_orangepi_bionic(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:orangepi-pc
-+        """
+ 
+-def wait_for_console_pattern(test, success_message, failure_message=None):
+-    """
+-    Waits for messages to appear on the console, while logging the content
+-
+-    :param test: an Avocado test containing a VM that will have its console
+-                 read and probed for a success or failure message
+-    :type test: :class:`avocado_qemu.Test`
+-    :param success_message: if this message appears, test succeeds
+-    :param failure_message: if this message appears, test fails
+-    """
++def _console_interaction(test, success_message, failure_message,
++                         send_string):
+     console = test.vm.console_socket.makefile()
+     console_logger = logging.getLogger('console')
+     while True:
++        if send_string:
++            test.vm.console_socket.sendall(send_string.encode())
++            send_string = None # send only once
+         msg = console.readline().strip()
+         if not msg:
+             continue
+@@ -79,6 +74,17 @@ def wait_for_console_pattern(test, success_message, failure_message=None):
+             fail = 'Failure message found in console: %s' % failure_message
+             test.fail(fail)
+ 
++def wait_for_console_pattern(test, success_message, failure_message=None):
++    """
++    Waits for messages to appear on the console, while logging the content
 +
-+        # This test download a 196MB compressed image and expand it to 932MB...
-+        image_url = ('https://dl.armbian.com/orangepipc/archive/'
-+                     'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.7z')
-+        image_hash = '196a8ffb72b0123d92cea4a070894813d305c71e'
-+        image_path_7z = self.fetch_asset(image_url, asset_hash=image_hash)
-+        image_name = 'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img'
-+        image_path = os.path.join(self.workdir, image_name)
-+        process.run("7z e -o%s %s" % (self.workdir, image_path_7z))
-+
-+        self.vm.set_console()
-+        self.vm.add_args('-drive', 'file=' + image_path + ',if=sd,format=raw',
-+                         '-nic', 'user',
-+                         '-no-reboot')
-+        self.vm.launch()
-+
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0,115200 '
-+                               'loglevel=7 '
-+                               'nosmp '
-+                               'systemd.default_timeout_start_sec=9000 '
-+                               'systemd.mask=armbian-zram-config.service '
-+                               'systemd.mask=armbian-ramlog.service')
-+
-+        self.wait_for_console_pattern('U-Boot SPL')
-+        self.wait_for_console_pattern('Autoboot in ')
-+        exec_command_and_wait_for_pattern(self, ' ', '=>')
-+        exec_command_and_wait_for_pattern(self, "setenv extraargs '" +
-+                                                kernel_command_line + "'", '=>')
-+        exec_command_and_wait_for_pattern(self, 'boot', 'Starting kernel ...');
-+
-+        self.wait_for_console_pattern('systemd[1]: Set hostname ' +
-+                                      'to <orangepipc>')
-+        self.wait_for_console_pattern('Starting Load Kernel Modules...')
-+
-     def test_s390x_s390_ccw_virtio(self):
-         """
-         :avocado: tags=arch:s390x
++    :param test: an Avocado test containing a VM that will have its console
++                 read and probed for a success or failure message
++    :type test: :class:`avocado_qemu.Test`
++    :param success_message: if this message appears, test succeeds
++    :param failure_message: if this message appears, test fails
++    """
++    _console_interaction(test, success_message, failure_message, None)
+ 
+ def exec_command_and_wait_for_pattern(test, command,
+                                       success_message, failure_message=None):
+@@ -94,10 +100,7 @@ def exec_command_and_wait_for_pattern(test, command,
+     :param success_message: if this message appears, test succeeds
+     :param failure_message: if this message appears, test fails
+     """
+-    command += '\r'
+-    test.vm.console_socket.sendall(command.encode())
+-    wait_for_console_pattern(test, success_message, failure_message)
+-
++    _console_interaction(test, success_message, failure_message, command + '\r')
+ 
+ class Test(avocado.Test):
+     def _get_unique_tag_val(self, tag_name):
 -- 
 2.17.1
 
