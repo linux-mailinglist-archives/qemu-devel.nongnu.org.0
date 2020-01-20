@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1199D14291E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:22:48 +0100 (CET)
-Received: from localhost ([::1]:34606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82BA142941
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:27:18 +0100 (CET)
+Received: from localhost ([::1]:34730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itV8p-0002BL-36
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:22:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44729)
+	id 1itVDC-00073V-1G
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:27:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45747)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pdurrant@gmail.com>) id 1itV56-0006Tm-K2
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:18:57 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1itVBm-0005yy-Ti
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:25:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pdurrant@gmail.com>) id 1itV55-0002XE-HB
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:18:56 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37347)
+ (envelope-from <alex.bennee@linaro.org>) id 1itVBl-0005z7-4M
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:25:50 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37045)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pdurrant@gmail.com>) id 1itV55-0002Wi-A7
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:18:55 -0500
-Received: by mail-pg1-x544.google.com with SMTP id q127so15399836pga.4
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 03:18:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=InfBUYsx02Tl3TB3B9224lsuPzFzVcbK4KeXE6wA3yw=;
- b=eT1GrvC7wLxcHU6JkiFrQw4m0k9i/W+X9rZw4aOCuUX5qq0M6FhKNX2x04lg1MDr/R
- qWusui/IUiZ35xG44qa5m4q6bIcTeDULTqVR14OlgJUBSh+68QnE7FECfpYwPFqVjHIg
- 3e7VGpo0Jav+NqQO4HgTH1HWjkTlLJm6UpA3xHyBH/JB7lRgcyfLa8zGvStBvH+t6+Gq
- HGEguzfqQAIW7spHMe5Trcby4FtXjO0WtmJng0DXPuDyjkJHe7AR1ZSorTcu6Z1JnbVq
- mE9zGK7+vkPjVfRz2Gyqp8oz0m6W/o20UYxPpc37kZ7gFwD7t5yZKU9d3ljzjIW+rS1b
- kajg==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1itVBk-0005yj-Sq
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:25:49 -0500
+Received: by mail-wm1-x343.google.com with SMTP id f129so14333327wmf.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 03:25:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=RdgNFyDqnBtzrNj/JHMkDwuD7DjGpRvyTKmhZMX7m/c=;
+ b=pvDnU5lISivdAN99egbHGzmcUd859EVnL+u29P153Xxs9j9cFt8Iz3myMuQAUNk/YK
+ l1PcpQuWSrc6BNcRROBBwPToEQTd+VkH+QnRfVTolIPaBsdmqp4CJJRN55dQVjDuhE6R
+ 0BLXqeWcDxdcWaesI/7ScYPeX3MuR/vs4VTVTu+sCnB0ugYfFkNA3WX/3M5ogSWxiUPF
+ 6J2XiEKBZ8qpWB0iUj7OJCaapfi632aahj73ImJkxoPmQLp1QVRQcWluDudGZjs0kQo+
+ HNv08b8OvBaNoUjUhzl5VVPhNQ6d48OaS5O8OCpjGB+Ds90AlnFh5hyxqAdtYSlfKnBn
+ gMSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=InfBUYsx02Tl3TB3B9224lsuPzFzVcbK4KeXE6wA3yw=;
- b=ehuHSEWkwupLyV0PGjVf14zXYkdWzgazke0YcJyaYGNow16X4wWKZcJU28y9pEynOI
- mQxLkW5rIMBQiKi1fh9FwdsdJ9WsYR9lOm/gfNP6whjbv1GYyFMKlP37+LV71qT9OTfg
- EYXKFvnt+9dkg9krfSd3qVAAhUhYXKSMwRJTZnjEg6ywq47Ocl9K/9Hp7TDkukY/lvjo
- 0J8DJH4eFX8I4ZesI13hpq99orHyfxkZZqBpjUHfcaMsb8dwEPTtrGRKCNdU8cbJ/+XT
- F47uo1K0KD9lYwuoh7AQJ13A78hx9dzpFdKclxpYYbrCIkkIW3IKNqzdHl+Rrq867U/y
- WZig==
-X-Gm-Message-State: APjAAAWxtDvPpnLhWNQZ/4Zyc09n5PiEgos2sd9gsNiGmDTOsxqVij8H
- vmL9PyqHehi6w6GHAFA9SJr5xD39WEHKY0g8AkQ=
-X-Google-Smtp-Source: APXvYqxJWDeMCD2etRjGFFrleeWmXTZnzBWH8+zT2fAL2a2rcojBhrR1N4DkQj0aIvVK8o2fVUMoC1AI6TYMfjaMFIE=
-X-Received: by 2002:a62:1684:: with SMTP id 126mr16861182pfw.234.1579519133383; 
- Mon, 20 Jan 2020 03:18:53 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=RdgNFyDqnBtzrNj/JHMkDwuD7DjGpRvyTKmhZMX7m/c=;
+ b=CUoFT65Cbqloci/KWR+IlTLmjxSOUGHTBy6jMA5OJ1WoB93jeqQh/F7lFTVXjB2BLx
+ lA9NtO9wGa9xQODnGSBEIpX4LSX6zQWkO8DJaL7kjs9vIIa2TZNquVQ4GhJueYx11Nh+
+ +OCABx95+3AvsYjjURW3F0V/wCdtMGgfKS7hsNfIA1wQKRchz3BMWKoSTnT2yWDXm+iu
+ 6xkjodE+0fw5hg+Q5Z7mSQLtfjoKfm25NjmwthBqS7Dgt4pp+PpeS8CtY2yx1GkeUjaw
+ Bpz1WZ9omAsPDJd9ZwydySbfYWZ44xrJ40azXxq2CtH+wkCV6duCmywxAI1t4Q8qX5q3
+ 41Jg==
+X-Gm-Message-State: APjAAAVMlZuo5IWT+1+8WP2VX6R6fcWiSxhtvGSXj6T4+FH5nmJlbfAd
+ 7pxuhIdfEj8A4PQ8KTWqf8KL4w==
+X-Google-Smtp-Source: APXvYqwrydQq/LOjWM8Jk4UWjeFtwzF6hu/x/BCeG54TZ2pEVjxhMzZN/e5uRgVvC8hHeEb4EYMV1w==
+X-Received: by 2002:a1c:960c:: with SMTP id y12mr18460766wmd.9.1579519547582; 
+ Mon, 20 Jan 2020 03:25:47 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q3sm48666100wrn.33.2020.01.20.03.25.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jan 2020 03:25:46 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D46B71FF87;
+ Mon, 20 Jan 2020 11:25:45 +0000 (GMT)
+References: <20200117230245.5040-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] linux-user: Reserve space for brk
+In-reply-to: <20200117230245.5040-1-richard.henderson@linaro.org>
+Date: Mon, 20 Jan 2020 11:25:45 +0000
+Message-ID: <871rru4beu.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200113174521.3336-1-olaf@aepfle.de>
- <20200116180321.24968-1-olaf@aepfle.de>
- <0335edd2-3d33-88f8-2ab4-4791f7289885@redhat.com>
- <20200117102244.22edd8a6.olaf@aepfle.de>
- <ea3a65c3-bd69-7815-6893-cb1cd8b9cfd6@redhat.com>
- <20200117140616.18cb8c45.olaf@aepfle.de>
-In-Reply-To: <20200117140616.18cb8c45.olaf@aepfle.de>
-From: Paul Durrant <pdurrant@gmail.com>
-Date: Mon, 20 Jan 2020 11:18:41 +0000
-Message-ID: <CACCGGhCO_OqPq__t+V9RrFMYhXCJ5N4PPkq9CASJULV2rTkT-g@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/i386: disable smbus migration for xenfv
-To: Olaf Hering <olaf@aepfle.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,33 +81,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Jan 2020 at 13:06, Olaf Hering <olaf@aepfle.de> wrote:
->
-> Am Fri, 17 Jan 2020 11:27:59 +0100
-> schrieb Paolo Bonzini <pbonzini@redhat.com>:
->
-> > It doesn't even try to be compatible for all existing and future guests.
->
-> This looks like the underlying bug.
->
-> What would future domUs lose if 'xenfv' would be locked to 'pc-i440fx-3.0'?
->
 
-I guess eventually that pc type would be removed and then we'd have a
-compat issue. Ideally I think libxl should simply not use xenfv and
-then it can be deprecated and removed, and then such issues can be
-dealt with directly in xl/libxl.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-  Paul
-
+> With bad luck, we can wind up with no space at all for brk,
+> which will generally cause the guest malloc to fail.
 >
-> Olaf
+> This bad luck is easier to come by with ET_DYN (PIE) binaries,
+> where either the stack or the interpreter (ld.so) gets placed
+> immediately after the main executable.
+>
+> But there's nothing preventing this same thing from happening
+> with ET_EXEC (normal) binaries, during probe_guest_base().
+>
+> In both cases, reserve some extra space via mmap and release
+> it back to the system after loading the interpreter and
+> allocating the stack.
+>
+> The choice of 16MB is somewhat arbitrary.  It's enough for libc
+> to get going, but without being so large that 32-bit guests or
+> 32-bit hosts are in danger of running out of virtual address space.
+> It is expected that libc will be able to fall back to mmap arenas
+> after the limited brk space is exhausted.
+>
+> Launchpad: https://bugs.launchpad.net/qemu/+bug/1749393
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+and I can debootstrap buster again ;-)
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>
+> Note that the LP comments mention the fix for this in the kernel,
+> and about there being a "guaranteed 128MB gap" for x86_64.  As far
+> as I can see, this "gap" is part of the unmapped_area() algorithm.
+> For qemu, this would correspond to mmap_find_vma(), except that,
+> except when we fall back to mmap_find_vma_reserved(), we are not
+> 100% in control over the allocation.
+>
+>
+> r~
+>
+> ---
+>  linux-user/qemu.h    |  1 +
+>  linux-user/elfload.c | 73 +++++++++++++++++++++++++++++++++-----------
+>  2 files changed, 57 insertions(+), 17 deletions(-)
+>
+> diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+> index f6f5fe5fbb..560a68090e 100644
+> --- a/linux-user/qemu.h
+> +++ b/linux-user/qemu.h
+> @@ -35,6 +35,7 @@ struct image_info {
+>          abi_ulong       end_data;
+>          abi_ulong       start_brk;
+>          abi_ulong       brk;
+> +        abi_ulong       reserve_brk;
+>          abi_ulong       start_mmap;
+>          abi_ulong       start_stack;
+>          abi_ulong       stack_limit;
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index 07b16cc0f4..2edb5d5b31 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -10,6 +10,7 @@
+>  #include "qemu/path.h"
+>  #include "qemu/queue.h"
+>  #include "qemu/guest-random.h"
+> +#include "qemu/units.h"
+>=20=20
+>  #ifdef _ARCH_PPC64
+>  #undef ARCH_DLINFO
+> @@ -2364,24 +2365,51 @@ static void load_elf_image(const char *image_name=
+, int image_fd,
+>          }
+>      }
+>=20=20
+> -    load_addr =3D loaddr;
+> -    if (ehdr->e_type =3D=3D ET_DYN) {
+> -        /* The image indicates that it can be loaded anywhere.  Find a
+> -           location that can hold the memory space required.  If the
+> -           image is pre-linked, LOADDR will be non-zero.  Since we do
+> -           not supply MAP_FIXED here we'll use that address if and
+> -           only if it remains available.  */
+> -        load_addr =3D target_mmap(loaddr, hiaddr - loaddr, PROT_NONE,
+> -                                MAP_PRIVATE | MAP_ANON | MAP_NORESERVE,
+> -                                -1, 0);
+> -        if (load_addr =3D=3D -1) {
+> -            goto exit_perror;
+> +    if (pinterp_name !=3D NULL) {
+> +        /*
+> +         * This is the main executable.
+> +         *
+> +         * Reserve extra space for brk.
+> +         * We hold on to this space while placing the interpreter
+> +         * and the stack, lest they be placed immediately after
+> +         * the data segment and block allocation from the brk.
+> +         *
+> +         * 16MB is chosen as "large enough" without being so large
+> +         * as to allow the result to not fit with a 32-bit guest on
+> +         * a 32-bit host.
+> +         */
+> +        info->reserve_brk =3D 16 * MiB;
+> +        hiaddr +=3D info->reserve_brk;
+> +
+> +        if (ehdr->e_type =3D=3D ET_EXEC) {
+> +            /*
+> +             * Make sure that the low address does not conflict with
+> +             * MMAP_MIN_ADDR or the QEMU application itself.
+> +             */
+> +            probe_guest_base(image_name, loaddr, hiaddr);
+>          }
+> -    } else if (pinterp_name !=3D NULL) {
+> -        /* This is the main executable.  Make sure that the low
+> -           address does not conflict with MMAP_MIN_ADDR or the
+> -           QEMU application itself.  */
+> -        probe_guest_base(image_name, loaddr, hiaddr);
+> +    }
+> +
+> +    /*
+> +     * Reserve address space for all of this.
+> +     *
+> +     * In the case of ET_EXEC, we supply MAP_FIXED so that we get
+> +     * exactly the address range that is required.
+> +     *
+> +     * Otherwise this is ET_DYN, and we are searching for a location
+> +     * that can hold the memory space required.  If the image is
+> +     * pre-linked, LOADDR will be non-zero, and the kernel should
+> +     * honor that address if it happens to be free.
+> +     *
+> +     * In both cases, we will overwrite pages in this range with mappings
+> +     * from the executable.
+> +     */
+> +    load_addr =3D target_mmap(loaddr, hiaddr - loaddr, PROT_NONE,
+> +                            MAP_PRIVATE | MAP_ANON | MAP_NORESERVE |
+> +                            (ehdr->e_type =3D=3D ET_EXEC ? MAP_FIXED : 0=
+),
+> +                            -1, 0);
+> +    if (load_addr =3D=3D -1) {
+> +        goto exit_perror;
+>      }
+>      load_bias =3D load_addr - loaddr;
+>=20=20
+> @@ -2860,6 +2888,17 @@ int load_elf_binary(struct linux_binprm *bprm, str=
+uct image_info *info)
+>      bprm->core_dump =3D &elf_core_dump;
+>  #endif
+>=20=20
+> +    /*
+> +     * If we reserved extra space for brk, release it now.
+> +     * The implementation of do_brk in syscalls.c expects to be able
+> +     * to mmap pages in this space.
+> +     */
+> +    if (info->reserve_brk) {
+> +        abi_ulong start_brk =3D HOST_PAGE_ALIGN(info->brk);
+> +        abi_ulong end_brk =3D HOST_PAGE_ALIGN(info->brk + info->reserve_=
+brk);
+> +        target_munmap(start_brk, end_brk - start_brk);
+> +    }
+> +
+>      return 0;
+>  }
+
+
+--=20
+Alex Benn=C3=A9e
 
