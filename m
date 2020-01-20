@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096161433C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 23:13:17 +0100 (CET)
-Received: from localhost ([::1]:44700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941191433AF
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 23:08:28 +0100 (CET)
+Received: from localhost ([::1]:44640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itfIJ-0007G7-LY
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 17:13:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51067)
+	id 1itfDf-0000uy-5B
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 17:08:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51087)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6s-0001dk-SG
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:28 -0500
+ id 1itf6t-0001fB-RN
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6r-0005uH-3Y
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:26 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38877)
+ id 1itf6s-0005vH-Ei
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:27 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46735)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6q-0005tf-Sh
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:25 -0500
-Received: by mail-wr1-x443.google.com with SMTP id y17so1109576wrh.5
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 14:01:24 -0800 (PST)
+ id 1itf6s-0005ue-8a
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:26 -0500
+Received: by mail-wr1-x442.google.com with SMTP id z7so1046137wrl.13
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 14:01:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wgs2J2LLp4uuSA+tS75w8YGiE9cZF6FQc/75s2TfRGA=;
- b=N4kCSdMddrMC/P804ibycktGFEVTZ1fwAcYmW+mAqYmRgDwq4bjVmKNS6Fr9rXhWHI
- nnl+QpRhi2J0HEPonp9oqlse+lfpe4r/3CJahTjJEPHFBfZaIC7Zok1d9L0OchFnNiOK
- mYzXSY7f9+rF7ahDxNLWM6+JG7tWrJgVTu3no2cJuHI2rYzzfHU9EpYrjF+dy/1q4DCD
- PGHCEjyrWQvHHbICOPk35xBGSC4qJ85urm73Sq8FnT1vwVxVDo8/1PITQYmQWaaLSTsI
- I/NRZViTabFR7e+h8B1U0HRnw/mmHFEvAH6J7a0gIQOMfqkfJYNZ84I/QlSvEpp5ItI+
- xzkQ==
+ bh=+NnvBu9orDWG1N7gHYUnC7PSiKSlzB6OsFAWh9OHuuI=;
+ b=B/yOlAbpya950w4hDwRav24Kuu5/ovEVhJgwpLG4033HlWBcEcCXLigfZ23mvGsmLn
+ fQvceftHFPol+3QyMmrIn8viqvtDZT06aiQwwF98mc/GLUftO5pZ0X8fQ5mrhCLvJVTe
+ vknnul7YaldMUcz2bqq3etXcQY3O9a5zBImJRMbtfmdFXP4HS8QXNWvdXsNrpMWTptyN
+ AazeE5M5sr5JAsNMM6CxjiZWlnEUQAa+YtupILYyHBAU+3VHZJaloZW/6nrcgnvgSXlX
+ HLBJ1McxEQRwiFuusqYrtahBT9iSHImyy31XjrQvRUF4vUgORqMKscgxbCI7gL+X8u6o
+ vn5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wgs2J2LLp4uuSA+tS75w8YGiE9cZF6FQc/75s2TfRGA=;
- b=HtipeBJ7m8kYO82Y9lK5f32ji7LrPHI1f7C+JekXidxrzJyh+2LTmZnGSv1ATx/sLc
- EhGMMxQD4BGYFbqXxDlcNNYIGMq4oqptmCCiRbDPE94xWb4AFIEPucn9bH6wRoJ/UVe/
- 93MJxDQLnRaHnvd51VsMKhfKYx8aXrET3ARfPIRWusjqfwpUjZAmQBicB11fua7aYeSu
- 3xb1a7laOPPI8HFfh2c7OrrNTnbx4cUdxYDwlZp/821HQxFW7vXLud8o6q8qQLHRVC7m
- mmYxnDcmDvdkezgOQxlI8CBb7Ck6ephGtVMZcJfF0Bk0XfbNJVoDtGKdqFGBucG0TcH+
- NX0w==
-X-Gm-Message-State: APjAAAV6N1+Uo20/GJAkUrOHYuDL0E/20I615SPcwTRLRB7Tx9A4l4jw
- iX52PoyEDriL7rJEfQx5bmzJgodE
-X-Google-Smtp-Source: APXvYqyVCAn4Jjn8eG8dGlFtuJ8BngGUry7m/TtUHMWDuXby01mOdd9SBDARXEC+W/SoAl1hz5ivug==
-X-Received: by 2002:a05:6000:118d:: with SMTP id
- g13mr1423782wrx.141.1579557683663; 
- Mon, 20 Jan 2020 14:01:23 -0800 (PST)
+ bh=+NnvBu9orDWG1N7gHYUnC7PSiKSlzB6OsFAWh9OHuuI=;
+ b=EH98yfl3k6/rEgW8BBuqafv7IiqCBgjypuQAl18MGOnkA4nfT2LxqmbtF5CaJ5yUvQ
+ SvMZbriL7EZ1cPkmVzZxgFTmwcbDa9HLgkTSi1CTHW2sTnrZcFcW0Qw/gCdf1JfNr0YB
+ ZD7kfekuVg31q9u00lEjKf0zx39Pz8fOMb20wVD+sTVP6KaoKjbIpBDF/MsxhUPi6hu9
+ uOxxscuY84C4oieMuS1WWS8Q4KFve8WthatixCDDx/q4B9yXOBB1OmB2hNDvT3EmNMnY
+ DicIpiy5tn/tTciCJU2IoScDdh23hV+uJZupx5jFha4Lc8oAz2cRGcO2HiUexlDHN3tm
+ Mnsw==
+X-Gm-Message-State: APjAAAVU2yJ3G6vIeqosvz2Oxekh1gmNQBfH6innyrxinO035PcxHYdW
+ 3F1OIZsXhlg/+PxgWL5dh405i+qA
+X-Google-Smtp-Source: APXvYqx9DHbVcMJX04dGQhygF68sNrinUKq8XskGWtp8cyszLS+v/0b8yC4AWGEgyMQRkWTxwoFu6Q==
+X-Received: by 2002:a5d:670a:: with SMTP id o10mr1466295wru.227.1579557685014; 
+ Mon, 20 Jan 2020 14:01:25 -0800 (PST)
 Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id f1sm904341wmc.45.2020.01.20.14.01.22
+ by smtp.gmail.com with ESMTPSA id f1sm904341wmc.45.2020.01.20.14.01.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 14:01:23 -0800 (PST)
+ Mon, 20 Jan 2020 14:01:24 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/18] hw/timer: Rename avr_timer16 -> atmel_timer16
-Date: Mon, 20 Jan 2020 23:00:59 +0100
-Message-Id: <20200120220107.17825-11-f4bug@amsat.org>
+Subject: [PATCH v4 11/18] hw/misc: Rename avr_mask -> atmel_power
+Date: Mon, 20 Jan 2020 23:01:00 +0100
+Message-Id: <20200120220107.17825-12-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200120220107.17825-1-f4bug@amsat.org>
 References: <20200120220107.17825-1-f4bug@amsat.org>
@@ -71,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,141 +96,140 @@ Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
 !squash
 ---
- include/hw/timer/{avr_timer16.h => atmel_timer16.h} | 10 +++++-----
- hw/avr/sample.c                                     |  2 +-
- hw/timer/{avr_timer16.c => atmel_timer16.c}         |  4 ++--
- MAINTAINERS                                         |  4 ++--
- hw/avr/Kconfig                                      |  2 +-
- hw/timer/Kconfig                                    |  2 +-
- hw/timer/Makefile.objs                              |  2 +-
+ include/hw/misc/{avr_mask.h => atmel_power.h} | 10 +++++-----
+ hw/avr/sample.c                               |  2 +-
+ hw/misc/{avr_mask.c => atmel_power.c}         |  4 ++--
+ MAINTAINERS                                   |  4 ++--
+ hw/avr/Kconfig                                |  2 +-
+ hw/misc/Kconfig                               |  2 +-
+ hw/misc/Makefile.objs                         |  2 +-
  7 files changed, 13 insertions(+), 13 deletions(-)
- rename include/hw/timer/{avr_timer16.h => atmel_timer16.h} (92%)
- rename hw/timer/{avr_timer16.c => atmel_timer16.c} (99%)
+ rename include/hw/misc/{avr_mask.h => atmel_power.h} (89%)
+ rename hw/misc/{avr_mask.c => atmel_power.c} (97%)
 
-diff --git a/include/hw/timer/avr_timer16.h b/include/hw/timer/atmel_timer16.h
-similarity index 92%
-rename from include/hw/timer/avr_timer16.h
-rename to include/hw/timer/atmel_timer16.h
-index 4ae0c64a34..f0516c41cf 100644
---- a/include/hw/timer/avr_timer16.h
-+++ b/include/hw/timer/atmel_timer16.h
+diff --git a/include/hw/misc/avr_mask.h b/include/hw/misc/atmel_power.h
+similarity index 89%
+rename from include/hw/misc/avr_mask.h
+rename to include/hw/misc/atmel_power.h
+index 5f95e1081d..5366e9693f 100644
+--- a/include/hw/misc/avr_mask.h
++++ b/include/hw/misc/atmel_power.h
 @@ -1,5 +1,5 @@
  /*
-- * AVR 16 bit timer
-+ * Atmel AVR 16 bit timer
+- * AVR Power Reduction
++ * Atmel AVR Power Reduction Management
   *
-  * Copyright (c) 2018 University of Kent
-  * Author: Ed Robbins
-@@ -25,8 +25,8 @@
-  * On ATmega640/V-1280/V-1281/V-2560/V-2561/V timers 1, 3, 4 and 5 are 16 bit
+  * Copyright (c) 2019 Michael Rolnik
+  *
+@@ -22,14 +22,14 @@
+  * THE SOFTWARE.
   */
  
--#ifndef AVR_TIMER16_H
--#define AVR_TIMER16_H
-+#ifndef HW_TIMER_ATMEL_TIMER16_H
-+#define HW_TIMER_ATMEL_TIMER16_H
+-#ifndef HW_avr_mask_H
+-#define HW_avr_mask_H
++#ifndef HW_MISC_ATMEL_POWER_H
++#define HW_MISC_ATMEL_POWER_H
  
  #include "hw/sysbus.h"
- #include "qemu/timer.h"
-@@ -40,7 +40,7 @@ enum NextInterrupt {
-     CAPT
- };
+ #include "hw/hw.h"
  
--#define TYPE_AVR_TIMER16 "avr-timer16"
-+#define TYPE_AVR_TIMER16 "atmel-timer16"
- #define AVR_TIMER16(obj) \
-     OBJECT_CHECK(AVRTimer16State, (obj), TYPE_AVR_TIMER16)
  
-@@ -91,4 +91,4 @@ typedef struct AVRTimer16State {
-     enum NextInterrupt next_interrupt;
- } AVRTimer16State;
+-#define TYPE_AVR_MASK "avr-mask"
++#define TYPE_AVR_MASK "atmel-power"
+ #define AVR_MASK(obj) OBJECT_CHECK(AVRMaskState, (obj), TYPE_AVR_MASK)
  
--#endif /* AVR_TIMER16_H */
-+#endif /* HW_TIMER_ATMEL_TIMER16_H */
+ typedef struct {
+@@ -43,4 +43,4 @@ typedef struct {
+     qemu_irq irq[8];
+ } AVRMaskState;
+ 
+-#endif /* HW_avr_mask_H */
++#endif /* HW_MISC_ATMEL_POWER_H */
 diff --git a/hw/avr/sample.c b/hw/avr/sample.c
-index ca67c11233..19e9f56f3b 100644
+index 19e9f56f3b..19b8c067e5 100644
 --- a/hw/avr/sample.c
 +++ b/hw/avr/sample.c
-@@ -45,7 +45,7 @@
- #include "exec/address-spaces.h"
+@@ -46,7 +46,7 @@
  #include "include/hw/sysbus.h"
  #include "include/hw/char/atmel_usart.h"
--#include "include/hw/timer/avr_timer16.h"
-+#include "include/hw/timer/atmel_timer16.h"
- #include "include/hw/misc/avr_mask.h"
+ #include "include/hw/timer/atmel_timer16.h"
+-#include "include/hw/misc/avr_mask.h"
++#include "include/hw/misc/atmel_power.h"
  #include "elf.h"
  #include "hw/misc/unimp.h"
-diff --git a/hw/timer/avr_timer16.c b/hw/timer/atmel_timer16.c
-similarity index 99%
-rename from hw/timer/avr_timer16.c
-rename to hw/timer/atmel_timer16.c
-index a27933a18a..3b06d6e4e5 100644
---- a/hw/timer/avr_timer16.c
-+++ b/hw/timer/atmel_timer16.c
+ 
+diff --git a/hw/misc/avr_mask.c b/hw/misc/atmel_power.c
+similarity index 97%
+rename from hw/misc/avr_mask.c
+rename to hw/misc/atmel_power.c
+index 3af82ed9c1..adab729f66 100644
+--- a/hw/misc/avr_mask.c
++++ b/hw/misc/atmel_power.c
 @@ -1,5 +1,5 @@
  /*
-- * AVR 16 bit timer
-+ * Atmel AVR 16 bit timer
+- * AVR Power Reduction
++ * Atmel AVR Power Reduction Management
   *
-  * Copyright (c) 2018 University of Kent
-  * Author: Ed Robbins
-@@ -32,7 +32,7 @@
+  * Copyright (c) 2019 Michael Rolnik
+  *
+@@ -23,7 +23,7 @@
   */
  
  #include "qemu/osdep.h"
--#include "hw/timer/avr_timer16.h"
-+#include "hw/timer/atmel_timer16.h"
+-#include "hw/misc/avr_mask.h"
++#include "hw/misc/atmel_power.h"
  #include "qemu/log.h"
- #include "hw/irq.h"
  #include "hw/qdev-properties.h"
+ #include "hw/irq.h"
 diff --git a/MAINTAINERS b/MAINTAINERS
-index f2e01a6d16..a98d164bc1 100644
+index a98d164bc1..60634cebf4 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -898,8 +898,8 @@ S: Maintained
- F: hw/avr/
- F: hw/char/atmel_usart.c
+@@ -900,8 +900,8 @@ F: hw/char/atmel_usart.c
  F: include/hw/char/atmel_usart.h
--F: hw/timer/avr_timer16.c
--F: include/hw/timer/avr_timer16.h
-+F: hw/timer/atmel_timer16.c
-+F: include/hw/timer/atmel_timer16.h
- F: hw/misc/avr_mask.c
- F: include/hw/misc/avr_mask.h
+ F: hw/timer/atmel_timer16.c
+ F: include/hw/timer/atmel_timer16.h
+-F: hw/misc/avr_mask.c
+-F: include/hw/misc/avr_mask.h
++F: hw/misc/atmel_power.c
++F: include/hw/misc/atmel_power.h
  F: tests/acceptance/machine_avr6.py
+ 
+ CRIS Machines
 diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
-index 8084a73176..45c7025f09 100644
+index 45c7025f09..516b89c849 100644
 --- a/hw/avr/Kconfig
 +++ b/hw/avr/Kconfig
-@@ -1,6 +1,6 @@
- config AVR_SAMPLE
+@@ -2,5 +2,5 @@ config AVR_SAMPLE
      bool
--    select AVR_TIMER16
-+    select ATMEL_TIMER16
+     select ATMEL_TIMER16
      select ATMEL_USART
-     select AVR_MASK
+-    select AVR_MASK
++    select ATMEL_POWER
      select UNIMP
-diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-index 2521056dc8..cc66b60ef1 100644
---- a/hw/timer/Kconfig
-+++ b/hw/timer/Kconfig
-@@ -36,5 +36,5 @@ config CMSDK_APB_DUALTIMER
-     bool
-     select PTIMER
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 74a1e9a241..3a3c32e1b0 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -131,7 +131,7 @@ config MAC_VIA
+     select MOS6522
+     select ADB
  
--config AVR_TIMER16
-+config ATMEL_TIMER16
+-config AVR_MASK
++config ATMEL_POWER
      bool
-diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
-index af0913ca3b..08a8a5cee9 100644
---- a/hw/timer/Makefile.objs
-+++ b/hw/timer/Makefile.objs
-@@ -36,4 +36,4 @@ common-obj-$(CONFIG_CMSDK_APB_DUALTIMER) += cmsdk-apb-dualtimer.o
- common-obj-$(CONFIG_MSF2) += mss-timer.o
- common-obj-$(CONFIG_RASPI) += bcm2835_systmr.o
  
--obj-$(CONFIG_AVR_TIMER16) += avr_timer16.o
-+obj-$(CONFIG_ATMEL_TIMER16) += atmel_timer16.o
+ source macio/Kconfig
+diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+index bbf17f651b..e605964f4b 100644
+--- a/hw/misc/Makefile.objs
++++ b/hw/misc/Makefile.objs
+@@ -86,4 +86,4 @@ obj-$(CONFIG_MAC_VIA) += mac_via.o
+ 
+ common-obj-$(CONFIG_GRLIB) += grlib_ahb_apb_pnp.o
+ 
+-obj-$(CONFIG_AVR_MASK) += avr_mask.o
++obj-$(CONFIG_ATMEL_POWER) += atmel_power.o
 -- 
 2.21.1
 
