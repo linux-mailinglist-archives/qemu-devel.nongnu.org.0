@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8B0142D67
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:24:30 +0100 (CET)
-Received: from localhost ([::1]:37422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7FD142D8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:29:59 +0100 (CET)
+Received: from localhost ([::1]:37522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itXye-0003Zr-Hg
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:24:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39994)
+	id 1itY3x-0002lV-Vw
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:29:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40172)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1itXut-0007e2-7u
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:20:39 -0500
+ (envelope-from <stefanha@redhat.com>) id 1itXvK-00088h-Ar
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:21:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1itXup-0006Uc-96
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:20:35 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52917
+ (envelope-from <stefanha@redhat.com>) id 1itXvG-0006pK-DO
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:21:02 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55682
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1itXup-0006Tu-4K
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:20:31 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1itXvG-0006os-8e
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:20:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579530030;
+ s=mimecast20190719; t=1579530057;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EdhpjWEWIjVtO+UGn2spiFs+BkXRjtSL4P/3dtsliQs=;
- b=UkFFm8I0m83B4ahBQhPH2e5o9YOFdD8h4xjmX5RxX+4aJNJCasdmumsfJt3SExWgJ94bAS
- HxfrGIJ4lWBpCGr69A2R7TmlCLxFn+vqfCHiWxyncMWKV1A3n9xzT82Y5k28q4TqWyCgoe
- HQVIDZHuyPFnS1acTxVCziTwu5QjqZI=
+ bh=QcF76SiLWpgtvCUROTLlRH+nHSE6t2UFIHOWl610TG4=;
+ b=bhfiskvqx/VsXo1ZKASpkGQLiKF0O5OjiPgAHBdBfICh1v6uz9AZskJEKjiioFNs2i0KM/
+ 7QUN03CxVOGpfEAC9Y4b2sA9EJSBsv9dYqViEEnvJFk8am52qIf9FRqNlIT+B8VkZ7g6hh
+ JdE/gOMUXfhilduOKNijn+ng/eL6k54=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-Svc4qIacPT6X2RnRnPIe9g-1; Mon, 20 Jan 2020 09:20:29 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-316-OkrgZsUfODqz5pRlcgfxAg-1; Mon, 20 Jan 2020 09:20:56 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47FC4107ACC5;
- Mon, 20 Jan 2020 14:20:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 193B41005510;
+ Mon, 20 Jan 2020 14:20:55 +0000 (UTC)
 Received: from localhost (ovpn-117-223.ams2.redhat.com [10.36.117.223])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A39357C3D9;
- Mon, 20 Jan 2020 14:20:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4740860CD0;
+ Mon, 20 Jan 2020 14:20:47 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 09/15] block: add trace events for io_uring
-Date: Mon, 20 Jan 2020 14:18:52 +0000
-Message-Id: <20200120141858.587874-10-stefanha@redhat.com>
+Subject: [PATCH v5 12/15] qemu-img: adds option to use aio engine for
+ benchmarking
+Date: Mon, 20 Jan 2020 14:18:55 +0000
+Message-Id: <20200120141858.587874-13-stefanha@redhat.com>
 In-Reply-To: <20200120141858.587874-1-stefanha@redhat.com>
 References: <20200120141858.587874-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: Svc4qIacPT6X2RnRnPIe9g-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: OkrgZsUfODqz5pRlcgfxAg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -86,159 +87,103 @@ Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 Acked-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/io_uring.c   | 23 ++++++++++++++++++++---
- block/trace-events | 12 ++++++++++++
- 2 files changed, 32 insertions(+), 3 deletions(-)
+v10:
+ * Add missing space to qemu-img command-line documentation
+---
+ qemu-img-cmds.hx |  4 ++--
+ qemu-img.c       | 11 ++++++++++-
+ qemu-img.texi    |  5 ++++-
+ 3 files changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/block/io_uring.c b/block/io_uring.c
-index bb433a685b..a5c0d16220 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -17,6 +17,7 @@
- #include "block/raw-aio.h"
- #include "qemu/coroutine.h"
- #include "qapi/error.h"
-+#include "trace.h"
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index 1c93e6d185..77b5a8dda8 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -20,9 +20,9 @@ STEXI
+ ETEXI
 =20
- /* io_uring ring size */
- #define MAX_ENTRIES 128
-@@ -85,6 +86,8 @@ static void luring_resubmit_short_read(LuringState *s, Lu=
-ringAIOCB *luringcb,
-     QEMUIOVector *resubmit_qiov;
-     size_t remaining;
+ DEF("bench", img_bench,
+-    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_interv=
+al] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s buffer_siz=
+e] [-S step_size] [-t cache] [-w] [-U] filename")
++    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_interv=
+al] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s buffer_siz=
+e] [-S step_size] [-t cache] [-i aio] [-w] [-U] filename")
+ STEXI
+-@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-inte=
+rval=3D@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--pattern=
+=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-t @var=
+{cache}] [-w] [-U] @var{filename}
++@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-inte=
+rval=3D@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--pattern=
+=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-t @var=
+{cache}] [-i @var{aio}] [-w] [-U] @var{filename}
+ ETEXI
 =20
-+    trace_luring_resubmit_short_read(s, luringcb, nread);
-+
-     /* Update read position */
-     luringcb->total_read =3D nread;
-     remaining =3D luringcb->qiov->size - luringcb->total_read;
-@@ -156,6 +159,7 @@ static void luring_process_completions(LuringState *s)
-=20
-         /* Change counters one-by-one because we can be nested. */
-         s->io_q.in_flight--;
-+        trace_luring_process_completion(s, luringcb, ret);
-=20
-         /* total_read is non-zero only for resubmitted read requests */
-         total_bytes =3D ret + luringcb->total_read;
-@@ -224,6 +228,7 @@ static int ioq_submit(LuringState *s)
-             QSIMPLEQ_REMOVE_HEAD(&s->io_q.submit_queue, next);
+ DEF("check", img_check,
+diff --git a/qemu-img.c b/qemu-img.c
+index 6233b8ca56..2b4562b9d9 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -4187,7 +4187,8 @@ static int img_bench(int argc, char **argv)
+             {"force-share", no_argument, 0, 'U'},
+             {0, 0, 0, 0}
+         };
+-        c =3D getopt_long(argc, argv, ":hc:d:f:no:qs:S:t:wU", long_options=
+, NULL);
++        c =3D getopt_long(argc, argv, ":hc:d:f:ni:o:qs:S:t:wU", long_optio=
+ns,
++                        NULL);
+         if (c =3D=3D -1) {
+             break;
          }
-         ret =3D io_uring_submit(&s->ring);
-+        trace_luring_io_uring_submit(s, ret);
-         /* Prevent infinite loop if submission is refused */
-         if (ret <=3D 0) {
-             if (ret =3D=3D -EAGAIN) {
-@@ -280,12 +285,15 @@ static void ioq_init(LuringQueue *io_q)
+@@ -4230,6 +4231,14 @@ static int img_bench(int argc, char **argv)
+         case 'n':
+             flags |=3D BDRV_O_NATIVE_AIO;
+             break;
++        case 'i':
++            ret =3D bdrv_parse_aio(optarg, &flags);
++            if (ret < 0) {
++                error_report("Invalid aio option: %s", optarg);
++                ret =3D -1;
++                goto out;
++            }
++            break;
+         case 'o':
+         {
+             offset =3D cvtnum(optarg);
+diff --git a/qemu-img.texi b/qemu-img.texi
+index b5156d6316..20136fcb94 100644
+--- a/qemu-img.texi
++++ b/qemu-img.texi
+@@ -206,7 +206,7 @@ Command description:
+ Amends the image format specific @var{options} for the image file
+ @var{filename}. Not all file formats support this operation.
 =20
- void luring_io_plug(BlockDriverState *bs, LuringState *s)
- {
-+    trace_luring_io_plug(s);
-     s->io_q.plugged++;
- }
+-@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-inte=
+rval=3D@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--pattern=
+=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-t @var=
+{cache}] [-w] [-U] @var{filename}
++@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-inte=
+rval=3D@var{flush_interval}] [-n] [-i @var{aio}] [--no-drain] [-o @var{offs=
+et}] [--pattern=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_=
+size}] [-t @var{cache}] [-w] [-U] @var{filename}
 =20
- void luring_io_unplug(BlockDriverState *bs, LuringState *s)
- {
-     assert(s->io_q.plugged);
-+    trace_luring_io_unplug(s, s->io_q.blocked, s->io_q.plugged,
-+                           s->io_q.in_queue, s->io_q.in_flight);
-     if (--s->io_q.plugged =3D=3D 0 &&
-         !s->io_q.blocked && s->io_q.in_queue > 0) {
-         ioq_submit(s);
-@@ -306,6 +314,7 @@ void luring_io_unplug(BlockDriverState *bs, LuringState=
- *s)
- static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *s,
-                             uint64_t offset, int type)
- {
-+    int ret;
-     struct io_uring_sqe *sqes =3D &luringcb->sqeq;
+ Run a simple sequential I/O benchmark on the specified image. If @code{-w}=
+ is
+ specified, a write test is performed, otherwise a read test is performed.
+@@ -227,6 +227,9 @@ If @code{-n} is specified, the native AIO backend is us=
+ed if possible. On
+ Linux, this option only works if @code{-t none} or @code{-t directsync} is
+ specified as well.
 =20
-     switch (type) {
-@@ -329,11 +338,14 @@ static int luring_do_submit(int fd, LuringAIOCB *luri=
-ngcb, LuringState *s,
-=20
-     QSIMPLEQ_INSERT_TAIL(&s->io_q.submit_queue, luringcb, next);
-     s->io_q.in_queue++;
--
-+    trace_luring_do_submit(s, s->io_q.blocked, s->io_q.plugged,
-+                           s->io_q.in_queue, s->io_q.in_flight);
-     if (!s->io_q.blocked &&
-         (!s->io_q.plugged ||
-          s->io_q.in_flight + s->io_q.in_queue >=3D MAX_ENTRIES)) {
--        return ioq_submit(s);
-+        ret =3D ioq_submit(s);
-+        trace_luring_do_submit_done(s, ret);
-+        return ret;
-     }
-     return 0;
- }
-@@ -348,8 +360,10 @@ int coroutine_fn luring_co_submit(BlockDriverState *bs=
-, LuringState *s, int fd,
-         .qiov       =3D qiov,
-         .is_read    =3D (type =3D=3D QEMU_AIO_READ),
-     };
--
-+    trace_luring_co_submit(bs, s, &luringcb, fd, offset, qiov ? qiov->size=
- : 0,
-+                           type);
-     ret =3D luring_do_submit(fd, &luringcb, s, offset, type);
++If @code{-i} is specified, aio option can be used to specify different AIO
++backends: @var{threads}, @var{native} or @var{io_uring}.
 +
-     if (ret < 0) {
-         return ret;
-     }
-@@ -382,6 +396,8 @@ LuringState *luring_init(Error **errp)
-     LuringState *s =3D g_new0(LuringState, 1);
-     struct io_uring *ring =3D &s->ring;
+ For write tests, by default a buffer filled with zeros is written. This ca=
+n be
+ overridden with a pattern byte specified by @var{pattern}.
 =20
-+    trace_luring_init_state(s, sizeof(*s));
-+
-     rc =3D io_uring_queue_init(MAX_ENTRIES, ring, 0);
-     if (rc < 0) {
-         error_setg_errno(errp, errno, "failed to init linux io_uring ring"=
-);
-@@ -398,4 +414,5 @@ void luring_cleanup(LuringState *s)
- {
-     io_uring_queue_exit(&s->ring);
-     g_free(s);
-+    trace_luring_cleanup_state(s);
- }
-diff --git a/block/trace-events b/block/trace-events
-index 6ba86decca..1a7329b736 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -63,6 +63,18 @@ qmp_block_stream(void *bs) "bs %p"
- file_paio_submit(void *acb, void *opaque, int64_t offset, int count, int t=
-ype) "acb %p opaque %p offset %"PRId64" count %d type %d"
- file_copy_file_range(void *bs, int src, int64_t src_off, int dst, int64_t =
-dst_off, int64_t bytes, int flags, int64_t ret) "bs %p src_fd %d offset %"P=
-RIu64" dst_fd %d offset %"PRIu64" bytes %"PRIu64" flags %d ret %"PRId64
-=20
-+#io_uring.c
-+luring_init_state(void *s, size_t size) "s %p size %zu"
-+luring_cleanup_state(void *s) "%p freed"
-+luring_io_plug(void *s) "LuringState %p plug"
-+luring_io_unplug(void *s, int blocked, int plugged, int queued, int inflig=
-ht) "LuringState %p blocked %d plugged %d queued %d inflight %d"
-+luring_do_submit(void *s, int blocked, int plugged, int queued, int inflig=
-ht) "LuringState %p blocked %d plugged %d queued %d inflight %d"
-+luring_do_submit_done(void *s, int ret) "LuringState %p submitted to kerne=
-l %d"
-+luring_co_submit(void *bs, void *s, void *luringcb, int fd, uint64_t offse=
-t, size_t nbytes, int type) "bs %p s %p luringcb %p fd %d offset %" PRId64 =
-" nbytes %zd type %d"
-+luring_process_completion(void *s, void *aiocb, int ret) "LuringState %p l=
-uringcb %p ret %d"
-+luring_io_uring_submit(void *s, int ret) "LuringState %p ret %d"
-+luring_resubmit_short_read(void *s, void *luringcb, int nread) "LuringStat=
-e %p luringcb %p nread %d"
-+
- # qcow2.c
- qcow2_add_task(void *co, void *bs, void *pool, const char *action, int clu=
-ster_type, uint64_t file_cluster_offset, uint64_t offset, uint64_t bytes, v=
-oid *qiov, size_t qiov_offset) "co %p bs %p pool %p: %s: cluster_type %d fi=
-le_cluster_offset %" PRIu64 " offset %" PRIu64 " bytes %" PRIu64 " qiov %p =
-qiov_offset %zu"
- qcow2_writev_start_req(void *co, int64_t offset, int bytes) "co %p offset =
-0x%" PRIx64 " bytes %d"
 --=20
 2.24.1
 
