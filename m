@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C0C14285B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:43:30 +0100 (CET)
-Received: from localhost ([::1]:33780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B002D142857
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:42:24 +0100 (CET)
+Received: from localhost ([::1]:33764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itUWm-0006Vo-T8
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:43:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37112)
+	id 1itUVj-0005LP-C6
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:42:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37167)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1itUNy-0004AZ-D6
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:34:26 -0500
+ (envelope-from <quintela@redhat.com>) id 1itUO4-0004En-Ng
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:34:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1itUNw-0001WO-56
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:34:22 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47198
+ (envelope-from <quintela@redhat.com>) id 1itUO3-0001ar-I9
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:34:28 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25686
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1itUNw-0001WC-0O
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:34:20 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1itUO3-0001Zm-DK
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:34:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579516459;
+ s=mimecast20190719; t=1579516466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N7eHhu4RVnwR1GixjRbyFk9CcEmDhA6fspUldHGTnnA=;
- b=CKO2L4pRFqJrgwt+Qm9Oc25wIuvswow+QGAsTzEgFYtxOywdsWJx0jSScdUUWwSqLbKRv9
- N7Ms9bkFv8bNRteRmHMj/lTV3AvYjoJ7qBhWUp3SnsC2fUdbTAAZZt4K4rQ3Fd2bFWCXb0
- wXFuQQEvYnAzWvZ8vdZsVIY4K5M5j/c=
+ bh=oqibwUkJd0cALDqIK5Izjq+NpqGT38BSd3XKGz8Uz8I=;
+ b=eGgKfLtweBnM3VIHBP+wRUUp/l/lLGdpyKEASpjmDmAzBvw+n84cXs+QQoFUryyo8kl4+F
+ TB/5FIBhZByTgt1SXjAfc4uTHqPM0FFtC8Z5vVwmJ48jfu5CH5DznuiSrGKPM0lpnVsQDb
+ 9d8rmdECD5YUbUJYR2oJo+/KE0NHQRw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-EypwoyvDP2GvG02f2TrOTg-1; Mon, 20 Jan 2020 05:34:18 -0500
+ us-mta-282-a2HWLB_BMhehLAmgZ5HXUw-1; Mon, 20 Jan 2020 05:34:25 -0500
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AFABDBA3;
- Mon, 20 Jan 2020 10:34:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7180718A8C81;
+ Mon, 20 Jan 2020 10:34:23 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48E6D1BC6D;
- Mon, 20 Jan 2020 10:34:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE2EB860E5;
+ Mon, 20 Jan 2020 10:34:16 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/29] migration-test: introduce functions to handle string
- parameters
-Date: Mon, 20 Jan 2020 11:33:15 +0100
-Message-Id: <20200120103340.25118-5-quintela@redhat.com>
+Subject: [PULL 05/29] runstate: ignore finishmigrate -> prelaunch transition
+Date: Mon, 20 Jan 2020 11:33:16 +0100
+Message-Id: <20200120103340.25118-6-quintela@redhat.com>
 In-Reply-To: <20200120103340.25118-1-quintela@redhat.com>
 References: <20200120103340.25118-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: EypwoyvDP2GvG02f2TrOTg-1
+X-MC-Unique: a2HWLB_BMhehLAmgZ5HXUw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,65 +85,63 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+
+Commit 1bd71dce4bf2 tries to prevent a finishmigrate -> prelaunch
+transition by exiting at the beginning of the main_loop_should_exit()
+function if the state is already finishmigrate.
+
+As the finishmigrate state is set in the migration thread it can
+happen concurrently to the function. The migration thread and the
+function are normally protected by the iothread mutex and thus the
+state should no evolve between the start of the function and its end.
+
+Unfortunately during the function life the lock is released by
+pause_all_vcpus() just before the point we need to be sure we are
+not in finishmigrate state and if the migration thread is waiting
+for the lock it will take the opportunity to change the state
+to finishmigrate.
+
+The only way to be sure we are not in the finishmigrate state when
+we need is to check the state after the pause_all_vcpus() function.
+
+Fixes: 1bd71dce4bf2 ("runstate: ignore exit request in finish migrate state=
+")
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- tests/qtest/migration-test.c | 37 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ vl.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 81f65602de..26e2e77289 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -356,6 +356,43 @@ static void migrate_set_parameter_int(QTestState *who,=
- const char *parameter,
-     migrate_check_parameter_int(who, parameter, value);
- }
+diff --git a/vl.c b/vl.c
+index 751401214c..71d3e7eefb 100644
+--- a/vl.c
++++ b/vl.c
+@@ -1604,9 +1604,6 @@ static bool main_loop_should_exit(void)
+     RunState r;
+     ShutdownCause request;
 =20
-+static char *migrate_get_parameter_str(QTestState *who,
-+                                       const char *parameter)
-+{
-+    QDict *rsp;
-+    char *result;
-+
-+    rsp =3D wait_command(who, "{ 'execute': 'query-migrate-parameters' }")=
-;
-+    result =3D g_strdup(qdict_get_str(rsp, parameter));
-+    qobject_unref(rsp);
-+    return result;
-+}
-+
-+static void migrate_check_parameter_str(QTestState *who, const char *param=
-eter,
-+                                        const char *value)
-+{
-+    char *result;
-+
-+    result =3D migrate_get_parameter_str(who, parameter);
-+    g_assert_cmpstr(result, =3D=3D, value);
-+    g_free(result);
-+}
-+
-+__attribute__((unused))
-+static void migrate_set_parameter_str(QTestState *who, const char *paramet=
-er,
-+                                      const char *value)
-+{
-+    QDict *rsp;
-+
-+    rsp =3D qtest_qmp(who,
-+                    "{ 'execute': 'migrate-set-parameters',"
-+                    "'arguments': { %s: %s } }",
-+                    parameter, value);
-+    g_assert(qdict_haskey(rsp, "return"));
-+    qobject_unref(rsp);
-+    migrate_check_parameter_str(who, parameter, value);
-+}
-+
- static void migrate_pause(QTestState *who)
- {
-     QDict *rsp;
+-    if (runstate_check(RUN_STATE_FINISH_MIGRATE)) {
+-        return false;
+-    }
+     if (preconfig_exit_requested) {
+         if (runstate_check(RUN_STATE_PRECONFIG)) {
+             runstate_set(RUN_STATE_PRELAUNCH);
+@@ -1635,8 +1632,13 @@ static bool main_loop_should_exit(void)
+         pause_all_vcpus();
+         qemu_system_reset(request);
+         resume_all_vcpus();
++        /*
++         * runstate can change in pause_all_vcpus()
++         * as iothread mutex is unlocked
++         */
+         if (!runstate_check(RUN_STATE_RUNNING) &&
+-                !runstate_check(RUN_STATE_INMIGRATE)) {
++                !runstate_check(RUN_STATE_INMIGRATE) &&
++                !runstate_check(RUN_STATE_FINISH_MIGRATE)) {
+             runstate_set(RUN_STATE_PRELAUNCH);
+         }
+     }
 --=20
 2.24.1
 
