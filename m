@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBD91428CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:06:50 +0100 (CET)
-Received: from localhost ([::1]:34232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CBB31428C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:05:24 +0100 (CET)
+Received: from localhost ([::1]:34200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itUtM-0004WS-Pp
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:06:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38425)
+	id 1itUry-0002bA-PA
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:05:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38851)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1itURU-0000Ln-9M
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:38:01 -0500
+ (envelope-from <stefanha@gmail.com>) id 1itUUX-0005Dc-5x
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:41:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1itURS-0003RV-6f
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:38:00 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33313
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1itURS-0003RP-2s
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:37:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579516677;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2kN2SVoPx8AG8bWLkP/5pV/dMcwghV+OE39B65cCmDk=;
- b=WYqlJuS9nOKhjOKtl17jc2njHNgWyYn4eiiExLkOdlDk2GRBkwlRWjh6TdpoHS48QXGpw4
- wiafM9CpWP+5OTdcrmsOe2CiG4kjJDuTepTCiwFk1ws4W8Vtwrm312FKdFemFAE7TT2x8t
- f/KF7pG8O3bo8Gn9MBXdUJ+i5ABOtVs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-QQxRjkBYMYGjylSTTr0h_g-1; Mon, 20 Jan 2020 05:37:56 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1FE88C2F20;
- Mon, 20 Jan 2020 10:37:54 +0000 (UTC)
-Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A2C971BC6D;
- Mon, 20 Jan 2020 10:37:42 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 29/29] multifd: Be consistent about using uint64_t
-Date: Mon, 20 Jan 2020 11:33:40 +0100
-Message-Id: <20200120103340.25118-30-quintela@redhat.com>
-In-Reply-To: <20200120103340.25118-1-quintela@redhat.com>
-References: <20200120103340.25118-1-quintela@redhat.com>
+ (envelope-from <stefanha@gmail.com>) id 1itUUW-0005Ux-0P
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:41:09 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39121)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1itUUV-0005U6-M6
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:41:07 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id y11so28975415wrt.6
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 02:41:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=wHSf4hpjOYkPo29+7kwbZybvl7dOvlQu+eUAlnPqBco=;
+ b=gcwGFZV9TpV7keq6wIEJQz2Dw/t0kJTOEOXghGtznM3ekIQJEVxeDvzqyhwfXVtoUT
+ xmGDXjhFa1hlafg6r8O32vBhUF99inL/MZeH0GljEYU3kV31dWXHW9vZ1w2QzRmz5SP4
+ +Fu0pBcFiKMuzqQ30tuBxF4F7kIvDyHzLDKgsIl12vs85GwM+rQO+RT4Iyp7Kup3r+kw
+ kxM8xOGyyTrm26qCW4louxVJlDJHzkdxOsbxA/U/uhq6n9Oi6cQiFwDCuCNJO2wCbERD
+ RSNSvvsKHGyYkQD/7bDS77xpN3p5b0TryEbqW/o9gZ5FM5uaxJob2DloRVTBKGku0RdQ
+ uTZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wHSf4hpjOYkPo29+7kwbZybvl7dOvlQu+eUAlnPqBco=;
+ b=Eu4M33BFpLc4gXh8wUP71Upelcze1NGDr10CPI5MYNCfubtUqAaRTdTNqB8wwOVkJe
+ BXUtUjl9g8vRfNjZVoewCKIdtyulj/XxhNJQj8EhL0TN6g5gQ7UJ4mNgth2u3hmNCd11
+ s7HUFiw12+FuEAi1SoztJ0nPt3nOdWVFUYYjLn8yvSeU01nAjHMB6ssWj+n54xZT6+kM
+ BgeBADm/VYQMRWtNe0AzpHhgZIYlOkPvIpHTOP2BpgprY2/6PCyXMpCyMamrG3awAP1+
+ ThGGV4MFOI7z1E6Y031ZmVPiC4aVTPzxPZe6pkjwYNprXFs3j22cblQJjkQ2imjAu0Ru
+ aFNQ==
+X-Gm-Message-State: APjAAAWZiiz9c2mna+1bJln+xfnEjYsfbePCMXBwxWjN06w1Y1tOKsCq
+ HuC8Q4mQMkhrotBjzna9GL4=
+X-Google-Smtp-Source: APXvYqzhVdjrCtqgnQCIqheQnHy1B/xdBetWSZHL0Nk8G9eD7o7aAOhJvhDXJbOptWF108oi1HJB6Q==
+X-Received: by 2002:a5d:5267:: with SMTP id l7mr17181966wrc.84.1579516865219; 
+ Mon, 20 Jan 2020 02:41:05 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id z3sm46945298wrs.94.2020.01.20.02.41.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jan 2020 02:41:04 -0800 (PST)
+Date: Mon, 20 Jan 2020 10:41:03 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Felipe Franciosi <felipe@nutanix.com>
+Subject: Re: Feedback on multi-process QEMU muser prototype
+Message-ID: <20200120104103.GE345995@stefanha-x1.localdomain>
+References: <CAJSP0QWUfHyAk-xLFA1-sWSU7CvB4yKu0=Okoc7wcv7TinmXWg@mail.gmail.com>
+ <75F8F7A2-0925-4010-97EA-F135C873087F@nutanix.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: QQxRjkBYMYGjylSTTr0h_g-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cPi+lWm09sJ+d57q"
+Content-Disposition: inline
+In-Reply-To: <75F8F7A2-0925-4010-97EA-F135C873087F@nutanix.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,81 +78,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Corey Minyard <cminyard@mvista.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
- Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Jag Raman <jag.raman@oracle.com>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Stefan Berger <stefanb@linux.ibm.com>
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We transmit ram_addr_t always as uint64_t.  Be consistent in its
-use (on 64bit system, it is always uint64_t problem is 32bits).
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/ram.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+--cPi+lWm09sJ+d57q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/migration/ram.c b/migration/ram.c
-index d0940387d1..d2208b5534 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -803,7 +803,10 @@ static void multifd_send_fill_packet(MultiFDSendParams=
- *p)
-     }
-=20
-     for (i =3D 0; i < p->pages->used; i++) {
--        packet->offset[i] =3D cpu_to_be64(p->pages->offset[i]);
-+        /* there are architectures where ram_addr_t is 32 bit */
-+        uint64_t temp =3D p->pages->offset[i];
-+
-+        packet->offset[i] =3D cpu_to_be64(temp);
-     }
- }
-=20
-@@ -877,10 +880,10 @@ static int multifd_recv_unfill_packet(MultiFDRecvPara=
-ms *p, Error **errp)
-     }
-=20
-     for (i =3D 0; i < p->pages->used; i++) {
--        ram_addr_t offset =3D be64_to_cpu(packet->offset[i]);
-+        uint64_t offset =3D be64_to_cpu(packet->offset[i]);
-=20
-         if (offset > (block->used_length - TARGET_PAGE_SIZE)) {
--            error_setg(errp, "multifd: offset too long " RAM_ADDR_FMT
-+            error_setg(errp, "multifd: offset too long %" PRIu64
-                        " (max " RAM_ADDR_FMT ")",
-                        offset, block->max_length);
-             return -1;
-@@ -1267,7 +1270,7 @@ int multifd_save_setup(void)
-         p->id =3D i;
-         p->pages =3D multifd_pages_init(page_count);
-         p->packet_len =3D sizeof(MultiFDPacket_t)
--                      + sizeof(ram_addr_t) * page_count;
-+                      + sizeof(uint64_t) * page_count;
-         p->packet =3D g_malloc0(p->packet_len);
-         p->packet->magic =3D cpu_to_be32(MULTIFD_MAGIC);
-         p->packet->version =3D cpu_to_be32(MULTIFD_VERSION);
-@@ -1484,7 +1487,7 @@ int multifd_load_setup(void)
-         p->id =3D i;
-         p->pages =3D multifd_pages_init(page_count);
-         p->packet_len =3D sizeof(MultiFDPacket_t)
--                      + sizeof(ram_addr_t) * page_count;
-+                      + sizeof(uint64_t) * page_count;
-         p->packet =3D g_malloc0(p->packet_len);
-         p->name =3D g_strdup_printf("multifdrecv_%d", i);
-     }
---=20
-2.24.1
+On Wed, Jan 15, 2020 at 10:58:38AM +0000, Felipe Franciosi wrote:
+> > On Jan 14, 2020, at 3:22 PM, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> >=20
+> > I haven't seen the link to the muser prototype shared on the list yet,
+> > so I'm taking the liberty of posting it for discussion:
+> > https://github.com/oracle/qemu/tree/multi-process-qemu-v0.4.1-muser
+> >=20
+> > Great that a lot of the multi-process patch series is no longer
+> > necessary.  The muser approach requires less code in QEMU.
+> >=20
+> > The following points came to mind:
+> >=20
+> > 1. Configure PCI configuration space, BARs, and MSI/IRQs based on the P=
+CIDevice
+> >   instead of hard-coding the LSI SCSI controller's specifics.  That way=
+ any
+> >   PCIDevice can run as an muser device.
+> >=20
+> > 2. Integrate with QEMU's event loop instead of spawning threads and cal=
+ling
+> >   lm_ctx_run().  The event loop should monitor the muser fd for activit=
+y using
+> >   aio_set_fd_handler() and then call into libmuser to handle the event.=
+  This
+> >   will avoid thread model problems in the future and also allow true
+> >   multi-threading (IOThreads).
+>=20
+> Allowing muser to be used like that is in our to-do list.
+>=20
+> (+ Thanos / Swapnil).
+>=20
+> We have to extend muser.ko to allow the device file descriptor to be
+> "pollable".  Let me know how soon you want to see that so we can
+> prioritise accordingly or assist someone in doing the work.
 
+Last I talked with the multi-process QEMU team the discussion was about
+moving forward with the existing QEMU patches and then moving to
+VFIO-over-socket.  libmuser makes a nice library API for device emulator
+programs and I think it will be revisited when VFIO-over-socket
+integration begins.
+
+This makes the pollable fd less of a priority for QEMU at the moment.
+
+Stefan
+
+--cPi+lWm09sJ+d57q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4lg78ACgkQnKSrs4Gr
+c8j8Qgf+JpWTg/ko60R2vvJWD9yrG++9hreQ46P/8a9mYoeXxzyrEwgihBem2u8b
+oAKvXW9UY32uwtzsrVCly9sxoD8eYymKvOVXQvxTkCbjj+W7bE6R/ZfMIpG5BW+5
+SUIDzBDJ0NiVsFLNBZ2/uN/rAXb5+DojW7XLOqRaYmY62esMY/1VXUQETgZTwTLA
+YwEzGhZAaa3jTrBTsS7+6kvz5raZO5aFSiwcrPdqfse1N5IxvyuYFUawpbt1cOcr
+VM70+P7FKDnS46925ht5YBhQz9SBqCAt+wldbcdewOf1tky1bMYBkRH5bVDE2B2P
+BlC9sQKnInbWq2iTU7R+n0CyOOpZ1g==
+=UHI8
+-----END PGP SIGNATURE-----
+
+--cPi+lWm09sJ+d57q--
 
