@@ -2,68 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ADF91428DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:09:26 +0100 (CET)
-Received: from localhost ([::1]:34288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43CFF14290D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:17:02 +0100 (CET)
+Received: from localhost ([::1]:34492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itUvs-0000PR-QK
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:09:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39063)
+	id 1itV3E-000326-QF
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:17:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40182)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1itUVi-0006eJ-VY
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:42:24 -0500
+ (envelope-from <clg@kaod.org>) id 1itUdG-0008GO-PL
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:50:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1itUVf-0005yK-Cg
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:42:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24736
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1itUdC-0000p8-RG
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:50:10 -0500
+Received: from 8.mo2.mail-out.ovh.net ([188.165.52.147]:41631)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1itUVf-0005yE-9W
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:42:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579516938;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BLMdlgiEznEFCFhjl4MRTG3GCx9wPbAEUkGCEjpgEQ4=;
- b=ZdP1UZ7Now9u+N4IcLYpj+abTumh1dKMvjRXzV5E8y7ml5WhLrcQQk7aez17BE0AzPE3SB
- FjPp+OXp1oY0v+HEDp8PgjeMqOrtuTlcohEBUzruUb5onpVtXqJm8zWsrZ0WkFZGYldcCJ
- KQSCgejxIrVqXU3zNDIpqAC8gHw4PKs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-QL7ZaKBJMkuGj8tcXVcnmg-1; Mon, 20 Jan 2020 05:42:13 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC81018A6EC2;
- Mon, 20 Jan 2020 10:42:12 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-194.ams2.redhat.com [10.36.116.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 871545C21A;
- Mon, 20 Jan 2020 10:42:11 +0000 (UTC)
-Date: Mon, 20 Jan 2020 11:42:10 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Eiichi Tsukata <devel@etsukata.com>
-Subject: Re: [PATCH] block/backup: fix memory leak in bdrv_backup_top_append()
-Message-ID: <20200120104210.GC4970@linux.fritz.box>
-References: <20191223090632.30653-1-devel@etsukata.com>
- <221aa3d1-9e64-7fc4-e04b-dc6366978c18@virtuozzo.com>
- <9a335600-d9cc-bbed-7b2f-9d9d0174c7e7@etsukata.com>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1itUd8-0000lL-Ig
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:50:06 -0500
+Received: from player718.ha.ovh.net (unknown [10.108.42.5])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id 3ED561C02CA
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 11:49:48 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player718.ha.ovh.net (Postfix) with ESMTPSA id 77743E50624A;
+ Mon, 20 Jan 2020 10:49:36 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH v2 0/2] ppc: add support for Directed Privileged Doorbell
+ (non-hypervisor)
+Date: Mon, 20 Jan 2020 11:49:33 +0100
+Message-Id: <20200120104935.24449-1-clg@kaod.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <9a335600-d9cc-bbed-7b2f-9d9d0174c7e7@etsukata.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: QL7ZaKBJMkuGj8tcXVcnmg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 9640236481169427430
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudehgddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejudekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 188.165.52.147
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,116 +55,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.12.2019 um 14:40 hat Eiichi Tsukata geschrieben:
->=20
->=20
-> On 2019/12/23 21:40, Vladimir Sementsov-Ogievskiy wrote:
-> > 23.12.2019 12:06, Eiichi Tsukata wrote:
-> >> bdrv_open_driver() allocates bs->opaque according to drv->instance_siz=
-e.
-> >> There is no need to allocate it and overwrite opaque in
-> >> bdrv_backup_top_append().
-> >>
-> >> Reproducer:
-> >>
-> >>    $ QTEST_QEMU_BINARY=3D./x86_64-softmmu/qemu-system-x86_64 valgrind =
--q --leak-check=3Dfull tests/test-replication -p /replication/secondary/sta=
-rt
-> >>    =3D=3D29792=3D=3D 24 bytes in 1 blocks are definitely lost in loss =
-record 52 of 226
-> >>    =3D=3D29792=3D=3D    at 0x483AB1A: calloc (vg_replace_malloc.c:762)
-> >>    =3D=3D29792=3D=3D    by 0x4B07CE0: g_malloc0 (in /usr/lib64/libglib=
--2.0.so.0.6000.7)
-> >>    =3D=3D29792=3D=3D    by 0x12BAB9: bdrv_open_driver (block.c:1289)
-> >>    =3D=3D29792=3D=3D    by 0x12BEA9: bdrv_new_open_driver (block.c:135=
-9)
-> >>    =3D=3D29792=3D=3D    by 0x1D15CB: bdrv_backup_top_append (backup-to=
-p.c:190)
-> >>    =3D=3D29792=3D=3D    by 0x1CC11A: backup_job_create (backup.c:439)
-> >>    =3D=3D29792=3D=3D    by 0x1CD542: replication_start (replication.c:=
-544)
-> >>    =3D=3D29792=3D=3D    by 0x1401B9: replication_start_all (replicatio=
-n.c:52)
-> >>    =3D=3D29792=3D=3D    by 0x128B50: test_secondary_start (test-replic=
-ation.c:427)
-> >>    ...
-> >>
-> >> Fixes: 7df7868b9640 ("block: introduce backup-top filter driver")
-> >> Signed-off-by: Eiichi Tsukata <devel@etsukata.com>
-> >> ---
-> >>   block/backup-top.c | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/block/backup-top.c b/block/backup-top.c
-> >> index 7cdb1f8eba..617217374d 100644
-> >> --- a/block/backup-top.c
-> >> +++ b/block/backup-top.c
-> >> @@ -196,7 +196,7 @@ BlockDriverState *bdrv_backup_top_append(BlockDriv=
-erState *source,
-> >>       }
-> >>  =20
-> >>       top->total_sectors =3D source->total_sectors;
-> >> -    top->opaque =3D state =3D g_new0(BDRVBackupTopState, 1);
-> >> +    state =3D top->opaque;
-> >>  =20
-> >>       bdrv_ref(target);
-> >>       state->target =3D bdrv_attach_child(top, target, "target", &chil=
-d_file, errp);
-> >>
-> >=20
-> > Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> >=20
-> > Hmm, it was not my idea, I just copied it from mirror.. And there shoul=
-d be the same leak. and
-> > may be in other places:
-> >=20
-> > # git grep 'opaque =3D.*g_new'
-> > block/backup-top.c:    top->opaque =3D state =3D g_new0(BDRVBackupTopSt=
-ate, 1);
+Hello,
 
-Fixed by this patch.
+The Processor Control facility for POWER8 processors and later
+provides a mechanism for the hypervisor to send messages to other
+threads in the system (msgsnd instruction) and cause hypervisor-level
+exceptions.
 
-> > block/file-posix.c:    state->opaque =3D g_new0(BDRVRawReopenState, 1);
-> > block/gluster.c:    state->opaque =3D g_new0(BDRVGlusterReopenState, 1)=
-;
-> > block/raw-format.c:    reopen_state->opaque =3D g_new0(BDRVRawState, 1)=
-;
-> > block/sheepdog.c:    re_s =3D state->opaque =3D g_new0(BDRVSheepdogReop=
-enState, 1);
+Privileged non-hypervisor programs can also send messages (msgsndp
+instruction) but are restricted to the threads of the same
+subprocessor and cause privileged-level exceptions. The Directed
+Privileged Doorbell Exception State (DPDES) register reflects the
+state of pending privileged-level doorbell exceptions for all threads
+and can be used to modify that state.
 
-Doing this for reopen state is fine.
+If the MSGP facility is not in the HFSCR, a hypervisor facility
+unavailable exception is generated when these instructions are used or
+when the DPDES register is accessed by the supervisor.
 
-> > block/iscsi.c:    bs->opaque =3D g_new0(struct IscsiLun, 1);
+Based on previous work from Suraj Jitindar Singh.=20
 
-This one looks kind of questionable. It basically builds its
-BlockDriveState manually without using any of the block layer open
-functions.
+Thanks,
 
-> > block/mirror.c:    bs_opaque =3D g_new0(MirrorBDSOpaque, 1);
+C.
 
-Harmless as Eiichi explained below, but not nice either.
+Changes since v1:
 
-> Thanks for reviewing.
-> As you say, block/mirror.c has similar code. But it does not cause the le=
-ak.
-> The difference is bdrv_mirror_top BlockDriver does not have .instance_siz=
-e
-> whereas bdrv_backup_top_filter BlockDriver has .instance_size =3D sizeof(=
-BDRVBackupTopState).
-> So when bdrv_open_driver() is called from mirror.c, g_malloc0(0) is
-> called allocating nothing.
+ - removed DBELL_TIRTAG_MASK and simplified helpers as QEMU TCG
+   doesn't support more than on thread per core  =20
+ - simplified book3s_dbell2irq() and renamed it to dbell_type_server()=20
+ - replaced mask LOG_GUEST_ERROR by CPU_LOG_INT to track HV Facility
+   errors
+=20
+C=C3=A9dric Le Goater (2):
+  target/ppc: Add privileged message send facilities
+  target/ppc: add support for Hypervisor Facility Unavailable Exception
 
-I think it should still be changed just because it would make the code
-cleaner. It's always better to use common infrastructure than
-reimplementing it locally.
+ target/ppc/cpu.h                |  6 +++
+ target/ppc/helper.h             |  4 ++
+ target/ppc/excp_helper.c        | 79 ++++++++++++++++++++++++++-------
+ target/ppc/misc_helper.c        | 63 ++++++++++++++++++++++++++
+ target/ppc/translate.c          | 26 +++++++++++
+ target/ppc/translate_init.inc.c | 20 +++++++--
+ 6 files changed, 178 insertions(+), 20 deletions(-)
 
-Kevin
+--=20
+2.21.1
 
 
