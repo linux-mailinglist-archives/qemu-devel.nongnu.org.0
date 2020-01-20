@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF47B1433B2
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EACC1433B1
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 23:10:17 +0100 (CET)
-Received: from localhost ([::1]:44662 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:44660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itfFQ-0003HG-CB
+	id 1itfFQ-0003Gr-3n
 	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 17:10:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51032)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51033)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6q-0001au-KC
+ id 1itf6q-0001av-J2
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6o-0005rg-N1
+ id 1itf6o-0005rc-Mi
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:24 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54700)
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37458)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6o-0005pJ-3G
+ id 1itf6o-0005pc-3t
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:22 -0500
-Received: by mail-wm1-x341.google.com with SMTP id b19so895367wmj.4
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 14:01:19 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id f129so933183wmf.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 14:01:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KFlHsYD314AzFD5CqSiDjK4Q0Xckkln012an+E5d5po=;
- b=BTdA5HCsAjdY3W6kZaDCC8eVXhMfoqzR6bXvko8qunF4PRJTYV8dAxYFbW/p03kYzP
- yC8iR3weIp95Wb2FC/meU9RInlIJX0/pxsMj9MxvAzBW19VZZqvXUj1hZ5E9LsO8EapL
- QD5m4otVZ54dQM15gmBH9RDuhIkTsNLut+iu0omNQCv7iGwH5359X3ROqiubv8Qe6cqI
- KtD5NqJEtM5NcO7yWnxEOYN6dgVzjRqdufgbWT8ApIwwfLdXvylDaOUktpxfp0wIljK1
- Wqt7BzAyqtOfR22WgHlp9m83AOzrxYe0yJjX+5mp9llfRvPe5FbIOnAQau7q4jKFOXim
- HKgg==
+ bh=2ghWaCjCti0TY76Vco8TfPl0YwPAyikexg28ipljmVM=;
+ b=eG4ATBNesK65nVRXR0PUrHjpelQPk6NvSzOWnWvDEtnXrRQ8bontwzvc1ZiEfNsm+S
+ +jfhqqMeI7rzL2CtivvmaWC3odD++zjUATkf0ZIwQf3Gk50jfhkk8/Eb7XalP11h9+GC
+ 8VVBXkvhFbpzfQud1OdkmXS/j1TyMXfZPR2JCjRnad1B3aBlTiT6qd8sWtf/o8nZhzVi
+ 0eTG2+RCMDH+kSpkluLTMqU4XTiQfgMgpubkJr2qmqjq13ooBNBejHfFIUGowjmB350i
+ O+31Z3+CUhoV3+3zxBW2CR/gxmq7TpODSSIEP9sLuNuBitfqvrwcUKvgsDA6XYNjgf9j
+ qgdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KFlHsYD314AzFD5CqSiDjK4Q0Xckkln012an+E5d5po=;
- b=UL6od6rlJ4z9F+rMJ911Aa8+qFUnTwt6AERNvo81TCsuO32uRn721jr9/j4TTHzo6p
- 5bEY/VItS5ySMrQ3kRhzKrGHN657qqGhLbUsQoGDRWwWMXBk1IRJIfyPkhiOHXSVSX1f
- 07SHv7GLfGGWY53qiOAm4ou3dPD10vdCov5HLEMgJ1tTB/n++cmPen2XLVVtCaHyOjFR
- DKuVwWa86DFRKZaKUfHjRg5HrGf/OXkC8hEwuP7w9AoSv6vPx40B9Xe0uFmNS0Kz2BJh
- oitN0RUgsr58QhlE3js+VA5O/58h4gPuRccmm6Jaqu+3aNXsaoBOFIN/1Kj3HhYPdVSX
- YqaQ==
-X-Gm-Message-State: APjAAAWy6cykn5uD3QLD9O85RhEz7WBp4Y67h74rmc9Y6AT8pYDYenix
- U2lRxdD+MLz/lXZTqsPUvZoly21P
-X-Google-Smtp-Source: APXvYqxEJOk6i9I5V3EHHzsjoey36rQ+/Bps5Q7DwAsfgKYGI7Zgg9hHsqUQ9xJqTDHJwuGkmCtzLw==
-X-Received: by 2002:a7b:cf2d:: with SMTP id m13mr848200wmg.163.1579557677877; 
- Mon, 20 Jan 2020 14:01:17 -0800 (PST)
+ bh=2ghWaCjCti0TY76Vco8TfPl0YwPAyikexg28ipljmVM=;
+ b=az6WCYf+T7vip9ixA3SO3SdSAJrcnvrn36egGlCBX3+ZjeHm23QDRKkDxLv1Aia8UA
+ knTshNq1pS7gpHgRAhetkg0eY5SuhXfO8U5UVUw5Xk8qZg+1HwQrNdVHMWendvX+ZGb2
+ FmygI/Ro/Fv5sT/Og3C/ssGEcdot9VJ679vn2zffYMRTyX1k5+c9xL/3fBtrytKteDna
+ N7Kn9OwFrTrRIcKWPK93UZJUPWjcjmmlkyrVRI8nw2Rq2hmthPMup6k/MnA2BElOc1Ez
+ NB7JaCzMkAP/DUpUqKFDPCunM1pG0OJ787E+9K8Xwbq0WxX/sfC5LRDIEN3yo8LVBNfX
+ lhSg==
+X-Gm-Message-State: APjAAAWbYhzCwKYKhhgDvQ+6P1BsI1D5PUGDMyefhzjYs4hIZoJDXTYj
+ O8Bf3z67mUo3JBw5dPCCd6bAVECW
+X-Google-Smtp-Source: APXvYqyIOzAuDj5wUROQWgQWQIF48khrRUMGJfOxU/C/Cwi5NpAFH+meIkhPOCcWs+31WYdnP6FvqQ==
+X-Received: by 2002:a1c:2786:: with SMTP id n128mr812621wmn.47.1579557679264; 
+ Mon, 20 Jan 2020 14:01:19 -0800 (PST)
 Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id f1sm904341wmc.45.2020.01.20.14.01.16
+ by smtp.gmail.com with ESMTPSA id f1sm904341wmc.45.2020.01.20.14.01.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 14:01:17 -0800 (PST)
+ Mon, 20 Jan 2020 14:01:18 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 06/18] hw/timer/avr_timer16: Rename memory region debugging
- name
-Date: Mon, 20 Jan 2020 23:00:55 +0100
-Message-Id: <20200120220107.17825-7-f4bug@amsat.org>
+Subject: [PATCH v4 07/18] hw/misc/avr_mask: Remove unused include
+Date: Mon, 20 Jan 2020 23:00:56 +0100
+Message-Id: <20200120220107.17825-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200120220107.17825-1-f4bug@amsat.org>
 References: <20200120220107.17825-1-f4bug@amsat.org>
@@ -71,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,33 +89,23 @@ Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This device expose 3 different I/O regions. Name them differently
-to have a clearer 'info mtree' output.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/timer/avr_timer16.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/hw/misc/avr_mask.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/timer/avr_timer16.c b/hw/timer/avr_timer16.c
-index aea1bf009e..a27933a18a 100644
---- a/hw/timer/avr_timer16.c
-+++ b/hw/timer/avr_timer16.c
-@@ -563,11 +563,11 @@ static void avr_timer16_init(Object *obj)
-     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->ovf_irq);
+diff --git a/include/hw/misc/avr_mask.h b/include/hw/misc/avr_mask.h
+index d3e21972d8..5f95e1081d 100644
+--- a/include/hw/misc/avr_mask.h
++++ b/include/hw/misc/avr_mask.h
+@@ -26,7 +26,6 @@
+ #define HW_avr_mask_H
  
-     memory_region_init_io(&s->iomem, obj, &avr_timer16_ops,
--                          s, TYPE_AVR_TIMER16, 0xe);
-+                          s, "avr-timer16", 0xe);
-     memory_region_init_io(&s->imsk_iomem, obj, &avr_timer16_imsk_ops,
--                          s, TYPE_AVR_TIMER16, 0x1);
-+                          s, "avr-timer16-intmask", 0x1);
-     memory_region_init_io(&s->ifr_iomem, obj, &avr_timer16_ifr_ops,
--                          s, TYPE_AVR_TIMER16, 0x1);
-+                          s, "avr-timer16-intflag", 0x1);
+ #include "hw/sysbus.h"
+-#include "chardev/char-fe.h"
+ #include "hw/hw.h"
  
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->imsk_iomem);
+ 
 -- 
 2.21.1
 
