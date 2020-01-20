@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41341142C5F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 14:41:43 +0100 (CET)
-Received: from localhost ([::1]:36678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA34142C16
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 14:30:41 +0100 (CET)
+Received: from localhost ([::1]:36438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itXJG-0006pC-6V
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 08:41:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50130)
+	id 1itX8a-0004h0-7k
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 08:30:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jiangyifei@huawei.com>) id 1itSWT-0003Ij-9b
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 03:35:04 -0500
+ (envelope-from <erosca@de.adit-jv.com>) id 1itX4N-0000YH-HK
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:26:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jiangyifei@huawei.com>) id 1itSWP-0002uC-GY
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 03:35:00 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2430 helo=huawei.com)
+ (envelope-from <erosca@de.adit-jv.com>) id 1itX4J-00081x-Hd
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:26:19 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:37892)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jiangyifei@huawei.com>)
- id 1itSWO-0002rT-VE; Mon, 20 Jan 2020 03:34:57 -0500
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.54])
- by Forcepoint Email with ESMTP id 791759FEB4CE1A869816;
- Mon, 20 Jan 2020 16:34:49 +0800 (CST)
-Received: from DGGEMM525-MBS.china.huawei.com ([169.254.5.80]) by
- DGGEMM401-HUB.china.huawei.com ([10.3.20.209]) with mapi id 14.03.0439.000;
- Mon, 20 Jan 2020 16:34:39 +0800
-From: Jiangyifei <jiangyifei@huawei.com>
-To: Alistair Francis <alistair.francis@wdc.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>
-Subject: RE: [PATCH v1 23/36] target/riscv: Add hypvervisor trap support
-Thread-Topic: [PATCH v1 23/36] target/riscv: Add hypvervisor trap support
-Thread-Index: AQHVrr/CZI5tv9SLhESxVfT7OMDMLafzeTfA
-Date: Mon, 20 Jan 2020 08:34:39 +0000
-Message-ID: <3915816D913D8241BB43E932213F57D4ADBFCED8@dggemm525-mbs.china.huawei.com>
-References: <cover.1575914822.git.alistair.francis@wdc.com>
- <f3bdee4a9bee10980939c37968aa45b406824e48.1575914822.git.alistair.francis@wdc.com>
-In-Reply-To: <f3bdee4a9bee10980939c37968aa45b406824e48.1575914822.git.alistair.francis@wdc.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.133.201.158]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.71) (envelope-from <erosca@de.adit-jv.com>)
+ id 1itX4J-00080n-BD
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:26:15 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+ by smtp1.de.adit-jv.com (Postfix) with ESMTP id 805063C04C1;
+ Mon, 20 Jan 2020 14:26:12 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+ by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0WEtl-NDxPMY; Mon, 20 Jan 2020 14:26:07 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 5FC4E3C00C5;
+ Mon, 20 Jan 2020 14:26:07 +0100 (CET)
+Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Mon, 20 Jan
+ 2020 14:26:07 +0100
+Date: Mon, 20 Jan 2020 14:26:07 +0100
+From: Eugeniu Rosca <erosca@de.adit-jv.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v4 0/5] gpio: Add GPIO Aggregator
+Message-ID: <20200120132607.GB24951@lxhi-065.adit-jv.com>
+References: <20200115181523.23556-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20200115181523.23556-1-geert+renesas@glider.be>
+X-Originating-IP: [10.72.93.66]
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.187
-X-Mailman-Approved-At: Mon, 20 Jan 2020 08:40:08 -0500
+X-Received-From: 93.241.18.167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,213 +60,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "alistair23@gmail.com" <alistair23@gmail.com>,
- "zhaosiqi \(A\)" <zhaosiqi3@huawei.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>,
- "limingwang \(A\)" <limingwang@huawei.com>,
- "dengkai \(A\)" <dengkai1@huawei.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Phil Reid <preid@electromag.com.au>, Eugeniu Rosca <roscaeugeniu@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <marc.zyngier@arm.com>,
+ Linus Walleij <linus.walleij@linaro.org>, linux-doc@vger.kernel.org,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Harish Jenny K N <harish_kandiga@mentor.com>,
+ linux-gpio@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Alexander Graf <graf@amazon.com>, Eugeniu Rosca <erosca@de.adit-jv.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alistair,=20
+Hi Geert,
 
-When I boot a riscv OS (the host) on the QEMU emulator and then boot a
-guest riscv OS in the host. The guest riscv OS fails to boot.=20
+On Wed, Jan 15, 2020 at 07:15:18PM +0100, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> GPIO controllers are exported to userspace using /dev/gpiochip*
+> character devices.  Access control to these devices is provided by
+> standard UNIX file system permissions, on an all-or-nothing basis:
+> either a GPIO controller is accessible for a user, or it is not.
+> Currently no mechanism exists to control access to individual GPIOs.
+> 
+> Hence this adds a GPIO driver to aggregate existing GPIOs, and expose
+> them as a new gpiochip.  This is useful for implementing access control,
+> and assigning a set of GPIOs to a specific user.  Furthermore, this
+> simplifies and hardens exporting GPIOs to a virtual machine, as the VM
+> can just grab the full GPIO controller, and no longer needs to care
+> about which GPIOs to grab and which not, reducing the attack surface.
+> 
+> Recently, other use cases have been discovered[1]:
+>   - Describing simple GPIO-operated devices in DT, and using the GPIO
+>     Aggregator as a generic GPIO driver for userspace, which is useful
+>     for industrial control.
 
-The riscv OS is a linux kernel in the riscv_kvm_v10 branch, the qemu emulat=
-or
-is the riscv-hyp-ext-v0.5.next branch.
+As per comments and test results in [*] (accidentally attached to v3):
 
-The QEMU command line:
-    ./qemu-system-riscv64 -M virt -m 4096M -cpu rv64,x-h=3Dtrue -nographic =
-\
-        -smp 8 \
-        -name guest=3Driscv-test,debug-threads=3Don \
-        -kernel ./fw_jump.elf \
-        -device loader,file=3D./Image,addr=3D0x80200000 \
-        -drive file=3D./hyp.img,format=3Draw,id=3Dhd0 \
-        -device virtio-blk-device,drive=3Dhd0 \
-        -append "root=3D/dev/vda rw console=3DttyS0 earlycon=3Dsbi"
+Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 
-The kvmtool command line:
-    ./lkvm-static run -m 2048 -c2 --console serial -p "console=3DttyS0 \
-        earlycon=3Duart8250,mmio,0x3f8" -k ./Image -d guest.img
+[*] https://lore.kernel.org/linux-renesas-soc/20200120121439.GA24951@lxhi-065.adit-jv.com/
+    ("Re: [PATCH v3 0/7] gpio: Add GPIO Aggregator/Repeater")
 
-The error message is:
-    [   46.136740] kvm [128]: VCPU exit error -14
-    [   46.137967] kvm [128]: SEPC=3D0x3febbf234e SSTATUS=3D0x4020 HSTATUS=
-=3D0x380
-    [   46.140075] kvm [128]: SCAUSE=3D0x8 STVAL=3D0x0
-    KVM_RUN failed: Bad address
-
-According to the error message printed by kvm, the exception of Environment
-call from VU-mode should to be delivered to VS-mode, instead of delivered
-to kvm in HS-mode.
-
-The problem is that the FORCE_HS_EXCEP flag is set when there is a pending
-irq that should trap to V=3D=3D0, but this bit is not cleared in  riscv_cpu=
-_do_interrupt
-when trapping to M-mode. So clearing FORCE_HS_EXCEP flag when trap to
-M-mode. The patch is as follows:
-
-Signed-off-by: Jiang Yifei <jiangyifei@huawei.com>
----
-target/riscv/cpu_helper.c | 1 +
-1 file changed, 1 insertion(+)
-
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 7166e61..cb6a1d6 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -954,6 +954,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-
-            /* Trapping to M mode, virt is disabled */
-            riscv_cpu_set_virt_enabled(env, 0);
-+            riscv_cpu_set_force_hs_excep(env, 0);
-        }
-
-        s =3D *env->mstatus;
---
-
-Regards,
-Yifei
-
-> -----Original Message-----
-> From: Qemu-riscv [mailto:qemu-riscv-
-> bounces+jiangyifei=3Dhuawei.com@nongnu.org] On Behalf Of Alistair Francis
-> Sent: Tuesday, December 10, 2019 2:12 AM
-> To: qemu-devel@nongnu.org; qemu-riscv@nongnu.org
-> Cc: alistair.francis@wdc.com; palmer@dabbelt.com; alistair23@gmail.com
-> Subject: [PATCH v1 23/36] target/riscv: Add hypvervisor trap support
->=20
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
-> ---
->  target/riscv/cpu_helper.c | 65 +++++++++++++++++++++++++++++++++---
-> ---
->  1 file changed, 55 insertions(+), 10 deletions(-)
->=20
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c index
-> 1b747abf93..2c6d2bc3a3 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -641,6 +641,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->=20
->      RISCVCPU *cpu =3D RISCV_CPU(cs);
->      CPURISCVState *env =3D &cpu->env;
-> +    target_ulong s;
->=20
->      /* cs->exception is 32-bits wide unlike mcause which is XLEN-bits wi=
-de
->       * so we mask off the MSB and separate into trap type and cause.
-> @@ -650,13 +651,6 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->      target_ulong deleg =3D async ? env->mideleg : env->medeleg;
->      target_ulong tval =3D 0;
->=20
-> -    static const int ecall_cause_map[] =3D {
-> -        [PRV_U] =3D RISCV_EXCP_U_ECALL,
-> -        [PRV_S] =3D RISCV_EXCP_S_ECALL,
-> -        [PRV_H] =3D RISCV_EXCP_VS_ECALL,
-> -        [PRV_M] =3D RISCV_EXCP_M_ECALL
-> -    };
-> -
->      if (!async) {
->          /* set tval to badaddr for traps with address information */
->          switch (cause) {
-> @@ -680,7 +674,16 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->          /* ecall is dispatched as one cause so translate based on mode *=
-/
->          if (cause =3D=3D RISCV_EXCP_U_ECALL) {
->              assert(env->priv <=3D 3);
-> -            cause =3D ecall_cause_map[env->priv];
-> +
-> +            if (env->priv =3D=3D PRV_M) {
-> +                cause =3D RISCV_EXCP_M_ECALL;
-> +            } else if (env->priv =3D=3D PRV_S && riscv_cpu_virt_enabled(=
-env)) {
-> +                cause =3D RISCV_EXCP_VS_ECALL;
-> +            } else if (env->priv =3D=3D PRV_S && !riscv_cpu_virt_enabled=
-(env)) {
-> +                cause =3D RISCV_EXCP_S_ECALL;
-> +            } else if (env->priv =3D=3D PRV_U) {
-> +                cause =3D RISCV_EXCP_U_ECALL;
-> +            }
->          }
->      }
->=20
-> @@ -690,7 +693,36 @@ void riscv_cpu_do_interrupt(CPUState *cs)
->      if (env->priv <=3D PRV_S &&
->              cause < TARGET_LONG_BITS && ((deleg >> cause) & 1)) {
->          /* handle the trap in S-mode */
-> -        target_ulong s =3D *env->mstatus;
-> +        if (riscv_has_ext(env, RVH)) {
-> +            target_ulong hdeleg =3D async ? env->hideleg : env->hedeleg;
-> +
-> +            if (riscv_cpu_virt_enabled(env) && ((hdeleg >> cause) & 1) &=
-&
-> +                !riscv_cpu_force_hs_excep_enabled(env)) {
-> +                /* Trap to VS mode */
-> +            } else if (riscv_cpu_virt_enabled(env)) {
-> +                /* Trap into HS mode, from virt */
-> +                riscv_cpu_swap_hypervisor_regs(env);
-> +                env->hstatus =3D set_field(env->hstatus, HSTATUS_SP2V,
-> +                                         get_field(env->hstatus, HSTATUS=
-_SPV));
-> +                env->hstatus =3D set_field(env->hstatus, HSTATUS_SP2P,
-> +                                         get_field(*env->mstatus, SSTATU=
-S_SPP));
-> +                env->hstatus =3D set_field(env->hstatus, HSTATUS_SPV,
-> +                                         riscv_cpu_virt_enabled(env));
-> +
-> +                riscv_cpu_set_virt_enabled(env, 0);
-> +                riscv_cpu_set_force_hs_excep(env, 0);
-> +            } else {
-> +                /* Trap into HS mode */
-> +                env->hstatus =3D set_field(env->hstatus, HSTATUS_SP2V,
-> +                                         get_field(env->hstatus, HSTATUS=
-_SPV));
-> +                env->hstatus =3D set_field(env->hstatus, HSTATUS_SP2P,
-> +                                         get_field(*env->mstatus, SSTATU=
-S_SPP));
-> +                env->hstatus =3D set_field(env->hstatus, HSTATUS_SPV,
-> +                                         riscv_cpu_virt_enabled(env));
-> +            }
-> +        }
-> +
-> +        s =3D *env->mstatus;
->          s =3D set_field(s, MSTATUS_SPIE, env->priv_ver >=3D
-> PRIV_VERSION_1_10_0 ?
->              get_field(s, MSTATUS_SIE) : get_field(s, MSTATUS_UIE << env-=
->priv));
->          s =3D set_field(s, MSTATUS_SPP, env->priv); @@ -704,7 +736,20 @@=
- void
-> riscv_cpu_do_interrupt(CPUState *cs)
->          riscv_cpu_set_mode(env, PRV_S);
->      } else {
->          /* handle the trap in M-mode */
-> -        target_ulong s =3D *env->mstatus;
-> +        if (riscv_has_ext(env, RVH)) {
-> +            if (riscv_cpu_virt_enabled(env)) {
-> +                riscv_cpu_swap_hypervisor_regs(env);
-> +            }
-> +            *env->mstatus =3D set_field(*env->mstatus, MSTATUS_MPV,
-> +                                      riscv_cpu_virt_enabled(env));
-> +            *env->mstatus =3D set_field(*env->mstatus, MSTATUS_MTL,
-> +
-> + riscv_cpu_force_hs_excep_enabled(env));
-> +
-> +            /* Trapping to M mode, virt is disabled */
-> +            riscv_cpu_set_virt_enabled(env, 0);
-> +        }
-> +
-> +        s =3D *env->mstatus;
->          s =3D set_field(s, MSTATUS_MPIE, env->priv_ver >=3D
-> PRIV_VERSION_1_10_0 ?
->              get_field(s, MSTATUS_MIE) : get_field(s, MSTATUS_UIE << env-
-> >priv));
->          s =3D set_field(s, MSTATUS_MPP, env->priv);
-> --
-> 2.24.0
->=20
-
+-- 
+Best Regards,
+Eugeniu Rosca
 
