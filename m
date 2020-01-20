@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3555A1427F5
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:13:26 +0100 (CET)
-Received: from localhost ([::1]:33154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D1A142819
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:19:07 +0100 (CET)
+Received: from localhost ([::1]:33234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itU3h-0008F0-2E
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:13:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33962)
+	id 1itU9B-0006CW-Sf
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:19:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33987)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1itU10-0005PJ-N0
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:10:42 -0500
+ (envelope-from <drjones@redhat.com>) id 1itU13-0005Sg-OD
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:10:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1itU0w-0002zi-4U
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:10:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49990
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <drjones@redhat.com>) id 1itU0z-000347-1S
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:10:41 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41312
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1itU0w-0002zQ-0O
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:10:34 -0500
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1itU0y-00033r-Um
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:10:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579515033;
+ s=mimecast20190719; t=1579515036;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5JK0SPejtfnhDv2PZmh14HOx+dBSg1c8oIKDy0lXZ34=;
- b=T63F3fOggoWKldbIOZ0fWrE7T+L2AxzMrusD/DDv0P4hd+NMDeWODWzqaYofh+uWxst30e
- baL6yHov9Kdoe5aysTYQ0ZOskyJXITyxG9ZczjNOvyNFmcDn2qKAjiPvDIwiWtR4fgm/kd
- JPiDl9q+N3BHesuZZpv4u1kUpMa2mwc=
+ bh=F/+XJ49Tu7dfw8704LCB/a5N8PyvmwGwcwpzwkOaIEw=;
+ b=YVn/wPA6QvL3TqP04tfwXLc5T5Zyztiz1X/AyuWe4hM50Hesoxbabz9wnvnHWLtr0NfRYy
+ RDcW/7rPXACbCZRMvEb37SJIsCQl8bDpeYkF7/fp3rbXxxHysGcHsba/V1hFZ8t5/W650T
+ yDIWIfmtFdsXBirGlo6X7NOXFTnmRf8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-2FuIHtcgPqWv671Nk2Qayg-1; Mon, 20 Jan 2020 05:10:30 -0500
+ us-mta-239-RQQpDBMSPtyfaDebCJnTtw-1; Mon, 20 Jan 2020 05:10:32 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E25E9800D48;
- Mon, 20 Jan 2020 10:10:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 050C0A0CBF;
+ Mon, 20 Jan 2020 10:10:31 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 24C3C48;
- Mon, 20 Jan 2020 10:10:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 379BF87EDF;
+ Mon, 20 Jan 2020 10:10:29 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [RFC PATCH v3 1/6] target/arm/kvm: trivial: Clean up header
- documentation
-Date: Mon, 20 Jan 2020 11:10:18 +0100
-Message-Id: <20200120101023.16030-2-drjones@redhat.com>
+Subject: [RFC PATCH v3 2/6] hw/arm/virt: Add missing 5.0 options call to 4.2
+ options
+Date: Mon, 20 Jan 2020 11:10:19 +0100
+Message-Id: <20200120101023.16030-3-drjones@redhat.com>
 In-Reply-To: <20200120101023.16030-1-drjones@redhat.com>
 References: <20200120101023.16030-1-drjones@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 2FuIHtcgPqWv671Nk2Qayg-1
+X-MC-Unique: RQQpDBMSPtyfaDebCJnTtw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,172 +80,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Andrew Jones <drjones@redhat.com>
 ---
- target/arm/kvm_arm.h | 46 ++++++++++++++++++++++++++------------------
- 1 file changed, 27 insertions(+), 19 deletions(-)
+ hw/arm/virt.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index 8e14d400e8ab..b48a9c95573b 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -28,9 +28,9 @@
- int kvm_arm_vcpu_init(CPUState *cs);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 39ab5f47e0bd..27ca26b05e27 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2153,6 +2153,7 @@ DEFINE_VIRT_MACHINE_AS_LATEST(5, 0)
 =20
- /**
-- * kvm_arm_vcpu_finalize
-+ * kvm_arm_vcpu_finalize:
-  * @cs: CPUState
-- * @feature: int
-+ * @feature: feature to finalize
-  *
-  * Finalizes the configuration of the specified VCPU feature by
-  * invoking the KVM_ARM_VCPU_FINALIZE ioctl. Features requiring
-@@ -75,8 +75,8 @@ void kvm_arm_register_device(MemoryRegion *mr, uint64_t d=
-evid, uint64_t group,
- int kvm_arm_init_cpreg_list(ARMCPU *cpu);
-=20
- /**
-- * kvm_arm_reg_syncs_via_cpreg_list
-- * regidx: KVM register index
-+ * kvm_arm_reg_syncs_via_cpreg_list:
-+ * @regidx: KVM register index
-  *
-  * Return true if this KVM register should be synchronized via the
-  * cpreg list of arbitrary system registers, false if it is synchronized
-@@ -85,8 +85,8 @@ int kvm_arm_init_cpreg_list(ARMCPU *cpu);
- bool kvm_arm_reg_syncs_via_cpreg_list(uint64_t regidx);
-=20
- /**
-- * kvm_arm_cpreg_level
-- * regidx: KVM register index
-+ * kvm_arm_cpreg_level:
-+ * @regidx: KVM register index
-  *
-  * Return the level of this coprocessor/system register.  Return value is
-  * either KVM_PUT_RUNTIME_STATE, KVM_PUT_RESET_STATE, or KVM_PUT_FULL_STAT=
-E.
-@@ -148,6 +148,8 @@ void kvm_arm_init_serror_injection(CPUState *cs);
-  * @cpu: ARMCPU
-  *
-  * Get VCPU related state from kvm.
-+ *
-+ * Returns: 0 if success else < 0 error code
-  */
- int kvm_get_vcpu_events(ARMCPU *cpu);
-=20
-@@ -156,6 +158,8 @@ int kvm_get_vcpu_events(ARMCPU *cpu);
-  * @cpu: ARMCPU
-  *
-  * Put VCPU related state to kvm.
-+ *
-+ * Returns: 0 if success else < 0 error code
-  */
- int kvm_put_vcpu_events(ARMCPU *cpu);
-=20
-@@ -205,10 +209,12 @@ typedef struct ARMHostCPUFeatures {
-=20
- /**
-  * kvm_arm_get_host_cpu_features:
-- * @ahcc: ARMHostCPUClass to fill in
-+ * @ahcf: ARMHostCPUClass to fill in
-  *
-  * Probe the capabilities of the host kernel's preferred CPU and fill
-  * in the ARMHostCPUClass struct accordingly.
-+ *
-+ * Returns true on success and false otherwise.
-  */
- bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf);
-=20
-@@ -242,7 +248,7 @@ void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu);
- bool kvm_arm_aarch32_supported(CPUState *cs);
-=20
- /**
-- * bool kvm_arm_pmu_supported:
-+ * kvm_arm_pmu_supported:
-  * @cs: CPUState
-  *
-  * Returns: true if the KVM VCPU can enable its PMU
-@@ -251,7 +257,7 @@ bool kvm_arm_aarch32_supported(CPUState *cs);
- bool kvm_arm_pmu_supported(CPUState *cs);
-=20
- /**
-- * bool kvm_arm_sve_supported:
-+ * kvm_arm_sve_supported:
-  * @cs: CPUState
-  *
-  * Returns true if the KVM VCPU can enable SVE and false otherwise.
-@@ -259,26 +265,30 @@ bool kvm_arm_pmu_supported(CPUState *cs);
- bool kvm_arm_sve_supported(CPUState *cs);
-=20
- /**
-- * kvm_arm_get_max_vm_ipa_size - Returns the number of bits in the
-- * IPA address space supported by KVM
-- *
-+ * kvm_arm_get_max_vm_ipa_size:
-  * @ms: Machine state handle
-+ *
-+ * Returns the number of bits in the IPA address space supported by KVM
-  */
- int kvm_arm_get_max_vm_ipa_size(MachineState *ms);
-=20
- /**
-- * kvm_arm_sync_mpstate_to_kvm
-+ * kvm_arm_sync_mpstate_to_kvm:
-  * @cpu: ARMCPU
-  *
-  * If supported set the KVM MP_STATE based on QEMU's model.
-+ *
-+ * Returns 0 on success and -1 on failure.
-  */
- int kvm_arm_sync_mpstate_to_kvm(ARMCPU *cpu);
-=20
- /**
-- * kvm_arm_sync_mpstate_to_qemu
-+ * kvm_arm_sync_mpstate_to_qemu:
-  * @cpu: ARMCPU
-  *
-  * If supported get the MP_STATE from KVM and store in QEMU's model.
-+ *
-+ * Returns 0 on success and aborts on failure.
-  */
- int kvm_arm_sync_mpstate_to_qemu(ARMCPU *cpu);
-=20
-@@ -292,7 +302,8 @@ int kvm_arm_set_irq(int cpu, int irqtype, int irq, int =
-level);
-=20
- static inline void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
+ static void virt_machine_4_2_options(MachineClass *mc)
  {
--    /* This should never actually be called in the "not KVM" case,
-+    /*
-+     * This should never actually be called in the "not KVM" case,
-      * but set up the fields to indicate an error anyway.
-      */
-     cpu->kvm_target =3D QEMU_KVM_ARM_TARGET_NONE;
-@@ -377,23 +388,20 @@ bool kvm_arm_handle_debug(CPUState *cs, struct kvm_de=
-bug_exit_arch *debug_exit);
-  *
-  * Return: TRUE if any hardware breakpoints in use.
-  */
--
- bool kvm_arm_hw_debug_active(CPUState *cs);
-=20
- /**
-  * kvm_arm_copy_hw_debug_data:
-- *
-  * @ptr: kvm_guest_debug_arch structure
-  *
-  * Copy the architecture specific debug registers into the
-  * kvm_guest_debug ioctl structure.
-  */
- struct kvm_guest_debug_arch;
--
- void kvm_arm_copy_hw_debug_data(struct kvm_guest_debug_arch *ptr);
-=20
- /**
-- * its_class_name
-+ * its_class_name:
-  *
-  * Return the ITS class name to use depending on whether KVM acceleration
-  * and KVM CAP_SIGNAL_MSI are supported
++    virt_machine_5_0_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
+ }
+ DEFINE_VIRT_MACHINE(4, 2)
 --=20
 2.21.1
 
