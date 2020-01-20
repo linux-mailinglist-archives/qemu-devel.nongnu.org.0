@@ -2,59 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E76A143475
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 00:32:01 +0100 (CET)
-Received: from localhost ([::1]:45660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04577143493
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 00:54:19 +0100 (CET)
+Received: from localhost ([::1]:45930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itgWW-0001YM-5Z
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 18:32:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33321)
+	id 1itgs5-0002Sv-MC
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 18:54:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itgVL-00017U-Gs
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:30:52 -0500
+ id 1itgpz-0000mz-FG
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:52:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itgVH-0007c4-Fu
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:30:46 -0500
-Received: from mail-yb1-f195.google.com ([209.85.219.195]:44555)
+ id 1itgpw-0007WJ-0f
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:52:07 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54519)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itgVH-0007bs-C4
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:30:43 -0500
-Received: by mail-yb1-f195.google.com with SMTP id f136so521336ybg.11
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 15:30:43 -0800 (PST)
+ id 1itgpv-0007W2-RL; Mon, 20 Jan 2020 18:52:03 -0500
+Received: by mail-wm1-x342.google.com with SMTP id b19so1110941wmj.4;
+ Mon, 20 Jan 2020 15:52:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7HJThwEvYD1FmZ5poiATpwK/QswiQTPe2ZhfsOHLU3E=;
+ b=atWe3LhFpvT4TIJY1YNvk8I9Sp3errVuvkaRyo2H+R3x8PzVnjM3pmS7Jb/p/6kE0j
+ mJVxfLbir7gz1ldEuzrr//3ppdcrgdHm/X1Ru9d3Qwqf+h5yanbfIimNNSJQzJj1Y256
+ 2qDojxa+8ZcCpXrk8zN0cxjABD9JNuApo12zXxY2b8QlVAhBe/VeM9+w2GDvyUbnZx+1
+ Q8iB6EFem8GQpQArDtHBmBlL+5EAZWQEDlzCWulZAIF5m3AYZ9xQXnkS7ykgUbPDtCfc
+ XGxRuRdWVv4Jj1kCwEGG0BxCG5YnM8bITm1Oeg7A0rEBBwUq4MM3Xt2JrbtkaXK02GxR
+ N1ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=T9WPbSUGo0ucWw1vdWmjBcneSahwc874PC26phNlz5E=;
- b=Bw05z8zJtRA/vGTXjewLGg16Y0NeGLB9kO9npoLDdxpvmbRsVaSKA0ARz9NsTN/DFC
- 0zehkC8YL9JYGBTWaDY5tMHWPmYd9FdbuEdun3Nl3a3Dc2PbCDccCISCBMSgoogZwy5z
- 0+5UIPTSw812xFSK3yslvAKWdBXtNF/V461MlVgmCraywIgwgQMDLnPwd8qqHRvPb4AY
- NVVkljN9KI6DXnvV9BjxPXK1QqL5SE22dnMNcMa+VDu3Aypr8cFWqt8IJfDbl/IAxxyT
- 6Xkkxrp7onbG9QOKVTDd0fFYF6xjBnlezC4wLLu3bE3WpZrxPBVvsV8JPjWjl+2tmrTb
- cxhw==
-X-Gm-Message-State: APjAAAUN/ND4Ewrq+D/Cfm4wA9CwVa8gSD/jHetydI9sykJqutx3RW/d
- obqc8COqDa4AkLRflIdH9dx34XKIuJx6LvzCTOGn5mgq
-X-Google-Smtp-Source: APXvYqxYch6V354sGc1W0R8kPOnS9PG4LVJdwnIyayFNUnbmo5nQ82ZqDUhGCmz127CCGhkVL4iOX6An89xVnchfVFU=
-X-Received: by 2002:a25:e696:: with SMTP id d144mr1614964ybh.316.1579563042401; 
- Mon, 20 Jan 2020 15:30:42 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=7HJThwEvYD1FmZ5poiATpwK/QswiQTPe2ZhfsOHLU3E=;
+ b=kLD/QinjO7jCUnZeL71WYwWDPaA408wcfGmeQyodyakDkqI3n2KMlDjGav5HfDvyZq
+ T95YDpqbnwyuUCz/IYXwc2Fzo+w+SRjYRQbShh4nhypG8VGLDBCFkCre55D0C3MC1cu4
+ tdYfkXCAC+N+JdEitmytg+7QsCEzarZvczhaxu8cif4MLAEOcK3oTPBCVpTXjh6IJnKe
+ es/c2x0RRUXoF0+prQUd0Y/KsPfGVlF9lLFO9O831Q2munu07v8vLjmo6phVUhNSxSfX
+ wyzS4nWVbtPWcj35RJlxtx6OOaApkjG6KotSZe7jSrgI7fhGLtCm2Fs1MN7reeBMLUIr
+ P2Ow==
+X-Gm-Message-State: APjAAAX82FPCeh1AcEqMUep2O8pfuwCMPyviq4R9ZO6viUhPWxJsdNRI
+ yn8ios3c/hMFIG1QsbZ3cjM23kDX
+X-Google-Smtp-Source: APXvYqxYVPbS6I+f6B5nkZuktF+yq4fQ06n1ZdtaFdcgu3QjGjKFm5jVIg5mnAjvN5fpPHLqW0jX7Q==
+X-Received: by 2002:a1c:6588:: with SMTP id z130mr1213272wmb.0.1579564322403; 
+ Mon, 20 Jan 2020 15:52:02 -0800 (PST)
+Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id d8sm48655269wrx.71.2020.01.20.15.52.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jan 2020 15:52:01 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/7] hw/arm/raspi: Run U-Boot on the raspi machines
+Date: Tue, 21 Jan 2020 00:51:52 +0100
+Message-Id: <20200120235159.18510-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-References: <20200120220107.17825-1-f4bug@amsat.org>
-In-Reply-To: <20200120220107.17825-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Tue, 21 Jan 2020 00:30:31 +0100
-Message-ID: <CAAdtpL4sB0gDPUAs-4kgLcwj7ydyziVjvuzLToq30o3cqH9H9Q@mail.gmail.com>
-Subject: Re: [PATCH v4 00/18] hw/avr: Introduce few Arduino boards
-To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.219.195
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,74 +79,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 20, 2020 at 11:01 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
->
-> Hi,
->
-> This series add the arduino boards, aiming at removing the
-> 'sample' board that doesn't follow any specification.
->
-> Since v3:
-> - Rebased on Michael's v41
-> - Drop 'extram' unused field (Igor)
-> - Renamed devices AVR -> Atmel (Aleksandar)
->   (I haven't renamed structure names to ease review)
->
-> Since v2:
-> - rebased on Michael's v40
->
-> Since v1:
-> - Addressed Igor comments
-> - Addressed Aleksandar comments
-> - Fixed UART issue (was due to IRQ shifted by 2 in CPU)
->
-> Since Michael's work is not yet merged, Various of my patches
-> - which are trivials or simple renames - could be squashed
-> directly on his patches, if we ever care.
-> [I believe sending this patches is easier/quicker than keeping
-> asking Michael to respin his series infinitely].
->
-> Michael, do you mind testing it? The full series is available
-> here: https://gitlab.com/philmd/qemu/commits/arduino-v4
->
-> Regards,
->
-> Phil.
->
-> Obsoletes: <20191229224505.24466-1-f4bug@amsat.org>
+Following Laurent report:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg639950.html
 
-Argh the correct tag is:
-Supersedes: <20191229224505.24466-1-f4bug@amsat.org>
+The SYS_timer is already merged, see:
+https://git.qemu.org/?p=qemu.git;a=commit;h=d05be883fc
+"hw/timer/bcm2835: Add the BCM2835 SYS_timer"
 
-Paolo: will this work? (replying to the cover)
+The first patch should fix Laurent other issue.
+Then few python patches are require to break into U-Boot console,
+and the last patches add U-Boot tests for Raspi2 and Raspi3.
 
-> Based-on: <20200118191416.19934-1-mrolnik@gmail.com>
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg671707.html
->
-> Philippe Mathieu-Daud=C3=A9 (18):
->   MAINTAINERS: Move machine test to the machine section (not ARCH one)
->   MAINTAINERS: Move the AVR machines in new section (not within ARM)
->   tests/acceptance: Do not set the machine type manually
->   tests/acceptance: Keep multilines comment consistent with other tests
->   hw/char/avr: Reduce USART I/O size
->   hw/timer/avr_timer16: Rename memory region debugging name
->   hw/misc/avr_mask: Remove unused include
->   hw/avr/Makefile: Use CONFIG_AVR_SAMPLE variable
->   hw/char: Rename avr_usart -> atmel_usart
->   hw/timer: Rename avr_timer16 -> atmel_timer16
->   hw/misc: Rename avr_mask -> atmel_power
->   hw/avr: Introduce ATMEL_ATMEGA_MCU config
->   hw/avr: Add some ATmega microcontrollers
->   hw/avr: Add some Arduino boards
->   tests/boot-serial-test: Test some Arduino boards (AVR based)
->   tests/acceptance: Test the Arduino MEGA2560 board
->   hw/avr: Remove the unrealistic AVR 'sample' board
->   .travis.yml: Run the AVR acceptance tests
+Laurent, if you successfully test U-Boot with this patchset again,
+do you mind replying with a "Tested-by:" tag?
+
+Regards,
+
+Phil.
+
+Since v3:
+- rewrote '-smp' fix.
+- tests use Debian 'trustable' u-boot.elf
+
+previous feedbacks from Peter on v3:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg655415.html
+
+v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg653807.html
+Supersedes: <20191019234715.25750-1-f4bug@amsat.org>
+
+Philippe Mathieu-Daudé (7):
+  hw/arm/raspi: Remove obsolete use of -smp to set the soc
+    'enabled-cpus'
+  Acceptance tests: Extract _console_interaction()
+  Acceptance tests: Add interrupt_interactive_console_until_pattern()
+  python/qemu/machine: Allow to use other serial consoles than default
+  tests/boot_linux_console: Test booting U-Boot on the Raspberry Pi 2
+  tests/boot_linux_console: Test booting U-Boot on the Raspberry Pi 3
+  tests/boot_linux_console: Tag Emcraft Smartfusion2 as running 'u-boot'
+
+ hw/arm/raspi.c                            |  2 -
+ python/qemu/machine.py                    |  9 +++-
+ tests/acceptance/avocado_qemu/__init__.py | 59 +++++++++++++++++------
+ tests/acceptance/boot_linux_console.py    | 54 +++++++++++++++++++++
+ 4 files changed, 107 insertions(+), 17 deletions(-)
+
+-- 
+2.21.1
+
 
