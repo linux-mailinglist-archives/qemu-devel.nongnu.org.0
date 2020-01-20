@@ -2,65 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F473142695
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 10:06:12 +0100 (CET)
-Received: from localhost ([::1]:60392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DA814269E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 10:07:49 +0100 (CET)
+Received: from localhost ([::1]:60438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itT0d-0003x8-7Y
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 04:06:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52989)
+	id 1itT2C-0006Wr-39
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 04:07:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53116)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1itSyL-0002cZ-Lr
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 04:03:55 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1itSzO-0003di-NI
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 04:04:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1itSyH-0008LQ-OC
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 04:03:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27641
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1itSyH-0008Kp-IP
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 04:03:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579511023;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uciPn72MwEgI063A+6nCPRNHimc0XTqn7Hjp9zwUVk4=;
- b=Y+VKUG7N6cGxxyjwIe7sfBDLktf/PRzvx4wkj5Kc3hQZNx6VuiMO+yBpCcsQ9HkyusqtAm
- N05v6HIyTOp5+iljdTKbf0cSAwCnCPNTR1GFw4/vSWUw9EDhIPJ2334RpmFFgIMlNI1z8W
- ypP9LCBHmWU5t+tMRf7tPg79EU5UvkQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152--f8uHZlXPUqk1mSwa2o0bw-1; Mon, 20 Jan 2020 04:03:42 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FDF0800EBF;
- Mon, 20 Jan 2020 09:03:41 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA7095C21A;
- Mon, 20 Jan 2020 09:03:36 +0000 (UTC)
-Date: Mon, 20 Jan 2020 10:03:35 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3 4/8] hw/avr: Add some Arduino boards
-Message-ID: <20200120100335.58f1b7d2@redhat.com>
-In-Reply-To: <20191229224505.24466-5-f4bug@amsat.org>
-References: <20191229224505.24466-1-f4bug@amsat.org>
- <20191229224505.24466-5-f4bug@amsat.org>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1itSzN-0000MS-8K
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 04:04:54 -0500
+Received: from mail-ve1eur01on072a.outbound.protection.outlook.com
+ ([2a01:111:f400:fe1f::72a]:22785
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1itSzM-0000Lk-If; Mon, 20 Jan 2020 04:04:53 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PvW7uu2eDQ2dGgYsaJ8JOL/IRW9OEYBNLVG0xt8o3WH5ggNkYOalCnQGDIm8d9xbf3/RxNAV4TvNUE4kS6MVFbNOLYWUYNwA2Q1NqqDcybay51NZUOksTxQ4FuKnGCkd8OefG3DAJhDtzD80dzmYdfKDNyHjUZzwGQbV9tDwTrBf5kle0QOmZhTHyetTBjx9BHf567OZtgzbTNNgxsTVEm0dDN+3HNx9yA1ZK+d3jzLQZDuNBFqx8bPRYPuxPCfZIDHBI9x5rqmJO9jNJuh8ffRxuDzA2oko6KgtLqb0O/KID2nvC+n3O2W9YDcBxkCW/Qe3GUeiw5nHctRcYO3X4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+f0B4UYTCG98PD9zgwfTUOLeMVQH7wvx0hgViWgQwaQ=;
+ b=NuX6ZnTDPJiLQoN/otIr4D/Kne0ABpGR5lfwxFkZXoQz8gGrf7JYdlji4WCsxPlW7I+ceSkHyvggFFZEDCN7+HiNjQ0TQ4RnhSK0mFLft7YySbXlWs2Sx85cd9L2CT2OXySKnkQqYQY2WrrtQs2hw6nKGw6LOWbKFaPfRX9GgEIjleROhSWpKkIX6LneljBrqGk6uKMr0PKN2qi58PVhIFgtChz7eAhSlD0tLo+4ltHlva8fq/UB+CwRHg7kFJdtbThNj0FoD1aJzEWYH7I9cnLJ42F83gyO1pcfJzitUFKBqDuE/lbtnEPqmqmiIeEsdnDym6zb6lBhvvapN8B0Aw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+f0B4UYTCG98PD9zgwfTUOLeMVQH7wvx0hgViWgQwaQ=;
+ b=K2igUef7q36qeRSUTHMHjWEJ+mVWgLkf2jBQKkNI+tugMTOV17tNLHr/JjIiXklQR7dFuUE9HQtyRbH09XmaEvn6hXoI5iQVpBo02XmCFy0aFtIWcfdXsNZQueovLMft7bdKTdNU/8a0rlhy5r7HbbahqcciQFhi7BIRLn4Qigw=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB5016.eurprd08.prod.outlook.com (10.255.122.20) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2644.19; Mon, 20 Jan 2020 09:04:49 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2644.026; Mon, 20 Jan 2020
+ 09:04:49 +0000
+Received: from [172.16.24.200] (185.231.240.5) by
+ HE1PR0202CA0013.eurprd02.prod.outlook.com (2603:10a6:3:8c::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2644.18 via Frontend Transport; Mon, 20 Jan 2020 09:04:48 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Subject: Re: [PATCH v2 0/5] fix migration with bitmaps and mirror
+Thread-Topic: [PATCH v2 0/5] fix migration with bitmaps and mirror
+Thread-Index: AQHVtkmClxBjAFsANkahPv5xTkXxQqfzdL8A
+Date: Mon, 20 Jan 2020 09:04:49 +0000
+Message-ID: <531a9a94-2d43-1de9-327a-5af723d72268@virtuozzo.com>
+References: <20191219085106.22309-1-vsementsov@virtuozzo.com>
+In-Reply-To: <20191219085106.22309-1-vsementsov@virtuozzo.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0202CA0013.eurprd02.prod.outlook.com
+ (2603:10a6:3:8c::23) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20200120120446811
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 26a0a1e9-98fc-4c7c-5b73-08d79d87cda8
+x-ms-traffictypediagnostic: AM6PR08MB5016:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM6PR08MB5016B3219477F0A60CA4DE16C1320@AM6PR08MB5016.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:131;
+x-forefront-prvs: 0288CD37D9
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(39840400004)(396003)(136003)(346002)(376002)(199004)(189003)(8676002)(66946007)(6916009)(71200400001)(316002)(66446008)(81156014)(186003)(66556008)(16576012)(66476007)(64756008)(7416002)(36756003)(5660300002)(6486002)(26005)(966005)(8936002)(31696002)(31686004)(52116002)(4326008)(956004)(478600001)(2616005)(16526019)(54906003)(2906002)(86362001)(81166006);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB5016;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: S+ewfAmGYuTw6JvumqiOI9QGz1EXtuUJUqZ24yqhClK/b+4hM9msQyzDa/lF4SYZ+nVFO4KMQwlI5qVAetsa8eZYHfdBH87h1HtGIFhYqbMxWZnrMYAu0scCN6KqiBVkbEP1hIkYxyfgHz1PqYWOKI+b49YsnaSJIxKQmHhjqcpKiG0qoXzV99iXQGj+/Cl9S5O2LJOg9S8bfwe0yllpiLSuEw4OyvJJOZOvQdCouF0j/u836NhfTycMPMcOkN2oTCTmo2PM249tkyInTjhK+sn7jciTX4IrW9Wme7P6d6u3im50ptwuurr9te2L/vAOYxgWR2favBYnEKYuoiF2E+gg4MZL6wfF+A5AUsrELkLcQ+IclDf1FVD9nU1BnmIic5lI8NB71SM4k/kOpsYezbqlf+PqRxwlmLj765hZ4hw52FGbIB2XtXZCSgKPZToZDJ8ULn5fZJ/GfVrHAjmbyBDh+gLfvO0yziQvThd4+o4w5g8y1XrSJevUrOKRMWF+zf1vnzDnMxi+IZ/hB1lxzA==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E37D3E8467309242836424AE2DF9AE11@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: -f8uHZlXPUqk1mSwa2o0bw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26a0a1e9-98fc-4c7c-5b73-08d79d87cda8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2020 09:04:49.6520 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uMs8FcvCt4FSCWwt0tUDd+LheqiwnDnSZS94k2y82xilRdDDNa/sTv2Vu6WAsednWkqozZ0ob43OjPCfqLSZOsFA0gJQi4hvDqGJo5beGiM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5016
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe1f::72a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,235 +112,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Sarah Harris <S.E.Harris@kent.ac.uk>, qemu-devel@nongnu.org,
- Michael Rolnik <mrolnik@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Phillip Stevens <phillip.stevens@gmail.com>
+Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
+ Denis Lunev <den@virtuozzo.com>, "quintela@redhat.com" <quintela@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 29 Dec 2019 23:45:01 +0100
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
-
-> Arduino boards are build with AVR chipsets.
-> Add some of the popular boards:
->=20
-> - Arduino Duemilanove
-> - Arduino Uno
-> - Arduino Mega
->=20
-> For more information:
->   https://www.arduino.cc/en/Main/Products
->   https://store.arduino.cc/arduino-genuino/most-popular
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> v2:
-> - Reword description adding more information (Aleksandar)
-> - Use DEFINE_TYPES (Igor)
->=20
-> Cc: Phillip Stevens <phillip.stevens@gmail.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> ---
->  hw/avr/arduino.c     | 177 +++++++++++++++++++++++++++++++++++++++++++
->  hw/avr/Makefile.objs |   1 +
->  2 files changed, 178 insertions(+)
->  create mode 100644 hw/avr/arduino.c
->=20
-> diff --git a/hw/avr/arduino.c b/hw/avr/arduino.c
-> new file mode 100644
-> index 0000000000..ecaaa295d8
-> --- /dev/null
-> +++ b/hw/avr/arduino.c
-> @@ -0,0 +1,177 @@
-> +/*
-> + * QEMU Arduino boards
-> + *
-> + * Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
-> + *
-> + * This work is licensed under the terms of the GNU GPLv2 or later.
-> + * See the COPYING file in the top-level directory.
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +/* TODO: Implement the use of EXTRAM */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +#include "qapi/error.h"
-> +#include "hw/boards.h"
-> +#include "hw/loader.h"
-> +#include "elf.h"
-> +#include "atmega.h"
-> +
-> +typedef struct ArduinoMachineState {
-[...]
-> +    MemoryRegion extram;
-> +} ArduinoMachineState;
-> +
-> +typedef struct ArduinoMachineClass {
-[...]
-> +    size_t extram_size;
-
-extfoo doesn't seem to be used in this patch
-
-> +} ArduinoMachineClass;
-> +
-> +#define TYPE_ARDUINO_MACHINE \
-> +        MACHINE_TYPE_NAME("arduino")
-> +#define ARDUINO_MACHINE(obj) \
-> +        OBJECT_CHECK(ArduinoMachineState, (obj), TYPE_ARDUINO_MACHINE)
-> +#define ARDUINO_MACHINE_CLASS(klass) \
-> +        OBJECT_CLASS_CHECK(ArduinoMachineClass, (klass), TYPE_ARDUINO_MA=
-CHINE)
-> +#define ARDUINO_MACHINE_GET_CLASS(obj) \
-> +        OBJECT_GET_CLASS(ArduinoMachineClass, (obj), TYPE_ARDUINO_MACHIN=
-E)
-> +
-> +static void load_firmware(const char *firmware, uint64_t flash_size)
-> +{
-> +    const char *filename;
-> +    int bytes_loaded;
-> +
-> +    /* Load firmware (contents of flash) trying to auto-detect format */
-> +    filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware);
-> +    if (filename =3D=3D NULL) {
-> +        error_report("Unable to find %s", firmware);
-> +        exit(1);
-> +    }
-> +
-> +    bytes_loaded =3D load_elf(filename, NULL, NULL, NULL, NULL, NULL, NU=
-LL,
-> +                            0, EM_NONE, 0, 0);
-> +    if (bytes_loaded < 0) {
-> +        bytes_loaded =3D load_image_targphys(filename, OFFSET_CODE, flas=
-h_size);
-> +    }
-> +    if (bytes_loaded < 0) {
-> +        error_report("Unable to load firmware image %s as ELF or raw bin=
-ary",
-> +                     firmware);
-> +        exit(1);
-> +    }
-> +}
-> +
-> +static void arduino_machine_init(MachineState *machine)
-> +{
-> +    ArduinoMachineClass *amc =3D ARDUINO_MACHINE_GET_CLASS(machine);
-> +    ArduinoMachineState *ams =3D ARDUINO_MACHINE(machine);
-> +
-> +    sysbus_init_child_obj(OBJECT(machine), "mcu", &ams->mcu, sizeof(ams-=
->mcu),
-> +                          amc->mcu_type);
-> +    object_property_set_uint(OBJECT(&ams->mcu), amc->xtal_hz,
-> +                             "xtal-frequency-hz", &error_abort);
-> +    object_property_set_bool(OBJECT(&ams->mcu), true, "realized",
-> +                             &error_abort);
-> +
-> +    if (machine->firmware) {
-> +        load_firmware(machine->firmware, memory_region_size(&ams->mcu.fl=
-ash));
-> +    }
-> +}
-> +
-> +static void arduino_machine_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +
-> +    mc->init =3D arduino_machine_init;
-> +    mc->default_cpus =3D 1;
-> +    mc->min_cpus =3D mc->default_cpus;
-> +    mc->max_cpus =3D mc->default_cpus;
-> +    mc->no_floppy =3D 1;
-> +    mc->no_cdrom =3D 1;
-> +    mc->no_parallel =3D 1;
-> +}
-> +
-> +static void arduino_duemilanove_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +    ArduinoMachineClass *amc =3D ARDUINO_MACHINE_CLASS(oc);
-> +
-> +    /* https://www.arduino.cc/en/Main/ArduinoBoardDuemilanove */
-> +    mc->desc        =3D "Arduino Duemilanove (ATmega168)",
-> +    mc->alias       =3D "2009";
-> +    amc->mcu_type   =3D TYPE_ATMEGA168_MCU;
-> +    amc->xtal_hz    =3D 16 * 1000 * 1000;
-> +};
-> +
-> +static void arduino_uno_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +    ArduinoMachineClass *amc =3D ARDUINO_MACHINE_CLASS(oc);
-> +
-> +    /* https://store.arduino.cc/arduino-uno-rev3 */
-> +    mc->desc        =3D "Arduino UNO (ATmega328P)";
-> +    mc->alias       =3D "uno";
-> +    amc->mcu_type   =3D TYPE_ATMEGA328_MCU;
-> +    amc->xtal_hz    =3D 16 * 1000 * 1000;
-> +};
-> +
-> +static void arduino_mega_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +    ArduinoMachineClass *amc =3D ARDUINO_MACHINE_CLASS(oc);
-> +
-> +    /* https://www.arduino.cc/en/Main/ArduinoBoardMega */
-> +    mc->desc        =3D "Arduino Mega (ATmega1280)";
-> +    mc->alias       =3D "mega";
-> +    amc->mcu_type   =3D TYPE_ATMEGA1280_MCU;
-> +    amc->xtal_hz    =3D 16 * 1000 * 1000;
-> +};
-> +
-> +static void arduino_mega2560_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +    ArduinoMachineClass *amc =3D ARDUINO_MACHINE_CLASS(oc);
-> +
-> +    /* https://store.arduino.cc/arduino-mega-2560-rev3 */
-> +    mc->desc        =3D "Arduino Mega 2560 (ATmega2560)";
-> +    mc->alias       =3D "mega2560";
-> +    mc->is_default  =3D true;
-> +    amc->mcu_type   =3D TYPE_ATMEGA2560_MCU;
-> +    amc->xtal_hz    =3D 16 * 1000 * 1000; /* CSTCE16M0V53-R0 */
-> +};
-> +
-> +static const TypeInfo arduino_machine_types[] =3D {
-> +    {
-> +        .name          =3D MACHINE_TYPE_NAME("arduino-duemilanove"),
-> +        .parent        =3D TYPE_ARDUINO_MACHINE,
-> +        .class_init    =3D arduino_duemilanove_class_init,
-> +    }, {
-> +        .name          =3D MACHINE_TYPE_NAME("arduino-uno"),
-> +        .parent        =3D TYPE_ARDUINO_MACHINE,
-> +        .class_init    =3D arduino_uno_class_init,
-> +    }, {
-> +        .name          =3D MACHINE_TYPE_NAME("arduino-mega"),
-> +        .parent        =3D TYPE_ARDUINO_MACHINE,
-> +        .class_init    =3D arduino_mega_class_init,
-> +    }, {
-> +        .name          =3D MACHINE_TYPE_NAME("arduino-mega-2560-v3"),
-> +        .parent        =3D TYPE_ARDUINO_MACHINE,
-> +        .class_init    =3D arduino_mega2560_class_init,
-> +    }, {
-> +        .name           =3D TYPE_ARDUINO_MACHINE,
-> +        .parent         =3D TYPE_MACHINE,
-> +        .instance_size  =3D sizeof(ArduinoMachineState),
-> +        .class_size     =3D sizeof(ArduinoMachineClass),
-> +        .class_init     =3D arduino_machine_class_init,
-> +        .abstract       =3D true,
-> +    }
-> +};
-> +
-> +DEFINE_TYPES(arduino_machine_types)
-> diff --git a/hw/avr/Makefile.objs b/hw/avr/Makefile.objs
-> index 4b6b911820..39ee3c32b2 100644
-> --- a/hw/avr/Makefile.objs
-> +++ b/hw/avr/Makefile.objs
-> @@ -1,2 +1,3 @@
->  obj-y +=3D sample.o
->  obj-y +=3D atmega.o
-> +obj-y +=3D arduino.o
-
+Sm9obiwgSSBkb24ndCBxdWl0ZSBmb2xsb3cgZGlzY3Vzc2lvbiBpbiBidWd6aWxsYS4gRG8gd2Ug
+bmVlZCB0aGVzZSBzZXJpZXMNCmFzIGF0IGxlYXN0IHRlbXBvcmFyeSB3b3JrYXJvdW5kLCBvciBu
+b3Q/IFNob3VsZCBJIHJlc2VuZD8NCg0KDQoxOS4xMi4yMDE5IDExOjUxLCBWbGFkaW1pciBTZW1l
+bnRzb3YtT2dpZXZza2l5IHdyb3RlOg0KPiBIaSBhbGwhDQo+IA0KPiBJdCdzIGEgY29udGludWF0
+aW9uIGZvcg0KPiAiYml0bWFwIG1pZ3JhdGlvbiBidWcgd2l0aCAtZHJpdmUgd2hpbGUgYmxvY2sg
+bWlycm9yIHJ1bnMiDQo+IDwzMTVjZmY3OC1kY2RiLWEzY2UtMjc0Mi1kYTNjYzlmMGNhOTdAcmVk
+aGF0LmNvbT4NCj4gaHR0cHM6Ly9saXN0cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVs
+LzIwMTktMDkvbXNnMDcyNDEuaHRtbA0KPiANCj4gVGhlIHByb2JsZW0gaXMgdGhhdCBiaXRtYXBz
+IG1pZ3JhdGVkIHRvIG5vZGUgd2l0aCBzYW1lIG5vZGUtbmFtZSBvcg0KPiBibGstcGFyZW50IG5h
+bWUuIEFuZCBjdXJyZW50bHkgb25seSB0aGUgbGF0dGVyIGFjdHVhbGx5IHdvcmsgaW4gbGlidmly
+dC4NCj4gQW5kIHdpdGggbWlycm9yLXRvcCBmaWx0ZXIgaXQgZG9lc24ndCB3b3JrLCBiZWNhdXNl
+DQo+IGJkcnZfZ2V0X2RldmljZV9vcl9ub2RlX25hbWUgZG9uJ3QgZ28gdGhyb3VnaCBmaWx0ZXJz
+Lg0KPiANCj4gRml4IHRoaXMgYnkgaGFuZGxpbmcgZmlsdGVyZWQgY2hpbGRyZW4gb2YgYmxvY2sg
+YmFja2VuZHMgaW4gc2VwYXJhdGUuDQo+IA0KPiB2MjogcmViYXNlIG9uIGN1cnJlbnQgbWFzdGVy
+DQo+IA0KPiBNYXggUmVpdHogKDEpOg0KPiAgICBibG9jazogTWFyayBjb21taXQgYW5kIG1pcnJv
+ciBhcyBmaWx0ZXIgZHJpdmVycw0KPiANCj4gVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSAo
+NCk6DQo+ICAgIG1pZ3JldGlvbi9ibG9jay1kaXJ0eS1iaXRtYXA6IHJlZmFjdG9yIGluaXRfZGly
+dHlfYml0bWFwX21pZ3JhdGlvbg0KPiAgICBibG9jay9kaXJ0eS1iaXRtYXA6IGFkZCBiZHJ2X2hh
+c19uYW1lZF9iaXRtYXBzIGhlbHBlcg0KPiAgICBtaWdyYXRpb24vYmxvY2stZGlydHktYml0bWFw
+OiBmaXggYml0bWFwcyBtaWdyYXRpb24gZHVyaW5nIG1pcnJvciBqb2INCj4gICAgaW90ZXN0czog
+MTk0OiB0ZXN0IGFsc28gbWlncmF0aW9uIG9mIGRpcnR5IGJpdG1hcA0KPiANCj4gICBpbmNsdWRl
+L2Jsb2NrL2Jsb2NrX2ludC5oICAgICAgfCAgIDggKystDQo+ICAgaW5jbHVkZS9ibG9jay9kaXJ0
+eS1iaXRtYXAuaCAgIHwgICAxICsNCj4gICBibG9jay9jb21taXQuYyAgICAgICAgICAgICAgICAg
+fCAgIDIgKw0KPiAgIGJsb2NrL2RpcnR5LWJpdG1hcC5jICAgICAgICAgICB8ICAxMyArKysrDQo+
+ICAgYmxvY2svbWlycm9yLmMgICAgICAgICAgICAgICAgIHwgICAyICsNCj4gICBtaWdyYXRpb24v
+YmxvY2stZGlydHktYml0bWFwLmMgfCAxMTQgKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0t
+LS0tDQo+ICAgdGVzdHMvcWVtdS1pb3Rlc3RzLzE5NCAgICAgICAgIHwgIDE0ICsrLS0NCj4gICB0
+ZXN0cy9xZW11LWlvdGVzdHMvMTk0Lm91dCAgICAgfCAgIDYgKysNCj4gICA4IGZpbGVzIGNoYW5n
+ZWQsIDExOSBpbnNlcnRpb25zKCspLCA0MSBkZWxldGlvbnMoLSkNCj4gDQoNCg0KLS0gDQpCZXN0
+IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
 
