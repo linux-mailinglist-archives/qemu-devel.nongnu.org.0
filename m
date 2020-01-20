@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C922314285F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:46:05 +0100 (CET)
-Received: from localhost ([::1]:33820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD72142880
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:52:45 +0100 (CET)
+Received: from localhost ([::1]:33928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itUZI-0001lF-Cu
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:46:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37634)
+	id 1itUfk-0002I5-8Q
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:52:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1itUPL-0005fV-9C
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:51 -0500
+ (envelope-from <quintela@redhat.com>) id 1itUPc-0005xh-UX
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:36:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1itUPH-0002Me-AE
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30586
+ (envelope-from <quintela@redhat.com>) id 1itUPZ-0002W7-8i
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:36:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30308
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1itUPH-0002M6-69
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:43 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1itUPY-0002UQ-WA
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:36:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579516542;
+ s=mimecast20190719; t=1579516560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=52j2mgmiA4z5vA2yqyRSfUxDIXdlaCqV+gsG8XIQ6+k=;
- b=bo8Ug2ClzE0tGTtn/0nfJWA75neYAtbFc2sKFeewsb8sZX9cyfo2mpyoGWRc7pzyKoGxIJ
- QYiTwMtPYxdwFdeEljaWJ6dIeIPlH+AVz3ub0hfRgNmmJJPbJrpin5n5ByXMVvqdntXh/i
- 5RggFzIQbDvFagAqi8gXABW/bb4lqg0=
+ bh=ynLvDJfV4kUr7Pu6PZ24xc1KIuICA5kAdzwdWYoRAQo=;
+ b=GRASDypm+h9PbIAfmiPAd6C50Wd9Of0Mh1YrxZD1QHgIGX347T0k19b52+jVavMAHAL64L
+ AKCyQ/XdyeZcaWm+P4oiu37z1mJ1ZR72bmiOWdvT4bWI/ytlFmsw8xUWDEYhblLGhw8R1j
+ wQQbTPlJluCiCP7b6CQFL5gE4V0PAgs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-z3v_9q-ePBGGlDeQda-k1w-1; Mon, 20 Jan 2020 05:35:41 -0500
+ us-mta-172-JXgU7Xw9NYyqv1ZE5LCgBQ-1; Mon, 20 Jan 2020 05:35:56 -0500
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DA821005510;
- Mon, 20 Jan 2020 10:35:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C31A0190B2BC;
+ Mon, 20 Jan 2020 10:35:54 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 440051BC6D;
- Mon, 20 Jan 2020 10:35:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C117C1BC6D;
+ Mon, 20 Jan 2020 10:35:39 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/29] migration: savevm_state_handler_insert: constant-time
- element insertion
-Date: Mon, 20 Jan 2020 11:33:23 +0100
-Message-Id: <20200120103340.25118-13-quintela@redhat.com>
+Subject: [PULL 13/29] migration/ram: Yield periodically to the main loop
+Date: Mon, 20 Jan 2020 11:33:24 +0100
+Message-Id: <20200120103340.25118-14-quintela@redhat.com>
 In-Reply-To: <20200120103340.25118-1-quintela@redhat.com>
 References: <20200120103340.25118-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: z3v_9q-ePBGGlDeQda-k1w-1
+X-MC-Unique: JXgU7Xw9NYyqv1ZE5LCgBQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -78,107 +77,65 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Corey Minyard <cminyard@mvista.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
  Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Scott Cheloha <cheloha@linux.vnet.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Yury Kotov <yury-kotov@yandex-team.ru>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Richard Henderson <rth@twiddle.net>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Scott Cheloha <cheloha@linux.vnet.ibm.com>
+From: Yury Kotov <yury-kotov@yandex-team.ru>
 
-savevm_state's SaveStateEntry TAILQ is a priority queue.  Priority
-sorting is maintained by searching from head to tail for a suitable
-insertion spot.  Insertion is thus an O(n) operation.
+Usually, incoming migration coroutine yields to the main loop
+while its IO-channel is waiting for data to receive. But there is a case
+when RAM migration and data receive have the same speed: VM with huge
+zeroed RAM. In this case, IO-channel won't read and thus the main loop
+is stuck and for instance, it doesn't respond to QMP commands.
 
-If we instead keep track of the head of each priority's subqueue
-within that larger queue we can reduce this operation to O(1) time.
+For this case, yield periodically, but not too often, so as not to
+affect the speed of migration.
 
-savevm_state_handler_remove() becomes slightly more complex to
-accomodate these gains: we need to replace the head of a priority's
-subqueue when removing it.
-
-With O(1) insertion, booting VMs with many SaveStateEntry objects is
-more plausible.  For example, a ppc64 VM with maxmem=3D8T has 40000 such
-objects to insert.
-
-Signed-off-by: Scott Cheloha <cheloha@linux.vnet.ibm.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/savevm.c | 26 +++++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
+ migration/ram.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 30d980caa2..e57686bca7 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -250,6 +250,7 @@ typedef struct SaveStateEntry {
-=20
- typedef struct SaveState {
-     QTAILQ_HEAD(, SaveStateEntry) handlers;
-+    SaveStateEntry *handler_pri_head[MIG_PRI_MAX + 1];
-     int global_section_id;
-     uint32_t len;
-     const char *name;
-@@ -261,6 +262,7 @@ typedef struct SaveState {
-=20
- static SaveState savevm_state =3D {
-     .handlers =3D QTAILQ_HEAD_INITIALIZER(savevm_state.handlers),
-+    .handler_pri_head =3D { [MIG_PRI_DEFAULT ... MIG_PRI_MAX] =3D NULL },
-     .global_section_id =3D 0,
- };
-=20
-@@ -709,24 +711,42 @@ static void savevm_state_handler_insert(SaveStateEntr=
-y *nse)
+diff --git a/migration/ram.c b/migration/ram.c
+index 1ec5c10561..5cd066467c 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -4246,7 +4246,7 @@ static void colo_flush_ram_cache(void)
+  */
+ static int ram_load_precopy(QEMUFile *f)
  {
-     MigrationPriority priority =3D save_state_priority(nse);
-     SaveStateEntry *se;
-+    int i;
+-    int flags =3D 0, ret =3D 0, invalid_flags =3D 0, len =3D 0;
++    int flags =3D 0, ret =3D 0, invalid_flags =3D 0, len =3D 0, i =3D 0;
+     /* ADVISE is earlier, it shows the source has the postcopy capability =
+on */
+     bool postcopy_advised =3D postcopy_is_advised();
+     if (!migrate_use_compression()) {
+@@ -4258,6 +4258,17 @@ static int ram_load_precopy(QEMUFile *f)
+         void *host =3D NULL;
+         uint8_t ch;
 =20
-     assert(priority <=3D MIG_PRI_MAX);
-=20
--    QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
--        if (save_state_priority(se) < priority) {
-+    for (i =3D priority - 1; i >=3D 0; i--) {
-+        se =3D savevm_state.handler_pri_head[i];
-+        if (se !=3D NULL) {
-+            assert(save_state_priority(se) < priority);
-             break;
-         }
-     }
-=20
--    if (se) {
-+    if (i >=3D 0) {
-         QTAILQ_INSERT_BEFORE(se, nse, entry);
-     } else {
-         QTAILQ_INSERT_TAIL(&savevm_state.handlers, nse, entry);
-     }
-+
-+    if (savevm_state.handler_pri_head[priority] =3D=3D NULL) {
-+        savevm_state.handler_pri_head[priority] =3D nse;
-+    }
- }
-=20
- static void savevm_state_handler_remove(SaveStateEntry *se)
- {
-+    SaveStateEntry *next;
-+    MigrationPriority priority =3D save_state_priority(se);
-+
-+    if (se =3D=3D savevm_state.handler_pri_head[priority]) {
-+        next =3D QTAILQ_NEXT(se, entry);
-+        if (next !=3D NULL && save_state_priority(next) =3D=3D priority) {
-+            savevm_state.handler_pri_head[priority] =3D next;
-+        } else {
-+            savevm_state.handler_pri_head[priority] =3D NULL;
++        /*
++         * Yield periodically to let main loop run, but an iteration of
++         * the main loop is expensive, so do it each some iterations
++         */
++        if ((i & 32767) =3D=3D 0 && qemu_in_coroutine()) {
++            aio_co_schedule(qemu_get_current_aio_context(),
++                            qemu_coroutine_self());
++            qemu_coroutine_yield();
 +        }
-+    }
-     QTAILQ_REMOVE(&savevm_state.handlers, se, entry);
- }
-=20
++        i++;
++
+         addr =3D qemu_get_be64(f);
+         flags =3D addr & ~TARGET_PAGE_MASK;
+         addr &=3D TARGET_PAGE_MASK;
 --=20
 2.24.1
 
