@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBC9142870
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:49:36 +0100 (CET)
-Received: from localhost ([::1]:33880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C08031428B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:02:40 +0100 (CET)
+Received: from localhost ([::1]:34132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itUch-0006OX-06
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:49:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37594)
+	id 1itUpL-0007Qy-5W
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:02:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38074)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1itUPE-0005Ve-Iy
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:42 -0500
+ (envelope-from <quintela@redhat.com>) id 1itUQT-0007Dg-Ng
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:36:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1itUPC-0002KB-Ui
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:40 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46035)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>)
- id 1itUPC-0002JG-N0; Mon, 20 Jan 2020 05:35:38 -0500
-Received: by mail-wr1-x443.google.com with SMTP id j42so28917720wrj.12;
- Mon, 20 Jan 2020 02:35:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=3+YX0QZmDwtz0k4jsE+Xw95VveVoI58sDt0BkeQXgpg=;
- b=XfRpbO0Fj1X8no8jVJJbT2c+qb5gY5qXtwluuqW+2KQznF/n8GUXPOB/ylGJDmhn0Y
- k60tqH39FhsJrSOHu+kkKtCojfpZVepMBJn5IS2MDHaRiccvd97P5TKqnLeyJu3qjD/B
- PFZd1MulfGrUrb+x73gan+Qh01bOFAzbYA1Hzk9zAzmejKarsEapbxrxdTLu59nP/ruL
- dSdnZXi2ihlHH1U6nWc8MFvb4wkmyBCWAMRnGx/dP8BP7A07tunZTVK5ctINCqeUWV/r
- QXiKBaZt8Nt6vxZyQVAYdwwoadL0akKJCtUeHxpOS/qh+pIUi1yJqo6MLVDudVaq6JXZ
- fS+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3+YX0QZmDwtz0k4jsE+Xw95VveVoI58sDt0BkeQXgpg=;
- b=Eu/BBkoRWH+ZaJIMrSF5GM3ccrDh12HLuqL+S/O4Dr70j0hJUb/pCHIJlG979tQPIN
- rTp722QPFii7EzTjxGVj/9kbG1mq3Li8c7LQiThj7wG5DmbYNL4tqi5HbkG+erjR5xkE
- 4tNOGUzfIZcJnVNa8H7GRNRiXR9iseT7nxO+UUZH75jU55Ra6dlk6ODCTq3EuwbgLTsK
- tXjPhYccE2tvie5syYiyXeehdr2zZU/dcqxMV0GwnFJuGdO4QR6MRA6aPGp+OyUP60Hf
- FnIiPPjAz988E074IwixSr9uSHXA7c/RGpKBg4mUqSDlDaxPx/GjV5BQKftGkO1st1Ej
- EeXQ==
-X-Gm-Message-State: APjAAAWJHmJfPX11UXbou0cVQjTbgMY/XL9yTXBDqMzP/k6J0vXuFXvL
- EpVMyZ55v29oqyn8o9vZVJw=
-X-Google-Smtp-Source: APXvYqygT1dyhYEGFVkdDwiW6P4LcPBavqyy4txM/kiGBCLTF0tYDlxKvevkV7NrQgO6X/B4X108LQ==
-X-Received: by 2002:adf:c54e:: with SMTP id s14mr16784858wrf.385.1579516536178; 
- Mon, 20 Jan 2020 02:35:36 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id t81sm2934652wmg.6.2020.01.20.02.35.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 02:35:34 -0800 (PST)
-Date: Mon, 20 Jan 2020 10:35:33 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v4 00/15] io_uring: add Linux io_uring AIO engine
-Message-ID: <20200120103533.GD345995@stefanha-x1.localdomain>
-References: <20200114105921.131880-1-stefanha@redhat.com>
+ (envelope-from <quintela@redhat.com>) id 1itUQS-0002zS-Jy
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:36:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28362
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1itUQS-0002z9-FX
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:36:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579516616;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iprvAOa2cyTKcfIq8nOi5Ry3fqn5kNfZVkcEZq0n1vM=;
+ b=V40x+vi25X8nXqQVxszeFa3UyMVv5ziRVAYEzqkSKWLQjmzrmz4CnvQ9jJGz2OghYeGTvC
+ bogJ2uUHdAChF7UISCOQajvahFwvxqcJos8YqQZa4eznc7oufKtA213rxCZ/XtFLirQiRu
+ 1vqIU6oyITxeqHFm5/0cEM5vmb8972k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-253-D-JT5WDHOLuIiRN5EyqAqA-1; Mon, 20 Jan 2020 05:36:52 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3C971922983;
+ Mon, 20 Jan 2020 10:36:50 +0000 (UTC)
+Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40E221BC6D;
+ Mon, 20 Jan 2020 10:36:46 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 21/29] migration/multifd: not use multifd during postcopy
+Date: Mon, 20 Jan 2020 11:33:32 +0100
+Message-Id: <20200120103340.25118-22-quintela@redhat.com>
+In-Reply-To: <20200120103340.25118-1-quintela@redhat.com>
+References: <20200120103340.25118-1-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NklN7DEeGtkPCoo3"
-Content-Disposition: inline
-In-Reply-To: <20200114105921.131880-1-stefanha@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: D-JT5WDHOLuIiRN5EyqAqA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,171 +71,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, oleksandr@redhat.com,
- Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Corey Minyard <cminyard@mvista.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
+ Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Wei Yang <richardw.yang@linux.intel.com>
 
---NklN7DEeGtkPCoo3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We don't support multifd during postcopy, but user still could enable
+both multifd and postcopy. This leads to migration failure.
 
-On Tue, Jan 14, 2020 at 10:59:06AM +0000, Stefan Hajnoczi wrote:
-> v13:
->  * Drop unnecessary changes in Patch 8 [Stefano]
->=20
-> v12:
->  * Reword BlockdevAioOptions QAPI schema commit description [Markus]
->  * Increase QAPI "Since: 4.2" to "Since: 5.0"
->  * Explain rationale for io_uring stubs in commit description [Kevin]
->  * Tried to use file.aio=3Dio_uring instead of BDRV_O_IO_URING but it's r=
-eally
->    hard to make qemu-iotests work.  Tests build blkdebug: and other graph=
-s so
->    the syntax for io_uring is dependent on the test case.  I scrapped this
->    approach and went back to a global flag.
->=20
-> v11:
->  * Drop fd registration because it breaks QEMU's file locking and will ne=
-ed to
->    be resolved in a separate patch series
->  * Drop line-wrapping changes that accidentally broke several qemu-iotests
->=20
-> v10:
->  * Dropped kernel submission queue polling, it requires root and has addi=
-tional
->    limitations.  It should be benchmarked and considered for inclusion la=
-ter,
->    maybe even together with kernel side changes.
->  * Add io_uring_register_files() return value to trace_luring_fd_register=
-()
->  * Fix indentation in luring_fd_unregister()
->  * Set s->fd_reg.fd_array to NULL after g_free() to avoid dangling pointe=
-rs
->  * Simplify fd registration code
->  * Add luring_fd_unregister() and call it from file-posix.c to prevent
->    fd leaks
->  * Add trace_luring_fd_unregister() trace event
->  * Add missing space to qemu-img command-line documentation
->  * Update MAINTAINERS file [Julia]
->  * Rename MAX_EVENTS to MAX_ENTRIES [Julia]
->  * Define ioq_submit() before callers so the prototype isn't necessary [J=
-ulia]
->  * Declare variables at the beginning of the block in luring_init() [Juli=
-a]
->=20
-> This patch series is based on Aarushi Mehta's v9 patch series written for
-> Google Summer of Code 2019:
->=20
->   https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg00179.html
->=20
-> It adds a new AIO engine that uses the new Linux io_uring API.  This is t=
-he
-> successor to Linux AIO with a number of improvements:
-> 1. Both O_DIRECT and buffered I/O work
-> 2. fdatasync(2) is supported (no need for a separate thread pool!)
-> 3. True async behavior so the syscall doesn't block (Linux AIO got there =
-to some degree...)
-> 4. Advanced performance optimizations are available (file registration, m=
-emory
->    buffer registration, completion polling, submission polling).
->=20
-> Since Aarushi has been busy, I have taken up this patch series.  Booting a
-> guest works with -drive aio=3Dio_uring and -drive aio=3Dio_uring,cache=3D=
-none with a
-> raw file on XFS.
->=20
-> I currently recommend using -drive aio=3Dio_uring only with host block de=
-vices
-> (like NVMe devices).  As of Linux v5.4-rc1 I still hit kernel bugs when u=
-sing
-> image files on ext4 or XFS.
->=20
-> Aarushi Mehta (15):
->   configure: permit use of io_uring
->   qapi/block-core: add option for io_uring
->   block/block: add BDRV flag for io_uring
->   block/io_uring: implements interfaces for io_uring
->   stubs: add stubs for io_uring interface
->   util/async: add aio interfaces for io_uring
->   blockdev: adds bdrv_parse_aio to use io_uring
->   block/file-posix.c: extend to use io_uring
->   block: add trace events for io_uring
->   block/io_uring: adds userspace completion polling
->   qemu-io: adds option to use aio engine
->   qemu-img: adds option to use aio engine for benchmarking
->   qemu-nbd: adds option for aio engines
->   tests/qemu-iotests: enable testing with aio options
->   tests/qemu-iotests: use AIOMODE with various tests
->=20
->  MAINTAINERS                   |   9 +
->  block.c                       |  22 ++
->  block/Makefile.objs           |   3 +
->  block/file-posix.c            |  85 +++++--
->  block/io_uring.c              | 433 ++++++++++++++++++++++++++++++++++
->  block/trace-events            |  12 +
->  blockdev.c                    |  12 +-
->  configure                     |  27 +++
->  include/block/aio.h           |  16 +-
->  include/block/block.h         |   2 +
->  include/block/raw-aio.h       |  12 +
->  qapi/block-core.json          |   4 +-
->  qemu-img-cmds.hx              |   4 +-
->  qemu-img.c                    |  11 +-
->  qemu-img.texi                 |   5 +-
->  qemu-io.c                     |  25 +-
->  qemu-nbd.c                    |  12 +-
->  qemu-nbd.texi                 |   4 +-
->  stubs/Makefile.objs           |   1 +
->  stubs/io_uring.c              |  32 +++
->  tests/qemu-iotests/028        |   2 +-
->  tests/qemu-iotests/058        |   2 +-
->  tests/qemu-iotests/089        |   4 +-
->  tests/qemu-iotests/091        |   4 +-
->  tests/qemu-iotests/109        |   2 +-
->  tests/qemu-iotests/147        |   5 +-
->  tests/qemu-iotests/181        |   8 +-
->  tests/qemu-iotests/183        |   4 +-
->  tests/qemu-iotests/185        |  10 +-
->  tests/qemu-iotests/200        |   2 +-
->  tests/qemu-iotests/201        |   8 +-
->  tests/qemu-iotests/check      |  15 +-
->  tests/qemu-iotests/common.rc  |  14 ++
->  tests/qemu-iotests/iotests.py |  12 +-
->  util/async.c                  |  36 +++
->  35 files changed, 787 insertions(+), 72 deletions(-)
->  create mode 100644 block/io_uring.c
->  create mode 100644 stubs/io_uring.c
->=20
-> --=20
-> 2.24.1
->=20
->=20
+Skip multifd during postcopy.
 
-Thanks, applied to my block tree:
-https://github.com/stefanha/qemu/commits/block
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/ram.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-Stefan
+diff --git a/migration/ram.c b/migration/ram.c
+index a05448c0c9..d4f33a4f2f 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2587,10 +2587,13 @@ static int ram_save_target_page(RAMState *rs, PageS=
+earchStatus *pss,
+     }
+=20
+     /*
+-     * do not use multifd for compression as the first page in the new
+-     * block should be posted out before sending the compressed page
++     * Do not use multifd for:
++     * 1. Compression as the first page in the new block should be posted =
+out
++     *    before sending the compressed page
++     * 2. In postcopy as one whole host page should be placed
+      */
+-    if (!save_page_use_compression(rs) && migrate_use_multifd()) {
++    if (!save_page_use_compression(rs) && migrate_use_multifd()
++        && !migration_in_postcopy()) {
+         return ram_save_multifd_page(rs, block, offset);
+     }
+=20
+--=20
+2.24.1
 
---NklN7DEeGtkPCoo3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4lgnUACgkQnKSrs4Gr
-c8jKHQgAg/2oUgsjvBv3FYbqCCa3L/TQc6gHYM8BnkhTxww6OGURqSJAESsViVUr
-i1kHVPOfulzUGakqhv2fS279ddAYfyDUNW5opgk3igbW/NtnCDZB8ddZ7oS5h4QX
-xz0aNjlCeY/XV4e/nMYVaQTFdkkIyZJfjZ13nXNUYIuv0K2/RPT4NRvA2RFutLLx
-b1S5NaHKmfCvpaJLXUZ8EISsX8kSWaWL7vOFJcvr98rdQfE/fz/Yi/J+mx1jiVyy
-OWkmacPtMYk/pGm3OWPgmshupM51PuwCjiOGTqxV/om3AgMI3L9baNoebxl5WVKZ
-l0LWLk13m9p7YA9CcnoADPoZ4ABpDg==
-=kT7Q
------END PGP SIGNATURE-----
-
---NklN7DEeGtkPCoo3--
 
