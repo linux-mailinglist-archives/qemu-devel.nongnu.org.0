@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC01142DC5
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:40:11 +0100 (CET)
-Received: from localhost ([::1]:37748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F8D142DCF
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:41:35 +0100 (CET)
+Received: from localhost ([::1]:37780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itYDq-000609-6E
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:40:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41909)
+	id 1itYFC-0007jE-B3
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:41:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41961)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1itY6z-0007CK-OU
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:33:09 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1itY7J-0007cc-8W
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:33:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1itY6w-0005Sh-7N
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:33:05 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23858
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itY6w-0005SO-3Y
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:33:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579530781;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wiuR/TBKSn7iq3zXfA4rwRILcghA5F0tmB02QQDWD0U=;
- b=MLv1VY+3ffsuS44g7LNafM/PEHT82zTH9ff3hFLDyM7LyhZoOwmRYqetyK0m7xHh/oa1T+
- YrXAL6l3SYlPLctrzzskcuPsGi6uNxNCfBmxAW0QdEGid3mO8FX6eIGupCgjuIy7TuMEHw
- J9KmMVaTH/svTM0BgpRDK83P98RP/4Y=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-Cspg97ZSP06ikO_BwX7xVA-1; Mon, 20 Jan 2020 09:33:00 -0500
-Received: by mail-wm1-f72.google.com with SMTP id f25so3767335wmb.1
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 06:33:00 -0800 (PST)
+ (envelope-from <alex.bennee@linaro.org>) id 1itY7H-0005f2-RM
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:33:24 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53957)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1itY7H-0005eE-Jp
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:33:23 -0500
+Received: by mail-wm1-x341.google.com with SMTP id m24so14710231wmc.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 06:33:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=/3NkyKVdAdpx2I5Y+3Wjoiq3Wwlmf8JiHrQyzTpXLSU=;
+ b=QcQx1Me+vZf9bJrdqTWJwmm/tNY+ZtXFBxmgTzvV9KO5LWmBhaCoBEYdNe8YbE85HO
+ 8K05d96DzLx4t6TsDhM7+VY2nFR56MKhUBfpHD3ueLE7Aza9YCJrop8CSh8QsWykzML1
+ zpmIqs7IpyV21G9WJ9jDVZAZse1o4zWFgwSFcd2IOrVECbjry227QNJMFcGL6tvEODB4
+ P2gdahZTvO5VRzrF9mAeVlLifeDwCJbTf5MogCADt9O50EzQj3DWAlTJCo2eVt2Fwcwi
+ hNMnJKftuao57YptEFq9JZOgo+4zozZyoeHwoOcOzrJqBFx8Kdptc8Q6S9rh6+XOsqXt
+ BGgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uCsbDigzTt6RW4fnGOjgxkWaT/i208m4Os41PawKEKY=;
- b=qLNfOipVMo9JRPf0M1cxGsXhv+hZRKKCIqR9lI/+3IjDH6g/pXKpc9cOsaRnIiOwc7
- 393b7e7YZ9NiIE5kB3+vYHX0IEoIW8pNdGrFr5tTU8Mlom3RTmlMKWxtR6DcS3BXp4Xr
- R/1495lJd9PAVmW7vKD4nNp831p4LiJtLnco3Mj7YZUn6PCcx8qUop3tRWT0dFbYex9K
- r3dX1Tpq57RmTeFhgRtKamKEUmMMe/+GU2ZiWTMXijUEUGQJVFQrCsuENbTuKl+bzCpw
- 8WfXtxPI/uVch/g6ZOr7EIPC+Cf6sjfm/EwJDlhTMP+jXFdkbpBokjwolfFRIfSrcnRR
- X0/g==
-X-Gm-Message-State: APjAAAU28//rcNVyUHHHzTd2ocoZ1Dt/VSw4mvTl2NAMVwos+lraEFv5
- LiF/a0261WUwyNJylfbjw8B15db1eTkSq6ILJSzNctCAQlzc3ohlf1C/5RnFMSi7/PYjvRh7+oA
- mzSW3x05UC5aCNK0=
-X-Received: by 2002:a7b:c151:: with SMTP id z17mr19595454wmi.137.1579530778741; 
- Mon, 20 Jan 2020 06:32:58 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx/jWOkwEundbpdIRMcJVDS0I1yPkDwpYNZpAZmMSX6hU6Npd9PWqn4Jr4FBxtRhtQONi6Usw==
-X-Received: by 2002:a7b:c151:: with SMTP id z17mr19595434wmi.137.1579530778450; 
- Mon, 20 Jan 2020 06:32:58 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id z124sm25648866wmc.20.2020.01.20.06.32.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jan 2020 06:32:57 -0800 (PST)
-Subject: Re: [PATCH] hw/core/or-irq: Fix incorrect assert forbidding num-lines
- == MAX_OR_LINES
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20200120142235.10432-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b6db7d21-684d-5ccc-8df0-ce83d00c98bd@redhat.com>
-Date: Mon, 20 Jan 2020 15:32:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=/3NkyKVdAdpx2I5Y+3Wjoiq3Wwlmf8JiHrQyzTpXLSU=;
+ b=DpBmN5LgNj+OEb2XK0FHL0jG6G1VC9QICUOcHN2atrVbWNE69lQH1Jcif7DxGP2MWW
+ PtD8kgqNGXQK7GHs5QijLMadg4AJtsRoXCvuz5Y42Z8R4L0kzpRcEeEZ8pGyZW1+KSNS
+ kGN+0XtEjknOhNycFfFLERFeBCbCqrxwlYuLnArMWd6hPWEkFJPbKBmb4egLssp8vN3+
+ 9y/UGYm7h7ZFC5KG/Wb80MucQVaakJkQ2J6UvrS7uYE5kxSXzL0pAKny4xX5A76OjxaA
+ niQZQeXQ/niw7+ZYlzYxN7cn+kHwRV8JX4lh/yla1sJHh1GspzFy9nUFviCjjJQVj8ne
+ cseQ==
+X-Gm-Message-State: APjAAAXK6O9/FqV7h9yyoRMXb+SvVJipQ7MYf433ly5z4zVsMuCyYSJ5
+ VcToGQ9MemqucrQaWR/vhh6qg0jV3y0=
+X-Google-Smtp-Source: APXvYqx23RpCqCf0S14iXYoRetcDOLvJVq/w1AkBEDUXIeJe80nhZWZDeVw+Qz85tZN5AXapV/AEKg==
+X-Received: by 2002:a1c:3dd5:: with SMTP id k204mr19127164wma.92.1579530802243; 
+ Mon, 20 Jan 2020 06:33:22 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n14sm22905574wmi.26.2020.01.20.06.33.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jan 2020 06:33:21 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 64D8A1FF87;
+ Mon, 20 Jan 2020 14:33:20 +0000 (GMT)
+References: <20200109024907.2730-1-richard.henderson@linaro.org>
+ <20200109024907.2730-8-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 7/9] cputlb: Partially merge tlb_dyn_init into tlb_init
+In-reply-to: <20200109024907.2730-8-richard.henderson@linaro.org>
+Date: Mon, 20 Jan 2020 14:33:20 +0000
+Message-ID: <8736ca2o5r.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200120142235.10432-1-peter.maydell@linaro.org>
-Content-Language: en-US
-X-MC-Unique: Cspg97ZSP06ikO_BwX7xVA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,44 +82,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: alistair.francis@wdc.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/20/20 3:22 PM, Peter Maydell wrote:
-> The num-lines property of the TYPE_OR_GATE device sets the number
-> of input lines it has. An assert() in or_irq_realize() restricts
-> this to the maximum supported by the implementation. However we
-> got the condition in the assert wrong: it should be using <=3D,
-> because num-lines =3D=3D MAX_OR_LINES is permitted, and means that
-> all entries from 0 to MAX_OR_LINES-1 in the s->levels[] array
-> are used.
->=20
-> We didn't notice this previously because no user has so far
-> needed that many input lines.
->=20
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Merge into the only caller, but at the same time split
+> out tlb_mmu_init to initialize a single tlb entry.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
->   hw/core/or-irq.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/core/or-irq.c b/hw/core/or-irq.c
-> index 18d63831cd3..2be18333811 100644
-> --- a/hw/core/or-irq.c
-> +++ b/hw/core/or-irq.c
-> @@ -58,7 +58,7 @@ static void or_irq_realize(DeviceState *dev, Error **er=
-rp)
->   {
->       qemu_or_irq *s =3D OR_IRQ(dev);
->  =20
-> -    assert(s->num_lines < MAX_OR_LINES);
-> +    assert(s->num_lines <=3D MAX_OR_LINES);
->  =20
->       qdev_init_gpio_in(dev, or_irq_handler, s->num_lines);
->   }
->=20
+>  accel/tcg/cputlb.c | 33 ++++++++++++++++-----------------
+>  1 file changed, 16 insertions(+), 17 deletions(-)
+>
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index e60e501334..c7c34b185b 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -97,22 +97,6 @@ static void tlb_window_reset(CPUTLBDesc *desc, int64_t=
+ ns,
+>      desc->window_max_entries =3D max_entries;
+>  }
+>=20=20
+> -static void tlb_dyn_init(CPUArchState *env)
+> -{
+> -    int i;
+> -
+> -    for (i =3D 0; i < NB_MMU_MODES; i++) {
+> -        CPUTLBDesc *desc =3D &env_tlb(env)->d[i];
+> -        size_t n_entries =3D 1 << CPU_TLB_DYN_DEFAULT_BITS;
+> -
+> -        tlb_window_reset(desc, get_clock_realtime(), 0);
+> -        desc->n_used_entries =3D 0;
+> -        env_tlb(env)->f[i].mask =3D (n_entries - 1) << CPU_TLB_ENTRY_BIT=
+S;
+> -        env_tlb(env)->f[i].table =3D g_new(CPUTLBEntry, n_entries);
+> -        env_tlb(env)->d[i].iotlb =3D g_new(CPUIOTLBEntry, n_entries);
+> -    }
+> -}
+> -
+>  /**
+>   * tlb_mmu_resize_locked() - perform TLB resize bookkeeping; resize if n=
+ecessary
+>   * @desc: The CPUTLBDesc portion of the TLB
+> @@ -247,6 +231,17 @@ static void tlb_flush_one_mmuidx_locked(CPUArchState=
+ *env, int mmu_idx)
+>      tlb_mmu_flush_locked(desc, fast);
+>  }
+>=20=20
+> +static void tlb_mmu_init(CPUTLBDesc *desc, CPUTLBDescFast *fast, int64_t=
+ now)
+> +{
+> +    size_t n_entries =3D 1 << CPU_TLB_DYN_DEFAULT_BITS;
+> +
+> +    tlb_window_reset(desc, now, 0);
+> +    desc->n_used_entries =3D 0;
+> +    fast->mask =3D (n_entries - 1) << CPU_TLB_ENTRY_BITS;
+> +    fast->table =3D g_new(CPUTLBEntry, n_entries);
+> +    desc->iotlb =3D g_new(CPUIOTLBEntry, n_entries);
+> +}
+> +
+>  static inline void tlb_n_used_entries_inc(CPUArchState *env, uintptr_t m=
+mu_idx)
+>  {
+>      env_tlb(env)->d[mmu_idx].n_used_entries++;
+> @@ -260,13 +255,17 @@ static inline void tlb_n_used_entries_dec(CPUArchSt=
+ate *env, uintptr_t mmu_idx)
+>  void tlb_init(CPUState *cpu)
+>  {
+>      CPUArchState *env =3D cpu->env_ptr;
+> +    int64_t now =3D get_clock_realtime();
+> +    int i;
+>=20=20
+>      qemu_spin_init(&env_tlb(env)->c.lock);
+>=20=20
+>      /* Ensure that cpu_reset performs a full flush.  */
+>      env_tlb(env)->c.dirty =3D ALL_MMUIDX_BITS;
+>=20=20
+> -    tlb_dyn_init(env);
+> +    for (i =3D 0; i < NB_MMU_MODES; i++) {
+> +        tlb_mmu_init(&env_tlb(env)->d[i], &env_tlb(env)->f[i], now);
+> +    }
+>  }
+>=20=20
+>  /* flush_all_helper: run fn across all cpus
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
+--=20
+Alex Benn=C3=A9e
 
