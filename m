@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B888142E12
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:52:28 +0100 (CET)
-Received: from localhost ([::1]:38066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 392A6142E29
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:54:28 +0100 (CET)
+Received: from localhost ([::1]:38090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itYPj-0004x0-97
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:52:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44295)
+	id 1itYRf-0007JP-5c
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:54:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44536)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1itYNp-00030g-Oy
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:50:30 -0500
+ (envelope-from <mreitz@redhat.com>) id 1itYP1-0004iG-OO
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:51:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1itYNo-0006Vy-NW
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:50:29 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43445)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1itYNo-0006Uz-HK
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:50:28 -0500
-Received: by mail-wr1-x434.google.com with SMTP id d16so29875318wre.10
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 06:50:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=2McqOyMlykh/myZdIIfdUj1SwrkV0TsSgQCMDHqCtKw=;
- b=D5prAGTRY5qK2G2pjEKifWksTcApK5nsl9Knp9Hn3ffNvzK3mMrQ1NnaE/2OsLamMW
- XZZ1VMeTCpLfU92b/stwGkEPnFGAyHrgHCiW8OG+p6/AHdjOXeiZbHt6NKVsDkHf/80C
- l7JG2/4+oc22HFwl4i7ZveIGEQOi2+AQqGNb72EGVX2tms6MaFU+80ECfV7oWnQ2lKqf
- uhTpY2crTjzIL9u2jVwqODXYQVeLST2xFKIwzSAYBMBjTRqAn1lT4y7s1892drZt+OIY
- JhukqAustzfUJqfRlfWQ0VGhw32TpIPt3k+XdtQhT0wxYY9bX7Wnt/OONxgPxPgPaKFN
- mk+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2McqOyMlykh/myZdIIfdUj1SwrkV0TsSgQCMDHqCtKw=;
- b=s6xw2b7v8oyzL7HgucPPfNsyegKTB474Q82FzIjzj9zzDQjhZRc16sv++R70s3Ub35
- hTR3B4Zujxb56ASk4MrwccU8hVj2bs383O5lVgIKX60Yb1eKEcgnGzr8KY+8MYRVRM4C
- rurM+Lagu3z6ghS6q95FYg7BA1eZo8ycX1UtAl2iRCn85U7dun1f+d3nKzVO3kimSc+o
- IMWVko/vOCHwLHSNqSkY1gj2AU0+itM1Fq0R6PHQcBDsGwRERDIgaQG/ACp9XJ8a/msV
- u+TJZkrCXePzHt/QtP8LX+p7Bg613Px0QHFdaSGM16a1zZRFH21xDWCx92kcHyzeMFnh
- i9vA==
-X-Gm-Message-State: APjAAAWByGn8WTaYrphZY7F4TeyoCvxHgEVClAdaSkcpsyQoijsgN8yE
- 5n6uZQ2FC1sh/MGdLMtW8a4=
-X-Google-Smtp-Source: APXvYqxDm/0+lVSqXkghUbH3X+B/wuJnlcUNcNRHVT0mV4viVPpIiDLoTdRj9NFYwbKIhllOhuxP9Q==
-X-Received: by 2002:adf:fc08:: with SMTP id i8mr18323220wrr.82.1579531827066; 
- Mon, 20 Jan 2020 06:50:27 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id f1sm49338747wro.85.2020.01.20.06.50.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 06:50:25 -0800 (PST)
-Date: Mon, 20 Jan 2020 14:50:24 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Aleksandar Markovic <Aleksandar.Markovic@rt-rk.com>
-Subject: Re: [GSoC/Outreachy QEMU project proposal] Measure and Analyze QEMU
- Performance
-Message-ID: <20200120145024.GJ345995@stefanha-x1.localdomain>
-References: <324a-5e231180-7-6946d180@169257031>
+ (envelope-from <mreitz@redhat.com>) id 1itYOx-000772-Eo
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:51:43 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34415
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itYOx-00076a-8i
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:51:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579531898;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+9PsJYZt16EF7WuZJYygKRBF1bSgXMu5LUn88eaE7GM=;
+ b=ZO/fzbXZp/UJ7OLRAY7FXjGNjM2wueh3VZDQHCozFANeG4q0rO2VW9io1QwyrLialX2EZg
+ DMJgpI5BJjTlIxSBDxoJBmOBO17JuYY40BnM0O+1dxYpHedvB223VnR1mFYhxeU8997ygY
+ 0UwbrRwLsP5Hl8Sag4O1KJitfIqtGqk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-53-44-TzVSBPKO3H-Uqk1lKWQ-1; Mon, 20 Jan 2020 09:51:36 -0500
+X-MC-Unique: 44-TzVSBPKO3H-Uqk1lKWQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9D998017CC;
+ Mon, 20 Jan 2020 14:51:35 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-225.ams2.redhat.com
+ [10.36.117.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F8AA5D9C5;
+ Mon, 20 Jan 2020 14:51:31 +0000 (UTC)
+Subject: Re: [PATCH v4 6/6] iotests: Enable more tests in the 'auto' group to
+ improve test coverage
+To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20191202101039.8981-1-thuth@redhat.com>
+ <20191202101039.8981-7-thuth@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <17e1e986-d810-8ab1-f226-124e5e9165cf@redhat.com>
+Date: Mon, 20 Jan 2020 15:51:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
+In-Reply-To: <20191202101039.8981-7-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HcccYpVZDxQ8hzPO"
-Content-Disposition: inline
-In-Reply-To: <324a-5e231180-7-6946d180@169257031>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::434
+ protocol="application/pgp-signature";
+ boundary="vnLch6LUzpkjelP6fd6W3ldS19ZEFum7A"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,42 +101,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--vnLch6LUzpkjelP6fd6W3ldS19ZEFum7A
+Content-Type: multipart/mixed; boundary="CbQZ8UMwxUweYfjkBaiHfYRWCwt5Nsu7p"
 
---HcccYpVZDxQ8hzPO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--CbQZ8UMwxUweYfjkBaiHfYRWCwt5Nsu7p
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jan 18, 2020 at 03:08:37PM +0100, Aleksandar Markovic wrote:
-> 3) The community will be given all devised performance measurement methods in the form of easily reproducible step-by-step setup and execution procedures.
+On 02.12.19 11:10, Thomas Huth wrote:
+> According to Kevin, tests 030, 040 and 041 are among the most valuable
+> tests that we have, so we should always run them if possible, even if
+> they take a little bit longer.
+>=20
+> According to Max, it would be good to have a test for iothreads and
+> migration. 127 and 256 seem to be good candidates for iothreads. For
+> migration, let's enable 181 and 203 (which also tests iothreads).
+> (091 would be a good candidate for migration, too, but Alex Benn=C3=A9e
+> reported that this test fails on ZFS file systems, so it can't be
+> included yet)
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  tests/qemu-iotests/group | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+> index 6b10a6a762..2b56392e31 100644
+> --- a/tests/qemu-iotests/group
+> +++ b/tests/qemu-iotests/group
+> @@ -51,7 +51,7 @@
 
-Tracking performance is a good idea and something that has not been done
-upstream yet.  A few questions:
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
- * Will benchmarks be run automatically (e.g. nightly or weekly) on
-   someone's hardware or does every TCG architecture maintainer need to
-   run them manually for themselves?
- * Where will the benchmark result history be stored?
 
-Stefan
+--CbQZ8UMwxUweYfjkBaiHfYRWCwt5Nsu7p--
 
---HcccYpVZDxQ8hzPO
+--vnLch6LUzpkjelP6fd6W3ldS19ZEFum7A
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4lvjAACgkQnKSrs4Gr
-c8jLbwgAroy/m9RtjdClst/GVKwM0an5nZUhZgPyiS8ZCgek+tV251GvMutuhyrC
-qGQDhzDWmTuNzGQvRWJDMagSMK3hQsVuZ68dajjCIx16xjG3jX+QkJEMobWv8akW
-Rpj6ZAz4v1Uzj12qCz9ofYg1NOEoSWCxykEutvKfMUPZfcSnwCnjGoxsXFxqbo9d
-E2m1XDA1cIx0yz1QCYj3GdL3iuitQfiO4VfM+D1rtV1qYo2XfXq/GEBl6NGBQJEO
-FN2nd+Ja8QDlrNfRrKBP98oYbykGl7SYXCd+Wywqg0nSI8u2Rqoz01VmkbIcfAUR
-3zptD6t+ZHRp70PwaK/M/y6XzYh5xw==
-=y/MB
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl4lvnEACgkQ9AfbAGHV
+z0AHJQf/R9uKxxDIVe6R00vERatBMC743aXJqyXSGRiDQJf5ljKLfxr+cTAiQCeB
+ixisWOmHNTTQBGTnbSUrOXPvVsVVW2F6HRV3/6Tga+40KuZweeuutopE3IgLpZq9
+DKFkdECWjN+uIACYpcdkM6SyM6Pv74QK4TfSnkiWA8EwkimxjBcXPlLiAZX5DjPO
+pG/KCebTOFZROk45PvfcbhgY3EXb4L10bhH4LeXi4lUlUWfsltBhDGIRbz9rB7zT
+IQwK0KGc5Ch5SyNOxo13iEuTtdenkNeXK6GRVGgMKX46E5aFwLJ1HkqUAGEYQ+H/
+Fn/75PoRvE9ScOcF3hej2lg1T7AxQw==
+=6Twp
 -----END PGP SIGNATURE-----
 
---HcccYpVZDxQ8hzPO--
+--vnLch6LUzpkjelP6fd6W3ldS19ZEFum7A--
+
 
