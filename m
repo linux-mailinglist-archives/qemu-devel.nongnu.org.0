@@ -2,52 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED99C142ED1
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 16:35:14 +0100 (CET)
-Received: from localhost ([::1]:38720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E22A142F0B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 16:52:50 +0100 (CET)
+Received: from localhost ([::1]:38944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itZ57-0007x6-1U
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 10:35:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50641)
+	id 1itZM8-0008Ir-MY
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 10:52:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53037)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1itZ40-00077g-2Q
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:34:08 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itZKR-0007ER-D6
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:51:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1itZ3v-0000b1-IH
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:34:03 -0500
-Received: from 2.mo2.mail-out.ovh.net ([188.165.53.149]:41390)
+ (envelope-from <dgilbert@redhat.com>) id 1itZKL-0002xI-Iv
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:51:02 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46191
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1itZ3v-0000aE-BL
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:33:59 -0500
-Received: from player699.ha.ovh.net (unknown [10.109.143.3])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id CD9FF1BEF27
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 16:33:56 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player699.ha.ovh.net (Postfix) with ESMTPSA id 467F2E6636D9;
- Mon, 20 Jan 2020 15:33:50 +0000 (UTC)
-Subject: Re: [PATCH v3 07/84] hw/arm/aspeed: actually check RAM size
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <83481ccb-38e4-d0a2-18b5-66fcd7248521@kaod.org>
- <1579530112-80542-1-git-send-email-imammedo@redhat.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <e124b5be-42ec-03c2-10ee-874b966a3e67@kaod.org>
-Date: Mon, 20 Jan 2020 16:33:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itZKL-0002xE-Eh
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:50:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579535457;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ejPQtz/UW624Tv+8quf3JJdZo9SF044qhzOWJzL2E7Y=;
+ b=UeSDbpC3LmqKrSSzAux/Jc1DnhAq7GiaX1/5ORoOcrVTgvK9G4BHcPZt37p1CxRgrwKIbV
+ FgPyhKmM6B6fBosqufZB8cdvuIAmeWDjvTEDzgVKgLECmGam/ukYWR2pAok0BYkscMUNGq
+ HlP5EBZSm7SyhVxn7Sj8qYr1Xz78A/Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-363-vNWcxG_aNXGFugAdwlvLNg-1; Mon, 20 Jan 2020 10:50:48 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE91A10054E3;
+ Mon, 20 Jan 2020 15:50:47 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 48E4A8BE11;
+ Mon, 20 Jan 2020 15:50:44 +0000 (UTC)
+Date: Mon, 20 Jan 2020 15:50:41 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH 091/104] libvhost-user: Fix some memtable remap cases
+Message-ID: <20200120155041.GO2827@work-vm>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-92-dgilbert@redhat.com>
+ <CAJ+F1CKRGS_bzm=HXQrswE2nVvP-Nfur80YZK790nO-xkCNxcg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1579530112-80542-1-git-send-email-imammedo@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 14439666306392361904
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudeigddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+In-Reply-To: <CAJ+F1CKRGS_bzm=HXQrswE2nVvP-Nfur80YZK790nO-xkCNxcg@mail.gmail.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: vNWcxG_aNXGFugAdwlvLNg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 188.165.53.149
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,339 +75,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: andrew@aj.id.au, peter.maydell@linaro.org, qemu-arm@nongnu.org,
- joel@jms.id.au
+Cc: QEMU <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/20/20 3:21 PM, Igor Mammedov wrote:
-> It's supposed that SOC will check if "-m" provided
-> RAM size is valid by setting "ram-size" property and
-> then board would read back valid (possibly corrected
-> value) to map RAM MemoryReging with valid size.
-> It isn't doing so, since check is called only
-> indirectly from
->   aspeed_sdmc_reset()->asc->compute_conf()
-> or much later when guest writes to configuration
-> register.
+* Marc-Andr=E9 Lureau (marcandre.lureau@gmail.com) wrote:
+> Hi
 >=20
-> So depending on "-m" value QEMU end-ups with a warning
-> and an invalid MemoryRegion size allocated and mapped.
-> (examples:
->  -M ast2500-evb -m 1M
->     0000000080000000-000000017ffffffe (prio 0, i/o): aspeed-ram-contain=
-er
->       0000000080000000-00000000800fffff (prio 0, ram): ram
->       0000000080100000-00000000bfffffff (prio 0, i/o): max_ram
->  -M ast2500-evb -m 3G
->     0000000080000000-000000017ffffffe (prio 0, i/o): aspeed-ram-contain=
-er
->       0000000080000000-000000013fffffff (prio 0, ram): ram
->       [DETECTED OVERFLOW!] 0000000140000000-00000000bfffffff (prio 0, i=
-/o): max_ram
-> )
-> On top of that sdmc falls back and reports to guest
-> "default" size, it thinks machine should have.
+> On Thu, Dec 12, 2019 at 10:05 PM Dr. David Alan Gilbert (git)
+> <dgilbert@redhat.com> wrote:
+> >
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> >
+> > If a new setmemtable command comes in once the vhost threads are
+> > running, it will remap the guests address space and the threads
+> > will now be looking in the wrong place.
+> >
+> > Fortunately we're running this command under lock, so we can
+> > update the queue mappings so that threads will look in the new-right
+> > place.
+> >
+> > Note: This doesn't fix things that the threads might be doing
+> > without a lock (e.g. a readv/writev!)  That's for another time.
+> >
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >  contrib/libvhost-user/libvhost-user.c | 33 ++++++++++++++++++++-------
+> >  contrib/libvhost-user/libvhost-user.h |  3 +++
+> >  2 files changed, 28 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-u=
+ser/libvhost-user.c
+> > index 63e41062a4..b89bf18501 100644
+> > --- a/contrib/libvhost-user/libvhost-user.c
+> > +++ b/contrib/libvhost-user/libvhost-user.c
+> > @@ -564,6 +564,21 @@ vu_reset_device_exec(VuDev *dev, VhostUserMsg *vms=
+g)
+> >      return false;
+> >  }
+> >
+> > +static bool
+> > +map_ring(VuDev *dev, VuVirtq *vq)
+> > +{
+> > +    vq->vring.desc =3D qva_to_va(dev, vq->vra.desc_user_addr);
+> > +    vq->vring.used =3D qva_to_va(dev, vq->vra.used_user_addr);
+> > +    vq->vring.avail =3D qva_to_va(dev, vq->vra.avail_user_addr);
+> > +
+> > +    DPRINT("Setting virtq addresses:\n");
+> > +    DPRINT("    vring_desc  at %p\n", vq->vring.desc);
+> > +    DPRINT("    vring_used  at %p\n", vq->vring.used);
+> > +    DPRINT("    vring_avail at %p\n", vq->vring.avail);
+> > +
+> > +    return !(vq->vring.desc && vq->vring.used && vq->vring.avail);
+> > +}
+> > +
+> >  static bool
+> >  vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg *vmsg)
+> >  {
+> > @@ -767,6 +782,14 @@ vu_set_mem_table_exec(VuDev *dev, VhostUserMsg *vm=
+sg)
+> >          close(vmsg->fds[i]);
+> >      }
+> >
+> > +    for (i =3D 0; i < dev->max_queues; i++) {
+> > +        if (dev->vq[i].vring.desc) {
 >=20
-> This patch makes ram-size check actually work and
-> changes behavior from a warning later on during
-> machine reset to error_fatal at the moment SOC.ram-size
-> is set so user will have to fix RAM size on CLI
-> to start machine.
+> The code usually checks for all (vq->vring.desc && vq->vring.used &&
+> vq->vring.avail).
 >=20
-> It also gets out of the way mutable ram-size logic,
-> so we could consolidate RAM allocation logic around
-> pre-allocated hostmem backend (supplied by user or
-> auto created by generic machine code depending on
-> supplied -m/mem-path/mem-prealloc options.
+> Perhaps we should introduce a VQ_RING_IS_SET() macro?
+
+I'd like to understand why? and what to do in the case only one was set?
+In this case I'm intending to make sure that there's no old mapping left
+in any of the 3.
+
+> > +            if (map_ring(dev, &dev->vq[i])) {
+> > +                vu_panic(dev, "remaping queue %d during setmemtable", =
+i);
+> > +            }
+> > +        }
+> > +    }
+> > +
+> >      return false;
+> >  }
+> >
+> > @@ -853,18 +876,12 @@ vu_set_vring_addr_exec(VuDev *dev, VhostUserMsg *=
+vmsg)
+> >      DPRINT("    avail_user_addr:  0x%016" PRIx64 "\n", vra->avail_user=
+_addr);
+> >      DPRINT("    log_guest_addr:   0x%016" PRIx64 "\n", vra->log_guest_=
+addr);
+> >
+> > +    vq->vra =3D *vra;
+> >      vq->vring.flags =3D vra->flags;
+> > -    vq->vring.desc =3D qva_to_va(dev, vra->desc_user_addr);
+> > -    vq->vring.used =3D qva_to_va(dev, vra->used_user_addr);
+> > -    vq->vring.avail =3D qva_to_va(dev, vra->avail_user_addr);
+> >      vq->vring.log_guest_addr =3D vra->log_guest_addr;
+> >
+> > -    DPRINT("Setting virtq addresses:\n");
+> > -    DPRINT("    vring_desc  at %p\n", vq->vring.desc);
+> > -    DPRINT("    vring_used  at %p\n", vq->vring.used);
+> > -    DPRINT("    vring_avail at %p\n", vq->vring.avail);
+> >
+> > -    if (!(vq->vring.desc && vq->vring.used && vq->vring.avail)) {
+> > +    if (map_ring(dev, vq)) {
+> >          vu_panic(dev, "Invalid vring_addr message");
+> >          return false;
+> >      }
+> > diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-u=
+ser/libvhost-user.h
+> > index 1844b6f8d4..5cb7708559 100644
+> > --- a/contrib/libvhost-user/libvhost-user.h
+> > +++ b/contrib/libvhost-user/libvhost-user.h
+> > @@ -327,6 +327,9 @@ typedef struct VuVirtq {
+> >      int err_fd;
+> >      unsigned int enable;
+> >      bool started;
+> > +
+> > +    /* Guest addresses of our ring */
+> > +    struct vhost_vring_addr vra;
+> >  } VuVirtq;
+> >
+> >  enum VuWatchCondtion {
+> > --
+> > 2.23.0
+> >
+> >
 >=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Looks reasonable otherwise (assuming all running threads were flushed
+> somehow by other means)
 
-LGTM, some comments below.
+Yeh, well, that's a separate question - which I think there's room for
+more caution over; but that is why there's a 'some' in the subject line.
 
-> ---
-> v3:
->   * replace
->      [PATCH v2 07/86] arm:aspeed: convert valid RAM sizes to data
->      [PATCH v2 08/86] arm:aspeed: actually check RAM size
->     with a simplified variant that adds ram_size check to sdmc.ram-size
->     property
+Dave
+
+> --=20
+> Marc-Andr=E9 Lureau
 >=20
-> CC: clg@kaod.org
-> CC: peter.maydell@linaro.org
-> CC: andrew@aj.id.au
-> CC: joel@jms.id.au
-> CC: qemu-arm@nongnu.org
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
->  include/hw/misc/aspeed_sdmc.h |  1 +
->  hw/arm/aspeed.c               | 13 +++-----
->  hw/misc/aspeed_sdmc.c         | 77 +++++++++++++++++++++++++++++++++++=
---------
->  3 files changed, 70 insertions(+), 21 deletions(-)
->=20
-> diff --git a/include/hw/misc/aspeed_sdmc.h b/include/hw/misc/aspeed_sdm=
-c.h
-> index 5dbde59..cea1e67 100644
-> --- a/include/hw/misc/aspeed_sdmc.h
-> +++ b/include/hw/misc/aspeed_sdmc.h
-> @@ -40,6 +40,7 @@ typedef struct AspeedSDMCClass {
->      SysBusDeviceClass parent_class;
-> =20
->      uint64_t max_ram_size;
-> +    const uint64_t *valid_ram_sizes;
->      uint32_t (*compute_conf)(AspeedSDMCState *s, uint32_t data);
->      void (*write)(AspeedSDMCState *s, uint32_t reg, uint32_t data);
->  } AspeedSDMCClass;
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index cc06af4..c8573e5 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -191,8 +191,12 @@ static void aspeed_machine_init(MachineState *mach=
-ine)
-> =20
->      sc =3D ASPEED_SOC_GET_CLASS(&bmc->soc);
-> =20
-> +    /*
-> +     * This will error out if isize is not supported by memory control=
-ler.
-> +     */
->      object_property_set_uint(OBJECT(&bmc->soc), ram_size, "ram-size",
-> -                             &error_abort);
-> +                             &error_fatal);
-> +
->      object_property_set_int(OBJECT(&bmc->soc), amc->hw_strap1, "hw-str=
-ap1",
->                              &error_abort);
->      object_property_set_int(OBJECT(&bmc->soc), amc->hw_strap2, "hw-str=
-ap2",
-> @@ -215,13 +219,6 @@ static void aspeed_machine_init(MachineState *mach=
-ine)
->      object_property_set_bool(OBJECT(&bmc->soc), true, "realized",
->                               &error_abort);
-> =20
-> -    /*
-> -     * Allocate RAM after the memory controller has checked the size
-> -     * was valid. If not, a default value is used.
-> -     */
-> -    ram_size =3D object_property_get_uint(OBJECT(&bmc->soc), "ram-size=
-",
-> -                                        &error_abort);
-> -
->      memory_region_allocate_system_memory(&bmc->ram, NULL, "ram", ram_s=
-ize);
->      memory_region_add_subregion(&bmc->ram_container, 0, &bmc->ram);
->      memory_region_add_subregion(get_system_memory(),
-> diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-> index 2df3244..b36b362 100644
-> --- a/hw/misc/aspeed_sdmc.c
-> +++ b/hw/misc/aspeed_sdmc.c
-> @@ -17,6 +17,9 @@
->  #include "migration/vmstate.h"
->  #include "qapi/error.h"
->  #include "trace.h"
-> +#include "qemu/units.h"
-> +#include "qemu/cutils.h"
-> +#include "qapi/visitor.h"
-> =20
->  /* Protection Key Register */
->  #define R_PROT            (0x00 / 4)
-> @@ -163,10 +166,7 @@ static int ast2400_rambits(AspeedSDMCState *s)
->          break;
->      }
-
-Now that the ramsizes are being checked, I think we can add in the defaul=
-t
-statement :
-
-	g_assert_not_reached();
-
-
-> =20
-> -    /* use a common default */
-> -    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 256M",
-> -                s->ram_size);
-> -    s->ram_size =3D 256 << 20;
-> +    assert(0);
->      return ASPEED_SDMC_DRAM_256MB;
-
-
-and skip the default return value.
-
-A part from that,
-
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
->  }
-> =20
-> @@ -185,10 +185,7 @@ static int ast2500_rambits(AspeedSDMCState *s)
->          break;
->      }
-> =20
-> -    /* use a common default */
-> -    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 512M",
-> -                s->ram_size);
-> -    s->ram_size =3D 512 << 20;
-> +    assert(0);
->      return ASPEED_SDMC_AST2500_512MB;
->  }
-> =20
-> @@ -207,10 +204,7 @@ static int ast2600_rambits(AspeedSDMCState *s)
->          break;
->      }
-> =20
-> -    /* use a common default */
-> -    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 1024M",
-> -                s->ram_size);
-> -    s->ram_size =3D 1024 << 20;
-> +    assert(0);
->      return ASPEED_SDMC_AST2600_1024MB;
->  }
-> =20
-> @@ -225,6 +219,51 @@ static void aspeed_sdmc_reset(DeviceState *dev)
->      s->regs[R_CONF] =3D asc->compute_conf(s, 0);
->  }
-> =20
-> +static void aspeed_sdmc_get_ram_size(Object *obj, Visitor *v, const ch=
-ar *name,
-> +                                     void *opaque, Error **errp)
-> +{
-> +    AspeedSDMCState *s =3D ASPEED_SDMC(obj);
-> +    int64_t value =3D s->ram_size;
-> +
-> +    visit_type_int(v, name, &value, errp);
-> +}
-> +
-> +static void aspeed_sdmc_set_ram_size(Object *obj, Visitor *v, const ch=
-ar *name,
-> +                                     void *opaque, Error **errp)
-> +{
-> +    int i;
-> +    char *sz;
-> +    int64_t value;
-> +    Error *local_err =3D NULL;
-> +    AspeedSDMCState *s =3D ASPEED_SDMC(obj);
-> +    AspeedSDMCClass *asc =3D ASPEED_SDMC_GET_CLASS(s);
-> +
-> +    visit_type_int(v, name, &value, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +
-> +    for (i =3D 0; asc->valid_ram_sizes[i]; i++) {
-> +        if (value =3D=3D asc->valid_ram_sizes[i]) {
-> +            s->ram_size =3D value;
-> +            return;
-> +        }
-> +    }
-> +
-> +    sz =3D size_to_str(value);
-> +    error_setg(&local_err, "Invalid RAM size %s", sz);
-> +    g_free(sz);
-> +    error_propagate(errp, local_err);
-> +}
-> +
-> +static void aspeed_sdmc_initfn(Object *obj)
-> +{
-> +    object_property_add(obj, "ram-size", "int",
-> +                        aspeed_sdmc_get_ram_size, aspeed_sdmc_set_ram_=
-size,
-> +                        NULL, NULL, NULL);
-> +}
-> +
->  static void aspeed_sdmc_realize(DeviceState *dev, Error **errp)
->  {
->      SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
-> @@ -249,7 +288,6 @@ static const VMStateDescription vmstate_aspeed_sdmc=
- =3D {
->  };
-> =20
->  static Property aspeed_sdmc_properties[] =3D {
-> -    DEFINE_PROP_UINT64("ram-size", AspeedSDMCState, ram_size, 0),
->      DEFINE_PROP_UINT64("max-ram-size", AspeedSDMCState, max_ram_size, =
-0),
->      DEFINE_PROP_END_OF_LIST(),
->  };
-> @@ -268,6 +306,7 @@ static const TypeInfo aspeed_sdmc_info =3D {
->      .name =3D TYPE_ASPEED_SDMC,
->      .parent =3D TYPE_SYS_BUS_DEVICE,
->      .instance_size =3D sizeof(AspeedSDMCState),
-> +    .instance_init =3D aspeed_sdmc_initfn,
->      .class_init =3D aspeed_sdmc_class_init,
->      .class_size =3D sizeof(AspeedSDMCClass),
->      .abstract   =3D true,
-> @@ -298,6 +337,9 @@ static void aspeed_2400_sdmc_write(AspeedSDMCState =
-*s, uint32_t reg,
->      s->regs[reg] =3D data;
->  }
-> =20
-> +static const uint64_t
-> +aspeed_2400_ram_sizes[] =3D { 64 * MiB, 128 * MiB, 256 * MiB, 512 * Mi=
-B, 0};
-> +
->  static void aspeed_2400_sdmc_class_init(ObjectClass *klass, void *data=
-)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
-> @@ -307,6 +349,7 @@ static void aspeed_2400_sdmc_class_init(ObjectClass=
- *klass, void *data)
->      asc->max_ram_size =3D 512 << 20;
->      asc->compute_conf =3D aspeed_2400_sdmc_compute_conf;
->      asc->write =3D aspeed_2400_sdmc_write;
-> +    asc->valid_ram_sizes =3D aspeed_2400_ram_sizes;
->  }
-> =20
->  static const TypeInfo aspeed_2400_sdmc_info =3D {
-> @@ -351,6 +394,9 @@ static void aspeed_2500_sdmc_write(AspeedSDMCState =
-*s, uint32_t reg,
->      s->regs[reg] =3D data;
->  }
-> =20
-> +static const uint64_t
-> +aspeed_2500_ram_sizes[] =3D { 128 * MiB, 256 * MiB, 512 * MiB, 1024 * =
-MiB, 0};
-> +
->  static void aspeed_2500_sdmc_class_init(ObjectClass *klass, void *data=
-)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
-> @@ -360,6 +406,7 @@ static void aspeed_2500_sdmc_class_init(ObjectClass=
- *klass, void *data)
->      asc->max_ram_size =3D 1024 << 20;
->      asc->compute_conf =3D aspeed_2500_sdmc_compute_conf;
->      asc->write =3D aspeed_2500_sdmc_write;
-> +    asc->valid_ram_sizes =3D aspeed_2500_ram_sizes;
->  }
-> =20
->  static const TypeInfo aspeed_2500_sdmc_info =3D {
-> @@ -404,6 +451,9 @@ static void aspeed_2600_sdmc_write(AspeedSDMCState =
-*s, uint32_t reg,
->      s->regs[reg] =3D data;
->  }
-> =20
-> +static const uint64_t
-> +aspeed_2600_ram_sizes[] =3D { 256 * MiB, 512 * MiB, 1024 * MiB, 2048 *=
- MiB, 0};
-> +
->  static void aspeed_2600_sdmc_class_init(ObjectClass *klass, void *data=
-)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
-> @@ -413,6 +463,7 @@ static void aspeed_2600_sdmc_class_init(ObjectClass=
- *klass, void *data)
->      asc->max_ram_size =3D 2048 << 20;
->      asc->compute_conf =3D aspeed_2600_sdmc_compute_conf;
->      asc->write =3D aspeed_2600_sdmc_write;
-> +    asc->valid_ram_sizes =3D aspeed_2600_ram_sizes;
->  }
-> =20
->  static const TypeInfo aspeed_2600_sdmc_info =3D {
->=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
