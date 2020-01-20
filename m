@@ -2,55 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9E8142B3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 13:47:43 +0100 (CET)
-Received: from localhost ([::1]:35630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B12F7142B6E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 14:02:05 +0100 (CET)
+Received: from localhost ([::1]:36074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itWT0-0005xd-0l
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 07:47:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55523)
+	id 1itWgu-00043p-6k
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 08:02:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57201)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1itWRn-0005Vx-9N
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 07:46:31 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1itWfk-0003Uh-MD
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:00:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1itWRh-00005o-QG
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 07:46:25 -0500
-Received: from mgwym02.jp.fujitsu.com ([211.128.242.41]:64010)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1itWRh-0008Ry-AU
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 07:46:21 -0500
-Received: from yt-mxq.gw.nic.fujitsu.com (unknown [192.168.229.66]) by
- mgwym02.jp.fujitsu.com with smtp
- id 41b0_cfc9_dc7b6898_e6d7_4630_8efe_525e5d0c51d7;
- Mon, 20 Jan 2020 21:46:10 +0900
-Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
- (g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
- by yt-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id C6090AC00C4
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 21:46:09 +0900 (JST)
-Received: from g01jpexchkw34.g01.fujitsu.local (unknown [10.0.193.4])
- by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id B729BBD6643;
- Mon, 20 Jan 2020 21:46:08 +0900 (JST)
-Received: from luna3.soft.fujitsu.com (10.124.196.199) by
- g01jpexchkw34.g01.fujitsu.local (10.0.193.49) with Microsoft SMTP Server id
- 14.3.439.0; Mon, 20 Jan 2020 21:46:09 +0900
-From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-To: <dgilbert@redhat.com>
-Subject: Re: [PATCH 100/104] virtiofsd: process requests in a thread pool
-Date: Mon, 20 Jan 2020 21:54:55 +0900
-Message-ID: <20200120125455.13860-1-misono.tomohiro@jp.fujitsu.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20191212163904.159893-101-dgilbert@redhat.com>
-References: <20191212163904.159893-101-dgilbert@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1itWfj-0003js-HA
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:00:52 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41015)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1itWfh-0003hV-VD
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:00:50 -0500
+Received: by mail-ot1-x342.google.com with SMTP id r27so28554216otc.8
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 05:00:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=enEzIYGOJ3Z9BcpMWQn0M59KHHmkVRX4jfdLkG5CuCk=;
+ b=bX4XaQYDs43MyIIESYHeI8kkQ/pwbnQSNPMjHiF4P5Za1GD8YduN/DSGcEL0Hvge6Y
+ 8LRks6GSVgt4jnH9Jk6XfTZUmxKMbtRpDcmx2797dyffQ3lyUqijBsGYoswec3N1vAGP
+ cta9GInwB8/jAyRdXCkddjf65qN0Rao9VrvIzF3z3P2ieA5yer6O4xG/So1Nz2eX6UnP
+ 5+x0GOGxCLwMWdOzpbrCIHTEGDYuiUfCr21KqVSESPxRMzHakzuAIXEbdLM5EP7DtfZG
+ 8kg5BACFwa5U/q1S+5RDuE1uv2G/foA/5D8mFA8aRfaxj8r5Ui1qOprvHQ5cNmAGJUQ7
+ TW/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=enEzIYGOJ3Z9BcpMWQn0M59KHHmkVRX4jfdLkG5CuCk=;
+ b=Q2JYaqVucXnEqyNIk21BDYEB9sUL+WPcFqivv+uFecyc1Jlxx+XMKUY70K4ZP+vwtp
+ Mi0bBc4oWAOi5lhg8cr6Ky5CsukJOT66xQ0WzSq8SBtriwZlxQqjNzNYnjXmKqq+Z1nJ
+ 7GmHsv8n7Kc3GRqy5MaGveHRMduTBptkm1rMaxORfpoDu6lOBPdnE4w5c88mQf+t3roK
+ Jjl8EWzox6DySO2P5fWAFBaUsDqUjBx2dw5rmjmpuEETqIgBjZVbai6clOQodSkixisn
+ q+3vIWfD4r99voDk4341ZMk/PB/U65xEj/yTv47kdJwpm5SLNooCndrHRhU2UcLMt/ei
+ ebvA==
+X-Gm-Message-State: APjAAAU/OXUK6xxK2zIJTqt4Jjqj61Utt1/u97E9GY/HVYR5Du1SI6iu
+ X+zbM/QLlI1KNPpZvb/Y4NIhT7Y5hohW+7vDWD0GVQ==
+X-Google-Smtp-Source: APXvYqxYrXh+bs0hosTD/hzmdQkN1G90/b647zIel/Jl7hKZbVY6pkzUQgTI+fIWHmnErEf5W84Du3nysbF+feMrkrE=
+X-Received: by 2002:a05:6830:13da:: with SMTP id
+ e26mr14993763otq.97.1579525248039; 
+ Mon, 20 Jan 2020 05:00:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-GCONF: 00
+References: <20200114105918.2366370-1-clement.deschamps@greensocs.com>
+ <03110090-dd50-b124-e60a-9cf136e8f7fd@redhat.com>
+In-Reply-To: <03110090-dd50-b124-e60a-9cf136e8f7fd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 20 Jan 2020 13:00:37 +0000
+Message-ID: <CAFEAcA92pO3j+d8wS2PHhUKTjViLS3GbrmT4ocaDUYKFZLWgAg@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: add PMU feature to cortex-r5 and cortex-r5f
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 211.128.242.41
+X-Received-From: 2607:f8b0:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,37 +75,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: misono.tomohiro@jp.fujitsu.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- vgoyal@redhat.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Clement Deschamps <clement.deschamps@greensocs.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Stefan Hajnoczi <stefanha@redhat.com>
-> 
-> Introduce a thread pool so that fv_queue_thread() just pops
-> VuVirtqElements and hands them to the thread pool.  For the time being
-> only one worker thread is allowed since passthrough_ll.c is not
-> thread-safe yet.  Future patches will lift this restriction so that
-> multiple FUSE requests can be processed in parallel.
-> 
-> The main new concept is struct FVRequest, which contains both
-> VuVirtqElement and struct fuse_chan.  We now have fv_VuDev for a device,
-> fv_QueueInfo for a virtqueue, and FVRequest for a request.  Some of
-> fv_QueueInfo's fields are moved into FVRequest because they are
-> per-request.  The name FVRequest conforms to QEMU coding style and I
-> expect the struct fv_* types will be renamed in a future refactoring.
-> 
-> This patch series is not optimal.  fbuf reuse is dropped so each request
-> does malloc(se->bufsize), but there is no clean and cheap way to keep
-> this with a thread pool.  The vq_lock mutex is held for longer than
-> necessary, especially during the eventfd_write() syscall.  Performance
-> can be improved in the future.
-> 
-> prctl(2) had to be added to the seccomp whitelist because glib invokes
-> it.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+On Tue, 14 Jan 2020 at 12:44, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> On 1/14/20 11:59 AM, Clement Deschamps wrote:
+>
+> Maybe describe here:
+>
+> The PMU is not optional on cortex-r5 and cortex-r5f (see
+> the "Features" chapter of the Technical Reference Manual).
+>
+> > Signed-off-by: Clement Deschamps <clement.deschamps@greensocs.com>
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Looks good to me.
- Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+
+
+Applied to target-arm.next, thanks (with the suggested
+improvement to the commit message).
+
+-- PMM
 
