@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2065F142881
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:52:46 +0100 (CET)
-Received: from localhost ([::1]:33930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E06142855
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:41:26 +0100 (CET)
+Received: from localhost ([::1]:33742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itUfk-0002KF-QN
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:52:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37484)
+	id 1itUUm-00048l-D9
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:41:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1itUOv-00054U-W2
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:23 -0500
+ (envelope-from <quintela@redhat.com>) id 1itUP1-0005CH-8u
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1itUOu-0002Bb-Po
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:21 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58083
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1itUP0-0002ED-4F
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35432
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1itUOu-0002BC-Kd
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:20 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1itUP0-0002Dw-0A
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579516520;
+ s=mimecast20190719; t=1579516525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/YoKMG17GrqYtkuc78YXbVehm34fwjEw8DbFqXGYYW0=;
- b=Tncd2rkBxBm1yruTSqkoxp2SpdLPMTGLWmtoIFD6oFcbkDjL8sx3UjslbJToFVXptNcKpj
- 5OQlF/3Sm5rSDVzwFm35SqxTZUUvOncbfmApRa8leTp6q7r+JSVXKRKauCEN1wsQWelUlA
- wur3Mp0sKQA7+HEBbKbmIlwAFsGnZio=
+ bh=8PL3njRMZwxs9uKSpCL5NJoIzl7l80qAcMLLGRwuXdY=;
+ b=gpgTWqyMHCfePoDwrKja/5XoVtCEK7sPyt1rPDVkja+GKiI0ImWWeYrm4jxzL9L+KpQJkw
+ IXsZxRtcm8SE6kOlM0XCVNBhCdV/ccb/qLMYE/FpVk6uZ8etVWisVbHA0j51dSujRJFXoO
+ t5/vZBY0ywizER/2ie6J1MJvswAdpPE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-MQFIOKZrMcehRLWu7otHJA-1; Mon, 20 Jan 2020 05:35:18 -0500
+ us-mta-73-IjRE8Qg0PvCHyd91ildYEw-1; Mon, 20 Jan 2020 05:35:24 -0500
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18C43800D4E;
- Mon, 20 Jan 2020 10:35:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E45328010DA;
+ Mon, 20 Jan 2020 10:35:21 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 340F0860ED;
- Mon, 20 Jan 2020 10:35:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F3AF860E5;
+ Mon, 20 Jan 2020 10:35:17 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/29] misc: use QEMU_IS_ALIGNED
-Date: Mon, 20 Jan 2020 11:33:21 +0100
-Message-Id: <20200120103340.25118-11-quintela@redhat.com>
+Subject: [PULL 11/29] migration: add savevm_state_handler_remove()
+Date: Mon, 20 Jan 2020 11:33:22 +0100
+Message-Id: <20200120103340.25118-12-quintela@redhat.com>
 In-Reply-To: <20200120103340.25118-1-quintela@redhat.com>
 References: <20200120103340.25118-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: MQFIOKZrMcehRLWu7otHJA-1
+X-MC-Unique: IjRE8Qg0PvCHyd91ildYEw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,51 +78,67 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Corey Minyard <cminyard@mvista.com>,
  Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
  Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc@nongnu.org, Scott Cheloha <cheloha@linux.vnet.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+From: Scott Cheloha <cheloha@linux.vnet.ibm.com>
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Create a function to abstract common logic needed when removing a
+SaveStateEntry element from the savevm_state.handlers queue.
+
+For now we just remove the element.  Soon it will involve additional
+cleanup.
+
+Signed-off-by: Scott Cheloha <cheloha@linux.vnet.ibm.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- exec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ migration/savevm.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/exec.c b/exec.c
-index 0f6b087f57..67e520d18e 100644
---- a/exec.c
-+++ b/exec.c
-@@ -3895,7 +3895,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t st=
-art, size_t length)
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 59efc1981d..30d980caa2 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -725,6 +725,11 @@ static void savevm_state_handler_insert(SaveStateEntry=
+ *nse)
+     }
+ }
 =20
-     uint8_t *host_startaddr =3D rb->host + start;
++static void savevm_state_handler_remove(SaveStateEntry *se)
++{
++    QTAILQ_REMOVE(&savevm_state.handlers, se, entry);
++}
++
+ /* TODO: Individual devices generally have very little idea about the rest
+    of the system, so instance_id should be removed/replaced.
+    Meanwhile pass -1 as instance_id if you do not already have a clearly
+@@ -777,7 +782,7 @@ void unregister_savevm(VMStateIf *obj, const char *idst=
+r, void *opaque)
 =20
--    if ((uintptr_t)host_startaddr & (rb->page_size - 1)) {
-+    if (!QEMU_PTR_IS_ALIGNED(host_startaddr, rb->page_size)) {
-         error_report("ram_block_discard_range: Unaligned start address: %p=
-",
-                      host_startaddr);
-         goto err;
-@@ -3903,7 +3903,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t st=
-art, size_t length)
+     QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se) {
+         if (strcmp(se->idstr, id) =3D=3D 0 && se->opaque =3D=3D opaque) {
+-            QTAILQ_REMOVE(&savevm_state.handlers, se, entry);
++            savevm_state_handler_remove(se);
+             g_free(se->compat);
+             g_free(se);
+         }
+@@ -841,7 +846,7 @@ void vmstate_unregister(VMStateIf *obj, const VMStateDe=
+scription *vmsd,
 =20
-     if ((start + length) <=3D rb->used_length) {
-         bool need_madvise, need_fallocate;
--        if (length & (rb->page_size - 1)) {
-+        if (!QEMU_IS_ALIGNED(length, rb->page_size)) {
-             error_report("ram_block_discard_range: Unaligned length: %zx",
-                          length);
-             goto err;
+     QTAILQ_FOREACH_SAFE(se, &savevm_state.handlers, entry, new_se) {
+         if (se->vmsd =3D=3D vmsd && se->opaque =3D=3D opaque) {
+-            QTAILQ_REMOVE(&savevm_state.handlers, se, entry);
++            savevm_state_handler_remove(se);
+             g_free(se->compat);
+             g_free(se);
+         }
 --=20
 2.24.1
 
