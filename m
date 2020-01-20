@@ -2,65 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58499142B54
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 13:55:23 +0100 (CET)
-Received: from localhost ([::1]:35698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9E8142B3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 13:47:43 +0100 (CET)
+Received: from localhost ([::1]:35630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itWaQ-00014r-4E
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 07:55:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56210)
+	id 1itWT0-0005xd-0l
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 07:47:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55523)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1itWYo-0007pt-9W
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 07:53:43 -0500
+ (envelope-from <misono.tomohiro@fujitsu.com>) id 1itWRn-0005Vx-9N
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 07:46:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1itWYn-0006EF-4q
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 07:53:41 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34830)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1itWYm-0006DF-Ua
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 07:53:41 -0500
-Received: by mail-ot1-x343.google.com with SMTP id i15so28581751oto.2
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 04:53:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rPUQgxbNt28v+xZioZ+TnIb4xogo0q0DUKu1Ga1Zxg4=;
- b=cWHwDmFfrsC1kOeUFLjnxVNhtcz3qCdwcA4OOoPBv9zIX7+CRUb1xziMxyu17Zu2GP
- 332URyZYKPctyeHtp9T4I1Dgn/0l8PTID9FrfI+ike6/+DWqaMJ+CJzfybuIAaba9urP
- RW5WbBXxH+ZWDlNPfvHXY+K066d+fAFBd6ogT9W0IHyAjfpAcS2fSRqOSfYsiYrUcYd1
- u5HVy6umdhnSWl7dWr+ESWzEY3MthSqLSNijz3PPEq+5eMpD512snDMUul97wM/Zgl/B
- Tj75OXH2pQgB+daURObngReDOWAiHdmbb5vBdhyjG13IAIdhg3U18GSZ68uBGRTZPHU/
- 6yUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rPUQgxbNt28v+xZioZ+TnIb4xogo0q0DUKu1Ga1Zxg4=;
- b=uKmz1nTH9sETGx7tC+q0HZWJuXYlNflK7OkZVPQn4lFAzxO6gcePk0WkUj/oHWUpEE
- NZ+CYSQb42c8muS7LBTGx3bxxZuvOqUEpxB+TPvRbZpF1A0qJrCwMp3pGiWBbjFkDof8
- ukuglA5VFSE1a8gJf050BrawXdCr+3ApBxEBqdulS0PkKglHTE7Rr8tcIK1cuXJeLeZe
- 14T2EmrfwlkwW7Gt+etgNJZ1+1KMhuQoGPzJOceOAKm5y6mmUmr7evPNkE4KFkjzAWsx
- ssxm6300Ae6xgvNNgKef3MWHe65aspaJL+cXfiZd7sdiyKmoMrv1lSlrueUUr5YqZUVC
- +Eyw==
-X-Gm-Message-State: APjAAAVrDhaC9lGhIxFH6V6TkwpeMgEe6aHngjhU9lq3NeZ++jNPGqPd
- XVJ1wKdZKHjYH6SRN4Dsircqz+xorHm9RhkfgYPPiQ==
-X-Google-Smtp-Source: APXvYqxwrv4RSH81e/ccWBksf+JP+s+RGoApkNNrPaZzuSZxjhmODz+v4sy4weVEdiZ2+nGvJzHP+4YbER9BF+ts7Ms=
-X-Received: by 2002:a05:6830:4a4:: with SMTP id
- l4mr15815021otd.91.1579524820215; 
- Mon, 20 Jan 2020 04:53:40 -0800 (PST)
+ (envelope-from <misono.tomohiro@fujitsu.com>) id 1itWRh-00005o-QG
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 07:46:25 -0500
+Received: from mgwym02.jp.fujitsu.com ([211.128.242.41]:64010)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
+ id 1itWRh-0008Ry-AU
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 07:46:21 -0500
+Received: from yt-mxq.gw.nic.fujitsu.com (unknown [192.168.229.66]) by
+ mgwym02.jp.fujitsu.com with smtp
+ id 41b0_cfc9_dc7b6898_e6d7_4630_8efe_525e5d0c51d7;
+ Mon, 20 Jan 2020 21:46:10 +0900
+Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
+ (g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
+ by yt-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id C6090AC00C4
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 21:46:09 +0900 (JST)
+Received: from g01jpexchkw34.g01.fujitsu.local (unknown [10.0.193.4])
+ by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id B729BBD6643;
+ Mon, 20 Jan 2020 21:46:08 +0900 (JST)
+Received: from luna3.soft.fujitsu.com (10.124.196.199) by
+ g01jpexchkw34.g01.fujitsu.local (10.0.193.49) with Microsoft SMTP Server id
+ 14.3.439.0; Mon, 20 Jan 2020 21:46:09 +0900
+From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+To: <dgilbert@redhat.com>
+Subject: Re: [PATCH 100/104] virtiofsd: process requests in a thread pool
+Date: Mon, 20 Jan 2020 21:54:55 +0900
+Message-ID: <20200120125455.13860-1-misono.tomohiro@jp.fujitsu.com>
+X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20191212163904.159893-101-dgilbert@redhat.com>
+References: <20191212163904.159893-101-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20200116202558.31473-1-armbru@redhat.com>
-In-Reply-To: <20200116202558.31473-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Jan 2020 12:53:28 +0000
-Message-ID: <CAFEAcA-2thEDyV9CdTgWdYbeq7hCjg8KCoy7jdomgancM0Mqww@mail.gmail.com>
-Subject: Re: [PATCH] qapi: Fix code generation with Python 3.5
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-GCONF: 00
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 211.128.242.41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,35 +62,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: misono.tomohiro@jp.fujitsu.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Jan 2020 at 20:27, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Recent commit 3e7fb5811b "qapi: Fix code generation for empty modules"
-> modules" switched QAPISchema.visit() from
->
->     for entity in self._entity_list:
->
-> effectively to
->
->     for mod in self._module_dict.values():
->         for entity in mod._entity_list:
->
-> Visits in the same order as long as .values() is in insertion order.
-> That's the case only for Python 3.6 and later.  Before, it's in some
-> arbitrary order, which results in broken generated code.
->
-> Fix by making self._module_dict an OrderedDict rather than a dict.
->
-> Fixes: 3e7fb5811baab213dcc7149c3aa69442d683c26c
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> --
+> From: Stefan Hajnoczi <stefanha@redhat.com>
+> 
+> Introduce a thread pool so that fv_queue_thread() just pops
+> VuVirtqElements and hands them to the thread pool.  For the time being
+> only one worker thread is allowed since passthrough_ll.c is not
+> thread-safe yet.  Future patches will lift this restriction so that
+> multiple FUSE requests can be processed in parallel.
+> 
+> The main new concept is struct FVRequest, which contains both
+> VuVirtqElement and struct fuse_chan.  We now have fv_VuDev for a device,
+> fv_QueueInfo for a virtqueue, and FVRequest for a request.  Some of
+> fv_QueueInfo's fields are moved into FVRequest because they are
+> per-request.  The name FVRequest conforms to QEMU coding style and I
+> expect the struct fv_* types will be renamed in a future refactoring.
+> 
+> This patch series is not optimal.  fbuf reuse is dropped so each request
+> does malloc(se->bufsize), but there is no clean and cheap way to keep
+> this with a thread pool.  The vq_lock mutex is held for longer than
+> necessary, especially during the eventfd_write() syscall.  Performance
+> can be improved in the future.
+> 
+> prctl(2) had to be added to the seccomp whitelist because glib invokes
+> it.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-
-Applied to master as a buildfix, thanks.
-
--- PMM
+Looks good to me.
+ Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
 
