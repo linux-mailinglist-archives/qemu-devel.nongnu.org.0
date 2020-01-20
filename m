@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1800D1433A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 23:04:14 +0100 (CET)
-Received: from localhost ([::1]:44584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 702A61433A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 23:04:24 +0100 (CET)
+Received: from localhost ([::1]:44586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itf9Y-0003OE-2g
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 17:04:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50937)
+	id 1itf9i-0003SF-TV
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 17:04:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50936)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6f-0001Vl-R3
+ id 1itf6f-0001Vk-QQ
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6e-0005jZ-BB
+ id 1itf6e-0005je-Bg
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:13 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38094)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38094)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6e-0005hP-3E
+ id 1itf6e-0005id-3b
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:12 -0500
-Received: by mail-wm1-x342.google.com with SMTP id u2so926696wmc.3
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 14:01:10 -0800 (PST)
+Received: by mail-wm1-x341.google.com with SMTP id u2so926737wmc.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 14:01:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o1/XihkHx3wDE3wzXaKMTD/LC02jiJyJ9sA9xN9KFMk=;
- b=bBOEg5KPbXn/bncb4h/L9CzVyAKM+AbvBWxHJW1GVDSGL57A2BNTprW/PdfbKRKQlR
- AfQyJdMMDbhnjycd19AAABzLc9u7Gh6klzcnJOiTTvLR63oWQ2h/wJrTssB5wcqHkCSH
- Eoxsxjl9qen3ES0vSk9/y2eZqTfXCBxxapLMxynDXGw6XDp/w36nb3PDT0v+ErwQOoZF
- Z9hKcNN3eoua3S7iScyIB5iLTQLrmft2HoZ0YeNFdq8lBF6Ujt1BRRBxfca3sZ6r23pO
- B/gSjt0H5XT5lGmdfbFg+TYSvX2QCSFOGxBlz5o6XDkbRIF0j2MZBDe4KxBtBdJ16jb5
- 6a1A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=IMzDWPOAlokC12hxHZKbBpZqQqABH6KMX9scWYox2oU=;
+ b=XjM/qX/uwLzdgSiPulSdmfQT0f2AG9WLZp1DXSQHy0p5hDhwcYRi3TLxGTMfm80zJE
+ 2zT3MW9HSoQaTH9x2wh9SfaswV1JzsjeWEsJflASASfCdCaEG6EZJHvQq2jM6KDjG7w1
+ 2Oc1Gn7TMcG5Oiky78961vCSu5gkaHArdAn67ApqUvKnOpAujuVC2eQOxwkiD6vGBW9V
+ 6Tby6a5umh30puYrUVs+vMDocEZQy5xcPhDa9/uOoxHz91ZTQo5cA7x/36fS+OEsLULl
+ 8WQffE0bJKcX9BK3zz98vcfbjgwEcD96xnCuV/gbMRYZCkn0YDjyNT7pIFo090zp0OV8
+ lIbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=o1/XihkHx3wDE3wzXaKMTD/LC02jiJyJ9sA9xN9KFMk=;
- b=S4ZKsMWZMGl7tQ8uM7M8qEZ3rhGO4mcg0/oTdsBM9nsCHLVHt8t2paOwVpCYp6+74j
- ChYerl8jJVXQ5SHFCpxaPVQuArZYXO7GNscu4jkTOzeAFeKaEyoR4Lb/i4qmK/omtRTu
- MoJJgKpS8tMCyurtDmghbWNra8/qlFjWroU//lMXkflp3AwrkraGplHX4MNcXvQ1hChg
- ow0kYm+HIIgPVIIiLnwF41UxIyuLBqybIEnWe4VnZYLzNsfkhBX/MNPgFDuokEL36PGC
- 8S7wHobl9WgxGi/d7S4PuHa7KZfTxKLh/xitxZlgkhtC7p/I4flidA/dPHGjFO0wub2A
- rd8w==
-X-Gm-Message-State: APjAAAUb9pA6vfmQ0aISvhiFqYFpSp4LtRfvbpFarVSQJI3inJjgECWD
- hX9vOXcmhuOZ3frJGQp+L2wo1CKV
-X-Google-Smtp-Source: APXvYqzA3oa4HnfGsDMcKryyE7/K7KkfmR3BziJrfynSoWNAmc8WcVymY4JZcIHDExUWhKAPJ7TDGg==
-X-Received: by 2002:a05:600c:2c0b:: with SMTP id
- q11mr862004wmg.2.1579557669518; 
- Mon, 20 Jan 2020 14:01:09 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=IMzDWPOAlokC12hxHZKbBpZqQqABH6KMX9scWYox2oU=;
+ b=Jdn6G8S8kwDqf+3TDV5kFeGLhBbR7yVBPRgOFXq0ZCeOaZGsgUMCK5vhsABg6iJTMh
+ i7gtk8thhRV+QoQnOYsLbJgBVa/fig3mBfKWcOGFuwqtJXbR71WpH3qJQrou2oJemaL6
+ dNmG90Xn7Aak1zIU0ce04/fRJh4qIsbvL/KAGfBibgLT7WAMFwkf5NyAGZl54d0Qh+0i
+ nIqjjKA0zdIakME/Js6fzjyR2UWrQYkwbzp2Mr/Plk41g2GPgQWglx+vW8kSTlFRSz6Z
+ F8Fl3SRK7R3X52oRLFYis4p8yL5+Sxw5Bxcv46MUPs5ITHAe07u2RjjHd4PQ8UPc8cDG
+ eTkw==
+X-Gm-Message-State: APjAAAWCgYH3k+thvd5mFEF67T/n551Ur0W4gOPLKvdj3vhHlTY8wjX5
+ 1DjxzaZOszgB83sLuPa/BX4vHrsR
+X-Google-Smtp-Source: APXvYqwyvVzMT5biFjw3cX9fB41a9AuXKX4Mv+BFjq6i+z4axl1htAgUX6LnLRADGUtbvxdWWD15TA==
+X-Received: by 2002:a7b:c407:: with SMTP id k7mr888264wmi.46.1579557670640;
+ Mon, 20 Jan 2020 14:01:10 -0800 (PST)
 Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id f1sm904341wmc.45.2020.01.20.14.01.08
+ by smtp.gmail.com with ESMTPSA id f1sm904341wmc.45.2020.01.20.14.01.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 14:01:08 -0800 (PST)
+ Mon, 20 Jan 2020 14:01:10 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/18] hw/avr: Introduce few Arduino boards
-Date: Mon, 20 Jan 2020 23:00:49 +0100
-Message-Id: <20200120220107.17825-1-f4bug@amsat.org>
+Subject: [PATCH v4 01/18] MAINTAINERS: Move machine test to the machine
+ section (not ARCH one)
+Date: Mon, 20 Jan 2020 23:00:50 +0100
+Message-Id: <20200120220107.17825-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200120220107.17825-1-f4bug@amsat.org>
+References: <20200120220107.17825-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,97 +90,33 @@ Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+!squash
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This series add the arduino boards, aiming at removing the
-'sample' board that doesn't follow any specification.
-
-Since v3:
-- Rebased on Michael's v41
-- Drop 'extram' unused field (Igor)
-- Renamed devices AVR -> Atmel (Aleksandar)
-  (I haven't renamed structure names to ease review)
-
-Since v2:
-- rebased on Michael's v40
-
-Since v1:
-- Addressed Igor comments
-- Addressed Aleksandar comments
-- Fixed UART issue (was due to IRQ shifted by 2 in CPU)
-
-Since Michael's work is not yet merged, Various of my patches
-- which are trivials or simple renames - could be squashed
-directly on his patches, if we ever care.
-[I believe sending this patches is easier/quicker than keeping
-asking Michael to respin his series infinitely].
-
-Michael, do you mind testing it? The full series is available
-here: https://gitlab.com/philmd/qemu/commits/arduino-v4
-
-Regards,
-
-Phil.
-
-Obsoletes: <20191229224505.24466-1-f4bug@amsat.org>
-Based-on: <20200118191416.19934-1-mrolnik@gmail.com>
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg671707.html
-
-Philippe Mathieu-Daudé (18):
-  MAINTAINERS: Move machine test to the machine section (not ARCH one)
-  MAINTAINERS: Move the AVR machines in new section (not within ARM)
-  tests/acceptance: Do not set the machine type manually
-  tests/acceptance: Keep multilines comment consistent with other tests
-  hw/char/avr: Reduce USART I/O size
-  hw/timer/avr_timer16: Rename memory region debugging name
-  hw/misc/avr_mask: Remove unused include
-  hw/avr/Makefile: Use CONFIG_AVR_SAMPLE variable
-  hw/char: Rename avr_usart -> atmel_usart
-  hw/timer: Rename avr_timer16 -> atmel_timer16
-  hw/misc: Rename avr_mask -> atmel_power
-  hw/avr: Introduce ATMEL_ATMEGA_MCU config
-  hw/avr: Add some ATmega microcontrollers
-  hw/avr: Add some Arduino boards
-  tests/boot-serial-test: Test some Arduino boards (AVR based)
-  tests/acceptance: Test the Arduino MEGA2560 board
-  hw/avr: Remove the unrealistic AVR 'sample' board
-  .travis.yml: Run the AVR acceptance tests
-
- default-configs/avr-softmmu.mak               |   2 +-
- hw/avr/atmel_atmega.h                         |  48 ++
- .../hw/char/{avr_usart.h => atmel_usart.h}    |  10 +-
- include/hw/misc/{avr_mask.h => atmel_power.h} |  11 +-
- .../timer/{avr_timer16.h => atmel_timer16.h}  |  10 +-
- hw/avr/arduino.c                              | 175 +++++++
- hw/avr/atmel_atmega.c                         | 464 ++++++++++++++++++
- hw/avr/sample.c                               | 295 -----------
- hw/char/{avr_usart.c => atmel_usart.c}        |   6 +-
- hw/misc/{avr_mask.c => atmel_power.c}         |   4 +-
- hw/timer/{avr_timer16.c => atmel_timer16.c}   |  10 +-
- tests/qtest/boot-serial-test.c                |   3 +-
- .travis.yml                                   |   2 +-
- MAINTAINERS                                   |  29 +-
- hw/avr/Kconfig                                |  11 +-
- hw/avr/Makefile.objs                          |   3 +-
- hw/char/Kconfig                               |   2 +-
- hw/char/Makefile.objs                         |   2 +-
- hw/misc/Kconfig                               |   2 +-
- hw/misc/Makefile.objs                         |   2 +-
- hw/timer/Kconfig                              |   2 +-
- hw/timer/Makefile.objs                        |   2 +-
- tests/acceptance/machine_avr6.py              |  11 +-
- 23 files changed, 751 insertions(+), 355 deletions(-)
- create mode 100644 hw/avr/atmel_atmega.h
- rename include/hw/char/{avr_usart.h => atmel_usart.h} (93%)
- rename include/hw/misc/{avr_mask.h => atmel_power.h} (89%)
- rename include/hw/timer/{avr_timer16.h => atmel_timer16.h} (92%)
- create mode 100644 hw/avr/arduino.c
- create mode 100644 hw/avr/atmel_atmega.c
- delete mode 100644 hw/avr/sample.c
- rename hw/char/{avr_usart.c => atmel_usart.c} (99%)
- rename hw/misc/{avr_mask.c => atmel_power.c} (97%)
- rename hw/timer/{avr_timer16.c => atmel_timer16.c} (98%)
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c70d77b1ae..3fbac64b31 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -168,7 +168,6 @@ M: Michael Rolnik <mrolnik@gmail.com>
+ R: Sarah Harris <S.E.Harris@kent.ac.uk>
+ S: Maintained
+ F: target/avr/
+-F: tests/acceptance/machine_avr6.py
+ F: default-configs/avr-softmmu.mak
+ F: gdb-xml/avr-cpu.xml
+ 
+@@ -501,6 +500,7 @@ F: hw/timer/avr_timer16.c
+ F: include/hw/timer/avr_timer16.h
+ F: hw/misc/avr_mask.c
+ F: include/hw/misc/avr_mask.h
++F: tests/acceptance/machine_avr6.py
+ 
+ ARM PrimeCell and CMSDK devices
+ M: Peter Maydell <peter.maydell@linaro.org>
 -- 
 2.21.1
 
