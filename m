@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A3D142DEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:44:11 +0100 (CET)
-Received: from localhost ([::1]:37836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D53142DF2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:45:43 +0100 (CET)
+Received: from localhost ([::1]:37868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itYHi-0003YN-1g
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:44:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42366)
+	id 1itYJB-0005Yi-Mi
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:45:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1itYA9-0002qb-W3
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:36:22 -0500
+ (envelope-from <stefanha@gmail.com>) id 1itYCs-0005vx-6M
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:39:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1itYA6-0007JM-1G
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:36:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52013
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itYA5-0007Hj-Rx
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:36:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579530977;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9Kat6JIyyrzttqUFMWHX0UDiNhaAbuyJjENFKaHGC10=;
- b=TXFBKw6rzGkQMuGdCosGPJEjXsBkhoCyft+HKaOPbgnYVNxZ7o/IupU72lZzhHnPm8DQ29
- siRsSgm1HCjrQC0Odh2HeauhjMp56sInz6IW1yJhmT17f68zDWBvck0by1ON/DwEPidcKD
- rtxqjzJKPAa0nqK6Qut8G7M5m3ECV88=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-1Z7f8TamO1-5xFEh4PS_EQ-1; Mon, 20 Jan 2020 09:36:13 -0500
-X-MC-Unique: 1Z7f8TamO1-5xFEh4PS_EQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 061198010D1;
- Mon, 20 Jan 2020 14:36:12 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-225.ams2.redhat.com
- [10.36.117.225])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D1D426FA4;
- Mon, 20 Jan 2020 14:36:07 +0000 (UTC)
-Subject: Re: [PATCH v4 3/6] iotests: Test 183 does not work on macOS and
- OpenBSD
-To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-References: <20191202101039.8981-1-thuth@redhat.com>
- <20191202101039.8981-4-thuth@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <99340090-0575-9b4e-4156-dac823e34be3@redhat.com>
-Date: Mon, 20 Jan 2020 15:36:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ (envelope-from <stefanha@gmail.com>) id 1itYCr-0000cc-8X
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:39:10 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44294)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1itYCr-0000bL-1r
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:39:09 -0500
+Received: by mail-wr1-x434.google.com with SMTP id q10so29828979wrm.11
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 06:39:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=29lIhgwefgZh29oZkUv7IA27hzI9002Q0phHV/evwM8=;
+ b=GFBks/3N8YrtxNTwQZfSZdBAle3A4yhRVqCzHhuqZsUVbsXOYxxUvewQ6NODsifMe3
+ y/YwVkE8o8UCBIpO/0tgjAqzMuAMsyPSB9qDADxIWSbMKH22lL2oe39bvjAUOoyU1vLO
+ KdU5INWVgXn3sIuf3ononkB/R28cwJjjev5ANgIT3SPoAwahMXqRvqvy+3RSg8CDjfO1
+ 7AM5z2ScPR8VRjIIF8pvD8q9Zq++hJSuxzyXxZtazzyGXZyqOUquh/qCTUn3tZbAfRQl
+ aeP0hfiQNDk8gzV0dKGTk2icQl6Nnc1SBdWG9K06yCwC5tjTRwgFkBNlF4M6/JH1WZqb
+ 5X+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=29lIhgwefgZh29oZkUv7IA27hzI9002Q0phHV/evwM8=;
+ b=iwJa9VYlrXusNq6K1Ko1Ucko0Ud3uAK0WDSnCzF+AuT2LKs4PVNmXsVBoA5MgeQROm
+ 0zlP+mBbBZSgQUUJQw4Q9272k/KXo2ZzIky9+vLiyxhKtIux2mj/BXFMXCQ2HfgS0oSg
+ 07b0zpP8KloisTRRzav+ERZ7hSSSU5YPeCQA/SNWObRfXtVJbC0pG8hhobC/WY9geSWX
+ NNWNH2LWAZxyTg+J/71Sz+kYMHFM4tHT9Ed8zGzXy5m+yYTL9TV997jFOjflu9/f0lbP
+ UslEYIkOU6DmsjWIDoXGFT0njC+egHPDBBSucWEpG5fcQRZy+C5b/Z7fURn425RBpsQ+
+ jAsA==
+X-Gm-Message-State: APjAAAW17423Gotui9EXaMJBjMT3/xvLk3jrp76IFPuTdjT659SdIyVe
+ yBRDYWTsodQibEDn4ONxZRc=
+X-Google-Smtp-Source: APXvYqx79QDCPfP9d6UpapUeSH3eWzJs5xRMbOY5Gr9cOBrzdExgG+Kx2Kog92unWwpaqyufFPksrA==
+X-Received: by 2002:a5d:4044:: with SMTP id w4mr18419271wrp.322.1579531144520; 
+ Mon, 20 Jan 2020 06:39:04 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id u18sm47638957wrt.26.2020.01.20.06.39.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jan 2020 06:39:03 -0800 (PST)
+Date: Mon, 20 Jan 2020 14:39:02 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Proposal for handling .hx files with Sphinx
+Message-ID: <20200120143902.GI345995@stefanha-x1.localdomain>
+References: <CAFEAcA-_Y0Qaw-S83tMAph21opaDx-2y6aPbv5J_J0Bo4bgJuA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191202101039.8981-4-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="jJc9wdZgsapjjJmKuanbnsyl2UdRlyHLV"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ protocol="application/pgp-signature"; boundary="MFZs98Tklfu0WsCO"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-_Y0Qaw-S83tMAph21opaDx-2y6aPbv5J_J0Bo4bgJuA@mail.gmail.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,74 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---jJc9wdZgsapjjJmKuanbnsyl2UdRlyHLV
-Content-Type: multipart/mixed; boundary="K0KS1K07mgxHI416A1LtuMHrG7cO9070G"
 
---K0KS1K07mgxHI416A1LtuMHrG7cO9070G
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+--MFZs98Tklfu0WsCO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 02.12.19 11:10, Thomas Huth wrote:
-> In the long term, we might want to add test 183 to the "auto" group
-> (but it still fails occasionally, so we cannot do that yet). However,
-> when running 183 in Cirrus-CI on macOS, or with our vm-build-openbsd
-> target, it currently always fails with an "Timeout waiting for return
-> on handle 0" error.
->=20
-> Let's mark it as supported only on systems where the test is working
-> fine (i.e. Linux, FreeBSD and NetBSD).
->=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/qemu-iotests/183 | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/tests/qemu-iotests/183 b/tests/qemu-iotests/183
-> index bced83fae0..0bbae13647 100755
-> --- a/tests/qemu-iotests/183
-> +++ b/tests/qemu-iotests/183
-> @@ -42,6 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
->  . ./common.filter
->  . ./common.qemu
-> =20
-> +_supported_os Linux FreeBSD NetBSD
+On Fri, Jan 17, 2020 at 05:30:43PM +0000, Peter Maydell wrote:
+> So I think my current view is that we should do the very
+> simple "add SRST/ERST directives" to start with:
+>  * scripts/hxtool needs to recognize them and just ignore
+>    the text inside them
+>  * write the hxtool sphinx extension (shouldn't be too hard)
+>  * conversion of any particular .hx file then involves
+>    replacing the STEXI ...texi stuff... ETEXI sections with
+>    SRST ...rst stuff... ERST. There's no need for any
+>    particular .hx file to support both texi and rst output
+>    at the same time
 
-I don=E2=80=99t suppose you have data on OpenBSD?
+Nice idea, I was wondering how we were going to deal with .hx files.
 
-(And maybe it would be best to let _unsupported_os just check whether
-$HOSTOS contains any of these strings (ideally in a case-insensitive
-way) instead of checking for equality, but that=E2=80=99s for another serie=
-s to
-decide.)
+Stefan
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-
---K0KS1K07mgxHI416A1LtuMHrG7cO9070G--
-
---jJc9wdZgsapjjJmKuanbnsyl2UdRlyHLV
+--MFZs98Tklfu0WsCO
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl4lutUACgkQ9AfbAGHV
-z0BS0QgAunZv/FuPMfgDPe4BP1EhuxFU3WNKEZJS3ybBlDv4oY8bYLTvp0Iggs72
-cN2jhULzUiMJ9RXXSnZMKM1pwLukyE4TRkmhh8gnn4Dj13M6Bw1kpzEZPXxy6bZB
-0O9VJ41J1shj6wgzS33cvYFREAGkWT6GQ24YbbjhMT9ALDHM+qV6Xp884FO6+4Z7
-BKNjqK/RZBfXU+4XuCBZ8BLvo/Ly6qSF0Fx5ldYIPJdbns6twWOwg57sGvePqyI+
-xH8BY8CJlPfxgp0B5U3paQISvM3naRkJcUNkFKZKPLesuI6cNdCE3Ke3UeRQouug
-Ls+1c8yTWYBz75pYjnzYDN4HewAcWw==
-=q4N1
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4lu4YACgkQnKSrs4Gr
+c8iYZwf/ZpMEEghDs+TuUD1nDd4birZJS7yummRhvLvGVrzi3I7gJountgW9b41q
+V33tbRmgeeGDL+LgKYC1Ewt4RYn1KbkL82FxtOe43evqyVbdoPCwWM586KlqhabN
+hjxXcGK/vshpC7ulbtUVKI+Zh9GTw3/6IpfyMLqPDJNm0eVbspxjTSeAY2ugnZNP
+GMuXyIm/Dory2yVaf7rWTHJg0xbE1KQCmtukgQma9U6dN7Gy5Cg491dTi+v26oET
+tTR7OMLckLbP2JxRvbInK+0a+9nZj2xDBMLoKkvwPXUv5JzhAM+mRl5kDvmsyVYk
+79uFL5D4SQn8INZq+d4lWBi2J/velw==
+=JUKB
 -----END PGP SIGNATURE-----
 
---jJc9wdZgsapjjJmKuanbnsyl2UdRlyHLV--
-
+--MFZs98Tklfu0WsCO--
 
