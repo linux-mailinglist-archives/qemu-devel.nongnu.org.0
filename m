@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFCC142846
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:34:06 +0100 (CET)
-Received: from localhost ([::1]:33458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDEB14284B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:37:33 +0100 (CET)
+Received: from localhost ([::1]:33610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itUNg-0002pa-Jz
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:34:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36644)
+	id 1itUR2-0006gK-8X
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:37:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1itULg-0001Um-Hx
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:32:01 -0500
+ (envelope-from <kwolf@redhat.com>) id 1itULy-0001pe-Dc
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:32:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1itULf-0000GE-CB
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:32:00 -0500
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:32774)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1itULf-0000Fc-4W
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:31:59 -0500
-Received: by mail-ot1-x332.google.com with SMTP id b18so28274890otp.0
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 02:31:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bHoyQ6QQamteaj2PV9wjHYpZO9SYiaEIkJ2iMzPdl6I=;
- b=AAXGqFCNKXcS3pVRHNKvxvPE+vc2+rRuJkVlZ3mRTgm+53hAdL6SD4Dh1MJ+0CnKDt
- Ly/XozTeaPuYeGjFEMtgPTI9kCeaiE4mby9iw04GEsFECsmNGRXsQEZxlnTdTloBm8pH
- Nd09SJGcsX9o6E3pT5dWSIRrkk/3R3KspyOvzN/BpQAx1mHOgMFRHPx/dfhq2PI8LIxW
- +i+2+quMn6/1igSDxJof0NtHs0s7p3y3wQW7EY4awHfA98d8cXKDmEQZ3zuPtxkcgeIm
- 5y/IRA1sn56nNXs3dS6PfkHS1Lq92CBCQ38P8H92anuQRhqyrIDI38VvY9W7a+TIPHz8
- SqTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bHoyQ6QQamteaj2PV9wjHYpZO9SYiaEIkJ2iMzPdl6I=;
- b=arTKwdloS/ZYHz+sQkJ11rBAVaDn79OJO1e+A7WS9Jm0giXgQnQxzbZiWCobFcbbpv
- nVK9mAUytmlYAHmbHnHNK1iXUPToppZa1ZldCAZv1GoKMvIq+whky7Q4iIG19cY7n0zX
- ExXOPOBUe2hr+qRLgj+tBeDEYVhHMQhWbz4fRUHBTG0RgzNZbosSzrO5YBojg7aBmNWj
- kent7+4Cq2zDmeUOI46S8Yo/J3blmCdRyjTZYRYGOQMp1wMgM37NNow6eIGXTfXUviYm
- 8RO2LDM1FUgMmUJTQmNQKywC1xKFr3zQVN8yTPFgQDDywj6CCcmMdX3aZoOQPZgznz1J
- tRyw==
-X-Gm-Message-State: APjAAAW0eDY8S0+ejKLGScpmUovteEQAy/Lwfay4RA4Uk9pkL0M4Lbeh
- fK9xoUkHOkttlVGM9/5P7Z4jaJga3Og6c3DTXch04w==
-X-Google-Smtp-Source: APXvYqxCCnqO2YIMIZpgD8UWHUylDd7m4V7RcmI/zbAmS0ZsqitjoKSW7u7ZHrEse2O4TDT57QoUAwNUyhJRVOtuOOU=
-X-Received: by 2002:a05:6830:184:: with SMTP id
- q4mr15694160ota.232.1579516317971; 
- Mon, 20 Jan 2020 02:31:57 -0800 (PST)
+ (envelope-from <kwolf@redhat.com>) id 1itULu-0000P1-Of
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:32:18 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21701
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1itULu-0000Nf-Kk
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:32:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579516334;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uytL/ZsJj3Kzqat70GZUIKqU5pCnahBfiPhiHQoWwWU=;
+ b=Oxtjqd+7fTw8rth2VkgdBdxdjxt3i6+2wJDZz15V/t4UBO39x/tR+I0fBKMc+fMcWDHG5v
+ awiRG7+hm8wCuWNU8+lIau9rvhQN8meSbTtaVd3NAUNEygxA9DG3GtR7DGqyC0PweLFW9w
+ VIaOuJjMJ8uPMV/8FBGOKPI6SgUPW6I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-3GAyyJpTOS633vXR0nQnvQ-1; Mon, 20 Jan 2020 05:32:11 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE2998017CC;
+ Mon, 20 Jan 2020 10:32:09 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-116-194.ams2.redhat.com [10.36.116.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C99421BC6D;
+ Mon, 20 Jan 2020 10:32:08 +0000 (UTC)
+Date: Mon, 20 Jan 2020 11:32:07 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Eiichi Tsukata <devel@etsukata.com>
+Subject: Re: [PATCH] block/backup: fix memory leak in bdrv_backup_top_append()
+Message-ID: <20200120103207.GB4970@linux.fritz.box>
+References: <20191223090632.30653-1-devel@etsukata.com>
 MIME-Version: 1.0
-References: <20200113103550.1133-1-alex.bennee@linaro.org>
- <2331e0b7-cad9-7b53-3d30-7fb88d692c8a@redhat.com>
- <20200115111042.GA163546@stefanha-x1.localdomain>
-In-Reply-To: <20200115111042.GA163546@stefanha-x1.localdomain>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Jan 2020 10:31:47 +0000
-Message-ID: <CAFEAcA9kVwANWnz4CDMpRYViC+7dFSZtxX6W0tH3Rvor3zYcbQ@mail.gmail.com>
-Subject: Re: [qemu-web PATCH] documentation: update links to readthedocs
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::332
+In-Reply-To: <20191223090632.30653-1-devel@etsukata.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 3GAyyJpTOS633vXR0nQnvQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,26 +73,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Jan 2020 at 11:11, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> It's good that we got ownership of the readthedocs.org account for QEMU.
-> I don't know if rtd will be capable of building QEMU's hodgepodge of
-> different documentation systems.  It supports Sphinx and Mkdocs but
-> that's not enough.
+Am 23.12.2019 um 10:06 hat Eiichi Tsukata geschrieben:
+> bdrv_open_driver() allocates bs->opaque according to drv->instance_size.
+> There is no need to allocate it and overwrite opaque in
+> bdrv_backup_top_append().
+>=20
+> Reproducer:
+>=20
+>   $ QTEST_QEMU_BINARY=3D./x86_64-softmmu/qemu-system-x86_64 valgrind -q -=
+-leak-check=3Dfull tests/test-replication -p /replication/secondary/start
+>   =3D=3D29792=3D=3D 24 bytes in 1 blocks are definitely lost in loss reco=
+rd 52 of 226
+>   =3D=3D29792=3D=3D    at 0x483AB1A: calloc (vg_replace_malloc.c:762)
+>   =3D=3D29792=3D=3D    by 0x4B07CE0: g_malloc0 (in /usr/lib64/libglib-2.0=
+.so.0.6000.7)
+>   =3D=3D29792=3D=3D    by 0x12BAB9: bdrv_open_driver (block.c:1289)
+>   =3D=3D29792=3D=3D    by 0x12BEA9: bdrv_new_open_driver (block.c:1359)
+>   =3D=3D29792=3D=3D    by 0x1D15CB: bdrv_backup_top_append (backup-top.c:=
+190)
+>   =3D=3D29792=3D=3D    by 0x1CC11A: backup_job_create (backup.c:439)
+>   =3D=3D29792=3D=3D    by 0x1CD542: replication_start (replication.c:544)
+>   =3D=3D29792=3D=3D    by 0x1401B9: replication_start_all (replication.c:=
+52)
+>   =3D=3D29792=3D=3D    by 0x128B50: test_secondary_start (test-replicatio=
+n.c:427)
+>   ...
+>=20
+> Fixes: 7df7868b9640 ("block: introduce backup-top filter driver")
+> Signed-off-by: Eiichi Tsukata <devel@etsukata.com>
 
-I think that as we continue to convert to rST format we should
-end up somewhere where rtd can build everything. In particular
-I realised last week that by using Sphinx extensions we don't
-need to have our makefiles run necessarily to generate fragments
-of document to include, the way we do for texinfo today, so
-it should be possible to have the whole docset built just by
-invoking Sphinx directly.
+Thanks, applied to the block layer.
 
-thanks
--- PMM
+Kevin
+
 
