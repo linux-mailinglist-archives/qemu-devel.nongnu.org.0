@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBF4142C74
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 14:44:18 +0100 (CET)
-Received: from localhost ([::1]:36756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC6B142C34
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 14:37:35 +0100 (CET)
+Received: from localhost ([::1]:36614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itXLl-0002YW-E1
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 08:44:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35297)
+	id 1itXFG-0003JA-NW
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 08:37:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34461)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1itXKP-0001Ng-CV
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:42:54 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1itXEG-0002Xg-55
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:36:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1itXKO-0002ac-BM
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:42:53 -0500
-Received: from mail-ua1-x943.google.com ([2607:f8b0:4864:20::943]:45510)
+ (envelope-from <alex.bennee@linaro.org>) id 1itXEF-00062a-1j
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:36:32 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36935)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1itXKO-0002aA-7c
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:42:52 -0500
-Received: by mail-ua1-x943.google.com with SMTP id 59so11470566uap.12
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 05:42:52 -0800 (PST)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1itXEE-00061u-Qw
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:36:31 -0500
+Received: by mail-wr1-x443.google.com with SMTP id w15so29655469wru.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 05:36:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kdNEsOiVaIODjv6dgkstvRzqdNiV8ZCDhWNk6pNFEro=;
- b=XrXyBbfDBJEPfmFTbgFFEgHOKg+Pq9bdOvewvjb6SyiMeF+KxuiUDaWFXZQNzKXEjO
- KPNFrEaeF8FBZNCvgtO6CIiMYlBJKQ6L//66uj2hDxIkDvVJZ9uGLVBLXUzIH4n+MdYI
- Kb+q3SfpAAtbsNptWwYpkVpBOC21Rr0d7ae/bxuEIlXA/BbMcqYuONdD9LoiE429hj5T
- nXDWxW7IWbM1FrIGnPrNdsQOL20VH5ABMEWc+iW3YB+ZbHzFouLIv5HCJnrw8zRWf0yh
- unK+H4W2AFu8URlyvd47Xu/EOcvIIME61vMG/AKRmyMIfWtsZBri4naQkatA11M8JQk5
- kmGg==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=vRN84Jl9tbGUzXGqo6qoYhjzT52eSeIsYUJQ8egx89M=;
+ b=vIc5fBeigYnSQXMaM62U86xD6mCdIXo2omJKvUCv6W6JnC17/HREKPyyT+EF8K1xBh
+ arKEk8BqPCQ768iBf+zqJsGv0zaG3kUob1mFeTRD8+bRLoPs2Et0DWLC7cRWGg4khiIp
+ tSAHaQi8hcCMUkwbRZduyE81TacL8gQ5jiuorkD92zPjzSE7cHRzSzzzh9YiGcPStOTG
+ zEbXxRfF/v5ULFcAz3sjBlDLI8iXGC1o3wtL61eoBsVdQEsyGgjBc8hEf/cv0+C0hUWv
+ w6V5MDnueN814qvPuiXVdKbHrGxR33agrhlIIUUwzFbDObWw92/lccmd5rrRmAPJXGrF
+ PlRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kdNEsOiVaIODjv6dgkstvRzqdNiV8ZCDhWNk6pNFEro=;
- b=VTxwiOEOyI7nIQredzkaPGKFUWNg2iHAMOhYa+bBkKe9TLdZyQsJNToR9tcf9Im4FV
- ii+LVl+G09+mC/DSoAtldIYjSX8Gw6JQUj6sTZGMlVET3h0YJoaxJ7NS7wrCk+TlscHY
- /yZWKUgAUHPMe9GnPva09oSvgiAyr4kTzbTFhBtjZNAxBt3giKmYE6vWkc+acVlBWnvG
- ycL7wuUGl2f37HyLXAHXAaSLVxVpXIFpvoTkAH4ELeZbeSe67UmUPQyntgDSDiu3kaDw
- r0X+RclUel8BUjU7woQVZeiJ+k1evGa5InQzVpvcuwt4jdx0OvnD6tc1JhBqdT0W0dSD
- MiQw==
-X-Gm-Message-State: APjAAAWctBNiMfOtuy7JjLhLVUdoQXOypfV1azkwGzcTeOfocxKNf/BW
- ptrOyAZzanZDTR8xco9bOOdnZBSBBcbxv2lY5lHU2b90peQ=
-X-Google-Smtp-Source: APXvYqyz14Whinftt58haUZdM9rlT4qzb3y41WFSwBtd4QPExsoDN3aeLx8v1b+hXUDexb+CIsNoyJIouWvhraiWWa8=
-X-Received: by 2002:a05:6830:13da:: with SMTP id
- e26mr15109614otq.97.1579527338736; 
- Mon, 20 Jan 2020 05:35:38 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=vRN84Jl9tbGUzXGqo6qoYhjzT52eSeIsYUJQ8egx89M=;
+ b=kkyDYniEdh/1PAJWqhbdm1TxR3G6QClcpA3qDKQ/TOjWZz9hxc09yXviyh/XtFhXyH
+ SRq+7SvsDM+XKUdUx3zDsqWJWRoahEZ/C6e8Qea147UyMhWXkFH6T8sEndQVs53vFY7A
+ boOBPDIm7v+Sdcg4gOdPNH9t5cnpaPXSgQ8CQJtN1J3SU7rYFflEaczAAZb8rkWo+rir
+ NHUWVOTBxMAgl+1hdDGch/GzXmcPMDCkswisuwHYLjSm3SnsGMEKmDTVOC19Lk38cF1+
+ FVjpkSvDcUKxpPldkQ+G+3ZE9MbYAe7HCriZJNjrXtD8SkpyzWaYmCatAwsDnyhGIY5u
+ ikXQ==
+X-Gm-Message-State: APjAAAWkcG5zFjG5F2+vTjsY+ZfRpS8aHKI8oHQwmwCAC8X35ETryBka
+ 6OtLulDU8mHYPffUaJW9f5CmqYm+LLM=
+X-Google-Smtp-Source: APXvYqyxRIlVnlGDICNVWpS6LjrUxmIYhUAvWICQEaA709w/d0YHe7GDgiegQh6UJi39LYeEZ+4dkw==
+X-Received: by 2002:adf:e58b:: with SMTP id l11mr18183636wrm.402.1579527389602; 
+ Mon, 20 Jan 2020 05:36:29 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v14sm47272269wrm.28.2020.01.20.05.36.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jan 2020 05:36:28 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 850711FF87;
+ Mon, 20 Jan 2020 13:36:27 +0000 (GMT)
+References: <20200109024907.2730-1-richard.henderson@linaro.org>
+ <20200109024907.2730-4-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 3/9] cputlb: Pass CPUTLBDescFast to tlb_n_entries and
+ sizeof_tlb
+In-reply-to: <20200109024907.2730-4-richard.henderson@linaro.org>
+Date: Mon, 20 Jan 2020 13:36:27 +0000
+Message-ID: <87k15m2qsk.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200118164229.22539-1-linux@roeck-us.net>
- <20200118164229.22539-3-linux@roeck-us.net>
-In-Reply-To: <20200118164229.22539-3-linux@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Jan 2020 13:35:27 +0000
-Message-ID: <CAFEAcA8yH8deTL6PrX42Lh_TbR=gx4QbukuKUOo1XgLod=2ZXg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] hw/arm/exynos4210: Fix DMA initialization
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::943
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,44 +83,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: alistair.francis@wdc.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 18 Jan 2020 at 16:42, Guenter Roeck <linux@roeck-us.net> wrote:
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> We do not need the entire CPUArchState to compute these values.
 >
-> First parameter to exynos4210_get_irq() is not the SPI port number,
-> but the interrupt group number. Interrupt groups are 20 for mdma
-> and 21 for pdma. Interrupts are not inverted. Controllers support 32
-> events (pdma) or 31 events (mdma). Events must all be routed to a single
-> interrupt line. Set other parameters as documented in Exynos4210 datasheet,
-> section 8 (DMA controller).
->
-> Reduce the number of DMA events to 30 for both pdma and mdma. QEMU's OR
-> interrupt gates are currently limited to less than 32, and we would need
-> 33 gates to support 32 event interrupts plus the abort interrupt.
-> Operationally this should not make a difference since they are all
-> routed to a single interrupt line anyway.
->
-> Fixes: 59520dc65e ("hw/arm/exynos4210: Add DMA support for the Exynos4210")
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
-> v2: Use interrupt combiner instead of connecting all events to a
->     single interrupt. Limit number of events per DMA channel
->     to 31 to meet qemu interrupt combiner limitations.
->     [Not sure if "assert(s->num_lines < MAX_OR_LINES);" should be
->      "assert(s->num_lines <= MAX_OR_LINES);"]
+>  accel/tcg/cputlb.c | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
+>
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index e4a8ed9534..49c605b6d8 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -80,14 +80,14 @@ QEMU_BUILD_BUG_ON(sizeof(target_ulong) > sizeof(run_o=
+n_cpu_data));
+>  QEMU_BUILD_BUG_ON(NB_MMU_MODES > 16);
+>  #define ALL_MMUIDX_BITS ((1 << NB_MMU_MODES) - 1)
+>=20=20
+> -static inline size_t tlb_n_entries(CPUArchState *env, uintptr_t mmu_idx)
+> +static inline size_t tlb_n_entries(CPUTLBDescFast *fast)
+>  {
+> -    return (env_tlb(env)->f[mmu_idx].mask >> CPU_TLB_ENTRY_BITS) + 1;
+> +    return (fast->mask >> CPU_TLB_ENTRY_BITS) + 1;
+>  }
+>=20=20
+> -static inline size_t sizeof_tlb(CPUArchState *env, uintptr_t mmu_idx)
+> +static inline size_t sizeof_tlb(CPUTLBDescFast *fast)
+>  {
+> -    return env_tlb(env)->f[mmu_idx].mask + (1 << CPU_TLB_ENTRY_BITS);
+> +    return fast->mask + (1 << CPU_TLB_ENTRY_BITS);
+>  }
+>=20=20
+>  static void tlb_window_reset(CPUTLBDesc *desc, int64_t ns,
+> @@ -156,7 +156,7 @@ static void tlb_dyn_init(CPUArchState *env)
+>  static void tlb_mmu_resize_locked(CPUArchState *env, int mmu_idx)
+>  {
+>      CPUTLBDesc *desc =3D &env_tlb(env)->d[mmu_idx];
+> -    size_t old_size =3D tlb_n_entries(env, mmu_idx);
+> +    size_t old_size =3D tlb_n_entries(&env_tlb(env)->f[mmu_idx]);
+>      size_t rate;
+>      size_t new_size =3D old_size;
+>      int64_t now =3D get_clock_realtime();
+> @@ -236,7 +236,8 @@ static void tlb_flush_one_mmuidx_locked(CPUArchState =
+*env, int mmu_idx)
+>      env_tlb(env)->d[mmu_idx].large_page_addr =3D -1;
+>      env_tlb(env)->d[mmu_idx].large_page_mask =3D -1;
+>      env_tlb(env)->d[mmu_idx].vindex =3D 0;
+> -    memset(env_tlb(env)->f[mmu_idx].table, -1, sizeof_tlb(env, mmu_idx));
+> +    memset(env_tlb(env)->f[mmu_idx].table, -1,
+> +           sizeof_tlb(&env_tlb(env)->f[mmu_idx]));
+>      memset(env_tlb(env)->d[mmu_idx].vtable, -1,
+>             sizeof(env_tlb(env)->d[0].vtable));
+>  }
+> @@ -622,7 +623,7 @@ void tlb_reset_dirty(CPUState *cpu, ram_addr_t start1=
+, ram_addr_t length)
+>      qemu_spin_lock(&env_tlb(env)->c.lock);
+>      for (mmu_idx =3D 0; mmu_idx < NB_MMU_MODES; mmu_idx++) {
+>          unsigned int i;
+> -        unsigned int n =3D tlb_n_entries(env, mmu_idx);
+> +        unsigned int n =3D tlb_n_entries(&env_tlb(env)->f[mmu_idx]);
+>=20=20
+>          for (i =3D 0; i < n; i++) {
+>              tlb_reset_dirty_range_locked(&env_tlb(env)->f[mmu_idx].table=
+[i],
 
-Yes, that looks like a bug in or-irq.c -- it should be using <=,
-so 32 is permissible.
 
-As the comment in or-irq.h notes, we can safely simply bump the
-#define value without breaking anything if you need more input
-OR lines than 32.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
