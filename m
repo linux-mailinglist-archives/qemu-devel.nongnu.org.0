@@ -2,93 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E0F4142DA9
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:35:13 +0100 (CET)
-Received: from localhost ([::1]:37620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC01142DC5
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:40:11 +0100 (CET)
+Received: from localhost ([::1]:37748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itY91-0008BQ-GG
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:35:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41782)
+	id 1itYDq-000609-6E
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:40:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41909)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1itY5z-00066F-Vo
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:32:07 -0500
+ (envelope-from <philmd@redhat.com>) id 1itY6z-0007CK-OU
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:33:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1itY5v-0004v8-K6
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:32:03 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31300
+ (envelope-from <philmd@redhat.com>) id 1itY6w-0005Sh-7N
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:33:05 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23858
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itY5v-0004uV-GD
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:31:59 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itY6w-0005SO-3Y
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:33:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579530718;
+ s=mimecast20190719; t=1579530781;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Hvn2H73q5EOQd58/Gjy1d9U01fZRuzVtvjj5IzoRCb4=;
- b=Qv9g/UXUyyJzKtmeWkNBO9MKHWqtjm3YCWqnpvA9pFEarQ0Vt7Iz2sXqzWsop1zux6GwvW
- CcwGkotKT1Q46NcYIppROztZQ4y/KHm/XR7wyDOG7Yg+j9qykyMItqGq+N1Tn1pzIuwXQO
- JYOk9+WjcGlD7pSXxO6cYK4YcFuKd7Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-YOFgrzHXMnK26DXAe96g0A-1; Mon, 20 Jan 2020 09:31:54 -0500
-X-MC-Unique: YOFgrzHXMnK26DXAe96g0A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E6948010C6;
- Mon, 20 Jan 2020 14:31:53 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-225.ams2.redhat.com
- [10.36.117.225])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C5E3348;
- Mon, 20 Jan 2020 14:31:48 +0000 (UTC)
-Subject: Re: [PATCH v4 2/6] iotests: Test 041 only works on certain systems
-To: Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-References: <20191202101039.8981-1-thuth@redhat.com>
- <20191202101039.8981-3-thuth@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <271958ff-6019-669e-f519-e4e84ba4c86f@redhat.com>
-Date: Mon, 20 Jan 2020 15:31:47 +0100
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wiuR/TBKSn7iq3zXfA4rwRILcghA5F0tmB02QQDWD0U=;
+ b=MLv1VY+3ffsuS44g7LNafM/PEHT82zTH9ff3hFLDyM7LyhZoOwmRYqetyK0m7xHh/oa1T+
+ YrXAL6l3SYlPLctrzzskcuPsGi6uNxNCfBmxAW0QdEGid3mO8FX6eIGupCgjuIy7TuMEHw
+ J9KmMVaTH/svTM0BgpRDK83P98RP/4Y=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-74-Cspg97ZSP06ikO_BwX7xVA-1; Mon, 20 Jan 2020 09:33:00 -0500
+Received: by mail-wm1-f72.google.com with SMTP id f25so3767335wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 06:33:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uCsbDigzTt6RW4fnGOjgxkWaT/i208m4Os41PawKEKY=;
+ b=qLNfOipVMo9JRPf0M1cxGsXhv+hZRKKCIqR9lI/+3IjDH6g/pXKpc9cOsaRnIiOwc7
+ 393b7e7YZ9NiIE5kB3+vYHX0IEoIW8pNdGrFr5tTU8Mlom3RTmlMKWxtR6DcS3BXp4Xr
+ R/1495lJd9PAVmW7vKD4nNp831p4LiJtLnco3Mj7YZUn6PCcx8qUop3tRWT0dFbYex9K
+ r3dX1Tpq57RmTeFhgRtKamKEUmMMe/+GU2ZiWTMXijUEUGQJVFQrCsuENbTuKl+bzCpw
+ 8WfXtxPI/uVch/g6ZOr7EIPC+Cf6sjfm/EwJDlhTMP+jXFdkbpBokjwolfFRIfSrcnRR
+ X0/g==
+X-Gm-Message-State: APjAAAU28//rcNVyUHHHzTd2ocoZ1Dt/VSw4mvTl2NAMVwos+lraEFv5
+ LiF/a0261WUwyNJylfbjw8B15db1eTkSq6ILJSzNctCAQlzc3ohlf1C/5RnFMSi7/PYjvRh7+oA
+ mzSW3x05UC5aCNK0=
+X-Received: by 2002:a7b:c151:: with SMTP id z17mr19595454wmi.137.1579530778741; 
+ Mon, 20 Jan 2020 06:32:58 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx/jWOkwEundbpdIRMcJVDS0I1yPkDwpYNZpAZmMSX6hU6Npd9PWqn4Jr4FBxtRhtQONi6Usw==
+X-Received: by 2002:a7b:c151:: with SMTP id z17mr19595434wmi.137.1579530778450; 
+ Mon, 20 Jan 2020 06:32:58 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id z124sm25648866wmc.20.2020.01.20.06.32.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Jan 2020 06:32:57 -0800 (PST)
+Subject: Re: [PATCH] hw/core/or-irq: Fix incorrect assert forbidding num-lines
+ == MAX_OR_LINES
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20200120142235.10432-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <b6db7d21-684d-5ccc-8df0-ce83d00c98bd@redhat.com>
+Date: Mon, 20 Jan 2020 15:32:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191202101039.8981-3-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200120142235.10432-1-peter.maydell@linaro.org>
+Content-Language: en-US
+X-MC-Unique: Cspg97ZSP06ikO_BwX7xVA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="XUGd8gmmaJV88uDcvnqP1R4cEouUy7whw"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,51 +92,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---XUGd8gmmaJV88uDcvnqP1R4cEouUy7whw
-Content-Type: multipart/mixed; boundary="pf0BcEso0H97lPaAPsME7ztbq3rbCZbjM"
-
---pf0BcEso0H97lPaAPsME7ztbq3rbCZbjM
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 02.12.19 11:10, Thomas Huth wrote:
-> 041 works fine on Linux, FreeBSD, NetBSD and OpenBSD, but fails on macOS.
-> Let's mark it as only supported on the systems where we know that it is
-> working fine.
+On 1/20/20 3:22 PM, Peter Maydell wrote:
+> The num-lines property of the TYPE_OR_GATE device sets the number
+> of input lines it has. An assert() in or_irq_realize() restricts
+> this to the maximum supported by the implementation. However we
+> got the condition in the assert wrong: it should be using <=3D,
+> because num-lines =3D=3D MAX_OR_LINES is permitted, and means that
+> all entries from 0 to MAX_OR_LINES-1 in the s->levels[] array
+> are used.
 >=20
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> We didn't notice this previously because no user has so far
+> needed that many input lines.
+>=20
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  tests/qemu-iotests/041 | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>   hw/core/or-irq.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/core/or-irq.c b/hw/core/or-irq.c
+> index 18d63831cd3..2be18333811 100644
+> --- a/hw/core/or-irq.c
+> +++ b/hw/core/or-irq.c
+> @@ -58,7 +58,7 @@ static void or_irq_realize(DeviceState *dev, Error **er=
+rp)
+>   {
+>       qemu_or_irq *s =3D OR_IRQ(dev);
+>  =20
+> -    assert(s->num_lines < MAX_OR_LINES);
+> +    assert(s->num_lines <=3D MAX_OR_LINES);
+>  =20
+>       qdev_init_gpio_in(dev, or_irq_handler, s->num_lines);
+>   }
+>=20
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-
---pf0BcEso0H97lPaAPsME7ztbq3rbCZbjM--
-
---XUGd8gmmaJV88uDcvnqP1R4cEouUy7whw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl4ludMACgkQ9AfbAGHV
-z0CW9AgAobgUd3uHh4KvhDlVjTlO2xN43iEQnIU9LqELKfmu3n+FzzDPA+JtqKl/
-GIc/8PUBkKJq2fWH6A/mQVcILEY7Oo46zP5Cd8tTcYCwF3gldceJy3BlN0rz9hfj
-xzF5zrgeipv7lcLgKoUI+qpN3BS+60pb+1oGhxsVmgrE5UAhkgDBYI9Ae7ArQNj+
-V+ACuPXPVmh4k7iyhNXmB7c00N6AKDwnPxzMpNe/rq7qqPFFIHaBzIc2zBPUr3hF
-Uj3BgZveWgQS5PQmX+JgSupKnWBALPq2l7mJVWyhD6Cnv6vH9mV2Dg1KQZRck59n
-AWngO2476ILHq4vTi2WelP5uXLZK1w==
-=qRQ3
------END PGP SIGNATURE-----
-
---XUGd8gmmaJV88uDcvnqP1R4cEouUy7whw--
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
