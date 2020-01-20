@@ -2,72 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5972142F41
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 17:07:45 +0100 (CET)
-Received: from localhost ([::1]:39144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA12E142F5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 17:12:15 +0100 (CET)
+Received: from localhost ([::1]:39248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itZaa-0001EE-OJ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 11:07:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55396)
+	id 1itZew-0005II-QU
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 11:12:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55990)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1itZYO-00086P-L4
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:05:32 -0500
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1itZdF-000400-T7
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:10:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1itZYK-0002Gw-Pd
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:05:28 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33529
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1itZdB-0005LW-KG
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:10:29 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:43136 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1itZYK-0002Fp-LX
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:05:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579536323;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=sDRgG/5gkJhM7+g764imx+5pAkESVNOXEhbGqKdIszE=;
- b=hVqEeEy3ApdmDaY6ZsP19DcpkbVNbebKflDm1Mvampf2dYXAszAleq8Tcg0bTgbSIGsn5u
- tSQMhbe9SKVxxL3jVuK6bCOZ2rVI1ahGZ6hDvwNHWJFDZwcU4e9zYbfvQsUc1dDgfPxH/F
- TRYuMLLH9wTCRsNTX4OBUrkoPxPsQMM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-R35PupXQOxWLpIgPiRfTpg-1; Mon, 20 Jan 2020 11:05:22 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CFCEA0CBF;
- Mon, 20 Jan 2020 16:05:21 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-99.ams2.redhat.com [10.36.116.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E3CE77DB34;
- Mon, 20 Jan 2020 16:05:17 +0000 (UTC)
-Subject: Re: [PATCH v4 5/6] iotests: Skip Python-based tests if QEMU does not
- support virtio-blk
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-References: <20191202101039.8981-1-thuth@redhat.com>
- <20191202101039.8981-6-thuth@redhat.com>
- <a51a4748-fa43-d2b2-ffa2-05769e8f32f3@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <c0b9256b-0954-a683-6b1e-c5c7017535cd@redhat.com>
-Date: Mon, 20 Jan 2020 17:05:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <a51a4748-fa43-d2b2-ffa2-05769e8f32f3@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: R35PupXQOxWLpIgPiRfTpg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+ (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
+ id 1itZdB-0004bo-A0
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:10:25 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 0EA561A2129;
+ Mon, 20 Jan 2020 17:09:20 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
+ [10.10.14.93])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id EA5581A20EF;
+ Mon, 20 Jan 2020 17:09:19 +0100 (CET)
+From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] tests/tcg/multiarch: Add tests for implemented real
+Date: Mon, 20 Jan 2020 17:09:12 +0100
+Message-Id: <1579536554-30701-1-git-send-email-Filip.Bozuta@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,55 +48,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/01/2020 15.50, Max Reitz wrote:
-> On 02.12.19 11:10, Thomas Huth wrote:
->> We are going to enable some of the python-based tests in the "auto" group,
->> and these tests require virtio-blk to work properly. Running iotests
->> without virtio-blk likely does not make too much sense anyway, so instead
->> of adding a check for the availability of virtio-blk to each and every
->> test (which does not sound very appealing), let's rather add a check for
->> this a central spot in the "check" script instead (so that it is still
->> possible to run "make check" for qemu-system-tricore for example).
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  tests/qemu-iotests/check | 8 ++++++--
->>  1 file changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
->> index 90970b0549..bce3035d5a 100755
->> --- a/tests/qemu-iotests/check
->> +++ b/tests/qemu-iotests/check
->> @@ -642,7 +642,11 @@ fi
->>  python_usable=false
->>  if $PYTHON -c 'import sys; sys.exit(0 if sys.version_info >= (3,6) else 1)'
->>  then
->> -    python_usable=true
->> +    # Our python framework also requires virtio-blk
->> +    if "$QEMU_PROG" -M none -device help | grep -q virtio-blk >/dev/null 2>&1
->> +    then
->> +        python_usable=true
->> +    fi
->>  fi
->>  
->>  default_machine=$($QEMU_PROG -machine help | sed -n '/(default)/ s/ .*//p')
->> @@ -830,7 +834,7 @@ do
->>                  run_command="$PYTHON $seq"
->>              else
->>                  run_command="false"
->> -                echo "Unsupported Python version" > $seq.notrun
->> +                echo "Unsupported Python version or missing virtio-blk" > $seq.notrun
-> 
-> A $python_unusable_because might be helpful (set in to-be-added else
-> branches for the ifs that set python_usable to true), but either way:
+This series covers tests for implemented rtc and alsa timer ioctls. The names
+of ioctls that are covered by these tests can be found in patch descriptions.
+The functionalities of each ioctl that is tested can be found in patches that
+implement them.
 
-Sounds like a good idea, I'll give it a try and send a v5.
+Some of the features that are accessible through these ioctls are not supported
+on all test host pc's. These tests were written so that the implemented ioctls
+can be properly tested on pc's that support all of their features.
 
- Thanks,
-  Thomas
+Both rtc and alsa timer test folders contain separate programs that test functionalities
+of individual ioctls and one global program that tests multiple ioctls at once.
+Individual tests were written manually while the global tests were obtained remotely and
+modified so that they fit the QEMU coding style.
+
+Filip Bozuta (2):
+  tests/tcg/multiarch: Add tests for implemented rtc ioctls
+  tests/tcg/multiarch: Add tests for implemented alsa sound timer ioctls
+
+ .../Disable/disableEnhancedRead.c                  |  29 +++
+ .../EnhancedRead-test/Enable/enableEnhancedRead.c  |  29 +++
+ .../alsa-timer-ioctl-tests/GlobalTest/timer.c      | 158 ++++++++++++++
+ .../Instructions-tests/Continue/continue.c         |  39 ++++
+ .../Instructions-tests/Pause/pause.c               |  39 ++++
+ .../Instructions-tests/Start/start.c               |  39 ++++
+ .../Instructions-tests/Stop/stop.c                 |  39 ++++
+ .../SelectedParameters-tests/Info/info.c           |  46 +++++
+ .../SelectedParameters-tests/Params/params.c       |  44 ++++
+ .../SelectedParameters-tests/Status/status.c       |  45 ++++
+ .../alsa-timer-ioctl-tests/Selecting-test/select.c |  34 +++
+ .../SpecifiedParameters-tests/Ginfo/ginfo.c        |  43 ++++
+ .../SpecifiedParameters-tests/Gparams/gparams.c    |  37 ++++
+ .../SpecifiedParameters-tests/Gstatus/gstatus.c    |  36 ++++
+ .../Version-id-tests/NextDevice/nextDevice.c       |  34 +++
+ .../Version-id-tests/Pversion/pversion.c           |  30 +++
+ .../Alarm-time-test/ReadAlarm/getAlarm.c           |  33 +++
+ .../Alarm-time-test/ReadTime/getTime.c             |  35 ++++
+ .../Alarm-time-test/SetAlarm/setAlarm.c            |  31 +++
+ .../Alarm-time-test/SetTime/setTime.c              |  33 +++
+ .../AlarmInterrupt/Disable/disableAlarmInterrupt.c |  29 +++
+ .../AlarmInterrupt/Enable/enableAlarmInterrupt.c   |  29 +++
+ .../Disable/disablePeriodicInterrupt.c             |  30 +++
+ .../Enable/enablePeriodicInterrupt.c               |  29 +++
+ .../Disable/disableUpdateInterrupt.c               |  29 +++
+ .../UpdateInterrupt/Enable/enableUpdateInterrupt.c |  29 +++
+ .../Disable/disableWatchdogInterrupt.c             |  30 +++
+ .../Enable/enableWatchdogInterrupt.c               |  31 +++
+ .../rtc-ioctl-tests/GlobalTest/rtc-test.c          | 227 +++++++++++++++++++++
+ .../ReadEpoch/getEpoch.c                           |  32 +++
+ .../ReadPeriodicInterrupt/getPeriodicInterrupt.c   |  31 +++
+ .../SetEpoch/setEpoch.c                            |  32 +++
+ .../SetPeriodicInterrupt/setPeriodicInterrupt.c    |  31 +++
+ .../ReadPllCorrection/getPllCorrection.c           |  35 ++++
+ .../SetPllCorrection/setPllCorrection.c            |  32 +++
+ .../ClearVoltageLow/clearVoltageLow.c              |  32 +++
+ .../ReadVoltageLow/getVoltageLow.c                 |  32 +++
+ .../ReadWakeupAlarm/getWakeupAlarm.c               |  36 ++++
+ .../SetWakeupAlarm/setWakeupAlarm.c                |  34 +++
+ 39 files changed, 1643 insertions(+)
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/EnhancedRead-test/Disable/disableEnhancedRead.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/EnhancedRead-test/Enable/enableEnhancedRead.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/GlobalTest/timer.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Continue/continue.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Pause/pause.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Start/start.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Stop/stop.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Info/info.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Params/params.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Status/status.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Selecting-test/select.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Ginfo/ginfo.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Gparams/gparams.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Gstatus/gstatus.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Version-id-tests/NextDevice/nextDevice.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Version-id-tests/Pversion/pversion.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Alarm-time-test/ReadAlarm/getAlarm.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Alarm-time-test/ReadTime/getTime.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Alarm-time-test/SetAlarm/setAlarm.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Alarm-time-test/SetTime/setTime.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Features-test/AlarmInterrupt/Disable/disableAlarmInterrupt.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Features-test/AlarmInterrupt/Enable/enableAlarmInterrupt.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Features-test/PeriodicInterrupt/Disable/disablePeriodicInterrupt.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Features-test/PeriodicInterrupt/Enable/enablePeriodicInterrupt.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Features-test/UpdateInterrupt/Disable/disableUpdateInterrupt.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Features-test/UpdateInterrupt/Enable/enableUpdateInterrupt.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Features-test/WatchdogInterrupt/Disable/disableWatchdogInterrupt.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Features-test/WatchdogInterrupt/Enable/enableWatchdogInterrupt.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/GlobalTest/rtc-test.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Periodic-interrupt-epoch-test/ReadEpoch/getEpoch.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Periodic-interrupt-epoch-test/ReadPeriodicInterrupt/getPeriodicInterrupt.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Periodic-interrupt-epoch-test/SetEpoch/setEpoch.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Periodic-interrupt-epoch-test/SetPeriodicInterrupt/setPeriodicInterrupt.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Pll-correction-test/ReadPllCorrection/getPllCorrection.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Pll-correction-test/SetPllCorrection/setPllCorrection.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Voltage-low-test/ClearVoltageLow/clearVoltageLow.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Voltage-low-test/ReadVoltageLow/getVoltageLow.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Wakeup-alarm-test/ReadWakeupAlarm/getWakeupAlarm.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/Wakeup-alarm-test/SetWakeupAlarm/setWakeupAlarm.c
+
+-- 
+2.7.4
 
 
