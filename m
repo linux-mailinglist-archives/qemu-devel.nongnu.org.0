@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1856D14281D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:20:18 +0100 (CET)
-Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D9B142822
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:21:12 +0100 (CET)
+Received: from localhost ([::1]:33274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itUAK-0007d2-Da
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:20:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35018)
+	id 1itUBD-0000j0-3E
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:21:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35057)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <slp@redhat.com>) id 1itU84-0005tM-Js
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:17:57 -0500
+ (envelope-from <kraxel@redhat.com>) id 1itU8L-0006H6-AP
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:18:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1itU83-0006NE-Kk
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:17:56 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60168
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1itU8K-0006TV-CE
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:18:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60644
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1itU83-0006N2-Fz
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:17:55 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1itU8K-0006TE-8Z
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:18:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579515475;
+ s=mimecast20190719; t=1579515491;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=i2shoQrsYn2LlJuPT9Aj1vIJumQ4aGZU1Po3F/hNNys=;
- b=TDGfpfq5x0iDaI+AdGH3lTa1SJjmOocJo3zljIcSilrCrC1+/renjyc90bj08bZVdBHnXP
- ZJK5oiweno9JZM6BpmS6OSJ94T3vC6tEzFg9jV3S68E5apMHwXZ61bKoqE75baG0vo3ygH
- HPvrM43dZbmew+dpjfepJudoxjcKzu0=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=T6o0reu1MwlfA8b6JlWyMZw91O1QvVuAUkVo2niYfxo=;
+ b=CpS1PqO99F7KOicrZD9oRwrpW7Z9EtVO/qxMuC7uQsJIgdvgrgO0horD+B/zzj6vgygagQ
+ ijiKJoI7OnsvrnbPM5ZaRGZDWo5JcYAaAjKpbh5Vx0kHt/342YxIlEQeC+HwxPuWqhH4/n
+ wRUMEiQU/CvMd3rJYfgmbA0P2jtOGxY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-pzLqA3W4PNq5_uy8G7Bdgg-1; Mon, 20 Jan 2020 05:17:53 -0500
-X-MC-Unique: pzLqA3W4PNq5_uy8G7Bdgg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-28-jy0CzBM-MnCNXQmszNZp3Q-1; Mon, 20 Jan 2020 05:18:08 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72D8E10054E3
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 10:17:52 +0000 (UTC)
-Received: from dritchie.redhat.com (unknown [10.33.36.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 937E960BF7;
- Mon, 20 Jan 2020 10:17:48 +0000 (UTC)
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-73-dgilbert@redhat.com>
-User-agent: mu4e 1.2.0; emacs 26.3
-From: Sergio Lopez <slp@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61E02DB60;
+ Mon, 20 Jan 2020 10:18:07 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
+ [10.36.116.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BFDEC5D9E1;
+ Mon, 20 Jan 2020 10:18:04 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 1DCA116E18; Mon, 20 Jan 2020 11:18:04 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 072/104] virtiofsd: passthrough_ll: fix refcounting on
- remove/rename
-In-reply-to: <20191212163904.159893-73-dgilbert@redhat.com>
-Date: Mon, 20 Jan 2020 11:17:42 +0100
-Message-ID: <875zh68m9l.fsf@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Subject: [PATCH] audio/oss: fix buffer pos calculation
+Date: Mon, 20 Jan 2020 11:18:04 +0100
+Message-Id: <20200120101804.29578-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: jy0CzBM-MnCNXQmszNZp3Q-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,48 +70,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, stefanha@redhat.com,
- vgoyal@redhat.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?K=C5=91v=C3=A1g=C3=B3=20Zolt=C3=A1n?= <dirty.ice.hu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
+Fixes: 3ba4066d085f ("ossaudio: port to the new audio backend api")
+Reported-by: ziming zhang <ezrakiez@gmail.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ audio/ossaudio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Dr. David Alan Gilbert (git) <dgilbert@redhat.com> writes:
-
-> From: Miklos Szeredi <mszeredi@redhat.com>
->
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 50 +++++++++++++++++++++++++++++++-
->  1 file changed, 49 insertions(+), 1 deletion(-)
-
-This one is missing a commit message, and I think the patch isn't
-trivial enough to give it a pass without it.
-
-Sergio.
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl4lfkYACgkQ9GknjS8M
-AjUbCA/+IfX3uD++I/hzZeg6/H3dQ07jf3SHiDEwdrvhYv9NGGLOT5I0qWQga0Vc
-erfNtPhKJS3Ab3jhRI+o7jWmVlCdORF62O/pqHeUKTGS0MoZcvqnbn7b9vHCVDi9
-xCLIJtTUmAjYUNWgklCL6YydfDKb8HsGiT7786/DYVsewvx2LjoWFY10hNEMitc0
-8ZOYCLb/Uk0P29PAqYtyLo227NRFF+aVF6PfS1tCF0WQSIrEwdjdKatHoAICmc6Q
-bJhlj95515T3cHjcxHhrGg4+RAjwFbbRTgjwykDBAJDHoI7m6TwqlYPiA5WJRKpY
-fM4aVfE2jK1b2ia3UKx3ceKV3oSgIQhd0RkNGhPBZ5wLnrRdqzHdlDRkMNtjcG8F
-Vozr6FpGQrMpVd4A95nHbrO49+6bRBlD+BQFVYy6ad0/Dv8cWy3bLQVPpRDCGs/L
-gTAGKRXoqn6vvCsziQDVkjpDmmRDVV363/oQEgSQM0J4Ei6+oPVImVAphROo1Qqc
-rS2tOSyQ/O5EcHluJ2++YNh91WZSmTVlqAW0VzYf6abTVwOExUpHFAdWT5LpiGHp
-Fa0zXreJCgcn5xYlUKS4TNEpsNsax8Xg612z7289BrUg7H1Tkb8nbR85l0BDgxu/
-pqsPXB4Bqi95tyx2gNF+sxguggXGZle7UZfML1Mv0f/JZUMZekQ=
-=+RVy
------END PGP SIGNATURE-----
---=-=-=--
+diff --git a/audio/ossaudio.c b/audio/ossaudio.c
+index c43faeeea4aa..94564916fbf0 100644
+--- a/audio/ossaudio.c
++++ b/audio/ossaudio.c
+@@ -420,7 +420,7 @@ static size_t oss_write(HWVoiceOut *hw, void *buf, size=
+_t len)
+             size_t to_copy =3D MIN(len, hw->size_emul - hw->pos_emul);
+             memcpy(hw->buf_emul + hw->pos_emul, buf, to_copy);
+=20
+-            hw->pos_emul =3D (hw->pos_emul + to_copy) % hw->pos_emul;
++            hw->pos_emul =3D (hw->pos_emul + to_copy) % hw->size_emul;
+             buf +=3D to_copy;
+             len -=3D to_copy;
+         }
+--=20
+2.18.1
 
 
