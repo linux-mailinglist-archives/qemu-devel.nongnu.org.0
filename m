@@ -2,94 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD6A1428C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:05:19 +0100 (CET)
-Received: from localhost ([::1]:34198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB521428DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:08:52 +0100 (CET)
+Received: from localhost ([::1]:34284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itUrt-0002YM-Mr
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:05:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40423)
+	id 1itUvL-0007zd-6z
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:08:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40526)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1itUfG-0002hF-CZ
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:52:17 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1itUft-0003ks-9v
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:52:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1itUfC-0001w1-1s
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:52:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49711
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itUfB-0001vf-TZ
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:52:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579517529;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JyF6NyBMeXCwvV04ThbgkqthwYacCvtWAhGuCK6zjLM=;
- b=VvbLOX+bQddCFc50RyRf729kDcywbW2INoHhTLGVesjMR2rFwf4g/BQLrMMAD7AUveWTbJ
- Ehtj9iPFHxfTJXl2Tge1f8MOXyzEABgF1I4xFT3MnGfm/P4tkHKxe5OJZWpOFkDKah7Xye
- LdnCKx6eINbGi+74AmpgDt2jQChje3s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-ikyCpEcmMI-I5pvhnPKtbQ-1; Mon, 20 Jan 2020 05:52:06 -0500
-X-MC-Unique: ikyCpEcmMI-I5pvhnPKtbQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB4D7800D48;
- Mon, 20 Jan 2020 10:52:04 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-225.ams2.redhat.com
- [10.36.117.225])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 29573272B4;
- Mon, 20 Jan 2020 10:51:59 +0000 (UTC)
-Subject: Re: [PATCH v3 01/10] hbitmap: assert that we don't create bitmap
- larger than INT64_MAX
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20191219100348.24827-1-vsementsov@virtuozzo.com>
- <20191219100348.24827-2-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <862e3780-4ca7-ed39-6858-4bb54760c75c@redhat.com>
-Date: Mon, 20 Jan 2020 11:51:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ (envelope-from <alex.bennee@linaro.org>) id 1itUfo-0002EI-UT
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:52:53 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52530)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1itUfo-0002DX-MI
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:52:48 -0500
+Received: by mail-wm1-x342.google.com with SMTP id p9so14005645wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 02:52:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ro0KJeMJ1nY64zYwW38tAClp2psQe9pWZzMJrN43a7E=;
+ b=mzoFEAuepaQj8tm5KEbuGihlBXEaynCpVncdwcuHCoAl+hMlg25+gla/bQdQbnmHM+
+ XezuhzLSWDSQ86hxxLueoT1mjjZl5Dlq1a7AuQKUtqsme+lXKRqR+FDXHG3vB1a2iIHU
+ meYpwaIM2+35sTEuE9YT7cPQrsjAxLdyKouBI+uAJtLOR8wHh4ORqTRC7gVnYXBdwAxS
+ nJAotavaOyYPzKlYanKWfC2h814kokaTUXIpsaw7BkvmejgsavwhkmWmnJbC5h78vr/O
+ 03JmW2ElRNqIsD7ydfetjUwo8Tw/jb7+OFGaMNUFKEyew4/k/euoZ0pYLyNVv+qffy+D
+ 4o3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=ro0KJeMJ1nY64zYwW38tAClp2psQe9pWZzMJrN43a7E=;
+ b=aCDzBo3x1ZmMmJM3HhWArB6+mRX3wG4kp1U96xzCpIlpwTZ+h89Nn8ZS0AlR0jpMka
+ PYCiSxAmOdNBj1igsSL9BowTnU4VIY79QbAhnZRZwb3MnKcdowgKBwagso6u1zCqEuV8
+ wrrXFgI7GXIrBWGIjQ3IJ+b4yeOn9RUJ1IgYkZTlDfX9Tlq4vgOO6sI0JOfKn3I7m8RA
+ TuYNII4mXB6pJkhjlJLGbUnIz2vaywmHejpKh51z6Xdh9wUxY/bNpjhQocUCfpLf0AUV
+ nT3q1mtvNvP5YdWO35aygGtVM4Ca5dS8U8BtM8pXC8h/GP/Jb797oE11zQEqHaye8x1g
+ irng==
+X-Gm-Message-State: APjAAAUZk4OQv9dH2SC1j1qca/k+Y85qEBf4y2BnDLyw91aKlOe5FxtG
+ NDCXhm5AJ5vK48eC9+7R7wJzfA==
+X-Google-Smtp-Source: APXvYqxfUE3gWjKVEBEZ7+zKMVX+rmS/11epGdIgj7msF8LjGZg34NIu1u9xPKvjak2Sl+NIDLYmiQ==
+X-Received: by 2002:a1c:960c:: with SMTP id y12mr18323247wmd.9.1579517567100; 
+ Mon, 20 Jan 2020 02:52:47 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a16sm47907776wrt.37.2020.01.20.02.52.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jan 2020 02:52:46 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3E14A1FF87;
+ Mon, 20 Jan 2020 10:52:45 +0000 (GMT)
+References: <20200116202558.31473-1-armbru@redhat.com>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Markus Armbruster <armbru@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>
+Subject: Re: [PATCH] qapi: Fix code generation with Python 3.5
+In-reply-to: <20200116202558.31473-1-armbru@redhat.com>
+Date: Mon, 20 Jan 2020 10:52:44 +0000
+Message-ID: <87lfq24cxv.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20191219100348.24827-2-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="l6jfeanhLwXT5dyum2EPKhZnc2AzBL8Ou"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,55 +82,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org, den@openvz.org
+Cc: thuth@redhat.com, mdroth@linux.vnet.ibm.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---l6jfeanhLwXT5dyum2EPKhZnc2AzBL8Ou
-Content-Type: multipart/mixed; boundary="2p9VNO2kONpwWU1cJ5CFpDr3oBecmjRGp"
 
---2p9VNO2kONpwWU1cJ5CFpDr3oBecmjRGp
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Markus Armbruster <armbru@redhat.com> writes:
 
-On 19.12.19 11:03, Vladimir Sementsov-Ogievskiy wrote:
-> We have APIs which returns signed int64_t, to be able to return error.
-> Therefore we can't handle bitmaps with absolute size larger than
-> (INT64_MAX+1). Still, keep maximum to be INT64_MAX which is a bit
-> safer.
->=20
-> Note, that bitmaps are used to represent disk images, which can't
-> exceed INT64_MAX anyway.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Recent commit 3e7fb5811b "qapi: Fix code generation for empty modules"
+> modules" switched QAPISchema.visit() from
+>
+>     for entity in self._entity_list:
+>
+> effectively to
+>
+>     for mod in self._module_dict.values():
+>         for entity in mod._entity_list:
+>
+> Visits in the same order as long as .values() is in insertion order.
+> That's the case only for Python 3.6 and later.  Before, it's in some
+> arbitrary order, which results in broken generated code.
+>
+> Fix by making self._module_dict an OrderedDict rather than a dict.
+>
+> Fixes: 3e7fb5811baab213dcc7149c3aa69442d683c26c
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+Well that certainly clears up a bunch of red. Can we apply it directly
+as a build fix?
+
 > ---
->  util/hbitmap.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  scripts/qapi/schema.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 0bfc5256fb..5100110fa2 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -795,7 +795,7 @@ class QAPISchema(object):
+>          self.docs =3D parser.docs
+>          self._entity_list =3D []
+>          self._entity_dict =3D {}
+> -        self._module_dict =3D {}
+> +        self._module_dict =3D OrderedDict()
+>          self._schema_dir =3D os.path.dirname(fname)
+>          self._make_module(None) # built-ins
+>          self._make_module(fname)
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-
---2p9VNO2kONpwWU1cJ5CFpDr3oBecmjRGp--
-
---l6jfeanhLwXT5dyum2EPKhZnc2AzBL8Ou
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl4lhk4ACgkQ9AfbAGHV
-z0AJtgf+PAwDqzlh1v5uquzv8iXmKu/diJODIT38nRcEEKgPb5AWs/n3YybhJgF9
-ngRB/fsQyJnSg00a01HsRXeRVDFFlPTT3AhB7opxfsY+fq9h0KGjU3N0AcsNpbgX
-GoKCKa2IDjwJYkX7pQCc4WTe2JoPKuK5pbZmXS+vWyQ6SFruhVEUYom66LDlmr7S
-+pK0upx70yFqxsix19IZW2gHuIUed8ivbIk+bMHEUJ63dnmX0RRVXXbDFSZ5nIS+
-YxxpbcVl7OlasEDqKQ8HNq2rCzMQTO/4wysgThbrIv8IbOpMlvM4RLTBInn1d5Wd
-IV03lCFy8CZCBPKw88liHDlr5CUhGA==
-=MtnL
------END PGP SIGNATURE-----
-
---l6jfeanhLwXT5dyum2EPKhZnc2AzBL8Ou--
-
+--=20
+Alex Benn=C3=A9e
 
