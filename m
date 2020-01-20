@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D53142DF2
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:45:43 +0100 (CET)
-Received: from localhost ([::1]:37868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37CFC142DF7
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:46:24 +0100 (CET)
+Received: from localhost ([::1]:37876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itYJB-0005Yi-Mi
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:45:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42662)
+	id 1itYJr-0006Fs-7P
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:46:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43112)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1itYCs-0005vx-6M
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:39:11 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1itYFM-0000jU-Pq
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:41:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1itYCr-0000cc-8X
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:39:10 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44294)
+ (envelope-from <alex.bennee@linaro.org>) id 1itYFL-00024K-6e
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:41:44 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55983)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1itYCr-0000bL-1r
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:39:09 -0500
-Received: by mail-wr1-x434.google.com with SMTP id q10so29828979wrm.11
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 06:39:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=29lIhgwefgZh29oZkUv7IA27hzI9002Q0phHV/evwM8=;
- b=GFBks/3N8YrtxNTwQZfSZdBAle3A4yhRVqCzHhuqZsUVbsXOYxxUvewQ6NODsifMe3
- y/YwVkE8o8UCBIpO/0tgjAqzMuAMsyPSB9qDADxIWSbMKH22lL2oe39bvjAUOoyU1vLO
- KdU5INWVgXn3sIuf3ononkB/R28cwJjjev5ANgIT3SPoAwahMXqRvqvy+3RSg8CDjfO1
- 7AM5z2ScPR8VRjIIF8pvD8q9Zq++hJSuxzyXxZtazzyGXZyqOUquh/qCTUn3tZbAfRQl
- aeP0hfiQNDk8gzV0dKGTk2icQl6Nnc1SBdWG9K06yCwC5tjTRwgFkBNlF4M6/JH1WZqb
- 5X+g==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1itYFK-00023s-Vx
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:41:43 -0500
+Received: by mail-wm1-x344.google.com with SMTP id q9so14726954wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 06:41:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=BkbKFUYioYiccz4Tlq6NKyvQf4k2puHksCjJN5rFz3w=;
+ b=gdrV2mSkWNuRo+gNoFoaXNpnTW0zE+0gcDpXURBoRtGCw7z5TxNxydFOVIWp0IvTTq
+ KKP7he4UEWB18/n9/xKG1C1QVM1p4GCQ2Et80ehcHJHs4BYxff0oIqZb8EQG9j9shqLn
+ jZxCdJYm4XdPJX7FlZ4A4288xf5u4ObkWrM0YiEvX+G+AnalztMLkmYC21IqnpTygYzM
+ to5rW9n7Pxbu2Gq08fyBlXLBtzjGVXS2ZqoOTk0nIwUSMD5HzgvYS+9gABPWBQpYHtlM
+ pgKBHTs9f3VmDq8I1Wq9E2hQbNqD8YW4cWlOFrGUcfQ/nUYCYcXr5rEpk/m0yAqGxGln
+ xx2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=29lIhgwefgZh29oZkUv7IA27hzI9002Q0phHV/evwM8=;
- b=iwJa9VYlrXusNq6K1Ko1Ucko0Ud3uAK0WDSnCzF+AuT2LKs4PVNmXsVBoA5MgeQROm
- 0zlP+mBbBZSgQUUJQw4Q9272k/KXo2ZzIky9+vLiyxhKtIux2mj/BXFMXCQ2HfgS0oSg
- 07b0zpP8KloisTRRzav+ERZ7hSSSU5YPeCQA/SNWObRfXtVJbC0pG8hhobC/WY9geSWX
- NNWNH2LWAZxyTg+J/71Sz+kYMHFM4tHT9Ed8zGzXy5m+yYTL9TV997jFOjflu9/f0lbP
- UslEYIkOU6DmsjWIDoXGFT0njC+egHPDBBSucWEpG5fcQRZy+C5b/Z7fURn425RBpsQ+
- jAsA==
-X-Gm-Message-State: APjAAAW17423Gotui9EXaMJBjMT3/xvLk3jrp76IFPuTdjT659SdIyVe
- yBRDYWTsodQibEDn4ONxZRc=
-X-Google-Smtp-Source: APXvYqx79QDCPfP9d6UpapUeSH3eWzJs5xRMbOY5Gr9cOBrzdExgG+Kx2Kog92unWwpaqyufFPksrA==
-X-Received: by 2002:a5d:4044:: with SMTP id w4mr18419271wrp.322.1579531144520; 
- Mon, 20 Jan 2020 06:39:04 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id u18sm47638957wrt.26.2020.01.20.06.39.03
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=BkbKFUYioYiccz4Tlq6NKyvQf4k2puHksCjJN5rFz3w=;
+ b=iPcOcwe08Lnh/KeMyf8HLsn/Cx4I/MBFX+nzSQS97/l5/HMTmHZhAPoXZnygS8e4Cw
+ +dYeVeDE0j9ZTISAZRxNVh0TVDNInaovL5F/JuumekESDC6kE3si6A9+n4giBYKGfUw6
+ M09M9aado855jDndugaHLL3eqcBqiZFuBk35In9nr5jK5DMrEeZOkkrX9CthRYE47mLB
+ Ea3aQICMHmN9WicFYqvk7PdpByfBo3h832zpU4oe91B7filRr9LGzJpcQu7wxnlf/OAi
+ 7ZEGsreO52bUnVuw/B7uVUeJArJqrMb9Iimd/xnxOhs4j/MsXreIpLyv5fPuxAFesuH7
+ Ugkw==
+X-Gm-Message-State: APjAAAWzLUli7XUGbUEdIgGzf1YcjHhxVkWF+nfiAbDORWYvtTfFdlEH
+ jc5Hxfnis6LKcs1ttgYAkd40pg==
+X-Google-Smtp-Source: APXvYqzZKcwUcn2e72PyNkFAjSmOOZqnjVZJdmVhggk0+OOHyONGUnFxIoBQFL9ZZliNxz6D5XgXHw==
+X-Received: by 2002:a7b:cb91:: with SMTP id m17mr18217348wmi.146.1579531301665; 
+ Mon, 20 Jan 2020 06:41:41 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s19sm23010503wmj.33.2020.01.20.06.41.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 06:39:03 -0800 (PST)
-Date: Mon, 20 Jan 2020 14:39:02 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: Proposal for handling .hx files with Sphinx
-Message-ID: <20200120143902.GI345995@stefanha-x1.localdomain>
-References: <CAFEAcA-_Y0Qaw-S83tMAph21opaDx-2y6aPbv5J_J0Bo4bgJuA@mail.gmail.com>
+ Mon, 20 Jan 2020 06:41:40 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BF12F1FF87;
+ Mon, 20 Jan 2020 14:41:39 +0000 (GMT)
+References: <20200116194341.402-1-richard.henderson@linaro.org>
+ <20200116194341.402-5-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 4/5] linux-user: Add x86_64 vsyscall page to
+ /proc/self/maps
+In-reply-to: <20200116194341.402-5-richard.henderson@linaro.org>
+Date: Mon, 20 Jan 2020 14:41:39 +0000
+Message-ID: <87tv4q197g.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MFZs98Tklfu0WsCO"
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-_Y0Qaw-S83tMAph21opaDx-2y6aPbv5J_J0Bo4bgJuA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,46 +83,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---MFZs98Tklfu0WsCO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-On Fri, Jan 17, 2020 at 05:30:43PM +0000, Peter Maydell wrote:
-> So I think my current view is that we should do the very
-> simple "add SRST/ERST directives" to start with:
->  * scripts/hxtool needs to recognize them and just ignore
->    the text inside them
->  * write the hxtool sphinx extension (shouldn't be too hard)
->  * conversion of any particular .hx file then involves
->    replacing the STEXI ...texi stuff... ETEXI sections with
->    SRST ...rst stuff... ERST. There's no need for any
->    particular .hx file to support both texi and rst output
->    at the same time
+> The page isn't (necessarily) present in the host /proc/self/maps,
+> and even if it might be it isn't present in page_flags, and even
+> if it was it might not have the same set of page permissions.
+>
+> The easiest thing to do, particularly when it comes to the
+> "[vsyscall]" note at the end of line, is to special case it.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/syscall.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 171c0caef3..eb867a5296 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -7005,6 +7005,15 @@ static int open_self_maps(void *cpu_env, int fd)
+>          }
+>      }
+>=20=20
+> +#ifdef TARGET_X86_64
+> +    /*
+> +     * We only support execution from the vsyscall page.
+> +     * This is as if CONFIG_LEGACY_VSYSCALL_XONLY=3Dy from v5.3.
+> +     */
+> +    dprintf(fd, "ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0"
+> +                "          [vsyscall]\n");
+> +#endif
+> +
 
-Nice idea, I was wondering how we were going to deal with .hx files.
+I'm not sure what whitespace is wrong - tabs maybe? But looking at a
+real vsyscall system vs emulated things line up better:
 
-Stefan
+  Welcome to Buildroot
+  buildroot login: root
+  # uname -a
+  Linux buildroot 5.4.13 #1 SMP Mon Jan 20 14:36:20 GMT 2020 x86_64 GNU/Lin=
+ux
+  # cat /proc/self/maps
+  00400000-004ab000 r-xp 00000000 00:02 7635                               =
+/bin/busybox
+  004ab000-004ac000 r-xp 000aa000 00:02 7635                               =
+/bin/busybox
+  004ac000-004ad000 rwxp 000ab000 00:02 7635                               =
+/bin/busybox
+  004ad000-004ae000 rwxp 00000000 00:00 0
+  7fcc91566000-7fcc91567000 rwxp 00000000 00:00 0
+  7fcc91567000-7fcc915de000 r-xp 00000000 00:02 7475                       =
+/lib/libuClibc-1.0.32.so
+  7fcc915de000-7fcc915df000 ---p 00000000 00:00 0
+  7fcc915df000-7fcc915e0000 r-xp 00077000 00:02 7475                       =
+/lib/libuClibc-1.0.32.so
+  7fcc915e0000-7fcc915e1000 rwxp 00078000 00:02 7475                       =
+/lib/libuClibc-1.0.32.so
+  7fcc915e1000-7fcc915fc000 rwxp 00000000 00:00 0
+  7fcc915fc000-7fcc91603000 r-xp 00000000 00:02 7480                       =
+/lib/ld64-uClibc-1.0.32.so
+  7fcc91603000-7fcc91604000 r-xp 00006000 00:02 7480                       =
+/lib/ld64-uClibc-1.0.32.so
+  7fcc91604000-7fcc91605000 rwxp 00007000 00:02 7480                       =
+/lib/ld64-uClibc-1.0.32.so
+  7ffd92001000-7ffd92022000 rwxp 00000000 00:00 0                          =
+[stack]
+  7ffd920c3000-7ffd920c6000 r--p 00000000 00:00 0                          =
+[vvar]
+  7ffd920c6000-7ffd920c7000 r-xp 00000000 00:00 0                          =
+[vdso]
+  ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  =
+[vsyscall]
+  # QEMU 4.2.50 monitor - type 'help' for more information
+  (qemu) quit
+  14:38:52 [alex.bennee@hackbox2:~/l/q/b/all] review/fix-user-brk|=E2=80=A6=
+ + ./x86_64-linux-user/qemu-x86_64 /bin/cat /proc/self/maps
+  4000000000-4000008000 r-xp 00000000 00:19 8131          /bin/cat
+  4000008000-4000207000 ---p 00000000 00:00 0
+  4000207000-4000208000 r--p 00007000 00:19 8131          /bin/cat
+  4000208000-4000209000 rw-p 00008000 00:19 8131          /bin/cat
+  4000209000-400022a000 rw-p 00000000 00:00 0
+  4001209000-400120a000 ---p 00000000 00:00 0
+  400120a000-4001a0a000 rw-p 00000000 00:00 0                [stack]
+  4001a0a000-4001a31000 r-xp 00000000 00:19 3644          /lib/x86_64-linux=
+-gnu/ld-2.27.so
+  4001a31000-4001c31000 ---p 00000000 00:00 0
+  4001c31000-4001c32000 r--p 00027000 00:19 3644          /lib/x86_64-linux=
+-gnu/ld-2.27.so
+  4001c32000-4001c33000 rw-p 00028000 00:19 3644          /lib/x86_64-linux=
+-gnu/ld-2.27.so
+  4001c33000-4001c36000 rw-p 00000000 00:00 0
+  4001c6d000-4001e54000 r-xp 00000000 00:19 3648          /lib/x86_64-linux=
+-gnu/libc-2.27.so
+  4001e54000-4002054000 ---p 001e7000 00:19 3648          /lib/x86_64-linux=
+-gnu/libc-2.27.so
+  4002054000-4002058000 r--p 001e7000 00:19 3648          /lib/x86_64-linux=
+-gnu/libc-2.27.so
+  4002058000-400205a000 rw-p 001eb000 00:19 3648          /lib/x86_64-linux=
+-gnu/libc-2.27.so
+  400205a000-4002060000 rw-p 00000000 00:00 0
+  4002060000-40023d2000 r--p 00000000 00:19 195276          /usr/lib/locale=
+/locale-archive
+  ffffffffff600000-ffffffffff601000 --xp 00000000 00:00 0          [vsyscal=
+l]
 
---MFZs98Tklfu0WsCO
-Content-Type: application/pgp-signature; name="signature.asc"
+>      free(line);
+>      fclose(fp);
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4lu4YACgkQnKSrs4Gr
-c8iYZwf/ZpMEEghDs+TuUD1nDd4birZJS7yummRhvLvGVrzi3I7gJountgW9b41q
-V33tbRmgeeGDL+LgKYC1Ewt4RYn1KbkL82FxtOe43evqyVbdoPCwWM586KlqhabN
-hjxXcGK/vshpC7ulbtUVKI+Zh9GTw3/6IpfyMLqPDJNm0eVbspxjTSeAY2ugnZNP
-GMuXyIm/Dory2yVaf7rWTHJg0xbE1KQCmtukgQma9U6dN7Gy5Cg491dTi+v26oET
-tTR7OMLckLbP2JxRvbInK+0a+9nZj2xDBMLoKkvwPXUv5JzhAM+mRl5kDvmsyVYk
-79uFL5D4SQn8INZq+d4lWBi2J/velw==
-=JUKB
------END PGP SIGNATURE-----
-
---MFZs98Tklfu0WsCO--
+--=20
+Alex Benn=C3=A9e
 
