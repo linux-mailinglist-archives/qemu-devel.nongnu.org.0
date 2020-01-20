@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48D1C1422E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 06:57:40 +0100 (CET)
-Received: from localhost ([::1]:58876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 184C71422F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 07:00:34 +0100 (CET)
+Received: from localhost ([::1]:58898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itQ4A-0000T6-HE
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 00:57:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
+	id 1itQ6y-00043x-Nb
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 01:00:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35136)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1itQ1P-0006pT-KM
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:54:48 -0500
+ (envelope-from <alxndr@bu.edu>) id 1itQ1L-0006jf-UR
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:54:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1itQ1O-0006IC-Fp
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:54:47 -0500
-Received: from mail-bn7nam10on2110.outbound.protection.outlook.com
- ([40.107.92.110]:23840 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (envelope-from <alxndr@bu.edu>) id 1itQ1K-0006EE-7z
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:54:43 -0500
+Received: from mail-bn7nam10on2099.outbound.protection.outlook.com
+ ([40.107.92.99]:53408 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1itQ1O-0006Gh-Ae
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:54:46 -0500
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1itQ1K-0006Cs-2K
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:54:42 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DCeSI3rXWPLC8/PicHQRvM2HzPjlz0WlEF541nmzfl1XlXO9zCVxRi9AvNkCds9/3plGFhOz1vxRo7wZv2tNqoGJIFK/5TB6OKk0Y+Xr9hf0u7PdoU0GqyKhNIVNJM2grGx655LGASvn/vY5NRYysfpn3zzIZPXm76gEMza53MLSma8lq2gt3Nuns6OxkFafCQ39PgLT38XHd1XugscuycyKq9Ee6KygV+G4LYXqSH1Q/fw1a5uzo4rpgL1NdDUIBYDISfq4y6DhXFLU/Ibt8rXUAzv4HP4mxW1wO0AMjDPRHwTv3+APFusPBQyN1cn7hASFGxJopkR10amSMHOxVw==
+ b=BfHav3OJ2V4QeQ0mqmSfUexG++8TF89LMybKVvaJUA/gSKJLCHv/TfnDECVBip1FHKTLT+U/fg6M4Ir/OZzqMmx5LwZYg4IYCiUJP03ia6EHGoxfjZM+Fy3TTDJf2V00tav7FxVeJGKdlGx9zPYjOJeHoSiDUxWeWArjwydbu0lVADh7ngc1KvhE5XHH6VqPTCzzdZY/9SYlqo2gvXivRvUdZIaPh7IKgiGF8gqr5NMprMaSAdv3fZZ39C1+VoUMn3eZBYlzKyzf/M2C97e33wq2avI59QoHWUwHqOPPMPRUKJ7J9cu5GVAFAQuFW7zbOgWFFaifKrb1mweWGEEn3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZKcOoJCL17pZWw8iaVvIqTC73gmiBUaK4eT5muvua7g=;
- b=mxrWVcp6ysq2hxpsStavM3UBU/Ld/xeWppJC9KFuMTFkjeBgRwQZADHjZWg9iDYAR+xmwUBj87VzcPPeQdLZIDwMfbXmOdnOIBoDSZ1ER7ViWE3y6vg7lOVh3ZwaZ0JLt75/ko8RHt5ed3psVy/mbeWVvY7FB8Qpul9LrsgVPpVi1WpojXLfm8NUlPxMwCKWNO/F7X5m59f26TAXFtWJH+Z/8YQbmT8cJUO7gdN5NfVQB1J/iZltJGRS3gAsBgYhB6Cm4X5SXCW4V6ZtgxjpbubyjfgSrPvhC3c8wP+IoDyg4fgQXE6nTP2EQvqq92nQ6weaZ+Z4bFJcu6Spee9QqA==
+ bh=AUyxkMgSXmZiu/Rc1nJfJkjjXVUMnmlDUGvnTkwt2jI=;
+ b=QHjtUgRcqlSIU5dp2v7avuqncRwIGiNWT4nUYZAr/WxSNJJOD0jnZm3BxosL+crVAqS1vsaim39dzhWjBkADFCFpYV3/EL5FbreI0C6oQDZMGuJLLylvKdVOUfhMtG+juQG/hj7rsIY/EufqmC+7GBBbD4xn6s9z/9AP9LAbACEE99fmLtk9Hj5LZ4Svh/UVbPyJb7HMAPWinJSDoKnPxTyRV39A24eo3HQU4eUyimwLgEuLap8E/PUbDKl/oNmBcCbFEFq11joJ9rfepiv6RCN2Oipqh7ZeMg4vlgrAj9Xm8nECF3w1vWOBKv5hGF4FtNs7RaHYd8R/boRJ1bX4Cg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZKcOoJCL17pZWw8iaVvIqTC73gmiBUaK4eT5muvua7g=;
- b=x96VEo9Er0IXWCLqFjFS4DcfLEb9Wpc2baQ3wRbivaG5x71ecMA9H3tA45rhQ2X1KS7G6g13CwerW68Fm7oLHeYKuFrb4wSlQHW/Ph3z0jPBhTLGLJE7lBBDwAZDb/mO8l5HltqY2isBVzqBvG1JwuXbcejp/KiKWpEUq+J1Bhw=
+ bh=AUyxkMgSXmZiu/Rc1nJfJkjjXVUMnmlDUGvnTkwt2jI=;
+ b=IDSh7trzoWXoUFSyKmWKHW9JZqeW4YccW4kRxPCNM+y1MigunsyqhWRns7OM9TCwuvV13NnHixs0OG9h9mzqmiYZe3U0gbOVPa2VRvSqfamLdvFfD5Nh1ttLfm43ONxhj80tniI/feruS+RtkfRtOMDFpqhXKcIRlYgmuIW6x00=
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (52.135.102.32) by
  SN6PR03MB4399.namprd03.prod.outlook.com (20.178.6.20) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.23; Mon, 20 Jan 2020 05:54:45 +0000
+ 15.20.2644.23; Mon, 20 Jan 2020 05:54:41 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8%7]) with mapi id 15.20.2644.024; Mon, 20 Jan 2020
- 05:54:45 +0000
+ 05:54:41 +0000
 Received: from mozz.bu.edu (128.197.127.33) by
  MN2PR20CA0032.namprd20.prod.outlook.com (2603:10b6:208:e8::45) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.20 via Frontend Transport; Mon, 20 Jan 2020 05:54:44 +0000
+ 15.20.2644.20 via Frontend Transport; Mon, 20 Jan 2020 05:54:37 +0000
 From: "Bulekov, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: [PATCH v7 04/20] qtest: add qtest_server_send abstraction
-Thread-Topic: [PATCH v7 04/20] qtest: add qtest_server_send abstraction
-Thread-Index: AQHVz1YdkBRcp/nvekGe+H+4f1sQyg==
-Date: Mon, 20 Jan 2020 05:54:45 +0000
-Message-ID: <20200120055410.22322-6-alxndr@bu.edu>
+Subject: [PATCH v7 01/20] softmmu: split off vl.c:main() into main.c
+Thread-Topic: [PATCH v7 01/20] softmmu: split off vl.c:main() into main.c
+Thread-Index: AQHVz1YZvX5VLYzcBUSUoT2caaa2xw==
+Date: Mon, 20 Jan 2020 05:54:38 +0000
+Message-ID: <20200120055410.22322-2-alxndr@bu.edu>
 References: <20200120055410.22322-1-alxndr@bu.edu>
 In-Reply-To: <20200120055410.22322-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -69,11 +69,11 @@ x-clientproxiedby: MN2PR20CA0032.namprd20.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c0af5f6b-a531-4a69-a917-08d79d6d4010
+x-ms-office365-filtering-correlation-id: 56d109b1-d738-4206-6562-08d79d6d3c28
 x-ms-traffictypediagnostic: SN6PR03MB4399:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR03MB4399BCB0E3BB5B79DAC043ADBA320@SN6PR03MB4399.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-microsoft-antispam-prvs: <SN6PR03MB439914DEDFEDA5C668F73923BA320@SN6PR03MB4399.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
 x-forefront-prvs: 0288CD37D9
 x-forefront-antispam-report: SFV:NSPM;
  SFS:(10019020)(4636009)(136003)(366004)(39860400002)(346002)(376002)(396003)(189003)(199004)(5660300002)(956004)(2616005)(8936002)(86362001)(6916009)(6486002)(7696005)(1076003)(52116002)(316002)(71200400001)(16526019)(186003)(786003)(478600001)(2906002)(26005)(81166006)(66946007)(66476007)(64756008)(36756003)(8676002)(75432002)(81156014)(66446008)(4326008)(66556008)(54906003);
@@ -84,20 +84,20 @@ received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bxfh8wO6frw/oVbZkEu3yjqGAjUa/Hy1EbiFD/tv5mXjjfyFekNs6TzuaB9kcEMulR6+wTo6QofYmE+obDyJrv6zg+327LTWYyDnYq2l+euJKaPuS6t1NPMWBoTqb1eAv7kkYrleyllbllvyNRlfMJNeMSaFDMOCC9BhT4+fyHhwYZ3kN5m3G0cwoDZuQ7GDE6CvhiG0KWWgS6jEoPWV+04HgSnmgA6itDTrCUcVqOOMnTk+2hYqI3dTTCzFjnREd6lHFn8KIShR9GJrm3YcOVkcavPZjb17cZDpE0rB1ejo1SggB/U9OxJdkbKZHAAszp/EGPxP/fbSmoMmFCwDZXg6+g5KD4lVkBrOxUOtT7m9RXrPlhk4eNCbETBuS7odd8tc16JYkFpoox20O35i9ZrxV+Fgu9q1/E3++6u5pRhJIsiDEVXBBRZhH5UbPnAt
+x-microsoft-antispam-message-info: JPdP9/2DpAUH+yw0vuf9TVhjJCxm106nijbAzRWxtw165sK0jVhPJLc9+GoZfs/eQoSGgHORgznNgbeH3XX6eVz0Nk8ZjQbKe1WQlVpGqMV3ULtNukOdPaLTjBOEBXnv2bldd8YPClSeI26I8AQdFzKUcbyUtjOW/9qeW5MrmugPcJ9+1g09AUZc0EU48Yw9bvK4Uad2W2UsEdS2TmEGVJuPxw2Kwc3QGuLWQobCGKuWusso86Bbws31iv+s0EBGcCnDYZ6wBb26VrbNvX1FL3kKQ6EKY38i1MjK2j8oF9/zS0bzPoTtPDes2CW4IKdesjdiOFkGcZm2jpKYRArjMVNlVo/AiYJbqCeFZ/W+o8pYzKDfMyckR+eVKto/Jy3+HpIaBMkptwX8u6m1ztRxrq1o+64yRkvOejvg3OxruLFViWw75+8yAbo4/Vg6GGLd
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0af5f6b-a531-4a69-a917-08d79d6d4010
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2020 05:54:45.1872 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56d109b1-d738-4206-6562-08d79d6d3c28
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2020 05:54:38.7897 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VxW6CNDIOYogVsRl453OzGE6VCFHIRSff8u195CP2q6wPSkWMhK9irHjJi7GCU6Y
+X-MS-Exchange-CrossTenant-userprincipalname: E9AqJA0Ajzf/AalcJHzZTx34M7+kxEOVY8dJQpJZgVX2k93v26sKOFg+rL1uU7Hv
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4399
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.92.110
+X-Received-From: 40.107.92.99
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,96 +109,259 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Bulekov, Alexander" <alxndr@bu.edu>, "bsd@redhat.com" <bsd@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
+ "Bulekov, Alexander" <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qtest_server_send is a function pointer specifying the handler used to
-transmit data to the qtest client. In the standard configuration, this
-calls the CharBackend handler, but now it is possible for other types of
-handlers, e.g direct-function calls if the qtest client and server
-exist within the same process (inproc)
+A program might rely on functions implemented in vl.c, but implement its
+own main(). By placing main into a separate source file, there are no
+complaints about duplicate main()s when linking against vl.o. For
+example, the virtual-device fuzzer uses a main() provided by libfuzzer,
+and needs to perform some initialization before running the softmmu
+initialization. Now, main simply calls three vl.c functions which
+handle the guest initialization, main loop and cleanup.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
 ---
- include/sysemu/qtest.h |  3 +++
- qtest.c                | 18 ++++++++++++++++--
- 2 files changed, 19 insertions(+), 2 deletions(-)
+ Makefile                |  1 +
+ Makefile.objs           |  2 ++
+ Makefile.target         |  2 +-
+ include/sysemu/sysemu.h |  4 ++++
+ main.c                  | 53 +++++++++++++++++++++++++++++++++++++++++
+ vl.c                    | 38 ++++++++---------------------
+ 6 files changed, 71 insertions(+), 29 deletions(-)
+ create mode 100644 main.c
 
-diff --git a/include/sysemu/qtest.h b/include/sysemu/qtest.h
-index 5ed09c80b1..e2f1047fd7 100644
---- a/include/sysemu/qtest.h
-+++ b/include/sysemu/qtest.h
-@@ -26,4 +26,7 @@ bool qtest_driver(void);
+diff --git a/Makefile b/Makefile
+index 32bd554480..e6de7a47bb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -473,6 +473,7 @@ $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
+ $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
+ $(SOFTMMU_ALL_RULES): $(io-obj-y)
+ $(SOFTMMU_ALL_RULES): config-all-devices.mak
++$(SOFTMMU_ALL_RULES): $(softmmu-main-y)
+ ifdef DECOMPRESS_EDK2_BLOBS
+ $(SOFTMMU_ALL_RULES): $(edk2-decompressed)
+ endif
+diff --git a/Makefile.objs b/Makefile.objs
+index 7c1e50f9d6..5ab166fed5 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -84,6 +84,8 @@ common-obj-$(CONFIG_FDT) +=3D device_tree.o
+ # qapi
 =20
- void qtest_server_init(const char *qtest_chrdev, const char *qtest_log, Er=
-ror **errp);
-=20
-+void qtest_server_set_send_handler(void (*send)(void *, const char *),
-+                                 void *opaque);
+ common-obj-y +=3D qapi/
 +
- #endif
-diff --git a/qtest.c b/qtest.c
-index 12432f99cf..938c3746d6 100644
---- a/qtest.c
-+++ b/qtest.c
-@@ -42,6 +42,8 @@ static GString *inbuf;
- static int irq_levels[MAX_IRQ];
- static qemu_timeval start_time;
- static bool qtest_opened;
-+static void (*qtest_server_send)(void*, const char*);
-+static void *qtest_server_send_opaque;
++softmmu-obj-y =3D main.o
+ endif
 =20
- #define FMT_timeval "%ld.%06ld"
+ #######################################################################
+diff --git a/Makefile.target b/Makefile.target
+index 6e61f607b1..8dcf3dddd8 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -202,7 +202,7 @@ endif
+ COMMON_LDADDS =3D ../libqemuutil.a
 =20
-@@ -228,8 +230,10 @@ static void GCC_FMT_ATTR(1, 2) qtest_log_send(const ch=
-ar *fmt, ...)
-     va_end(ap);
- }
+ # build either PROG or PROGW
+-$(QEMU_PROG_BUILD): $(all-obj-y) $(COMMON_LDADDS)
++$(QEMU_PROG_BUILD): $(all-obj-y) $(COMMON_LDADDS) $(softmmu-obj-y)
+ 	$(call LINK, $(filter-out %.mak, $^))
+ ifdef CONFIG_DARWIN
+ 	$(call quiet-command,Rez -append $(SRC_PATH)/pc-bios/qemu.rsrc -o $@,"REZ=
+","$(TARGET_DIR)$@")
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 80c57fdc4e..270df5fa34 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -118,6 +118,10 @@ QemuOpts *qemu_get_machine_opts(void);
 =20
--static void do_qtest_send(CharBackend *chr, const char *str, size_t len)
-+static void qtest_server_char_be_send(void *opaque, const char *str)
- {
-+    size_t len =3D strlen(str);
-+    CharBackend* chr =3D (CharBackend *)opaque;
-     qemu_chr_fe_write_all(chr, (uint8_t *)str, len);
-     if (qtest_log_fp && qtest_opened) {
-         fprintf(qtest_log_fp, "%s", str);
-@@ -238,7 +242,7 @@ static void do_qtest_send(CharBackend *chr, const char =
-*str, size_t len)
+ bool defaults_enabled(void);
 =20
- static void qtest_send(CharBackend *chr, const char *str)
- {
--    do_qtest_send(chr, str, strlen(str));
-+    qtest_server_send(qtest_server_send_opaque, str);
- }
-=20
- static void GCC_FMT_ATTR(2, 3) qtest_sendf(CharBackend *chr,
-@@ -783,6 +787,16 @@ void qtest_server_init(const char *qtest_chrdev, const=
- char *qtest_log, Error **
-     qemu_chr_fe_set_echo(&qtest_chr, true);
-=20
-     inbuf =3D g_string_new("");
++void qemu_init(int argc, char **argv, char **envp);
++void qemu_main_loop(void);
++void qemu_cleanup(void);
 +
-+    if (!qtest_server_send) {
-+        qtest_server_set_send_handler(qtest_server_char_be_send, &qtest_ch=
-r);
-+    }
-+}
+ extern QemuOptsList qemu_legacy_drive_opts;
+ extern QemuOptsList qemu_common_drive_opts;
+ extern QemuOptsList qemu_drive_opts;
+diff --git a/main.c b/main.c
+new file mode 100644
+index 0000000000..f10ceda541
+--- /dev/null
++++ b/main.c
+@@ -0,0 +1,53 @@
++/*
++ * QEMU System Emulator
++ *
++ * Copyright (c) 2003-2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a=
+ copy
++ * of this software and associated documentation files (the "Software"), t=
+o deal
++ * in the Software without restriction, including without limitation the r=
+ights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
+ll
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included=
+ in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
+ OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
+,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
+HER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
+ FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
+IN
++ * THE SOFTWARE.
++ */
 +
-+void qtest_server_set_send_handler(void (*send)(void*, const char*), void =
-*opaque)
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "sysemu/sysemu.h"
++
++#ifdef CONFIG_SDL
++#if defined(__APPLE__) || defined(main)
++#include <SDL.h>
++int main(int argc, char **argv)
 +{
-+    qtest_server_send =3D send;
-+    qtest_server_send_opaque =3D opaque;
++    return qemu_main(argc, argv, NULL);
++}
++#undef main
++#define main qemu_main
++#endif
++#endif /* CONFIG_SDL */
++
++#ifdef CONFIG_COCOA
++#undef main
++#define main qemu_main
++#endif /* CONFIG_COCOA */
++
++int main(int argc, char **argv, char **envp)
++{
++    qemu_init(argc, argv, envp);
++    qemu_main_loop();
++    qemu_cleanup();
++
++    return 0;
++}
+diff --git a/vl.c b/vl.c
+index 751401214c..132a41ac0f 100644
+--- a/vl.c
++++ b/vl.c
+@@ -36,25 +36,6 @@
+ #include "sysemu/seccomp.h"
+ #include "sysemu/tcg.h"
+=20
+-#ifdef CONFIG_SDL
+-#if defined(__APPLE__) || defined(main)
+-#include <SDL.h>
+-int qemu_main(int argc, char **argv, char **envp);
+-int main(int argc, char **argv)
+-{
+-    return qemu_main(argc, argv, NULL);
+-}
+-#undef main
+-#define main qemu_main
+-#endif
+-#endif /* CONFIG_SDL */
+-
+-#ifdef CONFIG_COCOA
+-#undef main
+-#define main qemu_main
+-#endif /* CONFIG_COCOA */
+-
+-
+ #include "qemu/error-report.h"
+ #include "qemu/sockets.h"
+ #include "sysemu/accel.h"
+@@ -1657,7 +1638,7 @@ static bool main_loop_should_exit(void)
+     return false;
  }
 =20
- bool qtest_driver(void)
+-static void main_loop(void)
++void qemu_main_loop(void)
+ {
+ #ifdef CONFIG_PROFILER
+     int64_t ti;
+@@ -2820,7 +2801,7 @@ static void configure_accelerators(const char *progna=
+me)
+     }
+ }
+=20
+-int main(int argc, char **argv, char **envp)
++void qemu_init(int argc, char **argv, char **envp)
+ {
+     int i;
+     int snapshot, linux_boot;
+@@ -3372,7 +3353,7 @@ int main(int argc, char **argv, char **envp)
+             case QEMU_OPTION_watchdog:
+                 if (watchdog) {
+                     error_report("only one watchdog option may be given");
+-                    return 1;
++                    exit(1);
+                 }
+                 watchdog =3D optarg;
+                 break;
+@@ -3813,7 +3794,7 @@ int main(int argc, char **argv, char **envp)
+     set_memory_options(&ram_slots, &maxram_size, machine_class);
+=20
+     os_daemonize();
+-    rcu_disable_atfork();
++    /* rcu_disable_atfork(); */
+=20
+     if (pid_file && !qemu_write_pidfile(pid_file, &err)) {
+         error_reportf_err(err, "cannot create PID file: ");
+@@ -4284,7 +4265,7 @@ int main(int argc, char **argv, char **envp)
+     parse_numa_opts(current_machine);
+=20
+     /* do monitor/qmp handling at preconfig state if requested */
+-    main_loop();
++    qemu_main_loop();
+=20
+     audio_init_audiodevs();
+=20
+@@ -4394,7 +4375,7 @@ int main(int argc, char **argv, char **envp)
+     if (vmstate_dump_file) {
+         /* dump and exit */
+         dump_vmstate_json_to_file(vmstate_dump_file);
+-        return 0;
++        exit(0);
+     }
+=20
+     if (incoming) {
+@@ -4411,8 +4392,11 @@ int main(int argc, char **argv, char **envp)
+     accel_setup_post(current_machine);
+     os_setup_post();
+=20
+-    main_loop();
++    return;
++}
+=20
++void qemu_cleanup(void)
++{
+     gdbserver_cleanup();
+=20
+     /*
+@@ -4449,6 +4433,4 @@ int main(int argc, char **argv, char **envp)
+     qemu_chr_cleanup();
+     user_creatable_cleanup();
+     /* TODO: unref root container, check all devices are ok */
+-
+-    return 0;
+ }
 --=20
 2.23.0
 
