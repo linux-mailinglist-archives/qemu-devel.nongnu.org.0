@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011CB142E8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 16:14:11 +0100 (CET)
-Received: from localhost ([::1]:38432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A106E142E8B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 16:14:08 +0100 (CET)
+Received: from localhost ([::1]:38424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itYkj-00020P-HC
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 10:14:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47485)
+	id 1itYkh-0001vW-2q
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 10:14:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47491)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1itYiV-0000EV-6G
+ (envelope-from <peter.maydell@linaro.org>) id 1itYiV-0000EY-AL
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:11:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1itYiS-0008LS-U3
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:11:50 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56290)
+ (envelope-from <peter.maydell@linaro.org>) id 1itYiU-0008M1-04
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:11:51 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38121)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1itYiS-0008Ku-Nh
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:11:48 -0500
-Received: by mail-wm1-x341.google.com with SMTP id q9so14836617wmj.5
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 07:11:48 -0800 (PST)
+ id 1itYiT-0008Lg-Qf
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:11:49 -0500
+Received: by mail-wm1-x341.google.com with SMTP id u2so15064606wmc.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 07:11:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lFQzfIG2mcQ6kNeefaXxZhlvNs2iYmZJDouckBmIIpc=;
- b=vqNimJ0At+FFrlAxtDqqIOsPP3vVEClKiIK40Jh+f6gAl5NDmVGqOvgN+qJm2ahCJ8
- ywVW9YkfFdjCQ21/N7xCHxMWZfH4W62xDXNm9u2mdacnSkEisxZl+ucdFLwrfQYVEd7J
- wTRJPVTgKZDhi5xk8NgTdVkwjOXk26XNtcfXZtvvhQHE2VZWRsnjQ6mH/kvgSQmo5OQ/
- UsExVjcKUISYtKFlxLJpTOBYwiV7FP614X41DhWQ5/f4II87EV8kA6twFNHEKmEF/eMw
- ABZF6FMBUt2oFCPG+5f4g8oFXah12HgpvjTtm3ap4fcAS3f6phcdRD1L0Ega1dYVXNKG
- D9pQ==
+ bh=kyP6q/PhV5q+RaHRDmSj+IKiauIeyDHvRutDmqUe9TM=;
+ b=gmFWvdMVHZdDdkLnWlhAd6LBFtHjJ/H4BfnvWeviQe6SELJfIDInXNrzWP/zhQD0jl
+ Dyqvt6vrFSSSj7aE8MLfZnScGF3lFqpWLuUO1lJ6U/KN0zVpepR3tc2bILRUfpNdH1h2
+ o31ZZap1E19pHzPFLgaPVIZZn33LytsE+WjOFTCgBqppJj67/4qgwYfC9UIwxNjAKLI+
+ EYefjjYyqsSILgC5TTl88DkGY78Cz1hiIdEAA5ZGL91CmSqfN4b0NpEvqSfs8GMuVjxE
+ YHlO0VHkHCTYq2lpgcdPaVsKZu0T6cNug9V3OzLLlKF9KFiTt5CkIl6y971a/gY4FeSC
+ jNRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lFQzfIG2mcQ6kNeefaXxZhlvNs2iYmZJDouckBmIIpc=;
- b=LyikOUtC6O4IRXOvwphWf3lstQ5MjfSEE5/TZ57QZlvPK0OTZaAVTPeA6/I1nGlzHx
- +jCr4YrVAIFntsmY4pZBMzWYePdk7I/KqGwzEAaD2sRlFedQabBilEMaNJ3TbK7FfHiz
- ry/1skpxVs7nDKVrQ0D/zHl8BS5kKRv9NWmKbyZYUlf6Q76kLxTDctMnIpAGTyUrDpcQ
- ECE620H90SWeKlNDROawEbaeXuExB2XIkWHAMUOtMFSftU3WgjReazTFPW7P/tvaN5YV
- 4PnmABqf3UdSKROo4j8YHxm8Uh7qqJzHJQuAfvJ6PXeAuZuqd5kvntPPCtQiObZyyAgi
- B73A==
-X-Gm-Message-State: APjAAAV+IMa3+EE5EbuCFBBhBr7x0JE/phK4osFSB2hNgEatTdMH0FEx
- 3vdslm/ThykowLNlnTy5H9iXpak0za9VDA==
-X-Google-Smtp-Source: APXvYqwJLCNFlH9TcBMEgbH1cVAa0YxainPc5CrQuDd7NwiWU2NzgfNcesUORoZpdqRAKfIsaWTB/w==
-X-Received: by 2002:a05:600c:251:: with SMTP id
- 17mr19314860wmj.88.1579533107363; 
- Mon, 20 Jan 2020 07:11:47 -0800 (PST)
+ bh=kyP6q/PhV5q+RaHRDmSj+IKiauIeyDHvRutDmqUe9TM=;
+ b=mksCwcXMVZQPyAOe1uR69+9AkDSRLRLITQw+GRFIsmszYO/67Qg8YPGjiCzElZtpke
+ Eoci9Pk+bHeaiA/TTb14+sJEnUAHOmCWHxm4zNv/c+CDYvj7094aTpBdp4eINzUCGArN
+ 4yLaCVrOi2eOotT2V0J04egEPuOEiMeakeihYjyGs0wwNZcU2yA5Ux+ban98ORr3vFCV
+ C3ncuPzUxUANb9k1a4i4hADCFMxtpm3cA5brxWbe/FymqLf+3smgH0QJ7ldOOBpBTQ2B
+ ZjbkBAlVNJfD9erKQREKbpk6zJUPY4+CKSXACN+nbl6l1zqPGjovULiokLaVUAP0pduA
+ +tCQ==
+X-Gm-Message-State: APjAAAX5+ccuLLP9Bf2t2XS4N3dbEU23cykOuL+vIzdA8maUfsCJmhhH
+ AkMCsQvYjmqkme/WFyExVk1SvoxXrkJiQw==
+X-Google-Smtp-Source: APXvYqyc80UUcu6KJhT1DViU45TyXQ/wVJ4FpXqlR8NsLjJUxtTzatzrz9EFpMW0aj+uH5c9IhYHCg==
+X-Received: by 2002:a05:600c:21ce:: with SMTP id
+ x14mr19142404wmj.120.1579533108520; 
+ Mon, 20 Jan 2020 07:11:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f17sm817919wmc.8.2020.01.20.07.11.46
+ by smtp.gmail.com with ESMTPSA id f17sm817919wmc.8.2020.01.20.07.11.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 07:11:46 -0800 (PST)
+ Mon, 20 Jan 2020 07:11:47 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] memory.c: Use trace_event_get_state_backends()
-Date: Mon, 20 Jan 2020 15:11:41 +0000
-Message-Id: <20200120151142.18954-3-peter.maydell@linaro.org>
+Subject: [PATCH 3/3] hw/display/qxl.c: Use trace_event_get_state_backends()
+Date: Mon, 20 Jan 2020 15:11:42 +0000
+Message-Id: <20200120151142.18954-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200120151142.18954-1-peter.maydell@linaro.org>
 References: <20200120151142.18954-1-peter.maydell@linaro.org>
@@ -87,54 +87,26 @@ The preferred way to test whether a trace event is enabled is to
 use trace_event_get_state_backends(), because this will give the
 correct answer (allowing expensive computations to be skipped)
 whether the trace event is compile-time or run-time disabled.
-Convert the four old-style direct uses of TRACE_FOO_ENABLED in
-memory.c.
+Convert the old-style direct use of TRACE_FOO_ENABLED.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- memory.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/display/qxl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/memory.c b/memory.c
-index d7b9bb6951f..0baafe1fa90 100644
---- a/memory.c
-+++ b/memory.c
-@@ -434,7 +434,7 @@ static MemTxResult  memory_region_read_accessor(MemoryRegion *mr,
-     tmp = mr->ops->read(mr->opaque, addr, size);
-     if (mr->subpage) {
-         trace_memory_region_subpage_read(get_cpu_index(), mr, addr, tmp, size);
--    } else if (TRACE_MEMORY_REGION_OPS_READ_ENABLED) {
-+    } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_READ)) {
-         hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
-         trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size);
-     }
-@@ -456,7 +456,7 @@ static MemTxResult memory_region_read_with_attrs_accessor(MemoryRegion *mr,
-     r = mr->ops->read_with_attrs(mr->opaque, addr, &tmp, size, attrs);
-     if (mr->subpage) {
-         trace_memory_region_subpage_read(get_cpu_index(), mr, addr, tmp, size);
--    } else if (TRACE_MEMORY_REGION_OPS_READ_ENABLED) {
-+    } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_READ)) {
-         hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
-         trace_memory_region_ops_read(get_cpu_index(), mr, abs_addr, tmp, size);
-     }
-@@ -476,7 +476,7 @@ static MemTxResult memory_region_write_accessor(MemoryRegion *mr,
- 
-     if (mr->subpage) {
-         trace_memory_region_subpage_write(get_cpu_index(), mr, addr, tmp, size);
--    } else if (TRACE_MEMORY_REGION_OPS_WRITE_ENABLED) {
-+    } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_WRITE)) {
-         hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
-         trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size);
-     }
-@@ -496,7 +496,7 @@ static MemTxResult memory_region_write_with_attrs_accessor(MemoryRegion *mr,
- 
-     if (mr->subpage) {
-         trace_memory_region_subpage_write(get_cpu_index(), mr, addr, tmp, size);
--    } else if (TRACE_MEMORY_REGION_OPS_WRITE_ENABLED) {
-+    } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_WRITE)) {
-         hwaddr abs_addr = memory_region_to_absolute_addr(mr, addr);
-         trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size);
-     }
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index 6d43b7433cf..80a4dcc40e4 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -1764,7 +1764,7 @@ async_common:
+         qxl_set_mode(d, val, 0);
+         break;
+     case QXL_IO_LOG:
+-        if (TRACE_QXL_IO_LOG_ENABLED || d->guestdebug) {
++        if (trace_event_get_state_backends(TRACE_QXL_IO_LOG) || d->guestdebug) {
+             /* We cannot trust the guest to NUL terminate d->ram->log_buf */
+             char *log_buf = g_strndup((const char *)d->ram->log_buf,
+                                       sizeof(d->ram->log_buf));
 -- 
 2.20.1
 
