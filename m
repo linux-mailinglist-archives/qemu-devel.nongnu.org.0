@@ -2,44 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77240142F5B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 17:12:13 +0100 (CET)
-Received: from localhost ([::1]:39246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F41142F69
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 17:15:51 +0100 (CET)
+Received: from localhost ([::1]:39302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itZeu-0005Dt-4G
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 11:12:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55987)
+	id 1itZiQ-0007xR-TM
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 11:15:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56534)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1itZdF-0003zy-Os
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:10:33 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1itZhO-0007LJ-LO
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:14:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Filip.Bozuta@rt-rk.com>) id 1itZdB-0005Ld-O4
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:10:29 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:43142 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
- id 1itZdB-0004bq-9d
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:10:25 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 2E5B31A20EF;
- Mon, 20 Jan 2020 17:09:20 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
- [10.10.14.93])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 086611A2107;
- Mon, 20 Jan 2020 17:09:20 +0100 (CET)
-From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] tests/tcg/multiarch: Add tests for implemented alsa sound
- timer ioctls
-Date: Mon, 20 Jan 2020 17:09:14 +0100
-Message-Id: <1579536554-30701-3-git-send-email-Filip.Bozuta@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1579536554-30701-1-git-send-email-Filip.Bozuta@rt-rk.com>
-References: <1579536554-30701-1-git-send-email-Filip.Bozuta@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+ (envelope-from <vsementsov@virtuozzo.com>) id 1itZhN-0007l3-DF
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:14:46 -0500
+Received: from mail-am5eur02on070a.outbound.protection.outlook.com
+ ([2a01:111:f400:fe07::70a]:35651
+ helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1itZhM-0007jv-P5; Mon, 20 Jan 2020 11:14:45 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fj3NRMD9pZBUvfK+AyiAbye2iACFC5ihhc1lbJLY3FahQwagHu1Ma5eK3oHz6RcjTTVcjt5qEDXqbLnSJSlGc9tpublvnktNEDdnomwbV8UGjutgGwmFZFUtuf6kqQ7Lx4j3WPotFpq0qt9vBRlNlGRLnh5Lh9cHQSuAMKIpVMhf7/ITlnPX7AVssv6ytvoJC306dxcBh4fnPM/vsr+A20mwCi1Anb/ScnP4seSHf7F4nneGKyGZdDj02PDEYQE8ErJCf++US8mPmT367KdNP1SJzXGzj4rmkX/DTEee/p0y8q5QxhjBumbgcTnVjllFTRDn9P/Ojw3m6TyMy9uw7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8HJKKrVgNQL3Kr+DJbw3Zj9imMrRocnyYsWydUgRpg8=;
+ b=DrBBi1YOkXYGeUmWmVuMsF+Rnl17MLB6/cTM9BPYssEhrlCT3AsDPXqHAw370X/TPN+6AQ2QJ+Z0l78ERFh1vOLhAzItjPv4nWePPtFWdcNXcSmxWXjvFpkNPfPxtxeGwKCRdDSyVqW644fkQ1ckGN4U4zOwNMwrCHhvX1DAAKvGssUjOCehG7RkewdRdof3/71cORK5rQMHrbLij+niuACoS3u6c+YeUZ6AZew/PZP20t7LLWdAPV/0wwkHrNvcFFIDu8q5yPcj0UNdWjeYvcMoJBxiPTAOPwWzMDacBjWbJ3K+vZ/qlGYnT1tctC+eD9FF36qog6iSd4qxekjiLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8HJKKrVgNQL3Kr+DJbw3Zj9imMrRocnyYsWydUgRpg8=;
+ b=UW+n0bv3INbitoe9aTUSaByyqTg/z6PcAs0XRS3ptw4dhhKXNw3R6GfjDCh1U94aUA0x3k65h4T921/xljeAEVHqKCMlVmd+3oXB4M5hBhnXh580MzP44yB7jnk7LLPop58gF8iQ33mXNXCGZ8BiHTT0UlwyyaQqwrMQ43nt7RU=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB3272.eurprd08.prod.outlook.com (52.135.167.155) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2644.23; Mon, 20 Jan 2020 16:14:41 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2644.026; Mon, 20 Jan 2020
+ 16:14:41 +0000
+Received: from [172.16.24.200] (185.231.240.5) by
+ AM0PR10CA0058.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::38) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.18 via Frontend
+ Transport; Mon, 20 Jan 2020 16:14:40 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Subject: Re: [PATCH v3 02/10] hbitmap: move hbitmap_iter_next_word to hbitmap.c
+Thread-Topic: [PATCH v3 02/10] hbitmap: move hbitmap_iter_next_word to
+ hbitmap.c
+Thread-Index: AQHVtlOgfdptnmLCCUWOJLO9xdm00Kfzk4CAgABZRQA=
+Date: Mon, 20 Jan 2020 16:14:41 +0000
+Message-ID: <126d11e5-6be5-ae12-56ca-ca520ca28b3e@virtuozzo.com>
+References: <20191219100348.24827-1-vsementsov@virtuozzo.com>
+ <20191219100348.24827-3-vsementsov@virtuozzo.com>
+ <027f0bec-8373-9d61-c713-ad5b7e04eef8@redhat.com>
+In-Reply-To: <027f0bec-8373-9d61-c713-ad5b7e04eef8@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: AM0PR10CA0058.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:150::38) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20200120191438635
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f9102c96-a8e8-4ffc-15c7-08d79dc3dade
+x-ms-traffictypediagnostic: AM6PR08MB3272:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM6PR08MB32722C428FBA3FC04D815CADC1320@AM6PR08MB3272.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0288CD37D9
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(396003)(366004)(39840400004)(136003)(376002)(199004)(189003)(66556008)(66476007)(2906002)(4326008)(478600001)(110136005)(66946007)(64756008)(6486002)(316002)(36756003)(16576012)(54906003)(66446008)(53546011)(81156014)(8676002)(81166006)(52116002)(31696002)(86362001)(31686004)(8936002)(107886003)(186003)(956004)(2616005)(16526019)(26005)(5660300002)(71200400001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3272;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: yBFONuW2kjKciYoju+s9BKl2RQIfMrgUDQEYlHHJF/83EEn0qe5MikOLxHCz1RiFtVL3DJAW8jQ9v2fM5PUkpZjN0dbBDDOqD8gQ1m2MJKkt0ke7J1f76gWrGbv+acp6HmJQGJE5lBrGMfZWD6FOTJyKKtpkxlM6JmWn2/nAPRCL9BXG59+hDVDLvztNut7TZJAzktBZkR2itFUCEFrsiK7GJ05o+pTHLkJWyCDDonjxcGcWpw5rVUF58zHdKqAb2OUAoeChdwUfrt/RrefXRhsWujB6sy4i8Rreg32GVSwn7Zmcx/tac/dL65T21q7IPXdzXlW4SHhWRnKChB+pZQ8Ah+yZDJSodq3kqf0oJnFsVq3uLWUT5D+8Axqv3Q5cVHny0f7h4RsTL05f+AdLcP/Bo9D2GWjHxIBjGXtaY3wX99km4JOaR2DipoPNdy+H
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <2315FB162E3345418FD75A5F61BA0BA8@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9102c96-a8e8-4ffc-15c7-08d79dc3dade
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2020 16:14:41.3185 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CUGawRTbyxJj+shs6dJ2nGTnYKGWpYuOwGQQTWdUa95UTLyLEv65LHSdKU0Hfo+HQl/brYYSz/kjDQzE0upsuMQOaOPuwORm8zMye0GYSaQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3272
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe07::70a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,897 +117,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Denis Lunev <den@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds tests for following 14 implemented alsa timer ioctls:
+20.01.2020 13:55, Max Reitz wrote:
+> On 19.12.19 11:03, Vladimir Sementsov-Ogievskiy wrote:
+>> The function is definitely internal (it's not used by third party and
+>> it has complicated interface). Move it to .c file.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   include/qemu/hbitmap.h | 30 ------------------------------
+>>   util/hbitmap.c         | 29 +++++++++++++++++++++++++++++
+>>   2 files changed, 29 insertions(+), 30 deletions(-)
+>=20
+> I wonder why you removed the =93inline=94, but then again we should proba=
+bly
+> trust the compiler more than our intuition anyway.
 
-* SNDRV_TIMER_IOCTL_PVERSION        * SNDRV_TIMER_IOCTL_INFO
-* SNDRV_TIMER_IOCTL_NEXT_DEVICE     * SNDRV_TIMER_IOCTL_PARAMS
-* SNDRV_TIMER_IOCTL_TREAD           * SNDRV_TIMER_IOCTL_STATUS
-* SNDRV_TIMER_IOCTL_GINFO           * SNDRV_TIMER_IOCTL_START
-* SNDRV_TIMER_IOCTL_GPARAMS         * SNDRV_TIMER_IOCTL_STOP
-* SNDRV_TIMER_IOCTL_GSTATUS         * SNDRV_TIMER_IOCTL_CONTINUE
-* SNDRV_TIMER_IOCTL_SELECT          * SNDRV_TIMER_IOCTL_PAUSE
+Hmm, somehow, I was sure, that defining "static inline" functions in .c fil=
+e is
+equal to defining them just "static", as compiler will decide inline it or =
+not
+it on its own anyway.. May be I'm wrong. At least it's claimed that compile=
+r may
+ignore "inline", so it's a hing, and on the other hand it may inline not "i=
+nline"
+function.
 
-Names and descriptions of these ioctls can be found in patches that
-implement them.
+And even if I'm wrong, I agree that in non-critical cases we should trust t=
+he
+compiler optimization strategy.
 
-Test folder for these ioctl tests is located at
-"tests/tcg/multiarch/alsa-timer-ioctl-tests/"
+>=20
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
+>=20
 
-Tests for individual ioctls are located in separate folders. These
-folders are arranged by the same way these ioctls are implemented
-in patches. These test files are simple programs that use these
-ioctls to set/read some alsa timer features or to run some simple
-alsa timer instructions.
 
-Besides tests for individual ioctls, a global alsa ioctl test was
-added at "tests/tcg/multiarch/rtc-ioctl-tests/GlobalTest/timer.c".
-This test file was downloaded from a git repository that contains
-alsa ioctl test suite. This repository is located at
-"https://github.com/takaswie/alsa-ioctl-test".
-It is used to test all of the alsa timer ioctls at once by running
-a test macro defined in that file. The file was modified a little
-bit by adding an output line that shows which test passed and at
-which test the program aborts. It was also modified so that it
-doesn't have styling problems detected by 'scripts/checkpatch.pl'.
-
-Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
----
- .../Disable/disableEnhancedRead.c                  |  29 ++++
- .../EnhancedRead-test/Enable/enableEnhancedRead.c  |  29 ++++
- .../alsa-timer-ioctl-tests/GlobalTest/timer.c      | 158 +++++++++++++++++++++
- .../Instructions-tests/Continue/continue.c         |  39 +++++
- .../Instructions-tests/Pause/pause.c               |  39 +++++
- .../Instructions-tests/Start/start.c               |  39 +++++
- .../Instructions-tests/Stop/stop.c                 |  39 +++++
- .../SelectedParameters-tests/Info/info.c           |  46 ++++++
- .../SelectedParameters-tests/Params/params.c       |  44 ++++++
- .../SelectedParameters-tests/Status/status.c       |  45 ++++++
- .../alsa-timer-ioctl-tests/Selecting-test/select.c |  34 +++++
- .../SpecifiedParameters-tests/Ginfo/ginfo.c        |  43 ++++++
- .../SpecifiedParameters-tests/Gparams/gparams.c    |  37 +++++
- .../SpecifiedParameters-tests/Gstatus/gstatus.c    |  36 +++++
- .../Version-id-tests/NextDevice/nextDevice.c       |  34 +++++
- .../Version-id-tests/Pversion/pversion.c           |  30 ++++
- 16 files changed, 721 insertions(+)
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/EnhancedRead-test/Disable/disableEnhancedRead.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/EnhancedRead-test/Enable/enableEnhancedRead.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/GlobalTest/timer.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Continue/continue.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Pause/pause.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Start/start.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Stop/stop.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Info/info.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Params/params.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Status/status.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Selecting-test/select.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Ginfo/ginfo.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Gparams/gparams.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Gstatus/gstatus.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Version-id-tests/NextDevice/nextDevice.c
- create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/Version-id-tests/Pversion/pversion.c
-
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/EnhancedRead-test/Disable/disableEnhancedRead.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/EnhancedRead-test/Disable/disableEnhancedRead.c
-new file mode 100644
-index 0000000..2f930b6
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/EnhancedRead-test/Disable/disableEnhancedRead.c
-@@ -0,0 +1,29 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    int tread = 0;
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_TREAD, &tread) == ERROR) {
-+        perror("ioctl");
-+        return -1;
-+    }
-+
-+    printf("Enhanced read disabled!\n");
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/EnhancedRead-test/Enable/enableEnhancedRead.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/EnhancedRead-test/Enable/enableEnhancedRead.c
-new file mode 100644
-index 0000000..fd9dea6
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/EnhancedRead-test/Enable/enableEnhancedRead.c
-@@ -0,0 +1,29 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    int tread = 1;
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_TREAD, &tread) == ERROR) {
-+        perror("ioctl");
-+        return -1;
-+    }
-+
-+    printf("Enhanced read enabled!\n");
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/GlobalTest/timer.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/GlobalTest/timer.c
-new file mode 100644
-index 0000000..b7cfcbd
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/GlobalTest/timer.c
-@@ -0,0 +1,158 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <stdbool.h>
-+
-+#include <sys/types.h>
-+#include <sys/stat.h>
-+#include <fcntl.h>
-+
-+#include <sys/ioctl.h>
-+
-+#include <errno.h>
-+#include <string.h>
-+
-+#include <sound/asound.h>
-+
-+static void build_system_timer_id(struct snd_timer_id *tid)
-+{
-+    tid->dev_class = SNDRV_TIMER_CLASS_GLOBAL;
-+    tid->dev_sclass = SNDRV_TIMER_SCLASS_NONE;
-+    tid->card = -1;
-+    tid->device = SNDRV_TIMER_GLOBAL_SYSTEM;
-+    tid->subdevice = 0;
-+}
-+
-+#define TEST_IOCTL(fd, command, argument, expected)                    \
-+    do {                                                               \
-+        if (ioctl(fd, command, argument) < 0 && errno != expected) {   \
-+            printf("%s: %s\n", #command, strerror(errno));             \
-+            return false;                                              \
-+        }                                                              \
-+        printf("%s: Test passed!\n", #command);                        \
-+        return true;                                                   \
-+    } while (0)                                                         \
-+
-+static bool check_pversion(int fd)
-+{
-+    int version = 0;
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_PVERSION, &version, 0);
-+}
-+
-+static bool check_next_device(int fd)
-+{
-+    struct snd_timer_id id = {0};
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_NEXT_DEVICE, &id, 0);
-+}
-+
-+static bool check_tread(int fd)
-+{
-+    int tread = 1;
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_TREAD, &tread, 0);
-+}
-+
-+static bool check_ginfo(int fd)
-+{
-+    struct snd_timer_ginfo ginfo = {0};
-+    build_system_timer_id(&ginfo.tid);
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_GINFO, &ginfo, 0);
-+}
-+
-+static bool check_gparams(int fd)
-+{
-+    struct snd_timer_gparams gparams = {0};
-+    build_system_timer_id(&gparams.tid);
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_GPARAMS, &gparams, ENOSYS);
-+}
-+
-+static bool check_gstatus(int fd)
-+{
-+    struct snd_timer_gstatus gstatus = {0};
-+    build_system_timer_id(&gstatus.tid);
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_GSTATUS, &gstatus, 0);
-+}
-+
-+static bool check_select(int fd)
-+{
-+    struct snd_timer_select select = {0};
-+    build_system_timer_id(&select.id);
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_SELECT, &select, 0);
-+}
-+
-+static bool check_info(int fd)
-+{
-+    struct snd_timer_info info = {0};
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_INFO, &info, 0);
-+}
-+
-+static bool check_params(int fd)
-+{
-+    struct snd_timer_params params = {0};
-+    params.ticks = 1;
-+    params.filter = SNDRV_TIMER_EVENT_TICK;
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_PARAMS, &params, 0);
-+}
-+
-+static bool check_status(int fd)
-+{
-+    struct snd_timer_status status = {0};
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_STATUS, &status, 0);
-+}
-+
-+static bool check_start(int fd)
-+{
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_START, NULL, 0);
-+}
-+
-+static bool check_stop(int fd)
-+{
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_STOP, NULL, 0);
-+}
-+
-+static bool check_continue(int fd)
-+{
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_CONTINUE, NULL, 0);
-+}
-+
-+static bool check_pause(int fd)
-+{
-+    TEST_IOCTL(fd, SNDRV_TIMER_IOCTL_PAUSE, NULL, 0);
-+}
-+
-+int main(void)
-+{
-+    bool (*const funcs[])(int) = {
-+        check_pversion,
-+        check_next_device,
-+        check_tread,
-+        check_ginfo,
-+        check_gparams,
-+        check_gstatus,
-+        check_select,
-+        check_info,
-+        check_params,
-+        check_status,
-+        check_start,
-+        check_pause,
-+        check_continue,
-+        check_stop,
-+        NULL,
-+    };
-+    unsigned int i;
-+    int fd;
-+
-+    fd = open("/dev/snd/timer", O_RDONLY);
-+    if (fd < 0) {
-+        printf("%s\n", strerror(errno));
-+        return EXIT_FAILURE;
-+    }
-+
-+    i = 0;
-+    while (funcs[i]) {
-+        if (!funcs[i++](fd)) {
-+            printf("Timer test aborts.\n");
-+            return EXIT_FAILURE;
-+        }
-+    }
-+
-+    return EXIT_SUCCESS;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Continue/continue.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Continue/continue.c
-new file mode 100644
-index 0000000..09e256c
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Continue/continue.c
-@@ -0,0 +1,39 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL,
-+                              SNDRV_TIMER_SCLASS_NONE, -1,
-+                              SNDRV_TIMER_GLOBAL_SYSTEM, 0};
-+
-+    struct snd_timer_select select;
-+    select.id = id;
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_SELECT, &select) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_CONTINUE) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    printf("Timer continued!\n");
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Pause/pause.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Pause/pause.c
-new file mode 100644
-index 0000000..fd57693
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Pause/pause.c
-@@ -0,0 +1,39 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL,
-+                              SNDRV_TIMER_SCLASS_NONE, -1,
-+                              SNDRV_TIMER_GLOBAL_SYSTEM, 0};
-+
-+    struct snd_timer_select select;
-+    select.id = id;
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_SELECT, &select) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_PAUSE) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    printf("Timer paused!\n");
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Start/start.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Start/start.c
-new file mode 100644
-index 0000000..75ead93
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Start/start.c
-@@ -0,0 +1,39 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL,
-+                              SNDRV_TIMER_SCLASS_NONE, -1,
-+                              SNDRV_TIMER_GLOBAL_SYSTEM, 0};
-+
-+    struct snd_timer_select select;
-+    select.id = id;
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_SELECT, &select) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_START) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    printf("Timer started!\n");
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Stop/stop.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Stop/stop.c
-new file mode 100644
-index 0000000..c28b0a3
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Instructions-tests/Stop/stop.c
-@@ -0,0 +1,39 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL,
-+                              SNDRV_TIMER_SCLASS_NONE, -1,
-+                              SNDRV_TIMER_GLOBAL_SYSTEM, 0};
-+
-+    struct snd_timer_select select;
-+    select.id = id;
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_SELECT, &select) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_STOP) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    printf("Timer stopped!\n");
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Info/info.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Info/info.c
-new file mode 100644
-index 0000000..7a8ff28
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Info/info.c
-@@ -0,0 +1,46 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL,
-+                              SNDRV_TIMER_SCLASS_NONE, -1,
-+                              SNDRV_TIMER_GLOBAL_SYSTEM, 0};
-+
-+    struct snd_timer_select select;
-+    select.id = id;
-+
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_SELECT, &select) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    struct snd_timer_info info = {0};
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_INFO, &info) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    printf("flags: %u\n", info.flags);
-+    printf("card: %d\n", info.card);
-+    printf("id: %s\n", info.id);
-+    printf("name: %s\n", info.name);
-+    printf("resolution: %lu\n", info.resolution);
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Params/params.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Params/params.c
-new file mode 100644
-index 0000000..c3953ca
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Params/params.c
-@@ -0,0 +1,44 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL,
-+                              SNDRV_TIMER_SCLASS_NONE, -1,
-+                              SNDRV_TIMER_GLOBAL_SYSTEM, 0};
-+
-+    struct snd_timer_select select;
-+    select.id = id;
-+
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_SELECT, &select) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    struct snd_timer_params params = {0};
-+    params.ticks = 1;
-+    params.filter = SNDRV_TIMER_EVENT_TICK;
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_PARAMS, &params) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    printf("Parameters set!\n");
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Status/status.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Status/status.c
-new file mode 100644
-index 0000000..b56f4a5
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/SelectedParameters-tests/Status/status.c
-@@ -0,0 +1,45 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL,
-+                              SNDRV_TIMER_SCLASS_NONE, -1,
-+                              SNDRV_TIMER_GLOBAL_SYSTEM, 0};
-+
-+    struct snd_timer_select select;
-+    select.id = id;
-+
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_SELECT, &select) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    struct snd_timer_status status = {0};
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_STATUS, &status) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    printf("resolution: %d\n", status.resolution);
-+    printf("lost: %d\n", status.lost);
-+    printf("overrun: %d\n", status.overrun);
-+    printf("queue: %d\n", status.queue);
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/Selecting-test/select.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Selecting-test/select.c
-new file mode 100644
-index 0000000..75425f4
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Selecting-test/select.c
-@@ -0,0 +1,34 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL,
-+                              SNDRV_TIMER_SCLASS_NONE, -1,
-+                              SNDRV_TIMER_GLOBAL_SYSTEM, 0};
-+
-+    struct snd_timer_select select;
-+    select.id = id;
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_SELECT, &select) == ERROR) {
-+        perror("ioctl:");
-+        return -1;
-+    }
-+
-+    printf("Global timer selected!\n");
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Ginfo/ginfo.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Ginfo/ginfo.c
-new file mode 100644
-index 0000000..cd5d1da
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Ginfo/ginfo.c
-@@ -0,0 +1,43 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL,
-+                              SNDRV_TIMER_SCLASS_NONE, -1,
-+                              SNDRV_TIMER_GLOBAL_SYSTEM, 0};
-+
-+    struct snd_timer_ginfo ginfo;
-+    ginfo.tid = id;
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_GINFO, &ginfo) == ERROR) {
-+        perror("ioctl");
-+        return -1;
-+    }
-+
-+    printf("flags: %u\n", ginfo.flags);
-+    printf("card: %d\n", ginfo.card);
-+    printf("id: %s\n", ginfo.id);
-+    printf("name: %s\n", ginfo.name);
-+    printf("reserved0: %lu\n", ginfo.reserved0);
-+    printf("resolution: %lu\n", ginfo.resolution);
-+    printf("resolution_min: %lu\n", ginfo.resolution_min);
-+    printf("reolution_max: %lu\n", ginfo.resolution_max);
-+    printf("clients: %u\n", ginfo.clients);
-+    printf("reserved: %s\n", ginfo.reserved);
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Gparams/gparams.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Gparams/gparams.c
-new file mode 100644
-index 0000000..012a49d
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Gparams/gparams.c
-@@ -0,0 +1,37 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL,
-+                              SNDRV_TIMER_SCLASS_NONE, -1,
-+                              SNDRV_TIMER_GLOBAL_SYSTEM, 0};
-+
-+    struct snd_timer_ginfo ginfo;
-+    ginfo.tid = id;
-+
-+    gparams.period_num = 2;
-+    gparams.period_den = 2;
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_GPARAMS, &gparams) == ERROR) {
-+        perror("ioctl");
-+        return -1;
-+    }
-+
-+    printf("Parameters set!\n");
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Gstatus/gstatus.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Gstatus/gstatus.c
-new file mode 100644
-index 0000000..81a74ca
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/SpecifiedParameters-tests/Gstatus/gstatus.c
-@@ -0,0 +1,36 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    struct snd_timer_id id = {SNDRV_TIMER_CLASS_GLOBAL,
-+                              SNDRV_TIMER_SCLASS_NONE, -1,
-+                              SNDRV_TIMER_GLOBAL_SYSTEM, 0};
-+
-+    struct snd_timer_ginfo ginfo;
-+    ginfo.tid = id;
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_GSTATUS, &gstatus) == ERROR) {
-+        perror("ioctl");
-+        return -1;
-+    }
-+
-+    printf("resolution: %lu\n", gstatus.resolution);
-+    printf("resolution_num: %lu\n", gstatus.resolution_num);
-+    printf("resolution_den: %lu\n", gstatus.resolution_den);
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/Version-id-tests/NextDevice/nextDevice.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Version-id-tests/NextDevice/nextDevice.c
-new file mode 100644
-index 0000000..d3d1d3e
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Version-id-tests/NextDevice/nextDevice.c
-@@ -0,0 +1,34 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    struct snd_timer_id id = {1, 0, 0, 0, 0};
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_NEXT_DEVICE, &id) == ERROR) {
-+        perror("ioctl");
-+        return -1;
-+    }
-+
-+    printf("Timer dev_class: %d\n", id.dev_class);
-+    printf("Timer dev_sclass: %d\n", id.dev_class);
-+    printf("Timer card: %d\n", id.dev_class);
-+    printf("Timer device: %d\n", id.dev_class);
-+    printf("Timer subdevice: %d\n", id.dev_class);
-+
-+    return 0;
-+}
-+
-diff --git a/tests/tcg/multiarch/alsa-timer-ioctl-tests/Version-id-tests/Pversion/pversion.c b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Version-id-tests/Pversion/pversion.c
-new file mode 100644
-index 0000000..259846e
---- /dev/null
-+++ b/tests/tcg/multiarch/alsa-timer-ioctl-tests/Version-id-tests/Pversion/pversion.c
-@@ -0,0 +1,30 @@
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <fcntl.h>
-+#include <sys/ioctl.h>
-+#include <sound/asound.h>
-+
-+#define ERROR -1
-+
-+int main()
-+{
-+    int fd = open("/dev/snd/timer", O_RDWR);
-+
-+    if (fd == ERROR) {
-+        perror("open");
-+        return -1;
-+    }
-+
-+    int version = 0;
-+
-+    if (ioctl(fd, SNDRV_TIMER_IOCTL_PVERSION, &version) == ERROR) {
-+        perror("ioctl");
-+        return -1;
-+    }
-+
-+    printf("Timer version: %d\n", version);
-+
-+    return 0;
-+}
-+
--- 
-2.7.4
-
+--=20
+Best regards,
+Vladimir
 
