@@ -2,50 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C801428D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:08:36 +0100 (CET)
-Received: from localhost ([::1]:34282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD6A1428C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:05:19 +0100 (CET)
+Received: from localhost ([::1]:34198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itUv5-0007dC-6i
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:08:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40250)
+	id 1itUrt-0002YM-Mr
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:05:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40423)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1itUdg-0000Ra-2T
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:50:40 -0500
+ (envelope-from <mreitz@redhat.com>) id 1itUfG-0002hF-CZ
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:52:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1itUdb-00013l-DV
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:50:35 -0500
-Received: from 4.mo177.mail-out.ovh.net ([46.105.37.72]:56882)
- by eggs.gnu.org with esmtp (Exim 4.71) (envelope-from <clg@kaod.org>)
- id 1itUdb-00013O-2f
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:50:31 -0500
-Received: from player718.ha.ovh.net (unknown [10.108.16.135])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 9CDD411F2D4
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 11:50:27 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player718.ha.ovh.net (Postfix) with ESMTPSA id 922BDE506393;
- Mon, 20 Jan 2020 10:49:54 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH v2 2/2] target/ppc: add support for Hypervisor Facility
- Unavailable Exception
-Date: Mon, 20 Jan 2020 11:49:35 +0100
-Message-Id: <20200120104935.24449-3-clg@kaod.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200120104935.24449-1-clg@kaod.org>
-References: <20200120104935.24449-1-clg@kaod.org>
+ (envelope-from <mreitz@redhat.com>) id 1itUfC-0001w1-1s
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:52:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49711
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itUfB-0001vf-TZ
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:52:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579517529;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=JyF6NyBMeXCwvV04ThbgkqthwYacCvtWAhGuCK6zjLM=;
+ b=VvbLOX+bQddCFc50RyRf729kDcywbW2INoHhTLGVesjMR2rFwf4g/BQLrMMAD7AUveWTbJ
+ Ehtj9iPFHxfTJXl2Tge1f8MOXyzEABgF1I4xFT3MnGfm/P4tkHKxe5OJZWpOFkDKah7Xye
+ LdnCKx6eINbGi+74AmpgDt2jQChje3s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-77-ikyCpEcmMI-I5pvhnPKtbQ-1; Mon, 20 Jan 2020 05:52:06 -0500
+X-MC-Unique: ikyCpEcmMI-I5pvhnPKtbQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB4D7800D48;
+ Mon, 20 Jan 2020 10:52:04 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-225.ams2.redhat.com
+ [10.36.117.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 29573272B4;
+ Mon, 20 Jan 2020 10:51:59 +0000 (UTC)
+Subject: Re: [PATCH v3 01/10] hbitmap: assert that we don't create bitmap
+ larger than INT64_MAX
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20191219100348.24827-1-vsementsov@virtuozzo.com>
+ <20191219100348.24827-2-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <862e3780-4ca7-ed39-6858-4bb54760c75c@redhat.com>
+Date: Mon, 20 Jan 2020 11:51:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 9644740080235088870
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudehgddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejudekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedt
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191219100348.24827-2-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="l6jfeanhLwXT5dyum2EPKhZnc2AzBL8Ou"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.37.72
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,167 +101,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, Suraj Jitindar Singh <sjitindarsingh@gmail.com>,
- qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The privileged message send and clear instructions (msgsndp & msgclrp)
-are privileged, but will generate a hypervisor facility unavailable
-exception if not enabled in the HFSCR and executed in privileged
-non-hypervisor state.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--l6jfeanhLwXT5dyum2EPKhZnc2AzBL8Ou
+Content-Type: multipart/mixed; boundary="2p9VNO2kONpwWU1cJ5CFpDr3oBecmjRGp"
 
-Add checks when accessing the DPDES register and when using the
-msgsndp and msgclrp isntructions.
+--2p9VNO2kONpwWU1cJ5CFpDr3oBecmjRGp
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- target/ppc/cpu.h         |  6 ++++++
- target/ppc/excp_helper.c | 13 +++++++++++++
- target/ppc/misc_helper.c | 27 +++++++++++++++++++++++++++
- 3 files changed, 46 insertions(+)
+On 19.12.19 11:03, Vladimir Sementsov-Ogievskiy wrote:
+> We have APIs which returns signed int64_t, to be able to return error.
+> Therefore we can't handle bitmaps with absolute size larger than
+> (INT64_MAX+1). Still, keep maximum to be INT64_MAX which is a bit
+> safer.
+>=20
+> Note, that bitmaps are used to represent disk images, which can't
+> exceed INT64_MAX anyway.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  util/hbitmap.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 8ebeaba649d0..96aeea1934d8 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -397,6 +397,10 @@ typedef struct ppc_v3_pate_t {
- #define PSSCR_ESL         PPC_BIT(42) /* Enable State Loss */
- #define PSSCR_EC          PPC_BIT(43) /* Exit Criterion */
-=20
-+/* HFSCR bits */
-+#define HFSCR_MSGP     PPC_BIT(53) /* Privileged Message Send Facilities=
- */
-+#define HFSCR_IC_MSGP  0xA
-+
- #define msr_sf   ((env->msr >> MSR_SF)   & 1)
- #define msr_isf  ((env->msr >> MSR_ISF)  & 1)
- #define msr_shv  ((env->msr >> MSR_SHV)  & 1)
-@@ -1329,6 +1333,8 @@ void cpu_ppc_set_vhyp(PowerPCCPU *cpu, PPCVirtualHy=
-pervisor *vhyp);
- #endif
-=20
- void store_fpscr(CPUPPCState *env, uint64_t arg, uint32_t mask);
-+void helper_hfscr_facility_check(CPUPPCState *env, uint32_t bit,
-+                                 const char *caller, uint32_t cause);
-=20
- static inline uint64_t ppc_dump_gpr(CPUPPCState *env, int gprn)
- {
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 1b07c3ed561e..027f54c0ed5f 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -471,6 +471,15 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
- excp_model, int excp)
-     case POWERPC_EXCP_FU:         /* Facility unavailable exception     =
-     */
- #ifdef TARGET_PPC64
-         env->spr[SPR_FSCR] |=3D ((target_ulong)env->error_code << 56);
-+#endif
-+        break;
-+    case POWERPC_EXCP_HV_FU:     /* Hypervisor Facility Unavailable Exce=
-ption */
-+#ifdef TARGET_PPC64
-+        env->spr[SPR_HFSCR] |=3D ((target_ulong)env->error_code << FSCR_=
-IC_POS);
-+        srr0 =3D SPR_HSRR0;
-+        srr1 =3D SPR_HSRR1;
-+        new_msr |=3D (target_ulong)MSR_HVB;
-+        new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
- #endif
-         break;
-     case POWERPC_EXCP_PIT:       /* Programmable interval timer interrup=
-t    */
-@@ -1277,6 +1286,8 @@ void helper_book3s_msgsnd(target_ulong rb)
- #if defined(TARGET_PPC64)
- void helper_book3s_msgclrp(CPUPPCState *env, target_ulong rb)
- {
-+    helper_hfscr_facility_check(env, HFSCR_MSGP, "msgclrp", HFSCR_IC_MSG=
-P);
-+
-     if (!dbell_type_server(rb)) {
-         return;
-     }
-@@ -1292,6 +1303,8 @@ void helper_book3s_msgsndp(CPUPPCState *env, target=
-_ulong rb)
- {
-     int pir =3D env->spr_cb[SPR_PIR].default_value;
-=20
-+    helper_hfscr_facility_check(env, HFSCR_MSGP, "msgsndp", HFSCR_IC_MSG=
-P);
-+
-     if (!dbell_type_server(rb)) {
-         return;
-     }
-diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
-index 0c5919ff08b0..55b68d1246e4 100644
---- a/target/ppc/misc_helper.c
-+++ b/target/ppc/misc_helper.c
-@@ -41,6 +41,18 @@ void helper_store_dump_spr(CPUPPCState *env, uint32_t =
-sprn)
- }
-=20
- #ifdef TARGET_PPC64
-+static void raise_hv_fu_exception(CPUPPCState *env, uint32_t bit,
-+                                  const char *caller, uint32_t cause,
-+                                  uintptr_t raddr)
-+{
-+    qemu_log_mask(CPU_LOG_INT, "HV Facility %d is unavailable (%s)\n",
-+                  bit, caller);
-+
-+    env->spr[SPR_HFSCR] &=3D ~((target_ulong)FSCR_IC_MASK << FSCR_IC_POS=
-);
-+
-+    raise_exception_err_ra(env, POWERPC_EXCP_HV_FU, cause, raddr);
-+}
-+
- static void raise_fu_exception(CPUPPCState *env, uint32_t bit,
-                                uint32_t sprn, uint32_t cause,
-                                uintptr_t raddr)
-@@ -55,6 +67,17 @@ static void raise_fu_exception(CPUPPCState *env, uint3=
-2_t bit,
- }
- #endif
-=20
-+void helper_hfscr_facility_check(CPUPPCState *env, uint32_t bit,
-+                                 const char *caller, uint32_t cause)
-+{
-+#ifdef TARGET_PPC64
-+    if ((env->msr_mask & MSR_HVB) && !msr_hv &&
-+                                     !(env->spr[SPR_HFSCR] & (1UL << bit=
-))) {
-+        raise_hv_fu_exception(env, bit, caller, cause, GETPC());
-+    }
-+#endif
-+}
-+
- void helper_fscr_facility_check(CPUPPCState *env, uint32_t bit,
-                                 uint32_t sprn, uint32_t cause)
- {
-@@ -114,6 +137,8 @@ target_ulong helper_load_dpdes(CPUPPCState *env)
- {
-     target_ulong dpdes =3D 0;
-=20
-+    helper_hfscr_facility_check(env, HFSCR_MSGP, "load DPDES", HFSCR_IC_=
-MSGP);
-+
-     /* TODO: TCG supports only one thread */
-     if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
-         dpdes =3D 1;
-@@ -127,6 +152,8 @@ void helper_store_dpdes(CPUPPCState *env, target_ulon=
-g val)
-     PowerPCCPU *cpu =3D env_archcpu(env);
-     CPUState *cs =3D CPU(cpu);
-=20
-+    helper_hfscr_facility_check(env, HFSCR_MSGP, "store DPDES", HFSCR_IC=
-_MSGP);
-+
-     /* TODO: TCG supports only one thread */
-     if (val & ~0x1) {
-         qemu_log_mask(LOG_GUEST_ERROR, "Invalid DPDES register value "
---=20
-2.21.1
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--2p9VNO2kONpwWU1cJ5CFpDr3oBecmjRGp--
+
+--l6jfeanhLwXT5dyum2EPKhZnc2AzBL8Ou
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl4lhk4ACgkQ9AfbAGHV
+z0AJtgf+PAwDqzlh1v5uquzv8iXmKu/diJODIT38nRcEEKgPb5AWs/n3YybhJgF9
+ngRB/fsQyJnSg00a01HsRXeRVDFFlPTT3AhB7opxfsY+fq9h0KGjU3N0AcsNpbgX
+GoKCKa2IDjwJYkX7pQCc4WTe2JoPKuK5pbZmXS+vWyQ6SFruhVEUYom66LDlmr7S
++pK0upx70yFqxsix19IZW2gHuIUed8ivbIk+bMHEUJ63dnmX0RRVXXbDFSZ5nIS+
+YxxpbcVl7OlasEDqKQ8HNq2rCzMQTO/4wysgThbrIv8IbOpMlvM4RLTBInn1d5Wd
+IV03lCFy8CZCBPKw88liHDlr5CUhGA==
+=MtnL
+-----END PGP SIGNATURE-----
+
+--l6jfeanhLwXT5dyum2EPKhZnc2AzBL8Ou--
 
 
