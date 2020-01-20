@@ -2,75 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2770914292C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:24:42 +0100 (CET)
-Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3AFA14290E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:17:54 +0100 (CET)
+Received: from localhost ([::1]:34496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itVAf-0004dH-8U
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:24:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42894)
+	id 1itV45-0003vs-Fs
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:17:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43373)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1itUu1-0007Fj-AU
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:07:30 -0500
+ (envelope-from <no-reply@patchew.org>) id 1itUwx-0003Rz-38
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:10:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1itUu0-0004h8-7A
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:07:29 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33848)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1itUtz-0004gh-VX
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:07:28 -0500
-Received: by mail-wm1-x343.google.com with SMTP id w5so14473542wmi.1
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 03:07:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=6aAQgYqsH+S1uG/+DB1Ku3IfLwrK6c2Lmk2fj97fPgM=;
- b=yic4ajdKomiVW+QsR9mHeTS0yuYerI4RfuP/QvromypNlcBcwwJI4LZo/tVfPamZF+
- 6Jp5v/zgo8JHsRXObEYRKCA4xBhiUKdBLUhI1ClnHMXTczmeiPts5xQcoB8ehoXB3PdB
- rY7CVVHZXNmU2+r9hZ1fGc9vjGVCqBWUS3s4dvofOLs0WxV832umfo5Em8NXLiPKXa7G
- YULjyddgPFqfzXuZy/GHzo6GQOp6FajZ95P9+BlDPLeojjuBcnFRjvqQtuT+QJcemSS/
- MJx4Jxr9e2NTwwUWpw9cboj9BCMsh352JmGrcCCvw0VzmesnuU5HpFVJrccYX2aDq6Mc
- 4Pdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=6aAQgYqsH+S1uG/+DB1Ku3IfLwrK6c2Lmk2fj97fPgM=;
- b=WGEsGEn3hZmAYG38y3LkiT1j0wZ8HnPPgfuKboPS7bBAqel8/EnwIKwxMNExVyHhsb
- e6LG4nCfptDnBVWb8agGJO7q/J6H6zGpZQMK0iszGueNlbR6YkoMlXcmAo4Q+O9eLVFh
- h8ot9hc0uGBxH0U5Qy8lK/CE+PTma5iolstQwnbXJGXGDYAN4XDzUunqXAtROn4ZpXvQ
- WEJNDCj166QQzYd0hiaWG6rVHAjaestb/8QOYDiAIoCaLx5h2aMD6LYXhmDy3VPH6rj2
- IGpYf5HrtgR8dXdlCFABcDjic9gueDQZjgI6s2fv09McxY6V4aW5habuVbJeMjeIoZjW
- DVQg==
-X-Gm-Message-State: APjAAAWoA3Bsg6+fRzKS75DNvo7Flqnnp+EfAi8O2z/Bdk3Y3mFDyCDA
- 5W8McfxZVgcVEdoudQTDf9GSUg==
-X-Google-Smtp-Source: APXvYqwwBZ3qht93UIhmi/D7ZFWhF7OymciD13XDYX2Q/UHucF8YJv/WZl6eAsiWYcy9HT25XHLKyA==
-X-Received: by 2002:a7b:c3d7:: with SMTP id t23mr18640864wmj.33.1579518446875; 
- Mon, 20 Jan 2020 03:07:26 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s15sm44186198wrp.4.2020.01.20.03.07.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 03:07:25 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CD0381FF87;
- Mon, 20 Jan 2020 11:07:24 +0000 (GMT)
-References: <20200118140619.26333-1-philmd@redhat.com>
- <20200118140619.26333-6-philmd@redhat.com>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 5/6] hw/core: Restrict reset handlers API to system-mode
-In-reply-to: <20200118140619.26333-6-philmd@redhat.com>
-Date: Mon, 20 Jan 2020 11:07:24 +0000
-Message-ID: <877e1m4c9f.fsf@linaro.org>
+ (envelope-from <no-reply@patchew.org>) id 1itUwt-0006ey-1y
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:10:30 -0500
+Resent-Date: Mon, 20 Jan 2020 06:10:30 -0500
+Resent-Message-Id: <E1itUwt-0006ey-1y@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21123)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1itUws-0006de-QS; Mon, 20 Jan 2020 06:10:27 -0500
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1579518596305202.62166712169596;
+ Mon, 20 Jan 2020 03:09:56 -0800 (PST)
+In-Reply-To: <20200120101832.18781-1-drjones@redhat.com>
+Subject: Re: [PATCH REPOST v3] target/arm/arch_dump: Add SVE notes
+Message-ID: <157951859491.20990.6046185151636456198@197193fa8d23>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: drjones@redhat.com
+Date: Mon, 20 Jan 2020 03:09:56 -0800 (PST)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,48 +50,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, eric.auger@redhat.com, qemu-arm@nongnu.org,
+ alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDEyMDEwMTgzMi4xODc4
+MS0xLWRyam9uZXNAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
+IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
+Zm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAyMDAxMjAxMDE4MzIuMTg3ODEtMS1kcmpvbmVzQHJl
+ZGhhdC5jb20KVHlwZTogc2VyaWVzClN1YmplY3Q6IFtQQVRDSCBSRVBPU1QgdjNdIHRhcmdldC9h
+cm0vYXJjaF9kdW1wOiBBZGQgU1ZFIG5vdGVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMh
+L2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNv
+bmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5y
+ZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQou
+L3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQg
+RU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICog
+W25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMDEyMDEwMTgzMi4xODc4MS0xLWRyam9uZXNA
+cmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAwMTIwMTAxODMyLjE4NzgxLTEtZHJqb25lc0ByZWRo
+YXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKM2RmMTU0ZiB0YXJnZXQvYXJt
+L2FyY2hfZHVtcDogQWRkIFNWRSBub3RlcwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IGNv
+ZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMjI6IEZJTEU6IGluY2x1ZGUvZWxmLmg6
+MTY1MzoKKyNkZWZpbmUgTlRfQVJNX1NWRV5JMHg0MDVeSV5JLyogQVJNIFNjYWxhYmxlIFZlY3Rv
+ciBFeHRlbnNpb24kCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9u
+IGEgc2VwYXJhdGUgbGluZQojMjI6IEZJTEU6IGluY2x1ZGUvZWxmLmg6MTY1MzoKKyNkZWZpbmUg
+TlRfQVJNX1NWRSAgICAgMHg0MDUgICAgICAgICAgIC8qIEFSTSBTY2FsYWJsZSBWZWN0b3IgRXh0
+ZW5zaW9uCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMyMzogRklM
+RTogaW5jbHVkZS9lbGYuaDoxNjU0OgorXkleSV5JXkleSSAgIHJlZ2lzdGVycyAqLyQKCldBUk5J
+Tkc6IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzIzOiBGSUxFOiBp
+bmNsdWRlL2VsZi5oOjE2NTQ6CisjZGVmaW5lIE5UX0FSTV9TVkUgICAgIDB4NDA1ICAgICAgICAg
+ICAvKiBBUk0gU2NhbGFibGUgVmVjdG9yIEV4dGVuc2lvbgorICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgcmVnaXN0ZXJzICovCgpXQVJOSU5HOiBCbG9jayBjb21tZW50
+cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzIzOiBGSUxFOiBpbmNsdWRl
+L2VsZi5oOjE2NTQ6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBy
+ZWdpc3RlcnMgKi8KCnRvdGFsOiAyIGVycm9ycywgMyB3YXJuaW5ncywgMjMzIGxpbmVzIGNoZWNr
+ZWQKCkNvbW1pdCAzZGYxNTRmZDExOWIgKHRhcmdldC9hcm0vYXJjaF9kdW1wOiBBZGQgU1ZFIG5v
+dGVzKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
+ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
+IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3Qg
+Y29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBh
+dApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDEyMDEwMTgzMi4xODc4MS0xLWRyam9uZXNA
+cmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdl
+bmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4K
+UGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> The user-mode code does not use this API, restrict it
-> to the system-mode.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/core/Makefile.objs | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-> index 0edd9e635d..2fea68ccf7 100644
-> --- a/hw/core/Makefile.objs
-> +++ b/hw/core/Makefile.objs
-> @@ -1,6 +1,7 @@
->  # core qdev-related obj files, also used by *-user:
->  common-obj-y +=3D qdev.o qdev-properties.o
-> -common-obj-y +=3D bus.o reset.o
-> +common-obj-y +=3D bus.o
-> +common-obj-$(CONFIG_SOFTMMU) +=3D reset.o
-
-This seems a very minor tweaks as far as it goes. I though the only
-thing needed in hw was hw/core/cpu and everything else was system
-emulation?
-
-However it at least moves the needle in the right direction:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
->  common-obj-$(CONFIG_SOFTMMU) +=3D qdev-fw.o
->  common-obj-$(CONFIG_SOFTMMU) +=3D fw-path-provider.o
->  # irq.o needed for qdev GPIO handling:
-
-
---=20
-Alex Benn=C3=A9e
 
