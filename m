@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CBB31428C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:05:24 +0100 (CET)
-Received: from localhost ([::1]:34200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D1E1428DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:09:36 +0100 (CET)
+Received: from localhost ([::1]:34290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itUry-0002bA-PA
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:05:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38851)
+	id 1itUw3-0000d4-1H
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:09:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38976)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1itUUX-0005Dc-5x
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:41:11 -0500
+ (envelope-from <stefanha@gmail.com>) id 1itUVI-0005xU-O0
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:41:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1itUUW-0005Ux-0P
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:41:09 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39121)
+ (envelope-from <stefanha@gmail.com>) id 1itUVH-0005na-Dw
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:41:56 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52133)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1itUUV-0005U6-M6
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:41:07 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id y11so28975415wrt.6
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 02:41:06 -0800 (PST)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1itUVG-0005mu-Ud
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:41:55 -0500
+Received: by mail-wm1-x344.google.com with SMTP id d73so13938525wmd.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 02:41:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=wHSf4hpjOYkPo29+7kwbZybvl7dOvlQu+eUAlnPqBco=;
- b=gcwGFZV9TpV7keq6wIEJQz2Dw/t0kJTOEOXghGtznM3ekIQJEVxeDvzqyhwfXVtoUT
- xmGDXjhFa1hlafg6r8O32vBhUF99inL/MZeH0GljEYU3kV31dWXHW9vZ1w2QzRmz5SP4
- +Fu0pBcFiKMuzqQ30tuBxF4F7kIvDyHzLDKgsIl12vs85GwM+rQO+RT4Iyp7Kup3r+kw
- kxM8xOGyyTrm26qCW4louxVJlDJHzkdxOsbxA/U/uhq6n9Oi6cQiFwDCuCNJO2wCbERD
- RSNSvvsKHGyYkQD/7bDS77xpN3p5b0TryEbqW/o9gZ5FM5uaxJob2DloRVTBKGku0RdQ
- uTZQ==
+ bh=H+3yUbprJV6xDZ23zFMat1QML4R+Ymh6QmBsR7Am1jQ=;
+ b=iXWhBHBj4IB0xvFt3u4zD5qg2DZDDfDCQE6elAuNI/DzWd4gqDy7TjnBuPWlOvP3ry
+ eZQwpf4WKvDC5dwaM9NVjQaVK/JWEJnoJpFTBhNBfLJNp5C8Vwp7t72DxqxPp/HSVFWu
+ 7fgUHMJ+/ddBhTdISucIYg7A5ZWuFIqwOZurIQ7I4dNN41Kzev28FEAV5PmpZ7BOSFmC
+ lk3DdLU2QhbhguZyyqQAe5rUBiYwAsEoyaV6n1PXCcZuUmCHa5eEiTvYyMpwRMpbBb8/
+ Z5zQc5qvgtKp5Wm48TUeNT05QWtNPv+F77G+VURFCwdyYOPh5EJ8Za1nmcKxfYIyZdio
+ kPPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=wHSf4hpjOYkPo29+7kwbZybvl7dOvlQu+eUAlnPqBco=;
- b=Eu4M33BFpLc4gXh8wUP71Upelcze1NGDr10CPI5MYNCfubtUqAaRTdTNqB8wwOVkJe
- BXUtUjl9g8vRfNjZVoewCKIdtyulj/XxhNJQj8EhL0TN6g5gQ7UJ4mNgth2u3hmNCd11
- s7HUFiw12+FuEAi1SoztJ0nPt3nOdWVFUYYjLn8yvSeU01nAjHMB6ssWj+n54xZT6+kM
- BgeBADm/VYQMRWtNe0AzpHhgZIYlOkPvIpHTOP2BpgprY2/6PCyXMpCyMamrG3awAP1+
- ThGGV4MFOI7z1E6Y031ZmVPiC4aVTPzxPZe6pkjwYNprXFs3j22cblQJjkQ2imjAu0Ru
- aFNQ==
-X-Gm-Message-State: APjAAAWZiiz9c2mna+1bJln+xfnEjYsfbePCMXBwxWjN06w1Y1tOKsCq
- HuC8Q4mQMkhrotBjzna9GL4=
-X-Google-Smtp-Source: APXvYqzhVdjrCtqgnQCIqheQnHy1B/xdBetWSZHL0Nk8G9eD7o7aAOhJvhDXJbOptWF108oi1HJB6Q==
-X-Received: by 2002:a5d:5267:: with SMTP id l7mr17181966wrc.84.1579516865219; 
- Mon, 20 Jan 2020 02:41:05 -0800 (PST)
+ bh=H+3yUbprJV6xDZ23zFMat1QML4R+Ymh6QmBsR7Am1jQ=;
+ b=X4ebLTdKMbkw11PfPYrg3WxNNtEdblm4iMDbrAa1wTnpoTChRjkuM87daFJ7os6IzQ
+ 452jqv8uEXlOhbcskPBgZWfGSAIb2uwery8leQZwm3IWRb01pH4ym+v+1F3X0nIbw2dP
+ AKSuRqL7LUUxBvlO2jr1AYwZUP+lnvLpQsPttrqHlI6J2rzBBf25WP5iqPvZTfieAgwQ
+ zCn/G1yg4KJBCELUZM8aVJczrHCv9eR77KZm8K1zq/qob3qSrOVWkPqzXr2TNibJmAcD
+ e0iJG9lfmk5TaLfnfox7zxS9NmyNdx+H1/Oph4UACu35qZZ3l1hV4xtwiXAxj31aRndD
+ nTIQ==
+X-Gm-Message-State: APjAAAU35sjA4Syxx4p+oHYw0C27l/dCZuFl0fOjl5VjL7BgxA2mRANi
+ 8qErN233Hs8L/Rs+ughkr0A=
+X-Google-Smtp-Source: APXvYqzWQBtgCnD2fV4Uibavtj2Ph3a1o4Jae80lmW8m0pyQc1LTxjwU8M8pa1yHtwi8pYWMx7g49w==
+X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr18210611wmk.172.1579516913877; 
+ Mon, 20 Jan 2020 02:41:53 -0800 (PST)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id z3sm46945298wrs.94.2020.01.20.02.41.04
+ by smtp.gmail.com with ESMTPSA id k7sm330775wmi.19.2020.01.20.02.41.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 02:41:04 -0800 (PST)
-Date: Mon, 20 Jan 2020 10:41:03 +0000
+ Mon, 20 Jan 2020 02:41:53 -0800 (PST)
+Date: Mon, 20 Jan 2020 10:41:51 +0000
 From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Felipe Franciosi <felipe@nutanix.com>
-Subject: Re: Feedback on multi-process QEMU muser prototype
-Message-ID: <20200120104103.GE345995@stefanha-x1.localdomain>
-References: <CAJSP0QWUfHyAk-xLFA1-sWSU7CvB4yKu0=Okoc7wcv7TinmXWg@mail.gmail.com>
- <75F8F7A2-0925-4010-97EA-F135C873087F@nutanix.com>
+To: pannengyuan@huawei.com
+Subject: Re: [PATCH v2] vhost-vsock: delete vqs in vhost_vsock_unrealize to
+ avoid memleaks
+Message-ID: <20200120104151.GF345995@stefanha-x1.localdomain>
+References: <20200115062535.50644-1-pannengyuan@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cPi+lWm09sJ+d57q"
+ protocol="application/pgp-signature"; boundary="AH+kv8CCoFf6qPuz"
 Content-Disposition: inline
-In-Reply-To: <75F8F7A2-0925-4010-97EA-F135C873087F@nutanix.com>
+In-Reply-To: <20200115062535.50644-1-pannengyuan@huawei.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,84 +78,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Jag Raman <jag.raman@oracle.com>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Cc: zhang.zhanghailiang@huawei.com, Euler Robot <euler.robot@huawei.com>,
+ qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---cPi+lWm09sJ+d57q
+--AH+kv8CCoFf6qPuz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 15, 2020 at 10:58:38AM +0000, Felipe Franciosi wrote:
-> > On Jan 14, 2020, at 3:22 PM, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> >=20
-> > I haven't seen the link to the muser prototype shared on the list yet,
-> > so I'm taking the liberty of posting it for discussion:
-> > https://github.com/oracle/qemu/tree/multi-process-qemu-v0.4.1-muser
-> >=20
-> > Great that a lot of the multi-process patch series is no longer
-> > necessary.  The muser approach requires less code in QEMU.
-> >=20
-> > The following points came to mind:
-> >=20
-> > 1. Configure PCI configuration space, BARs, and MSI/IRQs based on the P=
-CIDevice
-> >   instead of hard-coding the LSI SCSI controller's specifics.  That way=
- any
-> >   PCIDevice can run as an muser device.
-> >=20
-> > 2. Integrate with QEMU's event loop instead of spawning threads and cal=
-ling
-> >   lm_ctx_run().  The event loop should monitor the muser fd for activit=
-y using
-> >   aio_set_fd_handler() and then call into libmuser to handle the event.=
-  This
-> >   will avoid thread model problems in the future and also allow true
-> >   multi-threading (IOThreads).
+On Wed, Jan 15, 2020 at 02:25:35PM +0800, pannengyuan@huawei.com wrote:
+> From: Pan Nengyuan <pannengyuan@huawei.com>
 >=20
-> Allowing muser to be used like that is in our to-do list.
+> Receive/transmit/event vqs forgot to cleanup in vhost_vsock_unrealize. Th=
+is
+> patch save receive/transmit vq pointer in realize() and cleanup vqs
+> through those vq pointers in unrealize(). The leak stack is as follow:
 >=20
-> (+ Thanos / Swapnil).
+> Direct leak of 21504 byte(s) in 3 object(s) allocated from:
+>   #0 0x7f86a1356970 (/lib64/libasan.so.5+0xef970)  ??:?
+>   #1 0x7f86a09aa49d (/lib64/libglib-2.0.so.0+0x5249d)  ??:?
+>   #2 0x5604852f85ca (./x86_64-softmmu/qemu-system-x86_64+0x2c3e5ca)  /mnt=
+/sdb/qemu/hw/virtio/virtio.c:2333
+>   #3 0x560485356208 (./x86_64-softmmu/qemu-system-x86_64+0x2c9c208)  /mnt=
+/sdb/qemu/hw/virtio/vhost-vsock.c:339
+>   #4 0x560485305a17 (./x86_64-softmmu/qemu-system-x86_64+0x2c4ba17)  /mnt=
+/sdb/qemu/hw/virtio/virtio.c:3531
+>   #5 0x5604858e6b65 (./x86_64-softmmu/qemu-system-x86_64+0x322cb65)  /mnt=
+/sdb/qemu/hw/core/qdev.c:865
+>   #6 0x5604861e6c41 (./x86_64-softmmu/qemu-system-x86_64+0x3b2cc41)  /mnt=
+/sdb/qemu/qom/object.c:2102
 >=20
-> We have to extend muser.ko to allow the device file descriptor to be
-> "pollable".  Let me know how soon you want to see that so we can
-> prioritise accordingly or assist someone in doing the work.
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+> ---
+> Changes V2 to V1:
+> - delete virtqueues after vhost cleanup to avoid use-after-free
+> - aslo delete virtqueues in the error path of realize()
+> ---
+>  hw/virtio/vhost-vsock.c         | 12 ++++++++++--
+>  include/hw/virtio/vhost-vsock.h |  2 ++
+>  2 files changed, 12 insertions(+), 2 deletions(-)
 
-Last I talked with the multi-process QEMU team the discussion was about
-moving forward with the existing QEMU patches and then moving to
-VFIO-over-socket.  libmuser makes a nice library API for device emulator
-programs and I think it will be revisited when VFIO-over-socket
-integration begins.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-This makes the pollable fd less of a priority for QEMU at the moment.
-
-Stefan
-
---cPi+lWm09sJ+d57q
+--AH+kv8CCoFf6qPuz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4lg78ACgkQnKSrs4Gr
-c8j8Qgf+JpWTg/ko60R2vvJWD9yrG++9hreQ46P/8a9mYoeXxzyrEwgihBem2u8b
-oAKvXW9UY32uwtzsrVCly9sxoD8eYymKvOVXQvxTkCbjj+W7bE6R/ZfMIpG5BW+5
-SUIDzBDJ0NiVsFLNBZ2/uN/rAXb5+DojW7XLOqRaYmY62esMY/1VXUQETgZTwTLA
-YwEzGhZAaa3jTrBTsS7+6kvz5raZO5aFSiwcrPdqfse1N5IxvyuYFUawpbt1cOcr
-VM70+P7FKDnS46925ht5YBhQz9SBqCAt+wldbcdewOf1tky1bMYBkRH5bVDE2B2P
-BlC9sQKnInbWq2iTU7R+n0CyOOpZ1g==
-=UHI8
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4lg+8ACgkQnKSrs4Gr
+c8iYLggAt6wCN2G2dZo+FST78japPgsdzq0uwyN4SFNtc6/SKhm2mB3DnHmPNM9z
+cHatzK2ocBOInoWCw48cF8nAGucs889bd0hcp+u5iCFiAvVpAmIvvCGSKdB5v4NS
+rND9Fi44bbCoasxv8Zvg/pwz0a/Ho/ptm5ashr8p76agauI7q/LJ/VYlvLyA49K3
+eM0t5AfDAgoWV3zzHAf0sBOwH8OK+/xv/vGubMrWRJkOdv4BGadzcPDaCgHPJMoJ
+h1of2ruAGLB3Q7aGvClKqvNkV/HVCTU+L3NUWvHf+RJNS5wMfZB3eNWjOKzzAVpf
+7NThy/1V93hpH+SHTKVnMywcERvTFg==
+=oaEa
 -----END PGP SIGNATURE-----
 
---cPi+lWm09sJ+d57q--
+--AH+kv8CCoFf6qPuz--
 
