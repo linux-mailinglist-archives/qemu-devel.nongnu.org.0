@@ -2,88 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A87142F81
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 17:24:39 +0100 (CET)
-Received: from localhost ([::1]:39458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B54142F82
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 17:25:41 +0100 (CET)
+Received: from localhost ([::1]:39488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itZqw-0007MN-Q1
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 11:24:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57702)
+	id 1itZrw-0008Tr-5B
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 11:25:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57946)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mjrosato@linux.ibm.com>) id 1itZq7-0006um-Hf
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:23:51 -0500
+ (envelope-from <cohuck@redhat.com>) id 1itZqw-0007kU-IO
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:24:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mjrosato@linux.ibm.com>) id 1itZq3-0003Zu-DW
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:23:47 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57360)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mjrosato@linux.ibm.com>)
- id 1itZq3-0003ZB-5S; Mon, 20 Jan 2020 11:23:43 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00KGMQ1J086552; Mon, 20 Jan 2020 11:23:40 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xmgcnf9h2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Jan 2020 11:23:40 -0500
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 00KGMbAh087785;
- Mon, 20 Jan 2020 11:23:40 -0500
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xmgcnf9gc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Jan 2020 11:23:39 -0500
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 00KGHjPg012264;
- Mon, 20 Jan 2020 16:23:39 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 2xksn698wr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Jan 2020 16:23:39 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 00KGNc3w42729892
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 20 Jan 2020 16:23:38 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1BEFC112065;
- Mon, 20 Jan 2020 16:23:38 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DDC89112069;
- Mon, 20 Jan 2020 16:23:37 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.60.75.231])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 20 Jan 2020 16:23:37 +0000 (GMT)
+ (envelope-from <cohuck@redhat.com>) id 1itZqs-0003uW-Mr
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:24:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29080
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1itZqs-0003uK-JZ
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 11:24:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579537474;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gdmJKveTcUArolR1AEkr8gohRf+HhNqm4hcL3OXbaoQ=;
+ b=GWjFH3lxu34A6ui/7+faHZpJL7pC0LjfZQMTiiNvHtmzBNQa7fjmAtkDohRz12vUN99IsG
+ UT7J7dPbLzPBb9iRShH/ENm2HlBrNQ6Iir/d84UBmh4J973IC7XX5FK7mj4Y5P7WalOGph
+ 2ZaYHkoSoUVfqf/JlI0IFB1RnCS1ndw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-UFaeh7n9NWyqGj61d-Vi6g-1; Mon, 20 Jan 2020 11:24:30 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C24DE8017CC;
+ Mon, 20 Jan 2020 16:24:29 +0000 (UTC)
+Received: from gondolin (ovpn-205-161.brq.redhat.com [10.40.205.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6556E1CB;
+ Mon, 20 Jan 2020 16:24:25 +0000 (UTC)
+Date: Mon, 20 Jan 2020 17:24:22 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
 Subject: Re: [PATCH v3] target/s390x/kvm: Enable adapter interruption
  suppression again
-To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
-References: <20200120132441.11884-1-thuth@redhat.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <a4606ae6-1c74-d584-4bf1-9e4d11bb7a8e@linux.ibm.com>
-Date: Mon, 20 Jan 2020 11:23:37 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
+Message-ID: <20200120172422.6528ecee.cohuck@redhat.com>
 In-Reply-To: <20200120132441.11884-1-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+References: <20200120132441.11884-1-thuth@redhat.com>
+Organization: Red Hat GmbH
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: UFaeh7n9NWyqGj61d-Vi6g-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-20_07:2020-01-20,
- 2020-01-20 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 mlxscore=0
- phishscore=0 impostorscore=0 priorityscore=1501 bulkscore=0 adultscore=0
- spamscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
- definitions=main-2001200137
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.156.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,12 +73,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- David Hildenbrand <david@redhat.com>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/20/20 8:24 AM, Thomas Huth wrote:
+On Mon, 20 Jan 2020 14:24:41 +0100
+Thomas Huth <thuth@redhat.com> wrote:
+
 > The AIS feature has been disabled late in the v2.10 development cycle since
 > there were some issues with migration (see commit 3f2d07b3b01ea61126b -
 > "s390x/ais: for 2.10 stable: disable ais facility"). We originally wanted
@@ -114,12 +96,17 @@ On 1/20/20 8:24 AM, Thomas Huth wrote:
 > Reviewed-by: David Hildenbrand <david@redhat.com>
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
+>  v3: Moved "s390mc->kvm_ais_allowed = false" to the end of the function
 
-Took it for a spin with vfio-pci.  With this patch applied, I see the 
-appropriate change reflected in guest /proc/cpuinfo.  I did some tracing 
-and see the expected behavior changes (ex: hits in host 
-kvm_s390_injrect_airq that show suppression occurring).  Data transfer 
-tests worked fine.  Also sanity-tested that ais=off behaves as expected.
+We also might want to move the others in a followup patch, just to
+avoid bad examples to copy/paste.
 
-Looks good to me.
+> 
+>  hw/s390x/s390-virtio-ccw.c         | 20 +++++++++++++++++---
+>  include/hw/s390x/s390-virtio-ccw.h |  3 +++
+>  target/s390x/kvm.c                 |  9 ++++++---
+>  3 files changed, 26 insertions(+), 6 deletions(-)
+
+Looks good to me, will queue when I get a positive test result.
+
 
