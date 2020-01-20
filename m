@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14555143491
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 00:54:13 +0100 (CET)
-Received: from localhost ([::1]:45928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB84143498
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 00:56:30 +0100 (CET)
+Received: from localhost ([::1]:46002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itgrz-0002Ku-7V
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 18:54:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35707)
+	id 1itguD-0006J6-Oh
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 18:56:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35725)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itgpy-0000my-RN
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:52:08 -0500
+ id 1itgq0-0000n5-Cj
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:52:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itgpx-0007Wg-Ed
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:52:06 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45202)
+ id 1itgpz-0007X5-7y
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:52:08 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40815)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itgpx-0007WR-8X; Mon, 20 Jan 2020 18:52:05 -0500
-Received: by mail-wr1-x443.google.com with SMTP id j42so1262906wrj.12;
- Mon, 20 Jan 2020 15:52:05 -0800 (PST)
+ id 1itgpz-0007Wo-0t; Mon, 20 Jan 2020 18:52:07 -0500
+Received: by mail-wm1-x336.google.com with SMTP id t14so1130336wmi.5;
+ Mon, 20 Jan 2020 15:52:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=s1igqKfCso4sFnyZZ3LURygk4ICU58gQAal/3CWVEAU=;
- b=Tnf1IWH0vEnqN+foKGOhpWul2mMrZGPXm+xrATws3uESCw3hBk8aUaSkAwrF1/DE3/
- ofOm6Q9QhSjkobenwWkGO5ZY2zF8u+a+lVsVv08fWWhgiaM38XSDzoNTm+EQHv9lBJVG
- HNKbmCZ/8OX94sBHY/tF0G1gy0mRgjjKgUJnPh8VCRULTpIkPUIvsFYXKtBERwjbwT01
- Qj0WJoi9ZZXXhrCK7VP0+dThzOtPjtEm769LKJmWY7R1UtaTIY6Ys47ONBexVsiwVXPr
- IxQ3zRiCbOiWpiwdJZ38nEyvET6QEycbvpyoR2UdyI0O08Xd/oKhBRM/4K9yMVCXRr9k
- wvlw==
+ bh=mHOBTTcVp9EP98oXfsYEhgEPBD3nh+UXg7LeIFUoJ4Q=;
+ b=TJNplbe2btvc0+SuQm0uMKluglrZPDz6clmgWyWIp/0bj2pml6R1qYMYimlABEC8vu
+ bpUC3OBQO/Q75PBKmo61h9fxw5fh394PQKFJZqiMt7khYTAEYuzaFMJsZTuGo4cVHUxB
+ +nXTQm3RciCbTdUDE8E0UQVstb2xpcnsD1XWyQUuIZYda4Mi9i0ZhS/DuJJ3iTKryt5U
+ LN/8Qtck4j7/Cld47VdJkLPsrE8WgvNU3P1h6F0cfD19/n8YNKy1Mm6sIgPeV/XnJwZE
+ NSW5JMugdg2Jn9LIA+NBXRpiPk3YlRTn9rM1d4S7mvhD+9WDIC/6ieaTcYCercEB3aSk
+ 5HmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=s1igqKfCso4sFnyZZ3LURygk4ICU58gQAal/3CWVEAU=;
- b=kS9Qv6PihO2oTkLx9K8knItip6SLupU+lP6GzYJec7pPxyVI5zvFxZwkwl+Y9Ro+cZ
- +SpkM487f3I37jcr54wWWWtvHZ9bdzcT8Ej+gpUQrpuKmdQI7JChghXrjf09bwnhR7W/
- Ri8IYayZzFZOgglI1hTUWMgd9sCKX4hC7tCH8zkgWDRk4P4DMSy2ZPTMiuVAgZYZGSOI
- piCOIbMBIJzmGkRNiP2BTaSzpHnhoZa+gFrklcLG6nr6geBMlcrrB3f/7kXUW/6tSzls
- l6DfXHvBKSClqXZceQbC/g6xujm/rtGq2tPevWXA4pr76rHUtNrcoz425oHXiZoqeq9d
- uLoQ==
-X-Gm-Message-State: APjAAAUDr+Cgnk7AfQW8JI9Wt5BSgSYYDSgAXwKkGn2r0pnQeqH1L19X
- nupDK1ZgUIf7U+GkUAX3yp3fRgmk
-X-Google-Smtp-Source: APXvYqw9JyDJc4GbeC6oCGMjB22taeNI2Xms40fwXS0CF5oAoXKRO8RpAOFjeNgk9HIICMLC2/VOUw==
-X-Received: by 2002:adf:f64b:: with SMTP id x11mr1806117wrp.355.1579564323829; 
- Mon, 20 Jan 2020 15:52:03 -0800 (PST)
+ bh=mHOBTTcVp9EP98oXfsYEhgEPBD3nh+UXg7LeIFUoJ4Q=;
+ b=Bw1jX+dmIWEeq1PYGPVToyHIlMN4ZXm/1XLpj9AiWl9h+Gl6xTHE907Bz60sFfAyt9
+ PG+q2Vco5Ibqu4Rxm7zqSpqmL7LQNPo3MD9OF7phggw04SlTZaRt2uTWFraXsC7RY/rM
+ taDwOKjPbfuVkgGbf6Lq3VAvhgyqVKN9kYXdmGfQe0iqL+NjiTiFPS7Rguq+NrqgHnPx
+ AuWujcVWuHtip4STsfKCC4vC9l1tfsSG3ljIzYXTwP/9YqJxJ6TOltLZnRJ7rFea+g1f
+ IU1mC6jeEQwxnM/iZBxrot6XsvG91uJmUrdi/6gNKlocfMLjEaSw94CyF5xm3Th1gqQB
+ eP+A==
+X-Gm-Message-State: APjAAAX2c57bHnXxM/k4KU6smJ8YbHRBWoicQWCQL7sOTAH0B51hhdQT
+ H5jRD6Sa8rr0XriiDnv2cBlumot9
+X-Google-Smtp-Source: APXvYqyGsLNH2wfr8Mk4tnXUJV/4J72Bnw9ZmIo3LHUvtoRV3y+zge5jwgIKbS1+mujuWyTRvkmYyw==
+X-Received: by 2002:a1c:5419:: with SMTP id i25mr1229047wmb.150.1579564325471; 
+ Mon, 20 Jan 2020 15:52:05 -0800 (PST)
 Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id d8sm48655269wrx.71.2020.01.20.15.52.02
+ by smtp.gmail.com with ESMTPSA id d8sm48655269wrx.71.2020.01.20.15.52.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 15:52:03 -0800 (PST)
+ Mon, 20 Jan 2020 15:52:04 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/7] hw/arm/raspi: Remove obsolete use of -smp to set the
- soc 'enabled-cpus'
-Date: Tue, 21 Jan 2020 00:51:53 +0100
-Message-Id: <20200120235159.18510-2-f4bug@amsat.org>
+Subject: [PATCH v4 2/7] Acceptance tests: Extract _console_interaction()
+Date: Tue, 21 Jan 2020 00:51:54 +0100
+Message-Id: <20200120235159.18510-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200120235159.18510-1-f4bug@amsat.org>
 References: <20200120235159.18510-1-f4bug@amsat.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,68 +84,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
- "Emilio G . Cota" <cota@braap.org>, Cleber Rosa <crosa@redhat.com>,
- Laurent Bonnans <laurent.bonnans@here.com>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Laurent Bonnans <laurent.bonnans@here.com>,
  Cheng Xiang <ext-cheng.xiang@here.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we enabled parallel TCG code generation for softmmu (see
-commit 3468b59 "tcg: enable multiple TCG contexts in softmmu")
-and its subsequent fix (commit 72649619 "add .min_cpus and
-.default_cpus fields to machine_class"), the raspi machines are
-restricted to always use their 4 cores:
+Since we are going to re-use the code shared between
+wait_for_console_pattern() and exec_command_and_wait_for_pattern(),
+extract the common part into a local function.
 
-See in hw/arm/raspi2 (with BCM283X_NCPUS set to 4):
-
-  222 static void raspi2_machine_init(MachineClass *mc)
-  223 {
-  224     mc->desc = "Raspberry Pi 2";
-  230     mc->max_cpus = BCM283X_NCPUS;
-  231     mc->min_cpus = BCM283X_NCPUS;
-  232     mc->default_cpus = BCM283X_NCPUS;
-  235 };
-  236 DEFINE_MACHINE("raspi2", raspi2_machine_init)
-
-We can no longer use the -smp option, as we get:
-
-  $ qemu-system-arm -M raspi2 -smp 1
-  qemu-system-arm: Invalid SMP CPUs 1. The min CPUs supported by machine 'raspi2' is 4
-
-Since we can not set the TYPE_BCM283x SOC "enabled-cpus" with -smp,
-remove the unuseful code.
-
-We can achieve the same by using the '-global bcm2836.enabled-cpus=1'
-option.
-
-Reported-by: Laurent Bonnans <laurent.bonnans@here.com>
+Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Cc: Emilio G. Cota <cota@braap.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Andrew Baumann <Andrew.Baumann@microsoft.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
----
- hw/arm/raspi.c | 2 --
- 1 file changed, 2 deletions(-)
+ tests/acceptance/avocado_qemu/__init__.py | 31 +++++++++++++----------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
 
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 6a510aafc1..3996f6c63a 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -192,8 +192,6 @@ static void raspi_init(MachineState *machine, int version)
-     /* Setup the SOC */
-     object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(&s->ram),
-                                    &error_abort);
--    object_property_set_int(OBJECT(&s->soc), machine->smp.cpus, "enabled-cpus",
--                            &error_abort);
-     int board_rev = version == 3 ? 0xa02082 : 0xa21041;
-     object_property_set_int(OBJECT(&s->soc), board_rev, "board-rev",
-                             &error_abort);
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index 6618ea67c1..0a50fcf2be 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -55,19 +55,14 @@ def pick_default_qemu_bin(arch=None):
+         return qemu_bin_from_src_dir_path
+ 
+ 
+-def wait_for_console_pattern(test, success_message, failure_message=None):
+-    """
+-    Waits for messages to appear on the console, while logging the content
+-
+-    :param test: an Avocado test containing a VM that will have its console
+-                 read and probed for a success or failure message
+-    :type test: :class:`avocado_qemu.Test`
+-    :param success_message: if this message appears, test succeeds
+-    :param failure_message: if this message appears, test fails
+-    """
++def _console_interaction(test, success_message, failure_message,
++                         send_string):
+     console = test.vm.console_socket.makefile()
+     console_logger = logging.getLogger('console')
+     while True:
++        if send_string:
++            test.vm.console_socket.sendall(send_string.encode())
++            send_string = None # send only once
+         msg = console.readline().strip()
+         if not msg:
+             continue
+@@ -79,6 +74,17 @@ def wait_for_console_pattern(test, success_message, failure_message=None):
+             fail = 'Failure message found in console: %s' % failure_message
+             test.fail(fail)
+ 
++def wait_for_console_pattern(test, success_message, failure_message=None):
++    """
++    Waits for messages to appear on the console, while logging the content
++
++    :param test: an Avocado test containing a VM that will have its console
++                 read and probed for a success or failure message
++    :type test: :class:`avocado_qemu.Test`
++    :param success_message: if this message appears, test succeeds
++    :param failure_message: if this message appears, test fails
++    """
++    _console_interaction(test, success_message, failure_message, None)
+ 
+ def exec_command_and_wait_for_pattern(test, command,
+                                       success_message, failure_message=None):
+@@ -94,10 +100,7 @@ def exec_command_and_wait_for_pattern(test, command,
+     :param success_message: if this message appears, test succeeds
+     :param failure_message: if this message appears, test fails
+     """
+-    command += '\r'
+-    test.vm.console_socket.sendall(command.encode())
+-    wait_for_console_pattern(test, success_message, failure_message)
+-
++    _console_interaction(test, success_message, failure_message, command + '\r')
+ 
+ class Test(avocado.Test):
+     def _get_unique_tag_val(self, tag_name):
 -- 
 2.21.1
 
