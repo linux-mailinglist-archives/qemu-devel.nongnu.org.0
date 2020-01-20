@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17E071433A4
+	by mail.lfdr.de (Postfix) with ESMTPS id 1173C1433A3
 	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 23:04:26 +0100 (CET)
-Received: from localhost ([::1]:44590 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:44588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itf9k-0003Sv-JX
+	id 1itf9k-0003Sc-74
 	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 17:04:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50961)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50974)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6h-0001Vr-NF
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:16 -0500
+ id 1itf6i-0001W8-Q2
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6f-0005m6-Tp
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:15 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35663)
+ id 1itf6h-0005mj-ML
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:16 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41489)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6f-0005ji-NT
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:13 -0500
-Received: by mail-wr1-x444.google.com with SMTP id g17so1132047wro.2
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 14:01:12 -0800 (PST)
+ id 1itf6g-0005ls-Jg
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:14 -0500
+Received: by mail-wr1-x444.google.com with SMTP id c9so1087869wrw.8
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 14:01:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/1VSe/7St+k6/MQRetjcnD35mCiVVbYYdodJto6H7yU=;
- b=PFK9VGsrdI27BvomgI27b7fqRGifADuRdpF67qcU07bomcuWDsOLRrBoIQHPSgnCxZ
- NqZCcPnTbFTFD8x84k3rR2d1feCthc0O65J8wil0C4cO0MqWwf7WgxihwZg38mRO8K4X
- 6t2BZqvmSN4a3OumZ10521OW5Iwcs867RPtvKty44ndJxmYFO4Dr4Gtg1bzQyhrq7392
- xEMIVNAolpT9+iTRMEUuHbYEOsoY84vSQEHbIfhI7QFJYuP+CL5QC5B0rjG5craxvUXp
- 7jKmSdFU98t4Zy/srOvqSIi0162ma0CkR4Vxg7Q7R8L2jlje0ZJs4MVQsU62L/22K3cY
- h0Cg==
+ bh=ggNBufMgUXbLDI6GhLbTQ3tPRFEaGKDyzQZkuThquYg=;
+ b=V5Zxqh5tOLKl2kwDGuL0MmWulWFWBaDYPPFV2jnIc68p6OzahXCGxJJ+1/+Bqw1Tpw
+ pxSzO/O0W5MmZyHiKl0F2WoT2GUVv3fxP6mn6w2iMW00O/r24al2qvGJtLSrSZoQR5jZ
+ X4nwee3CQW21suNJvW9sOOxeaF0LtmNrvzhHnM2GY6bxncbGJrJpQ+QRAR+VBGXsyFNT
+ sld+rojEcpZKfPG6/tfYyvHENxMl2/Dqz5HCbji3TnGltq/cQSVTBRG1JxRAY7OCOMAZ
+ 32oqHwECzPGjCFrLL/1lf+SYtkwB1G+oj0vl3OlaLXE/yWJqia26nsPpu4mqoMGzBArL
+ UpEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/1VSe/7St+k6/MQRetjcnD35mCiVVbYYdodJto6H7yU=;
- b=eb8spv2upe7106WNCk24gXgNaWQEyOvpIKJ6krTHRkFzsQ/HpwM5qTxJBnsPGYCugB
- rw00G97q5Ss4qY3NmYBPKuHx/9iTRr4OuWITnPOXsgPqR++PL8O/SEWwXSs/O5/vJpo0
- 2ulN7vupjiZ1ARevdPam8vHWAUaAJV3ujLDDUIBcHf18wu4y/H/RWNIxn5IuErdBFgu2
- t1CfdNZQVgRdDxwCtEUU6Jg66ObO5m8NpMFWcH/3ZuFtukwxRTmOsF5PlpFyOFhQC1zv
- tq1a2bb7n0ZAhdYOUs7dYljfqLXRie3TNKWgyz3fhe2EdPeXzPwFW7PGBlbZSfrN5ygM
- kuZA==
-X-Gm-Message-State: APjAAAW5uTacMN8OPBw4yVUaeePNQ4rPLAunh9rGGNleAxjvfngmQlZQ
- RAgaX0xA+4TSs9ScRQk9xG1TvRCP
-X-Google-Smtp-Source: APXvYqzAZO9Yyo2A4fnf315HSdCx+8IbysAoJa1DEg9hfxoj5Xf4dS4Wjwnr4aOoE6hkbypfcHs/RQ==
-X-Received: by 2002:a5d:43c7:: with SMTP id v7mr1493442wrr.32.1579557671802;
- Mon, 20 Jan 2020 14:01:11 -0800 (PST)
+ bh=ggNBufMgUXbLDI6GhLbTQ3tPRFEaGKDyzQZkuThquYg=;
+ b=LIXq3bh/OfUBpw3rfjsN+DpdpXEEByiWlzFqE61IrVMVEMBKQBZAdpXcbjG39fgPM5
+ U9F55jXygLdYpC9QRZ3WtFlIzqhbvlHvw1MQC0ncAqqAzdBnC45lob/fZRpZmQIClAib
+ qH6vgMQmWfqBBSPQhpa0McAv0/ue8xcY5uo+qvPCVfiuMR/q/fP6CUzdN6yvk0zq29sC
+ EzDSVwAUtEj2gsDQBsLLKK3sw622SWhsuiN2vl2u4wOVUM5I95Ir83L18XJrRKQiq6m6
+ wdW/ta/A51gxwJXxym2LYwumiZDX/JdmrwcnLOrY9p28lbQFhD+OAO8MY+5Dwl8tqgGQ
+ vzYg==
+X-Gm-Message-State: APjAAAVx8j2PXqZWvm7156U2T9h27sbTlUAXqppbYkAL1neqXAriP9yF
+ +2qLuYteZ+MgQb0QAFt1ALdA50Ey
+X-Google-Smtp-Source: APXvYqxocXpd9c4zqJUQZdMJRzAGQh/dX6aXTGofs68r2mhGU3LD65ynBurtDTn9fvX72AtqffBD4w==
+X-Received: by 2002:adf:f18b:: with SMTP id h11mr1633760wro.56.1579557673162; 
+ Mon, 20 Jan 2020 14:01:13 -0800 (PST)
 Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id f1sm904341wmc.45.2020.01.20.14.01.10
+ by smtp.gmail.com with ESMTPSA id f1sm904341wmc.45.2020.01.20.14.01.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 14:01:11 -0800 (PST)
+ Mon, 20 Jan 2020 14:01:12 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/18] MAINTAINERS: Move the AVR machines in new section
- (not within ARM)
-Date: Mon, 20 Jan 2020 23:00:51 +0100
-Message-Id: <20200120220107.17825-3-f4bug@amsat.org>
+Subject: [PATCH v4 03/18] tests/acceptance: Do not set the machine type
+ manually
+Date: Mon, 20 Jan 2020 23:00:52 +0100
+Message-Id: <20200120220107.17825-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200120220107.17825-1-f4bug@amsat.org>
 References: <20200120220107.17825-1-f4bug@amsat.org>
@@ -83,67 +83,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Michael Rolnik <mrolnik@gmail.com>, Cleber Rosa <crosa@redhat.com>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Since commit ba21bde93 we don't need to set the machine type
+manually, the one set by the ":avocado: tags=machine" will be used.
+
+Suggested-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-!squash
----
- MAINTAINERS | 29 ++++++++++++++++-------------
- 1 file changed, 16 insertions(+), 13 deletions(-)
+ tests/acceptance/machine_avr6.py | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3fbac64b31..4998fee99a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -489,19 +489,6 @@ F: hw/*/allwinner*
- F: include/hw/*/allwinner*
- F: hw/arm/cubieboard.c
+diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_avr6.py
+index 43501b26a3..784c287d0b 100644
+--- a/tests/acceptance/machine_avr6.py
++++ b/tests/acceptance/machine_avr6.py
+@@ -41,7 +41,6 @@ class AVR6Machine(Test):
+         rom_hash = '7eb521f511ca8f2622e0a3c5e8dd686efbb911d4'
+         rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
  
--AVR Machines
--M: Michael Rolnik <mrolnik@gmail.com>
--R: Sarah Harris <S.E.Harris@kent.ac.uk>
--S: Maintained
--F: hw/avr/
--F: hw/char/avr_usart.c
--F: include/hw/char/avr_usart.h
--F: hw/timer/avr_timer16.c
--F: include/hw/timer/avr_timer16.h
--F: hw/misc/avr_mask.c
--F: include/hw/misc/avr_mask.h
--F: tests/acceptance/machine_avr6.py
--
- ARM PrimeCell and CMSDK devices
- M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
-@@ -901,6 +888,22 @@ F: include/hw/*/nrf51*.h
- F: include/hw/*/microbit*.h
- F: tests/qtest/microbit-test.c
- 
-+AVR Machines
-+-------------
-+
-+Atmel MCU
-+M: Michael Rolnik <mrolnik@gmail.com>
-+R: Sarah Harris <S.E.Harris@kent.ac.uk>
-+S: Maintained
-+F: hw/avr/
-+F: hw/char/avr_usart.c
-+F: include/hw/char/avr_usart.h
-+F: hw/timer/avr_timer16.c
-+F: include/hw/timer/avr_timer16.h
-+F: hw/misc/avr_mask.c
-+F: include/hw/misc/avr_mask.h
-+F: tests/acceptance/machine_avr6.py
-+
- CRIS Machines
- -------------
- Axis Dev88
+-        self.vm.set_machine('sample')
+         self.vm.add_args('-bios', rom_path)
+         self.vm.add_args('-nographic')
+         self.vm.launch()
 -- 
 2.21.1
 
