@@ -2,65 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B431431F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 20:04:46 +0100 (CET)
-Received: from localhost ([::1]:43098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE79D1431EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 20:04:18 +0100 (CET)
+Received: from localhost ([::1]:43096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itcLt-00025w-GL
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 14:04:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33252)
+	id 1itcLR-0001ft-QI
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 14:04:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33552)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1itcH6-0006Dz-UA
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 13:59:49 -0500
+ (envelope-from <philmd@redhat.com>) id 1itcJY-0000Ln-DE
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 14:02:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1itcH5-00050b-TL
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 13:59:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49448
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1itcJT-0006iz-78
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 14:02:19 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47607
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itcH5-0004x9-QD
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 13:59:47 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itcJT-0006iJ-3Y
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 14:02:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579546787;
+ s=mimecast20190719; t=1579546934;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XhSmOdSIPFdYDo3ekRv8QjbhS5rxkBiSCbs7ea4VlnA=;
- b=SMdQbUNTC1g4sg2A59XhZ0t2mN+mwzU0J5JByqgJ9lFwwJMQ/UszUHeeO30tnEdkyuHJ7i
- 16TqFJJtdl7gE0/qZGvHrvUBl7Mvu/gozwGIZGni7vvpmP6WbNyFGeWcHrv27xWINR6ljI
- Una66M9r0OrkI6mRpETM/OBtkoO3O4c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-Qc7P1q7qPk6jzoHsS-DwZg-1; Mon, 20 Jan 2020 13:59:44 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17A2D10A1690;
- Mon, 20 Jan 2020 18:59:43 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-205-38.brq.redhat.com [10.40.205.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C22205C1BB;
- Mon, 20 Jan 2020 18:59:40 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] MAINTAINERS: Add an entry for the Siemens SX1
- (OMAP310) machines
-Date: Mon, 20 Jan 2020 19:59:28 +0100
-Message-Id: <20200120185928.25115-3-philmd@redhat.com>
-In-Reply-To: <20200120185928.25115-1-philmd@redhat.com>
-References: <20200120185928.25115-1-philmd@redhat.com>
+ bh=EhCNMjX983nC8F7qVvCJbWLa8D2WM/aCqt/wvcrqF5c=;
+ b=PxhGjDlhtapvcfZ1aw8X8GXk29gR1iKRiMSHCo+wELCQzamZEkmmPulU5+cRWhJg7FO5tL
+ jcAVCMAGd6kS4WOHENetrj5BzYL9Ic92J1plGUBWYx2cWf0PO2H+PoJVkZplBIxDVdBf47
+ Tw0YBnCW5QAJyxFnnxqv6CbpL3g2b1Y=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-426-kIsg5AqcOAqLl7499ktvEQ-1; Mon, 20 Jan 2020 14:02:13 -0500
+Received: by mail-wr1-f71.google.com with SMTP id v17so191954wrm.17
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 11:02:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EJI/jxaTJNO4GsVuiSQITtTXsjQkBuso2rOaws0BmPk=;
+ b=gBziaubxANLh/Mcpr6in2xRjZ72CnEIKJQbC2+VvpZzvOePbYovjZuqK1JbzGvtFFy
+ bHjw9S5emNHkpedwzriKk6vYxsbgMJpf7jVQGJbuutAg7P0jPLvezMZfaB6cOZfFWT3o
+ /6G31WikxS8X+E2x+2VMxmWQQfEdhuIEAQrCa3t+yWqERkMPxuPlwF0APyXhnmMDC/KP
+ Dc59anYkR5FKDJnXlx6/gEeRv+lVSm9zLabDHNxrZFj3YOu/3d5lCiNiH3HIL8TB+/vT
+ O+vVg0e4LM/Zc+Rat7T47LK47KndZ9npLDWNCgtTnzu+L4Yv8AQAfZ59U7D2hpspZYiX
+ nu3A==
+X-Gm-Message-State: APjAAAXI25qhSaTPa76XYyCUDr0GkImiFX2C11RQ1qHBEfx9ZQZ41G5R
+ SVloKgafGvbu7zT3+02nlYeJclu0TBF9IhdULVpxZZ16ar5CHPqIVEuBPOXS/yZ6f3qds9Rc5Yu
+ /ycr4oxBqOV42jTY=
+X-Received: by 2002:a5d:448c:: with SMTP id j12mr886401wrq.125.1579546931856; 
+ Mon, 20 Jan 2020 11:02:11 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz2cZTFEZVZvE3m3/E8DIYUdIJXEOKgSXPPCBDN2N9+6dZ0ycPEn2e0TmzY3FIQfFgw8Qq0jA==
+X-Received: by 2002:a5d:448c:: with SMTP id j12mr886366wrq.125.1579546931571; 
+ Mon, 20 Jan 2020 11:02:11 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id s128sm391543wme.39.2020.01.20.11.02.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Jan 2020 11:02:10 -0800 (PST)
+Subject: Re: [PATCH 0/6] Fix more GCC9 -O3 warnings
+To: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Chubb, Peter (Data61, Kensington NSW)" <Peter.Chubb@data61.csiro.au>
+References: <20191217173252.4672-1-philmd@redhat.com>
+ <84fthiaahd.wl-Peter.Chubb@data61.csiro.au>
+ <87a77q9njk.fsf@dusky.pond.sub.org>
+ <97c34bbd-79d2-070e-a35e-4fdf68b2e291@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <db49a831-df35-c209-5db5-0631a5ef2497@redhat.com>
+Date: Mon, 20 Jan 2020 20:02:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: Qc7P1q7qPk6jzoHsS-DwZg-1
+In-Reply-To: <97c34bbd-79d2-070e-a35e-4fdf68b2e291@redhat.com>
+Content-Language: en-US
+X-MC-Unique: kIsg5AqcOAqLl7499ktvEQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,37 +95,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Hannes Reinecke <hare@suse.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>, Gerd Hoffmann <kraxel@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the Siemens SX1 (OMAP310) cellphones with the other ARM machines.
+Hi Paolo,
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+On 1/18/20 8:24 PM, Paolo Bonzini wrote:
+> On 18/12/19 07:05, Markus Armbruster wrote:
+>> "Chubb, Peter (Data61, Kensington NSW)" <Peter.Chubb@data61.csiro.au>
+>> writes:
+>>
+>>>>>>>> "Philippe" =3D=3D Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =
+writes:
+>>>
+>>> Philippe> Fix some trivial warnings when building with -O3.
+>>>
+>>> For compatibility with lint and other older checkers, it'd be good to k=
+eep
+>>> this as /* FALLTHROUGH */ (which gcc should accept according to its
+>>> manual).
+>>
+>> We have hundreds of /* fall through */ comments already.
+>>
+>>> Fixing the comments' placement is a different matter, and should be
+>>> done.  Seems to me that until gcc started warning for this, noone had
+>>> actually run a checker, and the comments were just for human info.
+>>>
+>>> Peter C
+>>
+>=20
+> Queued, thanks.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 52fbc18566..27fbe1abb4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -560,6 +560,12 @@ F: include/hw/arm/digic.h
- F: hw/*/digic*
- F: include/hw/*/digic*
-=20
-+Siemens SX1 (OMAP310)
-+M: Peter Maydell <peter.maydell@linaro.org>
-+L: qemu-arm@nongnu.org
-+S: Maintained
-+F: hw/arm/omap_sx1.c
-+
- Gumstix
- M: Peter Maydell <peter.maydell@linaro.org>
- R: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
---=20
-2.21.1
+Thanks, but I sent a v2 (20191218192526.13845-1-philmd@redhat.com) with:
+
+- addressed Thomas and Aleksandar comments
+- dropped 'hw/scsi/megasas: Silent GCC9 duplicated-cond warning'
+- dropped 'qemu-io-cmds: Silent GCC9 format-overflow warning'
+
+See:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg666280.html
+
+Can you queue it instead?
 
 
