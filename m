@@ -2,83 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A91E14291B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:21:01 +0100 (CET)
-Received: from localhost ([::1]:34562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E71142937
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:26:06 +0100 (CET)
+Received: from localhost ([::1]:34678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itV75-0007sx-Ub
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:20:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43772)
+	id 1itVC0-0005oQ-SI
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:26:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44099)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1itUye-00067F-2E
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:12:18 -0500
+ (envelope-from <mreitz@redhat.com>) id 1itV0Q-0008Mp-MU
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:14:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1itUyY-0007km-Il
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:12:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48500
+ (envelope-from <mreitz@redhat.com>) id 1itV0P-0000GC-Jd
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:14:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36384
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itUyY-0007kR-F2
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:12:10 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itV0P-0000Fy-Fz
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:14:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579518729;
+ s=mimecast20190719; t=1579518845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CCc9FOqBpgV9bil5kXjPF5fCVOKfxfoIqoN9OpybMg0=;
- b=X9YQAZtfE+YIXnrDHsoZVdxPD1uQn1+Ni7BF/mbN/qE22VcfYLACgxkNDIpI9G7RTyLfDi
- lQ9aZYasLNiisgyqmM7g3mVJPcC3pvtoHTlRZdwx4n6oWIIIu4Q0UcSDI1+s+eBO/OeKKA
- yW2k+b/PsQMvp9SfnUekfFNWF77j+0E=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-qO0zcBiVOnGGxyMg6S88fA-1; Mon, 20 Jan 2020 06:12:06 -0500
-Received: by mail-wr1-f69.google.com with SMTP id o6so13948205wrp.8
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 03:12:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=J3a5cwaiyzD9NpBASnFL5ShUCvK6h8t/Ve/HEsKNh04=;
- b=nRjwDxzIllpvIYwqLEsjQDl9p/vhMO0kTxdOFLTBmuKX9kcoPm/pEGPg41sA/BgvYX
- BVF0Jw39U1goC8+9ZdI3NSTKWnPKcMQE3n6649JsZBEBm5IijMRYt10K1ZycVyxxVWBR
- 7S6LoVf8Th7UVDYtSxe8SEPwY96mLhl+PjYSZ8LbMUTsrX4jlOBGd5CRHxdBtmMiNA52
- O6kFtIg3R5yR2W1ZNpe1lh3bqdK4DFfp4t3EmPtOv4Rz4jWQYPwLoMfhnFZ/tSOyZAvp
- GWH3Xg8NLoJRtEugz8jth5FKgdEQ42Od3RTb0Exkpesh66rFpIywKxjANte8Uk5B4Fxx
- eW0w==
-X-Gm-Message-State: APjAAAXJoJWBmCBZDYOpK7+kWIHI74Sw105JajEaNUf6UBHoQqXuIfpq
- iESEFdfWYibkVXQC2wBLLz+716Qerm7ss62nuy0rh1QS0aaMLs4QmJ4Kfcmil6AusCZlbwKhmB/
- iZpWiqKqa5fjQNPg=
-X-Received: by 2002:a05:600c:24ca:: with SMTP id
- 10mr18684265wmu.4.1579518724561; 
- Mon, 20 Jan 2020 03:12:04 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyEphNQoGI+57Yowci/hDOq0N5+Lgs+MyPhKY2NRcFHqwaRTOqYt92K+w4nMQCeE3aBNZbqrg==
-X-Received: by 2002:a05:600c:24ca:: with SMTP id
- 10mr18684243wmu.4.1579518724265; 
- Mon, 20 Jan 2020 03:12:04 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id w20sm262408wmk.34.2020.01.20.03.12.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jan 2020 03:12:03 -0800 (PST)
-Subject: Re: [PATCH] audio/oss: fix buffer pos calculation
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200120101804.29578-1-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <37383db5-0a9a-4431-663e-3c20472abeb1@redhat.com>
-Date: Mon, 20 Jan 2020 12:12:02 +0100
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=fYcYBg9Grnen+XOMFg07qtpee0w3tgn+Sv5q0ym5yS0=;
+ b=g6iqwQOFkjqq4WBne1rF/tNvzCDUQdgfXorwWscvJiZf2J+4D/baC/bhN5K4w27xlqQJYa
+ Lj92OPpXHf+lc/jFYLRRbF6tLvTthgx2K6UBeStzOYZgpeuE2kc5CDv3wGY29nGeLxk/Zh
+ ZyTbJwd4zp1VnRrqCn9klnbyBE5pVBw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-wq3z9d2gPwazBlbA63p_vw-1; Mon, 20 Jan 2020 06:13:59 -0500
+X-MC-Unique: wq3z9d2gPwazBlbA63p_vw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72CA0100551A;
+ Mon, 20 Jan 2020 11:13:58 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-225.ams2.redhat.com
+ [10.36.117.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC2D18BE0F;
+ Mon, 20 Jan 2020 11:13:53 +0000 (UTC)
+Subject: Re: [PATCH v3 04/10] hbitmap: drop meta bitmaps as they are unused
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20191219100348.24827-1-vsementsov@virtuozzo.com>
+ <20191219100348.24827-5-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <a42037d5-0d62-d916-a814-ba755b6ad9a4@redhat.com>
+Date: Mon, 20 Jan 2020 12:13:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200120101804.29578-1-kraxel@redhat.com>
-Content-Language: en-US
-X-MC-Unique: qO0zcBiVOnGGxyMg6S88fA-1
+In-Reply-To: <20191219100348.24827-5-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="LNqHdDveKwoZjwUrjsb7Bm1SX3qpN2ivB"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -93,37 +100,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?S8WRdsOhZ8OzIFpvbHTDoW4=?= <dirty.ice.hu@gmail.com>
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/20/20 11:18 AM, Gerd Hoffmann wrote:
-> Fixes: 3ba4066d085f ("ossaudio: port to the new audio backend api")
-> Reported-by: ziming zhang <ezrakiez@gmail.com>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--LNqHdDveKwoZjwUrjsb7Bm1SX3qpN2ivB
+Content-Type: multipart/mixed; boundary="hrzCfNAULpaf4JcrvDirlRzj1oQ4yHjoT"
+
+--hrzCfNAULpaf4JcrvDirlRzj1oQ4yHjoT
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 19.12.19 11:03, Vladimir Sementsov-Ogievskiy wrote:
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->   audio/ossaudio.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-> index c43faeeea4aa..94564916fbf0 100644
-> --- a/audio/ossaudio.c
-> +++ b/audio/ossaudio.c
-> @@ -420,7 +420,7 @@ static size_t oss_write(HWVoiceOut *hw, void *buf, si=
-ze_t len)
->               size_t to_copy =3D MIN(len, hw->size_emul - hw->pos_emul);
->               memcpy(hw->buf_emul + hw->pos_emul, buf, to_copy);
->  =20
-> -            hw->pos_emul =3D (hw->pos_emul + to_copy) % hw->pos_emul;
-> +            hw->pos_emul =3D (hw->pos_emul + to_copy) % hw->size_emul;
+>  include/qemu/hbitmap.h |  21 --------
+>  tests/test-hbitmap.c   | 115 -----------------------------------------
+>  util/hbitmap.c         |  16 ------
+>  3 files changed, 152 deletions(-)
 
-Interestingly oss_put_buffer_out() is correct.
+Er, hrm, well.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
->               buf +=3D to_copy;
->               len -=3D to_copy;
->           }
->=20
+git log me the only commits that touched anything to the regard of
+'*create_meta*' were the ones that introduced it and your commit that
+dropped it.
+
+Soo, er, well, okay.  Why did we introduce these again?  (I suppose I
+should know since they have my S-o-b on them.  But I actually don=92t.)
+
+Max
+
+
+--hrzCfNAULpaf4JcrvDirlRzj1oQ4yHjoT--
+
+--LNqHdDveKwoZjwUrjsb7Bm1SX3qpN2ivB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl4li28ACgkQ9AfbAGHV
+z0Ad2Qf/fMQ3Fkwc4wNAjqZ3QJ3V/7EIH/4zXPQdFCW7QMV1GjF3A4/QbaD3V3PE
+wvZgJsCu/xM+x6B78rdp071ZRHr/4hGHuoZc2Ju3TfPty4D+AwOIFWcWRO4WQH+Y
+21Dq3UDamKzsrqm9mjwqsmi+xpzA4qFMJwoJYv8bV//JolnUamc1HLSAfC/ibrwB
+LuYedBtBU6iGQ5NgRuouyCf30gylcm8Ki/mVrs8Tsuclr+T2CZXjK1tKe2UjIfah
+aX45xdcuXnpYfAxm7BXri9ugaUy3+mpnVE6m+wLdNNQUmPND073RJSPC6deEpmHR
+74rvtmcLXTSUi43CCaLTJEUk3ribUQ==
+=d8v4
+-----END PGP SIGNATURE-----
+
+--LNqHdDveKwoZjwUrjsb7Bm1SX3qpN2ivB--
 
 
