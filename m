@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6AA1422FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 07:05:46 +0100 (CET)
-Received: from localhost ([::1]:58950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085E9142313
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 07:14:23 +0100 (CET)
+Received: from localhost ([::1]:59118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itQBx-0000It-Qz
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 01:05:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35391)
+	id 1itQKL-0004Cp-Ho
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 01:14:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35389)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1itQ1j-0007Kv-BV
+ (envelope-from <alxndr@bu.edu>) id 1itQ1j-0007Ks-83
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:55:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1itQ1g-0006Tf-01
+ (envelope-from <alxndr@bu.edu>) id 1itQ1h-0006UK-54
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:55:07 -0500
-Received: from mail-bn7nam10on2111.outbound.protection.outlook.com
- ([40.107.92.111]:18623 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+Received: from mail-bn7nam10on2106.outbound.protection.outlook.com
+ ([40.107.92.106]:1376 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1itQ1f-0006TL-QT
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:55:03 -0500
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1itQ1h-0006Tr-0W
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:55:05 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GQFiWZmVVxzkY2oALYFK6NE35iqduQU6wTJoacKXw0K2SUunz3LQdPN3/bMoWY+4sAhCYyvslFO265AEzFPmWPND9Wx+f9BnscDw9/x3d06z37jYO8ahxP29jU2K0tj+zzB7d6uxe5eDD2AE0hH7RWx/SGnzJKjs+qpji+Oen+/bh8PGSvUBtBndZhD/jJ+4+kIQCPCguGT6QBRnqpx+S65wFvCjzeqTkZXwQ4A1eklnVUx47YZLskNoQ3IDq5NpVHZ+x25/oL2oEb8O/zlZCGNcZkQ9mfmLiOmpbN77qBD5mg/G+XCtkbQ5bzrtg+fIZVY6RFUT3BThi0TcnziGww==
+ b=Y092sJNmoxdgCWsouClObyaCoG2/Z9ZE0xnW9xetubVe4nUsWbDH/sOlf2mIOe4grVqCOANn2qKHR4bEBM6gy3h8VcRQMdbqy31ScJZxudGKAVrM3372r0QELHHJxvNHo/WzCEdy5pEjFWZMcGz5kmW28v0KvXr6SuMPo4Nik4/vmQlwb9TxToQbg30ia/LrUghiCVFOWzEpyUomxwufZ1Rz4kXoBlqSDjNglmKUvZpIlXk5FgSNEsfC+szUhTkqn7+q0nMEzcStRvN1wmXafbF+7sMyp7rk5prKgJWRpVIl0wA0w2bjEWatNyQgNCmEVivk1gH+rOMkB7k8vEY47w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FfY1+16kphmDJ7KfW3C1Len7PaAQLoDr0wlMmfRhp+w=;
- b=G59Fnu5/L7+aMQ+qKEeNJVh7tlIW0RvdHWGmQfPmwqkgKZpC6EpvE450kAlh6l7Ed6WX7XgD55BK4ONTvh0K/L895ZWCiKCxSwAh7HDgMXQSOHRylrdnrGgmeVglzH+5u8Cp9YX8b71h7Z6a0B6/go6ol3IAV59MTWZbjlfRrWyUwnYWZCoPG9LwgtBM6z1NUba3BXMTHmoY/0n45YMWWqmA3lAIMvTmlyxP53h+YuJyr/jQBRwknRIxom0CYVlaadEN8xxiMndBDFPpkMn3OYKe848AL6mdjmjzadtEnXwlrCQPrzh6RMz6zeN5hoRnsK2p40q0iH30LOuPyYIWjw==
+ bh=dvNYeeaXgAhc60bU8SP/MWFwQDDsLlrZP1iRKlujo9A=;
+ b=a4/UdlntJoDcFJJ0qEy5N/4xq0dvMhwOy8/x+s5cSphIyb7uJ1L6ygMlZUSE94g6XHxhrIMBy9cqd+pfJu3zci1b2IXD7ul5gzqrlWsO7tgSQi/he9fcoMh/Z++MUQ6xjLxkW0MywpcYmji2Jnqu5hj4m7lnevD0ruN6qihCKC6pZ/HmC90zh7Ex96G3fJ52R/CNbcxbRyyyDFxJUOB812KleuEe3lZIUT7tMdTFzkUFgfyRKmxArvlYJVHvl1Y8AnzPgH5hvHv9WTvQ4lsD9labSNl4vApzagSoDCdl0Zp9PzquBhFPCFRtdbPPlXgmq7IEJtzketQ1jAA+dnUh5g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FfY1+16kphmDJ7KfW3C1Len7PaAQLoDr0wlMmfRhp+w=;
- b=J3IaHCAE2gIW49KoTbtsSMPiaVdTwJKP0Zk2vXAoYbyRcreubE+ZYM73ncqH21FkbgO7cTwy3Ak04vr5HQEP306N+B9NY++DXhl4VE5WY11FDF1NfLnxpwqS5NEcj83Xxtvg626n2eg98qqAGwiq7q7nLKMeguzBYPhCkJy1oSs=
+ bh=dvNYeeaXgAhc60bU8SP/MWFwQDDsLlrZP1iRKlujo9A=;
+ b=e5anO+0iKEhazDS6GENl+VG/Y/b8Dpn0TMXG9dPVdM1ZbZJgK2wBnsC89RsIOq4ClkZjEEShjJoQ9kmtBQ1kXDlgu6Hp+JpTex0dDDJBAvsOPXoj7eV9l+3jcxt+F9BpoT5HwH6+WXRBR5T+jJSmY8wFRF9+u6wJEo7Xn3TQ+I0=
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (52.135.102.32) by
  SN6PR03MB4399.namprd03.prod.outlook.com (20.178.6.20) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.23; Mon, 20 Jan 2020 05:55:03 +0000
+ 15.20.2644.23; Mon, 20 Jan 2020 05:55:04 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8%7]) with mapi id 15.20.2644.024; Mon, 20 Jan 2020
- 05:55:03 +0000
+ 05:55:04 +0000
 Received: from mozz.bu.edu (128.197.127.33) by
  MN2PR20CA0032.namprd20.prod.outlook.com (2603:10b6:208:e8::45) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.20 via Frontend Transport; Mon, 20 Jan 2020 05:55:01 +0000
+ 15.20.2644.20 via Frontend Transport; Mon, 20 Jan 2020 05:55:02 +0000
 From: "Bulekov, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: [PATCH v7 15/20] fuzz: add target/fuzz makefile rules
-Thread-Topic: [PATCH v7 15/20] fuzz: add target/fuzz makefile rules
-Thread-Index: AQHVz1YozqjYdhj3yUy1KAakuF80Pw==
-Date: Mon, 20 Jan 2020 05:55:02 +0000
-Message-ID: <20200120055410.22322-21-alxndr@bu.edu>
+Subject: [PATCH v7 16/20] fuzz: add configure flag --enable-fuzzing
+Thread-Topic: [PATCH v7 16/20] fuzz: add configure flag --enable-fuzzing
+Thread-Index: AQHVz1YogdWBjjfeR0OaAS+bGjs0Eg==
+Date: Mon, 20 Jan 2020 05:55:03 +0000
+Message-ID: <20200120055410.22322-22-alxndr@bu.edu>
 References: <20200120055410.22322-1-alxndr@bu.edu>
 In-Reply-To: <20200120055410.22322-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -69,11 +69,11 @@ x-clientproxiedby: MN2PR20CA0032.namprd20.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 100b29b4-6c82-4aa4-033a-08d79d6d4a84
+x-ms-office365-filtering-correlation-id: 5a1273b8-fc3d-45c2-e5a4-08d79d6d4af9
 x-ms-traffictypediagnostic: SN6PR03MB4399:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR03MB4399BA9139DF9D5BF711B606BA320@SN6PR03MB4399.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:478;
+x-microsoft-antispam-prvs: <SN6PR03MB43994F5B40B605FA37D8D8ADBA320@SN6PR03MB4399.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:962;
 x-forefront-prvs: 0288CD37D9
 x-forefront-antispam-report: SFV:NSPM;
  SFS:(10019020)(4636009)(136003)(366004)(39860400002)(346002)(376002)(396003)(189003)(199004)(5660300002)(956004)(2616005)(8936002)(86362001)(6916009)(6486002)(7696005)(1076003)(52116002)(316002)(71200400001)(16526019)(186003)(786003)(478600001)(2906002)(26005)(81166006)(66946007)(66476007)(64756008)(36756003)(8676002)(75432002)(81156014)(66446008)(4326008)(66556008)(54906003);
@@ -84,20 +84,21 @@ received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 1Tus7UVIvX3P08BshOIS4GYbkT+CetiMeLONwOE3Nx29pLG81eT8EUwVsgxOPEUjSVBkv9sC7As+06s/BKk4xxaazieAbj5SCR0S0y41NApWJTD1qI8xRhefKvFOQbXQPlTH/otZ7W4QGlZKRtd6xyX9MedN0rueaDFEn8dzsAQ2ZHiLsb8CQBvZcASAKY4+zWvnxL1B295LppgAokO9eiVbp6sMVsUNcS81FbFE600Q9jEWGWLU3Qus95f6DQcoq6v/uZRv7BYdQJEFLh8IG6hnpZPLHA71HiEorUMcA0c4lrnHNcjUxFMJYmo/OU5zJsrzusTKj8Trn922lNKrhFuZhDE+cqbtD+DsMiIZ8QOGLprCl7WsokU4Md53G+2y3ZANKXDB5aDCtDCr5LM8wVUjMyOLDs2pC6k7/kWjrzujFexSC8ihJ8E4Oaydl/S/
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+x-microsoft-antispam-message-info: iqvuJ03dwg/6pbqNG6QUueOOZmYISa8nAUS9KXQlECexZ3NQhecJoQmyhDmc7pSGM6W5iBC+e4nShYhXsvT/C9ly7sJkgOcdERab6jGKP3f0SyMGsJY54ETcbhdtNPuX9kR2nBxEL7vCQkNkBoL42MPmhw6YZmq4usf+XNs8E3GH8Qcyw1qcXnNktNRAwu8w5cH9FH7UEeIsIb7FgkCFym0tw2AZu3E87tTJJYO4QAK7oR/wE1CU5DT9JM7+3nBO1f4uYrTr7eGMj04kuUTHN2xO968M5NZqre851WvVKuTeH4yS97wmTmtallvTPMz2FWsdG8mJUe3kGFD9zeC5ydvenLfWAJah84t65sWvFY/rYIjfoM5ycxBtGXSSMsYryZRZteE0f4Liertcsxje+noC/tNCv+u+ttsYrpWUFnDaqGJuJG8fdTs9cdR1uSE7
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F970F46B71F4A8418171FC5CA49887F7@namprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 100b29b4-6c82-4aa4-033a-08d79d6d4a84
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2020 05:55:02.5584 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a1273b8-fc3d-45c2-e5a4-08d79d6d4af9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2020 05:55:03.5329 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SFLvqxpReEiMIDB2vaJRWraOH8xN0Zb32DqUwd9pQT6jVekTdm4aXw7/v8DQwCNG
+X-MS-Exchange-CrossTenant-userprincipalname: ZoiBYnTKXzXBE28/khl9wdN9oW+lnJAO2wIyMBiSkkKumgY3jNE/xPWMJER5SmGK
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4399
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.92.111
+X-Received-From: 40.107.92.106
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,114 +111,61 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ "bsd@redhat.com" <bsd@redhat.com>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
  "stefanha@redhat.com" <stefanha@redhat.com>, "Bulekov, 
  Alexander" <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- Makefile        | 15 ++++++++++++++-
- Makefile.objs   |  2 +-
- Makefile.target | 16 ++++++++++++++++
- 3 files changed, 31 insertions(+), 2 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index e6de7a47bb..dab291455f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -464,7 +464,7 @@ config-host.h-timestamp: config-host.mak
- qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
- 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$@=
-")
-=20
--TARGET_DIRS_RULES :=3D $(foreach t, all clean install, $(addsuffix /$(t), =
-$(TARGET_DIRS)))
-+TARGET_DIRS_RULES :=3D $(foreach t, all fuzz clean install, $(addsuffix /$=
-(t), $(TARGET_DIRS)))
-=20
- SOFTMMU_ALL_RULES=3D$(filter %-softmmu/all, $(TARGET_DIRS_RULES))
- $(SOFTMMU_ALL_RULES): $(authz-obj-y)
-@@ -478,6 +478,15 @@ ifdef DECOMPRESS_EDK2_BLOBS
- $(SOFTMMU_ALL_RULES): $(edk2-decompressed)
- endif
-=20
-+SOFTMMU_FUZZ_RULES=3D$(filter %-softmmu/fuzz, $(TARGET_DIRS_RULES))
-+$(SOFTMMU_FUZZ_RULES): $(authz-obj-y)
-+$(SOFTMMU_FUZZ_RULES): $(block-obj-y)
-+$(SOFTMMU_FUZZ_RULES): $(chardev-obj-y)
-+$(SOFTMMU_FUZZ_RULES): $(crypto-obj-y)
-+$(SOFTMMU_FUZZ_RULES): $(io-obj-y)
-+$(SOFTMMU_FUZZ_RULES): config-all-devices.mak
-+$(SOFTMMU_FUZZ_RULES): $(edk2-decompressed)
-+
- .PHONY: $(TARGET_DIRS_RULES)
- # The $(TARGET_DIRS_RULES) are of the form SUBDIR/GOAL, so that
- # $(dir $@) yields the sub-directory, and $(notdir $@) yields the sub-goal
-@@ -528,6 +537,9 @@ subdir-slirp: slirp/all
- $(filter %/all, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
- 	$(qom-obj-y)
-=20
-+$(filter %/fuzz, $(TARGET_DIRS_RULES)): libqemuutil.a $(common-obj-y) \
-+	$(qom-obj-y) $(crypto-user-obj-$(CONFIG_USER_ONLY))
-+
- ROM_DIRS =3D $(addprefix pc-bios/, $(ROMS))
- ROM_DIRS_RULES=3D$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
- # Only keep -O and -g cflags
-@@ -537,6 +549,7 @@ $(ROM_DIRS_RULES):
-=20
- .PHONY: recurse-all recurse-clean recurse-install
- recurse-all: $(addsuffix /all, $(TARGET_DIRS) $(ROM_DIRS))
-+recurse-fuzz: $(addsuffix /fuzz, $(TARGET_DIRS) $(ROM_DIRS))
- recurse-clean: $(addsuffix /clean, $(TARGET_DIRS) $(ROM_DIRS))
- recurse-install: $(addsuffix /install, $(TARGET_DIRS))
- $(addsuffix /install, $(TARGET_DIRS)): all
-diff --git a/Makefile.objs b/Makefile.objs
-index 5ab166fed5..9d87a1009e 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -84,8 +84,8 @@ common-obj-$(CONFIG_FDT) +=3D device_tree.o
- # qapi
-=20
- common-obj-y +=3D qapi/
--
- softmmu-obj-y =3D main.o
-+
- endif
-=20
- #######################################################################
-diff --git a/Makefile.target b/Makefile.target
-index 8dcf3dddd8..fd6fe79495 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -227,6 +227,22 @@ ifdef CONFIG_TRACE_SYSTEMTAP
- 	rm -f *.stp
- endif
-=20
-+ifdef CONFIG_FUZZ
-+include $(SRC_PATH)/tests/qtest/fuzz/Makefile.include
-+include $(SRC_PATH)/tests/qtest/Makefile.include
-+
-+fuzz: fuzz-vars
-+fuzz-vars: QEMU_CFLAGS :=3D $(FUZZ_CFLAGS) $(QEMU_CFLAGS)
-+fuzz-vars: QEMU_LDFLAGS :=3D $(FUZZ_LDFLAGS) $(QEMU_LDFLAGS)
-+fuzz-vars: $(QEMU_PROG_FUZZ)
-+dummy :=3D $(call unnest-vars,, fuzz-obj-y)
-+
-+
-+$(QEMU_PROG_FUZZ): config-devices.mak $(all-obj-y) $(COMMON_LDADDS) $(fuzz=
--obj-y)
-+	$(call LINK, $(filter-out %.mak, $^))
-+
-+endif
-+
- install: all
- ifneq ($(PROGS),)
- 	$(call install-prog,$(PROGS),$(DESTDIR)$(bindir))
---=20
-2.23.0
-
+U2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEJ1bGVrb3YgPGFseG5kckBidS5lZHU+DQpSZXZpZXdl
+ZC1ieTogU3RlZmFuIEhham5vY3ppIDxzdGVmYW5oYUByZWRoYXQuY29tPg0KUmV2aWV3ZWQtYnk6
+IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRAcmVkaGF0LmNvbT4NCi0tLQ0KIGNvbmZp
+Z3VyZSB8IDM5ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KIDEgZmls
+ZSBjaGFuZ2VkLCAzOSBpbnNlcnRpb25zKCspDQoNCmRpZmYgLS1naXQgYS9jb25maWd1cmUgYi9j
+b25maWd1cmUNCmluZGV4IDA4YzNhMWMxZjAuLjE3YWE1ZDAyZWUgMTAwNzU1DQotLS0gYS9jb25m
+aWd1cmUNCisrKyBiL2NvbmZpZ3VyZQ0KQEAgLTUwNCw2ICs1MDQsNyBAQCBkZWJ1Z19tdXRleD0i
+bm8iDQogbGlicG1lbT0iIg0KIGRlZmF1bHRfZGV2aWNlcz0ieWVzIg0KIHBsdWdpbnM9Im5vIg0K
+K2Z1enppbmc9Im5vIg0KIA0KIHN1cHBvcnRlZF9jcHU9Im5vIg0KIHN1cHBvcnRlZF9vcz0ibm8i
+DQpAQCAtNjM0LDYgKzYzNSwxNSBAQCBpbnQgbWFpbih2b2lkKSB7IHJldHVybiAwOyB9DQogRU9G
+DQogfQ0KIA0KK3dyaXRlX2NfZnV6emVyX3NrZWxldG9uKCkgew0KKyAgICBjYXQgPiAkVE1QQyA8
+PEVPRg0KKyNpbmNsdWRlIDxzdGRpbnQuaD4NCisjaW5jbHVkZSA8c3lzL3R5cGVzLmg+DQoraW50
+IExMVk1GdXp6ZXJUZXN0T25lSW5wdXQoY29uc3QgdWludDhfdCAqRGF0YSwgc2l6ZV90IFNpemUp
+Ow0KK2ludCBMTFZNRnV6emVyVGVzdE9uZUlucHV0KGNvbnN0IHVpbnQ4X3QgKkRhdGEsIHNpemVf
+dCBTaXplKSB7IHJldHVybiAwOyB9DQorRU9GDQorfQ0KKw0KIGlmIGNoZWNrX2RlZmluZSBfX2xp
+bnV4X18gOyB0aGVuDQogICB0YXJnZXRvcz0iTGludXgiDQogZWxpZiBjaGVja19kZWZpbmUgX1dJ
+TjMyIDsgdGhlbg0KQEAgLTE1NDAsNiArMTU1MCwxMCBAQCBmb3Igb3B0IGRvDQogICA7Ow0KICAg
+LS1kaXNhYmxlLWNvbnRhaW5lcnMpIHVzZV9jb250YWluZXJzPSJubyINCiAgIDs7DQorICAtLWVu
+YWJsZS1mdXp6aW5nKSBmdXp6aW5nPXllcw0KKyAgOzsNCisgIC0tZGlzYWJsZS1mdXp6aW5nKSBm
+dXp6aW5nPW5vDQorICA7Ow0KICAgKikNCiAgICAgICBlY2hvICJFUlJPUjogdW5rbm93biBvcHRp
+b24gJG9wdCINCiAgICAgICBlY2hvICJUcnkgJyQwIC0taGVscCcgZm9yIG1vcmUgaW5mb3JtYXRp
+b24iDQpAQCAtNTk5Miw2ICs2MDA2LDE1IEBAIEVPRg0KICAgZmkNCiBmaQ0KIA0KKyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KKyMgY2hlY2tzIGZvciBmdXp6ZXIN
+CitpZiB0ZXN0ICIkZnV6emluZyIgPSAieWVzIiA7IHRoZW4NCisgIHdyaXRlX2NfZnV6emVyX3Nr
+ZWxldG9uDQorICBpZiBjb21waWxlX3Byb2cgIiRDUFVfQ0ZMQUdTIC1XZXJyb3IgLWZzYW5pdGl6
+ZT1hZGRyZXNzLGZ1enplciIgIiI7IHRoZW4NCisgICAgICBoYXZlX2Z1enplcj15ZXMNCisgIGZp
+DQorZmkNCisNCiAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMNCiAj
+IGNoZWNrIGZvciBsaWJwbWVtDQogDQpAQCAtNjU3Niw2ICs2NTk5LDcgQEAgZWNobyAibGlicG1l
+bSBzdXBwb3J0ICAgJGxpYnBtZW0iDQogZWNobyAibGlidWRldiAgICAgICAgICAgJGxpYnVkZXYi
+DQogZWNobyAiZGVmYXVsdCBkZXZpY2VzICAgJGRlZmF1bHRfZGV2aWNlcyINCiBlY2hvICJwbHVn
+aW4gc3VwcG9ydCAgICAkcGx1Z2lucyINCitlY2hvICJmdXp6aW5nIHN1cHBvcnQgICAkZnV6emlu
+ZyINCiANCiBpZiB0ZXN0ICIkc3VwcG9ydGVkX2NwdSIgPSAibm8iOyB0aGVuDQogICAgIGVjaG8N
+CkBAIC03NDAwLDYgKzc0MjQsMTYgQEAgZmkNCiBpZiB0ZXN0ICIkc2hlZXBkb2ciID0gInllcyIg
+OyB0aGVuDQogICBlY2hvICJDT05GSUdfU0hFRVBET0c9eSIgPj4gJGNvbmZpZ19ob3N0X21haw0K
+IGZpDQoraWYgdGVzdCAiJGZ1enppbmciID0gInllcyIgOyB0aGVuDQorICBpZiB0ZXN0ICIkaGF2
+ZV9mdXp6ZXIiID0gInllcyI7IHRoZW4NCisgICAgRlVaWl9MREZMQUdTPSIgLWZzYW5pdGl6ZT1h
+ZGRyZXNzLGZ1enplciINCisgICAgRlVaWl9DRkxBR1M9IiAtZnNhbml0aXplPWFkZHJlc3MsZnV6
+emVyIg0KKyAgICBDRkxBR1M9IiAtZnNhbml0aXplPWFkZHJlc3MsZnV6emVyIg0KKyAgZWxzZQ0K
+KyAgICBlcnJvcl9leGl0ICJZb3VyIGNvbXBpbGVyIGRvZXNuJ3Qgc3VwcG9ydCAtZnNhbml0aXpl
+PWFkZHJlc3MsZnV6emVyIg0KKyAgICBleGl0IDENCisgIGZpDQorZmkNCiANCiBpZiB0ZXN0ICIk
+cGx1Z2lucyIgPSAieWVzIiA7IHRoZW4NCiAgICAgZWNobyAiQ09ORklHX1BMVUdJTj15IiA+PiAk
+Y29uZmlnX2hvc3RfbWFrDQpAQCAtNzUwMiw2ICs3NTM2LDExIEBAIGlmIHRlc3QgIiRsaWJ1ZGV2
+IiAhPSAibm8iOyB0aGVuDQogICAgIGVjaG8gIkNPTkZJR19MSUJVREVWPXkiID4+ICRjb25maWdf
+aG9zdF9tYWsNCiAgICAgZWNobyAiTElCVURFVl9MSUJTPSRsaWJ1ZGV2X2xpYnMiID4+ICRjb25m
+aWdfaG9zdF9tYWsNCiBmaQ0KK2lmIHRlc3QgIiRmdXp6aW5nIiAhPSAibm8iOyB0aGVuDQorICAg
+IGVjaG8gIkNPTkZJR19GVVpaPXkiID4+ICRjb25maWdfaG9zdF9tYWsNCisgICAgZWNobyAiRlVa
+Wl9DRkxBR1M9JEZVWlpfQ0ZMQUdTIiA+PiAkY29uZmlnX2hvc3RfbWFrDQorICAgIGVjaG8gIkZV
+WlpfTERGTEFHUz0kRlVaWl9MREZMQUdTIiA+PiAkY29uZmlnX2hvc3RfbWFrDQorZmkNCiANCiBp
+ZiB0ZXN0ICIkZWRrMl9ibG9icyIgPSAieWVzIiA7IHRoZW4NCiAgIGVjaG8gIkRFQ09NUFJFU1Nf
+RURLMl9CTE9CUz15IiA+PiAkY29uZmlnX2hvc3RfbWFrDQotLSANCjIuMjMuMA0KDQo=
 
