@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F056414230F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 07:13:57 +0100 (CET)
-Received: from localhost ([::1]:59116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB959142325
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 07:18:42 +0100 (CET)
+Received: from localhost ([::1]:59170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itQJw-0003ax-OI
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 01:13:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35444)
+	id 1itQOX-0000qe-I2
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 01:18:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35469)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1itQ1q-0007Tx-LX
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:55:16 -0500
+ (envelope-from <alxndr@bu.edu>) id 1itQ1r-0007VK-Uu
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:55:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1itQ1l-0006Ww-Td
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:55:14 -0500
-Received: from mail-bn7nam10on2137.outbound.protection.outlook.com
- ([40.107.92.137]:7744 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (envelope-from <alxndr@bu.edu>) id 1itQ1n-0006Xf-4U
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:55:15 -0500
+Received: from mail-bn7nam10on2138.outbound.protection.outlook.com
+ ([40.107.92.138]:8033 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1itQ1l-0006Wd-O6
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:55:09 -0500
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1itQ1m-0006XG-TL
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 00:55:11 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WJMarrCqvyI5uH94AJrL2+vMj/bXMrZzcY5TvrrLm+S+z9Jmg5GOdOJiFGEZyL32BUv7O/QgF4XwxA3pDWbqL0Va3IFSPazCC2TGZhHe/dEg5Sedm0F4wKSMHz2Vr0dmqmTUrGSMJ7yvoGIktkmDiVCSqwcyjx4rhpk9qtUPunIF+UeA6D/TL7mZk4AEOIwpy06O9Gv86JHDhopnXgp7wkwhR1QWdFGBnaqWv9Yb7nd6PjJXCqivUQC/vLgjZCB2dGVLZFsLnCq7Pzh8FVCyx1fjOb7jadSZL3qZidrEHhUVQWXXjew9u6frlY76RkBpX+CFOJcsHqlr0JiunqDVzg==
+ b=NW14/RBRe2gOyEIQM+kWZKTDQOqGuXdJt0Nep5P5g5OSXtk8GMXqSGZ6AlVl6C1BxObMffkpMuwySwkMwfR0G+mheFwqY0qm82IxEXwEcz43yu+X4IZ/MiytYEcOcEHUNy5zMHYuG8fa+R/k6q/sL4l61ibPy2WlXocPxmSEDsfsVxtB+T11a5xnb/WlyUncR9N5jxZ5pOAxFdr+wrwrABRp2BnjSt8iWoxVeBilSs4HUee3fJKYTTEc2vt56WQUIBohVH+GdeeWq/syG92iHgd01HRTPlLrfj0LTPo62ofLtA1IRIzvsAknblz3Z3MDfJLVP0iwaAthtoaPa522Cw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=K9nZbM1cHG8+T2w6lWAIJ8R9dKsYeRQJZHQu6VGGuXI=;
- b=CYeQXP7W0mIvwGUtXC7iHnu4b6KLCtqUeeP5pV58J0q8911lLIjJTtJy+QBQUkCD6cP5I/iew3FFiwUAGJASMc+4zXvPasSv1UTKxV4zdMTryBqJgSTaZ+KNTmRoTOQMKLm4IL/VmoAmOW5eHyC/I0GhZj0hF7DLEMGtZ/PSxaSI1is7ydDVZ+1pRC1edOGXTHE+k1uBYmI4yWsYQmIla3URDz4xs7TZ4oNUbG41WIGUfv4ibbg43FJNDEzWOtFKZZSgX8ZLVd+6i+Ui3cz3bIuu1Ew+LWjntmGR0dLpZMGXTSu6FRgu498Hv8Ftivll5UBEzynWh3JI1m2UiXqB8g==
+ b=jJee7TZFEUJdIm7Q4DT0dlgmfneb3//imE70z0Nk0Csn2YpUG4YZ7gWTtVr+zv4n0q9DW0UH7ImA+DLsXzD04ktYUfj/2/2MevyQgMcxewK+nTXSoss/LFy3wGXZ4p4KnpgSH9RqwxyIK1YAmksLv2nP9Ka8XOKub67CnxMY8g4wv6K+TIJWHYTBE/qXCDjcxlIIW26BF4jTmt/soOYTlMrZGA/7lhXEOuZnsHSyEXlTDDxGRrIABXwPLKPLwcCPdth8W8M/7gIgNy7kLI76u9VGXIzUYCU27pjAYyeUjjLKXSWWWIgMOjoBPq5KUqJhHTKQpnEuCcL1pj3ulZcVzA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
@@ -35,26 +35,26 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=K9nZbM1cHG8+T2w6lWAIJ8R9dKsYeRQJZHQu6VGGuXI=;
- b=EevIPBX8Xp5cE5QO81X6WeowKSzvIscjZJIeT2VcUSp3awOqq2ckeB1qtKV984gtoacRm21MPWMqCYvMo1CiF7HckrJFmV16ExVKf50V7S/IIiu9fKNxSFyZwCUVq7vWQn/SP/6TNH17/E6/jpJBYj4I498NZ6IOOFIBfUj8BSM=
+ b=tAU89b/atJugyBjqmDamm1m2GHDn3cnccQ2gm6qIyPkV27nC7WaAARJJRLXpqrQo5QOTYelWW1IIhcigKvZNi/GVxe3/3b8JFiZz28Bg/U4ErjETx1DiHBryMJU+gwtZ2hADPhraznVdFKO+a9xnwUVfbdsm3VomCtxg2vvqJVY=
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (52.135.102.32) by
  SN6PR03MB4399.namprd03.prod.outlook.com (20.178.6.20) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.23; Mon, 20 Jan 2020 05:55:08 +0000
+ 15.20.2644.23; Mon, 20 Jan 2020 05:55:09 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8%7]) with mapi id 15.20.2644.024; Mon, 20 Jan 2020
- 05:55:08 +0000
+ 05:55:09 +0000
 Received: from mozz.bu.edu (128.197.127.33) by
  MN2PR20CA0032.namprd20.prod.outlook.com (2603:10b6:208:e8::45) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.20 via Frontend Transport; Mon, 20 Jan 2020 05:55:08 +0000
+ 15.20.2644.20 via Frontend Transport; Mon, 20 Jan 2020 05:55:09 +0000
 From: "Bulekov, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: [PATCH v7 18/20] fuzz: add virtio-net fuzz target
-Thread-Topic: [PATCH v7 18/20] fuzz: add virtio-net fuzz target
-Thread-Index: AQHVz1YrCuOUdpnUh0q1DYVR7GBu5w==
-Date: Mon, 20 Jan 2020 05:55:08 +0000
-Message-ID: <20200120055410.22322-26-alxndr@bu.edu>
+Subject: [PATCH v7 19/20] fuzz: add virtio-net fuzz target
+Thread-Topic: [PATCH v7 19/20] fuzz: add virtio-net fuzz target
+Thread-Index: AQHVz1YsiWU6AR3b7k+J/q9tyDwWfA==
+Date: Mon, 20 Jan 2020 05:55:09 +0000
+Message-ID: <20200120055410.22322-27-alxndr@bu.edu>
 References: <20200120055410.22322-1-alxndr@bu.edu>
 In-Reply-To: <20200120055410.22322-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -69,10 +69,10 @@ x-clientproxiedby: MN2PR20CA0032.namprd20.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 26a23474-76e1-4b37-dcfa-08d79d6d4e43
+x-ms-office365-filtering-correlation-id: 6461ff53-8d73-414a-08fc-08d79d6d4ebc
 x-ms-traffictypediagnostic: SN6PR03MB4399:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR03MB43990D440026819E06C6F5B5BA320@SN6PR03MB4399.namprd03.prod.outlook.com>
+x-microsoft-antispam-prvs: <SN6PR03MB4399C5FF57C6D4DF26949F9CBA320@SN6PR03MB4399.namprd03.prod.outlook.com>
 x-ms-oob-tlc-oobclassifiers: OLM:2399;
 x-forefront-prvs: 0288CD37D9
 x-forefront-antispam-report: SFV:NSPM;
@@ -84,20 +84,20 @@ received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ko1rOK1uRYLWpk8vrmFkCcQZWuJcsjija0MbBI6MjXe58ue62c4Mi2RPIYyd3FdcZGdUNYucHxfF1u33Wq17v2d+uHO/9iu2+hwDS5rT8WwNkcLW5Pc5U/x4fd5ZuRYYQhXd/17Z+DExCCCk4QMstOtcK/wDxFX/8DJyWevQSVqj3TpmiYAzD7wn/pW0aK8OY4TNdF65H6RpPpc2b2ZNHNky8txT+j6JmtPR1Ns60qGfwWD3Sqmuj3+S65ZbsZ40R3VrL14o/V5PgZiEOJjxQVm8mE3H/NlqSRm922UhsjbW7OX2RVmDlp10D2ohScdnDV/zcLbebJGY5X7/il0pipOJlv7ajXSzffIhB2n3pjr7Ru+mehS6lqhuNiX6g4e6yIMFrX3qinX4JBank2DLMh3UPyerNZ5SzV2z3R9Wa5fmjPG7+fr5+VS1m4nzo1zd
+x-microsoft-antispam-message-info: dCBR5yf5hd+tFKQZfggLxucOphrL3DsCymE5ztTNFzMEmQw6Ot0uldpnA0EJf7yiUpG8e882W8ZHcuMC4kZ5YPgNZvwQ0ASeelT6nMqlOss3FTHkZRp7wylNweQDopeGHnmrR6V0qGOGRZWjT3Y0xzfnfheET9ZtH1zbHjQAcTC4ZCz20nLQF+xq/BYzeruLZ+QWDK7lMHoI5SX3eIIfWpsIcrFmaqP4MCLOv/b0Sb4lp9pxh/D+t6PTR7gLE718lcS9AptmwD64UbHrcuvwLbo3Tyv0ZK3lZsLnOFmHgH0H2uI9G42sWA4YAycXD6RrIMuVywqrQjniFeO1UNQ9dmN4RpzoDzuyh/4hQGTIjhTId1+G3JZkTAWajWHx4qGfLyeLeP9uCrE3wl4zuowJaq01LVmkEH3IV49Vvg7oWU/Z0qJPmVy4PuGwLNpUYwI3
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26a23474-76e1-4b37-dcfa-08d79d6d4e43
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2020 05:55:08.7700 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6461ff53-8d73-414a-08fc-08d79d6d4ebc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2020 05:55:09.5695 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GpyoylSEj0QeHzKHUqsmOYa+jgKEswFMyulDt4TfdBDqMS23tCueQQLx1r4bYUls
+X-MS-Exchange-CrossTenant-userprincipalname: N59+pjzU+BaHUJa34EVcppiFojWj9n92kif0Eh9TwQXjQ2sI9Fn2TpA7J+GyiPUM
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4399
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.92.137
+X-Received-From: 40.107.92.138
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
