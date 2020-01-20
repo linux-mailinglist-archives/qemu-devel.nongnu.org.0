@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CDDC1427FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:14:54 +0100 (CET)
-Received: from localhost ([::1]:33172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9798014280B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:17:08 +0100 (CET)
+Received: from localhost ([::1]:33210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itU57-0002E4-6o
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:14:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34042)
+	id 1itU7H-0004FU-7B
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:17:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34073)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1itU16-0005Wv-AK
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:10:46 -0500
+ (envelope-from <drjones@redhat.com>) id 1itU19-0005eE-Ps
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:10:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1itU14-00037j-DN
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:10:44 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26109
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <drjones@redhat.com>) id 1itU16-000396-G1
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:10:47 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36264
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1itU14-00037N-7n
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:10:42 -0500
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1itU16-00038h-CI
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:10:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579515041;
+ s=mimecast20190719; t=1579515043;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qx8CU4vUpbk6cZv/6f0WoXQNz8mtd0dvMgB8MqypsPQ=;
- b=R/3Axwck6BrIaYjVArejqjk4694OFfd6UPlJLjBmOyayM0WqV/OwYIsvFE2etthtwm8+r6
- 4RqotKyWDjThFV04LM8Td2phNVyRilnjTO6PHQFw7tDxIkgzRvJrHK+VkR3qkbEm9B84JT
- dJjEQksDa7DII2ECi9EtGBJR5Q1f7go=
+ bh=FIuyqTwYjniU8Rv/Up3Ucm43QkJkGzsnOMywuHYKg/I=;
+ b=Ii+1CAk9Q5DqTCIdWbRdTPMmvuKdLa++GXUo0CFtR1dhC/kNB71H9n3X9RTNCr7sCxY98q
+ Q7VAto0Q7Q7VyNiT9NTZ2x8DvGpEo/12kVayJWMbv1gDvcWpQIJoA6PnpuATdaJE8Wjpa/
+ QSqJ1kOhi6qgGF/aScX7lfs49UB4QFk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-NEuF5oTWMJqWukTCWBKefA-1; Mon, 20 Jan 2020 05:10:38 -0500
+ us-mta-260-NO4lindWOHGhJyon4cnzXA-1; Mon, 20 Jan 2020 05:10:40 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C7BC800D48;
- Mon, 20 Jan 2020 10:10:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5275E107ACC4;
+ Mon, 20 Jan 2020 10:10:39 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7365248;
- Mon, 20 Jan 2020 10:10:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86F8248;
+ Mon, 20 Jan 2020 10:10:37 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [RFC PATCH v3 5/6] target/arm/kvm: Implement virtual time adjustment
-Date: Mon, 20 Jan 2020 11:10:22 +0100
-Message-Id: <20200120101023.16030-6-drjones@redhat.com>
+Subject: [RFC PATCH v3 6/6] target/arm/cpu: Add the kvm-no-adjvtime CPU
+ property
+Date: Mon, 20 Jan 2020 11:10:23 +0100
+Message-Id: <20200120101023.16030-7-drjones@redhat.com>
 In-Reply-To: <20200120101023.16030-1-drjones@redhat.com>
 References: <20200120101023.16030-1-drjones@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: NEuF5oTWMJqWukTCWBKefA-1
+X-MC-Unique: NO4lindWOHGhJyon4cnzXA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -77,310 +78,270 @@ Cc: peter.maydell@linaro.org, bijan.mottahedeh@oracle.com, maz@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When a VM is stopped (such as when it's paused) guest virtual time
-should stop counting. Otherwise, when the VM is resumed it will
-experience time jumps and its kernel may report soft lockups. Not
-counting virtual time while the VM is stopped has the side effect
-of making the guest's time appear to lag when compared with real
-time, and even with time derived from the physical counter. For
-this reason, this change, which is enabled by default, comes with
-a KVM CPU feature allowing it to be disabled, restoring legacy
-behavior.
+kvm-no-adjvtime is a KVM specific CPU property and a first of its
+kind. To accommodate it we also add kvm_arm_add_vcpu_properties()
+and a KVM specific CPU properties description to the CPU features
+document.
 
-This patch only provides the implementation of the virtual time
-adjustment. A subsequent patch will provide the CPU property
-allowing the change to be enabled and disabled.
-
-Reported-by: Bijan Mottahedeh <bijan.mottahedeh@oracle.com>
 Signed-off-by: Andrew Jones <drjones@redhat.com>
 ---
- target/arm/cpu.h     |  7 ++++
- target/arm/kvm.c     | 92 ++++++++++++++++++++++++++++++++++++++++++++
- target/arm/kvm32.c   |  3 ++
- target/arm/kvm64.c   |  3 ++
- target/arm/kvm_arm.h | 38 ++++++++++++++++++
- target/arm/machine.c |  7 ++++
- 6 files changed, 150 insertions(+)
+ docs/arm-cpu-features.rst      | 37 +++++++++++++++++++++++++++++++++-
+ hw/arm/virt.c                  |  8 ++++++++
+ include/hw/arm/virt.h          |  1 +
+ target/arm/cpu.c               |  2 ++
+ target/arm/cpu64.c             |  1 +
+ target/arm/kvm.c               | 28 +++++++++++++++++++++++++
+ target/arm/kvm_arm.h           | 11 ++++++++++
+ target/arm/monitor.c           |  1 +
+ tests/qtest/arm-cpu-features.c |  4 ++++
+ 9 files changed, 92 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 40f2c45e17e3..2e6477c92c9c 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -821,6 +821,13 @@ struct ARMCPU {
-     /* KVM init features for this CPU */
-     uint32_t kvm_init_features[7];
+diff --git a/docs/arm-cpu-features.rst b/docs/arm-cpu-features.rst
+index 9b537a75e695..dbf3b7cf42c0 100644
+--- a/docs/arm-cpu-features.rst
++++ b/docs/arm-cpu-features.rst
+@@ -31,7 +31,9 @@ supporting the feature or only supporting the feature und=
+er certain
+ configurations.  For example, the `aarch64` CPU feature, which, when
+ disabled, enables the optional AArch32 CPU feature, is only supported
+ when using the KVM accelerator and when running on a host CPU type that
+-supports the feature.
++supports the feature.  While `aarch64` currently only works with KVM,
++it could work with TCG.  CPU features that are specific to KVM are
++prefixed with "kvm-" and are described in "KVM VCPU Features".
 =20
-+    /* KVM CPU state */
-+
-+    /* KVM virtual time adjustment */
-+    bool kvm_adjvtime;
-+    bool kvm_vtime_dirty;
-+    uint64_t kvm_vtime;
-+
-     /* Uniprocessor system with MP extensions */
-     bool mp_is_up;
+ CPU Feature Probing
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+@@ -171,6 +173,39 @@ disabling many SVE vector lengths would be quite verbo=
+se, the `sve<N>` CPU
+ properties have special semantics (see "SVE CPU Property Parsing
+ Semantics").
 =20
++KVM VCPU Features
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++KVM VCPU features are CPU features that are specific to KVM, such as
++paravirt features or features that enable CPU virtualization extensions.
++The features' CPU properties are only available when KVM is enabled and
++are named with the prefix "kvm-".  KVM VCPU features may be probed,
++enabled, and disabled in the same way as other CPU features.  Below is
++the list of KVM VCPU features and their descriptions.
++
++  kvm-no-adjvtime          By default kvm-no-adjvtime is disabled.  This
++                           means that by default the virtual time
++                           adjustment is enabled (vtime is *not not*
++                           adjusted).
++
++                           When virtual time adjustment is enabled each
++                           time the VM transitions back to running state
++                           the VCPU's virtual counter is updated to ensure
++                           stopped time is not counted.  This avoids time
++                           jumps surprising guest OSes and applications,
++                           as long as they use the virtual counter for
++                           timekeeping.  However it has the side effect of
++                           the virtual and physical counters diverging.
++                           All timekeeping based on the virtual counter
++                           will appear to lag behind any timekeeping that
++                           does not subtract VM stopped time.  The guest
++                           may resynchronize its virtual counter with
++                           other time sources as needed.
++
++                           Enable kvm-no-adjvtime to disable virtual time
++                           adjustment, also restoring the legacy (pre-5.0)
++                           behavior.
++
+ SVE CPU Properties
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 27ca26b05e27..08b3c34c345c 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1663,6 +1663,11 @@ static void machvirt_init(MachineState *machine)
+             }
+         }
+=20
++        if (vmc->kvm_no_adjvtime &&
++            object_property_find(cpuobj, "kvm-no-adjvtime", NULL)) {
++            object_property_set_bool(cpuobj, true, "kvm-no-adjvtime", NULL=
+);
++        }
++
+         if (vmc->no_pmu && object_property_find(cpuobj, "pmu", NULL)) {
+             object_property_set_bool(cpuobj, false, "pmu", NULL);
+         }
+@@ -2153,8 +2158,11 @@ DEFINE_VIRT_MACHINE_AS_LATEST(5, 0)
+=20
+ static void virt_machine_4_2_options(MachineClass *mc)
+ {
++    VirtMachineClass *vmc =3D VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
++
+     virt_machine_5_0_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
++    vmc->kvm_no_adjvtime =3D true;
+ }
+ DEFINE_VIRT_MACHINE(4, 2)
+=20
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 38f0c33c77c4..71508bf40c34 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -109,6 +109,7 @@ typedef struct {
+     bool smbios_old_sys_ver;
+     bool no_highmem_ecam;
+     bool no_ged;   /* Machines < 4.2 has no support for ACPI GED device */
++    bool kvm_no_adjvtime;
+ } VirtMachineClass;
+=20
+ typedef struct {
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index d62fd5fdc644..c2347f1cd335 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2562,6 +2562,7 @@ static void arm_max_initfn(Object *obj)
+=20
+     if (kvm_enabled()) {
+         kvm_arm_set_cpu_features_from_host(cpu);
++        kvm_arm_add_vcpu_properties(obj);
+     } else {
+         cortex_a15_initfn(obj);
+=20
+@@ -2755,6 +2756,7 @@ static void arm_host_initfn(Object *obj)
+     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+         aarch64_add_sve_properties(obj);
+     }
++    kvm_arm_add_vcpu_properties(obj);
+     arm_cpu_post_init(obj);
+ }
+=20
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 61fd0ade29a8..2d97bf45e1ec 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -605,6 +605,7 @@ static void aarch64_max_initfn(Object *obj)
+=20
+     if (kvm_enabled()) {
+         kvm_arm_set_cpu_features_from_host(cpu);
++        kvm_arm_add_vcpu_properties(obj);
+     } else {
+         uint64_t t;
+         uint32_t u;
 diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index b87b59a02ad8..91e38def6b29 100644
+index 91e38def6b29..418bcedc3e6e 100644
 --- a/target/arm/kvm.c
 +++ b/target/arm/kvm.c
-@@ -359,6 +359,22 @@ static int compare_u64(const void *a, const void *b)
-     return 0;
- }
-=20
-+/*
-+ * cpreg_values are sorted in ascending order by KVM register ID
-+ * (see kvm_arm_init_cpreg_list). This allows us to cheaply find
-+ * the storage for a KVM register by ID with a binary search.
-+ */
-+static uint64_t *kvm_arm_get_cpreg_ptr(ARMCPU *cpu, uint64_t regidx)
-+{
-+    uint64_t *res;
-+
-+    res =3D bsearch(&regidx, cpu->cpreg_indexes, cpu->cpreg_array_len,
-+                  sizeof(uint64_t), compare_u64);
-+    assert(res);
-+
-+    return &cpu->cpreg_values[res - cpu->cpreg_indexes];
-+}
-+
- /* Initialize the ARMCPU cpreg list according to the kernel's
-  * definition of what CPU registers it knows about (and throw away
-  * the previous TCG-created cpreg list).
-@@ -512,6 +528,23 @@ bool write_list_to_kvmstate(ARMCPU *cpu, int level)
-     return ok;
- }
-=20
-+void kvm_arm_cpu_pre_save(ARMCPU *cpu)
-+{
-+    /* KVM virtual time adjustment */
-+    if (cpu->kvm_vtime_dirty) {
-+        *kvm_arm_get_cpreg_ptr(cpu, KVM_REG_ARM_TIMER_CNT) =3D cpu->kvm_vt=
-ime;
-+    }
-+}
-+
-+void kvm_arm_cpu_post_load(ARMCPU *cpu)
-+{
-+    /* KVM virtual time adjustment */
-+    if (cpu->kvm_adjvtime) {
-+        cpu->kvm_vtime =3D *kvm_arm_get_cpreg_ptr(cpu, KVM_REG_ARM_TIMER_C=
-NT);
-+        cpu->kvm_vtime_dirty =3D true;
-+    }
-+}
-+
- void kvm_arm_reset_vcpu(ARMCPU *cpu)
- {
-     int ret;
-@@ -579,6 +612,50 @@ int kvm_arm_sync_mpstate_to_qemu(ARMCPU *cpu)
-     return 0;
- }
-=20
-+void kvm_arm_get_virtual_time(CPUState *cs)
-+{
-+    ARMCPU *cpu =3D ARM_CPU(cs);
-+    struct kvm_one_reg reg =3D {
-+        .id =3D KVM_REG_ARM_TIMER_CNT,
-+        .addr =3D (uintptr_t)&cpu->kvm_vtime,
-+    };
-+    int ret;
-+
-+    if (cpu->kvm_vtime_dirty) {
-+        return;
-+    }
-+
-+    ret =3D kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
-+    if (ret) {
-+        error_report("Failed to get KVM_REG_ARM_TIMER_CNT");
-+        abort();
-+    }
-+
-+    cpu->kvm_vtime_dirty =3D true;
-+}
-+
-+void kvm_arm_put_virtual_time(CPUState *cs)
-+{
-+    ARMCPU *cpu =3D ARM_CPU(cs);
-+    struct kvm_one_reg reg =3D {
-+        .id =3D KVM_REG_ARM_TIMER_CNT,
-+        .addr =3D (uintptr_t)&cpu->kvm_vtime,
-+    };
-+    int ret;
-+
-+    if (!cpu->kvm_vtime_dirty) {
-+        return;
-+    }
-+
-+    ret =3D kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
-+    if (ret) {
-+        error_report("Failed to set KVM_REG_ARM_TIMER_CNT");
-+        abort();
-+    }
-+
-+    cpu->kvm_vtime_dirty =3D false;
-+}
-+
- int kvm_put_vcpu_events(ARMCPU *cpu)
- {
-     CPUARMState *env =3D &cpu->env;
-@@ -690,6 +767,21 @@ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_=
-run *run)
-     return MEMTXATTRS_UNSPECIFIED;
- }
-=20
-+void kvm_arm_vm_state_change(void *opaque, int running, RunState state)
-+{
-+    CPUState *cs =3D opaque;
-+    ARMCPU *cpu =3D ARM_CPU(cs);
-+
-+    if (running) {
-+        if (cpu->kvm_adjvtime) {
-+            kvm_arm_put_virtual_time(cs);
-+        }
-+    } else {
-+        if (cpu->kvm_adjvtime) {
-+            kvm_arm_get_virtual_time(cs);
-+        }
-+    }
-+}
-=20
- int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
- {
-diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
-index 32bf8d6757c4..3a8b437eef0b 100644
---- a/target/arm/kvm32.c
-+++ b/target/arm/kvm32.c
-@@ -16,6 +16,7 @@
- #include "qemu-common.h"
- #include "cpu.h"
+@@ -17,6 +17,8 @@
  #include "qemu/timer.h"
-+#include "sysemu/runstate.h"
- #include "sysemu/kvm.h"
- #include "kvm_arm.h"
- #include "internals.h"
-@@ -198,6 +199,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         return -EINVAL;
-     }
-=20
-+    qemu_add_vm_change_state_handler(kvm_arm_vm_state_change, cs);
-+
-     /* Determine init features for this CPU */
-     memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
-     if (cpu->start_powered_off) {
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 5cafcb7d36dd..e486eaf1f944 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -23,6 +23,7 @@
- #include "qemu/host-utils.h"
+ #include "qemu/error-report.h"
  #include "qemu/main-loop.h"
- #include "exec/gdbstub.h"
-+#include "sysemu/runstate.h"
++#include "qom/object.h"
++#include "qapi/error.h"
+ #include "sysemu/sysemu.h"
  #include "sysemu/kvm.h"
  #include "sysemu/kvm_int.h"
- #include "kvm_arm.h"
-@@ -735,6 +736,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         return -EINVAL;
-     }
+@@ -179,6 +181,32 @@ void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
+     env->features =3D arm_host_cpu_features.features;
+ }
 =20
-+    qemu_add_vm_change_state_handler(kvm_arm_vm_state_change, cs);
++static bool kvm_no_adjvtime_get(Object *obj, Error **errp)
++{
++    return !ARM_CPU(obj)->kvm_adjvtime;
++}
 +
-     /* Determine init features for this CPU */
-     memset(cpu->kvm_init_features, 0, sizeof(cpu->kvm_init_features));
-     if (cpu->start_powered_off) {
++static void kvm_no_adjvtime_set(Object *obj, bool value, Error **errp)
++{
++    ARM_CPU(obj)->kvm_adjvtime =3D !value;
++}
++
++/* KVM VCPU properties should be prefixed with "kvm-". */
++void kvm_arm_add_vcpu_properties(Object *obj)
++{
++    if (!kvm_enabled()) {
++        return;
++    }
++
++    ARM_CPU(obj)->kvm_adjvtime =3D true;
++    object_property_add_bool(obj, "kvm-no-adjvtime", kvm_no_adjvtime_get,
++                             kvm_no_adjvtime_set, &error_abort);
++    object_property_set_description(obj, "kvm-no-adjvtime",
++                                    "Set on to disable the adjustment of "
++                                    "the virtual counter. VM stopped time =
+"
++                                    "will be counted.", &error_abort);
++}
++
+ bool kvm_arm_pmu_supported(CPUState *cpu)
+ {
+     KVMState *s =3D KVM_STATE(current_machine->accelerator);
 diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index b48a9c95573b..01a9a1827851 100644
+index 01a9a1827851..ae9e075d7545 100644
 --- a/target/arm/kvm_arm.h
 +++ b/target/arm/kvm_arm.h
-@@ -127,6 +127,23 @@ bool write_list_to_kvmstate(ARMCPU *cpu, int level);
+@@ -255,6 +255,15 @@ void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *=
+map);
   */
- bool write_kvmstate_to_list(ARMCPU *cpu);
+ void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu);
 =20
 +/**
-+ * kvm_arm_cpu_pre_save:
-+ * @cpu: ARMCPU
++ * kvm_arm_add_vcpu_properties:
++ * @obj: The CPU object to add the properties to
 + *
-+ * Called after write_kvmstate_to_list() from cpu_pre_save() to update
-+ * the cpreg list with KVM CPU state.
++ * Add all KVM specific CPU properties to the CPU object. These
++ * are the CPU properties with "kvm-" prefixed names.
 + */
-+void kvm_arm_cpu_pre_save(ARMCPU *cpu);
-+
-+/**
-+ * kvm_arm_cpu_post_load:
-+ * @cpu: ARMCPU
-+ *
-+ * Called from cpu_post_load() to update KVM CPU state from the cpreg list=
-.
-+ */
-+void kvm_arm_cpu_post_load(ARMCPU *cpu);
++void kvm_arm_add_vcpu_properties(Object *obj);
 +
  /**
-  * kvm_arm_reset_vcpu:
-  * @cpu: ARMCPU
-@@ -292,6 +309,24 @@ int kvm_arm_sync_mpstate_to_kvm(ARMCPU *cpu);
-  */
- int kvm_arm_sync_mpstate_to_qemu(ARMCPU *cpu);
+  * kvm_arm_aarch32_supported:
+  * @cs: CPUState
+@@ -345,6 +354,8 @@ static inline void kvm_arm_set_cpu_features_from_host(A=
+RMCPU *cpu)
+     cpu->host_cpu_probe_failed =3D true;
+ }
 =20
-+/**
-+ * kvm_arm_get_virtual_time:
-+ * @cs: CPUState
-+ *
-+ * Gets the VCPU's virtual counter and stores it in the KVM CPU state.
-+ */
-+void kvm_arm_get_virtual_time(CPUState *cs);
++static inline void kvm_arm_add_vcpu_properties(Object *obj) {}
 +
-+/**
-+ * kvm_arm_put_virtual_time:
-+ * @cs: CPUState
-+ *
-+ * Sets the VCPU's virtual counter to the value stored in the KVM CPU stat=
-e.
-+ */
-+void kvm_arm_put_virtual_time(CPUState *cs);
-+
-+void kvm_arm_vm_state_change(void *opaque, int running, RunState state);
-+
- int kvm_arm_vgic_probe(void);
+ static inline bool kvm_arm_aarch32_supported(CPUState *cs)
+ {
+     return false;
+diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+index fa054f8a369c..9725dfff16d4 100644
+--- a/target/arm/monitor.c
++++ b/target/arm/monitor.c
+@@ -103,6 +103,7 @@ static const char *cpu_model_advertised_features[] =3D =
+{
+     "sve128", "sve256", "sve384", "sve512",
+     "sve640", "sve768", "sve896", "sve1024", "sve1152", "sve1280",
+     "sve1408", "sve1536", "sve1664", "sve1792", "sve1920", "sve2048",
++    "kvm-no-adjvtime",
+     NULL
+ };
 =20
- void kvm_arm_pmu_set_irq(CPUState *cs, int irq);
-@@ -339,6 +374,9 @@ static inline void kvm_arm_pmu_set_irq(CPUState *cs, in=
-t irq) {}
- static inline void kvm_arm_pmu_init(CPUState *cs) {}
+diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.=
+c
+index a039e3c8d724..469217367661 100644
+--- a/tests/qtest/arm-cpu-features.c
++++ b/tests/qtest/arm-cpu-features.c
+@@ -428,6 +428,8 @@ static void test_query_cpu_model_expansion(const void *=
+data)
+     assert_has_feature_enabled(qts, "cortex-a15", "pmu");
+     assert_has_not_feature(qts, "cortex-a15", "aarch64");
 =20
- static inline void kvm_arm_sve_get_vls(CPUState *cs, unsigned long *map) {=
-}
++    assert_has_not_feature(qts, "max", "kvm-no-adjvtime");
 +
-+static inline void kvm_arm_get_virtual_time(CPUState *cs) {}
-+static inline void kvm_arm_put_virtual_time(CPUState *cs) {}
- #endif
+     if (g_str_equal(qtest_get_arch(), "aarch64")) {
+         assert_has_feature_enabled(qts, "max", "aarch64");
+         assert_has_feature_enabled(qts, "max", "sve");
+@@ -462,6 +464,8 @@ static void test_query_cpu_model_expansion_kvm(const vo=
+id *data)
+         return;
+     }
 =20
- static inline const char *gic_class_name(void)
-diff --git a/target/arm/machine.c b/target/arm/machine.c
-index eb28b2381bb5..241890ac8cf7 100644
---- a/target/arm/machine.c
-+++ b/target/arm/machine.c
-@@ -642,6 +642,12 @@ static int cpu_pre_save(void *opaque)
-             /* This should never fail */
-             abort();
-         }
++    assert_has_feature_disabled(qts, "host", "kvm-no-adjvtime");
 +
-+        /*
-+         * kvm_arm_cpu_pre_save() must be called after
-+         * write_kvmstate_to_list()
-+         */
-+        kvm_arm_cpu_pre_save(cpu);
-     } else {
-         if (!write_cpustate_to_list(cpu, false)) {
-             /* This should never fail. */
-@@ -744,6 +750,7 @@ static int cpu_post_load(void *opaque, int version_id)
-          * we're using it.
-          */
-         write_list_to_cpustate(cpu);
-+        kvm_arm_cpu_post_load(cpu);
-     } else {
-         if (!write_list_to_cpustate(cpu)) {
-             return -1;
+     if (g_str_equal(qtest_get_arch(), "aarch64")) {
+         bool kvm_supports_sve;
+         char max_name[8], name[8];
 --=20
 2.21.1
 
