@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E673143494
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 00:54:21 +0100 (CET)
-Received: from localhost ([::1]:45932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC0AA14349E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 00:58:55 +0100 (CET)
+Received: from localhost ([::1]:46030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itgs7-0002ZO-Sv
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 18:54:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35775)
+	id 1itgwY-00015j-SJ
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 18:58:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35804)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itgq2-0000qE-PC
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:52:11 -0500
+ id 1itgq4-0000tX-Js
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:52:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itgq1-0007YI-Nv
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:52:10 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41970)
+ id 1itgq3-0007Yt-8J
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 18:52:12 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52653)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itgq1-0007Xo-IB; Mon, 20 Jan 2020 18:52:09 -0500
-Received: by mail-wr1-x444.google.com with SMTP id c9so1294990wrw.8;
- Mon, 20 Jan 2020 15:52:09 -0800 (PST)
+ id 1itgq3-0007YW-2G; Mon, 20 Jan 2020 18:52:11 -0500
+Received: by mail-wm1-x341.google.com with SMTP id p9so1122398wmc.2;
+ Mon, 20 Jan 2020 15:52:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aEBTxw5dxXldbptfzGuLoP7HN5dwcK1pAxxrXdVbFGw=;
- b=OuN8sqJ+46BNhueMqUgdhNwS/oJkcMc26d3FfPIFiyRrnMULh8G7eaw9Ezmy8/SshI
- ERSBy1vobYxZ3Ml/SWqtktCS89ohJYXVBqzN482s07O/eysvi6+fLBQf2FPVVcvA0yTT
- SfptKQ64HlTt7pjaD3NksuZMkBjtVbPulxMOzBgjUEyT0D/xQ4C4d9PwYBt1yrORHulo
- Ui86+/89SVfMQ6EX0WI1cAY3MdRNwCqyYkALYRmpxstF7p6A1tv/iQmnOTFn0tXMDfNL
- gUPiIaSlK+m2LnXwzw2x/2DiL/XLok1F4EqimE0Xeh/aPtipRGVtBvALi0mlm4DGIflE
- 0yNg==
+ bh=HmU95xX8aiHgv582n9n1gFgP0RnyUSIOGgAammjQwq4=;
+ b=mlUzk62WQoMQEbBYRE/ABkDc5CQXIEkYrOaWG4g8743z0u/9C6YQGlQEcHBvIBLvGa
+ ctWfebxGlSn2s1qs+SQrzxhyLWMP/yyGUc3nxO28IWc1TQCU/ypHEs6WZlZ91Q/SVIIk
+ BLmOsCOuF5HuIg+YiB9PH3JtILgKNabEltxaYKJZfF9DB3TMImb0dQ6HJwtKh0EnKQu2
+ 9hHK3J86JMPenrtJ2269jwERK28sE3ay7UB35Kvtp0sJ5spQM66A1ITuCV8KQ/CJOc0y
+ cdv/qeyfrxO4VG+bIc5WbVRNfCNrPm01+MK2+kBP1/ujyUswgJ7wClfATCvjb3Flw22w
+ K0SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=aEBTxw5dxXldbptfzGuLoP7HN5dwcK1pAxxrXdVbFGw=;
- b=UouEf+nlH49zXmRvYEzzspgHyxSQaVubctX5hmx+hL6CKkRpm5Av9pgdrk4F8B1R4d
- O2hD1mseD8zIG24OnXJTaxb3npylNpXZlVngiD99VIMzYC4u7zdbmrWk3AzaNikndmVk
- H4IiTw9FlC+1e5EufbYP9DN2BdHh2OkUzn0UrAdIbCMpuy1cUKiRSggsC+i7SuNjXl0s
- d3/00qLjwJUe+BBld63feutmtIQPXw2ZR9ChENP4475bXskuVnmMvgquPVuhLJwCV243
- y8OqbhNgYpncYGYrNKtRrQHZUn9wFCtjennezc1xHghHum5rbhruhGVOhJB1Ho8tq82i
- O0nA==
-X-Gm-Message-State: APjAAAWtNSwEOT/8Rra9qT8nVPJnLcp9VAisuf340ZDxiKRdva/myXYV
- R3LdoPsm9SjTxD41fgWlV8KiI8hU
-X-Google-Smtp-Source: APXvYqwtefE8PNG3BRbUSqN8OO4ScMbKzke5alBM/L4uH03Vz/GJZgPBIyroxlU2BAzLGaU2kTmNKw==
-X-Received: by 2002:a5d:53d1:: with SMTP id a17mr1735996wrw.327.1579564328329; 
- Mon, 20 Jan 2020 15:52:08 -0800 (PST)
+ bh=HmU95xX8aiHgv582n9n1gFgP0RnyUSIOGgAammjQwq4=;
+ b=Z6ej/JuB6KjlnlGC/valabA1HgGz732pkWnZozwF49kroAZ9WfnUibxsSi8TaRg6hH
+ YSeTS6DyzN6+3gS0O+WkrrIpnEse6eaijWBSW3ozkjvo88cwEI8tT4yB7FxkNaagXSLk
+ Eoj11VJ4hbuKeDgZ79RdqttoICK3cDmfzGWVlW6rf2CP7ecEvoz4gSJXTBmTWuk/L+B3
+ dJ3nLkFRBPZbXycFaooQw5NLEilTnETtYN7dIOq/XoXOwx/wzN2767cWsOhr1zkVAuOQ
+ ESXcd6Zb681SEYKxnU6AoJjazD2qksOyHxeliLsraYz11Xvg1NK/nweF/Qmw+GIgM0Sg
+ Ts/w==
+X-Gm-Message-State: APjAAAX7Ieh912coLqYmArVKBZQrsUwQHv1UKnx3i3mfNVifr+skvYBx
+ dNLhdUgRbcDVFOU7BmlF+vhpsKV+
+X-Google-Smtp-Source: APXvYqwnFzclMaLm13lPJ3Aaimid5Vi0wZtLRoWaO9ia65KfWufKz6fm7/JH+4tbW23v1tK9pO3Vfg==
+X-Received: by 2002:a7b:c74c:: with SMTP id w12mr1155175wmk.1.1579564329908;
+ Mon, 20 Jan 2020 15:52:09 -0800 (PST)
 Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id d8sm48655269wrx.71.2020.01.20.15.52.07
+ by smtp.gmail.com with ESMTPSA id d8sm48655269wrx.71.2020.01.20.15.52.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 15:52:07 -0800 (PST)
+ Mon, 20 Jan 2020 15:52:09 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/7] python/qemu/machine: Allow to use other serial
- consoles than default
-Date: Tue, 21 Jan 2020 00:51:56 +0100
-Message-Id: <20200120235159.18510-5-f4bug@amsat.org>
+Subject: [PATCH v4 5/7] tests/boot_linux_console: Test booting U-Boot on the
+ Raspberry Pi 2
+Date: Tue, 21 Jan 2020 00:51:57 +0100
+Message-Id: <20200120235159.18510-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200120235159.18510-1-f4bug@amsat.org>
 References: <20200120235159.18510-1-f4bug@amsat.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,65 +93,98 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the QEMU Python module limits the QEMUMachine class to
-use the first serial console.
+This test runs U-Boot on the Raspberry Pi 2.
+It is very simple and fast:
 
-Some machines/guest might use another console than the first one as
-the 'boot console'. For example the Raspberry Pi uses the second
-(AUX) console.
+  $ avocado --show=app,console run -t raspi2 -t u-boot tests/acceptance/
+  JOB LOG    : avocado/job-results/job-2020-01-20T23.40-2424777/job.log
+   (1/1) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_uboot:
+  console: MMC:   sdhci@7e300000: 0
+  console: Loading Environment from FAT... Card did not respond to voltage select!
+  console: In:    serial
+  console: Out:   vidconsole
+  console: Err:   vidconsole
+  console: Net:   No ethernet found.
+  console: starting USB...
+  console: USB0:   Port not available.
+  console: Hit any key to stop autoboot:  0
+  console: U-Boot>
+  console: U-Boot> bdinfo
+  console: arch_number = 0x00000000
+  console: boot_params = 0x00000100
+  console: DRAM bank   = 0x00000000
+  console: -> start    = 0x00000000
+  console: -> size     = 0x3c000000
+  console: baudrate    = 115200 bps
+  console: TLB addr    = 0x3bff0000
+  console: relocaddr   = 0x3bf64000
+  console: reloc off   = 0x3bf5c000
+  console: irq_sp      = 0x3bb5fec0
+  console: sp start    = 0x3bb5feb0
+  console: Early malloc usage: 2a4 / 400
+  console: fdt_blob    = 0x3bfbdfb0
+  console: U-Boot> version
+  console: U-Boot 2019.01+dfsg-7 (May 14 2019 - 02:07:44 +0000)
+  console: gcc (Debian 8.3.0-7) 8.3.0
+  console: GNU ld (GNU Binutils for Debian) 2.31.1
+  console: U-Boot> reset
+  console: resetting ...
+  PASS (0.46 s)
 
-To be able to use the Nth console as default, we simply need to
-connect all the N - 1 consoles to the null chardev.
-
-Add an index argument, so we can use a specific serial console as
-default.
+U-Boot is built by the Debian project, see:
+https://wiki.debian.org/InstallingDebianOn/Allwinner#Creating_a_bootable_SD_Card_with_u-boot
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v2:
-- renamed 'console_index', added docstring (Cleber)
-- reworded description (pm215)
----
- python/qemu/machine.py | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ tests/acceptance/boot_linux_console.py | 28 ++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index 734efd8536..ef9f5b213f 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -241,6 +241,8 @@ class QEMUMachine(object):
-                          'chardev=mon,mode=control'])
-         if self._machine is not None:
-             args.extend(['-machine', self._machine])
-+        for i in range(self._console_index):
-+            args.extend(['-serial', 'null'])
-         if self._console_set:
-             self._console_address = os.path.join(self._sock_dir,
-                                                  self._name + "-console.sock")
-@@ -527,7 +529,7 @@ class QEMUMachine(object):
-         """
-         self._machine = machine_type
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index e40b84651b..682b801b4f 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -16,6 +16,7 @@ import shutil
+ from avocado import skipUnless
+ from avocado_qemu import Test
+ from avocado_qemu import exec_command_and_wait_for_pattern
++from avocado_qemu import interrupt_interactive_console_until_pattern
+ from avocado_qemu import wait_for_console_pattern
+ from avocado.utils import process
+ from avocado.utils import archive
+@@ -485,6 +486,33 @@ class BootLinuxConsole(Test):
+         exec_command_and_wait_for_pattern(self, 'reboot',
+                                                 'reboot: Restarting system')
  
--    def set_console(self, device_type=None):
-+    def set_console(self, device_type=None, console_index=0):
++    def test_arm_raspi2_uboot(self):
++        """
++        :avocado: tags=arch:arm
++        :avocado: tags=machine:raspi2
++        :avocado: tags=u-boot
++        """
++        deb_url = ('https://snapshot.debian.org/archive/debian/'
++                   '20190514T084354Z/pool/main/u/u-boot/'
++                   'u-boot-rpi_2019.01%2Bdfsg-7_armhf.deb')
++        deb_hash = 'ad858cf3afe623b6c3fa2e20dcdd1768fcb9ae83'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        uboot_path = '/usr/lib/u-boot/rpi_2/uboot.elf'
++        uboot_path = self.extract_from_deb(deb_path, uboot_path)
++
++        self.vm.set_console()
++        self.vm.add_args('-kernel', uboot_path,
++                         # VideoCore starts CPU with only 1 core enabled
++                         '-global', 'bcm2836.enabled-cpus=1',
++                         '-no-reboot')
++        self.vm.launch()
++        interrupt_interactive_console_until_pattern(self,
++                                       'Hit any key to stop autoboot:',
++                                       'Config file not found')
++        exec_command_and_wait_for_pattern(self, 'bdinfo', 'U-Boot')
++        exec_command_and_wait_for_pattern(self, 'version', 'U-Boot')
++        exec_command_and_wait_for_pattern(self, 'reset', 'resetting ...')
++
+     def test_s390x_s390_ccw_virtio(self):
          """
-         Sets the device type for a console device
- 
-@@ -548,9 +550,14 @@ class QEMUMachine(object):
-                             chardev:console" command line argument will
-                             be used instead, resorting to the machine's
-                             default device type.
-+        @param console_index: the index of the console device to use.
-+                              If not zero, the command line will create
-+                              'index - 1' consoles and connect them to
-+                              the 'null' backing character device.
-         """
-         self._console_set = True
-         self._console_device_type = device_type
-+        self._console_index = console_index
- 
-     @property
-     def console_socket(self):
+         :avocado: tags=arch:s390x
 -- 
 2.21.1
 
