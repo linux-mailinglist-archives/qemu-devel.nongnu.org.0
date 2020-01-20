@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8FD1433AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 23:07:31 +0100 (CET)
-Received: from localhost ([::1]:44634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B3A1433AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 23:07:34 +0100 (CET)
+Received: from localhost ([::1]:44636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itfCk-0007wq-Et
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 17:07:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50987)
+	id 1itfCm-00082T-GO
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 17:07:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50999)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6n-0001XN-3g
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:22 -0500
+ id 1itf6o-0001Z1-Hh
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6i-0005nC-Pc
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:20 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:56021)
+ id 1itf6n-0005q5-2s
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:22 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36869)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1itf6i-0005mY-5P
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:16 -0500
-Received: by mail-wm1-x344.google.com with SMTP id q9so891230wmj.5
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 14:01:15 -0800 (PST)
+ id 1itf6j-0005nT-NX
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 17:01:21 -0500
+Received: by mail-wm1-x342.google.com with SMTP id f129so933061wmf.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 14:01:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PkfCQHlpqeDlUpgK51cDzilsCf35iQgQS4GdrZ/sDcM=;
- b=HnGw5uhwZEGZQgJLY+V0QAK9fz9/nIczneCMjPVrit+tJNyHXkR6DMEGRxLsd5uAoz
- 6niY3bNlqc6RL4/TDoCiE63VvAQhU7h3QjqgN25FKWvgOwT0qMDN1wiXcSrJBh0tDidz
- iuWkGWXLssDpKAWjO+5DqpUbQ6f+LqAY7dJFcSppGvZcMj1QZ0duUTfDN0dEsMIRKcQ1
- QFfUnOMuHDM+ZyBaT/xMzfMfTv6tAT1UD4sGyraiuKe/MjY5anybjUp20Wq2qVEtBLKp
- I0FmAc/Ps7wSj53CrE5A4yk1gDKGYaIPChQL4TsJz0I+55E9oBfgrNNlQsVVytymrWF3
- BtyQ==
+ bh=PgExqrTGwY7vrn4B1c+MG4krYS866xKGizW5SQhXiUI=;
+ b=FeHUlVgt5lgtH4sYtv46yYy96b6RnMFqiCXToC4zAldQ6BDCp49Pcvcx3G4Zue8H3h
+ 7qu5isu5R9hPYet1c0VW2TjvoJWeDYl9Tqdvtn00dNV8sBgZOsfZ0q2ehMLvZ4ZPmCUZ
+ R8JKdl9wuCvqf1xkF6hZTZP7b2As5itfR7pmdiqS4nMVukIsdMMU0UkGymGZRWWGc9EF
+ UsEDgoaoqYz8h5TKGiNWw+5FJE7DIf9vXYCSqxfZW6oA7hYiE4M51Ds82W2i5igSNNm2
+ 6PZ0arLVbYURDLy94dNu1rBA61M5l5a/mnApSyk31lWKNXGnvHeWKXrvc4caujNkDGmU
+ BhZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PkfCQHlpqeDlUpgK51cDzilsCf35iQgQS4GdrZ/sDcM=;
- b=FEYu/Jr44ZwkFC+H/SJ+EXmNpPxgPp6zi2+/CMrt0qTLa6eytccpV4qukPuW4Pqjhs
- kSTXdEgUiP4UwwhxgLETPPYm8w82BszLJeg4mwKfroDxc/5e+BmjklelYghDG2Z/kqbq
- JXYFh2iRUbe6DWqPLF4BwJxnwF9B1BD0srkMi4205pXAuEo2llz63CbGcAkoBKWTj+bg
- A0noYg0Y3n+XeS2lkotHkR/uNfZp3WqQ+rclmXa6d40XZiBqItvBLW8hqN/CG+iNpWWv
- P2txTqTrMfF+0LIA0xo/S//nNEy0nAHoR85KiOXUQHkv8pvtdhLvir3eso5+ybEC3iis
- DQLA==
-X-Gm-Message-State: APjAAAWXqAV8z1faqCbFkAC6DfqMgLcCO6DXSqqG4pWBwHs8e4C2Du8M
- jwrCHRs47mJSQd/I7zIT+HgqzmCO
-X-Google-Smtp-Source: APXvYqyrENP9GLcyaOoN+D2tdMlp1pRm1Sz4ePLfYg9C8HcA1c+B9TkInYzYuprSIAVCscjRUs6Y8Q==
-X-Received: by 2002:a05:600c:cd:: with SMTP id u13mr853134wmm.24.1579557674755; 
- Mon, 20 Jan 2020 14:01:14 -0800 (PST)
+ bh=PgExqrTGwY7vrn4B1c+MG4krYS866xKGizW5SQhXiUI=;
+ b=QnC/PdYmnFP7HrmjUM6bUTpxdlCLi09AB3xpPx6iy+aZ0oa4oftlukmZysR5C4wE+1
+ T+pSUmUZXfq9eHOGb1YXfh984nB7ThQnWGnsPQN8/SzMSs5Y1pkSvbVKOAem18VC3SaN
+ l6Xx9pizgRNGbBvnJOaL8nzCTepppiL7R7xrJh+n+E4iv7lAilMUpaPfJ08srD6lVhai
+ QvguVPlT2bAsAJFHZ78rSCCY9GPEg0DivTc6GL6V6LyuJFTP18NlWVDCgW4x+WZihR+f
+ CS9zcr7cay3Jm2AL4IArjjbhhHdhrHaSTuSc6xVDga3kZRBeOV2vzYRNL7LooNTzi2f5
+ pS6A==
+X-Gm-Message-State: APjAAAXhnd/WExDuiL/Z5vy8sH/eWZA/ryAhC8Avg6V5dKHH7rmXLDIR
+ TfqPXh8GXEi/+uQQ8ODi+o2KfI84
+X-Google-Smtp-Source: APXvYqzUe3C0CkyTNZj1F30dRNwV6ahcZe8bINEMUphMigVFNuGU1QtMkBFXeDaVbM0bunH+L0iilQ==
+X-Received: by 2002:a05:600c:2108:: with SMTP id
+ u8mr833358wml.183.1579557676673; 
+ Mon, 20 Jan 2020 14:01:16 -0800 (PST)
 Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id f1sm904341wmc.45.2020.01.20.14.01.13
+ by smtp.gmail.com with ESMTPSA id f1sm904341wmc.45.2020.01.20.14.01.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 14:01:14 -0800 (PST)
+ Mon, 20 Jan 2020 14:01:15 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 04/18] tests/acceptance: Keep multilines comment consistent
- with other tests
-Date: Mon, 20 Jan 2020 23:00:53 +0100
-Message-Id: <20200120220107.17825-5-f4bug@amsat.org>
+Subject: [PATCH v4 05/18] hw/char/avr: Reduce USART I/O size
+Date: Mon, 20 Jan 2020 23:00:54 +0100
+Message-Id: <20200120220107.17825-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200120220107.17825-1-f4bug@amsat.org>
 References: <20200120220107.17825-1-f4bug@amsat.org>
@@ -71,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,39 +83,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Michael Rolnik <mrolnik@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Per the datasheet the USART uses 7 consecutive 8-bit registers.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-note to maintainer: squash before merge?
----
- tests/acceptance/machine_avr6.py | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ hw/char/avr_usart.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_avr6.py
-index 784c287d0b..611f6a62a4 100644
---- a/tests/acceptance/machine_avr6.py
-+++ b/tests/acceptance/machine_avr6.py
-@@ -33,11 +33,9 @@ class AVR6Machine(Test):
-         https://github.com/seharris/qemu-avr-tests/raw/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf
-         constantly prints out 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'
-         """
--        rom_url = 'https://github.com/seharris/qemu-avr-tests'
--        rom_sha1= '36c3e67b8755dcf37e06af6730ef5d477b8ed16d'
--        rom_url += '/raw/'
--        rom_url += rom_sha1
--        rom_url += '/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf'
-+        rom_url = ('https://github.com/seharris/qemu-avr-tests'
-+                   '/raw/36c3e67b8755dcf/free-rtos/Demo'
-+                   '/AVR_ATMega2560_GCC/demo.elf')
-         rom_hash = '7eb521f511ca8f2622e0a3c5e8dd686efbb911d4'
-         rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
- 
+diff --git a/hw/char/avr_usart.c b/hw/char/avr_usart.c
+index cb307fe23d..becdb87847 100644
+--- a/hw/char/avr_usart.c
++++ b/hw/char/avr_usart.c
+@@ -280,7 +280,7 @@ static void avr_usart_init(Object *obj)
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->rxc_irq);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->dre_irq);
+     sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->txc_irq);
+-    memory_region_init_io(&s->mmio, obj, &avr_usart_ops, s, TYPE_AVR_USART, 8);
++    memory_region_init_io(&s->mmio, obj, &avr_usart_ops, s, TYPE_AVR_USART, 7);
+     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+     qdev_init_gpio_in(DEVICE(s), avr_usart_pr, 1);
+     s->enabled = true;
 -- 
 2.21.1
 
