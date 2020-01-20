@@ -2,93 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4DB14291C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:21:32 +0100 (CET)
-Received: from localhost ([::1]:34566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25B501428F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 12:12:49 +0100 (CET)
+Received: from localhost ([::1]:34378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itV7b-0000Nk-A5
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:21:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41562)
+	id 1itUz9-0005mo-Uv
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 06:12:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42143)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1itUmi-0005tw-C4
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:59:59 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1itUp9-0008Us-Kf
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:02:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1itUme-0005t6-CZ
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:59:56 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45642
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itUme-0005sm-7o
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:59:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579517991;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=auZ2Z6IuiF50v3N9WXdzCBF5ThOeNwyNI7RcFC3BfVs=;
- b=b+EDdiX87qfy1Kax6fvYk4s2GbqdxYt6aAGljW67DFKjQo7+FEfw9HGuxSY8AdXVxtdoUZ
- ari4HdjScfxxA+UlygMvmOdWjxEoIK76gQRYrB4ACydjfCXRYu8QhK3P5EmSfPjQ/g8L3e
- LnYu9GV4SugQoeUT+BEZJ+sPm4wXCHY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-dBdSNhY4M_qqMpcPLj_1KA-1; Mon, 20 Jan 2020 05:59:49 -0500
-X-MC-Unique: dBdSNhY4M_qqMpcPLj_1KA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E30B010883B5;
- Mon, 20 Jan 2020 10:59:47 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-225.ams2.redhat.com
- [10.36.117.225])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B23F05DA76;
- Mon, 20 Jan 2020 10:59:41 +0000 (UTC)
-Subject: Re: [PATCH v3 03/10] hbitmap: unpublish hbitmap_iter_skip_words
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20191219100348.24827-1-vsementsov@virtuozzo.com>
- <20191219100348.24827-4-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <b3f139cb-0d51-9dcd-bb32-bc8af5b9023c@redhat.com>
-Date: Mon, 20 Jan 2020 11:59:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ (envelope-from <alex.bennee@linaro.org>) id 1itUp8-0007kg-8o
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:02:27 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40719)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1itUp7-0007hA-Vw
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 06:02:26 -0500
+Received: by mail-wm1-x343.google.com with SMTP id t14so14211078wmi.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 03:02:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=giGqgVPaSqm1wmSnQabUdHw3pB84zxh//e/wHV/jIfc=;
+ b=ismMqQpWTlQiztoIC7rqP0U8qKO7FXmVzvDLkgxFlSbvP+cYofWDoyRcUASXi1DEYv
+ YGuvu0+kpGMFs/gEEgRcK8ETP5ko/VwjFf3jXjilUJBIEH2C0jYxM7qgfOki3HRzqnJP
+ nQDfn0h9UC6BeNPtkvzsdk1LWV4CkEpzyfsRWjIrhOpmwnvf23cDcGkezJMbwydmjsOx
+ KwjXZ+oeBK2lZYgE33UDuvW6nfP6T/a7jskVwX/fr3y9E6OioNUFYo03V3dw9pSzCey/
+ X9LWtJckE/bSeIyy4MHyIUd7ThS3q8DEGCnsv+pQqeGo/vz05DrQiFcuqh1mz3tDqrMN
+ 2/ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=giGqgVPaSqm1wmSnQabUdHw3pB84zxh//e/wHV/jIfc=;
+ b=JnkFd66ILJnGHDbT0nUAX5usq130IU57hMX6vl82TTXcX97Lp0DxkgxwUP/BOO8BvA
+ PbJKyHiYFt3gwn/3/+al56wbX09k/WR9bCB6NgNy01k6TwzDhtMBTy3rVR0ThhyN3m63
+ GIPFdSG0PXpIBsuKGnoQ3bkElM8aCZZWyPS94LIiijcHyoqcXUreeqaWB7byfZRTHmCg
+ znx2bzj9e4rQY8Ahf9jNdl/IHHSzb5Nhh+ykSIPSUmBb7W7LGWLdhtDfthYStWAFOJT/
+ nZh6n9MNMeQTA+/Hi1YYxfZr11NnVb1kMN7UUclGMi5y8elPWsN2PXVJbDVxuH3OyQkL
+ c84w==
+X-Gm-Message-State: APjAAAWttV13VdMs5f+wPPQMfskRh8nKSvq+PB2LMGWpkbntnkhFDx55
+ 1AQ31d0mRHjjaRAPRN/0SUhVHQ==
+X-Google-Smtp-Source: APXvYqwwo1blg0+GvT3OwSnZQ1H5xRUbFQoFL2SG5FQXSgr2fPsLq7its7Ssm92u0zS31LhIobTVxQ==
+X-Received: by 2002:a05:600c:2406:: with SMTP id
+ 6mr18459212wmp.30.1579518144787; 
+ Mon, 20 Jan 2020 03:02:24 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r6sm48423763wrq.92.2020.01.20.03.02.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jan 2020 03:02:23 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 978D01FF87;
+ Mon, 20 Jan 2020 11:02:22 +0000 (GMT)
+References: <20200118140619.26333-1-philmd@redhat.com>
+ <20200118140619.26333-2-philmd@redhat.com>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 1/6] configure: Do not build libfdt if not required
+In-reply-to: <20200118140619.26333-2-philmd@redhat.com>
+Date: Mon, 20 Jan 2020 11:02:22 +0000
+Message-ID: <87iml64cht.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20191219100348.24827-4-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="jWVWe49tMBR8J1COD1DqOg4A54UNplkCw"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,51 +83,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org, den@openvz.org
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---jWVWe49tMBR8J1COD1DqOg4A54UNplkCw
-Content-Type: multipart/mixed; boundary="WbluPsrhS3EE51iQxL9DxFx8XIeEWgrFk"
 
---WbluPsrhS3EE51iQxL9DxFx8XIeEWgrFk
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-On 19.12.19 11:03, Vladimir Sementsov-Ogievskiy wrote:
-> Function is internal and even commented as internal. Drop its
-> definition from .h file.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> We only require libfdt for system emulation, in a small set
+> of architecture:
+>
+> 4077  # fdt support is mandatory for at least some target architectures,
+> 4078  # so insist on it if we're building those system emulators.
+> 4079  fdt_required=3Dno
+> 4080  for target in $target_list; do
+> 4081    case $target in
+> 4082      aarch64*-softmmu|arm*-softmmu|ppc*-softmmu|microblaze*-softmmu|=
+mips64el-softmmu|riscv*-softmmu)
+> 4083        fdt_required=3Dyes
+>
+> Do not build libfdt if we did not manually specified --enable-fdt,
+> or have one of the platforms that require it in our target list.
+>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
->  include/qemu/hbitmap.h | 7 -------
->  util/hbitmap.c         | 2 +-
->  2 files changed, 1 insertion(+), 8 deletions(-)
+> v2: Improved description (thuth)
+> ---
+>  configure | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/configure b/configure
+> index 557e4382ea..c67a7e73db 100755
+> --- a/configure
+> +++ b/configure
+> @@ -4095,6 +4095,8 @@ if test "$fdt_required" =3D "yes"; then
+>        "targets which need it (by specifying a cut down --target-list)."
+>    fi
+>    fdt=3Dyes
+> +elif test "$fdt" !=3D "yes" ; then
+> +  fdt=3Dno
+>  fi
+>=20=20
+>  if test "$fdt" !=3D "no" ; then
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-
---WbluPsrhS3EE51iQxL9DxFx8XIeEWgrFk--
-
---jWVWe49tMBR8J1COD1DqOg4A54UNplkCw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl4liBsACgkQ9AfbAGHV
-z0DtbQgAkh791xPKTw/2eFe2ONZSxSlAyRakzu0J3NqKMbujlQ4kIHAXmumIogF5
-WLI46dSnxW9q0yX3eVI/agAvyS+bUasSB2asmjwMMWg5a9r20ZkUJsug8QlaOOw3
-v0xu8PINKTl8Kp/Bk6Wf5BRN9pKx6m9aepReq8R/V6JBQzEkcRtb3mvGFNTxj1sp
-EEw23+an4U+sxrM6C1uEVTBSygIZjEpZstTALeKTl4v4ow5RlqaAF6bRIlOkb4gr
-wvfB0cSoGKJux3d6R7zJY3cdTkJ1tvx5J3xi7uGibbz9sg6lpw/+TAnIhK6RvDm/
-js4Cj8EMVWh6yzpwCOLxnTQDGC7zfQ==
-=Bj86
------END PGP SIGNATURE-----
-
---jWVWe49tMBR8J1COD1DqOg4A54UNplkCw--
-
+--=20
+Alex Benn=C3=A9e
 
