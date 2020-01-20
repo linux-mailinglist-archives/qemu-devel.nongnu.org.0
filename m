@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7927A142817
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:18:33 +0100 (CET)
-Received: from localhost ([::1]:33224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1856D14281D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:20:18 +0100 (CET)
+Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itU8d-0005hY-Tt
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:18:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34774)
+	id 1itUAK-0007d2-Da
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:20:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35018)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@gmail.com>) id 1itU6Y-0004PE-Ot
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:16:24 -0500
+ (envelope-from <slp@redhat.com>) id 1itU84-0005tM-Js
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:17:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1itU6X-0005Si-4r
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:16:22 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45854)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1itU6W-0005Qx-Tx
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:16:21 -0500
-Received: by mail-wr1-x441.google.com with SMTP id j42so28842017wrj.12
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 02:16:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=0dDo7KjfEl7MVx6H05pJJDvNiqm4o+InpLbev2A/hAc=;
- b=VPU9z5i40/NOR7ea5siEMlbzeADp6X8a9V/rwvDpgNbey7DPoTmAU/LNsP1ZG2cZmC
- ym1SrKPIFbIiE2E8zLkzdopW9JWBwhNEm8wy5zXPe99gD70LiNm67826onQqP5MApXY1
- xxwYOIwbQGvZWLYjGQ3L5/PeUf079SbfwdidDwx5Ur4wfyByUiUZC/LFlKzxLU8kBF+g
- xdVMo1pZSHiorAX+aZq+HMT5itft96IAVb9aiUN6G8TjASE7+3kLetWQFWcWX5FSEuXB
- UvtL/WGzsVanTOH8xY4xnnWnetr2+NsFGTGAWSh7gXbvrguGX+T52lftx+fpQRLn/hsw
- BZlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0dDo7KjfEl7MVx6H05pJJDvNiqm4o+InpLbev2A/hAc=;
- b=Asf+NJcaiKqnthqhNUt4rYdTpqJ5PahIZG9l4rfEu2QvvK5oHEhBvGcOSXSj840uXF
- SnB5erQVfagydA5MJFIyinDM2P/nXuG2bBp1XHzKSQfk0YhbCSv4OQT9zwy3f1NCFfR4
- zZdcoz3a/VBd72k5iqT31bdejqNzRdH7CVyxNekFnfscQROY3T05HWuIqc+s1URfB9dS
- 0MCfbMZAGtdtPjLYTsmpcBFsujPZyAaQgvjeKq8hosbCy/QjPcI2aR7CQsEb1q44iGIO
- NXockjc5f866vo8YpKnIKRM58TO5oJTHm1KLHopQJ0P3jOI4aMubd946xjWAYunx+Z0y
- jufw==
-X-Gm-Message-State: APjAAAXKdUvTkHcFLywiEWWFAfxexJMscnIqing57C8WZhT1sVsYHmnM
- 1ojkvKafhyOM29aGDehGFms=
-X-Google-Smtp-Source: APXvYqxfpfVOer4sb3bwHSj4OxFmenhzNVRTz9+BWwKCXyN3Vor1PA5GoZihW5A4GmHDaVaPBRvDSg==
-X-Received: by 2002:adf:e70d:: with SMTP id c13mr17257861wrm.248.1579515379282; 
- Mon, 20 Jan 2020 02:16:19 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id u8sm22362540wmm.15.2020.01.20.02.16.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 02:16:18 -0800 (PST)
-Date: Mon, 20 Jan 2020 10:16:17 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [qemu-web PATCH] documentation: update links to readthedocs
-Message-ID: <20200120101617.GC345995@stefanha-x1.localdomain>
-References: <20200113103550.1133-1-alex.bennee@linaro.org>
- <2331e0b7-cad9-7b53-3d30-7fb88d692c8a@redhat.com>
- <20200115111042.GA163546@stefanha-x1.localdomain>
- <87zhepkk6j.fsf@linaro.org> <20200115120134.GH93923@redhat.com>
+ (envelope-from <slp@redhat.com>) id 1itU83-0006NE-Kk
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:17:56 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60168
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1itU83-0006N2-Fz
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:17:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579515475;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=i2shoQrsYn2LlJuPT9Aj1vIJumQ4aGZU1Po3F/hNNys=;
+ b=TDGfpfq5x0iDaI+AdGH3lTa1SJjmOocJo3zljIcSilrCrC1+/renjyc90bj08bZVdBHnXP
+ ZJK5oiweno9JZM6BpmS6OSJ94T3vC6tEzFg9jV3S68E5apMHwXZ61bKoqE75baG0vo3ygH
+ HPvrM43dZbmew+dpjfepJudoxjcKzu0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-99-pzLqA3W4PNq5_uy8G7Bdgg-1; Mon, 20 Jan 2020 05:17:53 -0500
+X-MC-Unique: pzLqA3W4PNq5_uy8G7Bdgg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72D8E10054E3
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 10:17:52 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 937E960BF7;
+ Mon, 20 Jan 2020 10:17:48 +0000 (UTC)
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-73-dgilbert@redhat.com>
+User-agent: mu4e 1.2.0; emacs 26.3
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 072/104] virtiofsd: passthrough_ll: fix refcounting on
+ remove/rename
+In-reply-to: <20191212163904.159893-73-dgilbert@redhat.com>
+Date: Mon, 20 Jan 2020 11:17:42 +0100
+Message-ID: <875zh68m9l.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OBd5C1Lgu00Gd/Tn"
-Content-Disposition: inline
-In-Reply-To: <20200115120134.GH93923@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,111 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Thomas Huth <thuth@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--=-=-=
+Content-Type: text/plain
 
---OBd5C1Lgu00Gd/Tn
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 15, 2020 at 12:01:34PM +0000, Daniel P. Berrang=E9 wrote:
-> On Wed, Jan 15, 2020 at 11:56:04AM +0000, Alex Benn=E9e wrote:
-> >=20
-> > Stefan Hajnoczi <stefanha@redhat.com> writes:
-> >=20
-> > > On Tue, Jan 14, 2020 at 12:11:34PM +0100, Thomas Huth wrote:
-> > >> On 13/01/2020 11.35, Alex Benn=E9e wrote:
-> > >> > ..and extemporise a little about their state.
-> > >> >=20
-> > >> > Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> > >> > ---
-> > >> >  documentation.md | 9 ++++++---
-> > >> >  1 file changed, 6 insertions(+), 3 deletions(-)
-> > >> >=20
-> > >> > diff --git a/documentation.md b/documentation.md
-> > >> > index f4ef9f4..55d5db6 100644
-> > >> > --- a/documentation.md
-> > >> > +++ b/documentation.md
-> > >> > @@ -3,9 +3,12 @@ title: QEMU documentation
-> > >> >  permalink: /documentation/
-> > >> >  ---
-> > >> > =20
-> > >> > -The [QEMU user manual](https://qemu.weilnetz.de/qemu-doc.html) ca=
-n be read online, courtesy of Stefan Weil.
-> > >> > -More documentation is found in the <a href=3D"https://git.qemu.or=
-g/?p=3Dqemu.git;a=3Dtree;f=3Ddocs;hb=3Dmaster">`docs`</a>
-> > >> > -directory of the QEMU git tree.
-> > >> > +The [QEMU user manual](https://qemu.weilnetz.de/qemu-doc.html) ca=
-n be
-> > >> > +read online, courtesy of Stefan Weil. There is a partial set of
-> > >> > +[developer documentation](https://qemu.readthedocs.io/en/latest/)
-> > >> > +which is generated from the QEMU git tree. The process of convert=
-ing
-> > >> > +the rest of the [`docs`](https://git.qemu.org/?p=3Dqemu.git;a=3Dt=
-ree;f=3Ddocs;hb=3Dmaster)
-> > >> > +directory is ongoing.
-> > >>=20
-> > >> This has a conflict with Stefan's patch to point to our documentatio=
-n on
-> > >> www.qemu.org now instead:
-> > >>=20
-> > >>  https://patchwork.kernel.org/patch/11234545/
-> > >>=20
-> > >> ... Stefan, looks like the index.html page is still not there yet,
-> > >> although your other patch that includes index.html.in in the sources=
- is
-> > >> in the repository now? What's the status here?
-> > >
-> > > The qemu.git/master docs are built nightly here (index.html is now
-> > > visible!):
-> > > https://www.qemu.org/docs/master/
-> > >
-> > > qemu.org's docs are more useful at the moment since they include the
-> > > user documentation in addition to the developer documentation.
-> >=20
-> > And I think we want to continue hosting them on qemu.org. Is it possible
-> > to theme them under the website branding? Stefan's version includes a
-> > banner and background icon so it would be nice to at least fit in with
-> > the reset of the site.
->=20
-> I did a demo of this a while back:
->=20
->   https://www.mail-archive.com/qemu-devel@nongnu.org/msg578110.html
->=20
-> Essentially you just need to strip the HTML header down to the
-> <body> content. Then add the jekyll header and run its site
-> generator which will add the new HTML header with theme.
->=20
-> In my patches above I committed the ref docs .html files to qemu-web.git
-> but this is not required. They just need to be placed in any directory
-> on the server where jekyll build process runs, so that we can access
-> them when building the static site content.
+Dr. David Alan Gilbert (git) <dgilbert@redhat.com> writes:
 
-I won't have time to play with this until after FOSDEM.
+> From: Miklos Szeredi <mszeredi@redhat.com>
+>
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  tools/virtiofsd/passthrough_ll.c | 50 +++++++++++++++++++++++++++++++-
+>  1 file changed, 49 insertions(+), 1 deletion(-)
 
-If anyone wants to send patches, please go ahead!
+This one is missing a commit message, and I think the patch isn't
+trivial enough to give it a pass without it.
 
-Stefan
+Sergio.
 
---OBd5C1Lgu00Gd/Tn
+--=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4lffEACgkQnKSrs4Gr
-c8jxbwf/WXXe4gsBUxjRM4+XNarQELw42A4qu3kayiEgUiEBMwxiT48+X7+JR81A
-i3wMPEAdQGrmfUpYNgjUB9ahbLhex2W8RF2hLIroRoXfhvVZEg0gJePVgO0Z2d3u
-6EsFB+Xefk0TxhCtF1DwDIuOOi+9hjQjv4/CsBDo4qb65KVVqbJWtnY7ySzP8cME
-9UFghiUSgQdnjXhPGWvK7bvhj706ls8OjOguI5e/iOW49rkPft3f3KqUChCSGEzV
-2OletNvXaSkrXP8a30wta35m0/svq8kZDLScI82PqfIvvEwVayVPun1V4Ez/0gw7
-yS674wnphIdAg733sGelu37Hbc/Rjw==
-=KKXB
+iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl4lfkYACgkQ9GknjS8M
+AjUbCA/+IfX3uD++I/hzZeg6/H3dQ07jf3SHiDEwdrvhYv9NGGLOT5I0qWQga0Vc
+erfNtPhKJS3Ab3jhRI+o7jWmVlCdORF62O/pqHeUKTGS0MoZcvqnbn7b9vHCVDi9
+xCLIJtTUmAjYUNWgklCL6YydfDKb8HsGiT7786/DYVsewvx2LjoWFY10hNEMitc0
+8ZOYCLb/Uk0P29PAqYtyLo227NRFF+aVF6PfS1tCF0WQSIrEwdjdKatHoAICmc6Q
+bJhlj95515T3cHjcxHhrGg4+RAjwFbbRTgjwykDBAJDHoI7m6TwqlYPiA5WJRKpY
+fM4aVfE2jK1b2ia3UKx3ceKV3oSgIQhd0RkNGhPBZ5wLnrRdqzHdlDRkMNtjcG8F
+Vozr6FpGQrMpVd4A95nHbrO49+6bRBlD+BQFVYy6ad0/Dv8cWy3bLQVPpRDCGs/L
+gTAGKRXoqn6vvCsziQDVkjpDmmRDVV363/oQEgSQM0J4Ei6+oPVImVAphROo1Qqc
+rS2tOSyQ/O5EcHluJ2++YNh91WZSmTVlqAW0VzYf6abTVwOExUpHFAdWT5LpiGHp
+Fa0zXreJCgcn5xYlUKS4TNEpsNsax8Xg612z7289BrUg7H1Tkb8nbR85l0BDgxu/
+pqsPXB4Bqi95tyx2gNF+sxguggXGZle7UZfML1Mv0f/JZUMZekQ=
+=+RVy
 -----END PGP SIGNATURE-----
+--=-=-=--
 
---OBd5C1Lgu00Gd/Tn--
 
