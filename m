@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F8A142861
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:46:14 +0100 (CET)
-Received: from localhost ([::1]:33828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B267142873
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 11:49:57 +0100 (CET)
+Received: from localhost ([::1]:33882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itUZQ-0001x5-US
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:46:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37391)
+	id 1itUd1-0006kE-Nc
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 05:49:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37430)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1itUOf-0004tC-AZ
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:13 -0500
+ (envelope-from <quintela@redhat.com>) id 1itUOn-0004vU-IK
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1itUOb-0001wp-Gd
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:05 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:20927
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1itUOi-00020T-7U
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59935
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1itUOb-0001vq-CS
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:01 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1itUOi-0001za-2h
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 05:35:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579516499;
+ s=mimecast20190719; t=1579516506;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YenyR+cDlGnKbLpY/elkWxAa8k3PezuARzjo1X24+Yw=;
- b=H7WOHDLpVRcpiPBS3gA0+9MPvRRVZr93G9b9m5AfpdNqTmvznNzmDbjmS+4+6Z3D1uojfi
- F7+j0oSq0+H4NfMVdg5DoIg1DBBBfjDVS6mcu1KbI4yfBvF8UdYeIycPHMtqdcRDb5bb/N
- xiLFJP9LPH9aUUtL5cXekOFqi0mcrtc=
+ bh=IK9e0vaf6oFJwdDH1Z3FkKjQHviZuSu3zT8Gr5xF4kk=;
+ b=KldGrmYqQU3MIwkoTjRgNXh2yeXGcjrCuwu9LD0wH+Svc0LUFvAXl5G2Es68liR53veuxP
+ 9uwBso1K69Mg1cq2wEq5tqVPsgi/CuKqANMwd5hMWfvL66/cdOziQoZ119Ds4hCgTkoLBb
+ xZIdQIKom7ZR8ZNajw2B+rxYB5sHju8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-oYAPs8IuOa6gae4BL12fEQ-1; Mon, 20 Jan 2020 05:34:58 -0500
+ us-mta-179-IC1ogiVCPI27LElGsHJpKg-1; Mon, 20 Jan 2020 05:35:04 -0500
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10699A0CDB;
- Mon, 20 Jan 2020 10:34:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4E0C477;
+ Mon, 20 Jan 2020 10:35:01 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 871D4860E5;
- Mon, 20 Jan 2020 10:34:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65F431BC6D;
+ Mon, 20 Jan 2020 10:34:56 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/29] migration: Fix incorrect integer->float conversion
- caught by clang
-Date: Mon, 20 Jan 2020 11:33:19 +0100
-Message-Id: <20200120103340.25118-9-quintela@redhat.com>
+Subject: [PULL 09/29] migration: Fix the re-run check of the migrate-incoming
+ command
+Date: Mon, 20 Jan 2020 11:33:20 +0100
+Message-Id: <20200120103340.25118-10-quintela@redhat.com>
 In-Reply-To: <20200120103340.25118-1-quintela@redhat.com>
 References: <20200120103340.25118-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: oYAPs8IuOa6gae4BL12fEQ-1
+X-MC-Unique: IC1ogiVCPI27LElGsHJpKg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,67 +75,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Corey Minyard <cminyard@mvista.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Richard Henderson <rth@twiddle.net>, Laurent Vivier <lvivier@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>,
+ Stefan Weil <sw@weilnetz.de>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Yury Kotov <yury-kotov@yandex-team.ru>, Darren Kenny <darren.kenny@oracle.com>,
+ qemu-arm@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Fangrui Song <i@maskray.me>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Fangrui Song <i@maskray.me>
+From: Yury Kotov <yury-kotov@yandex-team.ru>
 
-Clang does not like qmp_migrate_set_downtime()'s code to clamp double
-@value to 0..INT64_MAX:
+The current check sets an error but doesn't fail the command.
+This may cause a problem if new connection attempt by the same URI
+affects the first connection.
 
-    qemu/migration/migration.c:2038:24: error: implicit conversion from 'lo=
-ng' to 'double' changes value from 9223372036854775807 to 92233720368547758=
-08 [-Werror,-Wimplicit-int-float-conversion]
-
-The warning will be enabled by default in clang 10. It is not
-available for clang <=3D 9.
-
-The clamp is actually useless; @value is checked to be within
-0..MAX_MIGRATE_DOWNTIME_SECONDS immediately before.  Delete it.
-
-While there, make the conversion from double to int64_t explicit.
-
-Signed-off-by: Fangrui Song <i@maskray.me>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-[Patch split, commit message improved]
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/migration.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ migration/migration.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index 27500d09a9..f79d0bf89a 100644
+index f79d0bf89a..e55edee606 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -2035,11 +2035,10 @@ void qmp_migrate_set_downtime(double value, Error *=
-*errp)
+@@ -1784,6 +1784,7 @@ void qmp_migrate_incoming(const char *uri, Error **er=
+rp)
+     }
+     if (!once) {
+         error_setg(errp, "The incoming migration has already been started"=
+);
++        return;
      }
 =20
-     value *=3D 1000; /* Convert to milliseconds */
--    value =3D MAX(0, MIN(INT64_MAX, value));
-=20
-     MigrateSetParameters p =3D {
-         .has_downtime_limit =3D true,
--        .downtime_limit =3D value,
-+        .downtime_limit =3D (int64_t)value,
-     };
-=20
-     qmp_migrate_set_parameters(&p, errp);
+     qemu_start_incoming_migration(uri, &local_err);
 --=20
 2.24.1
 
