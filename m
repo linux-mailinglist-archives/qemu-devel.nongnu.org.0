@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A451430AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 18:15:43 +0100 (CET)
-Received: from localhost ([::1]:40386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9533C1430B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 18:18:54 +0100 (CET)
+Received: from localhost ([::1]:40434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itaeL-0005Hv-0Q
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 12:15:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36358)
+	id 1itahR-0000mm-7W
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 12:18:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36353)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tcminyard@gmail.com>) id 1itaWV-0005rM-O1
+ (envelope-from <tcminyard@gmail.com>) id 1itaWV-0005rA-Lk
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 12:07:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1itaWU-0001gs-G6
+ (envelope-from <tcminyard@gmail.com>) id 1itaWU-0001gx-GL
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 12:07:35 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38183)
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:39485)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1itaWU-0001gT-B3
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1itaWU-0001gJ-BE
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 12:07:34 -0500
-Received: by mail-oi1-x242.google.com with SMTP id l9so620oii.5
+Received: by mail-ot1-x32d.google.com with SMTP id 77so379028oty.6
  for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 09:07:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=fKibVKMTN/g3RLg3BnsPK7GTis/dJbeQ9XnVDxmBdhk=;
- b=TcnwYCraeLFfl770q05H+Hm2/x1E/1fHnFGPoZrRpSYq7JKW2upXzsDjZplVuRflL2
- UqabHFYodJ6KTPNo82UQT1XQhhFg2ojeCV7XJJGxcyX9KJAyvQEpoRONnzOXkXK+6dAb
- mhzA7N8N8wl/Jn6P2uGHqfsGB7HPGeqLFZD1mcD4Bi1B7hxFM18CFyRBY8x7g55A4vFc
- 6jhytqGBWp+82Sx6o0yDe5ZJtD5Woula54JQcJg5NKvi8QHjOTSZBJhiIGZizli90lm6
- ruliwLS/cnqdZJg2wXDPvLhA8ufVKCEy+ftayV0PL2CfP520o9nmJCJ2RkZBLXoMlUPF
- UvEw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xXgs8aTcQ0uGhBK5sC1zXETwAujk79dljWd/Jt9xxR0=;
+ b=uOnCvRWGs6oeu3Jde/XWJaqb20pytL83RVdKJkXyvT73RioKMb45nZk19MqvvYezIc
+ WlgP1atkjvsK44HjXqTarZv2hpwZd9XH0x8WsnNY7BrZzZUaPN2JXMoB2TSc8esmDJXU
+ ntf31FQpKGfe2F1DXaSEdP/RZ+Hajtw1bhUKZICi3u/rithZNUkXJHoWj/nxPAq/mrrX
+ twbDoi6Xb0gVXuzbaoAytHm6BrUG4ROjAIos5Vpx5dyajmK11ljo8dG3sILR5SxtlkXR
+ cvasqKx8HcYRMV/J8zmkkEQPVxulyzraXZNVd35JfdTopeIZPQQcmxNQA7oTbwoTZNK0
+ TXYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=fKibVKMTN/g3RLg3BnsPK7GTis/dJbeQ9XnVDxmBdhk=;
- b=uCa5v0Wl64GXZbzN7rDZ5IRe7M9nYM4AJcBpQJ9ej0dOToEBAuETAe2SxwfBG4c7k9
- m94lgqWkiJg7pDIUihsMLKaNeX3LdXzq/sD+oP4+d2Eo5czDrJNfHFzCmZxEphFcSbVE
- dTWRADoE4uwWbjbGxK73YZ3m28heTXPGNNxCaWr3+QHRrlsoe358Y86hhXKkCdpP7OFn
- BU6LJgQZd8xP/CvvXj475nARDURpCdSrmWMo+DjPo1n5csrSBANvyVWh6iseeCbQhBLP
- pQjrbAn/zO9d2xfAxy3Ba5WQaujiny0mnvzu2ZhQ4T8krQ1rXwLQK9pswt/Xy838DfSu
- 6M+w==
-X-Gm-Message-State: APjAAAVlUgHWltAe1FYAuFjXc4d9nNW0Jm50AGmr7huNkVkI2NK25yJD
- cmnba+Ngcgf9VpBke/gVin5aptk=
-X-Google-Smtp-Source: APXvYqynhyIZoyPzbJUNIFxy1l7V6SECORPmwpwP3aNFSAG8s05j4qNEsuQKDnXLYthsZAdX0GpQAA==
-X-Received: by 2002:aca:b703:: with SMTP id h3mr219056oif.148.1579540052777;
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=xXgs8aTcQ0uGhBK5sC1zXETwAujk79dljWd/Jt9xxR0=;
+ b=XOPM4orJMPrGi2fZpCPgj+N9u/5zsenFga7NeAf4RSW3ZRAsJemrAJqbHnDHHzNhhv
+ SZwhkQ9YTFaDo57RJpsEsuPU6X7LjQ1J1hBqfaSuUR/f12k4qIn5n2nRAEPy1rS7Xk65
+ e8sJqtz1IVkEz1XUZvPWoSTMt0D2h4eDFmLNKXgt14Bx3iahudCV0JFhs21Q4BB5GW6e
+ AtY9ep8b+vc+096AIiI0AFWWCqiw/oV8ef+e6RcESFOU6g0XQfqQLdm8Ryfn5V7N/Gwt
+ XrxAf2s73wdgvAHsaXsTBdZs2XLbiO5GyVEUBR50Msk5yKAwD+zVZVYbhxn7Ovl6nMtO
+ ho6g==
+X-Gm-Message-State: APjAAAUgKAmY+qQ3qrBNpU4ZboIZVUWFJVb0BQlZn/u+3CNQp0rCmfMq
+ VWBD20tl4GkrBRYdglnj9A==
+X-Google-Smtp-Source: APXvYqyKvU4FF1l+DMGylGFkQ76jnSmRhzrYP4In1sH3GWqwYOmv02NRVJrc45EqzzSq12RBWTytzA==
+X-Received: by 2002:a9d:6f07:: with SMTP id n7mr353777otq.112.1579540052529;
  Mon, 20 Jan 2020 09:07:32 -0800 (PST)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id i8sm4158747oto.9.2020.01.20.09.07.31
+Received: from serve.minyard.net ([47.184.136.59])
+ by smtp.gmail.com with ESMTPSA id k17sm2597801otl.45.2020.01.20.09.07.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 20 Jan 2020 09:07:32 -0800 (PST)
 Received: from t560.minyard.net (unknown
  [IPv6:2001:470:b8f6:1b:9c9c:d583:ce3d:f87a])
- by serve.minyard.net (Postfix) with ESMTPA id 68924180051;
+ by serve.minyard.net (Postfix) with ESMTPA id 7D0BD180052;
  Mon, 20 Jan 2020 17:07:31 +0000 (UTC)
 From: minyard@acm.org
 To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [PATCH 1/5] ipmi: Add man page pieces for the IPMI PCI devices
-Date: Mon, 20 Jan 2020 11:07:21 -0600
-Message-Id: <20200120170725.24935-2-minyard@acm.org>
+Subject: [PATCH 2/5] smbus-eeprom: remove PROP_PTR
+Date: Mon, 20 Jan 2020 11:07:22 -0600
+Message-Id: <20200120170725.24935-3-minyard@acm.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200120170725.24935-1-minyard@acm.org>
 References: <20200120170725.24935-1-minyard@acm.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,43 +81,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Corey Minyard <cminyard@mvista.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Corey Minyard <cminyard@mvista.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This was forgotten when the devices were added.
+Instead, set the initial data field directly.
 
+(the initial data is an array of 256 bytes. As I don't know if it may
+change over time, I keep the pointer to original buffer as is, but it
+might be worth to consider to copy it instead)
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20191120152442.26657-32-marcandre.lureau@redhat.com>
 Signed-off-by: Corey Minyard <cminyard@mvista.com>
 ---
- qemu-options.hx | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ hw/i2c/smbus_eeprom.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index e9d6231438..2417a1305f 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -795,6 +795,19 @@ set this to 0.
- Like the KCS interface, but defines a BT interface.  The default port is
- 0xe4 and the default interrupt is 5.
+diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
+index 54c86a0112..533c728b3b 100644
+--- a/hw/i2c/smbus_eeprom.c
++++ b/hw/i2c/smbus_eeprom.c
+@@ -44,7 +44,7 @@
+ typedef struct SMBusEEPROMDevice {
+     SMBusDevice smbusdev;
+     uint8_t data[SMBUS_EEPROM_SIZE];
+-    void *init_data;
++    uint8_t *init_data;
+     uint8_t offset;
+     bool accessed;
+ } SMBusEEPROMDevice;
+@@ -129,14 +129,14 @@ static void smbus_eeprom_reset(DeviceState *dev)
  
-+@item -device pci-ipmi-kcs,bmc=@var{id}
+ static void smbus_eeprom_realize(DeviceState *dev, Error **errp)
+ {
++    SMBusEEPROMDevice *eeprom = SMBUS_EEPROM(dev);
 +
-+Add a KCS IPMI interafce on the PCI bus.
-+
-+@table @option
-+@item bmc=@var{id}
-+The BMC to connect to, one of ipmi-bmc-sim or ipmi-bmc-extern above.
-+@end table
-+
-+@item -device pci-ipmi-bt,bmc=@var{id}
-+
-+Like the KCS interface, but defines a BT interface on the PCI bus.
-+
- ETEXI
+     smbus_eeprom_reset(dev);
++    if (eeprom->init_data == NULL) {
++        error_setg(errp, "init_data cannot be NULL");
++    }
+ }
  
- DEF("name", HAS_ARG, QEMU_OPTION_name,
+-static Property smbus_eeprom_properties[] = {
+-    DEFINE_PROP_PTR("data", SMBusEEPROMDevice, init_data),
+-    DEFINE_PROP_END_OF_LIST(),
+-};
+-
+ static void smbus_eeprom_class_initfn(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -146,9 +146,8 @@ static void smbus_eeprom_class_initfn(ObjectClass *klass, void *data)
+     dc->reset = smbus_eeprom_reset;
+     sc->receive_byte = eeprom_receive_byte;
+     sc->write_data = eeprom_write_data;
+-    dc->props = smbus_eeprom_properties;
+     dc->vmsd = &vmstate_smbus_eeprom;
+-    /* Reason: pointer property "data" */
++    /* Reason: init_data */
+     dc->user_creatable = false;
+ }
+ 
+@@ -172,7 +171,7 @@ void smbus_eeprom_init_one(I2CBus *smbus, uint8_t address, uint8_t *eeprom_buf)
+ 
+     dev = qdev_create((BusState *) smbus, TYPE_SMBUS_EEPROM);
+     qdev_prop_set_uint8(dev, "address", address);
+-    qdev_prop_set_ptr(dev, "data", eeprom_buf);
++    SMBUS_EEPROM(dev)->init_data = eeprom_buf;
+     qdev_init_nofail(dev);
+ }
+ 
 -- 
 2.17.1
 
