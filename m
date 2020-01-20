@@ -2,67 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B991142CAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 14:59:53 +0100 (CET)
-Received: from localhost ([::1]:36958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9198142CB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:02:21 +0100 (CET)
+Received: from localhost ([::1]:37050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itXaq-0002is-6b
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 08:59:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37169)
+	id 1itXdE-0004ei-MZ
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:02:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37185)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1itXZy-00027B-Dp
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:58:59 -0500
+ (envelope-from <mreitz@redhat.com>) id 1itXZz-00027F-B0
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:59:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1itXZw-0006Yu-V8
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:58:58 -0500
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:44882)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1itXZw-0006YH-OR
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:58:56 -0500
-Received: by mail-ot1-x333.google.com with SMTP id h9so28665528otj.11
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 05:58:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jEgzaPkCNNQ5N+IGF5UyFuBEb2jf5dAPic+nQbNMIH0=;
- b=ciYy3VL5ceqeOlIoSShkReD3+Jh2ynD2ReZnUPMlt3diTBhNZ0dSTyJUS0IX3/XCHV
- MhWieUh3fc8NDneywqwPs5RCvUsp+8N+xrmhSX/twn2I/EifQazdbMsNxXt7N3/yjYy7
- 3PyQ09O1DpJycmnw1Re4Wfsy/gBZDdUphm4gEEN/8rJQl8e3e4y6xx34d+JXTpLRVAKg
- QsuAyuE1+eEOKfGCCJw8IXJYt9UscsXgpu7avtpS5+Ax07cUsFgs1NtgUL6li/ySZQ4R
- v9+nD7UwHJeEvqmaGbxRH8TMydnK0EEkE9NMP77Tj018BDMg3j01sBDJEFzHlM+xY6EE
- RoaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jEgzaPkCNNQ5N+IGF5UyFuBEb2jf5dAPic+nQbNMIH0=;
- b=FKPpnaqrLrUJgcKoWb6Q20F2QaxcdxfQuylycGsBCF/HFS5/p4axM2Ip1nGK6E6N0Y
- A3qximJvvnP7i/jVGYIHGjpEXn6uTonXpH06dCLrtt/XLn4oRZVeC6JavlruqtdUHZPd
- 3KZSiUEyjLi+XBNBeXbVXTXDlkTgil0GEBHRDqdpK1lR95v2J4aNQRrAnMSuIJtQDGm+
- EGRGAzLS7VlFobajJqO9hNXOsRXV/4L1wMPKlb3hJ4xwbVfYNFzunCgYlNh/Ijjnn2vZ
- 1IyooAZwVpBd/gnj3e1lYZjGj8EMI8x9vxETDOcMqV/YMwst7+eJxzEYxNDOoVx2+tho
- q5Cg==
-X-Gm-Message-State: APjAAAVekvVCXhYk3a6vf+JS20z0QNvKk62MlGirZJ51ZJAbBE+U21F0
- b3xzRt496aWP+2OJwKcJIHf90NNwIJZhTq4iqao9tw==
-X-Google-Smtp-Source: APXvYqwBO7dl3SCY244C0CHElDp2xq4TL/FVP/xg1Z77rEzLH+pOSk+81nr1W02K3bdMOgx356lDU+aBCmX+5HnynoY=
-X-Received: by 2002:a05:6830:4a4:: with SMTP id
- l4mr16017040otd.91.1579528735484; 
- Mon, 20 Jan 2020 05:58:55 -0800 (PST)
+ (envelope-from <mreitz@redhat.com>) id 1itXZx-0006Zd-Sm
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:58:59 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52866
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itXZx-0006ZI-O4
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:58:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579528737;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=qGFJmhzf8T0N9yMw1CDSILmjFjkLXVFk2CH2Wtu4g3Y=;
+ b=J+1u/2fANzNQGwOKb++B/IpEoZiZZPTg4+EIOuckfOIGdk1kpA0GStjLun7NmxWdvrTcIE
+ X/2ciPq5MnIlSPN9I9aFR8Ema8FCdQql2+0HxPJWuns5f7KWmxvNEWFoAwqVeYY2YrFwr2
+ zl9b7m/PhPzJSvcy3CjgdxM1H1sjk4Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-DAUhkaRrP3eD6gtLho3trg-1; Mon, 20 Jan 2020 08:58:56 -0500
+X-MC-Unique: DAUhkaRrP3eD6gtLho3trg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A93411005512;
+ Mon, 20 Jan 2020 13:58:54 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-225.ams2.redhat.com
+ [10.36.117.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 04DA980892;
+ Mon, 20 Jan 2020 13:58:49 +0000 (UTC)
+Subject: Re: [PATCH v3 07/10] block/dirty-bitmap: improve _next_dirty_area API
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20191219100348.24827-1-vsementsov@virtuozzo.com>
+ <20191219100348.24827-8-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <19eb1ec8-4532-5287-0c20-6b7749491da1@redhat.com>
+Date: Mon, 20 Jan 2020 14:58:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-References: <20200118164229.22539-1-linux@roeck-us.net>
- <20200118164229.22539-6-linux@roeck-us.net>
-In-Reply-To: <20200118164229.22539-6-linux@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Jan 2020 13:58:44 +0000
-Message-ID: <CAFEAcA9kK7mK=FQRKc0sDL8rZzibYov9Xm__+-MA06ERCotZ1Q@mail.gmail.com>
-Subject: Re: [PATCH v2 5/7] hw/char/exynos4210_uart: Implement Rx FIFO level
- triggers and timeouts
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::333
+In-Reply-To: <20191219100348.24827-8-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="EWNG4zvxJrBbKEnwWv3a2vLdYq8yQFiml"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,77 +100,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 18 Jan 2020 at 16:42, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> The driver already implements a receive FIFO, but it does not
-> handle receive FIFO trigger levels and timeout. Implement the
-> missing functionality.
->
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--EWNG4zvxJrBbKEnwWv3a2vLdYq8yQFiml
+Content-Type: multipart/mixed; boundary="tAzqNWfozKuhAz2UFjaBRrMdy8C8RJ0PO"
+
+--tAzqNWfozKuhAz2UFjaBRrMdy8C8RJ0PO
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 19.12.19 11:03, Vladimir Sementsov-Ogievskiy wrote:
+> Firstly, _next_dirty_area is for scenarios when we may contiguously
+> search for next dirty area inside some limited region, so it is more
+> comfortable to specify "end" which should not be recalculated on each
+> iteration.
+>=20
+> Secondly, let's add a possibility to limit resulting area size, not
+> limiting searching area. This will be used in NBD code in further
+> commit. (Note that now bdrv_dirty_bitmap_next_dirty_area is unused)
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
-> v2: Call exynos4210_uart_rx_timeout_set() from new post_load function
->     to set the receive timeout timer.
->     Add timer to vmstate_exynos4210_uart.
->
->  hw/char/exynos4210_uart.c | 122 ++++++++++++++++++++++++++++++--------
->  hw/char/trace-events      |   3 +-
->  2 files changed, 99 insertions(+), 26 deletions(-)
+>  include/block/dirty-bitmap.h |  3 ++-
+>  include/qemu/hbitmap.h       | 25 ++++++++++++---------
+>  block/dirty-bitmap.c         |  6 +++--
+>  tests/test-hbitmap.c         | 43 +++++++++++++++++++++++-------------
+>  util/hbitmap.c               | 41 +++++++++++++++++++++-------------
+>  5 files changed, 74 insertions(+), 44 deletions(-)
 
-Since the timeout value depends on s->wordtime, and
-exynos4210_uart_update_parameters() can change s->wordtime,
-do you need to recalculate the timeout at that point?
-This would correspond to if the guest wrote to the
-UBRDIV/UFRACVAL/ULCON registers, I think. Maybe this comes
-under the heading of "undefined behaviour if the guest does
-this odd thing" ? (The exact behaviour of the h/w is probably
-undocumented and mildly painful to emulate exactly, so it's
-hard to see why QEMU should care about getting it exactly right.)
+[...]
 
-I did also wonder whether writing the same value to the UCON
-timeout-interval field repeatedly really does restart the timer
-counting down from 8*(N+1) frames again, but again maybe that's
-just weird for a guest to do.
+>  /**
+> diff --git a/tests/test-hbitmap.c b/tests/test-hbitmap.c
+> index e3f1b3f361..d75e84a76a 100644
+> --- a/tests/test-hbitmap.c
+> +++ b/tests/test-hbitmap.c
+> @@ -920,18 +920,19 @@ static void test_hbitmap_next_x_after_truncate(Test=
+HBitmapData *data,
+>      test_hbitmap_next_x_check(data, 0);
+>  }
+> =20
+> -static void test_hbitmap_next_dirty_area_check(TestHBitmapData *data,
+> -                                               int64_t offset,
+> -                                               int64_t count)
+> +static void test_hbitmap_next_dirty_area_check_limited(TestHBitmapData *=
+data,
+> +                                                       int64_t offset,
+> +                                                       int64_t count,
+> +                                                       int64_t max_dirty=
+)
+>  {
+>      int64_t off1, off2;
+>      int64_t len1 =3D 0, len2;
+>      bool ret1, ret2;
+>      int64_t end;
+> =20
+> -    off1 =3D offset;
+> -    len1 =3D count;
+> -    ret1 =3D hbitmap_next_dirty_area(data->hb, &off1, &len1);
+> +    ret1 =3D hbitmap_next_dirty_area(data->hb,
+> +            offset, count =3D=3D INT64_MAX ? INT64_MAX : offset + count,=
+ max_dirty,
+> +            &off1, &len1);
+> =20
+>      end =3D offset > data->size || data->size - offset < count ? data->s=
+ize :
+>                                                                 offset + =
+count;
+> @@ -940,21 +941,25 @@ static void test_hbitmap_next_dirty_area_check(Test=
+HBitmapData *data,
+>          ;
 
-> @@ -553,6 +620,7 @@ static const VMStateDescription vmstate_exynos4210_uart = {
->                         vmstate_exynos4210_uart_fifo, Exynos4210UartFIFO),
->          VMSTATE_UINT32_ARRAY(reg, Exynos4210UartState,
->                               EXYNOS4210_UART_REGS_MEM_SIZE / sizeof(uint32_t)),
-> +        VMSTATE_TIMER_PTR(fifo_timeout_timer, Exynos4210UartState),
->          VMSTATE_END_OF_LIST()
+These empty statements look a bit weird to me.  But they=92re
+pre-existing, obviously.
+
 >      }
->  };
+> =20
+> -    for (len2 =3D 1; off2 + len2 < end && hbitmap_get(data->hb, off2 + l=
+en2);
+> -         len2++) {
+> +    for (len2 =3D 1; (off2 + len2 < end && len2 < max_dirty &&
+> +                    hbitmap_get(data->hb, off2 + len2)); len2++)
+> +    {
+>          ;
+>      }
 
-Unfortunately you can't simply add entries to a VMStateDescription:
-it breaks migration compatibility.
+[...]
 
-The choices here are:
- * the nicest approach if it works is that in the post_load
-function you just recalculate the timer timeout. Then there's
-no need to migrate the current state of the timer. (In fact
-it looks like your code does do this in post_load.)
- * if something really does need adding to the migration state,
-then the version_id and minimum_version_id need to be bumped
-(so migration fails cleanly rather than confusingly).
- * if you want migration to continue to work across versions
-(which we don't care about for the exynos boards but does
-apply for boards like 'virt'), this can be done by adding
-a 'subsection' to the vmstate.
+> diff --git a/util/hbitmap.c b/util/hbitmap.c
+> index d23f4b9678..2a1661ec1d 100644
+> --- a/util/hbitmap.c
+> +++ b/util/hbitmap.c
+> @@ -270,22 +270,34 @@ int64_t hbitmap_next_zero(const HBitmap *hb, int64_=
+t start, int64_t count)
+>      return res;
+>  }
+> =20
+> -bool hbitmap_next_dirty_area(const HBitmap *hb, int64_t *start, int64_t =
+*count)
+> +bool hbitmap_next_dirty_area(const HBitmap *hb, int64_t start, int64_t e=
+nd,
+> +                             int64_t max_dirty_count,
+> +                             int64_t *dirty_start, int64_t *dirty_count)
+>  {
+> -    int64_t area_start, area_end;
+> +    int64_t next_zero;
+> =20
+> -    area_start =3D hbitmap_next_dirty(hb, *start, *count);
+> -    if (area_start < 0) {
+> +    assert(start >=3D 0 && end >=3D 0 && max_dirty_count > 0);
+> +
+> +    if (start >=3D hb->orig_size || end <=3D start) {
+> +        return false;
+> +    }
+> +
+> +    end =3D MIN(end, hb->orig_size);
 
-I think the answer in this case is just "you don't need to
-add this line to the vmstate at all". (This does mean that
-a vmsave/vmload will slightly extend the rx-timeout and
-delay the interrupt because we re-calculate the timer,
-but I guess that's OK. If you don't like that and would
-prefer the timer to retain the exact timeout value across
-migration, then keep the new vmstate array entry, bump the
-version fields, and don't call exynos4210_uart_rx_timeout_set()
-in post-load.)
+You could put this assignment before the if () and then drop the =93start=
+=94
+check from the condition.  (But that=92s mostly me itching to do
+optimizations.  I don=92t think it=92d make the code easier to read.)
 
-thanks
--- PMM
+[...]
+
+> @@ -844,13 +856,12 @@ static void hbitmap_sparse_merge(HBitmap *dst, cons=
+t HBitmap *src)
+>      int64_t offset =3D 0;
+>      int64_t count =3D src->orig_size;
+
+These initializations are now unnecessary.  I=92d drop them because I find
+at least the one for @count a tiny bit confusing now.  (Because as a
+reader, I=92d wonder where this value is used.)
+
+With that done (or maybe not because you disagree):
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+> =20
+> -    while (hbitmap_next_dirty_area(src, &offset, &count)) {
+> +    for (offset =3D 0;
+> +         hbitmap_next_dirty_area(src, offset, src->orig_size, INT64_MAX,
+> +                                 &offset, &count);
+> +         offset +=3D count)
+> +    {
+>          hbitmap_set(dst, offset, count);
+> -        offset +=3D count;
+> -        if (offset >=3D src->orig_size) {
+> -            break;
+> -        }
+> -        count =3D src->orig_size - offset;
+>      }
+>  }
+> =20
+>=20
+
+
+--tAzqNWfozKuhAz2UFjaBRrMdy8C8RJ0PO--
+
+--EWNG4zvxJrBbKEnwWv3a2vLdYq8yQFiml
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl4lshcACgkQ9AfbAGHV
+z0CNVgf/SeH51c6WLJphxL5FANMaCRoiXJuD3kbQEaUC7ABTQF2NoiFMq5sWGR3s
+CiFcZLkRdx62eQ/9BQ0SpaJxpAe+Zu9rhqvHdwvb/Lxk0KKMs70IO2gX36d+fgnc
+aSabueIUvveqC3F5AfvGPjXEkQNuWRvy/UyD9vKo7y0OmDgL8ljgIRCPXshF0ijQ
+RawDzM+Mp3yAhO8gLaBdZrIi01aixWQU8iTMzRaEjyVgHQnTtjemUzI8FBVnJmgB
+FU7IaYiJkKEQtIPdCJTG/ddwskRkoUXhs9818lJNGCi2avRTAlvJ85RDcsNLpvT3
+fig+LF8V+1G9EeIAwWNMmyqp5SkxuA==
+=+N0N
+-----END PGP SIGNATURE-----
+
+--EWNG4zvxJrBbKEnwWv3a2vLdYq8yQFiml--
+
 
