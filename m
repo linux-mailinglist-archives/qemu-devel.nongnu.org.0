@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4C0142C6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 14:43:21 +0100 (CET)
-Received: from localhost ([::1]:36740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD72142C81
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 14:47:49 +0100 (CET)
+Received: from localhost ([::1]:36814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itXKq-0001Sp-Bd
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 08:43:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35220)
+	id 1itXPA-0004jT-Hd
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 08:47:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35584)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1itXJa-0008Ec-HY
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:42:03 -0500
+ (envelope-from <drjones@redhat.com>) id 1itXN9-0003Hd-3b
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:45:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1itXJZ-00027T-Gg
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:42:02 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36800)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1itXJZ-00026v-AL
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:42:01 -0500
-Received: by mail-wm1-x342.google.com with SMTP id p17so14781619wma.1
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 05:42:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=gQZrsvfOe7SGWxE11ZazAiZ6sRxF+B8oEBk84dl3phA=;
- b=AEET4ddbfMgtclpgPylI0JFCWwso6FlOEzNQG5s0CKm4tz6kAGDs7iIBhkKZgmbIO+
- AyWVl6RW0PSrmZJnHYk+VSGVkoBwTrhqvBBn7YUTBdntkyJ/kf8BaQ+lMw+8nu19LwYn
- irX5FkzzsLxky/9SSiG1SCTURjcPVPYN2i2/DwAAYjeQ4mfu9761KmlyTevLeZflRh5T
- Juj+wavEydbTJsPLSXhaAZ2e6rS+jxaigq39oIGr4S2dXbXMOwxmUEWf1FrmQ9oDjowq
- UyPFw7w23iF8KNPoqIGs8C1hsMIzd37An8aWLux8Jf2XEpWGhDtMJNW159MOkn9exaxR
- kl2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=gQZrsvfOe7SGWxE11ZazAiZ6sRxF+B8oEBk84dl3phA=;
- b=pUHNEeXPhaVFWC+oWs+MFdhVT52PnJSydkAT5sUI/teMmmcztcuyr4Wl3n23GcckTz
- j3DRWAaXHu2HxeVM596ufY71bZ9N7SaVhPWCgqEMNzUOKhlG244EBYawcafq6E92M7vz
- d2oKBb85kAq4de8w2L2s/64j8tr2S9PbF4FMIxTMZar4/RG57GqeT3SY2uDTC4n95OjC
- Ie+NIK7lhwr1j8wktAGmMnVXbcj7KCGTPXISpDvTF0Nxbs1qVKUZZqRqhp5Yi+XKuj6r
- uHhAOHoFZmzT9do5wmtcVhHjlZfIo3vcM+2pqb43eEhmi9vXPaEm2sQGg6Y8icNBYXvE
- 3cDw==
-X-Gm-Message-State: APjAAAVTrFwiASNmahCVl9u/DpWv3pXMY4RioiPuJ5MXXFoV1pC05XQr
- v6XB4lcySqx/DGlj5+DsCqJwad8vESA=
-X-Google-Smtp-Source: APXvYqxNU0VILBTiop+oZ8aHRQPQfPkB3G7dxebGR0Yjakq8DI4OmW76BKSaftlqW5hf0/+BtH4Npg==
-X-Received: by 2002:a1c:6605:: with SMTP id a5mr18201796wmc.112.1579527720305; 
- Mon, 20 Jan 2020 05:42:00 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 60sm48740988wrn.86.2020.01.20.05.41.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 05:41:59 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 85E9C1FF87;
- Mon, 20 Jan 2020 13:41:58 +0000 (GMT)
-References: <20200109024907.2730-1-richard.henderson@linaro.org>
- <20200109024907.2730-7-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 6/9] cputlb: Split out tlb_mmu_flush_locked
-In-reply-to: <20200109024907.2730-7-richard.henderson@linaro.org>
-Date: Mon, 20 Jan 2020 13:41:58 +0000
-Message-ID: <878sm22qjd.fsf@linaro.org>
+ (envelope-from <drjones@redhat.com>) id 1itXN6-0004pa-Mw
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:45:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54895
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1itXN6-0004od-DV
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 08:45:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579527939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oN8F9afqLuIFryMw+qq858SrYas53Kd5xSSXy4jkxUI=;
+ b=MQLtTkTU2zlPChBQ94HJe1wWWG0dd/d7PtDEviFsb8hmjQjetvD5njhHshh1nIC1Tf3wW5
+ Bw62VsBpr9tqdU8zfkeWYwt19coSlWjz7k5x0jBW9+byEUazZdFRvyx+QXr/H/mgPt7NPH
+ +XJhg/CI+xpVS6jqR1J5uxkRvmx5PSM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-263-7w2UE76kPqioDqnFuNQZaw-1; Mon, 20 Jan 2020 08:45:36 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82434100551A;
+ Mon, 20 Jan 2020 13:45:34 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CBBD87DB5D;
+ Mon, 20 Jan 2020 13:45:32 +0000 (UTC)
+Date: Mon, 20 Jan 2020 14:45:30 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC PATCH v2 0/5] target/arm/kvm: Adjust virtual time
+Message-ID: <20200120134530.4w2om4smyyrzsurw@kamzik.brq.redhat.com>
+References: <20191212173320.11610-1-drjones@redhat.com>
+ <CAFEAcA9FprSotg11rS0fM94QiciysZ6kgKhyU4eQfZg7YYaL5Q@mail.gmail.com>
+ <CAFEAcA_oF2MX5PGNtp2YZeNRHB5vHM8NbMqQs2=2sAw1PnqfBw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAFEAcA_oF2MX5PGNtp2YZeNRHB5vHM8NbMqQs2=2sAw1PnqfBw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 7w2UE76kPqioDqnFuNQZaw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,62 +74,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, qemu-devel@nongnu.org
+Cc: bijan.mottahedeh@oracle.com, Marc Zyngier <maz@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Heyi Guo <guoheyi@huawei.com>, msys.mizuma@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> We will want to be able to flush a tlb without resizing.
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
+On Mon, Dec 16, 2019 at 03:44:05PM +0000, Peter Maydell wrote:
+> On Mon, 16 Dec 2019 at 15:33, Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+> > So, to be clear, you mean that:
+> >
+> > (1) the kernel headers say:
+> >
+> > /* EL0 Virtual Timer Registers */
+> > #define KVM_REG_ARM_TIMER_CTL           ARM64_SYS_REG(3, 3, 14, 3, 1)
+> > #define KVM_REG_ARM_TIMER_CNT           ARM64_SYS_REG(3, 3, 14, 3, 2)
+> > #define KVM_REG_ARM_TIMER_CVAL          ARM64_SYS_REG(3, 3, 14, 0, 2)
+> >
+> > (2) some of the RHSes of these are wrong
+> >
+> > (3) but the kernel internally is using the same 'wrong' value, so
+> > userspace also needs to use that value, ie trust the #defined name
+> > rather than manufacturing one ?
+> >
+> > That's awkward. I think it would be worth at least having a kernel
+> > patch to add a comment clearly documenting this bug.
+> >
+> > (This error seems to only be in the 64-bit ABI, not 32-bit.)
+> >
+> > QEMU does assume that the kernel's ID register values match
+> > the hardware for sysregs in some ways -- we use this when we
+> > construct our mapping from KVM register IDs as returned by
+> > KVM_GET_REG_LIST to QEMU cpreg definitions and thus CPUState
+> > struct fields. I *think* that in this case the only visible
+> > effect will be that gdbstub will show you the CNT value
+> > if you ask it to print the value of the CVAL sysreg.
+>=20
+> ...perhaps we should work around this kernel bug in the
+> kvm_to_cpreg_id() and cpreg_to_kvm_id() functions. (Need
+> to think through/test whether that would break migration.)
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  accel/tcg/cputlb.c | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
->
-> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-> index eff427f137..e60e501334 100644
-> --- a/accel/tcg/cputlb.c
-> +++ b/accel/tcg/cputlb.c
-> @@ -228,12 +228,8 @@ static void tlb_mmu_resize_locked(CPUTLBDesc *desc, =
-CPUTLBDescFast *fast)
->      }
->  }
->=20=20
-> -static void tlb_flush_one_mmuidx_locked(CPUArchState *env, int mmu_idx)
-> +static void tlb_mmu_flush_locked(CPUTLBDesc *desc, CPUTLBDescFast *fast)
->  {
-> -    CPUTLBDesc *desc =3D &env_tlb(env)->d[mmu_idx];
-> -    CPUTLBDescFast *fast =3D &env_tlb(env)->f[mmu_idx];
-> -
-> -    tlb_mmu_resize_locked(desc, fast);
->      desc->n_used_entries =3D 0;
->      desc->large_page_addr =3D -1;
->      desc->large_page_mask =3D -1;
-> @@ -242,6 +238,15 @@ static void tlb_flush_one_mmuidx_locked(CPUArchState=
- *env, int mmu_idx)
->      memset(desc->vtable, -1, sizeof(desc->vtable));
->  }
->=20=20
-> +static void tlb_flush_one_mmuidx_locked(CPUArchState *env, int mmu_idx)
-> +{
-> +    CPUTLBDesc *desc =3D &env_tlb(env)->d[mmu_idx];
-> +    CPUTLBDescFast *fast =3D &env_tlb(env)->f[mmu_idx];
-> +
-> +    tlb_mmu_resize_locked(desc, fast);
-> +    tlb_mmu_flush_locked(desc, fast);
-> +}
-> +
->  static inline void tlb_n_used_entries_inc(CPUArchState *env, uintptr_t m=
-mu_idx)
->  {
->      env_tlb(env)->d[mmu_idx].n_used_entries++;
 
+I just did some grepping for this too and, while it's easy to get
+lost, I think I've confirmed what you state, that the only visible
+effect is in gdb. I'll try to test this, but I think the workaround
+in kvm_to_cpreg_id and cpreg_to_kvm_id is a probably a good idea,
+because
 
---=20
-Alex Benn=C3=A9e
+   1) new qemu will be corrected
+
+   2) migrate old qemu to new qemu (with same machine type)
+
+      gdb cnt and cval swapped until first kvmstate sync
+
+      (maybe too small a window of brokenness to notice/care?)
+
+   3) migrate new qemu to old qemu (with same machine type)
+
+      gdb cnt and cval correct until first kvmstate sync
+
+      (old machine type keeps its old bug - except for same small
+       window as for (2))
+
+Thanks,
+drew
+
 
