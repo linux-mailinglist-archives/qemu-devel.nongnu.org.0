@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75BA6142E5B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 16:07:05 +0100 (CET)
-Received: from localhost ([::1]:38312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE913142EAB
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 16:20:56 +0100 (CET)
+Received: from localhost ([::1]:38570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itYds-0006GS-IA
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 10:07:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46677)
+	id 1itYrH-0000sQ-Qz
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 10:20:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48180)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1itYck-0005Zn-0h
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:05:55 -0500
+ (envelope-from <bounces@canonical.com>) id 1itYmX-0005an-Gk
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:16:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1itYcg-000678-Av
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:05:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41976)
+ (envelope-from <bounces@canonical.com>) id 1itYmS-0001PZ-5T
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:16:01 -0500
+Received: from indium.canonical.com ([91.189.90.7]:43306)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1itYcg-00066L-57
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:05:50 -0500
+ id 1itYmR-0001OQ-HF
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 10:15:55 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1itYcd-0004JO-VV
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 15:05:47 +0000
+ id 1itYmM-0004wH-OK
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 15:15:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D54BA2E80C9
- for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 15:05:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 226F82E80D6
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 15:15:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 20 Jan 2020 14:59:18 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 20 Jan 2020 15:02:36 -0000
+From: Samuel thibault <samuel.thibault@ens-lyon.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: asiagaming samuel-thibault
 X-Launchpad-Bug-Reporter: jusunLee (asiagaming)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+X-Launchpad-Bug-Modifier: Samuel thibault (samuel-thibault)
 References: <154785010249.1233.12902128942224805447.malonedeb@gac.canonical.com>
-Message-Id: <157953235907.4103.17498647773657714964.launchpad@soybean.canonical.com>
+Message-Id: <157953255816.4478.11753035949965603376.malone@soybean.canonical.com>
 Subject: [Bug 1812451] Re: In windows host,
  tftp arbitrary file read vulnerability
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -52,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 21aaa923d09d0386baa08e977b972893a82ef663
+X-Launchpad-Hash: 16a9badfeedc9f86114a17df197870c87804753a
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 91.189.90.7
@@ -70,7 +71,9 @@ Reply-To: Bug 1812451 <1812451@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Information type changed from Private Security to Public
+This is fixed upstream by
+https://gitlab.freedesktop.org/slirp/libslirp/commit/14ec36e107a8c9af7d0a80=
+c3571fe39b291ff1d4
 
 -- =
 
@@ -82,7 +85,7 @@ Title:
   In windows host, tftp arbitrary file read vulnerability
 
 Status in QEMU:
-  New
+  Fix Committed
 
 Bug description:
   https://github.com/qemu/qemu/blob/master/slirp/tftp.c#L343
