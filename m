@@ -2,63 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC88143168
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 19:24:47 +0100 (CET)
-Received: from localhost ([::1]:42550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B776F143171
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 19:28:06 +0100 (CET)
+Received: from localhost ([::1]:42606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itbjC-0001xQ-Nk
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 13:24:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56615)
+	id 1itbmP-0005Cl-Ei
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 13:28:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57447)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1itbga-00079Z-DW
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 13:22:08 -0500
+ (envelope-from <casantos@redhat.com>) id 1itblY-0004mQ-Qm
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 13:27:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1itbgU-0008Ht-FZ
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 13:22:03 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42470
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <casantos@redhat.com>) id 1itblW-0002FC-IW
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 13:27:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58365
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1itbgT-0008HL-RO
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 13:21:58 -0500
+ (Exim 4.71) (envelope-from <casantos@redhat.com>) id 1itblW-0002Ea-F5
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 13:27:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579544517;
+ s=mimecast20190719; t=1579544829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V+jR/1rAbzkovhkdRzOKFOz/6Lyar651g9ecZc89aww=;
- b=SOGGbMS3kNCUStQKE6g24B/Hg2IUPTUDkzGK6UG62hRkIhiJL53wcUvaJXozGCBg/w2iBV
- V7k+pwtq9GhJfexFWgWYsEjSgh1GH+O1TeWqTt1zkq36vzxlK67RspZEDrPBdZi1qQ+ODA
- gYtNdOnHlkRMfCt6tRFKS0gkG5KmnYk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-dkxmx-gzPbCPowLYZXsV4Q-1; Mon, 20 Jan 2020 13:21:54 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C4731854335;
- Mon, 20 Jan 2020 18:21:53 +0000 (UTC)
-Received: from 640k.localdomain.com (unknown [10.36.112.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC4AE60BF7;
- Mon, 20 Jan 2020 18:21:51 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] target/i386: kvm: initialize microcode revision from KVM
-Date: Mon, 20 Jan 2020 19:21:44 +0100
-Message-Id: <1579544504-3616-4-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1579544504-3616-1-git-send-email-pbonzini@redhat.com>
-References: <1579544504-3616-1-git-send-email-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: dkxmx-gzPbCPowLYZXsV4Q-1
+ bh=uFDWd1hMM7dq/m9RKyvQmhqfGJFBaWSC3T5JliV1Bo4=;
+ b=K4KaXaDMTUsU0aWnf2MHUQP09Zj8m/SqZGA5G9GAUjv4YXP2RHVxMv/xNoq8rah+6b1ZA1
+ wSTc4pKQGgJFgedIQT0qZck0c439yOBd+lNdcMyQove53t3MZSlxmRu8S6NBK8BL2Im/Cu
+ FlB55Q/Dn8zrYbJUymxqZJfy5kj3VFE=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-427-_Gyptq5rPWiBPZutPwX9Kg-1; Mon, 20 Jan 2020 13:27:05 -0500
+Received: by mail-il1-f200.google.com with SMTP id h87so311539ild.11
+ for <qemu-devel@nongnu.org>; Mon, 20 Jan 2020 10:27:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fI4OzxrzT/3iyJf6v/VMJP4PCHF4RPi/iEC58/3GhIU=;
+ b=rh/J/pS/fx3XA0pRjWu0q0QBO6U8zOeDC6v26ydNiSnfO5XAdweEOCCoakOtelUGcm
+ kCv1MOTplIMs73athISobnwRW11rW3UQ3wvJrR8v96gDvSlRKMZeP4wEbvMl19ar0xpa
+ nWX3nzQY+Z+BlCHpAUnRLZ2yCEt+lrlcTPzjCdqZb7FtJ1csJ7FQ2g8haL5vQPaK6cSC
+ zo6051l+OvP5cYlCvsfJTDSQWaoHVxyW5OfjMC9AYFjYJXVbVk4OZx5Hywd2GLUElnRq
+ 7EX0aWD3KFgtclalWrQLz2S+mrklDyEbBTfJRvd8D+XmoQqRWde0TwNIeLHHwbHZ5dYG
+ vqTQ==
+X-Gm-Message-State: APjAAAW8MzndmjqHkPdQxKwfjdGrNwR4DiDSfLgHngrJSNkBUToLIsC3
+ OpKfDhqwLAMPHZPY0yS+hlNsKvX9l4pppeB0WswcgaziHzs+jMdI74JeL5LbM+RPsMISohZKIua
+ q4lCwOa0rzxX3cawLoA43lVBFL4Fnb00=
+X-Received: by 2002:a02:c646:: with SMTP id k6mr299630jan.34.1579544825219;
+ Mon, 20 Jan 2020 10:27:05 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxha+n6sUxcsPcuhSgrnoHVmo7N2BsWwJUVfMs15Bw18DtsPz5fKf/LrTppTclrTRdC0MUoMiV1XeWnaNK5PpA=
+X-Received: by 2002:a02:c646:: with SMTP id k6mr299619jan.34.1579544824961;
+ Mon, 20 Jan 2020 10:27:04 -0800 (PST)
+MIME-Version: 1.0
+References: <20191017123713.30192-1-casantos@redhat.com>
+ <CAFEAcA9dMRBtDs6QSXGVv_bNhtu5wnGKLvMxr2YuoWM=yomGDg@mail.gmail.com>
+ <CAC1VKkNr8jN_0qVLtX5-YVH1dgN0fGAvnVZJXUpa+UfG_34ooQ@mail.gmail.com>
+ <CAC1VKkPfacdLkXfHVNm-josjtds3Xsj=9NhRfNaQTyRv4XxEfQ@mail.gmail.com>
+ <48f341e2-5844-2929-1c38-4ecd26ed8546@linaro.org>
+In-Reply-To: <48f341e2-5844-2929-1c38-4ecd26ed8546@linaro.org>
+From: Carlos Santos <casantos@redhat.com>
+Date: Mon, 20 Jan 2020 15:26:54 -0300
+Message-ID: <CAC1VKkMVTWq+xsKRXmsA-U7Uwwq_6iXrFuDP9zdJEoFthg374A@mail.gmail.com>
+Subject: Re: [PATCH] util/cacheinfo: fix crash when compiling with uClibc
+To: Richard Henderson <richard.henderson@linaro.org>
+X-MC-Unique: _Gyptq5rPWiBPZutPwX9Kg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,55 +86,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vkuznets@redhat.com, liran.alon@oracle.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM can return the host microcode revision as a feature MSR.
-Use it as the default value for -cpu host.
+On Thu, Jan 16, 2020 at 9:04 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 12/16/19 1:18 AM, Carlos Santos wrote:
+> > On Thu, Oct 17, 2019 at 8:06 PM Carlos Santos <casantos@redhat.com> wro=
+te:
+> >>
+> >> On Thu, Oct 17, 2019 at 9:47 AM Peter Maydell <peter.maydell@linaro.or=
+g> wrote:
+> >>>
+> >>> On Thu, 17 Oct 2019 at 13:39, <casantos@redhat.com> wrote:
+> >>>>
+> >>>> From: Carlos Santos <casantos@redhat.com>
+> >>>>
+> >>>> uClibc defines _SC_LEVEL1_ICACHE_LINESIZE and _SC_LEVEL1_DCACHE_LINE=
+SIZE
+> >>>> but the corresponding sysconf calls returns -1, which is a valid res=
+ult,
+> >>>> meaning that the limit is indeterminate.
+> >>>>
+> >>>> Handle this situation using the fallback values instead of crashing =
+due
+> >>>> to an assertion failure.
+> >>>>
+> >>>> Signed-off-by: Carlos Santos <casantos@redhat.com>
+> >>>> ---
+> >>>>  util/cacheinfo.c | 10 ++++++++--
+> >>>>  1 file changed, 8 insertions(+), 2 deletions(-)
+> >>>>
+> >>>> diff --git a/util/cacheinfo.c b/util/cacheinfo.c
+> >>>> index ea6f3e99bf..d94dc6adc8 100644
+> >>>> --- a/util/cacheinfo.c
+> >>>> +++ b/util/cacheinfo.c
+> >>>> @@ -93,10 +93,16 @@ static void sys_cache_info(int *isize, int *dsiz=
+e)
+> >>>>  static void sys_cache_info(int *isize, int *dsize)
+> >>>>  {
+> >>>>  # ifdef _SC_LEVEL1_ICACHE_LINESIZE
+> >>>> -    *isize =3D sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
+> >>>> +    int tmp_isize =3D (int) sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
+> >>>
+> >>> Do we need the cast here ?
+> >>
+> >> It's there to remind the reader that a type coercion may occur, since
+> >> sysconf() returns a long and isize is an int.
+> >>
+> >>>> +    if (tmp_isize > 0) {
+> >>>> +        *isize =3D tmp_isize;
+> >>>> +    }
+> >>>>  # endif
+> >>>>  # ifdef _SC_LEVEL1_DCACHE_LINESIZE
+> >>>> -    *dsize =3D sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
+> >>>> +    int tmp_dsize =3D (int) sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
+> >>>> +    if (tmp_dsize > 0) {
+> >>>> +        *dsize =3D tmp_dsize;
+> >>>> +    }
+> >>>>  # endif
+> >>>>  }
+> >>>>  #endif /* sys_cache_info */
+> >>>> --
+> >>>
+> >>> thanks
+> >>> -- PMM
+> >>
+> >> --
+> >> Carlos Santos
+> >> Senior Software Maintenance Engineer
+> >> Red Hat
+> >> casantos@redhat.com    T: +55-11-3534-6186
+> >
+> > Hi,
+> >
+> > Any chance to have this merged for Christmas? :-)
+>
+> No, but it's queued now.  ;-)
+>
+>
+> r~
+>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/cpu.c | 4 ++++
- target/i386/kvm.c | 5 +++++
- 2 files changed, 9 insertions(+)
+Ah, Easter, perhaps. :-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 05ce64c..1f731c1 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6416,6 +6416,10 @@ static void x86_cpu_realizefn(DeviceState *dev, Erro=
-r **errp)
-                        &cpu->mwait.ecx, &cpu->mwait.edx);
-             env->features[FEAT_1_ECX] |=3D CPUID_EXT_MONITOR;
-         }
-+        if (kvm_enabled() && cpu->ucode_rev =3D=3D 0) {
-+            cpu->ucode_rev =3D kvm_arch_get_supported_msr_feature(kvm_stat=
-e,
-+                                                                MSR_IA32_U=
-CODE_REV);
-+        }
-     }
-=20
-     if (cpu->ucode_rev =3D=3D 0) {
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index f6dd6b7..26c1e78 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -2696,6 +2696,11 @@ static void kvm_init_msrs(X86CPU *cpu)
-                           env->features[FEAT_CORE_CAPABILITY]);
-     }
-=20
-+    if (kvm_arch_get_supported_msr_feature(kvm_state,
-+=09=09=09=09=09   MSR_IA32_UCODE_REV)) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UCODE_REV, cpu->ucode_rev);
-+    }
-+
-     /*
-      * Older kernels do not include VMX MSRs in KVM_GET_MSR_INDEX_LIST, bu=
-t
-      * all kernels with MSR features should have them.
 --=20
-1.8.3.1
+Carlos Santos
+Senior Software Maintenance Engineer
+Red Hat
+casantos@redhat.com    T: +55-11-3534-6186
 
 
