@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C198142DC7
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:40:16 +0100 (CET)
-Received: from localhost ([::1]:37752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 035ED142DBD
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Jan 2020 15:38:08 +0100 (CET)
+Received: from localhost ([::1]:37706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itYDv-00066B-4i
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:40:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40723)
+	id 1itYBq-0003dS-GD
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 09:38:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41018)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1itXya-0004t4-Bc
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:24:26 -0500
+ (envelope-from <stefanha@gmail.com>) id 1itY1I-0000Ji-E8
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:27:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1itXyW-00009B-Sx
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:24:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53242
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1itXyW-00008q-Pb
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:24:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579530260;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gQQrypcH82vvxguj9m1CeBZ/Pu2S/bf4/KIB8a4Hv5s=;
- b=L9wrYPqBxDaO/mJqQHZAL3BYu3RoKtfzeR36njNHvoA85uAZmgPqZ95JIWNhT51rV2liZM
- 1zmbahBD0TRNStioIUi7A0t2A5EwguLtS3dzqBkXOUaLb2A8GMwFZak8OXpeOtW0uNO8Z6
- He5EnD7CCH29RPLUO0IyXL/G5oLDdYs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-emjuMxipPBauaJvGJ_kkWQ-1; Mon, 20 Jan 2020 09:24:16 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49137DB61;
- Mon, 20 Jan 2020 14:24:15 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB8A560C81;
- Mon, 20 Jan 2020 14:24:13 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/84] hw/arm/aspeed: actually check RAM size
-Date: Mon, 20 Jan 2020 15:21:52 +0100
-Message-Id: <1579530112-80542-1-git-send-email-imammedo@redhat.com>
-In-Reply-To: <83481ccb-38e4-d0a2-18b5-66fcd7248521@kaod.org>
-References: <83481ccb-38e4-d0a2-18b5-66fcd7248521@kaod.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: emjuMxipPBauaJvGJ_kkWQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ (envelope-from <stefanha@gmail.com>) id 1itY18-0001lF-1e
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 09:27:06 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38521)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>)
+ id 1itY16-0001j7-Gs; Mon, 20 Jan 2020 09:27:00 -0500
+Received: by mail-wr1-x444.google.com with SMTP id y17so29805222wrh.5;
+ Mon, 20 Jan 2020 06:26:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=DfoCOTX4iCBiDkyTxuiHsgALNXSpEZBt0l6dJz1RRTo=;
+ b=kI90U1T+C24u3j9DJY2V255fAq5mz3sWJ7fqzVBnn6icehJW3SSUl4CpckiEqTXBOf
+ +ApDVeZAun3qa5wlYHpsrMfMHZvODbtPRO303mUGr2+it5UHqaKFOxsuYoGU9c05sMBq
+ vPweHW6Wf6m+63wN3Y+rNsMaKeWgmWTgHzr89KkIKUFg2E42Hk9v1ud24zgeQYu0Ue2S
+ z/DbXQN7HLGFIMudeWRpTMaAc9jQ9Ihjen7MH0fGmrz0uWRouFLJli6ux+GCrSrYzkH1
+ t9R+n4IYayPOHxAohnd4jI4uF4wqDiDp4+AEnaAUVeQKFiGNBI5nPdAzKRuzbCtH+AKd
+ n/Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DfoCOTX4iCBiDkyTxuiHsgALNXSpEZBt0l6dJz1RRTo=;
+ b=gzD6k++9YmotcryptntJPrNQfUq/tve8U5fJgS0JsnEKpavkJnf1eJa+b611dhX5dv
+ oRpRQcWJICk8yB6aO8MPsAFFiEH4NP3/s1yEXFlNY+yqY03uxfkfTKvS0nrM+kKArVrH
+ /Kv80cEEo49i6wybCAoq2079UBCybTKo3RbcD49k7uezliLKnGOV615OGWL9LOKwZTBt
+ IbpgZpXqvUlUbCo0SJLCTfMK/LHiZaSzPFlEVNjU+/iuppsUn9JT1yzGnHMZJ8CixguL
+ MfXES2tSEaG21YSZSAukuk6/OaPmA7vUSVsMNn2FIt9fCeZRnzNm55erPyaAgg0ofv/9
+ iAtw==
+X-Gm-Message-State: APjAAAUVkJaKJHcocH74UDjccshqnLsp5Px6UMWJetkbflIdCEWHY6QQ
+ zd1N/3jMVHGTjeWfKXXiPVY=
+X-Google-Smtp-Source: APXvYqzlIS54xbAAFPv6oaFLWbyaIRypqAzdAGnKMFWaryNnm5XoH4eFoSL3Dcy/SB5Z4UooEDvPGQ==
+X-Received: by 2002:adf:ee92:: with SMTP id b18mr17578935wro.281.1579530417616; 
+ Mon, 20 Jan 2020 06:26:57 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id d8sm46811905wrx.71.2020.01.20.06.26.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jan 2020 06:26:56 -0800 (PST)
+Date: Mon, 20 Jan 2020 14:26:55 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 0/3] convert qemu-nbd, qemu-block-drivers to rST
+Message-ID: <20200120142655.GG345995@stefanha-x1.localdomain>
+References: <20200116141511.16849-1-peter.maydell@linaro.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="gvF4niNJ+uBMJnEh"
+Content-Disposition: inline
+In-Reply-To: <20200116141511.16849-1-peter.maydell@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,305 +77,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: andrew@aj.id.au, peter.maydell@linaro.org, qemu-arm@nongnu.org,
- clg@kaod.org, joel@jms.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's supposed that SOC will check if "-m" provided
-RAM size is valid by setting "ram-size" property and
-then board would read back valid (possibly corrected
-value) to map RAM MemoryReging with valid size.
-It isn't doing so, since check is called only
-indirectly from
-  aspeed_sdmc_reset()->asc->compute_conf()
-or much later when guest writes to configuration
-register.
 
-So depending on "-m" value QEMU end-ups with a warning
-and an invalid MemoryRegion size allocated and mapped.
-(examples:
- -M ast2500-evb -m 1M
-    0000000080000000-000000017ffffffe (prio 0, i/o): aspeed-ram-container
-      0000000080000000-00000000800fffff (prio 0, ram): ram
-      0000000080100000-00000000bfffffff (prio 0, i/o): max_ram
- -M ast2500-evb -m 3G
-    0000000080000000-000000017ffffffe (prio 0, i/o): aspeed-ram-container
-      0000000080000000-000000013fffffff (prio 0, ram): ram
-      [DETECTED OVERFLOW!] 0000000140000000-00000000bfffffff (prio 0, i/o):=
- max_ram
-)
-On top of that sdmc falls back and reports to guest
-"default" size, it thinks machine should have.
+--gvF4niNJ+uBMJnEh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This patch makes ram-size check actually work and
-changes behavior from a warning later on during
-machine reset to error_fatal at the moment SOC.ram-size
-is set so user will have to fix RAM size on CLI
-to start machine.
+On Thu, Jan 16, 2020 at 02:15:08PM +0000, Peter Maydell wrote:
+> This patchset converts the qemu-nbd and qemu-block-drivers
+> documentation from texinfo to rST. For both of these,
+> currently the documentation is in texinfo, which we present
+> to the user as:
+>  * a manpage
+>  * a section of the qemu-doc HTML documentation
+>=20
+> The conversion results in the docs being in rST format,
+> presented to the user as:
+>  * a manpage
+>  * a section of one of the Sphinx manuals (interop/
+>    for qemu-nbd, and system/ for qemu-block-drivers)
+>=20
+> The first patch is the same as the "qemu-nbd: Convert invocation
+> documentation to rST" patch I sent a couple of days ago, except that
+> I have folded some of the long Makefile lines as Eric suggested.
+>=20
+> Patch 2 creates the new 'system' manual; this has always
+> been in our plan for the docs as described in
+> https://wiki.qemu.org/Features/Documentation
+> but this is the first point where we have some actual
+> content for it.
+>=20
+> Patch 3 converts the qemu-block-drivers docs/manpage.  As noted in
+> the commit message for that patch, this requires dropping a minor
+> cross-reference from the '-cdrom' option documentation to this
+> (because they're no longer in the same big texinfo document).  There
+> is also a slightly ugly compromise in the manpage output in order to
+> provide better HTML output, which is forced on us by limitations in
+> Sphinx.
+>=20
+> Apologies for the size of patch 3, but a single big-bang conversion
+> of this 1000 page document seemed better than artificially trying to
+> split it somehow, since only one of the two formats can actually
+> produce the manpage at once.
+>=20
+> PS: the old docs/qemu-block-drivers.texi is not covered by
+> any MAINTAINERS section, so I haven't added the new
+> docs/system/qemu-block-drivers.rst anywhere either.
+> Perhaps it should go in the "Block layer core" section?
+>=20
+> thanks
+> -- PMM
+>=20
+> Peter Maydell (3):
+>   qemu-nbd: Convert invocation documentation to rST
+>   docs: Create stub system manual
+>   qemu-block-drivers: Convert to rST
+>=20
+>  Makefile                               |  37 +-
+>  MAINTAINERS                            |   1 +
+>  docs/interop/conf.py                   |   4 +-
+>  docs/interop/index.rst                 |   1 +
+>  docs/interop/qemu-nbd.rst              | 263 +++++++
+>  docs/interop/qemu-option-trace.rst.inc |  30 +
+>  docs/qemu-block-drivers.texi           | 889 ----------------------
+>  docs/{interop =3D> system}/conf.py       |  10 +-
+>  docs/system/index.rst                  |  17 +
+>  docs/system/qemu-block-drivers.rst     | 985 +++++++++++++++++++++++++
+>  qemu-doc.texi                          |  18 -
+>  qemu-nbd.texi                          | 214 ------
+>  qemu-option-trace.texi                 |   4 +
+>  qemu-options.hx                        |   2 +-
+>  14 files changed, 1336 insertions(+), 1139 deletions(-)
+>  create mode 100644 docs/interop/qemu-nbd.rst
+>  create mode 100644 docs/interop/qemu-option-trace.rst.inc
+>  delete mode 100644 docs/qemu-block-drivers.texi
+>  copy docs/{interop =3D> system}/conf.py (64%)
+>  create mode 100644 docs/system/index.rst
+>  create mode 100644 docs/system/qemu-block-drivers.rst
+>  delete mode 100644 qemu-nbd.texi
+>=20
+> --=20
+> 2.20.1
+>=20
+>=20
 
-It also gets out of the way mutable ram-size logic,
-so we could consolidate RAM allocation logic around
-pre-allocated hostmem backend (supplied by user or
-auto created by generic machine code depending on
-supplied -m/mem-path/mem-prealloc options.
+Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-v3:
-  * replace
-     [PATCH v2 07/86] arm:aspeed: convert valid RAM sizes to data
-     [PATCH v2 08/86] arm:aspeed: actually check RAM size
-    with a simplified variant that adds ram_size check to sdmc.ram-size
-    property
+--gvF4niNJ+uBMJnEh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-CC: clg@kaod.org
-CC: peter.maydell@linaro.org
-CC: andrew@aj.id.au
-CC: joel@jms.id.au
-CC: qemu-arm@nongnu.org
+-----BEGIN PGP SIGNATURE-----
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- include/hw/misc/aspeed_sdmc.h |  1 +
- hw/arm/aspeed.c               | 13 +++-----
- hw/misc/aspeed_sdmc.c         | 77 +++++++++++++++++++++++++++++++++++----=
-----
- 3 files changed, 70 insertions(+), 21 deletions(-)
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4luK8ACgkQnKSrs4Gr
+c8jw2Qf/bAgg5etcH2/0lqT9v4Lsj7pcOLQe48g1cVXD+nR9sgDZrmvw4zb3GiOv
+0pCq8MQYP0QW4GhOY21YHyxU0FZhl7zMHVy6y4KHPpevbO+73L97u0hQnGwJdC3o
+pC/Lz5hfbsXyqXPKFYe6fM5qHK6PsXD2TwNbCq+mrEnGn8IH/ar3Dr2bmzvJdwdd
+NoDAGpHSd6IrXqVEJUruQVs5oVoI49Lg2gO1h5XBkSGD2nTgAOduTakixcCurVxu
+Xm5FGuJeN6RXyMLZyIijL7W0ZeZtcknyPWwu2ai0goTdlRt+sJY/K++H9OEiVzFG
+9S9hvHb5iH4v32gSn+HXlg2XTNIh0A==
+=XvRf
+-----END PGP SIGNATURE-----
 
-diff --git a/include/hw/misc/aspeed_sdmc.h b/include/hw/misc/aspeed_sdmc.h
-index 5dbde59..cea1e67 100644
---- a/include/hw/misc/aspeed_sdmc.h
-+++ b/include/hw/misc/aspeed_sdmc.h
-@@ -40,6 +40,7 @@ typedef struct AspeedSDMCClass {
-     SysBusDeviceClass parent_class;
-=20
-     uint64_t max_ram_size;
-+    const uint64_t *valid_ram_sizes;
-     uint32_t (*compute_conf)(AspeedSDMCState *s, uint32_t data);
-     void (*write)(AspeedSDMCState *s, uint32_t reg, uint32_t data);
- } AspeedSDMCClass;
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index cc06af4..c8573e5 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -191,8 +191,12 @@ static void aspeed_machine_init(MachineState *machine)
-=20
-     sc =3D ASPEED_SOC_GET_CLASS(&bmc->soc);
-=20
-+    /*
-+     * This will error out if isize is not supported by memory controller.
-+     */
-     object_property_set_uint(OBJECT(&bmc->soc), ram_size, "ram-size",
--                             &error_abort);
-+                             &error_fatal);
-+
-     object_property_set_int(OBJECT(&bmc->soc), amc->hw_strap1, "hw-strap1"=
-,
-                             &error_abort);
-     object_property_set_int(OBJECT(&bmc->soc), amc->hw_strap2, "hw-strap2"=
-,
-@@ -215,13 +219,6 @@ static void aspeed_machine_init(MachineState *machine)
-     object_property_set_bool(OBJECT(&bmc->soc), true, "realized",
-                              &error_abort);
-=20
--    /*
--     * Allocate RAM after the memory controller has checked the size
--     * was valid. If not, a default value is used.
--     */
--    ram_size =3D object_property_get_uint(OBJECT(&bmc->soc), "ram-size",
--                                        &error_abort);
--
-     memory_region_allocate_system_memory(&bmc->ram, NULL, "ram", ram_size)=
-;
-     memory_region_add_subregion(&bmc->ram_container, 0, &bmc->ram);
-     memory_region_add_subregion(get_system_memory(),
-diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index 2df3244..b36b362 100644
---- a/hw/misc/aspeed_sdmc.c
-+++ b/hw/misc/aspeed_sdmc.c
-@@ -17,6 +17,9 @@
- #include "migration/vmstate.h"
- #include "qapi/error.h"
- #include "trace.h"
-+#include "qemu/units.h"
-+#include "qemu/cutils.h"
-+#include "qapi/visitor.h"
-=20
- /* Protection Key Register */
- #define R_PROT            (0x00 / 4)
-@@ -163,10 +166,7 @@ static int ast2400_rambits(AspeedSDMCState *s)
-         break;
-     }
-=20
--    /* use a common default */
--    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 256M",
--                s->ram_size);
--    s->ram_size =3D 256 << 20;
-+    assert(0);
-     return ASPEED_SDMC_DRAM_256MB;
- }
-=20
-@@ -185,10 +185,7 @@ static int ast2500_rambits(AspeedSDMCState *s)
-         break;
-     }
-=20
--    /* use a common default */
--    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 512M",
--                s->ram_size);
--    s->ram_size =3D 512 << 20;
-+    assert(0);
-     return ASPEED_SDMC_AST2500_512MB;
- }
-=20
-@@ -207,10 +204,7 @@ static int ast2600_rambits(AspeedSDMCState *s)
-         break;
-     }
-=20
--    /* use a common default */
--    warn_report("Invalid RAM size 0x%" PRIx64 ". Using default 1024M",
--                s->ram_size);
--    s->ram_size =3D 1024 << 20;
-+    assert(0);
-     return ASPEED_SDMC_AST2600_1024MB;
- }
-=20
-@@ -225,6 +219,51 @@ static void aspeed_sdmc_reset(DeviceState *dev)
-     s->regs[R_CONF] =3D asc->compute_conf(s, 0);
- }
-=20
-+static void aspeed_sdmc_get_ram_size(Object *obj, Visitor *v, const char *=
-name,
-+                                     void *opaque, Error **errp)
-+{
-+    AspeedSDMCState *s =3D ASPEED_SDMC(obj);
-+    int64_t value =3D s->ram_size;
-+
-+    visit_type_int(v, name, &value, errp);
-+}
-+
-+static void aspeed_sdmc_set_ram_size(Object *obj, Visitor *v, const char *=
-name,
-+                                     void *opaque, Error **errp)
-+{
-+    int i;
-+    char *sz;
-+    int64_t value;
-+    Error *local_err =3D NULL;
-+    AspeedSDMCState *s =3D ASPEED_SDMC(obj);
-+    AspeedSDMCClass *asc =3D ASPEED_SDMC_GET_CLASS(s);
-+
-+    visit_type_int(v, name, &value, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+    for (i =3D 0; asc->valid_ram_sizes[i]; i++) {
-+        if (value =3D=3D asc->valid_ram_sizes[i]) {
-+            s->ram_size =3D value;
-+            return;
-+        }
-+    }
-+
-+    sz =3D size_to_str(value);
-+    error_setg(&local_err, "Invalid RAM size %s", sz);
-+    g_free(sz);
-+    error_propagate(errp, local_err);
-+}
-+
-+static void aspeed_sdmc_initfn(Object *obj)
-+{
-+    object_property_add(obj, "ram-size", "int",
-+                        aspeed_sdmc_get_ram_size, aspeed_sdmc_set_ram_size=
-,
-+                        NULL, NULL, NULL);
-+}
-+
- static void aspeed_sdmc_realize(DeviceState *dev, Error **errp)
- {
-     SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
-@@ -249,7 +288,6 @@ static const VMStateDescription vmstate_aspeed_sdmc =3D=
- {
- };
-=20
- static Property aspeed_sdmc_properties[] =3D {
--    DEFINE_PROP_UINT64("ram-size", AspeedSDMCState, ram_size, 0),
-     DEFINE_PROP_UINT64("max-ram-size", AspeedSDMCState, max_ram_size, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
-@@ -268,6 +306,7 @@ static const TypeInfo aspeed_sdmc_info =3D {
-     .name =3D TYPE_ASPEED_SDMC,
-     .parent =3D TYPE_SYS_BUS_DEVICE,
-     .instance_size =3D sizeof(AspeedSDMCState),
-+    .instance_init =3D aspeed_sdmc_initfn,
-     .class_init =3D aspeed_sdmc_class_init,
-     .class_size =3D sizeof(AspeedSDMCClass),
-     .abstract   =3D true,
-@@ -298,6 +337,9 @@ static void aspeed_2400_sdmc_write(AspeedSDMCState *s, =
-uint32_t reg,
-     s->regs[reg] =3D data;
- }
-=20
-+static const uint64_t
-+aspeed_2400_ram_sizes[] =3D { 64 * MiB, 128 * MiB, 256 * MiB, 512 * MiB, 0=
-};
-+
- static void aspeed_2400_sdmc_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -307,6 +349,7 @@ static void aspeed_2400_sdmc_class_init(ObjectClass *kl=
-ass, void *data)
-     asc->max_ram_size =3D 512 << 20;
-     asc->compute_conf =3D aspeed_2400_sdmc_compute_conf;
-     asc->write =3D aspeed_2400_sdmc_write;
-+    asc->valid_ram_sizes =3D aspeed_2400_ram_sizes;
- }
-=20
- static const TypeInfo aspeed_2400_sdmc_info =3D {
-@@ -351,6 +394,9 @@ static void aspeed_2500_sdmc_write(AspeedSDMCState *s, =
-uint32_t reg,
-     s->regs[reg] =3D data;
- }
-=20
-+static const uint64_t
-+aspeed_2500_ram_sizes[] =3D { 128 * MiB, 256 * MiB, 512 * MiB, 1024 * MiB,=
- 0};
-+
- static void aspeed_2500_sdmc_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -360,6 +406,7 @@ static void aspeed_2500_sdmc_class_init(ObjectClass *kl=
-ass, void *data)
-     asc->max_ram_size =3D 1024 << 20;
-     asc->compute_conf =3D aspeed_2500_sdmc_compute_conf;
-     asc->write =3D aspeed_2500_sdmc_write;
-+    asc->valid_ram_sizes =3D aspeed_2500_ram_sizes;
- }
-=20
- static const TypeInfo aspeed_2500_sdmc_info =3D {
-@@ -404,6 +451,9 @@ static void aspeed_2600_sdmc_write(AspeedSDMCState *s, =
-uint32_t reg,
-     s->regs[reg] =3D data;
- }
-=20
-+static const uint64_t
-+aspeed_2600_ram_sizes[] =3D { 256 * MiB, 512 * MiB, 1024 * MiB, 2048 * MiB=
-, 0};
-+
- static void aspeed_2600_sdmc_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -413,6 +463,7 @@ static void aspeed_2600_sdmc_class_init(ObjectClass *kl=
-ass, void *data)
-     asc->max_ram_size =3D 2048 << 20;
-     asc->compute_conf =3D aspeed_2600_sdmc_compute_conf;
-     asc->write =3D aspeed_2600_sdmc_write;
-+    asc->valid_ram_sizes =3D aspeed_2600_ram_sizes;
- }
-=20
- static const TypeInfo aspeed_2600_sdmc_info =3D {
---=20
-2.7.4
-
+--gvF4niNJ+uBMJnEh--
 
