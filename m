@@ -2,69 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC465143719
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 07:29:10 +0100 (CET)
-Received: from localhost ([::1]:49022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0CA014370D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 07:21:30 +0100 (CET)
+Received: from localhost ([::1]:48938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itn2D-00065A-PQ
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 01:29:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42851)
+	id 1itmun-0008PH-Q2
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 01:21:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41938)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1itn1H-0005eI-C8
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:28:12 -0500
+ (envelope-from <jing2.liu@linux.intel.com>) id 1itmt2-0007Bi-LJ
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:19:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1itn1E-0003VM-Do
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:28:10 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54932
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <jing2.liu@linux.intel.com>) id 1itmt1-0006MT-EJ
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:19:40 -0500
+Received: from mga11.intel.com ([192.55.52.93]:39448)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1itn1D-0003UT-Tk
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:28:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579588087;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jD6lpgEwjJk4Ey37KAMhYX1mEQzoxqDWuO7ItrNIksE=;
- b=B1mRolPL/yM44/UJr8K3Kbe/z6tLKxf/73sx0OWfJx2PhnMTP1cyDK+crF8S/5W9I0Fl5Y
- C7r0PRC9izEnXZTk7T4YE4Q0fzNaW59iqO7vJZtU+aZkLdoSy1eDTEFumIVpRitxke5/Q1
- C/qHyGJE0gVF7kygin7N7dMtYuSfnPI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-9reJV18cPsCOIAVig5Ffcg-1; Tue, 21 Jan 2020 01:28:03 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B891F800A02;
- Tue, 21 Jan 2020 06:28:02 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
- [10.36.116.106])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5444884DA6;
- Tue, 21 Jan 2020 06:28:02 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 730C41747D; Tue, 21 Jan 2020 07:28:01 +0100 (CET)
-Date: Tue, 21 Jan 2020 07:28:01 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Cameron Esfahani <dirty@apple.com>
-Subject: Re: [PATCH v2 1/2] vnc: fix VNC artifacts
-Message-ID: <20200121062801.ror55cdypt3zmci7@sirius.home.kraxel.org>
-References: <cover.1579582674.git.dirty@apple.com>
- <c28241e087b10b4561468b7dae47fe63381df259.1579582674.git.dirty@apple.com>
-MIME-Version: 1.0
-In-Reply-To: <c28241e087b10b4561468b7dae47fe63381df259.1579582674.git.dirty@apple.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 9reJV18cPsCOIAVig5Ffcg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+ (Exim 4.71) (envelope-from <jing2.liu@linux.intel.com>)
+ id 1itmt1-0006GD-6Q
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:19:39 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2020 22:19:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,344,1574150400"; d="scan'208";a="278301056"
+Received: from hyperv-sh3.bj.intel.com ([10.240.193.95])
+ by fmsmga001.fm.intel.com with ESMTP; 20 Jan 2020 22:19:27 -0800
+From: Jing Liu <jing2.liu@linux.intel.com>
+To: virtio-dev@lists.oasis-open.org
+Subject: [virtio-dev] [PATCH v2 0/5] virtio-mmio enhancement
+Date: Tue, 21 Jan 2020 21:54:28 +0800
+Message-Id: <1579614873-21907-1-git-send-email-jing2.liu@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.93
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,72 +50,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Jing Liu <jing2.liu@linux.intel.com>, linux-kernel@vger.kernel.org,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 20, 2020 at 09:00:51PM -0800, Cameron Esfahani wrote:
-> Patch de3f7de7f4e257ce44cdabb90f5f17ee99624557 was too simplistic in its
-> implementation: it didn't account for the ZLIB z_stream mutating with
-> each compression.  Because of the mutation, simply resetting the output
-> buffer's offset wasn't sufficient to "rewind" the operation.  The mutated
-> z_stream would generate future zlib blocks which referred to symbols in
-> past blocks which weren't sent.  This would lead to artifacting.
->=20
-> This reverts commit de3f7de7f4e257ce44cdabb90f5f17ee99624557.
->=20
-> Fixes: <de3f7de7f4e257> ("vnc: allow fall back to RAW encoding")
-> Signed-off-by: Cameron Esfahani <dirty@apple.com>
+The current virtio over MMIO has some limitations that impact the performance.
+It only supports single legacy, dedicated interrupt and one virtqueue
+notification register for all virtqueues which cause performance penalties.
 
-Looks like you didn't realize that "revert" was meant literally.  Git has a
-revert subcommand, i.e. you can simply run "git revert de3f7de7f4e257" to
-create a commit undoing the changes, with a commit message saying so.  The
-generated text should be left intact, to make the job for tools analyzing g=
-it
-commits easier.  The commit message (for reverts typically explaining why t=
-he
-reverted commit was buggy) can go below the generated text.
+To address such limitations, we proposed to update virtio-mmio spec with
+two new feature bits to support MSI interrupt and enhancing notification mechanism.
 
-Also note that only the patch commit messages end up in the commit log, the
-cover letter text doesn't.  So any important details should (also) be in th=
-e
-commit messages so they are recorded in the log.
+For keeping virtio-mmio simple as it was, and considering practical usages, this
+provides two kinds of mapping mode for device: MSI non-sharing mode and MSI sharing mode.
+MSI non-sharng mode indicates a fixed static vector and event relationship specified
+in spec, which can simplify the setup process and reduce vmexit, fitting for
+a high interrupt rate request.
+MSI sharing mode indicates a dynamic mapping, which is more like PCI does, fitting
+for a non-high interrupt rate request.
 
-Reworked the commit message, looks like this now:
+Change Log:
+v1->v2:
+* Change version update to feature bit
+* Add mask/unmask support
+* Add two MSI sharing/non-sharing modes
+* Change MSI registers layout and bits
 
------------------------------------------------------------------
-commit 0780ec7be82dd4781e9fd216b5d99a125882ff5a (HEAD -> queue/ui)
-Author: Gerd Hoffmann <kraxel@redhat.com>
-Date:   Tue Jan 21 07:02:10 2020 +0100
+Jing Liu (5):
+  virtio-mmio: Add feature bit for MMIO notification
+  virtio-mmio: Enhance queue notification support
+  virtio-mmio: Add feature bit for MMIO MSI
+  virtio-mmio: Introduce MSI details
+  virtio-mmio: MSI vector and event mapping
 
-    Revert "vnc: allow fall back to RAW encoding"
-   =20
-    This reverts commit de3f7de7f4e257ce44cdabb90f5f17ee99624557.
-   =20
-    Remove VNC optimization to reencode framebuffer update as raw if it's
-    smaller than the default encoding.
-   =20
-    QEMU's implementation was naive and didn't account for the ZLIB z_strea=
-m
-    mutating with each compression.  Because of the mutation, simply
-    resetting the output buffer's offset wasn't sufficient to "rewind" the
-    operation.  The mutated z_stream would generate future zlib blocks whic=
-h
-    referred to symbols in past blocks which weren't sent.  This would lead
-    to artifacting.
-   =20
-    Considering that ZRLE is never larger than raw and even though ZLIB can
-    occasionally be fractionally larger than raw, the overhead of
-    implementing this optimization correctly isn't worth it.
-   =20
-    Signed-off-by: Cameron Esfahani <dirty@apple.com>
-    Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
------------------------------------------------------------------
+ content.tex | 286 ++++++++++++++++++++++++++++++++++++++++++++++++++++++------
+ msi-state.c |   5 ++
+ 2 files changed, 262 insertions(+), 29 deletions(-)
+ create mode 100644 msi-state.c
 
-Modified patch queued up.
-Patch 2/2 is fine as-is.
-
-thanks,
-  Gerd
+-- 
+2.7.4
 
 
