@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E7D143BD9
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 12:15:02 +0100 (CET)
-Received: from localhost ([::1]:51916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC919143BE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 12:17:26 +0100 (CET)
+Received: from localhost ([::1]:51948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itrUr-0008Tf-9R
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 06:15:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41464)
+	id 1itrXC-0001pG-00
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 06:17:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41678)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1itrQL-0002ob-P9
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:10:25 -0500
+ (envelope-from <alistair23@gmail.com>) id 1itrSG-0005E3-SO
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:12:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1itrQH-0005wz-4d
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:10:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20685
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1itrQG-0005wj-RB
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:10:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579605016;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Dlx2r4Lt9OwxlG7hdFBMuPSB6sH7+RtiZEcvmhgHU+U=;
- b=PIB7cP3oJpsk8wbBPq97q4um2lBIHfdvMT3XHHPSFP5GiZh2ey+iuR8GmhYZ+gwl43BYoA
- KvbUMke57yBY86SWeFpdMLtLj0p9kj4DjOjm8+oom9/zIFqMJ3C6qKIkZlvVE7tBzq/u7b
- ZiDRktLUxeJTaCBAmog/FzuOmX/ViBs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-p51x5Ld-NleVafUuIC0Ezw-1; Tue, 21 Jan 2020 06:10:15 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AD9218A6EC1
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 11:10:14 +0000 (UTC)
-Received: from redhat.com (ovpn-116-23.ams2.redhat.com [10.36.116.23])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D525360BE0;
- Tue, 21 Jan 2020 11:10:13 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v3 3/5] migration: Don't wait in semaphore for thread we
- know has finished
-In-Reply-To: <20200117164556.GO3209@work-vm> (David Alan Gilbert's message of
- "Fri, 17 Jan 2020 16:45:56 +0000")
-References: <20200116154616.11569-1-quintela@redhat.com>
- <20200116154616.11569-4-quintela@redhat.com>
- <20200117164556.GO3209@work-vm>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 21 Jan 2020 12:10:11 +0100
-Message-ID: <87sgk9gj58.fsf@secure.laptop>
+ (envelope-from <alistair23@gmail.com>) id 1itrSF-0007Bj-Q0
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:12:20 -0500
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:34245)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1itrSF-0007AA-Id; Tue, 21 Jan 2020 06:12:19 -0500
+Received: by mail-lj1-x244.google.com with SMTP id z22so2342891ljg.1;
+ Tue, 21 Jan 2020 03:12:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oHNfXYrd5E2i4VOR/N+QLPpL2lHjMO45q+YebeyI6f4=;
+ b=lAVE4zbjL3DRoic1n3UeQEnhZQDFSK0MOPKMw9lMYR9eVEOv12k1AZ8SAvcl5yKSDf
+ KdaVZvyE+1ITN5lG3I02oeEnXefcG7qGO3vgklAZIMEzs3FRb08EXz+wzI8eaSbNaE67
+ xjsOc/eJpPNgiIKclFmMuRhppPlgUGpc2jKSjD8sxATbLDtk/vr2AR64wVJPtfZFjin3
+ JZsnC2Kntzdi18EdBvNCdw4moVlAvL3ukumKNZFMAuusJsAYmWLxk9yyEzRa7PtrFji6
+ 0PyXIR42KS/GN6MBFVqrdEHW+oj0ARgA/R/RmwBNu3oFCO14oDGtR21ZHH+FV5JWJzK4
+ yonA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oHNfXYrd5E2i4VOR/N+QLPpL2lHjMO45q+YebeyI6f4=;
+ b=qmbd5JvLtuDQp6GbYBtuRDAWH6ksGjJ0Z4QP3LTz1JXw6APp7+COmuDaFdCPG3OjOs
+ IENcjHH/fmHQ6VvyOucW79WQLtykt7jHjaanP3Qoz1VewxohX6p/kmKRZ8xP3dnVs33i
+ a5WD8m8fcEqvVt1HSRWrIpvEMNLN0FayxZPaEVuTS4BVJMYrsqJn3UVnqdHThsKUBSER
+ AVvpuT9Lj35ETeQ5IXDOe04edV9VY8fPn1a7CTGmlcgkQjt1EVPBYouLKxrwLPAW/Aku
+ GQO7uLjXFmJ1Prq4/J9fLq6b09/GkSeR86qKsCz5bs5Nb9m1M+uIV0y6O3Crcwklx+1E
+ DpNQ==
+X-Gm-Message-State: APjAAAUhznAjAjWenBZWEhfQPfQ2aR05jyP06jDbfpUY4wvVNyEPnCo9
+ igXOK61IwiTIIUNml/4VcrHFGX/dvzs2luqq2Bw=
+X-Google-Smtp-Source: APXvYqyjp5SwbjfKshMa3KFNtXrltX/vKUEciulStmjFvzh/FvMf5Sr619dT2+J8NvodaHfNJJCPxB2WkYA/VQ9N9BM=
+X-Received: by 2002:a2e:8946:: with SMTP id b6mr2236524ljk.1.1579605138123;
+ Tue, 21 Jan 2020 03:12:18 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: p51x5Ld-NleVafUuIC0Ezw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <cover.1575914822.git.alistair.francis@wdc.com>
+ <b1313a76928acfe101247e33248f000e1f82f558.1575914822.git.alistair.francis@wdc.com>
+ <mhng-1d91cb12-dd7c-4160-9e39-a1d5a9f5023a@palmerdabbelt-glaptop>
+In-Reply-To: <mhng-1d91cb12-dd7c-4160-9e39-a1d5a9f5023a@palmerdabbelt-glaptop>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 21 Jan 2020 21:11:51 +1000
+Message-ID: <CAKmqyKOfqHn9PBsDeb65JSovszT4qF_3eNRUGA5AaG4_zhyiTA@mail.gmail.com>
+Subject: Re: [PATCH v1 17/36] target/riscv: Set VS bits in mideleg for Hyp
+ extension
+To: Palmer Dabbelt <palmerdabbelt@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,56 +73,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> * Juan Quintela (quintela@redhat.com) wrote:
->> If p->quit is true for any channel, we know that it has finished for
->> any reason.  So don't wait for it, just continue.
->>=20
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->>=20
->> ---
->>=20
->> I could be convinced that the right thing to do in that case is to
->> just do a break instead of a continue.  Each option has its own
->> advantages/disadvantanges.
->> ---
->>  migration/ram.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>=20
->> diff --git a/migration/ram.c b/migration/ram.c
->> index 44ca56e1ea..bc918ef28d 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -1118,6 +1118,12 @@ static void multifd_send_sync_main(RAMState *rs)
->>          MultiFDSendParams *p =3D &multifd_send_state->params[i];
->> =20
->>          trace_multifd_send_sync_main_wait(p->id);
->> +        qemu_mutex_lock(&p->mutex);
->> +        if (p->quit) {
->> +            qemu_mutex_unlock(&p->mutex);
->> +            continue;
->> +        }
->> +        qemu_mutex_unlock(&p->mutex);
+On Wed, Jan 8, 2020 at 12:07 PM Palmer Dabbelt <palmerdabbelt@google.com> wrote:
 >
-> Why is this needed/helps?
-> You can't depend on the p->quit happening before the=20
-> sem_wait, so the main thread still has to do a post on sem_sync before
-> the join, even with the addition of the check for p->quit.
+> On Mon, 09 Dec 2019 10:11:24 PST (-0800), Alistair Francis wrote:
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  target/riscv/csr.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index a4b598d49a..fc38c45a7e 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -449,6 +449,9 @@ static int read_mideleg(CPURISCVState *env, int csrno, target_ulong *val)
+> >  static int write_mideleg(CPURISCVState *env, int csrno, target_ulong val)
+> >  {
+> >      env->mideleg = (env->mideleg & ~delegable_ints) | (val & delegable_ints);
+> > +    if (riscv_has_ext(env, RVH)) {
+> > +        env->mideleg |= VS_MODE_INTERRUPTS;
+> > +    }
+> >      return 0;
+> >  }
+>
+> Do you have any idea why?  The spec is explicit that this is the case, but I'm
+> surprised.
 
-if we have asked the thread to quit, it is inside posibility that it has
-already quit, so it is not going to be able to do the ->post() for this
-sem.
+I'm not sure why, maybe to simplfy hardware design?
 
-if ->quit =3D=3D true, then we know that we are exiting.  On _normal_ exit,
-we know that everything is ok.  On cancel/error, we don't really know,
-it deppends how lucky we are.
+Alistair
 
-Later, Juan.
-
+>
+> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
