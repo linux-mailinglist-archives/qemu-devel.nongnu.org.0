@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4D1E144259
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 17:40:18 +0100 (CET)
-Received: from localhost ([::1]:57930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E78A3144264
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 17:47:37 +0100 (CET)
+Received: from localhost ([::1]:58090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itwZd-0007Ax-LZ
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 11:40:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38950)
+	id 1itwgi-0006g5-J5
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 11:47:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39730)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1itwYi-0006e6-As
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:39:21 -0500
+ (envelope-from <imammedo@redhat.com>) id 1itwdR-00040i-W4
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:44:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1itwYf-00026D-SI
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:39:20 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40361
+ (envelope-from <imammedo@redhat.com>) id 1itwdP-0004s1-BP
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:44:13 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52866
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1itwYf-00025t-Ns
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:39:17 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1itwdP-0004rk-82
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:44:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579624757;
+ s=mimecast20190719; t=1579625050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6Mwmb7BtJNDzUahKcdyRnWr+HAupBvyLDcrKAXcj7sc=;
- b=TT2T8uvRSZuFxQJhQ9y0Rai4Af5YX5C1M2xeOFSCqhdG0qp89zRM9il8GqEji54EGQjW6z
- 6qs4JbtkMqlg+J7+zABspGo0L9FSI0ng6httOZUx0pZl64Qhy6Qfi0QCbIUv6uCp7QkI7I
- fhhG72DlDxjs1nsvZdymOfkoDCZi5+Y=
+ bh=0omZmkBpIhBYf6i0mXCKdz2nwdo8ra+0Cp4/KojE5LA=;
+ b=FURGLX8dW6xPh5UZX0Ao4DLmY8hQnDoZXG6GcxuUy91zOm4ODqlJAOKdc7dLFFvTGYwSuo
+ WMIiquK1gNfLa0r+MzyCd5ndaeJU5dauVHSP1wwCPsTlDruVGlT/xPo0shhrKjIXSTD79M
+ chcs3fqVpQQr4yA93TePpve/EKWNGVc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-95-_RuNqAiFMOWg4dpLlUHVvg-1; Tue, 21 Jan 2020 11:39:14 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-417-xoN0wRqPO9Seujy0_V-X5g-1; Tue, 21 Jan 2020 11:44:07 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24309800D53;
- Tue, 21 Jan 2020 16:39:13 +0000 (UTC)
-Received: from Igors-MacBook-Pro (ovpn-204-20.brq.redhat.com [10.40.204.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1898A5C1C3;
- Tue, 21 Jan 2020 16:39:07 +0000 (UTC)
-Date: Tue, 21 Jan 2020 17:39:06 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3989E101EFFC;
+ Tue, 21 Jan 2020 16:44:06 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB8948BE30;
+ Tue, 21 Jan 2020 16:44:04 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
-To: Niek Linnenbank <nieklinnenbank@gmail.com>
-Subject: Re: [PATCH v4 02/20] hw/arm: add Xunlong Orange Pi PC machine
-Message-ID: <20200121173906.626c700b@Igors-MacBook-Pro>
-In-Reply-To: <20200119005102.3847-3-nieklinnenbank@gmail.com>
-References: <20200119005102.3847-1-nieklinnenbank@gmail.com>
- <20200119005102.3847-3-nieklinnenbank@gmail.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: _RuNqAiFMOWg4dpLlUHVvg-1
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 64/82] ppc/{ppc440_bamboo,sam460ex}: drop RAM size fixup
+Date: Tue, 21 Jan 2020 17:41:44 +0100
+Message-Id: <1579624904-47593-1-git-send-email-imammedo@redhat.com>
+In-Reply-To: <20200121092640.22ea1f4b@redhat.com>
+References: <20200121092640.22ea1f4b@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: xoN0wRqPO9Seujy0_V-X5g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -72,162 +71,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, philmd@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, b.galvani@gmail.com, qemu-arm@nongnu.org,
- alex.bennee@linaro.org
+Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 19 Jan 2020 01:50:44 +0100
-Niek Linnenbank <nieklinnenbank@gmail.com> wrote:
+If user provided non-sense RAM size, board will complain and
+continue running with max RAM size supported or sometimes
+crash like this:
+  %QEMU -M bamboo -m 1
+    exec.c:1926: find_ram_offset: Assertion `size !=3D 0' failed.
+    Aborted (core dumped)
+Also RAM is going to be allocated by generic code, so it won't be
+possible for board to fix things up for user.
 
-> The Xunlong Orange Pi PC is an Allwinner H3 System on Chip
-> based embedded computer with mainline support in both U-Boot
-> and Linux. The board comes with a Quad Core Cortex A7 @ 1.3GHz,
-> 1GiB RAM, 100Mbit ethernet, USB, SD/MMC, USB, HDMI and
-> various other I/O. This commit add support for the Xunlong
-> Orange Pi PC machine.
->=20
-> Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-> Tested-by: KONRAD Frederic <frederic.konrad@adacore.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Make it error message and exit to force user fix CLI,
+instead of accepting non-sense CLI values.
+That also fixes crash issue, since wrongly calculated size
+isn't used to allocate RAM
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+v2:
+  * s/ppc4xx_sdram_adjust/ppc4xx_sdram_prep/
+     (BALATON Zoltan <balaton@eik.bme.hu>)
+  * print possible valid ram size id not all RAM was distributed
+  * initialize ram_bases/ram_bases at the same time we are checking
+    that user supplied RAM would fit available banks and drop nested
+    loop that were duplicating the same calculations.
+  * coincidentally fix crash when -m is less than minimal bank size
+v3:
+  * s/ppc4xx_sdram_prep/ppc4xx_sdram_banks/
+      (BALATON Zoltan <balaton@eik.bme.hu>)
+  * fix subject line in commit message
+v3.1
+  * add lost 'break' statement in 'j' loop
 
-> ---
->  hw/arm/orangepi.c    | 93 ++++++++++++++++++++++++++++++++++++++++++++
->  MAINTAINERS          |  1 +
->  hw/arm/Makefile.objs |  2 +-
->  3 files changed, 95 insertions(+), 1 deletion(-)
->  create mode 100644 hw/arm/orangepi.c
->=20
-> diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
-> new file mode 100644
-> index 0000000000..866f5f7cd6
-> --- /dev/null
-> +++ b/hw/arm/orangepi.c
-> @@ -0,0 +1,93 @@
-> +/*
-> + * Orange Pi emulation
-> + *
-> + * Copyright (C) 2019 Niek Linnenbank <nieklinnenbank@gmail.com>
-> + *
-> + * This program is free software: you can redistribute it and/or modify
-> + * it under the terms of the GNU General Public License as published by
-> + * the Free Software Foundation, either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License
-> + * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/units.h"
-> +#include "exec/address-spaces.h"
-> +#include "qapi/error.h"
-> +#include "cpu.h"
-> +#include "hw/sysbus.h"
-> +#include "hw/boards.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/arm/allwinner-h3.h"
-> +#include "sysemu/sysemu.h"
-> +
-> +static struct arm_boot_info orangepi_binfo =3D {
-> +    .nb_cpus =3D AW_H3_NUM_CPUS,
-> +};
-> +
-> +typedef struct OrangePiState {
-> +    AwH3State *h3;
-> +    MemoryRegion sdram;
-> +} OrangePiState;
-> +
-> +static void orangepi_init(MachineState *machine)
-> +{
-> +    OrangePiState *s =3D g_new(OrangePiState, 1);
-> +
-> +    /* BIOS is not supported by this board */
-> +    if (bios_name) {
-> +        error_report("BIOS not supported for this machine");
-> +        exit(1);
-> +    }
-> +
-> +    /* Only allow Cortex-A7 for this board */
-> +    if (strcmp(machine->cpu_type, ARM_CPU_TYPE_NAME("cortex-a7")) !=3D 0=
-) {
-> +        error_report("This board can only be used with cortex-a7 CPU");
-> +        exit(1);
-> +    }
-> +
-> +    s->h3 =3D AW_H3(object_new(TYPE_AW_H3));
-> +
-> +    /* Setup timer properties */
-> +    object_property_set_int(OBJECT(s->h3), 32768, "clk0-freq",
-> +                            &error_abort);
-> +    object_property_set_int(OBJECT(s->h3), 24 * 1000 * 1000, "clk1-freq"=
+CC: balaton@eik.bme.hu
+CC: david@gibson.dropbear.id.au
+CC: qemu-ppc@nongnu.org
+---
+ include/hw/ppc/ppc4xx.h |  9 ++++----
+ hw/ppc/ppc440_bamboo.c  | 11 ++++------
+ hw/ppc/ppc4xx_devs.c    | 57 ++++++++++++++++++++++++++-------------------=
+----
+ hw/ppc/sam460ex.c       |  5 ++---
+ 4 files changed, 40 insertions(+), 42 deletions(-)
+
+diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+index 7d82259..b8c8f32 100644
+--- a/include/hw/ppc/ppc4xx.h
++++ b/include/hw/ppc/ppc4xx.h
+@@ -42,11 +42,10 @@ enum {
+ qemu_irq *ppcuic_init (CPUPPCState *env, qemu_irq *irqs,
+                        uint32_t dcr_base, int has_ssr, int has_vr);
+=20
+-ram_addr_t ppc4xx_sdram_adjust(ram_addr_t ram_size, int nr_banks,
+-                               MemoryRegion ram_memories[],
+-                               hwaddr ram_bases[],
+-                               hwaddr ram_sizes[],
+-                               const ram_addr_t sdram_bank_sizes[]);
++void ppc4xx_sdram_banks(ram_addr_t ram_size, int nr_banks,
++                        MemoryRegion ram_memories[],
++                        hwaddr ram_bases[], hwaddr ram_sizes[],
++                        const ram_addr_t sdram_bank_sizes[]);
+=20
+ void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
+                         MemoryRegion ram_memories[],
+diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+index b782641..577f7c2 100644
+--- a/hw/ppc/ppc440_bamboo.c
++++ b/hw/ppc/ppc440_bamboo.c
+@@ -158,7 +158,6 @@ static void main_cpu_reset(void *opaque)
+=20
+ static void bamboo_init(MachineState *machine)
+ {
+-    ram_addr_t ram_size =3D machine->ram_size;
+     const char *kernel_filename =3D machine->kernel_filename;
+     const char *kernel_cmdline =3D machine->kernel_cmdline;
+     const char *initrd_filename =3D machine->initrd_filename;
+@@ -203,10 +202,8 @@ static void bamboo_init(MachineState *machine)
+     /* SDRAM controller */
+     memset(ram_bases, 0, sizeof(ram_bases));
+     memset(ram_sizes, 0, sizeof(ram_sizes));
+-    ram_size =3D ppc4xx_sdram_adjust(ram_size, PPC440EP_SDRAM_NR_BANKS,
+-                                   ram_memories,
+-                                   ram_bases, ram_sizes,
+-                                   ppc440ep_sdram_bank_sizes);
++    ppc4xx_sdram_banks(ram_size, PPC440EP_SDRAM_NR_BANKS, ram_memories,
++                       ram_bases, ram_sizes, ppc440ep_sdram_bank_sizes);
+     /* XXX 440EP's ECC interrupts are on UIC1, but we've only created UIC0=
+. */
+     ppc4xx_sdram_init(env, pic[14], PPC440EP_SDRAM_NR_BANKS, ram_memories,
+                       ram_bases, ram_sizes, 1);
+@@ -268,7 +265,7 @@ static void bamboo_init(MachineState *machine)
+     /* Load initrd. */
+     if (initrd_filename) {
+         initrd_size =3D load_image_targphys(initrd_filename, RAMDISK_ADDR,
+-                                          ram_size - RAMDISK_ADDR);
++                                          machine->ram_size - RAMDISK_ADDR=
+);
+=20
+         if (initrd_size < 0) {
+             error_report("could not load ram disk '%s' at %x",
+@@ -279,7 +276,7 @@ static void bamboo_init(MachineState *machine)
+=20
+     /* If we're loading a kernel directly, we must load the device tree to=
+o. */
+     if (kernel_filename) {
+-        if (bamboo_load_device_tree(FDT_ADDR, ram_size, RAMDISK_ADDR,
++        if (bamboo_load_device_tree(FDT_ADDR, machine->ram_size, RAMDISK_A=
+DDR,
+                                     initrd_size, kernel_cmdline) < 0) {
+             error_report("couldn't load device tree");
+             exit(1);
+diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+index c2e5013..5a3bb80 100644
+--- a/hw/ppc/ppc4xx_devs.c
++++ b/hw/ppc/ppc4xx_devs.c
+@@ -673,16 +673,16 @@ void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq ir=
+q, int nbanks,
+  * The 4xx SDRAM controller supports a small number of banks, and each ban=
+k
+  * must be one of a small set of sizes. The number of banks and the suppor=
+ted
+  * sizes varies by SoC. */
+-ram_addr_t ppc4xx_sdram_adjust(ram_addr_t ram_size, int nr_banks,
+-                               MemoryRegion ram_memories[],
+-                               hwaddr ram_bases[],
+-                               hwaddr ram_sizes[],
+-                               const ram_addr_t sdram_bank_sizes[])
++void ppc4xx_sdram_banks(ram_addr_t ram_size, int nr_banks,
++                        MemoryRegion ram_memories[],
++                        hwaddr ram_bases[], hwaddr ram_sizes[],
++                        const ram_addr_t sdram_bank_sizes[])
+ {
+     MemoryRegion *ram =3D g_malloc0(sizeof(*ram));
+     ram_addr_t size_left =3D ram_size;
+     ram_addr_t base =3D 0;
+     ram_addr_t bank_size;
++    int last_bank =3D 0;
+     int i;
+     int j;
+=20
+@@ -690,7 +690,12 @@ ram_addr_t ppc4xx_sdram_adjust(ram_addr_t ram_size, in=
+t nr_banks,
+         for (j =3D 0; sdram_bank_sizes[j] !=3D 0; j++) {
+             bank_size =3D sdram_bank_sizes[j];
+             if (bank_size <=3D size_left) {
++                ram_bases[i] =3D base;
++                ram_sizes[i] =3D bank_size;
++                base +=3D bank_size;
+                 size_left -=3D bank_size;
++                last_bank =3D i;
++                break;
+             }
+         }
+         if (!size_left) {
+@@ -699,34 +704,32 @@ ram_addr_t ppc4xx_sdram_adjust(ram_addr_t ram_size, i=
+nt nr_banks,
+         }
+     }
+=20
+-    ram_size -=3D size_left;
+     if (size_left) {
+-        error_report("Truncating memory to %" PRId64 " MiB to fit SDRAM"
+-                     " controller limits", ram_size / MiB);
++        ram_addr_t used_size =3D ram_size - size_left;
++        GString *s =3D g_string_new(NULL);
++
++        for (i =3D 0; sdram_bank_sizes[i]; i++) {
++            g_string_append_printf(s, "%" PRIi64 "%s",
++                                   sdram_bank_sizes[i] / MiB,
++                                   sdram_bank_sizes[i + 1] ? " ," : "");
++        }
++        error_report("Max %d banks of %s MB DIMM/bank supported",
++            nr_banks, s->str);
++        error_report("Possible valid RAM size: %" PRIi64,
++            used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
++
++        g_string_free(s, true);
++        exit(EXIT_FAILURE);
+     }
+=20
+     memory_region_allocate_system_memory(ram, NULL, "ppc4xx.sdram", ram_si=
+ze);
+=20
+-    size_left =3D ram_size;
+-    for (i =3D 0; i < nr_banks && size_left; i++) {
+-        for (j =3D 0; sdram_bank_sizes[j] !=3D 0; j++) {
+-            bank_size =3D sdram_bank_sizes[j];
+-
+-            if (bank_size <=3D size_left) {
+-                char name[32];
+-                snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
+-                memory_region_init_alias(&ram_memories[i], NULL, name, ram=
 ,
-> +                            &error_abort);
-> +
-> +    /* Mark H3 object realized */
-> +    object_property_set_bool(OBJECT(s->h3), true, "realized", &error_abo=
-rt);
-> +
-> +    /* SDRAM */
-> +    if (machine->ram_size !=3D 1 * GiB) {
-> +        error_report("This machine can only be used with 1GiB of RAM");
-> +        exit(1);
-> +    }
-> +    memory_region_allocate_system_memory(&s->sdram, NULL, "sdram",
-> +                                         machine->ram_size);
-> +    memory_region_add_subregion(get_system_memory(), s->h3->memmap[AW_H3=
-_SDRAM],
-> +                                &s->sdram);
-> +
-> +    orangepi_binfo.loader_start =3D s->h3->memmap[AW_H3_SDRAM];
-> +    orangepi_binfo.ram_size =3D machine->ram_size;
-> +    arm_load_kernel(ARM_CPU(first_cpu), machine, &orangepi_binfo);
-> +}
-> +
-> +static void orangepi_machine_init(MachineClass *mc)
-> +{
-> +    mc->desc =3D "Orange Pi PC";
-> +    mc->init =3D orangepi_init;
-> +    mc->min_cpus =3D AW_H3_NUM_CPUS;
-> +    mc->max_cpus =3D AW_H3_NUM_CPUS;
-> +    mc->default_cpus =3D AW_H3_NUM_CPUS;
-> +    mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a7");
-> +    mc->default_ram_size =3D 1 * GiB;
-> +}
-> +
-> +DEFINE_MACHINE("orangepi-pc", orangepi_machine_init)
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 225582704d..e99797eec9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -487,6 +487,7 @@ L: qemu-arm@nongnu.org
->  S: Maintained
->  F: hw/*/allwinner-h3*
->  F: include/hw/*/allwinner-h3*
-> +F: hw/arm/orangepi.c
-> =20
->  ARM PrimeCell and CMSDK devices
->  M: Peter Maydell <peter.maydell@linaro.org>
-> diff --git a/hw/arm/Makefile.objs b/hw/arm/Makefile.objs
-> index ae577e875f..534a6a119e 100644
-> --- a/hw/arm/Makefile.objs
-> +++ b/hw/arm/Makefile.objs
-> @@ -35,7 +35,7 @@ obj-$(CONFIG_DIGIC) +=3D digic.o
->  obj-$(CONFIG_OMAP) +=3D omap1.o omap2.o
->  obj-$(CONFIG_STRONGARM) +=3D strongarm.o
->  obj-$(CONFIG_ALLWINNER_A10) +=3D allwinner-a10.o cubieboard.o
-> -obj-$(CONFIG_ALLWINNER_H3) +=3D allwinner-h3.o
-> +obj-$(CONFIG_ALLWINNER_H3) +=3D allwinner-h3.o orangepi.o
->  obj-$(CONFIG_RASPI) +=3D bcm2835_peripherals.o bcm2836.o raspi.o
->  obj-$(CONFIG_STM32F205_SOC) +=3D stm32f205_soc.o
->  obj-$(CONFIG_STM32F405_SOC) +=3D stm32f405_soc.o
+-                                         base, bank_size);
+-                ram_bases[i] =3D base;
+-                ram_sizes[i] =3D bank_size;
+-                base +=3D bank_size;
+-                size_left -=3D bank_size;
+-                break;
+-            }
+-        }
++    for (i =3D 0; i <=3D last_bank; i++) {
++        char name[32];
++        snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
++        memory_region_init_alias(&ram_memories[i], NULL, name, ram,
++                                 ram_bases[i], ram_sizes[i]);
+     }
+-
+-    return ram_size;
+ }
+=20
+ /*************************************************************************=
+****/
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index 437e214..949acba 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -324,9 +324,8 @@ static void sam460ex_init(MachineState *machine)
+     /* SDRAM controller */
+     /* put all RAM on first bank because board has one slot
+      * and firmware only checks that */
+-    machine->ram_size =3D ppc4xx_sdram_adjust(machine->ram_size, 1,
+-                                   ram_memories, ram_bases, ram_sizes,
+-                                   ppc460ex_sdram_bank_sizes);
++    ppc4xx_sdram_banks(machine->ram_size, 1, ram_memories, ram_bases, ram_=
+sizes,
++                       ppc460ex_sdram_bank_sizes);
+=20
+     /* FIXME: does 460EX have ECC interrupts? */
+     ppc440_sdram_init(env, SDRAM_NR_BANKS, ram_memories,
+--=20
+2.7.4
 
 
