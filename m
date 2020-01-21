@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83300144660
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 22:24:47 +0100 (CET)
-Received: from localhost ([::1]:32884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E06144680
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 22:34:18 +0100 (CET)
+Received: from localhost ([::1]:33026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iu10v-00033y-Tp
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 16:24:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46802)
+	id 1iu1A8-0002VV-Ht
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 16:34:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47621)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iu106-0002ee-VW
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 16:23:56 -0500
+ id 1iu18M-0001gZ-2Q
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 16:32:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iu105-0000BM-El
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 16:23:54 -0500
-Received: from mail-yw1-f66.google.com ([209.85.161.66]:45491)
+ id 1iu18G-0004xk-6s
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 16:32:24 -0500
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:46182)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iu105-0000BB-AY
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 16:23:53 -0500
-Received: by mail-yw1-f66.google.com with SMTP id d7so2156024ywl.12
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 13:23:53 -0800 (PST)
+ id 1iu18G-0004wy-29
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 16:32:20 -0500
+Received: by mail-yb1-f195.google.com with SMTP id p129so2071392ybc.13
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 13:32:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=xPCbvhJcxvA9aZpx2BH9+9O2MDqrAjr5JjYepQ5Toes=;
- b=ao9MSTckV+qZepTIP2bbeNV2vZTv5yl1GHYrHcPhXGwrCZDKhi2EDb6A1tFZ1fmVzT
- G7To20QMu5WAnM09GNAX9gm7fD4tKDs5eqVwQin3igqHe9MvijUIjXYLSNdMjh8aue0h
- WXEdxklB+YPZ7sWDnBM7a8QjZivmSjy3DnZEGMyTIdvfp5me8WM9qfJ6r+NYCFutsj5+
- mcbCqI9ZNxzCJmH22PtO4CIPozrbEu3yCFd+1tLkttThkgcpCNwhDvTjKAhILhsj5IxE
- gTAukg+0OuLgfnCRGlHep99feRKQXNZKxWQ6anFimORgdP9YztgQDr5okPwr14AYOBVv
- VSdA==
-X-Gm-Message-State: APjAAAVy704RZFITJfhwok2wgJEA9L7Rmm5Xu3+ldVJdSnNSu5eY9Z3h
- 6K9gUhKI3Fi/33TU84Lm0ZJ1BmQfG+3Dyhm0/n0=
-X-Google-Smtp-Source: APXvYqx5fLswqjgm3ZsKbvZpze7w6VhIkjvSkd/dRoKxAg/mnRTRp1pEjVvHbdFKOVr6AEvt8YjATzxW/p2KqxWsfJo=
-X-Received: by 2002:a81:69c5:: with SMTP id e188mr4836186ywc.443.1579641832515; 
- Tue, 21 Jan 2020 13:23:52 -0800 (PST)
+ bh=yIytvuxpKwksoK7qFa24q88G7j/gy20Ta7ht2daF0Y0=;
+ b=KurKVPD1Gc1x3vUYArL89Cixyh+Zez07RWHOjXHKURIIRPiYPgHHZS/TkLaz9QmfLV
+ 6KJAyqZLi1pNFZE6e0odmYRezDotCsahJOOimVe6HmrSLUwuxue+MoLuKhe3SX2JgYls
+ jNv0x7Lwj8NCOcuNIsXbaFAeuOnsaEVXTztlrJKzka7vpeAxe2DO1wUtUCic5MZZZkDK
+ 11CWWjixQytATo7WtMaEoWFLIGaZOL/9AtEaU6YD4Gly36Qg4RAgIZa4u4cwQiWUAqlM
+ d4FqtHnRqPDM2dbgNJNg6bLuX/8e/eN2C+RDvF6RvGQwI4xDli+chyokXRcAsRFazDvf
+ ENWA==
+X-Gm-Message-State: APjAAAVb92aM7Dm5o15ZZA+vEmOSfLNna6jGdKrGLFnLiovHdI4LMBHS
+ tmVMIea79S3JEl0eHOUuXOK9iV0+Y7Dm0X7ax+I=
+X-Google-Smtp-Source: APXvYqyJKCPlUbq06DGbOyQ2ZbVQ5/wX+cn7OQYF8It1mp2rSJ6m6CbcqseLdPYlj1GVZdkloyub4E5M9djrRWJAcIU=
+X-Received: by 2002:a25:9cc7:: with SMTP id z7mr5164396ybo.309.1579642339061; 
+ Tue, 21 Jan 2020 13:32:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20200120220107.17825-1-f4bug@amsat.org>
- <CAK4993jBdx4WniPqLs2YLUnv5rXhGL2SC9bjbjeVmO5bvkRgoQ@mail.gmail.com>
-In-Reply-To: <CAK4993jBdx4WniPqLs2YLUnv5rXhGL2SC9bjbjeVmO5bvkRgoQ@mail.gmail.com>
+References: <20191218210329.1960-1-mrolnik@gmail.com>
+ <20191218210329.1960-16-mrolnik@gmail.com>
+In-Reply-To: <20191218210329.1960-16-mrolnik@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Tue, 21 Jan 2020 22:23:40 +0100
-Message-ID: <CAAdtpL5FdzYga1sA+nsN4+JP2QMO5NMRDtdcJ0v1prHgjxZ+QQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/18] hw/avr: Introduce few Arduino boards
+Date: Tue, 21 Jan 2020 22:32:07 +0100
+Message-ID: <CAAdtpL5C6g+W0tfp97RLtQZMrGf1ot8Hq7kh6f839N6+narrvw@mail.gmail.com>
+Subject: Re: [PATCH v39 15/22] target/avr: Add example board configuration
 To: Michael Rolnik <mrolnik@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, 
+ Alistair Francis <alistair.francis@wdc.com>, 
  Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.161.66
+X-Received-From: 209.85.219.195
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,156 +68,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Pavel Dovgalyuk <dovgaluk@ispras.ru>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 21, 2020 at 8:26 PM Michael Rolnik <mrolnik@gmail.com> wrote:
+On Wed, Dec 18, 2019 at 10:12 PM Michael Rolnik <mrolnik@gmail.com> wrote:
 >
-> Hi Philippe.
+> A simple board setup that configures an AVR CPU to run a given firmware i=
+mage.
+> This is all that's useful to implement without peripheral emulation as AV=
+R CPUs include a lot of on-board peripherals.
 >
-> 1. I cannot access https://gitlab.com/philmd/qemu/commits/arduino-v4
-
-Oops I pushed to GitHub instead =3D) Now it is on GitLab too.
-
-> 2. I merged your series into my workspace using patchwork
-> 3. I payed attention that that you don't use automatic CPU detection (as =
-suggested by Aleksandar) by reading elf.
-
-I see, I based my work on your v38, and missed the later changes:
-
-changes since v38
--  fix elf loader function bug introduced by prev version
-
-And probably:
-
-changes since v39
--  add frequency parameter to AVR timer
-
-I'll look at Aleksandar suggestion and your last your changes, and update.
-
-> 4. There is difference between -bios and -kernel (arduino boars crash whe=
-n -bios is used, but this seems because I run avr6 on avr5 CPU). I would be=
- happy if you explained what is the difference between these two arguments.
-
-qemu man page is not very helpful...
-
-       -bios file
-           Set the filename for the BIOS.
-
-       -kernel bzImage
-           Use bzImage as kernel image. The kernel can be either a
-Linux kernel or in multiboot format.
-
-Paolo, Peter, do you have a simple explanation?
-
-> 5. make check-acceptance pass correctly
-> 6. make check-qtest-avr pass correctly
+> NOTE: this is not a real board !!!!
+> NOTE: it's used for CPU testing!!!!
 >
+> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> Nacked-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  include/elf.h        |   2 +
+>  include/hw/elf_ops.h |   6 +-
+>  include/hw/loader.h  |   6 +-
+>  hw/core/loader.c     |  15 +--
+>  hw/riscv/boot.c      |   2 +-
+
+Previous changes aren't AVR specific and should go in a separate patch.
+(and require review from all the maintainers of the other
+architectures affected by this change).
+
+You can send send a single patch (not the whole series), else
+I'll see if I can split it myself.
+
+>  hw/avr/sample.c      | 293 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/Kconfig           |   1 +
+>  hw/avr/Kconfig       |   6 +
+>  hw/avr/Makefile.objs |   1 +
+>  9 files changed, 321 insertions(+), 11 deletions(-)
+>  create mode 100644 hw/avr/sample.c
+>  create mode 100644 hw/avr/Kconfig
+>  create mode 100644 hw/avr/Makefile.objs
 >
-> On Tue, Jan 21, 2020 at 12:01 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
-.org> wrote:
->>
->> Hi,
->>
->> This series add the arduino boards, aiming at removing the
->> 'sample' board that doesn't follow any specification.
->>
->> Since v3:
->> - Rebased on Michael's v41
->> - Drop 'extram' unused field (Igor)
->> - Renamed devices AVR -> Atmel (Aleksandar)
->>   (I haven't renamed structure names to ease review)
->>
->> Since v2:
->> - rebased on Michael's v40
->>
->> Since v1:
->> - Addressed Igor comments
->> - Addressed Aleksandar comments
->> - Fixed UART issue (was due to IRQ shifted by 2 in CPU)
->>
->> Since Michael's work is not yet merged, Various of my patches
->> - which are trivials or simple renames - could be squashed
->> directly on his patches, if we ever care.
->> [I believe sending this patches is easier/quicker than keeping
->> asking Michael to respin his series infinitely].
->>
->> Michael, do you mind testing it? The full series is available
->> here: https://gitlab.com/philmd/qemu/commits/arduino-v4
->>
->> Regards,
->>
->> Phil.
->>
->> Obsoletes: <20191229224505.24466-1-f4bug@amsat.org>
->> Based-on: <20200118191416.19934-1-mrolnik@gmail.com>
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg671707.html
->>
->> Philippe Mathieu-Daud=C3=A9 (18):
->>   MAINTAINERS: Move machine test to the machine section (not ARCH one)
->>   MAINTAINERS: Move the AVR machines in new section (not within ARM)
->>   tests/acceptance: Do not set the machine type manually
->>   tests/acceptance: Keep multilines comment consistent with other tests
->>   hw/char/avr: Reduce USART I/O size
->>   hw/timer/avr_timer16: Rename memory region debugging name
->>   hw/misc/avr_mask: Remove unused include
->>   hw/avr/Makefile: Use CONFIG_AVR_SAMPLE variable
->>   hw/char: Rename avr_usart -> atmel_usart
->>   hw/timer: Rename avr_timer16 -> atmel_timer16
->>   hw/misc: Rename avr_mask -> atmel_power
->>   hw/avr: Introduce ATMEL_ATMEGA_MCU config
->>   hw/avr: Add some ATmega microcontrollers
->>   hw/avr: Add some Arduino boards
->>   tests/boot-serial-test: Test some Arduino boards (AVR based)
->>   tests/acceptance: Test the Arduino MEGA2560 board
->>   hw/avr: Remove the unrealistic AVR 'sample' board
->>   .travis.yml: Run the AVR acceptance tests
->>
->>  default-configs/avr-softmmu.mak               |   2 +-
->>  hw/avr/atmel_atmega.h                         |  48 ++
->>  .../hw/char/{avr_usart.h =3D> atmel_usart.h}    |  10 +-
->>  include/hw/misc/{avr_mask.h =3D> atmel_power.h} |  11 +-
->>  .../timer/{avr_timer16.h =3D> atmel_timer16.h}  |  10 +-
->>  hw/avr/arduino.c                              | 175 +++++++
->>  hw/avr/atmel_atmega.c                         | 464 ++++++++++++++++++
->>  hw/avr/sample.c                               | 295 -----------
->>  hw/char/{avr_usart.c =3D> atmel_usart.c}        |   6 +-
->>  hw/misc/{avr_mask.c =3D> atmel_power.c}         |   4 +-
->>  hw/timer/{avr_timer16.c =3D> atmel_timer16.c}   |  10 +-
->>  tests/qtest/boot-serial-test.c                |   3 +-
->>  .travis.yml                                   |   2 +-
->>  MAINTAINERS                                   |  29 +-
->>  hw/avr/Kconfig                                |  11 +-
->>  hw/avr/Makefile.objs                          |   3 +-
->>  hw/char/Kconfig                               |   2 +-
->>  hw/char/Makefile.objs                         |   2 +-
->>  hw/misc/Kconfig                               |   2 +-
->>  hw/misc/Makefile.objs                         |   2 +-
->>  hw/timer/Kconfig                              |   2 +-
->>  hw/timer/Makefile.objs                        |   2 +-
->>  tests/acceptance/machine_avr6.py              |  11 +-
->>  23 files changed, 751 insertions(+), 355 deletions(-)
->>  create mode 100644 hw/avr/atmel_atmega.h
->>  rename include/hw/char/{avr_usart.h =3D> atmel_usart.h} (93%)
->>  rename include/hw/misc/{avr_mask.h =3D> atmel_power.h} (89%)
->>  rename include/hw/timer/{avr_timer16.h =3D> atmel_timer16.h} (92%)
->>  create mode 100644 hw/avr/arduino.c
->>  create mode 100644 hw/avr/atmel_atmega.c
->>  delete mode 100644 hw/avr/sample.c
->>  rename hw/char/{avr_usart.c =3D> atmel_usart.c} (99%)
->>  rename hw/misc/{avr_mask.c =3D> atmel_power.c} (97%)
->>  rename hw/timer/{avr_timer16.c =3D> atmel_timer16.c} (98%)
->>
->> --
->> 2.21.1
->>
+> diff --git a/include/elf.h b/include/elf.h
+> index 3501e0c8d0..53cdfa23b7 100644
+> --- a/include/elf.h
+> +++ b/include/elf.h
+> @@ -202,6 +202,8 @@ typedef struct mips_elf_abiflags_v0 {
+>  #define EM_MOXIE           223     /* Moxie processor family */
+>  #define EM_MOXIE_OLD       0xFEED
 >
+> +#define EM_AVR 83 /* AVR 8-bit microcontroller */
+> +
+>  /* This is the info that is needed to parse the dynamic section of the f=
+ile */
+>  #define DT_NULL                0
+>  #define DT_NEEDED      1
+> diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+> index e07d276df7..70de85fa72 100644
+> --- a/include/hw/elf_ops.h
+> +++ b/include/hw/elf_ops.h
+> @@ -316,7 +316,8 @@ static int glue(load_elf, SZ)(const char *name, int f=
+d,
+>                                void *translate_opaque,
+>                                int must_swab, uint64_t *pentry,
+>                                uint64_t *lowaddr, uint64_t *highaddr,
+> -                              int elf_machine, int clear_lsb, int data_s=
+wab,
+> +                              uint32_t *pe_flags, int elf_machine,
+> +                              int clear_lsb, int data_swab,
+>                                AddressSpace *as, bool load_rom,
+>                                symbol_fn_t sym_cb)
+>  {
+> @@ -594,6 +595,9 @@ static int glue(load_elf, SZ)(const char *name, int f=
+d,
+>          }
+>      }
 >
-> --
-> Best Regards,
-> Michael Rolnik
+> +    if (pe_flags) {
+> +        *pe_flags =3D (uint32_t)(elf_sword)ehdr.e_flags;
+> +    }
+>      if (lowaddr)
+>          *lowaddr =3D (uint64_t)(elf_sword)low;
+>      if (highaddr)
+> diff --git a/include/hw/loader.h b/include/hw/loader.h
+> index 48a96cd559..22b59e15ba 100644
+> --- a/include/hw/loader.h
+> +++ b/include/hw/loader.h
+> @@ -101,6 +101,7 @@ const char *load_elf_strerror(int error);
+>   * @pentry: Populated with program entry point. Ignored if NULL.
+>   * @lowaddr: Populated with lowest loaded address. Ignored if NULL.
+>   * @highaddr: Populated with highest loaded address. Ignored if NULL.
+> + * @pe_flags: Populated with e_flags. Ignore if NULL.
+>   * @bigendian: Expected ELF endianness. 0 for LE otherwise BE
+>   * @elf_machine: Expected ELF machine type
+>   * @clear_lsb: Set to mask off LSB of addresses (Some architectures use
+> @@ -131,8 +132,9 @@ int load_elf_ram_sym(const char *filename,
+>                       uint64_t (*elf_note_fn)(void *, void *, bool),
+>                       uint64_t (*translate_fn)(void *, uint64_t),
+>                       void *translate_opaque, uint64_t *pentry,
+> -                     uint64_t *lowaddr, uint64_t *highaddr, int big_endi=
+an,
+> -                     int elf_machine, int clear_lsb, int data_swab,
+> +                     uint64_t *lowaddr, uint64_t *highaddr, uint32_t *pe=
+_flags,
+> +                     int big_endian, int elf_machine,
+> +                     int clear_lsb, int data_swab,
+>                       AddressSpace *as, bool load_rom, symbol_fn_t sym_cb=
+);
+>
+>  /** load_elf_ram:
+[...]
+> diff --git a/hw/core/loader.c b/hw/core/loader.c
+> index 5099f27dc8..9961b4423b 100644
+> --- a/hw/core/loader.c
+> +++ b/hw/core/loader.c
+> @@ -438,7 +438,7 @@ int load_elf_ram(const char *filename,
+>  {
+>      return load_elf_ram_sym(filename, elf_note_fn,
+>                              translate_fn, translate_opaque,
+> -                            pentry, lowaddr, highaddr, big_endian,
+> +                            pentry, lowaddr, highaddr, NULL, big_endian,
+>                              elf_machine, clear_lsb, data_swab, as,
+>                              load_rom, NULL);
+>  }
+> @@ -448,8 +448,9 @@ int load_elf_ram_sym(const char *filename,
+>                       uint64_t (*elf_note_fn)(void *, void *, bool),
+>                       uint64_t (*translate_fn)(void *, uint64_t),
+>                       void *translate_opaque, uint64_t *pentry,
+> -                     uint64_t *lowaddr, uint64_t *highaddr, int big_endi=
+an,
+> -                     int elf_machine, int clear_lsb, int data_swab,
+> +                     uint64_t *lowaddr, uint64_t *highaddr, uint32_t *pe=
+_flags,
+> +                     int big_endian, int elf_machine,
+> +                     int clear_lsb, int data_swab,
+>                       AddressSpace *as, bool load_rom, symbol_fn_t sym_cb=
+)
+>  {
+>      int fd, data_order, target_data_order, must_swab, ret =3D ELF_LOAD_F=
+AILED;
+> @@ -490,13 +491,13 @@ int load_elf_ram_sym(const char *filename,
+>      if (e_ident[EI_CLASS] =3D=3D ELFCLASS64) {
+>          ret =3D load_elf64(filename, fd, elf_note_fn,
+>                           translate_fn, translate_opaque, must_swab,
+> -                         pentry, lowaddr, highaddr, elf_machine, clear_l=
+sb,
+> -                         data_swab, as, load_rom, sym_cb);
+> +                         pentry, lowaddr, highaddr, pe_flags, elf_machin=
+e,
+> +                         clear_lsb, data_swab, as, load_rom, sym_cb);
+>      } else {
+>          ret =3D load_elf32(filename, fd, elf_note_fn,
+>                           translate_fn, translate_opaque, must_swab,
+> -                         pentry, lowaddr, highaddr, elf_machine, clear_l=
+sb,
+> -                         data_swab, as, load_rom, sym_cb);
+> +                         pentry, lowaddr, highaddr, pe_flags, elf_machin=
+e,
+> +                         clear_lsb, data_swab, as, load_rom, sym_cb);
+>      }
+>
+>   fail:
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 027303d2a3..746ca1f795 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -119,7 +119,7 @@ target_ulong riscv_load_kernel(const char *kernel_fil=
+ename, symbol_fn_t sym_cb)
+>      uint64_t kernel_entry, kernel_high;
+>
+>      if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+> -                         &kernel_entry, NULL, &kernel_high, 0,
+> +                         &kernel_entry, NULL, &kernel_high, NULL, 0,
+>                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+>          return kernel_entry;
+>      }
+[...]
 
