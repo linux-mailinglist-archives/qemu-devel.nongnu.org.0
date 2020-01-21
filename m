@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E208E143E0F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:32:28 +0100 (CET)
-Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3511F143EA6
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:53:38 +0100 (CET)
+Received: from localhost ([::1]:54344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ittdr-0001ow-Pp
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:32:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52517)
+	id 1ittyK-0001Et-MI
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:53:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52519)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itsgk-0002di-Tb
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:26 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itsgl-0002dk-2l
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itsgh-0004Sd-1J
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58871
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1itsgh-0004Sj-7B
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:23 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52471
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsgg-0004SQ-UC
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:18 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsgh-0004SS-3R
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1579609878;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8BHAoeMChRyl7bbII5NM5QhM9/YstJI5KgIJy7wDJtU=;
- b=EwvlKjZ9PO4GrGhFM1pnvmXCryNa5FurrUDl6WnEiCYFcjd1SXl9RG60874qii8Gqe8thb
- G4OJzyeVjJwzsBYm8ThPzQpakwNJbbS7RAnsdZubNc9iKw7Ec0quVfxSu7pyfacqwb9B3R
- 8kxHT1P2qJDehedCY1blv0X77zdfHa0=
+ bh=rp6WV+WVKGv2HnW5Jo+qhei3HEtkn9dnhIbRfP93Uy0=;
+ b=hnRWnk1FEotIqcjzt9CCxkdm7i7/1n15Fs+CUG7g1viU+p5NeWIU8NI6Bty3g4ouIZxU/C
+ W+BDazgdds89eKElWLM92WzJ2OKLu/r+E8C2I+1d64sUyR8BLMNa+nfyJw8O/Z1pgjPBpz
+ XKbXg18NkdybZV4m52Gr+JFNy81S4+4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-gHvm0v3GPRmZB32h3t7SSw-1; Tue, 21 Jan 2020 07:31:17 -0500
+ us-mta-389-uWHisYocPlmu1PppCmNkDw-1; Tue, 21 Jan 2020 07:31:16 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E11C8017CC;
- Tue, 21 Jan 2020 12:31:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3138A801A36;
+ Tue, 21 Jan 2020 12:31:15 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A93460CD0;
- Tue, 21 Jan 2020 12:31:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 682CF60BE0;
+ Tue, 21 Jan 2020 12:31:13 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 077/109] virtiofsd: support nanosecond resolution for file
- timestamp
-Date: Tue, 21 Jan 2020 12:24:01 +0000
-Message-Id: <20200121122433.50803-78-dgilbert@redhat.com>
+Subject: [PATCH v2 078/109] virtiofsd: fix error handling in main()
+Date: Tue, 21 Jan 2020 12:24:02 +0000
+Message-Id: <20200121122433.50803-79-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: gHvm0v3GPRmZB32h3t7SSw-1
+X-MC-Unique: uWHisYocPlmu1PppCmNkDw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,65 +76,47 @@ Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jiufei Xue <jiufei.xue@linux.alibaba.com>
+From: Liu Bo <bo.liu@linux.alibaba.com>
 
-Define HAVE_STRUCT_STAT_ST_ATIM to 1 if `st_atim' is member of `struct
-stat' which means support nanosecond resolution for the file timestamp
-fields.
+Neither fuse_parse_cmdline() nor fuse_opt_parse() goes to the right place
+to do cleanup.
 
-Signed-off-by: Jiufei Xue <jiufei.xue@linux.alibaba.com>
+Signed-off-by: Liu Bo <bo.liu@linux.alibaba.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- configure                   | 16 ++++++++++++++++
- tools/virtiofsd/fuse_misc.h |  1 +
- 2 files changed, 17 insertions(+)
+ tools/virtiofsd/passthrough_ll.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index 557e4382ea..9bc0441509 100755
---- a/configure
-+++ b/configure
-@@ -5191,6 +5191,19 @@ if compile_prog "" "" ; then
-     strchrnul=3Dyes
- fi
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 3b60e61c74..4e01a37ddb 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -2443,13 +2443,14 @@ int main(int argc, char *argv[])
+     lo_map_init(&lo.fd_map);
 =20
-+#########################################
-+# check if we have st_atim
+     if (fuse_parse_cmdline(&args, &opts) !=3D 0) {
+-        return 1;
++        goto err_out1;
+     }
+     fuse_set_log_func(log_func);
+     use_syslog =3D opts.syslog;
+     if (use_syslog) {
+         openlog("virtiofsd", LOG_PID, LOG_DAEMON);
+     }
 +
-+st_atim=3Dno
-+cat > $TMPC << EOF
-+#include <sys/stat.h>
-+#include <stddef.h>
-+int main(void) { return offsetof(struct stat, st_atim); }
-+EOF
-+if compile_prog "" "" ; then
-+    st_atim=3Dyes
-+fi
-+
- ##########################################
- # check if trace backend exists
+     if (opts.show_help) {
+         printf("usage: %s [options]\n\n", argv[0]);
+         fuse_cmdline_help();
+@@ -2468,7 +2469,7 @@ int main(int argc, char *argv[])
+     }
 =20
-@@ -6886,6 +6899,9 @@ fi
- if test "$strchrnul" =3D "yes" ; then
-   echo "HAVE_STRCHRNUL=3Dy" >> $config_host_mak
- fi
-+if test "$st_atim" =3D "yes" ; then
-+  echo "HAVE_STRUCT_STAT_ST_ATIM=3Dy" >> $config_host_mak
-+fi
- if test "$byteswap_h" =3D "yes" ; then
-   echo "CONFIG_BYTESWAP_H=3Dy" >> $config_host_mak
- fi
-diff --git a/tools/virtiofsd/fuse_misc.h b/tools/virtiofsd/fuse_misc.h
-index f252baa752..5c618ce21f 100644
---- a/tools/virtiofsd/fuse_misc.h
-+++ b/tools/virtiofsd/fuse_misc.h
-@@ -7,6 +7,7 @@
-  */
+     if (fuse_opt_parse(&args, &lo, lo_opts, NULL) =3D=3D -1) {
+-        return 1;
++        goto err_out1;
+     }
 =20
- #include <pthread.h>
-+#include "config-host.h"
-=20
- /*
-  * Versioned symbols cannot be used in some cases because it
+     /*
 --=20
 2.24.1
 
