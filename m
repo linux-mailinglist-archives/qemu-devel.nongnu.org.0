@@ -2,80 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBEFF144026
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 16:07:09 +0100 (CET)
-Received: from localhost ([::1]:56444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C06514401B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 16:04:37 +0100 (CET)
+Received: from localhost ([::1]:56366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itv7U-0001Wx-RV
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 10:07:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51565)
+	id 1itv52-0006wB-4D
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 10:04:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51767)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1itv2P-0004xd-SJ
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:01:57 -0500
+ (envelope-from <mreitz@redhat.com>) id 1itv38-0005kN-Od
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:02:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1itv2K-0003wb-Kb
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:01:52 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53668
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1itv34-0004bA-RQ
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:02:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60452
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1itv2K-0003vM-BS
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:01:48 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itv34-0004Zz-NK
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:02:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579618907;
+ s=mimecast20190719; t=1579618952;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0kBqOx1hRD9kVrL51S+4U7bEpHAJi8NRgt3eDVWDsLY=;
- b=hFMmkU9nxLJf9+909+W71GU/UckJOVB9HLVs3cOU0JgHCEwdxWGoFYyRnU/GFhc2IpqmJS
- CUCIFanwP1myOXZcEVJT/vcZ8SzrPNQEghgznROHEWsMJHRwLjWUxmEbfrIRK4bnB+yHDJ
- LcE+AVnAlL29Rf24A22ZWTQ1l8R55ao=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0Ir6oVuJWCDT6SbwlWMkOhIMBFOdLF0j8vixnJ53pWU=;
+ b=Lv+0Y3E2jOvwGNNKT7/yUe9yAMWckmmQw26MZXWjFEoa86rbhB1S6D9JK0NlC9tEp7HSQy
+ avYtgm6Xe2SCl2wzBfFMUbWxABk3xPS/e6JUl9Crv/hemo/ptNVi6PbYsSHGaL9sSFEE3I
+ 2KEcel3UQpwI/KBYqxtddJ8QwDxIq0Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-l38tWXEXNzGGvDjxPhN5TA-1; Tue, 21 Jan 2020 10:01:42 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-307-1zeB-CUfNkyb2lOs_OK1Mw-1; Tue, 21 Jan 2020 10:02:21 -0500
+X-MC-Unique: 1zeB-CUfNkyb2lOs_OK1Mw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AE3EDB67;
- Tue, 21 Jan 2020 15:01:41 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
- [10.36.116.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CD59010016E8;
- Tue, 21 Jan 2020 15:01:35 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 60DED1138600; Tue, 21 Jan 2020 16:01:34 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: Integrating QOM into QAPI
-References: <87d0bmchq0.fsf@dusky.pond.sub.org>
- <1B253197-5592-472A-AA26-E0614A13C91A@redhat.com>
- <87o8v52hz9.fsf@dusky.pond.sub.org>
- <8CF8359B-1E52-4F7A-944E-C1C14FEC4F92@redhat.com>
- <87r200zzje.fsf@dusky.pond.sub.org>
- <20200120100849.GB345995@stefanha-x1.localdomain>
- <871rrtmkko.fsf@dusky.pond.sub.org>
- <20200121113224.GD630615@stefanha-x1.localdomain>
- <CAJ+F1C+anMuBE6pOu8JNOoaNnDw8a47Dc1f6MhnxH=rRNqMF=Q@mail.gmail.com>
- <87wo9lc4oe.fsf_-_@dusky.pond.sub.org>
- <20200121143658.GB597037@redhat.com>
-Date: Tue, 21 Jan 2020 16:01:34 +0100
-In-Reply-To: <20200121143658.GB597037@redhat.com> ("Daniel P. =?utf-8?Q?Be?=
- =?utf-8?Q?rrang=C3=A9=22's?=
- message of "Tue, 21 Jan 2020 14:36:58 +0000")
-Message-ID: <871rrs97ld.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8F0CDB60;
+ Tue, 21 Jan 2020 15:02:19 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-116.ams2.redhat.com
+ [10.36.117.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D050B7DB5D;
+ Tue, 21 Jan 2020 15:02:18 +0000 (UTC)
+Subject: Re: [PATCH] qemu-img: Add --target-is-zero to convert
+To: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org,
+ Qemu-block <qemu-block@nongnu.org>
+References: <id:m21rryz8al.fsf@dme.org>
+ <20200117103434.1363985-1-david.edmondson@oracle.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <38073ceb-922e-b0fb-0c20-05fb4831e9a8@redhat.com>
+Date: Tue, 21 Jan 2020 16:02:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: l38tWXEXNzGGvDjxPhN5TA-1
+In-Reply-To: <20200117103434.1363985-1-david.edmondson@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="JtmCInuJTyC6qbCkEJqfv6YArVvA50BEP"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,182 +100,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "Denis V. Lunev" <den@virtuozzo.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Dominik Csapak <d.csapak@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--JtmCInuJTyC6qbCkEJqfv6YArVvA50BEP
+Content-Type: multipart/mixed; boundary="npITdt1pfexVSdaLEIiL3Ze97J2i5kgpD"
 
-> On Tue, Jan 21, 2020 at 02:36:17PM +0100, Markus Armbruster wrote:
->> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
->>=20
->> > Hi
->> >
->> > On Tue, Jan 21, 2020 at 3:32 PM Stefan Hajnoczi <stefanha@gmail.com> w=
-rote:
->> >>
->> >> On Tue, Jan 21, 2020 at 06:42:47AM +0100, Markus Armbruster wrote:
->> >> > Stefan Hajnoczi <stefanha@gmail.com> writes:
->> >> >
->> >> > > On Wed, Jan 15, 2020 at 01:15:17PM +0100, Markus Armbruster wrote=
-:
->> >> > >> Christophe de Dinechin <dinechin@redhat.com> writes:
->> >> > >> >> On 15 Jan 2020, at 10:20, Markus Armbruster <armbru@redhat.co=
-m> wrote:
->> >> > >> * qemuMonitorJSONSetIOThread() uses it to control iothread's pro=
-perties
->> >> > >>   poll-max-ns, poll-grow, poll-shrink.  Their use with -object i=
-s
->> >> > >>   documented (in qemu-options.hx), their use with qom-set is not=
-.
->> >> > >
->> >> > > I'm happy to use a different interface.
->> >> > >
->> >> > > Writing a boilerplate "iothread-set-poll-params" QMP command in C=
- would
->> >> > > be a step backwards.
->> >> >
->> >> > No argument.
->> >> >
->> >> > > Maybe the QAPI code generator could map something like this:
->> >> > >
->> >> > >   { 'command': 'iothread-set-poll-params',
->> >> > >     'data': {
->> >> > >         'id': 'str',
->> >> > >     '*max-ns': 'uint64',
->> >> > >     '*grow': 'uint64',
->> >> > >     '*shrink': 'uint64'
->> >> > >     },
->> >> > >     'map-to-qom-set': 'IOThread'
->> >> > >   }
->> >> > >
->> >> > > And turn it into QOM accessors on the IOThread object.
->> >> >
->> >> > I think a generic "set this configuration to that value" command is=
- just
->> >> > fine.  qom-set fails on several counts, though:
->> >> >
->> >> > * Tolerable: qom-set is not actually generic, it applies only to QO=
-M.
->> >> >
->> >> > * qom-set lets you set tons of stuff that is not meant to be change=
-d at
->> >> >   run time.  If it breaks your guest, you get to keep the pieces.
->> >> >
->> >> > * There is virtually no documentation on what can be set to what va=
-lues,
->> >> >   and their semantics.
->> >> >
->> >> > In its current state, QOM is a user interface superfund site.
->> >>
->> >> Thoughts about a solution:
->> >>
->> >> Static QOM properties should be declared via QAPI instead of
->> >> imperatively via QOM APIs.  That way they are introspectable and type
->> >> information is present in the schema.
->> >>
->> >> The QAPI code generator could emit a function that is callable from
->> >> .class_init().  This eliminates the need to manually call
->> >> object_class_property_add().
->>=20
->> We need to make up our minds what exactly we want generated.  Then we
->> can design the QAPI language, and code up the generator.
->>=20
->> Skeleton QOM type, to help with the discussion:
->>=20
->>     #define TYPE_FOO "foo"
->>=20
->>     #define FOO(obj) OBJECT_CHECK(Foo, (obj), TYPE_FOO)
->>     #define FOO_CLASS(klass) \
->>         OBJECT_CLASS_CHECK(FooClass, (klass), TYPE_FOO)
->>     #define FOO_GET_CLASS(obj) \
->>         OBJECT_GET_CLASS(FooClass, (obj), TYPE_FOO)
->>=20
->>     typedef FooClass {
->>         ParentClass parent_class;
->>         ... // hand-written per-class state
->>     }
->>=20
->>     struct Chardev {
->>         ParentObject parent_obj;
->>         ... // hand-written instance (per-object) state
->>     };
->>=20
->>     static const TypeInfo char_type_info =3D {
->>         .name =3D TYPE_FOO,
->>         .parent =3D TYPE_OBJECT,
->>         .instance_size =3D sizeof(Foo),
->>         .instance_init =3D ...,                   // methods to initiali=
-ze
->>         .instance_post_init =3D ...,              // and finalize instan=
-ces,
->>         .instance_finalize =3D ...,               // all optional
->>         .abstract =3D ...,                        // true or false (d'oh=
-)
->>         .class_size =3D sizeof(FooClass),
->>         .class_init =3D ...,                      // methods to initiali=
-ze
->>         .class_base_init =3D ...,                 // classes, optional
->>         .class_data =3D ...,                      // extra argument for =
-them
->>         .interfaces =3D ...
->>     };
->>=20
->> There's substantial boilerplate, with plenty of hand-written code in the
->> gaps.  What of the boilerplate do we plan to generate?  How do we plan
->> to fill the gaps, if any?
->
-> FWIW, even without a QOM generator, we can do waaaaaaay better on the
-> amount of boilerplate needed for QOM without very much work. It just
-> needs a few convenience macros writing.
->
-> QOM is not GObject, but is heavily inspired by it and so looking at
-> GObject gives us a design pattern we can aim to match in terms of
-> amount of boilerplate.
->
-> What we do manually with TypeInfo struct there has essentially always
-> been done by a 1 line macro in GObject:
->
->   G_DEFINE_TYPE(virIdentity, vir_identity, G_TYPE_OBJECT)
->
-> If implementing interfaces, there's 1 extra line needed per interface
-> to associate them.
->
->   https://developer.gnome.org/gobject/stable/gobject-Type-Information.htm=
-l#G-DEFINE-TYPE:CAPS
->  =20
->
-> And what we do in the header file to add the 4 or more FOO_XXX macros,
-> and the class struct and the object struct has recently been turned
-> into a 2-liner:
->
->   #define VIR_TYPE_IDENTITY vir_identity_get_type()
->   G_DECLARE_FINAL_TYPE(virIdentity, vir_identity, VIR, IDENTITY, GObject)=
-;
->
->   https://developer.gnome.org/gobject/stable/gobject-Type-Information.htm=
-l#G-DECLARE-FINAL-TYPE:CAPS
->
-> Or=20
->
->   #define VIR_TYPE_IDENTITY vir_identity_get_type()
->   G_DECLARE_DERIVABLE_TYPE(virIdentity, vir_identity, VIR, IDENTITY, GObj=
-ect);
->
->   https://developer.gnome.org/gobject/stable/gobject-Type-Information.htm=
-l#G-DECLARE-DERIVABLE-TYPE:CAPS
->
->
-> It would be nice to have a QOM code generator so that we can statically
-> declare properties & parent/child/interface relationships, but for an
-> immediate low cost win, better macros would be very useful IMHO.
+--npITdt1pfexVSdaLEIiL3Ze97J2i5kgpD
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Volunteers?
+Hi,
+
+On 17.01.20 11:34, David Edmondson wrote:
+> In many cases the target of a convert operation is a newly provisioned
+> target that the user knows is blank (filled with zeroes). In this
+> situation there is no requirement for qemu-img to wastefully zero out
+> the entire device.
+>=20
+> Add a new option, --target-is-zero, allowing the user to indicate that
+> an existing target device is already zero filled.
+> ---
+>  qemu-img.c | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/qemu-img.c b/qemu-img.c
+> index 95a24b9762..56ca727e8c 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
+> @@ -70,6 +70,7 @@ enum {
+>      OPTION_PREALLOCATION =3D 265,
+>      OPTION_SHRINK =3D 266,
+>      OPTION_SALVAGE =3D 267,
+> +    OPTION_TARGET_IS_ZERO =3D 268,
+>  };
+> =20
+>  typedef enum OutputFormat {
+> @@ -1593,6 +1594,7 @@ typedef struct ImgConvertState {
+>      bool copy_range;
+>      bool salvage;
+>      bool quiet;
+> +    bool target_is_zero;
+
+As you already said, we probably don=E2=80=99t need this and it=E2=80=99d b=
+e sufficient
+to set the has_zero_init value directly.
+
+>      int min_sparse;
+>      int alignment;
+>      size_t cluster_sectors;
+> @@ -1984,10 +1986,11 @@ static int convert_do_copy(ImgConvertState *s)
+>      int64_t sector_num =3D 0;
+> =20
+>      /* Check whether we have zero initialisation or can get it efficient=
+ly */
+> -    if (s->target_is_new && s->min_sparse && !s->target_has_backing) {
+> +    s->has_zero_init =3D s->target_is_zero;
+
+We cannot has_zero_init to true if the target has a backing file,
+because convert_co_write() asserts that the target must not have a
+backing file if has_zero_init is true.  (It=E2=80=99s impossible for a file=
+ to
+be initialized to zeroes if it has a backing file; or at least it
+doesn=E2=80=99t make sense then to have a backing file.)
+
+Case in point:
+
+$ ./qemu-img create -f qcow2 src.qcow2 64M
+Formatting 'src.qcow2', fmt=3Dqcow2 size=3D67108864 cluster_size=3D65536
+lazy_refcounts=3Doff refcount_bits=3D16
+$ ./qemu-img create -f qcow2 backing.qcow2 64M
+Formatting 'backing.qcow2', fmt=3Dqcow2 size=3D67108864 cluster_size=3D6553=
+6
+lazy_refcounts=3Doff refcount_bits=3D16
+$ ./qemu-img create -f qcow2 -b backing.qcow2 dst.qcow2 64M
+
+Formatting 'dst.qcow2', fmt=3Dqcow2 size=3D67108864
+backing_file=3Dbacking.qcow2 cluster_size=3D65536 lazy_refcounts=3Doff
+refcount_bits=3D16
+$ ./qemu-img convert -n -B backing.qcow2 -f qcow2 -O qcow2
+--target-is-zero src.qcow2 dst.qcow2
+qemu-img: qemu-img.c:1812: convert_co_write: Assertion
+`!s->target_has_backing' failed.
+[1]    80813 abort (core dumped)  ./qemu-img convert -n -B backing.qcow2
+-f qcow2 -O qcow2 --target-is-zero
+
+> +
+> +    if (!s->has_zero_init && s->target_is_new && s->min_sparse &&
+> +        !s->target_has_backing) {
+
+(This will be irrelevant after target_has_backing is gone, but because
+has_zero_init and target_has_backing are equivalent here, there is no
+need to check both.)
+
+>          s->has_zero_init =3D bdrv_has_zero_init(blk_bs(s->target));
+> -    } else {
+> -        s->has_zero_init =3D false;
+>      }
+> =20
+>      if (!s->has_zero_init && !s->target_has_backing &&
+> @@ -2076,6 +2079,7 @@ static int img_convert(int argc, char **argv)
+>          .buf_sectors        =3D IO_BUF_SIZE / BDRV_SECTOR_SIZE,
+>          .wr_in_order        =3D true,
+>          .num_coroutines     =3D 8,
+> +        .target_is_zero     =3D false,
+>      };
+> =20
+>      for(;;) {
+> @@ -2086,6 +2090,7 @@ static int img_convert(int argc, char **argv)
+>              {"force-share", no_argument, 0, 'U'},
+>              {"target-image-opts", no_argument, 0, OPTION_TARGET_IMAGE_OP=
+TS},
+>              {"salvage", no_argument, 0, OPTION_SALVAGE},
+> +            {"target-is-zero", no_argument, 0, OPTION_TARGET_IS_ZERO},
+>              {0, 0, 0, 0}
+>          };
+>          c =3D getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WU",
+> @@ -2209,6 +2214,9 @@ static int img_convert(int argc, char **argv)
+>          case OPTION_TARGET_IMAGE_OPTS:
+>              tgt_image_opts =3D true;
+>              break;
+> +        case OPTION_TARGET_IS_ZERO:
+> +            s.target_is_zero =3D true;
+> +            break;
+>          }
+>      }
+> =20
+> @@ -2247,6 +2255,11 @@ static int img_convert(int argc, char **argv)
+>          warn_report("This will become an error in future QEMU versions."=
+);
+>      }
+> =20
+> +    if (s.target_is_zero && !skip_create) {
+> +        error_report("--target-is-zero requires use of -n flag");
+
+Hm, I could imagine it being useful even without -n, but maybe it=E2=80=99s
+safer to forbid this case for now and reconsider if someone were to ask.
+
+> +        goto fail_getopt;
+> +    }
+> +
+>      s.src_num =3D argc - optind - 1;
+>      out_filename =3D s.src_num >=3D 1 ? argv[argc - 1] : NULL;
+
+This patch should also add some documentation for the new option (in
+qemu-img-cmds.hx and in qemu-img.texi for the man page).
+
+Max
+
+
+--npITdt1pfexVSdaLEIiL3Ze97J2i5kgpD--
+
+--JtmCInuJTyC6qbCkEJqfv6YArVvA50BEP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl4nEngACgkQ9AfbAGHV
+z0CGCQgAoj0j7qGFC2006ceFx2CEBrEd/IhLJYuLVCX5fnAfpvHyUZyOzIG2UYOS
+C82iXOWjS3bzTzVgjH/z54INJ4diDGJ9hKZSEu/OxLBZ+S+1WBO9CmH+6m0OrL3C
+rG8q/IJQDfihxw/EU668t6jyrk2A2FStt0zdX+VcQg6OvIoQ6P7//rfmp9UBV/gI
+j3Ak+2qhT+bUQP3KHvmGlry0T69lDFdrGMKnN9sQGHlNc0RIU4DFOqc9w2Ja36O4
+dwwi6nms6SWDmqB1MhH9gH18c1sJ5H8Gv4syuzb/9i0Q9JqOJ/h1K9syDMofsKtM
+rD6NiFpehNXbagjWIuxtqmn4+DRVKQ==
+=CF/j
+-----END PGP SIGNATURE-----
+
+--JtmCInuJTyC6qbCkEJqfv6YArVvA50BEP--
 
 
