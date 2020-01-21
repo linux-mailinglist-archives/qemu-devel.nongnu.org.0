@@ -2,43 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47422143547
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 02:40:40 +0100 (CET)
-Received: from localhost ([::1]:46804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DF4143540
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 02:38:53 +0100 (CET)
+Received: from localhost ([::1]:46780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itiX1-0003qL-6y
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 20:40:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44190)
+	id 1itiVI-0002A3-N8
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 20:38:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <b6fef929757d4ea1d7ce6a0044563bb3ff68c92c@lizzy.crudebyte.com>)
- id 1itiVV-0002qR-Oq
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 20:39:06 -0500
+ id 1itiTW-00011N-Qy
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 20:37:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <b6fef929757d4ea1d7ce6a0044563bb3ff68c92c@lizzy.crudebyte.com>)
- id 1itiVU-0003nC-HK
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 20:39:05 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:36919)
+ id 1itiTU-0002cV-WF
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 20:37:02 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:48695)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71)
  (envelope-from <b6fef929757d4ea1d7ce6a0044563bb3ff68c92c@lizzy.crudebyte.com>)
- id 1itiVU-00032H-Al
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 20:39:04 -0500
+ id 1itiTT-0002BI-LP
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 20:37:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=zcSfqVIl9aZcBw0KXvyzYkDP2ZCaLMu0GRnguhVPIY0=; b=GYgxf
- ULHKIV0zQzrYZIDWdaBXuKmLliG77/bjkughMy171HzSc3fkJhBa91AQkvLTh+J6fN8G8b9H158Az
- x6BoajQ0h1VzRjUjhOFQV/SMuXBPylMHPXr8dAWBvgF/EteokRxSHuMLDxLNjfqmuV1woJsyT8dr9
- MM8YtOHpaenolSeLZcAPCygIGhXkAalQmXhkw2bm/woeua1KNtU1OQsUv5cP4wbKPJdusxRSGKDV1
- A7CMHYrwoBOLiaMDAYts2fPuhGX90MsnaY+QqKd4TWanXSAYA+y8q9PYhy1QsgV4+wUkXWwWRsRbr
- kXH3awifGlLQ86auncxUSKGE5Xjsg==;
-Message-Id: <b6fef929757d4ea1d7ce6a0044563bb3ff68c92c.1579567020.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1579567019.git.qemu_oss@crudebyte.com>
-References: <cover.1579567019.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=WrhlfVtHn07yiWC2NIXKbdcy1lsUFOnb97ObVbwxOqE=; b=QtSr8
+ FXiy1nrog+lJFP3X8nhlegSjoJCEzOUwwiURKnaA4izlWaqEuGvZyzd1291IWC7V5nejCQ+J6Va58
+ wvjDzKDOlnVXF8YMOAMdmJSx67aD3ECGno2ttKhSBAyij+Sc+QXxuJgA3AHVAr8IkSNFrY7dms544
+ oBuoVIUZSUPMNnH5qS2JI5CT/mWCxBTaBhIMmAMfX/hJkFU5hvJkmRJfPKMh2wcRQaMzr/dgNQETZ
+ GhBBG2hQTO0MaBZuaWCuhV+Ckbptq1eZrqgKiuPNE7x2s2Y2kFxbqzogd9tUPdnRI10rGAr2srlMU
+ l0cvA6ciXeI5xlM23Z8dIRB7HUqrg==;
+Message-Id: <cover.1579567019.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Tue, 21 Jan 2020 01:32:04 +0100
-Subject: [PATCH v4 11/11] hw/9pfs/9p.c: benchmark time on T_readdir request
+Date: Tue, 21 Jan 2020 01:36:59 +0100
+Subject: [PATCH v4 00/11] 9pfs: readdir optimization
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -58,77 +56,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch is not intended to be merged, it measures
-and prints the time the 9p server spends on handling
-a T_readdir request. It prints the total time it spent
-on handling the request, and also the time it spent
-on I/O (fs driver) only.
+As previously mentioned, I was investigating performance issues with 9pfs.
+Raw file read/write of 9pfs is actually quite good, provided that client
+picked a reasonable high msize (maximum message size). I would recommend
+to log a warning on 9p server side if a client attached with a small msize
+that would cause performance issues for that reason.
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- hw/9pfs/9p.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+However there are other aspects where 9pfs currently performs suboptimally,
+especially readdir handling of 9pfs is extremely slow, a simple readdir
+request of a guest typically blocks for several hundred milliseconds or
+even several seconds, no matter how powerful the underlying hardware is.
+The reason for this performance issue: latency.
+Currently 9pfs is heavily dispatching a T_readdir request numerous times
+between main I/O thread and a background I/O thread back and forth; in fact
+it is actually hopping between threads even multiple times for every single
+directory entry during T_readdir request handling which leads in total to
+huge latencies for a single T_readdir request.
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index e0ca45d46b..9cd494edd7 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -2311,6 +2311,15 @@ static void v9fs_free_dirents(struct V9fsDirEnt *e)
-     }
- }
- 
-+static double wall_time(void)
-+{
-+    struct timeval t;
-+    struct timezone tz;
-+    gettimeofday(&t, &tz);
-+    return t.tv_sec + t.tv_usec * 0.000001;
-+}
-+
-+
- static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-                                         int32_t max_count)
- {
-@@ -2330,6 +2339,8 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-      */
-     const bool dostat = pdu->s->ctx.export_flags & V9FS_REMAP_INODES;
- 
-+    const double start = wall_time();
-+
-     /*
-      * Fetch all required directory entries altogether on a background IO
-      * thread from fs driver. We don't want to do that for each entry
-@@ -2344,6 +2355,10 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-     }
-     count = 0;
- 
-+    const double end = wall_time();
-+    printf("\n\nTime 9p server spent on synth_readdir() I/O only (synth "
-+           "driver): %fs\n", end - start);
-+
-     for (struct V9fsDirEnt *e = entries; e; e = e->next) {
-         dent = e->dent;
- 
-@@ -2416,6 +2431,8 @@ static void coroutine_fn v9fs_readdir(void *opaque)
-     V9fsPDU *pdu = opaque;
-     V9fsState *s = pdu->s;
- 
-+    const double start = wall_time();
-+
-     retval = pdu_unmarshal(pdu, offset, "dqd", &fid,
-                            &initial_offset, &max_count);
-     if (retval < 0) {
-@@ -2459,6 +2476,10 @@ out:
-     put_fid(pdu, fidp);
- out_nofid:
-     pdu_complete(pdu, retval);
-+
-+    const double end = wall_time();
-+    printf("Time 9p server spent on entire T_readdir request: %fs "
-+           "[IMPORTANT]\n", end - start);
- }
- 
- static int v9fs_xattr_write(V9fsState *s, V9fsPDU *pdu, V9fsFidState *fidp,
+This patch series aims to address this severe performance issue of 9pfs
+T_readdir request handling. The actual performance fix is patch 10. I also
+provided a convenient benchmark for comparing the performance improvements
+by using the 9pfs "synth" driver (see patch 8 for instructions how to run
+the benchmark), so no guest OS installation is required to peform this
+benchmark A/B comparison. With patch 10 I achieved a performance improvement
+of factor 40 on my test machine.
+
+** NOTE: ** As outlined by patch 7 there seems to be an outstanding issue
+(both with current, unoptimized readdir code, as well as with new, optimized
+readdir code) causing a transport error with splitted readdir requests. This
+issue only occurs if patch 7 is applied. I haven't investigated the cause of
+this issue yet, it looks like a memory issue though. I am not sure if it is a
+problem with the actual 9p server or rather "just" with the test environment.
+Apart from that issue, the actual splitted readdir seems to work well with the
+new performance optimized readdir code as well though.
+
+v3->v4:
+
+  * Rebased to master (SHA-1 43d1455c).
+
+  * Adjusted commit log message [patch 2], [patch 3], [patch 8].
+
+  * Fixed using Rreaddir header size of 11 (instead of P9_IOHDRSZ) for
+    limiting 'count' parameter of Treaddir [patch 3], [patch 5].
+
+Christian Schoenebeck (11):
+  tests/virtio-9p: add terminating null in v9fs_string_read()
+  9pfs: require msize >= 4096
+  9pfs: validate count sent by client with T_readdir
+  hw/9pfs/9p-synth: added directory for readdir test
+  tests/virtio-9p: added readdir test
+  tests/virtio-9p: added splitted readdir test
+  tests/virtio-9p: failing splitted readdir test
+  9pfs: readdir benchmark
+  hw/9pfs/9p-synth: avoid n-square issue in synth_readdir()
+  9pfs: T_readdir latency optimization
+  hw/9pfs/9p.c: benchmark time on T_readdir request
+
+ hw/9pfs/9p-synth.c           |  48 +++++-
+ hw/9pfs/9p-synth.h           |   5 +
+ hw/9pfs/9p.c                 | 163 ++++++++++++--------
+ hw/9pfs/9p.h                 |  34 ++++
+ hw/9pfs/codir.c              | 183 ++++++++++++++++++++--
+ hw/9pfs/coth.h               |   3 +
+ tests/qtest/virtio-9p-test.c | 290 ++++++++++++++++++++++++++++++++++-
+ 7 files changed, 643 insertions(+), 83 deletions(-)
+
 -- 
 2.20.1
 
