@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4061436EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 07:12:07 +0100 (CET)
-Received: from localhost ([::1]:48896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC465143719
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 07:29:10 +0100 (CET)
+Received: from localhost ([::1]:49022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itmli-0005sz-DP
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 01:12:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41575)
+	id 1itn2D-00065A-PQ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 01:29:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42851)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1itmku-0005SO-Cm
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:11:20 -0500
+ (envelope-from <kraxel@redhat.com>) id 1itn1H-0005eI-C8
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:28:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1itmkp-0000Ig-Ol
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:11:15 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45266)
+ (envelope-from <kraxel@redhat.com>) id 1itn1E-0003VM-Do
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:28:10 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54932
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1itmkp-0000I2-Lf
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:11:11 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1itn1D-0003UT-Tk
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:28:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579587070;
+ s=mimecast20190719; t=1579588087;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=DAjNUlNjeh/pl2ye5N2zX/+RcFrkk0pUjjQqMIGsR1k=;
- b=SX0AbfjetPiPqtDvoFv5CkCZz/fhv8buottTLAQiV2aoN19E8qZ+9CD0niRbqncGUt3yTS
- bvuY5gz7de9/6DiJMvqfeznjF6mcZBJu3pSadnZTbTfznHYIK8qS5UCn1qbETga1uampxU
- hRbBRdMieJ2o/zFoNtkDH4HnQOURQik=
+ in-reply-to:in-reply-to:references:references;
+ bh=jD6lpgEwjJk4Ey37KAMhYX1mEQzoxqDWuO7ItrNIksE=;
+ b=B1mRolPL/yM44/UJr8K3Kbe/z6tLKxf/73sx0OWfJx2PhnMTP1cyDK+crF8S/5W9I0Fl5Y
+ C7r0PRC9izEnXZTk7T4YE4Q0fzNaW59iqO7vJZtU+aZkLdoSy1eDTEFumIVpRitxke5/Q1
+ C/qHyGJE0gVF7kygin7N7dMtYuSfnPI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-5z_YgquXO8KmohbFXzLDFA-1; Tue, 21 Jan 2020 01:11:09 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-193-9reJV18cPsCOIAVig5Ffcg-1; Tue, 21 Jan 2020 01:28:03 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83A05800D54;
- Tue, 21 Jan 2020 06:11:07 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-121.ams2.redhat.com [10.36.116.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 55CE15C21B;
- Tue, 21 Jan 2020 06:11:05 +0000 (UTC)
-Subject: Re: [PATCH v4 15/18] tests/boot-serial-test: Test some Arduino boards
- (AVR based)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200120220107.17825-1-f4bug@amsat.org>
- <20200120220107.17825-16-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <ceb1dc3c-b45c-eb10-923b-407070b780dc@redhat.com>
-Date: Tue, 21 Jan 2020 07:11:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B891F800A02;
+ Tue, 21 Jan 2020 06:28:02 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
+ [10.36.116.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5444884DA6;
+ Tue, 21 Jan 2020 06:28:02 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 730C41747D; Tue, 21 Jan 2020 07:28:01 +0100 (CET)
+Date: Tue, 21 Jan 2020 07:28:01 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Cameron Esfahani <dirty@apple.com>
+Subject: Re: [PATCH v2 1/2] vnc: fix VNC artifacts
+Message-ID: <20200121062801.ror55cdypt3zmci7@sirius.home.kraxel.org>
+References: <cover.1579582674.git.dirty@apple.com>
+ <c28241e087b10b4561468b7dae47fe63381df259.1579582674.git.dirty@apple.com>
 MIME-Version: 1.0
-In-Reply-To: <20200120220107.17825-16-f4bug@amsat.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: 5z_YgquXO8KmohbFXzLDFA-1
+In-Reply-To: <c28241e087b10b4561468b7dae47fe63381df259.1579582674.git.dirty@apple.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 9reJV18cPsCOIAVig5Ffcg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -77,40 +76,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Michael Rolnik <mrolnik@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/01/2020 23.01, Philippe Mathieu-Daud=C3=A9 wrote:
-> The Arduino Duemilanove is based on a AVR5 CPU, while the
-> Arduino MEGA2560 on a AVR6 CPU.
+On Mon, Jan 20, 2020 at 09:00:51PM -0800, Cameron Esfahani wrote:
+> Patch de3f7de7f4e257ce44cdabb90f5f17ee99624557 was too simplistic in its
+> implementation: it didn't account for the ZLIB z_stream mutating with
+> each compression.  Because of the mutation, simply resetting the output
+> buffer's offset wasn't sufficient to "rewind" the operation.  The mutated
+> z_stream would generate future zlib blocks which referred to symbols in
+> past blocks which weren't sent.  This would lead to artifacting.
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  tests/qtest/boot-serial-test.c | 2 ++
->  1 file changed, 2 insertions(+)
+> This reverts commit de3f7de7f4e257ce44cdabb90f5f17ee99624557.
 >=20
-> diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-tes=
-t.c
-> index e556f09db8..582a497963 100644
-> --- a/tests/qtest/boot-serial-test.c
-> +++ b/tests/qtest/boot-serial-test.c
-> @@ -113,6 +113,8 @@ typedef struct testdef {
->  static testdef_t tests[] =3D {
->      { "alpha", "clipper", "", "PCI:" },
->      { "avr", "sample", "", "T", sizeof(bios_avr), NULL, bios_avr },
-> +    { "avr", "arduino-duemilanove", "", "T", sizeof(bios_avr), NULL, bio=
-s_avr },
-> +    { "avr", "arduino-mega-2560-v3", "", "T", sizeof(bios_avr), NULL, bi=
-os_avr},
->      { "ppc", "ppce500", "", "U-Boot" },
->      { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
->      { "ppc", "g3beige", "", "PowerPC,750" },
->=20
+> Fixes: <de3f7de7f4e257> ("vnc: allow fall back to RAW encoding")
+> Signed-off-by: Cameron Esfahani <dirty@apple.com>
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+Looks like you didn't realize that "revert" was meant literally.  Git has a
+revert subcommand, i.e. you can simply run "git revert de3f7de7f4e257" to
+create a commit undoing the changes, with a commit message saying so.  The
+generated text should be left intact, to make the job for tools analyzing g=
+it
+commits easier.  The commit message (for reverts typically explaining why t=
+he
+reverted commit was buggy) can go below the generated text.
+
+Also note that only the patch commit messages end up in the commit log, the
+cover letter text doesn't.  So any important details should (also) be in th=
+e
+commit messages so they are recorded in the log.
+
+Reworked the commit message, looks like this now:
+
+-----------------------------------------------------------------
+commit 0780ec7be82dd4781e9fd216b5d99a125882ff5a (HEAD -> queue/ui)
+Author: Gerd Hoffmann <kraxel@redhat.com>
+Date:   Tue Jan 21 07:02:10 2020 +0100
+
+    Revert "vnc: allow fall back to RAW encoding"
+   =20
+    This reverts commit de3f7de7f4e257ce44cdabb90f5f17ee99624557.
+   =20
+    Remove VNC optimization to reencode framebuffer update as raw if it's
+    smaller than the default encoding.
+   =20
+    QEMU's implementation was naive and didn't account for the ZLIB z_strea=
+m
+    mutating with each compression.  Because of the mutation, simply
+    resetting the output buffer's offset wasn't sufficient to "rewind" the
+    operation.  The mutated z_stream would generate future zlib blocks whic=
+h
+    referred to symbols in past blocks which weren't sent.  This would lead
+    to artifacting.
+   =20
+    Considering that ZRLE is never larger than raw and even though ZLIB can
+    occasionally be fractionally larger than raw, the overhead of
+    implementing this optimization correctly isn't worth it.
+   =20
+    Signed-off-by: Cameron Esfahani <dirty@apple.com>
+    Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+-----------------------------------------------------------------
+
+Modified patch queued up.
+Patch 2/2 is fine as-is.
+
+thanks,
+  Gerd
 
 
