@@ -2,91 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6BC144079
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 16:26:26 +0100 (CET)
-Received: from localhost ([::1]:56696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85779144097
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 16:36:45 +0100 (CET)
+Received: from localhost ([::1]:56822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itvQ9-0006VY-TT
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 10:26:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54509)
+	id 1itva8-0006gx-ID
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 10:36:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55335)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1itvOR-00057l-DB
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:24:40 -0500
+ (envelope-from <bounces@canonical.com>) id 1itvUc-0000sE-HQ
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:31:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1itvOQ-0001Iu-9n
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:24:39 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27643
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itvOQ-0001IH-6H
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:24:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579620277;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3ypQmoBs1risnQU7ThFjmYkafd8YaWdj31PnJDVkltg=;
- b=avQ3ZB2wkPNXdYFF3HbCvftWHzO9lTIBFetDczaDwCim7SnjcloMmchQbUa21+lLH3VvM5
- CRbfiWiEbWX7WX/4kV2C7yy7ztM4v8fmQmZpyhr2B0TtFwAAH043GDVeQCM3RgOAUd5UB/
- dcmVZG5ElszD8ojjyC1aJou3DIcX924=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-YWlAD2vHMG2t-TlF8UNRBQ-1; Tue, 21 Jan 2020 10:24:35 -0500
-Received: by mail-wm1-f71.google.com with SMTP id g26so481600wmk.6
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 07:24:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZJlu4yA7MTXN+/hAQn2JyOXLvWp6zfX4ftczNVReyGI=;
- b=lqNFvX6uNSnI9dOuByKV/3R833mZoUl4r/Quae3e89SdTuml63tdQU36/digvwEHqr
- D7wJsPKwayvfmeCjluPkS2PnYKVJD1cZCw5g/riJ68SxP8BiPbCkDCPknzL+nT5qNxWg
- ihH/pVKsrKm5PGHTtgY7PEGBchB4JqmvceYiRRsw3y3uw7cJIsehvl95HnXIRhE5FyPu
- yCrI9exc4idztW22kzB7rkWUnlW6O3whT4oKzIToC6vMTMPkI8WO0n10Lei2MLImhUGc
- wJ/B1rX3roKnuwW2cAT9clSBGjuk/kiRrysMH0xq8cs26guE0R2+FEEHkpgznOMIC2dT
- TTXw==
-X-Gm-Message-State: APjAAAXM/R5MU//pWoZhHMO2nL0kXNuKlkKLMpcExtjeZORBewbvIl+Y
- zkoPW7b/3AJA0hHYQP8iRCRftaNBauI8Iryyw778/CVtHeX7lEW86NYBBq72HMJ/TWoFFyFG6uk
- JCB/1OKOCb5I+Hic=
-X-Received: by 2002:adf:ce87:: with SMTP id r7mr5757551wrn.245.1579620274320; 
- Tue, 21 Jan 2020 07:24:34 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw7QquMdPL5BJPAOoEDtGEY1iJ/lJROubhff8wt8OOyj2AzKbzAqkFC9a+9OkcIfRj6+qT1Rg==
-X-Received: by 2002:adf:ce87:: with SMTP id r7mr5757538wrn.245.1579620273986; 
- Tue, 21 Jan 2020 07:24:33 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id t25sm4340929wmj.19.2020.01.21.07.24.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jan 2020 07:24:33 -0800 (PST)
-Subject: Re: [PATCH v2 011/109] virtiofsd: Fix common header and define for
- QEMU builds
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
- berrange@redhat.com, slp@redhat.com
-References: <20200121122433.50803-1-dgilbert@redhat.com>
- <20200121122433.50803-12-dgilbert@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8bf51480-fdef-14b5-2d4f-0068fa94e808@redhat.com>
-Date: Tue, 21 Jan 2020 16:24:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <bounces@canonical.com>) id 1itvUY-0004cE-Tb
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:31:02 -0500
+Received: from indium.canonical.com ([91.189.90.7]:46070)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1itvUY-0004bQ-O7
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:30:58 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1itvUV-0007Sd-JN
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 15:30:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A95642E80FA
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 15:30:52 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200121122433.50803-12-dgilbert@redhat.com>
-Content-Language: en-US
-X-MC-Unique: YWlAD2vHMG2t-TlF8UNRBQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 21 Jan 2020 15:24:09 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1859656@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=maas; status=Incomplete; importance=Undecided;
+ assignee=lee.trager@canonical.com; 
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
+ assignee=maas; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ltrager paelzer sfeole
+X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
+Message-Id: <157962024941.4516.8390070990072713909.malone@soybean.canonical.com>
+Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
+ initial deploy
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 33b23c48cff75c739175f10d668daf3dce4938e5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -95,123 +72,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
+Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/20 1:22 PM, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->=20
-> All of the fuse files include config.h and define GNU_SOURCE
-> where we don't have either under our build - remove them.
-> Fixup path to the kernel's fuse.h in the QEMUs world.
->=20
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->   tools/virtiofsd/buffer.c         | 3 ---
->   tools/virtiofsd/fuse_i.h         | 3 +++
->   tools/virtiofsd/fuse_lowlevel.c  | 5 +----
->   tools/virtiofsd/fuse_opt.c       | 1 -
->   tools/virtiofsd/fuse_signals.c   | 1 -
->   tools/virtiofsd/passthrough_ll.c | 7 +------
->   6 files changed, 5 insertions(+), 15 deletions(-)
->=20
-> diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
-> index 5df946c82c..db1885ab19 100644
-> --- a/tools/virtiofsd/buffer.c
-> +++ b/tools/virtiofsd/buffer.c
-> @@ -9,9 +9,6 @@
->    * See the file COPYING.LIB
->    */
->  =20
-> -#define _GNU_SOURCE
-> -
-> -#include "config.h"
->   #include "fuse_i.h"
->   #include "fuse_lowlevel.h"
->   #include <assert.h>
-> diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
-> index e63cb58388..bae06992e0 100644
-> --- a/tools/virtiofsd/fuse_i.h
-> +++ b/tools/virtiofsd/fuse_i.h
-> @@ -6,6 +6,9 @@
->    * See the file COPYING.LIB
->    */
->  =20
-> +#define FUSE_USE_VERSION 31
-> +
-> +
->   #include "fuse.h"
->   #include "fuse_lowlevel.h"
->  =20
-> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowle=
-vel.c
-> index b3d26cab66..f76f3d3fdc 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.c
-> +++ b/tools/virtiofsd/fuse_lowlevel.c
-> @@ -9,11 +9,8 @@
->    * See the file COPYING.LIB
->    */
->  =20
-> -#define _GNU_SOURCE
-> -
-> -#include "config.h"
->   #include "fuse_i.h"
-> -#include "fuse_kernel.h"
-> +#include "standard-headers/linux/fuse.h"
->   #include "fuse_misc.h"
->   #include "fuse_opt.h"
->  =20
-> diff --git a/tools/virtiofsd/fuse_opt.c b/tools/virtiofsd/fuse_opt.c
-> index edd36f4a3b..1fee55e266 100644
-> --- a/tools/virtiofsd/fuse_opt.c
-> +++ b/tools/virtiofsd/fuse_opt.c
-> @@ -10,7 +10,6 @@
->    */
->  =20
->   #include "fuse_opt.h"
-> -#include "config.h"
->   #include "fuse_i.h"
->   #include "fuse_misc.h"
->  =20
-> diff --git a/tools/virtiofsd/fuse_signals.c b/tools/virtiofsd/fuse_signal=
-s.c
-> index 19d6791cb9..10a6f88088 100644
-> --- a/tools/virtiofsd/fuse_signals.c
-> +++ b/tools/virtiofsd/fuse_signals.c
-> @@ -8,7 +8,6 @@
->    * See the file COPYING.LIB
->    */
->  =20
-> -#include "config.h"
->   #include "fuse_i.h"
->   #include "fuse_lowlevel.h"
->  =20
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
-gh_ll.c
-> index 9377718d9d..e702f7dec6 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -35,15 +35,10 @@
->    * \include passthrough_ll.c
->    */
->  =20
-> -#define _GNU_SOURCE
-> -#define FUSE_USE_VERSION 31
-> -
-> -#include "config.h"
-> -
-> +#include "fuse_lowlevel.h"
->   #include <assert.h>
->   #include <dirent.h>
->   #include <errno.h>
-> -#include <fuse_lowlevel.h>
->   #include <inttypes.h>
->   #include <limits.h>
->   #include <pthread.h>
->=20
+qemu-kvm doesn't exist for years, I have marked it for qemu instead.
+Thanks Frank for making me aware.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Sean got everything right in comment #6, it can only boot one and that is t=
+he first boot entry.
+There is no fallback/fallthrough on s390x.
 
+If you stick with global boot options the host would needs to change the
+XML to boot fro disk in this case. (BTW that is the case since the
+beginnign the comment is from libvirt 3.5 somewhere around zesty I
+think).
+
+P.S. if this ever worked it was a bug that is not to be relied upon (but
+I'd wonder)
+
+But that doesn't mean it won't work, just not with that XML format.
+I've never tested it but I think you might be able to get away with a prope=
+r bootorder config.
+An example can be found here [1] that you might try (do not implement it di=
+rectly, give it a test please)
+
+[1]:
+https://libvirt.org/git/?p=3Dlibvirt.git;a=3Dblob;f=3Dtests/qemuxml2xmloutd=
+ata
+/machine-loadparm-multiple-disks-
+nets-s390.xml;h=3Dc4e08fd4401bf5bf448ee45ab8890b3e44057f97;hb=3DHEAD
+
+** Changed in: qemu
+       Status: New =3D> Incomplete
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859656
+
+Title:
+  [2.6] Unable to reboot s390x KVM machine after initial deploy
+
+Status in MAAS:
+  Incomplete
+Status in QEMU:
+  Incomplete
+Status in Ubuntu on IBM z Systems:
+  Triaged
+
+Bug description:
+  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
+  Arch: S390x
+
+  Appears that MAAS can not find the s390x bootloader to boot from the
+  disk, not sure how maas determines this.  However this was working in
+  the past. I had originally thought that if the maas machine was
+  deployed then it defaulted to boot from disk.
+
+  If I force the VM to book from disk, the VM starts up as expected.
+
+  Reproduce:
+
+  - Deploy Disco on S390x KVM instance
+  - Reboot it
+
+  on the KVM console...
+
+  Connected to domain s2lp6g001
+  Escape character is ^]
+  done
+  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
+  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
+  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
+  Trying pxelinux.cfg files...
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  Failed to load OS from network
+
+  =3D=3D> /var/log/maas/rackd.log <=3D=3D
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
+0x.bin requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
+5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+1-52-54-00-e5-d7-bb requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA0 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64B requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF6 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+A requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+ requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
+efault requested by 10.246.75.160
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
 
