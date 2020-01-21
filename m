@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E500143BD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 12:13:44 +0100 (CET)
-Received: from localhost ([::1]:51882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F99143BB0
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 12:09:38 +0100 (CET)
+Received: from localhost ([::1]:51804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itrTa-00066M-O3
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 06:13:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40520)
+	id 1itrPc-0000S5-Th
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 06:09:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40588)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1itrLJ-0003hh-Jc
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:05:13 -0500
+ (envelope-from <philmd@redhat.com>) id 1itrLa-0003xt-Ie
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:05:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1itrLE-0002fN-Ut
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:05:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20570
+ (envelope-from <philmd@redhat.com>) id 1itrLV-0002rx-Td
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:05:26 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27184
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itrLE-0002ev-Rm
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:05:04 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itrLU-0002nR-GM
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:05:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579604704;
+ s=mimecast20190719; t=1579604716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CleyiTyFzeU7YFGR9t8XlXBZmAxEriIlOMwBzucwkpQ=;
- b=PQNiJGg56cBkEdlMbT0/TTxIEFLYVPPfH7LLrc6jwIX/W5wRc1odh2xQyy27Q7fZ7p9dOZ
- GHW5xZ9h+t7N518HxKitLYHWJCfM107skk/p3Yxj8IGhaH6jPIF5RVwZnUgyOFOWqiAcWP
- OQVvwSpdHSCylTLIsDySH5KYBrMsst0=
+ bh=szvLNNLQdSyRCXMP/WlwlQ7xqfZ8pJdJ2R1hbRxN9kc=;
+ b=G6QQpNHPGkwXNL2SKZ3d0qZgxnCBXUpMA5NJJVCg3NZgXDcsL3zOO2vYVkdLiyZiwvHXoM
+ 3MAI+gbQvSFWc3OqWGk8O68h/wQtJlY4hgqKh4a4q6nC6M+BWCQMfuoyiYVN+aEn+FrV63
+ AuPvBBvPj/IHOH1nTQa2Hv9PPtkSuHI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-EdVqMcpMOy2sK8ntRqZvkQ-1; Tue, 21 Jan 2020 06:05:03 -0500
+ us-mta-364-DZCZJ4sFPIuNo7RuHdQnlQ-1; Tue, 21 Jan 2020 06:05:15 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63E5B18A6EC1;
- Tue, 21 Jan 2020 11:05:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7878B8010D8;
+ Tue, 21 Jan 2020 11:05:13 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-38.brq.redhat.com [10.40.205.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A48C811F8;
- Tue, 21 Jan 2020 11:04:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C0D285733;
+ Tue, 21 Jan 2020 11:05:01 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/10] qom/object: Display more helpful message when a
- parent is missing
-Date: Tue, 21 Jan 2020 12:03:45 +0100
-Message-Id: <20200121110349.25842-7-philmd@redhat.com>
+Subject: [PATCH v2 07/10] qdev: Abort if the root machine container is missing
+Date: Tue, 21 Jan 2020 12:03:46 +0100
+Message-Id: <20200121110349.25842-8-philmd@redhat.com>
 In-Reply-To: <20200121110349.25842-1-philmd@redhat.com>
 References: <20200121110349.25842-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: EdVqMcpMOy2sK8ntRqZvkQ-1
+X-MC-Unique: DZCZJ4sFPIuNo7RuHdQnlQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,39 +83,35 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU object model is scarse in documentation. Some calls are
-recursive, and it might be hard to figure out even trivial issues.
+The QEMU device API (qdev) relies on having the '/machine'
+container always available.
 
-We can avoid developers to waste time in a debugging session by
-displaying a simple error message.
-
-This commit is also similar to e02bdf1cecd2 ("Display more helpful
-message when an object type is missing").
+If it is missing, QEMU will later crash dereferencing a NULL
+pointer, we will get a SEGV, open a debugger, look at the
+backtrace, and figure out we messed with QOM.
+Or we can use g_assert() which abort, displaying the filename
+and line number, so we can quickly open our favorite IDE.
+Prefer the later, to save time to developers.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
 v2: New patch
 ---
- qom/object.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/core/qdev.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/qom/object.c b/qom/object.c
-index 0d971ca897..bc13a55094 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -173,7 +173,11 @@ static TypeImpl *type_get_parent(TypeImpl *type)
- {
-     if (!type->parent_type && type->parent) {
-         type->parent_type =3D type_get_by_name(type->parent);
--        g_assert(type->parent_type !=3D NULL);
-+        if (!type->parent_type) {
-+            fprintf(stderr, "Object '%s' missing its parent '%s'\n",
-+                    type->name, type->parent);
-+            abort();
-+        }
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 58e87d336d..d30cf6320b 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -1143,6 +1143,7 @@ Object *qdev_get_machine(void)
+=20
+     if (dev =3D=3D NULL) {
+         dev =3D container_get(object_get_root(), "/machine");
++        g_assert(dev !=3D NULL);
      }
 =20
-     return type->parent_type;
+     return dev;
 --=20
 2.21.1
 
