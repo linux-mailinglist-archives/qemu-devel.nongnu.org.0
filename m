@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99E6143D8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:00:44 +0100 (CET)
-Received: from localhost ([::1]:53448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB39D143D9E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:05:14 +0100 (CET)
+Received: from localhost ([::1]:53514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itt99-00083S-Ou
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:00:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51347)
+	id 1ittDV-0003K7-A1
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:05:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51366)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itscE-0006yW-Pv
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:43 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itscK-00076B-4g
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itscD-0002FM-Ix
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:42 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29959
+ (envelope-from <dgilbert@redhat.com>) id 1itscI-0002GN-IM
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29233
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itscD-0002F5-Ew
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:41 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itscI-0002GH-Dz
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609601;
+ s=mimecast20190719; t=1579609606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w7YfF3meRUVNH+x5xaGPlsTlJ9Oq8Lk6gorjtTbKOe8=;
- b=QNiStnkgI7e9a+/cv02WTGLIiDLgKoPU303gawylW1Xxi6F2cnZBf9RD1WqgtK/BT4HwXc
- +qcvtaBhKqfRuNAhHTPiGER7sHwhMndLAJZhnwnk2lspt1GXvRCeMGdxrUOe3Z1jy8QUBY
- BmLLt13f0sRrF6bPEOVqCfWVR7EiE6A=
+ bh=zualVJnuuXpl6/Pdtv9LeqTT4rFRhcJUc2mo7tQMMUs=;
+ b=c4WG5zdsGLTmcLUkSrjTjcEB6SDdSchYkz4Hit+y84JoqiInvP2l+NJyy4Q8Nk8yX6JQ/4
+ nsf5M1nbN39IPCovKc2NhLv+i7aumlh5NrVNp6B69kUQMa5vxRP7Y1UffL26rIgUG3O8Cx
+ F++8f2Gu6K6be5NHTFSdQIiMPSoGRlg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-oEK4bt8CNWWQ-I9udM4Tfg-1; Tue, 21 Jan 2020 07:26:39 -0500
+ us-mta-255-7zi6IP4TNIyVuxbX-Lq6-g-1; Tue, 21 Jan 2020 07:26:44 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE15D800A02;
- Tue, 21 Jan 2020 12:26:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E3B8A0CBF;
+ Tue, 21 Jan 2020 12:26:43 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CC6160BE0;
- Tue, 21 Jan 2020 12:26:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 17D0460C81;
+ Tue, 21 Jan 2020 12:26:38 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 026/109] virtiofsd: Add Makefile wiring for virtiofsd
- contrib
-Date: Tue, 21 Jan 2020 12:23:10 +0000
-Message-Id: <20200121122433.50803-27-dgilbert@redhat.com>
+Subject: [PATCH v2 027/109] virtiofsd: Fast path for virtio read
+Date: Tue, 21 Jan 2020 12:23:11 +0000
+Message-Id: <20200121122433.50803-28-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: oEK4bt8CNWWQ-I9udM4Tfg-1
+X-MC-Unique: 7zi6IP4TNIyVuxbX-Lq6-g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,88 +78,228 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Wire up the building of the virtiofsd in tools.
-
-virtiofsd relies on Linux-specific system calls and seccomp.  Anyone
-wishing to port it to other host operating systems should do so
-carefully and without reducing security.
-
-Only allow building on Linux hosts.
+Readv the data straight into the guests buffer.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+With fix by:
+Signed-off-by: Eryu Guan <eguan@linux.alibaba.com>
+Reviewed-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
 ---
- Makefile                      | 10 ++++++++++
- Makefile.objs                 |  1 +
- tools/virtiofsd/Makefile.objs |  9 +++++++++
- 3 files changed, 20 insertions(+)
- create mode 100644 tools/virtiofsd/Makefile.objs
+ tools/virtiofsd/fuse_lowlevel.c |   5 +
+ tools/virtiofsd/fuse_virtio.c   | 162 ++++++++++++++++++++++++++++++++
+ tools/virtiofsd/fuse_virtio.h   |   4 +
+ 3 files changed, 171 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index afa5cb6548..b4ffb0c3d9 100644
---- a/Makefile
-+++ b/Makefile
-@@ -327,6 +327,10 @@ HELPERS-y +=3D vhost-user-gpu$(EXESUF)
- vhost-user-json-y +=3D contrib/vhost-user-gpu/50-qemu-gpu.json
- endif
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
+l.c
+index ded7268dc5..5c182676a6 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -474,6 +474,11 @@ static int fuse_send_data_iov_fallback(struct fuse_ses=
+sion *se,
+         return fuse_send_msg(se, ch, iov, iov_count);
+     }
 =20
-+ifdef CONFIG_LINUX
-+HELPERS-y +=3D virtiofsd$(EXESUF)
-+endif
++    if (fuse_lowlevel_is_virtio(se) && buf->count =3D=3D 1 &&
++        buf->buf[0].flags =3D=3D (FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK)) {
++        return virtio_send_data_iov(se, ch, iov, iov_count, buf, len);
++    }
 +
- # Sphinx does not allow building manuals into the same directory as
- # the source files, so if we're doing an in-tree QEMU build we must
- # build the manuals into a subdirectory (and then install them from
-@@ -429,6 +433,7 @@ dummy :=3D $(call unnest-vars,, \
-                 elf2dmp-obj-y \
-                 ivshmem-client-obj-y \
-                 ivshmem-server-obj-y \
-+                virtiofsd-obj-y \
-                 rdmacm-mux-obj-y \
-                 libvhost-user-obj-y \
-                 vhost-user-scsi-obj-y \
-@@ -668,6 +673,11 @@ rdmacm-mux$(EXESUF): LIBS +=3D "-libumad"
- rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
- =09$(call LINK, $^)
+     abort(); /* Will have taken vhost path */
+     return 0;
+ }
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index f1adeb6345..7e2711b504 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -230,6 +230,168 @@ err:
+     return ret;
+ }
 =20
-+ifdef CONFIG_LINUX # relies on Linux-specific syscalls
-+virtiofsd$(EXESUF): $(virtiofsd-obj-y) libvhost-user.a $(COMMON_LDADDS)
-+=09$(call LINK, $^)
-+endif
++/*
++ * Callback from fuse_send_data_iov_* when it's virtio and the buffer
++ * is a single FD with FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK
++ * We need send the iov and then the buffer.
++ * Return 0 on success
++ */
++int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
++                         struct iovec *iov, int count, struct fuse_bufvec =
+*buf,
++                         size_t len)
++{
++    int ret =3D 0;
++    VuVirtqElement *elem;
++    VuVirtq *q;
 +
- vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-y) li=
-bqemuutil.a libqemustub.a
- =09$(call LINK, $^)
-=20
-diff --git a/Makefile.objs b/Makefile.objs
-index 7c1e50f9d6..ff396b9209 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -123,6 +123,7 @@ vhost-user-blk-obj-y =3D contrib/vhost-user-blk/
- rdmacm-mux-obj-y =3D contrib/rdmacm-mux/
- vhost-user-input-obj-y =3D contrib/vhost-user-input/
- vhost-user-gpu-obj-y =3D contrib/vhost-user-gpu/
-+virtiofsd-obj-y =3D tools/virtiofsd/
-=20
- ######################################################################
- trace-events-subdirs =3D
-diff --git a/tools/virtiofsd/Makefile.objs b/tools/virtiofsd/Makefile.objs
-new file mode 100644
-index 0000000000..45a807500d
---- /dev/null
-+++ b/tools/virtiofsd/Makefile.objs
-@@ -0,0 +1,9 @@
-+virtiofsd-obj-y =3D buffer.o \
-+                  fuse_opt.o \
-+                  fuse_log.o \
-+                  fuse_lowlevel.o \
-+                  fuse_signals.o \
-+                  fuse_virtio.o \
-+                  helper.o \
-+                  passthrough_ll.o
++    assert(count >=3D 1);
++    assert(iov[0].iov_len >=3D sizeof(struct fuse_out_header));
 +
++    struct fuse_out_header *out =3D iov[0].iov_base;
++    /* TODO: Endianness! */
++
++    size_t iov_len =3D iov_size(iov, count);
++    size_t tosend_len =3D iov_len + len;
++
++    out->len =3D tosend_len;
++
++    fuse_log(FUSE_LOG_DEBUG, "%s: count=3D%d len=3D%zd iov_len=3D%zd\n", _=
+_func__,
++             count, len, iov_len);
++
++    /* unique =3D=3D 0 is notification which we don't support */
++    assert(out->unique);
++
++    /* For virtio we always have ch */
++    assert(ch);
++    assert(!ch->qi->reply_sent);
++    elem =3D ch->qi->qe;
++    q =3D &ch->qi->virtio_dev->dev.vq[ch->qi->qidx];
++
++    /* The 'in' part of the elem is to qemu */
++    unsigned int in_num =3D elem->in_num;
++    struct iovec *in_sg =3D elem->in_sg;
++    size_t in_len =3D iov_size(in_sg, in_num);
++    fuse_log(FUSE_LOG_DEBUG, "%s: elem %d: with %d in desc of length %zd\n=
+",
++             __func__, elem->index, in_num, in_len);
++
++    /*
++     * The elem should have room for a 'fuse_out_header' (out from fuse)
++     * plus the data based on the len in the header.
++     */
++    if (in_len < sizeof(struct fuse_out_header)) {
++        fuse_log(FUSE_LOG_ERR, "%s: elem %d too short for out_header\n",
++                 __func__, elem->index);
++        ret =3D E2BIG;
++        goto err;
++    }
++    if (in_len < tosend_len) {
++        fuse_log(FUSE_LOG_ERR, "%s: elem %d too small for data len %zd\n",
++                 __func__, elem->index, tosend_len);
++        ret =3D E2BIG;
++        goto err;
++    }
++
++    /* TODO: Limit to 'len' */
++
++    /* First copy the header data from iov->in_sg */
++    copy_iov(iov, count, in_sg, in_num, iov_len);
++
++    /*
++     * Build a copy of the the in_sg iov so we can skip bits in it,
++     * including changing the offsets
++     */
++    struct iovec *in_sg_cpy =3D calloc(sizeof(struct iovec), in_num);
++    assert(in_sg_cpy);
++    memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
++    /* These get updated as we skip */
++    struct iovec *in_sg_ptr =3D in_sg_cpy;
++    int in_sg_cpy_count =3D in_num;
++
++    /* skip over parts of in_sg that contained the header iov */
++    size_t skip_size =3D iov_len;
++
++    size_t in_sg_left =3D 0;
++    do {
++        while (skip_size !=3D 0 && in_sg_cpy_count) {
++            if (skip_size >=3D in_sg_ptr[0].iov_len) {
++                skip_size -=3D in_sg_ptr[0].iov_len;
++                in_sg_ptr++;
++                in_sg_cpy_count--;
++            } else {
++                in_sg_ptr[0].iov_len -=3D skip_size;
++                in_sg_ptr[0].iov_base +=3D skip_size;
++                break;
++            }
++        }
++
++        int i;
++        for (i =3D 0, in_sg_left =3D 0; i < in_sg_cpy_count; i++) {
++            in_sg_left +=3D in_sg_ptr[i].iov_len;
++        }
++        fuse_log(FUSE_LOG_DEBUG,
++                 "%s: after skip skip_size=3D%zd in_sg_cpy_count=3D%d "
++                 "in_sg_left=3D%zd\n",
++                 __func__, skip_size, in_sg_cpy_count, in_sg_left);
++        ret =3D preadv(buf->buf[0].fd, in_sg_ptr, in_sg_cpy_count,
++                     buf->buf[0].pos);
++
++        if (ret =3D=3D -1) {
++            ret =3D errno;
++            fuse_log(FUSE_LOG_DEBUG, "%s: preadv failed (%m) len=3D%zd\n",
++                     __func__, len);
++            free(in_sg_cpy);
++            goto err;
++        }
++        fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=3D%d len=3D%zd\n", __func=
+__,
++                 ret, len);
++        if (ret < len && ret) {
++            fuse_log(FUSE_LOG_DEBUG, "%s: ret < len\n", __func__);
++            /* Skip over this much next time around */
++            skip_size =3D ret;
++            buf->buf[0].pos +=3D ret;
++            len -=3D ret;
++
++            /* Lets do another read */
++            continue;
++        }
++        if (!ret) {
++            /* EOF case? */
++            fuse_log(FUSE_LOG_DEBUG, "%s: !ret in_sg_left=3D%zd\n", __func=
+__,
++                     in_sg_left);
++            break;
++        }
++        if (ret !=3D len) {
++            fuse_log(FUSE_LOG_DEBUG, "%s: ret!=3Dlen\n", __func__);
++            ret =3D EIO;
++            free(in_sg_cpy);
++            goto err;
++        }
++        in_sg_left -=3D ret;
++        len -=3D ret;
++    } while (in_sg_left);
++    free(in_sg_cpy);
++
++    /* Need to fix out->len on EOF */
++    if (len) {
++        struct fuse_out_header *out_sg =3D in_sg[0].iov_base;
++
++        tosend_len -=3D len;
++        out_sg->len =3D tosend_len;
++    }
++
++    ret =3D 0;
++
++    vu_queue_push(&se->virtio_dev->dev, q, elem, tosend_len);
++    vu_queue_notify(&se->virtio_dev->dev, q);
++
++err:
++    if (ret =3D=3D 0) {
++        ch->qi->reply_sent =3D true;
++    }
++
++    return ret;
++}
++
+ /* Thread function for individual queues, created when a queue is 'started=
+' */
+ static void *fv_queue_thread(void *opaque)
+ {
+diff --git a/tools/virtiofsd/fuse_virtio.h b/tools/virtiofsd/fuse_virtio.h
+index 135a14875a..cc676b9193 100644
+--- a/tools/virtiofsd/fuse_virtio.h
++++ b/tools/virtiofsd/fuse_virtio.h
+@@ -26,4 +26,8 @@ int virtio_loop(struct fuse_session *se);
+ int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
+                     struct iovec *iov, int count);
+=20
++int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
++                         struct iovec *iov, int count,
++                         struct fuse_bufvec *buf, size_t len);
++
+ #endif
 --=20
 2.24.1
 
