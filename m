@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7736C143DAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:08:37 +0100 (CET)
-Received: from localhost ([::1]:53556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29251143DB5
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:11:55 +0100 (CET)
+Received: from localhost ([::1]:53594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ittGm-00073O-Bp
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:08:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51477)
+	id 1ittJx-0002Ly-L8
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:11:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51483)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itsck-0007MU-Sl
+ (envelope-from <dgilbert@redhat.com>) id 1itscl-0007NC-GJ
  for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:27:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itscj-0002dT-Ek
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:27:14 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22470
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1itsck-0002dq-91
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:27:15 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43853
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itscj-0002dD-9M
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:27:13 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsck-0002dh-5k
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:27:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609632;
+ s=mimecast20190719; t=1579609633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=41maRYdOAgnuVtkLP4KNh1Q476RJJ+v2I3TKF5p7raI=;
- b=IYUs7YPZ9bvMHAsj41aT/xG7aWWkQo/+ZNNX+xh7KtFLOwCzpCocuWcJpNg78bt0naJ2Fb
- B+dVaXeOxaMFk6dKFh4IT5WMqtzgtg7h7YAcUPlwN9pN4OHQ7jsru3Ic1kREPRnD03gwcK
- NUwLpJ4HWAY2C5pNcp4AOPjUA/ylMq8=
+ bh=lXImWNU6k11ebqAuRHRuIJQH/z4IGppGRd51i+vLXrE=;
+ b=EVN+JJmZoiIXsoR5VT2L4oF2frqN0Bp42S8y3hqHnFT2WQgYzKqWb0XRSBjyH+YpaAuBsN
+ +trLW/4Ap5niolsbKdrmJut4iiRiQr+TuAOXAy1LVUmBTydmDxCNAqhpzKCLRKqQCz+TCb
+ nkqaz+gU8USEtBzJHMN0zJAeOTsMXss=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-SMq60BD-MACQsUpLkXFERw-1; Tue, 21 Jan 2020 07:27:10 -0500
+ us-mta-267-GBSPIZ-TMBedUFrBxQmjqA-1; Tue, 21 Jan 2020 07:27:12 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A94B1005512;
- Tue, 21 Jan 2020 12:27:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79C82190D340;
+ Tue, 21 Jan 2020 12:27:11 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C948060BE0;
- Tue, 21 Jan 2020 12:27:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C47AF60E1C;
+ Tue, 21 Jan 2020 12:27:09 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 033/109] virtiofsd: passthrough_ll: create new files in
- caller's context
-Date: Tue, 21 Jan 2020 12:23:17 +0000
-Message-Id: <20200121122433.50803-34-dgilbert@redhat.com>
+Subject: [PATCH v2 034/109] virtiofsd: passthrough_ll: add lo_map for ino/fh
+ indirection
+Date: Tue, 21 Jan 2020 12:23:18 +0000
+Message-Id: <20200121122433.50803-35-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: SMq60BD-MACQsUpLkXFERw-1
+X-MC-Unique: GBSPIZ-TMBedUFrBxQmjqA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,186 +77,165 @@ Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vivek Goyal <vgoyal@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-We need to create files in the caller's context. Otherwise after
-creating a file, the caller might not be able to do file operations on
-that file.
+A layer of indirection is needed because passthrough_ll cannot expose
+pointers or file descriptor numbers to untrusted clients.  Malicious
+clients could send invalid pointers or file descriptors in order to
+crash or exploit the file system daemon.
 
-Changed effective uid/gid to caller's uid/gid, create file and then
-switch back to uid/gid 0.
+lo_map provides an integer key->value mapping.  This will be used for
+ino and fh fields in the patches that follow.
 
-Use syscall(setresuid, ...) otherwise glibc does some magic to change EUID
-in all threads, which is not what we want.
-
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 96 ++++++++++++++++++++++++++++++--
- 1 file changed, 91 insertions(+), 5 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 124 +++++++++++++++++++++++++++++++
+ 1 file changed, 124 insertions(+)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index 53ed56f2a9..3df7e01b35 100644
+index 3df7e01b35..bff2fd489f 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -49,6 +49,7 @@
- #include <stdlib.h>
- #include <string.h>
- #include <sys/file.h>
-+#include <sys/syscall.h>
- #include <sys/xattr.h>
- #include <unistd.h>
-=20
-@@ -82,6 +83,11 @@ struct lo_inode {
-     uint64_t refcount; /* protected by lo->mutex */
+@@ -73,6 +73,21 @@ struct _uintptr_to_must_hold_fuse_ino_t_dummy_struct {
  };
+ #endif
 =20
-+struct lo_cred {
-+    uid_t euid;
-+    gid_t egid;
++struct lo_map_elem {
++    union {
++        /* Element values will go here... */
++        ssize_t freelist;
++    };
++    bool in_use;
 +};
 +
- enum {
-     CACHE_NEVER,
-     CACHE_NORMAL,
-@@ -382,6 +388,69 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t paren=
-t, const char *name)
-     }
++/* Maps FUSE fh or ino values to internal objects */
++struct lo_map {
++    struct lo_map_elem *elems;
++    size_t nelems;
++    ssize_t freelist;
++};
++
+ struct lo_inode {
+     struct lo_inode *next; /* protected by lo->mutex */
+     struct lo_inode *prev; /* protected by lo->mutex */
+@@ -129,6 +144,115 @@ static struct lo_data *lo_data(fuse_req_t req)
+     return (struct lo_data *)fuse_req_userdata(req);
  }
 =20
-+/*
-+ * On some archs, setres*id is limited to 2^16 but they
-+ * provide setres*id32 variants that allow 2^32.
-+ * Others just let setres*id do 2^32 anyway.
-+ */
-+#ifdef SYS_setresgid32
-+#define OURSYS_setresgid SYS_setresgid32
-+#else
-+#define OURSYS_setresgid SYS_setresgid
-+#endif
-+
-+#ifdef SYS_setresuid32
-+#define OURSYS_setresuid SYS_setresuid32
-+#else
-+#define OURSYS_setresuid SYS_setresuid
-+#endif
-+
-+/*
-+ * Change to uid/gid of caller so that file is created with
-+ * ownership of caller.
-+ * TODO: What about selinux context?
-+ */
-+static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
++__attribute__((unused)) static void lo_map_init(struct lo_map *map)
 +{
-+    int res;
-+
-+    old->euid =3D geteuid();
-+    old->egid =3D getegid();
-+
-+    res =3D syscall(OURSYS_setresgid, -1, fuse_req_ctx(req)->gid, -1);
-+    if (res =3D=3D -1) {
-+        return errno;
-+    }
-+
-+    res =3D syscall(OURSYS_setresuid, -1, fuse_req_ctx(req)->uid, -1);
-+    if (res =3D=3D -1) {
-+        int errno_save =3D errno;
-+
-+        syscall(OURSYS_setresgid, -1, old->egid, -1);
-+        return errno_save;
-+    }
-+
-+    return 0;
++    map->elems =3D NULL;
++    map->nelems =3D 0;
++    map->freelist =3D -1;
 +}
 +
-+/* Regain Privileges */
-+static void lo_restore_cred(struct lo_cred *old)
++__attribute__((unused)) static void lo_map_destroy(struct lo_map *map)
 +{
-+    int res;
-+
-+    res =3D syscall(OURSYS_setresuid, -1, old->euid, -1);
-+    if (res =3D=3D -1) {
-+        fuse_log(FUSE_LOG_ERR, "seteuid(%u): %m\n", old->euid);
-+        exit(1);
-+    }
-+
-+    res =3D syscall(OURSYS_setresgid, -1, old->egid, -1);
-+    if (res =3D=3D -1) {
-+        fuse_log(FUSE_LOG_ERR, "setegid(%u): %m\n", old->egid);
-+        exit(1);
-+    }
++    free(map->elems);
 +}
 +
- static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-                              const char *name, mode_t mode, dev_t rdev,
-                              const char *link)
-@@ -390,12 +459,21 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino=
-_t parent,
-     int saverr;
-     struct lo_inode *dir =3D lo_inode(req, parent);
-     struct fuse_entry_param e;
-+    struct lo_cred old =3D {};
-=20
-     saverr =3D ENOMEM;
-=20
-+    saverr =3D lo_change_cred(req, &old);
-+    if (saverr) {
-+        goto out;
++static int lo_map_grow(struct lo_map *map, size_t new_nelems)
++{
++    struct lo_map_elem *new_elems;
++    size_t i;
++
++    if (new_nelems <=3D map->nelems) {
++        return 1;
 +    }
 +
-     res =3D mknod_wrapper(dir->fd, name, link, mode, rdev);
-=20
-     saverr =3D errno;
-+
-+    lo_restore_cred(&old);
-+
-     if (res =3D=3D -1) {
-         goto out;
-     }
-@@ -793,26 +871,34 @@ static void lo_create(fuse_req_t req, fuse_ino_t pare=
-nt, const char *name,
-     struct lo_data *lo =3D lo_data(req);
-     struct fuse_entry_param e;
-     int err;
-+    struct lo_cred old =3D {};
-=20
-     if (lo_debug(req)) {
-         fuse_log(FUSE_LOG_DEBUG, "lo_create(parent=3D%" PRIu64 ", name=3D%=
-s)\n",
-                  parent, name);
-     }
-=20
-+    err =3D lo_change_cred(req, &old);
-+    if (err) {
-+        goto out;
++    new_elems =3D realloc(map->elems, sizeof(map->elems[0]) * new_nelems);
++    if (!new_elems) {
++        return 0;
 +    }
 +
-     fd =3D openat(lo_fd(req, parent), name, (fi->flags | O_CREAT) & ~O_NOF=
-OLLOW,
-                 mode);
--    if (fd =3D=3D -1) {
--        return (void)fuse_reply_err(req, errno);
--    }
-+    err =3D fd =3D=3D -1 ? errno : 0;
-+    lo_restore_cred(&old);
-=20
--    fi->fh =3D fd;
-+    if (!err) {
-+        fi->fh =3D fd;
-+        err =3D lo_do_lookup(req, parent, name, &e);
++    for (i =3D map->nelems; i < new_nelems; i++) {
++        new_elems[i].freelist =3D i + 1;
++        new_elems[i].in_use =3D false;
 +    }
-     if (lo->cache =3D=3D CACHE_NEVER) {
-         fi->direct_io =3D 1;
-     } else if (lo->cache =3D=3D CACHE_ALWAYS) {
-         fi->keep_cache =3D 1;
-     }
-=20
--    err =3D lo_do_lookup(req, parent, name, &e);
-+out:
-     if (err) {
-         fuse_reply_err(req, err);
-     } else {
++    new_elems[new_nelems - 1].freelist =3D -1;
++
++    map->elems =3D new_elems;
++    map->freelist =3D map->nelems;
++    map->nelems =3D new_nelems;
++    return 1;
++}
++
++__attribute__((unused)) static struct lo_map_elem *
++lo_map_alloc_elem(struct lo_map *map)
++{
++    struct lo_map_elem *elem;
++
++    if (map->freelist =3D=3D -1 && !lo_map_grow(map, map->nelems + 256)) {
++        return NULL;
++    }
++
++    elem =3D &map->elems[map->freelist];
++    map->freelist =3D elem->freelist;
++
++    elem->in_use =3D true;
++
++    return elem;
++}
++
++__attribute__((unused)) static struct lo_map_elem *
++lo_map_reserve(struct lo_map *map, size_t key)
++{
++    ssize_t *prev;
++
++    if (!lo_map_grow(map, key + 1)) {
++        return NULL;
++    }
++
++    for (prev =3D &map->freelist; *prev !=3D -1;
++         prev =3D &map->elems[*prev].freelist) {
++        if (*prev =3D=3D key) {
++            struct lo_map_elem *elem =3D &map->elems[key];
++
++            *prev =3D elem->freelist;
++            elem->in_use =3D true;
++            return elem;
++        }
++    }
++    return NULL;
++}
++
++__attribute__((unused)) static struct lo_map_elem *
++lo_map_get(struct lo_map *map, size_t key)
++{
++    if (key >=3D map->nelems) {
++        return NULL;
++    }
++    if (!map->elems[key].in_use) {
++        return NULL;
++    }
++    return &map->elems[key];
++}
++
++__attribute__((unused)) static void lo_map_remove(struct lo_map *map,
++                                                  size_t key)
++{
++    struct lo_map_elem *elem;
++
++    if (key >=3D map->nelems) {
++        return;
++    }
++
++    elem =3D &map->elems[key];
++    if (!elem->in_use) {
++        return;
++    }
++
++    elem->in_use =3D false;
++
++    elem->freelist =3D map->freelist;
++    map->freelist =3D key;
++}
++
+ static struct lo_inode *lo_inode(fuse_req_t req, fuse_ino_t ino)
+ {
+     if (ino =3D=3D FUSE_ROOT_ID) {
 --=20
 2.24.1
 
