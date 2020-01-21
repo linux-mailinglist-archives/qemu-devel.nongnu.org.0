@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86C0143DBF
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:13:59 +0100 (CET)
-Received: from localhost ([::1]:53620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5EA0143DA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:05:24 +0100 (CET)
+Received: from localhost ([::1]:53516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ittLy-00058l-7e
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:13:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51894)
+	id 1ittDf-0003QW-8c
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:05:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51930)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itseP-0000ON-PV
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:29:01 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itseX-0000VC-J3
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:29:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itseL-0003NB-Fg
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:28:57 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45672
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1itseT-0003QZ-JU
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:29:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26693
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itseI-0003Lp-KF
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:28:52 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itseT-0003PC-Fv
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:29:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609730;
+ s=mimecast20190719; t=1579609738;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ceG1AGTgDgSsbOIJaA0a59PUzBQJdtUVTxb2yTj4tkA=;
- b=DSd60dLGMPMyc44NgolVrq0TqH1iESoeCQyroJDCwhrCv2wTeFJP5tQoU7HR0NxNQtZmvy
- +i6LqFfaWyy1KX9L7CGoyMyKWorMtIWfuvj7jal9a77Dh3ItjYrQ3S9nlMCEVDWivZ9Gtp
- TLdCep/WHhyo/pZGWOyfwCOp741FIk0=
+ bh=b6iYJX+2+Iy0D8smU5ukjVL/qx0vBxETehkGh1p53Ys=;
+ b=Zu/dFX7qOwpU8RxQpbcBbmwFzx3HqlTbr57J9Uxt5y4BE4sxANnT3JTUH6tDfUjpbLMibE
+ CJMWiVs2lGcYtep3w9S1BveHcsfwJLygJIl8Rni6nblXPtpvHv0Ny6IJ+HoONsm+zF3qxc
+ OzjMP3C9MxKARIgxIUiMaxrZQcoXUvM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-iiRWpAYZOc-E8Q7P1J8PlA-1; Tue, 21 Jan 2020 07:28:48 -0500
+ us-mta-314-CVdvfJcXNv-DbVi7eqTZhA-1; Tue, 21 Jan 2020 07:28:56 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B431B107ACC7;
- Tue, 21 Jan 2020 12:28:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB7A8800D41;
+ Tue, 21 Jan 2020 12:28:55 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AFE1860BE0;
- Tue, 21 Jan 2020 12:28:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B481E60BE0;
+ Tue, 21 Jan 2020 12:28:53 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 052/109] virtiofsd: Parse flag FUSE_WRITE_KILL_PRIV
-Date: Tue, 21 Jan 2020 12:23:36 +0000
-Message-Id: <20200121122433.50803-53-dgilbert@redhat.com>
+Subject: [PATCH v2 054/109] virtiofsd: Drop CAP_FSETID if client asked for it
+Date: Tue, 21 Jan 2020 12:23:38 +0000
+Message-Id: <20200121122433.50803-55-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: iiRWpAYZOc-E8Q7P1J8PlA-1
+X-MC-Unique: CVdvfJcXNv-DbVi7eqTZhA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,60 +78,160 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vivek Goyal <vgoyal@redhat.com>
 
-Caller can set FUSE_WRITE_KILL_PRIV in write_flags. Parse it and pass it
-to the filesystem.
+If client requested killing setuid/setgid bits on file being written, drop
+CAP_FSETID capability so that setuid/setgid bits are cleared upon write
+automatically.
+
+pjdfstest chown/12.t needs this.
 
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+  dgilbert: reworked for libcap-ng
 Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
 Reviewed-by: Sergio Lopez <slp@redhat.com>
 ---
- tools/virtiofsd/fuse_common.h   | 6 +++++-
- tools/virtiofsd/fuse_lowlevel.c | 4 +++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 105 +++++++++++++++++++++++++++++++
+ 1 file changed, 105 insertions(+)
 
-diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
-index deac132081..4b2c215fd9 100644
---- a/tools/virtiofsd/fuse_common.h
-+++ b/tools/virtiofsd/fuse_common.h
-@@ -93,8 +93,12 @@ struct fuse_file_info {
-      */
-     unsigned int cache_readdir:1;
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index bf939d06ae..3f7ec85938 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -200,6 +200,91 @@ static int load_capng(void)
+     return 0;
+ }
 =20
-+    /* Indicates that suid/sgid bits should be removed upon write */
-+    unsigned int kill_priv:1;
++/*
++ * Helpers for dropping and regaining effective capabilities. Returns 0
++ * on success, error otherwise
++ */
++static int drop_effective_cap(const char *cap_name, bool *cap_dropped)
++{
++    int cap, ret;
 +
++    cap =3D capng_name_to_capability(cap_name);
++    if (cap < 0) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "capng_name_to_capability(%s) failed:%s\n",
++                 cap_name, strerror(errno));
++        goto out;
++    }
 +
-     /** Padding.  Reserved for future use*/
--    unsigned int padding:25;
-+    unsigned int padding:24;
-     unsigned int padding2:32;
++    if (load_capng()) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "load_capng() failed\n");
++        goto out;
++    }
++
++    /* We dont have this capability in effective set already. */
++    if (!capng_have_capability(CAPNG_EFFECTIVE, cap)) {
++        ret =3D 0;
++        goto out;
++    }
++
++    if (capng_update(CAPNG_DROP, CAPNG_EFFECTIVE, cap)) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "capng_update(DROP,) failed\n");
++        goto out;
++    }
++
++    if (capng_apply(CAPNG_SELECT_CAPS)) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "drop:capng_apply() failed\n");
++        goto out;
++    }
++
++    ret =3D 0;
++    if (cap_dropped) {
++        *cap_dropped =3D true;
++    }
++
++out:
++    return ret;
++}
++
++static int gain_effective_cap(const char *cap_name)
++{
++    int cap;
++    int ret =3D 0;
++
++    cap =3D capng_name_to_capability(cap_name);
++    if (cap < 0) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "capng_name_to_capability(%s) failed:%s\n",
++                 cap_name, strerror(errno));
++        goto out;
++    }
++
++    if (load_capng()) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "load_capng() failed\n");
++        goto out;
++    }
++
++    if (capng_update(CAPNG_ADD, CAPNG_EFFECTIVE, cap)) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "capng_update(ADD,) failed\n");
++        goto out;
++    }
++
++    if (capng_apply(CAPNG_SELECT_CAPS)) {
++        ret =3D errno;
++        fuse_log(FUSE_LOG_ERR, "gain:capng_apply() failed\n");
++        goto out;
++    }
++    ret =3D 0;
++
++out:
++    return ret;
++}
++
+ static void lo_map_init(struct lo_map *map)
+ {
+     map->elems =3D NULL;
+@@ -1576,6 +1661,7 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t i=
+no,
+     (void)ino;
+     ssize_t res;
+     struct fuse_bufvec out_buf =3D FUSE_BUFVEC_INIT(fuse_buf_size(in_buf))=
+;
++    bool cap_fsetid_dropped =3D false;
 =20
-     /*
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index f3e7f46008..63df56da6e 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -1143,6 +1143,7 @@ static void do_write(fuse_req_t req, fuse_ino_t nodei=
-d,
-     memset(&fi, 0, sizeof(fi));
-     fi.fh =3D arg->fh;
-     fi.writepage =3D (arg->write_flags & FUSE_WRITE_CACHE) !=3D 0;
-+    fi.kill_priv =3D !!(arg->write_flags & FUSE_WRITE_KILL_PRIV);
+     out_buf.buf[0].flags =3D FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK;
+     out_buf.buf[0].fd =3D lo_fi_fd(req, fi);
+@@ -1587,12 +1673,31 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t=
+ ino,
+                  out_buf.buf[0].size, (unsigned long)off);
+     }
 =20
-     fi.lock_owner =3D arg->lock_owner;
-     fi.flags =3D arg->flags;
-@@ -1178,7 +1179,8 @@ static void do_write_buf(fuse_req_t req, fuse_ino_t n=
-odeid,
-     fi.lock_owner =3D arg->lock_owner;
-     fi.flags =3D arg->flags;
-     fi.fh =3D arg->fh;
--    fi.writepage =3D arg->write_flags & FUSE_WRITE_CACHE;
-+    fi.writepage =3D !!(arg->write_flags & FUSE_WRITE_CACHE);
-+    fi.kill_priv =3D !!(arg->write_flags & FUSE_WRITE_KILL_PRIV);
++    /*
++     * If kill_priv is set, drop CAP_FSETID which should lead to kernel
++     * clearing setuid/setgid on file.
++     */
++    if (fi->kill_priv) {
++        res =3D drop_effective_cap("FSETID", &cap_fsetid_dropped);
++        if (res !=3D 0) {
++            fuse_reply_err(req, res);
++            return;
++        }
++    }
++
+     res =3D fuse_buf_copy(&out_buf, in_buf, 0);
+     if (res < 0) {
+         fuse_reply_err(req, -res);
+     } else {
+         fuse_reply_write(req, (size_t)res);
+     }
++
++    if (cap_fsetid_dropped) {
++        res =3D gain_effective_cap("FSETID");
++        if (res) {
++            fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_FSETID\n");
++        }
++    }
+ }
 =20
-     if (ibufv->count =3D=3D 1) {
-         assert(!(tmpbufv.buf[0].flags & FUSE_BUF_IS_FD));
+ static void lo_statfs(fuse_req_t req, fuse_ino_t ino)
 --=20
 2.24.1
 
