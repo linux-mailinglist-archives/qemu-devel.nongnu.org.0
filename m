@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFF4A14405E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 16:20:07 +0100 (CET)
-Received: from localhost ([::1]:56592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9D7144056
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 16:17:31 +0100 (CET)
+Received: from localhost ([::1]:56572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itvK2-0000lZ-Nv
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 10:20:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53427)
+	id 1itvHW-0007jq-US
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 10:17:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1itvG6-0006xE-Jb
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:16:06 -0500
+ (envelope-from <philmd@redhat.com>) id 1itvGA-0006xp-FD
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:16:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1itvG1-00056Z-Um
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:16:01 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58714
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1itvG5-00058S-HM
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:16:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49188
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itvG1-00056E-RP
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:15:57 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itvG5-00058C-D6
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:16:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579619757;
+ s=mimecast20190719; t=1579619760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6xob2Bqgtv32Y1fHiV6BxgHmDWMcEJY8tXeggrGGF04=;
- b=T2hOlK49lnk3pX2bzjs+2JBQ1d6WU7i4seRw/2SByJEMAcG8/Zz5eHy+szjP/buMIbwlQm
- Z4Izf+hsv58wtItKNcuSei52QFb7txSVovyhoIoTnJs44RumiNk1gvcfFV1SsdtaOQ3zws
- tn5tWKs/1IXk4J6oR5fuoJFSjd21lJM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LJ69MA94HymB7Wu/TMg3CaTPgcVavh3x5PG4KSTyato=;
+ b=HK82bLfYYcPrCHheaDYWfMBqriEFICJ5hPJxDVDa5bPMDNp8G+Ub2tEJWG2J9iuxLBZ5LF
+ Yyyhn9ExuSeclQ1/tU5cem6pvlbiZgfJjug0z2QNG9W2ErEzOjBQjcNzU9cEsAxKwskcvR
+ qthJByIaLUKbEgnMUkPqElmiaO1zXGk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-H5a7am_QP1y5UKOg3ZSWuA-1; Tue, 21 Jan 2020 10:15:54 -0500
+ us-mta-183-0KxASM3XMX62HpXb2MrASw-1; Tue, 21 Jan 2020 10:15:58 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFB3818AAFA1
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 15:15:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8A48801E67
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 15:15:57 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-38.brq.redhat.com [10.40.205.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43E0A60FC1;
- Tue, 21 Jan 2020 15:15:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7935A60E1C;
+ Tue, 21 Jan 2020 15:15:54 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] EDK2 firmware patches
-Date: Tue, 21 Jan 2020 16:15:41 +0100
-Message-Id: <20200121151543.18538-1-philmd@redhat.com>
+Subject: [PULL 1/2] roms/edk2-funcs: Force softfloat ARM toolchain prefix on
+ Debian
+Date: Tue, 21 Jan 2020 16:15:42 +0100
+Message-Id: <20200121151543.18538-2-philmd@redhat.com>
+In-Reply-To: <20200121151543.18538-1-philmd@redhat.com>
+References: <20200121151543.18538-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: H5a7am_QP1y5UKOg3ZSWuA-1
+X-MC-Unique: 0KxASM3XMX62HpXb2MrASw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,40 +77,45 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 43d1455cf84283466e5c22a217db5ef4b8197b14=
-:
+The Debian (based) distributions currently provides 2 ARM
+toolchains, documented as [1]:
 
-  qapi: Fix code generation with Python 3.5 (2020-01-20 12:17:38 +0000)
+* The ARM EABI (armel) port targets a range of older 32-bit ARM
+  devices, particularly those used in NAS hardware and a variety
+  of *plug computers.
+* The newer ARM hard-float (armhf) port supports newer, more
+  powerful 32-bit devices using version 7 of the ARM architecture
+  specification.
 
-are available in the Git repository at:
+For various reasons documented in [2], the EDK2 project suggests
+to use the softfloat toolchain (named 'armel' by Debian).
 
-  https://gitlab.com/philmd/qemu.git tags/edk2-next-20200121
+Force the softfloat cross toolchain prefix on Debian distributions.
 
-for you to fetch changes up to 71920809ceabedf7dbec67dda4d649bcbb11f55c:
+[1] https://www.debian.org/ports/arm/#status
+[2] https://github.com/tianocore/edk2/commit/41203b9a
 
-  gitlab-ci.yml: Add jobs to build EDK2 firmware binaries (2020-01-21 14:15=
-:48 +0100)
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ roms/edk2-funcs.sh | 3 +++
+ 1 file changed, 3 insertions(+)
 
-----------------------------------------------------------------
-
-Another set of build-sys patches, to help building the firmware
-binaries we use for testing. We almost have reproducible builds.
-
-----------------------------------------------------------------
-
-Philippe Mathieu-Daud=C3=A9 (2):
-  roms/edk2-funcs: Force softfloat ARM toolchain prefix on Debian
-  gitlab-ci.yml: Add jobs to build EDK2 firmware binaries
-
- .gitlab-ci-edk2.yml          | 49 ++++++++++++++++++++++++++++++++++++
- .gitlab-ci.d/edk2/Dockerfile | 27 ++++++++++++++++++++
- .gitlab-ci.yml               |  3 +++
- MAINTAINERS                  |  2 ++
- roms/edk2-funcs.sh           |  3 +++
- 5 files changed, 84 insertions(+)
- create mode 100644 .gitlab-ci-edk2.yml
- create mode 100644 .gitlab-ci.d/edk2/Dockerfile
-
+diff --git a/roms/edk2-funcs.sh b/roms/edk2-funcs.sh
+index 3f4485b201..cd6e4f2c82 100644
+--- a/roms/edk2-funcs.sh
++++ b/roms/edk2-funcs.sh
+@@ -112,6 +112,9 @@ qemu_edk2_get_cross_prefix()
+      ( [ "$gcc_arch" =3D=3D i686 ] && [ "$host_arch" =3D=3D x86_64 ] ); th=
+en
+     # no cross-compiler needed
+     :
++  elif ( [ -e /etc/debian_version ] && [ "$gcc_arch" =3D=3D arm ] ); then
++    # force soft-float cross-compiler on Debian
++    printf 'arm-linux-gnueabi-'
+   else
+     printf '%s-linux-gnu-\n' "$gcc_arch"
+   fi
 --=20
 2.21.1
 
