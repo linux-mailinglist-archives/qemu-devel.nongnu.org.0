@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90CE7143EE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:05:36 +0100 (CET)
-Received: from localhost ([::1]:54590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B636143EF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:09:29 +0100 (CET)
+Received: from localhost ([::1]:54756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itu9u-0006cn-N9
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:05:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56045)
+	id 1ituDg-0003BE-1A
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:09:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57560)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1itt4M-000431-KT
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:55:51 -0500
+ (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
+ id 1ittEN-0005XN-PI
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 08:06:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1itt4I-0000eM-2k
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:55:46 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35139
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1itt4H-0000d8-Na
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:55:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579611340;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ja4FFNbAPtQYjs6sLWQDS5nWYeDw7zaCG5za/NjBb/Q=;
- b=Qo4xhI2AJvsH5W9upj20iXXpeTKq1r5t8II7ecSmL8MUk/D0UImjmtNxM4x2SHiAIQjfrh
- dagF8sr8c6gZp9vLcHeLvAtZX+PCUPF+KY7MPDzfEaJmb6krtG1U5n/n0A/jWAkT0rrv6L
- ux+fX2L1QoGNih5ob3Gab1dnqV3T86E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-apGzALIuPuOIcOiWr8UhHg-1; Tue, 21 Jan 2020 07:55:32 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B97A8010FE;
- Tue, 21 Jan 2020 12:55:31 +0000 (UTC)
-Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE1615DA75;
- Tue, 21 Jan 2020 12:55:27 +0000 (UTC)
-Date: Tue, 21 Jan 2020 13:55:25 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: qemu-s390x@nongnu.org
-Subject: Re: [PATCH] s390x/event-facility: fix error propagation
-Message-ID: <20200121135525.2db0b61d.cohuck@redhat.com>
-In-Reply-To: <20200121095506.8537-1-cohuck@redhat.com>
-References: <20200121095506.8537-1-cohuck@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
+ id 1ittEJ-00009L-FK
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 08:06:07 -0500
+Received: from rs224.mailgun.us ([209.61.151.224]:10043)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71)
+ (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
+ id 1ittEJ-0008UN-9d
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 08:06:03 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=fintelia.io; q=dns/txt;
+ s=pic; 
+ t=1579611952; h=Content-Type: Cc: To: Subject: Message-ID: Date: From:
+ In-Reply-To: References: MIME-Version: Sender;
+ bh=AO4uiXu3ecvaYatTI1v/4EKvdGj5NK0QIjh304qeVOU=;
+ b=JeJtQ2Fcv3nNIOgp1mi1nLEDkY4mwlHO53VGjYQ/Prqgvc8dtZGc+eK4fpy1uvRr+mBlqgac
+ +DTmLljcMYiH13L1b+8S2aG4ID72dR9Qa5/Dhnfyw73L5t+qMooG1bNuEHh8h8uX8hsiLL1b
+ Xt6f73KyFJceJyQN8dyAwrmnNmQffX7ztuTm0qNlOwxq4iPdaCCEobSIFQXQCL4NKnYueTKv
+ NdLIhJtB3emOYR4NRUCRDB32gMEd0BUQqA+3r65PPJaTHIvaBooB673jWMQgYAyLsOPQOMRh
+ s3+mILhhC+hksHuAHQamUfiOWBatSzKfIRXb4hj+qpD8fSEewacTOQ==
+X-Mailgun-Sending-Ip: 209.61.151.224
+X-Mailgun-Sid: WyJlMGM5NSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOWI0ZTc2Il0=
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by mxa.mailgun.org with ESMTP id 5e26f72f.7f374620ab70-smtp-out-n03;
+ Tue, 21 Jan 2020 13:05:51 -0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id r19so2703694ljg.3;
+ Tue, 21 Jan 2020 05:05:50 -0800 (PST)
+X-Gm-Message-State: APjAAAV1F9/9vFYGEFUaRXKIJCMvZvFdi9RfWySqpPr+HsiNZyQLbP9R
+ QCoPsUouKV9ddlv0Wqgvs1lQaDEYh20zsnKl7Rg=
+X-Google-Smtp-Source: APXvYqz4qQ8oNQNzEokMOUd5Vtmh0pgRqKd0htmZBnLrk721oKLb1/2yj1Oq+1SLR7r/S2AETfuwXm5RtAzeMhkL2to=
+X-Received: by 2002:a2e:9118:: with SMTP id m24mr16627128ljg.105.1579611949593; 
+ Tue, 21 Jan 2020 05:05:49 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: apGzALIuPuOIcOiWr8UhHg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <CANnJOVHdcb2wuTZ9U5ziJsuPVin8pae9gUZjh=VH5WJ_5Yn+rw@mail.gmail.com>
+ <mhng-4545b3da-b9ba-4fa2-91e8-b0d7e66329d8@palmer-si-x1c4>
+In-Reply-To: <mhng-4545b3da-b9ba-4fa2-91e8-b0d7e66329d8@palmer-si-x1c4>
+From: Jonathan Behrens <jonathan@fintelia.io>
+Date: Tue, 21 Jan 2020 08:05:23 -0500
+X-Gmail-Original-Message-ID: <CANnJOVFZmmwvpdvLfr8r3VK1pudV_rmh3-iq_sgLZNsjkwQ_2A@mail.gmail.com>
+Message-ID: <CANnJOVFZmmwvpdvLfr8r3VK1pudV_rmh3-iq_sgLZNsjkwQ_2A@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PATCH v2] target/riscv: Hardwire mcounter.TM and
+ upper bits of [m|s]counteren
+To: Palmer Dabbelt <palmer@sifive.com>
+Content-Type: multipart/alternative; boundary="000000000000237b3f059ca611ad"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 209.61.151.224
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,42 +73,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Jan 2020 10:55:06 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
+--000000000000237b3f059ca611ad
+Content-Type: text/plain; charset="UTF-8"
 
-> We currently check (by error) if the passed-in Error pointer errp
-> is non-null and return after realizing the first child of the
-> event facility in that case. Symptom is that 'virsh shutdown'
-> does not work, as the sclpquiesce device is not realized.
-> 
-> Fix this by (correctly) checking the local Error err.
-> 
-> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> Fixes: 3d508334dd2c ("s390x/event-facility: Fix realize() error API violations")
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
->  hw/s390x/event-facility.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
-> index 8a93b8a1da97..9d6972afa8b3 100644
-> --- a/hw/s390x/event-facility.c
-> +++ b/hw/s390x/event-facility.c
-> @@ -338,7 +338,7 @@ static void sclp_events_bus_realize(BusState *bus, Error **errp)
->          DeviceState *dev = kid->child;
->  
->          object_property_set_bool(OBJECT(dev), true, "realized", &err);
-> -        if (errp) {
-> +        if (err) {
->              error_propagate(errp, err);
->              return;
->          }
+I was just doubling checking the status of this patch because it conflicts
+with the "RISC-V TIME CSR for privileged mode" PR that was just sent out,
+and it seems this never got merged? In any case, perhaps these changes
+should be rolled into that patch?
 
-Queued to s390-next.
+On Wed, Aug 21, 2019 at 1:37 PM Palmer Dabbelt <palmer@sifive.com> wrote:
 
+> On Wed, 14 Aug 2019 20:19:39 PDT (-0700), jonathan@fintelia.io wrote:
+> > Ping! What is the status of this patch?
+>
+> Sorry, I must have lost track of it.  I've added it to my patch queue.
+>
+> >
+> > On Wed, Jul 3, 2019 at 2:02 PM Jonathan Behrens <jonathan@fintelia.io>
+> > wrote:
+> >
+> >> Bin, that proposal proved to be somewhat more controversial than I was
+> >> expecting, since it was different than how currently available hardware
+> >> worked. This option seemed much more likely to be accepted in the short
+> >> term.
+> >>
+> >> Jonathan
+> >>
+> >> On Mon, Jul 1, 2019 at 9:26 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >>
+> >>> On Tue, Jul 2, 2019 at 8:20 AM Alistair Francis <alistair23@gmail.com>
+> >>> wrote:
+> >>> >
+> >>> > On Mon, Jul 1, 2019 at 8:56 AM <jonathan@fintelia.io> wrote:
+> >>> > >
+> >>> > > From: Jonathan Behrens <jonathan@fintelia.io>
+> >>> > >
+> >>> > > QEMU currently always triggers an illegal instruction exception
+> when
+> >>> > > code attempts to read the time CSR. This is valid behavor, but
+> only if
+> >>> > > the TM bit in mcounteren is hardwired to zero. This change also
+> >>> > > corrects mcounteren and scounteren CSRs to be 32-bits on both
+> 32-bit
+> >>> > > and 64-bit targets.
+> >>> > >
+> >>> > > Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
+> >>> >
+> >>> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> >>> >
+> >>>
+> >>> I am a little bit lost here. I think we agreed to allow directly read
+> >>> to time CSR when mcounteren.TM is set, no?
+> >>>
+> >>> Regards,
+> >>> Bin
+> >>>
+> >>
+>
+
+--000000000000237b3f059ca611ad
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I was just doubling checking the status of this patch beca=
+use it conflicts with the &quot;RISC-V TIME CSR for privileged mode&quot; P=
+R that was just sent out, and it seems this never got merged? In any case, =
+perhaps these changes should be rolled into that patch?<br></div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 21, =
+2019 at 1:37 PM Palmer Dabbelt &lt;<a href=3D"mailto:palmer@sifive.com">pal=
+mer@sifive.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">On Wed, 14 Aug 2019 20:19:39 PDT (-0700), <a href=3D"mailto:j=
+onathan@fintelia.io" target=3D"_blank">jonathan@fintelia.io</a> wrote:<br>
+&gt; Ping! What is the status of this patch?<br>
+<br>
+Sorry, I must have lost track of it.=C2=A0 I&#39;ve added it to my patch qu=
+eue.<br>
+<br>
+&gt;<br>
+&gt; On Wed, Jul 3, 2019 at 2:02 PM Jonathan Behrens &lt;<a href=3D"mailto:=
+jonathan@fintelia.io" target=3D"_blank">jonathan@fintelia.io</a>&gt;<br>
+&gt; wrote:<br>
+&gt;<br>
+&gt;&gt; Bin, that proposal proved to be somewhat more controversial than I=
+ was<br>
+&gt;&gt; expecting, since it was different than how currently available har=
+dware<br>
+&gt;&gt; worked. This option seemed much more likely to be accepted in the =
+short<br>
+&gt;&gt; term.<br>
+&gt;&gt;<br>
+&gt;&gt; Jonathan<br>
+&gt;&gt;<br>
+&gt;&gt; On Mon, Jul 1, 2019 at 9:26 PM Bin Meng &lt;<a href=3D"mailto:bmen=
+g.cn@gmail.com" target=3D"_blank">bmeng.cn@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt;&gt; On Tue, Jul 2, 2019 at 8:20 AM Alistair Francis &lt;<a href=3D=
+"mailto:alistair23@gmail.com" target=3D"_blank">alistair23@gmail.com</a>&gt=
+;<br>
+&gt;&gt;&gt; wrote:<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; On Mon, Jul 1, 2019 at 8:56 AM &lt;<a href=3D"mailto:jona=
+than@fintelia.io" target=3D"_blank">jonathan@fintelia.io</a>&gt; wrote:<br>
+&gt;&gt;&gt; &gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt; From: Jonathan Behrens &lt;<a href=3D"mailto:jonatha=
+n@fintelia.io" target=3D"_blank">jonathan@fintelia.io</a>&gt;<br>
+&gt;&gt;&gt; &gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt; QEMU currently always triggers an illegal instructio=
+n exception when<br>
+&gt;&gt;&gt; &gt; &gt; code attempts to read the time CSR. This is valid be=
+havor, but only if<br>
+&gt;&gt;&gt; &gt; &gt; the TM bit in mcounteren is hardwired to zero. This =
+change also<br>
+&gt;&gt;&gt; &gt; &gt; corrects mcounteren and scounteren CSRs to be 32-bit=
+s on both 32-bit<br>
+&gt;&gt;&gt; &gt; &gt; and 64-bit targets.<br>
+&gt;&gt;&gt; &gt; &gt;<br>
+&gt;&gt;&gt; &gt; &gt; Signed-off-by: Jonathan Behrens &lt;<a href=3D"mailt=
+o:jonathan@fintelia.io" target=3D"_blank">jonathan@fintelia.io</a>&gt;<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alist=
+air.francis@wdc.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; I am a little bit lost here. I think we agreed to allow direct=
+ly read<br>
+&gt;&gt;&gt; to time CSR when mcounteren.TM is set, no?<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Regards,<br>
+&gt;&gt;&gt; Bin<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;<br>
+</blockquote></div>
+
+--000000000000237b3f059ca611ad--
 
