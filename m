@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E436F1444DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 20:13:12 +0100 (CET)
-Received: from localhost ([::1]:59906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B801444DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 20:12:57 +0100 (CET)
+Received: from localhost ([::1]:59898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ityxb-0004fj-Ep
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 14:13:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59343)
+	id 1ityxL-0004Bi-0z
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 14:12:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59214)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ityvL-0002aa-Ko
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 14:10:55 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ityv9-0002Ic-Ma
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 14:10:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ityvH-0004Tu-Qu
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 14:10:51 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55798)
+ (envelope-from <peter.maydell@linaro.org>) id 1ityv8-0004Od-Bp
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 14:10:39 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37240)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ityvH-0004TN-Ku
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 14:10:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ityvG-0004f8-BM
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 19:10:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 53BD62E80C7
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 19:10:46 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 21 Jan 2020 19:01:43 -0000
-From: Sean Feole <sean.feole@canonical.com>
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ityv8-0004OL-67
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 14:10:38 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id w15so4590724wru.4
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 11:10:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H4OFsg26gJaJunl/BhON2bBtKMiFVVfKgZ3mGizQWN4=;
+ b=OgA7B9U0WIor5e5Yr1U1llchQQC9seckt0osd1QL7BzZxlWER66TY6K/57rCC2Eq1b
+ DerHYnOcUyVZ16nfdO70fPOAesZnnb691E1GKZchidZHWysj0HAi25nYP92F+cSaSmhy
+ uluDfKVImyk7StFau12GWe9au9p0mclEoj+nhR6cxTXk59aFMefOogqA80/Q4n5ciwwF
+ znym9zmYBSqrY1SAtRH7MbzHho06uQeNDNRY2tEPVlpM4fleRqtjPpeWo0jM1SynPk1u
+ SzJkVwcpngQtDtP2NlUv4sDp+FanCn9DFRsALAFcakp2tH1S3zMIwcE11fjIR3gAn2XZ
+ XnWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H4OFsg26gJaJunl/BhON2bBtKMiFVVfKgZ3mGizQWN4=;
+ b=SksOPdaaPulhRz2ZL/vrOJTYsxhIw/0IPPVohxJwduFtKOSeLZ8nU/xiHvMgID4LFj
+ ad3hDhzq8+7lFSTfBOy4siG8Dq6kYLwNhksf88uKRA77ql5n3aFa1rOS+SVN37+6QMmz
+ NkKM59sm2HJ1UnAUf9NIec0BOug1PndFOXmXYLd9DEUC8Tg7UurFBCMz25yG061XUJA9
+ JJhe5hn5lrwjNpIHjkCMx+eZKTLmFVDI0bZrePMWMafxNdFm25kEoSd4Z5+qT2GoKg7U
+ DkGZW0hWtJkcLl+fxStGxOMmcdn4n+idWEVX0GtjloZEX+0ZLFlqd9AdjhiTEBXFvoZT
+ ZVpQ==
+X-Gm-Message-State: APjAAAU2ZRdhSVa1GiRHkmYFlw3ATIizzGatQo5MpvLQtdUkXO/vQlH3
+ F10PwJ5Ma8mI7mNB7v/2TnTvN8sJIMA/mA==
+X-Google-Smtp-Source: APXvYqwh/pzdFYEzmSqmRafqKqXxgDB7lW1XXC5zIlQIVgu1uQsByzOAdMkxX31s/Rkhs6VUYNnSTw==
+X-Received: by 2002:adf:ea4f:: with SMTP id j15mr6759366wrn.356.1579633836884; 
+ Tue, 21 Jan 2020 11:10:36 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id l3sm49533271wrt.29.2020.01.21.11.10.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jan 2020 11:10:36 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=maas; status=Incomplete; importance=Undecided;
- assignee=lee.trager@canonical.com; 
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
- assignee=maas; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ltrager paelzer sfeole
-X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
-X-Launchpad-Bug-Modifier: Sean Feole (sfeole)
-References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
-Message-Id: <157963330317.5140.16002982186586902841.malone@wampee.canonical.com>
-Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
- initial deploy
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 8c7fb41c47f90a0ab3dc95c8f4aef814f671549f
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+Subject: [PATCH 0/5] qemu-img: convert to rST
+Date: Tue, 21 Jan 2020 19:10:28 +0000
+Message-Id: <20200121191033.28195-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,85 +75,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please note# https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1790901
+This patchset converts the qemu-img documentation to rST format.
+It includes a new Sphinx extension which handles parsing the .hx
+files which provide documentation fragments for this manual.
 
--- =
+The general approach follows the outline in the email I
+sent the other day:
+https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg03786.html
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859656
+The new Sphinx extension implements the hxtool-doc::
+directive, which indicates where the assembled rST
+document fragments should be inserted into the manual.
+qemu-img-cmds.hx doesn't use the DEFHEADING or ARCHHEADING
+directives, but the extension implements them (tested
+with some local modifications to the .hx file to check
+that they do the right thing).
 
-Title:
-  [2.6] Unable to reboot s390x KVM machine after initial deploy
+As noted in the commit message for the qemu-img.texi conversion,
+I have not attempted to tackle any of the muddle in the
+current documentation structure or the repetition between
+the manual document, the fragments in the .hx file and
+the C code; this is a "simplest thing that works"
+like-for-like conversion.
 
-Status in MAAS:
-  Incomplete
-Status in QEMU:
-  Incomplete
-Status in Ubuntu on IBM z Systems:
-  Triaged
+Another deliberate omission is that I have not attempted
+to get links between our various Sphinx manuals (system,
+interop, etc) working yet, as this is not totally trivial
+and the odd minor missed hyperlink doesn't seem to me
+to be a deal-breaker.
 
-Bug description:
-  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
-  Arch: S390x
+Sorry about the size of the main 'convert qemu-img'
+patch, but it's unavoidable when converting a big
+document between formats.
 
-  Appears that MAAS can not find the s390x bootloader to boot from the
-  disk, not sure how maas determines this.  However this was working in
-  the past. I had originally thought that if the maas machine was
-  deployed then it defaulted to boot from disk.
+thanks
+-- PMM
 
-  If I force the VM to book from disk, the VM starts up as expected.
+Based-on: 20200116141511.16849-1-peter.maydell@linaro.org
+("convert qemu-nbd, qemu-block-drivers to rST";
+dependencies are mostly textual and in a few bits of
+the makefile machinery)
 
-  Reproduce:
+Peter Maydell (5):
+  hxtool: Support SRST/ERST directives
+  docs/sphinx: Add new hxtool Sphinx extension
+  qemu-img-cmds.hx: Add rST documentation fragments
+  qemu-img: Convert invocation documentation to rST
+  qemu-img-cmds.hx: Remove texinfo document fragments
 
-  - Deploy Disco on S390x KVM instance
-  - Reboot it
+ Makefile                  |  19 +-
+ MAINTAINERS               |   1 +
+ docs/conf.py              |   3 +-
+ docs/interop/conf.py      |   2 +
+ docs/interop/index.rst    |   1 +
+ docs/interop/qemu-img.rst | 822 ++++++++++++++++++++++++++++++++++++++
+ docs/sphinx/hxtool.py     | 210 ++++++++++
+ qemu-doc.texi             |  10 +-
+ qemu-img-cmds.hx          |  99 +++--
+ qemu-img.texi             | 795 ------------------------------------
+ scripts/hxtool            |  33 +-
+ 11 files changed, 1128 insertions(+), 867 deletions(-)
+ create mode 100644 docs/interop/qemu-img.rst
+ create mode 100644 docs/sphinx/hxtool.py
+ delete mode 100644 qemu-img.texi
 
-  on the KVM console...
-
-  Connected to domain s2lp6g001
-  Escape character is ^]
-  done
-  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
-  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
-  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
-  Trying pxelinux.cfg files...
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  Failed to load OS from network
-
-  =3D=3D> /var/log/maas/rackd.log <=3D=3D
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
-0x.bin requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
-5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-1-52-54-00-e5-d7-bb requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64BA0 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64BA requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64B requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF6 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-A requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
- requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
-efault requested by 10.246.75.160
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
+-- 
+2.20.1
 
