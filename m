@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0042143D47
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 13:50:21 +0100 (CET)
-Received: from localhost ([::1]:53314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E292143D4A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 13:53:16 +0100 (CET)
+Received: from localhost ([::1]:53368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itsz5-0004Zg-Vx
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 07:50:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51389)
+	id 1itt1v-0008JS-4b
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 07:53:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51417)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itscP-0007Ee-Ua
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:54 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itscW-0007KO-R9
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:27:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itscO-0002It-O7
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:53 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22382
+ (envelope-from <dgilbert@redhat.com>) id 1itscV-0002Qf-Ov
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:27:00 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60891
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itscO-0002Hv-K0
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:52 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itscU-0002Ow-U8
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609612;
+ s=mimecast20190719; t=1579609618;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5AgYBT4wAsjhnwF7AhBOcOEdSTo7yDf+Qnw9sPdGAvw=;
- b=HIGkWcO+ZBg83cEYgehKNt302LTiWfO37g6i525nror7GsjnayCV1KEtMzeZ/58fZOycoS
- FhJu0/FdYDpf6EE9lA4+q6kZa5mlkxgtcHnI9c2XS5B5h7ioVLvjvGZBLRKiFPaWOby8MC
- euO8PA/qdkSHVlIUtNzsGyFazMKoYnw=
+ bh=LChwemckiLjUJ17lsVwLXIff87pjDfNhrjcC19rE6aM=;
+ b=JUoyiJxfHj6pd0UGmMjK3cCZ//HK/SiZIqjYoZ2/P94Ahbh3+r+SRR9ZeQ3nDZ2u4K7eyC
+ PmHaTNwbxQz9Fz2X4tpm+FO4fWQYOid/A4Wx0RJ5zaMtQrP9BuQ+NnR2uBDXoo+KfGSAJF
+ voQ+iJQe3VkLiDLedvwOrYaIgogL3To=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-HiZaTxL0M-iz_otg8UTpxA-1; Tue, 21 Jan 2020 07:26:50 -0500
+ us-mta-154-VyfcQI9UMXWn8vImQOH8Mg-1; Tue, 21 Jan 2020 07:26:55 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFCAC107ACC9;
- Tue, 21 Jan 2020 12:26:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64C67107ACC7;
+ Tue, 21 Jan 2020 12:26:54 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3830A60BE0;
- Tue, 21 Jan 2020 12:26:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 375F860BE0;
+ Tue, 21 Jan 2020 12:26:50 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 029/109] virtiofsd: make -f (foreground) the default
-Date: Tue, 21 Jan 2020 12:23:13 +0000
-Message-Id: <20200121122433.50803-30-dgilbert@redhat.com>
+Subject: [PATCH v2 030/109] virtiofsd: add vhost-user.json file
+Date: Tue, 21 Jan 2020 12:23:14 +0000
+Message-Id: <20200121122433.50803-31-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: HiZaTxL0M-iz_otg8UTpxA-1
+X-MC-Unique: VyfcQI9UMXWn8vImQOH8Mg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -78,62 +78,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-According to vhost-user.rst "Backend program conventions", backend
-programs should run in the foregound by default.  Follow the
-conventions so libvirt and other management tools can control virtiofsd
-in a standard way.
+Install a vhost-user.json file describing virtiofsd.  This allows
+libvirt and other management tools to enumerate vhost-user backend
+programs.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- tools/virtiofsd/helper.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .gitignore                                | 1 +
+ Makefile                                  | 1 +
+ tools/virtiofsd/50-qemu-virtiofsd.json.in | 5 +++++
+ 3 files changed, 7 insertions(+)
+ create mode 100644 tools/virtiofsd/50-qemu-virtiofsd.json.in
 
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 1dc497a7ca..bb35b90e75 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -28,6 +28,11 @@
-     {                                               \
-         t, offsetof(struct fuse_cmdline_opts, p), 1 \
-     }
-+#define FUSE_HELPER_OPT_VALUE(t, p, v)              \
-+    {                                               \
-+        t, offsetof(struct fuse_cmdline_opts, p), v \
-+    }
-+
+diff --git a/.gitignore b/.gitignore
+index efad605e1a..bc0a035f9c 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -6,6 +6,7 @@
+ /config-target.*
+ /config.status
+ /config-temp
++/tools/virtiofsd/50-qemu-virtiofsd.json
+ /elf2dmp
+ /trace-events-all
+ /trace/generated-events.h
+diff --git a/Makefile b/Makefile
+index b4ffb0c3d9..a87e06ad93 100644
+--- a/Makefile
++++ b/Makefile
+@@ -329,6 +329,7 @@ endif
 =20
- static const struct fuse_opt fuse_helper_opts[] =3D {
-     FUSE_HELPER_OPT("-h", show_help),
-@@ -41,6 +46,7 @@ static const struct fuse_opt fuse_helper_opts[] =3D {
-     FUSE_OPT_KEY("-d", FUSE_OPT_KEY_KEEP),
-     FUSE_OPT_KEY("debug", FUSE_OPT_KEY_KEEP),
-     FUSE_HELPER_OPT("-f", foreground),
-+    FUSE_HELPER_OPT_VALUE("--daemonize", foreground, 0),
-     FUSE_HELPER_OPT("-s", singlethread),
-     FUSE_HELPER_OPT("fsname=3D", nodefault_subtype),
-     FUSE_OPT_KEY("fsname=3D", FUSE_OPT_KEY_KEEP),
-@@ -131,6 +137,7 @@ void fuse_cmdline_help(void)
-            "    -V   --version             print version\n"
-            "    -d   -o debug              enable debug output (implies -f=
-)\n"
-            "    -f                         foreground operation\n"
-+           "    --daemonize                run in background\n"
-            "    -s                         disable multi-threaded operatio=
-n\n"
-            "    -o max_idle_threads        the maximum number of idle work=
-er "
-            "threads\n"
-@@ -159,6 +166,7 @@ int fuse_parse_cmdline(struct fuse_args *args, struct f=
-use_cmdline_opts *opts)
-     memset(opts, 0, sizeof(struct fuse_cmdline_opts));
+ ifdef CONFIG_LINUX
+ HELPERS-y +=3D virtiofsd$(EXESUF)
++vhost-user-json-y +=3D tools/virtiofsd/50-qemu-virtiofsd.json
+ endif
 =20
-     opts->max_idle_threads =3D 10;
-+    opts->foreground =3D 1;
-=20
-     if (fuse_opt_parse(args, opts, fuse_helper_opts, fuse_helper_opt_proc)=
- =3D=3D
-         -1) {
+ # Sphinx does not allow building manuals into the same directory as
+diff --git a/tools/virtiofsd/50-qemu-virtiofsd.json.in b/tools/virtiofsd/50=
+-qemu-virtiofsd.json.in
+new file mode 100644
+index 0000000000..9bcd86f8dc
+--- /dev/null
++++ b/tools/virtiofsd/50-qemu-virtiofsd.json.in
+@@ -0,0 +1,5 @@
++{
++  "description": "QEMU virtiofsd vhost-user-fs",
++  "type": "fs",
++  "binary": "@libexecdir@/virtiofsd"
++}
 --=20
 2.24.1
 
