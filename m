@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74D39143EAB
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:55:32 +0100 (CET)
-Received: from localhost ([::1]:54378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8623D143ED9
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:03:18 +0100 (CET)
+Received: from localhost ([::1]:54540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itu0A-0003ma-T2
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:55:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33882)
+	id 1itu7h-000416-CN
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:03:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52655)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ittkT-0002Hd-9k
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 08:39:18 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itshC-0002za-TV
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ittkR-0002SG-N2
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 08:39:17 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53717
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1itsh8-0004eO-JK
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:50 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44955
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ittkJ-0002NZ-VD
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 08:39:15 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsh8-0004eG-FZ
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579613947;
+ s=mimecast20190719; t=1579609906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UNaqdG/kf6Aak5iOvVnZKMEuLm98y8RF9EOYvq0J7S8=;
- b=deQzd0AB7BvlABP/IjcZDIDeh1ZRhS1f2h4zAQszEPm1XemrlQ/7+IKExOP5/OdgKfOZjw
- cWE2kbmGQkuxlDn8kb8FGZ5srzpgyrKnsMNanpDrHJNK5colLpZ1Uo3bBqKeOuFE4Rp4Ki
- vRVvedyqaNZMxckUHkFWVqtizcLur04=
+ bh=EelNPo7oaGzq9Vcc5rnMRqCAK39taXFuie982T6uv/Q=;
+ b=VoeCqGp1C5UFFgFDCCeQqPeT/Gv+tqISpTX7sQXli4HTAjh7nZIRfzLaCFmPLIm0sDqjgY
+ EqKQBTE14Cp6BvYNUvnk2nmToF788WKqP+0f4rSBUML7OQdaS5SoCm8OkdqLgjWMwJZp3U
+ Z8Tixt+KD9M6+fBSutoTGdf7no36wSQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-79-uPOuSdQYOmil2C_jhNcbZQ-1; Tue, 21 Jan 2020 08:39:04 -0500
-X-MC-Unique: uPOuSdQYOmil2C_jhNcbZQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-314-CKIU2QMnNv2or-ScyywIRg-1; Tue, 21 Jan 2020 07:31:44 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA6D0800D48;
- Tue, 21 Jan 2020 13:39:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
- [10.36.116.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 14E641001DE1;
- Tue, 21 Jan 2020 13:39:00 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id ABC0E1138600; Tue, 21 Jan 2020 14:38:58 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 1/2] pvpanic: introduce crashloaded for pvpanic
-References: <20200110100634.491936-1-pizhenwei@bytedance.com>
- <20200110100634.491936-2-pizhenwei@bytedance.com>
- <87h80pi5hf.fsf@dusky.pond.sub.org>
- <247586dd-576a-a0c9-9c43-5d9a310a4ddc@redhat.com>
-Date: Tue, 21 Jan 2020 14:38:58 +0100
-In-Reply-To: <247586dd-576a-a0c9-9c43-5d9a310a4ddc@redhat.com> (Paolo
- Bonzini's message of "Tue, 21 Jan 2020 11:50:53 +0100")
-Message-ID: <87sgk9c4jx.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 697531083E81;
+ Tue, 21 Jan 2020 12:31:43 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B82060BE0;
+ Tue, 21 Jan 2020 12:31:35 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
+ berrange@redhat.com, slp@redhat.com, philmd@redhat.com
+Subject: [PATCH v2 085/109] Virtiofsd: fix memory leak on fuse queueinfo
+Date: Tue, 21 Jan 2020 12:24:09 +0000
+Message-Id: <20200121122433.50803-86-dgilbert@redhat.com>
+In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
+References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: CKIU2QMnNv2or-ScyywIRg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,57 +72,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yelu@bytedance.com, libvir-list@redhat.com, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, zhenwei pi <pizhenwei@bytedance.com>,
- qemu-devel@nongnu.org, mprivozn@redhat.com
+Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+From: Liu Bo <bo.liu@linux.alibaba.com>
 
-> On 21/01/20 09:22, Markus Armbruster wrote:
->> zhenwei pi <pizhenwei@bytedance.com> writes:
->> 
->>> Add bit 1 for pvpanic. This bit means that guest hits a panic, but
->>> guest wants to handle error by itself. Typical case: Linux guest runs
->>> kdump in panic. It will help us to separate the abnormal reboot from
->>> normal operation.
->>>
->>> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->>> ---
->>>  docs/specs/pvpanic.txt | 8 ++++++--
->>>  1 file changed, 6 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
->>> index c7bbacc778..bdea68a430 100644
->>> --- a/docs/specs/pvpanic.txt
->>> +++ b/docs/specs/pvpanic.txt
->>> @@ -16,8 +16,12 @@ pvpanic exposes a single I/O port, by default 0x505. On read, the bits
->>>  recognized by the device are set. Software should ignore bits it doesn't
->>>  recognize. On write, the bits not recognized by the device are ignored.
->>>  Software should set only bits both itself and the device recognize.
->> 
->> Guest software, I presume.
->> 
->>> -Currently, only bit 0 is recognized, setting it indicates a guest panic
->>> -has happened.
->>> +
->>> +Bit Definition
->>> +--------------
->>> +bit 0: setting it indicates a guest panic has happened.
->>> +bit 1: named crashloaded. setting it indicates a guest panic and run
->>> +       kexec to handle error by guest itself.
->> 
->> Suggest to scratch "named crashloaded."
->
-> bit 1: a guest panic has happened and will be handled by the guest;
->        the host should record it or report it, but should not affect
->        the execution of the guest.
->
-> ?
->
-> Paolo
+For fuse's queueinfo, both queueinfo array and queueinfos are allocated in
+fv_queue_set_started() but not cleaned up when the daemon process quits.
 
-Works for me, thanks!
+This fixes the leak in proper places.
+
+Signed-off-by: Liu Bo <bo.liu@linux.alibaba.com>
+Signed-off-by: Eric Ren <renzhen@linux.alibaba.com>
+Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+---
+ tools/virtiofsd/fuse_virtio.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index b7948def27..fb8d6d1379 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -625,6 +625,8 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vu=
+d, int qidx)
+     }
+     close(ourqi->kill_fd);
+     ourqi->kick_fd =3D -1;
++    free(vud->qi[qidx]);
++    vud->qi[qidx] =3D NULL;
+ }
+=20
+ /* Callback from libvhost-user on start or stop of a queue */
+@@ -884,6 +886,12 @@ int virtio_session_mount(struct fuse_session *se)
+ void virtio_session_close(struct fuse_session *se)
+ {
+     close(se->vu_socketfd);
++
++    if (!se->virtio_dev) {
++        return;
++    }
++
++    free(se->virtio_dev->qi);
+     free(se->virtio_dev);
+     se->virtio_dev =3D NULL;
+ }
+--=20
+2.24.1
 
 
