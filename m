@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6369914412D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 17:01:49 +0100 (CET)
-Received: from localhost ([::1]:57218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 171771441B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 17:09:27 +0100 (CET)
+Received: from localhost ([::1]:57360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itvyN-0005Kd-2f
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 11:01:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60675)
+	id 1itw5l-00069S-Se
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 11:09:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33406)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1itvw9-0003rl-Il
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:59:30 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1itw1v-0002kY-D6
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:05:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1itvw8-0004a8-Ga
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:59:29 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42086
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itvw8-0004Zs-DF
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:59:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579622368;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5YOvBJzsB/me9wS33tdEezh/VBgVL25dn4DHeAbG1vk=;
- b=adhgYGkPvAiM507NQL1VZXS4N/9rtI3QTsuoqG+m2ewq4ceyki09bADlMWEvxkw+HRMknD
- XF/7kNe8Q+JdIIx/3rSdQbtgmAPEFnNpLpdZbfeK3d3QrOMf3oM+qjUnGu21ubiMx8amXL
- AUDJbzZ2CdLl17LzLvVtKSQIO4mP3Vw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-T4PWjjnlNUSL6IX24qmKEw-1; Tue, 21 Jan 2020 10:59:26 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29321DB35;
- Tue, 21 Jan 2020 15:59:25 +0000 (UTC)
-Received: from localhost (ovpn-117-116.ams2.redhat.com [10.36.117.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 169008642E;
- Tue, 21 Jan 2020 15:59:23 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 2/2] iotests: Test convert -n -B to backing-less target
-Date: Tue, 21 Jan 2020 16:59:15 +0100
-Message-Id: <20200121155915.98232-3-mreitz@redhat.com>
-In-Reply-To: <20200121155915.98232-1-mreitz@redhat.com>
-References: <20200121155915.98232-1-mreitz@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1itw1u-0000w0-0R
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:05:27 -0500
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:39846)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1itw1t-0000vJ-Oz
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:05:25 -0500
+Received: by mail-ot1-x32c.google.com with SMTP id 77so3374941oty.6
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 08:05:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=HnNLuEP/VeahBjDipy7YPDkO4ayGjWZWswqt6Qo4bx8=;
+ b=pRLM9KCVkK/If4mOFEIN1dqSPorYlmPmUJgTavuSei7GxLXqUvJ2FpAnND10caveQz
+ +1PFMKdXtN2OXienmiLFa4+8MoVkvTbStMmaCmmG+FTHggGdsd3T9sNJX/VBLBPNf+2w
+ ZCOCmgG14cs+FFJnOFsuTuhzCzBr606lV8QcN0enZ9JyX9l5dSro6d33gru23uOB1Ud4
+ FiRDph+aNS0nAYJ1OvBU6o5n0j6iv3tCOw5otLClTvnZc/hcdJoNqN9ExMREuZ0Clsxz
+ mD0TnFN8JyAHmnfzLA5g7SA6GeiX0BUaNMQ/s75hTZjUyty/+UDj9RuziWdCMFKjnROS
+ ET2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HnNLuEP/VeahBjDipy7YPDkO4ayGjWZWswqt6Qo4bx8=;
+ b=E36+mls43ou4OTFW3bLwxdNGtL1ueAmKanYcSZ/iP5nA6n154x5u25FYI4E7kUbsGW
+ t21JqPxdK0Cp/ae/MwU1iD1Mqi11NulkLrrvydAGGndQx3ow+7cgJ9OHWAUvN5HJdqsC
+ qEvlMBlL6Xd7XBY+BseNgkIRKJdOaN7I1Qw8D7hI1noht/6GyWXy78PgFgdpHirZVKT6
+ 3KzNlPmmptD6lXoA902amcbLDwS6FxkYcq2wNBxjOmdQZ3kzzDM3SDmLp0aybAmJkI+T
+ wXFZy43KpTTxcMacVe1FaPGWDIWgrRRbT91zJW7Hd33Fs5uESOR6PrYQcWdjv+uUH91Q
+ yhhQ==
+X-Gm-Message-State: APjAAAVJP5x7dR8kugh5vzJhO/yJKNmMMvMJMZksuJTicXDBuf2oTSaM
+ XV7aDn42GS6bHsX+9Mrp77mX62wdk8bPvgDOECH7sA==
+X-Google-Smtp-Source: APXvYqyhI61siyLHlHAYbli+KUFyUXQRrzaunrvTsV42TS7uWYBSJsOOvfCsNZ9Hz5a5LRa1tJysx6ZPnSMXdPEwXXY=
+X-Received: by 2002:a05:6830:13d3:: with SMTP id
+ e19mr4073167otq.135.1579622724887; 
+ Tue, 21 Jan 2020 08:05:24 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: T4PWjjnlNUSL6IX24qmKEw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+References: <20200121151543.18538-1-philmd@redhat.com>
+In-Reply-To: <20200121151543.18538-1-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Jan 2020 16:05:13 +0000
+Message-ID: <CAFEAcA_d-QfcCmZY53xFciea3o8KRGN2Nvi=Ss+JBksZ9R-ZcA@mail.gmail.com>
+Subject: Re: [PULL 0/2] EDK2 firmware patches
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,62 +74,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This must not crash.
+On Tue, 21 Jan 2020 at 15:19, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> The following changes since commit 43d1455cf84283466e5c22a217db5ef4b8197b=
+14:
+>
+>   qapi: Fix code generation with Python 3.5 (2020-01-20 12:17:38 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/philmd/qemu.git tags/edk2-next-20200121
+>
+> for you to fetch changes up to 71920809ceabedf7dbec67dda4d649bcbb11f55c:
+>
+>   gitlab-ci.yml: Add jobs to build EDK2 firmware binaries (2020-01-21 14:=
+15:48 +0100)
+>
+> ----------------------------------------------------------------
+>
+> Another set of build-sys patches, to help building the firmware
+> binaries we use for testing. We almost have reproducible builds.
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/122     | 14 ++++++++++++++
- tests/qemu-iotests/122.out |  5 +++++
- 2 files changed, 19 insertions(+)
 
-diff --git a/tests/qemu-iotests/122 b/tests/qemu-iotests/122
-index dfa350936f..f7a3ae684a 100755
---- a/tests/qemu-iotests/122
-+++ b/tests/qemu-iotests/122
-@@ -276,6 +276,20 @@ $QEMU_IMG convert -O $IMGFMT -n "$TEST_IMG" "$TEST_IMG=
-".orig
-=20
- $QEMU_IMG compare "$TEST_IMG" "$TEST_IMG".orig
-=20
-+echo
-+echo '=3D=3D=3D -n -B to an image without a backing file =3D=3D=3D'
-+echo
-+
-+# Base for the output
-+TEST_IMG=3D"$TEST_IMG".base _make_test_img 64M
-+
-+# Output that does have $TEST_IMG.base set as its (implicit) backing file
-+TEST_IMG=3D"$TEST_IMG".orig _make_test_img 64M
-+
-+# Convert with -n, which should not confuse -B with "target BDS has a
-+# backing file"
-+$QEMU_IMG convert -O $IMGFMT -B "$TEST_IMG".base -n "$TEST_IMG" "$TEST_IMG=
-".orig
-+
- # success, all done
- echo '*** done'
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/122.out b/tests/qemu-iotests/122.out
-index 849b6cc2ef..1a35951a80 100644
---- a/tests/qemu-iotests/122.out
-+++ b/tests/qemu-iotests/122.out
-@@ -228,4 +228,9 @@ Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=3DIMGFMT size=
-=3D67108864
- wrote 65536/65536 bytes at offset 0
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- Images are identical.
-+
-+=3D=3D=3D -n -B to an image without a backing file =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D67108864
-+Formatting 'TEST_DIR/t.IMGFMT.orig', fmt=3DIMGFMT size=3D67108864
- *** done
---=20
-2.24.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
+
+-- PMM
 
