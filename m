@@ -2,108 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4017014390F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 10:07:23 +0100 (CET)
-Received: from localhost ([::1]:50204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F4D14394C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 10:17:58 +0100 (CET)
+Received: from localhost ([::1]:50334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itpVK-00042Y-Ay
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 04:07:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55931)
+	id 1itpfY-00083a-Kz
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 04:17:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56969)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1itpUI-0003Ut-2O
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:06:19 -0500
+ (envelope-from <mreitz@redhat.com>) id 1itpcw-00065U-Ea
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:15:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1itpUG-0007r8-5j
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:06:17 -0500
-Received: from mail-eopbgr140122.outbound.protection.outlook.com
- ([40.107.14.122]:33603 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1itpUF-0007qK-DX; Tue, 21 Jan 2020 04:06:16 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=II0g9J7OOovUHM0kgc8vfAjivYEtInewCQTlR38tk6CrZ2+Fs/PStkTCHhx1EHTtnna/gLJJG98deAoTBM2ZQ7aAlOtXQW/m4OJUkbc+GJ/9hXnPof+mDPQJYn2aVngYq/gzearpnfU2T2j+iDoogVNgT3Cn+OaKOG2RonAb81auiZeXrm+R9Hm8WAP5Gbh1ZsWhoYwA/n8vhMKalVb/wZmV+SrGY9bCXFEj+NXgCuLzJny+DEgnt2RS+I3coUlnZmzOQL6f8LYP/Y55i0YXb6Fm3amIzyUr8iBMQErkMQEiND3Ioo7qi1EysmDPaY7aI7E+7Nw2HQU23N/G0B8ahQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Y3+tcxyuK09+PPEeqhhNDLvmSRswZU7pBGJ3pk/UFQ=;
- b=UdJrkuxlXCVPrxzdwWu4wTKTVcse/DjI5DLAv9jDa0N2iFbLoZAq32q17zrmBscB0jd+jS99cFijKJRpJW8cSrKpyz11RlTMq/+u4hnnsEWGIp6rZUZ1zlOjs3dmORhTV64mtqRmJPsTFFGjmN8CpFS9Wohi3qeynvmHNzteYaf5ZD3P2MHN6prmIQZtqG4WPfTthDHydKzvw6Uo3Yos6y8OyyMnW07VDRZ6vcBXLYC1OwJGiOUHoQTSmxk4VAVFkCTtRINvOQPljzh6xTDNjt/+Y8uE/O4XdEBamPHFrkD3s5igO+KmS47xj8mCxlLitkEX6r3HknSO4pmGftomDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5Y3+tcxyuK09+PPEeqhhNDLvmSRswZU7pBGJ3pk/UFQ=;
- b=fd3QlRQDPsWnY0/Lhfl89YBNQNaNgDru6K0ZhhHItUNPBQV/zMF/GIwnfpPIdouPGHFUV4tgzYKyYSOTT59fyiey7QrytNNX6v+4Sh0BK8MiM1xA8cJDMsSpw6fr9/0qaaPMdL0rI0GU2IUH3WVUDpFN5Gn7wiOZT/DlmoeUsvc=
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB5285.eurprd08.prod.outlook.com (20.179.0.161) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.19; Tue, 21 Jan 2020 09:06:12 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2644.027; Tue, 21 Jan 2020
- 09:06:12 +0000
-Received: from [172.16.24.200] (185.231.240.5) by
- AM0PR04CA0033.eurprd04.prod.outlook.com (2603:10a6:208:122::46) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.20 via Frontend
- Transport; Tue, 21 Jan 2020 09:06:11 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Eric Blake <eblake@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH v10 2/2] docs: qcow2: introduce compression type feature
-Thread-Topic: [PATCH v10 2/2] docs: qcow2: introduce compression type feature
-Thread-Index: AQHVz7UL5hfQaRKsXEyWI5N7oc9Wr6fz9TOAgADfbgA=
-Date: Tue, 21 Jan 2020 09:06:12 +0000
-Message-ID: <562a676a-094f-d144-4000-b9bbc1038be9@virtuozzo.com>
-References: <20200120171345.24345-1-vsementsov@virtuozzo.com>
- <20200120171345.24345-3-vsementsov@virtuozzo.com>
- <679ba957-0b47-27ab-0684-e066ca8a6196@redhat.com>
-In-Reply-To: <679ba957-0b47-27ab-0684-e066ca8a6196@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: AM0PR04CA0033.eurprd04.prod.outlook.com
- (2603:10a6:208:122::46) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20200121120610364
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: aa285d0e-5a3e-48cd-b20e-08d79e512947
-x-ms-traffictypediagnostic: AM6PR08MB5285:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM6PR08MB5285EB71E8A212D9C16DACB9C10D0@AM6PR08MB5285.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2657;
-x-forefront-prvs: 0289B6431E
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(396003)(39850400004)(366004)(376002)(346002)(189003)(199004)(54906003)(110136005)(5660300002)(66446008)(4326008)(2906002)(52116002)(64756008)(66946007)(71200400001)(66476007)(66556008)(107886003)(26005)(16526019)(186003)(316002)(81156014)(8936002)(8676002)(81166006)(31686004)(508600001)(6486002)(16576012)(36756003)(956004)(2616005)(53546011)(86362001)(31696002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB5285;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: CTtVd7Uoqxj82IKj+U8XgHQS2FLCQrTJ1RLNcpxrXAtRT0jzYGbODLUt52ckm3XI+/Yzrgr4+1Yw8fJY963V2cdn5+IoTyKNu7qr3Sv/DH1kDKwqEfu6b3ZD1nA8fYLrL0msD/441HMKlgRNT7usxN6pBuXXIo0giiHXiKcP2LlO2CF9Qur0zeii+c/JzGhHHoO9DaLEZl1TwKT0fw1nkkVn5Up3b0yhcX6miVUB+O1bkZcUdN1+XTRm1UiaY2HQ7ODrJgyglnSxSVbrViJMds5vWpTQZshTVZoc8FalhsBIhrvp92n7aDeNqzoU/KqHwbLUVfmp2EcTvZBKqMRRAZIrDtILfMGRr6L4t1IPVSudZj2UWXtd1tos+BfhTJd8NLDdvdDG5deZe8PinHWtAlIGBUPW/+R+g1I58U2xTK1B3mpy6iB1qH3OV7n4UYP36ztX8zzlmCvFAyVTyBLo34AHirT8X82WUELIIc1TcxxPPzuaZkiF4qGWBXMBOvTXvqZwXgJ6dwu5beFtrLnjLQ==
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <6CDA38BD5BE57545BFE8AB87A90D6AD5@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <mreitz@redhat.com>) id 1itpcs-00048F-I9
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:15:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44098
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itpcs-000481-EO
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:15:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579598110;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=9EeByPziH/9G17hnHkebYIvYZBekUby+rW2YqZHXEdY=;
+ b=W1eLdSUkXCuCkNL5HP/Q0cf6bOS+ARQdNVRfp1zWO7Z9LHNKdj69qC09d/0qRl6noImriY
+ SJvOxuT5TXFs2Ew5YwLUmB8xH674kXwSO1do1j10yc4iHw8kXXONde42p8MJXS/2h+cD7W
+ wBsjFTs54OgFhoWMyXryejVx1iyt3PQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-eAdCdcVtOyuixLzi0qYSkA-1; Tue, 21 Jan 2020 04:15:03 -0500
+X-MC-Unique: eAdCdcVtOyuixLzi0qYSkA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6360107ACC7;
+ Tue, 21 Jan 2020 09:15:01 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 006375C541;
+ Tue, 21 Jan 2020 09:14:59 +0000 (UTC)
+Subject: Re: [PATCH 2/2] iotests: add test for backup-top failure on
+ permission activation
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20200116155452.30972-1-vsementsov@virtuozzo.com>
+ <20200116155452.30972-3-vsementsov@virtuozzo.com>
+ <eedd42b6-bf4e-f6de-13a4-412d389fdb09@redhat.com>
+ <ea9219cd-8cc1-8cc0-d568-a51013ba74a4@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <f52b6ff5-e993-d567-cbbe-1d6d158908da@redhat.com>
+Date: Tue, 21 Jan 2020 10:14:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa285d0e-5a3e-48cd-b20e-08d79e512947
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jan 2020 09:06:12.0897 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 210T8NybI1z9wvQ3V5Dv8Qdlwoj2CZxTNxYXVdXGQ2DTIBF9/QR/C9v9zqhyejkbAmXAnNL47AGXVDbXYD+nS6pgAQg7YUk6o0GMPloYsrE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5285
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.14.122
+In-Reply-To: <ea9219cd-8cc1-8cc0-d568-a51013ba74a4@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="9m6UqGIy8gI6bRihZ3hz4XGZ5KrgIuIEM"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,115 +102,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "armbru@redhat.com" <armbru@redhat.com>,
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-20.01.2020 22:46, Eric Blake wrote:
-> On 1/20/20 11:13 AM, Vladimir Sementsov-Ogievskiy wrote:
->> The patch add new additional field to qcow2 header: compression_type,
->=20
-> s/add/adds a/
-> s/to/to the/
->=20
->> which specifies compression type. If field is absent or zero, default
->> compression type is set: ZLIB, which corresponds to current behavior.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--9m6UqGIy8gI6bRihZ3hz4XGZ5KrgIuIEM
+Content-Type: multipart/mixed; boundary="0SLr97T1UZ5oaX2rDHtWxHR8QNgGXZ9vV"
+
+--0SLr97T1UZ5oaX2rDHtWxHR8QNgGXZ9vV
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 20.01.20 18:20, Vladimir Sementsov-Ogievskiy wrote:
+> 20.01.2020 20:04, Max Reitz wrote:
+>> On 16.01.20 16:54, Vladimir Sementsov-Ogievskiy wrote:
+>>> This test checks that bug is really fixed by previous commit.
+>>>
+>>> Cc: qemu-stable@nongnu.org # v4.2.0
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>>   tests/qemu-iotests/283     | 75 +++++++++++++++++++++++++++++++++++++=
++
+>>>   tests/qemu-iotests/283.out |  8 ++++
+>>>   tests/qemu-iotests/group   |  1 +
+>>>   3 files changed, 84 insertions(+)
+>>>   create mode 100644 tests/qemu-iotests/283
+>>>   create mode 100644 tests/qemu-iotests/283.out
 >>
->> New compression type (ZSTD) is to be added in further commit.
->=20
-> It would be nice to have that patch as part of the same series, but it ha=
-s already been posted to the list separately, so I'm okay with this series =
-as just doc word-smithing while we get that patch series in soon.
->=20
+>> The test looks good to me, I just have a comment nit and a note on the
+>> fact that this should probably be queued only after Thomas=E2=80=99s =E2=
+=80=9CEnable
+>> more iotests during "make check-block"=E2=80=9D series.
 >>
->> Suggested-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->> =A0 docs/interop/qcow2.txt | 16 +++++++++++++++-
->> =A0 1 file changed, 15 insertions(+), 1 deletion(-)
+>>> diff --git a/tests/qemu-iotests/283 b/tests/qemu-iotests/283
+>>> new file mode 100644
+>>> index 0000000000..f0f216d109
+>>> --- /dev/null
+>>> +++ b/tests/qemu-iotests/283
+>>> @@ -0,0 +1,75 @@
+>>> +#!/usr/bin/env python
+>>> +#
+>>> +# Test for backup-top filter permission activation failure
+>>> +#
+>>> +# Copyright (c) 2019 Virtuozzo International GmbH.
+>>> +#
+>>> +# This program is free software; you can redistribute it and/or modify
+>>> +# it under the terms of the GNU General Public License as published by
+>>> +# the Free Software Foundation; either version 2 of the License, or
+>>> +# (at your option) any later version.
+>>> +#
+>>> +# This program is distributed in the hope that it will be useful,
+>>> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+>>> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>>> +# GNU General Public License for more details.
+>>> +#
+>>> +# You should have received a copy of the GNU General Public License
+>>> +# along with this program.  If not, see <http://www.gnu.org/licenses/>=
+.
+>>> +#
+>>> +
+>>> +import iotests
+>>> +
+>>> +# The test is unrelated to formats, restrict it to qcow2 to avoid extr=
+a runs
+>>> +iotests.verify_image_format(supported_fmts=3D['qcow2'])
+>>> +
+>>> +size =3D 1024 * 1024
+>>> +
+>>> +"""
+>>> +On activation, backup-top is going to unshare write permission on its
+>>> +source child. It will be impossible for the following configuration:
 >>
->> diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
->> index 355925c35e..4569f0dba3 100644
->> --- a/docs/interop/qcow2.txt
->> +++ b/docs/interop/qcow2.txt
->> @@ -109,6 +109,11 @@ the next fields through header_length.
->> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0 An External Data File Name header extension may
->> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0 be present if this bit is set.
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 Bit 3:=A0=A0=
-=A0=A0=A0 Compression type bit.=A0 If this bit is set,
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0 a non-default compression is used for compressed
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0 clusters. The compression_type field must be
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0 present and not zero.
+>> =E2=80=9CThe following configuration will become impossible=E2=80=9D?
 >=20
-> Why must the compression_type field be non-zero?=A0 If this bit is set, a=
-n older qemu cannot use the image, regardless of the contents of the compre=
-ssion_type field, so for maximum back-compat, a sane app will never set thi=
-s bit when compression_type is zero.=A0 But there is nothing technically wr=
-ong with setting this bit even when compression_type is 0, and newer qemu w=
-ould still manage to use the image correctly with zlib compression if it we=
-re not for this arbitrary restriction.
+> Hmm, no, the configuration is possible. But "it", i.e. "unshare write per=
+mission",
+> is impossible with such configuration..
 
-OK, I just made it stricter, no actual reason for it. Then:
+But backup_top always unshares the write permission on the source.
 
-If this bit is set, the compression type of the image is defined by compres=
-sion_type additional field (which must present in this case).
-
+>> I think there should be some note that this is exactly what we want to
+>> test, i.e. what happens when this impossible configuration is attempted
+>> by starting a backup.  (And maybe why this isn=E2=80=99t allowed; namely=
+ because
+>> we couldn=E2=80=99t do CBW for such write accesses.)
+>>
+>>> +
+>>> +    =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=90  target  =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=90
+>>> +    =E2=94=82 target =E2=94=82 =E2=97=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80 =E2=94=82 backup_top  =E2=94=82
+>>> +    =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=98          =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=98
+>>> +                            =E2=94=82
+>>> +                            =E2=94=82 backing
+>>> +                            =E2=96=BC
+>>> +                        =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=90
+>>> +                        =E2=94=82   source    =E2=94=82
+>>> +                        =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=98
+>>> +                            =E2=94=82
+>>> +                            =E2=94=82 file
+>>> +                            =E2=96=BC
+>>> +                        =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=90  write perm   =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=90
+>>> +                        =E2=94=82    base     =E2=94=82 =E2=97=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80 =E2=94=82 other =E2=94=82
+>>> +                        =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=98               =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=98
+>>
+>> Cool Unicode art. :-)
 >=20
->> +
->> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 Bits 3-6=
-3:=A0 Reserved (set to 0)
->> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 80 -=A0 87:=A0 compatible_features
->> @@ -189,7 +194,16 @@ present*, if not altered by a specific incompatible=
- bit.
->> =A0 *. A field is considered not present when header_length is less or e=
-qual to the
->> =A0 field's offset. Also, all additional fields are not present for vers=
-ion 2.
->> -=A0=A0=A0=A0=A0=A0=A0 < ... No additional fields in the header currentl=
-y ... >
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 104:=A0 compression_type
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 Defines the c=
-ompression method used for compressed clusters.
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 All compresse=
-d clusters in an image use the same compression
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 type.
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 If the incomp=
-atible bit "Compression type" is set: the field
->=20
-> Ragged edge formatting looks awkward.=A0 Either this is one paragraph ("t=
-ype.=A0 If") or there should be a blank line to make it obvious there are t=
-wo paragraphs.
+> I found the great tool: https://dot-to-ascii.ggerganov.com/
 
-OK, let it be additional empty line. Then we need one before "Defines" too?
+Thanks!
 
+Max
+
+>>> +
+>>> +Write unsharing will be propagated to the "source->base"link and will
+>>> +conflict with other node write permission.
+>>> +
+>>> +(Note, that we can't just consider source to be direct child of other,
+>>> +as in this case this link will be broken, when backup_top is appended)
+>>> +"""
+>>> +
+>>> +vm =3D iotests.VM()
+>>> +vm.launch()
+>>> +
+>>> +vm.qmp_log('blockdev-add', **{'node-name': 'target', 'driver': 'null-c=
+o'})
+>>> +
+>>> +vm.qmp_log('blockdev-add', **{
+>>> +    'node-name': 'source',
+>>> +    'driver': 'blkdebug',
+>>> +    'image': {'node-name': 'base', 'driver': 'null-co', 'size': size}
+>>> +})
+>>> +
+>>> +vm.qmp_log('blockdev-add', **{
+>>> +    'node-name': 'other',
+>>> +    'driver': 'blkdebug',
+>>> +    'image': 'base',
+>>> +    'take-child-perms': ['write']
+>>> +})
+>>> +
+>>> +vm.qmp_log('blockdev-backup', sync=3D'full', device=3D'source', target=
+=3D'target')
+>>> +
+>>> +vm.shutdown()
+>>
+>> [...]
+>>
+>>> diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+>>> index cb2b789e44..d827e8c821 100644
+>>> --- a/tests/qemu-iotests/group
+>>> +++ b/tests/qemu-iotests/group
+>>> @@ -288,3 +288,4 @@
+>>>   277 rw quick
+>>>   279 rw backing quick
+>>>   280 rw migration quick
+>>> +283 auto quick
+>>
+>> Hm.  This would be the first Python test in auto.
 >=20
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 must be prese=
-nt and non-zero (which means non-zlib
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 compression t=
-ype). Otherwise, this field must not be present
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 or must be ze=
-ro (which means zlib).
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 Available com=
-pression type values:
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 0=
-: zlib <https://www.zlib.net/>
+> Missed that. It's OK to define it just "quick" and update later.
 >=20
-> I'm still not sure I agree with the mandate that the field must be non-ze=
-ro when the incompatible feature bit is set.
+>>  Thomas=E2=80=99s series has
+>> at least one patch that seems useful to come before we do this, namely
+>> =E2=80=9CSkip Python-based tests if QEMU does not support virtio-blk=E2=
+=80=9D.  So I
+>> suppose his series should come before this, then.
+>>
+>> Max
+>>
+>=20
 >=20
 
-I don't care, so let's make it less strict.
 
---=20
-Best regards,
-Vladimir
+
+--0SLr97T1UZ5oaX2rDHtWxHR8QNgGXZ9vV--
+
+--9m6UqGIy8gI6bRihZ3hz4XGZ5KrgIuIEM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl4mwREACgkQ9AfbAGHV
+z0C6Kgf/XTgVYJPMTcJ53v5iJ2Eo2rfKCoUOBH8CWR3PHqXEUL6aBxCY9XB1cBN/
+ZIjoqmp3qzkArVAhYQjdO0etee6hidjPTEjNyHHjDz7Kt4JGcNpUXRNcInUff/nv
+i86m/62rj3YHkTt3M8y5RUz/jGNWBgf2xRuWK1kUrrSuSxyf+TO/ujAURruI+/7N
+Sd7ygUJo8GbpizIU/aqisuR5LQzTF4AoeHp8sG2+k/tqKo+YhvQnR0+qah6XWasP
+0hondoZt+xOd+7dPEeeX+r/glsKyw5LrT3ZvHex7+KaKBbE6Jbohynt886VecBqQ
+DzLSIZp7SNQ1d2RGyOXdQ4q3zSgy5Q==
+=W0hH
+-----END PGP SIGNATURE-----
+
+--9m6UqGIy8gI6bRihZ3hz4XGZ5KrgIuIEM--
+
 
