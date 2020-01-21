@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A25143FA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:35:19 +0100 (CET)
-Received: from localhost ([::1]:55404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB9A143FB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:39:16 +0100 (CET)
+Received: from localhost ([::1]:55600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itucg-00006o-1m
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:35:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40255)
+	id 1itugU-0005Ja-Rg
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:39:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43209)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ituB3-0000rv-C3
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:06:46 -0500
+ (envelope-from <armbru@redhat.com>) id 1ituQI-00025a-MD
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:22:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ituAz-0008WQ-6P
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:06:45 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59217
+ (envelope-from <armbru@redhat.com>) id 1ituQC-0006jB-VX
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:22:28 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:24302
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ituAz-0008Vt-1S
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:06:41 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ituQC-0006iv-Rl
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:22:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579615600;
+ s=mimecast20190719; t=1579616544;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c15pK4ujm6hBaqsGSqfq6xH4gGQtafWdSPYDDOHuoiw=;
- b=STNZab2spVYfKvVW4kA2lyEu2tv6nVePaTdSTXN2xRGZLFBJh3Ce4bAmG4T3nH4xdLyTQM
- Vye7xj8bz1t7bgwM33Z0z4pn2/UEdV9zX0Cn0k0VD2U+NMXVb+phnR7a5eVnxJmlWrIT/p
- 14lRJGoi9G3+tl5iYJ2cMB3EW+hIMP8=
+ bh=UfMhshM0mcPxouUCDsPD4cOne8kBy6qJlgZycgFRx2w=;
+ b=Ru20guE2yL9NVYPuo5Z5EjMUM9yyWw2JfpSA+rbwXBaIDSYreXX2fGwCw2JFogF54HiuFY
+ w+wwougS21b9d6GBVo2U0UkH/RaVffDWlp/xEp49Gspv6N0yaTwO6Ci3JyzCkTN83Mz8ZF
+ P30VCn+D1e+MopEv8vKoyXNIkZh7dOE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228--ugODxVUPJOaJe8zucGimg-1; Tue, 21 Jan 2020 09:06:34 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-104-LB_AN02zMw-KR23v4dn-Kg-1; Tue, 21 Jan 2020 09:22:22 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBA5C802B7F;
- Tue, 21 Jan 2020 14:06:32 +0000 (UTC)
-Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E453A5C290;
- Tue, 21 Jan 2020 14:06:25 +0000 (UTC)
-Date: Tue, 21 Jan 2020 15:06:23 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 10/10] accel/tcg: Sanitize include path
-Message-ID: <20200121150623.09441553.cohuck@redhat.com>
-In-Reply-To: <20200121110349.25842-11-philmd@redhat.com>
-References: <20200121110349.25842-1-philmd@redhat.com>
- <20200121110349.25842-11-philmd@redhat.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCB3D100550E
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 14:22:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
+ [10.36.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA69C1001901;
+ Tue, 21 Jan 2020 14:22:18 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 709F51138600; Tue, 21 Jan 2020 15:22:17 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH] qapi: Incorrect attempt to fix building with
+ MC146818RTC=n
+References: <20191231184916.10235-1-philmd@redhat.com>
+ <875zhfzc9l.fsf@dusky.pond.sub.org>
+ <a06fd97c-b149-2f24-1180-4e4efa8ff79d@redhat.com>
+ <87wo9ll5on.fsf@dusky.pond.sub.org>
+ <b0559940-7b97-901b-5729-587d8649eede@redhat.com>
+Date: Tue, 21 Jan 2020 15:22:17 +0100
+In-Reply-To: <b0559940-7b97-901b-5729-587d8649eede@redhat.com> (Paolo
+ Bonzini's message of "Tue, 21 Jan 2020 09:16:56 +0100")
+Message-ID: <87lfq0c2jq.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: -ugODxVUPJOaJe8zucGimg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: LB_AN02zMw-KR23v4dn-Kg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -73,48 +81,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Like Xu <like.xu@linux.intel.com>,
- David Hildenbrand <david@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Jan 2020 12:03:49 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> Commit af0440ae852 moved the qemu_tcg_configure() function,
-> but introduced extraneous 'include/' in the includes path.
-> As it is not necessary, remove it.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> v2: New patch
-> ---
->  accel/tcg/tcg-all.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-> index 1802ce02f6..acfdcfdf59 100644
-> --- a/accel/tcg/tcg-all.c
-> +++ b/accel/tcg/tcg-all.c
-> @@ -31,9 +31,9 @@
->  #include "sysemu/cpus.h"
->  #include "qemu/main-loop.h"
->  #include "tcg/tcg.h"
-> -#include "include/qapi/error.h"
-> -#include "include/qemu/error-report.h"
-> -#include "include/hw/boards.h"
-> +#include "qapi/error.h"
-> +#include "qemu/error-report.h"
-> +#include "hw/boards.h"
->  #include "qapi/qapi-builtin-visit.h"
-> =20
->  typedef struct TCGState {
+> On 21/01/20 06:49, Markus Armbruster wrote:
+>> Paolo Bonzini <pbonzini@redhat.com> writes:
+>>=20
+>>> On 13/01/20 15:01, Markus Armbruster wrote:
+>>>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>>>>
+>>>>> When configured with --without-default-devices and setting
+>>>>> MC146818RTC=3Dn, the build fails:
+>>>>>
+>>>>>     LINK    x86_64-softmmu/qemu-system-x86_64
+>>>>>   /usr/bin/ld: qapi/qapi-commands-misc-target.o: in function `qmp_mar=
+shal_rtc_reset_reinjection':
+>>>>>   qapi/qapi-commands-misc-target.c:46: undefined reference to `qmp_rt=
+c_reset_reinjection'
+>>>>>   /usr/bin/ld: qapi/qapi-commands-misc-target.c:46: undefined referen=
+ce to `qmp_rtc_reset_reinjection'
+>>>>>   collect2: error: ld returned 1 exit status
+>>>>>   make[1]: *** [Makefile:206: qemu-system-x86_64] Error 1
+>>>>>   make: *** [Makefile:483: x86_64-softmmu/all] Error 2
+>>>>>
+>>>>> This patch tries to fix this, but this is incorrect because QAPI
+>>>>> scripts only provide TARGET definitions, so with MC146818RTC=3Dy we
+>>>>> get:
+>>>>>
+>>>>>   hw/rtc/mc146818rtc.c:113:6: error: no previous prototype for =E2=80=
+=98qmp_rtc_reset_reinjection=E2=80=99 [-Werror=3Dmissing-prototypes]
+>>>>>     113 | void qmp_rtc_reset_reinjection(Error **errp)
+>>>>>         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>>   cc1: all warnings being treated as errors
+>>>>>   make[1]: *** [rules.mak:69: hw/rtc/mc146818rtc.o] Error 1
+>>>>>
+>>>>> Any idea? :)
+>>>>>
+>>>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>>>> ---
+>>>>>  qapi/misc-target.json | 2 +-
+>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+>>>>> index a00fd821eb..8e49c113d1 100644
+>>>>> --- a/qapi/misc-target.json
+>>>>> +++ b/qapi/misc-target.json
+>>>>> @@ -41,7 +41,7 @@
+>>>>>  #
+>>>>>  ##
+>>>>>  { 'command': 'rtc-reset-reinjection',
+>>>>> -  'if': 'defined(TARGET_I386)' }
+>>>>> +  'if': 'defined(TARGET_I386) && defined(CONFIG_MC146818RTC)' }
+>>>>> =20
+>>>>> =20
+>>>>>  ##
+>>>>
+>>>> The generated qapi-commands-misc-target.h duly has
+>>>>
+>>>>     #if defined(TARGET_I386) && defined(CONFIG_MC146818RTC)
+>>>>     void qmp_rtc_reset_reinjection(Error **errp);
+>>>>     void qmp_marshal_rtc_reset_reinjection(QDict *args, QObject **ret,=
+ Error **errp);
+>>>>     #endif /* defined(TARGET_I386) && defined(CONFIG_MC146818RTC) */
+>>>>
+>>>> mc146818rtc.c includes it.  But since it doesn't include
+>>>> config-devices.h, CONFIG_MC146818RTC remains undefined, and the
+>>>> prototype gets suppressed.
+>>>>
+>>>> Crude fix: make mc146818rtc.c #include "config-devices.h".
+>>>
+>>> Can we modify the code generator to leave out the #if from the header,
+>>> and only include it in the .c file?  An extra prototype is harmless.
+>>=20
+>> Is *everything* we generate into headers just as harmless?
+>
+> It should be, since it's just the C version of some JSON.  The only
+> problematic thing could be different definitions of the same command for
+> multiple targets, and I think we want to avoid that anyway.
+>
+> To see it a different way, these are the "C bindings" to QMP, just that
+> the implementation is an in-process call rather than RPC.  If the QAPI
+> code generator was also able to generate Python bindings and the like,
+> they would have to be the same for all QEMU binaries, wouldn't they?
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Ommitting the kind of #if we've been discussing is relatively harmless:
+
+    #if defined(TARGET_I386)
+    void qmp_rtc_reset_reinjection(Error **errp);
+    void qmp_marshal_rtc_reset_reinjection(QDict *args, QObject **ret, Erro=
+r **errp);
+    #endif /* defined(TARGET_I386) */
+
+But what about this one, in qapi-types-block-core.h:
+
+    typedef enum BlockdevDriver {
+        BLOCKDEV_DRIVER_BLKDEBUG,
+        [...]
+    #if defined(CONFIG_REPLICATION)
+        BLOCKDEV_DRIVER_REPLICATION,
+    #endif /* defined(CONFIG_REPLICATION) */
+        [...]
+        BLOCKDEV_DRIVER__MAX,
+    } BlockdevDriver;
+
+If I omit it in the header, I then have to omit it in
+qapi-types-block-core.c's
+
+    const QEnumLookup BlockdevDriver_lookup =3D {
+        .array =3D (const char *const[]) {
+            [BLOCKDEV_DRIVER_BLKDEBUG] =3D "blkdebug",
+            [...]
+    #if defined(CONFIG_REPLICATION)
+            [BLOCKDEV_DRIVER_REPLICATION] =3D "replication",
+    #endif /* defined(CONFIG_REPLICATION) */
+            [...]
+        },
+        .size =3D BLOCKDEV_DRIVER__MAX
+    };
+
+and God knows what else.  But I must not omit it in qapi-introspect.c's
+
+        QLIT_QDICT(((QLitDictEntry[]) {
+            { "meta-type", QLIT_QSTR("enum"), },
+            { "name", QLIT_QSTR("245"), },
+            { "values", QLIT_QLIST(((QLitObject[]) {
+                QLIT_QSTR("blkdebug"),
+                [...]
+    #if defined(CONFIG_REPLICATION)
+                QLIT_QSTR("replication"),
+    #endif /* defined(CONFIG_REPLICATION) */
+                [...]
+                {}
+            })), },
+            {}
+        })),
+
+because that would defeat introspection.
+
+I smell a swamp.
+
+I'd rather not complicate the generator to support not including a
+header I feel we *should* include.  #ifdef CONFIG_FOO can occur not just
+in QAPI-generated code, and neglecting to include the relevant header
+can cause *nasty* problems not just in QAPI-generated code.  Like
+inconsistent struct definitions in separate compilation units.  Been
+there, debugged that, wasn't fun, do not want to go there again.
 
 
