@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC5F143546
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 02:40:34 +0100 (CET)
-Received: from localhost ([::1]:46784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA691435B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 03:35:49 +0100 (CET)
+Received: from localhost ([::1]:47262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itiWv-0002ZD-6w
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 20:40:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43727)
+	id 1itjOO-0004e9-81
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 21:35:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48915)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <joel.stan@gmail.com>) id 1itiPy-0007UO-I2
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 20:33:23 -0500
+ (envelope-from <alistair23@gmail.com>) id 1itjNM-0003jL-Fy
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 21:34:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1itiPx-0000ev-Fp
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 20:33:22 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:34632)
+ (envelope-from <alistair23@gmail.com>) id 1itjNL-0004tc-7l
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 21:34:44 -0500
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:42518)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1itiPu-0000Zw-1E; Mon, 20 Jan 2020 20:33:18 -0500
-Received: by mail-pf1-x441.google.com with SMTP id i6so623046pfc.1;
- Mon, 20 Jan 2020 17:33:17 -0800 (PST)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1itjNK-0004sc-V8; Mon, 20 Jan 2020 21:34:43 -0500
+Received: by mail-lf1-x144.google.com with SMTP id y19so888299lfl.9;
+ Mon, 20 Jan 2020 18:34:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hJtyuqknzcxsdbaI1OusF0aaxr3aBxUm9vjGVFXsWtc=;
- b=JKG6rhzl3R+RzB7n17qcoZHX1ayw7i2LNIhuXpPPfg+MqZI2MPyzptCsi8RvjYSG/f
- AlXW6VZG6zFRNppaI4wGKmwd/stMeUr7oUvz4C9gDPoWDPTux4rQPi8BL7txnptAO6VE
- h0TT/Ny99FafWFQSF1V3AN/AnJj8NZZuAtcQkMqmx5RSBaUBXUBFoYJBxXrUaAsv3KdW
- rEZqLufKSkxxpFbfH6EtuttSGOp5+zIk3C4/ZBRUM1VY+etpLYTsFJF6MGaaZs9/qm3o
- gWddFMdQ3fD0OobbT+YYTmAq6iqiOp+3lCLIg4OHwf+KKw9jJ8CiGcxENly+2QyMUukF
- DF0A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=JDjK8f1wNDnYnv5MklAFUQW2n0lqeI71GG2vg7iUWG8=;
+ b=fQ3yqI+LFK7V/MhmaV3QyECDozlmW8wLhOlzrtdO8cnsSJcvgQGgN4r7Srxu03Ck8/
+ KGX8HttVcq1QoSKZu3LbFcdxyhVVhZnbA7ze1N1Xp18eXsnv0ty8e/Ic8Y/9Ml2+RNwr
+ E2VXjl6Cgt4ri5bQkx2d7WRLKnzvq1Mg1Sa8OywfFmAOn2QljpGQOhtOlRMz6RWVeDLD
+ qWxR1Vx2Q2b+xgt7JPqmlE7JF8511+AWxZC6nusnOLX010bT+YbmPHK+XIIVa065ZeSp
+ mh9ri4n2g7GqI0kZBPdxAvNfsW9W6RM+GChS0ODuTV4ByOSlA3Hf2Lyc+vevV9O8z4kv
+ RuDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hJtyuqknzcxsdbaI1OusF0aaxr3aBxUm9vjGVFXsWtc=;
- b=g7plP+MGjXy+M+6isInjQsf/2hITt1uHnzLGQJX2jeXl4O+VlRE4PKESDPvdk1Asle
- MF2LxX1ihijiErdM601o9HATHqjV5B5hJpVWc0okRSY7rAXwdPu9P6dTR+JlASBHCOmD
- emUHMPB8W/84a7s72bz4VWvWWkmVNux8BHGZQXk2sxJ8VkVavrooAaUgPNxwjjqhDSql
- miHMOK+3ovHJ24PTF7Fgczt/rxTt8SfukhGzVLfOZLDR5ZjiNC+Ak7DezQbUa/NewZ7C
- 1oH14PPJTlp9UQ4CgvMRz1f+wQKyhMXggvibhpfdcciF+4ZstrAVj8xPyDdbMccemrk8
- qPtA==
-X-Gm-Message-State: APjAAAUrDlURyihFS2VffpA1UvAUCacM2rnjim6drE0mvhufK8L6m3Bq
- fWSK38jiMkfqxr/nK8ZOLA7SfE2K
-X-Google-Smtp-Source: APXvYqxagMYQYt/dN2veru9KaR58bCCOnESOP/9ZJnkMcCFtiU3dngqiIBXPFZSGtVQ2MJuELzOnyQ==
-X-Received: by 2002:a63:2a06:: with SMTP id q6mr2636878pgq.92.1579570396944;
- Mon, 20 Jan 2020 17:33:16 -0800 (PST)
-Received: from voyager.ibm.com ([36.255.48.244])
- by smtp.gmail.com with ESMTPSA id x132sm40628397pfc.148.2020.01.20.17.33.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jan 2020 17:33:16 -0800 (PST)
-From: Joel Stanley <joel@jms.id.au>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 2/2] aspeed/scu: Implement chip ID register
-Date: Tue, 21 Jan 2020 12:03:02 +1030
-Message-Id: <20200121013302.43839-3-joel@jms.id.au>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200121013302.43839-1-joel@jms.id.au>
-References: <20200121013302.43839-1-joel@jms.id.au>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=JDjK8f1wNDnYnv5MklAFUQW2n0lqeI71GG2vg7iUWG8=;
+ b=gwQ3yhebHEki7ZpRRigOtCrztjrEzjcfQ4t7oPiz9Y0rjRUcGe6bCCA9cPXnguwEs0
+ oqvL4y1WJ8vNu2dY2KIjA3TZ+cIaSCVaYP+t2RuPuB1LlXfYI0nJowgjrWb6WQqrVXnH
+ xFcPNs87nJHSvNQvxAL0c/kEgUbbk+RLPhwzSsoQe30lUH49jO2uskpCU4/lzFNvTBov
+ QOa4/mWI8dBsAaUki3lZ6GhEUEuHCEB/V3wivdTBos3zZ0uNsDp3RjgGAx9Tryr3F52D
+ X2vMqqfyeDM2osPs3aFE3tl5vOEKalUIwSGXyZAjHVL7BUnUjYWaiVkKaOTg5eUBDD6M
+ 3dTg==
+X-Gm-Message-State: APjAAAXq0rRfqs2vfsnel2uHLMJpO7kiE1nIr4OZYMiE08c9ELLO2oXy
+ +tphV6yf7PsMkhYDh8Y+D4XKm25LuATTyt3DpYc=
+X-Google-Smtp-Source: APXvYqw+3qRIWTmWXGfPKfh6gCC8kCPwZ+5YpcF3HQEaQfU+tYMBKfnBc9rAHgV1Sq8HY/jRCwrcqy7zuAF5VWSIdxA=
+X-Received: by 2002:ac2:4422:: with SMTP id w2mr1278069lfl.178.1579574080791; 
+ Mon, 20 Jan 2020 18:34:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200120235159.18510-1-f4bug@amsat.org>
+ <20200120235159.18510-2-f4bug@amsat.org>
+In-Reply-To: <20200120235159.18510-2-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 21 Jan 2020 12:34:11 +1000
+Message-ID: <CAKmqyKOCx5kc9ZvPCB9nJ6W3UZV6K1ji=zWvgo9_30U6BLQWBA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/7] hw/arm/raspi: Remove obsolete use of -smp to set
+ the soc 'enabled-cpus'
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Received-From: 2a00:1450:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,78 +74,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm <qemu-arm@nongnu.org>,
+ "Emilio G . Cota" <cota@braap.org>, Cleber Rosa <crosa@redhat.com>,
+ Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This returns a fixed but non-zero value for the chip id.
+On Tue, Jan 21, 2020 at 9:53 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Since we enabled parallel TCG code generation for softmmu (see
+> commit 3468b59 "tcg: enable multiple TCG contexts in softmmu")
+> and its subsequent fix (commit 72649619 "add .min_cpus and
+> .default_cpus fields to machine_class"), the raspi machines are
+> restricted to always use their 4 cores:
+>
+> See in hw/arm/raspi2 (with BCM283X_NCPUS set to 4):
+>
+>   222 static void raspi2_machine_init(MachineClass *mc)
+>   223 {
+>   224     mc->desc =3D "Raspberry Pi 2";
+>   230     mc->max_cpus =3D BCM283X_NCPUS;
+>   231     mc->min_cpus =3D BCM283X_NCPUS;
+>   232     mc->default_cpus =3D BCM283X_NCPUS;
+>   235 };
+>   236 DEFINE_MACHINE("raspi2", raspi2_machine_init)
+>
+> We can no longer use the -smp option, as we get:
+>
+>   $ qemu-system-arm -M raspi2 -smp 1
+>   qemu-system-arm: Invalid SMP CPUs 1. The min CPUs supported by machine =
+'raspi2' is 4
+>
+> Since we can not set the TYPE_BCM283x SOC "enabled-cpus" with -smp,
+> remove the unuseful code.
+>
+> We can achieve the same by using the '-global bcm2836.enabled-cpus=3D1'
+> option.
+>
+> Reported-by: Laurent Bonnans <laurent.bonnans@here.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- hw/misc/aspeed_scu.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-index 7108cad8c6a7..19d1780a40da 100644
---- a/hw/misc/aspeed_scu.c
-+++ b/hw/misc/aspeed_scu.c
-@@ -77,6 +77,8 @@
- #define CPU2_BASE_SEG4       TO_REG(0x110)
- #define CPU2_BASE_SEG5       TO_REG(0x114)
- #define CPU2_CACHE_CTRL      TO_REG(0x118)
-+#define CHIP_ID0             TO_REG(0x150)
-+#define CHIP_ID1             TO_REG(0x154)
- #define UART_HPLL_CLK        TO_REG(0x160)
- #define PCIE_CTRL            TO_REG(0x180)
- #define BMC_MMIO_CTRL        TO_REG(0x184)
-@@ -115,6 +117,8 @@
- #define AST2600_HW_STRAP2_PROT    TO_REG(0x518)
- #define AST2600_RNG_CTRL          TO_REG(0x524)
- #define AST2600_RNG_DATA          TO_REG(0x540)
-+#define AST2600_CHIP_ID0          TO_REG(0x5B0)
-+#define AST2600_CHIP_ID1          TO_REG(0x5B4)
- 
- #define AST2600_CLK TO_REG(0x40)
- 
-@@ -182,6 +186,8 @@ static const uint32_t ast2500_a1_resets[ASPEED_SCU_NR_REGS] = {
-      [CPU2_BASE_SEG1]  = 0x80000000U,
-      [CPU2_BASE_SEG4]  = 0x1E600000U,
-      [CPU2_BASE_SEG5]  = 0xC0000000U,
-+     [CHIP_ID0]        = 0x1234ABCDU,
-+     [CHIP_ID1]        = 0x88884444U,
-      [UART_HPLL_CLK]   = 0x00001903U,
-      [PCIE_CTRL]       = 0x0000007BU,
-      [BMC_DEV_ID]      = 0x00002402U
-@@ -307,6 +313,8 @@ static void aspeed_ast2500_scu_write(void *opaque, hwaddr offset,
-     case RNG_DATA:
-     case FREE_CNTR4:
-     case FREE_CNTR4_EXT:
-+    case CHIP_ID0:
-+    case CHIP_ID1:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: Write to read-only offset 0x%" HWADDR_PRIx "\n",
-                       __func__, offset);
-@@ -620,6 +628,8 @@ static void aspeed_ast2600_scu_write(void *opaque, hwaddr offset,
-     case AST2600_RNG_DATA:
-     case AST2600_SILICON_REV:
-     case AST2600_SILICON_REV2:
-+    case AST2600_CHIP_ID0:
-+    case AST2600_CHIP_ID1:
-         /* Add read only registers here */
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: Write to read-only offset 0x%" HWADDR_PRIx "\n",
-@@ -648,6 +658,9 @@ static const uint32_t ast2600_a0_resets[ASPEED_AST2600_SCU_NR_REGS] = {
-     [AST2600_CLK_STOP_CTRL2]    = 0xFFF0FFF0,
-     [AST2600_SDRAM_HANDSHAKE]   = 0x00000040,  /* SoC completed DRAM init */
-     [AST2600_HPLL_PARAM]        = 0x1000405F,
-+    [AST2600_CHIP_ID0]          = 0x1234ABCD,
-+    [AST2600_CHIP_ID1]          = 0x88884444,
-+
- };
- 
- static void aspeed_ast2600_scu_reset(DeviceState *dev)
--- 
-2.24.1
+Alistair
 
+> ---
+> Cc: Emilio G. Cota <cota@braap.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Andrew Baumann <Andrew.Baumann@microsoft.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+>  hw/arm/raspi.c | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+> index 6a510aafc1..3996f6c63a 100644
+> --- a/hw/arm/raspi.c
+> +++ b/hw/arm/raspi.c
+> @@ -192,8 +192,6 @@ static void raspi_init(MachineState *machine, int ver=
+sion)
+>      /* Setup the SOC */
+>      object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(&s->ra=
+m),
+>                                     &error_abort);
+> -    object_property_set_int(OBJECT(&s->soc), machine->smp.cpus, "enabled=
+-cpus",
+> -                            &error_abort);
+>      int board_rev =3D version =3D=3D 3 ? 0xa02082 : 0xa21041;
+>      object_property_set_int(OBJECT(&s->soc), board_rev, "board-rev",
+>                              &error_abort);
+> --
+> 2.21.1
+>
+>
 
