@@ -2,45 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47FD143712
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 07:23:12 +0100 (CET)
-Received: from localhost ([::1]:48960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D54214371D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 07:31:28 +0100 (CET)
+Received: from localhost ([::1]:49070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itmwR-0002ds-Mj
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 01:23:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41991)
+	id 1itn4R-0007Lo-CA
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 01:31:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43125)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jing2.liu@linux.intel.com>) id 1itmtI-0007O8-1A
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:19:57 -0500
+ (envelope-from <kraxel@redhat.com>) id 1itn3Q-0006mj-N2
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:30:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jing2.liu@linux.intel.com>) id 1itmtG-0006W1-HV
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:19:55 -0500
-Received: from mga03.intel.com ([134.134.136.65]:35723)
+ (envelope-from <kraxel@redhat.com>) id 1itn3M-00051O-5w
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:30:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22390
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jing2.liu@linux.intel.com>)
- id 1itmtG-0006Rf-7T
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:19:54 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2020 22:19:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,344,1574150400"; d="scan'208";a="278302177"
-Received: from hyperv-sh3.bj.intel.com ([10.240.193.95])
- by fmsmga001.fm.intel.com with ESMTP; 20 Jan 2020 22:19:52 -0800
-From: Jing Liu <jing2.liu@linux.intel.com>
-To: virtio-dev@lists.oasis-open.org
-Subject: [virtio-dev] [PATCH v2 5/5] virtio-mmio: MSI vector and event mapping
-Date: Tue, 21 Jan 2020 21:54:33 +0800
-Message-Id: <1579614873-21907-6-git-send-email-jing2.liu@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1579614873-21907-1-git-send-email-jing2.liu@linux.intel.com>
-References: <1579614873-21907-1-git-send-email-jing2.liu@linux.intel.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.65
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1itn3M-00050b-2L
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:30:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579588219;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qsiftc4sag6Yw4KJj/+j+lEX2X59zfXwkvJoqT4IxwQ=;
+ b=V1Ys/SQi/EmtCuTnSqWPcBADplAU/RBZnsTF+fCtyaf9edSr+1MfHOUXT+bx5HRiDf7HVX
+ poWBVmoTL92stMuXUzrKwfaDZHSoBJv5YlfDsZHzSzJ1bNtF0kv+9NFokaNO0057hji7au
+ Tk1dojkdSX29tSFWQF2SGPkkKNP2nHU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-274-LNmucJ6BOnWxd_pdwVnLHQ-1; Tue, 21 Jan 2020 01:30:18 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EE4718A8C92;
+ Tue, 21 Jan 2020 06:30:17 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
+ [10.36.116.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBF7B8CCD2;
+ Tue, 21 Jan 2020 06:30:10 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 58DFA1747D; Tue, 21 Jan 2020 07:30:08 +0100 (CET)
+Date: Tue, 21 Jan 2020 07:30:08 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] ui/console: Display the 'none' backend in '-display help'
+Message-ID: <20200121063008.i2nr5osfkj65wjl3@sirius.home.kraxel.org>
+References: <20200120192947.31613-1-philmd@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20200120192947.31613-1-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: LNmucJ6BOnWxd_pdwVnLHQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,129 +75,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zha Bin <zhabin@linux.alibaba.com>, kvm@vger.kernel.org,
- Jing Liu <jing2.liu@linux.intel.com>, linux-kernel@vger.kernel.org,
- qemu-devel@nongnu.org, Chao Peng <chao.p.peng@linux.intel.com>,
- Liu Jiang <gerry@linux.alibaba.com>
+Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bit 1 msi_sharing reported in the MsiState register indicates the mapping mode
-device uses.
+On Mon, Jan 20, 2020 at 08:29:47PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Commit c388f408b5 added the possibility to list the display
+> backends using '-display help'. Since the 'none' backend is
+> is not implemented as a DisplayChangeListenerOps, it is not
+> registered to the dpys[] array with qemu_display_register(),
+> and is not listed in the help output.
+>=20
+> This might be confusing, as we list it in the man page:
+>=20
+>   -display type
+>       Select type of display to use. This option is a replacement for
+>       the old style -sdl/-curses/... options. Valid values for type are
+>=20
+>       none
+>           Do not display video output. The guest will still see an
+>           emulated graphics card, but its output will not be displayed
+>           to the QEMU user. This option differs from the -nographic
+>           option in that it only affects what is done with video
+>           output; -nographic also changes the destination of the serial
+>           and parallel port data.
+>=20
+> Fix by manually listing the special 'none' backend in the help.
+>=20
+> Suggested-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-Bit 1 is 0 - device uses MSI non-sharing mode. This indicates vector per event and
-fixed static vectors and events relationship. This fits for devices with a high interrupt
-rate and best performance;
-Bit 1 is 1 - device uses MSI sharing mode. This indicates vectors and events
-dynamic mapping and fits for devices not requiring a high interrupt rate.
+Added to ui queue.
 
-Co-developed-by: Chao Peng <chao.p.peng@linux.intel.com>
-Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-Co-developed-by: Liu Jiang <gerry@linux.alibaba.com>
-Signed-off-by: Liu Jiang <gerry@linux.alibaba.com>
-Co-developed-by: Zha Bin <zhabin@linux.alibaba.com>
-Signed-off-by: Zha Bin <zhabin@linux.alibaba.com>
-Signed-off-by: Jing Liu <jing2.liu@linux.intel.com>
----
- content.tex | 48 +++++++++++++++++++++++++++++++++++++++++++++++-
- msi-state.c |  3 ++-
- 2 files changed, 49 insertions(+), 2 deletions(-)
-
-diff --git a/content.tex b/content.tex
-index dcf6c71..2fd1686 100644
---- a/content.tex
-+++ b/content.tex
-@@ -1770,7 +1770,8 @@ \subsection{MMIO Device Register Layout}\label{sec:Virtio Transport Options / Vi
-   \hline
-   \mmioreg{MsiState}{MSI state}{0x0c4}{R}{%
-     When VIRTIO_F_MMIO_MSI has been negotiated, reading
--    from this register returns the global MSI enable/disable status.
-+    from this register returns the global MSI enable/disable status
-+    and whether device uses MSI sharing mode.
-     \lstinputlisting{msi-state.c}
-   }
-   \hline
-@@ -1926,12 +1927,18 @@ \subsubsection{Device Initialization}\label{sec:Virtio Transport Options / Virti
- mask and unmask the MSI vector applying to the one selected by writing
- to \field{MsiVecSel}.
- 
-+VIRTIO_MMIO_MSI_CMD_MAP_CONFIG command is to set the configuration event and MSI vector
-+mapping. VIRTIO_MMIO_MSI_CMD_MAP_QUEUE is to set the queue event and MSI vector
-+mapping. They SHOULD only be used in MSI sharing mode.
-+
- \begin{lstlisting}
- #define  VIRTIO_MMIO_MSI_CMD_ENABLE           0x1
- #define  VIRTIO_MMIO_MSI_CMD_DISABLE          0x2
- #define  VIRTIO_MMIO_MSI_CMD_CONFIGURE        0x3
- #define  VIRTIO_MMIO_MSI_CMD_MASK             0x4
- #define  VIRTIO_MMIO_MSI_CMD_UNMASK           0x5
-+#define  VIRTIO_MMIO_MSI_CMD_MAP_CONFIG       0x6
-+#define  VIRTIO_MMIO_MSI_CMD_MAP_QUEUE        0x7
- \end{lstlisting}
- 
- Setting a special NO_VECTOR value means disabling an interrupt for an event type.
-@@ -1941,10 +1948,49 @@ \subsubsection{Device Initialization}\label{sec:Virtio Transport Options / Virti
- #define VIRTIO_MMIO_MSI_NO_VECTOR             0xffffffff
- \end{lstlisting}
- 
-+\subparagraph{MSI Vector and Event Mapping}\label{sec:Virtio Transport Options / Virtio Over MMIO / MMIO-specific Initialization And Device Operation / Device Initialization / MSI Vector Configuration}
-+The reported \field{msi_sharing} bit in the \field{MsiState} return value shows
-+the MSI sharing mode that device uses.
-+
-+When \field{msi_sharing} bit is 0, it indicates the device uses non-sharing mode
-+and vector per event fixed static relationship is used. The first vector is for device
-+configuraiton change event, the second vector is for virtqueue 1, the third vector
-+is for virtqueue 2 and so on.
-+
-+When \field{msi_sharing} bit is 1, it indicates the device uses MSI sharing mode,
-+and the vector and event mapping is dynamic. Writing \field{MsiVecSel}
-+followed by writing VIRTIO_MMIO_MSI_CMD_MAP_CONFIG/VIRTIO_MMIO_MSI_CMD_MAP_QUEUE command
-+maps interrupts triggered by the configuration change/selected queue events respectively
-+to the corresponding MSI vector.
-+
-+\devicenormative{\subparagraph}{MSI Vector Configuration}{Virtio Transport Options / Virtio Over MMIO / MMIO-specific Initialization And Device Operation / MSI Vector Configuration}
-+
-+When the device reports \field{msi_sharing} bit as 0, it SHOULD support a number of
-+vectors that greater than the maximum number of virtqueues.
-+Device MUST report the number of vectors supported in \field{MsiVecNum}.
-+
-+When the device reports \field{msi_sharing} bit as 1, it SHOULD support at least
-+2 MSI vectors and MUST report in \field{MsiVecNum}. Device SHOULD support mapping any
-+event type to any vector under \field{MsiVecNum}.
-+
-+Device MUST support unmapping any event type (NO_VECTOR).
-+
-+The device SHOULD restrict the reported \field{msi_sharing} and \field{MsiVecNum}
-+to a value that might benefit system performance.
-+
-+\begin{note}
-+For example, a device which does not expect to send interrupts at a high rate might
-+return \field{msi_sharing} bit as 1.
-+\end{note}
-+
- \drivernormative{\subparagraph}{MSI Vector Configuration}{Virtio Transport Options / Virtio Over MMIO / MMIO-specific Initialization And Device Operation / MSI Vector Configuration}
- When VIRTIO_F_MMIO_MSI has been negotiated, driver should try to configure
- and enable MSI.
- 
-+To set up the event and vector mapping for MSI sharing mode, driver SHOULD
-+write a valid \field{MsiVecSel} followed by VIRTIO_MMIO_MSI_CMD_MAP_CONFIG/VIRTIO_MMIO_MSI_CMD_MAP_QUEUE
-+command to map the configuration change/selected queue events respectively.
-+
- To configure MSI vector, driver SHOULD firstly specify the MSI vector index by
- writing to \field{MsiVecSel}.
- Then notify the MSI address and data by writing to \field{MsiAddrLow}, \field{MsiAddrHigh},
-diff --git a/msi-state.c b/msi-state.c
-index b1fa0c1..d470be4 100644
---- a/msi-state.c
-+++ b/msi-state.c
-@@ -1,4 +1,5 @@
- le32 {
-     msi_enabled : 1;
--    reserved : 31;
-+    msi_sharing: 1;
-+    reserved : 30;
- };
--- 
-2.7.4
+thanks,
+  Gerd
 
 
