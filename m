@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA171144044
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 16:12:45 +0100 (CET)
-Received: from localhost ([::1]:56516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF4A14405E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 16:20:07 +0100 (CET)
+Received: from localhost ([::1]:56592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itvCu-0004Ew-Ou
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 10:12:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53128)
+	id 1itvK2-0000lZ-Nv
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 10:20:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53427)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1itvC4-0003oY-5C
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:11:53 -0500
+ (envelope-from <philmd@redhat.com>) id 1itvG6-0006xE-Jb
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:16:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1itvC2-0002Y8-7h
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:11:52 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38481)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1itvC2-0002Xc-0p
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:11:50 -0500
-Received: by mail-wm1-x334.google.com with SMTP id u2so3455344wmc.3
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 07:11:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=U723RPDZaZSWopBWJdUHc2C21cX536JMt3CC3+lohb4=;
- b=Jpy46U0LCubcl40Tp7NRZQlxticJJUdUDwmJXsaV6QZ8CBGK4F6xYC6yp+/Jn4u7+L
- Ocr+BHOAJxi18pxzc78UjYUo0BF+zgLz0a5FFqqtLWhlpSg+2FROVB5bZNEFLVK2mTQ6
- HJRMv0EefUudYDTGh8uuRxv553LZyjpuENxp+0UQ0LAJOrJagJ5+eqVis1IuXJ1V730h
- rZHGfReppZio1H236cnUN+2nIvK9IPNJjTy6q8kiyDIgwzAaHT+sAl5VCSeW3sRd0tqN
- FyaFdNod2TAwFCTn11E7aQ+FVUk3HsknM86jChKC0t6i7GKy7ALdHUtxvk6N/8OUL4Nx
- RmCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=U723RPDZaZSWopBWJdUHc2C21cX536JMt3CC3+lohb4=;
- b=O7qBJ9h5USV+lI80wwh9dOCJP1kKx5KfvM0i+ZX4EeW43v3BWX2CnbsRygFpvZ9xqM
- Bc7nmqW0E+psxWcWSXFk7pgjhge/3ANT0hBcKzNLrsRlN4A1C41aPSHpASgCxEo/bb/N
- 96OjCLL0PNzdQpjOJMVqKKWs6UtmawK42BkJM2Bv4lFbbetBoQWEA0JE2A59BTVeClGa
- hLlyDmdmATnh02RJqriqiWeWBX1t5+Mg6lYbl4TvF/4IzfYBaw2QbJ4X8AJ1uqda5r05
- w4/wE89xhz/BqYT9vBl3SPD+YargAqgghrWohuID0EF6sZGdXPYOiEdI5/YOklyPeBnQ
- jhmA==
-X-Gm-Message-State: APjAAAWGkQpAqJq12LGFDgHRMq28sWNSAlM3Kmd+X1LU3aCEndbanbJg
- j/fxsnNZHIUTh3Q83QWfefDJRUYByCTt+LWIQ8Q=
-X-Google-Smtp-Source: APXvYqxbEo65KRTp3goo5RAGF5+k1HidYpbBHTlht7j+gdqzw9jqJNj7w5FFfyBmHAFvlgg+k+Owa8HPnobyM/6r4os=
-X-Received: by 2002:a05:600c:2383:: with SMTP id
- m3mr4969835wma.32.1579619508679; 
- Tue, 21 Jan 2020 07:11:48 -0800 (PST)
+ (envelope-from <philmd@redhat.com>) id 1itvG1-00056Z-Um
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:16:01 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58714
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itvG1-00056E-RP
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:15:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579619757;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6xob2Bqgtv32Y1fHiV6BxgHmDWMcEJY8tXeggrGGF04=;
+ b=T2hOlK49lnk3pX2bzjs+2JBQ1d6WU7i4seRw/2SByJEMAcG8/Zz5eHy+szjP/buMIbwlQm
+ Z4Izf+hsv58wtItKNcuSei52QFb7txSVovyhoIoTnJs44RumiNk1gvcfFV1SsdtaOQ3zws
+ tn5tWKs/1IXk4J6oR5fuoJFSjd21lJM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-H5a7am_QP1y5UKOg3ZSWuA-1; Tue, 21 Jan 2020 10:15:54 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFB3818AAFA1
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 15:15:53 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-205-38.brq.redhat.com [10.40.205.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43E0A60FC1;
+ Tue, 21 Jan 2020 15:15:46 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/2] EDK2 firmware patches
+Date: Tue, 21 Jan 2020 16:15:41 +0100
+Message-Id: <20200121151543.18538-1-philmd@redhat.com>
 MIME-Version: 1.0
-References: <87d0bmchq0.fsf@dusky.pond.sub.org>
- <1B253197-5592-472A-AA26-E0614A13C91A@redhat.com>
- <87o8v52hz9.fsf@dusky.pond.sub.org>
- <8CF8359B-1E52-4F7A-944E-C1C14FEC4F92@redhat.com>
- <87r200zzje.fsf@dusky.pond.sub.org>
- <20200120100849.GB345995@stefanha-x1.localdomain>
- <871rrtmkko.fsf@dusky.pond.sub.org>
- <20200121113224.GD630615@stefanha-x1.localdomain>
- <CAJ+F1C+anMuBE6pOu8JNOoaNnDw8a47Dc1f6MhnxH=rRNqMF=Q@mail.gmail.com>
- <87wo9lc4oe.fsf_-_@dusky.pond.sub.org> <20200121143658.GB597037@redhat.com>
- <871rrs97ld.fsf@dusky.pond.sub.org>
-In-Reply-To: <871rrs97ld.fsf@dusky.pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 21 Jan 2020 19:11:35 +0400
-Message-ID: <CAJ+F1CJ68_QM7zhqoL-bom3vFSNprN3zOV5FUBtrJWg4nAai5g@mail.gmail.com>
-Subject: Re: Integrating QOM into QAPI
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: H5a7am_QP1y5UKOg3ZSWuA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,208 +68,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Dominik Csapak <d.csapak@proxmox.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Tue, Jan 21, 2020 at 7:01 PM Markus Armbruster <armbru@redhat.com> wrote=
+The following changes since commit 43d1455cf84283466e5c22a217db5ef4b8197b14=
 :
->
-> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->
-> > On Tue, Jan 21, 2020 at 02:36:17PM +0100, Markus Armbruster wrote:
-> >> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
-> >>
-> >> > Hi
-> >> >
-> >> > On Tue, Jan 21, 2020 at 3:32 PM Stefan Hajnoczi <stefanha@gmail.com>=
- wrote:
-> >> >>
-> >> >> On Tue, Jan 21, 2020 at 06:42:47AM +0100, Markus Armbruster wrote:
-> >> >> > Stefan Hajnoczi <stefanha@gmail.com> writes:
-> >> >> >
-> >> >> > > On Wed, Jan 15, 2020 at 01:15:17PM +0100, Markus Armbruster wro=
-te:
-> >> >> > >> Christophe de Dinechin <dinechin@redhat.com> writes:
-> >> >> > >> >> On 15 Jan 2020, at 10:20, Markus Armbruster <armbru@redhat.=
-com> wrote:
-> >> >> > >> * qemuMonitorJSONSetIOThread() uses it to control iothread's p=
-roperties
-> >> >> > >>   poll-max-ns, poll-grow, poll-shrink.  Their use with -object=
- is
-> >> >> > >>   documented (in qemu-options.hx), their use with qom-set is n=
-ot.
-> >> >> > >
-> >> >> > > I'm happy to use a different interface.
-> >> >> > >
-> >> >> > > Writing a boilerplate "iothread-set-poll-params" QMP command in=
- C would
-> >> >> > > be a step backwards.
-> >> >> >
-> >> >> > No argument.
-> >> >> >
-> >> >> > > Maybe the QAPI code generator could map something like this:
-> >> >> > >
-> >> >> > >   { 'command': 'iothread-set-poll-params',
-> >> >> > >     'data': {
-> >> >> > >         'id': 'str',
-> >> >> > >     '*max-ns': 'uint64',
-> >> >> > >     '*grow': 'uint64',
-> >> >> > >     '*shrink': 'uint64'
-> >> >> > >     },
-> >> >> > >     'map-to-qom-set': 'IOThread'
-> >> >> > >   }
-> >> >> > >
-> >> >> > > And turn it into QOM accessors on the IOThread object.
-> >> >> >
-> >> >> > I think a generic "set this configuration to that value" command =
-is just
-> >> >> > fine.  qom-set fails on several counts, though:
-> >> >> >
-> >> >> > * Tolerable: qom-set is not actually generic, it applies only to =
-QOM.
-> >> >> >
-> >> >> > * qom-set lets you set tons of stuff that is not meant to be chan=
-ged at
-> >> >> >   run time.  If it breaks your guest, you get to keep the pieces.
-> >> >> >
-> >> >> > * There is virtually no documentation on what can be set to what =
-values,
-> >> >> >   and their semantics.
-> >> >> >
-> >> >> > In its current state, QOM is a user interface superfund site.
-> >> >>
-> >> >> Thoughts about a solution:
-> >> >>
-> >> >> Static QOM properties should be declared via QAPI instead of
-> >> >> imperatively via QOM APIs.  That way they are introspectable and ty=
-pe
-> >> >> information is present in the schema.
-> >> >>
-> >> >> The QAPI code generator could emit a function that is callable from
-> >> >> .class_init().  This eliminates the need to manually call
-> >> >> object_class_property_add().
-> >>
-> >> We need to make up our minds what exactly we want generated.  Then we
-> >> can design the QAPI language, and code up the generator.
-> >>
-> >> Skeleton QOM type, to help with the discussion:
-> >>
-> >>     #define TYPE_FOO "foo"
-> >>
-> >>     #define FOO(obj) OBJECT_CHECK(Foo, (obj), TYPE_FOO)
-> >>     #define FOO_CLASS(klass) \
-> >>         OBJECT_CLASS_CHECK(FooClass, (klass), TYPE_FOO)
-> >>     #define FOO_GET_CLASS(obj) \
-> >>         OBJECT_GET_CLASS(FooClass, (obj), TYPE_FOO)
-> >>
-> >>     typedef FooClass {
-> >>         ParentClass parent_class;
-> >>         ... // hand-written per-class state
-> >>     }
-> >>
-> >>     struct Chardev {
-> >>         ParentObject parent_obj;
-> >>         ... // hand-written instance (per-object) state
-> >>     };
-> >>
-> >>     static const TypeInfo char_type_info =3D {
-> >>         .name =3D TYPE_FOO,
-> >>         .parent =3D TYPE_OBJECT,
-> >>         .instance_size =3D sizeof(Foo),
-> >>         .instance_init =3D ...,                   // methods to initia=
-lize
-> >>         .instance_post_init =3D ...,              // and finalize inst=
-ances,
-> >>         .instance_finalize =3D ...,               // all optional
-> >>         .abstract =3D ...,                        // true or false (d'=
-oh)
-> >>         .class_size =3D sizeof(FooClass),
-> >>         .class_init =3D ...,                      // methods to initia=
-lize
-> >>         .class_base_init =3D ...,                 // classes, optional
-> >>         .class_data =3D ...,                      // extra argument fo=
-r them
-> >>         .interfaces =3D ...
-> >>     };
-> >>
-> >> There's substantial boilerplate, with plenty of hand-written code in t=
-he
-> >> gaps.  What of the boilerplate do we plan to generate?  How do we plan
-> >> to fill the gaps, if any?
-> >
-> > FWIW, even without a QOM generator, we can do waaaaaaay better on the
-> > amount of boilerplate needed for QOM without very much work. It just
-> > needs a few convenience macros writing.
-> >
-> > QOM is not GObject, but is heavily inspired by it and so looking at
-> > GObject gives us a design pattern we can aim to match in terms of
-> > amount of boilerplate.
-> >
-> > What we do manually with TypeInfo struct there has essentially always
-> > been done by a 1 line macro in GObject:
-> >
-> >   G_DEFINE_TYPE(virIdentity, vir_identity, G_TYPE_OBJECT)
-> >
-> > If implementing interfaces, there's 1 extra line needed per interface
-> > to associate them.
-> >
-> >   https://developer.gnome.org/gobject/stable/gobject-Type-Information.h=
-tml#G-DEFINE-TYPE:CAPS
-> >
-> >
-> > And what we do in the header file to add the 4 or more FOO_XXX macros,
-> > and the class struct and the object struct has recently been turned
-> > into a 2-liner:
-> >
-> >   #define VIR_TYPE_IDENTITY vir_identity_get_type()
-> >   G_DECLARE_FINAL_TYPE(virIdentity, vir_identity, VIR, IDENTITY, GObjec=
-t);
-> >
-> >   https://developer.gnome.org/gobject/stable/gobject-Type-Information.h=
-tml#G-DECLARE-FINAL-TYPE:CAPS
-> >
-> > Or
-> >
-> >   #define VIR_TYPE_IDENTITY vir_identity_get_type()
-> >   G_DECLARE_DERIVABLE_TYPE(virIdentity, vir_identity, VIR, IDENTITY, GO=
-bject);
-> >
-> >   https://developer.gnome.org/gobject/stable/gobject-Type-Information.h=
-tml#G-DECLARE-DERIVABLE-TYPE:CAPS
-> >
-> >
-> > It would be nice to have a QOM code generator so that we can statically
-> > declare properties & parent/child/interface relationships, but for an
-> > immediate low cost win, better macros would be very useful IMHO.
->
-> Volunteers?
->
 
-Actually, we are not that far off from being able to use GObject
-altogether (I hacked something like that to play with), but I
-disgress...
+  qapi: Fix code generation with Python 3.5 (2020-01-20 12:17:38 +0000)
 
-So introducing GObject-like macros? sure!
+are available in the Git repository at:
 
-There are plenty of refactoring to do. The problem when touching the
-whole code-base, imho, is review time. It may take a couple of
-hours/days to come up with a cocci/spatch, and make various patches
-here and there. But it takes often weeks and a lot of constant push to
-various folks to get all the reviews (as seens by the qdev prop-ptr
-series earlier for example). How can we better address whole code-base
-changes?
+  https://gitlab.com/philmd/qemu.git tags/edk2-next-20200121
 
+for you to fetch changes up to 71920809ceabedf7dbec67dda4d649bcbb11f55c:
 
+  gitlab-ci.yml: Add jobs to build EDK2 firmware binaries (2020-01-21 14:15=
+:48 +0100)
+
+----------------------------------------------------------------
+
+Another set of build-sys patches, to help building the firmware
+binaries we use for testing. We almost have reproducible builds.
+
+----------------------------------------------------------------
+
+Philippe Mathieu-Daud=C3=A9 (2):
+  roms/edk2-funcs: Force softfloat ARM toolchain prefix on Debian
+  gitlab-ci.yml: Add jobs to build EDK2 firmware binaries
+
+ .gitlab-ci-edk2.yml          | 49 ++++++++++++++++++++++++++++++++++++
+ .gitlab-ci.d/edk2/Dockerfile | 27 ++++++++++++++++++++
+ .gitlab-ci.yml               |  3 +++
+ MAINTAINERS                  |  2 ++
+ roms/edk2-funcs.sh           |  3 +++
+ 5 files changed, 84 insertions(+)
+ create mode 100644 .gitlab-ci-edk2.yml
+ create mode 100644 .gitlab-ci.d/edk2/Dockerfile
 
 --=20
-Marc-Andr=C3=A9 Lureau
+2.21.1
+
 
