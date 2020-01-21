@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6719143EA8
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:54:59 +0100 (CET)
-Received: from localhost ([::1]:54372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA20D143EB3
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:58:03 +0100 (CET)
+Received: from localhost ([::1]:54438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ittze-00038h-F6
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:54:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52892)
+	id 1itu2c-0006zN-FN
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:58:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52895)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itsiA-0003pZ-8E
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:53 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itsiC-0003rf-3L
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itsi6-00050i-4s
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:50 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33330
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1itsi8-00051Y-DA
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31515
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsi5-00050a-V8
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:46 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsi8-00051K-9G
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609965;
+ s=mimecast20190719; t=1579609967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kCv0dKz8lAfoYHxKk0BBMgvALibVVVp3i19wW8rZdAU=;
- b=Ecz39ye1WAk3aBfsKhzwzfesqZ1tJcV6W2bAR+A0dPdqgkLqY63dN7nlvc4rskJh1RB+kG
- YUs4+82Lr7jbQ+Ybguk3yejTGsbEMEaGYZDSCUaPOFUG3aRsNUKOF2TrV3VR3iPuZ90JPc
- 4voqT+JRMYRTOxED1hDrCLz/CQoea6U=
+ bh=cUeFPdME+vm3TzQVjRCoGIKY7xBnM50sNI8HRXdHPyI=;
+ b=UNTRWwkrLwidvhvsfuKVFeuu5INBpLjFot2enxhHV/uWCf4LEb2ip0ZWzGMa/9w+VhK85i
+ ei6cCFFqezUrYU+CCsxuj5MIHSIQfsgNRRLCB87ZHmNId6VUiP+ZudmdodVywJhRBWrEUC
+ FdRo7LMPL2FIVgFFrFhrmOUouuYFE8o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-xN8cYMWZM5GCRcLiEichdA-1; Tue, 21 Jan 2020 07:32:44 -0500
+ us-mta-286-zXS8zYAHOOKGulwaHBVztA-1; Tue, 21 Jan 2020 07:32:46 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52C30800D41;
- Tue, 21 Jan 2020 12:32:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 547E3800D41;
+ Tue, 21 Jan 2020 12:32:45 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E3E660BE0;
- Tue, 21 Jan 2020 12:32:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FA8760BE0;
+ Tue, 21 Jan 2020 12:32:43 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 102/109] virtiofsd: process requests in a thread pool
-Date: Tue, 21 Jan 2020 12:24:26 +0000
-Message-Id: <20200121122433.50803-103-dgilbert@redhat.com>
+Subject: [PATCH v2 103/109] virtiofsd: prevent FUSE_INIT/FUSE_DESTROY races
+Date: Tue, 21 Jan 2020 12:24:27 +0000
+Message-Id: <20200121122433.50803-104-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: xN8cYMWZM5GCRcLiEichdA-1
+X-MC-Unique: zXS8zYAHOOKGulwaHBVztA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,544 +78,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Introduce a thread pool so that fv_queue_thread() just pops
-VuVirtqElements and hands them to the thread pool.  For the time being
-only one worker thread is allowed since passthrough_ll.c is not
-thread-safe yet.  Future patches will lift this restriction so that
-multiple FUSE requests can be processed in parallel.
-
-The main new concept is struct FVRequest, which contains both
-VuVirtqElement and struct fuse_chan.  We now have fv_VuDev for a device,
-fv_QueueInfo for a virtqueue, and FVRequest for a request.  Some of
-fv_QueueInfo's fields are moved into FVRequest because they are
-per-request.  The name FVRequest conforms to QEMU coding style and I
-expect the struct fv_* types will be renamed in a future refactoring.
-
-This patch series is not optimal.  fbuf reuse is dropped so each request
-does malloc(se->bufsize), but there is no clean and cheap way to keep
-this with a thread pool.  The vq_lock mutex is held for longer than
-necessary, especially during the eventfd_write() syscall.  Performance
-can be improved in the future.
-
-prctl(2) had to be added to the seccomp whitelist because glib invokes
-it.
+When running with multiple threads it can be tricky to handle
+FUSE_INIT/FUSE_DESTROY in parallel with other request types or in
+parallel with themselves.  Serialize FUSE_INIT and FUSE_DESTROY so that
+malicious clients cannot trigger race conditions.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+Reviewed-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 359 +++++++++++++++++++---------------
- 1 file changed, 201 insertions(+), 158 deletions(-)
+ tools/virtiofsd/fuse_i.h        |  1 +
+ tools/virtiofsd/fuse_lowlevel.c | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index f6242f9338..0dcf2ef57a 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -22,6 +22,7 @@
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index a20854f1c4..1447d86866 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -61,6 +61,7 @@ struct fuse_session {
+     struct fuse_req list;
+     struct fuse_req interrupts;
+     pthread_mutex_t lock;
++    pthread_rwlock_t init_rwlock;
+     int got_destroy;
+     int broken_splice_nonblock;
+     uint64_t notify_ctr;
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
+l.c
+index fe332bcb90..8ae45d9c58 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -2430,6 +2430,19 @@ void fuse_session_process_buf_int(struct fuse_sessio=
+n *se,
+     req->ctx.pid =3D in->pid;
+     req->ch =3D ch;
 =20
- #include <assert.h>
- #include <errno.h>
-+#include <glib.h>
- #include <stdint.h>
- #include <stdio.h>
- #include <stdlib.h>
-@@ -37,17 +38,28 @@
- struct fv_VuDev;
- struct fv_QueueInfo {
-     pthread_t thread;
 +    /*
-+     * This lock protects the VuVirtq preventing races between
-+     * fv_queue_thread() and fv_queue_worker().
++     * INIT and DESTROY requests are serialized, all other request types
++     * run in parallel.  This prevents races between FUSE_INIT and ordinar=
+y
++     * requests, FUSE_INIT and FUSE_INIT, FUSE_INIT and FUSE_DESTROY, and
++     * FUSE_DESTROY and FUSE_DESTROY.
 +     */
-+    pthread_mutex_t vq_lock;
-+
-     struct fv_VuDev *virtio_dev;
-=20
-     /* Our queue index, corresponds to array position */
-     int qidx;
-     int kick_fd;
-     int kill_fd; /* For killing the thread */
-+};
-=20
--    /* The element for the command currently being processed */
--    VuVirtqElement *qe;
-+/* A FUSE request */
-+typedef struct {
-+    VuVirtqElement elem;
-+    struct fuse_chan ch;
-+
-+    /* Used to complete requests that involve no reply */
-     bool reply_sent;
--};
-+} FVRequest;
-=20
- /*
-  * We pass the dev element into libvhost-user
-@@ -191,8 +203,11 @@ static void copy_iov(struct iovec *src_iov, int src_co=
-unt,
- int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
-                     struct iovec *iov, int count)
- {
--    VuVirtqElement *elem;
--    VuVirtq *q;
-+    FVRequest *req =3D container_of(ch, FVRequest, ch);
-+    struct fv_QueueInfo *qi =3D ch->qi;
-+    VuDev *dev =3D &se->virtio_dev->dev;
-+    VuVirtq *q =3D vu_get_queue(dev, qi->qidx);
-+    VuVirtqElement *elem =3D &req->elem;
-     int ret =3D 0;
-=20
-     assert(count >=3D 1);
-@@ -205,11 +220,7 @@ int virtio_send_msg(struct fuse_session *se, struct fu=
-se_chan *ch,
-=20
-     /* unique =3D=3D 0 is notification, which we don't support */
-     assert(out->unique);
--    /* For virtio we always have ch */
--    assert(ch);
--    assert(!ch->qi->reply_sent);
--    elem =3D ch->qi->qe;
--    q =3D &ch->qi->virtio_dev->dev.vq[ch->qi->qidx];
-+    assert(!req->reply_sent);
-=20
-     /* The 'in' part of the elem is to qemu */
-     unsigned int in_num =3D elem->in_num;
-@@ -236,9 +247,15 @@ int virtio_send_msg(struct fuse_session *se, struct fu=
-se_chan *ch,
-     }
-=20
-     copy_iov(iov, count, in_sg, in_num, tosend_len);
--    vu_queue_push(&se->virtio_dev->dev, q, elem, tosend_len);
--    vu_queue_notify(&se->virtio_dev->dev, q);
--    ch->qi->reply_sent =3D true;
-+
-+    pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+    pthread_mutex_lock(&qi->vq_lock);
-+    vu_queue_push(dev, q, elem, tosend_len);
-+    vu_queue_notify(dev, q);
-+    pthread_mutex_unlock(&qi->vq_lock);
-+    pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+
-+    req->reply_sent =3D true;
-=20
- err:
-     return ret;
-@@ -254,9 +271,12 @@ int virtio_send_data_iov(struct fuse_session *se, stru=
-ct fuse_chan *ch,
-                          struct iovec *iov, int count, struct fuse_bufvec =
-*buf,
-                          size_t len)
- {
-+    FVRequest *req =3D container_of(ch, FVRequest, ch);
-+    struct fv_QueueInfo *qi =3D ch->qi;
-+    VuDev *dev =3D &se->virtio_dev->dev;
-+    VuVirtq *q =3D vu_get_queue(dev, qi->qidx);
-+    VuVirtqElement *elem =3D &req->elem;
-     int ret =3D 0;
--    VuVirtqElement *elem;
--    VuVirtq *q;
-=20
-     assert(count >=3D 1);
-     assert(iov[0].iov_len >=3D sizeof(struct fuse_out_header));
-@@ -275,11 +295,7 @@ int virtio_send_data_iov(struct fuse_session *se, stru=
-ct fuse_chan *ch,
-     /* unique =3D=3D 0 is notification which we don't support */
-     assert(out->unique);
-=20
--    /* For virtio we always have ch */
--    assert(ch);
--    assert(!ch->qi->reply_sent);
--    elem =3D ch->qi->qe;
--    q =3D &ch->qi->virtio_dev->dev.vq[ch->qi->qidx];
-+    assert(!req->reply_sent);
-=20
-     /* The 'in' part of the elem is to qemu */
-     unsigned int in_num =3D elem->in_num;
-@@ -395,33 +411,175 @@ int virtio_send_data_iov(struct fuse_session *se, st=
-ruct fuse_chan *ch,
-=20
-     ret =3D 0;
-=20
--    vu_queue_push(&se->virtio_dev->dev, q, elem, tosend_len);
--    vu_queue_notify(&se->virtio_dev->dev, q);
-+    pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+    pthread_mutex_lock(&qi->vq_lock);
-+    vu_queue_push(dev, q, elem, tosend_len);
-+    vu_queue_notify(dev, q);
-+    pthread_mutex_unlock(&qi->vq_lock);
-+    pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-=20
- err:
-     if (ret =3D=3D 0) {
--        ch->qi->reply_sent =3D true;
-+        req->reply_sent =3D true;
-     }
-=20
-     return ret;
- }
-=20
-+/* Process one FVRequest in a thread pool */
-+static void fv_queue_worker(gpointer data, gpointer user_data)
-+{
-+    struct fv_QueueInfo *qi =3D user_data;
-+    struct fuse_session *se =3D qi->virtio_dev->se;
-+    struct VuDev *dev =3D &qi->virtio_dev->dev;
-+    FVRequest *req =3D data;
-+    VuVirtqElement *elem =3D &req->elem;
-+    struct fuse_buf fbuf =3D {};
-+    bool allocated_bufv =3D false;
-+    struct fuse_bufvec bufv;
-+    struct fuse_bufvec *pbufv;
-+
-+    assert(se->bufsize > sizeof(struct fuse_in_header));
-+
-+    /*
-+     * An element contains one request and the space to send our response
-+     * They're spread over multiple descriptors in a scatter/gather set
-+     * and we can't trust the guest to keep them still; so copy in/out.
-+     */
-+    fbuf.mem =3D malloc(se->bufsize);
-+    assert(fbuf.mem);
-+
-+    fuse_mutex_init(&req->ch.lock);
-+    req->ch.fd =3D -1;
-+    req->ch.qi =3D qi;
-+
-+    /* The 'out' part of the elem is from qemu */
-+    unsigned int out_num =3D elem->out_num;
-+    struct iovec *out_sg =3D elem->out_sg;
-+    size_t out_len =3D iov_size(out_sg, out_num);
-+    fuse_log(FUSE_LOG_DEBUG,
-+             "%s: elem %d: with %d out desc of length %zd\n",
-+             __func__, elem->index, out_num, out_len);
-+
-+    /*
-+     * The elem should contain a 'fuse_in_header' (in to fuse)
-+     * plus the data based on the len in the header.
-+     */
-+    if (out_len < sizeof(struct fuse_in_header)) {
-+        fuse_log(FUSE_LOG_ERR, "%s: elem %d too short for in_header\n",
-+                 __func__, elem->index);
-+        assert(0); /* TODO */
-+    }
-+    if (out_len > se->bufsize) {
-+        fuse_log(FUSE_LOG_ERR, "%s: elem %d too large for buffer\n", __fun=
-c__,
-+                 elem->index);
-+        assert(0); /* TODO */
-+    }
-+    /* Copy just the first element and look at it */
-+    copy_from_iov(&fbuf, 1, out_sg);
-+
-+    pbufv =3D NULL; /* Compiler thinks an unitialised path */
-+    if (out_num > 2 &&
-+        out_sg[0].iov_len =3D=3D sizeof(struct fuse_in_header) &&
-+        ((struct fuse_in_header *)fbuf.mem)->opcode =3D=3D FUSE_WRITE &&
-+        out_sg[1].iov_len =3D=3D sizeof(struct fuse_write_in)) {
-+        /*
-+         * For a write we don't actually need to copy the
-+         * data, we can just do it straight out of guest memory
-+         * but we must still copy the headers in case the guest
-+         * was nasty and changed them while we were using them.
-+         */
-+        fuse_log(FUSE_LOG_DEBUG, "%s: Write special case\n", __func__);
-+
-+        /* copy the fuse_write_in header afte rthe fuse_in_header */
-+        fbuf.mem +=3D out_sg->iov_len;
-+        copy_from_iov(&fbuf, 1, out_sg + 1);
-+        fbuf.mem -=3D out_sg->iov_len;
-+        fbuf.size =3D out_sg[0].iov_len + out_sg[1].iov_len;
-+
-+        /* Allocate the bufv, with space for the rest of the iov */
-+        pbufv =3D malloc(sizeof(struct fuse_bufvec) +
-+                       sizeof(struct fuse_buf) * (out_num - 2));
-+        if (!pbufv) {
-+            fuse_log(FUSE_LOG_ERR, "%s: pbufv malloc failed\n",
-+                    __func__);
-+            goto out;
-+        }
-+
-+        allocated_bufv =3D true;
-+        pbufv->count =3D 1;
-+        pbufv->buf[0] =3D fbuf;
-+
-+        size_t iovindex, pbufvindex;
-+        iovindex =3D 2; /* 2 headers, separate iovs */
-+        pbufvindex =3D 1; /* 2 headers, 1 fusebuf */
-+
-+        for (; iovindex < out_num; iovindex++, pbufvindex++) {
-+            pbufv->count++;
-+            pbufv->buf[pbufvindex].pos =3D ~0; /* Dummy */
-+            pbufv->buf[pbufvindex].flags =3D 0;
-+            pbufv->buf[pbufvindex].mem =3D out_sg[iovindex].iov_base;
-+            pbufv->buf[pbufvindex].size =3D out_sg[iovindex].iov_len;
-+        }
++    if (in->opcode =3D=3D FUSE_INIT || in->opcode =3D=3D CUSE_INIT ||
++        in->opcode =3D=3D FUSE_DESTROY) {
++        pthread_rwlock_wrlock(&se->init_rwlock);
 +    } else {
-+        /* Normal (non fast write) path */
-+
-+        /* Copy the rest of the buffer */
-+        fbuf.mem +=3D out_sg->iov_len;
-+        copy_from_iov(&fbuf, out_num - 1, out_sg + 1);
-+        fbuf.mem -=3D out_sg->iov_len;
-+        fbuf.size =3D out_len;
-+
-+        /* TODO! Endianness of header */
-+
-+        /* TODO: Add checks for fuse_session_exited */
-+        bufv.buf[0] =3D fbuf;
-+        bufv.count =3D 1;
-+        pbufv =3D &bufv;
-+    }
-+    pbufv->idx =3D 0;
-+    pbufv->off =3D 0;
-+    fuse_session_process_buf_int(se, pbufv, &req->ch);
-+
-+out:
-+    if (allocated_bufv) {
-+        free(pbufv);
++        pthread_rwlock_rdlock(&se->init_rwlock);
 +    }
 +
-+    /* If the request has no reply, still recycle the virtqueue element */
-+    if (!req->reply_sent) {
-+        struct VuVirtq *q =3D vu_get_queue(dev, qi->qidx);
-+
-+        fuse_log(FUSE_LOG_DEBUG, "%s: elem %d no reply sent\n", __func__,
-+                 elem->index);
-+
-+        pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+        pthread_mutex_lock(&qi->vq_lock);
-+        vu_queue_push(dev, q, elem, 0);
-+        vu_queue_notify(dev, q);
-+        pthread_mutex_unlock(&qi->vq_lock);
-+        pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-+    }
-+
-+    pthread_mutex_destroy(&req->ch.lock);
-+    free(fbuf.mem);
-+    free(req);
-+}
-+
- /* Thread function for individual queues, created when a queue is 'started=
-' */
- static void *fv_queue_thread(void *opaque)
- {
-     struct fv_QueueInfo *qi =3D opaque;
-     struct VuDev *dev =3D &qi->virtio_dev->dev;
-     struct VuVirtq *q =3D vu_get_queue(dev, qi->qidx);
--    struct fuse_session *se =3D qi->virtio_dev->se;
--    struct fuse_chan ch;
--    struct fuse_buf fbuf;
-+    GThreadPool *pool;
-=20
--    fbuf.mem =3D NULL;
--    fbuf.flags =3D 0;
--
--    fuse_mutex_init(&ch.lock);
--    ch.fd =3D (int)0xdaff0d111;
--    ch.qi =3D qi;
-+    pool =3D g_thread_pool_new(fv_queue_worker, qi, 1 /* TODO max_threads =
-*/,
-+                             TRUE, NULL);
-+    if (!pool) {
-+        fuse_log(FUSE_LOG_ERR, "%s: g_thread_pool_new failed\n", __func__)=
-;
-+        return NULL;
-+    }
-=20
-     fuse_log(FUSE_LOG_INFO, "%s: Start for queue %d kick_fd %d\n", __func_=
-_,
-              qi->qidx, qi->kick_fd);
-@@ -478,6 +636,7 @@ static void *fv_queue_thread(void *opaque)
-         /* Mutual exclusion with virtio_loop() */
-         ret =3D pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock)=
-;
-         assert(ret =3D=3D 0); /* there is no possible error case */
-+        pthread_mutex_lock(&qi->vq_lock);
-         /* out is from guest, in is too guest */
-         unsigned int in_bytes, out_bytes;
-         vu_queue_get_avail_bytes(dev, q, &in_bytes, &out_bytes, ~0, ~0);
-@@ -486,141 +645,22 @@ static void *fv_queue_thread(void *opaque)
-                  "%s: Queue %d gave evalue: %zx available: in: %u out: %u\=
-n",
-                  __func__, qi->qidx, (size_t)evalue, in_bytes, out_bytes);
-=20
--
-         while (1) {
--            bool allocated_bufv =3D false;
--            struct fuse_bufvec bufv;
--            struct fuse_bufvec *pbufv;
--
--            /*
--             * An element contains one request and the space to send our
--             * response They're spread over multiple descriptors in a
--             * scatter/gather set and we can't trust the guest to keep the=
-m
--             * still; so copy in/out.
--             */
--            VuVirtqElement *elem =3D vu_queue_pop(dev, q, sizeof(VuVirtqEl=
-ement));
--            if (!elem) {
-+            FVRequest *req =3D vu_queue_pop(dev, q, sizeof(FVRequest));
-+            if (!req) {
-                 break;
-             }
-=20
--            qi->qe =3D elem;
--            qi->reply_sent =3D false;
-+            req->reply_sent =3D false;
-=20
--            if (!fbuf.mem) {
--                fbuf.mem =3D malloc(se->bufsize);
--                assert(fbuf.mem);
--                assert(se->bufsize > sizeof(struct fuse_in_header));
--            }
--            /* The 'out' part of the elem is from qemu */
--            unsigned int out_num =3D elem->out_num;
--            struct iovec *out_sg =3D elem->out_sg;
--            size_t out_len =3D iov_size(out_sg, out_num);
--            fuse_log(FUSE_LOG_DEBUG,
--                     "%s: elem %d: with %d out desc of length %zd\n", __fu=
-nc__,
--                     elem->index, out_num, out_len);
--
--            /*
--             * The elem should contain a 'fuse_in_header' (in to fuse)
--             * plus the data based on the len in the header.
--             */
--            if (out_len < sizeof(struct fuse_in_header)) {
--                fuse_log(FUSE_LOG_ERR, "%s: elem %d too short for in_heade=
-r\n",
--                         __func__, elem->index);
--                assert(0); /* TODO */
--            }
--            if (out_len > se->bufsize) {
--                fuse_log(FUSE_LOG_ERR, "%s: elem %d too large for buffer\n=
-",
--                         __func__, elem->index);
--                assert(0); /* TODO */
--            }
--            /* Copy just the first element and look at it */
--            copy_from_iov(&fbuf, 1, out_sg);
--
--            if (out_num > 2 &&
--                out_sg[0].iov_len =3D=3D sizeof(struct fuse_in_header) &&
--                ((struct fuse_in_header *)fbuf.mem)->opcode =3D=3D FUSE_WR=
-ITE &&
--                out_sg[1].iov_len =3D=3D sizeof(struct fuse_write_in)) {
--                /*
--                 * For a write we don't actually need to copy the
--                 * data, we can just do it straight out of guest memory
--                 * but we must still copy the headers in case the guest
--                 * was nasty and changed them while we were using them.
--                 */
--                fuse_log(FUSE_LOG_DEBUG, "%s: Write special case\n", __fun=
-c__);
--
--                /* copy the fuse_write_in header after the fuse_in_header =
-*/
--                fbuf.mem +=3D out_sg->iov_len;
--                copy_from_iov(&fbuf, 1, out_sg + 1);
--                fbuf.mem -=3D out_sg->iov_len;
--                fbuf.size =3D out_sg[0].iov_len + out_sg[1].iov_len;
--
--                /* Allocate the bufv, with space for the rest of the iov *=
-/
--                allocated_bufv =3D true;
--                pbufv =3D malloc(sizeof(struct fuse_bufvec) +
--                               sizeof(struct fuse_buf) * (out_num - 2));
--                if (!pbufv) {
--                    vu_queue_unpop(dev, q, elem, 0);
--                    free(elem);
--                    fuse_log(FUSE_LOG_ERR, "%s: pbufv malloc failed\n",
--                             __func__);
--                    goto out;
--                }
--
--                pbufv->count =3D 1;
--                pbufv->buf[0] =3D fbuf;
--
--                size_t iovindex, pbufvindex;
--                iovindex =3D 2; /* 2 headers, separate iovs */
--                pbufvindex =3D 1; /* 2 headers, 1 fusebuf */
--
--                for (; iovindex < out_num; iovindex++, pbufvindex++) {
--                    pbufv->count++;
--                    pbufv->buf[pbufvindex].pos =3D ~0; /* Dummy */
--                    pbufv->buf[pbufvindex].flags =3D 0;
--                    pbufv->buf[pbufvindex].mem =3D out_sg[iovindex].iov_ba=
-se;
--                    pbufv->buf[pbufvindex].size =3D out_sg[iovindex].iov_l=
-en;
--                }
--            } else {
--                /* Normal (non fast write) path */
--
--                /* Copy the rest of the buffer */
--                fbuf.mem +=3D out_sg->iov_len;
--                copy_from_iov(&fbuf, out_num - 1, out_sg + 1);
--                fbuf.mem -=3D out_sg->iov_len;
--                fbuf.size =3D out_len;
--
--                /* TODO! Endianness of header */
--
--                /* TODO: Add checks for fuse_session_exited */
--                bufv.buf[0] =3D fbuf;
--                bufv.count =3D 1;
--                pbufv =3D &bufv;
--            }
--            pbufv->idx =3D 0;
--            pbufv->off =3D 0;
--            fuse_session_process_buf_int(se, pbufv, &ch);
--
--            if (allocated_bufv) {
--                free(pbufv);
--            }
--
--            if (!qi->reply_sent) {
--                fuse_log(FUSE_LOG_DEBUG, "%s: elem %d no reply sent\n",
--                         __func__, elem->index);
--                /* I think we've still got to recycle the element */
--                vu_queue_push(dev, q, elem, 0);
--                vu_queue_notify(dev, q);
--            }
--            qi->qe =3D NULL;
--            free(elem);
--            elem =3D NULL;
-+            g_thread_pool_push(pool, req, NULL);
-         }
-=20
-+        pthread_mutex_unlock(&qi->vq_lock);
-         pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
+     err =3D EIO;
+     if (!se->got_init) {
+         enum fuse_opcode expected;
+@@ -2487,10 +2500,13 @@ void fuse_session_process_buf_int(struct fuse_sessi=
+on *se,
+     } else {
+         fuse_ll_ops[in->opcode].func(req, in->nodeid, &iter);
      }
--out:
--    pthread_mutex_destroy(&ch.lock);
--    free(fbuf.mem);
 +
-+    g_thread_pool_free(pool, FALSE, TRUE);
++    pthread_rwlock_unlock(&se->init_rwlock);
+     return;
 =20
-     return NULL;
+ reply_err:
+     fuse_reply_err(req, err);
++    pthread_rwlock_unlock(&se->init_rwlock);
  }
-@@ -643,6 +683,7 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vu=
-d, int qidx)
-         fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d err %d\n"=
-,
-                  __func__, qidx, ret);
-     }
-+    pthread_mutex_destroy(&ourqi->vq_lock);
-     close(ourqi->kill_fd);
-     ourqi->kick_fd =3D -1;
-     free(vud->qi[qidx]);
-@@ -696,6 +737,8 @@ static void fv_queue_set_started(VuDev *dev, int qidx, =
-bool started)
 =20
-         ourqi->kill_fd =3D eventfd(0, EFD_CLOEXEC | EFD_SEMAPHORE);
-         assert(ourqi->kill_fd !=3D -1);
-+        pthread_mutex_init(&ourqi->vq_lock, NULL);
-+
-         if (pthread_create(&ourqi->thread, NULL, fv_queue_thread, ourqi)) =
-{
-             fuse_log(FUSE_LOG_ERR, "%s: Failed to create thread for queue =
-%d\n",
-                      __func__, qidx);
+ #define LL_OPTION(n, o, v)                     \
+@@ -2535,6 +2551,7 @@ void fuse_session_destroy(struct fuse_session *se)
+             se->op.destroy(se->userdata);
+         }
+     }
++    pthread_rwlock_destroy(&se->init_rwlock);
+     pthread_mutex_destroy(&se->lock);
+     free(se->cuse_data);
+     if (se->fd !=3D -1) {
+@@ -2628,6 +2645,7 @@ struct fuse_session *fuse_session_new(struct fuse_arg=
+s *args,
+     list_init_req(&se->list);
+     list_init_req(&se->interrupts);
+     fuse_mutex_init(&se->lock);
++    pthread_rwlock_init(&se->init_rwlock, NULL);
+=20
+     memcpy(&se->op, op, op_size);
+     se->owner =3D getuid();
 --=20
 2.24.1
 
