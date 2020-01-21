@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E3C143E0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:31:17 +0100 (CET)
-Received: from localhost ([::1]:53840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 302E0143E14
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:34:56 +0100 (CET)
+Received: from localhost ([::1]:53908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ittci-0000R3-4K
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:31:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51881)
+	id 1ittgE-0004Dg-C8
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:34:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51917)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itseG-0000Kn-Iu
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:28:52 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itseU-0000R0-RS
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:29:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itseB-0003JX-VZ
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:28:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32107
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1itseQ-0003Pa-Ty
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:29:02 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52968
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itseB-0003JM-Qn
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:28:43 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itseP-0003Ob-OR
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:28:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609723;
+ s=mimecast20190719; t=1579609736;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Iy6y18NA0x3CVD+nJHZzBHPr8twGWmLNdz/OdW4k/fw=;
- b=bPHH47Ga7WO6F8tEi6AkcwYme+5mvcYtVIROYoKRLWYKAxmvRlSzDnvWahjUkrOc05+FVr
- 9vhKdpVf0Y5rs+zrnF0s7KYRoi3vddqgDPVDsC4f9P3LX8U7Ejrj3aeRARMLO1mO8Emvr6
- j8VqCPpbRmkXj3TN6w0/951FWfC8yVI=
+ bh=BEITB3bC61EKPhQglhxyG2sivRdxF5miD9Yo5/TUfcE=;
+ b=dNt5GZv5a/A85Ggm7Qw7O/QlM7PGQncYEQOPfJGMw331Iyb28kVcL2nUTbA4BiMCGlN61P
+ yhWAMqvw2p/4fJp6feAsawPveKa1hYlOHvoyK6VuWghDQUwAPi5rTjT6gOpPwwLR0xwt8N
+ rMj3Ls0HoEGW/lfkLaXN0T0JetX2u4E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-NH6-jftiPmq8E5aIh_884Q-1; Tue, 21 Jan 2020 07:28:41 -0500
+ us-mta-325-IDfm_bujMAeS9HDuEzbaeQ-1; Tue, 21 Jan 2020 07:28:54 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6308B800D4C;
- Tue, 21 Jan 2020 12:28:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B936107ACC7;
+ Tue, 21 Jan 2020 12:28:53 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A49EA60BE0;
- Tue, 21 Jan 2020 12:28:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 085F060BE0;
+ Tue, 21 Jan 2020 12:28:47 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 051/109] virtiofsd: add seccomp whitelist
-Date: Tue, 21 Jan 2020 12:23:35 +0000
-Message-Id: <20200121122433.50803-52-dgilbert@redhat.com>
+Subject: [PATCH v2 053/109] virtiofsd: cap-ng helpers
+Date: Tue, 21 Jan 2020 12:23:37 +0000
+Message-Id: <20200121122433.50803-54-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: NH6-jftiPmq8E5aIh_884Q-1
+X-MC-Unique: IDfm_bujMAeS9HDuEzbaeQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,260 +76,153 @@ Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Only allow system calls that are needed by virtiofsd.  All other system
-calls cause SIGSYS to be directed at the thread and the process will
-coredump.
+libcap-ng reads /proc during capng_get_caps_process, and virtiofsd's
+sandboxing doesn't have /proc mounted; thus we have to do the
+caps read before we sandbox it and save/restore the state.
 
-Restricting system calls reduces the kernel attack surface and limits
-what the process can do when compromised.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-with additional entries by:
-Signed-off-by: Ganesh Maharaj Mahalingam <ganesh.mahalingam@intel.com>
-Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
-Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-Signed-off-by: piaojun <piaojun@huawei.com>
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Signed-off-by: Eric Ren <renzhen@linux.alibaba.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- Makefile                         |   2 +-
- tools/virtiofsd/Makefile.objs    |   5 +-
- tools/virtiofsd/passthrough_ll.c |   2 +
- tools/virtiofsd/seccomp.c        | 150 +++++++++++++++++++++++++++++++
- tools/virtiofsd/seccomp.h        |  14 +++
- 5 files changed, 171 insertions(+), 2 deletions(-)
- create mode 100644 tools/virtiofsd/seccomp.c
- create mode 100644 tools/virtiofsd/seccomp.h
+ Makefile                         |  2 +-
+ tools/virtiofsd/passthrough_ll.c | 72 ++++++++++++++++++++++++++++++++
+ 2 files changed, 73 insertions(+), 1 deletion(-)
 
 diff --git a/Makefile b/Makefile
-index a87e06ad93..967d59c98a 100644
+index 967d59c98a..18f52d6270 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -327,7 +327,7 @@ HELPERS-y +=3D vhost-user-gpu$(EXESUF)
  vhost-user-json-y +=3D contrib/vhost-user-gpu/50-qemu-gpu.json
  endif
 =20
--ifdef CONFIG_LINUX
-+ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP),yy)
+-ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP),yy)
++ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
  HELPERS-y +=3D virtiofsd$(EXESUF)
  vhost-user-json-y +=3D tools/virtiofsd/50-qemu-virtiofsd.json
  endif
-diff --git a/tools/virtiofsd/Makefile.objs b/tools/virtiofsd/Makefile.objs
-index 45a807500d..076f667e46 100644
---- a/tools/virtiofsd/Makefile.objs
-+++ b/tools/virtiofsd/Makefile.objs
-@@ -5,5 +5,8 @@ virtiofsd-obj-y =3D buffer.o \
-                   fuse_signals.o \
-                   fuse_virtio.o \
-                   helper.o \
--                  passthrough_ll.o
-+                  passthrough_ll.o \
-+                  seccomp.o
-=20
-+seccomp.o-cflags :=3D $(SECCOMP_CFLAGS)
-+seccomp.o-libs :=3D $(SECCOMP_LIBS)
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index 752beb459a..8748e64f33 100644
+index 8748e64f33..bf939d06ae 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -58,6 +58,7 @@
- #include <unistd.h>
+@@ -38,6 +38,7 @@
+ #include "fuse_virtio.h"
+ #include "fuse_lowlevel.h"
+ #include <assert.h>
++#include <cap-ng.h>
+ #include <dirent.h>
+ #include <errno.h>
+ #include <inttypes.h>
+@@ -138,6 +139,13 @@ static const struct fuse_opt lo_opts[] =3D {
 =20
- #include "passthrough_helpers.h"
-+#include "seccomp.h"
+ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64=
+_t n);
 =20
- struct lo_map_elem {
-     union {
-@@ -2090,6 +2091,7 @@ static void setup_sandbox(struct lo_data *lo, struct =
-fuse_session *se)
- {
-     setup_namespaces(lo, se);
-     setup_mounts(lo->source);
-+    setup_seccomp();
++static struct {
++    pthread_mutex_t mutex;
++    void *saved;
++} cap;
++/* That we loaded cap-ng in the current thread from the saved */
++static __thread bool cap_loaded =3D 0;
++
+ static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st);
+=20
+ static int is_dot_or_dotdot(const char *name)
+@@ -161,6 +169,37 @@ static struct lo_data *lo_data(fuse_req_t req)
+     return (struct lo_data *)fuse_req_userdata(req);
  }
 =20
- int main(int argc, char *argv[])
-diff --git a/tools/virtiofsd/seccomp.c b/tools/virtiofsd/seccomp.c
-new file mode 100644
-index 0000000000..2aa4d3cc66
---- /dev/null
-+++ b/tools/virtiofsd/seccomp.c
-@@ -0,0 +1,150 @@
 +/*
-+ * Seccomp sandboxing for virtiofsd
-+ *
-+ * Copyright (C) 2019 Red Hat, Inc.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * Load capng's state from our saved state if the current thread
++ * hadn't previously been loaded.
++ * returns 0 on success
 + */
-+
-+#include "seccomp.h"
-+#include "fuse_i.h"
-+#include "fuse_log.h"
-+#include <errno.h>
-+#include <glib.h>
-+#include <seccomp.h>
-+#include <stdlib.h>
-+
-+/* Bodge for libseccomp 2.4.2 which broke ppoll */
-+#if !defined(__SNR_ppoll) && defined(__SNR_brk)
-+#ifdef __NR_ppoll
-+#define __SNR_ppoll __NR_ppoll
-+#else
-+#define __SNR_ppoll __PNR_ppoll
-+#endif
-+#endif
-+
-+static const int syscall_whitelist[] =3D {
-+    /* TODO ireg sem*() syscalls */
-+    SCMP_SYS(brk),
-+    SCMP_SYS(capget), /* For CAP_FSETID */
-+    SCMP_SYS(capset),
-+    SCMP_SYS(clock_gettime),
-+    SCMP_SYS(clone),
-+#ifdef __NR_clone3
-+    SCMP_SYS(clone3),
-+#endif
-+    SCMP_SYS(close),
-+    SCMP_SYS(copy_file_range),
-+    SCMP_SYS(dup),
-+    SCMP_SYS(eventfd2),
-+    SCMP_SYS(exit),
-+    SCMP_SYS(exit_group),
-+    SCMP_SYS(fallocate),
-+    SCMP_SYS(fchmodat),
-+    SCMP_SYS(fchownat),
-+    SCMP_SYS(fcntl),
-+    SCMP_SYS(fdatasync),
-+    SCMP_SYS(fgetxattr),
-+    SCMP_SYS(flistxattr),
-+    SCMP_SYS(flock),
-+    SCMP_SYS(fremovexattr),
-+    SCMP_SYS(fsetxattr),
-+    SCMP_SYS(fstat),
-+    SCMP_SYS(fstatfs),
-+    SCMP_SYS(fsync),
-+    SCMP_SYS(ftruncate),
-+    SCMP_SYS(futex),
-+    SCMP_SYS(getdents),
-+    SCMP_SYS(getdents64),
-+    SCMP_SYS(getegid),
-+    SCMP_SYS(geteuid),
-+    SCMP_SYS(getpid),
-+    SCMP_SYS(gettid),
-+    SCMP_SYS(gettimeofday),
-+    SCMP_SYS(linkat),
-+    SCMP_SYS(lseek),
-+    SCMP_SYS(madvise),
-+    SCMP_SYS(mkdirat),
-+    SCMP_SYS(mknodat),
-+    SCMP_SYS(mmap),
-+    SCMP_SYS(mprotect),
-+    SCMP_SYS(mremap),
-+    SCMP_SYS(munmap),
-+    SCMP_SYS(newfstatat),
-+    SCMP_SYS(open),
-+    SCMP_SYS(openat),
-+    SCMP_SYS(ppoll),
-+    SCMP_SYS(prctl), /* TODO restrict to just PR_SET_NAME? */
-+    SCMP_SYS(preadv),
-+    SCMP_SYS(pread64),
-+    SCMP_SYS(pwritev),
-+    SCMP_SYS(pwrite64),
-+    SCMP_SYS(read),
-+    SCMP_SYS(readlinkat),
-+    SCMP_SYS(recvmsg),
-+    SCMP_SYS(renameat),
-+    SCMP_SYS(renameat2),
-+    SCMP_SYS(rt_sigaction),
-+    SCMP_SYS(rt_sigprocmask),
-+    SCMP_SYS(rt_sigreturn),
-+    SCMP_SYS(sendmsg),
-+    SCMP_SYS(setresgid),
-+    SCMP_SYS(setresuid),
-+#ifdef __NR_setresgid32
-+    SCMP_SYS(setresgid32),
-+#endif
-+#ifdef __NR_setresuid32
-+    SCMP_SYS(setresuid32),
-+#endif
-+    SCMP_SYS(set_robust_list),
-+    SCMP_SYS(symlinkat),
-+    SCMP_SYS(time), /* Rarely needed, except on static builds */
-+    SCMP_SYS(tgkill),
-+    SCMP_SYS(unlinkat),
-+    SCMP_SYS(utimensat),
-+    SCMP_SYS(write),
-+    SCMP_SYS(writev),
-+};
-+
-+void setup_seccomp(void)
++static int load_capng(void)
 +{
-+    scmp_filter_ctx ctx;
-+    size_t i;
-+
-+#ifdef SCMP_ACT_KILL_PROCESS
-+    ctx =3D seccomp_init(SCMP_ACT_KILL_PROCESS);
-+    /* Handle a newer libseccomp but an older kernel */
-+    if (!ctx && errno =3D=3D EOPNOTSUPP) {
-+        ctx =3D seccomp_init(SCMP_ACT_TRAP);
-+    }
-+#else
-+    ctx =3D seccomp_init(SCMP_ACT_TRAP);
-+#endif
-+    if (!ctx) {
-+        fuse_log(FUSE_LOG_ERR, "seccomp_init() failed\n");
-+        exit(1);
-+    }
-+
-+    for (i =3D 0; i < G_N_ELEMENTS(syscall_whitelist); i++) {
-+        if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW,
-+                             syscall_whitelist[i], 0) !=3D 0) {
-+            fuse_log(FUSE_LOG_ERR, "seccomp_rule_add syscall %d",
-+                     syscall_whitelist[i]);
-+            exit(1);
++    if (!cap_loaded) {
++        pthread_mutex_lock(&cap.mutex);
++        capng_restore_state(&cap.saved);
++        /*
++         * restore_state free's the saved copy
++         * so make another.
++         */
++        cap.saved =3D capng_save_state();
++        if (!cap.saved) {
++            fuse_log(FUSE_LOG_ERR, "capng_save_state (thread)\n");
++            return -EINVAL;
 +        }
-+    }
++        pthread_mutex_unlock(&cap.mutex);
 +
-+    /* libvhost-user calls this for post-copy migration, we don't need it =
-*/
-+    if (seccomp_rule_add(ctx, SCMP_ACT_ERRNO(ENOSYS),
-+                         SCMP_SYS(userfaultfd), 0) !=3D 0) {
-+        fuse_log(FUSE_LOG_ERR, "seccomp_rule_add userfaultfd failed\n");
-+        exit(1);
++        /*
++         * We want to use the loaded state for our pid,
++         * not the original
++         */
++        capng_setpid(syscall(SYS_gettid));
++        cap_loaded =3D true;
 +    }
-+
-+    if (seccomp_load(ctx) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "seccomp_load() failed\n");
-+        exit(1);
-+    }
-+
-+    seccomp_release(ctx);
++    return 0;
 +}
-diff --git a/tools/virtiofsd/seccomp.h b/tools/virtiofsd/seccomp.h
-new file mode 100644
-index 0000000000..86bce72652
---- /dev/null
-+++ b/tools/virtiofsd/seccomp.h
-@@ -0,0 +1,14 @@
++
+ static void lo_map_init(struct lo_map *map)
+ {
+     map->elems =3D NULL;
+@@ -2022,6 +2061,35 @@ static void setup_namespaces(struct lo_data *lo, str=
+uct fuse_session *se)
+     }
+ }
+=20
 +/*
-+ * Seccomp sandboxing for virtiofsd
-+ *
-+ * Copyright (C) 2019 Red Hat, Inc.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * Capture the capability state, we'll need to restore this for individual
++ * threads later; see load_capng.
 + */
++static void setup_capng(void)
++{
++    /* Note this accesses /proc so has to happen before the sandbox */
++    if (capng_get_caps_process()) {
++        fuse_log(FUSE_LOG_ERR, "capng_get_caps_process\n");
++        exit(1);
++    }
++    pthread_mutex_init(&cap.mutex, NULL);
++    pthread_mutex_lock(&cap.mutex);
++    cap.saved =3D capng_save_state();
++    if (!cap.saved) {
++        fuse_log(FUSE_LOG_ERR, "capng_save_state\n");
++        exit(1);
++    }
++    pthread_mutex_unlock(&cap.mutex);
++}
 +
-+#ifndef VIRTIOFSD_SECCOMP_H
-+#define VIRTIOFSD_SECCOMP_H
++static void cleanup_capng(void)
++{
++    free(cap.saved);
++    cap.saved =3D NULL;
++    pthread_mutex_destroy(&cap.mutex);
++}
 +
-+void setup_seccomp(void);
 +
-+#endif /* VIRTIOFSD_SECCOMP_H */
+ /*
+  * Make the source directory our root so symlinks cannot escape and no oth=
+er
+  * files are accessible.  Assumes unshare(CLONE_NEWNS) was already called.
+@@ -2215,12 +2283,16 @@ int main(int argc, char *argv[])
+=20
+     fuse_daemonize(opts.foreground);
+=20
++    /* Must be before sandbox since it wants /proc */
++    setup_capng();
++
+     setup_sandbox(&lo, se);
+=20
+     /* Block until ctrl+c or fusermount -u */
+     ret =3D virtio_loop(se);
+=20
+     fuse_session_unmount(se);
++    cleanup_capng();
+ err_out3:
+     fuse_remove_signal_handlers(se);
+ err_out2:
 --=20
 2.24.1
 
