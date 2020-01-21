@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048EB143E7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:47:24 +0100 (CET)
-Received: from localhost ([::1]:54086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 818D6143E2B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:41:34 +0100 (CET)
+Received: from localhost ([::1]:54010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ittsI-0002Xf-7f
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:47:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52710)
+	id 1ittmf-0003rN-3i
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:41:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52747)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itshP-00037H-Bl
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:04 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itshY-0003GX-HU
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itshK-0004iU-5S
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:03 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59445
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1itshU-0004m3-Kl
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:12 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60067)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itshJ-0004hy-WA
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:58 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itshU-0004lx-H4
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609916;
+ s=mimecast20190719; t=1579609928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1nK8DajHPxx37EGUnyFJItEZZkZZwLpJ/80iUHnoJhM=;
- b=O5NAyNwFCZKtMCX5Y74dpt/JvwpyEdtJ6K3DGo/Pplf119uhPSPewC05A5gmi9VycKhSmB
- dXptmSiy9AoKHNp7MzwtFPKnUBspgRDtzdrAlOQswvZ+7jJvsCsJpsrbTt6uB5NE9pm3eu
- rR2GZ5RwTKNisY8D8VUsZcaGHjUeQy8=
+ bh=UGv6zNVxuKuym9ksnQl50L+mnvqmK9zVXfAcevoknPM=;
+ b=bGplMXXNoDGLFLRXcy0ZoLbewGZoO+4v4fBG4+t8DnI0w3LqSKRq/vJu+a++jF+Sa7p7YR
+ lXefQnkGEomv1reqw/tOD6Wr3hNFpT0B/EOMqbLuVRxTk7WNBNhhBVC+LHrStPJFRJi2vM
+ 5ln+CvwglLRF+b5AQ5MpZ3H5vkEfOBc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-Wp100HFRP4K0Ngrjkq62-g-1; Tue, 21 Jan 2020 07:31:55 -0500
+ us-mta-15-BZaoJiuVNWujq-HPcsW-sw-1; Tue, 21 Jan 2020 07:32:06 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 761501137844;
- Tue, 21 Jan 2020 12:31:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDEA0107ACC9;
+ Tue, 21 Jan 2020 12:32:05 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDB5B60BE0;
- Tue, 21 Jan 2020 12:31:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 01F0060BE0;
+ Tue, 21 Jan 2020 12:32:03 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 089/109] virtiofsd: make lo_release() atomic
-Date: Tue, 21 Jan 2020 12:24:13 +0000
-Message-Id: <20200121122433.50803-90-dgilbert@redhat.com>
+Subject: [PATCH v2 092/109] libvhost-user: Fix some memtable remap cases
+Date: Tue, 21 Jan 2020 12:24:16 +0000
+Message-Id: <20200121122433.50803-93-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Wp100HFRP4K0Ngrjkq62-g-1
+X-MC-Unique: BZaoJiuVNWujq-HPcsW-sw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,47 +75,106 @@ Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Hold the lock across both lo_map_get() and lo_map_remove() to prevent
-races between two FUSE_RELEASE requests.  In this case I don't see a
-serious bug but it's safer to do things atomically.
+If a new setmemtable command comes in once the vhost threads are
+running, it will remap the guests address space and the threads
+will now be looking in the wrong place.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Fortunately we're running this command under lock, so we can
+update the queue mappings so that threads will look in the new-right
+place.
+
+Note: This doesn't fix things that the threads might be doing
+without a lock (e.g. a readv/writev!)  That's for another time.
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ contrib/libvhost-user/libvhost-user.c | 33 ++++++++++++++++++++-------
+ contrib/libvhost-user/libvhost-user.h |  3 +++
+ 2 files changed, 28 insertions(+), 8 deletions(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index d7386d8a13..c52f7c2c32 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -1772,14 +1772,18 @@ static void lo_release(fuse_req_t req, fuse_ino_t i=
-no,
-                        struct fuse_file_info *fi)
+diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/=
+libvhost-user.c
+index 63e41062a4..b89bf18501 100644
+--- a/contrib/libvhost-user/libvhost-user.c
++++ b/contrib/libvhost-user/libvhost-user.c
+@@ -564,6 +564,21 @@ vu_reset_device_exec(VuDev *dev, VhostUserMsg *vmsg)
+     return false;
+ }
+=20
++static bool
++map_ring(VuDev *dev, VuVirtq *vq)
++{
++    vq->vring.desc =3D qva_to_va(dev, vq->vra.desc_user_addr);
++    vq->vring.used =3D qva_to_va(dev, vq->vra.used_user_addr);
++    vq->vring.avail =3D qva_to_va(dev, vq->vra.avail_user_addr);
++
++    DPRINT("Setting virtq addresses:\n");
++    DPRINT("    vring_desc  at %p\n", vq->vring.desc);
++    DPRINT("    vring_used  at %p\n", vq->vring.used);
++    DPRINT("    vring_avail at %p\n", vq->vring.avail);
++
++    return !(vq->vring.desc && vq->vring.used && vq->vring.avail);
++}
++
+ static bool
+ vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg *vmsg)
  {
-     struct lo_data *lo =3D lo_data(req);
--    int fd;
-+    struct lo_map_elem *elem;
-+    int fd =3D -1;
+@@ -767,6 +782,14 @@ vu_set_mem_table_exec(VuDev *dev, VhostUserMsg *vmsg)
+         close(vmsg->fds[i]);
+     }
 =20
-     (void)ino;
-=20
--    fd =3D lo_fi_fd(req, fi);
--
-     pthread_mutex_lock(&lo->mutex);
--    lo_map_remove(&lo->fd_map, fi->fh);
-+    elem =3D lo_map_get(&lo->fd_map, fi->fh);
-+    if (elem) {
-+        fd =3D elem->fd;
-+        elem =3D NULL;
-+        lo_map_remove(&lo->fd_map, fi->fh);
++    for (i =3D 0; i < dev->max_queues; i++) {
++        if (dev->vq[i].vring.desc) {
++            if (map_ring(dev, &dev->vq[i])) {
++                vu_panic(dev, "remaping queue %d during setmemtable", i);
++            }
++        }
 +    }
-     pthread_mutex_unlock(&lo->mutex);
++
+     return false;
+ }
 =20
-     close(fd);
+@@ -853,18 +876,12 @@ vu_set_vring_addr_exec(VuDev *dev, VhostUserMsg *vmsg=
+)
+     DPRINT("    avail_user_addr:  0x%016" PRIx64 "\n", vra->avail_user_add=
+r);
+     DPRINT("    log_guest_addr:   0x%016" PRIx64 "\n", vra->log_guest_addr=
+);
+=20
++    vq->vra =3D *vra;
+     vq->vring.flags =3D vra->flags;
+-    vq->vring.desc =3D qva_to_va(dev, vra->desc_user_addr);
+-    vq->vring.used =3D qva_to_va(dev, vra->used_user_addr);
+-    vq->vring.avail =3D qva_to_va(dev, vra->avail_user_addr);
+     vq->vring.log_guest_addr =3D vra->log_guest_addr;
+=20
+-    DPRINT("Setting virtq addresses:\n");
+-    DPRINT("    vring_desc  at %p\n", vq->vring.desc);
+-    DPRINT("    vring_used  at %p\n", vq->vring.used);
+-    DPRINT("    vring_avail at %p\n", vq->vring.avail);
+=20
+-    if (!(vq->vring.desc && vq->vring.used && vq->vring.avail)) {
++    if (map_ring(dev, vq)) {
+         vu_panic(dev, "Invalid vring_addr message");
+         return false;
+     }
+diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/=
+libvhost-user.h
+index 1844b6f8d4..5cb7708559 100644
+--- a/contrib/libvhost-user/libvhost-user.h
++++ b/contrib/libvhost-user/libvhost-user.h
+@@ -327,6 +327,9 @@ typedef struct VuVirtq {
+     int err_fd;
+     unsigned int enable;
+     bool started;
++
++    /* Guest addresses of our ring */
++    struct vhost_vring_addr vra;
+ } VuVirtq;
+=20
+ enum VuWatchCondtion {
 --=20
 2.24.1
 
