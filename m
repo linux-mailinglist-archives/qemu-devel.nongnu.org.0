@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5843C1441A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 17:07:21 +0100 (CET)
-Received: from localhost ([::1]:57332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 805721441C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 17:13:15 +0100 (CET)
+Received: from localhost ([::1]:57416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itw3j-0003qE-Se
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 11:07:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33596)
+	id 1itw9S-0007xe-Ii
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 11:13:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34253)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mjrosato@linux.ibm.com>) id 1itw2V-0003Gy-Bx
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:06:05 -0500
+ (envelope-from <thuth@redhat.com>) id 1itw8T-0007IK-8v
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:12:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mjrosato@linux.ibm.com>) id 1itw2T-0001av-Ud
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:06:03 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37632)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mjrosato@linux.ibm.com>)
- id 1itw2T-0001Yi-O4; Tue, 21 Jan 2020 11:06:01 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00LFqESr125946; Tue, 21 Jan 2020 11:06:00 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xkwq81bsr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jan 2020 11:05:52 -0500
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 00LFqLpO126669;
- Tue, 21 Jan 2020 11:05:42 -0500
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xkwq81beb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jan 2020 11:05:40 -0500
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 00LG2kJF029789;
- Tue, 21 Jan 2020 16:05:20 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma01wdc.us.ibm.com with ESMTP id 2xksn6cwky-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jan 2020 16:05:20 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 00LG5Jpo38797640
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 21 Jan 2020 16:05:19 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4B145C6471;
- Tue, 21 Jan 2020 16:05:19 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ADD8EC646B;
- Tue, 21 Jan 2020 16:05:18 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.85.144.147])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 21 Jan 2020 16:05:18 +0000 (GMT)
+ (envelope-from <thuth@redhat.com>) id 1itw8R-0004cC-98
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:12:12 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54051
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1itw8R-0004c4-5t
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 11:12:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579623130;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=y5mgd/MAM+Hs1ZFf1HhRG/q54g2F2SizU+gfYE8tFHU=;
+ b=D1pWdf7RijcHZuCI0yqJl8q3+wKNbLUX+8O2UpOaEc67nnq/97hwPIpWga5QZgc5lIQCzC
+ MDvXcQJB07jbCOUfy5GgH6fgg+WxaqANUFG2eoyxZwKIOqTb2seGufTNCiBIPB78k9QSo3
+ /7DISmo8Wvpk8Itw2dVDCnQUHDrsmcs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-22-iw42JLUSM_CnOageb0sfTg-1; Tue, 21 Jan 2020 11:12:06 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFC2318FF683;
+ Tue, 21 Jan 2020 16:12:04 +0000 (UTC)
+Received: from thuth.remote.csb (unknown [10.36.118.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F5B45C1BB;
+ Tue, 21 Jan 2020 16:12:00 +0000 (UTC)
 Subject: Re: [PATCH v3] target/s390x/kvm: Enable adapter interruption
  suppression again
-To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>
 References: <20200120132441.11884-1-thuth@redhat.com>
  <20200120182747.5135fea8.cohuck@redhat.com>
  <95fa3c7d-8879-1401-6847-c5fa82a0cd3c@linux.ibm.com>
  <20200121154608.0b043233.cohuck@redhat.com>
  <6eceafc9-afb5-05a7-0713-2295886f6917@redhat.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <91bed750-8b12-4f9a-ff57-57fd23fc11ca@linux.ibm.com>
-Date: Tue, 21 Jan 2020 11:05:18 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ <91bed750-8b12-4f9a-ff57-57fd23fc11ca@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <64af56f1-a42d-c7b1-0d05-fd1d105d9963@redhat.com>
+Date: Tue, 21 Jan 2020 17:11:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <6eceafc9-afb5-05a7-0713-2295886f6917@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <91bed750-8b12-4f9a-ff57-57fd23fc11ca@linux.ibm.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-21_04:2020-01-21,
- 2020-01-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- suspectscore=0 phishscore=0 adultscore=0 priorityscore=1501 mlxscore=0
- lowpriorityscore=0 mlxlogscore=999 impostorscore=0 spamscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-2001210127
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 148.163.158.5
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: iw42JLUSM_CnOageb0sfTg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,92 +87,127 @@ Cc: Halil Pasic <pasic@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/20 10:22 AM, Thomas Huth wrote:
-> On 21/01/2020 15.46, Cornelia Huck wrote:
->> On Tue, 21 Jan 2020 09:33:02 -0500
->> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
->>
->>> On 1/20/20 12:27 PM, Cornelia Huck wrote:
->>>> On Mon, 20 Jan 2020 14:24:41 +0100
->>>> Thomas Huth <thuth@redhat.com> wrote:
->>>>    
->>>>> The AIS feature has been disabled late in the v2.10 development cycle since
->>>>> there were some issues with migration (see commit 3f2d07b3b01ea61126b -
->>>>> "s390x/ais: for 2.10 stable: disable ais facility"). We originally wanted
->>>>> to enable it again for newer machine types, but apparently we forgot to do
->>>>> this so far. Let's do it for the new s390-ccw-virtio-5.0 machine now.
->>>>>
->>>>> While at it, also add a more verbose comment why we need the *_allowed()
->>>>> wrappers in s390-virtio-ccw.c.
->>>>>
->>>>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1756946
->>>>> Reviewed-by: David Hildenbrand <david@redhat.com>
->>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>>> ---
->>>>>    v3: Moved "s390mc->kvm_ais_allowed = false" to the end of the function
->>>>>
->>>>>    hw/s390x/s390-virtio-ccw.c         | 20 +++++++++++++++++---
->>>>>    include/hw/s390x/s390-virtio-ccw.h |  3 +++
->>>>>    target/s390x/kvm.c                 |  9 ++++++---
->>>>>    3 files changed, 26 insertions(+), 6 deletions(-)
->>>>    
->>>>> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
->>>>> index 15260aeb9a..cf4fb4f2d9 100644
->>>>> --- a/target/s390x/kvm.c
->>>>> +++ b/target/s390x/kvm.c
->>>>> @@ -365,10 +365,13 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>>>>        /*
->>>>>         * The migration interface for ais was introduced with kernel 4.13
->>>>>         * but the capability itself had been active since 4.12. As migration
->>>>> -     * support is considered necessary let's disable ais in the 2.10
->>>>> -     * machine.
->>>>> +     * support is considered necessary, we only try to enable this for
->>>>> +     * newer machine types if KVM_CAP_S390_AIS_MIGRATION is available.
->>>>>         */
->>>>> -    /* kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0); */
->>>>> +    if (kvm_ais_allowed() &&
->>>>> +        kvm_check_extension(s, KVM_CAP_S390_AIS_MIGRATION)) {
->>>>
->>>> Hnm, we actually need a kernel irqchip with the kvm flic to get ais to
->>>> work; else we'll fail with
->>>>
->>>> qemu-system-s390x: Failed to inject airq with AIS supported
->>>>
->>>> in the kernel_irqchip=off case, as we won't have an I/O adapter
->>>> registered.
->>>>
->>>> Adding 'kvm_kernel_irqchip_required() &&' seems to do the trick;
->>>> comments?
->>>>    
+On 21/01/2020 17.05, Matthew Rosato wrote:
+> On 1/21/20 10:22 AM, Thomas Huth wrote:
+>> On 21/01/2020 15.46, Cornelia Huck wrote:
+>>> On Tue, 21 Jan 2020 09:33:02 -0500
+>>> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
 >>>
->>> In spirit, I agree with this idea.  But, a quick test shows that putting
->>> this check here results in ais=off for the 'none' machine case (libvirt
->>> capabilities detection).  I think we have to only look at
->>> kvm_kernel_irqchip_required() when working with a real machine.
+>>>> On 1/20/20 12:27 PM, Cornelia Huck wrote:
+>>>>> On Mon, 20 Jan 2020 14:24:41 +0100
+>>>>> Thomas Huth <thuth@redhat.com> wrote:
+>>>>> =C2=A0=C2=A0
+>>>>>> The AIS feature has been disabled late in the v2.10 development
+>>>>>> cycle since
+>>>>>> there were some issues with migration (see commit
+>>>>>> 3f2d07b3b01ea61126b -
+>>>>>> "s390x/ais: for 2.10 stable: disable ais facility"). We originally
+>>>>>> wanted
+>>>>>> to enable it again for newer machine types, but apparently we
+>>>>>> forgot to do
+>>>>>> this so far. Let's do it for the new s390-ccw-virtio-5.0 machine now=
+.
+>>>>>>
+>>>>>> While at it, also add a more verbose comment why we need the
+>>>>>> *_allowed()
+>>>>>> wrappers in s390-virtio-ccw.c.
+>>>>>>
+>>>>>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1756946
+>>>>>> Reviewed-by: David Hildenbrand <david@redhat.com>
+>>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>>> ---
+>>>>>> =C2=A0=C2=A0 v3: Moved "s390mc->kvm_ais_allowed =3D false" to the en=
+d of the
+>>>>>> function
+>>>>>>
+>>>>>> =C2=A0=C2=A0 hw/s390x/s390-virtio-ccw.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 | 20 +++++++++++++++++---
+>>>>>> =C2=A0=C2=A0 include/hw/s390x/s390-virtio-ccw.h |=C2=A0 3 +++
+>>>>>> =C2=A0=C2=A0 target/s390x/kvm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 ++++=
+++---
+>>>>>> =C2=A0=C2=A0 3 files changed, 26 insertions(+), 6 deletions(-)
+>>>>> =C2=A0=C2=A0
+>>>>>> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+>>>>>> index 15260aeb9a..cf4fb4f2d9 100644
+>>>>>> --- a/target/s390x/kvm.c
+>>>>>> +++ b/target/s390x/kvm.c
+>>>>>> @@ -365,10 +365,13 @@ int kvm_arch_init(MachineState *ms, KVMState
+>>>>>> *s)
+>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * The migration interface=
+ for ais was introduced with
+>>>>>> kernel 4.13
+>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * but the capability itse=
+lf had been active since 4.12. As
+>>>>>> migration
+>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0 * support is considered necessary let's di=
+sable ais in the 2.10
+>>>>>> -=C2=A0=C2=A0=C2=A0=C2=A0 * machine.
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * support is considered necessary, we only=
+ try to enable
+>>>>>> this for
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * newer machine types if KVM_CAP_S390_AIS_=
+MIGRATION is
+>>>>>> available.
+>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>>>> -=C2=A0=C2=A0=C2=A0 /* kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0); */
+>>>>>> +=C2=A0=C2=A0=C2=A0 if (kvm_ais_allowed() &&
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kvm_check_extension(s, K=
+VM_CAP_S390_AIS_MIGRATION)) {
+>>>>>
+>>>>> Hnm, we actually need a kernel irqchip with the kvm flic to get ais t=
+o
+>>>>> work; else we'll fail with
+>>>>>
+>>>>> qemu-system-s390x: Failed to inject airq with AIS supported
+>>>>>
+>>>>> in the kernel_irqchip=3Doff case, as we won't have an I/O adapter
+>>>>> registered.
+>>>>>
+>>>>> Adding 'kvm_kernel_irqchip_required() &&' seems to do the trick;
+>>>>> comments?
+>>>>> =C2=A0=C2=A0=20
+>>>>
+>>>> In spirit, I agree with this idea.=C2=A0 But, a quick test shows that
+>>>> putting
+>>>> this check here results in ais=3Doff for the 'none' machine case (libv=
+irt
+>>>> capabilities detection).=C2=A0 I think we have to only look at
+>>>> kvm_kernel_irqchip_required() when working with a real machine.
+>>>
+>>> Sigh, I think you're right again. We need to check for the 'none'
+>>> machine here; but I can't think of a non-ugly way to do so...
 >>
->> Sigh, I think you're right again. We need to check for the 'none'
->> machine here; but I can't think of a non-ugly way to do so...
-> 
-> I think it might work when using kvm_kernel_irqchip_allowed() instead of
-> kvm_kernel_irqchip_required() ... Matthew, could you please give it a
-> try with this patch on top of mine:
-> 
+>> I think it might work when using kvm_kernel_irqchip_allowed() instead of
+>> kvm_kernel_irqchip_required() ... Matthew, could you please give it a
+>> try with this patch on top of mine:
+>>
+>=20
+> Sure.
+>=20
+> Libvirt detection works with this patch.
+>=20
+> Alternatively, if I run qemu with kernel_irqchip=3Doff and ais=3Dtrue, I =
+get:
+> qemu-system-s390x: Some features requested in the CPU model are not
+> available in the configuration: ais
+>=20
+> Which was the same result as Connie's proposal.
+>=20
+> It reads a bit odd to me at first, but looking at the code quick I think
+> this is the right answer - kvm_kernel_irqchip_allowed() will only return
+> false when kernel_irqchip has been forced off as above, whereas
+> kernel_irqchip_required will also return false in the case where no
+> setting was specified (this is what tripped libvirt up).
+>=20
+> Looks good to me, thanks Thomas.
 
-Sure.
+Great, thanks for testing!
 
-Libvirt detection works with this patch.
+Cornelia, could you squash that kvm_kernel_irqchip_allowed() into the
+patch, or do you prefer if I send a v4 ?
 
-Alternatively, if I run qemu with kernel_irqchip=off and ais=true, I get:
-qemu-system-s390x: Some features requested in the CPU model are not 
-available in the configuration: ais
+ Thomas
 
-Which was the same result as Connie's proposal.
-
-It reads a bit odd to me at first, but looking at the code quick I think 
-this is the right answer - kvm_kernel_irqchip_allowed() will only return 
-false when kernel_irqchip has been forced off as above, whereas 
-kernel_irqchip_required will also return false in the case where no 
-setting was specified (this is what tripped libvirt up).
-
-Looks good to me, thanks Thomas.
 
