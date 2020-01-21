@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 773C9143E1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:38:37 +0100 (CET)
-Received: from localhost ([::1]:53966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048EB143E7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:47:24 +0100 (CET)
+Received: from localhost ([::1]:54086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ittjo-0000ca-4i
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:38:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52694)
+	id 1ittsI-0002Xf-7f
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:47:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itshM-00036B-Gc
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:01 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itshP-00037H-Bl
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itshI-0004hj-9U
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54654
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1itshK-0004iU-5S
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:03 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59445
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itshI-0004hK-5U
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:56 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itshJ-0004hy-WA
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609914;
+ s=mimecast20190719; t=1579609916;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VfGg/g+m96LdV3DaTp4QzEShyzQjqj6rplxFp4ge2jQ=;
- b=Czdsrj3FBtYLCrbx+CTPtke57n+52BsdTS2h6iqQigT3nYjOZnQZWhF9pTwtpJmqYShFVr
- Vif8BUFAC9joTb4XbVZzolpwkUk8GRC3MGAgNoqdXMTsh9jTGUFRNuheh5KLZWAT8G0mqD
- 9BBxelxw8kzd8mA4yqfFM4djpj3rT/w=
+ bh=1nK8DajHPxx37EGUnyFJItEZZkZZwLpJ/80iUHnoJhM=;
+ b=O5NAyNwFCZKtMCX5Y74dpt/JvwpyEdtJ6K3DGo/Pplf119uhPSPewC05A5gmi9VycKhSmB
+ dXptmSiy9AoKHNp7MzwtFPKnUBspgRDtzdrAlOQswvZ+7jJvsCsJpsrbTt6uB5NE9pm3eu
+ rR2GZ5RwTKNisY8D8VUsZcaGHjUeQy8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-bafu2rSJOguEnvr481jPEQ-1; Tue, 21 Jan 2020 07:31:53 -0500
+ us-mta-210-Wp100HFRP4K0Ngrjkq62-g-1; Tue, 21 Jan 2020 07:31:55 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 735351005510;
- Tue, 21 Jan 2020 12:31:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 761501137844;
+ Tue, 21 Jan 2020 12:31:54 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 28B7960BE0;
- Tue, 21 Jan 2020 12:31:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDB5B60BE0;
+ Tue, 21 Jan 2020 12:31:52 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 088/109] virtiofsd: prevent fv_queue_thread() vs
- virtio_loop() races
-Date: Tue, 21 Jan 2020 12:24:12 +0000
-Message-Id: <20200121122433.50803-89-dgilbert@redhat.com>
+Subject: [PATCH v2 089/109] virtiofsd: make lo_release() atomic
+Date: Tue, 21 Jan 2020 12:24:13 +0000
+Message-Id: <20200121122433.50803-90-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: bafu2rSJOguEnvr481jPEQ-1
+X-MC-Unique: Wp100HFRP4K0Ngrjkq62-g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,135 +78,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-We call into libvhost-user from the virtqueue handler thread and the
-vhost-user message processing thread without a lock.  There is nothing
-protecting the virtqueue handler thread if the vhost-user message
-processing thread changes the virtqueue or memory table while it is
-running.
-
-This patch introduces a read-write lock.  Virtqueue handler threads are
-readers.  The vhost-user message processing thread is a writer.  This
-will allow concurrency for multiqueue in the future while protecting
-against fv_queue_thread() vs virtio_loop() races.
-
-Note that the critical sections could be made smaller but it would be
-more invasive and require libvhost-user changes.  Let's start simple and
-improve performance later, if necessary.  Another option would be an
-RCU-style approach with lighter-weight primitives.
+Hold the lock across both lo_map_get() and lo_map_remove() to prevent
+races between two FUSE_RELEASE requests.  In this case I don't see a
+serious bug but it's safer to do things atomically.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 34 +++++++++++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
+ tools/virtiofsd/passthrough_ll.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index fb8d6d1379..f6242f9338 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -58,6 +58,18 @@ struct fv_VuDev {
-     VuDev dev;
-     struct fuse_session *se;
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index d7386d8a13..c52f7c2c32 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -1772,14 +1772,18 @@ static void lo_release(fuse_req_t req, fuse_ino_t i=
+no,
+                        struct fuse_file_info *fi)
+ {
+     struct lo_data *lo =3D lo_data(req);
+-    int fd;
++    struct lo_map_elem *elem;
++    int fd =3D -1;
 =20
-+    /*
-+     * Either handle virtqueues or vhost-user protocol messages.  Don't do
-+     * both at the same time since that could lead to race conditions if
-+     * virtqueues or memory tables change while another thread is accessin=
-g
-+     * them.
-+     *
-+     * The assumptions are:
-+     * 1. fv_queue_thread() reads/writes to virtqueues and only reads VuDe=
-v.
-+     * 2. virtio_loop() reads/writes virtqueues and VuDev.
-+     */
-+    pthread_rwlock_t vu_dispatch_rwlock;
-+
-     /*
-      * The following pair of fields are only accessed in the main
-      * virtio_loop
-@@ -415,6 +427,8 @@ static void *fv_queue_thread(void *opaque)
-              qi->qidx, qi->kick_fd);
-     while (1) {
-         struct pollfd pf[2];
-+        int ret;
-+
-         pf[0].fd =3D qi->kick_fd;
-         pf[0].events =3D POLLIN;
-         pf[0].revents =3D 0;
-@@ -461,6 +475,9 @@ static void *fv_queue_thread(void *opaque)
-             fuse_log(FUSE_LOG_ERR, "Eventfd_read for queue: %m\n");
-             break;
-         }
-+        /* Mutual exclusion with virtio_loop() */
-+        ret =3D pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock)=
-;
-+        assert(ret =3D=3D 0); /* there is no possible error case */
-         /* out is from guest, in is too guest */
-         unsigned int in_bytes, out_bytes;
-         vu_queue_get_avail_bytes(dev, q, &in_bytes, &out_bytes, ~0, ~0);
-@@ -469,6 +486,7 @@ static void *fv_queue_thread(void *opaque)
-                  "%s: Queue %d gave evalue: %zx available: in: %u out: %u\=
-n",
-                  __func__, qi->qidx, (size_t)evalue, in_bytes, out_bytes);
+     (void)ino;
 =20
-+
-         while (1) {
-             bool allocated_bufv =3D false;
-             struct fuse_bufvec bufv;
-@@ -597,6 +615,8 @@ static void *fv_queue_thread(void *opaque)
-             free(elem);
-             elem =3D NULL;
-         }
-+
-+        pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-     }
- out:
-     pthread_mutex_destroy(&ch.lock);
-@@ -711,6 +731,8 @@ int virtio_loop(struct fuse_session *se)
+-    fd =3D lo_fi_fd(req, fi);
+-
+     pthread_mutex_lock(&lo->mutex);
+-    lo_map_remove(&lo->fd_map, fi->fh);
++    elem =3D lo_map_get(&lo->fd_map, fi->fh);
++    if (elem) {
++        fd =3D elem->fd;
++        elem =3D NULL;
++        lo_map_remove(&lo->fd_map, fi->fh);
++    }
+     pthread_mutex_unlock(&lo->mutex);
 =20
-     while (!fuse_session_exited(se)) {
-         struct pollfd pf[1];
-+        bool ok;
-+        int ret;
-         pf[0].fd =3D se->vu_socketfd;
-         pf[0].events =3D POLLIN;
-         pf[0].revents =3D 0;
-@@ -735,7 +757,15 @@ int virtio_loop(struct fuse_session *se)
-         }
-         assert(pf[0].revents & POLLIN);
-         fuse_log(FUSE_LOG_DEBUG, "%s: Got VU event\n", __func__);
--        if (!vu_dispatch(&se->virtio_dev->dev)) {
-+        /* Mutual exclusion with fv_queue_thread() */
-+        ret =3D pthread_rwlock_wrlock(&se->virtio_dev->vu_dispatch_rwlock)=
-;
-+        assert(ret =3D=3D 0); /* there is no possible error case */
-+
-+        ok =3D vu_dispatch(&se->virtio_dev->dev);
-+
-+        pthread_rwlock_unlock(&se->virtio_dev->vu_dispatch_rwlock);
-+
-+        if (!ok) {
-             fuse_log(FUSE_LOG_ERR, "%s: vu_dispatch failed\n", __func__);
-             break;
-         }
-@@ -877,6 +907,7 @@ int virtio_session_mount(struct fuse_session *se)
-=20
-     se->vu_socketfd =3D data_sock;
-     se->virtio_dev->se =3D se;
-+    pthread_rwlock_init(&se->virtio_dev->vu_dispatch_rwlock, NULL);
-     vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, fv_set_wat=
-ch,
-             fv_remove_watch, &fv_iface);
-=20
-@@ -892,6 +923,7 @@ void virtio_session_close(struct fuse_session *se)
-     }
-=20
-     free(se->virtio_dev->qi);
-+    pthread_rwlock_destroy(&se->virtio_dev->vu_dispatch_rwlock);
-     free(se->virtio_dev);
-     se->virtio_dev =3D NULL;
- }
+     close(fd);
 --=20
 2.24.1
 
