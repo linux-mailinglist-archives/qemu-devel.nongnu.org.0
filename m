@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46B6143757
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 07:58:58 +0100 (CET)
-Received: from localhost ([::1]:49232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0F9143788
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 08:25:07 +0100 (CET)
+Received: from localhost ([::1]:49416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itnV3-0005YE-K7
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 01:58:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44751)
+	id 1itnuM-0002FH-01
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 02:25:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46957)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1itnTq-0004ab-Ly
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:57:43 -0500
+ (envelope-from <clg@kaod.org>) id 1itnsl-0000qm-9j
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 02:23:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1itnTp-0007oK-D8
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:57:42 -0500
-Received: from 5.mo2.mail-out.ovh.net ([87.98.181.248]:55775)
+ (envelope-from <clg@kaod.org>) id 1itnsh-0000W2-Mj
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 02:23:27 -0500
+Received: from 3.mo3.mail-out.ovh.net ([46.105.44.175]:44909)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1itnTp-0007nA-6I
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 01:57:41 -0500
-Received: from player698.ha.ovh.net (unknown [10.108.35.215])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id DE4641C0485
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 07:57:38 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1itnsh-0000Ug-H4
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 02:23:23 -0500
+Received: from player746.ha.ovh.net (unknown [10.109.146.53])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 06E3823BE7D
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 08:23:20 +0100 (CET)
 Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
  (Authenticated sender: clg@kaod.org)
- by player698.ha.ovh.net (Postfix) with ESMTPSA id 38BC1E693F9C;
- Tue, 21 Jan 2020 06:57:32 +0000 (UTC)
-Subject: Re: [PATCH] spapr: Migrate CAS reboot flag
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <157911051688.345768.16136592081655557565.stgit@bahia.lan>
- <6fb96fed-9590-aa7c-cf00-038ab776ccb5@kaod.org>
- <20200121034126.GB265522@umbus.fritz.box>
+ by player746.ha.ovh.net (Postfix) with ESMTPSA id AC47BE84629E;
+ Tue, 21 Jan 2020 07:23:15 +0000 (UTC)
+Subject: Re: [PATCH 1/2] aspeed/scu: Create separate write callbacks
+To: Joel Stanley <joel@jms.id.au>, Peter Maydell <peter.maydell@linaro.org>
+References: <20200121013302.43839-1-joel@jms.id.au>
+ <20200121013302.43839-2-joel@jms.id.au>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <4997924c-305b-c3dd-b3ae-582119867ec3@kaod.org>
-Date: Tue, 21 Jan 2020 07:57:29 +0100
+Message-ID: <c432eaaf-7b7d-90e6-1c3a-1bfdf764f7bf@kaod.org>
+Date: Tue, 21 Jan 2020 08:23:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200121034126.GB265522@umbus.fritz.box>
+In-Reply-To: <20200121013302.43839-2-joel@jms.id.au>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Ovh-Tracer-Id: 11592828394674948947
+X-Ovh-Tracer-Id: 12026862808659233600
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudejgdellecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudejgddutdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejgeeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 87.98.181.248
+X-Received-From: 46.105.44.175
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,62 +59,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Lukas Doktor <ldoktor@redhat.com>,
- qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/20 4:41 AM, David Gibson wrote:
-> On Wed, Jan 15, 2020 at 07:10:47PM +0100, C=C3=A9dric Le Goater wrote:
->> On 1/15/20 6:48 PM, Greg Kurz wrote:
->>> Migration can potentially race with CAS reboot. If the migration thre=
-ad
->>> completes migration after CAS has set spapr->cas_reboot but before th=
-e
->>> mainloop could pick up the reset request and reset the machine, the
->>> guest is migrated unrebooted and the destination doesn't reboot it
->>> either because it isn't aware a CAS reboot was needed (eg, because a
->>> device was added before CAS). This likely result in a broken or hung
->>> guest.
->>>
->>> Even if it is small, the window between CAS and CAS reboot is enough =
-to
->>> re-qualify spapr->cas_reboot as state that we should migrate. Add a n=
-ew
->>> subsection for that and always send it when a CAS reboot is pending.
->>> This may cause migration to older QEMUs to fail but it is still bette=
-r
->>> than end up with a broken guest.
->>>
->>> The destination cannot honour the CAS reboot request from a post load
->>> handler because this must be done after the guest is fully restored.
->>> It is thus done from a VM change state handler.
->>>
->>> Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
->>> Signed-off-by: Greg Kurz <groug@kaod.org>
->>
->> C=C3=A9dric Le Goater <clg@kaod.org>
->>
->> Nice work ! That was quite complex to catch !
+On 1/21/20 2:33 AM, Joel Stanley wrote:
+> This splits the common write callback into separate ast2400 and ast2500
+> implementations. This makes it clearer when implementing differing
+> behaviour.
 >=20
-> It is a very nice analysis.  However, I'm disinclined to merge this
-> for the time being.
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+> ---
+>  hw/misc/aspeed_scu.c | 80 +++++++++++++++++++++++++++++++-------------
+>  1 file changed, 57 insertions(+), 23 deletions(-)
 >=20
-> My preferred approach would be to just eliminate CAS reboots
-> altogether, since that has other benefits.  I'm feeling like this
-> isn't super-urgent, since CAS reboots are extremely rare in practice,
-> now that we've eliminated the one for the irq switchover.
-
-Yes. The possibility of a migration in the window between CAS and=20
-CAS reboot must be even more rare.
-
-C.
-
-=20
-> However, if it's not looking like we'll be ready to do that as the
-> qemu-5.0 release approaches, then I'll be more than willing to
-> reconsider this.
-
-
+> diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+> index f62fa25e3474..7108cad8c6a7 100644
+> --- a/hw/misc/aspeed_scu.c
+> +++ b/hw/misc/aspeed_scu.c
+> @@ -232,8 +232,47 @@ static uint64_t aspeed_scu_read(void *opaque, hwad=
+dr offset, unsigned size)
+>      return s->regs[reg];
+>  }
+> =20
+> -static void aspeed_scu_write(void *opaque, hwaddr offset, uint64_t dat=
+a,
+> -                             unsigned size)
+> +static void aspeed_ast2400_scu_write(void *opaque, hwaddr offset,
+> +                                     uint64_t data, unsigned size)
+> +{
+> +    AspeedSCUState *s =3D ASPEED_SCU(opaque);
+> +    int reg =3D TO_REG(offset);
+> +
+> +    if (reg >=3D ASPEED_SCU_NR_REGS) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Out-of-bounds write at offset 0x%" HWADDR_P=
+RIx "\n",
+> +                      __func__, offset);
+> +        return;
+> +    }
+> +
+> +    if (reg > PROT_KEY && reg < CPU2_BASE_SEG1 &&
+> +            !s->regs[PROT_KEY]) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: SCU is locked!\n", __func_=
+_);
+> +    }
+> +
+> +    trace_aspeed_scu_write(offset, size, data);
+> +
+> +    switch (reg) {
+> +    case PROT_KEY:
+> +        s->regs[reg] =3D (data =3D=3D ASPEED_SCU_PROT_KEY) ? 1 : 0;
+> +        return;
+> +    case SILICON_REV:
+> +    case FREQ_CNTR_EVAL:
+> +    case VGA_SCRATCH1 ... VGA_SCRATCH8:
+> +    case RNG_DATA:
+> +    case FREE_CNTR4:
+> +    case FREE_CNTR4_EXT:
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Write to read-only offset 0x%" HWADDR_PRIx =
+"\n",
+> +                      __func__, offset);
+> +        return;
+> +    }
+> +
+> +    s->regs[reg] =3D data;
+> +}
+> +
+> +static void aspeed_ast2500_scu_write(void *opaque, hwaddr offset,
+> +                                     uint64_t data, unsigned size)
+>  {
+>      AspeedSCUState *s =3D ASPEED_SCU(opaque);
+>      int reg =3D TO_REG(offset);
+> @@ -257,25 +296,11 @@ static void aspeed_scu_write(void *opaque, hwaddr=
+ offset, uint64_t data,
+>      case PROT_KEY:
+>          s->regs[reg] =3D (data =3D=3D ASPEED_SCU_PROT_KEY) ? 1 : 0;
+>          return;
+> -    case CLK_SEL:
+> -        s->regs[reg] =3D data;
+> -        break;
+>      case HW_STRAP1:
+> -        if (ASPEED_IS_AST2500(s->regs[SILICON_REV])) {
+> -            s->regs[HW_STRAP1] |=3D data;
+> -            return;
+> -        }
+> -        /* Jump to assignment below */
+> -        break;
+> +        s->regs[HW_STRAP1] |=3D data;
+> +        return;
+>      case SILICON_REV:
+> -        if (ASPEED_IS_AST2500(s->regs[SILICON_REV])) {
+> -            s->regs[HW_STRAP1] &=3D ~data;
+> -        } else {
+> -            qemu_log_mask(LOG_GUEST_ERROR,
+> -                          "%s: Write to read-only offset 0x%" HWADDR_P=
+RIx "\n",
+> -                          __func__, offset);
+> -        }
+> -        /* Avoid assignment below, we've handled everything */
+> +        s->regs[HW_STRAP1] &=3D ~data;
+>          return;
+>      case FREQ_CNTR_EVAL:
+>      case VGA_SCRATCH1 ... VGA_SCRATCH8:
+> @@ -291,9 +316,18 @@ static void aspeed_scu_write(void *opaque, hwaddr =
+offset, uint64_t data,
+>      s->regs[reg] =3D data;
+>  }
+> =20
+> -static const MemoryRegionOps aspeed_scu_ops =3D {
+> +static const MemoryRegionOps aspeed_ast2400_scu_ops =3D {
+> +    .read =3D aspeed_scu_read,
+> +    .write =3D aspeed_ast2400_scu_write,
+> +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+> +    .valid.min_access_size =3D 4,
+> +    .valid.max_access_size =3D 4,
+> +    .valid.unaligned =3D false,
+> +};
+> +
+> +static const MemoryRegionOps aspeed_ast2500_scu_ops =3D {
+>      .read =3D aspeed_scu_read,
+> -    .write =3D aspeed_scu_write,
+> +    .write =3D aspeed_ast2500_scu_write,
+>      .endianness =3D DEVICE_LITTLE_ENDIAN,
+>      .valid.min_access_size =3D 4,
+>      .valid.max_access_size =3D 4,
+> @@ -469,7 +503,7 @@ static void aspeed_2400_scu_class_init(ObjectClass =
+*klass, void *data)
+>      asc->calc_hpll =3D aspeed_2400_scu_calc_hpll;
+>      asc->apb_divider =3D 2;
+>      asc->nr_regs =3D ASPEED_SCU_NR_REGS;
+> -    asc->ops =3D &aspeed_scu_ops;
+> +    asc->ops =3D &aspeed_ast2400_scu_ops;
+>  }
+> =20
+>  static const TypeInfo aspeed_2400_scu_info =3D {
+> @@ -489,7 +523,7 @@ static void aspeed_2500_scu_class_init(ObjectClass =
+*klass, void *data)
+>      asc->calc_hpll =3D aspeed_2500_scu_calc_hpll;
+>      asc->apb_divider =3D 4;
+>      asc->nr_regs =3D ASPEED_SCU_NR_REGS;
+> -    asc->ops =3D &aspeed_scu_ops;
+> +    asc->ops =3D &aspeed_ast2500_scu_ops;
+>  }
+> =20
+>  static const TypeInfo aspeed_2500_scu_info =3D {
+>=20
 
 
