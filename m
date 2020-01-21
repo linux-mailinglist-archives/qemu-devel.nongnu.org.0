@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A797143EF8
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:12:13 +0100 (CET)
-Received: from localhost ([::1]:54840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811F4143F1B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:14:21 +0100 (CET)
+Received: from localhost ([::1]:54880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ituGJ-0006Zq-Lj
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:12:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52754)
+	id 1ituIO-0001K9-BA
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:14:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52796)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itsha-0003Hi-Bn
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:17 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itshp-0003R0-C3
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itshW-0004n1-Os
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:14 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27387
+ (envelope-from <dgilbert@redhat.com>) id 1itshl-0004tn-7O
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:29 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28348
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itshW-0004mm-Kr
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:10 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itshl-0004tc-3w
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:32:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609930;
+ s=mimecast20190719; t=1579609944;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XTrM0XC+BoDNjN37Jb9ct5yq0vjmGmSWo3Fs3ZOCpyc=;
- b=Gzr60tPzd9O6OU4edZgG6ZrkFy+1JO461xttrXv2GOfNjPfymmFM6ncS704vobPHlvqXBF
- AHosuxY6pryruEStcgEtzocXrwvg0qYPCk098hfGu8IdcB5N+qpxkUoTC0e4a+icRj620L
- IacVDpHEBYD+At8pH8UillRAh5i5Rxw=
+ bh=KSykeGBw36+fNBraRHympEaWn/xC5M19guYdlASgcVs=;
+ b=FzzSclJSNpLB8lX10IgMeF1wZ/SjTzJeoDIxoPzlztLsjIDyvnF4GvEdHTgtRAPEGFLmyA
+ Y4F6QjGWW1BY6+iwzYvgvr8KKuJTjowzy5SiQikQLSAmPXb8nCt1bzOMzQ7DIzEFeCkAQN
+ diJJgsMXRaZmhKfRJWPSI04/B/DW2+4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-G4TMCgA0PYelKYNUEz5fCg-1; Tue, 21 Jan 2020 07:32:09 -0500
+ us-mta-304-XJQs5RABO7GhMX77qmP4qw-1; Tue, 21 Jan 2020 07:32:23 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC487107ACC9;
- Tue, 21 Jan 2020 12:32:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83B118017CC;
+ Tue, 21 Jan 2020 12:32:22 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13CDF60BE0;
- Tue, 21 Jan 2020 12:32:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A71760BE0;
+ Tue, 21 Jan 2020 12:32:15 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 093/109] virtiofsd: add man page
-Date: Tue, 21 Jan 2020 12:24:17 +0000
-Message-Id: <20200121122433.50803-94-dgilbert@redhat.com>
+Subject: [PATCH v2 096/109] virtiofsd: do not always set FUSE_FLOCK_LOCKS
+Date: Tue, 21 Jan 2020 12:24:20 +0000
+Message-Id: <20200121122433.50803-97-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: G4TMCgA0PYelKYNUEz5fCg-1
+X-MC-Unique: XJQs5RABO7GhMX77qmP4qw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,183 +76,42 @@ Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Peng Tao <tao.peng@linux.alibaba.com>
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Right now we always enable it regardless of given commandlines.
+Fix it by setting the flag relying on the lo->flock bit.
 
-with additions by:
-Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
-
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Peng Tao <tao.peng@linux.alibaba.com>
+Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+Reviewed-by: Sergio Lopez <slp@redhat.com>
 ---
- Makefile                       |   7 +++
- tools/virtiofsd/virtiofsd.texi | 104 +++++++++++++++++++++++++++++++++
- 2 files changed, 111 insertions(+)
- create mode 100644 tools/virtiofsd/virtiofsd.texi
+ tools/virtiofsd/passthrough_ll.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 2375a1f81c..ba7e2e5ebc 100644
---- a/Makefile
-+++ b/Makefile
-@@ -353,6 +353,9 @@ DOCS+=3D$(MANUAL_BUILDDIR)/index.html
- ifdef CONFIG_VIRTFS
- DOCS+=3Dfsdev/virtfs-proxy-helper.1
- endif
-+ifdef CONFIG_LINUX
-+DOCS+=3Dtools/virtiofsd/virtiofsd.1
-+endif
- ifdef CONFIG_TRACE_SYSTEMTAP
- DOCS+=3Dscripts/qemu-trace-stap.1
- endif
-@@ -857,6 +860,9 @@ ifdef CONFIG_VIRTFS
- =09$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
- =09$(INSTALL_DATA) fsdev/virtfs-proxy-helper.1 "$(DESTDIR)$(mandir)/man1"
- endif
-+ifdef CONFIG_LINUX
-+=09$(INSTALL_DATA) tools/virtiofsd/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
-+endif
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 820172308f..4c3a48325f 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -546,9 +546,14 @@ static void lo_init(void *userdata, struct fuse_conn_i=
+nfo *conn)
+         fuse_log(FUSE_LOG_DEBUG, "lo_init: activating writeback\n");
+         conn->want |=3D FUSE_CAP_WRITEBACK_CACHE;
+     }
+-    if (lo->flock && conn->capable & FUSE_CAP_FLOCK_LOCKS) {
+-        fuse_log(FUSE_LOG_DEBUG, "lo_init: activating flock locks\n");
+-        conn->want |=3D FUSE_CAP_FLOCK_LOCKS;
++    if (conn->capable & FUSE_CAP_FLOCK_LOCKS) {
++        if (lo->flock) {
++            fuse_log(FUSE_LOG_DEBUG, "lo_init: activating flock locks\n");
++            conn->want |=3D FUSE_CAP_FLOCK_LOCKS;
++        } else {
++            fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling flock locks\n");
++            conn->want &=3D ~FUSE_CAP_FLOCK_LOCKS;
++        }
+     }
 =20
- install-datadir:
- =09$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)"
-@@ -1065,6 +1071,7 @@ qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.=
-texi qemu-monitor-info.texi
- qemu.1: qemu-option-trace.texi
- qemu-img.1: qemu-img.texi qemu-option-trace.texi qemu-img-cmds.texi
- fsdev/virtfs-proxy-helper.1: fsdev/virtfs-proxy-helper.texi
-+tools/virtiofsd/virtiofsd.1: tools/virtiofsd/virtiofsd.texi
- qemu-nbd.8: qemu-nbd.texi qemu-option-trace.texi
- docs/qemu-block-drivers.7: docs/qemu-block-drivers.texi
- docs/qemu-cpu-models.7: docs/qemu-cpu-models.texi
-diff --git a/tools/virtiofsd/virtiofsd.texi b/tools/virtiofsd/virtiofsd.tex=
-i
-new file mode 100644
-index 0000000000..d7a2528f7d
---- /dev/null
-+++ b/tools/virtiofsd/virtiofsd.texi
-@@ -0,0 +1,104 @@
-+@example
-+@c man begin SYNOPSIS
-+@command{virtiofsd} [OPTION] @option{--socket-path=3D}@var{path}|@option{-=
--fd=3D}@var{fdnum} @option{-o source=3D}@var{path}
-+@c man end
-+@end example
-+
-+@c man begin DESCRIPTION
-+
-+Share a host directory tree with a guest through a virtio-fs device.  This
-+program is a vhost-user backend that implements the virtio-fs device.  Eac=
-h
-+virtio-fs device instance requires its own virtiofsd process.
-+
-+This program is designed to work with QEMU's @code{--device vhost-user-fs-=
-pci}
-+but should work with any virtual machine monitor (VMM) that supports
-+vhost-user.  See the EXAMPLES section below.
-+
-+This program must be run as the root user.  Upon startup the program will
-+switch into a new file system namespace with the shared directory tree as =
-its
-+root.  This prevents "file system escapes" due to symlinks and other file
-+system objects that might lead to files outside the shared directory.  The
-+program also sandboxes itself using seccomp(2) to prevent ptrace(2) and ot=
-her
-+vectors that could allow an attacker to compromise the system after gainin=
-g
-+control of the virtiofsd process.
-+
-+@c man end
-+
-+@c man begin OPTIONS
-+@table @option
-+@item -h, --help
-+Print help.
-+@item -V, --version
-+Print version.
-+@item -d, -o debug
-+Enable debug output.
-+@item --syslog
-+Print log messages to syslog instead of stderr.
-+@item -o flock|no_flock
-+enable/disable flock.
-+The default is @var{no_flock}.
-+@item -o log_level=3D@var{level}
-+Print only log messages matching @var{level} or more severe.  @var{level} =
-is
-+one of @code{err}, @code{warn}, @code{info}, or @code{debug}.  The default=
- is
-+@var{info}.
-+@item -o norace
-+Disable racy fallback.
-+The default is false.
-+@item -o posix_lock|no_posix_lock
-+Enable/Disable remote posix lock.
-+The default is @var{posix_lock}.
-+@item -o readdirplus|no_readdirplus
-+Enable/Disable readdirplus.
-+The default is @var{readdirplus}
-+@item -o source=3D@var{path}
-+Share host directory tree located at @var{path}.  This option is required.
-+@item -o timeout=3D<number>
-+I/O timeout (second).
-+The default depends on cache=3D option.
-+@item -o writeback|no_writeback
-+Enable/Disable writeback cache. The cache alows the FUSE client
-+to buffer and merge write requests.
-+The default is @var{no_writeback}.
-+@item -o xattr|no_xattr
-+Enable/Disable Extended attributes (xattr) of the files and directories.
-+The default is @var{no_xattr}.
-+@item --socket-path=3D@var{path}, -o vhost_user_socket=3D@var{path}
-+Listen on vhost-user UNIX domain socket at @var{path}.
-+@item --fd=3D@var{fdnum}
-+Accept connections from vhost-user UNIX domain socket file descriptor @var=
-{fdnum}.  The file descriptor must already be listening for connections.
-+@item --thread-pool-size=3D@var{num}
-+Restrict the number of worker threads per request queue to @var{num}.  The=
- default is 64.
-+@item --cache=3D@code{none}|@code{auto}|@code{always}
-+Select the desired trade-off between coherency and performance.  @code{non=
-e}
-+forbids the FUSE client from caching to achieve best coherency at the cost=
- of
-+performance.  @code{auto} acts similar to NFS with a 1 second metadata cac=
-he
-+timeout.  @code{always} sets a long cache lifetime at the expense of coher=
-ency.
-+@end table
-+@c man end
-+
-+@c man begin EXAMPLES
-+Export @code{/var/lib/fs/vm001/} on vhost-user UNIX domain socket @code{/v=
-ar/run/vm001-vhost-fs.sock}:
-+
-+@example
-+host# virtiofsd --socket-path=3D/var/run/vm001-vhost-fs.sock -o source=3D/=
-var/lib/fs/vm001
-+host# qemu-system-x86_64 \
-+    -chardev socket,id=3Dchar0,path=3D/var/run/vm001-vhost-fs.sock \
-+    -device vhost-user-fs-pci,chardev=3Dchar0,tag=3Dmyfs \
-+    -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,sha=
-re=3Don \
-+    -numa node,memdev=3Dmem \
-+    ...
-+guest# mount -t virtio_fs myfs /mnt
-+@end example
-+@c man end
-+
-+@ignore
-+@setfilename virtiofsd
-+@settitle QEMU virtio-fs shared file system daemon
-+
-+@c man begin COPYRIGHT
-+Copyright (C) 2019-2020 Red Hat, Inc.
-+
-+This is free software; see the source for copying conditions.  There is NO
-+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE=
-.
-+@c man end
-+@end ignore
+     if (conn->capable & FUSE_CAP_POSIX_LOCKS) {
 --=20
 2.24.1
 
