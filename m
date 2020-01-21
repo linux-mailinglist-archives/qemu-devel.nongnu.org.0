@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08BA2143D06
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 13:41:02 +0100 (CET)
-Received: from localhost ([::1]:53200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E89143D49
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 13:51:10 +0100 (CET)
+Received: from localhost ([::1]:53326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itsq4-00036z-QU
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 07:41:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51232)
+	id 1itszs-0005WB-Cl
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 07:51:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51243)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itsbn-0006Ol-KG
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:19 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itsbp-0006Qp-2O
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itsbj-00024D-OD
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56871
+ (envelope-from <dgilbert@redhat.com>) id 1itsbl-00024b-1Y
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:16 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50847
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsbj-000241-KI
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:11 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsbk-00024S-UJ
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609571;
+ s=mimecast20190719; t=1579609572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uXEazomUjKA42Wf0dOnpiYzMYkhMDgYp30svZrHpGF4=;
- b=Zpt8GOXDiiXUi6v8oslUfWeJmDKQDc/ZCBXv5UYVHSXuUX4xPVYLQB61Ou0Olj/Uee958h
- jbUzRjorwAjEpBvCTJXdxULUj/oJOBIwDqlYm3t0QvABBBm8Rfh9e7NP+QQ9kehWMG1o82
- MQY3qKJMlR/aJbz4bfJ+KTwJNo7LH88=
+ bh=q7zl66nvncU8o4Eug5CYKPo2JCGLIS2m+Z8drKMVcoM=;
+ b=fWjmIyAQYJUHemsz3MW+MQ2yT1Hcev4JuqQ2E5zN2fUtcyxttIfJlLsgV9nGkk5QV7Q7Zr
+ 3kPzlFIxWqEAbrs3ARi6Ce2x4x4Tq7EJgrrxTo7DGfB6fzA7ujLibhbZVqU8rVCTx0EidE
+ lBr0iTjow49vrOIXPp4JCn7MIyxFpDI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-BxCbi6XlNN2qUlffGlZWHQ-1; Tue, 21 Jan 2020 07:26:06 -0500
+ us-mta-338-i6EfhI73M76YcjWov5vLBA-1; Tue, 21 Jan 2020 07:26:11 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A493A0CBF;
- Tue, 21 Jan 2020 12:26:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3194A107ACCA;
+ Tue, 21 Jan 2020 12:26:10 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4AA4360BE0;
- Tue, 21 Jan 2020 12:26:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D46F960BE0;
+ Tue, 21 Jan 2020 12:26:05 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 019/109] virtiofsd: Add main virtio loop
-Date: Tue, 21 Jan 2020 12:23:03 +0000
-Message-Id: <20200121122433.50803-20-dgilbert@redhat.com>
+Subject: [PATCH v2 020/109] virtiofsd: get/set features callbacks
+Date: Tue, 21 Jan 2020 12:23:04 +0000
+Message-Id: <20200121122433.50803-21-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: BxCbi6XlNN2qUlffGlZWHQ-1
+X-MC-Unique: i6EfhI73M76YcjWov5vLBA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -78,88 +78,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Processes incoming requests on the vhost-user fd.
+Add the get/set features callbacks.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 42 ++++++++++++++++++++++++++++++++---
- 1 file changed, 39 insertions(+), 3 deletions(-)
+ tools/virtiofsd/fuse_virtio.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 2ae3c764dd..1928a2025c 100644
+index 1928a2025c..4819e56568 100644
 --- a/tools/virtiofsd/fuse_virtio.c
 +++ b/tools/virtiofsd/fuse_virtio.c
-@@ -11,12 +11,14 @@
-  * See the file COPYING.LIB
-  */
+@@ -46,6 +46,17 @@ struct virtio_fs_config {
+     uint32_t num_queues;
+ };
 =20
-+#include "fuse_virtio.h"
- #include "fuse_i.h"
- #include "standard-headers/linux/fuse.h"
- #include "fuse_misc.h"
- #include "fuse_opt.h"
--#include "fuse_virtio.h"
++/* Callback from libvhost-user */
++static uint64_t fv_get_features(VuDev *dev)
++{
++    return 1ULL << VIRTIO_F_VERSION_1;
++}
++
++/* Callback from libvhost-user */
++static void fv_set_features(VuDev *dev, uint64_t features)
++{
++}
++
+ /*
+  * Callback from libvhost-user if there's a new fd we're supposed to liste=
+n
+  * to, typically a queue kick?
+@@ -78,7 +89,9 @@ static bool fv_queue_order(VuDev *dev, int qidx)
+ }
 =20
-+#include <assert.h>
-+#include <errno.h>
- #include <stdint.h>
- #include <stdio.h>
- #include <stdlib.h>
-@@ -80,15 +82,49 @@ static const VuDevIface fv_iface =3D {
+ static const VuDevIface fv_iface =3D {
+-    /* TODO: Add other callbacks */
++    .get_features =3D fv_get_features,
++    .set_features =3D fv_set_features,
++
      .queue_is_processed_in_order =3D fv_queue_order,
  };
 =20
-+/*
-+ * Main loop; this mostly deals with events on the vhost-user
-+ * socket itself, and not actual fuse data.
-+ */
- int virtio_loop(struct fuse_session *se)
- {
-     fuse_log(FUSE_LOG_INFO, "%s: Entry\n", __func__);
-=20
--    while (1) {
--        /* TODO: Add stuffing */
-+    while (!fuse_session_exited(se)) {
-+        struct pollfd pf[1];
-+        pf[0].fd =3D se->vu_socketfd;
-+        pf[0].events =3D POLLIN;
-+        pf[0].revents =3D 0;
-+
-+        fuse_log(FUSE_LOG_DEBUG, "%s: Waiting for VU event\n", __func__);
-+        int poll_res =3D ppoll(pf, 1, NULL, NULL);
-+
-+        if (poll_res =3D=3D -1) {
-+            if (errno =3D=3D EINTR) {
-+                fuse_log(FUSE_LOG_INFO, "%s: ppoll interrupted, going arou=
-nd\n",
-+                         __func__);
-+                continue;
-+            }
-+            fuse_log(FUSE_LOG_ERR, "virtio_loop ppoll: %m\n");
-+            break;
-+        }
-+        assert(poll_res =3D=3D 1);
-+        if (pf[0].revents & (POLLERR | POLLHUP | POLLNVAL)) {
-+            fuse_log(FUSE_LOG_ERR, "%s: Unexpected poll revents %x\n", __f=
-unc__,
-+                     pf[0].revents);
-+            break;
-+        }
-+        assert(pf[0].revents & POLLIN);
-+        fuse_log(FUSE_LOG_DEBUG, "%s: Got VU event\n", __func__);
-+        if (!vu_dispatch(&se->virtio_dev->dev)) {
-+            fuse_log(FUSE_LOG_ERR, "%s: vu_dispatch failed\n", __func__);
-+            break;
-+        }
-     }
-=20
-     fuse_log(FUSE_LOG_INFO, "%s: Exit\n", __func__);
-+
-+    return 0;
- }
-=20
- int virtio_session_mount(struct fuse_session *se)
 --=20
 2.24.1
 
