@@ -2,81 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD978143949
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 10:17:54 +0100 (CET)
-Received: from localhost ([::1]:50332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2BFD143950
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 10:18:28 +0100 (CET)
+Received: from localhost ([::1]:50338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itpfU-00080c-JI
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 04:17:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57039)
+	id 1itpg3-0000D6-0f
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 04:18:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57143)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1itpdH-0006bV-K4
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:15:39 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1itpdm-00074P-M6
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:16:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1itpdD-0004NA-Vc
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:15:35 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22468
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itpdD-0004Mu-Qx
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:15:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579598131;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Md8V2Ky0kTvBvyO34O3k/QIMfoTv1q1MIBfAVqA70wA=;
- b=UerU2/1sTS1RLwGPfF0OkcP3vvsnL1GTlSy3h2A9AAbG89cmn3dR6LhSBXZ4940n24/HKT
- OBkb0/xOkGpV/vcGjmLER3F0yddVmv9ksCfhlhAmrNODSOXhSlwurybpJxLYSwP1vQdr5B
- eS84mbvFis8IJqvPYeuW/3gMJ25XYpc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-RoTxQwpcOh63_u81xDsDOQ-1; Tue, 21 Jan 2020 04:15:29 -0500
-Received: by mail-wm1-f71.google.com with SMTP id c4so367269wmb.8
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 01:15:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:from:subject:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=Md8V2Ky0kTvBvyO34O3k/QIMfoTv1q1MIBfAVqA70wA=;
- b=E4lIZKecoGFVZvrleasHFJneGus7YhKjHkyHBNg4UN0P1tFLgSFiMNl5r21V2G14aG
- k7EgPNFonH7rOgRy5K3o/FjTe34B615YnpTmlVOYkXAuWwU2n0F4Vj+ut746OdIReZoP
- Y3u7Xlz9VonaMtV6P2/1pPSSwy68BFG+KpKnW3hX93YbXm9xdd4xbzOncAYJ1YE3x8d8
- BosVWDIfy5KPSvTW4WQwy2jIzKXOOgupV61ommKwo8t82K9nHJ03LO9o8ljef+AoNNc3
- d2s2FkdYlvA0DnVzrsJcd9NI3qwAedVfPHdzpPIVA07qJ9pi35fdI/kVchxKiRKzQWXL
- bMPA==
-X-Gm-Message-State: APjAAAXxvdih+3loeD3X2rtvJbCqpGE5J/vwOSUG9fmxrIOR3HyuNVzZ
- E+sNlG3tWAOBbl0c1vVd4F7a5aEtDruDKcQknCYGA7S0KlEzFmCjZFbz2BpUTBYtBYREZwt9X95
- Xbon7xKrAzQRychY=
-X-Received: by 2002:a5d:608e:: with SMTP id w14mr4049004wrt.256.1579598128317; 
- Tue, 21 Jan 2020 01:15:28 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw1LzXo34K3/O6aYPjuBL/R1rw12tehBXj+H6cUrJCtkcLfFUxXUvZjFjKoEPZ6anrD/rBCeg==
-X-Received: by 2002:a5d:608e:: with SMTP id w14mr4048966wrt.256.1579598127932; 
- Tue, 21 Jan 2020 01:15:27 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id v22sm2978727wml.11.2020.01.21.01.15.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jan 2020 01:15:27 -0800 (PST)
-To: avocado-devel <avocado-devel@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Subject: How to set a limit and clear Avocado cache?
-Message-ID: <de831637-040b-d182-2f46-e833fead575b@redhat.com>
-Date: Tue, 21 Jan 2020 10:15:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
+ (envelope-from <vsementsov@virtuozzo.com>) id 1itpdi-0004a1-UA
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:16:06 -0500
+Received: from mail-eopbgr150117.outbound.protection.outlook.com
+ ([40.107.15.117]:4778 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1itpdi-0004Yj-AY; Tue, 21 Jan 2020 04:16:02 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BUfWDXvjKAXd5oLDWq+UZEsJXsU6rpsNVTzaROcwL91hVMt7ePASA0MUMqPE8yVfnGPJ90iReuyiT9BAE8sPyCabCwIO8H9Mboz3nF9J5g8Ls2KDBFHtL9giX1K19SxB1Pdfl67Yp56fSTi8WUQTcaHBBYK/J7kVJtO1hxKSBLVAMfQOX/2xsb8gJvcf8gCVg66gRNGgkXIbJ/mT57FMaqq2EXjHA1ULdReak9doq0LO7pKViXb0Fb3S/R+QYPAt80P8O3NkdVudDBgNCHkqBp1ObJ7sUmIRfn2WSAlOO8He7EWVDLoHKD+Cc+Zpj3qFXcib2XS6iNIyej2i/qeyHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fTlAmSJtxJOlCnLyt+T5+1miwShNYOBhAOvZd14vDHQ=;
+ b=YhO8/yU78AOPbjaTaYNkyibaSzSHyKnX5xcUsbM/Z5yDCYxv/r549/cTaPtFC3TXpk65K68I76cJxj9VRC446AdXLccSYtqa/WT8HZFqF4XmoSIIf/W5GkNr0bgyTDV5Zd2emgApVnQm2U23G46u1u5cHof/JEs7BZQYXFGuqcfX+mQtnkbRGeATk0rM/3g1v39JEPR/ULfAeJj8JFGBRefkXlzjPti1dcFsvsMwiIY2YrQWLVG7eH4cTVtSePyrWkFzbggL8LeZR5L40+F3FnokgK5iWwD7gmYU918jdhD5gFwAso7m2KzUFswieXji5ay3sk2YMerou5IcG9mHOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fTlAmSJtxJOlCnLyt+T5+1miwShNYOBhAOvZd14vDHQ=;
+ b=dJNgvTAiaM+u3St+CEM2s5FVvaTPKR7E9FvP138OxbJ9Vu+KkAOe139BZ60tm/T8YQZECQ0VTB100NJMgXm7ncB2j5vJPN9CSD+RZBi7eh7LUltoBlCw8qPG5Nk3QDQNB7J52hhgPlzAfwRLDbtBdwE8BxK8QnuGr5UjC+hbLdc=
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB4865.eurprd08.prod.outlook.com (10.255.96.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2644.24; Tue, 21 Jan 2020 09:15:58 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2644.027; Tue, 21 Jan 2020
+ 09:15:58 +0000
+Received: from [172.16.24.200] (185.231.240.5) by
+ AM0PR0402CA0020.eurprd04.prod.outlook.com (2603:10a6:208:15::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.19 via Frontend
+ Transport; Tue, 21 Jan 2020 09:15:57 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Eric Blake <eblake@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Subject: Re: [PATCH v3 04/10] hbitmap: drop meta bitmaps as they are unused
+Thread-Topic: [PATCH v3 04/10] hbitmap: drop meta bitmaps as they are unused
+Thread-Index: AQHVtlOfjJFz1HLGS0Gzm2LfZzDgPKfzmLyAgACH1YD//9p+AIAABloAgAAogoCAAOAzAA==
+Date: Tue, 21 Jan 2020 09:15:57 +0000
+Message-ID: <2a47f7f4-8d29-1af1-2832-aebd4795b86f@virtuozzo.com>
+References: <20191219100348.24827-1-vsementsov@virtuozzo.com>
+ <20191219100348.24827-5-vsementsov@virtuozzo.com>
+ <a42037d5-0d62-d916-a814-ba755b6ad9a4@redhat.com>
+ <e6d654fb-7c04-c709-6b2a-3801ae1008d6@virtuozzo.com>
+ <0cf94b1f-e7cb-081a-34ab-63a7d9ba80ce@redhat.com>
+ <3b4f3ef4-adc7-1fda-44cc-b16b497cb110@virtuozzo.com>
+ <166c4439-58cb-072b-b3b0-e51d4952673a@redhat.com>
+In-Reply-To: <166c4439-58cb-072b-b3b0-e51d4952673a@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-X-MC-Unique: RoTxQwpcOh63_u81xDsDOQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: AM0PR0402CA0020.eurprd04.prod.outlook.com
+ (2603:10a6:208:15::33) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20200121121556128
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7b9cdb83-acdb-46ce-e726-08d79e528683
+x-ms-traffictypediagnostic: AM6PR08MB4865:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM6PR08MB4865D0D86F2A3CF155050541C10D0@AM6PR08MB4865.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0289B6431E
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(39850400004)(396003)(346002)(136003)(376002)(366004)(189003)(199004)(31696002)(16576012)(110136005)(71200400001)(316002)(2906002)(36756003)(26005)(53546011)(8936002)(86362001)(4326008)(16526019)(52116002)(6486002)(2616005)(956004)(186003)(54906003)(81156014)(107886003)(81166006)(31686004)(8676002)(5660300002)(508600001)(66946007)(66446008)(64756008)(66556008)(66476007);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4865;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 7jnhkGqML6VS5fgKTFmi0OmJvxJ6/yrzd7BtLCwZ7pGQaqVcz6zCTYAKB1HpWQHqK94gQVt10NbbqIwbD+thJsxWfJfd+e1LUioc9Xtg3EiQ5Hc5howf7gIRhsV5cG7aXG5AEzNrxo00BvYPvxetCOpu7EgbP4hHtwNKLBLQPdTLvGQWeL/XAcwmSY1XV1EIu3LsHm3RU6mJkwRFCd43AxubXHlTfNY9QyaoEIWARUB8ZQrg/KVjmMQEkOKDtcR4JgKwtspWBLR03niL0dtZQrY6O+d07vy/edv6AVh2DdJmqjknQyG3xQdUdx8d44OsBmw1rYOgUKQr79Pu+4O1wbZJ/ea2+PLeNbXjXBjUXRe5sx+3TQOaaTAaxUR8TcsdS51xYWacmqoPlF9TaPEJeO+rsQa4wKQ8Go0SWlJDFAsBowFReFIhuUwOfLvIZwJz
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <860FBB70DD45BB4DB071825A6F2F2229@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7b9cdb83-acdb-46ce-e726-08d79e528683
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jan 2020 09:15:57.9111 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /1y2SIawByGAwcEgM1hWGe8AiKA8USfV+5ebrex3+F8q2fGzUawZqNhmWp40k9SCQ+6tZe7u4XXxoy2jk1K0fo167A549JwHUXEBRLkdT6o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4865
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.15.117
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,42 +119,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Denis Lunev <den@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
-
-Today I ran out of space in my /home, I ran the 'baobab' tool and while 
-the first bigger directory was obvious to me (~/.ccache), the second 
-wasn't: ~/avocado/data/cache/by_location/, with various GiB.
-
-Note, this directory is not listed in my config...
-$ avocado config | fgrep ${HOME}/avocado
-$
-
-I might already have asked on qemu-devel mailing list, but is there a 
-way to set a particular location for the cache directory, different than 
-my data directory where I keep the job-results log files?
-
- From the doc, get_cache_dirs() "Returns the list of cache dirs, 
-according to configuration and convention" but doesn't explain how to 
-configure it:
-https://avocado-framework.readthedocs.io/en/75.1/api/core/avocado.core.html#avocado.core.data_dir.get_cache_dirs
-
-I searched if there was an Avocado command displaying cache use, and to 
-eventually flush it, like ccache --cleanup/--clear options, but couldn't 
-find any, so I ended calling a rmdir ~/avocado, which I know it is not 
-correct, but saved me some headaches.
-
-Is there a clean way to do this?
-
-I see the clean_tmp_files() function, but no equivalent for the cache:
-https://avocado-framework.readthedocs.io/en/75.1/api/core/avocado.core.html#avocado.core.data_dir.clean_tmp_files
-
-Bonus question, can I set a size limit for the cache directory?
-
-Thanks,
-
-Phil.
-
+MjAuMDEuMjAyMCAyMjo1MywgRXJpYyBCbGFrZSB3cm90ZToNCj4gT24gMS8yMC8yMCAxMToyOCBB
+TSwgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4gDQo+Pj4+IEknbSBhIGJp
+dCBub3QgZm9sbG93IHdoYXQgeW91IG1lYW4uIEkgY2FuIGp1c3Qgbm90ZSwgdGhhdCBkaXJ0eS1i
+aXRtYXAuYw0KPj4+PiBwYXJ0IG9mIG1ldGEgYml0bWFwcyB3YXMgcmVjZW50bHkgcmVtb3ZlZCwg
+YW5kIGhiaXRtYXAuYyBwYXJ0IEkgZm9yZ290IHRvDQo+Pj4+IHJlbW92ZS4uLg0KPj4+DQo+Pj4g
+WWVzLCBidXQgd2hvIHVzZWQgdGhhdCBkaXJ0eS1iaXRtYXAuYyBpbnRlcmZhY2U/wqAgQXMgZmFy
+IGFzIEkgY2FuIHRlbGwsDQo+Pj4gbm9ib2R5Lg0KPj4NCj4+IFllcywgYXMgZmFyIGFzIEkga25v
+dywgbm9ib2R5IGFuZCBuZXZlci4NCj4+DQo+Pj4NCj4+Pj4gTWV0YSBiaXRtYXBzIHdlcmUgaW50
+ZW5kZWQgdG8gY29udHJvbCBsaXZlIG1pZ3JhdGlvbiBvZiBiaXRtYXBzIGFuZCB0bw0KPj4+PiBp
+bXBsZW1lbnQgc29tZXRoaW5nIGxpa2UgcGFydGlhbCBzeW5jIG9mIGJpdG1hcHMgKHdyaXRlIHRv
+IHFjb3cyIG9ubHkNCj4+Pj4gY2hhbmdlZCBwYXJ0IG9mIGJpdG1hcCksIGJ1dCBtaWdyYXRpb24g
+aW1wbGVtZW50ZWQgaW4gb3RoZXIgd2F5DQo+Pj4+IChwb3N0Y29weSkgYW5kIHRoZSBzZWNvbmQg
+dGhpbmcgd2FzIG5vdCBpbXBsZW1lbnRlZC4NCj4+Pg0KPj4+IE9LLsKgIEkgd2FzIHdvbmRlcmlu
+ZyB3aHkgdGhleSB3ZXJlIGltcGxlbWVudGVkIHdpdGhvdXQgZXZlciBoYXZpbmcgYmVlbg0KPj4+
+IHVzZWQgKGFzIGZhciBhcyBJIGNhbiB0ZWxsKS4NCj4+Pg0KPj4NCj4+IEl0IHdhcyB0b28gb3B0
+aW1pc3RpYyBwcmVwYXJhdG9yeSBzZXJpZXMuDQo+IA0KPiBNYXRjaGVzIG15IHJlY29sbGVjdGlv
+biAod2UgaGFkIHNldmVyYWwgaWRlYXMgYWJvdXQgaG93IHRvIHRhY2tsZSBpdDsgbWV0YS1iaXRt
+YXBzIHdhcyBwcm9wb3NlZCBhcyBvbmUgaWRlYSBhbmQgdGhpcyBjb2RlIGxhbmRlZCwgYnV0IHdl
+IG5ldmVyIGFjdHVhbGx5IGZpbmlzaGVkIHRoYXQgaWRlYSBiZWZvcmUgYSBiZXR0ZXIgb25lIHdh
+cyBhY3R1YWxseSBjb2RlZCwgc28gdGhpcyBoYXMgYWx3YXlzIGJlZW4gZGVhZCBjb2RlKS4NCj4g
+DQo+Pg0KPj4gKEkgY2FuIG5ldmVyIGZpbmFsbHkgdW5kZXJzdGFuZCwgc2VyaWVzIC0gd2hvIGEg
+dGhleSBvciB3aGF0IGlzIGl0Pw0KPj4gwqDCoCBQbHVyYWwgb3Igc2luZ3VsYXI/DQo+IA0KPiBF
+bmdsaXNoIGlzIGZ1bm55OyAic2VyaWVzIiBpcyBvbmUgb2YgdGhlIGZldyB3b3JkcyB0aGF0IHdv
+cmtzIGFzIGJvdGggc2luZ3VsYXIgYW5kIHBsdXJhbCAoYW5vdGhlciBleGFtcGxlIGlzICJzaGVl
+cCIpLg0KDQpPSywgdGhhbmtzKSBBY3R1YWxseSwgUnVzc2lhbiBoYXMgc3VjaCB3b3JkcyB0b28g
+KNGI0YLQsNC90Ys9cGFudHMsINC90L7QttC90LjRhtGLPXNjaXNzb3JzLCBpbnRlcmVzdGluZyB0
+aGF0IGZpcnN0IGV4YW1wbGVzDQp3aGljaCBjYW1lIGluIG15IG1pbmQgaGFzIHNhbWUgZmVhdHVy
+ZSBpbiBFbmdsaXNoIHRvbykuDQoNCj4gDQo+PiBUaGV5IHdlcmUgdG9vIG9wdGltaXN0aWMgc2Vy
+aWVzPyBTb3VuZHMgd2VpcmQuLg0KPiANCj4gTXkgc3BpbjogIlRoZSBvcmlnaW5hbCBzZXJpZXMg
+d2FzIHRvbyBvcHRpbWlzdGljLiINCj4gDQo+PiDCoMKgIEFuZCBpZiBvbmUgc2VyaWVzIGlzIHNl
+cmllcywgdGhhbiB3aGF0IGFib3V0IHNldmVyYWwgc2VyaWVzZXM/DQo+PiDCoMKgIE9LLCBsZXQn
+cyBzYXksIGl0IHdhcyB0b28gb3B0aW1pc3RpYyBwcmVwYXJhdG9yeSBwYXRjaCBzZXQgOikNCj4+
+DQo+Pg0KPiANCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
 
