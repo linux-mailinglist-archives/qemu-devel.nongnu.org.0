@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D06143E92
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:50:14 +0100 (CET)
-Received: from localhost ([::1]:54208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E208E143E0F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:32:28 +0100 (CET)
+Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ittv2-000603-8F
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:50:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52501)
+	id 1ittdr-0001ow-Pp
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:32:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52517)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itsgh-0002bw-0W
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:23 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itsgk-0002di-Tb
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itsgc-0004R2-4w
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:18 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50329
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1itsgh-0004Sd-1J
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58871
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsgZ-0004Pj-FH
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:11 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsgg-0004SQ-UC
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609870;
+ s=mimecast20190719; t=1579609878;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RiEISjCX3BKvVv6er1yuVLiUnfihUTExv2EGJg7bkWg=;
- b=IW9MGKvgfRe33G3/iUnm/U2ZpAyeAV/mDbxH1YERm8pIt+OJ9S7LlrgHQT/fOE+UX3jqFI
- qK/TxLzaVAlThVsEIRaHJjjjkmGMtD+ubqm1D4AiyDonwHfhTk+dQsIF4gbWp6+1eMVzIP
- jt9us0+Z/7vJRr50ahUoIwLSBdWnm8w=
+ bh=8BHAoeMChRyl7bbII5NM5QhM9/YstJI5KgIJy7wDJtU=;
+ b=EwvlKjZ9PO4GrGhFM1pnvmXCryNa5FurrUDl6WnEiCYFcjd1SXl9RG60874qii8Gqe8thb
+ G4OJzyeVjJwzsBYm8ThPzQpakwNJbbS7RAnsdZubNc9iKw7Ec0quVfxSu7pyfacqwb9B3R
+ 8kxHT1P2qJDehedCY1blv0X77zdfHa0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-cGFUZUnyN3i8t8H9zgo9rw-1; Tue, 21 Jan 2020 07:31:09 -0500
+ us-mta-367-gHvm0v3GPRmZB32h3t7SSw-1; Tue, 21 Jan 2020 07:31:17 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2608D801A2F;
- Tue, 21 Jan 2020 12:31:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E11C8017CC;
+ Tue, 21 Jan 2020 12:31:13 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A5A760BE0;
- Tue, 21 Jan 2020 12:31:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A93460CD0;
+ Tue, 21 Jan 2020 12:31:08 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 076/109] virtiofsd: Clean up inodes on destroy
-Date: Tue, 21 Jan 2020 12:24:00 +0000
-Message-Id: <20200121122433.50803-77-dgilbert@redhat.com>
+Subject: [PATCH v2 077/109] virtiofsd: support nanosecond resolution for file
+ timestamp
+Date: Tue, 21 Jan 2020 12:24:01 +0000
+Message-Id: <20200121122433.50803-78-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: cGFUZUnyN3i8t8H9zgo9rw-1
+X-MC-Unique: gHvm0v3GPRmZB32h3t7SSw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,73 +77,65 @@ Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Jiufei Xue <jiufei.xue@linux.alibaba.com>
 
-Clear out our inodes and fd's on a 'destroy' - so we get rid
-of them if we reboot the guest.
+Define HAVE_STRUCT_STAT_ST_ATIM to 1 if `st_atim' is member of `struct
+stat' which means support nanosecond resolution for the file timestamp
+fields.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Jiufei Xue <jiufei.xue@linux.alibaba.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ configure                   | 16 ++++++++++++++++
+ tools/virtiofsd/fuse_misc.h |  1 +
+ 2 files changed, 17 insertions(+)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index e0f76b37b7..3b60e61c74 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -1169,6 +1169,25 @@ static void unref_inode_lolocked(struct lo_data *lo,=
- struct lo_inode *inode,
-     }
- }
+diff --git a/configure b/configure
+index 557e4382ea..9bc0441509 100755
+--- a/configure
++++ b/configure
+@@ -5191,6 +5191,19 @@ if compile_prog "" "" ; then
+     strchrnul=3Dyes
+ fi
 =20
-+static int unref_all_inodes_cb(gpointer key, gpointer value, gpointer user=
-_data)
-+{
-+    struct lo_inode *inode =3D value;
-+    struct lo_data *lo =3D user_data;
++#########################################
++# check if we have st_atim
 +
-+    inode->refcount =3D 0;
-+    lo_map_remove(&lo->ino_map, inode->fuse_ino);
-+    close(inode->fd);
++st_atim=3Dno
++cat > $TMPC << EOF
++#include <sys/stat.h>
++#include <stddef.h>
++int main(void) { return offsetof(struct stat, st_atim); }
++EOF
++if compile_prog "" "" ; then
++    st_atim=3Dyes
++fi
 +
-+    return TRUE;
-+}
-+
-+static void unref_all_inodes(struct lo_data *lo)
-+{
-+    pthread_mutex_lock(&lo->mutex);
-+    g_hash_table_foreach_remove(lo->inodes, unref_all_inodes_cb, lo);
-+    pthread_mutex_unlock(&lo->mutex);
-+}
-+
- static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup=
-)
- {
-     struct lo_data *lo =3D lo_data(req);
-@@ -2035,6 +2054,12 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino,=
- off_t off, int whence,
-     }
- }
+ ##########################################
+ # check if trace backend exists
 =20
-+static void lo_destroy(void *userdata)
-+{
-+    struct lo_data *lo =3D (struct lo_data *)userdata;
-+    unref_all_inodes(lo);
-+}
-+
- static struct fuse_lowlevel_ops lo_oper =3D {
-     .init =3D lo_init,
-     .lookup =3D lo_lookup,
-@@ -2073,6 +2098,7 @@ static struct fuse_lowlevel_ops lo_oper =3D {
-     .copy_file_range =3D lo_copy_file_range,
- #endif
-     .lseek =3D lo_lseek,
-+    .destroy =3D lo_destroy,
- };
+@@ -6886,6 +6899,9 @@ fi
+ if test "$strchrnul" =3D "yes" ; then
+   echo "HAVE_STRCHRNUL=3Dy" >> $config_host_mak
+ fi
++if test "$st_atim" =3D "yes" ; then
++  echo "HAVE_STRUCT_STAT_ST_ATIM=3Dy" >> $config_host_mak
++fi
+ if test "$byteswap_h" =3D "yes" ; then
+   echo "CONFIG_BYTESWAP_H=3Dy" >> $config_host_mak
+ fi
+diff --git a/tools/virtiofsd/fuse_misc.h b/tools/virtiofsd/fuse_misc.h
+index f252baa752..5c618ce21f 100644
+--- a/tools/virtiofsd/fuse_misc.h
++++ b/tools/virtiofsd/fuse_misc.h
+@@ -7,6 +7,7 @@
+  */
 =20
- /* Print vhost-user.json backend program capabilities */
+ #include <pthread.h>
++#include "config-host.h"
+=20
+ /*
+  * Versioned symbols cannot be used in some cases because it
 --=20
 2.24.1
 
