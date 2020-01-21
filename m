@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40451143F74
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:26:27 +0100 (CET)
-Received: from localhost ([::1]:55086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27908143EE1
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:05:07 +0100 (CET)
+Received: from localhost ([::1]:54576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ituU6-0006Og-3H
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:26:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53036)
+	id 1itu9R-00062e-MQ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:05:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53653)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itsiZ-0004Gy-CG
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:33:19 -0500
+ (envelope-from <armbru@redhat.com>) id 1itsn7-0000sR-3o
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:37:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itsiV-000598-C1
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:33:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45463
+ (envelope-from <armbru@redhat.com>) id 1itsn6-0006ht-2c
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:37:56 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33077
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsiV-00058r-85
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:33:11 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1itsn5-0006hf-TE
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:37:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609990;
+ s=mimecast20190719; t=1579610275;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ydaat2+5npPJRpXsNzmdy8r1dEns28YO0wBkb1oTcEM=;
- b=bk4+fN+40RbLmQoyZ0kchTjCjWNNt2SYXNTAp/hvy3nCiW/JxmabD5fdu4iHOlXlr4MWRH
- EpkqEm7/bPfp4wRxxlbqbC6kP7aEQCYpjzJqdUo82gUiQVOXfmWtXisCtpulKUmU2/eJt0
- 5v5cFbJpm67TUIV4OD1KZ/9Rwg9Mi4U=
+ bh=sxzw5sZWQGhF70CUXEEOHthBDZLz3s1l3w3v7t+H1AY=;
+ b=BXxM4/22KP/89qoqbPTE5q0uHaTzXEV8eUr7zu43v1DrHxdY7dAC1kS6DbTZfFwPVd0n92
+ wGH8MSQV+XFdpeHUwzNzJcLTNuun58NaMWgh5yjfri/yfA+bNm2u9WEeitod0bMP9t/5+a
+ 1+pyDfnwcvsjiCs6F6Iv334Frm9RQw8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-YL5dNJ2KMEWny3EncFHy9g-1; Tue, 21 Jan 2020 07:33:09 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-64-IdQr7lz-NPGJRJhiVdUH-w-1; Tue, 21 Jan 2020 07:37:52 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79C9A800D41;
- Tue, 21 Jan 2020 12:33:08 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E7DE60FC4;
- Tue, 21 Jan 2020 12:33:04 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
- berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 109/109] virtiofsd: add some options to the help message
-Date: Tue, 21 Jan 2020 12:24:33 +0000
-Message-Id: <20200121122433.50803-110-dgilbert@redhat.com>
-In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
-References: <20200121122433.50803-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2848014E3;
+ Tue, 21 Jan 2020 12:37:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
+ [10.36.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C87610013A7;
+ Tue, 21 Jan 2020 12:37:48 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1104E1138600; Tue, 21 Jan 2020 13:37:47 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH] s390x/event-facility: fix error propagation
+References: <20200121095506.8537-1-cohuck@redhat.com>
+Date: Tue, 21 Jan 2020 13:37:47 +0100
+In-Reply-To: <20200121095506.8537-1-cohuck@redhat.com> (Cornelia Huck's
+ message of "Tue, 21 Jan 2020 10:55:06 +0100")
+Message-ID: <87o8uxdlyc.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: YL5dNJ2KMEWny3EncFHy9g-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: IdQr7lz-NPGJRJhiVdUH-w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -72,66 +76,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+Cornelia Huck <cohuck@redhat.com> writes:
 
-Add following options to the help message:
-- cache
-- flock|no_flock
-- norace
-- posix_lock|no_posix_lock
-- readdirplus|no_readdirplus
-- timeout
-- writeback|no_writeback
-- xattr|no_xattr
+> We currently check (by error) if the passed-in Error pointer errp
+> is non-null and return after realizing the first child of the
+> event facility in that case. Symptom is that 'virsh shutdown'
+> does not work, as the sclpquiesce device is not realized.
+>
+> Fix this by (correctly) checking the local Error err.
+>
+> Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> Fixes: 3d508334dd2c ("s390x/event-facility: Fix realize() error API viola=
+tions")
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+>  hw/s390x/event-facility.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+> index 8a93b8a1da97..9d6972afa8b3 100644
+> --- a/hw/s390x/event-facility.c
+> +++ b/hw/s390x/event-facility.c
+> @@ -338,7 +338,7 @@ static void sclp_events_bus_realize(BusState *bus, Er=
+ror **errp)
+>          DeviceState *dev =3D kid->child;
+> =20
+>          object_property_set_bool(OBJECT(dev), true, "realized", &err);
+> -        if (errp) {
+> +        if (err) {
+>              error_propagate(errp, err);
+>              return;
+>          }
 
-Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+Thanks for cleaning the mess I made!
 
-dgilbert: Split cache, norace, posix_lock, readdirplus off
-  into our own earlier patches that added the options
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tools/virtiofsd/helper.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index a19959926c..8f00737b1a 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -149,6 +149,8 @@ void fuse_cmdline_help(void)
-            "    -o cache=3D<mode>            cache mode. could be one of \=
-"auto, "
-            "always, none\"\n"
-            "                               default: auto\n"
-+           "    -o flock|no_flock          enable/disable flock\n"
-+           "                               default: no_flock\n"
-            "    -o log_level=3D<level>       log level, default to \"info\=
-"\n"
-            "                               level could be one of \"debug, =
-"
-            "info, warn, err\"\n"
-@@ -163,7 +165,13 @@ void fuse_cmdline_help(void)
-            "    -o readdirplus|no_readdirplus\n"
-            "                               enable/disable readirplus\n"
-            "                               default: readdirplus\n"
--          );
-+           "    -o timeout=3D<number>        I/O timeout (second)\n"
-+           "                               default: depends on cache=3D op=
-tion.\n"
-+           "    -o writeback|no_writeback  enable/disable writeback cache\=
-n"
-+           "                               default: no_writeback\n"
-+           "    -o xattr|no_xattr          enable/disable xattr\n"
-+           "                               default: no_xattr\n"
-+           );
- }
-=20
- static int fuse_helper_opt_proc(void *data, const char *arg, int key,
---=20
-2.24.1
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
