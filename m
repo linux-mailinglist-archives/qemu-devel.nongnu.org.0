@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B689143624
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 05:05:23 +0100 (CET)
-Received: from localhost ([::1]:47940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F01143625
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 05:06:41 +0100 (CET)
+Received: from localhost ([::1]:47968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itkn4-00025O-Ds
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 23:05:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57154)
+	id 1itkoK-0003te-Qk
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 23:06:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57146)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1itklT-0001D2-Cj
+ (envelope-from <dgibson@ozlabs.org>) id 1itklT-0001Cz-2i
  for qemu-devel@nongnu.org; Mon, 20 Jan 2020 23:03:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1itklS-0000Rh-5X
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 23:03:43 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60883 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1itklR-0000RP-Oc
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 23:03:42 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:60539 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1itklR-0000Pn-2h; Mon, 20 Jan 2020 23:03:42 -0500
+ id 1itklR-0000Pm-3Y; Mon, 20 Jan 2020 23:03:41 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 481vzC71FKz9sNF; Tue, 21 Jan 2020 15:03:35 +1100 (AEDT)
+ id 481vzD0QwBz9sRK; Tue, 21 Jan 2020 15:03:36 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1579579415;
- bh=VGep+m0ErIxbWK9Ama3B5peUK0T0H8LpkBYfFv1Y5e4=;
+ d=gibson.dropbear.id.au; s=201602; t=1579579416;
+ bh=qxCC7i66vqG1QudTFycwu7hHeDQM+dmDPpeVj6+8+58=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hTrBlOj2dLR03o+cyTp8NgLgHhSnMQ7o47Z6QIQ7C2m1v0aFa7MSD5nwlRtzSHZaK
- FEl7RQ1GNc6o/khx4+xKv+6YVE4LM7YrWKEVtJjqek5gt+6dXRBn2jF12HxkzCCk+c
- HG6G1o/WQYQHkp9mk3r8bfum+TgpfWwa7kAehFBk=
-Date: Tue, 21 Jan 2020 15:02:28 +1100
+ b=I10hBHolKccSb9jbtXbSkOrGQjPU8fCnO5qRSeJeykpFLH4blVXEq1nfNtqoPxgN5
+ WagdKUilAjBZs9/A/uHDvbTIHy1JQ+vY7zv3hJXkHkXSB39HiDh9KugRtU4+CquocK
+ DcC7AVibdkcuezEWtpgmrzwzxA6G7lOfz2ZxE6dg=
+Date: Tue, 21 Jan 2020 15:02:55 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Stefan Berger <stefanb@linux.ibm.com>
-Subject: Re: [PATCH v8 2/6] spapr: Implement get_dt_compatible() callback
-Message-ID: <20200121040228.GE265522@umbus.fritz.box>
+Subject: Re: [PATCH v8 5/6] hw/ppc/Kconfig: Enable TPM_SPAPR as part of
+ PSERIES config
+Message-ID: <20200121040255.GF265522@umbus.fritz.box>
 References: <20200108161012.1821385-1-stefanb@linux.ibm.com>
- <20200108161012.1821385-3-stefanb@linux.ibm.com>
+ <20200108161012.1821385-6-stefanb@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PPYy/fEw/8QCHSq3"
+ protocol="application/pgp-signature"; boundary="SnV5plBeK2Ge1I9g"
 Content-Disposition: inline
-In-Reply-To: <20200108161012.1821385-3-stefanb@linux.ibm.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <20200108161012.1821385-6-stefanb@linux.ibm.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,69 +62,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---PPYy/fEw/8QCHSq3
+--SnV5plBeK2Ge1I9g
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 08, 2020 at 11:10:08AM -0500, Stefan Berger wrote:
+On Wed, Jan 08, 2020 at 11:10:11AM -0500, Stefan Berger wrote:
 > From: Stefan Berger <stefanb@linux.vnet.ibm.com>
->=20
-> For devices that cannot be statically initialized, implement a
-> get_dt_compatible() callback that allows us to ask the device for
-> the 'compatible' value.
 >=20
 > Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  hw/ppc/spapr_vio.c         | 11 +++++++++--
->  include/hw/ppc/spapr_vio.h |  1 +
->  2 files changed, 10 insertions(+), 2 deletions(-)
+>  hw/ppc/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 >=20
-> diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
-> index 554de9930d..4b24b81797 100644
-> --- a/hw/ppc/spapr_vio.c
-> +++ b/hw/ppc/spapr_vio.c
-> @@ -87,6 +87,7 @@ static int vio_make_devnode(SpaprVioDevice *dev,
->      SpaprVioDeviceClass *pc =3D VIO_SPAPR_DEVICE_GET_CLASS(dev);
->      int vdevice_off, node_off, ret;
->      char *dt_name;
-> +    const char *dt_compatible;
+> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> index f927ec9c74..b5b3519158 100644
+> --- a/hw/ppc/Kconfig
+> +++ b/hw/ppc/Kconfig
+> @@ -10,6 +10,7 @@ config PSERIES
+>      select XICS_SPAPR
+>      select XIVE_SPAPR
+>      select MSI_NONBROKEN
+> +    select TPM_SPAPR
 > =20
->      vdevice_off =3D fdt_path_offset(fdt, "/vdevice");
->      if (vdevice_off < 0) {
-> @@ -113,9 +114,15 @@ static int vio_make_devnode(SpaprVioDevice *dev,
->          }
->      }
-> =20
-> -    if (pc->dt_compatible) {
-> +    if (pc->get_dt_compatible) {
-> +        dt_compatible =3D pc->get_dt_compatible(dev);
-> +    } else {
-> +        dt_compatible =3D pc->dt_compatible;
-> +    }
-> +
-> +    if (dt_compatible) {
->          ret =3D fdt_setprop_string(fdt, node_off, "compatible",
-> -                                 pc->dt_compatible);
-> +                                 dt_compatible);
->          if (ret < 0) {
->              return ret;
->          }
-> diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
-> index 72762ed16b..67f58b7f98 100644
-> --- a/include/hw/ppc/spapr_vio.h
-> +++ b/include/hw/ppc/spapr_vio.h
-> @@ -58,6 +58,7 @@ typedef struct SpaprVioDeviceClass {
->      void (*realize)(SpaprVioDevice *dev, Error **errp);
->      void (*reset)(SpaprVioDevice *dev);
->      int (*devnode)(SpaprVioDevice *dev, void *fdt, int node_off);
-> +    const char *(*get_dt_compatible)(SpaprVioDevice *dev);
->  } SpaprVioDeviceClass;
-> =20
->  struct SpaprVioDevice {
+>  config SPAPR_RNG
+>      bool
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -131,25 +97,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---PPYy/fEw/8QCHSq3
+--SnV5plBeK2Ge1I9g
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4md9QACgkQbDjKyiDZ
-s5Ly1g//fqlBNfTo9OjpgbxO04Amxbjw10ti/JyUpThmIOBUdTvNejveD/D87rXE
-vS3WRaQQZLreKMXfKUDYQa++Mh2qWkXZlsU+7vxDIXQ8x0whG6+Oz51ExPPAFhWu
-wrBPW586S12ZffUo+kEbDBb7KNHoFxnQMgg+lE9wPX8LHQNe5xDQeaZaQbGmb+fa
-nz6wW5e9ycDMK9sXb9mDp0yMNenQ92ERMRLES2/S1oSov0uU2lDqSNfg1I04QzwS
-WoQufu/A7HDVgTlfRXcavJ8yrrf/sArgP0d0v/AqL3PduEQRcqtBbcP1UlgvhEan
-mef+M4nsJEZgUss6V1xDItW9NljUmED/mGNjCXqoLk9+MEvX/UrOPciOCrTMdVrM
-o+X7b9RB3ep+OjSvz1VNB46mFFsMBy5Cs6gglC5q5if9Ai/MF4PXltrMREUglGaa
-Am1MeiwcQJho4MDbeA22LbK8GQ7ZOaqsbWd+ceVygnaaxVi7veKnJvCDoX6qdSQZ
-ivBFC+H6dCH8XS76pRrKoxX9DFEmK9kvoa6Kl7R/0oZ8fL2heUti2IoJsciY5wgg
-8HjJxhqhJxROHQUjzLvWoM8e2YsOXpAxhT8AH7LhxNr91wIEd7qQEh8qpzFDLCjE
-x9Ems4uriIobaj+g8ncOO5H+WuDt7pN2Hrp/gY85jPT46kZOwSU=
-=JK0g
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4md+4ACgkQbDjKyiDZ
+s5KvCw//RELt+rg71BeRDLxisycHe9E1fL0zLnOiyvVmDz/QqmC4i+NhRyzbReUm
+RhGF2GA+9jxbX/yvciB3ieENbgx+zZDCE3bfKtzruXq2XIZ6mT+T8xOVkDp1Z4hr
+o0p/bshiAMxeuznGj6sYVQUJt3+dygBuNFs1LcuMIX9Dx5kX9CIj/5BEC7I9Ny53
+tmpR/V52uZ6iWXq+2ZQsJbtd6eMfp5OzbfLrFOfldHRkHMdIQOzleQUNYyNfsdao
+AJRoaJrVCNT47PV5wZT1ox8+GOc1LpfOHHgQxRb2kdGm14JylaTumKmqr8hEosBr
+Z3w/Dugpas1lv6ybOOm2SKDkjKSgI4dRse0eD87hEgQVgSdtHyMDowsQe0+qyBfV
+8OvFEIOSzNt1U76RfzqMzKoD908m7Ogn/KUA67dIhznRFiDcdUO1yMHo+iBP83U7
+q1QMUvH8QmBmFotllwyzQF6gRlsG10OYfk74XlVOmf2EfHrXm7Zj4h3CI7ELclE9
+T53GSNNOT3a4UHjnHrXMh+I7Og/YiEAYmTbwezRv4mCwszZX4UmskMb4ik5G1a+0
+4F30hLCLwUZ7tFh4Wny4KeqldojqW/K5mcClV8ImbkHi3F+MdzcpOeN5KRutUJTk
+SbQDGPQnkS2O6Is3pzmobrRzWn/6y+ZslCIfibAW8tDlH1wxxOw=
+=W9am
 -----END PGP SIGNATURE-----
 
---PPYy/fEw/8QCHSq3--
+--SnV5plBeK2Ge1I9g--
 
