@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22D614366A
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 06:03:07 +0100 (CET)
-Received: from localhost ([::1]:48394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770A1143669
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 06:03:05 +0100 (CET)
+Received: from localhost ([::1]:48390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itlgw-0006qR-Qe
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 00:03:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34945)
+	id 1itlgt-0006oZ-O2
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 00:03:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34948)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dirty@apple.com>) id 1itleu-0005Wk-Qb
+ (envelope-from <dirty@apple.com>) id 1itlev-0005Wo-1S
  for qemu-devel@nongnu.org; Tue, 21 Jan 2020 00:01:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dirty@apple.com>) id 1itleq-0002Q0-MI
+ (envelope-from <dirty@apple.com>) id 1itleq-0002QI-Tk
  for qemu-devel@nongnu.org; Tue, 21 Jan 2020 00:01:00 -0500
-Received: from nwk-aaemail-lapp03.apple.com ([17.151.62.68]:46700)
+Received: from ma1-aaemail-dr-lapp02.apple.com ([17.171.2.68]:39990)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dirty@apple.com>) id 1itlep-0002OI-Of
+ (Exim 4.71) (envelope-from <dirty@apple.com>) id 1itleq-0002Ph-OO
  for qemu-devel@nongnu.org; Tue, 21 Jan 2020 00:00:56 -0500
-Received: from pps.filterd (nwk-aaemail-lapp03.apple.com [127.0.0.1])
- by nwk-aaemail-lapp03.apple.com (8.16.0.27/8.16.0.27) with SMTP id
- 00L4uUtq048852; Mon, 20 Jan 2020 21:00:54 -0800
+Received: from pps.filterd (ma1-aaemail-dr-lapp02.apple.com [127.0.0.1])
+ by ma1-aaemail-dr-lapp02.apple.com (8.16.0.27/8.16.0.27) with SMTP id
+ 00L4us9d034026; Mon, 20 Jan 2020 21:00:56 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
  h=sender : from : to :
  cc : subject : date : message-id : in-reply-to : references : mime-version
  : content-transfer-encoding; s=20180706;
- bh=hEWTjc6JDqms3K/wqphEWcg9jPoxwXVxuA5KFJNu6Gw=;
- b=Ql5g2rIMdyVzeuRnGqPzfGzWLZvyhoFmlRLZTIqIHk9reItb9mDvbOTO7ScYCkob6qd6
- PpuC7xtDUm1ke4RoUbG5OAsa0NeawxpNf1/auzhRaJPtHyhnUL7X0D/Cbdu2bq1E5Gro
- c3JKM0XYlaXZ7Ru4rzNAXusTMSNLGDQkV/YFR8bOIVrvAcZb3UK8IRPRDm0h6wcWexCl
- Oc8/eufH5H+/06Z/0ktQp7oyOKrHJehMthQdGRY+mlRO20AwrP2/nGbrjom9AU0tI8Q7
- J77/BVTvH0J7vZnQuftvmtvcxlN+pAIX1j6d49N1wBrGu8iF4/YI4l+qmwxOs0o0HzC3 Bw== 
-Received: from ma1-mtap-s03.corp.apple.com (ma1-mtap-s03.corp.apple.com
- [17.40.76.7])
- by nwk-aaemail-lapp03.apple.com with ESMTP id 2xmk4ngc8w-2
+ bh=JFPmgaeVABwyWdqH4RuK3Au9clG7Zn5BaxauzwN/gPM=;
+ b=QaoStADeXYiapVGfsgYYD2Qg78MNTNRnbKT12vls7/MFUe+P3WShBxS48kBxFxiZvPi3
+ gize9nCHcyQaC/rRQQYi/q25IaC8+xENzJ1XHqNMsRDXbQkziaEyA1smpo/+aa5820he
+ LAAL4XrBdzVHJs/t8NQgpyoYIGy6WoFoboBA7xAAx5eJ7UnI6HxWLXRHMsK9LhLPfUyp
+ earoMoDlpawoWfQD4gUGZccRZjNVx6UGXIDibJXuyiIM8zJlWH1qTszGVMmCtBRm/EW4
+ aOa1sjUMdrcxOwKvIRHkwalqGO8sB5MFgm2G22kW/FLsdB1KElAZq8VwDNSemWnMKtoG 7A== 
+Received: from mr2-mtap-s01.rno.apple.com (mr2-mtap-s01.rno.apple.com
+ [17.179.226.133])
+ by ma1-aaemail-dr-lapp02.apple.com with ESMTP id 2xkyjwyt1e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
- Mon, 20 Jan 2020 21:00:54 -0800
+ Mon, 20 Jan 2020 21:00:56 -0800
 Received: from nwk-mmpp-sz11.apple.com
- (nwk-mmpp-sz11.apple.com [17.128.115.155]) by ma1-mtap-s03.corp.apple.com
+ (nwk-mmpp-sz11.apple.com [17.128.115.155]) by mr2-mtap-s01.rno.apple.com
  (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
- 2019)) with ESMTPS id <0Q4F00CTRXXGNA00@ma1-mtap-s03.corp.apple.com>; Mon,
- 20 Jan 2020 21:00:53 -0800 (PST)
+ 2019)) with ESMTPS id <0Q4F00AWIXXJKS00@mr2-mtap-s01.rno.apple.com>; Mon,
+ 20 Jan 2020 21:00:55 -0800 (PST)
 Received: from process_milters-daemon.nwk-mmpp-sz11.apple.com by
  nwk-mmpp-sz11.apple.com
  (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
  2019)) id <0Q4F00C00XDY2N00@nwk-mmpp-sz11.apple.com>; Mon,
- 20 Jan 2020 21:00:53 -0800 (PST)
+ 20 Jan 2020 21:00:55 -0800 (PST)
 X-Va-A: 
 X-Va-T-CD: c56cc4374afe9162bf6a337f3d661529
-X-Va-E-CD: 6bafeb6ba5f729e40cc01f5a119f334f
-X-Va-R-CD: cac07a16fc6dc0c9fc1da97720dc20a9
+X-Va-E-CD: 433386c88cf43ea6207a58d758087b4e
+X-Va-R-CD: 7beb1aa80d24fa7d920ea2e100cfdd16
 X-Va-CD: 0
-X-Va-ID: 637f91f8-9ecf-4337-bb19-504789c3f07e
+X-Va-ID: 260262cc-baff-471d-981f-e2f1a8e810cb
 X-V-A: 
 X-V-T-CD: c56cc4374afe9162bf6a337f3d661529
-X-V-E-CD: 6bafeb6ba5f729e40cc01f5a119f334f
-X-V-R-CD: cac07a16fc6dc0c9fc1da97720dc20a9
+X-V-E-CD: 433386c88cf43ea6207a58d758087b4e
+X-V-R-CD: 7beb1aa80d24fa7d920ea2e100cfdd16
 X-V-CD: 0
-X-V-ID: 5b8f5845-4146-485b-896f-b0eeddda09d1
+X-V-ID: 0b6789e1-4d10-4ca2-869c-6ff14a3e96ec
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,,
  definitions=2020-01-20_10:,, signatures=0
 Received: from pontoon.com (unknown [17.234.97.123]) by nwk-mmpp-sz11.apple.com
  (Oracle Communications Messaging Server 8.0.2.4.20190507 64bit (built May  7
  2019)) with ESMTPSA id <0Q4F005Q7XXG3520@nwk-mmpp-sz11.apple.com>; Mon,
- 20 Jan 2020 21:00:52 -0800 (PST)
+ 20 Jan 2020 21:00:53 -0800 (PST)
 To: qemu-devel@nongnu.org
 Cc: kraxel@redhat.com
-Subject: [PATCH v2 1/2] vnc: fix VNC artifacts
-Date: Mon, 20 Jan 2020 21:00:51 -0800
-Message-id: <c28241e087b10b4561468b7dae47fe63381df259.1579582674.git.dirty@apple.com>
+Subject: [PATCH v2 2/2] vnc: prioritize ZRLE compression over ZLIB
+Date: Mon, 20 Jan 2020 21:00:52 -0800
+Message-id: <b5d129895d08a90d0a2a6183b95875bacfa998b8.1579582674.git.dirty@apple.com>
 X-Mailer: git-send-email 2.24.0
 In-reply-to: <cover.1579582674.git.dirty@apple.com>
 References: <cover.1579582674.git.dirty@apple.com>
@@ -79,7 +79,7 @@ Content-transfer-encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2020-01-20_10:, , signatures=0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 17.151.62.68
+X-Received-From: 17.171.2.68
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,61 +96,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Cameron Esfahani <dirty@apple.com>
 From: Cameron Esfahani via <qemu-devel@nongnu.org>
 
-Patch de3f7de7f4e257ce44cdabb90f5f17ee99624557 was too simplistic in its
-implementation: it didn't account for the ZLIB z_stream mutating with
-each compression.  Because of the mutation, simply resetting the output
-buffer's offset wasn't sufficient to "rewind" the operation.  The mutated
-z_stream would generate future zlib blocks which referred to symbols in
-past blocks which weren't sent.  This would lead to artifacting.
+In my investigation, ZRLE always compresses better than ZLIB so
+prioritize ZRLE over ZLIB, even if the client hints that ZLIB is
+preferred.
 
-This reverts commit de3f7de7f4e257ce44cdabb90f5f17ee99624557.
+zlib buffer is always reset in zrle_compress_data(), so using offset to
+calculate next_out and avail_out is useless.
 
-Fixes: <de3f7de7f4e257> ("vnc: allow fall back to RAW encoding")
 Signed-off-by: Cameron Esfahani <dirty@apple.com>
 ---
- ui/vnc.c | 20 ++------------------
- 1 file changed, 2 insertions(+), 18 deletions(-)
+ ui/vnc-enc-zrle.c |  4 ++--
+ ui/vnc.c          | 11 +++++++++--
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
+diff --git a/ui/vnc-enc-zrle.c b/ui/vnc-enc-zrle.c
+index 17fd28a2e2..b4f71e32cf 100644
+--- a/ui/vnc-enc-zrle.c
++++ b/ui/vnc-enc-zrle.c
+@@ -98,8 +98,8 @@ static int zrle_compress_data(VncState *vs, int level)
+     /* set pointers */
+     zstream->next_in = vs->zrle->zrle.buffer;
+     zstream->avail_in = vs->zrle->zrle.offset;
+-    zstream->next_out = vs->zrle->zlib.buffer + vs->zrle->zlib.offset;
+-    zstream->avail_out = vs->zrle->zlib.capacity - vs->zrle->zlib.offset;
++    zstream->next_out = vs->zrle->zlib.buffer;
++    zstream->avail_out = vs->zrle->zlib.capacity;
+     zstream->data_type = Z_BINARY;
+ 
+     /* start encoding */
 diff --git a/ui/vnc.c b/ui/vnc.c
-index 4100d6e404..3e8d1f1207 100644
+index 3e8d1f1207..1d7138a3a0 100644
 --- a/ui/vnc.c
 +++ b/ui/vnc.c
-@@ -898,8 +898,6 @@ int vnc_raw_send_framebuffer_update(VncState *vs, int x, int y, int w, int h)
- int vnc_send_framebuffer_update(VncState *vs, int x, int y, int w, int h)
- {
-     int n = 0;
--    bool encode_raw = false;
--    size_t saved_offs = vs->output.offset;
- 
-     switch(vs->vnc_encoding) {
+@@ -2071,8 +2071,15 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
+             break;
+ #endif
          case VNC_ENCODING_ZLIB:
-@@ -922,24 +920,10 @@ int vnc_send_framebuffer_update(VncState *vs, int x, int y, int w, int h)
-             n = vnc_zywrle_send_framebuffer_update(vs, x, y, w, h);
+-            vs->features |= VNC_FEATURE_ZLIB_MASK;
+-            vs->vnc_encoding = enc;
++            /*
++             * VNC_ENCODING_ZRLE compresses better than VNC_ENCODING_ZLIB.
++             * So prioritize ZRLE, even if the client hints that it prefers
++             * ZLIB.
++             */
++            if ((vs->features & VNC_FEATURE_ZRLE_MASK) == 0) {
++                vs->features |= VNC_FEATURE_ZLIB_MASK;
++                vs->vnc_encoding = enc;
++            }
              break;
-         default:
--            encode_raw = true;
-+            vnc_framebuffer_update(vs, x, y, w, h, VNC_ENCODING_RAW);
-+            n = vnc_raw_send_framebuffer_update(vs, x, y, w, h);
-             break;
-     }
--
--    /* If the client has the same pixel format as our internal buffer and
--     * a RAW encoding would need less space fall back to RAW encoding to
--     * save bandwidth and processing power in the client. */
--    if (!encode_raw && vs->write_pixels == vnc_write_pixels_copy &&
--        12 + h * w * VNC_SERVER_FB_BYTES <= (vs->output.offset - saved_offs)) {
--        vs->output.offset = saved_offs;
--        encode_raw = true;
--    }
--
--    if (encode_raw) {
--        vnc_framebuffer_update(vs, x, y, w, h, VNC_ENCODING_RAW);
--        n = vnc_raw_send_framebuffer_update(vs, x, y, w, h);
--    }
--
-     return n;
- }
- 
+         case VNC_ENCODING_ZRLE:
+             vs->features |= VNC_FEATURE_ZRLE_MASK;
 -- 
 2.24.0
 
