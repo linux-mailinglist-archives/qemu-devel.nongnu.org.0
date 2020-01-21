@@ -2,55 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E471143A36
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 11:02:10 +0100 (CET)
-Received: from localhost ([::1]:50882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1A5143A4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 11:04:40 +0100 (CET)
+Received: from localhost ([::1]:50912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itqML-000233-65
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 05:02:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33154)
+	id 1itqOb-00049I-8W
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 05:04:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33420)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangx.jy@cn.fujitsu.com>) id 1itqJM-000825-FN
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:59:05 -0500
+ (envelope-from <thuth@redhat.com>) id 1itqMx-0003C3-RJ
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 05:02:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yangx.jy@cn.fujitsu.com>) id 1itqJI-0000Yd-Nt
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:59:04 -0500
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:33578
- helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <yangx.jy@cn.fujitsu.com>) id 1itqJI-0000VV-CI
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 04:59:00 -0500
-X-IronPort-AV: E=Sophos;i="5.70,345,1574092800"; d="scan'208";a="82341048"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
- by heian.cn.fujitsu.com with ESMTP; 21 Jan 2020 17:58:52 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
- by cn.fujitsu.com (Postfix) with ESMTP id DE5B95010EB0;
- Tue, 21 Jan 2020 17:49:39 +0800 (CST)
-Received: from [10.167.220.69] (10.167.220.69) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1395.4; Tue, 21 Jan 2020 17:58:49 +0800
-Message-ID: <5E26CB57.7060804@cn.fujitsu.com>
-Date: Tue, 21 Jan 2020 17:58:47 +0800
-From: Xiao Yang <yangx.jy@cn.fujitsu.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.2; zh-CN;
- rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
+ (envelope-from <thuth@redhat.com>) id 1itqMt-0001sm-J4
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 05:02:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42635
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1itqMt-0001sZ-Es
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 05:02:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579600963;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=AWQiREJxN9rv1oDVmYf/FFgrolMa5xplZG/aoRsi+Ag=;
+ b=DxUU5errkyj2Gza1kWXpcIBEFmyRznTCbxrWIj3A5pJFvIcLoHIFmLh6H31mc3sWDA0dDN
+ Wb58DE5ie9/p/dtcWKkLrlUwhUgLokYJrvbDbfeYMTnQzh8/p4wMbKZWxXTKDkqMpO2Z0f
+ 6f0ypz9YUwQr5at6cWZ4FC5rvyjy8Ks=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-u9Rf53nYP_2HUYkTPdtKWQ-1; Tue, 21 Jan 2020 05:02:39 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15F85DB20;
+ Tue, 21 Jan 2020 10:02:38 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-121.ams2.redhat.com [10.36.116.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DFA28BE28;
+ Tue, 21 Jan 2020 10:02:35 +0000 (UTC)
+Subject: Re: [PATCH 2/2] aspeed/i2c: Prevent uninitialized warning
+To: mrezanin@redhat.com, qemu-devel@nongnu.org
+References: <cover.1579598240.git.mrezanin@redhat.com>
+ <07957dcab31f65de3dd30efa91e6b9152ac79879.1579598240.git.mrezanin@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <c1b01c90-e42c-b65f-c7b8-2a589510a7d0@redhat.com>
+Date: Tue, 21 Jan 2020 11:02:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH 006/104] virtiofsd: Trim down imported files
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-7-dgilbert@redhat.com>
-In-Reply-To: <20191212163904.159893-7-dgilbert@redhat.com>
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+In-Reply-To: <07957dcab31f65de3dd30efa91e6b9152ac79879.1579598240.git.mrezanin@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: u9Rf53nYP_2HUYkTPdtKWQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.167.220.69]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: DE5B95010EB0.AB64A
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: yangx.jy@cn.fujitsu.com
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 183.91.158.132
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,123 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: Andrew Jeffery <andrew@aj.id.au>, peter.maydell@linaro.org,
+ qemu-trivial@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2019/12/13 0:37, Dr. David Alan Gilbert (git) wrote:
-> -	res = fuse_buf_copy(&pipe_buf, buf,
-> -			    FUSE_BUF_FORCE_SPLICE | FUSE_BUF_SPLICE_NONBLOCK);
-> -	if (res<  0) {
-> -		if (res == -EAGAIN || res == -EINVAL) {
-> -			/*
-> -			 * Should only get EAGAIN on kernels with
-> -			 * broken SPLICE_F_NONBLOCK support (<=
-> -			 * 2.6.35) where this error or a short read is
-> -			 * returned even if the pipe itself is not
-> -			 * full
-> -			 *
-> -			 * EINVAL might mean that splice can't handle
-> -			 * this combination of input and output.
-> -			 */
-> -			if (res == -EAGAIN)
-> -				se->broken_splice_nonblock = 1;
-> -
-> -			pthread_setspecific(se->pipe_key, NULL);
-> -			fuse_ll_pipe_free(llp);
-> -			goto fallback;
-> -		}
-> -		res = -res;
-> -		goto clear_pipe;
-> -	}
-> -
-> -	if (res != 0&&  res<  len) {
-> -		struct fuse_bufvec mem_buf = FUSE_BUFVEC_INIT(len);
-> -		void *mbuf;
-> -		size_t now_len = res;
-> -		/*
-> -		 * For regular files a short count is either
-> -		 *  1) due to EOF, or
-> -		 *  2) because of broken SPLICE_F_NONBLOCK (see above)
-> -		 *
-> -		 * For other inputs it's possible that we overflowed
-> -		 * the pipe because of small buffer fragments.
-> -		 */
-> -
-> -		res = posix_memalign(&mbuf, pagesize, len);
-> -		if (res != 0)
-> -			goto clear_pipe;
-> -
-> -		mem_buf.buf[0].mem = mbuf;
-> -		mem_buf.off = now_len;
-> -		res = fuse_buf_copy(&mem_buf, buf, 0);
-> -		if (res>  0) {
-> -			char *tmpbuf;
-> -			size_t extra_len = res;
-> -			/*
-> -			 * Trickiest case: got more data.  Need to get
-> -			 * back the data from the pipe and then fall
-> -			 * back to regular write.
-> -			 */
-> -			tmpbuf = malloc(headerlen);
-> -			if (tmpbuf == NULL) {
-> -				free(mbuf);
-> -				res = ENOMEM;
-> -				goto clear_pipe;
-> -			}
-> -			res = read_back(llp->pipe[0], tmpbuf, headerlen);
-> -			free(tmpbuf);
-> -			if (res != 0) {
-> -				free(mbuf);
-> -				goto clear_pipe;
-> -			}
-> -			res = read_back(llp->pipe[0], mbuf, now_len);
-> -			if (res != 0) {
-> -				free(mbuf);
-> -				goto clear_pipe;
-> -			}
-> -			len = now_len + extra_len;
-> -			iov[iov_count].iov_base = mbuf;
-> -			iov[iov_count].iov_len = len;
-> -			iov_count++;
-> -			res = fuse_send_msg(se, ch, iov, iov_count);
-> -			free(mbuf);
-> -			return res;
-> -		}
-> -		free(mbuf);
-> -		res = now_len;
-> -	}
-> -	len = res;
-> -	out->len = headerlen + len;
-> -
-> -	if (se->debug) {
-> -		fuse_log(FUSE_LOG_DEBUG,
-> -			"   unique: %llu, success, outsize: %i (splice)\n",
-> -			(unsigned long long) out->unique, out->len);
-> -	}
-> -
-> -	splice_flags = 0;
-> -	if ((flags&  FUSE_BUF_SPLICE_MOVE)&&
-> -	    (se->conn.want&  FUSE_CAP_SPLICE_MOVE))
-> -		splice_flags |= SPLICE_F_MOVE;
-> -
-> -	res = splice(llp->pipe[0], NULL, ch ? ch->fd : se->fd,
-> -		     NULL, out->len, splice_flags);
-Hi,
+On 21/01/2020 10.28, mrezanin@redhat.com wrote:
+> From: Miroslav Rezanina <mrezanin@redhat.com>
+> 
+> Compiler reports uninitialized warning for cmd_flags variable.
+> 
+> Adding NULL initialization to prevent this warning.
+> 
+> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
+> ---
+>  hw/i2c/aspeed_i2c.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+> index 2da04a4..445182a 100644
+> --- a/hw/i2c/aspeed_i2c.c
+> +++ b/hw/i2c/aspeed_i2c.c
+> @@ -400,7 +400,7 @@ static bool aspeed_i2c_check_sram(AspeedI2CBus *bus)
+>  
+>  static void aspeed_i2c_bus_cmd_dump(AspeedI2CBus *bus)
+>  {
+> -    g_autofree char *cmd_flags;
+> +    g_autofree char *cmd_flags = NULL;
+>      uint32_t count;
+>  
+>      if (bus->cmd & (I2CD_RX_BUFF_ENABLE | I2CD_RX_BUFF_ENABLE)) {
 
-1) In buffer.c, fuse_buf_splice() uses splice(2) to copy/move data in 
-some cases if the syscall is supported.
-2) One pipe needs to be passed to splice(2) so splice(2) without one 
-pipe fails and then go back to use other ways(e.g. use fuse_buf_fd_to_fd()).
-3) fuse_buf_copy() calls fuse_buf_splice() indirectly and this patch has 
-removed all pipes used by fuse_buf_copy().
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Is it necessary to leave the code related to splice(2)?  Is it going to 
-be used in future?
-We have to use splice(2) by the correct CONFIG_SPLICE macro If necessary.
-
-Best Regards,
-Xiao Yang
-
+... maybe someone with enough Perl-foo (i.e. not me ;-)) should add a
+check to our check_patch.pl script so that it complains when new code is
+introduced that uses g_autofree without initializing the variable...
 
 
