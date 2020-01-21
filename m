@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5EFB143FD8
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:43:04 +0100 (CET)
-Received: from localhost ([::1]:55780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46CFB144010
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:59:41 +0100 (CET)
+Received: from localhost ([::1]:56286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itukB-00025P-BV
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:43:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47652)
+	id 1itv0G-0002NB-6y
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:59:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48734)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ituhI-0007r0-VL
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:40:06 -0500
+ (envelope-from <cohuck@redhat.com>) id 1itunS-0007A9-Bd
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:46:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ituhH-00087D-L8
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:40:04 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33856)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ituhH-00086G-EL
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:40:03 -0500
-Received: by mail-wm1-x342.google.com with SMTP id w5so2254501wmi.1
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 06:40:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=R6Az3gwoWZNkDFLQXHPIGyziLTtcKolDITyBwaRAT3w=;
- b=mxGp1PPpktnA7AC7aVThJvIPrnc9A6FzNzAUk5pTEWhdgoNsIuZ9wbHRAw3afGMQDx
- un3FdLlU9TJPfShC3Vhnb8P1HPkh0ysiekZuo9JgmNVFQYhcM2WYgqsrGYfAdxFc0go9
- RvPJugMSFq2Ef3kwTQXsmI/con2VTzg7lj6JnmOnNGVCqZ0ANhuns7xTmYXNehCqieUO
- NdmagefTJbbZ0rNq11eU0gCyyXvImxTtC6TYODqtt+xXkM/55W8s3M0laMO+QCABT+NQ
- CquLAlSL7cEs9mrsgOQ8CYPJvQ+9pWSNpfoZ4Gmvn1lptEl9zpa7iiC2xhfRpjNlUXWm
- 5NtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=R6Az3gwoWZNkDFLQXHPIGyziLTtcKolDITyBwaRAT3w=;
- b=I5RG7/46zL1r1j/XnXVXyW6i8+KZDpUqepiAjmLbR/Ez1ml4TKqvmDOQl/3C5gHp/r
- VZl4zS7PLiEWPYtx+HSULw8W75b11zVXs1lzOFhcdQg6QPYYtFm12SJvH8fxQaOusvof
- oTyRTHUWHzWUe4pMlVhScFJWl2XDeQ6D3lo7cduqkLdeVm3uRFoauQk7HRuUGPKFv1nP
- djlIE07Mevm6RZ9ShyPmTW7B3/1i0rksXnFveF+cSvZGn4MtFq1rVTU6MtZnJNBAhEdt
- 3WT8sJY99RISlHFqOMNgai0YEx7hJlFL/C5wjln/bqBgJicdmxbPAcXzjEtJWfbWSKJQ
- j1Vw==
-X-Gm-Message-State: APjAAAUgcSTIYBIRdwN/rL9F96Q99AURdKUbXL2moJ1e7NGJ9IQVj6DG
- ZIX4dGiBEsJ/qTjE6aKPuQgx2A==
-X-Google-Smtp-Source: APXvYqx2lePNWimjTWeUFUiSLJtp89OirYYrs9mVeQAbFaeAz6IM5RXwuYQYyzdCnyapXgXw3O9KnQ==
-X-Received: by 2002:a05:600c:2383:: with SMTP id
- m3mr4838116wma.32.1579617601169; 
- Tue, 21 Jan 2020 06:40:01 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g25sm44627wmh.3.2020.01.21.06.39.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2020 06:40:00 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6C3101FF87;
- Tue, 21 Jan 2020 14:39:59 +0000 (GMT)
-References: <20200121131936.8214-1-thuth@redhat.com>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] gitlab-ci: Refresh the list of iotests
-In-reply-to: <20200121131936.8214-1-thuth@redhat.com>
-Date: Tue, 21 Jan 2020 14:39:59 +0000
-Message-ID: <87d0bc27r4.fsf@linaro.org>
+ (envelope-from <cohuck@redhat.com>) id 1itunN-0002MD-5T
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:46:25 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26327
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1itunN-0002Lo-0c
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:46:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579617980;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EKZR5X3HjbWGViyoSjvLKmBh9NccgSBeFyLOJOCTdaE=;
+ b=is2PKhPq/03DUA9+KwidCDOolxyYhBVnpZk65kpm3V66wvYwan+Rf6S3HVO6NJmL9SmBNP
+ 9bK2cra20fmNCqcZQ5TSsrE3qTS9DB75+9nS/wpvlArOZ+Fdexj3khG2qMfCI4B9RAE3G2
+ jGsSHRso4uuRtsbh4eXY+sV234BBbmg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-179-ro40hWbnPRC3WIiw2hoOGQ-1; Tue, 21 Jan 2020 09:46:16 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1948A1B18BF2;
+ Tue, 21 Jan 2020 14:46:15 +0000 (UTC)
+Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E264C5DA66;
+ Tue, 21 Jan 2020 14:46:10 +0000 (UTC)
+Date: Tue, 21 Jan 2020 15:46:08 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>
+Subject: Re: [PATCH v3] target/s390x/kvm: Enable adapter interruption
+ suppression again
+Message-ID: <20200121154608.0b043233.cohuck@redhat.com>
+In-Reply-To: <95fa3c7d-8879-1401-6847-c5fa82a0cd3c@linux.ibm.com>
+References: <20200120132441.11884-1-thuth@redhat.com>
+ <20200120182747.5135fea8.cohuck@redhat.com>
+ <95fa3c7d-8879-1401-6847-c5fa82a0cd3c@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: ro40hWbnPRC3WIiw2hoOGQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,71 +75,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 21 Jan 2020 09:33:02 -0500
+Matthew Rosato <mjrosato@linux.ibm.com> wrote:
 
-Thomas Huth <thuth@redhat.com> writes:
+> On 1/20/20 12:27 PM, Cornelia Huck wrote:
+> > On Mon, 20 Jan 2020 14:24:41 +0100
+> > Thomas Huth <thuth@redhat.com> wrote:
+> >   
+> >> The AIS feature has been disabled late in the v2.10 development cycle since
+> >> there were some issues with migration (see commit 3f2d07b3b01ea61126b -
+> >> "s390x/ais: for 2.10 stable: disable ais facility"). We originally wanted
+> >> to enable it again for newer machine types, but apparently we forgot to do
+> >> this so far. Let's do it for the new s390-ccw-virtio-5.0 machine now.
+> >>
+> >> While at it, also add a more verbose comment why we need the *_allowed()
+> >> wrappers in s390-virtio-ccw.c.
+> >>
+> >> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1756946
+> >> Reviewed-by: David Hildenbrand <david@redhat.com>
+> >> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> >> ---
+> >>   v3: Moved "s390mc->kvm_ais_allowed = false" to the end of the function
+> >>
+> >>   hw/s390x/s390-virtio-ccw.c         | 20 +++++++++++++++++---
+> >>   include/hw/s390x/s390-virtio-ccw.h |  3 +++
+> >>   target/s390x/kvm.c                 |  9 ++++++---
+> >>   3 files changed, 26 insertions(+), 6 deletions(-)  
+> >   
+> >> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> >> index 15260aeb9a..cf4fb4f2d9 100644
+> >> --- a/target/s390x/kvm.c
+> >> +++ b/target/s390x/kvm.c
+> >> @@ -365,10 +365,13 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+> >>       /*
+> >>        * The migration interface for ais was introduced with kernel 4.13
+> >>        * but the capability itself had been active since 4.12. As migration
+> >> -     * support is considered necessary let's disable ais in the 2.10
+> >> -     * machine.
+> >> +     * support is considered necessary, we only try to enable this for
+> >> +     * newer machine types if KVM_CAP_S390_AIS_MIGRATION is available.
+> >>        */
+> >> -    /* kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0); */
+> >> +    if (kvm_ais_allowed() &&
+> >> +        kvm_check_extension(s, KVM_CAP_S390_AIS_MIGRATION)) {  
+> > 
+> > Hnm, we actually need a kernel irqchip with the kvm flic to get ais to
+> > work; else we'll fail with
+> > 
+> > qemu-system-s390x: Failed to inject airq with AIS supported
+> > 
+> > in the kernel_irqchip=off case, as we won't have an I/O adapter
+> > registered.
+> > 
+> > Adding 'kvm_kernel_irqchip_required() &&' seems to do the trick;
+> > comments?
+> >   
+> 
+> In spirit, I agree with this idea.  But, a quick test shows that putting 
+> this check here results in ais=off for the 'none' machine case (libvirt 
+> capabilities detection).  I think we have to only look at 
+> kvm_kernel_irqchip_required() when working with a real machine.
 
-> iotest 147 and 205 have recently been marked as "NBD-only", so they
-> are currently simply skipped and thus can be removed.
->
-> iotest 129 occasionally fails in the gitlab-CI, and according to Max,
-> there are some known issues with this test (see for example this URL:
-> https://lists.nongnu.org/archive/html/qemu-block/2019-06/msg00499.html ),
-> so for the time being, let's disable it until the problems are fixed.
->
-> The iotests 040, 127, 203 and 256 are scheduled to become part of "make
-> check-block", so we also do not have to test them seperately here anymore.
->
-> On the other side, new iotests have been added to the QEMU repository
-> in the past months, so we can now add some new test > 256 instead.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Sigh, I think you're right again. We need to check for the 'none'
+machine here; but I can't think of a non-ugly way to do so...
 
-Queued to testing/next, thanks.
+> 
+> >> +        kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0);
+> >> +    }
+> >>   
+> >>       kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
+> >>       return 0;  
+> > 
+> >   
+> 
 
-> ---
->  .gitlab-ci.yml | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index d9a90f795d..52d73c1c72 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -51,12 +51,12 @@ build-tcg-disabled:
->   - make check-qapi-schema
->   - cd tests/qemu-iotests/
->   - ./check -raw 001 002 003 004 005 008 009 010 011 012 021 025 032 033 =
-048
-> -            052 063 077 086 101 104 106 113 147 148 150 151 152 157 159 =
-160
-> -            163 170 171 183 184 192 194 197 205 208 215 221 222 226 227 =
-236
-> - - ./check -qcow2 028 040 051 056 057 058 065 067 068 082 085 091 095 09=
-6 102
-> -            122 124 127 129 132 139 142 144 145 147 151 152 155 157 165 =
-194
-> -            196 197 200 202 203 205 208 209 215 216 218 222 227 234 246 =
-247
-> -            248 250 254 255 256
-> +            052 063 077 086 101 104 106 113 148 150 151 152 157 159 160 =
-163
-> +            170 171 183 184 192 194 197 208 215 221 222 226 227 236 253 =
-277
-> + - ./check -qcow2 028 051 056 057 058 065 067 068 082 085 091 095 096 10=
-2 122
-> +            124 132 139 142 144 145 151 152 155 157 165 194 196 197 200 =
-202
-> +            208 209 215 216 218 222 227 234 246 247 248 250 254 255 257 =
-258
-> +            260 261 262 263 264 270 272 273 277 279
->=20=20
->  build-user:
->   script:
-
-
---=20
-Alex Benn=C3=A9e
 
