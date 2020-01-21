@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3A6143EE7
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:06:24 +0100 (CET)
-Received: from localhost ([::1]:54592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88413143EFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:12:23 +0100 (CET)
+Received: from localhost ([::1]:54842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ituAh-0007fJ-IE
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:06:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37931)
+	id 1ituGT-0006mm-Tj
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:12:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40469)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ittxs-0002Dz-Ak
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 08:53:13 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ituCM-0002cW-D9
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:08:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ittxo-0001hP-J0
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 08:53:08 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48782
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ittxo-0001h7-EZ
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 08:53:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579614783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G5TpN+Qc+FtvApbEYrJbCTF5+CFEz1LtSV4Do/2wUEo=;
- b=ai8ncjZtstaAaMOKIPkqNG5iwvGAQcQpp/gR5FTJwcIt5exDcBD7D0+0ZwjoiStz4aD/Hg
- GqUCDjcC6c52SEMmzRwypqBTC9krG9WHj3HQl8ivqqRpWL+y873ttcSmjHGoG4g+RdLPTg
- mlDTk1+hvwo4TJ9b9s0OJLAvA8PZypU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408--CJ5YUX5PhqESYvqlXw5Bg-1; Tue, 21 Jan 2020 08:53:03 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 772F4108442E;
- Tue, 21 Jan 2020 13:53:01 +0000 (UTC)
-Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6D6E75DA76;
- Tue, 21 Jan 2020 13:52:53 +0000 (UTC)
-Date: Tue, 21 Jan 2020 14:52:51 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 05/10] target/s390x: Remove duplicated ifdef macro
-Message-ID: <20200121145251.39ceabe2.cohuck@redhat.com>
-In-Reply-To: <20200121110349.25842-6-philmd@redhat.com>
-References: <20200121110349.25842-1-philmd@redhat.com>
- <20200121110349.25842-6-philmd@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ituCL-0000bo-6e
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:08:06 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42767)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1ituCL-0000bX-1n
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:08:05 -0500
+Received: by mail-oi1-x243.google.com with SMTP id 18so2607579oin.9
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 06:08:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Dtq4GEHNbtHbv8UM2MbbYuRO7vvCC0elQwHfGqvU8vc=;
+ b=FXsPHAiB6kBXA3ZZjRHINi4SEz1bLadGeMhspCgB8ElkLiYTGpb1M+pYUjtajQ8F3G
+ 2Q/Ln00oM/wVikzchUaWneWLZTZu2M7YUt2uSCNuqMYYQWIoNRBgpxBgTL5P9Dz2ZVsm
+ 6X+/kJRdTuH/ZIVVWX7o/BU5+byz0Rhx+3FfTeNerx3EfGN4Qic5tRuwSGyMqKCKI2+J
+ P8JG95KzpK1mhMCCaEHzVgppEQ3D6g2umKOFy/IdNEqO4KlLkZ9B3USKuw8Cno0kJnI2
+ /upNhayvvnX3gSgqvvfuGDlkFn6+QpEVOSqGueRBa5wJln1Gn9D3wOBMNYMzbS5IFVy7
+ gjcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Dtq4GEHNbtHbv8UM2MbbYuRO7vvCC0elQwHfGqvU8vc=;
+ b=pTRlRoK3FWUxopZQzm9bxCWiR4cTgIdfoUJ5++xEM9hukXf9Peng3y7VxrjqGAyBRX
+ W8R9BvJbePG/ggjas8e/YNdGEQ7b4SCJK8nV0Q+RMTxefmWVQULhwETxioe1Y8wO0/Ig
+ jlBvUD0sfc0RpVw2Ru5hPUPkIdnhlxtQYNCS29m+w7htrHFFrXW0R3gP/Uc5Om5xgDbO
+ q2CME2xBP7G4eM5CTx8bBTA79f3zPrsBgnZghG5u0g+GyMcSnr6J9gX7bGuhXXfTiIoy
+ CSfUYq9hkUANt9jjXmmkqSN7DnpPvVtn+AAR6NUb7/GrwV7zxCTU0OG26Gma+d/LqhTN
+ UORA==
+X-Gm-Message-State: APjAAAWSzSAMr0ebyfu1kwRse4ai6D8Ab03PLAN/i+sMBqsFvQcNLJRe
+ ZrOwJJ5s9swXIPkLT8VJybOHA5aZmHoI1LPmEvE=
+X-Google-Smtp-Source: APXvYqzCpDWGyinZn3Ki+YzuHoBQW8QetOyXDLNJ9WjcI2HyzAd5nTLfJJdvy3m9ZPwV3GlmR+xOMAdgl3ba0EVYhWs=
+X-Received: by 2002:aca:1b08:: with SMTP id b8mr3135855oib.62.1579615684192;
+ Tue, 21 Jan 2020 06:08:04 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: -CJ5YUX5PhqESYvqlXw5Bg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.61
+References: <324a-5e231180-7-6946d180@169257031>
+ <20200120145024.GJ345995@stefanha-x1.localdomain>
+In-Reply-To: <20200120145024.GJ345995@stefanha-x1.localdomain>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Tue, 21 Jan 2020 15:07:53 +0100
+Message-ID: <CAL1e-=in3inmtH=4ZjM2bxnVPJz2GVW4pwTJ8PVkWoqiunPPfA@mail.gmail.com>
+Subject: Re: [GSoC/Outreachy QEMU project proposal] Measure and Analyze QEMU
+ Performance
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,48 +73,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Like Xu <like.xu@linux.intel.com>,
- David Hildenbrand <david@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Aleksandar Markovic <Aleksandar.Markovic@rt-rk.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Jan 2020 12:03:44 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+On Mon, Jan 20, 2020 at 3:51 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> On Sat, Jan 18, 2020 at 03:08:37PM +0100, Aleksandar Markovic wrote:
+> > 3) The community will be given all devised performance measurement methods in the form of easily reproducible step-by-step setup and execution procedures.
+>
+> Tracking performance is a good idea and something that has not been done
+> upstream yet.
 
-> Commit ae71ed8610 replaced the use of global max_cpus variable
-> with a machine property, but introduced a unnecessary ifdef, as
-> this block is already in the 'not CONFIG_USER_ONLY' branch part:
->=20
->    86 #if defined(CONFIG_USER_ONLY)
->    87
->   ...
->   106 #else /* !CONFIG_USER_ONLY */
->   107
->   ...
->   292 static void do_ext_interrupt(CPUS390XState *env)
->   293 {
->   ...
->   313 #ifndef CONFIG_USER_ONLY
->   314         MachineState *ms =3D MACHINE(qdev_get_machine());
->   315         unsigned int max_cpus =3D ms->smp.max_cpus;
->   316 #endif
->=20
-> To ease code review, remove the duplicated preprocessor macro,
-> and move the declarations at the beginning of the statement.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> v2: New patch
-> Cc: Like Xu <like.xu@linux.intel.com>
-> ---
->  target/s390x/excp_helper.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+Thanks for the interest, Stefan!
 
-Thanks, applied.
+>  A few questions:
+>
+>  * Will benchmarks be run automatically (e.g. nightly or weekly) on
+>    someone's hardware or does every TCG architecture maintainer need to
+>    run them manually for themselves?
 
+If the community wants it, definitely yes. Once the methodology is
+developed, it should be straightforward to setup nightly and/or weekly
+benchmarks - that could definitely include sending mails with reports
+to the entire list or just individuals or subgroups. The recipient
+choice is just a matter or having decent criteria about
+appropriateness of information within the message (e.g. not to flood
+the list with the data most people are not really interested).
+
+For linux-user tests, they are typically very quick, and nightly tests
+are quite feasible to run. On someone hardware, of course, and
+consistently always on the same hardware, if possible. If it makes
+sense, one could setup multiple test beds with a variety of hardware
+setups.
+
+For system mode tests, I knoe they are much more difficult to
+automate, and, on top of that, there could be greater risk of
+hangs/crashes Also, considering the number of machines we support,
+those tests could consume much more time - perhaps even one day would
+not be sufficient, if we have many machines and boot/shutdown
+variants. For these reason, perhaps weekly executions would be more
+appropriate for them, and, in general, given greater complexity, the
+expectation from system-mode performance tests should be better kept
+quite low for now.
+
+>  * Where will the benchmark result history be stored?
+>
+
+If emailing is set up, the results could be reconstructed from emails.
+But, yes, it would be better if the result history is kept somewhere
+on an internet-connected file server
+
+Yours,
+Aleksandar
+
+> Stefan
 
