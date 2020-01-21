@@ -2,54 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C223143604
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 04:45:42 +0100 (CET)
-Received: from localhost ([::1]:47740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A82D114360C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 04:49:50 +0100 (CET)
+Received: from localhost ([::1]:47818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itkU0-0003r6-Uv
-	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 22:45:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55435)
+	id 1itkY1-0007or-PA
+	for lists+qemu-devel@lfdr.de; Mon, 20 Jan 2020 22:49:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55948)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1itkSE-0002ZJ-Lx
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 22:43:52 -0500
+ (envelope-from <guoheyi@huawei.com>) id 1itkX5-00078D-35
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 22:48:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1itkSC-0006H0-GL
- for qemu-devel@nongnu.org; Mon, 20 Jan 2020 22:43:50 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:60707 helo=ozlabs.org)
+ (envelope-from <guoheyi@huawei.com>) id 1itkX3-0000o5-Tm
+ for qemu-devel@nongnu.org; Mon, 20 Jan 2020 22:48:51 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:38382 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1itkSB-00069F-Mk; Mon, 20 Jan 2020 22:43:48 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 481vXF747Rz9sRK; Tue, 21 Jan 2020 14:43:41 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1579578222;
- bh=AORKeOJjd3mN3oqdZy48iMYVh1Af/SllZtLMPwJzK2o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JF99jYDgTum2qO53SbKw2MhYnjRaQnSU5R6ZKF4l22cHX076I3awao5ZXZQLH/wnp
- Hp3s+Ef7lvDg49KvR7CTZCVDfwYM0y8T6TCcfSRPqBvvFhICnpg1p8q6h0iT/S53f1
- FmrEbs8o7pEty7XeBOgPubcvbfj+XYm+bnY+5Vug=
-Date: Tue, 21 Jan 2020 14:43:32 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] spapr: Migrate CAS reboot flag
-Message-ID: <20200121034332.GC265522@umbus.fritz.box>
-References: <157911051688.345768.16136592081655557565.stgit@bahia.lan>
- <ed2df775-b4d5-4ea7-ccf6-637c037f897b@redhat.com>
- <20200116094848.555c170d@bahia.lan>
- <2dda458a-dfa1-ab23-4a97-d27d9266226b@redhat.com>
- <20200116131435.3985e86e@bahia.lan>
- <20200116192902.63674769@bahia.lan> <20200117091608.GV54439@umbus>
- <20200117164427.2c238412@bahia.lan>
- <20200120090438.75ff9e65@bahia.lan>
+ (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
+ id 1itkX1-0000gv-1A; Mon, 20 Jan 2020 22:48:47 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 4110858C8C31749A7AB5;
+ Tue, 21 Jan 2020 11:48:39 +0800 (CST)
+Received: from [127.0.0.1] (10.133.216.73) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Tue, 21 Jan 2020
+ 11:48:29 +0800
+Subject: Re: [PATCH 1/2] arm/virt/acpi: remove meaningless sub device "PR0"
+ from PCI0
+To: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>
+References: <20191219064759.35053-1-guoheyi@huawei.com>
+ <20191219064759.35053-2-guoheyi@huawei.com>
+ <20200113133702.1dea867b@redhat.com>
+From: Guoheyi <guoheyi@huawei.com>
+Message-ID: <613eaf96-c49d-11ac-1204-8c762a8295cc@huawei.com>
+Date: Tue, 21 Jan 2020 11:48:28 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ABTtc+pdwF7KHXCz"
-Content-Disposition: inline
-In-Reply-To: <20200120090438.75ff9e65@bahia.lan>
+In-Reply-To: <20200113133702.1dea867b@redhat.com>
+Content-Type: text/plain; charset="gbk"; format=flowed
+X-Originating-IP: [10.133.216.73]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,232 +57,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Lukas Doktor <ldoktor@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, Shannon
+ Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Julia,
 
---ABTtc+pdwF7KHXCz
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Could you provide some comments or advice?
 
-On Mon, Jan 20, 2020 at 09:04:38AM +0100, Greg Kurz wrote:
-> On Fri, 17 Jan 2020 16:44:27 +0100
-> Greg Kurz <groug@kaod.org> wrote:
->=20
-> > On Fri, 17 Jan 2020 19:16:08 +1000
-> > David Gibson <david@gibson.dropbear.id.au> wrote:
-> >=20
-> > > On Thu, Jan 16, 2020 at 07:29:02PM +0100, Greg Kurz wrote:
-> > > > On Thu, 16 Jan 2020 13:14:35 +0100
-> > > > Greg Kurz <groug@kaod.org> wrote:
-> > > >=20
-> > > > > On Thu, 16 Jan 2020 11:37:24 +0100
-> > > > > Laurent Vivier <lvivier@redhat.com> wrote:
-> > > > >=20
-> > > > > > On 16/01/2020 09:48, Greg Kurz wrote:
-> > > > > > > On Wed, 15 Jan 2020 19:10:37 +0100
-> > > > > > > Laurent Vivier <lvivier@redhat.com> wrote:
-> > > > > > >=20
-> > > > > > >> Hi,
-> > > > > > >>
-> > > > > > >> On 15/01/2020 18:48, Greg Kurz wrote:
-> > > > > > >>> Migration can potentially race with CAS reboot. If the migr=
-ation thread
-> > > > > > >>> completes migration after CAS has set spapr->cas_reboot but=
- before the
-> > > > > > >>> mainloop could pick up the reset request and reset the mach=
-ine, the
-> > > > > > >>> guest is migrated unrebooted and the destination doesn't re=
-boot it
-> > > > > > >>> either because it isn't aware a CAS reboot was needed (eg, =
-because a
-> > > > > > >>> device was added before CAS). This likely result in a broke=
-n or hung
-> > > > > > >>> guest.
-> > > > > > >>>
-> > > > > > >>> Even if it is small, the window between CAS and CAS reboot =
-is enough to
-> > > > > > >>> re-qualify spapr->cas_reboot as state that we should migrat=
-e. Add a new
-> > > > > > >>> subsection for that and always send it when a CAS reboot is=
- pending.
-> > > > > > >>> This may cause migration to older QEMUs to fail but it is s=
-till better
-> > > > > > >>> than end up with a broken guest.
-> > > > > > >>>
-> > > > > > >>> The destination cannot honour the CAS reboot request from a=
- post load
-> > > > > > >>> handler because this must be done after the guest is fully =
-restored.
-> > > > > > >>> It is thus done from a VM change state handler.
-> > > > > > >>>
-> > > > > > >>> Reported-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
-> > > > > > >>> Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > > > > >>> ---
-> > > > > > >>>
-> > > > > > >>
-> > > > > > >> I'm wondering if the problem can be related with the fact th=
-at
-> > > > > > >> main_loop_should_exit() could release qemu_global_mutex in
-> > > > > > >> pause_all_vcpus() in the reset case?
-> > > > > > >>
-> > > > > > >> 1602 static bool main_loop_should_exit(void)
-> > > > > > >> 1603 {
-> > > > > > >> ...
-> > > > > > >> 1633     request =3D qemu_reset_requested();
-> > > > > > >> 1634     if (request) {
-> > > > > > >> 1635         pause_all_vcpus();
-> > > > > > >> 1636         qemu_system_reset(request);
-> > > > > > >> 1637         resume_all_vcpus();
-> > > > > > >> 1638         if (!runstate_check(RUN_STATE_RUNNING) &&
-> > > > > > >> 1639                 !runstate_check(RUN_STATE_INMIGRATE)) {
-> > > > > > >> 1640             runstate_set(RUN_STATE_PRELAUNCH);
-> > > > > > >> 1641         }
-> > > > > > >> 1642     }
-> > > > > > >> ...
-> > > > > > >>
-> > > > > > >> I already sent a patch for this kind of problem (in current =
-Juan pull
-> > > > > > >> request):
-> > > > > > >>
-> > > > > > >> "runstate: ignore finishmigrate -> prelaunch transition"
-> > > > > > >>
-> > > > > > >=20
-> > > > > > > IIUC your patch avoids an invalid 'prelaunch' -> 'postmigrate=
-' runstate
-> > > > > > > transition that can happen if the migration thread sets the r=
-unstate to
-> > > > > > > 'finishmigrate' when pause_all_vcpus() releases the main loop=
- mutex.
-> > > > > > >=20
-> > > > > > > ie. symptom of the problem is QEMU aborting, correct ? The is=
-sue I'm
-> > > > > > > trying to fix is a guest breakage caused by a discrepancy bet=
-ween
-> > > > > > > QEMU and the guest after migration has succeeded.
-> > > > > > >=20
-> > > > > > >> but I don't know if it could fix this one.
-> > > > > > >>
-> > > > > > >=20
-> > > > > > > I don't think so and your patch kinda illustrates it. If the =
-runstate
-> > > > > > > is 'finishmigrate' when returning from pause_all_vcpus(), thi=
-s means
-> > > > > > > that state was sent to the destination before we could actual=
-ly reset
-> > > > > > > the machine.
-> > > > > >=20
-> > > > > > Yes, you're right.
-> > > > > >=20
-> > > > > > But the question behind my comment was: is it expected to have =
-a pending
-> > > > > > reset while we are migrating?
-> > > > > >=20
-> > > > >=20
-> > > > > Nothing prevents qemu_system_reset_request() to be called when mi=
-gration
-> > > > > is active.=20
-> > > > >=20
-> > > > > > Perhaps H_CAS can return H_BUSY and wait the end of the migrati=
-on and
-> > > > > > then be fully executed on destination?
-> > > > > >=20
-> > > > >=20
-> > > > > And so we would need to teach SLOF to try H_CAS again until it st=
-ops
-> > > > > returning H_BUSY ? It seems safer to migrate the CAS reboot flag =
-IMHO.
-> > > > >=20
-> > > >=20
-> > > > Ok I've tried that with a patched SLOF that sleeps 500ms and tries =
-CAS
-> > > > again if H_BUSY was returned. It fixes the issue but it looks a bit
-> > > > ugly because of the polling with an arbitrary timeout in SLOF... I'm
-> > > > not very comfortable either with calling migration_is_active() from
-> > > > the CAS code in QEMU.
-> > > >=20
-> > > > David,
-> > > >=20
-> > > > Any suggestion ?
-> > >=20
-> > > Yeah, I think looping in SLOF is a worse idea than migrating the
-> > > cas_reboot flag.
-> > >=20
-> > > But.. a better solution still might be to just remove the remaining
-> > > causes for CAS reboot entirely.  CAS reboots pretty much suck when
-> > > they happen, anyway.
-> > >=20
-> >=20
-> > I Agree.
-> >=20
-> > > With the irq changeover condition removed, I think the remaining
-> > > causes are more theoretical than practical situations at this point.
-> > >=20
-> >=20
-> > FWIW, hotpluggging a PCI device before CAS result in a hung guest (not =
-yet
-> > investigated the details).
->=20
-> commit 10f12e6450407b18b4d5a6b50d3852dcfd7fff75
-> Author: Daniel Henrique Barboza <danielhb@linux.vnet.ibm.com>
-> Date:   Wed Aug 30 15:21:41 2017 -0300
->=20
->     hw/ppc: CAS reset on early device hotplug
->=20
-> I'll have a look to see what can be done here.
+Thanks,
 
-Ah.. yes, that one might be a bit tricky.
+Heyi
 
-> But I agree the other check is more theoretical:
->=20
->     /* capabilities that have been added since CAS-generated guest reset.
->      * if capabilities have since been removed, generate another reset
->      */
->     spapr->cas_reboot =3D !spapr_ovec_subset(ov5_cas_old, spapr->ov5_cas);
->=20
-> Unless changing kernels or tempering with the kernel command line, I don't
-> see how some capabilities could change between the two CAS in practice.
+=D4=DA 2020/1/13 20:37, Igor Mammedov =D0=B4=B5=C0:
+> On Thu, 19 Dec 2019 14:47:58 +0800
+> Heyi Guo <guoheyi@huawei.com> wrote:
+>
+>> The sub device "PR0" under PCI0 in ACPI/DSDT does not make any sense,
+>> so simply remote it.
+> Could you make commit message more concrete so it would say
+> why it doesn't make any sense.
+>
+> It seems to be there to describe root port,
+> I'd rather have PCI folk ack if it's ok to remove it.
+>
+>> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+>>
+>> ---
+>> Cc: Peter Maydell <peter.maydell@linaro.org>
+>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>> Cc: Igor Mammedov <imammedo@redhat.com>
+>> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+>> Cc: qemu-arm@nongnu.org
+>> Cc: qemu-devel@nongnu.org
+>> ---
+>>   hw/arm/virt-acpi-build.c          |   4 ----
+>>   tests/data/acpi/virt/DSDT         | Bin 18462 -> 18449 bytes
+>>   tests/data/acpi/virt/DSDT.memhp   | Bin 19799 -> 19786 bytes
+>>   tests/data/acpi/virt/DSDT.numamem | Bin 18462 -> 18449 bytes
+>>   4 files changed, 4 deletions(-)
+>>
+>> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+>> index bd5f771e9b..9f4c7d1889 100644
+>> --- a/hw/arm/virt-acpi-build.c
+>> +++ b/hw/arm/virt-acpi-build.c
+>> @@ -317,10 +317,6 @@ static void acpi_dsdt_add_pci(Aml *scope, const M=
+emMapEntry *memmap,
+>>       aml_append(method, aml_return(buf));
+>>       aml_append(dev, method);
+>>  =20
+>> -    Aml *dev_rp0 =3D aml_device("%s", "RP0");
+>> -    aml_append(dev_rp0, aml_name_decl("_ADR", aml_int(0)));
+>> -    aml_append(dev, dev_rp0);
+>> -
+>>       Aml *dev_res0 =3D aml_device("%s", "RES0");
+>>       aml_append(dev_res0, aml_name_decl("_HID", aml_string("PNP0C02")=
+));
+>>       crs =3D aml_resource_template();
+>> diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
+>> index d0f3afeb134fdf1c11f64cd06dbcdd30be603b80..b5895cb22446860a0b9be3=
+d32ec856feb388be4c 100644
+>> GIT binary patch
+>> delta 39
+>> vcmbO?fpOvlMlP3Nmk>b@1_q`B6S<_Bdg?Z+cXBfI+}XT|v(|R9jr$`2@RSW)
+>>
+>> delta 50
+>> zcmbO@fpOjhMlP3Nmk>D*1_q{tiCof5o%I{lJ2{y;?{412S!>J19TZ>?&k^tF5;R%I
+>> G{V4!>hYx%J
+>>
+>> diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DS=
+DT.memhp
+>> index 41ccc6431b917252bcbaac86c33b340c796be5ce..69ad844f65d047973a3e55=
+198beecd45a35b8fce 100644
+>> GIT binary patch
+>> delta 40
+>> wcmcaUi}BPfMlP3Nmk=3D*s1_q}3iCof5t(P{ccXBfI+}XT|v(|RAjk`1(02g)*ivR!s
+>>
+>> delta 51
+>> zcmX>#i}Cs_MlP3NmymE@1_mbiiCof5O_w*ScXBdy-rc;3v(}c2J1D>)o+IATC1|sb
+>> HyBr$;t7;Fc
+>>
+>> diff --git a/tests/data/acpi/virt/DSDT.numamem b/tests/data/acpi/virt/=
+DSDT.numamem
+>> index d0f3afeb134fdf1c11f64cd06dbcdd30be603b80..b5895cb22446860a0b9be3=
+d32ec856feb388be4c 100644
+>> GIT binary patch
+>> delta 39
+>> vcmbO?fpOvlMlP3Nmk>b@1_q`B6S<_Bdg?Z+cXBfI+}XT|v(|R9jr$`2@RSW)
+>>
+>> delta 50
+>> zcmbO@fpOjhMlP3Nmk>D*1_q{tiCof5o%I{lJ2{y;?{412S!>J19TZ>?&k^tF5;R%I
+>> G{V4!>hYx%J
+>>
+>
+> .
 
-Well, we want to be robust and it's at least theoretically possible
-that the guest will request different things on subsequent reboots.
-However I believe that the original rationale for this check was that
-while we could add things to the device tree for added capabilities,
-we didn't have a way to roll back the changes for removed
-capabilities.
-
-Now that we fully rebuild the device tree at CAS, I think this test
-can probably just go, although there's some double checking to do.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---ABTtc+pdwF7KHXCz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIyBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4mc2QACgkQbDjKyiDZ
-s5L5XA/4lzJNYoTdFSDXIRyWMAv88vRTbduTxF42lAmlk+6ylfz6JKqHuFscaqdH
-mueb50aTYCQHuoE4jJ+APw+R8cbWhnR9ok9OQNQf58hfbmfDYB//Av9l+uqo30WB
-8jNfPppNmX9nO2Oj4nftLflKewD5+p5uDA3hCXKkl3A0zCq58F2paVGDozaTY685
-sjHgCQ533Lqa7qR1AD1OxR//o1yunFMO50sIy+82l0qOkufpQwZwyr5FRfa6TE8T
-giEU/nneA+lucRXdLeX/ZqIhEihgdPS8CgY1dEMGXxM5mgtJg/afQID5DHnsTFoc
-+SbvqoIak/I+Fl0cmVpjEgwibS64kAMshXYDUSWG65WECL9oRF6+/eVZWVmvOfoE
-8p11ntvYQ4D99m13B9O5Yqv2dhKYqdBdkwBg9ORNYtwPmOwSnqx4n2EVfrg/oVCK
-DNVZwBSuZQRCws4jDDSXDHScY95OAkZKAXqq6cz1J7Na/qUusvumir737jcMH6GM
-7zlcZSBamNVrfauQ4HxIqAaLB0PHn1ZaGDHpHQFJux4Tz25L9+1x/ShueW8kjxqo
-ubHyO7zsOpTHS+yrSYUlz0Tz6PbZ5MjEhTQzbktfCL68+8RH99A7Qxg/sJbDtcj5
-rrsGsT2VyTxJMjx/yqB33iW6DAcHFaoSqX22QP51DAWJi03rUA==
-=ceRl
------END PGP SIGNATURE-----
-
---ABTtc+pdwF7KHXCz--
 
