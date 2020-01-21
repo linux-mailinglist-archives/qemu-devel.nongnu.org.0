@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD07014400C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:58:04 +0100 (CET)
-Received: from localhost ([::1]:56262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927BC143FC4
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:40:28 +0100 (CET)
+Received: from localhost ([::1]:55628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ituyh-0000pj-Lo
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:58:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47165)
+	id 1ituhV-0006nq-7a
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:40:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47142)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1itufS-0005A0-Nz
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:38:12 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1itufM-00050A-PZ
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:38:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1itufR-0005t6-7k
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:38:10 -0500
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:45395)
+ (envelope-from <alex.bennee@linaro.org>) id 1itufL-0005hH-DW
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:38:04 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40827)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1itufR-0005st-32
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:38:09 -0500
-Received: by mail-oi1-x235.google.com with SMTP id n16so2690322oie.12
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 06:38:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IRHS2RpIewZLZkK2/L/UIJowK8LK8qc93HfYLr9iNVI=;
- b=rvmHKJEvYW03ZzfM6YNoXnKUG3UEuCXyMg9RFII4SeTQr2qr9BdxvVpxJP4lI8zHgO
- KwWiKxnRvBKUPlMwpzXbCotA4ujhkU4lq9cG314sBdUl+Yd6ohCT6lQ4phNAeuQ1RlbM
- 8SdlY2qP/4SVBSDKzvBMXw3s0gO+dknk1txqfZ42vacyxKJl4NI7XwaJppuj14RwI0rP
- +3NZ7icVqGtLpp7KN/v+zeszsVoJcIDJaDNKZVqOK9Xi2djOCCpb7lIWVHXY22cQC4bY
- HUUkGPtZEUgLcZQaW5cPgCt0v9R7EHs7WyqWlvM3aRvq0oxTfYc7N9zkVVVWxMzBCrQM
- E8wg==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1itufL-0005fI-3n
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:38:03 -0500
+Received: by mail-wr1-x441.google.com with SMTP id c14so3458264wrn.7
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 06:38:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ROOYN1ctfCYBjn11qqR2j8UxTG/vGJxmvE2N0Lqjgmo=;
+ b=lkKm8BXhWsuutW+M2E1JXhJP5bOvcA2oUn147/WTZOP8TN9hnfj9pG8rYs8cz4VngA
+ QvxhKdmySDzy/dW/JDOITRGQSix8VP0xaCypA+CV8232lNCWskTgHks8jOe65GB7jt2A
+ QN1T1lm+MjzqiTZjgtipO2vzRSS3rEZWneNPeTe2oZuXmN1ik7pn65b0G4W6XKPvW3hb
+ YjaeVpxz+AR0jWg2Rxn/cRtog9HnReWPm0Dh18Tgj9G0lXGGEQu8bbj0QXSYtt99TsEG
+ ncIs1OeKk8v4e1LtdMTcO32CkoGblhzTWLPLEE3u/hEfU28t7anG1tGcUgwZ6Z5gWXlr
+ pOQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IRHS2RpIewZLZkK2/L/UIJowK8LK8qc93HfYLr9iNVI=;
- b=omKB8/NDV1AB+Fj19uX96vo4i5l20vOS1xOTHO04IaIVCzcOGBvBKU8NgjY6tZbp8d
- wqcjVN3f5YR9A77c/4rnYwaTJLQAsyRpZQwqs7ehnW08kSeZILZkF0Xj7w3yp4Jc5JnG
- NU55iNSWWcfG5kPy0+ZsJyXin+kLLHB8Qh3OwGL65JlcVzcHokFwlqU1MmXsN1Bcq4UQ
- GtZnZZqmOvPKD7bLt6FdkBcFVt+CnZFnyO637CeMRnR0geE/UcjmqPJAm9aSYJ09UogJ
- HeRVjug1C2e9o/XCCxMW7bc4+NImazbsz9aK41CdMPDLlKahJBx1lfOGRwcMRkeIkmet
- rYSw==
-X-Gm-Message-State: APjAAAX2ViB+MpExc7DJTK+3vqSlZaLcYHUCz23c7hFA4DdQqQ/0GjoA
- J9I8BIxrZavPBpH2yrqOAAo5kjXHo0HgK+P9CMvWyunPFFU=
-X-Google-Smtp-Source: APXvYqxf7PQ3dhpM7XRVvqu1zA2JKttTrpuS2vce1+b4MOdB6n2vUSTsUB+AxcyMtGbYi99DRlEGTrtvCneftl+Mqkg=
-X-Received: by 2002:a05:6808:6c5:: with SMTP id
- m5mr3133489oih.106.1579617488067; 
- Tue, 21 Jan 2020 06:38:08 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=ROOYN1ctfCYBjn11qqR2j8UxTG/vGJxmvE2N0Lqjgmo=;
+ b=Uae+Qv7XdK2ahEGZ3ektNjDHuuZydgQuNpkPbLg+1dOszuxuiP6UkQh4v9EdLSwY1A
+ IyeuP7vLC7F602WCrf9lRreTVqhRL8l2kX3e+l6tlr1GxCnq5rsq4r4CvXeSkHtxZWCp
+ rZ4mOjdwJLCW0xoX2zZ8R4jWoD6j7502XKpFBhg1BCiGKxxE2p/7KNflZwIqR1GZpLbu
+ NxSfzq7xtu1fApDfDrcF6hIMxNnQPlm9FnJy8JzDPArgoT9dmajeen4i07mOxSe3JeLT
+ IYGia1E7HLH3yztW/Z2e6/KpSqgcoLJxJmng5bGiN3DVcdvB9eVuEFt3DbZCO+5Y7GCZ
+ vXBg==
+X-Gm-Message-State: APjAAAVwA0YS2+Ttkied7S2kvUkuP2INkA49UxrfXP9NLsS+9gI/0cfN
+ 9nrP7z2sMRFrvLlgJs0vRg/i3A==
+X-Google-Smtp-Source: APXvYqwTr8poDt1a1299M8lwR6YAmO1x/Y9J5tz2wC5UNWx3Of2alHja5iD9mLnc8ydRQOuxMtU/dA==
+X-Received: by 2002:adf:f64b:: with SMTP id x11mr5527181wrp.355.1579617481520; 
+ Tue, 21 Jan 2020 06:38:01 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d8sm51676407wrx.71.2020.01.21.06.38.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jan 2020 06:38:00 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C344D1FF87;
+ Tue, 21 Jan 2020 14:37:59 +0000 (GMT)
+References: <20190717054655.14104-1-npiggin@gmail.com>
+ <87h81vdtv2.fsf@linaro.org> <1579604990.qzk2f3181l.astroid@bobo.none>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [Qemu-devel] [RFC PATCH] Implement qemu_thread_yield for posix,
+ use it in mttcg to handle EXCP_YIELD
+In-reply-to: <1579604990.qzk2f3181l.astroid@bobo.none>
+Date: Tue, 21 Jan 2020 14:37:59 +0000
+Message-ID: <87ftg827ug.fsf@linaro.org>
 MIME-Version: 1.0
-References: <324a-5e231180-7-6946d180@169257031>
- <a752c621-1c72-e43a-51d8-6b586a2a229b@redhat.com>
-In-Reply-To: <a752c621-1c72-e43a-51d8-6b586a2a229b@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Tue, 21 Jan 2020 15:37:57 +0100
-Message-ID: <CAL1e-=gUMRAZop5_9swhXXMw3E1QDVwXXcGLynRXScVi5xPmTw@mail.gmail.com>
-Subject: Re: [GSoC/Outreachy QEMU project proposal] Measure and Analyze QEMU
- Performance
-To: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::235
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,147 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <Aleksandar.Markovic@rt-rk.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 21, 2020 at 9:08 AM Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>=
- wrote:
->
-> Dne 18. 01. 20 v 15:08 Aleksandar Markovic napsal(a):
-> > Hi, everybody.
-> >
-> > I am going to propose several ideas for QEMU participation in GSoC/Outr=
-eachy in next few days. This is the first one. Please feel free to give an =
-honest feedback.
-> >
-> > Yours,
-> > Aleksandar
-> >
->
-> Hello Aleksandr,
->
-> sounds like a good plan, I'd like to be involved as well.
->
 
-Sure, I am glad to heard this.
+Nicholas Piggin <npiggin@gmail.com> writes:
 
-> Why? At Rad Hat I'm exploring a way to monitor qemu performance. At this =
-point it's x86_64 whole system only, but it should be flexible enough to wo=
-rk on various setups. Good news is we're in a process of upstreamizing our =
-setup so it might actually serve for the part II of your proposal. It's not=
- ready yet as it contains many ugly and downstream parts, but I'm replacing=
- the custom modules with Ansible and cleaning things from internal parts as=
- having it upstream is a high priority at this point. Our motivation is to =
-allow public upstream testing (again, starting with x86, but more will hope=
-fully come).
+> Alex Benn=C3=A9e's on December 20, 2019 11:11 pm:
+>>
+>> Nicholas Piggin <npiggin@gmail.com> writes:
+>>
+>>> This is a bit of proof of concept in case mttcg becomes more important
+>>> yield could be handled like this. You can have by accident or deliberat=
+ely
+>>> force vCPUs onto the same physical CPU and cause inversion issues when =
+the
+>>> lock holder was preempted by the waiter. This is lightly tested but not
+>>> to the point of measuring performance difference.
+>>
+>> Sorry I'm so late replying.
 >
-> Your proposal is fairly generic, I'm wondering which way it will turn. I =
-like the part I, it might catch low-level changes and should lower the vari=
-ability of results. In part II I'm a bit scared of how the scope will grow =
-(based on what I saw in my experiment). You have host, host kernel, host sy=
-stem, qemu, guest kernel, guest system and than the tested app, which might=
- result in a great jitter. Additionally qemu contains many features that ne=
-ed to be utilized, you have various disk formats, block devices, various pa=
-ssthrough options, ... as well as host/guest tune settings. It's gonna be h=
-ard to not to get lost in the depth and to deliver something useful while e=
-xtendable for the future...
+> That's fine if you'll also forgive me :)
 >
-
-My first impression is that your work and this proposal could be
-viewed much more as complementary, rather than largely overlapping.
-
-Yes, I am quite aware of the problem of data explosion, and I already
-explore different possibilities of dealing with it.
-
-Also, a student realistically can't do aweful lot of difficult work
-for 3 or 4 months, so I plan to focus on simplicity, and the community
-could further develop something more complex, if needed.
-
-> Anyway, please keep me in the loop and good luck with leading this into t=
-he right direction...
+>> Really this comes down to what EXCP_YIELD semantics are meant to mean.
+>> For ARM it's a hint operation because we also have WFE which should halt
+>> until there is some sort of change of state. In those cases exiting the
+>> main-loop and sitting in wait_for_io should be the correct response. If
+>> a vCPU is suspended waiting on the halt condition doesn't it have the
+>> same effect?
 >
+> For powerpc H_CONFER, the vCPU does not want to wait for ever, but just
+> give up a some time slice on the physical CPU and allow other vCPUs to
+> run. But it's not necessary that one does run (if they are all sleeping,
+> the hypervisor must prevent deadlock). How would you wait on such a
+> conditon?
 
-Definitely, and thanks!
+Isn't H_CONFER a hypercall rather than instruction though? In QEMU's TCG
+emulation case I would expect it just to exit to the (guest) hypervisor
+which then schedules the next (guest) vCPU. It shouldn't be something
+QEMU has to deal with.
 
-Best regards,
-Aleksandar
+If you are running QEMU as a KVM monitor this is still outside of it's
+scope as all the scheduling shenanigans are dealt with inside the
+kernel.
 
-> Regards,
-> Luk=C3=A1=C5=A1
->
-> >
-> >
-> > *Measure and Analyze Performance of
-> > QEMU User and System Mode Emulation*
-> >
-> >
-> > _/PLANNED ACTIVITIES/_
-> >
-> > PART I: (user mode)
-> >
-> >    a) select around a dozen test programs (resembling components of SPE=
-C benchmark, but must be open source, and preferably license compatible wit=
-h QEMU); test programs should be distributed like this: 4-5 FPU CPU-intensi=
-ve, 4-5 non-FPU CPU intensive, 1-2 I/O intensive;
-> >    b) measure execution time and other performance data in user mode ac=
-ross all platforms for ToT:
-> >        - try to improve performance if there is an obvious bottleneck (=
-but this is unlikely);
-> >        - develop tests that will be protection against performance regr=
-essions in future.
-> >    c) measure execution time in user-mode for selected platforms for al=
-l QEMU versions in last 5 years:
-> >        - confirm performance improvements and/or detect performance deg=
-radations.
-> >    d) summarize all results in a comprehensive form, using also graphic=
-s/data visualization.
-> >
-> > PART II: (system mode)
-> >
-> >    a) measure execution time and other performance data for boot/shutdo=
-wn cycle for selected machines for ToT:
-> >        - try to improve performance if there is an obvious bottleneck;
-> >        - develop tests that will be protection against performance regr=
-essions in future.
-> >    b) summarize all results in a comprehensive form.
-> >
-> >
-> > /_DELIVERABLES_/
-> >
-> > 1) Each maintainer for target will be given a list of top 25 functions =
-in terms of spent host time for each benchmark described in the previous se=
-ction. Additional information and observations will be also provided, if th=
-e judgment is they are useful and relevant.
-> >
-> > 2) Each maintainer for machine (that has successful boot/shutdown cycle=
-) will be given a list of top 25 functions in terms of spent host time duri=
-ng boot/shutdown cycle. Additional information and observations will be als=
-o provided, if the judgment is they are useful and relevant.
-> >
-> > 3) The community will be given all devised performance measurement meth=
-ods in the form of easily reproducible step-by-step setup and execution pro=
-cedures.
-> >
-> > (parts 1) and 2) will be, of course, published to everybody, maintainer=
-s are simply singled out as main recipients and decision-makers on possible=
- next action items)
-> >
-> > Deliverable will be distributed over wide time interval (in other words=
-, they will not be presented just at the end of project, but gradually duri=
-ng project execution).
-> >
-> >
-> > /Mentor:/ Aleksandar Markovic (myself) (but, I am perfectly fine if som=
-ebody else wants to mentor the project, if interested)
-> >
-> > /Student:/ open
-> >
-> >
-> > That would be all, feel free to ask for additional info and/or clarific=
-ation.
-> >
->
->
+From QEMU's TCG point of view we want to concern ourselves with what the
+real hardware would do - which I think in this case is drop to the
+hypervisor and let it sort it out.
+
+--
+Alex Benn=C3=A9e
 
