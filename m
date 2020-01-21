@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3CB2143E50
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:43:23 +0100 (CET)
-Received: from localhost ([::1]:54026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5899A143E07
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:30:44 +0100 (CET)
+Received: from localhost ([::1]:53836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ittoQ-0006aI-Kv
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:43:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52243)
+	id 1ittcB-0008NX-Ab
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:30:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52452)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itsfy-00021Y-CO
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:30:38 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itsgV-0002aL-2R
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itsfu-00049x-D7
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:30:34 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26764
+ (envelope-from <dgilbert@redhat.com>) id 1itsgN-0004MK-R6
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:31:05 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25014
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsfu-00049k-A1
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:30:30 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsgN-0004MD-GR
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:30:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609829;
+ s=mimecast20190719; t=1579609859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6dq0s0+gC/9ftFvKKedTgBSQhvPR+h29e/IF/u8TUVs=;
- b=FDTFydDrdmH7aMyoGFwtBEO23lG80uUe6VZO6IbIoPaCAR7gka0yJIKdWE/2sAPXLSUqKF
- H0N+/sSV7LNf7+yHFphI2Rq39t1GVDxGI0Oz9oy8l+uTlwx0pQIk279BsU1W2DuPV/mZQH
- AVAJ9chkPUnN0HwheehBH+3DdtkzVn4=
+ bh=QbMS0kP6iKeNqu2Mv7H+soNaPN09g0beLkqrgUlqAWQ=;
+ b=U2C+iKLjGFlTVGVzmExAo9PaB4ud5jJp/egn6l3carspsKBU5kUsent63gBS7ODYe9Xo/Q
+ aAzfWAmc7CRVSfEqpIWSTrJmztLJ5+x/z2c+iubpdzpKCFG/t7lk9JK5JWe0GwZHYOELxt
+ ivj/WRCbZfA+X2qgv+Z1RMS+RHV6ZUo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-8w6AXe_0PaOhoRpQ9RQz-A-1; Tue, 21 Jan 2020 07:30:26 -0500
+ us-mta-117-q6YIOOoyOnukdUWNzaMZZA-1; Tue, 21 Jan 2020 07:30:57 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B1F91084455;
- Tue, 21 Jan 2020 12:30:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 603428C7A53;
+ Tue, 21 Jan 2020 12:30:56 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94BF160BE0;
- Tue, 21 Jan 2020 12:30:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 933ED60BE0;
+ Tue, 21 Jan 2020 12:30:54 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 064/109] virtiofsd: Handle hard reboot
-Date: Tue, 21 Jan 2020 12:23:48 +0000
-Message-Id: <20200121122433.50803-65-dgilbert@redhat.com>
+Subject: [PATCH v2 073/109] virtiofsd: extract root inode init into
+ setup_root()
+Date: Tue, 21 Jan 2020 12:23:57 +0000
+Message-Id: <20200121122433.50803-74-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 8w6AXe_0PaOhoRpQ9RQz-A-1
+X-MC-Unique: q6YIOOoyOnukdUWNzaMZZA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -76,51 +77,94 @@ Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Miklos Szeredi <mszeredi@redhat.com>
 
-Handle a
-  mount
-  hard reboot (without unmount)
-  mount
+Inititialize the root inode in a single place.
 
-we get another 'init' which FUSE doesn't normally expect.
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+dgilbert:
+with fix suggested by Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ tools/virtiofsd/passthrough_ll.c | 35 +++++++++++++++++++++++---------
+ 1 file changed, 25 insertions(+), 10 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index 5565f78208..7dafe02db8 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -2435,7 +2435,21 @@ void fuse_session_process_buf_int(struct fuse_sessio=
-n *se,
-             goto reply_err;
-         }
-     } else if (in->opcode =3D=3D FUSE_INIT || in->opcode =3D=3D CUSE_INIT)=
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 2d2c10ada9..f71085bf1b 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -2351,6 +2351,30 @@ static void log_func(enum fuse_log_level level, cons=
+t char *fmt, va_list ap)
+     }
+ }
+=20
++static void setup_root(struct lo_data *lo, struct lo_inode *root)
++{
++    int fd, res;
++    struct stat stat;
++
++    fd =3D open("/", O_PATH);
++    if (fd =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "open(%s, O_PATH): %m\n", lo->source);
++        exit(1);
++    }
++
++    res =3D fstatat(fd, "", &stat, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
++    if (res =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "fstatat(%s): %m\n", lo->source);
++        exit(1);
++    }
++
++    root->is_symlink =3D false;
++    root->fd =3D fd;
++    root->ino =3D stat.st_ino;
++    root->dev =3D stat.st_dev;
++    root->refcount =3D 2;
++}
++
+ int main(int argc, char *argv[])
  {
--        goto reply_err;
-+        if (fuse_lowlevel_is_virtio(se)) {
-+            /*
-+             * TODO: This is after a hard reboot typically, we need to do
-+             * a destroy, but we can't reply to this request yet so
-+             * we can't use do_destroy
-+             */
-+            fuse_log(FUSE_LOG_DEBUG, "%s: reinit\n", __func__);
-+            se->got_destroy =3D 1;
-+            se->got_init =3D 0;
-+            if (se->op.destroy) {
-+                se->op.destroy(se->userdata);
-+            }
-+        } else {
-+            goto reply_err;
-+        }
+     struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
+@@ -2426,8 +2450,6 @@ int main(int argc, char *argv[])
+     if (lo.debug) {
+         current_log_level =3D FUSE_LOG_DEBUG;
+     }
+-    lo.root.refcount =3D 2;
+-
+     if (lo.source) {
+         struct stat stat;
+         int res;
+@@ -2446,7 +2468,6 @@ int main(int argc, char *argv[])
+     } else {
+         lo.source =3D "/";
+     }
+-    lo.root.is_symlink =3D false;
+     if (!lo.timeout_set) {
+         switch (lo.cache) {
+         case CACHE_NEVER:
+@@ -2466,13 +2487,6 @@ int main(int argc, char *argv[])
+         exit(1);
      }
 =20
-     err =3D EACCES;
+-    lo.root.fd =3D open(lo.source, O_PATH);
+-
+-    if (lo.root.fd =3D=3D -1) {
+-        fuse_log(FUSE_LOG_ERR, "open(\"%s\", O_PATH): %m\n", lo.source);
+-        exit(1);
+-    }
+-
+     se =3D fuse_session_new(&args, &lo_oper, sizeof(lo_oper), &lo);
+     if (se =3D=3D NULL) {
+         goto err_out1;
+@@ -2495,6 +2509,7 @@ int main(int argc, char *argv[])
+=20
+     setup_sandbox(&lo, se, opts.syslog);
+=20
++    setup_root(&lo, &lo.root);
+     /* Block until ctrl+c or fusermount -u */
+     ret =3D virtio_loop(se);
+=20
 --=20
 2.24.1
 
