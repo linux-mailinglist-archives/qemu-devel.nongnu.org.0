@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB39D143D9E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:05:14 +0100 (CET)
-Received: from localhost ([::1]:53514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7736C143DAA
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 14:08:37 +0100 (CET)
+Received: from localhost ([::1]:53556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ittDV-0003K7-A1
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:05:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51366)
+	id 1ittGm-00073O-Bp
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 08:08:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itscK-00076B-4g
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:50 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itsck-0007MU-Sl
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:27:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itscI-0002GN-IM
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29233
+ (envelope-from <dgilbert@redhat.com>) id 1itscj-0002dT-Ek
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:27:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22470
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itscI-0002GH-Dz
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:26:46 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itscj-0002dD-9M
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:27:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609606;
+ s=mimecast20190719; t=1579609632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zualVJnuuXpl6/Pdtv9LeqTT4rFRhcJUc2mo7tQMMUs=;
- b=c4WG5zdsGLTmcLUkSrjTjcEB6SDdSchYkz4Hit+y84JoqiInvP2l+NJyy4Q8Nk8yX6JQ/4
- nsf5M1nbN39IPCovKc2NhLv+i7aumlh5NrVNp6B69kUQMa5vxRP7Y1UffL26rIgUG3O8Cx
- F++8f2Gu6K6be5NHTFSdQIiMPSoGRlg=
+ bh=41maRYdOAgnuVtkLP4KNh1Q476RJJ+v2I3TKF5p7raI=;
+ b=IYUs7YPZ9bvMHAsj41aT/xG7aWWkQo/+ZNNX+xh7KtFLOwCzpCocuWcJpNg78bt0naJ2Fb
+ B+dVaXeOxaMFk6dKFh4IT5WMqtzgtg7h7YAcUPlwN9pN4OHQ7jsru3Ic1kREPRnD03gwcK
+ NUwLpJ4HWAY2C5pNcp4AOPjUA/ylMq8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-7zi6IP4TNIyVuxbX-Lq6-g-1; Tue, 21 Jan 2020 07:26:44 -0500
+ us-mta-314-SMq60BD-MACQsUpLkXFERw-1; Tue, 21 Jan 2020 07:27:10 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E3B8A0CBF;
- Tue, 21 Jan 2020 12:26:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A94B1005512;
+ Tue, 21 Jan 2020 12:27:09 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 17D0460C81;
- Tue, 21 Jan 2020 12:26:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C948060BE0;
+ Tue, 21 Jan 2020 12:27:03 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 027/109] virtiofsd: Fast path for virtio read
-Date: Tue, 21 Jan 2020 12:23:11 +0000
-Message-Id: <20200121122433.50803-28-dgilbert@redhat.com>
+Subject: [PATCH v2 033/109] virtiofsd: passthrough_ll: create new files in
+ caller's context
+Date: Tue, 21 Jan 2020 12:23:17 +0000
+Message-Id: <20200121122433.50803-34-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 7zi6IP4TNIyVuxbX-Lq6-g-1
+X-MC-Unique: SMq60BD-MACQsUpLkXFERw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,230 +77,186 @@ Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Vivek Goyal <vgoyal@redhat.com>
 
-Readv the data straight into the guests buffer.
+We need to create files in the caller's context. Otherwise after
+creating a file, the caller might not be able to do file operations on
+that file.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-With fix by:
-Signed-off-by: Eryu Guan <eguan@linux.alibaba.com>
-Reviewed-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+Changed effective uid/gid to caller's uid/gid, create file and then
+switch back to uid/gid 0.
+
+Use syscall(setresuid, ...) otherwise glibc does some magic to change EUID
+in all threads, which is not what we want.
+
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c |   5 +
- tools/virtiofsd/fuse_virtio.c   | 162 ++++++++++++++++++++++++++++++++
- tools/virtiofsd/fuse_virtio.h   |   4 +
- 3 files changed, 171 insertions(+)
+ tools/virtiofsd/passthrough_ll.c | 96 ++++++++++++++++++++++++++++++--
+ 1 file changed, 91 insertions(+), 5 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index ded7268dc5..5c182676a6 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -474,6 +474,11 @@ static int fuse_send_data_iov_fallback(struct fuse_ses=
-sion *se,
-         return fuse_send_msg(se, ch, iov, iov_count);
-     }
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 53ed56f2a9..3df7e01b35 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -49,6 +49,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <sys/file.h>
++#include <sys/syscall.h>
+ #include <sys/xattr.h>
+ #include <unistd.h>
 =20
-+    if (fuse_lowlevel_is_virtio(se) && buf->count =3D=3D 1 &&
-+        buf->buf[0].flags =3D=3D (FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK)) {
-+        return virtio_send_data_iov(se, ch, iov, iov_count, buf, len);
-+    }
+@@ -82,6 +83,11 @@ struct lo_inode {
+     uint64_t refcount; /* protected by lo->mutex */
+ };
+=20
++struct lo_cred {
++    uid_t euid;
++    gid_t egid;
++};
 +
-     abort(); /* Will have taken vhost path */
-     return 0;
- }
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index f1adeb6345..7e2711b504 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -230,6 +230,168 @@ err:
-     return ret;
+ enum {
+     CACHE_NEVER,
+     CACHE_NORMAL,
+@@ -382,6 +388,69 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t paren=
+t, const char *name)
+     }
  }
 =20
 +/*
-+ * Callback from fuse_send_data_iov_* when it's virtio and the buffer
-+ * is a single FD with FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK
-+ * We need send the iov and then the buffer.
-+ * Return 0 on success
++ * On some archs, setres*id is limited to 2^16 but they
++ * provide setres*id32 variants that allow 2^32.
++ * Others just let setres*id do 2^32 anyway.
 + */
-+int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-+                         struct iovec *iov, int count, struct fuse_bufvec =
-*buf,
-+                         size_t len)
++#ifdef SYS_setresgid32
++#define OURSYS_setresgid SYS_setresgid32
++#else
++#define OURSYS_setresgid SYS_setresgid
++#endif
++
++#ifdef SYS_setresuid32
++#define OURSYS_setresuid SYS_setresuid32
++#else
++#define OURSYS_setresuid SYS_setresuid
++#endif
++
++/*
++ * Change to uid/gid of caller so that file is created with
++ * ownership of caller.
++ * TODO: What about selinux context?
++ */
++static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
 +{
-+    int ret =3D 0;
-+    VuVirtqElement *elem;
-+    VuVirtq *q;
++    int res;
 +
-+    assert(count >=3D 1);
-+    assert(iov[0].iov_len >=3D sizeof(struct fuse_out_header));
++    old->euid =3D geteuid();
++    old->egid =3D getegid();
 +
-+    struct fuse_out_header *out =3D iov[0].iov_base;
-+    /* TODO: Endianness! */
-+
-+    size_t iov_len =3D iov_size(iov, count);
-+    size_t tosend_len =3D iov_len + len;
-+
-+    out->len =3D tosend_len;
-+
-+    fuse_log(FUSE_LOG_DEBUG, "%s: count=3D%d len=3D%zd iov_len=3D%zd\n", _=
-_func__,
-+             count, len, iov_len);
-+
-+    /* unique =3D=3D 0 is notification which we don't support */
-+    assert(out->unique);
-+
-+    /* For virtio we always have ch */
-+    assert(ch);
-+    assert(!ch->qi->reply_sent);
-+    elem =3D ch->qi->qe;
-+    q =3D &ch->qi->virtio_dev->dev.vq[ch->qi->qidx];
-+
-+    /* The 'in' part of the elem is to qemu */
-+    unsigned int in_num =3D elem->in_num;
-+    struct iovec *in_sg =3D elem->in_sg;
-+    size_t in_len =3D iov_size(in_sg, in_num);
-+    fuse_log(FUSE_LOG_DEBUG, "%s: elem %d: with %d in desc of length %zd\n=
-",
-+             __func__, elem->index, in_num, in_len);
-+
-+    /*
-+     * The elem should have room for a 'fuse_out_header' (out from fuse)
-+     * plus the data based on the len in the header.
-+     */
-+    if (in_len < sizeof(struct fuse_out_header)) {
-+        fuse_log(FUSE_LOG_ERR, "%s: elem %d too short for out_header\n",
-+                 __func__, elem->index);
-+        ret =3D E2BIG;
-+        goto err;
-+    }
-+    if (in_len < tosend_len) {
-+        fuse_log(FUSE_LOG_ERR, "%s: elem %d too small for data len %zd\n",
-+                 __func__, elem->index, tosend_len);
-+        ret =3D E2BIG;
-+        goto err;
++    res =3D syscall(OURSYS_setresgid, -1, fuse_req_ctx(req)->gid, -1);
++    if (res =3D=3D -1) {
++        return errno;
 +    }
 +
-+    /* TODO: Limit to 'len' */
++    res =3D syscall(OURSYS_setresuid, -1, fuse_req_ctx(req)->uid, -1);
++    if (res =3D=3D -1) {
++        int errno_save =3D errno;
 +
-+    /* First copy the header data from iov->in_sg */
-+    copy_iov(iov, count, in_sg, in_num, iov_len);
-+
-+    /*
-+     * Build a copy of the the in_sg iov so we can skip bits in it,
-+     * including changing the offsets
-+     */
-+    struct iovec *in_sg_cpy =3D calloc(sizeof(struct iovec), in_num);
-+    assert(in_sg_cpy);
-+    memcpy(in_sg_cpy, in_sg, sizeof(struct iovec) * in_num);
-+    /* These get updated as we skip */
-+    struct iovec *in_sg_ptr =3D in_sg_cpy;
-+    int in_sg_cpy_count =3D in_num;
-+
-+    /* skip over parts of in_sg that contained the header iov */
-+    size_t skip_size =3D iov_len;
-+
-+    size_t in_sg_left =3D 0;
-+    do {
-+        while (skip_size !=3D 0 && in_sg_cpy_count) {
-+            if (skip_size >=3D in_sg_ptr[0].iov_len) {
-+                skip_size -=3D in_sg_ptr[0].iov_len;
-+                in_sg_ptr++;
-+                in_sg_cpy_count--;
-+            } else {
-+                in_sg_ptr[0].iov_len -=3D skip_size;
-+                in_sg_ptr[0].iov_base +=3D skip_size;
-+                break;
-+            }
-+        }
-+
-+        int i;
-+        for (i =3D 0, in_sg_left =3D 0; i < in_sg_cpy_count; i++) {
-+            in_sg_left +=3D in_sg_ptr[i].iov_len;
-+        }
-+        fuse_log(FUSE_LOG_DEBUG,
-+                 "%s: after skip skip_size=3D%zd in_sg_cpy_count=3D%d "
-+                 "in_sg_left=3D%zd\n",
-+                 __func__, skip_size, in_sg_cpy_count, in_sg_left);
-+        ret =3D preadv(buf->buf[0].fd, in_sg_ptr, in_sg_cpy_count,
-+                     buf->buf[0].pos);
-+
-+        if (ret =3D=3D -1) {
-+            ret =3D errno;
-+            fuse_log(FUSE_LOG_DEBUG, "%s: preadv failed (%m) len=3D%zd\n",
-+                     __func__, len);
-+            free(in_sg_cpy);
-+            goto err;
-+        }
-+        fuse_log(FUSE_LOG_DEBUG, "%s: preadv ret=3D%d len=3D%zd\n", __func=
-__,
-+                 ret, len);
-+        if (ret < len && ret) {
-+            fuse_log(FUSE_LOG_DEBUG, "%s: ret < len\n", __func__);
-+            /* Skip over this much next time around */
-+            skip_size =3D ret;
-+            buf->buf[0].pos +=3D ret;
-+            len -=3D ret;
-+
-+            /* Lets do another read */
-+            continue;
-+        }
-+        if (!ret) {
-+            /* EOF case? */
-+            fuse_log(FUSE_LOG_DEBUG, "%s: !ret in_sg_left=3D%zd\n", __func=
-__,
-+                     in_sg_left);
-+            break;
-+        }
-+        if (ret !=3D len) {
-+            fuse_log(FUSE_LOG_DEBUG, "%s: ret!=3Dlen\n", __func__);
-+            ret =3D EIO;
-+            free(in_sg_cpy);
-+            goto err;
-+        }
-+        in_sg_left -=3D ret;
-+        len -=3D ret;
-+    } while (in_sg_left);
-+    free(in_sg_cpy);
-+
-+    /* Need to fix out->len on EOF */
-+    if (len) {
-+        struct fuse_out_header *out_sg =3D in_sg[0].iov_base;
-+
-+        tosend_len -=3D len;
-+        out_sg->len =3D tosend_len;
++        syscall(OURSYS_setresgid, -1, old->egid, -1);
++        return errno_save;
 +    }
 +
-+    ret =3D 0;
-+
-+    vu_queue_push(&se->virtio_dev->dev, q, elem, tosend_len);
-+    vu_queue_notify(&se->virtio_dev->dev, q);
-+
-+err:
-+    if (ret =3D=3D 0) {
-+        ch->qi->reply_sent =3D true;
-+    }
-+
-+    return ret;
++    return 0;
 +}
 +
- /* Thread function for individual queues, created when a queue is 'started=
-' */
- static void *fv_queue_thread(void *opaque)
- {
-diff --git a/tools/virtiofsd/fuse_virtio.h b/tools/virtiofsd/fuse_virtio.h
-index 135a14875a..cc676b9193 100644
---- a/tools/virtiofsd/fuse_virtio.h
-+++ b/tools/virtiofsd/fuse_virtio.h
-@@ -26,4 +26,8 @@ int virtio_loop(struct fuse_session *se);
- int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
-                     struct iovec *iov, int count);
-=20
-+int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
-+                         struct iovec *iov, int count,
-+                         struct fuse_bufvec *buf, size_t len);
++/* Regain Privileges */
++static void lo_restore_cred(struct lo_cred *old)
++{
++    int res;
 +
- #endif
++    res =3D syscall(OURSYS_setresuid, -1, old->euid, -1);
++    if (res =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "seteuid(%u): %m\n", old->euid);
++        exit(1);
++    }
++
++    res =3D syscall(OURSYS_setresgid, -1, old->egid, -1);
++    if (res =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "setegid(%u): %m\n", old->egid);
++        exit(1);
++    }
++}
++
+ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+                              const char *name, mode_t mode, dev_t rdev,
+                              const char *link)
+@@ -390,12 +459,21 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino=
+_t parent,
+     int saverr;
+     struct lo_inode *dir =3D lo_inode(req, parent);
+     struct fuse_entry_param e;
++    struct lo_cred old =3D {};
+=20
+     saverr =3D ENOMEM;
+=20
++    saverr =3D lo_change_cred(req, &old);
++    if (saverr) {
++        goto out;
++    }
++
+     res =3D mknod_wrapper(dir->fd, name, link, mode, rdev);
+=20
+     saverr =3D errno;
++
++    lo_restore_cred(&old);
++
+     if (res =3D=3D -1) {
+         goto out;
+     }
+@@ -793,26 +871,34 @@ static void lo_create(fuse_req_t req, fuse_ino_t pare=
+nt, const char *name,
+     struct lo_data *lo =3D lo_data(req);
+     struct fuse_entry_param e;
+     int err;
++    struct lo_cred old =3D {};
+=20
+     if (lo_debug(req)) {
+         fuse_log(FUSE_LOG_DEBUG, "lo_create(parent=3D%" PRIu64 ", name=3D%=
+s)\n",
+                  parent, name);
+     }
+=20
++    err =3D lo_change_cred(req, &old);
++    if (err) {
++        goto out;
++    }
++
+     fd =3D openat(lo_fd(req, parent), name, (fi->flags | O_CREAT) & ~O_NOF=
+OLLOW,
+                 mode);
+-    if (fd =3D=3D -1) {
+-        return (void)fuse_reply_err(req, errno);
+-    }
++    err =3D fd =3D=3D -1 ? errno : 0;
++    lo_restore_cred(&old);
+=20
+-    fi->fh =3D fd;
++    if (!err) {
++        fi->fh =3D fd;
++        err =3D lo_do_lookup(req, parent, name, &e);
++    }
+     if (lo->cache =3D=3D CACHE_NEVER) {
+         fi->direct_io =3D 1;
+     } else if (lo->cache =3D=3D CACHE_ALWAYS) {
+         fi->keep_cache =3D 1;
+     }
+=20
+-    err =3D lo_do_lookup(req, parent, name, &e);
++out:
+     if (err) {
+         fuse_reply_err(req, err);
+     } else {
 --=20
 2.24.1
 
