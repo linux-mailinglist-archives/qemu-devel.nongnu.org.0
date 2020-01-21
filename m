@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20250143ECD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:01:42 +0100 (CET)
-Received: from localhost ([::1]:54498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 111D8143F6B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:24:18 +0100 (CET)
+Received: from localhost ([::1]:55046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itu68-0002F6-Km
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:01:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52986)
+	id 1ituS0-0003e6-Qz
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:24:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52997)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itsiS-00049R-P9
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:33:12 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itsiU-0004Ba-Gz
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:33:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itsiO-00056j-Qq
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:33:08 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22071
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1itsiQ-00057G-KK
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:33:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36482
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsiO-00056V-NF
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:33:04 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsiQ-000575-GS
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:33:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609984;
+ s=mimecast20190719; t=1579609986;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M09PrHXt8xNtKGyoZor/r7J30S63cknnYdNmtitr9tU=;
- b=J4sOMZY5j1c5EgTrg+hW1w64KX406MUdwRpRMlRj+x7INYkk19gmLljVs7TycnN7TQ8JWz
- 2Zg73M7nfx3XWmQexN1q71qCQTggWmHEkLLDiLgAzFfRpJROL6J4m+TmbtMx6ReEv3BVIy
- oLyRS6NVS3QU61PgZ+mDlJNytjD//b4=
+ bh=8OxUQJ0n4TnYy5rAqGurLPWMkVWTfkYHO7FzsKlmGRU=;
+ b=cxQABB9qg1CHJR7B+eY5zDNc91aLNAJyLkJRM7Uslcz8fdA23hS7BL4qFHkTncTT1u70EM
+ wv4+WgKd+2L2+HCajKN0fS5duzVwqyqtpozg4L5HNCUcMM2oS7yDPDOz7OsxGsSLQsxsu0
+ TzMDCuHRfkPzjkcKxj5PeNU+rmdAwXk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-zvkhakUoP0qMG8MiR--QtQ-1; Tue, 21 Jan 2020 07:33:02 -0500
+ us-mta-403-FLbjSsafOP2WCvLR_F44CQ-1; Tue, 21 Jan 2020 07:33:05 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF0DD8017CC;
- Tue, 21 Jan 2020 12:33:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7AC0800D48;
+ Tue, 21 Jan 2020 12:33:03 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8EDC60BE0;
- Tue, 21 Jan 2020 12:32:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 25F8F60BE0;
+ Tue, 21 Jan 2020 12:33:01 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 107/109] virtiofsd/passthrough_ll: Pass errno to
- fuse_reply_err()
-Date: Tue, 21 Jan 2020 12:24:31 +0000
-Message-Id: <20200121122433.50803-108-dgilbert@redhat.com>
+Subject: [PATCH v2 108/109] virtiofsd: stop all queue threads on exit in
+ virtio_loop()
+Date: Tue, 21 Jan 2020 12:24:32 +0000
+Message-Id: <20200121122433.50803-109-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: zvkhakUoP0qMG8MiR--QtQ-1
+X-MC-Unique: FLbjSsafOP2WCvLR_F44CQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,41 +77,55 @@ Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xiao Yang <yangx.jy@cn.fujitsu.com>
+From: Eryu Guan <eguan@linux.alibaba.com>
 
-lo_copy_file_range() passes -errno to fuse_reply_err() and then fuse_reply_=
-err()
-changes it to errno again, so that subsequent fuse_send_reply_iov_nofree() =
-catches
-the wrong errno.(i.e. reports "fuse: bad error value: ...").
+On guest graceful shutdown, virtiofsd receives VHOST_USER_GET_VRING_BASE
+request from VMM and shuts down virtqueues by calling fv_set_started(),
+which joins fv_queue_thread() threads. So when virtio_loop() returns,
+there should be no thread is still accessing data in fuse session and/or
+virtio dev.
 
-Make fuse_send_reply_iov_nofree() accept the correct -errno by passing errn=
-o
-directly in lo_copy_file_range().
+But on abnormal exit, e.g. guest got killed for whatever reason,
+vhost-user socket is closed and virtio_loop() breaks out the main loop
+and returns to main(). But it's possible fv_queue_worker()s are still
+working and accessing fuse session and virtio dev, which results in
+crash or use-after-free.
 
-Signed-off-by: Xiao Yang <yangx.jy@cn.fujitsu.com>
-Reviewed-by: Eryu Guan <eguan@linux.alibaba.com>
+Fix it by stopping fv_queue_thread()s before virtio_loop() returns,
+to make sure there's no-one could access fuse session and virtio dev.
 
-dgilbert: Sent upstream and now Merged as aa1185e153f774f1df65
+Reported-by: Qingming Su <qingming.su@linux.alibaba.com>
+Signed-off-by: Eryu Guan <eguan@linux.alibaba.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/virtiofsd/fuse_virtio.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 3c450c15b4..0666a8709d 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2441,7 +2441,7 @@ static void lo_copy_file_range(fuse_req_t req, fuse_i=
-no_t ino_in, off_t off_in,
-=20
-     res =3D copy_file_range(in_fd, &off_in, out_fd, &off_out, len, flags);
-     if (res < 0) {
--        fuse_reply_err(req, -errno);
-+        fuse_reply_err(req, errno);
-     } else {
-         fuse_reply_write(req, res);
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 9f6582343c..aca28aafc1 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -815,6 +815,18 @@ int virtio_loop(struct fuse_session *se)
+         }
      }
+=20
++    /*
++     * Make sure all fv_queue_thread()s quit on exit, as we're about to
++     * free virtio dev and fuse session, no one should access them anymore=
+.
++     */
++    for (int i =3D 0; i < se->virtio_dev->nqueues; i++) {
++        if (!se->virtio_dev->qi[i])
++            continue;
++
++        fuse_log(FUSE_LOG_INFO, "%s: Stopping queue %d thread\n", __func__=
+, i);
++        fv_queue_cleanup_thread(se->virtio_dev, i);
++    }
++
+     fuse_log(FUSE_LOG_INFO, "%s: Exit\n", __func__);
+=20
+     return 0;
 --=20
 2.24.1
 
