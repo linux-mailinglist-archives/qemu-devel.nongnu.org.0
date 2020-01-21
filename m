@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027DD143787
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 08:25:07 +0100 (CET)
-Received: from localhost ([::1]:49414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74EAB143789
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 08:25:13 +0100 (CET)
+Received: from localhost ([::1]:49418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itnuL-0002F5-0r
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 02:25:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46969)
+	id 1itnuS-0002PH-EH
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 02:25:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47001)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1itnsm-0000qn-77
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 02:23:31 -0500
+ (envelope-from <clg@kaod.org>) id 1itnt0-00019S-4I
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 02:23:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1itnsi-0000Wo-O2
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 02:23:28 -0500
-Received: from 5.mo178.mail-out.ovh.net ([46.105.51.53]:40461)
+ (envelope-from <clg@kaod.org>) id 1itnsy-0000cn-Sy
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 02:23:42 -0500
+Received: from 6.mo69.mail-out.ovh.net ([46.105.50.107]:46011)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1itnsi-0000Vq-I3
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 02:23:24 -0500
-Received: from player687.ha.ovh.net (unknown [10.109.143.175])
- by mo178.mail-out.ovh.net (Postfix) with ESMTP id 0AA068D3EC
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 08:23:23 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1itnsy-0000cG-NL
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 02:23:40 -0500
+Received: from player763.ha.ovh.net (unknown [10.109.143.79])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id B6A4B728E4
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 08:23:38 +0100 (CET)
 Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
  (Authenticated sender: clg@kaod.org)
- by player687.ha.ovh.net (Postfix) with ESMTPSA id 57004E651A03;
- Tue, 21 Jan 2020 07:23:16 +0000 (UTC)
-Subject: Re: [PATCH 2/2] aspeed/scu: Implement chip ID register
+ by player763.ha.ovh.net (Postfix) with ESMTPSA id 0DEDEE6DC3C8;
+ Tue, 21 Jan 2020 07:23:32 +0000 (UTC)
+Subject: Re: [PATCH 0/2] aspeed/scu: Implement chip id register
 To: Joel Stanley <joel@jms.id.au>, Peter Maydell <peter.maydell@linaro.org>
 References: <20200121013302.43839-1-joel@jms.id.au>
- <20200121013302.43839-3-joel@jms.id.au>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <44b83ff5-7552-fda2-cee5-b9a7a8f0ded6@kaod.org>
-Date: Tue, 21 Jan 2020 08:23:15 +0100
+Message-ID: <d5c9af12-9970-1a6e-e88c-b8dc1901527b@kaod.org>
+Date: Tue, 21 Jan 2020 08:23:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200121013302.43839-3-joel@jms.id.au>
+In-Reply-To: <20200121013302.43839-1-joel@jms.id.au>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Ovh-Tracer-Id: 12027425757774318400
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 12031929357400574784
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudejgddutdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Content-Transfer-Encoding: quoted-printable
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrudejgddutdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeeifedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 46.105.51.53
+X-Received-From: 46.105.50.107
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,82 +64,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/21/20 2:33 AM, Joel Stanley wrote:
-> This returns a fixed but non-zero value for the chip id.
->=20
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> This implements the chip id register in the SCU for the ast2500 and
+> ast2600. The first patch is a cleanup to separate out ast2400 and
+> ast2500 functionality.
 
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+These patches apply cleanly on top of :
 
-> ---
->  hw/misc/aspeed_scu.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->=20
-> diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-> index 7108cad8c6a7..19d1780a40da 100644
-> --- a/hw/misc/aspeed_scu.c
-> +++ b/hw/misc/aspeed_scu.c
-> @@ -77,6 +77,8 @@
->  #define CPU2_BASE_SEG4       TO_REG(0x110)
->  #define CPU2_BASE_SEG5       TO_REG(0x114)
->  #define CPU2_CACHE_CTRL      TO_REG(0x118)
-> +#define CHIP_ID0             TO_REG(0x150)
-> +#define CHIP_ID1             TO_REG(0x154)
->  #define UART_HPLL_CLK        TO_REG(0x160)
->  #define PCIE_CTRL            TO_REG(0x180)
->  #define BMC_MMIO_CTRL        TO_REG(0x184)
-> @@ -115,6 +117,8 @@
->  #define AST2600_HW_STRAP2_PROT    TO_REG(0x518)
->  #define AST2600_RNG_CTRL          TO_REG(0x524)
->  #define AST2600_RNG_DATA          TO_REG(0x540)
-> +#define AST2600_CHIP_ID0          TO_REG(0x5B0)
-> +#define AST2600_CHIP_ID1          TO_REG(0x5B4)
-> =20
->  #define AST2600_CLK TO_REG(0x40)
-> =20
-> @@ -182,6 +186,8 @@ static const uint32_t ast2500_a1_resets[ASPEED_SCU_=
-NR_REGS] =3D {
->       [CPU2_BASE_SEG1]  =3D 0x80000000U,
->       [CPU2_BASE_SEG4]  =3D 0x1E600000U,
->       [CPU2_BASE_SEG5]  =3D 0xC0000000U,
-> +     [CHIP_ID0]        =3D 0x1234ABCDU,
-> +     [CHIP_ID1]        =3D 0x88884444U,
->       [UART_HPLL_CLK]   =3D 0x00001903U,
->       [PCIE_CTRL]       =3D 0x0000007BU,
->       [BMC_DEV_ID]      =3D 0x00002402U
-> @@ -307,6 +313,8 @@ static void aspeed_ast2500_scu_write(void *opaque, =
-hwaddr offset,
->      case RNG_DATA:
->      case FREE_CNTR4:
->      case FREE_CNTR4_EXT:
-> +    case CHIP_ID0:
-> +    case CHIP_ID1:
->          qemu_log_mask(LOG_GUEST_ERROR,
->                        "%s: Write to read-only offset 0x%" HWADDR_PRIx =
-"\n",
->                        __func__, offset);
-> @@ -620,6 +628,8 @@ static void aspeed_ast2600_scu_write(void *opaque, =
-hwaddr offset,
->      case AST2600_RNG_DATA:
->      case AST2600_SILICON_REV:
->      case AST2600_SILICON_REV2:
-> +    case AST2600_CHIP_ID0:
-> +    case AST2600_CHIP_ID1:
->          /* Add read only registers here */
->          qemu_log_mask(LOG_GUEST_ERROR,
->                        "%s: Write to read-only offset 0x%" HWADDR_PRIx =
-"\n",
-> @@ -648,6 +658,9 @@ static const uint32_t ast2600_a0_resets[ASPEED_AST2=
-600_SCU_NR_REGS] =3D {
->      [AST2600_CLK_STOP_CTRL2]    =3D 0xFFF0FFF0,
->      [AST2600_SDRAM_HANDSHAKE]   =3D 0x00000040,  /* SoC completed DRAM=
- init */
->      [AST2600_HPLL_PARAM]        =3D 0x1000405F,
-> +    [AST2600_CHIP_ID0]          =3D 0x1234ABCD,
-> +    [AST2600_CHIP_ID1]          =3D 0x88884444,
-> +
->  };
-> =20
->  static void aspeed_ast2600_scu_reset(DeviceState *dev)
->=20
+	[v3,0/5] aspeed: extensions and fixes 
+	http://patchwork.ozlabs.org/cover/1222667/
+
+Thanks,
+
+C.
+
+> 
+> Joel Stanley (2):
+>   aspeed/scu: Create separate write callbacks
+>   aspeed/scu: Implement chip ID register
+> 
+>  hw/misc/aspeed_scu.c | 93 +++++++++++++++++++++++++++++++++-----------
+>  1 file changed, 70 insertions(+), 23 deletions(-)
+> 
 
 
