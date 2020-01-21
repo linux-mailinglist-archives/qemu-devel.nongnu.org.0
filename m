@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB7514412B
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 17:01:37 +0100 (CET)
-Received: from localhost ([::1]:57216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C81614413D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 17:02:10 +0100 (CET)
+Received: from localhost ([::1]:57242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itvyB-00058p-Hn
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 11:01:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60627)
+	id 1itvyi-0005s1-A1
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 11:02:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1itvw5-0003os-Ii
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:59:26 -0500
+ (envelope-from <mreitz@redhat.com>) id 1itvwB-0003uV-Pw
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:59:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1itvw4-0004Xw-MM
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:59:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20288
+ (envelope-from <mreitz@redhat.com>) id 1itvwA-0004bZ-KS
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:59:31 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57352
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itvw4-0004Xm-JE
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:59:24 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1itvwA-0004bC-HJ
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:59:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579622364;
+ s=mimecast20190719; t=1579622370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=lTxR05kIy8LiGtaiLolGLwddHRVVZOUG24ah9/CeLEw=;
- b=JH/8nUIkOGTL+km2K/GVjmEXUfbmcZwhD3NLO3/9krZKhFTnn5hyHLNl5PANWMDKNiPiBt
- 9cY9yCpz854alM5tHlyTKE0QlxeTnts2mYF03EDwAtwo2cfKyKq0Kp2SLicZDjri9ZdqWJ
- DuOLmXi7KH0gfvS/KnxhPBm4RtIqIdk=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ud3/EKB5xqJnB3xGy/CWxF9HBqZ8hmG/5T5OxShfKE0=;
+ b=MZ5imw87PLKxLGaKEK9OU9MTueNsVYY4GDTj7IUBwxXpxcPaFZXilwJL6a6n1VJjMN+Lba
+ DpuHP0IzFTvmkVsxy+Te+bVjebB6XjyHyuEaA7L99zi/g/US8xFegrs3e2qT9o7iFOKJWl
+ +TgzlFi34ud/Ozoo/c+il7iNUYp/UgY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-Qgcf8PQCN72Bv2CTnFO1vg-1; Tue, 21 Jan 2020 10:59:19 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-37-q_DzYjmpMBK8yMscOAZlLA-1; Tue, 21 Jan 2020 10:59:23 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90A58801F91;
- Tue, 21 Jan 2020 15:59:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69622107ACC4;
+ Tue, 21 Jan 2020 15:59:22 +0000 (UTC)
 Received: from localhost (ovpn-117-116.ams2.redhat.com [10.36.117.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6041610098FB;
- Tue, 21 Jan 2020 15:59:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 45E7C8BE19;
+ Tue, 21 Jan 2020 15:59:20 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/2] qemu-img: Fix convert -n -B for backing-less targets
-Date: Tue, 21 Jan 2020 16:59:13 +0100
-Message-Id: <20200121155915.98232-1-mreitz@redhat.com>
+Subject: [PATCH 1/2] qemu-img: Fix convert -n -B for backing-less targets
+Date: Tue, 21 Jan 2020 16:59:14 +0100
+Message-Id: <20200121155915.98232-2-mreitz@redhat.com>
+In-Reply-To: <20200121155915.98232-1-mreitz@redhat.com>
+References: <20200121155915.98232-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: Qgcf8PQCN72Bv2CTnFO1vg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: q_DzYjmpMBK8yMscOAZlLA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -73,27 +76,44 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+s.target_has_backing does not reflect whether the target BDS has a
+backing file; it only tells whether we should use a backing file during
+conversion (specified by -B).
 
-When reviewing David=E2=80=99s series to add --target-is-zero convert, I lo=
-oked
-for a case to show that the current implementation will crash if
--n --target-is-zero is used together with -B.  It then turned out that
--B will always crash when combined with -n and the target image does not
-have a backing file set in its image header.
+As such, if you use convert -n, the target does not necessarily actually
+have a backing file, and then dereferencing out_bs->backing fails here.
 
-This series fixes that.
+When converting to an existing file, we should set
+target_backing_sectors to a negative value, because first, as the
+comment explains, this value is only used for optimization, so it is
+always fine to do that.
 
+Second, we use this value to determine where the target must be
+initialized to zeroes (overlays are initialized to zero after the end of
+their backing file).  When converting to an existing file, we cannot
+assume that to be true.
 
-Max Reitz (2):
-  qemu-img: Fix convert -n -B for backing-less targets
-  iotests: Test convert -n -B to backing-less target
+Cc: qemu-stable@nongnu.org
+Fixes: 351c8efff9ad809c822d55620df54d575d536f68
+       ("qemu-img: Special post-backing convert handling")
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ qemu-img.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- qemu-img.c                 |  2 +-
- tests/qemu-iotests/122     | 14 ++++++++++++++
- tests/qemu-iotests/122.out |  5 +++++
- 3 files changed, 20 insertions(+), 1 deletion(-)
-
+diff --git a/qemu-img.c b/qemu-img.c
+index 6233b8ca56..89a1d11781 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2503,7 +2503,7 @@ static int img_convert(int argc, char **argv)
+         }
+     }
+=20
+-    if (s.target_has_backing) {
++    if (s.target_has_backing && s.target_is_new) {
+         /* Errors are treated as "backing length unknown" (which means
+          * s.target_backing_sectors has to be negative, which it will
+          * be automatically).  The backing file length is used only
 --=20
 2.24.1
 
