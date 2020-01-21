@@ -2,42 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAFC143FD1
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:42:05 +0100 (CET)
-Received: from localhost ([::1]:55760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CEFA143FFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 15:54:52 +0100 (CET)
+Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itujE-0000gf-Hs
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:42:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44716)
+	id 1ituvb-0006Q1-3s
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 09:54:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45679)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ituVz-0001WI-AV
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:28:24 -0500
+ (envelope-from <mjrosato@linux.ibm.com>) id 1ituad-000782-KX
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:33:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ituVx-0000hv-He
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:28:23 -0500
-Received: from relay.sw.ru ([185.231.240.75]:50832)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ituVt-0000dj-5v; Tue, 21 Jan 2020 09:28:17 -0500
-Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1ituVp-0000mn-3N; Tue, 21 Jan 2020 17:28:13 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 2/2] iotests: add test for backup-top failure on permission
- activation
-Date: Tue, 21 Jan 2020 17:28:02 +0300
-Message-Id: <20200121142802.21467-3-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200121142802.21467-1-vsementsov@virtuozzo.com>
-References: <20200121142802.21467-1-vsementsov@virtuozzo.com>
+ (envelope-from <mjrosato@linux.ibm.com>) id 1ituaZ-0002tV-Tf
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 09:33:11 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27038)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1ituaZ-0002sx-Gp; Tue, 21 Jan 2020 09:33:07 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 00LESpiX015367; Tue, 21 Jan 2020 09:33:06 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xmg5tgnqw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jan 2020 09:33:06 -0500
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 00LEUIKW023625;
+ Tue, 21 Jan 2020 09:33:05 -0500
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xmg5tgnq9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jan 2020 09:33:05 -0500
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 00LEV4oK000814;
+ Tue, 21 Jan 2020 14:33:04 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma04wdc.us.ibm.com with ESMTP id 2xksn6c7gn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jan 2020 14:33:04 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 00LEX3G336503820
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 21 Jan 2020 14:33:03 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3D439C6057;
+ Tue, 21 Jan 2020 14:33:03 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9549CC6055;
+ Tue, 21 Jan 2020 14:33:02 +0000 (GMT)
+Received: from oc4221205838.ibm.com (unknown [9.85.144.147])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 21 Jan 2020 14:33:02 +0000 (GMT)
+Subject: Re: [PATCH v3] target/s390x/kvm: Enable adapter interruption
+ suppression again
+To: Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20200120132441.11884-1-thuth@redhat.com>
+ <20200120182747.5135fea8.cohuck@redhat.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+Message-ID: <95fa3c7d-8879-1401-6847-c5fa82a0cd3c@linux.ibm.com>
+Date: Tue, 21 Jan 2020 09:33:02 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+In-Reply-To: <20200120182747.5135fea8.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-01-21_04:2020-01-21,
+ 2020-01-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ spamscore=0 suspectscore=0 bulkscore=0 phishscore=0 impostorscore=0
+ priorityscore=1501 mlxscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-2001210120
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,145 +96,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-stable@nongnu.org, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test checks that bug is really fixed by previous commit.
+On 1/20/20 12:27 PM, Cornelia Huck wrote:
+> On Mon, 20 Jan 2020 14:24:41 +0100
+> Thomas Huth <thuth@redhat.com> wrote:
+> 
+>> The AIS feature has been disabled late in the v2.10 development cycle since
+>> there were some issues with migration (see commit 3f2d07b3b01ea61126b -
+>> "s390x/ais: for 2.10 stable: disable ais facility"). We originally wanted
+>> to enable it again for newer machine types, but apparently we forgot to do
+>> this so far. Let's do it for the new s390-ccw-virtio-5.0 machine now.
+>>
+>> While at it, also add a more verbose comment why we need the *_allowed()
+>> wrappers in s390-virtio-ccw.c.
+>>
+>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1756946
+>> Reviewed-by: David Hildenbrand <david@redhat.com>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   v3: Moved "s390mc->kvm_ais_allowed = false" to the end of the function
+>>
+>>   hw/s390x/s390-virtio-ccw.c         | 20 +++++++++++++++++---
+>>   include/hw/s390x/s390-virtio-ccw.h |  3 +++
+>>   target/s390x/kvm.c                 |  9 ++++++---
+>>   3 files changed, 26 insertions(+), 6 deletions(-)
+> 
+>> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+>> index 15260aeb9a..cf4fb4f2d9 100644
+>> --- a/target/s390x/kvm.c
+>> +++ b/target/s390x/kvm.c
+>> @@ -365,10 +365,13 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>>       /*
+>>        * The migration interface for ais was introduced with kernel 4.13
+>>        * but the capability itself had been active since 4.12. As migration
+>> -     * support is considered necessary let's disable ais in the 2.10
+>> -     * machine.
+>> +     * support is considered necessary, we only try to enable this for
+>> +     * newer machine types if KVM_CAP_S390_AIS_MIGRATION is available.
+>>        */
+>> -    /* kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0); */
+>> +    if (kvm_ais_allowed() &&
+>> +        kvm_check_extension(s, KVM_CAP_S390_AIS_MIGRATION)) {
+> 
+> Hnm, we actually need a kernel irqchip with the kvm flic to get ais to
+> work; else we'll fail with
+> 
+> qemu-system-s390x: Failed to inject airq with AIS supported
+> 
+> in the kernel_irqchip=off case, as we won't have an I/O adapter
+> registered.
+> 
+> Adding 'kvm_kernel_irqchip_required() &&' seems to do the trick;
+> comments?
+> 
 
-Cc: qemu-stable@nongnu.org # v4.2.0
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/283     | 92 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/283.out |  8 ++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 101 insertions(+)
- create mode 100644 tests/qemu-iotests/283
- create mode 100644 tests/qemu-iotests/283.out
+In spirit, I agree with this idea.  But, a quick test shows that putting 
+this check here results in ais=off for the 'none' machine case (libvirt 
+capabilities detection).  I think we have to only look at 
+kvm_kernel_irqchip_required() when working with a real machine.
 
-diff --git a/tests/qemu-iotests/283 b/tests/qemu-iotests/283
-new file mode 100644
-index 0000000000..293e557bd9
---- /dev/null
-+++ b/tests/qemu-iotests/283
-@@ -0,0 +1,92 @@
-+#!/usr/bin/env python
-+#
-+# Test for backup-top filter permission activation failure
-+#
-+# Copyright (c) 2019 Virtuozzo International GmbH.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import iotests
-+
-+# The test is unrelated to formats, restrict it to qcow2 to avoid extra runs
-+iotests.verify_image_format(supported_fmts=['qcow2'])
-+
-+size = 1024 * 1024
-+
-+""" Test description
-+
-+When performing a backup, all writes on the source subtree must go through the
-+backup-top filter so it can copy all data to the target before it is changed.
-+backup-top filter is appended above source node, to achieve this thing, so all
-+parents of source node are handled. A configuration with side parents of source
-+sub-tree with write permission is unsupported (we'd have append several
-+backup-top filter like nodes to handle such parents). The test create an
-+example of such configuration and checks that a backup is then not allowed
-+(blockdev-backup command should fail).
-+
-+The configuration:
-+
-+    ┌────────┐  target  ┌─────────────┐
-+    │ target │ ◀─────── │ backup_top  │
-+    └────────┘          └─────────────┘
-+                            │
-+                            │ backing
-+                            ▼
-+                        ┌─────────────┐
-+                        │   source    │
-+                        └─────────────┘
-+                            │
-+                            │ file
-+                            ▼
-+                        ┌─────────────┐  write perm   ┌───────┐
-+                        │    base     │ ◀──────────── │ other │
-+                        └─────────────┘               └───────┘
-+
-+On activation (see .active field of backup-top state in block/backup-top.c),
-+backup-top is going to unshare write permission on its source child. Write
-+unsharing will be propagated to the "source->base" link and will conflict with
-+other node write permission. So permission update will fail and backup job will
-+not be started.
-+
-+Note, that the only thing which prevents backup of running on such
-+configuration is default permission propagation scheme. It may be altered by
-+different block drivers, so backup will run in invalid configuration. But
-+something is better than nothing. Also, before the previous commit (commit
-+preceding this test creation), starting backup on such configuration led to
-+crash, so current "something" is a lot better, and this test actual goal is
-+to check that crash is fixed :)
-+"""
-+
-+vm = iotests.VM()
-+vm.launch()
-+
-+vm.qmp_log('blockdev-add', **{'node-name': 'target', 'driver': 'null-co'})
-+
-+vm.qmp_log('blockdev-add', **{
-+    'node-name': 'source',
-+    'driver': 'blkdebug',
-+    'image': {'node-name': 'base', 'driver': 'null-co', 'size': size}
-+})
-+
-+vm.qmp_log('blockdev-add', **{
-+    'node-name': 'other',
-+    'driver': 'blkdebug',
-+    'image': 'base',
-+    'take-child-perms': ['write']
-+})
-+
-+vm.qmp_log('blockdev-backup', sync='full', device='source', target='target')
-+
-+vm.shutdown()
-diff --git a/tests/qemu-iotests/283.out b/tests/qemu-iotests/283.out
-new file mode 100644
-index 0000000000..daaf5828c1
---- /dev/null
-+++ b/tests/qemu-iotests/283.out
-@@ -0,0 +1,8 @@
-+{"execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "target"}}
-+{"return": {}}
-+{"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "image": {"driver": "null-co", "node-name": "base", "size": 1048576}, "node-name": "source"}}
-+{"return": {}}
-+{"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "image": "base", "node-name": "other", "take-child-perms": ["write"]}}
-+{"return": {}}
-+{"execute": "blockdev-backup", "arguments": {"device": "source", "sync": "full", "target": "target"}}
-+{"error": {"class": "GenericError", "desc": "Cannot set permissions for backup-top filter: Conflicts with use by other as 'image', which uses 'write' on base"}}
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 9d30a4b6c4..1904223020 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -289,3 +289,4 @@
- 279 rw backing quick
- 280 rw migration quick
- 281 rw quick
-+283 auto quick
--- 
-2.21.0
+>> +        kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0);
+>> +    }
+>>   
+>>       kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
+>>       return 0;
+> 
+> 
 
 
