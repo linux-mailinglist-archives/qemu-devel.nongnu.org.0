@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529A9143CAE
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 13:23:02 +0100 (CET)
-Received: from localhost ([::1]:52780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07DA8143CC6
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 13:27:16 +0100 (CET)
+Received: from localhost ([::1]:52858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itsYf-0003HW-8F
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 07:23:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50533)
+	id 1itscl-00065c-12
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 07:27:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50900)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1itsXa-0002Jy-SL
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:21:58 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itsaU-0004T5-SV
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:24:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1itsXR-0008LS-JA
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:21:54 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:55645)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1itsXR-0008K5-Aa
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:21:45 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N5W4y-1jhh8w3u4w-016v1V; Tue, 21 Jan 2020 13:21:41 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] m68k: Fix regression causing Single-Step via GDB/RSP to
- not single step
-Date: Tue, 21 Jan 2020 13:21:38 +0100
-Message-Id: <20200121122138.1708193-2-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200121122138.1708193-1-laurent@vivier.eu>
-References: <20200121122138.1708193-1-laurent@vivier.eu>
+ (envelope-from <dgilbert@redhat.com>) id 1itsaR-0001Yo-CV
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:24:54 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37469
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsaR-0001YQ-5N
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:24:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579609490;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Cipwhz1d6s/c7RH7yfw7yAwkGTKPWfOuNTjmokbAel8=;
+ b=ew9cuU/ucD7VkOw8VpfEDZQiD0nvZHit3asSZZiKXeriRF+rOh6fhNPvOqjZLHbisjkyk8
+ gXm8m/LnUdEvwVh6zzyYG/eqvN89NHx71kOg6Xf+TDsQj4cVodj8g/mntCu8Mp5gmWbH8+
+ h/XaVZCUlVhoMpbrZdEBO2Ws86Y5uio=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-OpSxLdn4MASvXFPMYZs3yw-1; Tue, 21 Jan 2020 07:24:49 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AA1B800D41;
+ Tue, 21 Jan 2020 12:24:48 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 468C060BE0;
+ Tue, 21 Jan 2020 12:24:36 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
+ berrange@redhat.com, slp@redhat.com, philmd@redhat.com
+Subject: [PATCH v2 000/109] virtiofs daemon [all]
+Date: Tue, 21 Jan 2020 12:22:44 +0000
+Message-Id: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qzrNAX6JMR+f4z69eXdGkPGxL5Na+DPPy1LwlDIxm0/DBehz34V
- gvzvgf1NBtbxoEDHA3CMmfgqLyex3sXm+NNtox9cvXronXaQ8dS4K2o37Bl7hxRd1J/iPme
- SGKfpJXPNQSA21zrxuHG3Iziq5oT6iUjKACEXzCn3P8S7ju27d2mrt7znKW2IIW171L/RoA
- trZ3U0T6/k+4GXWwNNffA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rqWASo689eY=:ErxkVLp1PIzbs6rbVITRgN
- 3Zy8uVlFSE+T4Ej13IYypUj1yOZkrmxmtKHi0dq/jVwKGRU8npaRjamlrlGBJinf8X7MZdTyt
- iN3p5c+hhNj4gXSvgqvHptjJ4WBa3JzRbf/MuWU3Eb2OvjS4LQgwlRKjf4D8xZQLHuYcFcUov
- z9y3qHN9WNYqFUgrQ/kB+PCYo+r3x98Hl1HjS+qumUISpCQbGkJBXoS2qxSA1Gx6aj3bPQtNt
- +LS7j/SgGJmzyLASdFhvFQK/37cLXMpH5esGILmNqBQfhO4oGMozfrD7YXco3vTl0u2OFTiYp
- m/SCbr69kwFei0ZKtfOOkrMsOLN54kcmbOrJAfCDKJXDeJ5ahEuZv8heFI1za1e9MWtyNEy8p
- mFYnrRt5s+UMotdPJx4tVMVq1/HdW/rX/isjqZJimxxwGQ2glwp2vUfcdg07PbQfUvKLqvLPm
- FWSVzVGIUuEeLtzUDhMya1urq8/x+N/w9j/yfIFK5eCOy3wcXLoQ+GVFamxnGdvZCOlVfKhMP
- MwRcUtHd16hVVLwAumZ8hoh+JQij5G0ceTAd/PfTXSraUoh2NL9i8pS5FlICZxa1gE9qKFEZx
- s/n4Dfi87CVXGr2x14xzuW3hHVvWlzQpWPtXYuKkl5dzpehTj84KszxOMJneKZCZRCmQO+5+F
- 5Pl4YZwaeW5Z4ImnicgofmhQvv7lPws7RchAkm4cFAMyY4EDlGaaDIvA9ocqt5g6dildnWDxX
- lBNoOZ6nwJK9v8v3X14t+TY1htE1C2oxG4JUhGw30ocaRT7gslcaWecXl4HaA9schh3Qw4FcV
- /2ew4+fCVGodUf8cD6UGl9pNwzkDBRQ7UPwEUirWT80Wbc6BObgvyreUjlOQed6pVdK1232K2
- Y4S6Yep3svKR4PS0GP0g==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: OpSxLdn4MASvXFPMYZs3yw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 217.72.192.75
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,105 +69,254 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lucien Murray-Pitts <lucienmp_antispam@yahoo.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A regression that was introduced, with the refactor to TranslatorOps,
-drops two lines that update the PC when single-stepping is being performed.
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Fixes: 11ab74b01e0a ("target/m68k: Convert to TranslatorOps")
-Reported-by: Lucien Murray-Pitts <lucienmp_antispam@yahoo.com>
-Suggested-by: Lucien Murray-Pitts <lucienmp_antispam@yahoo.com>
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200116165454.2076265-1-laurent@vivier.eu>
----
- target/m68k/translate.c | 42 ++++++++++++++++++++++++++---------------
- 1 file changed, 27 insertions(+), 15 deletions(-)
+Hi,
+  This is a full set for virtiofsd - a daemon
+that implements the user space side of virtiofs.
 
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 31b743717e..0f80888203 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -289,16 +289,21 @@ static void gen_jmp(DisasContext *s, TCGv dest)
-     s->base.is_jmp = DISAS_JUMP;
- }
- 
--static void gen_exception(DisasContext *s, uint32_t dest, int nr)
-+static void gen_raise_exception(int nr)
- {
-     TCGv_i32 tmp;
- 
--    update_cc_op(s);
--    tcg_gen_movi_i32(QREG_PC, dest);
--
-     tmp = tcg_const_i32(nr);
-     gen_helper_raise_exception(cpu_env, tmp);
-     tcg_temp_free_i32(tmp);
-+}
-+
-+static void gen_exception(DisasContext *s, uint32_t dest, int nr)
-+{
-+    update_cc_op(s);
-+    tcg_gen_movi_i32(QREG_PC, dest);
-+
-+    gen_raise_exception(nr);
- 
-     s->base.is_jmp = DISAS_NORETURN;
- }
-@@ -6198,29 +6203,36 @@ static void m68k_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
- {
-     DisasContext *dc = container_of(dcbase, DisasContext, base);
- 
--    if (dc->base.is_jmp == DISAS_NORETURN) {
--        return;
--    }
--    if (dc->base.singlestep_enabled) {
--        gen_helper_raise_exception(cpu_env, tcg_const_i32(EXCP_DEBUG));
--        return;
--    }
--
-     switch (dc->base.is_jmp) {
-+    case DISAS_NORETURN:
-+        break;
-     case DISAS_TOO_MANY:
-         update_cc_op(dc);
--        gen_jmp_tb(dc, 0, dc->pc);
-+        if (dc->base.singlestep_enabled) {
-+            tcg_gen_movi_i32(QREG_PC, dc->pc);
-+            gen_raise_exception(EXCP_DEBUG);
-+        } else {
-+            gen_jmp_tb(dc, 0, dc->pc);
-+        }
-         break;
-     case DISAS_JUMP:
-         /* We updated CC_OP and PC in gen_jmp/gen_jmp_im.  */
--        tcg_gen_lookup_and_goto_ptr();
-+        if (dc->base.singlestep_enabled) {
-+            gen_raise_exception(EXCP_DEBUG);
-+        } else {
-+            tcg_gen_lookup_and_goto_ptr();
-+        }
-         break;
-     case DISAS_EXIT:
-         /*
-          * We updated CC_OP and PC in gen_exit_tb, but also modified
-          * other state that may require returning to the main loop.
-          */
--        tcg_gen_exit_tb(NULL, 0);
-+        if (dc->base.singlestep_enabled) {
-+            gen_raise_exception(EXCP_DEBUG);
-+        } else {
-+            tcg_gen_exit_tb(NULL, 0);
-+        }
-         break;
-     default:
-         g_assert_not_reached();
--- 
+I've addressed most review comments from V1; we've got
+95 Reviewed-by's out of 110 - I'd like to get a PULL out ASAP.
+
+The set pulls in a big chunk of the upstream libfuse library
+(unmodified so that it's easy to check it really is upstream),
+chops all the stuff out we don't need and then adds the
+new transport we need.  I've formatted everything into qemu's code style -
+using indent and the clang tools for the files I've imported.
+
+We can't just link with libfuse, since we have to make ABI incompatible
+changes for the new transport and it's quite invasive; the library is
+designed to be the basis for multiple filesystems, but all on the same
+transport.
+
+Running this daemon is typically done with:
+
+   ./virtiofsd --socket-path=3D/path/socket -o source=3D/path/to/fs
+
+connected to a qemu that's then started with:
+   -chardev socket,id=3Dchar0,path=3D/path/socket -device vhost-user-fs-pci=
+,queue-size=3D1024,chardev=3Dchar0,tag=3Dmyfs
+
+and then in the guest mount with:
+   mount -t virtiofs myfs /mnt
+
+Our development branch is: https://gitlab.com/virtio-fs/qemu/tree/virtio-fs=
+-dev
+
+This code is going into tools/virtiofsd  based on the previous long
+discussion.
+
+Thank you to all those who have contributed code and to those who have
+reviewed the previous version.
+
+Dave
+
+Dr. David Alan Gilbert (35):
+  virtiofsd: Pull in upstream headers
+  virtiofsd: Pull in kernel's fuse.h
+  virtiofsd: Add auxiliary .c's
+  virtiofsd: Add fuse_lowlevel.c
+  virtiofsd: Add passthrough_ll
+  virtiofsd: Trim down imported files
+  virtiofsd: Format imported files to qemu style
+  virtiofsd: Fix fuse_daemonize ignored return values
+  virtiofsd: Fix common header and define for QEMU builds
+  virtiofsd: Trim out compatibility code
+  virtiofsd: Add options for virtio
+  virtiofsd: Open vhost connection instead of mounting
+  virtiofsd: Start wiring up vhost-user
+  virtiofsd: Add main virtio loop
+  virtiofsd: get/set features callbacks
+  virtiofsd: Start queue threads
+  virtiofsd: Poll kick_fd for queue
+  virtiofsd: Start reading commands from queue
+  virtiofsd: Send replies to messages
+  virtiofsd: Keep track of replies
+  virtiofsd: Add Makefile wiring for virtiofsd contrib
+  virtiofsd: Fast path for virtio read
+  virtiofs: Add maintainers entry
+  virtiofsd: Plumb fuse_bufvec through to do_write_buf
+  virtiofsd: Pass write iov's all the way through
+  virtiofsd: cap-ng helpers
+  docs:  Add docs/tools
+  virtiofsd: Handle reinit
+  virtiofsd: Handle hard reboot
+  virtiofsd: Kill threads when queues are stopped
+  vhost-user: Print unexpected slave message types
+  contrib/libvhost-user: Protect slave fd with mutex
+  virtiofsd: Clean up inodes on destroy
+  libvhost-user: Fix some memtable remap cases
+  virtiofsd: Convert lo_destroy to take the lo->mutex lock itself
+
+Eric Ren (1):
+  virtiofsd: fix incorrect error handling in lo_do_lookup
+
+Eryu Guan (3):
+  virtiofsd: print log only when priority is high enough
+  virtiofsd: convert more fprintf and perror to use fuse log infra
+  virtiofsd: stop all queue threads on exit in virtio_loop()
+
+Jiufei Xue (1):
+  virtiofsd: support nanosecond resolution for file timestamp
+
+Liu Bo (6):
+  virtiofsd: fix error handling in main()
+  virtiofsd: cleanup allocated resource in se
+  virtiofsd: fix memory leak on lo.source
+  virtiofsd: add helper for lo_data cleanup
+  virtiofsd: enable PARALLEL_DIROPS during INIT
+  Virtiofsd: fix memory leak on fuse queueinfo
+
+Masayoshi Mizuma (4):
+  virtiofsd: Add ID to the log with FUSE_LOG_DEBUG level
+  virtiofsd: Add timestamp to the log with FUSE_LOG_DEBUG level
+  virtiofsd: Prevent multiply running with same vhost_user_socket
+  virtiofsd: add some options to the help message
+
+Miklos Szeredi (10):
+  virtiofsd: passthrough_ll: add fallback for racy ops
+  virtiofsd: passthrough_ll: add renameat2 support
+  virtiofsd: passthrough_ll: disable readdirplus on cache=3Dnever
+  virtiofsd: passthrough_ll: control readdirplus
+  virtiofsd: rename unref_inode() to unref_inode_lolocked()
+  virtiofsd: fail when parent inode isn't known in lo_do_lookup()
+  virtiofsd: extract root inode init into setup_root()
+  virtiofsd: passthrough_ll: clean up cache related options
+  virtiofsd: passthrough_ll: use hashtable
+  virtiofsd: passthrough_ll: fix refcounting on remove/rename
+
+Misono Tomohiro (1):
+  virtiofsd: Fix data corruption with O_APPEND write in writeback mode
+
+Peng Tao (1):
+  virtiofsd: do not always set FUSE_FLOCK_LOCKS
+
+Stefan Hajnoczi (37):
+  virtiofsd: remove mountpoint dummy argument
+  virtiofsd: remove unused notify reply support
+  virtiofsd: add -o source=3DPATH to help output
+  virtiofsd: add --fd=3DFDNUM fd passing option
+  virtiofsd: make -f (foreground) the default
+  virtiofsd: add vhost-user.json file
+  virtiofsd: add --print-capabilities option
+  virtiofsd: passthrough_ll: add lo_map for ino/fh indirection
+  virtiofsd: passthrough_ll: add ino_map to hide lo_inode pointers
+  virtiofsd: passthrough_ll: add dirp_map to hide lo_dirp pointers
+  virtiofsd: passthrough_ll: add fd_map to hide file descriptors
+  virtiofsd: validate path components
+  virtiofsd: add fuse_mbuf_iter API
+  virtiofsd: validate input buffer sizes in do_write_buf()
+  virtiofsd: check input buffer size in fuse_lowlevel.c ops
+  virtiofsd: prevent ".." escape in lo_do_lookup()
+  virtiofsd: prevent ".." escape in lo_do_readdir()
+  virtiofsd: use /proc/self/fd/ O_PATH file descriptor
+  virtiofsd: sandbox mount namespace
+  virtiofsd: move to an empty network namespace
+  virtiofsd: move to a new pid namespace
+  virtiofsd: add seccomp whitelist
+  virtiofsd: set maximum RLIMIT_NOFILE limit
+  virtiofsd: fix libfuse information leaks
+  virtiofsd: add security guide document
+  virtiofsd: add --syslog command-line option
+  virtiofsd: use fuse_lowlevel_is_virtio() in fuse_session_destroy()
+  virtiofsd: prevent fv_queue_thread() vs virtio_loop() races
+  virtiofsd: make lo_release() atomic
+  virtiofsd: prevent races with lo_dirp_put()
+  virtiofsd: rename inode->refcount to inode->nlookup
+  virtiofsd: add man page
+  virtiofsd: introduce inode refcount to prevent use-after-free
+  virtiofsd: process requests in a thread pool
+  virtiofsd: prevent FUSE_INIT/FUSE_DESTROY races
+  virtiofsd: fix lo_destroy() resource leaks
+  virtiofsd: add --thread-pool-size=3DNUM option
+
+Vivek Goyal (6):
+  virtiofsd: Make fsync work even if only inode is passed in
+  virtiofsd: passthrough_ll: create new files in caller's context
+  virtiofsd: Parse flag FUSE_WRITE_KILL_PRIV
+  virtiofsd: Drop CAP_FSETID if client asked for it
+  virtiofsd: Support remote posix locks
+  virtiofsd: Reset O_DIRECT flag during file open
+
+Xiao Yang (2):
+  vitriofsd/passthrough_ll: fix fallocate() ifdefs
+  virtiofsd/passthrough_ll: Pass errno to fuse_reply_err()
+
+piaojun (2):
+  virtiofsd: add definition of fuse_buf_writev()
+  virtiofsd: use fuse_buf_writev to replace fuse_buf_write for better
+    performance
+
+ .gitignore                                |    1 +
+ MAINTAINERS                               |    8 +
+ Makefile                                  |   27 +-
+ Makefile.objs                             |    1 +
+ configure                                 |   16 +
+ contrib/libvhost-user/libvhost-user.c     |   57 +-
+ contrib/libvhost-user/libvhost-user.h     |    6 +
+ docs/index.rst                            |    1 +
+ docs/interop/vhost-user.json              |    4 +-
+ docs/tools/conf.py                        |   16 +
+ docs/tools/index.rst                      |   14 +
+ docs/tools/virtiofsd-security.rst         |  118 +
+ hw/virtio/vhost-user.c                    |    2 +-
+ include/standard-headers/linux/fuse.h     |  891 ++++++
+ scripts/update-linux-headers.sh           |    1 +
+ tools/virtiofsd/50-qemu-virtiofsd.json.in |    5 +
+ tools/virtiofsd/Makefile.objs             |   12 +
+ tools/virtiofsd/buffer.c                  |  351 +++
+ tools/virtiofsd/fuse.h                    | 1249 +++++++++
+ tools/virtiofsd/fuse_common.h             |  860 ++++++
+ tools/virtiofsd/fuse_i.h                  |  115 +
+ tools/virtiofsd/fuse_log.c                |   40 +
+ tools/virtiofsd/fuse_log.h                |   74 +
+ tools/virtiofsd/fuse_lowlevel.c           | 2779 +++++++++++++++++++
+ tools/virtiofsd/fuse_lowlevel.h           | 2023 ++++++++++++++
+ tools/virtiofsd/fuse_misc.h               |   60 +
+ tools/virtiofsd/fuse_opt.c                |  449 +++
+ tools/virtiofsd/fuse_opt.h                |  272 ++
+ tools/virtiofsd/fuse_signals.c            |   97 +
+ tools/virtiofsd/fuse_virtio.c             |  985 +++++++
+ tools/virtiofsd/fuse_virtio.h             |   33 +
+ tools/virtiofsd/helper.c                  |  349 +++
+ tools/virtiofsd/passthrough_helpers.h     |   51 +
+ tools/virtiofsd/passthrough_ll.c          | 3006 +++++++++++++++++++++
+ tools/virtiofsd/seccomp.c                 |  164 ++
+ tools/virtiofsd/seccomp.h                 |   16 +
+ tools/virtiofsd/virtiofsd.texi            |  104 +
+ 37 files changed, 14242 insertions(+), 15 deletions(-)
+ create mode 100644 docs/tools/conf.py
+ create mode 100644 docs/tools/index.rst
+ create mode 100644 docs/tools/virtiofsd-security.rst
+ create mode 100644 include/standard-headers/linux/fuse.h
+ create mode 100644 tools/virtiofsd/50-qemu-virtiofsd.json.in
+ create mode 100644 tools/virtiofsd/Makefile.objs
+ create mode 100644 tools/virtiofsd/buffer.c
+ create mode 100644 tools/virtiofsd/fuse.h
+ create mode 100644 tools/virtiofsd/fuse_common.h
+ create mode 100644 tools/virtiofsd/fuse_i.h
+ create mode 100644 tools/virtiofsd/fuse_log.c
+ create mode 100644 tools/virtiofsd/fuse_log.h
+ create mode 100644 tools/virtiofsd/fuse_lowlevel.c
+ create mode 100644 tools/virtiofsd/fuse_lowlevel.h
+ create mode 100644 tools/virtiofsd/fuse_misc.h
+ create mode 100644 tools/virtiofsd/fuse_opt.c
+ create mode 100644 tools/virtiofsd/fuse_opt.h
+ create mode 100644 tools/virtiofsd/fuse_signals.c
+ create mode 100644 tools/virtiofsd/fuse_virtio.c
+ create mode 100644 tools/virtiofsd/fuse_virtio.h
+ create mode 100644 tools/virtiofsd/helper.c
+ create mode 100644 tools/virtiofsd/passthrough_helpers.h
+ create mode 100644 tools/virtiofsd/passthrough_ll.c
+ create mode 100644 tools/virtiofsd/seccomp.c
+ create mode 100644 tools/virtiofsd/seccomp.h
+ create mode 100644 tools/virtiofsd/virtiofsd.texi
+
+--=20
 2.24.1
 
 
