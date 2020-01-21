@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601C414401F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 16:05:48 +0100 (CET)
-Received: from localhost ([::1]:56394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA171144044
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 16:12:45 +0100 (CET)
+Received: from localhost ([::1]:56516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itv6B-0008J7-BM
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 10:05:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51951)
+	id 1itvCu-0004Ew-Ou
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 10:12:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53128)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1itv45-0006wh-S6
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:03:42 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1itvC4-0003oY-5C
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:11:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1itv41-0005MZ-HT
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:03:37 -0500
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:40216)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1itvC2-0002Y8-7h
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:11:52 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38481)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1itv41-0005K9-8h
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:03:33 -0500
-Received: by mail-lj1-x242.google.com with SMTP id u1so3121857ljk.7
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 07:03:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1itvC2-0002Xc-0p
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:11:50 -0500
+Received: by mail-wm1-x334.google.com with SMTP id u2so3455344wmc.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 07:11:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TzqKfwD/PW+oYsUJMo1neA0G+XqzarcdrQtmMVi1wCo=;
- b=DgCGKjqCKB5rbHARnsMEggvpTOMAikb1wKkNSQBcwXfGEVkV2tLkSoQWemvBionkT2
- P158aK5mQ+MeTyShUxmmQCThjelBpvPCwF7FY9PjXp6auRctgoIAe7HAUzHiuw5BPCpq
- 6GAPJwOjtZoguNY+BUzbaRYf+Jqs5gAZGh4kW5Dx0ArLIb0TG0Yt72PBi216rmSDebNm
- Y4nlTDrGx37VPh/jZCFOkntcm0g2mvPbj5HoQACcd8RJIbZWMeTQTlFmk62n44FOZQ4O
- Dk3e4ui9cfjnINbGf4XidPMMc9io6bWdWPkzc6BeQIxX2byvlqzBj3Dq3khHkj8TH9xO
- PCPA==
+ :cc:content-transfer-encoding;
+ bh=U723RPDZaZSWopBWJdUHc2C21cX536JMt3CC3+lohb4=;
+ b=Jpy46U0LCubcl40Tp7NRZQlxticJJUdUDwmJXsaV6QZ8CBGK4F6xYC6yp+/Jn4u7+L
+ Ocr+BHOAJxi18pxzc78UjYUo0BF+zgLz0a5FFqqtLWhlpSg+2FROVB5bZNEFLVK2mTQ6
+ HJRMv0EefUudYDTGh8uuRxv553LZyjpuENxp+0UQ0LAJOrJagJ5+eqVis1IuXJ1V730h
+ rZHGfReppZio1H236cnUN+2nIvK9IPNJjTy6q8kiyDIgwzAaHT+sAl5VCSeW3sRd0tqN
+ FyaFdNod2TAwFCTn11E7aQ+FVUk3HsknM86jChKC0t6i7GKy7ALdHUtxvk6N/8OUL4Nx
+ RmCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TzqKfwD/PW+oYsUJMo1neA0G+XqzarcdrQtmMVi1wCo=;
- b=oJrNCUC2dVqXs66jdDSmkOc3sd08KPE+ti7rNo6qfluSPCy31/1ywknMVbbQtZlALC
- alkXiaKqMH5y1r5UUh8W4CuoYJLJlgub00WgjQhXoDKYQtEdcvxjWNJEN+rms5jdjim9
- dIzrkSqt+WfKwDOqKZCJ7idR2i7DfNPDxNUiZuE9mzj3mlrYmakue2dLpg5QCocE1fLd
- W8+dZXHc48mQSBLtoLsGUStaoLno1fzUYfMDMT4wRy3XmBJPlFIWCxPtAeQyTYhYxDID
- 8x1doqTWt5tfSYcfWCwNVz89lUaYXClfAsviP/iuXzeUnuT8gU39BX4ebG1V79aKX3uh
- Z6wg==
-X-Gm-Message-State: APjAAAVa/dp5A015Ao5CmNXtJLJAGJbE90lTBp8yuns3D86LzmJH47D1
- 0pDo+FWtWzWgVftBlQw4vm6/mbV18dDsKhQ3Vsr5fg==
-X-Google-Smtp-Source: APXvYqwXC26EqZbhCD4fWWYVZPWe9S/Jh+QXCAeTZ0gwRzyFAHBRXA4lg3aN84Xx5M7btRKoOMaQlaZQW9Iwnbn1JIU=
-X-Received: by 2002:a2e:b61a:: with SMTP id r26mr2893853ljn.72.1579619009516; 
- Tue, 21 Jan 2020 07:03:29 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=U723RPDZaZSWopBWJdUHc2C21cX536JMt3CC3+lohb4=;
+ b=O7qBJ9h5USV+lI80wwh9dOCJP1kKx5KfvM0i+ZX4EeW43v3BWX2CnbsRygFpvZ9xqM
+ Bc7nmqW0E+psxWcWSXFk7pgjhge/3ANT0hBcKzNLrsRlN4A1C41aPSHpASgCxEo/bb/N
+ 96OjCLL0PNzdQpjOJMVqKKWs6UtmawK42BkJM2Bv4lFbbetBoQWEA0JE2A59BTVeClGa
+ hLlyDmdmATnh02RJqriqiWeWBX1t5+Mg6lYbl4TvF/4IzfYBaw2QbJ4X8AJ1uqda5r05
+ w4/wE89xhz/BqYT9vBl3SPD+YargAqgghrWohuID0EF6sZGdXPYOiEdI5/YOklyPeBnQ
+ jhmA==
+X-Gm-Message-State: APjAAAWGkQpAqJq12LGFDgHRMq28sWNSAlM3Kmd+X1LU3aCEndbanbJg
+ j/fxsnNZHIUTh3Q83QWfefDJRUYByCTt+LWIQ8Q=
+X-Google-Smtp-Source: APXvYqxbEo65KRTp3goo5RAGF5+k1HidYpbBHTlht7j+gdqzw9jqJNj7w5FFfyBmHAFvlgg+k+Owa8HPnobyM/6r4os=
+X-Received: by 2002:a05:600c:2383:: with SMTP id
+ m3mr4969835wma.32.1579619508679; 
+ Tue, 21 Jan 2020 07:11:48 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1579598240.git.mrezanin@redhat.com>
- <63b0fcedf7dfe799c8210b113e5dccf32414a89d.1579598240.git.mrezanin@redhat.com>
- <14ba746f-97c3-1ae3-c836-ad2e3e213756@redhat.com>
-In-Reply-To: <14ba746f-97c3-1ae3-c836-ad2e3e213756@redhat.com>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Tue, 21 Jan 2020 10:03:18 -0500
-Message-ID: <CAEyhzFuJoFYy_aE6fq1ieHcEcgWQCUkwHmGNQ0gJiazusH3BAw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] test-logging: Fix -Werror=maybe-uninitialized warning
-To: Thomas Huth <thuth@redhat.com>
+References: <87d0bmchq0.fsf@dusky.pond.sub.org>
+ <1B253197-5592-472A-AA26-E0614A13C91A@redhat.com>
+ <87o8v52hz9.fsf@dusky.pond.sub.org>
+ <8CF8359B-1E52-4F7A-944E-C1C14FEC4F92@redhat.com>
+ <87r200zzje.fsf@dusky.pond.sub.org>
+ <20200120100849.GB345995@stefanha-x1.localdomain>
+ <871rrtmkko.fsf@dusky.pond.sub.org>
+ <20200121113224.GD630615@stefanha-x1.localdomain>
+ <CAJ+F1C+anMuBE6pOu8JNOoaNnDw8a47Dc1f6MhnxH=rRNqMF=Q@mail.gmail.com>
+ <87wo9lc4oe.fsf_-_@dusky.pond.sub.org> <20200121143658.GB597037@redhat.com>
+ <871rrs97ld.fsf@dusky.pond.sub.org>
+In-Reply-To: <871rrs97ld.fsf@dusky.pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 21 Jan 2020 19:11:35 +0400
+Message-ID: <CAJ+F1CJ68_QM7zhqoL-bom3vFSNprN3zOV5FUBtrJWg4nAai5g@mail.gmail.com>
+Subject: Re: Integrating QOM into QAPI
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::242
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,61 +84,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, peter.maydell@linaro.org, mrezanin@redhat.com,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Dominik Csapak <d.csapak@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Good catch.
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
+Hi
 
-On Tue, 21 Jan 2020 at 04:58, Thomas Huth <thuth@redhat.com> wrote:
+On Tue, Jan 21, 2020 at 7:01 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
 >
-> On 21/01/2020 10.28, mrezanin@redhat.com wrote:
-> > From: Miroslav Rezanina <mrezanin@redhat.com>
-> >
-> > Checking for uninitialized variables raises warning for file path
-> > variables in test_logfile_write and test_logfile_lock functions.
-> >
-> > To suppress this warning, initialize varibles to NULL. This is safe
-> > change as result of g_build_filename is stored to them before any usage.
-> >
-> > Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-> > ---
-> >  tests/test-logging.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/tests/test-logging.c b/tests/test-logging.c
-> > index 1e646f0..6387e49 100644
-> > --- a/tests/test-logging.c
-> > +++ b/tests/test-logging.c
-> > @@ -114,8 +114,8 @@ static void test_logfile_write(gconstpointer data)
-> >      QemuLogFile *logfile2;
-> >      gchar const *dir = data;
-> >      Error *err = NULL;
-> > -    g_autofree gchar *file_path;
-> > -    g_autofree gchar *file_path1;
-> > +    g_autofree gchar *file_path = NULL;
-> > +    g_autofree gchar *file_path1 = NULL;
-> >      FILE *orig_fd;
-> >
-> >      /*
-> > @@ -157,7 +157,7 @@ static void test_logfile_lock(gconstpointer data)
-> >      FILE *logfile;
-> >      gchar const *dir = data;
-> >      Error *err = NULL;
-> > -    g_autofree gchar *file_path;
-> > +    g_autofree gchar *file_path = NULL;
-> >
-> >      file_path = g_build_filename(dir, "qemu_test_logfile_lock0.log", NULL);
+> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 >
-> Right. The glib documentation clearly states that "the variable must be
-> initialized", see:
+> > On Tue, Jan 21, 2020 at 02:36:17PM +0100, Markus Armbruster wrote:
+> >> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
+> >>
+> >> > Hi
+> >> >
+> >> > On Tue, Jan 21, 2020 at 3:32 PM Stefan Hajnoczi <stefanha@gmail.com>=
+ wrote:
+> >> >>
+> >> >> On Tue, Jan 21, 2020 at 06:42:47AM +0100, Markus Armbruster wrote:
+> >> >> > Stefan Hajnoczi <stefanha@gmail.com> writes:
+> >> >> >
+> >> >> > > On Wed, Jan 15, 2020 at 01:15:17PM +0100, Markus Armbruster wro=
+te:
+> >> >> > >> Christophe de Dinechin <dinechin@redhat.com> writes:
+> >> >> > >> >> On 15 Jan 2020, at 10:20, Markus Armbruster <armbru@redhat.=
+com> wrote:
+> >> >> > >> * qemuMonitorJSONSetIOThread() uses it to control iothread's p=
+roperties
+> >> >> > >>   poll-max-ns, poll-grow, poll-shrink.  Their use with -object=
+ is
+> >> >> > >>   documented (in qemu-options.hx), their use with qom-set is n=
+ot.
+> >> >> > >
+> >> >> > > I'm happy to use a different interface.
+> >> >> > >
+> >> >> > > Writing a boilerplate "iothread-set-poll-params" QMP command in=
+ C would
+> >> >> > > be a step backwards.
+> >> >> >
+> >> >> > No argument.
+> >> >> >
+> >> >> > > Maybe the QAPI code generator could map something like this:
+> >> >> > >
+> >> >> > >   { 'command': 'iothread-set-poll-params',
+> >> >> > >     'data': {
+> >> >> > >         'id': 'str',
+> >> >> > >     '*max-ns': 'uint64',
+> >> >> > >     '*grow': 'uint64',
+> >> >> > >     '*shrink': 'uint64'
+> >> >> > >     },
+> >> >> > >     'map-to-qom-set': 'IOThread'
+> >> >> > >   }
+> >> >> > >
+> >> >> > > And turn it into QOM accessors on the IOThread object.
+> >> >> >
+> >> >> > I think a generic "set this configuration to that value" command =
+is just
+> >> >> > fine.  qom-set fails on several counts, though:
+> >> >> >
+> >> >> > * Tolerable: qom-set is not actually generic, it applies only to =
+QOM.
+> >> >> >
+> >> >> > * qom-set lets you set tons of stuff that is not meant to be chan=
+ged at
+> >> >> >   run time.  If it breaks your guest, you get to keep the pieces.
+> >> >> >
+> >> >> > * There is virtually no documentation on what can be set to what =
+values,
+> >> >> >   and their semantics.
+> >> >> >
+> >> >> > In its current state, QOM is a user interface superfund site.
+> >> >>
+> >> >> Thoughts about a solution:
+> >> >>
+> >> >> Static QOM properties should be declared via QAPI instead of
+> >> >> imperatively via QOM APIs.  That way they are introspectable and ty=
+pe
+> >> >> information is present in the schema.
+> >> >>
+> >> >> The QAPI code generator could emit a function that is callable from
+> >> >> .class_init().  This eliminates the need to manually call
+> >> >> object_class_property_add().
+> >>
+> >> We need to make up our minds what exactly we want generated.  Then we
+> >> can design the QAPI language, and code up the generator.
+> >>
+> >> Skeleton QOM type, to help with the discussion:
+> >>
+> >>     #define TYPE_FOO "foo"
+> >>
+> >>     #define FOO(obj) OBJECT_CHECK(Foo, (obj), TYPE_FOO)
+> >>     #define FOO_CLASS(klass) \
+> >>         OBJECT_CLASS_CHECK(FooClass, (klass), TYPE_FOO)
+> >>     #define FOO_GET_CLASS(obj) \
+> >>         OBJECT_GET_CLASS(FooClass, (obj), TYPE_FOO)
+> >>
+> >>     typedef FooClass {
+> >>         ParentClass parent_class;
+> >>         ... // hand-written per-class state
+> >>     }
+> >>
+> >>     struct Chardev {
+> >>         ParentObject parent_obj;
+> >>         ... // hand-written instance (per-object) state
+> >>     };
+> >>
+> >>     static const TypeInfo char_type_info =3D {
+> >>         .name =3D TYPE_FOO,
+> >>         .parent =3D TYPE_OBJECT,
+> >>         .instance_size =3D sizeof(Foo),
+> >>         .instance_init =3D ...,                   // methods to initia=
+lize
+> >>         .instance_post_init =3D ...,              // and finalize inst=
+ances,
+> >>         .instance_finalize =3D ...,               // all optional
+> >>         .abstract =3D ...,                        // true or false (d'=
+oh)
+> >>         .class_size =3D sizeof(FooClass),
+> >>         .class_init =3D ...,                      // methods to initia=
+lize
+> >>         .class_base_init =3D ...,                 // classes, optional
+> >>         .class_data =3D ...,                      // extra argument fo=
+r them
+> >>         .interfaces =3D ...
+> >>     };
+> >>
+> >> There's substantial boilerplate, with plenty of hand-written code in t=
+he
+> >> gaps.  What of the boilerplate do we plan to generate?  How do we plan
+> >> to fill the gaps, if any?
+> >
+> > FWIW, even without a QOM generator, we can do waaaaaaay better on the
+> > amount of boilerplate needed for QOM without very much work. It just
+> > needs a few convenience macros writing.
+> >
+> > QOM is not GObject, but is heavily inspired by it and so looking at
+> > GObject gives us a design pattern we can aim to match in terms of
+> > amount of boilerplate.
+> >
+> > What we do manually with TypeInfo struct there has essentially always
+> > been done by a 1 line macro in GObject:
+> >
+> >   G_DEFINE_TYPE(virIdentity, vir_identity, G_TYPE_OBJECT)
+> >
+> > If implementing interfaces, there's 1 extra line needed per interface
+> > to associate them.
+> >
+> >   https://developer.gnome.org/gobject/stable/gobject-Type-Information.h=
+tml#G-DEFINE-TYPE:CAPS
+> >
+> >
+> > And what we do in the header file to add the 4 or more FOO_XXX macros,
+> > and the class struct and the object struct has recently been turned
+> > into a 2-liner:
+> >
+> >   #define VIR_TYPE_IDENTITY vir_identity_get_type()
+> >   G_DECLARE_FINAL_TYPE(virIdentity, vir_identity, VIR, IDENTITY, GObjec=
+t);
+> >
+> >   https://developer.gnome.org/gobject/stable/gobject-Type-Information.h=
+tml#G-DECLARE-FINAL-TYPE:CAPS
+> >
+> > Or
+> >
+> >   #define VIR_TYPE_IDENTITY vir_identity_get_type()
+> >   G_DECLARE_DERIVABLE_TYPE(virIdentity, vir_identity, VIR, IDENTITY, GO=
+bject);
+> >
+> >   https://developer.gnome.org/gobject/stable/gobject-Type-Information.h=
+tml#G-DECLARE-DERIVABLE-TYPE:CAPS
+> >
+> >
+> > It would be nice to have a QOM code generator so that we can statically
+> > declare properties & parent/child/interface relationships, but for an
+> > immediate low cost win, better macros would be very useful IMHO.
 >
-> https://developer.gnome.org/glib/stable/glib-Miscellaneous-Macros.html#g-autofree
+> Volunteers?
 >
-> So this is the right thing to do here!
->
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
->
+
+Actually, we are not that far off from being able to use GObject
+altogether (I hacked something like that to play with), but I
+disgress...
+
+So introducing GObject-like macros? sure!
+
+There are plenty of refactoring to do. The problem when touching the
+whole code-base, imho, is review time. It may take a couple of
+hours/days to come up with a cocci/spatch, and make various patches
+here and there. But it takes often weeks and a lot of constant push to
+various folks to get all the reviews (as seens by the qdev prop-ptr
+series earlier for example). How can we better address whole code-base
+changes?
+
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
