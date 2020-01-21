@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B52143BB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 12:09:57 +0100 (CET)
-Received: from localhost ([::1]:51812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCE7143BD2
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 12:12:49 +0100 (CET)
+Received: from localhost ([::1]:51866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itrPw-00010k-63
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 06:09:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40635)
+	id 1itrSh-0004dB-Rc
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 06:12:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40683)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1itrLe-00044N-KM
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:05:35 -0500
+ (envelope-from <philmd@redhat.com>) id 1itrLk-0004DF-9Z
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:05:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1itrLa-0002vK-0l
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:05:30 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55445
+ (envelope-from <philmd@redhat.com>) id 1itrLf-0002yG-MC
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:05:36 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29201
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itrLZ-0002v1-SL
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:05:25 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1itrLf-0002xm-I3
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:05:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579604725;
+ s=mimecast20190719; t=1579604731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xXEz7PhStQkERVMKiqaV7Qb0h7hoBdcqu+yYcMWd3AI=;
- b=SvYTNB+xFc3bY8irYanOOqqf93prNKz4Cb+71gaEpOk/wqZxYCbnJn6/1yDkfU3+A91fTk
- ygg83djv5WvuWVtGZeQZkWKtGYNJcjaKNcIxbebn/FEDgUKuvs96XhrPZzJ3oYNqvQGPbJ
- BS+ckoPLydyabcQL+Yn0VfE+8MlwfFM=
+ bh=iNuoGr5oPJiuWEZoZePQ9BsL70DcUB2WguHzKK55cpE=;
+ b=i0oIASQjfC6SBaFXZjprEgIgMac0ULh3WqCuwtSVQRYkPUq+B19KLe8Qp9LTDizcZTK1dq
+ 0AJLDanTkQ8HxJjD4xB4JG9CgJrfjkDTVFBBGfgp3EU9dXrw+m5bd9TH1SApnfTrVHBkGD
+ tMsCO68DyKzJAVa4+KdaAnYZFOWXr6s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-_7zYfEwQPzuFedrPlu-uRQ-1; Tue, 21 Jan 2020 06:05:23 -0500
+ us-mta-254-JQqfRcGaOUKmLMIdFS6tiQ-1; Tue, 21 Jan 2020 06:05:29 -0500
+X-MC-Unique: JQqfRcGaOUKmLMIdFS6tiQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D131107ACC4;
- Tue, 21 Jan 2020 11:05:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 363F6DBA3;
+ Tue, 21 Jan 2020 11:05:28 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-38.brq.redhat.com [10.40.205.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FF2E811F8;
- Tue, 21 Jan 2020 11:05:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13C98811F8;
+ Tue, 21 Jan 2020 11:05:21 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/10] accel: Introduce the current_accel() wrapper
-Date: Tue, 21 Jan 2020 12:03:47 +0100
-Message-Id: <20200121110349.25842-9-philmd@redhat.com>
+Subject: [PATCH v2 09/10] accel: Replace current_machine->accelerator by
+ current_accel() wrapper
+Date: Tue, 21 Jan 2020 12:03:48 +0100
+Message-Id: <20200121110349.25842-10-philmd@redhat.com>
 In-Reply-To: <20200121110349.25842-1-philmd@redhat.com>
 References: <20200121110349.25842-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: _7zYfEwQPzuFedrPlu-uRQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -76,56 +75,157 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>, Like Xu <like.xu@linux.intel.com>,
  David Hildenbrand <david@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ "open list:Overall KVM CPUs" <kvm@vger.kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The accel/ code only access the MachineState::accel field.
-As we simply want to access the accelerator, not the machine,
-add a current_accel() wrapper.
+We actually want to access the accelerator, not the machine, so
+use the current_accel() wrapper instead.
 
 Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2: Reworded description using 'wrapper'
+v2:
+- Reworded description
+- Remove unused include in arm/kvm64
 ---
- include/sysemu/accel.h | 2 ++
- accel/accel.c          | 5 +++++
- 2 files changed, 7 insertions(+)
+ accel/kvm/kvm-all.c | 4 ++--
+ accel/tcg/tcg-all.c | 2 +-
+ memory.c            | 2 +-
+ target/arm/kvm64.c  | 5 ++---
+ target/i386/kvm.c   | 2 +-
+ target/ppc/kvm.c    | 2 +-
+ vl.c                | 2 +-
+ 7 files changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
-index d4c1429711..47e5788530 100644
---- a/include/sysemu/accel.h
-+++ b/include/sysemu/accel.h
-@@ -70,4 +70,6 @@ int accel_init_machine(AccelState *accel, MachineState *m=
-s);
- /* Called just before os_setup_post (ie just before drop OS privs) */
- void accel_setup_post(MachineState *ms);
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 1ada2f4ecb..c111312dfd 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -164,7 +164,7 @@ static NotifierList kvm_irqchip_change_notifiers =3D
 =20
-+AccelState *current_accel(void);
-+
- #endif
-diff --git a/accel/accel.c b/accel/accel.c
-index 1c5c3a6abb..cb555e3b06 100644
---- a/accel/accel.c
-+++ b/accel/accel.c
-@@ -63,6 +63,11 @@ int accel_init_machine(AccelState *accel, MachineState *=
-ms)
-     return ret;
+ int kvm_get_max_memslots(void)
+ {
+-    KVMState *s =3D KVM_STATE(current_machine->accelerator);
++    KVMState *s =3D KVM_STATE(current_accel());
+=20
+     return s->nr_slots;
+ }
+@@ -1848,7 +1848,7 @@ static int kvm_max_vcpu_id(KVMState *s)
+=20
+ bool kvm_vcpu_id_is_valid(int vcpu_id)
+ {
+-    KVMState *s =3D KVM_STATE(current_machine->accelerator);
++    KVMState *s =3D KVM_STATE(current_accel());
+     return vcpu_id >=3D 0 && vcpu_id < kvm_max_vcpu_id(s);
  }
 =20
-+AccelState *current_accel(void)
-+{
-+    return current_machine->accelerator;
-+}
-+
- void accel_setup_post(MachineState *ms)
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index 1dc384c8d2..1802ce02f6 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -124,7 +124,7 @@ static void tcg_accel_instance_init(Object *obj)
+=20
+ static int tcg_init(MachineState *ms)
  {
-     AccelState *accel =3D ms->accelerator;
+-    TCGState *s =3D TCG_STATE(current_machine->accelerator);
++    TCGState *s =3D TCG_STATE(current_accel());
+=20
+     tcg_exec_init(s->tb_size * 1024 * 1024);
+     cpu_interrupt_handler =3D tcg_handle_interrupt;
+diff --git a/memory.c b/memory.c
+index d7b9bb6951..854798791e 100644
+--- a/memory.c
++++ b/memory.c
+@@ -3104,7 +3104,7 @@ void mtree_info(bool flatview, bool dispatch_tree, =
+bool owner)
+         };
+         GArray *fv_address_spaces;
+         GHashTable *views =3D g_hash_table_new(g_direct_hash, g_direct_e=
+qual);
+-        AccelClass *ac =3D ACCEL_GET_CLASS(current_machine->accelerator)=
+;
++        AccelClass *ac =3D ACCEL_GET_CLASS(current_accel());
+=20
+         if (ac->has_memory) {
+             fvi.ac =3D ac;
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 876184b8fe..e3c580e749 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -26,7 +26,6 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/kvm_int.h"
+ #include "kvm_arm.h"
+-#include "hw/boards.h"
+ #include "internals.h"
+=20
+ static bool have_guest_debug;
+@@ -613,14 +612,14 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatur=
+es *ahcf)
+=20
+ bool kvm_arm_aarch32_supported(CPUState *cpu)
+ {
+-    KVMState *s =3D KVM_STATE(current_machine->accelerator);
++    KVMState *s =3D KVM_STATE(current_accel());
+=20
+     return kvm_check_extension(s, KVM_CAP_ARM_EL1_32BIT);
+ }
+=20
+ bool kvm_arm_sve_supported(CPUState *cpu)
+ {
+-    KVMState *s =3D KVM_STATE(current_machine->accelerator);
++    KVMState *s =3D KVM_STATE(current_accel());
+=20
+     return kvm_check_extension(s, KVM_CAP_ARM_SVE);
+ }
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 7ee3202634..eddb930065 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -147,7 +147,7 @@ bool kvm_allows_irq0_override(void)
+=20
+ static bool kvm_x2apic_api_set_flags(uint64_t flags)
+ {
+-    KVMState *s =3D KVM_STATE(current_machine->accelerator);
++    KVMState *s =3D KVM_STATE(current_accel());
+=20
+     return !kvm_vm_enable_cap(s, KVM_CAP_X2APIC_API, 0, flags);
+ }
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index b5799e62b4..45ede6b6d9 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -258,7 +258,7 @@ static void kvm_get_smmu_info(struct kvm_ppc_smmu_inf=
+o *info, Error **errp)
+=20
+ struct ppc_radix_page_info *kvm_get_radix_page_info(void)
+ {
+-    KVMState *s =3D KVM_STATE(current_machine->accelerator);
++    KVMState *s =3D KVM_STATE(current_accel());
+     struct ppc_radix_page_info *radix_page_info;
+     struct kvm_ppc_rmmu_info rmmu_info;
+     int i;
+diff --git a/vl.c b/vl.c
+index 71d3e7eefb..a8ea36f4f8 100644
+--- a/vl.c
++++ b/vl.c
+@@ -2812,7 +2812,7 @@ static void configure_accelerators(const char *prog=
+name)
+     }
+=20
+     if (init_failed) {
+-        AccelClass *ac =3D ACCEL_GET_CLASS(current_machine->accelerator)=
+;
++        AccelClass *ac =3D ACCEL_GET_CLASS(current_accel());
+         error_report("falling back to %s", ac->name);
+     }
+=20
 --=20
 2.21.1
 
