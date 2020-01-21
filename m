@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85779144097
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 16:36:45 +0100 (CET)
-Received: from localhost ([::1]:56822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A84144088
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 16:32:09 +0100 (CET)
+Received: from localhost ([::1]:56758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itva8-0006gx-ID
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 10:36:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55335)
+	id 1itvVg-0001BO-CX
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 10:32:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55056)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1itvUc-0000sE-HQ
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:31:06 -0500
+ (envelope-from <stefanb@linux.ibm.com>) id 1itvTO-0007mr-Ng
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:29:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1itvUY-0004cE-Tb
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:31:02 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46070)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1itvUY-0004bQ-O7
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:30:58 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1itvUV-0007Sd-JN
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 15:30:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A95642E80FA
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 15:30:52 +0000 (UTC)
+ (envelope-from <stefanb@linux.ibm.com>) id 1itvTN-0003ss-5H
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 10:29:46 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6980)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
+ id 1itvTM-0003rr-Te; Tue, 21 Jan 2020 10:29:45 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 00LFCRAm106603; Tue, 21 Jan 2020 10:29:39 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xnx9ad9rd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jan 2020 10:29:39 -0500
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 00LFCmJM110258;
+ Tue, 21 Jan 2020 10:29:38 -0500
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xnx9ad9qx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jan 2020 10:29:38 -0500
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 00LFRDdC027597;
+ Tue, 21 Jan 2020 15:29:38 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma03dal.us.ibm.com with ESMTP id 2xksn6kuqf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jan 2020 15:29:37 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 00LFTbG550987402
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 21 Jan 2020 15:29:37 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0CA8328059;
+ Tue, 21 Jan 2020 15:29:37 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0803528058;
+ Tue, 21 Jan 2020 15:29:37 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue, 21 Jan 2020 15:29:36 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.ibm.com>
+To: qemu-ppc@nongnu.org
+Subject: [PATCH v9 0/6] Add vTPM emulator support for ppc64 platform
+Date: Tue, 21 Jan 2020 10:29:29 -0500
+Message-Id: <20200121152935.649898-1-stefanb@linux.ibm.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-01-21_04:2020-01-21,
+ 2020-01-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
+ lowpriorityscore=0 mlxlogscore=999 phishscore=0 mlxscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-2001210123
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 21 Jan 2020 15:24:09 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1859656@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=maas; status=Incomplete; importance=Undecided;
- assignee=lee.trager@canonical.com; 
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
- assignee=maas; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ltrager paelzer sfeole
-X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
-Message-Id: <157962024941.4516.8390070990072713909.malone@soybean.canonical.com>
-Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
- initial deploy
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f1052173880d8dae43faa7c2fc45da1b42227143";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 33b23c48cff75c739175f10d668daf3dce4938e5
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 91.189.90.7
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id 00LFCRAm106603
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,113 +91,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
+Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>,
+ qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu-kvm doesn't exist for years, I have marked it for qemu instead.
-Thanks Frank for making me aware.
 
-Sean got everything right in comment #6, it can only boot one and that is t=
-he first boot entry.
-There is no fallback/fallthrough on s390x.
+The following series of patches adds vTPM emulator support for the
+ppc64 platform (pSeries).=20
 
-If you stick with global boot options the host would needs to change the
-XML to boot fro disk in this case. (BTW that is the case since the
-beginnign the comment is from libvirt 3.5 somewhere around zesty I
-think).
+It can be tested as follows with swtpm/libtpms:
 
-P.S. if this ever worked it was a bug that is not to be relied upon (but
-I'd wonder)
+mkdir /tmp/mytpm1
+swtpm socket --tpmstate dir=3D/tmp/mytpm1 \
+  --ctrl type=3Dunixio,path=3D/tmp/mytpm1/swtpm-sock \
+  --log level=3D20
 
-But that doesn't mean it won't work, just not with that XML format.
-I've never tested it but I think you might be able to get away with a prope=
-r bootorder config.
-An example can be found here [1] that you might try (do not implement it di=
-rectly, give it a test please)
+If TPM 2 is desired, add --tpm2 as parameter to the above.
 
-[1]:
-https://libvirt.org/git/?p=3Dlibvirt.git;a=3Dblob;f=3Dtests/qemuxml2xmloutd=
-ata
-/machine-loadparm-multiple-disks-
-nets-s390.xml;h=3Dc4e08fd4401bf5bf448ee45ab8890b3e44057f97;hb=3DHEAD
+In another terminal start QEMU:
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+sudo ./ppc64-softmmu/qemu-system-ppc64 -display sdl \
+	-machine pseries,accel=3Dkvm \
+	-m 1024 -bios slof.bin -boot menu=3Don \
+	-nodefaults -device VGA -device pci-ohci -device usb-kbd \
+	-chardev socket,id=3Dchrtpm,path=3D/tmp/mytpm1/swtpm-sock \
+	-tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \
+	-device tpm-spapr,tpmdev=3Dtpm0 \
+	-device spapr-vscsi,id=3Dscsi0,reg=3D0x00002000 \
+	-device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,addr=3D0x3,drive=3Ddrive-v=
+irtio-disk0,id=3Dvirtio-disk0 \
+	-drive file=3Dtest.img,format=3Draw,if=3Dnone,id=3Ddrive-virtio-disk0
 
--- =
+Links:
+ - libtpms: https://github.com/stefanberger/libtpms/wiki
+ - swtpm: https://github.com/stefanberger/swtpm/wiki
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859656
+Changes:
+ v8->v9:
+  - Allocating buffer now so we can use VMSTATE_VBUFFER_UINT32 for the re=
+gular
+    buffer (no more suspend buffer)
 
-Title:
-  [2.6] Unable to reboot s390x KVM machine after initial deploy
+ v7->v8:
+  - Folded documentation patch into 3rd patch
+  - Added Marc-Andr=C3=A9's patch to end of series
 
-Status in MAAS:
-  Incomplete
-Status in QEMU:
-  Incomplete
-Status in Ubuntu on IBM z Systems:
-  Triaged
+ v6->v7:
+  - Implemented get_dt_compatible() and using it
+  - Moved tpm_this_show_buffer to tpm_util.c
 
-Bug description:
-  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
-  Arch: S390x
+ v5->v6:
+  - adjusted names of structures and simplified
+  - only transmitting min. necessary bytes to pass to VM after resume
+  - addressed other issues pointed out by D. Gibson
 
-  Appears that MAAS can not find the s390x bootloader to boot from the
-  disk, not sure how maas determines this.  However this was working in
-  the past. I had originally thought that if the maas machine was
-  deployed then it defaulted to boot from disk.
+ v4->v5:
+  - use runstate_check(RUN_STATE_FINISH_MIGRATE) to check whether devices
+    are suspending; ditch 3 patches in this series that tried to do simil=
+ar
 
-  If I force the VM to book from disk, the VM starts up as expected.
+ v3->v4:
+  - addressed comments to v3
+  - reworked suspend/resume support that requires extensions to backends
 
-  Reproduce:
+ v2->v3:
+  - patch 1: a TPM 2 is identified by IBM,vtpm20 in the compatible node
+  - patch 1: convert to tracing to display Tx and Rx buffers
+  - added documentation patch
+  - added patch to enable TPM device as part of pSeries
 
-  - Deploy Disco on S390x KVM instance
-  - Reboot it
+ v1->v2:
+  - followed Cedric Le Goater's suggestions to patch 1
+  - send appropriate CRQ error responses if DMA read or write fails
+  - renamed tpm_spapr_got_payload to tpm_spapr_process_cmd and
+    pass endianess-adjusted data pointer from CRQ to it
 
-  on the KVM console...
+Regards,
+    Stefan
 
-  Connected to domain s2lp6g001
-  Escape character is ^]
-  done
-  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
-  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
-  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
-  Trying pxelinux.cfg files...
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  Failed to load OS from network
 
-  =3D=3D> /var/log/maas/rackd.log <=3D=3D
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
-0x.bin requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
-5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-1-52-54-00-e5-d7-bb requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64BA0 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64BA requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64B requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF6 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-A requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
- requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
-efault requested by 10.246.75.160
+Marc-Andr=C3=A9 Lureau (1):
+  docs/specs/tpm: reST-ify TPM documentation
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
+Stefan Berger (5):
+  tpm: Move tpm_tis_show_buffer to tpm_util.c
+  spapr: Implement get_dt_compatible() callback
+  tpm_spapr: Support TPM for ppc64 using CRQ based interface
+  tpm_spapr: Support suspend and resume
+  hw/ppc/Kconfig: Enable TPM_SPAPR as part of PSERIES config
+
+ docs/specs/index.rst       |   1 +
+ docs/specs/tpm.rst         | 503 +++++++++++++++++++++++++++++++++++++
+ docs/specs/tpm.txt         | 427 -------------------------------
+ hw/ppc/Kconfig             |   1 +
+ hw/ppc/spapr_vio.c         |  11 +-
+ hw/tpm/Kconfig             |   6 +
+ hw/tpm/Makefile.objs       |   1 +
+ hw/tpm/tpm_spapr.c         | 429 +++++++++++++++++++++++++++++++
+ hw/tpm/tpm_tis.c           |  32 +--
+ hw/tpm/tpm_util.c          |  25 ++
+ hw/tpm/tpm_util.h          |   3 +
+ hw/tpm/trace-events        |  16 +-
+ include/hw/ppc/spapr_vio.h |   1 +
+ include/sysemu/tpm.h       |   3 +
+ qapi/tpm.json              |   6 +-
+ 15 files changed, 1004 insertions(+), 461 deletions(-)
+ create mode 100644 docs/specs/tpm.rst
+ delete mode 100644 docs/specs/tpm.txt
+ create mode 100644 hw/tpm/tpm_spapr.c
+
+--=20
+2.24.1
+
 
