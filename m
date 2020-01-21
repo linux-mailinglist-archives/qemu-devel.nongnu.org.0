@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09858143D07
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 13:41:27 +0100 (CET)
-Received: from localhost ([::1]:53202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A6A143D05
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 13:40:29 +0100 (CET)
+Received: from localhost ([::1]:53192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itsqR-0003XX-FX
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 07:41:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51162)
+	id 1itspY-0002aj-6P
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 07:40:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51158)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1itsbV-0005xN-8u
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:25:58 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1itsbR-0001zr-AX
+ (envelope-from <dgilbert@redhat.com>) id 1itsbU-0005vu-Ef
  for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:25:57 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35448
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <dgilbert@redhat.com>) id 1itsbT-00020K-7Q
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:25:56 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22121
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsbR-0001zn-6k
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:25:53 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itsbT-00020A-42
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 07:25:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579609552;
+ s=mimecast20190719; t=1579609554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E7v4YzWpKMP1akwTle/wQyB8MLuZbEjM2jo9ES72v0Y=;
- b=UjBueYGTtDKfCNLqpbMCcQgVBzY3gP3q0fAp7AIpjX/X0dKRrc9bV06xzepv9uastJJJ8Z
- vzCX35LtzEM6EoPm4IEtkNFxlqkySmaF4dBoYvMVMZhELqZjYbUVuazozbVdXkaDLgdLQo
- Rbx2MNaQJZCsHkj46lBk3YEhFoGdJBw=
+ bh=9brjdi7sTJ74Kz8L/FfJAHlpGH51pYGeQKL5R0gk8gE=;
+ b=f0DyyFhyt9EAt8EdXTWHAe7d0qAd24hfMTXt5U/tnXg4COCFO127Lm4+2BovQEzIcN/XI9
+ b7AcEmKKh+qyEKdMAoJxoE/QyO1Ly8I914I2Xl/mnTJCs1DM50/3lKII8LtCpgg60RXahf
+ Cm0LEw19vCm9SafKR397rOhWB9b74QQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-ph40QVLwO76T686jgZd1mg-1; Tue, 21 Jan 2020 07:25:51 -0500
+ us-mta-171-9rHPxzlGNduLGnfq7GnRrA-1; Tue, 21 Jan 2020 07:25:53 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A0731005510;
- Tue, 21 Jan 2020 12:25:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47C9AA0CBF;
+ Tue, 21 Jan 2020 12:25:52 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0766B60BE0;
- Tue, 21 Jan 2020 12:25:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99D6860BE0;
+ Tue, 21 Jan 2020 12:25:50 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  berrange@redhat.com, slp@redhat.com, philmd@redhat.com
-Subject: [PATCH v2 014/109] virtiofsd: Make fsync work even if only inode is
- passed in
-Date: Tue, 21 Jan 2020 12:22:58 +0000
-Message-Id: <20200121122433.50803-15-dgilbert@redhat.com>
+Subject: [PATCH v2 015/109] virtiofsd: Add options for virtio
+Date: Tue, 21 Jan 2020 12:22:59 +0000
+Message-Id: <20200121122433.50803-16-dgilbert@redhat.com>
 In-Reply-To: <20200121122433.50803-1-dgilbert@redhat.com>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: ph40QVLwO76T686jgZd1mg-1
+X-MC-Unique: 9rHPxzlGNduLGnfq7GnRrA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -77,83 +76,101 @@ Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vivek Goyal <vgoyal@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-If caller has not sent file handle in request, then using inode, retrieve
-the fd opened using O_PATH and use that to open file again and issue
-fsync. This will be needed when dax_flush() calls fsync. At that time
-we only have inode information (and not file).
+Add options to specify parameters for virtio-fs paths, i.e.
 
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+   ./virtiofsd -o vhost_user_socket=3D/tmp/vhostqemu
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c  |  6 +++++-
- tools/virtiofsd/passthrough_ll.c | 28 ++++++++++++++++++++++++++--
- 2 files changed, 31 insertions(+), 3 deletions(-)
+ tools/virtiofsd/fuse_i.h        |  1 +
+ tools/virtiofsd/fuse_lowlevel.c | 15 ++++++++++-----
+ tools/virtiofsd/helper.c        | 16 ++++++++--------
+ 3 files changed, 19 insertions(+), 13 deletions(-)
 
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index bae06992e0..26b1a7da88 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -63,6 +63,7 @@ struct fuse_session {
+     struct fuse_notify_req notify_list;
+     size_t bufsize;
+     int error;
++    char *vu_socket_path;
+ };
+=20
+ struct fuse_chan {
 diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
 l.c
-index efba1066a1..861a0b6c31 100644
+index 861a0b6c31..ca1ea78fba 100644
 --- a/tools/virtiofsd/fuse_lowlevel.c
 +++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -1076,7 +1076,11 @@ static void do_fsync(fuse_req_t req, fuse_ino_t node=
-id, const void *inarg)
-     fi.fh =3D arg->fh;
+@@ -2117,8 +2117,11 @@ reply_err:
+     }
 =20
-     if (req->se->op.fsync) {
--        req->se->op.fsync(req, nodeid, datasync, &fi);
-+        if (fi.fh =3D=3D (uint64_t)-1) {
-+            req->se->op.fsync(req, nodeid, datasync, NULL);
-+        } else {
-+            req->se->op.fsync(req, nodeid, datasync, &fi);
-+        }
-     } else {
-         fuse_reply_err(req, ENOSYS);
-     }
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index e1f76170f6..3a8d5497c6 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -902,10 +902,34 @@ static void lo_fsync(fuse_req_t req, fuse_ino_t ino, =
-int datasync,
- {
-     int res;
-     (void)ino;
-+    int fd;
-+    char *buf;
-+
-+    fuse_log(FUSE_LOG_DEBUG, "lo_fsync(ino=3D%" PRIu64 ", fi=3D0x%p)\n", i=
-no,
-+             (void *)fi);
-+
-+    if (!fi) {
-+        res =3D asprintf(&buf, "/proc/self/fd/%i", lo_fd(req, ino));
-+        if (res =3D=3D -1) {
-+            return (void)fuse_reply_err(req, errno);
-+        }
-+
-+        fd =3D open(buf, O_RDWR);
-+        free(buf);
-+        if (fd =3D=3D -1) {
-+            return (void)fuse_reply_err(req, errno);
-+        }
-+    } else {
-+        fd =3D fi->fh;
-+    }
-+
-     if (datasync) {
--        res =3D fdatasync(fi->fh);
-+        res =3D fdatasync(fd);
-     } else {
--        res =3D fsync(fi->fh);
-+        res =3D fsync(fd);
-+    }
-+    if (!fi) {
-+        close(fd);
-     }
-     fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
+ static const struct fuse_opt fuse_ll_opts[] =3D {
+-    LL_OPTION("debug", debug, 1), LL_OPTION("-d", debug, 1),
+-    LL_OPTION("--debug", debug, 1), LL_OPTION("allow_root", deny_others, 1=
+),
++    LL_OPTION("debug", debug, 1),
++    LL_OPTION("-d", debug, 1),
++    LL_OPTION("--debug", debug, 1),
++    LL_OPTION("allow_root", deny_others, 1),
++    LL_OPTION("--socket-path=3D%s", vu_socket_path, 0),
+     FUSE_OPT_END
+ };
+=20
+@@ -2134,9 +2137,11 @@ void fuse_lowlevel_help(void)
+      * These are not all options, but the ones that are
+      * potentially of interest to an end-user
+      */
+-    printf("    -o allow_other         allow access by all users\n"
+-           "    -o allow_root          allow access by root\n"
+-           "    -o auto_unmount        auto unmount on process termination=
+\n");
++    printf(
++        "    -o allow_other             allow access by all users\n"
++        "    -o allow_root              allow access by root\n"
++        "    --socket-path=3DPATH         path for the vhost-user socket\n=
+"
++        "    -o auto_unmount            auto unmount on process terminatio=
+n\n");
  }
+=20
+ void fuse_session_destroy(struct fuse_session *se)
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index 0ad34f0619..1dc497a7ca 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -127,14 +127,14 @@ static const struct fuse_opt conn_info_opt_spec[] =3D=
+ {
+=20
+ void fuse_cmdline_help(void)
+ {
+-    printf(
+-        "    -h   --help            print help\n"
+-        "    -V   --version         print version\n"
+-        "    -d   -o debug          enable debug output (implies -f)\n"
+-        "    -f                     foreground operation\n"
+-        "    -s                     disable multi-threaded operation\n"
+-        "    -o max_idle_threads    the maximum number of idle worker thre=
+ads\n"
+-        "                           allowed (default: 10)\n");
++    printf("    -h   --help                print help\n"
++           "    -V   --version             print version\n"
++           "    -d   -o debug              enable debug output (implies -f=
+)\n"
++           "    -f                         foreground operation\n"
++           "    -s                         disable multi-threaded operatio=
+n\n"
++           "    -o max_idle_threads        the maximum number of idle work=
+er "
++           "threads\n"
++           "                               allowed (default: 10)\n");
+ }
+=20
+ static int fuse_helper_opt_proc(void *data, const char *arg, int key,
 --=20
 2.24.1
 
