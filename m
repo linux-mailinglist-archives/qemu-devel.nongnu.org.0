@@ -2,40 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF13143BEA
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 12:18:49 +0100 (CET)
-Received: from localhost ([::1]:51960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99078143BD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 12:13:06 +0100 (CET)
+Received: from localhost ([::1]:51874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itrYW-00035Q-7A
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 06:18:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41750)
+	id 1itrSz-00059P-JB
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 06:13:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41245)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrezanin@redhat.com>) id 1itrSs-0006CU-HV
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:12:59 -0500
+ (envelope-from <quintela@redhat.com>) id 1itrOh-0000Dt-95
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:08:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrezanin@redhat.com>) id 1itrSr-0007Ue-8w
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:12:58 -0500
-Received: from 212-4-128-36.cust.selfnet.cz ([212.4.128.36]:60030
- helo=workimage.localdomain) by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <mrezanin@redhat.com>) id 1itrSr-0007U3-1M
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:12:57 -0500
-Received: by workimage.localdomain (Postfix, from userid 1000)
- id 631591CB58E; Tue, 21 Jan 2020 12:06:37 +0100 (CET)
-Date: Tue, 21 Jan 2020 12:06:37 +0100
-From: Miroslav Rezanina <mrezanin@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] Makefile: add missing mkdir MANUAL_BUILDDIR
-Message-ID: <20200121110637.4pzkxbyepgozk4q3@lws.brq.redhat.com>
-References: <20200120163400.603449-1-stefanha@redhat.com>
+ (envelope-from <quintela@redhat.com>) id 1itrOd-0004WW-D7
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:08:39 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36326
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1itrOd-0004WN-9U
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 06:08:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579604914;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zwIrFTaxN9a2qTlMPBKUIWO6noCAq3KUlr8hvzIoAS8=;
+ b=ArnLmKYLjALbHmj9wdYdcwBF1ALNLbRW9VAsatAiogdvjakURzpguOH3JHIlvWg54XZOsr
+ bI8N/OFPg1y5D4r0UkQAqpgXw56TKmcHMXejopEfHimNP/WQ+5L48k4ir4NJJUlS8lD5Hd
+ 1Vp4Elskab6e0xc9tkvzSqKSPzpcLCQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-402-Dp6j7vcnPbW7mLqkhJpJOA-1; Tue, 21 Jan 2020 06:08:31 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C025D800D4C
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 11:08:30 +0000 (UTC)
+Received: from redhat.com (ovpn-116-23.ams2.redhat.com [10.36.116.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54E7460BE0;
+ Tue, 21 Jan 2020 11:08:30 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v3 2/5] migration: Create MigrationState active field
+In-Reply-To: <20200117162612.GN3209@work-vm> (David Alan Gilbert's message of
+ "Fri, 17 Jan 2020 16:26:12 +0000")
+References: <20200116154616.11569-1-quintela@redhat.com>
+ <20200116154616.11569-3-quintela@redhat.com>
+ <20200117162612.GN3209@work-vm>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Tue, 21 Jan 2020 12:08:27 +0100
+Message-ID: <87wo9lgj84.fsf@secure.laptop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200120163400.603449-1-stefanha@redhat.com>
-User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: Dp6j7vcnPbW7mLqkhJpJOA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.4.128.36
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,40 +76,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Reply-To: quintela@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 20, 2020 at 04:34:00PM +0000, Stefan Hajnoczi wrote:
-> The MANUAL_BUILDDIR directory is automatically created by sphinx-build
-> for the other targets.  The index.html target does not use sphinx-build
-> so we must manually create the directory to avoid the following error:
-> 
->   GEN     docs/built/index.html
->   /bin/sh: docs/built/index.html: No such file or directory
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  Makefile | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Makefile b/Makefile
-> index afa5cb6548..6562b0dc97 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1022,6 +1022,7 @@ $(MANUAL_BUILDDIR)/interop/qemu-ga.8: $(call manual-deps,interop)
->  	$(call build-manual,interop,man)
->  
->  $(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-version.h
-> +	@mkdir -p "$(MANUAL_BUILDDIR)"
->  	$(call quiet-command, sed "s|@@VERSION@@|${VERSION}|g" $< >$@, \
->               "GEN","$@")
->  
-> -- 
-> 2.24.1
-> 
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> * Juan Quintela (quintela@redhat.com) wrote:
+>> Right now, there is no easy way to dectect if we have already
+>> cancelled/finished/failed a migration.  This field is setup to true
+>> when we start a migration, and it is set to false as soon as we stop
+>> it.
+>>=20
+>> It fixes a real bug, in ram_save_iterate() we call functions that
+>> wrote to the channel even if we know that migration has stopped for
+>> any reason.  This gives problems with multifd because we need to
+>> synchronize various semoaphores that we don't want to take.
+>>=20
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>
+> Why can't you use migration_is_active() in the ram.c case?
+> My preference would be just to stick with something derived
+> from the state rather than tacking another state bit on.
 
-Fixing our issues with build,
+Trying to redo this as something more reasonable.
+Problem that I was trying to do is being sure that we know in what state
+we are.  Real migration states are:
 
-Reviewed-by: Miroslav Rezanina <mrezanin@redhat.com>
+- NOT_STARTED: We haven't even started
+- SETUP: We have started with local stuff but haven't yet transmitted
+  anything
+- ACTIVE: Migration is donig well, we are trasnmitting data
+- FINISHED: We have finished migration (COMPLETED/FAILED/CANCELLED/CANCELLI=
+NG)
+- COLO: Yet a completelly different can of worms
+
+To make things even more interesting, we export ->state, so code can do
+whatever they want with that variable.
+
+What do we need in a lot of places:
+- migration_is_running() (i.e. channel is still open).
+
+And we go left and right to be sure what is going on.
+
+>> @@ -2834,6 +2836,7 @@ static void migration_completion(MigrationState *s=
+)
+>>      }
+>> =20
+>>      if (!migrate_colo_enabled()) {
+>> +        s->active =3D false;
+>>          migrate_set_state(&s->state, current_active_state,
+>>                            MIGRATION_STATUS_COMPLETED);
+>
+> You've not always got these two the same way around - i.e. do you change
+> the state first or do you set the active state first?  I think it needs
+> to be consistent.
+
+As said, I will try to move that to inside migrate_set_state()
+
+thanks, Juan.
+
 
