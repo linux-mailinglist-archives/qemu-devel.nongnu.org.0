@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F34D14472C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 23:22:40 +0100 (CET)
-Received: from localhost ([::1]:33500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD1714472F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 23:23:15 +0100 (CET)
+Received: from localhost ([::1]:33522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iu1ux-0004of-41
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 17:22:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51884)
+	id 1iu1vW-0005mj-Do
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 17:23:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51983)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iu1tX-0004Co-NK
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 17:21:13 -0500
+ (envelope-from <ianjiang.ict@gmail.com>) id 1iu1ua-0004pQ-0D
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 17:22:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iu1tW-0006Fj-C3
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 17:21:11 -0500
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:45526)
+ (envelope-from <ianjiang.ict@gmail.com>) id 1iu1uY-0007sF-RH
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 17:22:15 -0500
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:46688)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iu1tV-0006FO-1e; Tue, 21 Jan 2020 17:21:09 -0500
-Received: by mail-lj1-x242.google.com with SMTP id j26so4496721ljc.12;
- Tue, 21 Jan 2020 14:21:08 -0800 (PST)
+ (Exim 4.71) (envelope-from <ianjiang.ict@gmail.com>)
+ id 1iu1uY-0007qG-ND
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 17:22:14 -0500
+Received: by mail-io1-xd30.google.com with SMTP id t26so4502670ioi.13
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 14:22:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lYZMgwadz2QGt4ko1mVT+Mcscb5ua0TuSusD9PwSbas=;
- b=AbEjcW/PsztCHasKs7jWD1AnikxQF9AzeU5u4WvPTp0Rdxyp/wBVGxW/1INIQmjUJa
- ccDO0gmRy0uENbpjAUsLGuUiaJANBq9YSMmdTTsYnmKFko/ErUJn5gxLF4ILZZIcwsyb
- NLsPksBKaa2zF+Q4t+UKni9I/Pt55l3SXaGJ7DH1jR/D6Eo5dOkGE9gN62vjAqLhR7Ou
- VQKBvZtPiRWiwiTf5H0rp33bHUazks/g98jeTXcyx17CbfwKXgB1cuT1l2wbBlw5sk2N
- TIq93UG+t9RbPM6dTc3wYjjk0ha2ryYGZomNoex5wufmKUSv5WWgpvKtGQ1omEJAj8/E
- Oeqw==
+ :content-transfer-encoding;
+ bh=eFep3UJ4UyYiPrs0hVfgv1tsJDoYzRGxYGMFL71huU4=;
+ b=alP5P6tN7iucvSyzQlqLjC2oYEsCMuK9mV8EapvV5SwP7V/6eQqJWEmbsOoa0mfpgb
+ vu7j7JudKOkb9NkJkKg60IpkFrVZxg1Sa77l0vLqbqxgWodGzHY7+MD0HdSsHSHUQRdh
+ obk+h1hGaIaSHqDIFfb2y5KmSxH/zwZJL7crAZTkAlcAbOAcMfxRLPIz5gr7rEtWhsvE
+ iRaqiVngqQ1GYuzywR1qX+V+ua5PpxVenRDGJo56b7HlcWZhscBe8bgbsa4TMMoYZJvB
+ xiAoNv7pd6lMvk9bjdf1vfd0Xcl68SdNmVl8fYKtsral8Xvnt2uiSQdccl8C5Xw9WtZ0
+ kWTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lYZMgwadz2QGt4ko1mVT+Mcscb5ua0TuSusD9PwSbas=;
- b=X6+h0icg7R0moDBAv/NKZJMcbi57VDHamitqdrDJApGDxJDWIShtwwvcxnesTz+Rr2
- e1Y0Kwz/rJq3aeaGR0KZ+KxIZs4auSAyOOGPbFCr31bi+vIP5egmt6OIIgtw2kaVVVr+
- KWQ+q7CiFmFPpmetlf8LRwb5xyFwtwAlVhNePqY8atGcXTSJ2/ufE2GKcO0lojlhuJLW
- NvMwrrzmdWtVFPMCTFjW929CHhCQml5WWcomsC1P8a+UNajhnsCiO+CN19EBHmwHCCPg
- NJYmj3GtHEyJpulwpYP0vAyWwxVF8Ry+FyJVPscDfOQCnI2UOwzuq/k/EA+Af+0Wk+rB
- XNhw==
-X-Gm-Message-State: APjAAAVqBTqWRv1zSa2g7uJzubduAViI56VZNm+fuPX9SwibOnhbKwdw
- cqQyyObNBdBtaq3jqF6bIN6pBKHmiQEaLuMkUEqLqLak
-X-Google-Smtp-Source: APXvYqyG8+9KT0DXVNR/1sMJTN6ZZKHxwjoOl5SPez9Al5at76GDth25kAyAVuPHGvQgPLz9em2FbwSj9tX1ofsf9ZA=
-X-Received: by 2002:a2e:8946:: with SMTP id b6mr3682544ljk.1.1579645267920;
- Tue, 21 Jan 2020 14:21:07 -0800 (PST)
+ :message-id:subject:to:content-transfer-encoding;
+ bh=eFep3UJ4UyYiPrs0hVfgv1tsJDoYzRGxYGMFL71huU4=;
+ b=e88P3o24Mh9o9o7H+uhc4VLCXbrZf2dvaxraukv1OqyDZavai17tQvImjzCNzBSBfv
+ whaK7g5YUEoR4G013ld3T7vIkxJsW+vy7WXMJRAvBig7Mvptqw1MuHCO/wERywBdD6or
+ TjjjZHF67oTGEcSpuZ8If4DsatY82sHnzt2DnnHEe0NKhvQrIZGXRp2BX8WSp3w6I7sU
+ Q8GfwoC0PUyu/EQ5msqpYGne2AED87mmMYPZ3YVeYGzL/2CLoFlJFgeT+mqefqH/hhr9
+ zJGkTd/Pcb8ynHqJBf7OFwXVjqcP9RUpFGhkJmztOZE8wpJJHmA5UKfSyM8ISauNuzOx
+ dbzA==
+X-Gm-Message-State: APjAAAVDRuizcvRGWycjxBGQ/L30Z5kOn9w8+qAse2Qz4mfjUfEmAvwX
+ s7zH0Q4HfMi5zf4LEMwxEn4rQdrHC5bHStv4NNY=
+X-Google-Smtp-Source: APXvYqz6oyKdw6ZzDKHBAt9Phv7KtFdgKwlrtxp5xTegJzylOSJAMrOc0lj6Qq4xW90K+nTdOuGkR4w15vugpcSRYnk=
+X-Received: by 2002:a05:6638:81:: with SMTP id
+ v1mr4984618jao.143.1579645333791; 
+ Tue, 21 Jan 2020 14:22:13 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1566573576.git.alistair.francis@wdc.com>
- <5cc26abb98a9534720f09674b4b9caafb8f2cf0a.1566573576.git.alistair.francis@wdc.com>
- <20200105163640.GA1752551@aurel32.net> <20200105165916.GA1834646@aurel32.net>
- <CAKmqyKNd8ihSXTcdS9da_pGkinFVnJKAAsg4fR4LzBEUH8NZ2A@mail.gmail.com>
- <20200121203710.GA3061510@aurel32.net>
-In-Reply-To: <20200121203710.GA3061510@aurel32.net>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 22 Jan 2020 08:20:40 +1000
-Message-ID: <CAKmqyKNwTPCxiAi=giYOPaxnKL8LcG1LuU53qJ6pE38XNWJH+w@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PATCH v4 3/7] target/riscv: Create function to test
- if FP is enabled
-To: Aurelien Jarno <aurelien@aurel32.net>
+References: <CAMAD20n_9Xj6HqgYzB-_Ra71f=_YyS4WkAFJK6VExOA50Bfcjw@mail.gmail.com>
+ <CAKmqyKNzFeWcNP7Stz5TnjzEysGt3pSe8qNvq4rTtM4guaLDTg@mail.gmail.com>
+In-Reply-To: <CAKmqyKNzFeWcNP7Stz5TnjzEysGt3pSe8qNvq4rTtM4guaLDTg@mail.gmail.com>
+From: Ian Jiang <ianjiang.ict@gmail.com>
+Date: Wed, 22 Jan 2020 06:22:02 +0800
+Message-ID: <CAMAD20nF6oxJSAv=Vfk9qpoczxB2L5amWGe03aRu8gAf32iuKA@mail.gmail.com>
+Subject: Re: riscv: How to check floating point support is currently enabled?
+To: Alistair Francis <alistair23@gmail.com>, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::d30
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,77 +75,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 22, 2020 at 6:37 AM Aurelien Jarno <aurelien@aurel32.net> wrote:
+Alistair Francis <alistair23@gmail.com> =E4=BA=8E2020=E5=B9=B41=E6=9C=8821=
+=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=886:50=E5=86=99=E9=81=93=EF=BC=
+=9A
 >
-> Hi,
+> On Tue, Jan 21, 2020 at 11:12 AM Ian Jiang <ianjiang.ict@gmail.com> wrote=
+:
+> >
+> > The function riscv_cpu_fp_enabled() is used for checking whether floati=
+ng point support is currently enabled. In fact it checks the FS field in th=
+e mstatus MSR.
+> >
+> > target/riscv/cpu_helper.c
+> >  76 bool riscv_cpu_fp_enabled(CPURISCVState *env)
+> >  77 {
+> >  78     if (env->mstatus & MSTATUS_FS) {
+> >  79         return true;
+> >  80     }
+> >  81
+> >  82     return false;
+> >  83 }
+> >
+> > This will cause a problem that the SD bit in mstatus is not set to 1 wh=
+en  FS in mstatus is modified from '00'b to '11'b with write_mstatus().
 >
-> On 2020-01-20 10:31, Alistair Francis wrote:
-> > On Mon, Jan 6, 2020 at 2:59 AM Aurelien Jarno <aurelien@aurel32.net> wrote:
-> > >
-> > > On 2020-01-05 17:36, Aurelien Jarno wrote:
-> > > > > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > > > > index e0d4586760..2789215b5e 100644
-> > > > > --- a/target/riscv/csr.c
-> > > > > +++ b/target/riscv/csr.c
-> > > >
-> > > > [ snip ]
-> > > >
-> > > > > @@ -307,6 +307,7 @@ static int write_mstatus(CPURISCVState *env, int csrno, target_ulong val)
-> > > > >  {
-> > > > >      target_ulong mstatus = env->mstatus;
-> > > > >      target_ulong mask = 0;
-> > > > > +    int dirty;
-> > > > >
-> > > > >      /* flush tlb on mstatus fields that affect VM */
-> > > > >      if (env->priv_ver <= PRIV_VERSION_1_09_1) {
-> > > > > @@ -340,8 +341,9 @@ static int write_mstatus(CPURISCVState *env, int csrno, target_ulong val)
-> > > > >
-> > > > >      mstatus = (mstatus & ~mask) | (val & mask);
-> > > > >
-> > > > > -    int dirty = ((mstatus & MSTATUS_FS) == MSTATUS_FS) |
-> > > > > -                ((mstatus & MSTATUS_XS) == MSTATUS_XS);
-> > > > > +    dirty = (riscv_cpu_fp_enabled(env) &&
-> > > > > +             ((mstatus & MSTATUS_FS) == MSTATUS_FS)) |
-> > > > > +            ((mstatus & MSTATUS_XS) == MSTATUS_XS);
-> > > > >      mstatus = set_field(mstatus, MSTATUS_SD, dirty);
-> > > > >      env->mstatus = mstatus;
-> > > >
-> > > > This patch, and more precisely the above two hunks broke
-> > > > qemu-system-riscv64. More precisely, when running a Debian sid system
-> > > > inside QEMU, sshd hangs during key exchange.
-> > >
-> > > The problem is that at this stage, mstatus != env->status. Prior to that
-> > > patch, dirty was computed exclusively on the new mstatus status, after
-> > > the update by val. With this patch, riscv_cpu_fp_enabled() refers to the
-> > > old value of mstatus. Therefore when FS is changed from "Off" (FS = 00)
-> > > to "Dirty" (FS == 11), the SD bit is not set.
-> >
-> > Thanks for reporting this!
-> >
-> > Can you try this branch (it should be a PR to mainline QEMU soon) and
-> > let me know if that fixes the issue?
-> >
-> > https://github.com/palmer-dabbelt/qemu/commits/for-master
+> Thanks for looking into this.
 >
-> Thanks for the patchset. I confirm this fixes the issue.
+> There are patches on list fixing floating point errors. Can you check
+> if this branch fixes any issues you have:
+> https://github.com/palmer-dabbelt/qemu/commits/for-master
 
-Great! Sorry we were so slow in replying to you, I was traveling.
-Hopefully this is pushed to master soon.
-
-Alistair
+Yes, there is:
+https://github.com/palmer-dabbelt/qemu/commit/82f014671cf057de51c4a577c9e2a=
+d637dcec6f9
+Thanks!
 
 >
-> Aurelien
+> >
+> > file target/riscv/csr.c, func write_mstatus():
+> > 350     dirty =3D (riscv_cpu_fp_enabled(env) &&
+> > 351              ((mstatus & MSTATUS_FS) =3D=3D MSTATUS_FS)) |
+> > 352             ((mstatus & MSTATUS_XS) =3D=3D MSTATUS_XS);
+> > 353     mstatus =3D set_field(mstatus, MSTATUS_SD, dirty);
+> > 354     env->mstatus =3D mstatus;
+> >
+> > So checking fields D and F in the misa MSR (bit 3 and bit 5) may be an =
+better way. That is
+> > bool riscv_cpu_fp_enabled(CPURISCVState *env)
+> >     if (env->misa & (MISA_F | MISA_F) {
+> >         return true;
+> >     }
+> >     return false;
+> > }
 >
-> --
-> Aurelien Jarno                          GPG: 4096R/1DDD8C9B
-> aurelien@aurel32.net                 http://www.aurel32.net
+> This doesn't seem right, just because the HW supports it doesn't mean
+> it's enabled.
+
+OK.
+
+>
+> Alistair
+>
+> >
+> >
+> > --
+> > Ian Jiang
 
