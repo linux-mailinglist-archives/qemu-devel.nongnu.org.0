@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382C6143B6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 11:52:35 +0100 (CET)
-Received: from localhost ([::1]:51408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76F2143B73
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Jan 2020 11:54:28 +0100 (CET)
+Received: from localhost ([::1]:51446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1itr98-0000xg-5M
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 05:52:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38002)
+	id 1itrAx-0003bU-VX
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 05:54:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38157)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1itr7e-00086u-C9
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 05:51:06 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1itr8c-00013g-Gb
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 05:52:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1itr7a-0002Pk-2v
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 05:51:02 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:49654
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1itr8Y-0004tX-V2
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 05:52:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48121
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1itr7Z-0002O7-Ub
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 05:50:58 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1itr8Y-0004tK-RR
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 05:51:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579603857;
+ s=mimecast20190719; t=1579603918;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V6z6VMHQRuZ71QFFUl75dnxsvN2jLBKErbicOLLiKQU=;
- b=e16VUdM6YbU/q95lv9+r0kDND8PMKF1jCi1Tc+DEVuHZdM/qrYGJ2ZW34aJeDXeSWVx8Sm
- lJvbO2ISyVZ+5iOti14826P7YpsBlu3IQi7tyfLOTB8USlhMcIBjBlBEpPmf8sZPTeY5vY
- H/SpZV5dA/HIJtscYa+W/M1dcCDahds=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-pySqy1JbOQ-8LLq1qxd8_Q-1; Tue, 21 Jan 2020 05:50:56 -0500
-Received: by mail-wr1-f70.google.com with SMTP id w6so1127523wrm.16
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 02:50:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=V6z6VMHQRuZ71QFFUl75dnxsvN2jLBKErbicOLLiKQU=;
- b=RA8uCPSg6snNn24dm9gFtqiuJBCHOrSIIkyLFrMTQmQJqEBey+qm0tltXPfoXFYgp0
- E/LUnKRK94GIg0kF4zuAPs8Go9R3vO+k/r8KQAZ+ZaEaL7JaaNnVaSvCwy/AA3s/7EVf
- a7ymzU5vut6OUUbU6A+T5XU9zvOMHtlmX8LI23T2y7IHvtV9ZURUDBbZBfUiAY5POZ8e
- IzNa3QaD22AV9OLuet7Sysp39UTYcoF34OGWRNxoYH36b2m39+ydppMODFa8q/LTCUjd
- f6fCn8fEddyEiJut44pmHqEt5hIqjfhZXWCvzt4PZYO2ibIP1hf1vu2qUpOjFDsMDu5t
- Al0A==
-X-Gm-Message-State: APjAAAXe6eBVdfm8WqHOHQl27hZmmpL5Jqrt5fexO6HoTfSCDKO5WHPD
- HJbGCjnuY/x62B9VkCywTpTohObm/RUOjGGNjsILUMFcwUJP8TTPpSZZEw8b6hId2HYjOj122uh
- GdYt5dmivgwVarXA=
-X-Received: by 2002:a7b:cb01:: with SMTP id u1mr3853826wmj.156.1579603854819; 
- Tue, 21 Jan 2020 02:50:54 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxX1Xw2u+ogi7FugqbtA5dPIMYvwCnIn6jc/X1zPZECXUuxOc5Z3dQGa+aCINYeOlO8bo9l2g==
-X-Received: by 2002:a7b:cb01:: with SMTP id u1mr3853798wmj.156.1579603854510; 
- Tue, 21 Jan 2020 02:50:54 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:b509:fc01:ee8a:ca8a?
- ([2001:b07:6468:f312:b509:fc01:ee8a:ca8a])
- by smtp.gmail.com with ESMTPSA id h8sm54673071wrx.63.2020.01.21.02.50.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jan 2020 02:50:54 -0800 (PST)
-Subject: Re: [PATCH 1/2] pvpanic: introduce crashloaded for pvpanic
-To: Markus Armbruster <armbru@redhat.com>, zhenwei pi <pizhenwei@bytedance.com>
-References: <20200110100634.491936-1-pizhenwei@bytedance.com>
- <20200110100634.491936-2-pizhenwei@bytedance.com>
- <87h80pi5hf.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <247586dd-576a-a0c9-9c43-5d9a310a4ddc@redhat.com>
-Date: Tue, 21 Jan 2020 11:50:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=0+FMCOhPWa429O8oUFcMcpIx5MbfD373zJIB/rxQ30s=;
+ b=IfTJPl6qRUa+t2ojiWbLBq0fYodwSnS3CcA6sClRNVQnXNirjCfsseub6dtOhspRGSgzft
+ NXKpbctze/tFzMwzzM3McHdnxuJojjO+qZftLMcuFw0p3KQdiitp7jBCNovaCkArIgdNRh
+ 6Ig4VdXZaRmtpHXVhqidteF2JXfbgZw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-R2auFKsMPMWIikOUGz6eXQ-1; Tue, 21 Jan 2020 05:51:55 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D7561005516;
+ Tue, 21 Jan 2020 10:51:54 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B62DF860EC;
+ Tue, 21 Jan 2020 10:51:50 +0000 (UTC)
+Date: Tue, 21 Jan 2020 10:51:48 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Xiao Yang <yangx.jy@cn.fujitsu.com>
+Subject: Re: [PATCH 006/104] virtiofsd: Trim down imported files
+Message-ID: <20200121105148.GC2929@work-vm>
+References: <20191212163904.159893-1-dgilbert@redhat.com>
+ <20191212163904.159893-7-dgilbert@redhat.com>
+ <5E26CB57.7060804@cn.fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <87h80pi5hf.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-MC-Unique: pySqy1JbOQ-8LLq1qxd8_Q-1
+In-Reply-To: <5E26CB57.7060804@cn.fujitsu.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: R2auFKsMPMWIikOUGz6eXQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,52 +75,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yelu@bytedance.com, libvir-list@redhat.com, gregkh@linuxfoundation.org,
- qemu-devel@nongnu.org, linux-kernel@vger.kernel.org, mprivozn@redhat.com
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/01/20 09:22, Markus Armbruster wrote:
-> zhenwei pi <pizhenwei@bytedance.com> writes:
-> 
->> Add bit 1 for pvpanic. This bit means that guest hits a panic, but
->> guest wants to handle error by itself. Typical case: Linux guest runs
->> kdump in panic. It will help us to separate the abnormal reboot from
->> normal operation.
->>
->> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->> ---
->>  docs/specs/pvpanic.txt | 8 ++++++--
->>  1 file changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
->> index c7bbacc778..bdea68a430 100644
->> --- a/docs/specs/pvpanic.txt
->> +++ b/docs/specs/pvpanic.txt
->> @@ -16,8 +16,12 @@ pvpanic exposes a single I/O port, by default 0x505. On read, the bits
->>  recognized by the device are set. Software should ignore bits it doesn't
->>  recognize. On write, the bits not recognized by the device are ignored.
->>  Software should set only bits both itself and the device recognize.
-> 
-> Guest software, I presume.
-> 
->> -Currently, only bit 0 is recognized, setting it indicates a guest panic
->> -has happened.
->> +
->> +Bit Definition
->> +--------------
->> +bit 0: setting it indicates a guest panic has happened.
->> +bit 1: named crashloaded. setting it indicates a guest panic and run
->> +       kexec to handle error by guest itself.
-> 
-> Suggest to scratch "named crashloaded."
+* Xiao Yang (yangx.jy@cn.fujitsu.com) wrote:
+> On 2019/12/13 0:37, Dr. David Alan Gilbert (git) wrote:
+> > -=09res =3D fuse_buf_copy(&pipe_buf, buf,
+> > -=09=09=09    FUSE_BUF_FORCE_SPLICE | FUSE_BUF_SPLICE_NONBLOCK);
+> > -=09if (res<  0) {
+> > -=09=09if (res =3D=3D -EAGAIN || res =3D=3D -EINVAL) {
+> > -=09=09=09/*
+> > -=09=09=09 * Should only get EAGAIN on kernels with
+> > -=09=09=09 * broken SPLICE_F_NONBLOCK support (<=3D
+> > -=09=09=09 * 2.6.35) where this error or a short read is
+> > -=09=09=09 * returned even if the pipe itself is not
+> > -=09=09=09 * full
+> > -=09=09=09 *
+> > -=09=09=09 * EINVAL might mean that splice can't handle
+> > -=09=09=09 * this combination of input and output.
+> > -=09=09=09 */
+> > -=09=09=09if (res =3D=3D -EAGAIN)
+> > -=09=09=09=09se->broken_splice_nonblock =3D 1;
+> > -
+> > -=09=09=09pthread_setspecific(se->pipe_key, NULL);
+> > -=09=09=09fuse_ll_pipe_free(llp);
+> > -=09=09=09goto fallback;
+> > -=09=09}
+> > -=09=09res =3D -res;
+> > -=09=09goto clear_pipe;
+> > -=09}
+> > -
+> > -=09if (res !=3D 0&&  res<  len) {
+> > -=09=09struct fuse_bufvec mem_buf =3D FUSE_BUFVEC_INIT(len);
+> > -=09=09void *mbuf;
+> > -=09=09size_t now_len =3D res;
+> > -=09=09/*
+> > -=09=09 * For regular files a short count is either
+> > -=09=09 *  1) due to EOF, or
+> > -=09=09 *  2) because of broken SPLICE_F_NONBLOCK (see above)
+> > -=09=09 *
+> > -=09=09 * For other inputs it's possible that we overflowed
+> > -=09=09 * the pipe because of small buffer fragments.
+> > -=09=09 */
+> > -
+> > -=09=09res =3D posix_memalign(&mbuf, pagesize, len);
+> > -=09=09if (res !=3D 0)
+> > -=09=09=09goto clear_pipe;
+> > -
+> > -=09=09mem_buf.buf[0].mem =3D mbuf;
+> > -=09=09mem_buf.off =3D now_len;
+> > -=09=09res =3D fuse_buf_copy(&mem_buf, buf, 0);
+> > -=09=09if (res>  0) {
+> > -=09=09=09char *tmpbuf;
+> > -=09=09=09size_t extra_len =3D res;
+> > -=09=09=09/*
+> > -=09=09=09 * Trickiest case: got more data.  Need to get
+> > -=09=09=09 * back the data from the pipe and then fall
+> > -=09=09=09 * back to regular write.
+> > -=09=09=09 */
+> > -=09=09=09tmpbuf =3D malloc(headerlen);
+> > -=09=09=09if (tmpbuf =3D=3D NULL) {
+> > -=09=09=09=09free(mbuf);
+> > -=09=09=09=09res =3D ENOMEM;
+> > -=09=09=09=09goto clear_pipe;
+> > -=09=09=09}
+> > -=09=09=09res =3D read_back(llp->pipe[0], tmpbuf, headerlen);
+> > -=09=09=09free(tmpbuf);
+> > -=09=09=09if (res !=3D 0) {
+> > -=09=09=09=09free(mbuf);
+> > -=09=09=09=09goto clear_pipe;
+> > -=09=09=09}
+> > -=09=09=09res =3D read_back(llp->pipe[0], mbuf, now_len);
+> > -=09=09=09if (res !=3D 0) {
+> > -=09=09=09=09free(mbuf);
+> > -=09=09=09=09goto clear_pipe;
+> > -=09=09=09}
+> > -=09=09=09len =3D now_len + extra_len;
+> > -=09=09=09iov[iov_count].iov_base =3D mbuf;
+> > -=09=09=09iov[iov_count].iov_len =3D len;
+> > -=09=09=09iov_count++;
+> > -=09=09=09res =3D fuse_send_msg(se, ch, iov, iov_count);
+> > -=09=09=09free(mbuf);
+> > -=09=09=09return res;
+> > -=09=09}
+> > -=09=09free(mbuf);
+> > -=09=09res =3D now_len;
+> > -=09}
+> > -=09len =3D res;
+> > -=09out->len =3D headerlen + len;
+> > -
+> > -=09if (se->debug) {
+> > -=09=09fuse_log(FUSE_LOG_DEBUG,
+> > -=09=09=09"   unique: %llu, success, outsize: %i (splice)\n",
+> > -=09=09=09(unsigned long long) out->unique, out->len);
+> > -=09}
+> > -
+> > -=09splice_flags =3D 0;
+> > -=09if ((flags&  FUSE_BUF_SPLICE_MOVE)&&
+> > -=09    (se->conn.want&  FUSE_CAP_SPLICE_MOVE))
+> > -=09=09splice_flags |=3D SPLICE_F_MOVE;
+> > -
+> > -=09res =3D splice(llp->pipe[0], NULL, ch ? ch->fd : se->fd,
+> > -=09=09     NULL, out->len, splice_flags);
+> Hi,
+>=20
+> 1) In buffer.c, fuse_buf_splice() uses splice(2) to copy/move data in som=
+e
+> cases if the syscall is supported.
+> 2) One pipe needs to be passed to splice(2) so splice(2) without one pipe
+> fails and then go back to use other ways(e.g. use fuse_buf_fd_to_fd()).
+> 3) fuse_buf_copy() calls fuse_buf_splice() indirectly and this patch has
+> removed all pipes used by fuse_buf_copy().
+>=20
+> Is it necessary to leave the code related to splice(2)?  Is it going to b=
+e
+> used in future?
+> We have to use splice(2) by the correct CONFIG_SPLICE macro If necessary.
 
-bit 1: a guest panic has happened and will be handled by the guest;
-       the host should record it or report it, but should not affect
-       the execution of the guest.
+Yes, I think we never set HAVE_SPLICE; so that code can go.
+I'll change this patch to remove that as well.
 
-?
+Dave
 
-Paolo
+> Best Regards,
+> Xiao Yang
+>=20
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
