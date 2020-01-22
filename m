@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE7F14579D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 15:18:47 +0100 (CET)
-Received: from localhost ([::1]:42806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83BD11457A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 15:22:50 +0100 (CET)
+Received: from localhost ([::1]:42878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuGqE-000285-Bv
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 09:18:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58329)
+	id 1iuGu9-0007Hb-Ar
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 09:22:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58348)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuGoH-0000r9-EG
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:16:46 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuGoI-0000sw-FS
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:16:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuGoE-000491-OA
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:16:44 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:42849)
+ (envelope-from <laurent@vivier.eu>) id 1iuGoH-0004BD-9h
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:16:46 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:33319)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuGoE-00047N-F9
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:16:42 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuGoH-0004A7-0f
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:16:45 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MkHIV-1jIuEk3tG5-00kjpE; Wed, 22 Jan 2020 15:16:28 +0100
-Subject: Re: [PATCH 11/12] linux-user: Add support for KCOV_<ENABLE|DISABLE>
- ioctls
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MaIGB-1j8nOv0Fsb-00WDhp; Wed, 22 Jan 2020 15:16:40 +0100
+Subject: Re: [PATCH 12/12] linux-user: Add support for KCOV_INIT_TRACE ioctl
 To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
 References: <1579214991-19602-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1579214991-19602-12-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1579214991-19602-13-git-send-email-aleksandar.markovic@rt-rk.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -71,32 +70,32 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <b0cfdb3f-5d75-cbe7-56b6-dbc9a07956d5@vivier.eu>
-Date: Wed, 22 Jan 2020 15:16:27 +0100
+Message-ID: <8f21a86d-1031-64c9-2281-2b3a3001fffc@vivier.eu>
+Date: Wed, 22 Jan 2020 15:16:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <1579214991-19602-12-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1579214991-19602-13-git-send-email-aleksandar.markovic@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0Lm01ilv6Djh2tw8LX6SrWP7cLRJ2z6IUULjiEwW1JO9nNFyWyp
- aw2eUY4WuenW5dwGJxqke7JYOLqbfK9VhJ6/QGa18wfq4JXTjZ0l5q03u4E8LW3fAxnSuVY
- 1kpZYnOR7sta0vvX3Qr9sYb1+EqFEUot1JQbS2HZotcXS/dJcWuaEbqVgwhIi9y113Yd3tp
- qC9iH4srkkydkB/KfyVrw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8V2MxDxjh4M=:eLmMgLPx6AQdqSvWUp825D
- M1T5Wu64uTiKHpHDEGIRFkSlAlRZn+9CwmyZXMerBz8wg44yA9PPuyC0s3+R26fHT8G42emWf
- slvjoOyXCs079JE2S65T/TglIF3TLl9PWB1xf+Caiy131CLjpWC8gQoM9GnkBFFx/CjUunA/e
- ziVl0Wson5NqPzjv7u3tM2dXNHq768C5oMA6q5sZsY83on3+cAmL70czzJHNSmbx2ofVdP+5c
- RMreqe/1oPHI5ytsYcEmsyFJs1g4e94ERSqt36dueRIZ1Vs1XoU40ENS5rnT3GoIKOKa8tbGU
- MLketAD8Lfm0kwWp//CoOzxeKP8tdsIwqxvQoDnbB7F8H6aoLiqVnvaN1NO6c4gNNxfvguZ6N
- Hw6fpmCipkRmyuvxR+myzTKvwq+bGmhpGZawOfSEC7vHzDJ57t4BebyLQWwaZ5zXSqqpvX69i
- 7NfsEZr2rvjt1rvOM4v4ck5NsS7SohdvwX6246GkoZH78mJZd5ATqOPGN0c7tn1lQwhtzwuAu
- VrI65u9hDaIK/lBdZrrbS0uSdL7WGWOLpdXnc/PvrxdAlLM9iJ9eHviyOivqFULTqPNYPY0II
- +91WnrnobcVyxUQ0zDggxEqzbe/OyLHPA3bKpg8+A3ub+2F2kqecKVbm+GtcgSmSWe5iIi5Yz
- l0s7ffUPu8ZVstxKvRQLNmoIzA95R4jLOMO/ASLpdIXWXpclv+QkP9paZ3m2D97bq+EzHJmO1
- Z8/s0LeWWx2It2sk6J6CZTS9b/wi+i2H5j/i7Wk5U5owOJP4PbAP2bZOBDREukBPqUlfTFX+A
- mIfuiIWn0QLk4jKG8Y8tFjUxXa3jF3CObAvCQI1hxtgND7r1fY=
+X-Provags-ID: V03:K1:CIhbSTpytgIH7S5CI+kWSqeMDRQHgHxdIim/KKUto/Mq53VVQJ4
+ ZRquPFMNjEvwr91yDD1eCKTBunwSsq19FxqNsvcH87r/Osxwx3lhIFGbvi6dmI4nu4v0V0H
+ nG6K4D9kN2Xz9PoLLYbIu9YgDq2SZLtyFzKM97FRiQXQbHovbdqcBgTisgGE6S3gsmNA6Ct
+ VdkE8A1lGjOCb1Iey82uQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9pBK6oH9rcE=:oVDfRRDqYmwNyKk+LCxCKY
+ tIyWVHKRGIL0k78TGu8Yc8ahGG1EDxN1018pcWN64XrOovb7C8tW/h0U6GnRaVExqWfntBOzo
+ Z/uA/bMCioyQT7F03mio7FDAtu0Never3g605pWYqNysLABeZ/eK6kCd/5G01KaG3olyj0n6v
+ TzwBTLDTtYkyzqP4Zg5Pa4m4WmZSwL2aHk3B2rQikjh1ukrXxbW+2X7qPLttSVjS23I8nw9I3
+ +i6CLiSEdjzuOWSoIJUKoOSDH5YxfmXM1P9BpMHdXNGbIZFyjtN/b0NrmZdna1NYrC5t69AGB
+ j8R1B8MWEW+P0MHNOR1QxurEDj1HwZ1fjPL5GkJ0XH5Pz0l/wv/NEC2pyFVDSBl9tX4BnFvow
+ 0/kzPKswxoqEJVqHDVsh8DM4gFYcOAVU3Q9wtZ4aEMv1A0Hn5yU1R+8BlG9gQDLq0pRTqHH+L
+ nY7VoTIObmZq/LZdCYgs9ftLQRtgHiMcHDX59j9lpI0tSDYLZ6dgd4qtDGNFOU6AKQNUV7mH+
+ PmvK6V3k3b14w+DAB79IDtdJQB+OpZDJEV3O8uUv9RvrY5rkwrOjq1dYZ2H0ifDe+cmrqXhSX
+ kgZRoBzX5zmoL3S36wdI0gsc50IED7l1K21wISCLCQ7iuckUP9dj4T70FbGvzcISp+1J4HtJJ
+ Xiryw5zVky33rO3t5gCfteZii4IU+RFcydosu13o5HjfIA9umGpQK0nzs569u0l5wWsQav/aQ
+ EQ1aGg2hhoUJd2CUih8cogbNVWfj0fzOagxo/SF673m1S+CyWV1Wq+mGF1Mg7lKE14KmvJ+vg
+ Hd3JlOGEnhgF7hxqaSyUychZqSO6/12JK3SPXMJQJz2kuffu8c=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 217.72.192.73
@@ -118,60 +117,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Le 16/01/2020 à 23:49, Aleksandar Markovic a écrit :
 > From: Aleksandar Markovic <amarkovic@wavecomp.com>
 > 
-> KCOV_ENABLE and KCOV_DISABLE play the role in kernel coverage
-> tracing. These ioctls do not use the third argument of ioctl()
-> system call and are straightforward to implement in QEMU.
+> KCOV_INIT_TRACE ioctl plays the role in kernel coverage tracing.
+> This ioctl's third argument is of type 'unsigned long', and the
+> implementation in QEMU is straightforward.
 > 
 > Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 > ---
->  linux-user/ioctls.h       | 5 +++++
->  linux-user/syscall.c      | 3 +++
->  linux-user/syscall_defs.h | 4 ++++
->  3 files changed, 12 insertions(+)
+>  linux-user/ioctls.h       | 1 +
+>  linux-user/syscall_defs.h | 1 +
+>  2 files changed, 2 insertions(+)
 > 
 > diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-> index d72cd76..39b3825 100644
+> index 39b3825..1da71dd 100644
 > --- a/linux-user/ioctls.h
 > +++ b/linux-user/ioctls.h
-> @@ -552,3 +552,8 @@
->    IOCTL_IGNORE(TIOCSTART)
->    IOCTL_IGNORE(TIOCSTOP)
+> @@ -556,4 +556,5 @@
+>  #ifdef CONFIG_KCOV
+>    IOCTL(KCOV_ENABLE, 0, TYPE_NULL)
+>    IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
+> +  IOCTL(KCOV_INIT_TRACE, IOC_R, TYPE_ULONG)
 >  #endif
-> +
-> +#ifdef CONFIG_KCOV
-> +  IOCTL(KCOV_ENABLE, 0, TYPE_NULL)
-> +  IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
-> +#endif
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 171c0ca..6edcb0d 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -73,6 +73,9 @@
->  #ifdef CONFIG_SENDFILE
->  #include <sys/sendfile.h>
->  #endif
-> +#ifdef CONFIG_KCOV
-> +#include <sys/kcov.h>
-> +#endif
->  
->  #define termios host_termios
->  #define winsize host_winsize
 > diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 46dc565..c8999ef 100644
+> index c8999ef..bf71b3a 100644
 > --- a/linux-user/syscall_defs.h
 > +++ b/linux-user/syscall_defs.h
-> @@ -2461,6 +2461,10 @@ struct target_mtpos {
->  #define TARGET_MTIOCGET        TARGET_IOR('m', 2, struct target_mtget)
->  #define TARGET_MTIOCPOS        TARGET_IOR('m', 3, struct target_mtpos)
+> @@ -2464,6 +2464,7 @@ struct target_mtpos {
+>  /* kcov ioctls */
+>  #define TARGET_KCOV_ENABLE     TARGET_IO('c', 100)
+>  #define TARGET_KCOV_DISABLE    TARGET_IO('c', 101)
+> +#define TARGET_KCOV_INIT_TRACE TARGET_IOR('c', 1, abi_ulong)
 >  
-> +/* kcov ioctls */
-> +#define TARGET_KCOV_ENABLE     TARGET_IO('c', 100)
-> +#define TARGET_KCOV_DISABLE    TARGET_IO('c', 101)
-> +
 >  struct target_sysinfo {
 >      abi_long uptime;                /* Seconds since boot */
->      abi_ulong loads[3];             /* 1, 5, and 15 minute load averages */
 > 
 
 Applied to my linux-user branch.
