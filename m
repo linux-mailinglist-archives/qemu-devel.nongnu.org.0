@@ -2,70 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 934DB1455E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 14:28:57 +0100 (CET)
-Received: from localhost ([::1]:42074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 824821455EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 14:30:38 +0100 (CET)
+Received: from localhost ([::1]:42112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuG40-00041S-HV
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 08:28:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52046)
+	id 1iuG5d-0006F4-D0
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 08:30:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51943)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1iuFzk-00086l-Tw
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 08:24:34 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iuFyx-0006nv-Hi
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 08:23:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1iuFzi-0002tS-12
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 08:24:31 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53421
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iuFyv-0002NF-WC
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 08:23:43 -0500
+Received: from relay.sw.ru ([185.231.240.75]:42294)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iuFzh-0002sN-Hu
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 08:24:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579699468;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bDASLWKqXDyn2TjSq7GpWwyCQd5PZ3Siz+5hj0LkwaA=;
- b=Kk2or+P+o3OWpkoH9VuyrQEXcQQx8zycKeDb4c0hfP7jRoTkXgoDF0txBlAX7RF/lpcijp
- WLqHq9uI4xDkDmdJo5b2dS13UUTpEFoft0FBadfrJBiFp/tB1BFV4ukT6BY7dhnQRqoEkU
- Cmruy8s2O/HNta8H0zvOQENhTSWqpN4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-In3GfIgZOIOhZ1l-aqY8_A-1; Wed, 22 Jan 2020 08:24:26 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BEFFDB61;
- Wed, 22 Jan 2020 13:24:25 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-68.gru2.redhat.com
- [10.97.116.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CB60845A5;
- Wed, 22 Jan 2020 13:24:13 +0000 (UTC)
-Subject: Re: [PATCH v1 2/3] tests/docker: better handle symlinked libs
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200122102223.20036-1-alex.bennee@linaro.org>
- <20200122102223.20036-3-alex.bennee@linaro.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <00813be1-eadb-b3c8-2a3c-084302de78b6@redhat.com>
-Date: Wed, 22 Jan 2020 11:24:11 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iuFys-0002I0-Mu; Wed, 22 Jan 2020 08:23:38 -0500
+Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1iuFyj-00057B-8h; Wed, 22 Jan 2020 16:23:29 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 1/7] migration/block-dirty-bitmap: refactor incoming state to
+ be one struct
+Date: Wed, 22 Jan 2020 16:23:22 +0300
+Message-Id: <20200122132328.31156-2-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200122132328.31156-1-vsementsov@virtuozzo.com>
+References: <20200122132328.31156-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20200122102223.20036-3-alex.bennee@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: In3GfIgZOIOhZ1l-aqY8_A-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,52 +49,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- stefanha@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ quintela@redhat.com, dgilbert@redhat.com, mreitz@redhat.com,
+ stefanha@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Move enabled_bitmaps and finish_lock, which are part of incoming state
+to DirtyBitmapLoadState, and make static global variable to store state
+instead of static local one.
 
-On 1/22/20 8:22 AM, Alex Benn=C3=A9e wrote:
-> When we are copying we want to ensure we grab the first
-> resolution (the found in path section). However even that binary might
-> be a symlink so lets make sure we chase the symlinks to copy the right
-> binary to where it can be found.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->   tests/docker/docker.py | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-> index 31d8adf836..96d4326d53 100755
-> --- a/tests/docker/docker.py
-> +++ b/tests/docker/docker.py
-> @@ -109,7 +109,7 @@ def _get_so_libs(executable):
->       ensure theright data is copied."""
->  =20
->       libs =3D []
-> -    ldd_re =3D re.compile(r"(/.*/)(\S*)")
-> +    ldd_re =3D re.compile(r"=3D> ?(/.*/)(\S*)")
->       try:
->           ldd_output =3D subprocess.check_output(["ldd", executable]).dec=
-ode('utf-8')
->           for line in ldd_output.split("\n"):
-> @@ -145,6 +145,7 @@ def _copy_binary_with_libs(src, bin_dest, dest_dir):
->       if libs:
->           for l in libs:
->               so_path =3D os.path.dirname(l)
-> +            real_l =3D os.path.realpath(l)
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ migration/block-dirty-bitmap.c | 77 +++++++++++++++++++---------------
+ 1 file changed, 43 insertions(+), 34 deletions(-)
 
-real_l is not used.
-
-- Wainer
-
->               _copy_with_mkdir(l, dest_dir, so_path)
->  =20
->  =20
+diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
+index 7eafface61..281d20f41d 100644
+--- a/migration/block-dirty-bitmap.c
++++ b/migration/block-dirty-bitmap.c
+@@ -125,6 +125,13 @@ typedef struct DirtyBitmapMigState {
+     BlockDriverState *prev_bs;
+     BdrvDirtyBitmap *prev_bitmap;
+ } DirtyBitmapMigState;
++static DirtyBitmapMigState dirty_bitmap_mig_state;
++
++typedef struct DirtyBitmapLoadBitmapState {
++    BlockDriverState *bs;
++    BdrvDirtyBitmap *bitmap;
++    bool migrated;
++} DirtyBitmapLoadBitmapState;
+ 
+ typedef struct DirtyBitmapLoadState {
+     uint32_t flags;
+@@ -132,21 +139,15 @@ typedef struct DirtyBitmapLoadState {
+     char bitmap_name[256];
+     BlockDriverState *bs;
+     BdrvDirtyBitmap *bitmap;
+-} DirtyBitmapLoadState;
+ 
+-static DirtyBitmapMigState dirty_bitmap_mig_state;
+-
+-typedef struct DirtyBitmapLoadBitmapState {
+-    BlockDriverState *bs;
+-    BdrvDirtyBitmap *bitmap;
+-    bool migrated;
+-} DirtyBitmapLoadBitmapState;
+-static GSList *enabled_bitmaps;
+-QemuMutex finish_lock;
++    GSList *enabled_bitmaps;
++    QemuMutex finish_lock;
++} DirtyBitmapLoadState;
++static DirtyBitmapLoadState dbm_load_state;
+ 
+ void init_dirty_bitmap_incoming_migration(void)
+ {
+-    qemu_mutex_init(&finish_lock);
++    qemu_mutex_init(&dbm_load_state.finish_lock);
+ }
+ 
+ static uint32_t qemu_get_bitmap_flags(QEMUFile *f)
+@@ -439,8 +440,9 @@ static void dirty_bitmap_save_pending(QEMUFile *f, void *opaque,
+ }
+ 
+ /* First occurrence of this bitmap. It should be created if doesn't exist */
+-static int dirty_bitmap_load_start(QEMUFile *f, DirtyBitmapLoadState *s)
++static int dirty_bitmap_load_start(QEMUFile *f)
+ {
++    DirtyBitmapLoadState *s = &dbm_load_state;
+     Error *local_err = NULL;
+     uint32_t granularity = qemu_get_be32(f);
+     uint8_t flags = qemu_get_byte(f);
+@@ -482,7 +484,8 @@ static int dirty_bitmap_load_start(QEMUFile *f, DirtyBitmapLoadState *s)
+         b->bs = s->bs;
+         b->bitmap = s->bitmap;
+         b->migrated = false;
+-        enabled_bitmaps = g_slist_prepend(enabled_bitmaps, b);
++        dbm_load_state.enabled_bitmaps =
++            g_slist_prepend(dbm_load_state.enabled_bitmaps, b);
+     }
+ 
+     return 0;
+@@ -492,9 +495,11 @@ void dirty_bitmap_mig_before_vm_start(void)
+ {
+     GSList *item;
+ 
+-    qemu_mutex_lock(&finish_lock);
++    qemu_mutex_lock(&dbm_load_state.finish_lock);
+ 
+-    for (item = enabled_bitmaps; item; item = g_slist_next(item)) {
++    for (item = dbm_load_state.enabled_bitmaps; item;
++         item = g_slist_next(item))
++    {
+         DirtyBitmapLoadBitmapState *b = item->data;
+ 
+         if (b->migrated) {
+@@ -506,21 +511,24 @@ void dirty_bitmap_mig_before_vm_start(void)
+         g_free(b);
+     }
+ 
+-    g_slist_free(enabled_bitmaps);
+-    enabled_bitmaps = NULL;
++    g_slist_free(dbm_load_state.enabled_bitmaps);
++    dbm_load_state.enabled_bitmaps = NULL;
+ 
+-    qemu_mutex_unlock(&finish_lock);
++    qemu_mutex_unlock(&dbm_load_state.finish_lock);
+ }
+ 
+-static void dirty_bitmap_load_complete(QEMUFile *f, DirtyBitmapLoadState *s)
++static void dirty_bitmap_load_complete(QEMUFile *f)
+ {
++    DirtyBitmapLoadState *s = &dbm_load_state;
+     GSList *item;
+     trace_dirty_bitmap_load_complete();
+     bdrv_dirty_bitmap_deserialize_finish(s->bitmap);
+ 
+-    qemu_mutex_lock(&finish_lock);
++    qemu_mutex_lock(&dbm_load_state.finish_lock);
+ 
+-    for (item = enabled_bitmaps; item; item = g_slist_next(item)) {
++    for (item = dbm_load_state.enabled_bitmaps; item;
++         item = g_slist_next(item))
++    {
+         DirtyBitmapLoadBitmapState *b = item->data;
+ 
+         if (b->bitmap == s->bitmap) {
+@@ -531,7 +539,7 @@ static void dirty_bitmap_load_complete(QEMUFile *f, DirtyBitmapLoadState *s)
+ 
+     if (bdrv_dirty_bitmap_has_successor(s->bitmap)) {
+         bdrv_dirty_bitmap_lock(s->bitmap);
+-        if (enabled_bitmaps == NULL) {
++        if (dbm_load_state.enabled_bitmaps == NULL) {
+             /* in postcopy */
+             bdrv_reclaim_dirty_bitmap_locked(s->bitmap, &error_abort);
+             bdrv_enable_dirty_bitmap_locked(s->bitmap);
+@@ -550,11 +558,12 @@ static void dirty_bitmap_load_complete(QEMUFile *f, DirtyBitmapLoadState *s)
+         bdrv_dirty_bitmap_unlock(s->bitmap);
+     }
+ 
+-    qemu_mutex_unlock(&finish_lock);
++    qemu_mutex_unlock(&dbm_load_state.finish_lock);
+ }
+ 
+-static int dirty_bitmap_load_bits(QEMUFile *f, DirtyBitmapLoadState *s)
++static int dirty_bitmap_load_bits(QEMUFile *f)
+ {
++    DirtyBitmapLoadState *s = &dbm_load_state;
+     uint64_t first_byte = qemu_get_be64(f) << BDRV_SECTOR_BITS;
+     uint64_t nr_bytes = (uint64_t)qemu_get_be32(f) << BDRV_SECTOR_BITS;
+     trace_dirty_bitmap_load_bits_enter(first_byte >> BDRV_SECTOR_BITS,
+@@ -598,8 +607,9 @@ static int dirty_bitmap_load_bits(QEMUFile *f, DirtyBitmapLoadState *s)
+     return 0;
+ }
+ 
+-static int dirty_bitmap_load_header(QEMUFile *f, DirtyBitmapLoadState *s)
++static int dirty_bitmap_load_header(QEMUFile *f)
+ {
++    DirtyBitmapLoadState *s = &dbm_load_state;
+     Error *local_err = NULL;
+     bool nothing;
+     s->flags = qemu_get_bitmap_flags(f);
+@@ -647,7 +657,6 @@ static int dirty_bitmap_load_header(QEMUFile *f, DirtyBitmapLoadState *s)
+ 
+ static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
+ {
+-    static DirtyBitmapLoadState s;
+     int ret = 0;
+ 
+     trace_dirty_bitmap_load_enter();
+@@ -657,17 +666,17 @@ static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
+     }
+ 
+     do {
+-        ret = dirty_bitmap_load_header(f, &s);
++        ret = dirty_bitmap_load_header(f);
+         if (ret < 0) {
+             return ret;
+         }
+ 
+-        if (s.flags & DIRTY_BITMAP_MIG_FLAG_START) {
+-            ret = dirty_bitmap_load_start(f, &s);
+-        } else if (s.flags & DIRTY_BITMAP_MIG_FLAG_COMPLETE) {
+-            dirty_bitmap_load_complete(f, &s);
+-        } else if (s.flags & DIRTY_BITMAP_MIG_FLAG_BITS) {
+-            ret = dirty_bitmap_load_bits(f, &s);
++        if (dbm_load_state.flags & DIRTY_BITMAP_MIG_FLAG_START) {
++            ret = dirty_bitmap_load_start(f);
++        } else if (dbm_load_state.flags & DIRTY_BITMAP_MIG_FLAG_COMPLETE) {
++            dirty_bitmap_load_complete(f);
++        } else if (dbm_load_state.flags & DIRTY_BITMAP_MIG_FLAG_BITS) {
++            ret = dirty_bitmap_load_bits(f);
+         }
+ 
+         if (!ret) {
+@@ -677,7 +686,7 @@ static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
+         if (ret) {
+             return ret;
+         }
+-    } while (!(s.flags & DIRTY_BITMAP_MIG_FLAG_EOS));
++    } while (!(dbm_load_state.flags & DIRTY_BITMAP_MIG_FLAG_EOS));
+ 
+     trace_dirty_bitmap_load_success();
+     return 0;
+-- 
+2.21.0
 
 
