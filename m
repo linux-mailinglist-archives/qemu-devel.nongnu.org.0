@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E770144C54
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 08:05:04 +0100 (CET)
-Received: from localhost ([::1]:37732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E99A144C3A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 08:01:01 +0100 (CET)
+Received: from localhost ([::1]:37668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuA4V-0005Ug-NF
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 02:05:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36210)
+	id 1iuA0Z-0000y2-Qw
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 02:00:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36222)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iu9qY-0004uq-R6
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:39 -0500
+ (envelope-from <mst@redhat.com>) id 1iu9qc-00050j-DR
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iu9qX-0008BY-Os
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:38 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56929
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iu9qb-0008E7-54
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58523
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iu9qX-0008BE-LC
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:37 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iu9qb-0008Dq-1c
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579675837;
+ s=mimecast20190719; t=1579675840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rfFv49LFSLdXK1/7HJzZJqCabeu5CMr+Q9T61Qs2V4s=;
- b=Uz8CSCNtz5tnjCjyg/srLIow9GUMJ4hQ+XEmHDn6z4lL+KWbrJlk0KyvpUGyZmD6y0x+mG
- xw5IwZg9eHosx2VaVMKhF7gkVtnQLbufNt14PVAds9+WgbbYGzfNt6WxHfpS2PmB6OO3Wm
- xPN7UGgtbHuMoQI1jrYEaCVstu2Ylg4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-WeUBRaM0OKmpUZ9cKInegg-1; Wed, 22 Jan 2020 01:50:35 -0500
-Received: by mail-wr1-f72.google.com with SMTP id k18so2613582wrw.9
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 22:50:35 -0800 (PST)
+ bh=sUTzXG5c0P/cfpSyLzCfAtskYDWEcm5+URpIdvpUQzQ=;
+ b=WyfbOuJbSznrZiBbYF2T5yJYfLZ/WJ64Sf4wzpNLYdOpFzXD3EC3ST8vjJxoCH0kbJamrs
+ TIcOCkh2J9DhmgGz4T+lEQF5LvMNRzh7IBtNXpdcttuCHZfo2pm7uZ+oY3bqSIO+oENP35
+ 9PBlLou8EvdNXIkoM+QBs23nTz4G6xQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-Yhx5HnvWOj2EF_77E-P4pQ-1; Wed, 22 Jan 2020 01:50:38 -0500
+Received: by mail-wr1-f71.google.com with SMTP id f17so2598792wrt.19
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 22:50:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=EdvlCEDlyygl5LZfs8930w7NjWVUhDfxRmswNGuyQBQ=;
- b=naHdCSjzRTPqZhpxNzpOWDYcsfQmgpKxKBYmiwntRwwHF8Oe2o4pikUPabR15OTnpd
- YjCNLDmVHt7O4j/LlP0AYBtPx8F9nS8Q4SLdazgqJfbVPfjqcFZvI+OnyZQiUynULQA7
- plamTmZ29Q9xUstQmTMzWvjaiJHupwifPSv2NuwpubZcb15d4d+xYr1WaRSajc9SnsCz
- MBjhk/CseUHmeuhzga3oj2zN+FWacNr9H/ae5IvqLQxGxx2Siuy6YnEn5Eo18DrD7urC
- twyZxbQeWibt6uO9F4XtHgvv0yD6gJgwdWkNz6zniS57qz6i7Mh7xM3uPRbaSBn33ITi
- aBFA==
-X-Gm-Message-State: APjAAAVRUqhT7ggnWIdFzBrxSZny6xN6V8ecCTMgZZLzK8Hk1M8Gb46D
- t6JGkgDSzwOrkc2NCSUa7OUlhqO6ktf0Hp3ZWeobUK25K13oUPyjdRymR+8OVmBS4RB3uHO3DUM
- EwWTBvKeSsiAMzlU=
-X-Received: by 2002:a5d:558d:: with SMTP id i13mr9227189wrv.364.1579675834355; 
- Tue, 21 Jan 2020 22:50:34 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx7WPklQFNZv/KRAo/tjmw3visjEB2U/g6CsYfvPiLgDG/ZnjC7EmzvQ8FBLyivLKVwzbwucQ==
-X-Received: by 2002:a5d:558d:: with SMTP id i13mr9227174wrv.364.1579675834166; 
- Tue, 21 Jan 2020 22:50:34 -0800 (PST)
+ bh=miOqrXp0EkoFa9QINKw9BvmGX6vXumq1+xiaY2GCJjQ=;
+ b=pecB/Z9W5kVDqmYEWI++MQ8AR5tjNLeD+QPmug0Z3oQham/4ydmRkweKJ1gIkVewvM
+ OK+AZFIKn27KWMQ8HSGzvyCi8RRYfV+ZGToYgrU7ybZ+YGGrgqCm3TyEU5JEhQTVJ73S
+ glKmTk+xAHEFGnoC4sjGK4lkKrSa0MsAE+M8mZ2lbKeNkVesaPbZjY0s+MfPrzhtMFrR
+ xjgYjp0UH8ZToaMMiGzorXuB4l9ynbqsrthJi9+GuHmVT+79xLX41TSo5PvgXs041TKy
+ OF+g7uAtFauchLvLqAnvqoPgnB6uLHG397ABTZO0ITT5FqxyWW/mkD2yR7uwp5fdjUw/
+ C2iA==
+X-Gm-Message-State: APjAAAVeO1APAJjHUccVYYLaVHHkpNux551HoxhKqFK8vFwC6MZ4kbIz
+ lB/vEv4LNA+OAjR207D2GxZIWOiz3fOrMm2MJUH9Fea1zZxOpGK2hKrkixfaJAzINQc2bSiSZ+w
+ j/+ImXCjj64vBeZs=
+X-Received: by 2002:a05:6000:367:: with SMTP id
+ f7mr9225563wrf.174.1579675837038; 
+ Tue, 21 Jan 2020 22:50:37 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyjh52+qS1ilGDb234D6YPFTtWYiQLaUxKthR5iBPmnKs70yKOCVw1eRwV23h1WXT0VQhOl2w==
+X-Received: by 2002:a05:6000:367:: with SMTP id
+ f7mr9225543wrf.174.1579675836813; 
+ Tue, 21 Jan 2020 22:50:36 -0800 (PST)
 Received: from redhat.com (bzq-79-176-0-156.red.bezeqint.net. [79.176.0.156])
  by smtp.gmail.com with ESMTPSA id
- c4sm2560063wml.7.2020.01.21.22.50.33
+ d23sm2365597wra.30.2020.01.21.22.50.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2020 22:50:33 -0800 (PST)
-Date: Wed, 22 Jan 2020 01:50:32 -0500
+ Tue, 21 Jan 2020 22:50:36 -0800 (PST)
+Date: Wed, 22 Jan 2020 01:50:34 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 15/17] vhost: Add names to section rounded warning
-Message-ID: <20200122064907.512501-16-mst@redhat.com>
+Subject: [PULL v2 16/17] vhost: Only align sections for vhost-user
+Message-ID: <20200122064907.512501-17-mst@redhat.com>
 References: <20200122064907.512501-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200122064907.512501-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: WeUBRaM0OKmpUZ9cKInegg-1
+X-MC-Unique: Yhx5HnvWOj2EF_77E-P4pQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -78,7 +80,7 @@ Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,42 +93,90 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Add the memory region names to section rounding/alignment
-warnings.
+I added hugepage alignment code in c1ece84e7c9 to deal with
+vhost-user + postcopy which needs aligned pages when using userfault.
+However, on x86 the lower 2MB of address space tends to be shotgun'd
+with small fragments around the 512-640k range - e.g. video RAM, and
+with HyperV synic pages tend to sit around there - again splitting
+it up.  The alignment code complains with a 'Section rounded to ...'
+error and gives up.
+
+Since vhost-user already filters out devices without an fd
+(see vhost-user.c vhost_user_mem_section_filter) it shouldn't be
+affected by those overlaps.
+
+Turn the alignment off on vhost-kernel so that it doesn't try
+and align, and thus won't hit the rounding issues.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20200116202414.157959-2-dgilbert@redhat.com>
+Message-Id: <20200116202414.157959-3-dgilbert@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/virtio/vhost.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/virtio/vhost.c | 32 +++++++++++++++++---------------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
 
 diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 4da0d5a6c5..774d87d98e 100644
+index 774d87d98e..25fd469179 100644
 --- a/hw/virtio/vhost.c
 +++ b/hw/virtio/vhost.c
-@@ -590,9 +590,10 @@ static void vhost_region_add_section(struct vhost_dev =
-*dev,
-              * match up in the same RAMBlock if they do.
-              */
-             if (mrs_gpa < prev_gpa_start) {
--                error_report("%s:Section rounded to %"PRIx64
--                             " prior to previous %"PRIx64,
--                             __func__, mrs_gpa, prev_gpa_start);
-+                error_report("%s:Section '%s' rounded to %"PRIx64
-+                             " prior to previous '%s' %"PRIx64,
-+                             __func__, section->mr->name, mrs_gpa,
-+                             prev_sec->mr->name, prev_gpa_start);
-                 /* A way to cleanly fail here would be better */
-                 return;
-             }
+@@ -547,26 +547,28 @@ static void vhost_region_add_section(struct vhost_dev=
+ *dev,
+     uintptr_t mrs_host =3D (uintptr_t)memory_region_get_ram_ptr(section->m=
+r) +
+                          section->offset_within_region;
+     RAMBlock *mrs_rb =3D section->mr->ram_block;
+-    size_t mrs_page =3D qemu_ram_pagesize(mrs_rb);
+=20
+     trace_vhost_region_add_section(section->mr->name, mrs_gpa, mrs_size,
+                                    mrs_host);
+=20
+-    /* Round the section to it's page size */
+-    /* First align the start down to a page boundary */
+-    uint64_t alignage =3D mrs_host & (mrs_page - 1);
+-    if (alignage) {
+-        mrs_host -=3D alignage;
+-        mrs_size +=3D alignage;
+-        mrs_gpa  -=3D alignage;
++    if (dev->vhost_ops->backend_type =3D=3D VHOST_BACKEND_TYPE_USER) {  =
+=20
++        /* Round the section to it's page size */
++        /* First align the start down to a page boundary */
++        size_t mrs_page =3D qemu_ram_pagesize(mrs_rb);
++        uint64_t alignage =3D mrs_host & (mrs_page - 1);
++        if (alignage) {
++            mrs_host -=3D alignage;
++            mrs_size +=3D alignage;
++            mrs_gpa  -=3D alignage;
++        }
++        /* Now align the size up to a page boundary */
++        alignage =3D mrs_size & (mrs_page - 1);
++        if (alignage) {
++            mrs_size +=3D mrs_page - alignage;
++        }
++        trace_vhost_region_add_section_aligned(section->mr->name, mrs_gpa,=
+ mrs_size,
++                                               mrs_host);
+     }
+-    /* Now align the size up to a page boundary */
+-    alignage =3D mrs_size & (mrs_page - 1);
+-    if (alignage) {
+-        mrs_size +=3D mrs_page - alignage;
+-    }
+-    trace_vhost_region_add_section_aligned(section->mr->name, mrs_gpa, mrs=
+_size,
+-                                           mrs_host);
+=20
+     if (dev->n_tmp_sections) {
+         /* Since we already have at least one section, lets see if
 --=20
 MST
 
