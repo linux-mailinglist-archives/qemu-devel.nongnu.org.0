@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC675144CF7
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 09:09:49 +0100 (CET)
-Received: from localhost ([::1]:38316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C69B144CF4
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 09:07:49 +0100 (CET)
+Received: from localhost ([::1]:38296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuB5A-00017w-A6
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 03:09:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43942)
+	id 1iuB3E-00077j-3Z
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 03:07:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43953)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iuB1Z-0005kU-81
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 03:06:06 -0500
+ (envelope-from <mst@redhat.com>) id 1iuB1a-0005nh-Rx
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 03:06:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iuB1X-0006JA-8f
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 03:06:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24320
+ (envelope-from <mst@redhat.com>) id 1iuB1Z-0006Jz-Ox
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 03:06:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41275
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iuB1X-0006Iz-4s
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 03:06:03 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iuB1Z-0006Jm-Ku
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 03:06:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579680362;
+ s=mimecast20190719; t=1579680365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0D/foY0xfnPxSgAusOSLmGZ39GfCQPMvI9GzghkGMfg=;
- b=Rfq/oel6wGk2xmBvDfZ1DfA4so2Evaesu1HIIoCcndbSHQRuka6vygHv0yN7YFWFxyZm+I
- uQJZMMFwrpwK/aXwDEVs+RPNEb4QZxrftOwuacIsjJ1nNNIaVgu/R4e0nbeJtoLUGkXPEC
- xbC843GqY9u/O8RFhksvG+QxnxNPxy4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-ugO3wcoVMHuwJCw76nYSyw-1; Wed, 22 Jan 2020 03:05:59 -0500
-Received: by mail-wr1-f70.google.com with SMTP id i9so2694474wru.1
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 00:05:59 -0800 (PST)
+ bh=vlJnjJ+3ZP4ePljRJ/JkAaxMtB/9rVGyvi25BcNdQGg=;
+ b=bavI0jMeqZv+MmCZygyT13Uf5yeZuyr1PuCRUgrb3p6ssECYJpxsjVLAun9co6iH898wtu
+ BMiWKN79nZDH0K9iCVsvSu/x8Nj0/MQpha64y0BKc4UwtanzDVKVUFbZsdEHE1myOecD2v
+ 4fYWuYOst/9wewBZA/1CCQMGNU4wH8E=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-181-7ZZfYgwwP7ypZGOK58MqIw-1; Wed, 22 Jan 2020 03:06:02 -0500
+Received: by mail-wm1-f72.google.com with SMTP id q206so1724971wme.9
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 00:06:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=+KuxNZk9Kx5kRe0gipOUTAqT/cDTELiu4iT30gbrRvM=;
- b=rZH5aOGrdsk+PWtonIEdi7kfaoOjvWGSV1VB5rR9lIYKClFa7rtbF9PPvDg12F/Jpe
- 6sOb/ordmJorTHR7Q/4W/dLIH5SBJtFYXzY41UZzVDjA2JxskUUvC7UI+AmKXji8noYF
- tImCm6yoOl5wJC0Fn2UEQXF63La7ExKAOrBidb6DJzAJHudd42vSslyObTi7/ITEbI7a
- GJFWuOU0n1+n/2U7wZan9CNh+WgcKjEmsReeS0PxIzj1w08E0/OxdQ4a0aAppWQQ0DGx
- WZmYsQ9NPILh9pFYfufacr3Uwa7dlTbqT8fFoNnbtU/568TFvsLKVafTJ9C1YFlZBtvr
- oiZw==
-X-Gm-Message-State: APjAAAWezQcHAeY4y+uyucDqSdU6FXoI73BAmLQRqYg66bueT0r/s/Cn
- 4OGkKNgV+qlVmpuHjDryD1pQ2UTvXq5Ovw8QCYNTr6Km5+42oGUqrG4ZWnIYvi9xACQKi8iz/r9
- R8M6Qmib28uAH2OE=
-X-Received: by 2002:a05:600c:2503:: with SMTP id
- d3mr1539005wma.84.1579680357795; 
- Wed, 22 Jan 2020 00:05:57 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzd+NDj/PeCldrH/WuoF6v0uIyKNoO4F8mNQpAlHgvEFwpDjbyxtfkoN0i0L9ikKbqeBYvvjw==
-X-Received: by 2002:a05:600c:2503:: with SMTP id
- d3mr1538990wma.84.1579680357631; 
- Wed, 22 Jan 2020 00:05:57 -0800 (PST)
+ bh=XG/sn9pQFsKpaxx2vC6q2UHSVL54RMJxUz70n6+fTLs=;
+ b=GJYVTEFBGVfnD6YGyUgLsyKhy2zQlv3N944dTtlMRl+YRlQ2ZJF26tF/aRMZcZ6k/3
+ LAatjEy6zJqVCiXAHVmg2JJxtZvzrZFPWHpst41imiWzwnjtkzGs2AWLmPqWAAs7GyB/
+ ImclXmCKbeeVSeCjxK5aw1bDlIsbQRVFlDZB54xK8XC5JHJDzYnykPJOUWZ6KEeNC8ll
+ sasO4LKyCTewai9Fr62bQn/vW8aer1vfzF7rZsUk9vRVCh62VfM5MFmNCKZilV3PAkHg
+ UzUH4htjDcVqs/mUwvLBh07g3Y0KrXwuxKFNQ36v07WtUk6EbFfK76JK87/i951ydvqz
+ TBOA==
+X-Gm-Message-State: APjAAAVokt8rMsis8wdfVxTAKVUEcMqs1CKsCSjXdPT/ej6T0HCu6Ip2
+ leUeAv2wCTFXDF3xNfcc7MTxiozCns7/AOC1J4Os5pMhd+u3SuQeXrz9KxVBRbD2FJPq/yz0NJx
+ v8hwCnymktRwfMsU=
+X-Received: by 2002:a7b:c386:: with SMTP id s6mr1524469wmj.105.1579680360939; 
+ Wed, 22 Jan 2020 00:06:00 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwleuJBJphWkqgFJZtCRqq6y5p2J0YH4D5z0h9M8fuS9mP7Ddf+Qn2dYx3QM1NAIrs7vmAa+Q==
+X-Received: by 2002:a7b:c386:: with SMTP id s6mr1524449wmj.105.1579680360705; 
+ Wed, 22 Jan 2020 00:06:00 -0800 (PST)
 Received: from redhat.com (bzq-79-176-0-156.red.bezeqint.net. [79.176.0.156])
  by smtp.gmail.com with ESMTPSA id
- w83sm2872198wmb.42.2020.01.22.00.05.56
+ m10sm57021564wrx.19.2020.01.22.00.05.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 00:05:57 -0800 (PST)
-Date: Wed, 22 Jan 2020 03:05:55 -0500
+ Wed, 22 Jan 2020 00:06:00 -0800 (PST)
+Date: Wed, 22 Jan 2020 03:05:58 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] bios-tables-test: fix up DIFF generation
-Message-ID: <20200122080538.591734-3-mst@redhat.com>
+Subject: [PATCH 3/5] bios-tables-test: default diff command
+Message-ID: <20200122080538.591734-4-mst@redhat.com>
 References: <20200122080538.591734-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200122080538.591734-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: ugO3wcoVMHuwJCw76nYSyw-1
+X-MC-Unique: 7ZZfYgwwP7ypZGOK58MqIw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -97,41 +95,60 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Turns out it goes to stdout which is suppressed even with V=3D1.
-Force DIFF output to stderr to make it visible.
+Most people probably just want diff -u. So let's use that
+as the default.
 
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ tests/qtest/bios-tables-test.c | 27 ++++++++++-----------------
+ 1 file changed, 10 insertions(+), 17 deletions(-)
 
 diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.=
 c
-index 6b5f24bf62..c8db2839b2 100644
+index c8db2839b2..6ec1c5be64 100644
 --- a/tests/qtest/bios-tables-test.c
 +++ b/tests/qtest/bios-tables-test.c
-@@ -463,13 +463,18 @@ static void test_acpi_asl(test_data *data)
-                         "Actual [asl:%s, aml:%s], Expected [asl:%s, aml:%s=
-].\n",
-                         exp_sdt->aml, sdt->asl_file, sdt->aml_file,
+@@ -465,24 +465,17 @@ static void test_acpi_asl(test_data *data)
                          exp_sdt->asl_file, exp_sdt->aml_file);
-+                fflush(stderr);
+                 fflush(stderr);
                  if (getenv("V")) {
-                     const char *diff_cmd =3D getenv("DIFF");
-                     if (diff_cmd) {
--                        int ret G_GNUC_UNUSED;
-                         char *diff =3D g_strdup_printf("%s %s %s", diff_cm=
+-                    const char *diff_cmd =3D getenv("DIFF");
+-                    if (diff_cmd) {
+-                        char *diff =3D g_strdup_printf("%s %s %s", diff_cm=
 d,
-                             exp_sdt->asl_file, sdt->asl_file);
-+                        int out =3D dup(STDOUT_FILENO);
-+                        int ret G_GNUC_UNUSED;
-+
-+                        dup2(STDERR_FILENO, STDOUT_FILENO);
-                         ret =3D system(diff) ;
-+                        dup2(out, STDOUT_FILENO);
-                         g_free(diff);
-                     } else {
-                         fprintf(stderr, "acpi-test: Warning. not showing "
+-                            exp_sdt->asl_file, sdt->asl_file);
+-                        int out =3D dup(STDOUT_FILENO);
+-                        int ret G_GNUC_UNUSED;
++                    const char *diff_env =3D getenv("DIFF");
++                    const char *diff_cmd =3D diff_env ? diff_env : "diff -=
+u";
++                    char *diff =3D g_strdup_printf("%s %s %s", diff_cmd,
++                                                 exp_sdt->asl_file, sdt->a=
+sl_file);
++                    int out =3D dup(STDOUT_FILENO);
++                    int ret G_GNUC_UNUSED;
+=20
+-                        dup2(STDERR_FILENO, STDOUT_FILENO);
+-                        ret =3D system(diff) ;
+-                        dup2(out, STDOUT_FILENO);
+-                        g_free(diff);
+-                    } else {
+-                        fprintf(stderr, "acpi-test: Warning. not showing "
+-                            "difference since no diff utility is specified=
+. "
+-                            "Set 'DIFF' environment variable to a preferre=
+d "
+-                            "diff utility and run 'make V=3D1 check' again=
+ to "
+-                            "see ASL difference.");
+-                    }
++                    dup2(STDERR_FILENO, STDOUT_FILENO);
++                    ret =3D system(diff) ;
++                    dup2(out, STDOUT_FILENO);
++                    g_free(diff);
+                 }
+             }
+         }
 --=20
 MST
 
