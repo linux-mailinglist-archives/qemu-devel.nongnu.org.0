@@ -2,85 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9AA1457E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 15:35:41 +0100 (CET)
-Received: from localhost ([::1]:43046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E921457EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 15:37:10 +0100 (CET)
+Received: from localhost ([::1]:43080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuH6Z-0001EK-6a
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 09:35:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60533)
+	id 1iuH81-0002ng-6b
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 09:37:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60611)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iuH5V-0000mx-UX
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:34:34 -0500
+ (envelope-from <mjrosato@linux.ibm.com>) id 1iuH6N-0001ZS-Ul
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:35:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iuH5R-0007RW-5I
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:34:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52369
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iuH5R-0007RA-1d
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:34:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579703668;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Bd8QWgIYcYgKFL9W9/El0IMI5RBLcZQ9bnBFKpmfxGI=;
- b=HWVh3aO8PPanqI964vhDac8/vIcgzEL4cmErlrW4NegW+yci/Oyop+ejsusp8mIL6HRL+a
- AjJoBFsDGfEA9fIcZzBmVDMuk930mWm9rLeHY8B3faOyAby5FuSHM3P4DfGMWlvAhAYIct
- CN4QWCxCXQDWzKmqXJXagDdCKFFWW/s=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-8ONIo9GYPbS0hIyXXaSkVw-1; Wed, 22 Jan 2020 09:34:25 -0500
-Received: by mail-wr1-f69.google.com with SMTP id u12so3140116wrt.15
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 06:34:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zSJ6O/m1YzmIYTNRxB0ABI6Sd+3yFsnMMw8Yr1rMGlQ=;
- b=cttdu6eZgxv536JoVol5EtKe+nViIkqI8hFbB+n5mHSeFBsC2QvQWGoIuD0aZE45YL
- M/iDnhAuDILtcrVod7cTbz8AHPL6+oXIAbGNcxt+rRhEh8JmR8zi0rXc3y2rr3vGSMcD
- iw88np2eLT/kUqRPWgSLAU498+JBtkFHYqW92OVyzl+cDP9NuBj+DPtxhrewhyy2c8QB
- misVWl9q/XRMS0a4dji82SjMrL6hQ2q8JGQxo57f9I9Zhoh5lTHUnmkLxRN6qyZ+VMz7
- +PA2kJkf3m4bT0zRaVu9I1DiVdbhL/IZyQjfkBXP0X4snRSTY56bx8HSzichlJ7O+1au
- Rq7w==
-X-Gm-Message-State: APjAAAXPS1rilMdo9PP8vzZ9p2pVNy4Qr+d31VOoRdws/EIf7pKjlYWW
- D7jFQ9gwwHXrc0J5s70Bu+2dx9hicYPK8lzPrb3J45zg6BYQ1XZtezqCFyAhLAabU80ziIjFj1r
- A5tUXs4CLQf1n7iE=
-X-Received: by 2002:a5d:6802:: with SMTP id w2mr11333065wru.353.1579703663681; 
- Wed, 22 Jan 2020 06:34:23 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwxlQMC2RIc/DCJ84/cyjYfgzgzI2Aw2DNkc2YsnlNEg7oCoLLuq+vKRxo8DtdOoc8m+1oQ0A==
-X-Received: by 2002:a5d:6802:: with SMTP id w2mr11333032wru.353.1579703663311; 
- Wed, 22 Jan 2020 06:34:23 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id n3sm54117458wrs.8.2020.01.22.06.34.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jan 2020 06:34:22 -0800 (PST)
-Subject: Re: [PATCH v4 1/6] migration-test: Use g_free() instead of free()
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-References: <20200122111517.33223-1-quintela@redhat.com>
- <20200122111517.33223-2-quintela@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ed895ebb-4116-37c2-a29c-f6e761e9113f@redhat.com>
-Date: Wed, 22 Jan 2020 15:34:21 +0100
+ (envelope-from <mjrosato@linux.ibm.com>) id 1iuH6M-00081f-J1
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:35:27 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29502)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1iuH6M-00080k-BP; Wed, 22 Jan 2020 09:35:26 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 00MEXRtU125767; Wed, 22 Jan 2020 09:35:24 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xkxj08e21-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jan 2020 09:35:23 -0500
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 00MEXRnx125743;
+ Wed, 22 Jan 2020 09:35:22 -0500
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xkxj08dn3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jan 2020 09:35:17 -0500
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 00MEYcA6018836;
+ Wed, 22 Jan 2020 14:34:53 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma04dal.us.ibm.com with ESMTP id 2xksn775qd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Jan 2020 14:34:53 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 00MEYpcq34079178
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Jan 2020 14:34:51 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4BD4A78066;
+ Wed, 22 Jan 2020 14:34:51 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BD36878064;
+ Wed, 22 Jan 2020 14:34:50 +0000 (GMT)
+Received: from oc4221205838.ibm.com (unknown [9.60.75.231])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 22 Jan 2020 14:34:50 +0000 (GMT)
+Subject: Re: [PATCH v5] target/s390x/kvm: Enable adapter interruption
+ suppression again
+To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>
+References: <20200122101437.5069-1-thuth@redhat.com>
+ <20200122112910.5b8f74c9.cohuck@redhat.com>
+ <f4e87ccf-5484-c305-aff1-13feccd5dabb@redhat.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+Message-ID: <0e99f491-002f-c42b-edbe-892ea8c269df@linux.ibm.com>
+Date: Wed, 22 Jan 2020 09:34:50 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200122111517.33223-2-quintela@redhat.com>
-Content-Language: en-US
-X-MC-Unique: 8ONIo9GYPbS0hIyXXaSkVw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <f4e87ccf-5484-c305-aff1-13feccd5dabb@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 205.139.110.120
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-01-17_05:2020-01-16,
+ 2020-01-17 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015
+ phishscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 mlxscore=0 mlxlogscore=999
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-2001220132
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,34 +97,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/22/20 12:15 PM, Juan Quintela wrote:
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+On 1/22/20 5:33 AM, Thomas Huth wrote:
+> On 22/01/2020 11.29, Cornelia Huck wrote:
+>> On Wed, 22 Jan 2020 11:14:37 +0100
+>> Thomas Huth <thuth@redhat.com> wrote:
+>>
+>>> The AIS feature has been disabled late in the v2.10 development cycle since
+>>> there were some issues with migration (see commit 3f2d07b3b01ea61126b -
+>>> "s390x/ais: for 2.10 stable: disable ais facility"). We originally wanted
+>>> to enable it again for newer machine types, but apparently we forgot to do
+>>> this so far. Let's do it now for the machines that support proper CPU models.
+>>>
+>>> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1756946
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>   v5: Use cpu_model_allowed() as suggested by David. Seems to work as far
+>>>       as I can test it without PCI cards, but ping-pong migration with
+>>>       "-cpu host" from/to an older version of QEMU is now not working
+>>>       anymore - but I think that's kind of expected since "-cpu host"
+>>>       is not migration-safe anyway.
+>>
+>> Ok, so I'll wait for test results with pci cards before queuing this :)
+> 
+> Ok, Matthew, could you please test one more time?
+> 
 
-Fixes: b99784ef6c3
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Ran all of the same tests as before, looks good!
 
-> ---
->   tests/qtest/migration-test.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 26e2e77289..b6a74a05ce 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -1291,7 +1291,7 @@ static void test_multifd_tcp(void)
->       wait_for_serial("dest_serial");
->       wait_for_migration_complete(from);
->       test_migrate_end(from, to, true);
-> -    free(uri);
-> +    g_free(uri);
->   }
->  =20
->   int main(int argc, char **argv)
->=20
-
+Tested-by: Matthew Rosato <mjrosato@linux.ibm.com>
 
