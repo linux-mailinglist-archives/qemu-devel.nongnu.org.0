@@ -2,56 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF44144926
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 01:58:49 +0100 (CET)
-Received: from localhost ([::1]:34580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9249144951
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 02:28:09 +0100 (CET)
+Received: from localhost ([::1]:34758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iu4M4-00045B-GU
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 19:58:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36723)
+	id 1iu4oS-0000o8-UZ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 20:28:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangx.jy@cn.fujitsu.com>) id 1iu4LM-0003gj-Lu
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 19:58:05 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iu4nI-0000Fq-Kb
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 20:26:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yangx.jy@cn.fujitsu.com>) id 1iu4LL-0000ct-Bm
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 19:58:04 -0500
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:32479
- helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <yangx.jy@cn.fujitsu.com>) id 1iu4LL-0000c9-0x
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 19:58:03 -0500
-X-IronPort-AV: E=Sophos;i="5.70,347,1574092800"; d="scan'208";a="82358847"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
- by heian.cn.fujitsu.com with ESMTP; 22 Jan 2020 08:57:57 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
- by cn.fujitsu.com (Postfix) with ESMTP id AFE135010EC0;
- Wed, 22 Jan 2020 08:48:45 +0800 (CST)
-Received: from [10.167.220.69] (10.167.220.69) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1395.4; Wed, 22 Jan 2020 08:57:57 +0800
-Message-ID: <5E279E13.5000405@cn.fujitsu.com>
-Date: Wed, 22 Jan 2020 08:57:55 +0800
-From: Xiao Yang <yangx.jy@cn.fujitsu.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.2; zh-CN;
- rv:1.9.2.18) Gecko/20110616 Thunderbird/3.1.11
+ (envelope-from <richard.henderson@linaro.org>) id 1iu4nH-00043f-9t
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 20:26:56 -0500
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:34920)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iu4nH-00043Q-3b
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 20:26:55 -0500
+Received: by mail-pf1-x443.google.com with SMTP id i23so2463782pfo.2
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 17:26:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Pp16kqLpiEIyAGHOLDB5F5XDcQRr9/fLT5GRMKH+yXw=;
+ b=ILxg713aGeQ9egQymNxSuXStlT2t0GFABSc4CbfRZRht+coExjcQeM0JWc5uIAz5I0
+ ohnnXAsVueVr1NZx1pEIApH1JdQDWZmnyrrTkTDUqgDK50iCXPpDgvgjt7pxII0rSqvu
+ n4pTuk3HMCPTyQ31PGXyeZGJ57M63fyvaIBrgtQ7/diaZY5Qfe7ArF+q6Im+3WYNRPQp
+ 2WlzbQpeTABa0j2j1srD7QBdUAux0ygDOAWHo5fMWxPZE6p7aDqEUrGZk+PaPqBy0nWC
+ d09H3cQ74Z25rAZVkMwT7D4H3lq/W/VBZZyu443/Kgrv+8fEZ9N5svzTEttvUad74NOM
+ R7GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Pp16kqLpiEIyAGHOLDB5F5XDcQRr9/fLT5GRMKH+yXw=;
+ b=ofC35uA8AdW0kOt9u2OB6e900IvAD2/3A513J78fOcGHoJRHxrUl2KcmWTm5WEk+rR
+ yiONiVhxdMytltOIR8Gb3kWKiPoZT38uzEFeW6CVVUw1T+5kaX3/mfbfQm2RyMIvI5YE
+ janrqMMwhqn4AVAhF77mlI70GofL00+Kh9JiBaLmWtQI9N7VzW18LE4zGJBybGi6xljt
+ E98P1glCCvm2c65q2jO4E/Rw4f3ZbHdfYitaIOjnS7PcySxYWe/clLijai3Lfr3KE7bE
+ nS4ZzgtUJGTkC39CuYqlvG6yqZdpcFKy9MT/udPxoFlyhnXnBi8XgVuFvzUcgRBS3S1A
+ rQ1A==
+X-Gm-Message-State: APjAAAVysXN+hCjsMocodglpDQxBaHkFJwmLxSAt3iSqWBMuA2o5UCRU
+ 61PPNnJ6Hscu6auMf+GQhFWCcg==
+X-Google-Smtp-Source: APXvYqxQHZFHoqWoh/O4jd1powqUGPfcr+QqKjgiXNsCW39l4cU8zwA6SYVXdVi+SLLMiYWDaFLz2g==
+X-Received: by 2002:a63:5b0a:: with SMTP id p10mr8370478pgb.228.1579656413790; 
+ Tue, 21 Jan 2020 17:26:53 -0800 (PST)
+Received: from [10.5.50.117] (rrcs-173-198-77-92.west.biz.rr.com.
+ [173.198.77.92])
+ by smtp.gmail.com with ESMTPSA id u3sm43802068pga.72.2020.01.21.17.26.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Jan 2020 17:26:52 -0800 (PST)
+Subject: Re: [PATCH] scripts/git.orderfile: Display decodetree before C source
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191230082856.30556-1-philmd@redhat.com>
+ <4bf7c585-fe7f-c574-d706-2317e6bcbceb@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <404a7378-5ad4-1a5a-e280-551293cf970b@linaro.org>
+Date: Tue, 21 Jan 2020 15:26:48 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 006/104] virtiofsd: Trim down imported files
-References: <20191212163904.159893-1-dgilbert@redhat.com>
- <20191212163904.159893-7-dgilbert@redhat.com>
- <5E26CB57.7060804@cn.fujitsu.com> <20200121105148.GC2929@work-vm>
-In-Reply-To: <20200121105148.GC2929@work-vm>
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.167.220.69]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: AFE135010EC0.A9B8A
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: yangx.jy@cn.fujitsu.com
+In-Reply-To: <4bf7c585-fe7f-c574-d706-2317e6bcbceb@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 183.91.158.132
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,146 +84,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com
+Cc: David Hildenbrand <david@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Stafford Horne <shorne@gmail.com>, Sven Schnelle <svens@stackframe.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/1/21 18:51, Dr. David Alan Gilbert wrote:
-> * Xiao Yang (yangx.jy@cn.fujitsu.com) wrote:
->> On 2019/12/13 0:37, Dr. David Alan Gilbert (git) wrote:
->>> -	res = fuse_buf_copy(&pipe_buf, buf,
->>> -			    FUSE_BUF_FORCE_SPLICE | FUSE_BUF_SPLICE_NONBLOCK);
->>> -	if (res<   0) {
->>> -		if (res == -EAGAIN || res == -EINVAL) {
->>> -			/*
->>> -			 * Should only get EAGAIN on kernels with
->>> -			 * broken SPLICE_F_NONBLOCK support (<=
->>> -			 * 2.6.35) where this error or a short read is
->>> -			 * returned even if the pipe itself is not
->>> -			 * full
->>> -			 *
->>> -			 * EINVAL might mean that splice can't handle
->>> -			 * this combination of input and output.
->>> -			 */
->>> -			if (res == -EAGAIN)
->>> -				se->broken_splice_nonblock = 1;
->>> -
->>> -			pthread_setspecific(se->pipe_key, NULL);
->>> -			fuse_ll_pipe_free(llp);
->>> -			goto fallback;
->>> -		}
->>> -		res = -res;
->>> -		goto clear_pipe;
->>> -	}
->>> -
->>> -	if (res != 0&&   res<   len) {
->>> -		struct fuse_bufvec mem_buf = FUSE_BUFVEC_INIT(len);
->>> -		void *mbuf;
->>> -		size_t now_len = res;
->>> -		/*
->>> -		 * For regular files a short count is either
->>> -		 *  1) due to EOF, or
->>> -		 *  2) because of broken SPLICE_F_NONBLOCK (see above)
->>> -		 *
->>> -		 * For other inputs it's possible that we overflowed
->>> -		 * the pipe because of small buffer fragments.
->>> -		 */
->>> -
->>> -		res = posix_memalign(&mbuf, pagesize, len);
->>> -		if (res != 0)
->>> -			goto clear_pipe;
->>> -
->>> -		mem_buf.buf[0].mem = mbuf;
->>> -		mem_buf.off = now_len;
->>> -		res = fuse_buf_copy(&mem_buf, buf, 0);
->>> -		if (res>   0) {
->>> -			char *tmpbuf;
->>> -			size_t extra_len = res;
->>> -			/*
->>> -			 * Trickiest case: got more data.  Need to get
->>> -			 * back the data from the pipe and then fall
->>> -			 * back to regular write.
->>> -			 */
->>> -			tmpbuf = malloc(headerlen);
->>> -			if (tmpbuf == NULL) {
->>> -				free(mbuf);
->>> -				res = ENOMEM;
->>> -				goto clear_pipe;
->>> -			}
->>> -			res = read_back(llp->pipe[0], tmpbuf, headerlen);
->>> -			free(tmpbuf);
->>> -			if (res != 0) {
->>> -				free(mbuf);
->>> -				goto clear_pipe;
->>> -			}
->>> -			res = read_back(llp->pipe[0], mbuf, now_len);
->>> -			if (res != 0) {
->>> -				free(mbuf);
->>> -				goto clear_pipe;
->>> -			}
->>> -			len = now_len + extra_len;
->>> -			iov[iov_count].iov_base = mbuf;
->>> -			iov[iov_count].iov_len = len;
->>> -			iov_count++;
->>> -			res = fuse_send_msg(se, ch, iov, iov_count);
->>> -			free(mbuf);
->>> -			return res;
->>> -		}
->>> -		free(mbuf);
->>> -		res = now_len;
->>> -	}
->>> -	len = res;
->>> -	out->len = headerlen + len;
->>> -
->>> -	if (se->debug) {
->>> -		fuse_log(FUSE_LOG_DEBUG,
->>> -			"   unique: %llu, success, outsize: %i (splice)\n",
->>> -			(unsigned long long) out->unique, out->len);
->>> -	}
->>> -
->>> -	splice_flags = 0;
->>> -	if ((flags&   FUSE_BUF_SPLICE_MOVE)&&
->>> -	    (se->conn.want&   FUSE_CAP_SPLICE_MOVE))
->>> -		splice_flags |= SPLICE_F_MOVE;
->>> -
->>> -	res = splice(llp->pipe[0], NULL, ch ? ch->fd : se->fd,
->>> -		     NULL, out->len, splice_flags);
->> Hi,
+On 1/18/20 12:09 AM, Philippe Mathieu-Daudé wrote:
+> Cc'ing qemu-trivial@
+> 
+> On 12/30/19 9:28 AM, Philippe Mathieu-Daudé wrote:
+>> To avoid scrolling each instruction when reviewing tcg
+>> helpers written for the decodetree script, display the
+>> .decode files (similar to header declarations) before
+>> the C source (implementation of previous declarations).
 >>
->> 1) In buffer.c, fuse_buf_splice() uses splice(2) to copy/move data in some
->> cases if the syscall is supported.
->> 2) One pipe needs to be passed to splice(2) so splice(2) without one pipe
->> fails and then go back to use other ways(e.g. use fuse_buf_fd_to_fd()).
->> 3) fuse_buf_copy() calls fuse_buf_splice() indirectly and this patch has
->> removed all pipes used by fuse_buf_copy().
->>
->> Is it necessary to leave the code related to splice(2)?  Is it going to be
->> used in future?
->> We have to use splice(2) by the correct CONFIG_SPLICE macro If necessary.
-> Yes, I think we never set HAVE_SPLICE; so that code can go.
-> I'll change this patch to remove that as well.
->
-Hi Dave,
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Agreed.
-Reviewed-by: Xiao Yang <yangx.jy@cn.fujitsu.com>
-
-Best Regards,
-Xiao Yang
-> Dave
->
->> Best Regards,
->> Xiao Yang
->>
->>
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
->
->
-> .
->
+Queued to tcg-next, since no one else has picked this up.
 
 
-
+r~
 
