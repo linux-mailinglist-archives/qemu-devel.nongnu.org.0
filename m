@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123D114592B
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 16:59:46 +0100 (CET)
-Received: from localhost ([::1]:43720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED85F145959
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 17:07:13 +0100 (CET)
+Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuIPx-0005vf-5N
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 10:59:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42315)
+	id 1iuIXB-0002iU-0P
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 11:07:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43589)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iuIOd-00052T-4O
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:58:24 -0500
+ (envelope-from <bounces@canonical.com>) id 1iuIVk-0001oZ-DI
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:05:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iuIOb-0005Qt-M6
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:58:22 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33960)
+ (envelope-from <bounces@canonical.com>) id 1iuIVj-00013M-5d
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:05:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54070)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iuIOb-0005PO-De
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:58:21 -0500
-Received: by mail-wr1-x442.google.com with SMTP id t2so7894256wrr.1
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 07:58:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=ekluN5ztgjB8EcDqO/2bE6Fuh6sFlHgRZqqmMfNFXIM=;
- b=WV5tgeAHoNONfZKcQXN8RqR85sTy0JbRFZ9iq0d8RjHVamr9jZeSJHV/IBcJ9iAqW/
- oJ3pkcriiy+ssapisV5f5USwliFJpu1My+mWvTr4DT5aJ2ovJhILK2iNeoesvHfDUm+5
- M7BZj0GRJapdpBb4FKUOXaO50aPWe31Bcv6JtVKohjMwFpl20ZDdBeOd7+cztOd/5GUH
- rhYP0y+kmNkdYau3bugVmXAxTXgniDvMcMNejXcxMrvLo+Wo8sBoWim+B6nE3dkmxvrG
- wX1RMcdvWCWlJ9eZdO/iYwtTFHqPFk+HozLxYMAlHVQk7s2JpQtA17i4w2L3E3DCCzVX
- bgyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=ekluN5ztgjB8EcDqO/2bE6Fuh6sFlHgRZqqmMfNFXIM=;
- b=QZUMTBfSk8ZrreyuUv0RvxeBQUp7n9PLHI4RRXzmN4SGSxMqgGz5n7pvdxS8bxE9Dq
- ViixfuHmMlVj+RZfwcZbvt45rD5KFVs2wdHqLiLU/PcD1mUeAfRuFWfyG5GQ5zw09lQp
- DTGqAOqL+5fpSSOF50u3CYqAac8+3Gh8qkac8mRWB0Lv7B5hzyWNfa3WedJnZtgEOJ4L
- dGwbfZYZU381Mprqgp67u61TlFJmU9Q28OJZvMagUId3WV2ql48Sy/6ysdozTLjuwBfJ
- 0Ch61k1tlyKu9dOxf+3kpU26MDNjijBCDppNhqJFlxmdGNcyGwPnII/2HhEjvCtRWCxD
- ZfAQ==
-X-Gm-Message-State: APjAAAUNQoyFx1klpL+nxAUtYcSDRk/4+TLLE+/FhBzICY0jvwKmc78F
- Ww3ahwSLp5HmXa5geVNzJr81pw==
-X-Google-Smtp-Source: APXvYqxbR0ZD0DdKCToeRLfTHjTtX3ylsXODEaC8lmoLVSe5nopprmWke0YF3QyRHjAkqS6L3f6U6w==
-X-Received: by 2002:adf:e6d2:: with SMTP id y18mr11808527wrm.262.1579708699426; 
- Wed, 22 Jan 2020 07:58:19 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o16sm5047168wmc.18.2020.01.22.07.58.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 07:58:18 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B6E2F1FF87;
- Wed, 22 Jan 2020 15:58:17 +0000 (GMT)
-References: <20200122102223.20036-1-alex.bennee@linaro.org>
- <20200122102223.20036-3-alex.bennee@linaro.org>
- <00813be1-eadb-b3c8-2a3c-084302de78b6@redhat.com>
- <9b180dab-246b-1b1e-8ec8-6585227330a7@redhat.com>
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v1 2/3] tests/docker: better handle symlinked libs
-In-reply-to: <9b180dab-246b-1b1e-8ec8-6585227330a7@redhat.com>
-Date: Wed, 22 Jan 2020 15:58:17 +0000
-Message-ID: <87muafzdnq.fsf@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iuIVj-000130-08
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:05:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iuIVh-0007Yv-JV
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:05:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 818DB2E80C8
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:05:41 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+Date: Wed, 22 Jan 2020 15:58:31 -0000
+From: Daniel Berrange <1860575@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange lemonboy
+X-Launchpad-Bug-Reporter: The Lemon Man (lemonboy)
+X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
+References: <157970748795.4848.1694391096642821939.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157970871114.4879.13125884642613054475.malone@soybean.canonical.com>
+Subject: [Bug 1860575] Re: qemu64 CPU model is incorrect
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7122e6f2bfb8ccedb7f96d9852471a3422977ffc
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,68 +65,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, f4bug@amsat.org,
- cota@braap.org, stefanha@redhat.com, pbonzini@redhat.com,
- marcandre.lureau@redhat.com, aurelien@aurel32.net
+Reply-To: Bug 1860575 <1860575@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Your analysis of the problem with family makes sense & we do have
+mechanism to fix this in QEMU while keeping back compat for existing
+deployments.
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+I'm curious as to the actual errors LLVM reports ?
 
-> On 1/22/20 2:24 PM, Wainer dos Santos Moschetta wrote:
->> On 1/22/20 8:22 AM, Alex Benn=C3=A9e wrote:
->>> When we are copying we want to ensure we grab the first
->>> resolution (the found in path section). However even that binary might
->>> be a symlink so lets make sure we chase the symlinks to copy the right
->>> binary to where it can be found.
->>>
->>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>> ---
->>>   tests/docker/docker.py | 3 ++-
->>>   1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/tests/docker/docker.py b/tests/docker/docker.py
->>> index 31d8adf836..96d4326d53 100755
->>> --- a/tests/docker/docker.py
->>> +++ b/tests/docker/docker.py
->>> @@ -109,7 +109,7 @@ def _get_so_libs(executable):
->>>       ensure theright data is copied."""
->>>       libs =3D []
->>> -    ldd_re =3D re.compile(r"(/.*/)(\S*)")
->>> +    ldd_re =3D re.compile(r"=3D> ?(/.*/)(\S*)")
->
-> Why the 'optional space' after "=3D>"?
+FWIW, even though qemu64 is the default CPU, practically everyone would
+be better off choosing one of the other CPU models explicitly to better
+suit their desired use case. There is some guidance here
+https://qemu.weilnetz.de/doc/qemu-doc.html#cpu_005fmodels
 
-Actually what I want is an optional "=3D> "
+-- =
 
->
->>>       try:
->>>           ldd_output =3D subprocess.check_output(["ldd",
->>> executable]).decode('utf-8')
->>>           for line in ldd_output.split("\n"):
->>> @@ -145,6 +145,7 @@ def _copy_binary_with_libs(src, bin_dest, dest_dir):
->>>       if libs:
->>>           for l in libs:
->>>               so_path =3D os.path.dirname(l)
->>> +            real_l =3D os.path.realpath(l)
->> real_l is not used.
->
-> I suppose the idea is to use it as:
->
->                 _copy_with_mkdir(real_l, dest_dir, so_path)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1860575
 
-Yes - looks like I need to retest.
+Title:
+  qemu64 CPU model is incorrect
 
->
->> - Wainer
->>=20
->>>               _copy_with_mkdir(l, dest_dir, so_path)
->>=20
+Status in QEMU:
+  New
+
+Bug description:
+  At the moment the "qemu64" CPU is defined as follows:
+
+  ```
+          .vendor =3D CPUID_VENDOR_AMD,
+          .family =3D 6,
+          .model =3D 6,
+          .stepping =3D 3,
+  ```
+
+  According to Wikipedia [1] this means the CPU is defined as part of the
+  K7 family while the AMD64 ISA was only introduced with the K8 series!
+
+  This causes some software such as LLVM to notice the problem (32-bit cpu
+  with 64-bit capability reported in the cpuid flag) and produce various
+  error messages.
+
+  The simple solution would be to upgrade this definition to use the Sledge=
+hammer
+  family (15) instead. =
 
 
---=20
-Alex Benn=C3=A9e
+  [1] https://en.wikipedia.org/wiki/List_of_AMD_CPU_microarchitectures
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1860575/+subscriptions
 
