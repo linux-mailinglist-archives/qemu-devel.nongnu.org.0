@@ -2,78 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90F5145AA2
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 18:12:14 +0100 (CET)
-Received: from localhost ([::1]:44962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57889145AB4
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 18:22:40 +0100 (CET)
+Received: from localhost ([::1]:45082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuJY4-0003MK-Jr
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 12:12:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53884)
+	id 1iuJiA-0007kk-N0
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 12:22:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55077)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iuJWx-0002vz-45
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 12:11:04 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iuJgd-0006zQ-2c
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 12:21:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iuJWv-0003k5-QJ
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 12:11:02 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41334)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iuJWv-0003js-J0
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 12:11:01 -0500
-Received: by mail-pl1-x642.google.com with SMTP id t14so22068plr.8
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 09:11:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=p0dY6uwo0rYrQya3U6PT1mXiygQhovDrXowjg7G9TS0=;
- b=ctNK36OgKRXwvOEfsq7EZ6ZFYp55dNgyp/snSxAhbM2tI2GvkRrBNM9ct/xJj5g+OP
- yijv9wVLfCjVCcPRL+5txr6X4nEt68bh+0jB2IAg70WcgjiuJN1WZ5cuOM0XBr+DOfuG
- 5C9gsuNeyxsCt4fP1epZi7fBKeNosmBcoqDspe4SXQfekf49dodBmgMNVgaDexuOrLwE
- Pg5Zdlhg9GMJjHo2XlmsuOV1SG7XbXR22AjHGGmp5Hw3pPV+vUIZiWSLn0ULF8q2uji6
- GqGAxZeKT38r14xIvWJVR4vCNgyps5ZB7hHCHaZ8avs9MaPq0DR8ZUMIk5drD3Fon3/t
- oJDg==
+ (envelope-from <pbonzini@redhat.com>) id 1iuJga-0007W5-9n
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 12:21:01 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45750
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuJga-0007VI-5V
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 12:21:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579713658;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KCroRi6nqsUmGX8YgY/sDSTUH/n3JSjMuzA2J5b0Beo=;
+ b=Dxe/DpPG4+Rn5u46SqZaZGu8gokps6jPgDjt2Zsb/Z235kOTHksgSAKvd9c7v80VvpJRC1
+ 73amb1Aebz021DUDukr2FP/rIQB7Fz/GnjYe6gXxDPCHp6KQ64CFTHGjapYF/GAgEBufmz
+ LJvix3BK+bJ8NjQ7EsphmtTqZAwcZIs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-72-VOr3z2wAN-iYdeyD11DEYw-1; Wed, 22 Jan 2020 12:20:56 -0500
+Received: by mail-wm1-f70.google.com with SMTP id 18so182930wmp.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 09:20:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=p0dY6uwo0rYrQya3U6PT1mXiygQhovDrXowjg7G9TS0=;
- b=hpaCjkZGZBj6Rme7Qy94nBJXtDX0gwH9rIK0a3Egw+3X7x2MZnu93/FtiXs7WHONmy
- vd8u/Z2GYPDn1nP6kCj/QcQueQSSnu9Vik6heWaTj0j7sWUTsU11/h9jt+otvpury5rm
- qDRwkgv+mBoqGZJcoauX/Bjv+OD7SerDU2J97F/groQG/YnmDiL3rI8mZuYPjyH+1GJq
- QWe60n7ftCAgW3CO5lh3GQLji3SJ1Td8K4nnwWAPSzXInNr1ZRl6TliPHDRe+LuzRt7u
- Xg9kBbfiG+lpwZW7f6Ju3CNTJPUT6wEWdpRvXQORnoStJUOWpIJAfR4kVFNZCIWhSKpL
- WfRA==
-X-Gm-Message-State: APjAAAV0wIGnwGeQ5U0JibflfWzjhc6K3Aq0qIsNXUZynSb0z2vDRGEc
- C7fhgfhvzlkRHe16bL4Xon71bw==
-X-Google-Smtp-Source: APXvYqz0MBgFWy/XRzzKI3Hk06Iq9reh+0JQHCFf80VdgGI7l63Mca82qVTpXn3aSzdjUxfPADzt/g==
-X-Received: by 2002:a17:90a:2e88:: with SMTP id
- r8mr4147753pjd.85.1579713060432; 
- Wed, 22 Jan 2020 09:11:00 -0800 (PST)
-Received: from [10.5.50.117] (rrcs-173-198-77-92.west.biz.rr.com.
- [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id g67sm49175156pfb.66.2020.01.22.09.10.57
+ bh=KCroRi6nqsUmGX8YgY/sDSTUH/n3JSjMuzA2J5b0Beo=;
+ b=YFidfY9xnW5yle58sO72JrYy52538qheL89gOY/X9sXkbry9gF78hbKzILxC7qVVDd
+ aotFBMfgwKFhxkLXltq3WU/WLHcTDSKgN2LNVUhgdyQ6mzlfWcDK3b2NvD6T5RHPuMUH
+ 2Ii9b3RiyWKQBvVzI0o0jRMR+BzGo3DO12HdyWp/sOBA7evD+pemFyzSTPXLF6dsBfjW
+ Vo0P0UfKLrAhW3KPViyCHwgDspIhyCofrpgCP56Eb3j0UsJKFsiYOvj6qroZp2nAcXPI
+ 40EznPZ/28INdGxMjEx1qqXO7r7maPXRoGccWIs4OD0F8fUUBcv0ZH8rHdHOyhfp+3Ax
+ J+1g==
+X-Gm-Message-State: APjAAAUYVHS7cddRJR2HRL/3SgPM7B0xDBOHhVEQkGi+ySB8VnkJjg3c
+ LUkNVqhRoKX/ssHLhzp0GxoLQIgsuVoCmgjfyPfnG73kRYz7weE31NyN7q4onN73TtS5a5Ee4S/
+ 9u3V+l/m/RVTKRIQ=
+X-Received: by 2002:a5d:46c7:: with SMTP id g7mr12140173wrs.11.1579713654938; 
+ Wed, 22 Jan 2020 09:20:54 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwLElHfx7qP9UzKoYboZnHHsYj29YDbu8FyHHGubFcuu9QfVMOjScikzmEUPqWT02X8AqiM7g==
+X-Received: by 2002:a5d:46c7:: with SMTP id g7mr12140158wrs.11.1579713654706; 
+ Wed, 22 Jan 2020 09:20:54 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:b8fe:679e:87eb:c059?
+ ([2001:b07:6468:f312:b8fe:679e:87eb:c059])
+ by smtp.gmail.com with ESMTPSA id r15sm4781861wmh.21.2020.01.22.09.20.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jan 2020 09:10:59 -0800 (PST)
-Subject: Re: [PATCH] riscv: Format Rd of FMV.W.X with NoN-boxing
-To: Ian Jiang <ianjiang.ict@gmail.com>
-References: <20200122072448.18510-1-ianjiang.ict@gmail.com>
- <b9084f13-0836-7f74-a870-608bf3f8f6a9@linaro.org>
- <CAMAD20=RS=tt04db3NfiPfXJo2Cr5PfCF-39E8qeuehnVGMdKg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <25fb635f-6d92-70d0-9bcd-7f5a5de1a97b@linaro.org>
-Date: Wed, 22 Jan 2020 07:10:54 -1000
+ Wed, 22 Jan 2020 09:20:54 -0800 (PST)
+Subject: Re: [PATCH v2] qemu-cpu-models: Document -noTSX, mds-no, taa-no, and
+ tsx-ctrl
+To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
+References: <20200121184940.26520-1-kchamart@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5fe2c318-6212-feb5-960a-d6b96c022d3f@redhat.com>
+Date: Wed, 22 Jan 2020 18:20:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <CAMAD20=RS=tt04db3NfiPfXJo2Cr5PfCF-39E8qeuehnVGMdKg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200121184940.26520-1-kchamart@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-MC-Unique: VOr3z2wAN-iYdeyD11DEYw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,65 +92,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/20 11:53 PM, Ian Jiang wrote:
-> --
-> Ian Jiang
+On 21/01/20 19:49, Kashyap Chamarthy wrote:
+> Question: How can a user validate that TSX is indeed disabled for the
+>           guest?
+
+Look for rtm in /proc/cpuinfo, or look at the TAA entry in the sysfs
+vulnerabilities directory.
+
+> +@item @code{mds-no}
+> +
+> +Recommended to inform the guest OS that the host is @i{not} vulnerable
+> +to any of the MDS variants ([MFBDS] CVE-2018-12130, [MLPDS]
+> +CVE-2018-12127, [MSBDS] CVE-2018-12126).
+> +
+> +This is an MSR (Model-Specific Register) feature rather than a CPUID
+> +feature, so it will not appear in the Linux @code{/proc/cpuinfo} in the
+> +host or guest.  Instead, the host kernel uses it to populate the MDS
+> +vulnerability file in @code{sysfs}.
+> +
+> +So it should only be enabled for VMs if the host reports @code{Not
+> +affected} in the @code{/sys/devices/system/cpu/vulnerabilities/mds}
+> +file.
+> +
+> +@item @code{taa-no}
+> +
+> +Recommended to inform that the guest that the host is @i{not} vulnerable
+> +to CVE-2019-11135, TSX Asyncrnous Abort (TAA).
+
+Asynchronous
+
+> +
+> +This too is an MSR feature, so it does not show up in the Linux
+> +@code{/proc/cpuinfo} in the host or guest.
+> +
+> +It should only be enabled for VMs if the host reports @code{Not
+> +affected} in the
+> +@code{/sys/devices/system/cpu/vulnerabilities/tsx_async_abort} file.
+> +
+> +@item @code{tsx-ctrl}
+> +
+> +Recommended to inform the guest to @i{disable} the Intel TSX
+> +(Transactional Synchronization Extensions) feature.
+
+Not "to disable" but rather:
+
+Recommended to inform the guest that it can disable the Intel TSX
+feature or (if vulnerable) use the VERW instruction as a mitigation for
+the TAA vulnerability.
+
+Paolo
+
+> Expose this to the
+> +guest OS if and only if: (a) the host has TSX enabled; and (b) the guest
+> +has @code{rtm} CPU flag enabled.
+> +
+> +By disabling TSX, KVM-based guests can avoid paying the price of
+> +mitigting TSX-based attacks.
+> +
+> +Note that too is an MSR feature, so it does not show up in the Linux
+> +@code{/proc/cpuinfo} in the host or guest.
+> +
+>  @end table
+>  
+> -
+>  @node preferred_cpu_models_amd_x86
+>  @subsubsection Preferred CPU models for AMD x86 hosts
+>  
 > 
-> Richard Henderson <richard.henderson@linaro.org> 于2020年1月22日周三 下午4:53写道：
->>
->> On 1/21/20 9:24 PM, Ian Jiang wrote:
->>> For FMV.W.X that moves the lower 32 bits of an integer register to a
->>> floating-point register, Rd should encoded with NoN-boxing scheme.
->>> Note: This applies to RV64 only.
->>>
->>> Signed-off-by: Ian Jiang <ianjiang.ict@gmail.com>
->>> ---
->>>  target/riscv/insn_trans/trans_rvf.inc.c | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/target/riscv/insn_trans/trans_rvf.inc.c b/target/riscv/insn_trans/trans_rvf.inc.c
->>> index 172dbfa919..62b7a36567 100644
->>> --- a/target/riscv/insn_trans/trans_rvf.inc.c
->>> +++ b/target/riscv/insn_trans/trans_rvf.inc.c
->>> @@ -368,6 +368,7 @@ static bool trans_fmv_w_x(DisasContext *ctx, arg_fmv_w_x *a)
->>>
->>>  #if defined(TARGET_RISCV64)
->>>      tcg_gen_mov_i64(cpu_fpr[a->rd], t0);
->>> +    tcg_gen_ori_i64(cpu_fpr[a->rd], cpu_fpr[a->rd], 0xffffffff00000000ULL);
->>>  #else
->>>      tcg_gen_extu_i32_i64(cpu_fpr[a->rd], t0);
->>>  #endif
->>>
->>
->> This doesn't look right.  There's nothing in the spec that says the nan-boxing
->> is restricted to rv64.  NaN-boxing is all about FLEN, not XLEN.
->>
-> 
-> Why the translation of FLW has a NaN-boxing?
-> 
-> file ./target/riscv/insn_trans/trans_rvf.inc.c
->  26 static bool trans_flw(DisasContext *ctx, arg_flw *a)
->  27 {
-> ...
->  34     tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], t0, ctx->mem_idx, MO_TEUL);
->  35     /* RISC-V requires NaN-boxing of narrower width floating point values */
->  36     tcg_gen_ori_i64(cpu_fpr[a->rd], cpu_fpr[a->rd], 0xffffffff00000000ULL);
-> ...
->  41 }
 
-Eh?  Obviously because we're loading a 32-bit value into a FLEN=64 bit register.
-
-(Except when we've selected a cpu without RVD, I suppose, but in that case this
-nan-boxing is both harmless and invisible.)
-
-
-r~
 
