@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C16F145A43
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 17:51:58 +0100 (CET)
-Received: from localhost ([::1]:44416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98126145A62
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 17:57:25 +0100 (CET)
+Received: from localhost ([::1]:44516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuJET-0003VR-Al
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 11:51:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50621)
+	id 1iuJJk-0000r2-I5
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 11:57:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51102)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iuJBf-0001md-EX
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:49:04 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iuJFa-0005gg-EE
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:53:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iuJBe-0001wm-A8
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:49:03 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20978
+ (envelope-from <dgilbert@redhat.com>) id 1iuJFZ-0003Hh-3C
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:53:06 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36458
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iuJBe-0001wO-69
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:49:02 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iuJFX-0003H8-VT
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:53:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579711741;
+ s=mimecast20190719; t=1579711983;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eSz5VX2O9AYyHC1te8CSiocSt+Pqx7f6H7tbPqVOGJ8=;
- b=CU0w2X5hTU7a82C/2Xpn46yMgDFk2qjJuMO11EOhcOidtVHDsrctqKaP3+pnaNHWiF3jN5
- RKCuDMKjFy9QI0eqZ6bqiPlFFhVgRCfPUBMcJTW+hgeroO25uePc+sLVistWEnBEE0+WZ3
- DR1Dgggj5VTDDyU8XNINJTadWVv/0GM=
+ bh=Nl60tMkMWTmkl514bfUwD82Jdd+BVhv50Yt5eJOGbjM=;
+ b=Hnirh4Lx5ntWzbh/8VBC/2C9vK23nOJQX7Z3vKmNhcSgJlZIBQ+qphsbeFYBEthKzjwjTs
+ vwwMYIlQAuVrMrXwnk3iPotR16TVUawfUjDI1zu90lPcbnaSq/mZtyUi4KGqnUvXNZ0GtQ
+ Kwh+QpJTJZ6VLiVCqG8oabYQWLneTLU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-yJij60BcNOyunofK5gaUFA-1; Wed, 22 Jan 2020 11:48:58 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-367-l62P5GqaOimUKawXiiAAtw-1; Wed, 22 Jan 2020 11:52:59 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE0F4800D41;
- Wed, 22 Jan 2020 16:48:56 +0000 (UTC)
-Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4FBA186426;
- Wed, 22 Jan 2020 16:48:53 +0000 (UTC)
-Date: Wed, 22 Jan 2020 17:48:51 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v5] target/s390x/kvm: Enable adapter interruption
- suppression again
-Message-ID: <20200122174851.07d4b833.cohuck@redhat.com>
-In-Reply-To: <20200122101437.5069-1-thuth@redhat.com>
-References: <20200122101437.5069-1-thuth@redhat.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C038107B27E;
+ Wed, 22 Jan 2020 16:52:58 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D05D19C69;
+ Wed, 22 Jan 2020 16:52:45 +0000 (UTC)
+Date: Wed, 22 Jan 2020 16:52:43 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 011/109] virtiofsd: Fix common header and define for
+ QEMU builds
+Message-ID: <20200122165243.GN3263@work-vm>
+References: <20200121122433.50803-1-dgilbert@redhat.com>
+ <20200121122433.50803-12-dgilbert@redhat.com>
+ <8bf51480-fdef-14b5-2d4f-0068fa94e808@redhat.com>
+ <f4d282dc-5de9-c3c8-f0e4-ff40a576a7a3@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: yJij60BcNOyunofK5gaUFA-1
+In-Reply-To: <f4d282dc-5de9-c3c8-f0e4-ff40a576a7a3@redhat.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: l62P5GqaOimUKawXiiAAtw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,34 +77,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
+Cc: m.mizuma@jp.fujitsu.com, berrange@redhat.com, slp@redhat.com,
+ qemu-devel@nongnu.org, misono.tomohiro@jp.fujitsu.com, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Jan 2020 11:14:37 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
+> On 1/21/20 4:24 PM, Philippe Mathieu-Daud=E9 wrote:
+> > On 1/21/20 1:22 PM, Dr. David Alan Gilbert (git) wrote:
+> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > >=20
+> > > All of the fuse files include config.h and define GNU_SOURCE
+> > > where we don't have either under our build - remove them.
+> > > Fixup path to the kernel's fuse.h in the QEMUs world.
+> > >=20
+> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > ---
+> > > =A0 tools/virtiofsd/buffer.c=A0=A0=A0=A0=A0=A0=A0=A0 | 3 ---
+> > > =A0 tools/virtiofsd/fuse_i.h=A0=A0=A0=A0=A0=A0=A0=A0 | 3 +++
+> > > =A0 tools/virtiofsd/fuse_lowlevel.c=A0 | 5 +----
+> > > =A0 tools/virtiofsd/fuse_opt.c=A0=A0=A0=A0=A0=A0 | 1 -
+> > > =A0 tools/virtiofsd/fuse_signals.c=A0=A0 | 1 -
+> > > =A0 tools/virtiofsd/passthrough_ll.c | 7 +------
+> > > =A0 6 files changed, 5 insertions(+), 15 deletions(-)
+> > >=20
+> > > diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
+> > > index 5df946c82c..db1885ab19 100644
+> > > --- a/tools/virtiofsd/buffer.c
+> > > +++ b/tools/virtiofsd/buffer.c
+> > > @@ -9,9 +9,6 @@
+> > > =A0=A0 * See the file COPYING.LIB
+> > > =A0=A0 */
+> > > -#define _GNU_SOURCE
+> > > -
+> > > -#include "config.h"
+> > > =A0 #include "fuse_i.h"
+> > > =A0 #include "fuse_lowlevel.h"
+> > > =A0 #include <assert.h>
+> > > diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+> > > index e63cb58388..bae06992e0 100644
+> > > --- a/tools/virtiofsd/fuse_i.h
+> > > +++ b/tools/virtiofsd/fuse_i.h
+> > > @@ -6,6 +6,9 @@
+> > > =A0=A0 * See the file COPYING.LIB
+> > > =A0=A0 */
+> > > +#define FUSE_USE_VERSION 31
+> > > +
+> > > +
+> > > =A0 #include "fuse.h"
+> > > =A0 #include "fuse_lowlevel.h"
+> > > diff --git a/tools/virtiofsd/fuse_lowlevel.c
+> > > b/tools/virtiofsd/fuse_lowlevel.c
+> > > index b3d26cab66..f76f3d3fdc 100644
+> > > --- a/tools/virtiofsd/fuse_lowlevel.c
+> > > +++ b/tools/virtiofsd/fuse_lowlevel.c
+> > > @@ -9,11 +9,8 @@
+> > > =A0=A0 * See the file COPYING.LIB
+> > > =A0=A0 */
+> > > -#define _GNU_SOURCE
+> > > -
+> > > -#include "config.h"
+> > > =A0 #include "fuse_i.h"
+> > > -#include "fuse_kernel.h"
+> > > +#include "standard-headers/linux/fuse.h"
+> > > =A0 #include "fuse_misc.h"
+> > > =A0 #include "fuse_opt.h"
+> > > diff --git a/tools/virtiofsd/fuse_opt.c b/tools/virtiofsd/fuse_opt.c
+> > > index edd36f4a3b..1fee55e266 100644
+> > > --- a/tools/virtiofsd/fuse_opt.c
+> > > +++ b/tools/virtiofsd/fuse_opt.c
+> > > @@ -10,7 +10,6 @@
+> > > =A0=A0 */
+> > > =A0 #include "fuse_opt.h"
+> > > -#include "config.h"
+> > > =A0 #include "fuse_i.h"
+> > > =A0 #include "fuse_misc.h"
+> > > diff --git a/tools/virtiofsd/fuse_signals.c
+> > > b/tools/virtiofsd/fuse_signals.c
+> > > index 19d6791cb9..10a6f88088 100644
+> > > --- a/tools/virtiofsd/fuse_signals.c
+> > > +++ b/tools/virtiofsd/fuse_signals.c
+> > > @@ -8,7 +8,6 @@
+> > > =A0=A0 * See the file COPYING.LIB
+> > > =A0=A0 */
+> > > -#include "config.h"
+> > > =A0 #include "fuse_i.h"
+> > > =A0 #include "fuse_lowlevel.h"
+> > > diff --git a/tools/virtiofsd/passthrough_ll.c
+> > > b/tools/virtiofsd/passthrough_ll.c
+> > > index 9377718d9d..e702f7dec6 100644
+> > > --- a/tools/virtiofsd/passthrough_ll.c
+> > > +++ b/tools/virtiofsd/passthrough_ll.c
+> > > @@ -35,15 +35,10 @@
+> > > =A0=A0 * \include passthrough_ll.c
+> > > =A0=A0 */
+> > > -#define _GNU_SOURCE
+> > > -#define FUSE_USE_VERSION 31
+> > > -
+> > > -#include "config.h"
+> > > -
+> > > +#include "fuse_lowlevel.h"
+> > > =A0 #include <assert.h>
+> > > =A0 #include <dirent.h>
+> > > =A0 #include <errno.h>
+> > > -#include <fuse_lowlevel.h>
+> > > =A0 #include <inttypes.h>
+> > > =A0 #include <limits.h>
+> > > =A0 #include <pthread.h>
+> > >=20
+> >=20
+> > Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> > Tested-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+>=20
+> Shouldn't these files include "qemu/osdep.h" first, like the rest of the
+> QEMU C files?
 
-> The AIS feature has been disabled late in the v2.10 development cycle since
-> there were some issues with migration (see commit 3f2d07b3b01ea61126b -
-> "s390x/ais: for 2.10 stable: disable ais facility"). We originally wanted
-> to enable it again for newer machine types, but apparently we forgot to do
-> this so far. Let's do it now for the machines that support proper CPU models.
-> 
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1756946
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  v5: Use cpu_model_allowed() as suggested by David. Seems to work as far
->      as I can test it without PCI cards, but ping-pong migration with
->      "-cpu host" from/to an older version of QEMU is now not working
->      anymore - but I think that's kind of expected since "-cpu host"
->      is not migration-safe anyway.
-> 
->  target/s390x/kvm.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+Done.
 
-Thanks, applied.
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
