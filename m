@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A47145286
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 11:25:54 +0100 (CET)
-Received: from localhost ([::1]:39506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1020E14527C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 11:24:32 +0100 (CET)
+Received: from localhost ([::1]:39462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuDCr-0000tE-Av
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 05:25:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57538)
+	id 1iuDBW-0007Dw-Sa
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 05:24:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57542)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iuD9Z-0005vo-F7
+ (envelope-from <alex.bennee@linaro.org>) id 1iuD9Z-0005vp-LY
  for qemu-devel@nongnu.org; Wed, 22 Jan 2020 05:22:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iuD9X-00085P-Uc
+ (envelope-from <alex.bennee@linaro.org>) id 1iuD9Y-00085w-Lg
  for qemu-devel@nongnu.org; Wed, 22 Jan 2020 05:22:29 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34740)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54407)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iuD9X-00084i-O7
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 05:22:27 -0500
-Received: by mail-wr1-x441.google.com with SMTP id t2so6669682wrr.1
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 02:22:27 -0800 (PST)
+ id 1iuD9Y-00085A-GC
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 05:22:28 -0500
+Received: by mail-wm1-x341.google.com with SMTP id b19so6203600wmj.4
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 02:22:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zIaWGD0nhATksvssU385Tb+Vkuh573SQJiN/xNTgN2Q=;
- b=pBatA27F/hZbPGOXW/JZYwMc15N5EMht6n22Jy3a8sw1i/3MzD2yCxQGF6USvmr4qM
- AsSioPYo/bQtunx4Tu/7EXmPnHuZ5UhM1w7PAVLySFY4PswSCmsVl+67lci6j9cXyPdn
- ouFu2cK/5OENrqMMFWXiAFmiXEfYajikCgUv/ME2ub/lwPerCC0//WJ60Kis5Dmgr9U3
- TnK1RFQcdA0IJHjx/LXtPsU9MkGtia7lDkdQh1BtKfSWSuJQ4eTITvUDJ53dIUL6FiMA
- C6s8yXw6HgmIp7cAp4dF1eJEnOgMYp/pv4tYfGehHj0oAZ6VPXoNrv+X33CZs59kkgeX
- 8Ymg==
+ bh=2aMYsER9zNwJfrjG23Mx7vaXxE5F7HH8AoPTJnB/ClM=;
+ b=m/vNa1VZj0E+3i2n6lj4816uWOX8JRchTe+zuQPvU7gY5rAkvF2NcTTVugwopQHGJf
+ C5XBLwcC/OdzNUpeHDvrCz8c3HjCKKzHp7w+KkY2zwbDsrHikGKERdot/el1V+Ovv2SO
+ U4HUMo3awzF8Ng5hm1vMrXMvoeFkZn1lnUtNXifaFg2/tyyG90wzuglAdyIkB9pJzDDa
+ ZOICCEEOYLmwvzxkK1LOHCoJjGDbfvGaDeYl/jOZvTxWL0KX3KjHQUrOZNQHarmaV9Ls
+ HqNVUYCw+SrPGtwiwdqCf6sIfCCPfPUjOlXDNjohymxtl5zzvBa1ob2m9J4gcnWYz9Cs
+ bh1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zIaWGD0nhATksvssU385Tb+Vkuh573SQJiN/xNTgN2Q=;
- b=HhElOvaPzp0e77sZinwBGOnH7C8a8QURCYi3+41QKkievaZ5OtI1qEYOTItAgNxvGD
- rxxmeirsue00s8CU/XAvXSE0jWDXIIkwuz3FIeItAGe4fI6hNWx7TvC4me1XVjM6RTqL
- aZir5e1PeLfdrPbp9fu0aX/GYWRqJJU3S01La18/TNtVORY3cXzunZMnRCUq/dEphenB
- Jvdn6p9LKkkDs3WATwXWXMz4fBQjtifFxEKZhLjAo/hhCpCZ7QoKI0Tae98qE5+TaTqk
- BYIMLEw6WA58tfQ8MX5/Uc8ejyKUtVek60uv2JlvQwX7usqmsMO2ta/cze2LINAd2HuJ
- 0CrA==
-X-Gm-Message-State: APjAAAXHsaeiwDCAYu+OH+LA5EGG9XmcTG9mty2I8j7ge6H0ENbwlgNa
- AEoPVHdJpTQKqKKzMoFUNKl5QYsRkXA=
-X-Google-Smtp-Source: APXvYqyJ3kas9Gnq6JDJMZEU+JC/iHCs99UaIPnA66A+3ItG88BP1QuSLdHJd29fyAYpOBnXgQFtmA==
-X-Received: by 2002:a5d:458d:: with SMTP id p13mr10365142wrq.314.1579688546508; 
- Wed, 22 Jan 2020 02:22:26 -0800 (PST)
+ bh=2aMYsER9zNwJfrjG23Mx7vaXxE5F7HH8AoPTJnB/ClM=;
+ b=qM/w3FB2dontUCqvoZZCjOQaRh9kLlIbrs2aYWuL8LWU3HNmsZYXLZwDGUz0jISClv
+ R1xBkAxHkgPXQtByG2ymWXP2yh78BOMN7Ixs9SMDsL7PG/NLSN2saObUMJ4Xut8PkxIP
+ 6bleK9z264zx6VxJgvjYjeNS3u1KtOFXXPh6OHOPeSzZjOOeEqA+iXxswGFa3M4E+Gxq
+ Zm7GC1U9UivUoQsMR+BolpA0nt5jJ50GxQixWlaC+wxCZX5GNHZ6igFhNASzpfcRcIYn
+ 6i6Tz6Dt9ku4Kjsr7sfuVrhjzYrV8XEZTm8u4Fefg6+RR2A8xq1p3nvCu1qpYDymwfuV
+ bOrQ==
+X-Gm-Message-State: APjAAAX2ymUddJE8P912HUIKN7hnaG+37tJCElZtIrq+mqN1w7sNRAU+
+ dx/H1tcoGVLy5t1IMOTgAcnI9A==
+X-Google-Smtp-Source: APXvYqzSB3IPI0wn9oHVWMWdQRUcS0kJhrqKifFb/3dTJuzl0E6rndAMHPUWbmeuaWfbWm4DhFbx9Q==
+X-Received: by 2002:a1c:740b:: with SMTP id p11mr2290250wmc.78.1579688547434; 
+ Wed, 22 Jan 2020 02:22:27 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n3sm3351763wmc.27.2020.01.22.02.22.24
+ by smtp.gmail.com with ESMTPSA id q14sm3368334wmj.14.2020.01.22.02.22.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 22 Jan 2020 02:22:24 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C9C681FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id DE9171FF8F;
  Wed, 22 Jan 2020 10:22:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/3] tests/docker: move most cross compilers to buster base
-Date: Wed, 22 Jan 2020 10:22:21 +0000
-Message-Id: <20200122102223.20036-2-alex.bennee@linaro.org>
+Subject: [PATCH  v1 2/3] tests/docker: better handle symlinked libs
+Date: Wed, 22 Jan 2020 10:22:22 +0000
+Message-Id: <20200122102223.20036-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200122102223.20036-1-alex.bennee@linaro.org>
 References: <20200122102223.20036-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,157 +90,37 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes fixing up the dependencies (Which were already wrong for
-one of the mips variants).
+When we are copying we want to ensure we grab the first
+resolution (the found in path section). However even that binary might
+be a symlink so lets make sure we chase the symlinks to copy the right
+binary to where it can be found.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include                    | 16 ++++++++--------
- tests/docker/dockerfiles/debian-amd64.docker     |  2 +-
- .../docker/dockerfiles/debian-armel-cross.docker |  2 +-
- .../docker/dockerfiles/debian-armhf-cross.docker |  2 +-
- .../dockerfiles/debian-mips64el-cross.docker     |  2 +-
- .../dockerfiles/debian-mipsel-cross.docker       |  2 +-
- .../dockerfiles/debian-ppc64el-cross.docker      |  2 +-
- .../docker/dockerfiles/debian-s390x-cross.docker |  2 +-
- 8 files changed, 15 insertions(+), 15 deletions(-)
+ tests/docker/docker.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 19dbe26169..43a8678688 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -91,19 +91,12 @@ endif
- # Enforce dependencies for composite images
- docker-image-debian9-mxe: docker-image-debian9
- ifeq ($(HOST_ARCH),x86_64)
--docker-image-debian-amd64: docker-image-debian9
-+docker-image-debian-amd64: docker-image-debian10
- DOCKER_PARTIAL_IMAGES += debian-amd64-cross
- else
- docker-image-debian-amd64-cross: docker-image-debian10
- DOCKER_PARTIAL_IMAGES += debian-amd64
- endif
--docker-image-debian-armel-cross: docker-image-debian9
--docker-image-debian-armhf-cross: docker-image-debian9
--docker-image-debian-mips-cross: docker-image-debian9
--docker-image-debian-mipsel-cross: docker-image-debian9
--docker-image-debian-mips64el-cross: docker-image-debian9
--docker-image-debian-ppc64el-cross: docker-image-debian9
--docker-image-debian-s390x-cross: docker-image-debian9
- docker-image-debian-win32-cross: docker-image-debian9-mxe
- docker-image-debian-win64-cross: docker-image-debian9-mxe
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 31d8adf836..96d4326d53 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -109,7 +109,7 @@ def _get_so_libs(executable):
+     ensure theright data is copied."""
  
-@@ -118,12 +111,19 @@ endif
+     libs = []
+-    ldd_re = re.compile(r"(/.*/)(\S*)")
++    ldd_re = re.compile(r"=> ?(/.*/)(\S*)")
+     try:
+         ldd_output = subprocess.check_output(["ldd", executable]).decode('utf-8')
+         for line in ldd_output.split("\n"):
+@@ -145,6 +145,7 @@ def _copy_binary_with_libs(src, bin_dest, dest_dir):
+     if libs:
+         for l in libs:
+             so_path = os.path.dirname(l)
++            real_l = os.path.realpath(l)
+             _copy_with_mkdir(l, dest_dir, so_path)
  
- docker-image-debian-alpha-cross: docker-image-debian10
- docker-image-debian-arm64-cross: docker-image-debian10
-+docker-image-debian-armel-cross: docker-image-debian10
-+docker-image-debian-armhf-cross: docker-image-debian10
- docker-image-debian-hppa-cross: docker-image-debian10
- docker-image-debian-m68k-cross: docker-image-debian10
-+docker-image-debian-mips-cross: docker-image-debian10
- docker-image-debian-mips64-cross: docker-image-debian10
-+docker-image-debian-mips64el-cross: docker-image-debian10
-+docker-image-debian-mipsel-cross: docker-image-debian10
- docker-image-debian-powerpc-cross: docker-image-debian10
- docker-image-debian-ppc64-cross: docker-image-debian10
-+docker-image-debian-ppc64el-cross: docker-image-debian10
- docker-image-debian-riscv64-cross: docker-image-debian10
-+docker-image-debian-s390x-cross: docker-image-debian10
- docker-image-debian-sh4-cross: docker-image-debian10
- docker-image-debian-sparc64-cross: docker-image-debian10
  
-diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
-index 431e947ebd..3b860af106 100644
---- a/tests/docker/dockerfiles/debian-amd64.docker
-+++ b/tests/docker/dockerfiles/debian-amd64.docker
-@@ -4,7 +4,7 @@
- # This docker target builds on the debian Stretch base image. Further
- # libraries which are not widely available are installed by hand.
- #
--FROM qemu:debian9
-+FROM qemu:debian10
- MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
- 
- RUN apt update && \
-diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/docker/dockerfiles/debian-armel-cross.docker
-index 15378f8ea2..e3794a61c9 100644
---- a/tests/docker/dockerfiles/debian-armel-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armel-cross.docker
-@@ -3,7 +3,7 @@
- #
- # This docker target builds on the debian Stretch base image.
- #
--FROM qemu:debian9
-+FROM qemu:debian10
- MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
- 
- # Add the foreign architecture we want and install dependencies
-diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
-index 4a20af6fe1..e163b8b956 100644
---- a/tests/docker/dockerfiles/debian-armhf-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
-@@ -3,7 +3,7 @@
- #
- # This docker target builds on the debian Stretch base image.
- #
--FROM qemu:debian9
-+FROM qemu:debian10
- 
- # Add the foreign architecture we want and install dependencies
- RUN dpkg --add-architecture armhf
-diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/tests/docker/dockerfiles/debian-mips64el-cross.docker
-index 2fca112405..453b53ef72 100644
---- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
-@@ -4,7 +4,7 @@
- # This docker target builds on the debian Stretch base image.
- #
- 
--FROM qemu:debian9
-+FROM qemu:debian10
- 
- MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
- 
-diff --git a/tests/docker/dockerfiles/debian-mipsel-cross.docker b/tests/docker/dockerfiles/debian-mipsel-cross.docker
-index 4abf7832ac..3b6e975c68 100644
---- a/tests/docker/dockerfiles/debian-mipsel-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mipsel-cross.docker
-@@ -3,7 +3,7 @@
- #
- # This docker target builds on the debian Stretch base image.
- #
--FROM qemu:debian9
-+FROM qemu:debian10
- 
- MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
- 
-diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-index 9973df9ff7..cd386f01d9 100644
---- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-+++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-@@ -3,7 +3,7 @@
- #
- # This docker target builds on the debian Stretch base image.
- #
--FROM qemu:debian9
-+FROM qemu:debian10
- 
- # Add the foreign architecture we want and install dependencies
- RUN dpkg --add-architecture ppc64el && \
-diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/docker/dockerfiles/debian-s390x-cross.docker
-index eb73c98855..43fe59836f 100644
---- a/tests/docker/dockerfiles/debian-s390x-cross.docker
-+++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
-@@ -3,7 +3,7 @@
- #
- # This docker target builds on the debian Stretch base image.
- #
--FROM qemu:debian9
-+FROM qemu:debian10
- 
- # Add the s390x architecture
- RUN dpkg --add-architecture s390x
 -- 
 2.20.1
 
