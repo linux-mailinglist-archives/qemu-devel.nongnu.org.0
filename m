@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C531144A0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 03:52:08 +0100 (CET)
-Received: from localhost ([::1]:35684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1243144A13
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 03:54:29 +0100 (CET)
+Received: from localhost ([::1]:35724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iu67j-0007E3-5b
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 21:52:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45142)
+	id 1iu6A0-00026A-CI
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 21:54:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45146)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iu65a-0005Me-Mu
+ (envelope-from <richard.henderson@linaro.org>) id 1iu65b-0005N6-5u
  for qemu-devel@nongnu.org; Tue, 21 Jan 2020 21:49:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iu65Y-0002go-SH
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 21:49:54 -0500
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:45146)
+ (envelope-from <richard.henderson@linaro.org>) id 1iu65a-0002hP-6O
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 21:49:55 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:54232)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iu65Y-0002gU-Kl
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 21:49:52 -0500
-Received: by mail-pl1-x643.google.com with SMTP id b22so2248773pls.12
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 18:49:52 -0800 (PST)
+ id 1iu65a-0002h6-1C
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 21:49:54 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id n96so2388271pjc.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 18:49:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TwrbDOcBiJWe3P20iSui/ewdKReKQwEsoISJVZqcFRc=;
- b=svCUYgfD0pnczTgtjhO8kkdeoXkbnxHe5OOAvSkSfRWOurKDuCgBvks/X4nxCKO3fm
- nW0nj5228SGKXozo+zPYJKo3q37LbaWUBEp8EnMWqE+IdV9zJ4q5l78UdqOiRkIqqJU2
- qa+xTibg1cNenlVBK8m6ApQ/QYVgXaU127OFJr9oSN/oqxhEgpdRbmW1r4x0VC3cbI7I
- qM3HsZn4c7dDMfkIZKW9UQOPIaR9r2jeajA5ovhasX5pGVeFRzuIT6DOsFClHmvjn6/T
- RYw314iCqdVi0vSiL/FFHgseypzWvjZYEoBh6TQRsd9FPT9Sb1ZGeaM6ySH0XD0kFIl4
- 1WFw==
+ bh=z7pbnhcun0cxDNFbutIi0zQ3uYITFRp+E+8VBAtnKcc=;
+ b=nu9i+kDv2Ob4EV3nm4q66/93566r+ZfeJioCD6juZhUcRzQNCrLB3cYESSxk8ej4mX
+ PrdusaPijQvrZq9DfT+Xk9owEEPTgcKM+nUbY4JpP2iTTxd9q1ISQYbdmWSly6/9hwzm
+ e4Q7BhC8+QnbR7sN5b+LtRKbOV1ApQ7gxGHhk63rTmcEuaQdZLhrR76D7u2CBq9ZauaM
+ F31eINm6OUuZALIdRHqyNcBuqQTmsv0WJxxdnM0VVbZN88p3r6SgNnIxEffEE8rayJ6s
+ SzTtQNI4MW+0WYyQaNW5XJdNu/VSAcZS1+nPjnJt2BbPNUY/XMsntp0VgeqZrjDXOI1r
+ usxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TwrbDOcBiJWe3P20iSui/ewdKReKQwEsoISJVZqcFRc=;
- b=q/xLKlWc84DS4zehAnw2Y1xQDMFWvh7eYhzSU8q8jLUvjkxf/Jwe12wBM7gkTHYD5d
- A4WUOcaaErR04tSv47gb51lySqDOIwHdxBmSm/KGFbsY88W1gbV4a78dsWDgssXEDWc/
- JQV0uDxg7uCfTl067S8XvTUEJhgsgIAJbhBfHma+QxBXGPc2SygKUZewmph25bEq0++O
- 8UrOO9HhIiIkjpwP0PPA8vaSFD0D+V39bnS+z9thGbu3jp6uIK1ZGUAT9vbVMJIDhNSN
- d60H/mRytEtQ+zsTFU9Q9orAVl5o8C8y5jjPRqzEEk6MH1YTEQDIALAiPUps2bbWR0VT
- R3Sg==
-X-Gm-Message-State: APjAAAX3NxN3Ph8K0XkfoZAWFxVnI8V/GtP25znuVP31jOj177CKEZ1V
- yXIu0P/55qyTKrVEYAR7o2Ovq9w+GvA=
-X-Google-Smtp-Source: APXvYqxCw/CfLVYxCJvwQEE6r+LKThk3sOrRKgPzo7Ho/7cGR0e8MtAeyyeNGsyr1QsdUuB9qljckQ==
-X-Received: by 2002:a17:90b:46cf:: with SMTP id
- jx15mr473309pjb.2.1579661391276; 
- Tue, 21 Jan 2020 18:49:51 -0800 (PST)
+ bh=z7pbnhcun0cxDNFbutIi0zQ3uYITFRp+E+8VBAtnKcc=;
+ b=GnbK+sDA45a8xm+cIkM23lQY9fWWsaS3h+EccExuDZbJf4YYQGLn995J/YD2vUIVKg
+ t+VJ3nqQsCclqLxVKWiRt12dU0y2olwViyUhGcMX75XTX+LnQ65IISY2v3YLiLknY5rf
+ 8OmwAJqQlNbfqEj835hQ9+tj2ErWPVyQ+jVWU4rzJcYFrP4rryIfRgVfokoyUu76pdtC
+ 9tXsde/JdWtjxQ6NzWeU1AxeUDtDmI4yKaMvvijvJoH5nn2Tws/s3N4UK2D9XEzOAxRo
+ RWpPc+Mdzq5cVYFwJskVhiRSqm9K7nJm/fbBAQ/WnIXhuvMm4covNMcmlgLAHc6zEuvD
+ XdCg==
+X-Gm-Message-State: APjAAAXnSfU77m9nDflfhyGJjN1vI6U4F5V34mI4+vljrOXcKCKOTbO+
+ uA2KR4/uCJkhJq4krpKnx96jtQYSRwo=
+X-Google-Smtp-Source: APXvYqxylTNRUiEwEnGZ26mfTWG9pKHdwGuuo2GZ3kjs6ysuDO0SgyHghAG3g0bczBJ8MvCZkh59tw==
+X-Received: by 2002:a17:90a:d807:: with SMTP id a7mr432288pjv.15.1579661392834; 
+ Tue, 21 Jan 2020 18:49:52 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-198-77-92.west.biz.rr.com.
  [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id c22sm44149883pfo.50.2020.01.21.18.49.50
+ by smtp.gmail.com with ESMTPSA id c22sm44149883pfo.50.2020.01.21.18.49.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2020 18:49:50 -0800 (PST)
+ Tue, 21 Jan 2020 18:49:52 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/16] cputlb: Handle NB_MMU_MODES > TARGET_PAGE_BITS_MIN
-Date: Tue, 21 Jan 2020 16:49:31 -1000
-Message-Id: <20200122024946.28484-2-richard.henderson@linaro.org>
+Subject: [PULL 02/16] util/cacheinfo: fix crash when compiling with uClibc
+Date: Tue, 21 Jan 2020 16:49:32 -1000
+Message-Id: <20200122024946.28484-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200122024946.28484-1-richard.henderson@linaro.org>
 References: <20200122024946.28484-1-richard.henderson@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
+X-Received-From: 2607:f8b0:4864:20::102e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,250 +78,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Carlos Santos <casantos@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In target/arm we will shortly have "too many" mmu_idx.
-The current minimum barrier is caused by the way in which
-tlb_flush_page_by_mmuidx is coded.
+From: Carlos Santos <casantos@redhat.com>
 
-We can remove this limitation by allocating memory for
-consumption by the worker.  Let us assume that this is
-the unlikely case, as will be the case for the majority
-of targets which have so far satisfied the BUILD_BUG_ON,
-and only allocate memory when necessary.
+uClibc defines _SC_LEVEL1_ICACHE_LINESIZE and _SC_LEVEL1_DCACHE_LINESIZE
+but the corresponding sysconf calls returns -1, which is a valid result,
+meaning that the limit is indeterminate.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Handle this situation using the fallback values instead of crashing due
+to an assertion failure.
+
+Signed-off-by: Carlos Santos <casantos@redhat.com>
+Message-Id: <20191017123713.30192-1-casantos@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 167 +++++++++++++++++++++++++++++++++++----------
- 1 file changed, 132 insertions(+), 35 deletions(-)
+ util/cacheinfo.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index a991ea2964..02b381cf50 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -449,28 +449,29 @@ static void tlb_flush_page_locked(CPUArchState *env, int midx,
-     }
- }
- 
--/* As we are going to hijack the bottom bits of the page address for a
-- * mmuidx bit mask we need to fail to build if we can't do that
-+/**
-+ * tlb_flush_page_by_mmuidx_async_0:
-+ * @cpu: cpu on which to flush
-+ * @addr: page of virtual address to flush
-+ * @idxmap: set of mmu_idx to flush
-+ *
-+ * Helper for tlb_flush_page_by_mmuidx and friends, flush one page
-+ * at @addr from the tlbs indicated by @idxmap from @cpu.
-  */
--QEMU_BUILD_BUG_ON(NB_MMU_MODES > TARGET_PAGE_BITS_MIN);
--
--static void tlb_flush_page_by_mmuidx_async_work(CPUState *cpu,
--                                                run_on_cpu_data data)
-+static void tlb_flush_page_by_mmuidx_async_0(CPUState *cpu,
-+                                             target_ulong addr,
-+                                             uint16_t idxmap)
+diff --git a/util/cacheinfo.c b/util/cacheinfo.c
+index ea6f3e99bf..d94dc6adc8 100644
+--- a/util/cacheinfo.c
++++ b/util/cacheinfo.c
+@@ -93,10 +93,16 @@ static void sys_cache_info(int *isize, int *dsize)
+ static void sys_cache_info(int *isize, int *dsize)
  {
-     CPUArchState *env = cpu->env_ptr;
--    target_ulong addr_and_mmuidx = (target_ulong) data.target_ptr;
--    target_ulong addr = addr_and_mmuidx & TARGET_PAGE_MASK;
--    unsigned long mmu_idx_bitmap = addr_and_mmuidx & ALL_MMUIDX_BITS;
-     int mmu_idx;
- 
-     assert_cpu_is_self(cpu);
- 
--    tlb_debug("page addr:" TARGET_FMT_lx " mmu_map:0x%lx\n",
--              addr, mmu_idx_bitmap);
-+    tlb_debug("page addr:" TARGET_FMT_lx " mmu_map:0x%x\n", addr, idxmap);
- 
-     qemu_spin_lock(&env_tlb(env)->c.lock);
-     for (mmu_idx = 0; mmu_idx < NB_MMU_MODES; mmu_idx++) {
--        if (test_bit(mmu_idx, &mmu_idx_bitmap)) {
-+        if ((idxmap >> mmu_idx) & 1) {
-             tlb_flush_page_locked(env, mmu_idx, addr);
-         }
-     }
-@@ -479,22 +480,75 @@ static void tlb_flush_page_by_mmuidx_async_work(CPUState *cpu,
-     tb_flush_jmp_cache(cpu, addr);
- }
- 
-+/**
-+ * tlb_flush_page_by_mmuidx_async_1:
-+ * @cpu: cpu on which to flush
-+ * @data: encoded addr + idxmap
-+ *
-+ * Helper for tlb_flush_page_by_mmuidx and friends, called through
-+ * async_run_on_cpu.  The idxmap parameter is encoded in the page
-+ * offset of the target_ptr field.  This limits the set of mmu_idx
-+ * that can be passed via this method.
-+ */
-+static void tlb_flush_page_by_mmuidx_async_1(CPUState *cpu,
-+                                             run_on_cpu_data data)
-+{
-+    target_ulong addr_and_idxmap = (target_ulong) data.target_ptr;
-+    target_ulong addr = addr_and_idxmap & TARGET_PAGE_MASK;
-+    uint16_t idxmap = addr_and_idxmap & ~TARGET_PAGE_MASK;
-+
-+    tlb_flush_page_by_mmuidx_async_0(cpu, addr, idxmap);
-+}
-+
-+typedef struct {
-+    target_ulong addr;
-+    uint16_t idxmap;
-+} TLBFlushPageByMMUIdxData;
-+
-+/**
-+ * tlb_flush_page_by_mmuidx_async_2:
-+ * @cpu: cpu on which to flush
-+ * @data: allocated addr + idxmap
-+ *
-+ * Helper for tlb_flush_page_by_mmuidx and friends, called through
-+ * async_run_on_cpu.  The addr+idxmap parameters are stored in a
-+ * TLBFlushPageByMMUIdxData structure that has been allocated
-+ * specifically for this helper.  Free the structure when done.
-+ */
-+static void tlb_flush_page_by_mmuidx_async_2(CPUState *cpu,
-+                                             run_on_cpu_data data)
-+{
-+    TLBFlushPageByMMUIdxData *d = data.host_ptr;
-+
-+    tlb_flush_page_by_mmuidx_async_0(cpu, d->addr, d->idxmap);
-+    g_free(d);
-+}
-+
- void tlb_flush_page_by_mmuidx(CPUState *cpu, target_ulong addr, uint16_t idxmap)
- {
--    target_ulong addr_and_mmu_idx;
--
-     tlb_debug("addr: "TARGET_FMT_lx" mmu_idx:%" PRIx16 "\n", addr, idxmap);
- 
-     /* This should already be page aligned */
--    addr_and_mmu_idx = addr & TARGET_PAGE_MASK;
--    addr_and_mmu_idx |= idxmap;
-+    addr &= TARGET_PAGE_MASK;
- 
--    if (!qemu_cpu_is_self(cpu)) {
--        async_run_on_cpu(cpu, tlb_flush_page_by_mmuidx_async_work,
--                         RUN_ON_CPU_TARGET_PTR(addr_and_mmu_idx));
-+    if (qemu_cpu_is_self(cpu)) {
-+        tlb_flush_page_by_mmuidx_async_0(cpu, addr, idxmap);
-+    } else if (idxmap < TARGET_PAGE_SIZE) {
-+        /*
-+         * Most targets have only a few mmu_idx.  In the case where
-+         * we can stuff idxmap into the low TARGET_PAGE_BITS, avoid
-+         * allocating memory for this operation.
-+         */
-+        async_run_on_cpu(cpu, tlb_flush_page_by_mmuidx_async_1,
-+                         RUN_ON_CPU_TARGET_PTR(addr | idxmap));
-     } else {
--        tlb_flush_page_by_mmuidx_async_work(
--            cpu, RUN_ON_CPU_TARGET_PTR(addr_and_mmu_idx));
-+        TLBFlushPageByMMUIdxData *d = g_new(TLBFlushPageByMMUIdxData, 1);
-+
-+        /* Otherwise allocate a structure, freed by the worker.  */
-+        d->addr = addr;
-+        d->idxmap = idxmap;
-+        async_run_on_cpu(cpu, tlb_flush_page_by_mmuidx_async_2,
-+                         RUN_ON_CPU_HOST_PTR(d));
-     }
- }
- 
-@@ -506,17 +560,36 @@ void tlb_flush_page(CPUState *cpu, target_ulong addr)
- void tlb_flush_page_by_mmuidx_all_cpus(CPUState *src_cpu, target_ulong addr,
-                                        uint16_t idxmap)
- {
--    const run_on_cpu_func fn = tlb_flush_page_by_mmuidx_async_work;
--    target_ulong addr_and_mmu_idx;
--
-     tlb_debug("addr: "TARGET_FMT_lx" mmu_idx:%"PRIx16"\n", addr, idxmap);
- 
-     /* This should already be page aligned */
--    addr_and_mmu_idx = addr & TARGET_PAGE_MASK;
--    addr_and_mmu_idx |= idxmap;
-+    addr &= TARGET_PAGE_MASK;
- 
--    flush_all_helper(src_cpu, fn, RUN_ON_CPU_TARGET_PTR(addr_and_mmu_idx));
--    fn(src_cpu, RUN_ON_CPU_TARGET_PTR(addr_and_mmu_idx));
-+    /*
-+     * Allocate memory to hold addr+idxmap only when needed.
-+     * See tlb_flush_page_by_mmuidx for details.
-+     */
-+    if (idxmap < TARGET_PAGE_SIZE) {
-+        flush_all_helper(src_cpu, tlb_flush_page_by_mmuidx_async_1,
-+                         RUN_ON_CPU_TARGET_PTR(addr | idxmap));
-+    } else {
-+        CPUState *dst_cpu;
-+
-+        /* Allocate a separate data block for each destination cpu.  */
-+        CPU_FOREACH(dst_cpu) {
-+            if (dst_cpu != src_cpu) {
-+                TLBFlushPageByMMUIdxData *d
-+                    = g_new(TLBFlushPageByMMUIdxData, 1);
-+
-+                d->addr = addr;
-+                d->idxmap = idxmap;
-+                async_run_on_cpu(dst_cpu, tlb_flush_page_by_mmuidx_async_2,
-+                                 RUN_ON_CPU_HOST_PTR(d));
-+            }
-+        }
+ # ifdef _SC_LEVEL1_ICACHE_LINESIZE
+-    *isize = sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
++    int tmp_isize = (int) sysconf(_SC_LEVEL1_ICACHE_LINESIZE);
++    if (tmp_isize > 0) {
++        *isize = tmp_isize;
 +    }
-+
-+    tlb_flush_page_by_mmuidx_async_0(src_cpu, addr, idxmap);
- }
- 
- void tlb_flush_page_all_cpus(CPUState *src, target_ulong addr)
-@@ -528,17 +601,41 @@ void tlb_flush_page_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
-                                               target_ulong addr,
-                                               uint16_t idxmap)
- {
--    const run_on_cpu_func fn = tlb_flush_page_by_mmuidx_async_work;
--    target_ulong addr_and_mmu_idx;
--
-     tlb_debug("addr: "TARGET_FMT_lx" mmu_idx:%"PRIx16"\n", addr, idxmap);
- 
-     /* This should already be page aligned */
--    addr_and_mmu_idx = addr & TARGET_PAGE_MASK;
--    addr_and_mmu_idx |= idxmap;
-+    addr &= TARGET_PAGE_MASK;
- 
--    flush_all_helper(src_cpu, fn, RUN_ON_CPU_TARGET_PTR(addr_and_mmu_idx));
--    async_safe_run_on_cpu(src_cpu, fn, RUN_ON_CPU_TARGET_PTR(addr_and_mmu_idx));
-+    /*
-+     * Allocate memory to hold addr+idxmap only when needed.
-+     * See tlb_flush_page_by_mmuidx for details.
-+     */
-+    if (idxmap < TARGET_PAGE_SIZE) {
-+        flush_all_helper(src_cpu, tlb_flush_page_by_mmuidx_async_1,
-+                         RUN_ON_CPU_TARGET_PTR(addr | idxmap));
-+        async_safe_run_on_cpu(src_cpu, tlb_flush_page_by_mmuidx_async_1,
-+                              RUN_ON_CPU_TARGET_PTR(addr | idxmap));
-+    } else {
-+        CPUState *dst_cpu;
-+        TLBFlushPageByMMUIdxData *d;
-+
-+        /* Allocate a separate data block for each destination cpu.  */
-+        CPU_FOREACH(dst_cpu) {
-+            if (dst_cpu != src_cpu) {
-+                d = g_new(TLBFlushPageByMMUIdxData, 1);
-+                d->addr = addr;
-+                d->idxmap = idxmap;
-+                async_run_on_cpu(dst_cpu, tlb_flush_page_by_mmuidx_async_2,
-+                                 RUN_ON_CPU_HOST_PTR(d));
-+            }
-+        }
-+
-+        d = g_new(TLBFlushPageByMMUIdxData, 1);
-+        d->addr = addr;
-+        d->idxmap = idxmap;
-+        async_safe_run_on_cpu(src_cpu, tlb_flush_page_by_mmuidx_async_2,
-+                              RUN_ON_CPU_HOST_PTR(d));
+ # endif
+ # ifdef _SC_LEVEL1_DCACHE_LINESIZE
+-    *dsize = sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
++    int tmp_dsize = (int) sysconf(_SC_LEVEL1_DCACHE_LINESIZE);
++    if (tmp_dsize > 0) {
++        *dsize = tmp_dsize;
 +    }
+ # endif
  }
- 
- void tlb_flush_page_all_cpus_synced(CPUState *src, target_ulong addr)
+ #endif /* sys_cache_info */
 -- 
 2.20.1
 
