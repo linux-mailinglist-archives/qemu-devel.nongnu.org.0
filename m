@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B725C144CF6
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 09:09:47 +0100 (CET)
-Received: from localhost ([::1]:38312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BFA1144D00
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 09:11:35 +0100 (CET)
+Received: from localhost ([::1]:38350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuB58-00014F-BP
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 03:09:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43967)
+	id 1iuB6s-0003x9-92
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 03:11:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43980)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iuB1c-0005sd-Qo
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 03:06:11 -0500
+ (envelope-from <mst@redhat.com>) id 1iuB1h-0005wc-SB
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 03:06:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iuB1b-0006Ki-RB
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 03:06:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58549
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iuB1g-0006Lz-Or
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 03:06:13 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37787
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iuB1b-0006KY-Nk
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 03:06:07 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iuB1g-0006Ln-Jm
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 03:06:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579680367;
+ s=mimecast20190719; t=1579680372;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1TNpFnh0cmBnEC63KMUrlWRs2Qj4E3E6VTgKkSdjRI0=;
- b=IqhM8LoIheqiX2pq1UPqY5QJFevMJrYV7IrMvS41Deg9uW908x3yr6dQXmEoSaafkxTYrj
- vINUl5X7gyTe4ENaxvki5kIiF/zewYiBqtUeOLdUBJsb9FX4dNOXpp2zD0k6qPZmNMcml6
- rPUDHdEqYU6/FDMK4oySHjIOr3kJWjs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-rc3pOGPFPAWtvfXzdoWZGA-1; Wed, 22 Jan 2020 03:06:05 -0500
-Received: by mail-wm1-f69.google.com with SMTP id c4so1724262wmb.8
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 00:06:04 -0800 (PST)
+ bh=4HnVvdO9PVG27yQKQDqqOF3A6bmqC4jZ3lSftCc+CzU=;
+ b=CKbCTB+JrdDKpFrRGkDb3ZpzGI+krTfH6QpdsdlilAM5YbcRp6JOo9NdH48MdooLKc8Cik
+ PNYuKbd7rHe4jcKnmMZR1myBFtWmGNHXfLrsgmJ9tHEjfqBGxZH9+zH0ei3UmwKN+ReRy1
+ P0XuWEueneQZwNwkVs0tlFqnYdpaHaY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-166-daXC4Lh_MYmjhD6P3MZYkQ-1; Wed, 22 Jan 2020 03:06:08 -0500
+Received: by mail-wr1-f72.google.com with SMTP id f17so2681167wrt.19
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 00:06:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=/mOXF1TD9+1yrGDb4R2TxgSp1NSRuXORauWLHI+ot/g=;
- b=lfX/qUgq+m3IAhV00N+2KSINdld4EGxY3xKHqtuNIUNH0k8zjiHpPYshj6f572qPGQ
- SFDXjFqHXKTalz04PyZtl9SHDuO0U4kog+f9BIZUEK6u67OEY8NgXWTgykYpNiDY+cVS
- VPiKStYTQDlna743lumWd0aOXlftfvqwrdxete9H++nlcVC1if4LpJB5jReBY2oYD5AC
- WpY42MLS41pETXvEXD8ijtB3NNMmJh4uqbWPBwOwLqH80ICDdlCcSNFdbsHOJ27lFUdS
- nCQjFriGLBW91il5ZhVTe9zrg+4ZQFVe8X960DmWwET2wpAu6rTuSPjxsu4G/c5k58x1
- nnrA==
-X-Gm-Message-State: APjAAAWS6UhVqW4LWiTr4ig6DknVEJcWM1Fb969PUrRqxlV967blxazk
- dLXWH+5CARBPHfRFlJ+FBrsK5ggPjtmy6+RH18qzISXz1BRpHJYXr9jjDLWbhkXTXTuWRhV10sM
- /P0g3Jm65fjqXW9Q=
-X-Received: by 2002:a7b:cb46:: with SMTP id v6mr1628557wmj.117.1579680363871; 
- Wed, 22 Jan 2020 00:06:03 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxq0iSrvMspRcYoBpFUqg2DopUjgwJijtnjefYy9oA5H3UXQlQd8h907Om1+5MnRUt4Ch3CJA==
-X-Received: by 2002:a7b:cb46:: with SMTP id v6mr1628537wmj.117.1579680363713; 
- Wed, 22 Jan 2020 00:06:03 -0800 (PST)
+ bh=8uqNcJ577hXSJJzPx9aMtc0hri4nmxSoPvEVTfUrw5Y=;
+ b=czTjld3/3YtWuH09Ru3jW14M9kMaS75DegQS4tsjgt8lkxHkEYXWDtxb3qADPH+ZHT
+ Cu5+KkJNuwCXsJZgwMgAELXj51nJA54iWnoxlI0mm4sm53qPps3VrPj4eP/EHb9sl11J
+ jBLgY/fHCgJElFeVC4WbKtpfO93u0x6W40hh7Yp0/R7C/aGWskUQpQVBA43jgNgtpkmj
+ ULxj9jVogaBGsHop0DEBpi/OlLHxBM66lmcrSfRdLrz6ulS6ZoC/uotIE8PJu07yYm+o
+ 7Z69jkFi2L/WCzwqERpvdb6hdSKhdi2CIPkktYTI3NLhRfVcXIzg9s+YtlnIyZG5m3o/
+ /njA==
+X-Gm-Message-State: APjAAAXOjtu7Gpq0N1x3YjgcIj0eSAG8DnQawj0nTxg1yX4iTJopRmTB
+ 1N8jOmCnBZL4ZDVZtMEQ08yOJt+DKA9RRSh8qoFFjjCnjsS/XqNvHQUBEpDftwlHGx5zqVJfJF5
+ nQtvml2/nxFQRNVY=
+X-Received: by 2002:a05:600c:108a:: with SMTP id
+ e10mr1536312wmd.38.1579680366612; 
+ Wed, 22 Jan 2020 00:06:06 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxn8l3dPD1tZzvB0xGrwe1h07gnoP7bGkFAN9glkPTj1Hn/9xRbA3wQo85OhgsGtCI7KOp0hw==
+X-Received: by 2002:a05:600c:108a:: with SMTP id
+ e10mr1536290wmd.38.1579680366390; 
+ Wed, 22 Jan 2020 00:06:06 -0800 (PST)
 Received: from redhat.com (bzq-79-176-0-156.red.bezeqint.net. [79.176.0.156])
  by smtp.gmail.com with ESMTPSA id
- g9sm56239815wro.67.2020.01.22.00.06.02
+ x16sm2778527wmk.35.2020.01.22.00.06.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 00:06:03 -0800 (PST)
-Date: Wed, 22 Jan 2020 03:06:01 -0500
+ Wed, 22 Jan 2020 00:06:05 -0800 (PST)
+Date: Wed, 22 Jan 2020 03:06:04 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] bios-tables-test: fix path to allowed diff
-Message-ID: <20200122080538.591734-5-mst@redhat.com>
+Subject: [PATCH 5/5] rebuild-expected-aml.sh: remind about the process
+Message-ID: <20200122080538.591734-6-mst@redhat.com>
 References: <20200122080538.591734-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200122080538.591734-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: rc3pOGPFPAWtvfXzdoWZGA-1
+X-MC-Unique: daXC4Lh_MYmjhD6P3MZYkQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -78,7 +80,7 @@ Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,33 +92,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: 1e8a1fae7464 ("test: Move qtests to a separate directory")
+Remind users of rebuild-expected-aml.sh about the process
+to follow. Suppress the warning if allowed file list exists -
+that's a big hint user is already aware of the process.
+
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/data/acpi/rebuild-expected-aml.sh | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.=
-c
-index 6ec1c5be64..6535ab7f04 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -21,7 +21,7 @@
-  * in binary commit created in step 6):
-  *
-  * After 1-3 above tests will pass but ignore differences with the expecte=
-d files.
-- * You will also notice that tests/bios-tables-test-allowed-diff.h lists
-+ * You will also notice that tests/qtest/bios-tables-test-allowed-diff.h l=
-ists
-  * a bunch of files. This is your hint that you need to do the below:
-  * 4. Run
-  *      make check V=3D1
+diff --git a/tests/data/acpi/rebuild-expected-aml.sh b/tests/data/acpi/rebu=
+ild-expected-aml.sh
+index d44e511533..9cbaab1a4d 100755
+--- a/tests/data/acpi/rebuild-expected-aml.sh
++++ b/tests/data/acpi/rebuild-expected-aml.sh
+@@ -31,6 +31,13 @@ done
+=20
+ eval `grep SRC_PATH=3D config-host.mak`
+=20
++old_allowed_dif=3D`grep -v -e 'List of comma-separated changed AML files t=
+o ignore' ${SRC_PATH}/tests/qtest/bios-tables-test-allowed-diff.h`
++
+ echo '/* List of comma-separated changed AML files to ignore */' > ${SRC_P=
+ATH}/tests/qtest/bios-tables-test-allowed-diff.h
+=20
+ echo "The files were rebuilt and can be added to git."
++
++if [ -z "$old_allowed_dif" ]; then
++    echo "Note! Please do not commit expected files with source changes"
++    echo "Note! Please follow the process documented in ${SRC_PATH}/tests/=
+qtest/bios-tables-test.c"
++fi
 --=20
 MST
 
