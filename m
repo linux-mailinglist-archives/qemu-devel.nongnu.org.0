@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A251457B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 15:24:14 +0100 (CET)
-Received: from localhost ([::1]:42896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C94C31457A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 15:21:20 +0100 (CET)
+Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuGvV-0001Al-BQ
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 09:24:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58533)
+	id 1iuGsh-0004nS-GQ
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 09:21:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58708)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuGpb-0002DB-Kh
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:18:08 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuGqX-0003DR-W1
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:19:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuGpY-0005Hl-EU
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:18:07 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:54505)
+ (envelope-from <laurent@vivier.eu>) id 1iuGqW-0005kg-Jy
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:19:05 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:41803)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuGpY-0005Gf-5C
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:18:04 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuGqW-0005k7-An
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:19:04 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
  (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MWAWq-1j5lJK0ZWk-00Xb59; Wed, 22 Jan 2020 15:17:44 +0100
-Subject: Re: [PATCH v8 13/13] linux-user: Add support for TYPE_LONG and
- TYPE_ULONG in do_ioctl()
+ 1N4yyQ-1jdTUZ0jkC-010sv1; Wed, 22 Jan 2020 15:18:31 +0100
+Subject: Re: [PATCH v8 01/13] linux-user: Add support for enabling/disabling
+ RTC features using ioctls
 To: Filip Bozuta <Filip.Bozuta@rt-rk.com>, qemu-devel@nongnu.org
 References: <1579117007-7565-1-git-send-email-Filip.Bozuta@rt-rk.com>
- <1579117007-7565-14-git-send-email-Filip.Bozuta@rt-rk.com>
+ <1579117007-7565-2-git-send-email-Filip.Bozuta@rt-rk.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -71,35 +71,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <4bf31999-2fa0-15cf-8a3b-38da5f34bb19@vivier.eu>
-Date: Wed, 22 Jan 2020 15:17:42 +0100
+Message-ID: <23e04d51-620f-97d8-5a0e-cbd482550f6e@vivier.eu>
+Date: Wed, 22 Jan 2020 15:18:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <1579117007-7565-14-git-send-email-Filip.Bozuta@rt-rk.com>
+In-Reply-To: <1579117007-7565-2-git-send-email-Filip.Bozuta@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:NpULaVKQQczZqxTL7LMy7iGbYdiHu8tZ5gaBvVzMf1ccL2Wr/LP
- Xnf1D/DoTxaWOD9fwDs1mDDxYuOQo0qztpAXz3Ck9vdtkoNMdpzQN8u3o2pqprx71g5pDvc
- T6SdD5WQZaWkuEvDBQQxKVHXyREDSCvnl45bP/jgpWJFA6W1cjN6RnY89mOKgpQSeLc2vVy
- 3C55kVooTKF8ex4JYIaMA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wtqqGrBUbwQ=:Ixfpl+EMQUGt6KIni+jO52
- jmXKQwOgY/Drz9k2zHO+Kvz5oliVuAto9aGf6iuUExVbrJBAGwnNS1zuPqEUQ8DGGWfi1pcWD
- tOvLZtWH9QkoG7xQwdQwIxS1gRGe0p4+1ny51IHzVDX+raQP1j9wYkX9BdntXjm/6YfzxiMdB
- +H92sUnXm4c6yOaOpeUcH1uBouteaEVVmb06h9U7dPqLd3GEXf+TXomUmnIf+qGnbtN66f7tD
- dknFiscFOMTTnGDTOF4xMZq/dMWAk0vMaumrxGNtA+ZVoeSxFkLaUlZ9xnJIfyYbVXA/49bvD
- AiUiANAHd9AV3zTfmJVhwyIk0sTOja06A0jsbYCl/3TPZrv5RgHqm23COQORmCz2BL9jrErK+
- o9r5g7u9qqAbNBjTQbZIHgpRtqpoK55+vKH4NQTVF0cWEwMwazvGGtAUgz2xv8UBsxz42nYXO
- z20HEG9K8wZvhYjtR5tsNdcEBcYbtx4KF4oqnbcIsa19zTg2H2rPOiN1GcYYjc99YyT56OghH
- su0wCd6IH6yfRLgtjcCntrX9B4S87WMo556D/2uWLfafx3cWMWiuf3xmUjkR0usjMe9hNxGaR
- wiLVUTS3oYLfOU58/XPyhFskS6dd9/a0X42yzcoCtBS6uLkMkhMzWJZtaJasqjeNkwssu1gDs
- cWl9Z+YZE//G4wV2JkGZ7Bo43tKhSBpTkMCvawBQnCvxjFK/Ys6E/rq7l0YWblEcEYczxMKP7
- fvR88etvbLM5eLEIPh48i05sY7QD26ScM7Fl5bIBKifBJf8XYcMqV4altUlu5q6Tu8l7gGHqQ
- UYQwsU/t+sLCQpfb9bYE3X7azX0qDTbOvB1PbAURb2T5wliOxc=
+X-Provags-ID: V03:K1:SoEGkuUJHAbQD6OwT3X5+L/9lywv8yMLZOglR7zs731Vh4c04eJ
+ 4ADKMXHyoipRbBRucl43XqxFtCOTA4mkDJAyZfzX/xTXRuowb35iVKLlwrE+RbI/Qv4LQby
+ dHG1uOm3/942qfuJcLcrA29a+4GkGOdfPQtOx+K+doBlYvxOodo4zYC8lcbSF63nmDbcUB+
+ iT50tpHft0UCd3h/h0zlQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HTOffc5/JgU=:er+Jafj4aCq6ixwYttX4Bm
+ s257qj5AWq/OkIBmkbdAgDaFX9/szdqzbyQUNGpuXtpCC7cvBHabSUqCgciPpfdbSRvUtAggn
+ DSKSlIpPh1E1btCVmWIkpVij/tNx+ilVADLV/u5YNopCuronq6sadY64StxsQfptl5DFiqUrh
+ ZmOM0GPjdwQkazfFc2BDqIYlqyUsmr6Chu2HkEGFHeLR1GzpkSkFbcmEiSahxj4ak3QLZRwOl
+ uj2k9d8zNlzDzouqFe3HMsrL8AiilQWbzrxNrJAPrDuNBZ05IIvBhMDbSRNfZqKAR9r5EDLfj
+ nCLJiBL9fcCf4o6VWAt7K7ZXRwjXV4K1I0fgLK7OZs9XotBgwnUHdshH0aYvCUXkRuNAeQTbs
+ Ff625BNxkood6xJXvcOebz4OdJH168SjpS92cL51QW18A327XqqUOHKO2kOodpRioh4aDd9k9
+ Dw4SlZCugkRno5ZeSjMgMK+ZJ2nPpVq//z8hzpJk3UDcrz9B0pgTysgqE6BW6DsGKvr5D/Edr
+ JwRqPSurrsneHuWw8nHebYXPShcM+n2uLhSWyNvYu7On/GuBbP47W52w+7HyK+O9NZC6h1RZr
+ +WZ5sArUKKUNlRDHYzKnMwWwhDEu2bM8OANCx7CbOrynW7TgH/byZDlEsA9VTAPIII4iBBbfN
+ UxQquGs3LSb8FmVJW4b7XlUfAb1CxeXP4Dx3wRQLpA/fvF1Qo1CmMh2maBzdphyND+kptYOOS
+ ZF6QT40bsj4STHG46HnEj11mKVrr3GAYBSkZwVCpYBXRkorRUT30v7zw3pCZPZbxn4B9DAy5W
+ PaChhz8NQcVxADtqviZeM8x5NnZs6V0QGaYULkvTZ8zu2lpWOA=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 217.72.192.74
+X-Received-From: 217.72.192.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,36 +118,107 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 15/01/2020 à 20:36, Filip Bozuta a écrit :
-> Function "do_ioctl()" located in file "syscall.c" was missing
-> an option for TYPE_LONG and TYPE_ULONG. This caused some ioctls
-> to not be recognised because they had the third argument that was
-> of type 'long' or 'unsigned long'.
+> This patch implements functionalities of following ioctls:
 > 
-> For example:
+> RTC_AIE_ON, RTC_AIE_OFF - Alarm interrupt enabling on/off
 > 
-> Since implemented ioctls RTC_IRQP_SET and RTC_EPOCH_SET
-> are of type IOW(writing type) that have unsigned long as
-> their third argument, they were not recognised in QEMU
-> before the changes of this patch.
+>     Enable or disable the alarm interrupt, for RTCs that support
+>     alarms.  The third ioctl's argument is ignored.
 > 
+> RTC_UIE_ON, RTC_UIE_OFF - Update interrupt enabling on/off
+> 
+>     Enable or disable the interrupt on every clock update, for
+>     RTCs that support this once-per-second interrupt. The third
+>     ioctl's argument is ignored.
+> 
+> RTC_PIE_ON, RTC_PIE_OFF - Periodic interrupt enabling on/off
+> 
+>     Enable or disable the periodic interrupt, for RTCs that sup‐
+>     port these periodic interrupts. The third ioctl's argument
+>     is ignored. Only a privileged process (i.e., one having the
+>     CAP_SYS_RESOURCE capability) can enable the periodic interrupt
+>     if the frequency is currently set above the value specified in
+>     /proc/sys/dev/rtc/max-user-freq.
+> 
+> RTC_WIE_ON, RTC_WIE_OFF - Watchdog interrupt enabling on/off
+> 
+>     Enable or disable the Watchdog interrupt, for RTCs that sup-
+>     port this Watchdog interrupt. The third ioctl's argument is
+>     ignored.
+> 
+> Implementation notes:
+> 
+>     Since all of involved ioctls have NULL as their third argument,
+>     their implementation was straightforward.
+> 
+>     The line '#include <linux/rtc.h>' was added to recognize
+>     preprocessor definitions for these ioctls. This needs to be
+>     done only once in this series of commits. Also, the content
+>     of this file (with respect to ioctl definitions) remained
+>     unchanged for a long time, therefore there is no need to
+>     worry about supporting older Linux kernel version.
+> 
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 > ---
->  linux-user/syscall.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  linux-user/ioctls.h       |  9 +++++++++
+>  linux-user/syscall.c      |  1 +
+>  linux-user/syscall_defs.h | 10 ++++++++++
+>  3 files changed, 20 insertions(+)
 > 
+> diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+> index c6b9d6a..97741c7 100644
+> --- a/linux-user/ioctls.h
+> +++ b/linux-user/ioctls.h
+> @@ -69,6 +69,15 @@
+>       IOCTL(KDSETLED, 0, TYPE_INT)
+>       IOCTL_SPECIAL(KDSIGACCEPT, 0, do_ioctl_kdsigaccept, TYPE_INT)
+>  
+> +     IOCTL(RTC_AIE_ON, 0, TYPE_NULL)
+> +     IOCTL(RTC_AIE_OFF, 0, TYPE_NULL)
+> +     IOCTL(RTC_UIE_ON, 0, TYPE_NULL)
+> +     IOCTL(RTC_UIE_OFF, 0, TYPE_NULL)
+> +     IOCTL(RTC_PIE_ON, 0, TYPE_NULL)
+> +     IOCTL(RTC_PIE_OFF, 0, TYPE_NULL)
+> +     IOCTL(RTC_WIE_ON, 0, TYPE_NULL)
+> +     IOCTL(RTC_WIE_OFF, 0, TYPE_NULL)
+> +
+>       IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
+>       IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
+>       IOCTL(BLKRRPART, 0, TYPE_NULL)
 > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index a3993a2..2ba2c5c 100644
+> index ce399a5..74c3c08 100644
 > --- a/linux-user/syscall.c
 > +++ b/linux-user/syscall.c
-> @@ -5176,6 +5176,8 @@ static abi_long do_ioctl(int fd, int cmd, abi_long arg)
->          break;
->      case TYPE_PTRVOID:
->      case TYPE_INT:
-> +    case TYPE_LONG:
-> +    case TYPE_ULONG:
->          ret = get_errno(safe_ioctl(fd, ie->host_cmd, arg));
->          break;
->      case TYPE_PTR:
+> @@ -107,6 +107,7 @@
+>  #include <netpacket/packet.h>
+>  #include <linux/netlink.h>
+>  #include <linux/if_alg.h>
+> +#include <linux/rtc.h>
+>  #include "linux_loop.h"
+>  #include "uname.h"
+>  
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index 98c2119..f91579a 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -763,6 +763,16 @@ struct target_pollfd {
+>  #define TARGET_KDSETLED        0x4B32	/* set led state [lights, not flags] */
+>  #define TARGET_KDSIGACCEPT     0x4B4E
+>  
+> +/* real time clock ioctls */
+> +#define TARGET_RTC_AIE_ON           TARGET_IO('p', 0x01)
+> +#define TARGET_RTC_AIE_OFF          TARGET_IO('p', 0x02)
+> +#define TARGET_RTC_UIE_ON           TARGET_IO('p', 0x03)
+> +#define TARGET_RTC_UIE_OFF          TARGET_IO('p', 0x04)
+> +#define TARGET_RTC_PIE_ON           TARGET_IO('p', 0x05)
+> +#define TARGET_RTC_PIE_OFF          TARGET_IO('p', 0x06)
+> +#define TARGET_RTC_WIE_ON           TARGET_IO('p', 0x0f)
+> +#define TARGET_RTC_WIE_OFF          TARGET_IO('p', 0x10)
+> +
+>  #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
+>         defined(TARGET_XTENSA)
+>  #define TARGET_FIOGETOWN       TARGET_IOR('f', 123, int)
 > 
 
 Applied to my linux-user branch.
