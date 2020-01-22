@@ -2,60 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B991145907
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 16:51:32 +0100 (CET)
-Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27CF81458EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 16:42:55 +0100 (CET)
+Received: from localhost ([::1]:43534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuIHz-0001ws-8t
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 10:51:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41049)
+	id 1iuI9e-0005Ty-6l
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 10:42:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39858)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iuIHA-0001Tv-Vx
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:50:42 -0500
+ (envelope-from <philmd@redhat.com>) id 1iuI8Q-0004UG-L9
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:41:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iuIH9-0008Pp-MN
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:50:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51252)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iuIH9-0008Np-GU
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:50:39 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iuIH7-0005i2-0G
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 15:50:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 00EBB2E8073
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 15:50:37 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1iuI8P-0001PL-HC
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:41:38 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24824
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iuI8P-0001P9-ED
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:41:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579707696;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m53RB2kY4NUoTR0qB2ge30yEEaJOMjA7y586Qh03RhA=;
+ b=htIpSAn4zbZT38knihRNXeN7eiPXhCQVZB5/4vLc7fXSvn2rQAX6gYEPOunu7TjNvj13n4
+ mO29VyDs6G2CxTGy/eSl/eBQmbn3YPaBY/ssoWBslT7dbI1D0Zkqka3OIW9TRuc4hmbH7O
+ 9f2e+1m2AMwF5QpzAOxHrqN/HOE4oyM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223-FRI5K4yJOUWoy7QCVFQomQ-1; Wed, 22 Jan 2020 10:41:33 -0500
+Received: by mail-wm1-f69.google.com with SMTP id o24so1557844wmh.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 07:41:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=J9v71huDJwziVaRTf5dvwr/Ew18cs7sYkex4BEc6PXk=;
+ b=N9Bu7ozBXNegF5DTRwOtX9dgE1zAkX1vftNlvwlsMgKjX0WrKP86vvC1+P+BffnFWP
+ MWL7i0sovpn70B7Qr9LpLxAxChdk39ecMvInJg3ajblcNwnTtIM52yY6f88FzagL0Twh
+ A6Jw6R663k7mFlVS8HKDedA6b5x79tkyP6pm3Dv1jRT6jF2XqE777Ua7yHotuAuKI98S
+ y0wNiS2X7B4gGhQGQMTih6Rna2+t0obFrR9DdE/qG9QZyXpYmbodzY6V9fq9hIB3r56S
+ yLiu/mwRrITRON6+7sOYpkG787EaqyQY0bVPeW6WtODr1VKaqc4f8yWqNeX8XRQPgs8h
+ 36CA==
+X-Gm-Message-State: APjAAAXV/o1NcYXMkf2MYFWkNfOQtF5acOfro1zieJnGbaqOXBEw6ZC3
+ 9mF3rMAS4daXMG75iwVWMw+V2fpjV12TIKPhqHABDtZzsRrz52UOEkKNJuSUhHak17vqNivKAj2
+ mTC+Cyh9KYUZLX9Q=
+X-Received: by 2002:a5d:6346:: with SMTP id b6mr11746535wrw.354.1579707692415; 
+ Wed, 22 Jan 2020 07:41:32 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxYmCPR71nH/xuj3+qv80X+oL//9rjFeMIWKTcVf1gxH5loDDjKJx/h7t0jpMzbLT85hkhTjw==
+X-Received: by 2002:a5d:6346:: with SMTP id b6mr11746513wrw.354.1579707692200; 
+ Wed, 22 Jan 2020 07:41:32 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id k13sm57072996wrx.59.2020.01.22.07.41.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Jan 2020 07:41:31 -0800 (PST)
+Subject: Re: [PATCH v2 066/109] vhost-user: Print unexpected slave message
+ types
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
+ berrange@redhat.com, slp@redhat.com
+References: <20200121122433.50803-1-dgilbert@redhat.com>
+ <20200121122433.50803-67-dgilbert@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9d878315-e282-9ac3-e7e4-8549e9b2ec22@redhat.com>
+Date: Wed, 22 Jan 2020 16:41:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200121122433.50803-67-dgilbert@redhat.com>
+Content-Language: en-US
+X-MC-Unique: FRI5K4yJOUWoy7QCVFQomQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 Jan 2020 15:38:07 -0000
-From: The Lemon Man <1860575@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: lemonboy
-X-Launchpad-Bug-Reporter: The Lemon Man (lemonboy)
-X-Launchpad-Bug-Modifier: The Lemon Man (lemonboy)
-Message-Id: <157970748795.4848.1694391096642821939.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1860575] [NEW] qemu64 CPU model is incorrect
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: af8263ce35eba4d7d02875590d1c36cbd4495ac8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,75 +95,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1860575 <1860575@bugs.launchpad.net>
+Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 1/21/20 1:23 PM, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> When we receive an unexpected message type on the slave fd, print
+> the type.
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>   hw/virtio/vhost-user.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index d27a10fcc6..9ec8c2a27c 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -1061,7 +1061,7 @@ static void slave_read(void *opaque)
+>                                                             fd[0]);
+>           break;
+>       default:
+> -        error_report("Received unexpected msg type.");
+> +        error_report("Received unexpected msg type. (%d)", hdr.request);
 
-At the moment the "qemu64" CPU is defined as follows:
+With either "Received unexpected msg type (%d)."
+or "Received unexpected msg type: %d." instead:
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-```
-        .vendor =3D CPUID_VENDOR_AMD,
-        .family =3D 6,
-        .model =3D 6,
-        .stepping =3D 3,
-```
+>           ret =3D -EINVAL;
+>       }
+>  =20
+>=20
 
-According to Wikipedia [1] this means the CPU is defined as part of the
-K7 family while the AMD64 ISA was only introduced with the K8 series!
-
-This causes some software such as LLVM to notice the problem (32-bit cpu
-with 64-bit capability reported in the cpuid flag) and produce various
-error messages.
-
-The simple solution would be to upgrade this definition to use the Sledgeha=
-mmer
-family (15) instead. =
-
-
-[1] https://en.wikipedia.org/wiki/List_of_AMD_CPU_microarchitectures
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1860575
-
-Title:
-  qemu64 CPU model is incorrect
-
-Status in QEMU:
-  New
-
-Bug description:
-  At the moment the "qemu64" CPU is defined as follows:
-
-  ```
-          .vendor =3D CPUID_VENDOR_AMD,
-          .family =3D 6,
-          .model =3D 6,
-          .stepping =3D 3,
-  ```
-
-  According to Wikipedia [1] this means the CPU is defined as part of the
-  K7 family while the AMD64 ISA was only introduced with the K8 series!
-
-  This causes some software such as LLVM to notice the problem (32-bit cpu
-  with 64-bit capability reported in the cpuid flag) and produce various
-  error messages.
-
-  The simple solution would be to upgrade this definition to use the Sledge=
-hammer
-  family (15) instead. =
-
-
-  [1] https://en.wikipedia.org/wiki/List_of_AMD_CPU_microarchitectures
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1860575/+subscriptions
 
