@@ -2,55 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B159D144BE8
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 07:45:56 +0100 (CET)
-Received: from localhost ([::1]:37492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E2B144C41
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 08:02:45 +0100 (CET)
+Received: from localhost ([::1]:37706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iu9lz-0002dp-PE
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 01:45:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35676)
+	id 1iuA2G-0002ya-7K
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 02:02:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36188)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1iu9l5-0001zV-TI
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:45:00 -0500
+ (envelope-from <mst@redhat.com>) id 1iu9qT-0004mi-GT
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <misono.tomohiro@fujitsu.com>) id 1iu9l4-0002PW-3q
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:44:59 -0500
-Received: from mgwkm02.jp.fujitsu.com ([202.219.69.169]:64041)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <misono.tomohiro@fujitsu.com>)
- id 1iu9l3-0002N0-Kc
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:44:58 -0500
-Received: from kw-mxoi1.gw.nic.fujitsu.com (unknown [192.168.231.131]) by
- mgwkm02.jp.fujitsu.com with smtp
- id 138c_7c93_14c39fed_6905_4080_9d0c_b60f2a2345cd;
- Wed, 22 Jan 2020 15:44:50 +0900
-Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
- (g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
- by kw-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id CE9EDAC007F
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 15:44:49 +0900 (JST)
-Received: from g01jpexchkw33.g01.fujitsu.local (unknown [10.0.193.4])
- by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id CB082BD678B;
- Wed, 22 Jan 2020 15:44:48 +0900 (JST)
-Received: from luna3.soft.fujitsu.com (10.124.196.199) by
- g01jpexchkw33.g01.fujitsu.local (10.0.193.36) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 22 Jan 2020 15:44:49 +0900
-From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-To: <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 015/109] virtiofsd: Add options for virtio
-Date: Wed, 22 Jan 2020 15:53:37 +0900
-Message-ID: <20200122065337.1025-1-misono.tomohiro@jp.fujitsu.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200121122433.50803-16-dgilbert@redhat.com>
-References: <20200121122433.50803-16-dgilbert@redhat.com>
+ (envelope-from <mst@redhat.com>) id 1iu9qS-00087y-HW
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:33 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50851
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iu9qS-00087V-ED
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579675832;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1MaCdSCC18sa84xXKLha22neuWnQ0FyF+hqtGDwgw+w=;
+ b=NiaITZmdEc6liMgCHla5+v3NcjZf5bS7/SDF83yXjUNeKz9eDb2qWOsdkJcqjmhWiguO7z
+ IkzPeEJ7iiXi2CtSoerkxh10/KBG/ffRgZykwKeM+0GWXTMnHSUVeDycyhe6z93knjRvCI
+ qw6d6Eq0nRWSHofsqiUqDTghFmDIVKg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-Wx9wPHuJPYauqPf8VLB1CA-1; Wed, 22 Jan 2020 01:50:30 -0500
+Received: by mail-wm1-f71.google.com with SMTP id c4so1662816wmb.8
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 22:50:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JmSFm2DvEaju83wiB8EwbENmzUyJC9M0V+2bn9XbrpU=;
+ b=OLMtT4WNpAOBwSqJtjRW+XYvdFPeh35i9mkf0iQ2WlkOrAWKYyfT2fF7duMLT7hT6j
+ 1Y7ks10nLJxU9YA0xOjKjKAn9Vm/M/IygV1f1Nw67lmm0nej+SVQWSemXCpslFAO16nH
+ X20rLb4B+fGrA2vvjO0FXhupwPg7qoHqq8oIF4p4mA8urfsVlgQQm3GCxgvhNRvWUqP1
+ /+iiBDAMZ2O7CvnqjEOGvhBJ1HoiSJIOo4icYXBWg8QpYDqZB6724Wcida6KqnbUTVDr
+ YG1awJs8CHrBjLsdL3hGGutdq6ZHQUiOPLVGZqy3nQ3+wUKG9I2xMVrtwb3SOEPAiNTO
+ TPyQ==
+X-Gm-Message-State: APjAAAVuE7dhFVcaZfOYFiRqKyvZFClWEpFLuqarop8vTU1orst5WW4n
+ Wt4KMGH42dSzxb6JHy1btHHBx+toCn2jCUomYGjf950LBIJa0AyVqBLzD1JcsClM6X7jTAV0ZnX
+ KkOs4QtPUafHHyrM=
+X-Received: by 2002:adf:fd07:: with SMTP id e7mr9257554wrr.21.1579675828449;
+ Tue, 21 Jan 2020 22:50:28 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz/HrlNqG6YM++k5ZW2aqsZjD8ga4Q+R886x/rU91Zg3OHn+KL/GNKmbOHUUoWAAeNKqTrODw==
+X-Received: by 2002:adf:fd07:: with SMTP id e7mr9257538wrr.21.1579675828282;
+ Tue, 21 Jan 2020 22:50:28 -0800 (PST)
+Received: from redhat.com (bzq-79-176-0-156.red.bezeqint.net. [79.176.0.156])
+ by smtp.gmail.com with ESMTPSA id
+ i10sm56892035wru.16.2020.01.21.22.50.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jan 2020 22:50:27 -0800 (PST)
+Date: Wed, 22 Jan 2020 01:50:25 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 13/17] virtio-scsi: convert to new virtio_delete_queue
+Message-ID: <20200122064907.512501-14-mst@redhat.com>
+References: <20200122064907.512501-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-GCONF: 00
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 202.219.69.169
+In-Reply-To: <20200122064907.512501-1-mst@redhat.com>
+X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
+X-Mutt-Fcc: =sent
+X-MC-Unique: Wx9wPHuJPYauqPf8VLB1CA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,19 +90,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: m.mizuma@jp.fujitsu.com, berrange@redhat.com, slp@redhat.com,
- misono.tomohiro@jp.fujitsu.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- philmd@redhat.com, vgoyal@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Pan Nengyuan <pannengyuan@huawei.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Add options to specify parameters for virtio-fs paths, i.e.
-> 
-> ./virtiofsd -o vhost_user_socket=/tmp/vhostqemu
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+Use virtio_delete_queue to make it more clear.
+
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Message-Id: <20200117075547.60864-3-pannengyuan@huawei.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ hw/scsi/virtio-scsi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 858b3aaccb..d3af42ef92 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -945,10 +945,10 @@ void virtio_scsi_common_unrealize(DeviceState *dev)
+     VirtIOSCSICommon *vs =3D VIRTIO_SCSI_COMMON(dev);
+     int i;
+=20
+-    virtio_del_queue(vdev, 0);
+-    virtio_del_queue(vdev, 1);
++    virtio_delete_queue(vs->ctrl_vq);
++    virtio_delete_queue(vs->event_vq);
+     for (i =3D 0; i < vs->conf.num_queues; i++) {
+-        virtio_del_queue(vdev, i + 2);
++        virtio_delete_queue(vs->cmd_vqs[i]);
+     }
+     g_free(vs->cmd_vqs);
+     virtio_cleanup(vdev);
+--=20
+MST
+
 
