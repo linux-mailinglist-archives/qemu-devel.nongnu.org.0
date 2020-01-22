@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610931453A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 12:21:20 +0100 (CET)
-Received: from localhost ([::1]:40272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED701453A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 12:19:47 +0100 (CET)
+Received: from localhost ([::1]:40220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuE4V-0001o7-EV
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 06:21:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36638)
+	id 1iuE30-0008C5-AY
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 06:19:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36657)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iuDyw-0004AW-1c
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:15:35 -0500
+ (envelope-from <quintela@redhat.com>) id 1iuDyx-0004DO-Nh
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:15:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iuDyu-0006dJ-Kt
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:15:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51447
+ (envelope-from <quintela@redhat.com>) id 1iuDyw-0006eG-HO
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:15:35 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51104
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iuDyu-0006d9-GU
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:15:32 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iuDyw-0006dy-DT
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:15:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579691732;
+ s=mimecast20190719; t=1579691734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iwZEYBBew8lo3lmUNJWPGzVep9D+rbOYQ2y34LZoLwU=;
- b=Z4WhVKG4qGO4iTnHZVOXVNy8LEswgYERBEmSGBuL/i1kJSjv1eCr7MZa6/Bk+5T56voI3G
- Y9OFsnY2qJWmxf8mV3BKP0JQBYhTrQGLm6KGD04jDmEn6v97YQlgi3jr8uZp5wrC4TUeWq
- yi2ejhKTC4JLZBJPY+mxaoV7H2414HA=
+ bh=++FvK0c0O8G0FXeU4NNIduuz4jqnbR+m4cIilJeA5Vw=;
+ b=UGwpmmu0/S0/prGWg64iWbpyvjYcuaTNxPqzJG33Nfi/tIkUhOnQaOno3tVxq92ygKKmyy
+ sz09BGpsCo0zgCzBDZD+wiLCAa+qjSGXtJUGv3/OClhzaB5OtYmOrAyUaN8Vgy7hvCXvJc
+ icgTAsy/OqUIvWyMAGn9OJCHDhTJRf8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-pAjog123MnyDDJndOZFoXQ-1; Wed, 22 Jan 2020 06:15:30 -0500
+ us-mta-14-rCDcsOGgO7m6xQKkrQ6A-A-1; Wed, 22 Jan 2020 06:15:32 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B16D11005510
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 11:15:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97CFB107ACC4
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 11:15:31 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2BF255C1BB;
- Wed, 22 Jan 2020 11:15:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1369D5C1BB;
+ Wed, 22 Jan 2020 11:15:29 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/6] migration-test: Make sure that multifd and cancel works
-Date: Wed, 22 Jan 2020 12:15:15 +0100
-Message-Id: <20200122111517.33223-5-quintela@redhat.com>
+Subject: [PATCH v4 5/6] migration: Create migration_is_running()
+Date: Wed, 22 Jan 2020 12:15:16 +0100
+Message-Id: <20200122111517.33223-6-quintela@redhat.com>
 In-Reply-To: <20200122111517.33223-1-quintela@redhat.com>
 References: <20200122111517.33223-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: pAjog123MnyDDJndOZFoXQ-1
+X-MC-Unique: rCDcsOGgO7m6xQKkrQ6A-A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,189 +77,109 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Test that this sequerce works:
-
-- launch source
-- launch target
-- start migration
-- cancel migration
-- relaunch target
-- do migration again
+This function returns if we are in the middle of a migration.
+It is like migration_is_setup_or_active() with CANCELLING and COLO.
+Adapt all calers that are needed.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-
 ---
+ migration/migration.c | 29 ++++++++++++++++++++++++-----
+ migration/migration.h |  1 +
+ migration/savevm.c    |  4 +---
+ 3 files changed, 26 insertions(+), 8 deletions(-)
 
-- Wait for 1st trhead to move to cancelled before launching second
-  migration
-- Add 'to2' parameter to diferentiate 1st and second target.
-- Use g_free() instead of free()
----
- tests/qtest/migration-test.c | 112 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 111 insertions(+), 1 deletion(-)
-
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index b6a74a05ce..cf27ebbc9d 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -424,6 +424,14 @@ static void migrate_recover(QTestState *who, const cha=
-r *uri)
-     qobject_unref(rsp);
+diff --git a/migration/migration.c b/migration/migration.c
+index 990bff00c0..1fb0aab44d 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -829,6 +829,27 @@ bool migration_is_setup_or_active(int state)
+     }
  }
 =20
-+static void migrate_cancel(QTestState *who)
++bool migration_is_running(int state)
 +{
-+    QDict *rsp;
++    switch (state) {
++    case MIGRATION_STATUS_ACTIVE:
++    case MIGRATION_STATUS_POSTCOPY_ACTIVE:
++    case MIGRATION_STATUS_POSTCOPY_PAUSED:
++    case MIGRATION_STATUS_POSTCOPY_RECOVER:
++    case MIGRATION_STATUS_SETUP:
++    case MIGRATION_STATUS_PRE_SWITCHOVER:
++    case MIGRATION_STATUS_DEVICE:
++    case MIGRATION_STATUS_WAIT_UNPLUG:
++    case MIGRATION_STATUS_CANCELLING:
++    case MIGRATION_STATUS_COLO:
++        return true;
 +
-+    rsp =3D wait_command(who, "{ 'execute': 'migrate_cancel' }");
-+    qobject_unref(rsp);
++    default:
++        return false;
++
++    }
 +}
 +
- static void migrate_set_capability(QTestState *who, const char *capability=
-,
-                                    bool value)
+ static void populate_time_info(MigrationInfo *info, MigrationState *s)
  {
-@@ -456,6 +464,8 @@ static void migrate_postcopy_start(QTestState *from, QT=
-estState *to)
- typedef struct {
-     bool hide_stderr;
-     bool use_shmem;
-+    /* only launch the target process */
-+    bool only_target;
-     char *opts_source;
-     char *opts_target;
- } MigrateStart;
-@@ -571,7 +581,9 @@ static int test_migrate_start(QTestState **from, QTestS=
-tate **to,
-                                  arch_source, shmem_opts, args->opts_sourc=
-e,
-                                  ignore_stderr);
-     g_free(arch_source);
--    *from =3D qtest_init(cmd_source);
-+    if (!args->only_target) {
-+        *from =3D qtest_init(cmd_source);
-+    }
-     g_free(cmd_source);
+     info->has_status =3D true;
+@@ -1077,7 +1098,7 @@ void qmp_migrate_set_capabilities(MigrationCapability=
+StatusList *params,
+     MigrationCapabilityStatusList *cap;
+     bool cap_list[MIGRATION_CAPABILITY__MAX];
 =20
-     cmd_target =3D g_strdup_printf("-accel kvm -accel tcg%s%s "
-@@ -1294,6 +1306,103 @@ static void test_multifd_tcp(void)
-     g_free(uri);
- }
+-    if (migration_is_setup_or_active(s->state)) {
++    if (migration_is_running(s->state)) {
+         error_setg(errp, QERR_MIGRATION_ACTIVE);
+         return;
+     }
+@@ -1590,7 +1611,7 @@ static void migrate_fd_cancel(MigrationState *s)
 =20
-+/*
-+ * This test does:
-+ *  source               target
-+ *                       migrate_incoming
-+ *     migrate
-+ *     migrate_cancel
-+ *                       launch another target
-+ *     migrate
-+ *
-+ *  And see that it works
-+ */
-+
-+static void test_multifd_tcp_cancel(void)
-+{
-+    MigrateStart *args =3D migrate_start_new();
-+    QTestState *from, *to, *to2;
-+    QDict *rsp;
-+    char *uri;
-+
-+    args->hide_stderr =3D true;
-+
-+    if (test_migrate_start(&from, &to, "defer", args)) {
-+        return;
-+    }
-+
-+    /*
-+     * We want to pick a speed slow enough that the test completes
-+     * quickly, but that it doesn't complete precopy even on a slow
-+     * machine, so also set the downtime.
-+     */
-+    /* 1 ms should make it not converge*/
-+    migrate_set_parameter_int(from, "downtime-limit", 1);
-+    /* 300MB/s */
-+    migrate_set_parameter_int(from, "max-bandwidth", 30000000);
-+
-+    migrate_set_parameter_int(from, "multifd-channels", 16);
-+    migrate_set_parameter_int(to, "multifd-channels", 16);
-+
-+    migrate_set_capability(from, "multifd", "true");
-+    migrate_set_capability(to, "multifd", "true");
-+
-+    /* Start incoming migration from the 1st socket */
-+    rsp =3D wait_command(to, "{ 'execute': 'migrate-incoming',"
-+                           "  'arguments': { 'uri': 'tcp:127.0.0.1:0' }}")=
-;
-+    qobject_unref(rsp);
-+
-+    /* Wait for the first serial output from the source */
-+    wait_for_serial("src_serial");
-+
-+    uri =3D migrate_get_socket_address(to, "socket-address");
-+
-+    migrate_qmp(from, uri, "{}");
-+
-+    wait_for_migration_pass(from);
-+
-+    migrate_cancel(from);
-+
-+    args =3D migrate_start_new();
-+    args->only_target =3D true;
-+
-+    if (test_migrate_start(&from, &to2, "defer", args)) {
-+        return;
-+    }
-+
-+    migrate_set_parameter_int(to2, "multifd-channels", 16);
-+
-+    migrate_set_capability(to2, "multifd", "true");
-+
-+    /* Start incoming migration from the 1st socket */
-+    rsp =3D wait_command(to2, "{ 'execute': 'migrate-incoming',"
-+                            "  'arguments': { 'uri': 'tcp:127.0.0.1:0' }}"=
-);
-+    qobject_unref(rsp);
-+
-+    uri =3D migrate_get_socket_address(to2, "socket-address");
-+
-+    wait_for_migration_status(from, "cancelled", NULL);
-+
-+    /* 300ms it should converge */
-+    migrate_set_parameter_int(from, "downtime-limit", 300);
-+    /* 1GB/s */
-+    migrate_set_parameter_int(from, "max-bandwidth", 1000000000);
-+
-+    migrate_qmp(from, uri, "{}");
-+
-+    wait_for_migration_pass(from);
-+
-+    if (!got_stop) {
-+        qtest_qmp_eventwait(from, "STOP");
-+    }
-+    qtest_qmp_eventwait(to2, "RESUME");
-+
-+    wait_for_serial("dest_serial");
-+    wait_for_migration_complete(from);
-+    test_migrate_end(from, to2, true);
-+    g_free(uri);
-+}
-+
- int main(int argc, char **argv)
- {
-     char template[] =3D "/tmp/migration-test-XXXXXX";
-@@ -1359,6 +1468,7 @@ int main(int argc, char **argv)
+     do {
+         old_state =3D s->state;
+-        if (!migration_is_setup_or_active(old_state)) {
++        if (!migration_is_running(old_state)) {
+             break;
+         }
+         /* If the migration is paused, kick it out of the pause */
+@@ -1888,9 +1909,7 @@ static bool migrate_prepare(MigrationState *s, bool b=
+lk, bool blk_inc,
+         return true;
+     }
 =20
-     qtest_add_func("/migration/auto_converge", test_migrate_auto_converge)=
-;
-     qtest_add_func("/migration/multifd/tcp", test_multifd_tcp);
-+    qtest_add_func("/migration/multifd/tcp/cancel", test_multifd_tcp_cance=
-l);
+-    if (migration_is_setup_or_active(s->state) ||
+-        s->state =3D=3D MIGRATION_STATUS_CANCELLING ||
+-        s->state =3D=3D MIGRATION_STATUS_COLO) {
++    if (migration_is_running(s->state)) {
+         error_setg(errp, QERR_MIGRATION_ACTIVE);
+         return false;
+     }
+diff --git a/migration/migration.h b/migration/migration.h
+index aa9ff6f27b..44b1d56929 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -279,6 +279,7 @@ void migrate_fd_error(MigrationState *s, const Error *e=
+rror);
+ void migrate_fd_connect(MigrationState *s, Error *error_in);
 =20
-     ret =3D g_test_run();
+ bool migration_is_setup_or_active(int state);
++bool migration_is_running(int state);
 =20
+ void migrate_init(MigrationState *s);
+ bool migration_is_blocked(Error **errp);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index adfdca26ac..f19cb9ec7a 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1531,9 +1531,7 @@ static int qemu_savevm_state(QEMUFile *f, Error **err=
+p)
+     MigrationState *ms =3D migrate_get_current();
+     MigrationStatus status;
+=20
+-    if (migration_is_setup_or_active(ms->state) ||
+-        ms->state =3D=3D MIGRATION_STATUS_CANCELLING ||
+-        ms->state =3D=3D MIGRATION_STATUS_COLO) {
++    if (migration_is_running(ms->state)) {
+         error_setg(errp, QERR_MIGRATION_ACTIVE);
+         return -EINVAL;
+     }
 --=20
 2.24.1
 
