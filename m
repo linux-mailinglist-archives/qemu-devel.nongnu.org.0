@@ -2,43 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D25146052
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 02:30:06 +0100 (CET)
-Received: from localhost ([::1]:49738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9A2146051
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 02:30:05 +0100 (CET)
+Received: from localhost ([::1]:49736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuRJt-00029A-4n
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 20:30:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59607)
+	id 1iuRJr-000278-EF
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 20:30:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60254)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <salva@freeso>) id 1iuNKM-0001dA-Hx
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 16:14:19 -0500
+ (envelope-from <salvador@qindel.com>) id 1iuNNm-00041V-Vs
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 16:17:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <salva@freeso>) id 1iuNKL-0004Nu-2d
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 16:14:18 -0500
-Received: from static.96.225.213.82.ibercom.com ([82.213.225.96]:52942
- helo=freeso)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <salva@freeso>)
- id 1iuNKK-0004Jq-RS; Wed, 22 Jan 2020 16:14:17 -0500
-Received: from freeso (localhost [127.0.0.1])
- by freeso (8.15.2/8.15.2) with ESMTPS id 00MKLQVO017038
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
- Wed, 22 Jan 2020 21:21:26 +0100 (CET) (envelope-from salva@freeso)
-Received: (from salva@localhost)
- by freeso (8.15.2/8.15.2/Submit) id 00MKLQWU017037;
- Wed, 22 Jan 2020 21:21:26 +0100 (CET) (envelope-from salva)
+ (envelope-from <salvador@qindel.com>) id 1iuNNl-0007FU-SB
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 16:17:50 -0500
+Received: from smtp.qindel.com ([89.140.90.34]:45952 helo=thor.qindel.com)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <salvador@qindel.com>)
+ id 1iuNNl-0007Cc-Mb; Wed, 22 Jan 2020 16:17:49 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by thor.qindel.com (Postfix) with ESMTP id 106FD601FF;
+ Wed, 22 Jan 2020 22:08:15 +0100 (CET)
+Received: from thor.qindel.com ([127.0.0.1])
+ by localhost (thor.qindel.com [127.0.0.1]) (amavisd-new, port 10032)
+ with ESMTP id D-EQ8sW2gTWe; Wed, 22 Jan 2020 22:08:14 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by thor.qindel.com (Postfix) with ESMTP id D634260214;
+ Wed, 22 Jan 2020 22:08:14 +0100 (CET)
+X-Virus-Scanned: amavisd-new at thor.qindel.com
+Received: from thor.qindel.com ([127.0.0.1])
+ by localhost (thor.qindel.com [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id XMXxiAbV2CnJ; Wed, 22 Jan 2020 22:08:14 +0100 (CET)
+Received: from freeso.my.domain (unknown [82.213.225.96])
+ by thor.qindel.com (Postfix) with ESMTPSA id 69593601FF;
+ Wed, 22 Jan 2020 22:08:14 +0100 (CET)
 From: salvador@qindel.com
 To: qemu-devel@nongnu.org
 Subject: [PATCH] qemu_set_log_filename: filename argument may be NULL
-Date: Wed, 22 Jan 2020 21:21:25 +0100
-Message-Id: <20200122202125.16993-1-salvador@qindel.com>
+Date: Wed, 22 Jan 2020 22:08:12 +0100
+Message-Id: <20200122210812.17124-1-salvador@qindel.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 82.213.225.96
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.140.90.34
 X-Mailman-Approved-At: Wed, 22 Jan 2020 20:28:29 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,31 +84,32 @@ index 867264da8d..3cd2ebfdf4 100644
  {
 -    char *pidstr;
      g_free(logfilename);
-     logfilename = NULL;
- 
--    pidstr = strstr(filename, "%");
+     logfilename =3D NULL;
+=20
+-    pidstr =3D strstr(filename, "%");
 -    if (pidstr) {
 -        /* We only accept one %d, no other format strings */
--        if (pidstr[1] != 'd' || strchr(pidstr + 2, '%')) {
+-        if (pidstr[1] !=3D 'd' || strchr(pidstr + 2, '%')) {
 -            error_setg(errp, "Bad logfile format: %s", filename);
 -            return;
 -        } else {
--            logfilename = g_strdup_printf(filename, getpid());
+-            logfilename =3D g_strdup_printf(filename, getpid());
 -        }
 -    } else {
--        logfilename = g_strdup(filename);
+-        logfilename =3D g_strdup(filename);
 +    if (filename) {
-+            char *pidstr = strstr(filename, "%");
++            char *pidstr =3D strstr(filename, "%");
 +            if (pidstr) {
 +                /* We only accept one %d, no other format strings */
-+                if (pidstr[1] != 'd' || strchr(pidstr + 2, '%')) {
-+                    error_setg(errp, "Bad logfile format: %s", filename);
++                if (pidstr[1] !=3D 'd' || strchr(pidstr + 2, '%')) {
++                    error_setg(errp, "Bad logfile format: %s", filename)=
+;
 +                    return;
 +                } else {
-+                    logfilename = g_strdup_printf(filename, getpid());
++                    logfilename =3D g_strdup_printf(filename, getpid());
 +                }
 +            } else {
-+                logfilename = g_strdup(filename);
++                logfilename =3D g_strdup(filename);
 +            }
      }
 +    /* else, let logfilename be NULL indicating we want to use stderr */
@@ -109,7 +117,7 @@ index 867264da8d..3cd2ebfdf4 100644
      qemu_log_close();
      qemu_set_log(qemu_loglevel);
  }
--- 
+--=20
 2.24.1
 
 
