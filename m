@@ -2,42 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3640E1455E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 14:26:40 +0100 (CET)
-Received: from localhost ([::1]:42052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934DB1455E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 14:28:57 +0100 (CET)
+Received: from localhost ([::1]:42074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuG1m-0000su-W2
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 08:26:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51908)
+	id 1iuG40-00041S-HV
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 08:28:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52046)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iuFyw-0006mi-Ie
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 08:23:43 -0500
+ (envelope-from <wainersm@redhat.com>) id 1iuFzk-00086l-Tw
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 08:24:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iuFyv-0002MV-F8
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 08:23:42 -0500
-Received: from relay.sw.ru ([185.231.240.75]:42306)
+ (envelope-from <wainersm@redhat.com>) id 1iuFzi-0002tS-12
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 08:24:31 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53421
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iuFys-0002I2-R0; Wed, 22 Jan 2020 08:23:39 -0500
-Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1iuFyk-00057B-Oq; Wed, 22 Jan 2020 16:23:30 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 7/7] qemu-iotests/199: add early shutdown case to bitmaps
- postcopy
-Date: Wed, 22 Jan 2020 16:23:28 +0300
-Message-Id: <20200122132328.31156-8-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200122132328.31156-1-vsementsov@virtuozzo.com>
-References: <20200122132328.31156-1-vsementsov@virtuozzo.com>
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iuFzh-0002sN-Hu
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 08:24:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579699468;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bDASLWKqXDyn2TjSq7GpWwyCQd5PZ3Siz+5hj0LkwaA=;
+ b=Kk2or+P+o3OWpkoH9VuyrQEXcQQx8zycKeDb4c0hfP7jRoTkXgoDF0txBlAX7RF/lpcijp
+ WLqHq9uI4xDkDmdJo5b2dS13UUTpEFoft0FBadfrJBiFp/tB1BFV4ukT6BY7dhnQRqoEkU
+ Cmruy8s2O/HNta8H0zvOQENhTSWqpN4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-In3GfIgZOIOhZ1l-aqY8_A-1; Wed, 22 Jan 2020 08:24:26 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BEFFDB61;
+ Wed, 22 Jan 2020 13:24:25 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-68.gru2.redhat.com
+ [10.97.116.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CB60845A5;
+ Wed, 22 Jan 2020 13:24:13 +0000 (UTC)
+Subject: Re: [PATCH v1 2/3] tests/docker: better handle symlinked libs
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200122102223.20036-1-alex.bennee@linaro.org>
+ <20200122102223.20036-3-alex.bennee@linaro.org>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <00813be1-eadb-b3c8-2a3c-084302de78b6@redhat.com>
+Date: Wed, 22 Jan 2020 11:24:11 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+In-Reply-To: <20200122102223.20036-3-alex.bennee@linaro.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: In3GfIgZOIOhZ1l-aqY8_A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,71 +77,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- quintela@redhat.com, dgilbert@redhat.com, mreitz@redhat.com,
- stefanha@redhat.com, jsnow@redhat.com
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous patches fixed two crashes which may occur on shutdown prior to
-bitmaps postcopy finished. Check that it works now.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/199     | 12 +++++++++++-
- tests/qemu-iotests/199.out |  4 ++--
- 2 files changed, 13 insertions(+), 3 deletions(-)
+On 1/22/20 8:22 AM, Alex Benn=C3=A9e wrote:
+> When we are copying we want to ensure we grab the first
+> resolution (the found in path section). However even that binary might
+> be a symlink so lets make sure we chase the symlinks to copy the right
+> binary to where it can be found.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>   tests/docker/docker.py | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+> index 31d8adf836..96d4326d53 100755
+> --- a/tests/docker/docker.py
+> +++ b/tests/docker/docker.py
+> @@ -109,7 +109,7 @@ def _get_so_libs(executable):
+>       ensure theright data is copied."""
+>  =20
+>       libs =3D []
+> -    ldd_re =3D re.compile(r"(/.*/)(\S*)")
+> +    ldd_re =3D re.compile(r"=3D> ?(/.*/)(\S*)")
+>       try:
+>           ldd_output =3D subprocess.check_output(["ldd", executable]).dec=
+ode('utf-8')
+>           for line in ldd_output.split("\n"):
+> @@ -145,6 +145,7 @@ def _copy_binary_with_libs(src, bin_dest, dest_dir):
+>       if libs:
+>           for l in libs:
+>               so_path =3D os.path.dirname(l)
+> +            real_l =3D os.path.realpath(l)
 
-diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
-index a2c8ecab5a..a3f6c73aed 100755
---- a/tests/qemu-iotests/199
-+++ b/tests/qemu-iotests/199
-@@ -47,7 +47,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
-         self.vm_a.launch()
-         self.vm_b.launch()
- 
--    def test_postcopy(self):
-+    def do_test_postcopy(self, early_shutdown):
-         write_size = 0x40000000
-         granularity = 512
-         chunk = 4096
-@@ -99,6 +99,10 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
-             if event['data']['status'] == 'completed':
-                 break
- 
-+        if early_shutdown:
-+            self.vm_b.qmp('quit')
-+            return
-+
-         s = 0x8000
-         while s < write_size:
-             self.vm_b.hmp_qemu_io('drive0', 'write %d %d' % (s, chunk))
-@@ -114,6 +118,12 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
- 
-         self.assert_qmp(result, 'return/sha256', sha256);
- 
-+    def test_postcopy(self):
-+        self.do_test_postcopy(False)
-+
-+    def test_postcopy_early_shutdown(self):
-+        self.do_test_postcopy(True)
-+
- if __name__ == '__main__':
-     iotests.main(supported_fmts=['qcow2'], supported_cache_modes=['none'],
-                  supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/199.out b/tests/qemu-iotests/199.out
-index ae1213e6f8..fbc63e62f8 100644
---- a/tests/qemu-iotests/199.out
-+++ b/tests/qemu-iotests/199.out
-@@ -1,5 +1,5 @@
--.
-+..
- ----------------------------------------------------------------------
--Ran 1 tests
-+Ran 2 tests
- 
- OK
--- 
-2.21.0
+real_l is not used.
+
+- Wainer
+
+>               _copy_with_mkdir(l, dest_dir, so_path)
+>  =20
+>  =20
 
 
