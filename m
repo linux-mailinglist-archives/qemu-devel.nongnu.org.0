@@ -2,50 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918D8144BD5
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 07:40:20 +0100 (CET)
-Received: from localhost ([::1]:37448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 099C6144BFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 07:52:06 +0100 (CET)
+Received: from localhost ([::1]:37572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iu9gZ-00010t-LQ
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 01:40:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35141)
+	id 1iu9rw-0005oo-Hh
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 01:52:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35991)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1iu9fX-0000Sl-HK
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:39:17 -0500
+ (envelope-from <mst@redhat.com>) id 1iu9pu-00049e-Om
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:49:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1iu9fW-0004i4-Dz
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:39:15 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:35300 helo=huawei.com)
+ (envelope-from <mst@redhat.com>) id 1iu9pr-0007iF-WF
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:49:57 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43132
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1iu9fT-0004YR-Jw; Wed, 22 Jan 2020 01:39:11 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 33DF92AD10A168568D0B;
- Wed, 22 Jan 2020 14:39:01 +0800 (CST)
-Received: from [127.0.0.1] (10.133.216.73) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.439.0; Wed, 22 Jan 2020
- 14:38:54 +0800
-Subject: Re: [PATCH 1/2] arm/virt/acpi: remove meaningless sub device "PR0"
- from PCI0
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20191219064759.35053-1-guoheyi@huawei.com>
- <20191219064759.35053-2-guoheyi@huawei.com>
- <20200122003809-mutt-send-email-mst@kernel.org>
-From: Guoheyi <guoheyi@huawei.com>
-Message-ID: <0db6ff09-3575-465f-0c22-f47c4c056da5@huawei.com>
-Date: Wed, 22 Jan 2020 14:38:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iu9pr-0007hd-PW
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:49:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579675794;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5qYfA5cgudD+2cRo66zaD/Cz752AR9k6ffKvTJerkYk=;
+ b=D6CIOJ4xHr+If5GFa1TzI227G8LNycjsix17dXt1tHMqTaErvM0zCtdrc5q31DgSo1M66N
+ joGPN8LwHkM+b2n6SZD1yOVFFx3X0g441VW+TRgbE6sWxG8xv8c3tOdjF3LuIkuMhrXYPk
+ RbtoaSwpXm3h6Nuz5VbgK8fwV/ZenE0=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-328-lxMCOUk5OM6_e1WmDytIbw-1; Wed, 22 Jan 2020 01:49:52 -0500
+Received: by mail-wr1-f70.google.com with SMTP id z15so2624005wrw.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 22:49:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=bPUWeY+Nnc2V8JdGNO0Z1xkiSCws7fpytYoYmHj0eic=;
+ b=bqyWT+s01mi3gGmwQk3mMU6hVBwsn0WUQiv69C+649DbCE9U14xkgqckwC+DBJzkqU
+ zUYa26izN30Zj9xf+8mr8YEVVwytglRrOOBsuRqrnu6XZJPedmznWLlGUMedFlVfMWBk
+ bw86Sur+Aye1yS9iuFRAru39HO4qyn4m0sIG92IYAdk2cCPEpx+6DNQmeZYd8Yxr9w4v
+ O8xaxaBkNb7hcp5wjfpfQp2HEGY9UU/iukiBX9QxE0xHQNcq2Pi3kzKgz+Aeni6hnfiI
+ WMqU2Ei+07KmTK1+Kq1zNzXsAw4QtL2kZuT1I44AXkwHuCyUL1g1kbn9tI9TqrpiYPcN
+ v2PQ==
+X-Gm-Message-State: APjAAAWJxSgO5E9tF+jWOfvcJy8ekxukEDukl65NMWewr/68K/9DOb4k
+ yUEhvEczzEUNXW+QUhqH4J4UsolkLpKnTG6iCM3DCcOHKAQ9x99E88LivRYVMCZ96SyLVNiRwbH
+ vCuofCaNYilgYoGc=
+X-Received: by 2002:a5d:5347:: with SMTP id t7mr9224872wrv.401.1579675791248; 
+ Tue, 21 Jan 2020 22:49:51 -0800 (PST)
+X-Google-Smtp-Source: APXvYqykAqYOV7Vs7+OTu1Y/gnk4TokGf7nnIZsO5lE6BGp7T7ZGsP7wJnGdkVGFainiPBU5gTKQcw==
+X-Received: by 2002:a5d:5347:: with SMTP id t7mr9224850wrv.401.1579675790923; 
+ Tue, 21 Jan 2020 22:49:50 -0800 (PST)
+Received: from redhat.com (bzq-79-176-0-156.red.bezeqint.net. [79.176.0.156])
+ by smtp.gmail.com with ESMTPSA id
+ j2sm2656944wmk.23.2020.01.21.22.49.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jan 2020 22:49:50 -0800 (PST)
+Date: Wed, 22 Jan 2020 01:49:48 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/17] virtio, pc: fixes, features
+Message-ID: <20200122064907.512501-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200122003809-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset="gbk"; format=flowed
-X-Originating-IP: [10.133.216.73]
-X-CFilter-Loop: Reflected
+X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
+X-Mutt-Fcc: =sent
+X-MC-Unique: lxMCOUk5OM6_e1WmDytIbw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.35
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,103 +87,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, wanghaibin.wang@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Changes from v1:
+    - add a missing expected file
 
-=D4=DA 2020/1/22 13:39, Michael S. Tsirkin =D0=B4=B5=C0:
-> On Thu, Dec 19, 2019 at 02:47:58PM +0800, Heyi Guo wrote:
->> The sub device "PR0" under PCI0 in ACPI/DSDT does not make any sense,
->> so simply remote it.
->>
->> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
-> So given this has no methods except _ADR, I think it's
-> safe to remove:
->
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+The following changes since commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde0dd40=
+:
 
-Thanks.
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-202001=
+21' into staging (2020-01-21 15:29:25 +0000)
 
-I'll send v2 to fix up the commit message, and follow the new work flow=20
-we disscussed earlier. I found some more issues in ARM ACPI, which will=20
-also be included in v2.
+are available in the Git repository at:
 
-Heyi
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
->
->
->> ---
->> Cc: Peter Maydell <peter.maydell@linaro.org>
->> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> Cc: Igor Mammedov <imammedo@redhat.com>
->> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
->> Cc: qemu-arm@nongnu.org
->> Cc: qemu-devel@nongnu.org
->> ---
->>   hw/arm/virt-acpi-build.c          |   4 ----
->>   tests/data/acpi/virt/DSDT         | Bin 18462 -> 18449 bytes
->>   tests/data/acpi/virt/DSDT.memhp   | Bin 19799 -> 19786 bytes
->>   tests/data/acpi/virt/DSDT.numamem | Bin 18462 -> 18449 bytes
->>   4 files changed, 4 deletions(-)
->>
->> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
->> index bd5f771e9b..9f4c7d1889 100644
->> --- a/hw/arm/virt-acpi-build.c
->> +++ b/hw/arm/virt-acpi-build.c
->> @@ -317,10 +317,6 @@ static void acpi_dsdt_add_pci(Aml *scope, const M=
-emMapEntry *memmap,
->>       aml_append(method, aml_return(buf));
->>       aml_append(dev, method);
->>  =20
->> -    Aml *dev_rp0 =3D aml_device("%s", "RP0");
->> -    aml_append(dev_rp0, aml_name_decl("_ADR", aml_int(0)));
->> -    aml_append(dev, dev_rp0);
->> -
->>       Aml *dev_res0 =3D aml_device("%s", "RES0");
->>       aml_append(dev_res0, aml_name_decl("_HID", aml_string("PNP0C02")=
-));
->>       crs =3D aml_resource_template();
->> diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
->> index d0f3afeb134fdf1c11f64cd06dbcdd30be603b80..b5895cb22446860a0b9be3=
-d32ec856feb388be4c 100644
->> GIT binary patch
->> delta 39
->> vcmbO?fpOvlMlP3Nmk>b@1_q`B6S<_Bdg?Z+cXBfI+}XT|v(|R9jr$`2@RSW)
->>
->> delta 50
->> zcmbO@fpOjhMlP3Nmk>D*1_q{tiCof5o%I{lJ2{y;?{412S!>J19TZ>?&k^tF5;R%I
->> G{V4!>hYx%J
->>
->> diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DS=
-DT.memhp
->> index 41ccc6431b917252bcbaac86c33b340c796be5ce..69ad844f65d047973a3e55=
-198beecd45a35b8fce 100644
->> GIT binary patch
->> delta 40
->> wcmcaUi}BPfMlP3Nmk=3D*s1_q}3iCof5t(P{ccXBfI+}XT|v(|RAjk`1(02g)*ivR!s
->>
->> delta 51
->> zcmX>#i}Cs_MlP3NmymE@1_mbiiCof5O_w*ScXBdy-rc;3v(}c2J1D>)o+IATC1|sb
->> HyBr$;t7;Fc
->>
->> diff --git a/tests/data/acpi/virt/DSDT.numamem b/tests/data/acpi/virt/=
-DSDT.numamem
->> index d0f3afeb134fdf1c11f64cd06dbcdd30be603b80..b5895cb22446860a0b9be3=
-d32ec856feb388be4c 100644
->> GIT binary patch
->> delta 39
->> vcmbO?fpOvlMlP3Nmk>b@1_q`B6S<_Bdg?Z+cXBfI+}XT|v(|R9jr$`2@RSW)
->>
->> delta 50
->> zcmbO@fpOjhMlP3Nmk>D*1_q{tiCof5o%I{lJ2{y;?{412S!>J19TZ>?&k^tF5;R%I
->> G{V4!>hYx%J
->>
->> --=20
->> 2.19.1
->
-> .
+for you to fetch changes up to aefcaf9d1b3ebb30981627bd08f595211a648a62:
+
+  i386:acpi: Remove _HID from the SMBus ACPI entry (2020-01-22 01:47:55 -05=
+00)
+
+----------------------------------------------------------------
+virtio, pc: fixes, features
+
+Bugfixes all over the place.
+CPU hotplug with secureboot.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Corey Minyard (1):
+      i386:acpi: Remove _HID from the SMBus ACPI entry
+
+Dr. David Alan Gilbert (2):
+      vhost: Add names to section rounded warning
+      vhost: Only align sections for vhost-user
+
+Igor Mammedov (8):
+      q35: implement 128K SMRAM at default SMBASE address
+      tests: q35: MCH: add default SMBASE SMRAM lock test
+      acpi: cpuhp: spec: clarify 'CPU selector' register usage and endianne=
+ss
+      acpi: cpuhp: spec: fix 'Command data' description
+      acpi: cpuhp: spec: clarify store into 'Command data' when 'Command fi=
+eld' =3D=3D 0
+      acpi: cpuhp: introduce 'Command data 2' field
+      acpi: cpuhp: spec: add typical usecases
+      acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
+
+Michael S. Tsirkin (1):
+      bios-tables-test: document expected file update
+
+Pan Nengyuan (5):
+      virtio-9p-device: fix memleak in virtio_9p_device_unrealize
+      virtio-9p-device: convert to new virtio_delete_queue
+      virtio-scsi: delete vqs in unrealize to avoid memleaks
+      virtio-scsi: convert to new virtio_delete_queue
+      vhost-vsock: delete vqs in vhost_vsock_unrealize to avoid memleaks
+
+ docs/specs/acpi_cpu_hotplug.txt   |  89 ++++++++++++++++++++++++++------
+ include/hw/pci-host/q35.h         |  10 ++++
+ include/hw/virtio/vhost-vsock.h   |   2 +
+ hw/9pfs/virtio-9p-device.c        |   1 +
+ hw/acpi/cpu.c                     |  18 +++++++
+ hw/i386/acpi-build.c              |   1 -
+ hw/i386/pc.c                      |   4 +-
+ hw/pci-host/q35.c                 |  84 +++++++++++++++++++++++++++---
+ hw/scsi/virtio-scsi.c             |   6 +++
+ hw/virtio/vhost-vsock.c           |  12 ++++-
+ hw/virtio/vhost.c                 |  39 +++++++-------
+ tests/qtest/bios-tables-test.c    |  23 +++++++--
+ tests/qtest/q35-test.c            | 105 ++++++++++++++++++++++++++++++++++=
+++++
+ hw/acpi/trace-events              |   1 +
+ tests/data/acpi/q35/DSDT          | Bin 7879 -> 7869 bytes
+ tests/data/acpi/q35/DSDT.acpihmat | Bin 9203 -> 9193 bytes
+ tests/data/acpi/q35/DSDT.bridge   | Bin 7896 -> 7886 bytes
+ tests/data/acpi/q35/DSDT.cphp     | Bin 8342 -> 8332 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm  | Bin 9532 -> 9522 bytes
+ tests/data/acpi/q35/DSDT.ipmibt   | Bin 7954 -> 7944 bytes
+ tests/data/acpi/q35/DSDT.memhp    | Bin 9238 -> 9228 bytes
+ tests/data/acpi/q35/DSDT.mmio64   | Bin 9009 -> 8999 bytes
+ tests/data/acpi/q35/DSDT.numamem  | Bin 7885 -> 7875 bytes
+ 23 files changed, 344 insertions(+), 51 deletions(-)
 
 
