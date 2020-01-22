@@ -2,66 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE340145EAE
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 23:36:02 +0100 (CET)
-Received: from localhost ([::1]:47814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22977145EB1
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 23:39:11 +0100 (CET)
+Received: from localhost ([::1]:47860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuObR-0003r6-6D
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 17:36:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34169)
+	id 1iuOeU-0007Al-0r
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 17:39:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38913)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iuOZ6-00026M-Uy
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 17:33:37 -0500
+ (envelope-from <qemu_oss@crudebyte.com>) id 1iuObr-0005bH-A1
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 17:36:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iuOZ5-0001tN-Cl
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 17:33:36 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26555
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iuOZ5-0001sj-8S
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 17:33:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579732414;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=77vF3k15FTYFomIOoon+XSCFO0pcEnC1dHzATvCNB/0=;
- b=SWCiQ2g42dVBeDcoGGnIhQsiYF62OdtIWvUzS5Pzv1EC/KfXLypQ9ctxxOF18CWYtkRlxt
- Q1DbY+jRv6UQYoy3vVTUyAGOmbZqisAqec8pVVLsaKJ0CD+BjFCAxKGSv6NmLDAfmP6I2O
- 4GCnF8B8tr1FEzZq91ajDx/dk1y6OJk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-54ohBjJeNeaOjHLqiW4vAw-1; Wed, 22 Jan 2020 17:33:32 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C289B10054E3;
- Wed, 22 Jan 2020 22:33:31 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-78.brq.redhat.com [10.40.204.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8752B845A5;
- Wed, 22 Jan 2020 22:33:28 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: "Michael S . Tsirkin" <mst@redhat.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
-Subject: [PATCH 6/6] tests/acceptance/virtio_seg_max_adjust: Restrict to Linux
- host
-Date: Wed, 22 Jan 2020 23:32:47 +0100
-Message-Id: <20200122223247.30419-7-philmd@redhat.com>
-In-Reply-To: <20200122223247.30419-1-philmd@redhat.com>
-References: <20200122223247.30419-1-philmd@redhat.com>
+ (envelope-from <qemu_oss@crudebyte.com>) id 1iuObp-0005U9-Ii
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 17:36:27 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:41675)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1iuObp-0005Rq-1r
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 17:36:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=gemmDmfKumpHWgEDHzOtI+LFs8MmR2eh65fuVniXYUs=; b=LxJO+42/sY5VodAPT9nvIRkq6n
+ PeKg+oyT7Ebv4p+bxpEokPdQEDr1isuNU95oeL3hU5uyEB+4EZNpmPCLe5SCfhn8tTo1RETX/8pg/
+ vOxFHXipTBEEcKT3ssxiXZxDM//lHajlVAEkOAFtOdAvylOZgvyBMdaT2dvctJKck+1gztExhIp5B
+ 9UKRP3c8jSM/zu/1Lt7CAKoN/Pm8s6Z3aGOlpkRtbv70gtH+SB+f/gl+n2bcRqtzWGdY7DOgZtEe7
+ 4sxdeW8jgXN0drKyHtIcwrbhRlERop8pMLJ6FJ5KBrrAXV6nGjlwJDuETy0Lpy01wrz1AenNvQfI/
+ oPTZRgiu9yxSc9993hxxU5IEZO65HJyPRPcPOrp4k0waANknaNdurIF8Z6J+t50jEuMfTiKO8agOH
+ icbwv8fTwY1F1Uenujl28Z3GuMn2T0AHqMh+wzDTbCxfGDOA8KJH4CjtS71GZ3cI7FqHZEQvH26hW
+ iKTp4Oe9hEi04S+wHphGzbJcy+zkbhSKq386lT9tnzBLpOJRIQ0HKNCfE3+M2xqgOGu+OMsUyrIR3
+ gIlco3f95blTaUn2Vu5TLIcUZIW21+NRoi1gd3qTup8LsFkmA+WeB9j+DfcvSA66YIcrGjEdzS3Ww
+ xUFwkG34iSXo2QDCCzdYtM4TWm1XCjNL3w8/je5Gg=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v4 06/11] tests/virtio-9p: added splitted readdir test
+Date: Wed, 22 Jan 2020 23:36:22 +0100
+Message-ID: <17952898.t909x8hp7r@silver>
+In-Reply-To: <20200122221905.055f9f93@bahia.lan>
+References: <cover.1579567019.git.qemu_oss@crudebyte.com>
+ <f6394833fa66bf6a73d204db34302732a5f6b98a.1579567020.git.qemu_oss@crudebyte.com>
+ <20200122221905.055f9f93@bahia.lan>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 54ohBjJeNeaOjHLqiW4vAw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 5.189.157.229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,67 +62,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test is failing on OSX:
+On Mittwoch, 22. Januar 2020 22:19:05 CET Greg Kurz wrote:
+> On Tue, 21 Jan 2020 01:16:21 +0100
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > The previous, already existing readdir test simply used a 'count'
+> > parameter big enough to retrieve all directory entries with a
+> > single Treaddir request.
+> > 
+> > In this new 'splitted' readdir test, directory entries are
+> > retrieved, splitted over several Treaddir requests by picking small
+> > 'count' parameters which force the server to truncate the response.
+> > So the test client sends as many Treaddir requests as necessary to
+> > get all directory entries. Currently this test covers actually two
+> > tests: a sequence of Treaddir requests with count=512 and then a
+> > subsequent test with a sequence of Treaddir requests with count=256.
+> > 
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> 
+> Not sure it is really needed to check with multiple values for 'count',
+> but it doesn't eat too many cycles so I guess it doesn't hurt.
 
-  TestFail: machine type pc-i440fx-2.0: <class 'TypeError'>
+Yes, it is a cheap test, nobody will feel the difference. One could argue 
+about the precise 'count' values being used ...
 
-Looking at the job.log:
+> 
+> Applied as well.
+> 
+> >  tests/qtest/virtio-9p-test.c | 91 ++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 91 insertions(+)
+> > 
+> > diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+> > index 2167322985..8b0d94546e 100644
+> > --- a/tests/qtest/virtio-9p-test.c
+> > +++ b/tests/qtest/virtio-9p-test.c
+> > @@ -578,6 +578,7 @@ static bool fs_dirents_contain_name(struct V9fsDirent
+> > *e, const char* name)> 
+> >      return false;
+> >  
+> >  }
+> > 
+> > +/* basic readdir test where reply fits into a single response message */
+> > 
+> >  static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+> >  {
+> >  
+> >      QVirtio9P *v9p = obj;
+> > 
+> > @@ -631,6 +632,95 @@ static void fs_readdir(void *obj, void *data,
+> > QGuestAllocator *t_alloc)> 
+> >      g_free(wnames[0]);
+> >  
+> >  }
+> > 
+> > +/* readdir test where overall request is splitted over several messages
+> > */
+> > +static void fs_readdir_split(void *obj, void *data, QGuestAllocator
+> > *t_alloc) +{
+> > +    QVirtio9P *v9p = obj;
+> > +    alloc = t_alloc;
+> > +    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
+> > +    uint16_t nqid;
+> > +    v9fs_qid qid;
+> > +    uint32_t count, nentries, npartialentries;
+> > +    struct V9fsDirent *entries, *tail, *partialentries;
+> > +    P9Req *req;
+> > +    int subtest;
+> > +    int fid;
+> > +    uint64_t offset;
+> > +    /* the Treaddir 'count' parameter values to be tested */
+> > +    const uint32_t vcount[] = { 512, 256 };
 
-  Unexpected error in object_property_find() at qom/object.c:1201:
-  qemu-system-x86_64: -device virtio-blk-pci,id=3Dscsi0,drive=3Ddrive0: can=
-'t apply global virtio-blk-device.scsi=3Dtrue: Property '.scsi' not found
+... here. But IMO it does make sense preserving the function's overall 
+structure to allow testing with different 'count' values if necessary. Because 
+that way this test could e.g. guard potential bugs when server's Treaddir 
+handler is rolling back (or not) the dir offset for instance, which server has 
+to do (or not) according to this 'count' value and the precise file name 
+length of the individual directory entries.
 
-Which makes sense looking at hw/block/virtio-blk.c:
+Whatever precise 'count' tests are desired, it would only mean a one line 
+change here.
 
-  1261 static Property virtio_blk_properties[] =3D {
-  1262     DEFINE_BLOCK_PROPERTIES(VirtIOBlock, conf.conf),
-  ...
-  1268 #ifdef __linux__
-  1269     DEFINE_PROP_BIT64("scsi", VirtIOBlock, host_features,
-  1270                       VIRTIO_BLK_F_SCSI, false),
-  1271 #endif
+Best regards,
+Christian Schoenebeck
 
-Fix by only running this test on a Linux host:
-
- (38/55) tests/acceptance/virtio_seg_max_adjust.py:VirtioMaxSegSettingsChec=
-k.test_machine_types:  SKIP: Host OS is not Linux
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- tests/acceptance/virtio_seg_max_adjust.py | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptance/v=
-irtio_seg_max_adjust.py
-index 2fc6bfcbd8..f8fd03e3b6 100755
---- a/tests/acceptance/virtio_seg_max_adjust.py
-+++ b/tests/acceptance/virtio_seg_max_adjust.py
-@@ -27,6 +27,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '=
-..', '..', 'python'))
- from qemu.machine import QEMUMachine
- from avocado_qemu import Test
- from avocado.core.exceptions import TestSkipError
-+from avocado import skipUnless
-=20
- #list of machine types and virtqueue properties to test
- VIRTIO_SCSI_PROPS =3D {'seg_max_adjust': 'seg_max_adjust'}
-@@ -117,6 +118,8 @@ class VirtioMaxSegSettingsCheck(Test):
-             return True
-         return False
-=20
-+
-+    @skipUnless(sys.platform.startswith('linux'), 'Host OS is not Linux')
-     def test_machine_types(self):
-         """
-         :avocado: tags=3Darch:i386
---=20
-2.21.1
 
 
