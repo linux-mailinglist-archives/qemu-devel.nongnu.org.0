@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBC7145A55
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 17:55:06 +0100 (CET)
-Received: from localhost ([::1]:44472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2FC145A39
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 17:49:05 +0100 (CET)
+Received: from localhost ([::1]:44364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuJHV-0006jK-7B
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 11:55:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50887)
+	id 1iuJBf-0000jl-EU
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 11:49:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50187)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iuJDE-0003IE-7V
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:50:41 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iuJ8c-0007no-TD
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:45:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iuJDC-0002b0-U9
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:50:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33478)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iuJDC-0002aT-NH
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:50:38 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iuJDB-0003lB-24
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:50:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 083872E805B
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:50:37 +0000 (UTC)
+ (envelope-from <mreitz@redhat.com>) id 1iuJ8b-0000le-Kb
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:45:54 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44201
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iuJ8b-0000lI-Gm
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:45:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579711553;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gcKMsZpNgSvAK8P9tia0i9rqlwqqjR77MqNWjqV+ha4=;
+ b=WXfrzQZBOFJtNq0n7LD/qBSv9jAZs9/kxczPV56y4tQ3E6PhAozJn2yVLPHSGVBqrXoEve
+ Od3cReVfGZVY3n2X6R0K09SkdZdUA+RvytxHNDj64Gxc3/pzr+gnR2mJchQ3P3JNAygkIE
+ YXNJUJMhqg6DWZvk++Y24BHXDVAOkCY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-35-3ZX365a8NFaVfOP2Zy4BRg-1; Wed, 22 Jan 2020 11:45:36 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3DF610054E3;
+ Wed, 22 Jan 2020 16:45:34 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 708E88642E;
+ Wed, 22 Jan 2020 16:45:34 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 0/5] block: Generic file creation fallback
+Date: Wed, 22 Jan 2020 17:45:27 +0100
+Message-Id: <20200122164532.178040-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 3ZX365a8NFaVfOP2Zy4BRg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 Jan 2020 16:36:57 -0000
-From: The Lemon Man <1860575@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange lemonboy
-X-Launchpad-Bug-Reporter: The Lemon Man (lemonboy)
-X-Launchpad-Bug-Modifier: The Lemon Man (lemonboy)
-References: <157970748795.4848.1694391096642821939.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157971101760.19328.17031676571380820538.malone@gac.canonical.com>
-Subject: [Bug 1860575] Re: qemu64 CPU model is incorrect
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f059100c00cc2c5b7bd8157f1c507c090448bde0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,60 +68,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1860575 <1860575@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The error message is a rather cryptic "LLVM ERROR: 64-bit code requested on=
- a subtarget
-that doesn't support it!" as it knows Athlon CPUs don't support the AMD64 I=
-SA.
+Hi,
 
-I will relay the tip to the people managing the VMs, I guess this problem w=
-ent unnoticed
-for so long because there are not many `qemu64` users.
-
-I'm available to test a patch whenever it becomes available, I didn't direc=
-tly send one
-because I was afraid of breaking the backward compatibility and some (many?=
-) VMs.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1860575
-
-Title:
-  qemu64 CPU model is incorrect
-
-Status in QEMU:
-  New
-
-Bug description:
-  At the moment the "qemu64" CPU is defined as follows:
-
-  ```
-          .vendor =3D CPUID_VENDOR_AMD,
-          .family =3D 6,
-          .model =3D 6,
-          .stepping =3D 3,
-  ```
-
-  According to Wikipedia [1] this means the CPU is defined as part of the
-  K7 family while the AMD64 ISA was only introduced with the K8 series!
-
-  This causes some software such as LLVM to notice the problem (32-bit cpu
-  with 64-bit capability reported in the cpuid flag) and produce various
-  error messages.
-
-  The simple solution would be to upgrade this definition to use the Sledge=
-hammer
-  family (15) instead. =
+As version 1, this series adds a fallback path for creating files (on
+the protocol layer) if the protocol driver does not support file
+creation, but the file already exists.
 
 
-  [1] https://en.wikipedia.org/wiki/List_of_AMD_CPU_microarchitectures
+Branch: https://github.com/XanClic/qemu.git skip-proto-create-v2
+Branch: https://git.xanclic.moe/XanClic/qemu.git skip-proto-create-v2
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1860575/+subscriptions
+
+v2:
+- Drop blk_truncate_for_formatting(): It doesn=E2=80=99t make sense to intr=
+oduce
+  this function any more after 26536c7fc25917d1bd13781f81fe3ab039643bff
+  (=E2=80=9Cblock: Do not truncate file node when formatting=E2=80=9D), bec=
+ause we=E2=80=99d
+  only use it in bdrv_create_file_fallback().
+  Thus, it makes more sense to create special helper functions
+  specifically for bdrv_create_file_fallback().
+
+- Thus, dropped patches 2 and 3.
+
+- And changed patch 4 to include those helper functions.
+
+- Rebased, which was a bit of a pain.
+
+
+git-backport-diff against v1:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+vely
+
+001/5:[----] [-C] 'block/nbd: Fix hang in .bdrv_close()'
+002/5:[0080] [FC] 'block: Generic file creation fallback'
+003/5:[----] [--] 'file-posix: Drop hdev_co_create_opts()'
+004/5:[----] [--] 'iscsi: Drop iscsi_co_create_opts()'
+005/5:[----] [-C] 'iotests: Add test for image creation fallback'
+
+
+Max Reitz (5):
+  block/nbd: Fix hang in .bdrv_close()
+  block: Generic file creation fallback
+  file-posix: Drop hdev_co_create_opts()
+  iscsi: Drop iscsi_co_create_opts()
+  iotests: Add test for image creation fallback
+
+ block.c                    | 159 ++++++++++++++++++++++++++++++++++---
+ block/file-posix.c         |  67 ----------------
+ block/iscsi.c              |  56 -------------
+ block/nbd.c                |  14 +++-
+ tests/qemu-iotests/259     |  61 ++++++++++++++
+ tests/qemu-iotests/259.out |  14 ++++
+ tests/qemu-iotests/group   |   1 +
+ 7 files changed, 236 insertions(+), 136 deletions(-)
+ create mode 100755 tests/qemu-iotests/259
+ create mode 100644 tests/qemu-iotests/259.out
+
+--=20
+2.24.1
+
 
