@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F397A144B9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 07:07:01 +0100 (CET)
-Received: from localhost ([::1]:37214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01920144B9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 07:05:45 +0100 (CET)
+Received: from localhost ([::1]:37178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iu9AL-0007bL-2C
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 01:07:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60048)
+	id 1iu995-0005ew-TK
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 01:05:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60039)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iu8yp-000382-AZ
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 00:55:08 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iu8yl-00062s-Sx
+ (envelope-from <mst@redhat.com>) id 1iu8ym-00036c-F3
  for qemu-devel@nongnu.org; Wed, 22 Jan 2020 00:55:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54182
- helo=us-smtp-1.mimecast.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <mst@redhat.com>) id 1iu8yl-00062c-Av
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 00:55:04 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31822
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iu8yl-00062g-Ok
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iu8yl-00062R-6m
  for qemu-devel@nongnu.org; Wed, 22 Jan 2020 00:55:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579672503;
+ s=mimecast20190719; t=1579672502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e6oF8ptLJSLl44PBoGi3WUQj8MqGR3g9tIutmWvq7mo=;
- b=UhiqXg00+4m7kQss8ADPYOd9FtUMlmDH5a8qylVnGxzdPTpy3ObRtqpSB1J+PWCKJxMcqJ
- oCUNo0bHS9QqD/T6bgAso22TkpOQiV2QImVE5GXo+y64B9at7DhmxEHBwQ6K+LJg/ry3MY
- DL1hyH4Oi/V0tomiAj8Xan9uBb67ixU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-j5dODfXyPTKeQBrDKtHMlg-1; Wed, 22 Jan 2020 00:52:09 -0500
-Received: by mail-wr1-f71.google.com with SMTP id f15so2574345wrr.2
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 21:52:09 -0800 (PST)
+ bh=7X8PjfcFHzdyIHec4OG6du8gOrCYueQPk/uwOaIht1o=;
+ b=NSUMCQPVLIHBXKJi7iKTH3bEbRzQThVr7O478iaN9iq+MdArqQZWhMBVIZPdFPryKunx5K
+ ErZDAESspQRPfnPSMGXqpeN1rwgyIyp6oIGmptoFsBnmUySqnlXgALNggTKCNyjdKLsdsG
+ owpkBexwL6fDOirKpnoutbnliQo4X4Q=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-280-oan0X_gaPR6qBeX9o2WTIw-1; Wed, 22 Jan 2020 00:52:18 -0500
+Received: by mail-wr1-f70.google.com with SMTP id h30so2536033wrh.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 21:52:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=e+M60MZmw7NUe0xGRZqvTtNyN03f8rI9bLRMhM9s7VE=;
- b=fUEyQxMxIX5n2/6Ow5ZbTrnLLLszeKaNuTa4DHpws85Yns7kgd8ez9Cj9/4fPKHnh+
- 61K5+fmjVoggIAYg3a90D9jZon1L8wncNSKyisb2HkBLJzQr2cGUJmNFehPFVpCkTMsx
- nj/YSJMQfyWT3iK9mqIrIq+s+v56+E4EgZz3kRo09+ZuoN9bZsmkS3xtRalfjJWt5bxK
- hbaLIDph2rfVWV3MtIPdKU/MZCCV5GPIbn8RYcS+RgVzZPf91TXvBVtfrroYrQLzBk9f
- wEyBiF8E5SzPcJDBW1et59wmddz7EhTW5C2Y9+IvTst/6KrlB1ONKDPm+sWGP+9bU+tp
- zwSw==
-X-Gm-Message-State: APjAAAWgHyLrrH2reAF69rDA3sT0YxJ8GmFqshoECZbE9LYEKzq/FioS
- Zhtt8m2RXDcqzbrEzBYKca4GvMxgOuLETyYBSaHgIpSBVIjTz9tEDle3SdU83gbu5pB6oTKCXrW
- bInWJETh492ANIxo=
-X-Received: by 2002:adf:a746:: with SMTP id e6mr9011703wrd.329.1579672328245; 
- Tue, 21 Jan 2020 21:52:08 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyZGZhfi5cSW135aQDcfYrg1Tze217waWTrmf2dO4TP3H98PyupYZ7VaRELggtTnlNCZ8LCxA==
-X-Received: by 2002:adf:a746:: with SMTP id e6mr9011679wrd.329.1579672328008; 
- Tue, 21 Jan 2020 21:52:08 -0800 (PST)
+ bh=dKz9Yp7TsPHys5pVT0H9YPlrICr7T8Twac2SXPW2Rdw=;
+ b=J1BZekiadLq0f0jFljxIKnb+5IrC1VbsM6lgoBT2ATEsWF9jH89UatHNLpSnXIdZA3
+ CiTPYwScRd1XqGPA54LMTWcXO/s6DKGUf675/AvgOeQiiPixtjhyU4SvS3ginY8oYu+U
+ qRI/kA8AmZY9ECuvSxBBh91esyKneKsh5KYF9+LcOJxLCEDsush3ylJNXb+2u9YIojds
+ GJCoVBUyjDEMAAtuMsx3zmdxVlksIhz77+8HPj9Gax0bfJalWOAPeHa4KydmKVf8YzxY
+ mDZcJuYc+x+k2mgy06ovl443O1Mu4uSMYs2Ew1slRK8VAGpXUVz0Czya0qSnbnwrI8xC
+ ZrNg==
+X-Gm-Message-State: APjAAAV9crnMOvNi0vqwsHT4qidu5vUT1l5ts0KggNhfRJvqmw/gF9Ox
+ eTvJP95AWb3FJ3KFgAkgI+Z5JpMX+zt/+elrTTbveUE7ct+4L2RmBadSWCQv2LKUqgUT+ocGfjA
+ ahmb65tIAsZ1XEVQ=
+X-Received: by 2002:a1c:6406:: with SMTP id y6mr983521wmb.144.1579672336785;
+ Tue, 21 Jan 2020 21:52:16 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzTaifIBwWsSl25yOVqAFDjlyQFK+ET+dfLxecNRF/RnTuNJLGSe8imqWJ7N1YdLgxwSGm9Zg==
+X-Received: by 2002:a1c:6406:: with SMTP id y6mr983502wmb.144.1579672336622;
+ Tue, 21 Jan 2020 21:52:16 -0800 (PST)
 Received: from redhat.com (bzq-79-176-0-156.red.bezeqint.net. [79.176.0.156])
  by smtp.gmail.com with ESMTPSA id
- z21sm2573980wml.5.2020.01.21.21.52.06
+ y7sm3397894wmd.1.2020.01.21.21.52.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2020 21:52:07 -0800 (PST)
-Date: Wed, 22 Jan 2020 00:52:05 -0500
+ Tue, 21 Jan 2020 21:52:16 -0800 (PST)
+Date: Wed, 22 Jan 2020 00:52:14 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/17] acpi: cpuhp: spec: add typical usecases
-Message-ID: <20200122055115.429945-8-mst@redhat.com>
+Subject: [PULL 10/17] virtio-9p-device: fix memleak in
+ virtio_9p_device_unrealize
+Message-ID: <20200122055115.429945-11-mst@redhat.com>
 References: <20200122055115.429945-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200122055115.429945-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: j5dODfXyPTKeQBrDKtHMlg-1
+X-MC-Unique: oan0X_gaPR6qBeX9o2WTIw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -78,7 +79,7 @@ Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,115 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Laszlo Ersek <lersek@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Pan Nengyuan <pannengyuan@huawei.com>, Greg Kurz <groug@kaod.org>,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-Document work-flows for
-  * enabling/detecting modern CPU hotplug interface
-  * finding a CPU with pending 'insert/remove' event
-  * enumerating present and possible CPUs
+v->vq forgot to cleanup in virtio_9p_device_unrealize, the memory leak
+stack is as follow:
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <1575896942-331151-9-git-send-email-imammedo@redhat.com>
+Direct leak of 14336 byte(s) in 2 object(s) allocated from:
+  #0 0x7f819ae43970 (/lib64/libasan.so.5+0xef970)  ??:?
+  #1 0x7f819872f49d (/lib64/libglib-2.0.so.0+0x5249d)  ??:?
+  #2 0x55a3a58da624 (./x86_64-softmmu/qemu-system-x86_64+0x2c14624)  /mnt/s=
+db/qemu/hw/virtio/virtio.c:2327
+  #3 0x55a3a571bac7 (./x86_64-softmmu/qemu-system-x86_64+0x2a55ac7)  /mnt/s=
+db/qemu/hw/9pfs/virtio-9p-device.c:209
+  #4 0x55a3a58e7bc6 (./x86_64-softmmu/qemu-system-x86_64+0x2c21bc6)  /mnt/s=
+db/qemu/hw/virtio/virtio.c:3504
+  #5 0x55a3a5ebfb37 (./x86_64-softmmu/qemu-system-x86_64+0x31f9b37)  /mnt/s=
+db/qemu/hw/core/qdev.c:876
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Message-Id: <20200117060927.51996-2-pannengyuan@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Acked-by: Greg Kurz <groug@kaod.org>
 ---
- docs/specs/acpi_cpu_hotplug.txt | 51 +++++++++++++++++++++++++++++++--
- 1 file changed, 48 insertions(+), 3 deletions(-)
+ hw/9pfs/virtio-9p-device.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.=
-txt
-index 9879f9ef7e..cb99cf3c8e 100644
---- a/docs/specs/acpi_cpu_hotplug.txt
-+++ b/docs/specs/acpi_cpu_hotplug.txt
-@@ -15,14 +15,14 @@ CPU present bitmap for:
-   PIIX-PM  (IO port 0xaf00-0xaf1f, 1-byte access)
-   One bit per CPU. Bit position reflects corresponding CPU APIC ID. Read-o=
-nly.
-   The first DWORD in bitmap is used in write mode to switch from legacy
--  to new CPU hotplug interface, write 0 into it to do switch.
-+  to modern CPU hotplug interface, write 0 into it to do switch.
- ---------------------------------------------------------------
- QEMU sets corresponding CPU bit on hot-add event and issues SCI
- with GPE.2 event set. CPU present map is read by ACPI BIOS GPE.2 handler
- to notify OS about CPU hot-add events. CPU hot-remove isn't supported.
+diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
+index 991e175c82..ba35892940 100644
+--- a/hw/9pfs/virtio-9p-device.c
++++ b/hw/9pfs/virtio-9p-device.c
+@@ -218,6 +218,7 @@ static void virtio_9p_device_unrealize(DeviceState *dev=
+, Error **errp)
+     V9fsVirtioState *v =3D VIRTIO_9P(dev);
+     V9fsState *s =3D &v->state;
 =20
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
--ACPI CPU hotplug interface registers:
-+Modern ACPI CPU hotplug interface registers:
- -------------------------------------
- Register block base address:
-     ICH9-LPC IO port 0x0cd8
-@@ -67,6 +67,7 @@ write access:
-     [0x0-0x3] CPU selector: (DWORD access)
-               selects active CPU device. All following accesses to other
-               registers will read/store data from/to selected CPU.
-+              Valid values: [0 .. max_cpus)
-     [0x4] CPU device control fields: (1 byte access)
-         bits:
-             0: reserved, OSPM must clear it before writing to register.
-@@ -98,4 +99,48 @@ write access:
-               2: stores value into OST status register, triggers
-                  ACPI_DEVICE_OST QMP event from QEMU to external applicati=
-ons
-                  with current values of OST event and status registers.
--            other values: reserved
-+              other values: reserved
-+
-+Typical usecases:
-+    - (x86) Detecting and enabling modern CPU hotplug interface.
-+      QEMU starts with legacy CPU hotplug interface enabled. Detecting and
-+      switching to modern interface is based on the 2 legacy CPU hotplug f=
-eatures:
-+        1. Writes into CPU bitmap are ignored.
-+        2. CPU bitmap always has bit#0 set, corresponding to boot CPU.
-+
-+      Use following steps to detect and enable modern CPU hotplug interfac=
-e:
-+        1. Store 0x0 to the 'CPU selector' register,
-+           attempting to switch to modern mode
-+        2. Store 0x0 to the 'CPU selector' register,
-+           to ensure valid selector value
-+        3. Store 0x0 to the 'Command field' register,
-+        4. Read the 'Command data 2' register.
-+           If read value is 0x0, the modern interface is enabled.
-+           Otherwise legacy or no CPU hotplug interface available
-+
-+    - Get a cpu with pending event
-+      1. Store 0x0 to the 'CPU selector' register.
-+      2. Store 0x0 to the 'Command field' register.
-+      3. Read the 'CPU device status fields' register.
-+      4. If both bit#1 and bit#2 are clear in the value read, there is no =
-CPU
-+         with a pending event and selected CPU remains unchanged.
-+      5. Otherwise, read the 'Command data' register. The value read is th=
-e
-+         selector of the CPU with the pending event (which is already
-+         selected).
-+
-+    - Enumerate CPUs present/non present CPUs
-+      01. Set the present CPU count to 0.
-+      02. Set the iterator to 0.
-+      03. Store 0x0 to the 'CPU selector' register, to ensure that it's in
-+          a valid state and that access to other registers won't be ignore=
-d.
-+      04. Store 0x0 to the 'Command field' register to make 'Command data'
-+          register return 'CPU selector' value of selected CPU
-+      05. Read the 'CPU device status fields' register.
-+      06. If bit#0 is set, increment the present CPU count.
-+      07. Increment the iterator.
-+      08. Store the iterator to the 'CPU selector' register.
-+      09. Read the 'Command data' register.
-+      10. If the value read is not zero, goto 05.
-+      11. Otherwise store 0x0 to the 'CPU selector' register, to put it
-+          into a valid state and exit.
-+          The iterator at this point equals "max_cpus".
++    virtio_del_queue(vdev, 0);
+     virtio_cleanup(vdev);
+     v9fs_device_unrealize_common(s, errp);
+ }
 --=20
 MST
 
