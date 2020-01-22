@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881DB144C12
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 07:54:45 +0100 (CET)
-Received: from localhost ([::1]:37599 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE8E144C1E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 07:57:29 +0100 (CET)
+Received: from localhost ([::1]:37638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iu9uW-0000yi-5Y
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 01:54:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36130)
+	id 1iu9x9-0004jG-Nr
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 01:57:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36142)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iu9qH-0004Z1-IA
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:22 -0500
+ (envelope-from <mst@redhat.com>) id 1iu9qK-0004d8-U6
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iu9qG-0007zM-DF
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:21 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58141)
+ (envelope-from <mst@redhat.com>) id 1iu9qJ-00082W-N0
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:24 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34593
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iu9qG-0007z1-7P
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:20 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iu9qJ-00082G-JG
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 01:50:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579675819;
+ s=mimecast20190719; t=1579675823;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eTnESgkc4Q1IE7eK3yhiRdRiKjKhsh/o/b9VSLnbvfo=;
- b=hiswUwMw68AN1N1j+9iSbSgxV19ksggwCSGghn3CcOtPGzbegVCcWwr6YxMQ2zKfYNJSqI
- T647Y0XbVBJvwsDDhl1/pv2dBvxpjb112AFxzd1i5nsgFNI5lM7nrYXy0gkg3KK8Qm7xHC
- l0vtWmm5c8+cFNFfV+wcgMBBOLy97ZE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-FBqd-OhINJm1EoHkMhSgYw-1; Wed, 22 Jan 2020 01:50:18 -0500
-Received: by mail-wr1-f72.google.com with SMTP id f10so2615867wro.14
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 22:50:18 -0800 (PST)
+ bh=7X8PjfcFHzdyIHec4OG6du8gOrCYueQPk/uwOaIht1o=;
+ b=fIOiOLPoOkR2bK5Xwu4S25bkRG6SBf3L5gXtJlXg5KbE66DakSrLUa2Ljo3vYuO7SxySd3
+ 12T8wXZOJkg9V/p4UB+FT9p5mVSpGag8RzRil8Xyxd8NRtSapxpjgTkv+VA/8x6lMb/sno
+ 4FJZD2Z65mtpIR8IR9L8TqjFlAnzvF0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-oG6GzJUHM76cUoTRrOO8Nw-1; Wed, 22 Jan 2020 01:50:21 -0500
+Received: by mail-wm1-f70.google.com with SMTP id q206so1663941wme.9
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 22:50:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=eAd3+nCoRQPzLOmjcY8CULrwvjv4VOu8uY/RSRtK8kQ=;
- b=L4gSOo7H6IS5IBXVX2Qso8GLYVuDPO00/o9nRx5Ao4BKRLJSFpAeV5zkwjpWNwmTGE
- sgEjCAiBupA0WQE3d/Kj1WGyZ4WIFaEGYINmccLlifxzTK9+zchl1DRd5XdZGDVNtTqx
- YSg999dES7pjRy+e5us0LvZLeWmmTpbED+ASbl53VJ/1jKzTYcHD4fRw/dS6vbFBSyn2
- jSuwDthTNGzdzsYExt2dR2S6r0bWdvYljDWtWDmv10C1l0QMmU5Trf6d0O8rLHjJCunW
- ST3e1fp/3L2ZLj3K0WSJdLnmiIqhK3/qkpFU2uhRHoXGCqt027cYqcS/CwMYvA3DCMRn
- TiMA==
-X-Gm-Message-State: APjAAAWvEXXryXnaDwbeBJN+BymHjBXR8bFa2uDEQRrvtZhAfe0Qt6cv
- evw6QnzCpBlvuNLfFNwNIykW3aWHyCtlWjKwP8O8g/KyC0MBdJsAcVAdypnIXjPsBirRaEExmmE
- kYqZiWQMdqP1xjGs=
-X-Received: by 2002:a1c:5401:: with SMTP id i1mr1123841wmb.99.1579675816929;
- Tue, 21 Jan 2020 22:50:16 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwPpNTZDpcmcF3BWq96vfyY7ZlgRBlaWVLC6h1CP8jwUBjCsqKS5d70mZxmBwomw/7qxB1sNw==
-X-Received: by 2002:a1c:5401:: with SMTP id i1mr1123818wmb.99.1579675816715;
- Tue, 21 Jan 2020 22:50:16 -0800 (PST)
+ bh=dKz9Yp7TsPHys5pVT0H9YPlrICr7T8Twac2SXPW2Rdw=;
+ b=l1cyxRcus/Tc/4oB7hUo6SfshT2hRZ9ADgdY8sfXnhu9lMaSZzaXqYHpPeeZiYw2A3
+ MiSkRPBbZ5yYZ9SfCmoUFv3exBwaRiAq2FYFEUd9O6Lcn5Dmsi5ckvnimdvR9z1f2eDt
+ gFTIx3tBB1UZ3L50o8+TYn1iocWbrLsPkL+4o/IGxyq9Bxv/47JnZXV1yZqSKFidlZIj
+ GErn7BVAmYKSD7Cp2nGqxXDX4XirW6gelTycAdKHYGuV1Lahi2EkhdgWq4pnwRnmCf49
+ NcFg6VJLWvVaQk+9OuFe7CnBce66DBnElTlODhXDY9wHqrgFhVPNEUwz68y34iTTGjGC
+ n8kw==
+X-Gm-Message-State: APjAAAVZx2KE4dQ+4pS+d+uBp79qapoG9BDgDsRHTLEmujuJbUjfI0ZI
+ ra+h0s0/lwTMKQAV9fSX1wACVjAghn9ST/Z1H+MgaQXCHkFUI3BDtw/LFJlH8usGymnL/b8D4cp
+ R7aDlZlqJ3BgO/1g=
+X-Received: by 2002:adf:d846:: with SMTP id k6mr8781972wrl.337.1579675819757; 
+ Tue, 21 Jan 2020 22:50:19 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxpOJO5NWpA77F3tU2elED9HWci00URZEaX8NRsjlDkWTwSs1NUNGRjmuytMjBPdoox4n4m3A==
+X-Received: by 2002:adf:d846:: with SMTP id k6mr8781955wrl.337.1579675819545; 
+ Tue, 21 Jan 2020 22:50:19 -0800 (PST)
 Received: from redhat.com (bzq-79-176-0-156.red.bezeqint.net. [79.176.0.156])
  by smtp.gmail.com with ESMTPSA id
- m10sm56751619wrx.19.2020.01.21.22.50.15
+ i5sm2596058wml.31.2020.01.21.22.50.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2020 22:50:16 -0800 (PST)
-Date: Wed, 22 Jan 2020 01:50:14 -0500
+ Tue, 21 Jan 2020 22:50:19 -0800 (PST)
+Date: Wed, 22 Jan 2020 01:50:17 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 09/17] bios-tables-test: document expected file update
-Message-ID: <20200122064907.512501-10-mst@redhat.com>
+Subject: [PULL v2 10/17] virtio-9p-device: fix memleak in
+ virtio_9p_device_unrealize
+Message-ID: <20200122064907.512501-11-mst@redhat.com>
 References: <20200122064907.512501-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200122064907.512501-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: FBqd-OhINJm1EoHkMhSgYw-1
+X-MC-Unique: oG6GzJUHM76cUoTRrOO8Nw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -89,69 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Pan Nengyuan <pannengyuan@huawei.com>, Greg Kurz <groug@kaod.org>,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Document the flow for the case where contributor
-updates the expected files.
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
+v->vq forgot to cleanup in virtio_9p_device_unrealize, the memory leak
+stack is as follow:
+
+Direct leak of 14336 byte(s) in 2 object(s) allocated from:
+  #0 0x7f819ae43970 (/lib64/libasan.so.5+0xef970)  ??:?
+  #1 0x7f819872f49d (/lib64/libglib-2.0.so.0+0x5249d)  ??:?
+  #2 0x55a3a58da624 (./x86_64-softmmu/qemu-system-x86_64+0x2c14624)  /mnt/s=
+db/qemu/hw/virtio/virtio.c:2327
+  #3 0x55a3a571bac7 (./x86_64-softmmu/qemu-system-x86_64+0x2a55ac7)  /mnt/s=
+db/qemu/hw/9pfs/virtio-9p-device.c:209
+  #4 0x55a3a58e7bc6 (./x86_64-softmmu/qemu-system-x86_64+0x2c21bc6)  /mnt/s=
+db/qemu/hw/virtio/virtio.c:3504
+  #5 0x55a3a5ebfb37 (./x86_64-softmmu/qemu-system-x86_64+0x31f9b37)  /mnt/s=
+db/qemu/hw/core/qdev.c:876
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Message-Id: <20200117060927.51996-2-pannengyuan@huawei.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Acked-by: Greg Kurz <groug@kaod.org>
 ---
- tests/qtest/bios-tables-test.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ hw/9pfs/virtio-9p-device.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.=
-c
-index f1ac2d7e96..3ab4872bd7 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -16,7 +16,10 @@
-  * 1. add empty files for new tables, if any, under tests/data/acpi
-  * 2. list any changed files in tests/bios-tables-test-allowed-diff.h
-  * 3. commit the above *before* making changes that affect the tables
-- * Maintainer:
-+ *
-+ * Contributor or ACPI Maintainer (steps 4-7 need to be redone to resolve =
-conflicts
-+ * in binary commit created in step 6):
-+ *
-  * After 1-3 above tests will pass but ignore differences with the expecte=
-d files.
-  * You will also notice that tests/bios-tables-test-allowed-diff.h lists
-  * a bunch of files. This is your hint that you need to do the below:
-@@ -28,13 +31,23 @@
-  * output. If not - disassemble them yourself in any way you like.
-  * Look at the differences - make sure they make sense and match what the
-  * changes you are merging are supposed to do.
-+ * Save the changes, preferably in form of ASL diff for the commit log in
-+ * step 6.
-  *
-  * 5. From build directory, run:
-  *      $(SRC_PATH)/tests/data/acpi/rebuild-expected-aml.sh
-- * 6. Now commit any changes.
-- * 7. Before doing a pull request, make sure tests/bios-tables-test-allowe=
-d-diff.h
-- *    is empty - this will ensure following changes to ACPI tables will
-- *    be noticed.
-+ * 6. Now commit any changes to the expected binary, include diff from ste=
-p 4
-+ *    in commit log.
-+ * 7. Before sending patches to the list (Contributor)
-+ *    or before doing a pull request (Maintainer), make sure
-+ *    tests/bios-tables-test-allowed-diff.h is empty - this will ensure
-+ *    following changes to ACPI tables will be noticed.
-+ *
-+ * The resulting patchset/pull request then looks like this:
-+ * - patch 1: list changed files in tests/bios-tables-test-allowed-diff.h.
-+ * - patches 2 - n: real changes, may contain multiple patches.
-+ * - patch n + 1: update golden master binaries and empty
-+ *   tests/bios-tables-test-allowed-diff.h
-  */
+diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
+index 991e175c82..ba35892940 100644
+--- a/hw/9pfs/virtio-9p-device.c
++++ b/hw/9pfs/virtio-9p-device.c
+@@ -218,6 +218,7 @@ static void virtio_9p_device_unrealize(DeviceState *dev=
+, Error **errp)
+     V9fsVirtioState *v =3D VIRTIO_9P(dev);
+     V9fsState *s =3D &v->state;
 =20
- #include "qemu/osdep.h"
++    virtio_del_queue(vdev, 0);
+     virtio_cleanup(vdev);
+     v9fs_device_unrealize_common(s, errp);
+ }
 --=20
 MST
 
