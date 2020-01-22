@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00C4144B83
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 06:56:59 +0100 (CET)
-Received: from localhost ([::1]:37078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA9F144B8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 06:59:37 +0100 (CET)
+Received: from localhost ([::1]:37106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iu90c-0003zB-36
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 00:56:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59796)
+	id 1iu939-0007Vy-Vv
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 00:59:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59807)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iu8vq-0007Iw-19
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 00:52:03 -0500
+ (envelope-from <mst@redhat.com>) id 1iu8vs-0007MT-LB
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 00:52:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iu8vo-0004Z1-R9
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 00:52:01 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38127
+ (envelope-from <mst@redhat.com>) id 1iu8vr-0004aB-Ic
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 00:52:04 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37581
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iu8vo-0004Yo-NO
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 00:52:00 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iu8vr-0004Zt-Eq
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 00:52:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579672320;
+ s=mimecast20190719; t=1579672323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OhMnOXw2jltLb3g6o0bZN0GY8d9d1JsgKnb3ojyU5uY=;
- b=Zxbpio/6QHFCyxbioShwCzqYxFU7rGG8pf/iMknyq0FWzy2/wvgq2PSwVXQFI0Iic1Nsyb
- qgIUp4B/8ixZuosIp6lriny101fl2vQfEO31eVoTY7IqIH8XYJo7FlSPVknLHJLSB/SD7m
- OTM0AXrc4OuzUWnHt4xORJvQonWoHQ8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-dusI85DqPsaZghcQFV1JHw-1; Wed, 22 Jan 2020 00:51:57 -0500
-Received: by mail-wr1-f72.google.com with SMTP id h30so2535738wrh.5
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 21:51:57 -0800 (PST)
+ bh=ZL7cOBRrNjS5xV9Me0lJk0ipNP0N1056GF7w4b0GCrQ=;
+ b=VyKEzAKajt2wXLtVhR6yF/51JLSVEjvvn8DhtPoA9S5TNg+dkAqURi3SQIVMBsLUxwGVMt
+ OexukHSQn3c/yknyPkrMk3TL8TUhwJm3jYs4O5JixJ5svHx/CGohXVvs0Jvp5TjrQ6DemV
+ NTS62IrtQQ4F1XzeDdYVgZmZIjrLG/E=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-iw2ccxv8Mg2IAs6DJsBzqg-1; Wed, 22 Jan 2020 00:52:01 -0500
+Received: by mail-wm1-f70.google.com with SMTP id w205so1612109wmb.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 21:52:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=SmP96JjZ61jUtUgNUruj35mPI4zb3UYO5pk5xajyjow=;
- b=KrWY3UP7x8Ienpn/fTQQ8hl3eAHwZs6J3otBKiF/CCkDgiC6K317fwzqNrHGaOehhO
- gO7zIjd9kQLlGowo6KsI0e10pIfCZa0GbWfoUE5qJabst0VunFttFg4U4eWWW3JS2SYF
- MWvFFtEPnFzVyjkJHGjC1zDAEChjMOyb5pIfiZZScxd4yGTs0QVDzf/uXmXntC3pbCeR
- 81VUGqrlWc8agsxrgps9VZ8WDW7aV9s++PFv7u6D7wecquUDnbaT3a5DbHN8KQcYOe/2
- X0UiOdT2DGBr7gp1TUuRg3L7VgkX+Ek1ddbPwqcgt8A3kl1XPNZegoD+6CJt4By57R9R
- AndQ==
-X-Gm-Message-State: APjAAAUg5MfHMIYy2gdJckmx8K3PRgrpo8Akfww3veKkYQhsVntGwGAx
- bizeckJU2y/K/7ViOpLlLxHvCM/HqBcLqCOuiFvz/E8DhIp5c4071d+gd4K8Zhv9fnmihdINkoi
- LyxHUpDdTFp0mGLo=
-X-Received: by 2002:a05:600c:411:: with SMTP id
- q17mr947227wmb.180.1579672316550; 
- Tue, 21 Jan 2020 21:51:56 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxFPa95+06DfGK12UXuDyZp0doPjrsE3Fyrto7Z07jDIP3SWiHL65fuuZs/qbWUE3oaXaGxGA==
-X-Received: by 2002:a05:600c:411:: with SMTP id
- q17mr947221wmb.180.1579672316381; 
- Tue, 21 Jan 2020 21:51:56 -0800 (PST)
+ bh=0NReYyn4JQkVdN7PoAGTBso0lphxyHmehPnh64blNL8=;
+ b=LPa2zhy6d3RPqEHrnFGU6EKyzLakhruHMQ/fiIZFwVD4wDsZYGWwGg8omqlZKhSAg1
+ YJG4t0hpfRv1Jn8JZeJ5nc9NLoydkMCxdjFNAeVJBlSGQFJitoog0YpxCM/TS5z1lw2O
+ ayQWoUNXC12WEdY7lV/MUAbrwvBsM9c6lU1p9+7/b5cy3WW4767vt3vzbmEh9sDwY5xt
+ ZqiMOVta0kFJmIGk5eWP3of+8ZhhXRQCy30Qw9dJ73De8q0ZFfKG1ciO9XkrF30xnvLV
+ 6T4rh4hlV4hACBVCojrGVLOyn/OZyhC0nx2QMw/ewzSuh/1Mal+7dDAg1sOSVYq+Zg4Z
+ 694Q==
+X-Gm-Message-State: APjAAAXmVy3+a9hn1w6HXMd7FieAEUTpsA6qVGE0aEU1hHzl+jBEepa5
+ Qg37JoA67LvgsZuP/9fqohGkv9Fd3aPrQ/hyllBl72mmIWknj7MbfwO0nIwKxl6mRegIanPw9Ai
+ 1hf7QmjrCG9A8g8w=
+X-Received: by 2002:a5d:428c:: with SMTP id k12mr9504381wrq.57.1579672319513; 
+ Tue, 21 Jan 2020 21:51:59 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzJsLnWpbO69m7ffZVTXV+HI3Bj2YrvoXhVtlT4qRybSTj6bD6vJ4e+WbI+gsf2RFn8fJjJ/A==
+X-Received: by 2002:a5d:428c:: with SMTP id k12mr9504361wrq.57.1579672319214; 
+ Tue, 21 Jan 2020 21:51:59 -0800 (PST)
 Received: from redhat.com (bzq-79-176-0-156.red.bezeqint.net. [79.176.0.156])
  by smtp.gmail.com with ESMTPSA id
- t1sm2495642wma.43.2020.01.21.21.51.55
+ i10sm56700439wru.16.2020.01.21.21.51.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2020 21:51:55 -0800 (PST)
-Date: Wed, 22 Jan 2020 00:51:54 -0500
+ Tue, 21 Jan 2020 21:51:58 -0800 (PST)
+Date: Wed, 22 Jan 2020 00:51:57 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/17] acpi: cpuhp: spec: clarify 'CPU selector' register
- usage and endianness
-Message-ID: <20200122055115.429945-4-mst@redhat.com>
+Subject: [PULL 04/17] acpi: cpuhp: spec: fix 'Command data' description
+Message-ID: <20200122055115.429945-5-mst@redhat.com>
 References: <20200122055115.429945-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200122055115.429945-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: dusI85DqPsaZghcQFV1JHw-1
+X-MC-Unique: iw2ccxv8Mg2IAs6DJsBzqg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
@@ -100,58 +97,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-* Move reserved registers to the top of the section, so reader would be
-  aware of effects when reading registers description.
-* State registers endianness explicitly at the beginning of the section
-* Describe registers behavior in case of 'CPU selector' register contains
-  value that doesn't point to a possible CPU.
+Correct returned value description in case 'Command field' =3D=3D 0x0,
+it's not PXM but CPU selector value with pending event
+
+In addition describe 0 blanket value in case of not supported
+'Command field' value.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Message-Id: <1575896942-331151-5-git-send-email-imammedo@redhat.com>
+Message-Id: <1575896942-331151-6-git-send-email-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- docs/specs/acpi_cpu_hotplug.txt | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ docs/specs/acpi_cpu_hotplug.txt | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.=
 txt
-index ee219c8358..4e65286ff5 100644
+index 4e65286ff5..d5108720bf 100644
 --- a/docs/specs/acpi_cpu_hotplug.txt
 +++ b/docs/specs/acpi_cpu_hotplug.txt
-@@ -30,6 +30,18 @@ Register block base address:
- Register block size:
-     ACPI_CPU_HOTPLUG_REG_LEN =3D 12
+@@ -56,9 +56,8 @@ read access:
+            3-7: reserved and should be ignored by OSPM
+     [0x5-0x7] reserved
+     [0x8] Command data: (DWORD access)
+-          in case of error or unsupported command reads is 0xFFFFFFFF
+-          current 'Command field' value:
+-              0: returns PXM value corresponding to device
++          contains 0 unless value last stored in 'Command field' is one of=
+:
++              0: contains 'CPU selector' value of a CPU with pending event=
+[s]
 =20
-+All accesses to registers described below, imply little-endian byte order.
-+
-+Reserved resisters behavior:
-+   - write accesses are ignored
-+   - read accesses return all bits set to 0.
-+
-+The last stored value in 'CPU selector' must refer to a possible CPU, othe=
-rwise
-+  - reads from any register return 0
-+  - writes to any other register are ignored until valid value is stored i=
-nto it
-+On QEMU start, 'CPU selector' is initialized to a valid value, on reset it
-+keeps the current value.
-+
- read access:
+ write access:
      offset:
-     [0x0-0x3] reserved
-@@ -86,9 +98,3 @@ write access:
-                  ACPI_DEVICE_OST QMP event from QEMU to external applicati=
-ons
-                  with current values of OST event and status registers.
-             other values: reserved
--
--Selecting CPU device beyond possible range has no effect on platform:
--   - write accesses to CPU hot-plug registers not documented above are
--     ignored
--   - read accesses to CPU hot-plug registers not documented above return
--     all bits set to 0.
+@@ -81,9 +80,9 @@ write access:
+           value:
+             0: selects a CPU device with inserting/removing events and
+                following reads from 'Command data' register return
+-               selected CPU (CPU selector value). If no CPU with events
+-               found, the current CPU selector doesn't change and
+-               corresponding insert/remove event flags are not set.
++               selected CPU ('CPU selector' value).
++               If no CPU with events found, the current 'CPU selector' doe=
+sn't
++               change and corresponding insert/remove event flags are not =
+modified.
+             1: following writes to 'Command data' register set OST event
+                register in QEMU
+             2: following writes to 'Command data' register set OST status
 --=20
 MST
 
