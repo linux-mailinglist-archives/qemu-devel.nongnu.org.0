@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC3A145379
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 12:11:52 +0100 (CET)
-Received: from localhost ([::1]:40104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 626DC1453BD
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 12:26:45 +0100 (CET)
+Received: from localhost ([::1]:40334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuDvK-0002v8-Qt
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 06:11:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35621)
+	id 1iuE9k-00041m-9f
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 06:26:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iuDuB-0002Tu-Jq
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:10:40 -0500
+ (envelope-from <bounces@canonical.com>) id 1iuE8y-0003c2-0B
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:25:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iuDuA-0004Mv-2F
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:10:39 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45828
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iuDu9-0004Mk-Ui
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:10:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579691437;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yHtpiqDmW7wXprIfbDTct/EqoODGQex6jVSwpRmBmCU=;
- b=hZtrx8O4hSEwxoMql8LHW2oDgwu4eYy4CaC08jHy9XdpqXzOJJ8TCnjiMXXXhUu0pfhyUN
- 0HXHXaJulZ05GtehylgtX2nJ7RJSw6ROLIvGZm60inf63KcrUVeqAVukVsQoY0LPnjkJ6I
- txH/Rij1r+iQg4CgHmI/URbTEOAlKOs=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-N7S8kplJMT-W4AisFUVpww-1; Wed, 22 Jan 2020 06:10:34 -0500
-Received: by mail-wr1-f72.google.com with SMTP id h30so2856056wrh.5
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 03:10:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=eO4GVMtUbM431bCEg+lkuqmor778MjyCZA808QLMqS4=;
- b=sIqep0t6/lpg5vmcc4oEGIlNQ8tEuY6QunMeKg7XqNJckMA9UxbiqgjVEugwsIfyD5
- yuhWtg+GdRJsfOVRCEafe4ZgEhCZeEpL8mDO1myvajAodzp9Oz126AQzuMU4kQFZjzUB
- 1VEfagniGaTda8qJksaNbQAna0tRo/CghXPlI5AoeFRWV+zONHwki5ziggsFWp0TMNkS
- gEUrLyIwA/dvK2Kjslm54CYaJLIlvNYfxuLvAv4orKxgWfuImjwrManZ9gEcJVRm0mkH
- Bd7ArjOOE5sL4vokyWEt2tzzac9hqVFICv/3jF5MjWpeK9XXXBTYop2CzE+NwLlQgalE
- wG8A==
-X-Gm-Message-State: APjAAAV7W0atIwmmVMLvPpdMJ3/JZmX0YrpHjDFYEZ5Uh0NOCZAkpy2y
- MK6HW9Qc1DeoQQwWe76WGB8tmnHoqjQIysJEevbyf6Ls8MtUo0Jgu6DmLqczkwgQy/QuaNimPUE
- kRUmbaOPD9lE9aEg=
-X-Received: by 2002:a5d:62c8:: with SMTP id o8mr10441944wrv.316.1579691432734; 
- Wed, 22 Jan 2020 03:10:32 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw8oL2cX5iW5xD84daiqBJZSBzLc4PmEMw71lBAcTJXkhMX+dk+nsIzrC+pF4km4UpxwIKoAQ==
-X-Received: by 2002:a5d:62c8:: with SMTP id o8mr10441902wrv.316.1579691432316; 
- Wed, 22 Jan 2020 03:10:32 -0800 (PST)
-Received: from redhat.com (bzq-79-176-0-156.red.bezeqint.net. [79.176.0.156])
- by smtp.gmail.com with ESMTPSA id
- c5sm3739958wmb.9.2020.01.22.03.10.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 03:10:31 -0800 (PST)
-Date: Wed, 22 Jan 2020 06:10:27 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: David Stevens <stevensd@chromium.org>
-Subject: Re: [virtio-dev][RFC PATCH v1 1/2] content: define what an exported
- object is
-Message-ID: <20200122060844-mutt-send-email-mst@kernel.org>
-References: <CAD=HUj640QfNwO4J_tdcSx36YOVAVT_dZUXYuKPaCKvZVWeHsg@mail.gmail.com>
- <20200122032103-mutt-send-email-mst@kernel.org>
- <CAD=HUj4pORJK1SQ2+n_oiXJyGaKqakSiOGcXdRCGSAMnuxY4cw@mail.gmail.com>
+ (envelope-from <bounces@canonical.com>) id 1iuE8w-0003X2-PF
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:25:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50782)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iuE8w-0003Wc-Jv
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:25:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iuE8u-0005Di-VV
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 11:25:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id ECBAB2E80D2
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 11:25:52 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAD=HUj4pORJK1SQ2+n_oiXJyGaKqakSiOGcXdRCGSAMnuxY4cw@mail.gmail.com>
-X-MC-Unique: N7S8kplJMT-W4AisFUVpww-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Wed, 22 Jan 2020 11:14:33 -0000
+From: Frank Heimes <1859656@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=maas; status=New; importance=Undecided;
+ assignee=lee.trager@canonical.com; 
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
+ assignee=maas; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ltrager paelzer sfeole
+X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
+X-Launchpad-Bug-Modifier: Frank Heimes (fheimes)
+References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
+Message-Id: <157969167471.5102.965817192455529693.launchpad@wampee.canonical.com>
+Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
+ initial deploy
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 00e6fc78e7aee462fe34ef38ff2d273afa253165
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,60 +71,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, Zach Reizner <zachr@chromium.org>,
- Alexandre Courbot <acourbot@chromium.org>, qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, Alex Lau <alexlau@chromium.org>,
- Tomasz Figa <tfiga@chromium.org>, Keiichi Watanabe <keiichiw@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?iso-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
- Dylan Reid <dgreid@chromium.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Pawel Osciak <posciak@chromium.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 22, 2020 at 07:13:41PM +0900, David Stevens wrote:
-> > > +When an object created by one virtio device needs to be
-> > > +shared with a seperate virtio device, the first device can
-> > > +export the object by generating a \field{uuid}
-> >
-> > This is a field where?
->=20
-> It's a property of the exported object, but I guess it doesn't really
-> correspond to any concrete field. I'll remove \field.
->=20
-> > > which the
-> > > +guest can pass to the second device to identify the object.
-> >
-> > s/guest/Driver/ ?
->=20
-> The uuid can be passed to a second device controlled by a different
-> driver, so I think 'driver' by itself is ambiguous. I'm using guest as
-> a shorthand for 'system which includes the drivers and software which
-> sits on top of the drivers', and that meaning does seem to be
-> compatible with language in the rest of the spec. If that shorthand
-> isn't acceptable, I can rewrite the sentence passively as '... a uuid
-> which can then be passed to a second device ...'.
->=20
-> > Also - what are guest and host here?
->=20
-> There are a number of places in the virtio spec where 'guest' is used
-> to refer to the system where drivers run and where 'host' is used to
-> refer to the system where devices run. I guess those terms aren't
-> concretely defined within the spec, but they do seem to have a well
-> understood meaning. Or is the guest/host language discouraged in new
-> additions to the spec?
->=20
-> -David
+** Changed in: maas
+       Status: Incomplete =3D> New
 
-Yes - generally most devices are/should be implementable in hardware.
-In that setup guest/host doesn't make sense.
-We haven't reworked all of spec with that in mind yet,
-and in some cases such as the balloon it's actually specific to
-virtualization.
+-- =
 
---=20
-MST
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859656
 
+Title:
+  [2.6] Unable to reboot s390x KVM machine after initial deploy
+
+Status in MAAS:
+  New
+Status in QEMU:
+  Incomplete
+Status in Ubuntu on IBM z Systems:
+  Triaged
+
+Bug description:
+  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
+  Arch: S390x
+
+  Appears that MAAS can not find the s390x bootloader to boot from the
+  disk, not sure how maas determines this.  However this was working in
+  the past. I had originally thought that if the maas machine was
+  deployed then it defaulted to boot from disk.
+
+  If I force the VM to book from disk, the VM starts up as expected.
+
+  Reproduce:
+
+  - Deploy Disco on S390x KVM instance
+  - Reboot it
+
+  on the KVM console...
+
+  Connected to domain s2lp6g001
+  Escape character is ^]
+  done
+  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
+  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
+  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
+  Trying pxelinux.cfg files...
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  Failed to load OS from network
+
+  =3D=3D> /var/log/maas/rackd.log <=3D=3D
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
+0x.bin requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
+5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+1-52-54-00-e5-d7-bb requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA0 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64B requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF6 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+A requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+ requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
+efault requested by 10.246.75.160
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
 
