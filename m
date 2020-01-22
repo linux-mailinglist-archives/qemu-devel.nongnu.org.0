@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A47144A1F
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 03:59:51 +0100 (CET)
-Received: from localhost ([::1]:35830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB8E144A10
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 03:53:17 +0100 (CET)
+Received: from localhost ([::1]:35696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iu6FC-0000kk-8W
-	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 21:59:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45298)
+	id 1iu68q-0000L3-1Y
+	for lists+qemu-devel@lfdr.de; Tue, 21 Jan 2020 21:53:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45328)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iu65w-0005xP-B2
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 21:50:17 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iu660-00064o-ET
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 21:50:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iu65v-0002px-0k
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 21:50:16 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45038)
+ (envelope-from <richard.henderson@linaro.org>) id 1iu65z-0002ra-7H
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 21:50:20 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39291)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iu65u-0002pf-Ra
- for qemu-devel@nongnu.org; Tue, 21 Jan 2020 21:50:14 -0500
-Received: by mail-pg1-x542.google.com with SMTP id x7so2621335pgl.11
- for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 18:50:14 -0800 (PST)
+ id 1iu65z-0002rO-0t
+ for qemu-devel@nongnu.org; Tue, 21 Jan 2020 21:50:19 -0500
+Received: by mail-pg1-x543.google.com with SMTP id 4so2634695pgd.6
+ for <qemu-devel@nongnu.org>; Tue, 21 Jan 2020 18:50:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=soIhy7U60hFR3tjy2P21a+DUoF3Ye/nEhgI5woKnVmY=;
- b=X1DrHwYTrrAguV+foHlRxiW9HpyGDnbnn8U0HJ5fEp9T3zddgFBxMKTRS1wGu6mC8h
- i1VpBjJMOeSv8b+R10mEcUd/74aBUT8labkoD+ufhCzNAx5sX7vJiJBDdOwlZ8x6ZPwR
- Qk7txK3Gy3dIPfrGTmSrPXB/E8nZ1F73D5W2ePxPA0WbR3AsuL8UDFKsPgnz2WMxNDcI
- YV60b+SXxZEq8OUylz3LfClINf1pErqBN/n/GJIfc9iiWZM/E6PzcC4KtevkobBk6O1G
- YA2FIeFzL/pnnxVD6chCmKZSvwIkT20OjEZ+9mUc3DoaO2eQPhlnJgCm9DyKjuzMjhYx
- jZrw==
+ bh=DOpEwK3gCWb7kYmz3HJItlWdtjpnT0EgenDFNDj5Ga0=;
+ b=E+RxQOp+TlOk5Zqy8vCX1+1cFbNmhCLiP/ry759CWWLVjC9QAszy+BuEOjcC4HXYtr
+ 7q22SI+39kFanWUNuqSSWjnvvhqfUaoHuMlulQ2gwKirMjeHSSrA0MraogNJ+ps+cgpe
+ iQrLal6iLSnevwe+I7ji6QCIfjgd2d0B43EtdGh5SOuWlvSpCSIU58SKR67butd0iH8/
+ A72qkxrzv/UOf47kugKTc03QFnRTf4mE76nnEqP5/AKZqgSc7Mu5ahtF1fKgYNNsiaWo
+ 6z148nV7vN08ZZkR70zWVVdyiGXKqBIZHga9/mea/NrxHHwfQCj6a/daFn5X23jbT19I
+ zt5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=soIhy7U60hFR3tjy2P21a+DUoF3Ye/nEhgI5woKnVmY=;
- b=Cn/EwdCdAO6NC/ku9YdGskUx9ar7KSrSZ03h+4DS+iaQot81T1i3W08pXohAHFnJu7
- x9AlJIFWCCVCDLTH4gHQ+ssXEAZhCrsN761WCXtbyiddFdD1N5k+vz8h02OoWnoFRmI0
- YZJ7i8oY0G74s2CYx3sHUrI2Dh9NVLcuGYG+H7S3jGbyoeGKgXoBBvKIc/i1KpBEwTUm
- WGpU7AuXTuarw2Om3JAiTmSofDa+W2ONk50ye//7JxvmZNQJ+z9zNTtk3biRrNqhry03
- vrQB8i/HBrZlI8GCHcIxOUT+gMlqAS7dF6fptJ1jbq3d+VLbBpT+Lhqt4ZrLs0Owqwwn
- 67JQ==
-X-Gm-Message-State: APjAAAVwDB4UMCKBRESyzlTH4jub6YCmW7SM0KYEQr907PM3MFkghqrH
- Jf10LIo6UEP9RutoAVBtKfZq+FvV40I=
-X-Google-Smtp-Source: APXvYqx6yoRRZglRCdel1ROQi224P7rHoQ45dKZ9im+9BJqMmU7F6b0A1Xf4iDzfjkeZXfiR5rz7eg==
-X-Received: by 2002:a62:197:: with SMTP id 145mr598467pfb.188.1579661413596;
- Tue, 21 Jan 2020 18:50:13 -0800 (PST)
+ bh=DOpEwK3gCWb7kYmz3HJItlWdtjpnT0EgenDFNDj5Ga0=;
+ b=kUarf+oA3HX4AQY1Um4jBJ2vNzEa3z4MjFpsPKbi/iVaw9/00TAB+1HY/7s4Qd/4OM
+ +YdRarFvrddwqAttbIFyAUUq4BvRoY1Jw5By8KJSTQy7L+0pnXNHdAEbISjgx6A8I5kU
+ 8TeNZw0A72Fh7NvJQrB0G8lFJsJHGyfnE++3DtMI/Oj2k3gQdk0ChSr38imOxSelWMI3
+ lOoO+cdQOA08Dzp9PTTeExH7KPTfBRgqcZU9g1veg9YCk6/SWE0xoe9tHGYonMJlSzth
+ ZSHOMYuY1kPqxDwEsDyLH7wbP5k+MAwsGd94vGzaF10JYBEAC5/94p1nTvjKEP/v7RzP
+ GC2A==
+X-Gm-Message-State: APjAAAWzBIrgrm7F4H+yvjGJ3AqIt+tAMuGY1+twBXPoSWPd/fsMjQXn
+ jlgSrQtyik1tNgoWJmXmmhTzCrDfGcc=
+X-Google-Smtp-Source: APXvYqwGjY+RCd2+RrYCWF39TEf1w4GMhmitehSNJpCVFprVo4leTFVnVqOsI7gqDnRYugle4Y3FZQ==
+X-Received: by 2002:a63:ce55:: with SMTP id r21mr8567582pgi.156.1579661417808; 
+ Tue, 21 Jan 2020 18:50:17 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-198-77-92.west.biz.rr.com.
  [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id c22sm44149883pfo.50.2020.01.21.18.50.11
+ by smtp.gmail.com with ESMTPSA id c22sm44149883pfo.50.2020.01.21.18.50.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2020 18:50:12 -0800 (PST)
+ Tue, 21 Jan 2020 18:50:17 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/16] cputlb: Partially merge tlb_dyn_init into tlb_init
-Date: Tue, 21 Jan 2020 16:49:43 -1000
-Message-Id: <20200122024946.28484-14-richard.henderson@linaro.org>
+Subject: [PULL 15/16] cputlb: Hoist timestamp outside of loops over tlbs
+Date: Tue, 21 Jan 2020 16:49:45 -1000
+Message-Id: <20200122024946.28484-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200122024946.28484-1-richard.henderson@linaro.org>
 References: <20200122024946.28484-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,81 +85,80 @@ Cc: peter.maydell@linaro.org, Alistair Francis <alistair.francis@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Merge into the only caller, but at the same time split
-out tlb_mmu_init to initialize a single tlb entry.
+Do not call get_clock_realtime() in tlb_mmu_resize_locked,
+but hoist outside of any loop over a set of tlbs.  This is
+only two (indirect) callers, tlb_flush_by_mmuidx_async_work
+and tlb_flush_page_locked, so not onerous.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cputlb.c | 33 ++++++++++++++++-----------------
- 1 file changed, 16 insertions(+), 17 deletions(-)
+ accel/tcg/cputlb.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index 28cfff1556..360495468e 100644
+index 5a35386224..e3b5750c3b 100644
 --- a/accel/tcg/cputlb.c
 +++ b/accel/tcg/cputlb.c
-@@ -97,22 +97,6 @@ static void tlb_window_reset(CPUTLBDesc *desc, int64_t ns,
-     desc->window_max_entries = max_entries;
+@@ -137,12 +137,12 @@ static void tlb_window_reset(CPUTLBDesc *desc, int64_t ns,
+  * high), since otherwise we are likely to have a significant amount of
+  * conflict misses.
+  */
+-static void tlb_mmu_resize_locked(CPUTLBDesc *desc, CPUTLBDescFast *fast)
++static void tlb_mmu_resize_locked(CPUTLBDesc *desc, CPUTLBDescFast *fast,
++                                  int64_t now)
+ {
+     size_t old_size = tlb_n_entries(fast);
+     size_t rate;
+     size_t new_size = old_size;
+-    int64_t now = get_clock_realtime();
+     int64_t window_len_ms = 100;
+     int64_t window_len_ns = window_len_ms * 1000 * 1000;
+     bool window_expired = now > desc->window_begin_ns + window_len_ns;
+@@ -222,12 +222,13 @@ static void tlb_mmu_flush_locked(CPUTLBDesc *desc, CPUTLBDescFast *fast)
+     memset(desc->vtable, -1, sizeof(desc->vtable));
  }
  
--static void tlb_dyn_init(CPUArchState *env)
--{
--    int i;
--
--    for (i = 0; i < NB_MMU_MODES; i++) {
--        CPUTLBDesc *desc = &env_tlb(env)->d[i];
--        size_t n_entries = 1 << CPU_TLB_DYN_DEFAULT_BITS;
--
--        tlb_window_reset(desc, get_clock_realtime(), 0);
--        desc->n_used_entries = 0;
--        env_tlb(env)->f[i].mask = (n_entries - 1) << CPU_TLB_ENTRY_BITS;
--        env_tlb(env)->f[i].table = g_new(CPUTLBEntry, n_entries);
--        env_tlb(env)->d[i].iotlb = g_new(CPUIOTLBEntry, n_entries);
--    }
--}
--
- /**
-  * tlb_mmu_resize_locked() - perform TLB resize bookkeeping; resize if necessary
-  * @desc: The CPUTLBDesc portion of the TLB
-@@ -247,6 +231,17 @@ static void tlb_flush_one_mmuidx_locked(CPUArchState *env, int mmu_idx)
+-static void tlb_flush_one_mmuidx_locked(CPUArchState *env, int mmu_idx)
++static void tlb_flush_one_mmuidx_locked(CPUArchState *env, int mmu_idx,
++                                        int64_t now)
+ {
+     CPUTLBDesc *desc = &env_tlb(env)->d[mmu_idx];
+     CPUTLBDescFast *fast = &env_tlb(env)->f[mmu_idx];
+ 
+-    tlb_mmu_resize_locked(desc, fast);
++    tlb_mmu_resize_locked(desc, fast, now);
      tlb_mmu_flush_locked(desc, fast);
  }
  
-+static void tlb_mmu_init(CPUTLBDesc *desc, CPUTLBDescFast *fast, int64_t now)
-+{
-+    size_t n_entries = 1 << CPU_TLB_DYN_DEFAULT_BITS;
-+
-+    tlb_window_reset(desc, now, 0);
-+    desc->n_used_entries = 0;
-+    fast->mask = (n_entries - 1) << CPU_TLB_ENTRY_BITS;
-+    fast->table = g_new(CPUTLBEntry, n_entries);
-+    desc->iotlb = g_new(CPUIOTLBEntry, n_entries);
-+}
-+
- static inline void tlb_n_used_entries_inc(CPUArchState *env, uintptr_t mmu_idx)
- {
-     env_tlb(env)->d[mmu_idx].n_used_entries++;
-@@ -260,13 +255,17 @@ static inline void tlb_n_used_entries_dec(CPUArchState *env, uintptr_t mmu_idx)
- void tlb_init(CPUState *cpu)
- {
+@@ -310,6 +311,7 @@ static void tlb_flush_by_mmuidx_async_work(CPUState *cpu, run_on_cpu_data data)
      CPUArchState *env = cpu->env_ptr;
+     uint16_t asked = data.host_int;
+     uint16_t all_dirty, work, to_clean;
 +    int64_t now = get_clock_realtime();
-+    int i;
  
-     qemu_spin_init(&env_tlb(env)->c.lock);
+     assert_cpu_is_self(cpu);
  
-     /* Ensure that cpu_reset performs a full flush.  */
-     env_tlb(env)->c.dirty = ALL_MMUIDX_BITS;
+@@ -324,7 +326,7 @@ static void tlb_flush_by_mmuidx_async_work(CPUState *cpu, run_on_cpu_data data)
  
--    tlb_dyn_init(env);
-+    for (i = 0; i < NB_MMU_MODES; i++) {
-+        tlb_mmu_init(&env_tlb(env)->d[i], &env_tlb(env)->f[i], now);
-+    }
- }
+     for (work = to_clean; work != 0; work &= work - 1) {
+         int mmu_idx = ctz32(work);
+-        tlb_flush_one_mmuidx_locked(env, mmu_idx);
++        tlb_flush_one_mmuidx_locked(env, mmu_idx, now);
+     }
  
- /* flush_all_helper: run fn across all cpus
+     qemu_spin_unlock(&env_tlb(env)->c.lock);
+@@ -446,7 +448,7 @@ static void tlb_flush_page_locked(CPUArchState *env, int midx,
+         tlb_debug("forcing full flush midx %d ("
+                   TARGET_FMT_lx "/" TARGET_FMT_lx ")\n",
+                   midx, lp_addr, lp_mask);
+-        tlb_flush_one_mmuidx_locked(env, midx);
++        tlb_flush_one_mmuidx_locked(env, midx, get_clock_realtime());
+     } else {
+         if (tlb_flush_entry_locked(tlb_entry(env, midx, page), page)) {
+             tlb_n_used_entries_dec(env, midx);
 -- 
 2.20.1
 
