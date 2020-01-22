@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351FD1455E0
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 14:26:24 +0100 (CET)
-Received: from localhost ([::1]:42040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3640E1455E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 14:26:40 +0100 (CET)
+Received: from localhost ([::1]:42052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuG1V-0000d1-89
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 08:26:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51913)
+	id 1iuG1m-0000su-W2
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 08:26:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51908)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iuFyw-0006mk-Mb
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iuFyw-0006mi-Ie
  for qemu-devel@nongnu.org; Wed, 22 Jan 2020 08:23:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1iuFyv-0002Ma-Fh
+ (envelope-from <vsementsov@virtuozzo.com>) id 1iuFyv-0002MV-F8
  for qemu-devel@nongnu.org; Wed, 22 Jan 2020 08:23:42 -0500
-Received: from relay.sw.ru ([185.231.240.75]:42290)
+Received: from relay.sw.ru ([185.231.240.75]:42306)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1iuFys-0002Hz-Mk; Wed, 22 Jan 2020 08:23:38 -0500
+ id 1iuFys-0002I2-R0; Wed, 22 Jan 2020 08:23:39 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1iuFyk-00057B-F8; Wed, 22 Jan 2020 16:23:30 +0300
+ id 1iuFyk-00057B-Oq; Wed, 22 Jan 2020 16:23:30 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 6/7] migration: handle to_src_file on target only for ram
+Subject: [PATCH 7/7] qemu-iotests/199: add early shutdown case to bitmaps
  postcopy
-Date: Wed, 22 Jan 2020 16:23:27 +0300
-Message-Id: <20200122132328.31156-7-vsementsov@virtuozzo.com>
+Date: Wed, 22 Jan 2020 16:23:28 +0300
+Message-Id: <20200122132328.31156-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200122132328.31156-1-vsementsov@virtuozzo.com>
 References: <20200122132328.31156-1-vsementsov@virtuozzo.com>
@@ -55,61 +55,64 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If only bitmaps postcopy migration enabled and not ram, this assertion
-will fire, as we don't have to_src_file for bitmaps postcopy migration.
-
-migrate_postcopy_ram() accesses migrations state, which may be freed in
-main thread, so, we should ref/unref it in postcopy incoming thread.
+Previous patches fixed two crashes which may occur on shutdown prior to
+bitmaps postcopy finished. Check that it works now.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- migration/savevm.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+ tests/qemu-iotests/199     | 12 +++++++++++-
+ tests/qemu-iotests/199.out |  4 ++--
+ 2 files changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index adfdca26ac..143755389e 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1832,6 +1832,9 @@ static void *postcopy_ram_listen_thread(void *opaque)
-     MigrationIncomingState *mis = migration_incoming_get_current();
-     QEMUFile *f = mis->from_src_file;
-     int load_res;
-+    MigrationState *migr = migrate_get_current();
+diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
+index a2c8ecab5a..a3f6c73aed 100755
+--- a/tests/qemu-iotests/199
++++ b/tests/qemu-iotests/199
+@@ -47,7 +47,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         self.vm_a.launch()
+         self.vm_b.launch()
+ 
+-    def test_postcopy(self):
++    def do_test_postcopy(self, early_shutdown):
+         write_size = 0x40000000
+         granularity = 512
+         chunk = 4096
+@@ -99,6 +99,10 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+             if event['data']['status'] == 'completed':
+                 break
+ 
++        if early_shutdown:
++            self.vm_b.qmp('quit')
++            return
 +
-+    object_ref(OBJECT(migr));
+         s = 0x8000
+         while s < write_size:
+             self.vm_b.hmp_qemu_io('drive0', 'write %d %d' % (s, chunk))
+@@ -114,6 +118,12 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
  
-     migrate_set_state(&mis->state, MIGRATION_STATUS_ACTIVE,
-                                    MIGRATION_STATUS_POSTCOPY_ACTIVE);
-@@ -1898,6 +1901,8 @@ static void *postcopy_ram_listen_thread(void *opaque)
-     mis->have_listen_thread = false;
-     postcopy_state_set(POSTCOPY_INCOMING_END);
+         self.assert_qmp(result, 'return/sha256', sha256);
  
-+    object_unref(OBJECT(migr));
++    def test_postcopy(self):
++        self.do_test_postcopy(False)
 +
-     return NULL;
- }
++    def test_postcopy_early_shutdown(self):
++        self.do_test_postcopy(True)
++
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2'], supported_cache_modes=['none'],
+                  supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/199.out b/tests/qemu-iotests/199.out
+index ae1213e6f8..fbc63e62f8 100644
+--- a/tests/qemu-iotests/199.out
++++ b/tests/qemu-iotests/199.out
+@@ -1,5 +1,5 @@
+-.
++..
+ ----------------------------------------------------------------------
+-Ran 1 tests
++Ran 2 tests
  
-@@ -2457,12 +2462,14 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
-     qemu_fclose(mis->from_src_file);
-     mis->from_src_file = NULL;
- 
--    assert(mis->to_src_file);
--    qemu_file_shutdown(mis->to_src_file);
--    qemu_mutex_lock(&mis->rp_mutex);
--    qemu_fclose(mis->to_src_file);
--    mis->to_src_file = NULL;
--    qemu_mutex_unlock(&mis->rp_mutex);
-+    if (migrate_postcopy_ram()) {
-+        assert(mis->to_src_file);
-+        qemu_file_shutdown(mis->to_src_file);
-+        qemu_mutex_lock(&mis->rp_mutex);
-+        qemu_fclose(mis->to_src_file);
-+        mis->to_src_file = NULL;
-+        qemu_mutex_unlock(&mis->rp_mutex);
-+    }
- 
-     migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
-                       MIGRATION_STATUS_POSTCOPY_PAUSED);
+ OK
 -- 
 2.21.0
 
