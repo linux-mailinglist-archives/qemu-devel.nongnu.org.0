@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0E41457A2
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 15:21:36 +0100 (CET)
-Received: from localhost ([::1]:42852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C47061457C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 15:26:09 +0100 (CET)
+Received: from localhost ([::1]:42944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuGsx-0005Nr-0H
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 09:21:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58735)
+	id 1iuGxM-0003Ec-U3
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 09:26:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58793)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuGqu-0003j6-VY
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:19:31 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuGrY-0004Md-SX
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:20:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuGqt-0005yb-KF
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:19:28 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:34571)
+ (envelope-from <laurent@vivier.eu>) id 1iuGrX-0006Xq-ND
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:20:08 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:59555)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuGqt-0005y9-B3
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:19:27 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuGrX-0006Wc-E3
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:20:07 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MVubb-1j4PiY0kZp-00RuNb; Wed, 22 Jan 2020 15:19:07 +0100
-Subject: Re: [PATCH v8 02/13] linux-user: Add support for getting/setting RTC
- time and alarm using ioctls
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N9dkB-1ji8Qu3aEP-015Yep; Wed, 22 Jan 2020 15:19:46 +0100
+Subject: Re: [PATCH v8 03/13] linux-user: Add support for getting/setting RTC
+ periodic interrupt and epoch using ioctls
 To: Filip Bozuta <Filip.Bozuta@rt-rk.com>, qemu-devel@nongnu.org
 References: <1579117007-7565-1-git-send-email-Filip.Bozuta@rt-rk.com>
- <1579117007-7565-3-git-send-email-Filip.Bozuta@rt-rk.com>
+ <1579117007-7565-4-git-send-email-Filip.Bozuta@rt-rk.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -71,35 +71,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <24d8110d-5a7a-626d-4ad6-d005a3ec7c84@vivier.eu>
-Date: Wed, 22 Jan 2020 15:19:06 +0100
+Message-ID: <45d3a596-f901-c3e4-59fa-5ebb317cfb49@vivier.eu>
+Date: Wed, 22 Jan 2020 15:19:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <1579117007-7565-3-git-send-email-Filip.Bozuta@rt-rk.com>
+In-Reply-To: <1579117007-7565-4-git-send-email-Filip.Bozuta@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:CrTomKNQtcmJNYZ87LsKWLQL+2di9D7cj7GZ7E5dl5vX/7MT8VQ
- KTToCGJuEyzcdyXyC7kX+dEyDKLQiiNvu/aiqxnF9F5m7SU56C3Xnhk3HOoKgrCXM770IuJ
- ZNP6zUDHdiSbPvlxqyIrGFlzm7GSXn+OdypcOOUAfxzdDVRTWMsKGfPaIxao4wXqz5K+hAf
- kj8hvl+AFOPqAknUg1WUQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kl7/TFrl/hA=:F66/G06qNwbXLoU6J8gGbe
- y5ZzWBF+lcCOO4085zVlxrGh6hl6fOmqubYm2qcITg900djWkRkYeuGaX8uxexr3uH5H6rIBl
- spSddsqK3Fz46Ig51vzMTTQdLC9QPoXu/9wBqZ59FAAieQCM3ePZSGpopeXNUjejNv5jVXG/1
- hQnPQ7Gg1Nll1wdsTf91AGNz73gtPVMG/e8Lb2XVrHXnlpI3cPPexVyUSuhJgeel54ltC9WPT
- APKqny9sdallHxQzq8b9hdndLNrIzj8W2NJNhIQWYEzB8fOu/YLnqtGkg20BE2KmC3GfFdLYi
- LcK1EPeUCUW+kFelXFrB13WMSxvjfZaTFv2+DAhN5Ifi6ty30UM4uoJq8qyGxU37uDE4SPrVx
- sb4lJ8cIFyPyxp7WDguTBrx1us/yLtx+mLDPbsvMgaHswgTFc484a0nWH2GtDHFoKDf1UcbW9
- UL3DM8xtZ3yNMLf7encQxQ/ErpwVxhTNR0M0vaxJwo997Qi3C1wJCd/GQJ28j6PQUWVwzZOtH
- dUr74djuEC3QWyLUV4vg+pYo2rzvcNmwm/6nW3Pv0HtBPIfHEvwP7EMHGNEKsiEZoojdwkdRk
- RwqdUfg8jS7dbF7EoGzfpnUC5i49sFVzAN2kU2WSbcAQJ2coJUhcuUXaAozkFy5Yy72OX7S7U
- HozW9f50Jw4KcGIPL2vHNEVpgzqAhs8iMeRkOKTe5vexq9Nx14nKguuqIpNLFeLXMhh7rgYvZ
- notH5GfJpLPXOCZn2aiOmZfPjmD1bT5RacWBxsUYTZt8qxI0yYyU7X/KM+BA0CZzSZFn3Hq2E
- aZq2LK5qpNR9cT3xebSrN5MOMYS8kajF0E0tts4/KsEIMv3FRxGhVvgrNTRorJ7xH8TkoL/
+X-Provags-ID: V03:K1:NcZYd62ZWUjQZVVidMsJCVJ6Sda1Jxm2HRgEh/qZkrPPVcUL6RU
+ FPAu4lpR2VCrsZB/AGb8cmUroSADjDEn+NhChoGRUgpDpilAw30YQwCSNXWb3TSjDW63ELV
+ 5vk4WdEt/LdAaPJRZQwW7zi1WocYdBjf6C+NsYm8ATFW6aOMogIGJv9aLTjakr39CFg6K/A
+ s9JACcPnhlfLH8Qyhzpvw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xgx0f9HiQdM=:AVxLIGhzsZRGJqS196x3cb
+ ignodjDrt8AiPWWmTcNgPgZv3sNj7LmKuBmSPTI+JruSuOvG7QdyOalzCfIB8KocKyMvWqhZZ
+ qky7F4vIdd2TkEvI305+l39EGu19ltzdBPkhvkVXey3pU8X7n45kNbuW1gUnYZecYucmB5Fas
+ zycXWRqeproaTYMjFDQRoZbxxXcpguGqq2tPrtWIr6BSooYJPdIOvvMgSOG8ZSdbznFfRoogY
+ XWbgSOH4fmuC7tirArRSQWxkuTtr883JcMTQ3/BsxkfwaeVeqi/DXME1TnaAOgCADnnC17h5F
+ /Xu7ogDerhhOjkcwVmGL89NGHKigw5Xfq0lhthhBzk1CPxOvjKScNxEWbOskM4Y+LQ7psr06p
+ w/ajZg6ULqMymotY3PAxvTtdGaOrrKC+QV5TCR4Erk0BS0zBL5d/rH2sZYsi13CWBv7XPlA/b
+ noAw6kZ7Yzto21s7g/BR7vavJ+xsJZshlzvLAnpOz3l1QGVM2Qj0IPP8EVpJ/OSXQBeUNhe6k
+ h7OEGfSvCFIeH9tRj4tzwvi/mrRZ7or676eACbZ2HbtHvUtZEw0lBXgwRa4P0i/THVJtWgFGc
+ 82/xdyIkZJ7v7tToUp7A9n3SonJ8disC2lhaY81OOkfBNnwdwnBIKOCdFotnYBXEdZAoAffQJ
+ 5uy+VPLWSTcsEXmTW0/fkkc78GcDb+BAZGpLmVqwFJvztu1n+BqzGOnfD4NmpPri2H7QcYDED
+ JhkQRqsB4oIRdVJH/R2V2QsxDlcxX2uDpIJ9QlmVWU41AZcnfSs+i/m0UwRQVnaXP1LxS4eAc
+ DSyejbtnmlDM04ITpYi/HFLwi6Dm/GIQhEslx7iJO5q9m5XvDw=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 212.227.17.24
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -120,110 +120,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Le 15/01/2020 à 20:36, Filip Bozuta a écrit :
 > This patch implements functionalities of following ioctls:
 > 
-> RTC_RD_TIME - Getting RTC time
+> RTC_IRQP_READ, RTC_IRQP_SET - Getting/Setting IRQ rate
 > 
->     Returns this RTC's time in the following structure:
+>     Read and set the frequency for periodic interrupts, for RTCs
+>     that support periodic interrupts. The periodic interrupt must
+>     be separately enabled or disabled using the RTC_PIE_ON,
+>     RTC_PIE_OFF requests. The third ioctl's argument is an
+>     unsigned long * or an unsigned long, respectively. The value
+>     is the frequency in interrupts per second. The set of allow‐
+>     able frequencies is the multiples of two in the range 2 to
+>     8192. Only a privileged process (i.e., one having the
+>     CAP_SYS_RESOURCE capability) can set frequencies above the
+>     value specified in /proc/sys/dev/rtc/max-user-freq. (This
+>     file contains the value 64 by default.)
 > 
->         struct rtc_time {
->             int tm_sec;
->             int tm_min;
->             int tm_hour;
->             int tm_mday;
->             int tm_mon;
->             int tm_year;
->             int tm_wday;     /* unused */
->             int tm_yday;     /* unused */
->             int tm_isdst;    /* unused */
->         };
+> RTC_EPOCH_READ, RTC_EPOCH_SET - Getting/Setting epoch
 > 
->     The fields in this structure have the same meaning and ranges
->     as the tm structure described in gmtime man page. A pointer
->     to this structure should be passed as the third ioctl's argument.
-> 
-> RTC_SET_TIME - Setting RTC time
-> 
->     Sets this RTC's time to the time specified by the rtc_time
->     structure pointed to by the third ioctl's argument. To set
->     the RTC's time the process must be privileged (i.e., have the
->     CAP_SYS_TIME capability).
-> 
-> RTC_ALM_READ, RTC_ALM_SET - Getting/Setting alarm time
-> 
->     Read and set the alarm time, for RTCs that support alarms.
->     The alarm interrupt must be separately enabled or disabled
->     using the RTC_AIE_ON, RTC_AIE_OFF requests. The third
->     ioctl's argument is a pointer to a rtc_time structure. Only
->     the tm_sec, tm_min, and tm_hour fields of this structure are
->     used.
+>     Many RTCs encode the year in an 8-bit register which is either
+>     interpreted as an 8-bit binary number or as a BCD number. In
+>     both cases, the number is interpreted relative to this RTC's
+>     Epoch. The RTC's Epoch is initialized to 1900 on most systems
+>     but on Alpha and MIPS it might also be initialized to 1952,
+>     1980, or 2000, depending on the value of an RTC register for
+>     the year. With some RTCs, these operations can be used to
+>     read or to set the RTC's Epoch, respectively. The third
+>     ioctl's argument is an unsigned long * or an unsigned long,
+>     respectively, and the value returned (or assigned) is the
+>     Epoch. To set the RTC's Epoch the process must be privileged
+>     (i.e., have the CAP_SYS_TIME capability).
 > 
 > Implementation notes:
 > 
->     All ioctls in this patch have pointer to a structure rtc_time
->     as their third argument. That is the reason why corresponding
->     definition is added in linux-user/syscall_types.h. Since all
->     elements of this structure are of type 'int', the rest of the
->     implementation is straightforward.
+>     All ioctls in this patch have a pointer to 'ulong' as their
+>     third argument. That is the reason why corresponding parts
+>     of added code in linux-user/syscall_defs.h contain special
+>     handling related to 'ulong' type: they use 'abi_ulong' type
+>     to make sure that ioctl's code is calculated correctly for
+>     both 32-bit and 64-bit targets. Also, 'MK_PTR(TYPE_ULONG)'
+>     is used for the similar reason in linux-user/ioctls.h.
 > 
 > Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 > ---
->  linux-user/ioctls.h        |  4 ++++
->  linux-user/syscall_defs.h  |  4 ++++
->  linux-user/syscall_types.h | 11 +++++++++++
->  3 files changed, 19 insertions(+)
+>  linux-user/ioctls.h       | 4 ++++
+>  linux-user/syscall_defs.h | 4 ++++
+>  2 files changed, 8 insertions(+)
 > 
 > diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-> index 97741c7..f472794 100644
+> index f472794..accbdee 100644
 > --- a/linux-user/ioctls.h
 > +++ b/linux-user/ioctls.h
-> @@ -77,6 +77,10 @@
->       IOCTL(RTC_PIE_OFF, 0, TYPE_NULL)
->       IOCTL(RTC_WIE_ON, 0, TYPE_NULL)
->       IOCTL(RTC_WIE_OFF, 0, TYPE_NULL)
-> +     IOCTL(RTC_ALM_READ, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
-> +     IOCTL(RTC_ALM_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
-> +     IOCTL(RTC_RD_TIME, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
-> +     IOCTL(RTC_SET_TIME, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
+> @@ -81,6 +81,10 @@
+>       IOCTL(RTC_ALM_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
+>       IOCTL(RTC_RD_TIME, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
+>       IOCTL(RTC_SET_TIME, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
+> +     IOCTL(RTC_IRQP_READ, IOC_R, MK_PTR(TYPE_ULONG))
+> +     IOCTL(RTC_IRQP_SET, IOC_W, TYPE_ULONG)
+> +     IOCTL(RTC_EPOCH_READ, IOC_R, MK_PTR(TYPE_ULONG))
+> +     IOCTL(RTC_EPOCH_SET, IOC_W, TYPE_ULONG)
 >  
 >       IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
 >       IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
 > diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index f91579a..f0bf09d 100644
+> index f0bf09d..bbfa935 100644
 > --- a/linux-user/syscall_defs.h
 > +++ b/linux-user/syscall_defs.h
-> @@ -772,6 +772,10 @@ struct target_pollfd {
->  #define TARGET_RTC_PIE_OFF          TARGET_IO('p', 0x06)
->  #define TARGET_RTC_WIE_ON           TARGET_IO('p', 0x0f)
->  #define TARGET_RTC_WIE_OFF          TARGET_IO('p', 0x10)
-> +#define TARGET_RTC_ALM_READ         TARGET_IOR('p', 0x08, struct rtc_time)
-> +#define TARGET_RTC_ALM_SET          TARGET_IOW('p', 0x07, struct rtc_time)
-> +#define TARGET_RTC_RD_TIME          TARGET_IOR('p', 0x09, struct rtc_time)
-> +#define TARGET_RTC_SET_TIME         TARGET_IOW('p', 0x0a, struct rtc_time)
+> @@ -776,6 +776,10 @@ struct target_pollfd {
+>  #define TARGET_RTC_ALM_SET          TARGET_IOW('p', 0x07, struct rtc_time)
+>  #define TARGET_RTC_RD_TIME          TARGET_IOR('p', 0x09, struct rtc_time)
+>  #define TARGET_RTC_SET_TIME         TARGET_IOW('p', 0x0a, struct rtc_time)
+> +#define TARGET_RTC_IRQP_READ        TARGET_IOR('p', 0x0b, abi_ulong)
+> +#define TARGET_RTC_IRQP_SET         TARGET_IOW('p', 0x0c, abi_ulong)
+> +#define TARGET_RTC_EPOCH_READ       TARGET_IOR('p', 0x0d, abi_ulong)
+> +#define TARGET_RTC_EPOCH_SET        TARGET_IOW('p', 0x0e, abi_ulong)
 >  
 >  #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
 >         defined(TARGET_XTENSA)
-> diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-> index 4e36983..a35072a 100644
-> --- a/linux-user/syscall_types.h
-> +++ b/linux-user/syscall_types.h
-> @@ -255,6 +255,17 @@ STRUCT(blkpg_partition,
->         MK_ARRAY(TYPE_CHAR, BLKPG_DEVNAMELTH), /* devname */
->         MK_ARRAY(TYPE_CHAR, BLKPG_VOLNAMELTH)) /* volname */
->  
-> +STRUCT(rtc_time,
-> +       TYPE_INT, /* tm_sec */
-> +       TYPE_INT, /* tm_min */
-> +       TYPE_INT, /* tm_hour */
-> +       TYPE_INT, /* tm_mday */
-> +       TYPE_INT, /* tm_mon */
-> +       TYPE_INT, /* tm_year */
-> +       TYPE_INT, /* tm_wday */
-> +       TYPE_INT, /* tm_yday */
-> +       TYPE_INT) /* tm_isdst */
-> +
->  STRUCT(blkpg_ioctl_arg,
->         TYPE_INT, /* op */
->         TYPE_INT, /* flags */
 > 
 
 Applied to my linux-user branch.
