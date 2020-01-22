@@ -2,31 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BD11457A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 15:22:50 +0100 (CET)
-Received: from localhost ([::1]:42878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A251457B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 15:24:14 +0100 (CET)
+Received: from localhost ([::1]:42896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuGu9-0007Hb-Ar
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 09:22:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58348)
+	id 1iuGvV-0001Al-BQ
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 09:24:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58533)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuGoI-0000sw-FS
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:16:47 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuGpb-0002DB-Kh
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:18:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuGoH-0004BD-9h
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:16:46 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:33319)
+ (envelope-from <laurent@vivier.eu>) id 1iuGpY-0005Hl-EU
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:18:07 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:54505)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuGoH-0004A7-0f
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:16:45 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuGpY-0005Gf-5C
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:18:04 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MaIGB-1j8nOv0Fsb-00WDhp; Wed, 22 Jan 2020 15:16:40 +0100
-Subject: Re: [PATCH 12/12] linux-user: Add support for KCOV_INIT_TRACE ioctl
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1579214991-19602-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1579214991-19602-13-git-send-email-aleksandar.markovic@rt-rk.com>
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MWAWq-1j5lJK0ZWk-00Xb59; Wed, 22 Jan 2020 15:17:44 +0100
+Subject: Re: [PATCH v8 13/13] linux-user: Add support for TYPE_LONG and
+ TYPE_ULONG in do_ioctl()
+To: Filip Bozuta <Filip.Bozuta@rt-rk.com>, qemu-devel@nongnu.org
+References: <1579117007-7565-1-git-send-email-Filip.Bozuta@rt-rk.com>
+ <1579117007-7565-14-git-send-email-Filip.Bozuta@rt-rk.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -70,35 +71,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <8f21a86d-1031-64c9-2281-2b3a3001fffc@vivier.eu>
-Date: Wed, 22 Jan 2020 15:16:39 +0100
+Message-ID: <4bf31999-2fa0-15cf-8a3b-38da5f34bb19@vivier.eu>
+Date: Wed, 22 Jan 2020 15:17:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <1579214991-19602-13-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1579117007-7565-14-git-send-email-Filip.Bozuta@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:CIhbSTpytgIH7S5CI+kWSqeMDRQHgHxdIim/KKUto/Mq53VVQJ4
- ZRquPFMNjEvwr91yDD1eCKTBunwSsq19FxqNsvcH87r/Osxwx3lhIFGbvi6dmI4nu4v0V0H
- nG6K4D9kN2Xz9PoLLYbIu9YgDq2SZLtyFzKM97FRiQXQbHovbdqcBgTisgGE6S3gsmNA6Ct
- VdkE8A1lGjOCb1Iey82uQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9pBK6oH9rcE=:oVDfRRDqYmwNyKk+LCxCKY
- tIyWVHKRGIL0k78TGu8Yc8ahGG1EDxN1018pcWN64XrOovb7C8tW/h0U6GnRaVExqWfntBOzo
- Z/uA/bMCioyQT7F03mio7FDAtu0Never3g605pWYqNysLABeZ/eK6kCd/5G01KaG3olyj0n6v
- TzwBTLDTtYkyzqP4Zg5Pa4m4WmZSwL2aHk3B2rQikjh1ukrXxbW+2X7qPLttSVjS23I8nw9I3
- +i6CLiSEdjzuOWSoIJUKoOSDH5YxfmXM1P9BpMHdXNGbIZFyjtN/b0NrmZdna1NYrC5t69AGB
- j8R1B8MWEW+P0MHNOR1QxurEDj1HwZ1fjPL5GkJ0XH5Pz0l/wv/NEC2pyFVDSBl9tX4BnFvow
- 0/kzPKswxoqEJVqHDVsh8DM4gFYcOAVU3Q9wtZ4aEMv1A0Hn5yU1R+8BlG9gQDLq0pRTqHH+L
- nY7VoTIObmZq/LZdCYgs9ftLQRtgHiMcHDX59j9lpI0tSDYLZ6dgd4qtDGNFOU6AKQNUV7mH+
- PmvK6V3k3b14w+DAB79IDtdJQB+OpZDJEV3O8uUv9RvrY5rkwrOjq1dYZ2H0ifDe+cmrqXhSX
- kgZRoBzX5zmoL3S36wdI0gsc50IED7l1K21wISCLCQ7iuckUP9dj4T70FbGvzcISp+1J4HtJJ
- Xiryw5zVky33rO3t5gCfteZii4IU+RFcydosu13o5HjfIA9umGpQK0nzs569u0l5wWsQav/aQ
- EQ1aGg2hhoUJd2CUih8cogbNVWfj0fzOagxo/SF673m1S+CyWV1Wq+mGF1Mg7lKE14KmvJ+vg
- Hd3JlOGEnhgF7hxqaSyUychZqSO6/12JK3SPXMJQJz2kuffu8c=
+X-Provags-ID: V03:K1:NpULaVKQQczZqxTL7LMy7iGbYdiHu8tZ5gaBvVzMf1ccL2Wr/LP
+ Xnf1D/DoTxaWOD9fwDs1mDDxYuOQo0qztpAXz3Ck9vdtkoNMdpzQN8u3o2pqprx71g5pDvc
+ T6SdD5WQZaWkuEvDBQQxKVHXyREDSCvnl45bP/jgpWJFA6W1cjN6RnY89mOKgpQSeLc2vVy
+ 3C55kVooTKF8ex4JYIaMA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wtqqGrBUbwQ=:Ixfpl+EMQUGt6KIni+jO52
+ jmXKQwOgY/Drz9k2zHO+Kvz5oliVuAto9aGf6iuUExVbrJBAGwnNS1zuPqEUQ8DGGWfi1pcWD
+ tOvLZtWH9QkoG7xQwdQwIxS1gRGe0p4+1ny51IHzVDX+raQP1j9wYkX9BdntXjm/6YfzxiMdB
+ +H92sUnXm4c6yOaOpeUcH1uBouteaEVVmb06h9U7dPqLd3GEXf+TXomUmnIf+qGnbtN66f7tD
+ dknFiscFOMTTnGDTOF4xMZq/dMWAk0vMaumrxGNtA+ZVoeSxFkLaUlZ9xnJIfyYbVXA/49bvD
+ AiUiANAHd9AV3zTfmJVhwyIk0sTOja06A0jsbYCl/3TPZrv5RgHqm23COQORmCz2BL9jrErK+
+ o9r5g7u9qqAbNBjTQbZIHgpRtqpoK55+vKH4NQTVF0cWEwMwazvGGtAUgz2xv8UBsxz42nYXO
+ z20HEG9K8wZvhYjtR5tsNdcEBcYbtx4KF4oqnbcIsa19zTg2H2rPOiN1GcYYjc99YyT56OghH
+ su0wCd6IH6yfRLgtjcCntrX9B4S87WMo556D/2uWLfafx3cWMWiuf3xmUjkR0usjMe9hNxGaR
+ wiLVUTS3oYLfOU58/XPyhFskS6dd9/a0X42yzcoCtBS6uLkMkhMzWJZtaJasqjeNkwssu1gDs
+ cWl9Z+YZE//G4wV2JkGZ7Bo43tKhSBpTkMCvawBQnCvxjFK/Ys6E/rq7l0YWblEcEYczxMKP7
+ fvR88etvbLM5eLEIPh48i05sY7QD26ScM7Fl5bIBKifBJf8XYcMqV4altUlu5q6Tu8l7gGHqQ
+ UYQwsU/t+sLCQpfb9bYE3X7azX0qDTbOvB1PbAURb2T5wliOxc=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 217.72.192.73
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,46 +111,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: amarkovic@wavecomp.com
+Cc: peter.maydell@linaro.org, berrange@redhat.com, arnd@arndb.de,
+ richard.henderson@linaro.org, jcmvbkbc@gmail.com, amarkovic@wavecomp.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 16/01/2020 à 23:49, Aleksandar Markovic a écrit :
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+Le 15/01/2020 à 20:36, Filip Bozuta a écrit :
+> Function "do_ioctl()" located in file "syscall.c" was missing
+> an option for TYPE_LONG and TYPE_ULONG. This caused some ioctls
+> to not be recognised because they had the third argument that was
+> of type 'long' or 'unsigned long'.
 > 
-> KCOV_INIT_TRACE ioctl plays the role in kernel coverage tracing.
-> This ioctl's third argument is of type 'unsigned long', and the
-> implementation in QEMU is straightforward.
+> For example:
 > 
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> Since implemented ioctls RTC_IRQP_SET and RTC_EPOCH_SET
+> are of type IOW(writing type) that have unsigned long as
+> their third argument, they were not recognised in QEMU
+> before the changes of this patch.
+> 
+> Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 > ---
->  linux-user/ioctls.h       | 1 +
->  linux-user/syscall_defs.h | 1 +
->  2 files changed, 2 insertions(+)
+>  linux-user/syscall.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-> index 39b3825..1da71dd 100644
-> --- a/linux-user/ioctls.h
-> +++ b/linux-user/ioctls.h
-> @@ -556,4 +556,5 @@
->  #ifdef CONFIG_KCOV
->    IOCTL(KCOV_ENABLE, 0, TYPE_NULL)
->    IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
-> +  IOCTL(KCOV_INIT_TRACE, IOC_R, TYPE_ULONG)
->  #endif
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index c8999ef..bf71b3a 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -2464,6 +2464,7 @@ struct target_mtpos {
->  /* kcov ioctls */
->  #define TARGET_KCOV_ENABLE     TARGET_IO('c', 100)
->  #define TARGET_KCOV_DISABLE    TARGET_IO('c', 101)
-> +#define TARGET_KCOV_INIT_TRACE TARGET_IOR('c', 1, abi_ulong)
->  
->  struct target_sysinfo {
->      abi_long uptime;                /* Seconds since boot */
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index a3993a2..2ba2c5c 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -5176,6 +5176,8 @@ static abi_long do_ioctl(int fd, int cmd, abi_long arg)
+>          break;
+>      case TYPE_PTRVOID:
+>      case TYPE_INT:
+> +    case TYPE_LONG:
+> +    case TYPE_ULONG:
+>          ret = get_errno(safe_ioctl(fd, ie->host_cmd, arg));
+>          break;
+>      case TYPE_PTR:
 > 
 
 Applied to my linux-user branch.
