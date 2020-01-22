@@ -2,88 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C9F01458F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 16:46:04 +0100 (CET)
-Received: from localhost ([::1]:43592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B69D14592A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 16:59:21 +0100 (CET)
+Received: from localhost ([::1]:43718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuICh-0007yG-DB
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 10:46:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40315)
+	id 1iuIPX-0005MM-RZ
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 10:59:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42242)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iuIBb-0007GP-Qq
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:44:56 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iuIOD-0004kn-2j
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:57:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iuIBa-0003q6-6g
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:44:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40339
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iuIOB-00059C-0q
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:57:56 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42963
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iuIBa-0003pV-3J
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:44:54 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iuIOA-00057t-Ln
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 10:57:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579707893;
+ s=mimecast20190719; t=1579708673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B4KVVJ1u5oDYDtXqdfBb9+d//xhjWtTbLKUuIePQNG0=;
- b=VA3w4LB5EbWI8uLuO+vK4oER8BSZ4Fc6tMFIwhbSXaz/soAgFXUhAbL6tOfofAg2HxxsBH
- tAA1tQvvaS+ySwftmbDmJa9ML1BMUceVstoDGal2O1HQ0W3E37BOI/ja1HcIkUhpVRYsM8
- /x9aFiI9uTNzZioQCmoUY8inzbTd94g=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-uL96CmzROOSOErL-HC5E0A-1; Wed, 22 Jan 2020 10:44:51 -0500
-Received: by mail-wr1-f70.google.com with SMTP id f10so3279424wro.14
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 07:44:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LQ6Kxw7rljPMtxfW73ivv8V7wvF88luyszIBjRgTh4s=;
- b=QCnlEw9+uKSFnrga7AREqZvA84GIrB2n7G3GvS+Wc81FlOQ4tTmbfLqqfIFVY3nzrU
- TVVnaS9hH9cVnvLgO14qTlhKcWEK1YOfBJykjKZtO06Q+m+Ow0pWYAr/4kEKAaZhpqx8
- Gnql7ozZIEJTLW1ED4XTKwDPQB/OEuDwjsM7rjPmuqQRqmYOsedDlJfYf+mtH7lxHktt
- SH7WgKpv8wIYTL8Dy5mMspr95Y1VMbBXt0sDetc7ReTtmHwt8Gio/bIcxxbrndZKc0WS
- 5KNSMT0FMy8CGx+7kcOergtn0Q9nVAIr9+qv+rSUyTpg0MHhK4ervy5hoRlrGOJcQOwB
- 3zcQ==
-X-Gm-Message-State: APjAAAWFNcLTqvGPWb5Y+ceIRtR9hXOKlyyM9UqwWpCbmS47OgnoewaI
- +QketuOUjWvJkr4m7lKPWeMGcDzIvhuC2Jqs8b0mY+Z4mSLzol8noknZyOKTD3lHicc54oM0vll
- LYa2kDI4EsfLay88=
-X-Received: by 2002:a1c:8095:: with SMTP id b143mr3533940wmd.7.1579707890148; 
- Wed, 22 Jan 2020 07:44:50 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzFePQDnM3Fi4ZNTfz7+jG+evR/zBzcB+uGWG+btXWP3Pr2MizVOxUSqmgV1bV63sFZqU8gEA==
-X-Received: by 2002:a1c:8095:: with SMTP id b143mr3533923wmd.7.1579707889927; 
- Wed, 22 Jan 2020 07:44:49 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id b15sm4329473wmj.13.2020.01.22.07.44.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jan 2020 07:44:49 -0800 (PST)
-Subject: Re: [PATCH v2 097/109] virtiofsd: convert more fprintf and perror to
- use fuse log infra
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
- berrange@redhat.com, slp@redhat.com
+ bh=/JWpPGji3kgFRsMhOFA7oPbh0Zz6YotJqMdLGGrFDmI=;
+ b=EBLooOK7JJWpg14W0+U2Sfg4kiKUgBLrzWrkkbiTxJhlcLyN77czGs55V5gaTTDW+MM9/6
+ HlhrkmA01+tCfBUoEg4nIOEVRSEAuYZiLA3GjpX4sRMa4auDgq4RvMzKlKlD3amp5hHyQM
+ fg8hnJ5rOhwlZjXTwwdIrULOOV9ND0Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-122-jFZFRUmzNrWnDpeEb2Ihxg-1; Wed, 22 Jan 2020 10:57:50 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8C7B1005516;
+ Wed, 22 Jan 2020 15:57:49 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F71F9CA3;
+ Wed, 22 Jan 2020 15:57:40 +0000 (UTC)
+Date: Wed, 22 Jan 2020 15:57:38 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 062/109] virtiofsd: Add timestamp to the log with
+ FUSE_LOG_DEBUG level
+Message-ID: <20200122155738.GK3263@work-vm>
 References: <20200121122433.50803-1-dgilbert@redhat.com>
- <20200121122433.50803-98-dgilbert@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <be9fe6ea-ddde-f81b-b96c-ee3b39f38196@redhat.com>
-Date: Wed, 22 Jan 2020 16:44:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ <20200121122433.50803-63-dgilbert@redhat.com>
+ <5e3fca8d-446a-d550-c53e-a805b452248d@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200121122433.50803-98-dgilbert@redhat.com>
-Content-Language: en-US
-X-MC-Unique: uL96CmzROOSOErL-HC5E0A-1
+In-Reply-To: <5e3fca8d-446a-d550-c53e-a805b452248d@redhat.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: jFZFRUmzNrWnDpeEb2Ihxg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,90 +76,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: m.mizuma@jp.fujitsu.com, misono.tomohiro@jp.fujitsu.com
+Cc: m.mizuma@jp.fujitsu.com, berrange@redhat.com, slp@redhat.com,
+ qemu-devel@nongnu.org, misono.tomohiro@jp.fujitsu.com, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/20 1:24 PM, Dr. David Alan Gilbert (git) wrote:
-> From: Eryu Guan <eguan@linux.alibaba.com>
+* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
+> On 1/21/20 1:23 PM, Dr. David Alan Gilbert (git) wrote:
+> > From: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+> >=20
+> > virtiofsd has some threads, so we see a lot of logs with debug option.
+> > It would be useful for debugging if we can see the timestamp.
+> >=20
+> > Add nano second timestamp, which got by get_clock(), to the log with
+> > FUSE_LOG_DEBUG level if the syslog option isn't set.
+> >=20
+> > The log is like as:
+> >=20
+> >    ]# ./virtiofsd -d -o vhost_user_socket=3D/tmp/vhostqemu0 -o source=
+=3D/tmp/share0 -o cache=3Dauto
 >=20
-> Signed-off-by: Eryu Guan <eguan@linux.alibaba.com>
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-> ---
->   tools/virtiofsd/fuse_signals.c | 7 +++++--
->   tools/virtiofsd/helper.c       | 9 ++++++---
->   2 files changed, 11 insertions(+), 5 deletions(-)
+> First ']' is incorrect copy/pasting?
+
+Oops yes, removed.
+
+> >    ...
+> >    [5365943125463727] [ID: 00000002] fv_queue_thread: Start for queue 0=
+ kick_fd 9
+> >    [5365943125568644] [ID: 00000002] fv_queue_thread: Waiting for Queue=
+ 0 event
+> >    [5365943125573561] [ID: 00000002] fv_queue_thread: Got queue event o=
+n Queue 0
+> >=20
+> > Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+> > ---
+> >   tools/virtiofsd/passthrough_ll.c | 10 +++++++++-
+> >   1 file changed, 9 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
+ough_ll.c
+> > index 991de69334..a7fb34ac0c 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -35,6 +35,8 @@
+> >    * \include passthrough_ll.c
+> >    */
+> > +#include "qemu/osdep.h"
 >=20
-> diff --git a/tools/virtiofsd/fuse_signals.c b/tools/virtiofsd/fuse_signal=
-s.c
-> index 10a6f88088..5364cbe984 100644
-> --- a/tools/virtiofsd/fuse_signals.c
-> +++ b/tools/virtiofsd/fuse_signals.c
-> @@ -11,6 +11,7 @@
->   #include "fuse_i.h"
->   #include "fuse_lowlevel.h"
->  =20
-> +#include <errno.h>
->   #include <signal.h>
->   #include <stdio.h>
->   #include <stdlib.h>
-> @@ -46,13 +47,15 @@ static int set_one_signal_handler(int sig, void (*han=
-dler)(int), int remove)
->       sa.sa_flags =3D 0;
->  =20
->       if (sigaction(sig, NULL, &old_sa) =3D=3D -1) {
-> -        perror("fuse: cannot get old signal handler");
-> +        fuse_log(FUSE_LOG_ERR, "fuse: cannot get old signal handler: %s\=
-n",
-> +                 strerror(errno));
->           return -1;
->       }
->  =20
->       if (old_sa.sa_handler =3D=3D (remove ? handler : SIG_DFL) &&
->           sigaction(sig, &sa, NULL) =3D=3D -1) {
-> -        perror("fuse: cannot set signal handler");
-> +        fuse_log(FUSE_LOG_ERR, "fuse: cannot set signal handler: %s\n",
-> +                 strerror(errno));
->           return -1;
->       }
->       return 0;
-> diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-> index 781c47031c..a19959926c 100644
-> --- a/tools/virtiofsd/helper.c
-> +++ b/tools/virtiofsd/helper.c
-> @@ -208,7 +208,8 @@ int fuse_daemonize(int foreground)
->           char completed;
->  =20
->           if (pipe(waiter)) {
-> -            perror("fuse_daemonize: pipe");
-> +            fuse_log(FUSE_LOG_ERR, "fuse_daemonize: pipe: %s\n",
-> +                     strerror(errno));
->               return -1;
->           }
->  =20
-> @@ -218,7 +219,8 @@ int fuse_daemonize(int foreground)
->            */
->           switch (fork()) {
->           case -1:
-> -            perror("fuse_daemonize: fork");
-> +            fuse_log(FUSE_LOG_ERR, "fuse_daemonize: fork: %s\n",
-> +                     strerror(errno));
->               return -1;
->           case 0:
->               break;
-> @@ -228,7 +230,8 @@ int fuse_daemonize(int foreground)
->           }
->  =20
->           if (setsid() =3D=3D -1) {
-> -            perror("fuse_daemonize: setsid");
-> +            fuse_log(FUSE_LOG_ERR, "fuse_daemonize: setsid: %s\n",
-> +                     strerror(errno));
->               return -1;
->           }
->  =20
+> I think this include belongs to patch #011 "virtiofsd: Fix common header =
+and
+> define for QEMU builds".
+
+Moved.
+
+> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 >=20
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Thanks.
+
+> > +#include "qemu/timer.h"
+> >   #include "fuse_virtio.h"
+> >   #include "fuse_log.h"
+> >   #include "fuse_lowlevel.h"
+> > @@ -2275,7 +2277,13 @@ static void log_func(enum fuse_log_level level, =
+const char *fmt, va_list ap)
+> >       }
+> >       if (current_log_level =3D=3D FUSE_LOG_DEBUG) {
+> > -        localfmt =3D g_strdup_printf("[ID: %08ld] %s", syscall(__NR_ge=
+ttid), fmt);
+> > +        if (!use_syslog) {
+> > +            localfmt =3D g_strdup_printf("[%" PRId64 "] [ID: %08ld] %s=
+",
+> > +                                       get_clock(), syscall(__NR_getti=
+d), fmt);
+> > +        } else {
+> > +            localfmt =3D g_strdup_printf("[ID: %08ld] %s", syscall(__N=
+R_gettid),
+> > +                                       fmt);
+> > +        }
+> >           fmt =3D localfmt;
+> >       }
+> >=20
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
