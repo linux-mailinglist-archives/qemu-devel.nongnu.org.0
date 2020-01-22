@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B1B14538E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 12:17:18 +0100 (CET)
-Received: from localhost ([::1]:40196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A501453A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 12:19:43 +0100 (CET)
+Received: from localhost ([::1]:40216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuE0a-0005Aj-GD
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 06:17:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36589)
+	id 1iuE2v-00084E-QI
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 06:19:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36611)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iuDyn-0003yI-LC
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:15:26 -0500
+ (envelope-from <quintela@redhat.com>) id 1iuDyq-00040Q-GE
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:15:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iuDyl-0006ZW-UQ
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:15:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55980
+ (envelope-from <quintela@redhat.com>) id 1iuDyp-0006bE-L8
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:15:28 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41458
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iuDyl-0006ZD-Qs
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:15:23 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iuDyp-0006ay-Hh
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 06:15:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579691722;
+ s=mimecast20190719; t=1579691727;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=jsA7Q5ejW7P90vLGGIopqaD3AFORCYc5cbek5xWUk1Q=;
- b=FTEt80pNtFitgIx3RhMBRRgh7yfbD1LrcQXp8fy97LzdHo1V5ojuaNcARJG8xwz9mJf06o
- 9DsWEgf136L4/WS5w9lIO7IHh4g/V8WZMCRhWwy3MnB5bZjBPgQDfHlLI0Fq5Cqul5yZ+o
- Exvbff0WP5EDrmUdOsW9S+j09yIbWE0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3bpc7h+vgWmBBF1bWkDQbQnMseD5ZrIS6bw9UBUOoPs=;
+ b=VSpmHHF6Q7OPUWx/JftCxBf4TQpLW0f0UKJ2S9knz6rermqZGb7M9kibOqTql/K4RuFhht
+ OPA8TLFMCoOEIMu0B0qzu7eKKJSj1D3+cznQoja+dAodfq6PsIGu3uKsR1ZeajSc+ZV6cb
+ /PfXPnQG9E3bY5LGcxG1t34PXDgS4Zg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-nZh_7YGiNDOmz3Nk_k_DjA-1; Wed, 22 Jan 2020 06:15:21 -0500
+ us-mta-19-XaFHNgJfNl2bpha7V4jmSg-1; Wed, 22 Jan 2020 06:15:23 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56C108010CB
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 11:15:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 353618010C9
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 11:15:22 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C27905C1BB;
- Wed, 22 Jan 2020 11:15:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A94555C1BB;
+ Wed, 22 Jan 2020 11:15:20 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/6] Fix multifd + cancel + multifd
-Date: Wed, 22 Jan 2020 12:15:11 +0100
-Message-Id: <20200122111517.33223-1-quintela@redhat.com>
+Subject: [PATCH v4 1/6] migration-test: Use g_free() instead of free()
+Date: Wed, 22 Jan 2020 12:15:12 +0100
+Message-Id: <20200122111517.33223-2-quintela@redhat.com>
+In-Reply-To: <20200122111517.33223-1-quintela@redhat.com>
+References: <20200122111517.33223-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: nZh_7YGiNDOmz3Nk_k_DjA-1
+X-MC-Unique: XaFHNgJfNl2bpha7V4jmSg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,66 +77,24 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ tests/qtest/migration-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In the v4 series:
-* Updated to latest pull request
-* redo the check for active migration at the end of the iteration stage
-* testing/testing/testing it now passes the test for multifd + cancel
-  hundred of times in a row
-* Use g_free consistently
-
-Please review, Juan.
-
-In the v3 series:
-- Add back the ->shutdown fix
-  Dave found the problem, we need to setup an error if we do shutdown.
-- Make iotests to work back (we need to setup ->active for savevm)
-- So postcopy/recovery is fixed again.
-
-Please review, if there are not outstanding issues, I plan to push it.
-
-Thanks, Juan
-
-In the v2 series:
-- get the multifd test patch
-- drop the ->shutdown fix
-  it break postcopy recovery test.  Still trying to determine if the
-  problem is inside the recover test or the recover code.
-- upgrade the migrate_cancel test
-
-Please review.
-
-[v1]
-This series:
-- create a test that does:
-  launch multifd on target
-  migrate to target
-  cancel on source
-  create another target
-  migrate again
-
-- And fixes the cases that made it fail:
-* Make sure that we don't try ever IO after shutdown/error
-
-Please, review.
-
-Juan Quintela (6):
-  migration-test: Use g_free() instead of free()
-  multifd: Make sure that we don't do any IO after an error
-  qemu-file: Don't do IO after shutdown
-  migration-test: Make sure that multifd and cancel works
-  migration: Create migration_is_running()
-  migration: Don't send data if we have stopped
-
- migration/migration.c        |  29 +++++++--
- migration/migration.h        |   1 +
- migration/qemu-file.c        |  22 ++++++-
- migration/ram.c              |  23 ++++---
- migration/savevm.c           |   4 +-
- tests/qtest/migration-test.c | 114 ++++++++++++++++++++++++++++++++++-
- 6 files changed, 173 insertions(+), 20 deletions(-)
-
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 26e2e77289..b6a74a05ce 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1291,7 +1291,7 @@ static void test_multifd_tcp(void)
+     wait_for_serial("dest_serial");
+     wait_for_migration_complete(from);
+     test_migrate_end(from, to, true);
+-    free(uri);
++    g_free(uri);
+ }
+=20
+ int main(int argc, char **argv)
 --=20
 2.24.1
 
