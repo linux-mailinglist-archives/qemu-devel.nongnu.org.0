@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E295145A3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 17:49:07 +0100 (CET)
-Received: from localhost ([::1]:44368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B78F145A38
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 17:49:05 +0100 (CET)
+Received: from localhost ([::1]:44366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuJBh-0000km-V9
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 11:49:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50066)
+	id 1iuJBe-0000jr-No
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 11:49:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iuJ8U-0007dl-Jj
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:45:47 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iuJ8X-0007fC-0R
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:45:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iuJ8S-0000gs-7k
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:45:45 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43186
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iuJ8V-0000ir-Mt
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:45:48 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39201)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iuJ8R-0000gI-Qk
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:45:44 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iuJ8V-0000ia-Ju
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 11:45:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579711542;
+ s=mimecast20190719; t=1579711547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8HKTKA/iNVLjRvLNsFLbeJb0kNCt11tIQ5v5MJ/xzbk=;
- b=Wfs5+G7uGrlfWvpmPtWQiuV56NSuGUn8DROjGA67McGfF2JH3qXfbfWZlj9fH45ZkxJFpB
- 3nCcAHuisIlP5j7ST1f7HQiLdCRZJEURcTMWblvk5D9GXctro6O8i63aBI/6/kwGGGXofa
- b1hGLXJFeGYCGM3MCr0YBeaRMfSUwmk=
+ bh=Yk0j2xVRHT9NFg5jvYcwqi9ZuCWPnCoIifD7HCdVElw=;
+ b=VYGH33S4EO13m2g4b7YPl7TmZPnZfO9fKCcu1tZN/IvV+zF95bfyBKVRLCPKjSv+9c6AkU
+ NX9DOP+f9rNIhgJ1sDTzwhUQhmlNRGO459xzEwYKqBGGti66JSgERE6JSMHc5WuDMx6aBC
+ qfanKJQG6ZqF9Z7osF/FtBYKjeJJdJU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-45VAGMhzNYmZjP4UinEIzg-1; Wed, 22 Jan 2020 11:45:38 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-3-fP1M6xYRM1mXqGq6IPafDw-1; Wed, 22 Jan 2020 11:45:42 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F01A7800D4E;
- Wed, 22 Jan 2020 16:45:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67EC41085925;
+ Wed, 22 Jan 2020 16:45:41 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F6B066834;
- Wed, 22 Jan 2020 16:45:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82010858BE;
+ Wed, 22 Jan 2020 16:45:40 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 1/5] block/nbd: Fix hang in .bdrv_close()
-Date: Wed, 22 Jan 2020 17:45:28 +0100
-Message-Id: <20200122164532.178040-2-mreitz@redhat.com>
+Subject: [PATCH v2 2/5] block: Generic file creation fallback
+Date: Wed, 22 Jan 2020 17:45:29 +0100
+Message-Id: <20200122164532.178040-3-mreitz@redhat.com>
 In-Reply-To: <20200122164532.178040-1-mreitz@redhat.com>
 References: <20200122164532.178040-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: 45VAGMhzNYmZjP4UinEIzg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: fP1M6xYRM1mXqGq6IPafDw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,59 +75,218 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When nbd_close() is called from a coroutine, the connection_co never
-gets to run, and thus nbd_teardown_connection() hangs.
+If a protocol driver does not support image creation, we can see whether
+maybe the file exists already.  If so, just truncating it will be
+sufficient.
 
-This is because aio_co_enter() only puts the connection_co into the main
-coroutine's wake-up queue, so this main coroutine needs to yield and
-wait for connection_co to terminate.
-
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/nbd.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ block.c | 159 +++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 147 insertions(+), 12 deletions(-)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index d085554f21..6d3b22f844 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -70,6 +70,7 @@ typedef struct BDRVNBDState {
-     CoMutex send_mutex;
-     CoQueue free_sema;
-     Coroutine *connection_co;
-+    Coroutine *teardown_co;
-     QemuCoSleepState *connection_co_sleep_ns_state;
-     bool drained;
-     bool wait_drained_end;
-@@ -203,7 +204,15 @@ static void nbd_teardown_connection(BlockDriverState *=
-bs)
-             qemu_co_sleep_wake(s->connection_co_sleep_ns_state);
-         }
+diff --git a/block.c b/block.c
+index 99ce26d64d..e167eca04b 100644
+--- a/block.c
++++ b/block.c
+@@ -532,20 +532,139 @@ out:
+     return ret;
+ }
+=20
+-int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
++/**
++ * Helper function for bdrv_create_file_fallback(): Resize @blk to at
++ * least the given @minimum_size.
++ *
++ * On success, return @blk's actual length.
++ * Otherwise, return -errno.
++ */
++static int64_t create_file_fallback_truncate(BlockBackend *blk,
++                                             int64_t minimum_size, Error *=
+*errp)
+ {
+-    BlockDriver *drv;
++    Error *local_err =3D NULL;
++    int64_t size;
++    int ret;
++
++    ret =3D blk_truncate(blk, minimum_size, false, PREALLOC_MODE_OFF, &loc=
+al_err);
++    if (ret < 0 && ret !=3D -ENOTSUP) {
++        error_propagate(errp, local_err);
++        return ret;
++    }
++
++    size =3D blk_getlength(blk);
++    if (size < 0) {
++        error_free(local_err);
++        error_setg_errno(errp, -size,
++                         "Failed to inquire the new image file's length");
++        return size;
++    }
++
++    if (size < minimum_size) {
++        /* Need to grow the image, but we failed to do that */
++        error_propagate(errp, local_err);
++        return -ENOTSUP;
++    }
++
++    error_free(local_err);
++    local_err =3D NULL;
++
++    return size;
++}
++
++/**
++ * Helper function for bdrv_create_file_fallback(): Zero the first
++ * sector to remove any potentially pre-existing image header.
++ */
++static int create_file_fallback_zero_first_sector(BlockBackend *blk,
++                                                  int64_t current_size,
++                                                  Error **errp)
++{
++    int64_t bytes_to_clear;
++    int ret;
++
++    bytes_to_clear =3D MIN(current_size, BDRV_SECTOR_SIZE);
++    if (bytes_to_clear) {
++        ret =3D blk_pwrite_zeroes(blk, 0, bytes_to_clear, BDRV_REQ_MAY_UNM=
+AP);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret,
++                             "Failed to clear the new image's first sector=
+");
++            return ret;
++        }
++    }
++
++    return 0;
++}
++
++static int bdrv_create_file_fallback(const char *filename, BlockDriver *dr=
+v,
++                                     QemuOpts *opts, Error **errp)
++{
++    BlockBackend *blk;
++    QDict *options =3D qdict_new();
++    int64_t size =3D 0;
++    char *buf =3D NULL;
++    PreallocMode prealloc;
+     Error *local_err =3D NULL;
+     int ret;
+=20
++    size =3D qemu_opt_get_size_del(opts, BLOCK_OPT_SIZE, 0);
++    buf =3D qemu_opt_get_del(opts, BLOCK_OPT_PREALLOC);
++    prealloc =3D qapi_enum_parse(&PreallocMode_lookup, buf,
++                               PREALLOC_MODE_OFF, &local_err);
++    g_free(buf);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return -EINVAL;
++    }
++
++    if (prealloc !=3D PREALLOC_MODE_OFF) {
++        error_setg(errp, "Unsupported preallocation mode '%s'",
++                   PreallocMode_str(prealloc));
++        return -ENOTSUP;
++    }
++
++    qdict_put_str(options, "driver", drv->format_name);
++
++    blk =3D blk_new_open(filename, NULL, options,
++                       BDRV_O_RDWR | BDRV_O_RESIZE, errp);
++    if (!blk) {
++        error_prepend(errp, "Protocol driver '%s' does not support image "
++                      "creation, and opening the image failed: ",
++                      drv->format_name);
++        return -EINVAL;
++    }
++
++    size =3D create_file_fallback_truncate(blk, size, errp);
++    if (size < 0) {
++        ret =3D size;
++        goto out;
++    }
++
++    ret =3D create_file_fallback_zero_first_sector(blk, size, errp);
++    if (ret < 0) {
++        goto out;
++    }
++
++    ret =3D 0;
++out:
++    blk_unref(blk);
++    return ret;
++}
++
++int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
++{
++    BlockDriver *drv;
++
+     drv =3D bdrv_find_protocol(filename, true, errp);
+     if (drv =3D=3D NULL) {
+         return -ENOENT;
      }
--    BDRV_POLL_WHILE(bs, s->connection_co);
-+    if (qemu_in_coroutine()) {
-+        s->teardown_co =3D qemu_coroutine_self();
-+        /* connection_co resumes us when it terminates */
-+        qemu_coroutine_yield();
-+        s->teardown_co =3D NULL;
+=20
+-    ret =3D bdrv_create(drv, filename, opts, &local_err);
+-    error_propagate(errp, local_err);
+-    return ret;
++    if (drv->bdrv_co_create_opts) {
++        return bdrv_create(drv, filename, opts, errp);
 +    } else {
-+        BDRV_POLL_WHILE(bs, s->connection_co);
++        return bdrv_create_file_fallback(filename, drv, opts, errp);
 +    }
-+    assert(!s->connection_co);
  }
 =20
- static bool nbd_client_connecting(BDRVNBDState *s)
-@@ -395,6 +404,9 @@ static coroutine_fn void nbd_connection_entry(void *opa=
-que)
-         s->ioc =3D NULL;
+ /**
+@@ -1422,6 +1541,24 @@ QemuOptsList bdrv_runtime_opts =3D {
+     },
+ };
+=20
++static QemuOptsList fallback_create_opts =3D {
++    .name =3D "fallback-create-opts",
++    .head =3D QTAILQ_HEAD_INITIALIZER(fallback_create_opts.head),
++    .desc =3D {
++        {
++            .name =3D BLOCK_OPT_SIZE,
++            .type =3D QEMU_OPT_SIZE,
++            .help =3D "Virtual disk size"
++        },
++        {
++            .name =3D BLOCK_OPT_PREALLOC,
++            .type =3D QEMU_OPT_STRING,
++            .help =3D "Preallocation mode (allowed values: off)"
++        },
++        { /* end of list */ }
++    }
++};
++
+ /*
+  * Common part for opening disk images and files
+  *
+@@ -5749,15 +5886,13 @@ void bdrv_img_create(const char *filename, const ch=
+ar *fmt,
+         return;
      }
 =20
-+    if (s->teardown_co) {
-+        aio_co_wake(s->teardown_co);
+-    if (!proto_drv->create_opts) {
+-        error_setg(errp, "Protocol driver '%s' does not support image crea=
+tion",
+-                   proto_drv->format_name);
+-        return;
+-    }
+-
+     /* Create parameter list */
+     create_opts =3D qemu_opts_append(create_opts, drv->create_opts);
+-    create_opts =3D qemu_opts_append(create_opts, proto_drv->create_opts);
++    if (proto_drv->create_opts) {
++        create_opts =3D qemu_opts_append(create_opts, proto_drv->create_op=
+ts);
++    } else {
++        create_opts =3D qemu_opts_append(create_opts, &fallback_create_opt=
+s);
 +    }
-     aio_wait_kick();
- }
+=20
+     opts =3D qemu_opts_create(create_opts, NULL, 0, &error_abort);
 =20
 --=20
 2.24.1
