@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F611457B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 15:23:27 +0100 (CET)
-Received: from localhost ([::1]:42882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7621457CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Jan 2020 15:27:39 +0100 (CET)
+Received: from localhost ([::1]:42962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuGuj-00086B-Pi
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 09:23:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58887)
+	id 1iuGyo-0004py-AJ
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 09:27:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuGsl-00062F-8D
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:21:24 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuGte-0007aS-AD
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:22:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuGsj-0007T3-PR
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:21:23 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:44989)
+ (envelope-from <laurent@vivier.eu>) id 1iuGtc-0007uV-DP
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:22:18 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:42727)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuGsj-0007Rc-GD
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:21:21 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuGtc-0007u7-34
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 09:22:16 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Ml6i2-1jJjnt2V5A-00lYa1; Wed, 22 Jan 2020 15:21:01 +0100
-Subject: Re: [PATCH v8 05/13] linux-user: Add support for getting/setting RTC
- PLL correction using ioctls
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MQMqN-1jGSc01ROT-00MGz8; Wed, 22 Jan 2020 15:21:57 +0100
+Subject: Re: [PATCH v8 06/13] linux-user: Add support for read/clear RTC
+ voltage low detector using ioctls
 To: Filip Bozuta <Filip.Bozuta@rt-rk.com>, qemu-devel@nongnu.org
 References: <1579117007-7565-1-git-send-email-Filip.Bozuta@rt-rk.com>
- <1579117007-7565-6-git-send-email-Filip.Bozuta@rt-rk.com>
+ <1579117007-7565-7-git-send-email-Filip.Bozuta@rt-rk.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -71,35 +71,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <0353e31c-c6a7-4a50-82e6-96d62a23adc6@vivier.eu>
-Date: Wed, 22 Jan 2020 15:20:59 +0100
+Message-ID: <728755ce-3512-2016-3cc4-9ad6b3aeae29@vivier.eu>
+Date: Wed, 22 Jan 2020 15:21:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <1579117007-7565-6-git-send-email-Filip.Bozuta@rt-rk.com>
+In-Reply-To: <1579117007-7565-7-git-send-email-Filip.Bozuta@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nYxymjUWI0Pndwe//K5cqqV7P/evieyX88kMOL+gX9Hem05X+T7
- ixOmzNHF+BWWnECH3PGEHAVkrMdW/rdM2soYgz6ozEBuDlySefB6WymdJ6wSoLkTDIwAECi
- UymJTefrzpyA7a1dgPycv5w1kouXRtYvCLj9MP5TmD+prjS7NWwydfqZlEeehY3s3dlbDtF
- o/H6GBYx9SibPpVcslM6A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dQeW2y6FtJs=:N8zuEGgaxiygOTRYeGCDPA
- VNTkx3a9AKBAucuwL4eE2YrTuiLMctFPMT/Gn0p45bvW3olp6HNgrixQAdPNn/TfeKGaCls+U
- hWu13slqGhBtHTUxyXey/tk9/LhWSU+Z8zEoKsFlPpr7A/XRucbMxpGLlHYAAX2fzGscj4YRB
- C9T2GUw/Bvjxs9qkrZYroccbpEuc9io+olYV4uox4qfyY2PfaORrPvPh6j7nDPDPp1c/er+vb
- /LLMULDGMd40vPH+A23FlTJm4j/87BOD7ezr6uemiyO6VwEW5YL4MFZpcNP9SNVxivANi+0Yq
- mfxSTYQToV84cQfBNrcF9VUmSa/iJLXy439P1qFv3vcHh682czXfB+jAjnw82VfMx2KnSrSXa
- zwkselSxHjFPzZo0hE95Wa3FxA3xhdyTz4hsPnr1bm1h5mqP+htjldusYL6U4CPsJJv5sMyAr
- WwyaS0O5BhrnVYxmCHNM0Y489vAKpfnotz9wa+LtyVwh2YXegCO3W9LghVJUPjTw/fclgPiZB
- 66x5IuV7HRYc9VgypdcyoRrEeHcOtsahUkFVnmMwQhH49uekuO5IRKo35IiL/qCLONC++kvTW
- HzCWxGnI9MGqKV6VUPdSnDdMNM/RXVCzFwLZXYtXllQbObkfS+Doqf+ZnHgUM6nGXvXd55RZU
- EJBjlayr7MQLAWh09OIcDg4RnHHPtuFbfoNSTjJTbux6rewJlJotvn7o3kWqPnd1zNC+PFP8r
- 5I3CRXtkuQfWxrZmgDdiYj8IbgA0KwqmgD1YxOEe2T8uSbS1XcYeheT+7S5gxg25r2BauC7My
- 9rL0yFJP9zheQ76di4HSZvTTytOdq7GHnYC9BCZJsh2lnV72oo=
+X-Provags-ID: V03:K1:iShKiRTW8O8qTSx8XNwhjj0Vrx8okYDaEDCWy0OZiVG9fBAWsfo
+ 3UwYnUiK6SH7Z6khYFAXDsRqghd5i8u7S/mMTtwNDqSs9FlTX9bUn3YbBP/oOw2A0OkwJrD
+ xpaq0LqVKhagwqDZudKnK2uvuAA8urg68pjnJkHmh0ByTykmBHd+syahl7536AxUsS/WmKC
+ 6olKQbOF9DrpVXU84M64w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XuQq4DlZnkw=:b6aQc50UJy4OmYoDSL29rL
+ 4AjEeyRHNbGnS5O0fGCidCmjkpjzvFgS1tYKTLZpXotJDX2Sjh62N34nHJDMd59igP+6J2OBv
+ n5H01dWxyO01qAcRGGlIH9zRWq2X+DO+HC7ecE21npL80Djxb7hTmdPDxi7pXB+2hMYXgJs3R
+ EpQ8Bx3YmJW1TM9gYoeFsA0Oiu0E8XHeWP0kpSX/+Cdx3E5eVsDa4sGhL+r+DATQdZFtjOAbs
+ xW9uqRtnNbAdrTc/elVgVTpusWGwr+tXu8NfFsBZzRknguja5XpGmuFcclpQGEqT78fnFDDe6
+ L9gc+gMCb8iBIyMkaDnPeFfe6Zx+bpCIGGwdOghpkYKXNvkPxTc3LSs4q8mBbl2FDmOTUW+EQ
+ 381jVfkaQ5mt4T6zJA+rDr1R+SS5FJO4Z1cbG7Fs8rsFYPK6fJabdTSntmRRk8DmrfSUlgh5O
+ UZJN6wSWc+R92gkcAdewkNJD783dcK8PpD8y3WpiHuEoJYofocEr98M39wo9P7gwUaZI4ATaN
+ EtASTMNGXD4fIrTHJWT9pUHm+2JDD7s5JnFuy6BFWlr/C0sdafpotHP+hbLvpwj+OMLZ9AERD
+ xIeb8yjF5y7ggEjIZvJ36z6V5npuF0vJil9brKPxyfNsKZa0oPLBHFGipVJtHoQTR0+3EgfqZ
+ dYwIOWljRHyrthsHXMSPG5t+23coO6jxghGvd/UVppJH4uZ9JMoDsxn9QsK1+jF/7pO+jIRM+
+ HqllOb6kbJq4Mc1fd7ljbLyKhdNZDgtjC2NaoXjI9A68mBJTDTWxL2VTKtBQrWs8YhvxOncGF
+ wCXN425tJqhbDsEjqtJLQgiVagSqTUfW9pOsQFnvObi3TKANT8=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 217.72.192.75
+X-Received-From: 217.72.192.73
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -120,112 +120,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Le 15/01/2020 à 20:36, Filip Bozuta a écrit :
 > This patch implements functionalities of following ioctls:
 > 
-> RTC_PLL_GET - Getting PLL correction
+> RTC_VL_READ - Read voltage low detection information
 > 
->     Read the PLL correction for RTCs that support PLL. The PLL correction
->     is returned in the following structure:
+>     Read the voltage low for RTCs that support voltage low.
+>     The third ioctl's' argument points to an int in which
+>     the voltage low is returned.
 > 
->         struct rtc_pll_info {
->             int pll_ctrl;        /* placeholder for fancier control */
->             int pll_value;       /* get/set correction value */
->             int pll_max;         /* max +ve (faster) adjustment value */
->             int pll_min;         /* max -ve (slower) adjustment value */
->             int pll_posmult;     /* factor for +ve correction */
->             int pll_negmult;     /* factor for -ve correction */
->             long pll_clock;      /* base PLL frequency */
->         };
+> RTC_VL_CLR - Clear voltage low information
 > 
->     A pointer to this structure should be passed as the third
->     ioctl's argument.
-> 
-> RTC_PLL_SET - Setting PLL correction
-> 
->     Sets the PLL correction for RTCs that support PLL. The PLL correction
->     that is set is specified by the rtc_pll_info structure pointed to by
->     the third ioctl's' argument.
+>     Clear the information about voltage low for RTCs that
+>     support voltage low. The third ioctl(2) argument is
+>     ignored.
 > 
 > Implementation notes:
 > 
->     All ioctls in this patch have a pointer to a structure rtc_pll_info
->     as their third argument. All elements of this structure are of
->     type 'int', except the last one that is of type 'long'. That is
->     the reason why a separate target structure (target_rtc_pll_info)
->     is defined in linux-user/syscall_defs. The rest of the
->     implementation is straightforward.
+>     Since one ioctl has a pointer to 'int' as its third agrument,
+>     and another ioctl has NULL as its third argument, their
+>     implementation was straightforward.
 > 
 > Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 > ---
->  linux-user/ioctls.h        |  2 ++
->  linux-user/syscall_defs.h  | 14 ++++++++++++++
->  linux-user/syscall_types.h |  9 +++++++++
->  3 files changed, 25 insertions(+)
+>  linux-user/ioctls.h       | 2 ++
+>  linux-user/syscall_defs.h | 2 ++
+>  2 files changed, 4 insertions(+)
 > 
 > diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-> index b09396e..0a4e3f1 100644
+> index 0a4e3f1..1f1f3e6 100644
 > --- a/linux-user/ioctls.h
 > +++ b/linux-user/ioctls.h
-> @@ -87,6 +87,8 @@
->       IOCTL(RTC_EPOCH_SET, IOC_W, TYPE_ULONG)
->       IOCTL(RTC_WKALM_RD, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_wkalrm)))
+> @@ -89,6 +89,8 @@
 >       IOCTL(RTC_WKALM_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_wkalrm)))
-> +     IOCTL(RTC_PLL_GET, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
-> +     IOCTL(RTC_PLL_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
+>       IOCTL(RTC_PLL_GET, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
+>       IOCTL(RTC_PLL_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
+> +     IOCTL(RTC_VL_READ, IOC_R, MK_PTR(TYPE_INT))
+> +     IOCTL(RTC_VL_CLR, 0, TYPE_NULL)
 >  
 >       IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
 >       IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
 > diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 37504a2..8370f41 100644
+> index 8370f41..af4f366 100644
 > --- a/linux-user/syscall_defs.h
 > +++ b/linux-user/syscall_defs.h
-> @@ -763,6 +763,16 @@ struct target_pollfd {
->  #define TARGET_KDSETLED        0x4B32	/* set led state [lights, not flags] */
->  #define TARGET_KDSIGACCEPT     0x4B4E
->  
-> +struct target_rtc_pll_info {
-> +    int pll_ctrl;
-> +    int pll_value;
-> +    int pll_max;
-> +    int pll_min;
-> +    int pll_posmult;
-> +    int pll_negmult;
-> +    abi_long pll_clock;
-> +};
-> +
->  /* real time clock ioctls */
->  #define TARGET_RTC_AIE_ON           TARGET_IO('p', 0x01)
->  #define TARGET_RTC_AIE_OFF          TARGET_IO('p', 0x02)
-> @@ -782,6 +792,10 @@ struct target_pollfd {
->  #define TARGET_RTC_EPOCH_SET        TARGET_IOW('p', 0x0e, abi_ulong)
->  #define TARGET_RTC_WKALM_RD         TARGET_IOR('p', 0x10, struct rtc_wkalrm)
->  #define TARGET_RTC_WKALM_SET        TARGET_IOW('p', 0x0f, struct rtc_wkalrm)
-> +#define TARGET_RTC_PLL_GET          TARGET_IOR('p', 0x11,                      \
-> +                                               struct target_rtc_pll_info)
-> +#define TARGET_RTC_PLL_SET          TARGET_IOW('p', 0x12,                      \
-> +                                               struct target_rtc_pll_info)
+> @@ -796,6 +796,8 @@ struct target_rtc_pll_info {
+>                                                 struct target_rtc_pll_info)
+>  #define TARGET_RTC_PLL_SET          TARGET_IOW('p', 0x12,                      \
+>                                                 struct target_rtc_pll_info)
+> +#define TARGET_RTC_VL_READ          TARGET_IOR('p', 0x13, int)
+> +#define TARGET_RTC_VL_CLR           TARGET_IO('p', 0x14)
 >  
 >  #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
 >         defined(TARGET_XTENSA)
-> diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-> index 820bc8e..4027272 100644
-> --- a/linux-user/syscall_types.h
-> +++ b/linux-user/syscall_types.h
-> @@ -271,6 +271,15 @@ STRUCT(rtc_wkalrm,
->         TYPE_CHAR, /* pending */
->         MK_STRUCT(STRUCT_rtc_time)) /* time */
->  
-> +STRUCT(rtc_pll_info,
-> +       TYPE_INT, /* pll_ctrl */
-> +       TYPE_INT, /* pll_value */
-> +       TYPE_INT, /* pll_max */
-> +       TYPE_INT, /* pll_min */
-> +       TYPE_INT, /* pll_posmult */
-> +       TYPE_INT, /* pll_negmult */
-> +       TYPE_LONG) /* pll_clock */
-> +
->  STRUCT(blkpg_ioctl_arg,
->         TYPE_INT, /* op */
->         TYPE_INT, /* flags */
 > 
 
 Applied to my linux-user branch.
