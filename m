@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B34146ADC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:08:50 +0100 (CET)
-Received: from localhost ([::1]:57680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE95146AE5
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:12:19 +0100 (CET)
+Received: from localhost ([::1]:57746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iudA8-0003n5-TR
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:08:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40609)
+	id 1iudDW-0000Tz-8B
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:12:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40778)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iub9A-0002VD-KB
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:42 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iub9L-0002i9-2X
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iub98-0005E5-E5
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48017
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iub9J-0005M8-6x
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:50 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53772
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub98-0005De-96
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:38 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub9J-0005Lf-2O
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780777;
+ s=mimecast20190719; t=1579780788;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i36g49Wr23XnPzHPj1e2Sazsa2bVz3Y92a1xoz/YYmg=;
- b=W2uUP8UCUdiDvQiyd0O0bQ1pAcRjQQWQJpDjOJ4GqHL/iZnyoDLxTszlR5fpEWImD60VR3
- qZJwfZ8AieFNYJm+xfzwUe9EjOp0Jc3iSwGL4jbHqSmVaWV17PW/+hrjpt6fkSOmzvRslu
- xutXDoULzuks6R73ktd0C0115OCBxhI=
+ bh=rocNf17Cmm6LMNLAi+Vk5YilItERbDJCMjcMFpiQKVM=;
+ b=ObJGGxGqwK5rlNEH/x3SrHideE5/XJrx77uKsl1OFC/fpL4zyuV9sEiCjlGuWUvrQSf95g
+ 3fR5Of6dujelrXDYsG7z5fjqjttJfT4a3WNPiBch0xuGOmcGl1eST7FQerFtDHapsoSMCA
+ t3pVeHOc2+DWTbWSb6nwXTK41P84Bqw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-hEmSgJVrMoGBQ6c6Nz878w-1; Thu, 23 Jan 2020 06:59:36 -0500
+ us-mta-286-sViTGFmTMpScRCGqrYh-UQ-1; Thu, 23 Jan 2020 06:59:45 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68EB21005512
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3A2918A6EC0
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:44 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8A981CB;
- Thu, 23 Jan 2020 11:59:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3DDCE85757;
+ Thu, 23 Jan 2020 11:59:44 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 041/111] virtiofsd: Plumb fuse_bufvec through to do_write_buf
-Date: Thu, 23 Jan 2020 11:57:31 +0000
-Message-Id: <20200123115841.138849-42-dgilbert@redhat.com>
+Subject: [PULL 048/111] virtiofsd: use /proc/self/fd/ O_PATH file descriptor
+Date: Thu, 23 Jan 2020 11:57:38 +0000
+Message-Id: <20200123115841.138849-49-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: hEmSgJVrMoGBQ6c6Nz878w-1
+X-MC-Unique: sViTGFmTMpScRCGqrYh-UQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,160 +74,397 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Let fuse_session_process_buf_int take a fuse_bufvec * instead of a
-fuse_buf;  and then through to do_write_buf - where in the best
-case it can pass that straight through to op.write_buf without copying
-(other than skipping a header).
+Sandboxing will remove /proc from the mount namespace so we can no
+longer build string paths into "/proc/self/fd/...".
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Keep an O_PATH file descriptor so we can still re-open fds via
+/proc/self/fd.
+
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_i.h        |  2 +-
- tools/virtiofsd/fuse_lowlevel.c | 61 ++++++++++++++++++++++-----------
- tools/virtiofsd/fuse_virtio.c   |  3 +-
- 3 files changed, 44 insertions(+), 22 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 130 ++++++++++++++++++++++++-------
+ 1 file changed, 103 insertions(+), 27 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
-index 45995f3246..a20854f1c4 100644
---- a/tools/virtiofsd/fuse_i.h
-+++ b/tools/virtiofsd/fuse_i.h
-@@ -100,7 +100,7 @@ int fuse_send_reply_iov_nofree(fuse_req_t req, int erro=
-r, struct iovec *iov,
- void fuse_free_req(fuse_req_t req);
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index e3d65c3676..e2e2211ea1 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -110,6 +110,9 @@ struct lo_data {
+     struct lo_map ino_map; /* protected by lo->mutex */
+     struct lo_map dirp_map; /* protected by lo->mutex */
+     struct lo_map fd_map; /* protected by lo->mutex */
++
++    /* An O_PATH file descriptor to /proc/self/fd/ */
++    int proc_self_fd;
+ };
 =20
- void fuse_session_process_buf_int(struct fuse_session *se,
--                                  const struct fuse_buf *buf,
-+                                  struct fuse_bufvec *bufv,
-                                   struct fuse_chan *ch);
+ static const struct fuse_opt lo_opts[] =3D {
+@@ -379,9 +382,9 @@ static int lo_parent_and_name(struct lo_data *lo, struc=
+t lo_inode *inode,
+     int res;
 =20
+ retry:
+-    sprintf(procname, "/proc/self/fd/%i", inode->fd);
++    sprintf(procname, "%i", inode->fd);
 =20
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index 95f4db8fcf..7e10995adc 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -1004,11 +1004,12 @@ static void do_write(fuse_req_t req, fuse_ino_t nod=
-eid, const void *inarg)
- }
-=20
- static void do_write_buf(fuse_req_t req, fuse_ino_t nodeid, const void *in=
-arg,
--                         const struct fuse_buf *ibuf)
-+                         struct fuse_bufvec *ibufv)
- {
-     struct fuse_session *se =3D req->se;
--    struct fuse_bufvec bufv =3D {
--        .buf[0] =3D *ibuf,
-+    struct fuse_bufvec *pbufv =3D ibufv;
-+    struct fuse_bufvec tmpbufv =3D {
-+        .buf[0] =3D ibufv->buf[0],
-         .count =3D 1,
-     };
-     struct fuse_write_in *arg =3D (struct fuse_write_in *)inarg;
-@@ -1018,22 +1019,31 @@ static void do_write_buf(fuse_req_t req, fuse_ino_t=
- nodeid, const void *inarg,
-     fi.fh =3D arg->fh;
-     fi.writepage =3D arg->write_flags & FUSE_WRITE_CACHE;
-=20
--    fi.lock_owner =3D arg->lock_owner;
--    fi.flags =3D arg->flags;
--    if (!(bufv.buf[0].flags & FUSE_BUF_IS_FD)) {
--        bufv.buf[0].mem =3D PARAM(arg);
--    }
--
--    bufv.buf[0].size -=3D
--        sizeof(struct fuse_in_header) + sizeof(struct fuse_write_in);
--    if (bufv.buf[0].size < arg->size) {
--        fuse_log(FUSE_LOG_ERR, "fuse: do_write_buf: buffer size too small\=
-n");
--        fuse_reply_err(req, EIO);
--        return;
-+    if (ibufv->count =3D=3D 1) {
-+        fi.lock_owner =3D arg->lock_owner;
-+        fi.flags =3D arg->flags;
-+        if (!(tmpbufv.buf[0].flags & FUSE_BUF_IS_FD)) {
-+            tmpbufv.buf[0].mem =3D PARAM(arg);
-+        }
-+        tmpbufv.buf[0].size -=3D
-+            sizeof(struct fuse_in_header) + sizeof(struct fuse_write_in);
-+        if (tmpbufv.buf[0].size < arg->size) {
-+            fuse_log(FUSE_LOG_ERR,
-+                     "fuse: do_write_buf: buffer size too small\n");
-+            fuse_reply_err(req, EIO);
-+            return;
-+        }
-+        tmpbufv.buf[0].size =3D arg->size;
-+        pbufv =3D &tmpbufv;
-+    } else {
-+        /*
-+         *  Input bufv contains the headers in the first element
-+         * and the data in the rest, we need to skip that first element
-+         */
-+        ibufv->buf[0].size =3D 0;
+-    res =3D readlink(procname, path, PATH_MAX);
++    res =3D readlinkat(lo->proc_self_fd, procname, path, PATH_MAX);
+     if (res < 0) {
+         fuse_log(FUSE_LOG_WARNING, "%s: readlink failed: %m\n", __func__);
+         goto fail_noretry;
+@@ -477,9 +480,9 @@ static int utimensat_empty(struct lo_data *lo, struct l=
+o_inode *inode,
+         }
+         return res;
      }
--    bufv.buf[0].size =3D arg->size;
+-    sprintf(path, "/proc/self/fd/%i", inode->fd);
++    sprintf(path, "%i", inode->fd);
 =20
--    se->op.write_buf(req, nodeid, &bufv, arg->offset, &fi);
-+    se->op.write_buf(req, nodeid, pbufv, arg->offset, &fi);
- }
+-    return utimensat(AT_FDCWD, path, tv, 0);
++    return utimensat(lo->proc_self_fd, path, tv, 0);
 =20
- static void do_flush(fuse_req_t req, fuse_ino_t nodeid, const void *inarg)
-@@ -2024,13 +2034,24 @@ static const char *opname(enum fuse_opcode opcode)
- void fuse_session_process_buf(struct fuse_session *se,
-                               const struct fuse_buf *buf)
- {
--    fuse_session_process_buf_int(se, buf, NULL);
-+    struct fuse_bufvec bufv =3D { .buf[0] =3D *buf, .count =3D 1 };
-+    fuse_session_process_buf_int(se, &bufv, NULL);
- }
-=20
-+/*
-+ * Restriction:
-+ *   bufv is normally a single entry buffer, except for a write
-+ *   where (if it's in memory) then the bufv may be multiple entries,
-+ *   where the first entry contains all headers and subsequent entries
-+ *   contain data
-+ *   bufv shall not use any offsets etc to make the data anything
-+ *   other than contiguous starting from 0.
-+ */
- void fuse_session_process_buf_int(struct fuse_session *se,
--                                  const struct fuse_buf *buf,
-+                                  struct fuse_bufvec *bufv,
-                                   struct fuse_chan *ch)
- {
-+    const struct fuse_buf *buf =3D bufv->buf;
-     struct fuse_in_header *in;
-     const void *inarg;
-     struct fuse_req *req;
-@@ -2108,7 +2129,7 @@ void fuse_session_process_buf_int(struct fuse_session=
- *se,
-=20
-     inarg =3D (void *)&in[1];
-     if (in->opcode =3D=3D FUSE_WRITE && se->op.write_buf) {
--        do_write_buf(req, in->nodeid, inarg, buf);
-+        do_write_buf(req, in->nodeid, inarg, bufv);
-     } else {
-         fuse_ll_ops[in->opcode].func(req, in->nodeid, inarg);
-     }
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 635f87756a..fd588a4829 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -501,7 +501,8 @@ static void *fv_queue_thread(void *opaque)
-             /* TODO! Endianness of header */
-=20
-             /* TODO: Add checks for fuse_session_exited */
--            fuse_session_process_buf_int(se, &fbuf, &ch);
-+            struct fuse_bufvec bufv =3D { .buf[0] =3D fbuf, .count =3D 1 }=
+ fallback:
+     res =3D lo_parent_and_name(lo, inode, path, &parent);
+@@ -535,8 +538,8 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, =
+struct stat *attr,
+         if (fi) {
+             res =3D fchmod(fd, attr->st_mode);
+         } else {
+-            sprintf(procname, "/proc/self/fd/%i", ifd);
+-            res =3D chmod(procname, attr->st_mode);
++            sprintf(procname, "%i", ifd);
++            res =3D fchmodat(lo->proc_self_fd, procname, attr->st_mode, 0)=
 ;
-+            fuse_session_process_buf_int(se, &bufv, &ch);
+         }
+         if (res =3D=3D -1) {
+             goto out_err;
+@@ -552,11 +555,23 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino=
+, struct stat *attr,
+         }
+     }
+     if (valid & FUSE_SET_ATTR_SIZE) {
++        int truncfd;
++
+         if (fi) {
+-            res =3D ftruncate(fd, attr->st_size);
++            truncfd =3D fd;
+         } else {
+-            sprintf(procname, "/proc/self/fd/%i", ifd);
+-            res =3D truncate(procname, attr->st_size);
++            sprintf(procname, "%i", ifd);
++            truncfd =3D openat(lo->proc_self_fd, procname, O_RDWR);
++            if (truncfd < 0) {
++                goto out_err;
++            }
++        }
++
++        res =3D ftruncate(truncfd, attr->st_size);
++        if (!fi) {
++            saverr =3D errno;
++            close(truncfd);
++            errno =3D saverr;
+         }
+         if (res =3D=3D -1) {
+             goto out_err;
+@@ -874,9 +889,9 @@ static int linkat_empty_nofollow(struct lo_data *lo, st=
+ruct lo_inode *inode,
+         return res;
+     }
 =20
-             if (!qi->reply_sent) {
-                 fuse_log(FUSE_LOG_DEBUG, "%s: elem %d no reply sent\n",
+-    sprintf(path, "/proc/self/fd/%i", inode->fd);
++    sprintf(path, "%i", inode->fd);
+=20
+-    return linkat(AT_FDCWD, path, dfd, name, AT_SYMLINK_FOLLOW);
++    return linkat(lo->proc_self_fd, path, dfd, name, AT_SYMLINK_FOLLOW);
+=20
+ fallback:
+     res =3D lo_parent_and_name(lo, inode, path, &parent);
+@@ -1404,8 +1419,8 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, s=
+truct fuse_file_info *fi)
+         fi->flags &=3D ~O_APPEND;
+     }
+=20
+-    sprintf(buf, "/proc/self/fd/%i", lo_fd(req, ino));
+-    fd =3D open(buf, fi->flags & ~O_NOFOLLOW);
++    sprintf(buf, "%i", lo_fd(req, ino));
++    fd =3D openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+     if (fd =3D=3D -1) {
+         return (void)fuse_reply_err(req, errno);
+     }
+@@ -1458,7 +1473,6 @@ static void lo_fsync(fuse_req_t req, fuse_ino_t ino, =
+int datasync,
+                      struct fuse_file_info *fi)
+ {
+     int res;
+-    (void)ino;
+     int fd;
+     char *buf;
+=20
+@@ -1466,12 +1480,14 @@ static void lo_fsync(fuse_req_t req, fuse_ino_t ino=
+, int datasync,
+              (void *)fi);
+=20
+     if (!fi) {
+-        res =3D asprintf(&buf, "/proc/self/fd/%i", lo_fd(req, ino));
++        struct lo_data *lo =3D lo_data(req);
++
++        res =3D asprintf(&buf, "%i", lo_fd(req, ino));
+         if (res =3D=3D -1) {
+             return (void)fuse_reply_err(req, errno);
+         }
+=20
+-        fd =3D open(buf, O_RDWR);
++        fd =3D openat(lo->proc_self_fd, buf, O_RDWR);
+         free(buf);
+         if (fd =3D=3D -1) {
+             return (void)fuse_reply_err(req, errno);
+@@ -1587,11 +1603,13 @@ static void lo_flock(fuse_req_t req, fuse_ino_t ino=
+, struct fuse_file_info *fi,
+ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
+                         size_t size)
+ {
++    struct lo_data *lo =3D lo_data(req);
+     char *value =3D NULL;
+     char procname[64];
+     struct lo_inode *inode;
+     ssize_t ret;
+     int saverr;
++    int fd =3D -1;
+=20
+     inode =3D lo_inode(req, ino);
+     if (!inode) {
+@@ -1616,7 +1634,11 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t i=
+no, const char *name,
+         goto out;
+     }
+=20
+-    sprintf(procname, "/proc/self/fd/%i", inode->fd);
++    sprintf(procname, "%i", inode->fd);
++    fd =3D openat(lo->proc_self_fd, procname, O_RDONLY);
++    if (fd < 0) {
++        goto out_err;
++    }
+=20
+     if (size) {
+         value =3D malloc(size);
+@@ -1624,7 +1646,7 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t in=
+o, const char *name,
+             goto out_err;
+         }
+=20
+-        ret =3D getxattr(procname, name, value, size);
++        ret =3D fgetxattr(fd, name, value, size);
+         if (ret =3D=3D -1) {
+             goto out_err;
+         }
+@@ -1635,7 +1657,7 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t in=
+o, const char *name,
+=20
+         fuse_reply_buf(req, value, ret);
+     } else {
+-        ret =3D getxattr(procname, name, NULL, 0);
++        ret =3D fgetxattr(fd, name, NULL, 0);
+         if (ret =3D=3D -1) {
+             goto out_err;
+         }
+@@ -1644,6 +1666,10 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t i=
+no, const char *name,
+     }
+ out_free:
+     free(value);
++
++    if (fd >=3D 0) {
++        close(fd);
++    }
+     return;
+=20
+ out_err:
+@@ -1655,11 +1681,13 @@ out:
+=20
+ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+ {
++    struct lo_data *lo =3D lo_data(req);
+     char *value =3D NULL;
+     char procname[64];
+     struct lo_inode *inode;
+     ssize_t ret;
+     int saverr;
++    int fd =3D -1;
+=20
+     inode =3D lo_inode(req, ino);
+     if (!inode) {
+@@ -1683,7 +1711,11 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t =
+ino, size_t size)
+         goto out;
+     }
+=20
+-    sprintf(procname, "/proc/self/fd/%i", inode->fd);
++    sprintf(procname, "%i", inode->fd);
++    fd =3D openat(lo->proc_self_fd, procname, O_RDONLY);
++    if (fd < 0) {
++        goto out_err;
++    }
+=20
+     if (size) {
+         value =3D malloc(size);
+@@ -1691,7 +1723,7 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t i=
+no, size_t size)
+             goto out_err;
+         }
+=20
+-        ret =3D listxattr(procname, value, size);
++        ret =3D flistxattr(fd, value, size);
+         if (ret =3D=3D -1) {
+             goto out_err;
+         }
+@@ -1702,7 +1734,7 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t i=
+no, size_t size)
+=20
+         fuse_reply_buf(req, value, ret);
+     } else {
+-        ret =3D listxattr(procname, NULL, 0);
++        ret =3D flistxattr(fd, NULL, 0);
+         if (ret =3D=3D -1) {
+             goto out_err;
+         }
+@@ -1711,6 +1743,10 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t =
+ino, size_t size)
+     }
+ out_free:
+     free(value);
++
++    if (fd >=3D 0) {
++        close(fd);
++    }
+     return;
+=20
+ out_err:
+@@ -1724,9 +1760,11 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t i=
+no, const char *name,
+                         const char *value, size_t size, int flags)
+ {
+     char procname[64];
++    struct lo_data *lo =3D lo_data(req);
+     struct lo_inode *inode;
+     ssize_t ret;
+     int saverr;
++    int fd =3D -1;
+=20
+     inode =3D lo_inode(req, ino);
+     if (!inode) {
+@@ -1751,21 +1789,31 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t =
+ino, const char *name,
+         goto out;
+     }
+=20
+-    sprintf(procname, "/proc/self/fd/%i", inode->fd);
++    sprintf(procname, "%i", inode->fd);
++    fd =3D openat(lo->proc_self_fd, procname, O_RDWR);
++    if (fd < 0) {
++        saverr =3D errno;
++        goto out;
++    }
+=20
+-    ret =3D setxattr(procname, name, value, size, flags);
++    ret =3D fsetxattr(fd, name, value, size, flags);
+     saverr =3D ret =3D=3D -1 ? errno : 0;
+=20
+ out:
++    if (fd >=3D 0) {
++        close(fd);
++    }
+     fuse_reply_err(req, saverr);
+ }
+=20
+ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *nam=
+e)
+ {
+     char procname[64];
++    struct lo_data *lo =3D lo_data(req);
+     struct lo_inode *inode;
+     ssize_t ret;
+     int saverr;
++    int fd =3D -1;
+=20
+     inode =3D lo_inode(req, ino);
+     if (!inode) {
+@@ -1789,12 +1837,20 @@ static void lo_removexattr(fuse_req_t req, fuse_ino=
+_t ino, const char *name)
+         goto out;
+     }
+=20
+-    sprintf(procname, "/proc/self/fd/%i", inode->fd);
++    sprintf(procname, "%i", inode->fd);
++    fd =3D openat(lo->proc_self_fd, procname, O_RDWR);
++    if (fd < 0) {
++        saverr =3D errno;
++        goto out;
++    }
+=20
+-    ret =3D removexattr(procname, name);
++    ret =3D fremovexattr(fd, name);
+     saverr =3D ret =3D=3D -1 ? errno : 0;
+=20
+ out:
++    if (fd >=3D 0) {
++        close(fd);
++    }
+     fuse_reply_err(req, saverr);
+ }
+=20
+@@ -1887,12 +1943,25 @@ static void print_capabilities(void)
+     printf("}\n");
+ }
+=20
++static void setup_proc_self_fd(struct lo_data *lo)
++{
++    lo->proc_self_fd =3D open("/proc/self/fd", O_PATH);
++    if (lo->proc_self_fd =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "open(/proc/self/fd, O_PATH): %m\n");
++        exit(1);
++    }
++}
++
+ int main(int argc, char *argv[])
+ {
+     struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
+     struct fuse_session *se;
+     struct fuse_cmdline_opts opts;
+-    struct lo_data lo =3D { .debug =3D 0, .writeback =3D 0 };
++    struct lo_data lo =3D {
++        .debug =3D 0,
++        .writeback =3D 0,
++        .proc_self_fd =3D -1,
++    };
+     struct lo_map_elem *root_elem;
+     int ret =3D -1;
+=20
+@@ -2003,6 +2072,9 @@ int main(int argc, char *argv[])
+=20
+     fuse_daemonize(opts.foreground);
+=20
++    /* Must be after daemonize to get the right /proc/self/fd */
++    setup_proc_self_fd(&lo);
++
+     /* Block until ctrl+c or fusermount -u */
+     ret =3D virtio_loop(se);
+=20
+@@ -2018,6 +2090,10 @@ err_out1:
+     lo_map_destroy(&lo.dirp_map);
+     lo_map_destroy(&lo.ino_map);
+=20
++    if (lo.proc_self_fd >=3D 0) {
++        close(lo.proc_self_fd);
++    }
++
+     if (lo.root.fd >=3D 0) {
+         close(lo.root.fd);
+     }
 --=20
 2.24.1
 
