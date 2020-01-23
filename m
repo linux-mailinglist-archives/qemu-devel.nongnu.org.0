@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA238146D47
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:48:48 +0100 (CET)
-Received: from localhost ([::1]:59714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D52146D56
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:50:55 +0100 (CET)
+Received: from localhost ([::1]:59746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueit-0005WQ-Kz
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:48:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51422)
+	id 1iuekv-00081E-HC
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:50:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51572)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrP-000510-7v
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:28 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrX-0005Br-86
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrO-0003NI-2e
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:27 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33976)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrV-0003gU-5W
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:35 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:51554)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrN-0003Li-Sq
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:26 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id t2so3184863wrr.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:25 -0800 (PST)
+ id 1iucrU-0003dt-V6
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:33 -0500
+Received: by mail-wm1-x336.google.com with SMTP id t23so2643262wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=UMWrztDn+2LOmfXo42GQL/DUYv1hMbW6To+XMh241c8=;
- b=VSmqLjEfDORaSkkfqKJkOzc4jyped5SjgrwHODGjHHEBG/x9lAr76n1QWUR0qykeIa
- AR9o7H8pg7YAl40FtkbWGnDQZqIFKzPoVnq8lhcFUDoJxnR7gB1r5hmGrmivfQ33Re5r
- tscxSwOGICaQeLIHIOQ664HdXN7EL/CAKXzfhWetpTjhXLDmUzGTUp64AHjLwGi9G9PJ
- v0JODmi4LsJvn4HA5Xm33uqWBDr0CeMOjIY2gtk1NUMaiOciJXYYcYZg83tlyx9cEJfL
- e31HhHi791/xZzPOTXzUx8N+cZNNkE9QSTNG/O94aXRoeWLeCQsarZOSc5rH4rx+j6cf
- gUPA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=8o2MYpvI7aFlrgYsavAuUGYtCTtrg8wkmD8yOXg8nnA=;
+ b=fsJAKLi6UhEXrhKGxW9/uVdq7MtDu8rJJAwboEmWG13CgOtZpqyeTXFCB/Xf/1EbyN
+ cEXWgR8OcsjFUVEcQxMlsuJnG+rbkBtKKWI/+nTWZfTcN61JtZ+FWA0mya5sXXRGUHLE
+ pzVFm9VLYDcpEhckzDk53UD97FwaG1O3UAogA9ReXZAdsZ6FbPotondicqH4jEHB7frk
+ DEAALTq31pdxf+x5S+pmk/ac+WABSwE6HVAjIab08yuiv0ATqAJRfxXs5vHgkFHwMsRQ
+ EceSH0kXePf9LMHunNm+DkKbI71jcx/yomqgBXcAonKn3sgBVIS8sSNnEq9pVY3zvhC/
+ BkgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references;
- bh=UMWrztDn+2LOmfXo42GQL/DUYv1hMbW6To+XMh241c8=;
- b=P/yaCbNHsWmbDPqu6tZrzpHgkS78ebtnnkSdiv0rkbS2hYCb6qKAw6pSmNZlau1TjW
- KGSObF74BWu0Q6CS75ZbaBRO/e4U1CGTJnMZYKXwRETh3vjZopDL42vG2bkvd78Z4ob+
- uTKIDXQLn6BoPICcaDvjoOuOmVJPipqpRnKHB2tH5VBRGrAvDDy84R1IP5Ckf/Sk4k6T
- dSdhBzaVNuAVWprQ+Z2D5Kb7nFE7gCTsehDlryDBv1XKYEopbR9t5Vi5Vn2lhod2lsxT
- cVSW2T5ugRrSRi+OaNvNK9JS4kXz9URYBTplyuMQXxzVYBivElGTqI2z6D17M3OqHH8h
- U/BQ==
-X-Gm-Message-State: APjAAAXWdQKq2tYN8yCnKo9HjJwmmvNhfPZH9OjoQcYMy16wWrJrk5Jt
- OI4OWpySZOIvMVmz03bYphhCvxp/
-X-Google-Smtp-Source: APXvYqw3pudCNWgLIwx8kvTUfuoebXNC0GGHmXmGVuqkx20fLotv3YMtHr386pTSqYKMd78PXRGMOQ==
-X-Received: by 2002:a5d:6305:: with SMTP id i5mr18053571wru.399.1579787364676; 
- Thu, 23 Jan 2020 05:49:24 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=8o2MYpvI7aFlrgYsavAuUGYtCTtrg8wkmD8yOXg8nnA=;
+ b=WED+LnA/MddkFgD+yrg8HMQ9NFlZRkv1DB0yfDFYiM/jc0ZjXLhOnFtvqAviqPaMBC
+ 7ebBNTXC6tcffQvZAeiGcIfo7csH5u2cR1uyj5emewSekbBQNtHp+wKn0HGbEIC0+qFG
+ mdHGb1a39sPSS7rPl/bZvm9n5EouNMQM70abftJYw/Io35JBNFjA+VQBC8Qh4v7EM7PR
+ 8ur44pUUfYA+RNuvlMSOPJIAvKp4cZ69zD1D5c9+YuaBEf6ywUZv9wM+NHisoCBvYmdr
+ B3I1boJx03D7AZJU49uBoig/INQK2DoElTTbKF8WaUpxy4PGA3dEjYb/rrWvE2dc84BC
+ BVpw==
+X-Gm-Message-State: APjAAAX6o+t9pvUSSX4h06ja7CLWQfLiYCUVhZ1Hg7wwVuTARFEO2DPE
+ RTqdU5c7pJTqzPEfp3ppJR1CVrqP
+X-Google-Smtp-Source: APXvYqzYl8unTyylQ2Jwcf3aclmnpGyRHmmIUo38uCC23TFafCmfTcTevXz/zEA8+A2YmMiICmiYRg==
+X-Received: by 2002:a05:600c:1050:: with SMTP id
+ 16mr4460164wmx.86.1579787371810; 
+ Thu, 23 Jan 2020 05:49:31 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.23
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.31
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:24 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:31 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/59] target/i386: kvm: initialize microcode revision from KVM
-Date: Thu, 23 Jan 2020 14:48:23 +0100
-Message-Id: <1579787342-27146-21-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 28/59] accel: Introduce the current_accel() wrapper
+Date: Thu, 23 Jan 2020 14:48:31 +0100
+Message-Id: <1579787342-27146-29-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,51 +79,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM can return the host microcode revision as a feature MSR.
-Use it as the default value for -cpu host.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <1579544504-3616-4-git-send-email-pbonzini@redhat.com>
+The accel/ code only accesses the MachineState::accel field.
+As we simply want to access the accelerator, not the machine,
+add a current_accel() wrapper.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20200121110349.25842-9-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 4 ++++
- target/i386/kvm.c | 5 +++++
- 2 files changed, 9 insertions(+)
+ accel/accel.c          | 5 +++++
+ include/sysemu/accel.h | 2 ++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 790254e..ffe5de0 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6416,6 +6416,10 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-                        &cpu->mwait.ecx, &cpu->mwait.edx);
-             env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
-         }
-+        if (kvm_enabled() && cpu->ucode_rev == 0) {
-+            cpu->ucode_rev = kvm_arch_get_supported_msr_feature(kvm_state,
-+                                                                MSR_IA32_UCODE_REV);
-+        }
-     }
+diff --git a/accel/accel.c b/accel/accel.c
+index 1c5c3a6..cb555e3 100644
+--- a/accel/accel.c
++++ b/accel/accel.c
+@@ -63,6 +63,11 @@ int accel_init_machine(AccelState *accel, MachineState *ms)
+     return ret;
+ }
  
-     if (cpu->ucode_rev == 0) {
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index f6dd6b7..1b67090 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -2696,6 +2696,11 @@ static void kvm_init_msrs(X86CPU *cpu)
-                           env->features[FEAT_CORE_CAPABILITY]);
-     }
- 
-+    if (kvm_arch_get_supported_msr_feature(kvm_state,
-+                                           MSR_IA32_UCODE_REV)) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UCODE_REV, cpu->ucode_rev);
-+    }
++AccelState *current_accel(void)
++{
++    return current_machine->accelerator;
++}
 +
-     /*
-      * Older kernels do not include VMX MSRs in KVM_GET_MSR_INDEX_LIST, but
-      * all kernels with MSR features should have them.
+ void accel_setup_post(MachineState *ms)
+ {
+     AccelState *accel = ms->accelerator;
+diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
+index d4c1429..47e5788 100644
+--- a/include/sysemu/accel.h
++++ b/include/sysemu/accel.h
+@@ -70,4 +70,6 @@ int accel_init_machine(AccelState *accel, MachineState *ms);
+ /* Called just before os_setup_post (ie just before drop OS privs) */
+ void accel_setup_post(MachineState *ms);
+ 
++AccelState *current_accel(void);
++
+ #endif
 -- 
 1.8.3.1
 
