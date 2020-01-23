@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853641462F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 08:57:23 +0100 (CET)
-Received: from localhost ([::1]:52460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624EF1462F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 08:55:58 +0100 (CET)
+Received: from localhost ([::1]:52426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXMg-000692-Ka
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 02:57:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46175)
+	id 1iuXLJ-0004aZ-AW
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 02:55:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46136)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <volker.ruemelin@t-online.de>) id 1iuXFd-00061d-R3
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:50:06 -0500
+ (envelope-from <volker.ruemelin@t-online.de>) id 1iuXFa-0005yI-G2
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:50:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <volker.ruemelin@t-online.de>) id 1iuXFc-0004j0-UB
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:50:05 -0500
-Received: from mailout03.t-online.de ([194.25.134.81]:50686)
+ (envelope-from <volker.ruemelin@t-online.de>) id 1iuXFZ-0004g1-H3
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:50:02 -0500
+Received: from mailout04.t-online.de ([194.25.134.18]:51794)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <volker.ruemelin@t-online.de>)
- id 1iuXFc-0004hu-OE
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:50:04 -0500
-Received: from fwd06.aul.t-online.de (fwd06.aul.t-online.de [172.20.26.150])
- by mailout03.t-online.de (Postfix) with SMTP id CAC18426D4ED;
- Thu, 23 Jan 2020 08:50:02 +0100 (CET)
+ id 1iuXFZ-0004dZ-Ah
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:50:01 -0500
+Received: from fwd29.aul.t-online.de (fwd29.aul.t-online.de [172.20.26.134])
+ by mailout04.t-online.de (Postfix) with SMTP id 18D9541FCB1C;
+ Thu, 23 Jan 2020 08:50:00 +0100 (CET)
 Received: from linpower.localnet
- (bdOpmsZawhWbFhK9XojQt-0+cJTgGNpHSj4-Vdy8o65QU2oaeQz3Suo1r9mdc4wwHq@[46.86.62.122])
- by fwd06.t-online.de
+ (GFWNiEZAQhrdd42r1V37Wi9PdfyQtCetwxZWB5SNhsPudsjem+dOmwhMp9907QJQ9u@[46.86.62.122])
+ by fwd29.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1iuXFU-12fW7M0; Thu, 23 Jan 2020 08:49:56 +0100
+ esmtp id 1iuXFW-3e3Ii80; Thu, 23 Jan 2020 08:49:58 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 5CBB8200F75; Thu, 23 Jan 2020 08:49:43 +0100 (CET)
+ id 5EF22200F7A; Thu, 23 Jan 2020 08:49:43 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 6/9] ossaudio: prevent SIGSEGV in oss_enable_out
-Date: Thu, 23 Jan 2020 08:49:40 +0100
-Message-Id: <20200123074943.6699-6-vr_qemu@t-online.de>
+Subject: [PATCH 7/9] ossaudio: prevent SIGPFE in oss_write
+Date: Thu, 23 Jan 2020 08:49:41 +0100
+Message-Id: <20200123074943.6699-7-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <1e29e1d3-b59b-fcd6-cdff-a680bcdbffa4@t-online.de>
 References: <1e29e1d3-b59b-fcd6-cdff-a680bcdbffa4@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-ID: bdOpmsZawhWbFhK9XojQt-0+cJTgGNpHSj4-Vdy8o65QU2oaeQz3Suo1r9mdc4wwHq
-X-TOI-MSGID: ca8aec17-591c-475c-b00f-b6ac2ae58548
+X-ID: GFWNiEZAQhrdd42r1V37Wi9PdfyQtCetwxZWB5SNhsPudsjem+dOmwhMp9907QJQ9u
+X-TOI-MSGID: 10dee584-7dad-4154-905c-87869e450261
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 194.25.134.81
+X-Received-From: 194.25.134.18
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,11 +62,9 @@ Cc: QEMU <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With audiodev parameter out.mixing-engine=3Doff hw->mix_buf is
-NULL. This patch reverts a small part of dc88e38fa7 "audio:
-unify input and output mixeng buffer management".
+The new buffer write position is modulo the buffer size.
 
-To reproduce the problem start qemu with
+To reproduce start qemu with:
 -audiodev oss,id=3Daudio0,try-mmap=3Don,out.mixing-engine=3Doff
 
 Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
@@ -75,20 +73,19 @@ Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-index 4965084a5a..6a3b78b381 100644
+index 6a3b78b381..39a6fc09e5 100644
 --- a/audio/ossaudio.c
 +++ b/audio/ossaudio.c
-@@ -592,7 +592,7 @@ static void oss_enable_out(HWVoiceOut *hw, bool enabl=
-e)
-             return;
-         }
+@@ -429,7 +429,7 @@ static size_t oss_write(HWVoiceOut *hw, void *buf, si=
+ze_t len)
+             size_t to_copy =3D MIN(len, hw->size_emul - hw->pos_emul);
+             memcpy(hw->buf_emul + hw->pos_emul, buf, to_copy);
 =20
--        audio_pcm_info_clear_buf(&hw->info, hw->buf_emul, hw->mix_buf->s=
-ize);
-+        audio_pcm_info_clear_buf(&hw->info, hw->buf_emul, hw->samples);
-         trig =3D PCM_ENABLE_OUTPUT;
-         if (ioctl(oss->fd, SNDCTL_DSP_SETTRIGGER, &trig) < 0) {
-             oss_logerr(errno,
+-            hw->pos_emul =3D (hw->pos_emul + to_copy) % hw->pos_emul;
++            hw->pos_emul =3D (hw->pos_emul + to_copy) % hw->size_emul;
+             buf +=3D to_copy;
+             len -=3D to_copy;
+         }
 --=20
 2.16.4
 
