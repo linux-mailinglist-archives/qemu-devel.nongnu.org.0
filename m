@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C02C146C85
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:20:47 +0100 (CET)
-Received: from localhost ([::1]:59150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A875146C8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:24:05 +0100 (CET)
+Received: from localhost ([::1]:59254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueHl-0000zI-Vf
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:20:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51346)
+	id 1iueKw-0005Tb-RI
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:24:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51390)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrK-0004uH-He
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:23 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrN-0004yd-IY
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrJ-0003HX-Et
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:22 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:37952)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrM-0003KF-7I
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:25 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42621)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrJ-0003H7-94
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:21 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id u2so2611658wmc.3
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:21 -0800 (PST)
+ id 1iucrM-0003JC-0e; Thu, 23 Jan 2020 08:49:24 -0500
+Received: by mail-wr1-x432.google.com with SMTP id q6so3119522wro.9;
+ Thu, 23 Jan 2020 05:49:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hpoGYi5O9+KNRZJsn5fTTGDu/AscfeXtzSOUj6qEzek=;
- b=hVcijICKzjqCe6ZhEycjOdNgtjiU9mA344y0TdyHJm06ky9xW57HmDs6BFB7hWRX3p
- mtcf3V0Wo9J7eKiYxC4tw41WGUOGuvPeAHBrQG908Ki7GfHpYfrnZMr5Rq9zniAzAOuK
- Qu5co+se3NMTb7qnNlmaH9Hxuz4HbZm1xFgL0txL6JbL0XkgCB/CFylsKb9AIlusN6Tt
- qvdTzJjSYC603JgrWA4QLsAE06pRwnd66eDipLtsgRz3W0/vF7mYjw6IsZGYjsJpgzFD
- y5tWhx7vmtpqSXba0+tThm9fPxzUOZhZaraNqamMax152NMq4f3EtUOPaQc42REqZynb
- EkYw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=jY1ubrmRPI/N9e83it0SvGrTTTMW6ORYETMpVxkJm8s=;
+ b=bwufXO6MzdcXkQkZ56t1PkveXG+D9Lqe9/6N6eQbIctpTi1JqTcgt2HqOgoHxIgaPC
+ 02hQAtW+qjx1ZuEkpDkIrJbgLb9PWHfNI+2nCHXGR7aSCrc+/+gNdzSs5+lR44ag7Msd
+ AYknKJzVn8DGZn/JIZreokSTXVjoOa5KdpX7MXMz+IWwOMkGEIUDUIFD4admzu1KlrYQ
+ dORHrkj2ups/dxcPCIZr03kRJP0LvSabVVPVMVYPDhsZ9/QxNUoS7/l0Oiam2NHRu96x
+ 0hW5TuxIX91V0KFSPOu9hffQiaPUXvN5VgzsSaG1xKGD444HyDnduJyBe5vjyXIfLkSA
+ lWgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hpoGYi5O9+KNRZJsn5fTTGDu/AscfeXtzSOUj6qEzek=;
- b=IX/pm+QJTAna9XyQF96rR7XOsfKNjr9dygirl+IE4GJzzAPA3k9953xT/L532nU6pH
- BlehCLwlWL8BiLQQ8HA3mr8Vn8kLrNAnz3lQ+SgLBBdahedzHLRTeLR5T3g1I56bhBkE
- oDoEi4GTS33T7VoGymIN4jDsLxFTQGynsnwGmvOkVxZKQYJuSF0GM4DytElk4xEh/Bb/
- 65+q7heF+2lCnGl4k3zVObyKlqqsqEGM0Wc99sB7S7Jz3I3zacvD9QxTs7LSDr85FJgP
- BHALQ8DyhxNbAHoWwRnyu9qVJkQzBDXeaV6D9XyldUN4oBinmsoEIXUkPCZZ0pygIqTg
- 6Fww==
-X-Gm-Message-State: APjAAAVEs2XzD67hyY+60bLjIzNENyOo5ScoDejJbtnUVFjzpg44Bx0t
- nW8e6fTvv5aod/3n2QEEUMl0Tu5q
-X-Google-Smtp-Source: APXvYqzpEmuGgAow/N80AGi6PY/Ef9hFHOWm6ctUz8SwFO1Yo3n/hhbpjAwd/z56eMN8SplWx8HYWA==
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr3416710wmi.116.1579787360128; 
- Thu, 23 Jan 2020 05:49:20 -0800 (PST)
+ :in-reply-to:references;
+ bh=jY1ubrmRPI/N9e83it0SvGrTTTMW6ORYETMpVxkJm8s=;
+ b=Jzxxq4LjMPa1msY3c/Ps9zPyCcsfLtV16mPOykieZcoPApmw9P6ePS+r5Af/jV7uEI
+ DLwl4lj30LU8EsmnicByLEfWc9/GBpU2fHQSeEFq76I509OdjAE6hDrZFMtniHpx9hJJ
+ jGoxcuSZjWws8mkNVbtwK/mj+CCDNroyqsKba25XlrVh4CRytT1Flk5fqbByfvUnml/C
+ 8bz57A8hxRLgXLuKP1h+DJHqG5JVhJA1fxAjPcTbWSE9lMPrPyIUM4wArJfNo4v0gGIh
+ H/xT3DBVtDDPvDvvTEKwJXo/lFy9n3Vk22+9HA/wPsnJ6WoWG9/38cAAdFYo5/xMF6jG
+ UUeg==
+X-Gm-Message-State: APjAAAUpHaNWOzM8jt0RKn3mMnlwo/Wjo2+Fh2T7poFrHVLsWuf4j2L3
+ +OsKBf0DPaaaeAFl3iacJSZ6U6Ob
+X-Google-Smtp-Source: APXvYqxasHh3K0y8gIm5bu4HQN4KwTRjyocD4qsJ+vhwZKFBeAM4e1n45Q6dUWaTrGnQZW9LXBm6Kg==
+X-Received: by 2002:adf:edc4:: with SMTP id v4mr17460405wro.336.1579787362779; 
+ Thu, 23 Jan 2020 05:49:22 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.19
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.21
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:19 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:22 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/59] Makefile: Remove unhelpful comment
-Date: Thu, 23 Jan 2020 14:48:18 +0100
-Message-Id: <1579787342-27146-16-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 18/59] target/i386: kvm: initialize feature MSRs very early
+Date: Thu, 23 Jan 2020 14:48:21 +0100
+Message-Id: <1579787342-27146-19-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,42 +73,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+Some read-only MSRs affect the behavior of ioctls such as
+KVM_SET_NESTED_STATE.  We can initialize them once and for all
+right after the CPU is realized, since they will never be modified
+by the guest.
 
-It is pointless to keep qapi/ object separate from the other
-common-objects. Drop the comment.
-
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200118140619.26333-5-philmd@redhat.com>
+Reported-by: Qingua Cheng <qcheng@redhat.com>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <1579544504-3616-2-git-send-email-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ target/i386/kvm.c      | 81 ++++++++++++++++++++++++++++++--------------------
+ target/i386/kvm_i386.h |  1 +
+ 2 files changed, 49 insertions(+), 33 deletions(-)
 
-diff --git a/Makefile.objs b/Makefile.objs
-index 395dd1e..c6321d0 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -71,11 +71,9 @@ qemu-seccomp.o-libs := $(SECCOMP_LIBS)
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 7ee3202..f6dd6b7 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -67,6 +67,8 @@
+  * 255 kvm_msr_entry structs */
+ #define MSR_BUF_SIZE 4096
  
- common-obj-$(CONFIG_FDT) += device_tree.o
- 
--######################################################################
--# qapi
--
- common-obj-y += qapi/
--endif
++static void kvm_init_msrs(X86CPU *cpu);
 +
-+endif # CONFIG_SOFTMMU
+ const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
+     KVM_CAP_INFO(SET_TSS_ADDR),
+     KVM_CAP_INFO(EXT_CPUID),
+@@ -1842,6 +1844,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         has_msr_tsc_aux = false;
+     }
  
- #######################################################################
- # Target-independent parts used in system and user emulation
++    kvm_init_msrs(cpu);
++
+     r = hyperv_init_vcpu(cpu);
+     if (r) {
+         goto fail;
+@@ -2660,11 +2664,53 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
+                       VMCS12_MAX_FIELD_INDEX << 1);
+ }
+ 
++static int kvm_buf_set_msrs(X86CPU *cpu)
++{
++    int ret = kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, cpu->kvm_msr_buf);
++    if (ret < 0) {
++        return ret;
++    }
++
++    if (ret < cpu->kvm_msr_buf->nmsrs) {
++        struct kvm_msr_entry *e = &cpu->kvm_msr_buf->entries[ret];
++        error_report("error: failed to set MSR 0x%" PRIx32 " to 0x%" PRIx64,
++                     (uint32_t)e->index, (uint64_t)e->data);
++    }
++
++    assert(ret == cpu->kvm_msr_buf->nmsrs);
++    return 0;
++}
++
++static void kvm_init_msrs(X86CPU *cpu)
++{
++    CPUX86State *env = &cpu->env;
++
++    kvm_msr_buf_reset(cpu);
++    if (has_msr_arch_capabs) {
++        kvm_msr_entry_add(cpu, MSR_IA32_ARCH_CAPABILITIES,
++                          env->features[FEAT_ARCH_CAPABILITIES]);
++    }
++
++    if (has_msr_core_capabs) {
++        kvm_msr_entry_add(cpu, MSR_IA32_CORE_CAPABILITY,
++                          env->features[FEAT_CORE_CAPABILITY]);
++    }
++
++    /*
++     * Older kernels do not include VMX MSRs in KVM_GET_MSR_INDEX_LIST, but
++     * all kernels with MSR features should have them.
++     */
++    if (kvm_feature_msrs && cpu_has_vmx(env)) {
++        kvm_msr_entry_add_vmx(cpu, env->features);
++    }
++
++    assert(kvm_buf_set_msrs(cpu) == 0);
++}
++
+ static int kvm_put_msrs(X86CPU *cpu, int level)
+ {
+     CPUX86State *env = &cpu->env;
+     int i;
+-    int ret;
+ 
+     kvm_msr_buf_reset(cpu);
+ 
+@@ -2722,17 +2768,6 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+     }
+ #endif
+ 
+-    /* If host supports feature MSR, write down. */
+-    if (has_msr_arch_capabs) {
+-        kvm_msr_entry_add(cpu, MSR_IA32_ARCH_CAPABILITIES,
+-                          env->features[FEAT_ARCH_CAPABILITIES]);
+-    }
+-
+-    if (has_msr_core_capabs) {
+-        kvm_msr_entry_add(cpu, MSR_IA32_CORE_CAPABILITY,
+-                          env->features[FEAT_CORE_CAPABILITY]);
+-    }
+-
+     /*
+      * The following MSRs have side effects on the guest or are too heavy
+      * for normal writeback. Limit them to reset or full state updates.
+@@ -2910,14 +2945,6 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+ 
+         /* Note: MSR_IA32_FEATURE_CONTROL is written separately, see
+          *       kvm_put_msr_feature_control. */
+-
+-        /*
+-         * Older kernels do not include VMX MSRs in KVM_GET_MSR_INDEX_LIST, but
+-         * all kernels with MSR features should have them.
+-         */
+-        if (kvm_feature_msrs && cpu_has_vmx(env)) {
+-            kvm_msr_entry_add_vmx(cpu, env->features);
+-        }
+     }
+ 
+     if (env->mcg_cap) {
+@@ -2933,19 +2960,7 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+         }
+     }
+ 
+-    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, cpu->kvm_msr_buf);
+-    if (ret < 0) {
+-        return ret;
+-    }
+-
+-    if (ret < cpu->kvm_msr_buf->nmsrs) {
+-        struct kvm_msr_entry *e = &cpu->kvm_msr_buf->entries[ret];
+-        error_report("error: failed to set MSR 0x%" PRIx32 " to 0x%" PRIx64,
+-                     (uint32_t)e->index, (uint64_t)e->data);
+-    }
+-
+-    assert(ret == cpu->kvm_msr_buf->nmsrs);
+-    return 0;
++    return kvm_buf_set_msrs(cpu);
+ }
+ 
+ 
+diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
+index 7d0242f..00bde7a 100644
+--- a/target/i386/kvm_i386.h
++++ b/target/i386/kvm_i386.h
+@@ -46,4 +46,5 @@ bool kvm_enable_x2apic(void);
+ bool kvm_has_x2apic_api(void);
+ 
+ bool kvm_hv_vpindex_settable(void);
++
+ #endif
 -- 
 1.8.3.1
 
