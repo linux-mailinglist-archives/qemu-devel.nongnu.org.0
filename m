@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A3BC1471E0
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:39:54 +0100 (CET)
-Received: from localhost ([::1]:60304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7561471DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:38:37 +0100 (CET)
+Received: from localhost ([::1]:60270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuiKX-0004RC-8P
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:39:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41211)
+	id 1iuiJI-00011L-IZ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:38:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41186)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iufdp-0004oa-C2
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:38 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iufdl-0004lc-2m
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iufdo-0006Tf-4v
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:37 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20658
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iufdj-0006Rt-QJ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:33 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33705
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufdn-0006TP-WA
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:36 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufdj-0006Rl-No
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579798055;
+ s=mimecast20190719; t=1579798051;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nf43hP0IRcmDWjQcwTYkWCN3u56GRcr1BZ/k+vIuitE=;
- b=Y5NekAtBVnHFZT7xoC/HG1AxVeYzr5FF+KVAE+m2+oRRPP89rkps5qTuO61+FMbnDeSg0S
- UgOhe5wKyCuz7vBprMPNwKluuqCegnuGtNUZYzOdW14Ck7LnJeFVyinEmJ6VfxCukazYqx
- TimJVNa+chRiUa68fcH/RZtkpfGtIYU=
+ bh=pRi6vYFNhs/j1llGXVOGVhSwK/ObAljmvQ/qv9tM0tY=;
+ b=JSdybYzLKUn81jsl9DNBhNgjfQU/y4A8jhael0Y5oJ9WtJsuwkvAho4LBs/B2MBSb5vuzS
+ Cd919+s9TRtxCNHySfW4+kukQF+WBg53ZrljjWopnXFpvLSunFWPs42s8sIcTvhDxpgjy9
+ Sz4JE1A6OWwxrOF/ezpSeExj8cGEczQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-s2vQWiT0MCGHdKNA8YFXJw-1; Thu, 23 Jan 2020 11:47:28 -0500
+ us-mta-23-K0JJm_mFNjiBGk8LgEePBg-1; Thu, 23 Jan 2020 11:47:30 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 121701872C1B
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13309107ACC4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:29 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-110.ams2.redhat.com
  [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F37A19C69;
- Thu, 23 Jan 2020 16:47:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5EB3A19C69;
+ Thu, 23 Jan 2020 16:47:28 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 033/108] virtiofs: Add maintainers entry
-Date: Thu, 23 Jan 2020 16:45:15 +0000
-Message-Id: <20200123164630.91498-34-dgilbert@redhat.com>
+Subject: [PULL 034/108] virtiofsd: passthrough_ll: create new files in
+ caller's context
+Date: Thu, 23 Jan 2020 16:45:16 +0000
+Message-Id: <20200123164630.91498-35-dgilbert@redhat.com>
 In-Reply-To: <20200123164630.91498-1-dgilbert@redhat.com>
 References: <20200123164630.91498-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: s2vQWiT0MCGHdKNA8YFXJw-1
+X-MC-Unique: K0JJm_mFNjiBGk8LgEePBg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,36 +76,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Vivek Goyal <vgoyal@redhat.com>
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+We need to create files in the caller's context. Otherwise after
+creating a file, the caller might not be able to do file operations on
+that file.
+
+Changed effective uid/gid to caller's uid/gid, create file and then
+switch back to uid/gid 0.
+
+Use syscall(setresuid, ...) otherwise glibc does some magic to change EUID
+in all threads, which is not what we want.
+
+Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ tools/virtiofsd/passthrough_ll.c | 96 ++++++++++++++++++++++++++++++--
+ 1 file changed, 91 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2c768ed3d8..075fdab372 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1595,6 +1595,14 @@ T: git https://github.com/cohuck/qemu.git s390-next
- T: git https://github.com/borntraeger/qemu.git s390-next
- L: qemu-s390x@nongnu.org
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index cd27c09f59..5e061797d4 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -50,6 +50,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <sys/file.h>
++#include <sys/syscall.h>
+ #include <sys/xattr.h>
+ #include <unistd.h>
 =20
-+virtiofs
-+M: Dr. David Alan Gilbert <dgilbert@redhat.com>
-+M: Stefan Hajnoczi <stefanha@redhat.com>
-+S: Supported
-+F: tools/virtiofsd/*
-+F: hw/virtio/vhost-user-fs*
-+F: include/hw/virtio/vhost-user-fs.h
+@@ -83,6 +84,11 @@ struct lo_inode {
+     uint64_t refcount; /* protected by lo->mutex */
+ };
+=20
++struct lo_cred {
++    uid_t euid;
++    gid_t egid;
++};
 +
- virtio-input
- M: Gerd Hoffmann <kraxel@redhat.com>
- S: Maintained
+ enum {
+     CACHE_NEVER,
+     CACHE_NORMAL,
+@@ -383,6 +389,69 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t paren=
+t, const char *name)
+     }
+ }
+=20
++/*
++ * On some archs, setres*id is limited to 2^16 but they
++ * provide setres*id32 variants that allow 2^32.
++ * Others just let setres*id do 2^32 anyway.
++ */
++#ifdef SYS_setresgid32
++#define OURSYS_setresgid SYS_setresgid32
++#else
++#define OURSYS_setresgid SYS_setresgid
++#endif
++
++#ifdef SYS_setresuid32
++#define OURSYS_setresuid SYS_setresuid32
++#else
++#define OURSYS_setresuid SYS_setresuid
++#endif
++
++/*
++ * Change to uid/gid of caller so that file is created with
++ * ownership of caller.
++ * TODO: What about selinux context?
++ */
++static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
++{
++    int res;
++
++    old->euid =3D geteuid();
++    old->egid =3D getegid();
++
++    res =3D syscall(OURSYS_setresgid, -1, fuse_req_ctx(req)->gid, -1);
++    if (res =3D=3D -1) {
++        return errno;
++    }
++
++    res =3D syscall(OURSYS_setresuid, -1, fuse_req_ctx(req)->uid, -1);
++    if (res =3D=3D -1) {
++        int errno_save =3D errno;
++
++        syscall(OURSYS_setresgid, -1, old->egid, -1);
++        return errno_save;
++    }
++
++    return 0;
++}
++
++/* Regain Privileges */
++static void lo_restore_cred(struct lo_cred *old)
++{
++    int res;
++
++    res =3D syscall(OURSYS_setresuid, -1, old->euid, -1);
++    if (res =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "seteuid(%u): %m\n", old->euid);
++        exit(1);
++    }
++
++    res =3D syscall(OURSYS_setresgid, -1, old->egid, -1);
++    if (res =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "setegid(%u): %m\n", old->egid);
++        exit(1);
++    }
++}
++
+ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+                              const char *name, mode_t mode, dev_t rdev,
+                              const char *link)
+@@ -391,12 +460,21 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino=
+_t parent,
+     int saverr;
+     struct lo_inode *dir =3D lo_inode(req, parent);
+     struct fuse_entry_param e;
++    struct lo_cred old =3D {};
+=20
+     saverr =3D ENOMEM;
+=20
++    saverr =3D lo_change_cred(req, &old);
++    if (saverr) {
++        goto out;
++    }
++
+     res =3D mknod_wrapper(dir->fd, name, link, mode, rdev);
+=20
+     saverr =3D errno;
++
++    lo_restore_cred(&old);
++
+     if (res =3D=3D -1) {
+         goto out;
+     }
+@@ -794,26 +872,34 @@ static void lo_create(fuse_req_t req, fuse_ino_t pare=
+nt, const char *name,
+     struct lo_data *lo =3D lo_data(req);
+     struct fuse_entry_param e;
+     int err;
++    struct lo_cred old =3D {};
+=20
+     if (lo_debug(req)) {
+         fuse_log(FUSE_LOG_DEBUG, "lo_create(parent=3D%" PRIu64 ", name=3D%=
+s)\n",
+                  parent, name);
+     }
+=20
++    err =3D lo_change_cred(req, &old);
++    if (err) {
++        goto out;
++    }
++
+     fd =3D openat(lo_fd(req, parent), name, (fi->flags | O_CREAT) & ~O_NOF=
+OLLOW,
+                 mode);
+-    if (fd =3D=3D -1) {
+-        return (void)fuse_reply_err(req, errno);
+-    }
++    err =3D fd =3D=3D -1 ? errno : 0;
++    lo_restore_cred(&old);
+=20
+-    fi->fh =3D fd;
++    if (!err) {
++        fi->fh =3D fd;
++        err =3D lo_do_lookup(req, parent, name, &e);
++    }
+     if (lo->cache =3D=3D CACHE_NEVER) {
+         fi->direct_io =3D 1;
+     } else if (lo->cache =3D=3D CACHE_ALWAYS) {
+         fi->keep_cache =3D 1;
+     }
+=20
+-    err =3D lo_do_lookup(req, parent, name, &e);
++out:
+     if (err) {
+         fuse_reply_err(req, err);
+     } else {
 --=20
 2.24.1
 
