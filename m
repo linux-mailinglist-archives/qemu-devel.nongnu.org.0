@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9639146737
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:49:12 +0100 (CET)
-Received: from localhost ([::1]:55322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA95146729
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:46:41 +0100 (CET)
+Received: from localhost ([::1]:55298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuaz1-0004qT-3h
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:49:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34798)
+	id 1iuawZ-0002NC-Pz
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:46:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iuarL-00051c-MK
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:17 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iuarN-000556-Nf
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iuarK-0003rH-Eb
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39690
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1iuarM-0003sO-GC
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:17 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32115
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuarK-0003rB-BH
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:14 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuarM-0003sI-CI
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579779674;
+ s=mimecast20190719; t=1579779676;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KII+DyHT1mIXFS/kQkCnRcezJtqgb6yrJZzuOp/qnVk=;
- b=R4WK94BwJ5hHZ1dlKQBsH/jm3lqXlWPc7bspuMIannIy45qNJ8IPqcL8ZCMWDIzRNlWQCl
- j2isMgeUCcgsaNju7KkkvQlEbK0cqaD35+fWYqiUjSEm8Q6X+wSBgAE/f3vRRIlcU926Pk
- ahgtrmvwSIAirOdV+VCzM5tX0cRicAc=
+ bh=OaPpm+jzhh/dVZ7iFExc/6XQtE0cH9GjgUf2LdnzmYY=;
+ b=YeLgw1oIQUPyXUKszG66bW1q+eyMKnzPujHf7FTRcJCpfiNERWLd7UO9LVBXFN92dInDah
+ nRf+dPuHKjVV4HjrbecNCFF6ci2Tz9/3UjnZtU1Day+chm+/GmeNBCK9cZCzyTp7j4NHAx
+ 2F3siCEkL/3uIN8NKOb/9uhqSY/P2bs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-asARf87GPfGVGijXStAgpw-1; Thu, 23 Jan 2020 06:41:12 -0500
+ us-mta-187-kHtuyX3OOoe91GlBG7Ik-A-1; Thu, 23 Jan 2020 06:41:13 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 623191005510
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:41:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84D06107ACC4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:41:12 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 10AD71001B05;
- Thu, 23 Jan 2020 11:41:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A940A10016E8;
+ Thu, 23 Jan 2020 11:41:11 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH REPOST v3 03/80] machine: alias -mem-path and -mem-prealloc
- into memory-foo backend
-Date: Thu, 23 Jan 2020 12:37:28 +0100
-Message-Id: <1579779525-20065-4-git-send-email-imammedo@redhat.com>
+Subject: [PATCH REPOST v3 04/80] machine: introduce convenience
+ MachineState::ram
+Date: Thu, 23 Jan 2020 12:37:29 +0100
+Message-Id: <1579779525-20065-5-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
 References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: asARf87GPfGVGijXStAgpw-1
+X-MC-Unique: kHtuyX3OOoe91GlBG7Ik-A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,173 +71,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, philmd@redhat.com, ehabkost@redhat.com
+Cc: pbonzini@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow machine to opt in for hostmem backend based initial RAM
-even if user uses old -mem-path/prealloc options by providing
-  MachineClass::default_ram_id
-Follow up patches will incrementally convert machines to new API,
-by dropping memory_region_allocate_system_memory() and setting
-default_ram_id that board used to use before conversion to keep
-migration stream the same.
+the new field will be used by boards to get access to main
+RAM memory region and will help to save boiler plate in
+boards which often introduce a field or variable just for
+this purpose.
+
+Memory region will be equivalent to what currently used
+memory_region_allocate_system_memory() is returning apart
+from that it will come from hostmem backend.
+Followup patches will incrementally switch boards to using
+RAM from MachineState::ram.
+
+Patch takes care of non-NUMA case and follow up patch will
+initialize MachineState::ram for NUMA case.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-v3:
-   * rename "ram-memdev" property to "memory-backend"
-     (Paolo Bonzini <pbonzini@redhat.com>)
-
 CC: ehabkost@redhat.com
 CC: pbonzini@redhat.com
-CC: philmd@redhat.com
 ---
- include/hw/boards.h      |  5 +++++
- include/sysemu/hostmem.h | 16 ++++++++++++++++
- backends/hostmem-file.c  |  7 -------
- backends/hostmem-ram.c   |  2 --
- vl.c                     | 25 +++++++++++++++++++++++++
- 5 files changed, 46 insertions(+), 9 deletions(-)
+ include/hw/boards.h |  9 ++++++++-
+ hw/core/machine.c   | 21 +++++++++++++++++++++
+ hw/core/numa.c      | 14 +-------------
+ 3 files changed, 30 insertions(+), 14 deletions(-)
 
 diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 6aa01b8..2a4e804 100644
+index 2a4e804..351479d 100644
 --- a/include/hw/boards.h
 +++ b/include/hw/boards.h
-@@ -170,6 +170,10 @@ typedef struct {
-  *    false is returned, an error must be set to show the reason of
-  *    the rejection.  If the hook is not provided, all hotplug will be
-  *    allowed.
-+ * @default_ram_id:
-+ *    Specifies inital RAM MemoryRegion name to be used for default backen=
-d
-+ *    creation if user explicitly hasn't specified backend with "memory-ba=
-ckend"
-+ *    property.
-  */
- struct MachineClass {
-     /*< private >*/
-@@ -226,6 +230,7 @@ struct MachineClass {
-     bool nvdimm_supported;
-     bool numa_mem_supported;
-     bool auto_enable_numa;
-+    const char *default_ram_id;
+@@ -73,7 +73,12 @@ void machine_set_cpu_numa_node(MachineState *machine,
+                                Error **errp);
 =20
-     HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
-                                            DeviceState *dev);
-diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
-index 4dbdadd..5db0d66 100644
---- a/include/sysemu/hostmem.h
-+++ b/include/sysemu/hostmem.h
-@@ -27,6 +27,22 @@
- #define MEMORY_BACKEND_CLASS(klass) \
-     OBJECT_CLASS_CHECK(HostMemoryBackendClass, (klass), TYPE_MEMORY_BACKEN=
-D)
-=20
-+/* hostmem-ram.c */
-+/**
-+ * @TYPE_MEMORY_BACKEND_RAM:
-+ * name of backend that uses mmap on the anonymous RAM
+ void machine_class_allow_dynamic_sysbus_dev(MachineClass *mc, const char *=
+type);
+-
++/*
++ * Checks that backend isn't used, preps it for exclusive usage and
++ * returns migratable MemoryRegion provided by backend.
 + */
-+
-+#define TYPE_MEMORY_BACKEND_RAM "memory-backend-ram"
-+
-+/* hostmem-file.c */
-+/**
-+ * @TYPE_MEMORY_BACKEND_FILE:
-+ * name of backend that uses mmap on a file descriptor
-+ */
-+#define TYPE_MEMORY_BACKEND_FILE "memory-backend-file"
-+
-+typedef struct HostMemoryBackend HostMemoryBackend;
- typedef struct HostMemoryBackendClass HostMemoryBackendClass;
++MemoryRegion *machine_consume_memdev(MachineState *machine,
++                                     HostMemoryBackend *backend);
 =20
  /**
-diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
-index be64020..cb319a9 100644
---- a/backends/hostmem-file.c
-+++ b/backends/hostmem-file.c
-@@ -18,13 +18,6 @@
- #include "sysemu/sysemu.h"
- #include "qom/object_interfaces.h"
+  * CPUArchId:
+@@ -292,6 +297,8 @@ struct MachineState {
+     bool enable_graphics;
+     char *memory_encryption;
+     HostMemoryBackend *ram_memdev;
++    /* convenience alias to ram_memdev memory region or numa container */
++    MemoryRegion *ram;
+     DeviceMemoryState *device_memory;
 =20
--/* hostmem-file.c */
--/**
-- * @TYPE_MEMORY_BACKEND_FILE:
-- * name of backend that uses mmap on a file descriptor
-- */
--#define TYPE_MEMORY_BACKEND_FILE "memory-backend-file"
--
- #define MEMORY_BACKEND_FILE(obj) \
-     OBJECT_CHECK(HostMemoryBackendFile, (obj), TYPE_MEMORY_BACKEND_FILE)
+     ram_addr_t ram_size;
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index bf30183..81791a0 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -26,6 +26,7 @@
+ #include "sysemu/qtest.h"
+ #include "hw/pci/pci.h"
+ #include "hw/mem/nvdimm.h"
++#include "migration/vmstate.h"
 =20
-diff --git a/backends/hostmem-ram.c b/backends/hostmem-ram.c
-index 6aab8d3..5cc53e7 100644
---- a/backends/hostmem-ram.c
-+++ b/backends/hostmem-ram.c
-@@ -16,8 +16,6 @@
- #include "qemu/module.h"
- #include "qom/object_interfaces.h"
-=20
--#define TYPE_MEMORY_BACKEND_RAM "memory-backend-ram"
--
- static void
- ram_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
- {
-diff --git a/vl.c b/vl.c
-index 71d3e7e..9f97cb6 100644
---- a/vl.c
-+++ b/vl.c
-@@ -75,6 +75,7 @@ int main(int argc, char **argv)
- #include "ui/input.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/numa.h"
-+#include "sysemu/hostmem.h"
- #include "exec/gdbstub.h"
- #include "qemu/timer.h"
- #include "chardev/char.h"
-@@ -2822,6 +2823,25 @@ static void configure_accelerators(const char *progn=
-ame)
-     }
+ GlobalProperty hw_compat_4_2[] =3D {
+     { "virtio-blk-device", "x-enable-wce-if-config-wce", "off" },
+@@ -1041,10 +1042,30 @@ static void machine_numa_finish_cpu_init(MachineSta=
+te *machine)
+     g_string_free(s, true);
  }
 =20
-+static void create_default_memdev(MachineState *ms, const char *path,
-+                                  bool prealloc)
++MemoryRegion *machine_consume_memdev(MachineState *machine,
++                                     HostMemoryBackend *backend)
 +{
-+    Object *obj;
-+    MachineClass *mc =3D MACHINE_GET_CLASS(ms);
++    MemoryRegion *ret =3D host_memory_backend_get_memory(backend);
 +
-+    obj =3D object_new(path ? TYPE_MEMORY_BACKEND_FILE : TYPE_MEMORY_BACKE=
-ND_RAM);
-+    if (path) {
-+        object_property_set_str(obj, path, "mem-path", &error_fatal);
++    if (memory_region_is_mapped(ret)) {
++        char *path =3D object_get_canonical_path_component(OBJECT(backend)=
+);
++        error_report("memory backend %s can't be used multiple times.", pa=
+th);
++        g_free(path);
++        exit(EXIT_FAILURE);
 +    }
-+    object_property_set_bool(obj, prealloc, "prealloc", &error_fatal);
-+    object_property_set_int(obj, ms->ram_size, "size", &error_fatal);
-+    object_property_add_child(object_get_objects_root(), mc->default_ram_i=
-d,
-+                              obj, &error_fatal);
-+    user_creatable_complete(USER_CREATABLE(obj), &error_fatal);
-+    object_unref(obj);
-+    object_property_set_link(OBJECT(ms), obj, "memory-backend", &error_fat=
-al);
++    host_memory_backend_set_mapped(backend, true);
++    vmstate_register_ram_global(ret);
++    return ret;
 +}
 +
- int main(int argc, char **argv, char **envp)
+ void machine_run_board_init(MachineState *machine)
  {
-     int i;
-@@ -4285,6 +4305,11 @@ int main(int argc, char **argv, char **envp)
-     }
-     parse_numa_opts(current_machine);
+     MachineClass *machine_class =3D MACHINE_GET_CLASS(machine);
 =20
-+    if (!current_machine->ram_memdev &&
-+         machine_class->default_ram_size &&
-+         machine_class->default_ram_id) {
-+        create_default_memdev(current_machine, mem_path, mem_prealloc);
++    if (machine->ram_memdev) {
++        machine->ram =3D machine_consume_memdev(machine, machine->ram_memd=
+ev);
 +    }
-     /* do monitor/qmp handling at preconfig state if requested */
-     main_loop();
-=20
++
+     if (machine->numa_state) {
+         numa_complete_configuration(machine);
+         if (machine->numa_state->num_nodes) {
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index 840e685..8264336 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -817,20 +817,8 @@ void memory_region_allocate_system_memory(MemoryRegion=
+ *mr, Object *owner,
+         if (!backend) {
+             continue;
+         }
+-        MemoryRegion *seg =3D host_memory_backend_get_memory(backend);
+-
+-        if (memory_region_is_mapped(seg)) {
+-            char *path =3D object_get_canonical_path_component(OBJECT(back=
+end));
+-            error_report("memory backend %s is used multiple times. Each "
+-                         "-numa option must use a different memdev value."=
+,
+-                         path);
+-            g_free(path);
+-            exit(1);
+-        }
+-
+-        host_memory_backend_set_mapped(backend, true);
++        MemoryRegion *seg =3D machine_consume_memdev(ms, backend);
+         memory_region_add_subregion(mr, addr, seg);
+-        vmstate_register_ram_global(seg);
+         addr +=3D size;
+     }
+ }
 --=20
 2.7.4
 
