@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D807C146662
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:12:33 +0100 (CET)
-Received: from localhost ([::1]:54656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17B611466A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:22:26 +0100 (CET)
+Received: from localhost ([::1]:54752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuaPY-0006mo-Ti
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:12:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56895)
+	id 1iuaZ7-0004Km-5P
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:22:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58777)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iuaOZ-0006LD-QP
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:11:34 -0500
+ (envelope-from <bounces@canonical.com>) id 1iuaXt-0003ER-FZ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:21:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iuaOY-0004P2-GS
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:11:31 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35476)
+ (envelope-from <bounces@canonical.com>) id 1iuaXr-0002MK-Aa
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:21:09 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57026)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iuaOY-0004Oc-AP
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:11:30 -0500
-Received: by mail-wr1-x443.google.com with SMTP id g17so2626195wro.2
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 03:11:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=oGNkE299gTnpziJ0nlH0pLt/Mi+ND0EpzTQ53UR2bj8=;
- b=b0NwpXVgXRygt6xy5ioJhJO+p3158frqy44zitXbDwm0UkrMRXKALP9YILe6ppBp4g
- TX2i/TfOIS7K0wkAuRBnx96wdnrQ7V49oehuxP1R4lbUhtR+swQ9DLN5UO+R2Fm3C1yD
- 5XTWqZGLD+ErXIQ9J8kO73bHke+/2kMzaPIWJzRu2NV8w8fQAoSZjdIW2EgzZUV0sR0l
- FnwwDunFlKYmWsKZRDW5XluqqFp+s1lBAxETHLwm8iyFhdu4WC9gVF+/Vp6fyPont5yE
- ZSh5/ysaHFBDdYDYsNgOHIDDmPZZObmu09ZXA893Bzq5FI3TZmfHSM3mFMAvf6BF83uY
- 1NAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=oGNkE299gTnpziJ0nlH0pLt/Mi+ND0EpzTQ53UR2bj8=;
- b=VZ1X5OSrX/RlFgylLtRmJJ/OVqS7EOIBQ6T6JptKJocEhRgILxJXC8PA+Y7cdwWDdi
- dM3d8Is2j08++v997Phfrb2wTgN7qjKBL6/u62EziY2jyws+1IDTaxULVTfP/9vArpsN
- oYOAfnNUX4Wp+JbRIKVnuOXpDa4AzaH8XiG+eVfhG8/1ibQ/+ZZqrRQDyHXKpapJLEBl
- Vl00NhjaXDR6icqlA7aCCYhe/WAZhXWfKSrhEtEouLMGq+SNMVNQAxHn0Mh27lPj1YBD
- y/ykKkbWVZOnOyaBeFGk+O4jjekSNruTGYK2AbxRQjCJKxMtVLMM/zmvKKjWcLaydRCs
- RBeA==
-X-Gm-Message-State: APjAAAULsOFq7oLbB8VzWlPO2cD/ZjIJnQKIruag3dL6Yg1LZFvWVph/
- bTuk5mbCRLt8xM+ALQ9ZxROt6CxRQG4UB5cWpA3xpObtGmI=
-X-Google-Smtp-Source: APXvYqzuA3AoiT9s0NJLxDDatxA6Pc2bwPacwZY6ne0xOtkTh6bGOhCbPonB8zDxhQ/NXLnTZrm1CKBdgUzlsFjSoy0=
-X-Received: by 2002:a5d:43c7:: with SMTP id v7mr16439622wrr.32.1579777889092; 
- Thu, 23 Jan 2020 03:11:29 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iuaXr-0002Lp-50
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:21:07 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iuaXo-0008JU-4b
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:21:04 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6DFC02E80DA
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:21:02 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
- <20200110153039.1379601-20-marcandre.lureau@redhat.com>
- <5974b974-d3a9-dd1f-d226-6912d7d97365@redhat.com>
-In-Reply-To: <5974b974-d3a9-dd1f-d226-6912d7d97365@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 23 Jan 2020 15:11:16 +0400
-Message-ID: <CAJ+F1C+KQsLmBVtSVANPY=bu=nLN6E1j_tEQauD4-fgEdwAP0A@mail.gmail.com>
-Subject: Re: [PATCH 19/26] qdev: set properties with device_class_set_props()
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+Date: Thu, 23 Jan 2020 11:11:37 -0000
+From: Thomas Huth <1661815@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: shqking th-huth
+X-Launchpad-Bug-Reporter: shqking (shqking)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20170204082040.20702.26524.malonedeb@gac.canonical.com>
+Message-Id: <157977789768.5441.13453741863477584993.malone@chaenomeles.canonical.com>
+Subject: [Bug 1661815] Re: Stack address is returned from function
+ translate_one
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 40ffabe7b01c9564088c755f3e4801445fd9707a
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,28 +65,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1661815 <1661815@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+I've finally posted a patch for this:
+https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg05204.html
 
-On Thu, Jan 23, 2020 at 3:09 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 10/01/20 16:30, Marc-Andr=C3=A9 Lureau wrote:
-> > The following patch will need to handle properties registration during
-> > class_init time. Let's use a device_class_set_props() setter.
->
-> If you don't mind, I'll also rename "props" to "props_" so that we can
-> more easily catch conflicts (which will be syntax errors and not just
-> bugs) in the future.
+-- =
 
-Yes, I wanted to do something like that too.
-thanks
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1661815
 
+Title:
+  Stack address is returned from function translate_one
 
---=20
-Marc-Andr=C3=A9 Lureau
+Status in QEMU:
+  New
+
+Bug description:
+  The vulnerable version is qemu-2.8.0, and the vulnerable function is
+  in "target-s390x/translate.c".
+
+  The code snippet is as following.
+
+  static ExitStatus translate_one(CPUS390XState *env, DisasContext *s)
+  {
+      const DisasInsn *insn;
+      ExitStatus ret =3D NO_EXIT;
+      DisasFields f;
+      ...
+      s->fields =3D &f;
+      ...
+      s->pc =3D s->next_pc;
+      return ret;
+  }
+
+  A stack address, i.e. the address of local variable "f" is returned
+  from current function through the output parameter "s->fields" as a
+  side effect.
+
+  This issue is one kind of undefined behaviors, according the C
+  Standard, 6.2.4 [ISO/IEC 9899:2011]
+  (https://www.securecoding.cert.org/confluence/display/c/DCL30-C.+Declare+=
+objects+with+appropriate+storage+durations)
+
+  This dangerous defect may lead to an exploitable vulnerability.
+  We suggest sanitizing "s->fields" as null before return.
+
+  Note that this issue is reported by shqking and Zhenwei Zou together.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1661815/+subscriptions
 
