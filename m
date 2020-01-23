@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF8E146382
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:30:27 +0100 (CET)
-Received: from localhost ([::1]:53088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7C914636F
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:25:27 +0100 (CET)
+Received: from localhost ([::1]:53024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXsf-0002K0-OE
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:30:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56003)
+	id 1iuXnp-0003LX-LJ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:25:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuXlM-00014u-3v
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:53 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuXlI-00011Y-D5
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuXlK-00032B-KJ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:51 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:34085)
+ (envelope-from <laurent@vivier.eu>) id 1iuXlE-0002nn-S6
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:48 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:36769)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlK-0002zI-Ae
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:50 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlD-0002e6-4T
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:44 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M2w0K-1itRpJ0jHw-003QiD; Thu, 23 Jan 2020 09:22:37 +0100
+ id 1N9MYu-1ji7aL2gYW-015Eej; Thu, 23 Jan 2020 09:22:37 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/17] linux-user: Add support for FDFMT<BEG|TRK|END> ioctls
-Date: Thu, 23 Jan 2020 09:22:17 +0100
-Message-Id: <20200123082227.2037994-8-laurent@vivier.eu>
+Subject: [PULL 08/17] configure: Detect kcov support and introduce CONFIG_KCOV
+Date: Thu, 23 Jan 2020 09:22:18 +0100
+Message-Id: <20200123082227.2037994-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123082227.2037994-1-laurent@vivier.eu>
 References: <20200123082227.2037994-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:T6e1aRRRGjwso8DsyU83AP23O2FYyJR89ofrWkTtCHWrLkPdLhy
- p2WCAYG+OH51h4o3GUMr6fvWbh2pBYhTHgx7bYv4QlHxfMN1ossVoiuRtRb9uRun5DnSktC
- TBCm/ndHE95MBb0nX+T+8AjhgaE0E/omeG5+w9QBH/G4MxQZ6Y24KZol11RwDFDZY8zD5hL
- mujA3caCpapQG5sUvyThA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:aeHXt/K6uuA=:5K/3ClrR6tUUeqj1/WBuv9
- MD2S7mhHlqHcMio3hRxpJg5fgz3nLa+2lLLqwBCGjbFjlyK3Wm3bNyVGAAfF5VU7G7+SyQe7B
- gDMjWOE2CJhYRRMkHi229e/GbH3PdmDJBQNBJv9x+h3/ng9wQAPEM8oTqId1vGjseEeuz0YnN
- UIvDYLcUrlxPUuDVK4KZv83HsYOlwqbiWv/dOCNG2n1Il0tEX53Ki3ug1SknOvKjnaE55nU9o
- isNyUm5ZbzbCH/AfuWLOy+j93OeUZVbuhhcPfq5+onlT0KtCb3mfKqBsgGB0XSZLF23TRzp45
- j17co/OOSvi4zpBnJmVgeSJ0TTibLdtiNF6I69ltdTqEV2hDycJqANZX88/iGIw9F48zRHbyK
- SEc4N9OenHOOFAJXltqnKBJ75R85IqDK1WCfxoxBX6Gp+xNnVPw6uiSuuh8FHyPRFQdL01O3M
- YU8g2NI+ZdYaFmdw4F5yN9Pqo3AhkiMMo1I+SyXWw7wNFuDG+fFi1jh+0Uh4JveMm9yXIjqpO
- nwVuNWRedfS4zHSX7GY93HphdagoBYQOTxM/ge/c65Z4nyKqxHLYTmKlw/N5dItXy+G4Mj5vE
- X2C/rdXImwUp7nmI8DSm11jXOWyeKXGlPgTLd1YFkDkumakOEMvtgZrO6xLcQQoi1g/dexv1R
- 6PZtMlpl2cHRx6Qh9ncb59BwDwnqjDY4nx9GOgV1J2unifPM1rBNr6m1zIRjWT4YpopCC4LCe
- RryLS8Uh4k0OGfD3RE11aKqwlegtRQO1H7u4/+5MJcPpXFL7uowuBpK3ELn9nGqK92cmH/qji
- g9AYHD8cVBUG/Pv1mC1JPh5gZc/dMa1+cNtydSp1L9vKdndH0E=
+X-Provags-ID: V03:K1:vw/gO8wDzJ24T7wRq8a05ei+gcep8mZSfAVtR0HjNqe48tPpztH
+ hYMGYdsVqSshliBuwcFtcN9dt4luvoQOL3ADpX1c/UYp2j5aMrkhNrk9/lAGTAkXrGoCq8K
+ cwtCxGNPyXRWL+8YWnbSX2piGA/N+2/2HymRzBrw8dAy8n41DGUuW7AUbeLbFZ6O/O3DIWh
+ dVYS1Np5ZZrZHuCc3uOsw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2L5W3dzSbsA=:XYPGBPcozcxkShAWDaUIBz
+ MZhuq4YDx4X61FnRZz7S3pL8IULSdhJJbN6IwKOkWbugWUb3fVG6r6kN0bmMdxUxnnTk00Y3G
+ KvzlQzDYAwUKxvr+hVCi1tLbgsPbzpZpXXd7k9DlUpKzcbkHUm7XgLH6Lq8mu1pbYBZ3Wc6d3
+ w5YQB7HqTIkDMjcAkJVvDrsB/VB+KO9GawiJmDE8qoIB72kDD3LGGYvkBVxlFolzd4tZ3y13U
+ F8QKradllu3i+EyL1GNDCp0fIPrb1dXGBLIgSH8baUmFzab3IvEFTBr/gujDfvwf3mOi8Y8kv
+ NNqRFxCsYrkQ1n5BvA+G7yu+vUD0RJTqgVKJ0030JpiDZKGiVIz6v85SPDqQ8FNu/167xR9FX
+ huYNGuMD/4aPaGq2hSos3AsyO2quNibQr0oZv0X/hEq4VE7ia344/khzLYK4bzg9W8uxyasAv
+ TQ/o1dN5ac+HnNW9oPb+CXGrBxskOWUAPl5cxb9Y0GfUzrARfdV8cCnT5Fq1AjVYStEfx19w+
+ QyEkySbVAX8Ou3pg+jzTmnV9qN1028pkXJjFUUFAB2/4yy/48dqMCkegBpiUhLyMw3NU95Y0O
+ X8q6cMEXTbSAa0mUr9vZYgSPUIm+2dofdpTM5Y++X3IH/fYtwiRN9Zb/dWUQAIK1F6Z3jfZtk
+ 3WHQNvHeer0aHsCKNK6bK1TXtYwkxudm4Xg3nrWWs2nHOlzdpq22iubetE+7JepAsVQyec7Ti
+ bY0Y48uJmA230mHenYsPqOFhH7YpXUG5dPbQV8ACr+rBnH20xRRBqrwOlBY93g5d+63u4oWAb
+ Hj+URYc6rRx1Ezfsv8oNoAXr5GEHwJpPJkEN9DQ2Qw46kk9Ozw=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
+X-Received-From: 212.227.126.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,76 +70,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-FDFMTBEG, FDFMTTRK, and FDFMTEND ioctls provide means for controlling
-formatting of a floppy drive.
+kcov is kernel code coverage tracing tool. It requires kernel 4.4+
+compiled with certain kernel options.
 
-FDFMTTRK's third agrument is a pointer to the structure:
+This patch checks if kcov header "sys/kcov.h" is present on build
+machine, and stores the result in variable CONFIG_KCOV, meant to
+be used in linux-user code related to the support for three ioctls
+that were introduced at the same time as the mentioned header
+(their definition was a part of the first version of that header).
 
-struct format_descr {
-    unsigned int device,head,track;
-};
-
-defined in Linux kernel header <linux/fd.h>.
-
-Since all fields of the structure are of type 'unsigned int', there is
-no need to define "target_format_descr".
-
-FDFMTBEG and FDFMTEND ioctls do not use the third argument.
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <1579214991-19602-9-git-send-email-aleksandar.markovic@rt-rk.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <1579214991-19602-11-git-send-email-aleksandar.markovic@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ioctls.h        | 3 +++
- linux-user/syscall_defs.h  | 3 +++
- linux-user/syscall_types.h | 5 +++++
- 3 files changed, 11 insertions(+)
+ configure | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 2c3d798842e4..29969e2f2f27 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -115,6 +115,9 @@
-      IOCTL(FDMSGON, 0, TYPE_NULL)
-      IOCTL(FDMSGOFF, 0, TYPE_NULL)
-      IOCTL(FDSETEMSGTRESH, 0, TYPE_NULL)
-+     IOCTL(FDFMTBEG, 0, TYPE_NULL)
-+     IOCTL(FDFMTTRK, IOC_W, MK_PTR(MK_STRUCT(STRUCT_format_descr)))
-+     IOCTL(FDFMTEND, 0, TYPE_NULL)
-      IOCTL(FDFLUSH, 0, TYPE_NULL)
-      IOCTL(FDSETMAXERRS, IOC_W, MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
-      IOCTL(FDGETMAXERRS, IOC_R, MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 48de76145f0c..b3acf85a6b23 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -899,6 +899,9 @@ struct target_pollfd {
+diff --git a/configure b/configure
+index 557e4382ea87..d91eab4d65c4 100755
+--- a/configure
++++ b/configure
+@@ -4761,6 +4761,12 @@ if compile_prog "" "" ; then
+   syncfs=yes
+ fi
  
- #define TARGET_FDMSGON        TARGET_IO(2, 0x45)
- #define TARGET_FDMSGOFF       TARGET_IO(2, 0x46)
-+#define TARGET_FDFMTBEG       TARGET_IO(2, 0x47)
-+#define TARGET_FDFMTTRK      TARGET_IOW(2, 0x48, struct format_descr)
-+#define TARGET_FDFMTEND       TARGET_IO(2, 0x49)
- #define TARGET_FDSETEMSGTRESH TARGET_IO(2, 0x4a)
- #define TARGET_FDFLUSH        TARGET_IO(2, 0x4b)
- #define TARGET_FDSETMAXERRS  TARGET_IOW(2, 0x4c, struct floppy_max_errors)
-diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index e4e0429637c5..8ff78a625ace 100644
---- a/linux-user/syscall_types.h
-+++ b/linux-user/syscall_types.h
-@@ -261,6 +261,11 @@ STRUCT(blkpg_ioctl_arg,
-        TYPE_INT, /* datalen */
-        TYPE_PTRVOID) /* data */
- 
-+STRUCT(format_descr,
-+       TYPE_INT,     /* device */
-+       TYPE_INT,     /* head */
-+       TYPE_INT)     /* track */
++# check for kcov support (kernel must be 4.4+, compiled with certain options)
++kcov=no
++if check_include sys/kcov.h ; then
++    kcov=yes
++fi
 +
- STRUCT(floppy_max_errors,
-        TYPE_INT, /* abort */
-        TYPE_INT, /* read_track */
+ # Check we have a new enough version of sphinx-build
+ has_sphinx_build() {
+     # This is a bit awkward but works: create a trivial document and
+@@ -6874,6 +6880,9 @@ fi
+ if test "$syncfs" = "yes" ; then
+   echo "CONFIG_SYNCFS=y" >> $config_host_mak
+ fi
++if test "$kcov" = "yes" ; then
++  echo "CONFIG_KCOV=y" >> $config_host_mak
++fi
+ if test "$inotify" = "yes" ; then
+   echo "CONFIG_INOTIFY=y" >> $config_host_mak
+ fi
 -- 
 2.24.1
 
