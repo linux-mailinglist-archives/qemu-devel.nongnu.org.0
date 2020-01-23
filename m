@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A17614677C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:03:44 +0100 (CET)
-Received: from localhost ([::1]:55816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9073D146794
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:08:06 +0100 (CET)
+Received: from localhost ([::1]:55888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iubD4-0005g6-Jp
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:03:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35380)
+	id 1iubHI-0002YM-RS
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:08:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35436)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iuas2-0005pt-9S
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:59 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iuas9-000645-OT
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:42:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iuas0-0004Lj-SR
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:58 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20066
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1iuas8-0004Pu-FO
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:42:05 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20117
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuas0-0004Ld-OO
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:56 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuas7-0004Pe-U6
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:42:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579779716;
+ s=mimecast20190719; t=1579779723;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=81F1Cwx0a351ptOijvSAE2EQnlOayMHUb+jlSf6z2DU=;
- b=SXmcs8GhojVQgvh6GEYsI2oxOU6vM76oTfFx+vZn23Q6E9n5/cVe9jlGmslchbI81inQza
- dmhGhwuH/staS5YFpXk8t6ncrcv0qgcVpqcIDD1kkeFKJg4ermC2ZKpnBQCTTAoHnbL96X
- jJzWaKqpQ/1lmeI/fcz7jq53VKQbIqY=
+ bh=TiZvlZ1MdawhjZtdHcXJjV0fD5PvL8u6QTlQRmLYaxY=;
+ b=PWgZ3BkRcuDggf+cysJsFp9zmAXfY1sXpZK8oJz70MnZgEmZl7k49EaL1iGBeD1n8pN2LJ
+ Dyd20+x3bEE2hm3NV9WwI6ADgWR3728ARUJL3tRlzAloMBAg2QTvRK47f7OBDBSdQohbbj
+ RQw9U1K3zNTwSRAbIi8R6aj90szWCE4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-FwCyJRsWP9OGWYWsZLe8cQ-1; Thu, 23 Jan 2020 06:41:52 -0500
+ us-mta-378-K1Q_s_-POXuOTL5vmuWAow-1; Thu, 23 Jan 2020 06:42:00 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F0821800D48;
- Thu, 23 Jan 2020 11:41:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA75218C8C1F;
+ Thu, 23 Jan 2020 11:41:58 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC7A710016E8;
- Thu, 23 Jan 2020 11:41:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A3A971084198;
+ Thu, 23 Jan 2020 11:41:54 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH REPOST v3 23/80] arm/nseries: use memdev for RAM
-Date: Thu, 23 Jan 2020 12:37:48 +0100
-Message-Id: <1579779525-20065-24-git-send-email-imammedo@redhat.com>
+Subject: [PATCH REPOST v3 26/80] arm/raspi: use memdev for RAM
+Date: Thu, 23 Jan 2020 12:37:51 +0100
+Message-Id: <1579779525-20065-27-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
 References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: FwCyJRsWP9OGWYWsZLe8cQ-1
+X-MC-Unique: K1Q_s_-POXuOTL5vmuWAow-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,7 +71,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, qemu-arm@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, philmd@redhat.com,
+ Andrew.Baumann@microsoft.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,112 +85,123 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 PS:
- while at it add check for user supplied RAM size and error
- out if it mismatches board expected value.
+ remove no longer needed RasPiState
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2:
-  * fix format string causing build failure on 32-bit host
-    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
-
-CC: drjones@redhat.com
-CC: balrogg@gmail.com
+CC: Andrew.Baumann@microsoft.com
+CC: philmd@redhat.com
 CC: peter.maydell@linaro.org
 CC: qemu-arm@nongnu.org
 ---
- hw/arm/nseries.c | 32 +++++++++++++++++++-------------
- 1 file changed, 19 insertions(+), 13 deletions(-)
+ hw/arm/raspi.c | 34 +++++++++++++---------------------
+ 1 file changed, 13 insertions(+), 21 deletions(-)
 
-diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
-index 3fd196f..eae800b 100644
---- a/hw/arm/nseries.c
-+++ b/hw/arm/nseries.c
-@@ -47,7 +47,6 @@
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 6a510aa..33ace66 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -32,11 +32,6 @@
+ /* Table of Linux board IDs for different Pi versions */
+ static const int raspi_boardid[] =3D {[1] =3D 0xc42, [2] =3D 0xc43, [3] =
+=3D 0xc44};
 =20
- /* Nokia N8x0 support */
- struct n800_s {
--    MemoryRegion sdram;
-     struct omap_mpu_state_s *mpu;
-=20
-     struct rfbi_chip_s blizzard;
-@@ -1311,13 +1310,19 @@ static void n8x0_init(MachineState *machine,
-                       struct arm_boot_info *binfo, int model)
+-typedef struct RasPiState {
+-    BCM283XState soc;
+-    MemoryRegion ram;
+-} RasPiState;
+-
+ static void write_smpboot(ARMCPU *cpu, const struct arm_boot_info *info)
  {
-     struct n800_s *s =3D (struct n800_s *) g_malloc0(sizeof(*s));
--    uint64_t sdram_size =3D binfo->ram_size;
-+    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+     static const uint32_t smpboot[] =3D {
+@@ -166,7 +161,7 @@ static void setup_boot(MachineState *machine, int versi=
+on, size_t ram_size)
 =20
--    memory_region_allocate_system_memory(&s->sdram, NULL, "omap2.dram",
--                                         sdram_size);
--    memory_region_add_subregion(get_system_memory(), OMAP2_Q2_BASE, &s->sd=
-ram);
-+    if (machine->ram_size !=3D mc->default_ram_size) {
-+        char *sz =3D size_to_str(mc->default_ram_size);
-+        error_report("Invalid RAM size, should be %s", sz);
-+        g_free(sz);
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    memory_region_add_subregion(get_system_memory(), OMAP2_Q2_BASE,
-+                                machine->ram);
+ static void raspi_init(MachineState *machine, int version)
+ {
+-    RasPiState *s =3D g_new0(RasPiState, 1);
++    Object *soc;
+     uint32_t vcram_size;
+     DriveInfo *di;
+     BlockBackend *blk;
+@@ -179,30 +174,26 @@ static void raspi_init(MachineState *machine, int ver=
+sion)
+         exit(1);
+     }
 =20
--    s->mpu =3D omap2420_mpu_init(&s->sdram, machine->cpu_type);
-+    s->mpu =3D omap2420_mpu_init(machine->ram, machine->cpu_type);
+-    object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc=
+),
+-                            version =3D=3D 3 ? TYPE_BCM2837 : TYPE_BCM2836=
+,
+-                            &error_abort, NULL);
++    soc =3D object_new(version =3D=3D 3 ? TYPE_BCM2837 : TYPE_BCM2836);
++    object_property_add_child(OBJECT(machine), "soc", soc, &error_fatal);
 =20
-     /* Setup peripherals
-      *
-@@ -1383,9 +1388,8 @@ static void n8x0_init(MachineState *machine,
-          *
-          * The code above is for loading the `zImage' file from Nokia
-          * images.  */
--        load_image_targphys(option_rom[0].name,
--                            OMAP2_Q2_BASE + 0x400000,
--                            sdram_size - 0x400000);
-+        load_image_targphys(option_rom[0].name, OMAP2_Q2_BASE + 0x400000,
-+                            machine->ram_size - 0x400000);
+-    /* Allocate and map RAM */
+-    memory_region_allocate_system_memory(&s->ram, OBJECT(machine), "ram",
+-                                         machine->ram_size);
+     /* FIXME: Remove when we have custom CPU address space support */
+-    memory_region_add_subregion_overlap(get_system_memory(), 0, &s->ram, 0=
+);
++    memory_region_add_subregion_overlap(get_system_memory(), 0,
++                                        machine->ram, 0);
 =20
-         n800_setup_nolo_tags(nolo_tags);
-         cpu_physical_memory_write(OMAP2_SRAM_BASE, nolo_tags, 0x10000);
-@@ -1395,16 +1399,12 @@ static void n8x0_init(MachineState *machine,
+     /* Setup the SOC */
+-    object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(&s->ram)=
+,
++    object_property_add_const_link(soc, "ram", OBJECT(machine->ram),
+                                    &error_abort);
+-    object_property_set_int(OBJECT(&s->soc), machine->smp.cpus, "enabled-c=
+pus",
++    object_property_set_int(soc, machine->smp.cpus, "enabled-cpus",
+                             &error_abort);
+     int board_rev =3D version =3D=3D 3 ? 0xa02082 : 0xa21041;
+-    object_property_set_int(OBJECT(&s->soc), board_rev, "board-rev",
+-                            &error_abort);
+-    object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_abo=
+rt);
++    object_property_set_int(soc, board_rev, "board-rev", &error_abort);
++    object_property_set_bool(soc, true, "realized", &error_abort);
 =20
- static struct arm_boot_info n800_binfo =3D {
-     .loader_start =3D OMAP2_Q2_BASE,
--    /* Actually two chips of 0x4000000 bytes each */
--    .ram_size =3D 0x08000000,
-     .board_id =3D 0x4f7,
-     .atag_board =3D n800_atag_setup,
+     /* Create and plug in the SD cards */
+     di =3D drive_get_next(IF_SD);
+     blk =3D di ? blk_by_legacy_dinfo(di) : NULL;
+-    bus =3D qdev_get_child_bus(DEVICE(&s->soc), "sd-bus");
++    bus =3D qdev_get_child_bus(DEVICE(soc), "sd-bus");
+     if (bus =3D=3D NULL) {
+         error_report("No SD bus found in SOC object");
+         exit(1);
+@@ -211,8 +202,7 @@ static void raspi_init(MachineState *machine, int versi=
+on)
+     qdev_prop_set_drive(carddev, "drive", blk, &error_fatal);
+     object_property_set_bool(OBJECT(carddev), true, "realized", &error_fat=
+al);
+=20
+-    vcram_size =3D object_property_get_uint(OBJECT(&s->soc), "vcram-size",
+-                                          &error_abort);
++    vcram_size =3D object_property_get_uint(soc, "vcram-size", &error_abor=
+t);
+     setup_boot(machine, version, machine->ram_size - vcram_size);
+ }
+=20
+@@ -233,6 +223,7 @@ static void raspi2_machine_init(MachineClass *mc)
+     mc->min_cpus =3D BCM283X_NCPUS;
+     mc->default_cpus =3D BCM283X_NCPUS;
+     mc->default_ram_size =3D 1 * GiB;
++    mc->default_ram_id =3D "ram";
+     mc->ignore_memory_transaction_failures =3D true;
  };
-=20
- static struct arm_boot_info n810_binfo =3D {
-     .loader_start =3D OMAP2_Q2_BASE,
--    /* Actually two chips of 0x4000000 bytes each */
--    .ram_size =3D 0x08000000,
-     /* 0x60c and 0x6bf (WiMAX Edition) have been assigned but are not
-      * used by some older versions of the bootloader and 5555 is used
-      * instead (including versions that shipped with many devices).  */
-@@ -1431,6 +1431,9 @@ static void n800_class_init(ObjectClass *oc, void *da=
-ta)
-     mc->default_boot_order =3D "";
-     mc->ignore_memory_transaction_failures =3D true;
-     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm1136-r2");
-+    /* Actually two chips of 0x4000000 bytes each */
-+    mc->default_ram_size =3D 0x08000000;
-+    mc->default_ram_id =3D "omap2.dram";
+ DEFINE_MACHINE("raspi2", raspi2_machine_init)
+@@ -255,6 +246,7 @@ static void raspi3_machine_init(MachineClass *mc)
+     mc->min_cpus =3D BCM283X_NCPUS;
+     mc->default_cpus =3D BCM283X_NCPUS;
+     mc->default_ram_size =3D 1 * GiB;
++    mc->default_ram_id =3D "ram";
  }
-=20
- static const TypeInfo n800_type =3D {
-@@ -1448,6 +1451,9 @@ static void n810_class_init(ObjectClass *oc, void *da=
-ta)
-     mc->default_boot_order =3D "";
-     mc->ignore_memory_transaction_failures =3D true;
-     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm1136-r2");
-+    /* Actually two chips of 0x4000000 bytes each */
-+    mc->default_ram_size =3D 0x08000000;
-+    mc->default_ram_id =3D "omap2.dram";
- }
-=20
- static const TypeInfo n810_type =3D {
+ DEFINE_MACHINE("raspi3", raspi3_machine_init)
+ #endif
 --=20
 2.7.4
 
