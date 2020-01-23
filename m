@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF918146F3F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:11:17 +0100 (CET)
-Received: from localhost ([::1]:33082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C51146F46
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:14:02 +0100 (CET)
+Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iug0i-0004ou-9O
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:11:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52510)
+	id 1iug3N-0000M0-5P
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:14:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52542)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iuctT-0008IR-7x
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:36 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iuctV-0008MN-H2
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iuctR-0007wa-1P
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:34 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52685
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iuctU-00085s-Al
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:37 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52142
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuctQ-0007wM-Ux
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:32 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuctU-00084k-8K
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787492;
+ s=mimecast20190719; t=1579787496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tN1ejZZNNDpwR2f7hBVHJMLYu8kEqjTbMs1ArQbeLlc=;
- b=QhIxhHfKex44neOcvhjcqoU6fJoNPAMZBxucVmCo+8a/vwFeA/hVODDr1rMQPbIdB51I6h
- KlrkrCyorZITJBebCR6I+e4+c3nZGOIR489A3mN/+2YeacjVRMJ1+lY8ZEG7vamASZrrT1
- 8JJUEL0zASXC0hkFR4yKMUODOVDyPFA=
+ bh=VSNPfn/WqEe4auVK0p1YkDtx0JRhgePqKKnBaAQWvqk=;
+ b=XgQoJ9NEyPndoBIjc4a7ppOmWpAIGBT21tKwYOCUBFEbNncMZE7uxEVSGCeSohVtdJ2ZFs
+ g7Rz9BU4uu1i0HESN6oQBuv9sT48Tg5Xh8q9LROtwKhChoRuzmOHRHlRgVSqCF1+j29lYJ
+ 9VwFLvmyBpBgoBKH8WHbdPJvwkjc5yE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-jIf9gV7IPEqPV03uNt2n1Q-1; Thu, 23 Jan 2020 08:51:30 -0500
+ us-mta-7-HolpI--ZOj-YSJq9mU4p3Q-1; Thu, 23 Jan 2020 08:51:32 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2D52100550E
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63F0CDBAD;
+ Thu, 23 Jan 2020 13:51:31 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 26AC785785
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 602A8857A9;
+ Thu, 23 Jan 2020 13:51:30 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/59] target/i386: kvm: initialize microcode revision from KVM
-Date: Thu, 23 Jan 2020 14:50:10 +0100
-Message-Id: <1579787449-27599-21-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 21/59] virtio-scsi: delete vqs in unrealize to avoid memleaks
+Date: Thu, 23 Jan 2020 14:50:11 +0100
+Message-Id: <1579787449-27599-22-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: jIf9gV7IPEqPV03uNt2n1Q-1
+X-MC-Unique: HolpI--ZOj-YSJq9mU4p3Q-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -69,55 +69,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Pan Nengyuan <pannengyuan@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM can return the host microcode revision as a feature MSR.
-Use it as the default value for -cpu host.
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <1579544504-3616-4-git-send-email-pbonzini@redhat.com>
+This patch fix memleaks when attaching/detaching virtio-scsi device, the
+memory leak stack is as follow:
+
+Direct leak of 21504 byte(s) in 3 object(s) allocated from:
+  #0 0x7f491f2f2970 (/lib64/libasan.so.5+0xef970)  ??:?
+  #1 0x7f491e94649d (/lib64/libglib-2.0.so.0+0x5249d)  ??:?
+  #2 0x564d0f3919fa (./x86_64-softmmu/qemu-system-x86_64+0x2c3e9fa)  /mnt/s=
+db/qemu/hw/virtio/virtio.c:2333
+  #3 0x564d0f2eca55 (./x86_64-softmmu/qemu-system-x86_64+0x2b99a55)  /mnt/s=
+db/qemu/hw/scsi/virtio-scsi.c:912
+  #4 0x564d0f2ece7b (./x86_64-softmmu/qemu-system-x86_64+0x2b99e7b)  /mnt/s=
+db/qemu/hw/scsi/virtio-scsi.c:924
+  #5 0x564d0f39ee47 (./x86_64-softmmu/qemu-system-x86_64+0x2c4be47)  /mnt/s=
+db/qemu/hw/virtio/virtio.c:3531
+  #6 0x564d0f980224 (./x86_64-softmmu/qemu-system-x86_64+0x322d224)  /mnt/s=
+db/qemu/hw/core/qdev.c:865
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200117075547.60864-2-pannengyuan@huawei.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 4 ++++
- target/i386/kvm.c | 5 +++++
- 2 files changed, 9 insertions(+)
+ hw/scsi/virtio-scsi.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 790254e..ffe5de0 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6416,6 +6416,10 @@ static void x86_cpu_realizefn(DeviceState *dev, Erro=
-r **errp)
-                        &cpu->mwait.ecx, &cpu->mwait.edx);
-             env->features[FEAT_1_ECX] |=3D CPUID_EXT_MONITOR;
-         }
-+        if (kvm_enabled() && cpu->ucode_rev =3D=3D 0) {
-+            cpu->ucode_rev =3D kvm_arch_get_supported_msr_feature(kvm_stat=
-e,
-+                                                                MSR_IA32_U=
-CODE_REV);
-+        }
-     }
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 4bc73a3..858b3aa 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -943,7 +943,13 @@ void virtio_scsi_common_unrealize(DeviceState *dev)
+ {
+     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+     VirtIOSCSICommon *vs =3D VIRTIO_SCSI_COMMON(dev);
++    int i;
 =20
-     if (cpu->ucode_rev =3D=3D 0) {
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index f6dd6b7..1b67090 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -2696,6 +2696,11 @@ static void kvm_init_msrs(X86CPU *cpu)
-                           env->features[FEAT_CORE_CAPABILITY]);
-     }
-=20
-+    if (kvm_arch_get_supported_msr_feature(kvm_state,
-+                                           MSR_IA32_UCODE_REV)) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UCODE_REV, cpu->ucode_rev);
++    virtio_del_queue(vdev, 0);
++    virtio_del_queue(vdev, 1);
++    for (i =3D 0; i < vs->conf.num_queues; i++) {
++        virtio_del_queue(vdev, i + 2);
 +    }
-+
-     /*
-      * Older kernels do not include VMX MSRs in KVM_GET_MSR_INDEX_LIST, bu=
-t
-      * all kernels with MSR features should have them.
+     g_free(vs->cmd_vqs);
+     virtio_cleanup(vdev);
+ }
 --=20
 1.8.3.1
 
