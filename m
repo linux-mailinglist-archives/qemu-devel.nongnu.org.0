@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2099146395
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:34:45 +0100 (CET)
-Received: from localhost ([::1]:53228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D552C146387
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:32:48 +0100 (CET)
+Received: from localhost ([::1]:53156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXwq-00086e-UE
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:34:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56001)
+	id 1iuXux-00054t-8s
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:32:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55969)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuXlM-00014r-0w
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:53 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuXlG-0002tW-ON
+ (envelope-from <laurent@vivier.eu>) id 1iuXlK-00013E-C6
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:51 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:42647)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <laurent@vivier.eu>) id 1iuXlI-0002wm-Ak
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:50 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:35363)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlG-0002qO-En
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:46 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlI-0002ul-1O
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:48 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mi2eP-1jXz7D2MDZ-00e7Vw; Thu, 23 Jan 2020 09:22:34 +0100
+ id 1N4hj5-1je0iJ2zzz-011g10; Thu, 23 Jan 2020 09:22:36 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/17] linux-user: Reserve space for brk
-Date: Thu, 23 Jan 2020 09:22:12 +0100
-Message-Id: <20200123082227.2037994-3-laurent@vivier.eu>
+Subject: [PULL 06/17] linux-user: Add support for
+ FD<SETEMSGTRESH|SETMAXERRS|GETMAXERRS> ioctls
+Date: Thu, 23 Jan 2020 09:22:16 +0100
+Message-Id: <20200123082227.2037994-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123082227.2037994-1-laurent@vivier.eu>
 References: <20200123082227.2037994-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:yyYTQ6TTuAdWqXFFVCVNYHK+iP45nYTEaSADh1Q9vNrinQUKSRS
- mZ/H0r/XGc7aW7/FTxHC8nOo3dNwOScc4D5kycVu7od2tPtdAOv+usx0SOrP9G7NLvrktVZ
- QqyMv3TtHqVCnhbFAlIsc/3g7gf14C16cP0151xXxqR1JJjre8bHUVPW/YM4YlgvSLOvSIG
- fv7JleOOQzVg/LevBUmxA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iRwKJMiXTTk=:7ZePQvzAleG+hYP2plFoBO
- e5T+pTe7gnjV/zEpITkFLIeV9u+3BQ2YDDDgggjIiR1jcNe0JZkskcGBp2Cfe08YvubG15/BH
- 5twqUjSbEYQ/F0NpzxyVNJfX57WqIobvsWPtkEOq8Cl54mVCQ1QedPNO9V6dSN2R+kmx4tuRC
- 2qOeIx8d6oAkrt+NQXeN2IY7PbsHo9bgqRbht4+P/r/aYd9goucl+gdRFwpKOK9sg/kSMIhY4
- eB48P6eRSb7xRp0g+X3xW25T+Ztirix4cSkWHTnf/o9cPu9BKz0tAikGZ8zO9iU9GBENCebsV
- jUS5NdDodKyKrvx8+gmACts1cBRgyQuHeiB6nTOOekBSoTKkQPnxvmZbKRFu9D+/HnCMBI4q9
- dZQsIhiGcBlstK4DmwSBYMHNPwIVRWuviJNRyyuAEm2oheL8DzIpBKVLAFV9JlauCkS5pWOVR
- HtbNNZ9Ogww8a0i+eEbReDQlua4iYQzxEeiJlYb/wNSDjD2TsOjaCTJq4TbZNE8JBqfPIGqcP
- 6PawTKdN1hoKra2Sg9cw3YDz42WPOwBDrjb3fp1qWeeAnmk0TGVNehKj9u7uIXjSKCe+GuBxS
- blDvlVkc3+8fzLFI/iQEPfyciCQWC2QuiGmTAfF87fMtWCt8fLpL/CetqxOQIIbT5DMgzx3aq
- Trkh7Zaj5C4EoQmsHB8DYpwsbUBQQig4pUcXFJ6/jF/91YiNM+nJWbVIFlnOcwy+OIEfTPknk
- 9zcvpCnyym2JSs7Dx5iawTGTmeMJhKLfYUdkNeGWWM4AbjKT4tHFCP4br8k5IC8KGB+yILPU3
- TER3vrUvHh1Eu/tOl6UnlAu2mblmM5OnPsckpUgdr+mdcR8h8k=
+X-Provags-ID: V03:K1:gBkw/jmdz/LtmzTMQt/NU0YwDNRHoYbQ+Zm9Z2cq50ywGcngvF4
+ IG0GSEpMp7wC+C8bBVlu9D9KtLjqVKf0lwEbG+IQMnm6UsgHa1SksnCPKO8Qr2d5vrw7NcV
+ Jq9lkY/K3BNsjimXi8rljwc+DZBFqQRGve689AkxqeXUAFisAn+JDKnUjaOXbfmyg0z/Nf0
+ zjrV0H/YYJEYJ0j0qSb5w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JIla6PNb3nY=:FpT59qBYzckyiP7VbCW9CT
+ 0mOoCoanUH1/xsS9qMPST19zZKueaNN2nZloAi5BKkvlY6jee9axJguEKEMwIrdngZfZoc/1P
+ 7sdBRrExKSvvQRYT+kPx0x1NZ6lzz0kaX06O1v62lRBvt347rwVIl/pWmHQyXXjNQ36PPWPFQ
+ 5fXxOuQH/btVONojV8vD2H8kjx+oPcx7livKGMFU2iwJZZkxvSZf0LfLAIijJaP1tByV1KFPI
+ L7wYI6BN6hZMYcu7LXnMgT7GSWhOjdSzxQcccrW8huJ2IwX79/yhAa6Mnd3morWx0EXHIcnbY
+ +R+WitynK05yPrhteVC/1/lq4AOMbHJnYoDfwvB3r/2ln2Tx4A5jG6DmxysqiKQAUzM70Jv03
+ u0OolZLA0SVb3ZdMMk0KpE32GVM/xKDYxySDZGN6iF9AGaerjg7GjAkDWfz7n7Z4vum2FOFer
+ 6bV2wdEfFHlLNyN3yMl7u0Y1ahqINeA5H0Nfsvns0E2IbkBLnxPCS+bscYvg0Dlwu/YCXUQ1e
+ C0z5bsXx2epKKprinmihIQ5vRI8Li0yIlJ4wmtqfXKKxk/eN7hL3XsHE7gKtkJpvPljfgHGbN
+ NPqF9EWTeJZoeRo6VJdHuQK7+nt3ZM/iOH5QNlmXH45VpM/rgVb1tZ5GIq6tNrBjokRxHKOPD
+ 6jU3r+50XHGJm7shCU8wJcE14U5Q6JwMRXCz0GvS3h2na/1JOir1/lBDYKyXfUSP+HJZcbCuR
+ J01j/0hI7IgqBiDwz6hTuJQ9uReZRM2+yK1kyPuxMw9bcA/Vall6PNwrXn5ndJFfBhao5rizO
+ qISnnFG2U4BUy88d6OafLkiLjW2GcBGTGgVxqgpgItVwANWj44=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.133
+X-Received-From: 212.227.126.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,157 +64,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-With bad luck, we can wind up with no space at all for brk,
-which will generally cause the guest malloc to fail.
+FDSETEMSGTRESH, FDSETMAXERRS, and FDGETMAXERRS ioctls are commands
+for controlling error reporting of a floppy drive.
 
-This bad luck is easier to come by with ET_DYN (PIE) binaries,
-where either the stack or the interpreter (ld.so) gets placed
-immediately after the main executable.
+FDSETEMSGTRESH's third agrument is a pointer to the structure:
 
-But there's nothing preventing this same thing from happening
-with ET_EXEC (normal) binaries, during probe_guest_base().
+struct floppy_max_errors {
+    unsigned int
+      abort,      /* number of errors to be reached before aborting */
+      read_track, /* maximal number of errors permitted to read an
+                   * entire track at once */
+      reset,      /* maximal number of errors before a reset is tried */
+      recal,      /* maximal number of errors before a recalibrate is
+                   * tried */
+      /*
+       * Threshold for reporting FDC errors to the console.
+       * Setting this to zero may flood your screen when using
+       * ultra cheap floppies ;-)
+       */
+      reporting;
+};
 
-In both cases, reserve some extra space via mmap and release
-it back to the system after loading the interpreter and
-allocating the stack.
+defined in Linux kernel header <linux/fd.h>.
 
-The choice of 16MB is somewhat arbitrary.  It's enough for libc
-to get going, but without being so large that 32-bit guests or
-32-bit hosts are in danger of running out of virtual address space.
-It is expected that libc will be able to fall back to mmap arenas
-after the limited brk space is exhausted.
+Since all fields of the structure are of type 'unsigned int', there is
+no need to define "target_floppy_max_errors".
 
-Launchpad: https://bugs.launchpad.net/qemu/+bug/1749393
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200117230245.5040-1-richard.henderson@linaro.org>
+FDSETMAXERRS and FDGETMAXERRS ioctls do not use the third argument.
+
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Message-Id: <1579214991-19602-8-git-send-email-aleksandar.markovic@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 73 +++++++++++++++++++++++++++++++++-----------
- linux-user/qemu.h    |  1 +
- 2 files changed, 57 insertions(+), 17 deletions(-)
+ linux-user/ioctls.h        | 3 +++
+ linux-user/syscall_defs.h  | 3 +++
+ linux-user/syscall_types.h | 7 +++++++
+ 3 files changed, 13 insertions(+)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 511e4500788b..f3080a16358c 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -10,6 +10,7 @@
- #include "qemu/path.h"
- #include "qemu/queue.h"
- #include "qemu/guest-random.h"
-+#include "qemu/units.h"
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 3affd8814a86..2c3d798842e4 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -114,7 +114,10 @@
  
- #ifdef _ARCH_PPC64
- #undef ARCH_DLINFO
-@@ -2364,24 +2365,51 @@ static void load_elf_image(const char *image_name, int image_fd,
-         }
-     }
+      IOCTL(FDMSGON, 0, TYPE_NULL)
+      IOCTL(FDMSGOFF, 0, TYPE_NULL)
++     IOCTL(FDSETEMSGTRESH, 0, TYPE_NULL)
+      IOCTL(FDFLUSH, 0, TYPE_NULL)
++     IOCTL(FDSETMAXERRS, IOC_W, MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
++     IOCTL(FDGETMAXERRS, IOC_R, MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
+      IOCTL(FDRESET, 0, TYPE_NULL)
+      IOCTL(FDRAWCMD, 0, TYPE_NULL)
+      IOCTL(FDTWADDLE, 0, TYPE_NULL)
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index a73cc3d06790..48de76145f0c 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -899,7 +899,10 @@ struct target_pollfd {
  
--    load_addr = loaddr;
--    if (ehdr->e_type == ET_DYN) {
--        /* The image indicates that it can be loaded anywhere.  Find a
--           location that can hold the memory space required.  If the
--           image is pre-linked, LOADDR will be non-zero.  Since we do
--           not supply MAP_FIXED here we'll use that address if and
--           only if it remains available.  */
--        load_addr = target_mmap(loaddr, hiaddr - loaddr, PROT_NONE,
--                                MAP_PRIVATE | MAP_ANON | MAP_NORESERVE,
--                                -1, 0);
--        if (load_addr == -1) {
--            goto exit_perror;
-+    if (pinterp_name != NULL) {
-+        /*
-+         * This is the main executable.
-+         *
-+         * Reserve extra space for brk.
-+         * We hold on to this space while placing the interpreter
-+         * and the stack, lest they be placed immediately after
-+         * the data segment and block allocation from the brk.
-+         *
-+         * 16MB is chosen as "large enough" without being so large
-+         * as to allow the result to not fit with a 32-bit guest on
-+         * a 32-bit host.
-+         */
-+        info->reserve_brk = 16 * MiB;
-+        hiaddr += info->reserve_brk;
+ #define TARGET_FDMSGON        TARGET_IO(2, 0x45)
+ #define TARGET_FDMSGOFF       TARGET_IO(2, 0x46)
++#define TARGET_FDSETEMSGTRESH TARGET_IO(2, 0x4a)
+ #define TARGET_FDFLUSH        TARGET_IO(2, 0x4b)
++#define TARGET_FDSETMAXERRS  TARGET_IOW(2, 0x4c, struct floppy_max_errors)
++#define TARGET_FDGETMAXERRS  TARGET_IOR(2, 0x0e, struct floppy_max_errors)
+ #define TARGET_FDRESET        TARGET_IO(2, 0x54)
+ #define TARGET_FDRAWCMD       TARGET_IO(2, 0x58)
+ #define TARGET_FDTWADDLE      TARGET_IO(2, 0x59)
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index 4e3698382629..e4e0429637c5 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -261,6 +261,13 @@ STRUCT(blkpg_ioctl_arg,
+        TYPE_INT, /* datalen */
+        TYPE_PTRVOID) /* data */
+ 
++STRUCT(floppy_max_errors,
++       TYPE_INT, /* abort */
++       TYPE_INT, /* read_track */
++       TYPE_INT, /* reset */
++       TYPE_INT, /* recal */
++       TYPE_INT) /* reporting */
 +
-+        if (ehdr->e_type == ET_EXEC) {
-+            /*
-+             * Make sure that the low address does not conflict with
-+             * MMAP_MIN_ADDR or the QEMU application itself.
-+             */
-+            probe_guest_base(image_name, loaddr, hiaddr);
-         }
--    } else if (pinterp_name != NULL) {
--        /* This is the main executable.  Make sure that the low
--           address does not conflict with MMAP_MIN_ADDR or the
--           QEMU application itself.  */
--        probe_guest_base(image_name, loaddr, hiaddr);
-+    }
-+
-+    /*
-+     * Reserve address space for all of this.
-+     *
-+     * In the case of ET_EXEC, we supply MAP_FIXED so that we get
-+     * exactly the address range that is required.
-+     *
-+     * Otherwise this is ET_DYN, and we are searching for a location
-+     * that can hold the memory space required.  If the image is
-+     * pre-linked, LOADDR will be non-zero, and the kernel should
-+     * honor that address if it happens to be free.
-+     *
-+     * In both cases, we will overwrite pages in this range with mappings
-+     * from the executable.
-+     */
-+    load_addr = target_mmap(loaddr, hiaddr - loaddr, PROT_NONE,
-+                            MAP_PRIVATE | MAP_ANON | MAP_NORESERVE |
-+                            (ehdr->e_type == ET_EXEC ? MAP_FIXED : 0),
-+                            -1, 0);
-+    if (load_addr == -1) {
-+        goto exit_perror;
-     }
-     load_bias = load_addr - loaddr;
- 
-@@ -2860,6 +2888,17 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
-     bprm->core_dump = &elf_core_dump;
- #endif
- 
-+    /*
-+     * If we reserved extra space for brk, release it now.
-+     * The implementation of do_brk in syscalls.c expects to be able
-+     * to mmap pages in this space.
-+     */
-+    if (info->reserve_brk) {
-+        abi_ulong start_brk = HOST_PAGE_ALIGN(info->brk);
-+        abi_ulong end_brk = HOST_PAGE_ALIGN(info->brk + info->reserve_brk);
-+        target_munmap(start_brk, end_brk - start_brk);
-+    }
-+
-     return 0;
- }
- 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index f6f5fe5fbb55..560a68090e14 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -35,6 +35,7 @@ struct image_info {
-         abi_ulong       end_data;
-         abi_ulong       start_brk;
-         abi_ulong       brk;
-+        abi_ulong       reserve_brk;
-         abi_ulong       start_mmap;
-         abi_ulong       start_stack;
-         abi_ulong       stack_limit;
+ #if defined(CONFIG_USBFS)
+ /* usb device ioctls */
+ STRUCT(usbdevfs_ctrltransfer,
 -- 
 2.24.1
 
