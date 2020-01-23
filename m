@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9DD146A9F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:02:46 +0100 (CET)
-Received: from localhost ([::1]:57588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 414A1146ADD
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:09:11 +0100 (CET)
+Received: from localhost ([::1]:57682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iud4H-0004Kz-Hb
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:02:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41862)
+	id 1iudAT-0004LI-O8
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:09:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46167)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iubAr-0004MH-LI
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:27 -0500
+ (envelope-from <quintela@redhat.com>) id 1iubQr-0007cC-D5
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:17:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iubAq-0006mJ-Fq
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25767
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1iubQq-0001lG-9M
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:17:57 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30822
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAq-0006ll-Bn
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:24 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iubQq-0001l3-5h
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:17:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780884;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1579781875;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AsLIGnsc4Kc2PIcdInCoGUfJ3yiSTnFajKGCNhtMMv0=;
- b=Fp50R68w9+0k77d8o3EngYHiivBhLnTznZ7BhiF3cISvm5GLbknDr0hYFxYjknW/9wKzqN
- tmKc/arW0fXM3hoM22GkM1aIjYCbtYIHbIGlKOOy2bxTSCmyais4kfXXgO0hq0zelCBqlk
- FsQFhWedNC7sITiRazqlxNUmqGKSy7w=
+ bh=9uQd2c8aaLxJ4dHp0X3GeXb8bmhw3rqvGNTRN6GIPsY=;
+ b=VkRwqigL2RW1C8LUAnfnUudbFWv5uOYvyqAUF1O9+9DReJ5O6YIp9aSEOwKY3cTJvhL+Vd
+ W4wDSEBU7BMcOcyQJi6ihRnaVzXdBbrvT7735oZiGsSoqeGzd6oTo9WJc9ublIYeGPX5LT
+ Q3AVF33+Wcynw4t4Y0xvJn+0aCbRAIs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-N0j0b-ElONKbHn6Jb4eQzg-1; Thu, 23 Jan 2020 07:01:22 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-281-IysfI9I9Olq0XBkmLLa3Kw-1; Thu, 23 Jan 2020 07:17:51 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A49818A6EC0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:01:21 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7576485754;
- Thu, 23 Jan 2020 12:01:20 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	stefanha@redhat.com
-Subject: [PULL 110/111] virtiofsd: stop all queue threads on exit in
- virtio_loop()
-Date: Thu, 23 Jan 2020 11:58:40 +0000
-Message-Id: <20200123115841.138849-111-dgilbert@redhat.com>
-In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
-References: <20200123115841.138849-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7EBA8010C5
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:17:50 +0000 (UTC)
+Received: from redhat.com (ovpn-116-168.ams2.redhat.com [10.36.116.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 59BB210016E8;
+ Thu, 23 Jan 2020 12:17:50 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 00/21] Multifd Migration Compression
+In-Reply-To: <20200123115831.36842-1-quintela@redhat.com> (Juan Quintela's
+ message of "Thu, 23 Jan 2020 12:58:10 +0100")
+References: <20200123115831.36842-1-quintela@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Thu, 23 Jan 2020 13:17:47 +0100
+Message-ID: <87o8uu9xjo.fsf@secure.laptop>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: N0j0b-ElONKbHn6Jb4eQzg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: IysfI9I9Olq0XBkmLLa3Kw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,61 +73,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P. =?utf-8?Q?Ber?= =?utf-8?Q?rang=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eryu Guan <eguan@linux.alibaba.com>
+Juan Quintela <quintela@redhat.com> wrote:
+> [v3]
+> - rebased on top of upstream + previous multifd cancel series
+> - split multifd code into its own file (multifd.[ch])
+> - split zstd/zlib compression methods (multifd-zstd/zlib.c)
+> - use qemu module feauture to avoid ifdefs
+>   (my understanding is that zlib needs to be present, but
+>   we setup zstd only if it is not there or is disabled)
+> - multifd-method: none|zlib|zstd
+>
+>   As far as I can see, there is no easy way to convince qapi that zstd
+>   option could/couldn't be there depending on compliation flags. I
+>   ended just checking in migrate_parameters_check() if it is enabled
+>   and giving an error message otherwise.
+>
+> Questions:
+> - I am "reusing" the compress-level parameter for both zstd and zlib,
+>   but it poses a problem:
+>   * zlib values: 1-9 (default: 6?)
+>   * zstd values: 1-19 (default: 3)
+> So, what should I do:
+>   * create multifd-zstd-level and multifd-zlib-level (easier)
+>   * reuse compress-level, and change its maximum values depending on
+>     multifd-method
+>   * any other good option?
+>
+> Please, review.
+>
+> [v2] - rebase on top of previous arguments posted to the list -
+> introduces zlib compression - introduces zstd compression
+>
+> Please help if you know anything about zstd/zlib compression.
+>
+> This puts compression on top of multifd. Advantages about current
+> compression:
+>
+> - We copy all pages in a single packet and then compress the whole
+>   thing.
+>
+> - We reuse the compression stream for all the packets sent through the
+>   same channel.
+>
+> - We can select nocomp/zlib/zstd levels of compression.
+>
+> Please, review.
+>
+> Juan Quintela (21):
+>   migration-test: Use g_free() instead of free()
+>   multifd: Make sure that we don't do any IO after an error
+>   qemu-file: Don't do IO after shutdown
+>   migration-test: Make sure that multifd and cancel works
+>   migration: Create migration_is_running()
+>   migration: Don't send data if we have stopped
 
-On guest graceful shutdown, virtiofsd receives VHOST_USER_GET_VRING_BASE
-request from VMM and shuts down virtqueues by calling fv_set_started(),
-which joins fv_queue_thread() threads. So when virtio_loop() returns,
-there should be no thread is still accessing data in fuse session and/or
-virtio dev.
+This patches are from my previous series.  I forgot to pass the -b
+option to git-publish.  Please ignore them.
 
-But on abnormal exit, e.g. guest got killed for whatever reason,
-vhost-user socket is closed and virtio_loop() breaks out the main loop
-and returns to main(). But it's possible fv_queue_worker()s are still
-working and accessing fuse session and virtio dev, which results in
-crash or use-after-free.
-
-Fix it by stopping fv_queue_thread()s before virtio_loop() returns,
-to make sure there's no-one could access fuse session and virtio dev.
-
-Reported-by: Qingming Su <qingming.su@linux.alibaba.com>
-Signed-off-by: Eryu Guan <eguan@linux.alibaba.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tools/virtiofsd/fuse_virtio.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 9f6582343c..80a6e929df 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -815,6 +815,19 @@ int virtio_loop(struct fuse_session *se)
-         }
-     }
-=20
-+    /*
-+     * Make sure all fv_queue_thread()s quit on exit, as we're about to
-+     * free virtio dev and fuse session, no one should access them anymore=
-.
-+     */
-+    for (int i =3D 0; i < se->virtio_dev->nqueues; i++) {
-+        if (!se->virtio_dev->qi[i]) {
-+            continue;
-+        }
-+
-+        fuse_log(FUSE_LOG_INFO, "%s: Stopping queue %d thread\n", __func__=
-, i);
-+        fv_queue_cleanup_thread(se->virtio_dev, i);
-+    }
-+
-     fuse_log(FUSE_LOG_INFO, "%s: Exit\n", __func__);
-=20
-     return 0;
---=20
-2.24.1
+Sorry, Juan.
 
 
