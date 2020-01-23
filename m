@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282C0146AC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:06:04 +0100 (CET)
-Received: from localhost ([::1]:57630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B34146ADC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:08:50 +0100 (CET)
+Received: from localhost ([::1]:57680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iud7S-0008Ez-8p
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:06:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40454)
+	id 1iudA8-0003n5-TR
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:08:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40609)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iub8z-0002Fv-8S
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:30 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iub9A-0002VD-KB
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iub8y-000576-5B
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59253
+ (envelope-from <dgilbert@redhat.com>) id 1iub98-0005E5-E5
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:40 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48017
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub8y-00056z-1p
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:28 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub98-0005De-96
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780767;
+ s=mimecast20190719; t=1579780777;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VVudRuKOnS4iH84WmmUnFve+E2uPTzpGMY/K1LYLIJo=;
- b=QRV4kjj9SVxfGcIeRJXntORMAeUPbDekNVAUysJoVRt8HPTImEidvfEhU+yLuK5yKXTRHG
- vhfOus3cASV+6FRfJdow+KbldV6PZQGoyhbQpZnaqtslbG2bIU0/5s0prpxV1o/M+5gG8J
- lnpMGVHx4iag6scmTMSb2ORPM30eZ9w=
+ bh=i36g49Wr23XnPzHPj1e2Sazsa2bVz3Y92a1xoz/YYmg=;
+ b=W2uUP8UCUdiDvQiyd0O0bQ1pAcRjQQWQJpDjOJ4GqHL/iZnyoDLxTszlR5fpEWImD60VR3
+ qZJwfZ8AieFNYJm+xfzwUe9EjOp0Jc3iSwGL4jbHqSmVaWV17PW/+hrjpt6fkSOmzvRslu
+ xutXDoULzuks6R73ktd0C0115OCBxhI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-oTHvidbcPsiIu93ptt3s7A-1; Thu, 23 Jan 2020 06:59:26 -0500
+ us-mta-84-hEmSgJVrMoGBQ6c6Nz878w-1; Thu, 23 Jan 2020 06:59:36 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54D3A8010E0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68EB21005512
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:35 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A3C251CB;
- Thu, 23 Jan 2020 11:59:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8A981CB;
+ Thu, 23 Jan 2020 11:59:34 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 031/111] virtiofsd: add vhost-user.json file
-Date: Thu, 23 Jan 2020 11:57:21 +0000
-Message-Id: <20200123115841.138849-32-dgilbert@redhat.com>
+Subject: [PULL 041/111] virtiofsd: Plumb fuse_bufvec through to do_write_buf
+Date: Thu, 23 Jan 2020 11:57:31 +0000
+Message-Id: <20200123115841.138849-42-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: oTHvidbcPsiIu93ptt3s7A-1
+X-MC-Unique: hEmSgJVrMoGBQ6c6Nz878w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,58 +74,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Install a vhost-user.json file describing virtiofsd.  This allows
-libvirt and other management tools to enumerate vhost-user backend
-programs.
+Let fuse_session_process_buf_int take a fuse_bufvec * instead of a
+fuse_buf;  and then through to do_write_buf - where in the best
+case it can pass that straight through to op.write_buf without copying
+(other than skipping a header).
 
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Reviewed-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- .gitignore                                | 1 +
- Makefile                                  | 1 +
- tools/virtiofsd/50-qemu-virtiofsd.json.in | 5 +++++
- 3 files changed, 7 insertions(+)
- create mode 100644 tools/virtiofsd/50-qemu-virtiofsd.json.in
+ tools/virtiofsd/fuse_i.h        |  2 +-
+ tools/virtiofsd/fuse_lowlevel.c | 61 ++++++++++++++++++++++-----------
+ tools/virtiofsd/fuse_virtio.c   |  3 +-
+ 3 files changed, 44 insertions(+), 22 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-index efad605e1a..bc0a035f9c 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -6,6 +6,7 @@
- /config-target.*
- /config.status
- /config-temp
-+/tools/virtiofsd/50-qemu-virtiofsd.json
- /elf2dmp
- /trace-events-all
- /trace/generated-events.h
-diff --git a/Makefile b/Makefile
-index ef1e2155a7..2f81271ee7 100644
---- a/Makefile
-+++ b/Makefile
-@@ -329,6 +329,7 @@ endif
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index 45995f3246..a20854f1c4 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -100,7 +100,7 @@ int fuse_send_reply_iov_nofree(fuse_req_t req, int erro=
+r, struct iovec *iov,
+ void fuse_free_req(fuse_req_t req);
 =20
- ifdef CONFIG_LINUX
- HELPERS-y +=3D virtiofsd$(EXESUF)
-+vhost-user-json-y +=3D tools/virtiofsd/50-qemu-virtiofsd.json
- endif
+ void fuse_session_process_buf_int(struct fuse_session *se,
+-                                  const struct fuse_buf *buf,
++                                  struct fuse_bufvec *bufv,
+                                   struct fuse_chan *ch);
 =20
- # Sphinx does not allow building manuals into the same directory as
-diff --git a/tools/virtiofsd/50-qemu-virtiofsd.json.in b/tools/virtiofsd/50=
--qemu-virtiofsd.json.in
-new file mode 100644
-index 0000000000..9bcd86f8dc
---- /dev/null
-+++ b/tools/virtiofsd/50-qemu-virtiofsd.json.in
-@@ -0,0 +1,5 @@
-+{
-+  "description": "QEMU virtiofsd vhost-user-fs",
-+  "type": "fs",
-+  "binary": "@libexecdir@/virtiofsd"
-+}
+=20
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
+l.c
+index 95f4db8fcf..7e10995adc 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -1004,11 +1004,12 @@ static void do_write(fuse_req_t req, fuse_ino_t nod=
+eid, const void *inarg)
+ }
+=20
+ static void do_write_buf(fuse_req_t req, fuse_ino_t nodeid, const void *in=
+arg,
+-                         const struct fuse_buf *ibuf)
++                         struct fuse_bufvec *ibufv)
+ {
+     struct fuse_session *se =3D req->se;
+-    struct fuse_bufvec bufv =3D {
+-        .buf[0] =3D *ibuf,
++    struct fuse_bufvec *pbufv =3D ibufv;
++    struct fuse_bufvec tmpbufv =3D {
++        .buf[0] =3D ibufv->buf[0],
+         .count =3D 1,
+     };
+     struct fuse_write_in *arg =3D (struct fuse_write_in *)inarg;
+@@ -1018,22 +1019,31 @@ static void do_write_buf(fuse_req_t req, fuse_ino_t=
+ nodeid, const void *inarg,
+     fi.fh =3D arg->fh;
+     fi.writepage =3D arg->write_flags & FUSE_WRITE_CACHE;
+=20
+-    fi.lock_owner =3D arg->lock_owner;
+-    fi.flags =3D arg->flags;
+-    if (!(bufv.buf[0].flags & FUSE_BUF_IS_FD)) {
+-        bufv.buf[0].mem =3D PARAM(arg);
+-    }
+-
+-    bufv.buf[0].size -=3D
+-        sizeof(struct fuse_in_header) + sizeof(struct fuse_write_in);
+-    if (bufv.buf[0].size < arg->size) {
+-        fuse_log(FUSE_LOG_ERR, "fuse: do_write_buf: buffer size too small\=
+n");
+-        fuse_reply_err(req, EIO);
+-        return;
++    if (ibufv->count =3D=3D 1) {
++        fi.lock_owner =3D arg->lock_owner;
++        fi.flags =3D arg->flags;
++        if (!(tmpbufv.buf[0].flags & FUSE_BUF_IS_FD)) {
++            tmpbufv.buf[0].mem =3D PARAM(arg);
++        }
++        tmpbufv.buf[0].size -=3D
++            sizeof(struct fuse_in_header) + sizeof(struct fuse_write_in);
++        if (tmpbufv.buf[0].size < arg->size) {
++            fuse_log(FUSE_LOG_ERR,
++                     "fuse: do_write_buf: buffer size too small\n");
++            fuse_reply_err(req, EIO);
++            return;
++        }
++        tmpbufv.buf[0].size =3D arg->size;
++        pbufv =3D &tmpbufv;
++    } else {
++        /*
++         *  Input bufv contains the headers in the first element
++         * and the data in the rest, we need to skip that first element
++         */
++        ibufv->buf[0].size =3D 0;
+     }
+-    bufv.buf[0].size =3D arg->size;
+=20
+-    se->op.write_buf(req, nodeid, &bufv, arg->offset, &fi);
++    se->op.write_buf(req, nodeid, pbufv, arg->offset, &fi);
+ }
+=20
+ static void do_flush(fuse_req_t req, fuse_ino_t nodeid, const void *inarg)
+@@ -2024,13 +2034,24 @@ static const char *opname(enum fuse_opcode opcode)
+ void fuse_session_process_buf(struct fuse_session *se,
+                               const struct fuse_buf *buf)
+ {
+-    fuse_session_process_buf_int(se, buf, NULL);
++    struct fuse_bufvec bufv =3D { .buf[0] =3D *buf, .count =3D 1 };
++    fuse_session_process_buf_int(se, &bufv, NULL);
+ }
+=20
++/*
++ * Restriction:
++ *   bufv is normally a single entry buffer, except for a write
++ *   where (if it's in memory) then the bufv may be multiple entries,
++ *   where the first entry contains all headers and subsequent entries
++ *   contain data
++ *   bufv shall not use any offsets etc to make the data anything
++ *   other than contiguous starting from 0.
++ */
+ void fuse_session_process_buf_int(struct fuse_session *se,
+-                                  const struct fuse_buf *buf,
++                                  struct fuse_bufvec *bufv,
+                                   struct fuse_chan *ch)
+ {
++    const struct fuse_buf *buf =3D bufv->buf;
+     struct fuse_in_header *in;
+     const void *inarg;
+     struct fuse_req *req;
+@@ -2108,7 +2129,7 @@ void fuse_session_process_buf_int(struct fuse_session=
+ *se,
+=20
+     inarg =3D (void *)&in[1];
+     if (in->opcode =3D=3D FUSE_WRITE && se->op.write_buf) {
+-        do_write_buf(req, in->nodeid, inarg, buf);
++        do_write_buf(req, in->nodeid, inarg, bufv);
+     } else {
+         fuse_ll_ops[in->opcode].func(req, in->nodeid, inarg);
+     }
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 635f87756a..fd588a4829 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -501,7 +501,8 @@ static void *fv_queue_thread(void *opaque)
+             /* TODO! Endianness of header */
+=20
+             /* TODO: Add checks for fuse_session_exited */
+-            fuse_session_process_buf_int(se, &fbuf, &ch);
++            struct fuse_bufvec bufv =3D { .buf[0] =3D fbuf, .count =3D 1 }=
+;
++            fuse_session_process_buf_int(se, &bufv, &ch);
+=20
+             if (!qi->reply_sent) {
+                 fuse_log(FUSE_LOG_DEBUG, "%s: elem %d no reply sent\n",
 --=20
 2.24.1
 
