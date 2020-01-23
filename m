@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7801474C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 00:26:37 +0100 (CET)
-Received: from localhost ([::1]:35388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDCF81474BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 00:24:53 +0100 (CET)
+Received: from localhost ([::1]:35328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iulrw-0005Fh-MO
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 18:26:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52381)
+	id 1iulqG-0002ba-Ul
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 18:24:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52387)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iuloV-00008U-Ms
+ (envelope-from <richard.henderson@linaro.org>) id 1iuloW-00009l-7v
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 18:23:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iuloT-0007hB-Mn
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 18:23:03 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:34079)
+ (envelope-from <richard.henderson@linaro.org>) id 1iuloV-0007iI-79
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 18:23:04 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:43067)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iuloT-0007gT-Ec
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 18:23:01 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id f2so83832pjq.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 15:23:01 -0800 (PST)
+ id 1iuloV-0007hu-1R
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 18:23:03 -0500
+Received: by mail-pg1-x543.google.com with SMTP id u131so4183pgc.10
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 15:23:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WXgtgFjEX2QCToUnHwizHlyfzg0a8KnJcrxsk37lyNA=;
- b=xjEJYwugtSXtucWFqdJPttgsIfgM//HpqyMyaygToNjiVsWi8pkruwOmgQTV1rkgH/
- rPUqM3B+ZhkIQ6PuyymJ7rzhV8C5HO+iv5KhIXQLAxC4NhMGod9OZHn5IX2L2mGpzBSL
- l86fUU1f4Xejc6jAeS8QhJkTYKsKjJY2q0kCCNk3zwHDcRNerfhj9RPzhalpHmqjaYGw
- 4iI7mbHUwoPcqG14rld6o6iY9yNpT+HzWFyPB8Z4wOfBZ0Kma13Fhi8sCHg4U62mjWHt
- 5/hdRJOPYDZfe5qcwCtztNBuA9TXHMFKlXxV9/ApHrXvMtijC8r5ZOsRAarhM/GvWo57
- 0HuQ==
+ bh=b03RbSukzpoEye2uxHCZinu0Fc887c6qTcIlfZvoadY=;
+ b=bbdo5YJcZl4eb0SO0yz1Ld5DAVwK4FKTVA/t5oTI2a1CArXaeBMXLdwET3E2ExS/R2
+ x7kdTnyJCWoEyGoxEomKpMo5FIuhINX823HzRXH458+3o7U0mxnyyfkyT/JGJuO3CKFK
+ A/cBd0QnNLjtUURhKcoVa8BcGXHNhzJlrk1N7zcocP+HtkdNYkXHqRBKo4Kcz0QwSQMD
+ 6YFTgkmy0KS6NdrEjSWOEZrxYMCfLSMaDzWbsWLsFv5Tx2SeYvO226ktr7IlhgMccdr8
+ i0RkUu/6ZNfQPEj1i86qZxg+k/jA2RzpXGkjPPx6SbPDHLWVEXJvewl5u9sDSX8jDPyq
+ T9Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WXgtgFjEX2QCToUnHwizHlyfzg0a8KnJcrxsk37lyNA=;
- b=XMHAI06Urmz7MTZDckklccm9jg03Sw1F/ICjLJJ8BKfMnAmEbwMEO2hOmh9qeSo/BD
- 7ZB4ZA3P5pM8BJRCISw5T17n8p630wY/UsOBAIax5m9MYsNKnSghmVtsBCXxq48aeBjW
- MnKzUm1VocczZy9Vw7N+GOW+Xsf12Cj2Bw/gvrVM9OE0yd16DDDcw0pWub6j9n5qro1e
- 7fsgI6E/aTInKnWgvZOnakTCDCV1FacvmGCA7xmYlYAGuZ9kamzvgCV57MKZkNKBH43w
- x6J5HL/KhZrQvA85Z/dU8NVGG9jBonpWabK7sTFYKTeUSV2UYauT/oeEVXoNFrYvdCS0
- GDtw==
-X-Gm-Message-State: APjAAAU+gcnF2jcQ13xWRfxTeobezAmA1iY3UFrVWLteyp4dQANsHI8u
- IKFs+961iP5243hHLgd8XDIlTrvR364=
-X-Google-Smtp-Source: APXvYqxnY2aDwz+XQwTzxP/lNPPoCkLXYBslv15jwY70KXBrp6BLiEvCVHBCOf+TKXWG9w8cj5yLKQ==
-X-Received: by 2002:a17:902:848f:: with SMTP id
- c15mr568382plo.182.1579821779928; 
- Thu, 23 Jan 2020 15:22:59 -0800 (PST)
+ bh=b03RbSukzpoEye2uxHCZinu0Fc887c6qTcIlfZvoadY=;
+ b=EMwECKLLYebWIjllVzw7UmSsDQWs5a7hqUMFqgm7+d+cL/CKPkHvi8bV2qA8EqcNpu
+ i5o409xN3EYMO3tFqMvFSP8SaYBgoNfU7KPayY42ZRUDfvZ+aeSJLWLed7d0Ig5/RmOy
+ TlbaWcEz9YgQR5tbLSRN4AgzaUuHFYuMl5mEOpogtomw4T2d2Ue+NwiHgbYKML0S9LVF
+ vkTExBk+DNyOFsIGL2MG3loIsV86+WSJtnwToUCzgBO/FgiEhV+tETqlnY80y1Nxlxtj
+ yh1bippXNPhP/rOVjcqm2MWh332G3+yovuvURRrZ2iBqDwL7in4Lakglnf1jMGpxHyWi
+ n0/w==
+X-Gm-Message-State: APjAAAUtPJADgf5Rh+YLcm4Z7FJCfXsLaNfOltvpWIHCpKeJw/bdilES
+ eGW2BkeAYNPKZ9OMN/zGUxKiknNuy+U=
+X-Google-Smtp-Source: APXvYqwvMIsph4RsNc1J/WABk+9JM5VgCh63cL6kIqYNJ3xD6w5TeYqJCOvbHoF/qEftDQdalJMViw==
+X-Received: by 2002:a63:d249:: with SMTP id t9mr848680pgi.263.1579821781678;
+ Thu, 23 Jan 2020 15:23:01 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-198-77-92.west.biz.rr.com.
  [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id z5sm4136008pfq.3.2020.01.23.15.22.58
+ by smtp.gmail.com with ESMTPSA id z5sm4136008pfq.3.2020.01.23.15.23.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2020 15:22:59 -0800 (PST)
+ Thu, 23 Jan 2020 15:23:01 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] target/s390x: Move DisasFields into DisasContext
-Date: Thu, 23 Jan 2020 13:22:47 -1000
-Message-Id: <20200123232248.1800-5-richard.henderson@linaro.org>
+Subject: [PATCH 5/5] target/s390x: Remove DisasFields argument from
+ extract_insn
+Date: Thu, 23 Jan 2020 13:22:48 -1000
+Message-Id: <20200123232248.1800-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200123232248.1800-1-richard.henderson@linaro.org>
 References: <20200123232248.1800-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1030
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,308 +83,67 @@ Cc: thuth@redhat.com, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I believe that the separate allocation of DisasFields from DisasContext
-was meant to limit the places from which we could access fields.  But
-that plan did not go unchanged, and since DisasContext contains a pointer
-to fields, the substructure is accessible everywhere.
+The separate pointer is now redundant.
 
-By allocating the substructure with DisasContext, we improve the locality
-of the accesses by avoiding one level of pointer chasing.  In addition,
-we avoid a dangling pointer to stack allocated memory, diagnosed by static
-checkers.
-
-Launchpad: https://bugs.launchpad.net/bugs/1661815
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/translate.c        | 22 +++++++++---------
- target/s390x/translate_vx.inc.c | 40 ++++++++++++++++-----------------
- 2 files changed, 30 insertions(+), 32 deletions(-)
+ target/s390x/translate.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index 51a1d865c0..3674fee10c 100644
+index 3674fee10c..0bd2073718 100644
 --- a/target/s390x/translate.c
 +++ b/target/s390x/translate.c
-@@ -139,7 +139,7 @@ struct DisasFields {
- struct DisasContext {
-     DisasContextBase base;
-     const DisasInsn *insn;
--    DisasFields *fields;
-+    DisasFields fields;
-     uint64_t ex_value;
-     /*
-      * During translate_one(), pc_tmp is used to determine the instruction
-@@ -1094,14 +1094,14 @@ typedef enum {
+@@ -6183,8 +6183,7 @@ static void extract_field(DisasFields *o, const DisasField *f, uint64_t insn)
+ /* Lookup the insn at the current PC, extracting the operands into O and
+    returning the info struct for the insn.  Returns NULL for invalid insn.  */
  
- static bool have_field1(const DisasContext *s, enum DisasFieldIndexO c)
+-static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s,
+-                                     DisasFields *f)
++static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s)
  {
--    return (s->fields->presentO >> c) & 1;
-+    return (s->fields.presentO >> c) & 1;
- }
- 
- static int get_field1(const DisasContext *s, enum DisasFieldIndexO o,
-                       enum DisasFieldIndexC c)
- {
-     assert(have_field1(s, o));
--    return s->fields->c[c];
-+    return s->fields.c[c];
- }
- 
- /* Describe the layout of each field in each format.  */
-@@ -3763,7 +3763,7 @@ static DisasJumpType op_risbg(DisasContext *s, DisasOps *o)
-     int pos, len, rot;
- 
-     /* Adjust the arguments for the specific insn.  */
--    switch (s->fields->op2) {
-+    switch (s->fields.op2) {
-     case 0x55: /* risbg */
-     case 0x59: /* risbgn */
-         i3 &= 63;
-@@ -3804,7 +3804,7 @@ static DisasJumpType op_risbg(DisasContext *s, DisasOps *o)
-     len = i4 - i3 + 1;
-     pos = 63 - i4;
-     rot = i5 & 63;
--    if (s->fields->op2 == 0x5d) {
-+    if (s->fields.op2 == 0x5d) {
-         pos += 32;
+     uint64_t insn, pc = s->base.pc_next;
+     int op, op2, ilen;
+@@ -6264,13 +6263,14 @@ static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s,
+         break;
      }
  
-@@ -3873,7 +3873,7 @@ static DisasJumpType op_rosbg(DisasContext *s, DisasOps *o)
-     tcg_gen_rotli_i64(o->in2, o->in2, i5);
+-    memset(f, 0, sizeof(*f));
+-    f->raw_insn = insn;
+-    f->op = op;
+-    f->op2 = op2;
++    memset(&s->fields, 0, sizeof(s->fields));
++    s->fields.raw_insn = insn;
++    s->fields.op = op;
++    s->fields.op2 = op2;
  
-     /* Operate.  */
--    switch (s->fields->op2) {
-+    switch (s->fields.op2) {
-     case 0x55: /* AND */
-         tcg_gen_ori_i64(o->in2, o->in2, ~mask);
-         tcg_gen_and_i64(o->out, o->out, o->in2);
-@@ -4489,7 +4489,7 @@ static DisasJumpType op_stnosm(DisasContext *s, DisasOps *o)
-     tcg_gen_qemu_st8(t, o->addr1, get_mem_index(s));
-     tcg_temp_free_i64(t);
+     /* Lookup the instruction.  */
+     info = lookup_opc(op << 8 | op2);
++    s->insn = info;
  
--    if (s->fields->op == 0xac) {
-+    if (s->fields.op == 0xac) {
-         tcg_gen_andi_i64(psw_mask, psw_mask,
-                          (i2 << 56) | 0x00ffffffffffffffull);
-     } else {
-@@ -6000,7 +6000,7 @@ static void in2_i2_32u_shl(DisasContext *s, DisasOps *o)
- #ifndef CONFIG_USER_ONLY
- static void in2_insn(DisasContext *s, DisasOps *o)
- {
--    o->in2 = tcg_const_i64(s->fields->raw_insn);
-+    o->in2 = tcg_const_i64(s->fields.raw_insn);
- }
- #define SPEC_in2_insn 0
- #endif
-@@ -6299,15 +6299,13 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
- {
-     const DisasInsn *insn;
-     DisasJumpType ret = DISAS_NEXT;
--    DisasFields f;
+     /* If we found it, extract the operands.  */
+     if (info != NULL) {
+@@ -6278,7 +6278,7 @@ static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s,
+         int i;
+ 
+         for (i = 0; i < NUM_C_FIELD; ++i) {
+-            extract_field(f, &format_info[fmt].op[i], insn);
++            extract_field(&s->fields, &format_info[fmt].op[i], insn);
+         }
+     }
+     return info;
+@@ -6302,10 +6302,7 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
      DisasOps o = {};
  
      /* Search for the insn in the table.  */
--    insn = extract_insn(env, s, &f);
-+    insn = extract_insn(env, s, &s->fields);
- 
-     /* Set up the strutures we use to communicate with the helpers. */
-     s->insn = insn;
--    s->fields = &f;
+-    insn = extract_insn(env, s, &s->fields);
+-
+-    /* Set up the strutures we use to communicate with the helpers. */
+-    s->insn = insn;
++    insn = extract_insn(env, s);
  
      /* Emit insn_start now that we know the ILEN.  */
      tcg_gen_insn_start(s->base.pc_next, s->cc_op, s->ilen);
-@@ -6315,7 +6313,7 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
-     /* Not found means unimplemented/illegal opcode.  */
-     if (insn == NULL) {
-         qemu_log_mask(LOG_UNIMP, "unimplemented opcode 0x%02x%02x\n",
--                      f.op, f.op2);
-+                      s->fields.op, s->fields.op2);
-         gen_illegal_opcode(s);
-         return DISAS_NORETURN;
-     }
-diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.inc.c
-index e1a2d25c2f..24558cce80 100644
---- a/target/s390x/translate_vx.inc.c
-+++ b/target/s390x/translate_vx.inc.c
-@@ -732,7 +732,7 @@ static DisasJumpType op_vmr(DisasContext *s, DisasOps *o)
-     }
- 
-     tmp = tcg_temp_new_i64();
--    if (s->fields->op2 == 0x61) {
-+    if (s->fields.op2 == 0x61) {
-         /* iterate backwards to avoid overwriting data we might need later */
-         for (dst_idx = NUM_VEC_ELEMENTS(es) - 1; dst_idx >= 0; dst_idx--) {
-             src_idx = dst_idx / 2;
-@@ -796,7 +796,7 @@ static DisasJumpType op_vpk(DisasContext *s, DisasOps *o)
-         return DISAS_NORETURN;
-     }
- 
--    switch (s->fields->op2) {
-+    switch (s->fields.op2) {
-     case 0x97:
-         if (get_field(s, m5) & 0x1) {
-             gen_gvec_3_ptr(v1, v2, v3, cpu_env, 0, vpks_cc[es - 1]);
-@@ -1038,7 +1038,7 @@ static DisasJumpType op_vstl(DisasContext *s, DisasOps *o)
- 
- static DisasJumpType op_vup(DisasContext *s, DisasOps *o)
- {
--    const bool logical = s->fields->op2 == 0xd4 || s->fields->op2 == 0xd5;
-+    const bool logical = s->fields.op2 == 0xd4 || s->fields.op2 == 0xd5;
-     const uint8_t v1 = get_field(s, v1);
-     const uint8_t v2 = get_field(s, v2);
-     const uint8_t src_es = get_field(s, m3);
-@@ -1052,7 +1052,7 @@ static DisasJumpType op_vup(DisasContext *s, DisasOps *o)
-     }
- 
-     tmp = tcg_temp_new_i64();
--    if (s->fields->op2 == 0xd7 || s->fields->op2 == 0xd5) {
-+    if (s->fields.op2 == 0xd7 || s->fields.op2 == 0xd5) {
-         /* iterate backwards to avoid overwriting data we might need later */
-         for (dst_idx = NUM_VEC_ELEMENTS(dst_es) - 1; dst_idx >= 0; dst_idx--) {
-             src_idx = dst_idx;
-@@ -1389,7 +1389,7 @@ static DisasJumpType op_vec(DisasContext *s, DisasOps *o)
-         gen_program_exception(s, PGM_SPECIFICATION);
-         return DISAS_NORETURN;
-     }
--    if (s->fields->op2 == 0xdb) {
-+    if (s->fields.op2 == 0xdb) {
-         es |= MO_SIGN;
-     }
- 
-@@ -1567,7 +1567,7 @@ static DisasJumpType op_vmx(DisasContext *s, DisasOps *o)
-         return DISAS_NORETURN;
-     }
- 
--    switch (s->fields->op2) {
-+    switch (s->fields.op2) {
-     case 0xff:
-         gen_gvec_fn_3(smax, es, v1, v2, v3);
-         break;
-@@ -1677,7 +1677,7 @@ static DisasJumpType op_vma(DisasContext *s, DisasOps *o)
-         return DISAS_NORETURN;
-     }
- 
--    switch (s->fields->op2) {
-+    switch (s->fields.op2) {
-     case 0xaa:
-         fn = &g_vmal[es];
-         break;
-@@ -1764,7 +1764,7 @@ static DisasJumpType op_vm(DisasContext *s, DisasOps *o)
-         return DISAS_NORETURN;
-     }
- 
--    switch (s->fields->op2) {
-+    switch (s->fields.op2) {
-     case 0xa2:
-         gen_gvec_fn_3(mul, es, get_field(s, v1),
-                       get_field(s, v2), get_field(s, v3));
-@@ -1967,7 +1967,7 @@ static DisasJumpType op_vesv(DisasContext *s, DisasOps *o)
-         return DISAS_NORETURN;
-     }
- 
--    switch (s->fields->op2) {
-+    switch (s->fields.op2) {
-     case 0x70:
-         gen_gvec_fn_3(shlv, es, v1, v2, v3);
-         break;
-@@ -1998,7 +1998,7 @@ static DisasJumpType op_ves(DisasContext *s, DisasOps *o)
-     }
- 
-     if (likely(!get_field(s, b2))) {
--        switch (s->fields->op2) {
-+        switch (s->fields.op2) {
-         case 0x30:
-             gen_gvec_fn_2i(shli, es, v1, v3, d2);
-             break;
-@@ -2015,7 +2015,7 @@ static DisasJumpType op_ves(DisasContext *s, DisasOps *o)
-         shift = tcg_temp_new_i32();
-         tcg_gen_extrl_i64_i32(shift, o->addr1);
-         tcg_gen_andi_i32(shift, shift, NUM_VEC_ELEMENT_BITS(es) - 1);
--        switch (s->fields->op2) {
-+        switch (s->fields.op2) {
-         case 0x30:
-             gen_gvec_fn_2s(shls, es, v1, v3, shift);
-             break;
-@@ -2038,7 +2038,7 @@ static DisasJumpType op_vsl(DisasContext *s, DisasOps *o)
-     TCGv_i64 shift = tcg_temp_new_i64();
- 
-     read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
--    if (s->fields->op2 == 0x74) {
-+    if (s->fields.op2 == 0x74) {
-         tcg_gen_andi_i64(shift, shift, 0x7);
-     } else {
-         tcg_gen_andi_i64(shift, shift, 0x78);
-@@ -2084,7 +2084,7 @@ static DisasJumpType op_vsra(DisasContext *s, DisasOps *o)
-     TCGv_i64 shift = tcg_temp_new_i64();
- 
-     read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
--    if (s->fields->op2 == 0x7e) {
-+    if (s->fields.op2 == 0x7e) {
-         tcg_gen_andi_i64(shift, shift, 0x7);
-     } else {
-         tcg_gen_andi_i64(shift, shift, 0x78);
-@@ -2101,7 +2101,7 @@ static DisasJumpType op_vsrl(DisasContext *s, DisasOps *o)
-     TCGv_i64 shift = tcg_temp_new_i64();
- 
-     read_vec_element_i64(shift, get_field(s, v3), 7, ES_8);
--    if (s->fields->op2 == 0x7c) {
-+    if (s->fields.op2 == 0x7c) {
-         tcg_gen_andi_i64(shift, shift, 0x7);
-     } else {
-         tcg_gen_andi_i64(shift, shift, 0x78);
-@@ -2524,7 +2524,7 @@ static DisasJumpType op_vfa(DisasContext *s, DisasOps *o)
-         return DISAS_NORETURN;
-     }
- 
--    switch (s->fields->op2) {
-+    switch (s->fields.op2) {
-     case 0xe3:
-         fn = se ? gen_helper_gvec_vfa64s : gen_helper_gvec_vfa64;
-         break;
-@@ -2555,7 +2555,7 @@ static DisasJumpType op_wfc(DisasContext *s, DisasOps *o)
-         return DISAS_NORETURN;
-     }
- 
--    if (s->fields->op2 == 0xcb) {
-+    if (s->fields.op2 == 0xcb) {
-         gen_gvec_2_ptr(get_field(s, v1), get_field(s, v2),
-                        cpu_env, 0, gen_helper_gvec_wfc64);
-     } else {
-@@ -2581,7 +2581,7 @@ static DisasJumpType op_vfc(DisasContext *s, DisasOps *o)
-     }
- 
-     if (cs) {
--        switch (s->fields->op2) {
-+        switch (s->fields.op2) {
-         case 0xe8:
-             fn = se ? gen_helper_gvec_vfce64s_cc : gen_helper_gvec_vfce64_cc;
-             break;
-@@ -2595,7 +2595,7 @@ static DisasJumpType op_vfc(DisasContext *s, DisasOps *o)
-             g_assert_not_reached();
-         }
-     } else {
--        switch (s->fields->op2) {
-+        switch (s->fields.op2) {
-         case 0xe8:
-             fn = se ? gen_helper_gvec_vfce64s : gen_helper_gvec_vfce64;
-             break;
-@@ -2630,7 +2630,7 @@ static DisasJumpType op_vcdg(DisasContext *s, DisasOps *o)
-         return DISAS_NORETURN;
-     }
- 
--    switch (s->fields->op2) {
-+    switch (s->fields.op2) {
-     case 0xc3:
-         fn = se ? gen_helper_gvec_vcdg64s : gen_helper_gvec_vcdg64;
-         break;
-@@ -2688,7 +2688,7 @@ static DisasJumpType op_vfma(DisasContext *s, DisasOps *o)
-         return DISAS_NORETURN;
-     }
- 
--    if (s->fields->op2 == 0x8f) {
-+    if (s->fields.op2 == 0x8f) {
-         fn = se ? gen_helper_gvec_vfma64s : gen_helper_gvec_vfma64;
-     } else {
-         fn = se ? gen_helper_gvec_vfms64s : gen_helper_gvec_vfms64;
 -- 
 2.20.1
 
