@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BFA14627C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 08:21:31 +0100 (CET)
-Received: from localhost ([::1]:52128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D57E3146268
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 08:18:33 +0100 (CET)
+Received: from localhost ([::1]:52092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuWnx-0000aN-KY
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 02:21:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37654)
+	id 1iuWl6-0005R5-PH
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 02:18:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37402)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1iuWe7-0006x1-88
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:11:20 -0500
+ (envelope-from <mst@redhat.com>) id 1iuWdW-0006AO-LE
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:10:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1iuWe6-0000L1-2Q
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:11:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51934
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mst@redhat.com>) id 1iuWdV-0008EM-Ga
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:10:42 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29695
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iuWe5-0000Kk-UB
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:11:18 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iuWdV-0008Dm-CI
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:10:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579763477;
+ s=mimecast20190719; t=1579763441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lSs10h7+g5GHkd748u1YKdPjMw3sPPNZXswgwHDuFfc=;
- b=OGaZeiE4ez1gO0SkZuVWAkQLa+wRSutCWM3NjR7xIl2FCj9U6Tf9FKndG7LsNBFwIFKR91
- py+XkLBcboc91XLAWYvdMHJNJuQUdWaa0oWKeICdwAkqY3+8+5ufvRv0oH6IbCqPQsgrHQ
- GvQgLulbLUtQCdd0qO3fg7viKVVwUrs=
+ bh=eTnESgkc4Q1IE7eK3yhiRdRiKjKhsh/o/b9VSLnbvfo=;
+ b=FbvRQWsjR2s0YC0HFxpmR4XsIEAog8l4rYeiAPPPLl66YgHMV2wUphJJQXTfw2gBhG1wxS
+ XpxYq9MDtFGnvY3FhLK9sFSwP+ywtQwNc2X1KoHO3A8822VHeZblMxaMcCrFXPnYHCboen
+ QH0akwJDxzecrClw70uei8zFFeZXyGc=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-1FtVqQYGMnSmhvJbI3y8Mw-1; Thu, 23 Jan 2020 02:10:35 -0500
-Received: by mail-wm1-f69.google.com with SMTP id e12so304654wma.7
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 23:10:35 -0800 (PST)
+ us-mta-64-u1TTpu1tPHK1OuZW_TTEkg-1; Thu, 23 Jan 2020 02:10:39 -0500
+Received: by mail-wm1-f69.google.com with SMTP id w205so603999wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 23:10:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=bshZ29A7PK62drys54Y2NwFiWKvTA5OkiFM7lPNvHYk=;
- b=InB9evdijQeo+az1gfH5AdqjypMb+LcdFliFeb5lWiLkMdy26qd7j7iCQN19JjzMqn
- YdjJTHnqYfydB9dHGkwm5seuKgqpU+JXYaCjabHQfYJc+nUIqOdZwrSpPEqXffd1rXBq
- 0yW8usty3YtKuNGUswFH1kXty7tBum1hbwC8vHxLtxlnziwO9b27aD+XKsMHBwhn0wNi
- 7HEcBnx798j7rSy2g9mNAx+sce/FSdG3WkQuSJsq1XV6KwabyBq8rk2AvEtwxEzHTIKf
- 37DPGW3tUXTM3I5tePG5Oob/R6DJ2sm2QD+ksF+JvET1kq/z7y2LHnGV5jvtQnH/clVT
- FTKQ==
-X-Gm-Message-State: APjAAAWEnrwi8fC/k+cvLHpSY8i2uKe24CgLttIGR9YBOI6YEwjfJmvr
- aoy2ncRuvsWR3OoKsyoUtlz5bTFOuuDy7ZNi8TdgaQofKhHreiQz3QkpQN54/LU59bP4DK57nhZ
- aFXe5Xb1wcwml4TM=
-X-Received: by 2002:a05:600c:d6:: with SMTP id
- u22mr2491756wmm.77.1579763433814; 
- Wed, 22 Jan 2020 23:10:33 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw25w3wi8+Fmbg0/xUdeTXLTw5Y1cHEVOhzg2+lgeUvQij5P2ur5ET2qLWpJU9dfv0+8swvAw==
-X-Received: by 2002:a05:600c:d6:: with SMTP id
- u22mr2491735wmm.77.1579763433620; 
- Wed, 22 Jan 2020 23:10:33 -0800 (PST)
+ bh=eAd3+nCoRQPzLOmjcY8CULrwvjv4VOu8uY/RSRtK8kQ=;
+ b=LSOZCI1cl8bNe4WHEyzwbbihTXfeg1ni/FRV2bDcMchMQCDDGNELo4r7AmHw7/whKs
+ dEJmf1aAQg0oyfEqtMFv2vq8PH+UFObo1BsiXPbg7l94inw0iPJZfAEnIVmfrxoe3wQd
+ i2k8ezTItG5uEdS0Zh29oYZyvbAI6BvEtqk9trLZoW9YjPFIFwOWxRB05oc3ImahWdkv
+ 4jHu8GiJwm8OtkPM++FRplQ0EuWY+mFZQ0NPP4BrJtQ3Rm4REKDZRPaWexX1w3drE55n
+ 5ToBcrotjaHean1XBwA/f8TfdP9RwQDDccF/V6nRAfazQPVxD3/1qillrdcjkIWMSdlf
+ 63fw==
+X-Gm-Message-State: APjAAAUKFuaKyrWxCB6pMXXVR5zH3mOm5FRx/EV0/3xKbuUswCrp/rwF
+ T7dZT49uJgServ2xzq4faRxsxR3cX4DIgnWmG65ce2A7TYJ0LB7VBrjy/X6qgr1okh2sjUAnqk5
+ X4l4yOnU6YRrOMT4=
+X-Received: by 2002:a5d:4a8c:: with SMTP id o12mr15227755wrq.43.1579763437381; 
+ Wed, 22 Jan 2020 23:10:37 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwzN3VAAz2iyEM6ziZRYkcooAJK6a5vGCwz2vG3AvnS7HPXkP9ZnZT+w598VRnZdw1IDosDQw==
+X-Received: by 2002:a5d:4a8c:: with SMTP id o12mr15227726wrq.43.1579763437166; 
+ Wed, 22 Jan 2020 23:10:37 -0800 (PST)
 Received: from redhat.com (bzq-79-176-0-156.red.bezeqint.net. [79.176.0.156])
  by smtp.gmail.com with ESMTPSA id
- s15sm1819215wrp.4.2020.01.22.23.10.32
+ f1sm1888607wru.6.2020.01.22.23.10.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 23:10:32 -0800 (PST)
-Date: Thu, 23 Jan 2020 02:10:31 -0500
+ Wed, 22 Jan 2020 23:10:35 -0800 (PST)
+Date: Thu, 23 Jan 2020 02:10:34 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 08/18] acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command
-Message-ID: <20200123070913.626488-9-mst@redhat.com>
+Subject: [PULL v3 09/18] bios-tables-test: document expected file update
+Message-ID: <20200123070913.626488-10-mst@redhat.com>
 References: <20200123070913.626488-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200123070913.626488-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
-X-MC-Unique: 1FtVqQYGMnSmhvJbI3y8Mw-1
+X-MC-Unique: u1TTpu1tPHK1OuZW_TTEkg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,98 +89,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Laszlo Ersek <lersek@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+Document the flow for the case where contributor
+updates the expected files.
 
-Firmware can enumerate present at boot APs by broadcasting wakeup IPI,
-so that woken up secondary CPUs could register them-selves.
-However in CPU hotplug case, it would need to know architecture
-specific CPU IDs for possible and hotplugged CPUs so it could
-prepare environment for and wake hotplugged AP.
-
-Reuse and extend existing CPU hotplug interface to return architecture
-specific ID for currently selected CPU in 2 registers:
- - lower 32 bits in ACPI_CPU_CMD_DATA_OFFSET_RW
- - upper 32 bits in ACPI_CPU_CMD_DATA2_OFFSET_R
-
-On x86, firmware will use CPHP_GET_CPU_ID_CMD for fetching the APIC ID
-when handling hotplug SMI.
-
-Later, CPHP_GET_CPU_ID_CMD will be used on ARM to retrieve MPIDR,
-which serves the similar to APIC ID purpose.
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <1575896942-331151-10-git-send-email-imammedo@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 ---
- docs/specs/acpi_cpu_hotplug.txt | 3 +++
- hw/acpi/cpu.c                   | 7 +++++++
- 2 files changed, 10 insertions(+)
+ tests/qtest/bios-tables-test.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.=
-txt
-index cb99cf3c8e..a8ce5e7402 100644
---- a/docs/specs/acpi_cpu_hotplug.txt
-+++ b/docs/specs/acpi_cpu_hotplug.txt
-@@ -47,6 +47,7 @@ read access:
-     [0x0-0x3] Command data 2: (DWORD access)
-               if value last stored in 'Command field':
-                 0: reads as 0x0
-+                3: upper 32 bits of architecture specific CPU ID value
-                 other values: reserved
-     [0x4] CPU device status fields: (1 byte access)
-         bits:
-@@ -61,6 +62,8 @@ read access:
-     [0x8] Command data: (DWORD access)
-           contains 0 unless value last stored in 'Command field' is one of=
-:
-               0: contains 'CPU selector' value of a CPU with pending event=
-[s]
-+              3: lower 32 bits of architecture specific CPU ID value
-+                 (in x86 case: APIC ID)
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.=
+c
+index f1ac2d7e96..3ab4872bd7 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -16,7 +16,10 @@
+  * 1. add empty files for new tables, if any, under tests/data/acpi
+  * 2. list any changed files in tests/bios-tables-test-allowed-diff.h
+  * 3. commit the above *before* making changes that affect the tables
+- * Maintainer:
++ *
++ * Contributor or ACPI Maintainer (steps 4-7 need to be redone to resolve =
+conflicts
++ * in binary commit created in step 6):
++ *
+  * After 1-3 above tests will pass but ignore differences with the expecte=
+d files.
+  * You will also notice that tests/bios-tables-test-allowed-diff.h lists
+  * a bunch of files. This is your hint that you need to do the below:
+@@ -28,13 +31,23 @@
+  * output. If not - disassemble them yourself in any way you like.
+  * Look at the differences - make sure they make sense and match what the
+  * changes you are merging are supposed to do.
++ * Save the changes, preferably in form of ASL diff for the commit log in
++ * step 6.
+  *
+  * 5. From build directory, run:
+  *      $(SRC_PATH)/tests/data/acpi/rebuild-expected-aml.sh
+- * 6. Now commit any changes.
+- * 7. Before doing a pull request, make sure tests/bios-tables-test-allowe=
+d-diff.h
+- *    is empty - this will ensure following changes to ACPI tables will
+- *    be noticed.
++ * 6. Now commit any changes to the expected binary, include diff from ste=
+p 4
++ *    in commit log.
++ * 7. Before sending patches to the list (Contributor)
++ *    or before doing a pull request (Maintainer), make sure
++ *    tests/bios-tables-test-allowed-diff.h is empty - this will ensure
++ *    following changes to ACPI tables will be noticed.
++ *
++ * The resulting patchset/pull request then looks like this:
++ * - patch 1: list changed files in tests/bios-tables-test-allowed-diff.h.
++ * - patches 2 - n: real changes, may contain multiple patches.
++ * - patch n + 1: update golden master binaries and empty
++ *   tests/bios-tables-test-allowed-diff.h
+  */
 =20
- write access:
-     offset:
-diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-index d475c06953..e2c957ce00 100644
---- a/hw/acpi/cpu.c
-+++ b/hw/acpi/cpu.c
-@@ -18,6 +18,7 @@ enum {
-     CPHP_GET_NEXT_CPU_WITH_EVENT_CMD =3D 0,
-     CPHP_OST_EVENT_CMD =3D 1,
-     CPHP_OST_STATUS_CMD =3D 2,
-+    CPHP_GET_CPU_ID_CMD =3D 3,
-     CPHP_CMD_MAX
- };
-=20
-@@ -75,6 +76,9 @@ static uint64_t cpu_hotplug_rd(void *opaque, hwaddr addr,=
- unsigned size)
-         case CPHP_GET_NEXT_CPU_WITH_EVENT_CMD:
-            val =3D cpu_st->selector;
-            break;
-+        case CPHP_GET_CPU_ID_CMD:
-+           val =3D cdev->arch_id & 0xFFFFFFFF;
-+           break;
-         default:
-            break;
-         }
-@@ -85,6 +89,9 @@ static uint64_t cpu_hotplug_rd(void *opaque, hwaddr addr,=
- unsigned size)
-         case CPHP_GET_NEXT_CPU_WITH_EVENT_CMD:
-            val =3D 0;
-            break;
-+        case CPHP_GET_CPU_ID_CMD:
-+           val =3D cdev->arch_id >> 32;
-+           break;
-         default:
-            break;
-         }
+ #include "qemu/osdep.h"
 --=20
 MST
 
