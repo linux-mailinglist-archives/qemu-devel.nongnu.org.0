@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB759147211
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:48:13 +0100 (CET)
-Received: from localhost ([::1]:60541 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D081147218
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:50:03 +0100 (CET)
+Received: from localhost ([::1]:60602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuiSa-0006pF-IR
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:48:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41288)
+	id 1iuiUM-000298-9L
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:50:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41310)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iufdw-0004xQ-9M
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:45 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iufdx-0004yv-M3
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iufdv-0006XI-4p
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:44 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34611
+ (envelope-from <dgilbert@redhat.com>) id 1iufdw-0006YC-Av
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45736
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufdv-0006XA-1s
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:43 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufdw-0006Xu-7u
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579798062;
+ s=mimecast20190719; t=1579798063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IEGaL9aFkkAtsNAhoj+NL8XMOR+mvE9/kShd09JYqiA=;
- b=R1LC4xueevTdqV7XT9FaevasYkFWNlERKexK1LdWtQc7KgdbNYygZ60kT/Sb7gkvClPPAg
- 4n/3wgZpMReTtCTPgvJATdTFO6jLYOkmmrd39kxMDtSN6Wprb8/oXbMf44kPB5LXMfPkdm
- S/rL2q7qwiZxTPURMZj9M7xyq7VrT1I=
+ bh=a7J2d+/qEC/4s8KwV2sf+Fq1jzRcegakEDeWcp+uogY=;
+ b=IHg8dBu9iStMP0EyB6jqv1mPJGufVqzv4WIxKmlDgIz2UfSj8cZ9aaGnsLtZnw+oP+w8qR
+ 8FHrbN1rO5ifNiQNj73zGnFKNhdHDBRJybkhjXlKJsQh5YD8BZMKTV0Y9p6/kDClV514n4
+ FqdPqjm8kU6fJcmko3NkQSsFjopCAws=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-LYmlmJwuMTWRgHAuX5xDFA-1; Thu, 23 Jan 2020 11:47:41 -0500
+ us-mta-210-t0lx9W7vM0mLE8j-_FIxDA-1; Thu, 23 Jan 2020 11:47:42 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 736C7107ACCA
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72C6C8024F9
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:41 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-110.ams2.redhat.com
  [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C073228998;
- Thu, 23 Jan 2020 16:47:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDB0628998;
+ Thu, 23 Jan 2020 16:47:40 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 043/108] virtiofsd: add fuse_mbuf_iter API
-Date: Thu, 23 Jan 2020 16:45:25 +0000
-Message-Id: <20200123164630.91498-44-dgilbert@redhat.com>
+Subject: [PULL 044/108] virtiofsd: validate input buffer sizes in
+ do_write_buf()
+Date: Thu, 23 Jan 2020 16:45:26 +0000
+Message-Id: <20200123164630.91498-45-dgilbert@redhat.com>
 In-Reply-To: <20200123164630.91498-1-dgilbert@redhat.com>
 References: <20200123164630.91498-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: LYmlmJwuMTWRgHAuX5xDFA-1
+X-MC-Unique: t0lx9W7vM0mLE8j-_FIxDA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,118 +78,127 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Introduce an API for consuming bytes from a buffer with size checks.
-All FUSE operations will be converted to use this safe API instead of
-void *inarg.
+There is a small change in behavior: if fuse_write_in->size doesn't
+match the input buffer size then the request is failed.  Previously
+write requests with 1 fuse_buf element would truncate to
+fuse_write_in->size.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Sergio Lopez <slp@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/buffer.c      | 28 ++++++++++++++++++++
- tools/virtiofsd/fuse_common.h | 49 ++++++++++++++++++++++++++++++++++-
- 2 files changed, 76 insertions(+), 1 deletion(-)
+ tools/virtiofsd/fuse_lowlevel.c | 49 ++++++++++++++++++++-------------
+ 1 file changed, 30 insertions(+), 19 deletions(-)
 
-diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
-index 772efa922d..42a608f6bd 100644
---- a/tools/virtiofsd/buffer.c
-+++ b/tools/virtiofsd/buffer.c
-@@ -267,3 +267,31 @@ ssize_t fuse_buf_copy(struct fuse_bufvec *dstv, struct=
- fuse_bufvec *srcv)
-=20
-     return copied;
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
+l.c
+index 7e10995adc..611e8b0354 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -1003,8 +1003,8 @@ static void do_write(fuse_req_t req, fuse_ino_t nodei=
+d, const void *inarg)
+     }
  }
-+
-+void *fuse_mbuf_iter_advance(struct fuse_mbuf_iter *iter, size_t len)
-+{
-+    void *ptr;
-+
-+    if (len > iter->size - iter->pos) {
-+        return NULL;
-+    }
-+
-+    ptr =3D iter->mem + iter->pos;
-+    iter->pos +=3D len;
-+    return ptr;
-+}
-+
-+const char *fuse_mbuf_iter_advance_str(struct fuse_mbuf_iter *iter)
-+{
-+    const char *str =3D iter->mem + iter->pos;
-+    size_t remaining =3D iter->size - iter->pos;
-+    size_t i;
-+
-+    for (i =3D 0; i < remaining; i++) {
-+        if (str[i] =3D=3D '\0') {
-+            iter->pos +=3D i + 1;
-+            return str;
-+        }
-+    }
-+    return NULL;
-+}
-diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
-index 0cb33acc2f..f8f6433743 100644
---- a/tools/virtiofsd/fuse_common.h
-+++ b/tools/virtiofsd/fuse_common.h
-@@ -703,10 +703,57 @@ size_t fuse_buf_size(const struct fuse_bufvec *bufv);
-  */
- ssize_t fuse_buf_copy(struct fuse_bufvec *dst, struct fuse_bufvec *src);
 =20
-+/**
-+ * Memory buffer iterator
-+ *
-+ */
-+struct fuse_mbuf_iter {
-+    /**
-+     * Data pointer
-+     */
-+    void *mem;
+-static void do_write_buf(fuse_req_t req, fuse_ino_t nodeid, const void *in=
+arg,
+-                         struct fuse_bufvec *ibufv)
++static void do_write_buf(fuse_req_t req, fuse_ino_t nodeid,
++                         struct fuse_mbuf_iter *iter, struct fuse_bufvec *=
+ibufv)
+ {
+     struct fuse_session *se =3D req->se;
+     struct fuse_bufvec *pbufv =3D ibufv;
+@@ -1012,28 +1012,27 @@ static void do_write_buf(fuse_req_t req, fuse_ino_t=
+ nodeid, const void *inarg,
+         .buf[0] =3D ibufv->buf[0],
+         .count =3D 1,
+     };
+-    struct fuse_write_in *arg =3D (struct fuse_write_in *)inarg;
++    struct fuse_write_in *arg;
++    size_t arg_size =3D sizeof(*arg);
+     struct fuse_file_info fi;
+=20
+     memset(&fi, 0, sizeof(fi));
 +
-+    /**
-+     * Total length, in bytes
-+     */
-+    size_t size;
++    arg =3D fuse_mbuf_iter_advance(iter, arg_size);
++    if (!arg) {
++        fuse_reply_err(req, EINVAL);
++        return;
++    }
 +
-+    /**
-+     * Offset from start of buffer
-+     */
-+    size_t pos;
-+};
++    fi.lock_owner =3D arg->lock_owner;
++    fi.flags =3D arg->flags;
+     fi.fh =3D arg->fh;
+     fi.writepage =3D arg->write_flags & FUSE_WRITE_CACHE;
+=20
+     if (ibufv->count =3D=3D 1) {
+-        fi.lock_owner =3D arg->lock_owner;
+-        fi.flags =3D arg->flags;
+-        if (!(tmpbufv.buf[0].flags & FUSE_BUF_IS_FD)) {
+-            tmpbufv.buf[0].mem =3D PARAM(arg);
+-        }
+-        tmpbufv.buf[0].size -=3D
+-            sizeof(struct fuse_in_header) + sizeof(struct fuse_write_in);
+-        if (tmpbufv.buf[0].size < arg->size) {
+-            fuse_log(FUSE_LOG_ERR,
+-                     "fuse: do_write_buf: buffer size too small\n");
+-            fuse_reply_err(req, EIO);
+-            return;
+-        }
+-        tmpbufv.buf[0].size =3D arg->size;
++        assert(!(tmpbufv.buf[0].flags & FUSE_BUF_IS_FD));
++        tmpbufv.buf[0].mem =3D ((char *)arg) + arg_size;
++        tmpbufv.buf[0].size -=3D sizeof(struct fuse_in_header) + arg_size;
+         pbufv =3D &tmpbufv;
+     } else {
+         /*
+@@ -1043,6 +1042,13 @@ static void do_write_buf(fuse_req_t req, fuse_ino_t =
+nodeid, const void *inarg,
+         ibufv->buf[0].size =3D 0;
+     }
+=20
++    if (fuse_buf_size(pbufv) !=3D arg->size) {
++        fuse_log(FUSE_LOG_ERR,
++                 "fuse: do_write_buf: buffer size doesn't match arg->size\=
+n");
++        fuse_reply_err(req, EIO);
++        return;
++    }
 +
-+/* Initialize memory buffer iterator from a fuse_buf */
-+#define FUSE_MBUF_ITER_INIT(fbuf) \
-+    ((struct fuse_mbuf_iter){     \
-+        .mem =3D fbuf->mem,         \
-+        .size =3D fbuf->size,       \
-+        .pos =3D 0,                 \
-+    })
+     se->op.write_buf(req, nodeid, pbufv, arg->offset, &fi);
+ }
+=20
+@@ -2052,12 +2058,17 @@ void fuse_session_process_buf_int(struct fuse_sessi=
+on *se,
+                                   struct fuse_chan *ch)
+ {
+     const struct fuse_buf *buf =3D bufv->buf;
++    struct fuse_mbuf_iter iter =3D FUSE_MBUF_ITER_INIT(buf);
+     struct fuse_in_header *in;
+     const void *inarg;
+     struct fuse_req *req;
+     int err;
+=20
+-    in =3D buf->mem;
++    /* The first buffer must be a memory buffer */
++    assert(!(buf->flags & FUSE_BUF_IS_FD));
 +
-+/**
-+ * Consume bytes from a memory buffer iterator
-+ *
-+ * @param iter memory buffer iterator
-+ * @param len number of bytes to consume
-+ * @return pointer to start of consumed bytes or
-+ *         NULL if advancing beyond end of buffer
-+ */
-+void *fuse_mbuf_iter_advance(struct fuse_mbuf_iter *iter, size_t len);
-+
-+/**
-+ * Consume a NUL-terminated string from a memory buffer iterator
-+ *
-+ * @param iter memory buffer iterator
-+ * @return pointer to the string or
-+ *         NULL if advancing beyond end of buffer or there is no NUL-termi=
-nator
-+ */
-+const char *fuse_mbuf_iter_advance_str(struct fuse_mbuf_iter *iter);
-+
- /*
-  * Signal handling
-  */
--
- /**
-  * Exit session on HUP, TERM and INT signals and ignore PIPE signal
-  *
++    in =3D fuse_mbuf_iter_advance(&iter, sizeof(*in));
++    assert(in); /* caller guarantees the input buffer is large enough */
+=20
+     if (se->debug) {
+         fuse_log(FUSE_LOG_DEBUG,
+@@ -2129,7 +2140,7 @@ void fuse_session_process_buf_int(struct fuse_session=
+ *se,
+=20
+     inarg =3D (void *)&in[1];
+     if (in->opcode =3D=3D FUSE_WRITE && se->op.write_buf) {
+-        do_write_buf(req, in->nodeid, inarg, bufv);
++        do_write_buf(req, in->nodeid, &iter, bufv);
+     } else {
+         fuse_ll_ops[in->opcode].func(req, in->nodeid, inarg);
+     }
 --=20
 2.24.1
 
