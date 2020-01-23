@@ -2,141 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2B91471D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:37:12 +0100 (CET)
-Received: from localhost ([::1]:60218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BAE147221
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:53:28 +0100 (CET)
+Received: from localhost ([::1]:60768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuiHv-0006Bu-Ur
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:37:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43342)
+	id 1iuiXf-00019p-Ng
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:53:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49328)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iugzD-0001PV-9r
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:13:48 -0500
+ (envelope-from <rjones@redhat.com>) id 1iuhJz-0004r5-4g
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:35:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iugzA-0004Gd-Ay
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:13:45 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21771
+ (envelope-from <rjones@redhat.com>) id 1iuhJv-0002Lm-On
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:35:14 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31228
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iugzA-0004Cf-69
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:13:44 -0500
+ (Exim 4.71) (envelope-from <rjones@redhat.com>) id 1iuhJv-0002LI-IK
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:35:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579803222;
+ s=mimecast20190719; t=1579804511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=47Zx6Be1/CXJq0HEZ5xXpdo8looUyl5x3WQwmQ5V4uM=;
- b=iDvcSXYKXezcaw9V0LVT5oiE3MlgxnSRvm4vfZxeGJ5X+M8nYpAzaraq94n9Y/ml4dcSgc
- gnezonk+FeSGqMJjSMOMww/GG861p6pDUZVV2yJO4cVsNGVCzu1Iwj+3w0ZpEBPvQMx76f
- 2fYQdBp8ifFG2fBSPMj/+Dzy0IYLnII=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=21k2w/bX7i0w5bWfAhJanCdlWncLqAQw8b0rDVEZnDA=;
+ b=GoasGwINVfLCG1naKZq8sgsUt3eYv74/XNG0wuD71cfYJO/22BJu0NNt5FBcXiIrpFkJcO
+ NE50KP5Ru2oqMTqMTpPsTxoKgp14FfX1bDALS0/NevtN+46sPisAV7Umf7k74d9nXz5Zq/
+ /nUH8wB30oUyp/D4tHVtBQKg6z9skX4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-eA2wD17JMX639sTz2RlMfw-1; Thu, 23 Jan 2020 13:13:40 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-48-6BSpRgGROeqRNZITX3MVSw-1; Thu, 23 Jan 2020 13:35:03 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 070748017CC;
- Thu, 23 Jan 2020 18:13:39 +0000 (UTC)
-Received: from [10.10.125.4] (ovpn-125-4.rdu2.redhat.com [10.10.125.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F23E5DA87;
- Thu, 23 Jan 2020 18:13:34 +0000 (UTC)
-Subject: Re: Making QEMU easier for management tools and applications
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
- <20191224130035.GC2710539@redhat.com>
- <a95b7572-d863-bc88-66aa-3beed679cefe@redhat.com>
- <20200123102705.GC657556@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <0ba8f074-fde8-a0f6-5880-d2f5eabeca98@redhat.com>
-Date: Thu, 23 Jan 2020 13:13:33 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57E071005510;
+ Thu, 23 Jan 2020 18:35:02 +0000 (UTC)
+Received: from localhost (ovpn-117-237.ams2.redhat.com [10.36.117.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E35AB7EF65;
+ Thu, 23 Jan 2020 18:35:01 +0000 (UTC)
+Date: Thu, 23 Jan 2020 18:35:00 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com,
+ eblake@redhat.com, berrange@redhat.com, mkletzan@redhat.com,
+ ptoscano@redhat.com
+Subject: qemu-img convert vs writing another copy tool
+Message-ID: <20200123183500.GA27166@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200123102705.GC657556@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: eA2wD17JMX639sTz2RlMfw-1
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 6BSpRgGROeqRNZITX3MVSw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
@@ -150,113 +71,279 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "Denis V. Lunev" <den@virtuozzo.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>
+Cc: marnold@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I guess some people are aware that virt-v2v, which is a tool which
+converts guests from VMware to run on KVM, and some other
+OpenStack-OpenStack migration tools we have, use "qemu-img convert" to
+copy the data around.
+
+Historically we've had bugs here.  The most recent was discussed in
+the thread on this list called "Bug? qemu-img convert to preallocated
+image makes it sparse"
+(https://www.mail-archive.com/qemu-block@nongnu.org/msg60479.html)
+
+We've been kicking around the idea of writing some alternate tool.  My
+proposal would be a tool (not yet written, maybe it will never be
+written) called nbdcp for copying between NBD servers and local files.
+An outline manual page for this proposed tool is attached.
+
+Some of the things which this tool might do which qemu-img convert
+cannot do right now:
+
+ - Hint that the target already contains zeroes.  It's almost always
+   the case that we know this, but we cannot tell qemu.  This was the
+   cause of a big performance regression last year.
+
+ - Declare that we want the target to be either sparse or
+   preallocated.  qemu-img convert can sort of do this in a
+   round-about way (create the target in advance and use the -n
+   option), but also it's broken at the moment.
+
+ - NBD multi-conn.  In my tests this makes a really massive
+   performance difference in certain situations.  Again, virt-v2v has
+   a lot of information that we cannot pass to qemu: we know, for
+   example, exactly if the server supports the feature, how many
+   threads are available, in some situations even have information
+   about the network and backing disks that the data will travel over
+   / be stored on.
+
+ - Machine-parsable progress bars.  You can, sort of, parse the
+   progress bar from qemu-img convert, but it's not as easy as it
+   could be.  In particular it would be nice if the format was treated
+   as ABI, and if there was a way to have the tool write the progress
+   bar info to a precreated file descriptor.
+
+ - External block lists.  This is a rather obscure requirement, but
+   it's necessary in the case where we can get the allocated block map
+   from another source (eg. pyvmomi) and then want to use that with an
+   NBD source that does not support extents (eg. nbdkit-ssh-plugin /
+   libssh / sftp).  [Having said that, it may be possible to implement
+   this as an nbdkit filter, so maybe this is not a blocking feature.]
+
+One thing which qemu-img convert can do which nbdcp could not:
+
+ - Read or write from qcow2 files.
+
+So instead of splitting the ecosystem and writing a new tool that
+doesn't do as much as qemu-img convert, I wonder what qemu developers
+think about the above missing features?  For example, are they in
+scope for qemu-img convert?
+
+Rich.
 
 
-On 1/23/20 5:27 AM, Daniel P. Berrang=C3=A9 wrote:
-> On Wed, Jan 22, 2020 at 05:42:10PM -0500, John Snow wrote:
->>
->>
->> On 12/24/19 8:00 AM, Daniel P. Berrang=C3=A9 wrote:
->>> Based on experiance in libvirt, this is an even larger job than (4),
->>> as the feature set here is huge.  Much of it directly ties into the
->>> config problem, as to deal with SELinux / namespace setup the code
->>> needs to understand what resources to provide access to. This
->>> requires a way to express 100% coverage of all QEMU configuration
->>> in use & analyse it to determine what resources it implies. So this
->>> ties strongly into QAPI-ification completion.
->>
->> Is it totally bonkers to suggest that QEMU provide a method of digesting
->> a given configuration and returning a configuration object that a
->> standalone jailer can use?
->>
->> So we have a QEMU manager, the generic jailer, and QEMU. QEMU and the
->> manager cooperate to produce the jailing configuration, and the jailer
->> does what we ask it to.
->=20
-> It isn't clear what you mean by "QEMU" here. If this QEMU, the system
-> emulator process, then this is the untrustworthy part of the stack,
-> so the jailer must not use any data that QEMU is providing. In fact
-> during startup the jailer does its work before QEMU even exists.
->=20
 
-I worried about this. Hence the "Nuts?" ask. It sounds like the ultimate
-problem is nobody can know -- except QEMU -- what permissions are truly
-needed for a given configuration. Even if we had an immaculate API, how
-would anyone except QEMU developers know?
+----------------------------------------------------------------------
 
-Trial and error, perhaps, on behalf of the jailer developers. Trial and
-error is not the greatest feature of a security mechanism. Clearly, a
-lot of effort has been spent to get libvirt's implementation correct,
-but Stefan raises the idea that other projects have need of
-understanding how to map QEMU configurations to appropriate jails.
+nbdcp(1)                            LIBNBD                            nbdcp=
+(1)
 
-Worse, it could still change on a whim. We (QEMU developers) probably
-are not used to thinking of permitted syscall lists as ABI that we
-strive to maintain. It can change.
+NAME
+       nbdcp - copy between NBD servers and local files
 
-How do we make this easier in a way that doesn't trust QEMU? I feel like
-QEMU needs to provide *some* kind of information that can be used to
-build better jailing configurations...
+SYNOPSIS
+        nbdcp [-a|--target-allocation allocated|sparse]
+              [-b|--block-list <blocksfile>]
+              [-m|--multi-conn <n>] [-M|--multi-conn-target <n>]
+              [-p|--progress-bar] [-S|--sparse-detect <n>]
+              [-T|--threads <n>] [-z|--target-is-zero]
+              'nbd://...'|DISK.IMG 'nbd://...'|DISK.IMG
 
-> There are aspects to the confinement that use / rely on knowledge that
-> QEMU doesn't normally have, or are expressed in a different way that
-> which QEMU uses, or needs to take a different imlpementation approach to
-> that which QEMU normally has.
->=20
-> For networking, for example, from QEMU's config POV, there's just a
-> TAP file descriptor. There are then a huge number of ways in which
-> that TAP FD has been connected to the network in the host that are
-> invisible to QEMU. Plain bridge, openvswitch bridge, macvtap device
-> all with varying configs. Knowledge of this is relevant to the manager
-> process and the jailer but irrelevant to QEMU.
->=20
-> When configuring disks we have technical issues. For example we need
-> to identify the full backing chain and grant the appropriate permissions
-> on this. Even if there was a libqemublock.so, libvirt would not use this
-> because the QEMU storage code design is not reliable & minimal enough.
-> For example to just query the backing file, QEMU opens the qcow2 and
-> parses all the data about it, building up L1/L2 tables, and other
-> data structures involved. It is trivial to create qcow2 files which
-> result in both memory and CPU denial of service merely from opening
-> the file.  Libvirt's approach to this is minimalist just having a
-> data table of offsets to the key fields in each file format. So we
-> can extract the backing file & its format without reading anything
-> else from the disk.
->=20
-> When configuring chardevs there is a choice of how to do it - we
-> could just pass the UNIX socket path in, or we could create the
-> UNIX socket ourselves & pass in the pre-opened FD. Both are equally
-> functional from QEMU's POV and the end user's POV, but passing a
-> pre-opened FD is more convenient for libvirt's needs as it allowed
-> for race-free startups sychronization between libvirt & QEMU, or
-> rather QMP.  The different options here though, have different
-> needs on the jailer, because extra steps are needed when passing
-> pre-opened FD to get the SELinux labelling right. QEMU doesn't
-> know which approach the mgmt app will want to take, so we can't
-> ask QEMU how the jailer should be configured - the mgmt app needs
-> to make that decision.
->=20
-> Essentially we have 2 configuration formats - the high level one
-> that the mgmt app layer uses & the low level one that QEMU uses.
-> The component in the stack which maps between the two config
-> formats, is that one that has the knowledge to configure the
-> jailer. This isn't QEMU. It is whatever is immediately above QEMU,
-> currently libvirt, but something conceptually equivalent to the
-> role libvirt's QEMU driver impl fills.
->=20
-> Regards,
-> Daniel
->=20
+DESCRIPTION
+       nbdcp is a utility that can copy quickly between NBD servers and loc=
+al
+       raw format files (or block devices).  It can copy:
+
+       from NBD server to file (or block device)
+           For example, this command copies from the NBD server listening o=
+n
+           port 10809 on "example.com" to a local file called disk.img:
+
+            nbdcp nbd://example.com disk.img
+
+       from file (or block device) to NBD server
+           For example, this command copies from a local block device /dev/=
+sda
+           to the NBD server listening on Unix domain socket /tmp/socket:
+
+            nbdcp /dev/sda 'nbd+unix:///?socket=3D/tmp/socket'
+
+       from NBD server to NBD server
+           For example this copies between two different exports on the sam=
+e
+           NBD server:
+
+            nbdcp nbd://example.com/export1 nbd://example.com/export2
+
+       This program cannot: copy from file to file (use cp(1) or dd(1)), co=
+py
+       to or from formats other than raw (use qemu-img(1) convert), or acce=
+ss
+       servers other than NBD servers (also use qemu-img(1)).
+
+       NBD servers are specified by their URI, following the NBD URI standa=
+rd
+       at https://github.com/NetworkBlockDevice/nbd/blob/master/doc/uri.md
+
+   Controlling sparseness or preallocation in the target
+       The options -a (--target-allocation), -S (--sparse-detect) and -z
+       (--target-is-zero) together control sparseness in the target file.
+
+       By default nbdcp tries to both preserve sparseness from the source a=
+nd
+       will detect runs of allocated zeroes and turn them into sparseness. =
+ To
+       turn off detection of sparseness use "-S=A00".
+
+       The -z option should be used if and only if you know that the target
+       block device is zeroed already.  This allows an important optimizati=
+on
+       where nbdcp can skip zeroing or trimming parts of the disk that are
+       already zero.
+
+       The -a option is used to control the desired final preallocation sta=
+te
+       of the target.  The default is "-a=A0sparse" which makes the target =
+as
+       sparse as possible.  "-a=A0allocated" makes the target fully allocat=
+ed.
+
+OPTIONS
+       --help
+           Display brief command line help and exit.
+
+       -a allocated
+       --target-allocation=3Dallocated
+           Make the target fully allocated.
+
+       -a sparse
+       --target-allocation=3Dsparse
+           Make the target as sparse as possible.  This is the default.  Se=
+e
+           also "Controlling sparseness or preallocation in the target".
+
+       -b BLOCKSFILE
+       --block-list=3DBLOCKSFILE
+           Load the list of extents from an external file.  nbdcp considers
+           this to be the truth for source extents.  The file should contai=
+n
+           one record per line in the same format as nbdkit-sh-plugin(1), i=
+e:
+
+            offset length type
+
+           with "offset" and "length" in bytes, and the "type" field being =
+a
+           comma-separated list of the words "hole" and "zero".  For exampl=
+e:
+
+            0  1M
+            1M 9M  hole,zero
+
+           Any parts of the source which don't have descriptions are assume=
+d
+           to be of type "hole,zero".
+
+       -m N
+       --multi-conn=3DN
+           Enable NBD multi-conn with up to "N" connections.  Only some NBD
+           servers support this but it can greatly improve performance.
+
+           The default is to enable multi-conn if we detect that the server
+           supports it, with up to 4 connections.
+
+       -M N
+       --multi-conn-target=3DN
+           If you are copying between NBD servers, use -m to control the
+           multi-conn setting for the source server, and this option (-M) t=
+o
+           control the multi-conn setting for the target server.
+
+       -p
+       --progress-bar
+           Display a progress bar during copying.
+
+       -p machine:FD
+       --progress-bar=3Dmachine:FD
+           Write a machine-readable progress bar to file descriptor "FD".
+           This progress bar prints lines with the format "COPIED/TOTAL"
+           (where "COPIED" and "TOTAL" are 64 bit unsigned integers).
+
+       -S 0
+       --sparse-detect=3D0
+           Turn off sparseness detection.
+
+       -S N
+       --sparse-detect=3DN
+           Detect runs of zero bytes of at least size "N" bytes and turn th=
+em
+           into sparse blocks on the target (if "-a=A0sparse" is used).  Th=
+is is
+           the default, with a 512 byte block size.
+
+       -T N
+       --threads N
+           Use at most "N" threads when copying.  Usually more threads lead=
+s
+           to better performance, up to the limit of the number of cores on
+           your machine and the parallelism of the underlying disk or netwo=
+rk.
+           The default is to use the number of online processors.
+
+       -z
+       --target-is-zero
+           Declare that the target block device contains only zero bytes (o=
+r
+           sparseness that reads back as zeroes).  You must only use this
+           option if you are sure that this is true, since it means that nb=
+dcp
+           will enable an optimization where it skips zeroing parts of the
+           disk that are zero on the source.
+
+       -V
+       --version
+           Display the package name and version and exit.
+
+SEE ALSO
+       qemu-img(1), libnbd(3), nbdsh(1).
+
+AUTHORS
+       Richard W.M. Jones
+
+COPYRIGHT
+       Copyright (C) 2020 Red Hat Inc.
+
+LICENSE
+       This library is free software; you can redistribute it and/or modify=
+ it
+       under the terms of the GNU Lesser General Public License as publishe=
+d
+       by the Free Software Foundation; either version 2 of the License, or
+       (at your option) any later version.
+
+       This library is distributed in the hope that it will be useful, but
+       WITHOUT ANY WARRANTY; without even the implied warranty of
+       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+       Lesser General Public License for more details.
+
+       You should have received a copy of the GNU Lesser General Public
+       License along with this library; if not, write to the Free Software
+       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+       02110-1301 USA
+
+libnbd-1.3.1                      2020-01-23                          nbdcp=
+(1)
+
 
 --=20
-=E2=80=94js
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjon=
+es
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
 
 
