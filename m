@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410E31469AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:50:16 +0100 (CET)
-Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7B914692C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:34:32 +0100 (CET)
+Received: from localhost ([::1]:57096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iucsA-0004dO-Er
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:50:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40842)
+	id 1iuccw-00016k-H2
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:34:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40823)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iub9P-0002oS-Iy
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:57 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iub9N-0002mn-UQ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iub9M-0005PF-VC
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:54 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36188
+ (envelope-from <dgilbert@redhat.com>) id 1iub9M-0005Oq-Lu
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51588
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub9M-0005P1-RY
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub9M-0005Ob-IU
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1579780792;
@@ -27,33 +27,33 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KK/7qgjHzoRF+pgAqQJZ36ORUn7lwgLqQgxeveozNWk=;
- b=PI/HTKHL8ZqE4eCqqwHa+vIpzNzgYMLZBTAfSXlR8J4kIttlleKQIlZ4xCpqFTnAr1y5ar
- HwtigEIqvBJsQoei8LtAp47CTiAiVybggbb97FhqLadZCvd5U7huOUaA/byLhchRtUvvmw
- w4Tu7gjd0rEKbQ73QQ5rRvGW9LH8+UI=
+ bh=A2OLDzwvIkswhQnYmC967hKOHC8UuZ0BirW2egCo2xI=;
+ b=US7lu9uSwi90C1qlvbrzBeHYg5eaH8HFyD7NaNqb5a5lpzhxKJXdInMIdFsBDf+rdpJ+eT
+ uiTMfrGsgx+/CVE9WNd/gDtGT3C4xXmqZq6M8VNwktIFCtrrct8/oRNTqpv/dyiVsoxnN6
+ tk2gdfDhMdmEfnqKjGluBTi+36aK65c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-szrA5WPTMtW_Oe-8aLLPpQ-1; Thu, 23 Jan 2020 06:59:49 -0500
+ us-mta-143-fEQlAa0lMV-mJiHccUBdKQ-1; Thu, 23 Jan 2020 06:59:50 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E96411800D48
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAFD28010C5
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:49 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 42F451CB;
- Thu, 23 Jan 2020 11:59:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 42C551CB;
+ Thu, 23 Jan 2020 11:59:49 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 052/111] virtiofsd: add seccomp whitelist
-Date: Thu, 23 Jan 2020 11:57:42 +0000
-Message-Id: <20200123115841.138849-53-dgilbert@redhat.com>
+Subject: [PULL 053/111] virtiofsd: Parse flag FUSE_WRITE_KILL_PRIV
+Date: Thu, 23 Jan 2020 11:57:43 +0000
+Message-Id: <20200123115841.138849-54-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: szrA5WPTMtW_Oe-8aLLPpQ-1
+X-MC-Unique: fEQlAa0lMV-mJiHccUBdKQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -74,271 +74,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Vivek Goyal <vgoyal@redhat.com>
 
-Only allow system calls that are needed by virtiofsd.  All other system
-calls cause SIGSYS to be directed at the thread and the process will
-coredump.
+Caller can set FUSE_WRITE_KILL_PRIV in write_flags. Parse it and pass it
+to the filesystem.
 
-Restricting system calls reduces the kernel attack surface and limits
-what the process can do when compromised.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-with additional entries by:
-Signed-off-by: Ganesh Maharaj Mahalingam <ganesh.mahalingam@intel.com>
-Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
-Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-Signed-off-by: piaojun <piaojun@huawei.com>
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Signed-off-by: Eric Ren <renzhen@linux.alibaba.com>
+Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+Reviewed-by: Sergio Lopez <slp@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- Makefile                         |   5 +-
- tools/virtiofsd/Makefile.objs    |   5 +-
- tools/virtiofsd/passthrough_ll.c |   2 +
- tools/virtiofsd/seccomp.c        | 151 +++++++++++++++++++++++++++++++
- tools/virtiofsd/seccomp.h        |  14 +++
- 5 files changed, 174 insertions(+), 3 deletions(-)
- create mode 100644 tools/virtiofsd/seccomp.c
- create mode 100644 tools/virtiofsd/seccomp.h
+ tools/virtiofsd/fuse_common.h   | 6 +++++-
+ tools/virtiofsd/fuse_lowlevel.c | 4 +++-
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 2f81271ee7..ad400f36b2 100644
---- a/Makefile
-+++ b/Makefile
-@@ -327,7 +327,7 @@ HELPERS-y +=3D vhost-user-gpu$(EXESUF)
- vhost-user-json-y +=3D contrib/vhost-user-gpu/50-qemu-gpu.json
- endif
+diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+index f8f6433743..686c42c0a5 100644
+--- a/tools/virtiofsd/fuse_common.h
++++ b/tools/virtiofsd/fuse_common.h
+@@ -93,8 +93,12 @@ struct fuse_file_info {
+      */
+     unsigned int cache_readdir:1;
 =20
--ifdef CONFIG_LINUX
-+ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP),yy)
- HELPERS-y +=3D virtiofsd$(EXESUF)
- vhost-user-json-y +=3D tools/virtiofsd/50-qemu-virtiofsd.json
- endif
-@@ -674,7 +674,8 @@ rdmacm-mux$(EXESUF): LIBS +=3D "-libumad"
- rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
- =09$(call LINK, $^)
++    /* Indicates that suid/sgid bits should be removed upon write */
++    unsigned int kill_priv:1;
++
++
+     /** Padding.  Reserved for future use*/
+-    unsigned int padding:25;
++    unsigned int padding:24;
+     unsigned int padding2:32;
 =20
--ifdef CONFIG_LINUX # relies on Linux-specific syscalls
-+# relies on Linux-specific syscalls
-+ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP),yy)
- virtiofsd$(EXESUF): $(virtiofsd-obj-y) libvhost-user.a $(COMMON_LDADDS)
- =09$(call LINK, $^)
- endif
-diff --git a/tools/virtiofsd/Makefile.objs b/tools/virtiofsd/Makefile.objs
-index 45a807500d..076f667e46 100644
---- a/tools/virtiofsd/Makefile.objs
-+++ b/tools/virtiofsd/Makefile.objs
-@@ -5,5 +5,8 @@ virtiofsd-obj-y =3D buffer.o \
-                   fuse_signals.o \
-                   fuse_virtio.o \
-                   helper.o \
--                  passthrough_ll.o
-+                  passthrough_ll.o \
-+                  seccomp.o
+     /*
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
+l.c
+index 02e1d83038..2d6dc5a680 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -1142,6 +1142,7 @@ static void do_write(fuse_req_t req, fuse_ino_t nodei=
+d,
+     memset(&fi, 0, sizeof(fi));
+     fi.fh =3D arg->fh;
+     fi.writepage =3D (arg->write_flags & FUSE_WRITE_CACHE) !=3D 0;
++    fi.kill_priv =3D !!(arg->write_flags & FUSE_WRITE_KILL_PRIV);
 =20
-+seccomp.o-cflags :=3D $(SECCOMP_CFLAGS)
-+seccomp.o-libs :=3D $(SECCOMP_LIBS)
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 0947d14e5b..bd8925bd83 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -59,6 +59,7 @@
- #include <unistd.h>
+     fi.lock_owner =3D arg->lock_owner;
+     fi.flags =3D arg->flags;
+@@ -1177,7 +1178,8 @@ static void do_write_buf(fuse_req_t req, fuse_ino_t n=
+odeid,
+     fi.lock_owner =3D arg->lock_owner;
+     fi.flags =3D arg->flags;
+     fi.fh =3D arg->fh;
+-    fi.writepage =3D arg->write_flags & FUSE_WRITE_CACHE;
++    fi.writepage =3D !!(arg->write_flags & FUSE_WRITE_CACHE);
++    fi.kill_priv =3D !!(arg->write_flags & FUSE_WRITE_KILL_PRIV);
 =20
- #include "passthrough_helpers.h"
-+#include "seccomp.h"
-=20
- struct lo_map_elem {
-     union {
-@@ -2091,6 +2092,7 @@ static void setup_sandbox(struct lo_data *lo, struct =
-fuse_session *se)
- {
-     setup_namespaces(lo, se);
-     setup_mounts(lo->source);
-+    setup_seccomp();
- }
-=20
- int main(int argc, char *argv[])
-diff --git a/tools/virtiofsd/seccomp.c b/tools/virtiofsd/seccomp.c
-new file mode 100644
-index 0000000000..691fb63dea
---- /dev/null
-+++ b/tools/virtiofsd/seccomp.c
-@@ -0,0 +1,151 @@
-+/*
-+ * Seccomp sandboxing for virtiofsd
-+ *
-+ * Copyright (C) 2019 Red Hat, Inc.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "seccomp.h"
-+#include "fuse_i.h"
-+#include "fuse_log.h"
-+#include <errno.h>
-+#include <glib.h>
-+#include <seccomp.h>
-+#include <stdlib.h>
-+
-+/* Bodge for libseccomp 2.4.2 which broke ppoll */
-+#if !defined(__SNR_ppoll) && defined(__SNR_brk)
-+#ifdef __NR_ppoll
-+#define __SNR_ppoll __NR_ppoll
-+#else
-+#define __SNR_ppoll __PNR_ppoll
-+#endif
-+#endif
-+
-+static const int syscall_whitelist[] =3D {
-+    /* TODO ireg sem*() syscalls */
-+    SCMP_SYS(brk),
-+    SCMP_SYS(capget), /* For CAP_FSETID */
-+    SCMP_SYS(capset),
-+    SCMP_SYS(clock_gettime),
-+    SCMP_SYS(clone),
-+#ifdef __NR_clone3
-+    SCMP_SYS(clone3),
-+#endif
-+    SCMP_SYS(close),
-+    SCMP_SYS(copy_file_range),
-+    SCMP_SYS(dup),
-+    SCMP_SYS(eventfd2),
-+    SCMP_SYS(exit),
-+    SCMP_SYS(exit_group),
-+    SCMP_SYS(fallocate),
-+    SCMP_SYS(fchmodat),
-+    SCMP_SYS(fchownat),
-+    SCMP_SYS(fcntl),
-+    SCMP_SYS(fdatasync),
-+    SCMP_SYS(fgetxattr),
-+    SCMP_SYS(flistxattr),
-+    SCMP_SYS(flock),
-+    SCMP_SYS(fremovexattr),
-+    SCMP_SYS(fsetxattr),
-+    SCMP_SYS(fstat),
-+    SCMP_SYS(fstatfs),
-+    SCMP_SYS(fsync),
-+    SCMP_SYS(ftruncate),
-+    SCMP_SYS(futex),
-+    SCMP_SYS(getdents),
-+    SCMP_SYS(getdents64),
-+    SCMP_SYS(getegid),
-+    SCMP_SYS(geteuid),
-+    SCMP_SYS(getpid),
-+    SCMP_SYS(gettid),
-+    SCMP_SYS(gettimeofday),
-+    SCMP_SYS(linkat),
-+    SCMP_SYS(lseek),
-+    SCMP_SYS(madvise),
-+    SCMP_SYS(mkdirat),
-+    SCMP_SYS(mknodat),
-+    SCMP_SYS(mmap),
-+    SCMP_SYS(mprotect),
-+    SCMP_SYS(mremap),
-+    SCMP_SYS(munmap),
-+    SCMP_SYS(newfstatat),
-+    SCMP_SYS(open),
-+    SCMP_SYS(openat),
-+    SCMP_SYS(ppoll),
-+    SCMP_SYS(prctl), /* TODO restrict to just PR_SET_NAME? */
-+    SCMP_SYS(preadv),
-+    SCMP_SYS(pread64),
-+    SCMP_SYS(pwritev),
-+    SCMP_SYS(pwrite64),
-+    SCMP_SYS(read),
-+    SCMP_SYS(readlinkat),
-+    SCMP_SYS(recvmsg),
-+    SCMP_SYS(renameat),
-+    SCMP_SYS(renameat2),
-+    SCMP_SYS(rt_sigaction),
-+    SCMP_SYS(rt_sigprocmask),
-+    SCMP_SYS(rt_sigreturn),
-+    SCMP_SYS(sendmsg),
-+    SCMP_SYS(setresgid),
-+    SCMP_SYS(setresuid),
-+#ifdef __NR_setresgid32
-+    SCMP_SYS(setresgid32),
-+#endif
-+#ifdef __NR_setresuid32
-+    SCMP_SYS(setresuid32),
-+#endif
-+    SCMP_SYS(set_robust_list),
-+    SCMP_SYS(symlinkat),
-+    SCMP_SYS(time), /* Rarely needed, except on static builds */
-+    SCMP_SYS(tgkill),
-+    SCMP_SYS(unlinkat),
-+    SCMP_SYS(utimensat),
-+    SCMP_SYS(write),
-+    SCMP_SYS(writev),
-+};
-+
-+void setup_seccomp(void)
-+{
-+    scmp_filter_ctx ctx;
-+    size_t i;
-+
-+#ifdef SCMP_ACT_KILL_PROCESS
-+    ctx =3D seccomp_init(SCMP_ACT_KILL_PROCESS);
-+    /* Handle a newer libseccomp but an older kernel */
-+    if (!ctx && errno =3D=3D EOPNOTSUPP) {
-+        ctx =3D seccomp_init(SCMP_ACT_TRAP);
-+    }
-+#else
-+    ctx =3D seccomp_init(SCMP_ACT_TRAP);
-+#endif
-+    if (!ctx) {
-+        fuse_log(FUSE_LOG_ERR, "seccomp_init() failed\n");
-+        exit(1);
-+    }
-+
-+    for (i =3D 0; i < G_N_ELEMENTS(syscall_whitelist); i++) {
-+        if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW,
-+                             syscall_whitelist[i], 0) !=3D 0) {
-+            fuse_log(FUSE_LOG_ERR, "seccomp_rule_add syscall %d",
-+                     syscall_whitelist[i]);
-+            exit(1);
-+        }
-+    }
-+
-+    /* libvhost-user calls this for post-copy migration, we don't need it =
-*/
-+    if (seccomp_rule_add(ctx, SCMP_ACT_ERRNO(ENOSYS),
-+                         SCMP_SYS(userfaultfd), 0) !=3D 0) {
-+        fuse_log(FUSE_LOG_ERR, "seccomp_rule_add userfaultfd failed\n");
-+        exit(1);
-+    }
-+
-+    if (seccomp_load(ctx) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "seccomp_load() failed\n");
-+        exit(1);
-+    }
-+
-+    seccomp_release(ctx);
-+}
-diff --git a/tools/virtiofsd/seccomp.h b/tools/virtiofsd/seccomp.h
-new file mode 100644
-index 0000000000..86bce72652
---- /dev/null
-+++ b/tools/virtiofsd/seccomp.h
-@@ -0,0 +1,14 @@
-+/*
-+ * Seccomp sandboxing for virtiofsd
-+ *
-+ * Copyright (C) 2019 Red Hat, Inc.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef VIRTIOFSD_SECCOMP_H
-+#define VIRTIOFSD_SECCOMP_H
-+
-+void setup_seccomp(void);
-+
-+#endif /* VIRTIOFSD_SECCOMP_H */
+     if (ibufv->count =3D=3D 1) {
+         assert(!(tmpbufv.buf[0].flags & FUSE_BUF_IS_FD));
 --=20
 2.24.1
 
