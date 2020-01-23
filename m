@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E87D9146CBD
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:26:10 +0100 (CET)
-Received: from localhost ([::1]:59284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 749B9146CC5
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:28:12 +0100 (CET)
+Received: from localhost ([::1]:59314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueMz-0000Cd-LI
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:26:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51470)
+	id 1iueOx-0003bk-10
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:28:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrQ-00053K-T1
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:29 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrY-0005Ei-Pe
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrP-0003SD-Oz
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:28 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55785)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrX-0003pm-PI
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:36 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:35779)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrP-0003Ps-Ii
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:27 -0500
-Received: by mail-wm1-x332.google.com with SMTP id q9so2635473wmj.5
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:27 -0800 (PST)
+ id 1iucrX-0003lj-Iy
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:35 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id p17so2626280wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=+U+IhI9S2shiMvtu75gJowqZ/s3WgewzmHW03jb/rC4=;
- b=XkCtbHkuWGN/UMK5R4mByTDuNLFXQnpP1hKyudOLDUPAlHjV3lYPfjQyFVXuyZENNr
- Wo++6EkWtjXbO5UrjRBnVVj3PwpE+AAJuj3KiQ56k3IZ1AgPIphVtzoIS1YAAhnguiV4
- Mi9XwoBZDEMIN0FkJNSMmCwI7OR/00Kd01pWVepo76XvP6/+qT0e7hhI1OM86aorNwqp
- mtSsLBqKla92VyijvS8hjFjFIZ+fB8jxV5PWJSWFn6OpepUg+fEYFi7Hf0t8kI2iX9Lv
- 5SL3+TvL1gykIqrU0fml6gBgdsJSeEN0w/4cNbt+UzV9nScJ+TiacbpbthVSsM9+MmGT
- b68w==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ep2zLWRWUErqyW26G/7lhPUdGhrXWSwt7t7lct6ZAZY=;
+ b=sRy8iOPNqjb9Q0e2dDwtuRigFidACVrae3MelcvgkdCPP+ArYPOnJAlPxN21NoOPS0
+ 4sct7Lr1t7i6GZe2+TVWQTIGbzCn75rWzZyh2b9T2YGp/WRPYmo3hyPy63NMu+kP5IGp
+ SqKwMKwKiicnAonCavYGT+14n8nxy6AbPIzpoIF4N6qHSwa/emeigKZhnf8qdqmwc8I9
+ chyUg/GKnjtGgP/5l/Vb1dMBSDKeYrP1WJp/jA9onsw6dj3GtujQW7iWc2QyWkssmBAV
+ 7qR1dUUa2pcVrUtQHm6E8bfIAobPZaYYrpHzq3yOJVby2HAahgCuFEs7XUfJxBx4rqYp
+ YFIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=+U+IhI9S2shiMvtu75gJowqZ/s3WgewzmHW03jb/rC4=;
- b=l2smaxIgTbHJCYZyBrDe5nKEa00pp5OhP0rZLXgso1JxFqlNPi0CNtGz1nsZmsYTJE
- ObueWORHPabJRraSOaMWrvDgezVQ9Cri4l2NFXZfWH5WlffHb5Ho/oWFabuDtF7z7uj2
- 1F+XEWoPfIraBPB6rQksK3+K/6GsdrM2f7ocgo1CpPZn36Xrsz5+jdKFFTr9DHyvJm34
- 45YQmM3WhcGqHP6cUuWtyKYa9shGAUs5flEgJPhmA0GBL1ul1e4sXZmyCb2YRpLQ/mpT
- IFcp6dP8g1mzE7rJlVsc+PjzGZK4NS0OerUbBiGvrxt59+/Fejj9hakCd35jZaiY/spZ
- H9IA==
-X-Gm-Message-State: APjAAAW3QJVmSvUtjYS8WrSbeTyK/0lVWQT2fGTigZlVAzwLO+DjfnmZ
- 3oOUPme5Yr6AueI9O17Sttpo9XUL
-X-Google-Smtp-Source: APXvYqxvtoehS1A+AMWeedPNn6Sjr/W437HQSZVz8NYb4nDK4unxNP+7yiE01GRXOeVUtjqzB/9cmA==
-X-Received: by 2002:a05:600c:2318:: with SMTP id
- 24mr4455975wmo.48.1579787366368; 
- Thu, 23 Jan 2020 05:49:26 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ep2zLWRWUErqyW26G/7lhPUdGhrXWSwt7t7lct6ZAZY=;
+ b=N9UXYUhbE40jQu9WvaPna8oJZOEik0wqcBFrFP//3ZdiyGi3UgTjnru/T3nX5m/XYI
+ oTL+5fHPOy1IY5RDtd/AXcID/UzhFyQqCKFqKfJC3tB1lxnL1WGxLJmEgAC038XiERK7
+ 9tIZH+TaVFZDcZiYCYHz+vWaVbREviiuULAgOcRk4bnhqmvZ3k9BVAa/McHLG3w+7LDD
+ QwuUha9q+ziRBt6hBI4Pi6EDiYIoG+Dfm1xbP+cWTZYQSsMRwi3crJWYCIbP0JkRxQ+H
+ Wx8a/b1PojwIm8S9guReJebUeVbkOSd/xGYlPXvcMVWR6WDF+37uqdUAG6lv3sLO1d4q
+ MIRQ==
+X-Gm-Message-State: APjAAAWTX2dhwEWbyvbSZRBoMcm12vgp3LrUFXKjJm33uASMphA9YnN0
+ RbXj+KUjqK7NyfxXXhgBLhWD2C/6
+X-Google-Smtp-Source: APXvYqyPtPwo4u5aktCz6eQ0F5hMEgXvZG5rGa+U9tUQtKJcRAcTxTBgGp82kgslX/PZCP7WeVXpgw==
+X-Received: by 2002:a05:600c:54c:: with SMTP id
+ k12mr4320665wmc.124.1579787374395; 
+ Thu, 23 Jan 2020 05:49:34 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.25
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.33
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:25 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:33 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/59] virtio-scsi: convert to new virtio_delete_queue
-Date: Thu, 23 Jan 2020 14:48:25 +0100
-Message-Id: <1579787342-27146-23-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 31/59] object: add extra sanity checks
+Date: Thu, 23 Jan 2020 14:48:34 +0100
+Message-Id: <1579787342-27146-32-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,40 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pan Nengyuan <pannengyuan@huawei.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Use virtio_delete_queue to make it more clear.
+Type system checked that children class_size >= parent class_size, but
+not instances. Fix that.
 
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200117075547.60864-3-pannengyuan@huawei.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200110153039.1379601-2-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/virtio-scsi.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ qom/object.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 858b3aa..d3af42e 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -945,10 +945,10 @@ void virtio_scsi_common_unrealize(DeviceState *dev)
-     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(dev);
-     int i;
+diff --git a/qom/object.c b/qom/object.c
+index 90155fa..dcb6863 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -307,6 +307,7 @@ static void type_initialize(TypeImpl *ti)
+         int i;
  
--    virtio_del_queue(vdev, 0);
--    virtio_del_queue(vdev, 1);
-+    virtio_delete_queue(vs->ctrl_vq);
-+    virtio_delete_queue(vs->event_vq);
-     for (i = 0; i < vs->conf.num_queues; i++) {
--        virtio_del_queue(vdev, i + 2);
-+        virtio_delete_queue(vs->cmd_vqs[i]);
-     }
-     g_free(vs->cmd_vqs);
-     virtio_cleanup(vdev);
+         g_assert(parent->class_size <= ti->class_size);
++        g_assert(parent->instance_size <= ti->instance_size);
+         memcpy(ti->class, parent->class, parent->class_size);
+         ti->class->interfaces = NULL;
+         ti->class->properties = g_hash_table_new_full(
 -- 
 1.8.3.1
 
