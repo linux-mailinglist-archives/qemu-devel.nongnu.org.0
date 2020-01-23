@@ -2,78 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B188146FA9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:28:32 +0100 (CET)
-Received: from localhost ([::1]:33424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E510146FE3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:38:42 +0100 (CET)
+Received: from localhost ([::1]:33682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugHP-0001en-13
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:28:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53273)
+	id 1iugRE-0005bt-GO
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:38:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58087)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsuvorov@redhat.com>) id 1iuegq-0003jC-5u
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:46:41 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iudFJ-0004MF-Dp
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:14:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsuvorov@redhat.com>) id 1iuego-0006N6-D4
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:46:39 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33375
+ (envelope-from <pbonzini@redhat.com>) id 1iudFI-0004Nu-8b
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:14:09 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28726
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsuvorov@redhat.com>) id 1iuego-0006Lh-5O
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:46:38 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iudFI-0004NW-44
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:14:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579794397;
+ s=mimecast20190719; t=1579788847;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kmriD2mM+e6KKghvVi1/3WUOd5aOJYaN9QqpTvLOSNQ=;
- b=cc7b+koib52ZOPzpSPrG2AFveriPXT6SvclB80dodvIr3aBNkWmtv5zXHLY2u63pHkc8Ci
- QAYv+R3ZGcFBOhcfJ8Fp3kK5TbbG3fPz3U8guyrXqbVpBl6sf1ZmDUVt5zIlHXkrolP63q
- a4LQtjZrLj4hFe/KRFr7P9iNSfEBbi0=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-gtmRDd-FPgmwxao0mpUV8A-1; Thu, 23 Jan 2020 10:46:30 -0500
-Received: by mail-lf1-f71.google.com with SMTP id y73so535931lff.0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 07:46:30 -0800 (PST)
+ bh=5ZHH/Nt38nF9Sq6A5y+ioOtlKSLL1dqIN/eV26kf7Xk=;
+ b=UIizXwWFYDpBfdjWhDn/F8G4+I8RFzyJCZCpPdwxprm5ndvUh58QUmvVlB1F15BVzOshNC
+ tTHpvrLVWRvvmY+JXQhGPFrACevBTxavE/CgLXACwlqHX/6n4wQVOAJl1xgrvVeGwFTfrL
+ pkELA0vt/oU7TCnbOEcdZ6dWGNRuTKc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-ZiMmNWSWPyyJ1K_BZSTHMQ-1; Thu, 23 Jan 2020 09:11:51 -0500
+Received: by mail-wr1-f72.google.com with SMTP id w6so1787374wrm.16
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 06:11:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b6ei9jQV2lpe+I5Ke04IpporlTiD4ohdw7YEXDw5Wes=;
- b=QiSw72AGQxApTq4uaoCVSKfbXcPUpySJ7zpIFu/K155GCBECM98LqNyPW6Qe5UOKyk
- x1P+I0NmF74O8W449ldMUMHlZvlxdxvICqvH5ytTq+Sk+KrXQsMMld0y0mc4Tnefj2Bn
- XqvnCSGd22FbxVYui6M8fHN3c2be9v7eaxNmfftO01bgSU1iUL5p6WyyDju68RQQwiip
- +zjtZNL8lfXkKHlCMIBSC/opTCgAK0ru8OfBYGSJOiGw3XavVEc5bCsb86V6ureOGhAI
- aVv7JdCf5vMNe5faU4ErzJxWLNcn5AuPZksbayslpcTnDI7ZIhvn1dHq8khUYuJupKTw
- nzoA==
-X-Gm-Message-State: APjAAAV2/k95JkfgefJCD0WFXupyWA4hnbGkRJ6ugoAW19lArK0u2N3M
- aEXp08ATmotsf27vI1r0Z9FdpMN2GPyDyndHJEpyyt6c7Q+7z+2y/eaPWgfS3ePKHLRNaLSpIBc
- T8E9030emUYtu8vf8J/bTxRNwPSfrKYE=
-X-Received: by 2002:a2e:8316:: with SMTP id a22mr22991100ljh.141.1579794389117; 
- Thu, 23 Jan 2020 07:46:29 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwpDZ56sIxNz3macYW7AlsOpO5MWuTd70xsrOqdq53F/W+D22P34TBWAGcXHDFzO9VCnb0ZMykS0Q4PO4Df5oE=
-X-Received: by 2002:a2e:8316:: with SMTP id a22mr22991084ljh.141.1579794388837; 
- Thu, 23 Jan 2020 07:46:28 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5ZHH/Nt38nF9Sq6A5y+ioOtlKSLL1dqIN/eV26kf7Xk=;
+ b=jX8AioisnfGGDhZdJhN+2w1Sfd2Qyc3b2rKCvwaqc6DSsv4yvO5uyxln4jFKaHQTqZ
+ oXpwz37vXe26XdeDvagMFpEJ8hW/TcE6swRXIGyaz6Hhac0zMHXqxi47mguwD/fmeT0r
+ Lk4hCCWiSYMUZSYfXkNJyD3CTq0x/CoAzg52cKH7MH9pumca/cOPRrlYXovHcjAsNZ50
+ AK4MzX9FO0BjKZbfwMXwj/72keb5CyliR5X4eTWOMWxL/we/X825s8Dn8+1+F0D/vZSb
+ z0zYEktbuOFZbU+3vYHV3LsedaeBT7eLnTzvUobbsdoo/hhFn4wfaRIatuz6U0wuNlx+
+ L8fg==
+X-Gm-Message-State: APjAAAXLhV4E1gOX671DlWtr0kJKbmwNrt6bAotOxwaQSqYLX8JMpKku
+ pYbz1hZNJlVRAJgcBs9jN7Dy6h7Wwhqs+uMZozoRlPoLAiVSZyNKIaU3Mv0uKHptV7gv/fCP+U9
+ uJYmwN1JOTwlbMTE=
+X-Received: by 2002:a05:600c:2507:: with SMTP id
+ d7mr4248852wma.28.1579788710003; 
+ Thu, 23 Jan 2020 06:11:50 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzadLvuQYoVae0ZOjko2Oy7RgtCmYqFfFDLuFwFW7aAVrwURprw/L5u/8cyw9MySyEH5JhuDQ==
+X-Received: by 2002:a05:600c:2507:: with SMTP id
+ d7mr4248823wma.28.1579788709776; 
+ Thu, 23 Jan 2020 06:11:49 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:b8fe:679e:87eb:c059?
+ ([2001:b07:6468:f312:b8fe:679e:87eb:c059])
+ by smtp.gmail.com with ESMTPSA id g2sm3093698wrw.76.2020.01.23.06.11.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jan 2020 06:11:49 -0800 (PST)
+Subject: Re: [qemu-web PATCH] Add "Security Process" information to the main
+ website
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20200123135900.22175-1-thuth@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <f30a14a4-779f-865d-14d2-8ffc8cbf94b7@redhat.com>
+Date: Thu, 23 Jan 2020 15:11:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20200115224025.538368-1-jusual@redhat.com>
- <20200115224025.538368-3-jusual@redhat.com>
- <38fdd88d-1399-effb-b74b-e02b7343f044@redhat.com>
- <CAMDeoFX1eFToYOWmBaVOYHTnNka8Fwruq6PtX7GsAGTuS++u8w@mail.gmail.com>
- <095236a0-ba8c-55c6-f9fc-e2a4a809b274@redhat.com>
-In-Reply-To: <095236a0-ba8c-55c6-f9fc-e2a4a809b274@redhat.com>
-From: Julia Suvorova <jusual@redhat.com>
-Date: Thu, 23 Jan 2020 16:46:18 +0100
-Message-ID: <CAMDeoFWJJbLs_Dtkb2rqXYW-PMA=9Qwy83SnkqS2_-EOaNtiSg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] virtio-balloon: Reject qmp_balloon during hot-unplug
-To: David Hildenbrand <david@redhat.com>
-X-MC-Unique: gtmRDd-FPgmwxao0mpUV8A-1
+In-Reply-To: <20200123135900.22175-1-thuth@redhat.com>
+Content-Language: en-US
+X-MC-Unique: ZiMmNWSWPyyJ1K_BZSTHMQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,86 +93,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: pjp@redhat.com, sstabellini@kernel.org, pmatouse@redhat.com,
+ mdroth@linux.vnet.ibm.com, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 23, 2020 at 3:17 PM David Hildenbrand <david@redhat.com> wrote:
->
-> On 23.01.20 15:08, Julia Suvorova wrote:
-> > On Thu, Jan 16, 2020 at 1:36 PM David Hildenbrand <david@redhat.com> wr=
-ote:
-> >>
-> >> On 15.01.20 23:40, Julia Suvorova wrote:
-> >>> Hot-unplug takes some time due to communication with the guest.
-> >>> Do not change the device while freeing up resources.
-> >>>
-> >>> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> >>> ---
-> >>>  balloon.c                  | 2 +-
-> >>>  hw/virtio/virtio-balloon.c | 9 ++++++++-
-> >>>  include/sysemu/balloon.h   | 2 +-
-> >>>  3 files changed, 10 insertions(+), 3 deletions(-)
-> >>>
-> >>> diff --git a/balloon.c b/balloon.c
-> >>> index f104b42961..998ec53a0f 100644
-> >>> --- a/balloon.c
-> >>> +++ b/balloon.c
-> >>> @@ -119,5 +119,5 @@ void qmp_balloon(int64_t target, Error **errp)
-> >>>      }
-> >>>
-> >>>      trace_balloon_event(balloon_opaque, target);
-> >>> -    balloon_event_fn(balloon_opaque, target);
-> >>> +    balloon_event_fn(balloon_opaque, target, errp);
-> >>>  }
-> >>> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> >>> index 57f3b9f22d..0fa4e4454b 100644
-> >>> --- a/hw/virtio/virtio-balloon.c
-> >>> +++ b/hw/virtio/virtio-balloon.c
-> >>> @@ -717,12 +717,19 @@ static void virtio_balloon_stat(void *opaque, B=
-alloonInfo *info)
-> >>>                                               VIRTIO_BALLOON_PFN_SHIF=
-T);
-> >>>  }
-> >>>
-> >>> -static void virtio_balloon_to_target(void *opaque, ram_addr_t target=
-)
-> >>> +static void virtio_balloon_to_target(void *opaque, ram_addr_t target=
-,
-> >>> +                                     Error **errp)
-> >>>  {
-> >>> +    DeviceState *bus_dev =3D qdev_get_bus_device(DEVICE(opaque));
-> >>>      VirtIOBalloon *dev =3D VIRTIO_BALLOON(opaque);
-> >>>      VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-> >>>      ram_addr_t vm_ram_size =3D get_current_ram_size();
-> >>>
-> >>> +    if (bus_dev && bus_dev->pending_deleted_event) {
-> >>> +        error_setg(errp, "Hot-unplug of %s is in progress", vdev->na=
-me);
-> >>> +        return;
-> >>> +    }
-> >>> +
-> >>
-> >> How exactly does this help? The guest is free to inflate/deflate
-> >> whenever it wants.
-> >
-> > Guest is aware of hot-unplug start, and virtio driver should not
-> > initiate any operations. This patch just restricts issuing commands
-> > from qmp monitor.
->
-> Why shouldn't the guest driver inflate/deflate while memory hotplug is
-> going on?
->
-> Simple balloon compaction in a Linux guest -> deflate/inflate triggered
-> in the hypervisor.
+On 23/01/20 14:59, Thomas Huth wrote:
+> Anyway, it looks more trustworthy if we present the "Security Process"
+> information in the static website instead. Thus this patch adds the
+> information from the wiki to the Jekyll-based website now.
 
-QEMU crashes if inflate happens after powering-off PCI slot. Guest is
-unable to interact with virtio-balloon device then, driver is
-unloaded. But inflate can still happen if initiated from qmp.
+Fair enough; here are some edits so that we can improve the text a bit
+in the meanwhile.
 
-Best regards, Julia Suvorova.
+> +We use a GNU Privacy Guard (GnuPG or GPG) keys to secure communications. Mail
+
+Remove "a".
+
+> +sent to members of the list can be encrypted with public keys of all members
+> +of the list. We expect to change some of the keys we use from time to time.
+> +Should we change the key, the previous keys will be revoked.
+
+Should a key change, the previous one will be revoked.
+
+> +* Is QEMU used in conjunction with a hypervisor (as opposed to TCG binary
+> +  translation TCG)?
+
+Two "TCG"s.
+
+> +Whenever some or all of these questions have negative answers, what appears to
+> +be a genuine security flaw might be considered of low severity because it could
+> +only be exercised in use cases where QEMU and everything interacting with it is
+> +trusted.
+
+s/genuine/major/
+
+> +Prima facie, this bug appears to be a genuine security flaw, with potentially
+> +severe implications. But digging further down, it shows that there are  only
+> +two ways to use SD Host Controller emulation, one is via 'sdhci-pci' interface
+> +and the other is via 'generic-sdhci' interface.
+
+I can understand some Latin, but perhaps s/Prima facie/On the surface/
+
+Also, s/it shows that//
+
+> +Of these two, the 'sdhci-pci' interface is relatively new and had actually been
+
+s/is relatively new and//
+
+Thanks,
+
+Paolo
 
 
