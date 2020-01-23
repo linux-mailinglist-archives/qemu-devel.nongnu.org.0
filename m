@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88E8146D4A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:49:40 +0100 (CET)
-Received: from localhost ([::1]:59732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B77D146D5A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:51:49 +0100 (CET)
+Received: from localhost ([::1]:59774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuejj-0006sz-QN
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:49:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51926)
+	id 1iueln-0001Se-UQ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:51:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52219)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrp-0005eB-6w
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:54 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iuct0-0007bI-Ul
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucro-0004bP-5F
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:53 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:50346)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrn-0004Yl-VA
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:52 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id a5so2651069wmb.0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=X02/VemgHHXV35UWmb1MJdddNEMCdoCFB79eUsdW5b0=;
- b=Y5iWbe2TwPEBlobL71ujWaHx0k2YzTfplSDTG5nExlL//nu+bt7UbwiH9pfujsXyLc
- cPpGYNtD9rHQKsMywgmQVDkQRNWMDBx177BJ9VYau3vwKQJ4/vBkcSMFMSEO95wbphja
- OwaZiSwlXcxpFuopPpPUqxuRd9W3r8ODobdSByg1pyeBXnemP2McPrXnydeHiZP8vIKd
- qhpR4fS/EPkAU/+vJ/wsDrxY+OXEJ8wO+ZEAcWX9xvi3ip2XsPYs0YPWb/0h610gcxaI
- aEJouikCNIdmqhEMTB9qBbj/1/3YeyyT+M9aoympaLMzaA1cQSfWqYlnuBZ5pRo4LqUZ
- lHfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=X02/VemgHHXV35UWmb1MJdddNEMCdoCFB79eUsdW5b0=;
- b=GvM1PBZD2hvzIa6acQb2H6FCT+Ccj5Aa3QyNyVn9kR2oN0bcHko1g8jrE/HVvPdB39
- fC2vTuB4/+foL0Cra8uKNFmFzU6GPxhxZYaYYSskZHbmO0XpH52J0y9VmXy9Lp2vbJtQ
- 1c/hvvlPqUK6zMlHzmTPS+5jhxQbmPav5jrwcdQjhALrfciIb12gymBM9olei8KkaKcC
- zbi+IebOUf86u379/156IjOEoKeFPWH+mdrVqFm6qgfWYZwFHmnIoB9OrzwE/Qa9G09l
- qTE3ldE2aQhHUuF4bUDSQWcQA6QKiVd74oAcvXOMwnpRBnJTSq/iUUjOJTueDG8ETRY5
- h1Sg==
-X-Gm-Message-State: APjAAAVw/j8QvJw3l46aPwQTh5Ksp4jzKdPJjGBP341f219ad5lH6QpI
- Fgab3k7yvNNhRoRThpjdIO96pJlV
-X-Google-Smtp-Source: APXvYqzi82jcO2+iP/FF/LMfwpZdZs+UiqkONlTOdXDCtb1x32q/GjSNFwg0Bl3RNF0WyrJWZLC2TA==
-X-Received: by 2002:a1c:23cf:: with SMTP id j198mr4368161wmj.188.1579787390856; 
- Thu, 23 Jan 2020 05:49:50 -0800 (PST)
-Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.50
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:50 -0800 (PST)
+ (envelope-from <pbonzini@redhat.com>) id 1iucsz-0006l3-C8
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39425
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iucsz-0006kU-96
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579787464;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PPTdeRCRi0tlQK/tEkcE+Riv/JlR1YXbPbZK0rsXdY8=;
+ b=bDhr1awJPimTT1n1+GEdelFPrCuUp+zddrAyRS8BXG1AB/E5bDwE3SpVqvB5XRbY38WsKA
+ CbWs46+Ivya2KcRdBOpZ2ZPnHgwHu3yJieONhVNRtOrkxsZgq3kdoTibhlaF/hV7fN7MXm
+ J7gvCeBBzTuXEURQdzYPC8Kha6IdGug=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-tVaR__ASNOS7g1nPAed_2Q-1; Thu, 23 Jan 2020 08:51:00 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CADA08010DA;
+ Thu, 23 Jan 2020 13:50:59 +0000 (UTC)
+Received: from 640k.localdomain.com (unknown [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C792A1CB;
+ Thu, 23 Jan 2020 13:50:58 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 50/59] qdev: move instance properties to class properties
-Date: Thu, 23 Jan 2020 14:48:53 +0100
-Message-Id: <1579787342-27146-51-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
-References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+Subject: [PULL 04/59] pvpanic: implement crashloaded event handling
+Date: Thu, 23 Jan 2020 14:49:54 +0100
+Message-Id: <1579787449-27599-5-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
+References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: tVaR__ASNOS7g1nPAed_2Q-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,69 +69,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: zhenwei pi <pizhenwei@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: zhenwei pi <pizhenwei@bytedance.com>
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200110153039.1379601-21-marcandre.lureau@redhat.com>
+Handle bit 1 write, then post event to monitor.
+
+Suggested by Paolo, declear a new event, using GUEST_PANICKED could
+cause upper layers to react by shutting down or rebooting the guest.
+
+In advance for extention, add GuestPanicInformation in event message.
+
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+Message-Id: <20200114023102.612548-3-pizhenwei@bytedance.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/qdev.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ docs/specs/pvpanic.txt    | 16 ++++++++--------
+ hw/misc/pvpanic.c         | 11 +++++++++--
+ include/sysemu/runstate.h |  1 +
+ qapi/run-state.json       | 24 ++++++++++++++++++++++--
+ vl.c                      | 12 ++++++++++++
+ 5 files changed, 52 insertions(+), 12 deletions(-)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 8047ac9..7abf569 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -944,14 +944,6 @@ static void device_initfn(Object *obj)
-     dev->realized = false;
-     dev->allow_unplug_during_migration = false;
- 
--    object_property_add_bool(obj, "realized",
--                             device_get_realized, device_set_realized, NULL);
--    object_property_add_bool(obj, "hotpluggable",
--                             device_get_hotpluggable, NULL, NULL);
--    object_property_add_bool(obj, "hotplugged",
--                             device_get_hotplugged, NULL,
--                             &error_abort);
--
-     class = object_get_class(OBJECT(dev));
-     do {
-         for (prop = DEVICE_CLASS(class)->props; prop && prop->name; prop++) {
-@@ -961,9 +953,6 @@ static void device_initfn(Object *obj)
-         class = object_class_get_parent(class);
-     } while (class != object_class_by_name(TYPE_DEVICE));
- 
--    object_property_add_link(OBJECT(dev), "parent_bus", TYPE_BUS,
--                             (Object **)&dev->parent_bus, NULL, 0,
--                             &error_abort);
-     QLIST_INIT(&dev->gpios);
- }
- 
-@@ -1059,6 +1048,19 @@ static void device_class_init(ObjectClass *class, void *data)
-     dc->hotpluggable = true;
-     dc->user_creatable = true;
-     vc->get_id = device_vmstate_if_get_id;
+diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
+index bdea68a..a90fbca 100644
+--- a/docs/specs/pvpanic.txt
++++ b/docs/specs/pvpanic.txt
+@@ -19,9 +19,10 @@ Software should set only bits both itself and the device=
+ recognize.
+=20
+ Bit Definition
+ --------------
+-bit 0: setting it indicates a guest panic has happened.
+-bit 1: named crashloaded. setting it indicates a guest panic and run
+-       kexec to handle error by guest itself.
++bit 0: a guest panic has happened and should be processed by the host
++bit 1: a guest panic has happened and will be handled by the guest;
++       the host should record it or report it, but should not affect
++       the execution of the guest.
+=20
+ ACPI Interface
+ --------------
+@@ -30,13 +31,12 @@ pvpanic device is defined with ACPI ID "QEMU0001". Cust=
+om methods:
+=20
+ RDPT:       To determine whether guest panic notification is supported.
+ Arguments:  None
+-Return:     Returns a byte, bit 0 set to indicate guest panic
+-            notification is supported. Other bits are reserved and
+-            should be ignored.
++Return:     Returns a byte, with the same semantics as the I/O port
++            interface.
+=20
+ WRPT:       To send a guest panic event
+-Arguments:  Arg0 is a byte, with bit 0 set to indicate guest panic has
+-            happened. Other bits are reserved and should be cleared.
++Arguments:  Arg0 is a byte to be written, with the same semantics as
++            the I/O interface.
+ Return:     None
+=20
+ The ACPI device will automatically refer to the right port in case it
+diff --git a/hw/misc/pvpanic.c b/hw/misc/pvpanic.c
+index d65ac86..4ebda78 100644
+--- a/hw/misc/pvpanic.c
++++ b/hw/misc/pvpanic.c
+@@ -21,11 +21,13 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/misc/pvpanic.h"
+=20
+-/* The bit of supported pv event */
++/* The bit of supported pv event, TODO: include uapi header and remove thi=
+s */
+ #define PVPANIC_F_PANICKED      0
++#define PVPANIC_F_CRASHLOADED   1
+=20
+ /* The pv event value */
+ #define PVPANIC_PANICKED        (1 << PVPANIC_F_PANICKED)
++#define PVPANIC_CRASHLOADED     (1 << PVPANIC_F_CRASHLOADED)
+=20
+ #define ISA_PVPANIC_DEVICE(obj)    \
+     OBJECT_CHECK(PVPanicState, (obj), TYPE_PVPANIC)
+@@ -34,7 +36,7 @@ static void handle_event(int event)
+ {
+     static bool logged;
+=20
+-    if (event & ~PVPANIC_PANICKED && !logged) {
++    if (event & ~(PVPANIC_PANICKED | PVPANIC_CRASHLOADED) && !logged) {
+         qemu_log_mask(LOG_GUEST_ERROR, "pvpanic: unknown event %#x.\n", ev=
+ent);
+         logged =3D true;
+     }
+@@ -43,6 +45,11 @@ static void handle_event(int event)
+         qemu_system_guest_panicked(NULL);
+         return;
+     }
 +
-+    object_class_property_add_bool(class, "realized",
-+                                   device_get_realized, device_set_realized,
-+                                   &error_abort);
-+    object_class_property_add_bool(class, "hotpluggable",
-+                                   device_get_hotpluggable, NULL,
-+                                   &error_abort);
-+    object_class_property_add_bool(class, "hotplugged",
-+                                   device_get_hotplugged, NULL,
-+                                   &error_abort);
-+    object_class_property_add_link(class, "parent_bus", TYPE_BUS,
-+                                   offsetof(DeviceState, parent_bus), NULL, 0,
-+                                   &error_abort);
++    if (event & PVPANIC_CRASHLOADED) {
++        qemu_system_guest_crashloaded(NULL);
++        return;
++    }
  }
- 
- void device_class_set_props(DeviceClass *dc, Property *props)
--- 
+=20
+ #include "hw/isa/isa.h"
+diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
+index 0b41555..f760094 100644
+--- a/include/sysemu/runstate.h
++++ b/include/sysemu/runstate.h
+@@ -63,6 +63,7 @@ ShutdownCause qemu_reset_requested_get(void);
+ void qemu_system_killed(int signal, pid_t pid);
+ void qemu_system_reset(ShutdownCause reason);
+ void qemu_system_guest_panicked(GuestPanicInformation *info);
++void qemu_system_guest_crashloaded(GuestPanicInformation *info);
+=20
+ #endif
+=20
+diff --git a/qapi/run-state.json b/qapi/run-state.json
+index d7477cd..b83a436 100644
+--- a/qapi/run-state.json
++++ b/qapi/run-state.json
+@@ -357,16 +357,36 @@
+   'data': { 'action': 'GuestPanicAction', '*info': 'GuestPanicInformation'=
+ } }
+=20
+ ##
++# @GUEST_CRASHLOADED:
++#
++# Emitted when guest OS crash loaded is detected
++#
++# @action: action that has been taken, currently always "run"
++#
++# @info: information about a panic
++#
++# Since: 5.0
++#
++# Example:
++#
++# <- { "event": "GUEST_CRASHLOADED",
++#      "data": { "action": "run" } }
++#
++##
++{ 'event': 'GUEST_CRASHLOADED',
++  'data': { 'action': 'GuestPanicAction', '*info': 'GuestPanicInformation'=
+ } }
++
++##
+ # @GuestPanicAction:
+ #
+ # An enumeration of the actions taken when guest OS panic is detected
+ #
+ # @pause: system pauses
+ #
+-# Since: 2.1 (poweroff since 2.8)
++# Since: 2.1 (poweroff since 2.8, run since 5.0)
+ ##
+ { 'enum': 'GuestPanicAction',
+-  'data': [ 'pause', 'poweroff' ] }
++  'data': [ 'pause', 'poweroff', 'run' ] }
+=20
+ ##
+ # @GuestPanicInformationType:
+diff --git a/vl.c b/vl.c
+index 71d3e7e..9f5f477 100644
+--- a/vl.c
++++ b/vl.c
+@@ -1468,6 +1468,18 @@ void qemu_system_guest_panicked(GuestPanicInformatio=
+n *info)
+     }
+ }
+=20
++void qemu_system_guest_crashloaded(GuestPanicInformation *info)
++{
++    qemu_log_mask(LOG_GUEST_ERROR, "Guest crash loaded");
++
++    qapi_event_send_guest_crashloaded(GUEST_PANIC_ACTION_RUN,
++                                   !!info, info);
++
++    if (info) {
++        qapi_free_GuestPanicInformation(info);
++    }
++}
++
+ void qemu_system_reset_request(ShutdownCause reason)
+ {
+     if (no_reboot && reason !=3D SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
+--=20
 1.8.3.1
 
 
