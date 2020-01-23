@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57F1146946
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:38:24 +0100 (CET)
-Received: from localhost ([::1]:57139 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 633CA146965
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:43:13 +0100 (CET)
+Received: from localhost ([::1]:57210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iucgh-0005iF-EO
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:38:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40430)
+	id 1iuclL-000536-UW
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:43:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40517)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iub8x-0002Cs-F4
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:28 -0500
+ (envelope-from <quintela@redhat.com>) id 1iub94-0002Nx-7y
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iub8w-000560-9z
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:27 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32306
+ (envelope-from <quintela@redhat.com>) id 1iub93-0005AI-0v
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:34 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22061
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iub8w-00055w-76
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:26 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iub92-00059y-Ti
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780766;
+ s=mimecast20190719; t=1579780772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XaY15sZsWneq0IGhoUPBI3NEwwpuSCn+u24CtPksQRw=;
- b=HrXF8eVNwL7VI0BvMnbIi7NiJL7H4k1sJt2dzqsscbWdYAzpqLCQ4Dc+j+DoBNX4+95IOW
- plLRZF2RmVu/AEIMVraDprOM3msm8R5f/t1CHWVtQFOSIgm5aZL8lxveucwRw7MVgSaIMo
- 1LbE5UaJyPseYBQDwiTlKJpp/ZiY4fI=
+ bh=ydN3zOxZ5Nr4uslKo8T3Yz92d59EdgixLkVO3Mx1HQ8=;
+ b=Iufy8fkLjHui3IWfc7sl4aXOtOb3IGJ1lZybhIJbO9kWeogaILDKML84gYEQg6LovfRN+v
+ W3xxJjF96brHwmS8ppyDQGeW0aoCjzQaccuJK6RQ4C/cJOVFPAprUK6JhlgMUbKSoBpYDS
+ ACjhwsQBCud0OuddxiIWey9pPoOk7VE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-Jtf0GKvFOIuHK4OvH41Blg-1; Thu, 23 Jan 2020 06:59:24 -0500
+ us-mta-202-3wnmO7ENPpGL2G1jMpOddg-1; Thu, 23 Jan 2020 06:59:30 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ADDE1800D48
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C831C107ACC4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:28 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3425D19C69;
- Thu, 23 Jan 2020 11:59:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D62419C69;
+ Thu, 23 Jan 2020 11:59:26 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/21] multifd: Use qemu_target_page_size()
-Date: Thu, 23 Jan 2020 12:58:24 +0100
-Message-Id: <20200123115831.36842-15-quintela@redhat.com>
+Subject: [PATCH v3 16/21] migration: Add support for modules
+Date: Thu, 23 Jan 2020 12:58:26 +0100
+Message-Id: <20200123115831.36842-17-quintela@redhat.com>
 In-Reply-To: <20200123115831.36842-1-quintela@redhat.com>
 References: <20200123115831.36842-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: Jtf0GKvFOIuHK4OvH41Blg-1
+X-MC-Unique: 3wnmO7ENPpGL2G1jMpOddg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,56 +79,48 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will make it cpu independent.
+So we don't have to compile everything in, or have ifdefs
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ include/qemu/module.h | 2 ++
+ vl.c                  | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 2783dc60f4..14b7cbdbc9 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -882,14 +882,14 @@ static int multifd_recv_unfill_packet(MultiFDRecvPara=
-ms *p, Error **errp)
-     for (i =3D 0; i < p->pages->used; i++) {
-         uint64_t offset =3D be64_to_cpu(packet->offset[i]);
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index 65ba596e46..907cb5c0a5 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -40,6 +40,7 @@ static void __attribute__((constructor)) do_qemu_init_ ##=
+ function(void)    \
+ #endif
 =20
--        if (offset > (block->used_length - TARGET_PAGE_SIZE)) {
-+        if (offset > (block->used_length - qemu_target_page_size())) {
-             error_setg(errp, "multifd: offset too long %" PRIu64
-                        " (max " RAM_ADDR_FMT ")",
-                        offset, block->max_length);
-             return -1;
-         }
-         p->pages->iov[i].iov_base =3D block->host + offset;
--        p->pages->iov[i].iov_len =3D TARGET_PAGE_SIZE;
-+        p->pages->iov[i].iov_len =3D qemu_target_page_size();
-     }
+ typedef enum {
++    MODULE_INIT_MIGRATION,
+     MODULE_INIT_BLOCK,
+     MODULE_INIT_OPTS,
+     MODULE_INIT_QOM,
+@@ -56,6 +57,7 @@ typedef enum {
+ #define xen_backend_init(function) module_init(function, \
+                                                MODULE_INIT_XEN_BACKEND)
+ #define libqos_init(function) module_init(function, MODULE_INIT_LIBQOS)
++#define migration_init(function) module_init(function, MODULE_INIT_MIGRATI=
+ON)
 =20
-     return 0;
-@@ -964,7 +964,8 @@ static int multifd_send_pages(QEMUFile *f)
-     p->packet_num =3D multifd_send_state->packet_num++;
-     multifd_send_state->pages =3D p->pages;
-     p->pages =3D pages;
--    transferred =3D ((uint64_t) pages->used) * TARGET_PAGE_SIZE + p->packe=
-t_len;
-+    transferred =3D ((uint64_t) pages->used) * qemu_target_page_size()
-+                + p->packet_len;
-     qemu_file_update_transfer(f, transferred);
-     ram_counters.multifd_bytes +=3D transferred;
-     ram_counters.transferred +=3D transferred;;
-@@ -985,7 +986,7 @@ static int multifd_queue_page(QEMUFile *f, RAMBlock *bl=
-ock, ram_addr_t offset)
-     if (pages->block =3D=3D block) {
-         pages->offset[pages->used] =3D offset;
-         pages->iov[pages->used].iov_base =3D block->host + offset;
--        pages->iov[pages->used].iov_len =3D TARGET_PAGE_SIZE;
-+        pages->iov[pages->used].iov_len =3D qemu_target_page_size();
-         pages->used++;
+ #define block_module_load_one(lib) module_load_one("block-", lib)
+ #define ui_module_load_one(lib) module_load_one("ui-", lib)
+diff --git a/vl.c b/vl.c
+index 71d3e7eefb..f331a3921f 100644
+--- a/vl.c
++++ b/vl.c
+@@ -2873,6 +2873,7 @@ int main(int argc, char **argv, char **envp)
+     qemu_init_exec_dir(argv[0]);
 =20
-         if (pages->used < pages->allocated) {
+     module_call_init(MODULE_INIT_QOM);
++    module_call_init(MODULE_INIT_MIGRATION);
+=20
+     qemu_add_opts(&qemu_drive_opts);
+     qemu_add_drive_opts(&qemu_legacy_drive_opts);
 --=20
 2.24.1
 
