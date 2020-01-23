@@ -2,65 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB50C146B76
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:38:14 +0100 (CET)
-Received: from localhost ([::1]:58204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BEE146C01
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:57:06 +0100 (CET)
+Received: from localhost ([::1]:58600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iudcb-0000hv-7d
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:38:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44398)
+	id 1iudur-0002V0-7y
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:57:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46043)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iucM9-0008Nr-NK
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:17:10 -0500
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iucUL-0001C5-SN
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:25:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iucM8-0001Ty-Fd
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:17:09 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31458
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iucM8-0001TZ-C6
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:17:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579785428;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qIe36dpDykNzGzkerVyZLI/wog/PwFLVBaR/9cyGChA=;
- b=JRJ/cx59YUACgC5zgNRcB6sJ2an4fuSy6lHiCSaC7rDe0oueNnPfb+DmjS4VQyztAvX7FH
- aNsT3LAvRLPcOHocNM2WpWiL4eL4bOzRLQhih3BlRCi/kFNQwcwRdpbjQooQps+1rTqbKf
- 3FR0M/4VcN3oSMGBgGz2dzQCBqXZfrc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-GCejRvX4N5iEFdqrCpfgpw-1; Thu, 23 Jan 2020 08:17:06 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35726800D4C;
- Thu, 23 Jan 2020 13:17:05 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BA5960C85;
- Thu, 23 Jan 2020 13:17:04 +0000 (UTC)
-Date: Thu, 23 Jan 2020 14:17:01 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH REPOST v3 31/80] arm/virt: use memdev for RAM
-Message-ID: <20200123131701.46h2lofbsujkkhj6@kamzik.brq.redhat.com>
-References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
- <1579779525-20065-32-git-send-email-imammedo@redhat.com>
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iucUK-0000lI-Eu
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:25:37 -0500
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:36677)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iucUK-0000fU-5Q
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:25:36 -0500
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
+ [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 2932FB9C44;
+ Thu, 23 Jan 2020 22:25:32 +0900 (JST)
+Received: from yo-satoh-debian.localdomain
+ (v046114.dynamic.ppp.asahi-net.or.jp [124.155.46.114])
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 9F963240090;
+ Thu, 23 Jan 2020 22:25:31 +0900 (JST)
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v29 02/22] qemu/bitops.h: Add extract8 and extract16
+Date: Thu, 23 Jan 2020 22:25:05 +0900
+Message-Id: <20200123132525.80891-3-ysato@users.sourceforge.jp>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200123132525.80891-1-ysato@users.sourceforge.jp>
+References: <20200123132525.80891-1-ysato@users.sourceforge.jp>
 MIME-Version: 1.0
-In-Reply-To: <1579779525-20065-32-git-send-email-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: GCejRvX4N5iEFdqrCpfgpw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 202.224.55.15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,69 +53,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, philmd@redhat.com,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 23, 2020 at 12:37:56PM +0100, Igor Mammedov wrote:
-> memory_region_allocate_system_memory() API is going away,
-> so replace it with memdev allocated MemoryRegion.
-> The later is initialized by generic code, so board only
-> needs to opt in to memdev scheme by providing
->   MachineClass::default_ram_id
-> and then map memory region provided by
->   MachineState::ram_memdev
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
-> CC: peter.maydell@linaro.org
-> CC: qemu-arm@nongnu.org
-> CC: drjones@redhat.com
-> ---
->  hw/arm/virt.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 39ab5f4..e2fbca3 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1512,7 +1512,6 @@ static void machvirt_init(MachineState *machine)
->      MemoryRegion *sysmem =3D get_system_memory();
->      MemoryRegion *secure_sysmem =3D NULL;
->      int n, virt_max_cpus;
-> -    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
->      bool firmware_loaded;
->      bool aarch64 =3D true;
->      bool has_ged =3D !vmc->no_ged;
-> @@ -1701,9 +1700,8 @@ static void machvirt_init(MachineState *machine)
->          }
->      }
-> =20
-> -    memory_region_allocate_system_memory(ram, NULL, "mach-virt.ram",
-> -                                         machine->ram_size);
-> -    memory_region_add_subregion(sysmem, vms->memmap[VIRT_MEM].base, ram)=
-;
-> +    memory_region_add_subregion(sysmem, vms->memmap[VIRT_MEM].base,
-> +                                machine->ram);
->      if (machine->device_memory) {
->          memory_region_add_subregion(sysmem, machine->device_memory->base=
-,
->                                      &machine->device_memory->mr);
-> @@ -2053,6 +2051,7 @@ static void virt_machine_class_init(ObjectClass *oc=
-, void *data)
->      hc->unplug_request =3D virt_machine_device_unplug_request_cb;
->      mc->numa_mem_supported =3D true;
->      mc->auto_enable_numa_with_memhp =3D true;
-> +    mc->default_ram_id =3D "mach-virt.ram";
->  }
-> =20
->  static void virt_instance_init(Object *obj)
-> --=20
-> 2.7.4
->
+Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20190607091116.49044-10-ysato@users.sourceforge.jp>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/qemu/bitops.h | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 02c1ce6a5d..f55ce8b320 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -301,6 +301,44 @@ static inline uint32_t extract32(uint32_t value, int=
+ start, int length)
+     return (value >> start) & (~0U >> (32 - length));
+ }
+=20
++/**
++ * extract8:
++ * @value: the value to extract the bit field from
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ *
++ * Extract from the 8 bit input @value the bit field specified by the
++ * @start and @length parameters, and return it. The bit field must
++ * lie entirely within the 8 bit word. It is valid to request that
++ * all 8 bits are returned (ie @length 8 and @start 0).
++ *
++ * Returns: the value of the bit field extracted from the input value.
++ */
++static inline uint8_t extract8(uint8_t value, int start, int length)
++{
++    assert(start >=3D 0 && length > 0 && length <=3D 8 - start);
++    return extract32(value, start, length);
++}
++
++/**
++ * extract16:
++ * @value: the value to extract the bit field from
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ *
++ * Extract from the 16 bit input @value the bit field specified by the
++ * @start and @length parameters, and return it. The bit field must
++ * lie entirely within the 16 bit word. It is valid to request that
++ * all 16 bits are returned (ie @length 16 and @start 0).
++ *
++ * Returns: the value of the bit field extracted from the input value.
++ */
++static inline uint16_t extract16(uint16_t value, int start, int length)
++{
++    assert(start >=3D 0 && length > 0 && length <=3D 16 - start);
++    return extract32(value, start, length);
++}
++
+ /**
+  * extract64:
+  * @value: the value to extract the bit field from
+--=20
+2.20.1
 
 
