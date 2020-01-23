@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD99F147124
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:50:38 +0100 (CET)
-Received: from localhost ([::1]:35070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 094BD14713E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:57:19 +0100 (CET)
+Received: from localhost ([::1]:35181 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuhYr-0005e8-5Y
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:50:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35901)
+	id 1iuhfJ-00063X-AK
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:57:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iufNI-0000kS-Cn
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:30:38 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iufTI-0007As-HW
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:36:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iufNG-0002wr-4S
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:30:31 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52008)
+ (envelope-from <peter.maydell@linaro.org>) id 1iufTG-0006dJ-V2
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:36:44 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43288)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iufNF-0002vo-F6
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:30:30 -0500
-Received: by mail-wm1-x334.google.com with SMTP id t23so3224569wmi.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 08:30:29 -0800 (PST)
+ id 1iufTG-0006bt-Lv
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:36:42 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id d16so3785518wre.10
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 08:36:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=XUTxum3ZRedfDC64SIxS1PRGjZaWuC3xkwEwjz6rlJ4=;
- b=c2z0Pa+jm/HXMk1fAODn7Fwx54pn85uPyqiQFmB+eGOl9oL7eCjsZVFAjhFG9jZVwv
- Qy4ZpUCw0F8LQCYH0yCHS8DIusN803wjt5llKqSS17mmiBfxGgqiD+8IOaUQ1PVCzB93
- Mh1BUM8OU0+/NZZnCFZagUReqIZCYMI7Ducoy3D2RioOm1GNL/P1DsNyC+WQIWMGrM7T
- hsAk8bYE1C9FKX1A25HD373pX9I5nWo+76GfXkZWnbEoiY66W2A4KytnY1EVE5CitsYl
- WBYQjaQO+UC8W3PbBiYfi2gGvBrTH+SiYbptLL45TpVdBJI0E2LoJhpk1p/9McOoQYcX
- 98Lg==
+ bh=hhW3z51CfDyE4v+Tim78XwWhenWPDfgIGweuEEgWI/o=;
+ b=UWbcWkYrAfLlOXyI+8x0R/H+jPlZ4hFgFLnTdQIno6Ou8sPVUnoDPmTvjrn0Sr222K
+ OhROTya3Ec3e8A8NYCWeq3fzTZ5LqKBBaw914qURoDvLq2WBYsNIzNF+DiO3jAFqvFs4
+ 5qGyONjYos+XdznXWm4XVJt0GspqEG5HW4Gwbxkhk0LfKXQnFGoE/MxxDGAlS0mO3POv
+ /YAuv+iQpzFyLyys656fp/oycHuFSbu0S8gXVIlyz1/XNahIh9bd+pdK14UXMQGdzwF3
+ +BUIwf+srUns3L0CKF9HFKlx3Ax+ezYeMgOFH7l+q/0mQwRytIcGV+PoCgEiBtrko9B/
+ P3PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=XUTxum3ZRedfDC64SIxS1PRGjZaWuC3xkwEwjz6rlJ4=;
- b=pFzDx3SIklaeFYOjylqaNIkzuiF292eTAScQ4hn3RA0/LqbGhvPh/gE6qNxDALZgFM
- Q3PPOLBsODB2J0VIgiTgNoRxTRTwgQpxgvpWP1jEdryrSzShdw9U6Ehpz3vFHsFyr7++
- F+BxM7nJrzoLPE/Wu5f1xXPpRnsDkE188AlOvHpp89W5W3XyGN0kIMcmKT8jHkP2Aowl
- j7/tZvZuDHTg335fNd9Lsibzmgt70/evmLQAdxHl1yMrIjeUYB7q76iatxqQzKssb8iy
- F9JvbqMILnsxJlrczdfgxnm44AFSFKQxP94e8Td9WWg6wds+3VVL9mB3xhowMLXM75wL
- HnfA==
-X-Gm-Message-State: APjAAAXsmmf6lx4isoOm2Vn6goXGt6zHRF+JolbKfrpXaexO9l8/g1UU
- BR49gs09hDlsudTlddEqkK6edD9AoHxyXA==
-X-Google-Smtp-Source: APXvYqxPG43FTFi9zX8muBaw05HwK+W+uJZSlni+FdJnoTDnxlwZuXDJTgQG22KTuXZD5VR/t2SgQg==
-X-Received: by 2002:a1c:6605:: with SMTP id a5mr4796990wmc.112.1579797027992; 
- Thu, 23 Jan 2020 08:30:27 -0800 (PST)
+ bh=hhW3z51CfDyE4v+Tim78XwWhenWPDfgIGweuEEgWI/o=;
+ b=bsLizmsx8n/AGZ9JikAVshhnpviFSydxNBmkCyikHzpqos463VKgJNtSW4I8TKwbvh
+ /DDL7ICb1H2qaq+5pdSHhfamf4QeTdf8LA/VXpjfL0oGiuyJfe9NggJcE661THIQlvR1
+ SQZkOW1qfy5xwWqlCguJExKvslyoqQ//PWdHYm/JmseEPdsNwgReP8CD3lsh6HTRNIpe
+ k/YLowSfRWe+4FBrjPYIRWBU/NYOfhl2rqfSpAlyLLEGTffLanmb4/P/W/UVITZRF0lI
+ OQed6NpD29oDDADlpKd6H5d4x+MKfEN7zEgPhomLKi2XyaSBk7ZlU6aI5B6H5R4gszZL
+ YmbQ==
+X-Gm-Message-State: APjAAAXvjn2oqHLu1cInS4sQrAOCCeaSOY87FBLG2rCKzOxM8fgXSeAa
+ WdaBhakpr/52xoxdNS0T3x7xokAnG3BbNg==
+X-Google-Smtp-Source: APXvYqx+RQALF6gbZkk9Th5VlxyQBvKsbXTpn3dG0bIpBYG9HK35z6M5aDoFsMDprhzX12dcT8a9ag==
+X-Received: by 2002:a5d:4d06:: with SMTP id z6mr18407140wrt.339.1579797400120; 
+ Thu, 23 Jan 2020 08:36:40 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 60sm3801808wrn.86.2020.01.23.08.30.27
+ by smtp.gmail.com with ESMTPSA id o15sm3572563wra.83.2020.01.23.08.36.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2020 08:30:27 -0800 (PST)
+ Thu, 23 Jan 2020 08:36:39 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 00/20] target-arm queue
-Date: Thu, 23 Jan 2020 16:30:25 +0000
-Message-Id: <20200123163025.16896-1-peter.maydell@linaro.org>
+Subject: [PULL v4 00/20] target-arm queue
+Date: Thu, 23 Jan 2020 16:36:37 +0000
+Message-Id: <20200123163637.18230-1-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::334
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,6 +82,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 v1->v2: add system/index to docs/index.rst
 v2->v3: fix format string issues for OSX
+v3->v4: actually fix format string issues, somehow
+ I failed to actually put the change into git :-(
 
 The following changes since commit b7c359c748a2e3ccb97a184b9739feb2cd48de2f:
 
@@ -89,11 +91,11 @@ The following changes since commit b7c359c748a2e3ccb97a184b9739feb2cd48de2f:
 
 are available in the Git repository at:
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200123-3
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200123-4
 
-for you to fetch changes up to 9805a6b7d03a23e16d6499d16882094db490683a:
+for you to fetch changes up to e9d20b55b2e4c8400143554f0e83e4e1fcb9bd0f:
 
-  hw/arm/exynos4210: Connect serial port DMA busy signals with pl330 (2020-01-23 15:52:34 +0000)
+  hw/arm/exynos4210: Connect serial port DMA busy signals with pl330 (2020-01-23 16:34:15 +0000)
 
 ----------------------------------------------------------------
 target-arm queue:
