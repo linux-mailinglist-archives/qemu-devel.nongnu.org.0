@@ -2,86 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E510146FE3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:38:42 +0100 (CET)
-Received: from localhost ([::1]:33682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F68146FEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:42:04 +0100 (CET)
+Received: from localhost ([::1]:33748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugRE-0005bt-GO
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:38:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58087)
+	id 1iugUV-0001e5-BR
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:42:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59508)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iudFJ-0004MF-Dp
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:14:10 -0500
+ (envelope-from <kraxel@redhat.com>) id 1iudMQ-0004rq-8q
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:21:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iudFI-0004Nu-8b
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:14:09 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28726
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1iudMP-0003JE-6z
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:21:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47101
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iudFI-0004NW-44
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:14:08 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iudMP-0003J9-3c
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:21:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579788847;
+ s=mimecast20190719; t=1579789288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5ZHH/Nt38nF9Sq6A5y+ioOtlKSLL1dqIN/eV26kf7Xk=;
- b=UIizXwWFYDpBfdjWhDn/F8G4+I8RFzyJCZCpPdwxprm5ndvUh58QUmvVlB1F15BVzOshNC
- tTHpvrLVWRvvmY+JXQhGPFrACevBTxavE/CgLXACwlqHX/6n4wQVOAJl1xgrvVeGwFTfrL
- pkELA0vt/oU7TCnbOEcdZ6dWGNRuTKc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-ZiMmNWSWPyyJ1K_BZSTHMQ-1; Thu, 23 Jan 2020 09:11:51 -0500
-Received: by mail-wr1-f72.google.com with SMTP id w6so1787374wrm.16
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 06:11:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5ZHH/Nt38nF9Sq6A5y+ioOtlKSLL1dqIN/eV26kf7Xk=;
- b=jX8AioisnfGGDhZdJhN+2w1Sfd2Qyc3b2rKCvwaqc6DSsv4yvO5uyxln4jFKaHQTqZ
- oXpwz37vXe26XdeDvagMFpEJ8hW/TcE6swRXIGyaz6Hhac0zMHXqxi47mguwD/fmeT0r
- Lk4hCCWiSYMUZSYfXkNJyD3CTq0x/CoAzg52cKH7MH9pumca/cOPRrlYXovHcjAsNZ50
- AK4MzX9FO0BjKZbfwMXwj/72keb5CyliR5X4eTWOMWxL/we/X825s8Dn8+1+F0D/vZSb
- z0zYEktbuOFZbU+3vYHV3LsedaeBT7eLnTzvUobbsdoo/hhFn4wfaRIatuz6U0wuNlx+
- L8fg==
-X-Gm-Message-State: APjAAAXLhV4E1gOX671DlWtr0kJKbmwNrt6bAotOxwaQSqYLX8JMpKku
- pYbz1hZNJlVRAJgcBs9jN7Dy6h7Wwhqs+uMZozoRlPoLAiVSZyNKIaU3Mv0uKHptV7gv/fCP+U9
- uJYmwN1JOTwlbMTE=
-X-Received: by 2002:a05:600c:2507:: with SMTP id
- d7mr4248852wma.28.1579788710003; 
- Thu, 23 Jan 2020 06:11:50 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzadLvuQYoVae0ZOjko2Oy7RgtCmYqFfFDLuFwFW7aAVrwURprw/L5u/8cyw9MySyEH5JhuDQ==
-X-Received: by 2002:a05:600c:2507:: with SMTP id
- d7mr4248823wma.28.1579788709776; 
- Thu, 23 Jan 2020 06:11:49 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:b8fe:679e:87eb:c059?
- ([2001:b07:6468:f312:b8fe:679e:87eb:c059])
- by smtp.gmail.com with ESMTPSA id g2sm3093698wrw.76.2020.01.23.06.11.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jan 2020 06:11:49 -0800 (PST)
-Subject: Re: [qemu-web PATCH] Add "Security Process" information to the main
- website
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20200123135900.22175-1-thuth@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f30a14a4-779f-865d-14d2-8ffc8cbf94b7@redhat.com>
-Date: Thu, 23 Jan 2020 15:11:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Nfpr4H4sbGnPB2PuTC3DcPSoB6WSGYjKfzfoVJpf+QE=;
+ b=Uu6K+QDluWk0wNqsvqyp6RRr0Ivd/So/ZZv50KpL/+oMpbLQ+Lz2pqSzh9k3gSBtKPgDWr
+ 8TAyy7sCs7BWChjgtHRSrgJ/+K6I0CdpCu6NcSrs55KRHtctsZkhKgegd6mPGSt8nETtTJ
+ uEgC6ARzsmQh3ws01WyR3GDqo225yyg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-m_Lzo08xMSmB0NEFkQMgAA-1; Thu, 23 Jan 2020 09:21:26 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7C67DB65
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 14:21:25 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
+ [10.36.116.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 350C285757;
+ Thu, 23 Jan 2020 14:21:23 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 6638016E18; Thu, 23 Jan 2020 15:21:22 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] Ui 20200123 patches
+Date: Thu, 23 Jan 2020 15:21:19 +0100
+Message-Id: <20200123142122.13839-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200123135900.22175-1-thuth@redhat.com>
-Content-Language: en-US
-X-MC-Unique: ZiMmNWSWPyyJ1K_BZSTHMQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: m_Lzo08xMSmB0NEFkQMgAA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,56 +70,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pjp@redhat.com, sstabellini@kernel.org, pmatouse@redhat.com,
- mdroth@linux.vnet.ibm.com, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/01/20 14:59, Thomas Huth wrote:
-> Anyway, it looks more trustworthy if we present the "Security Process"
-> information in the static website instead. Thus this patch adds the
-> information from the wiki to the Jekyll-based website now.
+The following changes since commit 43d1455cf84283466e5c22a217db5ef4b8197b14=
+:
 
-Fair enough; here are some edits so that we can improve the text a bit
-in the meanwhile.
+  qapi: Fix code generation with Python 3.5 (2020-01-20 12:17:38 +0000)
 
-> +We use a GNU Privacy Guard (GnuPG or GPG) keys to secure communications. Mail
+are available in the Git repository at:
 
-Remove "a".
+  git://git.kraxel.org/qemu tags/ui-20200123-pull-request
 
-> +sent to members of the list can be encrypted with public keys of all members
-> +of the list. We expect to change some of the keys we use from time to time.
-> +Should we change the key, the previous keys will be revoked.
+for you to fetch changes up to a1e8853ed2acbda29a52533abc91b035b723952e:
 
-Should a key change, the previous one will be revoked.
+  ui/console: Display the 'none' backend in '-display help' (2020-01-21 07:=
+29:40 +0100)
 
-> +* Is QEMU used in conjunction with a hypervisor (as opposed to TCG binary
-> +  translation TCG)?
+----------------------------------------------------------------
+vnc: fix zlib compression artifacts.
+ui: add "none" to -display help.
 
-Two "TCG"s.
+----------------------------------------------------------------
 
-> +Whenever some or all of these questions have negative answers, what appears to
-> +be a genuine security flaw might be considered of low severity because it could
-> +only be exercised in use cases where QEMU and everything interacting with it is
-> +trusted.
+Cameron Esfahani (1):
+  vnc: prioritize ZRLE compression over ZLIB
 
-s/genuine/major/
+Gerd Hoffmann (1):
+  Revert "vnc: allow fall back to RAW encoding"
 
-> +Prima facie, this bug appears to be a genuine security flaw, with potentially
-> +severe implications. But digging further down, it shows that there are  only
-> +two ways to use SD Host Controller emulation, one is via 'sdhci-pci' interface
-> +and the other is via 'generic-sdhci' interface.
+Philippe Mathieu-Daud=C3=A9 (1):
+  ui/console: Display the 'none' backend in '-display help'
 
-I can understand some Latin, but perhaps s/Prima facie/On the surface/
+ ui/console.c      |  1 +
+ ui/vnc-enc-zrle.c |  4 ++--
+ ui/vnc.c          | 31 +++++++++++--------------------
+ 3 files changed, 14 insertions(+), 22 deletions(-)
 
-Also, s/it shows that//
-
-> +Of these two, the 'sdhci-pci' interface is relatively new and had actually been
-
-s/is relatively new and//
-
-Thanks,
-
-Paolo
+--=20
+2.18.1
 
 
