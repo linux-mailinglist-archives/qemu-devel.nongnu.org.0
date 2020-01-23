@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD42C1467C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:18:01 +0100 (CET)
-Received: from localhost ([::1]:56022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF0A1467C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:20:03 +0100 (CET)
+Received: from localhost ([::1]:56050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iubQu-0006LX-5Z
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:18:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35706)
+	id 1iubSr-0000Lq-PM
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:20:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35712)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iuasV-0006OY-3I
+ (envelope-from <imammedo@redhat.com>) id 1iuasV-0006P7-C1
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:42:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iuasT-0004ZF-Vi
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:42:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25646
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1iuasU-0004Zd-6d
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:42:27 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34772
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuasT-0004Yu-RP
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:42:25 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuasU-0004Z1-2c
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:42:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1579779745;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BodJZ2/t7zg+j82vxZS/xF8BVbdEormj2ANyrNQn15g=;
- b=ephoh5PxaU/7x88z0zEY8lY2QfhJI2mCXBjdnUDc3J4fvc3AdRqIYfa7u6Voku0+S5zAiu
- nyLoekT6k5pfMGUdRfX6gigKiPm5yhAKDs67vm2G6LJCDyNfPm634LQuFgziYCaix1S85r
- 6lC8NA5wI+hGJTLC+ZCJfmnEtoiFm30=
+ bh=WV1vSk+tjh6xNbYHYgEON0N9FleWECMsdzY10U96mGg=;
+ b=PyE4bL+JfWMe+njYV21gcszdcnTAv/xjZyJQmACRrVTJRYzYuttf2qxkuBjKSvpfbAyupU
+ IONZOERWCm8QPEz3DWp1PCrZE+qjFa2lZDQNd8HZNP6/29JY77w0drS4ZFpM+Sb4k5Wke2
+ sMUvNOA6xiQDkjtR5nzYc+XDHj/+5u4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-OqESnZ9KNqet1hcScIcWtg-1; Thu, 23 Jan 2020 06:42:23 -0500
+ us-mta-144-sRfegIcVM1KC6sMe8XyPZQ-1; Thu, 23 Jan 2020 06:42:24 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5F251005516
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:42:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F211100550E
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:42:23 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 38FCF10016EB
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0761D100032E
  for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:42:22 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH REPOST v3 40/80] hw/hppa/machine: Restrict the total memory
- size to 3GB
-Date: Thu, 23 Jan 2020 12:38:05 +0100
-Message-Id: <1579779525-20065-41-git-send-email-imammedo@redhat.com>
+Subject: [PATCH REPOST v3 41/80] hw/hppa/machine: Map the PDC memory region
+ with higher priority
+Date: Thu, 23 Jan 2020 12:38:06 +0100
+Message-Id: <1579779525-20065-42-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
 References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: OqESnZ9KNqet1hcScIcWtg-1
+X-MC-Unique: sRfegIcVM1KC6sMe8XyPZQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,54 +77,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-The hardware expects DIMM slots of 1 or 2 GB, allowing up to
-4 GB of memory. We want to accept the same amount of memory the
-hardware can deal with. DIMMs of 768MB are not available.
+The region in range [0xf0000000 - 0xf1000000] is the PDC area
+(Processor Dependent Code), where the firmware is loaded.
+This region has higher priority than the main memory.
 
-However we have to deal with a firmware limitation: currently
-SeaBIOS only supports 32-bit, and expects the RAM size in a
-32-bit register. When using a 4GB configuration, the 32-bit
-register get truncated and we report a size of 0MB to SeaBIOS,
-which ends halting the machine:
+When the machine has more than 3840MB of RAM, there is an
+overlap. Since the PDC is closer to the CPU in the bus
+hierarchy, it gets accessed first, and the CPU does not have
+access to the RAM in this range.
 
-  $ qemu-system-hppa -m 4g -serial stdio
-
-  SeaBIOS: Machine configured with too little memory (0 MB), minimum is 16 =
-MB.
-
-  SeaBIOS wants SYSTEM HALT.
-
-The easiest way is to restrict the machine to 3GB of memory.
+To model the same behavior and keep a simple memory layout,
+reduce the priority of the RAM region. The PDC region ends
+overlapping the RAM.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Acked-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/hppa/machine.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ hw/hppa/machine.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 6775d87..119ae4d 100644
+index 119ae4d..810e671 100644
 --- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -90,12 +90,11 @@ static void machine_hppa_init(MachineState *machine)
-         g_free(name);
-     }
-=20
--    /* Limit main memory. */
--    if (ram_size > FIRMWARE_START) {
--        machine->ram_size =3D ram_size =3D FIRMWARE_START;
--    }
--
-     /* Main memory region. */
-+    if (machine->ram_size > 3 * GiB) {
-+        error_report("RAM size is currently restricted to 3GB");
-+        exit(EXIT_FAILURE);
-+    }
+@@ -98,7 +98,7 @@ static void machine_hppa_init(MachineState *machine)
      ram_region =3D g_new(MemoryRegion, 1);
      memory_region_allocate_system_memory(ram_region, OBJECT(machine),
                                           "ram", ram_size);
+-    memory_region_add_subregion(addr_space, 0, ram_region);
++    memory_region_add_subregion_overlap(addr_space, 0, ram_region, -1);
+=20
+     /* Init Dino (PCI host bus chip).  */
+     pci_bus =3D dino_init(addr_space, &rtc_irq, &serial_irq);
 --=20
 2.7.4
 
