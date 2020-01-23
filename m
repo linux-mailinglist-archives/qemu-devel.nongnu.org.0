@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447C7146DA5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:58:51 +0100 (CET)
-Received: from localhost ([::1]:59886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF602146D5C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:52:16 +0100 (CET)
+Received: from localhost ([::1]:59778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuesb-0003Ar-RZ
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:58:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48637)
+	id 1iuemF-00025T-Ca
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:52:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49056)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1iucff-0005Ii-23
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:37:20 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iuciB-0001ay-Fk
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:39:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1iucfc-0005WU-5F
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:37:17 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51770
+ (envelope-from <imammedo@redhat.com>) id 1iuci9-0000RR-Sl
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:39:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34017
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iucfc-0005VM-1b
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:37:16 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuci9-0000Qk-PL
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:39:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579786635;
+ s=mimecast20190719; t=1579786793;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Mw7nZvFaWzDhHjWjW/hXLGY3g9G/m+tWwELCpw0u4oQ=;
- b=hO5frbCxIwSf/MgRyb7sT/uXt15/5eD3OQNUGNTHPG2Yr246qkQaKZ+2mB/oxFdXPIImAP
- xyQd48P2nx8T7O23wCV//NeX765xJVPWntFizQShrbQP25O0gXMpeU0jQfhf5ccE0ftURt
- 1pi0aK4B8p/Vafr+1zTfPetd3EkuEn8=
+ bh=b+l3kQ8+aCZ03qp1W/gJ9AwYwFtBqPyA0eXu0waMUEM=;
+ b=ZsGAtkSsJrDughdVIATCEJQiT9QHFyVqnCZQ95zUBl/Iv1KztRVRa3LLoPVlV8WNFEGvlB
+ CFubBFKZau4KXvaqXQvlw5cqPLwtyb/GB5of/bef3iaVMCElx2SQD4XFZRUhiDt1x8Atbm
+ Rc3vfRkzmW5bIixbM1/FFhrI25stoPw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-79-nr7D_SI_Ns60twGKVpL-fw-1; Thu, 23 Jan 2020 08:37:13 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-215-mUU0EsbOOnuQJHw3DHmPdg-1; Thu, 23 Jan 2020 08:39:51 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90ED68017CC;
- Thu, 23 Jan 2020 13:37:12 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-27.gru2.redhat.com
- [10.97.116.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B77A5D9E2;
- Thu, 23 Jan 2020 13:36:58 +0000 (UTC)
-Subject: Re: [PATCH 5/6] tests/acceptance/virtio_seg_max_adjust: Restrict to
- X86 architecture
-To: Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20200122223247.30419-1-philmd@redhat.com>
- <20200122223247.30419-6-philmd@redhat.com>
- <20200123124844.32e2aa09.cohuck@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <814cb9da-696c-0716-c1fe-247fd4e6cb05@redhat.com>
-Date: Thu, 23 Jan 2020 11:36:55 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A1E0801E67;
+ Thu, 23 Jan 2020 13:39:50 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 44FB319C69;
+ Thu, 23 Jan 2020 13:39:49 +0000 (UTC)
+Date: Thu, 23 Jan 2020 14:39:48 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [PATCH REPOST v3 20/80] arm/mps2-tz: use memdev for RAM
+Message-ID: <20200123143948.4ef7b702@redhat.com>
+In-Reply-To: <20200123125909.p2aq3ad2x5l24zq5@kamzik.brq.redhat.com>
+References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+ <1579779525-20065-21-git-send-email-imammedo@redhat.com>
+ <20200123125909.p2aq3ad2x5l24zq5@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200123124844.32e2aa09.cohuck@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: nr7D_SI_Ns60twGKVpL-fw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: mUU0EsbOOnuQJHw3DHmPdg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 207.211.31.120
@@ -78,165 +72,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 23 Jan 2020 13:59:09 +0100
+Andrew Jones <drjones@redhat.com> wrote:
 
-On 1/23/20 9:48 AM, Cornelia Huck wrote:
-> On Wed, 22 Jan 2020 23:32:46 +0100
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
->
->> Running on mainstream KVM architectures, we get:
->>
->> - Aarch64
->>
->>    Timeout.
->>
->>    job.log:
->>    -------
->>    No machine specified, and there is no default
->>    Use -machine help to list supported machines
-> The code probably needs to be made more clever to find the machines to
-> run?
->
->> - MIPS:
->>
->>     (1/1) VirtioMaxSegSettingsCheck.test_machine_types: ERROR: argument =
-of type 'NoneType' is not iterable (0.14 s)
->>
->>    job.log:
->>    -------
->>    Could not load MIPS bios 'mipsel_bios.bin', and no -kernel argument w=
-as specified
-> Probably needs some hint from mips folks how this can be set up.
->
->> - PowerPC
->>
->>     (1/1) VirtioMaxSegSettingsCheck.test_machine_types: ERROR: invalid l=
-iteral for int() with base 10: 'sxxm' (0.16 s)
->>
->>    job.log:
->>    -------
->>    >>> {'execute': 'query-machines'}
->>    <<< {'return': [{'hotpluggable-cpus': True, 'name': 'pseries-2.12-sxx=
-m', 'numa-mem-supported': True, 'default-cpu-type': 'power8_v2.0-powerpc64-=
-cpu', 'cpu-max': 1024, 'deprecated': False}, ...
-> This seems to be because the machine type parsing code cannot deal with
-> the format used here.
+> On Thu, Jan 23, 2020 at 12:37:45PM +0100, Igor Mammedov wrote:
+> > memory_region_allocate_system_memory() API is going away, so
+> > replace it with memdev allocated MemoryRegion. The later is
+> > initialized by generic code, so board only needs to opt in
+> > to memdev scheme by providing
+> >   MachineClass::default_ram_id
+> > and using MachineState::ram instead of manually initializing
+> > RAM memory region.
+> >=20
+> > PS:
+> >  while at it add check for user supplied RAM size and error
+> >  out if it mismatches board expected value.
+> >=20
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> > v2:
+> >   * fix format string causing build failure on 32-bit host
+> >     (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
+> >=20
+> > CC: drjones@redhat.com
+> > CC: peter.maydell@linaro.org
+> > CC: qemu-arm@nongnu.org
+> > ---
+> >  hw/arm/mps2-tz.c | 15 +++++++++++----
+> >  1 file changed, 11 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+> > index f8b620b..06dacf6 100644
+> > --- a/hw/arm/mps2-tz.c
+> > +++ b/hw/arm/mps2-tz.c
+> > @@ -39,6 +39,7 @@
+> > =20
+> >  #include "qemu/osdep.h"
+> >  #include "qemu/units.h"
+> > +#include "qemu/cutils.h"
+> >  #include "qapi/error.h"
+> >  #include "qemu/error-report.h"
+> >  #include "hw/arm/boot.h"
+> > @@ -79,7 +80,6 @@ typedef struct {
+> >      MachineState parent;
+> > =20
+> >      ARMSSE iotkit;
+> > -    MemoryRegion psram;
+> >      MemoryRegion ssram[3];
+> >      MemoryRegion ssram1_m;
+> >      MPS2SCC scc;
+> > @@ -388,6 +388,13 @@ static void mps2tz_common_init(MachineState *machi=
+ne)
+> >          exit(1);
+> >      }
+> > =20
+> > +    if (machine->ram_size !=3D mc->default_ram_size) {
+> > +        char *sz =3D size_to_str(mc->default_ram_size);
+> > +        error_report("Invalid RAM size, should be %s", sz);
+> > +        g_free(sz);
+> > +        exit(EXIT_FAILURE);
+> > +    }
+> > +
+> >      sysbus_init_child_obj(OBJECT(machine), "iotkit", &mms->iotkit,
+> >                            sizeof(mms->iotkit), mmc->armsse_type);
+> >      iotkitdev =3D DEVICE(&mms->iotkit);
+> > @@ -458,9 +465,7 @@ static void mps2tz_common_init(MachineState *machin=
+e)
+> >       * tradeoffs. For QEMU they're all just RAM, though. We arbitraril=
+y
+> >       * call the 16MB our "system memory", as it's the largest lump.
+> >       */
+> > -    memory_region_allocate_system_memory(&mms->psram,
+> > -                                         NULL, "mps.ram", 16 * MiB);
+> > -    memory_region_add_subregion(system_memory, 0x80000000, &mms->psram=
+);
+> > +    memory_region_add_subregion(system_memory, 0x80000000, machine->ra=
+m);
+> > =20
+> >      /* The overflow IRQs for all UARTs are ORed together.
+> >       * Tx, Rx and "combined" IRQs are sent to the NVIC separately.
+> > @@ -642,6 +647,7 @@ static void mps2tz_class_init(ObjectClass *oc, void=
+ *data)
+> > =20
+> >      mc->init =3D mps2tz_common_init;
+> >      iic->check =3D mps2_tz_idau_check;
+> > +    mc->default_ram_id =3D "mps.ram";
+> >  }
+> > =20
+> >  static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
+> > @@ -657,6 +663,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc=
+, void *data)
+> >      mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-m33");
+> >      mmc->scc_id =3D 0x41045050;
+> >      mmc->armsse_type =3D TYPE_IOTKIT;
+> > +    mc->default_ram_size =3D 16 * MiB; =20
+>=20
+> Shouldn't this line be added to mps2tz_class_init ?
 
+Yep, it should be there
 
-Indeed, looking at the comments in code the parser was meant for PC types.
-
-Is there a way to obtain the machine type version other than parsing its=20
-name? If not, wouldn't be useful for management apps have that=20
-information returned with 'query-machines'?
-
-- Wainer
-
->> - S390X:
->>
->>     (1/1) VirtioMaxSegSettingsCheck.test_machine_types: ERROR: invalid l=
-iteral for int() with base 10: 'virtio' (0.14 s)
->>
->>    job.log:
->>    -------
->>    Traceback (most recent call last):
->>      File "virtio_seg_max_adjust.py", line 139, in test_machine_types
->>        if self.seg_max_adjust_enabled(m):
->>      File "virtio_seg_max_adjust.py", line 113, in seg_max_adjust_enable=
-d
->>        major =3D int(ver[0])
->>    ValueError: invalid literal for int() with base 10: 'virtio'
->>    >>> {'execute': 'query-machines'}
->>    <<< {'return': [{'hotpluggable-cpus': True, 'name': 's390-ccw-virtio-=
-4.0', 'numa-mem-supported': False, 'default-cpu-type': 'qemu-s390x-cpu', 'c=
-pu-max': 248, 'deprecated': False}, ...
-> Same here.
->
->> Assuming this test is only expected to run on the X86 architecture,
->> restrict the test to this particular architecture.
->>
->> When this test is run on other architecture, the tests will be skipped.
->>
->> Examples:
->>
->> - running on S390X:
->>
->>   (1/1) tests/acceptance/virtio_seg_max_adjust.py:VirtioMaxSegSettingsCh=
-eck.test_machine_types: SKIP: Architecture 's390' unsupported
->>
->> - running on Aarch64 setting the QEMU binary path:
->>
->>    $ uname -m && avocado --show=3Dapp run -p qemu_bin=3Dx86_64-softmmu/q=
-emu-system-x86_64 tests/acceptance/virtio_seg_max_adjust.py
->>    aarch64
->>    JOB ID     : 92b7fae8868920aada0cb143f9571dffdf60931d
->>    JOB LOG    : job-results/job-2020-01-22T17.54-92b7fae/job.log
->>     (1/1) tests/acceptance/virtio_seg_max_adjust.py:VirtioMaxSegSettings=
-Check.test_machine_types: PASS (25.99 s)
->>    RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT =
-0 | CANCEL 0
->>    JOB TIME   : 26.13 s
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->>   tests/acceptance/virtio_seg_max_adjust.py | 11 +++++++++++
->>   1 file changed, 11 insertions(+)
->>
->> diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptanc=
-e/virtio_seg_max_adjust.py
->> index ad736bcda3..2fc6bfcbd8 100755
->> --- a/tests/acceptance/virtio_seg_max_adjust.py
->> +++ b/tests/acceptance/virtio_seg_max_adjust.py
->> @@ -26,6 +26,7 @@ import logging
->>   sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'p=
-ython'))
->>   from qemu.machine import QEMUMachine
->>   from avocado_qemu import Test
->> +from avocado.core.exceptions import TestSkipError
->>  =20
->>   #list of machine types and virtqueue properties to test
->>   VIRTIO_SCSI_PROPS =3D {'seg_max_adjust': 'seg_max_adjust'}
->> @@ -117,12 +118,22 @@ class VirtioMaxSegSettingsCheck(Test):
->>           return False
->>  =20
->>       def test_machine_types(self):
->> +        """
->> +        :avocado: tags=3Darch:i386
->> +        :avocado: tags=3Darch:x86_64
->> +        """
->>           EXCLUDED_MACHINES =3D ['none', 'isapc', 'microvm']
->>           if os.geteuid() !=3D 0:
->>               EXCLUDED_MACHINES +=3D ['xenfv', 'xenpv']
->>           # collect all machine types except the ones in EXCLUDED_MACHIN=
-ES
->>           with QEMUMachine(self.qemu_bin) as vm:
->>               vm.launch()
->> +            # Skip test if target is not X86
->> +            # TODO: Move this check to Avocado (based on the test tags)
->> +            target_arch =3D vm.command('query-target')['arch']
->> +            if target_arch not in ['i386', 'x86_64']:
->> +                errmsg =3D "Architecture '%s' unsupported" % target_arc=
-h
->> +                raise TestSkipError(errmsg)
-> I think we should rather fix the machine parsing code, and only then
-> exclude architectures out of the box. (Sorry, my python-fu is lacking,
-> or I would try it myself.)
->
-> There does not seem to be anything that is really architecture specific
-> in there. Just explicitly requesting the -pci versions of virtio-blk
-> and virtio-scsi seems wrong, though, as this looks like a generic
-> property, and should work on -ccw as well. (And probably also for
-> virtio-mmio devices.) If not, I'd like to know :)
->
->>               machines =3D [m['name'] for m in vm.command('query-machine=
-s')]
->>               vm.shutdown()
->>           for m in EXCLUDED_MACHINES:
->
+>=20
+> Thanks,
+> drew
+>=20
+> >  }
+> > =20
+> >  static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
+> > --=20
+> > 2.7.4
+> >  =20
 
 
