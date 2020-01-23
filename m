@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414A1146ADD
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:09:11 +0100 (CET)
-Received: from localhost ([::1]:57682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CC3146AEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:13:47 +0100 (CET)
+Received: from localhost ([::1]:57766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iudAT-0004LI-O8
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:09:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46167)
+	id 1iudEv-0002bH-L2
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:13:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54073)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iubQr-0007cC-D5
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:17:58 -0500
+ (envelope-from <drjones@redhat.com>) id 1iubn0-0003ou-6C
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:40:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iubQq-0001lG-9M
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:17:57 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30822
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <drjones@redhat.com>) id 1iubmy-0002GJ-Ot
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:40:50 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45354
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iubQq-0001l3-5h
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:17:56 -0500
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iubmy-0002Ev-Kd
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:40:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579781875;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1579783248;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9uQd2c8aaLxJ4dHp0X3GeXb8bmhw3rqvGNTRN6GIPsY=;
- b=VkRwqigL2RW1C8LUAnfnUudbFWv5uOYvyqAUF1O9+9DReJ5O6YIp9aSEOwKY3cTJvhL+Vd
- W4wDSEBU7BMcOcyQJi6ihRnaVzXdBbrvT7735oZiGsSoqeGzd6oTo9WJc9ublIYeGPX5LT
- Q3AVF33+Wcynw4t4Y0xvJn+0aCbRAIs=
+ bh=CeuFK25U9RHqFoRab+T9Ogkit/2+wkjDCN/atYUZSmM=;
+ b=EW7trAUzHUJVIpXuU4IAAf7X8S6Ct/hTVkeSOyC4UrEWiJ1X/GULgSz5I3c8qQrONGNswL
+ Iy8SGXsLVuQffHPkQ0HNpFFDtzJBHghU1PL4+BmP1oXMOEUZY5HsYF8G2H37NkiZ8Sog3h
+ mepdU6XkHYUwQcXbIrgGwA8w5leu770=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-IysfI9I9Olq0XBkmLLa3Kw-1; Thu, 23 Jan 2020 07:17:51 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-257-gOUWXMsZM1iSXuVPe9pGBQ-1; Thu, 23 Jan 2020 07:40:44 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7EBA8010C5
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:17:50 +0000 (UTC)
-Received: from redhat.com (ovpn-116-168.ams2.redhat.com [10.36.116.168])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 59BB210016E8;
- Thu, 23 Jan 2020 12:17:50 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 00/21] Multifd Migration Compression
-In-Reply-To: <20200123115831.36842-1-quintela@redhat.com> (Juan Quintela's
- message of "Thu, 23 Jan 2020 12:58:10 +0100")
-References: <20200123115831.36842-1-quintela@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Thu, 23 Jan 2020 13:17:47 +0100
-Message-ID: <87o8uu9xjo.fsf@secure.laptop>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3A03DB2D;
+ Thu, 23 Jan 2020 12:40:42 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 90A4B5C290;
+ Thu, 23 Jan 2020 12:40:41 +0000 (UTC)
+Date: Thu, 23 Jan 2020 13:40:39 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH REPOST v3 15/80] arm/integratorcp: use memdev for RAM
+Message-ID: <20200123124039.iz3pkwh6lm4mnatw@kamzik.brq.redhat.com>
+References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+ <1579779525-20065-16-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: IysfI9I9Olq0XBkmLLa3Kw-1
+In-Reply-To: <1579779525-20065-16-git-send-email-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: gOUWXMsZM1iSXuVPe9pGBQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,72 +72,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. =?utf-8?Q?Ber?= =?utf-8?Q?rang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, peter.chubb@nicta.com.au,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Juan Quintela <quintela@redhat.com> wrote:
-> [v3]
-> - rebased on top of upstream + previous multifd cancel series
-> - split multifd code into its own file (multifd.[ch])
-> - split zstd/zlib compression methods (multifd-zstd/zlib.c)
-> - use qemu module feauture to avoid ifdefs
->   (my understanding is that zlib needs to be present, but
->   we setup zstd only if it is not there or is disabled)
-> - multifd-method: none|zlib|zstd
+On Thu, Jan 23, 2020 at 12:37:40PM +0100, Igor Mammedov wrote:
+> memory_region_allocate_system_memory() API is going away, so
+> replace it with memdev allocated MemoryRegion. The later is
+> initialized by generic code, so board only needs to opt in
+> to memdev scheme by providing
+>   MachineClass::default_ram_id
+> and using MachineState::ram instead of manually initializing
+> RAM memory region.
+>=20
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> CC: drjones@redhat.com
+> CC: peter.chubb@nicta.com.au
+> CC: peter.maydell@linaro.org
+> CC: qemu-arm@nongnu.org
+> ---
+>  hw/arm/integratorcp.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 >
->   As far as I can see, there is no easy way to convince qapi that zstd
->   option could/couldn't be there depending on compliation flags. I
->   ended just checking in migrate_parameters_check() if it is enabled
->   and giving an error message otherwise.
->
-> Questions:
-> - I am "reusing" the compress-level parameter for both zstd and zlib,
->   but it poses a problem:
->   * zlib values: 1-9 (default: 6?)
->   * zstd values: 1-19 (default: 3)
-> So, what should I do:
->   * create multifd-zstd-level and multifd-zlib-level (easier)
->   * reuse compress-level, and change its maximum values depending on
->     multifd-method
->   * any other good option?
->
-> Please, review.
->
-> [v2] - rebase on top of previous arguments posted to the list -
-> introduces zlib compression - introduces zstd compression
->
-> Please help if you know anything about zstd/zlib compression.
->
-> This puts compression on top of multifd. Advantages about current
-> compression:
->
-> - We copy all pages in a single packet and then compress the whole
->   thing.
->
-> - We reuse the compression stream for all the packets sent through the
->   same channel.
->
-> - We can select nocomp/zlib/zstd levels of compression.
->
-> Please, review.
->
-> Juan Quintela (21):
->   migration-test: Use g_free() instead of free()
->   multifd: Make sure that we don't do any IO after an error
->   qemu-file: Don't do IO after shutdown
->   migration-test: Make sure that multifd and cancel works
->   migration: Create migration_is_running()
->   migration: Don't send data if we have stopped
 
-This patches are from my previous series.  I forgot to pass the -b
-option to git-publish.  Please ignore them.
+I don't know anything about integratorcp, but I promised Igor to put
+another pair of eyes on his changes. Looks fine to me.
 
-Sorry, Juan.
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
