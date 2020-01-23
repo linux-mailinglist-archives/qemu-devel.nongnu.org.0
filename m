@@ -2,64 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943C31466A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:21:30 +0100 (CET)
-Received: from localhost ([::1]:54744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D967E1466BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:30:24 +0100 (CET)
+Received: from localhost ([::1]:54862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuaYD-0003DP-LP
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:21:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58673)
+	id 1iuagp-0006Su-Jr
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:30:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60311)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iuaXN-0002lj-MO
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:20:38 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iuafR-0005Ty-Ug
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:28:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iuaXJ-00021m-R0
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:20:37 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41560
+ (envelope-from <pbonzini@redhat.com>) id 1iuafQ-0006Tg-1r
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:28:57 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50974
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iuaXJ-00021P-NZ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:20:33 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuafP-0006TK-UP
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:28:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579778433;
+ s=mimecast20190719; t=1579778935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hL7imjsoSkyG8ewkYqJjIGjoQ7tSoExc90gKSE7nVfE=;
- b=GsQ2WtIq9RP/V6RD+B/snQn2L3xujAHcpp3CSdVQGzsvet3+ZtcqTuHdo9jiZtPabFpT8P
- YuxJOvUvUNAATNk18ZBcTqTT1fb4Fz7o0wChswtsN45sq9cJAub4Xu8lFzTfTVsd195uVh
- uB6nQG1fByRk6yMRmv0F5IHBAHspRZ0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-pAnalIbgMgi3IQTiMXmWgw-1; Thu, 23 Jan 2020 06:20:31 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 259BF477;
- Thu, 23 Jan 2020 11:20:30 +0000 (UTC)
-Received: from gondolin (ovpn-116-120.ams2.redhat.com [10.36.116.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF64C5DA89;
- Thu, 23 Jan 2020 11:20:21 +0000 (UTC)
-Date: Thu, 23 Jan 2020 12:20:18 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH 1/6] tests/acceptance/virtio_seg_max_adjust: Only remove
- listed machines
-Message-ID: <20200123122018.1b6b0ca1.cohuck@redhat.com>
-In-Reply-To: <20200122223247.30419-2-philmd@redhat.com>
-References: <20200122223247.30419-1-philmd@redhat.com>
- <20200122223247.30419-2-philmd@redhat.com>
-Organization: Red Hat GmbH
+ bh=uTjVUYt4wAd20VubywjRYV1osOiBguqJpqhqZYd0Zlg=;
+ b=E1MJrCeP3DC/kA7DRGZ8ULmBPcAJIrsi3E/siUATx8r0zyX3l2NT9oZ2Af6Pwz2YEqHpDt
+ haGNqwC+LbE5Vl1jNc4iPk/gueAbLbOa9mfGbScJInZlMH9zQhdyAOWW97GWmi//BhRlfF
+ 4NLMgQC4js9+k+ggu5rtTocOglbootw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-HeyjdDcYP2ipqOzn_Us7wg-1; Thu, 23 Jan 2020 06:28:53 -0500
+Received: by mail-wm1-f69.google.com with SMTP id m21so279926wmg.6
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 03:28:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uTjVUYt4wAd20VubywjRYV1osOiBguqJpqhqZYd0Zlg=;
+ b=QjHlBb8ZZ/nmx1Cg+GOUvY2eCRaPub7wAlFZsEbrbWueKABdZWECKVmVi/gEDvKpuX
+ IL9ng1XVU/qmBzxwJRPtSC86QJjNZLCXDrL1UbG+S9xr4peEYV4sEDJRkgTjXJkduSj5
+ 3VhnboScT/scFgoumdQAZ6Jj3Kuw25fPECSvW/vLUGdqDDsE+BV5KlsARjPgO9zrWpgS
+ sZgdEY34k96CygYe0ozi2cUU/QQfRDkdWOAcLnRqbcHGwa2UA5Aw2bPhpWRSKCWxIaMo
+ fkcLISmJsXq7pG13v7h66OjsmzZrSUVLo5f2vGPiLGQ83KvuQo9ZSpRTcuqzqbS5kqAQ
+ l02w==
+X-Gm-Message-State: APjAAAVOhuTAw+cKmuDZGXwyy1WcySY5R3H0Fz7BwmP3tveUvXlcnovP
+ IzaiixgL2mOFXmtOAfpCnenhwF/1OjrL4Imcz6i06lg05mJgPg1dcZAD8HindJ3JDYRM9zc5SQq
+ C9sqzSTcJzpBuvZk=
+X-Received: by 2002:a05:6000:118e:: with SMTP id
+ g14mr18069361wrx.39.1579778932146; 
+ Thu, 23 Jan 2020 03:28:52 -0800 (PST)
+X-Google-Smtp-Source: APXvYqySJsWPvAkgplHWRYGeVT6996JqJTIQw02ei2yOcuTK/8lymrdDRl9Is2dW2AZ/fvUtpXvosQ==
+X-Received: by 2002:a05:6000:118e:: with SMTP id
+ g14mr18069341wrx.39.1579778931870; 
+ Thu, 23 Jan 2020 03:28:51 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:b8fe:679e:87eb:c059?
+ ([2001:b07:6468:f312:b8fe:679e:87eb:c059])
+ by smtp.gmail.com with ESMTPSA id r62sm2638124wma.32.2020.01.23.03.28.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jan 2020 03:28:51 -0800 (PST)
+Subject: Re: [PATCH 10/26] object: add object_property_set_defaut_{bool, str, 
+ int, uint}()
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
+References: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
+ <20200110153039.1379601-11-marcandre.lureau@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2a3b0024-fb80-c34d-16fd-78f8bc722807@redhat.com>
+Date: Thu, 23 Jan 2020 12:28:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: pAnalIbgMgi3IQTiMXmWgw-1
+In-Reply-To: <20200110153039.1379601-11-marcandre.lureau@redhat.com>
+Content-Language: en-US
+X-MC-Unique: HeyjdDcYP2ipqOzn_Us7wg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,56 +95,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Jan 2020 23:32:42 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+This patch caught my attention because of the typo in the function, but 
+I also noticed that get_default is never set to anything but 
+object_property_get_defval.
 
-> Do not remove unavailable machines, this fixes:
->=20
->   VirtioMaxSegSettingsCheck.test_machine_types: ERROR: list.remove(x): x =
-not in list (0.12 s)
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  tests/acceptance/virtio_seg_max_adjust.py | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->=20
-> diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptance=
-/virtio_seg_max_adjust.py
-> index 5458573138..4a417b8ef5 100755
-> --- a/tests/acceptance/virtio_seg_max_adjust.py
-> +++ b/tests/acceptance/virtio_seg_max_adjust.py
-> @@ -109,14 +109,15 @@ class VirtioMaxSegSettingsCheck(Test):
->          return False
-> =20
->      def test_machine_types(self):
-> -        # collect all machine types except 'none', 'isapc', 'microvm'
-> +        EXCLUDED_MACHINES =3D ['none', 'isapc', 'microvm']
+What do you think about removing the method and just relying on defval?
+In practice there would be a new patch that squashes 7, 10 and the thing
+after my signature.
 
-That one seems more flexible as well.
+Paolo
 
-> +        # collect all machine types except the ones in EXCLUDED_MACHINES
->          with QEMUMachine(self.qemu_bin) as vm:
->              vm.launch()
->              machines =3D [m['name'] for m in vm.command('query-machines'=
-)]
->              vm.shutdown()
-> -        machines.remove('none')
-> -        machines.remove('isapc')
-> -        machines.remove('microvm')
-> +        for m in EXCLUDED_MACHINES:
-> +            if m in machines:
-> +                machines.remove(m)
-> =20
->          for dev_type in DEV_TYPES:
->              # create the list of machine types and their parameters.
-
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 1ea5c8c..035e41c 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -367,13 +367,6 @@ typedef void (ObjectPropertyRelease)(Object *obj,
+  */
+ typedef void (ObjectPropertyInit)(Object *obj, ObjectProperty *prop);
+ 
+-/**
+- * ObjectPropertyGetDefault:
+- *
+- * Get an allocated string representation of the default value.
+- */
+-typedef char *(ObjectPropertyGetDefault)(ObjectProperty *prop);
+-
+ struct ObjectProperty
+ {
+     gchar *name;
+@@ -384,7 +377,6 @@ struct ObjectProperty
+     ObjectPropertyResolve *resolve;
+     ObjectPropertyRelease *release;
+     ObjectPropertyInit *init;
+-    ObjectPropertyGetDefault *get_default;
+     void *opaque;
+     QObject *defval;
+ };
+diff --git a/qom/object.c b/qom/object.c
+index 2464a9f..aa6cf19 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -1444,15 +1444,6 @@ int64_t object_property_get_int(Object *obj, const char *name,
+     return retval;
+ }
+ 
+-char *object_property_get_default(ObjectProperty *prop)
+-{
+-    if (!prop->get_default) {
+-        return NULL;
+-    }
+-
+-    return prop->get_default(prop);
+-}
+-
+ static void object_property_init_defval(Object *obj, ObjectProperty *prop)
+ {
+     Visitor *v = qobject_input_visitor_new(prop->defval);
+@@ -1463,8 +1454,12 @@ static void object_property_init_defval(Object *obj, ObjectProperty *prop)
+     visit_free(v);
+ }
+ 
+-static char *object_property_get_defval(ObjectProperty *prop)
++char *object_property_get_default(ObjectProperty *prop)
+ {
++    if (!prop->defval) {
++        return NULL;
++    }
++
+     return qstring_free(qobject_to_json(prop->defval), TRUE);
+ }
+ 
+@@ -1472,11 +1467,9 @@ static void object_property_set_default(ObjectProperty *prop, QObject *defval)
+ {
+     assert(!prop->defval);
+     assert(!prop->init);
+-    assert(!prop->get_default);
+ 
+     prop->defval = defval;
+     prop->init = object_property_init_defval;
+-    prop->get_default = object_property_get_defval;
+ }
+ 
+ void object_property_set_default_bool(ObjectProperty *prop, bool value)
+@@ -2610,8 +2603,7 @@ void object_property_add_alias(Object *obj, const char *name,
+         goto out;
+     }
+     op->resolve = property_resolve_alias;
+-    if (target_prop->get_default) {
+-        op->get_default = target_prop->get_default;
++    if (target_prop->defval) {
+         op->defval = qobject_ref(target_prop->defval);
+     }
+ 
 
 
