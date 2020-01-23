@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA501468A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:03:06 +0100 (CET)
-Received: from localhost ([::1]:56704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4A01468DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:17:11 +0100 (CET)
+Received: from localhost ([::1]:56892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuc8W-0004nA-FF
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:03:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40146)
+	id 1iucM9-00070S-Nj
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:17:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40230)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iub8i-0001uI-58
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:13 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iub8m-0001y9-4e
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iub8g-0004uJ-3E
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37240
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iub8k-0004wz-1p
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:15 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30732
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub8f-0004tf-Vf
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:10 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub8i-0004w3-Vq
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780749;
+ s=mimecast20190719; t=1579780752;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7tel/nd2zE/ZyJVWTivJ5OAyTm2pwU+ekwsLBhz3zxc=;
- b=B1mfcGfaTNBdEM1QRqvXOSKMcPtdlRBZnJiMnERIyseLROQeo+u7wXLLnNUzwGsckkrCQl
- wfRwpThr3ilLaZHHcdWfVlG+TeGycux+M7FDbkUQGAf9l3ej3hdFLhHxCiVzNmxCa6N/pX
- 04mP/epi8W2ifhhLcQHQjLplAk9Ckh0=
+ bh=zlNzNyYoxj2lnoNzzGg5/pOhg/YhgfpT3IBucMikk1o=;
+ b=OUTJZGlfWcbQBq0NkalORZJFmGu9nSeKkyb9SAk/thXDBnNP3Aw5M8ZT6YypvEFpEObxnT
+ sRWiTZGD/PsbwrgLTErTduZG/EY3edLh0ddjW3brfGfItgM6gQlFgI9NL6mc7vjd+pHTp/
+ 4PrxmmRFOl7x9HZIPUZLfWToeNMMXHc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-JErQefTdPYutvwsrjReenA-1; Thu, 23 Jan 2020 06:59:07 -0500
+ us-mta-333-GtdpKcLXNTK0GPv32NM3pw-1; Thu, 23 Jan 2020 06:59:10 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EDA18010C9
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CC3E8010C9
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:09 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A88691CB;
- Thu, 23 Jan 2020 11:59:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9F0985754;
+ Thu, 23 Jan 2020 11:59:08 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 015/111] virtiofsd: Make fsync work even if only inode is
- passed in
-Date: Thu, 23 Jan 2020 11:57:05 +0000
-Message-Id: <20200123115841.138849-16-dgilbert@redhat.com>
+Subject: [PULL 018/111] virtiofsd: Open vhost connection instead of mounting
+Date: Thu, 23 Jan 2020 11:57:08 +0000
+Message-Id: <20200123115841.138849-19-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: JErQefTdPYutvwsrjReenA-1
+X-MC-Unique: GtdpKcLXNTK0GPv32NM3pw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,84 +74,248 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vivek Goyal <vgoyal@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-If caller has not sent file handle in request, then using inode, retrieve
-the fd opened using O_PATH and use that to open file again and issue
-fsync. This will be needed when dax_flush() calls fsync. At that time
-we only have inode information (and not file).
+When run with vhost-user options we conect to the QEMU instead
+via a socket.  Start this off by creating the socket.
 
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c  |  6 +++++-
- tools/virtiofsd/passthrough_ll.c | 28 ++++++++++++++++++++++++++--
- 2 files changed, 31 insertions(+), 3 deletions(-)
+ tools/virtiofsd/fuse_i.h        |  7 ++-
+ tools/virtiofsd/fuse_lowlevel.c | 55 +++--------------------
+ tools/virtiofsd/fuse_virtio.c   | 79 +++++++++++++++++++++++++++++++++
+ tools/virtiofsd/fuse_virtio.h   | 23 ++++++++++
+ 4 files changed, 114 insertions(+), 50 deletions(-)
+ create mode 100644 tools/virtiofsd/fuse_virtio.c
+ create mode 100644 tools/virtiofsd/fuse_virtio.h
 
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index 26b1a7da88..82d6ac7115 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -6,9 +6,10 @@
+  * See the file COPYING.LIB
+  */
+=20
+-#define FUSE_USE_VERSION 31
+-
++#ifndef FUSE_I_H
++#define FUSE_I_H
+=20
++#define FUSE_USE_VERSION 31
+ #include "fuse.h"
+ #include "fuse_lowlevel.h"
+=20
+@@ -101,3 +102,5 @@ void fuse_session_process_buf_int(struct fuse_session *=
+se,
+=20
+ /* room needed in buffer to accommodate header */
+ #define FUSE_BUFFER_HEADER_SIZE 0x1000
++
++#endif
 diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
 l.c
-index 514d79cb24..8552cfb8af 100644
+index 17e8718283..5df124e64b 100644
 --- a/tools/virtiofsd/fuse_lowlevel.c
 +++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -1075,7 +1075,11 @@ static void do_fsync(fuse_req_t req, fuse_ino_t node=
-id, const void *inarg)
-     fi.fh =3D arg->fh;
+@@ -14,6 +14,7 @@
+ #include "standard-headers/linux/fuse.h"
+ #include "fuse_misc.h"
+ #include "fuse_opt.h"
++#include "fuse_virtio.h"
 =20
-     if (req->se->op.fsync) {
--        req->se->op.fsync(req, nodeid, datasync, &fi);
-+        if (fi.fh =3D=3D (uint64_t)-1) {
-+            req->se->op.fsync(req, nodeid, datasync, NULL);
-+        } else {
-+            req->se->op.fsync(req, nodeid, datasync, &fi);
-+        }
-     } else {
-         fuse_reply_err(req, ENOSYS);
+ #include <assert.h>
+ #include <errno.h>
+@@ -2202,6 +2203,11 @@ struct fuse_session *fuse_session_new(struct fuse_ar=
+gs *args,
+         goto out4;
      }
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 6c4da18075..26ac87013b 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -903,10 +903,34 @@ static void lo_fsync(fuse_req_t req, fuse_ino_t ino, =
-int datasync,
+=20
++    if (!se->vu_socket_path) {
++        fprintf(stderr, "fuse: missing -o vhost_user_socket option\n");
++        goto out4;
++    }
++
+     se->bufsize =3D FUSE_MAX_MAX_PAGES * getpagesize() + FUSE_BUFFER_HEADE=
+R_SIZE;
+=20
+     list_init_req(&se->list);
+@@ -2224,54 +2230,7 @@ out1:
+=20
+ int fuse_session_mount(struct fuse_session *se)
  {
-     int res;
-     (void)ino;
-+    int fd;
-+    char *buf;
-+
-+    fuse_log(FUSE_LOG_DEBUG, "lo_fsync(ino=3D%" PRIu64 ", fi=3D0x%p)\n", i=
-no,
-+             (void *)fi);
-+
-+    if (!fi) {
-+        res =3D asprintf(&buf, "/proc/self/fd/%i", lo_fd(req, ino));
-+        if (res =3D=3D -1) {
-+            return (void)fuse_reply_err(req, errno);
-+        }
-+
-+        fd =3D open(buf, O_RDWR);
-+        free(buf);
-+        if (fd =3D=3D -1) {
-+            return (void)fuse_reply_err(req, errno);
-+        }
-+    } else {
-+        fd =3D fi->fh;
-+    }
-+
-     if (datasync) {
--        res =3D fdatasync(fi->fh);
-+        res =3D fdatasync(fd);
-     } else {
--        res =3D fsync(fi->fh);
-+        res =3D fsync(fd);
-+    }
-+    if (!fi) {
-+        close(fd);
-     }
-     fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
+-    int fd;
+-
+-    /*
+-     * Make sure file descriptors 0, 1 and 2 are open, otherwise chaos
+-     * would ensue.
+-     */
+-    do {
+-        fd =3D open("/dev/null", O_RDWR);
+-        if (fd > 2) {
+-            close(fd);
+-        }
+-    } while (fd >=3D 0 && fd <=3D 2);
+-
+-    /*
+-     * To allow FUSE daemons to run without privileges, the caller may ope=
+n
+-     * /dev/fuse before launching the file system and pass on the file
+-     * descriptor by specifying /dev/fd/N as the mount point. Note that th=
+e
+-     * parent process takes care of performing the mount in this case.
+-     */
+-    fd =3D fuse_mnt_parse_fuse_fd(mountpoint);
+-    if (fd !=3D -1) {
+-        if (fcntl(fd, F_GETFD) =3D=3D -1) {
+-            fuse_log(FUSE_LOG_ERR, "fuse: Invalid file descriptor /dev/fd/=
+%u\n",
+-                     fd);
+-            return -1;
+-        }
+-        se->fd =3D fd;
+-        return 0;
+-    }
+-
+-    /* Open channel */
+-    fd =3D fuse_kern_mount(mountpoint, se->mo);
+-    if (fd =3D=3D -1) {
+-        return -1;
+-    }
+-    se->fd =3D fd;
+-
+-    /* Save mountpoint */
+-    se->mountpoint =3D strdup(mountpoint);
+-    if (se->mountpoint =3D=3D NULL) {
+-        goto error_out;
+-    }
+-
+-    return 0;
+-
+-error_out:
+-    fuse_kern_unmount(mountpoint, fd);
+-    return -1;
++    return virtio_session_mount(se);
  }
+=20
+ int fuse_session_fd(struct fuse_session *se)
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+new file mode 100644
+index 0000000000..cbef6ffdda
+--- /dev/null
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -0,0 +1,79 @@
++/*
++ * virtio-fs glue for FUSE
++ * Copyright (C) 2018 Red Hat, Inc. and/or its affiliates
++ *
++ * Authors:
++ *   Dave Gilbert  <dgilbert@redhat.com>
++ *
++ * Implements the glue between libfuse and libvhost-user
++ *
++ * This program can be distributed under the terms of the GNU LGPLv2.
++ * See the file COPYING.LIB
++ */
++
++#include "fuse_i.h"
++#include "standard-headers/linux/fuse.h"
++#include "fuse_misc.h"
++#include "fuse_opt.h"
++#include "fuse_virtio.h"
++
++#include <stdint.h>
++#include <stdio.h>
++#include <string.h>
++#include <sys/socket.h>
++#include <sys/types.h>
++#include <sys/un.h>
++#include <unistd.h>
++
++/* From spec */
++struct virtio_fs_config {
++    char tag[36];
++    uint32_t num_queues;
++};
++
++int virtio_session_mount(struct fuse_session *se)
++{
++    struct sockaddr_un un;
++    mode_t old_umask;
++
++    if (strlen(se->vu_socket_path) >=3D sizeof(un.sun_path)) {
++        fuse_log(FUSE_LOG_ERR, "Socket path too long\n");
++        return -1;
++    }
++
++    se->fd =3D -1;
++
++    /*
++     * Create the Unix socket to communicate with qemu
++     * based on QEMU's vhost-user-bridge
++     */
++    unlink(se->vu_socket_path);
++    strcpy(un.sun_path, se->vu_socket_path);
++    size_t addr_len =3D sizeof(un);
++
++    int listen_sock =3D socket(AF_UNIX, SOCK_STREAM, 0);
++    if (listen_sock =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "vhost socket creation: %m\n");
++        return -1;
++    }
++    un.sun_family =3D AF_UNIX;
++
++    /*
++     * Unfortunately bind doesn't let you set the mask on the socket,
++     * so set umask to 077 and restore it later.
++     */
++    old_umask =3D umask(0077);
++    if (bind(listen_sock, (struct sockaddr *)&un, addr_len) =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "vhost socket bind: %m\n");
++        umask(old_umask);
++        return -1;
++    }
++    umask(old_umask);
++
++    if (listen(listen_sock, 1) =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "vhost socket listen: %m\n");
++        return -1;
++    }
++
++    return -1;
++}
+diff --git a/tools/virtiofsd/fuse_virtio.h b/tools/virtiofsd/fuse_virtio.h
+new file mode 100644
+index 0000000000..8f2edb69ca
+--- /dev/null
++++ b/tools/virtiofsd/fuse_virtio.h
+@@ -0,0 +1,23 @@
++/*
++ * virtio-fs glue for FUSE
++ * Copyright (C) 2018 Red Hat, Inc. and/or its affiliates
++ *
++ * Authors:
++ *   Dave Gilbert  <dgilbert@redhat.com>
++ *
++ * Implements the glue between libfuse and libvhost-user
++ *
++ * This program can be distributed under the terms of the GNU LGPLv2.
++ *  See the file COPYING.LIB
++ */
++
++#ifndef FUSE_VIRTIO_H
++#define FUSE_VIRTIO_H
++
++#include "fuse_i.h"
++
++struct fuse_session;
++
++int virtio_session_mount(struct fuse_session *se);
++
++#endif
 --=20
 2.24.1
 
