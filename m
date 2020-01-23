@@ -2,43 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3B214635A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:20:39 +0100 (CET)
-Received: from localhost ([::1]:52774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32ADB146361
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:23:06 +0100 (CET)
+Received: from localhost ([::1]:52936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXjB-000602-R4
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:20:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53352)
+	id 1iuXlY-0000aF-ID
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:23:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <johannes@sipsolutions.net>) id 1iuXfx-00020e-G3
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:17:19 -0500
+ (envelope-from <armbru@redhat.com>) id 1iuXjs-00080q-QB
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:21:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <johannes@sipsolutions.net>) id 1iuXfv-0005lc-N4
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:17:17 -0500
-Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:35510
- helo=sipsolutions.net)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
- id 1iuXfv-0005jH-GF
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:17:15 -0500
-Received: by sipsolutions.net with esmtpsa
- (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.93) (envelope-from <johannes@sipsolutions.net>)
- id 1iuXfu-00FGF5-96; Thu, 23 Jan 2020 09:17:14 +0100
-From: Johannes Berg <johannes@sipsolutions.net>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 6/6] libvhost-user: implement in-band notifications
-Date: Thu, 23 Jan 2020 09:17:08 +0100
-Message-Id: <20200123081708.7817-7-johannes@sipsolutions.net>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200123081708.7817-1-johannes@sipsolutions.net>
-References: <20200123081708.7817-1-johannes@sipsolutions.net>
+ (envelope-from <armbru@redhat.com>) id 1iuXjq-0001hm-80
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:21:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60963
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iuXjq-0001h6-3G
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:21:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579767677;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ILqPFNt0idVIU2/k8UfJS2Y/3wTjfynlJ4HusQkCCZ8=;
+ b=haB5QFP3JvcCRB9dlt9WcnRFAik2Vj5RW16rfdgZ0eTbpDVFc/NwBxGZQXEutrmOW+gwG0
+ 2OwYsIaiDYgX42dE0T38UIJWwFUYvdScjdgF7WH+JzvvJp9QZBXej2EeDw+YaEzzwYcg+m
+ zdQCLxbHtVnJdPQTXw2TYB4QxmgXFeo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-U7Y41MzrPqqW0S5RBx-hww-1; Thu, 23 Jan 2020 03:21:15 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AA1C107ACC4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 08:21:14 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
+ [10.36.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A91B25C298;
+ Thu, 23 Jan 2020 08:21:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3B12B1138600; Thu, 23 Jan 2020 09:21:10 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH] qapi: Incorrect attempt to fix building with
+ MC146818RTC=n
+References: <20191231184916.10235-1-philmd@redhat.com>
+ <875zhfzc9l.fsf@dusky.pond.sub.org>
+ <a06fd97c-b149-2f24-1180-4e4efa8ff79d@redhat.com>
+ <87wo9ll5on.fsf@dusky.pond.sub.org>
+ <b0559940-7b97-901b-5729-587d8649eede@redhat.com>
+ <87lfq0c2jq.fsf@dusky.pond.sub.org>
+ <CABgObfaPrbbx6Bw0Cj14evAvA_TSUo-+iOCkBzEBfPVn6qDLBg@mail.gmail.com>
+ <87tv4oyrnj.fsf@dusky.pond.sub.org>
+ <3b991266-de2a-a9a6-ef68-1791f7bd838b@redhat.com>
+Date: Thu, 23 Jan 2020 09:21:10 +0100
+In-Reply-To: <3b991266-de2a-a9a6-ef68-1791f7bd838b@redhat.com> (Paolo
+ Bonzini's message of "Wed, 22 Jan 2020 15:30:59 +0100")
+Message-ID: <878slybn2h.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a01:4f8:191:4433::2
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: U7Y41MzrPqqW0S5RBx-hww-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,247 +84,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Johannes Berg <johannes.berg@intel.com>, mst@redhat.com
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Johannes Berg <johannes.berg@intel.com>
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Add support for VHOST_USER_PROTOCOL_F_IN_BAND_NOTIFICATIONS, but
-as it's not desired by default, don't enable it unless the device
-implementation opts in by returning it from its protocol features
-callback.
+> On 22/01/20 06:41, Markus Armbruster wrote:
+>> Paolo Bonzini <pbonzini@redhat.com> writes:
+>>=20
+>>> Il mar 21 gen 2020, 15:22 Markus Armbruster <armbru@redhat.com> ha scri=
+tto:
+>>>
+>>>>> To see it a different way, these are the "C bindings" to QMP, just th=
+at
+>>>>> the implementation is an in-process call rather than RPC.  If the QAP=
+I
+>>>>> code generator was also able to generate Python bindings and the like=
+,
+>>>>> they would have to be the same for all QEMU binaries, wouldn't they?
+>>>>
+>>>> Ommitting the kind of #if we've been discussing is relatively harmless
+>>>> but what about this one, in qapi-types-block-core.h:
+>>>>
+>>>>     typedef enum BlockdevDriver {
+>>>>         BLOCKDEV_DRIVER_BLKDEBUG,
+>>>>         [...]
+>>>>     #if defined(CONFIG_REPLICATION)
+>>>>         BLOCKDEV_DRIVER_REPLICATION,
+>>>>     #endif /* defined(CONFIG_REPLICATION) */
+>>>>         [...]
+>>>>         BLOCKDEV_DRIVER__MAX,
+>>>>     } BlockdevDriver;
+>>>>
+>>>
+>>> Well, I don't think this should be conditional at all. Introspection is=
+ a
+>>> tool to detect unsupported features, not working features.
+>>=20
+>> Isn't this what it does?  To detect "replication" is unsupported, check
+>> whether it's absent, and "supported" does not imply "works".
+>
+> Indeed...
+>
+>>>                                                            KVM will be
+>>> present in introspection data even if /dev/kvm doesn't exist on your
+>>> machine or you don't have permission to access it.
+>>=20
+>> Yes.
+>>=20
+>> QAPI/QMP introspection is compile-time static by design.  It can't tell
+>> you more than "this QEMU build supports X".
+>
+> ... and I think it would be fine even if it told you less: "this QEMU
+> will not give a parse error if X appears in QMP syntax".  For example,
+> QEMU could accept "replication" even if CONFIG_REPLICATION is not
+> defined and therefore using it would always fail.  This would allow
+> limiting even more use of conditional compilation.
 
-Note that I updated vu_set_vring_err_exec(), but didn't add any
-sending of the VHOST_USER_SLAVE_VRING_ERR message as there's no
-write to the err_fd today either.
+This is effectively how things worked before we added 'if' to the QAPI
+schema language.
 
-This also adds vu_queue_notify_sync() which can be used to force
-a synchronous notification if inband notifications are supported.
-Previously, I had left out the slave->master direction handling
-of F_REPLY_ACK, this now adds some code to support it as well.
+A feature F may
 
-Signed-off-by: Johannes Berg <johannes.berg@intel.com>
----
- contrib/libvhost-user/libvhost-user.c | 103 +++++++++++++++++++++++++-
- contrib/libvhost-user/libvhost-user.h |  14 ++++
- 2 files changed, 114 insertions(+), 3 deletions(-)
+(1) not exist in this version of QEMU
 
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index 34d08e2fc4be..5cb8e6e32158 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -136,6 +136,7 @@ vu_request_to_string(unsigned int req)
-         REQ(VHOST_USER_GET_INFLIGHT_FD),
-         REQ(VHOST_USER_SET_INFLIGHT_FD),
-         REQ(VHOST_USER_GPU_SET_SOCKET),
-+        REQ(VHOST_USER_VRING_KICK),
-         REQ(VHOST_USER_MAX),
-     };
- #undef REQ
-@@ -163,7 +164,10 @@ vu_panic(VuDev *dev, const char *msg, ...)
-     dev->panic(dev, buf);
-     free(buf);
- 
--    /* FIXME: find a way to call virtio_error? */
-+    /*
-+     * FIXME:
-+     * find a way to call virtio_error, or perhaps close the connection?
-+     */
- }
- 
- /* Translate guest physical address to our virtual address.  */
-@@ -1172,6 +1176,14 @@ vu_set_vring_err_exec(VuDev *dev, VhostUserMsg *vmsg)
- static bool
- vu_get_protocol_features_exec(VuDev *dev, VhostUserMsg *vmsg)
- {
-+    /*
-+     * Note that we support, but intentionally do not set,
-+     * VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS. This means that
-+     * a device implementation can return it in its callback
-+     * (get_protocol_features) if it wants to use this for
-+     * simulation, but it is otherwise not desirable (if even
-+     * implemented by the master.)
-+     */
-     uint64_t features = 1ULL << VHOST_USER_PROTOCOL_F_MQ |
-                         1ULL << VHOST_USER_PROTOCOL_F_LOG_SHMFD |
-                         1ULL << VHOST_USER_PROTOCOL_F_SLAVE_REQ |
-@@ -1204,6 +1216,25 @@ vu_set_protocol_features_exec(VuDev *dev, VhostUserMsg *vmsg)
- 
-     dev->protocol_features = vmsg->payload.u64;
- 
-+    if (vu_has_protocol_feature(dev,
-+                                VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS) &&
-+        (!vu_has_protocol_feature(dev, VHOST_USER_PROTOCOL_F_SLAVE_REQ) ||
-+         !vu_has_protocol_feature(dev, VHOST_USER_PROTOCOL_F_REPLY_ACK))) {
-+        /*
-+         * The use case for using messages for kick/call is simulation, to make
-+         * the kick and call synchronous. To actually get that behaviour, both
-+         * of the other features are required.
-+         * Theoretically, one could use only kick messages, or do them without
-+         * having F_REPLY_ACK, but too many (possibly pending) messages on the
-+         * socket will eventually cause the master to hang, to avoid this in
-+         * scenarios where not desired enforce that the settings are in a way
-+         * that actually enables the simulation case.
-+         */
-+        vu_panic(dev,
-+                 "F_IN_BAND_NOTIFICATIONS requires F_SLAVE_REQ && F_REPLY_ACK");
-+        return false;
-+    }
-+
-     if (dev->iface->set_protocol_features) {
-         dev->iface->set_protocol_features(dev, features);
-     }
-@@ -1464,6 +1495,34 @@ vu_set_inflight_fd(VuDev *dev, VhostUserMsg *vmsg)
-     return false;
- }
- 
-+static bool
-+vu_handle_vring_kick(VuDev *dev, VhostUserMsg *vmsg)
-+{
-+    unsigned int index = vmsg->payload.state.index;
-+
-+    if (index >= dev->max_queues) {
-+        vu_panic(dev, "Invalid queue index: %u", index);
-+        return false;
-+    }
-+
-+    DPRINT("Got kick message: handler:%p idx:%d\n",
-+           dev->vq[index].handler, index);
-+
-+    if (!dev->vq[index].started) {
-+        dev->vq[index].started = true;
-+
-+        if (dev->iface->queue_set_started) {
-+            dev->iface->queue_set_started(dev, index, true);
-+        }
-+    }
-+
-+    if (dev->vq[index].handler) {
-+        dev->vq[index].handler(dev, index);
-+    }
-+
-+    return false;
-+}
-+
- static bool
- vu_process_message(VuDev *dev, VhostUserMsg *vmsg)
- {
-@@ -1546,6 +1605,8 @@ vu_process_message(VuDev *dev, VhostUserMsg *vmsg)
-         return vu_get_inflight_fd(dev, vmsg);
-     case VHOST_USER_SET_INFLIGHT_FD:
-         return vu_set_inflight_fd(dev, vmsg);
-+    case VHOST_USER_VRING_KICK:
-+        return vu_handle_vring_kick(dev, vmsg);
-     default:
-         vmsg_close_fds(vmsg);
-         vu_panic(dev, "Unhandled request: %d", vmsg->request);
-@@ -2005,8 +2066,7 @@ vring_notify(VuDev *dev, VuVirtq *vq)
-     return !v || vring_need_event(vring_get_used_event(vq), new, old);
- }
- 
--void
--vu_queue_notify(VuDev *dev, VuVirtq *vq)
-+static void _vu_queue_notify(VuDev *dev, VuVirtq *vq, bool sync)
- {
-     if (unlikely(dev->broken) ||
-         unlikely(!vq->vring.avail)) {
-@@ -2018,11 +2078,48 @@ vu_queue_notify(VuDev *dev, VuVirtq *vq)
-         return;
-     }
- 
-+    if (vq->call_fd < 0 &&
-+        vu_has_protocol_feature(dev,
-+                                VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS) &&
-+        vu_has_protocol_feature(dev, VHOST_USER_PROTOCOL_F_SLAVE_REQ)) {
-+        VhostUserMsg vmsg = {
-+            .request = VHOST_USER_SLAVE_VRING_CALL,
-+            .flags = VHOST_USER_VERSION,
-+            .size = sizeof(vmsg.payload.state),
-+            .payload.state = {
-+                .index = vq - dev->vq,
-+            },
-+        };
-+        bool ack = sync &&
-+                   vu_has_protocol_feature(dev,
-+                                           VHOST_USER_PROTOCOL_F_REPLY_ACK);
-+
-+        if (ack) {
-+            vmsg.flags |= VHOST_USER_NEED_REPLY_MASK;
-+        }
-+
-+        vu_message_write(dev, dev->slave_fd, &vmsg);
-+        if (ack) {
-+            vu_message_read(dev, dev->slave_fd, &vmsg);
-+        }
-+        return;
-+    }
-+
-     if (eventfd_write(vq->call_fd, 1) < 0) {
-         vu_panic(dev, "Error writing eventfd: %s", strerror(errno));
-     }
- }
- 
-+void vu_queue_notify(VuDev *dev, VuVirtq *vq)
-+{
-+    _vu_queue_notify(dev, vq, false);
-+}
-+
-+void vu_queue_notify_sync(VuDev *dev, VuVirtq *vq)
-+{
-+    _vu_queue_notify(dev, vq, true);
-+}
-+
- static inline void
- vring_used_flags_set_bit(VuVirtq *vq, int mask)
- {
-diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index 46b600799b2e..cd12cbd92cc5 100644
---- a/contrib/libvhost-user/libvhost-user.h
-+++ b/contrib/libvhost-user/libvhost-user.h
-@@ -53,6 +53,7 @@ enum VhostUserProtocolFeature {
-     VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD = 10,
-     VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
-     VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
-+    VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS = 14,
- 
-     VHOST_USER_PROTOCOL_F_MAX
- };
-@@ -94,6 +95,7 @@ typedef enum VhostUserRequest {
-     VHOST_USER_GET_INFLIGHT_FD = 31,
-     VHOST_USER_SET_INFLIGHT_FD = 32,
-     VHOST_USER_GPU_SET_SOCKET = 33,
-+    VHOST_USER_VRING_KICK = 35,
-     VHOST_USER_MAX
- } VhostUserRequest;
- 
-@@ -102,6 +104,8 @@ typedef enum VhostUserSlaveRequest {
-     VHOST_USER_SLAVE_IOTLB_MSG = 1,
-     VHOST_USER_SLAVE_CONFIG_CHANGE_MSG = 2,
-     VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG = 3,
-+    VHOST_USER_SLAVE_VRING_CALL = 4,
-+    VHOST_USER_SLAVE_VRING_ERR = 5,
-     VHOST_USER_SLAVE_MAX
- }  VhostUserSlaveRequest;
- 
-@@ -522,6 +526,16 @@ bool vu_queue_empty(VuDev *dev, VuVirtq *vq);
-  */
- void vu_queue_notify(VuDev *dev, VuVirtq *vq);
- 
-+/**
-+ * vu_queue_notify_sync:
-+ * @dev: a VuDev context
-+ * @vq: a VuVirtq queue
-+ *
-+ * Request to notify the queue via callfd (skipped if unnecessary)
-+ * or sync message if possible.
-+ */
-+void vu_queue_notify_sync(VuDev *dev, VuVirtq *vq);
-+
- /**
-  * vu_queue_pop:
-  * @dev: a VuDev context
--- 
-2.24.1
+(2) exist, but configured off for this build of QEMU
+
+(3) be present in this build of QEMU
+
+When the management application sees (1) or (2), it knows that using F
+cannot possibly work no matter what you do to the host short of using
+another build of QEMU.  The management application can then reject
+attempts to use F with a useful error message, or make such attempts
+impossible (think graying out menu entries).
+
+When the management application sees (3), it still needs to be prepared
+for actual use to fail.  Possible failures depend on the feature.
+Identifying the various kinds of failures can be awkward and/or brittle.
+Useful error reporting is often hard.
+
+A management application doesn't care for the difference between (1) and
+(2).  We added 'if' to the QAPI schema language in part to make the
+difference disappear.
+
+Without it, introspection munges together (2) and (3) instead.  The
+management application's information degrades from "the QEMU I have does
+not provide F" to "something went wrong".  Perhaps the management
+application can figure out what went wrong, perhaps it can't.  Perhaps
+it doesn't need to know.
+
+My point is: we trade away information at the external interface for the
+benefit of "limiting even more use of conditional compilation".  I doubt
+that's a good trade, not least because I can't quite see how exactly the
+benefit is, well, beneficial[*].
+
+Anyway, we've had introspection reflect compile time configuration since
+v3.0.0.  I don't think we can break that now.
+
+
+
+[*] It saves us including headers we really should be including.
+Anything else?
 
 
