@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F3AD146AE1
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:10:39 +0100 (CET)
-Received: from localhost ([::1]:57708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252D8146B0B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:19:42 +0100 (CET)
+Received: from localhost ([::1]:57840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iudBu-0006Yk-2B
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:10:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41289)
+	id 1iudKe-000101-R5
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:19:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41373)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iubAO-0003z9-PZ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:00:57 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iubAS-00042M-VE
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iubAJ-0006Cp-BE
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:00:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51706
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iubAR-0006KP-9U
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:00 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48158
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAH-00068I-B4
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:00:50 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAR-0006Ej-2N
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:00:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780845;
+ s=mimecast20190719; t=1579780854;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6Tgsuz0515jUU3tlQilcNU5ypUdTbKqTJOhwN9PRTaY=;
- b=GKHpjlCHbAJhUK2AhAd8c2vjBj3dZRnxlV2KkMVV41UGDuNNDRmzdCHV1VJNdOxgJNZwjl
- muEX1xyLHBOHk+cDrLUNicFjdWRhTVc+1mrjFuWesI3g4Lhz+jCTIS4dBpbqNcWaVV+Tj9
- 0M3rMGNWecZVpVGs/DAg8K+yaytimAs=
+ bh=imqdhMqGGCbqFjXzn1OvJMNkpWKq8bLqQVnL1jcujuQ=;
+ b=PsBMTvdwbDcdJJ0yoTUuLDLMPcdNFYU+DOCrrr702w54HGdyFvzkWo4XIu6BmiUnTlyRVs
+ DpYD9v+pNBzId8cdeBy5kciSDg2ABEJWGNnfOJkdc1WY7hhk+WErECdnEH/ir0fVZZWdDe
+ mjvFpyigk/1CaTMpuzfZvYgvIjeIv+E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-gr1xjE_bM2SuEsou4I0WUA-1; Thu, 23 Jan 2020 07:00:43 -0500
+ us-mta-299-jm_InuB6NGCKyAE7aE0mfA-1; Thu, 23 Jan 2020 07:00:46 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BE6418A6ECE
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:00:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08598801E6D
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:00:45 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 552841CB;
- Thu, 23 Jan 2020 12:00:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53AE81CB;
+ Thu, 23 Jan 2020 12:00:44 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 077/111] virtiofsd: Clean up inodes on destroy
-Date: Thu, 23 Jan 2020 11:58:07 +0000
-Message-Id: <20200123115841.138849-78-dgilbert@redhat.com>
+Subject: [PULL 079/111] virtiofsd: fix error handling in main()
+Date: Thu, 23 Jan 2020 11:58:09 +0000
+Message-Id: <20200123115841.138849-80-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: gr1xjE_bM2SuEsou4I0WUA-1
+X-MC-Unique: jm_InuB6NGCKyAE7aE0mfA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,74 +74,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Liu Bo <bo.liu@linux.alibaba.com>
 
-Clear out our inodes and fd's on a 'destroy' - so we get rid
-of them if we reboot the guest.
+Neither fuse_parse_cmdline() nor fuse_opt_parse() goes to the right place
+to do cleanup.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Liu Bo <bo.liu@linux.alibaba.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ tools/virtiofsd/passthrough_ll.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index b176a314d6..9ed77a17fd 100644
+index 9ed77a17fd..af050c6d97 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -1169,6 +1169,25 @@ static void unref_inode_lolocked(struct lo_data *lo,=
- struct lo_inode *inode,
+@@ -2443,13 +2443,14 @@ int main(int argc, char *argv[])
+     lo_map_init(&lo.fd_map);
+=20
+     if (fuse_parse_cmdline(&args, &opts) !=3D 0) {
+-        return 1;
++        goto err_out1;
      }
- }
-=20
-+static int unref_all_inodes_cb(gpointer key, gpointer value, gpointer user=
-_data)
-+{
-+    struct lo_inode *inode =3D value;
-+    struct lo_data *lo =3D user_data;
-+
-+    inode->refcount =3D 0;
-+    lo_map_remove(&lo->ino_map, inode->fuse_ino);
-+    close(inode->fd);
-+
-+    return TRUE;
-+}
-+
-+static void unref_all_inodes(struct lo_data *lo)
-+{
-+    pthread_mutex_lock(&lo->mutex);
-+    g_hash_table_foreach_remove(lo->inodes, unref_all_inodes_cb, lo);
-+    pthread_mutex_unlock(&lo->mutex);
-+}
-+
- static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup=
-)
- {
-     struct lo_data *lo =3D lo_data(req);
-@@ -2035,6 +2054,12 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino,=
- off_t off, int whence,
+     fuse_set_log_func(log_func);
+     use_syslog =3D opts.syslog;
+     if (use_syslog) {
+         openlog("virtiofsd", LOG_PID, LOG_DAEMON);
      }
- }
-=20
-+static void lo_destroy(void *userdata)
-+{
-+    struct lo_data *lo =3D (struct lo_data *)userdata;
-+    unref_all_inodes(lo);
-+}
 +
- static struct fuse_lowlevel_ops lo_oper =3D {
-     .init =3D lo_init,
-     .lookup =3D lo_lookup,
-@@ -2073,6 +2098,7 @@ static struct fuse_lowlevel_ops lo_oper =3D {
-     .copy_file_range =3D lo_copy_file_range,
- #endif
-     .lseek =3D lo_lseek,
-+    .destroy =3D lo_destroy,
- };
+     if (opts.show_help) {
+         printf("usage: %s [options]\n\n", argv[0]);
+         fuse_cmdline_help();
+@@ -2468,7 +2469,7 @@ int main(int argc, char *argv[])
+     }
 =20
- /* Print vhost-user.json backend program capabilities */
+     if (fuse_opt_parse(&args, &lo, lo_opts, NULL) =3D=3D -1) {
+-        return 1;
++        goto err_out1;
+     }
+=20
+     /*
 --=20
 2.24.1
 
