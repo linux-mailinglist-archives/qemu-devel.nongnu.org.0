@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BE0146DF0
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:13:11 +0100 (CET)
-Received: from localhost ([::1]:60116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA585146E2C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:17:28 +0100 (CET)
+Received: from localhost ([::1]:60182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuf6T-0007Uq-SU
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:13:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51531)
+	id 1iufAd-0004vg-Mx
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:17:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51541)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrT-00057E-Rx
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:32 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrU-00058G-ID
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrS-0003ZU-Rw
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:31 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37077)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrT-0003aT-EG
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:32 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41200)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrS-0003XL-Ko
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:30 -0500
-Received: by mail-wm1-x335.google.com with SMTP id f129so2613150wmf.2
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:30 -0800 (PST)
+ id 1iucrT-0003Z4-8F
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:31 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id c9so3133416wrw.8
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ivjz8iFRMvc+SVdpsYBWr7dQMjtFmxs9hPvui4StZIM=;
- b=n8Q7bErZI9CmlPWMT/KqNpKwm4f6wNLx/I5raQ6DuS8QSxtjP1disioZ8VQ6mk74ta
- J/3HykrYEC0hObby+PKJ7x4OalAD8V89mjBP996lG7p3m+NNPpcAPT06Jf9YCj1o7qRX
- pVrh+iqjNicFLB3jS2mVKGtpHSwZ28OO9YaGxzmQuDBeoVOvkZjkeR8Izt8A4DjypKcd
- JnhJuSq/5YD7nHPZtsj7X4pvCqLQe7wgFSC1fYzc5FOfZeneO0BKz0vO09XuSCdp1mG0
- /TOAORfBD/I2rddWZkNEHkmhONLkaq+/8CaSpz7BKRPhnY9+CJS0EgSBN2evX8bJmxma
- eiNA==
+ bh=idj0iLjmr8/TQLyRKf/J4FXSH6m29VJlJH1Xg+Aogq4=;
+ b=kIX3Uo2jeXIPWKsQBH8CLaq3IunRXUHkOg2cB1d7RzN/2KTuxu4dS7sOuDThGGD3mX
+ rdBR9WkrGk7LnYXOYfPloxPhfNv9cfdARgMF/P24Z1GMYe099Lz4tanT3ZjqzO62K6tQ
+ 75GUOhMY8SswlG8EP9o0fKD8xkF7RPah/u7bS6GCDK+VCzUj5xCEplhOzPt1gwMkgxxc
+ EIBHFBdxjMSKM00kAlik+lc7qhyJSv8CL3345DKoMZY6wKOKnVj9FeACzgOHPWvPWtL2
+ 2sHSCw69V9K2NYZQGB92h0Rr1gMMUwSENAZmR2D8BhKjrROmSWTUhEiUUOoazKtAvv83
+ QU2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Ivjz8iFRMvc+SVdpsYBWr7dQMjtFmxs9hPvui4StZIM=;
- b=A6uXbQSL2T8Gh1KH6B1pvCjjhXiqxtk2kCvNQDXOsoUEtFTcrLeFPMaKzCwWGROB6P
- zcPNvXdQHxfMQ0GvNNGwY9nZtWvSahA0XrHGQWMvqOj4APDkdVLQviupSf1t6vPsigiX
- Ytx6zOpctysK3sNxc+Q/YVu8jHfQ/zgB/yOwtKYxEkOUgBa3sZVu4LYTdjRCwulicsvj
- fqrWiyLykvLOuBK6Pjqt+2Hw99ta+V2fII1DFgFp/DKHAXsOU0QtPYHAmSMOJfJspp+J
- g+lf5IOk5UJ+47LS08rsE9Do07ssD+LYuprTY12JBGxuIuC0AAG0/5nf7sqY3Tf0xt9i
- J9kQ==
-X-Gm-Message-State: APjAAAWvC5O9/qJwx1cTtoI89aFeQXa7eHjMiuLjPXVO+v5fMksU8iWk
- mI2fMAwgdHwR8kfTcGm86Wr2WhH8
-X-Google-Smtp-Source: APXvYqxHdkDyTRvX6t4qjPGYoHgDv269GRN7RdA3ICvXT4bW+315NyDW3Zon+xgnq/G+wgfC3PvMXQ==
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr3417363wmi.116.1579787369415; 
- Thu, 23 Jan 2020 05:49:29 -0800 (PST)
+ bh=idj0iLjmr8/TQLyRKf/J4FXSH6m29VJlJH1Xg+Aogq4=;
+ b=jvGmCvsZa4lHziHRoi+WckAGs0ApDcq3km/T8GNP8mInIS25MUDVp+eDYTGtonlO5b
+ bSQOKg3vdywnQb1gW/KE7OQW+w/c2hYNdwfuRpLOQ/t3xua1jZsnFWk4/PacF6DHAZmW
+ HvGjHAkFBRgCIFcFVZG5CkQbkVkI24AVhmBdjBG+beTlSdLiJyrW3p+7A+ysvMmaBauU
+ 6tTvo3mcZsbaBTjcW8sFGQ0JenvDEa1uLmCyDVaJ+uXOS4vVx9jEYyxgSrmj1POKCvB8
+ LMlu7iHtiegVzvbHMqAacO1eyjtcaM632y7W2EWidKOSu1kOnBomR8/g4AFAUITSRPyd
+ W4xA==
+X-Gm-Message-State: APjAAAV5ypRF9NG473XUPUAAQDHBuIDjEmoDmMcFrUbhWk274W5mssLZ
+ plwS8eqwJTHTy7AKd8/WYHal7lBj
+X-Google-Smtp-Source: APXvYqylD89kQkqZUSbKClb9VWQVvjWNF9fL6+G0Alzpz5nnp++VCyAZ09g//iKGkN9CQ4AwrdJdpA==
+X-Received: by 2002:a5d:488c:: with SMTP id g12mr18045209wrq.67.1579787370126; 
+ Thu, 23 Jan 2020 05:49:30 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.28
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.29
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:28 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:29 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/59] hw/ppc/spapr_rtas: Remove local variable
-Date: Thu, 23 Jan 2020 14:48:28 +0100
-Message-Id: <1579787342-27146-26-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 26/59] target/arm/kvm: Use CPUState::kvm_state in
+ kvm_arm_pmu_supported()
+Date: Thu, 23 Jan 2020 14:48:29 +0100
+Message-Id: <1579787342-27146-27-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,42 +85,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-We only access this variable in the RTAS_SYSPARM_SPLPAR_CHARACTERISTICS
-case. Use it in place and remove the local declaration.
+KVMState is already accessible via CPUState::kvm_state, use it.
 
-Suggested-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200121110349.25842-4-philmd@redhat.com>
+Message-Id: <20200121110349.25842-5-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/ppc/spapr_rtas.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ target/arm/kvm.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index 6f06e9d..85135e0 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -268,7 +268,6 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
- {
-     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
-     MachineState *ms = MACHINE(spapr);
--    unsigned int max_cpus = ms->smp.max_cpus;
-     target_ulong parameter = rtas_ld(args, 0);
-     target_ulong buffer = rtas_ld(args, 1);
-     target_ulong length = rtas_ld(args, 2);
-@@ -280,10 +279,10 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
-                                           "DesMem=%" PRIu64 ","
-                                           "DesProcs=%d,"
-                                           "MaxPlatProcs=%d",
--                                          max_cpus,
-+                                          ms->smp.max_cpus,
-                                           ms->ram_size / MiB,
-                                           ms->smp.cpus,
--                                          max_cpus);
-+                                          ms->smp.max_cpus);
-         if (pcc->n_host_threads > 0) {
-             char *hostthr_val, *old = param_val;
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index b87b59a..8d82889 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -181,9 +181,7 @@ void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
  
+ bool kvm_arm_pmu_supported(CPUState *cpu)
+ {
+-    KVMState *s = KVM_STATE(current_machine->accelerator);
+-
+-    return kvm_check_extension(s, KVM_CAP_ARM_PMU_V3);
++    return kvm_check_extension(cpu->kvm_state, KVM_CAP_ARM_PMU_V3);
+ }
+ 
+ int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
 -- 
 1.8.3.1
 
