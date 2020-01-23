@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8F3145FD2
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:21:25 +0100 (CET)
-Received: from localhost ([::1]:48924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE21145FC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:16:41 +0100 (CET)
+Received: from localhost ([::1]:48816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuQFQ-0002vs-3g
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:21:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54769)
+	id 1iuQAp-00066q-Od
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:16:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54771)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzY-0002Et-TA
+ (envelope-from <richard.henderson@linaro.org>) id 1iuPzZ-0002F3-DU
  for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzP-0002FH-WA
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:59 -0500
-Received: from mail-pl1-f172.google.com ([209.85.214.172]:40055)
+ (envelope-from <richard.henderson@linaro.org>) id 1iuPzQ-0002GA-Qc
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:00 -0500
+Received: from mail-pf1-f178.google.com ([209.85.210.178]:40435)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iuPzO-0002CM-2j
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:50 -0500
-Received: by mail-pl1-f172.google.com with SMTP id s21so516727plr.7
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:04:47 -0800 (PST)
+ id 1iuPzQ-0002Dv-4L
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:52 -0500
+Received: by mail-pf1-f178.google.com with SMTP id q8so609447pfh.7
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:04:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=a+ohCuWxChJ09Cd0wwMggUAUlrmcUhoiEbuSt9zP5do=;
- b=WG27qCDA3EFixmDjA6MQ0YHNDMLOxOLLaImMYYB+j6djNP/U+CGbLKPvp9nmNDgUG+
- NHVrNvWJ7mIhXcE0zmQo8hGsa4GVDGUEq/y2lmo2rSddv8zVbqJzDRWDeWUOrdBSfbbV
- 0rWCW7hWlRap+9Cy7U5zAM5cCOtH7CFxG90YYcTgg6IsAWibCxW9uAzWXNHr/ERfZpZa
- 8rmCd4FemgveG5X2zu3SKM90jWMX6M7+ldmxO4C+SjrIHwBrN5lokEx9oENwdKYQ3MlB
- Os6/A5g48twz1dEnWyEt+lNbG/nyeHC/0/3jleGi/M0egzPi5zf5ApZckGUvJbobNuVT
- VKkw==
+ bh=rlIp4XTZtTxjVzIGixZMSBGNZLFWLQy2m4oEKua7yhQ=;
+ b=iwlvuR7xkCkYPCDDeHWajhFmiVzwCuWDW0x4D3PkcFW/r/glxTOtIeAAoAhYcDcoUO
+ Cj6OCHqoJOqeP/D19K1sCXz302NfiRiKuKDkE5Fh7dQjHuGNTHBrrhvobx4SbXGel7ao
+ aFKiaB0mbTkC5cr+cRNNKYpxprWaE60nDPWIVAzEDgNbo/FnLytWyjQou/+UnMvjMn1a
+ 5CFJbRtilmsUe30Q47s7pe+k2ugCemhTIrWwLBg2OdKrmNUXxTWXY1MXMrUqGpC4PUL2
+ SkV9zTrsPhVStGmVtuqbj5Cd3re+ifNYTNBDdwSEtuwi1CNXktXMgJGRKpNICLv7uUAL
+ Bwiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=a+ohCuWxChJ09Cd0wwMggUAUlrmcUhoiEbuSt9zP5do=;
- b=unILoIOvLAz8L0TPM6WUXLGXK949OAbqYZARTMiHgTmk0prV8y4W3pWC24lsnzvhcd
- 3JytaXF7oaBSK1HM9hlX4KslCTtyub0yhJCDjrOWb49JSerXnxB0s20Hjpu2AkykRFAT
- kN837YjYz67F/hYWAD0LuEuHTo4QQtwpg6agrTMVU4QLmdWBuvnvGxvT6GAY76K4e/32
- U0WSTN5Kp+fJmAUa6O2bVI2A11FEKtoJ2+TCrIkqnHiv5WvXMMAnAMA080WD3FD9LPY/
- 8EI9pa2ZW4v3++pAwcwjeebo2ZLX7MYWYlvcKeiAM1ffrK45GG1gLQJ0T3MzqQNVQmry
- G9pg==
-X-Gm-Message-State: APjAAAWhjKN7dpdsJcBppLQ3Vf188RWi19lx5TGoB6HikbFlz+bk2oj6
- hFX0tBwcNOwV3MCo1ztrH+4x0lctbC4=
-X-Google-Smtp-Source: APXvYqx7Vlamp/acI4jmw2OsVIMgWyd+Q1R59i4M78UWsAMi1hizzeSv888DYL7WsPAyPq7sKgelYA==
-X-Received: by 2002:a17:902:758c:: with SMTP id
- j12mr6986004pll.33.1579737826764; 
- Wed, 22 Jan 2020 16:03:46 -0800 (PST)
+ bh=rlIp4XTZtTxjVzIGixZMSBGNZLFWLQy2m4oEKua7yhQ=;
+ b=cDHa03kMs9H9Ig8zQORTMvAcKIFpZaTDEEZj1+31f3WRbYVZ/v5L6JoKrq42aV6zi3
+ ID+c+eR7FYQTVwM7gHT2X4ieqeR12cvxv6YO2X9d5zre71qmp/eF5rdMPdtLQOefyLn+
+ iyVvqIT+rbo1WcSxm16B2wXUb/xzM+05JWvDfncFhSVEINgomYSYjH4mR4ODM/ljTHmB
+ Hu7I/K7NLuLSM7aDezLApXO5UlGwDOYJF3pCpDw53PKvKkBdDZwVgkWot6rpY+thW6du
+ PD4nsbjNsbncLKUyieKd1TSN+a3mqFRjSUELcxhowRWZon4ZwzmB0su0kY4mn514qHAN
+ rgzA==
+X-Gm-Message-State: APjAAAXOV0fudQ2fn+W4rul6r+LgN6vV4f0KSypvQhFHIUjw+jtIqzGh
+ dGq/EaJa5Fhx0hnKrTiokG8OSUsktgE=
+X-Google-Smtp-Source: APXvYqwKO54wbOya75mkNOcbIe6L8W7GbAFgba6heULhRrZZUNShhU8FQg3/YTGsrrIOrWfAYHWg/Q==
+X-Received: by 2002:a63:e309:: with SMTP id f9mr910909pgh.391.1579737829149;
+ Wed, 22 Jan 2020 16:03:49 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-198-77-92.west.biz.rr.com.
  [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.03.44
+ by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.03.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 16:03:46 -0800 (PST)
+ Wed, 22 Jan 2020 16:03:48 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc1 15/24] target/avr: Register AVR support with the rest of
- QEMU
-Date: Wed, 22 Jan 2020 14:02:58 -1000
-Message-Id: <20200123000307.11541-16-richard.henderson@linaro.org>
+Subject: [PATCH rc1 16/24] target/avr: Add machine none test
+Date: Wed, 22 Jan 2020 14:02:59 -1000
+Message-Id: <20200123000307.11541-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200123000307.11541-1-richard.henderson@linaro.org>
 References: <20200123000307.11541-1-richard.henderson@linaro.org>
@@ -69,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.214.172
+X-Received-From: 209.85.210.178
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,93 +89,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-Add AVR related definitions into QEMU
-
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <20200118191416.19934-17-mrolnik@gmail.com>
+Message-Id: <20200118191416.19934-18-mrolnik@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- qapi/machine.json          |  3 ++-
- include/disas/dis-asm.h    | 19 +++++++++++++++++++
- include/sysemu/arch_init.h |  1 +
- arch_init.c                |  2 ++
- 4 files changed, 24 insertions(+), 1 deletion(-)
+ tests/qtest/machine-none-test.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index b3d30bc816..f2dc385167 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -21,11 +21,12 @@
- #        is true even for "qemu-system-x86_64".
- #
- # ppcemb: dropped in 3.1
-+# avr: since 5.0
- #
- # Since: 3.0
- ##
- { 'enum' : 'SysEmuTarget',
--  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
-+  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386', 'lm32',
-              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
-              'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
-              'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index e9c7dd8eb4..79bbc8b498 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -211,6 +211,25 @@ enum bfd_architecture
- #define bfd_mach_m32r          0  /* backwards compatibility */
-   bfd_arch_mn10200,    /* Matsushita MN10200 */
-   bfd_arch_mn10300,    /* Matsushita MN10300 */
-+  bfd_arch_avr,       /* Atmel AVR microcontrollers.  */
-+#define bfd_mach_avr1       1
-+#define bfd_mach_avr2       2
-+#define bfd_mach_avr25      25
-+#define bfd_mach_avr3       3
-+#define bfd_mach_avr31      31
-+#define bfd_mach_avr35      35
-+#define bfd_mach_avr4       4
-+#define bfd_mach_avr5       5
-+#define bfd_mach_avr51      51
-+#define bfd_mach_avr6       6
-+#define bfd_mach_avrtiny    100
-+#define bfd_mach_avrxmega1  101
-+#define bfd_mach_avrxmega2  102
-+#define bfd_mach_avrxmega3  103
-+#define bfd_mach_avrxmega4  104
-+#define bfd_mach_avrxmega5  105
-+#define bfd_mach_avrxmega6  106
-+#define bfd_mach_avrxmega7  107
-   bfd_arch_cris,       /* Axis CRIS */
- #define bfd_mach_cris_v0_v10   255
- #define bfd_mach_cris_v32      32
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 62c6fe4cf1..893df26ce2 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -24,6 +24,7 @@ enum {
-     QEMU_ARCH_NIOS2 = (1 << 17),
-     QEMU_ARCH_HPPA = (1 << 18),
-     QEMU_ARCH_RISCV = (1 << 19),
-+    QEMU_ARCH_AVR = (1 << 20),
- };
- 
- extern const uint32_t arch_type;
-diff --git a/arch_init.c b/arch_init.c
-index 705d0b94ad..6a741165b2 100644
---- a/arch_init.c
-+++ b/arch_init.c
-@@ -89,6 +89,8 @@ int graphic_depth = 32;
- #define QEMU_ARCH QEMU_ARCH_UNICORE32
- #elif defined(TARGET_XTENSA)
- #define QEMU_ARCH QEMU_ARCH_XTENSA
-+#elif defined(TARGET_AVR)
-+#define QEMU_ARCH QEMU_ARCH_AVR
- #endif
- 
- const uint32_t arch_type = QEMU_ARCH;
+diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
+index 5953d31755..3e5c74e73e 100644
+--- a/tests/qtest/machine-none-test.c
++++ b/tests/qtest/machine-none-test.c
+@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] = {
+     /* tested targets list */
+     { "arm", "cortex-a15" },
+     { "aarch64", "cortex-a57" },
++    { "avr", "avr6-avr-cpu" },
+     { "x86_64", "qemu64,apic-id=0" },
+     { "i386", "qemu32,apic-id=0" },
+     { "alpha", "ev67" },
 -- 
 2.20.1
 
