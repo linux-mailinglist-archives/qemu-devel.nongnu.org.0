@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A811146889
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:59:39 +0100 (CET)
-Received: from localhost ([::1]:56646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC573146882
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:57:44 +0100 (CET)
+Received: from localhost ([::1]:56622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuc5C-0001JG-2k
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:59:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40148)
+	id 1iuc3L-00070n-6Q
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:57:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40195)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iub8i-0001uK-7U
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:13 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iub8k-0001w5-3x
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iub8g-0004u5-1s
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:12 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46231
+ (envelope-from <dgilbert@redhat.com>) id 1iub8i-0004vf-4q
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:13 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23301
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub8f-0004td-NB
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:09 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub8i-0004uv-25
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780749;
+ s=mimecast20190719; t=1579780751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ToN5OA+OYIWiz1ocOLRwTVQ2bvWzssRm5w/2+kmT8qs=;
- b=ESCdHFDjXebWtcBf+YKZZYzlm4WJNl9OMQY1/h6MvufFvUoGikGqg8JKdY2icaWzDxkydJ
- EhOGKu69UxV28fJvRKEZrPuz0hGhWDYOODKGQtIGOhKlhA1Ux0QDxnoSooNEwuWzFqLjed
- xSSeljEWLE2ZSMS1rLPz0Cl7b3KF6Kg=
+ bh=Y2WNwji8vFxZMWUnAg6MrfH8EXNGbEPh2jlfcUds6Cg=;
+ b=c0uHP5wfYxCpwpb1W89/xvGVxW7fDjJDs3NzJF83haxM+su8kW5SCerMy0r5tqKLVPqkLy
+ AkjSULjhKoaUJ0rwj16gz8miHQ9rrBRWYmBYuJI9JJoGiAdrQ/3Ye5kte1V5y3xqGW1gwu
+ 0wSzlFnLcJ9LzEfuwqIRME1H4VLUaHQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-dod0DeWjPuiR0vFQsGR0ZA-1; Thu, 23 Jan 2020 06:59:01 -0500
+ us-mta-401-kXghsbZ_ODyI0B0J7OdFmw-1; Thu, 23 Jan 2020 06:59:09 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1CDC801E6C
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D0988010C5
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:08 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3254D1CB;
- Thu, 23 Jan 2020 11:59:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA1571CB;
+ Thu, 23 Jan 2020 11:59:07 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 012/111] virtiofsd: Fix common header and define for QEMU builds
-Date: Thu, 23 Jan 2020 11:57:02 +0000
-Message-Id: <20200123115841.138849-13-dgilbert@redhat.com>
+Subject: [PULL 017/111] virtiofsd: add -o source=PATH to help output
+Date: Thu, 23 Jan 2020 11:57:07 +0000
+Message-Id: <20200123115841.138849-18-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: dod0DeWjPuiR0vFQsGR0ZA-1
+X-MC-Unique: kXghsbZ_ODyI0B0J7OdFmw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,150 +74,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-All of the fuse files include config.h and define GNU_SOURCE
-where we don't have either under our build - remove them.
-Fixup path to the kernel's fuse.h in the QEMUs world.
+The -o source=3DPATH option will be used by most command-line invocations.
+Let's document it!
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/buffer.c         | 4 +---
- tools/virtiofsd/fuse_i.h         | 3 +++
- tools/virtiofsd/fuse_log.c       | 1 +
- tools/virtiofsd/fuse_lowlevel.c  | 6 ++----
- tools/virtiofsd/fuse_opt.c       | 2 +-
- tools/virtiofsd/fuse_signals.c   | 2 +-
- tools/virtiofsd/helper.c         | 1 +
- tools/virtiofsd/passthrough_ll.c | 8 ++------
- 8 files changed, 12 insertions(+), 15 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
-index 4d507f3302..772efa922d 100644
---- a/tools/virtiofsd/buffer.c
-+++ b/tools/virtiofsd/buffer.c
-@@ -9,9 +9,7 @@
-  * See the file COPYING.LIB
-  */
-=20
--#define _GNU_SOURCE
--
--#include "config.h"
-+#include "qemu/osdep.h"
- #include "fuse_i.h"
- #include "fuse_lowlevel.h"
- #include <assert.h>
-diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
-index e63cb58388..bae06992e0 100644
---- a/tools/virtiofsd/fuse_i.h
-+++ b/tools/virtiofsd/fuse_i.h
-@@ -6,6 +6,9 @@
-  * See the file COPYING.LIB
-  */
-=20
-+#define FUSE_USE_VERSION 31
-+
-+
- #include "fuse.h"
- #include "fuse_lowlevel.h"
-=20
-diff --git a/tools/virtiofsd/fuse_log.c b/tools/virtiofsd/fuse_log.c
-index 11345f9ec8..c301ff6da1 100644
---- a/tools/virtiofsd/fuse_log.c
-+++ b/tools/virtiofsd/fuse_log.c
-@@ -8,6 +8,7 @@
-  * See the file COPYING.LIB
-  */
-=20
-+#include "qemu/osdep.h"
- #include "fuse_log.h"
-=20
- #include <stdarg.h>
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index 3da80de233..07fb8a6095 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -9,11 +9,9 @@
-  * See the file COPYING.LIB
-  */
-=20
--#define _GNU_SOURCE
--
--#include "config.h"
-+#include "qemu/osdep.h"
- #include "fuse_i.h"
--#include "fuse_kernel.h"
-+#include "standard-headers/linux/fuse.h"
- #include "fuse_misc.h"
- #include "fuse_opt.h"
-=20
-diff --git a/tools/virtiofsd/fuse_opt.c b/tools/virtiofsd/fuse_opt.c
-index edd36f4a3b..28922361a2 100644
---- a/tools/virtiofsd/fuse_opt.c
-+++ b/tools/virtiofsd/fuse_opt.c
-@@ -9,8 +9,8 @@
-  * See the file COPYING.LIB
-  */
-=20
-+#include "qemu/osdep.h"
- #include "fuse_opt.h"
--#include "config.h"
- #include "fuse_i.h"
- #include "fuse_misc.h"
-=20
-diff --git a/tools/virtiofsd/fuse_signals.c b/tools/virtiofsd/fuse_signals.=
-c
-index 19d6791cb9..dc7c8ac025 100644
---- a/tools/virtiofsd/fuse_signals.c
-+++ b/tools/virtiofsd/fuse_signals.c
-@@ -8,7 +8,7 @@
-  * See the file COPYING.LIB
-  */
-=20
--#include "config.h"
-+#include "qemu/osdep.h"
- #include "fuse_i.h"
- #include "fuse_lowlevel.h"
-=20
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index d9227d7367..9333691525 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -10,6 +10,7 @@
-  * See the file COPYING.LIB.
-  */
-=20
-+#include "qemu/osdep.h"
- #include "fuse_i.h"
- #include "fuse_lowlevel.h"
- #include "fuse_misc.h"
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index 126a56ccbd..322a889cdf 100644
+index 26ac87013b..fc9b264d56 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -35,15 +35,11 @@
-  * \include passthrough_ll.c
-  */
-=20
--#define _GNU_SOURCE
--#define FUSE_USE_VERSION 31
--
--#include "config.h"
--
-+#include "qemu/osdep.h"
-+#include "fuse_lowlevel.h"
- #include <assert.h>
- #include <dirent.h>
- #include <errno.h>
--#include <fuse_lowlevel.h>
- #include <inttypes.h>
- #include <limits.h>
- #include <pthread.h>
+@@ -1319,6 +1319,7 @@ int main(int argc, char *argv[])
+     if (opts.show_help) {
+         printf("usage: %s [options]\n\n", argv[0]);
+         fuse_cmdline_help();
++        printf("    -o source=3DPATH             shared directory tree\n")=
+;
+         fuse_lowlevel_help();
+         ret =3D 0;
+         goto err_out1;
 --=20
 2.24.1
 
