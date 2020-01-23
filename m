@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76BF1468AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:06:26 +0100 (CET)
-Received: from localhost ([::1]:56730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E50FA1468B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:09:00 +0100 (CET)
+Received: from localhost ([::1]:56776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iucBl-0000Gm-DR
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:06:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38299)
+	id 1iucEF-0003ql-Cm
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:08:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38339)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iub1U-0000LN-CJ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:51:45 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iub1X-0000NK-Ah
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:51:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iub1T-0000f1-Aw
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:51:44 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56438
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iub1T-0000eP-7B
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:51:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780302;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ytSh5xAa5oU3qXFzV9e7GnwuJ2jTYzVuuh5qeumunFU=;
- b=KYq0aEWS9+Ss+EVgtoYjmObiozrbzn7Uus4F7QX7Pup9eaXbxWyi3L2EtwMl9oAtrHYHFJ
- sXgFNbj2XFm7ULGIP3Qe8qKXK4iCpHFVr2IRF93NFBzpPlI3aiGbSCcFz8u+kXm113f/WK
- LWLNs/a4pDUVNpB5Tdo7XV22Aq64Yr4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-BlTcwQY7PK2B6mRH_oWSQA-1; Thu, 23 Jan 2020 06:51:38 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C9AD1088385;
- Thu, 23 Jan 2020 11:51:37 +0000 (UTC)
-Received: from gondolin (ovpn-116-120.ams2.redhat.com [10.36.116.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C3BE19C69;
- Thu, 23 Jan 2020 11:51:28 +0000 (UTC)
-Date: Thu, 23 Jan 2020 12:51:26 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH 6/6] tests/acceptance/virtio_seg_max_adjust: Restrict to
- Linux host
-Message-ID: <20200123125126.64be33b6.cohuck@redhat.com>
-In-Reply-To: <20200122223247.30419-7-philmd@redhat.com>
-References: <20200122223247.30419-1-philmd@redhat.com>
- <20200122223247.30419-7-philmd@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <peter.maydell@linaro.org>) id 1iub1W-0000hb-7a
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:51:47 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43610)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iub1W-0000h4-2E
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:51:46 -0500
+Received: by mail-oi1-x243.google.com with SMTP id p125so2590190oif.10
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 03:51:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bFml8qLCtmp1P0vb5uVGW4L9+hW902mtdxUueUM/0nA=;
+ b=q7F/kV+Dfh+sJ+nI37Gzpj3gGuHJXFnUcwe+dPvRVWh5dqGGNeW51I4fTNX1d8zM5a
+ o8wwN+EoUNKLSE7fSHFVnZrEHXHJE/VwFMM66Ojxn1sW9byTEDQksDFb2WD24v9QVdUI
+ 5n9nnep26dbrZv6q2PgvsqayCvQtkhPrN3L7Y7CsrB5w4YfvW22fUZUAQc79Z0+Jf1Fr
+ iQLRCPDKlb3AxlvP6dkFkaBOt8O+pNzpH5PqHdOa4ZNN50I88DcRLYsHtdHV3xKvC0uA
+ 6Zz74FJN/TAtwwG8rqYyLSrS60852DH+zYxhDnv8o9qkBI+1JMxajDHYRXvUpw1j9NBP
+ V6vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bFml8qLCtmp1P0vb5uVGW4L9+hW902mtdxUueUM/0nA=;
+ b=UJ/I0uJP2QtOgIdKT+c5Q4nEDu6iQADpSFXsIjey0E3rkD1b/bfBZLZyTWLwVJLqUj
+ mt8l3N4CpJX7127TP7eu/pKEgmF9VhSvfM5xT4t649HCryIC9OPiXp3nCmictAATqNRD
+ Mm0zyc9zpGZykpT9XqwBGNZQ8Of3lva4GYy8iP9R4MNJyslFHo4vCDnq2fzzBiq3B0g9
+ m9T2rqGfTCc+l3Zcp3iyk83qQ+BnJ9qehBWa1g1waisxf7Rc9+0h2DXDJM9DgZoLB6DD
+ FtsEuICv63Wl/UxXj3iwOkFtpfb6nU5FREvK2vu/59IdWy73vREmSpnq+Hf6B9Rd6wsi
+ 63Fw==
+X-Gm-Message-State: APjAAAV3wu20/bvlTs557ebBppXEszos05WuAI8euk7iSDidesDQfp/c
+ wjxoQAdXUyf6qWoWwR1Tb3oXKhthr+JfcVpx59zqBg==
+X-Google-Smtp-Source: APXvYqxPTL/97ECH1J4qMtpZIPP0gROYbsp3ND4AYDartm+CUX8hMMBiaype5o7pIR5kCnkwWoWakQyN0pHtPOn5egs=
+X-Received: by 2002:aca:570d:: with SMTP id l13mr10000574oib.146.1579780304900; 
+ Thu, 23 Jan 2020 03:51:44 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: BlTcwQY7PK2B6mRH_oWSQA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+References: <20200116141511.16849-1-peter.maydell@linaro.org>
+ <20200116141511.16849-3-peter.maydell@linaro.org>
+ <CAFEAcA80NezC=oXMWNmbKTGWp2_xJVS1MFeOe58d3wMrH1mQug@mail.gmail.com>
+ <87h80nz5c8.fsf@linaro.org>
+In-Reply-To: <87h80nz5c8.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Jan 2020 11:51:33 +0000
+Message-ID: <CAFEAcA84RUT=eZnnjZET9f=fsVuy1gYhtQkrQBCjbrmysqnG4g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] docs: Create stub system manual
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,52 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Jan 2020 23:32:47 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+On Wed, 22 Jan 2020 at 18:58, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> > diff --git a/docs/index.html.in b/docs/index.html.in
+> > index 94eb782cf7e..573c543c02b 100644
+> > --- a/docs/index.html.in
+> > +++ b/docs/index.html.in
+> > @@ -11,6 +11,7 @@
+> >              <li><a href=3D"qemu-qmp-ref.html">QMP Reference Manual</a>=
+</li>
+> >              <li><a href=3D"qemu-ga-ref.html">Guest Agent Protocol
+> > Reference</a></li>
+> >              <li><a href=3D"interop/index.html">System Emulation
+> > Management and Interoperability Guide</a></li>
+> > +            <li><a href=3D"system/index.html">System Emulation User's
+> > Guide</a></li>
+> >              <li><a href=3D"specs/index.html">System Emulation Guest
+> > Hardware Specifications</a></li>
+> >          </ul>
+> >      </body>
+>
+>
+> This didn't seem to make a difference on readthedocs so I assume this is
+> for different tooling?
 
-> This test is failing on OSX:
->=20
->   TestFail: machine type pc-i440fx-2.0: <class 'TypeError'>
->=20
-> Looking at the job.log:
->=20
->   Unexpected error in object_property_find() at qom/object.c:1201:
->   qemu-system-x86_64: -device virtio-blk-pci,id=3Dscsi0,drive=3Ddrive0: c=
-an't apply global virtio-blk-device.scsi=3Dtrue: Property '.scsi' not found
->=20
-> Which makes sense looking at hw/block/virtio-blk.c:
->=20
->   1261 static Property virtio_blk_properties[] =3D {
->   1262     DEFINE_BLOCK_PROPERTIES(VirtIOBlock, conf.conf),
->   ...
->   1268 #ifdef __linux__
->   1269     DEFINE_PROP_BIT64("scsi", VirtIOBlock, host_features,
->   1270                       VIRTIO_BLK_F_SCSI, false),
->   1271 #endif
->=20
-> Fix by only running this test on a Linux host:
->=20
->  (38/55) tests/acceptance/virtio_seg_max_adjust.py:VirtioMaxSegSettingsCh=
-eck.test_machine_types:  SKIP: Host OS is not Linux
+It's for when you build manuals via the makefile, in which
+case you get multiple separate Sphinx manuals and want a
+top level index that links to those and also to our legacy
+non-Sphinx docs. So it's what you'll see in the installed
+version of the docs if you do a 'make install'.
 
-Does this work with the change I proposed in the other thread? If it
-does, I'd prefer to send a proper fix for that. (Well, I'd prefer to
-fix it regardless.)
-
-Or is there other Linux-specific stuff in there? Does not look like it
-at a glance, we were just bitten by the unrelated scsi property thing.
-
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  tests/acceptance/virtio_seg_max_adjust.py | 3 +++
->  1 file changed, 3 insertions(+)
-
+thanks
+-- PMM
 
