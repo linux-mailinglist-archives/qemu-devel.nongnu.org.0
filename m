@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88FB1146FCB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:33:33 +0100 (CET)
-Received: from localhost ([::1]:33516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360B0146FF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:45:21 +0100 (CET)
+Received: from localhost ([::1]:33864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugMG-0007MV-AH
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:33:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59534)
+	id 1iugXf-00065D-MO
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:45:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1iudMS-0004us-C5
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:21:33 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iudV3-0000MF-Ik
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:30:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1iudMR-0003KL-CF
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:21:32 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45809
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iudMR-0003KA-8C
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:21:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579789290;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aawRGz1XJLzcOhERvs/O0IrY3DsPdDnK/U0cdLxG+AA=;
- b=JGvKaRykdYRYO3HSg8Ne+RE/tzFyg5jxK+u4Dk1eVn3gTS6s7537Q8kmSIU/IuN0WSmbgS
- f7vrek+ainSz49rTFpVDZ7uS8dPdE4cVuJxSmzklPwV+NVZKGaiVVY+7MUWJ5zc3DOzKT8
- OiwpLtMbAgAVoTnLBMSj6xAMrAFlYB4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-PNK7Vc-PPsO5YYstv7B4cg-1; Thu, 23 Jan 2020 09:21:28 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E69468010C5
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 14:21:27 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
- [10.36.116.106])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C5361001925;
- Thu, 23 Jan 2020 14:21:23 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7FF049B13; Thu, 23 Jan 2020 15:21:22 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] ui/console: Display the 'none' backend in '-display help'
-Date: Thu, 23 Jan 2020 15:21:22 +0100
-Message-Id: <20200123142122.13839-4-kraxel@redhat.com>
-In-Reply-To: <20200123142122.13839-1-kraxel@redhat.com>
-References: <20200123142122.13839-1-kraxel@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iudV2-0002kp-5w
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:30:25 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:41233)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iudV1-0002jM-W8
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:30:24 -0500
+Received: by mail-ot1-x341.google.com with SMTP id r27so2870825otc.8
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 06:30:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pB6XjcvH9tNysxWPccQYg8fLHgzMk898R9ckNDGrKA8=;
+ b=I2FkN4n8HoVtwzbW4l6oxYSU4vTJeWtdsnML0YJy7ZpvAwc6B7V7O+W7WyqCb5owu9
+ R2crCohKw4WNXfp7+veGQGQ1I1QDnCXEayMqRRaHHNlWK5sSK5UpIAAoLKXvHew7ipmF
+ EOPaGxJweLBREp25et1eF1hVrmie1k6i8YeDwcPqEBLYvlycSnISq4M6tLmrl3RQ7euq
+ UCi10Gx70uTESBYMzP/QzoftnDZhMQ272NYyn2vIq1fBQ6VIIRwkbgeYa52j9zYWWdQc
+ Oyrp7CVz8lE3vHi2+85gmRx+J8hxlohUs5WFb1eZRBGRyoxWaZoW93nCVO1zgb240+NN
+ To3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pB6XjcvH9tNysxWPccQYg8fLHgzMk898R9ckNDGrKA8=;
+ b=PFc2wTXLydYRErEkjtT6tbnfdXxZ2mYvne+xJg535lSukVlcLVctV0UZt9l9FTicb5
+ vhvspjyArYjJtyu0DmDVG7HoYM9vGnUQU0IbdNzgOf88kjH2NoerquJfzrfmP2NpDiCK
+ pxkLZYgQGBZBAKHbkI4r06o+g0oO9b8Bwvy0I0tSIHd/MJQDiqiF/aWLlUIc85NcBchk
+ gfff9kadWLFFOQr+L4CSU+bLkxSEGO6b5sNaS6JSYMbJCidJ+2sIBtPNnDql6z3Q8eoq
+ 3UAzdVPpovlsS4EL3g+NEOl69ipDtCc66xfG1jcLBmFpEJhbadr4qfpMY6hvwTZMaIF8
+ IauQ==
+X-Gm-Message-State: APjAAAVFxCI5yG4sS+Uh7/bFSn8j6JCyEB8HGMp71bUdihFCAN+WXXsS
+ 95oHOIRBtG4V0hk6hTDArUyWejzUMC8MoqbWW08vfnSJ0bc=
+X-Google-Smtp-Source: APXvYqy0lnaqkHgB5UnMIXsVNGuzKkkeNDyKyIKlGNwSuMYKw9Ai13gPDH7qtOoGL4BFhxquxele73GOuIq1eBziwUk=
+X-Received: by 2002:a05:6830:184:: with SMTP id
+ q4mr11823515ota.232.1579789822703; 
+ Thu, 23 Jan 2020 06:30:22 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: PNK7Vc-PPsO5YYstv7B4cg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+References: <20200122064907.512501-1-mst@redhat.com>
+In-Reply-To: <20200122064907.512501-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Jan 2020 14:30:11 +0000
+Message-ID: <CAFEAcA_oLUFrEdG=L-_VuBeesXszdgn8EwzKsQXy9_fkMmb5Mw@mail.gmail.com>
+Subject: Re: [PULL v2 00/17] virtio, pc: fixes, features
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,57 +72,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On Wed, 22 Jan 2020 at 06:49, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> Changes from v1:
+>     - add a missing expected file
+>
+> The following changes since commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde0dd40:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-20200121' into staging (2020-01-21 15:29:25 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to aefcaf9d1b3ebb30981627bd08f595211a648a62:
+>
+>   i386:acpi: Remove _HID from the SMBus ACPI entry (2020-01-22 01:47:55 -0500)
+>
+> ----------------------------------------------------------------
+> virtio, pc: fixes, features
+>
+> Bugfixes all over the place.
+> CPU hotplug with secureboot.
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-Commit c388f408b5 added the possibility to list the display
-backends using '-display help'. Since the 'none' backend is
-is not implemented as a DisplayChangeListenerOps, it is not
-registered to the dpys[] array with qemu_display_register(),
-and is not listed in the help output.
 
-This might be confusing, as we list it in the man page:
+Applied, thanks.
 
-  -display type
-      Select type of display to use. This option is a replacement for
-      the old style -sdl/-curses/... options. Valid values for type are
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
-      none
-          Do not display video output. The guest will still see an
-          emulated graphics card, but its output will not be displayed
-          to the QEMU user. This option differs from the -nographic
-          option in that it only affects what is done with video
-          output; -nographic also changes the destination of the serial
-          and parallel port data.
-
-Fix by manually listing the special 'none' backend in the help.
-
-Suggested-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-id: 20200120192947.31613-1-philmd@redhat.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- ui/console.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/ui/console.c b/ui/console.c
-index 69339b028bb2..179901c35e0d 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -2338,6 +2338,7 @@ void qemu_display_help(void)
-     int idx;
-=20
-     printf("Available display backend types:\n");
-+    printf("none\n");
-     for (idx =3D DISPLAY_TYPE_NONE; idx < DISPLAY_TYPE__MAX; idx++) {
-         if (!dpys[idx]) {
-             ui_module_load_one(DisplayType_str(idx));
---=20
-2.18.1
-
+-- PMM
 
