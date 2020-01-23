@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C51146F46
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:14:02 +0100 (CET)
-Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F796146F60
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:17:36 +0100 (CET)
+Received: from localhost ([::1]:33200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iug3N-0000M0-5P
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:14:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52542)
+	id 1iug6o-00046W-Ba
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:17:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iuctV-0008MN-H2
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:38 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iuctp-0000Si-4d
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iuctU-00085s-Al
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:37 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52142
+ (envelope-from <pbonzini@redhat.com>) id 1iucto-0000NK-1P
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:56 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32663
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuctU-00084k-8K
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:36 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuctn-0000M3-UN
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787496;
+ s=mimecast20190719; t=1579787515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VSNPfn/WqEe4auVK0p1YkDtx0JRhgePqKKnBaAQWvqk=;
- b=XgQoJ9NEyPndoBIjc4a7ppOmWpAIGBT21tKwYOCUBFEbNncMZE7uxEVSGCeSohVtdJ2ZFs
- g7Rz9BU4uu1i0HESN6oQBuv9sT48Tg5Xh8q9LROtwKhChoRuzmOHRHlRgVSqCF1+j29lYJ
- 9VwFLvmyBpBgoBKH8WHbdPJvwkjc5yE=
+ bh=fhWeL2ADPT5bDg7/jmj0T6OuctAf6BKtCLK+BXLaiNI=;
+ b=cWZ9XkAq9ImSW/nN6EmOdBjIRMAqJWGasQqsv1vxDrVbuEaJcI5EwYcHE/UnV6ycMj4AJu
+ 3+7onYjrcsrxXiUjXw8m+ditbKKh1cq4ja1oqPb1SGHxycyAcGCIrTJjHs6FiHzR06dDRh
+ Uu4W0LhFqJzqOTgqI56+a/n/IXXhiZM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-HolpI--ZOj-YSJq9mU4p3Q-1; Thu, 23 Jan 2020 08:51:32 -0500
+ us-mta-394-x_LqWXKjOuuAZoip8sIFhw-1; Thu, 23 Jan 2020 08:51:54 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63F0CDBAD;
- Thu, 23 Jan 2020 13:51:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 463F46C199
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:53 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 602A8857A9;
- Thu, 23 Jan 2020 13:51:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBDE6857A5;
+ Thu, 23 Jan 2020 13:51:50 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/59] virtio-scsi: delete vqs in unrealize to avoid memleaks
-Date: Thu, 23 Jan 2020 14:50:11 +0100
-Message-Id: <1579787449-27599-22-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 28/59] accel: Introduce the current_accel() wrapper
+Date: Thu, 23 Jan 2020 14:50:18 +0100
+Message-Id: <1579787449-27599-29-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: HolpI--ZOj-YSJq9mU4p3Q-1
+X-MC-Unique: x_LqWXKjOuuAZoip8sIFhw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,56 +70,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pan Nengyuan <pannengyuan@huawei.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-This patch fix memleaks when attaching/detaching virtio-scsi device, the
-memory leak stack is as follow:
+The accel/ code only accesses the MachineState::accel field.
+As we simply want to access the accelerator, not the machine,
+add a current_accel() wrapper.
 
-Direct leak of 21504 byte(s) in 3 object(s) allocated from:
-  #0 0x7f491f2f2970 (/lib64/libasan.so.5+0xef970)  ??:?
-  #1 0x7f491e94649d (/lib64/libglib-2.0.so.0+0x5249d)  ??:?
-  #2 0x564d0f3919fa (./x86_64-softmmu/qemu-system-x86_64+0x2c3e9fa)  /mnt/s=
-db/qemu/hw/virtio/virtio.c:2333
-  #3 0x564d0f2eca55 (./x86_64-softmmu/qemu-system-x86_64+0x2b99a55)  /mnt/s=
-db/qemu/hw/scsi/virtio-scsi.c:912
-  #4 0x564d0f2ece7b (./x86_64-softmmu/qemu-system-x86_64+0x2b99e7b)  /mnt/s=
-db/qemu/hw/scsi/virtio-scsi.c:924
-  #5 0x564d0f39ee47 (./x86_64-softmmu/qemu-system-x86_64+0x2c4be47)  /mnt/s=
-db/qemu/hw/virtio/virtio.c:3531
-  #6 0x564d0f980224 (./x86_64-softmmu/qemu-system-x86_64+0x322d224)  /mnt/s=
-db/qemu/hw/core/qdev.c:865
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200117075547.60864-2-pannengyuan@huawei.com>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20200121110349.25842-9-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/virtio-scsi.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ accel/accel.c          | 5 +++++
+ include/sysemu/accel.h | 2 ++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 4bc73a3..858b3aa 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -943,7 +943,13 @@ void virtio_scsi_common_unrealize(DeviceState *dev)
- {
-     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-     VirtIOSCSICommon *vs =3D VIRTIO_SCSI_COMMON(dev);
-+    int i;
-=20
-+    virtio_del_queue(vdev, 0);
-+    virtio_del_queue(vdev, 1);
-+    for (i =3D 0; i < vs->conf.num_queues; i++) {
-+        virtio_del_queue(vdev, i + 2);
-+    }
-     g_free(vs->cmd_vqs);
-     virtio_cleanup(vdev);
+diff --git a/accel/accel.c b/accel/accel.c
+index 1c5c3a6..cb555e3 100644
+--- a/accel/accel.c
++++ b/accel/accel.c
+@@ -63,6 +63,11 @@ int accel_init_machine(AccelState *accel, MachineState *=
+ms)
+     return ret;
  }
+=20
++AccelState *current_accel(void)
++{
++    return current_machine->accelerator;
++}
++
+ void accel_setup_post(MachineState *ms)
+ {
+     AccelState *accel =3D ms->accelerator;
+diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
+index d4c1429..47e5788 100644
+--- a/include/sysemu/accel.h
++++ b/include/sysemu/accel.h
+@@ -70,4 +70,6 @@ int accel_init_machine(AccelState *accel, MachineState *m=
+s);
+ /* Called just before os_setup_post (ie just before drop OS privs) */
+ void accel_setup_post(MachineState *ms);
+=20
++AccelState *current_accel(void);
++
+ #endif
 --=20
 1.8.3.1
 
