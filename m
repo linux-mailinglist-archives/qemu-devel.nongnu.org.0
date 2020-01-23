@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B28146DB6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:02:30 +0100 (CET)
-Received: from localhost ([::1]:59954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC71146DC3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:07:12 +0100 (CET)
+Received: from localhost ([::1]:60024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuew9-0007b3-0f
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:02:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51224)
+	id 1iuf0g-000640-Po
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:07:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51254)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrC-0004k9-OG
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:15 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrD-0004lg-UX
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrB-000347-E6
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:14 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54618)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrC-00036P-Tk
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:15 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:33948)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrB-00032w-7f
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:13 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id b19so2627867wmj.4
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:13 -0800 (PST)
+ id 1iucrC-000358-NJ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:14 -0500
+Received: by mail-wm1-x334.google.com with SMTP id s144so1922914wme.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=K91PaAbwuPHcYYRyoA3KVsErzg14dVUsL6XXT+HRvuA=;
- b=FbyF1sEVLC/4Jb2cKaDiC9rNGz7TYDNibxxvXV2OyP6ffn5glrbEIlruc2bF13/Jh+
- Qx0m8yBxwiyHvWU78MrfA/TAg9W4f6VYam6/GUQpQ5MdDei6I/GXMERmqOdJ1scGBPjc
- gomk0utgjzrKw8eQ+iYSWg2hdwXN6Uu8Qd11VfB475i8+3MOG8NOs5m3xPZPKQk/84kT
- GqALK+oOjoxZv6O5gez5Z3VWU/Sb+c6/bwcTiLklQVlkTnyeK65SkFAB2X9F9Sb6ArLJ
- psL7Xmsso1FXhX2DRxZGXjURAX1rTxw9p3spDsg4BS6oYuPIqZcRr/ofJn2R1h/w8J3q
- hfvw==
+ bh=e6FP2ihGyimY4vj+dOSdMZBpX4HIMQWZAgOG4qQpKUc=;
+ b=EQN9kUtpRS3FItvt7DfiHy6IyyEQD2oDGD7zuuczFNfbzVlQ8lbAv4pmpOpvdU0AMF
+ uDdHw/RQe54jGQYPWMguWMmPmRKshBPoQWPI4Bu9jdlhXyOOV730xll3JMfplfCfl+aD
+ J2hlw/zMTgimuNXdeSKgaU3QYhMryZz+ItVaDklMzifMchKUj8GdLJRKrEhqMhuAHv1w
+ 7x4gSt5iqa4duqHgCs5F+NjNIXTHETvXPLsbzqxlGcJ17txgc6nHmmxoQTc7iUE5fLOC
+ sBP0qfSJ9hclWpYShmvp6x3fieYzlKAVqN9ARiVcH21N+d7TajyNm8haAbEpY1VWI6LY
+ ck1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=K91PaAbwuPHcYYRyoA3KVsErzg14dVUsL6XXT+HRvuA=;
- b=Egel3EtETm91j6ABUdvIMHPBuQ/rst/s15CAn0HdndRNF4JLylNc/xZiLFqd7Z0/sf
- 6HQt/ohs9yJ4/vz6P4fgNBmcti9efRC2Kup72FlxYDQ5Qt+TQlaLAClzwwXazE1lYnZA
- dbpVIoCXbsyywlK/4JREclEtT1l0r9MK1dcv4D+TdopnoghI6KpasXCFIXr+PcysNrFy
- CCB7gltqAfQo6RGgXZJxiWvs1sSLH1OxuypKlCu+h5ySHcjlaNja01XagzwR/maWGScL
- 9v5q9JbYHn+op5LHgHJlKnuvHnZgv3lDDbQNpqJVq9hR+0voQMlPmvLv610Y031SHDa5
- MJPw==
-X-Gm-Message-State: APjAAAWq14k11Ov6qruZ/62/VYJDG5FD46yMyk3WhAAveQVUI9zNkxdg
- yXBFQGRXwLGlOc90kMBl7X9y7yrN
-X-Google-Smtp-Source: APXvYqzqIxANCFi5cnyN/Z3yzXiMcHkwMSszZFimHzZiy6T7jDsiBf0NhaM07IFHzzx8p5rbxS/coA==
-X-Received: by 2002:a1c:9602:: with SMTP id y2mr4282216wmd.23.1579787352092;
- Thu, 23 Jan 2020 05:49:12 -0800 (PST)
+ bh=e6FP2ihGyimY4vj+dOSdMZBpX4HIMQWZAgOG4qQpKUc=;
+ b=uhe2gNKpOWIqKO/E9ZCKg1u2VG/LRxDhugQJx7CO004KFSOlAqqyYchVh3mphGfhuu
+ Gc6ZUXVDW/9DXwSLdr8STn4HmKtI1AEKPKoaGeS1E3cD1qpU0An9VVsbpygVyg0QqGHP
+ l/UjhGWfvbVgMwt2WLEx8+xSjFPdgDFyw8PzBn0BOPJLg4T4x3V7XMsvopE1VQ5DokHc
+ t8MqggAOOH8uSPsQHMN+QT0mvjjjkyHXaJyOQ03eQ5PSxc2J3QCfogeAD3dfDeEg8Zlu
+ m/q2LRF5SInSLtXhKjPNCtd3T3gAlHChCxDPRS75DbqNvAwZ5dzu5w6Kc16v5M+f5Fok
+ C0qQ==
+X-Gm-Message-State: APjAAAXcAu2XwomMzuoyb85tiGdfxDVWwgKam87BROeMJy/87GmguCS4
+ 6DiW660XnrFlXgiwrRI9LJhBJc3L
+X-Google-Smtp-Source: APXvYqwDTn8oMJPb7dsuAp5iCB7OI1Q7OsICH9eiMaz6XbBIrJbgaONUHTA14OMdGJaJVG9iuslpoQ==
+X-Received: by 2002:a7b:cc98:: with SMTP id p24mr4381755wma.139.1579787353575; 
+ Thu, 23 Jan 2020 05:49:13 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.11
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.12
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:11 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:12 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/59] hw/display/tcx: Add missing fall through comments
-Date: Thu, 23 Jan 2020 14:48:10 +0100
-Message-Id: <1579787342-27146-8-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 08/59] hw/timer/aspeed_timer: Add a fall through comment
+Date: Thu, 23 Jan 2020 14:48:11 +0100
+Message-Id: <1579787342-27146-9-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,57 +84,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-When building with GCC9 using CFLAG -Wimplicit-fallthrough=2 we get:
+Reported by GCC9 when building with CFLAG -Wimplicit-fallthrough=2:
 
-  hw/display/tcx.c: In function ‘tcx_dac_writel’:
-  hw/display/tcx.c:453:26: error: this statement may fall through [-Werror=implicit-fallthrough=]
-    453 |             s->dac_index = (s->dac_index + 1) & 0xff; /* Index autoincrement */
-        |             ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-  hw/display/tcx.c:454:9: note: here
-    454 |         default:
-        |         ^~~~~~~
-  hw/display/tcx.c: In function ‘tcx_dac_readl’:
-  hw/display/tcx.c:412:22: error: this statement may fall through [-Werror=implicit-fallthrough=]
-    412 |         s->dac_index = (s->dac_index + 1) & 0xff; /* Index autoincrement */
-        |         ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-  hw/display/tcx.c:413:5: note: here
-    413 |     default:
-        |     ^~~~~~~
+  hw/timer/aspeed_timer.c: In function ‘aspeed_timer_set_value’:
+  hw/timer/aspeed_timer.c:283:24: error: this statement may fall through [-Werror=implicit-fallthrough=]
+    283 |         if (old_reload || !t->reload) {
+        |             ~~~~~~~~~~~^~~~~~~~~~~~~
+  hw/timer/aspeed_timer.c:287:5: note: here
+    287 |     case TIMER_REG_STATUS:
+        |     ^~~~
   cc1: all warnings being treated as errors
 
-Give a hint to GCC by adding the missing fall through comments.
+Add the missing fall through comment.
 
-Fixes: 55d7bfe22
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Fixes: 1403f364472
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20191218192526.13845-3-philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20191218192526.13845-4-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/display/tcx.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/timer/aspeed_timer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/display/tcx.c b/hw/display/tcx.c
-index 14e829d..abbeb30 100644
---- a/hw/display/tcx.c
-+++ b/hw/display/tcx.c
-@@ -410,6 +410,7 @@ static uint64_t tcx_dac_readl(void *opaque, hwaddr addr,
-     case 2:
-         val = s->b[s->dac_index] << 24;
-         s->dac_index = (s->dac_index + 1) & 0xff; /* Index autoincrement */
-+        /* fall through */
-     default:
-         s->dac_state = 0;
-         break;
-@@ -451,6 +452,7 @@ static void tcx_dac_writel(void *opaque, hwaddr addr, uint64_t val,
-             s->b[index] = val >> 24;
-             update_palette_entries(s, index, index + 1);
-             s->dac_index = (s->dac_index + 1) & 0xff; /* Index autoincrement */
-+            /* fall through */
-         default:
-             s->dac_state = 0;
+diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
+index a8c38cc..c91f184 100644
+--- a/hw/timer/aspeed_timer.c
++++ b/hw/timer/aspeed_timer.c
+@@ -283,7 +283,7 @@ static void aspeed_timer_set_value(AspeedTimerCtrlState *s, int timer, int reg,
+         if (old_reload || !t->reload) {
              break;
+         }
+-
++        /* fall through to re-enable */
+     case TIMER_REG_STATUS:
+         if (timer_enabled(t)) {
+             uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
 -- 
 1.8.3.1
 
