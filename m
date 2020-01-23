@@ -2,83 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DBAD1462F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 08:54:26 +0100 (CET)
-Received: from localhost ([::1]:52404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86385146359
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:20:35 +0100 (CET)
+Received: from localhost ([::1]:52768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXJo-0002a5-Sk
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 02:54:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46211)
+	id 1iuXj8-0005tx-DV
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:20:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53321)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iuXFf-00064e-2s
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:50:09 -0500
+ (envelope-from <johannes@sipsolutions.net>) id 1iuXfw-00020Y-Ps
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:17:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iuXFd-0004kT-TN
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:50:07 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51010
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iuXFd-0004j6-PO
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:50:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579765805;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mKqx2YPb53jH1em0A3pwg7wtWGyVWSkU9wtcIYmfLcY=;
- b=MgZRQOJYQ+rO0OxjuQhLS2lb6N8R07XQaRHB8pnoHrwuJeMPS/4l57xFcsLlmh4wkFphpm
- 1FPc9MEjSphEfbGNkk6gzEV4HByxon6KFH6NdVuw501UrLFlYyeyqZm1/QGIFkm9luezdJ
- mfb5M67ZuMguVculmfQ9uYy/ZBhICgQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-ygUhgGKjMcetBbTusnFDtg-1; Thu, 23 Jan 2020 02:50:02 -0500
-Received: by mail-wm1-f70.google.com with SMTP id t17so263550wmi.7
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 23:50:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=+2d4PZbdq/8DFiz/Cd6rj1VjCrL1MHH7Pkn6aeH3PTQ=;
- b=IEPEvyiLomqMi1+pF85PQDYdHceKY8EZCLR8o+Vs+SO7l3p2HtrmFsO/FVa8RwZn9A
- y6Z39aUJ9wU2MdgXsk+wu/NI0tg7ESm3uw1LFm5e8zdGLCbEbMR/EPPtrRF+DlmV50wX
- XnXgclFLMD9EiyCM/sd4pidE9teM1cjQR7mC1nFmpRTjQWshff95W5PYZlzxz3jIZQ8r
- hQ/2PmxV2NXjW3xXW+hwfoFEL8R2Tb3aJOGl8aee3tmL2YccZnjUPF+BfMWRkHXjisvL
- g3dfAqK5Wj9SzWtpzwURKi2c5JRvzMJZItNzLPFxk0NmwHL3cSoQtHSTFRNjNY4ALWhj
- C3mg==
-X-Gm-Message-State: APjAAAUhUbVw4mhw/rzO9fgevrkWQ5Iuse0mE2neILVLVa+SDxeCLvb3
- y/DFqcQ2iJAlMjFsiKGcW5ey2AHdpchSKb1On7ibUjVFWp7erq3SlNmbWUW6T8RHNPuQ4Zuo3EZ
- r4RgFzeiwThT0AbA=
-X-Received: by 2002:a05:600c:21c6:: with SMTP id
- x6mr2658374wmj.177.1579765801450; 
- Wed, 22 Jan 2020 23:50:01 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxzZYZe2qZaI3mhEQF4uVOERgVKuYmOU9vBO4dbymGb5wQIgwTLZZRUQVcOchOaBItj7a2NLQ==
-X-Received: by 2002:a05:600c:21c6:: with SMTP id
- x6mr2658349wmj.177.1579765801224; 
- Wed, 22 Jan 2020 23:50:01 -0800 (PST)
-Received: from [192.168.3.122] (p5B0C685B.dip0.t-ipconnect.de. [91.12.104.91])
- by smtp.gmail.com with ESMTPSA id
- d10sm1971979wrw.64.2020.01.22.23.50.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jan 2020 23:50:00 -0800 (PST)
-From: David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] target/s390x/translate: Do not leak stack address in
- translate_one()
-Date: Thu, 23 Jan 2020 08:49:59 +0100
-Message-Id: <12E45A4A-BACA-4CEB-98F4-B346FE2CC317@redhat.com>
-References: <20200123070533.19699-1-thuth@redhat.com>
-In-Reply-To: <20200123070533.19699-1-thuth@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-X-Mailer: iPhone Mail (17C54)
-X-MC-Unique: ygUhgGKjMcetBbTusnFDtg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ (envelope-from <johannes@sipsolutions.net>) id 1iuXfv-0005lS-MY
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:17:16 -0500
+Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:35486
+ helo=sipsolutions.net)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
+ id 1iuXfv-0005iM-EL
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:17:15 -0500
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.93) (envelope-from <johannes@sipsolutions.net>)
+ id 1iuXfs-00FGF5-5t; Thu, 23 Jan 2020 09:17:12 +0100
+From: Johannes Berg <johannes@sipsolutions.net>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/6] small vhost changes and in-band notifications
+Date: Thu, 23 Jan 2020 09:17:02 +0100
+Message-Id: <20200123081708.7817-1-johannes@sipsolutions.net>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a01:4f8:191:4433::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,58 +48,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Richard Henderson <rth@twiddle.net>
+Cc: mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
+Here's a repost of all the patches I sent back in August, with the
+in-band notifications rebased over the reset patch, so IDs have now
+changed a bit.
 
-> Am 23.01.2020 um 08:05 schrieb Thomas Huth <thuth@redhat.com>:
->=20
-> =EF=BB=BFThe code in translate_one() leaks a stack address via "s->field"=
- parameter:
->=20
-> static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
-> {
->     DisasJumpType ret =3D DISAS_NEXT;
->     DisasFields f;
->     [...]
->     s->fields =3D &f;
->     [...]
->     return ret;
-> }
->=20
-> It's currently harmless since the caller does not seem to use "fields"
-> anymore, but let's better play safe (and please static code analyzers)
-> by setting the fields back to NULL before returning.
->=20
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1661815
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+I've marked this all as v5 even if it really wasn't for all of them,
+just the VugDev main fd cleanup patch was at v4 before.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+I've also collected reviewed-by's from the previous patches here.
 
-> ---
-> target/s390x/translate.c | 2 ++
-> 1 file changed, 2 insertions(+)
->=20
-> diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-> index 4292bb0dd0..9122fb36da 100644
-> --- a/target/s390x/translate.c
-> +++ b/target/s390x/translate.c
-> @@ -6435,6 +6435,8 @@ static DisasJumpType translate_one(CPUS390XState *e=
-nv, DisasContext *s)
->     }
-> #endif
->=20
-> +    s->fields =3D NULL;
-> +
->     /* Advance to the next instruction.  */
->     s->base.pc_next =3D s->pc_tmp;
->     return ret;
-> --=20
-> 2.18.1
->=20
+Let me know if I should make any further edits here or in follow-up
+patches.
+
+Thanks,
+johannes
+
 
 
