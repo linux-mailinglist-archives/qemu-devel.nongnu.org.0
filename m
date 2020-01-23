@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F32E14637E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:29:37 +0100 (CET)
-Received: from localhost ([::1]:53082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2099146395
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:34:45 +0100 (CET)
+Received: from localhost ([::1]:53228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXrr-0001Nk-JQ
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:29:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56114)
+	id 1iuXwq-00086e-UE
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:34:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56001)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuXlW-0001Od-5B
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:23:03 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuXlM-00014r-0w
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuXlU-0003BM-R2
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:23:02 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:37767)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlU-0003AO-Hf
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:23:00 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuXlG-0002tW-ON
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:51 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:42647)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlG-0002qO-En
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:46 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MWAf4-1j630V3rFS-00XYnL; Thu, 23 Jan 2020 09:22:42 +0100
+ id 1Mi2eP-1jXz7D2MDZ-00e7Vw; Thu, 23 Jan 2020 09:22:34 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/17] linux-user: Add support for getting/setting RTC PLL
- correction using ioctls
-Date: Thu, 23 Jan 2020 09:22:26 +0100
-Message-Id: <20200123082227.2037994-17-laurent@vivier.eu>
+Subject: [PULL 02/17] linux-user: Reserve space for brk
+Date: Thu, 23 Jan 2020 09:22:12 +0100
+Message-Id: <20200123082227.2037994-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123082227.2037994-1-laurent@vivier.eu>
 References: <20200123082227.2037994-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:oMcSg9GRD3bTnJW2NH3roPN7XwG5h4iheUjy3D4zwUcPXX5pAjQ
- e4NFlR1jNdqVLW19GVz1SRl3WiTrvsJ7NmqTuws33Qc74/OXQo8J1jP1z+E1Yuw6dPm62Y5
- wcKafRlxczFSRs8ZfyjsUq/U7zW0RTOfyn9Ci8+N2KjqAUJ33dyhCBKKmHc9XleWuTAZg9E
- NS+l3XioavmegN7REtBFw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:g4flJtB8bK4=:Vj7AaXocgAXRQrMgXxVA6O
- Rli4biuoLjnyh/EQyrpAll9vg0AuHzKSKAmAy8RIqoKR9SrBfWk3LxXG4y7oFrtiDqn5py8Bf
- lQcyXqlaX9MBEMV28xLmi3TPDftku7QeygSkBQTOR4p48cSY5EiMW3QSe09dRPYvCKHDBbEte
- Dhglwf/wrI5IM8y4+hhFbRUcJTevPuZ+Iva+Kf0kZiqx60saTcGNdUaGMDqGkr1FTW+nicWgt
- yhIhnCMQkdvlXYk51Ot514GFWcI0Q1bMmarcSFefM1q4CaYA2NeJ9GVO8VxIXRS4VBYWac5kT
- 1WsZNL9QD8EK+aWy3l2T36gqFrZ4PYGMSYZvUnfS3p0HE7QYBA7sQRzxAdgrnq02KVH5YJwrW
- eZDBUFK7UkYL39pJyGO0Nv0lqsRDwgDGFOPTFLQJSw3iZimTWHuAHrBQ9Ex9uN2Rmsg//pG0k
- P7HFynWWgSMDjTQUXx+1R6CDXnz93ZDLxuIuyvhnPirL7sEfJjJ1feegxW+jU3j/Yp4+o6Iv+
- DSrHUNESsek0BJNTgQHpwke8qJvx0tM/WSHZuDuGMx7SdP4JX1sPhn17xmnhktGTjTJnCuX2U
- hsmRml2LpvQRHCK/nOmK4fBUBD7He1M1wehT72OPOwpBQRj1FbOgB0B45FlrKjUAftyYY2i+W
- ajZndSELg+qV0PxzBQX6VcLllu0oCPB8u7xE2ovhgOHmUEXMB/Vx77bU2onVOZkzH5YR2mseb
- fRgJG37peePMSrbeKLYpaZf20jLAlGcC9c0GtoxOBUijqKEejhqPAYmOG0OeStAETILoTRlon
- a8QpeLN8thliN32z7dLn7BGNBEz+j2QXYAAJbcW0zHWOf8JYIFnxfO8jtiuJQELo6HAE0mL
+X-Provags-ID: V03:K1:yyYTQ6TTuAdWqXFFVCVNYHK+iP45nYTEaSADh1Q9vNrinQUKSRS
+ mZ/H0r/XGc7aW7/FTxHC8nOo3dNwOScc4D5kycVu7od2tPtdAOv+usx0SOrP9G7NLvrktVZ
+ QqyMv3TtHqVCnhbFAlIsc/3g7gf14C16cP0151xXxqR1JJjre8bHUVPW/YM4YlgvSLOvSIG
+ fv7JleOOQzVg/LevBUmxA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iRwKJMiXTTk=:7ZePQvzAleG+hYP2plFoBO
+ e5T+pTe7gnjV/zEpITkFLIeV9u+3BQ2YDDDgggjIiR1jcNe0JZkskcGBp2Cfe08YvubG15/BH
+ 5twqUjSbEYQ/F0NpzxyVNJfX57WqIobvsWPtkEOq8Cl54mVCQ1QedPNO9V6dSN2R+kmx4tuRC
+ 2qOeIx8d6oAkrt+NQXeN2IY7PbsHo9bgqRbht4+P/r/aYd9goucl+gdRFwpKOK9sg/kSMIhY4
+ eB48P6eRSb7xRp0g+X3xW25T+Ztirix4cSkWHTnf/o9cPu9BKz0tAikGZ8zO9iU9GBENCebsV
+ jUS5NdDodKyKrvx8+gmACts1cBRgyQuHeiB6nTOOekBSoTKkQPnxvmZbKRFu9D+/HnCMBI4q9
+ dZQsIhiGcBlstK4DmwSBYMHNPwIVRWuviJNRyyuAEm2oheL8DzIpBKVLAFV9JlauCkS5pWOVR
+ HtbNNZ9Ogww8a0i+eEbReDQlua4iYQzxEeiJlYb/wNSDjD2TsOjaCTJq4TbZNE8JBqfPIGqcP
+ 6PawTKdN1hoKra2Sg9cw3YDz42WPOwBDrjb3fp1qWeeAnmk0TGVNehKj9u7uIXjSKCe+GuBxS
+ blDvlVkc3+8fzLFI/iQEPfyciCQWC2QuiGmTAfF87fMtWCt8fLpL/CetqxOQIIbT5DMgzx3aq
+ Trkh7Zaj5C4EoQmsHB8DYpwsbUBQQig4pUcXFJ6/jF/91YiNM+nJWbVIFlnOcwy+OIEfTPknk
+ 9zcvpCnyym2JSs7Dx5iawTGTmeMJhKLfYUdkNeGWWM4AbjKT4tHFCP4br8k5IC8KGB+yILPU3
+ TER3vrUvHh1Eu/tOl6UnlAu2mblmM5OnPsckpUgdr+mdcR8h8k=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
+X-Received-From: 212.227.126.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,123 +64,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-This patch implements functionalities of following ioctls:
+With bad luck, we can wind up with no space at all for brk,
+which will generally cause the guest malloc to fail.
 
-RTC_PLL_GET - Getting PLL correction
+This bad luck is easier to come by with ET_DYN (PIE) binaries,
+where either the stack or the interpreter (ld.so) gets placed
+immediately after the main executable.
 
-    Read the PLL correction for RTCs that support PLL. The PLL correction
-    is returned in the following structure:
+But there's nothing preventing this same thing from happening
+with ET_EXEC (normal) binaries, during probe_guest_base().
 
-        struct rtc_pll_info {
-            int pll_ctrl;        /* placeholder for fancier control */
-            int pll_value;       /* get/set correction value */
-            int pll_max;         /* max +ve (faster) adjustment value */
-            int pll_min;         /* max -ve (slower) adjustment value */
-            int pll_posmult;     /* factor for +ve correction */
-            int pll_negmult;     /* factor for -ve correction */
-            long pll_clock;      /* base PLL frequency */
-        };
+In both cases, reserve some extra space via mmap and release
+it back to the system after loading the interpreter and
+allocating the stack.
 
-    A pointer to this structure should be passed as the third
-    ioctl's argument.
+The choice of 16MB is somewhat arbitrary.  It's enough for libc
+to get going, but without being so large that 32-bit guests or
+32-bit hosts are in danger of running out of virtual address space.
+It is expected that libc will be able to fall back to mmap arenas
+after the limited brk space is exhausted.
 
-RTC_PLL_SET - Setting PLL correction
-
-    Sets the PLL correction for RTCs that support PLL. The PLL correction
-    that is set is specified by the rtc_pll_info structure pointed to by
-    the third ioctl's' argument.
-
-Implementation notes:
-
-    All ioctls in this patch have a pointer to a structure rtc_pll_info
-    as their third argument. All elements of this structure are of
-    type 'int', except the last one that is of type 'long'. That is
-    the reason why a separate target structure (target_rtc_pll_info)
-    is defined in linux-user/syscall_defs. The rest of the
-    implementation is straightforward.
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-Message-Id: <1579117007-7565-6-git-send-email-Filip.Bozuta@rt-rk.com>
+Launchpad: https://bugs.launchpad.net/qemu/+bug/1749393
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200117230245.5040-1-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ioctls.h        |  2 ++
- linux-user/syscall_defs.h  | 14 ++++++++++++++
- linux-user/syscall_types.h |  9 +++++++++
- 3 files changed, 25 insertions(+)
+ linux-user/elfload.c | 73 +++++++++++++++++++++++++++++++++-----------
+ linux-user/qemu.h    |  1 +
+ 2 files changed, 57 insertions(+), 17 deletions(-)
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index e4c1fbf52b1b..789764d11314 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -87,6 +87,8 @@
-      IOCTL(RTC_EPOCH_SET, IOC_W, TYPE_ULONG)
-      IOCTL(RTC_WKALM_RD, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_wkalrm)))
-      IOCTL(RTC_WKALM_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_wkalrm)))
-+     IOCTL(RTC_PLL_GET, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
-+     IOCTL(RTC_PLL_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 511e4500788b..f3080a16358c 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -10,6 +10,7 @@
+ #include "qemu/path.h"
+ #include "qemu/queue.h"
+ #include "qemu/guest-random.h"
++#include "qemu/units.h"
  
-      IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
-      IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index c33432a374e5..9f7aad49c683 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -763,6 +763,16 @@ struct target_pollfd {
- #define TARGET_KDSETLED        0x4B32	/* set led state [lights, not flags] */
- #define TARGET_KDSIGACCEPT     0x4B4E
+ #ifdef _ARCH_PPC64
+ #undef ARCH_DLINFO
+@@ -2364,24 +2365,51 @@ static void load_elf_image(const char *image_name, int image_fd,
+         }
+     }
  
-+struct target_rtc_pll_info {
-+    int pll_ctrl;
-+    int pll_value;
-+    int pll_max;
-+    int pll_min;
-+    int pll_posmult;
-+    int pll_negmult;
-+    abi_long pll_clock;
-+};
+-    load_addr = loaddr;
+-    if (ehdr->e_type == ET_DYN) {
+-        /* The image indicates that it can be loaded anywhere.  Find a
+-           location that can hold the memory space required.  If the
+-           image is pre-linked, LOADDR will be non-zero.  Since we do
+-           not supply MAP_FIXED here we'll use that address if and
+-           only if it remains available.  */
+-        load_addr = target_mmap(loaddr, hiaddr - loaddr, PROT_NONE,
+-                                MAP_PRIVATE | MAP_ANON | MAP_NORESERVE,
+-                                -1, 0);
+-        if (load_addr == -1) {
+-            goto exit_perror;
++    if (pinterp_name != NULL) {
++        /*
++         * This is the main executable.
++         *
++         * Reserve extra space for brk.
++         * We hold on to this space while placing the interpreter
++         * and the stack, lest they be placed immediately after
++         * the data segment and block allocation from the brk.
++         *
++         * 16MB is chosen as "large enough" without being so large
++         * as to allow the result to not fit with a 32-bit guest on
++         * a 32-bit host.
++         */
++        info->reserve_brk = 16 * MiB;
++        hiaddr += info->reserve_brk;
 +
- /* real time clock ioctls */
- #define TARGET_RTC_AIE_ON           TARGET_IO('p', 0x01)
- #define TARGET_RTC_AIE_OFF          TARGET_IO('p', 0x02)
-@@ -782,6 +792,10 @@ struct target_pollfd {
- #define TARGET_RTC_EPOCH_SET        TARGET_IOW('p', 0x0e, abi_ulong)
- #define TARGET_RTC_WKALM_RD         TARGET_IOR('p', 0x10, struct rtc_wkalrm)
- #define TARGET_RTC_WKALM_SET        TARGET_IOW('p', 0x0f, struct rtc_wkalrm)
-+#define TARGET_RTC_PLL_GET          TARGET_IOR('p', 0x11,                      \
-+                                               struct target_rtc_pll_info)
-+#define TARGET_RTC_PLL_SET          TARGET_IOW('p', 0x12,                      \
-+                                               struct target_rtc_pll_info)
- 
- #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
-        defined(TARGET_XTENSA)
-diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index 3efa9536ccfa..5ba4155047ba 100644
---- a/linux-user/syscall_types.h
-+++ b/linux-user/syscall_types.h
-@@ -271,6 +271,15 @@ STRUCT(rtc_wkalrm,
-        TYPE_CHAR, /* pending */
-        MK_STRUCT(STRUCT_rtc_time)) /* time */
- 
-+STRUCT(rtc_pll_info,
-+       TYPE_INT, /* pll_ctrl */
-+       TYPE_INT, /* pll_value */
-+       TYPE_INT, /* pll_max */
-+       TYPE_INT, /* pll_min */
-+       TYPE_INT, /* pll_posmult */
-+       TYPE_INT, /* pll_negmult */
-+       TYPE_LONG) /* pll_clock */
++        if (ehdr->e_type == ET_EXEC) {
++            /*
++             * Make sure that the low address does not conflict with
++             * MMAP_MIN_ADDR or the QEMU application itself.
++             */
++            probe_guest_base(image_name, loaddr, hiaddr);
+         }
+-    } else if (pinterp_name != NULL) {
+-        /* This is the main executable.  Make sure that the low
+-           address does not conflict with MMAP_MIN_ADDR or the
+-           QEMU application itself.  */
+-        probe_guest_base(image_name, loaddr, hiaddr);
++    }
 +
- STRUCT(blkpg_ioctl_arg,
-        TYPE_INT, /* op */
-        TYPE_INT, /* flags */
++    /*
++     * Reserve address space for all of this.
++     *
++     * In the case of ET_EXEC, we supply MAP_FIXED so that we get
++     * exactly the address range that is required.
++     *
++     * Otherwise this is ET_DYN, and we are searching for a location
++     * that can hold the memory space required.  If the image is
++     * pre-linked, LOADDR will be non-zero, and the kernel should
++     * honor that address if it happens to be free.
++     *
++     * In both cases, we will overwrite pages in this range with mappings
++     * from the executable.
++     */
++    load_addr = target_mmap(loaddr, hiaddr - loaddr, PROT_NONE,
++                            MAP_PRIVATE | MAP_ANON | MAP_NORESERVE |
++                            (ehdr->e_type == ET_EXEC ? MAP_FIXED : 0),
++                            -1, 0);
++    if (load_addr == -1) {
++        goto exit_perror;
+     }
+     load_bias = load_addr - loaddr;
+ 
+@@ -2860,6 +2888,17 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
+     bprm->core_dump = &elf_core_dump;
+ #endif
+ 
++    /*
++     * If we reserved extra space for brk, release it now.
++     * The implementation of do_brk in syscalls.c expects to be able
++     * to mmap pages in this space.
++     */
++    if (info->reserve_brk) {
++        abi_ulong start_brk = HOST_PAGE_ALIGN(info->brk);
++        abi_ulong end_brk = HOST_PAGE_ALIGN(info->brk + info->reserve_brk);
++        target_munmap(start_brk, end_brk - start_brk);
++    }
++
+     return 0;
+ }
+ 
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index f6f5fe5fbb55..560a68090e14 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -35,6 +35,7 @@ struct image_info {
+         abi_ulong       end_data;
+         abi_ulong       start_brk;
+         abi_ulong       brk;
++        abi_ulong       reserve_brk;
+         abi_ulong       start_mmap;
+         abi_ulong       start_stack;
+         abi_ulong       stack_limit;
 -- 
 2.24.1
 
