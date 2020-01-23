@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE76A146370
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:25:42 +0100 (CET)
-Received: from localhost ([::1]:53026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8D8146376
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:27:27 +0100 (CET)
+Received: from localhost ([::1]:53058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXo5-0003j5-9J
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:25:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55889)
+	id 1iuXpm-0006Nc-Bv
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:27:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuXlG-00010h-BG
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:48 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuXlI-00011S-2G
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuXlE-0002nl-S1
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:46 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:48123)
+ (envelope-from <laurent@vivier.eu>) id 1iuXlG-0002t7-HG
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:47 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:43277)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlD-0002e1-5d
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:44 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlG-0002oZ-7v
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:46 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MGzI3-1iqQtx429T-00E66U; Thu, 23 Jan 2020 09:22:31 +0100
+ id 1MQdpG-1jI6E008HO-00NgMR; Thu, 23 Jan 2020 09:22:34 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/17] Linux user for 5.0 patches
-Date: Thu, 23 Jan 2020 09:22:10 +0100
-Message-Id: <20200123082227.2037994-1-laurent@vivier.eu>
+Subject: [PULL 01/17] linux-user:Fix align mistake when mmap guest space
+Date: Thu, 23 Jan 2020 09:22:11 +0100
+Message-Id: <20200123082227.2037994-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200123082227.2037994-1-laurent@vivier.eu>
+References: <20200123082227.2037994-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:S90B/Zx5VE0kp1RMh+5FqltpV9iTwUKPQgfx4dp0E+iyMiEIZlz
- aQ/4RstKTErLG3zi6Bls/bSgUXw5H2W8aA0qq4KM0hSxRc1+jdvGk0d393NOjSz6enqzHrm
- /zaAAZiVMPxqAUjS0hgmFAebNm3TF0xQMChjPRWJssmPKMvCktG4KKc9R505Lls1z13nA4H
- 6zKFV6XY26kDoBtxegA0g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zn9JmtC6FoA=:d4p2lcuh7/FQs15c7sWvmI
- dxcXZOod++szeKlhXy1RDDqXJvGHHumpEpeSvu0QnRSkzNZ2KTozCupYgbiA2kKmbREW04mou
- 9poFDVmYamBfrUXbfcxOPTyWZBIjGrCdQ4U5NiziNPHzw3BnWOANRwrUxazo/2Iq4fJY4kg2K
- C5/fREDEvv8iek6PXLG4nJ6xdHmJNt04qbcL8hFqTNClcnVc9gmxwz8IwDlgDUqbBOEVUC41G
- rJUnwHCBq8+cdyc4a9uv2O8Px3Tye8SwsfcwjXAGZYGzPz0oWLW+eE0AUFSLebUe9e8OCm3fj
- 4mSlb2HAf9hrmJQSy15vVvFQTVB4MAJOiW30ukX+LpXUhfyIZs6tGzxWmnYcWADlZBsnqtydO
- uEc9lD92Lu6dcD4CLJs9lUOlqnAO8zJpwgobl6KC0HLy+s50as7QvT+OWRG0eETA5mmfi5yMc
- lMtTekpIhmGfDYX78bShQYbnW8rRcbV0JtAdImqEpA1grrZIVf95kxzawM8OX23ugBs5uh1q8
- VUON4g3QEaPwPLErypmznXNkxV2/QRF+U7tRTSCjg60XPQtH5xTamjXN7sPL9L6zPv1sKSe/W
- BNjJn5luFapaUCadOWIfVTwFBnearWphJF4W5RXjnI/WdxWyDVvgPb7kZtzwipHZmSLj0u5Bm
- LogYiaDFB3qnAsdxz5mzl5qY5Enlzf5kiQUDgtlfEKUgnycyjkYFOt8iLcbE0WRMXt7EjZ3T3
- KBQhnY2ozw7nBXI8qovDuR7OLorw/VHqb+vhcQEg5n+1046TpLym/MrtOxw24Ic9kGo296msP
- 0i+4FC8k6q6WB6vyEag/wvfTcqu0JSueTwcd6sBMbz3eaBxs1Q=
+X-Provags-ID: V03:K1:qn6JMmYNdNfmHxOlpWiAP26Rna0EFvuX7k+7mR0zyHjLMOqIqmj
+ x5rG3dVEp5JExxAcqTw9oOMaTchKpDUWX8gECl7qqtg2uH1Jp8NmxMyUG9XYf0/QqI8tBfc
+ FdML4G1/VpDuqGhWqCUgdEIzFvgic0c1UhF2tSuo7fz6IPYmefvaxieUyWllBgXxeixIlT4
+ TyKtmyY7xhQV8nt2s9x1Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Z6bhkNrDhUw=:ked2FmQBb06bKKCDfROfk5
+ uFUBR9SFI5GAzwpA+eNP4b59ahjuwkJ8o+7p88GDLTGLooJENDymIkfq2anMZQWFEh4RuuKHF
+ kupz/WqgQYYZGzGSTa+ZyTZU9S4zM0vKvXgM0OaaSov7fRdp5TGy4ufxPW3MwsVwivmlzFJOW
+ 8mTecrcN4ex23q/TN/QXnuiFwdvUbRq+LnKG2it1CoxpQgzhci06ceeyCbu9NhiPxY+5exDgW
+ rEPgSfRR4H4o/XVfUbIxibQ1BaCM+wVRQlDWg/HkckmkcIA9Y96qb+kjtn/iHn8FKlhUE1yQS
+ NPjylT9QNH9M2QQlW5yAfqb2zt9O0jGSvEW0wMgCQPujfVWxoXAjk5ioofF6HBqw2/Td8mf6P
+ gzF7a6xCiOgv9sdDV07P69pJDypP1bDEVuVg8/4PNoAywPcXiOjczQA7ru0cLBOfZBt1PSE64
+ EjVA2udj8WdCU6E6irZC7NVnXKrNUqjNy/Y1AZoHNPcCb4m1t95SmQ0rgaIZ5K84IsGHOlW+Z
+ YVuncRzC41kend++UoHxTtEd2VyefMjL6vhp0McI8gV2ZBfd6+RqPpBt1DwuulcT01I75mwwM
+ 0cQp+SryIzV6GgegB6UI/6s4SJ6ZuEBrohOgxf7byd/0u4Pzv039kVTsC6IPiAKfKiK/NGRxd
+ TAqzpXoNkOFmHVKH+bI2i1y25p2WjSMMr9yxHHzka8A32PqhT/e7BflsNeuyM55B58+weSMSW
+ nibrXqnSgLd9z1BMrqltdUYaSw/YgWQF1eXekNrLR9coUrDO+SIrlO/5AE9MA4n0iLM0kq1g3
+ fIrO6FMDgXxu69j1huTxjXLmCleBk0ktoQza+IsCLX6q1z+6+U=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
+X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,69 +63,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Xinyu Li <precinct@mail.ustc.edu.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde0dd40:
+From: Xinyu Li <precinct@mail.ustc.edu.cn>
 
-  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-20200121' into staging (2020-01-21 15:29:25 +0000)
+In init_guest_space, we need to mmap guest space. If the return address
+of first mmap is not aligned with align, which was set to MAX(SHMLBA,
+qemu_host_page_size), we need unmap and a new mmap(space is larger than
+first size). The new size is named real_size, which is aligned_size +
+qemu_host_page_size. alugned_size is the guest space size. And add a
+qemu_host_page_size to avoid memory error when we align real_start
+manually (ROUND_UP(real_start, align)). But when SHMLBA >
+qemu_host_page_size, the added size will smaller than the size to align,
+which can make a mistake(in a mips machine, it appears). So change
+real_size from aligned_size +qemu_host_page_size
+to aligned_size + align will solve it.
 
-are available in the Git repository at:
+Signed-off-by: Xinyu Li <precinct@mail.ustc.edu.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20191213022919.5934-1-precinct@mail.ustc.edu.cn>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/elfload.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
-
-for you to fetch changes up to a7b09746679c1815115249ec69197e454efdfb15:
-
-  linux-user: Add support for read/clear RTC voltage low detector using ioctls (2020-01-22 15:21:37 +0100)
-
-----------------------------------------------------------------
-Fix mmap guest space and brk
-Add FS/FD/RTC/KCOV ioctls
-
-----------------------------------------------------------------
-
-Aleksandar Markovic (8):
-  linux-user: Add support for FS_IOC_<GET|SET>VERSION ioctls
-  linux-user: Add support for FS_IOC32_<GET|SET>FLAGS ioctls
-  linux-user: Add support for FS_IOC32_<GET|SET>VERSION ioctls
-  linux-user: Add support for FD<SETEMSGTRESH|SETMAXERRS|GETMAXERRS>
-    ioctls
-  linux-user: Add support for FDFMT<BEG|TRK|END> ioctls
-  configure: Detect kcov support and introduce CONFIG_KCOV
-  linux-user: Add support for KCOV_<ENABLE|DISABLE> ioctls
-  linux-user: Add support for KCOV_INIT_TRACE ioctl
-
-Filip Bozuta (7):
-  linux-user: Add support for TYPE_LONG and TYPE_ULONG in do_ioctl()
-  linux-user: Add support for enabling/disabling RTC features using
-    ioctls
-  linux-user: Add support for getting/setting RTC time and alarm using
-    ioctls
-  linux-user: Add support for getting/setting RTC periodic interrupt and
-    epoch using ioctls
-  linux-user: Add support for getting/setting RTC wakeup alarm using
-    ioctls
-  linux-user: Add support for getting/setting RTC PLL correction using
-    ioctls
-  linux-user: Add support for read/clear RTC voltage low detector using
-    ioctls
-
-Richard Henderson (1):
-  linux-user: Reserve space for brk
-
-Xinyu Li (1):
-  linux-user:Fix align mistake when mmap guest space
-
- configure                  |  9 +++++
- linux-user/elfload.c       | 75 +++++++++++++++++++++++++++++---------
- linux-user/ioctls.h        | 41 +++++++++++++++++++++
- linux-user/qemu.h          |  1 +
- linux-user/syscall.c       |  6 +++
- linux-user/syscall_defs.h  | 59 ++++++++++++++++++++++++++++--
- linux-user/syscall_types.h | 37 +++++++++++++++++++
- 7 files changed, 207 insertions(+), 21 deletions(-)
-
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 07b16cc0f470..511e4500788b 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2191,7 +2191,7 @@ unsigned long init_guest_space(unsigned long host_start,
+              * to where we need to put the commpage.
+              */
+             munmap((void *)real_start, host_size);
+-            real_size = aligned_size + qemu_host_page_size;
++            real_size = aligned_size + align;
+             real_start = (unsigned long)
+                 mmap((void *)real_start, real_size, PROT_NONE, flags, -1, 0);
+             if (real_start == (unsigned long)-1) {
 -- 
 2.24.1
 
