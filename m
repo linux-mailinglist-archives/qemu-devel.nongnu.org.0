@@ -2,87 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A133A147235
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:58:08 +0100 (CET)
-Received: from localhost ([::1]:60934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE50D1471D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:35:25 +0100 (CET)
+Received: from localhost ([::1]:60166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuicB-0001pR-LV
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:58:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34717)
+	id 1iuiGC-0002d8-OM
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:35:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39632)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iughI-0003cc-Nj
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:55:18 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iugrG-0007Gk-H2
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:05:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iughH-0000Pz-LV
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:55:16 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55092
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1iugrE-0006Z3-DN
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:05:33 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32933
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iughG-0000Ni-2Y
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:55:15 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iugrE-0006XL-9L
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:05:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579802113;
+ s=mimecast20190719; t=1579802731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CsA7brPv5IiayWjJ564yZ0Wwt41HKNVlotkuFX3f/6o=;
- b=H8VPBNLlq8OqQdpSgn5D8ilLigkByPPSQ6bVKqR4vzDa9YAvmtcL8WtaTYkAM0D68p3c/i
- A6I2Hlh8e1vclQg8SQYpAs4u31DoAtt4dz3F/SIUROnMd5yf/gldzkKbtU+AbqBktMVsh8
- X9MUsza/wwDhs1JTYwIAQh28Kg7KzyU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-U3d7--yGPRe1cGEB-FznsQ-1; Thu, 23 Jan 2020 12:55:11 -0500
-Received: by mail-wm1-f72.google.com with SMTP id m21so898176wmg.6
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 09:55:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0fl68LNmJbFTI1O/WBJWI+YervOar9TZo3leS9OrhI8=;
- b=l3yg4oSI09P+7Jbi6TfYqjq9oQ91gC1AN4Q6XJhWoe37E8nERLENPKLu9f7y9SUaMg
- nTXAOoUtVJDipvDEVpS3MLfnV2fpVB87iX4yFJc2m+ovpK97Vq4wz9oCPA/Ev3yVDpmu
- 3aoW9AOLZFv79gvTdNuZu0myGXMleXBFgZzU7k1IM8p/1zBINTU3jgobSzZQpNbluvWf
- 7fW2IqMh2n8u3NDuv+LPvvweK7Gp6zMecbm9PErSLD+n4QRK30w/DqUOHxF0MdHoSWtb
- IiTwY124a9tRSSnHqV1PY8yybERXHaBvv7RoKRF1uONpUFy9ig/oAOCB97G6dgRV/A7I
- 8APQ==
-X-Gm-Message-State: APjAAAWE8mhNGpZwkoGu0O6sCmuL2LPnwWgEBNia9/nJCr8gfdsYvJJW
- wJSeL5/NNzInVbyzLhhFtw3hkfSJNRmCEddgKiM0T59pfbdg/AgPUWGYtDVen2H02iT0XbF9QtD
- 1uUgrPt7B91noHX0=
-X-Received: by 2002:a05:600c:228f:: with SMTP id
- 15mr5568233wmf.56.1579802110487; 
- Thu, 23 Jan 2020 09:55:10 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwSzLK+pjpstzeHkdgPXBLM/skus+p40VzHZOu/bQJ33G5IjNZfVtXuSfnT14eq1UURR79AOA==
-X-Received: by 2002:a05:600c:228f:: with SMTP id
- 15mr5568205wmf.56.1579802110302; 
- Thu, 23 Jan 2020 09:55:10 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id u18sm3960739wrt.26.2020.01.23.09.55.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jan 2020 09:55:09 -0800 (PST)
-Subject: Re: [PATCH 0/6] Fix more GCC9 -O3 warnings
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20191217173252.4672-1-philmd@redhat.com>
- <6a8266c6-7c6d-3139-249f-2dd46c98e02f@redhat.com> <87blquza17.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <47e28e48-362a-39ea-ee58-9bbe7d222394@redhat.com>
-Date: Thu, 23 Jan 2020 18:55:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ bh=x8ECowen03UM/thnC8zSZXoaw7I96p1lJYDU5no04Ek=;
+ b=QwD3+7TQaIVK2yCAk/VrvfgwSkjqBeU1XMkzfp5LvTPykiXf0WcFq1trpaOzUiSfrddFVt
+ EidJwgi0h7ZGXYxgraWf0z6EuSukIZlx0otpHaEFTc6sqiF52fL1H2mKcCFFWF8vDheWe0
+ WSJ3WFyQZyo1aUICJHMlcmhjeOy69NE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-ePSgKyGkP62k2Lpk0oTySA-1; Thu, 23 Jan 2020 13:05:27 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80433100550E;
+ Thu, 23 Jan 2020 18:05:26 +0000 (UTC)
+Received: from gondolin (ovpn-116-120.ams2.redhat.com [10.36.116.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8DF6A5D9E2;
+ Thu, 23 Jan 2020 18:05:22 +0000 (UTC)
+Date: Thu, 23 Jan 2020 19:05:19 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH REPOST v3 36/80] s390x/s390-virtio-ccw: use memdev for RAM
+Message-ID: <20200123190519.7b87aaa8.cohuck@redhat.com>
+In-Reply-To: <1579779525-20065-37-git-send-email-imammedo@redhat.com>
+References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+ <1579779525-20065-37-git-send-email-imammedo@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <87blquza17.fsf@linaro.org>
-Content-Language: en-US
-X-MC-Unique: U3d7--yGPRe1cGEB-FznsQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: ePSgKyGkP62k2Lpk0oTySA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,55 +72,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Hannes Reinecke <hare@suse.com>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Chubb <peter.chubb@nicta.com.au>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-arm@nongnu.org,
- =?UTF-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: david@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/23/20 12:28 PM, Alex Benn=C3=A9e wrote:
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->=20
->> On 12/17/19 6:32 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->>> Fix some trivial warnings when building with -O3.
->>> Philippe Mathieu-Daud=C3=A9 (6):
->>>     audio/audio: Add missing fall through comment
->>>     hw/display/tcx: Add missing fall through comments
->>>     hw/net/imx_fec: Rewrite fall through comments
->>>     hw/timer/aspeed_timer: Add a fall through comment
->>>     hw/scsi/megasas: Silent GCC9 duplicated-cond warning
->>>     qemu-io-cmds: Silent GCC9 format-overflow warning
->>
->> Sorry, this series failed because I used this tag in the first patch:
->>
->> Cc: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.ice.hu@gmail.com>
->>
->> Then git-send-email was happy with --dry-run, but then failed:
->> (body) Adding cc: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.ice.hu@gmail=
-.com> from line
->> 'Cc: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.ice.hu@gmail.com>'
->> 5.1.1 <K  v  g  >: Recipient address rejected: User unknown in local
->> recipient table
->>
->> Note to self, enclose utf-8 names, as:
->> Cc: "K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n" <dirty.ice.hu@gmail.com>
->=20
-> I never have to with my tags:
->=20
-> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->=20
-> Is it possible to be more even utf-8? Sounds like a bug in the git tools
-> to me.
+On Thu, 23 Jan 2020 12:38:01 +0100
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-The problem is the comma.
-What do you mean by "more UTF-8"?
+> memory_region_allocate_system_memory() API is going away, so
+> replace it with memdev allocated MemoryRegion. The later is
+> initialized by generic code, so board only needs to opt in
+> to memdev scheme by providing
+>   MachineClass::default_ram_id
+> and using MachineState::ram instead of manually initializing
+> RAM memory region.
+>=20
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> ---
+> CC: rth@twiddle.net
+> CC: david@redhat.com
+> CC: cohuck@redhat.com
+> CC: pasic@linux.ibm.com
+> CC: borntraeger@de.ibm.com
+> CC: qemu-s390x@nongnu.org
+> ---
+>  hw/s390x/s390-virtio-ccw.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+
+Acked-by: Cornelia Huck <cohuck@redhat.com>
 
 
