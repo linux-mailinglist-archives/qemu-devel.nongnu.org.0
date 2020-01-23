@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C321462EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 08:53:53 +0100 (CET)
-Received: from localhost ([::1]:52402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF471462F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 08:55:58 +0100 (CET)
+Received: from localhost ([::1]:52428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXJI-00021o-4T
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 02:53:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46051)
+	id 1iuXLJ-0004bO-6U
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 02:55:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46135)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <volker.ruemelin@t-online.de>) id 1iuXFP-0005j2-79
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:49:52 -0500
+ (envelope-from <volker.ruemelin@t-online.de>) id 1iuXFa-0005yF-Fg
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:50:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <volker.ruemelin@t-online.de>) id 1iuXFO-0004Qn-0a
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:49:51 -0500
-Received: from mailout08.t-online.de ([194.25.134.20]:46088)
+ (envelope-from <volker.ruemelin@t-online.de>) id 1iuXFZ-0004fu-G8
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:50:02 -0500
+Received: from mailout10.t-online.de ([194.25.134.21]:51690)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <volker.ruemelin@t-online.de>)
- id 1iuXFN-0004QA-R6
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:49:49 -0500
-Received: from fwd22.aul.t-online.de (fwd22.aul.t-online.de [172.20.26.127])
- by mailout08.t-online.de (Postfix) with SMTP id CE67941D32A5;
- Thu, 23 Jan 2020 08:49:48 +0100 (CET)
+ id 1iuXFZ-0004cw-9s
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:50:01 -0500
+Received: from fwd10.aul.t-online.de (fwd10.aul.t-online.de [172.20.26.152])
+ by mailout10.t-online.de (Postfix) with SMTP id 67E89415E823;
+ Thu, 23 Jan 2020 08:49:58 +0100 (CET)
 Received: from linpower.localnet
- (GWuX+2ZbYhZMP2LnDvdsdzW1bFHbiQ56L2Ypt+hmmL1J6fwYxXlj+OxkMz0rwroZ5x@[46.86.62.122])
- by fwd22.t-online.de
+ (TlKvyEZTYhur9DAPGEYWKidjGj6J0KObIIHEdW-kC4SbcWks057M-zzpxngbDOSZgo@[46.86.62.122])
+ by fwd10.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1iuXFM-20d0IS0; Thu, 23 Jan 2020 08:49:48 +0100
+ esmtp id 1iuXFP-1KaRhg0; Thu, 23 Jan 2020 08:49:51 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 567AA200F4D; Thu, 23 Jan 2020 08:49:43 +0100 (CET)
+ id 58C6A200F54; Thu, 23 Jan 2020 08:49:43 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 3/9] paaudio: remove unused variables
-Date: Thu, 23 Jan 2020 08:49:37 +0100
-Message-Id: <20200123074943.6699-3-vr_qemu@t-online.de>
+Subject: [PATCH 4/9] audio: prevent SIGSEGV in AUD_get_buffer_size_out
+Date: Thu, 23 Jan 2020 08:49:38 +0100
+Message-Id: <20200123074943.6699-4-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <1e29e1d3-b59b-fcd6-cdff-a680bcdbffa4@t-online.de>
 References: <1e29e1d3-b59b-fcd6-cdff-a680bcdbffa4@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-ID: GWuX+2ZbYhZMP2LnDvdsdzW1bFHbiQ56L2Ypt+hmmL1J6fwYxXlj+OxkMz0rwroZ5x
-X-TOI-MSGID: 4ed9fe2e-aa59-4e09-8147-285958c7a8cc
+X-ID: TlKvyEZTYhur9DAPGEYWKidjGj6J0KObIIHEdW-kC4SbcWks057M-zzpxngbDOSZgo
+X-TOI-MSGID: 8551bd31-6fca-49ca-a085-88876a6ea7fb
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 194.25.134.20
+X-Received-From: 194.25.134.21
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,54 +62,37 @@ Cc: QEMU <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The unused variables were last used before commit 49ddd7e122
-"paaudio: port to the new audio backend api".
+With audiodev parameter out.mixing-engine=3Doff hw->mix_buf is
+NULL. This leads to a segmentation fault in
+AUD_get_buffer_size_out. This patch reverts a small part of
+dc88e38fa7 "audio: unify input and output mixeng buffer
+management".
+
+To reproduce the problem start qemu with
+-soundhw adlib -audiodev pa,id=3Daudio0,out.mixing-engine=3Doff
 
 Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 ---
- audio/paaudio.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ audio/audio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/audio/paaudio.c b/audio/paaudio.c
-index dbfe48c03a..8f37c61851 100644
---- a/audio/paaudio.c
-+++ b/audio/paaudio.c
-@@ -32,7 +32,6 @@ typedef struct {
-     HWVoiceOut hw;
-     pa_stream *stream;
-     paaudio *g;
--    size_t samples;
- } PAVoiceOut;
-=20
- typedef struct {
-@@ -41,7 +40,6 @@ typedef struct {
-     const void *read_data;
-     size_t read_length;
-     paaudio *g;
--    size_t samples;
- } PAVoiceIn;
-=20
- static void qpa_conn_fini(PAConnection *c);
-@@ -488,7 +486,7 @@ static int qpa_init_out(HWVoiceOut *hw, struct audset=
-tings *as,
+diff --git a/audio/audio.c b/audio/audio.c
+index bf0f01e17f..922e95011c 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -878,9 +878,9 @@ size_t AUD_read(SWVoiceIn *sw, void *buf, size_t size=
+)
      }
+ }
 =20
-     audio_pcm_init_info (&hw->info, &obt_as);
--    hw->samples =3D pa->samples =3D audio_buffer_samples(
-+    hw->samples =3D audio_buffer_samples(
-         qapi_AudiodevPaPerDirectionOptions_base(ppdo),
-         &obt_as, ppdo->buffer_length);
+-int AUD_get_buffer_size_out (SWVoiceOut *sw)
++int AUD_get_buffer_size_out(SWVoiceOut *sw)
+ {
+-    return sw->hw->mix_buf->size * sw->hw->info.bytes_per_frame;
++    return sw->hw->samples * sw->hw->info.bytes_per_frame;
+ }
 =20
-@@ -536,7 +534,7 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsetti=
-ngs *as, void *drv_opaque)
-     }
-=20
-     audio_pcm_init_info (&hw->info, &obt_as);
--    hw->samples =3D pa->samples =3D audio_buffer_samples(
-+    hw->samples =3D audio_buffer_samples(
-         qapi_AudiodevPaPerDirectionOptions_base(ppdo),
-         &obt_as, ppdo->buffer_length);
-=20
+ void AUD_set_active_out (SWVoiceOut *sw, int on)
 --=20
 2.16.4
 
