@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79CE14706F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:06:20 +0100 (CET)
-Received: from localhost ([::1]:34246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D180B14707C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:09:07 +0100 (CET)
+Received: from localhost ([::1]:34330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugrz-0006oV-4u
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:06:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39612)
+	id 1iugug-00025b-82
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:09:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iudtp-00025A-Pk
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:56:02 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iudvL-0004Cd-5x
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:57:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iudto-00063K-Qm
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:56:01 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:39995)
+ (envelope-from <peter.maydell@linaro.org>) id 1iudvK-0007lN-59
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:57:35 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:37611)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iudto-00061o-KG
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:56:00 -0500
-Received: by mail-oi1-x244.google.com with SMTP id c77so3132789oib.7
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 06:56:00 -0800 (PST)
+ id 1iudvJ-0007iy-V2
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:57:34 -0500
+Received: by mail-ot1-x341.google.com with SMTP id k14so2989042otn.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 06:57:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=BGSUZ0K3tTXM+Hr2iD1GyUIPRP5aM7N3qL9xhCmhXVU=;
- b=cjAOZDaGsgpUTC9UWZvIxEmgdPZnJrqWTSvsi65TaSL430wSwYGyx6kGFthxh1FoXS
- zvkH5l7StTl4lAjZ9IvOGi/dFZ19Wn9hdZKuMkJZ7tF7YE/olOmHajXYpr4aIuZZJgpe
- Sei8HwOvcFv8p3OsmXuxPL2P/ncziAiKUpqgpL/RkN3nve1IQk4KPYl2ag0wPtDEPQTj
- +OdzBK9TmyZe0qnxdx0Fs2YYpz+lUJbYT7T3yc9uRyPM/s7ZgvXhG3u8v9eJQDBkRoL3
- Wj4qsEh5mC4jmxeYIEKJ80sW0vNRI/PgCstpw2s2s+1S31h0jsnpBhPMFs6AXNxqjrPT
- x0lg==
+ bh=78OoLEKFshaco3XqlhTyDxZN2Mdmre/EN0v1XtzbuR0=;
+ b=ZWmV9fw7omIzoYFDr9pbun5Qfn3dVDRHV4eAiqcI08YWzC/lXrf6WZEcfJ1DWaX3wq
+ uHzQUXzgfz5kBsTDzHjXPn3IkBBd6X9+bqLWLXTlUCr8WrwR+uokTnZUmxJOSnFkHm6Q
+ GrYGZE52ERXMWOdYyQxwD9L3+2vCBoqbT7BkBPx8FfvMunp0ycengbtd099f0Lpcz+I0
+ qYI6m/7MCO+vSV32ycQLSiWk3QFBUlxRKAE/T4Bj/24o66MTfDUGkBHtZFeMkDMQhMGf
+ 62gPC1tqlu7DHDh6rIh5AQIYNv5QQxkbbFbTtJikJBCa/2r/U0PwzHrcXtrNum2J0sE7
+ iTyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=BGSUZ0K3tTXM+Hr2iD1GyUIPRP5aM7N3qL9xhCmhXVU=;
- b=RGXy8eEGj8CkwqSbEUdg4PX21ro8M2RWmhcDMu3s8AOp57D3Di7/PRUZGsGY2YssrA
- 0Cv9QREqw9swdTe3Sw2ougClDjXF0F8RYcRxK2Iqn7RVmVg9j5y2Hd4mlrEAq/geUxqd
- i9oTCv2Tem0Z8A9HXWnXf5LPrnusGk79G95cXbyk13whJcc0kbDLu8Uj1chz0IGf3PZe
- Bh2bpWPhxqrMlf3Dk5NqVwEzqjBWaNvRYONjlJgDZuQpPIg40+KKKOTNg0S80pYs7qUV
- nLPBQwsJL29IlsEoHGqa71Wfm7xwmT3ksaM9g7xh/MDu1G46WcOqn5xj5FJHeUlRMtq1
- JHTw==
-X-Gm-Message-State: APjAAAXHYySOgzvqV5LiaXWWZS9FgiFUIyrfu3a9nWqNDzH1rHrPh5Vt
- 2rSE8iqsbQiHdeuJ9K9+OiU32l2LJmKO2a7b1LnueQ==
-X-Google-Smtp-Source: APXvYqxGAQkjM1Wc/YPytSwutQimb7S1je4V8E7wXspYpQ9pb/FjtnOGRP9K9otkp/TwHRCzX0jD3uLa0YXcYxtVk64=
-X-Received: by 2002:aca:f484:: with SMTP id s126mr10361435oih.48.1579791359784; 
- Thu, 23 Jan 2020 06:55:59 -0800 (PST)
+ bh=78OoLEKFshaco3XqlhTyDxZN2Mdmre/EN0v1XtzbuR0=;
+ b=RQORejScrkcT9kUlLtcZ+4lL7CMJqS8EX+LA6Z7vnUoot55xgKj32lbwSeFVzw/Ucy
+ lDGJGQ6gJUvV7wIJg0HOu7LRKsbh4RL9EUPzPnarcVWZTO/Ev7Vy4NiuTiEJpKE9ZwHV
+ Bu7mzwYTPujctoZAlKfOqz6LWlJibV2EIKG8V2FfYWzOIozqp+4P9vOkAdSsSbYGWVZ9
+ W5+MuO6YH2c35bGUDr7rZh/cJUwNoCN7BoTdDjZDqiGKbacdOw5g2UknFuPz3cBsjTW1
+ Iko7oOIuZMgP4YJZjxQirFLr8VtXowvMjAG5QnVWo1LbcVk5BthxJ1sPxN8BGFYs/KVE
+ V+kA==
+X-Gm-Message-State: APjAAAW/YxtvibyD8uwTg5L1PYNmjYoB1lOIzLhfFHu7OlREpkuoDI2P
+ qu6Qsz3r3LMF0tIjl7MAry+IJKKQjuFOnfuoYVyHqy/05d4=
+X-Google-Smtp-Source: APXvYqxeoCf+W762Ucg8W/W4FjNefJdeQ8bYNiSyC9LFCiEAsMtG9gtLOoHuwJfzdfCTdoTooem8+bs3ddCSunh36B8=
+X-Received: by 2002:a05:6830:184:: with SMTP id
+ q4mr11914530ota.232.1579791453016; 
+ Thu, 23 Jan 2020 06:57:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20200120185928.25115-1-philmd@redhat.com>
- <20200120185928.25115-3-philmd@redhat.com>
-In-Reply-To: <20200120185928.25115-3-philmd@redhat.com>
+References: <20200121213853.9601-1-f4bug@amsat.org>
+In-Reply-To: <20200121213853.9601-1-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jan 2020 14:55:49 +0000
-Message-ID: <CAFEAcA8-aM=B6G-Zin-yEJycf6v1Brhxkn8it30jPDqrKkyWgA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] MAINTAINERS: Add an entry for the Siemens SX1
- (OMAP310) machines
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Thu, 23 Jan 2020 14:57:22 +0000
+Message-ID: <CAFEAcA_yVNoFjgTcdCfxzzLLrz2jpENS9FZVp9vWS2X-R11REA@mail.gmail.com>
+Subject: Re: [PATCH] hw/misc/stm32f4xx_syscfg: Fix copy/paste error
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,40 +74,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Jan 2020 at 19:00, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
+On Tue, 21 Jan 2020 at 21:38, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> Add the Siemens SX1 (OMAP310) cellphones with the other ARM machines.
+> Missed in 870c034da0b, hopefully reported by Coverity.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Fixes: Coverity CID 1412793 (Incorrect expression)
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  MAINTAINERS | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  hw/misc/stm32f4xx_syscfg.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 52fbc18566..27fbe1abb4 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -560,6 +560,12 @@ F: include/hw/arm/digic.h
->  F: hw/*/digic*
->  F: include/hw/*/digic*
+> diff --git a/hw/misc/stm32f4xx_syscfg.c b/hw/misc/stm32f4xx_syscfg.c
+> index dbcdca59f8..f960e4ea1e 100644
+> --- a/hw/misc/stm32f4xx_syscfg.c
+> +++ b/hw/misc/stm32f4xx_syscfg.c
+> @@ -47,7 +47,7 @@ static void stm32f4xx_syscfg_set_irq(void *opaque, int =
+irq, int level)
+>      STM32F4xxSyscfgState *s =3D opaque;
+>      int icrreg =3D irq / 4;
+>      int startbit =3D (irq & 3) * 4;
+> -    uint8_t config =3D config =3D irq / 16;
+> +    uint8_t config =3D irq / 16;
 >
-> +Siemens SX1 (OMAP310)
-> +M: Peter Maydell <peter.maydell@linaro.org>
-> +L: qemu-arm@nongnu.org
-> +S: Maintained
-> +F: hw/arm/omap_sx1.c
+>      trace_stm32f4xx_syscfg_set_irq(irq / 16, irq % 16, level);
 
-At least as far as I'm concerned this is 'Odd Fixes'
-status at best. I don't even have any test images
-for it.
 
-thanks
+
+Applied to target-arm.next, thanks.
+
 -- PMM
 
