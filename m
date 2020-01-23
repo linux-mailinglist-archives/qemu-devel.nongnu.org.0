@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61FC7146FD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:36:52 +0100 (CET)
-Received: from localhost ([::1]:33622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D73147005
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:48:26 +0100 (CET)
+Received: from localhost ([::1]:33932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugPS-0002tp-Pk
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:36:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33723)
+	id 1iugae-0002G0-K8
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:48:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34016)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iudWZ-0002Sn-DW
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:32:00 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iudXe-0003tX-T5
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:33:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iudWY-0003jY-9h
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:31:59 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43555)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iudWY-0003j3-3H
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:31:58 -0500
-Received: by mail-oi1-x243.google.com with SMTP id p125so3026402oif.10
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 06:31:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lPzKUKgDI6EfoUly07hIA847tJbp2OidHNEfK6m6wHE=;
- b=H84eD2/EMD5H3V2VWLi9H11N6nJKsn/a2uCeojKPSmnB1yUpKIPkS2Q45KvJWKQRSq
- crzk8erXNCWeBp3q6ZnToEZswMUI1/1CUpYoeTZQIhcKiOwErkQAAJ9iRls9DFt8nohO
- l7Eq/0nym3XUJLFwoYQl4P3sHxzs+5Jdj9pvaXZuYC5kORqJgzOvAX2oPzx+4YuxjTjU
- sQPq47k5Es43ZlJkNzeLXpaucWxzWhlv+sOeLn1x3HPEJeFGD//tjcVVOCfkusRXt5bz
- 47lSHK6l+nVa0OLUEoN85CtlnrkihaWZpWjmizDlix/CZLsJxuPp2tRjUBFzrjwexPe6
- A/RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lPzKUKgDI6EfoUly07hIA847tJbp2OidHNEfK6m6wHE=;
- b=YQOy4kxP+V88JokHBWysWIHPaU1klbHoHcI2vxYdyjATRXn51ihn9NqqNlrO6383ro
- +e/Wm/3ncstSD9RYTHLVYswouEuz6V3IBLc7/aK1zM7/Bgq2wiVV2qyq2Er9unBRELfr
- N1pmOZZi8Vo3455KOp6dCvHJ6Xf+F0iaQXryDxcL+I727M487Vuqa3o9ijJYNABGdVBd
- 2oYrJXCmwv33vCIlKjDxinBAmpLhnHxLVClRBSi/u+KJi3DrQzVuCQTYCnEJn9I1yead
- z15QXzQAzIWFx0k5llyw6bhmufy/nvdk2IU+bffDgidnZauahZKK17aE9UYi1kAJ3bOE
- fu6Q==
-X-Gm-Message-State: APjAAAWlMvniYnR1lBJpM8rdbuEi88QlQapbEN6onPFA8Tj5S5Nu7CDY
- Ozsa5ABRJOysAS2fOyv9NXbukeRbjVxk+cW/PmfLeg==
-X-Google-Smtp-Source: APXvYqz79iETQpNZ48Zv72JMrXYhrgeohcSeAl/Mn5OB64COFTpZyA/btbY2ogBa7ltGqTajvZwWpdtYywm5vDMB3CQ=
-X-Received: by 2002:aca:570d:: with SMTP id l13mr10472675oib.146.1579789917244; 
- Thu, 23 Jan 2020 06:31:57 -0800 (PST)
+ (envelope-from <imammedo@redhat.com>) id 1iudXd-0004fx-I4
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:33:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35088
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iudXd-0004fc-EP
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:33:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579789984;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kFixVKejGKV1lPMIOJMNLN4pBeIgmrEj0dpbcqCDYuE=;
+ b=AduBdj5ItYxre/rCT28mLFlGOp0KH/8HJWtiY9wzxlCbaJhUnbCp3Jw6d5o58V94iBW2fD
+ Q33Tc36jOZN+EwFT0ZXWhLBw0pnwVwVBYdrmjiVfqPW0LpmkKV0DQip86CKdMsR7sIPqqG
+ m6WioraqU6vMUvBwugdVmELw4z+OsvY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-st08lnKqPNWdVtKyJyL_mw-1; Thu, 23 Jan 2020 09:33:00 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1352DB23;
+ Thu, 23 Jan 2020 14:32:58 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CAA271001DC0;
+ Thu, 23 Jan 2020 14:32:57 +0000 (UTC)
+Date: Thu, 23 Jan 2020 15:32:56 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [PATCH REPOST v3 13/80] arm/imx25_pdk: drop RAM size fixup
+Message-ID: <20200123153256.43256f57@redhat.com>
+In-Reply-To: <20200123123907.qa2fyg2iqlzyemmb@kamzik.brq.redhat.com>
+References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+ <1579779525-20065-14-git-send-email-imammedo@redhat.com>
+ <20200123123907.qa2fyg2iqlzyemmb@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-References: <20200123070913.626488-1-mst@redhat.com>
-In-Reply-To: <20200123070913.626488-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jan 2020 14:31:46 +0000
-Message-ID: <CAFEAcA9XTcNjRnaACo9JNyCZWTD0fAcVa8HGJ9xUAPRoUjeZmw@mail.gmail.com>
-Subject: Re: [PULL v3 00/18] virtio, pc: fixes, features
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: st08lnKqPNWdVtKyJyL_mw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,43 +72,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ jcd@tribudubois.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jan 2020 at 07:10, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> Changes from v2:
->     - add a coding style fix
-> Changes from v1:
->     - add a missing expected file
->
->
-> The following changes since commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde0dd40:
->
->   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-20200121' into staging (2020-01-21 15:29:25 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to 8347505640238d3b80f9bb7510fdc1bb574bad19:
->
->   vhost: coding style fix (2020-01-23 02:08:15 -0500)
->
-> ----------------------------------------------------------------
-> virtio, pc: fixes, features
->
-> Bugfixes all over the place.
-> CPU hotplug with secureboot.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+On Thu, 23 Jan 2020 13:39:07 +0100
+Andrew Jones <drjones@redhat.com> wrote:
+
+> On Thu, Jan 23, 2020 at 12:37:38PM +0100, Igor Mammedov wrote:
+> > If user provided non-sense RAM size, board will complain and
+> > continue running with max RAM size supported.
+> > Also RAM is going to be allocated by generic code, so it won't be
+> > possible for board to fix things up for user.
+> > 
+> > Make it error message and exit to force user fix CLI,
+> > instead of accepting non-sense CLI values.
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> > CC: drjones@redhat.com
+> > CC: jcd@tribudubois.net
+> > CC: peter.maydell@linaro.org
+> > CC: qemu-arm@nongnu.org
+> > ---
+> >  hw/arm/imx25_pdk.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/hw/arm/imx25_pdk.c b/hw/arm/imx25_pdk.c
+> > index c76fc2b..a2b7b35 100644
+> > --- a/hw/arm/imx25_pdk.c
+> > +++ b/hw/arm/imx25_pdk.c
+> > @@ -78,10 +78,10 @@ static void imx25_pdk_init(MachineState *machine)
+> >  
+> >      /* We need to initialize our memory */
+> >      if (machine->ram_size > (FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SIZE)) {
+> > -        warn_report("RAM size " RAM_ADDR_FMT " above max supported, "
+> > +        error_report("RAM size " RAM_ADDR_FMT " above max supported, "
+> >                      "reduced to %x", machine->ram_size,
+> >                      FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SIZE);
+> > -        machine->ram_size = FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SIZE;
+> > +        exit(EXIT_FAILURE);
+> >      }
+> >  
+> >      memory_region_allocate_system_memory(&s->ram, NULL, "imx25.ram",
+> > -- 
+> > 2.7.4
+> >  
+> 
+> This would break existing command lines that are happily using the max ram
+> size, which is only 512 MB. Yes, those command lines are wrong, but I'm
+> not sure we want to flip the warn to an error without machine type
+> versioning - which this board doesn't have.
+
+We typically don't do machine type versioning for CLI changes
+and in this case it would be plain user error in providing
+invalid CLI, so it should be fixed on user's side and not
+worked around by QEMU.
+
+It was fine before when board was allocating RAM on its own,
+but with RAM initialization moved to generic code it won't be
+possible. Hence fixup dropped and warning is converted to error
+to let user know that their CLI should be fixed.
+ 
+Board description [1] says that it supports up to 512Mb of RAM max.
+1) https://www.nxp.com/design/development-boards/i.mx-evaluation-and-development-boards/i.mx25-product-development-kit:IMX25PDK
 
 
+> Thanks,
+> drew 
 
-Judging by the commit hash I think what actually got applied
-was this v3.
-
-thanks
--- PMM
 
