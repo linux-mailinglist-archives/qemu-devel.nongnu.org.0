@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8CC3146AEE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:13:47 +0100 (CET)
-Received: from localhost ([::1]:57766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A85C146B00
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:17:54 +0100 (CET)
+Received: from localhost ([::1]:57824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iudEv-0002bH-L2
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:13:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54073)
+	id 1iudIu-0007Aa-Pg
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:17:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55281)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iubn0-0003ou-6C
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:40:52 -0500
+ (envelope-from <eblake@redhat.com>) id 1iubpW-00072D-Fu
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:43:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iubmy-0002GJ-Ot
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:40:50 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45354
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1iubpV-0005zt-4K
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:43:26 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47726
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iubmy-0002Ev-Kd
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:40:48 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iubpV-0005zc-14
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:43:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579783248;
+ s=mimecast20190719; t=1579783404;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CeuFK25U9RHqFoRab+T9Ogkit/2+wkjDCN/atYUZSmM=;
- b=EW7trAUzHUJVIpXuU4IAAf7X8S6Ct/hTVkeSOyC4UrEWiJ1X/GULgSz5I3c8qQrONGNswL
- Iy8SGXsLVuQffHPkQ0HNpFFDtzJBHghU1PL4+BmP1oXMOEUZY5HsYF8G2H37NkiZ8Sog3h
- mepdU6XkHYUwQcXbIrgGwA8w5leu770=
+ bh=1mvNlkdHMr6sL5nEhJl0+ns+8Pqn6o0rPsDf+cOjpAs=;
+ b=QdMIyAsckHTrGZWsbfTUcJC49hFl0JaK7D4mP+/QN42Kl6an1AZtOzOUUOw7i09DaXI4u1
+ 32r0KbZQfG6MkoIN9zNXRVT0/YvzaTNvmjBeHOWBI04qZtrpweApVv9kSkGiYjs7DrnsHC
+ bC81R/edQ0qP9eoTKsIk3RyjifCOMZ8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-gOUWXMsZM1iSXuVPe9pGBQ-1; Thu, 23 Jan 2020 07:40:44 -0500
+ us-mta-241-ZuMgadEBNoepwwChkED6Dg-1; Thu, 23 Jan 2020 07:43:20 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3A03DB2D;
- Thu, 23 Jan 2020 12:40:42 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 90A4B5C290;
- Thu, 23 Jan 2020 12:40:41 +0000 (UTC)
-Date: Thu, 23 Jan 2020 13:40:39 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH REPOST v3 15/80] arm/integratorcp: use memdev for RAM
-Message-ID: <20200123124039.iz3pkwh6lm4mnatw@kamzik.brq.redhat.com>
-References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
- <1579779525-20065-16-git-send-email-imammedo@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84D18800D48;
+ Thu, 23 Jan 2020 12:43:19 +0000 (UTC)
+Received: from [10.3.117.16] (ovpn-117-16.phx2.redhat.com [10.3.117.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC7485C1BB;
+ Thu, 23 Jan 2020 12:43:16 +0000 (UTC)
+Subject: Re: [PATCH 1/3] qemu-nbd: Convert invocation documentation to rST
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20200116141511.16849-1-peter.maydell@linaro.org>
+ <20200116141511.16849-2-peter.maydell@linaro.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <c14e6614-4411-e4d1-daab-626e575450fb@redhat.com>
+Date: Thu, 23 Jan 2020 06:43:15 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <1579779525-20065-16-git-send-email-imammedo@redhat.com>
+In-Reply-To: <20200116141511.16849-2-peter.maydell@linaro.org>
+Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: gOUWXMsZM1iSXuVPe9pGBQ-1
+X-MC-Unique: ZuMgadEBNoepwwChkED6Dg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,34 +75,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, peter.chubb@nicta.com.au,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 23, 2020 at 12:37:40PM +0100, Igor Mammedov wrote:
-> memory_region_allocate_system_memory() API is going away, so
-> replace it with memdev allocated MemoryRegion. The later is
-> initialized by generic code, so board only needs to opt in
-> to memdev scheme by providing
->   MachineClass::default_ram_id
-> and using MachineState::ram instead of manually initializing
-> RAM memory region.
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
-> CC: drjones@redhat.com
-> CC: peter.chubb@nicta.com.au
-> CC: peter.maydell@linaro.org
-> CC: qemu-arm@nongnu.org
-> ---
->  hw/arm/integratorcp.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
+On 1/16/20 8:15 AM, Peter Maydell wrote:
+> The qemu-nbd documentation is currently in qemu-nbd.texi in Texinfo
+> format, which we present to the user as:
+>   * a qemu-nbd manpage
+>   * a section of the main qemu-doc HTML documentation
+> 
+> Convert the documentation to rST format, and present it to the user as:
+>   * a qemu-nbd manpage
+>   * part of the interop/ Sphinx manual
+> 
 
-I don't know anything about integratorcp, but I promised Igor to put
-another pair of eyes on his changes. Looks fine to me.
+As I have now posted a patch that conflicts with this 
+(https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg05118.html), 
+and it needs a v2, I'm happy to do my rebase on top of this series, and 
+stage these patches through my NBD tree if they don't land on master 
+sooner via another path.
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+> 
+> v1->v2:
+>   * avoided some long lines in the Makefile
+> ---
+>   Makefile                               |  16 +-
+>   MAINTAINERS                            |   1 +
+>   docs/interop/conf.py                   |   4 +-
+>   docs/interop/index.rst                 |   1 +
+>   docs/interop/qemu-nbd.rst              | 263 +++++++++++++++++++++++++
+>   docs/interop/qemu-option-trace.rst.inc |  30 +++
+>   qemu-doc.texi                          |   6 -
+>   qemu-nbd.texi                          | 214 --------------------
+>   qemu-option-trace.texi                 |   4 +
+>   9 files changed, 313 insertions(+), 226 deletions(-)
+>   create mode 100644 docs/interop/qemu-nbd.rst
+>   create mode 100644 docs/interop/qemu-option-trace.rst.inc
+>   delete mode 100644 qemu-nbd.texi
+> 
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
