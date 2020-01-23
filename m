@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7C914636F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:25:27 +0100 (CET)
-Received: from localhost ([::1]:53024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0169F14637A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:28:00 +0100 (CET)
+Received: from localhost ([::1]:53062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXnp-0003LX-LJ
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:25:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55925)
+	id 1iuXqI-0007MQ-Hy
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:27:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55932)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuXlI-00011Y-D5
+ (envelope-from <laurent@vivier.eu>) id 1iuXlI-00011l-Id
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuXlE-0002nn-S6
+ (envelope-from <laurent@vivier.eu>) id 1iuXlE-0002ne-Rw
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:48 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:36769)
+Received: from mout.kundenserver.de ([212.227.126.133]:56565)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlD-0002e6-4T
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlD-0002h1-5b
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:44 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N9MYu-1ji7aL2gYW-015Eej; Thu, 23 Jan 2020 09:22:37 +0100
+ id 1MVe1U-1j4P740RjI-00RW7J; Thu, 23 Jan 2020 09:22:38 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/17] configure: Detect kcov support and introduce CONFIG_KCOV
-Date: Thu, 23 Jan 2020 09:22:18 +0100
-Message-Id: <20200123082227.2037994-9-laurent@vivier.eu>
+Subject: [PULL 09/17] linux-user: Add support for KCOV_<ENABLE|DISABLE> ioctls
+Date: Thu, 23 Jan 2020 09:22:19 +0100
+Message-Id: <20200123082227.2037994-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123082227.2037994-1-laurent@vivier.eu>
 References: <20200123082227.2037994-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vw/gO8wDzJ24T7wRq8a05ei+gcep8mZSfAVtR0HjNqe48tPpztH
- hYMGYdsVqSshliBuwcFtcN9dt4luvoQOL3ADpX1c/UYp2j5aMrkhNrk9/lAGTAkXrGoCq8K
- cwtCxGNPyXRWL+8YWnbSX2piGA/N+2/2HymRzBrw8dAy8n41DGUuW7AUbeLbFZ6O/O3DIWh
- dVYS1Np5ZZrZHuCc3uOsw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2L5W3dzSbsA=:XYPGBPcozcxkShAWDaUIBz
- MZhuq4YDx4X61FnRZz7S3pL8IULSdhJJbN6IwKOkWbugWUb3fVG6r6kN0bmMdxUxnnTk00Y3G
- KvzlQzDYAwUKxvr+hVCi1tLbgsPbzpZpXXd7k9DlUpKzcbkHUm7XgLH6Lq8mu1pbYBZ3Wc6d3
- w5YQB7HqTIkDMjcAkJVvDrsB/VB+KO9GawiJmDE8qoIB72kDD3LGGYvkBVxlFolzd4tZ3y13U
- F8QKradllu3i+EyL1GNDCp0fIPrb1dXGBLIgSH8baUmFzab3IvEFTBr/gujDfvwf3mOi8Y8kv
- NNqRFxCsYrkQ1n5BvA+G7yu+vUD0RJTqgVKJ0030JpiDZKGiVIz6v85SPDqQ8FNu/167xR9FX
- huYNGuMD/4aPaGq2hSos3AsyO2quNibQr0oZv0X/hEq4VE7ia344/khzLYK4bzg9W8uxyasAv
- TQ/o1dN5ac+HnNW9oPb+CXGrBxskOWUAPl5cxb9Y0GfUzrARfdV8cCnT5Fq1AjVYStEfx19w+
- QyEkySbVAX8Ou3pg+jzTmnV9qN1028pkXJjFUUFAB2/4yy/48dqMCkegBpiUhLyMw3NU95Y0O
- X8q6cMEXTbSAa0mUr9vZYgSPUIm+2dofdpTM5Y++X3IH/fYtwiRN9Zb/dWUQAIK1F6Z3jfZtk
- 3WHQNvHeer0aHsCKNK6bK1TXtYwkxudm4Xg3nrWWs2nHOlzdpq22iubetE+7JepAsVQyec7Ti
- bY0Y48uJmA230mHenYsPqOFhH7YpXUG5dPbQV8ACr+rBnH20xRRBqrwOlBY93g5d+63u4oWAb
- Hj+URYc6rRx1Ezfsv8oNoAXr5GEHwJpPJkEN9DQ2Qw46kk9Ozw=
+X-Provags-ID: V03:K1:zNfPndWnTfyMu8W8Zt6FV95lB+oI0aYtu0oTtxqSMeEEo8Hymj8
+ 5v7iyn5KuJoof1XG5fipPYK4b0f+h3zXxOckDsGEFybjoRxfQWtjG9dxOXnP7SHaIIU4xAv
+ 8l+p6aSxxmWEp1dnM8UBKPJCbEm74KJnEGX0t72NKKIWli4f174SAUtB/5vFBHpxlbcu3O7
+ 7xNG0R2ocXmqsEKr1zxMg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NfN7sH84tDQ=:BAk6VId1vOw+vrviRC0Zxv
+ GO1H58GuhGT7rvlVEwTVG3ZKDHkEpraLIvwImOzNInJNfFQmkFR913hPyi4nRL82N5j1bdFCF
+ eGsAM3xvr29fQ8NXVFBvW9CF7SE88L+jH0VGBtBNntyTvkJP3KFGVF2MBy3qnIXLWA2WWsXLc
+ lJEMs03ACp1CW4HNvFZjaUW4J78IfWR9l271ett7fauDr1Pj/fxer3w1lKcsfCmxef80dhOMS
+ 6ebsPnpfmoYc/Gt+AV/ooBLbJStHv8lSTTz4OstJi0d2MKrhCZ4SxZ1EhP23thpkOBn+kN0BN
+ ArQ1JEPWogL9NL0GRFDxrVVryjewHJHahoN5NtOGYGVrNcfChwJmx5AjPxYrXboXWF6DEJ0vV
+ ai/U9X5zSLwRLc1SWEua8FfIXCnYeQVEJ2IMIafdsM+HiYP14sr3koGnQfUkqj1iMtD6zHbkE
+ xnreMK5yh72AC2kBs1WKfhdKrX7GR3cExeG5R1pkasOONmR7wJJ5KgFzU75Sn2HcsXG3inQOS
+ qVBT9pD5Dz8At4yySrAjVD04lXtLzXNmioLEeuZinoHnWmhHNUaYVVGY9GCdZaTT7EfZ/zg0A
+ PqD+uv8VgUHS6p75F88mB/nJ5KSFYFmsRN2mScbsn2vbJmeV0XW2Gr3Ich27EjhsgERWqPLPB
+ Pg01Z19Xu1FQYuqNeGHbZo+hJd4Ymj/bbGKiBof5ZrmoI2ARpQ7pDjBJ3xMTgGXeBVHGXr0t+
+ 7EPgpKfQzw6s91rNnfF9e7+9JteGBGCackXJeUKP2E0J5fCb7wdOwX/Rc8k/Uwi0n/ZZxIWLX
+ fyOg3+bGwadqF6BM4d6n2FpYKDc7jzKtICUkqn+zAIgvggN+7o=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.133
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,50 +70,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-kcov is kernel code coverage tracing tool. It requires kernel 4.4+
-compiled with certain kernel options.
+KCOV_ENABLE and KCOV_DISABLE play the role in kernel coverage
+tracing. These ioctls do not use the third argument of ioctl()
+system call and are straightforward to implement in QEMU.
 
-This patch checks if kcov header "sys/kcov.h" is present on build
-machine, and stores the result in variable CONFIG_KCOV, meant to
-be used in linux-user code related to the support for three ioctls
-that were introduced at the same time as the mentioned header
-(their definition was a part of the first version of that header).
-
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1579214991-19602-11-git-send-email-aleksandar.markovic@rt-rk.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Message-Id: <1579214991-19602-12-git-send-email-aleksandar.markovic@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- configure | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ linux-user/ioctls.h       | 5 +++++
+ linux-user/syscall.c      | 3 +++
+ linux-user/syscall_defs.h | 4 ++++
+ 3 files changed, 12 insertions(+)
 
-diff --git a/configure b/configure
-index 557e4382ea87..d91eab4d65c4 100755
---- a/configure
-+++ b/configure
-@@ -4761,6 +4761,12 @@ if compile_prog "" "" ; then
-   syncfs=yes
- fi
- 
-+# check for kcov support (kernel must be 4.4+, compiled with certain options)
-+kcov=no
-+if check_include sys/kcov.h ; then
-+    kcov=yes
-+fi
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 29969e2f2f27..6220dd8cf791 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -534,3 +534,8 @@
+   IOCTL_IGNORE(TIOCSTART)
+   IOCTL_IGNORE(TIOCSTOP)
+ #endif
 +
- # Check we have a new enough version of sphinx-build
- has_sphinx_build() {
-     # This is a bit awkward but works: create a trivial document and
-@@ -6874,6 +6880,9 @@ fi
- if test "$syncfs" = "yes" ; then
-   echo "CONFIG_SYNCFS=y" >> $config_host_mak
- fi
-+if test "$kcov" = "yes" ; then
-+  echo "CONFIG_KCOV=y" >> $config_host_mak
-+fi
- if test "$inotify" = "yes" ; then
-   echo "CONFIG_INOTIFY=y" >> $config_host_mak
- fi
++#ifdef CONFIG_KCOV
++  IOCTL(KCOV_ENABLE, 0, TYPE_NULL)
++  IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
++#endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 249e4b95fc9f..c5bda60b45de 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -73,6 +73,9 @@
+ #ifdef CONFIG_SENDFILE
+ #include <sys/sendfile.h>
+ #endif
++#ifdef CONFIG_KCOV
++#include <sys/kcov.h>
++#endif
+ 
+ #define termios host_termios
+ #define winsize host_winsize
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index b3acf85a6b23..7b0b60d253d9 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -2434,6 +2434,10 @@ struct target_mtpos {
+ #define TARGET_MTIOCGET        TARGET_IOR('m', 2, struct target_mtget)
+ #define TARGET_MTIOCPOS        TARGET_IOR('m', 3, struct target_mtpos)
+ 
++/* kcov ioctls */
++#define TARGET_KCOV_ENABLE     TARGET_IO('c', 100)
++#define TARGET_KCOV_DISABLE    TARGET_IO('c', 101)
++
+ struct target_sysinfo {
+     abi_long uptime;                /* Seconds since boot */
+     abi_ulong loads[3];             /* 1, 5, and 15 minute load averages */
 -- 
 2.24.1
 
