@@ -2,54 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5000146C87
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:22:28 +0100 (CET)
-Received: from localhost ([::1]:59218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8FD146C9C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:25:16 +0100 (CET)
+Received: from localhost ([::1]:59267 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueJK-00033c-3e
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:22:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45023)
+	id 1iueM6-0007T7-PB
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:25:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46059)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qemu_oss@crudebyte.com>) id 1iucPL-0002q0-5I
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:20:28 -0500
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iucUM-0001D4-Jn
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:25:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1iucPJ-0003mS-Al
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:20:26 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:52035)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1iucPI-0003lQ-TK
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:20:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=ufSTKWNJBsOr6nwNgTV0mB/CpItf1Y923UOdrrfjA+A=; b=JfuqBhSWsmHGFPYtFZvjvU9/0g
- Aetl1hAmei1U8imVv9Gs4GXnh7vxWo47/016Y+J9La+MbzcwklVapsEapjMPBDTlhJttu4TeWvnlg
- vezDYBN+Teua3hfy6jpaVT1Vp44xKqmndnW0HrL3lZTiyaDwbQV+Z84yF9EqC7ctxb1E2IsEbtYxw
- 6k2dDOB5Gv/KIv+sBP6txT3+V3QmKyCadxrTXkeuDW/xHjRLuE3EjBuLTFLjVJB1DfQXXDnGyY0a2
- 0ZoHu89EuyzMuwJj1xiVL8iLeBqiT82f7kw+CfHAh1VumXKmbaS5bYNkuiXBLEloW26HHpa/pGUq9
- AubaeVxdO+LsT3ZGLzZdtMzkBa5D69GErUYH3rtY2N1k44Tpj8zNWgakk1Oa+T0UZl85Q91+hqCIF
- BFt4kKWog61sdyn9NRG+U/0ts/lDR121eeuJCsyiUAcH4L/llUu5gTFsKMGawwfRBHcPC+UGaMeBE
- s1bMQ2WidGaOarbLAQQ87kMbxtrTw1BcB/lrkil7lXOyLbBErrA/4maz4otH83SBu076CPLWsXF47
- yvKHzHwPXgUX8mT5evBpbO/cWV7OVaEOnwpWDX7OiQBmvD0zyoeBu3q1JCiZPI4EMFwDv/YdZx4h/
- qNeLo4NMna8Zpe+zkrdgbLQVhWAleDR5x2LnNwXB8=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iucUK-0000lc-Ik
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:25:38 -0500
+Received: from mail02.asahi-net.or.jp ([202.224.55.14]:59638)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1iucUK-0000fV-8e
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:25:36 -0500
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
+ [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
+ by mail02.asahi-net.or.jp (Postfix) with ESMTPA id 11D2CBC5CC;
+ Thu, 23 Jan 2020 22:25:32 +0900 (JST)
+Received: from yo-satoh-debian.localdomain
+ (v046114.dynamic.ppp.asahi-net.or.jp [124.155.46.114])
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 1309824008E;
+ Thu, 23 Jan 2020 22:25:31 +0900 (JST)
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v4 08/11] 9pfs: readdir benchmark
-Date: Thu, 23 Jan 2020 14:20:22 +0100
-Message-ID: <3428605.7UbGDvY7BO@silver>
-In-Reply-To: <20200123113415.33ba5b2a@bahia.lan>
-References: <cover.1579567019.git.qemu_oss@crudebyte.com>
- <b1eae734604cdbda0cecf1fbb7d103dd249642ee.1579567020.git.qemu_oss@crudebyte.com>
- <20200123113415.33ba5b2a@bahia.lan>
+Subject: [PATCH v29 00/22] Add RX archtecture support
+Date: Thu, 23 Jan 2020 22:25:03 +0900
+Message-Id: <20200123132525.80891-1-ysato@users.sourceforge.jp>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.189.157.229
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 202.224.55.14
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,202 +51,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: richard.henderson@linaro.org, philmd@redhat.com,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 23. Januar 2020 11:34:15 CET Greg Kurz wrote:
-> On Tue, 21 Jan 2020 01:23:55 +0100
-> 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > This patch is not intended to be merged. It just provides a
-> 
-> Well I like the idea of having such a benchmark available.
-> It could probably be merged after a few changes...
+Hello.
+This patch series is added Renesas RX target emulation.
 
-Never thought about this benchmark patch being useful in general, because it's 
-just few lines of code actually to benchmark readdir performance. Plus, as you 
-just found out, it does matter whether the synth driver's n-square issue 
-taints the benchmark results.
+Changes for v28.
+Allow -m option.
+With this option, 16 Mbytes or more can be specified.
+Add example for qemu-doc.
+Fix build error on latest master.
 
-So sure, I could add a boolean macro P9_BENCHMARK_READDIR or whatever, that 
-one could just enable if desired, but my concern would be that people would 
-not interpret the values correctly, since they are certainly unaware about the 
-impact of the driver performance on these values being printed.
+Changes for v27.
+Added RX section to qemu-doc.
+Rebase for master
 
-I mean if you missed that point, then other ones will definitely as well.
+Changes for v26.
+Rebase for 5.0
+Update machine.json for 5.0
 
-> > temporary benchmark foundation for coneniently A/B comparison
-> > of the subsequent 9p readdir optimization patches:
-> > 
-> > * hw/9pfs/9p-synth: increase amount of simulated files for
-> > 
-> >   readdir test to 2000 files.
-> 
-> ... the 9p-synth backend could maybe always create this number
-> of files ?
+Changes for v25.
+Update commit message.
+Squashed qapi/machine.json changes.
 
-That's up to you. I don't mind about the precise value in the production 
-version. The tests just take more time to execute if there are 2000 files.
+Changes for v24.
+Add note for qapi/machine.json.
+Added Acked-by for 6/22.
+git rebase master.
 
-> > * tests/virtio-9p: measure wall time that elapsed between
-> > 
-> >   sending T_readdir request and arrival of R_readdir response
-> >   and print out that measured duration, as well as amount of
-> >   directory entries received, and the amount of bytes of the
-> >   response message.
-> 
-> ... maybe we should make the printing optional and off by
-> default so that it doesn't pollute CI logs.
-> 
-> > * tests/virtio-9p: increased msize to 256kiB to allow
-> > 
-> >   retrieving all 2000 files (simulated by 9pfs synth driver)
-> >   with only one T_readdir request.
-> 
-> ... always use 256k for both the basic test and a revisited
-> split test ?
+Changes for v23.
+Follow master changes.
 
-Same thing, I don't mind, it's up to you to decide.
+Changes for v22.
+Added some include.
 
-Actually I would find it more important to document it somewhere how to 
-actually run these tests and/or just run one specific individual test. Because 
-I don't find it obvious for external people how to do that. That might explain 
-why there are so little 9p tests so far. I also did many tests manually before 
-(with a real guest OS, and fs rollbacks, etc.), simply because I did not know.
+Changes for v21.
+rebase latest master.
+Remove unneeded hmp_info_tlb.
 
-> > Running this benchmark is fairly quick & simple and does not
-> > require any guest OS installation or other prerequisites:
-> > 
-> > cd build
-> > make && make tests/qtest/qos-test
-> > export QTEST_QEMU_BINARY=x86_64-softmmu/qemu-system-x86_64
-> > tests/qtest/qos-test -p $(tests/qtest/qos-test -l | grep readdir/basic)
-> > 
-> > Since this benchmark uses the 9pfs synth driver, the host
-> > machine's I/O hardware (SSDs/HDDs) is not relevant for the
-> > benchmark result, because the synth backend's readdir
-> > implementation returns immediately (without any blocking I/O
-> > that would incur with a real-life fs driver) and just returns
-> > already prepared, simulated directory entries directly from RAM.
-> > So this benchmark focuses on the efficiency of the 9pfs
-> > controller code (or top half) for readdir request handling.
-> > 
-> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > ---
-> > 
-> >  hw/9pfs/9p-synth.h           |  2 +-
-> >  tests/qtest/virtio-9p-test.c | 37 +++++++++++++++++++++++++++++++++++-
-> >  2 files changed, 37 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/hw/9pfs/9p-synth.h b/hw/9pfs/9p-synth.h
-> > index 036d7e4a5b..7d6cedcdac 100644
-> > --- a/hw/9pfs/9p-synth.h
-> > +++ b/hw/9pfs/9p-synth.h
-> > @@ -58,7 +58,7 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int
-> > mode,> 
-> >  /* for READDIR test */
-> >  #define QTEST_V9FS_SYNTH_READDIR_DIR "ReadDirDir"
-> >  #define QTEST_V9FS_SYNTH_READDIR_FILE "ReadDirFile%d"
-> > 
-> > -#define QTEST_V9FS_SYNTH_READDIR_NFILES 100
-> > +#define QTEST_V9FS_SYNTH_READDIR_NFILES 2000
-> > 
-> >  /* Any write to the "FLUSH" file is handled one byte at a time by the
-> >  
-> >   * backend. If the byte is zero, the backend returns success (ie, 1),
-> > 
-> > diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> > index e47b286340..d71b37aa6c 100644
-> > --- a/tests/qtest/virtio-9p-test.c
-> > +++ b/tests/qtest/virtio-9p-test.c
-> > @@ -15,6 +15,18 @@
-> > 
-> >  #include "libqos/virtio-9p.h"
-> >  #include "libqos/qgraph.h"
-> > 
-> > +/*
-> > + * to benchmark the real time (not CPU time) that elapsed between start
-> > of
-> > + * a request and arrival of its response
-> > + */
-> > +static double wall_time(void)
-> > +{
-> > +    struct timeval t;
-> > +    struct timezone tz;
-> > +    gettimeofday(&t, &tz);
-> > +    return t.tv_sec + t.tv_usec * 0.000001;
-> > +}
-> > +
-> > 
-> >  #define QVIRTIO_9P_TIMEOUT_US (10 * 1000 * 1000)
-> >  static QGuestAllocator *alloc;
-> > 
-> > @@ -36,7 +48,7 @@ static void pci_config(void *obj, void *data,
-> > QGuestAllocator *t_alloc)> 
-> >      g_free(tag);
-> >  
-> >  }
-> > 
-> > -#define P9_MAX_SIZE 4096 /* Max size of a T-message or R-message */
-> > +#define P9_MAX_SIZE (256 * 1024) /* Max size of a T-message or R-message
-> > */> 
-> >  typedef struct {
-> >  
-> >      QTestState *qts;
-> > 
-> > @@ -600,12 +612,35 @@ static void fs_readdir(void *obj, void *data,
-> > QGuestAllocator *t_alloc)> 
-> >      v9fs_req_wait_for_reply(req, NULL);
-> >      v9fs_rlopen(req, &qid, NULL);
-> > 
-> > +    const double start = wall_time();
-> > +
-> > 
-> >      /*
-> >      
-> >       * submit count = msize - 11, because 11 is the header size of
-> >       Rreaddir
-> >       */
-> >      
-> >      req = v9fs_treaddir(v9p, 1, 0, P9_MAX_SIZE - 11, 0);
-> > 
-> > +    const double treaddir = wall_time();
-> > 
-> >      v9fs_req_wait_for_reply(req, NULL);
-> > 
-> > +    const double waitforreply = wall_time();
-> > 
-> >      v9fs_rreaddir(req, &count, &nentries, &entries);
-> > 
-> > +    const double end = wall_time();
-> > +
-> > +    printf("\nTime client spent on sending T_readdir: %fs\n\n",
-> > +           treaddir - start);
-> > +
-> > +    printf("Time client spent for waiting for reply from server: %fs "
-> > +           "[MOST IMPORTANT]\n", waitforreply - start);
-> > +    printf("(This is the most important value, because it reflects the
-> > time\n" +           "the 9p server required to process and return the
-> > result of the\n" +           "T_readdir request.)\n\n");
-> > +
-> > +    printf("Total client time: %fs\n", end - start);
-> > +    printf("(NOTE: this time is not relevant; this huge time comes
-> > from\n"
-> > +           "inefficient qtest_memread() calls. So you can discard this\n"
-> > +           "value as a problem of this test client implementation
-> > while\n"
-> > +           "processing the received server T_readdir reply.)\n\n");
-> > +
-> > +    printf("Details of response message data: R_readddir nentries=%d "
-> > +           "rbytes=%d\n", nentries, count);
-> > 
-> >      /*
-> >      
-> >       * Assuming msize (P9_MAX_SIZE) is large enough so we can retrieve
-> >       all
+Chanegs for v20.
+Reorderd patches.
+Squashed v19 changes.
 
-Best regards,
-Christian Schoenebeck
+Changes for v19.
+Follow tcg changes.
+Cleanup cpu.c.
+simplify rx_cpu_class_by_name and rx_load_image move to rx-virt.
 
+My git repository is bellow.
+git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20200112
+
+Testing binaries bellow.
+u-boot
+Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
+
+starting
+$ gzip -d u-boot.bin.gz
+$ qemu-system-rx -bios u-boot.bin
+
+linux and pico-root (only sash)
+Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
+           https://osdn.net/users/ysato/pf/qemu/dl/rx-virt.dtb (DeviceTre=
+e)
+
+starting
+$ qemu-system-rx -kernel zImage -dtb rx-virt.dtb -append "earlycon"
+
+Philippe Mathieu-Daud=C3=A9 (3):
+  hw/registerfields.h: Add 8bit and 16bit register macros
+  hw/rx: Restrict the RX62N microcontroller to the RX62N CPU core
+  BootLinuxConsoleTest: Test the RX-Virt machine
+
+Richard Henderson (7):
+  target/rx: Disassemble rx_index_addr into a string
+  target/rx: Replace operand with prt_ldmi in disassembler
+  target/rx: Use prt_ldmi for XCHG_mr disassembly
+  target/rx: Emit all disassembly in one prt()
+  target/rx: Collect all bytes during disassembly
+  target/rx: Dump bytes for each insn during disassembly
+  hw/rx: Honor -accel qtest
+
+Yoshinori Sato (12):
+  MAINTAINERS: Add RX
+  qemu/bitops.h: Add extract8 and extract16
+  target/rx: TCG translation
+  target/rx: TCG helper
+  target/rx: CPU definition
+  target/rx: RX disassembler
+  hw/intc: RX62N interrupt controller (ICUa)
+  hw/timer: RX62N internal timer modules
+  hw/char: RX62N serial communication interface (SCI)
+  hw/rx: RX Target hardware definition
+  Add rx-softmmu
+  qemu-doc.texi: Add RX section.
+
+ qemu-doc.texi                          |   44 +
+ configure                              |    8 +
+ default-configs/rx-softmmu.mak         |    3 +
+ qapi/machine.json                      |    3 +-
+ include/disas/dis-asm.h                |    5 +
+ include/exec/poison.h                  |    1 +
+ include/hw/char/renesas_sci.h          |   45 +
+ include/hw/intc/rx_icu.h               |   56 +
+ include/hw/registerfields.h            |   32 +-
+ include/hw/rx/rx.h                     |    7 +
+ include/hw/rx/rx62n.h                  |   91 +
+ include/hw/timer/renesas_cmt.h         |   38 +
+ include/hw/timer/renesas_tmr.h         |   53 +
+ include/qemu/bitops.h                  |   38 +
+ include/sysemu/arch_init.h             |    1 +
+ target/rx/cpu-param.h                  |   31 +
+ target/rx/cpu-qom.h                    |   42 +
+ target/rx/cpu.h                        |  181 ++
+ target/rx/helper.h                     |   31 +
+ arch_init.c                            |    2 +
+ hw/char/renesas_sci.c                  |  343 ++++
+ hw/intc/rx_icu.c                       |  379 ++++
+ hw/rx/rx-virt.c                        |  142 ++
+ hw/rx/rx62n.c                          |  247 +++
+ hw/timer/renesas_cmt.c                 |  278 +++
+ hw/timer/renesas_tmr.c                 |  458 +++++
+ target/rx/cpu.c                        |  217 +++
+ target/rx/disas.c                      | 1446 ++++++++++++++
+ target/rx/gdbstub.c                    |  112 ++
+ target/rx/helper.c                     |  149 ++
+ target/rx/op_helper.c                  |  470 +++++
+ target/rx/translate.c                  | 2432 ++++++++++++++++++++++++
+ tests/qtest/machine-none-test.c        |    1 +
+ MAINTAINERS                            |   19 +
+ hw/Kconfig                             |    1 +
+ hw/char/Kconfig                        |    3 +
+ hw/char/Makefile.objs                  |    1 +
+ hw/intc/Kconfig                        |    3 +
+ hw/intc/Makefile.objs                  |    1 +
+ hw/rx/Kconfig                          |   14 +
+ hw/rx/Makefile.objs                    |    2 +
+ hw/timer/Kconfig                       |    6 +
+ hw/timer/Makefile.objs                 |    3 +
+ target/rx/Makefile.objs                |   11 +
+ target/rx/insns.decode                 |  621 ++++++
+ tests/acceptance/boot_linux_console.py |   47 +
+ 46 files changed, 8116 insertions(+), 2 deletions(-)
+ create mode 100644 default-configs/rx-softmmu.mak
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 target/rx/cpu-param.h
+ create mode 100644 target/rx/cpu-qom.h
+ create mode 100644 target/rx/cpu.h
+ create mode 100644 target/rx/helper.h
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/rx-virt.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 target/rx/cpu.c
+ create mode 100644 target/rx/disas.c
+ create mode 100644 target/rx/gdbstub.c
+ create mode 100644 target/rx/helper.c
+ create mode 100644 target/rx/op_helper.c
+ create mode 100644 target/rx/translate.c
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 target/rx/Makefile.objs
+ create mode 100644 target/rx/insns.decode
+
+--=20
+2.20.1
 
 
