@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76001146D3A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:46:37 +0100 (CET)
-Received: from localhost ([::1]:59696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA238146D47
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:48:48 +0100 (CET)
+Received: from localhost ([::1]:59714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuegm-0002e8-4T
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:46:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51406)
+	id 1iueit-0005WQ-Kz
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:48:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51422)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrO-000503-Hd
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:27 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrP-000510-7v
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrN-0003LW-5f
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:26 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:54227)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrO-0003NI-2e
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:27 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33976)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrM-0003KN-Ut
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:25 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id m24so2637198wmc.3
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:24 -0800 (PST)
+ id 1iucrN-0003Li-Sq
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:26 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id t2so3184863wrr.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references;
- bh=qaX9ibASrC+U4AOLQHROo7/WmwP1t+LSS0nvSrlZ/0c=;
- b=d20n0S15I4NT5fQEJ7D7WRfwl+FUe37oObbW38bPV57IPOWbVTK1LYvAkoy0+IlMHm
- lBDHXgzJdYyQBzDhTtPV2SRfB70+o3Lp6Nj950Y+ltJMZ7MOHo/+Y8xvmU1wgOHTQA27
- xdEJkDdhla2Enb4udnzWyqgPw2NAKyp9aE5DxpqTiHto8BANxYZnJjBxYQzs54d7yBYZ
- wogxC8xr6AseKi4QSODX1whe17bbM3Djk5K9MamjTTtlsVpWkqNt8T0rNjd1WMbHWcQY
- buqW+O5A4e3JBb1iJqfobSEvTE7cCwcnUKJpnFOLNh0RnID2C1agOADgiUuFcQPHFcIe
- 4FKw==
+ bh=UMWrztDn+2LOmfXo42GQL/DUYv1hMbW6To+XMh241c8=;
+ b=VSmqLjEfDORaSkkfqKJkOzc4jyped5SjgrwHODGjHHEBG/x9lAr76n1QWUR0qykeIa
+ AR9o7H8pg7YAl40FtkbWGnDQZqIFKzPoVnq8lhcFUDoJxnR7gB1r5hmGrmivfQ33Re5r
+ tscxSwOGICaQeLIHIOQ664HdXN7EL/CAKXzfhWetpTjhXLDmUzGTUp64AHjLwGi9G9PJ
+ v0JODmi4LsJvn4HA5Xm33uqWBDr0CeMOjIY2gtk1NUMaiOciJXYYcYZg83tlyx9cEJfL
+ e31HhHi791/xZzPOTXzUx8N+cZNNkE9QSTNG/O94aXRoeWLeCQsarZOSc5rH4rx+j6cf
+ gUPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references;
- bh=qaX9ibASrC+U4AOLQHROo7/WmwP1t+LSS0nvSrlZ/0c=;
- b=qX4IKM0y5eGBAfL4L+hIwrm9wQgdSz3+8m4Yphq4kwTkNzhA7kRpH/R/kLXLBoLDtr
- i3yZVc1DBtuhiMeBHg/SUXpluBzbOWD3zE2fufEK4m8AdMTvxNjd3GUk/ba97CRUMx5v
- jy6fqZZkwlvFD1owYFi6SIb/qnReQczzBzeMHVeXP5oNrQBJQutqHF6sEYzj2bfUqzQW
- fG9MrtWCXnJxQ5fB4cxjT/sTBa1BbUbrKMRzVGF95uhPni/jCnqOcZmByxGEZjS3oUZ6
- ymGAdZ/eFZhoGufdHbZJpk/YSv61+Vfa3KR+eCovR4koggIr9DI92YgTaB2opFDYObwz
- ggTg==
-X-Gm-Message-State: APjAAAUeGu6okW8BS5PeGGIUq0c92g1fBxq1ksVDtwckV9xuOVDvaSww
- tdIUokvklw3MB+7ibtGrQoUTAfBO
-X-Google-Smtp-Source: APXvYqzvc4marP26fSl3Dz0Jrh90Zj5WO/ja3cd+BtajACURDCu2V7HkT8Eb8oJyodVNpqi0UnF+nw==
-X-Received: by 2002:a7b:c204:: with SMTP id x4mr4413993wmi.20.1579787363725;
- Thu, 23 Jan 2020 05:49:23 -0800 (PST)
+ bh=UMWrztDn+2LOmfXo42GQL/DUYv1hMbW6To+XMh241c8=;
+ b=P/yaCbNHsWmbDPqu6tZrzpHgkS78ebtnnkSdiv0rkbS2hYCb6qKAw6pSmNZlau1TjW
+ KGSObF74BWu0Q6CS75ZbaBRO/e4U1CGTJnMZYKXwRETh3vjZopDL42vG2bkvd78Z4ob+
+ uTKIDXQLn6BoPICcaDvjoOuOmVJPipqpRnKHB2tH5VBRGrAvDDy84R1IP5Ckf/Sk4k6T
+ dSdhBzaVNuAVWprQ+Z2D5Kb7nFE7gCTsehDlryDBv1XKYEopbR9t5Vi5Vn2lhod2lsxT
+ cVSW2T5ugRrSRi+OaNvNK9JS4kXz9URYBTplyuMQXxzVYBivElGTqI2z6D17M3OqHH8h
+ U/BQ==
+X-Gm-Message-State: APjAAAXWdQKq2tYN8yCnKo9HjJwmmvNhfPZH9OjoQcYMy16wWrJrk5Jt
+ OI4OWpySZOIvMVmz03bYphhCvxp/
+X-Google-Smtp-Source: APXvYqw3pudCNWgLIwx8kvTUfuoebXNC0GGHmXmGVuqkx20fLotv3YMtHr386pTSqYKMd78PXRGMOQ==
+X-Received: by 2002:a5d:6305:: with SMTP id i5mr18053571wru.399.1579787364676; 
+ Thu, 23 Jan 2020 05:49:24 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.22
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:23 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:24 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/59] target/i386: add a ucode-rev property
-Date: Thu, 23 Jan 2020 14:48:22 +0100
-Message-Id: <1579787342-27146-20-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 20/59] target/i386: kvm: initialize microcode revision from KVM
+Date: Thu, 23 Jan 2020 14:48:23 +0100
+Message-Id: <1579787342-27146-21-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,112 +78,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the property and plumb it in TCG and HVF (the latter of which
-tried to support returning a constant value but used the wrong MSR).
+KVM can return the host microcode revision as a feature MSR.
+Use it as the default value for -cpu host.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <1579544504-3616-3-git-send-email-pbonzini@redhat.com>
+Message-Id: <1579544504-3616-4-git-send-email-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c         | 10 ++++++++++
- target/i386/cpu.h         |  3 +++
- target/i386/hvf/x86_emu.c |  4 +---
- target/i386/misc_helper.c |  4 ++++
- 4 files changed, 18 insertions(+), 3 deletions(-)
+ target/i386/cpu.c | 4 ++++
+ target/i386/kvm.c | 5 +++++
+ 2 files changed, 9 insertions(+)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 78bdb7c..790254e 100644
+index 790254e..ffe5de0 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -6418,6 +6418,15 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+@@ -6416,6 +6416,10 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+                        &cpu->mwait.ecx, &cpu->mwait.edx);
+             env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
          }
++        if (kvm_enabled() && cpu->ucode_rev == 0) {
++            cpu->ucode_rev = kvm_arch_get_supported_msr_feature(kvm_state,
++                                                                MSR_IA32_UCODE_REV);
++        }
      }
  
-+    if (cpu->ucode_rev == 0) {
-+        /* The default is the same as KVM's.  */
-+        if (IS_AMD_CPU(env)) {
-+            cpu->ucode_rev = 0x01000065;
-+        } else {
-+            cpu->ucode_rev = 0x100000000ULL;
-+        }
+     if (cpu->ucode_rev == 0) {
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index f6dd6b7..1b67090 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -2696,6 +2696,11 @@ static void kvm_init_msrs(X86CPU *cpu)
+                           env->features[FEAT_CORE_CAPABILITY]);
+     }
+ 
++    if (kvm_arch_get_supported_msr_feature(kvm_state,
++                                           MSR_IA32_UCODE_REV)) {
++        kvm_msr_entry_add(cpu, MSR_IA32_UCODE_REV, cpu->ucode_rev);
 +    }
 +
-     /* mwait extended info: needed for Core compatibility */
-     /* We always wake on interrupt even if host does not have the capability */
-     cpu->mwait.ecx |= CPUID_MWAIT_EMX | CPUID_MWAIT_IBE;
-@@ -7100,6 +7109,7 @@ static Property x86_cpu_properties[] = {
-     DEFINE_PROP_UINT32("min-level", X86CPU, env.cpuid_min_level, 0),
-     DEFINE_PROP_UINT32("min-xlevel", X86CPU, env.cpuid_min_xlevel, 0),
-     DEFINE_PROP_UINT32("min-xlevel2", X86CPU, env.cpuid_min_xlevel2, 0),
-+    DEFINE_PROP_UINT64("ucode-rev", X86CPU, ucode_rev, 0),
-     DEFINE_PROP_BOOL("full-cpuid-auto-level", X86CPU, full_cpuid_auto_level, true),
-     DEFINE_PROP_STRING("hv-vendor-id", X86CPU, hyperv_vendor_id),
-     DEFINE_PROP_BOOL("cpuid-0xb", X86CPU, enable_cpuid_0xb, true),
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index e6de38a..576f309 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -348,6 +348,7 @@ typedef enum X86Seg {
- #define MSR_IA32_SPEC_CTRL              0x48
- #define MSR_VIRT_SSBD                   0xc001011f
- #define MSR_IA32_PRED_CMD               0x49
-+#define MSR_IA32_UCODE_REV              0x8b
- #define MSR_IA32_CORE_CAPABILITY        0xcf
- 
- #define MSR_IA32_ARCH_CAPABILITIES      0x10a
-@@ -1627,6 +1628,8 @@ struct X86CPU {
-     CPUNegativeOffsetState neg;
-     CPUX86State env;
- 
-+    uint64_t ucode_rev;
-+
-     uint32_t hyperv_spinlock_attempts;
-     char *hyperv_vendor_id;
-     bool hyperv_synic_kvm_only;
-diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
-index 3df7672..92ab815 100644
---- a/target/i386/hvf/x86_emu.c
-+++ b/target/i386/hvf/x86_emu.c
-@@ -664,8 +664,6 @@ static void exec_lods(struct CPUX86State *env, struct x86_decode *decode)
-     RIP(env) += decode->len;
- }
- 
--#define MSR_IA32_UCODE_REV 0x00000017
--
- void simulate_rdmsr(struct CPUState *cpu)
- {
-     X86CPU *x86_cpu = X86_CPU(cpu);
-@@ -681,7 +679,7 @@ void simulate_rdmsr(struct CPUState *cpu)
-         val = cpu_get_apic_base(X86_CPU(cpu)->apic_state);
-         break;
-     case MSR_IA32_UCODE_REV:
--        val = (0x100000000ULL << 32) | 0x100000000ULL;
-+        val = x86_cpu->ucode_rev;
-         break;
-     case MSR_EFER:
-         val = rvmcs(cpu->hvf_fd, VMCS_GUEST_IA32_EFER);
-diff --git a/target/i386/misc_helper.c b/target/i386/misc_helper.c
-index 3eff688..aed16fe 100644
---- a/target/i386/misc_helper.c
-+++ b/target/i386/misc_helper.c
-@@ -229,6 +229,7 @@ void helper_rdmsr(CPUX86State *env)
- #else
- void helper_wrmsr(CPUX86State *env)
- {
-+    X86CPU *x86_cpu = env_archcpu(env);
-     uint64_t val;
- 
-     cpu_svm_check_intercept_param(env, SVM_EXIT_MSR, 1, GETPC());
-@@ -371,6 +372,9 @@ void helper_wrmsr(CPUX86State *env)
-         env->msr_bndcfgs = val;
-         cpu_sync_bndcs_hflags(env);
-         break;
-+     case MSR_IA32_UCODE_REV:
-+        val = x86_cpu->ucode_rev;
-+        break;
-     default:
-         if ((uint32_t)env->regs[R_ECX] >= MSR_MC0_CTL
-             && (uint32_t)env->regs[R_ECX] < MSR_MC0_CTL +
+     /*
+      * Older kernels do not include VMX MSRs in KVM_GET_MSR_INDEX_LIST, but
+      * all kernels with MSR features should have them.
 -- 
 1.8.3.1
 
