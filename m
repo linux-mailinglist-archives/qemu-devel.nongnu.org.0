@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48836146C62
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:13:11 +0100 (CET)
-Received: from localhost ([::1]:58908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96072146C6C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:15:16 +0100 (CET)
+Received: from localhost ([::1]:59046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueAQ-0007g5-8Q
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:13:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51284)
+	id 1iueCQ-0002GD-Uc
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:15:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51322)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrF-0004ny-Nx
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:18 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrI-0004rf-Ju
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrE-0003BI-LD
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:17 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:33757)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrH-0003GH-IN
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:20 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33236)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrE-00039g-Ep
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:16 -0500
-Received: by mail-wm1-x329.google.com with SMTP id m10so1389237wmc.0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:16 -0800 (PST)
+ id 1iucrH-0003Eu-AV
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:19 -0500
+Received: by mail-wr1-x444.google.com with SMTP id b6so3192938wrq.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=edun+OJ+YJzFF5lv8jtNkTbaWNOC2ILXKY6V/xrxpmY=;
- b=AaS/WIK+Vp8VzdZ2g3g6E6uGHTOSpBadzOvJ49AzRVyDwY+B+VsS1T006rKFefGUC/
- Nx3O76y0b6zlIlcX0PJxGJBl2/vyMXKgh+T+kHTYKFOMtkOtWyoif7X9uS6Lk4fAhZyh
- ohzibnMwTHvMG6Q3508y6zAnGRYw3POF2fX4F+NGRHozKjECzXSsn2gnr7eImHT5ilS3
- 6VYnI+o3sP1a+WJyz9qKHa4Kk2K1vYYvQB9vGoxJmnAYrEo9IrYtOnf4zNWiYg18YbK+
- 33sNeJf0pvg7sInVRWDUfRecG/isFvD1eSy3IepM4kM3rxj2Tq9P+k8e2csWJP7aPgVU
- 82ZQ==
+ bh=eTr7REOAleaAyfl/HuxFmf5p5T5F7PayCyv/OCMj0WQ=;
+ b=rv7YyKkVDjJpDA6wkmE/VA+FMWclXUowiWMkryXzuRero5HwlTUvNHMPY24MEjuVXl
+ XXMhOhxHB4pWSpMpCSnOv4dVA00Dd3B1lofx8ei5R1S+SrUX5fjLvAx9uyDHivlGy3N1
+ TAjpYyXjWSuR5gJ3ejNJxU/qbzPf4bgHfOt1zpKyGqg37Xrw+Ggt0WzAXhMaSYA0YhAY
+ m0E5ZNJnBEHd2BX8LPCHybdfnOSPlpldFgz5OZzG7yUZ38GqlwJjOuLtomwCHeS9RxeF
+ MVMwNSvXBh4jg6Z3Tyig/F59dB9h3h/7xJh9UX4IvXIO5di2Hc1L2SRySsZpI/pf6EyV
+ yDIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=edun+OJ+YJzFF5lv8jtNkTbaWNOC2ILXKY6V/xrxpmY=;
- b=RQGNtMBZmqdLBfuA7DKJSfi8icSKYFBa5JXWTe4zJOMNCze43QpPtD+igqX7WXyvBj
- HuVztaWLyJ0vfcoOiSKFJ1s2CbwwsnNqtxCuu+vWF0GL+7FvlSJf+3PXE2t0/DH4i7HM
- JIUHHtkvchSh14TGln6OJFFirp8CW1W71GI11N9EZysh4a2TxawKhwuCpShj+rJaHX/C
- k3RYAToGtWD51xZjsVKhlfdf7OXfSeKBfbHaYeWxETj4CKe0Sl06rPBmS5GzRr5wBJrj
- 4ODtGdiemBVrlEupH3bYQDEH2geJC/UgVy5iSRTQdceBRuJLiKNIQD8Sy/8MtI56vB82
- TXIw==
-X-Gm-Message-State: APjAAAV9JXDex9jox+VAMSxj+JYGNxyx5hJpFolq0sGi/khjPcDhdaVV
- R/QMGSfi8sozK9cexeN41de7rJRg
-X-Google-Smtp-Source: APXvYqzm+Ihy8uzmhSx5kYvJh0HGVcI3gbN2wEGPLoSf+bC2IoiPozlo+8lnqpaq5sgHjMLpairptw==
-X-Received: by 2002:a05:600c:d5:: with SMTP id
- u21mr1203162wmm.98.1579787355304; 
- Thu, 23 Jan 2020 05:49:15 -0800 (PST)
+ bh=eTr7REOAleaAyfl/HuxFmf5p5T5F7PayCyv/OCMj0WQ=;
+ b=cLIlcreyS/J9/bFliDKqEdO6gNvqzajHShnen27utUrmM+shb4wYTYA4wh+QvmdF2p
+ oE4hdjxN5tGrSZDRbZwLR8DfHDJXs6IBB1mYorRRb4WlPvvpJ8wGSr+sNCqgmYfh1rSU
+ 5PPYFME9EpEqUG3CFJqAKAiC0JjLhV9vJ0OO6PVehdRRY1GBgy/b+/JcTTM+8iRj+QLM
+ XYL14nzusuGNfuAwVfgGM2IX9H2dNzad9/XGD1RjSdBPA0jL+A6m6sgzGqjm/FXZ34Ep
+ PGJ9sJOnfR97+ZNnGEwEEw7vXP3bwW3hfmtntvgtgpuB3/oAHjLX4Ng554lXFekCVqMb
+ BK7A==
+X-Gm-Message-State: APjAAAW7ki9U0h5hVCfbytdvhT7nJ3cZ1PZWyt/L48nZ0RDHJ5DFEnQc
+ QVE934495bYRLp/YV5Gt39ET9mcK
+X-Google-Smtp-Source: APXvYqwfqD1KgnmTr1Cnzw25AFVZMF0V8tdquqWZbYWFga/U9aIg4PtVJGqKsEUXyIe46jkhRhK7tw==
+X-Received: by 2002:adf:f581:: with SMTP id f1mr17815471wro.264.1579787358106; 
+ Thu, 23 Jan 2020 05:49:18 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.14
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.16
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:14 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:17 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/59] hw/net/imx_fec: Remove unuseful FALLTHROUGH comments
-Date: Thu, 23 Jan 2020 14:48:13 +0100
-Message-Id: <1579787342-27146-11-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 13/59] Makefile: Clarify all the codebase requires qom/ objects
+Date: Thu, 23 Jan 2020 14:48:16 +0100
+Message-Id: <1579787342-27146-14-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,35 +84,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-We don't need to explicit these obvious switch fall through
-comments. Stay consistent with the rest of the codebase.
+QEMU user-mode also requires the qom/ objects, it is not only
+used by "system emulation and qemu-img". As we will use a big
+if() block, move it upper in the "Common libraries for tools
+and emulators" section.
 
-Suggested-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191218192526.13845-6-philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200118140619.26333-3-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/net/imx_fec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Makefile.objs | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index c01ce4f..5a83678 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -901,8 +901,8 @@ static void imx_eth_write(void *opaque, hwaddr offset, uint64_t value,
-             s->regs[index] = 0;
-         }
-         break;
--    case ENET_TDAR1:    /* FALLTHROUGH */
--    case ENET_TDAR2:    /* FALLTHROUGH */
-+    case ENET_TDAR1:
-+    case ENET_TDAR2:
-         if (unlikely(single_tx_ring)) {
-             qemu_log_mask(LOG_GUEST_ERROR,
-                           "[%s]%s: trying to access TDAR2 or TDAR1\n",
+diff --git a/Makefile.objs b/Makefile.objs
+index 7c1e50f..5aae561 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -2,6 +2,7 @@
+ # Common libraries for tools and emulators
+ stub-obj-y = stubs/
+ util-obj-y = crypto/ util/ qobject/ qapi/
++qom-obj-y = qom/
+ 
+ chardev-obj-y = chardev/
+ 
+@@ -27,11 +28,6 @@ block-obj-m = block/
+ crypto-obj-y = crypto/
+ 
+ #######################################################################
+-# qom-obj-y is code used by both qemu system emulation and qemu-img
+-
+-qom-obj-y = qom/
+-
+-#######################################################################
+ # io-obj-y is code used by both qemu system emulation and qemu-img
+ 
+ io-obj-y = io/
 -- 
 1.8.3.1
 
