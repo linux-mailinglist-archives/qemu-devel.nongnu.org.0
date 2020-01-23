@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A9014666F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:16:14 +0100 (CET)
-Received: from localhost ([::1]:54694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 321FD146678
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:18:50 +0100 (CET)
+Received: from localhost ([::1]:54708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuaT7-0000Ed-S0
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:16:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57540)
+	id 1iuaVd-0001t7-6w
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:18:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58166)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iuaRi-0007Wy-A4
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:14:47 -0500
+ (envelope-from <stefanha@gmail.com>) id 1iuaUZ-0001K2-Te
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:17:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iuaRg-0006kn-IP
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:14:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25293
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iuaRg-0006jl-Ex
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:14:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579778083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rEebFBw7SpbmOI2hX22NWiear+WhBl1mdoSJbxzjPVw=;
- b=ci7/qOVFWdOSvgzMc5pv6PZVHnZOmjL2vGGfyXjfWBYJEBbqWGBL7r9Vc7W4mobpgbUtSJ
- oqZe2OKmHLDNce2IY2BbSAHpw3ttOgBsMFIyJR64HGsYcLaMSSQfD41/PRccknybTra3yr
- WLN4/8YKuBnAjjS7DiYMpkyrHmo9pJE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-ngHRShHgN3CU5WS3-gRB1g-1; Thu, 23 Jan 2020 06:14:41 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D8F28010D6;
- Thu, 23 Jan 2020 11:14:39 +0000 (UTC)
-Received: from gondolin (ovpn-116-120.ams2.redhat.com [10.36.116.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B88D186456;
- Thu, 23 Jan 2020 11:14:26 +0000 (UTC)
-Date: Thu, 23 Jan 2020 12:14:23 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH v5 2/2] tests: add virtio-scsi and virtio-blk
- seg_max_adjust test
-Message-ID: <20200123121423.591c5f5d.cohuck@redhat.com>
-In-Reply-To: <98adffe7-447f-0b9a-6317-29116067e3fe@redhat.com>
-References: <20191220140905.1718-1-dplotnikov@virtuozzo.com>
- <20191220140905.1718-3-dplotnikov@virtuozzo.com>
- <f36d9b80-68d5-016b-310d-44ae671ae68a@redhat.com>
- <98adffe7-447f-0b9a-6317-29116067e3fe@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <stefanha@gmail.com>) id 1iuaUY-0000Pb-T8
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:17:43 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37892)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1iuaUY-0000Oy-NA
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:17:42 -0500
+Received: by mail-wr1-x444.google.com with SMTP id y17so2635900wrh.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 03:17:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=sosvvXUpTobKiyKOH6Gi6H3mGnU/RzjOKH5eNYmBrWc=;
+ b=JEYLxrODzolG2OvzuvvLYKzlfo99sN39GT+plgjiU89o+eAx/EfmKJJTNshZbs6uoW
+ Oep0DfGHnLNlnq0xN5e9TueMLTPg4gPFw4wTyyiR8wlQNE30xorKGbTy9GCsFYjziFse
+ YGjGo+9z0HgYz2+ymW1hiw8fdHLZRcrHb5FCnCUY2uwrbq0ptf/XVEWU8GbnjOWvzTmc
+ l7bB9xPmETCz0k2FJIjEUS9qCpFJqbIBZoEAOmXvUG47M4MLwyVhX/8oUQMjacstDi8v
+ cI1eBrfd6hnCTVo0BvS5QUothWPG7fy6ERnAI9YWLfRqV6FPe0MPhIR9v0qwt7ZgO/3o
+ w7Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sosvvXUpTobKiyKOH6Gi6H3mGnU/RzjOKH5eNYmBrWc=;
+ b=CJe+jGa08v6vBGpeYp/MyyYMaXaJeOIRIuNRHO8hfJDn/fH9SVuWn5GMRx1NIPe1Qb
+ Aaglbjyx2NCoWcReIaS3+BsSvBpKte+i8xsOLt/6ZuvYAC2MskJYPMU3J9lPdqd4kPSg
+ DWaDlluzv78CsP9ebtZ7ODPx9jCkyyoZ48VyiHhqXiLgDSu7ElhDRdR6jRnobN47Jaf0
+ ViNcxawSUFgczTG8YTIaGxpLDvsnjc9mAWfvoMn0geXDnQcGLtj4tIh3iOLUs7XntCh/
+ +3/bG1o2Akn4kLuqRtU7SIzJgq69w+k5zWSi6oaBuE5sczBeyUNx8m7w2zWIlNV8ZrlY
+ 0gow==
+X-Gm-Message-State: APjAAAWXz9ROw5m1aNW2PnZdXxgnVF5vQa45xchDW9v+x/7PCPqwMfa4
+ V19L6L9DtvuRMnpEvN5YbtY=
+X-Google-Smtp-Source: APXvYqzL+8KM3bQuuwKx6QTXWE/8WnjLV2MlsjeLCtQ9aZKVqEq5DSLBaW9bczK9Drs5Zw6nFPaYvQ==
+X-Received: by 2002:adf:fa12:: with SMTP id m18mr16758396wrr.309.1579778261147; 
+ Thu, 23 Jan 2020 03:17:41 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id c4sm2274654wml.7.2020.01.23.03.17.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jan 2020 03:17:40 -0800 (PST)
+Date: Thu, 23 Jan 2020 11:17:38 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Maintainers, please add Message-Id: when merging patches
+Message-ID: <20200123111738.GA691377@stefanha-x1.localdomain>
+References: <CAJSP0QX22cYJvnpb+zDDXLaYg0yY4CV3Jn5QY+ExxJyFcmQ3Gw@mail.gmail.com>
+ <87v9p3znas.fsf@linaro.org> <871rrqbmr9.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: ngHRShHgN3CU5WS3-gRB1g-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="AhhlLboLdkugWU4S"
+Content-Disposition: inline
+In-Reply-To: <871rrqbmr9.fsf@dusky.pond.sub.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,152 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, Hannes Reinecke <hare@suse.com>,
- ehabkost@redhat.com, mst@redhat.com, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Denis Plotnikov <dplotnikov@virtuozzo.com>,
- stefanha@redhat.com, Cleber Rosa <crosa@redhat.com>, pbonzini@redhat.com,
- mreitz@redhat.com, Christoph Hellwig <hch@lst.de>, den@virtuozzo.com
+Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Jan 2020 22:47:42 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
+--AhhlLboLdkugWU4S
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > This test is failing on OSX:
-> >=20
-> > TestFail: machine type pc-i440fx-2.0: <class 'TypeError'>
-> >=20
-> > Looking at my job-results/job-2020-01-22T17.54-92b7fae/job.log:
-> >=20
-> > Unexpected error in object_property_find() at qom/object.c:1201:
-> > qemu-system-x86_64: -device virtio-blk-pci,id=3Dscsi0,drive=3Ddrive0: c=
-an't=20
-> > apply global virtio-blk-device.scsi=3Dtrue: Property '.scsi' not found
-> >=20
-> > Which makes sense looking at hw/block/virtio-blk.c:
-> >=20
-> > 1261 static Property virtio_blk_properties[] =3D {
-> > 1262=C2=A0=C2=A0=C2=A0=C2=A0 DEFINE_BLOCK_PROPERTIES(VirtIOBlock, conf.=
-conf),
-> > ...
-> > 1268 #ifdef __linux__
-> > 1269=C2=A0=C2=A0=C2=A0=C2=A0 DEFINE_PROP_BIT64("scsi", VirtIOBlock, hos=
-t_features,
-> > 1270=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VIRTIO_B=
-LK_F_SCSI, false),
-> > 1271 #endif
-> >=20
-> > Except code moved around, origin is:
-> >=20
-> > $ git show 1063b8b15
-> > commit 1063b8b15fb49fcf88ffa282b19aaaf7ca9c678c
-> > Author: Christoph Hellwig <hch@lst.de>
-> > Date:=C2=A0=C2=A0 Mon Apr 27 10:29:14 2009 +0200
-> >=20
-> >  =C2=A0=C2=A0=C2=A0 virtio-blk: add SGI_IO passthru support
-> >=20
-> >  =C2=A0=C2=A0=C2=A0 Add support for SG_IO passthru (packet commands) to=
- the virtio-blk
-> >  =C2=A0=C2=A0=C2=A0 backend.=C2=A0 Conceptually based on an older patch=
- from Hannes Reinecke
-> >  =C2=A0=C2=A0=C2=A0 but largely rewritten to match the code structure a=
-nd layering in
-> >  =C2=A0=C2=A0=C2=A0 virtio-blk.
-> >=20
-> >  =C2=A0=C2=A0=C2=A0 Note that currently we issue the hose SG_IO synchro=
-nously.=C2=A0 We could
-> >  =C2=A0=C2=A0=C2=A0 easily switch to async I/O, but that would required=
- either bloating
-> >  =C2=A0=C2=A0=C2=A0 the VirtIOBlockReq by the size of struct sg_io_hdr =
-or an additional
-> >  =C2=A0=C2=A0=C2=A0 memory allocation for each SG_IO request.
-> >=20
-> > I'm not sure what is the correct way to fix this. =20
+On Thu, Jan 23, 2020 at 09:27:54AM +0100, Markus Armbruster wrote:
+> Alex Benn=E9e <alex.bennee@linaro.org> writes:
 >=20
-> ... because of:
+> > Stefan Hajnoczi <stefanha@gmail.com> writes:
+> >
+> >> Around 66% of qemu.git commits since v4.1.0 include a Message-Id: tag.=
+  Hooray!
+> >>
+> >> Message-Id: references the patch email that a commit was merged from.
+> >> This information is helpful to anyone wishing to refer back to email
+> >> discussions and patch series.
+> >
+> > So I guess the ones that don't are maintainer originated patches unless
+> > you actively rebuild your trees from a posted series?
 >=20
-> $ git show ed65fd1a27
-> commit ed65fd1a2750d24290354cc7ea49caec7c13e30b
-> Author: Cornelia Huck <cornelia.huck@de.ibm.com>
-> Date:   Fri Oct 16 12:25:54 2015 +0200
->=20
->      virtio-blk: switch off scsi-passthrough by default
->=20
->      Devices that are compliant with virtio-1 do not support scsi
->      passthrough any more (and it has not been a recommended setup
->      anyway for quite some time). To avoid having to switch it off
->      explicitly in newer qemus that turn on virtio-1 by default, let's
->      switch the default to scsi=3Dfalse for 2.5.
->=20
->      Signed-off-by: Cornelia Huck <cornelia.huck@de.ibm.com>
->      Message-id: 1444991154-79217-4-git-send-email-cornelia.huck@de.ibm.c=
-om
->      Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->=20
-> diff --git a/include/hw/compat.h b/include/hw/compat.h
-> index 095de5d12f..93e71afb4a 100644
-> --- a/include/hw/compat.h
-> +++ b/include/hw/compat.h
-> @@ -2,7 +2,11 @@
->   #define HW_COMPAT_H
->=20
->   #define HW_COMPAT_2_4 \
-> -        /* empty */
-> +        {\
-> +            .driver   =3D "virtio-blk-device",\
-> +            .property =3D "scsi",\
-> +            .value    =3D "true",\
-> +        },
+> I recommend using the exact same workflow for constructing pull requests
+> whether you wrote the patches yourself or not.
 
-This code has changed a lot in the meantime...
+Yes, that's the approach I follow too.  I use the 'patches' tool to
+apply patch series, including my own.
 
->=20
->   #define HW_COMPAT_2_3 \
->           {\
-> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-> index 3e230debb8..45a24e4fa6 100644
-> --- a/hw/block/virtio-blk.c
-> +++ b/hw/block/virtio-blk.c
-> @@ -972,7 +972,7 @@ static Property virtio_blk_properties[] =3D {
->       DEFINE_PROP_STRING("serial", VirtIOBlock, conf.serial),
->       DEFINE_PROP_BIT("config-wce", VirtIOBlock, conf.config_wce, 0, true=
-),
->   #ifdef __linux__
-> -    DEFINE_PROP_BIT("scsi", VirtIOBlock, conf.scsi, 0, true),
-> +    DEFINE_PROP_BIT("scsi", VirtIOBlock, conf.scsi, 0, false),
->   #endif
->       DEFINE_PROP_BIT("request-merging", VirtIOBlock,=20
-> conf.request_merging, 0,
->                       true),
->=20
-> Should this HW_COMPAT_2_4 entry be guarded with ifdef __linux__?
+It's necessary to get the Revewied-by:, Tested-by:, etc tags squashed in
+automatically anyway.
 
-... so something like the following might do the trick:
+Stefan
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 3e288bfceb7f..d8e30e4895d8 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -148,7 +148,8 @@ GlobalProperty hw_compat_2_5[] =3D {
- const size_t hw_compat_2_5_len =3D G_N_ELEMENTS(hw_compat_2_5);
-=20
- GlobalProperty hw_compat_2_4[] =3D {
--    { "virtio-blk-device", "scsi", "true" },
-+    /* Optional because the 'scsi' property is Linux-only */
-+    { "virtio-blk-device", "scsi", "true", .optional =3D true },
-     { "e1000", "extra_mac_registers", "off" },
-     { "virtio-pci", "x-disable-pcie", "on" },
-     { "virtio-pci", "migrate-extra", "off" },
+--AhhlLboLdkugWU4S
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
->=20
-> Probably nobody ran a pre-2.4 machine out of Linux =3D)
->=20
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4pgNIACgkQnKSrs4Gr
+c8jODwf+J+IwEMuRc6V7x/Y8h9JestAAiILBbLPYMBHkKVFu60QgU6vaoGwVJR+Q
+zjf+CcNvi2IjgrtDTfRySeyZgPGYEiw1e8gJy17ateZw6eQMOq2LHhDdybA/YMVW
+rkaeah0onoU7KKL4vVvl2i9A4FC5IkrLXfnRHo4FJCodjC45Kpyut60CHgEHRDow
+EayP5JR6lelaxQQcayGDoNeyojludLH06Mtbueofw5xruAxDcgQKXwBkRcZfuogs
+idslkrh0jyS0YBOHk2uXPt/tp+l/zAT8IYBkYM9//PHJBJHTnt4DxEkC3yCqEqEz
+RfT0XAGq/6BNNxOhtWeq7cUhl3kvqQ==
+=vAQF
+-----END PGP SIGNATURE-----
 
-Yeah. I'm wondering if there's more compat stuff in there that should
-be optional. Devices that simply do not exist are not a problem, but
-properties that not always exist are.
-
+--AhhlLboLdkugWU4S--
 
