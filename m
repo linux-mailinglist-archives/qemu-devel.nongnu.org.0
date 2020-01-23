@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96BF7147187
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:11:08 +0100 (CET)
-Received: from localhost ([::1]:35350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66EA014719B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:16:44 +0100 (CET)
+Received: from localhost ([::1]:35482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuhsh-00044O-5i
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:11:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41517)
+	id 1iuhy6-0003UD-NR
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:16:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41545)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iufeD-0005I7-RU
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:03 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iufeG-0005LW-57
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iufeB-0006kO-TA
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27565
+ (envelope-from <dgilbert@redhat.com>) id 1iufeD-0006mW-DY
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33945
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufeB-0006jr-PA
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:59 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufeD-0006mF-AM
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579798079;
+ s=mimecast20190719; t=1579798081;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qmTg24SLM+LboCGPkF+1IP0xHGThYMcNoGHxIJzK48k=;
- b=Rn9LQuld74zFXOgaR1Vnf3FcWEt2RY9i6aK5qp9V8vh4pDUEMNDfYyatCSHQjJ1BMOACQR
- A3n5KmVh1tS2/mitMIR1noXHDuOC+csmt//YXFfkLYo32zRzrF7gIvXbueXwhsIDZD2tr2
- tQp/G0U0kds87sN2agQRZ4fUutmHmjQ=
+ bh=43HHQn/g9f/OjgxGf/Mwxr5aHgsmBAxfCbQZ/Y0O3uI=;
+ b=jHLsa+7RTM6hYrcOuy9GSocjo8Xs7ylDIN2xBM46WM4U166uAcbu5BrSl0EcTi4V9W8cGf
+ z/sD8w9Yh+CsJA8dn51KzcvbM8YdsweFb67/OgquaxJuvHSVu7jPEsucJ95tPZ6fIYMUID
+ t1O/2ceKGAQLU3vCp+a43hupWYt+WkA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-XSDkiORXPhmWKBYAvB3reQ-1; Thu, 23 Jan 2020 11:47:57 -0500
+ us-mta-141-k9GlJ50SO6aBoYxA0XcIrA-1; Thu, 23 Jan 2020 11:47:59 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEA09190B2B5
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA338104FB9B
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:58 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-110.ams2.redhat.com
  [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0748019C69;
- Thu, 23 Jan 2020 16:47:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0432019C69;
+ Thu, 23 Jan 2020 16:47:57 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 057/108] virtiofsd: fix libfuse information leaks
-Date: Thu, 23 Jan 2020 16:45:39 +0000
-Message-Id: <20200123164630.91498-58-dgilbert@redhat.com>
+Subject: [PULL 059/108] virtiofsd: print log only when priority is high enough
+Date: Thu, 23 Jan 2020 16:45:41 +0000
+Message-Id: <20200123164630.91498-60-dgilbert@redhat.com>
 In-Reply-To: <20200123164630.91498-1-dgilbert@redhat.com>
 References: <20200123164630.91498-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: XSDkiORXPhmWKBYAvB3reQ-1
+X-MC-Unique: k9GlJ50SO6aBoYxA0XcIrA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,322 +75,516 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Eryu Guan <eguan@linux.alibaba.com>
 
-Some FUSE message replies contain padding fields that are not
-initialized by libfuse.  This is fine in traditional FUSE applications
-because the kernel is trusted.  virtiofsd does not trust the guest and
-must not expose uninitialized memory.
+Introduce "-o log_level=3D" command line option to specify current log
+level (priority), valid values are "debug info warn err", e.g.
 
-Use C struct initializers to automatically zero out memory.  Not all of
-these code changes are strictly necessary but they will prevent future
-information leaks if the structs are extended.
+    ./virtiofsd -o log_level=3Ddebug ...
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+So only log priority higher than "debug" will be printed to
+stderr/syslog. And the default level is info.
+
+The "-o debug"/"-d" options are kept, and imply debug log level.
+
+Signed-off-by: Eryu Guan <eguan@linux.alibaba.com>
+dgilbert: Reworked for libfuse's log_func
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+with fix by:
+Signed-off-by: Xiao Yang <yangx.jy@cn.fujitsu.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c | 150 ++++++++++++++++----------------
- 1 file changed, 76 insertions(+), 74 deletions(-)
+ tools/virtiofsd/fuse_lowlevel.c  |  75 ++++++++------------
+ tools/virtiofsd/fuse_lowlevel.h  |   1 +
+ tools/virtiofsd/helper.c         |   8 ++-
+ tools/virtiofsd/passthrough_ll.c | 118 +++++++++++++------------------
+ 4 files changed, 87 insertions(+), 115 deletions(-)
 
 diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
 l.c
-index 2d6dc5a680..6ceb33d913 100644
+index 6ceb33d913..a7a19685b5 100644
 --- a/tools/virtiofsd/fuse_lowlevel.c
 +++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -44,21 +44,23 @@ static __attribute__((constructor)) void fuse_ll_init_p=
-agesize(void)
-=20
- static void convert_stat(const struct stat *stbuf, struct fuse_attr *attr)
- {
--    attr->ino =3D stbuf->st_ino;
--    attr->mode =3D stbuf->st_mode;
--    attr->nlink =3D stbuf->st_nlink;
--    attr->uid =3D stbuf->st_uid;
--    attr->gid =3D stbuf->st_gid;
--    attr->rdev =3D stbuf->st_rdev;
--    attr->size =3D stbuf->st_size;
--    attr->blksize =3D stbuf->st_blksize;
--    attr->blocks =3D stbuf->st_blocks;
--    attr->atime =3D stbuf->st_atime;
--    attr->mtime =3D stbuf->st_mtime;
--    attr->ctime =3D stbuf->st_ctime;
--    attr->atimensec =3D ST_ATIM_NSEC(stbuf);
--    attr->mtimensec =3D ST_MTIM_NSEC(stbuf);
--    attr->ctimensec =3D ST_CTIM_NSEC(stbuf);
-+    *attr =3D (struct fuse_attr){
-+        .ino =3D stbuf->st_ino,
-+        .mode =3D stbuf->st_mode,
-+        .nlink =3D stbuf->st_nlink,
-+        .uid =3D stbuf->st_uid,
-+        .gid =3D stbuf->st_gid,
-+        .rdev =3D stbuf->st_rdev,
-+        .size =3D stbuf->st_size,
-+        .blksize =3D stbuf->st_blksize,
-+        .blocks =3D stbuf->st_blocks,
-+        .atime =3D stbuf->st_atime,
-+        .mtime =3D stbuf->st_mtime,
-+        .ctime =3D stbuf->st_ctime,
-+        .atimensec =3D ST_ATIM_NSEC(stbuf),
-+        .mtimensec =3D ST_MTIM_NSEC(stbuf),
-+        .ctimensec =3D ST_CTIM_NSEC(stbuf),
-+    };
- }
-=20
- static void convert_attr(const struct fuse_setattr_in *attr, struct stat *=
-stbuf)
-@@ -183,16 +185,16 @@ static int fuse_send_msg(struct fuse_session *se, str=
+@@ -158,19 +158,17 @@ static int fuse_send_msg(struct fuse_session *se, str=
 uct fuse_chan *ch,
- int fuse_send_reply_iov_nofree(fuse_req_t req, int error, struct iovec *io=
-v,
-                                int count)
- {
--    struct fuse_out_header out;
-+    struct fuse_out_header out =3D {
-+        .unique =3D req->unique,
-+        .error =3D error,
-+    };
+     struct fuse_out_header *out =3D iov[0].iov_base;
 =20
-     if (error <=3D -1000 || error > 0) {
-         fuse_log(FUSE_LOG_ERR, "fuse: bad error value: %i\n", error);
-         error =3D -ERANGE;
+     out->len =3D iov_length(iov, count);
+-    if (se->debug) {
+-        if (out->unique =3D=3D 0) {
+-            fuse_log(FUSE_LOG_DEBUG, "NOTIFY: code=3D%d length=3D%u\n", ou=
+t->error,
+-                     out->len);
+-        } else if (out->error) {
+-            fuse_log(FUSE_LOG_DEBUG,
+-                     "   unique: %llu, error: %i (%s), outsize: %i\n",
+-                     (unsigned long long)out->unique, out->error,
+-                     strerror(-out->error), out->len);
+-        } else {
+-            fuse_log(FUSE_LOG_DEBUG, "   unique: %llu, success, outsize: %=
+i\n",
+-                     (unsigned long long)out->unique, out->len);
+-        }
++    if (out->unique =3D=3D 0) {
++        fuse_log(FUSE_LOG_DEBUG, "NOTIFY: code=3D%d length=3D%u\n", out->e=
+rror,
++                 out->len);
++    } else if (out->error) {
++        fuse_log(FUSE_LOG_DEBUG,
++                 "   unique: %llu, error: %i (%s), outsize: %i\n",
++                 (unsigned long long)out->unique, out->error,
++                 strerror(-out->error), out->len);
++    } else {
++        fuse_log(FUSE_LOG_DEBUG, "   unique: %llu, success, outsize: %i\n"=
+,
++                 (unsigned long long)out->unique, out->len);
      }
 =20
--    out.unique =3D req->unique;
--    out.error =3D error;
--
-     iov[0].iov_base =3D &out;
-     iov[0].iov_len =3D sizeof(struct fuse_out_header);
-=20
-@@ -277,14 +279,16 @@ size_t fuse_add_direntry(fuse_req_t req, char *buf, s=
-ize_t bufsize,
- static void convert_statfs(const struct statvfs *stbuf,
-                            struct fuse_kstatfs *kstatfs)
- {
--    kstatfs->bsize =3D stbuf->f_bsize;
--    kstatfs->frsize =3D stbuf->f_frsize;
--    kstatfs->blocks =3D stbuf->f_blocks;
--    kstatfs->bfree =3D stbuf->f_bfree;
--    kstatfs->bavail =3D stbuf->f_bavail;
--    kstatfs->files =3D stbuf->f_files;
--    kstatfs->ffree =3D stbuf->f_ffree;
--    kstatfs->namelen =3D stbuf->f_namemax;
-+    *kstatfs =3D (struct fuse_kstatfs){
-+        .bsize =3D stbuf->f_bsize,
-+        .frsize =3D stbuf->f_frsize,
-+        .blocks =3D stbuf->f_blocks,
-+        .bfree =3D stbuf->f_bfree,
-+        .bavail =3D stbuf->f_bavail,
-+        .files =3D stbuf->f_files,
-+        .ffree =3D stbuf->f_ffree,
-+        .namelen =3D stbuf->f_namemax,
-+    };
- }
-=20
- static int send_reply_ok(fuse_req_t req, const void *arg, size_t argsize)
-@@ -328,12 +332,14 @@ static unsigned int calc_timeout_nsec(double t)
- static void fill_entry(struct fuse_entry_out *arg,
-                        const struct fuse_entry_param *e)
- {
--    arg->nodeid =3D e->ino;
--    arg->generation =3D e->generation;
--    arg->entry_valid =3D calc_timeout_sec(e->entry_timeout);
--    arg->entry_valid_nsec =3D calc_timeout_nsec(e->entry_timeout);
--    arg->attr_valid =3D calc_timeout_sec(e->attr_timeout);
--    arg->attr_valid_nsec =3D calc_timeout_nsec(e->attr_timeout);
-+    *arg =3D (struct fuse_entry_out){
-+        .nodeid =3D e->ino,
-+        .generation =3D e->generation,
-+        .entry_valid =3D calc_timeout_sec(e->entry_timeout),
-+        .entry_valid_nsec =3D calc_timeout_nsec(e->entry_timeout),
-+        .attr_valid =3D calc_timeout_sec(e->attr_timeout),
-+        .attr_valid_nsec =3D calc_timeout_nsec(e->attr_timeout),
-+    };
-     convert_stat(&e->attr, &arg->attr);
- }
-=20
-@@ -362,10 +368,12 @@ size_t fuse_add_direntry_plus(fuse_req_t req, char *b=
-uf, size_t bufsize,
-     fill_entry(&dp->entry_out, e);
-=20
-     struct fuse_dirent *dirent =3D &dp->dirent;
--    dirent->ino =3D e->attr.st_ino;
--    dirent->off =3D off;
--    dirent->namelen =3D namelen;
--    dirent->type =3D (e->attr.st_mode & S_IFMT) >> 12;
-+    *dirent =3D (struct fuse_dirent){
-+        .ino =3D e->attr.st_ino,
-+        .off =3D off,
-+        .namelen =3D namelen,
-+        .type =3D (e->attr.st_mode & S_IFMT) >> 12,
-+    };
-     memcpy(dirent->name, name, namelen);
-     memset(dirent->name + namelen, 0, entlen_padded - entlen);
-=20
-@@ -496,15 +504,14 @@ static int fuse_send_data_iov(struct fuse_session *se=
-, struct fuse_chan *ch,
- int fuse_reply_data(fuse_req_t req, struct fuse_bufvec *bufv)
- {
-     struct iovec iov[2];
--    struct fuse_out_header out;
-+    struct fuse_out_header out =3D {
-+        .unique =3D req->unique,
-+    };
-     int res;
-=20
-     iov[0].iov_base =3D &out;
-     iov[0].iov_len =3D sizeof(struct fuse_out_header);
-=20
--    out.unique =3D req->unique;
--    out.error =3D 0;
--
-     res =3D fuse_send_data_iov(req->se, req->ch, iov, 1, bufv);
-     if (res <=3D 0) {
-         fuse_free_req(req);
-@@ -2145,14 +2152,14 @@ static void do_destroy(fuse_req_t req, fuse_ino_t n=
-odeid,
- static int send_notify_iov(struct fuse_session *se, int notify_code,
-                            struct iovec *iov, int count)
- {
--    struct fuse_out_header out;
-+    struct fuse_out_header out =3D {
-+        .error =3D notify_code,
-+    };
-=20
-     if (!se->got_init) {
-         return -ENOTCONN;
+     if (fuse_lowlevel_is_virtio(se)) {
+@@ -1662,10 +1660,8 @@ static void do_interrupt(fuse_req_t req, fuse_ino_t =
+nodeid,
+         return;
      }
 =20
--    out.unique =3D 0;
--    out.error =3D notify_code;
-     iov[0].iov_base =3D &out;
-     iov[0].iov_len =3D sizeof(struct fuse_out_header);
+-    if (se->debug) {
+-        fuse_log(FUSE_LOG_DEBUG, "INTERRUPT: %llu\n",
+-                 (unsigned long long)arg->unique);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "INTERRUPT: %llu\n",
++             (unsigned long long)arg->unique);
 =20
-@@ -2162,11 +2169,11 @@ static int send_notify_iov(struct fuse_session *se,=
- int notify_code,
- int fuse_lowlevel_notify_poll(struct fuse_pollhandle *ph)
- {
-     if (ph !=3D NULL) {
--        struct fuse_notify_poll_wakeup_out outarg;
-+        struct fuse_notify_poll_wakeup_out outarg =3D {
-+            .kh =3D ph->kh,
-+        };
-         struct iovec iov[2];
+     req->u.i.unique =3D arg->unique;
 =20
--        outarg.kh =3D ph->kh;
+@@ -1901,13 +1897,10 @@ static void do_init(fuse_req_t req, fuse_ino_t node=
+id,
+         }
+     }
+=20
+-    if (se->debug) {
+-        fuse_log(FUSE_LOG_DEBUG, "INIT: %u.%u\n", arg->major, arg->minor);
+-        if (arg->major =3D=3D 7 && arg->minor >=3D 6) {
+-            fuse_log(FUSE_LOG_DEBUG, "flags=3D0x%08x\n", arg->flags);
+-            fuse_log(FUSE_LOG_DEBUG, "max_readahead=3D0x%08x\n",
+-                     arg->max_readahead);
+-        }
++    fuse_log(FUSE_LOG_DEBUG, "INIT: %u.%u\n", arg->major, arg->minor);
++    if (arg->major =3D=3D 7 && arg->minor >=3D 6) {
++        fuse_log(FUSE_LOG_DEBUG, "flags=3D0x%08x\n", arg->flags);
++        fuse_log(FUSE_LOG_DEBUG, "max_readahead=3D0x%08x\n", arg->max_read=
+ahead);
+     }
+     se->conn.proto_major =3D arg->major;
+     se->conn.proto_minor =3D arg->minor;
+@@ -2116,19 +2109,14 @@ static void do_init(fuse_req_t req, fuse_ino_t node=
+id,
+     outarg.congestion_threshold =3D se->conn.congestion_threshold;
+     outarg.time_gran =3D se->conn.time_gran;
+=20
+-    if (se->debug) {
+-        fuse_log(FUSE_LOG_DEBUG, "   INIT: %u.%u\n", outarg.major,
+-                 outarg.minor);
+-        fuse_log(FUSE_LOG_DEBUG, "   flags=3D0x%08x\n", outarg.flags);
+-        fuse_log(FUSE_LOG_DEBUG, "   max_readahead=3D0x%08x\n",
+-                 outarg.max_readahead);
+-        fuse_log(FUSE_LOG_DEBUG, "   max_write=3D0x%08x\n", outarg.max_wri=
+te);
+-        fuse_log(FUSE_LOG_DEBUG, "   max_background=3D%i\n",
+-                 outarg.max_background);
+-        fuse_log(FUSE_LOG_DEBUG, "   congestion_threshold=3D%i\n",
+-                 outarg.congestion_threshold);
+-        fuse_log(FUSE_LOG_DEBUG, "   time_gran=3D%u\n", outarg.time_gran);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "   INIT: %u.%u\n", outarg.major, outarg.mino=
+r);
++    fuse_log(FUSE_LOG_DEBUG, "   flags=3D0x%08x\n", outarg.flags);
++    fuse_log(FUSE_LOG_DEBUG, "   max_readahead=3D0x%08x\n", outarg.max_rea=
+dahead);
++    fuse_log(FUSE_LOG_DEBUG, "   max_write=3D0x%08x\n", outarg.max_write);
++    fuse_log(FUSE_LOG_DEBUG, "   max_background=3D%i\n", outarg.max_backgr=
+ound);
++    fuse_log(FUSE_LOG_DEBUG, "   congestion_threshold=3D%i\n",
++             outarg.congestion_threshold);
++    fuse_log(FUSE_LOG_DEBUG, "   time_gran=3D%u\n", outarg.time_gran);
+=20
+     send_reply_ok(req, &outarg, outargsize);
+ }
+@@ -2407,14 +2395,11 @@ void fuse_session_process_buf_int(struct fuse_sessi=
+on *se,
+     in =3D fuse_mbuf_iter_advance(&iter, sizeof(*in));
+     assert(in); /* caller guarantees the input buffer is large enough */
+=20
+-    if (se->debug) {
+-        fuse_log(FUSE_LOG_DEBUG,
+-                 "unique: %llu, opcode: %s (%i), nodeid: %llu, insize: %zu=
+, "
+-                 "pid: %u\n",
+-                 (unsigned long long)in->unique,
+-                 opname((enum fuse_opcode)in->opcode), in->opcode,
+-                 (unsigned long long)in->nodeid, buf->size, in->pid);
+-    }
++    fuse_log(
++        FUSE_LOG_DEBUG,
++        "unique: %llu, opcode: %s (%i), nodeid: %llu, insize: %zu, pid: %u=
+\n",
++        (unsigned long long)in->unique, opname((enum fuse_opcode)in->opcod=
+e),
++        in->opcode, (unsigned long long)in->nodeid, buf->size, in->pid);
+=20
+     req =3D fuse_ll_alloc_req(se);
+     if (req =3D=3D NULL) {
+diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowleve=
+l.h
+index f2750bc189..138041e5f1 100644
+--- a/tools/virtiofsd/fuse_lowlevel.h
++++ b/tools/virtiofsd/fuse_lowlevel.h
+@@ -1796,6 +1796,7 @@ struct fuse_cmdline_opts {
+     int show_help;
+     int print_capabilities;
+     int syslog;
++    int log_level;
+     unsigned int max_idle_threads;
+ };
+=20
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index 9692ef9f1f..6d50a46a7e 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -34,7 +34,6 @@
+         t, offsetof(struct fuse_cmdline_opts, p), v \
+     }
+=20
 -
-         iov[1].iov_base =3D &outarg;
-         iov[1].iov_len =3D sizeof(outarg);
+ static const struct fuse_opt fuse_helper_opts[] =3D {
+     FUSE_HELPER_OPT("-h", show_help),
+     FUSE_HELPER_OPT("--help", show_help),
+@@ -55,6 +54,10 @@ static const struct fuse_opt fuse_helper_opts[] =3D {
+     FUSE_OPT_KEY("subtype=3D", FUSE_OPT_KEY_KEEP),
+     FUSE_HELPER_OPT("max_idle_threads=3D%u", max_idle_threads),
+     FUSE_HELPER_OPT("--syslog", syslog),
++    FUSE_HELPER_OPT_VALUE("log_level=3Ddebug", log_level, FUSE_LOG_DEBUG),
++    FUSE_HELPER_OPT_VALUE("log_level=3Dinfo", log_level, FUSE_LOG_INFO),
++    FUSE_HELPER_OPT_VALUE("log_level=3Dwarn", log_level, FUSE_LOG_WARNING)=
+,
++    FUSE_HELPER_OPT_VALUE("log_level=3Derr", log_level, FUSE_LOG_ERR),
+     FUSE_OPT_END
+ };
 =20
-@@ -2179,17 +2186,17 @@ int fuse_lowlevel_notify_poll(struct fuse_pollhandl=
-e *ph)
- int fuse_lowlevel_notify_inval_inode(struct fuse_session *se, fuse_ino_t i=
+@@ -142,6 +145,9 @@ void fuse_cmdline_help(void)
+            "    --syslog                   log to syslog (default stderr)\=
+n"
+            "    -f                         foreground operation\n"
+            "    --daemonize                run in background\n"
++           "    -o log_level=3D<level>       log level, default to \"info\=
+"\n"
++           "                               level could be one of \"debug, =
+"
++           "info, warn, err\"\n"
+            "    -o max_idle_threads        the maximum number of idle work=
+er "
+            "threads\n"
+            "                               allowed (default: 10)\n"
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 0372aca143..ff6910fd73 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -37,6 +37,7 @@
+=20
+ #include "qemu/osdep.h"
+ #include "fuse_virtio.h"
++#include "fuse_log.h"
+ #include "fuse_lowlevel.h"
+ #include <assert.h>
+ #include <cap-ng.h>
+@@ -140,6 +141,7 @@ static const struct fuse_opt lo_opts[] =3D {
+     FUSE_OPT_END
+ };
+ static bool use_syslog =3D false;
++static int current_log_level;
+=20
+ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64=
+_t n);
+=20
+@@ -458,11 +460,6 @@ static int lo_fd(fuse_req_t req, fuse_ino_t ino)
+     return inode ? inode->fd : -1;
+ }
+=20
+-static bool lo_debug(fuse_req_t req)
+-{
+-    return lo_data(req)->debug !=3D 0;
+-}
+-
+ static void lo_init(void *userdata, struct fuse_conn_info *conn)
+ {
+     struct lo_data *lo =3D (struct lo_data *)userdata;
+@@ -472,15 +469,11 @@ static void lo_init(void *userdata, struct fuse_conn_=
+info *conn)
+     }
+=20
+     if (lo->writeback && conn->capable & FUSE_CAP_WRITEBACK_CACHE) {
+-        if (lo->debug) {
+-            fuse_log(FUSE_LOG_DEBUG, "lo_init: activating writeback\n");
+-        }
++        fuse_log(FUSE_LOG_DEBUG, "lo_init: activating writeback\n");
+         conn->want |=3D FUSE_CAP_WRITEBACK_CACHE;
+     }
+     if (lo->flock && conn->capable & FUSE_CAP_FLOCK_LOCKS) {
+-        if (lo->debug) {
+-            fuse_log(FUSE_LOG_DEBUG, "lo_init: activating flock locks\n");
+-        }
++        fuse_log(FUSE_LOG_DEBUG, "lo_init: activating flock locks\n");
+         conn->want |=3D FUSE_CAP_FLOCK_LOCKS;
+     }
+ }
+@@ -823,10 +816,8 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t par=
+ent, const char *name,
+     }
+     e->ino =3D inode->fuse_ino;
+=20
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n",
+-                 (unsigned long long)parent, name, (unsigned long long)e->=
+ino);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n", (unsigned long long)pa=
+rent,
++             name, (unsigned long long)e->ino);
+=20
+     return 0;
+=20
+@@ -843,10 +834,8 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t paren=
+t, const char *name)
+     struct fuse_entry_param e;
+     int err;
+=20
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG, "lo_lookup(parent=3D%" PRIu64 ", name=3D%=
+s)\n",
+-                 parent, name);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "lo_lookup(parent=3D%" PRIu64 ", name=3D%s)\n=
+", parent,
++             name);
+=20
+     /*
+      * Don't use is_safe_path_component(), allow "." and ".." for NFS expo=
+rt
+@@ -971,10 +960,8 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_=
+t parent,
+         goto out;
+     }
+=20
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n",
+-                 (unsigned long long)parent, name, (unsigned long long)e.i=
+no);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n", (unsigned long long)pa=
+rent,
++             name, (unsigned long long)e.ino);
+=20
+     fuse_reply_entry(req, &e);
+     return;
+@@ -1074,10 +1061,8 @@ static void lo_link(fuse_req_t req, fuse_ino_t ino, =
+fuse_ino_t parent,
+     pthread_mutex_unlock(&lo->mutex);
+     e.ino =3D inode->fuse_ino;
+=20
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n",
+-                 (unsigned long long)parent, name, (unsigned long long)e.i=
+no);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n", (unsigned long long)pa=
+rent,
++             name, (unsigned long long)e.ino);
+=20
+     fuse_reply_entry(req, &e);
+     return;
+@@ -1171,11 +1156,9 @@ static void lo_forget_one(fuse_req_t req, fuse_ino_t=
+ ino, uint64_t nlookup)
+         return;
+     }
+=20
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG, "  forget %lli %lli -%lli\n",
+-                 (unsigned long long)ino, (unsigned long long)inode->refco=
+unt,
+-                 (unsigned long long)nlookup);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "  forget %lli %lli -%lli\n",
++             (unsigned long long)ino, (unsigned long long)inode->refcount,
++             (unsigned long long)nlookup);
+=20
+     unref_inode(lo, inode, nlookup);
+ }
+@@ -1445,10 +1428,8 @@ static void lo_create(fuse_req_t req, fuse_ino_t par=
+ent, const char *name,
+     int err;
+     struct lo_cred old =3D {};
+=20
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG, "lo_create(parent=3D%" PRIu64 ", name=3D%=
+s)\n",
+-                 parent, name);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "lo_create(parent=3D%" PRIu64 ", name=3D%s)\n=
+", parent,
++             name);
+=20
+     if (!is_safe_path_component(name)) {
+         fuse_reply_err(req, EINVAL);
+@@ -1525,10 +1506,8 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, =
+struct fuse_file_info *fi)
+     char buf[64];
+     struct lo_data *lo =3D lo_data(req);
+=20
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=3D%" PRIu64 ", flags=3D%d)\n=
+", ino,
+-                 fi->flags);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=3D%" PRIu64 ", flags=3D%d)\n", i=
 no,
-                                      off_t off, off_t len)
- {
--    struct fuse_notify_inval_inode_out outarg;
-+    struct fuse_notify_inval_inode_out outarg =3D {
-+        .ino =3D ino,
-+        .off =3D off,
-+        .len =3D len,
-+    };
-     struct iovec iov[2];
++             fi->flags);
 =20
-     if (!se) {
-         return -EINVAL;
+     /*
+      * With writeback cache, kernel may send read requests even
+@@ -1644,12 +1623,10 @@ static void lo_read(fuse_req_t req, fuse_ino_t ino,=
+ size_t size, off_t offset,
+ {
+     struct fuse_bufvec buf =3D FUSE_BUFVEC_INIT(size);
+=20
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG,
+-                 "lo_read(ino=3D%" PRIu64 ", size=3D%zd, "
+-                 "off=3D%lu)\n",
+-                 ino, size, (unsigned long)offset);
+-    }
++    fuse_log(FUSE_LOG_DEBUG,
++             "lo_read(ino=3D%" PRIu64 ", size=3D%zd, "
++             "off=3D%lu)\n",
++             ino, size, (unsigned long)offset);
+=20
+     buf.buf[0].flags =3D FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK;
+     buf.buf[0].fd =3D lo_fi_fd(req, fi);
+@@ -1671,11 +1648,9 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t =
+ino,
+     out_buf.buf[0].fd =3D lo_fi_fd(req, fi);
+     out_buf.buf[0].pos =3D off;
+=20
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG,
+-                 "lo_write(ino=3D%" PRIu64 ", size=3D%zd, off=3D%lu)\n", i=
+no,
+-                 out_buf.buf[0].size, (unsigned long)off);
+-    }
++    fuse_log(FUSE_LOG_DEBUG,
++             "lo_write_buf(ino=3D%" PRIu64 ", size=3D%zd, off=3D%lu)\n", i=
+no,
++             out_buf.buf[0].size, (unsigned long)off);
+=20
+     /*
+      * If kill_priv is set, drop CAP_FSETID which should lead to kernel
+@@ -1774,11 +1749,8 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t i=
+no, const char *name,
+         goto out;
      }
 =20
--    outarg.ino =3D ino;
--    outarg.off =3D off;
--    outarg.len =3D len;
--
-     iov[1].iov_base =3D &outarg;
-     iov[1].iov_len =3D sizeof(outarg);
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG,
+-                 "lo_getxattr(ino=3D%" PRIu64 ", name=3D%s size=3D%zd)\n",=
+ ino, name,
+-                 size);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "lo_getxattr(ino=3D%" PRIu64 ", name=3D%s siz=
+e=3D%zd)\n",
++             ino, name, size);
 =20
-@@ -2199,17 +2206,16 @@ int fuse_lowlevel_notify_inval_inode(struct fuse_se=
-ssion *se, fuse_ino_t ino,
- int fuse_lowlevel_notify_inval_entry(struct fuse_session *se, fuse_ino_t p=
-arent,
-                                      const char *name, size_t namelen)
- {
--    struct fuse_notify_inval_entry_out outarg;
-+    struct fuse_notify_inval_entry_out outarg =3D {
-+        .parent =3D parent,
-+        .namelen =3D namelen,
-+    };
-     struct iovec iov[3];
-=20
-     if (!se) {
-         return -EINVAL;
+     if (inode->is_symlink) {
+         /* Sorry, no race free way to getxattr on symlink. */
+@@ -1852,10 +1824,8 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t =
+ino, size_t size)
+         goto out;
      }
 =20
--    outarg.parent =3D parent;
--    outarg.namelen =3D namelen;
--    outarg.padding =3D 0;
--
-     iov[1].iov_base =3D &outarg;
-     iov[1].iov_len =3D sizeof(outarg);
-     iov[2].iov_base =3D (void *)name;
-@@ -2222,18 +2228,17 @@ int fuse_lowlevel_notify_delete(struct fuse_session=
- *se, fuse_ino_t parent,
-                                 fuse_ino_t child, const char *name,
-                                 size_t namelen)
- {
--    struct fuse_notify_delete_out outarg;
-+    struct fuse_notify_delete_out outarg =3D {
-+        .parent =3D parent,
-+        .child =3D child,
-+        .namelen =3D namelen,
-+    };
-     struct iovec iov[3];
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG, "lo_listxattr(ino=3D%" PRIu64 ", size=3D%=
+zd)\n",
+-                 ino, size);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "lo_listxattr(ino=3D%" PRIu64 ", size=3D%zd)\=
+n", ino,
++             size);
 =20
-     if (!se) {
-         return -EINVAL;
+     if (inode->is_symlink) {
+         /* Sorry, no race free way to listxattr on symlink. */
+@@ -1929,11 +1899,8 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t i=
+no, const char *name,
+         goto out;
      }
 =20
--    outarg.parent =3D parent;
--    outarg.child =3D child;
--    outarg.namelen =3D namelen;
--    outarg.padding =3D 0;
--
-     iov[1].iov_base =3D &outarg;
-     iov[1].iov_len =3D sizeof(outarg);
-     iov[2].iov_base =3D (void *)name;
-@@ -2245,24 +2250,21 @@ int fuse_lowlevel_notify_delete(struct fuse_session=
- *se, fuse_ino_t parent,
- int fuse_lowlevel_notify_store(struct fuse_session *se, fuse_ino_t ino,
-                                off_t offset, struct fuse_bufvec *bufv)
- {
--    struct fuse_out_header out;
--    struct fuse_notify_store_out outarg;
-+    struct fuse_out_header out =3D {
-+        .error =3D FUSE_NOTIFY_STORE,
-+    };
-+    struct fuse_notify_store_out outarg =3D {
-+        .nodeid =3D ino,
-+        .offset =3D offset,
-+        .size =3D fuse_buf_size(bufv),
-+    };
-     struct iovec iov[3];
--    size_t size =3D fuse_buf_size(bufv);
-     int res;
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG,
+-                 "lo_setxattr(ino=3D%" PRIu64 ", name=3D%s value=3D%s size=
+=3D%zd)\n",
+-                 ino, name, value, size);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "lo_setxattr(ino=3D%" PRIu64
++             ", name=3D%s value=3D%s size=3D%zd)\n", ino, name, value, siz=
+e);
 =20
-     if (!se) {
-         return -EINVAL;
+     if (inode->is_symlink) {
+         /* Sorry, no race free way to setxattr on symlink. */
+@@ -1978,10 +1945,8 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_=
+t ino, const char *name)
+         goto out;
      }
 =20
--    out.unique =3D 0;
--    out.error =3D FUSE_NOTIFY_STORE;
--
--    outarg.nodeid =3D ino;
--    outarg.offset =3D offset;
--    outarg.size =3D size;
--    outarg.padding =3D 0;
--
-     iov[0].iov_base =3D &out;
-     iov[0].iov_len =3D sizeof(out);
-     iov[1].iov_base =3D &outarg;
+-    if (lo_debug(req)) {
+-        fuse_log(FUSE_LOG_DEBUG, "lo_removexattr(ino=3D%" PRIu64 ", name=
+=3D%s)\n",
+-                 ino, name);
+-    }
++    fuse_log(FUSE_LOG_DEBUG, "lo_removexattr(ino=3D%" PRIu64 ", name=3D%s)=
+\n", ino,
++             name);
+=20
+     if (inode->is_symlink) {
+         /* Sorry, no race free way to setxattr on symlink. */
+@@ -2303,6 +2268,10 @@ static void setup_nofile_rlimit(void)
+=20
+ static void log_func(enum fuse_log_level level, const char *fmt, va_list a=
+p)
+ {
++    if (current_log_level < level) {
++        return;
++    }
++
+     if (use_syslog) {
+         int priority =3D LOG_ERR;
+         switch (level) {
+@@ -2401,8 +2370,19 @@ int main(int argc, char *argv[])
+         return 1;
+     }
+=20
++    /*
++     * log_level is 0 if not configured via cmd options (0 is LOG_EMERG,
++     * and we don't use this log level).
++     */
++    if (opts.log_level !=3D 0) {
++        current_log_level =3D opts.log_level;
++    }
+     lo.debug =3D opts.debug;
++    if (lo.debug) {
++        current_log_level =3D FUSE_LOG_DEBUG;
++    }
+     lo.root.refcount =3D 2;
++
+     if (lo.source) {
+         struct stat stat;
+         int res;
 --=20
 2.24.1
 
