@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD46414676F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:00:17 +0100 (CET)
-Received: from localhost ([::1]:55516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5FB51466F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:40:43 +0100 (CET)
+Received: from localhost ([::1]:54982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iub9k-0001cZ-7Z
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:00:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35416)
+	id 1iuaqo-00049T-Qu
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:40:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34305)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iuas4-0005v7-Qo
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:42:01 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iuapp-0003iG-KW
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:39:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iuas3-0004OQ-Hy
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:42:00 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34752
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuas3-0004OD-F8
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579779719;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LgCZ/pGkOf/xbrfC8klHSdk5ZNKIH9vXEKSiOqSFROE=;
- b=X8zkOnpyLFjPxI4iyUnk4HfX2T0bpbggclP9BAHcEEFqVkJ2E1mQ5eBt4PvhWMcru9ai8W
- CvMx8MFb2n5/hDLWuEDeZ+g2Lpy/X0T+LbWfDLkQ0ODFSsIjViUuk5/neyAXPJQM7yXiOf
- aitt7nDjpepjwkUUpGe4FCxNV5WwzYM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-0EoVcCViNmi4lvvHZzTmPA-1; Thu, 23 Jan 2020 06:41:55 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D2E618C8C06;
- Thu, 23 Jan 2020 11:41:54 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 39DBF1001DD7;
- Thu, 23 Jan 2020 11:41:53 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH REPOST v3 25/80] arm/palm: use memdev for RAM
-Date: Thu, 23 Jan 2020 12:37:50 +0100
-Message-Id: <1579779525-20065-26-git-send-email-imammedo@redhat.com>
-In-Reply-To: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
-References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iuapo-0002te-Id
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:39:41 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55035)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iuapo-0002t5-CF
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:39:40 -0500
+Received: by mail-wm1-x341.google.com with SMTP id b19so2201771wmj.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 03:39:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=n0tMWs3StmJUjvh7UqoyhGYJQxb3xLIGGA3i9fUY/xQ=;
+ b=A/rpVbN7ci9y/rAwYBdiM3xQfRP+5lmzG5O5/YG5ac1QbalrnhmwpBVMaNGePxn81H
+ nlVRvX/kuKrb8Tdp8ZA5B70GTGl9RFjeO08IvF5wO8A+Prg5W8jhJ9dtP4ptgnXMWfvo
+ 9WPYHtYPwB4u4LhpK4ePgECSVpLCzDXlHactZQY0wzZXfZhgcHpxpokO/4YKDjxU5JnJ
+ tLJIIao6zoSjqwi2AAJv3Au5fy8aupiKoomBWs/PrxfdfzpqYRBbMILtb7tHV1BJ/7KZ
+ kwU0vnSENElNCwgaVoLaRXxbUNTp/ttLzerH8xNfYLbjCD7hldw2/xIUz7q1VzXSfdRS
+ /SYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=n0tMWs3StmJUjvh7UqoyhGYJQxb3xLIGGA3i9fUY/xQ=;
+ b=hsXwdiN20lTVf8SfQyWcQltnpfgSr3NYG5R3HZOqUBY6ID/LhtZQs17Xyw2Zx31TL1
+ K5vBw6qdKB78n1QvKhClKr/FfAntZlVBTLg43Av1OCcklKji1ZSAuksz1pQ3qeHbnDVd
+ uw28rsIgQYkKXGXmvwlRX7p6OBuQYNgbUTlWWJgPmy5QILXtFRE/kbGbBORQniPbCBvn
+ H8QAxZLw3kguoU41bp89SeKrELMW4NHj6raqMtSgUfNaPcb4z8ZmjFSJxuJFm50K1utj
+ YRdTKlw8bqW05OT9TpR3TgnO8z+arT/PCQHqU/ZKE4bCISTeO9o7ZkdceRSRChLvdSCH
+ LQ0A==
+X-Gm-Message-State: APjAAAW5Dv6wh6tC6IHsSZq4+ial9BtZN62fVREy+2KvtL+pAfXknJvp
+ Th6269d97bwRLHCt2uPTRqpxDbwuy2XF3sfxQPA=
+X-Google-Smtp-Source: APXvYqzkiHUhXXwgz19jq0VXJs8bScrM2f/VU721+VulEkF+BybtSOtCQ9t2Qh56FqGo0zOYYq/2uphn4KoU045Ce68=
+X-Received: by 2002:a1c:9c87:: with SMTP id f129mr3950059wme.26.1579779579260; 
+ Thu, 23 Jan 2020 03:39:39 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 0EoVcCViNmi4lvvHZzTmPA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+References: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
+ <20200110153039.1379601-11-marcandre.lureau@redhat.com>
+ <2a3b0024-fb80-c34d-16fd-78f8bc722807@redhat.com>
+In-Reply-To: <2a3b0024-fb80-c34d-16fd-78f8bc722807@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 23 Jan 2020 15:39:27 +0400
+Message-ID: <CAJ+F1CJBFT7j6qenmD-C053dN4p3YgXFzi3ed=e9vXzr4Hr_ng@mail.gmail.com>
+Subject: Re: [PATCH 10/26] object: add object_property_set_defaut_{bool, str, 
+ int, uint}()
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,94 +76,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, qemu-arm@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+Hi
 
-PS:
- while at it add check for user supplied RAM size and error
- out if it mismatches board expected value.
+On Thu, Jan 23, 2020 at 3:29 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> This patch caught my attention because of the typo in the function, but
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-v2:
-  * fix format string causing build failure on 32-bit host
-    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
+Ah! a french "d=C3=A9faut".
 
-CC: drjones@redhat.com
-CC: balrogg@gmail.com
-CC: peter.maydell@linaro.org
-CC: qemu-arm@nongnu.org
----
- hw/arm/palm.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+> I also noticed that get_default is never set to anything but
+> object_property_get_defval.
+>
+> What do you think about removing the method and just relying on defval?
+> In practice there would be a new patch that squashes 7, 10 and the thing
+> after my signature.
 
-diff --git a/hw/arm/palm.c b/hw/arm/palm.c
-index 72eca8c..388b262 100644
---- a/hw/arm/palm.c
-+++ b/hw/arm/palm.c
-@@ -31,6 +31,7 @@
- #include "hw/loader.h"
- #include "exec/address-spaces.h"
- #include "cpu.h"
-+#include "qemu/cutils.h"
-=20
- static uint64_t static_read(void *opaque, hwaddr offset, unsigned size)
- {
-@@ -181,7 +182,6 @@ static void palmte_gpio_setup(struct omap_mpu_state_s *=
-cpu)
-=20
- static struct arm_boot_info palmte_binfo =3D {
-     .loader_start =3D OMAP_EMIFF_BASE,
--    .ram_size =3D 0x02000000,
-     .board_id =3D 0x331,
- };
-=20
-@@ -195,15 +195,21 @@ static void palmte_init(MachineState *machine)
-     static uint32_t cs2val =3D 0x0000e1a0;
-     static uint32_t cs3val =3D 0xe1a0e1a0;
-     int rom_size, rom_loaded =3D 0;
--    MemoryRegion *dram =3D g_new(MemoryRegion, 1);
-+    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
-     MemoryRegion *flash =3D g_new(MemoryRegion, 1);
-     MemoryRegion *cs =3D g_new(MemoryRegion, 4);
-=20
--    memory_region_allocate_system_memory(dram, NULL, "omap1.dram",
--                                         palmte_binfo.ram_size);
--    memory_region_add_subregion(address_space_mem, OMAP_EMIFF_BASE, dram);
-+    if (machine->ram_size !=3D mc->default_ram_size) {
-+        char *sz =3D size_to_str(mc->default_ram_size);
-+        error_report("Invalid RAM size, should be %s", sz);
-+        g_free(sz);
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    memory_region_add_subregion(address_space_mem, OMAP_EMIFF_BASE,
-+                                machine->ram);
-=20
--    mpu =3D omap310_mpu_init(dram, machine->cpu_type);
-+    mpu =3D omap310_mpu_init(machine->ram, machine->cpu_type);
-=20
-     /* External Flash (EMIFS) */
-     memory_region_init_ram(flash, NULL, "palmte.flash", flash_size,
-@@ -265,6 +271,8 @@ static void palmte_machine_init(MachineClass *mc)
-     mc->init =3D palmte_init;
-     mc->ignore_memory_transaction_failures =3D true;
-     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("ti925t");
-+    mc->default_ram_size =3D 0x02000000;
-+    mc->default_ram_id =3D "omap1.dram";
- }
-=20
- DEFINE_MACHINE("cheetah", palmte_machine_init)
+Indeed, we could remove the get_default callback. I can't find the
+reason I added it now.
+
+Are you resending the series then?
+
+>
+> Paolo
+>
+> diff --git a/include/qom/object.h b/include/qom/object.h
+> index 1ea5c8c..035e41c 100644
+> --- a/include/qom/object.h
+> +++ b/include/qom/object.h
+> @@ -367,13 +367,6 @@ typedef void (ObjectPropertyRelease)(Object *obj,
+>   */
+>  typedef void (ObjectPropertyInit)(Object *obj, ObjectProperty *prop);
+>
+> -/**
+> - * ObjectPropertyGetDefault:
+> - *
+> - * Get an allocated string representation of the default value.
+> - */
+> -typedef char *(ObjectPropertyGetDefault)(ObjectProperty *prop);
+> -
+>  struct ObjectProperty
+>  {
+>      gchar *name;
+> @@ -384,7 +377,6 @@ struct ObjectProperty
+>      ObjectPropertyResolve *resolve;
+>      ObjectPropertyRelease *release;
+>      ObjectPropertyInit *init;
+> -    ObjectPropertyGetDefault *get_default;
+>      void *opaque;
+>      QObject *defval;
+>  };
+> diff --git a/qom/object.c b/qom/object.c
+> index 2464a9f..aa6cf19 100644
+> --- a/qom/object.c
+> +++ b/qom/object.c
+> @@ -1444,15 +1444,6 @@ int64_t object_property_get_int(Object *obj, const=
+ char *name,
+>      return retval;
+>  }
+>
+> -char *object_property_get_default(ObjectProperty *prop)
+> -{
+> -    if (!prop->get_default) {
+> -        return NULL;
+> -    }
+> -
+> -    return prop->get_default(prop);
+> -}
+> -
+>  static void object_property_init_defval(Object *obj, ObjectProperty *pro=
+p)
+>  {
+>      Visitor *v =3D qobject_input_visitor_new(prop->defval);
+> @@ -1463,8 +1454,12 @@ static void object_property_init_defval(Object *ob=
+j, ObjectProperty *prop)
+>      visit_free(v);
+>  }
+>
+> -static char *object_property_get_defval(ObjectProperty *prop)
+> +char *object_property_get_default(ObjectProperty *prop)
+>  {
+> +    if (!prop->defval) {
+> +        return NULL;
+> +    }
+> +
+>      return qstring_free(qobject_to_json(prop->defval), TRUE);
+>  }
+>
+> @@ -1472,11 +1467,9 @@ static void object_property_set_default(ObjectProp=
+erty *prop, QObject *defval)
+>  {
+>      assert(!prop->defval);
+>      assert(!prop->init);
+> -    assert(!prop->get_default);
+>
+>      prop->defval =3D defval;
+>      prop->init =3D object_property_init_defval;
+> -    prop->get_default =3D object_property_get_defval;
+>  }
+>
+>  void object_property_set_default_bool(ObjectProperty *prop, bool value)
+> @@ -2610,8 +2603,7 @@ void object_property_add_alias(Object *obj, const c=
+har *name,
+>          goto out;
+>      }
+>      op->resolve =3D property_resolve_alias;
+> -    if (target_prop->get_default) {
+> -        op->get_default =3D target_prop->get_default;
+> +    if (target_prop->defval) {
+>          op->defval =3D qobject_ref(target_prop->defval);
+>      }
+>
+>
+>
+
+
 --=20
-2.7.4
-
+Marc-Andr=C3=A9 Lureau
 
