@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAC8146D1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:41:56 +0100 (CET)
-Received: from localhost ([::1]:59630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD7D146D25
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:43:37 +0100 (CET)
+Received: from localhost ([::1]:59648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuecE-0004Iv-TU
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:41:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51789)
+	id 1iueds-0006mT-Ev
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:43:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51835)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrh-0005SX-Gl
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:46 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrj-0005V9-49
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrg-0004J4-7l
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:45 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:43676)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrh-0004LJ-RY
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:46 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41201)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrg-0004FX-19
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:44 -0500
-Received: by mail-wr1-x430.google.com with SMTP id d16so3114262wre.10
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:43 -0800 (PST)
+ id 1iucrh-0004K3-L8
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:45 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id c9so3134247wrw.8
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OEkIKTJLqtLn0CwQfnZ9UM16dUj1z1/bOKbRoffOWsI=;
- b=oWemyY4AgVFVMi0XwZ+H1fMp9qEDMOQJQsbfJZLA1hcLXuxhIG/o8EsrmjDQWhzHse
- Fa35WQHd3BtI5w8rXpQUTFzYgCTU0CbLW+So6jIi1GJKV490rAeMV+dWYXH9xPgahLCS
- SL8cYn4MKZEab2dhNSQW28mnaEYrfFh2EzYcFvNHuNFqtdD6YIK85edEw95v9OrYQbgv
- zku20sdkb3ivEpyXTWhrTh3luD1y3xKLrQx8sRFkKzpW10klTU4sH+9BF5Ibfk5luFW5
- Dw86FDgbrkXdwDkUC10cVBSzSesdFCZLMzW08sBG8lp/yXdINTU0q180L4VkxFPYvy+m
- FGZA==
+ bh=oY9cSuB59xRHq3LMhdI5P/MTn902Rp70IXIZQ4mig9A=;
+ b=sALh1ZsdtUFtAdBPa9FNgNgdrTF76RO7Is9H+D9jkvyZkDfGMR6EORVWSp+MvdFKit
+ Cj95nPfkK2MoKbV/JAvwoAZB9g78weMohReEUXzFWjxQW4Wm09fA7FFuCJhyWVnp6Lz2
+ sppw7Wy2//HEgXZ7TgRSnocpWRw/PNDBTw5DFakGMC8iHWvsRU/tL84gt+l0zJEFfQ2B
+ vx20eUI6p0DhKI43VT7sh0p29wLtUobBfs7lKBJzZaHq51pEcRi2E8m1I+QUvDCvov5y
+ fZahS05FgSUKC5MVGvks9aslnox37iZi9RVmlYckgiDF5yuJE8XD3qYZjO6jWRtAViET
+ brdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OEkIKTJLqtLn0CwQfnZ9UM16dUj1z1/bOKbRoffOWsI=;
- b=j+dabcxOQXYkK6OSABxnl8yNH0DXZyghB72SkZ5xO0zi0N8n62bSN7zIP81vE8lurL
- 2x/MtikeOIWkxCkabSemj0Hl9Tn7tCkYjGyW2pjhdOUVWCXiPnMJA6lLN3w8oL2cpMK/
- xMeXFmX6ZTeVAQnEWlgbqd4JMb1RxGcWf1fM4gavw+g7EQaAy/i91+eMlHBTrwI3o1ub
- lT0OunwqNvS7uyVgL6tOWfuyMewUsyGn3rc8pikEHZIwYclDtHj+IizZUOAQdetNYygi
- WE9q3o8Fo+ZPsP7cYrAKUguJJScLy+0bC+t3LwTMcgacaohZX8KRG5SDm0Gd4KLkVwzQ
- SXXA==
-X-Gm-Message-State: APjAAAU9ZKE9UEXS3Zsq0AccSMBE5Q8JEuNUe2BKKX6h7tBL7Gx2IO3t
- 7J082qBQDJy9fH27zL5KFF11+nG9
-X-Google-Smtp-Source: APXvYqxBl/DJ0zQMzmGHkHq3Ph9hV3cJLwPEB/XsmRuUzR8eYGytXlZ0jLB2IixBHMVTIOaDCJvSuQ==
-X-Received: by 2002:a5d:6305:: with SMTP id i5mr18054825wru.399.1579787382736; 
- Thu, 23 Jan 2020 05:49:42 -0800 (PST)
+ bh=oY9cSuB59xRHq3LMhdI5P/MTn902Rp70IXIZQ4mig9A=;
+ b=W4j1SEifLwxz6z+4XGNnz9PVwH3AOjVm+khx5RqcfS08nFdyEptgOr3eCenobDi32c
+ /kSjtbw9EZwmZbqTKaim4kAVN6dgvr9IPiWOGaGW31NkiCCVsgJrTmZbz6f9ht1Zi9vy
+ APzdBmyPEyXIDZrvuSr+VtSSijeQ+UREMEKkZ1mkQUc8Pkq7uf6Qw8u43+D8qu4xO6LW
+ yFOPjyL61trIkg2ADoqBakSL4/H9uClOojmlw30DxDWjChlI/fKace7Yie9MCQyIkxZj
+ w/BoKlAXcXlfBRcHK0oaTWlLHAaBuBaT/flUqq9G/l68PFTs5mbiqarSvHOdEEmJawei
+ 5Qvg==
+X-Gm-Message-State: APjAAAVamMCK+qA8Octuja4gJUXDjcKaiydkSaPET17AC8I+z6PQEF18
+ 1CJXjvVhc9rlzrU1Cf8W2aX8jhK+
+X-Google-Smtp-Source: APXvYqzLlpKinutkCKRfNg3KktApGWz+LST7ZjgFeAL1LYe6qKAg+z7UbkRr5KZyBtUWuC/Fc14pYg==
+X-Received: by 2002:adf:f885:: with SMTP id u5mr17880815wrp.359.1579787384391; 
+ Thu, 23 Jan 2020 05:49:44 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.42
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.43
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:42 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:43 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 41/59] object: do not free class properties
-Date: Thu, 23 Jan 2020 14:48:44 +0100
-Message-Id: <1579787342-27146-42-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 43/59] object: rename link "child" to "target"
+Date: Thu, 23 Jan 2020 14:48:46 +0100
+Message-Id: <1579787342-27146-44-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,58 +84,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The release callback is called during object_property_del_all(), on a
-live instance. But class properties are common among all
-instances. It is not currently called, because we don't release
-classes, but it would not be correct if we did.
+A child property is a different kind of property. Let's use "target"
+for the link target.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200110153039.1379601-12-marcandre.lureau@redhat.com>
+Message-Id: <20200110153039.1379601-14-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qom/object.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/qom/object.h |  4 ++--
+ qom/object.c         | 24 ++++++++++++------------
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index fb133d6..7e66bc7 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1545,7 +1545,7 @@ void object_property_allow_set_link(const Object *, const char *,
+  * @obj: the object to add a property to
+  * @name: the name of the property
+  * @type: the qobj type of the link
+- * @child: a pointer to where the link object reference is stored
++ * @targetp: a pointer to where the link object reference is stored
+  * @check: callback to veto setting or NULL if the property is read-only
+  * @flags: additional options for the link
+  * @errp: if an error occurs, a pointer to an area to store the error
+@@ -1570,7 +1570,7 @@ void object_property_allow_set_link(const Object *, const char *,
+  * modified.
+  */
+ void object_property_add_link(Object *obj, const char *name,
+-                              const char *type, Object **child,
++                              const char *type, Object **targetp,
+                               void (*check)(const Object *obj, const char *name,
+                                             Object *val, Error **errp),
+                               ObjectPropertyLinkFlags flags,
 diff --git a/qom/object.c b/qom/object.c
-index 1423344..30c4f82 100644
+index fb80013..ced5e0b 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -2143,7 +2143,7 @@ object_class_property_add_str(ObjectClass *klass, const char *name,
-     rv = object_class_property_add(klass, name, "string",
-                               get ? property_get_str : NULL,
-                               set ? property_set_str : NULL,
--                              property_release_str,
-+                              NULL,
-                               prop, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-@@ -2236,7 +2236,7 @@ object_class_property_add_bool(ObjectClass *klass, const char *name,
-     rv = object_class_property_add(klass, name, "bool",
-                               get ? property_get_bool : NULL,
-                               set ? property_set_bool : NULL,
--                              property_release_bool,
-+                              NULL,
-                               prop, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-@@ -2328,7 +2328,7 @@ object_class_property_add_enum(ObjectClass *klass, const char *name,
-     rv = object_class_property_add(klass, name, typename,
-                               get ? property_get_enum : NULL,
-                               set ? property_set_enum : NULL,
--                              property_release_enum,
-+                              NULL,
-                               prop, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-@@ -2429,7 +2429,7 @@ object_class_property_add_tm(ObjectClass *klass, const char *name,
+@@ -1729,7 +1729,7 @@ void object_property_allow_set_link(const Object *obj, const char *name,
+ }
  
-     rv = object_class_property_add(klass, name, "struct tm",
-                               get ? property_get_tm : NULL, NULL,
--                              property_release_tm,
-+                              NULL,
-                               prop, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
+ typedef struct {
+-    Object **child;
++    Object **targetp;
+     void (*check)(const Object *, const char *, Object *, Error **);
+     ObjectPropertyLinkFlags flags;
+ } LinkProperty;
+@@ -1739,11 +1739,11 @@ static void object_get_link_property(Object *obj, Visitor *v,
+                                      Error **errp)
+ {
+     LinkProperty *lprop = opaque;
+-    Object **child = lprop->child;
++    Object **targetp = lprop->targetp;
+     gchar *path;
+ 
+-    if (*child) {
+-        path = object_get_canonical_path(*child);
++    if (*targetp) {
++        path = object_get_canonical_path(*targetp);
+         visit_type_str(v, name, &path, errp);
+         g_free(path);
+     } else {
+@@ -1798,8 +1798,8 @@ static void object_set_link_property(Object *obj, Visitor *v,
+ {
+     Error *local_err = NULL;
+     LinkProperty *prop = opaque;
+-    Object **child = prop->child;
+-    Object *old_target = *child;
++    Object **targetp = prop->targetp;
++    Object *old_target = *targetp;
+     Object *new_target = NULL;
+     char *path = NULL;
+ 
+@@ -1821,7 +1821,7 @@ static void object_set_link_property(Object *obj, Visitor *v,
+         return;
+     }
+ 
+-    *child = new_target;
++    *targetp = new_target;
+     if (prop->flags & OBJ_PROP_LINK_STRONG) {
+         object_ref(new_target);
+         object_unref(old_target);
+@@ -1832,7 +1832,7 @@ static Object *object_resolve_link_property(Object *parent, void *opaque, const
+ {
+     LinkProperty *lprop = opaque;
+ 
+-    return *lprop->child;
++    return *lprop->targetp;
+ }
+ 
+ static void object_release_link_property(Object *obj, const char *name,
+@@ -1840,14 +1840,14 @@ static void object_release_link_property(Object *obj, const char *name,
+ {
+     LinkProperty *prop = opaque;
+ 
+-    if ((prop->flags & OBJ_PROP_LINK_STRONG) && *prop->child) {
+-        object_unref(*prop->child);
++    if ((prop->flags & OBJ_PROP_LINK_STRONG) && *prop->targetp) {
++        object_unref(*prop->targetp);
+     }
+     g_free(prop);
+ }
+ 
+ void object_property_add_link(Object *obj, const char *name,
+-                              const char *type, Object **child,
++                              const char *type, Object **targetp,
+                               void (*check)(const Object *, const char *,
+                                             Object *, Error **),
+                               ObjectPropertyLinkFlags flags,
+@@ -1858,7 +1858,7 @@ void object_property_add_link(Object *obj, const char *name,
+     gchar *full_type;
+     ObjectProperty *op;
+ 
+-    prop->child = child;
++    prop->targetp = targetp;
+     prop->check = check;
+     prop->flags = flags;
+ 
 -- 
 1.8.3.1
 
