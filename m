@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0284B146283
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 08:23:40 +0100 (CET)
-Received: from localhost ([::1]:52158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31FFB1462B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 08:38:38 +0100 (CET)
+Received: from localhost ([::1]:52286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuWq2-0003DG-Dk
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 02:23:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39697)
+	id 1iuX4X-000139-7A
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 02:38:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43247)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iuWnt-0001U5-RH
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:21:26 -0500
+ (envelope-from <armbru@redhat.com>) id 1iuX3Q-0000Zf-9I
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:37:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iuWns-0002bN-Pp
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:21:25 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29535
+ (envelope-from <armbru@redhat.com>) id 1iuX3N-0001f1-O9
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:37:27 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35910
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iuWns-0002X8-LC
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:21:24 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iuX3N-0001eO-K8
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 02:37:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579764082;
+ s=mimecast20190719; t=1579765044;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mRnk/JMDoFNJJxFT6WfDVqoBKDMVmbMiPOrEYR7hQUs=;
- b=XsW2PUYEYBSVWHIjN9T6wA2wamPEP/RwCgTKsYo7MdlS/K70Oj3+mIn644XdVa+NCN4jOY
- A9GAZbxJbTi/BDhs4Ty86lHixq0y4We427qGu+Nk/wDB1NkD9II0b5y2kymJBZMTF82JBn
- c9YahFiatPgLwpZ2UJdfpgUiz9wwfXg=
+ bh=BOF87p7w1HWP1UCZobH0sFRKSoW6878YVTG/S6KvZd0=;
+ b=OeyiVGmZE9pNS0/YfzpamfdTSZynhHWfO8N9u4Ac+pz8yFdzeVxLHvq66+mwnJ+DcygzrV
+ r5LOjsIqDlXva/9EvAGo50kAwFyimLJFiM7GugVuF2lA1LfqdiGinj3K0kmbZGE2dHxG81
+ ZxmOp7blB3UdPltNp/1kZ7BSfZJmnnE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-AyZOdMkjMDexj29qk4tlsg-1; Thu, 23 Jan 2020 02:21:21 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-238-IzZFNyqGP9SUN0XeD61tSQ-1; Thu, 23 Jan 2020 02:37:22 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA87F1800D48;
- Thu, 23 Jan 2020 07:21:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F83D107ACCA;
+ Thu, 23 Jan 2020 07:37:21 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
  [10.36.116.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AC7A210016EB;
- Thu, 23 Jan 2020 07:21:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B6D85DA7C;
+ Thu, 23 Jan 2020 07:37:16 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 421B31138600; Thu, 23 Jan 2020 08:21:13 +0100 (CET)
+ id DF67E1138600; Thu, 23 Jan 2020 08:37:14 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: Making QEMU easier for management tools and applications
-References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
- <20191224130035.GC2710539@redhat.com>
- <a95b7572-d863-bc88-66aa-3beed679cefe@redhat.com>
-Date: Thu, 23 Jan 2020 08:21:13 +0100
-In-Reply-To: <a95b7572-d863-bc88-66aa-3beed679cefe@redhat.com> (John Snow's
- message of "Wed, 22 Jan 2020 17:42:10 -0500")
-Message-ID: <874kwmeiza.fsf@dusky.pond.sub.org>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: Integrating QOM into QAPI
+References: <87d0bmchq0.fsf@dusky.pond.sub.org>
+ <1B253197-5592-472A-AA26-E0614A13C91A@redhat.com>
+ <87o8v52hz9.fsf@dusky.pond.sub.org>
+ <8CF8359B-1E52-4F7A-944E-C1C14FEC4F92@redhat.com>
+ <87r200zzje.fsf@dusky.pond.sub.org>
+ <20200120100849.GB345995@stefanha-x1.localdomain>
+ <871rrtmkko.fsf@dusky.pond.sub.org>
+ <20200121113224.GD630615@stefanha-x1.localdomain>
+ <CAJ+F1C+anMuBE6pOu8JNOoaNnDw8a47Dc1f6MhnxH=rRNqMF=Q@mail.gmail.com>
+ <87wo9lc4oe.fsf_-_@dusky.pond.sub.org>
+ <20200121143658.GB597037@redhat.com>
+ <871rrs97ld.fsf@dusky.pond.sub.org>
+ <CAJ+F1CJ68_QM7zhqoL-bom3vFSNprN3zOV5FUBtrJWg4nAai5g@mail.gmail.com>
+ <87y2tzzrwo.fsf@linaro.org> <87wo9ju19n.fsf@dusky.pond.sub.org>
+ <CAJ+F1CLu6xNJ834qWpJ6Bx1PHhv5QutdK2-Nzp+J2q80YV5tzA@mail.gmail.com>
+Date: Thu, 23 Jan 2020 08:37:14 +0100
+In-Reply-To: <CAJ+F1CLu6xNJ834qWpJ6Bx1PHhv5QutdK2-Nzp+J2q80YV5tzA@mail.gmail.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Wed, 22 Jan 2020
+ 16:42:13 +0400")
+Message-ID: <87lfpyd3o5.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: AyZOdMkjMDexj29qk4tlsg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: IzZFNyqGP9SUN0XeD61tSQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
@@ -80,34 +93,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
  "Denis V. Lunev" <den@virtuozzo.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>
+ QEMU <qemu-devel@nongnu.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Dominik Csapak <d.csapak@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
 
-> On 12/24/19 8:00 AM, Daniel P. Berrang=C3=A9 wrote:
->> Based on experiance in libvirt, this is an even larger job than (4),
->> as the feature set here is huge.  Much of it directly ties into the
->> config problem, as to deal with SELinux / namespace setup the code
->> needs to understand what resources to provide access to. This
->> requires a way to express 100% coverage of all QEMU configuration
->> in use & analyse it to determine what resources it implies. So this
->> ties strongly into QAPI-ification completion.
+> Hi
 >
-> Is it totally bonkers to suggest that QEMU provide a method of digesting
-> a given configuration and returning a configuration object that a
-> standalone jailer can use?
+> On Wed, Jan 22, 2020 at 4:25 PM Markus Armbruster <armbru@redhat.com> wro=
+te:
+>>
+>> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>>
+>> > Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
+>> >> Actually, we are not that far off from being able to use GObject
+>> >> altogether (I hacked something like that to play with), but I
+>> >> disgress...
+>> >
+>> > As a mostly hands off observer who mainly c&p's QOM code when he has t=
+o
+>> > I have to ask is this a long term plan?
+>> >
+>> > I've always found having our own hand rolled object system a little
+>> > incongruous given we lean heavily on the rest of glib.
+>>
+>> I vaguely remember claims that GObject falls short of our needs.  Sadly,
+>> I don't remember the details.  This is why major features should come
+>> with a design document.
+>>
+>> https://wiki.qemu.org/Features/QOM ain't: it does not mention GObject.
+>> I'm afraid that page has fallen too far behind the code to be useful to
+>> anyone not familiar with the code.
 >
-> So we have a QEMU manager, the generic jailer, and QEMU. QEMU and the
-> manager cooperate to produce the jailing configuration, and the jailer
-> does what we ask it to.
->
-> Nuts?
+>>From the top of my mind, this is the pain point when trying to use GObjec=
+t:
+> - static/inlined object, not supported by GObject, unlikely to ever be
 
-With the nuts-o-meter calibrated for QEMU CLI: nope, this hardly moves
-the needle.
+Lame.
+
+Okay for us as long as the pointer chasing stays off the hot paths.  But
+that's not obvious.
+
+> - few users in qemu, transition possible.
+
+Peter challenged this idea.
+
+> - 64k limit of GObject, for some reason, unlikely to change but I will
+> take a look. Some users in qemu, code adaptation possible.
+
+Also lame.  I figure code adaption will involve pointer chasing.  Again,
+beware of hot paths.  This one feels less likely to be a problem,
+though.
+
+> - dynamic properties, possible in GObject with hacks, but not
+> recommended and going to be deprecated from what I remember
+
+Never understood our need for them for longer than half a day after
+getting it explained to me.  I guess that's my fault.  Anyway, the less
+we use them, the better.
+
+Hacks exploiting deprecated GObject features would be a bad idea.
+Perhaps we can hack something up that doesn't.
+
+> - "array" properties - would need extra layer/tweaks for compatibility
+
+I hated them from day one, tried to kill them, lost the argument.
+
+> - link properties - would need special handling
+
+Hard or not?
+
+> - different limitations for type names and properties names
+
+What to do?
+
+Our naming rules and conventions are weakly documented.
+
+> A possible initial approach is to have all the type system and object
+> allocation done by GObject under the hood (what I hacked), while
+> keeping all the properties handled by QOM. Then, figure out a
+> migration to GObject properties (which are also being refactored a bit
+> upstream).
+
+So most QOM properties would be based on a GObject property, but some
+wouldn't be, correct?
+
+>            If there is enough interest, I will keep investigating. But
+> for now, helping with meson seems more urgent.
+
+Yes.
+
+/me warily eyes the monster lurking in the review queue...
+
+[...]
 
 
