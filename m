@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832C4146F1D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:04:28 +0100 (CET)
-Received: from localhost ([::1]:32974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33190146F32
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:09:15 +0100 (CET)
+Received: from localhost ([::1]:33052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iufu7-0005ME-3u
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:04:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46393)
+	id 1iufyj-0002OI-KT
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:09:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48332)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iueI1-0002Xx-Tg
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:21:03 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iueRX-0000Bl-L5
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iueI0-0004vg-P4
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:21:01 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:38738)
+ (envelope-from <peter.maydell@linaro.org>) id 1iueRW-0003eU-5L
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:51 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36479)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iueI0-0004vB-6G
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:21:00 -0500
-Received: by mail-oi1-x244.google.com with SMTP id l9so3219815oii.5
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 07:21:00 -0800 (PST)
+ id 1iueRV-0003d9-U8
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:50 -0500
+Received: by mail-wm1-x329.google.com with SMTP id p17so2982946wma.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 07:30:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4YdT+X4UZ9T1P6M+i6pylJQ2Rj9JmdJAcxMgiXyp4xU=;
- b=hcZ0CQug0H7HdJiAOe36eeO7mVDQSQQ5aUHT0KSFFZ9s22v1G6e/hVWtBsuDqmxMGJ
- 0FPDZTG5IbsOCqZKwvMisZnKgcDUU3olMx126ZxEyk6mixI/7kMF/Emhu6Tz7uUd48Yq
- TF8pi2sVSivP59sK2wepgBKfry7rvT1iiCUFQ83m99+lPT/+dp8O35NAuWCvpy9zPGik
- JvOjHvpfS3pUTPV7k4C89xs6TouhZdB4dDc6Y76fzgXwtgFUF2UGDEEqRBVSaptZNS5l
- JEy2qC5KnIi1NEjqyTAbkdMDI6+1kLUR08J0KxpoHLSMfVnsKu5OaFVjYYIFKruJyZOZ
- 7LMA==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=cgmfL+4gTnqZBGjqUeHy8Uwc1+lP8StkbgIKZkWqXCE=;
+ b=PynxNDsZuaPABhERy5hHA3Tylf1nEDvaFSAQZoCrk58OosLM2+LszDlJ1m0WOBiP37
+ Fl9f9yTPSPSnuL9+yFX3R5UDZC4UqFgU++Tj+dTEVirKKzBaZDJT6M/MLpbarILUr3jm
+ 1/lOn5BsBEPGBavGgR59RAR31LaOeQ4o9mTN1YyUYWX1A/hSquHolqqsniuMuZxnkUb9
+ aH2uqPw/7HGgqxmUtsk7Li+HbqJzhJVa27cX4tl4bUsqh5qTBHVs7PnMVKc1ujqi+P00
+ hrsl6nby+Vvk/G2RPH2svMgyQoIC22auUwfr1Kd0pwYVBe0CenZi8V20l3NpVZEs8E8D
+ WFRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4YdT+X4UZ9T1P6M+i6pylJQ2Rj9JmdJAcxMgiXyp4xU=;
- b=G6+VQhma2xCnC1Z8gZ059c3vS0ooxYvREAuZQQi4xeGXxCv5brENe1G5Jj0k4Ny6FR
- yC9IX8eqg2cP2C95l9Ce7UUcSSrpYz4rWOvWKt0DVCvZZhNBl/ES5B21o9p/eW3Kuae5
- 6n1RZm4YdRD5E2Z3aUka1T8ri5UP5ykfmX5fBMI1EnKo5sofAb5ir61Eq3gK21iWaAEJ
- 29qmeiPqK6tEBJVrpTscVzlcStTBryyhTLYlxfYJwTReZ2KqPm6bfLXV3BRu5CrLZ0PH
- FjlKqy+GRV1gmhgM7n93vEEu6SQGoqpR8nQkC97jrltYriRv98lLnBWNmna435shVBzK
- vTMw==
-X-Gm-Message-State: APjAAAUwSir/erA0QoSRU/OBqm1bpp04emma4bJIgbKpJNkCfBQcrR1o
- M7WfVET/a01vcdE+qF7FvAJo0OVuh8AokN3N/sp899Do4d0=
-X-Google-Smtp-Source: APXvYqwRrqwHz2yEfhBLmXeTq25NQ0DekrePRy0Sg6zj+EnrIPClAt84oyrYOBgi5cZTU/B9c19mEkQdwNArUQcsmPY=
-X-Received: by 2002:aca:3182:: with SMTP id
- x124mr10935204oix.170.1579792859484; 
- Thu, 23 Jan 2020 07:20:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20200123052540.6132-1-linux@roeck-us.net>
-In-Reply-To: <20200123052540.6132-1-linux@roeck-us.net>
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=cgmfL+4gTnqZBGjqUeHy8Uwc1+lP8StkbgIKZkWqXCE=;
+ b=KtjIPszAh30n508ZN8ANFNlQHx5A/TUHglMn+SjuZlqHsIRakvjI0nMO6yVCzymRtc
+ 2tSXCD/FV0yvGvnNQvfn5bdMhE9fgy1ILKSUsJE7L5YPksLzKwX5/N4MfLh0YKAxrLrt
+ SUw3UN/vO0zco60HmYEG3VprLg1BRr+LtZRMlrKNxA0lIH7uEq3G3ooGMV3qZT6d6QTA
+ c/qzqZlPjtLugWyyDOOdq2BtDGc27XHJ/wXwOGtGdeUGfo7b64LR75AB0ZMqjw3xNqTL
+ nLxqIsUHyXV9/lDuOyuMMnRJY2uNEiOzR9EBIDyDzKNjNxpjP1PZTEccXvtLzrKsdnIc
+ 5L7Q==
+X-Gm-Message-State: APjAAAW/Yoi76WnJGHAWlAG30yTKViSr7rxU+WrpAIbysDc2+xHaj4o6
+ JvfdmVmIixfrW9A3z+ZwPQRnbBvhTDYh0w==
+X-Google-Smtp-Source: APXvYqz+b4qX5P0By5uQzBXXZ9imLSmd91t8Omo1Xf9ZZ3ujFIo0hgQTv0Y8POvqo3gqrWOGjOjXmg==
+X-Received: by 2002:a7b:cb01:: with SMTP id u1mr4970324wmj.156.1579793448353; 
+ Thu, 23 Jan 2020 07:30:48 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id s139sm2903592wme.35.2020.01.23.07.30.47
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jan 2020 07:30:47 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jan 2020 15:20:48 +0000
-Message-ID: <CAFEAcA_CVt87SwQ7OdB=phedEez1K_mJyrMLkY9dCZuzNFfEsg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] Fix Exynos4210 DMA support
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+To: qemu-devel@nongnu.org
+Subject: [PULL 05/20] tests/tcg/aarch64: Add pauth-4
+Date: Thu, 23 Jan 2020 15:30:26 +0000
+Message-Id: <20200123153041.4248-6-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200123153041.4248-1-peter.maydell@linaro.org>
+References: <20200123153041.4248-1-peter.maydell@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,32 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jan 2020 at 05:25, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> Commit 59520dc65e ("hw/arm/exynos4210: Add DMA support for the Exynos4210")
-> introduced DMA support for Exynos4210. Unfortunately, it never really
-> worked. DMA interrupt line and polarity was wrong, and the serial port
-> needs extra code to support DMA. This patch series fixes the problem.
->
-> The series also converts pl330 and exynos4210_uart code to support tracing.
-> While not strictly necessary, this was very useful for debugging,
-> and it seemed too valuable to drop it from the final series. Similar,
-> improved support for receive FIFO handling is not strictly necessary
-> to fix DMA handling, but I initially thought that it was and added the
-> code. Like tracing support it seemed too valuable to drop it.
->
-> The series was tested with qemu's smdkc210 and nuri emulations and with
-> exynos4210-smdkv310.dtb. Without the series, the emulation does not react
-> to serial line input, and serial line output stalls when using DMA. With
-> this series in place, serial line input is handled correctly, serial
-> output does not stall, and DMA interrupts are observed and handled.
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Applied to target-arm.next, thanks.
+Perform the set of operations and test described in LP 1859713.
 
--- PMM
+Suggested-by: Adrien GRASSEIN <adrien.grassein@smile.fr>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200116230809.19078-5-richard.henderson@linaro.org
+[PMM: fixed hard-coded tabs]
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ tests/tcg/aarch64/Makefile.target |  2 +-
+ tests/tcg/aarch64/pauth-4.c       | 25 +++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/aarch64/pauth-4.c
+
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index 374c8d6830f..efa67cf1e9e 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -18,7 +18,7 @@ run-fcvt: fcvt
+ 	$(call diff-out,$<,$(AARCH64_SRC)/fcvt.ref)
+ 
+ # Pauth Tests
+-AARCH64_TESTS += pauth-1 pauth-2
++AARCH64_TESTS += pauth-1 pauth-2 pauth-4
+ run-pauth-%: QEMU_OPTS += -cpu max
+ pauth-%: CFLAGS += -march=armv8.3-a
+ 
+diff --git a/tests/tcg/aarch64/pauth-4.c b/tests/tcg/aarch64/pauth-4.c
+new file mode 100644
+index 00000000000..1040e92aec3
+--- /dev/null
++++ b/tests/tcg/aarch64/pauth-4.c
+@@ -0,0 +1,25 @@
++#include <stdint.h>
++#include <assert.h>
++
++int main()
++{
++  uintptr_t x, y;
++
++  asm("mov %0, lr\n\t"
++      "pacia %0, sp\n\t"        /* sigill if pauth not supported */
++      "eor %0, %0, #4\n\t"      /* corrupt single bit */
++      "mov %1, %0\n\t"
++      "autia %1, sp\n\t"        /* validate corrupted pointer */
++      "xpaci %0\n\t"            /* strip pac from corrupted pointer */
++      : "=r"(x), "=r"(y));
++
++  /*
++   * Once stripped, the corrupted pointer is of the form 0x0000...wxyz.
++   * We expect the autia to indicate failure, producing a pointer of the
++   * form 0x000e....wxyz.  Use xpaci and != for the test, rather than
++   * extracting explicit bits from the top, because the location of the
++   * error code "e" depends on the configuration of virtual memory.
++   */
++  assert(x != y);
++  return 0;
++}
+-- 
+2.20.1
+
 
