@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA35146C83
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:19:01 +0100 (CET)
-Received: from localhost ([::1]:59116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64E9146C84
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:19:29 +0100 (CET)
+Received: from localhost ([::1]:59122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueG3-0006FL-W9
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:19:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41975)
+	id 1iueGW-0007AL-M7
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:19:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43049)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iucEt-0005vU-3D
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:09:40 -0500
+ (envelope-from <drjones@redhat.com>) id 1iucHP-0003Da-8C
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:12:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iucEr-0000zN-UP
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:09:38 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48441
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <drjones@redhat.com>) id 1iucHO-0001Wj-5L
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:12:15 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33715)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iucEr-0000yk-Qf
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:09:37 -0500
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iucHO-0001Uv-1b
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:12:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579784977;
+ s=mimecast20190719; t=1579785133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xv5vbNu8PSICXX8AC75b7aG4Hck1gKUFS8RTUUuWOhY=;
- b=EPTTzvRwLv1kojJGMtUEI2oFVg06W0bXSj03dP5EU3DubXxGXb25TyGsFSuAWun4jCzVbV
- xUKi5W9KAn0NHd6v4uNC4v8GXlPHg2NE0SXKrIXL4tsTRtgNde+xrKP26qS/4RnkXOfVhP
- gv8Jw75xAcH2IAumFp8doOJxX/AdPDE=
+ bh=iLxTbnOG8vDH7PQwBtLcGLHK7NiXIN80ZHr5O/oU7KU=;
+ b=OXnqoFWKpZjzzjQb5EdYvPGfRvnb4Ne2c8GDAf5x3g1kAb7e+sUyK+hRT5L/gjoQyWKFyU
+ nYOvxn4jSTq2B5DVIlCwz99zbF7vpO2awGleuhfnxra/r2ZqrFeFhvUbAN5NIUe67+Rh2t
+ nnK9/YlBhdzVcAiyUpOcJsCwZTx//9w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-BBaqDW0eNyqFUI9_QqDwdA-1; Thu, 23 Jan 2020 08:09:35 -0500
+ us-mta-4-_mUU-qebNLehTgkE4NG_ww-1; Thu, 23 Jan 2020 08:12:09 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 626B018A8C80;
- Thu, 23 Jan 2020 13:09:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D227318AAFA2;
+ Thu, 23 Jan 2020 13:12:08 +0000 (UTC)
 Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4474E86C54;
- Thu, 23 Jan 2020 13:09:33 +0000 (UTC)
-Date: Thu, 23 Jan 2020 14:09:30 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9B9B1CB;
+ Thu, 23 Jan 2020 13:12:07 +0000 (UTC)
+Date: Thu, 23 Jan 2020 14:12:05 +0100
 From: Andrew Jones <drjones@redhat.com>
 To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH REPOST v3 23/80] arm/nseries: use memdev for RAM
-Message-ID: <20200123130930.ysa5hgn2uefkyz2k@kamzik.brq.redhat.com>
+Subject: Re: [PATCH REPOST v3 24/80] arm/omap_sx1: use memdev for RAM
+Message-ID: <20200123131205.4ss6d3ss6y7c5fxz@kamzik.brq.redhat.com>
 References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
- <1579779525-20065-24-git-send-email-imammedo@redhat.com>
+ <1579779525-20065-25-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1579779525-20065-24-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1579779525-20065-25-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: BBaqDW0eNyqFUI9_QqDwdA-1
+X-MC-Unique: _mUU-qebNLehTgkE4NG_ww-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=iso-8859-1
@@ -76,7 +75,7 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 23, 2020 at 12:37:48PM +0100, Igor Mammedov wrote:
+On Thu, Jan 23, 2020 at 12:37:49PM +0100, Igor Mammedov wrote:
 > memory_region_allocate_system_memory() API is going away, so
 > replace it with memdev allocated MemoryRegion. The later is
 > initialized by generic code, so board only needs to opt in
@@ -96,17 +95,16 @@ On Thu, Jan 23, 2020 at 12:37:48PM +0100, Igor Mammedov wrote:
 >     (Philippe Mathieu-Daud=E9 <philmd@redhat.com>)
 >=20
 > CC: drjones@redhat.com
-> CC: balrogg@gmail.com
 > CC: peter.maydell@linaro.org
 > CC: qemu-arm@nongnu.org
 > ---
->  hw/arm/nseries.c | 32 +++++++++++++++++++-------------
->  1 file changed, 19 insertions(+), 13 deletions(-)
+>  hw/arm/omap_sx1.c | 20 +++++++++++++++-----
+>  1 file changed, 15 insertions(+), 5 deletions(-)
 >
 
-I don't know anything about nseries, but I promised Igor to put
+I don't know anything about omap_sx1, but I promised Igor to put
 another pair of eyes on his changes. Looks fine to me.
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>=20
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
