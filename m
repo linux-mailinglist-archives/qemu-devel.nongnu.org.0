@@ -2,65 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A9A146C50
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:08:10 +0100 (CET)
-Received: from localhost ([::1]:58798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516C0146C53
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:09:52 +0100 (CET)
+Received: from localhost ([::1]:58826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iue5Z-0000uO-6J
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:08:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53189)
+	id 1iue7D-0003Jg-0o
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:09:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54804)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iublX-0001hf-HX
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:39:22 -0500
+ (envelope-from <qemu_oss@crudebyte.com>) id 1iubo6-00054V-Sm
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:42:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iublV-0008Ju-Ce
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:39:18 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59382
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iublU-0008HI-0k
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:39:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579783154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fkfmcNeYQfjWC5118tu8AD02acPOElYkiX3uk7Pn9R4=;
- b=F3gyImRGMPBViQp8BZU2pemCEJJJyr+XVd1IPEeDE2sbXbC0SeNOm4DMDITrOM4JWgOsYM
- NjxqEeazswq1lCguF1VZDYltL40BuVAyIUEIkw34TWxC9zNfnOxxWW9vX88+ZY9GFKQvw1
- 6qaERkV5elLdUM5xxYQTjIezUGc+EAs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-pBFS4jBAO5qEN6XOJKabNQ-1; Thu, 23 Jan 2020 07:39:12 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BA15100551A;
- Thu, 23 Jan 2020 12:39:11 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AB3419C69;
- Thu, 23 Jan 2020 12:39:10 +0000 (UTC)
-Date: Thu, 23 Jan 2020 13:39:07 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH REPOST v3 13/80] arm/imx25_pdk: drop RAM size fixup
-Message-ID: <20200123123907.qa2fyg2iqlzyemmb@kamzik.brq.redhat.com>
-References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
- <1579779525-20065-14-git-send-email-imammedo@redhat.com>
+ (envelope-from <qemu_oss@crudebyte.com>) id 1iubo5-0004Zu-Iy
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:41:58 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:45487)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1iubo5-0004UU-4s
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:41:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=QHCsvJ8/uZzm0ycuN9f/wW3GtcMTNctSbelEIMlFhro=; b=JNl19tEYRxiwBwN+hCA+n4x54W
+ zX24ArSgR1Z6fS35L6bRJzWnP5pM+2MczvBvD8WIMw65N1VtKSrj9KmJtu7bjCmLs1sMwkjnlBcSM
+ dGXs6lm8I+/BAuNEl+E8Z+7Bq25QdNjjc4orgb6yLn2ge6CrzMvxKpEQC1VUjGEg8im24NdvL+mBr
+ JsWeLbKV4j4YfyGofJ5e+ecncR2I+UJHP+58AhYgZrrDbQOMLYwqvaEhQA07k3TPjn1OQHrHRRp6V
+ GuT9+u3XmDspA214wyB4A3S/GcHvRCO7fAJ+PVWKTcMojNDJxFndEM0kmTwxUx1Sq+qyCQtHNj4Ng
+ X9q/ylrJ1GVGejyWbAuKzV0fxrrm+8/P2lMl557IADWRfho0aki9ctiULvlExvg/+pYhPwEiTzP2s
+ aO96e/BZxSP/6PJytt/lTxeB8FvKyU8fgvmK4SZWtim2gCmzjStsHLk99Ovw4qdQlCztz7i5PFYlK
+ FjF7PjmaPVxMKqFBQII3JMzlLzGJ3UhzxpX65Yzv7oYMAWnf9R330OtXZJggMPpfUUyyTbnPp/Meb
+ e/YwFHxRmeNrGoewNNuqhASS8W81u2wBm3aadL1KPNoaq36aPMw7doqMXvIBS5XsztSGwhyxtztU+
+ UrXf0P3+m6qclGP2bRKqxVxJPVQAUPJ/effKP6av8=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v4 09/11] hw/9pfs/9p-synth: avoid n-square issue in
+ synth_readdir()
+Date: Thu, 23 Jan 2020 13:40:20 +0100
+Message-ID: <1821765.DM1MFLlEqu@silver>
+In-Reply-To: <20200123121351.5a0e9516@bahia.lan>
+References: <cover.1579567019.git.qemu_oss@crudebyte.com>
+ <d385726be4d8146a86561703bc6d77edd39fb654.1579567020.git.qemu_oss@crudebyte.com>
+ <20200123121351.5a0e9516@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <1579779525-20065-14-git-send-email-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: pBFS4jBAO5qEN6XOJKabNQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 5.189.157.229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,59 +62,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- jcd@tribudubois.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 23, 2020 at 12:37:38PM +0100, Igor Mammedov wrote:
-> If user provided non-sense RAM size, board will complain and
-> continue running with max RAM size supported.
-> Also RAM is going to be allocated by generic code, so it won't be
-> possible for board to fix things up for user.
->=20
-> Make it error message and exit to force user fix CLI,
-> instead of accepting non-sense CLI values.
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
-> CC: drjones@redhat.com
-> CC: jcd@tribudubois.net
-> CC: peter.maydell@linaro.org
-> CC: qemu-arm@nongnu.org
-> ---
->  hw/arm/imx25_pdk.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/arm/imx25_pdk.c b/hw/arm/imx25_pdk.c
-> index c76fc2b..a2b7b35 100644
-> --- a/hw/arm/imx25_pdk.c
-> +++ b/hw/arm/imx25_pdk.c
-> @@ -78,10 +78,10 @@ static void imx25_pdk_init(MachineState *machine)
-> =20
->      /* We need to initialize our memory */
->      if (machine->ram_size > (FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SI=
-ZE)) {
-> -        warn_report("RAM size " RAM_ADDR_FMT " above max supported, "
-> +        error_report("RAM size " RAM_ADDR_FMT " above max supported, "
->                      "reduced to %x", machine->ram_size,
->                      FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SIZE);
-> -        machine->ram_size =3D FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_S=
-IZE;
-> +        exit(EXIT_FAILURE);
->      }
-> =20
->      memory_region_allocate_system_memory(&s->ram, NULL, "imx25.ram",
-> --=20
-> 2.7.4
->
+On Donnerstag, 23. Januar 2020 12:13:51 CET Greg Kurz wrote:
+> Honestly it doesn't seem to change anything significant for me.
+> Mean time calculated over 100 runs:
+> 
+> Without this patch:
+> 
+> [greg@bahia qemu-9p]$ (cd .mbuild-$(stg branch)/obj ; export
+> QTEST_QEMU_BINARY='x86_64-softmmu/qemu-system-x86_64'; make all
+> tests/qtest/qos-test && for i in {1..100}; do tests/qtest/qos-test -p
+> $(tests/qtest/qos-test -l | grep readdir/basic); done) |& awk '/IMPORTANT/
+> { print $10 }' | sed -e 's/s//' -e 's/^/n+=1;x+=/;$ascale=6;x/n' | bc
+> .055654
+> 
+> With this patch:
+> 
+> [greg@bahia qemu-9p]$ (cd .mbuild-$(stg branch)/obj ; export
+> QTEST_QEMU_BINARY='x86_64-softmmu/qemu-system-x86_64'; make all
+> tests/qtest/qos-test && for i in {1..100}; do tests/qtest/qos-test -p
+> $(tests/qtest/qos-test -l | grep readdir/basic); done) |& awk '/IMPORTANT/
+> { print $10 }' | sed -e 's/s//' -e 's/^/n+=1;x+=/;$ascale=6;x/n' | bc
+> .058786
 
-This would break existing command lines that are happily using the max ram
-size, which is only 512 MB. Yes, those command lines are wrong, but I'm
-not sure we want to flip the warn to an error without machine type
-versioning - which this board doesn't have.
+:))) Mhmm, that's because you have run this test WITHOUT the actual readdir 
+optimization patch. In this scenario the readdir latency issue is so bad, that 
+the driver's n-square issue does not even matter, so same here:
 
-Thanks,
-drew=20
+Unoptimized readdir, no n-squre correction hack:
+Time client spent for waiting for reply from server: 0.082831s [MOST 
+IMPORTANT]
+
+Unoptimized readdir, with n-squre correction hack:
+Time client spent for waiting for reply from server: 0.082539s [MOST 
+IMPORTANT]
+
+BUT, now look at this *with* readdir optimization applied:
+
+Optimized readdir, no n-square correction hack:
+Time 9p server spent on synth_readdir() I/O only (synth driver): 0.021304s
+Time 9p server spent on entire T_readdir request: 0.022033s [IMPORTANT]
+Time client spent for waiting for reply from server: 0.022408s [MOST 
+IMPORTANT]
+
+Optimized readdir, with n-square correction hack:
+Time 9p server spent on synth_readdir() I/O only (synth driver): 0.001576s
+Time 9p server spent on entire T_readdir request: 0.002244s [IMPORTANT]
+Time client spent for waiting for reply from server: 0.002566s [MOST 
+IMPORTANT]
+
+Got it? :)
+
+I had good reasons for printing out the time spent on raw driver only.
+
+Best regards,
+Christian Schoenebeck
+
 
 
