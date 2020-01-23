@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1FA1471A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:19:44 +0100 (CET)
-Received: from localhost ([::1]:35546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 001901471AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:22:47 +0100 (CET)
+Received: from localhost ([::1]:35602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iui10-0006h6-HH
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:19:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42649)
+	id 1iui3y-0001yY-Cu
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:22:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42674)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iuff4-0006EX-0I
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:55 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iuff5-0006GI-6t
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iuff1-0000E9-Q7
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21168
+ (envelope-from <dgilbert@redhat.com>) id 1iuff4-0000Hm-2F
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56451
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iuff1-0000DN-NA
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:51 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iuff3-0000GU-VZ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579798131;
+ s=mimecast20190719; t=1579798133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xPTFVLKkpPqpNGMFw2Pb4zQ3DPr6AATTIVJBUAAy3pk=;
- b=N3JAtRXsEXYwayd12rpqTvH21XRCxzrTe11ccQ0CtIC7akQHzdxP64+yn9Bph6zVSwlrd+
- NI879OQLt5mC/yeN/A40ttAdriYcbxGHhq0UcrhLHV/X/jleuHJjhJH+sep2omfaA+X838
- QoWHOfNQvth7gYaa1c3c02KbTQkHGHM=
+ bh=F+98uMcN3sW8ctnXMgx5BGrQgbfB+4mpGKnlt7qey/g=;
+ b=VXzFHSXUnPsaP7jkQQnMdC2pjm0j/LRUDtIBNmv5pAGs9BPgHHewx8FOkhBvl/vgBKzALj
+ nmtYs6TPrljgbM10+PYn4sLVOVIpmUHTRjOtlcko6LttHzfGZk7f59Ehpu+hRQL3JhEfc4
+ 6VbrCSSUUVMQkKa2hC0RMESJLiP231U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-OgWC6KlXMrud1H1WTFIAig-1; Thu, 23 Jan 2020 11:48:49 -0500
+ us-mta-432-grDRBGxYOUOuywAP0eFQtQ-1; Thu, 23 Jan 2020 11:48:51 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 306D48C84CC
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:48:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 276B8100550E
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:48:51 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-110.ams2.redhat.com
  [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2BD3228993;
- Thu, 23 Jan 2020 16:48:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 76C5128993;
+ Thu, 23 Jan 2020 16:48:50 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 100/108] virtiofsd: use fuse_buf_writev to replace
- fuse_buf_write for better performance
-Date: Thu, 23 Jan 2020 16:46:22 +0000
-Message-Id: <20200123164630.91498-101-dgilbert@redhat.com>
+Subject: [PULL 103/108] virtiofsd: fix lo_destroy() resource leaks
+Date: Thu, 23 Jan 2020 16:46:25 +0000
+Message-Id: <20200123164630.91498-104-dgilbert@redhat.com>
 In-Reply-To: <20200123164630.91498-1-dgilbert@redhat.com>
 References: <20200123164630.91498-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: OgWC6KlXMrud1H1WTFIAig-1
+X-MC-Unique: grDRBGxYOUOuywAP0eFQtQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -76,66 +75,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: piaojun <piaojun@huawei.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-fuse_buf_writev() only handles the normal write in which src is buffer
-and dest is fd. Specially if src buffer represents guest physical
-address that can't be mapped by the daemon process, IO must be bounced
-back to the VMM to do it by fuse_buf_copy().
+Now that lo_destroy() is serialized we can call unref_inode() so that
+all inode resources are freed.
 
-Signed-off-by: Jun Piao <piaojun@huawei.com>
-Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/buffer.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 41 ++++++++++++++++----------------
+ 1 file changed, 20 insertions(+), 21 deletions(-)
 
-diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
-index 37befebac2..27c1377f22 100644
---- a/tools/virtiofsd/buffer.c
-+++ b/tools/virtiofsd/buffer.c
-@@ -34,7 +34,6 @@ size_t fuse_buf_size(const struct fuse_bufvec *bufv)
-     return size;
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 79b8b71a4f..eb001b9d1e 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -1371,26 +1371,6 @@ static void unref_inode_lolocked(struct lo_data *lo,=
+ struct lo_inode *inode,
+     }
  }
 =20
--__attribute__((unused))
- static ssize_t fuse_buf_writev(struct fuse_buf *out_buf,
-                                struct fuse_bufvec *in_buf)
+-static int unref_all_inodes_cb(gpointer key, gpointer value, gpointer user=
+_data)
+-{
+-    struct lo_inode *inode =3D value;
+-    struct lo_data *lo =3D user_data;
+-
+-    inode->nlookup =3D 0;
+-    lo_map_remove(&lo->ino_map, inode->fuse_ino);
+-    close(inode->fd);
+-    lo_inode_put(lo, &inode); /* Drop our refcount from lo_do_lookup() */
+-
+-    return TRUE;
+-}
+-
+-static void unref_all_inodes(struct lo_data *lo)
+-{
+-    pthread_mutex_lock(&lo->mutex);
+-    g_hash_table_foreach_remove(lo->inodes, unref_all_inodes_cb, lo);
+-    pthread_mutex_unlock(&lo->mutex);
+-}
+-
+ static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup=
+)
  {
-@@ -262,12 +261,29 @@ static int fuse_bufvec_advance(struct fuse_bufvec *bu=
-fv, size_t len)
-=20
- ssize_t fuse_buf_copy(struct fuse_bufvec *dstv, struct fuse_bufvec *srcv)
+     struct lo_data *lo =3D lo_data(req);
+@@ -2477,7 +2457,26 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino,=
+ off_t off, int whence,
+ static void lo_destroy(void *userdata)
  {
--    size_t copied =3D 0;
-+    size_t copied =3D 0, i;
-=20
-     if (dstv =3D=3D srcv) {
-         return fuse_buf_size(dstv);
-     }
-=20
+     struct lo_data *lo =3D (struct lo_data *)userdata;
+-    unref_all_inodes(lo);
++
 +    /*
-+     * use writev to improve bandwidth when all the
-+     * src buffers already mapped by the daemon
-+     * process
++     * Normally lo->mutex must be taken when traversing lo->inodes but
++     * lo_destroy() is a serialized request so no races are possible here.
++     *
++     * In addition, we cannot acquire lo->mutex since unref_inode() takes =
+it
++     * too and this would result in a recursive lock.
 +     */
-+    for (i =3D 0; i < srcv->count; i++) {
-+        if (srcv->buf[i].flags & FUSE_BUF_IS_FD) {
++    while (true) {
++        GHashTableIter iter;
++        gpointer key, value;
++
++        g_hash_table_iter_init(&iter, lo->inodes);
++        if (!g_hash_table_iter_next(&iter, &key, &value)) {
 +            break;
 +        }
-+    }
-+    if ((i =3D=3D srcv->count) && (dstv->count =3D=3D 1) &&
-+        (dstv->idx =3D=3D 0) &&
-+        (dstv->buf[0].flags & FUSE_BUF_IS_FD)) {
-+        dstv->buf[0].pos +=3D dstv->off;
-+        return fuse_buf_writev(&dstv->buf[0], srcv);
-+    }
 +
-     for (;;) {
-         const struct fuse_buf *src =3D fuse_bufvec_current(srcv);
-         const struct fuse_buf *dst =3D fuse_bufvec_current(dstv);
++        struct lo_inode *inode =3D value;
++        unref_inode_lolocked(lo, inode, inode->nlookup);
++    }
+ }
+=20
+ static struct fuse_lowlevel_ops lo_oper =3D {
 --=20
 2.24.1
 
