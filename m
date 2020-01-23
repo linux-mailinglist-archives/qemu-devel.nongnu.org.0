@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77AF8146D6D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:55:41 +0100 (CET)
-Received: from localhost ([::1]:59834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88E8146D4A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:49:40 +0100 (CET)
+Received: from localhost ([::1]:59732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuepX-00071g-VO
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:55:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51897)
+	id 1iuejj-0006sz-QN
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:49:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51926)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrm-0005ad-TQ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:51 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrp-0005eB-6w
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrl-0004VT-Qg
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:50 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:35787)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucro-0004bP-5F
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:53 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:50346)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrl-0004Si-Jz
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:49 -0500
-Received: by mail-wm1-x331.google.com with SMTP id p17so2627119wmb.0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:49 -0800 (PST)
+ id 1iucrn-0004Yl-VA
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:52 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id a5so2651069wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MIVPt6AfB7Si2oRFoeO2RPXJ/HSxWbOijJs6IvacXC4=;
- b=lIySqjIGpijZ4dJsytu6VCMwAxKpQ5v2GVAVUZbn+bW3fkWMrtSfx9kuRu3XMDaZ92
- s5NfXcJX9lMjUcmKEj4DRN/V29TD8Ttn3nQUs/o7SlIeeRDxdKNjdgydOmIhyX7jOeVw
- i3G0VFA6rMjtBa50l7OxsjT0Ct3yMUau3Lkpvx0sRfEo8eb07gtjMfXXc+BW8n5DnX+3
- 5PQ9xzbEN8oDGTs8iKUmmAHaQW3ZH6OCOnQ0k9TxH1kuKXfEv+YZvWPIOJAWNY9QwAFU
- WBgZqL4c1e+dvwj41SkHFg49Jd/1G8W1d3q5KI9Pr/7gGn1UjzR30xrE18sq0//fEOzT
- uthQ==
+ bh=X02/VemgHHXV35UWmb1MJdddNEMCdoCFB79eUsdW5b0=;
+ b=Y5iWbe2TwPEBlobL71ujWaHx0k2YzTfplSDTG5nExlL//nu+bt7UbwiH9pfujsXyLc
+ cPpGYNtD9rHQKsMywgmQVDkQRNWMDBx177BJ9VYau3vwKQJ4/vBkcSMFMSEO95wbphja
+ OwaZiSwlXcxpFuopPpPUqxuRd9W3r8ODobdSByg1pyeBXnemP2McPrXnydeHiZP8vIKd
+ qhpR4fS/EPkAU/+vJ/wsDrxY+OXEJ8wO+ZEAcWX9xvi3ip2XsPYs0YPWb/0h610gcxaI
+ aEJouikCNIdmqhEMTB9qBbj/1/3YeyyT+M9aoympaLMzaA1cQSfWqYlnuBZ5pRo4LqUZ
+ lHfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MIVPt6AfB7Si2oRFoeO2RPXJ/HSxWbOijJs6IvacXC4=;
- b=V3y5EFQ0WB4mqpuf8TmuNizxFcjYx/qD6sj7X7UfXnml8aKZU1JADoYLFPt0BKIxJg
- /p2bM8ftJ3eI9b0lVfld1ue/tO3h2SwZybwG7r2cwsjy/Cxzr0UFgdsY/pgJj51ah72p
- Pavi3uVZwoNFE9WcoiP/9erHMgr+ISH0XkC2gras5cnuK985HjM1QILy0qt4Muqd4m3W
- hI9rlYJPSafqcMOXzaLBzW6NLbSlfTmMyE5poEbOPiKRvnR9XgmrXrnBxr3AjliMtAjC
- BXSiwxosOEWhHyUgrClcYTtYqMrYbV8KsS6ydig8dJ736AH/WM0cRNF3lKx07LKxasV4
- gC/Q==
-X-Gm-Message-State: APjAAAVHmMkS8mh4hAZ3EBTLHK3J92x9mDVzQ/tTshhsht19c4TC8Pes
- WEOZVil4RRw6M1edloHEzXBE5NY8
-X-Google-Smtp-Source: APXvYqze5kc9ykXYM8BnoZ3clWESdXoRjAOe6WhscklrehcuAJ78m2JToo+E0pbKDefkz1n+urrw/w==
-X-Received: by 2002:a7b:cc98:: with SMTP id p24mr4384055wma.139.1579787388489; 
- Thu, 23 Jan 2020 05:49:48 -0800 (PST)
+ bh=X02/VemgHHXV35UWmb1MJdddNEMCdoCFB79eUsdW5b0=;
+ b=GvM1PBZD2hvzIa6acQb2H6FCT+Ccj5Aa3QyNyVn9kR2oN0bcHko1g8jrE/HVvPdB39
+ fC2vTuB4/+foL0Cra8uKNFmFzU6GPxhxZYaYYSskZHbmO0XpH52J0y9VmXy9Lp2vbJtQ
+ 1c/hvvlPqUK6zMlHzmTPS+5jhxQbmPav5jrwcdQjhALrfciIb12gymBM9olei8KkaKcC
+ zbi+IebOUf86u379/156IjOEoKeFPWH+mdrVqFm6qgfWYZwFHmnIoB9OrzwE/Qa9G09l
+ qTE3ldE2aQhHUuF4bUDSQWcQA6QKiVd74oAcvXOMwnpRBnJTSq/iUUjOJTueDG8ETRY5
+ h1Sg==
+X-Gm-Message-State: APjAAAVw/j8QvJw3l46aPwQTh5Ksp4jzKdPJjGBP341f219ad5lH6QpI
+ Fgab3k7yvNNhRoRThpjdIO96pJlV
+X-Google-Smtp-Source: APXvYqzi82jcO2+iP/FF/LMfwpZdZs+UiqkONlTOdXDCtb1x32q/GjSNFwg0Bl3RNF0WyrJWZLC2TA==
+X-Received: by 2002:a1c:23cf:: with SMTP id j198mr4368161wmj.188.1579787390856; 
+ Thu, 23 Jan 2020 05:49:50 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.47
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.50
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:47 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:50 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 48/59] object: return self in object_ref()
-Date: Thu, 23 Jan 2020 14:48:51 +0100
-Message-Id: <1579787342-27146-49-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 50/59] qdev: move instance properties to class properties
+Date: Thu, 23 Jan 2020 14:48:53 +0100
+Message-Id: <1579787342-27146-51-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,52 +84,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This allow for simpler assignment with ref: foo = object_ref(bar)
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200110153039.1379601-19-marcandre.lureau@redhat.com>
+Message-Id: <20200110153039.1379601-21-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qom/object.h | 3 ++-
- qom/object.c         | 5 +++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ hw/core/qdev.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index ead9129..933e5c6 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1013,8 +1013,9 @@ GSList *object_class_get_list_sorted(const char *implements_type,
-  *
-  * Increase the reference count of a object.  A object cannot be freed as long
-  * as its reference count is greater than zero.
-+ * Returns: @obj
-  */
--void object_ref(Object *obj);
-+Object *object_ref(Object *obj);
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 8047ac9..7abf569 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -944,14 +944,6 @@ static void device_initfn(Object *obj)
+     dev->realized = false;
+     dev->allow_unplug_during_migration = false;
  
- /**
-  * object_unref:
-diff --git a/qom/object.c b/qom/object.c
-index 84d234d..b774507 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1107,12 +1107,13 @@ GSList *object_class_get_list_sorted(const char *implements_type,
-                         object_class_cmp);
+-    object_property_add_bool(obj, "realized",
+-                             device_get_realized, device_set_realized, NULL);
+-    object_property_add_bool(obj, "hotpluggable",
+-                             device_get_hotpluggable, NULL, NULL);
+-    object_property_add_bool(obj, "hotplugged",
+-                             device_get_hotplugged, NULL,
+-                             &error_abort);
+-
+     class = object_get_class(OBJECT(dev));
+     do {
+         for (prop = DEVICE_CLASS(class)->props; prop && prop->name; prop++) {
+@@ -961,9 +953,6 @@ static void device_initfn(Object *obj)
+         class = object_class_get_parent(class);
+     } while (class != object_class_by_name(TYPE_DEVICE));
+ 
+-    object_property_add_link(OBJECT(dev), "parent_bus", TYPE_BUS,
+-                             (Object **)&dev->parent_bus, NULL, 0,
+-                             &error_abort);
+     QLIST_INIT(&dev->gpios);
  }
  
--void object_ref(Object *obj)
-+Object *object_ref(Object *obj)
- {
-     if (!obj) {
--        return;
-+        return NULL;
-     }
-     atomic_inc(&obj->ref);
-+    return obj;
+@@ -1059,6 +1048,19 @@ static void device_class_init(ObjectClass *class, void *data)
+     dc->hotpluggable = true;
+     dc->user_creatable = true;
+     vc->get_id = device_vmstate_if_get_id;
++
++    object_class_property_add_bool(class, "realized",
++                                   device_get_realized, device_set_realized,
++                                   &error_abort);
++    object_class_property_add_bool(class, "hotpluggable",
++                                   device_get_hotpluggable, NULL,
++                                   &error_abort);
++    object_class_property_add_bool(class, "hotplugged",
++                                   device_get_hotplugged, NULL,
++                                   &error_abort);
++    object_class_property_add_link(class, "parent_bus", TYPE_BUS,
++                                   offsetof(DeviceState, parent_bus), NULL, 0,
++                                   &error_abort);
  }
  
- void object_unref(Object *obj)
+ void device_class_set_props(DeviceClass *dc, Property *props)
 -- 
 1.8.3.1
 
