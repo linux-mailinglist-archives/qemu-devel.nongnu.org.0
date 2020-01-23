@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2DF14680D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:32:39 +0100 (CET)
-Received: from localhost ([::1]:56234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75A8146813
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:33:18 +0100 (CET)
+Received: from localhost ([::1]:56244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iubf4-0008Tx-Em
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:32:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36264)
+	id 1iubfh-0000rI-CI
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:33:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36354)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iuatd-0008EF-J1
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:43:39 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iuati-0008Lv-8i
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:43:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iuatb-000571-Us
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:43:37 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30475
+ (envelope-from <imammedo@redhat.com>) id 1iuate-00059M-NP
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:43:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56593
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuatb-00056l-RZ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:43:35 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuate-00058t-IZ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:43:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579779815;
+ s=mimecast20190719; t=1579779818;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+76V2msg3tzlGOCpR51XbXwexlhar+iqxL1JYUG8cw8=;
- b=MbIZRWwWMtgpqF/XbCa2zDrTK7pdmWfKQbs51jxF5ZKMeQjNVEvg8Jo9pB8aWGxABy+LxS
- t5B6ZzJ/7p/6/hFE1StcI8FLKDK/lUEhVbHc/3ZH1e4KkhTpWxZvhZReUMLU3TPRMzn0EZ
- GmgZXmFhSA8R0TBt+Tp0ZlKZ6RIivRs=
+ bh=uaD/IIQrsMlslPW/WSQM3KW5qAQ6UCKwBfbqIp6vIGo=;
+ b=ZoyJE+4d4hLfJBG2koYGbagAYjWZi6w0srngt16hknI/6ecfj7k3ebaOS0QfN6dXDKCpnC
+ C+lrPJKlk2rSDs/lNbdBNLdmKIxMfbDMUwdGtVCvnXuAc1a/0wsmipKOpMTnW72vZhscDf
+ sIFOOhugP7nFojuWBKKBYKOZeumJ+zs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-VJwCMGZdNSOqu2QXXv8grw-1; Thu, 23 Jan 2020 06:43:30 -0500
+ us-mta-19-zBgl3e7WPNeOWMfl1QnKRw-1; Thu, 23 Jan 2020 06:43:33 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA5B98045CD;
- Thu, 23 Jan 2020 11:43:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2DEBDB3B;
+ Thu, 23 Jan 2020 11:43:31 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BCA9E100164D;
- Thu, 23 Jan 2020 11:43:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5848C100164D;
+ Thu, 23 Jan 2020 11:43:30 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH REPOST v3 62/80] ppc/ppc405_boards: add RAM size checks
-Date: Thu, 23 Jan 2020 12:38:27 +0100
-Message-Id: <1579779525-20065-63-git-send-email-imammedo@redhat.com>
+Subject: [PATCH REPOST v3 64/80] ppc/{ppc440_bamboo,
+ sam460ex}: drop RAM size fixup
+Date: Thu, 23 Jan 2020 12:38:29 +0100
+Message-Id: <1579779525-20065-65-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
 References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: VJwCMGZdNSOqu2QXXv8grw-1
+X-MC-Unique: zBgl3e7WPNeOWMfl1QnKRw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,187 +71,253 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If user provided non-sense RAM size, board will ignore it
-and continue running with fixed RAM size.
-
-Also RAM is going to be allocated by generic code, so it
-won't be possible for board to fix CLI.
+If user provided non-sense RAM size, board will complain and
+continue running with max RAM size supported or sometimes
+crash like this:
+  %QEMU -M bamboo -m 1
+    exec.c:1926: find_ram_offset: Assertion `size !=3D 0' failed.
+    Aborted (core dumped)
+Also RAM is going to be allocated by generic code, so it won't be
+possible for board to fix things up for user.
 
 Make it error message and exit to force user fix CLI,
 instead of accepting non-sense CLI values.
-
-PS:
-move fixed RAM size into mc->default_ram_size, so that
-generic code will know how much to allocate.
+That also fixes crash issue, since wrongly calculated size
+isn't used to allocate RAM
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
 ---
 v2:
-  * fix format string causing build failure on 32-bit host
-    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
+  * s/ppc4xx_sdram_adjust/ppc4xx_sdram_prep/
+     (BALATON Zoltan <balaton@eik.bme.hu>)
+  * print possible valid ram size id not all RAM was distributed
+  * initialize ram_bases/ram_bases at the same time we are checking
+    that user supplied RAM would fit available banks and drop nested
+    loop that were duplicating the same calculations.
+  * coincidentally fix crash when -m is less than minimal bank size
 v3:
-  * use size_to_str() to pretty print size in MiB
-    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>/
-     BALATON Zoltan <balaton@eik.bme.hu>)
+  * s/ppc4xx_sdram_prep/ppc4xx_sdram_banks/
+      (BALATON Zoltan <balaton@eik.bme.hu>)
+  * fix subject line in commit message
+v3.1:
+  * add lost 'break' statement in 'j' loop
+v3.2:
+  * replace global ram_size with machine->ram_size in ppc4xx_sdram_banks() =
+call
+  * add a comment about the expected sorting order within sdram_bank_sizes[=
+]
+    (BALATON Zoltan <balaton@eik.bme.hu>)
 
-CC: david@gibson.dropbear.id.au
 CC: balaton@eik.bme.hu
+CC: david@gibson.dropbear.id.au
 CC: qemu-ppc@nongnu.org
 ---
- hw/ppc/ppc405_boards.c | 39 ++++++++++++++++++++++++++-------------
- 1 file changed, 26 insertions(+), 13 deletions(-)
+ include/hw/ppc/ppc4xx.h |  9 ++++----
+ hw/ppc/ppc440_bamboo.c  | 11 ++++-----
+ hw/ppc/ppc4xx_devs.c    | 60 ++++++++++++++++++++++++++-------------------=
+----
+ hw/ppc/sam460ex.c       |  5 ++---
+ 4 files changed, 42 insertions(+), 43 deletions(-)
 
-diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index 1f721fe..057882a 100644
---- a/hw/ppc/ppc405_boards.c
-+++ b/hw/ppc/ppc405_boards.c
-@@ -40,6 +40,7 @@
- #include "qemu/error-report.h"
- #include "hw/loader.h"
- #include "exec/address-spaces.h"
-+#include "qemu/cutils.h"
+diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+index 7d82259..b8c8f32 100644
+--- a/include/hw/ppc/ppc4xx.h
++++ b/include/hw/ppc/ppc4xx.h
+@@ -42,11 +42,10 @@ enum {
+ qemu_irq *ppcuic_init (CPUPPCState *env, qemu_irq *irqs,
+                        uint32_t dcr_base, int has_ssr, int has_vr);
 =20
- #define BIOS_FILENAME "ppc405_rom.bin"
- #define BIOS_SIZE (2 * MiB)
-@@ -137,7 +138,7 @@ static void ref405ep_fpga_init(MemoryRegion *sysmem, ui=
-nt32_t base)
+-ram_addr_t ppc4xx_sdram_adjust(ram_addr_t ram_size, int nr_banks,
+-                               MemoryRegion ram_memories[],
+-                               hwaddr ram_bases[],
+-                               hwaddr ram_sizes[],
+-                               const ram_addr_t sdram_bank_sizes[]);
++void ppc4xx_sdram_banks(ram_addr_t ram_size, int nr_banks,
++                        MemoryRegion ram_memories[],
++                        hwaddr ram_bases[], hwaddr ram_sizes[],
++                        const ram_addr_t sdram_bank_sizes[]);
 =20
- static void ref405ep_init(MachineState *machine)
+ void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq irq, int nbanks,
+                         MemoryRegion ram_memories[],
+diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+index b782641..29a9642 100644
+--- a/hw/ppc/ppc440_bamboo.c
++++ b/hw/ppc/ppc440_bamboo.c
+@@ -158,7 +158,6 @@ static void main_cpu_reset(void *opaque)
+=20
+ static void bamboo_init(MachineState *machine)
  {
 -    ram_addr_t ram_size =3D machine->ram_size;
-+    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
      const char *kernel_filename =3D machine->kernel_filename;
      const char *kernel_cmdline =3D machine->kernel_cmdline;
      const char *initrd_filename =3D machine->initrd_filename;
-@@ -161,15 +162,21 @@ static void ref405ep_init(MachineState *machine)
-     DriveInfo *dinfo;
-     MemoryRegion *sysmem =3D get_system_memory();
+@@ -203,10 +202,8 @@ static void bamboo_init(MachineState *machine)
+     /* SDRAM controller */
+     memset(ram_bases, 0, sizeof(ram_bases));
+     memset(ram_sizes, 0, sizeof(ram_sizes));
+-    ram_size =3D ppc4xx_sdram_adjust(ram_size, PPC440EP_SDRAM_NR_BANKS,
+-                                   ram_memories,
+-                                   ram_bases, ram_sizes,
+-                                   ppc440ep_sdram_bank_sizes);
++    ppc4xx_sdram_banks(machine->ram_size, PPC440EP_SDRAM_NR_BANKS, ram_mem=
+ories,
++                       ram_bases, ram_sizes, ppc440ep_sdram_bank_sizes);
+     /* XXX 440EP's ECC interrupts are on UIC1, but we've only created UIC0=
+. */
+     ppc4xx_sdram_init(env, pic[14], PPC440EP_SDRAM_NR_BANKS, ram_memories,
+                       ram_bases, ram_sizes, 1);
+@@ -268,7 +265,7 @@ static void bamboo_init(MachineState *machine)
+     /* Load initrd. */
+     if (initrd_filename) {
+         initrd_size =3D load_image_targphys(initrd_filename, RAMDISK_ADDR,
+-                                          ram_size - RAMDISK_ADDR);
++                                          machine->ram_size - RAMDISK_ADDR=
+);
 =20
-+    if (machine->ram_size !=3D mc->default_ram_size) {
-+        char *sz =3D size_to_str(mc->default_ram_size);
-+        error_report("Invalid RAM size, should be %s", sz);
-+        g_free(sz);
-+        exit(EXIT_FAILURE);
-+    }
-+
-     /* XXX: fix this */
-     memory_region_allocate_system_memory(&ram_memories[0], NULL, "ef405ep.=
-ram",
--                                         0x08000000);
-+                                         machine->ram_size);
-     ram_bases[0] =3D 0;
--    ram_sizes[0] =3D 0x08000000;
-+    ram_sizes[0] =3D machine->ram_size;
-     memory_region_init(&ram_memories[1], NULL, "ef405ep.ram1", 0);
-     ram_bases[1] =3D 0x00000000;
-     ram_sizes[1] =3D 0x00000000;
--    ram_size =3D 128 * MiB;
-     env =3D ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
-                         33333333, &pic, kernel_filename =3D=3D NULL ? 0 : =
-1);
-     /* allocate SRAM */
-@@ -227,7 +234,7 @@ static void ref405ep_init(MachineState *machine)
-     if (linux_boot) {
-         memset(&bd, 0, sizeof(bd));
-         bd.bi_memstart =3D 0x00000000;
--        bd.bi_memsize =3D ram_size;
-+        bd.bi_memsize =3D machine->ram_size;
-         bd.bi_flashstart =3D -bios_size;
-         bd.bi_flashsize =3D -bios_size;
-         bd.bi_flashoffset =3D 0;
-@@ -255,7 +262,7 @@ static void ref405ep_init(MachineState *machine)
-         kernel_base =3D KERNEL_LOAD_ADDR;
-         /* now we can load the kernel */
-         kernel_size =3D load_image_targphys(kernel_filename, kernel_base,
--                                          ram_size - kernel_base);
-+                                          machine->ram_size - kernel_base)=
-;
-         if (kernel_size < 0) {
-             error_report("could not load kernel '%s'", kernel_filename);
+         if (initrd_size < 0) {
+             error_report("could not load ram disk '%s' at %x",
+@@ -279,7 +276,7 @@ static void bamboo_init(MachineState *machine)
+=20
+     /* If we're loading a kernel directly, we must load the device tree to=
+o. */
+     if (kernel_filename) {
+-        if (bamboo_load_device_tree(FDT_ADDR, ram_size, RAMDISK_ADDR,
++        if (bamboo_load_device_tree(FDT_ADDR, machine->ram_size, RAMDISK_A=
+DDR,
+                                     initrd_size, kernel_cmdline) < 0) {
+             error_report("couldn't load device tree");
              exit(1);
-@@ -266,7 +273,7 @@ static void ref405ep_init(MachineState *machine)
-         if (initrd_filename) {
-             initrd_base =3D INITRD_LOAD_ADDR;
-             initrd_size =3D load_image_targphys(initrd_filename, initrd_ba=
-se,
--                                              ram_size - initrd_base);
-+                                              machine->ram_size - initrd_b=
-ase);
-             if (initrd_size < 0) {
-                 error_report("could not load initial ram disk '%s'",
-                              initrd_filename);
-@@ -304,6 +311,7 @@ static void ref405ep_class_init(ObjectClass *oc, void *=
-data)
+diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+index c2e5013..d89008a 100644
+--- a/hw/ppc/ppc4xx_devs.c
++++ b/hw/ppc/ppc4xx_devs.c
+@@ -668,21 +668,22 @@ void ppc4xx_sdram_init (CPUPPCState *env, qemu_irq ir=
+q, int nbanks,
 =20
-     mc->desc =3D "ref405ep";
-     mc->init =3D ref405ep_init;
-+    mc->default_ram_size =3D 0x08000000;
- }
-=20
- static const TypeInfo ref405ep_type =3D {
-@@ -408,7 +416,7 @@ static void taihu_cpld_init(MemoryRegion *sysmem, uint3=
-2_t base)
-=20
- static void taihu_405ep_init(MachineState *machine)
+ /* Fill in consecutive SDRAM banks with 'ram_size' bytes of memory.
+  *
+- * sdram_bank_sizes[] must be 0-terminated.
++ * sdram_bank_sizes[] must be in descending order, that is sizes[i] > size=
+s[i+1]
++ * and must be 0-terminated.
+  *
+  * The 4xx SDRAM controller supports a small number of banks, and each ban=
+k
+  * must be one of a small set of sizes. The number of banks and the suppor=
+ted
+  * sizes varies by SoC. */
+-ram_addr_t ppc4xx_sdram_adjust(ram_addr_t ram_size, int nr_banks,
+-                               MemoryRegion ram_memories[],
+-                               hwaddr ram_bases[],
+-                               hwaddr ram_sizes[],
+-                               const ram_addr_t sdram_bank_sizes[])
++void ppc4xx_sdram_banks(ram_addr_t ram_size, int nr_banks,
++                        MemoryRegion ram_memories[],
++                        hwaddr ram_bases[], hwaddr ram_sizes[],
++                        const ram_addr_t sdram_bank_sizes[])
  {
--    ram_addr_t ram_size =3D machine->ram_size;
-+    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
-     const char *kernel_filename =3D machine->kernel_filename;
-     const char *initrd_filename =3D machine->initrd_filename;
-     char *filename;
-@@ -425,10 +433,14 @@ static void taihu_405ep_init(MachineState *machine)
-     int fl_idx;
-     DriveInfo *dinfo;
+     MemoryRegion *ram =3D g_malloc0(sizeof(*ram));
+     ram_addr_t size_left =3D ram_size;
+     ram_addr_t base =3D 0;
+     ram_addr_t bank_size;
++    int last_bank =3D 0;
+     int i;
+     int j;
 =20
--    /* RAM is soldered to the board so the size cannot be changed */
--    ram_size =3D 0x08000000;
-+    if (machine->ram_size !=3D mc->default_ram_size) {
-+        char *sz =3D size_to_str(mc->default_ram_size);
-+        error_report("Invalid RAM size, should be %s", sz);
-+        g_free(sz);
+@@ -690,7 +691,12 @@ ram_addr_t ppc4xx_sdram_adjust(ram_addr_t ram_size, in=
+t nr_banks,
+         for (j =3D 0; sdram_bank_sizes[j] !=3D 0; j++) {
+             bank_size =3D sdram_bank_sizes[j];
+             if (bank_size <=3D size_left) {
++                ram_bases[i] =3D base;
++                ram_sizes[i] =3D bank_size;
++                base +=3D bank_size;
+                 size_left -=3D bank_size;
++                last_bank =3D i;
++                break;
+             }
+         }
+         if (!size_left) {
+@@ -699,34 +705,32 @@ ram_addr_t ppc4xx_sdram_adjust(ram_addr_t ram_size, i=
+nt nr_banks,
+         }
+     }
+=20
+-    ram_size -=3D size_left;
+     if (size_left) {
+-        error_report("Truncating memory to %" PRId64 " MiB to fit SDRAM"
+-                     " controller limits", ram_size / MiB);
++        ram_addr_t used_size =3D ram_size - size_left;
++        GString *s =3D g_string_new(NULL);
++
++        for (i =3D 0; sdram_bank_sizes[i]; i++) {
++            g_string_append_printf(s, "%" PRIi64 "%s",
++                                   sdram_bank_sizes[i] / MiB,
++                                   sdram_bank_sizes[i + 1] ? " ," : "");
++        }
++        error_report("Max %d banks of %s MB DIMM/bank supported",
++            nr_banks, s->str);
++        error_report("Possible valid RAM size: %" PRIi64,
++            used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
++
++        g_string_free(s, true);
 +        exit(EXIT_FAILURE);
-+    }
-     memory_region_allocate_system_memory(ram, NULL, "taihu_405ep.ram",
--                                         ram_size);
-+                                         machine->ram_size);
+     }
 =20
-     ram_bases[0] =3D 0;
-     ram_sizes[0] =3D 0x04000000;
-@@ -500,7 +512,7 @@ static void taihu_405ep_init(MachineState *machine)
-         kernel_base =3D KERNEL_LOAD_ADDR;
-         /* now we can load the kernel */
-         kernel_size =3D load_image_targphys(kernel_filename, kernel_base,
--                                          ram_size - kernel_base);
-+                                          machine->ram_size - kernel_base)=
-;
-         if (kernel_size < 0) {
-             error_report("could not load kernel '%s'", kernel_filename);
-             exit(1);
-@@ -509,7 +521,7 @@ static void taihu_405ep_init(MachineState *machine)
-         if (initrd_filename) {
-             initrd_base =3D INITRD_LOAD_ADDR;
-             initrd_size =3D load_image_targphys(initrd_filename, initrd_ba=
-se,
--                                              ram_size - initrd_base);
-+                                              machine->ram_size - initrd_b=
-ase);
-             if (initrd_size < 0) {
-                 error_report("could not load initial ram disk '%s'",
-                              initrd_filename);
-@@ -533,6 +545,7 @@ static void taihu_class_init(ObjectClass *oc, void *dat=
-a)
+     memory_region_allocate_system_memory(ram, NULL, "ppc4xx.sdram", ram_si=
+ze);
 =20
-     mc->desc =3D "taihu";
-     mc->init =3D taihu_405ep_init;
-+    mc->default_ram_size =3D 0x08000000;
+-    size_left =3D ram_size;
+-    for (i =3D 0; i < nr_banks && size_left; i++) {
+-        for (j =3D 0; sdram_bank_sizes[j] !=3D 0; j++) {
+-            bank_size =3D sdram_bank_sizes[j];
+-
+-            if (bank_size <=3D size_left) {
+-                char name[32];
+-                snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
+-                memory_region_init_alias(&ram_memories[i], NULL, name, ram=
+,
+-                                         base, bank_size);
+-                ram_bases[i] =3D base;
+-                ram_sizes[i] =3D bank_size;
+-                base +=3D bank_size;
+-                size_left -=3D bank_size;
+-                break;
+-            }
+-        }
++    for (i =3D 0; i <=3D last_bank; i++) {
++        char name[32];
++        snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
++        memory_region_init_alias(&ram_memories[i], NULL, name, ram,
++                                 ram_bases[i], ram_sizes[i]);
+     }
+-
+-    return ram_size;
  }
 =20
- static const TypeInfo taihu_type =3D {
+ /*************************************************************************=
+****/
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index 437e214..949acba 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -324,9 +324,8 @@ static void sam460ex_init(MachineState *machine)
+     /* SDRAM controller */
+     /* put all RAM on first bank because board has one slot
+      * and firmware only checks that */
+-    machine->ram_size =3D ppc4xx_sdram_adjust(machine->ram_size, 1,
+-                                   ram_memories, ram_bases, ram_sizes,
+-                                   ppc460ex_sdram_bank_sizes);
++    ppc4xx_sdram_banks(machine->ram_size, 1, ram_memories, ram_bases, ram_=
+sizes,
++                       ppc460ex_sdram_bank_sizes);
+=20
+     /* FIXME: does 460EX have ECC interrupts? */
+     ppc440_sdram_init(env, SDRAM_NR_BANKS, ram_memories,
 --=20
 2.7.4
 
