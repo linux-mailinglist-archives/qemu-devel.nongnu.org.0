@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D52146D56
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:50:55 +0100 (CET)
-Received: from localhost ([::1]:59746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5072B146CFA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:34:34 +0100 (CET)
+Received: from localhost ([::1]:59520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuekv-00081E-HC
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:50:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51572)
+	id 1iueV6-0002Ru-Ce
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:34:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51647)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrX-0005Br-86
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:36 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrb-0005Ik-DI
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrV-0003gU-5W
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:35 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:51554)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucra-00042M-6n
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:39 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42618)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrU-0003dt-V6
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:33 -0500
-Received: by mail-wm1-x336.google.com with SMTP id t23so2643262wmi.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:32 -0800 (PST)
+ id 1iucra-0003yD-04
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:38 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id q6so3120238wro.9
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8o2MYpvI7aFlrgYsavAuUGYtCTtrg8wkmD8yOXg8nnA=;
- b=fsJAKLi6UhEXrhKGxW9/uVdq7MtDu8rJJAwboEmWG13CgOtZpqyeTXFCB/Xf/1EbyN
- cEXWgR8OcsjFUVEcQxMlsuJnG+rbkBtKKWI/+nTWZfTcN61JtZ+FWA0mya5sXXRGUHLE
- pzVFm9VLYDcpEhckzDk53UD97FwaG1O3UAogA9ReXZAdsZ6FbPotondicqH4jEHB7frk
- DEAALTq31pdxf+x5S+pmk/ac+WABSwE6HVAjIab08yuiv0ATqAJRfxXs5vHgkFHwMsRQ
- EceSH0kXePf9LMHunNm+DkKbI71jcx/yomqgBXcAonKn3sgBVIS8sSNnEq9pVY3zvhC/
- BkgQ==
+ bh=iMY7RCyLDjVvD/6DMcsQnff3G2M3+BaxKEPV2kf0Sdo=;
+ b=B11h9vC83d5DX0RkqTTv9sx7Q7jXyKLFhtU7h63Qa0zeZr3NRynrFYzWwVbPs5NSAy
+ Ijz/pXUodkRbllvzhuO0EMzH1QdeFe1O6GYhF121iQH3VLUUWb0forb0h7KWPYZ8J4Ij
+ 6ylvnBlfBadurrb/YX+50E2yMuBWJ4uWSphaw9jgX9rnbB4Jwek7twrF1sHzzwNdvRL+
+ ootgy8NOWV3a5TTeMywcj2lgJ9aozjcEJtJSUuxYAb5frdPB3DSJ0U/MXVC42nMQmqDN
+ wfID7t34uU9K/mcTXFV5TuoBAvyLcDyXJCMxkiARSt+EfJYI2r76E/n2z18cWgCTWNuT
+ fd0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8o2MYpvI7aFlrgYsavAuUGYtCTtrg8wkmD8yOXg8nnA=;
- b=WED+LnA/MddkFgD+yrg8HMQ9NFlZRkv1DB0yfDFYiM/jc0ZjXLhOnFtvqAviqPaMBC
- 7ebBNTXC6tcffQvZAeiGcIfo7csH5u2cR1uyj5emewSekbBQNtHp+wKn0HGbEIC0+qFG
- mdHGb1a39sPSS7rPl/bZvm9n5EouNMQM70abftJYw/Io35JBNFjA+VQBC8Qh4v7EM7PR
- 8ur44pUUfYA+RNuvlMSOPJIAvKp4cZ69zD1D5c9+YuaBEf6ywUZv9wM+NHisoCBvYmdr
- B3I1boJx03D7AZJU49uBoig/INQK2DoElTTbKF8WaUpxy4PGA3dEjYb/rrWvE2dc84BC
- BVpw==
-X-Gm-Message-State: APjAAAX6o+t9pvUSSX4h06ja7CLWQfLiYCUVhZ1Hg7wwVuTARFEO2DPE
- RTqdU5c7pJTqzPEfp3ppJR1CVrqP
-X-Google-Smtp-Source: APXvYqzYl8unTyylQ2Jwcf3aclmnpGyRHmmIUo38uCC23TFafCmfTcTevXz/zEA8+A2YmMiICmiYRg==
-X-Received: by 2002:a05:600c:1050:: with SMTP id
- 16mr4460164wmx.86.1579787371810; 
- Thu, 23 Jan 2020 05:49:31 -0800 (PST)
+ bh=iMY7RCyLDjVvD/6DMcsQnff3G2M3+BaxKEPV2kf0Sdo=;
+ b=qY4++3jSGYwc9/Sl1PI8OcCCeaxqpOaJQRO+vCgGfZ6k7hJctNGlbvQRe9IpV6gWh+
+ OXxcEKiuExQWuWmaPDSXagL+JWKu6YbdcFc7SiNur2hbp8QZMOBYAoxOaGMx5i8HVzXH
+ 8iqYK1xHoG5k5H6/1MYqP9knbfPQ5Y3P46h9VbDu/Y5aQiz5TKb/gJKafplwcweC8/wd
+ GwEu2fH8jxjBtrSRnB/dD45LWrv3TjNRXPTPj8WuUO7P4Hijwm0OoK8yx+z9pHSlCWpG
+ ruT4Emv0OCdqMRvq0oWHU8XfcixgSmjE335+dl+ijF0b5xOR92GOpqu9QXtClusslZL9
+ 9lWQ==
+X-Gm-Message-State: APjAAAXhBFEibv1muDeO6cNYqneU9vqmocc1f0OeHMF2rYADGpLnpk6P
+ ejSz0B8ri5hKCpjN0ppPTXoiepgi
+X-Google-Smtp-Source: APXvYqzO/wfzNBsPUxWqsX52SJ/PORF98s8kBd5OzOY0JXkcvF9O/qESv5FHWKRy5Y7qIOprMaKSqg==
+X-Received: by 2002:adf:df03:: with SMTP id y3mr17892903wrl.260.1579787376819; 
+ Thu, 23 Jan 2020 05:49:36 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.31
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.36
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:31 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:36 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/59] accel: Introduce the current_accel() wrapper
-Date: Thu, 23 Jan 2020 14:48:31 +0100
-Message-Id: <1579787342-27146-29-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 34/59] qdev: move helper function to monitor/misc
+Date: Thu, 23 Jan 2020 14:48:37 +0100
+Message-Id: <1579787342-27146-35-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::336
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,54 +78,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The accel/ code only accesses the MachineState::accel field.
-As we simply want to access the accelerator, not the machine,
-add a current_accel() wrapper.
+Move the one-user function to the place it is being used.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200121110349.25842-9-philmd@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200110153039.1379601-5-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/accel.c          | 5 +++++
- include/sysemu/accel.h | 2 ++
- 2 files changed, 7 insertions(+)
+ hw/core/qdev.c         | 26 --------------------------
+ include/hw/qdev-core.h |  2 --
+ monitor/misc.c         | 26 ++++++++++++++++++++++++++
+ 3 files changed, 26 insertions(+), 28 deletions(-)
 
-diff --git a/accel/accel.c b/accel/accel.c
-index 1c5c3a6..cb555e3 100644
---- a/accel/accel.c
-+++ b/accel/accel.c
-@@ -63,6 +63,11 @@ int accel_init_machine(AccelState *accel, MachineState *ms)
-     return ret;
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 60aec8b..8708605 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -760,32 +760,6 @@ void qdev_alias_all_properties(DeviceState *target, Object *source)
+     } while (class != object_class_by_name(TYPE_DEVICE));
  }
  
-+AccelState *current_accel(void)
+-static int qdev_add_hotpluggable_device(Object *obj, void *opaque)
+-{
+-    GSList **list = opaque;
+-    DeviceState *dev = (DeviceState *)object_dynamic_cast(OBJECT(obj),
+-                                                          TYPE_DEVICE);
+-
+-    if (dev == NULL) {
+-        return 0;
+-    }
+-
+-    if (dev->realized && object_property_get_bool(obj, "hotpluggable", NULL)) {
+-        *list = g_slist_append(*list, dev);
+-    }
+-
+-    return 0;
+-}
+-
+-GSList *qdev_build_hotpluggable_device_list(Object *peripheral)
+-{
+-    GSList *list = NULL;
+-
+-    object_child_foreach(peripheral, qdev_add_hotpluggable_device, &list);
+-
+-    return list;
+-}
+-
+ static bool device_get_realized(Object *obj, Error **errp)
+ {
+     DeviceState *dev = DEVICE(obj);
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 1518495..6b0e7b2 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -457,8 +457,6 @@ extern bool qdev_hot_removed;
+ 
+ char *qdev_get_dev_path(DeviceState *dev);
+ 
+-GSList *qdev_build_hotpluggable_device_list(Object *peripheral);
+-
+ void qbus_set_hotplug_handler(BusState *bus, Object *handler, Error **errp);
+ 
+ void qbus_set_bus_hotplug_handler(BusState *bus, Error **errp);
+diff --git a/monitor/misc.c b/monitor/misc.c
+index de1ca4d..4752150 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -1959,6 +1959,32 @@ void object_add_completion(ReadLineState *rs, int nb_args, const char *str)
+     g_slist_free(list);
+ }
+ 
++static int qdev_add_hotpluggable_device(Object *obj, void *opaque)
 +{
-+    return current_machine->accelerator;
++    GSList **list = opaque;
++    DeviceState *dev = (DeviceState *)object_dynamic_cast(OBJECT(obj),
++                                                          TYPE_DEVICE);
++
++    if (dev == NULL) {
++        return 0;
++    }
++
++    if (dev->realized && object_property_get_bool(obj, "hotpluggable", NULL)) {
++        *list = g_slist_append(*list, dev);
++    }
++
++    return 0;
 +}
 +
- void accel_setup_post(MachineState *ms)
- {
-     AccelState *accel = ms->accelerator;
-diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
-index d4c1429..47e5788 100644
---- a/include/sysemu/accel.h
-+++ b/include/sysemu/accel.h
-@@ -70,4 +70,6 @@ int accel_init_machine(AccelState *accel, MachineState *ms);
- /* Called just before os_setup_post (ie just before drop OS privs) */
- void accel_setup_post(MachineState *ms);
- 
-+AccelState *current_accel(void);
++static GSList *qdev_build_hotpluggable_device_list(Object *peripheral)
++{
++    GSList *list = NULL;
 +
- #endif
++    object_child_foreach(peripheral, qdev_add_hotpluggable_device, &list);
++
++    return list;
++}
++
+ static void peripheral_device_del_completion(ReadLineState *rs,
+                                              const char *str, size_t len)
+ {
 -- 
 1.8.3.1
 
