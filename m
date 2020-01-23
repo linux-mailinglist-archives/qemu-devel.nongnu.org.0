@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02ED3147240
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:59:33 +0100 (CET)
-Received: from localhost ([::1]:60966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F28D14720A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:46:42 +0100 (CET)
+Received: from localhost ([::1]:60504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuidY-0005Br-2l
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:59:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58718)
+	id 1iuiR7-0003gI-Lj
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:46:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59642)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rjones@redhat.com>) id 1iuhyh-0005IS-Oo
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:17:21 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iui2T-00013z-Va
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:21:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rjones@redhat.com>) id 1iuhyg-0007QU-5t
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:17:19 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39053
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iui2R-0003kc-Rt
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:21:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46660
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rjones@redhat.com>) id 1iuhye-0007Oe-PI
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:17:17 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iui2R-0003j6-KP
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:21:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579807036;
+ s=mimecast20190719; t=1579807270;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RkR58KqxofQpgdgmcAyBAl8uI8mZ7kXFKca+7VTMeUo=;
- b=hEwOH57KSHfaF/jyuMGKdI5YyuO/Dh23c/9TtEs9sBSC5vvCNl+c8uhpbqAgRQD5710raF
- z76aQKdG6OENs8uHEzK3eN5D3/k8uxe1ecdmcgM3PEwlxksi2Fjnt80owjs6o8rGwZTUYR
- blmiIOsxLfquzJ2JLrhT2ggazxmqycI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-bRPfJRW9NX2jxwmaDxOn2w-1; Thu, 23 Jan 2020 14:17:11 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10C0CDB61;
- Thu, 23 Jan 2020 19:17:11 +0000 (UTC)
-Received: from localhost (ovpn-117-237.ams2.redhat.com [10.36.117.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A50AD60BF3;
- Thu, 23 Jan 2020 19:17:10 +0000 (UTC)
-Date: Thu, 23 Jan 2020 19:17:09 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: qemu-img convert vs writing another copy tool
-Message-ID: <20200123191709.GM3888@redhat.com>
-References: <20200123183500.GA27166@redhat.com>
- <ef3492f5-b1ab-52d2-9484-3c42e2b6af87@redhat.com>
+ bh=gl5RNu6yyw11ayEQeyqK5kFL6cIxYZN5aBVwSqGclHw=;
+ b=EMoRKfvpRWssx9vP64ecZ1tSccDhfDTX4Kud6gRMGUGY1yDrbpPHRilzLr+MixTxuwO8Vn
+ eAgUzUyAZzzUAJ3nE1ZUDtTv3I7INHWA7nymy597GVkMPMsM94j+ni93++2D/5maIssiDJ
+ u1K8DO5J+6rgbHiwmcHwrgRWdknLJN4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-419-i7muSeAiORaWVDaVimjrvA-1; Thu, 23 Jan 2020 14:21:07 -0500
+Received: by mail-ed1-f70.google.com with SMTP id w3so2947833edt.23
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:21:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gl5RNu6yyw11ayEQeyqK5kFL6cIxYZN5aBVwSqGclHw=;
+ b=KF1xGUVSLKn+nPJDnkGwEJIGNDo8/RoCVy4QyQ2yx+Wdy9LqwIort4dONknX41X+20
+ uj13E86iKDTZ5nnmey1e4+v1bswNBVOPTbCg5cm6UJ5xnq5bWpcrPyYPiXPmgqlRhnOd
+ +T+g1mYcZ+jhIPCDHUTq64j3tlPVkyHxhp/mS2A7aAzRAgIvnR9EHLaGfskxTIOv1FPj
+ vskbECGgsQjmeQlwSYQpPoUGvrKw5mFidMTGOLO206Q5kLuyhJo5nno9o1DUKT5pWdzG
+ TEUUOf5afeq6yBgNijUca/DoDm/4xNwTRQt8X7tqnXgfzsX4BhdqaWd5O0GjBr2Rcrep
+ jteQ==
+X-Gm-Message-State: APjAAAWmsSNh8GHzPrpN0geeV6OUWvXUT+hh3r2Ex/FY0ZJTouB8sK7P
+ BIOb5aR2LC09NoP+j1KR27ZcDzz9OdlIRnCgiBRa70Du8Q+bdEsM5mrC4RlPIQOhadt6qbqpVTZ
+ F4pmUc2RDCsLOZpl/0h2ipYmk9WRX664=
+X-Received: by 2002:a50:c04e:: with SMTP id u14mr8200069edd.193.1579807266310; 
+ Thu, 23 Jan 2020 11:21:06 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxo78mwAr8lPLCzf4F01epdDhh5A7YHrwT2NIGF8uJRU/l5BrKvQoKVGUC6HvKjZivfp9DzyAWlk3lWwYtno3I=
+X-Received: by 2002:a50:c04e:: with SMTP id u14mr8200051edd.193.1579807265920; 
+ Thu, 23 Jan 2020 11:21:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <ef3492f5-b1ab-52d2-9484-3c42e2b6af87@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: bRPfJRW9NX2jxwmaDxOn2w-1
+References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
+ <CAFEAcA8R5yDfAYYraeBStD_Oh7G60QSgUaw_JVdqC=C8y4n0Jw@mail.gmail.com>
+In-Reply-To: <CAFEAcA8R5yDfAYYraeBStD_Oh7G60QSgUaw_JVdqC=C8y4n0Jw@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 23 Jan 2020 20:20:53 +0100
+Message-ID: <CABgObfZF7D+MgxXMDbrqZQpOb6WaOiKFaLSUv9U+3Ufb0GGKMw@mail.gmail.com>
+Subject: Re: [PULL v2 00/59] Misc (x86 and QOM) patches for 2020-01-23
+To: Peter Maydell <peter.maydell@linaro.org>
+X-MC-Unique: i7muSeAiORaWVDaVimjrvA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: multipart/alternative; boundary="000000000000e63154059cd38a53"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,125 +80,249 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- ptoscano@redhat.com, marnold@redhat.com, mkletzan@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 23, 2020 at 07:53:57PM +0100, Max Reitz wrote:
-> On 23.01.20 19:35, Richard W.M. Jones wrote:
-> >  - NBD multi-conn.  In my tests this makes a really massive
-> >    performance difference in certain situations.  Again, virt-v2v has
-> >    a lot of information that we cannot pass to qemu: we know, for
-> >    example, exactly if the server supports the feature, how many
-> >    threads are available, in some situations even have information
-> >    about the network and backing disks that the data will travel over
-> >    / be stored on.
->=20
-> As far as I understand it, you use qemu-img convert with an NBD source
-> or target, too?
+--000000000000e63154059cd38a53
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Virt-v2v has many modes, but yes generally there will be either an NBD
-source & target, or an NBD source to a local file target.
+Il gio 23 gen 2020, 19:43 Peter Maydell <peter.maydell@linaro.org> ha
+scritto:
 
-> I suppose it=E2=80=99s always easier to let a specialized and freshly wri=
-tten
-> tool handle such information.  But it sounds like if such information is
-> useful and makes that big of a difference, then it would be good to be
-> able to specify it to qemu=E2=80=99s NBD block driver, too.
+> On Thu, 23 Jan 2020 at 16:45, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >
+> > The following changes since commit
+> 3e08b2b9cb64bff2b73fa9128c0e49bfcde0dd40:
+> >
+> >   Merge remote-tracking branch
+> 'remotes/philmd-gitlab/tags/edk2-next-20200121' into staging (2020-01-21
+> 15:29:25 +0000)
+> >
+> > are available in the git repository at:
+> >
+> >
+> >   git://github.com/bonzini/qemu.git tags/for-upstream
+> >
+> > for you to fetch changes up to f7bb7a3f1e8f4f854208785eead0d807ad8a688c=
+:
+> >
+> >   tests: fix test-qga on macosx (2020-01-23 14:34:49 +0100)
+> >
+> > ----------------------------------------------------------------
+> > * Register qdev properties as class properties (Marc-Andr=C3=A9)
+> > * Cleanups (Philippe)
+> > * virtio-scsi fix (Pan Nengyuan)
+> > * Tweak Skylake-v3 model id (Kashyap)
+> > * x86 UCODE_REV support and nested live migration fix (myself)
+> > * Advisory mode for pvpanic (Zhenwei)
+> >
+> > ----------------------------------------------------------------
+>
+> When I try to build-test this merge, the clang sanitizer
+> build seems to fail whenever it tries to link anything:
+> (configure args '--cc=3Dclang' '--cxx=3Dclang++' '--enable-gtk'
+> '--extra-cflags=3D-fsanitize=3Dundefined  -fno-sanitize=3Dshift-base -Wer=
+ror')
+>
 
-qemu-img convert has worked really well for us, and I'm actually _not_
-confident that I could do better with a specialized tool.  But there's
-definitely more info we could pass, such as the amount of parallelism
-we believe is available in the NBD server / processors / disks.
+That's intended, you need to add -fsanitize=3Dundefined to --extra-ldflags =
+as
+well now. I can change that back, but then I am not sure what one would use
+--extra-ldflags for.
 
-> >  - Machine-parsable progress bars.  You can, sort of, parse the
-> >    progress bar from qemu-img convert, but it's not as easy as it
-> >    could be.  In particular it would be nice if the format was treated
-> >    as ABI, and if there was a way to have the tool write the progress
-> >    bar info to a precreated file descriptor.
->=20
-> It doesn=E2=80=99t seem impossible to add this feature to qemu-img, altho=
-ugh I
-> wonder about the interface.  I suppose we could make it an alternative
-> progress output mode (with some command-line flag), and then the
-> information would be emitted to stdout (just like the existing progress
-> report).  You can of course redirect stdout to whatever fd you=E2=80=99d =
-like,
-> so I don=E2=80=99t know whether qemu-img itself needs that specific capab=
-ility.
->=20
-> OTOH, if you need this feature, why not just use qemu itself?  That is,
-> a mirror or a backup block job in an otherwise empty VM.
+Paolo
 
-I don't think we've really thought before about this approach.  Maybe
-the launching of a VM (even an empty / stopped one) could be a
-problem.  I guess this is what the new tool that was recently proposed
-upstream might help with?  (Was it called qemu-block-storage?  I can't
-find it right this minute)
 
-> >  - External block lists.  This is a rather obscure requirement, but
-> >    it's necessary in the case where we can get the allocated block map
-> >    from another source (eg. pyvmomi) and then want to use that with an
-> >    NBD source that does not support extents (eg. nbdkit-ssh-plugin /
-> >    libssh / sftp).  [Having said that, it may be possible to implement
-> >    this as an nbdkit filter, so maybe this is not a blocking feature.]
->=20
-> That too seems like a feature that=E2=80=99s easily implementable in a
-> specialized tool, but hard to implement in qemu-img.
->=20
-> I suppose we=E2=80=99d want a dirty bitmap copy mode which copies only th=
-e
-> regions that the bitmap reports as dirty =E2=80=93 but at that point you=
-=E2=80=99re
-> probably again better off not using qemu-img, but qemu itself.  Then
-> we=E2=80=99d need some way to import bitmaps, and I actually don=E2=80=99=
-t think we have
-> that yet.
->=20
-> But again, if this is a generally useful feature, I think we want it in
-> qemu anyway.
 
-I think this is actually one we can more easily implement as an nbdkit
-filter.  I'm going to try this and see.
+>   LINK    tests/qemu-iotests/socket_scm_helper
+> tests/qemu-iotests/socket_scm_helper.o: In function `send_fd':
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:53:
+> undefined reference to `__ubsan_handle_type_mismatch_v1'
+> tests/qemu-iotests/socket_scm_helper.o: In function `main':
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:111:
+> undefined reference to `__ubsan_handle_type_mismatch_v1'
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:116:
+> undefined reference to `__ubsan_handle_type_mismatch_v1'
+> tests/qemu-iotests/socket_scm_helper.o: In function `send_fd':
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:56:
+> undefined reference to `__ubsan_handle_type_mismatch_v1'
+> tests/qemu-iotests/socket_scm_helper.o: In function `main':
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:121:
+> undefined reference to `__ubsan_handle_type_mismatch_v1'
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:121:
+> undefined reference to `__ubsan_handle_nonnull_arg'
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:106:
+> undefined reference to `__ubsan_handle_type_mismatch_v1'
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:123:
+> undefined reference to `__ubsan_handle_type_mismatch_v1'
+> tests/qemu-iotests/socket_scm_helper.o: In function `get_fd_num':
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:68:
+> undefined reference to `__ubsan_handle_type_mismatch_v1'
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:69:
+> undefined reference to `__ubsan_handle_nonnull_arg'
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:70:
+> undefined reference to `__ubsan_handle_type_mismatch_v1'
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:77:
+> undefined reference to `__ubsan_handle_type_mismatch_v1'
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:77:
+> undefined reference to `__ubsan_handle_type_mismatch_v1'
+>
+> /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helpe=
+r.c:73:
+> undefined reference to `__ubsan_handle_type_mismatch_v1'
+> clang: error: linker command failed with exit code 1 (use -v to see
+> invocation)
+>
+> I suspect the configure patches that try to clean up cflags
+> are the cause here.
+>
+> thanks
+> -- PMM
+>
+>
 
-> > One thing which qemu-img convert can do which nbdcp could not:
-> >=20
-> >  - Read or write from qcow2 files.
-> >=20
-> > So instead of splitting the ecosystem and writing a new tool that
-> > doesn't do as much as qemu-img convert, I wonder what qemu developers
-> > think about the above missing features?  For example, are they in
-> > scope for qemu-img convert?
->=20
-> What I think is that there may be features that we don=E2=80=99t want in
-> qemu-img, because they are more appropriate for the mirror or backup
-> block job.  For example, I don=E2=80=99t think we want to let qemu-img co=
-nvert
-> mess around with dirty bitmaps.
->=20
-> But apart from that, the features you propose all seem useful to have in
-> qemu itself.  Maybe some of them are too hard to implement (specifically
-> importing bitmaps from external sources), then it might be pragmatic to
-> write a new tool where such features can be easily implemented because
-> they don=E2=80=99t need to be integrated into an existing API.
->=20
-> As for performance, well, if qemu=E2=80=99s NBD driver is slow, then naiv=
-ely I=E2=80=99d
-> think that=E2=80=99s a bug, isn=E2=80=99t it?  And if improving performan=
-ce requires
-> knobs, then that=E2=80=99s how it is.
+--000000000000e63154059cd38a53
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il gio 23 gen 2020, 19:43 Peter Maydell &lt;<a href=3D=
+"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; ha scrit=
+to:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">On Thu, 23 Jan 2020 at 16:45, P=
+aolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank" r=
+el=3D"noreferrer">pbonzini@redhat.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; The following changes since commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde=
+0dd40:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0Merge remote-tracking branch &#39;remotes/philmd-gitlab/ta=
+gs/edk2-next-20200121&#39; into staging (2020-01-21 15:29:25 +0000)<br>
+&gt;<br>
+&gt; are available in the git repository at:<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0git://<a href=3D"http://github.com/bonzini/qemu.git" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">github.com/bonzini/qemu.git</a=
+> tags/for-upstream<br>
+&gt;<br>
+&gt; for you to fetch changes up to f7bb7a3f1e8f4f854208785eead0d807ad8a688=
+c:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0tests: fix test-qga on macosx (2020-01-23 14:34:49 +0100)<=
+br>
+&gt;<br>
+&gt; ----------------------------------------------------------------<br>
+&gt; * Register qdev properties as class properties (Marc-Andr=C3=A9)<br>
+&gt; * Cleanups (Philippe)<br>
+&gt; * virtio-scsi fix (Pan Nengyuan)<br>
+&gt; * Tweak Skylake-v3 model id (Kashyap)<br>
+&gt; * x86 UCODE_REV support and nested live migration fix (myself)<br>
+&gt; * Advisory mode for pvpanic (Zhenwei)<br>
+&gt;<br>
+&gt; ----------------------------------------------------------------<br>
+<br>
+When I try to build-test this merge, the clang sanitizer<br>
+build seems to fail whenever it tries to link anything:<br>
+(configure args &#39;--cc=3Dclang&#39; &#39;--cxx=3Dclang++&#39; &#39;--ena=
+ble-gtk&#39;<br>
+&#39;--extra-cflags=3D-fsanitize=3Dundefined=C2=A0 -fno-sanitize=3Dshift-ba=
+se -Werror&#39;)<br></blockquote></div></div><div dir=3D"auto"><br></div><d=
+iv dir=3D"auto">That&#39;s intended, you need to add -fsanitize=3Dundefined=
+ to --extra-ldflags as well now. I can change that back, but then I am not =
+sure what one would use --extra-ldflags for.</div><div dir=3D"auto"><br></d=
+iv><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">
+<br>
+=C2=A0 LINK=C2=A0 =C2=A0 tests/qemu-iotests/socket_scm_helper<br>
+tests/qemu-iotests/socket_scm_helper.o: In function `send_fd&#39;:<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:53:<br>
+undefined reference to `__ubsan_handle_type_mismatch_v1&#39;<br>
+tests/qemu-iotests/socket_scm_helper.o: In function `main&#39;:<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:111:<br>
+undefined reference to `__ubsan_handle_type_mismatch_v1&#39;<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:116:<br>
+undefined reference to `__ubsan_handle_type_mismatch_v1&#39;<br>
+tests/qemu-iotests/socket_scm_helper.o: In function `send_fd&#39;:<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:56:<br>
+undefined reference to `__ubsan_handle_type_mismatch_v1&#39;<br>
+tests/qemu-iotests/socket_scm_helper.o: In function `main&#39;:<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:121:<br>
+undefined reference to `__ubsan_handle_type_mismatch_v1&#39;<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:121:<br>
+undefined reference to `__ubsan_handle_nonnull_arg&#39;<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:106:<br>
+undefined reference to `__ubsan_handle_type_mismatch_v1&#39;<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:123:<br>
+undefined reference to `__ubsan_handle_type_mismatch_v1&#39;<br>
+tests/qemu-iotests/socket_scm_helper.o: In function `get_fd_num&#39;:<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:68:<br>
+undefined reference to `__ubsan_handle_type_mismatch_v1&#39;<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:69:<br>
+undefined reference to `__ubsan_handle_nonnull_arg&#39;<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:70:<br>
+undefined reference to `__ubsan_handle_type_mismatch_v1&#39;<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:77:<br>
+undefined reference to `__ubsan_handle_type_mismatch_v1&#39;<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:77:<br>
+undefined reference to `__ubsan_handle_type_mismatch_v1&#39;<br>
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:73:<br>
+undefined reference to `__ubsan_handle_type_mismatch_v1&#39;<br>
+clang: error: linker command failed with exit code 1 (use -v to see invocat=
+ion)<br>
+<br>
+I suspect the configure patches that try to clean up cflags<br>
+are the cause here.<br>
+<br>
+thanks<br>
+-- PMM<br>
+<br>
+</blockquote></div></div></div>
 
-Rich.
-
---=20
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjon=
-es
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-df lists disk usage of guests without needing to install any
-software inside the virtual machine.  Supports Linux and Windows.
-http://people.redhat.com/~rjones/virt-df/
+--000000000000e63154059cd38a53--
 
 
