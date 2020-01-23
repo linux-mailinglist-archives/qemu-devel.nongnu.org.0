@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA00F146C63
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:13:19 +0100 (CET)
-Received: from localhost ([::1]:58918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C243146C47
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:05:46 +0100 (CET)
+Received: from localhost ([::1]:58736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueAY-0007rA-HW
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:13:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50399)
+	id 1iue3E-0005Yy-Iy
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:05:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50196)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ovoshcha@redhat.com>) id 1iubdm-0008Ur-9B
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:31:19 -0500
+ (envelope-from <drjones@redhat.com>) id 1iubcx-0007Tc-Fo
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:30:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ovoshcha@redhat.com>) id 1iubdk-00016Q-VV
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:31:18 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27411
+ (envelope-from <drjones@redhat.com>) id 1iubcv-0000aF-ID
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:30:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48254
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1iubdk-00016F-SS
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:31:16 -0500
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iubcu-0000ZM-CG
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:30:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579782676;
+ s=mimecast20190719; t=1579782623;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qf+upfgHM9UbJpwPJ/l9fFPz6PQg3yqrvyzMt+T52mA=;
- b=KaIaVaqfjJ2xV3eEpXDJSZ4VMvG/r7C52cH/UhHISWsXswTj9rybfvZmcf8lRNKYHeHZpp
- u6rkfGqP1Cx1TNnY82C0J/Z/VmUHFPhTEATKTK+Ke+VT+OHuWWQWO/RB6ArS/DxHSc3ESj
- 0jUVFOtDJbRQrTTLdQeEiGSN/G2/Om4=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L1yzcOFkErkeI0QUBKNVNW/7umaB4uexDD4bAHoahBQ=;
+ b=bxydOZwnLnZKgp8E0K5OHDxutBRo32HiGLecSsvFKCpDaSq5I664Agi7JFmUxvho19cB4S
+ QIFZvpsVzogqBji6fmVy+XQtakkgxK0kfvkbEf3+jzj0MOvgtFVTbeq9gWg1Q9/l3EAQf+
+ sk/KK9vZa4R/fm8+DR6bp3h2mCJ9IPU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-XgcGiMsnMh29luiXW0S8tQ-1; Thu, 23 Jan 2020 07:30:06 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-14-X6TQkIpPMX2PEKx1ncCaWw-1; Thu, 23 Jan 2020 07:30:16 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1ED0DBA9
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:30:05 +0000 (UTC)
-Received: from kh066.redhat.com (ovpn-117-189.ams2.redhat.com [10.36.117.189])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43F3210016E8
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:30:05 +0000 (UTC)
-From: Oksana Vohchana <ovoshcha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Acceptance test: provides to use different transport for
- migration
-Date: Thu, 23 Jan 2020 14:30:04 +0200
-Message-Id: <20200123123004.28156-1-ovoshcha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45205800D53;
+ Thu, 23 Jan 2020 12:30:15 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 24C7D60E1C;
+ Thu, 23 Jan 2020 12:30:13 +0000 (UTC)
+Date: Thu, 23 Jan 2020 13:30:11 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH REPOST v3 10/80] arm/cubieboard: use memdev for RAM
+Message-ID: <20200123123011.on7z5bxuhnip5654@kamzik.brq.redhat.com>
+References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+ <1579779525-20065-11-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: XgcGiMsnMh29luiXW0S8tQ-1
+In-Reply-To: <1579779525-20065-11-git-send-email-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: X6TQkIpPMX2PEKx1ncCaWw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
-X-Mailman-Approved-At: Thu, 23 Jan 2020 08:54:05 -0500
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,106 +72,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: b.galvani@gmail.com, peter.maydell@linaro.org, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Along with VM migration via TCP, we can use migration through EXEC
-and UNIX transport protocol
+On Thu, Jan 23, 2020 at 12:37:35PM +0100, Igor Mammedov wrote:
+> memory_region_allocate_system_memory() API is going away, so
+> replace it with memdev allocated MemoryRegion. The later is
+> initialized by generic code, so board only needs to opt in
+> to memdev scheme by providing
+>   MachineClass::default_ram_id
+> and using MachineState::ram instead of manually initializing
+> RAM memory region.
+>=20
+> PS:
+> While at it, get rid of no longer needed CubieBoardState wrapper.
+>=20
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> CC: drjones@redhat.com
+> CC: b.galvani@gmail.com
+> CC: peter.maydell@linaro.org
+> CC: qemu-arm@nongnu.org
+> ---
+>  hw/arm/cubieboard.c | 25 ++++++++-----------------
+>  1 file changed, 8 insertions(+), 17 deletions(-)
+>
 
-Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
----
- tests/acceptance/migration.py | 50 ++++++++++++++++++++++++-----------
- 1 file changed, 35 insertions(+), 15 deletions(-)
+I don't know anything about cubieboard, but I promised Igor to put
+another pair of eyes on his changes. Looks fine to me.
 
-diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-index a44c1ae58f..8bbe28d52d 100644
---- a/tests/acceptance/migration.py
-+++ b/tests/acceptance/migration.py
-@@ -10,10 +10,13 @@
- # later.  See the COPYING file in the top-level directory.
-=20
-=20
-+import tempfile
- from avocado_qemu import Test
-+from avocado import skipUnless\
-=20
- from avocado.utils import network
- from avocado.utils import wait
-+from avocado.utils.path import find_command, CmdNotFoundError
-=20
-=20
- class Migration(Test):
-@@ -24,6 +27,26 @@ class Migration(Test):
-     def migration_finished(vm):
-         return vm.command('query-migrate')['status'] in ('completed', 'fai=
-led')
-=20
-+    def do_migrate(self, dest_uri, src_uri=3DNone):
-+        source_vm =3D self.get_vm()
-+        dest_vm =3D self.get_vm('-incoming', dest_uri)
-+        dest_vm.launch()
-+        if src_uri is None:
-+            src_uri =3D dest_uri
-+        source_vm.launch()
-+        source_vm.qmp('migrate', uri=3Dsrc_uri)
-+        self.assert_migration(source_vm, dest_vm)
-+
-+    def assert_migration(self, source_vm, dest_vm):
-+        wait.wait_for(self.migration_finished,
-+                      timeout=3Dself.timeout,
-+                      step=3D0.1,
-+                      args=3D(source_vm,))
-+        self.assertEqual(source_vm.command('query-migrate')['status'], 'co=
-mpleted')
-+        self.assertEqual(dest_vm.command('query-migrate')['status'], 'comp=
-leted')
-+        self.assertEqual(dest_vm.command('query-status')['status'], 'runni=
-ng')
-+        self.assertEqual(source_vm.command('query-status')['status'], 'pos=
-tmigrate')
-+
-     def _get_free_port(self):
-         port =3D network.find_free_port()
-         if port is None:
-@@ -32,19 +55,16 @@ class Migration(Test):
-=20
-=20
-     def test_migration_with_tcp_localhost(self):
--        source_vm =3D self.get_vm()
-         dest_uri =3D 'tcp:localhost:%u' % self._get_free_port()
--        dest_vm =3D self.get_vm('-incoming', dest_uri)
--        dest_vm.launch()
--        source_vm.launch()
--        source_vm.qmp('migrate', uri=3Ddest_uri)
--        wait.wait_for(
--            self.migration_finished,
--            timeout=3Dself.timeout,
--            step=3D0.1,
--            args=3D(source_vm,)
--        )
--        self.assertEqual(dest_vm.command('query-migrate')['status'], 'comp=
-leted')
--        self.assertEqual(source_vm.command('query-migrate')['status'], 'co=
-mpleted')
--        self.assertEqual(dest_vm.command('query-status')['status'], 'runni=
-ng')
--        self.assertEqual(source_vm.command('query-status')['status'], 'pos=
-tmigrate')
-+        self.do_migrate(dest_uri)
-+
-+    def test_migration_with_unix(self):
-+        with tempfile.TemporaryDirectory(prefix=3D'socket_') as socket_pat=
-h:
-+            dest_uri =3D 'unix:%s/qemu-test.sock' % socket_path
-+            self.do_migrate(dest_uri)
-+    @skipUnless(find_command('nc', default=3DFalse), "nc command not found=
- on the system")
-+    def test_migration_with_exec(self):
-+        free_port =3D self._get_free_port()
-+        dest_uri =3D 'exec:nc -l localhost %u' % free_port
-+        src_uri =3D 'exec:nc localhost %u' % free_port
-+        self.do_migrate(dest_uri, src_uri)
---=20
-2.21.1
+Reviewed-by: Andrew Jones <drjones@redhat.com>=20
 
 
