@@ -2,61 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B611466A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:22:26 +0100 (CET)
-Received: from localhost ([::1]:54752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA43A146670
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:16:36 +0100 (CET)
+Received: from localhost ([::1]:54696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuaZ7-0004Km-5P
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:22:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58777)
+	id 1iuaTT-0000QM-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:16:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57600)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iuaXt-0003ER-FZ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:21:10 -0500
+ (envelope-from <groug@kaod.org>) id 1iuaRv-0007nR-8o
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:15:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iuaXr-0002MK-Aa
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:21:09 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57026)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iuaXr-0002Lp-50
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:21:07 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iuaXo-0008JU-4b
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:21:04 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6DFC02E80DA
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:21:02 +0000 (UTC)
+ (envelope-from <groug@kaod.org>) id 1iuaRu-0006wf-0P
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:14:59 -0500
+Received: from 17.mo7.mail-out.ovh.net ([188.165.35.227]:43467)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iuaRt-0006sO-Q1
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:14:57 -0500
+Received: from player771.ha.ovh.net (unknown [10.108.35.215])
+ by mo7.mail-out.ovh.net (Postfix) with ESMTP id B97F614C40D
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:13:57 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player771.ha.ovh.net (Postfix) with ESMTPSA id 41727EA0531D;
+ Thu, 23 Jan 2020 11:13:53 +0000 (UTC)
+Date: Thu, 23 Jan 2020 12:13:51 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v4 09/11] hw/9pfs/9p-synth: avoid n-square issue in
+ synth_readdir()
+Message-ID: <20200123121351.5a0e9516@bahia.lan>
+In-Reply-To: <d385726be4d8146a86561703bc6d77edd39fb654.1579567020.git.qemu_oss@crudebyte.com>
+References: <cover.1579567019.git.qemu_oss@crudebyte.com>
+ <d385726be4d8146a86561703bc6d77edd39fb654.1579567020.git.qemu_oss@crudebyte.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 23 Jan 2020 11:11:37 -0000
-From: Thomas Huth <1661815@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: shqking th-huth
-X-Launchpad-Bug-Reporter: shqking (shqking)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170204082040.20702.26524.malonedeb@gac.canonical.com>
-Message-Id: <157977789768.5441.13453741863477584993.malone@chaenomeles.canonical.com>
-Subject: [Bug 1661815] Re: Stack address is returned from function
- translate_one
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 40ffabe7b01c9564088c755f3e4801445fd9707a
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 9219431389831141696
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrvddvgddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejjedurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 188.165.35.227
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,57 +57,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1661815 <1661815@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've finally posted a patch for this:
-https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg05204.html
+On Tue, 21 Jan 2020 01:26:15 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
--- =
+> This patch is just a temporary benchmark hack, not intended
+> to be merged!
+> 
+> 9pfs synth driver's readdir() implementation has a severe
+> n-square performance problem. This patch is a quick and dirty
+> hack to prevent that performance problem from tainting the
+> readdir() benchmark results. In its current form, this patch
+> is not useful for anything else than for an isolated readdir
+> benchmark.
+> 
+> NOTE: This patch would break the new readdir/split test,
+> because it would alter the behaviour of seekdir() required
+> for retrieving directory entries splitted over several
+> requests.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1661815
+Honestly it doesn't seem to change anything significant for me.
+Mean time calculated over 100 runs:
 
-Title:
-  Stack address is returned from function translate_one
+Without this patch:
 
-Status in QEMU:
-  New
+[greg@bahia qemu-9p]$ (cd .mbuild-$(stg branch)/obj ; export QTEST_QEMU_BINARY='x86_64-softmmu/qemu-system-x86_64'; make all tests/qtest/qos-test && for i in {1..100}; do tests/qtest/qos-test -p $(tests/qtest/qos-test -l | grep readdir/basic); done) |& awk '/IMPORTANT/ { print $10 }' | sed -e 's/s//' -e 's/^/n+=1;x+=/;$ascale=6;x/n' | bc
+.055654
 
-Bug description:
-  The vulnerable version is qemu-2.8.0, and the vulnerable function is
-  in "target-s390x/translate.c".
+With this patch:
 
-  The code snippet is as following.
+[greg@bahia qemu-9p]$ (cd .mbuild-$(stg branch)/obj ; export QTEST_QEMU_BINARY='x86_64-softmmu/qemu-system-x86_64'; make all tests/qtest/qos-test && for i in {1..100}; do tests/qtest/qos-test -p $(tests/qtest/qos-test -l | grep readdir/basic); done) |& awk '/IMPORTANT/ { print $10 }' | sed -e 's/s//' -e 's/^/n+=1;x+=/;$ascale=6;x/n' | bc
+.058786
 
-  static ExitStatus translate_one(CPUS390XState *env, DisasContext *s)
-  {
-      const DisasInsn *insn;
-      ExitStatus ret =3D NO_EXIT;
-      DisasFields f;
-      ...
-      s->fields =3D &f;
-      ...
-      s->pc =3D s->next_pc;
-      return ret;
-  }
+>  hw/9pfs/9p-synth.c | 29 ++++++++++++++++++++++++++---
+>  1 file changed, 26 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+> index 7eb210ffa8..54dc30f37b 100644
+> --- a/hw/9pfs/9p-synth.c
+> +++ b/hw/9pfs/9p-synth.c
+> @@ -225,7 +225,8 @@ static void synth_direntry(V9fsSynthNode *node,
+>  }
+>  
+>  static struct dirent *synth_get_dentry(V9fsSynthNode *dir,
+> -                                            struct dirent *entry, off_t off)
+> +                                       struct dirent *entry, off_t off,
+> +                                       V9fsSynthNode **hack)
+>  {
+>      int i = 0;
+>      V9fsSynthNode *node;
+> @@ -243,16 +244,38 @@ static struct dirent *synth_get_dentry(V9fsSynthNode *dir,
+>          /* end of directory */
+>          return NULL;
+>      }
+> +    *hack = node;
+>      synth_direntry(node, entry, off);
+>      return entry;
+>  }
+>  
+>  static struct dirent *synth_readdir(FsContext *ctx, V9fsFidOpenState *fs)
+>  {
+> -    struct dirent *entry;
+> +    struct dirent *entry = NULL;
+>      V9fsSynthOpenState *synth_open = fs->private;
+>      V9fsSynthNode *node = synth_open->node;
+> -    entry = synth_get_dentry(node, &synth_open->dent, synth_open->offset);
+> +
+> +    /*
+> +     * HACK: This is just intended for benchmark, to avoid severe n-square
+> +     * performance problem of synth driver's readdir implementation here which
+> +     * would otherwise unncessarily taint the benchmark results. By simply
+> +     * caching (globally) the previous node (of the previous synth_readdir()
+> +     * call) we can simply proceed to next node in chained list efficiently.
+> +     *
+> +     * not a good idea for any production code ;-)
+> +     */
+> +    static struct V9fsSynthNode *cachedNode;
+> +
+> +    if (!cachedNode) {
+> +        entry = synth_get_dentry(node, &synth_open->dent, synth_open->offset,
+> +                                 &cachedNode);
+> +    } else {
+> +        cachedNode = cachedNode->sibling.le_next;
+> +        if (cachedNode) {
+> +            entry = &synth_open->dent;
+> +            synth_direntry(cachedNode, entry, synth_open->offset + 1);
+> +        }
+> +    }
+>      if (entry) {
+>          synth_open->offset++;
+>      }
 
-  A stack address, i.e. the address of local variable "f" is returned
-  from current function through the output parameter "s->fields" as a
-  side effect.
-
-  This issue is one kind of undefined behaviors, according the C
-  Standard, 6.2.4 [ISO/IEC 9899:2011]
-  (https://www.securecoding.cert.org/confluence/display/c/DCL30-C.+Declare+=
-objects+with+appropriate+storage+durations)
-
-  This dangerous defect may lead to an exploitable vulnerability.
-  We suggest sanitizing "s->fields" as null before return.
-
-  Note that this issue is reported by shqking and Zhenwei Zou together.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1661815/+subscriptions
 
