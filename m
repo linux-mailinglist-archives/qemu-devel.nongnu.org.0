@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB414146FAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:30:04 +0100 (CET)
-Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D8C146F3A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:10:24 +0100 (CET)
+Received: from localhost ([::1]:33068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugIt-0003cq-8e
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:30:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53082)
+	id 1iufzq-0003hi-Na
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:10:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53104)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iucuW-0001aH-JA
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:41 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iucuZ-0001f1-Da
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iucuV-0001LT-DS
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26909
+ (envelope-from <pbonzini@redhat.com>) id 1iucuY-0001NK-BT
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:43 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36468
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iucuV-0001LL-9c
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:39 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iucuY-0001NA-8D
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787559;
+ s=mimecast20190719; t=1579787562;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+ogljl5KfhNVv2vyCzFUPBamFIxFTcJlA1HisO0RvD8=;
- b=KHzOgtkgDX6LgAKuWDBq1VgWf8/qPvkto+yGFV4WmmgBTqBKbyaCjyPh4PWMgAaRHxYgtl
- vmqlEbgQDA+69tFP6+T7/H7T5wTPiWMB4R5OlWGZkJ7WoGT3cHdjRmMYMHdC1X5LoTJkBx
- ae3rHojMgzuZgb3kdNfZ1sCxCjWjKcM=
+ bh=NKbz01lsGRxXpu6cWnR890EpjJmf3tFFbUXHubunYW0=;
+ b=YnM7Wy7teydgQbC4F/Wxvh19hw4Nsl4K+/n2XsUfNvZagAm/LONVB4okOtrW9N2z80G7Nt
+ HsSH50t+4fVhBuHhGs6/Qr91c3YheUjYsd6gu/B+ehVBrpg9/MZEJc5nzMBEJsx629mJAT
+ mBK5L25gTDrtsFyx5Myx/EsIYrD0sYw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-jZvSAUMPNv-QjOBaqRRwHQ-1; Thu, 23 Jan 2020 08:52:37 -0500
+ us-mta-413-kXkEFJ6FO-mCEC9FzBN_3A-1; Thu, 23 Jan 2020 08:52:40 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51F5A100EC87
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:52:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45C15100EC93
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:52:39 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 07BD71CB;
- Thu, 23 Jan 2020 13:52:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 44ABE85782;
+ Thu, 23 Jan 2020 13:52:38 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 50/59] qdev: move instance properties to class properties
-Date: Thu, 23 Jan 2020 14:50:40 +0100
-Message-Id: <1579787449-27599-51-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 52/59] vl: print default value in object help
+Date: Thu, 23 Jan 2020 14:50:42 +0100
+Message-Id: <1579787449-27599-53-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: jZvSAUMPNv-QjOBaqRRwHQ-1
+X-MC-Unique: kXkEFJ6FO-mCEC9FzBN_3A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -77,66 +77,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200110153039.1379601-21-marcandre.lureau@redhat.com>
+Message-Id: <20200110153039.1379601-23-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/qdev.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ qom/object_interfaces.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 100e266..6e4dca1 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -944,14 +944,6 @@ static void device_initfn(Object *obj)
-     dev->realized =3D false;
-     dev->allow_unplug_during_migration =3D false;
+diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+index 46cd6ea..edb4cc4 100644
+--- a/qom/object_interfaces.c
++++ b/qom/object_interfaces.c
+@@ -185,6 +185,7 @@ bool user_creatable_print_help(const char *type, QemuOp=
+ts *opts)
+         object_class_property_iter_init(&iter, klass);
+         while ((prop =3D object_property_iter_next(&iter))) {
+             GString *str;
++            char *defval;
 =20
--    object_property_add_bool(obj, "realized",
--                             device_get_realized, device_set_realized, NUL=
-L);
--    object_property_add_bool(obj, "hotpluggable",
--                             device_get_hotpluggable, NULL, NULL);
--    object_property_add_bool(obj, "hotplugged",
--                             device_get_hotplugged, NULL,
--                             &error_abort);
--
-     class =3D object_get_class(OBJECT(dev));
-     do {
-         for (prop =3D DEVICE_CLASS(class)->props_; prop && prop->name; pro=
-p++) {
-@@ -961,9 +953,6 @@ static void device_initfn(Object *obj)
-         class =3D object_class_get_parent(class);
-     } while (class !=3D object_class_by_name(TYPE_DEVICE));
+             if (!prop->set) {
+                 continue;
+@@ -192,6 +193,11 @@ bool user_creatable_print_help(const char *type, QemuO=
+pts *opts)
 =20
--    object_property_add_link(OBJECT(dev), "parent_bus", TYPE_BUS,
--                             (Object **)&dev->parent_bus, NULL, 0,
--                             &error_abort);
-     QLIST_INIT(&dev->gpios);
- }
-=20
-@@ -1059,6 +1048,19 @@ static void device_class_init(ObjectClass *class, vo=
-id *data)
-     dc->hotpluggable =3D true;
-     dc->user_creatable =3D true;
-     vc->get_id =3D device_vmstate_if_get_id;
-+
-+    object_class_property_add_bool(class, "realized",
-+                                   device_get_realized, device_set_realize=
-d,
-+                                   &error_abort);
-+    object_class_property_add_bool(class, "hotpluggable",
-+                                   device_get_hotpluggable, NULL,
-+                                   &error_abort);
-+    object_class_property_add_bool(class, "hotplugged",
-+                                   device_get_hotplugged, NULL,
-+                                   &error_abort);
-+    object_class_property_add_link(class, "parent_bus", TYPE_BUS,
-+                                   offsetof(DeviceState, parent_bus), NULL=
-, 0,
-+                                   &error_abort);
- }
-=20
- void device_class_set_props(DeviceClass *dc, Property *props)
+             str =3D g_string_new(NULL);
+             g_string_append_printf(str, "  %s=3D<%s>", prop->name, prop->t=
+ype);
++            defval =3D object_property_get_default(prop);
++            if (defval) {
++                g_string_append_printf(str, " (default: %s)", defval);
++                g_free(defval);
++            }
+             if (prop->description) {
+                 if (str->len < 24) {
+                     g_string_append_printf(str, "%*s", 24 - (int)str->len,=
+ "");
 --=20
 1.8.3.1
 
