@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E55F146A0C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:59:43 +0100 (CET)
-Received: from localhost ([::1]:57548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57F1146946
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:38:24 +0100 (CET)
+Received: from localhost ([::1]:57139 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iud1K-0001BL-5T
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:59:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41720)
+	id 1iucgh-0005iF-EO
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:38:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40430)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iubAl-0004Fm-J6
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:26 -0500
+ (envelope-from <quintela@redhat.com>) id 1iub8x-0002Cs-F4
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iubAd-0006ZV-Ty
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53086
+ (envelope-from <quintela@redhat.com>) id 1iub8w-000560-9z
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32306
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAd-0006YI-O6
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:11 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iub8w-00055w-76
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780870;
+ s=mimecast20190719; t=1579780766;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2WF6+ZTtoVLDuSW2cZhsPppix3de95klk6SzTRyTUmE=;
- b=FyyXpgnqtRaEtJN7W5TAqxcs0KfbudYbFlGXdWgItwbiJtqOTZQM+ly0pa5iIcG3jPyg/w
- jmoErecDoArdXbKsOSjhQNczR1fuyuts/wyzoHLyDDK39Z4IwojObTZnNGLRQX8w+LeBSn
- 42zsCGKhWOpyPLK1PKW0+nezKmzBMvQ=
+ bh=XaY15sZsWneq0IGhoUPBI3NEwwpuSCn+u24CtPksQRw=;
+ b=HrXF8eVNwL7VI0BvMnbIi7NiJL7H4k1sJt2dzqsscbWdYAzpqLCQ4Dc+j+DoBNX4+95IOW
+ plLRZF2RmVu/AEIMVraDprOM3msm8R5f/t1CHWVtQFOSIgm5aZL8lxveucwRw7MVgSaIMo
+ 1LbE5UaJyPseYBQDwiTlKJpp/ZiY4fI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-kAwGynq9M7exoXQrmUY6nQ-1; Thu, 23 Jan 2020 07:01:03 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-189-Jtf0GKvFOIuHK4OvH41Blg-1; Thu, 23 Jan 2020 06:59:24 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72D27800D4E
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:01:02 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B004885750;
- Thu, 23 Jan 2020 12:01:01 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	stefanha@redhat.com
-Subject: [PULL 094/111] virtiofsd: add man page
-Date: Thu, 23 Jan 2020 11:58:24 +0000
-Message-Id: <20200123115841.138849-95-dgilbert@redhat.com>
-In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
-References: <20200123115841.138849-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ADDE1800D48
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:23 +0000 (UTC)
+Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3425D19C69;
+ Thu, 23 Jan 2020 11:59:21 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 14/21] multifd: Use qemu_target_page_size()
+Date: Thu, 23 Jan 2020 12:58:24 +0100
+Message-Id: <20200123115831.36842-15-quintela@redhat.com>
+In-Reply-To: <20200123115831.36842-1-quintela@redhat.com>
+References: <20200123115831.36842-1-quintela@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: kAwGynq9M7exoXQrmUY6nQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: Jtf0GKvFOIuHK4OvH41Blg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 207.211.31.120
@@ -71,188 +70,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+We will make it cpu independent.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-
-with additions by:
-Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
-
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- Makefile                       |   7 +++
- tools/virtiofsd/virtiofsd.texi | 104 +++++++++++++++++++++++++++++++++
- 2 files changed, 111 insertions(+)
- create mode 100644 tools/virtiofsd/virtiofsd.texi
+ migration/ram.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 60c35a9dd3..53ffef2e1a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -353,6 +353,9 @@ DOCS+=3D$(MANUAL_BUILDDIR)/index.html
- ifdef CONFIG_VIRTFS
- DOCS+=3Dfsdev/virtfs-proxy-helper.1
- endif
-+ifdef CONFIG_LINUX
-+DOCS+=3Dtools/virtiofsd/virtiofsd.1
-+endif
- ifdef CONFIG_TRACE_SYSTEMTAP
- DOCS+=3Dscripts/qemu-trace-stap.1
- endif
-@@ -858,6 +861,9 @@ ifdef CONFIG_VIRTFS
- =09$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
- =09$(INSTALL_DATA) fsdev/virtfs-proxy-helper.1 "$(DESTDIR)$(mandir)/man1"
- endif
-+ifdef CONFIG_LINUX
-+=09$(INSTALL_DATA) tools/virtiofsd/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
-+endif
+diff --git a/migration/ram.c b/migration/ram.c
+index 2783dc60f4..14b7cbdbc9 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -882,14 +882,14 @@ static int multifd_recv_unfill_packet(MultiFDRecvPara=
+ms *p, Error **errp)
+     for (i =3D 0; i < p->pages->used; i++) {
+         uint64_t offset =3D be64_to_cpu(packet->offset[i]);
 =20
- install-datadir:
- =09$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)"
-@@ -1067,6 +1073,7 @@ qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.=
-texi qemu-monitor-info.texi
- qemu.1: qemu-option-trace.texi
- qemu-img.1: qemu-img.texi qemu-option-trace.texi qemu-img-cmds.texi
- fsdev/virtfs-proxy-helper.1: fsdev/virtfs-proxy-helper.texi
-+tools/virtiofsd/virtiofsd.1: tools/virtiofsd/virtiofsd.texi
- qemu-nbd.8: qemu-nbd.texi qemu-option-trace.texi
- docs/qemu-block-drivers.7: docs/qemu-block-drivers.texi
- docs/qemu-cpu-models.7: docs/qemu-cpu-models.texi
-diff --git a/tools/virtiofsd/virtiofsd.texi b/tools/virtiofsd/virtiofsd.tex=
-i
-new file mode 100644
-index 0000000000..d7a2528f7d
---- /dev/null
-+++ b/tools/virtiofsd/virtiofsd.texi
-@@ -0,0 +1,104 @@
-+@example
-+@c man begin SYNOPSIS
-+@command{virtiofsd} [OPTION] @option{--socket-path=3D}@var{path}|@option{-=
--fd=3D}@var{fdnum} @option{-o source=3D}@var{path}
-+@c man end
-+@end example
-+
-+@c man begin DESCRIPTION
-+
-+Share a host directory tree with a guest through a virtio-fs device.  This
-+program is a vhost-user backend that implements the virtio-fs device.  Eac=
-h
-+virtio-fs device instance requires its own virtiofsd process.
-+
-+This program is designed to work with QEMU's @code{--device vhost-user-fs-=
-pci}
-+but should work with any virtual machine monitor (VMM) that supports
-+vhost-user.  See the EXAMPLES section below.
-+
-+This program must be run as the root user.  Upon startup the program will
-+switch into a new file system namespace with the shared directory tree as =
-its
-+root.  This prevents "file system escapes" due to symlinks and other file
-+system objects that might lead to files outside the shared directory.  The
-+program also sandboxes itself using seccomp(2) to prevent ptrace(2) and ot=
-her
-+vectors that could allow an attacker to compromise the system after gainin=
-g
-+control of the virtiofsd process.
-+
-+@c man end
-+
-+@c man begin OPTIONS
-+@table @option
-+@item -h, --help
-+Print help.
-+@item -V, --version
-+Print version.
-+@item -d, -o debug
-+Enable debug output.
-+@item --syslog
-+Print log messages to syslog instead of stderr.
-+@item -o flock|no_flock
-+enable/disable flock.
-+The default is @var{no_flock}.
-+@item -o log_level=3D@var{level}
-+Print only log messages matching @var{level} or more severe.  @var{level} =
-is
-+one of @code{err}, @code{warn}, @code{info}, or @code{debug}.  The default=
- is
-+@var{info}.
-+@item -o norace
-+Disable racy fallback.
-+The default is false.
-+@item -o posix_lock|no_posix_lock
-+Enable/Disable remote posix lock.
-+The default is @var{posix_lock}.
-+@item -o readdirplus|no_readdirplus
-+Enable/Disable readdirplus.
-+The default is @var{readdirplus}
-+@item -o source=3D@var{path}
-+Share host directory tree located at @var{path}.  This option is required.
-+@item -o timeout=3D<number>
-+I/O timeout (second).
-+The default depends on cache=3D option.
-+@item -o writeback|no_writeback
-+Enable/Disable writeback cache. The cache alows the FUSE client
-+to buffer and merge write requests.
-+The default is @var{no_writeback}.
-+@item -o xattr|no_xattr
-+Enable/Disable Extended attributes (xattr) of the files and directories.
-+The default is @var{no_xattr}.
-+@item --socket-path=3D@var{path}, -o vhost_user_socket=3D@var{path}
-+Listen on vhost-user UNIX domain socket at @var{path}.
-+@item --fd=3D@var{fdnum}
-+Accept connections from vhost-user UNIX domain socket file descriptor @var=
-{fdnum}.  The file descriptor must already be listening for connections.
-+@item --thread-pool-size=3D@var{num}
-+Restrict the number of worker threads per request queue to @var{num}.  The=
- default is 64.
-+@item --cache=3D@code{none}|@code{auto}|@code{always}
-+Select the desired trade-off between coherency and performance.  @code{non=
-e}
-+forbids the FUSE client from caching to achieve best coherency at the cost=
- of
-+performance.  @code{auto} acts similar to NFS with a 1 second metadata cac=
-he
-+timeout.  @code{always} sets a long cache lifetime at the expense of coher=
-ency.
-+@end table
-+@c man end
-+
-+@c man begin EXAMPLES
-+Export @code{/var/lib/fs/vm001/} on vhost-user UNIX domain socket @code{/v=
-ar/run/vm001-vhost-fs.sock}:
-+
-+@example
-+host# virtiofsd --socket-path=3D/var/run/vm001-vhost-fs.sock -o source=3D/=
-var/lib/fs/vm001
-+host# qemu-system-x86_64 \
-+    -chardev socket,id=3Dchar0,path=3D/var/run/vm001-vhost-fs.sock \
-+    -device vhost-user-fs-pci,chardev=3Dchar0,tag=3Dmyfs \
-+    -object memory-backend-file,id=3Dmem,size=3D4G,mem-path=3D/dev/shm,sha=
-re=3Don \
-+    -numa node,memdev=3Dmem \
-+    ...
-+guest# mount -t virtio_fs myfs /mnt
-+@end example
-+@c man end
-+
-+@ignore
-+@setfilename virtiofsd
-+@settitle QEMU virtio-fs shared file system daemon
-+
-+@c man begin COPYRIGHT
-+Copyright (C) 2019-2020 Red Hat, Inc.
-+
-+This is free software; see the source for copying conditions.  There is NO
-+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE=
-.
-+@c man end
-+@end ignore
+-        if (offset > (block->used_length - TARGET_PAGE_SIZE)) {
++        if (offset > (block->used_length - qemu_target_page_size())) {
+             error_setg(errp, "multifd: offset too long %" PRIu64
+                        " (max " RAM_ADDR_FMT ")",
+                        offset, block->max_length);
+             return -1;
+         }
+         p->pages->iov[i].iov_base =3D block->host + offset;
+-        p->pages->iov[i].iov_len =3D TARGET_PAGE_SIZE;
++        p->pages->iov[i].iov_len =3D qemu_target_page_size();
+     }
+=20
+     return 0;
+@@ -964,7 +964,8 @@ static int multifd_send_pages(QEMUFile *f)
+     p->packet_num =3D multifd_send_state->packet_num++;
+     multifd_send_state->pages =3D p->pages;
+     p->pages =3D pages;
+-    transferred =3D ((uint64_t) pages->used) * TARGET_PAGE_SIZE + p->packe=
+t_len;
++    transferred =3D ((uint64_t) pages->used) * qemu_target_page_size()
++                + p->packet_len;
+     qemu_file_update_transfer(f, transferred);
+     ram_counters.multifd_bytes +=3D transferred;
+     ram_counters.transferred +=3D transferred;;
+@@ -985,7 +986,7 @@ static int multifd_queue_page(QEMUFile *f, RAMBlock *bl=
+ock, ram_addr_t offset)
+     if (pages->block =3D=3D block) {
+         pages->offset[pages->used] =3D offset;
+         pages->iov[pages->used].iov_base =3D block->host + offset;
+-        pages->iov[pages->used].iov_len =3D TARGET_PAGE_SIZE;
++        pages->iov[pages->used].iov_len =3D qemu_target_page_size();
+         pages->used++;
+=20
+         if (pages->used < pages->allocated) {
 --=20
 2.24.1
 
