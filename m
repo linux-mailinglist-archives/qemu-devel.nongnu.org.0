@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609C514636D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:25:04 +0100 (CET)
-Received: from localhost ([::1]:53020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF8E146382
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:30:27 +0100 (CET)
+Received: from localhost ([::1]:53088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXnS-0002lL-RX
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:25:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55912)
+	id 1iuXsf-0002K0-OE
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:30:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56003)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuXlI-00011Q-0b
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:49 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuXlM-00014u-3v
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuXlE-0002o8-Tj
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:46 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:45245)
+ (envelope-from <laurent@vivier.eu>) id 1iuXlK-00032B-KJ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:51 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:34085)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlE-0002hi-Jq
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:44 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlK-0002zI-Ae
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:50 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MS43X-1j1OAp0ytf-00TSBm; Thu, 23 Jan 2020 09:22:36 +0100
+ id 1M2w0K-1itRpJ0jHw-003QiD; Thu, 23 Jan 2020 09:22:37 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/17] linux-user: Add support for FS_IOC32_<GET|SET>VERSION
- ioctls
-Date: Thu, 23 Jan 2020 09:22:15 +0100
-Message-Id: <20200123082227.2037994-6-laurent@vivier.eu>
+Subject: [PULL 07/17] linux-user: Add support for FDFMT<BEG|TRK|END> ioctls
+Date: Thu, 23 Jan 2020 09:22:17 +0100
+Message-Id: <20200123082227.2037994-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123082227.2037994-1-laurent@vivier.eu>
 References: <20200123082227.2037994-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:gADahtYlfl4hprY4xyq4f2nsq+4iPSHC+rkl+9yB9X/no2DySL7
- lc43L4h64kQZRax8uTCq/WXFnl1AUSor3RfaXMc5gvY3mUFo+0Ob1orAtk3t00J9K7Au6yj
- T7+FnZo0CYR3kcTGFG1ZvAyNqK6Uoer+Ru3bN2TcbTfzbNS61pkmu7KZdcaNXsDFtYvhPX2
- I6uN/8uq9zC5Nqx6GhCtQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ugM7vGuRw2M=:2vSXN+4leZhkZmGBH9uBWT
- ndFJGK0L80hu8/BZVEIpERCuUe3WezvxYqFpsJB7OeTy1KAXJC6CS0gs7zJHpCiW/jz2y/hXJ
- bdPLGRARRbiQB11QPJB91DhVf4F9ePHxHB3iic7ehwXTaJhdPOU8sKuIji6lqoT+eZzCg+lzI
- QrumpCeGxCNT/fJvBLmTXuEMeoaXI2DwEaAMsiKomCjxK7RzB/Bno0t8coWE66pcsFJofoVYm
- wM7cqFQi2Vhbp+YOHLYzPzIp+0O0FiPN8+Onn0+/D1Qynr426yxfAhEBYNqQbtNf9u6mAhYqZ
- ttX4N5l0LSUWnBjiK2EG8sJOTC3KGbHBOdlVl8fHRtNOPBmfDKLM1wrMZ1acNEDLijXKoD4W7
- vPqEOaLlfxEkmko6eZFB9PYBfgPLIgPPtHE88+er0OB5dUKO7Xhso871emgnN+ysJbd4PsETd
- MatedhuKrN6czZRMrg+jqa28wwMUoeb8X68ztjeliRnStRRlF/45LBCHU29yidp+6sHGpydqP
- Lg5Be6xB3AlJzNNL7VbIywskVNE8fqr0pXAZZMSsCAjjU+WyCuK0uPvnDCCfNIN2pYmPEDzA9
- BIaIK1XB2VIx8+xqzyuMdDTtgfWQXI/K2BVCXnGXyM4jWXv2bcByz2qwjnGqXuUcK4F1bTmag
- NUfCgTVsLw79F9AeL91rAeP1APuB6ybxVmYWXLN8mgQcI093/O2QcPo1Hcv7LKzAqmxMZrEdn
- Ji3NBYXlol2Pc05ETzTP5eitDIP9V7+BG2aLTg1v0dq/8zXtwLEC+WSyWCcPKbl4ICh+NVYF1
- BLrDlbpiVhg8bRYfGG9Vs6DZ2zSSZ28Hmq0NwMNOO45JBPgxzI=
+X-Provags-ID: V03:K1:T6e1aRRRGjwso8DsyU83AP23O2FYyJR89ofrWkTtCHWrLkPdLhy
+ p2WCAYG+OH51h4o3GUMr6fvWbh2pBYhTHgx7bYv4QlHxfMN1ossVoiuRtRb9uRun5DnSktC
+ TBCm/ndHE95MBb0nX+T+8AjhgaE0E/omeG5+w9QBH/G4MxQZ6Y24KZol11RwDFDZY8zD5hL
+ mujA3caCpapQG5sUvyThA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aeHXt/K6uuA=:5K/3ClrR6tUUeqj1/WBuv9
+ MD2S7mhHlqHcMio3hRxpJg5fgz3nLa+2lLLqwBCGjbFjlyK3Wm3bNyVGAAfF5VU7G7+SyQe7B
+ gDMjWOE2CJhYRRMkHi229e/GbH3PdmDJBQNBJv9x+h3/ng9wQAPEM8oTqId1vGjseEeuz0YnN
+ UIvDYLcUrlxPUuDVK4KZv83HsYOlwqbiWv/dOCNG2n1Il0tEX53Ki3ug1SknOvKjnaE55nU9o
+ isNyUm5ZbzbCH/AfuWLOy+j93OeUZVbuhhcPfq5+onlT0KtCb3mfKqBsgGB0XSZLF23TRzp45
+ j17co/OOSvi4zpBnJmVgeSJ0TTibLdtiNF6I69ltdTqEV2hDycJqANZX88/iGIw9F48zRHbyK
+ SEc4N9OenHOOFAJXltqnKBJ75R85IqDK1WCfxoxBX6Gp+xNnVPw6uiSuuh8FHyPRFQdL01O3M
+ YU8g2NI+ZdYaFmdw4F5yN9Pqo3AhkiMMo1I+SyXWw7wNFuDG+fFi1jh+0Uh4JveMm9yXIjqpO
+ nwVuNWRedfS4zHSX7GY93HphdagoBYQOTxM/ge/c65Z4nyKqxHLYTmKlw/N5dItXy+G4Mj5vE
+ X2C/rdXImwUp7nmI8DSm11jXOWyeKXGlPgTLd1YFkDkumakOEMvtgZrO6xLcQQoi1g/dexv1R
+ 6PZtMlpl2cHRx6Qh9ncb59BwDwnqjDY4nx9GOgV1J2unifPM1rBNr6m1zIRjWT4YpopCC4LCe
+ RryLS8Uh4k0OGfD3RE11aKqwlegtRQO1H7u4/+5MJcPpXFL7uowuBpK3ELn9nGqK92cmH/qji
+ g9AYHD8cVBUG/Pv1mC1JPh5gZc/dMa1+cNtydSp1L9vKdndH0E=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,46 +70,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-These FS_IOC32_<GET|SET>VERSION ioctls are identical to
-FS_IOC_<GET|SET>VERSION ioctls, but without the anomaly of their
-number defined as if their third argument is of type long, while
-it is treated internally in kernel as is of type int.
+FDFMTBEG, FDFMTTRK, and FDFMTEND ioctls provide means for controlling
+formatting of a floppy drive.
+
+FDFMTTRK's third agrument is a pointer to the structure:
+
+struct format_descr {
+    unsigned int device,head,track;
+};
+
+defined in Linux kernel header <linux/fd.h>.
+
+Since all fields of the structure are of type 'unsigned int', there is
+no need to define "target_format_descr".
+
+FDFMTBEG and FDFMTEND ioctls do not use the third argument.
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <1579214991-19602-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Message-Id: <1579214991-19602-9-git-send-email-aleksandar.markovic@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ioctls.h       | 2 ++
- linux-user/syscall_defs.h | 2 ++
- 2 files changed, 4 insertions(+)
+ linux-user/ioctls.h        | 3 +++
+ linux-user/syscall_defs.h  | 3 +++
+ linux-user/syscall_types.h | 5 +++++
+ 3 files changed, 11 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 4fd693984e6a..3affd8814a86 100644
+index 2c3d798842e4..29969e2f2f27 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -142,6 +142,8 @@
-      IOCTL(FS_IOC_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
-      IOCTL(FS_IOC32_GETFLAGS, IOC_R, MK_PTR(TYPE_INT))
-      IOCTL(FS_IOC32_SETFLAGS, IOC_W, MK_PTR(TYPE_INT))
-+     IOCTL(FS_IOC32_GETVERSION, IOC_R, MK_PTR(TYPE_INT))
-+     IOCTL(FS_IOC32_SETVERSION, IOC_W, MK_PTR(TYPE_INT))
- 
- #ifdef CONFIG_USBFS
-   /* USB ioctls */
+@@ -115,6 +115,9 @@
+      IOCTL(FDMSGON, 0, TYPE_NULL)
+      IOCTL(FDMSGOFF, 0, TYPE_NULL)
+      IOCTL(FDSETEMSGTRESH, 0, TYPE_NULL)
++     IOCTL(FDFMTBEG, 0, TYPE_NULL)
++     IOCTL(FDFMTTRK, IOC_W, MK_PTR(MK_STRUCT(STRUCT_format_descr)))
++     IOCTL(FDFMTEND, 0, TYPE_NULL)
+      IOCTL(FDFLUSH, 0, TYPE_NULL)
+      IOCTL(FDSETMAXERRS, IOC_W, MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
+      IOCTL(FDGETMAXERRS, IOC_R, MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 964b2b458dd5..a73cc3d06790 100644
+index 48de76145f0c..b3acf85a6b23 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -922,6 +922,8 @@ struct target_pollfd {
- #define TARGET_FS_IOC_FIEMAP TARGET_IOWR('f',11,struct fiemap)
- #define TARGET_FS_IOC32_GETFLAGS TARGET_IOR('f', 1, int)
- #define TARGET_FS_IOC32_SETFLAGS TARGET_IOW('f', 2, int)
-+#define TARGET_FS_IOC32_GETVERSION TARGET_IOR('v', 1, int)
-+#define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
+@@ -899,6 +899,9 @@ struct target_pollfd {
  
- /* usb ioctls */
- #define TARGET_USBDEVFS_CONTROL TARGET_IOWRU('U', 0)
+ #define TARGET_FDMSGON        TARGET_IO(2, 0x45)
+ #define TARGET_FDMSGOFF       TARGET_IO(2, 0x46)
++#define TARGET_FDFMTBEG       TARGET_IO(2, 0x47)
++#define TARGET_FDFMTTRK      TARGET_IOW(2, 0x48, struct format_descr)
++#define TARGET_FDFMTEND       TARGET_IO(2, 0x49)
+ #define TARGET_FDSETEMSGTRESH TARGET_IO(2, 0x4a)
+ #define TARGET_FDFLUSH        TARGET_IO(2, 0x4b)
+ #define TARGET_FDSETMAXERRS  TARGET_IOW(2, 0x4c, struct floppy_max_errors)
+diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+index e4e0429637c5..8ff78a625ace 100644
+--- a/linux-user/syscall_types.h
++++ b/linux-user/syscall_types.h
+@@ -261,6 +261,11 @@ STRUCT(blkpg_ioctl_arg,
+        TYPE_INT, /* datalen */
+        TYPE_PTRVOID) /* data */
+ 
++STRUCT(format_descr,
++       TYPE_INT,     /* device */
++       TYPE_INT,     /* head */
++       TYPE_INT)     /* track */
++
+ STRUCT(floppy_max_errors,
+        TYPE_INT, /* abort */
+        TYPE_INT, /* read_track */
 -- 
 2.24.1
 
