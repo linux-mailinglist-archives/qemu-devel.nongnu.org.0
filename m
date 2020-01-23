@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3357146E4D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:28:19 +0100 (CET)
-Received: from localhost ([::1]:60392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A778E146DB2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:01:00 +0100 (CET)
+Received: from localhost ([::1]:59916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iufL8-0004wH-Cs
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:28:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52285)
+	id 1iueuh-0005vt-A1
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:00:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52328)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iuct6-0007iC-S8
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:13 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iuct8-0007lM-Jb
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iuct4-0006sa-J2
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26162
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iuct7-0006zQ-Ik
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:14 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22894
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuct4-0006sV-Ft
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:10 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuct7-0006y5-Fy
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787470;
+ s=mimecast20190719; t=1579787473;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4Jg3TFcOdp/VojYYyJF7Z3OkvAG5voPI06xlV+CkuWU=;
- b=JL+zlvkJBoALhUnxXVl22iWYYrIrqQCQUDxieK4+ldgd6sUnXqU7jOyL1usIABKgwT7xuy
- G0yPaer0+dFTGDcZSYLSwK9rjj0L1+fpW5w6+hS3RqQImjUoh0njAGX6y495FPhQYh24Hd
- 5uSMXUjneTDhjtlT0PSuKzGyLu6ev84=
+ bh=V2G8YV9XujUycNNX3FwBpPbZJXJwPTP/v5pJ9UnyklM=;
+ b=ECC2d0Npy0Oh8FqgUyn9T5FvYaErf4MjcTO0C7BK45wfRUl1/Fe3c/G5OK+RUNTg9G9/Yv
+ QOmFaRVD6zqhZLwThHXd8slrlZWacGQT1ec4iyWw9YJdqzArBTOHrlbEGT2coOTN5hdIef
+ iNHrx95LxPeGUwnv1vzK/7zmIAG6bkI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-bv_6PkVbMq-qrX34f9HTyQ-1; Thu, 23 Jan 2020 08:51:08 -0500
+ us-mta-373-bb6jBSu6M8SXJqpy01H5tg-1; Thu, 23 Jan 2020 08:51:11 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09BCA18C43C1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02E408017CC
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:11 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 063471CB;
- Thu, 23 Jan 2020 13:51:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F35D61CB;
+ Thu, 23 Jan 2020 13:51:09 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/59] hw/timer/aspeed_timer: Add a fall through comment
-Date: Thu, 23 Jan 2020 14:49:58 +0100
-Message-Id: <1579787449-27599-9-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 10/59] hw/net/imx_fec: Remove unuseful FALLTHROUGH comments
+Date: Thu, 23 Jan 2020 14:50:00 +0100
+Message-Id: <1579787449-27599-11-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: bv_6PkVbMq-qrX34f9HTyQ-1
+X-MC-Unique: bb6jBSu6M8SXJqpy01H5tg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,45 +76,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Reported by GCC9 when building with CFLAG -Wimplicit-fallthrough=3D2:
+We don't need to explicit these obvious switch fall through
+comments. Stay consistent with the rest of the codebase.
 
-  hw/timer/aspeed_timer.c: In function =E2=80=98aspeed_timer_set_value=E2=
-=80=99:
-  hw/timer/aspeed_timer.c:283:24: error: this statement may fall through [-=
-Werror=3Dimplicit-fallthrough=3D]
-    283 |         if (old_reload || !t->reload) {
-        |             ~~~~~~~~~~~^~~~~~~~~~~~~
-  hw/timer/aspeed_timer.c:287:5: note: here
-    287 |     case TIMER_REG_STATUS:
-        |     ^~~~
-  cc1: all warnings being treated as errors
-
-Add the missing fall through comment.
-
-Fixes: 1403f364472
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Suggested-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20191218192526.13845-4-philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20191218192526.13845-6-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/timer/aspeed_timer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/net/imx_fec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
-index a8c38cc..c91f184 100644
---- a/hw/timer/aspeed_timer.c
-+++ b/hw/timer/aspeed_timer.c
-@@ -283,7 +283,7 @@ static void aspeed_timer_set_value(AspeedTimerCtrlState=
- *s, int timer, int reg,
-         if (old_reload || !t->reload) {
-             break;
+diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
+index c01ce4f..5a83678 100644
+--- a/hw/net/imx_fec.c
++++ b/hw/net/imx_fec.c
+@@ -901,8 +901,8 @@ static void imx_eth_write(void *opaque, hwaddr offset, =
+uint64_t value,
+             s->regs[index] =3D 0;
          }
--
-+        /* fall through to re-enable */
-     case TIMER_REG_STATUS:
-         if (timer_enabled(t)) {
-             uint64_t now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+         break;
+-    case ENET_TDAR1:    /* FALLTHROUGH */
+-    case ENET_TDAR2:    /* FALLTHROUGH */
++    case ENET_TDAR1:
++    case ENET_TDAR2:
+         if (unlikely(single_tx_ring)) {
+             qemu_log_mask(LOG_GUEST_ERROR,
+                           "[%s]%s: trying to access TDAR2 or TDAR1\n",
 --=20
 1.8.3.1
 
