@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C7B146380
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:30:00 +0100 (CET)
-Received: from localhost ([::1]:53086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D2D146375
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:27:24 +0100 (CET)
+Received: from localhost ([::1]:53056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXsE-0001ur-Tp
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:29:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56094)
+	id 1iuXpj-0006L1-CR
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:27:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuXlV-0001NK-EC
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:23:02 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuXlP-0001Ay-DS
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuXlU-0003Ay-9K
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:23:01 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:45953)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlU-0003AA-0c
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:23:00 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuXlO-000348-0f
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:55 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:60511)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlN-00033n-NN
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:53 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N3KgE-1jdBtt2N6Y-010IyB; Thu, 23 Jan 2020 09:22:39 +0100
+ id 1MlNcr-1jJk2n4577-00lo5U; Thu, 23 Jan 2020 09:22:41 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/17] linux-user: Add support for TYPE_LONG and TYPE_ULONG in
- do_ioctl()
-Date: Thu, 23 Jan 2020 09:22:21 +0100
-Message-Id: <20200123082227.2037994-12-laurent@vivier.eu>
+Subject: [PULL 14/17] linux-user: Add support for getting/setting RTC periodic
+ interrupt and epoch using ioctls
+Date: Thu, 23 Jan 2020 09:22:24 +0100
+Message-Id: <20200123082227.2037994-15-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123082227.2037994-1-laurent@vivier.eu>
 References: <20200123082227.2037994-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:eodUeUisqAWTjs8Z6zmqWWfREn5jIMk2MN+z4os6X6525iNoGp2
- 7LvDCVFEcM9e9ytPZrQ7rR/GJxcxbadcfPpwWnD5NoMdLbZifmNveNgX/Ng8hY6vTzdKB5y
- asucmhijVP3swoD6sLPf6URHiskM9AilVKBqax2NVvX3vFGGvrOR7o2C3WbqhVq9B0B2ofk
- ZSUGV32eXbXTFxcEabICg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vjhQCSNrnj0=:epYK75BkDWtyB3unix3kVR
- jR0uYmRDDJXW4CgitDGstporfbIqpwS0YlJjKCwPhVayRacLd3Ss8iJIRG9ZRELOUXNZX+sqP
- t0nMaBFBAHsSgYSeEnbaaj/Wo1qQLm6gA9YL9qD5RE8uLOAVJT4DG8APa+j+H6qIjbja9UXIW
- AcXCOYpXp713db0zBkKsQdABH+6tdHcdRKKAKftTImTEMkcLeV0if3CGuLmd4vNiFSFftTLLN
- yMYZ6Chxj04ThvyZgrjvIIGKYnCJ/of4NCjGUo58dkmqB4OOgetou3yovsVK0paJrgNS2rAHz
- wUsRcOWh+XhpC25KySjmvCnYC8pERICBJdDjGBM1dfqpyA/2qc3B5K6Byoyp3+2DP30pkF/tZ
- Q69bwG7DbMIPu4Ndfs9aZBeof2j5jb6mvErOhLf6CxNVFOkWIEeL6eOv9s7eZXxykePeStTjU
- /IuxffiE+vp4nCKad407xe+IeG/ZnC7S6vG4bD6jJw3+UMd8SsWs4MShKFudsaOs7Ky9QGN1T
- KvIL/Ag+Kg565HhCaFXRZAb4aVpkZx5UW7JYx/9/GspICh8xSaPUXg+X0BZFEFWHqNNFBlxyM
- ty1QSEwf1NqiXJgmB9bjkuDu/yWTj+E4+OuMLer8zi8PRssnIO9gKGMqHnn5xP4Al4DqjPtTB
- JUXEwGDS5nfCD5VEPdat2J0iAczC+NsSdWbmAr1NecPLVh5mQ627VMMrfeQ60ay8iZ5OBSurL
- Knc+YMso97lflBZ/CC54kt/hi6nrkp8iijcT1Yr8y5hNJesvM6b3GCQTfyrvimPt7Fjs02Kn7
- NALSXTIxkeJSTxgRF8bQWS3HfJlaccZdzEMxLlVQkgDrmw6NNHT/J+MHBopOFGM6C00AEeT
+X-Provags-ID: V03:K1:YZFoyKaAcNQl8z8+8Riz+v/ZSkh1cjwJxiVip/6CFHXtkDTTZQC
+ N260pAY+36A3AoOpI71j59jpwdkZezVAfWpqlOERE7l1oLMEYhyDr+A3OBxLHxtut36l+/U
+ bVJxBoEa9gnR4FLNvUrRax+ipz1Aqm0Vu6w0D3xH9UkJDVoRdODuXVnvoip7zQjIsjuccDt
+ V6rRlmMtmsQL3AEVKn4VA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RslzKrMcYFo=:6+jsLUaUEUptEZVU9oyXHK
+ Ukg6s4GSlpp/7D5UDM6SetD0TPsL0ocRRX53IelD0CXlcFsTFGlJYyZTND92+lIDQNomkkGDo
+ 2TDoT1lFPMuVwJpunY7Rxw3NjMwgCmotjBraFPMSLbFFjJBn6KYDj87+0Gx0zzYAB2BrkIqCk
+ W/LEthJZxm/3vJNbIIzaXwDLFqgVz2aGptFEeQ7MtkkQqWt10nrRdELVZgPoZIpkezgkmKJY/
+ 5gvBOAqCpH4nby9ct5pzeKjgolT3FjPo1HqowLka/GB/aFgwjbor87p/J1X+xeA/kMtXQKIGu
+ Xi3+zztpdwSodLi3u/CP7rOXiHRNb2FR5H6JDRch32SQjN/tH7szr790pktjHitZTVlt6yEXu
+ y6YrlNGkP4U0X5pdkAkmrsk4I1mGSeAb5rkVZktTGwkWlegzVlLVgsexL29m6N8UbvqoHQSmN
+ gDhIjtKMLn0HQbFSJrGJE3/BVQpOa8RdBAi3IByIg01uAolOX5j3i3BtYP6Hqxsy4TtZ3SAyD
+ iOLOmB7EzmujW2nEbXg4Zc9nhbUPo9Xs/NNk9xFse0mx8t3FIbNyEy+khHId9s6DaLqhqgR2u
+ fYT4gBRo05smkGt/yPLccUEnZ52DOjmkWeOysSD09Lduy97BNBgXuEAt6ihqLyBrnA9FDKWRq
+ UoICJzPSudFLBkMNrx6efPM9kkfsULKy+JtUa0ViO49H9tB/MBnsLVnqrcg10/3Wa3/ROSyTk
+ 1rCVn0XVJyeXbo//9o9DrCZjE57iXbVVe9HtqvuHBh7la0umSKBZrmqe55WEYpsyxYtEMb2Ln
+ WEPd/mDr61VE64NZHe9fYzogTP6ugl2yW33LoHsSToqI1T8E78=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
+X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,39 +72,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 
-Function "do_ioctl()" located in file "syscall.c" was missing
-an option for TYPE_LONG and TYPE_ULONG. This caused some ioctls
-to not be recognised because they had the third argument that was
-of type 'long' or 'unsigned long'.
+This patch implements functionalities of following ioctls:
 
-For example:
+RTC_IRQP_READ, RTC_IRQP_SET - Getting/Setting IRQ rate
 
-Since implemented ioctls RTC_IRQP_SET and RTC_EPOCH_SET
-are of type IOW(writing type) that have unsigned long as
-their third argument, they were not recognised in QEMU
-before the changes of this patch.
+    Read and set the frequency for periodic interrupts, for RTCs
+    that support periodic interrupts. The periodic interrupt must
+    be separately enabled or disabled using the RTC_PIE_ON,
+    RTC_PIE_OFF requests. The third ioctl's argument is an
+    unsigned long * or an unsigned long, respectively. The value
+    is the frequency in interrupts per second. The set of allow‐
+    able frequencies is the multiples of two in the range 2 to
+    8192. Only a privileged process (i.e., one having the
+    CAP_SYS_RESOURCE capability) can set frequencies above the
+    value specified in /proc/sys/dev/rtc/max-user-freq. (This
+    file contains the value 64 by default.)
 
-Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+RTC_EPOCH_READ, RTC_EPOCH_SET - Getting/Setting epoch
+
+    Many RTCs encode the year in an 8-bit register which is either
+    interpreted as an 8-bit binary number or as a BCD number. In
+    both cases, the number is interpreted relative to this RTC's
+    Epoch. The RTC's Epoch is initialized to 1900 on most systems
+    but on Alpha and MIPS it might also be initialized to 1952,
+    1980, or 2000, depending on the value of an RTC register for
+    the year. With some RTCs, these operations can be used to
+    read or to set the RTC's Epoch, respectively. The third
+    ioctl's argument is an unsigned long * or an unsigned long,
+    respectively, and the value returned (or assigned) is the
+    Epoch. To set the RTC's Epoch the process must be privileged
+    (i.e., have the CAP_SYS_TIME capability).
+
+Implementation notes:
+
+    All ioctls in this patch have a pointer to 'ulong' as their
+    third argument. That is the reason why corresponding parts
+    of added code in linux-user/syscall_defs.h contain special
+    handling related to 'ulong' type: they use 'abi_ulong' type
+    to make sure that ioctl's code is calculated correctly for
+    both 32-bit and 64-bit targets. Also, 'MK_PTR(TYPE_ULONG)'
+    is used for the similar reason in linux-user/ioctls.h.
+
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1579117007-7565-14-git-send-email-Filip.Bozuta@rt-rk.com>
+Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Message-Id: <1579117007-7565-4-git-send-email-Filip.Bozuta@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 2 ++
- 1 file changed, 2 insertions(+)
+ linux-user/ioctls.h       | 4 ++++
+ linux-user/syscall_defs.h | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index c5bda60b45de..bd2436b31007 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -5178,6 +5178,8 @@ static abi_long do_ioctl(int fd, int cmd, abi_long arg)
-         break;
-     case TYPE_PTRVOID:
-     case TYPE_INT:
-+    case TYPE_LONG:
-+    case TYPE_ULONG:
-         ret = get_errno(safe_ioctl(fd, ie->host_cmd, arg));
-         break;
-     case TYPE_PTR:
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index c39dd0128a60..9e91eaae7705 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -81,6 +81,10 @@
+      IOCTL(RTC_ALM_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
+      IOCTL(RTC_RD_TIME, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
+      IOCTL(RTC_SET_TIME, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_time)))
++     IOCTL(RTC_IRQP_READ, IOC_R, MK_PTR(TYPE_ULONG))
++     IOCTL(RTC_IRQP_SET, IOC_W, TYPE_ULONG)
++     IOCTL(RTC_EPOCH_READ, IOC_R, MK_PTR(TYPE_ULONG))
++     IOCTL(RTC_EPOCH_SET, IOC_W, TYPE_ULONG)
+ 
+      IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
+      IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index dc36dd475112..fcbb2ee9a387 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -776,6 +776,10 @@ struct target_pollfd {
+ #define TARGET_RTC_ALM_SET          TARGET_IOW('p', 0x07, struct rtc_time)
+ #define TARGET_RTC_RD_TIME          TARGET_IOR('p', 0x09, struct rtc_time)
+ #define TARGET_RTC_SET_TIME         TARGET_IOW('p', 0x0a, struct rtc_time)
++#define TARGET_RTC_IRQP_READ        TARGET_IOR('p', 0x0b, abi_ulong)
++#define TARGET_RTC_IRQP_SET         TARGET_IOW('p', 0x0c, abi_ulong)
++#define TARGET_RTC_EPOCH_READ       TARGET_IOR('p', 0x0d, abi_ulong)
++#define TARGET_RTC_EPOCH_SET        TARGET_IOW('p', 0x0e, abi_ulong)
+ 
+ #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
+        defined(TARGET_XTENSA)
 -- 
 2.24.1
 
