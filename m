@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8463146B65
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:33:13 +0100 (CET)
-Received: from localhost ([::1]:58114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D61146BA3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:46:58 +0100 (CET)
+Received: from localhost ([::1]:58368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iudXk-0002Ys-NB
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:33:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41824)
+	id 1iudl1-0004iT-92
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:46:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41874)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iubAq-0004L6-Ci
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:26 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iubAs-0004ML-8H
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iubAp-0006kn-B9
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:24 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29441
+ (envelope-from <dgilbert@redhat.com>) id 1iubAr-0006mu-2c
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:26 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37912
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAp-0006kG-68
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:23 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAq-0006mi-VJ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780882;
+ s=mimecast20190719; t=1579780884;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2dozJRlZa0dl3m3ruapIUDG11IbtPuiqyFeJ966CdXs=;
- b=aI1Gg1az+cVkZ1/Q3EM2oGxMX70eL+NpaSLMrP+CfFfOUfTfisSVCo7T4ZmBIGefh2YuSw
- E3DgVe41cfhJEH8q4WC5jk5k8u9o1Wkl+pT0IPlY/XShtNs+WjdUdhjFk5enxUVZJjXnJA
- o95Ra+V1wOQspUPsP9EPoQfo/xND3bE=
+ bh=DxAJgeP+0hPstRiShwv7lrQwRfRqOxM1T7uh9S2eayU=;
+ b=c/Nah05zO82E51FISIc5bkFJ+5oC5qVkPFxvqF1wzBrtqH0fKdmXrlf7QtCow9kBFvIUY3
+ 5hwg2FCAE6DnDEIuThVVpiulom+/03/w8Wj+bwm5dKF3bTEbl00fYeKzeG1ZHVIe/lHGfh
+ /Et4bXgtU243xKa2lekZylGYKwiozOY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-IZsJPS7cPZudnKO5cpqoqw-1; Thu, 23 Jan 2020 07:01:21 -0500
+ us-mta-107-NNfni3rROTmtLJgqqeASbw-1; Thu, 23 Jan 2020 07:01:23 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B4C91005F68
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:01:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D8A8477
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:01:22 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 71A8D85754;
- Thu, 23 Jan 2020 12:01:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 767871CB;
+ Thu, 23 Jan 2020 12:01:21 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 109/111] virtiofsd/passthrough_ll: Pass errno to
- fuse_reply_err()
-Date: Thu, 23 Jan 2020 11:58:39 +0000
-Message-Id: <20200123115841.138849-110-dgilbert@redhat.com>
+Subject: [PULL 111/111] virtiofsd: add some options to the help message
+Date: Thu, 23 Jan 2020 11:58:41 +0000
+Message-Id: <20200123115841.138849-112-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: IZsJPS7cPZudnKO5cpqoqw-1
+X-MC-Unique: NNfni3rROTmtLJgqqeASbw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,42 +74,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xiao Yang <yangx.jy@cn.fujitsu.com>
+From: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
 
-lo_copy_file_range() passes -errno to fuse_reply_err() and then fuse_reply_=
-err()
-changes it to errno again, so that subsequent fuse_send_reply_iov_nofree() =
-catches
-the wrong errno.(i.e. reports "fuse: bad error value: ...").
+Add following options to the help message:
+- cache
+- flock|no_flock
+- norace
+- posix_lock|no_posix_lock
+- readdirplus|no_readdirplus
+- timeout
+- writeback|no_writeback
+- xattr|no_xattr
 
-Make fuse_send_reply_iov_nofree() accept the correct -errno by passing errn=
-o
-directly in lo_copy_file_range().
+Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
 
-Signed-off-by: Xiao Yang <yangx.jy@cn.fujitsu.com>
-Reviewed-by: Eryu Guan <eguan@linux.alibaba.com>
+dgilbert: Split cache, norace, posix_lock, readdirplus off
+  into our own earlier patches that added the options
 
-dgilbert: Sent upstream and now Merged as aa1185e153f774f1df65
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/virtiofsd/helper.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index fc15d61510..e6f2399efc 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2441,7 +2441,7 @@ static void lo_copy_file_range(fuse_req_t req, fuse_i=
-no_t ino_in, off_t off_in,
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index f98d8f2eb2..0801cf752c 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -148,6 +148,8 @@ void fuse_cmdline_help(void)
+            "    -o cache=3D<mode>            cache mode. could be one of \=
+"auto, "
+            "always, none\"\n"
+            "                               default: auto\n"
++           "    -o flock|no_flock          enable/disable flock\n"
++           "                               default: no_flock\n"
+            "    -o log_level=3D<level>       log level, default to \"info\=
+"\n"
+            "                               level could be one of \"debug, =
+"
+            "info, warn, err\"\n"
+@@ -163,7 +165,13 @@ void fuse_cmdline_help(void)
+            "                               enable/disable readirplus\n"
+            "                               default: readdirplus except wit=
+h "
+            "cache=3Dnone\n"
+-          );
++           "    -o timeout=3D<number>        I/O timeout (second)\n"
++           "                               default: depends on cache=3D op=
+tion.\n"
++           "    -o writeback|no_writeback  enable/disable writeback cache\=
+n"
++           "                               default: no_writeback\n"
++           "    -o xattr|no_xattr          enable/disable xattr\n"
++           "                               default: no_xattr\n"
++           );
+ }
 =20
-     res =3D copy_file_range(in_fd, &off_in, out_fd, &off_out, len, flags);
-     if (res < 0) {
--        fuse_reply_err(req, -errno);
-+        fuse_reply_err(req, errno);
-     } else {
-         fuse_reply_write(req, res);
-     }
+ static int fuse_helper_opt_proc(void *data, const char *arg, int key,
 --=20
 2.24.1
 
