@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70CB146883
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:58:34 +0100 (CET)
-Received: from localhost ([::1]:56636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B71CC14688E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:00:09 +0100 (CET)
+Received: from localhost ([::1]:56654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuc49-00083j-4L
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:58:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40196)
+	id 1iuc5g-00021G-1L
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:00:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40225)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iub8k-0001w6-3v
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:16 -0500
+ (envelope-from <quintela@redhat.com>) id 1iub8m-0001y4-37
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iub8i-0004vq-6d
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53785
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1iub8k-0004xA-5j
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:15 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51635
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iub8i-0004ut-2e
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:12 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iub8k-0004we-0L
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780751;
+ s=mimecast20190719; t=1579780753;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m0tPyfIG/1DzNomXMeY5FZxQSCY8+/0Clp5G5kbILOg=;
- b=NhkxjIEYpvSC1okBjIrts2CpVyKCLWXyGC8UqmuEjM/KZ9mOQg+0Jrm7yQQxtl7PtYigN/
- qYubFgoazHU2c62oOXI4PvzbnO7wwqGTERBGc6IHG+ZwXcV6N7rxC/7mUE/AvW6ViXyAR7
- sYzgMEhZ8pbFvB6IZYGdUdYQCNiCSPs=
+ bh=zpZtx+nrJtr99ho6va+6XTZGIghNiNIClmqo3+ZKxi4=;
+ b=gyHsxNtK8WwusxGaPojqDiKLRsU18zO+hMh9p6R0xbe9xTRgba4pAp5Br/SbY8OEjrjG1Z
+ RGb9cNIyO+5rwCwIqlqU84zpXY2RGAo35LZKolS7JLCpvMD4AOb86D1iFZ1vR4iWsiLVZE
+ 3+wtSKwLI4v1N0amWFAqD9NVdEy/lKI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-qSjN7BcNNMOPUrAAfUjalQ-1; Thu, 23 Jan 2020 06:59:09 -0500
+ us-mta-213-ceFHk55COheLRJPGXxWU_g-1; Thu, 23 Jan 2020 06:59:12 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69E5D800D41
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A174107ACC4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:11 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB9EB28989;
- Thu, 23 Jan 2020 11:59:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BFA5419C69;
+ Thu, 23 Jan 2020 11:59:08 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/21] ram_addr: Split RAMBlock definition
-Date: Thu, 23 Jan 2020 12:58:20 +0100
-Message-Id: <20200123115831.36842-11-quintela@redhat.com>
+Subject: [PATCH v3 11/21] multifd: multifd_send_pages only needs the qemufile
+Date: Thu, 23 Jan 2020 12:58:21 +0100
+Message-Id: <20200123115831.36842-12-quintela@redhat.com>
 In-Reply-To: <20200123115831.36842-1-quintela@redhat.com>
 References: <20200123115831.36842-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: qSjN7BcNNMOPUrAAfUjalQ-1
+X-MC-Unique: ceFHk55COheLRJPGXxWU_g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,149 +79,53 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need some of the fields without having to poison everything else.
-
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- MAINTAINERS             |  1 +
- include/exec/ram_addr.h | 40 +-------------------------
- include/exec/ramblock.h | 64 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 66 insertions(+), 39 deletions(-)
- create mode 100644 include/exec/ramblock.h
+ migration/ram.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2c768ed3d8..3732f746b3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1965,6 +1965,7 @@ F: ioport.c
- F: include/exec/memop.h
- F: include/exec/memory.h
- F: include/exec/ram_addr.h
-+F: include/exec/ramblock.h
- F: memory.c
- F: include/exec/memory-internal.h
- F: exec.c
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 5adebb0bc7..5e59a3d8d7 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -24,45 +24,7 @@
- #include "hw/xen/xen.h"
- #include "sysemu/tcg.h"
- #include "exec/ramlist.h"
--
--struct RAMBlock {
--    struct rcu_head rcu;
--    struct MemoryRegion *mr;
--    uint8_t *host;
--    uint8_t *colo_cache; /* For colo, VM's ram cache */
--    ram_addr_t offset;
--    ram_addr_t used_length;
--    ram_addr_t max_length;
--    void (*resized)(const char*, uint64_t length, void *host);
--    uint32_t flags;
--    /* Protected by iothread lock.  */
--    char idstr[256];
--    /* RCU-enabled, writes protected by the ramlist lock */
--    QLIST_ENTRY(RAMBlock) next;
--    QLIST_HEAD(, RAMBlockNotifier) ramblock_notifiers;
--    int fd;
--    size_t page_size;
--    /* dirty bitmap used during migration */
--    unsigned long *bmap;
--    /* bitmap of already received pages in postcopy */
--    unsigned long *receivedmap;
--
--    /*
--     * bitmap to track already cleared dirty bitmap.  When the bit is
--     * set, it means the corresponding memory chunk needs a log-clear.
--     * Set this up to non-NULL to enable the capability to postpone
--     * and split clearing of dirty bitmap on the remote node (e.g.,
--     * KVM).  The bitmap will be set only when doing global sync.
--     *
--     * NOTE: this bitmap is different comparing to the other bitmaps
--     * in that one bit can represent multiple guest pages (which is
--     * decided by the `clear_bmap_shift' variable below).  On
--     * destination side, this should always be NULL, and the variable
--     * `clear_bmap_shift' is meaningless.
--     */
--    unsigned long *clear_bmap;
--    uint8_t clear_bmap_shift;
--};
-+#include "exec/ramblock.h"
+diff --git a/migration/ram.c b/migration/ram.c
+index 125c6d0f60..19caf5ed4d 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -929,7 +929,7 @@ struct {
+  * false.
+  */
 =20
- /**
-  * clear_bmap_size: calculate clear bitmap size
-diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
-new file mode 100644
-index 0000000000..07d50864d8
---- /dev/null
-+++ b/include/exec/ramblock.h
-@@ -0,0 +1,64 @@
-+/*
-+ * Declarations for cpu physical memory functions
-+ *
-+ * Copyright 2011 Red Hat, Inc. and/or its affiliates
-+ *
-+ * Authors:
-+ *  Avi Kivity <avi@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+/*
-+ * This header is for use by exec.c and memory.c ONLY.  Do not include it.
-+ * The functions declared here will be removed soon.
-+ */
-+
-+#ifndef QEMU_EXEC_RAMBLOCK_H
-+#define QEMU_EXEC_RAMBLOCK_H
-+
-+#ifndef CONFIG_USER_ONLY
-+#include "cpu-common.h"
-+
-+struct RAMBlock {
-+    struct rcu_head rcu;
-+    struct MemoryRegion *mr;
-+    uint8_t *host;
-+    uint8_t *colo_cache; /* For colo, VM's ram cache */
-+    ram_addr_t offset;
-+    ram_addr_t used_length;
-+    ram_addr_t max_length;
-+    void (*resized)(const char*, uint64_t length, void *host);
-+    uint32_t flags;
-+    /* Protected by iothread lock.  */
-+    char idstr[256];
-+    /* RCU-enabled, writes protected by the ramlist lock */
-+    QLIST_ENTRY(RAMBlock) next;
-+    QLIST_HEAD(, RAMBlockNotifier) ramblock_notifiers;
-+    int fd;
-+    size_t page_size;
-+    /* dirty bitmap used during migration */
-+    unsigned long *bmap;
-+    /* bitmap of already received pages in postcopy */
-+    unsigned long *receivedmap;
-+
-+    /*
-+     * bitmap to track already cleared dirty bitmap.  When the bit is
-+     * set, it means the corresponding memory chunk needs a log-clear.
-+     * Set this up to non-NULL to enable the capability to postpone
-+     * and split clearing of dirty bitmap on the remote node (e.g.,
-+     * KVM).  The bitmap will be set only when doing global sync.
-+     *
-+     * NOTE: this bitmap is different comparing to the other bitmaps
-+     * in that one bit can represent multiple guest pages (which is
-+     * decided by the `clear_bmap_shift' variable below).  On
-+     * destination side, this should always be NULL, and the variable
-+     * `clear_bmap_shift' is meaningless.
-+     */
-+    unsigned long *clear_bmap;
-+    uint8_t clear_bmap_shift;
-+};
-+#endif
-+#endif
+-static int multifd_send_pages(RAMState *rs)
++static int multifd_send_pages(QEMUFile *f)
+ {
+     int i;
+     static int next_channel;
+@@ -965,7 +965,7 @@ static int multifd_send_pages(RAMState *rs)
+     multifd_send_state->pages =3D p->pages;
+     p->pages =3D pages;
+     transferred =3D ((uint64_t) pages->used) * TARGET_PAGE_SIZE + p->packe=
+t_len;
+-    qemu_file_update_transfer(rs->f, transferred);
++    qemu_file_update_transfer(f, transferred);
+     ram_counters.multifd_bytes +=3D transferred;
+     ram_counters.transferred +=3D transferred;;
+     qemu_mutex_unlock(&p->mutex);
+@@ -993,7 +993,7 @@ static int multifd_queue_page(RAMState *rs, RAMBlock *b=
+lock, ram_addr_t offset)
+         }
+     }
+=20
+-    if (multifd_send_pages(rs) < 0) {
++    if (multifd_send_pages(rs->f) < 0) {
+         return -1;
+     }
+=20
+@@ -1090,7 +1090,7 @@ static void multifd_send_sync_main(RAMState *rs)
+         return;
+     }
+     if (multifd_send_state->pages->used) {
+-        if (multifd_send_pages(rs) < 0) {
++        if (multifd_send_pages(rs->f) < 0) {
+             error_report("%s: multifd_send_pages fail", __func__);
+             return;
+         }
 --=20
 2.24.1
 
