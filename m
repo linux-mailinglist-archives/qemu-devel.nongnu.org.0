@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE950146B4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:29:58 +0100 (CET)
-Received: from localhost ([::1]:58046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3AD146AE1
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:10:39 +0100 (CET)
+Received: from localhost ([::1]:57708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iudUb-00078U-A5
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:29:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41253)
+	id 1iudBu-0006Yk-2B
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:10:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41289)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iubAJ-0003v4-06
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:00:52 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iubAO-0003z9-PZ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:00:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iubAD-00068K-Qx
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:00:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27163
+ (envelope-from <dgilbert@redhat.com>) id 1iubAJ-0006Cp-BE
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:00:52 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51706
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAD-00067I-Mn
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:00:45 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAH-00068I-B4
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:00:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1579780845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i1EOq7CO60lirQD/aOliSVFjBdCyV+UdosKnZr6Gg7Q=;
- b=M+364/xuLZMPojDM1CG0KXn3KlknHX+dIv8bzu/SPVYLCtJ2aGfGOd40Z0PiDlTETtST2F
- V6crz1PQAcOvzdY0Mkv68DqZ4ZT3lBQ4aep3SXec60wdLMJUjVZkb7W0JvgiJyqwMCk2qu
- s4GHeL5oatSAwzdnPD9CXJJmDA93Ch4=
+ bh=6Tgsuz0515jUU3tlQilcNU5ypUdTbKqTJOhwN9PRTaY=;
+ b=GKHpjlCHbAJhUK2AhAd8c2vjBj3dZRnxlV2KkMVV41UGDuNNDRmzdCHV1VJNdOxgJNZwjl
+ muEX1xyLHBOHk+cDrLUNicFjdWRhTVc+1mrjFuWesI3g4Lhz+jCTIS4dBpbqNcWaVV+Tj9
+ 0M3rMGNWecZVpVGs/DAg8K+yaytimAs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-OjX2nTDYNRWxa-0nAFQJLA-1; Thu, 23 Jan 2020 07:00:41 -0500
+ us-mta-250-gr1xjE_bM2SuEsou4I0WUA-1; Thu, 23 Jan 2020 07:00:43 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D93E100550E
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:00:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BE6418A6ECE
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:00:43 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57E678579B;
- Thu, 23 Jan 2020 12:00:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 552841CB;
+ Thu, 23 Jan 2020 12:00:42 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 075/111] virtiofsd: passthrough_ll: clean up cache related
- options
-Date: Thu, 23 Jan 2020 11:58:05 +0000
-Message-Id: <20200123115841.138849-76-dgilbert@redhat.com>
+Subject: [PULL 077/111] virtiofsd: Clean up inodes on destroy
+Date: Thu, 23 Jan 2020 11:58:07 +0000
+Message-Id: <20200123115841.138849-78-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: OjX2nTDYNRWxa-0nAFQJLA-1
+X-MC-Unique: gr1xjE_bM2SuEsou4I0WUA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -75,130 +74,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Miklos Szeredi <mszeredi@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
- - Rename "cache=3Dnever" to "cache=3Dnone" to match 9p's similar option.
+Clear out our inodes and fd's on a 'destroy' - so we get rid
+of them if we reboot the guest.
 
- - Rename CACHE_NORMAL constant to CACHE_AUTO to match the "cache=3Dauto"
-   option.
-
-Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/helper.c         |  5 ++++-
- tools/virtiofsd/passthrough_ll.c | 20 ++++++++++----------
- 2 files changed, 14 insertions(+), 11 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 14f5d70c10..567202444a 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -145,6 +145,9 @@ void fuse_cmdline_help(void)
-            "    --syslog                   log to syslog (default stderr)\=
-n"
-            "    -f                         foreground operation\n"
-            "    --daemonize                run in background\n"
-+           "    -o cache=3D<mode>            cache mode. could be one of \=
-"auto, "
-+           "always, none\"\n"
-+           "                               default: auto\n"
-            "    -o log_level=3D<level>       log level, default to \"info\=
-"\n"
-            "                               level could be one of \"debug, =
-"
-            "info, warn, err\"\n"
-@@ -156,7 +159,7 @@ void fuse_cmdline_help(void)
-            "    -o readdirplus|no_readdirplus\n"
-            "                               enable/disable readirplus\n"
-            "                               default: readdirplus except wit=
-h "
--           "cache=3Dnever\n"
-+           "cache=3Dnone\n"
-           );
- }
-=20
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index 9e7191eb75..b40f2874a7 100644
+index b176a314d6..9ed77a17fd 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -101,8 +101,8 @@ struct lo_cred {
+@@ -1169,6 +1169,25 @@ static void unref_inode_lolocked(struct lo_data *lo,=
+ struct lo_inode *inode,
+     }
+ }
+=20
++static int unref_all_inodes_cb(gpointer key, gpointer value, gpointer user=
+_data)
++{
++    struct lo_inode *inode =3D value;
++    struct lo_data *lo =3D user_data;
++
++    inode->refcount =3D 0;
++    lo_map_remove(&lo->ino_map, inode->fuse_ino);
++    close(inode->fd);
++
++    return TRUE;
++}
++
++static void unref_all_inodes(struct lo_data *lo)
++{
++    pthread_mutex_lock(&lo->mutex);
++    g_hash_table_foreach_remove(lo->inodes, unref_all_inodes_cb, lo);
++    pthread_mutex_unlock(&lo->mutex);
++}
++
+ static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup=
+)
+ {
+     struct lo_data *lo =3D lo_data(req);
+@@ -2035,6 +2054,12 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino,=
+ off_t off, int whence,
+     }
+ }
+=20
++static void lo_destroy(void *userdata)
++{
++    struct lo_data *lo =3D (struct lo_data *)userdata;
++    unref_all_inodes(lo);
++}
++
+ static struct fuse_lowlevel_ops lo_oper =3D {
+     .init =3D lo_init,
+     .lookup =3D lo_lookup,
+@@ -2073,6 +2098,7 @@ static struct fuse_lowlevel_ops lo_oper =3D {
+     .copy_file_range =3D lo_copy_file_range,
+ #endif
+     .lseek =3D lo_lseek,
++    .destroy =3D lo_destroy,
  };
 =20
- enum {
--    CACHE_NEVER,
--    CACHE_NORMAL,
-+    CACHE_NONE,
-+    CACHE_AUTO,
-     CACHE_ALWAYS,
- };
-=20
-@@ -138,8 +138,8 @@ static const struct fuse_opt lo_opts[] =3D {
-     { "no_xattr", offsetof(struct lo_data, xattr), 0 },
-     { "timeout=3D%lf", offsetof(struct lo_data, timeout), 0 },
-     { "timeout=3D", offsetof(struct lo_data, timeout_set), 1 },
--    { "cache=3Dnever", offsetof(struct lo_data, cache), CACHE_NEVER },
--    { "cache=3Dauto", offsetof(struct lo_data, cache), CACHE_NORMAL },
-+    { "cache=3Dnone", offsetof(struct lo_data, cache), CACHE_NONE },
-+    { "cache=3Dauto", offsetof(struct lo_data, cache), CACHE_AUTO },
-     { "cache=3Dalways", offsetof(struct lo_data, cache), CACHE_ALWAYS },
-     { "norace", offsetof(struct lo_data, norace), 1 },
-     { "readdirplus", offsetof(struct lo_data, readdirplus_set), 1 },
-@@ -482,7 +482,7 @@ static void lo_init(void *userdata, struct fuse_conn_in=
-fo *conn)
-         fuse_log(FUSE_LOG_DEBUG, "lo_init: activating flock locks\n");
-         conn->want |=3D FUSE_CAP_FLOCK_LOCKS;
-     }
--    if ((lo->cache =3D=3D CACHE_NEVER && !lo->readdirplus_set) ||
-+    if ((lo->cache =3D=3D CACHE_NONE && !lo->readdirplus_set) ||
-         lo->readdirplus_clear) {
-         fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling readdirplus\n");
-         conn->want &=3D ~FUSE_CAP_READDIRPLUS;
-@@ -1493,7 +1493,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t pare=
-nt, const char *name,
-         fi->fh =3D fh;
-         err =3D lo_do_lookup(req, parent, name, &e);
-     }
--    if (lo->cache =3D=3D CACHE_NEVER) {
-+    if (lo->cache =3D=3D CACHE_NONE) {
-         fi->direct_io =3D 1;
-     } else if (lo->cache =3D=3D CACHE_ALWAYS) {
-         fi->keep_cache =3D 1;
-@@ -1578,7 +1578,7 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, s=
-truct fuse_file_info *fi)
-     }
-=20
-     fi->fh =3D fh;
--    if (lo->cache =3D=3D CACHE_NEVER) {
-+    if (lo->cache =3D=3D CACHE_NONE) {
-         fi->direct_io =3D 1;
-     } else if (lo->cache =3D=3D CACHE_ALWAYS) {
-         fi->keep_cache =3D 1;
-@@ -2395,7 +2395,7 @@ int main(int argc, char *argv[])
-     lo.root.next =3D lo.root.prev =3D &lo.root;
-     lo.root.fd =3D -1;
-     lo.root.fuse_ino =3D FUSE_ROOT_ID;
--    lo.cache =3D CACHE_NORMAL;
-+    lo.cache =3D CACHE_AUTO;
-=20
-     /*
-      * Set up the ino map like this:
-@@ -2470,11 +2470,11 @@ int main(int argc, char *argv[])
-     }
-     if (!lo.timeout_set) {
-         switch (lo.cache) {
--        case CACHE_NEVER:
-+        case CACHE_NONE:
-             lo.timeout =3D 0.0;
-             break;
-=20
--        case CACHE_NORMAL:
-+        case CACHE_AUTO:
-             lo.timeout =3D 1.0;
-             break;
-=20
+ /* Print vhost-user.json backend program capabilities */
 --=20
 2.24.1
 
