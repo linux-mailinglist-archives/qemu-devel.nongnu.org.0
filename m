@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1953B146DD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:09:23 +0100 (CET)
-Received: from localhost ([::1]:60054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E399146DE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:11:54 +0100 (CET)
+Received: from localhost ([::1]:60096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuf2n-0001hd-Mg
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:09:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52506)
+	id 1iuf5E-0005Tz-Tz
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:11:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52664)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iuctS-0008IE-VE
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:36 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iuctm-0000Lc-1s
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iuctQ-0007w4-FC
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:34 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54752
+ (envelope-from <pbonzini@redhat.com>) id 1iuctk-0000EO-UQ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43025
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuctQ-0007vJ-CN
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:32 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuctk-0000Ds-RO
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787492;
+ s=mimecast20190719; t=1579787512;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VXIsUU5e+eDzw2WVvQay4UUnLop5pGbWyW6MKoyD3wE=;
- b=DEZrJ0ETOcJGGMSFzcIEHoJ+zGK1iBxpKBvWbUhLEW5rvFIHqZkoxXCo4jALaWc1GYxWri
- mrszXBGwlWDmaT+hYYqP8idIGIQrSoAX0lJ3Luv81OyQTvDxZ/DqkPRg7jqakf1i8MCDzB
- gykTfWfywZrCGkj8F/Wij8TZ4XvY6AY=
+ bh=G8REenve+H9csiL1HWpoRTGpQ4KzlPih8bhh6X75GFo=;
+ b=jOhETPpjGEDDjxj5lTyPdiVhBgUbK8dTRHhP7w2oYajeDI4qjLjM/aEyEOeTgzez7DDR4k
+ MQy4lu7qTa6+RAK0rM55tnHke3jDuclm+lxO3WitztZcTcvDn3YK6vLzeH+j+IcA7Vtus7
+ 1lXai9D60gCZnADoaOi7pijJGx2YuHw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-2j4YVtbLPU6oDvKPYH33AQ-1; Thu, 23 Jan 2020 08:51:28 -0500
+ us-mta-421-idDYgpXRNXuOoE8XF_ngyA-1; Thu, 23 Jan 2020 08:51:51 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70370100E102;
- Thu, 23 Jan 2020 13:51:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B246802CA2
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:50 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 688F01CB;
- Thu, 23 Jan 2020 13:51:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F4B48575A;
+ Thu, 23 Jan 2020 13:51:48 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/59] target/i386: kvm: initialize feature MSRs very early
-Date: Thu, 23 Jan 2020 14:50:08 +0100
-Message-Id: <1579787449-27599-19-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 27/59] qom/object: Display more helpful message when a parent
+ is missing
+Date: Thu, 23 Jan 2020 14:50:17 +0100
+Message-Id: <1579787449-27599-28-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 2j4YVtbLPU6oDvKPYH33AQ-1
+X-MC-Unique: idDYgpXRNXuOoE8XF_ngyA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 207.211.31.120
@@ -69,172 +71,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some read-only MSRs affect the behavior of ioctls such as
-KVM_SET_NESTED_STATE.  We can initialize them once and for all
-right after the CPU is realized, since they will never be modified
-by the guest.
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Reported-by: Qingua Cheng <qcheng@redhat.com>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <1579544504-3616-2-git-send-email-pbonzini@redhat.com>
+QEMU object model is scarse in documentation. Some calls are
+recursive, and it might be hard to figure out even trivial issues.
+
+We can avoid developers to waste time in a debugging session by
+displaying a simple error message.
+
+This commit is also similar to e02bdf1cecd2 ("Display more helpful
+message when an object type is missing").
+
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20200121110349.25842-7-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm.c      | 81 ++++++++++++++++++++++++++++++----------------=
-----
- target/i386/kvm_i386.h |  1 +
- 2 files changed, 49 insertions(+), 33 deletions(-)
+ qom/object.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 7ee3202..f6dd6b7 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -67,6 +67,8 @@
-  * 255 kvm_msr_entry structs */
- #define MSR_BUF_SIZE 4096
-=20
-+static void kvm_init_msrs(X86CPU *cpu);
-+
- const KVMCapabilityInfo kvm_arch_required_capabilities[] =3D {
-     KVM_CAP_INFO(SET_TSS_ADDR),
-     KVM_CAP_INFO(EXT_CPUID),
-@@ -1842,6 +1844,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         has_msr_tsc_aux =3D false;
-     }
-=20
-+    kvm_init_msrs(cpu);
-+
-     r =3D hyperv_init_vcpu(cpu);
-     if (r) {
-         goto fail;
-@@ -2660,11 +2664,53 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, Feat=
-ureWordArray f)
-                       VMCS12_MAX_FIELD_INDEX << 1);
- }
-=20
-+static int kvm_buf_set_msrs(X86CPU *cpu)
-+{
-+    int ret =3D kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, cpu->kvm_msr_buf);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    if (ret < cpu->kvm_msr_buf->nmsrs) {
-+        struct kvm_msr_entry *e =3D &cpu->kvm_msr_buf->entries[ret];
-+        error_report("error: failed to set MSR 0x%" PRIx32 " to 0x%" PRIx6=
-4,
-+                     (uint32_t)e->index, (uint64_t)e->data);
-+    }
-+
-+    assert(ret =3D=3D cpu->kvm_msr_buf->nmsrs);
-+    return 0;
-+}
-+
-+static void kvm_init_msrs(X86CPU *cpu)
-+{
-+    CPUX86State *env =3D &cpu->env;
-+
-+    kvm_msr_buf_reset(cpu);
-+    if (has_msr_arch_capabs) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_ARCH_CAPABILITIES,
-+                          env->features[FEAT_ARCH_CAPABILITIES]);
-+    }
-+
-+    if (has_msr_core_capabs) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_CORE_CAPABILITY,
-+                          env->features[FEAT_CORE_CAPABILITY]);
-+    }
-+
-+    /*
-+     * Older kernels do not include VMX MSRs in KVM_GET_MSR_INDEX_LIST, bu=
-t
-+     * all kernels with MSR features should have them.
-+     */
-+    if (kvm_feature_msrs && cpu_has_vmx(env)) {
-+        kvm_msr_entry_add_vmx(cpu, env->features);
-+    }
-+
-+    assert(kvm_buf_set_msrs(cpu) =3D=3D 0);
-+}
-+
- static int kvm_put_msrs(X86CPU *cpu, int level)
+diff --git a/qom/object.c b/qom/object.c
+index 36123fb..90155fa 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -173,7 +173,11 @@ static TypeImpl *type_get_parent(TypeImpl *type)
  {
-     CPUX86State *env =3D &cpu->env;
-     int i;
--    int ret;
-=20
-     kvm_msr_buf_reset(cpu);
-=20
-@@ -2722,17 +2768,6 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-     }
- #endif
-=20
--    /* If host supports feature MSR, write down. */
--    if (has_msr_arch_capabs) {
--        kvm_msr_entry_add(cpu, MSR_IA32_ARCH_CAPABILITIES,
--                          env->features[FEAT_ARCH_CAPABILITIES]);
--    }
--
--    if (has_msr_core_capabs) {
--        kvm_msr_entry_add(cpu, MSR_IA32_CORE_CAPABILITY,
--                          env->features[FEAT_CORE_CAPABILITY]);
--    }
--
-     /*
-      * The following MSRs have side effects on the guest or are too heavy
-      * for normal writeback. Limit them to reset or full state updates.
-@@ -2910,14 +2945,6 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-=20
-         /* Note: MSR_IA32_FEATURE_CONTROL is written separately, see
-          *       kvm_put_msr_feature_control. */
--
--        /*
--         * Older kernels do not include VMX MSRs in KVM_GET_MSR_INDEX_LIST=
-, but
--         * all kernels with MSR features should have them.
--         */
--        if (kvm_feature_msrs && cpu_has_vmx(env)) {
--            kvm_msr_entry_add_vmx(cpu, env->features);
--        }
+     if (!type->parent_type && type->parent) {
+         type->parent_type =3D type_get_by_name(type->parent);
+-        g_assert(type->parent_type !=3D NULL);
++        if (!type->parent_type) {
++            fprintf(stderr, "Type '%s' is missing its parent '%s'\n",
++                    type->name, type->parent);
++            abort();
++        }
      }
 =20
-     if (env->mcg_cap) {
-@@ -2933,19 +2960,7 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-         }
-     }
-=20
--    ret =3D kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, cpu->kvm_msr_buf);
--    if (ret < 0) {
--        return ret;
--    }
--
--    if (ret < cpu->kvm_msr_buf->nmsrs) {
--        struct kvm_msr_entry *e =3D &cpu->kvm_msr_buf->entries[ret];
--        error_report("error: failed to set MSR 0x%" PRIx32 " to 0x%" PRIx6=
-4,
--                     (uint32_t)e->index, (uint64_t)e->data);
--    }
--
--    assert(ret =3D=3D cpu->kvm_msr_buf->nmsrs);
--    return 0;
-+    return kvm_buf_set_msrs(cpu);
- }
-=20
-=20
-diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
-index 7d0242f..00bde7a 100644
---- a/target/i386/kvm_i386.h
-+++ b/target/i386/kvm_i386.h
-@@ -46,4 +46,5 @@ bool kvm_enable_x2apic(void);
- bool kvm_has_x2apic_api(void);
-=20
- bool kvm_hv_vpindex_settable(void);
-+
- #endif
+     return type->parent_type;
 --=20
 1.8.3.1
 
