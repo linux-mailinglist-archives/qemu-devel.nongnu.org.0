@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59502146DBD
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:04:04 +0100 (CET)
-Received: from localhost ([::1]:59978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 196E0146DC1
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:06:19 +0100 (CET)
+Received: from localhost ([::1]:60016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuexe-0001BW-Qy
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:04:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52340)
+	id 1iuezp-0004fe-Kt
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:06:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52354)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iuct9-0007nG-UG
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:16 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iuctC-0007sA-Ux
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iuct8-00072L-Qw
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:15 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39457
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iuctB-0007C4-S7
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:18 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29894
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuct8-00071i-OL
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:14 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuctB-0007BP-PY
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787474;
+ s=mimecast20190719; t=1579787477;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HUvkaAnGGTEqEM2fUNLgUj6x7mX20lWdXIlkJjVebUk=;
- b=NWnzIadEsqVJ8VALa+QnB400v/z+B4xtu2leJ6Dlyz1heiEPRfgwcF1ui4VTyAPVaHePji
- MnbX4ptmndpAG5hH+e5pVdn0aRkIDTUoRJRESDO3Gw84O+g6NFLb5rCHKIViK5AHLStSSJ
- 0Ol072pvKcybeoQSGOgXLRVn4CEUKZQ=
+ bh=aDX7+fWUGCEA7u9MQhI7OgDlZhcuSjek6kDPs2X+NE8=;
+ b=So4hKs0DEfZGcVgUUAQUMQcTmC/mTPwhpwd8aJc2i1UNbNflwLNp3tP+1w/ziKoZo/Sopz
+ Zau7LpXCc3Eih4s9SGVdahzmB6pVar8rTGe+jTHGMbx9D7wJV5BmACkdCJOvM9YVa04G1m
+ l/Zc454hsfiuWxLWilhxz4MXTNQrWSk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-jzjJOIngNL2F3-tCJs0JNw-1; Thu, 23 Jan 2020 08:51:13 -0500
+ us-mta-99-W0OszqckOza1EFWp4Gv0ew-1; Thu, 23 Jan 2020 08:51:16 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78CA51800D48
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FDCA100550E
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:15 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 742278575C;
- Thu, 23 Jan 2020 13:51:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CBC91CB;
+ Thu, 23 Jan 2020 13:51:14 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/59] hw/pci-host/designware: Remove unuseful FALLTHROUGH
- comment
-Date: Thu, 23 Jan 2020 14:50:01 +0100
-Message-Id: <1579787449-27599-12-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 13/59] Makefile: Clarify all the codebase requires qom/ objects
+Date: Thu, 23 Jan 2020 14:50:03 +0100
+Message-Id: <1579787449-27599-14-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: jzjJOIngNL2F3-tCJs0JNw-1
+X-MC-Unique: W0OszqckOza1EFWp4Gv0ew-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,33 +76,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-We don't need to explicit this obvious switch fall through.
-Stay consistent with the rest of the codebase.
+QEMU user-mode also requires the qom/ objects, it is not only
+used by "system emulation and qemu-img". As we will use a big
+if() block, move it upper in the "Common libraries for tools
+and emulators" section.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20191218192526.13845-7-philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Message-Id: <20200118140619.26333-3-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/pci-host/designware.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Makefile.objs | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
-index 71e9b0d..dd24551 100644
---- a/hw/pci-host/designware.c
-+++ b/hw/pci-host/designware.c
-@@ -182,7 +182,7 @@ designware_pcie_root_config_read(PCIDevice *d, uint32_t=
- address, int len)
-         break;
+diff --git a/Makefile.objs b/Makefile.objs
+index 7c1e50f..5aae561 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -2,6 +2,7 @@
+ # Common libraries for tools and emulators
+ stub-obj-y =3D stubs/
+ util-obj-y =3D crypto/ util/ qobject/ qapi/
++qom-obj-y =3D qom/
 =20
-     case DESIGNWARE_PCIE_ATU_CR1:
--    case DESIGNWARE_PCIE_ATU_CR2:          /* FALLTHROUGH */
-+    case DESIGNWARE_PCIE_ATU_CR2:
-         val =3D viewport->cr[(address - DESIGNWARE_PCIE_ATU_CR1) /
-                            sizeof(uint32_t)];
-         break;
+ chardev-obj-y =3D chardev/
+=20
+@@ -27,11 +28,6 @@ block-obj-m =3D block/
+ crypto-obj-y =3D crypto/
+=20
+ #######################################################################
+-# qom-obj-y is code used by both qemu system emulation and qemu-img
+-
+-qom-obj-y =3D qom/
+-
+-#######################################################################
+ # io-obj-y is code used by both qemu system emulation and qemu-img
+=20
+ io-obj-y =3D io/
 --=20
 1.8.3.1
 
