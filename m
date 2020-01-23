@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32627146856
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:47:08 +0100 (CET)
-Received: from localhost ([::1]:56498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F04146876
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:55:54 +0100 (CET)
+Received: from localhost ([::1]:56594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iubt4-0001hp-JI
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:47:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39978)
+	id 1iuc1Z-0004Kh-BP
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:55:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40063)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iub8U-0001e3-Ia
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:02 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iub8a-0001me-AK
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iub8Q-0004jA-D0
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:58 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32528
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iub8W-0004o3-4o
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:04 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34478
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub8Q-0004if-6Q
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:54 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub8V-0004nj-TE
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780733;
+ s=mimecast20190719; t=1579780739;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pp/qATplDrz6aSdEj663YVGvomxACTRs1AhbwReR+AA=;
- b=grpEKN6ZHFiwj6zPE8EVo0zhGk4KGjlx/mC4Qs2KQjohfmuXJ8Wk94W54OUqa/HVml+P5z
- mtqISsYAE84k43GdGYs+eENNEGi3ymy1xttLbX5Yi0Hm25n3eBIq+z1s8ioEsjW4NYqMSl
- tWjSqou2HLUUfCa+5P9LLhSznjFi6S0=
+ bh=8ZvieIkIgc4AmvkljaQoTvLsX1fHYrMJNdCCvZhDxZg=;
+ b=V3OsXS0CEgugVgpojWao/uB/wnw7aURxagtT3qqIj5Kz5FAmQ8hCgbogxZbmmVe0dZ2H+a
+ ZFU8LXHNwYncw2uno1ePF9IxB1Hd/3eV/vU2QvV0YVT2csZ6i7oaGKa5/QX55+qzuEUNRI
+ 8JIBO4PGF0yvTLLijfEWepdzhYTHNz4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-HzITXyqDPyu4k1ZpLJsX3A-1; Thu, 23 Jan 2020 06:58:51 -0500
+ us-mta-326-fgJt3T7KOFifoQs88S2S5A-1; Thu, 23 Jan 2020 06:58:53 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02EECDB62
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:58:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13A8918A6EC0
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:58:53 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4BFC21CB;
- Thu, 23 Jan 2020 11:58:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C6F685757;
+ Thu, 23 Jan 2020 11:58:52 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 003/111] virtiofsd: Add auxiliary .c's
-Date: Thu, 23 Jan 2020 11:56:53 +0000
-Message-Id: <20200123115841.138849-4-dgilbert@redhat.com>
+Subject: [PULL 005/111] virtiofsd: Add passthrough_ll
+Date: Thu, 23 Jan 2020 11:56:55 +0000
+Message-Id: <20200123115841.138849-6-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: HzITXyqDPyu4k1ZpLJsX3A-1
+X-MC-Unique: fgJt3T7KOFifoQs88S2S5A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,1385 +76,1393 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Add most of the non-main .c files we need from upstream fuse-3.8.0
+passthrough_ll is one of the examples in the upstream fuse project
+and is the main part of our daemon here.  It passes through requests
+from fuse to the underlying filesystem, using syscalls as directly
+as possible.
+
+From libfuse fuse-3.8.0
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+  Fixed up 'GPL' to 'GPLv2' as per Dan's comments and consistent
+  with the 'LICENSE' file in libfuse;  patch sent to libfuse to fix
+  it upstream.
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/buffer.c       | 321 ++++++++++++++++++++++++
- tools/virtiofsd/fuse_log.c     |  40 +++
- tools/virtiofsd/fuse_opt.c     | 423 +++++++++++++++++++++++++++++++
- tools/virtiofsd/fuse_signals.c |  91 +++++++
- tools/virtiofsd/helper.c       | 440 +++++++++++++++++++++++++++++++++
- 5 files changed, 1315 insertions(+)
- create mode 100644 tools/virtiofsd/buffer.c
- create mode 100644 tools/virtiofsd/fuse_log.c
- create mode 100644 tools/virtiofsd/fuse_opt.c
- create mode 100644 tools/virtiofsd/fuse_signals.c
- create mode 100644 tools/virtiofsd/helper.c
+ tools/virtiofsd/passthrough_ll.c | 1338 ++++++++++++++++++++++++++++++
+ 1 file changed, 1338 insertions(+)
+ create mode 100644 tools/virtiofsd/passthrough_ll.c
 
-diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
 new file mode 100644
-index 0000000000..5ab9b87455
+index 0000000000..e1a605691a
 --- /dev/null
-+++ b/tools/virtiofsd/buffer.c
-@@ -0,0 +1,321 @@
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -0,0 +1,1338 @@
 +/*
 +  FUSE: Filesystem in Userspace
-+  Copyright (C) 2010  Miklos Szeredi <miklos@szeredi.hu>
++  Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
 +
-+  Functions for dealing with `struct fuse_buf` and `struct
-+  fuse_bufvec`.
-+
-+  This program can be distributed under the terms of the GNU LGPLv2.
-+  See the file COPYING.LIB
++  This program can be distributed under the terms of the GNU GPLv2.
++  See the file COPYING.
 +*/
++
++/** @file
++ *
++ * This file system mirrors the existing file system hierarchy of the
++ * system, starting at the root file system. This is implemented by
++ * just "passing through" all requests to the corresponding user-space
++ * libc functions. In contrast to passthrough.c and passthrough_fh.c,
++ * this implementation uses the low-level API. Its performance should
++ * be the least bad among the three, but many operations are not
++ * implemented. In particular, it is not possible to remove files (or
++ * directories) because the code necessary to defer actual removal
++ * until the file is not opened anymore would make the example much
++ * more complicated.
++ *
++ * When writeback caching is enabled (-o writeback mount option), it
++ * is only possible to write to files for which the mounting user has
++ * read permissions. This is because the writeback cache requires the
++ * kernel to be able to issue read requests for all files (which the
++ * passthrough filesystem cannot satisfy if it can't read the file in
++ * the underlying filesystem).
++ *
++ * Compile with:
++ *
++ *     gcc -Wall passthrough_ll.c `pkg-config fuse3 --cflags --libs` -o pa=
+ssthrough_ll
++ *
++ * ## Source code ##
++ * \include passthrough_ll.c
++ */
 +
 +#define _GNU_SOURCE
++#define FUSE_USE_VERSION 31
 +
 +#include "config.h"
-+#include "fuse_i.h"
-+#include "fuse_lowlevel.h"
-+#include <string.h>
++
++#include <fuse_lowlevel.h>
 +#include <unistd.h>
-+#include <errno.h>
-+#include <assert.h>
-+
-+size_t fuse_buf_size(const struct fuse_bufvec *bufv)
-+{
-+=09size_t i;
-+=09size_t size =3D 0;
-+
-+=09for (i =3D 0; i < bufv->count; i++) {
-+=09=09if (bufv->buf[i].size =3D=3D SIZE_MAX)
-+=09=09=09size =3D SIZE_MAX;
-+=09=09else
-+=09=09=09size +=3D bufv->buf[i].size;
-+=09}
-+
-+=09return size;
-+}
-+
-+static size_t min_size(size_t s1, size_t s2)
-+{
-+=09return s1 < s2 ? s1 : s2;
-+}
-+
-+static ssize_t fuse_buf_write(const struct fuse_buf *dst, size_t dst_off,
-+=09=09=09      const struct fuse_buf *src, size_t src_off,
-+=09=09=09      size_t len)
-+{
-+=09ssize_t res =3D 0;
-+=09size_t copied =3D 0;
-+
-+=09while (len) {
-+=09=09if (dst->flags & FUSE_BUF_FD_SEEK) {
-+=09=09=09res =3D pwrite(dst->fd, (char *)src->mem + src_off, len,
-+=09=09=09=09     dst->pos + dst_off);
-+=09=09} else {
-+=09=09=09res =3D write(dst->fd, (char *)src->mem + src_off, len);
-+=09=09}
-+=09=09if (res =3D=3D -1) {
-+=09=09=09if (!copied)
-+=09=09=09=09return -errno;
-+=09=09=09break;
-+=09=09}
-+=09=09if (res =3D=3D 0)
-+=09=09=09break;
-+
-+=09=09copied +=3D res;
-+=09=09if (!(dst->flags & FUSE_BUF_FD_RETRY))
-+=09=09=09break;
-+
-+=09=09src_off +=3D res;
-+=09=09dst_off +=3D res;
-+=09=09len -=3D res;
-+=09}
-+
-+=09return copied;
-+}
-+
-+static ssize_t fuse_buf_read(const struct fuse_buf *dst, size_t dst_off,
-+=09=09=09     const struct fuse_buf *src, size_t src_off,
-+=09=09=09     size_t len)
-+{
-+=09ssize_t res =3D 0;
-+=09size_t copied =3D 0;
-+
-+=09while (len) {
-+=09=09if (src->flags & FUSE_BUF_FD_SEEK) {
-+=09=09=09res =3D pread(src->fd, (char *)dst->mem + dst_off, len,
-+=09=09=09=09     src->pos + src_off);
-+=09=09} else {
-+=09=09=09res =3D read(src->fd, (char *)dst->mem + dst_off, len);
-+=09=09}
-+=09=09if (res =3D=3D -1) {
-+=09=09=09if (!copied)
-+=09=09=09=09return -errno;
-+=09=09=09break;
-+=09=09}
-+=09=09if (res =3D=3D 0)
-+=09=09=09break;
-+
-+=09=09copied +=3D res;
-+=09=09if (!(src->flags & FUSE_BUF_FD_RETRY))
-+=09=09=09break;
-+
-+=09=09dst_off +=3D res;
-+=09=09src_off +=3D res;
-+=09=09len -=3D res;
-+=09}
-+
-+=09return copied;
-+}
-+
-+static ssize_t fuse_buf_fd_to_fd(const struct fuse_buf *dst, size_t dst_of=
-f,
-+=09=09=09=09 const struct fuse_buf *src, size_t src_off,
-+=09=09=09=09 size_t len)
-+{
-+=09char buf[4096];
-+=09struct fuse_buf tmp =3D {
-+=09=09.size =3D sizeof(buf),
-+=09=09.flags =3D 0,
-+=09};
-+=09ssize_t res;
-+=09size_t copied =3D 0;
-+
-+=09tmp.mem =3D buf;
-+
-+=09while (len) {
-+=09=09size_t this_len =3D min_size(tmp.size, len);
-+=09=09size_t read_len;
-+
-+=09=09res =3D fuse_buf_read(&tmp, 0, src, src_off, this_len);
-+=09=09if (res < 0) {
-+=09=09=09if (!copied)
-+=09=09=09=09return res;
-+=09=09=09break;
-+=09=09}
-+=09=09if (res =3D=3D 0)
-+=09=09=09break;
-+
-+=09=09read_len =3D res;
-+=09=09res =3D fuse_buf_write(dst, dst_off, &tmp, 0, read_len);
-+=09=09if (res < 0) {
-+=09=09=09if (!copied)
-+=09=09=09=09return res;
-+=09=09=09break;
-+=09=09}
-+=09=09if (res =3D=3D 0)
-+=09=09=09break;
-+
-+=09=09copied +=3D res;
-+
-+=09=09if (res < this_len)
-+=09=09=09break;
-+
-+=09=09dst_off +=3D res;
-+=09=09src_off +=3D res;
-+=09=09len -=3D res;
-+=09}
-+
-+=09return copied;
-+}
-+
-+#ifdef HAVE_SPLICE
-+static ssize_t fuse_buf_splice(const struct fuse_buf *dst, size_t dst_off,
-+=09=09=09       const struct fuse_buf *src, size_t src_off,
-+=09=09=09       size_t len, enum fuse_buf_copy_flags flags)
-+{
-+=09int splice_flags =3D 0;
-+=09off_t *srcpos =3D NULL;
-+=09off_t *dstpos =3D NULL;
-+=09off_t srcpos_val;
-+=09off_t dstpos_val;
-+=09ssize_t res;
-+=09size_t copied =3D 0;
-+
-+=09if (flags & FUSE_BUF_SPLICE_MOVE)
-+=09=09splice_flags |=3D SPLICE_F_MOVE;
-+=09if (flags & FUSE_BUF_SPLICE_NONBLOCK)
-+=09=09splice_flags |=3D SPLICE_F_NONBLOCK;
-+
-+=09if (src->flags & FUSE_BUF_FD_SEEK) {
-+=09=09srcpos_val =3D src->pos + src_off;
-+=09=09srcpos =3D &srcpos_val;
-+=09}
-+=09if (dst->flags & FUSE_BUF_FD_SEEK) {
-+=09=09dstpos_val =3D dst->pos + dst_off;
-+=09=09dstpos =3D &dstpos_val;
-+=09}
-+
-+=09while (len) {
-+=09=09res =3D splice(src->fd, srcpos, dst->fd, dstpos, len,
-+=09=09=09     splice_flags);
-+=09=09if (res =3D=3D -1) {
-+=09=09=09if (copied)
-+=09=09=09=09break;
-+
-+=09=09=09if (errno !=3D EINVAL || (flags & FUSE_BUF_FORCE_SPLICE))
-+=09=09=09=09return -errno;
-+
-+=09=09=09/* Maybe splice is not supported for this combination */
-+=09=09=09return fuse_buf_fd_to_fd(dst, dst_off, src, src_off,
-+=09=09=09=09=09=09 len);
-+=09=09}
-+=09=09if (res =3D=3D 0)
-+=09=09=09break;
-+
-+=09=09copied +=3D res;
-+=09=09if (!(src->flags & FUSE_BUF_FD_RETRY) &&
-+=09=09    !(dst->flags & FUSE_BUF_FD_RETRY)) {
-+=09=09=09break;
-+=09=09}
-+
-+=09=09len -=3D res;
-+=09}
-+
-+=09return copied;
-+}
-+#else
-+static ssize_t fuse_buf_splice(const struct fuse_buf *dst, size_t dst_off,
-+=09=09=09       const struct fuse_buf *src, size_t src_off,
-+=09=09=09       size_t len, enum fuse_buf_copy_flags flags)
-+{
-+=09(void) flags;
-+
-+=09return fuse_buf_fd_to_fd(dst, dst_off, src, src_off, len);
-+}
-+#endif
-+
-+
-+static ssize_t fuse_buf_copy_one(const struct fuse_buf *dst, size_t dst_of=
-f,
-+=09=09=09=09 const struct fuse_buf *src, size_t src_off,
-+=09=09=09=09 size_t len, enum fuse_buf_copy_flags flags)
-+{
-+=09int src_is_fd =3D src->flags & FUSE_BUF_IS_FD;
-+=09int dst_is_fd =3D dst->flags & FUSE_BUF_IS_FD;
-+
-+=09if (!src_is_fd && !dst_is_fd) {
-+=09=09char *dstmem =3D (char *)dst->mem + dst_off;
-+=09=09char *srcmem =3D (char *)src->mem + src_off;
-+
-+=09=09if (dstmem !=3D srcmem) {
-+=09=09=09if (dstmem + len <=3D srcmem || srcmem + len <=3D dstmem)
-+=09=09=09=09memcpy(dstmem, srcmem, len);
-+=09=09=09else
-+=09=09=09=09memmove(dstmem, srcmem, len);
-+=09=09}
-+
-+=09=09return len;
-+=09} else if (!src_is_fd) {
-+=09=09return fuse_buf_write(dst, dst_off, src, src_off, len);
-+=09} else if (!dst_is_fd) {
-+=09=09return fuse_buf_read(dst, dst_off, src, src_off, len);
-+=09} else if (flags & FUSE_BUF_NO_SPLICE) {
-+=09=09return fuse_buf_fd_to_fd(dst, dst_off, src, src_off, len);
-+=09} else {
-+=09=09return fuse_buf_splice(dst, dst_off, src, src_off, len, flags);
-+=09}
-+}
-+
-+static const struct fuse_buf *fuse_bufvec_current(struct fuse_bufvec *bufv=
-)
-+{
-+=09if (bufv->idx < bufv->count)
-+=09=09return &bufv->buf[bufv->idx];
-+=09else
-+=09=09return NULL;
-+}
-+
-+static int fuse_bufvec_advance(struct fuse_bufvec *bufv, size_t len)
-+{
-+=09const struct fuse_buf *buf =3D fuse_bufvec_current(bufv);
-+
-+=09bufv->off +=3D len;
-+=09assert(bufv->off <=3D buf->size);
-+=09if (bufv->off =3D=3D buf->size) {
-+=09=09assert(bufv->idx < bufv->count);
-+=09=09bufv->idx++;
-+=09=09if (bufv->idx =3D=3D bufv->count)
-+=09=09=09return 0;
-+=09=09bufv->off =3D 0;
-+=09}
-+=09return 1;
-+}
-+
-+ssize_t fuse_buf_copy(struct fuse_bufvec *dstv, struct fuse_bufvec *srcv,
-+=09=09      enum fuse_buf_copy_flags flags)
-+{
-+=09size_t copied =3D 0;
-+
-+=09if (dstv =3D=3D srcv)
-+=09=09return fuse_buf_size(dstv);
-+
-+=09for (;;) {
-+=09=09const struct fuse_buf *src =3D fuse_bufvec_current(srcv);
-+=09=09const struct fuse_buf *dst =3D fuse_bufvec_current(dstv);
-+=09=09size_t src_len;
-+=09=09size_t dst_len;
-+=09=09size_t len;
-+=09=09ssize_t res;
-+
-+=09=09if (src =3D=3D NULL || dst =3D=3D NULL)
-+=09=09=09break;
-+
-+=09=09src_len =3D src->size - srcv->off;
-+=09=09dst_len =3D dst->size - dstv->off;
-+=09=09len =3D min_size(src_len, dst_len);
-+
-+=09=09res =3D fuse_buf_copy_one(dst, dstv->off, src, srcv->off, len, flags=
-);
-+=09=09if (res < 0) {
-+=09=09=09if (!copied)
-+=09=09=09=09return res;
-+=09=09=09break;
-+=09=09}
-+=09=09copied +=3D res;
-+
-+=09=09if (!fuse_bufvec_advance(srcv, res) ||
-+=09=09    !fuse_bufvec_advance(dstv, res))
-+=09=09=09break;
-+
-+=09=09if (res < len)
-+=09=09=09break;
-+=09}
-+
-+=09return copied;
-+}
-diff --git a/tools/virtiofsd/fuse_log.c b/tools/virtiofsd/fuse_log.c
-new file mode 100644
-index 0000000000..0d268ab014
---- /dev/null
-+++ b/tools/virtiofsd/fuse_log.c
-@@ -0,0 +1,40 @@
-+/*
-+  FUSE: Filesystem in Userspace
-+  Copyright (C) 2019  Red Hat, Inc.
-+
-+  Logging API.
-+
-+  This program can be distributed under the terms of the GNU LGPLv2.
-+  See the file COPYING.LIB
-+*/
-+
-+#include "fuse_log.h"
-+
-+#include <stdarg.h>
-+#include <stdio.h>
-+
-+static void default_log_func(
-+=09=09__attribute__(( unused )) enum fuse_log_level level,
-+=09=09const char *fmt, va_list ap)
-+{
-+=09vfprintf(stderr, fmt, ap);
-+}
-+
-+static fuse_log_func_t log_func =3D default_log_func;
-+
-+void fuse_set_log_func(fuse_log_func_t func)
-+{
-+=09if (!func)
-+=09=09func =3D default_log_func;
-+
-+=09log_func =3D func;
-+}
-+
-+void fuse_log(enum fuse_log_level level, const char *fmt, ...)
-+{
-+=09va_list ap;
-+
-+=09va_start(ap, fmt);
-+=09log_func(level, fmt, ap);
-+=09va_end(ap);
-+}
-diff --git a/tools/virtiofsd/fuse_opt.c b/tools/virtiofsd/fuse_opt.c
-new file mode 100644
-index 0000000000..93066b926e
---- /dev/null
-+++ b/tools/virtiofsd/fuse_opt.c
-@@ -0,0 +1,423 @@
-+/*
-+  FUSE: Filesystem in Userspace
-+  Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
-+
-+  Implementation of option parsing routines (dealing with `struct
-+  fuse_args`).
-+
-+  This program can be distributed under the terms of the GNU LGPLv2.
-+  See the file COPYING.LIB
-+*/
-+
-+#include "config.h"
-+#include "fuse_i.h"
-+#include "fuse_opt.h"
-+#include "fuse_misc.h"
-+
-+#include <stdio.h>
 +#include <stdlib.h>
-+#include <string.h>
-+#include <assert.h>
-+
-+struct fuse_opt_context {
-+=09void *data;
-+=09const struct fuse_opt *opt;
-+=09fuse_opt_proc_t proc;
-+=09int argctr;
-+=09int argc;
-+=09char **argv;
-+=09struct fuse_args outargs;
-+=09char *opts;
-+=09int nonopt;
-+};
-+
-+void fuse_opt_free_args(struct fuse_args *args)
-+{
-+=09if (args) {
-+=09=09if (args->argv && args->allocated) {
-+=09=09=09int i;
-+=09=09=09for (i =3D 0; i < args->argc; i++)
-+=09=09=09=09free(args->argv[i]);
-+=09=09=09free(args->argv);
-+=09=09}
-+=09=09args->argc =3D 0;
-+=09=09args->argv =3D NULL;
-+=09=09args->allocated =3D 0;
-+=09}
-+}
-+
-+static int alloc_failed(void)
-+{
-+=09fuse_log(FUSE_LOG_ERR, "fuse: memory allocation failed\n");
-+=09return -1;
-+}
-+
-+int fuse_opt_add_arg(struct fuse_args *args, const char *arg)
-+{
-+=09char **newargv;
-+=09char *newarg;
-+
-+=09assert(!args->argv || args->allocated);
-+
-+=09newarg =3D strdup(arg);
-+=09if (!newarg)
-+=09=09return alloc_failed();
-+
-+=09newargv =3D realloc(args->argv, (args->argc + 2) * sizeof(char *));
-+=09if (!newargv) {
-+=09=09free(newarg);
-+=09=09return alloc_failed();
-+=09}
-+
-+=09args->argv =3D newargv;
-+=09args->allocated =3D 1;
-+=09args->argv[args->argc++] =3D newarg;
-+=09args->argv[args->argc] =3D NULL;
-+=09return 0;
-+}
-+
-+static int fuse_opt_insert_arg_common(struct fuse_args *args, int pos,
-+=09=09=09=09      const char *arg)
-+{
-+=09assert(pos <=3D args->argc);
-+=09if (fuse_opt_add_arg(args, arg) =3D=3D -1)
-+=09=09return -1;
-+
-+=09if (pos !=3D args->argc - 1) {
-+=09=09char *newarg =3D args->argv[args->argc - 1];
-+=09=09memmove(&args->argv[pos + 1], &args->argv[pos],
-+=09=09=09sizeof(char *) * (args->argc - pos - 1));
-+=09=09args->argv[pos] =3D newarg;
-+=09}
-+=09return 0;
-+}
-+
-+int fuse_opt_insert_arg(struct fuse_args *args, int pos, const char *arg)
-+{
-+=09return fuse_opt_insert_arg_common(args, pos, arg);
-+}
-+
-+static int next_arg(struct fuse_opt_context *ctx, const char *opt)
-+{
-+=09if (ctx->argctr + 1 >=3D ctx->argc) {
-+=09=09fuse_log(FUSE_LOG_ERR, "fuse: missing argument after `%s'\n", opt);
-+=09=09return -1;
-+=09}
-+=09ctx->argctr++;
-+=09return 0;
-+}
-+
-+static int add_arg(struct fuse_opt_context *ctx, const char *arg)
-+{
-+=09return fuse_opt_add_arg(&ctx->outargs, arg);
-+}
-+
-+static int add_opt_common(char **opts, const char *opt, int esc)
-+{
-+=09unsigned oldlen =3D *opts ? strlen(*opts) : 0;
-+=09char *d =3D realloc(*opts, oldlen + 1 + strlen(opt) * 2 + 1);
-+
-+=09if (!d)
-+=09=09return alloc_failed();
-+
-+=09*opts =3D d;
-+=09if (oldlen) {
-+=09=09d +=3D oldlen;
-+=09=09*d++ =3D ',';
-+=09}
-+
-+=09for (; *opt; opt++) {
-+=09=09if (esc && (*opt =3D=3D ',' || *opt =3D=3D '\\'))
-+=09=09=09*d++ =3D '\\';
-+=09=09*d++ =3D *opt;
-+=09}
-+=09*d =3D '\0';
-+
-+=09return 0;
-+}
-+
-+int fuse_opt_add_opt(char **opts, const char *opt)
-+{
-+=09return add_opt_common(opts, opt, 0);
-+}
-+
-+int fuse_opt_add_opt_escaped(char **opts, const char *opt)
-+{
-+=09return add_opt_common(opts, opt, 1);
-+}
-+
-+static int add_opt(struct fuse_opt_context *ctx, const char *opt)
-+{
-+=09return add_opt_common(&ctx->opts, opt, 1);
-+}
-+
-+static int call_proc(struct fuse_opt_context *ctx, const char *arg, int ke=
-y,
-+=09=09     int iso)
-+{
-+=09if (key =3D=3D FUSE_OPT_KEY_DISCARD)
-+=09=09return 0;
-+
-+=09if (key !=3D FUSE_OPT_KEY_KEEP && ctx->proc) {
-+=09=09int res =3D ctx->proc(ctx->data, arg, key, &ctx->outargs);
-+=09=09if (res =3D=3D -1 || !res)
-+=09=09=09return res;
-+=09}
-+=09if (iso)
-+=09=09return add_opt(ctx, arg);
-+=09else
-+=09=09return add_arg(ctx, arg);
-+}
-+
-+static int match_template(const char *t, const char *arg, unsigned *sepp)
-+{
-+=09int arglen =3D strlen(arg);
-+=09const char *sep =3D strchr(t, '=3D');
-+=09sep =3D sep ? sep : strchr(t, ' ');
-+=09if (sep && (!sep[1] || sep[1] =3D=3D '%')) {
-+=09=09int tlen =3D sep - t;
-+=09=09if (sep[0] =3D=3D '=3D')
-+=09=09=09tlen ++;
-+=09=09if (arglen >=3D tlen && strncmp(arg, t, tlen) =3D=3D 0) {
-+=09=09=09*sepp =3D sep - t;
-+=09=09=09return 1;
-+=09=09}
-+=09}
-+=09if (strcmp(t, arg) =3D=3D 0) {
-+=09=09*sepp =3D 0;
-+=09=09return 1;
-+=09}
-+=09return 0;
-+}
-+
-+static const struct fuse_opt *find_opt(const struct fuse_opt *opt,
-+=09=09=09=09       const char *arg, unsigned *sepp)
-+{
-+=09for (; opt && opt->templ; opt++)
-+=09=09if (match_template(opt->templ, arg, sepp))
-+=09=09=09return opt;
-+=09return NULL;
-+}
-+
-+int fuse_opt_match(const struct fuse_opt *opts, const char *opt)
-+{
-+=09unsigned dummy;
-+=09return find_opt(opts, opt, &dummy) ? 1 : 0;
-+}
-+
-+static int process_opt_param(void *var, const char *format, const char *pa=
-ram,
-+=09=09=09     const char *arg)
-+{
-+=09assert(format[0] =3D=3D '%');
-+=09if (format[1] =3D=3D 's') {
-+=09=09char **s =3D var;
-+=09=09char *copy =3D strdup(param);
-+=09=09if (!copy)
-+=09=09=09return alloc_failed();
-+
-+=09=09free(*s);
-+=09=09*s =3D copy;
-+=09} else {
-+=09=09if (sscanf(param, format, var) !=3D 1) {
-+=09=09=09fuse_log(FUSE_LOG_ERR, "fuse: invalid parameter in option `%s'\n"=
-, arg);
-+=09=09=09return -1;
-+=09=09}
-+=09}
-+=09return 0;
-+}
-+
-+static int process_opt(struct fuse_opt_context *ctx,
-+=09=09       const struct fuse_opt *opt, unsigned sep,
-+=09=09       const char *arg, int iso)
-+{
-+=09if (opt->offset =3D=3D -1U) {
-+=09=09if (call_proc(ctx, arg, opt->value, iso) =3D=3D -1)
-+=09=09=09return -1;
-+=09} else {
-+=09=09void *var =3D (char *)ctx->data + opt->offset;
-+=09=09if (sep && opt->templ[sep + 1]) {
-+=09=09=09const char *param =3D arg + sep;
-+=09=09=09if (opt->templ[sep] =3D=3D '=3D')
-+=09=09=09=09param ++;
-+=09=09=09if (process_opt_param(var, opt->templ + sep + 1,
-+=09=09=09=09=09      param, arg) =3D=3D -1)
-+=09=09=09=09return -1;
-+=09=09} else
-+=09=09=09*(int *)var =3D opt->value;
-+=09}
-+=09return 0;
-+}
-+
-+static int process_opt_sep_arg(struct fuse_opt_context *ctx,
-+=09=09=09       const struct fuse_opt *opt, unsigned sep,
-+=09=09=09       const char *arg, int iso)
-+{
-+=09int res;
-+=09char *newarg;
-+=09char *param;
-+
-+=09if (next_arg(ctx, arg) =3D=3D -1)
-+=09=09return -1;
-+
-+=09param =3D ctx->argv[ctx->argctr];
-+=09newarg =3D malloc(sep + strlen(param) + 1);
-+=09if (!newarg)
-+=09=09return alloc_failed();
-+
-+=09memcpy(newarg, arg, sep);
-+=09strcpy(newarg + sep, param);
-+=09res =3D process_opt(ctx, opt, sep, newarg, iso);
-+=09free(newarg);
-+
-+=09return res;
-+}
-+
-+static int process_gopt(struct fuse_opt_context *ctx, const char *arg, int=
- iso)
-+{
-+=09unsigned sep;
-+=09const struct fuse_opt *opt =3D find_opt(ctx->opt, arg, &sep);
-+=09if (opt) {
-+=09=09for (; opt; opt =3D find_opt(opt + 1, arg, &sep)) {
-+=09=09=09int res;
-+=09=09=09if (sep && opt->templ[sep] =3D=3D ' ' && !arg[sep])
-+=09=09=09=09res =3D process_opt_sep_arg(ctx, opt, sep, arg,
-+=09=09=09=09=09=09=09  iso);
-+=09=09=09else
-+=09=09=09=09res =3D process_opt(ctx, opt, sep, arg, iso);
-+=09=09=09if (res =3D=3D -1)
-+=09=09=09=09return -1;
-+=09=09}
-+=09=09return 0;
-+=09} else
-+=09=09return call_proc(ctx, arg, FUSE_OPT_KEY_OPT, iso);
-+}
-+
-+static int process_real_option_group(struct fuse_opt_context *ctx, char *o=
-pts)
-+{
-+=09char *s =3D opts;
-+=09char *d =3D s;
-+=09int end =3D 0;
-+
-+=09while (!end) {
-+=09=09if (*s =3D=3D '\0')
-+=09=09=09end =3D 1;
-+=09=09if (*s =3D=3D ',' || end) {
-+=09=09=09int res;
-+
-+=09=09=09*d =3D '\0';
-+=09=09=09res =3D process_gopt(ctx, opts, 1);
-+=09=09=09if (res =3D=3D -1)
-+=09=09=09=09return -1;
-+=09=09=09d =3D opts;
-+=09=09} else {
-+=09=09=09if (s[0] =3D=3D '\\' && s[1] !=3D '\0') {
-+=09=09=09=09s++;
-+=09=09=09=09if (s[0] >=3D '0' && s[0] <=3D '3' &&
-+=09=09=09=09    s[1] >=3D '0' && s[1] <=3D '7' &&
-+=09=09=09=09    s[2] >=3D '0' && s[2] <=3D '7') {
-+=09=09=09=09=09*d++ =3D (s[0] - '0') * 0100 +
-+=09=09=09=09=09=09(s[1] - '0') * 0010 +
-+=09=09=09=09=09=09(s[2] - '0');
-+=09=09=09=09=09s +=3D 2;
-+=09=09=09=09} else {
-+=09=09=09=09=09*d++ =3D *s;
-+=09=09=09=09}
-+=09=09=09} else {
-+=09=09=09=09*d++ =3D *s;
-+=09=09=09}
-+=09=09}
-+=09=09s++;
-+=09}
-+
-+=09return 0;
-+}
-+
-+static int process_option_group(struct fuse_opt_context *ctx, const char *=
-opts)
-+{
-+=09int res;
-+=09char *copy =3D strdup(opts);
-+
-+=09if (!copy) {
-+=09=09fuse_log(FUSE_LOG_ERR, "fuse: memory allocation failed\n");
-+=09=09return -1;
-+=09}
-+=09res =3D process_real_option_group(ctx, copy);
-+=09free(copy);
-+=09return res;
-+}
-+
-+static int process_one(struct fuse_opt_context *ctx, const char *arg)
-+{
-+=09if (ctx->nonopt || arg[0] !=3D '-')
-+=09=09return call_proc(ctx, arg, FUSE_OPT_KEY_NONOPT, 0);
-+=09else if (arg[1] =3D=3D 'o') {
-+=09=09if (arg[2])
-+=09=09=09return process_option_group(ctx, arg + 2);
-+=09=09else {
-+=09=09=09if (next_arg(ctx, arg) =3D=3D -1)
-+=09=09=09=09return -1;
-+
-+=09=09=09return process_option_group(ctx,
-+=09=09=09=09=09=09    ctx->argv[ctx->argctr]);
-+=09=09}
-+=09} else if (arg[1] =3D=3D '-' && !arg[2]) {
-+=09=09if (add_arg(ctx, arg) =3D=3D -1)
-+=09=09=09return -1;
-+=09=09ctx->nonopt =3D ctx->outargs.argc;
-+=09=09return 0;
-+=09} else
-+=09=09return process_gopt(ctx, arg, 0);
-+}
-+
-+static int opt_parse(struct fuse_opt_context *ctx)
-+{
-+=09if (ctx->argc) {
-+=09=09if (add_arg(ctx, ctx->argv[0]) =3D=3D -1)
-+=09=09=09return -1;
-+=09}
-+
-+=09for (ctx->argctr =3D 1; ctx->argctr < ctx->argc; ctx->argctr++)
-+=09=09if (process_one(ctx, ctx->argv[ctx->argctr]) =3D=3D -1)
-+=09=09=09return -1;
-+
-+=09if (ctx->opts) {
-+=09=09if (fuse_opt_insert_arg(&ctx->outargs, 1, "-o") =3D=3D -1 ||
-+=09=09    fuse_opt_insert_arg(&ctx->outargs, 2, ctx->opts) =3D=3D -1)
-+=09=09=09return -1;
-+=09}
-+
-+=09/* If option separator ("--") is the last argument, remove it */
-+=09if (ctx->nonopt && ctx->nonopt =3D=3D ctx->outargs.argc &&
-+=09    strcmp(ctx->outargs.argv[ctx->outargs.argc - 1], "--") =3D=3D 0) {
-+=09=09free(ctx->outargs.argv[ctx->outargs.argc - 1]);
-+=09=09ctx->outargs.argv[--ctx->outargs.argc] =3D NULL;
-+=09}
-+
-+=09return 0;
-+}
-+
-+int fuse_opt_parse(struct fuse_args *args, void *data,
-+=09=09   const struct fuse_opt opts[], fuse_opt_proc_t proc)
-+{
-+=09int res;
-+=09struct fuse_opt_context ctx =3D {
-+=09=09.data =3D data,
-+=09=09.opt =3D opts,
-+=09=09.proc =3D proc,
-+=09};
-+
-+=09if (!args || !args->argv || !args->argc)
-+=09=09return 0;
-+
-+=09ctx.argc =3D args->argc;
-+=09ctx.argv =3D args->argv;
-+
-+=09res =3D opt_parse(&ctx);
-+=09if (res !=3D -1) {
-+=09=09struct fuse_args tmp =3D *args;
-+=09=09*args =3D ctx.outargs;
-+=09=09ctx.outargs =3D tmp;
-+=09}
-+=09free(ctx.opts);
-+=09fuse_opt_free_args(&ctx.outargs);
-+=09return res;
-+}
-diff --git a/tools/virtiofsd/fuse_signals.c b/tools/virtiofsd/fuse_signals.=
-c
-new file mode 100644
-index 0000000000..4271947bd4
---- /dev/null
-+++ b/tools/virtiofsd/fuse_signals.c
-@@ -0,0 +1,91 @@
-+/*
-+  FUSE: Filesystem in Userspace
-+  Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
-+
-+  Utility functions for setting signal handlers.
-+
-+  This program can be distributed under the terms of the GNU LGPLv2.
-+  See the file COPYING.LIB
-+*/
-+
-+#include "config.h"
-+#include "fuse_lowlevel.h"
-+#include "fuse_i.h"
-+
 +#include <stdio.h>
-+#include <string.h>
-+#include <signal.h>
-+#include <stdlib.h>
-+
-+static struct fuse_session *fuse_instance;
-+
-+static void exit_handler(int sig)
-+{
-+=09if (fuse_instance) {
-+=09=09fuse_session_exit(fuse_instance);
-+=09=09if(sig <=3D 0) {
-+=09=09=09fuse_log(FUSE_LOG_ERR, "assertion error: signal value <=3D 0\n");
-+=09=09=09abort();
-+=09=09}
-+=09=09fuse_instance->error =3D sig;
-+=09}
-+}
-+
-+static void do_nothing(int sig)
-+{
-+=09(void) sig;
-+}
-+
-+static int set_one_signal_handler(int sig, void (*handler)(int), int remov=
-e)
-+{
-+=09struct sigaction sa;
-+=09struct sigaction old_sa;
-+
-+=09memset(&sa, 0, sizeof(struct sigaction));
-+=09sa.sa_handler =3D remove ? SIG_DFL : handler;
-+=09sigemptyset(&(sa.sa_mask));
-+=09sa.sa_flags =3D 0;
-+
-+=09if (sigaction(sig, NULL, &old_sa) =3D=3D -1) {
-+=09=09perror("fuse: cannot get old signal handler");
-+=09=09return -1;
-+=09}
-+
-+=09if (old_sa.sa_handler =3D=3D (remove ? handler : SIG_DFL) &&
-+=09    sigaction(sig, &sa, NULL) =3D=3D -1) {
-+=09=09perror("fuse: cannot set signal handler");
-+=09=09return -1;
-+=09}
-+=09return 0;
-+}
-+
-+int fuse_set_signal_handlers(struct fuse_session *se)
-+{
-+=09/* If we used SIG_IGN instead of the do_nothing function,
-+=09   then we would be unable to tell if we set SIG_IGN (and
-+=09   thus should reset to SIG_DFL in fuse_remove_signal_handlers)
-+=09   or if it was already set to SIG_IGN (and should be left
-+=09   untouched. */
-+=09if (set_one_signal_handler(SIGHUP, exit_handler, 0) =3D=3D -1 ||
-+=09    set_one_signal_handler(SIGINT, exit_handler, 0) =3D=3D -1 ||
-+=09    set_one_signal_handler(SIGTERM, exit_handler, 0) =3D=3D -1 ||
-+=09    set_one_signal_handler(SIGPIPE, do_nothing, 0) =3D=3D -1)
-+=09=09return -1;
-+
-+=09fuse_instance =3D se;
-+=09return 0;
-+}
-+
-+void fuse_remove_signal_handlers(struct fuse_session *se)
-+{
-+=09if (fuse_instance !=3D se)
-+=09=09fuse_log(FUSE_LOG_ERR,
-+=09=09=09"fuse: fuse_remove_signal_handlers: unknown session\n");
-+=09else
-+=09=09fuse_instance =3D NULL;
-+
-+=09set_one_signal_handler(SIGHUP, exit_handler, 1);
-+=09set_one_signal_handler(SIGINT, exit_handler, 1);
-+=09set_one_signal_handler(SIGTERM, exit_handler, 1);
-+=09set_one_signal_handler(SIGPIPE, do_nothing, 1);
-+}
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-new file mode 100644
-index 0000000000..64ff7ad6d5
---- /dev/null
-+++ b/tools/virtiofsd/helper.c
-@@ -0,0 +1,440 @@
-+/*
-+  FUSE: Filesystem in Userspace
-+  Copyright (C) 2001-2007  Miklos Szeredi <miklos@szeredi.hu>
-+
-+  Helper functions to create (simple) standalone programs. With the
-+  aid of these functions it should be possible to create full FUSE
-+  file system by implementing nothing but the request handlers.
-+
-+  This program can be distributed under the terms of the GNU LGPLv2.
-+  See the file COPYING.LIB.
-+*/
-+
-+#include "config.h"
-+#include "fuse_i.h"
-+#include "fuse_misc.h"
-+#include "fuse_opt.h"
-+#include "fuse_lowlevel.h"
-+#include "mount_util.h"
-+
-+#include <stdio.h>
-+#include <stdlib.h>
 +#include <stddef.h>
-+#include <unistd.h>
++#include <stdbool.h>
 +#include <string.h>
 +#include <limits.h>
++#include <dirent.h>
++#include <assert.h>
 +#include <errno.h>
-+#include <sys/param.h>
++#include <inttypes.h>
++#include <pthread.h>
++#include <sys/file.h>
++#include <sys/xattr.h>
 +
-+#define FUSE_HELPER_OPT(t, p) \
-+=09{ t, offsetof(struct fuse_cmdline_opts, p), 1 }
++#include "passthrough_helpers.h"
 +
-+static const struct fuse_opt fuse_helper_opts[] =3D {
-+=09FUSE_HELPER_OPT("-h",=09=09show_help),
-+=09FUSE_HELPER_OPT("--help",=09show_help),
-+=09FUSE_HELPER_OPT("-V",=09=09show_version),
-+=09FUSE_HELPER_OPT("--version",=09show_version),
-+=09FUSE_HELPER_OPT("-d",=09=09debug),
-+=09FUSE_HELPER_OPT("debug",=09debug),
-+=09FUSE_HELPER_OPT("-d",=09=09foreground),
-+=09FUSE_HELPER_OPT("debug",=09foreground),
-+=09FUSE_OPT_KEY("-d",=09=09FUSE_OPT_KEY_KEEP),
-+=09FUSE_OPT_KEY("debug",=09=09FUSE_OPT_KEY_KEEP),
-+=09FUSE_HELPER_OPT("-f",=09=09foreground),
-+=09FUSE_HELPER_OPT("-s",=09=09singlethread),
-+=09FUSE_HELPER_OPT("fsname=3D",=09nodefault_subtype),
-+=09FUSE_OPT_KEY("fsname=3D",=09=09FUSE_OPT_KEY_KEEP),
-+#ifndef __FreeBSD__
-+=09FUSE_HELPER_OPT("subtype=3D",=09nodefault_subtype),
-+=09FUSE_OPT_KEY("subtype=3D",=09FUSE_OPT_KEY_KEEP),
++/* We are re-using pointers to our `struct lo_inode` and `struct
++   lo_dirp` elements as inodes. This means that we must be able to
++   store uintptr_t values in a fuse_ino_t variable. The following
++   incantation checks this condition at compile time. */
++#if defined(__GNUC__) && (__GNUC__ > 4 || __GNUC__ =3D=3D 4 && __GNUC_MINO=
+R__ >=3D 6) && !defined __cplusplus
++_Static_assert(sizeof(fuse_ino_t) >=3D sizeof(uintptr_t),
++=09       "fuse_ino_t too small to hold uintptr_t values!");
++#else
++struct _uintptr_to_must_hold_fuse_ino_t_dummy_struct \
++=09{ unsigned _uintptr_to_must_hold_fuse_ino_t:
++=09=09=09((sizeof(fuse_ino_t) >=3D sizeof(uintptr_t)) ? 1 : -1); };
 +#endif
-+=09FUSE_HELPER_OPT("clone_fd",=09clone_fd),
-+=09FUSE_HELPER_OPT("max_idle_threads=3D%u", max_idle_threads),
++
++struct lo_inode {
++=09struct lo_inode *next; /* protected by lo->mutex */
++=09struct lo_inode *prev; /* protected by lo->mutex */
++=09int fd;
++=09bool is_symlink;
++=09ino_t ino;
++=09dev_t dev;
++=09uint64_t refcount; /* protected by lo->mutex */
++};
++
++enum {
++=09CACHE_NEVER,
++=09CACHE_NORMAL,
++=09CACHE_ALWAYS,
++};
++
++struct lo_data {
++=09pthread_mutex_t mutex;
++=09int debug;
++=09int writeback;
++=09int flock;
++=09int xattr;
++=09const char *source;
++=09double timeout;
++=09int cache;
++=09int timeout_set;
++=09struct lo_inode root; /* protected by lo->mutex */
++};
++
++static const struct fuse_opt lo_opts[] =3D {
++=09{ "writeback",
++=09  offsetof(struct lo_data, writeback), 1 },
++=09{ "no_writeback",
++=09  offsetof(struct lo_data, writeback), 0 },
++=09{ "source=3D%s",
++=09  offsetof(struct lo_data, source), 0 },
++=09{ "flock",
++=09  offsetof(struct lo_data, flock), 1 },
++=09{ "no_flock",
++=09  offsetof(struct lo_data, flock), 0 },
++=09{ "xattr",
++=09  offsetof(struct lo_data, xattr), 1 },
++=09{ "no_xattr",
++=09  offsetof(struct lo_data, xattr), 0 },
++=09{ "timeout=3D%lf",
++=09  offsetof(struct lo_data, timeout), 0 },
++=09{ "timeout=3D",
++=09  offsetof(struct lo_data, timeout_set), 1 },
++=09{ "cache=3Dnever",
++=09  offsetof(struct lo_data, cache), CACHE_NEVER },
++=09{ "cache=3Dauto",
++=09  offsetof(struct lo_data, cache), CACHE_NORMAL },
++=09{ "cache=3Dalways",
++=09  offsetof(struct lo_data, cache), CACHE_ALWAYS },
++
 +=09FUSE_OPT_END
 +};
 +
-+struct fuse_conn_info_opts {
-+=09int atomic_o_trunc;
-+=09int no_remote_posix_lock;
-+=09int no_remote_flock;
-+=09int splice_write;
-+=09int splice_move;
-+=09int splice_read;
-+=09int no_splice_write;
-+=09int no_splice_move;
-+=09int no_splice_read;
-+=09int auto_inval_data;
-+=09int no_auto_inval_data;
-+=09int no_readdirplus;
-+=09int no_readdirplus_auto;
-+=09int async_dio;
-+=09int no_async_dio;
-+=09int writeback_cache;
-+=09int no_writeback_cache;
-+=09int async_read;
-+=09int sync_read;
-+=09unsigned max_write;
-+=09unsigned max_readahead;
-+=09unsigned max_background;
-+=09unsigned congestion_threshold;
-+=09unsigned time_gran;
-+=09int set_max_write;
-+=09int set_max_readahead;
-+=09int set_max_background;
-+=09int set_congestion_threshold;
-+=09int set_time_gran;
-+};
-+
-+#define CONN_OPTION(t, p, v)=09=09=09=09=09\
-+=09{ t, offsetof(struct fuse_conn_info_opts, p), v }
-+static const struct fuse_opt conn_info_opt_spec[] =3D {
-+=09CONN_OPTION("max_write=3D%u", max_write, 0),
-+=09CONN_OPTION("max_write=3D", set_max_write, 1),
-+=09CONN_OPTION("max_readahead=3D%u", max_readahead, 0),
-+=09CONN_OPTION("max_readahead=3D", set_max_readahead, 1),
-+=09CONN_OPTION("max_background=3D%u", max_background, 0),
-+=09CONN_OPTION("max_background=3D", set_max_background, 1),
-+=09CONN_OPTION("congestion_threshold=3D%u", congestion_threshold, 0),
-+=09CONN_OPTION("congestion_threshold=3D", set_congestion_threshold, 1),
-+=09CONN_OPTION("sync_read", sync_read, 1),
-+=09CONN_OPTION("async_read", async_read, 1),
-+=09CONN_OPTION("atomic_o_trunc", atomic_o_trunc, 1),
-+=09CONN_OPTION("no_remote_lock", no_remote_posix_lock, 1),
-+=09CONN_OPTION("no_remote_lock", no_remote_flock, 1),
-+=09CONN_OPTION("no_remote_flock", no_remote_flock, 1),
-+=09CONN_OPTION("no_remote_posix_lock", no_remote_posix_lock, 1),
-+=09CONN_OPTION("splice_write", splice_write, 1),
-+=09CONN_OPTION("no_splice_write", no_splice_write, 1),
-+=09CONN_OPTION("splice_move", splice_move, 1),
-+=09CONN_OPTION("no_splice_move", no_splice_move, 1),
-+=09CONN_OPTION("splice_read", splice_read, 1),
-+=09CONN_OPTION("no_splice_read", no_splice_read, 1),
-+=09CONN_OPTION("auto_inval_data", auto_inval_data, 1),
-+=09CONN_OPTION("no_auto_inval_data", no_auto_inval_data, 1),
-+=09CONN_OPTION("readdirplus=3Dno", no_readdirplus, 1),
-+=09CONN_OPTION("readdirplus=3Dyes", no_readdirplus, 0),
-+=09CONN_OPTION("readdirplus=3Dyes", no_readdirplus_auto, 1),
-+=09CONN_OPTION("readdirplus=3Dauto", no_readdirplus, 0),
-+=09CONN_OPTION("readdirplus=3Dauto", no_readdirplus_auto, 0),
-+=09CONN_OPTION("async_dio", async_dio, 1),
-+=09CONN_OPTION("no_async_dio", no_async_dio, 1),
-+=09CONN_OPTION("writeback_cache", writeback_cache, 1),
-+=09CONN_OPTION("no_writeback_cache", no_writeback_cache, 1),
-+=09CONN_OPTION("time_gran=3D%u", time_gran, 0),
-+=09CONN_OPTION("time_gran=3D", set_time_gran, 1),
-+=09FUSE_OPT_END
-+};
-+
-+
-+void fuse_cmdline_help(void)
++static struct lo_data *lo_data(fuse_req_t req)
 +{
-+=09printf("    -h   --help            print help\n"
-+=09       "    -V   --version         print version\n"
-+=09       "    -d   -o debug          enable debug output (implies -f)\n"
-+=09       "    -f                     foreground operation\n"
-+=09       "    -s                     disable multi-threaded operation\n"
-+=09       "    -o clone_fd            use separate fuse device fd for each=
- thread\n"
-+=09       "                           (may improve performance)\n"
-+=09       "    -o max_idle_threads    the maximum number of idle worker th=
-reads\n"
-+=09       "                           allowed (default: 10)\n");
++=09return (struct lo_data *) fuse_req_userdata(req);
 +}
 +
-+static int fuse_helper_opt_proc(void *data, const char *arg, int key,
-+=09=09=09=09struct fuse_args *outargs)
++static struct lo_inode *lo_inode(fuse_req_t req, fuse_ino_t ino)
 +{
-+=09(void) outargs;
-+=09struct fuse_cmdline_opts *opts =3D data;
++=09if (ino =3D=3D FUSE_ROOT_ID)
++=09=09return &lo_data(req)->root;
++=09else
++=09=09return (struct lo_inode *) (uintptr_t) ino;
++}
 +
-+=09switch (key) {
-+=09case FUSE_OPT_KEY_NONOPT:
-+=09=09if (!opts->mountpoint) {
-+=09=09=09if (fuse_mnt_parse_fuse_fd(arg) !=3D -1) {
-+=09=09=09=09return fuse_opt_add_opt(&opts->mountpoint, arg);
-+=09=09=09}
++static int lo_fd(fuse_req_t req, fuse_ino_t ino)
++{
++=09return lo_inode(req, ino)->fd;
++}
 +
-+=09=09=09char mountpoint[PATH_MAX] =3D "";
-+=09=09=09if (realpath(arg, mountpoint) =3D=3D NULL) {
-+=09=09=09=09fuse_log(FUSE_LOG_ERR,
-+=09=09=09=09=09"fuse: bad mount point `%s': %s\n",
-+=09=09=09=09=09arg, strerror(errno));
-+=09=09=09=09return -1;
-+=09=09=09}
-+=09=09=09return fuse_opt_add_opt(&opts->mountpoint, mountpoint);
-+=09=09} else {
-+=09=09=09fuse_log(FUSE_LOG_ERR, "fuse: invalid argument `%s'\n", arg);
-+=09=09=09return -1;
-+=09=09}
++static bool lo_debug(fuse_req_t req)
++{
++=09return lo_data(req)->debug !=3D 0;
++}
 +
-+=09default:
-+=09=09/* Pass through unknown options */
-+=09=09return 1;
++static void lo_init(void *userdata,
++=09=09    struct fuse_conn_info *conn)
++{
++=09struct lo_data *lo =3D (struct lo_data*) userdata;
++
++=09if(conn->capable & FUSE_CAP_EXPORT_SUPPORT)
++=09=09conn->want |=3D FUSE_CAP_EXPORT_SUPPORT;
++
++=09if (lo->writeback &&
++=09    conn->capable & FUSE_CAP_WRITEBACK_CACHE) {
++=09=09if (lo->debug)
++=09=09=09fuse_log(FUSE_LOG_DEBUG, "lo_init: activating writeback\n");
++=09=09conn->want |=3D FUSE_CAP_WRITEBACK_CACHE;
++=09}
++=09if (lo->flock && conn->capable & FUSE_CAP_FLOCK_LOCKS) {
++=09=09if (lo->debug)
++=09=09=09fuse_log(FUSE_LOG_DEBUG, "lo_init: activating flock locks\n");
++=09=09conn->want |=3D FUSE_CAP_FLOCK_LOCKS;
 +=09}
 +}
 +
-+/* Under FreeBSD, there is no subtype option so this
-+   function actually sets the fsname */
-+static int add_default_subtype(const char *progname, struct fuse_args *arg=
-s)
++static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
++=09=09=09     struct fuse_file_info *fi)
 +{
 +=09int res;
-+=09char *subtype_opt;
++=09struct stat buf;
++=09struct lo_data *lo =3D lo_data(req);
 +
-+=09const char *basename =3D strrchr(progname, '/');
-+=09if (basename =3D=3D NULL)
-+=09=09basename =3D progname;
-+=09else if (basename[1] !=3D '\0')
-+=09=09basename++;
++=09(void) fi;
 +
-+=09subtype_opt =3D (char *) malloc(strlen(basename) + 64);
-+=09if (subtype_opt =3D=3D NULL) {
-+=09=09fuse_log(FUSE_LOG_ERR, "fuse: memory allocation failed\n");
-+=09=09return -1;
-+=09}
-+#ifdef __FreeBSD__
-+=09sprintf(subtype_opt, "-ofsname=3D%s", basename);
-+#else
-+=09sprintf(subtype_opt, "-osubtype=3D%s", basename);
-+#endif
-+=09res =3D fuse_opt_add_arg(args, subtype_opt);
-+=09free(subtype_opt);
-+=09return res;
++=09res =3D fstatat(lo_fd(req, ino), "", &buf, AT_EMPTY_PATH | AT_SYMLINK_N=
+OFOLLOW);
++=09if (res =3D=3D -1)
++=09=09return (void) fuse_reply_err(req, errno);
++
++=09fuse_reply_attr(req, &buf, lo->timeout);
 +}
 +
-+int fuse_parse_cmdline(struct fuse_args *args,
-+=09=09       struct fuse_cmdline_opts *opts)
++static int utimensat_empty_nofollow(struct lo_inode *inode,
++=09=09=09=09    const struct timespec *tv)
 +{
-+=09memset(opts, 0, sizeof(struct fuse_cmdline_opts));
++=09int res;
++=09char procname[64];
 +
-+=09opts->max_idle_threads =3D 10;
-+
-+=09if (fuse_opt_parse(args, opts, fuse_helper_opts,
-+=09=09=09   fuse_helper_opt_proc) =3D=3D -1)
-+=09=09return -1;
-+
-+=09/* *Linux*: if neither -o subtype nor -o fsname are specified,
-+=09   set subtype to program's basename.
-+=09   *FreeBSD*: if fsname is not specified, set to program's
-+=09   basename. */
-+=09if (!opts->nodefault_subtype)
-+=09=09if (add_default_subtype(args->argv[0], args) =3D=3D -1)
-+=09=09=09return -1;
-+
-+=09return 0;
-+}
-+
-+
-+int fuse_daemonize(int foreground)
-+{
-+=09if (!foreground) {
-+=09=09int nullfd;
-+=09=09int waiter[2];
-+=09=09char completed;
-+
-+=09=09if (pipe(waiter)) {
-+=09=09=09perror("fuse_daemonize: pipe");
-+=09=09=09return -1;
++=09if (inode->is_symlink) {
++=09=09res =3D utimensat(inode->fd, "", tv,
++=09=09=09=09AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
++=09=09if (res =3D=3D -1 && errno =3D=3D EINVAL) {
++=09=09=09/* Sorry, no race free way to set times on symlink. */
++=09=09=09errno =3D EPERM;
 +=09=09}
++=09=09return res;
++=09}
++=09sprintf(procname, "/proc/self/fd/%i", inode->fd);
 +
-+=09=09/*
-+=09=09 * demonize current process by forking it and killing the
-+=09=09 * parent.  This makes current process as a child of 'init'.
-+=09=09 */
-+=09=09switch(fork()) {
-+=09=09case -1:
-+=09=09=09perror("fuse_daemonize: fork");
-+=09=09=09return -1;
-+=09=09case 0:
++=09return utimensat(AT_FDCWD, procname, tv, 0);
++}
++
++static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
++=09=09       int valid, struct fuse_file_info *fi)
++{
++=09int saverr;
++=09char procname[64];
++=09struct lo_inode *inode =3D lo_inode(req, ino);
++=09int ifd =3D inode->fd;
++=09int res;
++
++=09if (valid & FUSE_SET_ATTR_MODE) {
++=09=09if (fi) {
++=09=09=09res =3D fchmod(fi->fh, attr->st_mode);
++=09=09} else {
++=09=09=09sprintf(procname, "/proc/self/fd/%i", ifd);
++=09=09=09res =3D chmod(procname, attr->st_mode);
++=09=09}
++=09=09if (res =3D=3D -1)
++=09=09=09goto out_err;
++=09}
++=09if (valid & (FUSE_SET_ATTR_UID | FUSE_SET_ATTR_GID)) {
++=09=09uid_t uid =3D (valid & FUSE_SET_ATTR_UID) ?
++=09=09=09attr->st_uid : (uid_t) -1;
++=09=09gid_t gid =3D (valid & FUSE_SET_ATTR_GID) ?
++=09=09=09attr->st_gid : (gid_t) -1;
++
++=09=09res =3D fchownat(ifd, "", uid, gid,
++=09=09=09       AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
++=09=09if (res =3D=3D -1)
++=09=09=09goto out_err;
++=09}
++=09if (valid & FUSE_SET_ATTR_SIZE) {
++=09=09if (fi) {
++=09=09=09res =3D ftruncate(fi->fh, attr->st_size);
++=09=09} else {
++=09=09=09sprintf(procname, "/proc/self/fd/%i", ifd);
++=09=09=09res =3D truncate(procname, attr->st_size);
++=09=09}
++=09=09if (res =3D=3D -1)
++=09=09=09goto out_err;
++=09}
++=09if (valid & (FUSE_SET_ATTR_ATIME | FUSE_SET_ATTR_MTIME)) {
++=09=09struct timespec tv[2];
++
++=09=09tv[0].tv_sec =3D 0;
++=09=09tv[1].tv_sec =3D 0;
++=09=09tv[0].tv_nsec =3D UTIME_OMIT;
++=09=09tv[1].tv_nsec =3D UTIME_OMIT;
++
++=09=09if (valid & FUSE_SET_ATTR_ATIME_NOW)
++=09=09=09tv[0].tv_nsec =3D UTIME_NOW;
++=09=09else if (valid & FUSE_SET_ATTR_ATIME)
++=09=09=09tv[0] =3D attr->st_atim;
++
++=09=09if (valid & FUSE_SET_ATTR_MTIME_NOW)
++=09=09=09tv[1].tv_nsec =3D UTIME_NOW;
++=09=09else if (valid & FUSE_SET_ATTR_MTIME)
++=09=09=09tv[1] =3D attr->st_mtim;
++
++=09=09if (fi)
++=09=09=09res =3D futimens(fi->fh, tv);
++=09=09else
++=09=09=09res =3D utimensat_empty_nofollow(inode, tv);
++=09=09if (res =3D=3D -1)
++=09=09=09goto out_err;
++=09}
++
++=09return lo_getattr(req, ino, fi);
++
++out_err:
++=09saverr =3D errno;
++=09fuse_reply_err(req, saverr);
++}
++
++static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st)
++{
++=09struct lo_inode *p;
++=09struct lo_inode *ret =3D NULL;
++
++=09pthread_mutex_lock(&lo->mutex);
++=09for (p =3D lo->root.next; p !=3D &lo->root; p =3D p->next) {
++=09=09if (p->ino =3D=3D st->st_ino && p->dev =3D=3D st->st_dev) {
++=09=09=09assert(p->refcount > 0);
++=09=09=09ret =3D p;
++=09=09=09ret->refcount++;
 +=09=09=09break;
-+=09=09default:
-+=09=09=09(void) read(waiter[0], &completed, sizeof(completed));
-+=09=09=09_exit(0);
 +=09=09}
-+
-+=09=09if (setsid() =3D=3D -1) {
-+=09=09=09perror("fuse_daemonize: setsid");
-+=09=09=09return -1;
-+=09=09}
-+
-+=09=09(void) chdir("/");
-+
-+=09=09nullfd =3D open("/dev/null", O_RDWR, 0);
-+=09=09if (nullfd !=3D -1) {
-+=09=09=09(void) dup2(nullfd, 0);
-+=09=09=09(void) dup2(nullfd, 1);
-+=09=09=09(void) dup2(nullfd, 2);
-+=09=09=09if (nullfd > 2)
-+=09=09=09=09close(nullfd);
-+=09=09}
-+
-+=09=09/* Propagate completion of daemon initialization */
-+=09=09completed =3D 1;
-+=09=09(void) write(waiter[1], &completed, sizeof(completed));
-+=09=09close(waiter[0]);
-+=09=09close(waiter[1]);
-+=09} else {
-+=09=09(void) chdir("/");
 +=09}
-+=09return 0;
++=09pthread_mutex_unlock(&lo->mutex);
++=09return ret;
 +}
 +
-+int fuse_main_real(int argc, char *argv[], const struct fuse_operations *o=
-p,
-+=09=09   size_t op_size, void *user_data)
++static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *nam=
+e,
++=09=09=09 struct fuse_entry_param *e)
++{
++=09int newfd;
++=09int res;
++=09int saverr;
++=09struct lo_data *lo =3D lo_data(req);
++=09struct lo_inode *inode;
++
++=09memset(e, 0, sizeof(*e));
++=09e->attr_timeout =3D lo->timeout;
++=09e->entry_timeout =3D lo->timeout;
++
++=09newfd =3D openat(lo_fd(req, parent), name, O_PATH | O_NOFOLLOW);
++=09if (newfd =3D=3D -1)
++=09=09goto out_err;
++
++=09res =3D fstatat(newfd, "", &e->attr, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLO=
+W);
++=09if (res =3D=3D -1)
++=09=09goto out_err;
++
++=09inode =3D lo_find(lo_data(req), &e->attr);
++=09if (inode) {
++=09=09close(newfd);
++=09=09newfd =3D -1;
++=09} else {
++=09=09struct lo_inode *prev, *next;
++
++=09=09saverr =3D ENOMEM;
++=09=09inode =3D calloc(1, sizeof(struct lo_inode));
++=09=09if (!inode)
++=09=09=09goto out_err;
++
++=09=09inode->is_symlink =3D S_ISLNK(e->attr.st_mode);
++=09=09inode->refcount =3D 1;
++=09=09inode->fd =3D newfd;
++=09=09inode->ino =3D e->attr.st_ino;
++=09=09inode->dev =3D e->attr.st_dev;
++
++=09=09pthread_mutex_lock(&lo->mutex);
++=09=09prev =3D &lo->root;
++=09=09next =3D prev->next;
++=09=09next->prev =3D inode;
++=09=09inode->next =3D next;
++=09=09inode->prev =3D prev;
++=09=09prev->next =3D inode;
++=09=09pthread_mutex_unlock(&lo->mutex);
++=09}
++=09e->ino =3D (uintptr_t) inode;
++
++=09if (lo_debug(req))
++=09=09fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n",
++=09=09=09(unsigned long long) parent, name, (unsigned long long) e->ino);
++
++=09return 0;
++
++out_err:
++=09saverr =3D errno;
++=09if (newfd !=3D -1)
++=09=09close(newfd);
++=09return saverr;
++}
++
++static void lo_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
++{
++=09struct fuse_entry_param e;
++=09int err;
++
++=09if (lo_debug(req))
++=09=09fuse_log(FUSE_LOG_DEBUG, "lo_lookup(parent=3D%" PRIu64 ", name=3D%s)=
+\n",
++=09=09=09parent, name);
++
++=09err =3D lo_do_lookup(req, parent, name, &e);
++=09if (err)
++=09=09fuse_reply_err(req, err);
++=09else
++=09=09fuse_reply_entry(req, &e);
++}
++
++static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
++=09=09=09     const char *name, mode_t mode, dev_t rdev,
++=09=09=09     const char *link)
++{
++=09int res;
++=09int saverr;
++=09struct lo_inode *dir =3D lo_inode(req, parent);
++=09struct fuse_entry_param e;
++
++=09saverr =3D ENOMEM;
++
++=09res =3D mknod_wrapper(dir->fd, name, link, mode, rdev);
++
++=09saverr =3D errno;
++=09if (res =3D=3D -1)
++=09=09goto out;
++
++=09saverr =3D lo_do_lookup(req, parent, name, &e);
++=09if (saverr)
++=09=09goto out;
++
++=09if (lo_debug(req))
++=09=09fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n",
++=09=09=09(unsigned long long) parent, name, (unsigned long long) e.ino);
++
++=09fuse_reply_entry(req, &e);
++=09return;
++
++out:
++=09fuse_reply_err(req, saverr);
++}
++
++static void lo_mknod(fuse_req_t req, fuse_ino_t parent,
++=09=09     const char *name, mode_t mode, dev_t rdev)
++{
++=09lo_mknod_symlink(req, parent, name, mode, rdev, NULL);
++}
++
++static void lo_mkdir(fuse_req_t req, fuse_ino_t parent, const char *name,
++=09=09     mode_t mode)
++{
++=09lo_mknod_symlink(req, parent, name, S_IFDIR | mode, 0, NULL);
++}
++
++static void lo_symlink(fuse_req_t req, const char *link,
++=09=09       fuse_ino_t parent, const char *name)
++{
++=09lo_mknod_symlink(req, parent, name, S_IFLNK, 0, link);
++}
++
++static int linkat_empty_nofollow(struct lo_inode *inode, int dfd,
++=09=09=09=09 const char *name)
++{
++=09int res;
++=09char procname[64];
++
++=09if (inode->is_symlink) {
++=09=09res =3D linkat(inode->fd, "", dfd, name, AT_EMPTY_PATH);
++=09=09if (res =3D=3D -1 && (errno =3D=3D ENOENT || errno =3D=3D EINVAL)) {
++=09=09=09/* Sorry, no race free way to hard-link a symlink. */
++=09=09=09errno =3D EPERM;
++=09=09}
++=09=09return res;
++=09}
++
++=09sprintf(procname, "/proc/self/fd/%i", inode->fd);
++
++=09return linkat(AT_FDCWD, procname, dfd, name, AT_SYMLINK_FOLLOW);
++}
++
++static void lo_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
++=09=09    const char *name)
++{
++=09int res;
++=09struct lo_data *lo =3D lo_data(req);
++=09struct lo_inode *inode =3D lo_inode(req, ino);
++=09struct fuse_entry_param e;
++=09int saverr;
++
++=09memset(&e, 0, sizeof(struct fuse_entry_param));
++=09e.attr_timeout =3D lo->timeout;
++=09e.entry_timeout =3D lo->timeout;
++
++=09res =3D linkat_empty_nofollow(inode, lo_fd(req, parent), name);
++=09if (res =3D=3D -1)
++=09=09goto out_err;
++
++=09res =3D fstatat(inode->fd, "", &e.attr, AT_EMPTY_PATH | AT_SYMLINK_NOFO=
+LLOW);
++=09if (res =3D=3D -1)
++=09=09goto out_err;
++
++=09pthread_mutex_lock(&lo->mutex);
++=09inode->refcount++;
++=09pthread_mutex_unlock(&lo->mutex);
++=09e.ino =3D (uintptr_t) inode;
++
++=09if (lo_debug(req))
++=09=09fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n",
++=09=09=09(unsigned long long) parent, name,
++=09=09=09(unsigned long long) e.ino);
++
++=09fuse_reply_entry(req, &e);
++=09return;
++
++out_err:
++=09saverr =3D errno;
++=09fuse_reply_err(req, saverr);
++}
++
++static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
++{
++=09int res;
++
++=09res =3D unlinkat(lo_fd(req, parent), name, AT_REMOVEDIR);
++
++=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
++}
++
++static void lo_rename(fuse_req_t req, fuse_ino_t parent, const char *name,
++=09=09      fuse_ino_t newparent, const char *newname,
++=09=09      unsigned int flags)
++{
++=09int res;
++
++=09if (flags) {
++=09=09fuse_reply_err(req, EINVAL);
++=09=09return;
++=09}
++
++=09res =3D renameat(lo_fd(req, parent), name,
++=09=09=09lo_fd(req, newparent), newname);
++
++=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
++}
++
++static void lo_unlink(fuse_req_t req, fuse_ino_t parent, const char *name)
++{
++=09int res;
++
++=09res =3D unlinkat(lo_fd(req, parent), name, 0);
++
++=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
++}
++
++static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64=
+_t n)
++{
++=09if (!inode)
++=09=09return;
++
++=09pthread_mutex_lock(&lo->mutex);
++=09assert(inode->refcount >=3D n);
++=09inode->refcount -=3D n;
++=09if (!inode->refcount) {
++=09=09struct lo_inode *prev, *next;
++
++=09=09prev =3D inode->prev;
++=09=09next =3D inode->next;
++=09=09next->prev =3D prev;
++=09=09prev->next =3D next;
++
++=09=09pthread_mutex_unlock(&lo->mutex);
++=09=09close(inode->fd);
++=09=09free(inode);
++
++=09} else {
++=09=09pthread_mutex_unlock(&lo->mutex);
++=09}
++}
++
++static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup=
+)
++{
++=09struct lo_data *lo =3D lo_data(req);
++=09struct lo_inode *inode =3D lo_inode(req, ino);
++
++=09if (lo_debug(req)) {
++=09=09fuse_log(FUSE_LOG_DEBUG, "  forget %lli %lli -%lli\n",
++=09=09=09(unsigned long long) ino,
++=09=09=09(unsigned long long) inode->refcount,
++=09=09=09(unsigned long long) nlookup);
++=09}
++
++=09unref_inode(lo, inode, nlookup);
++}
++
++static void lo_forget(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup)
++{
++=09lo_forget_one(req, ino, nlookup);
++=09fuse_reply_none(req);
++}
++
++static void lo_forget_multi(fuse_req_t req, size_t count,
++=09=09=09=09struct fuse_forget_data *forgets)
++{
++=09int i;
++
++=09for (i =3D 0; i < count; i++)
++=09=09lo_forget_one(req, forgets[i].ino, forgets[i].nlookup);
++=09fuse_reply_none(req);
++}
++
++static void lo_readlink(fuse_req_t req, fuse_ino_t ino)
++{
++=09char buf[PATH_MAX + 1];
++=09int res;
++
++=09res =3D readlinkat(lo_fd(req, ino), "", buf, sizeof(buf));
++=09if (res =3D=3D -1)
++=09=09return (void) fuse_reply_err(req, errno);
++
++=09if (res =3D=3D sizeof(buf))
++=09=09return (void) fuse_reply_err(req, ENAMETOOLONG);
++
++=09buf[res] =3D '\0';
++
++=09fuse_reply_readlink(req, buf);
++}
++
++struct lo_dirp {
++=09DIR *dp;
++=09struct dirent *entry;
++=09off_t offset;
++};
++
++static struct lo_dirp *lo_dirp(struct fuse_file_info *fi)
++{
++=09return (struct lo_dirp *) (uintptr_t) fi->fh;
++}
++
++static void lo_opendir(fuse_req_t req, fuse_ino_t ino, struct fuse_file_in=
+fo *fi)
++{
++=09int error =3D ENOMEM;
++=09struct lo_data *lo =3D lo_data(req);
++=09struct lo_dirp *d;
++=09int fd;
++
++=09d =3D calloc(1, sizeof(struct lo_dirp));
++=09if (d =3D=3D NULL)
++=09=09goto out_err;
++
++=09fd =3D openat(lo_fd(req, ino), ".", O_RDONLY);
++=09if (fd =3D=3D -1)
++=09=09goto out_errno;
++
++=09d->dp =3D fdopendir(fd);
++=09if (d->dp =3D=3D NULL)
++=09=09goto out_errno;
++
++=09d->offset =3D 0;
++=09d->entry =3D NULL;
++
++=09fi->fh =3D (uintptr_t) d;
++=09if (lo->cache =3D=3D CACHE_ALWAYS)
++=09=09fi->keep_cache =3D 1;
++=09fuse_reply_open(req, fi);
++=09return;
++
++out_errno:
++=09error =3D errno;
++out_err:
++=09if (d) {
++=09=09if (fd !=3D -1)
++=09=09=09close(fd);
++=09=09free(d);
++=09}
++=09fuse_reply_err(req, error);
++}
++
++static int is_dot_or_dotdot(const char *name)
++{
++=09return name[0] =3D=3D '.' && (name[1] =3D=3D '\0' ||
++=09=09=09=09  (name[1] =3D=3D '.' && name[2] =3D=3D '\0'));
++}
++
++static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
++=09=09=09  off_t offset, struct fuse_file_info *fi, int plus)
++{
++=09struct lo_dirp *d =3D lo_dirp(fi);
++=09char *buf;
++=09char *p;
++=09size_t rem =3D size;
++=09int err;
++
++=09(void) ino;
++
++=09buf =3D calloc(1, size);
++=09if (!buf) {
++=09=09err =3D ENOMEM;
++=09=09goto error;
++=09}
++=09p =3D buf;
++
++=09if (offset !=3D d->offset) {
++=09=09seekdir(d->dp, offset);
++=09=09d->entry =3D NULL;
++=09=09d->offset =3D offset;
++=09}
++=09while (1) {
++=09=09size_t entsize;
++=09=09off_t nextoff;
++=09=09const char *name;
++
++=09=09if (!d->entry) {
++=09=09=09errno =3D 0;
++=09=09=09d->entry =3D readdir(d->dp);
++=09=09=09if (!d->entry) {
++=09=09=09=09if (errno) {  // Error
++=09=09=09=09=09err =3D errno;
++=09=09=09=09=09goto error;
++=09=09=09=09} else {  // End of stream
++=09=09=09=09=09break;=20
++=09=09=09=09}
++=09=09=09}
++=09=09}
++=09=09nextoff =3D d->entry->d_off;
++=09=09name =3D d->entry->d_name;
++=09=09fuse_ino_t entry_ino =3D 0;
++=09=09if (plus) {
++=09=09=09struct fuse_entry_param e;
++=09=09=09if (is_dot_or_dotdot(name)) {
++=09=09=09=09e =3D (struct fuse_entry_param) {
++=09=09=09=09=09.attr.st_ino =3D d->entry->d_ino,
++=09=09=09=09=09.attr.st_mode =3D d->entry->d_type << 12,
++=09=09=09=09};
++=09=09=09} else {
++=09=09=09=09err =3D lo_do_lookup(req, ino, name, &e);
++=09=09=09=09if (err)
++=09=09=09=09=09goto error;
++=09=09=09=09entry_ino =3D e.ino;
++=09=09=09}
++
++=09=09=09entsize =3D fuse_add_direntry_plus(req, p, rem, name,
++=09=09=09=09=09=09=09 &e, nextoff);
++=09=09} else {
++=09=09=09struct stat st =3D {
++=09=09=09=09.st_ino =3D d->entry->d_ino,
++=09=09=09=09.st_mode =3D d->entry->d_type << 12,
++=09=09=09};
++=09=09=09entsize =3D fuse_add_direntry(req, p, rem, name,
++=09=09=09=09=09=09    &st, nextoff);
++=09=09}
++=09=09if (entsize > rem) {
++=09=09=09if (entry_ino !=3D 0)=20
++=09=09=09=09lo_forget_one(req, entry_ino, 1);
++=09=09=09break;
++=09=09}
++=09=09
++=09=09p +=3D entsize;
++=09=09rem -=3D entsize;
++
++=09=09d->entry =3D NULL;
++=09=09d->offset =3D nextoff;
++=09}
++
++    err =3D 0;
++error:
++    // If there's an error, we can only signal it if we haven't stored
++    // any entries yet - otherwise we'd end up with wrong lookup
++    // counts for the entries that are already in the buffer. So we
++    // return what we've collected until that point.
++    if (err && rem =3D=3D size)
++=09    fuse_reply_err(req, err);
++    else
++=09    fuse_reply_buf(req, buf, size - rem);
++    free(buf);
++}
++
++static void lo_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
++=09=09       off_t offset, struct fuse_file_info *fi)
++{
++=09lo_do_readdir(req, ino, size, offset, fi, 0);
++}
++
++static void lo_readdirplus(fuse_req_t req, fuse_ino_t ino, size_t size,
++=09=09=09   off_t offset, struct fuse_file_info *fi)
++{
++=09lo_do_readdir(req, ino, size, offset, fi, 1);
++}
++
++static void lo_releasedir(fuse_req_t req, fuse_ino_t ino, struct fuse_file=
+_info *fi)
++{
++=09struct lo_dirp *d =3D lo_dirp(fi);
++=09(void) ino;
++=09closedir(d->dp);
++=09free(d);
++=09fuse_reply_err(req, 0);
++}
++
++static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
++=09=09      mode_t mode, struct fuse_file_info *fi)
++{
++=09int fd;
++=09struct lo_data *lo =3D lo_data(req);
++=09struct fuse_entry_param e;
++=09int err;
++
++=09if (lo_debug(req))
++=09=09fuse_log(FUSE_LOG_DEBUG, "lo_create(parent=3D%" PRIu64 ", name=3D%s)=
+\n",
++=09=09=09parent, name);
++
++=09fd =3D openat(lo_fd(req, parent), name,
++=09=09    (fi->flags | O_CREAT) & ~O_NOFOLLOW, mode);
++=09if (fd =3D=3D -1)
++=09=09return (void) fuse_reply_err(req, errno);
++
++=09fi->fh =3D fd;
++=09if (lo->cache =3D=3D CACHE_NEVER)
++=09=09fi->direct_io =3D 1;
++=09else if (lo->cache =3D=3D CACHE_ALWAYS)
++=09=09fi->keep_cache =3D 1;
++
++=09err =3D lo_do_lookup(req, parent, name, &e);
++=09if (err)
++=09=09fuse_reply_err(req, err);
++=09else
++=09=09fuse_reply_create(req, &e, fi);
++}
++
++static void lo_fsyncdir(fuse_req_t req, fuse_ino_t ino, int datasync,
++=09=09=09struct fuse_file_info *fi)
++{
++=09int res;
++=09int fd =3D dirfd(lo_dirp(fi)->dp);
++=09(void) ino;
++=09if (datasync)
++=09=09res =3D fdatasync(fd);
++=09else
++=09=09res =3D fsync(fd);
++=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
++}
++
++static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info =
+*fi)
++{
++=09int fd;
++=09char buf[64];
++=09struct lo_data *lo =3D lo_data(req);
++
++=09if (lo_debug(req))
++=09=09fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=3D%" PRIu64 ", flags=3D%d)\n",
++=09=09=09ino, fi->flags);
++
++=09/* With writeback cache, kernel may send read requests even
++=09   when userspace opened write-only */
++=09if (lo->writeback && (fi->flags & O_ACCMODE) =3D=3D O_WRONLY) {
++=09=09fi->flags &=3D ~O_ACCMODE;
++=09=09fi->flags |=3D O_RDWR;
++=09}
++
++=09/* With writeback cache, O_APPEND is handled by the kernel.
++=09   This breaks atomicity (since the file may change in the
++=09   underlying filesystem, so that the kernel's idea of the
++=09   end of the file isn't accurate anymore). In this example,
++=09   we just accept that. A more rigorous filesystem may want
++=09   to return an error here */
++=09if (lo->writeback && (fi->flags & O_APPEND))
++=09=09fi->flags &=3D ~O_APPEND;
++
++=09sprintf(buf, "/proc/self/fd/%i", lo_fd(req, ino));
++=09fd =3D open(buf, fi->flags & ~O_NOFOLLOW);
++=09if (fd =3D=3D -1)
++=09=09return (void) fuse_reply_err(req, errno);
++
++=09fi->fh =3D fd;
++=09if (lo->cache =3D=3D CACHE_NEVER)
++=09=09fi->direct_io =3D 1;
++=09else if (lo->cache =3D=3D CACHE_ALWAYS)
++=09=09fi->keep_cache =3D 1;
++=09fuse_reply_open(req, fi);
++}
++
++static void lo_release(fuse_req_t req, fuse_ino_t ino, struct fuse_file_in=
+fo *fi)
++{
++=09(void) ino;
++
++=09close(fi->fh);
++=09fuse_reply_err(req, 0);
++}
++
++static void lo_flush(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info=
+ *fi)
++{
++=09int res;
++=09(void) ino;
++=09res =3D close(dup(fi->fh));
++=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
++}
++
++static void lo_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
++=09=09     struct fuse_file_info *fi)
++{
++=09int res;
++=09(void) ino;
++=09if (datasync)
++=09=09res =3D fdatasync(fi->fh);
++=09else
++=09=09res =3D fsync(fi->fh);
++=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
++}
++
++static void lo_read(fuse_req_t req, fuse_ino_t ino, size_t size,
++=09=09    off_t offset, struct fuse_file_info *fi)
++{
++=09struct fuse_bufvec buf =3D FUSE_BUFVEC_INIT(size);
++
++=09if (lo_debug(req))
++=09=09fuse_log(FUSE_LOG_DEBUG, "lo_read(ino=3D%" PRIu64 ", size=3D%zd, "
++=09=09=09"off=3D%lu)\n", ino, size, (unsigned long) offset);
++
++=09buf.buf[0].flags =3D FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK;
++=09buf.buf[0].fd =3D fi->fh;
++=09buf.buf[0].pos =3D offset;
++
++=09fuse_reply_data(req, &buf, FUSE_BUF_SPLICE_MOVE);
++}
++
++static void lo_write_buf(fuse_req_t req, fuse_ino_t ino,
++=09=09=09 struct fuse_bufvec *in_buf, off_t off,
++=09=09=09 struct fuse_file_info *fi)
++{
++=09(void) ino;
++=09ssize_t res;
++=09struct fuse_bufvec out_buf =3D FUSE_BUFVEC_INIT(fuse_buf_size(in_buf));
++
++=09out_buf.buf[0].flags =3D FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK;
++=09out_buf.buf[0].fd =3D fi->fh;
++=09out_buf.buf[0].pos =3D off;
++
++=09if (lo_debug(req))
++=09=09fuse_log(FUSE_LOG_DEBUG, "lo_write(ino=3D%" PRIu64 ", size=3D%zd, of=
+f=3D%lu)\n",
++=09=09=09ino, out_buf.buf[0].size, (unsigned long) off);
++
++=09res =3D fuse_buf_copy(&out_buf, in_buf, 0);
++=09if(res < 0)
++=09=09fuse_reply_err(req, -res);
++=09else
++=09=09fuse_reply_write(req, (size_t) res);
++}
++
++static void lo_statfs(fuse_req_t req, fuse_ino_t ino)
++{
++=09int res;
++=09struct statvfs stbuf;
++
++=09res =3D fstatvfs(lo_fd(req, ino), &stbuf);
++=09if (res =3D=3D -1)
++=09=09fuse_reply_err(req, errno);
++=09else
++=09=09fuse_reply_statfs(req, &stbuf);
++}
++
++static void lo_fallocate(fuse_req_t req, fuse_ino_t ino, int mode,
++=09=09=09 off_t offset, off_t length, struct fuse_file_info *fi)
++{
++=09int err =3D EOPNOTSUPP;
++=09(void) ino;
++
++#ifdef HAVE_FALLOCATE
++=09err =3D fallocate(fi->fh, mode, offset, length);
++=09if (err < 0)
++=09=09err =3D errno;
++
++#elif defined(HAVE_POSIX_FALLOCATE)
++=09if (mode) {
++=09=09fuse_reply_err(req, EOPNOTSUPP);
++=09=09return;
++=09}
++
++=09err =3D posix_fallocate(fi->fh, offset, length);
++#endif
++
++=09fuse_reply_err(req, err);
++}
++
++static void lo_flock(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info=
+ *fi,
++=09=09     int op)
++{
++=09int res;
++=09(void) ino;
++
++=09res =3D flock(fi->fh, op);
++
++=09fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
++}
++
++static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
++=09=09=09size_t size)
++{
++=09char *value =3D NULL;
++=09char procname[64];
++=09struct lo_inode *inode =3D lo_inode(req, ino);
++=09ssize_t ret;
++=09int saverr;
++
++=09saverr =3D ENOSYS;
++=09if (!lo_data(req)->xattr)
++=09=09goto out;
++
++=09if (lo_debug(req)) {
++=09=09fuse_log(FUSE_LOG_DEBUG, "lo_getxattr(ino=3D%" PRIu64 ", name=3D%s s=
+ize=3D%zd)\n",
++=09=09=09ino, name, size);
++=09}
++
++=09if (inode->is_symlink) {
++=09=09/* Sorry, no race free way to getxattr on symlink. */
++=09=09saverr =3D EPERM;
++=09=09goto out;
++=09}
++
++=09sprintf(procname, "/proc/self/fd/%i", inode->fd);
++
++=09if (size) {
++=09=09value =3D malloc(size);
++=09=09if (!value)
++=09=09=09goto out_err;
++
++=09=09ret =3D getxattr(procname, name, value, size);
++=09=09if (ret =3D=3D -1)
++=09=09=09goto out_err;
++=09=09saverr =3D 0;
++=09=09if (ret =3D=3D 0)
++=09=09=09goto out;
++
++=09=09fuse_reply_buf(req, value, ret);
++=09} else {
++=09=09ret =3D getxattr(procname, name, NULL, 0);
++=09=09if (ret =3D=3D -1)
++=09=09=09goto out_err;
++
++=09=09fuse_reply_xattr(req, ret);
++=09}
++out_free:
++=09free(value);
++=09return;
++
++out_err:
++=09saverr =3D errno;
++out:
++=09fuse_reply_err(req, saverr);
++=09goto out_free;
++}
++
++static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
++{
++=09char *value =3D NULL;
++=09char procname[64];
++=09struct lo_inode *inode =3D lo_inode(req, ino);
++=09ssize_t ret;
++=09int saverr;
++
++=09saverr =3D ENOSYS;
++=09if (!lo_data(req)->xattr)
++=09=09goto out;
++
++=09if (lo_debug(req)) {
++=09=09fuse_log(FUSE_LOG_DEBUG, "lo_listxattr(ino=3D%" PRIu64 ", size=3D%zd=
+)\n",
++=09=09=09ino, size);
++=09}
++
++=09if (inode->is_symlink) {
++=09=09/* Sorry, no race free way to listxattr on symlink. */
++=09=09saverr =3D EPERM;
++=09=09goto out;
++=09}
++
++=09sprintf(procname, "/proc/self/fd/%i", inode->fd);
++
++=09if (size) {
++=09=09value =3D malloc(size);
++=09=09if (!value)
++=09=09=09goto out_err;
++
++=09=09ret =3D listxattr(procname, value, size);
++=09=09if (ret =3D=3D -1)
++=09=09=09goto out_err;
++=09=09saverr =3D 0;
++=09=09if (ret =3D=3D 0)
++=09=09=09goto out;
++
++=09=09fuse_reply_buf(req, value, ret);
++=09} else {
++=09=09ret =3D listxattr(procname, NULL, 0);
++=09=09if (ret =3D=3D -1)
++=09=09=09goto out_err;
++
++=09=09fuse_reply_xattr(req, ret);
++=09}
++out_free:
++=09free(value);
++=09return;
++
++out_err:
++=09saverr =3D errno;
++out:
++=09fuse_reply_err(req, saverr);
++=09goto out_free;
++}
++
++static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
++=09=09=09const char *value, size_t size, int flags)
++{
++=09char procname[64];
++=09struct lo_inode *inode =3D lo_inode(req, ino);
++=09ssize_t ret;
++=09int saverr;
++
++=09saverr =3D ENOSYS;
++=09if (!lo_data(req)->xattr)
++=09=09goto out;
++
++=09if (lo_debug(req)) {
++=09=09fuse_log(FUSE_LOG_DEBUG, "lo_setxattr(ino=3D%" PRIu64 ", name=3D%s v=
+alue=3D%s size=3D%zd)\n",
++=09=09=09ino, name, value, size);
++=09}
++
++=09if (inode->is_symlink) {
++=09=09/* Sorry, no race free way to setxattr on symlink. */
++=09=09saverr =3D EPERM;
++=09=09goto out;
++=09}
++
++=09sprintf(procname, "/proc/self/fd/%i", inode->fd);
++
++=09ret =3D setxattr(procname, name, value, size, flags);
++=09saverr =3D ret =3D=3D -1 ? errno : 0;
++
++out:
++=09fuse_reply_err(req, saverr);
++}
++
++static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *nam=
+e)
++{
++=09char procname[64];
++=09struct lo_inode *inode =3D lo_inode(req, ino);
++=09ssize_t ret;
++=09int saverr;
++
++=09saverr =3D ENOSYS;
++=09if (!lo_data(req)->xattr)
++=09=09goto out;
++
++=09if (lo_debug(req)) {
++=09=09fuse_log(FUSE_LOG_DEBUG, "lo_removexattr(ino=3D%" PRIu64 ", name=3D%=
+s)\n",
++=09=09=09ino, name);
++=09}
++
++=09if (inode->is_symlink) {
++=09=09/* Sorry, no race free way to setxattr on symlink. */
++=09=09saverr =3D EPERM;
++=09=09goto out;
++=09}
++
++=09sprintf(procname, "/proc/self/fd/%i", inode->fd);
++
++=09ret =3D removexattr(procname, name);
++=09saverr =3D ret =3D=3D -1 ? errno : 0;
++
++out:
++=09fuse_reply_err(req, saverr);
++}
++
++#ifdef HAVE_COPY_FILE_RANGE
++static void lo_copy_file_range(fuse_req_t req, fuse_ino_t ino_in, off_t of=
+f_in,
++=09=09=09       struct fuse_file_info *fi_in,
++=09=09=09       fuse_ino_t ino_out, off_t off_out,
++=09=09=09       struct fuse_file_info *fi_out, size_t len,
++=09=09=09       int flags)
++{
++=09ssize_t res;
++
++=09if (lo_debug(req))
++=09=09fuse_log(FUSE_LOG_DEBUG, "lo_copy_file_range(ino=3D%" PRIu64 "/fd=3D=
+%lu, "
++=09=09=09=09"off=3D%lu, ino=3D%" PRIu64 "/fd=3D%lu, "
++=09=09=09=09"off=3D%lu, size=3D%zd, flags=3D0x%x)\n",
++=09=09=09ino_in, fi_in->fh, off_in, ino_out, fi_out->fh, off_out,
++=09=09=09len, flags);
++
++=09res =3D copy_file_range(fi_in->fh, &off_in, fi_out->fh, &off_out, len,
++=09=09=09      flags);
++=09if (res < 0)
++=09=09fuse_reply_err(req, -errno);
++=09else
++=09=09fuse_reply_write(req, res);
++}
++#endif
++
++static void lo_lseek(fuse_req_t req, fuse_ino_t ino, off_t off, int whence=
+,
++=09=09     struct fuse_file_info *fi)
++{
++=09off_t res;
++
++=09(void)ino;
++=09res =3D lseek(fi->fh, off, whence);
++=09if (res !=3D -1)
++=09=09fuse_reply_lseek(req, res);
++=09else
++=09=09fuse_reply_err(req, errno);
++}
++
++static struct fuse_lowlevel_ops lo_oper =3D {
++=09.init=09=09=3D lo_init,
++=09.lookup=09=09=3D lo_lookup,
++=09.mkdir=09=09=3D lo_mkdir,
++=09.mknod=09=09=3D lo_mknod,
++=09.symlink=09=3D lo_symlink,
++=09.link=09=09=3D lo_link,
++=09.unlink=09=09=3D lo_unlink,
++=09.rmdir=09=09=3D lo_rmdir,
++=09.rename=09=09=3D lo_rename,
++=09.forget=09=09=3D lo_forget,
++=09.forget_multi=09=3D lo_forget_multi,
++=09.getattr=09=3D lo_getattr,
++=09.setattr=09=3D lo_setattr,
++=09.readlink=09=3D lo_readlink,
++=09.opendir=09=3D lo_opendir,
++=09.readdir=09=3D lo_readdir,
++=09.readdirplus=09=3D lo_readdirplus,
++=09.releasedir=09=3D lo_releasedir,
++=09.fsyncdir=09=3D lo_fsyncdir,
++=09.create=09=09=3D lo_create,
++=09.open=09=09=3D lo_open,
++=09.release=09=3D lo_release,
++=09.flush=09=09=3D lo_flush,
++=09.fsync=09=09=3D lo_fsync,
++=09.read=09=09=3D lo_read,
++=09.write_buf      =3D lo_write_buf,
++=09.statfs=09=09=3D lo_statfs,
++=09.fallocate=09=3D lo_fallocate,
++=09.flock=09=09=3D lo_flock,
++=09.getxattr=09=3D lo_getxattr,
++=09.listxattr=09=3D lo_listxattr,
++=09.setxattr=09=3D lo_setxattr,
++=09.removexattr=09=3D lo_removexattr,
++#ifdef HAVE_COPY_FILE_RANGE
++=09.copy_file_range =3D lo_copy_file_range,
++#endif
++=09.lseek=09=09=3D lo_lseek,
++};
++
++int main(int argc, char *argv[])
 +{
 +=09struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
-+=09struct fuse *fuse;
++=09struct fuse_session *se;
 +=09struct fuse_cmdline_opts opts;
-+=09int res;
++=09struct lo_data lo =3D { .debug =3D 0,
++=09                      .writeback =3D 0 };
++=09int ret =3D -1;
++
++=09/* Don't mask creation mode, kernel already did that */
++=09umask(0);
++
++=09pthread_mutex_init(&lo.mutex, NULL);
++=09lo.root.next =3D lo.root.prev =3D &lo.root;
++=09lo.root.fd =3D -1;
++=09lo.cache =3D CACHE_NORMAL;
 +
 +=09if (fuse_parse_cmdline(&args, &opts) !=3D 0)
 +=09=09return 1;
-+
-+=09if (opts.show_version) {
-+=09=09printf("FUSE library version %s\n", PACKAGE_VERSION);
-+=09=09fuse_lowlevel_version();
-+=09=09res =3D 0;
-+=09=09goto out1;
-+=09}
-+
 +=09if (opts.show_help) {
-+=09=09if(args.argv[0][0] !=3D '\0')
-+=09=09=09printf("usage: %s [options] <mountpoint>\n\n",
-+=09=09=09       args.argv[0]);
-+=09=09printf("FUSE options:\n");
++=09=09printf("usage: %s [options] <mountpoint>\n\n", argv[0]);
 +=09=09fuse_cmdline_help();
-+=09=09fuse_lib_help(&args);
-+=09=09res =3D 0;
-+=09=09goto out1;
++=09=09fuse_lowlevel_help();
++=09=09ret =3D 0;
++=09=09goto err_out1;
++=09} else if (opts.show_version) {
++=09=09printf("FUSE library version %s\n", fuse_pkgversion());
++=09=09fuse_lowlevel_version();
++=09=09ret =3D 0;
++=09=09goto err_out1;
 +=09}
 +
-+=09if (!opts.show_help &&
-+=09    !opts.mountpoint) {
-+=09=09fuse_log(FUSE_LOG_ERR, "error: no mountpoint specified\n");
-+=09=09res =3D 2;
-+=09=09goto out1;
++=09if(opts.mountpoint =3D=3D NULL) {
++=09=09printf("usage: %s [options] <mountpoint>\n", argv[0]);
++=09=09printf("       %s --help\n", argv[0]);
++=09=09ret =3D 1;
++=09=09goto err_out1;
 +=09}
 +
++=09if (fuse_opt_parse(&args, &lo, lo_opts, NULL)=3D=3D -1)
++=09=09return 1;
 +
-+=09fuse =3D fuse_new_31(&args, op, op_size, user_data);
-+=09if (fuse =3D=3D NULL) {
-+=09=09res =3D 3;
-+=09=09goto out1;
++=09lo.debug =3D opts.debug;
++=09lo.root.refcount =3D 2;
++=09if (lo.source) {
++=09=09struct stat stat;
++=09=09int res;
++
++=09=09res =3D lstat(lo.source, &stat);
++=09=09if (res =3D=3D -1) {
++=09=09=09fuse_log(FUSE_LOG_ERR, "failed to stat source (\"%s\"): %m\n",
++=09=09=09=09 lo.source);
++=09=09=09exit(1);
++=09=09}
++=09=09if (!S_ISDIR(stat.st_mode)) {
++=09=09=09fuse_log(FUSE_LOG_ERR, "source is not a directory\n");
++=09=09=09exit(1);
++=09=09}
++
++=09} else {
++=09=09lo.source =3D "/";
++=09}
++=09lo.root.is_symlink =3D false;
++=09if (!lo.timeout_set) {
++=09=09switch (lo.cache) {
++=09=09case CACHE_NEVER:
++=09=09=09lo.timeout =3D 0.0;
++=09=09=09break;
++
++=09=09case CACHE_NORMAL:
++=09=09=09lo.timeout =3D 1.0;
++=09=09=09break;
++
++=09=09case CACHE_ALWAYS:
++=09=09=09lo.timeout =3D 86400.0;
++=09=09=09break;
++=09=09}
++=09} else if (lo.timeout < 0) {
++=09=09fuse_log(FUSE_LOG_ERR, "timeout is negative (%lf)\n",
++=09=09=09 lo.timeout);
++=09=09exit(1);
 +=09}
 +
-+=09if (fuse_mount(fuse,opts.mountpoint) !=3D 0) {
-+=09=09res =3D 4;
-+=09=09goto out2;
++=09lo.root.fd =3D open(lo.source, O_PATH);
++=09if (lo.root.fd =3D=3D -1) {
++=09=09fuse_log(FUSE_LOG_ERR, "open(\"%s\", O_PATH): %m\n",
++=09=09=09 lo.source);
++=09=09exit(1);
 +=09}
 +
-+=09if (fuse_daemonize(opts.foreground) !=3D 0) {
-+=09=09res =3D 5;
-+=09=09goto out3;
-+=09}
++=09se =3D fuse_session_new(&args, &lo_oper, sizeof(lo_oper), &lo);
++=09if (se =3D=3D NULL)
++=09    goto err_out1;
 +
-+=09struct fuse_session *se =3D fuse_get_session(fuse);
-+=09if (fuse_set_signal_handlers(se) !=3D 0) {
-+=09=09res =3D 6;
-+=09=09goto out3;
-+=09}
++=09if (fuse_set_signal_handlers(se) !=3D 0)
++=09    goto err_out2;
 +
++=09if (fuse_session_mount(se, opts.mountpoint) !=3D 0)
++=09    goto err_out3;
++
++=09fuse_daemonize(opts.foreground);
++
++=09/* Block until ctrl+c or fusermount -u */
 +=09if (opts.singlethread)
-+=09=09res =3D fuse_loop(fuse);
-+=09else {
-+=09=09struct fuse_loop_config loop_config;
-+=09=09loop_config.clone_fd =3D opts.clone_fd;
-+=09=09loop_config.max_idle_threads =3D opts.max_idle_threads;
-+=09=09res =3D fuse_loop_mt_32(fuse, &loop_config);
-+=09}
-+=09if (res)
-+=09=09res =3D 7;
++=09=09ret =3D fuse_session_loop(se);
++=09else
++=09=09ret =3D fuse_session_loop_mt(se, opts.clone_fd);
 +
++=09fuse_session_unmount(se);
++err_out3:
 +=09fuse_remove_signal_handlers(se);
-+out3:
-+=09fuse_unmount(fuse);
-+out2:
-+=09fuse_destroy(fuse);
-+out1:
++err_out2:
++=09fuse_session_destroy(se);
++err_out1:
 +=09free(opts.mountpoint);
 +=09fuse_opt_free_args(&args);
-+=09return res;
-+}
 +
++=09if (lo.root.fd >=3D 0)
++=09=09close(lo.root.fd);
 +
-+void fuse_apply_conn_info_opts(struct fuse_conn_info_opts *opts,
-+=09=09=09       struct fuse_conn_info *conn)
-+{
-+=09if(opts->set_max_write)
-+=09=09conn->max_write =3D opts->max_write;
-+=09if(opts->set_max_background)
-+=09=09conn->max_background =3D opts->max_background;
-+=09if(opts->set_congestion_threshold)
-+=09=09conn->congestion_threshold =3D opts->congestion_threshold;
-+=09if(opts->set_time_gran)
-+=09=09conn->time_gran =3D opts->time_gran;
-+=09if(opts->set_max_readahead)
-+=09=09conn->max_readahead =3D opts->max_readahead;
-+
-+#define LL_ENABLE(cond,cap) \
-+=09if (cond) conn->want |=3D (cap)
-+#define LL_DISABLE(cond,cap) \
-+=09if (cond) conn->want &=3D ~(cap)
-+
-+=09LL_ENABLE(opts->splice_read, FUSE_CAP_SPLICE_READ);
-+=09LL_DISABLE(opts->no_splice_read, FUSE_CAP_SPLICE_READ);
-+
-+=09LL_ENABLE(opts->splice_write, FUSE_CAP_SPLICE_WRITE);
-+=09LL_DISABLE(opts->no_splice_write, FUSE_CAP_SPLICE_WRITE);
-+
-+=09LL_ENABLE(opts->splice_move, FUSE_CAP_SPLICE_MOVE);
-+=09LL_DISABLE(opts->no_splice_move, FUSE_CAP_SPLICE_MOVE);
-+
-+=09LL_ENABLE(opts->auto_inval_data, FUSE_CAP_AUTO_INVAL_DATA);
-+=09LL_DISABLE(opts->no_auto_inval_data, FUSE_CAP_AUTO_INVAL_DATA);
-+
-+=09LL_DISABLE(opts->no_readdirplus, FUSE_CAP_READDIRPLUS);
-+=09LL_DISABLE(opts->no_readdirplus_auto, FUSE_CAP_READDIRPLUS_AUTO);
-+
-+=09LL_ENABLE(opts->async_dio, FUSE_CAP_ASYNC_DIO);
-+=09LL_DISABLE(opts->no_async_dio, FUSE_CAP_ASYNC_DIO);
-+
-+=09LL_ENABLE(opts->writeback_cache, FUSE_CAP_WRITEBACK_CACHE);
-+=09LL_DISABLE(opts->no_writeback_cache, FUSE_CAP_WRITEBACK_CACHE);
-+
-+=09LL_ENABLE(opts->async_read, FUSE_CAP_ASYNC_READ);
-+=09LL_DISABLE(opts->sync_read, FUSE_CAP_ASYNC_READ);
-+
-+=09LL_DISABLE(opts->no_remote_posix_lock, FUSE_CAP_POSIX_LOCKS);
-+=09LL_DISABLE(opts->no_remote_flock, FUSE_CAP_FLOCK_LOCKS);
-+}
-+
-+struct fuse_conn_info_opts* fuse_parse_conn_info_opts(struct fuse_args *ar=
-gs)
-+{
-+=09struct fuse_conn_info_opts *opts;
-+
-+=09opts =3D calloc(1, sizeof(struct fuse_conn_info_opts));
-+=09if(opts =3D=3D NULL) {
-+=09=09fuse_log(FUSE_LOG_ERR, "calloc failed\n");
-+=09=09return NULL;
-+=09}
-+=09if(fuse_opt_parse(args, opts, conn_info_opt_spec, NULL) =3D=3D -1) {
-+=09=09free(opts);
-+=09=09return NULL;
-+=09}
-+=09return opts;
-+}
-+
-+int fuse_open_channel(const char *mountpoint, const char* options)
-+{
-+=09struct mount_opts *opts =3D NULL;
-+=09int fd =3D -1;
-+=09const char *argv[] =3D { "", "-o", options };
-+=09int argc =3D sizeof(argv) / sizeof(argv[0]);
-+=09struct fuse_args args =3D FUSE_ARGS_INIT(argc, (char**) argv);
-+
-+=09opts =3D parse_mount_opts(&args);
-+=09if (opts =3D=3D NULL)
-+=09=09return -1;
-+
-+=09fd =3D fuse_kern_mount(mountpoint, opts);
-+=09destroy_mount_opts(opts);
-+
-+=09return fd;
++=09return ret ? 1 : 0;
 +}
 --=20
 2.24.1
