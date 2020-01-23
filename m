@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9119146785
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:06:05 +0100 (CET)
-Received: from localhost ([::1]:55852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A17614677C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:03:44 +0100 (CET)
+Received: from localhost ([::1]:55816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iubFM-0007xw-Bp
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:06:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35308)
+	id 1iubD4-0005g6-Jp
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:03:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35380)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iuarx-0005em-3g
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:54 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iuas2-0005pt-9S
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iuaru-0004IX-UG
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:52 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39027
+ (envelope-from <imammedo@redhat.com>) id 1iuas0-0004Lj-SR
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:58 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20066
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuaru-0004IJ-RI
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:50 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuas0-0004Ld-OO
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579779710;
+ s=mimecast20190719; t=1579779716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JWpejJMudZ11uDHhWPVse/ceQeCeQV/apVGLS1grbKs=;
- b=YW9/5RAcDJObUgyT9Q891wIwQW5qjikQyp954X7ks3ctvQ+Rk7MHi1Xv6ImarX10Vs6wMs
- pAjG9grsSACVpbpASNssERIhBSgWi2nLvGzxJvnKopmrU3a/HG44pA/9SE8xBuvwLUJGhf
- lrwU5LzPxPi8T5LShI41Z1AnDVYBQ18=
+ bh=81F1Cwx0a351ptOijvSAE2EQnlOayMHUb+jlSf6z2DU=;
+ b=SXmcs8GhojVQgvh6GEYsI2oxOU6vM76oTfFx+vZn23Q6E9n5/cVe9jlGmslchbI81inQza
+ dmhGhwuH/staS5YFpXk8t6ncrcv0qgcVpqcIDD1kkeFKJg4ermC2ZKpnBQCTTAoHnbL96X
+ jJzWaKqpQ/1lmeI/fcz7jq53VKQbIqY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-GruhQUU3PimWAmkY8ngS1g-1; Thu, 23 Jan 2020 06:41:47 -0500
+ us-mta-215-FwCyJRsWP9OGWYWsZLe8cQ-1; Thu, 23 Jan 2020 06:41:52 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F075E1005512;
- Thu, 23 Jan 2020 11:41:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F0821800D48;
+ Thu, 23 Jan 2020 11:41:51 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E6DF10016EB;
- Thu, 23 Jan 2020 11:41:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC7A710016E8;
+ Thu, 23 Jan 2020 11:41:47 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH REPOST v3 21/80] arm/mps2: use memdev for RAM
-Date: Thu, 23 Jan 2020 12:37:46 +0100
-Message-Id: <1579779525-20065-22-git-send-email-imammedo@redhat.com>
+Subject: [PATCH REPOST v3 23/80] arm/nseries: use memdev for RAM
+Date: Thu, 23 Jan 2020 12:37:48 +0100
+Message-Id: <1579779525-20065-24-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
 References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: GruhQUU3PimWAmkY8ngS1g-1
+X-MC-Unique: FwCyJRsWP9OGWYWsZLe8cQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,36 +94,36 @@ v2:
     (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
 
 CC: drjones@redhat.com
+CC: balrogg@gmail.com
 CC: peter.maydell@linaro.org
 CC: qemu-arm@nongnu.org
 ---
- hw/arm/mps2.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ hw/arm/nseries.c | 32 +++++++++++++++++++-------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
 
-diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index d002b12..f246213 100644
---- a/hw/arm/mps2.c
-+++ b/hw/arm/mps2.c
-@@ -24,6 +24,7 @@
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index 3fd196f..eae800b 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -47,7 +47,6 @@
 =20
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "hw/arm/boot.h"
-@@ -55,7 +56,6 @@ typedef struct {
-     MachineState parent;
+ /* Nokia N8x0 support */
+ struct n800_s {
+-    MemoryRegion sdram;
+     struct omap_mpu_state_s *mpu;
 =20
-     ARMv7MState armv7m;
--    MemoryRegion psram;
-     MemoryRegion ssram1;
-     MemoryRegion ssram1_m;
-     MemoryRegion ssram23;
-@@ -118,6 +118,13 @@ static void mps2_common_init(MachineState *machine)
-         exit(1);
-     }
+     struct rfbi_chip_s blizzard;
+@@ -1311,13 +1310,19 @@ static void n8x0_init(MachineState *machine,
+                       struct arm_boot_info *binfo, int model)
+ {
+     struct n800_s *s =3D (struct n800_s *) g_malloc0(sizeof(*s));
+-    uint64_t sdram_size =3D binfo->ram_size;
++    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
 =20
+-    memory_region_allocate_system_memory(&s->sdram, NULL, "omap2.dram",
+-                                         sdram_size);
+-    memory_region_add_subregion(get_system_memory(), OMAP2_Q2_BASE, &s->sd=
+ram);
 +    if (machine->ram_size !=3D mc->default_ram_size) {
 +        char *sz =3D size_to_str(mc->default_ram_size);
 +        error_report("Invalid RAM size, should be %s", sz);
@@ -131,30 +131,65 @@ index d002b12..f246213 100644
 +        exit(EXIT_FAILURE);
 +    }
 +
-     /* The FPGA images have an odd combination of different RAMs,
-      * because in hardware they are different implementations and
-      * connected to different buses, giving varying performance/size
-@@ -146,9 +153,7 @@ static void mps2_common_init(MachineState *machine)
-      * This is of no use for QEMU so we don't implement it (as if
-      * zbt_boot_ctrl is always zero).
-      */
--    memory_region_allocate_system_memory(&mms->psram,
--                                         NULL, "mps.ram", 16 * MiB);
--    memory_region_add_subregion(system_memory, 0x21000000, &mms->psram);
-+    memory_region_add_subregion(system_memory, 0x21000000, machine->ram);
++    memory_region_add_subregion(get_system_memory(), OMAP2_Q2_BASE,
++                                machine->ram);
 =20
-     switch (mmc->fpga_type) {
-     case FPGA_AN385:
-@@ -338,6 +343,8 @@ static void mps2_class_init(ObjectClass *oc, void *data=
-)
+-    s->mpu =3D omap2420_mpu_init(&s->sdram, machine->cpu_type);
++    s->mpu =3D omap2420_mpu_init(machine->ram, machine->cpu_type);
 =20
-     mc->init =3D mps2_common_init;
-     mc->max_cpus =3D 1;
-+    mc->default_ram_size =3D 16 * MiB;
-+    mc->default_ram_id =3D "mps.ram";
+     /* Setup peripherals
+      *
+@@ -1383,9 +1388,8 @@ static void n8x0_init(MachineState *machine,
+          *
+          * The code above is for loading the `zImage' file from Nokia
+          * images.  */
+-        load_image_targphys(option_rom[0].name,
+-                            OMAP2_Q2_BASE + 0x400000,
+-                            sdram_size - 0x400000);
++        load_image_targphys(option_rom[0].name, OMAP2_Q2_BASE + 0x400000,
++                            machine->ram_size - 0x400000);
+=20
+         n800_setup_nolo_tags(nolo_tags);
+         cpu_physical_memory_write(OMAP2_SRAM_BASE, nolo_tags, 0x10000);
+@@ -1395,16 +1399,12 @@ static void n8x0_init(MachineState *machine,
+=20
+ static struct arm_boot_info n800_binfo =3D {
+     .loader_start =3D OMAP2_Q2_BASE,
+-    /* Actually two chips of 0x4000000 bytes each */
+-    .ram_size =3D 0x08000000,
+     .board_id =3D 0x4f7,
+     .atag_board =3D n800_atag_setup,
+ };
+=20
+ static struct arm_boot_info n810_binfo =3D {
+     .loader_start =3D OMAP2_Q2_BASE,
+-    /* Actually two chips of 0x4000000 bytes each */
+-    .ram_size =3D 0x08000000,
+     /* 0x60c and 0x6bf (WiMAX Edition) have been assigned but are not
+      * used by some older versions of the bootloader and 5555 is used
+      * instead (including versions that shipped with many devices).  */
+@@ -1431,6 +1431,9 @@ static void n800_class_init(ObjectClass *oc, void *da=
+ta)
+     mc->default_boot_order =3D "";
+     mc->ignore_memory_transaction_failures =3D true;
+     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm1136-r2");
++    /* Actually two chips of 0x4000000 bytes each */
++    mc->default_ram_size =3D 0x08000000;
++    mc->default_ram_id =3D "omap2.dram";
  }
 =20
- static void mps2_an385_class_init(ObjectClass *oc, void *data)
+ static const TypeInfo n800_type =3D {
+@@ -1448,6 +1451,9 @@ static void n810_class_init(ObjectClass *oc, void *da=
+ta)
+     mc->default_boot_order =3D "";
+     mc->ignore_memory_transaction_failures =3D true;
+     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm1136-r2");
++    /* Actually two chips of 0x4000000 bytes each */
++    mc->default_ram_size =3D 0x08000000;
++    mc->default_ram_id =3D "omap2.dram";
+ }
+=20
+ static const TypeInfo n810_type =3D {
 --=20
 2.7.4
 
