@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B04146DBF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:05:01 +0100 (CET)
-Received: from localhost ([::1]:59986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B28146DB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:02:30 +0100 (CET)
+Received: from localhost ([::1]:59954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueyZ-0002aU-UG
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:04:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51251)
+	id 1iuew9-0007b3-0f
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:02:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrD-0004lT-Ri
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:17 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucr9-00030x-90
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrC-0004k9-OG
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:15 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:33939)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrB-000347-E6
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:14 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54618)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucr9-0002zq-1v
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:11 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id s144so1922761wme.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:10 -0800 (PST)
+ id 1iucrB-00032w-7f
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:13 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id b19so2627867wmj.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=WAC8gUQTFh0ug1Q505u277fTx8OwLP9Zp685B+gt4rY=;
- b=CgPsds+1skCAHgaK68VhK45AlbFWBdXc5TMGbVh6lTYVnbJAJxB+D93wyx15WgFl8O
- cSUos1WP/Z9p4xLtygTmO6rae6X9lsQIU8zgf8hxmkUiZm+H3pUsO3islz1EUU3MJoHs
- kQn92zEc0k+ZqPwEzmV1M2DI74g1dPVYov/4z0v6cI1XGQlZkjuSCdu4kD001keaAIRT
- yLSwvtp4XFkSp4izmwytT21qPv+X5tQrPeE+i1bArISoPlRGf+QVi7mqRihDvfCXfeEC
- pCa0r1oLboKEzcVmj3kSM/Sx7I4XdMSXhOeinkd3cvsybPJMfzyGCMEY11Q1BaBKAHqO
- BwNQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=K91PaAbwuPHcYYRyoA3KVsErzg14dVUsL6XXT+HRvuA=;
+ b=FbyF1sEVLC/4Jb2cKaDiC9rNGz7TYDNibxxvXV2OyP6ffn5glrbEIlruc2bF13/Jh+
+ Qx0m8yBxwiyHvWU78MrfA/TAg9W4f6VYam6/GUQpQ5MdDei6I/GXMERmqOdJ1scGBPjc
+ gomk0utgjzrKw8eQ+iYSWg2hdwXN6Uu8Qd11VfB475i8+3MOG8NOs5m3xPZPKQk/84kT
+ GqALK+oOjoxZv6O5gez5Z3VWU/Sb+c6/bwcTiLklQVlkTnyeK65SkFAB2X9F9Sb6ArLJ
+ psL7Xmsso1FXhX2DRxZGXjURAX1rTxw9p3spDsg4BS6oYuPIqZcRr/ofJn2R1h/w8J3q
+ hfvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=WAC8gUQTFh0ug1Q505u277fTx8OwLP9Zp685B+gt4rY=;
- b=HrtKakiBwLzmSNpsuArTKU1MuFHCDOW3ssC1rdIIli83H1mbDKHhDcmFSRbMabYUph
- Kh6xWtt1kEqeatgOR+6fYlH2CsmSk42j0oTbKiFGWBDx5qDHTbn+wudVh7xtzJiINPzO
- FaoJSNI1/L4gl7NZDC541PBNTDdLxyRTGJrVno4BtTD4KbwK3GgIG4NejBLvCeqpISax
- HGgLav6NzChHd7qEXG/D7rX4bLLhwBXc2Gyo4BmM1HB+Mds31FWK2xK+22oGrdlmXG+f
- qHu28j2BseflMgd2YD4myK9vYUEPfYQfaJ9Hs/a0qw2uKp9Gn40e4TU9scROqph0N+wf
- 1/gQ==
-X-Gm-Message-State: APjAAAUoZbOzmjQebc8siv/jPF04zJQ0g6oJhxoSW0ebFT7tF3BS7HV/
- 4yfP4r5wCcPSrcNKLGkGIcqRqzzI
-X-Google-Smtp-Source: APXvYqwzLAdTcRPHCxHg7IR9l0UnkU7ZamqfUxrC3SCtfoiMRdpM2l8MCLukd4oWB1RXcdMD9tTxbQ==
-X-Received: by 2002:a7b:c1d8:: with SMTP id a24mr4343339wmj.130.1579787349173; 
- Thu, 23 Jan 2020 05:49:09 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=K91PaAbwuPHcYYRyoA3KVsErzg14dVUsL6XXT+HRvuA=;
+ b=Egel3EtETm91j6ABUdvIMHPBuQ/rst/s15CAn0HdndRNF4JLylNc/xZiLFqd7Z0/sf
+ 6HQt/ohs9yJ4/vz6P4fgNBmcti9efRC2Kup72FlxYDQ5Qt+TQlaLAClzwwXazE1lYnZA
+ dbpVIoCXbsyywlK/4JREclEtT1l0r9MK1dcv4D+TdopnoghI6KpasXCFIXr+PcysNrFy
+ CCB7gltqAfQo6RGgXZJxiWvs1sSLH1OxuypKlCu+h5ySHcjlaNja01XagzwR/maWGScL
+ 9v5q9JbYHn+op5LHgHJlKnuvHnZgv3lDDbQNpqJVq9hR+0voQMlPmvLv610Y031SHDa5
+ MJPw==
+X-Gm-Message-State: APjAAAWq14k11Ov6qruZ/62/VYJDG5FD46yMyk3WhAAveQVUI9zNkxdg
+ yXBFQGRXwLGlOc90kMBl7X9y7yrN
+X-Google-Smtp-Source: APXvYqzqIxANCFi5cnyN/Z3yzXiMcHkwMSszZFimHzZiy6T7jDsiBf0NhaM07IFHzzx8p5rbxS/coA==
+X-Received: by 2002:a1c:9602:: with SMTP id y2mr4282216wmd.23.1579787352092;
+ Thu, 23 Jan 2020 05:49:12 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.08
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.11
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:08 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:11 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/59] pvpanic: implement crashloaded event handling
-Date: Thu, 23 Jan 2020 14:48:07 +0100
-Message-Id: <1579787342-27146-5-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 07/59] hw/display/tcx: Add missing fall through comments
+Date: Thu, 23 Jan 2020 14:48:10 +0100
+Message-Id: <1579787342-27146-8-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::32b
@@ -74,184 +78,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhenwei pi <pizhenwei@bytedance.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: zhenwei pi <pizhenwei@bytedance.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Handle bit 1 write, then post event to monitor.
+When building with GCC9 using CFLAG -Wimplicit-fallthrough=2 we get:
 
-Suggested by Paolo, declear a new event, using GUEST_PANICKED could
-cause upper layers to react by shutting down or rebooting the guest.
+  hw/display/tcx.c: In function ‘tcx_dac_writel’:
+  hw/display/tcx.c:453:26: error: this statement may fall through [-Werror=implicit-fallthrough=]
+    453 |             s->dac_index = (s->dac_index + 1) & 0xff; /* Index autoincrement */
+        |             ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+  hw/display/tcx.c:454:9: note: here
+    454 |         default:
+        |         ^~~~~~~
+  hw/display/tcx.c: In function ‘tcx_dac_readl’:
+  hw/display/tcx.c:412:22: error: this statement may fall through [-Werror=implicit-fallthrough=]
+    412 |         s->dac_index = (s->dac_index + 1) & 0xff; /* Index autoincrement */
+        |         ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+  hw/display/tcx.c:413:5: note: here
+    413 |     default:
+        |     ^~~~~~~
+  cc1: all warnings being treated as errors
 
-In advance for extention, add GuestPanicInformation in event message.
+Give a hint to GCC by adding the missing fall through comments.
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-Message-Id: <20200114023102.612548-3-pizhenwei@bytedance.com>
+Fixes: 55d7bfe22
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-Id: <20191218192526.13845-3-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/specs/pvpanic.txt    | 16 ++++++++--------
- hw/misc/pvpanic.c         | 11 +++++++++--
- include/sysemu/runstate.h |  1 +
- qapi/run-state.json       | 24 ++++++++++++++++++++++--
- vl.c                      | 12 ++++++++++++
- 5 files changed, 52 insertions(+), 12 deletions(-)
+ hw/display/tcx.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
-index bdea68a..a90fbca 100644
---- a/docs/specs/pvpanic.txt
-+++ b/docs/specs/pvpanic.txt
-@@ -19,9 +19,10 @@ Software should set only bits both itself and the device recognize.
- 
- Bit Definition
- --------------
--bit 0: setting it indicates a guest panic has happened.
--bit 1: named crashloaded. setting it indicates a guest panic and run
--       kexec to handle error by guest itself.
-+bit 0: a guest panic has happened and should be processed by the host
-+bit 1: a guest panic has happened and will be handled by the guest;
-+       the host should record it or report it, but should not affect
-+       the execution of the guest.
- 
- ACPI Interface
- --------------
-@@ -30,13 +31,12 @@ pvpanic device is defined with ACPI ID "QEMU0001". Custom methods:
- 
- RDPT:       To determine whether guest panic notification is supported.
- Arguments:  None
--Return:     Returns a byte, bit 0 set to indicate guest panic
--            notification is supported. Other bits are reserved and
--            should be ignored.
-+Return:     Returns a byte, with the same semantics as the I/O port
-+            interface.
- 
- WRPT:       To send a guest panic event
--Arguments:  Arg0 is a byte, with bit 0 set to indicate guest panic has
--            happened. Other bits are reserved and should be cleared.
-+Arguments:  Arg0 is a byte to be written, with the same semantics as
-+            the I/O interface.
- Return:     None
- 
- The ACPI device will automatically refer to the right port in case it
-diff --git a/hw/misc/pvpanic.c b/hw/misc/pvpanic.c
-index d65ac86..4ebda78 100644
---- a/hw/misc/pvpanic.c
-+++ b/hw/misc/pvpanic.c
-@@ -21,11 +21,13 @@
- #include "hw/qdev-properties.h"
- #include "hw/misc/pvpanic.h"
- 
--/* The bit of supported pv event */
-+/* The bit of supported pv event, TODO: include uapi header and remove this */
- #define PVPANIC_F_PANICKED      0
-+#define PVPANIC_F_CRASHLOADED   1
- 
- /* The pv event value */
- #define PVPANIC_PANICKED        (1 << PVPANIC_F_PANICKED)
-+#define PVPANIC_CRASHLOADED     (1 << PVPANIC_F_CRASHLOADED)
- 
- #define ISA_PVPANIC_DEVICE(obj)    \
-     OBJECT_CHECK(PVPanicState, (obj), TYPE_PVPANIC)
-@@ -34,7 +36,7 @@ static void handle_event(int event)
- {
-     static bool logged;
- 
--    if (event & ~PVPANIC_PANICKED && !logged) {
-+    if (event & ~(PVPANIC_PANICKED | PVPANIC_CRASHLOADED) && !logged) {
-         qemu_log_mask(LOG_GUEST_ERROR, "pvpanic: unknown event %#x.\n", event);
-         logged = true;
-     }
-@@ -43,6 +45,11 @@ static void handle_event(int event)
-         qemu_system_guest_panicked(NULL);
-         return;
-     }
-+
-+    if (event & PVPANIC_CRASHLOADED) {
-+        qemu_system_guest_crashloaded(NULL);
-+        return;
-+    }
- }
- 
- #include "hw/isa/isa.h"
-diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
-index 0b41555..f760094 100644
---- a/include/sysemu/runstate.h
-+++ b/include/sysemu/runstate.h
-@@ -63,6 +63,7 @@ ShutdownCause qemu_reset_requested_get(void);
- void qemu_system_killed(int signal, pid_t pid);
- void qemu_system_reset(ShutdownCause reason);
- void qemu_system_guest_panicked(GuestPanicInformation *info);
-+void qemu_system_guest_crashloaded(GuestPanicInformation *info);
- 
- #endif
- 
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index d7477cd..b83a436 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
-@@ -357,16 +357,36 @@
-   'data': { 'action': 'GuestPanicAction', '*info': 'GuestPanicInformation' } }
- 
- ##
-+# @GUEST_CRASHLOADED:
-+#
-+# Emitted when guest OS crash loaded is detected
-+#
-+# @action: action that has been taken, currently always "run"
-+#
-+# @info: information about a panic
-+#
-+# Since: 5.0
-+#
-+# Example:
-+#
-+# <- { "event": "GUEST_CRASHLOADED",
-+#      "data": { "action": "run" } }
-+#
-+##
-+{ 'event': 'GUEST_CRASHLOADED',
-+  'data': { 'action': 'GuestPanicAction', '*info': 'GuestPanicInformation' } }
-+
-+##
- # @GuestPanicAction:
- #
- # An enumeration of the actions taken when guest OS panic is detected
- #
- # @pause: system pauses
- #
--# Since: 2.1 (poweroff since 2.8)
-+# Since: 2.1 (poweroff since 2.8, run since 5.0)
- ##
- { 'enum': 'GuestPanicAction',
--  'data': [ 'pause', 'poweroff' ] }
-+  'data': [ 'pause', 'poweroff', 'run' ] }
- 
- ##
- # @GuestPanicInformationType:
-diff --git a/vl.c b/vl.c
-index 71d3e7e..9f5f477 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1468,6 +1468,18 @@ void qemu_system_guest_panicked(GuestPanicInformation *info)
-     }
- }
- 
-+void qemu_system_guest_crashloaded(GuestPanicInformation *info)
-+{
-+    qemu_log_mask(LOG_GUEST_ERROR, "Guest crash loaded");
-+
-+    qapi_event_send_guest_crashloaded(GUEST_PANIC_ACTION_RUN,
-+                                   !!info, info);
-+
-+    if (info) {
-+        qapi_free_GuestPanicInformation(info);
-+    }
-+}
-+
- void qemu_system_reset_request(ShutdownCause reason)
- {
-     if (no_reboot && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
+diff --git a/hw/display/tcx.c b/hw/display/tcx.c
+index 14e829d..abbeb30 100644
+--- a/hw/display/tcx.c
++++ b/hw/display/tcx.c
+@@ -410,6 +410,7 @@ static uint64_t tcx_dac_readl(void *opaque, hwaddr addr,
+     case 2:
+         val = s->b[s->dac_index] << 24;
+         s->dac_index = (s->dac_index + 1) & 0xff; /* Index autoincrement */
++        /* fall through */
+     default:
+         s->dac_state = 0;
+         break;
+@@ -451,6 +452,7 @@ static void tcx_dac_writel(void *opaque, hwaddr addr, uint64_t val,
+             s->b[index] = val >> 24;
+             update_palette_entries(s, index, index + 1);
+             s->dac_index = (s->dac_index + 1) & 0xff; /* Index autoincrement */
++            /* fall through */
+         default:
+             s->dac_state = 0;
+             break;
 -- 
 1.8.3.1
 
