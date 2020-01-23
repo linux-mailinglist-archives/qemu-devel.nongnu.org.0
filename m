@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACDD146E20
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:15:39 +0100 (CET)
-Received: from localhost ([::1]:60142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268C1146E31
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:19:57 +0100 (CET)
+Received: from localhost ([::1]:60230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuf8r-0002Z3-Ra
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:15:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51555)
+	id 1iufD1-0000cw-H7
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:19:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51606)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrV-00059Q-DL
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:35 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrY-0005EH-Kv
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrU-0003dp-Cr
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:33 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:32914)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrX-0003m4-3N
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:36 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37078)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrU-0003bQ-6U
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:32 -0500
-Received: by mail-wr1-x432.google.com with SMTP id b6so3193706wrq.0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:32 -0800 (PST)
+ id 1iucrW-0003gy-S1
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:35 -0500
+Received: by mail-wm1-x335.google.com with SMTP id f129so2613332wmf.2
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kxEhjtEiGmz3JhKefGP6i9CMB+/OyKskAJ9ppHwR4AA=;
- b=tde2CATV/AmzKhBEGnx/NvDvcAKpIhm8SOFlQELRr47kL6SKdwP6NdgSl5BuFH7dhE
- Mnf6+H7k8wP8udSMVikFuEZ8zhKyDNzggPLdkBUb0jPCmutsAcHmPPzIHVU0ho/e/rAZ
- 5JMFQJAhOCq6V3cyYPzcB/SqtHCYDfV+fY43nVWBfQxE33rxCfavq7Gxs6Lk/Rgle0wq
- 2L1srQtNk3CrUEFXeKXLJHR18X4mYpl5Wxb5c0tmmwnLP08L6ZFUwUxNLNG7+FdAJnMW
- JuAvHz1sYai+tWULzOWf1TcWLiOAeK7hYJcM4F5hC56EbeipLUKmiSk/Tn37WSW+MPzn
- s6Jw==
+ bh=sIQ5W5UHd6LBNn/RrQOAOd5yBbO+3FGu4Aq0XOiBiHM=;
+ b=l9/Dg+eQZ75w9soBwCO6fh2v6EqLEzATIGICcRJRPZXmiipOkVkC8Yla8S1A1D+8pK
+ rFbWamRgwQipXWdbO7PiiSRk/dLwNSqlgD2lG/wA07utjKOzFYg8qwN5szSonEe40y7D
+ OARYAcrM+vH6grYXfxXD7CZLSLU0OkWgMeKGuRons0wyMTieqDWxdUQH7PwGdxzQVnQl
+ +U0InAQek3KoCaoLI4cXeNMXs4md5kumYNaabZ49wI7bRduQVmLWcNHA1nYF11wxKHij
+ LqBJLS49H2EAnedQ6kw8ZuwCw4v+u0g1e9fdhzASJ7cCZsBwCsN4flNV5D+C7Vf2LKxE
+ qpDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=kxEhjtEiGmz3JhKefGP6i9CMB+/OyKskAJ9ppHwR4AA=;
- b=q0bpYFTNyODJyDRcCqol71xOE+QYVpJgz6Y6nz/MRN4PCtkXPZ3Nx1yEplnkcNh5RI
- diTXoiEYHnUGx1Km6X+Gcy3zWvmc6MTdiyR5CEQTWyVfrz8SYRXUpRuZJtd5ewfRVj4h
- J1eIbjCNjC1K6OlM+O6M/Kq8n+JuEg6w62R58WOFJZ2SuMidiqYu8xppbpWd/wuulxAX
- FU/tttuRcT4RWmLzDW3zgtBDcm0UupA0dxI7ofdLQWSpg9Lkysjoij9iI9/bNmtMkXeZ
- xbyUGOhf/TsS0cBlFFJLpBeZq4nv73woQKEPWIVzmZFQxxdc1xxoLM8F8NBvLUby/Ebq
- BsQw==
-X-Gm-Message-State: APjAAAWvSXA/LtEZNj9fjZ3iSLiwDIyJohEEfJuesv6+OzpI8G1KyMAZ
- csjqw4TmeVWiJBmVKDhai1a/AD8L
-X-Google-Smtp-Source: APXvYqyRDq0QrH4BKXg8dN08K58gOGxaSkPRa/rF45H3B4dP12rQZtjRs4LtC23dD26wJwzM/8TU5w==
-X-Received: by 2002:adf:ee82:: with SMTP id b2mr17037429wro.194.1579787370954; 
- Thu, 23 Jan 2020 05:49:30 -0800 (PST)
+ bh=sIQ5W5UHd6LBNn/RrQOAOd5yBbO+3FGu4Aq0XOiBiHM=;
+ b=KodbTBzrfiAm0QGIqWRsW1sPT+Oge2U16PJq5yQs7H9+Krmkz203Ed8UFJ1DmEoAS1
+ RPnEs4id68sbCg1SgLR6rhrfcrxWTyeXDwpJLmgG7wR54rCUYcHxTisA/H5FWiHJ/NX7
+ C9ZiDYTNUN8c7cog7UaqCeiQzFs7c0LbQCNWzzvqyPEuRWAlf7c2zNKYRS3LewtspOHC
+ XMT8aYD0t9Gp7zjiRoJHmYQmHYLYBjFQLgQCtGx2LjT2AuVExD7JarjnrMaHZuU/fKzu
+ Nii0jU5MrQDkVzqFZwc1o9JkhJ0XTeChx6oYZKORDtSe1COR8VMjygye4JujaR4ILeQW
+ cYBA==
+X-Gm-Message-State: APjAAAWwx5+bZv40GjSnKw3gTeg+Xodv37PZ311RWWN5PiXpdggOBwMJ
+ 65zq5nyi9yZDLpD/uNf5gtVcl6sZ
+X-Google-Smtp-Source: APXvYqw47qhhzW7kQNkUAeBOLynk2iTEnGb8NKNwJy/XBatNlpd22p8R/UMyBCeluw8DVqVqD4Aj6w==
+X-Received: by 2002:a7b:c204:: with SMTP id x4mr4414604wmi.20.1579787372743;
+ Thu, 23 Jan 2020 05:49:32 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.30
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.31
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:30 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:32 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/59] qom/object: Display more helpful message when a parent
- is missing
-Date: Thu, 23 Jan 2020 14:48:30 +0100
-Message-Id: <1579787342-27146-28-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 29/59] accel: Replace current_machine->accelerator by
+ current_accel() wrapper
+Date: Thu, 23 Jan 2020 14:48:32 +0100
+Message-Id: <1579787342-27146-30-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,40 +85,149 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-QEMU object model is scarse in documentation. Some calls are
-recursive, and it might be hard to figure out even trivial issues.
+We actually want to access the accelerator, not the machine, so
+use the current_accel() wrapper instead.
 
-We can avoid developers to waste time in a debugging session by
-displaying a simple error message.
-
-This commit is also similar to e02bdf1cecd2 ("Display more helpful
-message when an object type is missing").
-
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200121110349.25842-7-philmd@redhat.com>
+Message-Id: <20200121110349.25842-10-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qom/object.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ accel/kvm/kvm-all.c | 4 ++--
+ accel/tcg/tcg-all.c | 2 +-
+ memory.c            | 2 +-
+ target/arm/kvm64.c  | 5 ++---
+ target/i386/kvm.c   | 2 +-
+ target/ppc/kvm.c    | 4 ++--
+ vl.c                | 2 +-
+ 7 files changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/qom/object.c b/qom/object.c
-index 36123fb..90155fa 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -173,7 +173,11 @@ static TypeImpl *type_get_parent(TypeImpl *type)
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 1ada2f4..c111312 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -164,7 +164,7 @@ static NotifierList kvm_irqchip_change_notifiers =
+ 
+ int kvm_get_max_memslots(void)
  {
-     if (!type->parent_type && type->parent) {
-         type->parent_type = type_get_by_name(type->parent);
--        g_assert(type->parent_type != NULL);
-+        if (!type->parent_type) {
-+            fprintf(stderr, "Type '%s' is missing its parent '%s'\n",
-+                    type->name, type->parent);
-+            abort();
-+        }
+-    KVMState *s = KVM_STATE(current_machine->accelerator);
++    KVMState *s = KVM_STATE(current_accel());
+ 
+     return s->nr_slots;
+ }
+@@ -1848,7 +1848,7 @@ static int kvm_max_vcpu_id(KVMState *s)
+ 
+ bool kvm_vcpu_id_is_valid(int vcpu_id)
+ {
+-    KVMState *s = KVM_STATE(current_machine->accelerator);
++    KVMState *s = KVM_STATE(current_accel());
+     return vcpu_id >= 0 && vcpu_id < kvm_max_vcpu_id(s);
+ }
+ 
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index 1dc384c..1802ce0 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -124,7 +124,7 @@ static void tcg_accel_instance_init(Object *obj)
+ 
+ static int tcg_init(MachineState *ms)
+ {
+-    TCGState *s = TCG_STATE(current_machine->accelerator);
++    TCGState *s = TCG_STATE(current_accel());
+ 
+     tcg_exec_init(s->tb_size * 1024 * 1024);
+     cpu_interrupt_handler = tcg_handle_interrupt;
+diff --git a/memory.c b/memory.c
+index d7b9bb6..8547987 100644
+--- a/memory.c
++++ b/memory.c
+@@ -3104,7 +3104,7 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner)
+         };
+         GArray *fv_address_spaces;
+         GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
+-        AccelClass *ac = ACCEL_GET_CLASS(current_machine->accelerator);
++        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
+ 
+         if (ac->has_memory) {
+             fvi.ac = ac;
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 876184b..e3c580e 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -26,7 +26,6 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/kvm_int.h"
+ #include "kvm_arm.h"
+-#include "hw/boards.h"
+ #include "internals.h"
+ 
+ static bool have_guest_debug;
+@@ -613,14 +612,14 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+ 
+ bool kvm_arm_aarch32_supported(CPUState *cpu)
+ {
+-    KVMState *s = KVM_STATE(current_machine->accelerator);
++    KVMState *s = KVM_STATE(current_accel());
+ 
+     return kvm_check_extension(s, KVM_CAP_ARM_EL1_32BIT);
+ }
+ 
+ bool kvm_arm_sve_supported(CPUState *cpu)
+ {
+-    KVMState *s = KVM_STATE(current_machine->accelerator);
++    KVMState *s = KVM_STATE(current_accel());
+ 
+     return kvm_check_extension(s, KVM_CAP_ARM_SVE);
+ }
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 1b67090..6ef291d 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -149,7 +149,7 @@ bool kvm_allows_irq0_override(void)
+ 
+ static bool kvm_x2apic_api_set_flags(uint64_t flags)
+ {
+-    KVMState *s = KVM_STATE(current_machine->accelerator);
++    KVMState *s = KVM_STATE(current_accel());
+ 
+     return !kvm_vm_enable_cap(s, KVM_CAP_X2APIC_API, 0, flags);
+ }
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index b5799e6..06fd0cc 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -258,7 +258,7 @@ static void kvm_get_smmu_info(struct kvm_ppc_smmu_info *info, Error **errp)
+ 
+ struct ppc_radix_page_info *kvm_get_radix_page_info(void)
+ {
+-    KVMState *s = KVM_STATE(current_machine->accelerator);
++    KVMState *s = KVM_STATE(current_accel());
+     struct ppc_radix_page_info *radix_page_info;
+     struct kvm_ppc_rmmu_info rmmu_info;
+     int i;
+@@ -2907,7 +2907,7 @@ void kvmppc_svm_off(Error **errp)
+         return;
      }
  
-     return type->parent_type;
+-    rc = kvm_vm_ioctl(KVM_STATE(current_machine->accelerator), KVM_PPC_SVM_OFF);
++    rc = kvm_vm_ioctl(KVM_STATE(current_accel()), KVM_PPC_SVM_OFF);
+     if (rc && rc != -ENOTTY) {
+         error_setg_errno(errp, -rc, "KVM_PPC_SVM_OFF ioctl failed");
+     }
+diff --git a/vl.c b/vl.c
+index 9f5f477..368dda1 100644
+--- a/vl.c
++++ b/vl.c
+@@ -2824,7 +2824,7 @@ static void configure_accelerators(const char *progname)
+     }
+ 
+     if (init_failed) {
+-        AccelClass *ac = ACCEL_GET_CLASS(current_machine->accelerator);
++        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
+         error_report("falling back to %s", ac->name);
+     }
+ 
 -- 
 1.8.3.1
 
