@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6131F146DEA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:11:59 +0100 (CET)
-Received: from localhost ([::1]:60102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01711146DE4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:10:46 +0100 (CET)
+Received: from localhost ([::1]:60076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuf5K-0005fo-DL
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:11:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51447)
+	id 1iuf48-0003lO-Jn
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:10:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrQ-000524-54
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:29 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrR-00054X-Q0
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrO-0003PH-QS
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:27 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:51545)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrQ-0003U7-Jc
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:29 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35562)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrO-0003NM-Jn
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:26 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id t23so2642906wmi.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:26 -0800 (PST)
+ id 1iucrQ-0003Sc-DA
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:28 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id g17so3163223wro.2
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=a3Vb+m8pIg/1dpP/XvEglAqzMTsZNDlRtfXxmF7Em2c=;
- b=BKebEUJcRdIDLzX4bvuH2hSYhArhNnEu3syt5szEd5qZoSD0Jwl83Cwc0shkTOX6XU
- 0PR+QdilFtuPW19HFsL88DfNNjhioI/MokSeihtNUoAGuMIO9qIzANhELNmha1AWOaIZ
- TrrAdKsKX3FkkUrwjVN4T7W2PtO1aNWwPzBxUaQv/DB+Htqt9OMSbBhxavtRlXo96jt3
- lw0X+6LlFZ3dh73Xd7CN0lFNK+xhH9pn1ee7Gtx1X/7Vd/aqoqtcF44rsMhi586XYhg5
- hl9K2Wr9/+GOGQTvMvijFEC7ydDWcZx86puDgV4tVmI2pHUrckAx/MAzBqZpbWXQDTO1
- XCqA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/n6fsNYCgUUz+As71BcAONX0z/kz1Ylr8LtgTEjsS5g=;
+ b=snbU6Z9mUj4plDzrnUMTaGH5GhASijPgXmAb3gJJD0N8+2bfH/T+2sqFD8fYG+olyz
+ nesy4KzDawR15+8qHL3/CnhjtVF5LQGMAO71z0OPZHrYR698eszA+9SJkE3gf7KkBVvx
+ 2OKFsXFHnZ1Xsq3hGsvJp8W+/rmOkDoLG4fPt8WFh6eZAkYAmvpOv5mqCFXSLIgEACqh
+ j+SmVWblTrUMZdiQHmEpkWOX+KbuxYUgxmYR3q7365QVUQsSYl3phL7IPTeKpQYcfEX/
+ ZnYHn6MhqI8//uwbJtUygpTslkTBjD5dTwoQJE+MGyi5FwXnKTDDONjdR6Ta0WjGAlEw
+ nv5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=a3Vb+m8pIg/1dpP/XvEglAqzMTsZNDlRtfXxmF7Em2c=;
- b=iwz4zqnO/W/TRN4HavXJG3ldYZoLJvPJ+6sVW+ljJQ7nfCMde7bu4Bijs+XLV7R62w
- mgzmSDfZ+CcmL9eVxsWMVs/EB4zRFZKvypRCh+dBj457mPtq0BnzOQqKZQcLTqx4BlKr
- CgH/+vB80SlQ8hmjZW6tq71IlRESCmeKvCfBanvRtpGCPRasJEW3mklJNGAyj8LWap2M
- uepJWy0ccNAnyh8vW1SQZS8Uhi83TmBfQSIJXYFR+Bl/jOJQ4u36IzzLTfAQRMWq2wIi
- 91f1p6U2EvulovpqEi5w6NKlollgT1dt0ajB6RphkVa2NGq8hZ/BwkgAfoF/RpykEWFb
- WRig==
-X-Gm-Message-State: APjAAAUmXHKvB11DM5G+JA1focdc8YjAXuELPMFkyXtky4QGuHxhmja5
- r4ArwUS1J7URL5wCmmhHcte1J5ez
-X-Google-Smtp-Source: APXvYqwpjt+zUCLrMp5EktQ2/r5SpanmA/igmsQC9I+RDMA6oLPp+OZRcdStGR8Ld1RD7tKMK5k5Ig==
-X-Received: by 2002:a05:600c:20f:: with SMTP id
- 15mr4286053wmi.128.1579787365492; 
- Thu, 23 Jan 2020 05:49:25 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=/n6fsNYCgUUz+As71BcAONX0z/kz1Ylr8LtgTEjsS5g=;
+ b=MbWE+rKaUd3V/e23Kf6gLcP8J/tI+c/bvb+SMup9NDUnIUsJhfMYbEv4QQlDxFK8bd
+ BC3uw9zQvKQZk1EhDWb128TZOFoK4XHgTR0ATYgvbOrLE4Xm1imBtIMISe1pj1tpd/9G
+ qWbBWF1cVvRpAgE6s1u5ZoX+H05KrW4cvzGIZYbe0nNBYYV+p9LbbNLMWNJd5m3kupIk
+ Gvdvxj4Z0zfrfB+KqlUgBN5DgoDOW4RbRKQo10Uq2wuPzWZVgLdSVW9jKOYYQOUm6+Ex
+ udnEsLQG/dnDN7qiuN9HR9OZmoPLum9ZDqzFHUvpmSv8cwMwOY0owhwFsjVQxMSXV0N6
+ GT/Q==
+X-Gm-Message-State: APjAAAX+AwQLNhDTXvAo88o5eeptRRAjYtg/AZ+ZVWsJB+s352OcREuP
+ u/asAFW501EF8TawJsZgr0DS4oEp
+X-Google-Smtp-Source: APXvYqzRFC3ttRI7vgAqJaBtp88XDmxF7e105HOQO9kDKnHMwlA49LU4uGKQS2tO1QaK4rimee16nQ==
+X-Received: by 2002:adf:ca07:: with SMTP id o7mr17216943wrh.49.1579787367209; 
+ Thu, 23 Jan 2020 05:49:27 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.24
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.26
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:24 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:26 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/59] virtio-scsi: delete vqs in unrealize to avoid memleaks
-Date: Thu, 23 Jan 2020 14:48:24 +0100
-Message-Id: <1579787342-27146-22-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 23/59] hw/ppc/spapr_rtas: Use local MachineState variable
+Date: Thu, 23 Jan 2020 14:48:26 +0100
+Message-Id: <1579787342-27146-24-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,51 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pan Nengyuan <pannengyuan@huawei.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-This patch fix memleaks when attaching/detaching virtio-scsi device, the
-memory leak stack is as follow:
+Since we have the MachineState already available locally,
+use it instead of the global current_machine.
 
-Direct leak of 21504 byte(s) in 3 object(s) allocated from:
-  #0 0x7f491f2f2970 (/lib64/libasan.so.5+0xef970)  ??:?
-  #1 0x7f491e94649d (/lib64/libglib-2.0.so.0+0x5249d)  ??:?
-  #2 0x564d0f3919fa (./x86_64-softmmu/qemu-system-x86_64+0x2c3e9fa)  /mnt/sdb/qemu/hw/virtio/virtio.c:2333
-  #3 0x564d0f2eca55 (./x86_64-softmmu/qemu-system-x86_64+0x2b99a55)  /mnt/sdb/qemu/hw/scsi/virtio-scsi.c:912
-  #4 0x564d0f2ece7b (./x86_64-softmmu/qemu-system-x86_64+0x2b99e7b)  /mnt/sdb/qemu/hw/scsi/virtio-scsi.c:924
-  #5 0x564d0f39ee47 (./x86_64-softmmu/qemu-system-x86_64+0x2c4be47)  /mnt/sdb/qemu/hw/virtio/virtio.c:3531
-  #6 0x564d0f980224 (./x86_64-softmmu/qemu-system-x86_64+0x322d224)  /mnt/sdb/qemu/hw/core/qdev.c:865
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20200117075547.60864-2-pannengyuan@huawei.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200121110349.25842-2-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/virtio-scsi.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/ppc/spapr_rtas.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 4bc73a3..858b3aa 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -943,7 +943,13 @@ void virtio_scsi_common_unrealize(DeviceState *dev)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(dev);
-+    int i;
- 
-+    virtio_del_queue(vdev, 0);
-+    virtio_del_queue(vdev, 1);
-+    for (i = 0; i < vs->conf.num_queues; i++) {
-+        virtio_del_queue(vdev, i + 2);
-+    }
-     g_free(vs->cmd_vqs);
-     virtio_cleanup(vdev);
- }
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index 8d8d8cd..e88bb19 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -281,7 +281,7 @@ static void rtas_ibm_get_system_parameter(PowerPCCPU *cpu,
+                                           "DesProcs=%d,"
+                                           "MaxPlatProcs=%d",
+                                           max_cpus,
+-                                          current_machine->ram_size / MiB,
++                                          ms->ram_size / MiB,
+                                           ms->smp.cpus,
+                                           max_cpus);
+         if (pcc->n_host_threads > 0) {
 -- 
 1.8.3.1
 
