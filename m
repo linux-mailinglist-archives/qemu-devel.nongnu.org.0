@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD95814685A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:48:13 +0100 (CET)
-Received: from localhost ([::1]:56504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C527146850
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:45:39 +0100 (CET)
+Received: from localhost ([::1]:56444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iubu7-0002hL-Uo
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:48:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36705)
+	id 1iubrd-0000Cz-Jz
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:45:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39357)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iuauO-0000yA-Qm
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:44:26 -0500
+ (envelope-from <bounces@canonical.com>) id 1iub6R-0007Gd-9i
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:56:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iuauN-0005Wi-EN
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:44:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40649
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuauN-0005We-Al
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:44:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579779863;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ONGRb2H7xwKxLjc0yEDl8AhQd6ixqikOmhtSaklR8po=;
- b=WXsxUZ6XY6oitfy6Y3vcQhC+zQVI4lgGYzpvLcebukZQzl98NTdri4KkwIUKfu9HuTSMdL
- V1YnCEbsjZ8VpZVOLqKdI26ZChiTQp1+9JEyl3VbAlHqeHnLVhDgdS3nJCZKfDulIbbwGc
- 7a3450JWmI0/yW9TivaOzfgit8pfo+I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-uHmyv-KSMHW6pZ7PrhKrLw-1; Thu, 23 Jan 2020 06:44:20 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3E648010E0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:44:19 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF82710372F9;
- Thu, 23 Jan 2020 11:44:14 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH REPOST v3 80/80] tests:numa-test: use explicit memdev to
- specify node RAM
-Date: Thu, 23 Jan 2020 12:38:45 +0100
-Message-Id: <1579779525-20065-81-git-send-email-imammedo@redhat.com>
-In-Reply-To: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
-References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: uHmyv-KSMHW6pZ7PrhKrLw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (envelope-from <bounces@canonical.com>) id 1iub6O-0003AP-TH
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:56:51 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36880)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iub6O-00039u-Np
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:56:48 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iub6N-00053S-7Z
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:56:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 34E292E806D
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:56:47 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 23 Jan 2020 11:49:01 -0000
+From: Frank Heimes <1859656@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=maas; status=New; importance=Undecided;
+ assignee=lee.trager@canonical.com; 
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
+ assignee=maas; 
+X-Launchpad-Bug-Tags: s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fheimes ltrager paelzer sfeole
+X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
+X-Launchpad-Bug-Modifier: Frank Heimes (fheimes)
+References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
+Message-Id: <157978014198.5231.2915924399994201695.malone@chaenomeles.canonical.com>
+Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
+ initial deploy
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9a4f5d9238f7b0a54ca2f6a9308acb580450c1d9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,153 +71,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com
+Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Follow up patches will remove automatic RAM distribution
-between nodes and will make default machine types require
-"memdev" option instead of legacy "mem" option.
+The general issue with multiple boot elements on s390x was indeed already i=
+dentified back in 2017, and a ticket was opened and reverse mirrored to IBM=
+ (so it should never have worked that way):
+LP 1736511 (and btw. RH ticket is referenced there as well)
 
-Make tests to follow new rules and add an additional test
-for legacy "mem" option on old machine type, to make sure
-it won't regress in the future.
+-- =
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-v3:
-   * s/strcmp/g_str_equal/
-   * put -object lines before -m
-     (Thomas Huth <thuth@redhat.com>)
-   * drop new test_pc_legacy_mem(), due to dropping
-      "numa: forbid '-numa node,mem' for 5.0 and newer machine types"
-     it will be posted later, when libvirt side is prepared for
-     disabled '-numa node,mem' (hopefully 5.1)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859656
 
-CC: thuth@redhat.com
-CC: lvivier@redhat.com
----
- tests/qtest/numa-test.c | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
+Title:
+  [2.6] Unable to reboot s390x KVM machine after initial deploy
 
-diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-index 0bb4897..bc9c6be 100644
---- a/tests/qtest/numa-test.c
-+++ b/tests/qtest/numa-test.c
-@@ -25,9 +25,8 @@ static void test_mon_explicit(const void *data)
-     g_autofree char *s =3D NULL;
-     g_autofree char *cli =3D NULL;
-=20
--    cli =3D make_cli(data, "-smp 8 "
--                   "-numa node,nodeid=3D0,cpus=3D0-3 "
--                   "-numa node,nodeid=3D1,cpus=3D4-7 ");
-+    cli =3D make_cli(data, "-smp 8 -numa node,nodeid=3D0,memdev=3Dram,cpus=
-=3D0-3 "
-+                         "-numa node,nodeid=3D1,cpus=3D4-7");
-     qts =3D qtest_init(cli);
-=20
-     s =3D qtest_hmp(qts, "info numa");
-@@ -37,13 +36,13 @@ static void test_mon_explicit(const void *data)
-     qtest_quit(qts);
- }
-=20
--static void test_mon_default(const void *data)
-+static void test_def_cpu_split(const void *data)
- {
-     QTestState *qts;
-     g_autofree char *s =3D NULL;
-     g_autofree char *cli =3D NULL;
-=20
--    cli =3D make_cli(data, "-smp 8 -numa node -numa node");
-+    cli =3D make_cli(data, "-smp 8 -numa node,memdev=3Dram -numa node");
-     qts =3D qtest_init(cli);
-=20
-     s =3D qtest_hmp(qts, "info numa");
-@@ -60,7 +59,7 @@ static void test_mon_partial(const void *data)
-     g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-smp 8 "
--                   "-numa node,nodeid=3D0,cpus=3D0-1 "
-+                   "-numa node,nodeid=3D0,memdev=3Dram,cpus=3D0-1 "
-                    "-numa node,nodeid=3D1,cpus=3D4-5 ");
-     qts =3D qtest_init(cli);
-=20
-@@ -87,7 +86,8 @@ static void test_query_cpus(const void *data)
-     QTestState *qts;
-     g_autofree char *cli =3D NULL;
-=20
--    cli =3D make_cli(data, "-smp 8 -numa node,cpus=3D0-3 -numa node,cpus=
-=3D4-7");
-+    cli =3D make_cli(data, "-smp 8 -numa node,memdev=3Dram,cpus=3D0-3 "
-+                         "-numa node,cpus=3D4-7");
-     qts =3D qtest_init(cli);
-     cpus =3D get_cpus(qts, &resp);
-     g_assert(cpus);
-@@ -125,7 +125,7 @@ static void pc_numa_cpu(const void *data)
-     g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-cpu pentium -smp 8,sockets=3D2,cores=3D2,thre=
-ads=3D2 "
--        "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-+        "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
-         "-numa cpu,node-id=3D1,socket-id=3D0 "
-         "-numa cpu,node-id=3D0,socket-id=3D1,core-id=3D0 "
-         "-numa cpu,node-id=3D0,socket-id=3D1,core-id=3D1,thread-id=3D0 "
-@@ -178,7 +178,7 @@ static void spapr_numa_cpu(const void *data)
-     g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-smp 4,cores=3D4 "
--        "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-+        "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
-         "-numa cpu,node-id=3D0,core-id=3D0 "
-         "-numa cpu,node-id=3D0,core-id=3D1 "
-         "-numa cpu,node-id=3D0,core-id=3D2 "
-@@ -223,7 +223,7 @@ static void aarch64_numa_cpu(const void *data)
-     g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-smp 2 "
--        "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-+        "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
-         "-numa cpu,node-id=3D1,thread-id=3D0 "
-         "-numa cpu,node-id=3D0,thread-id=3D1");
-     qts =3D qtest_init(cli);
-@@ -270,7 +270,7 @@ static void pc_dynamic_cpu_cfg(const void *data)
-=20
-     /* create 2 numa nodes */
-     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
--        " 'arguments': { 'type': 'node', 'nodeid': 0 } }")));
-+        " 'arguments': { 'type': 'node', 'nodeid': 0, 'memdev': 'ram' } }"=
-)));
-     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-         " 'arguments': { 'type': 'node', 'nodeid': 1 } }")));
-=20
-@@ -542,13 +542,19 @@ int main(int argc, char **argv)
-     g_autoptr(GString) args =3D g_string_new("");
-     const char *arch =3D qtest_get_arch();
-=20
-+    if (g_str_equal(arch, "ppc64")) {
-+        g_string_append(args, " -object memory-backend-ram,id=3Dram,size=
-=3D512M");
-+    } else {
-+        g_string_append(args, " -object memory-backend-ram,id=3Dram,size=
-=3D128M");
-+    }
-+
-     if (g_str_equal(arch, "aarch64")) {
-         g_string_append(args, " -machine virt");
-     }
-=20
-     g_test_init(&argc, &argv, NULL);
-=20
--    qtest_add_data_func("/numa/mon/default", args, test_mon_default);
-+    qtest_add_data_func("/numa/mon/cpus/default", args, test_def_cpu_split=
-);
-     qtest_add_data_func("/numa/mon/cpus/explicit", args, test_mon_explicit=
-);
-     qtest_add_data_func("/numa/mon/cpus/partial", args, test_mon_partial);
-     qtest_add_data_func("/numa/qmp/cpus/query-cpus", args, test_query_cpus=
-);
---=20
-2.7.4
+Status in MAAS:
+  New
+Status in QEMU:
+  Incomplete
+Status in Ubuntu on IBM z Systems:
+  Triaged
 
+Bug description:
+  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
+  Arch: S390x
+
+  Appears that MAAS can not find the s390x bootloader to boot from the
+  disk, not sure how maas determines this.  However this was working in
+  the past. I had originally thought that if the maas machine was
+  deployed then it defaulted to boot from disk.
+
+  If I force the VM to book from disk, the VM starts up as expected.
+
+  Reproduce:
+
+  - Deploy Disco on S390x KVM instance
+  - Reboot it
+
+  on the KVM console...
+
+  Connected to domain s2lp6g001
+  Escape character is ^]
+  done
+  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
+  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
+  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
+  Trying pxelinux.cfg files...
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  Failed to load OS from network
+
+  =3D=3D> /var/log/maas/rackd.log <=3D=3D
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
+0x.bin requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
+5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+1-52-54-00-e5-d7-bb requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA0 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64B requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF6 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+A requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+ requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
+efault requested by 10.246.75.160
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
 
