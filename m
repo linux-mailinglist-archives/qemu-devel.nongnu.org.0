@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA2614614C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 06:17:20 +0100 (CET)
-Received: from localhost ([::1]:51086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A5A146187
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 06:28:12 +0100 (CET)
+Received: from localhost ([::1]:51164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuUrn-0002PF-5D
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 00:17:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36897)
+	id 1iuV2J-0006hQ-N9
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 00:28:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iuUnM-0007HB-0K
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 00:12:44 -0500
+ (envelope-from <groeck7@gmail.com>) id 1iuV01-0004bA-Cu
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 00:25:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iuUnK-0008SI-OZ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 00:12:43 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23960
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iuUnK-0008Ri-LC
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 00:12:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579756361;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=fg2jtxpN4Qksvf9/SF9bK1iVyvXX/ZUc5etQ3gY4ngQ=;
- b=HHwWCm+qKAF/Ol5Dk51RW6xn0o7uY+rS3rDFb0DZZOq7S1mWkxrYqTI/z8IK6a4peq8R7d
- egOjtfYtavrSh2wcg+bR+qL4kYETQ0Q+rhwp6Z324aYbcKeHTunsLrqeM0sA+tiSxtlNLK
- lseamBPtYTd5uFnHDgRg4UuiuVYiYZs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-Xc8KB1Y5NJuxMYxL2T_Kig-1; Thu, 23 Jan 2020 00:12:38 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76144190B2A2;
- Thu, 23 Jan 2020 05:12:36 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-64.ams2.redhat.com [10.36.116.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FCF05C28C;
- Thu, 23 Jan 2020 05:12:34 +0000 (UTC)
-Subject: Re: [PATCH rc1 00/24] target/avr merger
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200123000307.11541-1-richard.henderson@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <bdcf69f2-a88a-6484-8321-f8b6a9977763@redhat.com>
-Date: Thu, 23 Jan 2020 06:12:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200123000307.11541-1-richard.henderson@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: Xc8KB1Y5NJuxMYxL2T_Kig-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ (envelope-from <groeck7@gmail.com>) id 1iuV00-0001kG-Fd
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 00:25:49 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37087)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <groeck7@gmail.com>)
+ id 1iuUzy-0001iq-4c; Thu, 23 Jan 2020 00:25:46 -0500
+Received: by mail-pf1-x444.google.com with SMTP id p14so978577pfn.4;
+ Wed, 22 Jan 2020 21:25:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=2duhfw96sX4LBq6GDO3w2q/itW+l/UJOYIKKmbqgxFI=;
+ b=XbIELcrUceOkmOeYXmEhPNhiHGDWMhs/oW2NBlUPu//SIjWE+M48kdvIQsUl0CGriS
+ I1QszDNHaJ8CL7mAYHHJKf6xeZAw6/Zhp+LGCnYoECl/+vv1AN7vNkoBdgJMng5VkODm
+ 2s2DmNhkVRZYmIeeG7bVftPV3Q+CQha/XGarebg7JVhDCV56QfpOFRxsNhp4T81nNKOb
+ izBqwa/y7q/JYqJXs+S+XCKbrWfSbXsw7llakl0zv5lJYq5ep1gIxyRh/Z9GiVt7bxYv
+ zjjR1IVj6GgkgTEqQg7ODxxoI0G/EebY6B4/eKqBcpg+lOYGhMMoLOiz8docz+Qgr9kc
+ Sn8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=2duhfw96sX4LBq6GDO3w2q/itW+l/UJOYIKKmbqgxFI=;
+ b=FT6Wtbj6Jp0cJlKysu/+zEl75qqw2ZScWmvagv9FybBT7g+wRbdUfg4v8BvAN5OEvZ
+ D1wKuigl7EszxDiPSb7VHnRS9NowpiGpJNJ6FgGT2Yj264FQs4vWlKHm7uwa7L58+X2o
+ 7DVU5B9WhBnn1Ae71cNpzsHsYDo/Y7N+rEzfmgzdWszhHZNyVe+fBThsUcDAN96NMk9d
+ F3wA58K7ocHIneCt8BYn1aJVb3c7d8jymuUJ2E8okUQrrAXj6FwdwLjTHnyUKIa++ZbF
+ i78Y4wht3O+F6RztiS1ozf1lU8WYIHjiwGp76UMFrG8YZcq6GP62boyVfCaAaeHe0W4/
+ nXbw==
+X-Gm-Message-State: APjAAAXUVJLdDMGPvMwNLCC6S+eh7z4XSliNn0o1DGoOJbPmfBITpljO
+ xU9XUugiUaRvdPrdxfwlVBQ=
+X-Google-Smtp-Source: APXvYqzH8ki4PZ7TJHbYCn3FCb2ECA9eQSY7IRGWbujN3MOrreo2P2DL4lCsIPArSVGocPI5LYJbPA==
+X-Received: by 2002:a63:ed48:: with SMTP id m8mr2059270pgk.399.1579757143993; 
+ Wed, 22 Jan 2020 21:25:43 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id k16sm763630pje.18.2020.01.22.21.25.42
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 22 Jan 2020 21:25:43 -0800 (PST)
+From: Guenter Roeck <linux@roeck-us.net>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v3 0/8] Fix Exynos4210 DMA support
+Date: Wed, 22 Jan 2020 21:25:32 -0800
+Message-Id: <20200123052540.6132-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,22 +70,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: S.E.Harris@kent.ac.uk, me@xcancerberox.com.ar, dovgaluk@ispras.ru,
- imammedo@redhat.com, mrolnik@gmail.com, aleksandar.m.mail@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/01/2020 01.02, Richard Henderson wrote:
-> This is a merger of Michael's v41 of the base avr architecture,
-> and v4 of Phil's arduino target boards.  Call this release, or
-> merge, candidate 1.
-> 
-> Has all commentary been addressed?  How much more, if anything,
-> does anyone require before allowing normal development in tree?
+Commit 59520dc65e ("hw/arm/exynos4210: Add DMA support for the Exynos4210")
+introduced DMA support for Exynos4210. Unfortunately, it never really
+worked. DMA interrupt line and polarity was wrong, and the serial port
+needs extra code to support DMA. This patch series fixes the problem.
 
-I just had a quick look at the series. Apart from some few nits, it
-looks fine to me, so I think it's fine to merge it now.
+The series also converts pl330 and exynos4210_uart code to support tracing.
+While not strictly necessary, this was very useful for debugging,
+and it seemed too valuable to drop it from the final series. Similar,
+improved support for receive FIFO handling is not strictly necessary
+to fix DMA handling, but I initially thought that it was and added the
+code. Like tracing support it seemed too valuable to drop it.
 
- Thomas
+The series was tested with qemu's smdkc210 and nuri emulations and with
+exynos4210-smdkv310.dtb. Without the series, the emulation does not react
+to serial line input, and serial line output stalls when using DMA. With
+this series in place, serial line input is handled correctly, serial
+output does not stall, and DMA interrupts are observed and handled.
 
+v3: Increased number of or-irq-lines to 48 to support the full number
+    of lines needed. Simplifications in handling UCON register when
+    handling receive timeouts. Don't save timer state in VMSTATE.
+    Added Reviewed-by: tags as received.
+v2: Addressed all feedback comments but one (see last patch of series).
+    Please see individual patches for details.
 
