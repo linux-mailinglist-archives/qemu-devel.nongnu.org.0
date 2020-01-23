@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 413EA146D19
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:39:05 +0100 (CET)
-Received: from localhost ([::1]:59586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6640146D1E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:41:03 +0100 (CET)
+Received: from localhost ([::1]:59612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueZU-0000J7-6i
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:39:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51222)
+	id 1iuebO-0002zS-Lx
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:41:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51309)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrC-0004k3-Lh
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:15 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrH-0004qK-KG
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrA-00032j-L4
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:14 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:52975)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrG-0003EL-D6
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:19 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37538)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrA-00031K-EV
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:12 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id p9so2644038wmc.2
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:12 -0800 (PST)
+ id 1iucrG-0003D5-7C
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:18 -0500
+Received: by mail-wr1-x434.google.com with SMTP id w15so3165037wru.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gl7eWmA7CA9XKm3RFgregvJlE8LU8fI3r6RyQ6MZ0c0=;
- b=PcD1MV1fsFXokrsvY7vAKB2jiAGEru343pJDBzGqPZLOpuKsYuYbBf4V8oze8KzU9P
- owaXjKVf9sEX1ap/k/DLD+FTfhLbLVgxfZeiE1xGOs5Va3j2oE8bNJ55CatZL8MJD2yG
- VexI0WFmT260AtxLcoK+u/10rADHiS4XVUpREsc9psUQuSJn2NfJrJKRHnEDvUeiqegQ
- 7c4LTmg1cwUv7Rq0nsVKEybAigs1wgeEzWOusSfvH/Tv9rwHhjQntn8yUfK9R96dx6Kt
- NoXoExhXzjAL/7Vr+AVAf2pwTjOS0WJVZqngW/tE3U2yZdkXaxLl5q8z0Qw8DssqACEA
- ErNA==
+ bh=EB6B/is9mQvDGkoPXZc/Kbfawg7I6UbaVwup9pSP1Q0=;
+ b=Mbeww9PYzevWo8wEmP649qJ27+8jn6fCjX1zK6o4MUdfQSKY9FkWhUYoLBjpd5502S
+ AF8BuwrXJ/08XhlkGF2odnGirCffgGTt9PI03EZ8pQaY5/vQ0RPaNm3klirz28kfDf4u
+ 1+dkWtu407+p/543PjmCqw3VFPlVjz7bjlPc4xT+swbFEBEioXKT7QI6DJfBAJBRnBaR
+ ZX3ncr8R4atFj13yldo1hSBEBo3+nLpc6bUS/iZDL/rA5idEUpQ0T/+E8nzwZ4k/EShr
+ RA5L2mU1SYTH/bFLCfUuHPclxK+O4+ABTPaLh8YVRbL/hSvnZEOD6Ra7OywDhsnudhuj
+ IP1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gl7eWmA7CA9XKm3RFgregvJlE8LU8fI3r6RyQ6MZ0c0=;
- b=nLatFqlRHQxym8i1uWLWcZ1MDdpx0/UECuU/RbNuEi+XPZc4vBLcZUnxbAs73nsJVj
- lwaMjPlF58P0oRjvDjK58l3bW4rqq9ZL3At8siPrj8AmtQXOT4Z1E1jsXeZu7YtCakUI
- j4b3w6QGKZ3w4lGN+I70oI47PNqBFtbbFSbPa+nVGL2mWAhRwfEVwPzErWZc10ky95Ab
- EbCpyLpM4+dKplU6v+ztlbXebZkqQTKxzcH7ojMi3CaLTmssV1V+y29dalx5/FeD3IAX
- DSyWT4oUxiXCZ1hDCPP68xiHEMHxsOidm8fcekinpPfz2f4uwqn/4kYTwe9I4pQVUFDT
- kR+w==
-X-Gm-Message-State: APjAAAUiZNW7WQC+uqBxEQMlcEbeNKzjwyXuoILYtN5YixNRLKrmHJ0v
- +YCieQHyOGRKBqMsiOhnqoyfTLy+
-X-Google-Smtp-Source: APXvYqwvLR8zAiuT8HwiV6xD2SjZCQBDBntTtI6MMzovI074bivLArp1PA/Ru6JICV4EX7cIoVvC3w==
-X-Received: by 2002:a7b:c3d8:: with SMTP id t24mr4312838wmj.175.1579787351077; 
- Thu, 23 Jan 2020 05:49:11 -0800 (PST)
+ bh=EB6B/is9mQvDGkoPXZc/Kbfawg7I6UbaVwup9pSP1Q0=;
+ b=kSBlpms+umNbiWFEyn44+N1S3UHTIWHrQ5TL2kLCvNZbgXSnMYLMNfEjh7tRKViNBP
+ 2u4ZMZrsahgwM5c3Q0arDYMYkLkCL6d+78TfYpBYO4Rhp8HhSi8NTeexxdNxsBJhz85M
+ YXFe2Da6VKQRqZUnjbbgwMIm3VvkBmze1GL2E2gRrFN7VYJlqtjKDdqVSXxwgKrYqsov
+ n+t1mbTseZBpLak9a7TvzikZfsp6JbrNS/sHVbChA7Ftjcs/bz0Vdhf8nti6ytQxvESM
+ fW+XQAu30whh5GnfzNe1Zkzz8GLvLWVeqQ8eLZ/6CrkFtw2vF1vOTtYF6t5+yOHg7Sfm
+ peew==
+X-Gm-Message-State: APjAAAXDm6jjGjJgfwr8xmnQ6nyoaPyutk7tpzhPdgnxzaR6DwsdcXBc
+ 5iEuiyL97SSNJPLds6FKb51b6B+/
+X-Google-Smtp-Source: APXvYqwkX7Ypg5lVR4Sj3Cr9Iz84FYkfOEkUceH1+2Gr1T5uXXG8eNTpbLtiFZsMfmpb5SijWBaKJA==
+X-Received: by 2002:adf:df03:: with SMTP id y3mr17891512wrl.260.1579787356878; 
+ Thu, 23 Jan 2020 05:49:16 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.10
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.16
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:10 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:16 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/59] audio/audio: Add missing fall through comment
-Date: Thu, 23 Jan 2020 14:48:09 +0100
-Message-Id: <1579787342-27146-7-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 12/59] configure: Do not build libfdt if not required
+Date: Thu, 23 Jan 2020 14:48:15 +0100
+Message-Id: <1579787342-27146-13-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,43 +84,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-When building with GCC9 using CFLAG -Wimplicit-fallthrough=2 we get:
+We only require libfdt for system emulation, in a small set
+of architecture:
 
-  audio/audio.c: In function ‘audio_pcm_init_info’:
-  audio/audio.c:306:14: error: this statement may fall through [-Werror=implicit-fallthrough=]
-    306 |         sign = 1;
-        |         ~~~~~^~~
-  audio/audio.c:307:5: note: here
-    307 |     case AUDIO_FORMAT_U8:
-        |     ^~~~
-  cc1: all warnings being treated as errors
+4077  # fdt support is mandatory for at least some target architectures,
+4078  # so insist on it if we're building those system emulators.
+4079  fdt_required=no
+4080  for target in $target_list; do
+4081    case $target in
+4082      aarch64*-softmmu|arm*-softmmu|ppc*-softmmu|microblaze*-softmmu|mips64el-softmmu|riscv*-softmmu)
+4083        fdt_required=yes
 
-Similarly to e46349414, add the missing fall through comment to
-hint GCC.
+Do not build libfdt if we did not manually specified --enable-fdt,
+or have one of the platforms that require it in our target list.
 
-Fixes: 2b9cce8c8c
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20191218192526.13845-2-philmd@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20200118140619.26333-2-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- audio/audio.c | 1 +
- 1 file changed, 1 insertion(+)
+ configure | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index abea027..f63f397 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -304,6 +304,7 @@ void audio_pcm_init_info (struct audio_pcm_info *info, struct audsettings *as)
-     switch (as->fmt) {
-     case AUDIO_FORMAT_S8:
-         sign = 1;
-+        /* fall through */
-     case AUDIO_FORMAT_U8:
-         mul = 1;
-         break;
+diff --git a/configure b/configure
+index 557e438..c67a7e7 100755
+--- a/configure
++++ b/configure
+@@ -4095,6 +4095,8 @@ if test "$fdt_required" = "yes"; then
+       "targets which need it (by specifying a cut down --target-list)."
+   fi
+   fdt=yes
++elif test "$fdt" != "yes" ; then
++  fdt=no
+ fi
+ 
+ if test "$fdt" != "no" ; then
 -- 
 1.8.3.1
 
