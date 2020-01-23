@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C1C146B95
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:43:58 +0100 (CET)
-Received: from localhost ([::1]:58312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8463146B65
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:33:13 +0100 (CET)
+Received: from localhost ([::1]:58114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iudi9-000136-9T
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:43:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41827)
+	id 1iudXk-0002Ys-NB
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:33:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41824)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iubAq-0004LH-Go
+ (envelope-from <dgilbert@redhat.com>) id 1iubAq-0004L6-Ci
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iubAp-0006kv-C1
+ (envelope-from <dgilbert@redhat.com>) id 1iubAp-0006kn-B9
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51821
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29441
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAp-0006kL-7J
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAp-0006kG-68
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1579780882;
@@ -27,40 +27,40 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qShNWf35tmc6YSFybHWSCOvYBzhSa1CQWXZKP8VjPDE=;
- b=EQ8Hc9dQDZzK8ZfJLQ0EkCStuyytR1XY1hQplab8tSHw5CD3Yu3Gt4ixzG5rj2s70ECSwY
- OZ0ekaS1uAoYreW+PhvbZmIyzt/gK+1+lhT0/gyVtwsA4nxNdlpztk00jOfkfGRZVItRwz
- cG8M6nLMGsdhITUmbVhcIKOcLqHY0sM=
+ bh=2dozJRlZa0dl3m3ruapIUDG11IbtPuiqyFeJ966CdXs=;
+ b=aI1Gg1az+cVkZ1/Q3EM2oGxMX70eL+NpaSLMrP+CfFfOUfTfisSVCo7T4ZmBIGefh2YuSw
+ E3DgVe41cfhJEH8q4WC5jk5k8u9o1Wkl+pT0IPlY/XShtNs+WjdUdhjFk5enxUVZJjXnJA
+ o95Ra+V1wOQspUPsP9EPoQfo/xND3bE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-Vvn8wDZ4PbCObYEMDw0Gpw-1; Thu, 23 Jan 2020 07:01:19 -0500
+ us-mta-352-IZsJPS7cPZudnKO5cpqoqw-1; Thu, 23 Jan 2020 07:01:21 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25E698010D0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:01:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B4C91005F68
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:01:20 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 711721CB;
- Thu, 23 Jan 2020 12:01:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71A8D85754;
+ Thu, 23 Jan 2020 12:01:19 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 108/111] virtiofsd: Convert lo_destroy to take the lo->mutex
- lock itself
-Date: Thu, 23 Jan 2020 11:58:38 +0000
-Message-Id: <20200123115841.138849-109-dgilbert@redhat.com>
+Subject: [PULL 109/111] virtiofsd/passthrough_ll: Pass errno to
+ fuse_reply_err()
+Date: Thu, 23 Jan 2020 11:58:39 +0000
+Message-Id: <20200123115841.138849-110-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: Vvn8wDZ4PbCObYEMDw0Gpw-1
+X-MC-Unique: IZsJPS7cPZudnKO5cpqoqw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,103 +75,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Xiao Yang <yangx.jy@cn.fujitsu.com>
 
-lo_destroy was relying on some implicit knowledge of the locking;
-we can avoid this if we create an unref_inode that doesn't take
-the lock and then grab it for the whole of the lo_destroy.
+lo_copy_file_range() passes -errno to fuse_reply_err() and then fuse_reply_=
+err()
+changes it to errno again, so that subsequent fuse_send_reply_iov_nofree() =
+catches
+the wrong errno.(i.e. reports "fuse: bad error value: ...").
 
-Suggested-by: Vivek Goyal <vgoyal@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Make fuse_send_reply_iov_nofree() accept the correct -errno by passing errn=
+o
+directly in lo_copy_file_range().
+
+Signed-off-by: Xiao Yang <yangx.jy@cn.fujitsu.com>
+Reviewed-by: Eryu Guan <eguan@linux.alibaba.com>
+
+dgilbert: Sent upstream and now Merged as aa1185e153f774f1df65
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index eb001b9d1e..fc15d61510 100644
+index fc15d61510..e6f2399efc 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -1344,14 +1344,13 @@ static void lo_unlink(fuse_req_t req, fuse_ino_t pa=
-rent, const char *name)
-     lo_inode_put(lo, &inode);
- }
+@@ -2441,7 +2441,7 @@ static void lo_copy_file_range(fuse_req_t req, fuse_i=
+no_t ino_in, off_t off_in,
 =20
--static void unref_inode_lolocked(struct lo_data *lo, struct lo_inode *inod=
-e,
--                                 uint64_t n)
-+/* To be called with lo->mutex held */
-+static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64=
-_t n)
- {
-     if (!inode) {
-         return;
+     res =3D copy_file_range(in_fd, &off_in, out_fd, &off_out, len, flags);
+     if (res < 0) {
+-        fuse_reply_err(req, -errno);
++        fuse_reply_err(req, errno);
+     } else {
+         fuse_reply_write(req, res);
      }
-=20
--    pthread_mutex_lock(&lo->mutex);
-     assert(inode->nlookup >=3D n);
-     inode->nlookup -=3D n;
-     if (!inode->nlookup) {
-@@ -1362,15 +1361,24 @@ static void unref_inode_lolocked(struct lo_data *lo=
-, struct lo_inode *inode,
-         }
-         g_hash_table_destroy(inode->posix_locks);
-         pthread_mutex_destroy(&inode->plock_mutex);
--        pthread_mutex_unlock(&lo->mutex);
-=20
-         /* Drop our refcount from lo_do_lookup() */
-         lo_inode_put(lo, &inode);
--    } else {
--        pthread_mutex_unlock(&lo->mutex);
-     }
- }
-=20
-+static void unref_inode_lolocked(struct lo_data *lo, struct lo_inode *inod=
-e,
-+                                 uint64_t n)
-+{
-+    if (!inode) {
-+        return;
-+    }
-+
-+    pthread_mutex_lock(&lo->mutex);
-+    unref_inode(lo, inode, n);
-+    pthread_mutex_unlock(&lo->mutex);
-+}
-+
- static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup=
-)
- {
-     struct lo_data *lo =3D lo_data(req);
-@@ -2458,13 +2466,7 @@ static void lo_destroy(void *userdata)
- {
-     struct lo_data *lo =3D (struct lo_data *)userdata;
-=20
--    /*
--     * Normally lo->mutex must be taken when traversing lo->inodes but
--     * lo_destroy() is a serialized request so no races are possible here.
--     *
--     * In addition, we cannot acquire lo->mutex since unref_inode() takes =
-it
--     * too and this would result in a recursive lock.
--     */
-+    pthread_mutex_lock(&lo->mutex);
-     while (true) {
-         GHashTableIter iter;
-         gpointer key, value;
-@@ -2475,8 +2477,9 @@ static void lo_destroy(void *userdata)
-         }
-=20
-         struct lo_inode *inode =3D value;
--        unref_inode_lolocked(lo, inode, inode->nlookup);
-+        unref_inode(lo, inode, inode->nlookup);
-     }
-+    pthread_mutex_unlock(&lo->mutex);
- }
-=20
- static struct fuse_lowlevel_ops lo_oper =3D {
 --=20
 2.24.1
 
