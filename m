@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003081470C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:30:51 +0100 (CET)
-Received: from localhost ([::1]:34774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC93B1470D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:34:19 +0100 (CET)
+Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuhFi-0006OW-QN
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:30:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41492)
+	id 1iuhJ3-0001zd-Rq
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:34:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41521)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iufeC-0005GJ-4Z
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:01 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iufeE-0005IY-8M
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iufeA-0006j5-Ur
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47839
+ (envelope-from <dgilbert@redhat.com>) id 1iufeC-0006lJ-Bo
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:01 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48465
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufeA-0006ie-Rx
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:58 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufeC-0006l5-8u
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579798078;
+ s=mimecast20190719; t=1579798080;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jI2BIHNRFTBCHwS7byo7jj/dJYediopJO6Eq5eVljCI=;
- b=WegILUPyRRVJZcbVW1G7Db+nBl0jYqDrUFxO+UpNGpHHS/s1YrXNexKSO0q3mW6NBEcHP/
- 8I7d2KccWGOHOdbccPYXdXOj1dgou7rnkedkGqxqY6uBnuKXgmucNsP8dqck3T567OK99R
- KROlUjFcCaJ7VcnAP6X5P3dpKMU1xmg=
+ bh=/QogBgT1TKryRsR11pDKQb3Rpjj6FmtIWwzSwj1Qh94=;
+ b=Sz9sk2AZvpEy+ktW1lq0we0MhUfGvpniamDbh10PSsKi52txossEj4KX/qjyNwlCeblSzu
+ 2j5QXOclPbLY2981OUQ5y+IglqGUvWxjSbQXE6Vj6vNnj8aeaaVSDS/2Fgmn1Z0nqEY2q4
+ kV7tPHITk9fDvcQ3of82h9Awz1RRszY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-CSBMllOLO4KngZmXNa3y8A-1; Thu, 23 Jan 2020 11:47:56 -0500
+ us-mta-199-AoQBnM1hOci7z1TEVHr7Gg-1; Thu, 23 Jan 2020 11:47:58 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B272E8026AF
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB6E9477
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:57 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-110.ams2.redhat.com
  [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0C81E19C69;
- Thu, 23 Jan 2020 16:47:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04C9B19C69;
+ Thu, 23 Jan 2020 16:47:56 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 056/108] virtiofsd: set maximum RLIMIT_NOFILE limit
-Date: Thu, 23 Jan 2020 16:45:38 +0000
-Message-Id: <20200123164630.91498-57-dgilbert@redhat.com>
+Subject: [PULL 058/108] virtiofsd: add --syslog command-line option
+Date: Thu, 23 Jan 2020 16:45:40 +0000
+Message-Id: <20200123164630.91498-59-dgilbert@redhat.com>
 In-Reply-To: <20200123164630.91498-1-dgilbert@redhat.com>
 References: <20200123164630.91498-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: CSBMllOLO4KngZmXNa3y8A-1
+X-MC-Unique: AoQBnM1hOci7z1TEVHr7Gg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -77,77 +77,234 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-virtiofsd can exceed the default open file descriptor limit easily on
-most systems.  Take advantage of the fact that it runs as root to raise
-the limit.
+Sometimes collecting output from stderr is inconvenient or does not fit
+within the overall logging architecture.  Add syslog(3) support for
+cases where stderr cannot be used.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+dgilbert: Reworked as a logging function
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ tools/virtiofsd/fuse_lowlevel.h  |  1 +
+ tools/virtiofsd/helper.c         |  2 ++
+ tools/virtiofsd/passthrough_ll.c | 50 ++++++++++++++++++++++++++++++--
+ tools/virtiofsd/seccomp.c        | 32 ++++++++++++++------
+ tools/virtiofsd/seccomp.h        |  4 ++-
+ 5 files changed, 76 insertions(+), 13 deletions(-)
 
+diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowleve=
+l.h
+index 0d61df8110..f2750bc189 100644
+--- a/tools/virtiofsd/fuse_lowlevel.h
++++ b/tools/virtiofsd/fuse_lowlevel.h
+@@ -1795,6 +1795,7 @@ struct fuse_cmdline_opts {
+     int show_version;
+     int show_help;
+     int print_capabilities;
++    int syslog;
+     unsigned int max_idle_threads;
+ };
+=20
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index 5531425223..9692ef9f1f 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -54,6 +54,7 @@ static const struct fuse_opt fuse_helper_opts[] =3D {
+     FUSE_HELPER_OPT("subtype=3D", nodefault_subtype),
+     FUSE_OPT_KEY("subtype=3D", FUSE_OPT_KEY_KEEP),
+     FUSE_HELPER_OPT("max_idle_threads=3D%u", max_idle_threads),
++    FUSE_HELPER_OPT("--syslog", syslog),
+     FUSE_OPT_END
+ };
+=20
+@@ -138,6 +139,7 @@ void fuse_cmdline_help(void)
+            "    -V   --version             print version\n"
+            "    --print-capabilities       print vhost-user.json\n"
+            "    -d   -o debug              enable debug output (implies -f=
+)\n"
++           "    --syslog                   log to syslog (default stderr)\=
+n"
+            "    -f                         foreground operation\n"
+            "    --daemonize                run in background\n"
+            "    -o max_idle_threads        the maximum number of idle work=
+er "
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index d53cb1e005..c281d817af 100644
+index c281d817af..0372aca143 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -53,6 +53,7 @@
- #include <sys/file.h>
- #include <sys/mount.h>
- #include <sys/prctl.h>
-+#include <sys/resource.h>
- #include <sys/syscall.h>
+@@ -58,6 +58,7 @@
  #include <sys/types.h>
  #include <sys/wait.h>
-@@ -2268,6 +2269,35 @@ static void setup_sandbox(struct lo_data *lo, struct=
- fuse_session *se)
-     setup_seccomp();
+ #include <sys/xattr.h>
++#include <syslog.h>
+ #include <unistd.h>
+=20
+ #include "passthrough_helpers.h"
+@@ -138,6 +139,7 @@ static const struct fuse_opt lo_opts[] =3D {
+     { "norace", offsetof(struct lo_data, norace), 1 },
+     FUSE_OPT_END
+ };
++static bool use_syslog =3D false;
+=20
+ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64=
+_t n);
+=20
+@@ -2262,11 +2264,12 @@ static void setup_mounts(const char *source)
+  * Lock down this process to prevent access to other processes or files ou=
+tside
+  * source directory.  This reduces the impact of arbitrary code execution =
+bugs.
+  */
+-static void setup_sandbox(struct lo_data *lo, struct fuse_session *se)
++static void setup_sandbox(struct lo_data *lo, struct fuse_session *se,
++                          bool enable_syslog)
+ {
+     setup_namespaces(lo, se);
+     setup_mounts(lo->source);
+-    setup_seccomp();
++    setup_seccomp(enable_syslog);
  }
 =20
-+/* Raise the maximum number of open file descriptors */
-+static void setup_nofile_rlimit(void)
+ /* Raise the maximum number of open file descriptors */
+@@ -2298,6 +2301,42 @@ static void setup_nofile_rlimit(void)
+     }
+ }
+=20
++static void log_func(enum fuse_log_level level, const char *fmt, va_list a=
+p)
 +{
-+    const rlim_t max_fds =3D 1000000;
-+    struct rlimit rlim;
-+
-+    if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "getrlimit(RLIMIT_NOFILE): %m\n");
-+        exit(1);
-+    }
-+
-+    if (rlim.rlim_cur >=3D max_fds) {
-+        return; /* nothing to do */
-+    }
-+
-+    rlim.rlim_cur =3D max_fds;
-+    rlim.rlim_max =3D max_fds;
-+
-+    if (setrlimit(RLIMIT_NOFILE, &rlim) < 0) {
-+        /* Ignore SELinux denials */
-+        if (errno =3D=3D EPERM) {
-+            return;
++    if (use_syslog) {
++        int priority =3D LOG_ERR;
++        switch (level) {
++        case FUSE_LOG_EMERG:
++            priority =3D LOG_EMERG;
++            break;
++        case FUSE_LOG_ALERT:
++            priority =3D LOG_ALERT;
++            break;
++        case FUSE_LOG_CRIT:
++            priority =3D LOG_CRIT;
++            break;
++        case FUSE_LOG_ERR:
++            priority =3D LOG_ERR;
++            break;
++        case FUSE_LOG_WARNING:
++            priority =3D LOG_WARNING;
++            break;
++        case FUSE_LOG_NOTICE:
++            priority =3D LOG_NOTICE;
++            break;
++        case FUSE_LOG_INFO:
++            priority =3D LOG_INFO;
++            break;
++        case FUSE_LOG_DEBUG:
++            priority =3D LOG_DEBUG;
++            break;
 +        }
-+
-+        fuse_log(FUSE_LOG_ERR, "setrlimit(RLIMIT_NOFILE): %m\n");
-+        exit(1);
++        vsyslog(priority, fmt, ap);
++    } else {
++        vfprintf(stderr, fmt, ap);
 +    }
 +}
 +
  int main(int argc, char *argv[])
  {
      struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
-@@ -2389,6 +2419,8 @@ int main(int argc, char *argv[])
-=20
-     fuse_daemonize(opts.foreground);
-=20
-+    setup_nofile_rlimit();
-+
+@@ -2336,6 +2375,11 @@ int main(int argc, char *argv[])
+     if (fuse_parse_cmdline(&args, &opts) !=3D 0) {
+         return 1;
+     }
++    fuse_set_log_func(log_func);
++    use_syslog =3D opts.syslog;
++    if (use_syslog) {
++        openlog("virtiofsd", LOG_PID, LOG_DAEMON);
++    }
+     if (opts.show_help) {
+         printf("usage: %s [options]\n\n", argv[0]);
+         fuse_cmdline_help();
+@@ -2424,7 +2468,7 @@ int main(int argc, char *argv[])
      /* Must be before sandbox since it wants /proc */
      setup_capng();
 =20
+-    setup_sandbox(&lo, se);
++    setup_sandbox(&lo, se, opts.syslog);
+=20
+     /* Block until ctrl+c or fusermount -u */
+     ret =3D virtio_loop(se);
+diff --git a/tools/virtiofsd/seccomp.c b/tools/virtiofsd/seccomp.c
+index 691fb63dea..2d9d4a7ec0 100644
+--- a/tools/virtiofsd/seccomp.c
++++ b/tools/virtiofsd/seccomp.c
+@@ -107,11 +107,28 @@ static const int syscall_whitelist[] =3D {
+     SCMP_SYS(writev),
+ };
+=20
+-void setup_seccomp(void)
++/* Syscalls used when --syslog is enabled */
++static const int syscall_whitelist_syslog[] =3D {
++    SCMP_SYS(sendto),
++};
++
++static void add_whitelist(scmp_filter_ctx ctx, const int syscalls[], size_=
+t len)
+ {
+-    scmp_filter_ctx ctx;
+     size_t i;
+=20
++    for (i =3D 0; i < len; i++) {
++        if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW, syscalls[i], 0) !=3D 0) =
+{
++            fuse_log(FUSE_LOG_ERR, "seccomp_rule_add syscall %d failed\n",
++                     syscalls[i]);
++            exit(1);
++        }
++    }
++}
++
++void setup_seccomp(bool enable_syslog)
++{
++    scmp_filter_ctx ctx;
++
+ #ifdef SCMP_ACT_KILL_PROCESS
+     ctx =3D seccomp_init(SCMP_ACT_KILL_PROCESS);
+     /* Handle a newer libseccomp but an older kernel */
+@@ -126,13 +143,10 @@ void setup_seccomp(void)
+         exit(1);
+     }
+=20
+-    for (i =3D 0; i < G_N_ELEMENTS(syscall_whitelist); i++) {
+-        if (seccomp_rule_add(ctx, SCMP_ACT_ALLOW,
+-                             syscall_whitelist[i], 0) !=3D 0) {
+-            fuse_log(FUSE_LOG_ERR, "seccomp_rule_add syscall %d",
+-                     syscall_whitelist[i]);
+-            exit(1);
+-        }
++    add_whitelist(ctx, syscall_whitelist, G_N_ELEMENTS(syscall_whitelist))=
+;
++    if (enable_syslog) {
++        add_whitelist(ctx, syscall_whitelist_syslog,
++                      G_N_ELEMENTS(syscall_whitelist_syslog));
+     }
+=20
+     /* libvhost-user calls this for post-copy migration, we don't need it =
+*/
+diff --git a/tools/virtiofsd/seccomp.h b/tools/virtiofsd/seccomp.h
+index 86bce72652..d47c8eade6 100644
+--- a/tools/virtiofsd/seccomp.h
++++ b/tools/virtiofsd/seccomp.h
+@@ -9,6 +9,8 @@
+ #ifndef VIRTIOFSD_SECCOMP_H
+ #define VIRTIOFSD_SECCOMP_H
+=20
+-void setup_seccomp(void);
++#include <stdbool.h>
++
++void setup_seccomp(bool enable_syslog);
+=20
+ #endif /* VIRTIOFSD_SECCOMP_H */
 --=20
 2.24.1
 
