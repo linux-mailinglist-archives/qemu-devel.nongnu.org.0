@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAE01471DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:38:36 +0100 (CET)
-Received: from localhost ([::1]:60272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A041471D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:35:17 +0100 (CET)
+Received: from localhost ([::1]:60162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuiJH-000159-TI
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:38:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50267)
+	id 1iuiG4-0002Hd-IC
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:35:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iug56-0003a3-L0
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:15:50 -0500
+ (envelope-from <thuth@redhat.com>) id 1iufss-00054e-Lg
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:03:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iug54-0003Hj-LA
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:15:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54542)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iug54-0003FA-1w
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:15:46 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iug51-0003QN-Us
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 17:15:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E7E312E80CB
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 17:15:43 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <thuth@redhat.com>) id 1iufsr-0002ei-Fm
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:03:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20343
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iufsr-0002eX-Cs
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:03:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579798989;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NWb4XuDCs4n0z+2XBax5eQCHpFm5HKv3ZHt9i1D5kmI=;
+ b=GN3DEhzhjDZJkvN3WWsFMG2C2L7bcLGt0PtiCbSYAJkspI38jXaQodPEkfTuyOQLxFZq+l
+ fA56sXJiJDCbcQrpYNlZQtkvDWbh7aiSTpZPO9SH2cxqwdRtRV28i+/qBrh/HcSES4HvsA
+ oTGew0CFbGayJPxVTLU+Lzbtyp64IN0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-Mv-vsQZnN92QuJdzqsTeJw-1; Thu, 23 Jan 2020 12:03:07 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D3E81005512;
+ Thu, 23 Jan 2020 17:03:04 +0000 (UTC)
+Received: from thuth.com (ovpn-116-64.ams2.redhat.com [10.36.116.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3505A620D8;
+ Thu, 23 Jan 2020 17:03:00 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: [PATCH] hw/s390x: Add a more verbose comment about
+ get_machine_class() and the wrappers
+Date: Thu, 23 Jan 2020 18:02:56 +0100
+Message-Id: <20200123170256.12386-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: Mv-vsQZnN92QuJdzqsTeJw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 23 Jan 2020 17:02:03 -0000
-From: Lee Trager <lee.trager@canonical.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=maas; status=New; importance=Undecided;
- assignee=lee.trager@canonical.com; 
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
- assignee=maas; 
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fheimes ltrager paelzer sfeole
-X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
-X-Launchpad-Bug-Modifier: Lee Trager (ltrager)
-References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
-Message-Id: <157979892351.5598.15509680617209942702.malone@chaenomeles.canonical.com>
-Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
- initial deploy
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 35a78bb26f9a5597de362008180d835c0185589a
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,90 +68,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The S390X KVM boot driver in MAAS really hasn't changed since it was
-committed in 2018[1]. I doubt changing the version of MAAS will show it
-working. I would try using older versions of qemu.
+While working on the "Enable adapter interruption suppression again"
+recently, I had to discover that the meaning of get_machine_class()
+and the related *_allowed() wrappers is not very obvious. Add a more
+verbose comment here to clarify how these should be used.
 
-[1]
-https://git.launchpad.net/maas/log/src/provisioningserver/boot/s390x.py
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ hw/s390x/s390-virtio-ccw.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
--- =
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index e0e28139a2..7fb389f0e5 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -505,6 +505,18 @@ static inline void machine_set_dea_key_wrap(Object *ob=
+j, bool value,
+=20
+ static S390CcwMachineClass *current_mc;
+=20
++/*
++ * Get the class of the s390-ccw-virtio machine that is currently in use.
++ * Note: libvirt is using the "none" machine to probe for the features of =
+the
++ * host CPU, so in case this is called with the "none" machine, the functi=
+on
++ * returns the TYPE_S390_CCW_MACHINE base class. In this base class, all t=
+he
++ * various "*_allowed" variables are enabled, so that the *_allowed() wrap=
+pers
++ * below return the correct default value for the "none" machine.
++ * Attention! Do *not* add additional new wrappers for CPU features (e.g. =
+like
++ * the ri_allowed() wrapper) via this mechanism anymore. CPU features shou=
+ld
++ * be handled via the CPU models, i.e. checking with cpu_model_allowed() d=
+uring
++ * CPU initialization and s390_has_feat() later should be sufficient.
++ */
+ static S390CcwMachineClass *get_machine_class(void)
+ {
+     if (unlikely(!current_mc)) {
+@@ -521,19 +533,16 @@ static S390CcwMachineClass *get_machine_class(void)
+=20
+ bool ri_allowed(void)
+ {
+-    /* for "none" machine this results in true */
+     return get_machine_class()->ri_allowed;
+ }
+=20
+ bool cpu_model_allowed(void)
+ {
+-    /* for "none" machine this results in true */
+     return get_machine_class()->cpu_model_allowed;
+ }
+=20
+ bool hpage_1m_allowed(void)
+ {
+-    /* for "none" machine this results in true */
+     return get_machine_class()->hpage_1m_allowed;
+ }
+=20
+--=20
+2.18.1
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859656
-
-Title:
-  [2.6] Unable to reboot s390x KVM machine after initial deploy
-
-Status in MAAS:
-  New
-Status in QEMU:
-  Incomplete
-Status in Ubuntu on IBM z Systems:
-  Triaged
-
-Bug description:
-  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
-  Arch: S390x
-
-  Appears that MAAS can not find the s390x bootloader to boot from the
-  disk, not sure how maas determines this.  However this was working in
-  the past. I had originally thought that if the maas machine was
-  deployed then it defaulted to boot from disk.
-
-  If I force the VM to book from disk, the VM starts up as expected.
-
-  Reproduce:
-
-  - Deploy Disco on S390x KVM instance
-  - Reboot it
-
-  on the KVM console...
-
-  Connected to domain s2lp6g001
-  Escape character is ^]
-  done
-  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
-  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
-  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
-  Trying pxelinux.cfg files...
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  Failed to load OS from network
-
-  =3D=3D> /var/log/maas/rackd.log <=3D=3D
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
-0x.bin requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
-5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-1-52-54-00-e5-d7-bb requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64BA0 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64BA requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64B requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF6 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-A requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
- requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
-efault requested by 10.246.75.160
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
 
