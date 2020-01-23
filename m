@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D73147005
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:48:26 +0100 (CET)
-Received: from localhost ([::1]:33932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FD914702B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:58:37 +0100 (CET)
+Received: from localhost ([::1]:34106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugae-0002G0-K8
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:48:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34016)
+	id 1iugkV-0006mO-PS
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:58:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iudXe-0003tX-T5
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:33:08 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iuddx-00048V-84
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:39:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iudXd-0004fx-I4
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:33:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35088
+ (envelope-from <imammedo@redhat.com>) id 1iuddv-0004Jg-HD
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:39:36 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32262
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iudXd-0004fc-EP
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:33:05 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuddv-0004J3-Dm
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:39:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579789984;
+ s=mimecast20190719; t=1579790374;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kFixVKejGKV1lPMIOJMNLN4pBeIgmrEj0dpbcqCDYuE=;
- b=AduBdj5ItYxre/rCT28mLFlGOp0KH/8HJWtiY9wzxlCbaJhUnbCp3Jw6d5o58V94iBW2fD
- Q33Tc36jOZN+EwFT0ZXWhLBw0pnwVwVBYdrmjiVfqPW0LpmkKV0DQip86CKdMsR7sIPqqG
- m6WioraqU6vMUvBwugdVmELw4z+OsvY=
+ bh=ARjGzn8oBsyoJqyF3PPQneWx7B2B2Pwm/46hhCqnWtg=;
+ b=NSEmUACby7UiQw6ZM8aOA1GfwSHefLqZmmVuht1m3MnuPiOJYvaLjM6qUAygckkoc9Wznf
+ wZWm2jsFgVNK5eEt7grOgaaqqFfCAN+f0EHmN4QviNmKS661WVwB909kb5mXgMQM1rjDKq
+ M9JoAT7U4XO826P53w0rX1cRJh3xJw4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-st08lnKqPNWdVtKyJyL_mw-1; Thu, 23 Jan 2020 09:33:00 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-98-09I6mRr0Ose7D2HJMntAVQ-1; Thu, 23 Jan 2020 09:39:33 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1352DB23;
- Thu, 23 Jan 2020 14:32:58 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CAA271001DC0;
- Thu, 23 Jan 2020 14:32:57 +0000 (UTC)
-Date: Thu, 23 Jan 2020 15:32:56 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E914E8005B4;
+ Thu, 23 Jan 2020 14:39:31 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F15E885753;
+ Thu, 23 Jan 2020 14:39:30 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
-To: Andrew Jones <drjones@redhat.com>
-Subject: Re: [PATCH REPOST v3 13/80] arm/imx25_pdk: drop RAM size fixup
-Message-ID: <20200123153256.43256f57@redhat.com>
-In-Reply-To: <20200123123907.qa2fyg2iqlzyemmb@kamzik.brq.redhat.com>
-References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
- <1579779525-20065-14-git-send-email-imammedo@redhat.com>
- <20200123123907.qa2fyg2iqlzyemmb@kamzik.brq.redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 20/80] arm/mps2-tz: use memdev for RAM
+Date: Thu, 23 Jan 2020 15:37:11 +0100
+Message-Id: <1579790231-26731-1-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1579779525-20065-21-git-send-email-imammedo@redhat.com>
+References: <1579779525-20065-21-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: st08lnKqPNWdVtKyJyL_mw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: 09I6mRr0Ose7D2HJMntAVQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,74 +71,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- jcd@tribudubois.net
+Cc: peter.maydell@linaro.org, drjones@redhat.com, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jan 2020 13:39:07 +0100
-Andrew Jones <drjones@redhat.com> wrote:
+memory_region_allocate_system_memory() API is going away, so
+replace it with memdev allocated MemoryRegion. The later is
+initialized by generic code, so board only needs to opt in
+to memdev scheme by providing
+  MachineClass::default_ram_id
+and using MachineState::ram instead of manually initializing
+RAM memory region.
 
-> On Thu, Jan 23, 2020 at 12:37:38PM +0100, Igor Mammedov wrote:
-> > If user provided non-sense RAM size, board will complain and
-> > continue running with max RAM size supported.
-> > Also RAM is going to be allocated by generic code, so it won't be
-> > possible for board to fix things up for user.
-> > 
-> > Make it error message and exit to force user fix CLI,
-> > instead of accepting non-sense CLI values.
-> > 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> > CC: drjones@redhat.com
-> > CC: jcd@tribudubois.net
-> > CC: peter.maydell@linaro.org
-> > CC: qemu-arm@nongnu.org
-> > ---
-> >  hw/arm/imx25_pdk.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/hw/arm/imx25_pdk.c b/hw/arm/imx25_pdk.c
-> > index c76fc2b..a2b7b35 100644
-> > --- a/hw/arm/imx25_pdk.c
-> > +++ b/hw/arm/imx25_pdk.c
-> > @@ -78,10 +78,10 @@ static void imx25_pdk_init(MachineState *machine)
-> >  
-> >      /* We need to initialize our memory */
-> >      if (machine->ram_size > (FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SIZE)) {
-> > -        warn_report("RAM size " RAM_ADDR_FMT " above max supported, "
-> > +        error_report("RAM size " RAM_ADDR_FMT " above max supported, "
-> >                      "reduced to %x", machine->ram_size,
-> >                      FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SIZE);
-> > -        machine->ram_size = FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SIZE;
-> > +        exit(EXIT_FAILURE);
-> >      }
-> >  
-> >      memory_region_allocate_system_memory(&s->ram, NULL, "imx25.ram",
-> > -- 
-> > 2.7.4
-> >  
-> 
-> This would break existing command lines that are happily using the max ram
-> size, which is only 512 MB. Yes, those command lines are wrong, but I'm
-> not sure we want to flip the warn to an error without machine type
-> versioning - which this board doesn't have.
+PS:
+ while at it add check for user supplied RAM size and error
+ out if it mismatches board expected value.
 
-We typically don't do machine type versioning for CLI changes
-and in this case it would be plain user error in providing
-invalid CLI, so it should be fixed on user's side and not
-worked around by QEMU.
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+v2:
+  * fix format string causing build failure on 32-bit host
+    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
+v4:
+  * move default_ram_size to mps2tz_class_init()
+    (Andrew Jones <drjones@redhat.com>)
 
-It was fine before when board was allocating RAM on its own,
-but with RAM initialization moved to generic code it won't be
-possible. Hence fixup dropped and warning is converted to error
-to let user know that their CLI should be fixed.
- 
-Board description [1] says that it supports up to 512Mb of RAM max.
-1) https://www.nxp.com/design/development-boards/i.mx-evaluation-and-development-boards/i.mx25-product-development-kit:IMX25PDK
+CC: drjones@redhat.com
+CC: peter.maydell@linaro.org
+CC: qemu-arm@nongnu.org
 
+mps2-tz
+---
+ hw/arm/mps2-tz.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-> Thanks,
-> drew 
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index f8b620b..a8dea7d 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -39,6 +39,7 @@
+=20
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
++#include "qemu/cutils.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "hw/arm/boot.h"
+@@ -79,7 +80,6 @@ typedef struct {
+     MachineState parent;
+=20
+     ARMSSE iotkit;
+-    MemoryRegion psram;
+     MemoryRegion ssram[3];
+     MemoryRegion ssram1_m;
+     MPS2SCC scc;
+@@ -388,6 +388,13 @@ static void mps2tz_common_init(MachineState *machine)
+         exit(1);
+     }
+=20
++    if (machine->ram_size !=3D mc->default_ram_size) {
++        char *sz =3D size_to_str(mc->default_ram_size);
++        error_report("Invalid RAM size, should be %s", sz);
++        g_free(sz);
++        exit(EXIT_FAILURE);
++    }
++
+     sysbus_init_child_obj(OBJECT(machine), "iotkit", &mms->iotkit,
+                           sizeof(mms->iotkit), mmc->armsse_type);
+     iotkitdev =3D DEVICE(&mms->iotkit);
+@@ -458,9 +465,7 @@ static void mps2tz_common_init(MachineState *machine)
+      * tradeoffs. For QEMU they're all just RAM, though. We arbitrarily
+      * call the 16MB our "system memory", as it's the largest lump.
+      */
+-    memory_region_allocate_system_memory(&mms->psram,
+-                                         NULL, "mps.ram", 16 * MiB);
+-    memory_region_add_subregion(system_memory, 0x80000000, &mms->psram);
++    memory_region_add_subregion(system_memory, 0x80000000, machine->ram);
+=20
+     /* The overflow IRQs for all UARTs are ORed together.
+      * Tx, Rx and "combined" IRQs are sent to the NVIC separately.
+@@ -642,6 +647,8 @@ static void mps2tz_class_init(ObjectClass *oc, void *da=
+ta)
+=20
+     mc->init =3D mps2tz_common_init;
+     iic->check =3D mps2_tz_idau_check;
++    mc->default_ram_size =3D 16 * MiB;
++    mc->default_ram_id =3D "mps.ram";
+ }
+=20
+ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
+--=20
+2.7.4
 
 
