@@ -2,63 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A085146C02
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:57:12 +0100 (CET)
-Received: from localhost ([::1]:58564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91BA4146C34
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:59:45 +0100 (CET)
+Received: from localhost ([::1]:58644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuduw-0000r1-JK
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:57:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43538)
+	id 1iudxQ-0006XM-AF
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:59:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43611)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <joel.stan@gmail.com>) id 1iubHu-0004Nw-11
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:08:43 -0500
+ (envelope-from <groug@kaod.org>) id 1iubID-0004vk-3D
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:09:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel.stan@gmail.com>) id 1iubHs-0003lG-Q1
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:08:41 -0500
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:34234)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
- id 1iubHr-0003ju-U7; Thu, 23 Jan 2020 07:08:40 -0500
-Received: by mail-qk1-x741.google.com with SMTP id d10so3157571qke.1;
- Thu, 23 Jan 2020 04:08:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=x1zPMPRwH8V1NuBAfOtzpPIFwMe/8BZ49osDpSQatNM=;
- b=KgS9T9d/GluJ10UYL+oo5SyszfczX1DhWYTHmnoORj1vZG7ic5EWgKq69S2tT4ccMK
- L4LaKxfWnCr+lghuE56yGl2oH6jnhiekEF0wLNmbxl3MV9EYIJjHF8MPHzwLuE+n8smC
- +9Nh7sGNHTOmvOMyK4by8Cssddje3XudMm4vs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=x1zPMPRwH8V1NuBAfOtzpPIFwMe/8BZ49osDpSQatNM=;
- b=fb4JhPB5g/B/5GEUQt0vHaE0f6aWlwn6Z2laMLQYYPuwbNXPShIYxx2iYIxGxoBbBJ
- nqJ881p2RTEC5hKfJ07shanMYH086rE99nauJP6dE5YBxEeO3COp14uRRbSXMJs/WeR2
- ebGd6zPVKepFPYHnnDiVcehbjqGQUaao35D/3RVunzue5pUbwIX0vEOlunOnY56Yz6h0
- SCf40NkDJG38Zy69jEkFqZmH/Yps0R0+ivTCdZBnQrDOBzZNRZx2YE/o7dnYDGm7VXMK
- oAMObRewoeJLCEQ3YXA2LZ8zRefGqX6tWrr+kBQt8IEeHTKMLRi8+dEGzp+aOBGgBm+v
- KSqw==
-X-Gm-Message-State: APjAAAVDapHJFkSP9quCPyyi4hgq4VUvl+5I8cmBKTTIc4/3OPHa3wvj
- YdYCW9eGnn81jTXl37W6I+dpRKH4sg72uYxkjnc=
-X-Google-Smtp-Source: APXvYqx76TKhb4+LXCnXonmLcV01U2CtesprBSXnmhRiDxlThyvnZ5tiGtH7RmnX0O8Lc7qoUNLhmvrO2yMnvdhJKAE=
-X-Received: by 2002:ae9:e702:: with SMTP id m2mr15282686qka.208.1579781317185; 
- Thu, 23 Jan 2020 04:08:37 -0800 (PST)
+ (envelope-from <groug@kaod.org>) id 1iubIB-0003u1-Kt
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:09:00 -0500
+Received: from 5.mo173.mail-out.ovh.net ([46.105.40.148]:35179)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iubIB-0003sx-EB
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:08:59 -0500
+Received: from player711.ha.ovh.net (unknown [10.108.16.166])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 2F89212E08D
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:08:56 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player711.ha.ovh.net (Postfix) with ESMTPSA id 8D17CE6B7655;
+ Thu, 23 Jan 2020 12:08:55 +0000 (UTC)
+Date: Thu, 23 Jan 2020 13:08:53 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v4 07/11] tests/virtio-9p: failing splitted readdir test
+Message-ID: <20200123130853.736d507b@bahia.lan>
+In-Reply-To: <23580535.7v2ZZEAp5V@silver>
+References: <cover.1579567019.git.qemu_oss@crudebyte.com>
+ <4dc3706db1f033d922e54af8c74a81211de8b79f.1579567020.git.qemu_oss@crudebyte.com>
+ <20200122235954.1305faab@bahia.lan> <23580535.7v2ZZEAp5V@silver>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
- <1579779525-20065-9-git-send-email-imammedo@redhat.com>
-In-Reply-To: <1579779525-20065-9-git-send-email-imammedo@redhat.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 23 Jan 2020 12:08:25 +0000
-Message-ID: <CACPK8XfpFrpRgP6LyWv8AxJdjYTGLGRfzgDNxommBLNfV3mtHQ@mail.gmail.com>
-Subject: Re: [PATCH REPOST v3 08/80] arm/aspeed: use memdev for RAM
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::741
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 10148861760805706048
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrvddvgddvjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejuddurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.40.148
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,25 +57,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jan 2020 at 11:41, Igor Mammedov <imammedo@redhat.com> wrote:
->
-> memory_region_allocate_system_memory() API is going away, so
-> replace it with memdev allocated MemoryRegion. The later is
-> initialized by generic code, so board only needs to opt in
-> to memdev scheme by providing
->   MachineClass::default_ram_id
-> and using MachineState::ram instead of manually initializing
-> RAM memory region.
->
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+On Thu, 23 Jan 2020 12:36:12 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Acked-by: Joel Stanley <joel@jms.id.au>
+> On Mittwoch, 22. Januar 2020 23:59:54 CET Greg Kurz wrote:
+> > On Tue, 21 Jan 2020 01:17:35 +0100
+> > 
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > This patch is not intended to be merged. It resembles
+> > > an issue (with debug messages) where the splitted
+> > > readdir test fails because server is interrupted with
+> > > transport error "Failed to decode VirtFS request type 40",
+> > 
+> > Ok. When we send a new request, we call:
+> > 
+> > uint32_t qvirtqueue_add(QTestState *qts, QVirtQueue *vq, uint64_t data,
+> >                         uint32_t len, bool write, bool next)
+> > {
+> >     uint16_t flags = 0;
+> >     vq->num_free--;
+> > 
+> > [...]
+> > 
+> >     return vq->free_head++; /* Return and increase, in this order */
+> > }
+> 
+> Ah, I see!
+> 
+> > where vq->num_free is the number of available buffers (aka. requests) in
+> > the vq and vq->free_head the index of the next available buffer. The size
+> > of the vq of the virtio-9p device is MAX_REQ (128) buffers. The driver
+> > is very simple and doesn't care to handle the scenario of a full vq,
+> > ie, num_free == 0 and free_head is past the vq->desc[] array. It seems
+> > that count=128 generates enough extra requests to reach the end of the
+> > vq. Hence the "decode" error you get. Maybe an assert(vq->num_free) in
+> > qvirtqueue_add() would make that more clear ?
+> 
+> So just that I get it right; currently the 9pfs test suite writes to a 
+> ringbuffer with every request (decreasing the free space in the ringbuffer), 
+> but it never frees up that space in the ringbuffer?
+> 
+
+Correct.
+
+> > Not sure it is worth to address this limitation though. Especially since
+> > count=128 isn't really a recommended choice in the first place. 
+> 
+> Well, if that's what happens with the ringbuffer, it would need to be 
+> addressed somehow anyway, otherwise it would be impossible to add more 9pfs 
+> tests, since they would hit the ringbuffer limit as well at a certain point, 
+> no matter how simple the requests are.
+> 
+
+This just means that a single test shouldn't generate more than
+128 requests. I guess this is enough for a variety of tests.
+
+> Wouldn't it make sense to reset the ringbuffer after every succesful, 
+> individual 9pfs test?
+> 
+
+This is the case, hence my suggestion to pass count to fs_readdir_split()
+instead of the having a vcount[] array.
+
+> > It has
+> > more chances to cause a disconnect if the server needs to return a longer
+> > file name (which is expected since most fs have 255 character long file
+> > names).
+> 
+> Well, this test is dependent on what's provided exactly by the synth driver 
+> anyway. So I don't see the value 128 as a problem here. The readdir/split test 
+> could even determine the max. length of a file provided by synth driver if you 
+> are concerned about that, because the file name template macro 
+> QTEST_V9FS_SYNTH_READDIR_FILE used by synth driver is public.
+> 
+
+It would make sense to use this knowledge and come up with
+a _good_ default value for 'count'.
+
+> And BTW it is not really this specific 'count' value (128) that triggers this 
+> issue, if you just run the readdir/split test with i.e.:
+> 
+> 	const uint32_t vcount[] = { 128 };
+> 
+> then you won't trigger this test environment issue.
+> 
+
+I mean that I don't really care to check small values because
+they're likely never used by real clients, and we already know
+what we might get in the end: the server disconnects.
+
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
+
 
