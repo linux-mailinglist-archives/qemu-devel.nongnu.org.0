@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F0C1468F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:24:57 +0100 (CET)
-Received: from localhost ([::1]:56986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3A1146903
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:27:42 +0100 (CET)
+Received: from localhost ([::1]:57026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iucTg-0007NL-Dx
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:24:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39933)
+	id 1iucWL-0002be-3x
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:27:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39950)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iub8Q-0001V7-3L
+ (envelope-from <quintela@redhat.com>) id 1iub8R-0001Wa-0j
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iub8O-0004hk-Qx
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:53 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45677
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1iub8P-0004iN-LA
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:54 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32861
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iub8O-0004ha-OP
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:52 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iub8P-0004i8-HW
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780732;
+ s=mimecast20190719; t=1579780733;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=++FvK0c0O8G0FXeU4NNIduuz4jqnbR+m4cIilJeA5Vw=;
- b=Vgl6g2L+Tl2FADo7aMU9uR2KKchiBzY4k0VllhbpZKogG+Z8UWG5qWxOtswQ5gc2xnlLyW
- rr7Wh90txxuvERnI3DsAQAQWAMH3uBecyz1RGWFW4EAcpQ6m/QdJhVQv9j3dEQcqK/Q9b4
- xkDy1mpddc/HxH0YTDsqyJfsn9vKutI=
+ bh=rf2VEYyJOJZjJVikxnQmH9H9nlhYVMDgThLcvQrR3pM=;
+ b=MQEa+DtCGfa1Vds12zd9VntSqCe72UhLx7nhxa/jIP3Y1XpJv2AMBB4+o9GKDEmm99FSiE
+ NItbfutyEdVdl9y9jlW+nyVbarVMftjgBxtiLoyVpOiyw/WS0yCXGlMvo7u9xaz3uNl5eL
+ pht+S4plFiq7mR3h0wBQVIwWY/zL4Q0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-FKfEMo5-M6O5iKQ-YjiltA-1; Thu, 23 Jan 2020 06:58:49 -0500
+ us-mta-212-5EfQOpmqNTisB8v3MDeHGg-1; Thu, 23 Jan 2020 06:58:51 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E55E477
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:58:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B351F800D4C
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:58:50 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BBD7419C69;
- Thu, 23 Jan 2020 11:58:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 663B019C69;
+ Thu, 23 Jan 2020 11:58:48 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/21] migration: Create migration_is_running()
-Date: Thu, 23 Jan 2020 12:58:15 +0100
-Message-Id: <20200123115831.36842-6-quintela@redhat.com>
+Subject: [PATCH v3 06/21] migration: Don't send data if we have stopped
+Date: Thu, 23 Jan 2020 12:58:16 +0100
+Message-Id: <20200123115831.36842-7-quintela@redhat.com>
 In-Reply-To: <20200123115831.36842-1-quintela@redhat.com>
 References: <20200123115831.36842-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: FKfEMo5-M6O5iKQ-YjiltA-1
+X-MC-Unique: 5EfQOpmqNTisB8v3MDeHGg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,109 +79,29 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function returns if we are in the middle of a migration.
-It is like migration_is_setup_or_active() with CANCELLING and COLO.
-Adapt all calers that are needed.
+If we do a cancel, we got out without one error, but we can't do the
+rest of the output as in a normal situation.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/migration.c | 29 ++++++++++++++++++++++++-----
- migration/migration.h |  1 +
- migration/savevm.c    |  4 +---
- 3 files changed, 26 insertions(+), 8 deletions(-)
+ migration/ram.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 990bff00c0..1fb0aab44d 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -829,6 +829,27 @@ bool migration_is_setup_or_active(int state)
-     }
- }
+diff --git a/migration/ram.c b/migration/ram.c
+index f95d656c26..3fd7fdffcf 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -3524,7 +3524,8 @@ static int ram_save_iterate(QEMUFile *f, void *opaque=
+)
+     ram_control_after_iterate(f, RAM_CONTROL_ROUND);
 =20
-+bool migration_is_running(int state)
-+{
-+    switch (state) {
-+    case MIGRATION_STATUS_ACTIVE:
-+    case MIGRATION_STATUS_POSTCOPY_ACTIVE:
-+    case MIGRATION_STATUS_POSTCOPY_PAUSED:
-+    case MIGRATION_STATUS_POSTCOPY_RECOVER:
-+    case MIGRATION_STATUS_SETUP:
-+    case MIGRATION_STATUS_PRE_SWITCHOVER:
-+    case MIGRATION_STATUS_DEVICE:
-+    case MIGRATION_STATUS_WAIT_UNPLUG:
-+    case MIGRATION_STATUS_CANCELLING:
-+    case MIGRATION_STATUS_COLO:
-+        return true;
-+
-+    default:
-+        return false;
-+
-+    }
-+}
-+
- static void populate_time_info(MigrationInfo *info, MigrationState *s)
- {
-     info->has_status =3D true;
-@@ -1077,7 +1098,7 @@ void qmp_migrate_set_capabilities(MigrationCapability=
-StatusList *params,
-     MigrationCapabilityStatusList *cap;
-     bool cap_list[MIGRATION_CAPABILITY__MAX];
-=20
--    if (migration_is_setup_or_active(s->state)) {
-+    if (migration_is_running(s->state)) {
-         error_setg(errp, QERR_MIGRATION_ACTIVE);
-         return;
-     }
-@@ -1590,7 +1611,7 @@ static void migrate_fd_cancel(MigrationState *s)
-=20
-     do {
-         old_state =3D s->state;
--        if (!migration_is_setup_or_active(old_state)) {
-+        if (!migration_is_running(old_state)) {
-             break;
-         }
-         /* If the migration is paused, kick it out of the pause */
-@@ -1888,9 +1909,7 @@ static bool migrate_prepare(MigrationState *s, bool b=
-lk, bool blk_inc,
-         return true;
-     }
-=20
--    if (migration_is_setup_or_active(s->state) ||
--        s->state =3D=3D MIGRATION_STATUS_CANCELLING ||
--        s->state =3D=3D MIGRATION_STATUS_COLO) {
-+    if (migration_is_running(s->state)) {
-         error_setg(errp, QERR_MIGRATION_ACTIVE);
-         return false;
-     }
-diff --git a/migration/migration.h b/migration/migration.h
-index aa9ff6f27b..44b1d56929 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -279,6 +279,7 @@ void migrate_fd_error(MigrationState *s, const Error *e=
-rror);
- void migrate_fd_connect(MigrationState *s, Error *error_in);
-=20
- bool migration_is_setup_or_active(int state);
-+bool migration_is_running(int state);
-=20
- void migrate_init(MigrationState *s);
- bool migration_is_blocked(Error **errp);
-diff --git a/migration/savevm.c b/migration/savevm.c
-index adfdca26ac..f19cb9ec7a 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1531,9 +1531,7 @@ static int qemu_savevm_state(QEMUFile *f, Error **err=
-p)
-     MigrationState *ms =3D migrate_get_current();
-     MigrationStatus status;
-=20
--    if (migration_is_setup_or_active(ms->state) ||
--        ms->state =3D=3D MIGRATION_STATUS_CANCELLING ||
--        ms->state =3D=3D MIGRATION_STATUS_COLO) {
-+    if (migration_is_running(ms->state)) {
-         error_setg(errp, QERR_MIGRATION_ACTIVE);
-         return -EINVAL;
-     }
+ out:
+-    if (ret >=3D 0) {
++    if (ret >=3D 0
++        && migration_is_setup_or_active(migrate_get_current()->state)) {
+         multifd_send_sync_main(rs);
+         qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+         qemu_fflush(f);
 --=20
 2.24.1
 
