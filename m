@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722B71471B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:24:04 +0100 (CET)
-Received: from localhost ([::1]:35612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A891471AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:21:21 +0100 (CET)
+Received: from localhost ([::1]:35552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iui5D-0003oj-2F
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:24:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56394)
+	id 1iui2a-000899-M9
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:21:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56210)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iugNS-0001YQ-BV
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:34:48 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iugMP-0000Hb-2x
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:33:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iugNR-0001Om-1S
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:34:46 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55287
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iugNQ-0001O9-Sl
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:34:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579800883;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4QxrHYZ/+CqyAi2ffTFV1RS5A+0hVDD6X49C+Qi7UrM=;
- b=VRIuWjRWFg/gD5J7s4yMIDh6MWwXNGI7HjiMhMZ5a9V9sLkk0a+HCbo2uqLghUoa8+arag
- dPL4pxARDPWsppqBlBj4Ngt43rz9X+U/S50YEbvDF6ygKAO7MpQsWgMpLPGMQ7ETCtCKJx
- 2haCrPvZxEuQ/8F7UPzLbKiJMnsEFck=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-y2O9rKKCO-WWbjOXJ-xHLA-1; Thu, 23 Jan 2020 12:29:46 -0500
-Received: by mail-wm1-f72.google.com with SMTP id q26so968945wmq.8
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 09:29:45 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1iugMN-0000yg-A9
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:33:40 -0500
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:35448)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iugMN-0000ww-3n
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:33:39 -0500
+Received: by mail-il1-x135.google.com with SMTP id g12so2699383ild.2
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 09:33:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uOC//XPFGiuT/ieL7eFSRItnN7Qsl3kIUUTCbY8mr+I=;
+ b=SypIhZn9XEH1BAU0ShQSJI9kJIxqiBValFl27ZqvO75kgnRYl4+sQX5dCIbJ+UubW7
+ kA/YZIJDgj1MRTkMxU6yclkg1k0Vz6oU5raBLywvxDJiD/8HNAvJlvrRfL3orSVNeuwC
+ TDYUPgmrLfSzWwI2wXUn6eWVNLd2PxnpEozIpiMaRDrnp4v3Ry2Qq88dTYOdRv6WHaij
+ alf4sU+6U0UUtduCJJcPrimIYQ6YL80pmGOip0X3TnHNMtjePE/z8qqvolIRbokVjCTJ
+ NPmmBwuSrjGP/kACNxgALb8R8S56kr84QFbZwvHx6Opqztml/IapsKHUYEaJXZ5+OMQl
+ 7Gdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Yl51thC8M2gtd7bpZZXNCdwoWwXv9aSNev/0fGCwafU=;
- b=d5Q0Fh2hssvpnWNjbg6+aFI1d4WrymgkM6bIX8OFZlOU3QYzBiu2iDMHpL+z+3e0py
- 4OTHcB6VaJAmQdvtRL4sfL++N8wPxnAlToPGbl5shNGevpKXBXTbG4tG0rV9KNL2d/5W
- D4pLNj7b6Y1E8XIgNExHQRAh9PTIvMK1SY42Se7qgAb+w4jjKCFigsdCaacLn6v++gHl
- wjhPLYhNdCaDnXMqkB+rf/hmZqNX1vHUm0nDMkJ9EX49O8p224Dd6pxZWcUgGElyudTm
- Q1BvlbJ35vfkI0Uzgf09ILZWrSwPAUQIhl2eb3KIMYuWnNUs4p14RWU9AbYaRPtznGK8
- jTgg==
-X-Gm-Message-State: APjAAAVvph58IQR1qMeoOhtvkQc2Gj5znWVn5si9MgnXyj7WHqmZKB4s
- X4vf8QydML2kKZTt0wkQ34i2v2f1MZsHtkwTlDMvyAMeefzTBhcfNYZ/mh2GKuD9ugvnC2sNgK7
- fKIVmx0WmVW0MuWc=
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr4290766wmi.116.1579800584880; 
- Thu, 23 Jan 2020 09:29:44 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwfdmtO2JHaf9GEjtzMfnGKoCi4hbVnJHE7ccBXna8fgQW3l6nzYa+N+3jTPv2sudN421Zobg==
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr4290743wmi.116.1579800584649; 
- Thu, 23 Jan 2020 09:29:44 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id i5sm3461916wml.31.2020.01.23.09.29.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jan 2020 09:29:44 -0800 (PST)
-Subject: Re: [PATCH rc1 12/24] hw/timer: Add limited support for Atmel 16 bit
- timer peripheral
-To: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200123000307.11541-1-richard.henderson@linaro.org>
- <20200123000307.11541-13-richard.henderson@linaro.org>
- <13770068-790a-5317-a0fa-5a672bae7253@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <acdd7512-239f-e23a-b541-dd638dd32f59@redhat.com>
-Date: Thu, 23 Jan 2020 18:29:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uOC//XPFGiuT/ieL7eFSRItnN7Qsl3kIUUTCbY8mr+I=;
+ b=ulP/jneVXbyoR4XxRqkY2mRfSGt85/O7kEd/T3ctVngNTkL/PEtTfsYnw15AC8/SPt
+ JAGaSvYCt+XQec3/LZtbtNWlJSYWIFQ3YG5dzc8G6+kfIHbALB1Dp/eP81zQkhKA9KCv
+ LLxiQFXJ0ug5WMtT16sZa9UTRucm5k7fNe6FDZz7WM+7jcGn/bdRG0++KvtXUcs75NR/
+ ohDq47Rb14/0Hr8ypA2yQNX71NLykYfRZo14P/9RRhlIhI+279VaHTXGG+YZdiqYVV50
+ IFaCRPjIju5Oo5sR/fsc/F8uktekPHBCW0jssi7s7R6hA5fvvYd1bbonezHHggVVr//0
+ RiTw==
+X-Gm-Message-State: APjAAAXVr3/r/OASyIIR7Ly8zsBXJifPFHbsaRAVOwjHSivysN1g+ssE
+ awSZGaKW7M5O8o4nwCxIGEAU2uYfP6llnrKZYy3mtw==
+X-Google-Smtp-Source: APXvYqwM3dvx2kS2cKMTrUKAko3YPRy2/USXEX9OeTZrtrS+xZ68vgVL+z/1IgfAEcezsq2Aw0bXkNfzDPiWJcC4/ck=
+X-Received: by 2002:a92:5c8a:: with SMTP id d10mr14299332ilg.137.1579800818230; 
+ Thu, 23 Jan 2020 09:33:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <13770068-790a-5317-a0fa-5a672bae7253@redhat.com>
-Content-Language: en-US
-X-MC-Unique: y2O9rKKCO-WWbjOXJ-xHLA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+References: <20200121191033.28195-1-peter.maydell@linaro.org>
+ <20200121191033.28195-3-peter.maydell@linaro.org>
+ <5fa9a519-d9c8-13b6-2d38-efa12c29780d@linaro.org>
+ <CAFEAcA9ty4srYsjbGDEQshttcA97yFco=7fLGV8SV2oT7FeQ+A@mail.gmail.com>
+In-Reply-To: <CAFEAcA9ty4srYsjbGDEQshttcA97yFco=7fLGV8SV2oT7FeQ+A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Jan 2020 17:33:27 +0000
+Message-ID: <CAFEAcA-FDd1vsKGZHnYM=ewFoaAsZCz0YuNitv=0wh-+=w8iRQ@mail.gmail.com>
+Subject: Re: [PATCH 2/5] docs/sphinx: Add new hxtool Sphinx extension
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,157 +74,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: S.E.Harris@kent.ac.uk, dovgaluk@ispras.ru, me@xcancerberox.com.ar,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, mrolnik@gmail.com,
- imammedo@redhat.com, aleksandar.m.mail@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/23/20 5:49 AM, Thomas Huth wrote:
-> On 23/01/2020 01.02, Richard Henderson wrote:
->> From: Michael Rolnik <mrolnik@gmail.com>
->>
->> These were designed to facilitate testing but should provide enough
->> function to be useful in other contexts.  Only a subset of the functions
->> of each peripheral is implemented, mainly due to the lack of a standard
->> way to handle electrical connections (like GPIO pins).
->>
->> Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
->> Message-Id: <20200118191416.19934-13-mrolnik@gmail.com>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> [rth: Squash info mtree fixes and a file rename from f4bug, which was:]
->> Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
-> [...]
->> +static void avr_timer16_clksrc_update(AVRTimer16State *t16)
->> +{
->> +    uint16_t divider =3D 0;
->> +    switch (CLKSRC(t16)) {
->> +    case T16_CLKSRC_EXT_FALLING:
->> +    case T16_CLKSRC_EXT_RISING:
->> +        ERROR("external clock source unsupported");
->=20
-> Maybe this should rather be qemu_log_mask(LOG_UNIMP, ...) instead?
+On Tue, 21 Jan 2020 at 22:22, Peter Maydell <peter.maydell@linaro.org> wrote:
+> I suspect this is an incompatibility (or possibly just a
+> dropped back-compatibility I was accidentally relying on)
+> between Sphinx 1.7 and 1.8. (I tested with a 1.6 and a 1.7.)
+>
+> It looks like ExtensionError is now in sphinx.errors, so if you
+> change
+> +from sphinx.application import ExtensionError
+>
+> to "from sphinx.errors import ExtensionError" does that help?
+>
+> If so then I'll test later this week whether that works also
+> for 1.7/1.6 or if we need to do some version-specific stuff.
 
-Yes.
+This does indeed work for older Sphinx too, and it looks like
+it's been the intended way to import ExtensionError for a
+long time -- I guess it was just an accident of implementation
+that importing from sphinx.application worked too.
 
->> +        goto end;
->> +    case T16_CLKSRC_STOPPED:
->> +        goto end;
->> +    case T16_CLKSRC_DIV1:
->> +        divider =3D 1;
->> +        break;
->> +    case T16_CLKSRC_DIV8:
->> +        divider =3D 8;
->> +        break;
->> +    case T16_CLKSRC_DIV64:
->> +        divider =3D 64;
->> +        break;
->> +    case T16_CLKSRC_DIV256:
->> +        divider =3D 256;
->> +        break;
->> +    case T16_CLKSRC_DIV1024:
->> +        divider =3D 1024;
->> +        break;
->> +    default:
->> +        goto end;
->> +    }
->> +    t16->freq_hz =3D t16->cpu_freq_hz / divider;
->> +    t16->period_ns =3D NANOSECONDS_PER_SECOND / t16->freq_hz;
->> +    DB_PRINT("Timer frequency %" PRIu64 " hz, period %" PRIu64 " ns (%f=
- s)",
->> +             t16->freq_hz, t16->period_ns, 1 / (double)t16->freq_hz);
->> +end:
->> +    return;
->> +}
->=20
-> Nit: You could use an early "return" instead of "goto end" and the
-> superfluous return statement at the end of the function.
-
-I'd prefer use a 'break' statement, and check if divider !=3D then { set=20
-values and log trace event}.
-
->> +static void avr_timer16_set_alarm(AVRTimer16State *t16)
->> +{
->> +    if (CLKSRC(t16) =3D=3D T16_CLKSRC_EXT_FALLING ||
->> +        CLKSRC(t16) =3D=3D T16_CLKSRC_EXT_RISING ||
->> +        CLKSRC(t16) =3D=3D T16_CLKSRC_STOPPED) {
->> +        /* Timer is disabled or set to external clock source (unsupport=
-ed) */
->> +        goto end;
->> +    }
->> +
->> +    uint64_t alarm_offset =3D 0xffff;
->> +    enum NextInterrupt next_interrupt =3D OVERFLOW;
->> +
->> +    switch (MODE(t16)) {
->> +    case T16_MODE_NORMAL:
->> +        /* Normal mode */
->> +        if (OCRA(t16) < alarm_offset && OCRA(t16) > CNT(t16) &&
->> +            (t16->imsk & T16_INT_OCA)) {
->> +            alarm_offset =3D OCRA(t16);
->> +            next_interrupt =3D COMPA;
->> +        }
->> +        break;
->> +    case T16_MODE_CTC_OCRA:
->> +        /* CTC mode, top =3D ocra */
->> +        if (OCRA(t16) < alarm_offset && OCRA(t16) > CNT(t16)) {
->> +            alarm_offset =3D OCRA(t16);
->> +            next_interrupt =3D COMPA;
->> +        }
->> +       break;
->> +    case T16_MODE_CTC_ICR:
->> +        /* CTC mode, top =3D icr */
->> +        if (ICR(t16) < alarm_offset && ICR(t16) > CNT(t16)) {
->> +            alarm_offset =3D ICR(t16);
->> +            next_interrupt =3D CAPT;
->> +        }
->> +        if (OCRA(t16) < alarm_offset && OCRA(t16) > CNT(t16) &&
->> +            (t16->imsk & T16_INT_OCA)) {
->> +            alarm_offset =3D OCRA(t16);
->> +            next_interrupt =3D COMPA;
->> +        }
->> +        break;
->> +    default:
->> +        ERROR("pwm modes are unsupported");
->=20
-> qemu_log_mask(LOG_UNIMP, ...) ?
->=20
->> +        goto end;
->> +    }
->> +    if (OCRB(t16) < alarm_offset && OCRB(t16) > CNT(t16) &&
->> +        (t16->imsk & T16_INT_OCB)) {
->> +        alarm_offset =3D OCRB(t16);
->> +        next_interrupt =3D COMPB;
->> +    }
->> +    if (OCRC(t16) < alarm_offset && OCRB(t16) > CNT(t16) &&
->> +        (t16->imsk & T16_INT_OCC)) {
->> +        alarm_offset =3D OCRB(t16);
->> +        next_interrupt =3D COMPC;
->> +    }
->> +    alarm_offset -=3D CNT(t16);
->> +
->> +    t16->next_interrupt =3D next_interrupt;
->> +    uint64_t alarm_ns =3D
->> +        t16->reset_time_ns + ((CNT(t16) + alarm_offset) * t16->period_n=
-s);
->> +    timer_mod(t16->timer, alarm_ns);
->> +
->> +    DB_PRINT("next alarm %" PRIu64 " ns from now",
->> +        alarm_offset * t16->period_ns);
->> +
->> +end:
->> +    return;
->> +}
->=20
-> This function could also use early returns instead of "goto end".
->=20
-> (no need to respin just because of these nits ... but maybe something to
-> consider if you respin anyway)
->=20
->   Thomas
->=20
->=20
-
+thanks
+-- PMM
 
