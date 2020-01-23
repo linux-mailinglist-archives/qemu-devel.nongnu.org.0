@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC87146E8D
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:38:53 +0100 (CET)
-Received: from localhost ([::1]:60572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C48146E94
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:41:50 +0100 (CET)
+Received: from localhost ([::1]:60628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iufVL-00006q-Lg
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:38:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53184)
+	id 1iufYD-00059y-MX
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:41:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53209)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iucuh-0001rq-9A
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:52 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iucuj-0001vz-Pw
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iucug-0001SI-55
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:51 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56097
+ (envelope-from <pbonzini@redhat.com>) id 1iucui-0001Th-FE
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:53 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55505
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iucug-0001Ry-1j
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:50 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iucui-0001TT-C2
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787569;
+ s=mimecast20190719; t=1579787572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1DjEVvZ73yL/gkpoadGqlLEaUysWh+reLYcqqaGytt0=;
- b=H6AcyHt3AJqBv9qDaYKV+7jyH/jHFDZNYvksrx/kJXpegtXyMQ+iFAAdqqEa8aVKSJrTUA
- ALTXbYJ4TSuOuJnSusenH6Eq/EtXRqpbcT7rP5tgzGUoNsiHjSSNPnlm+rN5SabHQMC9ko
- 1CAdxY55NZlDTP9AUCU3mtS4XVn0ccE=
+ bh=Ejszrz+sWDo4lg8YVhY65tpbtbNsuy8cfAUAhhzXAok=;
+ b=DrgNFDfien4jeLLsgWT4I94JjuOlmoIYyyp7v7NY9B88p4+aYjoGTbWejy/08V/QOKqGwJ
+ gfhjQZlfazkEwdnPtlZSyn1lHxMQ09IP2l1xIInjjDk9p5rsLbmTj4xwgIz7Kdpo2r/mI9
+ pHJaMNHDv+4iMxMexMhzrIB4gwWZv3c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-d_HK_42uPIq7-KsM17BdgA-1; Thu, 23 Jan 2020 08:52:47 -0500
+ us-mta-161-q5E-_50hODqEjioyrtp8LA-1; Thu, 23 Jan 2020 08:52:50 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6AB8801E78
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:52:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B8C710110CD
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:52:49 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A45318575C;
- Thu, 23 Jan 2020 13:52:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 998B61CB;
+ Thu, 23 Jan 2020 13:52:48 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 57/59] target/i386: Add the 'model-id' for Skylake -v3 CPU
- models
-Date: Thu, 23 Jan 2020 14:50:47 +0100
-Message-Id: <1579787449-27599-58-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 59/59] tests: fix test-qga on macosx
+Date: Thu, 23 Jan 2020 14:50:49 +0100
+Message-Id: <1579787449-27599-60-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: d_HK_42uPIq7-KsM17BdgA-1
+X-MC-Unique: q5E-_50hODqEjioyrtp8LA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,74 +70,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kashyap Chamarthy <kchamart@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kashyap Chamarthy <kchamart@redhat.com>
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-This fixes a confusion in the help output.  (Although, if you squint
-long enough at the '-cpu help' output, you _do_ notice that
-"Skylake-Client-noTSX-IBRS" is an alias of "Skylake-Client-v3";
-similarly for Skylake-Server-v3.)
+Fix Unix socket connection & skip commands that are not implemented.
 
-Without this patch:
-
-    $ qemu-system-x86 -cpu help
-    ...
-    x86 Skylake-Client-v1     Intel Core Processor (Skylake)
-    x86 Skylake-Client-v2     Intel Core Processor (Skylake, IBRS)
-    x86 Skylake-Client-v3     Intel Core Processor (Skylake, IBRS)
-    ...
-    x86 Skylake-Server-v1     Intel Xeon Processor (Skylake)
-    x86 Skylake-Server-v2     Intel Xeon Processor (Skylake, IBRS)
-    x86 Skylake-Server-v3     Intel Xeon Processor (Skylake, IBRS)
-    ...
-
-With this patch:
-
-    $ ./qemu-system-x86 -cpu help
-    ...
-    x86 Skylake-Client-v1     Intel Core Processor (Skylake)
-    x86 Skylake-Client-v2     Intel Core Processor (Skylake, IBRS)
-    x86 Skylake-Client-v3     Intel Core Processor (Skylake, IBRS, no TSX)
-    ...
-    x86 Skylake-Server-v1     Intel Xeon Processor (Skylake)
-    x86 Skylake-Server-v2     Intel Xeon Processor (Skylake, IBRS)
-    x86 Skylake-Server-v3     Intel Xeon Processor (Skylake, IBRS, no TSX)
-    ...
-
-Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-Message-Id: <20200123090116.14409-1-kchamart@redhat.com>
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/Makefile.include |  2 +-
+ tests/test-qga.c       | 25 ++++++++++++++++++-------
+ 2 files changed, 19 insertions(+), 8 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 5fa6acc..32efa46 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -2905,6 +2905,8 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-                 .props =3D (PropValue[]) {
-                     { "hle", "off" },
-                     { "rtm", "off" },
-+                    { "model-id",
-+                      "Intel Core Processor (Skylake, IBRS, no TSX)" },
-                     { /* end of list */ }
-                 }
-             },
-@@ -3028,6 +3030,8 @@ static X86CPUDefinition builtin_x86_defs[] =3D {
-                 .props =3D (PropValue[]) {
-                     { "hle", "off" },
-                     { "rtm", "off" },
-+                    { "model-id",
-+                      "Intel Xeon Processor (Skylake, IBRS, no TSX)" },
-                     { /* end of list */ }
-                 }
-             },
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index c6827ce..87a256c 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -119,7 +119,7 @@ check-unit-$(CONFIG_BLOCK) +=3D tests/test-crypto-secre=
+t$(EXESUF)
+ check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_GNUTLS)) +=3D tests/test-c=
+rypto-tlscredsx509$(EXESUF)
+ check-unit-$(call land,$(CONFIG_BLOCK),$(CONFIG_GNUTLS)) +=3D tests/test-c=
+rypto-tlssession$(EXESUF)
+ ifneq (,$(findstring qemu-ga,$(TOOLS)))
+-check-unit-$(call land,$(CONFIG_LINUX),$(CONFIG_VIRTIO_SERIAL)) +=3D tests=
+/test-qga$(EXESUF)
++check-unit-$(call land,$(CONFIG_POSIX),$(CONFIG_VIRTIO_SERIAL)) +=3D tests=
+/test-qga$(EXESUF)
+ endif
+ check-unit-y +=3D tests/test-timed-average$(EXESUF)
+ check-unit-$(CONFIG_INOTIFY1) +=3D tests/test-util-filemonitor$(EXESUF)
+diff --git a/tests/test-qga.c b/tests/test-qga.c
+index d2b2435..191bfca 100644
+--- a/tests/test-qga.c
++++ b/tests/test-qga.c
+@@ -17,17 +17,17 @@ typedef struct {
+=20
+ static int connect_qga(char *path)
+ {
+-    int s, ret, len, i =3D 0;
++    int s, ret, i =3D 0;
+     struct sockaddr_un remote;
+=20
+     s =3D socket(AF_UNIX, SOCK_STREAM, 0);
+     g_assert(s !=3D -1);
+=20
++    memset(&remote, 0, sizeof(struct sockaddr_un));
+     remote.sun_family =3D AF_UNIX;
+     do {
+-        strcpy(remote.sun_path, path);
+-        len =3D strlen(remote.sun_path) + sizeof(remote.sun_family);
+-        ret =3D connect(s, (struct sockaddr *)&remote, len);
++        strncpy(remote.sun_path, path, sizeof(remote.sun_path) - 1);
++        ret =3D connect(s, (struct sockaddr *)&remote, sizeof(struct socka=
+ddr_un));
+         if (ret =3D=3D -1) {
+             g_usleep(G_USEC_PER_SEC);
+         }
+@@ -305,6 +305,7 @@ static void test_qga_info(gconstpointer fix)
+     qobject_unref(ret);
+ }
+=20
++#if defined(CONFIG_LINUX)
+ static void test_qga_get_vcpus(gconstpointer fix)
+ {
+     const TestFixture *fixture =3D fix;
+@@ -324,7 +325,9 @@ static void test_qga_get_vcpus(gconstpointer fix)
+=20
+     qobject_unref(ret);
+ }
++#endif
+=20
++#if defined(CONFIG_LINUX)
+ static void test_qga_get_fsinfo(gconstpointer fix)
+ {
+     const TestFixture *fixture =3D fix;
+@@ -348,6 +351,7 @@ static void test_qga_get_fsinfo(gconstpointer fix)
+=20
+     qobject_unref(ret);
+ }
++#endif
+=20
+ static void test_qga_get_memory_block_info(gconstpointer fix)
+ {
+@@ -394,6 +398,7 @@ static void test_qga_get_memory_blocks(gconstpointer fi=
+x)
+     qobject_unref(ret);
+ }
+=20
++#if defined(CONFIG_LINUX)
+ static void test_qga_network_get_interfaces(gconstpointer fix)
+ {
+     const TestFixture *fixture =3D fix;
+@@ -412,6 +417,7 @@ static void test_qga_network_get_interfaces(gconstpoint=
+er fix)
+=20
+     qobject_unref(ret);
+ }
++#endif
+=20
+ static void test_qga_file_ops(gconstpointer fix)
+ {
+@@ -682,7 +688,7 @@ static void test_qga_blacklist(gconstpointer data)
+     qobject_unref(ret);
+=20
+     /* check something work */
+-    ret =3D qmp_fd(fix.fd, "{'execute': 'guest-get-fsinfo'}");
++    ret =3D qmp_fd(fix.fd, "{'execute': 'guest-info'}");
+     qmp_assert_no_error(ret);
+     qobject_unref(ret);
+=20
+@@ -766,6 +772,7 @@ static void test_qga_config(gconstpointer data)
+     g_key_file_free(kf);
+ }
+=20
++#if defined(CONFIG_LINUX)
+ static void test_qga_fsfreeze_status(gconstpointer fix)
+ {
+     const TestFixture *fixture =3D fix;
+@@ -781,6 +788,7 @@ static void test_qga_fsfreeze_status(gconstpointer fix)
+=20
+     qobject_unref(ret);
+ }
++#endif
+=20
+ static void test_qga_guest_exec(gconstpointer fix)
+ {
+@@ -976,12 +984,17 @@ int main(int argc, char **argv)
+     g_test_add_data_func("/qga/sync", &fix, test_qga_sync);
+     g_test_add_data_func("/qga/ping", &fix, test_qga_ping);
+     g_test_add_data_func("/qga/info", &fix, test_qga_info);
++#if defined(CONFIG_LINUX)
+     g_test_add_data_func("/qga/network-get-interfaces", &fix,
+                          test_qga_network_get_interfaces);
+     if (!access("/sys/devices/system/cpu/cpu0", F_OK)) {
+         g_test_add_data_func("/qga/get-vcpus", &fix, test_qga_get_vcpus);
+     }
+     g_test_add_data_func("/qga/get-fsinfo", &fix, test_qga_get_fsinfo);
++    g_test_add_data_func("/qga/fsfreeze-status", &fix,
++                         test_qga_fsfreeze_status);
++#endif
++
+     g_test_add_data_func("/qga/get-memory-block-info", &fix,
+                          test_qga_get_memory_block_info);
+     g_test_add_data_func("/qga/get-memory-blocks", &fix,
+@@ -993,8 +1006,6 @@ int main(int argc, char **argv)
+     g_test_add_data_func("/qga/invalid-oob", &fix, test_qga_invalid_oob);
+     g_test_add_data_func("/qga/invalid-cmd", &fix, test_qga_invalid_cmd);
+     g_test_add_data_func("/qga/invalid-args", &fix, test_qga_invalid_args)=
+;
+-    g_test_add_data_func("/qga/fsfreeze-status", &fix,
+-                         test_qga_fsfreeze_status);
+=20
+     g_test_add_data_func("/qga/blacklist", NULL, test_qga_blacklist);
+     g_test_add_data_func("/qga/config", NULL, test_qga_config);
 --=20
 1.8.3.1
-
 
 
