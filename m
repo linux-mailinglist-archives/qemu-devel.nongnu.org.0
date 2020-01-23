@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1360C14654F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 11:03:25 +0100 (CET)
-Received: from localhost ([::1]:53930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC58146548
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 11:02:10 +0100 (CET)
+Received: from localhost ([::1]:53920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuZKe-0004MU-3x
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 05:03:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34364)
+	id 1iuZJQ-0003QT-P4
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 05:02:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34362)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iuZIM-0002zP-Dp
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 05:01:08 -0500
+ (envelope-from <bounces@canonical.com>) id 1iuZIM-0002zO-Cr
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 05:01:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iuZIK-0006pK-SZ
+ (envelope-from <bounces@canonical.com>) id 1iuZIK-0006pP-Si
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 05:01:02 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49150)
+Received: from indium.canonical.com ([91.189.90.7]:49232)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iuZIJ-0006k0-1t
+ id 1iuZIJ-0006mB-23
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 05:01:00 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iuZIG-0002RD-F3
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 10:00:56 +0000
+ id 1iuZII-0002Q3-2W
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 10:00:58 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 626A72E80CB
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 10:00:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 120C72E80C3
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 10:00:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 23 Jan 2020 09:52:55 -0000
+Date: Thu, 23 Jan 2020 09:55:46 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1859656@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -50,7 +50,7 @@ X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
  =?utf-8?q?=29?=
 References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
-Message-Id: <157977317542.4803.2138107860071652172.malone@soybean.canonical.com>
+Message-Id: <157977334610.4938.18367270706746003803.malone@wampee.canonical.com>
 Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
  initial deploy
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -59,7 +59,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 27612ffc88ca3e44d6d35394912d75315d9a80e2
+X-Launchpad-Hash: 4101ee24bb8d8b62a1439346492927c2c163a394
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,8 +76,17 @@ Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First check - as assumed - the old style config always failed.
-It went into netboot, netboot fails and then it bails out.
+TBH I'd really want to see how this worked as we didn't push anything to
+Bionic that would have changed this recently.
+
+I checked and the only change in that regard is really old.
+It was for bug 1790901 which was a prereq for real IPXE on s390x.
+So I doubt that MAAS could have worked before that.
+Never the less to be sure I was trying the old verson (which needed an odd =
+bundle of kernel+initrd to build into what you reply on netboot).
+
+But even that - if netboot is failing - it does not fall through (as I'd
+expected, but I wanted to be sure).
 
 root@testkvm-bionic-from:~# virsh start netboot --console
 Domain netboot started
@@ -85,66 +94,9 @@ Connected to domain netboot
 Escape character is ^]
 done
   Using IPv4 address: 192.168.122.33
-  Using TFTP server: 192.168.122.1
-Trying pxelinux.cfg files...
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  Receiving data:  0 KBytes
-Repeating TFTP read request...
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  Receiving data:  0 KBytes
-Repeating TFTP read request...
-  TFTP error: ICMP ERROR "port unreachable"
+  Requesting file "" via TFTP from 192.168.122.1
+  Receiving data:  0 KBytesICMP ERROR "port unreachable"
 Failed to load OS from network
-
-root@testkvm-bionic-from:~# =
-
-root@testkvm-bionic-from:~# virsh list --all
- Id    Name                           State
-----------------------------------------------------
- -     netboot                        shut off
-
-
--- -- -- --
-
-The suggested config with bootindex (lets see if that would work on
-s390x)
-
-root@testkvm-bionic-from:~# virsh start netboot --console
-Domain netboot started
-Connected to domain netboot
-Escape character is ^]
-done
-  Using IPv4 address: 192.168.122.33
-  Using TFTP server: 192.168.122.1
-Trying pxelinux.cfg files...
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  Receiving data:  0 KBytes
-Repeating TFTP read request...
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  TFTP error: ICMP ERROR "port unreachable"
-  Receiving data:  0 KBytes
-Repeating TFTP read request...
-  TFTP error: ICMP ERROR "port unreachable"
-Failed to load OS from network
-
-by that confirming SFeole again (comment #9 this time).
-
-So no easy workarounds present.
 
 -- =
 
