@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A445E147225
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:55:14 +0100 (CET)
-Received: from localhost ([::1]:60830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E92147232
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:56:50 +0100 (CET)
+Received: from localhost ([::1]:60912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuiZN-0005GF-Ms
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:55:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49694)
+	id 1iuiav-0008B6-7c
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:56:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50902)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iuhMG-0008K2-D7
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:37:37 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iuhSD-0008C7-9e
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:43:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iuhMC-0003sj-KP
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:37:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21218
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iuhMC-0003sI-GZ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:37:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579804651;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8wYETtubdMkhSXWZ61HdTf21VDFypri2RTf9txI0mFw=;
- b=X2GP0uxpXZHpSByhV8jh7oIKsBaiazECmSRDS4EkXmuL8emLIOkbSTCnkFM1sa+F7tlaKq
- w+hciehnHWe8Z2k99JL4bfpVkHzYP1jmyOYKZa6tQ5au8s0TQf91dccuSnltFi5SwFyd45
- u+dRBhUUmxh03ZDsEXiUlc8q+dbWXag=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-TGCj0jxqN0WpCSGUd334dA-1; Thu, 23 Jan 2020 13:37:29 -0500
-Received: by mail-wr1-f70.google.com with SMTP id z15so2364833wrw.0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 10:37:29 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1iuhSB-0008ND-7s
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:43:44 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:38119)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iuhS9-0008Li-GW
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:43:42 -0500
+Received: by mail-ot1-x344.google.com with SMTP id z9so3747339oth.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 10:43:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=tkotc8S4hCcILSnkrDe0+TCYBqSuyzi4c0KOqtlTaR4=;
+ b=d2ooI1Xpqb4YAVzEXs7kLYyVRQttniYYCwQ+z+WGSo2IoJk6f20ZjlCuJyaaN4OMDB
+ 295TlVJUD61ELQTmDng5+2x0pHGXYdrT2jIAYWM2bxybnsiz0rsTsBS5zWwSGzwqI0Va
+ 94yr/f/Pil5wPfI4ouA+oiKs01QtSAP0xCmzXOvXSfdM0H3Slj9AYmdnAP2gQJU5m6u4
+ lHu9Di3SwwTP2M9zgSU6H0PsrHbQNSDACpT+WAAzWTXC6RtScVD8leITBgTNyPjnCsPR
+ UEWaKV2LwVC6W9CjRZrzbp81QUj/6xs0KpLcxyx/hO7uCE2QiMZ5FpfLhuEaHavK4cZP
+ LliA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rUqhRHPuwgmjAQhU/HcCDGSPjQxYNYnQ4sksW2u9Lo8=;
- b=e6knvbEmtxnWwNll3OUNnjyejWcWfU/HfXXCKuI2Nu3ShsCsfBc9D1V4o5UbfDzWTs
- DLTKIixLVVRUNUidmNzoSJ03HLnuQO3kBeflnyf7dTUMJ+H7MiK4ODYT8mA6Op/B1YPs
- U9/cZOTUpUhX2sBLOIBDRvrC1kpSE+/J2WisnZqN6s5xWt08Z2MaAe8UKxuCxjP1LGT8
- 3j9b76jxeArN4m5GPxAgSPNeGgMoSjGzbxgS8ElN1MqYWr1DWkbPcbWM0dWsg7nperY8
- u0iQKORSQxrQ2DR1UhSp9apuymf5mF/tnpWEQ+RjHFXdNHXUP2BZhOE030VJ+EY0R3vx
- Rsgg==
-X-Gm-Message-State: APjAAAULXCDQLKmTEiplUODazBxbtqWBQtQRbbJTEiZ/QSjkbSM46p6F
- j3k5gof7WPB20XFck5qFkAq9kM+3oM0/95kO7JkDGw0gi30dvUcgBnTxhM/ZYKfPi2qBBcVfwnw
- VkcubDEMbwVZcYz4=
-X-Received: by 2002:adf:d4ca:: with SMTP id w10mr19974739wrk.53.1579804648380; 
- Thu, 23 Jan 2020 10:37:28 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxbiFsYjaqyesMA2cDrF2yKRX8Ux58Virl4iyo3H6PAlPFFHAgHwBHF2abGKcUQ4wt/pgtHBQ==
-X-Received: by 2002:adf:d4ca:: with SMTP id w10mr19974714wrk.53.1579804648103; 
- Thu, 23 Jan 2020 10:37:28 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id x7sm3981468wrq.41.2020.01.23.10.37.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jan 2020 10:37:27 -0800 (PST)
-Subject: Re: [PATCH] tests/boot-serial-test: Allow the HPPA machine to shudown
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-References: <20200123003603.11610-1-f4bug@amsat.org>
- <15bada61-7e0c-bb4d-a91e-2cdfd42161e1@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bcba70e2-9702-c080-1025-ad22fd344801@redhat.com>
-Date: Thu, 23 Jan 2020 19:37:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tkotc8S4hCcILSnkrDe0+TCYBqSuyzi4c0KOqtlTaR4=;
+ b=tAhOhPwsYK+1j+ny00LTPqXcrze9wHI8JhWTSQCI9yfWBwRVK4kIgNs4jFcHXgxRTy
+ shzNwz6KD3vPydQUkmOIeY7QP/iAxRPvMGXqYETZ9IWXPfeS8DrZMX9yV/jxGK4FRcG/
+ U+dYiwwB+UHjVEIZr+UvmEupTvsBCtHaEfLlSJ1C7rIz34g4oVpHCtacfdjWiWVCxehx
+ 9e5uljoSTYse/jmr5+YEDPiXdpc/71QKkhnXvL3YfT/EI70QDwLH689EaYcjJqZ79bNz
+ 7HopEqcT7DE0VNKimzcjp1cMg2WNppsneAqX0g07zH5CVetD3OQVF4QrmOMN2UEKMxPr
+ 4w0Q==
+X-Gm-Message-State: APjAAAUTZ8L8aLXQFayYoumTVEqh34DU0lNtYV4cMNa2KbYvSj6I5UeU
+ q3eKvrSWQkJ+MFwaeqaflSkitZ8m0EWaK9kaOsQ8qw==
+X-Google-Smtp-Source: APXvYqyZnEvhCGYHVaXMsZyl9Z3LXuoXc2SmimmZmBRQZolcWqwvNFoL2lQDu46pRhKLN/i3WcYS0NI6f2+1mz8wohs=
+X-Received: by 2002:a05:6830:13d3:: with SMTP id
+ e19mr12374921otq.135.1579805019205; 
+ Thu, 23 Jan 2020 10:43:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <15bada61-7e0c-bb4d-a91e-2cdfd42161e1@linaro.org>
-Content-Language: en-US
-X-MC-Unique: TGCj0jxqN0WpCSGUd334dA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Jan 2020 18:43:28 +0000
+Message-ID: <CAFEAcA8R5yDfAYYraeBStD_Oh7G60QSgUaw_JVdqC=C8y4n0Jw@mail.gmail.com>
+Subject: Re: [PULL v2 00/59] Misc (x86 and QOM) patches for 2020-01-23
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,65 +74,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Sven Schnelle <svens@stackframe.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/23/20 4:27 AM, Richard Henderson wrote:
-> On 1/22/20 2:36 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->> The boot-serial test uses SeaBIOS on HPPA, and expects to read the
->> "SeaBIOS wants SYSTEM HALT" string, see [*]:
->>
->>   122 void __VISIBLE __noreturn hlt(void)
->>   123 {
->>   124     if (pdc_debug)
->>   125         printf("HALT initiated from %p\n",  __builtin_return_addre=
-ss(0));
->>   126     printf("SeaBIOS wants SYSTEM HALT.\n\n");
->>   127     asm volatile("\t.word 0xfffdead0": : :"memory");
->>   128     while (1);
->>   129 }
->>
->> A 'SYSTEM HALT' would really halts the CPU, but SeaBIOS implements
->> it as an infinite loop.
->=20
-> Well, SeaBIOS implements it as the magic QEMU halt instruction,
->=20
-> # These are artificial instructions used by QEMU firmware.
-> # They are allocated from the unassigned instruction space.
-> halt            1111 1111 1111 1101 1110 1010 1101 0000
-> reset           1111 1111 1111 1101 1110 1010 1101 0001
->=20
-> followed by an infinite loop, probably to avoid a compiler warning and Ju=
-st In
-> Case.  We really should halt here, unless shutdown is disabled.
->=20
->> -    qts =3D qtest_initf("%s %s -M %s -no-shutdown "
->> +    qts =3D qtest_initf("%s %s -M %s %s "
->>                         "-chardev file,id=3Dserial0,path=3D%s "
->>                         "-serial chardev:serial0 -accel tcg -accel kvm %=
-s",
->>                         codeparam, code ? codetmp : "", test->machine,
->> +                      shutdown ? "" : "-no-shutdown",
->>                         serialtmp, test->extra);
->=20
-> And thus avoiding the -no-shutdown should in fact shutdown.
->=20
-> Are you saying this doesn't happen, or what?  I think I got lost with the=
- rest
-> of the message...
+On Thu, 23 Jan 2020 at 16:45, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde0dd=
+40:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-2020=
+0121' into staging (2020-01-21 15:29:25 +0000)
+>
+> are available in the git repository at:
+>
+>
+>   git://github.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to f7bb7a3f1e8f4f854208785eead0d807ad8a688c:
+>
+>   tests: fix test-qga on macosx (2020-01-23 14:34:49 +0100)
+>
+> ----------------------------------------------------------------
+> * Register qdev properties as class properties (Marc-Andr=C3=A9)
+> * Cleanups (Philippe)
+> * virtio-scsi fix (Pan Nengyuan)
+> * Tweak Skylake-v3 model id (Kashyap)
+> * x86 UCODE_REV support and nested live migration fix (myself)
+> * Advisory mode for pvpanic (Zhenwei)
+>
+> ----------------------------------------------------------------
 
-"If the command-line option "-no-shutdown" has been specified,
-  qemu will not exit, and a STOP event will eventually follow
-  the SHUTDOWN event"
+When I try to build-test this merge, the clang sanitizer
+build seems to fail whenever it tries to link anything:
+(configure args '--cc=3Dclang' '--cxx=3Dclang++' '--enable-gtk'
+'--extra-cflags=3D-fsanitize=3Dundefined  -fno-sanitize=3Dshift-base -Werro=
+r')
 
-What I see is the HPPA firmware calling HALT, then QEMU doesn't exit.
+  LINK    tests/qemu-iotests/socket_scm_helper
+tests/qemu-iotests/socket_scm_helper.o: In function `send_fd':
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:53:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+tests/qemu-iotests/socket_scm_helper.o: In function `main':
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:111:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:116:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+tests/qemu-iotests/socket_scm_helper.o: In function `send_fd':
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:56:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+tests/qemu-iotests/socket_scm_helper.o: In function `main':
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:121:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:121:
+undefined reference to `__ubsan_handle_nonnull_arg'
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:106:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:123:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+tests/qemu-iotests/socket_scm_helper.o: In function `get_fd_num':
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:68:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:69:
+undefined reference to `__ubsan_handle_nonnull_arg'
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:70:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:77:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:77:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+/home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/socket_scm_helper.=
+c:73:
+undefined reference to `__ubsan_handle_type_mismatch_v1'
+clang: error: linker command failed with exit code 1 (use -v to see invocat=
+ion)
 
-The QTest keeps reading the console for "SeaBIOS wants SYSTEM HALT.".
-When this string is displayed on the graphic output instead of the=20
-serial, the QTest keep reading indefinitely, and the test never=20
-succeeds/fails, it is just stuck.
+I suspect the configure patches that try to clean up cflags
+are the cause here.
 
+thanks
+-- PMM
 
