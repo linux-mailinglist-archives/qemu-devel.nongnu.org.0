@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80475147077
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:08:52 +0100 (CET)
-Received: from localhost ([::1]:34326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3622147075
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:08:13 +0100 (CET)
+Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuguR-0001uZ-3V
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:08:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55624)
+	id 1iugtn-00014l-UV
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:08:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56495)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iuep8-0007hR-VG
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:55:15 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iueul-0007Q0-Kc
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:01:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iuep7-0006oW-Rn
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:55:14 -0500
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:41889)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iuep7-0006nU-KR
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:55:13 -0500
-Received: by mail-ot1-x334.google.com with SMTP id r27so3159263otc.8
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 07:55:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=0lU4XZZ9pzTu1CVQtIxWfRKfMYGst4KXpXQ/urIN9FQ=;
- b=LzK+mjA5pd/lbwmdSJdoWpjka5M4WSse2b4lm51VELc7nbebg3tjDVBn3UZ0Bss9fF
- fBAv4HTsQgBXA7TfN3pvzjZHK9hKKnG6h/N6biJYwwlLL6IJ/T5mHNuSUJ2DZ01bkWkT
- YEy7mDifzed9+AEfLJEXjVan1k8JprLY9Ki+cv1Kn6U9sEF1w+VSqa+ONz7EQ/bIRPjU
- QIqL5F34sENgfh6EJAC0R+hYytMm41by4Hxi1neOoMRQN9uCt6kk4UlYib75pP95GwxW
- voFoqpT5+U9s6JX61GOzx+JL8WBjDqk9BT6pGgwkUheGCw/WndykiubqKtskQ/unXXmH
- O1hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=0lU4XZZ9pzTu1CVQtIxWfRKfMYGst4KXpXQ/urIN9FQ=;
- b=gGHbA3W3bCY55fIrvEOgn00Gf1QA1qllB3HQLFRN5QY8otXoWnuGAsDab2CoyxiPNu
- nnUutoYdhKSl7/UBOXZUx/VTNLKufLEPeSPt0+0RAZKJyKJUsBwzK0tZt0I7JglwQFzm
- WdxZ220+uRpMOJt/SVxYiDGwLSaWlBSlim4ULY7USCyWmBJbCoNpVGMR2dY+OdK5eFWB
- NTs9BI5bDTx8scFRgutun/fFFHPg+Gu4yrijNMSM3PKaM0ak0KKVnFeAXBpRk9WWRJkz
- KmcoEdI6rDsfWaxZpXQDy71BwE90nmQvfyo25GQmj2o77P5fuik5po14OfgkNPRprJ/b
- Se1w==
-X-Gm-Message-State: APjAAAW7sPv+RWrt548vEH1kBjV/4+etkXSoLGewi3a0B6YegA2BI58/
- OztiGynC69RqFQHyzvlnMTwxG6IHxMCmLzVBw3guVACcnwU=
-X-Google-Smtp-Source: APXvYqx9logockbtqnhxSc1zVKAsOP+xUoO5EG6kki51IrtVFZCsqUeiO6vCMmBYELwqH4emYUJvMi6gyPnyjFs+TGg=
-X-Received: by 2002:a05:6830:4a4:: with SMTP id
- l4mr5925336otd.91.1579794912498; 
- Thu, 23 Jan 2020 07:55:12 -0800 (PST)
+ (envelope-from <cohuck@redhat.com>) id 1iueuj-0002sS-1M
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:01:02 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44434
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iueui-0002rR-R8
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:01:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579795260;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YFTDM+x0VAdB0nagmEK2b9vblxyqjSTWW94FriwaigY=;
+ b=P6Px9yScsEeHrqqJ1t5IAtHjm/PIf0Fi362IE01KN9IKXMWrNiDX/iX/h3BMQaX7vdXnEo
+ sC8NrCm6LPAZh3tW6xm4u0txVTryxbGpMgaoIb/trhLiqf9kXv9MzV1xgRoyy/Sn2xTue5
+ rGGRl8ou7D1zi6XgHVsFt1FKXa2USx8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-110-ipf40sDDONahXRoxuxyxgA-1; Thu, 23 Jan 2020 11:00:58 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2162210054E3;
+ Thu, 23 Jan 2020 16:00:57 +0000 (UTC)
+Received: from gondolin (ovpn-116-120.ams2.redhat.com [10.36.116.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 997E010016EB;
+ Thu, 23 Jan 2020 16:00:43 +0000 (UTC)
+Date: Thu, 23 Jan 2020 17:00:40 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH 5/6] tests/acceptance/virtio_seg_max_adjust: Restrict to
+ X86 architecture
+Message-ID: <20200123170040.2ffdd0d8.cohuck@redhat.com>
+In-Reply-To: <814cb9da-696c-0716-c1fe-247fd4e6cb05@redhat.com>
+References: <20200122223247.30419-1-philmd@redhat.com>
+ <20200122223247.30419-6-philmd@redhat.com>
+ <20200123124844.32e2aa09.cohuck@redhat.com>
+ <814cb9da-696c-0716-c1fe-247fd4e6cb05@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <CAFEAcA-HPAXpeWcJOvyJM3hdFR86u4HyovAAB8qmoZaye-P3Vg@mail.gmail.com>
-In-Reply-To: <CAFEAcA-HPAXpeWcJOvyJM3hdFR86u4HyovAAB8qmoZaye-P3Vg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jan 2020 15:55:01 +0000
-Message-ID: <CAFEAcA-1QcPEVDodRFFKQ_WdSR-avKp2rZw39KFhO_hh3y=Lxg@mail.gmail.com>
-Subject: Re: 5.0 release schedule proposal
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::334
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: ipf40sDDONahXRoxuxyxgA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,35 +75,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Jan 2020 at 15:29, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Here's a suggested set of dates for the 5.0 release:
->
-> 2020-03-17 softfreeze
-> 2020-03-24 hardfreeze/rc0
-> 2020-03-31 rc1
-> 2020-04-07 rc2
-> 2020-04-14 rc3
-> 2020-04-21 release, or rc4
-> 2020-04-28 release if we needed rc4
->
-> (I'm at a conference week of 23-27 March, so possibly rc0
-> might get a little delayed if I'm not able to handle
-> pullreqs while away, but usually the big rush is for
-> softfreeze so I think this should be OK.)
->
-> NB: Easter is 10th-13th April, so between rc2 and rc3.
->
-> Any opinions/suggested tweaks/etc?
->
-> Of course if somebody else wants to do this release cycle
-> they can set the dates :-)
+On Thu, 23 Jan 2020 11:36:55 -0200
+Wainer dos Santos Moschetta <wainersm@redhat.com> wrote:
 
-Ping? Any opinions? In the absence of complaints I'll just
-go with this set of dates...
+> On 1/23/20 9:48 AM, Cornelia Huck wrote:
+> > On Wed, 22 Jan 2020 23:32:46 +0100
+> > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+> > =20
+> >> Running on mainstream KVM architectures, we get:
+> >>
+> >> - Aarch64
+> >>
+> >>    Timeout.
+> >>
+> >>    job.log:
+> >>    -------
+> >>    No machine specified, and there is no default
+> >>    Use -machine help to list supported machines =20
+> > The code probably needs to be made more clever to find the machines to
+> > run?
+> > =20
+> >> - MIPS:
+> >>
+> >>     (1/1) VirtioMaxSegSettingsCheck.test_machine_types: ERROR: argumen=
+t of type 'NoneType' is not iterable (0.14 s)
+> >>
+> >>    job.log:
+> >>    -------
+> >>    Could not load MIPS bios 'mipsel_bios.bin', and no -kernel argument=
+ was specified =20
+> > Probably needs some hint from mips folks how this can be set up.
+> > =20
+> >> - PowerPC
+> >>
+> >>     (1/1) VirtioMaxSegSettingsCheck.test_machine_types: ERROR: invalid=
+ literal for int() with base 10: 'sxxm' (0.16 s)
+> >>
+> >>    job.log:
+> >>    ------- =20
+> >>    >>> {'execute': 'query-machines'} =20
+> >>    <<< {'return': [{'hotpluggable-cpus': True, 'name': 'pseries-2.12-s=
+xxm', 'numa-mem-supported': True, 'default-cpu-type': 'power8_v2.0-powerpc6=
+4-cpu', 'cpu-max': 1024, 'deprecated': False}, ... =20
+> > This seems to be because the machine type parsing code cannot deal with
+> > the format used here. =20
+>=20
+>=20
+> Indeed, looking at the comments in code the parser was meant for PC types=
+.
+>=20
+> Is there a way to obtain the machine type version other than parsing its=
+=20
+> name? If not, wouldn't be useful for management apps have that=20
+> information returned with 'query-machines'?
 
--- PMM
+The question would be "What version?". The pseries machine type the
+code chokes upon above has an additional suffix. Not all machine types
+are versioned, obviously, and we don't have an uniform way to build
+machine type names, either.
+
+If I understand this test correctly, the idea is to distinguish between
+"version that defaults the feature to off" and "version that defaults
+the feature to on". So, the pseries machine with the extra suffix from
+above and the one without would basically be the same 2.12 compatible
+machine (both in the first bucket). For other tests, those two machines
+might be very different, though.
+
+tl;dr "version" might not be well-defined enough.
+
+>=20
+> - Wainer
+>=20
+> >> - S390X:
+> >>
+> >>     (1/1) VirtioMaxSegSettingsCheck.test_machine_types: ERROR: invalid=
+ literal for int() with base 10: 'virtio' (0.14 s)
+> >>
+> >>    job.log:
+> >>    -------
+> >>    Traceback (most recent call last):
+> >>      File "virtio_seg_max_adjust.py", line 139, in test_machine_types
+> >>        if self.seg_max_adjust_enabled(m):
+> >>      File "virtio_seg_max_adjust.py", line 113, in seg_max_adjust_enab=
+led
+> >>        major =3D int(ver[0])
+> >>    ValueError: invalid literal for int() with base 10: 'virtio' =20
+> >>    >>> {'execute': 'query-machines'} =20
+> >>    <<< {'return': [{'hotpluggable-cpus': True, 'name': 's390-ccw-virti=
+o-4.0', 'numa-mem-supported': False, 'default-cpu-type': 'qemu-s390x-cpu', =
+'cpu-max': 248, 'deprecated': False}, ... =20
+> > Same here.
+
 
