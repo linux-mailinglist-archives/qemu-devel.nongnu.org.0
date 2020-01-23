@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9729E147001
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:48:09 +0100 (CET)
-Received: from localhost ([::1]:33924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F995147010
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:51:57 +0100 (CET)
+Received: from localhost ([::1]:33990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugaN-0001kQ-RF
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:48:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45804)
+	id 1iuge3-00062z-6u
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:51:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iueEe-00061e-Nn
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:17:34 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iueRT-00005P-Cl
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iueEd-0002re-Ao
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:17:32 -0500
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:34170)
+ (envelope-from <peter.maydell@linaro.org>) id 1iueRR-0003Yd-Qh
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:47 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33976)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iueEd-0002rQ-4X
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:17:31 -0500
-Received: by mail-ot1-x333.google.com with SMTP id a15so3078327otf.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 07:17:31 -0800 (PST)
+ id 1iueRR-0003XU-II
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:45 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id t2so3585033wrr.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 07:30:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xdJfCQ/KznZsfKHOxJAl1dA2URhuqjIwEutBd0jY5U4=;
- b=QDuvruqKHYRddylgLbmBj3u8Bh7fS69eDvNfss14cqlPZIrvO1nylbWEC4Zo9GPR4I
- iLlAXV6yNaWpMkgEAQ+zHLt+uU6EB4SZ6UIdJVaOQQNGUpyi1qWd7tNgqAHs4e3eezyj
- lPAxMWTTiJ4RDwacSEtEKve9Gt/H3E8q7qqYPG6Z0eF8FoMYHvZqimUEmq756RmfGL/+
- xHa/L3Dv6F2wgSPBolhse3PHDcXMGd+x6ycS+uTcN4dwqSY3s1cm6LQDSeaMWdaeUVyD
- yha3cuSKOa6YalUese5ysYf8XBJo3lPoY+NJ7e+G5lKzeb1KOsUG0k4X/yhpvuWf6CA1
- 7YMA==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BmL12HoYmCQ7eicWGWszUtewlEZQ98uMDHEdW47RVUQ=;
+ b=ePEVKqrrADut6vYzXYAVKrxSfqcrl8oRHB+LhEtXFbsZFfeLdVBtKmGV1/MGU2wYvi
+ s4E13nxA6FYSdc36qSi9kkvGbNUiboBX/u9Hz/vNXGxWLca8wVsoZScj8/ypwyFGb1oc
+ Z3A7AR0IDVJuyiLszjHauCEBg+inAFYi7PTRThymLBQA1f6E5eosEMRU7PKi87yt5hdc
+ pe/TGh/FsffLh02zDZ6dhJwCqcUuvKnddGp2i8+GqowBDzyodcFsst6G+x0CgDlVpKt5
+ 66wL1FGczIvw8UBT9tL2v71sja81DGD4btcqXsSC65aLlEUcqpFVIyd7Wc1LknTjsdnA
+ z8ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xdJfCQ/KznZsfKHOxJAl1dA2URhuqjIwEutBd0jY5U4=;
- b=keFpxgkJmCcT9wCRL31HJk4yVsd69kNuTf+j3/+mx6fabmrKiM/WoBtqOGTkV4ARtc
- em9/uKpkODcXAUjqQqMOfhrGncpBAVFZLC+UeZlWX+E7wPKMdXcTMZl4LGVUPNhqZ7Nv
- 5Eeda16g7LBEWodIdgpr3vfBUymTHl6tJQACRk9UM7FruxZGgGG9AoEANew1hxC8V4nf
- oj2bY0dBPdph9Mk8RxvR6dQvYj0tzNdvlPBYnSFN8E2P3XlpXu+STlTTi9cV9Iak6oTl
- yNiRZlirGguJpo37Yo0UeyPDskMYYQSQTiXTWG/TrcCs6naTUQCAZ9zjldW/qGIz8dJX
- EEHw==
-X-Gm-Message-State: APjAAAWU/nFiQy3jjkhcaVLF8BGPisuk1XDdKU+r/vIMWSDkwn8gDavs
- 5pusBIykwEEKhbtxSh5yofM5elc0w3EhKsNL3FCm/A==
-X-Google-Smtp-Source: APXvYqylJbq6lh29if9wc3541YqMf352KnGZ0XImyJBeUm19KuFNUhl7KVMKF/c1aWTpTAkNMAoNREDGmH8r+MWwANg=
-X-Received: by 2002:a05:6830:13d3:: with SMTP id
- e19mr11663163otq.135.1579792650266; 
- Thu, 23 Jan 2020 07:17:30 -0800 (PST)
-MIME-Version: 1.0
-References: <20200123082227.2037994-1-laurent@vivier.eu>
-In-Reply-To: <20200123082227.2037994-1-laurent@vivier.eu>
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BmL12HoYmCQ7eicWGWszUtewlEZQ98uMDHEdW47RVUQ=;
+ b=R3ICgtdq5inwnpJo6TavMi3lbjAP7ZcgBZRxq873BeoPgXgF4SvB2rI2XXbA1bZDR4
+ KDvAxKGSxu4Xa56LZbb7a5mI91nue/WmAI1zZpm5GR/I64zXcrF34YuF1LiN8AFF1j8a
+ MXdOl/bYOh8ZSAJeUiMXibolYL0LyaL45mqtXzbIclWQZkeRyiiyyyTlDy+eOV9ppuyS
+ tFIMbI/Yjbfs5G83fyKTdPPYaaPvhFhFi9xiTM/dXIi1V+l1FpGp19lLbhwQCrhlcEb3
+ 6QIv446vNuuTqog1z45uFiwO4fY0yA3VSdyJQMfHWlbrzJjt2QtYVcMVJNN3Jr+KQkgA
+ 8t8Q==
+X-Gm-Message-State: APjAAAWxR3V2xWsFul5+WljYOcga1s5WS9oGRp9inXP3XPJyKdGqDdUl
+ 58Rlj5rNzCK1ap554HG6vqR3RJ096Wbccw==
+X-Google-Smtp-Source: APXvYqxFQ59T9ghBu9j4jyY2uh+mDwe511J2XFJSLUeWMSKK8j279UO5MrFONwrVudTLS4zO62cibA==
+X-Received: by 2002:a5d:428c:: with SMTP id k12mr19166116wrq.57.1579793443724; 
+ Thu, 23 Jan 2020 07:30:43 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id s139sm2903592wme.35.2020.01.23.07.30.42
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jan 2020 07:30:43 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jan 2020 15:17:19 +0000
-Message-ID: <CAFEAcA86bVsY-4yg8FhsWqcOrE4=upwOuyxTLuk5CDO7r7E8mA@mail.gmail.com>
-Subject: Re: [PULL 00/17] Linux user for 5.0 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/20] target-arm queue
+Date: Thu, 23 Jan 2020 15:30:21 +0000
+Message-Id: <20200123153041.4248-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::333
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,33 +77,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jan 2020 at 08:25, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde0dd40:
->
->   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-20200121' into staging (2020-01-21 15:29:25 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
->
-> for you to fetch changes up to a7b09746679c1815115249ec69197e454efdfb15:
->
->   linux-user: Add support for read/clear RTC voltage low detector using ioctls (2020-01-22 15:21:37 +0100)
->
-> ----------------------------------------------------------------
-> Fix mmap guest space and brk
-> Add FS/FD/RTC/KCOV ioctls
->
+The following changes since commit b7c359c748a2e3ccb97a184b9739feb2cd48de2f:
 
-Applied, thanks.
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-5.0-pull-request' into staging (2020-01-23 14:38:43 +0000)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+are available in the Git repository at:
 
--- PMM
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200123
+
+for you to fetch changes up to 53c75ad8e72dc3a5102de7ed21e4990969cb0a19:
+
+  hw/arm/exynos4210: Connect serial port DMA busy signals with pl330 (2020-01-23 15:22:42 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * fix bug in PAuth emulation
+ * add PMU to Cortex-R5, Cortex-R5F
+ * qemu-nbd: Convert documentation to rST
+ * qemu-block-drivers: Convert documentation to rST
+ * Fix Exynos4210 UART DMA support
+ * Various minor code cleanups
+
+----------------------------------------------------------------
+Andrew Jones (1):
+      target/arm/arch_dump: Add SVE notes
+
+Clement Deschamps (1):
+      target/arm: add PMU feature to cortex-r5 and cortex-r5f
+
+Guenter Roeck (8):
+      dma/pl330: Convert to support tracing
+      hw/core/or-irq: Increase limit of or-lines to 48
+      hw/arm/exynos4210: Fix DMA initialization
+      hw/char/exynos4210_uart: Convert to support tracing
+      hw/char/exynos4210_uart: Implement post_load function
+      hw/char/exynos4210_uart: Implement Rx FIFO level triggers and timeouts
+      hw/char/exynos4210_uart: Add receive DMA support
+      hw/arm/exynos4210: Connect serial port DMA busy signals with pl330
+
+Keqian Zhu (2):
+      hw/acpi: Remove extra indent in ACPI GED hotplug cb
+      hw/arm: Use helper function to trigger hotplug handler plug
+
+Peter Maydell (3):
+      qemu-nbd: Convert invocation documentation to rST
+      docs: Create stub system manual
+      qemu-block-drivers: Convert to rST
+
+Philippe Mathieu-Daudé (1):
+      hw/misc/stm32f4xx_syscfg: Fix copy/paste error
+
+Richard Henderson (3):
+      tests/tcg/aarch64: Fix compilation parameters for pauth-%
+      tests/tcg/aarch64: Add pauth-3
+      tests/tcg/aarch64: Add pauth-4
+
+Vincent Dehors (1):
+      target/arm: Fix PAuth sbox functions
+
+ Makefile                                  |  37 +-
+ tests/tcg/aarch64/Makefile.softmmu-target |   5 +-
+ tests/tcg/aarch64/Makefile.target         |   3 +-
+ include/elf.h                             |   1 +
+ include/hw/arm/exynos4210.h               |   4 +
+ include/hw/or-irq.h                       |   2 +-
+ target/arm/cpu.h                          |  25 +
+ hw/acpi/generic_event_device.c            |   2 +-
+ hw/arm/exynos4210.c                       |  77 ++-
+ hw/arm/virt.c                             |   6 +-
+ hw/char/exynos4210_uart.c                 | 245 +++++---
+ hw/dma/pl330.c                            |  88 +--
+ hw/misc/stm32f4xx_syscfg.c                |   2 +-
+ target/arm/arch_dump.c                    | 124 +++-
+ target/arm/cpu.c                          |   1 +
+ target/arm/kvm64.c                        |  24 -
+ target/arm/pauth_helper.c                 |   4 +-
+ tests/tcg/aarch64/pauth-1.c               |   2 -
+ tests/tcg/aarch64/pauth-2.c               |   2 -
+ tests/tcg/aarch64/pauth-4.c               |  25 +
+ tests/tcg/aarch64/system/pauth-3.c        |  40 ++
+ MAINTAINERS                               |   1 +
+ docs/index.html.in                        |   1 +
+ docs/interop/conf.py                      |   4 +-
+ docs/interop/index.rst                    |   1 +
+ docs/interop/qemu-nbd.rst                 | 263 ++++++++
+ docs/interop/qemu-option-trace.rst.inc    |  30 +
+ docs/qemu-block-drivers.texi              | 889 ---------------------------
+ docs/system/conf.py                       |  22 +
+ docs/system/index.rst                     |  17 +
+ docs/system/qemu-block-drivers.rst        | 985 ++++++++++++++++++++++++++++++
+ hw/char/trace-events                      |  20 +
+ hw/dma/trace-events                       |  24 +
+ qemu-doc.texi                             |  18 -
+ qemu-nbd.texi                             | 214 -------
+ qemu-option-trace.texi                    |   4 +
+ qemu-options.hx                           |   2 +-
+ 37 files changed, 1897 insertions(+), 1317 deletions(-)
+ create mode 100644 tests/tcg/aarch64/pauth-4.c
+ create mode 100644 tests/tcg/aarch64/system/pauth-3.c
+ create mode 100644 docs/interop/qemu-nbd.rst
+ create mode 100644 docs/interop/qemu-option-trace.rst.inc
+ delete mode 100644 docs/qemu-block-drivers.texi
+ create mode 100644 docs/system/conf.py
+ create mode 100644 docs/system/index.rst
+ create mode 100644 docs/system/qemu-block-drivers.rst
+ delete mode 100644 qemu-nbd.texi
 
