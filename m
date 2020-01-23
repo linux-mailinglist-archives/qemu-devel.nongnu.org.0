@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5ACB146C5C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:12:03 +0100 (CET)
-Received: from localhost ([::1]:58900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A9A146C50
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:08:10 +0100 (CET)
+Received: from localhost ([::1]:58798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iue9K-0006Ml-CA
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:12:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56425)
+	id 1iue5Z-0000uO-6J
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:08:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53189)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iubrj-0001VO-Sc
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:45:45 -0500
+ (envelope-from <drjones@redhat.com>) id 1iublX-0001hf-HX
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:39:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iubrh-0000tE-VN
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:45:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:40682)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iubrg-0000pi-As
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:45:41 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iubre-0008Ae-8P
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:45:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2C34B2E80CB
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:45:38 +0000 (UTC)
+ (envelope-from <drjones@redhat.com>) id 1iublV-0008Ju-Ce
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:39:18 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59382
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iublU-0008HI-0k
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:39:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579783154;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fkfmcNeYQfjWC5118tu8AD02acPOElYkiX3uk7Pn9R4=;
+ b=F3gyImRGMPBViQp8BZU2pemCEJJJyr+XVd1IPEeDE2sbXbC0SeNOm4DMDITrOM4JWgOsYM
+ NjxqEeazswq1lCguF1VZDYltL40BuVAyIUEIkw34TWxC9zNfnOxxWW9vX88+ZY9GFKQvw1
+ 6qaERkV5elLdUM5xxYQTjIezUGc+EAs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-116-pBFS4jBAO5qEN6XOJKabNQ-1; Thu, 23 Jan 2020 07:39:12 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BA15100551A;
+ Thu, 23 Jan 2020 12:39:11 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AB3419C69;
+ Thu, 23 Jan 2020 12:39:10 +0000 (UTC)
+Date: Thu, 23 Jan 2020 13:39:07 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH REPOST v3 13/80] arm/imx25_pdk: drop RAM size fixup
+Message-ID: <20200123123907.qa2fyg2iqlzyemmb@kamzik.brq.redhat.com>
+References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+ <1579779525-20065-14-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <1579779525-20065-14-git-send-email-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: pBFS4jBAO5qEN6XOJKabNQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 23 Jan 2020 12:36:38 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1859656@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=maas; status=New; importance=Undecided;
- assignee=lee.trager@canonical.com; 
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
- assignee=maas; 
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fheimes ltrager paelzer sfeole
-X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
-Message-Id: <157978299839.5170.3757855430646696378.malone@soybean.canonical.com>
-Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
- initial deploy
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 21612ced62ffb5465eefd469422cbdc4f21af660
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,92 +72,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ jcd@tribudubois.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I asked around a bit without going into the "why" and got confirmation from=
- IBM that fallthrough from netboot never existed.
-In addition a RH engineer jumped in and said that they have this bug as wel=
-l and would appreciate if IBM would implement it (that is the RH ticket I a=
-dded to the other bug Frank has mentioned above).
+On Thu, Jan 23, 2020 at 12:37:38PM +0100, Igor Mammedov wrote:
+> If user provided non-sense RAM size, board will complain and
+> continue running with max RAM size supported.
+> Also RAM is going to be allocated by generic code, so it won't be
+> possible for board to fix things up for user.
+>=20
+> Make it error message and exit to force user fix CLI,
+> instead of accepting non-sense CLI values.
+>=20
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> CC: drjones@redhat.com
+> CC: jcd@tribudubois.net
+> CC: peter.maydell@linaro.org
+> CC: qemu-arm@nongnu.org
+> ---
+>  hw/arm/imx25_pdk.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/arm/imx25_pdk.c b/hw/arm/imx25_pdk.c
+> index c76fc2b..a2b7b35 100644
+> --- a/hw/arm/imx25_pdk.c
+> +++ b/hw/arm/imx25_pdk.c
+> @@ -78,10 +78,10 @@ static void imx25_pdk_init(MachineState *machine)
+> =20
+>      /* We need to initialize our memory */
+>      if (machine->ram_size > (FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SI=
+ZE)) {
+> -        warn_report("RAM size " RAM_ADDR_FMT " above max supported, "
+> +        error_report("RAM size " RAM_ADDR_FMT " above max supported, "
+>                      "reduced to %x", machine->ram_size,
+>                      FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SIZE);
+> -        machine->ram_size =3D FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_S=
+IZE;
+> +        exit(EXIT_FAILURE);
+>      }
+> =20
+>      memory_region_allocate_system_memory(&s->ram, NULL, "imx25.ram",
+> --=20
+> 2.7.4
+>
 
-This makes it even more puzzling how this ever worked, Frank is trying
-to test a 2.6.0 build Adam has set up ...
+This would break existing command lines that are happily using the max ram
+size, which is only 512 MB. Yes, those command lines are wrong, but I'm
+not sure we want to flip the warn to an error without machine type
+versioning - which this board doesn't have.
 
--- =
+Thanks,
+drew=20
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859656
-
-Title:
-  [2.6] Unable to reboot s390x KVM machine after initial deploy
-
-Status in MAAS:
-  New
-Status in QEMU:
-  Incomplete
-Status in Ubuntu on IBM z Systems:
-  Triaged
-
-Bug description:
-  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
-  Arch: S390x
-
-  Appears that MAAS can not find the s390x bootloader to boot from the
-  disk, not sure how maas determines this.  However this was working in
-  the past. I had originally thought that if the maas machine was
-  deployed then it defaulted to boot from disk.
-
-  If I force the VM to book from disk, the VM starts up as expected.
-
-  Reproduce:
-
-  - Deploy Disco on S390x KVM instance
-  - Reboot it
-
-  on the KVM console...
-
-  Connected to domain s2lp6g001
-  Escape character is ^]
-  done
-  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
-  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
-  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
-  Trying pxelinux.cfg files...
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  Failed to load OS from network
-
-  =3D=3D> /var/log/maas/rackd.log <=3D=3D
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
-0x.bin requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
-5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-1-52-54-00-e5-d7-bb requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64BA0 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64BA requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64B requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF6 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-A requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
- requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
-efault requested by 10.246.75.160
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
 
