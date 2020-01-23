@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5911470B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:25:24 +0100 (CET)
-Received: from localhost ([::1]:34650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1441470BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:28:00 +0100 (CET)
+Received: from localhost ([::1]:34726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuhAQ-0000Qy-MA
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:25:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48416)
+	id 1iuhCx-0003ed-AA
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:27:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48478)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iueRf-0000Q0-9A
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:31:02 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iueRl-0000Uy-KF
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:31:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iueRd-0003mc-AN
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:59 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40739)
+ (envelope-from <peter.maydell@linaro.org>) id 1iueRj-0003xP-QE
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:31:05 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:50270)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iueRd-0003lD-34
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:57 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id t14so2967040wmi.5
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 07:30:56 -0800 (PST)
+ id 1iueRh-0003s1-VG
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:31:02 -0500
+Received: by mail-wm1-x332.google.com with SMTP id a5so3022696wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 07:31:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=lVlJ9nNpJHZTQ3ZPiUhA/OdyumpiTx8ozKH1nHzGqvU=;
- b=b3Cs9/pf9pPoFRh074WJmPJruEqjiyt+r4erJxLgdtG/wedn5OLaqJEOTcVAYScE+Y
- rIHxtF/rYs4DYxIynDwjp9Ez26ScDS/LRXpOVJkO/SKUkpyWanFQUgL5vmTAhesDI0dD
- KXCTxISPR32tDJNMZaC7yTT82mM3jLyCYYRXjx5U5AZw9T9wEhF3jdDUHizIaCF4A/ux
- +nIb5EM5dfzgf3tpaSBqeiCY54soh1/JcCOkIN9rUHwoifv9pnD//80xo61cpn0hrrFB
- PRCTrkPU1eFYPISd8GQ9MX9l5ld8e5qkBwNoOYMpp9ON5M4Bqg9NmUsS+dVUjVfs/UCP
- 1pAg==
+ bh=A4I+VF355k3jsisxBlTLttI/lpdyrdQbQaCIU3RplcU=;
+ b=aTSpFQt//TWlyU8KeQC3749oyZfVDTA2S5ScqKqENlPeKu+0cxq+j/js/radwKcAW1
+ qs/oBaM5sDd/NGDQ6Gns2YGr2ZsL66LclYgTAGT6PfFFJI5RgdNP5bEkF2q+xKrpu+jx
+ iPmtcqaXOSDzJRnvXrJF4L9mpgt8nW3bvRYv2xmFyU/aBWqd6guq3D9/Nc6sB9XpD2dl
+ P/MLFttz5bfLvX0O6bI9aaXMx3qNZmHLYObCba2B/Ebqd9zbcMCHk2DL78ExeCipiQF9
+ FJkPnPG3PFYbsjEtkmkhY8ONyIpkVwAi5AtzVCjtc7XLx4ByH51bmbykIFpUz71zh+ei
+ tVzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lVlJ9nNpJHZTQ3ZPiUhA/OdyumpiTx8ozKH1nHzGqvU=;
- b=lCjTzF+96hMmwrbYxviojyvkBrWSdhH14pUAbTeiS5AbgWm3s0oipwgAod6fDp201s
- HtXGJY6/duUJmcT2urdymYF5vmtfsOlRjhj7DuMAU5TMQjcjvHW7YdSgPJ2sOGSxxnSJ
- nXx+FznY70ladp5Ow1nj1Vq9yyTAa8bKCBLMGo3Q0KtJXCXV3LG0Emjqr82wlUClqhkI
- qrcTNBNdy1LMvDLzUfEL7zVmB+fMh2f8GydjdSehOa8e4uyoM3ZI/bpjVaXiLcXo8kz4
- LeFU7LrCAk81I0qo074747KQIBkTo6nU95Ux6eGIRYaNV7hvDx4XbBPeFKhBbkOWM0/l
- b4fQ==
-X-Gm-Message-State: APjAAAWRyfZiHz+aclnFhqv4LhcZ0b52SwerxiKka0sfM/22U2PkDZNY
- T91uai0+FxnjCrEIvgL/XxcbSQ3pFXAGwA==
-X-Google-Smtp-Source: APXvYqyC8IY1wf+FQl0sd7nckbl5E6rogjsaglrf0jAFQxjlvUp0KNxQzWFnryKtoopwuHR4AZIKVQ==
-X-Received: by 2002:a1c:a406:: with SMTP id n6mr4674298wme.40.1579793455559;
- Thu, 23 Jan 2020 07:30:55 -0800 (PST)
+ bh=A4I+VF355k3jsisxBlTLttI/lpdyrdQbQaCIU3RplcU=;
+ b=mDk+R4T86tPMqxn66SypViUaPUEpUpJL2++0CvRU32F/m+UyqmWdTDN8TTbIeF0BcV
+ Vojfi6XFsMLFwXsm/SZua6qZhadS7IXQVYL29+a8lNSSUkF4JAWzgcUa0oO78NSd+lKj
+ V6P/tac66QfT+Mj7GVOOoSYi55JOlyzxF48xgQVKxvFM/OARrArj3YjunCH0zk7fUnCK
+ 7uXShbgbWGAhO1+RiKLMZVxIapCATBS07BmM+GA5Nn/SnqjTzgNCs8RjRpIIb+Ec8D47
+ NcgSOzBvLMa+kxPSG+drwJVUTmiCISKVzJ+MoKT5HdUPAxqymj2pjb2tgda1ILqTuhOi
+ 1cYA==
+X-Gm-Message-State: APjAAAXFfE6JdsSHbVNqmQyjDc2hYktnCQZfyr4V9dGz5pkK7SwUA6yI
+ SbngBfPE3tGaqJ4SNPV0qTy9QXxHGMqLuA==
+X-Google-Smtp-Source: APXvYqyNgbM8e289MTVorCCIZhxXEfTlHiKlL4znNHSANU1FfnC1rVzc1GB1OLVYGWfVt2xo+FIc0w==
+X-Received: by 2002:a1c:3d8b:: with SMTP id k133mr4720186wma.161.1579793459370; 
+ Thu, 23 Jan 2020 07:30:59 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s139sm2903592wme.35.2020.01.23.07.30.54
+ by smtp.gmail.com with ESMTPSA id s139sm2903592wme.35.2020.01.23.07.30.58
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2020 07:30:55 -0800 (PST)
+ Thu, 23 Jan 2020 07:30:58 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/20] target/arm/arch_dump: Add SVE notes
-Date: Thu, 23 Jan 2020 15:30:32 +0000
-Message-Id: <20200123153041.4248-12-peter.maydell@linaro.org>
+Subject: [PULL 15/20] hw/arm/exynos4210: Fix DMA initialization
+Date: Thu, 23 Jan 2020 15:30:36 +0000
+Message-Id: <20200123153041.4248-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200123153041.4248-1-peter.maydell@linaro.org>
 References: <20200123153041.4248-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,279 +81,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Jones <drjones@redhat.com>
+From: Guenter Roeck <linux@roeck-us.net>
 
-When dumping a guest with dump-guest-memory also dump the SVE
-registers if they are in use.
+First parameter to exynos4210_get_irq() is not the SPI port number,
+but the interrupt group number. Interrupt groups are 20 for mdma
+and 21 for pdma. Interrupts are not inverted. Controllers support 32
+events (pdma) or 31 events (mdma). Events must all be routed to a single
+interrupt line. Set other parameters as documented in Exynos4210 datasheet,
+section 8 (DMA controller).
 
-Signed-off-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200120101832.18781-1-drjones@redhat.com
-[PMM: fixed checkpatch nits]
+Fixes: 59520dc65e ("hw/arm/exynos4210: Add DMA support for the Exynos4210")
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Message-id: 20200123052540.6132-4-linux@roeck-us.net
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/elf.h          |   1 +
- target/arm/cpu.h       |  25 +++++++++
- target/arm/arch_dump.c | 124 ++++++++++++++++++++++++++++++++++++++++-
- target/arm/kvm64.c     |  24 --------
- 4 files changed, 148 insertions(+), 26 deletions(-)
+ include/hw/arm/exynos4210.h |  4 +++
+ hw/arm/exynos4210.c         | 51 +++++++++++++++++++++++++++++++------
+ 2 files changed, 47 insertions(+), 8 deletions(-)
 
-diff --git a/include/elf.h b/include/elf.h
-index 3501e0c8d03..8fbfe60e09f 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -1650,6 +1650,7 @@ typedef struct elf64_shdr {
- #define NT_ARM_HW_BREAK 0x402           /* ARM hardware breakpoint registers */
- #define NT_ARM_HW_WATCH 0x403           /* ARM hardware watchpoint registers */
- #define NT_ARM_SYSTEM_CALL      0x404   /* ARM system call number */
-+#define NT_ARM_SVE      0x405           /* ARM Scalable Vector Extension regs */
+diff --git a/include/hw/arm/exynos4210.h b/include/hw/arm/exynos4210.h
+index f0f23b0e9b2..55260394af6 100644
+--- a/include/hw/arm/exynos4210.h
++++ b/include/hw/arm/exynos4210.h
+@@ -24,6 +24,7 @@
+ #ifndef EXYNOS4210_H
+ #define EXYNOS4210_H
  
- /*
-  * Physical entry point into the kernel.
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 40f2c45e17e..c1aedbeac0d 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -980,6 +980,31 @@ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
- void aarch64_sve_change_el(CPUARMState *env, int old_el,
-                            int new_el, bool el0_a64);
- void aarch64_add_sve_properties(Object *obj);
++#include "hw/or-irq.h"
+ #include "hw/sysbus.h"
+ #include "target/arm/cpu-qom.h"
+ 
+@@ -74,6 +75,8 @@
+ 
+ #define EXYNOS4210_I2C_NUMBER               9
+ 
++#define EXYNOS4210_NUM_DMA      3
 +
-+/*
-+ * SVE registers are encoded in KVM's memory in an endianness-invariant format.
-+ * The byte at offset i from the start of the in-memory representation contains
-+ * the bits [(7 + 8 * i) : (8 * i)] of the register value. As this means the
-+ * lowest offsets are stored in the lowest memory addresses, then that nearly
-+ * matches QEMU's representation, which is to use an array of host-endian
-+ * uint64_t's, where the lower offsets are at the lower indices. To complete
-+ * the translation we just need to byte swap the uint64_t's on big-endian hosts.
-+ */
-+static inline uint64_t *sve_bswap64(uint64_t *dst, uint64_t *src, int nr)
+ typedef struct Exynos4210Irq {
+     qemu_irq int_combiner_irq[EXYNOS4210_MAX_INT_COMBINER_IN_IRQ];
+     qemu_irq ext_combiner_irq[EXYNOS4210_MAX_EXT_COMBINER_IN_IRQ];
+@@ -97,6 +100,7 @@ typedef struct Exynos4210State {
+     MemoryRegion boot_secondary;
+     MemoryRegion bootreg_mem;
+     I2CBus *i2c_if[EXYNOS4210_I2C_NUMBER];
++    qemu_or_irq pl330_irq_orgate[EXYNOS4210_NUM_DMA];
+ } Exynos4210State;
+ 
+ #define TYPE_EXYNOS4210_SOC "exynos4210"
+diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+index 77fbe1baabc..7701a3fa8bd 100644
+--- a/hw/arm/exynos4210.c
++++ b/hw/arm/exynos4210.c
+@@ -166,17 +166,36 @@ static uint64_t exynos4210_calc_affinity(int cpu)
+     return (0x9 << ARM_AFF1_SHIFT) | cpu;
+ }
+ 
+-static void pl330_create(uint32_t base, qemu_irq irq, int nreq)
++static void pl330_create(uint32_t base, qemu_or_irq *orgate, qemu_irq irq,
++                         int nreq, int nevents, int width)
+ {
+     SysBusDevice *busdev;
+     DeviceState *dev;
++    int i;
+ 
+     dev = qdev_create(NULL, "pl330");
++    qdev_prop_set_uint8(dev, "num_events", nevents);
++    qdev_prop_set_uint8(dev, "num_chnls",  8);
+     qdev_prop_set_uint8(dev, "num_periph_req",  nreq);
++
++    qdev_prop_set_uint8(dev, "wr_cap", 4);
++    qdev_prop_set_uint8(dev, "wr_q_dep", 8);
++    qdev_prop_set_uint8(dev, "rd_cap", 4);
++    qdev_prop_set_uint8(dev, "rd_q_dep", 8);
++    qdev_prop_set_uint8(dev, "data_width", width);
++    qdev_prop_set_uint16(dev, "data_buffer_dep", width);
+     qdev_init_nofail(dev);
+     busdev = SYS_BUS_DEVICE(dev);
+     sysbus_mmio_map(busdev, 0, base);
+-    sysbus_connect_irq(busdev, 0, irq);
++
++    object_property_set_int(OBJECT(orgate), nevents + 1, "num-lines",
++                            &error_abort);
++    object_property_set_bool(OBJECT(orgate), true, "realized", &error_abort);
++
++    for (i = 0; i < nevents + 1; i++) {
++        sysbus_connect_irq(busdev, i, qdev_get_gpio_in(DEVICE(orgate), i));
++    }
++    qdev_connect_gpio_out(DEVICE(orgate), 0, irq);
+ }
+ 
+ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+@@ -431,12 +450,27 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+             s->irq_table[exynos4210_get_irq(28, 3)]);
+ 
+     /*** DMA controllers ***/
+-    pl330_create(EXYNOS4210_PL330_BASE0_ADDR,
+-                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(35, 1)]), 32);
+-    pl330_create(EXYNOS4210_PL330_BASE1_ADDR,
+-                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(36, 1)]), 32);
+-    pl330_create(EXYNOS4210_PL330_BASE2_ADDR,
+-                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(34, 1)]), 1);
++    pl330_create(EXYNOS4210_PL330_BASE0_ADDR, &s->pl330_irq_orgate[0],
++                 s->irq_table[exynos4210_get_irq(21, 0)], 32, 32, 32);
++    pl330_create(EXYNOS4210_PL330_BASE1_ADDR, &s->pl330_irq_orgate[1],
++                 s->irq_table[exynos4210_get_irq(21, 1)], 32, 32, 32);
++    pl330_create(EXYNOS4210_PL330_BASE2_ADDR, &s->pl330_irq_orgate[2],
++                 s->irq_table[exynos4210_get_irq(20, 1)], 1, 31, 64);
++}
++
++static void exynos4210_init(Object *obj)
 +{
-+#ifdef HOST_WORDS_BIGENDIAN
++    Exynos4210State *s = EXYNOS4210_SOC(obj);
 +    int i;
 +
-+    for (i = 0; i < nr; ++i) {
-+        dst[i] = bswap64(src[i]);
++    for (i = 0; i < ARRAY_SIZE(s->pl330_irq_orgate); i++) {
++        char *name = g_strdup_printf("pl330-irq-orgate%d", i);
++        qemu_or_irq *orgate = &s->pl330_irq_orgate[i];
++
++        object_initialize_child(obj, name, orgate, sizeof(*orgate),
++                                TYPE_OR_IRQ, &error_abort, NULL);
++        g_free(name);
 +    }
-+
-+    return dst;
-+#else
-+    return src;
-+#endif
-+}
-+
- #else
- static inline void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq) { }
- static inline void aarch64_sve_change_el(CPUARMState *env, int o,
-diff --git a/target/arm/arch_dump.c b/target/arm/arch_dump.c
-index 26a2c098687..2345dec3c2c 100644
---- a/target/arm/arch_dump.c
-+++ b/target/arm/arch_dump.c
-@@ -62,12 +62,23 @@ struct aarch64_user_vfp_state {
- 
- QEMU_BUILD_BUG_ON(sizeof(struct aarch64_user_vfp_state) != 528);
- 
-+/* struct user_sve_header from arch/arm64/include/uapi/asm/ptrace.h */
-+struct aarch64_user_sve_header {
-+    uint32_t size;
-+    uint32_t max_size;
-+    uint16_t vl;
-+    uint16_t max_vl;
-+    uint16_t flags;
-+    uint16_t reserved;
-+} QEMU_PACKED;
-+
- struct aarch64_note {
-     Elf64_Nhdr hdr;
-     char name[8]; /* align_up(sizeof("CORE"), 4) */
-     union {
-         struct aarch64_elf_prstatus prstatus;
-         struct aarch64_user_vfp_state vfp;
-+        struct aarch64_user_sve_header sve;
-     };
- } QEMU_PACKED;
- 
-@@ -76,6 +87,8 @@ struct aarch64_note {
-             (AARCH64_NOTE_HEADER_SIZE + sizeof(struct aarch64_elf_prstatus))
- #define AARCH64_PRFPREG_NOTE_SIZE \
-             (AARCH64_NOTE_HEADER_SIZE + sizeof(struct aarch64_user_vfp_state))
-+#define AARCH64_SVE_NOTE_SIZE(env) \
-+            (AARCH64_NOTE_HEADER_SIZE + sve_size(env))
- 
- static void aarch64_note_init(struct aarch64_note *note, DumpState *s,
-                               const char *name, Elf64_Word namesz,
-@@ -128,11 +141,102 @@ static int aarch64_write_elf64_prfpreg(WriteCoreDumpFunction f,
-     return 0;
  }
  
-+#ifdef TARGET_AARCH64
-+static off_t sve_zreg_offset(uint32_t vq, int n)
-+{
-+    off_t off = sizeof(struct aarch64_user_sve_header);
-+    return ROUND_UP(off, 16) + vq * 16 * n;
-+}
-+
-+static off_t sve_preg_offset(uint32_t vq, int n)
-+{
-+    return sve_zreg_offset(vq, 32) + vq * 16 / 8 * n;
-+}
-+
-+static off_t sve_fpsr_offset(uint32_t vq)
-+{
-+    off_t off = sve_preg_offset(vq, 17);
-+    return ROUND_UP(off, 16);
-+}
-+
-+static off_t sve_fpcr_offset(uint32_t vq)
-+{
-+    return sve_fpsr_offset(vq) + sizeof(uint32_t);
-+}
-+
-+static uint32_t sve_current_vq(CPUARMState *env)
-+{
-+    return sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
-+}
-+
-+static size_t sve_size_vq(uint32_t vq)
-+{
-+    off_t off = sve_fpcr_offset(vq) + sizeof(uint32_t);
-+    return ROUND_UP(off, 16);
-+}
-+
-+static size_t sve_size(CPUARMState *env)
-+{
-+    return sve_size_vq(sve_current_vq(env));
-+}
-+
-+static int aarch64_write_elf64_sve(WriteCoreDumpFunction f,
-+                                   CPUARMState *env, int cpuid,
-+                                   DumpState *s)
-+{
-+    struct aarch64_note *note;
-+    ARMCPU *cpu = env_archcpu(env);
-+    uint32_t vq = sve_current_vq(env);
-+    uint64_t tmp[ARM_MAX_VQ * 2], *r;
-+    uint32_t fpr;
-+    uint8_t *buf;
-+    int ret, i;
-+
-+    note = g_malloc0(AARCH64_SVE_NOTE_SIZE(env));
-+    buf = (uint8_t *)&note->sve;
-+
-+    aarch64_note_init(note, s, "LINUX", 6, NT_ARM_SVE, sve_size_vq(vq));
-+
-+    note->sve.size = cpu_to_dump32(s, sve_size_vq(vq));
-+    note->sve.max_size = cpu_to_dump32(s, sve_size_vq(cpu->sve_max_vq));
-+    note->sve.vl = cpu_to_dump16(s, vq * 16);
-+    note->sve.max_vl = cpu_to_dump16(s, cpu->sve_max_vq * 16);
-+    note->sve.flags = cpu_to_dump16(s, 1);
-+
-+    for (i = 0; i < 32; ++i) {
-+        r = sve_bswap64(tmp, &env->vfp.zregs[i].d[0], vq * 2);
-+        memcpy(&buf[sve_zreg_offset(vq, i)], r, vq * 16);
-+    }
-+
-+    for (i = 0; i < 17; ++i) {
-+        r = sve_bswap64(tmp, r = &env->vfp.pregs[i].p[0],
-+                        DIV_ROUND_UP(vq * 2, 8));
-+        memcpy(&buf[sve_preg_offset(vq, i)], r, vq * 16 / 8);
-+    }
-+
-+    fpr = cpu_to_dump32(s, vfp_get_fpsr(env));
-+    memcpy(&buf[sve_fpsr_offset(vq)], &fpr, sizeof(uint32_t));
-+
-+    fpr = cpu_to_dump32(s, vfp_get_fpcr(env));
-+    memcpy(&buf[sve_fpcr_offset(vq)], &fpr, sizeof(uint32_t));
-+
-+    ret = f(note, AARCH64_SVE_NOTE_SIZE(env), s);
-+    g_free(note);
-+
-+    if (ret < 0) {
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+#endif
-+
- int arm_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-                              int cpuid, void *opaque)
- {
-     struct aarch64_note note;
--    CPUARMState *env = &ARM_CPU(cs)->env;
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    CPUARMState *env = &cpu->env;
-     DumpState *s = opaque;
-     uint64_t pstate, sp;
-     int ret, i;
-@@ -163,7 +267,18 @@ int arm_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-         return -1;
-     }
+ static void exynos4210_class_init(ObjectClass *klass, void *data)
+@@ -450,6 +484,7 @@ static const TypeInfo exynos4210_info = {
+     .name = TYPE_EXYNOS4210_SOC,
+     .parent = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(Exynos4210State),
++    .instance_init = exynos4210_init,
+     .class_init = exynos4210_class_init,
+ };
  
--    return aarch64_write_elf64_prfpreg(f, env, cpuid, s);
-+    ret = aarch64_write_elf64_prfpreg(f, env, cpuid, s);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+#ifdef TARGET_AARCH64
-+    if (cpu_isar_feature(aa64_sve, cpu)) {
-+        ret = aarch64_write_elf64_sve(f, env, cpuid, s);
-+    }
-+#endif
-+
-+    return ret;
- }
- 
- /* struct pt_regs from arch/arm/include/asm/ptrace.h */
-@@ -335,6 +450,11 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
-     if (class == ELFCLASS64) {
-         note_size = AARCH64_PRSTATUS_NOTE_SIZE;
-         note_size += AARCH64_PRFPREG_NOTE_SIZE;
-+#ifdef TARGET_AARCH64
-+        if (cpu_isar_feature(aa64_sve, cpu)) {
-+            note_size += AARCH64_SVE_NOTE_SIZE(env);
-+        }
-+#endif
-     } else {
-         note_size = ARM_PRSTATUS_NOTE_SIZE;
-         if (arm_feature(env, ARM_FEATURE_VFP)) {
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 876184b8fe4..e2da756e65e 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -876,30 +876,6 @@ static int kvm_arch_put_fpsimd(CPUState *cs)
-     return 0;
- }
- 
--/*
-- * SVE registers are encoded in KVM's memory in an endianness-invariant format.
-- * The byte at offset i from the start of the in-memory representation contains
-- * the bits [(7 + 8 * i) : (8 * i)] of the register value. As this means the
-- * lowest offsets are stored in the lowest memory addresses, then that nearly
-- * matches QEMU's representation, which is to use an array of host-endian
-- * uint64_t's, where the lower offsets are at the lower indices. To complete
-- * the translation we just need to byte swap the uint64_t's on big-endian hosts.
-- */
--static uint64_t *sve_bswap64(uint64_t *dst, uint64_t *src, int nr)
--{
--#ifdef HOST_WORDS_BIGENDIAN
--    int i;
--
--    for (i = 0; i < nr; ++i) {
--        dst[i] = bswap64(src[i]);
--    }
--
--    return dst;
--#else
--    return src;
--#endif
--}
--
- /*
-  * KVM SVE registers come in slices where ZREGs have a slice size of 2048 bits
-  * and PREGS and the FFR have a slice size of 256 bits. However we simply hard
 -- 
 2.20.1
 
