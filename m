@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96722146B74
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:36:52 +0100 (CET)
-Received: from localhost ([::1]:58186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A9B146BBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:49:45 +0100 (CET)
+Received: from localhost ([::1]:58406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iudbH-0006xo-5M
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:36:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41751)
+	id 1iudnk-00080z-5U
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:49:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41719)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iubAm-0004GD-Ox
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:21 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iubAl-0006fe-NN
+ (envelope-from <dgilbert@redhat.com>) id 1iubAl-0004Fl-Iq
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37678
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAl-0006dC-FB
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <dgilbert@redhat.com>) id 1iubAj-0006d7-L0
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:19 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52437
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAi-0006bJ-4R
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780877;
+ s=mimecast20190719; t=1579780875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dp4GreLUjRX8OdN+BXxczHvI9YCaaBlKuOswvS9jdOo=;
- b=EAyGTvg3NOebsA2YI5d4hJk89SSkTbrDwgKgABiVCj9nJx+tDZjMqyaleBBzjKVC7zstxN
- cgehZ+wWWbzAEakEWeygxcxeNp/NQm8RSCvuMYBoZAu/Suy9hahYwKjwMNvYPmfDhSMxvF
- SLQa4EM447tDnzkCYjyhvvrcoOsFu1s=
+ bh=gB1RSOX5RQcMIwg7eijdA5s/Ix1cF/u9GB6nvKLgVHA=;
+ b=OPp/+ukhvbqKlr2mbRps72T6nHQVcpVXhraGGvKqp+MN5WkiTPNC7IDo3LVmzKKSnNYi1s
+ Ph8T4yfxqgT+mR0m++fZ+H4O/6NOiUF+Da6lLyI7f/ZWYQ99anz2aX1aMesCp9AMsuZFPV
+ lyZiFIkr42xSGNfGPEJ0DLKgHOJsL9M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-h6Bamv39O76QEH1HPBnFNA-1; Thu, 23 Jan 2020 07:01:10 -0500
+ us-mta-45-g6n4aSmAOxOp8ChHkJtIbg-1; Thu, 23 Jan 2020 07:01:11 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9D7DA0CD0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:01:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A353118A6EC1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:01:10 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E967F1CB;
- Thu, 23 Jan 2020 12:01:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EEBCF1CB;
+ Thu, 23 Jan 2020 12:01:09 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 101/111] virtiofsd: passthrough_ll: Use cache_readdir for
- directory open
-Date: Thu, 23 Jan 2020 11:58:31 +0000
-Message-Id: <20200123115841.138849-102-dgilbert@redhat.com>
+Subject: [PULL 102/111] virtiofsd: add definition of fuse_buf_writev()
+Date: Thu, 23 Jan 2020 11:58:32 +0000
+Message-Id: <20200123115841.138849-103-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: h6Bamv39O76QEH1HPBnFNA-1
+X-MC-Unique: g6n4aSmAOxOp8ChHkJtIbg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,33 +74,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+From: piaojun <piaojun@huawei.com>
 
-Since keep_cache(FOPEN_KEEP_CACHE) has no effect for directory as
-described in fuse_common.h, use cache_readdir(FOPNE_CACHE_DIR) for
-diretory open when cache=3Dalways mode.
+Define fuse_buf_writev() which use pwritev and writev to improve io
+bandwidth. Especially, the src bufs with 0 size should be skipped as
+their mems are not *block_size* aligned which will cause writev failed
+in direct io mode.
 
-Signed-off-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
+Signed-off-by: Jun Piao <piaojun@huawei.com>
+Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/virtiofsd/buffer.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 4c61ac5065..79b8b71a4f 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -1523,7 +1523,7 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t ino=
-,
+diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
+index 42a608f6bd..37befebac2 100644
+--- a/tools/virtiofsd/buffer.c
++++ b/tools/virtiofsd/buffer.c
+@@ -14,6 +14,7 @@
+ #include "fuse_lowlevel.h"
+ #include <assert.h>
+ #include <errno.h>
++#include <stdlib.h>
+ #include <string.h>
+ #include <unistd.h>
 =20
-     fi->fh =3D fh;
-     if (lo->cache =3D=3D CACHE_ALWAYS) {
--        fi->keep_cache =3D 1;
-+        fi->cache_readdir =3D 1;
-     }
-     fuse_reply_open(req, fi);
-     return;
+@@ -33,6 +34,43 @@ size_t fuse_buf_size(const struct fuse_bufvec *bufv)
+     return size;
+ }
+=20
++__attribute__((unused))
++static ssize_t fuse_buf_writev(struct fuse_buf *out_buf,
++                               struct fuse_bufvec *in_buf)
++{
++    ssize_t res, i, j;
++    size_t iovcnt =3D in_buf->count;
++    struct iovec *iov;
++    int fd =3D out_buf->fd;
++
++    iov =3D calloc(iovcnt, sizeof(struct iovec));
++    if (!iov) {
++        return -ENOMEM;
++    }
++
++    for (i =3D 0, j =3D 0; i < iovcnt; i++) {
++        /* Skip the buf with 0 size */
++        if (in_buf->buf[i].size) {
++            iov[j].iov_base =3D in_buf->buf[i].mem;
++            iov[j].iov_len =3D in_buf->buf[i].size;
++            j++;
++        }
++    }
++
++    if (out_buf->flags & FUSE_BUF_FD_SEEK) {
++        res =3D pwritev(fd, iov, iovcnt, out_buf->pos);
++    } else {
++        res =3D writev(fd, iov, iovcnt);
++    }
++
++    if (res =3D=3D -1) {
++        res =3D -errno;
++    }
++
++    free(iov);
++    return res;
++}
++
+ static size_t min_size(size_t s1, size_t s2)
+ {
+     return s1 < s2 ? s1 : s2;
 --=20
 2.24.1
 
