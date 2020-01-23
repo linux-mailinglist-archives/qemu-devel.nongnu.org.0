@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A281468EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:22:19 +0100 (CET)
-Received: from localhost ([::1]:56952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F0C1468F7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:24:57 +0100 (CET)
+Received: from localhost ([::1]:56986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iucR7-0003sX-Oq
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:22:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39845)
+	id 1iucTg-0007NL-Dx
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:24:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39933)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iub8E-0001DR-70
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:43 -0500
+ (envelope-from <quintela@redhat.com>) id 1iub8Q-0001V7-3L
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iub8C-0004ad-QZ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:41 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32745
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1iub8O-0004hk-Qx
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:53 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45677
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iub8C-0004Zt-NG
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:40 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iub8O-0004ha-OP
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:58:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780720;
+ s=mimecast20190719; t=1579780732;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YVwFHlvCrCQSIgmA/PDAW+q5oaorS0w+rbhohuhNnuU=;
- b=D1sbgwbc8jBk4nrk4jIy3xPY0Ek1NF6mLj5BmUsThTwcL+QShqVKemZ0XKCFbNrG9Aszn6
- XYWCfnoCLdoW3tHLtzqsUNVqJ3Z7q5fSdjcloRVQj5IJ8scYaWuFpZwmsEzaUH2Ux+sDFS
- u5t7XV2tdFEyD3pRtOE4EVb9fk2hYvE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=++FvK0c0O8G0FXeU4NNIduuz4jqnbR+m4cIilJeA5Vw=;
+ b=Vgl6g2L+Tl2FADo7aMU9uR2KKchiBzY4k0VllhbpZKogG+Z8UWG5qWxOtswQ5gc2xnlLyW
+ rr7Wh90txxuvERnI3DsAQAQWAMH3uBecyz1RGWFW4EAcpQ6m/QdJhVQv9j3dEQcqK/Q9b4
+ xkDy1mpddc/HxH0YTDsqyJfsn9vKutI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-6c7SejFoOHu_70RkuKLtFw-1; Thu, 23 Jan 2020 06:58:36 -0500
+ us-mta-271-FKfEMo5-M6O5iKQ-YjiltA-1; Thu, 23 Jan 2020 06:58:49 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDD731005512
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:58:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E55E477
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:58:48 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-207.ams2.redhat.com [10.36.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC37819C69;
- Thu, 23 Jan 2020 11:58:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBD7419C69;
+ Thu, 23 Jan 2020 11:58:45 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/21] Multifd Migration Compression
-Date: Thu, 23 Jan 2020 12:58:10 +0100
-Message-Id: <20200123115831.36842-1-quintela@redhat.com>
+Subject: [PATCH v3 05/21] migration: Create migration_is_running()
+Date: Thu, 23 Jan 2020 12:58:15 +0100
+Message-Id: <20200123115831.36842-6-quintela@redhat.com>
+In-Reply-To: <20200123115831.36842-1-quintela@redhat.com>
+References: <20200123115831.36842-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 6c7SejFoOHu_70RkuKLtFw-1
+X-MC-Unique: FKfEMo5-M6O5iKQ-YjiltA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,104 +79,109 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[v3]
-- rebased on top of upstream + previous multifd cancel series
-- split multifd code into its own file (multifd.[ch])
-- split zstd/zlib compression methods (multifd-zstd/zlib.c)
-- use qemu module feauture to avoid ifdefs
-  (my understanding is that zlib needs to be present, but
-  we setup zstd only if it is not there or is disabled)
-- multifd-method: none|zlib|zstd
+This function returns if we are in the middle of a migration.
+It is like migration_is_setup_or_active() with CANCELLING and COLO.
+Adapt all calers that are needed.
 
-  As far as I can see, there is no easy way to convince qapi that zstd
-  option could/couldn't be there depending on compliation flags. I
-  ended just checking in migrate_parameters_check() if it is enabled
-  and giving an error message otherwise.
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/migration.c | 29 ++++++++++++++++++++++++-----
+ migration/migration.h |  1 +
+ migration/savevm.c    |  4 +---
+ 3 files changed, 26 insertions(+), 8 deletions(-)
 
-Questions:
-- I am "reusing" the compress-level parameter for both zstd and zlib,
-  but it poses a problem:
-  * zlib values: 1-9 (default: 6?)
-  * zstd values: 1-19 (default: 3)
-So, what should I do:
-  * create multifd-zstd-level and multifd-zlib-level (easier)
-  * reuse compress-level, and change its maximum values depending on
-    multifd-method
-  * any other good option?
-
-Please, review.
-
-[v2] - rebase on top of previous arguments posted to the list -
-introduces zlib compression - introduces zstd compression
-
-Please help if you know anything about zstd/zlib compression.
-
-This puts compression on top of multifd. Advantages about current
-compression:
-
-- We copy all pages in a single packet and then compress the whole
-  thing.
-
-- We reuse the compression stream for all the packets sent through the
-  same channel.
-
-- We can select nocomp/zlib/zstd levels of compression.
-
-Please, review.
-
-Juan Quintela (21):
-  migration-test: Use g_free() instead of free()
-  multifd: Make sure that we don't do any IO after an error
-  qemu-file: Don't do IO after shutdown
-  migration-test: Make sure that multifd and cancel works
-  migration: Create migration_is_running()
-  migration: Don't send data if we have stopped
-  migration: Make multifd_save_setup() get an Error parameter
-  migration: Make multifd_load_setup() get an Error parameter
-  migration: Add multifd-compress parameter
-  ram_addr: Split RAMBlock definition
-  multifd: multifd_send_pages only needs the qemufile
-  multifd: multifd_queue_page only needs the qemufile
-  multifd: multifd_send_sync_main only needs the qemufile
-  multifd: Use qemu_target_page_size()
-  migration: Make checkpatch happy with comments
-  migration: Add support for modules
-  multifd: Split multifd code into its own file
-  migration: Make no compression operations into its own structure
-  migration: Add zlib compression multifd support
-  configure: Enable test and libs for zstd
-  migration: Add zstd compression multifd support
-
- MAINTAINERS                  |    1 +
- configure                    |   30 +
- hw/core/qdev-properties.c    |   13 +
- include/exec/ram_addr.h      |   40 +-
- include/exec/ramblock.h      |   64 ++
- include/hw/qdev-properties.h |    3 +
- include/qemu/module.h        |    2 +
- migration/Makefile.objs      |    3 +
- migration/migration.c        |   97 +++-
- migration/migration.h        |    4 +-
- migration/multifd-zlib.c     |  289 +++++++++
- migration/multifd-zstd.c     |  304 ++++++++++
- migration/multifd.c          | 1064 ++++++++++++++++++++++++++++++++++
- migration/multifd.h          |  185 ++++++
- migration/qemu-file.c        |   22 +-
- migration/ram.c              | 1006 +-------------------------------
- migration/ram.h              |    7 -
- migration/rdma.c             |    2 +-
- migration/savevm.c           |    4 +-
- monitor/hmp-cmds.c           |   13 +
- qapi/migration.json          |   30 +-
- tests/qtest/migration-test.c |  142 ++++-
- vl.c                         |    1 +
- 23 files changed, 2266 insertions(+), 1060 deletions(-)
- create mode 100644 include/exec/ramblock.h
- create mode 100644 migration/multifd-zlib.c
- create mode 100644 migration/multifd-zstd.c
- create mode 100644 migration/multifd.c
- create mode 100644 migration/multifd.h
-
+diff --git a/migration/migration.c b/migration/migration.c
+index 990bff00c0..1fb0aab44d 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -829,6 +829,27 @@ bool migration_is_setup_or_active(int state)
+     }
+ }
+=20
++bool migration_is_running(int state)
++{
++    switch (state) {
++    case MIGRATION_STATUS_ACTIVE:
++    case MIGRATION_STATUS_POSTCOPY_ACTIVE:
++    case MIGRATION_STATUS_POSTCOPY_PAUSED:
++    case MIGRATION_STATUS_POSTCOPY_RECOVER:
++    case MIGRATION_STATUS_SETUP:
++    case MIGRATION_STATUS_PRE_SWITCHOVER:
++    case MIGRATION_STATUS_DEVICE:
++    case MIGRATION_STATUS_WAIT_UNPLUG:
++    case MIGRATION_STATUS_CANCELLING:
++    case MIGRATION_STATUS_COLO:
++        return true;
++
++    default:
++        return false;
++
++    }
++}
++
+ static void populate_time_info(MigrationInfo *info, MigrationState *s)
+ {
+     info->has_status =3D true;
+@@ -1077,7 +1098,7 @@ void qmp_migrate_set_capabilities(MigrationCapability=
+StatusList *params,
+     MigrationCapabilityStatusList *cap;
+     bool cap_list[MIGRATION_CAPABILITY__MAX];
+=20
+-    if (migration_is_setup_or_active(s->state)) {
++    if (migration_is_running(s->state)) {
+         error_setg(errp, QERR_MIGRATION_ACTIVE);
+         return;
+     }
+@@ -1590,7 +1611,7 @@ static void migrate_fd_cancel(MigrationState *s)
+=20
+     do {
+         old_state =3D s->state;
+-        if (!migration_is_setup_or_active(old_state)) {
++        if (!migration_is_running(old_state)) {
+             break;
+         }
+         /* If the migration is paused, kick it out of the pause */
+@@ -1888,9 +1909,7 @@ static bool migrate_prepare(MigrationState *s, bool b=
+lk, bool blk_inc,
+         return true;
+     }
+=20
+-    if (migration_is_setup_or_active(s->state) ||
+-        s->state =3D=3D MIGRATION_STATUS_CANCELLING ||
+-        s->state =3D=3D MIGRATION_STATUS_COLO) {
++    if (migration_is_running(s->state)) {
+         error_setg(errp, QERR_MIGRATION_ACTIVE);
+         return false;
+     }
+diff --git a/migration/migration.h b/migration/migration.h
+index aa9ff6f27b..44b1d56929 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -279,6 +279,7 @@ void migrate_fd_error(MigrationState *s, const Error *e=
+rror);
+ void migrate_fd_connect(MigrationState *s, Error *error_in);
+=20
+ bool migration_is_setup_or_active(int state);
++bool migration_is_running(int state);
+=20
+ void migrate_init(MigrationState *s);
+ bool migration_is_blocked(Error **errp);
+diff --git a/migration/savevm.c b/migration/savevm.c
+index adfdca26ac..f19cb9ec7a 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1531,9 +1531,7 @@ static int qemu_savevm_state(QEMUFile *f, Error **err=
+p)
+     MigrationState *ms =3D migrate_get_current();
+     MigrationStatus status;
+=20
+-    if (migration_is_setup_or_active(ms->state) ||
+-        ms->state =3D=3D MIGRATION_STATUS_CANCELLING ||
+-        ms->state =3D=3D MIGRATION_STATUS_COLO) {
++    if (migration_is_running(ms->state)) {
+         error_setg(errp, QERR_MIGRATION_ACTIVE);
+         return -EINVAL;
+     }
 --=20
 2.24.1
 
