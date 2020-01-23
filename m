@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023CF1474C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 00:25:48 +0100 (CET)
-Received: from localhost ([::1]:35372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D2A1474B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 00:24:25 +0100 (CET)
+Received: from localhost ([::1]:35324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iulr9-0004Ci-1f
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 18:25:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52339)
+	id 1iulpo-0001gY-9L
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 18:24:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52364)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iuloO-0008LW-2m
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 18:22:57 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iuloT-0008VK-7p
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 18:23:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iuloM-0007al-Rk
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 18:22:56 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:39283)
+ (envelope-from <richard.henderson@linaro.org>) id 1iuloP-0007cl-Dj
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 18:23:01 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41265)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iuloM-0007aG-M4
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 18:22:54 -0500
-Received: by mail-pl1-x644.google.com with SMTP id g6so2024973plp.6
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 15:22:54 -0800 (PST)
+ id 1iuloP-0007c8-3I
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 18:22:57 -0500
+Received: by mail-pf1-x444.google.com with SMTP id w62so146943pfw.8
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 15:22:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cQhgygH4bfZwxR3NyGM41BM8azlcJTXClsEEe4Z5yDA=;
- b=svIfdfGxzZjrQc9r73XIU1tmARm1Kiahm3975LpZai4h7EIG/AORsfvamIxLtgedly
- RcTI2q1Da4imcJxzruXBENPeugIBkiljE/9JZFCWM8b2pDmVjfiiI7FQoGK3jCOLVMj1
- 8XSM6MNBUWF0ZDwclQezhS4tpJvSdd4XDDLmSxhqWg0SOarRpW/zbiNfE4d0VrkUQ1ww
- 6e/d07gYHBV7k8NiVaAhqXSGAoLwLcY3i1F0fijwEC/gnhbHV8jcuXoqACPM8lmaXGmn
- 0opnsvr+pmurPiOGuYH3y5A8GOgMRpzyx9RkYp2+vih6s9CzDicjb4khGIrDLYXl+phU
- byfw==
+ bh=IGNDPL2Meg2Sa+Ln4Vpxrll2sfttHqj9POtYPYv3Zr8=;
+ b=m9Zg6e0rtq0C1kTfNzzdbPZl0R7T8eXy4HWrESozzJEgz7ZJpk1l6j0t16thu5Je0o
+ qrNGAQS7gor1///rnM9KLdhdpwhPUwtYuB/iIaxh3tYPr6Tndm1eBQjFh5FrDTihpDmK
+ 3WyY+Tb52kkcHfirgWV0aECSfNbs9NlTCRVWhrRteqhpKXE0gIkbkh726EuIFj2mdfkB
+ ya3ZoTiUtJzoj70pzgcDLndYIjBbN7J11L4s+WkwWtKeCpJz6nh2VA/JaB4HgIRYcfcI
+ uiQPRJfSDqjEtWd99xk8sf7Tkne9DYBSw3xea6jGxdN9TvuVPtfKSgUiDs13VbeCR9yA
+ ZDiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cQhgygH4bfZwxR3NyGM41BM8azlcJTXClsEEe4Z5yDA=;
- b=PZDpAq7HxOFRkisdWpswR/+KLvDf3nWIcaOwLwqDfXGD/m33GlZ+nu1guIYSqwot9Z
- h4xFqLA6fXTMC11RqyKAEHJ8yHEGfEzQpr+HoK7yHs82Bx2jl//vUHoEyRsLzoAGHUHK
- c6Au/whGuSrQ9v8T87CMkm2619CbR8Rxw6QaNd2YjOv+kglKlvWpERT5OjqtHfkX3lp3
- 1htdgsvbOR9Ze1ciXAZHRugKtVM4XCq6GeBBaXzUa6sdV1apyPdEzilWp1FBkm1vZQyc
- /Pkcyy8oO9/uDYwFsOVwjbDQhrYGb2HoLzPOIiM1rHhkbxNW4Yk06tNLLHcMfEiERMig
- fP3A==
-X-Gm-Message-State: APjAAAXAfP93xztbM0ME8xSkhI7n8fMz8BZyrzY2STtKlM52LK6obegB
- 7pErgICyAAzCszCO+a7pXCb3nRcoxkQ=
-X-Google-Smtp-Source: APXvYqx988qaj/4AkCChERIJL+pz0xMcZpGT5gqLzhkKBuZZeGzYyYwowsbY6j65Ssk2zp8Im/boXw==
-X-Received: by 2002:a17:90a:d801:: with SMTP id a1mr135700pjv.34.1579821773293; 
- Thu, 23 Jan 2020 15:22:53 -0800 (PST)
+ bh=IGNDPL2Meg2Sa+Ln4Vpxrll2sfttHqj9POtYPYv3Zr8=;
+ b=XsjHwnMkwmhXaEnV1qhM8qliQzccYuHJapD4Y51GUfxUWjRifJjyQXH3IsHtsK7rp/
+ xsjWkRt+Kvy/eeIYhen9idb+mDDFH7Tz+oaoBoQjTUYJBzL87o6UDZUYvL/6QFvtwWlI
+ xbP1p6m8+CvZ2+MlqwiyQ0HjF/DVaq/lDDkTPBVgJftMmr0npTMnCCw8KiZ0zd9imwGU
+ LF5ESOo4qMexGhW3JqwzbqneC5E1ebcbTNnX3YalfkWFEnUjYnqX5YmHrhQcM9iGaJxw
+ MXFZa9ln0fD52m+4jfodcEFoNkh+aqIDBX8wjt/VXD9mNzlxcE/V7uRu4GV8QpBxCdDW
+ 5/UQ==
+X-Gm-Message-State: APjAAAWVxO8RtCJ+y9MdFUdP7oxnLdWNJo6wR8lGDximA9IeN01ihqZk
+ OaPLkpOKqYXLtbjYM08PAk9/fIpvvIg=
+X-Google-Smtp-Source: APXvYqz6ftZMI3fN8+B+y0N1z4kXQ+cG6XRAILnIkBdBkaUvKaMaQApSnBR35M8LTnQ7K8mpqZ034A==
+X-Received: by 2002:aa7:85d9:: with SMTP id z25mr593217pfn.223.1579821775206; 
+ Thu, 23 Jan 2020 15:22:55 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-198-77-92.west.biz.rr.com.
  [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id z5sm4136008pfq.3.2020.01.23.15.22.51
+ by smtp.gmail.com with ESMTPSA id z5sm4136008pfq.3.2020.01.23.15.22.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2020 15:22:52 -0800 (PST)
+ Thu, 23 Jan 2020 15:22:54 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/5] target/s390x: Move struct DisasFields definition earlier
-Date: Thu, 23 Jan 2020 13:22:44 -1000
-Message-Id: <20200123232248.1800-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/5] target/s390x: Remove DisasFields argument from callbacks
+Date: Thu, 23 Jan 2020 13:22:45 -1000
+Message-Id: <20200123232248.1800-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200123232248.1800-1-richard.henderson@linaro.org>
 References: <20200123232248.1800-1-richard.henderson@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,195 +82,991 @@ Cc: thuth@redhat.com, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will want to include the struct in DisasContext.
+The DisasFields data is available from DisasContext.
+We do not need to pass a separate argument.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/translate.c | 164 ++++++++++++++++++++-------------------
- 1 file changed, 83 insertions(+), 81 deletions(-)
+ target/s390x/translate.c | 417 ++++++++++++++++++++-------------------
+ 1 file changed, 210 insertions(+), 207 deletions(-)
 
 diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index b764ec3140..7ef228843a 100644
+index 7ef228843a..7d3dcc4fab 100644
 --- a/target/s390x/translate.c
 +++ b/target/s390x/translate.c
-@@ -53,6 +53,89 @@ typedef struct DisasContext DisasContext;
- typedef struct DisasInsn DisasInsn;
- typedef struct DisasFields DisasFields;
+@@ -1223,15 +1223,15 @@ struct DisasInsn {
+     const char *name;
  
-+/*
-+ * Define a structure to hold the decoded fields.  We'll store each inside
-+ * an array indexed by an enum.  In order to conserve memory, we'll arrange
-+ * for fields that do not exist at the same time to overlap, thus the "C"
-+ * for compact.  For checking purposes there is an "O" for original index
-+ * as well that will be applied to availability bitmaps.
-+ */
-+
-+enum DisasFieldIndexO {
-+    FLD_O_r1,
-+    FLD_O_r2,
-+    FLD_O_r3,
-+    FLD_O_m1,
-+    FLD_O_m3,
-+    FLD_O_m4,
-+    FLD_O_m5,
-+    FLD_O_m6,
-+    FLD_O_b1,
-+    FLD_O_b2,
-+    FLD_O_b4,
-+    FLD_O_d1,
-+    FLD_O_d2,
-+    FLD_O_d4,
-+    FLD_O_x2,
-+    FLD_O_l1,
-+    FLD_O_l2,
-+    FLD_O_i1,
-+    FLD_O_i2,
-+    FLD_O_i3,
-+    FLD_O_i4,
-+    FLD_O_i5,
-+    FLD_O_v1,
-+    FLD_O_v2,
-+    FLD_O_v3,
-+    FLD_O_v4,
-+};
-+
-+enum DisasFieldIndexC {
-+    FLD_C_r1 = 0,
-+    FLD_C_m1 = 0,
-+    FLD_C_b1 = 0,
-+    FLD_C_i1 = 0,
-+    FLD_C_v1 = 0,
-+
-+    FLD_C_r2 = 1,
-+    FLD_C_b2 = 1,
-+    FLD_C_i2 = 1,
-+
-+    FLD_C_r3 = 2,
-+    FLD_C_m3 = 2,
-+    FLD_C_i3 = 2,
-+    FLD_C_v3 = 2,
-+
-+    FLD_C_m4 = 3,
-+    FLD_C_b4 = 3,
-+    FLD_C_i4 = 3,
-+    FLD_C_l1 = 3,
-+    FLD_C_v4 = 3,
-+
-+    FLD_C_i5 = 4,
-+    FLD_C_d1 = 4,
-+    FLD_C_m5 = 4,
-+
-+    FLD_C_d2 = 5,
-+    FLD_C_m6 = 5,
-+
-+    FLD_C_d4 = 6,
-+    FLD_C_x2 = 6,
-+    FLD_C_l2 = 6,
-+    FLD_C_v2 = 6,
-+
-+    NUM_C_FIELD = 7
-+};
-+
-+struct DisasFields {
-+    uint64_t raw_insn;
-+    unsigned op:8;
-+    unsigned op2:8;
-+    unsigned presentC:16;
-+    unsigned int presentO;
-+    int c[NUM_C_FIELD];
-+};
-+
- struct DisasContext {
-     DisasContextBase base;
-     const DisasInsn *insn;
-@@ -1005,87 +1088,6 @@ typedef enum {
- #undef F5
- #undef F6
+     /* Pre-process arguments before HELP_OP.  */
+-    void (*help_in1)(DisasContext *, DisasFields *, DisasOps *);
+-    void (*help_in2)(DisasContext *, DisasFields *, DisasOps *);
+-    void (*help_prep)(DisasContext *, DisasFields *, DisasOps *);
++    void (*help_in1)(DisasContext *, DisasOps *);
++    void (*help_in2)(DisasContext *, DisasOps *);
++    void (*help_prep)(DisasContext *, DisasOps *);
  
--/* Define a structure to hold the decoded fields.  We'll store each inside
--   an array indexed by an enum.  In order to conserve memory, we'll arrange
--   for fields that do not exist at the same time to overlap, thus the "C"
--   for compact.  For checking purposes there is an "O" for original index
--   as well that will be applied to availability bitmaps.  */
--
--enum DisasFieldIndexO {
--    FLD_O_r1,
--    FLD_O_r2,
--    FLD_O_r3,
--    FLD_O_m1,
--    FLD_O_m3,
--    FLD_O_m4,
--    FLD_O_m5,
--    FLD_O_m6,
--    FLD_O_b1,
--    FLD_O_b2,
--    FLD_O_b4,
--    FLD_O_d1,
--    FLD_O_d2,
--    FLD_O_d4,
--    FLD_O_x2,
--    FLD_O_l1,
--    FLD_O_l2,
--    FLD_O_i1,
--    FLD_O_i2,
--    FLD_O_i3,
--    FLD_O_i4,
--    FLD_O_i5,
--    FLD_O_v1,
--    FLD_O_v2,
--    FLD_O_v3,
--    FLD_O_v4,
--};
--
--enum DisasFieldIndexC {
--    FLD_C_r1 = 0,
--    FLD_C_m1 = 0,
--    FLD_C_b1 = 0,
--    FLD_C_i1 = 0,
--    FLD_C_v1 = 0,
--
--    FLD_C_r2 = 1,
--    FLD_C_b2 = 1,
--    FLD_C_i2 = 1,
--
--    FLD_C_r3 = 2,
--    FLD_C_m3 = 2,
--    FLD_C_i3 = 2,
--    FLD_C_v3 = 2,
--
--    FLD_C_m4 = 3,
--    FLD_C_b4 = 3,
--    FLD_C_i4 = 3,
--    FLD_C_l1 = 3,
--    FLD_C_v4 = 3,
--
--    FLD_C_i5 = 4,
--    FLD_C_d1 = 4,
--    FLD_C_m5 = 4,
--
--    FLD_C_d2 = 5,
--    FLD_C_m6 = 5,
--
--    FLD_C_d4 = 6,
--    FLD_C_x2 = 6,
--    FLD_C_l2 = 6,
--    FLD_C_v2 = 6,
--
--    NUM_C_FIELD = 7
--};
--
--struct DisasFields {
--    uint64_t raw_insn;
--    unsigned op:8;
--    unsigned op2:8;
--    unsigned presentC:16;
--    unsigned int presentO;
--    int c[NUM_C_FIELD];
--};
--
- /* This is the way fields are to be accessed out of DisasFields.  */
- #define have_field(S, F)  have_field1((S), FLD_O_##F)
- #define get_field(S, F)   get_field1((S), FLD_O_##F, FLD_C_##F)
+     /*
+      * Post-process output after HELP_OP.
+      * Note that these are not called if HELP_OP returns DISAS_NORETURN.
+      */
+-    void (*help_wout)(DisasContext *, DisasFields *, DisasOps *);
++    void (*help_wout)(DisasContext *, DisasOps *);
+     void (*help_cout)(DisasContext *, DisasOps *);
+ 
+     /* Implement the operation itself.  */
+@@ -1243,11 +1243,10 @@ struct DisasInsn {
+ /* ====================================================================== */
+ /* Miscellaneous helpers, used by several operations.  */
+ 
+-static void help_l2_shift(DisasContext *s, DisasFields *f,
+-                          DisasOps *o, int mask)
++static void help_l2_shift(DisasContext *s, DisasOps *o, int mask)
+ {
+-    int b2 = get_field(f, b2);
+-    int d2 = get_field(f, d2);
++    int b2 = get_field(s->fields, b2);
++    int d2 = get_field(s->fields, d2);
+ 
+     if (b2 == 0) {
+         o->in2 = tcg_const_i64(d2 & mask);
+@@ -5290,29 +5289,29 @@ static void cout_tm64(DisasContext *s, DisasOps *o)
+    the "wout" generators, in some cases we need a new temporary, and in
+    some cases we can write to a TCG global.  */
+ 
+-static void prep_new(DisasContext *s, DisasFields *f, DisasOps *o)
++static void prep_new(DisasContext *s, DisasOps *o)
+ {
+     o->out = tcg_temp_new_i64();
+ }
+ #define SPEC_prep_new 0
+ 
+-static void prep_new_P(DisasContext *s, DisasFields *f, DisasOps *o)
++static void prep_new_P(DisasContext *s, DisasOps *o)
+ {
+     o->out = tcg_temp_new_i64();
+     o->out2 = tcg_temp_new_i64();
+ }
+ #define SPEC_prep_new_P 0
+ 
+-static void prep_r1(DisasContext *s, DisasFields *f, DisasOps *o)
++static void prep_r1(DisasContext *s, DisasOps *o)
+ {
+-    o->out = regs[get_field(f, r1)];
++    o->out = regs[get_field(s->fields, r1)];
+     o->g_out = true;
+ }
+ #define SPEC_prep_r1 0
+ 
+-static void prep_r1_P(DisasContext *s, DisasFields *f, DisasOps *o)
++static void prep_r1_P(DisasContext *s, DisasOps *o)
+ {
+-    int r1 = get_field(f, r1);
++    int r1 = get_field(s->fields, r1);
+     o->out = regs[r1];
+     o->out2 = regs[r1 + 1];
+     o->g_out = o->g_out2 = true;
+@@ -5320,10 +5319,10 @@ static void prep_r1_P(DisasContext *s, DisasFields *f, DisasOps *o)
+ #define SPEC_prep_r1_P SPEC_r1_even
+ 
+ /* Whenever we need x1 in addition to other inputs, we'll load it to out/out2 */
+-static void prep_x1(DisasContext *s, DisasFields *f, DisasOps *o)
++static void prep_x1(DisasContext *s, DisasOps *o)
+ {
+-    o->out = load_freg(get_field(f, r1));
+-    o->out2 = load_freg(get_field(f, r1) + 2);
++    o->out = load_freg(get_field(s->fields, r1));
++    o->out2 = load_freg(get_field(s->fields, r1) + 2);
+ }
+ #define SPEC_prep_x1 SPEC_r1_f128
+ 
+@@ -5333,84 +5332,84 @@ static void prep_x1(DisasContext *s, DisasFields *f, DisasOps *o)
+    generally handled by having a "prep" generator install the TCG global
+    as the destination of the operation.  */
+ 
+-static void wout_r1(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_r1(DisasContext *s, DisasOps *o)
+ {
+-    store_reg(get_field(f, r1), o->out);
++    store_reg(get_field(s->fields, r1), o->out);
+ }
+ #define SPEC_wout_r1 0
+ 
+-static void wout_r1_8(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_r1_8(DisasContext *s, DisasOps *o)
+ {
+-    int r1 = get_field(f, r1);
++    int r1 = get_field(s->fields, r1);
+     tcg_gen_deposit_i64(regs[r1], regs[r1], o->out, 0, 8);
+ }
+ #define SPEC_wout_r1_8 0
+ 
+-static void wout_r1_16(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_r1_16(DisasContext *s, DisasOps *o)
+ {
+-    int r1 = get_field(f, r1);
++    int r1 = get_field(s->fields, r1);
+     tcg_gen_deposit_i64(regs[r1], regs[r1], o->out, 0, 16);
+ }
+ #define SPEC_wout_r1_16 0
+ 
+-static void wout_r1_32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_r1_32(DisasContext *s, DisasOps *o)
+ {
+-    store_reg32_i64(get_field(f, r1), o->out);
++    store_reg32_i64(get_field(s->fields, r1), o->out);
+ }
+ #define SPEC_wout_r1_32 0
+ 
+-static void wout_r1_32h(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_r1_32h(DisasContext *s, DisasOps *o)
+ {
+-    store_reg32h_i64(get_field(f, r1), o->out);
++    store_reg32h_i64(get_field(s->fields, r1), o->out);
+ }
+ #define SPEC_wout_r1_32h 0
+ 
+-static void wout_r1_P32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_r1_P32(DisasContext *s, DisasOps *o)
+ {
+-    int r1 = get_field(f, r1);
++    int r1 = get_field(s->fields, r1);
+     store_reg32_i64(r1, o->out);
+     store_reg32_i64(r1 + 1, o->out2);
+ }
+ #define SPEC_wout_r1_P32 SPEC_r1_even
+ 
+-static void wout_r1_D32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_r1_D32(DisasContext *s, DisasOps *o)
+ {
+-    int r1 = get_field(f, r1);
++    int r1 = get_field(s->fields, r1);
+     store_reg32_i64(r1 + 1, o->out);
+     tcg_gen_shri_i64(o->out, o->out, 32);
+     store_reg32_i64(r1, o->out);
+ }
+ #define SPEC_wout_r1_D32 SPEC_r1_even
+ 
+-static void wout_r3_P32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_r3_P32(DisasContext *s, DisasOps *o)
+ {
+-    int r3 = get_field(f, r3);
++    int r3 = get_field(s->fields, r3);
+     store_reg32_i64(r3, o->out);
+     store_reg32_i64(r3 + 1, o->out2);
+ }
+ #define SPEC_wout_r3_P32 SPEC_r3_even
+ 
+-static void wout_r3_P64(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_r3_P64(DisasContext *s, DisasOps *o)
+ {
+-    int r3 = get_field(f, r3);
++    int r3 = get_field(s->fields, r3);
+     store_reg(r3, o->out);
+     store_reg(r3 + 1, o->out2);
+ }
+ #define SPEC_wout_r3_P64 SPEC_r3_even
+ 
+-static void wout_e1(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_e1(DisasContext *s, DisasOps *o)
+ {
+-    store_freg32_i64(get_field(f, r1), o->out);
++    store_freg32_i64(get_field(s->fields, r1), o->out);
+ }
+ #define SPEC_wout_e1 0
+ 
+-static void wout_f1(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_f1(DisasContext *s, DisasOps *o)
+ {
+-    store_freg(get_field(f, r1), o->out);
++    store_freg(get_field(s->fields, r1), o->out);
+ }
+ #define SPEC_wout_f1 0
+ 
+-static void wout_x1(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_x1(DisasContext *s, DisasOps *o)
+ {
+     int f1 = get_field(s->fields, r1);
+     store_freg(f1, o->out);
+@@ -5418,282 +5417,284 @@ static void wout_x1(DisasContext *s, DisasFields *f, DisasOps *o)
+ }
+ #define SPEC_wout_x1 SPEC_r1_f128
+ 
+-static void wout_cond_r1r2_32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_cond_r1r2_32(DisasContext *s, DisasOps *o)
+ {
+-    if (get_field(f, r1) != get_field(f, r2)) {
+-        store_reg32_i64(get_field(f, r1), o->out);
++    if (get_field(s->fields, r1) != get_field(s->fields, r2)) {
++        store_reg32_i64(get_field(s->fields, r1), o->out);
+     }
+ }
+ #define SPEC_wout_cond_r1r2_32 0
+ 
+-static void wout_cond_e1e2(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_cond_e1e2(DisasContext *s, DisasOps *o)
+ {
+-    if (get_field(f, r1) != get_field(f, r2)) {
+-        store_freg32_i64(get_field(f, r1), o->out);
++    if (get_field(s->fields, r1) != get_field(s->fields, r2)) {
++        store_freg32_i64(get_field(s->fields, r1), o->out);
+     }
+ }
+ #define SPEC_wout_cond_e1e2 0
+ 
+-static void wout_m1_8(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_m1_8(DisasContext *s, DisasOps *o)
+ {
+     tcg_gen_qemu_st8(o->out, o->addr1, get_mem_index(s));
+ }
+ #define SPEC_wout_m1_8 0
+ 
+-static void wout_m1_16(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_m1_16(DisasContext *s, DisasOps *o)
+ {
+     tcg_gen_qemu_st16(o->out, o->addr1, get_mem_index(s));
+ }
+ #define SPEC_wout_m1_16 0
+ 
+ #ifndef CONFIG_USER_ONLY
+-static void wout_m1_16a(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_m1_16a(DisasContext *s, DisasOps *o)
+ {
+     tcg_gen_qemu_st_tl(o->out, o->addr1, get_mem_index(s), MO_TEUW | MO_ALIGN);
+ }
+ #define SPEC_wout_m1_16a 0
+ #endif
+ 
+-static void wout_m1_32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_m1_32(DisasContext *s, DisasOps *o)
+ {
+     tcg_gen_qemu_st32(o->out, o->addr1, get_mem_index(s));
+ }
+ #define SPEC_wout_m1_32 0
+ 
+ #ifndef CONFIG_USER_ONLY
+-static void wout_m1_32a(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_m1_32a(DisasContext *s, DisasOps *o)
+ {
+     tcg_gen_qemu_st_tl(o->out, o->addr1, get_mem_index(s), MO_TEUL | MO_ALIGN);
+ }
+ #define SPEC_wout_m1_32a 0
+ #endif
+ 
+-static void wout_m1_64(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_m1_64(DisasContext *s, DisasOps *o)
+ {
+     tcg_gen_qemu_st64(o->out, o->addr1, get_mem_index(s));
+ }
+ #define SPEC_wout_m1_64 0
+ 
+ #ifndef CONFIG_USER_ONLY
+-static void wout_m1_64a(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_m1_64a(DisasContext *s, DisasOps *o)
+ {
+     tcg_gen_qemu_st_i64(o->out, o->addr1, get_mem_index(s), MO_TEQ | MO_ALIGN);
+ }
+ #define SPEC_wout_m1_64a 0
+ #endif
+ 
+-static void wout_m2_32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_m2_32(DisasContext *s, DisasOps *o)
+ {
+     tcg_gen_qemu_st32(o->out, o->in2, get_mem_index(s));
+ }
+ #define SPEC_wout_m2_32 0
+ 
+-static void wout_in2_r1(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_in2_r1(DisasContext *s, DisasOps *o)
+ {
+-    store_reg(get_field(f, r1), o->in2);
++    store_reg(get_field(s->fields, r1), o->in2);
+ }
+ #define SPEC_wout_in2_r1 0
+ 
+-static void wout_in2_r1_32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void wout_in2_r1_32(DisasContext *s, DisasOps *o)
+ {
+-    store_reg32_i64(get_field(f, r1), o->in2);
++    store_reg32_i64(get_field(s->fields, r1), o->in2);
+ }
+ #define SPEC_wout_in2_r1_32 0
+ 
+ /* ====================================================================== */
+ /* The "INput 1" generators.  These load the first operand to an insn.  */
+ 
+-static void in1_r1(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r1(DisasContext *s, DisasOps *o)
+ {
+-    o->in1 = load_reg(get_field(f, r1));
++    o->in1 = load_reg(get_field(s->fields, r1));
+ }
+ #define SPEC_in1_r1 0
+ 
+-static void in1_r1_o(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r1_o(DisasContext *s, DisasOps *o)
+ {
+-    o->in1 = regs[get_field(f, r1)];
++    o->in1 = regs[get_field(s->fields, r1)];
+     o->g_in1 = true;
+ }
+ #define SPEC_in1_r1_o 0
+ 
+-static void in1_r1_32s(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r1_32s(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = tcg_temp_new_i64();
+-    tcg_gen_ext32s_i64(o->in1, regs[get_field(f, r1)]);
++    tcg_gen_ext32s_i64(o->in1, regs[get_field(s->fields, r1)]);
+ }
+ #define SPEC_in1_r1_32s 0
+ 
+-static void in1_r1_32u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r1_32u(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = tcg_temp_new_i64();
+-    tcg_gen_ext32u_i64(o->in1, regs[get_field(f, r1)]);
++    tcg_gen_ext32u_i64(o->in1, regs[get_field(s->fields, r1)]);
+ }
+ #define SPEC_in1_r1_32u 0
+ 
+-static void in1_r1_sr32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r1_sr32(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = tcg_temp_new_i64();
+-    tcg_gen_shri_i64(o->in1, regs[get_field(f, r1)], 32);
++    tcg_gen_shri_i64(o->in1, regs[get_field(s->fields, r1)], 32);
+ }
+ #define SPEC_in1_r1_sr32 0
+ 
+-static void in1_r1p1(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r1p1(DisasContext *s, DisasOps *o)
+ {
+-    o->in1 = load_reg(get_field(f, r1) + 1);
++    o->in1 = load_reg(get_field(s->fields, r1) + 1);
+ }
+ #define SPEC_in1_r1p1 SPEC_r1_even
+ 
+-static void in1_r1p1_32s(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r1p1_32s(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = tcg_temp_new_i64();
+-    tcg_gen_ext32s_i64(o->in1, regs[get_field(f, r1) + 1]);
++    tcg_gen_ext32s_i64(o->in1, regs[get_field(s->fields, r1) + 1]);
+ }
+ #define SPEC_in1_r1p1_32s SPEC_r1_even
+ 
+-static void in1_r1p1_32u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r1p1_32u(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = tcg_temp_new_i64();
+-    tcg_gen_ext32u_i64(o->in1, regs[get_field(f, r1) + 1]);
++    tcg_gen_ext32u_i64(o->in1, regs[get_field(s->fields, r1) + 1]);
+ }
+ #define SPEC_in1_r1p1_32u SPEC_r1_even
+ 
+-static void in1_r1_D32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r1_D32(DisasContext *s, DisasOps *o)
+ {
+-    int r1 = get_field(f, r1);
++    int r1 = get_field(s->fields, r1);
+     o->in1 = tcg_temp_new_i64();
+     tcg_gen_concat32_i64(o->in1, regs[r1 + 1], regs[r1]);
+ }
+ #define SPEC_in1_r1_D32 SPEC_r1_even
+ 
+-static void in1_r2(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r2(DisasContext *s, DisasOps *o)
+ {
+-    o->in1 = load_reg(get_field(f, r2));
++    o->in1 = load_reg(get_field(s->fields, r2));
+ }
+ #define SPEC_in1_r2 0
+ 
+-static void in1_r2_sr32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r2_sr32(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = tcg_temp_new_i64();
+-    tcg_gen_shri_i64(o->in1, regs[get_field(f, r2)], 32);
++    tcg_gen_shri_i64(o->in1, regs[get_field(s->fields, r2)], 32);
+ }
+ #define SPEC_in1_r2_sr32 0
+ 
+-static void in1_r3(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r3(DisasContext *s, DisasOps *o)
+ {
+-    o->in1 = load_reg(get_field(f, r3));
++    o->in1 = load_reg(get_field(s->fields, r3));
+ }
+ #define SPEC_in1_r3 0
+ 
+-static void in1_r3_o(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r3_o(DisasContext *s, DisasOps *o)
+ {
+-    o->in1 = regs[get_field(f, r3)];
++    o->in1 = regs[get_field(s->fields, r3)];
+     o->g_in1 = true;
+ }
+ #define SPEC_in1_r3_o 0
+ 
+-static void in1_r3_32s(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r3_32s(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = tcg_temp_new_i64();
+-    tcg_gen_ext32s_i64(o->in1, regs[get_field(f, r3)]);
++    tcg_gen_ext32s_i64(o->in1, regs[get_field(s->fields, r3)]);
+ }
+ #define SPEC_in1_r3_32s 0
+ 
+-static void in1_r3_32u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r3_32u(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = tcg_temp_new_i64();
+-    tcg_gen_ext32u_i64(o->in1, regs[get_field(f, r3)]);
++    tcg_gen_ext32u_i64(o->in1, regs[get_field(s->fields, r3)]);
+ }
+ #define SPEC_in1_r3_32u 0
+ 
+-static void in1_r3_D32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_r3_D32(DisasContext *s, DisasOps *o)
+ {
+-    int r3 = get_field(f, r3);
++    int r3 = get_field(s->fields, r3);
+     o->in1 = tcg_temp_new_i64();
+     tcg_gen_concat32_i64(o->in1, regs[r3 + 1], regs[r3]);
+ }
+ #define SPEC_in1_r3_D32 SPEC_r3_even
+ 
+-static void in1_e1(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_e1(DisasContext *s, DisasOps *o)
+ {
+-    o->in1 = load_freg32_i64(get_field(f, r1));
++    o->in1 = load_freg32_i64(get_field(s->fields, r1));
+ }
+ #define SPEC_in1_e1 0
+ 
+-static void in1_f1(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_f1(DisasContext *s, DisasOps *o)
+ {
+-    o->in1 = load_freg(get_field(f, r1));
++    o->in1 = load_freg(get_field(s->fields, r1));
+ }
+ #define SPEC_in1_f1 0
+ 
+ /* Load the high double word of an extended (128-bit) format FP number */
+-static void in1_x2h(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_x2h(DisasContext *s, DisasOps *o)
+ {
+-    o->in1 = load_freg(get_field(f, r2));
++    o->in1 = load_freg(get_field(s->fields, r2));
+ }
+ #define SPEC_in1_x2h SPEC_r2_f128
+ 
+-static void in1_f3(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_f3(DisasContext *s, DisasOps *o)
+ {
+-    o->in1 = load_freg(get_field(f, r3));
++    o->in1 = load_freg(get_field(s->fields, r3));
+ }
+ #define SPEC_in1_f3 0
+ 
+-static void in1_la1(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_la1(DisasContext *s, DisasOps *o)
+ {
+-    o->addr1 = get_address(s, 0, get_field(f, b1), get_field(f, d1));
++    o->addr1 = get_address(s, 0, get_field(s->fields, b1),
++                           get_field(s->fields, d1));
+ }
+ #define SPEC_in1_la1 0
+ 
+-static void in1_la2(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_la2(DisasContext *s, DisasOps *o)
+ {
+-    int x2 = have_field(f, x2) ? get_field(f, x2) : 0;
+-    o->addr1 = get_address(s, x2, get_field(f, b2), get_field(f, d2));
++    int x2 = have_field(s->fields, x2) ? get_field(s->fields, x2) : 0;
++    o->addr1 = get_address(s, x2, get_field(s->fields, b2),
++                           get_field(s->fields, d2));
+ }
+ #define SPEC_in1_la2 0
+ 
+-static void in1_m1_8u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_m1_8u(DisasContext *s, DisasOps *o)
+ {
+-    in1_la1(s, f, o);
++    in1_la1(s, o);
+     o->in1 = tcg_temp_new_i64();
+     tcg_gen_qemu_ld8u(o->in1, o->addr1, get_mem_index(s));
+ }
+ #define SPEC_in1_m1_8u 0
+ 
+-static void in1_m1_16s(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_m1_16s(DisasContext *s, DisasOps *o)
+ {
+-    in1_la1(s, f, o);
++    in1_la1(s, o);
+     o->in1 = tcg_temp_new_i64();
+     tcg_gen_qemu_ld16s(o->in1, o->addr1, get_mem_index(s));
+ }
+ #define SPEC_in1_m1_16s 0
+ 
+-static void in1_m1_16u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_m1_16u(DisasContext *s, DisasOps *o)
+ {
+-    in1_la1(s, f, o);
++    in1_la1(s, o);
+     o->in1 = tcg_temp_new_i64();
+     tcg_gen_qemu_ld16u(o->in1, o->addr1, get_mem_index(s));
+ }
+ #define SPEC_in1_m1_16u 0
+ 
+-static void in1_m1_32s(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_m1_32s(DisasContext *s, DisasOps *o)
+ {
+-    in1_la1(s, f, o);
++    in1_la1(s, o);
+     o->in1 = tcg_temp_new_i64();
+     tcg_gen_qemu_ld32s(o->in1, o->addr1, get_mem_index(s));
+ }
+ #define SPEC_in1_m1_32s 0
+ 
+-static void in1_m1_32u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_m1_32u(DisasContext *s, DisasOps *o)
+ {
+-    in1_la1(s, f, o);
++    in1_la1(s, o);
+     o->in1 = tcg_temp_new_i64();
+     tcg_gen_qemu_ld32u(o->in1, o->addr1, get_mem_index(s));
+ }
+ #define SPEC_in1_m1_32u 0
+ 
+-static void in1_m1_64(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in1_m1_64(DisasContext *s, DisasOps *o)
+ {
+-    in1_la1(s, f, o);
++    in1_la1(s, o);
+     o->in1 = tcg_temp_new_i64();
+     tcg_gen_qemu_ld64(o->in1, o->addr1, get_mem_index(s));
+ }
+@@ -5702,304 +5703,306 @@ static void in1_m1_64(DisasContext *s, DisasFields *f, DisasOps *o)
+ /* ====================================================================== */
+ /* The "INput 2" generators.  These load the second operand to an insn.  */
+ 
+-static void in2_r1_o(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r1_o(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = regs[get_field(f, r1)];
++    o->in2 = regs[get_field(s->fields, r1)];
+     o->g_in2 = true;
+ }
+ #define SPEC_in2_r1_o 0
+ 
+-static void in2_r1_16u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r1_16u(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
+-    tcg_gen_ext16u_i64(o->in2, regs[get_field(f, r1)]);
++    tcg_gen_ext16u_i64(o->in2, regs[get_field(s->fields, r1)]);
+ }
+ #define SPEC_in2_r1_16u 0
+ 
+-static void in2_r1_32u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r1_32u(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
+-    tcg_gen_ext32u_i64(o->in2, regs[get_field(f, r1)]);
++    tcg_gen_ext32u_i64(o->in2, regs[get_field(s->fields, r1)]);
+ }
+ #define SPEC_in2_r1_32u 0
+ 
+-static void in2_r1_D32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r1_D32(DisasContext *s, DisasOps *o)
+ {
+-    int r1 = get_field(f, r1);
++    int r1 = get_field(s->fields, r1);
+     o->in2 = tcg_temp_new_i64();
+     tcg_gen_concat32_i64(o->in2, regs[r1 + 1], regs[r1]);
+ }
+ #define SPEC_in2_r1_D32 SPEC_r1_even
+ 
+-static void in2_r2(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r2(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = load_reg(get_field(f, r2));
++    o->in2 = load_reg(get_field(s->fields, r2));
+ }
+ #define SPEC_in2_r2 0
+ 
+-static void in2_r2_o(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r2_o(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = regs[get_field(f, r2)];
++    o->in2 = regs[get_field(s->fields, r2)];
+     o->g_in2 = true;
+ }
+ #define SPEC_in2_r2_o 0
+ 
+-static void in2_r2_nz(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r2_nz(DisasContext *s, DisasOps *o)
+ {
+-    int r2 = get_field(f, r2);
++    int r2 = get_field(s->fields, r2);
+     if (r2 != 0) {
+         o->in2 = load_reg(r2);
+     }
+ }
+ #define SPEC_in2_r2_nz 0
+ 
+-static void in2_r2_8s(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r2_8s(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
+-    tcg_gen_ext8s_i64(o->in2, regs[get_field(f, r2)]);
++    tcg_gen_ext8s_i64(o->in2, regs[get_field(s->fields, r2)]);
+ }
+ #define SPEC_in2_r2_8s 0
+ 
+-static void in2_r2_8u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r2_8u(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
+-    tcg_gen_ext8u_i64(o->in2, regs[get_field(f, r2)]);
++    tcg_gen_ext8u_i64(o->in2, regs[get_field(s->fields, r2)]);
+ }
+ #define SPEC_in2_r2_8u 0
+ 
+-static void in2_r2_16s(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r2_16s(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
+-    tcg_gen_ext16s_i64(o->in2, regs[get_field(f, r2)]);
++    tcg_gen_ext16s_i64(o->in2, regs[get_field(s->fields, r2)]);
+ }
+ #define SPEC_in2_r2_16s 0
+ 
+-static void in2_r2_16u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r2_16u(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
+-    tcg_gen_ext16u_i64(o->in2, regs[get_field(f, r2)]);
++    tcg_gen_ext16u_i64(o->in2, regs[get_field(s->fields, r2)]);
+ }
+ #define SPEC_in2_r2_16u 0
+ 
+-static void in2_r3(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r3(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = load_reg(get_field(f, r3));
++    o->in2 = load_reg(get_field(s->fields, r3));
+ }
+ #define SPEC_in2_r3 0
+ 
+-static void in2_r3_sr32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r3_sr32(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
+-    tcg_gen_shri_i64(o->in2, regs[get_field(f, r3)], 32);
++    tcg_gen_shri_i64(o->in2, regs[get_field(s->fields, r3)], 32);
+ }
+ #define SPEC_in2_r3_sr32 0
+ 
+-static void in2_r3_32u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r3_32u(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
+-    tcg_gen_ext32u_i64(o->in2, regs[get_field(f, r3)]);
++    tcg_gen_ext32u_i64(o->in2, regs[get_field(s->fields, r3)]);
+ }
+ #define SPEC_in2_r3_32u 0
+ 
+-static void in2_r2_32s(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r2_32s(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
+-    tcg_gen_ext32s_i64(o->in2, regs[get_field(f, r2)]);
++    tcg_gen_ext32s_i64(o->in2, regs[get_field(s->fields, r2)]);
+ }
+ #define SPEC_in2_r2_32s 0
+ 
+-static void in2_r2_32u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r2_32u(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
+-    tcg_gen_ext32u_i64(o->in2, regs[get_field(f, r2)]);
++    tcg_gen_ext32u_i64(o->in2, regs[get_field(s->fields, r2)]);
+ }
+ #define SPEC_in2_r2_32u 0
+ 
+-static void in2_r2_sr32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_r2_sr32(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_temp_new_i64();
+-    tcg_gen_shri_i64(o->in2, regs[get_field(f, r2)], 32);
++    tcg_gen_shri_i64(o->in2, regs[get_field(s->fields, r2)], 32);
+ }
+ #define SPEC_in2_r2_sr32 0
+ 
+-static void in2_e2(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_e2(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = load_freg32_i64(get_field(f, r2));
++    o->in2 = load_freg32_i64(get_field(s->fields, r2));
+ }
+ #define SPEC_in2_e2 0
+ 
+-static void in2_f2(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_f2(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = load_freg(get_field(f, r2));
++    o->in2 = load_freg(get_field(s->fields, r2));
+ }
+ #define SPEC_in2_f2 0
+ 
+ /* Load the low double word of an extended (128-bit) format FP number */
+-static void in2_x2l(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_x2l(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = load_freg(get_field(f, r2) + 2);
++    o->in2 = load_freg(get_field(s->fields, r2) + 2);
+ }
+ #define SPEC_in2_x2l SPEC_r2_f128
+ 
+-static void in2_ra2(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_ra2(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = get_address(s, 0, get_field(f, r2), 0);
++    o->in2 = get_address(s, 0, get_field(s->fields, r2), 0);
+ }
+ #define SPEC_in2_ra2 0
+ 
+-static void in2_a2(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_a2(DisasContext *s, DisasOps *o)
+ {
+-    int x2 = have_field(f, x2) ? get_field(f, x2) : 0;
+-    o->in2 = get_address(s, x2, get_field(f, b2), get_field(f, d2));
++    int x2 = have_field(s->fields, x2) ? get_field(s->fields, x2) : 0;
++    o->in2 = get_address(s, x2, get_field(s->fields, b2),
++                         get_field(s->fields, d2));
+ }
+ #define SPEC_in2_a2 0
+ 
+-static void in2_ri2(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_ri2(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = tcg_const_i64(s->base.pc_next + (int64_t)get_field(f, i2) * 2);
++    o->in2 = tcg_const_i64(s->base.pc_next +
++                           (int64_t)get_field(s->fields, i2) * 2);
+ }
+ #define SPEC_in2_ri2 0
+ 
+-static void in2_sh32(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_sh32(DisasContext *s, DisasOps *o)
+ {
+-    help_l2_shift(s, f, o, 31);
++    help_l2_shift(s, o, 31);
+ }
+ #define SPEC_in2_sh32 0
+ 
+-static void in2_sh64(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_sh64(DisasContext *s, DisasOps *o)
+ {
+-    help_l2_shift(s, f, o, 63);
++    help_l2_shift(s, o, 63);
+ }
+ #define SPEC_in2_sh64 0
+ 
+-static void in2_m2_8u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_m2_8u(DisasContext *s, DisasOps *o)
+ {
+-    in2_a2(s, f, o);
++    in2_a2(s, o);
+     tcg_gen_qemu_ld8u(o->in2, o->in2, get_mem_index(s));
+ }
+ #define SPEC_in2_m2_8u 0
+ 
+-static void in2_m2_16s(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_m2_16s(DisasContext *s, DisasOps *o)
+ {
+-    in2_a2(s, f, o);
++    in2_a2(s, o);
+     tcg_gen_qemu_ld16s(o->in2, o->in2, get_mem_index(s));
+ }
+ #define SPEC_in2_m2_16s 0
+ 
+-static void in2_m2_16u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_m2_16u(DisasContext *s, DisasOps *o)
+ {
+-    in2_a2(s, f, o);
++    in2_a2(s, o);
+     tcg_gen_qemu_ld16u(o->in2, o->in2, get_mem_index(s));
+ }
+ #define SPEC_in2_m2_16u 0
+ 
+-static void in2_m2_32s(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_m2_32s(DisasContext *s, DisasOps *o)
+ {
+-    in2_a2(s, f, o);
++    in2_a2(s, o);
+     tcg_gen_qemu_ld32s(o->in2, o->in2, get_mem_index(s));
+ }
+ #define SPEC_in2_m2_32s 0
+ 
+-static void in2_m2_32u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_m2_32u(DisasContext *s, DisasOps *o)
+ {
+-    in2_a2(s, f, o);
++    in2_a2(s, o);
+     tcg_gen_qemu_ld32u(o->in2, o->in2, get_mem_index(s));
+ }
+ #define SPEC_in2_m2_32u 0
+ 
+ #ifndef CONFIG_USER_ONLY
+-static void in2_m2_32ua(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_m2_32ua(DisasContext *s, DisasOps *o)
+ {
+-    in2_a2(s, f, o);
++    in2_a2(s, o);
+     tcg_gen_qemu_ld_tl(o->in2, o->in2, get_mem_index(s), MO_TEUL | MO_ALIGN);
+ }
+ #define SPEC_in2_m2_32ua 0
+ #endif
+ 
+-static void in2_m2_64(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_m2_64(DisasContext *s, DisasOps *o)
+ {
+-    in2_a2(s, f, o);
++    in2_a2(s, o);
+     tcg_gen_qemu_ld64(o->in2, o->in2, get_mem_index(s));
+ }
+ #define SPEC_in2_m2_64 0
+ 
+ #ifndef CONFIG_USER_ONLY
+-static void in2_m2_64a(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_m2_64a(DisasContext *s, DisasOps *o)
+ {
+-    in2_a2(s, f, o);
++    in2_a2(s, o);
+     tcg_gen_qemu_ld_i64(o->in2, o->in2, get_mem_index(s), MO_TEQ | MO_ALIGN);
+ }
+ #define SPEC_in2_m2_64a 0
+ #endif
+ 
+-static void in2_mri2_16u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_mri2_16u(DisasContext *s, DisasOps *o)
+ {
+-    in2_ri2(s, f, o);
++    in2_ri2(s, o);
+     tcg_gen_qemu_ld16u(o->in2, o->in2, get_mem_index(s));
+ }
+ #define SPEC_in2_mri2_16u 0
+ 
+-static void in2_mri2_32s(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_mri2_32s(DisasContext *s, DisasOps *o)
+ {
+-    in2_ri2(s, f, o);
++    in2_ri2(s, o);
+     tcg_gen_qemu_ld32s(o->in2, o->in2, get_mem_index(s));
+ }
+ #define SPEC_in2_mri2_32s 0
+ 
+-static void in2_mri2_32u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_mri2_32u(DisasContext *s, DisasOps *o)
+ {
+-    in2_ri2(s, f, o);
++    in2_ri2(s, o);
+     tcg_gen_qemu_ld32u(o->in2, o->in2, get_mem_index(s));
+ }
+ #define SPEC_in2_mri2_32u 0
+ 
+-static void in2_mri2_64(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_mri2_64(DisasContext *s, DisasOps *o)
+ {
+-    in2_ri2(s, f, o);
++    in2_ri2(s, o);
+     tcg_gen_qemu_ld64(o->in2, o->in2, get_mem_index(s));
+ }
+ #define SPEC_in2_mri2_64 0
+ 
+-static void in2_i2(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_i2(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = tcg_const_i64(get_field(f, i2));
++    o->in2 = tcg_const_i64(get_field(s->fields, i2));
+ }
+ #define SPEC_in2_i2 0
+ 
+-static void in2_i2_8u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_i2_8u(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = tcg_const_i64((uint8_t)get_field(f, i2));
++    o->in2 = tcg_const_i64((uint8_t)get_field(s->fields, i2));
+ }
+ #define SPEC_in2_i2_8u 0
+ 
+-static void in2_i2_16u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_i2_16u(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = tcg_const_i64((uint16_t)get_field(f, i2));
++    o->in2 = tcg_const_i64((uint16_t)get_field(s->fields, i2));
+ }
+ #define SPEC_in2_i2_16u 0
+ 
+-static void in2_i2_32u(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_i2_32u(DisasContext *s, DisasOps *o)
+ {
+-    o->in2 = tcg_const_i64((uint32_t)get_field(f, i2));
++    o->in2 = tcg_const_i64((uint32_t)get_field(s->fields, i2));
+ }
+ #define SPEC_in2_i2_32u 0
+ 
+-static void in2_i2_16u_shl(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_i2_16u_shl(DisasContext *s, DisasOps *o)
+ {
+-    uint64_t i2 = (uint16_t)get_field(f, i2);
++    uint64_t i2 = (uint16_t)get_field(s->fields, i2);
+     o->in2 = tcg_const_i64(i2 << s->insn->data);
+ }
+ #define SPEC_in2_i2_16u_shl 0
+ 
+-static void in2_i2_32u_shl(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_i2_32u_shl(DisasContext *s, DisasOps *o)
+ {
+-    uint64_t i2 = (uint32_t)get_field(f, i2);
++    uint64_t i2 = (uint32_t)get_field(s->fields, i2);
+     o->in2 = tcg_const_i64(i2 << s->insn->data);
+ }
+ #define SPEC_in2_i2_32u_shl 0
+ 
+ #ifndef CONFIG_USER_ONLY
+-static void in2_insn(DisasContext *s, DisasFields *f, DisasOps *o)
++static void in2_insn(DisasContext *s, DisasOps *o)
+ {
+     o->in2 = tcg_const_i64(s->fields->raw_insn);
+ }
+@@ -6388,20 +6391,20 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
+ 
+     /* Implement the instruction.  */
+     if (insn->help_in1) {
+-        insn->help_in1(s, &f, &o);
++        insn->help_in1(s, &o);
+     }
+     if (insn->help_in2) {
+-        insn->help_in2(s, &f, &o);
++        insn->help_in2(s, &o);
+     }
+     if (insn->help_prep) {
+-        insn->help_prep(s, &f, &o);
++        insn->help_prep(s, &o);
+     }
+     if (insn->help_op) {
+         ret = insn->help_op(s, &o);
+     }
+     if (ret != DISAS_NORETURN) {
+         if (insn->help_wout) {
+-            insn->help_wout(s, &f, &o);
++            insn->help_wout(s, &o);
+         }
+         if (insn->help_cout) {
+             insn->help_cout(s, &o);
 -- 
 2.20.1
 
