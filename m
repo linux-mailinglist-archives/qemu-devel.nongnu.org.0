@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09CA146CEB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:33:51 +0100 (CET)
-Received: from localhost ([::1]:59510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447C7146DA5
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:58:51 +0100 (CET)
+Received: from localhost ([::1]:59886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueUP-0001qd-W4
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:33:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48088)
+	id 1iuesb-0003Ar-RZ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:58:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48637)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iucch-00025R-QC
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:34:17 -0500
+ (envelope-from <wainersm@redhat.com>) id 1iucff-0005Ii-23
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:37:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iuccg-0001qJ-5o
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:34:15 -0500
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:42070)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iuccf-0001oQ-UP
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:34:14 -0500
-Received: by mail-ot1-x32c.google.com with SMTP id 66so2693385otd.9
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:34:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=Si3APmcwJHaxnSgAAuSnn/eIyYPEXg/zE0raJgzRfWU=;
- b=RQdaw0XZrvXEap7+R2lYLZAPFMBThcxTw9px9uoMliEWPEYVH3OBkQZJSDg42tQfY0
- kaIruMPgnSElXojU0N1Nd2uaBabv0ZTEUX5DmQw1K9tRqsinI271lP5KhUaWpZvckfFr
- L0TzOBHEIgvhGrhk8jAl6dTKd+KlssvVn6T1NR3QpdvB0i1Vz7HCWR+M4QZzxDm5S6Jp
- TCPHrmBuozCjLn8LXDc4AM0tx3wNIkbrwB+NgB7liwVxx3XtttaV6iL4cn/MHNkgyxwm
- 8kaPF0/uXWedEqtUh7pf1Jz0mk0w7lsrTUamJ/j4BHLTbbq7X+RCKY4ZOECiJoiMeNb+
- iQdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=Si3APmcwJHaxnSgAAuSnn/eIyYPEXg/zE0raJgzRfWU=;
- b=G3dKcaixg+R9yP+coBt5OLwg+kaCXwK4DLsdZfnDGg5QHyPA3H4vAEU+6Z6RsAOAjV
- F8XyCIJv3TwHCvnd3Ir+ZoutjD6aZpBVRR+5wZ7TZDTPZ7GxEvFTjxQVua0iU1NBwg66
- QuWEZK7JXh25pNgYg/l4BZqDwePRuRDqZ5AsNqRiK893E+hnOWFhFJebgwPmb4cT/e6g
- VCS0mLvs3JY5DmTGqnZjO22xkWpfEgKzt0TvgBRu3QCT86kzQTiNHmDlmWVTbhDxYGuE
- BjsckEHNgKbn7DuLaHbs1tHjG8V4k9ThZj3sWB4iSdxqNuCDgi069nY7dMZGKAojTYrF
- ltmw==
-X-Gm-Message-State: APjAAAVHxbf0JD9lVdqlpV3n95a5BGUw7xVr96dpiUDXys38rxu1bdzq
- 7PwNhUkm3IEWmGowihTEq0hHsvSrRWdOY6VuoEU=
-X-Google-Smtp-Source: APXvYqy/jdevM6trYpTEH3W4czi1Fpw9oE2eeXSjsgSRnCemIQtQuMS3ZQtB0U9QUmz+qK3SvLw5Xo1tZyEyjW9E1Dg=
-X-Received: by 2002:a9d:4c94:: with SMTP id m20mr11536931otf.341.1579786452358; 
- Thu, 23 Jan 2020 05:34:12 -0800 (PST)
+ (envelope-from <wainersm@redhat.com>) id 1iucfc-0005WU-5F
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:37:17 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51770
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iucfc-0005VM-1b
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:37:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579786635;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Mw7nZvFaWzDhHjWjW/hXLGY3g9G/m+tWwELCpw0u4oQ=;
+ b=hO5frbCxIwSf/MgRyb7sT/uXt15/5eD3OQNUGNTHPG2Yr246qkQaKZ+2mB/oxFdXPIImAP
+ xyQd48P2nx8T7O23wCV//NeX765xJVPWntFizQShrbQP25O0gXMpeU0jQfhf5ccE0ftURt
+ 1pi0aK4B8p/Vafr+1zTfPetd3EkuEn8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-nr7D_SI_Ns60twGKVpL-fw-1; Thu, 23 Jan 2020 08:37:13 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90ED68017CC;
+ Thu, 23 Jan 2020 13:37:12 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-27.gru2.redhat.com
+ [10.97.116.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B77A5D9E2;
+ Thu, 23 Jan 2020 13:36:58 +0000 (UTC)
+Subject: Re: [PATCH 5/6] tests/acceptance/virtio_seg_max_adjust: Restrict to
+ X86 architecture
+To: Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20200122223247.30419-1-philmd@redhat.com>
+ <20200122223247.30419-6-philmd@redhat.com>
+ <20200123124844.32e2aa09.cohuck@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <814cb9da-696c-0716-c1fe-247fd4e6cb05@redhat.com>
+Date: Thu, 23 Jan 2020 11:36:55 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 23 Jan 2020 14:34:01 +0100
-Message-ID: <CAL1e-=j5WJkV=X+KkfBuS3pjf6z3aJrtu4xpYeVbjEUYiWxxTQ@mail.gmail.com>
-Subject: [GSoC/Outreachy QEMU proposal] Extend support for ioctls in QEMU
- linux-user mode
-To: Laurent Vivier <laurent@vivier.eu>, Stefan Hajnoczi <stefanha@redhat.com>, 
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000505bb8059cceb285"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32c
+In-Reply-To: <20200123124844.32e2aa09.cohuck@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: nr7D_SI_Ns60twGKVpL-fw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,106 +78,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000505bb8059cceb285
-Content-Type: text/plain; charset="UTF-8"
 
-*Extend support for ioctls in QEMU linux-user mode*
-
-
-
-*PLANNED ACTIVITIES*
-
-BACKGROUND
-
-There is currently 2500+ ioctls defined in Linux kernel. QEMU linux-user
-currently supports only several hundred. There is a constant need for
-expanding ioctl support in QEMU. Users use Linux-user mode in variety of
-setups (for example, building and testing tools and applications under
-chroot environment), and, on a regular basis, efforts by multiple people
-are made to fill in missing support. However, these efforts have been
-usually done on a piece-by-piece basis, i a limited way covering a
-partucular need. This project will take more proactive stance, and try to
-improve QEMU before users start complaining.
-
-PART I:
-
-   a) Add strace support for outputing ioctl IDs (the second argument of
-ioctl()) as strings rather than numbers - for all platform independant
-ioctls.
-   b) Add strace support for printing the third argument of ioctl() (be it
-int, string, structure or array) - limited to selected ioctls that are
-frequently used.
-
-PART II:
-
-   a) Amend support for existing groups of ioctls that are not completed
-100% (let's say, filesystem ioctls)
-   b) Add support for a selected group of ioctls that are not currently
-supported (for example, dm ioctls, Bluetooth ioctls, or Radeon DRM ioctls)
-
-PART III:
-
-  a) Develop unit tests for selected ioctls that are already supported in
-QEMU.
-
-
-*DELIVERABLES*
-
-The deliverables are in the form of source code for each part, intended to
-be upstreamed, and time needed for upstreaming (addressing reviews, etc.)
-process is included int this project.
-
-The delivery of results can and should be distributed over larger period of
-time 2-3 months.
+On 1/23/20 9:48 AM, Cornelia Huck wrote:
+> On Wed, 22 Jan 2020 23:32:46 +0100
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+>
+>> Running on mainstream KVM architectures, we get:
+>>
+>> - Aarch64
+>>
+>>    Timeout.
+>>
+>>    job.log:
+>>    -------
+>>    No machine specified, and there is no default
+>>    Use -machine help to list supported machines
+> The code probably needs to be made more clever to find the machines to
+> run?
+>
+>> - MIPS:
+>>
+>>     (1/1) VirtioMaxSegSettingsCheck.test_machine_types: ERROR: argument =
+of type 'NoneType' is not iterable (0.14 s)
+>>
+>>    job.log:
+>>    -------
+>>    Could not load MIPS bios 'mipsel_bios.bin', and no -kernel argument w=
+as specified
+> Probably needs some hint from mips folks how this can be set up.
+>
+>> - PowerPC
+>>
+>>     (1/1) VirtioMaxSegSettingsCheck.test_machine_types: ERROR: invalid l=
+iteral for int() with base 10: 'sxxm' (0.16 s)
+>>
+>>    job.log:
+>>    -------
+>>    >>> {'execute': 'query-machines'}
+>>    <<< {'return': [{'hotpluggable-cpus': True, 'name': 'pseries-2.12-sxx=
+m', 'numa-mem-supported': True, 'default-cpu-type': 'power8_v2.0-powerpc64-=
+cpu', 'cpu-max': 1024, 'deprecated': False}, ...
+> This seems to be because the machine type parsing code cannot deal with
+> the format used here.
 
 
-Montor: open (I propose Laurent Vivier)
+Indeed, looking at the comments in code the parser was meant for PC types.
 
-Student: open
+Is there a way to obtain the machine type version other than parsing its=20
+name? If not, wouldn't be useful for management apps have that=20
+information returned with 'query-machines'?
 
---000000000000505bb8059cceb285
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+- Wainer
 
-<div dir=3D"ltr"><font size=3D"4"><b>Extend support for ioctls in QEMU linu=
-x-user mode</b></font><br><br><br><i><font size=3D"4">PLANNED ACTIVITIES<br=
-></font></i><div><br></div><div>BACKGROUND<br></div><div><br></div><div><di=
-v>There is currently 2500+ ioctls defined in Linux kernel. QEMU linux-user =
-currently supports only several hundred. <span id=3D"gmail-messageContent">=
-</span><span id=3D"gmail-messageContent">There is a constant need for expan=
-ding ioctl support in QEMU. Users use Linux-user mode in variety of setups =
-(for example, building and testing tools and applications under chroot envi=
-ronment), and, on a regular basis, efforts by multiple people are made to f=
-ill in missing support. However,
-these efforts have been usually done on a piece-by-piece basis, i a limited=
- way covering a partucular need. This=20
-project will take more proactive stance, and try to improve QEMU before=20
-users start complaining.</span><br><span id=3D"gmail-messageContent"></span=
-></div></div><div><br></div><span id=3D"gmail-messageContent">PART I:<br><b=
-r>=C2=A0=C2=A0 a) Add strace support for outputing ioctl IDs (the second ar=
-gument of ioctl()) as strings rather than numbers - for all platform indepe=
-ndant ioctls.<br>=C2=A0=C2=A0
- b) Add strace support for printing the third argument of ioctl() (be it in=
-t, string, structure or array) - limited to selected ioctls that are freque=
-ntly used.<br><br>PART II:<br><br>=C2=A0=C2=A0 a) Amend support for existin=
-g groups of ioctls that are not completed 100% (let&#39;s say, filesystem i=
-octls)<br>=C2=A0=C2=A0
- b) Add support for a selected group of ioctls that are not currently=20
-supported (for example, dm ioctls, Bluetooth ioctls, or Radeon DRM ioctls)<=
-br><br>PART III:<br><br></span><div><span id=3D"gmail-messageContent">=C2=
-=A0 a) Develop unit tests for selected ioctls that are already supported in=
- QEMU.</span></div><div><span id=3D"gmail-messageContent"><br></span></div>=
-<i><font size=3D"4">DELIVERABLES<br></font></i><div><br></div><div>The deli=
-verables are in the form of source code for each part, intended to be upstr=
-eamed, and time needed for upstreaming (addressing reviews, etc.) process i=
-s included int this project.<br></div><div><br></div><div><span id=3D"gmail=
--messageContent">The delivery of results can and should be distributed over=
- larger period of time 2-3 months.<br></span></div><div><span id=3D"gmail-m=
-essageContent"><br></span></div><div><br></div><div>Montor: open (I propose=
- Laurent Vivier)<br></div><div><br></div>Student: open</div>
+>> - S390X:
+>>
+>>     (1/1) VirtioMaxSegSettingsCheck.test_machine_types: ERROR: invalid l=
+iteral for int() with base 10: 'virtio' (0.14 s)
+>>
+>>    job.log:
+>>    -------
+>>    Traceback (most recent call last):
+>>      File "virtio_seg_max_adjust.py", line 139, in test_machine_types
+>>        if self.seg_max_adjust_enabled(m):
+>>      File "virtio_seg_max_adjust.py", line 113, in seg_max_adjust_enable=
+d
+>>        major =3D int(ver[0])
+>>    ValueError: invalid literal for int() with base 10: 'virtio'
+>>    >>> {'execute': 'query-machines'}
+>>    <<< {'return': [{'hotpluggable-cpus': True, 'name': 's390-ccw-virtio-=
+4.0', 'numa-mem-supported': False, 'default-cpu-type': 'qemu-s390x-cpu', 'c=
+pu-max': 248, 'deprecated': False}, ...
+> Same here.
+>
+>> Assuming this test is only expected to run on the X86 architecture,
+>> restrict the test to this particular architecture.
+>>
+>> When this test is run on other architecture, the tests will be skipped.
+>>
+>> Examples:
+>>
+>> - running on S390X:
+>>
+>>   (1/1) tests/acceptance/virtio_seg_max_adjust.py:VirtioMaxSegSettingsCh=
+eck.test_machine_types: SKIP: Architecture 's390' unsupported
+>>
+>> - running on Aarch64 setting the QEMU binary path:
+>>
+>>    $ uname -m && avocado --show=3Dapp run -p qemu_bin=3Dx86_64-softmmu/q=
+emu-system-x86_64 tests/acceptance/virtio_seg_max_adjust.py
+>>    aarch64
+>>    JOB ID     : 92b7fae8868920aada0cb143f9571dffdf60931d
+>>    JOB LOG    : job-results/job-2020-01-22T17.54-92b7fae/job.log
+>>     (1/1) tests/acceptance/virtio_seg_max_adjust.py:VirtioMaxSegSettings=
+Check.test_machine_types: PASS (25.99 s)
+>>    RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT =
+0 | CANCEL 0
+>>    JOB TIME   : 26.13 s
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>   tests/acceptance/virtio_seg_max_adjust.py | 11 +++++++++++
+>>   1 file changed, 11 insertions(+)
+>>
+>> diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptanc=
+e/virtio_seg_max_adjust.py
+>> index ad736bcda3..2fc6bfcbd8 100755
+>> --- a/tests/acceptance/virtio_seg_max_adjust.py
+>> +++ b/tests/acceptance/virtio_seg_max_adjust.py
+>> @@ -26,6 +26,7 @@ import logging
+>>   sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'p=
+ython'))
+>>   from qemu.machine import QEMUMachine
+>>   from avocado_qemu import Test
+>> +from avocado.core.exceptions import TestSkipError
+>>  =20
+>>   #list of machine types and virtqueue properties to test
+>>   VIRTIO_SCSI_PROPS =3D {'seg_max_adjust': 'seg_max_adjust'}
+>> @@ -117,12 +118,22 @@ class VirtioMaxSegSettingsCheck(Test):
+>>           return False
+>>  =20
+>>       def test_machine_types(self):
+>> +        """
+>> +        :avocado: tags=3Darch:i386
+>> +        :avocado: tags=3Darch:x86_64
+>> +        """
+>>           EXCLUDED_MACHINES =3D ['none', 'isapc', 'microvm']
+>>           if os.geteuid() !=3D 0:
+>>               EXCLUDED_MACHINES +=3D ['xenfv', 'xenpv']
+>>           # collect all machine types except the ones in EXCLUDED_MACHIN=
+ES
+>>           with QEMUMachine(self.qemu_bin) as vm:
+>>               vm.launch()
+>> +            # Skip test if target is not X86
+>> +            # TODO: Move this check to Avocado (based on the test tags)
+>> +            target_arch =3D vm.command('query-target')['arch']
+>> +            if target_arch not in ['i386', 'x86_64']:
+>> +                errmsg =3D "Architecture '%s' unsupported" % target_arc=
+h
+>> +                raise TestSkipError(errmsg)
+> I think we should rather fix the machine parsing code, and only then
+> exclude architectures out of the box. (Sorry, my python-fu is lacking,
+> or I would try it myself.)
+>
+> There does not seem to be anything that is really architecture specific
+> in there. Just explicitly requesting the -pci versions of virtio-blk
+> and virtio-scsi seems wrong, though, as this looks like a generic
+> property, and should work on -ccw as well. (And probably also for
+> virtio-mmio devices.) If not, I'd like to know :)
+>
+>>               machines =3D [m['name'] for m in vm.command('query-machine=
+s')]
+>>               vm.shutdown()
+>>           for m in EXCLUDED_MACHINES:
+>
 
---000000000000505bb8059cceb285--
 
