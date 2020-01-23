@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51094146E40
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:24:32 +0100 (CET)
-Received: from localhost ([::1]:60322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 600B1146E3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:23:24 +0100 (CET)
+Received: from localhost ([::1]:60304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iufHS-00080z-TU
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:24:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51695)
+	id 1iufGN-00060L-0W
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:23:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51774)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrd-0005NH-Tf
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:42 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrg-0005Rd-Qd
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrc-00049C-Nj
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:41 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40244)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrf-0004G2-EU
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:44 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39489)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrc-000487-Hk
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:40 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id c14so3133361wrn.7
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:40 -0800 (PST)
+ id 1iucrf-0004EI-7R
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:43 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id y11so3145706wrt.6
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hUG/7q5hSf5ymYtbRPJKidNIIUCm54xUUBFlpg5zKq0=;
- b=tLqbYJqQtBfyse6rQp3S6/Ma/yd4bd+4qTqBWqo0D81u826aElxbkeXHi6vh7hrw01
- 0hvLqzNVqE2BR14Y0D2OvLTrFrnY/jlt3BZq251MwiyJMfTll/aFBryoaTN7TAH8yFN/
- eft7v8yfhwRZdlqkTETTB4/Ay3msdDucLl8yaGefup37DSTYQmeA+UWaklfQYZR01nas
- 8qqmRzO60rzaBWMtdcVRpEVipZCWJpMk8iFxeBuBhOKtpOuXY9xscuEYtHEvUGHONFch
- PlucL6q/mh7XZiH15DQb0xNBy+JkPR73oLqvUBTbfVrrHeV4z6JwJ5TkrN5ttphWI4Lz
- G61A==
+ bh=PA5q0FZDEW8Y+8rLXWGciLnycgXwrVkUoj4n+I9lelQ=;
+ b=jlfEbDtL61E1kvuMnalngLPJbWwKJsXgeFcd7t8eFNIdPH1TYx2UcsBoxFSr7Qh6/l
+ 1V0dUVFYfJyy4H2M+f0qWKlpRpf6WL3hR59A0jxUX+sRYhHGjzIt/hPDJXunUiQ+gs4r
+ orsHPSzQt/urm+aw46r6xC7jg9Pt8ymTE9eQNn6AeqxpjnutMTrz63DJCqdBCVTyEENR
+ XYyJcejHr3S595PbnaCzox+G1/qgQ3ReWHBfSV8IWZTAndkxpfxVq2evG/CXHPMtqxj+
+ LdHQwKCWBv2wWs/5DR8ijvBWUb35v7z1jllGgiJ1QZY8U4NrCANqLEuKfSCiKUq4IGus
+ NXow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hUG/7q5hSf5ymYtbRPJKidNIIUCm54xUUBFlpg5zKq0=;
- b=R/oSMGWGTs7AJ6dZhgY1kBXiAAdDiTaKia2Sms1d44i6NkgqW6VVUl83Q4gtU5Jaim
- e6/GYehDNK9WcDhZgjjjDlInHZkJ5WsQ/PAs6Fts2dudcK9H7PB252BKa2coBOc+gV6/
- /16VvBgMX0XsgMVw/qF9fRI6XWvCkig40iRF0jyC2uBb2yHLlkeOGECVlOz8SSsvubKB
- iYB5Yh54QqG82b7J6Nfeb75WKxE+GwCddeWVFkHbJi64bXsN/rTb0pjErivSSJXxJ80K
- VGtKKOPTrf+1pCh7vF0Kb8AmAn8fDIoDYv+2lPsKbdekoAgfYQTeYx9NsGWE39rA0jHJ
- laHQ==
-X-Gm-Message-State: APjAAAUTOF4943Sdw0B9pRVHPEAAzcaVjTSU4fkg57fzDMs5+NqvBGoi
- +I3xHTaYvUuXq5WjwCd3hb3HmAdh
-X-Google-Smtp-Source: APXvYqzLfOi2acp6yMec3AsL88IYDnNi7F7etX7r7FHDZeWzaZHC1thqmyrP08UAtkwpvDKyxNCiEw==
-X-Received: by 2002:adf:eb48:: with SMTP id u8mr17453068wrn.283.1579787379310; 
- Thu, 23 Jan 2020 05:49:39 -0800 (PST)
+ bh=PA5q0FZDEW8Y+8rLXWGciLnycgXwrVkUoj4n+I9lelQ=;
+ b=kCto0U/p2YQzbMUyi1xktF+VUZr7+/OIsZHGwZbMowj3Vpy4NAEBv6slMRM3NCYynn
+ BdZasmwCmitipc7I7kxU/Tmo0z0pDKU9F5Cr7sOWgNpIUgU9pLoUlUnn8rsisnKYKc97
+ HgRGjo10IDe3Gg7HGlLFhfmalNmVLgWWMYbsdfYPll8faIRdi2lBSRcS6hV+kfQB1AuY
+ lvYl2yKP2xFVotq+pQPeqgzv0etm6Kyc3TXOcIBPPM25rnIYZEb+JYIh2NwFlDGNStCf
+ jPTnDOYh45OsSHqRgkX96I83cYiHWP+ar9Bwc0ceI9n1/F3oOcTqDQwS4S1byV/GzxPd
+ m9kg==
+X-Gm-Message-State: APjAAAUe0gGCUvJMUed/QAqpIoWf47i+xrXFtTzMeiAsSAUXx0hKDAs6
+ 0L/HB7vb2G6NgreNoNcuAmih0Dlh
+X-Google-Smtp-Source: APXvYqzFcar7e49qi2hihpWVCIY/fRmKzcM0i2KaJYxOokpmEQMpiA0vDtHPGH5U+5eTejKhwMrRIg==
+X-Received: by 2002:adf:ee82:: with SMTP id b2mr17038078wro.194.1579787381895; 
+ Thu, 23 Jan 2020 05:49:41 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.38
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.41
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:38 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:41 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/59] object: add object_property_get_defaut()
-Date: Thu, 23 Jan 2020 14:48:40 +0100
-Message-Id: <1579787342-27146-38-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 40/59] object: add object_property_set_defaut_{bool, str, int,
+ uint}()
+Date: Thu, 23 Jan 2020 14:48:43 +0100
+Message-Id: <1579787342-27146-41-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,80 +85,159 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The new callback will be used in following "object: add
-object_property_set_defaut_{bool,str,int,uint}()" and "vl: print
-default value in object help" patches.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200110153039.1379601-8-marcandre.lureau@redhat.com>
+Message-Id: <20200110153039.1379601-11-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qom/object.h | 17 +++++++++++++++++
- qom/object.c         |  9 +++++++++
- 2 files changed, 26 insertions(+)
+ include/qom/object.h | 37 ++++++++++++++++++++++++++++++++++
+ qom/object.c         | 56 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 93 insertions(+)
 
 diff --git a/include/qom/object.h b/include/qom/object.h
-index 29f47d3..ca47308 100644
+index 9f52bc3..fb133d6 100644
 --- a/include/qom/object.h
 +++ b/include/qom/object.h
-@@ -367,6 +367,13 @@ typedef void (ObjectPropertyRelease)(Object *obj,
-  */
- typedef void (ObjectPropertyInit)(Object *obj, ObjectProperty *prop);
- 
-+/**
-+ * ObjectPropertyGetDefault:
-+ *
-+ * Get an allocated string representation of the default value.
-+ */
-+typedef char *(ObjectPropertyGetDefault)(ObjectProperty *prop);
-+
- struct ObjectProperty
- {
-     gchar *name;
-@@ -377,6 +384,7 @@ struct ObjectProperty
-     ObjectPropertyResolve *resolve;
-     ObjectPropertyRelease *release;
+@@ -386,6 +386,7 @@ struct ObjectProperty
      ObjectPropertyInit *init;
-+    ObjectPropertyGetDefault *get_default;
+     ObjectPropertyGetDefault *get_default;
      void *opaque;
++    QObject *defval;
  };
  
-@@ -1234,6 +1242,15 @@ void object_property_set_int(Object *obj, int64_t value,
-                              const char *name, Error **errp);
+ /**
+@@ -1064,6 +1065,42 @@ ObjectProperty *object_class_property_add(ObjectClass *klass, const char *name,
+                                           void *opaque, Error **errp);
  
  /**
-+ * object_property_get_defaut:
-+ * @prop: the property to get default value
++ * object_property_set_defaut_bool:
++ * @prop: the property to set
++ * @value: the value to be written to the property
 + *
-+ * Return an allocated string that represents the default property
-+ * value or NULL.
++ * Set the property default value.
 + */
-+char *object_property_get_default(ObjectProperty *prop);
++void object_property_set_defaut_bool(ObjectProperty *prop, bool value);
 +
 +/**
-  * object_property_get_int:
++ * object_property_set_defaut_str:
++ * @prop: the property to set
++ * @value: the value to be written to the property
++ *
++ * Set the property default value.
++ */
++void object_property_set_defaut_str(ObjectProperty *prop, const char *value);
++
++/**
++ * object_property_set_defaut_int:
++ * @prop: the property to set
++ * @value: the value to be written to the property
++ *
++ * Set the property default value.
++ */
++void object_property_set_defaut_int(ObjectProperty *prop, int64_t value);
++
++/**
++ * object_property_set_defaut_uint:
++ * @prop: the property to set
++ * @value: the value to be written to the property
++ *
++ * Set the property default value.
++ */
++void object_property_set_defaut_uint(ObjectProperty *prop, uint64_t value);
++
++/**
+  * object_property_find:
   * @obj: the object
   * @name: the name of the property
 diff --git a/qom/object.c b/qom/object.c
-index cd7ce81..49c2429 100644
+index 213a796..1423344 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -1438,6 +1438,15 @@ int64_t object_property_get_int(Object *obj, const char *name,
-     return retval;
+@@ -19,8 +19,10 @@
+ #include "qapi/visitor.h"
+ #include "qapi/string-input-visitor.h"
+ #include "qapi/string-output-visitor.h"
++#include "qapi/qobject-input-visitor.h"
+ #include "qapi/qapi-builtin-visit.h"
+ #include "qapi/qmp/qerror.h"
++#include "qapi/qmp/qjson.h"
+ #include "trace.h"
+ 
+ /* TODO: replace QObject with a simpler visitor to avoid a dependency
+@@ -268,6 +270,10 @@ static void object_property_free(gpointer data)
+ {
+     ObjectProperty *prop = data;
+ 
++    if (prop->defval) {
++        qobject_unref(prop->defval);
++        prop->defval = NULL;
++    }
+     g_free(prop->name);
+     g_free(prop->type);
+     g_free(prop->description);
+@@ -1447,6 +1453,52 @@ char *object_property_get_default(ObjectProperty *prop)
+     return prop->get_default(prop);
  }
  
-+char *object_property_get_default(ObjectProperty *prop)
++static void object_property_init_defval(Object *obj, ObjectProperty *prop)
 +{
-+    if (!prop->get_default) {
-+        return NULL;
-+    }
++    Visitor *v = qobject_input_visitor_new(prop->defval);
 +
-+    return prop->get_default(prop);
++    assert(prop->set != NULL);
++    prop->set(obj, v, prop->name, prop->opaque, &error_abort);
++
++    visit_free(v);
++}
++
++static char *object_property_get_defval(ObjectProperty *prop)
++{
++    return qstring_free(qobject_to_json(prop->defval), TRUE);
++}
++
++static void object_property_set_defaut(ObjectProperty *prop, QObject *defval)
++{
++    assert(!prop->defval);
++    assert(!prop->init);
++    assert(!prop->get_default);
++
++    prop->defval = defval;
++    prop->init = object_property_init_defval;
++    prop->get_default = object_property_get_defval;
++}
++
++void object_property_set_defaut_bool(ObjectProperty *prop, bool value)
++{
++    object_property_set_defaut(prop, QOBJECT(qbool_from_bool(value)));
++}
++
++void object_property_set_defaut_str(ObjectProperty *prop, const char *value)
++{
++    object_property_set_defaut(prop, QOBJECT(qstring_from_str(value)));
++}
++
++void object_property_set_defaut_int(ObjectProperty *prop, int64_t value)
++{
++    object_property_set_defaut(prop, QOBJECT(qnum_from_int(value)));
++}
++
++void object_property_set_defaut_uint(ObjectProperty *prop, uint64_t value)
++{
++    object_property_set_defaut(prop, QOBJECT(qnum_from_uint(value)));
 +}
 +
  void object_property_set_uint(Object *obj, uint64_t value,
                                const char *name, Error **errp)
  {
+@@ -2558,6 +2610,10 @@ void object_property_add_alias(Object *obj, const char *name,
+         goto out;
+     }
+     op->resolve = property_resolve_alias;
++    if (target_prop->get_default) {
++        op->get_default = target_prop->get_default;
++        op->defval = qobject_ref(target_prop->defval);
++    }
+ 
+     object_property_set_description(obj, op->name,
+                                     target_prop->description,
 -- 
 1.8.3.1
 
