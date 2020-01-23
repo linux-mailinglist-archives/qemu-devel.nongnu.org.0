@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D0E146E6C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:29:06 +0100 (CET)
-Received: from localhost ([::1]:60408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126B1146DEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:12:03 +0100 (CET)
+Received: from localhost ([::1]:60101 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iufLt-000693-1o
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:29:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53049)
+	id 1iuf5N-0005f6-Sr
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:12:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53064)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iucuO-0001NT-7d
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:33 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iucuT-0001VC-AQ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iucuN-0001He-6c
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24629
+ (envelope-from <pbonzini@redhat.com>) id 1iucuR-0001Ji-VN
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29194
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iucuN-0001HR-37
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:31 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iucuR-0001JW-SE
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787550;
+ s=mimecast20190719; t=1579787555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ppgAxw9SO7HGyY8uV4plx7AC+/cE4ShpaHOxwMrlAfY=;
- b=bGVBBobi/xJnBBiPz88SMlnLJ3ZASPbeiXB4f3BNa+9t7/Fi3WiMfMhO6GayAPNZ54nJMO
- O0IEjEiWVEkoZlstlnxsI9MpHdl6YQDLMuIzKLbyg/SPXdnFEyFuidZIIi77VnAQ980hrU
- SbbhSJl1dPcLTiyHmtMwITa7eai4Ax4=
+ bh=GX+b1ImPAaBl326v1I8s12MpD2lknVA1E1FuR0YYiCs=;
+ b=Km2C4DTI9YZbMaMlk6xRkrejj7ZfpFqHXLEcHnQMKXNYiOFYQLeXl8bzV7QJ1Dc3/asFEQ
+ bpAiU+3toChBminhUrwYDCD4a9MnywzGyJtznrhX4D7PPXbyA4rOuUPWKhHprtGpsxZ0Z7
+ RfvR2IiUy4j7TS21rnocbEgmDROHeqc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-RLXnwoC4OS-_QTbOQFWwAg-1; Thu, 23 Jan 2020 08:52:29 -0500
+ us-mta-299-WqbPiTGkNJumLjPI3BN1og-1; Thu, 23 Jan 2020 08:52:33 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84CEF8024D3
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:52:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89FD1939AD
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:52:32 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82F118575C;
- Thu, 23 Jan 2020 13:52:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C34A01CB
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:52:31 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 47/59] object: return self in object_ref()
-Date: Thu, 23 Jan 2020 14:50:37 +0100
-Message-Id: <1579787449-27599-48-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 49/59] qdev: rename DeviceClass.props
+Date: Thu, 23 Jan 2020 14:50:39 +0100
+Message-Id: <1579787449-27599-50-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: RLXnwoC4OS-_QTbOQFWwAg-1
+X-MC-Unique: WqbPiTGkNJumLjPI3BN1og-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 207.211.31.120
@@ -70,61 +69,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Ensure that conflicts in the future will cause a syntax error.
 
-This allow for simpler assignment with ref: foo =3D object_ref(bar)
-
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20200110153039.1379601-19-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qom/object.h | 3 ++-
- qom/object.c         | 5 +++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ hw/core/qdev-properties.c | 2 +-
+ hw/core/qdev.c            | 8 ++++----
+ include/hw/qdev-core.h    | 7 ++++++-
+ qdev-monitor.c            | 2 +-
+ qom/qom-qmp-cmds.c        | 2 +-
+ 5 files changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 5e2f60d..18660fd 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1005,8 +1005,9 @@ GSList *object_class_get_list_sorted(const char *impl=
-ements_type,
-  *
-  * Increase the reference count of a object.  A object cannot be freed as =
-long
-  * as its reference count is greater than zero.
-+ * Returns: @obj
-  */
--void object_ref(Object *obj);
-+Object *object_ref(Object *obj);
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 6ca7697..43a9153 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -1071,7 +1071,7 @@ static Property *qdev_prop_find(DeviceState *dev, con=
+st char *name)
+     /* device properties */
+     class =3D object_get_class(OBJECT(dev));
+     do {
+-        prop =3D qdev_prop_walk(DEVICE_CLASS(class)->props, name);
++        prop =3D qdev_prop_walk(DEVICE_CLASS(class)->props_, name);
+         if (prop) {
+             return prop;
+         }
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 8047ac9..100e266 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -751,7 +751,7 @@ void qdev_alias_all_properties(DeviceState *target, Obj=
+ect *source)
+     do {
+         DeviceClass *dc =3D DEVICE_CLASS(class);
 =20
- /**
-  * object_unref:
-diff --git a/qom/object.c b/qom/object.c
-index 66c4a5f..555c8b9 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1107,12 +1107,13 @@ GSList *object_class_get_list_sorted(const char *im=
-plements_type,
-                         object_class_cmp);
+-        for (prop =3D dc->props; prop && prop->name; prop++) {
++        for (prop =3D dc->props_; prop && prop->name; prop++) {
+             object_property_add_alias(source, prop->name,
+                                       OBJECT(target), prop->name,
+                                       &error_abort);
+@@ -954,7 +954,7 @@ static void device_initfn(Object *obj)
+=20
+     class =3D object_get_class(OBJECT(dev));
+     do {
+-        for (prop =3D DEVICE_CLASS(class)->props; prop && prop->name; prop=
+++) {
++        for (prop =3D DEVICE_CLASS(class)->props_; prop && prop->name; pro=
+p++) {
+             qdev_property_add_legacy(dev, prop, &error_abort);
+             qdev_property_add_static(dev, prop);
+         }
+@@ -1013,7 +1013,7 @@ static void device_class_base_init(ObjectClass *class=
+, void *data)
+     /* We explicitly look up properties in the superclasses,
+      * so do not propagate them to the subclasses.
+      */
+-    klass->props =3D NULL;
++    klass->props_ =3D NULL;
  }
 =20
--void object_ref(Object *obj)
-+Object *object_ref(Object *obj)
+ static void device_unparent(Object *obj)
+@@ -1063,7 +1063,7 @@ static void device_class_init(ObjectClass *class, voi=
+d *data)
+=20
+ void device_class_set_props(DeviceClass *dc, Property *props)
  {
-     if (!obj) {
--        return;
-+        return NULL;
-     }
-     atomic_inc(&obj->ref);
-+    return obj;
+-    dc->props =3D props;
++    dc->props_ =3D props;
  }
 =20
- void object_unref(Object *obj)
+ void device_class_set_parent_reset(DeviceClass *dc,
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 4065162..506ad35 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -100,7 +100,12 @@ typedef struct DeviceClass {
+     DECLARE_BITMAP(categories, DEVICE_CATEGORY_MAX);
+     const char *fw_name;
+     const char *desc;
+-    Property *props;
++
++    /*
++     * The underscore at the end ensures a compile-time error if someone
++     * assigns to dc->props instead of using device_class_set_props.
++     */
++    Property *props_;
+=20
+     /*
+      * Can this device be instantiated with -device / device_add?
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 3465a1e..c929262 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -748,7 +748,7 @@ static void qdev_print(Monitor *mon, DeviceState *dev, =
+int indent)
+     }
+     class =3D object_get_class(OBJECT(dev));
+     do {
+-        qdev_print_props(mon, dev, DEVICE_CLASS(class)->props, indent);
++        qdev_print_props(mon, dev, DEVICE_CLASS(class)->props_, indent);
+         class =3D object_class_get_parent(class);
+     } while (class !=3D object_class_by_name(TYPE_DEVICE));
+     bus_print_dev(dev->parent_bus, mon, dev, indent);
+diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
+index f4494f9..ccd3aaa 100644
+--- a/qom/qom-qmp-cmds.c
++++ b/qom/qom-qmp-cmds.c
+@@ -137,7 +137,7 @@ static ObjectPropertyInfo *make_device_property_info(Ob=
+jectClass *klass,
+     Property *prop;
+=20
+     do {
+-        for (prop =3D DEVICE_CLASS(klass)->props; prop && prop->name; prop=
+++) {
++        for (prop =3D DEVICE_CLASS(klass)->props_; prop && prop->name; pro=
+p++) {
+             if (strcmp(name, prop->name) !=3D 0) {
+                 continue;
+             }
 --=20
 1.8.3.1
 
