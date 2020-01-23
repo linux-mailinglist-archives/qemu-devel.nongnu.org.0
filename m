@@ -2,113 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 871DC146F9E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:26:49 +0100 (CET)
-Received: from localhost ([::1]:33386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F52146FB0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:30:05 +0100 (CET)
+Received: from localhost ([::1]:33442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugFk-0007ty-23
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:26:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59229)
+	id 1iugIt-0003b9-L6
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:30:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59516)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iudKh-0002IH-O0
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:19:45 -0500
+ (envelope-from <kraxel@redhat.com>) id 1iudMQ-0004sa-SW
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:21:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iudKg-0001Xl-Ad
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:19:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42636
+ (envelope-from <kraxel@redhat.com>) id 1iudMP-0003JS-K3
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:21:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40359
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iudKg-0001W3-2H
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:19:42 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iudMP-0003JL-H3
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:21:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579789181;
+ s=mimecast20190719; t=1579789289;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zEFTjEc5wJSSsnhS9STGsyyki88yZ5imKfjR2oAi24g=;
- b=L93vsgvserUrS88VZDnoZPODN1rhxUNlQ+MFZiK7sIeWYulRwkXR7Qu8lvHaFE/jUTGJL1
- jreVelG6sNZeoiB0YtxNviJd7T4TmDfeKu+IZQmAGlycdwncM3nKMJiOo68I5G56HiplzF
- JlB0c2K1a56+uEw0LQu9rJklJcDkkWc=
+ in-reply-to:in-reply-to:references:references;
+ bh=8bVKJ77zZUyNg7pPmcSu/Ffhx0VlXpEBLLjM081mYSI=;
+ b=aKUfadoMKJGr95o2GE2jzax91PhD0oxybegP2xkyQ8AjZE4cswrWvuyy2HcaDEPqq94BU7
+ ddlHXC62wW3ArDFBjrxxIjPgqOhFelknXRXPjbuM+S9Totm9oYBqfTg/zpDj/6z0KPhHMl
+ XM+uIm/vjRksm3zemZDAImgS9orNIME=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-R1NIw9fBMve2216g-2fz8g-1; Thu, 23 Jan 2020 09:17:43 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-361-_TiYi6LnPwaSdphb7iJKCA-1; Thu, 23 Jan 2020 09:21:27 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C935518FE879
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 14:17:42 +0000 (UTC)
-Received: from [10.36.117.56] (ovpn-117-56.ams2.redhat.com [10.36.117.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E8F73A9;
- Thu, 23 Jan 2020 14:17:33 +0000 (UTC)
-Subject: Re: [PATCH 2/2] virtio-balloon: Reject qmp_balloon during hot-unplug
-To: Julia Suvorova <jusual@redhat.com>
-References: <20200115224025.538368-1-jusual@redhat.com>
- <20200115224025.538368-3-jusual@redhat.com>
- <38fdd88d-1399-effb-b74b-e02b7343f044@redhat.com>
- <CAMDeoFX1eFToYOWmBaVOYHTnNka8Fwruq6PtX7GsAGTuS++u8w@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <095236a0-ba8c-55c6-f9fc-e2a4a809b274@redhat.com>
-Date: Thu, 23 Jan 2020 15:17:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
-MIME-Version: 1.0
-In-Reply-To: <CAMDeoFX1eFToYOWmBaVOYHTnNka8Fwruq6PtX7GsAGTuS++u8w@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: R1NIw9fBMve2216g-2fz8g-1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01D851800D78;
+ Thu, 23 Jan 2020 14:21:26 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-106.ams2.redhat.com
+ [10.36.116.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 389E45DA2C;
+ Thu, 23 Jan 2020 14:21:23 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 6DE649C74; Thu, 23 Jan 2020 15:21:22 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 1/3] Revert "vnc: allow fall back to RAW encoding"
+Date: Thu, 23 Jan 2020 15:21:20 +0100
+Message-Id: <20200123142122.13839-2-kraxel@redhat.com>
+In-Reply-To: <20200123142122.13839-1-kraxel@redhat.com>
+References: <20200123142122.13839-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: _TiYi6LnPwaSdphb7iJKCA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -120,81 +72,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Cameron Esfahani <dirty@apple.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.01.20 15:08, Julia Suvorova wrote:
-> On Thu, Jan 16, 2020 at 1:36 PM David Hildenbrand <david@redhat.com> wrot=
-e:
->>
->> On 15.01.20 23:40, Julia Suvorova wrote:
->>> Hot-unplug takes some time due to communication with the guest.
->>> Do not change the device while freeing up resources.
->>>
->>> Signed-off-by: Julia Suvorova <jusual@redhat.com>
->>> ---
->>>  balloon.c                  | 2 +-
->>>  hw/virtio/virtio-balloon.c | 9 ++++++++-
->>>  include/sysemu/balloon.h   | 2 +-
->>>  3 files changed, 10 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/balloon.c b/balloon.c
->>> index f104b42961..998ec53a0f 100644
->>> --- a/balloon.c
->>> +++ b/balloon.c
->>> @@ -119,5 +119,5 @@ void qmp_balloon(int64_t target, Error **errp)
->>>      }
->>>
->>>      trace_balloon_event(balloon_opaque, target);
->>> -    balloon_event_fn(balloon_opaque, target);
->>> +    balloon_event_fn(balloon_opaque, target, errp);
->>>  }
->>> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
->>> index 57f3b9f22d..0fa4e4454b 100644
->>> --- a/hw/virtio/virtio-balloon.c
->>> +++ b/hw/virtio/virtio-balloon.c
->>> @@ -717,12 +717,19 @@ static void virtio_balloon_stat(void *opaque, Bal=
-loonInfo *info)
->>>                                               VIRTIO_BALLOON_PFN_SHIFT)=
-;
->>>  }
->>>
->>> -static void virtio_balloon_to_target(void *opaque, ram_addr_t target)
->>> +static void virtio_balloon_to_target(void *opaque, ram_addr_t target,
->>> +                                     Error **errp)
->>>  {
->>> +    DeviceState *bus_dev =3D qdev_get_bus_device(DEVICE(opaque));
->>>      VirtIOBalloon *dev =3D VIRTIO_BALLOON(opaque);
->>>      VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
->>>      ram_addr_t vm_ram_size =3D get_current_ram_size();
->>>
->>> +    if (bus_dev && bus_dev->pending_deleted_event) {
->>> +        error_setg(errp, "Hot-unplug of %s is in progress", vdev->name=
-);
->>> +        return;
->>> +    }
->>> +
->>
->> How exactly does this help? The guest is free to inflate/deflate
->> whenever it wants.
->=20
-> Guest is aware of hot-unplug start, and virtio driver should not
-> initiate any operations. This patch just restricts issuing commands
-> from qmp monitor.
+This reverts commit de3f7de7f4e257ce44cdabb90f5f17ee99624557.
 
-Why shouldn't the guest driver inflate/deflate while memory hotplug is
-going on?
+Remove VNC optimization to reencode framebuffer update as raw if it's
+smaller than the default encoding.
 
-Simple balloon compaction in a Linux guest -> deflate/inflate triggered
-in the hypervisor.
+QEMU's implementation was naive and didn't account for the ZLIB z_stream
+mutating with each compression.  Because of the mutation, simply
+resetting the output buffer's offset wasn't sufficient to "rewind" the
+operation.  The mutated z_stream would generate future zlib blocks which
+referred to symbols in past blocks which weren't sent.  This would lead
+to artifacting.
 
+Considering that ZRLE is never larger than raw and even though ZLIB can
+occasionally be fractionally larger than raw, the overhead of
+implementing this optimization correctly isn't worth it.
+
+Signed-off-by: Cameron Esfahani <dirty@apple.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ ui/vnc.c | 20 ++------------------
+ 1 file changed, 2 insertions(+), 18 deletions(-)
+
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 4100d6e4048c..3e8d1f120710 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -898,8 +898,6 @@ int vnc_raw_send_framebuffer_update(VncState *vs, int x=
+, int y, int w, int h)
+ int vnc_send_framebuffer_update(VncState *vs, int x, int y, int w, int h)
+ {
+     int n =3D 0;
+-    bool encode_raw =3D false;
+-    size_t saved_offs =3D vs->output.offset;
+=20
+     switch(vs->vnc_encoding) {
+         case VNC_ENCODING_ZLIB:
+@@ -922,24 +920,10 @@ int vnc_send_framebuffer_update(VncState *vs, int x, =
+int y, int w, int h)
+             n =3D vnc_zywrle_send_framebuffer_update(vs, x, y, w, h);
+             break;
+         default:
+-            encode_raw =3D true;
++            vnc_framebuffer_update(vs, x, y, w, h, VNC_ENCODING_RAW);
++            n =3D vnc_raw_send_framebuffer_update(vs, x, y, w, h);
+             break;
+     }
+-
+-    /* If the client has the same pixel format as our internal buffer and
+-     * a RAW encoding would need less space fall back to RAW encoding to
+-     * save bandwidth and processing power in the client. */
+-    if (!encode_raw && vs->write_pixels =3D=3D vnc_write_pixels_copy &&
+-        12 + h * w * VNC_SERVER_FB_BYTES <=3D (vs->output.offset - saved_o=
+ffs)) {
+-        vs->output.offset =3D saved_offs;
+-        encode_raw =3D true;
+-    }
+-
+-    if (encode_raw) {
+-        vnc_framebuffer_update(vs, x, y, w, h, VNC_ENCODING_RAW);
+-        n =3D vnc_raw_send_framebuffer_update(vs, x, y, w, h);
+-    }
+-
+     return n;
+ }
+=20
 --=20
-Thanks,
-
-David / dhildenb
+2.18.1
 
 
