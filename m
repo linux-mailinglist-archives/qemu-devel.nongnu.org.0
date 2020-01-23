@@ -2,41 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEDF5146338
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:18:50 +0100 (CET)
-Received: from localhost ([::1]:52726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7EB1146360
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:21:59 +0100 (CET)
+Received: from localhost ([::1]:52924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXhR-0003HM-KO
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:18:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53322)
+	id 1iuXkU-00083t-Jc
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:21:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53338)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <johannes@sipsolutions.net>) id 1iuXfw-00020Z-Nj
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:17:17 -0500
+ (envelope-from <johannes@sipsolutions.net>) id 1iuXfx-00020c-6A
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:17:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <johannes@sipsolutions.net>) id 1iuXfv-0005lK-LN
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:17:16 -0500
-Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:35502
+ (envelope-from <johannes@sipsolutions.net>) id 1iuXfv-0005lX-Mq
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:17:17 -0500
+Received: from s3.sipsolutions.net ([2a01:4f8:191:4433::2]:35498
  helo=sipsolutions.net)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <johannes@sipsolutions.net>)
- id 1iuXfv-0005iz-EJ
+ id 1iuXfv-0005ix-EI
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:17:15 -0500
 Received: by sipsolutions.net with esmtpsa
  (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
  (Exim 4.93) (envelope-from <johannes@sipsolutions.net>)
- id 1iuXft-00FGF5-Bb; Thu, 23 Jan 2020 09:17:13 +0100
+ id 1iuXft-00FGF5-Kq; Thu, 23 Jan 2020 09:17:13 +0100
 From: Johannes Berg <johannes@sipsolutions.net>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/6] libvhost-user-glib: use
- g_main_context_get_thread_default()
-Date: Thu, 23 Jan 2020 09:17:05 +0100
-Message-Id: <20200123081708.7817-4-johannes@sipsolutions.net>
+Subject: [PATCH v5 4/6] libvhost-user: handle NOFD flag in call/kick/err better
+Date: Thu, 23 Jan 2020 09:17:06 +0100
+Message-Id: <20200123081708.7817-5-johannes@sipsolutions.net>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123081708.7817-1-johannes@sipsolutions.net>
 References: <20200123081708.7817-1-johannes@sipsolutions.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -52,39 +50,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Johannes Berg <johannes.berg@intel.com>,
- mst@redhat.com
+Cc: Johannes Berg <johannes.berg@intel.com>, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Johannes Berg <johannes.berg@intel.com>
 
-If we use NULL, we just get the main program default mainloop
-here. Using g_main_context_get_thread_default() has basically
-the same effect, but it lets us start different devices in
-different threads with different mainloops, which can be useful.
+The code here is odd, for example will it print out invalid
+file descriptor numbers that were never sent in the message.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Clean that up a bit so it's actually possible to implement
+a device that uses polling.
+
 Signed-off-by: Johannes Berg <johannes.berg@intel.com>
 ---
- contrib/libvhost-user/libvhost-user-glib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ contrib/libvhost-user/libvhost-user.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user-glib.c b/contrib/libvhost-user/libvhost-user-glib.c
-index 824c7780de61..53f1ca4cdd73 100644
---- a/contrib/libvhost-user/libvhost-user-glib.c
-+++ b/contrib/libvhost-user/libvhost-user-glib.c
-@@ -89,7 +89,7 @@ vug_source_new(VugDev *gdev, int fd, GIOCondition cond,
-     src->gfd.events = cond;
+diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
+index 8cc3054fd510..34d08e2fc4be 100644
+--- a/contrib/libvhost-user/libvhost-user.c
++++ b/contrib/libvhost-user/libvhost-user.c
+@@ -920,6 +920,7 @@ static bool
+ vu_check_queue_msg_file(VuDev *dev, VhostUserMsg *vmsg)
+ {
+     int index = vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
++    bool nofd = vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
  
-     g_source_add_poll(gsrc, &src->gfd);
--    id = g_source_attach(gsrc, NULL);
-+    id = g_source_attach(gsrc, g_main_context_get_thread_default());
-     g_assert(id);
+     if (index >= dev->max_queues) {
+         vmsg_close_fds(vmsg);
+@@ -927,8 +928,12 @@ vu_check_queue_msg_file(VuDev *dev, VhostUserMsg *vmsg)
+         return false;
+     }
  
-     return gsrc;
+-    if (vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK ||
+-        vmsg->fd_num != 1) {
++    if (nofd) {
++        vmsg_close_fds(vmsg);
++        return true;
++    }
++
++    if (vmsg->fd_num != 1) {
+         vmsg_close_fds(vmsg);
+         vu_panic(dev, "Invalid fds in request: %d", vmsg->request);
+         return false;
+@@ -1025,6 +1030,7 @@ static bool
+ vu_set_vring_kick_exec(VuDev *dev, VhostUserMsg *vmsg)
+ {
+     int index = vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
++    bool nofd = vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
+ 
+     DPRINT("u64: 0x%016"PRIx64"\n", vmsg->payload.u64);
+ 
+@@ -1038,8 +1044,8 @@ vu_set_vring_kick_exec(VuDev *dev, VhostUserMsg *vmsg)
+         dev->vq[index].kick_fd = -1;
+     }
+ 
+-    dev->vq[index].kick_fd = vmsg->fds[0];
+-    DPRINT("Got kick_fd: %d for vq: %d\n", vmsg->fds[0], index);
++    dev->vq[index].kick_fd = nofd ? -1 : vmsg->fds[0];
++    DPRINT("Got kick_fd: %d for vq: %d\n", dev->vq[index].kick_fd, index);
+ 
+     dev->vq[index].started = true;
+     if (dev->iface->queue_set_started) {
+@@ -1116,6 +1122,7 @@ static bool
+ vu_set_vring_call_exec(VuDev *dev, VhostUserMsg *vmsg)
+ {
+     int index = vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
++    bool nofd = vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
+ 
+     DPRINT("u64: 0x%016"PRIx64"\n", vmsg->payload.u64);
+ 
+@@ -1128,14 +1135,14 @@ vu_set_vring_call_exec(VuDev *dev, VhostUserMsg *vmsg)
+         dev->vq[index].call_fd = -1;
+     }
+ 
+-    dev->vq[index].call_fd = vmsg->fds[0];
++    dev->vq[index].call_fd = nofd ? -1 : vmsg->fds[0];
+ 
+     /* in case of I/O hang after reconnecting */
+-    if (eventfd_write(vmsg->fds[0], 1)) {
++    if (dev->vq[index].call_fd != -1 && eventfd_write(vmsg->fds[0], 1)) {
+         return -1;
+     }
+ 
+-    DPRINT("Got call_fd: %d for vq: %d\n", vmsg->fds[0], index);
++    DPRINT("Got call_fd: %d for vq: %d\n", dev->vq[index].call_fd, index);
+ 
+     return false;
+ }
+@@ -1144,6 +1151,7 @@ static bool
+ vu_set_vring_err_exec(VuDev *dev, VhostUserMsg *vmsg)
+ {
+     int index = vmsg->payload.u64 & VHOST_USER_VRING_IDX_MASK;
++    bool nofd = vmsg->payload.u64 & VHOST_USER_VRING_NOFD_MASK;
+ 
+     DPRINT("u64: 0x%016"PRIx64"\n", vmsg->payload.u64);
+ 
+@@ -1156,7 +1164,7 @@ vu_set_vring_err_exec(VuDev *dev, VhostUserMsg *vmsg)
+         dev->vq[index].err_fd = -1;
+     }
+ 
+-    dev->vq[index].err_fd = vmsg->fds[0];
++    dev->vq[index].err_fd = nofd ? -1 : vmsg->fds[0];
+ 
+     return false;
+ }
 -- 
 2.24.1
 
