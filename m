@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D4A146EAB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:50:06 +0100 (CET)
-Received: from localhost ([::1]:60938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C36146EAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:53:43 +0100 (CET)
+Received: from localhost ([::1]:32780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iufgC-0006Kl-K9
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:50:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52202)
+	id 1iufjh-0001WA-RV
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:53:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52238)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iucsz-0007Yc-5g
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:06 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iuct3-0007dq-5o
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iucsx-0006hj-T3
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:04 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27700
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iuct2-0006pU-0x
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:09 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23262
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iucsx-0006hZ-Qg
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:03 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuct1-0006pF-Up
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787463;
+ s=mimecast20190719; t=1579787467;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ilokD4M6W4KESd/ovh4GTzXkqb+mzMor6iNsQOCbfKU=;
- b=BlbWPgjrE6h3Spu0c40vPPQzQIRDuosrFnCXbQ9Uq/ctePrVP2iEd2HRVuDh6lPaXep+wK
- 6N+KCsphBTiztMwKSSsjzwGGt9M+CoJFx7VWfjvKKSrgRj+75zvsn019lrmGUOAg0I/O/+
- U9v8E+tMi4fFcWmT570Xj5OB0cXyZKM=
+ bh=sFBdusjTRivI83sKM4ZWIopYtK/Kmoyuru1DkptNNaY=;
+ b=LMuoJDVKWj2uWth4m4IBu3t374QWpaLquuX8G/hes2ggeOwNJeE8dXGRHYEQRTCvGvTOva
+ NxcUQc13wWo9qwRDWy4FH4+tPV9MNgCLzULzKV9GaoWXeQvxRP9ZeFCDoB1VTJ/PhFZH/Q
+ /X9FhdFQmv/3y9KfrvZNeZDkxd0YE1E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-_4OVby09OnCxDcoaqB1-xw-1; Thu, 23 Jan 2020 08:50:59 -0500
+ us-mta-203-UMrelfzONwm7B1DJ6aXS6w-1; Thu, 23 Jan 2020 08:51:06 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 556611800D48;
- Thu, 23 Jan 2020 13:50:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9110C1800D48
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:03 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E0F01CB;
- Thu, 23 Jan 2020 13:50:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48A751CB;
+ Thu, 23 Jan 2020 13:51:00 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/59] pvpanic: introduce crashloaded for pvpanic
-Date: Thu, 23 Jan 2020 14:49:53 +0100
-Message-Id: <1579787449-27599-4-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 05/59] qom/object: Display more helpful message when an
+ interface is missing
+Date: Thu, 23 Jan 2020 14:49:55 +0100
+Message-Id: <1579787449-27599-6-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: _4OVby09OnCxDcoaqB1-xw-1
+X-MC-Unique: UMrelfzONwm7B1DJ6aXS6w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,44 +71,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhenwei pi <pizhenwei@bytedance.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: zhenwei pi <pizhenwei@bytedance.com>
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Add bit 1 for pvpanic. This bit means that guest hits a panic, but
-guest wants to handle error by itself. Typical case: Linux guest runs
-kdump in panic. It will help us to separate the abnormal reboot from
-normal operation.
+When adding new devices implementing QOM interfaces, we might
+forgot to add the Kconfig dependency that pulls the required
+objects in when building.
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-Message-Id: <20200114023102.612548-2-pizhenwei@bytedance.com>
+Since QOM dependencies are resolved at runtime, we don't get any
+link-time failures, and QEMU aborts while starting:
+
+  $ qemu ...
+  Segmentation fault (core dumped)
+
+  (gdb) bt
+  #0  0x00007ff6e96b1e35 in raise () from /lib64/libc.so.6
+  #1  0x00007ff6e969c895 in abort () from /lib64/libc.so.6
+  #2  0x00005572bc5051cf in type_initialize (ti=3D0x5572be6f1200) at qom/ob=
+ject.c:323
+  #3  0x00005572bc505074 in type_initialize (ti=3D0x5572be6f1800) at qom/ob=
+ject.c:301
+  #4  0x00005572bc505074 in type_initialize (ti=3D0x5572be6e48e0) at qom/ob=
+ject.c:301
+  #5  0x00005572bc506939 in object_class_by_name (typename=3D0x5572bc56109a=
+) at qom/object.c:959
+  #6  0x00005572bc503dd5 in cpu_class_by_name (typename=3D0x5572bc56109a, c=
+pu_model=3D0x5572be6d9930) at hw/core/cpu.c:286
+
+Since the caller has access to the qdev parent/interface names,
+we can simply display them to avoid starting a debugger:
+
+  $ qemu ...
+  qemu: missing interface 'fancy-if' for object 'fancy-dev'
+  Aborted (core dumped)
+
+This commit is similar to e02bdf1cecd2 ("Display more helpful message
+when an object type is missing").
+
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20200118162348.17823-1-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/specs/pvpanic.txt | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ qom/object.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
-index c7bbacc..bdea68a 100644
---- a/docs/specs/pvpanic.txt
-+++ b/docs/specs/pvpanic.txt
-@@ -16,8 +16,12 @@ pvpanic exposes a single I/O port, by default 0x505. On =
-read, the bits
- recognized by the device are set. Software should ignore bits it doesn't
- recognize. On write, the bits not recognized by the device are ignored.
- Software should set only bits both itself and the device recognize.
--Currently, only bit 0 is recognized, setting it indicates a guest panic
--has happened.
-+
-+Bit Definition
-+--------------
-+bit 0: setting it indicates a guest panic has happened.
-+bit 1: named crashloaded. setting it indicates a guest panic and run
-+       kexec to handle error by guest itself.
+diff --git a/qom/object.c b/qom/object.c
+index 0d971ca..36123fb 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -317,6 +317,11 @@ static void type_initialize(TypeImpl *ti)
 =20
- ACPI Interface
- --------------
+         for (i =3D 0; i < ti->num_interfaces; i++) {
+             TypeImpl *t =3D type_get_by_name(ti->interfaces[i].typename);
++            if (!t) {
++                error_report("missing interface '%s' for object '%s'",
++                             ti->interfaces[i].typename, parent->name);
++                abort();
++            }
+             for (e =3D ti->class->interfaces; e; e =3D e->next) {
+                 TypeImpl *target_type =3D OBJECT_CLASS(e->data)->type;
+=20
 --=20
 1.8.3.1
 
