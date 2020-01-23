@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E059146FF3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:45:01 +0100 (CET)
-Received: from localhost ([::1]:33862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9729E147001
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:48:09 +0100 (CET)
+Received: from localhost ([::1]:33924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugXL-0005g6-UD
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:45:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45732)
+	id 1iugaN-0001kQ-RF
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:48:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45804)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lvivier@redhat.com>) id 1iueEL-0005dL-T5
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:17:14 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iueEe-00061e-Nn
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:17:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1iueEK-0002ho-Ll
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:17:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58954
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1iueEK-0002gw-I6
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:17:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579792631;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=68sbMevOE0+sJzBwUQc9YIhSbLOj7g9t97LkpQaW2WI=;
- b=HTvjcun5E/flJqWl7VuRqFPMoLVB3KhzKgZuvl6d0D+UOhb6ARBBXUt3I+4odsVsHL+5BL
- wp0mRRncZjgRV419hzAc/X3Y3AbBtkCOp9YX+D08CSQV4wwLuHjs6GL3ajGP809hpbH5Rj
- eZ0wwKgEJDd5ytOsSN1REq5yjVbvecU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-jOCIGxhsNsyVylKxUwjnmg-1; Thu, 23 Jan 2020 10:17:07 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 034B58018A3;
- Thu, 23 Jan 2020 15:17:06 +0000 (UTC)
-Received: from thinkpad.redhat.com (ovpn-204-119.brq.redhat.com
- [10.40.204.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A13D05DA89;
- Thu, 23 Jan 2020 15:17:01 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC 0/2] virtio-rng: add a control queue
-Date: Thu, 23 Jan 2020 16:16:58 +0100
-Message-Id: <20200123151700.1367857-1-lvivier@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iueEd-0002re-Ao
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:17:32 -0500
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:34170)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iueEd-0002rQ-4X
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:17:31 -0500
+Received: by mail-ot1-x333.google.com with SMTP id a15so3078327otf.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 07:17:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xdJfCQ/KznZsfKHOxJAl1dA2URhuqjIwEutBd0jY5U4=;
+ b=QDuvruqKHYRddylgLbmBj3u8Bh7fS69eDvNfss14cqlPZIrvO1nylbWEC4Zo9GPR4I
+ iLlAXV6yNaWpMkgEAQ+zHLt+uU6EB4SZ6UIdJVaOQQNGUpyi1qWd7tNgqAHs4e3eezyj
+ lPAxMWTTiJ4RDwacSEtEKve9Gt/H3E8q7qqYPG6Z0eF8FoMYHvZqimUEmq756RmfGL/+
+ xHa/L3Dv6F2wgSPBolhse3PHDcXMGd+x6ycS+uTcN4dwqSY3s1cm6LQDSeaMWdaeUVyD
+ yha3cuSKOa6YalUese5ysYf8XBJo3lPoY+NJ7e+G5lKzeb1KOsUG0k4X/yhpvuWf6CA1
+ 7YMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xdJfCQ/KznZsfKHOxJAl1dA2URhuqjIwEutBd0jY5U4=;
+ b=keFpxgkJmCcT9wCRL31HJk4yVsd69kNuTf+j3/+mx6fabmrKiM/WoBtqOGTkV4ARtc
+ em9/uKpkODcXAUjqQqMOfhrGncpBAVFZLC+UeZlWX+E7wPKMdXcTMZl4LGVUPNhqZ7Nv
+ 5Eeda16g7LBEWodIdgpr3vfBUymTHl6tJQACRk9UM7FruxZGgGG9AoEANew1hxC8V4nf
+ oj2bY0dBPdph9Mk8RxvR6dQvYj0tzNdvlPBYnSFN8E2P3XlpXu+STlTTi9cV9Iak6oTl
+ yNiRZlirGguJpo37Yo0UeyPDskMYYQSQTiXTWG/TrcCs6naTUQCAZ9zjldW/qGIz8dJX
+ EEHw==
+X-Gm-Message-State: APjAAAWU/nFiQy3jjkhcaVLF8BGPisuk1XDdKU+r/vIMWSDkwn8gDavs
+ 5pusBIykwEEKhbtxSh5yofM5elc0w3EhKsNL3FCm/A==
+X-Google-Smtp-Source: APXvYqylJbq6lh29if9wc3541YqMf352KnGZ0XImyJBeUm19KuFNUhl7KVMKF/c1aWTpTAkNMAoNREDGmH8r+MWwANg=
+X-Received: by 2002:a05:6830:13d3:: with SMTP id
+ e19mr11663163otq.135.1579792650266; 
+ Thu, 23 Jan 2020 07:17:30 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: jOCIGxhsNsyVylKxUwjnmg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+References: <20200123082227.2037994-1-laurent@vivier.eu>
+In-Reply-To: <20200123082227.2037994-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Jan 2020 15:17:19 +0000
+Message-ID: <CAFEAcA86bVsY-4yg8FhsWqcOrE4=upwOuyxTLuk5CDO7r7E8mA@mail.gmail.com>
+Subject: Re: [PULL 00/17] Linux user for 5.0 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,42 +72,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Amit Shah <amit@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The kernel needs sometime to be able to cancel an ongoing command.
+On Thu, 23 Jan 2020 at 08:25, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde0dd40:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-20200121' into staging (2020-01-21 15:29:25 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
+>
+> for you to fetch changes up to a7b09746679c1815115249ec69197e454efdfb15:
+>
+>   linux-user: Add support for read/clear RTC voltage low detector using ioctls (2020-01-22 15:21:37 +0100)
+>
+> ----------------------------------------------------------------
+> Fix mmap guest space and brk
+> Add FS/FD/RTC/KCOV ioctls
+>
 
-For instance, if the virtio-rng device uses the egd backend
-and this backend doesn't provide data, the buffer provided by the
-kernel is kept as long as it is needed.
+Applied, thanks.
 
-On the kernel side, a read blocks until the buffer returns from QEMU.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
-As the read is done with a mutex held, all the hw_random interface
-hangs and we cannot switch to another hw_random backend.
-
-So this series adds a control queue to the virtio-rng device to allow
-to flush the virtio-rng input queue to release the kernel mutex and
-to allow to switch to another device.
-
-The kernel side series can be found at:
-
-https://github.com/vivier/linux/commits/virtio-rng-ctrl
-
-Laurent Vivier (2):
-  virtio-rng: prepare the introduction of a control queue
-  virtio-rng: add a control queue
-
- hw/core/machine.c                           |  1 +
- hw/virtio/trace-events                      |  6 ++
- hw/virtio/virtio-rng.c                      | 99 ++++++++++++++++++---
- include/hw/virtio/virtio-rng.h              |  5 +-
- include/standard-headers/linux/virtio_rng.h | 14 +++
- 5 files changed, 111 insertions(+), 14 deletions(-)
-
---=20
-2.23.0
-
+-- PMM
 
