@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470061468D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:14:42 +0100 (CET)
-Received: from localhost ([::1]:56858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 277891468F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:22:46 +0100 (CET)
+Received: from localhost ([::1]:56956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iucJl-0004W9-1f
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:14:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40495)
+	id 1iucRY-0004SX-Il
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:22:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iub93-0002MI-4a
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:34 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iub94-0002OY-KM
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iub92-00059m-1K
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39410
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iub93-0005Ac-85
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:34 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47260
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub91-00059S-Th
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:31 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub93-0005AF-4k
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780771;
+ s=mimecast20190719; t=1579780772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GecZLFNgbt9puS1dpkZtIJjkHeSDvk6GvBLw3x562/s=;
- b=HF6tYFUfh3LizoQmtQAqwcr4lfNyrfW17jBa23vV4SBaFjG6ZZm38L4yM6ZGW8o0hsEZkO
- HsJQoiwsJgwOUjkHJ6aEg6cAcS5zp8gM4MDj8KOtupKoHFoVJ1EXr6gIzImdvOQQQMSVpx
- WtmykmSjZbCv1o7zaZihbw7y1nwZNO4=
+ bh=Nf43hP0IRcmDWjQcwTYkWCN3u56GRcr1BZ/k+vIuitE=;
+ b=M9JSbcG4//qgd8apgSAtgdwhXcxFCiSzCEGvKlQXWWIJNiu5mJ+Qm0Cvw1n7ZGRYoTF7bk
+ +MTILOsgB2+AhWxH1jctyYNBl6fVrhZqYxjU7Gp7c4s1OLE7bDEiYqpsNqmUAMJuMVloqB
+ YIyDL0iYg5wvKqBOQSti2SQEdsyV+80=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-_AUDsSPnMd-aQzH6fS2oGQ-1; Thu, 23 Jan 2020 06:59:25 -0500
+ us-mta-425-GULGXatpPziXUr-7PGe29A-1; Thu, 23 Jan 2020 06:59:28 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A96E10120A8
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AE78DB6D
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:27 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F6641CB;
- Thu, 23 Jan 2020 11:59:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A8CBB1CB;
+ Thu, 23 Jan 2020 11:59:26 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 030/111] virtiofsd: make -f (foreground) the default
-Date: Thu, 23 Jan 2020 11:57:20 +0000
-Message-Id: <20200123115841.138849-31-dgilbert@redhat.com>
+Subject: [PULL 033/111] virtiofs: Add maintainers entry
+Date: Thu, 23 Jan 2020 11:57:23 +0000
+Message-Id: <20200123115841.138849-34-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: _AUDsSPnMd-aQzH6fS2oGQ-1
+X-MC-Unique: GULGXatpPziXUr-7PGe29A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,64 +74,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-According to vhost-user.rst "Backend program conventions", backend
-programs should run in the foregound by default.  Follow the
-conventions so libvirt and other management tools can control virtiofsd
-in a standard way.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/helper.c | 8 ++++++++
+ MAINTAINERS | 8 ++++++++
  1 file changed, 8 insertions(+)
 
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 676032e71f..a3645fc807 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -29,6 +29,11 @@
-     {                                               \
-         t, offsetof(struct fuse_cmdline_opts, p), 1 \
-     }
-+#define FUSE_HELPER_OPT_VALUE(t, p, v)              \
-+    {                                               \
-+        t, offsetof(struct fuse_cmdline_opts, p), v \
-+    }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2c768ed3d8..075fdab372 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1595,6 +1595,14 @@ T: git https://github.com/cohuck/qemu.git s390-next
+ T: git https://github.com/borntraeger/qemu.git s390-next
+ L: qemu-s390x@nongnu.org
+=20
++virtiofs
++M: Dr. David Alan Gilbert <dgilbert@redhat.com>
++M: Stefan Hajnoczi <stefanha@redhat.com>
++S: Supported
++F: tools/virtiofsd/*
++F: hw/virtio/vhost-user-fs*
++F: include/hw/virtio/vhost-user-fs.h
 +
-=20
- static const struct fuse_opt fuse_helper_opts[] =3D {
-     FUSE_HELPER_OPT("-h", show_help),
-@@ -42,6 +47,7 @@ static const struct fuse_opt fuse_helper_opts[] =3D {
-     FUSE_OPT_KEY("-d", FUSE_OPT_KEY_KEEP),
-     FUSE_OPT_KEY("debug", FUSE_OPT_KEY_KEEP),
-     FUSE_HELPER_OPT("-f", foreground),
-+    FUSE_HELPER_OPT_VALUE("--daemonize", foreground, 0),
-     FUSE_HELPER_OPT("fsname=3D", nodefault_subtype),
-     FUSE_OPT_KEY("fsname=3D", FUSE_OPT_KEY_KEEP),
-     FUSE_HELPER_OPT("subtype=3D", nodefault_subtype),
-@@ -131,6 +137,7 @@ void fuse_cmdline_help(void)
-            "    -V   --version             print version\n"
-            "    -d   -o debug              enable debug output (implies -f=
-)\n"
-            "    -f                         foreground operation\n"
-+           "    --daemonize                run in background\n"
-            "    -o max_idle_threads        the maximum number of idle work=
-er "
-            "threads\n"
-            "                               allowed (default: 10)\n");
-@@ -158,6 +165,7 @@ int fuse_parse_cmdline(struct fuse_args *args, struct f=
-use_cmdline_opts *opts)
-     memset(opts, 0, sizeof(struct fuse_cmdline_opts));
-=20
-     opts->max_idle_threads =3D 10;
-+    opts->foreground =3D 1;
-=20
-     if (fuse_opt_parse(args, opts, fuse_helper_opts, fuse_helper_opt_proc)=
- =3D=3D
-         -1) {
+ virtio-input
+ M: Gerd Hoffmann <kraxel@redhat.com>
+ S: Maintained
 --=20
 2.24.1
 
