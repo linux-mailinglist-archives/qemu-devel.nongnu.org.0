@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E774E146D99
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:58:29 +0100 (CET)
-Received: from localhost ([::1]:59884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BAD146DB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:02:43 +0100 (CET)
+Received: from localhost ([::1]:59958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuesG-0002ik-GU
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:58:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52637)
+	id 1iuewL-0007ox-MF
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:02:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51138)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iuctk-0000IK-0R
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:52 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucr9-0004fW-4i
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iucti-00008J-WD
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55109
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iucti-00007V-TF
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787510;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lxxsWczgJ89+Ohb/tyyLZer/UrAQ+OmM/+BuLx5zcqk=;
- b=cW7mP+GHRL2KkjubSvtynba5opn4U5R1UAFzC31XSi/Gnsv5vuT+uRxu5SbzmrKQdQSZdx
- o23u6wvgGUP6CRkfirWpMKMF24govs/0iM/aaD284k0jMoX9MxXiB2ngxLeybdMAWYAppH
- nodjsQ3yhcLdSsDR3NRxCbsdrWYdEpY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-vVNnUJH7P-SGlqSU2R5GLQ-1; Thu, 23 Jan 2020 08:51:48 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F154B80259F
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:47 +0000 (UTC)
-Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 461F08575A;
- Thu, 23 Jan 2020 13:51:45 +0000 (UTC)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucr7-0002z4-8y
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:11 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51541)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iucr6-0002w9-Pu
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:09 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id t23so2641969wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vwlRLCLCGC2CIZun7e1zwkFYcuHIPNLiExkIa5Xe/Rk=;
+ b=SyyRQjlTwKWia6hn8LB2VBZpKGgMpo9uSg5nFZP3ZCZcAF+J12ReVcEN1eBiBxUFMW
+ 9eYyAUzmxU4/pHs1WXG+HK6Hq9Add3PHqFfFMuokOpeqTChsmjd1/aCGjithbAvw8R/n
+ yKUnIWGCXQtUyO2ik5xs3otbYbtLQC9KDj5XvotY+uh3Uf72L0EAXCYpzCd623GX1ovF
+ F8Gfw5vfGN74Bk6fLzmyqOQBp7jCI49g6Z9dcnEtPrvp5TSAxVVKnawse377n86iKUAf
+ kMTT6xa0T5TDPZNdLfUMq6Z9MLpGwcoBuixya4tpGiUNwBUebsM4T57hBYskkFoyH6qc
+ ju2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=vwlRLCLCGC2CIZun7e1zwkFYcuHIPNLiExkIa5Xe/Rk=;
+ b=kaaqm62MQC6HsiU2h631u9au2jWuZ7X2p55vKyJF6pcEhiD7Dsr0NBN3tphG9BhtyY
+ nh24aiSIJcnT+N2bYw8OBblwsUQMvww70fKG4brDtYueut4UF/jH6lESaWC2JyD+ypwl
+ 5ffe35QLKXXTq051XL58L3ZYVu/PQL7R75iXazRqL+IAh1JLZa8u2d8I9pA4/z0Ym5Qi
+ vsqEU6Qg9vm8xuDms/AcJMS2qQr97l8+K45xwA+6Yq3JMlqf7XF+YyY8P2OU3hKw5KOB
+ Np/fLqfhV+RLJse0qLxmHkCsPD7xzFhcB1/9Bdgt3kFWeiiohBe6K1WpiLWNc/gwsRe6
+ tQKw==
+X-Gm-Message-State: APjAAAUtGg3iIpJ8Q9Kq6t41020jW0DsH8bd9lAAY53SeyxHwaBY6xPU
+ 9KSbj29p6ESqZi0O7cTOCUslBabx
+X-Google-Smtp-Source: APXvYqyKX2aqlGGjmgzD57D7bFkDg3dWN4X8byHAKy1Qm9T7/nHCk2kOjxWeQfGi51TvroH+FVTRjA==
+X-Received: by 2002:a7b:cc98:: with SMTP id p24mr4381121wma.139.1579787346691; 
+ Thu, 23 Jan 2020 05:49:06 -0800 (PST)
+Received: from 640k.localdomain.com ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.05
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 23 Jan 2020 05:49:06 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/59] target/arm/kvm: Use CPUState::kvm_state in
- kvm_arm_pmu_supported()
-Date: Thu, 23 Jan 2020 14:50:16 +0100
-Message-Id: <1579787449-27599-27-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
-References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 01/59] cpu: Introduce cpu_class_set_parent_reset()
+Date: Thu, 23 Jan 2020 14:48:04 +0100
+Message-Id: <1579787342-27146-2-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
+References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: vVNnUJH7P-SGlqSU2R5GLQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,38 +78,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+From: Greg Kurz <groug@kaod.org>
 
-KVMState is already accessible via CPUState::kvm_state, use it.
+Similarly to what we already do with qdev, use a helper to overload the
+reset QOM methods of the parent in children classes, for clarity.
 
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20200121110349.25842-5-philmd@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Acked-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <157650847239.354886.2782881118916307978.stgit@bahia.lan>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/arm/kvm.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ hw/core/cpu.c         | 8 ++++++++
+ include/hw/core/cpu.h | 4 ++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index b87b59a..8d82889 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -181,9 +181,7 @@ void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
-=20
- bool kvm_arm_pmu_supported(CPUState *cpu)
- {
--    KVMState *s =3D KVM_STATE(current_machine->accelerator);
--
--    return kvm_check_extension(s, KVM_CAP_ARM_PMU_V3);
-+    return kvm_check_extension(cpu->kvm_state, KVM_CAP_ARM_PMU_V3);
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index db1a03c..fde5fd3 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -239,6 +239,14 @@ void cpu_dump_statistics(CPUState *cpu, int flags)
+     }
  }
-=20
- int kvm_arm_get_max_vm_ipa_size(MachineState *ms)
---=20
+ 
++void cpu_class_set_parent_reset(CPUClass *cc,
++                                void (*child_reset)(CPUState *cpu),
++                                void (**parent_reset)(CPUState *cpu))
++{
++    *parent_reset = cc->reset;
++    cc->reset = child_reset;
++}
++
+ void cpu_reset(CPUState *cpu)
+ {
+     CPUClass *klass = CPU_GET_CLASS(cpu);
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 77c6f05..73e9a86 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -1135,6 +1135,10 @@ void cpu_exec_unrealizefn(CPUState *cpu);
+  */
+ bool target_words_bigendian(void);
+ 
++void cpu_class_set_parent_reset(CPUClass *cc,
++                                void (*child_reset)(CPUState *cpu),
++                                void (**parent_reset)(CPUState *cpu));
++
+ #ifdef NEED_CPU_H
+ 
+ #ifdef CONFIG_SOFTMMU
+-- 
 1.8.3.1
 
 
