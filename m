@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EBD814682A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:38:42 +0100 (CET)
-Received: from localhost ([::1]:56324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9959414680F
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:32:49 +0100 (CET)
+Received: from localhost ([::1]:56238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iubku-0007dx-M0
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:38:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36162)
+	id 1iubfD-0000FV-Lp
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:32:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36262)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iuatY-00086U-UO
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:43:33 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iuatd-0008E6-FC
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:43:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iuatX-00054C-NA
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:43:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26388
+ (envelope-from <imammedo@redhat.com>) id 1iuatc-00057L-8i
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:43:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56113
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuatX-00053t-K3
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:43:31 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuatc-000575-4g
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:43:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579779811;
+ s=mimecast20190719; t=1579779815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YVXsJa1fRr9wFVbMqWwvGFqWznJehS+YYI9qbovTxs4=;
- b=QODKwF65GmqPAFRMquiCTlq8IKBjWh8gC5KPFMWwQ6QKPkAxhHGZJt8iEjUFRkgJv57h5z
- xge+Q2qrGOTPtaCmJInNQk8iByZc1ygiIfu13VFdsBdYU9EaiRqE9HLlYGqgPvwyNHCL3o
- iJx40kW6e74RqHRv6iYdCzEmqOrk4Rc=
+ bh=OIjeTpRS5nksN6iGV8T5O4dOFXQAjPn9WbjucD9Z2YU=;
+ b=T0diBcrSz1dLvt89v3WYr3nU67PX9hzoN7JHlonluIzb5CQcUJ6uw8CwNpxCcWdEJnCby4
+ LkZQNCcMWF7Pccw02K/SgTIDxgHZCneAcKSACvwdm4Q+0JWTdnQUpShTntQQh3wpmKN8th
+ 5DuqpTj611HIB+8mEuvvr2aOF16wVhM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-QwppMh4IOL6MLIhaIaqljA-1; Thu, 23 Jan 2020 06:43:26 -0500
+ us-mta-331-fkHNcxERPQ6dDQKCGNZVzg-1; Thu, 23 Jan 2020 06:43:28 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB2D6107ACC5;
- Thu, 23 Jan 2020 11:43:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 752DD190D340;
+ Thu, 23 Jan 2020 11:43:27 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A41E1100EBA6;
- Thu, 23 Jan 2020 11:43:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 76CEB10016E8;
+ Thu, 23 Jan 2020 11:43:26 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH REPOST v3 59/80] ppc/mac_newworld: use memdev for RAM
-Date: Thu, 23 Jan 2020 12:38:24 +0100
-Message-Id: <1579779525-20065-60-git-send-email-imammedo@redhat.com>
+Subject: [PATCH REPOST v3 61/80] ppc/pnv: use memdev for RAM
+Date: Thu, 23 Jan 2020 12:38:26 +0100
+Message-Id: <1579779525-20065-62-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
 References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: QwppMh4IOL6MLIhaIaqljA-1
+X-MC-Unique: fkHNcxERPQ6dDQKCGNZVzg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,8 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,49 +85,49 @@ RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
+CC: clg@kaod.org
 CC: david@gibson.dropbear.id.au
 CC: qemu-ppc@nongnu.org
-CC: mark.cave-ayland@ilande.co.uk
 ---
- hw/ppc/mac_newworld.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/ppc/pnv.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 3594517..2546d33 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -118,7 +118,7 @@ static void ppc_core99_init(MachineState *machine)
-     char *filename;
-     IrqLines *openpic_irqs;
-     int linux_boot, i, j, k;
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1), *bios =3D g_new(MemoryRe=
-gion, 1);
-+    MemoryRegion *bios =3D g_new(MemoryRegion, 1);
-     hwaddr kernel_base, initrd_base, cmdline_base =3D 0;
-     long kernel_size, initrd_size;
-     UNINHostState *uninorth_pci;
-@@ -152,8 +152,7 @@ static void ppc_core99_init(MachineState *machine)
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index e2735bb..a85a5fc 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -676,7 +676,6 @@ static void pnv_init(MachineState *machine)
+ {
+     PnvMachineState *pnv =3D PNV_MACHINE(machine);
+     MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+-    MemoryRegion *ram;
+     char *fw_filename;
+     long fw_size;
+     int i;
+@@ -688,11 +687,7 @@ static void pnv_init(MachineState *machine)
+     if (machine->ram_size < (1 * GiB)) {
+         warn_report("skiboot may not work with < 1GB of RAM");
      }
-=20
-     /* allocate RAM */
--    memory_region_allocate_system_memory(ram, NULL, "ppc_core99.ram", ram_=
-size);
+-
+-    ram =3D g_new(MemoryRegion, 1);
+-    memory_region_allocate_system_memory(ram, NULL, "pnv.ram",
+-                                         machine->ram_size);
 -    memory_region_add_subregion(get_system_memory(), 0, ram);
 +    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
 =20
-     /* allocate and load BIOS */
-     memory_region_init_ram(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
-@@ -586,6 +585,7 @@ static void core99_machine_class_init(ObjectClass *oc, =
-void *data)
- #else
-     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("7400_v2.9");
- #endif
-+    mc->default_ram_id =3D "ppc_core99.ram";
-     mc->ignore_boot_device_suffixes =3D true;
-     fwc->get_dev_path =3D core99_fw_dev_path;
+     /*
+      * Create our simple PNOR device
+@@ -1785,6 +1780,7 @@ static void pnv_machine_class_init(ObjectClass *oc, v=
+oid *data)
+      * enough to fit the maximum initrd size at it's load address
+      */
+     mc->default_ram_size =3D INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
++    mc->default_ram_id =3D "pnv.ram";
+     ispc->print_info =3D pnv_pic_print_info;
  }
+=20
 --=20
 2.7.4
 
