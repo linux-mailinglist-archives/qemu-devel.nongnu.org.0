@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0966E146D49
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:49:36 +0100 (CET)
-Received: from localhost ([::1]:59712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09CA146CEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:33:51 +0100 (CET)
+Received: from localhost ([::1]:59510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueje-0005Dw-Nv
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:49:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47046)
+	id 1iueUP-0001qd-W4
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:33:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48088)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1iucXQ-0005CG-3t
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:28:49 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iucch-00025R-QC
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:34:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1iucXN-0003lY-UJ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:28:47 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:56806)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1iucXM-0003jU-EL; Thu, 23 Jan 2020 08:28:45 -0500
-Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
- [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id E725A96F59;
- Thu, 23 Jan 2020 13:28:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1579786123;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z6+U1oJsCmH2eeSC5C8mhxV+iyr1rypS54LYkSNE/cs=;
- b=x4Z+PHtOImlhO9pYcAuiR6W11R6Oimmw5hC3I3GpxXbEesDOWT30vkpyd1DraRet+sywsx
- DQJ3jtTYJF4i97BaUuUvu26DVk7mc7opE7agqzFhqQV651eZ8WbJwN42C81eTFCv30n2Un
- ftPqzO/YdJLMRGakgztlcdvL7tDvJg4=
-From: Damien Hedde <damien.hedde@greensocs.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v8 10/11] vl: replace deprecated qbus_reset_all registration
-Date: Thu, 23 Jan 2020 14:28:22 +0100
-Message-Id: <20200123132823.1117486-11-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200123132823.1117486-1-damien.hedde@greensocs.com>
-References: <20200123132823.1117486-1-damien.hedde@greensocs.com>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iuccg-0001qJ-5o
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:34:15 -0500
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:42070)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iuccf-0001oQ-UP
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:34:14 -0500
+Received: by mail-ot1-x32c.google.com with SMTP id 66so2693385otd.9
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:34:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=Si3APmcwJHaxnSgAAuSnn/eIyYPEXg/zE0raJgzRfWU=;
+ b=RQdaw0XZrvXEap7+R2lYLZAPFMBThcxTw9px9uoMliEWPEYVH3OBkQZJSDg42tQfY0
+ kaIruMPgnSElXojU0N1Nd2uaBabv0ZTEUX5DmQw1K9tRqsinI271lP5KhUaWpZvckfFr
+ L0TzOBHEIgvhGrhk8jAl6dTKd+KlssvVn6T1NR3QpdvB0i1Vz7HCWR+M4QZzxDm5S6Jp
+ TCPHrmBuozCjLn8LXDc4AM0tx3wNIkbrwB+NgB7liwVxx3XtttaV6iL4cn/MHNkgyxwm
+ 8kaPF0/uXWedEqtUh7pf1Jz0mk0w7lsrTUamJ/j4BHLTbbq7X+RCKY4ZOECiJoiMeNb+
+ iQdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=Si3APmcwJHaxnSgAAuSnn/eIyYPEXg/zE0raJgzRfWU=;
+ b=G3dKcaixg+R9yP+coBt5OLwg+kaCXwK4DLsdZfnDGg5QHyPA3H4vAEU+6Z6RsAOAjV
+ F8XyCIJv3TwHCvnd3Ir+ZoutjD6aZpBVRR+5wZ7TZDTPZ7GxEvFTjxQVua0iU1NBwg66
+ QuWEZK7JXh25pNgYg/l4BZqDwePRuRDqZ5AsNqRiK893E+hnOWFhFJebgwPmb4cT/e6g
+ VCS0mLvs3JY5DmTGqnZjO22xkWpfEgKzt0TvgBRu3QCT86kzQTiNHmDlmWVTbhDxYGuE
+ BjsckEHNgKbn7DuLaHbs1tHjG8V4k9ThZj3sWB4iSdxqNuCDgi069nY7dMZGKAojTYrF
+ ltmw==
+X-Gm-Message-State: APjAAAVHxbf0JD9lVdqlpV3n95a5BGUw7xVr96dpiUDXys38rxu1bdzq
+ 7PwNhUkm3IEWmGowihTEq0hHsvSrRWdOY6VuoEU=
+X-Google-Smtp-Source: APXvYqy/jdevM6trYpTEH3W4czi1Fpw9oE2eeXSjsgSRnCemIQtQuMS3ZQtB0U9QUmz+qK3SvLw5Xo1tZyEyjW9E1Dg=
+X-Received: by 2002:a9d:4c94:: with SMTP id m20mr11536931otf.341.1579786452358; 
+ Thu, 23 Jan 2020 05:34:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1579786123;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z6+U1oJsCmH2eeSC5C8mhxV+iyr1rypS54LYkSNE/cs=;
- b=pAjM0YxZr0v5OqrvFFWQ4DjqwVtYP1MaXUJp9FP4GVXlfE1723ckJOcBIA1c2ewimjDRKW
- EFGSh3aFOhohlDatdu28N6ZJ6JZ0flqDolSB0hzUQV/QliTT3Txo4QIlqFdxhy/1zyhyFD
- oIqf6D7n1mFy0CvDSp4qfuVTTDV8r8E=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1579786123; a=rsa-sha256; cv=none;
- b=dQtQId/0L6PpL7YToTc2PSQq9nt65S95XgJExGoiwZtWFxw+7PwycdqXE+U3I3+ouGjIGB
- yplWpx9TUROiKND38Wi8hdSDwhYzbQ463KT684XR/0aLD06jyEKvylxgNRryyJ4G8m2RZ1
- nmgvFZ/egHP57zWVuCxqtiDNzyPBeFE=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 23 Jan 2020 14:34:01 +0100
+Message-ID: <CAL1e-=j5WJkV=X+KkfBuS3pjf6z3aJrtu4xpYeVbjEUYiWxxTQ@mail.gmail.com>
+Subject: [GSoC/Outreachy QEMU proposal] Extend support for ioctls in QEMU
+ linux-user mode
+To: Laurent Vivier <laurent@vivier.eu>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000505bb8059cceb285"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,119 +70,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- berrange@redhat.com, ehabkost@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, cohuck@redhat.com,
- mark.burton@greensocs.com, qemu-s390x@nongnu.org, edgari@xilinx.com,
- pbonzini@redhat.com, philmd@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace deprecated qbus_reset_all by resettable_cold_reset_fn for
-the sysbus reset registration.
+--000000000000505bb8059cceb285
+Content-Type: text/plain; charset="UTF-8"
 
-Apart for the raspi machines, this does not impact the behavior
-because:
-+ at this point resettable just calls the old reset methods of devices
-  and buses in the same order as qdev/qbus.
-+ resettable handlers registered with qemu_register_reset are
-  serialized; there is no interleaving.
-+ eventual explicit calls to legacy reset API (device_reset or
-  qdev/qbus_reset) inside this reset handler will not be masked out
-  by resettable mechanism; they do not go through resettable api.
+*Extend support for ioctls in QEMU linux-user mode*
 
-For the raspi machines, during the sysbus reset the sd-card is not
-reset twice anymore but only once. This is a consequence of switching
-both sysbus reset and changing parent to resettable; it detects the
-second reset is not needed. This has no impact on the state after
-reset; the sd-card reset method only reset local state and query
-information from the block backend.
 
-The raspi reset change can be observed by using the following command
-(reset will occurs, then do Ctrl-C to end qemu; no firmware is
-given here).
-qemu-system-aarch64 -M raspi3 \
-    -trace resettable_phase_hold_exec \
-    -trace qdev_update_parent_bus \
-    -trace resettable_change_parent \
-    -trace qdev_reset -trace qbus_reset
 
-Before the patch, the qdev/qbus_reset traces show when reset method are
-called. After the patch, the resettable_phase_hold_exec show when reset
-method are called.
+*PLANNED ACTIVITIES*
 
-The traced reset order of the raspi3 is listed below. I've added empty
-lines and the tree structure.
+BACKGROUND
 
- +->bcm2835-peripherals reset
- |
- |       +->sd-card reset
- |   +->sd-bus reset
- +->bcm2835_gpio reset
- |      -> dev_update_parent_bus (move the sd-card on the sdhci-bus)
- |      -> resettable_change_parent
- |
- +->bcm2835-dma reset
- |
- |   +->bcm2835-sdhost-bus reset
- +->bcm2835-sdhost reset
- |
- |       +->sd-card (reset ONLY BEFORE BEFORE THE PATCH)
- |   +->sdhci-bus reset
- +->generic-sdhci reset
- |
- +->bcm2835-rng reset
- +->bcm2835-property reset
- +->bcm2835-fb reset
- +->bcm2835-mbox reset
- +->bcm2835-aux reset
- +->pl011 reset
- +->bcm2835-ic reset
- +->bcm2836-control reset
-System reset
+There is currently 2500+ ioctls defined in Linux kernel. QEMU linux-user
+currently supports only several hundred. There is a constant need for
+expanding ioctl support in QEMU. Users use Linux-user mode in variety of
+setups (for example, building and testing tools and applications under
+chroot environment), and, on a regular basis, efforts by multiple people
+are made to fill in missing support. However, these efforts have been
+usually done on a piece-by-piece basis, i a limited way covering a
+partucular need. This project will take more proactive stance, and try to
+improve QEMU before users start complaining.
 
-In both case, the sd-card is reset (being on bcm2835_gpio/sd-bus) then mo=
-ved
-to generic-sdhci/sdhci-bus by the bcm2835_gpio reset method.
+PART I:
 
-Before the patch, it is then reset again being part of generic-sdhci/sdhc=
-i-bus.
-After the patch, it considered again for reset but its reset method is no=
-t
-called because it is already flagged as reset.
+   a) Add strace support for outputing ioctl IDs (the second argument of
+ioctl()) as strings rather than numbers - for all platform independant
+ioctls.
+   b) Add strace support for printing the third argument of ioctl() (be it
+int, string, structure or array) - limited to selected ioctls that are
+frequently used.
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- vl.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+PART II:
 
-diff --git a/vl.c b/vl.c
-index 71d3e7eefb..d3c4a8b149 100644
---- a/vl.c
-+++ b/vl.c
-@@ -4364,7 +4364,15 @@ int main(int argc, char **argv, char **envp)
-=20
-     /* TODO: once all bus devices are qdevified, this should be done
-      * when bus is created by qdev.c */
--    qemu_register_reset(qbus_reset_all_fn, sysbus_get_default());
-+    /*
-+     * TODO: If we had a main 'reset container' that the whole system
-+     * lived in, we could reset that using the multi-phase reset
-+     * APIs. For the moment, we just reset the sysbus, which will cause
-+     * all devices hanging off it (and all their child buses, recursivel=
-y)
-+     * to be reset. Note that this will *not* reset any Device objects
-+     * which are not attached to some part of the qbus tree!
-+     */
-+    qemu_register_reset(resettable_cold_reset_fn, sysbus_get_default());
-     qemu_run_machine_init_done_notifiers();
-=20
-     if (rom_check_and_register_reset() !=3D 0) {
---=20
-2.24.1
+   a) Amend support for existing groups of ioctls that are not completed
+100% (let's say, filesystem ioctls)
+   b) Add support for a selected group of ioctls that are not currently
+supported (for example, dm ioctls, Bluetooth ioctls, or Radeon DRM ioctls)
 
+PART III:
+
+  a) Develop unit tests for selected ioctls that are already supported in
+QEMU.
+
+
+*DELIVERABLES*
+
+The deliverables are in the form of source code for each part, intended to
+be upstreamed, and time needed for upstreaming (addressing reviews, etc.)
+process is included int this project.
+
+The delivery of results can and should be distributed over larger period of
+time 2-3 months.
+
+
+Montor: open (I propose Laurent Vivier)
+
+Student: open
+
+--000000000000505bb8059cceb285
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><font size=3D"4"><b>Extend support for ioctls in QEMU linu=
+x-user mode</b></font><br><br><br><i><font size=3D"4">PLANNED ACTIVITIES<br=
+></font></i><div><br></div><div>BACKGROUND<br></div><div><br></div><div><di=
+v>There is currently 2500+ ioctls defined in Linux kernel. QEMU linux-user =
+currently supports only several hundred. <span id=3D"gmail-messageContent">=
+</span><span id=3D"gmail-messageContent">There is a constant need for expan=
+ding ioctl support in QEMU. Users use Linux-user mode in variety of setups =
+(for example, building and testing tools and applications under chroot envi=
+ronment), and, on a regular basis, efforts by multiple people are made to f=
+ill in missing support. However,
+these efforts have been usually done on a piece-by-piece basis, i a limited=
+ way covering a partucular need. This=20
+project will take more proactive stance, and try to improve QEMU before=20
+users start complaining.</span><br><span id=3D"gmail-messageContent"></span=
+></div></div><div><br></div><span id=3D"gmail-messageContent">PART I:<br><b=
+r>=C2=A0=C2=A0 a) Add strace support for outputing ioctl IDs (the second ar=
+gument of ioctl()) as strings rather than numbers - for all platform indepe=
+ndant ioctls.<br>=C2=A0=C2=A0
+ b) Add strace support for printing the third argument of ioctl() (be it in=
+t, string, structure or array) - limited to selected ioctls that are freque=
+ntly used.<br><br>PART II:<br><br>=C2=A0=C2=A0 a) Amend support for existin=
+g groups of ioctls that are not completed 100% (let&#39;s say, filesystem i=
+octls)<br>=C2=A0=C2=A0
+ b) Add support for a selected group of ioctls that are not currently=20
+supported (for example, dm ioctls, Bluetooth ioctls, or Radeon DRM ioctls)<=
+br><br>PART III:<br><br></span><div><span id=3D"gmail-messageContent">=C2=
+=A0 a) Develop unit tests for selected ioctls that are already supported in=
+ QEMU.</span></div><div><span id=3D"gmail-messageContent"><br></span></div>=
+<i><font size=3D"4">DELIVERABLES<br></font></i><div><br></div><div>The deli=
+verables are in the form of source code for each part, intended to be upstr=
+eamed, and time needed for upstreaming (addressing reviews, etc.) process i=
+s included int this project.<br></div><div><br></div><div><span id=3D"gmail=
+-messageContent">The delivery of results can and should be distributed over=
+ larger period of time 2-3 months.<br></span></div><div><span id=3D"gmail-m=
+essageContent"><br></span></div><div><br></div><div>Montor: open (I propose=
+ Laurent Vivier)<br></div><div><br></div>Student: open</div>
+
+--000000000000505bb8059cceb285--
 
