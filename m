@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFAE114712F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:53:15 +0100 (CET)
-Received: from localhost ([::1]:35116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A87147137
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:56:01 +0100 (CET)
+Received: from localhost ([::1]:35162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuhbO-0000mK-88
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:53:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41323)
+	id 1iuhe4-0004V0-Ds
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:56:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41350)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iufdz-00050e-1B
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:47 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iufe0-00051u-RX
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iufdy-0006ZH-2v
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:46 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42439
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iufdz-0006aC-NP
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:48 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46384
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufdy-0006Z9-0U
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:46 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufdz-0006Zy-Kb
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579798065;
+ s=mimecast20190719; t=1579798067;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=srgrOmyFieyXx9t0NbqY+EjRMqoi8g4ZeWHCIOGsTbs=;
- b=J+wTER3aXEvUX21OzLqbpDIGVCU50vOCbOoiQ+I37EsR61zVskoOOfku6MEJ2wxVC6xFxB
- q/TlkiPi/TSsIpS/HHHrqm+d6AvzdjPlZkYfzaOK5z3LFCtxg9+iaG7PRA6GOas17OK0cG
- JaD6wvMi+k1jJvJAMrCpLbnYhIzJJgY=
+ bh=v0Lhh+I0+KtmU0zBtZkPdeAoo7iid017XA4V8Gz/OB8=;
+ b=XXSjruBLqFbbmVq+u8Bz4QG27eNNe5tSGO74fUHM9xXZy5lgzdH+a3l5v4oqtpjGkM2Dhl
+ MI05VfNlteZUWd0BDaLkToLZwGsU1OpFZTImzCkTe3q0QeIQi6Iv3VplTqeHC/imrnyKwl
+ NuoI5g3vWbYVkYf/DAWmK29q3YH7JaI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-aHQ11TqjMHSWr5KpJkJKmQ-1; Thu, 23 Jan 2020 11:47:44 -0500
+ us-mta-368-_xKzQjFIPo2FbVgcWJo83Q-1; Thu, 23 Jan 2020 11:47:45 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 746601034B22
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7192C1034B40
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:44 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-110.ams2.redhat.com
  [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C210B28994;
- Thu, 23 Jan 2020 16:47:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDB4B28994;
+ Thu, 23 Jan 2020 16:47:43 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 046/108] virtiofsd: prevent ".." escape in lo_do_lookup()
-Date: Thu, 23 Jan 2020 16:45:28 +0000
-Message-Id: <20200123164630.91498-47-dgilbert@redhat.com>
+Subject: [PULL 047/108] virtiofsd: prevent ".." escape in lo_do_readdir()
+Date: Thu, 23 Jan 2020 16:45:29 +0000
+Message-Id: <20200123164630.91498-48-dgilbert@redhat.com>
 In-Reply-To: <20200123164630.91498-1-dgilbert@redhat.com>
 References: <20200123164630.91498-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: aHQ11TqjMHSWr5KpJkJKmQ-1
+X-MC-Unique: _xKzQjFIPo2FbVgcWJo83Q-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,38 +77,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
+Construct a fake dirent for the root directory's ".." entry.  This hides
+the parent directory from the FUSE client.
+
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Sergio Lopez <slp@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ tools/virtiofsd/passthrough_ll.c | 36 +++++++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 14 deletions(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index e375406160..79d5966eea 100644
+index 79d5966eea..e3d65c3676 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -624,12 +624,17 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t pa=
-rent, const char *name,
-     int res;
-     int saverr;
-     struct lo_data *lo =3D lo_data(req);
--    struct lo_inode *inode;
-+    struct lo_inode *inode, *dir =3D lo_inode(req, parent);
+@@ -1149,19 +1149,25 @@ out_err:
+ static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
+                           off_t offset, struct fuse_file_info *fi, int plu=
+s)
+ {
++    struct lo_data *lo =3D lo_data(req);
+     struct lo_dirp *d;
++    struct lo_inode *dinode;
+     char *buf =3D NULL;
+     char *p;
+     size_t rem =3D size;
+-    int err =3D ENOMEM;
++    int err =3D EBADF;
 =20
-     memset(e, 0, sizeof(*e));
-     e->attr_timeout =3D lo->timeout;
-     e->entry_timeout =3D lo->timeout;
-=20
-+    /* Do not allow escaping root directory */
-+    if (dir =3D=3D &lo->root && strcmp(name, "..") =3D=3D 0) {
-+        name =3D ".";
+-    (void)ino;
++    dinode =3D lo_inode(req, ino);
++    if (!dinode) {
++        goto error;
 +    }
+=20
+     d =3D lo_dirp(req, fi);
+     if (!d) {
+         goto error;
+     }
+=20
++    err =3D ENOMEM;
+     buf =3D calloc(1, size);
+     if (!buf) {
+         goto error;
+@@ -1192,15 +1198,21 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_=
+t ino, size_t size,
+         }
+         nextoff =3D d->entry->d_off;
+         name =3D d->entry->d_name;
 +
-     newfd =3D openat(lo_fd(req, parent), name, O_PATH | O_NOFOLLOW);
-     if (newfd =3D=3D -1) {
-         goto out_err;
+         fuse_ino_t entry_ino =3D 0;
++        struct fuse_entry_param e =3D (struct fuse_entry_param){
++            .attr.st_ino =3D d->entry->d_ino,
++            .attr.st_mode =3D d->entry->d_type << 12,
++        };
++
++        /* Hide root's parent directory */
++        if (dinode =3D=3D &lo->root && strcmp(name, "..") =3D=3D 0) {
++            e.attr.st_ino =3D lo->root.ino;
++            e.attr.st_mode =3D DT_DIR << 12;
++        }
++
+         if (plus) {
+-            struct fuse_entry_param e;
+-            if (is_dot_or_dotdot(name)) {
+-                e =3D (struct fuse_entry_param){
+-                    .attr.st_ino =3D d->entry->d_ino,
+-                    .attr.st_mode =3D d->entry->d_type << 12,
+-                };
+-            } else {
++            if (!is_dot_or_dotdot(name)) {
+                 err =3D lo_do_lookup(req, ino, name, &e);
+                 if (err) {
+                     goto error;
+@@ -1210,11 +1222,7 @@ static void lo_do_readdir(fuse_req_t req, fuse_ino_t=
+ ino, size_t size,
+=20
+             entsize =3D fuse_add_direntry_plus(req, p, rem, name, &e, next=
+off);
+         } else {
+-            struct stat st =3D {
+-                .st_ino =3D d->entry->d_ino,
+-                .st_mode =3D d->entry->d_type << 12,
+-            };
+-            entsize =3D fuse_add_direntry(req, p, rem, name, &st, nextoff)=
+;
++            entsize =3D fuse_add_direntry(req, p, rem, name, &e.attr, next=
+off);
+         }
+         if (entsize > rem) {
+             if (entry_ino !=3D 0) {
 --=20
 2.24.1
 
