@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032E8146190
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 06:33:58 +0100 (CET)
-Received: from localhost ([::1]:51244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2478914618C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 06:31:38 +0100 (CET)
+Received: from localhost ([::1]:51214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuV7t-00053o-0S
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 00:33:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42290)
+	id 1iuV5c-0002e3-O0
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 00:31:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42291)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1iuV0I-0004wY-G8
+ (envelope-from <groeck7@gmail.com>) id 1iuV0I-0004we-Ct
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 00:26:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1iuV0G-0001rl-ST
+ (envelope-from <groeck7@gmail.com>) id 1iuV0H-0001rq-0g
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 00:26:06 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:39545)
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:35346)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1iuV0B-0001pK-MX; Thu, 23 Jan 2020 00:25:59 -0500
-Received: by mail-pg1-x541.google.com with SMTP id 4so771213pgd.6;
- Wed, 22 Jan 2020 21:25:58 -0800 (PST)
+ id 1iuV0B-0001pg-Re; Thu, 23 Jan 2020 00:26:00 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id s7so710941pjc.0;
+ Wed, 22 Jan 2020 21:25:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=KeM+UcLJ0eZCHHeipWPmwwPiaN02ZhSI49JMqf9Y4mU=;
- b=QdPVjOxMhYXoon6u89PhZsZHpR/3WcQt09Zpc622s6LKjlcfYF4f8wOyY/ORFw4XdH
- cPjfeEtwD4msjL0lJGc2SDWESk65+UqKvK6j95RIO2KCQbWS7M6UoV622lVPKteDoG0m
- lSSff/8issKkvZcP4W49YLPytK7zrKiBKPB3M8q3AUCfaIyaqtvZ1frEzYhD0DlkmxsE
- dYiDy7u+lDyg4Nc0+5M4AjFVrT/FxxJkiZk8pPE3YvQoxBK/lySnaogcR5/Hp/tv7zqi
- FXTObFRH3T2J6jP0IqdqKDlbh7Fh3JD21oLbpGdQQbh5tlGvt8S2hrV/Zu1twWGDH7QW
- p5iQ==
+ bh=Oy0EqnYWKgS4fwlYZEHmZQjkUTPPZJZv4+tAwcK76b8=;
+ b=eaIE3MtHrz3tQbQ7YvL14KQVzwyyOAQ6GP7t5Das0HRUlNzHLp/BqcbVcY2L4mRNUq
+ iKpaHk8Q0R64cE8jIGsIbwTZ1bOTSc7XUgPjacX98rcyRiHA+se2/1LfQvbyJPJnKZ9e
+ ORWbbutA44kLF72LntbjbAWzwcD3vGORYVkGagr3ETLjlwtrenb776G0CgFqaw55T2qW
+ Kn/9gPKSIjFC/1kqYgt7XNA6SojjvFilB2UGY4K/pmW6vVVF2sk9AxzdLwNoXraXlPAx
+ C6YeHHuJxhemeg7a5pkAIckmbrlZZukEO7TdrxUtnKPkY7tOYETibshQyrsqJNbMyPq3
+ NYpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=KeM+UcLJ0eZCHHeipWPmwwPiaN02ZhSI49JMqf9Y4mU=;
- b=gNDoFNmTDNJ53We4yUNu3k3L4zzpOs5e4PApPDyqvcpBkRo7IAUv9SEO3iTSfYCCNV
- BlTE00VXUHmPetLmNVWPpaavm2GbbQvXu/8LbsDkLy5JoB5ottLfIRhh6cEVIxZ97S0I
- 2jjoTelo8+pzvWkpSxo/z/R1EiyTqfc8htNSplEw8lm/j96sNPu+I5Yyy43yEZeLvhKe
- Iyyq1TNmZ/PSGHj0FGnhkRuX3C2ngZBrZS9u/tzZEEUpZFH8XscwBDbsM/upEeDBXAic
- CxuGIa0g/OpKwJaTRAZjJHR9HQoZHuB0oVn/0m+cM8o9lT4Y/t6IU2kZjAXc8MccmoFB
- 7pJA==
-X-Gm-Message-State: APjAAAXRHrDPI1PgiitQ+amvsB3FJlEtNoeakeiMrUHhvoltG8pavo+D
- S8uYfAptP4G88qtRcSQziHU=
-X-Google-Smtp-Source: APXvYqzoIdeEopZGCNkFFwLebtJ4ETGdRWYwX2xufS5RIjnhRAbP7q4Q9sJp4wwQJcifKb5UBvYdrg==
-X-Received: by 2002:a62:83c5:: with SMTP id h188mr5963479pfe.0.1579757157542; 
- Wed, 22 Jan 2020 21:25:57 -0800 (PST)
+ bh=Oy0EqnYWKgS4fwlYZEHmZQjkUTPPZJZv4+tAwcK76b8=;
+ b=sYL7kKPJozYpGeibbYCi5tdufMzageoAd04zi74Ct7g7H7gctYLjF1A6uJFInauhJC
+ RByDrS8uNQp7bUvgX6z25IHWdRU2VZshKRrmAItPpjkUebavhaPRNW+AOv0gCU/iZX+/
+ W/I3Irpw3yt2T5QrjWTqXIiqhzF68/WBr9Pe6pgXl2vba40RCaMrwkwUHGCaGLSawBBa
+ cXtZKb+Wdryn4/24IpESOyU5mKgJX9K4qr17ZYakqvyERUmArONFkiFTnWwSc3Ep4/NK
+ hlD4ZxB1xnOIk8Fw8h4GLzriHK7jhSF9cIQQNBlvMea3Ms83+ZvwH24jD/yij8bE337r
+ mbdw==
+X-Gm-Message-State: APjAAAV82zAH42lov1qDnZ16dAUDVsLbGfSAu9B/BVl0ekuQMAEPQkEI
+ spOpsbzFFBei9I/PWiJk4ld2Qq+d
+X-Google-Smtp-Source: APXvYqxVz3uyqFvMmxRG0QD9oiMqX3zxCQ0Yc4NUZzlTTLOvVCjOVHpTb4WZvXqZh0LJtAgQkSvM7w==
+X-Received: by 2002:a17:90b:8c6:: with SMTP id
+ ds6mr2383792pjb.111.1579757158969; 
+ Wed, 22 Jan 2020 21:25:58 -0800 (PST)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id 17sm730160pfv.142.2020.01.22.21.25.56
+ by smtp.gmail.com with ESMTPSA id z130sm919829pgz.6.2020.01.22.21.25.58
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 22 Jan 2020 21:25:57 -0800 (PST)
+ Wed, 22 Jan 2020 21:25:58 -0800 (PST)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 7/8] hw/char/exynos4210_uart: Add receive DMA support
-Date: Wed, 22 Jan 2020 21:25:39 -0800
-Message-Id: <20200123052540.6132-8-linux@roeck-us.net>
+Subject: [PATCH v3 8/8] hw/arm/exynos4210: Connect serial port DMA busy
+ signals with pl330
+Date: Wed, 22 Jan 2020 21:25:40 -0800
+Message-Id: <20200123052540.6132-9-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200123052540.6132-1-linux@roeck-us.net>
 References: <20200123052540.6132-1-linux@roeck-us.net>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,111 +80,122 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To support receive DMA, we need to inform the DMA controller if receive data
-is available. Otherwise the DMA controller keeps requesting data, causing
-receive errors.
-
-Implement this using an interrupt line. The instantiating code then needs
-to connect the interrupt with the matching DMA controller GPIO pin.
+The Exynos4210 serial driver uses an interrupt line to signal if receive
+data is available. Connect that interrupt with the DMA controller's
+'peripheral busy' gpio pin to stop the DMA if there is no more receive
+data available. Without this patch, receive DMA runs wild and fills the
+entire receive DMA buffer with invalid data.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
-v3: No change
+v3: Added Reviewed-by: tag
+    Context changes due to increase in number of interrupt lines
 
-v2: Added Reviewed-by: tag
+v2: Context changes; improved description
+    This patch has an outstanding review comment, suggesting that
+    uart and pl330 device states should be kept in Exynos4210State.
+    I did not address this comment for a number of reasons.
+    It looks like the problem is hypothetical, the problem may
+    apply to all devices created in exynos4210_realize(), and I am
+    not sure I understand what would need to be done to fix
+    the problem for good (ie for all devices created in the same
+    function which have the same problem). Overall, I think that
+    handling this situation would be better left for a separate patch.
 
- hw/char/exynos4210_uart.c | 24 ++++++++++++++++++++++++
- hw/char/trace-events      |  2 ++
- 2 files changed, 26 insertions(+)
+ hw/arm/exynos4210.c | 42 +++++++++++++++++++++++++++++-------------
+ 1 file changed, 29 insertions(+), 13 deletions(-)
 
-diff --git a/hw/char/exynos4210_uart.c b/hw/char/exynos4210_uart.c
-index 8d6b4a071e..bf9e586e79 100644
---- a/hw/char/exynos4210_uart.c
-+++ b/hw/char/exynos4210_uart.c
-@@ -154,6 +154,7 @@ typedef struct Exynos4210UartState {
- 
-     CharBackend       chr;
-     qemu_irq          irq;
-+    qemu_irq          dmairq;
- 
-     uint32_t channel;
- 
-@@ -261,6 +262,24 @@ exynos4210_uart_Rx_FIFO_trigger_level(const Exynos4210UartState *s)
-     return exynos4210_uart_FIFO_trigger_level(s->channel, reg);
+diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+index 7701a3fa8b..59a27bdd68 100644
+--- a/hw/arm/exynos4210.c
++++ b/hw/arm/exynos4210.c
+@@ -166,8 +166,8 @@ static uint64_t exynos4210_calc_affinity(int cpu)
+     return (0x9 << ARM_AFF1_SHIFT) | cpu;
  }
  
-+/*
-+ * Update Rx DMA busy signal if Rx DMA is enabled. For simplicity,
-+ * mark DMA as busy if DMA is enabled and the receive buffer is empty.
-+ */
-+static void exynos4210_uart_update_dmabusy(Exynos4210UartState *s)
-+{
-+    bool rx_dma_enabled = (s->reg[I_(UCON)] & 0x03) == 0x02;
-+    uint32_t count = fifo_elements_number(&s->rx);
-+
-+    if (rx_dma_enabled && !count) {
-+        qemu_irq_raise(s->dmairq);
-+        trace_exynos_uart_dmabusy(s->channel);
-+    } else {
-+        qemu_irq_lower(s->dmairq);
-+        trace_exynos_uart_dmaready(s->channel);
-+    }
-+}
-+
- static void exynos4210_uart_update_irq(Exynos4210UartState *s)
+-static void pl330_create(uint32_t base, qemu_or_irq *orgate, qemu_irq irq,
+-                         int nreq, int nevents, int width)
++static DeviceState *pl330_create(uint32_t base, qemu_or_irq *orgate,
++                                 qemu_irq irq, int nreq, int nevents, int width)
  {
-     /*
-@@ -282,10 +301,12 @@ static void exynos4210_uart_update_irq(Exynos4210UartState *s)
-         count = fifo_elements_number(&s->rx);
-         if ((count && !(s->reg[I_(UCON)] & 0x80)) ||
-             count >= exynos4210_uart_Rx_FIFO_trigger_level(s)) {
-+            exynos4210_uart_update_dmabusy(s);
-             s->reg[I_(UINTSP)] |= UINTSP_RXD;
-             timer_del(s->fifo_timeout_timer);
-         }
-     } else if (s->reg[I_(UTRSTAT)] & UTRSTAT_Rx_BUFFER_DATA_READY) {
-+        exynos4210_uart_update_dmabusy(s);
-         s->reg[I_(UINTSP)] |= UINTSP_RXD;
+     SysBusDevice *busdev;
+     DeviceState *dev;
+@@ -196,6 +196,7 @@ static void pl330_create(uint32_t base, qemu_or_irq *orgate, qemu_irq irq,
+         sysbus_connect_irq(busdev, i, qdev_get_gpio_in(DEVICE(orgate), i));
      }
- 
-@@ -311,6 +332,7 @@ static void exynos4210_uart_timeout_int(void *opaque)
-         (s->reg[I_(UCON)] & (1 << 11))) {
-         s->reg[I_(UINTSP)] |= UINTSP_RXD;
-         s->reg[I_(UTRSTAT)] |= UTRSTAT_Rx_TIMEOUT;
-+        exynos4210_uart_update_dmabusy(s);
-         exynos4210_uart_update_irq(s);
-     }
- }
-@@ -495,6 +517,7 @@ static uint64_t exynos4210_uart_read(void *opaque, hwaddr offset,
-             s->reg[I_(UTRSTAT)] &= ~UTRSTAT_Rx_BUFFER_DATA_READY;
-             res = s->reg[I_(URXH)];
-         }
-+        exynos4210_uart_update_dmabusy(s);
-         trace_exynos_uart_read(s->channel, offset,
-                                exynos4210_uart_regname(offset), res);
-         return res;
-@@ -661,6 +684,7 @@ static void exynos4210_uart_init(Object *obj)
-     sysbus_init_mmio(dev, &s->iomem);
- 
-     sysbus_init_irq(dev, &s->irq);
-+    sysbus_init_irq(dev, &s->dmairq);
+     qdev_connect_gpio_out(DEVICE(orgate), 0, irq);
++    return dev;
  }
  
- static void exynos4210_uart_realize(DeviceState *dev, Error **errp)
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index cb73fee6a9..6f938301d9 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -79,6 +79,8 @@ nrf51_uart_read(uint64_t addr, uint64_t r, unsigned int size) "addr 0x%" PRIx64
- nrf51_uart_write(uint64_t addr, uint64_t value, unsigned int size) "addr 0x%" PRIx64 " value 0x%" PRIx64 " size %u"
+ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+@@ -204,7 +205,7 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+     MemoryRegion *system_mem = get_system_memory();
+     qemu_irq gate_irq[EXYNOS4210_NCPUS][EXYNOS4210_IRQ_GATE_NINPUTS];
+     SysBusDevice *busdev;
+-    DeviceState *dev;
++    DeviceState *dev, *uart[4], *pl330[3];
+     int i, n;
  
- # exynos4210_uart.c
-+exynos_uart_dmabusy(uint32_t channel) "UART%d: DMA busy (Rx buffer empty)"
-+exynos_uart_dmaready(uint32_t channel) "UART%d: DMA ready"
- exynos_uart_irq_raised(uint32_t channel, uint32_t reg) "UART%d: IRQ raised: 0x%08"PRIx32
- exynos_uart_irq_lowered(uint32_t channel) "UART%d: IRQ lowered"
- exynos_uart_update_params(uint32_t channel, int speed, uint8_t parity, int data, int stop, uint64_t wordtime) "UART%d: speed: %d, parity: %c, data bits: %d, stop bits: %d wordtime: %"PRId64"ns"
+     for (n = 0; n < EXYNOS4210_NCPUS; n++) {
+@@ -390,19 +391,19 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+ 
+ 
+     /*** UARTs ***/
+-    exynos4210_uart_create(EXYNOS4210_UART0_BASE_ADDR,
++    uart[0] = exynos4210_uart_create(EXYNOS4210_UART0_BASE_ADDR,
+                            EXYNOS4210_UART0_FIFO_SIZE, 0, serial_hd(0),
+                   s->irq_table[exynos4210_get_irq(EXYNOS4210_UART_INT_GRP, 0)]);
+ 
+-    exynos4210_uart_create(EXYNOS4210_UART1_BASE_ADDR,
++    uart[1] = exynos4210_uart_create(EXYNOS4210_UART1_BASE_ADDR,
+                            EXYNOS4210_UART1_FIFO_SIZE, 1, serial_hd(1),
+                   s->irq_table[exynos4210_get_irq(EXYNOS4210_UART_INT_GRP, 1)]);
+ 
+-    exynos4210_uart_create(EXYNOS4210_UART2_BASE_ADDR,
++    uart[2] = exynos4210_uart_create(EXYNOS4210_UART2_BASE_ADDR,
+                            EXYNOS4210_UART2_FIFO_SIZE, 2, serial_hd(2),
+                   s->irq_table[exynos4210_get_irq(EXYNOS4210_UART_INT_GRP, 2)]);
+ 
+-    exynos4210_uart_create(EXYNOS4210_UART3_BASE_ADDR,
++    uart[3] = exynos4210_uart_create(EXYNOS4210_UART3_BASE_ADDR,
+                            EXYNOS4210_UART3_FIFO_SIZE, 3, serial_hd(3),
+                   s->irq_table[exynos4210_get_irq(EXYNOS4210_UART_INT_GRP, 3)]);
+ 
+@@ -450,12 +451,27 @@ static void exynos4210_realize(DeviceState *socdev, Error **errp)
+             s->irq_table[exynos4210_get_irq(28, 3)]);
+ 
+     /*** DMA controllers ***/
+-    pl330_create(EXYNOS4210_PL330_BASE0_ADDR, &s->pl330_irq_orgate[0],
+-                 s->irq_table[exynos4210_get_irq(21, 0)], 32, 32, 32);
+-    pl330_create(EXYNOS4210_PL330_BASE1_ADDR, &s->pl330_irq_orgate[1],
+-                 s->irq_table[exynos4210_get_irq(21, 1)], 32, 32, 32);
+-    pl330_create(EXYNOS4210_PL330_BASE2_ADDR, &s->pl330_irq_orgate[2],
+-                 s->irq_table[exynos4210_get_irq(20, 1)], 1, 31, 64);
++    pl330[0] = pl330_create(EXYNOS4210_PL330_BASE0_ADDR,
++                            &s->pl330_irq_orgate[0],
++                            s->irq_table[exynos4210_get_irq(21, 0)],
++                            32, 32, 32);
++    pl330[1] = pl330_create(EXYNOS4210_PL330_BASE1_ADDR,
++                            &s->pl330_irq_orgate[1],
++                            s->irq_table[exynos4210_get_irq(21, 1)],
++                            32, 32, 32);
++    pl330[2] = pl330_create(EXYNOS4210_PL330_BASE2_ADDR,
++                            &s->pl330_irq_orgate[2],
++                            s->irq_table[exynos4210_get_irq(20, 1)],
++                            1, 31, 64);
++
++    sysbus_connect_irq(SYS_BUS_DEVICE(uart[0]), 1,
++                       qdev_get_gpio_in(pl330[0], 15));
++    sysbus_connect_irq(SYS_BUS_DEVICE(uart[1]), 1,
++                       qdev_get_gpio_in(pl330[1], 15));
++    sysbus_connect_irq(SYS_BUS_DEVICE(uart[2]), 1,
++                       qdev_get_gpio_in(pl330[0], 17));
++    sysbus_connect_irq(SYS_BUS_DEVICE(uart[3]), 1,
++                       qdev_get_gpio_in(pl330[1], 17));
+ }
+ 
+ static void exynos4210_init(Object *obj)
 -- 
 2.17.1
 
