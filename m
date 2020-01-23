@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB49145FE3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:25:12 +0100 (CET)
-Received: from localhost ([::1]:49044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9EBA145FFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:37:03 +0100 (CET)
+Received: from localhost ([::1]:49374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuQJ5-0008GE-2n
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:25:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54891)
+	id 1iuQUY-0007jd-5Z
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:37:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43022)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzp-0002KA-FP
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:26 -0500
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iuQTg-0007Kh-Um
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:36:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzg-0002N8-SI
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:16 -0500
-Received: from mail-pf1-f182.google.com ([209.85.210.182]:46094)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iuQTf-000078-IS
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:36:08 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50835)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iuPzg-0002My-Lq
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:08 -0500
-Received: by mail-pf1-f182.google.com with SMTP id n9so595327pff.13
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:05:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uNidjxnV5DdRs3wA8rpbCUEyKJO/wom0WpMzXxLIKOY=;
- b=sr+p4nWLYFAPJYy8lR1fD2hStzw3ans3vKT7tk9gsfid39tVmSXAbAwTjGTowlETF9
- 94n4eW9IUbs1GANymo3PpgDZ9nSkZyJBlKJMIbzCrVTdmBVTtu4kxuBy09XU1sPflvyd
- FCVc5xwavO+4PbfjrKxrmRwnekmanZwiSU8Szu9QWTvMhyW4kKmH4ugZslC19ps3j1yN
- 5dLryQN143H8QWk4iH+5pFTuwwU9szQLy15J0xoDGA30Z4V9pTgnnRRwfqfSkjcyCBkL
- X+3ZyQ0sNy+eWtvUzGRtGb9K3wKfASW3wkpZ9NuIdumBWDl6ATivSIeHsu1kgmnxfZAZ
- G+EQ==
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1iuQTf-000066-CT
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:36:07 -0500
+Received: by mail-wm1-x342.google.com with SMTP id a5so733567wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:36:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/2apbwhRNfDklNmkih1t8Cxh6sWeUkA+QXjuH6egj8I=;
+ b=dLoHT3uUYFFmkCDMW3+FTF4oRnxQB3XifbNI4V5nY1vTBtS+PNRgnmdcKIqRikyZWx
+ DS7Z+aJOiXNjerRCESTr/IePkOK5pFG8YePzI73pzxW55m37ufQeY5PfHjF0gfMTRXDH
+ XeOpREW8ZaijhexoCuT5AwN+iv9xjLVZk+77thCcr1dFO0Z4cbgTG7JvJPn2AkwDkbYQ
+ f23bumu2KJcd2sE5hvTjcHcOQ5vdIlIcnei0XnpY/ULGVC6pLpb5LB1XQ6S8UqBu73CD
+ lQz6d27QpmOjvuDIRXPTTbNXpYd91pdFS4fu3DDRUR3Uv1pQ78a/FIEUXPaQj3BtW5/z
+ 3JAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uNidjxnV5DdRs3wA8rpbCUEyKJO/wom0WpMzXxLIKOY=;
- b=ZYTKmbD6RxAnuCBkHuTbWQ1iO8tf+84fDEyDwLwlqh+vRw4nGB4Swc41ky/215u+l2
- p0oVpcOHr2WfK+6boDs8VPgsIKUbKEjSo0nCnaolHC8LSB0/JMsk2zlVjZs2FDeGZ+58
- xxf/3LepmexbXOXd6rk9UanHvvvwUiwk3aU8OHA4HH1Y9rVNF9JjBY4Taivq/GcLWiRO
- ku6tZoiiwcDnj679+8l1UmFwtiR64cWFk2/tAQMfXd0B3ulUPZ8HjfhgwYz++k2tu/CL
- br+3UHvE47hnmiPBvH2jHiFC8gAVxgfosKTA5MFsAzG22aPzDYrON+TV3rhzDHVxpI6R
- bdOg==
-X-Gm-Message-State: APjAAAUi+ytGURd6wIVIkbpF/Soo6nCXZ1QF8RTU87l2s2ZusDnBHaZG
- CiB7l4UhncDCFuFzckEKPjzh3UKaXiE=
-X-Google-Smtp-Source: APXvYqwet3TjpZxYq0haZ00l1u0XuoHbivHUrTOZW4Ywia4sOy5jJHVMyygT1HsNJ2/oilSbTAHY8A==
-X-Received: by 2002:a63:d62:: with SMTP id 34mr949548pgn.268.1579737847414;
- Wed, 22 Jan 2020 16:04:07 -0800 (PST)
-Received: from localhost.localdomain (rrcs-173-198-77-92.west.biz.rr.com.
- [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.04.05
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=/2apbwhRNfDklNmkih1t8Cxh6sWeUkA+QXjuH6egj8I=;
+ b=T+SHW8jc1uCydoHEJp6efbO6q4xQHEeZZYZfWLZAYKt11Q0smIQmNMFhdGwEXStSH5
+ az7WUcWE0dgd/lUh3g7sdOaj53p5NxDl4QVLCno0anIdIIA4VhneFZ30OuDA0z0mlkK+
+ xKsjVMYU9g/yNLm7h7rRNB6PMA+H9V2BtSuOZGFCO9VY0+LTKTSaruXgS0My72JJIGny
+ uI6VyXPjaWr0ivFvoulGDzL27SBMeIx5sA9bfPwIeHxOaCTi68DYU4cob6+xucmebKX5
+ 9IW9ju5s0U8OLnrPZGZiBpnANzAhFI+6L+RGZn+TqBA90pCDgzeYtazRkwZuLie21d1m
+ ALTw==
+X-Gm-Message-State: APjAAAWwuZLkx8XL+BppxOumh76o0nQ0vXJuy/A5ELR76Dtjl7ASyA3l
+ FkMOda59qlyFYxQP4Ac8lcFM03sZ
+X-Google-Smtp-Source: APXvYqxUNQErt/RnWarRlqNvZkr1xJaSM+TAS9jfKIiw2pGf0wB8Z6WG91pItnufyqinG21t4NR2og==
+X-Received: by 2002:a1c:2dcd:: with SMTP id t196mr833229wmt.22.1579739765837; 
+ Wed, 22 Jan 2020 16:36:05 -0800 (PST)
+Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id n16sm649500wro.88.2020.01.22.16.36.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 16:04:06 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH rc1 24/24] .travis.yml: Run the AVR acceptance tests
-Date: Wed, 22 Jan 2020 14:03:07 -1000
-Message-Id: <20200123000307.11541-25-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200123000307.11541-1-richard.henderson@linaro.org>
-References: <20200123000307.11541-1-richard.henderson@linaro.org>
+ Wed, 22 Jan 2020 16:36:05 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: Helge Deller <deller@gmx.de>,
+	qemu-devel@nongnu.org
+Subject: [PATCH] tests/boot-serial-test: Allow the HPPA machine to shudown
+Date: Thu, 23 Jan 2020 01:36:03 +0100
+Message-Id: <20200123003603.11610-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.182
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,43 +81,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, me@xcancerberox.com.ar, S.E.Harris@kent.ac.uk,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- dovgaluk@ispras.ru, imammedo@redhat.com, mrolnik@gmail.com,
- aleksandar.m.mail@gmail.com
+ Paolo Bonzini <pbonzini@redhat.com>, Sven Schnelle <svens@stackframe.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The boot-serial test uses SeaBIOS on HPPA, and expects to read the
+"SeaBIOS wants SYSTEM HALT" string, see [*]:
 
-We have one test so far, and it is very fast:
+ 122 void __VISIBLE __noreturn hlt(void)
+ 123 {
+ 124     if (pdc_debug)
+ 125         printf("HALT initiated from %p\n",  __builtin_return_address(0));
+ 126     printf("SeaBIOS wants SYSTEM HALT.\n\n");
+ 127     asm volatile("\t.word 0xfffdead0": : :"memory");
+ 128     while (1);
+ 129 }
 
-  $ avocado --show=app run -t arch:avr tests/acceptance/
-  (1/1) tests/acceptance/machine_avr6.py:AVR6Machine.test_freertos: PASS (2.13 s)
-  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-  JOB TIME   : 2.30 s
+A 'SYSTEM HALT' would really halts the CPU, but SeaBIOS implements
+it as an infinite loop.
+
+If SeaBIOS does not use the expected serial port but another device,
+we might poll the console indefinitely while the machine is halted.
+
+Allow the HPPA machine to 'shutdown'. When it does, we'll get
+a qtest error:
+
+  $ make check-qtest-hppa
+    TEST    check-qtest-hppa: tests/qtest/boot-serial-test
+  ** (tests/qtest/boot-serial-test:31924): ERROR **: 01:12:37.604: Failed to find expected string. Please check '/tmp/qtest-boot-serial-sjxoM6Q'
+  ERROR - Bail out! FATAL-ERROR: Failed to find expected string. Please check '/tmp/qtest-boot-serial-sjxoM6Q'
+  make: *** [tests/Makefile.include:628: check-qtest-hppa] Error 1
+
+[*] https://github.com/qemu/seabios-hppa/blob/1630ac7d65/src/parisc/parisc.c#L138
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200120220107.17825-19-f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- .travis.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I first used:
 
-diff --git a/.travis.yml b/.travis.yml
-index 6c1038a0f1..2301c9221e 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -268,7 +268,7 @@ matrix:
+    shutdown = !strcmp(test->arch, "hppa");
+
+Then remembered we'll have other HPPA machines soon.
+
+Instead of:
+
+    shutdown = !strcmp(test->machine, "hppa");
+
+I find the check on the SeaBIOS specific string more accurate
+(since someone might add some assembly lines as the other tests).
+---
+ tests/qtest/boot-serial-test.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
+index 05c7f44457..4e92f292f5 100644
+--- a/tests/qtest/boot-serial-test.c
++++ b/tests/qtest/boot-serial-test.c
+@@ -188,6 +188,17 @@ static void test_machine(const void *data)
+     const uint8_t *code = NULL;
+     QTestState *qts;
+     int ser_fd;
++    bool shutdown;
++
++    /*
++     * This test uses SeaBIOS on HPPA, and expects to read the
++     * "SeaBIOS wants SYSTEM HALT" string. A 'SYSTEM HALT' really
++     * halts the CPU. If SeaBIOS does not use the expected serial
++     * port but another device, we might poll the console
++     * indefinitely while the machine is halted.
++     * Keep using this option for all the other tests.
++     */
++    shutdown = !strcmp(test->expect, "SeaBIOS wants SYSTEM HALT");
  
-     # Acceptance (Functional) tests
-     - env:
--        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,sparc-softmmu"
-+        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,sparc-softmmu,avr-softmmu"
-         - TEST_CMD="make check-acceptance"
-       after_script:
-         - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
+     ser_fd = mkstemp(serialtmp);
+     g_assert(ser_fd != -1);
+@@ -215,10 +226,11 @@ static void test_machine(const void *data)
+      * Make sure that this test uses tcg if available: It is used as a
+      * fast-enough smoketest for that.
+      */
+-    qts = qtest_initf("%s %s -M %s -no-shutdown "
++    qts = qtest_initf("%s %s -M %s %s "
+                       "-chardev file,id=serial0,path=%s "
+                       "-serial chardev:serial0 -accel tcg -accel kvm %s",
+                       codeparam, code ? codetmp : "", test->machine,
++                      shutdown ? "" : "-no-shutdown",
+                       serialtmp, test->extra);
+     if (code) {
+         unlink(codetmp);
 -- 
-2.20.1
+2.21.1
 
 
