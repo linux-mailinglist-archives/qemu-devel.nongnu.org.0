@@ -2,67 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D3021466FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:43:05 +0100 (CET)
-Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5ADA1466E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:37:36 +0100 (CET)
+Received: from localhost ([::1]:54968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuat6-00068I-0U
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:43:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34691)
+	id 1iuann-0003AU-QV
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:37:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33661)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iuar4-0004mY-Id
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:00 -0500
+ (envelope-from <qemu_oss@crudebyte.com>) id 1iuamk-0002jS-II
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:36:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iuar3-0003fm-29
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:40:58 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34802)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iuar2-0003fN-Sp
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:40:57 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iuar1-0003dO-F1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:40:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6FD262E80CE
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:40:55 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 23 Jan 2020 11:34:30 -0000
-From: Frank Heimes <1859656@bugs.launchpad.net>
+ (envelope-from <qemu_oss@crudebyte.com>) id 1iuamj-00019y-C9
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:36:30 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:39985)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1iuami-00018O-TS
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:36:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=Fivqf3Ds+3Sv4LVdV0stywn4pEK6AJgcLXwa1ZoxYXI=; b=Kjm7FPos62Luse3OlUuRanmnQC
+ K/e4LfwedW6SKqyLxF1yrmTWTakz14B5a0TN+Z8ARvACPnecJmuGsm+vPwqi5pOEtQ6ZVeTUlUhGx
+ wc6VS0Ew+cqx455upSg1tT2sFc+x6oXN1Peatk5vgQ2H3zdrJBAGE0ZA5gY0YsRJ7nDEXqoAIL5JA
+ QTTAcK+RM9zvXI0BpTzwmtt3u3lsLS1y4i26Blmw1af8w9qgtR7xUPmRhLaXY58QX94qyjsx2GTu9
+ wa9DnIAA8OoWa5pXGF5AtNMwdqsImsFYTCtnMkY9bz1hh+0D09HkJY/L1FXkyocbd633roxWJijLk
+ YhZWI5qrNleM71MCsNCUTF7CqI7ykKsT2j0I+1XANAG45RU+8pa9A8hoKIFARslelKelUXzB5Zwnb
+ W/q837uZc6Wk4vPav+/xqtk/GvVDMI5xyE9AyAjUwBf77f5C+W0kEmlzOy8mbPnA4Uts6ZhTPdycm
+ /RZeCir2z+swHuJtXdvUqjiD8bnt+MVlT4QJhhKqn5b6yVILS0/u/aLGWI387pbUYJYqgC0V4kw0C
+ ubHP2kx1fIrtduAjRgpZak/mpV5aYtLFDe+zTK/aV8eITeK8UOEggTxzQ6gFKFvG+Io32WdXvwg3R
+ BAKlS2gYoWFy/0wCwU+UqF59Vo4CieLpodrFofri0=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=maas; status=New; importance=Undecided;
- assignee=lee.trager@canonical.com; 
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
- assignee=maas; 
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fheimes ltrager paelzer sfeole
-X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
-X-Launchpad-Bug-Modifier: Frank Heimes (fheimes)
-References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
-Message-Id: <157977927077.4717.3663394926831163556.malone@soybean.canonical.com>
-Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
- initial deploy
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 319e728340cd7dfbf493add17a2166db36a52377
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v4 07/11] tests/virtio-9p: failing splitted readdir test
+Date: Thu, 23 Jan 2020 12:36:12 +0100
+Message-ID: <23580535.7v2ZZEAp5V@silver>
+In-Reply-To: <20200122235954.1305faab@bahia.lan>
+References: <cover.1579567019.git.qemu_oss@crudebyte.com>
+ <4dc3706db1f033d922e54af8c74a81211de8b79f.1579567020.git.qemu_oss@crudebyte.com>
+ <20200122235954.1305faab@bahia.lan>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 5.189.157.229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,154 +61,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I took the time and recreated a MAAS setup (latest stable 2.2) on s390x and=
- it looks like this:
-- I could start a deployment and ran through the states:
-   - Power On, Commissioning (Performing PXE boot)
-   - Power On, Commissioning (Gathering Information)
-   - Power On, Ready
-   - Power Off, Ready
-  (I may have have missed some states in between.)
-- Power Off, Ready is the final state at that point
-  and on the console it's:
-$ virsh list --all
- Id    Name                           State
-----------------------------------------------------
- -     vm1                            shut off
-- xml VM definition is:
-$ virsh dumpxml vm1
-<domain type=3D'kvm'>
-  <name>vm1</name>
-  <uuid>0f7d1d61-9368-4bfe-8c65-c709e90e8780</uuid>
-  <memory unit=3D'KiB'>1048576</memory>
-  <currentMemory unit=3D'KiB'>1048576</currentMemory>
-  <vcpu placement=3D'static'>1</vcpu>
-  <os>
-    <type arch=3D's390x' machine=3D's390-ccw-virtio-bionic'>hvm</type>
-    <boot dev=3D'network'/>
-    <boot dev=3D'hd'/>
-  </os>
-  <features>
-    <acpi/>
-    <apic/>
-    <pae/>
-  </features>
-  <clock offset=3D'utc'/>
-  <on_poweroff>destroy</on_poweroff>
-  <on_reboot>restart</on_reboot>
-  <on_crash>destroy</on_crash>
-  <devices>
-    <emulator>/usr/bin/kvm</emulator>
-    <disk type=3D'file' device=3D'disk'>
-      <driver name=3D'qemu' type=3D'raw'/>
-      <source file=3D'/var/lib/libvirt/maas-images/6addbfeb-ff2c-4350-b34d-=
-11a56ea34f1d'/>
-      <target dev=3D'vda' bus=3D'virtio'/>
-      <serial>6addbfeb-ff2c-4350-b34d-11a56ea34f1d</serial>
-      <address type=3D'ccw' cssid=3D'0xfe' ssid=3D'0x0' devno=3D'0x0002'/>
-    </disk>
-    <interface type=3D'network'>
-      <mac address=3D'52:54:00:ea:11:5f'/>
-      <source network=3D'default'/>
-      <model type=3D'virtio'/>
-      <address type=3D'ccw' cssid=3D'0xfe' ssid=3D'0x0' devno=3D'0x0001'/>
-    </interface>
-    <console type=3D'pty'>
-      <log file=3D'/var/log/libvirt/qemu/vm1-serial0.log' append=3D'off'/>
-      <target type=3D'sclp' port=3D'0'/>
-    </console>
-    <memballoon model=3D'virtio'>
-      <address type=3D'ccw' cssid=3D'0xfe' ssid=3D'0x0' devno=3D'0x0000'/>
-    </memballoon>
-    <panic model=3D's390'/>
-  </devices>
-</domain>
+On Mittwoch, 22. Januar 2020 23:59:54 CET Greg Kurz wrote:
+> On Tue, 21 Jan 2020 01:17:35 +0100
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > This patch is not intended to be merged. It resembles
+> > an issue (with debug messages) where the splitted
+> > readdir test fails because server is interrupted with
+> > transport error "Failed to decode VirtFS request type 40",
+> 
+> Ok. When we send a new request, we call:
+> 
+> uint32_t qvirtqueue_add(QTestState *qts, QVirtQueue *vq, uint64_t data,
+>                         uint32_t len, bool write, bool next)
+> {
+>     uint16_t flags = 0;
+>     vq->num_free--;
+> 
+> [...]
+> 
+>     return vq->free_head++; /* Return and increase, in this order */
+> }
 
-So it largely looks like assumed (after initially reading the bug),
-PXE itself seems to work, but the boot issue it due to:
-    <boot dev=3D'network'/>
-    <boot dev=3D'hd'/>
+Ah, I see!
 
-That confirms the situation (on s390x and MAAS 2.6.2)m but it still
-raises the question why it seem to have worked with 2.6.0?
+> where vq->num_free is the number of available buffers (aka. requests) in
+> the vq and vq->free_head the index of the next available buffer. The size
+> of the vq of the virtio-9p device is MAX_REQ (128) buffers. The driver
+> is very simple and doesn't care to handle the scenario of a full vq,
+> ie, num_free == 0 and free_head is past the vq->desc[] array. It seems
+> that count=128 generates enough extra requests to reach the end of the
+> vq. Hence the "decode" error you get. Maybe an assert(vq->num_free) in
+> qvirtqueue_add() would make that more clear ?
 
--- =
+So just that I get it right; currently the 9pfs test suite writes to a 
+ringbuffer with every request (decreasing the free space in the ringbuffer), 
+but it never frees up that space in the ringbuffer?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859656
+> Not sure it is worth to address this limitation though. Especially since
+> count=128 isn't really a recommended choice in the first place. 
 
-Title:
-  [2.6] Unable to reboot s390x KVM machine after initial deploy
+Well, if that's what happens with the ringbuffer, it would need to be 
+addressed somehow anyway, otherwise it would be impossible to add more 9pfs 
+tests, since they would hit the ringbuffer limit as well at a certain point, 
+no matter how simple the requests are.
 
-Status in MAAS:
-  New
-Status in QEMU:
-  Incomplete
-Status in Ubuntu on IBM z Systems:
-  Triaged
+Wouldn't it make sense to reset the ringbuffer after every succesful, 
+individual 9pfs test?
 
-Bug description:
-  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
-  Arch: S390x
+> It has
+> more chances to cause a disconnect if the server needs to return a longer
+> file name (which is expected since most fs have 255 character long file
+> names).
 
-  Appears that MAAS can not find the s390x bootloader to boot from the
-  disk, not sure how maas determines this.  However this was working in
-  the past. I had originally thought that if the maas machine was
-  deployed then it defaulted to boot from disk.
+Well, this test is dependent on what's provided exactly by the synth driver 
+anyway. So I don't see the value 128 as a problem here. The readdir/split test 
+could even determine the max. length of a file provided by synth driver if you 
+are concerned about that, because the file name template macro 
+QTEST_V9FS_SYNTH_READDIR_FILE used by synth driver is public.
 
-  If I force the VM to book from disk, the VM starts up as expected.
+And BTW it is not really this specific 'count' value (128) that triggers this 
+issue, if you just run the readdir/split test with i.e.:
 
-  Reproduce:
+	const uint32_t vcount[] = { 128 };
 
-  - Deploy Disco on S390x KVM instance
-  - Reboot it
+then you won't trigger this test environment issue.
 
-  on the KVM console...
+Best regards,
+Christian Schoenebeck
 
-  Connected to domain s2lp6g001
-  Escape character is ^]
-  done
-  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
-  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
-  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
-  Trying pxelinux.cfg files...
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  Failed to load OS from network
 
-  =3D=3D> /var/log/maas/rackd.log <=3D=3D
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
-0x.bin requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
-5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-1-52-54-00-e5-d7-bb requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64BA0 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64BA requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64B requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF6 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-A requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
- requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
-efault requested by 10.246.75.160
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
 
