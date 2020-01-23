@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01F2146913
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:29:52 +0100 (CET)
-Received: from localhost ([::1]:57042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0F61468A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:03:55 +0100 (CET)
+Received: from localhost ([::1]:56712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iucYR-0005AK-BE
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:29:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40377)
+	id 1iuc9J-0005Tu-Ig
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:03:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40434)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iub8t-00026S-L8
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:24 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iub8x-0002DT-Qf
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iub8s-00053S-FH
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23880
+ (envelope-from <dgilbert@redhat.com>) id 1iub8w-000568-EB
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32681
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub8s-00052u-AT
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:22 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub8w-00055u-AJ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780762;
+ s=mimecast20190719; t=1579780766;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KqDg9C7PF4ZP+PGW/TCsORhZSISTuzgb3iowwgktUSs=;
- b=YBWsk20Tzk+Hxy2gN4YBKwqOg5fP8win4nl2meM0fyReNiTFzSfY7r/kbAuMGksRsSvnsi
- JY6cCnzo138JYs1S7IvlNdlo6QXFSCPvljb2YoRQdEb82UDilgfxR1LUAhVElbzj698HXC
- uHKNCqlloU0ONLPliqADKHgqJ82VkLk=
+ bh=9Wsvi6ylmggzuEttsW+S6YDpnrJ0gXoKZtapOr0FXpA=;
+ b=h31+qk337zyZ3yCiXTEegNOQdNu31k/i7iA+GeLto1YoX3/SCmFLGG4htNQ9PtjwLOCsY/
+ ygg7i/f03USw1sz/Xu1pn6rAcXg+mgkoURyUhKbAEOvTLAhVDruVXZDzqTSEPuqfXfuPwM
+ dWpSgF6gOMpN8Ie+a782GL86Q5ToS3s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-p7YqjeWKPGKoqUIokZdycw-1; Thu, 23 Jan 2020 06:59:19 -0500
+ us-mta-336-srSBkL41ObWvX0l95OWhJw-1; Thu, 23 Jan 2020 06:59:24 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3E421088398
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54E4C107ACC9
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:23 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 162E01CB;
- Thu, 23 Jan 2020 11:59:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 221E91CB;
+ Thu, 23 Jan 2020 11:59:19 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 027/111] virtiofsd: Add Makefile wiring for virtiofsd contrib
-Date: Thu, 23 Jan 2020 11:57:17 +0000
-Message-Id: <20200123115841.138849-28-dgilbert@redhat.com>
+Subject: [PULL 029/111] virtiofsd: add --fd=FDNUM fd passing option
+Date: Thu, 23 Jan 2020 11:57:19 +0000
+Message-Id: <20200123115841.138849-30-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: p7YqjeWKPGKoqUIokZdycw-1
+X-MC-Unique: srSBkL41ObWvX0l95OWhJw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -74,91 +74,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Wire up the building of the virtiofsd in tools.
+Although --socket-path=3DPATH is useful for manual invocations, management
+tools typically create the UNIX domain socket themselves and pass it to
+the vhost-user device backend.  This way QEMU can be launched
+immediately with a valid socket.  No waiting for the vhost-user device
+backend is required when fd passing is used.
 
-virtiofsd relies on Linux-specific system calls and seccomp.  Anyone
-wishing to port it to other host operating systems should do so
-carefully and without reducing security.
-
-Only allow building on Linux hosts.
-
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- Makefile                      | 10 ++++++++++
- Makefile.objs                 |  1 +
- tools/virtiofsd/Makefile.objs |  9 +++++++++
- 3 files changed, 20 insertions(+)
- create mode 100644 tools/virtiofsd/Makefile.objs
+ tools/virtiofsd/fuse_i.h        |  1 +
+ tools/virtiofsd/fuse_lowlevel.c | 16 ++++++++++++----
+ tools/virtiofsd/fuse_virtio.c   | 31 +++++++++++++++++++++++++------
+ 3 files changed, 38 insertions(+), 10 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 6562b0dc97..ef1e2155a7 100644
---- a/Makefile
-+++ b/Makefile
-@@ -327,6 +327,10 @@ HELPERS-y +=3D vhost-user-gpu$(EXESUF)
- vhost-user-json-y +=3D contrib/vhost-user-gpu/50-qemu-gpu.json
- endif
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index 1126723d18..45995f3246 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -68,6 +68,7 @@ struct fuse_session {
+     size_t bufsize;
+     int error;
+     char *vu_socket_path;
++    int   vu_listen_fd;
+     int   vu_socketfd;
+     struct fv_VuDev *virtio_dev;
+ };
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
+l.c
+index 4f4684d942..95f4db8fcf 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -2130,6 +2130,7 @@ static const struct fuse_opt fuse_ll_opts[] =3D {
+     LL_OPTION("--debug", debug, 1),
+     LL_OPTION("allow_root", deny_others, 1),
+     LL_OPTION("--socket-path=3D%s", vu_socket_path, 0),
++    LL_OPTION("--fd=3D%d", vu_listen_fd, 0),
+     FUSE_OPT_END
+ };
 =20
-+ifdef CONFIG_LINUX
-+HELPERS-y +=3D virtiofsd$(EXESUF)
-+endif
+@@ -2147,7 +2148,8 @@ void fuse_lowlevel_help(void)
+      */
+     printf(
+         "    -o allow_root              allow access by root\n"
+-        "    --socket-path=3DPATH         path for the vhost-user socket\n=
+");
++        "    --socket-path=3DPATH         path for the vhost-user socket\n=
+"
++        "    --fd=3DFDNUM                 fd number of vhost-user socket\n=
+");
+ }
+=20
+ void fuse_session_destroy(struct fuse_session *se)
+@@ -2191,6 +2193,7 @@ struct fuse_session *fuse_session_new(struct fuse_arg=
+s *args,
+         goto out1;
+     }
+     se->fd =3D -1;
++    se->vu_listen_fd =3D -1;
+     se->conn.max_write =3D UINT_MAX;
+     se->conn.max_readahead =3D UINT_MAX;
+=20
+@@ -2212,8 +2215,13 @@ struct fuse_session *fuse_session_new(struct fuse_ar=
+gs *args,
+         goto out4;
+     }
+=20
+-    if (!se->vu_socket_path) {
+-        fprintf(stderr, "fuse: missing -o vhost_user_socket option\n");
++    if (!se->vu_socket_path && se->vu_listen_fd < 0) {
++        fuse_log(FUSE_LOG_ERR, "fuse: missing --socket-path or --fd option=
+\n");
++        goto out4;
++    }
++    if (se->vu_socket_path && se->vu_listen_fd >=3D 0) {
++        fuse_log(FUSE_LOG_ERR,
++                 "fuse: --socket-path and --fd cannot be given together\n"=
+);
+         goto out4;
+     }
+=20
+@@ -2253,7 +2261,7 @@ void fuse_session_unmount(struct fuse_session *se)
+=20
+ int fuse_lowlevel_is_virtio(struct fuse_session *se)
+ {
+-    return se->vu_socket_path !=3D NULL;
++    return !!se->virtio_dev;
+ }
+=20
+ #ifdef linux
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 7e2711b504..635f87756a 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -638,18 +638,21 @@ int virtio_loop(struct fuse_session *se)
+     return 0;
+ }
+=20
+-int virtio_session_mount(struct fuse_session *se)
++static int fv_create_listen_socket(struct fuse_session *se)
+ {
+     struct sockaddr_un un;
+     mode_t old_umask;
+=20
++    /* Nothing to do if fd is already initialized */
++    if (se->vu_listen_fd >=3D 0) {
++        return 0;
++    }
 +
- # Sphinx does not allow building manuals into the same directory as
- # the source files, so if we're doing an in-tree QEMU build we must
- # build the manuals into a subdirectory (and then install them from
-@@ -429,6 +433,7 @@ dummy :=3D $(call unnest-vars,, \
-                 elf2dmp-obj-y \
-                 ivshmem-client-obj-y \
-                 ivshmem-server-obj-y \
-+                virtiofsd-obj-y \
-                 rdmacm-mux-obj-y \
-                 libvhost-user-obj-y \
-                 vhost-user-scsi-obj-y \
-@@ -668,6 +673,11 @@ rdmacm-mux$(EXESUF): LIBS +=3D "-libumad"
- rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
- =09$(call LINK, $^)
+     if (strlen(se->vu_socket_path) >=3D sizeof(un.sun_path)) {
+         fuse_log(FUSE_LOG_ERR, "Socket path too long\n");
+         return -1;
+     }
 =20
-+ifdef CONFIG_LINUX # relies on Linux-specific syscalls
-+virtiofsd$(EXESUF): $(virtiofsd-obj-y) libvhost-user.a $(COMMON_LDADDS)
-+=09$(call LINK, $^)
-+endif
+-    se->fd =3D -1;
+-
+     /*
+      * Create the Unix socket to communicate with qemu
+      * based on QEMU's vhost-user-bridge
+@@ -682,15 +685,31 @@ int virtio_session_mount(struct fuse_session *se)
+         return -1;
+     }
+=20
++    se->vu_listen_fd =3D listen_sock;
++    return 0;
++}
 +
- vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-y) li=
-bqemuutil.a libqemustub.a
- =09$(call LINK, $^)
-=20
-diff --git a/Makefile.objs b/Makefile.objs
-index 7c1e50f9d6..ff396b9209 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -123,6 +123,7 @@ vhost-user-blk-obj-y =3D contrib/vhost-user-blk/
- rdmacm-mux-obj-y =3D contrib/rdmacm-mux/
- vhost-user-input-obj-y =3D contrib/vhost-user-input/
- vhost-user-gpu-obj-y =3D contrib/vhost-user-gpu/
-+virtiofsd-obj-y =3D tools/virtiofsd/
-=20
- ######################################################################
- trace-events-subdirs =3D
-diff --git a/tools/virtiofsd/Makefile.objs b/tools/virtiofsd/Makefile.objs
-new file mode 100644
-index 0000000000..45a807500d
---- /dev/null
-+++ b/tools/virtiofsd/Makefile.objs
-@@ -0,0 +1,9 @@
-+virtiofsd-obj-y =3D buffer.o \
-+                  fuse_opt.o \
-+                  fuse_log.o \
-+                  fuse_lowlevel.o \
-+                  fuse_signals.o \
-+                  fuse_virtio.o \
-+                  helper.o \
-+                  passthrough_ll.o
++int virtio_session_mount(struct fuse_session *se)
++{
++    int ret;
 +
++    ret =3D fv_create_listen_socket(se);
++    if (ret < 0) {
++        return ret;
++    }
++
++    se->fd =3D -1;
++
+     fuse_log(FUSE_LOG_INFO, "%s: Waiting for vhost-user socket connection.=
+..\n",
+              __func__);
+-    int data_sock =3D accept(listen_sock, NULL, NULL);
++    int data_sock =3D accept(se->vu_listen_fd, NULL, NULL);
+     if (data_sock =3D=3D -1) {
+         fuse_log(FUSE_LOG_ERR, "vhost socket accept: %m\n");
+-        close(listen_sock);
++        close(se->vu_listen_fd);
+         return -1;
+     }
+-    close(listen_sock);
++    close(se->vu_listen_fd);
++    se->vu_listen_fd =3D -1;
+     fuse_log(FUSE_LOG_INFO, "%s: Received vhost-user socket connection\n",
+              __func__);
+=20
 --=20
 2.24.1
 
