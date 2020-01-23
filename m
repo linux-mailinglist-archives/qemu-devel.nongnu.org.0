@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D36F1471EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:43:37 +0100 (CET)
-Received: from localhost ([::1]:60422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577F31471FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:44:57 +0100 (CET)
+Received: from localhost ([::1]:60456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuiO8-0004Oq-Jq
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:43:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41240)
+	id 1iuiPQ-0007xP-Bd
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:44:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41264)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iufds-0004sQ-C3
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:42 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iufdv-0004w2-4j
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iufdq-0006Ut-Ah
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:40 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47899
+ (envelope-from <dgilbert@redhat.com>) id 1iufdt-0006WX-R0
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:42 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52220
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufdq-0006Uh-4f
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:38 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufdt-0006WF-O0
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579798058;
+ s=mimecast20190719; t=1579798061;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b+gBkcT6H9ekHWJEoo9WCsPfsxwOkjZv4SrVsIPUVjg=;
- b=HsvpTQvok4cXh4aU+Wcx6QpucshmaQ28cbQpvzbZeeA5uo5sCg2Dy2Zts0TmxdVrLPdhUN
- gQA7Uq4Bc+eBkajMBuDGFKr62HiFZuj88jSnXTMizxNlQeUFVxUXHexG58PXCUw1Sj1Rhl
- zKIGgubkwmY0V3eQrWp0CB3ky7PGDxs=
+ bh=ql3iZhOCDYYWCFp4jJc0tlyutsrGTcwOVUXiZ06+mF4=;
+ b=OEJylLArAAyARZWQjTG7Mw2P0zyEsMLc1W5CNwCNTi/sMm+AVtqJVAlRZtswwSm3yS+VVX
+ xnkdlsYWMvwuMzUvBv4sp4APQe2LNQbLvy37L66zgCTLHc3T9YvcIqrjvmr7bwlf4f5qU0
+ F9HhrKM7qEYMloqHt7RW1Y5RTD+EMA8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-jYu5Xoh3MVKa-QjhKJ5exg-1; Thu, 23 Jan 2020 11:47:36 -0500
+ us-mta-380-4n2jWFx6PAKY29oxGfpgDQ-1; Thu, 23 Jan 2020 11:47:38 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84B976B313
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ACB519057CF
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:37 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-110.ams2.redhat.com
  [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDC6428993;
- Thu, 23 Jan 2020 16:47:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C976E28998;
+ Thu, 23 Jan 2020 16:47:36 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 038/108] virtiofsd: passthrough_ll: add fd_map to hide file
- descriptors
-Date: Thu, 23 Jan 2020 16:45:20 +0000
-Message-Id: <20200123164630.91498-39-dgilbert@redhat.com>
+Subject: [PULL 040/108] virtiofsd: validate path components
+Date: Thu, 23 Jan 2020 16:45:22 +0000
+Message-Id: <20200123164630.91498-41-dgilbert@redhat.com>
 In-Reply-To: <20200123164630.91498-1-dgilbert@redhat.com>
 References: <20200123164630.91498-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: jYu5Xoh3MVKa-QjhKJ5exg-1
+X-MC-Unique: 4n2jWFx6PAKY29oxGfpgDQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,333 +77,159 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Do not expose file descriptor numbers to clients.  This prevents the
-abuse of internal file descriptors (like stdin/stdout).
+Several FUSE requests contain single path components.  A correct FUSE
+client sends well-formed path components but there is currently no input
+validation in case something went wrong or the client is malicious.
+
+Refuse ".", "..", and paths containing '/' when we expect a path
+component.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Fix from:
-Signed-off-by: Xiao Yang <yangx.jy@cn.fujitsu.com>
-dgilbert:
-  Added lseek
-Reviewed-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 116 +++++++++++++++++++++++++------
- 1 file changed, 94 insertions(+), 22 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 59 ++++++++++++++++++++++++++++----
+ 1 file changed, 53 insertions(+), 6 deletions(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index 5f5a72fdbb..9815bfa5c5 100644
+index ac380efcb1..e375406160 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -60,6 +60,7 @@ struct lo_map_elem {
-     union {
-         struct lo_inode *inode;
-         struct lo_dirp *dirp;
-+        int fd;
-         ssize_t freelist;
-     };
-     bool in_use;
-@@ -107,6 +108,7 @@ struct lo_data {
-     struct lo_inode root; /* protected by lo->mutex */
-     struct lo_map ino_map; /* protected by lo->mutex */
-     struct lo_map dirp_map; /* protected by lo->mutex */
-+    struct lo_map fd_map; /* protected by lo->mutex */
- };
+@@ -133,6 +133,21 @@ static void unref_inode(struct lo_data *lo, struct lo_=
+inode *inode, uint64_t n);
 =20
- static const struct fuse_opt lo_opts[] =3D {
-@@ -236,6 +238,20 @@ static void lo_map_remove(struct lo_map *map, size_t k=
-ey)
-     map->freelist =3D key;
- }
+ static struct lo_inode *lo_find(struct lo_data *lo, struct stat *st);
 =20
-+/* Assumes lo->mutex is held */
-+static ssize_t lo_add_fd_mapping(fuse_req_t req, int fd)
++static int is_dot_or_dotdot(const char *name)
 +{
-+    struct lo_map_elem *elem;
-+
-+    elem =3D lo_map_alloc_elem(&lo_data(req)->fd_map);
-+    if (!elem) {
-+        return -1;
-+    }
-+
-+    elem->fd =3D fd;
-+    return elem - lo_data(req)->fd_map.elems;
++    return name[0] =3D=3D '.' &&
++           (name[1] =3D=3D '\0' || (name[1] =3D=3D '.' && name[2] =3D=3D '=
+\0'));
 +}
 +
- /* Assumes lo->mutex is held */
- static ssize_t lo_add_dirp_mapping(fuse_req_t req, struct lo_dirp *dirp)
- {
-@@ -350,6 +366,22 @@ static int utimensat_empty_nofollow(struct lo_inode *i=
-node,
-     return utimensat(AT_FDCWD, procname, tv, 0);
- }
-=20
-+static int lo_fi_fd(fuse_req_t req, struct fuse_file_info *fi)
++/* Is `path` a single path component that is not "." or ".."? */
++static int is_safe_path_component(const char *path)
 +{
-+    struct lo_data *lo =3D lo_data(req);
-+    struct lo_map_elem *elem;
-+
-+    pthread_mutex_lock(&lo->mutex);
-+    elem =3D lo_map_get(&lo->fd_map, fi->fh);
-+    pthread_mutex_unlock(&lo->mutex);
-+
-+    if (!elem) {
-+        return -1;
++    if (strchr(path, '/')) {
++        return 0;
 +    }
 +
-+    return elem->fd;
++    return !is_dot_or_dotdot(path);
 +}
-+
- static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
-                        int valid, struct fuse_file_info *fi)
+=20
+ static struct lo_data *lo_data(fuse_req_t req)
  {
-@@ -358,6 +390,7 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, =
-struct stat *attr,
-     struct lo_inode *inode;
-     int ifd;
-     int res;
-+    int fd;
-=20
-     inode =3D lo_inode(req, ino);
-     if (!inode) {
-@@ -367,9 +400,14 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino,=
- struct stat *attr,
-=20
-     ifd =3D inode->fd;
-=20
-+    /* If fi->fh is invalid we'll report EBADF later */
-+    if (fi) {
-+        fd =3D lo_fi_fd(req, fi);
-+    }
-+
-     if (valid & FUSE_SET_ATTR_MODE) {
-         if (fi) {
--            res =3D fchmod(fi->fh, attr->st_mode);
-+            res =3D fchmod(fd, attr->st_mode);
-         } else {
-             sprintf(procname, "/proc/self/fd/%i", ifd);
-             res =3D chmod(procname, attr->st_mode);
-@@ -389,7 +427,7 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, =
-struct stat *attr,
-     }
-     if (valid & FUSE_SET_ATTR_SIZE) {
-         if (fi) {
--            res =3D ftruncate(fi->fh, attr->st_size);
-+            res =3D ftruncate(fd, attr->st_size);
-         } else {
-             sprintf(procname, "/proc/self/fd/%i", ifd);
-             res =3D truncate(procname, attr->st_size);
-@@ -419,7 +457,7 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, =
-struct stat *attr,
-         }
-=20
-         if (fi) {
--            res =3D futimens(fi->fh, tv);
-+            res =3D futimens(fd, tv);
-         } else {
-             res =3D utimensat_empty_nofollow(inode, tv);
-         }
-@@ -1096,7 +1134,18 @@ static void lo_create(fuse_req_t req, fuse_ino_t par=
-ent, const char *name,
-     lo_restore_cred(&old);
-=20
-     if (!err) {
--        fi->fh =3D fd;
-+        ssize_t fh;
-+
-+        pthread_mutex_lock(&lo->mutex);
-+        fh =3D lo_add_fd_mapping(req, fd);
-+        pthread_mutex_unlock(&lo->mutex);
-+        if (fh =3D=3D -1) {
-+            close(fd);
-+            fuse_reply_err(req, ENOMEM);
-+            return;
-+        }
-+
-+        fi->fh =3D fh;
-         err =3D lo_do_lookup(req, parent, name, &e);
-     }
-     if (lo->cache =3D=3D CACHE_NEVER) {
-@@ -1140,6 +1189,7 @@ static void lo_fsyncdir(fuse_req_t req, fuse_ino_t in=
-o, int datasync,
- static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info =
-*fi)
- {
-     int fd;
-+    ssize_t fh;
-     char buf[64];
-     struct lo_data *lo =3D lo_data(req);
-=20
-@@ -1175,7 +1225,16 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, =
-struct fuse_file_info *fi)
-         return (void)fuse_reply_err(req, errno);
+@@ -681,6 +696,15 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t paren=
+t, const char *name)
+                  parent, name);
      }
 =20
--    fi->fh =3D fd;
-+    pthread_mutex_lock(&lo->mutex);
-+    fh =3D lo_add_fd_mapping(req, fd);
-+    pthread_mutex_unlock(&lo->mutex);
-+    if (fh =3D=3D -1) {
-+        close(fd);
-+        fuse_reply_err(req, ENOMEM);
++    /*
++     * Don't use is_safe_path_component(), allow "." and ".." for NFS expo=
+rt
++     * support.
++     */
++    if (strchr(name, '/')) {
++        fuse_reply_err(req, EINVAL);
 +        return;
 +    }
 +
-+    fi->fh =3D fh;
-     if (lo->cache =3D=3D CACHE_NEVER) {
-         fi->direct_io =3D 1;
-     } else if (lo->cache =3D=3D CACHE_ALWAYS) {
-@@ -1187,9 +1246,18 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, =
-struct fuse_file_info *fi)
- static void lo_release(fuse_req_t req, fuse_ino_t ino,
-                        struct fuse_file_info *fi)
- {
-+    struct lo_data *lo =3D lo_data(req);
-+    int fd;
-+
-     (void)ino;
+     err =3D lo_do_lookup(req, parent, name, &e);
+     if (err) {
+         fuse_reply_err(req, err);
+@@ -762,6 +786,11 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_=
+t parent,
+     struct fuse_entry_param e;
+     struct lo_cred old =3D {};
 =20
--    close(fi->fh);
-+    fd =3D lo_fi_fd(req, fi);
++    if (!is_safe_path_component(name)) {
++        fuse_reply_err(req, EINVAL);
++        return;
++    }
 +
-+    pthread_mutex_lock(&lo->mutex);
-+    lo_map_remove(&lo->fd_map, fi->fh);
-+    pthread_mutex_unlock(&lo->mutex);
-+
-+    close(fd);
-     fuse_reply_err(req, 0);
- }
+     dir =3D lo_inode(req, parent);
+     if (!dir) {
+         fuse_reply_err(req, EBADF);
+@@ -863,6 +892,11 @@ static void lo_link(fuse_req_t req, fuse_ino_t ino, fu=
+se_ino_t parent,
+     struct fuse_entry_param e;
+     int saverr;
 =20
-@@ -1197,7 +1265,7 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino, =
-struct fuse_file_info *fi)
++    if (!is_safe_path_component(name)) {
++        fuse_reply_err(req, EINVAL);
++        return;
++    }
++
+     inode =3D lo_inode(req, ino);
+     if (!inode) {
+         fuse_reply_err(req, EBADF);
+@@ -904,6 +938,10 @@ out_err:
+ static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
  {
      int res;
-     (void)ino;
--    res =3D close(dup(fi->fh));
-+    res =3D close(dup(lo_fi_fd(req, fi)));
-     fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
- }
++    if (!is_safe_path_component(name)) {
++        fuse_reply_err(req, EINVAL);
++        return;
++    }
 =20
-@@ -1224,7 +1292,7 @@ static void lo_fsync(fuse_req_t req, fuse_ino_t ino, =
-int datasync,
-             return (void)fuse_reply_err(req, errno);
-         }
-     } else {
--        fd =3D fi->fh;
-+        fd =3D lo_fi_fd(req, fi);
-     }
+     res =3D unlinkat(lo_fd(req, parent), name, AT_REMOVEDIR);
 =20
-     if (datasync) {
-@@ -1251,7 +1319,7 @@ static void lo_read(fuse_req_t req, fuse_ino_t ino, s=
-ize_t size, off_t offset,
-     }
+@@ -916,6 +954,11 @@ static void lo_rename(fuse_req_t req, fuse_ino_t paren=
+t, const char *name,
+ {
+     int res;
 =20
-     buf.buf[0].flags =3D FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK;
--    buf.buf[0].fd =3D fi->fh;
-+    buf.buf[0].fd =3D lo_fi_fd(req, fi);
-     buf.buf[0].pos =3D offset;
-=20
-     fuse_reply_data(req, &buf);
-@@ -1266,7 +1334,7 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t i=
-no,
-     struct fuse_bufvec out_buf =3D FUSE_BUFVEC_INIT(fuse_buf_size(in_buf))=
-;
-=20
-     out_buf.buf[0].flags =3D FUSE_BUF_IS_FD | FUSE_BUF_FD_SEEK;
--    out_buf.buf[0].fd =3D fi->fh;
-+    out_buf.buf[0].fd =3D lo_fi_fd(req, fi);
-     out_buf.buf[0].pos =3D off;
-=20
-     if (lo_debug(req)) {
-@@ -1303,7 +1371,7 @@ static void lo_fallocate(fuse_req_t req, fuse_ino_t i=
-no, int mode, off_t offset,
-     (void)ino;
-=20
- #ifdef CONFIG_FALLOCATE
--    err =3D fallocate(fi->fh, mode, offset, length);
-+    err =3D fallocate(lo_fi_fd(req, fi), mode, offset, length);
-     if (err < 0) {
-         err =3D errno;
-     }
-@@ -1314,7 +1382,7 @@ static void lo_fallocate(fuse_req_t req, fuse_ino_t i=
-no, int mode, off_t offset,
++    if (!is_safe_path_component(name) || !is_safe_path_component(newname))=
+ {
++        fuse_reply_err(req, EINVAL);
++        return;
++    }
++
+     if (flags) {
+         fuse_reply_err(req, EINVAL);
          return;
-     }
-=20
--    err =3D posix_fallocate(fi->fh, offset, length);
-+    err =3D posix_fallocate(lo_fi_fd(req, fi), offset, length);
- #endif
-=20
-     fuse_reply_err(req, err);
-@@ -1326,7 +1394,7 @@ static void lo_flock(fuse_req_t req, fuse_ino_t ino, =
-struct fuse_file_info *fi,
+@@ -930,6 +973,11 @@ static void lo_unlink(fuse_req_t req, fuse_ino_t paren=
+t, const char *name)
+ {
      int res;
-     (void)ino;
 =20
--    res =3D flock(fi->fh, op);
-+    res =3D flock(lo_fi_fd(req, fi), op);
++    if (!is_safe_path_component(name)) {
++        fuse_reply_err(req, EINVAL);
++        return;
++    }
++
+     res =3D unlinkat(lo_fd(req, parent), name, 0);
 =20
      fuse_reply_err(req, res =3D=3D -1 ? errno : 0);
+@@ -1093,12 +1141,6 @@ out_err:
+     fuse_reply_err(req, error);
  }
-@@ -1551,17 +1619,19 @@ static void lo_copy_file_range(fuse_req_t req, fuse=
-_ino_t ino_in, off_t off_in,
-                                off_t off_out, struct fuse_file_info *fi_ou=
-t,
-                                size_t len, int flags)
+=20
+-static int is_dot_or_dotdot(const char *name)
+-{
+-    return name[0] =3D=3D '.' &&
+-           (name[1] =3D=3D '\0' || (name[1] =3D=3D '.' && name[2] =3D=3D '=
+\0'));
+-}
+-
+ static void lo_do_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
+                           off_t offset, struct fuse_file_info *fi, int plu=
+s)
  {
-+    int in_fd, out_fd;
-     ssize_t res;
+@@ -1248,6 +1290,11 @@ static void lo_create(fuse_req_t req, fuse_ino_t par=
+ent, const char *name,
+                  parent, name);
+     }
 =20
--    if (lo_debug(req))
--        fuse_log(FUSE_LOG_DEBUG,
--                 "lo_copy_file_range(ino=3D%" PRIu64 "/fd=3D%lu, "
--                 "off=3D%lu, ino=3D%" PRIu64 "/fd=3D%lu, "
--                 "off=3D%lu, size=3D%zd, flags=3D0x%x)\n",
--                 ino_in, fi_in->fh, off_in, ino_out, fi_out->fh, off_out, =
-len,
--                 flags);
-+    in_fd =3D lo_fi_fd(req, fi_in);
-+    out_fd =3D lo_fi_fd(req, fi_out);
++    if (!is_safe_path_component(name)) {
++        fuse_reply_err(req, EINVAL);
++        return;
++    }
 +
-+    fuse_log(FUSE_LOG_DEBUG,
-+             "lo_copy_file_range(ino=3D%" PRIu64 "/fd=3D%d, "
-+             "off=3D%lu, ino=3D%" PRIu64 "/fd=3D%d, "
-+             "off=3D%lu, size=3D%zd, flags=3D0x%x)\n",
-+             ino_in, in_fd, off_in, ino_out, out_fd, off_out, len, flags);
-=20
--    res =3D copy_file_range(fi_in->fh, &off_in, fi_out->fh, &off_out, len,=
- flags);
-+    res =3D copy_file_range(in_fd, &off_in, out_fd, &off_out, len, flags);
-     if (res < 0) {
-         fuse_reply_err(req, -errno);
-     } else {
-@@ -1576,7 +1646,7 @@ static void lo_lseek(fuse_req_t req, fuse_ino_t ino, =
-off_t off, int whence,
-     off_t res;
-=20
-     (void)ino;
--    res =3D lseek(fi->fh, off, whence);
-+    res =3D lseek(lo_fi_fd(req, fi), off, whence);
-     if (res !=3D -1) {
-         fuse_reply_lseek(req, res);
-     } else {
-@@ -1661,6 +1731,7 @@ int main(int argc, char *argv[])
-     root_elem->inode =3D &lo.root;
-=20
-     lo_map_init(&lo.dirp_map);
-+    lo_map_init(&lo.fd_map);
-=20
-     if (fuse_parse_cmdline(&args, &opts) !=3D 0) {
-         return 1;
-@@ -1758,6 +1829,7 @@ err_out2:
- err_out1:
-     fuse_opt_free_args(&args);
-=20
-+    lo_map_destroy(&lo.fd_map);
-     lo_map_destroy(&lo.dirp_map);
-     lo_map_destroy(&lo.ino_map);
-=20
+     err =3D lo_change_cred(req, &old);
+     if (err) {
+         goto out;
 --=20
 2.24.1
 
