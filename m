@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3DF146CCC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:29:40 +0100 (CET)
-Received: from localhost ([::1]:59320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48836146C62
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:13:11 +0100 (CET)
+Received: from localhost ([::1]:58908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueQM-00048G-UA
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:29:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47172)
+	id 1iueAQ-0007g5-8Q
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:13:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51284)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <damien.hedde@greensocs.com>) id 1iucXk-0005gC-Rf
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:29:09 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrF-0004ny-Nx
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1iucXi-0003yc-Es
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:29:07 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:56820)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1iucXi-0003kj-5o; Thu, 23 Jan 2020 08:29:06 -0500
-Received: from crumble.bar.greensocs.com (crumble.bar.greensocs.com
- [172.16.11.102])
- by beetle.greensocs.com (Postfix) with ESMTPS id 9E46C96F5A;
- Thu, 23 Jan 2020 13:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1579786124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A200JO54MkQoOmODnSQmBmwrO6FBHxiDZCez46fi7Ok=;
- b=m5NrBCNEOPYboPL4ZNKFvkInfbejDwCEnlOBu6lAfp0x3smJeyzS3ECzAejivgF4zpPRUl
- SSZlYneYssEw0LBCyKNgL9TqqYdPEj88N1i+HyooIzDwXkIXo3BOIzBF0RQCMJZAX5c6qX
- N3FabL5u5BT8PqWsh9iMkqROBx+WGvU=
-From: Damien Hedde <damien.hedde@greensocs.com>
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrE-0003BI-LD
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:17 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:33757)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iucrE-00039g-Ep
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:16 -0500
+Received: by mail-wm1-x329.google.com with SMTP id m10so1389237wmc.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=edun+OJ+YJzFF5lv8jtNkTbaWNOC2ILXKY6V/xrxpmY=;
+ b=AaS/WIK+Vp8VzdZ2g3g6E6uGHTOSpBadzOvJ49AzRVyDwY+B+VsS1T006rKFefGUC/
+ Nx3O76y0b6zlIlcX0PJxGJBl2/vyMXKgh+T+kHTYKFOMtkOtWyoif7X9uS6Lk4fAhZyh
+ ohzibnMwTHvMG6Q3508y6zAnGRYw3POF2fX4F+NGRHozKjECzXSsn2gnr7eImHT5ilS3
+ 6VYnI+o3sP1a+WJyz9qKHa4Kk2K1vYYvQB9vGoxJmnAYrEo9IrYtOnf4zNWiYg18YbK+
+ 33sNeJf0pvg7sInVRWDUfRecG/isFvD1eSy3IepM4kM3rxj2Tq9P+k8e2csWJP7aPgVU
+ 82ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=edun+OJ+YJzFF5lv8jtNkTbaWNOC2ILXKY6V/xrxpmY=;
+ b=RQGNtMBZmqdLBfuA7DKJSfi8icSKYFBa5JXWTe4zJOMNCze43QpPtD+igqX7WXyvBj
+ HuVztaWLyJ0vfcoOiSKFJ1s2CbwwsnNqtxCuu+vWF0GL+7FvlSJf+3PXE2t0/DH4i7HM
+ JIUHHtkvchSh14TGln6OJFFirp8CW1W71GI11N9EZysh4a2TxawKhwuCpShj+rJaHX/C
+ k3RYAToGtWD51xZjsVKhlfdf7OXfSeKBfbHaYeWxETj4CKe0Sl06rPBmS5GzRr5wBJrj
+ 4ODtGdiemBVrlEupH3bYQDEH2geJC/UgVy5iSRTQdceBRuJLiKNIQD8Sy/8MtI56vB82
+ TXIw==
+X-Gm-Message-State: APjAAAV9JXDex9jox+VAMSxj+JYGNxyx5hJpFolq0sGi/khjPcDhdaVV
+ R/QMGSfi8sozK9cexeN41de7rJRg
+X-Google-Smtp-Source: APXvYqzm+Ihy8uzmhSx5kYvJh0HGVcI3gbN2wEGPLoSf+bC2IoiPozlo+8lnqpaq5sgHjMLpairptw==
+X-Received: by 2002:a05:600c:d5:: with SMTP id
+ u21mr1203162wmm.98.1579787355304; 
+ Thu, 23 Jan 2020 05:49:15 -0800 (PST)
+Received: from 640k.localdomain.com ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.14
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 23 Jan 2020 05:49:14 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 11/11] hw/s390x/ipl: replace deprecated qdev_reset_all
- registration
-Date: Thu, 23 Jan 2020 14:28:23 +0100
-Message-Id: <20200123132823.1117486-12-damien.hedde@greensocs.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200123132823.1117486-1-damien.hedde@greensocs.com>
-References: <20200123132823.1117486-1-damien.hedde@greensocs.com>
+Subject: [PULL 10/59] hw/net/imx_fec: Remove unuseful FALLTHROUGH comments
+Date: Thu, 23 Jan 2020 14:48:13 +0100
+Message-Id: <1579787342-27146-11-git-send-email-pbonzini@redhat.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
+References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1579786124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A200JO54MkQoOmODnSQmBmwrO6FBHxiDZCez46fi7Ok=;
- b=UEph34ehJKqhpqAm/A5rjlwQZIaXF5pf54BsudBTnF7IMGYzUi6ioqk/bV0yH+uStZE5In
- ZzjLiT36WsiC9MwESQ4a804xagLEidOBZdX1lPgg7raHGLHUM3zDvCYY0RCpnU4vECx1LE
- rywsP36UzhSDZea8umA8Ng/5sJiEoWM=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1579786124; a=rsa-sha256; cv=none;
- b=zt8PNBNLnpL9ca+KAPMUPOtAA5Hd0tyR5FaYGeXaVs4p/Zua2kY5XIvv7SqpEZ1ghkapTR
- vHhwWmLMHcfTIYjgdn4CXf8zVNFaUqSLNzRHyXUIAmOhgiagvErU/Xnqt0Kkk2Kf2o/oLW
- ZNfSX4bLHusQoe9xAxeHzNq6shCesoU=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,63 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- Thomas Huth <thuth@redhat.com>, berrange@redhat.com, ehabkost@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, cohuck@redhat.com,
- mark.burton@greensocs.com, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, edgari@xilinx.com,
- pbonzini@redhat.com, philmd@redhat.com, david@gibson.dropbear.id.au
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace deprecated qdev_reset_all by resettable_cold_reset_fn for
-the ipl registration in the main reset handlers.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-This does not impact the behavior for the following reasons:
-+ at this point resettable just call the old reset methods of devices
-  and buses in the same order than qdev/qbus.
-+ resettable handlers registered with qemu_register_reset are
-  serialized; there is no interleaving.
-+ eventual explicit calls to legacy reset API (device_reset or
-  qdev/qbus_reset) inside this reset handler will not be masked out
-  by resettable mechanism; they do not go through resettable api.
+We don't need to explicit these obvious switch fall through
+comments. Stay consistent with the rest of the codebase.
 
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20191218192526.13845-6-philmd@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
-Cc: qemu-s390x@nongnu.org
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: Thomas Huth <thuth@redhat.com>
----
- hw/s390x/ipl.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ hw/net/imx_fec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
-index ca544d64c5..2689f7a017 100644
---- a/hw/s390x/ipl.c
-+++ b/hw/s390x/ipl.c
-@@ -237,7 +237,15 @@ static void s390_ipl_realize(DeviceState *dev, Error=
- **errp)
-      */
-     ipl->compat_start_addr =3D ipl->start_addr;
-     ipl->compat_bios_start_addr =3D ipl->bios_start_addr;
--    qemu_register_reset(qdev_reset_all_fn, dev);
-+    /*
-+     * Because this Device is not on any bus in the qbus tree (it is
-+     * not a sysbus device and it's not on some other bus like a PCI
-+     * bus) it will not be automatically reset by the 'reset the
-+     * sysbus' hook registered by vl.c like most devices. So we must
-+     * manually register a reset hook for it.
-+     * TODO: there should be a better way to do this.
-+     */
-+    qemu_register_reset(resettable_cold_reset_fn, dev);
- error:
-     error_propagate(errp, err);
- }
---=20
-2.24.1
+diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
+index c01ce4f..5a83678 100644
+--- a/hw/net/imx_fec.c
++++ b/hw/net/imx_fec.c
+@@ -901,8 +901,8 @@ static void imx_eth_write(void *opaque, hwaddr offset, uint64_t value,
+             s->regs[index] = 0;
+         }
+         break;
+-    case ENET_TDAR1:    /* FALLTHROUGH */
+-    case ENET_TDAR2:    /* FALLTHROUGH */
++    case ENET_TDAR1:
++    case ENET_TDAR2:
+         if (unlikely(single_tx_ring)) {
+             qemu_log_mask(LOG_GUEST_ERROR,
+                           "[%s]%s: trying to access TDAR2 or TDAR1\n",
+-- 
+1.8.3.1
+
 
 
