@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E50FA1468B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:09:00 +0100 (CET)
-Received: from localhost ([::1]:56776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604CA1468C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:12:23 +0100 (CET)
+Received: from localhost ([::1]:56822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iucEF-0003ql-Cm
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:08:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38339)
+	id 1iucHV-0001My-S1
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:12:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38740)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iub1X-0000NK-Ah
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:51:48 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iub3M-0002zg-5b
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:53:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iub1W-0000hb-7a
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:51:47 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43610)
+ (envelope-from <peter.maydell@linaro.org>) id 1iub3L-0001ZB-2w
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:53:40 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43009)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iub1W-0000h4-2E
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:51:46 -0500
-Received: by mail-oi1-x243.google.com with SMTP id p125so2590190oif.10
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 03:51:45 -0800 (PST)
+ id 1iub3K-0001Ym-Tn
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:53:39 -0500
+Received: by mail-ot1-x344.google.com with SMTP id p8so2418029oth.10
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 03:53:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=bFml8qLCtmp1P0vb5uVGW4L9+hW902mtdxUueUM/0nA=;
- b=q7F/kV+Dfh+sJ+nI37Gzpj3gGuHJXFnUcwe+dPvRVWh5dqGGNeW51I4fTNX1d8zM5a
- o8wwN+EoUNKLSE7fSHFVnZrEHXHJE/VwFMM66Ojxn1sW9byTEDQksDFb2WD24v9QVdUI
- 5n9nnep26dbrZv6q2PgvsqayCvQtkhPrN3L7Y7CsrB5w4YfvW22fUZUAQc79Z0+Jf1Fr
- iQLRCPDKlb3AxlvP6dkFkaBOt8O+pNzpH5PqHdOa4ZNN50I88DcRLYsHtdHV3xKvC0uA
- 6Zz74FJN/TAtwwG8rqYyLSrS60852DH+zYxhDnv8o9qkBI+1JMxajDHYRXvUpw1j9NBP
- V6vg==
+ bh=jiEFxAVj/mPGzRjcXJwGIfxc2hM/TdWjGuKvlH0yFAM=;
+ b=C4bLCHzO6NQ/k+qHqTnTcU6J3STSEMopUE3fAarUapmH1wYUT8VDnbb6aqXQxCiOBK
+ tjjZS1je15dDjjYn5WJ7A+C9IwYjNnstJDIbw3cdVN7brJepFDap1B/tUPhSRPa8K9Z6
+ L5Y931si7JUYw8pimeSxgnBzkeL1o2vKQUacMYVYw0zNz/L8kvg7iKsqrdhzBbppgEl+
+ SxV10py0MMW+KVIjp/Yyh/yywySfQ1oPaSKokVqAJdsS0NMROPqsIebAp8iVEMGhXUQU
+ pJAN2C8etGnth6Wp0wQvSTXNEtbLziBIwnWbLxdzTkG2gtjDxayAh4PCUjx1tngaelPO
+ Sh8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=bFml8qLCtmp1P0vb5uVGW4L9+hW902mtdxUueUM/0nA=;
- b=UJ/I0uJP2QtOgIdKT+c5Q4nEDu6iQADpSFXsIjey0E3rkD1b/bfBZLZyTWLwVJLqUj
- mt8l3N4CpJX7127TP7eu/pKEgmF9VhSvfM5xT4t649HCryIC9OPiXp3nCmictAATqNRD
- Mm0zyc9zpGZykpT9XqwBGNZQ8Of3lva4GYy8iP9R4MNJyslFHo4vCDnq2fzzBiq3B0g9
- m9T2rqGfTCc+l3Zcp3iyk83qQ+BnJ9qehBWa1g1waisxf7Rc9+0h2DXDJM9DgZoLB6DD
- FtsEuICv63Wl/UxXj3iwOkFtpfb6nU5FREvK2vu/59IdWy73vREmSpnq+Hf6B9Rd6wsi
- 63Fw==
-X-Gm-Message-State: APjAAAV3wu20/bvlTs557ebBppXEszos05WuAI8euk7iSDidesDQfp/c
- wjxoQAdXUyf6qWoWwR1Tb3oXKhthr+JfcVpx59zqBg==
-X-Google-Smtp-Source: APXvYqxPTL/97ECH1J4qMtpZIPP0gROYbsp3ND4AYDartm+CUX8hMMBiaype5o7pIR5kCnkwWoWakQyN0pHtPOn5egs=
-X-Received: by 2002:aca:570d:: with SMTP id l13mr10000574oib.146.1579780304900; 
- Thu, 23 Jan 2020 03:51:44 -0800 (PST)
+ bh=jiEFxAVj/mPGzRjcXJwGIfxc2hM/TdWjGuKvlH0yFAM=;
+ b=UyNjLnWBteycECllWlMCCPyXznckLmUew/9rkc4gCNnZ6QToWRKwB6IWvJVx7k5kqw
+ 16w+Z6k+r3CSLogbD2RDFzF0icqHaCN2krQwB0RHZajpidmpyV1KpQecSlsw24jWq2DH
+ 9PZeg9NqPELePKHm59Imn98KGZ4RJMRC9FKVSg7BqPnC9c9WUAFOzsrdqsq/Qc87EdJu
+ 8oGt3bLKwNVSf55Kw4wTJ3MfjBzwSlpXxLNTKJqeliQqi7XV8B/e8PQIPYx8QZlz80yf
+ 7ShqmVLPK9io73nDBdKePEoBrzJrqDItgGtrAo44GiDFoJ3aw4DSCB/3JjXDWA13hfZo
+ Zmxg==
+X-Gm-Message-State: APjAAAXVSbcJcK6LP+capwUGH4uAG0Y41renMHPM6vYuVUY6G5x3J8NF
+ dvvtA0FBO98EOjLRELwKa0bGrGaouGorn82sqsoevg==
+X-Google-Smtp-Source: APXvYqyBD+bp3ayHUWadu90HXnJ2UiPufQhG+lR76jOjRIUcCM/fDaMLcl6yzFgY6g6kPLWPqVvmFxXk01gBYwDHf0s=
+X-Received: by 2002:a05:6830:4a4:: with SMTP id
+ l4mr5115122otd.91.1579780418124; 
+ Thu, 23 Jan 2020 03:53:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20200116141511.16849-1-peter.maydell@linaro.org>
- <20200116141511.16849-3-peter.maydell@linaro.org>
- <CAFEAcA80NezC=oXMWNmbKTGWp2_xJVS1MFeOe58d3wMrH1mQug@mail.gmail.com>
- <87h80nz5c8.fsf@linaro.org>
-In-Reply-To: <87h80nz5c8.fsf@linaro.org>
+References: <20200122172137.7282-1-philmd@redhat.com>
+In-Reply-To: <20200122172137.7282-1-philmd@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jan 2020 11:51:33 +0000
-Message-ID: <CAFEAcA84RUT=eZnnjZET9f=fsVuy1gYhtQkrQBCjbrmysqnG4g@mail.gmail.com>
-Subject: Re: [PATCH 2/3] docs: Create stub system manual
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Thu, 23 Jan 2020 11:53:27 +0000
+Message-ID: <CAFEAcA_4yGD4Tm5LpN3PXP6S_cbFGdVD8jAcnrm2pEyLNteW0w@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: List the sphinx documentation in 'make help'
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,42 +74,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Jan 2020 at 18:58, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > diff --git a/docs/index.html.in b/docs/index.html.in
-> > index 94eb782cf7e..573c543c02b 100644
-> > --- a/docs/index.html.in
-> > +++ b/docs/index.html.in
-> > @@ -11,6 +11,7 @@
-> >              <li><a href=3D"qemu-qmp-ref.html">QMP Reference Manual</a>=
-</li>
-> >              <li><a href=3D"qemu-ga-ref.html">Guest Agent Protocol
-> > Reference</a></li>
-> >              <li><a href=3D"interop/index.html">System Emulation
-> > Management and Interoperability Guide</a></li>
-> > +            <li><a href=3D"system/index.html">System Emulation User's
-> > Guide</a></li>
-> >              <li><a href=3D"specs/index.html">System Emulation Guest
-> > Hardware Specifications</a></li>
-> >          </ul>
-> >      </body>
+On Wed, 22 Jan 2020 at 17:21, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
 >
+> In commit 5f71eac06e1 we started to support the rST documentation.
+> List the build target we need to call to generate the rST files in
+> the 'make help' output.
 >
-> This didn't seem to make a difference on readthedocs so I assume this is
-> for different tooling?
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 6562b0dc97..b777f7fcdd 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1197,7 +1197,7 @@ endif
+>         @echo  '  vm-help         - Help about targets running tests insi=
+de VM'
+>         @echo  ''
+>         @echo  'Documentation targets:'
+> -       @echo  '  html info pdf txt'
+> +       @echo  '  html info pdf txt sphinxdocs'
+>         @echo  '                  - Build documentation in specified form=
+at'
+>  ifdef CONFIG_GCOV
+>         @echo  '  coverage-report - Create code coverage report'
 
-It's for when you build manuals via the makefile, in which
-case you get multiple separate Sphinx manuals and want a
-top level index that links to those and also to our legacy
-non-Sphinx docs. So it's what you'll see in the installed
-version of the docs if you do a 'make install'.
+'sphinxdocs' wasn't intended to be a user-facing target.
+If you do 'make html' this will build the HTML Sphinx
+documentation (as well as any legacy non-Sphinx HTML).
 
 thanks
 -- PMM
