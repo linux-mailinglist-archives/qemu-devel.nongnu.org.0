@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A875146C8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:24:05 +0100 (CET)
-Received: from localhost ([::1]:59254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E87D9146CBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:26:10 +0100 (CET)
+Received: from localhost ([::1]:59284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueKw-0005Tb-RI
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:24:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51390)
+	id 1iueMz-0000Cd-LI
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:26:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51470)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrN-0004yd-IY
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:26 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrQ-00053K-T1
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrM-0003KF-7I
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:25 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42621)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrP-0003SD-Oz
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:28 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55785)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrM-0003JC-0e; Thu, 23 Jan 2020 08:49:24 -0500
-Received: by mail-wr1-x432.google.com with SMTP id q6so3119522wro.9;
- Thu, 23 Jan 2020 05:49:23 -0800 (PST)
+ id 1iucrP-0003Ps-Ii
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:27 -0500
+Received: by mail-wm1-x332.google.com with SMTP id q9so2635473wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=jY1ubrmRPI/N9e83it0SvGrTTTMW6ORYETMpVxkJm8s=;
- b=bwufXO6MzdcXkQkZ56t1PkveXG+D9Lqe9/6N6eQbIctpTi1JqTcgt2HqOgoHxIgaPC
- 02hQAtW+qjx1ZuEkpDkIrJbgLb9PWHfNI+2nCHXGR7aSCrc+/+gNdzSs5+lR44ag7Msd
- AYknKJzVn8DGZn/JIZreokSTXVjoOa5KdpX7MXMz+IWwOMkGEIUDUIFD4admzu1KlrYQ
- dORHrkj2ups/dxcPCIZr03kRJP0LvSabVVPVMVYPDhsZ9/QxNUoS7/l0Oiam2NHRu96x
- 0hW5TuxIX91V0KFSPOu9hffQiaPUXvN5VgzsSaG1xKGD444HyDnduJyBe5vjyXIfLkSA
- lWgA==
+ bh=+U+IhI9S2shiMvtu75gJowqZ/s3WgewzmHW03jb/rC4=;
+ b=XkCtbHkuWGN/UMK5R4mByTDuNLFXQnpP1hKyudOLDUPAlHjV3lYPfjQyFVXuyZENNr
+ Wo++6EkWtjXbO5UrjRBnVVj3PwpE+AAJuj3KiQ56k3IZ1AgPIphVtzoIS1YAAhnguiV4
+ Mi9XwoBZDEMIN0FkJNSMmCwI7OR/00Kd01pWVepo76XvP6/+qT0e7hhI1OM86aorNwqp
+ mtSsLBqKla92VyijvS8hjFjFIZ+fB8jxV5PWJSWFn6OpepUg+fEYFi7Hf0t8kI2iX9Lv
+ 5SL3+TvL1gykIqrU0fml6gBgdsJSeEN0w/4cNbt+UzV9nScJ+TiacbpbthVSsM9+MmGT
+ b68w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=jY1ubrmRPI/N9e83it0SvGrTTTMW6ORYETMpVxkJm8s=;
- b=Jzxxq4LjMPa1msY3c/Ps9zPyCcsfLtV16mPOykieZcoPApmw9P6ePS+r5Af/jV7uEI
- DLwl4lj30LU8EsmnicByLEfWc9/GBpU2fHQSeEFq76I509OdjAE6hDrZFMtniHpx9hJJ
- jGoxcuSZjWws8mkNVbtwK/mj+CCDNroyqsKba25XlrVh4CRytT1Flk5fqbByfvUnml/C
- 8bz57A8hxRLgXLuKP1h+DJHqG5JVhJA1fxAjPcTbWSE9lMPrPyIUM4wArJfNo4v0gGIh
- H/xT3DBVtDDPvDvvTEKwJXo/lFy9n3Vk22+9HA/wPsnJ6WoWG9/38cAAdFYo5/xMF6jG
- UUeg==
-X-Gm-Message-State: APjAAAUpHaNWOzM8jt0RKn3mMnlwo/Wjo2+Fh2T7poFrHVLsWuf4j2L3
- +OsKBf0DPaaaeAFl3iacJSZ6U6Ob
-X-Google-Smtp-Source: APXvYqxasHh3K0y8gIm5bu4HQN4KwTRjyocD4qsJ+vhwZKFBeAM4e1n45Q6dUWaTrGnQZW9LXBm6Kg==
-X-Received: by 2002:adf:edc4:: with SMTP id v4mr17460405wro.336.1579787362779; 
- Thu, 23 Jan 2020 05:49:22 -0800 (PST)
+ bh=+U+IhI9S2shiMvtu75gJowqZ/s3WgewzmHW03jb/rC4=;
+ b=l2smaxIgTbHJCYZyBrDe5nKEa00pp5OhP0rZLXgso1JxFqlNPi0CNtGz1nsZmsYTJE
+ ObueWORHPabJRraSOaMWrvDgezVQ9Cri4l2NFXZfWH5WlffHb5Ho/oWFabuDtF7z7uj2
+ 1F+XEWoPfIraBPB6rQksK3+K/6GsdrM2f7ocgo1CpPZn36Xrsz5+jdKFFTr9DHyvJm34
+ 45YQmM3WhcGqHP6cUuWtyKYa9shGAUs5flEgJPhmA0GBL1ul1e4sXZmyCb2YRpLQ/mpT
+ IFcp6dP8g1mzE7rJlVsc+PjzGZK4NS0OerUbBiGvrxt59+/Fejj9hakCd35jZaiY/spZ
+ H9IA==
+X-Gm-Message-State: APjAAAW3QJVmSvUtjYS8WrSbeTyK/0lVWQT2fGTigZlVAzwLO+DjfnmZ
+ 3oOUPme5Yr6AueI9O17Sttpo9XUL
+X-Google-Smtp-Source: APXvYqxvtoehS1A+AMWeedPNn6Sjr/W437HQSZVz8NYb4nDK4unxNP+7yiE01GRXOeVUtjqzB/9cmA==
+X-Received: by 2002:a05:600c:2318:: with SMTP id
+ 24mr4455975wmo.48.1579787366368; 
+ Thu, 23 Jan 2020 05:49:26 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.21
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.25
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:22 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:25 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/59] target/i386: kvm: initialize feature MSRs very early
-Date: Thu, 23 Jan 2020 14:48:21 +0100
-Message-Id: <1579787342-27146-19-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 22/59] virtio-scsi: convert to new virtio_delete_queue
+Date: Thu, 23 Jan 2020 14:48:25 +0100
+Message-Id: <1579787342-27146-23-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,166 +75,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: Pan Nengyuan <pannengyuan@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some read-only MSRs affect the behavior of ioctls such as
-KVM_SET_NESTED_STATE.  We can initialize them once and for all
-right after the CPU is realized, since they will never be modified
-by the guest.
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-Reported-by: Qingua Cheng <qcheng@redhat.com>
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <1579544504-3616-2-git-send-email-pbonzini@redhat.com>
+Use virtio_delete_queue to make it more clear.
+
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200117075547.60864-3-pannengyuan@huawei.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm.c      | 81 ++++++++++++++++++++++++++++++--------------------
- target/i386/kvm_i386.h |  1 +
- 2 files changed, 49 insertions(+), 33 deletions(-)
+ hw/scsi/virtio-scsi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 7ee3202..f6dd6b7 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -67,6 +67,8 @@
-  * 255 kvm_msr_entry structs */
- #define MSR_BUF_SIZE 4096
- 
-+static void kvm_init_msrs(X86CPU *cpu);
-+
- const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
-     KVM_CAP_INFO(SET_TSS_ADDR),
-     KVM_CAP_INFO(EXT_CPUID),
-@@ -1842,6 +1844,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         has_msr_tsc_aux = false;
-     }
- 
-+    kvm_init_msrs(cpu);
-+
-     r = hyperv_init_vcpu(cpu);
-     if (r) {
-         goto fail;
-@@ -2660,11 +2664,53 @@ static void kvm_msr_entry_add_vmx(X86CPU *cpu, FeatureWordArray f)
-                       VMCS12_MAX_FIELD_INDEX << 1);
- }
- 
-+static int kvm_buf_set_msrs(X86CPU *cpu)
-+{
-+    int ret = kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, cpu->kvm_msr_buf);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    if (ret < cpu->kvm_msr_buf->nmsrs) {
-+        struct kvm_msr_entry *e = &cpu->kvm_msr_buf->entries[ret];
-+        error_report("error: failed to set MSR 0x%" PRIx32 " to 0x%" PRIx64,
-+                     (uint32_t)e->index, (uint64_t)e->data);
-+    }
-+
-+    assert(ret == cpu->kvm_msr_buf->nmsrs);
-+    return 0;
-+}
-+
-+static void kvm_init_msrs(X86CPU *cpu)
-+{
-+    CPUX86State *env = &cpu->env;
-+
-+    kvm_msr_buf_reset(cpu);
-+    if (has_msr_arch_capabs) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_ARCH_CAPABILITIES,
-+                          env->features[FEAT_ARCH_CAPABILITIES]);
-+    }
-+
-+    if (has_msr_core_capabs) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_CORE_CAPABILITY,
-+                          env->features[FEAT_CORE_CAPABILITY]);
-+    }
-+
-+    /*
-+     * Older kernels do not include VMX MSRs in KVM_GET_MSR_INDEX_LIST, but
-+     * all kernels with MSR features should have them.
-+     */
-+    if (kvm_feature_msrs && cpu_has_vmx(env)) {
-+        kvm_msr_entry_add_vmx(cpu, env->features);
-+    }
-+
-+    assert(kvm_buf_set_msrs(cpu) == 0);
-+}
-+
- static int kvm_put_msrs(X86CPU *cpu, int level)
- {
-     CPUX86State *env = &cpu->env;
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 858b3aa..d3af42e 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -945,10 +945,10 @@ void virtio_scsi_common_unrealize(DeviceState *dev)
+     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(dev);
      int i;
--    int ret;
  
-     kvm_msr_buf_reset(cpu);
- 
-@@ -2722,17 +2768,6 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+-    virtio_del_queue(vdev, 0);
+-    virtio_del_queue(vdev, 1);
++    virtio_delete_queue(vs->ctrl_vq);
++    virtio_delete_queue(vs->event_vq);
+     for (i = 0; i < vs->conf.num_queues; i++) {
+-        virtio_del_queue(vdev, i + 2);
++        virtio_delete_queue(vs->cmd_vqs[i]);
      }
- #endif
- 
--    /* If host supports feature MSR, write down. */
--    if (has_msr_arch_capabs) {
--        kvm_msr_entry_add(cpu, MSR_IA32_ARCH_CAPABILITIES,
--                          env->features[FEAT_ARCH_CAPABILITIES]);
--    }
--
--    if (has_msr_core_capabs) {
--        kvm_msr_entry_add(cpu, MSR_IA32_CORE_CAPABILITY,
--                          env->features[FEAT_CORE_CAPABILITY]);
--    }
--
-     /*
-      * The following MSRs have side effects on the guest or are too heavy
-      * for normal writeback. Limit them to reset or full state updates.
-@@ -2910,14 +2945,6 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
- 
-         /* Note: MSR_IA32_FEATURE_CONTROL is written separately, see
-          *       kvm_put_msr_feature_control. */
--
--        /*
--         * Older kernels do not include VMX MSRs in KVM_GET_MSR_INDEX_LIST, but
--         * all kernels with MSR features should have them.
--         */
--        if (kvm_feature_msrs && cpu_has_vmx(env)) {
--            kvm_msr_entry_add_vmx(cpu, env->features);
--        }
-     }
- 
-     if (env->mcg_cap) {
-@@ -2933,19 +2960,7 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-         }
-     }
- 
--    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, cpu->kvm_msr_buf);
--    if (ret < 0) {
--        return ret;
--    }
--
--    if (ret < cpu->kvm_msr_buf->nmsrs) {
--        struct kvm_msr_entry *e = &cpu->kvm_msr_buf->entries[ret];
--        error_report("error: failed to set MSR 0x%" PRIx32 " to 0x%" PRIx64,
--                     (uint32_t)e->index, (uint64_t)e->data);
--    }
--
--    assert(ret == cpu->kvm_msr_buf->nmsrs);
--    return 0;
-+    return kvm_buf_set_msrs(cpu);
- }
- 
- 
-diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
-index 7d0242f..00bde7a 100644
---- a/target/i386/kvm_i386.h
-+++ b/target/i386/kvm_i386.h
-@@ -46,4 +46,5 @@ bool kvm_enable_x2apic(void);
- bool kvm_has_x2apic_api(void);
- 
- bool kvm_hv_vpindex_settable(void);
-+
- #endif
+     g_free(vs->cmd_vqs);
+     virtio_cleanup(vdev);
 -- 
 1.8.3.1
 
