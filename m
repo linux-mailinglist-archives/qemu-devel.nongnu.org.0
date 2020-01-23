@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B3D147223
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:54:17 +0100 (CET)
-Received: from localhost ([::1]:60802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B49A1471E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:41:38 +0100 (CET)
+Received: from localhost ([::1]:60386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuiYS-0002tL-8o
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:54:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52449)
+	id 1iuiMD-0008Oo-AI
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:41:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iugBU-00038F-2r
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:22:25 -0500
+ (envelope-from <thuth@redhat.com>) id 1iugPT-00049k-6W
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:36:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iugBS-0007vt-01
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:22:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47887
+ (envelope-from <thuth@redhat.com>) id 1iugPS-0002eH-5M
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:36:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34920
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iugBR-0007vN-OY
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:22:21 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iugPS-0002eA-0T
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:36:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579800140;
+ s=mimecast20190719; t=1579801009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dt1vx9CQ8Rq88eZh2Kp4Sz9fZc6c3t91NtQLNsBP9SM=;
- b=VzRzIqyIhv98MlGxAFf75dFKKpL0Bwk5ieMycKDWZoNNmVwHkIVZ7zpYKQzGslKvTRVJ7H
- xgBHB4XgcgvZBT1LZoR7QZFW/P2iUrpNvgpT84WXHaxDQ3tdxUuWhdplXNwTOgvDQjMNiW
- FR0cCGh1bOcyFXN6mxo0tRfVRVg3oK4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-ejyoMx2fMmK-JaUtXzA5Xg-1; Thu, 23 Jan 2020 12:21:59 -0500
-Received: by mail-wm1-f70.google.com with SMTP id n17so965776wmk.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 09:21:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rgMr5G+dNZcGxS6gXizKYDjDxNrxoiX+1AWd+DLUd/I=;
- b=ej0at8jVsm9ikIBt4L4mF227s/0Fk1NA25tYwYMnN77FVj0O3rHdqyV9uTnZoBmH6t
- Zn7OXG9FsgAE64P2Awev0QD8CuvdZbsQY3HuraVZGLkFesM1wLDrAX3uX5HUzPo3kT0r
- xFzYT0MYdhduxwXVLS1MYqf+lx44tF5PaASvPXGv+lyQsee56QqeLMhhRwGgO+Zf0Ddk
- gDpkKX00ILfuKlF2iKkw5ZvGXKbR+KjxxDtWR8hxcPBhL3+TgXSE3MF1ND0azO1OqSZW
- s7uAY1OQzVhjCLwfNbpMaPGuNFDLXzT+qyvtA2Na6mqFmukk0WZM67ACrrCBVoH1Judw
- IsJw==
-X-Gm-Message-State: APjAAAXhnj31/pBc9zEHUGRfFJ1tJOjYFfyHMm0pm+678PG8bM9kcsaF
- vL67mE696FA2PFwn5eYWfMYJtkp8lV1OAHWUNsVU85dI1OxvRQS06/jsGsgdEPyMNFmvj8TmmA9
- Li+CYYK+dnBd7KOo=
-X-Received: by 2002:a1c:b486:: with SMTP id d128mr5018004wmf.69.1579800117889; 
- Thu, 23 Jan 2020 09:21:57 -0800 (PST)
-X-Google-Smtp-Source: APXvYqybgcYWdaL7/QxqSp/tvdaoTZ+LRM4Ael34FImn/+keqpJlPm7JoxuoAkPR5ovXQGX2/eUpzw==
-X-Received: by 2002:a1c:b486:: with SMTP id d128mr5017984wmf.69.1579800117614; 
- Thu, 23 Jan 2020 09:21:57 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id c9sm3730970wme.41.2020.01.23.09.21.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jan 2020 09:21:57 -0800 (PST)
-Subject: Re: [PATCH v3 2/2] MAINTAINERS: Add an entry for the Siemens SX1
- (OMAP310) machines
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200120185928.25115-1-philmd@redhat.com>
- <20200120185928.25115-3-philmd@redhat.com>
- <CAFEAcA8-aM=B6G-Zin-yEJycf6v1Brhxkn8it30jPDqrKkyWgA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a8520409-2402-8ae8-f37d-264c2ecdbc10@redhat.com>
-Date: Thu, 23 Jan 2020 18:21:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=u4I5sPZ0KV2tFyBD30BSwH+JDJsmHG5U+2z2Fwrie2I=;
+ b=QR/QYxJdu9pd6u6Fy2ufyNicSW2aeYdmISDxkRQ3WzB4FV1VXaCQUsG+A6SnbU+ny5b7Jv
+ /jbf/GvB1Oy9pxo3XZMirAY3rKTYDMfU+0pbW3MRdHUFkpafPKZ9t9Kg+FerkB5k26CR2g
+ IxTRBETnGE2T48s6nwpw3wb8KELZswY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-5YfkmUWtMKGwVKbBTEga6g-1; Thu, 23 Jan 2020 12:36:39 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A621800D4C;
+ Thu, 23 Jan 2020 17:36:37 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-64.ams2.redhat.com [10.36.116.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8868F5DA2C;
+ Thu, 23 Jan 2020 17:36:35 +0000 (UTC)
+Subject: Re: [PATCH rc1 00/24] target/avr merger
+To: Michael Rolnik <mrolnik@gmail.com>
+References: <20200123000307.11541-1-richard.henderson@linaro.org>
+ <bdcf69f2-a88a-6484-8321-f8b6a9977763@redhat.com>
+ <CAK4993j5xy6uJhi4e-denFjPt3BX+2yLnLcHKSg9hEYHj7QpKw@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <d3fe7b9d-37ac-e445-4bca-403cdd2dfd80@redhat.com>
+Date: Thu, 23 Jan 2020 18:36:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8-aM=B6G-Zin-yEJycf6v1Brhxkn8it30jPDqrKkyWgA@mail.gmail.com>
+In-Reply-To: <CAK4993j5xy6uJhi4e-denFjPt3BX+2yLnLcHKSg9hEYHj7QpKw@mail.gmail.com>
 Content-Language: en-US
-X-MC-Unique: ejyoMx2fMmK-JaUtXzA5Xg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 5YfkmUWtMKGwVKbBTEga6g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,43 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Joaquin de Andres <me@xcancerberox.com.ar>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/23/20 3:55 PM, Peter Maydell wrote:
-> On Mon, 20 Jan 2020 at 19:00, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com> wrote:
->>
->> Add the Siemens SX1 (OMAP310) cellphones with the other ARM machines.
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->>   MAINTAINERS | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 52fbc18566..27fbe1abb4 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -560,6 +560,12 @@ F: include/hw/arm/digic.h
->>   F: hw/*/digic*
->>   F: include/hw/*/digic*
->>
->> +Siemens SX1 (OMAP310)
->> +M: Peter Maydell <peter.maydell@linaro.org>
->> +L: qemu-arm@nongnu.org
->> +S: Maintained
->> +F: hw/arm/omap_sx1.c
+On 23/01/2020 12.56, Michael Rolnik wrote:
+> How do I get it? from where?
+
+It's not merged yet. But I hope Richard will send a pull request for
+these patches soon...?
+
+ Thomas
+
+
+> On Thu, Jan 23, 2020 at 7:12 AM Thomas Huth <thuth@redhat.com
+> <mailto:thuth@redhat.com>> wrote:
 >=20
-> At least as far as I'm concerned this is 'Odd Fixes'
-> status at best. I don't even have any test images
-> for it.
-
-Yes, 'Odd Fixes' sounds right (I copied the OMAP section).
-
-Are you OK if we deprecate it?
+>     On 23/01/2020 01.02, Richard Henderson wrote:
+>     > This is a merger of Michael's v41 of the base avr architecture,
+>     > and v4 of Phil's arduino target boards.=C2=A0 Call this release, or
+>     > merge, candidate 1.
+>     >
+>     > Has all commentary been addressed?=C2=A0 How much more, if anything=
+,
+>     > does anyone require before allowing normal development in tree?
+>=20
+>     I just had a quick look at the series. Apart from some few nits, it
+>     looks fine to me, so I think it's fine to merge it now.
+>=20
+>     =C2=A0Thomas
+>=20
+> --=20
+> Best Regards,
+> Michael Rolnik
 
 
