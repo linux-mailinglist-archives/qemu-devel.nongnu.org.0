@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D5A14743E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 00:00:04 +0100 (CET)
-Received: from localhost ([::1]:35084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D31147443
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 00:00:58 +0100 (CET)
+Received: from localhost ([::1]:35100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iulSE-0002GJ-RQ
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 18:00:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48319)
+	id 1iulT7-0003hX-KI
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 18:00:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48521)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iulR1-0001C2-Ej
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 17:58:48 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1iulRW-0002Dm-DN
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 17:59:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iulQz-0006LY-LT
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 17:58:47 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23382
+ (envelope-from <mlevitsk@redhat.com>) id 1iulRV-0007A3-12
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 17:59:18 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36771
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iulQz-0006K3-Gj
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 17:58:45 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iulRU-00079a-T3
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 17:59:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579820324;
+ s=mimecast20190719; t=1579820356;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4x8bav70GoKVrgQZ+EqRGya0cDjCLXW9vd/VGh4/0rQ=;
- b=GnRpekCurZBdj7XY+cDets7x+PHP5EqotKfIP8CKkvd7w8lqbMV7dnrTUyId+fxvLgw+lj
- +BQoI2SDtES45cPO7A7VrRLpsy0vrCNvZGY5Icp2nJT/f85AVz+V4kP5muRyuXNIwX2/kn
- Omrn+zF4fRJLqOHwH3xhNHGvsX005o8=
+ bh=exSsg2ppyWzgOBiZqKPLtdvTCcI9dBO5WZbvBIHjWF8=;
+ b=iyO5tEqH1w9LNs1jAaiXLj2FwiqOKyOI2ykT3+NxTTi+2bSuKbQQV5QS0Y8XnZ/dt2L/Bo
+ POGfkZhMabGvWsh8fdsu1IPm63KPkEBvZnIxZSI4/ACK9jiiwh8GS+bzwN60N93OLtNaHF
+ l9fbyMcDpz17/022KN3jRWFhNCugjf4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-md7RVGOHPTqlJWtKZCg0pQ-1; Thu, 23 Jan 2020 17:58:42 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-98-FLp6PmUsO7GlQtho8LU-8g-1; Thu, 23 Jan 2020 17:59:13 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4AE4477;
- Thu, 23 Jan 2020 22:58:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20D16100550E;
+ Thu, 23 Jan 2020 22:59:12 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 717E560BE1;
- Thu, 23 Jan 2020 22:58:40 +0000 (UTC)
-Message-ID: <9280b6f092b82114643cb1fb71eebe52cac777ff.camel@redhat.com>
-Subject: Re: [PATCH v2 2/5] block: Generic file creation fallback
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF94719C69;
+ Thu, 23 Jan 2020 22:59:10 +0000 (UTC)
+Message-ID: <13cdd5d93c9bf3be15bceea412b3b66cc1f38fda.camel@redhat.com>
+Subject: Re: [PATCH v2 5/5] iotests: Add test for image creation fallback
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Date: Fri, 24 Jan 2020 00:58:39 +0200
-In-Reply-To: <20200122164532.178040-3-mreitz@redhat.com>
+Date: Fri, 24 Jan 2020 00:59:09 +0200
+In-Reply-To: <20200122164532.178040-6-mreitz@redhat.com>
 References: <20200122164532.178040-1-mreitz@redhat.com>
- <20200122164532.178040-3-mreitz@redhat.com>
+ <20200122164532.178040-6-mreitz@redhat.com>
 Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: md7RVGOHPTqlJWtKZCg0pQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: FLp6PmUsO7GlQtho8LU-8g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
@@ -76,242 +76,120 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 2020-01-22 at 17:45 +0100, Max Reitz wrote:
-> If a protocol driver does not support image creation, we can see whether
-> maybe the file exists already.  If so, just truncating it will be
-> sufficient.
-> 
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->  block.c | 159 +++++++++++++++++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 147 insertions(+), 12 deletions(-)
+>  tests/qemu-iotests/259     | 61 ++++++++++++++++++++++++++++++++++++++
+>  tests/qemu-iotests/259.out | 14 +++++++++
+>  tests/qemu-iotests/group   |  1 +
+>  3 files changed, 76 insertions(+)
+>  create mode 100755 tests/qemu-iotests/259
+>  create mode 100644 tests/qemu-iotests/259.out
 > 
-> diff --git a/block.c b/block.c
-> index 99ce26d64d..e167eca04b 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -532,20 +532,139 @@ out:
->      return ret;
->  }
->  
-> -int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
-> +/**
-> + * Helper function for bdrv_create_file_fallback(): Resize @blk to at
-> + * least the given @minimum_size.
-> + *
-> + * On success, return @blk's actual length.
-> + * Otherwise, return -errno.
-> + */
-> +static int64_t create_file_fallback_truncate(BlockBackend *blk,
-> +                                             int64_t minimum_size, Error **errp)
->  {
-> -    BlockDriver *drv;
-> +    Error *local_err = NULL;
-> +    int64_t size;
-> +    int ret;
+> diff --git a/tests/qemu-iotests/259 b/tests/qemu-iotests/259
+> new file mode 100755
+> index 0000000000..22b4c10241
+> --- /dev/null
+> +++ b/tests/qemu-iotests/259
+> @@ -0,0 +1,61 @@
+> +#!/usr/bin/env bash
+> +#
+> +# Test generic image creation fallback (by using NBD)
+> +#
+> +# Copyright (C) 2019 Red Hat, Inc.
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation; either version 2 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> +#
 > +
-> +    ret = blk_truncate(blk, minimum_size, false, PREALLOC_MODE_OFF, &local_err);
-> +    if (ret < 0 && ret != -ENOTSUP) {
-> +        error_propagate(errp, local_err);
-> +        return ret;
-> +    }
+> +# creator
+> +owner=mreitz@redhat.com
 > +
-
-...
-
-
-> +    size = blk_getlength(blk);
-> +    if (size < 0) {
-> +        error_free(local_err);
-> +        error_setg_errno(errp, -size,
-> +                         "Failed to inquire the new image file's length");
-> +        return size;
-> +    }
+> +seq=$(basename $0)
+> +echo "QA output created by $seq"
 > +
-> +    if (size < minimum_size) {
-> +        /* Need to grow the image, but we failed to do that */
-> +        error_propagate(errp, local_err);
-> +        return -ENOTSUP;
-> +    }
-
-Very minor nitpick:
-
-The above code basically handles case when truncate is not supported,
-by trying to see file size is large enough anyway.
-If truncate succeed this is a bit redundant, but doesn't hurt to be honest.
-If truncate is not supported, it also works, but I am thinking that
-maybe its is better to create a generic truncate failback instead
-that will 'work' when asked for same size resize or smaller that existing size + exact=false.
-
-Currently when the above failback doesn't work (meaning that we indeed have to enlarge the file)
-we get this error message because truncate is not supported.
-
-[root@fedora31vm ~/qemu]# qemu-img create -f raw nvme://0000:03:00.0 10000M
-Formatting 'nvme://0000:03:00.0', fmt=raw size=10485760000
-qemu-img: nvme://0000:03:00.0: Image format driver does not support resize
-
-If we had generic truncate failback, it could maybe be smarter about this and say something like
-'Can increase the size of the image'
-
-But if you feel like that is not important, I don't have any issue to keep this as is,
-since the code does work.
-
-
-> +    error_free(local_err);
-> +    local_err = NULL;
+> +status=1	# failure is the default!
 > +
-> +    return size;
-> +}
-> +
-> +/**
-> + * Helper function for bdrv_create_file_fallback(): Zero the first
-> + * sector to remove any potentially pre-existing image header.
-> + */
-> +static int create_file_fallback_zero_first_sector(BlockBackend *blk,
-> +                                                  int64_t current_size,
-> +                                                  Error **errp)
+> +_cleanup()
 > +{
-> +    int64_t bytes_to_clear;
-> +    int ret;
-> +
-> +    bytes_to_clear = MIN(current_size, BDRV_SECTOR_SIZE);
-> +    if (bytes_to_clear) {
-> +        ret = blk_pwrite_zeroes(blk, 0, bytes_to_clear, BDRV_REQ_MAY_UNMAP);
-> +        if (ret < 0) {
-> +            error_setg_errno(errp, -ret,
-> +                             "Failed to clear the new image's first sector");
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    return 0;
+> +    _cleanup_test_img
 > +}
+> +trap "_cleanup; exit \$status" 0 1 2 3 15
 > +
-> +static int bdrv_create_file_fallback(const char *filename, BlockDriver *drv,
-> +                                     QemuOpts *opts, Error **errp)
-> +{
-> +    BlockBackend *blk;
-> +    QDict *options = qdict_new();
-> +    int64_t size = 0;
-> +    char *buf = NULL;
-> +    PreallocMode prealloc;
->      Error *local_err = NULL;
->      int ret;
->  
-> +    size = qemu_opt_get_size_del(opts, BLOCK_OPT_SIZE, 0);
-> +    buf = qemu_opt_get_del(opts, BLOCK_OPT_PREALLOC);
-> +    prealloc = qapi_enum_parse(&PreallocMode_lookup, buf,
-> +                               PREALLOC_MODE_OFF, &local_err);
-> +    g_free(buf);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return -EINVAL;
-> +    }
+> +# get standard environment, filters and checks
+> +. ./common.rc
+> +. ./common.filter
 > +
-> +    if (prealloc != PREALLOC_MODE_OFF) {
-> +        error_setg(errp, "Unsupported preallocation mode '%s'",
-> +                   PreallocMode_str(prealloc));
-> +        return -ENOTSUP;
-> +    }
+> +_supported_fmt raw
+> +_supported_proto nbd
+> +_supported_os Linux
 > +
-> +    qdict_put_str(options, "driver", drv->format_name);
 > +
-> +    blk = blk_new_open(filename, NULL, options,
-> +                       BDRV_O_RDWR | BDRV_O_RESIZE, errp);
-> +    if (!blk) {
-> +        error_prepend(errp, "Protocol driver '%s' does not support image "
-> +                      "creation, and opening the image failed: ",
-> +                      drv->format_name);
-> +        return -EINVAL;
-> +    }
+> +_make_test_img 64M
 > +
-> +    size = create_file_fallback_truncate(blk, size, errp);
-> +    if (size < 0) {
-> +        ret = size;
-> +        goto out;
-> +    }
+> +echo
+> +echo '--- Testing creation ---'
 > +
-> +    ret = create_file_fallback_zero_first_sector(blk, size, errp);
-> +    if (ret < 0) {
-> +        goto out;
-> +    }
+> +$QEMU_IMG create -f qcow2 "$TEST_IMG" 64M | _filter_img_create
+> +$QEMU_IMG info "$TEST_IMG" | _filter_img_info
 > +
-> +    ret = 0;
-> +out:
-> +    blk_unref(blk);
-> +    return ret;
-> +}
+> +echo
+> +echo '--- Testing creation for which the node would need to grow ---'
+> +
+> +$QEMU_IMG create -f qcow2 -o preallocation=metadata "$TEST_IMG" 64M 2>&1 \
+> +    | _filter_img_create
+> +
+> +# success, all done
+> +echo "*** done"
+> +rm -f $seq.full
+> +status=0
+> diff --git a/tests/qemu-iotests/259.out b/tests/qemu-iotests/259.out
+> new file mode 100644
+> index 0000000000..ffed19c2a0
+> --- /dev/null
+> +++ b/tests/qemu-iotests/259.out
+> @@ -0,0 +1,14 @@
+> +QA output created by 259
+> +Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+> +
+> +--- Testing creation ---
+> +Formatting 'TEST_DIR/t.IMGFMT', fmt=qcow2 size=67108864
+> +image: TEST_DIR/t.IMGFMT
+> +file format: qcow2
+> +virtual size: 64 MiB (67108864 bytes)
+> +disk size: unavailable
+> +
+> +--- Testing creation for which the node would need to grow ---
+> +qemu-img: TEST_DIR/t.IMGFMT: Could not resize image: Image format driver does not support resize
+> +Formatting 'TEST_DIR/t.IMGFMT', fmt=qcow2 size=67108864 preallocation=metadata
+> +*** done
+> diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+> index 1904223020..ec47c2216a 100644
+> --- a/tests/qemu-iotests/group
+> +++ b/tests/qemu-iotests/group
+> @@ -273,6 +273,7 @@
+>  256 rw auto quick
+>  257 rw
+>  258 rw quick
+> +259 rw auto quick
+>  260 rw quick
+>  261 rw
+>  262 rw quick migration
 
-Looks all right, very good code.
+Very minor nitpick: maybe add a note that nbd doesn't support resize / truncate.
+It might start supporting it one day.
+I didn't notice it first.
 
-> +
-> +int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
-> +{
-> +    BlockDriver *drv;
-> +
->      drv = bdrv_find_protocol(filename, true, errp);
->      if (drv == NULL) {
->          return -ENOENT;
->      }
->  
-> -    ret = bdrv_create(drv, filename, opts, &local_err);
-> -    error_propagate(errp, local_err);
-> -    return ret;
-> +    if (drv->bdrv_co_create_opts) {
-> +        return bdrv_create(drv, filename, opts, errp);
-> +    } else {
-> +        return bdrv_create_file_fallback(filename, drv, opts, errp);
-> +    }
->  }
->  
->  /**
-> @@ -1422,6 +1541,24 @@ QemuOptsList bdrv_runtime_opts = {
->      },
->  };
->  
-> +static QemuOptsList fallback_create_opts = {
-> +    .name = "fallback-create-opts",
-> +    .head = QTAILQ_HEAD_INITIALIZER(fallback_create_opts.head),
-> +    .desc = {
-> +        {
-> +            .name = BLOCK_OPT_SIZE,
-> +            .type = QEMU_OPT_SIZE,
-> +            .help = "Virtual disk size"
-> +        },
-> +        {
-> +            .name = BLOCK_OPT_PREALLOC,
-> +            .type = QEMU_OPT_STRING,
-> +            .help = "Preallocation mode (allowed values: off)"
-> +        },
-> +        { /* end of list */ }
-> +    }
-> +};
-> +
->  /*
->   * Common part for opening disk images and files
->   *
-> @@ -5749,15 +5886,13 @@ void bdrv_img_create(const char *filename, const char *fmt,
->          return;
->      }
->  
-> -    if (!proto_drv->create_opts) {
-> -        error_setg(errp, "Protocol driver '%s' does not support image creation",
-> -                   proto_drv->format_name);
-> -        return;
-> -    }
-> -
->      /* Create parameter list */
->      create_opts = qemu_opts_append(create_opts, drv->create_opts);
-> -    create_opts = qemu_opts_append(create_opts, proto_drv->create_opts);
-> +    if (proto_drv->create_opts) {
-> +        create_opts = qemu_opts_append(create_opts, proto_drv->create_opts);
-> +    } else {
-> +        create_opts = qemu_opts_append(create_opts, &fallback_create_opts);
-> +    }
->  
->      opts = qemu_opts_create(create_opts, NULL, 0, &error_abort);
-
-I also tested the code a bit on the qemu virtual nvme drive.
-Thanks for the patch series,
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 
 Best regards,
 	Maxim Levitsky
