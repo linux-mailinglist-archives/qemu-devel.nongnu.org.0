@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB2A146E2E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:18:46 +0100 (CET)
-Received: from localhost ([::1]:60198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A25E146E3B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:22:16 +0100 (CET)
+Received: from localhost ([::1]:60290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iufBs-0006UB-Ub
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:18:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51583)
+	id 1iufFG-0004CY-K1
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:22:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51623)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrX-0005Ct-So
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:36 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrZ-0005Fl-JY
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrW-0003kr-QR
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:35 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36548)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrY-0003tP-Ix
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:37 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:54627)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrW-0003jb-KG
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:34 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id p17so2612951wma.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:34 -0800 (PST)
+ id 1iucrY-0003pw-Ce
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:36 -0500
+Received: by mail-wm1-x331.google.com with SMTP id b19so2629274wmj.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v/VgNXOBwqlXi77Cypci6UQXOG1m8+dEPsEh2RkKozI=;
- b=DLLV5iSesL9OJoKrYqawkYuFpirNytSCncrUG4k7Hn3OHOqwgE398wLZusCZnbXGaH
- 3bqQWsN9rI1UfdnAJ0b/yS0Iud6Q1UoaaowL5ZdPTGM7Yo9bxE+7D58R/KIa3rKJ0nMA
- nz0U3+zah4b0uSffMW4nX13NcG7vk+7vq83VVWoqa2++N/AICBG7yJu6zQSbc8r7JsjH
- ZCbcdA27wO580v5kGdsXfA6Iyzw7LNUXU1uytk0Bx6L17e2iCaMy443+UmiOEhSx8x0W
- HRX4WdWIwl9PA++jDy/SltV/hIdbDlJokICPH63dIgL4nQgSYr6PQra9I2zs2wGYQnLC
- PIrA==
+ bh=kb+EYMV7I0i7u1W/G6zmMLHU6IYUgpjoqADdG+CD2XM=;
+ b=VItPUOK7AulvllwpzmXLbubCZhFtLOdA9WKq4zE/vxoFCTkh/pVZkf2YWODXyEtv1+
+ g97Rz7B66fkkwkkk6X2d2UwYnayFFO7StZ03aY6AJR2aSERoGzFRw9gTElboYM9WJ4Bt
+ 1SAWbb4uTx3LtpaYOFJh2Cpbx4dHe9oON2HseadjJLPwC9QVQ3DsUEGunVL/l/xudQWY
+ yj4CRshabQYpDBAoLOZoiqPJsx2uEj6GP1JxSBsHrOApXB8MyttYhZ8tnESr/M2plMwf
+ EXLV9XM4rnHSacLcwNYu4rF7qO7L5OBFE2KKLFD3NiIgQGdFGeUkRj1zja/KnYEvMhJi
+ 9AFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=v/VgNXOBwqlXi77Cypci6UQXOG1m8+dEPsEh2RkKozI=;
- b=OPJJWIbXiSR4r+HeCGCtqR6xF99uZFVufd1s3nUNiWEaL8EP0iRWZSTWsBrHVFvYP0
- E21TGnsVbPgdzpFTTXodbvmVUONL6dGxz+PQXgDOTIYqoDyvFW4+g/szvc/+3oWhVLwf
- A7+fTGxAhOu9rlXM42AZ4mIYvV3cnXTbTDfyreK+i3oRZ6pPsK2HowHco6YttqpJTxLt
- izWCPBM4B2M1VuZhpe3MkZXbcAYQWFzdYvSXUMaDtrFwX4OBx/kw0ljv3jJZuGVYqStH
- tC5WPlxSOGfw8XFcF8VOmi9OusLFj+ebOTLQQiv7J6TVUA3Q6u5dnVIMRwHBnklfBnOu
- 1qSQ==
-X-Gm-Message-State: APjAAAXB8NPIbuhw8Wf+JrW5UHUNn6LyzP3FwEcMUzEXRMcd1xSXjRZI
- XkpMm2UnqvTNdRle9aITMs927r1x
-X-Google-Smtp-Source: APXvYqxQ0Edf/75PjdyMiqSqCPJVTmes/9ooXVwvK/QkMWGN5wLW8BiV/9yAwpIHq8rSX4T5j5Q2jg==
-X-Received: by 2002:a7b:cbc9:: with SMTP id n9mr4424211wmi.89.1579787373537;
- Thu, 23 Jan 2020 05:49:33 -0800 (PST)
+ bh=kb+EYMV7I0i7u1W/G6zmMLHU6IYUgpjoqADdG+CD2XM=;
+ b=QJB1U6pXq2QT5nVMh8/PVNhdAaSFQHyF4s5KJgOFkMNjEFXokGjiksimuBvMPiIuoY
+ XCT6IDVhe5tZIRYD+pxJTV2jLjw8pjxDnpr5xsC/vztlFckzAbKy2xmVgKy3PKKZaVbU
+ S69eCV9vSkhETscs4UDwMbUnLIDlSHc1BznHXhROHk9RwLu+1OePM0bpWd+hOvMT+mVk
+ bMg11dsixUxq6VNZa2s5Zr7b58/wBeGhC8eJIyACQQZh7HLP7soFQCmSBEP0mgg1wC5q
+ VeMNq6SB36UYAeuccooBFToX1IWWujUJYModYrFq+1uhGgpbUJdd60D06egSpGxFHqkG
+ 8dng==
+X-Gm-Message-State: APjAAAW8KEdjVC6x1RTe/dH7TfFeJdBpHjF1YR7ZVyvMs149tgUE7CLM
+ KNKNJz8McDS4x865hMS8nBmzRjda
+X-Google-Smtp-Source: APXvYqxenBqB4yj/vIAoRLi8rqhZkB1O1gpLvrw2n+HX2ASui1FPQGCuEFkXdX6Rb5mvPItT6mBPjQ==
+X-Received: by 2002:a05:600c:d5:: with SMTP id
+ u21mr1204530wmm.98.1579787375204; 
+ Thu, 23 Jan 2020 05:49:35 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.32
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.34
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:33 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:34 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/59] accel/tcg: Sanitize include path
-Date: Thu, 23 Jan 2020 14:48:33 +0100
-Message-Id: <1579787342-27146-31-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 32/59] qdev: remove duplicated qdev_property_add_static() doc
+Date: Thu, 23 Jan 2020 14:48:35 +0100
+Message-Id: <1579787342-27146-33-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,41 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Commit af0440ae852 moved the qemu_tcg_configure() function,
-but introduced extraneous 'include/' in the includes path.
-As it is not necessary, remove it.
+The function is already documented in the header.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200121110349.25842-11-philmd@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20200110153039.1379601-3-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/tcg/tcg-all.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/core/qdev.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index 1802ce0..acfdcfd 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -31,9 +31,9 @@
- #include "sysemu/cpus.h"
- #include "qemu/main-loop.h"
- #include "tcg/tcg.h"
--#include "include/qapi/error.h"
--#include "include/qemu/error-report.h"
--#include "include/hw/boards.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+#include "hw/boards.h"
- #include "qapi/qapi-builtin-visit.h"
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 58e87d3..b47dc07 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -717,16 +717,6 @@ static void qdev_property_add_legacy(DeviceState *dev, Property *prop,
+     g_free(name);
+ }
  
- typedef struct TCGState {
+-/**
+- * qdev_property_add_static:
+- * @dev: Device to add the property to.
+- * @prop: The qdev property definition.
+- * @errp: location to store error information.
+- *
+- * Add a static QOM property to @dev for qdev property @prop.
+- * On error, store error in @errp.  Static properties access data in a struct.
+- * The type of the QOM property is derived from prop->info.
+- */
+ void qdev_property_add_static(DeviceState *dev, Property *prop,
+                               Error **errp)
+ {
 -- 
 1.8.3.1
 
