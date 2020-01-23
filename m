@@ -2,64 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6BAE147221
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:53:28 +0100 (CET)
-Received: from localhost ([::1]:60768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A445E147225
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:55:14 +0100 (CET)
+Received: from localhost ([::1]:60830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuiXf-00019p-Ng
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:53:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49328)
+	id 1iuiZN-0005GF-Ms
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:55:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49694)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rjones@redhat.com>) id 1iuhJz-0004r5-4g
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:35:17 -0500
+ (envelope-from <philmd@redhat.com>) id 1iuhMG-0008K2-D7
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:37:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rjones@redhat.com>) id 1iuhJv-0002Lm-On
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:35:14 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31228
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iuhMC-0003sj-KP
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:37:36 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21218
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rjones@redhat.com>) id 1iuhJv-0002LI-IK
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:35:11 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iuhMC-0003sI-GZ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:37:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579804511;
+ s=mimecast20190719; t=1579804651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=21k2w/bX7i0w5bWfAhJanCdlWncLqAQw8b0rDVEZnDA=;
- b=GoasGwINVfLCG1naKZq8sgsUt3eYv74/XNG0wuD71cfYJO/22BJu0NNt5FBcXiIrpFkJcO
- NE50KP5Ru2oqMTqMTpPsTxoKgp14FfX1bDALS0/NevtN+46sPisAV7Umf7k74d9nXz5Zq/
- /nUH8wB30oUyp/D4tHVtBQKg6z9skX4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-6BSpRgGROeqRNZITX3MVSw-1; Thu, 23 Jan 2020 13:35:03 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57E071005510;
- Thu, 23 Jan 2020 18:35:02 +0000 (UTC)
-Received: from localhost (ovpn-117-237.ams2.redhat.com [10.36.117.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E35AB7EF65;
- Thu, 23 Jan 2020 18:35:01 +0000 (UTC)
-Date: Thu, 23 Jan 2020 18:35:00 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com,
- eblake@redhat.com, berrange@redhat.com, mkletzan@redhat.com,
- ptoscano@redhat.com
-Subject: qemu-img convert vs writing another copy tool
-Message-ID: <20200123183500.GA27166@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8wYETtubdMkhSXWZ61HdTf21VDFypri2RTf9txI0mFw=;
+ b=X2GP0uxpXZHpSByhV8jh7oIKsBaiazECmSRDS4EkXmuL8emLIOkbSTCnkFM1sa+F7tlaKq
+ w+hciehnHWe8Z2k99JL4bfpVkHzYP1jmyOYKZa6tQ5au8s0TQf91dccuSnltFi5SwFyd45
+ u+dRBhUUmxh03ZDsEXiUlc8q+dbWXag=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-TGCj0jxqN0WpCSGUd334dA-1; Thu, 23 Jan 2020 13:37:29 -0500
+Received: by mail-wr1-f70.google.com with SMTP id z15so2364833wrw.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 10:37:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rUqhRHPuwgmjAQhU/HcCDGSPjQxYNYnQ4sksW2u9Lo8=;
+ b=e6knvbEmtxnWwNll3OUNnjyejWcWfU/HfXXCKuI2Nu3ShsCsfBc9D1V4o5UbfDzWTs
+ DLTKIixLVVRUNUidmNzoSJ03HLnuQO3kBeflnyf7dTUMJ+H7MiK4ODYT8mA6Op/B1YPs
+ U9/cZOTUpUhX2sBLOIBDRvrC1kpSE+/J2WisnZqN6s5xWt08Z2MaAe8UKxuCxjP1LGT8
+ 3j9b76jxeArN4m5GPxAgSPNeGgMoSjGzbxgS8ElN1MqYWr1DWkbPcbWM0dWsg7nperY8
+ u0iQKORSQxrQ2DR1UhSp9apuymf5mF/tnpWEQ+RjHFXdNHXUP2BZhOE030VJ+EY0R3vx
+ Rsgg==
+X-Gm-Message-State: APjAAAULXCDQLKmTEiplUODazBxbtqWBQtQRbbJTEiZ/QSjkbSM46p6F
+ j3k5gof7WPB20XFck5qFkAq9kM+3oM0/95kO7JkDGw0gi30dvUcgBnTxhM/ZYKfPi2qBBcVfwnw
+ VkcubDEMbwVZcYz4=
+X-Received: by 2002:adf:d4ca:: with SMTP id w10mr19974739wrk.53.1579804648380; 
+ Thu, 23 Jan 2020 10:37:28 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxbiFsYjaqyesMA2cDrF2yKRX8Ux58Virl4iyo3H6PAlPFFHAgHwBHF2abGKcUQ4wt/pgtHBQ==
+X-Received: by 2002:adf:d4ca:: with SMTP id w10mr19974714wrk.53.1579804648103; 
+ Thu, 23 Jan 2020 10:37:28 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id x7sm3981468wrq.41.2020.01.23.10.37.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jan 2020 10:37:27 -0800 (PST)
+Subject: Re: [PATCH] tests/boot-serial-test: Allow the HPPA machine to shudown
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+References: <20200123003603.11610-1-f4bug@amsat.org>
+ <15bada61-7e0c-bb4d-a91e-2cdfd42161e1@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <bcba70e2-9702-c080-1025-ad22fd344801@redhat.com>
+Date: Thu, 23 Jan 2020 19:37:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 6BSpRgGROeqRNZITX3MVSw-1
+In-Reply-To: <15bada61-7e0c-bb4d-a91e-2cdfd42161e1@linaro.org>
+Content-Language: en-US
+X-MC-Unique: TGCj0jxqN0WpCSGUd334dA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,279 +93,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marnold@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Sven Schnelle <svens@stackframe.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I guess some people are aware that virt-v2v, which is a tool which
-converts guests from VMware to run on KVM, and some other
-OpenStack-OpenStack migration tools we have, use "qemu-img convert" to
-copy the data around.
+On 1/23/20 4:27 AM, Richard Henderson wrote:
+> On 1/22/20 2:36 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+>> The boot-serial test uses SeaBIOS on HPPA, and expects to read the
+>> "SeaBIOS wants SYSTEM HALT" string, see [*]:
+>>
+>>   122 void __VISIBLE __noreturn hlt(void)
+>>   123 {
+>>   124     if (pdc_debug)
+>>   125         printf("HALT initiated from %p\n",  __builtin_return_addre=
+ss(0));
+>>   126     printf("SeaBIOS wants SYSTEM HALT.\n\n");
+>>   127     asm volatile("\t.word 0xfffdead0": : :"memory");
+>>   128     while (1);
+>>   129 }
+>>
+>> A 'SYSTEM HALT' would really halts the CPU, but SeaBIOS implements
+>> it as an infinite loop.
+>=20
+> Well, SeaBIOS implements it as the magic QEMU halt instruction,
+>=20
+> # These are artificial instructions used by QEMU firmware.
+> # They are allocated from the unassigned instruction space.
+> halt            1111 1111 1111 1101 1110 1010 1101 0000
+> reset           1111 1111 1111 1101 1110 1010 1101 0001
+>=20
+> followed by an infinite loop, probably to avoid a compiler warning and Ju=
+st In
+> Case.  We really should halt here, unless shutdown is disabled.
+>=20
+>> -    qts =3D qtest_initf("%s %s -M %s -no-shutdown "
+>> +    qts =3D qtest_initf("%s %s -M %s %s "
+>>                         "-chardev file,id=3Dserial0,path=3D%s "
+>>                         "-serial chardev:serial0 -accel tcg -accel kvm %=
+s",
+>>                         codeparam, code ? codetmp : "", test->machine,
+>> +                      shutdown ? "" : "-no-shutdown",
+>>                         serialtmp, test->extra);
+>=20
+> And thus avoiding the -no-shutdown should in fact shutdown.
+>=20
+> Are you saying this doesn't happen, or what?  I think I got lost with the=
+ rest
+> of the message...
 
-Historically we've had bugs here.  The most recent was discussed in
-the thread on this list called "Bug? qemu-img convert to preallocated
-image makes it sparse"
-(https://www.mail-archive.com/qemu-block@nongnu.org/msg60479.html)
+"If the command-line option "-no-shutdown" has been specified,
+  qemu will not exit, and a STOP event will eventually follow
+  the SHUTDOWN event"
 
-We've been kicking around the idea of writing some alternate tool.  My
-proposal would be a tool (not yet written, maybe it will never be
-written) called nbdcp for copying between NBD servers and local files.
-An outline manual page for this proposed tool is attached.
+What I see is the HPPA firmware calling HALT, then QEMU doesn't exit.
 
-Some of the things which this tool might do which qemu-img convert
-cannot do right now:
-
- - Hint that the target already contains zeroes.  It's almost always
-   the case that we know this, but we cannot tell qemu.  This was the
-   cause of a big performance regression last year.
-
- - Declare that we want the target to be either sparse or
-   preallocated.  qemu-img convert can sort of do this in a
-   round-about way (create the target in advance and use the -n
-   option), but also it's broken at the moment.
-
- - NBD multi-conn.  In my tests this makes a really massive
-   performance difference in certain situations.  Again, virt-v2v has
-   a lot of information that we cannot pass to qemu: we know, for
-   example, exactly if the server supports the feature, how many
-   threads are available, in some situations even have information
-   about the network and backing disks that the data will travel over
-   / be stored on.
-
- - Machine-parsable progress bars.  You can, sort of, parse the
-   progress bar from qemu-img convert, but it's not as easy as it
-   could be.  In particular it would be nice if the format was treated
-   as ABI, and if there was a way to have the tool write the progress
-   bar info to a precreated file descriptor.
-
- - External block lists.  This is a rather obscure requirement, but
-   it's necessary in the case where we can get the allocated block map
-   from another source (eg. pyvmomi) and then want to use that with an
-   NBD source that does not support extents (eg. nbdkit-ssh-plugin /
-   libssh / sftp).  [Having said that, it may be possible to implement
-   this as an nbdkit filter, so maybe this is not a blocking feature.]
-
-One thing which qemu-img convert can do which nbdcp could not:
-
- - Read or write from qcow2 files.
-
-So instead of splitting the ecosystem and writing a new tool that
-doesn't do as much as qemu-img convert, I wonder what qemu developers
-think about the above missing features?  For example, are they in
-scope for qemu-img convert?
-
-Rich.
-
-
-
-----------------------------------------------------------------------
-
-nbdcp(1)                            LIBNBD                            nbdcp=
-(1)
-
-NAME
-       nbdcp - copy between NBD servers and local files
-
-SYNOPSIS
-        nbdcp [-a|--target-allocation allocated|sparse]
-              [-b|--block-list <blocksfile>]
-              [-m|--multi-conn <n>] [-M|--multi-conn-target <n>]
-              [-p|--progress-bar] [-S|--sparse-detect <n>]
-              [-T|--threads <n>] [-z|--target-is-zero]
-              'nbd://...'|DISK.IMG 'nbd://...'|DISK.IMG
-
-DESCRIPTION
-       nbdcp is a utility that can copy quickly between NBD servers and loc=
-al
-       raw format files (or block devices).  It can copy:
-
-       from NBD server to file (or block device)
-           For example, this command copies from the NBD server listening o=
-n
-           port 10809 on "example.com" to a local file called disk.img:
-
-            nbdcp nbd://example.com disk.img
-
-       from file (or block device) to NBD server
-           For example, this command copies from a local block device /dev/=
-sda
-           to the NBD server listening on Unix domain socket /tmp/socket:
-
-            nbdcp /dev/sda 'nbd+unix:///?socket=3D/tmp/socket'
-
-       from NBD server to NBD server
-           For example this copies between two different exports on the sam=
-e
-           NBD server:
-
-            nbdcp nbd://example.com/export1 nbd://example.com/export2
-
-       This program cannot: copy from file to file (use cp(1) or dd(1)), co=
-py
-       to or from formats other than raw (use qemu-img(1) convert), or acce=
-ss
-       servers other than NBD servers (also use qemu-img(1)).
-
-       NBD servers are specified by their URI, following the NBD URI standa=
-rd
-       at https://github.com/NetworkBlockDevice/nbd/blob/master/doc/uri.md
-
-   Controlling sparseness or preallocation in the target
-       The options -a (--target-allocation), -S (--sparse-detect) and -z
-       (--target-is-zero) together control sparseness in the target file.
-
-       By default nbdcp tries to both preserve sparseness from the source a=
-nd
-       will detect runs of allocated zeroes and turn them into sparseness. =
- To
-       turn off detection of sparseness use "-S=A00".
-
-       The -z option should be used if and only if you know that the target
-       block device is zeroed already.  This allows an important optimizati=
-on
-       where nbdcp can skip zeroing or trimming parts of the disk that are
-       already zero.
-
-       The -a option is used to control the desired final preallocation sta=
-te
-       of the target.  The default is "-a=A0sparse" which makes the target =
-as
-       sparse as possible.  "-a=A0allocated" makes the target fully allocat=
-ed.
-
-OPTIONS
-       --help
-           Display brief command line help and exit.
-
-       -a allocated
-       --target-allocation=3Dallocated
-           Make the target fully allocated.
-
-       -a sparse
-       --target-allocation=3Dsparse
-           Make the target as sparse as possible.  This is the default.  Se=
-e
-           also "Controlling sparseness or preallocation in the target".
-
-       -b BLOCKSFILE
-       --block-list=3DBLOCKSFILE
-           Load the list of extents from an external file.  nbdcp considers
-           this to be the truth for source extents.  The file should contai=
-n
-           one record per line in the same format as nbdkit-sh-plugin(1), i=
-e:
-
-            offset length type
-
-           with "offset" and "length" in bytes, and the "type" field being =
-a
-           comma-separated list of the words "hole" and "zero".  For exampl=
-e:
-
-            0  1M
-            1M 9M  hole,zero
-
-           Any parts of the source which don't have descriptions are assume=
-d
-           to be of type "hole,zero".
-
-       -m N
-       --multi-conn=3DN
-           Enable NBD multi-conn with up to "N" connections.  Only some NBD
-           servers support this but it can greatly improve performance.
-
-           The default is to enable multi-conn if we detect that the server
-           supports it, with up to 4 connections.
-
-       -M N
-       --multi-conn-target=3DN
-           If you are copying between NBD servers, use -m to control the
-           multi-conn setting for the source server, and this option (-M) t=
-o
-           control the multi-conn setting for the target server.
-
-       -p
-       --progress-bar
-           Display a progress bar during copying.
-
-       -p machine:FD
-       --progress-bar=3Dmachine:FD
-           Write a machine-readable progress bar to file descriptor "FD".
-           This progress bar prints lines with the format "COPIED/TOTAL"
-           (where "COPIED" and "TOTAL" are 64 bit unsigned integers).
-
-       -S 0
-       --sparse-detect=3D0
-           Turn off sparseness detection.
-
-       -S N
-       --sparse-detect=3DN
-           Detect runs of zero bytes of at least size "N" bytes and turn th=
-em
-           into sparse blocks on the target (if "-a=A0sparse" is used).  Th=
-is is
-           the default, with a 512 byte block size.
-
-       -T N
-       --threads N
-           Use at most "N" threads when copying.  Usually more threads lead=
-s
-           to better performance, up to the limit of the number of cores on
-           your machine and the parallelism of the underlying disk or netwo=
-rk.
-           The default is to use the number of online processors.
-
-       -z
-       --target-is-zero
-           Declare that the target block device contains only zero bytes (o=
-r
-           sparseness that reads back as zeroes).  You must only use this
-           option if you are sure that this is true, since it means that nb=
-dcp
-           will enable an optimization where it skips zeroing parts of the
-           disk that are zero on the source.
-
-       -V
-       --version
-           Display the package name and version and exit.
-
-SEE ALSO
-       qemu-img(1), libnbd(3), nbdsh(1).
-
-AUTHORS
-       Richard W.M. Jones
-
-COPYRIGHT
-       Copyright (C) 2020 Red Hat Inc.
-
-LICENSE
-       This library is free software; you can redistribute it and/or modify=
- it
-       under the terms of the GNU Lesser General Public License as publishe=
-d
-       by the Free Software Foundation; either version 2 of the License, or
-       (at your option) any later version.
-
-       This library is distributed in the hope that it will be useful, but
-       WITHOUT ANY WARRANTY; without even the implied warranty of
-       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-       Lesser General Public License for more details.
-
-       You should have received a copy of the GNU Lesser General Public
-       License along with this library; if not, write to the Free Software
-       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-       02110-1301 USA
-
-libnbd-1.3.1                      2020-01-23                          nbdcp=
-(1)
-
-
---=20
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjon=
-es
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-Fedora Windows cross-compiler. Compile Windows programs, test, and
-build Windows installers. Over 100 libraries supported.
-http://fedoraproject.org/wiki/MinGW
+The QTest keeps reading the console for "SeaBIOS wants SYSTEM HALT.".
+When this string is displayed on the graphic output instead of the=20
+serial, the QTest keep reading indefinitely, and the test never=20
+succeeds/fails, it is just stuck.
 
 
