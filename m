@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604CA1468C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:12:23 +0100 (CET)
-Received: from localhost ([::1]:56822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D1E1468E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:19:00 +0100 (CET)
+Received: from localhost ([::1]:56908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iucHV-0001My-S1
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:12:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38740)
+	id 1iucNu-0008Q6-5o
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:18:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39552)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iub3M-0002zg-5b
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:53:41 -0500
+ (envelope-from <mrolnik@gmail.com>) id 1iub75-00080d-C8
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:57:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iub3L-0001ZB-2w
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:53:40 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43009)
+ (envelope-from <mrolnik@gmail.com>) id 1iub74-0003Ut-9Q
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:57:31 -0500
+Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:42168)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iub3K-0001Ym-Tn
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:53:39 -0500
-Received: by mail-ot1-x344.google.com with SMTP id p8so2418029oth.10
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 03:53:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iub74-0003Tr-4g
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:57:30 -0500
+Received: by mail-qv1-xf36.google.com with SMTP id dc14so1312471qvb.9
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 03:57:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=jiEFxAVj/mPGzRjcXJwGIfxc2hM/TdWjGuKvlH0yFAM=;
- b=C4bLCHzO6NQ/k+qHqTnTcU6J3STSEMopUE3fAarUapmH1wYUT8VDnbb6aqXQxCiOBK
- tjjZS1je15dDjjYn5WJ7A+C9IwYjNnstJDIbw3cdVN7brJepFDap1B/tUPhSRPa8K9Z6
- L5Y931si7JUYw8pimeSxgnBzkeL1o2vKQUacMYVYw0zNz/L8kvg7iKsqrdhzBbppgEl+
- SxV10py0MMW+KVIjp/Yyh/yywySfQ1oPaSKokVqAJdsS0NMROPqsIebAp8iVEMGhXUQU
- pJAN2C8etGnth6Wp0wQvSTXNEtbLziBIwnWbLxdzTkG2gtjDxayAh4PCUjx1tngaelPO
- Sh8w==
+ :cc; bh=Zs3C0moVFYQrAeeeVDEJyevqfF+VQBDa1YIUJ6XWpyk=;
+ b=JkbBoutqNzP+qwZ4Jkkb8VESP6Wd1cu5kO/WN0R8RJYWworILJcjOwQdpBkX+fPWKJ
+ c5Cpk1F4xSh03ayphRf2NImy1eUitXt1/oUQaPSglGwk3mQQqjO6XEQfW6ZfxhQ34EZv
+ fmhe4NBPNFduai4kkZnifBSUdUX6Iv4H1fdYfvZ/OKz9W+sK5kfKzsj/w481uE1wieNG
+ ZhsqhAq+mSyMQWQJgiH298hQbtBO5HNrX5+72Sbjaqbhno5ubn3RnIenZaE5CJUbu7wh
+ 1B7sbGaDQuxmtQR3/clwtOyQfvDxQa45D1PGbtl7DCwe/C9W7ux0admNYpNoi/kFuaWj
+ GYzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jiEFxAVj/mPGzRjcXJwGIfxc2hM/TdWjGuKvlH0yFAM=;
- b=UyNjLnWBteycECllWlMCCPyXznckLmUew/9rkc4gCNnZ6QToWRKwB6IWvJVx7k5kqw
- 16w+Z6k+r3CSLogbD2RDFzF0icqHaCN2krQwB0RHZajpidmpyV1KpQecSlsw24jWq2DH
- 9PZeg9NqPELePKHm59Imn98KGZ4RJMRC9FKVSg7BqPnC9c9WUAFOzsrdqsq/Qc87EdJu
- 8oGt3bLKwNVSf55Kw4wTJ3MfjBzwSlpXxLNTKJqeliQqi7XV8B/e8PQIPYx8QZlz80yf
- 7ShqmVLPK9io73nDBdKePEoBrzJrqDItgGtrAo44GiDFoJ3aw4DSCB/3JjXDWA13hfZo
- Zmxg==
-X-Gm-Message-State: APjAAAXVSbcJcK6LP+capwUGH4uAG0Y41renMHPM6vYuVUY6G5x3J8NF
- dvvtA0FBO98EOjLRELwKa0bGrGaouGorn82sqsoevg==
-X-Google-Smtp-Source: APXvYqyBD+bp3ayHUWadu90HXnJ2UiPufQhG+lR76jOjRIUcCM/fDaMLcl6yzFgY6g6kPLWPqVvmFxXk01gBYwDHf0s=
-X-Received: by 2002:a05:6830:4a4:: with SMTP id
- l4mr5115122otd.91.1579780418124; 
- Thu, 23 Jan 2020 03:53:38 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=Zs3C0moVFYQrAeeeVDEJyevqfF+VQBDa1YIUJ6XWpyk=;
+ b=o7duvPodtX8Y2sTzVHlwt6sZoSfvy8+oNdK3YRhjQrkdf0iaCd7GHZ300PnXNrr/2Q
+ /TrFMWSXt+bvS0A5LzQ79wdKzXE2FJRwBEgYDHiZvCmc0a/tIVPA8Nggwb5CuX/mxUce
+ y006Oo/Q4yD3QnllR7rMrGD6SBMOa+UHA+1Db43fuLnuYkCFKXn0iZrHODQw+f3USn1i
+ 1RVw9X27bE+3u/Pw8SmFJ2XlYjAuaJdoC18poG1hzGXBQ6sC/GhK2WnPoLcMx9rRVaBa
+ Db0ivrumVOBGO4f9u5YOuwJ/n/qgs9baos/5KRat/mbBgDKlfLmFBggw5JHZ8BapBTBA
+ XtCA==
+X-Gm-Message-State: APjAAAXhANuXvf/hzskXeh19WaakDPAC7yaKMgZPhNHegxrrclCs/KjO
+ bW6uku3wx7+Y9lLBnvrzAJLtPRhKDrQDZ7TW+fo=
+X-Google-Smtp-Source: APXvYqxaJzv6wEDw2fzZkzw5riEVEGsYOJQnFR5UFAvtkHjLf5lej8d4BuFTm9DWDkH1i6lSYDzpkxqCINBnu0Xp3ww=
+X-Received: by 2002:a0c:f68f:: with SMTP id p15mr15016701qvn.79.1579780647027; 
+ Thu, 23 Jan 2020 03:57:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20200122172137.7282-1-philmd@redhat.com>
-In-Reply-To: <20200122172137.7282-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jan 2020 11:53:27 +0000
-Message-ID: <CAFEAcA_4yGD4Tm5LpN3PXP6S_cbFGdVD8jAcnrm2pEyLNteW0w@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: List the sphinx documentation in 'make help'
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20200123000307.11541-1-richard.henderson@linaro.org>
+ <bdcf69f2-a88a-6484-8321-f8b6a9977763@redhat.com>
+In-Reply-To: <bdcf69f2-a88a-6484-8321-f8b6a9977763@redhat.com>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Thu, 23 Jan 2020 13:56:47 +0200
+Message-ID: <CAK4993j5xy6uJhi4e-denFjPt3BX+2yLnLcHKSg9hEYHj7QpKw@mail.gmail.com>
+Subject: Re: [PATCH rc1 00/24] target/avr merger
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000004a07da059ccd5831"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2607:f8b0:4864:20::f36
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,43 +71,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Joaquin de Andres <me@xcancerberox.com.ar>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Jan 2020 at 17:21, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> In commit 5f71eac06e1 we started to support the rST documentation.
-> List the build target we need to call to generate the rST files in
-> the 'make help' output.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index 6562b0dc97..b777f7fcdd 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1197,7 +1197,7 @@ endif
->         @echo  '  vm-help         - Help about targets running tests insi=
-de VM'
->         @echo  ''
->         @echo  'Documentation targets:'
-> -       @echo  '  html info pdf txt'
-> +       @echo  '  html info pdf txt sphinxdocs'
->         @echo  '                  - Build documentation in specified form=
-at'
->  ifdef CONFIG_GCOV
->         @echo  '  coverage-report - Create code coverage report'
+--0000000000004a07da059ccd5831
+Content-Type: text/plain; charset="UTF-8"
 
-'sphinxdocs' wasn't intended to be a user-facing target.
-If you do 'make html' this will build the HTML Sphinx
-documentation (as well as any legacy non-Sphinx HTML).
+How do I get it? from where?
 
-thanks
--- PMM
+On Thu, Jan 23, 2020 at 7:12 AM Thomas Huth <thuth@redhat.com> wrote:
+
+> On 23/01/2020 01.02, Richard Henderson wrote:
+> > This is a merger of Michael's v41 of the base avr architecture,
+> > and v4 of Phil's arduino target boards.  Call this release, or
+> > merge, candidate 1.
+> >
+> > Has all commentary been addressed?  How much more, if anything,
+> > does anyone require before allowing normal development in tree?
+>
+> I just had a quick look at the series. Apart from some few nits, it
+> looks fine to me, so I think it's fine to merge it now.
+>
+>  Thomas
+>
+>
+
+-- 
+Best Regards,
+Michael Rolnik
+
+--0000000000004a07da059ccd5831
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">How do I get it? from where?</div><br><div class=3D"gmail_=
+quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 23, 2020 at 7:12 A=
+M Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 23=
+/01/2020 01.02, Richard Henderson wrote:<br>
+&gt; This is a merger of Michael&#39;s v41 of the base avr architecture,<br=
+>
+&gt; and v4 of Phil&#39;s arduino target boards.=C2=A0 Call this release, o=
+r<br>
+&gt; merge, candidate 1.<br>
+&gt; <br>
+&gt; Has all commentary been addressed?=C2=A0 How much more, if anything,<b=
+r>
+&gt; does anyone require before allowing normal development in tree?<br>
+<br>
+I just had a quick look at the series. Apart from some few nits, it<br>
+looks fine to me, so I think it&#39;s fine to merge it now.<br>
+<br>
+=C2=A0Thomas<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
+
+--0000000000004a07da059ccd5831--
 
