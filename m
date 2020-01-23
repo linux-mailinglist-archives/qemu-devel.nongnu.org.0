@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011AA146D43
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:47:44 +0100 (CET)
-Received: from localhost ([::1]:59710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77AF8146D6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:55:41 +0100 (CET)
+Received: from localhost ([::1]:59834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuehq-0004Ic-GK
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:47:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51885)
+	id 1iuepX-00071g-VO
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:55:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51897)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrl-0005ZT-Vk
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrm-0005ad-TQ
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrk-0004SN-Ua
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:49 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:40809)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrl-0004VT-Qg
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:50 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:35787)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrk-0004Qs-O5
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:48 -0500
-Received: by mail-wm1-x329.google.com with SMTP id t14so2595748wmi.5
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:48 -0800 (PST)
+ id 1iucrl-0004Si-Jz
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:49 -0500
+Received: by mail-wm1-x331.google.com with SMTP id p17so2627119wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6W21RtF4MhsJPffhnX5gfH1aakhUYnRTEcxuzNxGkrI=;
- b=Bvqam1BTeYAY8Q9IFxflI6GOooT7M8E4BXoPA6YiaS2i/bdUjm0fA4VFVMwTvCAt52
- XVkIRVKgsSe/hUGguukjLKuJk4H6wfl+rFBRRaRtVhgXuIYqOxfJkPFYHk6nHIlvgXLl
- XDGJ55R6zaHSIqQpJK1uO5aeLjXtYT0bfMmbPxVCRhbMVZVccl+QRfKhGp4ec1ZYWzsE
- ORh/i7TqtLqPlgZvMKDs0ZEa+0bOrnhD0oqlNA5donLXQxrmb6VPs1oAvmAdX3suf4Hm
- BTL2UmYjlkKSB1JK8725h6thrhK/wQ3N7527AjVjttoutcl/WU2XhSARu1F5eN5MEiRv
- hUgQ==
+ bh=MIVPt6AfB7Si2oRFoeO2RPXJ/HSxWbOijJs6IvacXC4=;
+ b=lIySqjIGpijZ4dJsytu6VCMwAxKpQ5v2GVAVUZbn+bW3fkWMrtSfx9kuRu3XMDaZ92
+ s5NfXcJX9lMjUcmKEj4DRN/V29TD8Ttn3nQUs/o7SlIeeRDxdKNjdgydOmIhyX7jOeVw
+ i3G0VFA6rMjtBa50l7OxsjT0Ct3yMUau3Lkpvx0sRfEo8eb07gtjMfXXc+BW8n5DnX+3
+ 5PQ9xzbEN8oDGTs8iKUmmAHaQW3ZH6OCOnQ0k9TxH1kuKXfEv+YZvWPIOJAWNY9QwAFU
+ WBgZqL4c1e+dvwj41SkHFg49Jd/1G8W1d3q5KI9Pr/7gGn1UjzR30xrE18sq0//fEOzT
+ uthQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=6W21RtF4MhsJPffhnX5gfH1aakhUYnRTEcxuzNxGkrI=;
- b=LT0f6uOUmV0pibkLXJXJ18R3z8mMWIx89rqGqOtxOfl/5ERAQSFwDjfoT+Vme8GW80
- gZGGs6/1oj1DymY6xgBSoaX/3fMrFB0EfMwPltalPU33xWqB95HIV7GDPlYX51fjtP9I
- MQ8guDLGTCL9sckGcFwCPOUcuzNEt08VX1N8RYsF2QmOYpw42rtcNzBj69Dpn+ejNrvK
- X4A24ul75w6/6IF6pSbrZgHO6c8XuinA9osLyxNvgqP9dcVfLXZ1P1YRGFplMatsmqss
- tRUTBYP+Va4UnA3gEaJrXSVkYCfFC+sFSwaWX2Oex3McwX6Sqdum9pu2zvT9Zjz7E0R9
- H/1A==
-X-Gm-Message-State: APjAAAULBq86ieOYJj5ytkLLURiUn4zb+zv2v81CveYZUKlj4Lxdbp2K
- PvVnopU6tshNpr4iNUAszByU7ra0
-X-Google-Smtp-Source: APXvYqynm/nCI1LJsNISgpTFGkd7OSMtzbSQRhDwbypMjZ7B5LgP/HpWDXTPDk+3id5qJOoYvE7O4g==
-X-Received: by 2002:a1c:9602:: with SMTP id y2mr4284529wmd.23.1579787387607;
- Thu, 23 Jan 2020 05:49:47 -0800 (PST)
+ bh=MIVPt6AfB7Si2oRFoeO2RPXJ/HSxWbOijJs6IvacXC4=;
+ b=V3y5EFQ0WB4mqpuf8TmuNizxFcjYx/qD6sj7X7UfXnml8aKZU1JADoYLFPt0BKIxJg
+ /p2bM8ftJ3eI9b0lVfld1ue/tO3h2SwZybwG7r2cwsjy/Cxzr0UFgdsY/pgJj51ah72p
+ Pavi3uVZwoNFE9WcoiP/9erHMgr+ISH0XkC2gras5cnuK985HjM1QILy0qt4Muqd4m3W
+ hI9rlYJPSafqcMOXzaLBzW6NLbSlfTmMyE5poEbOPiKRvnR9XgmrXrnBxr3AjliMtAjC
+ BXSiwxosOEWhHyUgrClcYTtYqMrYbV8KsS6ydig8dJ736AH/WM0cRNF3lKx07LKxasV4
+ gC/Q==
+X-Gm-Message-State: APjAAAVHmMkS8mh4hAZ3EBTLHK3J92x9mDVzQ/tTshhsht19c4TC8Pes
+ WEOZVil4RRw6M1edloHEzXBE5NY8
+X-Google-Smtp-Source: APXvYqze5kc9ykXYM8BnoZ3clWESdXoRjAOe6WhscklrehcuAJ78m2JToo+E0pbKDefkz1n+urrw/w==
+X-Received: by 2002:a7b:cc98:: with SMTP id p24mr4384055wma.139.1579787388489; 
+ Thu, 23 Jan 2020 05:49:48 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.46
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.47
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
  Thu, 23 Jan 2020 05:49:47 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 47/59] object: release all props
-Date: Thu, 23 Jan 2020 14:48:50 +0100
-Message-Id: <1579787342-27146-48-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 48/59] object: return self in object_ref()
+Date: Thu, 23 Jan 2020 14:48:51 +0100
+Message-Id: <1579787342-27146-49-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,56 +84,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Class properties may have to release resources when the object is
-destroyed. Let's use the existing release() callback for that, but
-class properties must not release ObjectProperty, as it can be shared
-by various instances.
+This allow for simpler assignment with ref: foo = object_ref(bar)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200110153039.1379601-18-marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200110153039.1379601-19-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qom/object.c | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ include/qom/object.h | 3 ++-
+ qom/object.c         | 5 +++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index ead9129..933e5c6 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1013,8 +1013,9 @@ GSList *object_class_get_list_sorted(const char *implements_type,
+  *
+  * Increase the reference count of a object.  A object cannot be freed as long
+  * as its reference count is greater than zero.
++ * Returns: @obj
+  */
+-void object_ref(Object *obj);
++Object *object_ref(Object *obj);
+ 
+ /**
+  * object_unref:
 diff --git a/qom/object.c b/qom/object.c
-index 202d576..84d234d 100644
+index 84d234d..b774507 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -592,23 +592,22 @@ static inline bool object_property_is_child(ObjectProperty *prop)
+@@ -1107,12 +1107,13 @@ GSList *object_class_get_list_sorted(const char *implements_type,
+                         object_class_cmp);
+ }
  
- static void object_property_del_all(Object *obj)
+-void object_ref(Object *obj)
++Object *object_ref(Object *obj)
  {
-+    g_autoptr(GHashTable) done = g_hash_table_new(NULL, NULL);
-     ObjectProperty *prop;
--    GHashTableIter iter;
--    gpointer key, value;
-+    ObjectPropertyIterator iter;
-     bool released;
+     if (!obj) {
+-        return;
++        return NULL;
+     }
+     atomic_inc(&obj->ref);
++    return obj;
+ }
  
-     do {
-         released = false;
--        g_hash_table_iter_init(&iter, obj->properties);
--        while (g_hash_table_iter_next(&iter, &key, &value)) {
--            prop = value;
--            if (prop->release) {
--                prop->release(obj, prop->name, prop->opaque);
--                prop->release = NULL;
--                released = true;
--                break;
-+        object_property_iter_init(&iter, obj);
-+        while ((prop = object_property_iter_next(&iter)) != NULL) {
-+            if (g_hash_table_add(done, prop)) {
-+                if (prop->release) {
-+                    prop->release(obj, prop->name, prop->opaque);
-+                    released = true;
-+                    break;
-+                }
-             }
--            g_hash_table_iter_remove(&iter);
-         }
-     } while (released);
- 
+ void object_unref(Object *obj)
 -- 
 1.8.3.1
 
