@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A051146871
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:53:12 +0100 (CET)
-Received: from localhost ([::1]:56572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A811146889
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:59:39 +0100 (CET)
+Received: from localhost ([::1]:56646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iubyt-0000kt-Tz
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:53:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40057)
+	id 1iuc5C-0001JG-2k
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:59:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40148)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iub8a-0001mS-7S
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:05 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iub8i-0001uK-7U
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iub8Y-0004po-W0
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56772
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iub8g-0004u5-1s
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:12 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46231
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub8Y-0004pW-SY
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:02 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub8f-0004td-NB
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780742;
+ s=mimecast20190719; t=1579780749;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tpyzySGg83atDS+yWJ/uSWAUnEpEtPnDwxQUntkRQQY=;
- b=KNEjONutYFPJpcSdsrtJylBKHXgPmsEJjZTNbfZ6uXRe+V6YSRrYsUy5bCcBAaK4t9Cmu2
- 6YL0Sg5GvwDmAyFdfE4hSe49/R1gQyqaPSnp/MVGAsvYIVQlmHbJ+q2RRNC6+afXTY8+Qf
- gwtyAHotX6/N8DEkzOsPDJDlgtHcNNg=
+ bh=ToN5OA+OYIWiz1ocOLRwTVQ2bvWzssRm5w/2+kmT8qs=;
+ b=ESCdHFDjXebWtcBf+YKZZYzlm4WJNl9OMQY1/h6MvufFvUoGikGqg8JKdY2icaWzDxkydJ
+ EhOGKu69UxV28fJvRKEZrPuz0hGhWDYOODKGQtIGOhKlhA1Ux0QDxnoSooNEwuWzFqLjed
+ xSSeljEWLE2ZSMS1rLPz0Cl7b3KF6Kg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-UGRalmu0Ntmnui468onGSg-1; Thu, 23 Jan 2020 06:59:00 -0500
+ us-mta-370-dod0DeWjPuiR0vFQsGR0ZA-1; Thu, 23 Jan 2020 06:59:01 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB94A8010C9
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:58:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1CDC801E6C
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:00 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 306BA85754;
- Thu, 23 Jan 2020 11:58:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3254D1CB;
+ Thu, 23 Jan 2020 11:59:00 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 011/111] virtiofsd: Fix fuse_daemonize ignored return values
-Date: Thu, 23 Jan 2020 11:57:01 +0000
-Message-Id: <20200123115841.138849-12-dgilbert@redhat.com>
+Subject: [PULL 012/111] virtiofsd: Fix common header and define for QEMU builds
+Date: Thu, 23 Jan 2020 11:57:02 +0000
+Message-Id: <20200123115841.138849-13-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: UGRalmu0Ntmnui468onGSg-1
+X-MC-Unique: dod0DeWjPuiR0vFQsGR0ZA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,103 +76,148 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-QEMU's compiler enables warnings/errors for ignored values
-and the (void) trick used in the fuse code isn't enough.
-Turn all the return values into a return value on the function.
+All of the fuse files include config.h and define GNU_SOURCE
+where we don't have either under our build - remove them.
+Fixup path to the kernel's fuse.h in the QEMUs world.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/helper.c | 33 ++++++++++++++++++++++-----------
- 1 file changed, 22 insertions(+), 11 deletions(-)
+ tools/virtiofsd/buffer.c         | 4 +---
+ tools/virtiofsd/fuse_i.h         | 3 +++
+ tools/virtiofsd/fuse_log.c       | 1 +
+ tools/virtiofsd/fuse_lowlevel.c  | 6 ++----
+ tools/virtiofsd/fuse_opt.c       | 2 +-
+ tools/virtiofsd/fuse_signals.c   | 2 +-
+ tools/virtiofsd/helper.c         | 1 +
+ tools/virtiofsd/passthrough_ll.c | 8 ++------
+ 8 files changed, 12 insertions(+), 15 deletions(-)
 
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 5e6f2051a7..d9227d7367 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -10,12 +10,10 @@
-  * See the file COPYING.LIB.
+diff --git a/tools/virtiofsd/buffer.c b/tools/virtiofsd/buffer.c
+index 4d507f3302..772efa922d 100644
+--- a/tools/virtiofsd/buffer.c
++++ b/tools/virtiofsd/buffer.c
+@@ -9,9 +9,7 @@
+  * See the file COPYING.LIB
+  */
+=20
+-#define _GNU_SOURCE
+-
+-#include "config.h"
++#include "qemu/osdep.h"
+ #include "fuse_i.h"
+ #include "fuse_lowlevel.h"
+ #include <assert.h>
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index e63cb58388..bae06992e0 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -6,6 +6,9 @@
+  * See the file COPYING.LIB
+  */
+=20
++#define FUSE_USE_VERSION 31
++
++
+ #include "fuse.h"
+ #include "fuse_lowlevel.h"
+=20
+diff --git a/tools/virtiofsd/fuse_log.c b/tools/virtiofsd/fuse_log.c
+index 11345f9ec8..c301ff6da1 100644
+--- a/tools/virtiofsd/fuse_log.c
++++ b/tools/virtiofsd/fuse_log.c
+@@ -8,6 +8,7 @@
+  * See the file COPYING.LIB
+  */
+=20
++#include "qemu/osdep.h"
+ #include "fuse_log.h"
+=20
+ #include <stdarg.h>
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
+l.c
+index 3da80de233..07fb8a6095 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -9,11 +9,9 @@
+  * See the file COPYING.LIB
+  */
+=20
+-#define _GNU_SOURCE
+-
+-#include "config.h"
++#include "qemu/osdep.h"
+ #include "fuse_i.h"
+-#include "fuse_kernel.h"
++#include "standard-headers/linux/fuse.h"
+ #include "fuse_misc.h"
+ #include "fuse_opt.h"
+=20
+diff --git a/tools/virtiofsd/fuse_opt.c b/tools/virtiofsd/fuse_opt.c
+index edd36f4a3b..28922361a2 100644
+--- a/tools/virtiofsd/fuse_opt.c
++++ b/tools/virtiofsd/fuse_opt.c
+@@ -9,8 +9,8 @@
+  * See the file COPYING.LIB
+  */
+=20
++#include "qemu/osdep.h"
+ #include "fuse_opt.h"
+-#include "config.h"
+ #include "fuse_i.h"
+ #include "fuse_misc.h"
+=20
+diff --git a/tools/virtiofsd/fuse_signals.c b/tools/virtiofsd/fuse_signals.=
+c
+index 19d6791cb9..dc7c8ac025 100644
+--- a/tools/virtiofsd/fuse_signals.c
++++ b/tools/virtiofsd/fuse_signals.c
+@@ -8,7 +8,7 @@
+  * See the file COPYING.LIB
   */
 =20
 -#include "config.h"
++#include "qemu/osdep.h"
+ #include "fuse_i.h"
+ #include "fuse_lowlevel.h"
+=20
+diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
+index d9227d7367..9333691525 100644
+--- a/tools/virtiofsd/helper.c
++++ b/tools/virtiofsd/helper.c
+@@ -10,6 +10,7 @@
+  * See the file COPYING.LIB.
+  */
+=20
++#include "qemu/osdep.h"
  #include "fuse_i.h"
  #include "fuse_lowlevel.h"
  #include "fuse_misc.h"
- #include "fuse_opt.h"
--#include "mount_util.h"
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 126a56ccbd..322a889cdf 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -35,15 +35,11 @@
+  * \include passthrough_ll.c
+  */
 =20
+-#define _GNU_SOURCE
+-#define FUSE_USE_VERSION 31
+-
+-#include "config.h"
+-
++#include "qemu/osdep.h"
++#include "fuse_lowlevel.h"
+ #include <assert.h>
+ #include <dirent.h>
  #include <errno.h>
+-#include <fuse_lowlevel.h>
+ #include <inttypes.h>
  #include <limits.h>
-@@ -171,6 +169,7 @@ int fuse_parse_cmdline(struct fuse_args *args, struct f=
-use_cmdline_opts *opts)
-=20
- int fuse_daemonize(int foreground)
- {
-+    int ret =3D 0, rett;
-     if (!foreground) {
-         int nullfd;
-         int waiter[2];
-@@ -192,8 +191,8 @@ int fuse_daemonize(int foreground)
-         case 0:
-             break;
-         default:
--            (void)read(waiter[0], &completed, sizeof(completed));
--            _exit(0);
-+            _exit(read(waiter[0], &completed,
-+                       sizeof(completed) !=3D sizeof(completed)));
-         }
-=20
-         if (setsid() =3D=3D -1) {
-@@ -201,13 +200,22 @@ int fuse_daemonize(int foreground)
-             return -1;
-         }
-=20
--        (void)chdir("/");
-+        ret =3D chdir("/");
-=20
-         nullfd =3D open("/dev/null", O_RDWR, 0);
-         if (nullfd !=3D -1) {
--            (void)dup2(nullfd, 0);
--            (void)dup2(nullfd, 1);
--            (void)dup2(nullfd, 2);
-+            rett =3D dup2(nullfd, 0);
-+            if (!ret) {
-+                ret =3D rett;
-+            }
-+            rett =3D dup2(nullfd, 1);
-+            if (!ret) {
-+                ret =3D rett;
-+            }
-+            rett =3D dup2(nullfd, 2);
-+            if (!ret) {
-+                ret =3D rett;
-+            }
-             if (nullfd > 2) {
-                 close(nullfd);
-             }
-@@ -215,13 +223,16 @@ int fuse_daemonize(int foreground)
-=20
-         /* Propagate completion of daemon initialization */
-         completed =3D 1;
--        (void)write(waiter[1], &completed, sizeof(completed));
-+        rett =3D write(waiter[1], &completed, sizeof(completed));
-+        if (!ret) {
-+            ret =3D rett;
-+        }
-         close(waiter[0]);
-         close(waiter[1]);
-     } else {
--        (void)chdir("/");
-+        ret =3D chdir("/");
-     }
--    return 0;
-+    return ret;
- }
-=20
- void fuse_apply_conn_info_opts(struct fuse_conn_info_opts *opts,
+ #include <pthread.h>
 --=20
 2.24.1
 
