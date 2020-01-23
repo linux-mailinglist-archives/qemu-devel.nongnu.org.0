@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C174A146E4A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:27:00 +0100 (CET)
-Received: from localhost ([::1]:60382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF9F146E75
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:29:35 +0100 (CET)
+Received: from localhost ([::1]:60414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iufJr-0003HZ-BR
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:26:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51800)
+	id 1iufML-0006mo-Uu
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:29:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51847)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrh-0005T3-OK
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:46 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrj-0005W9-UO
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrg-0004Je-S9
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:45 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44796)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucri-0004NM-OG
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:47 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33988)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrg-0004Ij-Lu
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:44 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id q10so3117983wrm.11
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:44 -0800 (PST)
+ id 1iucri-0004LP-HF
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:46 -0500
+Received: by mail-wr1-x436.google.com with SMTP id t2so3186079wrr.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uOLwVK1PbKn7a23VxrQddoHkt+lkpXaQ8CGs7D10ELc=;
- b=Ik1UDyf+lS1zGOKwIDDAtQoKwbjVlJSOzNBvDAqky6Fj+ekqJrSogwQg23ZHiLGu61
- ZbWBqxrGADwZ9bA8DWOWbiuW4VNJltrE6ndR9tg8jS5meLrSI+BfONsQWp1lpPnEB+Io
- F6jgdpFFMMm5kpjP7G/frFYYjSEbxWP8sgjg45VxY1pgdqA5HzUYk9iKlMddknKsyRwt
- gw4lE/+vZGK+RvdxMBlLd5AFf2OfyegLO7yjIXeJgd5znZtre5lNqV3JH8mwpqns7etd
- Ac7HVhvpg6EZLcKevEw7ZvpG3h7IX1caFP5ie+omaTWUYwrYrw1lfhc8E13Hb1amprbX
- lQPw==
+ bh=NKQefvh4U78BlEUri4dbdA4PBZUpYRKEAzo+PNIiyOU=;
+ b=Md/tOE2YZwQVkSXXYiFxlNyLgzOaGdqxmNMXqPSwP9HdoPEODuHnolNbIutFLGmDQh
+ IyeSIUVHEeGUOiy1GVmfEU5cdztZtPSmGFs4+pE50ybum3q54Cd7zKF4ROkFqS4ia5/l
+ YaQqyD6XweqP7TJTor63jOc/iI9J3XqA2bJEhkfdVWk6iaZItBxuXeqqCXdw9ttR5cbn
+ 6qY6ypxw6HpVYGNScu+xTK5lxGxoPm2MSlbpRIdsDrd55QfMj6Bs57NoZuoN4czMaqER
+ 77+JC5ODZdSYfV9w7wNXN6t/018rPfO/9CpbQDKumjbFabt7mGoU4uAFCgIItQay/Zzi
+ hoUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uOLwVK1PbKn7a23VxrQddoHkt+lkpXaQ8CGs7D10ELc=;
- b=Z5c/0EhjbD9HodsCXOKk5Ui9x6dlFp4HF3u684HQ+XOM5K/MGwHkjvRcoU0IXAXIGM
- gOBCCEIw9IzLzUXYAKbKFedrdLu8leX/ZHYgXxS1tccim9Hvx8EBsNieNZjZgOTmIjdA
- Xu3QWGS64YhzI6WKuPr4GRWKKHlrO7MwAqKBefy0PLgteJemmrz/IRnMYGbC+MSssnQE
- JYXZKTsRQ1E6NpemXMcMgD0iKiAvaykdUK6CO/B7pDaYy8VXxTyGNa2tA+TOeWMh3DPt
- L3oS3sXUrQJ++WC1E8KE5U/g7va2ZyqQku4hYsdNkbfcztdUamJMwipzhN1Pwy9VlTJk
- vWMQ==
-X-Gm-Message-State: APjAAAUMO8ojesM3fGMCmFBqRzMNJ4TAsXskylue0xpBiWxyETadXek6
- V/3Iu4OEkinfbYNLBeeu3/zHNcD7
-X-Google-Smtp-Source: APXvYqxzy8vp3SmSskHB9ems4kNS2XQAF4hYqiTWVQgOUzwR+ezT7Wly0QLzppxdDRpgKmTDVD5vOA==
-X-Received: by 2002:adf:c145:: with SMTP id w5mr18139475wre.205.1579787383581; 
- Thu, 23 Jan 2020 05:49:43 -0800 (PST)
+ bh=NKQefvh4U78BlEUri4dbdA4PBZUpYRKEAzo+PNIiyOU=;
+ b=uMwH2j7z64LI9t10QbRXuHO4ugjCWX75sKrT1nAhmmuVyjU3gjuvPvi+Bg21lMiwVd
+ PYHQuoBpRfM9+GFxFB8Q9R8tmQMV70czoIOEsat1bFL5LrK2MNI4bhlrzLPlzjNxuKxN
+ AGu4q6+j5hSU1LfY6I1uy12vw2ezEmwQVKxjuovGbD0dqd3wzSkspNxiRlYScj5CB0oA
+ B0wno2jsP6+hAQwwwEuttjvyL5OrU2ssnm8KuQYba2rJq8W0CyFmrPc40+TcrR4m4ThX
+ LKv0tqJHHUPCtPop/CF7UIGsYS/MN1gadr9Ef+hTblYRT0HbDfOXXnWlHPKwFyOznnoL
+ jBEg==
+X-Gm-Message-State: APjAAAXiCjgjN3iOsZeZJmqQq1mjZ6HluS6DQhEKWaYQd0msGzRocpbB
+ eArk/HxuUXF6+snCw9MGeR6MZh2d
+X-Google-Smtp-Source: APXvYqzk3N9W9Mna8U59ycNM+RLUi6njsjsa84+7ywowBwA3I49csIISfYGZ+wCvb2PkWaUCEHhNyQ==
+X-Received: by 2002:adf:e692:: with SMTP id r18mr17886336wrm.413.1579787385277; 
+ Thu, 23 Jan 2020 05:49:45 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.42
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.44
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:43 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:44 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/59] object: check strong flag with &
-Date: Thu, 23 Jan 2020 14:48:45 +0100
-Message-Id: <1579787342-27146-43-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 44/59] object: add direct link flag
+Date: Thu, 23 Jan 2020 14:48:47 +0100
+Message-Id: <1579787342-27146-45-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,28 +84,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The following patch is going to introduce more flags.
+Allow the link property to hold the pointer to the target, instead of
+indirectly through another variable.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200110153039.1379601-13-marcandre.lureau@redhat.com>
+Message-Id: <20200110153039.1379601-15-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qom/object.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qom/object.h |  3 +++
+ qom/object.c         | 26 ++++++++++++++++++++------
+ 2 files changed, 23 insertions(+), 6 deletions(-)
 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 7e66bc7..5b02be6 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1528,6 +1528,9 @@ void object_property_add_child(Object *obj, const char *name,
+ typedef enum {
+     /* Unref the link pointer when the property is deleted */
+     OBJ_PROP_LINK_STRONG = 0x1,
++
++    /* private */
++    OBJ_PROP_LINK_DIRECT = 0x2,
+ } ObjectPropertyLinkFlags;
+ 
+ /**
 diff --git a/qom/object.c b/qom/object.c
-index 30c4f82..fb80013 100644
+index ced5e0b..dff16da 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -1822,7 +1822,7 @@ static void object_set_link_property(Object *obj, Visitor *v,
-     }
+@@ -1729,17 +1729,30 @@ void object_property_allow_set_link(const Object *obj, const char *name,
+ }
  
-     *child = new_target;
--    if (prop->flags == OBJ_PROP_LINK_STRONG) {
-+    if (prop->flags & OBJ_PROP_LINK_STRONG) {
-         object_ref(new_target);
-         object_unref(old_target);
+ typedef struct {
+-    Object **targetp;
++    union {
++        Object **targetp;
++        Object *target; /* if OBJ_PROP_LINK_DIRECT, when holding the pointer  */
++    };
+     void (*check)(const Object *, const char *, Object *, Error **);
+     ObjectPropertyLinkFlags flags;
+ } LinkProperty;
+ 
++static Object **
++object_link_get_targetp(Object *obj, LinkProperty *lprop)
++{
++    if (lprop->flags & OBJ_PROP_LINK_DIRECT) {
++        return &lprop->target;
++    } else {
++        return lprop->targetp;
++    }
++}
++
+ static void object_get_link_property(Object *obj, Visitor *v,
+                                      const char *name, void *opaque,
+                                      Error **errp)
+ {
+     LinkProperty *lprop = opaque;
+-    Object **targetp = lprop->targetp;
++    Object **targetp = object_link_get_targetp(obj, lprop);
+     gchar *path;
+ 
+     if (*targetp) {
+@@ -1798,7 +1811,7 @@ static void object_set_link_property(Object *obj, Visitor *v,
+ {
+     Error *local_err = NULL;
+     LinkProperty *prop = opaque;
+-    Object **targetp = prop->targetp;
++    Object **targetp = object_link_get_targetp(obj, prop);
+     Object *old_target = *targetp;
+     Object *new_target = NULL;
+     char *path = NULL;
+@@ -1832,16 +1845,17 @@ static Object *object_resolve_link_property(Object *parent, void *opaque, const
+ {
+     LinkProperty *lprop = opaque;
+ 
+-    return *lprop->targetp;
++    return *object_link_get_targetp(parent, lprop);
+ }
+ 
+ static void object_release_link_property(Object *obj, const char *name,
+                                          void *opaque)
+ {
+     LinkProperty *prop = opaque;
++    Object **targetp = object_link_get_targetp(obj, prop);
+ 
+-    if ((prop->flags & OBJ_PROP_LINK_STRONG) && *prop->targetp) {
+-        object_unref(*prop->targetp);
++    if ((prop->flags & OBJ_PROP_LINK_STRONG) && *targetp) {
++        object_unref(*targetp);
      }
+     g_free(prop);
+ }
 -- 
 1.8.3.1
 
