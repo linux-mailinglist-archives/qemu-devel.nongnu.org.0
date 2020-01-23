@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D63A146E86
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:35:30 +0100 (CET)
-Received: from localhost ([::1]:60510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 967F3146E8C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:38:28 +0100 (CET)
+Received: from localhost ([::1]:60570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iufS4-0004a5-Lt
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:35:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52438)
+	id 1iufUw-00084r-Ti
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:38:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52458)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iuctL-00085U-3l
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:28 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iuctO-0008AS-2U
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iuctJ-0007aR-Sy
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25814
+ (envelope-from <pbonzini@redhat.com>) id 1iuctM-0007kq-U7
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:29 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42793
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuctJ-0007aB-QY
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:25 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuctM-0007jb-R6
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787485;
+ s=mimecast20190719; t=1579787488;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vQ1z8yLVoQpML9t8CgFbnOChkjDd2p5ELrDVaOsVPV4=;
- b=Tz9VBFoVQaz8w7eVVIBit0GB589Bn/YgZG6/gSNex6oi4fl07Yqki6ytK3hXPdsmqNBqZR
- ebqlglYsVWPjbYYt1Ext89HZsb3TWBGBkpZ4pWcHJjl4ei8oC1VDaDDHyeHQEmxeGiCfo2
- U1MAhSfAeaCatd137t8KEX2F7VKkKlQ=
+ bh=NmbbetkVhzJVVJsCaViraNKXtvOP2BOfbarptpm7JZQ=;
+ b=VtIjCVM8Lmy+467DbBoY/45Ighm+Bzv8J6N2qSM71l9LN4JNoalHvyjljYBW4AP2Z246MQ
+ Un4rBeWNArp2Y6ajYMTkhTq+xj+rV6KR3L2M1LfeHrV9lg+nMGi2LY3DqztJgFjLNhZgjy
+ 8BS5xuPeRk8mWSoUj6Z2vqC+LxeK46A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-c1Lzo925Mm2t8FqM4OOm4Q-1; Thu, 23 Jan 2020 08:51:23 -0500
+ us-mta-6-7SP2G1J7N4-RVkoZEce-6A-1; Thu, 23 Jan 2020 08:51:26 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D772801E76
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8B281800D48
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:25 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D88938575C;
- Thu, 23 Jan 2020 13:51:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB72F85792;
+ Thu, 23 Jan 2020 13:51:22 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/59] hw/core: Restrict reset handlers API to system-mode
-Date: Thu, 23 Jan 2020 14:50:06 +0100
-Message-Id: <1579787449-27599-17-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 17/59] hw/core/Makefile: Group generic objects versus
+ system-mode objects
+Date: Thu, 23 Jan 2020 14:50:07 +0100
+Message-Id: <1579787449-27599-18-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: c1Lzo925Mm2t8FqM4OOm4Q-1
+X-MC-Unique: 7SP2G1J7N4-RVkoZEce-6A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,31 +77,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-The user-mode code does not use this API, restrict it
-to the system-mode.
+To ease review/modifications of this Makefile, group generic
+objects first, then system-mode specific ones, and finally
+peripherals (which are only used in system-mode).
+
+No logical changes introduced here.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200118140619.26333-6-philmd@redhat.com>
+Message-Id: <20200118140619.26333-7-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/Makefile.objs | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/core/Makefile.objs | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-index 0edd9e6..2fea68c 100644
+index 2fea68c..a522b72 100644
 --- a/hw/core/Makefile.objs
 +++ b/hw/core/Makefile.objs
-@@ -1,6 +1,7 @@
+@@ -1,32 +1,32 @@
  # core qdev-related obj files, also used by *-user:
  common-obj-y +=3D qdev.o qdev-properties.o
--common-obj-y +=3D bus.o reset.o
-+common-obj-y +=3D bus.o
-+common-obj-$(CONFIG_SOFTMMU) +=3D reset.o
+ common-obj-y +=3D bus.o
++common-obj-y +=3D cpu.o
++common-obj-y +=3D hotplug.o
++common-obj-y +=3D vmstate-if.o
++# irq.o needed for qdev GPIO handling:
++common-obj-y +=3D irq.o
++
+ common-obj-$(CONFIG_SOFTMMU) +=3D reset.o
  common-obj-$(CONFIG_SOFTMMU) +=3D qdev-fw.o
  common-obj-$(CONFIG_SOFTMMU) +=3D fw-path-provider.o
- # irq.o needed for qdev GPIO handling:
+-# irq.o needed for qdev GPIO handling:
+-common-obj-y +=3D irq.o
+-common-obj-y +=3D hotplug.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D nmi.o
+ common-obj-$(CONFIG_SOFTMMU) +=3D vm-change-state-handler.o
+-common-obj-y +=3D cpu.o
+-common-obj-y +=3D vmstate-if.o
++common-obj-$(CONFIG_SOFTMMU) +=3D qdev-properties-system.o
++common-obj-$(CONFIG_SOFTMMU) +=3D sysbus.o
++common-obj-$(CONFIG_SOFTMMU) +=3D machine.o
++common-obj-$(CONFIG_SOFTMMU) +=3D null-machine.o
++common-obj-$(CONFIG_SOFTMMU) +=3D loader.o
++common-obj-$(CONFIG_SOFTMMU) +=3D machine-hmp-cmds.o
++obj-$(CONFIG_SOFTMMU) +=3D machine-qmp-cmds.o
++obj-$(CONFIG_SOFTMMU) +=3D numa.o
+=20
+ common-obj-$(CONFIG_EMPTY_SLOT) +=3D empty_slot.o
+ common-obj-$(CONFIG_XILINX_AXI) +=3D stream.o
+ common-obj-$(CONFIG_PTIMER) +=3D ptimer.o
+-common-obj-$(CONFIG_SOFTMMU) +=3D sysbus.o
+-common-obj-$(CONFIG_SOFTMMU) +=3D machine.o
+-common-obj-$(CONFIG_SOFTMMU) +=3D loader.o
+ common-obj-$(CONFIG_FITLOADER) +=3D loader-fit.o
+-common-obj-$(CONFIG_SOFTMMU) +=3D qdev-properties-system.o
+ common-obj-$(CONFIG_REGISTER) +=3D register.o
+ common-obj-$(CONFIG_OR_IRQ) +=3D or-irq.o
+ common-obj-$(CONFIG_SPLIT_IRQ) +=3D split-irq.o
+ common-obj-$(CONFIG_PLATFORM_BUS) +=3D platform-bus.o
+ common-obj-$(CONFIG_GENERIC_LOADER) +=3D generic-loader.o
+-common-obj-$(CONFIG_SOFTMMU) +=3D null-machine.o
+-
+-obj-$(CONFIG_SOFTMMU) +=3D machine-qmp-cmds.o
+-obj-$(CONFIG_SOFTMMU) +=3D numa.o
+-common-obj-$(CONFIG_SOFTMMU) +=3D machine-hmp-cmds.o
 --=20
 1.8.3.1
 
