@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639DD146B75
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:37:19 +0100 (CET)
-Received: from localhost ([::1]:58194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E52F146B84
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:41:54 +0100 (CET)
+Received: from localhost ([::1]:58284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iudbi-0007kM-0W
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:37:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46039)
+	id 1iudg8-0006FN-Jr
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:41:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50107)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dme@dme.org>) id 1iubQH-00079Q-7L
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:17:30 -0500
+ (envelope-from <eblake@redhat.com>) id 1iubcl-0007Fa-IO
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:30:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dme@dme.org>) id 1iubQF-0001Qc-1g
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:17:20 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35183)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dme@dme.org>) id 1iubQE-0001N9-1G
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:17:18 -0500
-Received: by mail-wm1-x344.google.com with SMTP id p17so2320946wmb.0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 04:17:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dme-org.20150623.gappssmtp.com; s=20150623;
- h=to:subject:in-reply-to:references:from:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ghPuYZiXHTId5LdvMoeGG4ShL2m624b36Msb3cFnugA=;
- b=f5cKCAKixztcaP9ET8Q9fNtqedKFLFBjQ8XB5CwvqA9L8M6NvT/5DZsMeBKYAErurb
- 2bKEnDWoXLQIUkmW7VL+vLx+0U+UrVSLV6OFcAlQntfiP8z61rtabTydtQrzuPMK7svl
- kqj37mhW8v+SlPCEMtC/d5CXPMYVd42BDRW4jNFt50E7DMCMFU4P1Xe6SgndZqB7KUhM
- yQSt9MEj6MWZsBZnwVdiMChdnr1lGlx+mugdnFnbk+dROkbpk4d4sy23pHY0ZFWasWP5
- 9ENIzVcmWLKmMQhCXjdqWMqi7p+hruTexgSGX5o47y8vYfN7Ur0sghkX2yWriiVftOGI
- 4pEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:subject:in-reply-to:references:from:date
- :message-id:mime-version:content-transfer-encoding;
- bh=ghPuYZiXHTId5LdvMoeGG4ShL2m624b36Msb3cFnugA=;
- b=EoDhutUVgpmENqmlSq96f1PcR7PzNFv1jLcxsMqyEra68M1GZ+ylfPgJlFK2gUkM65
- 57atD+c5AhbyLlW3r6sxq94fuF7DtpjKJyoKFRMaxLwns5lhaRZY1WOL/HmmC8ejfPGK
- tStSPe5896ohBQGqmtSV7KqiDCDEPkbB1koTOhiJDhZo0pMHWfQBLcZ+zvd9rMHT74gn
- o6LymlLRlJaF/17vqPnATnmf8B40b4nuGRHV7R/9mbCj0YSCEPQOHQ1zDsWQCcs3vR42
- 0fwLE3GAaEHC7ro1GBO8DrHgPIPRWG4d48oLLyy4KUYIkROyFjIRJki3Tz3buQkHHFGp
- UuJQ==
-X-Gm-Message-State: APjAAAXy+hC+z1uIVxSVKBQow8hJM85h4ALAUOANBfHaQCHyaYbmjsCt
- YFGTOSM28xH5nUJr26dytFjYNu75o4M=
-X-Google-Smtp-Source: APXvYqzi7usCY+y0DSlvwSTH+8KDmEdmVlBxZcrdJedqjsibEEoDG7AkMtGiumpzFcDjGr4HAJtZYg==
-X-Received: by 2002:a1c:2089:: with SMTP id g131mr3737361wmg.63.1579781831627; 
- Thu, 23 Jan 2020 04:17:11 -0800 (PST)
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
- [81.149.164.25])
- by smtp.gmail.com with ESMTPSA id f1sm2740182wrp.93.2020.01.23.04.17.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2020 04:17:10 -0800 (PST)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id e1587faa;
- Thu, 23 Jan 2020 12:17:09 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org, Qemu-block
- <qemu-block@nongnu.org>
-Subject: Re: [PATCH] qemu-img: Add --target-is-zero to convert
-In-Reply-To: <38073ceb-922e-b0fb-0c20-05fb4831e9a8@redhat.com>
-References: <id:m21rryz8al.fsf@dme.org>
- <20200117103434.1363985-1-david.edmondson@oracle.com>
- <38073ceb-922e-b0fb-0c20-05fb4831e9a8@redhat.com>
-X-HGTTG: heart-of-gold
-From: David Edmondson <dme@dme.org>
-X-Playing: Four Tet: Spirit Fingers (Live In Copenhagen)
-Date: Thu, 23 Jan 2020 12:17:09 +0000
-Message-ID: <m2muaev03e.fsf@dme.org>
+ (envelope-from <eblake@redhat.com>) id 1iubck-0000MI-0G
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:30:15 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27565
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iubcj-0000LZ-TE
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:30:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579782613;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6yrraR8C7IeHS3I7NQKMgH6g3S12t8aTAComhJ72ZTw=;
+ b=N3gbl1vq05BuAB25UZuZZa1eYMlBWcda1flcwIBKYmAdr5X6XcBCnuWeRKSuBTskGDU4/b
+ av1RE5pFzRrRBgAN7iJSyBAjopN63/dRG0MzjdO2VRk6Ay3dcIsjCF35oqZVBVX29GnPBs
+ j866uP9J+91hnelsHITndakDKCP0NAg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-qsNE_EVlNCyMd6E1lTkYYw-1; Thu, 23 Jan 2020 07:30:09 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF6721902EA8;
+ Thu, 23 Jan 2020 12:30:08 +0000 (UTC)
+Received: from [10.3.117.16] (ovpn-117-16.phx2.redhat.com [10.3.117.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E3CAA8575F;
+ Thu, 23 Jan 2020 12:30:05 +0000 (UTC)
+Subject: Re: [PATCH] qemu-nbd: Removed deprecated --partition option
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20200122214328.1413664-1-eblake@redhat.com>
+ <bcf38c8e-c207-73bd-8707-44b500ef3fa2@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <7084da4a-fa6a-e4ab-868d-2ad397dd5cb3@redhat.com>
+Date: Thu, 23 Jan 2020 06:30:05 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <bcf38c8e-c207-73bd-8707-44b500ef3fa2@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: qsNE_EVlNCyMd6E1lTkYYw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,163 +75,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tuesday, 2020-01-21 at 16:02:16 +01, Max Reitz wrote:
-
-> Hi,
->
-> On 17.01.20 11:34, David Edmondson wrote:
->> In many cases the target of a convert operation is a newly provisioned
->> target that the user knows is blank (filled with zeroes). In this
->> situation there is no requirement for qemu-img to wastefully zero out
->> the entire device.
->>=20
->> Add a new option, --target-is-zero, allowing the user to indicate that
->> an existing target device is already zero filled.
+On 1/23/20 6:10 AM, Max Reitz wrote:
+> On 22.01.20 22:43, Eric Blake wrote:
+>> The option was deprecated in 4.0.0 (commit 0ae2d546); it's now been
+>> long enough with no complaints to follow through with that process.
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
 >> ---
->>  qemu-img.c | 19 ++++++++++++++++---
->>  1 file changed, 16 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/qemu-img.c b/qemu-img.c
->> index 95a24b9762..56ca727e8c 100644
->> --- a/qemu-img.c
->> +++ b/qemu-img.c
->> @@ -70,6 +70,7 @@ enum {
->>      OPTION_PREALLOCATION =3D 265,
->>      OPTION_SHRINK =3D 266,
->>      OPTION_SALVAGE =3D 267,
->> +    OPTION_TARGET_IS_ZERO =3D 268,
->>  };
->>=20=20
->>  typedef enum OutputFormat {
->> @@ -1593,6 +1594,7 @@ typedef struct ImgConvertState {
->>      bool copy_range;
->>      bool salvage;
->>      bool quiet;
->> +    bool target_is_zero;
->
-> As you already said, we probably don=E2=80=99t need this and it=E2=80=99d=
- be sufficient
-> to set the has_zero_init value directly.
->
->>      int min_sparse;
->>      int alignment;
->>      size_t cluster_sectors;
->> @@ -1984,10 +1986,11 @@ static int convert_do_copy(ImgConvertState *s)
->>      int64_t sector_num =3D 0;
->>=20=20
->>      /* Check whether we have zero initialisation or can get it efficien=
-tly */
->> -    if (s->target_is_new && s->min_sparse && !s->target_has_backing) {
->> +    s->has_zero_init =3D s->target_is_zero;
->
-> We cannot has_zero_init to true if the target has a backing file,
-> because convert_co_write() asserts that the target must not have a
-> backing file if has_zero_init is true.  (It=E2=80=99s impossible for a fi=
-le to
-> be initialized to zeroes if it has a backing file; or at least it
-> doesn=E2=80=99t make sense then to have a backing file.)
 
-I'll add a check causing (has_zero_init && target_has_backing) to throw
-an error after the target_has_backing is determined.
+>> -@code{qemu-nbd -t -P 1 -f qcow2 file.qcow2}
+>> -
+>> -can be rewritten as:
+>> -
+>> -@code{qemu-nbd -t --image-opts driver=3Draw,offset=3D1M,size=3D100M,fil=
+e.driver=3Dqcow2,file.backing.driver=3Dfile,file.backing.filename=3Dfile.qc=
+ow2}
+>> -
 
-> Case in point:
->
-> $ ./qemu-img create -f qcow2 src.qcow2 64M
-> Formatting 'src.qcow2', fmt=3Dqcow2 size=3D67108864 cluster_size=3D65536
-> lazy_refcounts=3Doff refcount_bits=3D16
-> $ ./qemu-img create -f qcow2 backing.qcow2 64M
-> Formatting 'backing.qcow2', fmt=3Dqcow2 size=3D67108864 cluster_size=3D65=
-536
-> lazy_refcounts=3Doff refcount_bits=3D16
-> $ ./qemu-img create -f qcow2 -b backing.qcow2 dst.qcow2 64M
->
-> Formatting 'dst.qcow2', fmt=3Dqcow2 size=3D67108864
-> backing_file=3Dbacking.qcow2 cluster_size=3D65536 lazy_refcounts=3Doff
-> refcount_bits=3D16
-> $ ./qemu-img convert -n -B backing.qcow2 -f qcow2 -O qcow2
-> --target-is-zero src.qcow2 dst.qcow2
-> qemu-img: qemu-img.c:1812: convert_co_write: Assertion
-> `!s->target_has_backing' failed.
-> [1]    80813 abort (core dumped)  ./qemu-img convert -n -B backing.qcow2
-> -f qcow2 -O qcow2 --target-is-zero
->
+>> +can be rewritten as:
 >> +
->> +    if (!s->has_zero_init && s->target_is_new && s->min_sparse &&
->> +        !s->target_has_backing) {
->
-> (This will be irrelevant after target_has_backing is gone, but because
-> has_zero_init and target_has_backing are equivalent here, there is no
-> need to check both.)
+>> +@code{qemu-nbd -t --image-opts driver=3Draw,offset=3D1M,size=3D100M,fil=
+e.driver=3Dqcow2,file.backing.driver=3Dfile,file.backing.filename=3Dfile.qc=
+ow2}
+>=20
+> I know you just moved it from above, but isn=E2=80=99t this wrong?  Shoul=
+dn=E2=80=99t it
+> be s/backing/file/g?
 
-I don't understand this comment - I must be missing something.
+Indeed; file.file.driver=3Dfile,file.file.filename=3Dfile.qcow2 is required=
+=20
+for it to work, rather than fail with
+qemu-nbd: Failed to blk_new_open=20
+'driver=3Draw,offset=3D1m,size=3D100m,file.driver=3Dqcow2,file.backing.driv=
+er=3Dfile,file.backing.filename=3Dfile4':=20
+A block device must be specified for "file"
 
-If both has_zero_init and target_has_backing are false here, we should
-go and check bdrv_has_zero_init().
+I'll repost with the bug-fix as a separate commit (and it's a shame that=20
+we've gone nearly a year with no one noticing the typo in the original).
 
-They can't both be true (when the above mentioned test is added) and if
-either is true, we don't want to call brv_has_zero_init(), as either the
-user has asserted that the target is blank or we have a backing file.
-
->>          s->has_zero_init =3D bdrv_has_zero_init(blk_bs(s->target));
->> -    } else {
->> -        s->has_zero_init =3D false;
->>      }
->>=20=20
->>      if (!s->has_zero_init && !s->target_has_backing &&
->> @@ -2076,6 +2079,7 @@ static int img_convert(int argc, char **argv)
->>          .buf_sectors        =3D IO_BUF_SIZE / BDRV_SECTOR_SIZE,
->>          .wr_in_order        =3D true,
->>          .num_coroutines     =3D 8,
->> +        .target_is_zero     =3D false,
->>      };
->>=20=20
->>      for(;;) {
->> @@ -2086,6 +2090,7 @@ static int img_convert(int argc, char **argv)
->>              {"force-share", no_argument, 0, 'U'},
->>              {"target-image-opts", no_argument, 0, OPTION_TARGET_IMAGE_O=
-PTS},
->>              {"salvage", no_argument, 0, OPTION_SALVAGE},
->> +            {"target-is-zero", no_argument, 0, OPTION_TARGET_IS_ZERO},
->>              {0, 0, 0, 0}
->>          };
->>          c =3D getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WU",
->> @@ -2209,6 +2214,9 @@ static int img_convert(int argc, char **argv)
->>          case OPTION_TARGET_IMAGE_OPTS:
->>              tgt_image_opts =3D true;
->>              break;
->> +        case OPTION_TARGET_IS_ZERO:
->> +            s.target_is_zero =3D true;
->> +            break;
->>          }
->>      }
->>=20=20
->> @@ -2247,6 +2255,11 @@ static int img_convert(int argc, char **argv)
->>          warn_report("This will become an error in future QEMU versions.=
-");
->>      }
->>=20=20
->> +    if (s.target_is_zero && !skip_create) {
->> +        error_report("--target-is-zero requires use of -n flag");
->
-> Hm, I could imagine it being useful even without -n, but maybe it=E2=80=
-=99s
-> safer to forbid this case for now and reconsider if someone were to ask.
->
->> +        goto fail_getopt;
->> +    }
->> +
->>      s.src_num =3D argc - optind - 1;
->>      out_filename =3D s.src_num >=3D 1 ? argv[argc - 1] : NULL;
->
-> This patch should also add some documentation for the new option (in
-> qemu-img-cmds.hx and in qemu-img.texi for the man page).
-
-Will do.
-
-dme.
 --=20
-You can't hide from the flipside.
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
