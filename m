@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF602146D5C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:52:16 +0100 (CET)
-Received: from localhost ([::1]:59778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC98146D09
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:36:33 +0100 (CET)
+Received: from localhost ([::1]:59556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuemF-00025T-Ca
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:52:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49056)
+	id 1iueX2-0005bb-Mz
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:36:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49540)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iuciB-0001ay-Fk
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:39:56 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iucju-00042Z-8q
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:41:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iuci9-0000RR-Sl
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:39:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34017
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuci9-0000Qk-PL
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:39:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579786793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b+l3kQ8+aCZ03qp1W/gJ9AwYwFtBqPyA0eXu0waMUEM=;
- b=ZsGAtkSsJrDughdVIATCEJQiT9QHFyVqnCZQ95zUBl/Iv1KztRVRa3LLoPVlV8WNFEGvlB
- CFubBFKZau4KXvaqXQvlw5cqPLwtyb/GB5of/bef3iaVMCElx2SQD4XFZRUhiDt1x8Atbm
- Rc3vfRkzmW5bIixbM1/FFhrI25stoPw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-mUU0EsbOOnuQJHw3DHmPdg-1; Thu, 23 Jan 2020 08:39:51 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A1E0801E67;
- Thu, 23 Jan 2020 13:39:50 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44FB319C69;
- Thu, 23 Jan 2020 13:39:49 +0000 (UTC)
-Date: Thu, 23 Jan 2020 14:39:48 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Andrew Jones <drjones@redhat.com>
-Subject: Re: [PATCH REPOST v3 20/80] arm/mps2-tz: use memdev for RAM
-Message-ID: <20200123143948.4ef7b702@redhat.com>
-In-Reply-To: <20200123125909.p2aq3ad2x5l24zq5@kamzik.brq.redhat.com>
-References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
- <1579779525-20065-21-git-send-email-imammedo@redhat.com>
- <20200123125909.p2aq3ad2x5l24zq5@kamzik.brq.redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iucjs-0002Q0-TE
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:41:41 -0500
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:44307)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iucjs-0002Oh-Mr
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:41:40 -0500
+Received: by mail-ot1-x335.google.com with SMTP id h9so2704458otj.11
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:41:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=R+/WGG7XgKCLKBcIsPbNaOKUXX/vdCYtJxZyxlcgr6g=;
+ b=GNmNonmqIAnt+fz9lt5XspqQpAzQNq3u6Pa3maUtr2/p6Y3fvTU8LWgJW09Sni/xDX
+ Ltfp5EkQ9nOI0yZGpdo9DvnUC82Ruw1774zrgUuxDVPzxpJN/+i7hhNyR36+m+ribD2C
+ 0WG7jwn1fO4PZ/ZE1+msISxDYVCi9CpDfDFO21LEV5WwnfWu+TTCuUtgh++HV7RVdZHq
+ th0eo2fPIIuVJ6hyKr4CvAKnFvo6GwBBzYyMNhGCV6XIB1dcAEh8NsWuEe4NQiV/xxv2
+ ue0rDFG45K48VXfDtU/QJuLIa5CnX1nDkzy3hWzsvCzP0lV2pEVdus/WUq5P7V+lutEg
+ 5jkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=R+/WGG7XgKCLKBcIsPbNaOKUXX/vdCYtJxZyxlcgr6g=;
+ b=jAsf4xA2g2Wc6u57RcE0LKFZS9EcKGXRwLJRvLtXNtgNHEYDSbhkxl1nw3BY3U0Zud
+ eLnv6OsMPolAtMsLoJAJ6VA9DFZFdyPERts4Lb8sNkaHeApYSq7s8iRZ7KaAoR9rdZCM
+ RVgis3Bi1p0oDrqDGYiAV0UeOrM6c18z1hPmuNuLQyi+JjlQwbJKy+cEheU4r1Pe+qw7
+ dAHxWTW1zszirzcK4MbZCPTViYSjzCBgzrhtMoidv9YIIFyJ/mgy+ECPSPxJjIzFcW48
+ H1zHxpQ/1lzSW2d3o4+3Nwuu+ut5clYJOlbchPOrUVwjkHzhgiwhGcS7Zoskbu3EXMAQ
+ ZgpA==
+X-Gm-Message-State: APjAAAXXHdhHtCyR6n0EZaTEX9K/XYOTtC01eaGgpUdaEjtO4qxrGRtM
+ 9iBjalgsHZgOBMAM6vlsArnTb0qwMc7r5ZYEhgkVLA==
+X-Google-Smtp-Source: APXvYqwFuKz1EYZ2m/A8Tjda8S/MPcbx9NHAtqI+gM+qlydWKnSvDMt2Hh6yEwvLOuTqHjp66aTYiwFPyi3ypFZx6uQ=
+X-Received: by 2002:a05:6830:13da:: with SMTP id
+ e26mr10724082otq.97.1579786899614; 
+ Thu, 23 Jan 2020 05:41:39 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: mUU0EsbOOnuQJHw3DHmPdg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+References: <20200122024946.28484-1-richard.henderson@linaro.org>
+In-Reply-To: <20200122024946.28484-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Jan 2020 13:41:28 +0000
+Message-ID: <CAFEAcA8ZgxUB2GEt-G2jai5zWN=+4fWBqfs2edXO0TyX7mXEFA@mail.gmail.com>
+Subject: Re: [PULL 00/16] tcg patch queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,118 +72,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jan 2020 13:59:09 +0100
-Andrew Jones <drjones@redhat.com> wrote:
+On Wed, 22 Jan 2020 at 02:49, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The following changes since commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde0dd40:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-20200121' into staging (2020-01-21 15:29:25 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/rth7680/qemu.git tags/pull-tcg-20200121
+>
+> for you to fetch changes up to 75fa376cdab5e5db2c7fdd107358e16f95503ac6:
+>
+>   scripts/git.orderfile: Display decodetree before C source (2020-01-21 15:26:09 -1000)
+>
+> ----------------------------------------------------------------
+> Remove another limit to NB_MMU_MODES.
+> Fix compilation using uclibc.
+> Fix defaulting of -accel parameters.
+> Tidy cputlb basic routines.
+> Adjust git.orderfile for decodetree.
+>
 
-> On Thu, Jan 23, 2020 at 12:37:45PM +0100, Igor Mammedov wrote:
-> > memory_region_allocate_system_memory() API is going away, so
-> > replace it with memdev allocated MemoryRegion. The later is
-> > initialized by generic code, so board only needs to opt in
-> > to memdev scheme by providing
-> >   MachineClass::default_ram_id
-> > and using MachineState::ram instead of manually initializing
-> > RAM memory region.
-> >=20
-> > PS:
-> >  while at it add check for user supplied RAM size and error
-> >  out if it mismatches board expected value.
-> >=20
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> > v2:
-> >   * fix format string causing build failure on 32-bit host
-> >     (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
-> >=20
-> > CC: drjones@redhat.com
-> > CC: peter.maydell@linaro.org
-> > CC: qemu-arm@nongnu.org
-> > ---
-> >  hw/arm/mps2-tz.c | 15 +++++++++++----
-> >  1 file changed, 11 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-> > index f8b620b..06dacf6 100644
-> > --- a/hw/arm/mps2-tz.c
-> > +++ b/hw/arm/mps2-tz.c
-> > @@ -39,6 +39,7 @@
-> > =20
-> >  #include "qemu/osdep.h"
-> >  #include "qemu/units.h"
-> > +#include "qemu/cutils.h"
-> >  #include "qapi/error.h"
-> >  #include "qemu/error-report.h"
-> >  #include "hw/arm/boot.h"
-> > @@ -79,7 +80,6 @@ typedef struct {
-> >      MachineState parent;
-> > =20
-> >      ARMSSE iotkit;
-> > -    MemoryRegion psram;
-> >      MemoryRegion ssram[3];
-> >      MemoryRegion ssram1_m;
-> >      MPS2SCC scc;
-> > @@ -388,6 +388,13 @@ static void mps2tz_common_init(MachineState *machi=
-ne)
-> >          exit(1);
-> >      }
-> > =20
-> > +    if (machine->ram_size !=3D mc->default_ram_size) {
-> > +        char *sz =3D size_to_str(mc->default_ram_size);
-> > +        error_report("Invalid RAM size, should be %s", sz);
-> > +        g_free(sz);
-> > +        exit(EXIT_FAILURE);
-> > +    }
-> > +
-> >      sysbus_init_child_obj(OBJECT(machine), "iotkit", &mms->iotkit,
-> >                            sizeof(mms->iotkit), mmc->armsse_type);
-> >      iotkitdev =3D DEVICE(&mms->iotkit);
-> > @@ -458,9 +465,7 @@ static void mps2tz_common_init(MachineState *machin=
-e)
-> >       * tradeoffs. For QEMU they're all just RAM, though. We arbitraril=
-y
-> >       * call the 16MB our "system memory", as it's the largest lump.
-> >       */
-> > -    memory_region_allocate_system_memory(&mms->psram,
-> > -                                         NULL, "mps.ram", 16 * MiB);
-> > -    memory_region_add_subregion(system_memory, 0x80000000, &mms->psram=
-);
-> > +    memory_region_add_subregion(system_memory, 0x80000000, machine->ra=
-m);
-> > =20
-> >      /* The overflow IRQs for all UARTs are ORed together.
-> >       * Tx, Rx and "combined" IRQs are sent to the NVIC separately.
-> > @@ -642,6 +647,7 @@ static void mps2tz_class_init(ObjectClass *oc, void=
- *data)
-> > =20
-> >      mc->init =3D mps2tz_common_init;
-> >      iic->check =3D mps2_tz_idau_check;
-> > +    mc->default_ram_id =3D "mps.ram";
-> >  }
-> > =20
-> >  static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
-> > @@ -657,6 +663,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc=
-, void *data)
-> >      mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-m33");
-> >      mmc->scc_id =3D 0x41045050;
-> >      mmc->armsse_type =3D TYPE_IOTKIT;
-> > +    mc->default_ram_size =3D 16 * MiB; =20
->=20
-> Shouldn't this line be added to mps2tz_class_init ?
 
-Yep, it should be there
+Applied, thanks.
 
->=20
-> Thanks,
-> drew
->=20
-> >  }
-> > =20
-> >  static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
-> > --=20
-> > 2.7.4
-> >  =20
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
+-- PMM
 
