@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207ED1470BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:27:47 +0100 (CET)
-Received: from localhost ([::1]:34698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E06AF1470D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:33:07 +0100 (CET)
+Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuhCj-0003Gm-O5
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:27:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41420)
+	id 1iuhHu-0000Q7-Ip
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:33:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53823)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iufe7-00058g-GE
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:57 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iueiX-0005wL-Ha
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:48:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iufe5-0006dY-Ov
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59254
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1iueiV-000326-Fb
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:48:25 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24195
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufe5-0006dE-Lt
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:53 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iueiV-00030c-9M
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:48:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579798073;
+ s=mimecast20190719; t=1579794503;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HcX+rlmsOnPkAnqht3vH74Z9QoTWqy14xncBYAwsD2g=;
- b=IkOJ+U1njT8EDbOvlESZ/+8jSv7UnsSy1wUIuO7/lulUf2cCn6fDvsIowZ9ewUaxE0+GlX
- rxq+OPrP+mjVWQ36cymj/zkzBlXN33nL1hn5k3CbiaDfg1uN8MxbBpYLqN2NBvBbSW0VeH
- GBqZ/Qa5e7q1lIXHEMQT9tBLCnXm21M=
+ bh=H55UGcj9JNEhuKBOPdJUGxTRwPeyv/2LSIFTHjTEnp8=;
+ b=WyNtVsaAqq3FLxlI1g+ifnfvYlb4wE4jYdQGPYBpZ1ijz5197kViKTdlF2KqwkdqaH/8N9
+ FePatN7aQnhFP1hTo+9U0/xPOXNtj0wA/EG4V8VuU2H5WvP4toT0vXrLunfkgAxHBK57yr
+ hRf/OrYIJ2mbihlEg4I7dsFAhLqnoTE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-wnCb0o13OiGh2UFFXY9jhQ-1; Thu, 23 Jan 2020 11:47:49 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-315-EnG-gdkCM4KtqWBMWSvXdw-1; Thu, 23 Jan 2020 10:48:20 -0500
+X-MC-Unique: EnG-gdkCM4KtqWBMWSvXdw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67D971085942
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:48 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-116-110.ams2.redhat.com
- [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B55B628993;
- Thu, 23 Jan 2020 16:47:47 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	stefanha@redhat.com
-Subject: [PULL 051/108] virtiofsd: move to a new pid namespace
-Date: Thu, 23 Jan 2020 16:45:33 +0000
-Message-Id: <20200123164630.91498-52-dgilbert@redhat.com>
-In-Reply-To: <20200123164630.91498-1-dgilbert@redhat.com>
-References: <20200123164630.91498-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D923E1005512;
+ Thu, 23 Jan 2020 15:48:17 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 974FA5D9E2;
+ Thu, 23 Jan 2020 15:48:10 +0000 (UTC)
+Date: Thu, 23 Jan 2020 16:48:08 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Dongjiu Geng <gengdongjiu@huawei.com>
+Subject: Re: [PATCH v22 4/9] ACPI: Build Hardware Error Source Table
+Message-ID: <20200123164808.38af0491@redhat.com>
+In-Reply-To: <1578483143-14905-5-git-send-email-gengdongjiu@huawei.com>
+References: <1578483143-14905-1-git-send-email-gengdongjiu@huawei.com>
+ <1578483143-14905-5-git-send-email-gengdongjiu@huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: wnCb0o13OiGh2UFFXY9jhQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,223 +69,253 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, peter.maydell@linaro.org, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, linuxarm@huawei.com, shannon.zhaosl@gmail.com,
+ zhengxiang9@huawei.com, qemu-arm@nongnu.org, james.morse@arm.com,
+ xuwei5@huawei.com, jonathan.cameron@huawei.com, pbonzini@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+On Wed, 8 Jan 2020 19:32:18 +0800
+Dongjiu Geng <gengdongjiu@huawei.com> wrote:
 
-virtiofsd needs access to /proc/self/fd.  Let's move to a new pid
-namespace so that a compromised process cannot see another other
-processes running on the system.
+> This patch builds Hardware Error Source Table(HEST) via fw_cfg blobs.
+> Now it only supports ARMv8 SEA, a type of Generic Hardware Error
+> Source version 2(GHESv2) error source. Afterwards, we can extend
+> the supported types if needed. For the CPER section, currently it
+> is memory section because kernel mainly wants userspace to handle
+> the memory errors.
+> 
+> This patch follows the spec ACPI 6.2 to build the Hardware Error
+> Source table. For more detailed information, please refer to
+> document: docs/specs/acpi_hest_ghes.rst
+> 
+> build_append_ghes_notify() will help to add Hardware Error Notification
+> to ACPI tables without using packed C structures and avoid endianness
+> issues as API doesn't need explicit conversion.
+> 
+> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Acked-by: Xiang Zheng <zhengxiang9@huawei.com>
 
-One wrinkle in this approach: unshare(CLONE_NEWPID) affects *child*
-processes and not the current process.  Therefore we need to fork the
-pid 1 process that will actually run virtiofsd and leave a parent in
-waitpid(2).  This is not the same thing as daemonization and parent
-processes should not notice a difference.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tools/virtiofsd/passthrough_ll.c | 134 ++++++++++++++++++++-----------
- 1 file changed, 86 insertions(+), 48 deletions(-)
+Overall it looks fine to me, see couple nits below
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 27ab328722..0947d14e5b 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -51,7 +51,10 @@
- #include <string.h>
- #include <sys/file.h>
- #include <sys/mount.h>
-+#include <sys/prctl.h>
- #include <sys/syscall.h>
-+#include <sys/types.h>
-+#include <sys/wait.h>
- #include <sys/xattr.h>
- #include <unistd.h>
-=20
-@@ -1945,24 +1948,95 @@ static void print_capabilities(void)
- }
-=20
- /*
-- * Called after our UNIX domain sockets have been created, now we can move=
- to
-- * an empty network namespace to prevent TCP/IP and other network activity=
- in
-- * case this process is compromised.
-+ * Move to a new mount, net, and pid namespaces to isolate this process.
-  */
--static void setup_net_namespace(void)
-+static void setup_namespaces(struct lo_data *lo, struct fuse_session *se)
- {
--    if (unshare(CLONE_NEWNET) !=3D 0) {
--        fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWNET): %m\n");
-+    pid_t child;
-+
-+    /*
-+     * Create a new pid namespace for *child* processes.  We'll have to
-+     * fork in order to enter the new pid namespace.  A new mount namespac=
-e
-+     * is also needed so that we can remount /proc for the new pid
-+     * namespace.
-+     *
-+     * Our UNIX domain sockets have been created.  Now we can move to
-+     * an empty network namespace to prevent TCP/IP and other network
-+     * activity in case this process is compromised.
-+     */
-+    if (unshare(CLONE_NEWPID | CLONE_NEWNS | CLONE_NEWNET) !=3D 0) {
-+        fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWPID | CLONE_NEWNS): %m\n"=
-);
-+        exit(1);
-+    }
-+
-+    child =3D fork();
-+    if (child < 0) {
-+        fuse_log(FUSE_LOG_ERR, "fork() failed: %m\n");
-+        exit(1);
-+    }
-+    if (child > 0) {
-+        pid_t waited;
-+        int wstatus;
-+
-+        /* The parent waits for the child */
-+        do {
-+            waited =3D waitpid(child, &wstatus, 0);
-+        } while (waited < 0 && errno =3D=3D EINTR && !se->exited);
-+
-+        /* We were terminated by a signal, see fuse_signals.c */
-+        if (se->exited) {
-+            exit(0);
-+        }
-+
-+        if (WIFEXITED(wstatus)) {
-+            exit(WEXITSTATUS(wstatus));
-+        }
-+
-+        exit(1);
-+    }
-+
-+    /* Send us SIGTERM when the parent thread terminates, see prctl(2) */
-+    prctl(PR_SET_PDEATHSIG, SIGTERM);
-+
-+    /*
-+     * If the mounts have shared propagation then we want to opt out so ou=
-r
-+     * mount changes don't affect the parent mount namespace.
-+     */
-+    if (mount(NULL, "/", NULL, MS_REC | MS_SLAVE, NULL) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_SLAVE): %m\n");
-+        exit(1);
-+    }
-+
-+    /* The child must remount /proc to use the new pid namespace */
-+    if (mount("proc", "/proc", "proc",
-+              MS_NODEV | MS_NOEXEC | MS_NOSUID | MS_RELATIME, NULL) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "mount(/proc): %m\n");
-+        exit(1);
-+    }
-+
-+    /* Now we can get our /proc/self/fd directory file descriptor */
-+    lo->proc_self_fd =3D open("/proc/self/fd", O_PATH);
-+    if (lo->proc_self_fd =3D=3D -1) {
-+        fuse_log(FUSE_LOG_ERR, "open(/proc/self/fd, O_PATH): %m\n");
-         exit(1);
-     }
- }
-=20
--/* This magic is based on lxc's lxc_pivot_root() */
--static void setup_pivot_root(const char *source)
-+/*
-+ * Make the source directory our root so symlinks cannot escape and no oth=
-er
-+ * files are accessible.  Assumes unshare(CLONE_NEWNS) was already called.
-+ */
-+static void setup_mounts(const char *source)
- {
-     int oldroot;
-     int newroot;
-=20
-+    if (mount(source, source, NULL, MS_BIND, NULL) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "mount(%s, %s, MS_BIND): %m\n", source, sou=
-rce);
-+        exit(1);
-+    }
-+
-+    /* This magic is based on lxc's lxc_pivot_root() */
-     oldroot =3D open("/", O_DIRECTORY | O_RDONLY | O_CLOEXEC);
-     if (oldroot < 0) {
-         fuse_log(FUSE_LOG_ERR, "open(/): %m\n");
-@@ -2009,47 +2083,14 @@ static void setup_pivot_root(const char *source)
-     close(oldroot);
- }
-=20
--static void setup_proc_self_fd(struct lo_data *lo)
--{
--    lo->proc_self_fd =3D open("/proc/self/fd", O_PATH);
--    if (lo->proc_self_fd =3D=3D -1) {
--        fuse_log(FUSE_LOG_ERR, "open(/proc/self/fd, O_PATH): %m\n");
--        exit(1);
--    }
--}
--
--/*
-- * Make the source directory our root so symlinks cannot escape and no oth=
-er
-- * files are accessible.
-- */
--static void setup_mount_namespace(const char *source)
--{
--    if (unshare(CLONE_NEWNS) !=3D 0) {
--        fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWNS): %m\n");
--        exit(1);
--    }
--
--    if (mount(NULL, "/", NULL, MS_REC | MS_SLAVE, NULL) < 0) {
--        fuse_log(FUSE_LOG_ERR, "mount(/, MS_REC|MS_PRIVATE): %m\n");
--        exit(1);
--    }
--
--    if (mount(source, source, NULL, MS_BIND, NULL) < 0) {
--        fuse_log(FUSE_LOG_ERR, "mount(%s, %s, MS_BIND): %m\n", source, sou=
-rce);
--        exit(1);
--    }
--
--    setup_pivot_root(source);
--}
--
- /*
-  * Lock down this process to prevent access to other processes or files ou=
-tside
-  * source directory.  This reduces the impact of arbitrary code execution =
-bugs.
-  */
--static void setup_sandbox(struct lo_data *lo)
-+static void setup_sandbox(struct lo_data *lo, struct fuse_session *se)
- {
--    setup_net_namespace();
--    setup_mount_namespace(lo->source);
-+    setup_namespaces(lo, se);
-+    setup_mounts(lo->source);
- }
-=20
- int main(int argc, char *argv[])
-@@ -2173,10 +2214,7 @@ int main(int argc, char *argv[])
-=20
-     fuse_daemonize(opts.foreground);
-=20
--    /* Must be after daemonize to get the right /proc/self/fd */
--    setup_proc_self_fd(&lo);
--
--    setup_sandbox(&lo);
-+    setup_sandbox(&lo, se);
-=20
-     /* Block until ctrl+c or fusermount -u */
-     ret =3D virtio_loop(se);
---=20
-2.24.1
+
+> ---
+>  hw/acpi/ghes.c           | 118 ++++++++++++++++++++++++++++++++++++++++++++++-
+>  hw/arm/virt-acpi-build.c |   2 +
+>  include/hw/acpi/ghes.h   |  40 ++++++++++++++++
+>  3 files changed, 159 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
+> index b7fdbbb..9d37798 100644
+> --- a/hw/acpi/ghes.c
+> +++ b/hw/acpi/ghes.c
+> @@ -34,9 +34,42 @@
+>  
+>  /* The max size in bytes for one error block */
+>  #define ACPI_GHES_MAX_RAW_DATA_LENGTH       0x400
+> -
+>  /* Now only support ARMv8 SEA notification type error source */
+>  #define ACPI_GHES_ERROR_SOURCE_COUNT        1
+> +/* Generic Hardware Error Source version 2 */
+> +#define ACPI_GHES_SOURCE_GENERIC_ERROR_V2   10
+> +/* Address offset in Generic Address Structure(GAS) */
+> +#define GAS_ADDR_OFFSET 4
+> +
+> +/*
+> + * Hardware Error Notification
+> + * ACPI 4.0: 17.3.2.7 Hardware Error Notification
+> + * Composes dummy Hardware Error Notification descriptor of specified type
+> + */
+> +static void build_ghes_hw_error_notification(GArray *table, const uint8_t type)
+> +{
+> +    /* Type */
+> +    build_append_int_noprefix(table, type, 1);
+> +    /*
+> +     * Length:
+> +     * Total length of the structure in bytes
+> +     */
+> +    build_append_int_noprefix(table, 28, 1);
+> +    /* Configuration Write Enable */
+> +    build_append_int_noprefix(table, 0, 2);
+> +    /* Poll Interval */
+> +    build_append_int_noprefix(table, 0, 4);
+> +    /* Vector */
+> +    build_append_int_noprefix(table, 0, 4);
+> +    /* Switch To Polling Threshold Value */
+> +    build_append_int_noprefix(table, 0, 4);
+> +    /* Switch To Polling Threshold Window */
+> +    build_append_int_noprefix(table, 0, 4);
+> +    /* Error Threshold Value */
+> +    build_append_int_noprefix(table, 0, 4);
+> +    /* Error Threshold Window */
+> +    build_append_int_noprefix(table, 0, 4);
+> +}
+>  
+>  /*
+>   * Build table for the hardware error fw_cfg blob.
+> @@ -92,3 +125,86 @@ void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker)
+>      bios_linker_loader_write_pointer(linker, ACPI_GHES_DATA_ADDR_FW_CFG_FILE,
+>          0, sizeof(uint64_t), ACPI_GHES_ERRORS_FW_CFG_FILE, 0);
+>  }
+> +
+> +/* Build Generic Hardware Error Source version 2 (GHESv2) */
+> +static void build_ghes_v2(GArray *table_data, int source_id, BIOSLinker *linker)
+> +{
+> +    uint64_t address_offset;
+> +    /*
+> +     * Type:
+> +     * Generic Hardware Error Source version 2(GHESv2 - Type 10)
+> +     */
+> +    build_append_int_noprefix(table_data, ACPI_GHES_SOURCE_GENERIC_ERROR_V2, 2);
+> +    /* Source Id */
+> +    build_append_int_noprefix(table_data, source_id, 2);
+> +    /* Related Source Id */
+> +    build_append_int_noprefix(table_data, 0xffff, 2);
+> +    /* Flags */
+> +    build_append_int_noprefix(table_data, 0, 1);
+> +    /* Enabled */
+> +    build_append_int_noprefix(table_data, 1, 1);
+> +
+> +    /* Number of Records To Pre-allocate */
+> +    build_append_int_noprefix(table_data, 1, 4);
+> +    /* Max Sections Per Record */
+> +    build_append_int_noprefix(table_data, 1, 4);
+> +    /* Max Raw Data Length */
+> +    build_append_int_noprefix(table_data, ACPI_GHES_MAX_RAW_DATA_LENGTH, 4);
+> +
+> +    address_offset = table_data->len;
+> +    /* Error Status Address */
+> +    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 0x40, 0,
+> +                     4 /* QWord access */, 0);
+> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
+> +        address_offset + GAS_ADDR_OFFSET,
+> +        sizeof(uint64_t), ACPI_GHES_ERRORS_FW_CFG_FILE, 0);
+> +
+> +    /*
+> +     * Notification Structure
+> +     * Now only enable ARMv8 SEA notification type
+> +     */
+> +    build_ghes_hw_error_notification(table_data, ACPI_GHES_NOTIFY_SEA);
+> +
+> +    /* Error Status Block Length */
+> +    build_append_int_noprefix(table_data, ACPI_GHES_MAX_RAW_DATA_LENGTH, 4);
+> +
+> +    /*
+> +     * Read Ack Register
+> +     * ACPI 6.1: 18.3.2.8 Generic Hardware Error Source
+> +     * version 2 (GHESv2 - Type 10)
+> +     */
+> +    address_offset = table_data->len;
+> +    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 0x40, 0,
+> +                     4 /* QWord access */, 0);
+> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
+> +        address_offset + GAS_ADDR_OFFSET,
+> +        sizeof(uint64_t), ACPI_GHES_ERRORS_FW_CFG_FILE,
+> +        ACPI_GHES_ERROR_SOURCE_COUNT * sizeof(uint64_t));
+> +
+> +    /*
+> +     * Read Ack Preserve
+> +     * We only provide the first bit in Read Ack Register to OSPM to write
+> +     * while the other bits are preserved.
+> +     */
+> +    build_append_int_noprefix(table_data, ~0x1ULL, 8);
+> +    /* Read Ack Write */
+> +    build_append_int_noprefix(table_data, 0x1, 8);
+> +}
+> +
+> +/* Build Hardware Error Source Table */
+> +void acpi_build_hest(GArray *table_data, GArray *hardware_errors,
+                                             ^^^^^^^^ it seems to be unused, so why it's here?
+
+> +                          BIOSLinker *linker)
+> +{
+> +    uint64_t hest_start = table_data->len;
+> +
+> +    /* Hardware Error Source Table header*/
+> +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> +
+> +    /* Error Source Count */
+> +    build_append_int_noprefix(table_data, ACPI_GHES_ERROR_SOURCE_COUNT, 4);
+> +
+> +    build_ghes_v2(table_data, ACPI_HEST_SRC_ID_SEA, linker);
+> +
+> +    build_header(linker, table_data, (void *)(table_data->data + hest_start),
+> +        "HEST", table_data->len - hest_start, 1, NULL, "");
+> +}
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 6819fcf..837bbf9 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -834,6 +834,8 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>      if (vms->ras) {
+>          acpi_add_table(table_offsets, tables_blob);
+>          build_ghes_error_table(tables->hardware_errors, tables->linker);
+> +        acpi_build_hest(tables_blob, tables->hardware_errors,
+> +                             tables->linker);
+
+not aligned properly
+
+you can use ./scripts/checkpatch.pl to see if there is style errors
+
+
+>      }
+>  
+>      if (ms->numa_state->num_nodes > 0) {
+> diff --git a/include/hw/acpi/ghes.h b/include/hw/acpi/ghes.h
+> index 3dbda3f..09a7f86 100644
+> --- a/include/hw/acpi/ghes.h
+> +++ b/include/hw/acpi/ghes.h
+> @@ -22,5 +22,45 @@
+>  #ifndef ACPI_GHES_H
+>  #define ACPI_GHES_H
+>  
+> +/*
+> + * Values for Hardware Error Notification Type field
+> + */
+> +enum AcpiGhesNotifyType {
+> +    /* Polled */
+> +    ACPI_GHES_NOTIFY_POLLED = 0,
+> +    /* External Interrupt */
+> +    ACPI_GHES_NOTIFY_EXTERNAL = 1,
+> +    /* Local Interrupt */
+> +    ACPI_GHES_NOTIFY_LOCAL = 2,
+> +    /* SCI */
+> +    ACPI_GHES_NOTIFY_SCI = 3,
+> +    /* NMI */
+> +    ACPI_GHES_NOTIFY_NMI = 4,
+> +    /* CMCI, ACPI 5.0: 18.3.2.7, Table 18-290 */
+> +    ACPI_GHES_NOTIFY_CMCI = 5,
+> +    /* MCE, ACPI 5.0: 18.3.2.7, Table 18-290 */
+> +    ACPI_GHES_NOTIFY_MCE = 6,
+> +    /* GPIO-Signal, ACPI 6.0: 18.3.2.7, Table 18-332 */
+> +    ACPI_GHES_NOTIFY_GPIO = 7,
+> +    /* ARMv8 SEA, ACPI 6.1: 18.3.2.9, Table 18-345 */
+> +    ACPI_GHES_NOTIFY_SEA = 8,
+> +    /* ARMv8 SEI, ACPI 6.1: 18.3.2.9, Table 18-345 */
+> +    ACPI_GHES_NOTIFY_SEI = 9,
+> +    /* External Interrupt - GSIV, ACPI 6.1: 18.3.2.9, Table 18-345 */
+> +    ACPI_GHES_NOTIFY_GSIV = 10,
+> +    /* Software Delegated Exception, ACPI 6.2: 18.3.2.9, Table 18-383 */
+> +    ACPI_GHES_NOTIFY_SDEI = 11,
+> +    /* 12 and greater are reserved */
+> +    ACPI_GHES_NOTIFY_RESERVED = 12
+> +};
+> +
+> +enum {
+> +    ACPI_HEST_SRC_ID_SEA = 0,
+> +    /* future ids go here */
+> +    ACPI_HEST_SRC_ID_RESERVED,
+> +};
+> +
+>  void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker);
+> +void acpi_build_hest(GArray *table_data, GArray *hardware_error,
+> +                          BIOSLinker *linker);
+>  #endif
 
 
