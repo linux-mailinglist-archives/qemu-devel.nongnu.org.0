@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15C9146952
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:40:47 +0100 (CET)
-Received: from localhost ([::1]:57168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871BA146975
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 14:46:17 +0100 (CET)
+Received: from localhost ([::1]:57236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iucj0-0001a4-MY
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:40:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40475)
+	id 1iucoJ-00007d-Jk
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 08:46:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iub90-0002IC-P2
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:31 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iub9A-0002VC-LI
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iub8z-00057p-BA
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47023
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iub98-0005Dn-0c
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:40 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40983
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub8z-00057R-7V
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:29 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iub97-0005DG-OU
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:59:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780768;
+ s=mimecast20190719; t=1579780777;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lj9ybDQyvN3fBqhUPDkPLVFN9fpotOGLEAZ1wOYsfuk=;
- b=fkXNfb8H9tN+U0l/GtMTlGNqnY4xBt3Hjxe/T5947LbgOHSij3IPu7fEKFtXMg63Ken4Os
- hwoI+MKwwUfRtgBUEz5GNJq7/62FtHVXT2Elny9Qv5qs9LqDvMCVZlqhgcdMQ+AIaWUazn
- 2Iq7EM4vOf01q4860Ulpiat1aT2SchE=
+ bh=a+VVKDRlmqTDGzPtjtgvCNUXgFQKQoxArBYRD9NTEhQ=;
+ b=ZNSmK0B4yDiGe64so8OYbnTZp1E81Lu0mXwVSzyqd7tv1wbSwiGGaKgl5TpAbx7xnpYHD0
+ gn3+K31AJs/wspgf6ooL5I0Hf6ij6fBBmuC7HAY425J/+E7H8BdcvDvPw3TMOBeaFG9AUo
+ 18ST/o6He+ClUVtl9PTL/Ng74cKNVn0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-2kWfQZWEMPmG7r4UG4AMOg-1; Thu, 23 Jan 2020 06:59:27 -0500
+ us-mta-320-IIdowmjAPNu1m54UL7GGZw-1; Thu, 23 Jan 2020 06:59:31 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CA8B8010C9
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AB5C1005513
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:59:30 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A45841CB;
- Thu, 23 Jan 2020 11:59:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A3F831CB;
+ Thu, 23 Jan 2020 11:59:29 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 032/111] virtiofsd: add --print-capabilities option
-Date: Thu, 23 Jan 2020 11:57:22 +0000
-Message-Id: <20200123115841.138849-33-dgilbert@redhat.com>
+Subject: [PULL 036/111] virtiofsd: passthrough_ll: add ino_map to hide
+ lo_inode pointers
+Date: Thu, 23 Jan 2020 11:57:26 +0000
+Message-Id: <20200123115841.138849-37-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 2kWfQZWEMPmG7r4UG4AMOg-1
+X-MC-Unique: IIdowmjAPNu1m54UL7GGZw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,106 +77,393 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Add the --print-capabilities option as per vhost-user.rst "Backend
-programs conventions".  Currently there are no advertised features.
+Do not expose lo_inode pointers to clients.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Reviewed-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- docs/interop/vhost-user.json     |  4 +++-
- tools/virtiofsd/fuse_lowlevel.h  |  1 +
- tools/virtiofsd/helper.c         |  2 ++
- tools/virtiofsd/passthrough_ll.c | 12 ++++++++++++
- 4 files changed, 18 insertions(+), 1 deletion(-)
+ tools/virtiofsd/passthrough_ll.c | 144 ++++++++++++++++++++++++-------
+ 1 file changed, 114 insertions(+), 30 deletions(-)
 
-diff --git a/docs/interop/vhost-user.json b/docs/interop/vhost-user.json
-index ce0ef74db5..ef8ac5941f 100644
---- a/docs/interop/vhost-user.json
-+++ b/docs/interop/vhost-user.json
-@@ -31,6 +31,7 @@
- # @rproc-serial: virtio remoteproc serial link
- # @scsi: virtio scsi
- # @vsock: virtio vsock transport
-+# @fs: virtio fs (since 4.2)
- #
- # Since: 4.0
- ##
-@@ -50,7 +51,8 @@
-       'rpmsg',
-       'rproc-serial',
-       'scsi',
--      'vsock'
-+      'vsock',
-+      'fs'
-   ]
- }
-=20
-diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowleve=
-l.h
-index f6b34700af..0d61df8110 100644
---- a/tools/virtiofsd/fuse_lowlevel.h
-+++ b/tools/virtiofsd/fuse_lowlevel.h
-@@ -1794,6 +1794,7 @@ struct fuse_cmdline_opts {
-     int nodefault_subtype;
-     int show_version;
-     int show_help;
-+    int print_capabilities;
-     unsigned int max_idle_threads;
- };
-=20
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index a3645fc807..b8ec5ac8dc 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -40,6 +40,7 @@ static const struct fuse_opt fuse_helper_opts[] =3D {
-     FUSE_HELPER_OPT("--help", show_help),
-     FUSE_HELPER_OPT("-V", show_version),
-     FUSE_HELPER_OPT("--version", show_version),
-+    FUSE_HELPER_OPT("--print-capabilities", print_capabilities),
-     FUSE_HELPER_OPT("-d", debug),
-     FUSE_HELPER_OPT("debug", debug),
-     FUSE_HELPER_OPT("-d", foreground),
-@@ -135,6 +136,7 @@ void fuse_cmdline_help(void)
- {
-     printf("    -h   --help                print help\n"
-            "    -V   --version             print version\n"
-+           "    --print-capabilities       print vhost-user.json\n"
-            "    -d   -o debug              enable debug output (implies -f=
-)\n"
-            "    -f                         foreground operation\n"
-            "    --daemonize                run in background\n"
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index 037c5d7b26..cd27c09f59 100644
+index e83a976587..a3ebf74eab 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -1298,6 +1298,14 @@ static struct fuse_lowlevel_ops lo_oper =3D {
-     .lseek =3D lo_lseek,
+@@ -57,8 +57,8 @@
+ #include "passthrough_helpers.h"
+=20
+ /*
+- * We are re-using pointers to our `struct lo_inode` and `struct
+- * lo_dirp` elements as inodes. This means that we must be able to
++ * We are re-using pointers to our `struct lo_inode`
++ * elements as inodes. This means that we must be able to
+  * store uintptr_t values in a fuse_ino_t variable. The following
+  * incantation checks this condition at compile time.
+  */
+@@ -76,7 +76,7 @@ struct _uintptr_to_must_hold_fuse_ino_t_dummy_struct {
+=20
+ struct lo_map_elem {
+     union {
+-        /* Element values will go here... */
++        struct lo_inode *inode;
+         ssize_t freelist;
+     };
+     bool in_use;
+@@ -97,6 +97,7 @@ struct lo_inode {
+     ino_t ino;
+     dev_t dev;
+     uint64_t refcount; /* protected by lo->mutex */
++    fuse_ino_t fuse_ino;
  };
 =20
-+/* Print vhost-user.json backend program capabilities */
-+static void print_capabilities(void)
+ struct lo_cred {
+@@ -121,6 +122,7 @@ struct lo_data {
+     int cache;
+     int timeout_set;
+     struct lo_inode root; /* protected by lo->mutex */
++    struct lo_map ino_map; /* protected by lo->mutex */
+ };
+=20
+ static const struct fuse_opt lo_opts[] =3D {
+@@ -145,14 +147,14 @@ static struct lo_data *lo_data(fuse_req_t req)
+     return (struct lo_data *)fuse_req_userdata(req);
+ }
+=20
+-__attribute__((unused)) static void lo_map_init(struct lo_map *map)
++static void lo_map_init(struct lo_map *map)
+ {
+     map->elems =3D NULL;
+     map->nelems =3D 0;
+     map->freelist =3D -1;
+ }
+=20
+-__attribute__((unused)) static void lo_map_destroy(struct lo_map *map)
++static void lo_map_destroy(struct lo_map *map)
+ {
+     free(map->elems);
+ }
+@@ -183,8 +185,7 @@ static int lo_map_grow(struct lo_map *map, size_t new_n=
+elems)
+     return 1;
+ }
+=20
+-__attribute__((unused)) static struct lo_map_elem *
+-lo_map_alloc_elem(struct lo_map *map)
++static struct lo_map_elem *lo_map_alloc_elem(struct lo_map *map)
+ {
+     struct lo_map_elem *elem;
+=20
+@@ -200,8 +201,7 @@ lo_map_alloc_elem(struct lo_map *map)
+     return elem;
+ }
+=20
+-__attribute__((unused)) static struct lo_map_elem *
+-lo_map_reserve(struct lo_map *map, size_t key)
++static struct lo_map_elem *lo_map_reserve(struct lo_map *map, size_t key)
+ {
+     ssize_t *prev;
+=20
+@@ -222,8 +222,7 @@ lo_map_reserve(struct lo_map *map, size_t key)
+     return NULL;
+ }
+=20
+-__attribute__((unused)) static struct lo_map_elem *
+-lo_map_get(struct lo_map *map, size_t key)
++static struct lo_map_elem *lo_map_get(struct lo_map *map, size_t key)
+ {
+     if (key >=3D map->nelems) {
+         return NULL;
+@@ -234,8 +233,7 @@ lo_map_get(struct lo_map *map, size_t key)
+     return &map->elems[key];
+ }
+=20
+-__attribute__((unused)) static void lo_map_remove(struct lo_map *map,
+-                                                  size_t key)
++static void lo_map_remove(struct lo_map *map, size_t key)
+ {
+     struct lo_map_elem *elem;
+=20
+@@ -254,18 +252,40 @@ __attribute__((unused)) static void lo_map_remove(str=
+uct lo_map *map,
+     map->freelist =3D key;
+ }
+=20
++/* Assumes lo->mutex is held */
++static ssize_t lo_add_inode_mapping(fuse_req_t req, struct lo_inode *inode=
+)
 +{
-+    printf("{\n");
-+    printf("  \"type\": \"fs\"\n");
-+    printf("}\n");
++    struct lo_map_elem *elem;
++
++    elem =3D lo_map_alloc_elem(&lo_data(req)->ino_map);
++    if (!elem) {
++        return -1;
++    }
++
++    elem->inode =3D inode;
++    return elem - lo_data(req)->ino_map.elems;
 +}
 +
- int main(int argc, char *argv[])
+ static struct lo_inode *lo_inode(fuse_req_t req, fuse_ino_t ino)
  {
-     struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
-@@ -1328,6 +1336,10 @@ int main(int argc, char *argv[])
-         fuse_lowlevel_version();
-         ret =3D 0;
-         goto err_out1;
-+    } else if (opts.print_capabilities) {
-+        print_capabilities();
-+        ret =3D 0;
-+        goto err_out1;
+-    if (ino =3D=3D FUSE_ROOT_ID) {
+-        return &lo_data(req)->root;
+-    } else {
+-        return (struct lo_inode *)(uintptr_t)ino;
++    struct lo_data *lo =3D lo_data(req);
++    struct lo_map_elem *elem;
++
++    pthread_mutex_lock(&lo->mutex);
++    elem =3D lo_map_get(&lo->ino_map, ino);
++    pthread_mutex_unlock(&lo->mutex);
++
++    if (!elem) {
++        return NULL;
      }
++
++    return elem->inode;
+ }
 =20
-     if (fuse_opt_parse(&args, &lo, lo_opts, NULL) =3D=3D -1) {
+ static int lo_fd(fuse_req_t req, fuse_ino_t ino)
+ {
+-    return lo_inode(req, ino)->fd;
++    struct lo_inode *inode =3D lo_inode(req, ino);
++    return inode ? inode->fd : -1;
+ }
+=20
+ static bool lo_debug(fuse_req_t req)
+@@ -337,10 +357,18 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino=
+, struct stat *attr,
+ {
+     int saverr;
+     char procname[64];
+-    struct lo_inode *inode =3D lo_inode(req, ino);
+-    int ifd =3D inode->fd;
++    struct lo_inode *inode;
++    int ifd;
+     int res;
+=20
++    inode =3D lo_inode(req, ino);
++    if (!inode) {
++        fuse_reply_err(req, EBADF);
++        return;
++    }
++
++    ifd =3D inode->fd;
++
+     if (valid & FUSE_SET_ATTR_MODE) {
+         if (fi) {
+             res =3D fchmod(fi->fh, attr->st_mode);
+@@ -470,6 +498,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t pare=
+nt, const char *name,
+         inode->dev =3D e->attr.st_dev;
+=20
+         pthread_mutex_lock(&lo->mutex);
++        inode->fuse_ino =3D lo_add_inode_mapping(req, inode);
+         prev =3D &lo->root;
+         next =3D prev->next;
+         next->prev =3D inode;
+@@ -478,7 +507,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t pare=
+nt, const char *name,
+         prev->next =3D inode;
+         pthread_mutex_unlock(&lo->mutex);
+     }
+-    e->ino =3D (uintptr_t)inode;
++    e->ino =3D inode->fuse_ino;
+=20
+     if (lo_debug(req)) {
+         fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n",
+@@ -582,10 +611,16 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino=
+_t parent,
+ {
+     int res;
+     int saverr;
+-    struct lo_inode *dir =3D lo_inode(req, parent);
++    struct lo_inode *dir;
+     struct fuse_entry_param e;
+     struct lo_cred old =3D {};
+=20
++    dir =3D lo_inode(req, parent);
++    if (!dir) {
++        fuse_reply_err(req, EBADF);
++        return;
++    }
++
+     saverr =3D ENOMEM;
+=20
+     saverr =3D lo_change_cred(req, &old);
+@@ -663,10 +698,16 @@ static void lo_link(fuse_req_t req, fuse_ino_t ino, f=
+use_ino_t parent,
+ {
+     int res;
+     struct lo_data *lo =3D lo_data(req);
+-    struct lo_inode *inode =3D lo_inode(req, ino);
++    struct lo_inode *inode;
+     struct fuse_entry_param e;
+     int saverr;
+=20
++    inode =3D lo_inode(req, ino);
++    if (!inode) {
++        fuse_reply_err(req, EBADF);
++        return;
++    }
++
+     memset(&e, 0, sizeof(struct fuse_entry_param));
+     e.attr_timeout =3D lo->timeout;
+     e.entry_timeout =3D lo->timeout;
+@@ -684,7 +725,7 @@ static void lo_link(fuse_req_t req, fuse_ino_t ino, fus=
+e_ino_t parent,
+     pthread_mutex_lock(&lo->mutex);
+     inode->refcount++;
+     pthread_mutex_unlock(&lo->mutex);
+-    e.ino =3D (uintptr_t)inode;
++    e.ino =3D inode->fuse_ino;
+=20
+     if (lo_debug(req)) {
+         fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n",
+@@ -750,10 +791,10 @@ static void unref_inode(struct lo_data *lo, struct lo=
+_inode *inode, uint64_t n)
+         next->prev =3D prev;
+         prev->next =3D next;
+=20
++        lo_map_remove(&lo->ino_map, inode->fuse_ino);
+         pthread_mutex_unlock(&lo->mutex);
+         close(inode->fd);
+         free(inode);
+-
+     } else {
+         pthread_mutex_unlock(&lo->mutex);
+     }
+@@ -762,7 +803,12 @@ static void unref_inode(struct lo_data *lo, struct lo_=
+inode *inode, uint64_t n)
+ static void lo_forget_one(fuse_req_t req, fuse_ino_t ino, uint64_t nlookup=
+)
+ {
+     struct lo_data *lo =3D lo_data(req);
+-    struct lo_inode *inode =3D lo_inode(req, ino);
++    struct lo_inode *inode;
++
++    inode =3D lo_inode(req, ino);
++    if (!inode) {
++        return;
++    }
+=20
+     if (lo_debug(req)) {
+         fuse_log(FUSE_LOG_DEBUG, "  forget %lli %lli -%lli\n",
+@@ -1244,10 +1290,16 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t =
+ino, const char *name,
+ {
+     char *value =3D NULL;
+     char procname[64];
+-    struct lo_inode *inode =3D lo_inode(req, ino);
++    struct lo_inode *inode;
+     ssize_t ret;
+     int saverr;
+=20
++    inode =3D lo_inode(req, ino);
++    if (!inode) {
++        fuse_reply_err(req, EBADF);
++        return;
++    }
++
+     saverr =3D ENOSYS;
+     if (!lo_data(req)->xattr) {
+         goto out;
+@@ -1306,10 +1358,16 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t=
+ ino, size_t size)
+ {
+     char *value =3D NULL;
+     char procname[64];
+-    struct lo_inode *inode =3D lo_inode(req, ino);
++    struct lo_inode *inode;
+     ssize_t ret;
+     int saverr;
+=20
++    inode =3D lo_inode(req, ino);
++    if (!inode) {
++        fuse_reply_err(req, EBADF);
++        return;
++    }
++
+     saverr =3D ENOSYS;
+     if (!lo_data(req)->xattr) {
+         goto out;
+@@ -1367,10 +1425,16 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t =
+ino, const char *name,
+                         const char *value, size_t size, int flags)
+ {
+     char procname[64];
+-    struct lo_inode *inode =3D lo_inode(req, ino);
++    struct lo_inode *inode;
+     ssize_t ret;
+     int saverr;
+=20
++    inode =3D lo_inode(req, ino);
++    if (!inode) {
++        fuse_reply_err(req, EBADF);
++        return;
++    }
++
+     saverr =3D ENOSYS;
+     if (!lo_data(req)->xattr) {
+         goto out;
+@@ -1400,10 +1464,16 @@ out:
+ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *nam=
+e)
+ {
+     char procname[64];
+-    struct lo_inode *inode =3D lo_inode(req, ino);
++    struct lo_inode *inode;
+     ssize_t ret;
+     int saverr;
+=20
++    inode =3D lo_inode(req, ino);
++    if (!inode) {
++        fuse_reply_err(req, EBADF);
++        return;
++    }
++
+     saverr =3D ENOSYS;
+     if (!lo_data(req)->xattr) {
+         goto out;
+@@ -1522,6 +1592,7 @@ int main(int argc, char *argv[])
+     struct fuse_session *se;
+     struct fuse_cmdline_opts opts;
+     struct lo_data lo =3D { .debug =3D 0, .writeback =3D 0 };
++    struct lo_map_elem *root_elem;
+     int ret =3D -1;
+=20
+     /* Don't mask creation mode, kernel already did that */
+@@ -1530,8 +1601,19 @@ int main(int argc, char *argv[])
+     pthread_mutex_init(&lo.mutex, NULL);
+     lo.root.next =3D lo.root.prev =3D &lo.root;
+     lo.root.fd =3D -1;
++    lo.root.fuse_ino =3D FUSE_ROOT_ID;
+     lo.cache =3D CACHE_NORMAL;
+=20
++    /*
++     * Set up the ino map like this:
++     * [0] Reserved (will not be used)
++     * [1] Root inode
++     */
++    lo_map_init(&lo.ino_map);
++    lo_map_reserve(&lo.ino_map, 0)->in_use =3D false;
++    root_elem =3D lo_map_reserve(&lo.ino_map, lo.root.fuse_ino);
++    root_elem->inode =3D &lo.root;
++
+     if (fuse_parse_cmdline(&args, &opts) !=3D 0) {
+         return 1;
+     }
+@@ -1628,6 +1710,8 @@ err_out2:
+ err_out1:
+     fuse_opt_free_args(&args);
+=20
++    lo_map_destroy(&lo.ino_map);
++
+     if (lo.root.fd >=3D 0) {
+         close(lo.root.fd);
+     }
 --=20
 2.24.1
 
