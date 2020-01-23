@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E3D145FD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:22:54 +0100 (CET)
-Received: from localhost ([::1]:48962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E71145FE1
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:24:51 +0100 (CET)
+Received: from localhost ([::1]:49018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuQGq-0004vB-Rc
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:22:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54778)
+	id 1iuQIk-0007dH-Bd
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:24:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzZ-0002F9-Rs
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:10 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iuPzd-0002Fd-HI
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzR-0002GM-1M
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:00 -0500
-Received: from mail-pf1-f176.google.com ([209.85.210.176]:45709)
+ (envelope-from <richard.henderson@linaro.org>) id 1iuPzS-0002Hf-UX
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:02 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:40783)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iuPzQ-0002FR-Po
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:52 -0500
-Received: by mail-pf1-f176.google.com with SMTP id 2so597813pfg.12
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:04:52 -0800 (PST)
+ id 1iuPzS-0002H1-P2
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:54 -0500
+Received: by mail-pg1-f196.google.com with SMTP id k25so383792pgt.7
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:04:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SwL4bj5FyPVtbDbu1kSJciAaavdFuuCM9S3gjDN6Z6k=;
- b=AeDRwnVIv0ulImf6reL/yVqGxFj/1If6iiGxF/deGZ/enIXdSuzKDBrnHrdt5S2CnR
- AmibAmn+UuabFcI3Bcb3hFTTKvw5tndMydSLBX153B1Q7tSLefKtOUincCDHcT/W1Z9O
- /7/irvSZCMSEpZqXGl32UWoo0ibQKZYj2zNn7yXBHpTXrceLktC50MeEPJbUqQU5n7A2
- kjk/Q0youS27Li82tADKdIT+JwvGwcJajguqmRO55NeAaRjoYEXazA4NPO9Zyqlqcxlh
- HP5dD/BRZIW4LcJPYBhaVbIMCcRwCJLXByhwQmzVQliDIJWP8N77cPfRjAWsHXq7JWHy
- N+eQ==
+ bh=jaQrQFKhStbfHQZg/A4k6/bsA1l7dnccnZkJW3y3CwU=;
+ b=nMyS+6v0pqvAya/RO8U20tzAjuQHTPS344wgmeBhwzBFDy/rGclcYYR1oaSno0yYSU
+ cxlPBvRg557rDtKIiTlyKmK0ORXw+VFc1kbkrWBITPBhe3vUfR+pCdWrGT3mnUI4Meqo
+ p0Hna5xnUsrrz0EKpLwpvnn/eC7sMNdoMJnPfsECzho4JTuZl4Vm10pLt86XoffFcG5y
+ 8cO/nyCkQCOEB+4BMZQgauX5R7ZFrfmpFutX8P3qWRWJh9a+pBtOYzICrc8G7McLY+Ii
+ ejCdpEanJoEkdp3w9wcX7Sux82CgCDNrIRVUCZU+7m92LVt7T6d6Unm9a7wgXaLHcBbO
+ jLwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SwL4bj5FyPVtbDbu1kSJciAaavdFuuCM9S3gjDN6Z6k=;
- b=gHJajbttmRxuoF6oP+00cE323Z82gBlHFKfZAxCDblnrRpsGFAFYeq64nmRXPGzqfN
- vcL61XOZijBWXoB/THXZwxj2y9HEyp1SkK+vC+BbwRzrNo38YphWkDbqoX9wN/VO6+Ts
- K3ZD/nVYaNEKxBdiSq217de3+puqJipNy0FY1GFQ9zH9Awf4FFl1pvvO/nXr3ZVBL/av
- Fnt9YJQUp7zfhQN+/+visjWD9sp9avF2ha3fHiGFdBt5Zbnxa5fVG5xj+xULusJbDKUA
- jd+4zHknMF7SBDe8CJZEDjtQGkovtSBLvZu1qZguZ+AMCEX7vqmh900LuZ6mAu/ZDYxJ
- cSAw==
-X-Gm-Message-State: APjAAAVBlhel4eeZeXCFvd97b3Os2V475ZVkHUTnC8c5G2b65TPBuivI
- FitSpnpIfkrjWrH/TCY16MV7vQfxpeU=
-X-Google-Smtp-Source: APXvYqz2+BsSLGxet0myOuXqpRmoSj4EnxUvcci69RPDzKVXv2ycZ+PX64qQmE8zW1dsopTIzdqmuw==
-X-Received: by 2002:a65:680f:: with SMTP id l15mr940576pgt.307.1579737831348; 
- Wed, 22 Jan 2020 16:03:51 -0800 (PST)
+ bh=jaQrQFKhStbfHQZg/A4k6/bsA1l7dnccnZkJW3y3CwU=;
+ b=R9Pjrpi6n7uVWlqawn7nghQ92JtAFBcwv9XJiVmjLPIX+NeYson6UF1FjR++MdPQ7s
+ VXV0llO2nZprhRy+I4Rp955YU7XfKF4viIgt9wLQ3dEPcNaTlyWBxU7k3HQKiv5iIyat
+ 3fBIIXWvydGbVrQPCyV8dZOg9yFNfpKWBfgGMD0XpNPxe9BiGPCKf8ZqdBh/MJdWBoA2
+ gdkBSQw9lsttQVrwnd6hE4adZ1KTRVTAzmhvcF+KtKumB8JRaCRRCvV8Z7mxjmvNEOz5
+ 1S6lPbkAvhMdFlbv5HM5EpaEB6Q8TSQeeSV7x/01FbsR/to3oR9oe5PqPZow34ggx5Uq
+ G/9A==
+X-Gm-Message-State: APjAAAUo2q1NXs2+vCm571Ot6lp0xxKWTsFJ7ttYGXMgYu4SgqW3QAU6
+ F8zp1WuW99PIWQY3dIdtD7dAHbOxPUk=
+X-Google-Smtp-Source: APXvYqxSBe/uwGOEc30Nrw78YaT7OeUZP6J45Nyt98GpWsullp0wpAn4NktwOs9TCp0Sbv8i97M80g==
+X-Received: by 2002:a63:7701:: with SMTP id s1mr958854pgc.271.1579737833498;
+ Wed, 22 Jan 2020 16:03:53 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-198-77-92.west.biz.rr.com.
  [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.03.49
+ by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.03.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 16:03:50 -0800 (PST)
+ Wed, 22 Jan 2020 16:03:52 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc1 17/24] target/avr: Update MAINTAINERS file
-Date: Wed, 22 Jan 2020 14:03:00 -1000
-Message-Id: <20200123000307.11541-18-richard.henderson@linaro.org>
+Subject: [PATCH rc1 18/24] hw/avr: Introduce ATMEL_ATMEGA_MCU config
+Date: Wed, 22 Jan 2020 14:03:01 -1000
+Message-Id: <20200123000307.11541-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200123000307.11541-1-richard.henderson@linaro.org>
 References: <20200123000307.11541-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.176
+X-Received-From: 209.85.215.196
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,63 +86,27 @@ Cc: thuth@redhat.com, me@xcancerberox.com.ar, S.E.Harris@kent.ac.uk,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Rolnik <mrolnik@gmail.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Include AVR maintaners in MAINTAINERS file
-
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Message-Id: <20200118191416.19934-22-mrolnik@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-[rth: Squash ordering fixes from f4bug]
+Message-Id: <20200120220107.17825-13-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- MAINTAINERS | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ hw/avr/Kconfig | 5 +++++
+ 1 file changed, 5 insertions(+)
+ create mode 100644 hw/avr/Kconfig
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2c768ed3d8..8caa94f782 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -163,6 +163,14 @@ S: Maintained
- F: hw/arm/smmu*
- F: include/hw/arm/smmu*
- 
-+AVR TCG CPUs
-+M: Michael Rolnik <mrolnik@gmail.com>
-+R: Sarah Harris <S.E.Harris@kent.ac.uk>
-+S: Maintained
-+F: target/avr/
-+F: default-configs/avr-softmmu.mak
-+F: gdb-xml/avr-cpu.xml
-+
- CRIS TCG CPUs
- M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
- S: Maintained
-@@ -880,6 +888,24 @@ F: include/hw/*/nrf51*.h
- F: include/hw/*/microbit*.h
- F: tests/qtest/microbit-test.c
- 
-+AVR Machines
-+-------------
-+
-+Atmel MCU
-+M: Michael Rolnik <mrolnik@gmail.com>
-+R: Sarah Harris <S.E.Harris@kent.ac.uk>
-+S: Maintained
-+F: hw/avr/
-+F: hw/char/atmel_usart.c
-+F: include/hw/char/atmel_usart.h
-+F: hw/timer/atmel_timer16.c
-+F: include/hw/timer/atmel_timer16.h
-+F: hw/misc/atmel_power.c
-+F: include/hw/misc/atmel_power.h
-+F: hw/misc/avr_mask.c
-+F: include/hw/misc/avr_mask.h
-+F: tests/acceptance/machine_avr6.py
-+
- CRIS Machines
- -------------
- Axis Dev88
+diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
+new file mode 100644
+index 0000000000..da3b10afec
+--- /dev/null
++++ b/hw/avr/Kconfig
+@@ -0,0 +1,5 @@
++config ATMEL_ATMEGA_MCU
++    bool
++    select ATMEL_TIMER16
++    select ATMEL_USART
++    select ATMEL_POWER
 -- 
 2.20.1
 
