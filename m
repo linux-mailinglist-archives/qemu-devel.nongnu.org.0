@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D8C146F3A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:10:24 +0100 (CET)
-Received: from localhost ([::1]:33068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477B7146F44
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:13:01 +0100 (CET)
+Received: from localhost ([::1]:33122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iufzq-0003hi-Na
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:10:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53104)
+	id 1iug2N-0007hk-ML
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:12:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iucuZ-0001f1-Da
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:44 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iucua-0001hk-Vm
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iucuY-0001NK-BT
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36468
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iucuZ-0001OA-Nf
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:44 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43764
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iucuY-0001NA-8D
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:42 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iucuZ-0001O5-KZ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787562;
+ s=mimecast20190719; t=1579787563;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NKbz01lsGRxXpu6cWnR890EpjJmf3tFFbUXHubunYW0=;
- b=YnM7Wy7teydgQbC4F/Wxvh19hw4Nsl4K+/n2XsUfNvZagAm/LONVB4okOtrW9N2z80G7Nt
- HsSH50t+4fVhBuHhGs6/Qr91c3YheUjYsd6gu/B+ehVBrpg9/MZEJc5nzMBEJsx629mJAT
- mBK5L25gTDrtsFyx5Myx/EsIYrD0sYw=
+ bh=weOrfJYvElx9PXPFZdBPW+NgpHelACkPKsnOgUcLfqs=;
+ b=I468Uft0AmHUngK356HWNkn85zSgLUgAawMLkbnl5WFA2M0GwxchwbzSRUntztmtpLpr19
+ sjXBCNAPpQfF3LRIVMpdIeEHrAYaOJb+jKm+3Gqkwo+fy+zmXZ5+kVXbzvjR4692AB1d95
+ unzfSQRe2PqCwFhzxK9V6Nb/nfjydFU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-kXkEFJ6FO-mCEC9FzBN_3A-1; Thu, 23 Jan 2020 08:52:40 -0500
+ us-mta-181-RwfwdZTYOlGAXljdCCwX4w-1; Thu, 23 Jan 2020 08:52:41 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45C15100EC93
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:52:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA5A0939D7
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:52:40 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44ABE85782;
- Thu, 23 Jan 2020 13:52:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B814F1CB;
+ Thu, 23 Jan 2020 13:52:39 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 52/59] vl: print default value in object help
-Date: Thu, 23 Jan 2020 14:50:42 +0100
-Message-Id: <1579787449-27599-53-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 53/59] qom: simplify qmp_device_list_properties()
+Date: Thu, 23 Jan 2020 14:50:43 +0100
+Message-Id: <1579787449-27599-54-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: kXkEFJ6FO-mCEC9FzBN_3A-1
+X-MC-Unique: RwfwdZTYOlGAXljdCCwX4w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,43 +74,92 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+All qdev properties are object properties, no need for
+make_device_property_info() helper.
 
 Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200110153039.1379601-23-marcandre.lureau@redhat.com>
+Message-Id: <20200110153039.1379601-24-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qom/object_interfaces.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ qom/qom-qmp-cmds.c | 52 +++++---------------------------------------------=
+--
+ 1 file changed, 5 insertions(+), 47 deletions(-)
 
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index 46cd6ea..edb4cc4 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -185,6 +185,7 @@ bool user_creatable_print_help(const char *type, QemuOp=
-ts *opts)
-         object_class_property_iter_init(&iter, klass);
-         while ((prop =3D object_property_iter_next(&iter))) {
-             GString *str;
-+            char *defval;
+diff --git a/qom/qom-qmp-cmds.c b/qom/qom-qmp-cmds.c
+index ccd3aaa..8785816 100644
+--- a/qom/qom-qmp-cmds.c
++++ b/qom/qom-qmp-cmds.c
+@@ -121,48 +121,6 @@ ObjectTypeInfoList *qmp_qom_list_types(bool has_implem=
+ents,
+     return ret;
+ }
 =20
-             if (!prop->set) {
-                 continue;
-@@ -192,6 +193,11 @@ bool user_creatable_print_help(const char *type, QemuO=
-pts *opts)
+-/* Return a DevicePropertyInfo for a qdev property.
+- *
+- * If a qdev property with the given name does not exist, use the given de=
+fault
+- * type.  If the qdev property info should not be shown, return NULL.
+- *
+- * The caller must free the return value.
+- */
+-static ObjectPropertyInfo *make_device_property_info(ObjectClass *klass,
+-                                                  const char *name,
+-                                                  const char *default_type=
+,
+-                                                  const char *description)
+-{
+-    ObjectPropertyInfo *info;
+-    Property *prop;
+-
+-    do {
+-        for (prop =3D DEVICE_CLASS(klass)->props_; prop && prop->name; pro=
+p++) {
+-            if (strcmp(name, prop->name) !=3D 0) {
+-                continue;
+-            }
+-
+-            info =3D g_malloc0(sizeof(*info));
+-            info->name =3D g_strdup(prop->name);
+-            info->type =3D default_type ? g_strdup(default_type)
+-                                      : g_strdup(prop->info->name);
+-            info->has_description =3D !!prop->info->description;
+-            info->description =3D g_strdup(prop->info->description);
+-            return info;
+-        }
+-        klass =3D object_class_get_parent(klass);
+-    } while (klass !=3D object_class_by_name(TYPE_DEVICE));
+-
+-    /* Not a qdev property, use the default type */
+-    info =3D g_malloc0(sizeof(*info));
+-    info->name =3D g_strdup(name);
+-    info->type =3D g_strdup(default_type);
+-    info->has_description =3D !!description;
+-    info->description =3D g_strdup(description);
+-
+-    return info;
+-}
+-
+ ObjectPropertyInfoList *qmp_device_list_properties(const char *typename,
+                                                 Error **errp)
+ {
+@@ -214,11 +172,11 @@ ObjectPropertyInfoList *qmp_device_list_properties(co=
+nst char *typename,
+             continue;
+         }
 =20
-             str =3D g_string_new(NULL);
-             g_string_append_printf(str, "  %s=3D<%s>", prop->name, prop->t=
-ype);
-+            defval =3D object_property_get_default(prop);
-+            if (defval) {
-+                g_string_append_printf(str, " (default: %s)", defval);
-+                g_free(defval);
-+            }
-             if (prop->description) {
-                 if (str->len < 24) {
-                     g_string_append_printf(str, "%*s", 24 - (int)str->len,=
- "");
+-        info =3D make_device_property_info(klass, prop->name, prop->type,
+-                                         prop->description);
+-        if (!info) {
+-            continue;
+-        }
++        info =3D g_new0(ObjectPropertyInfo, 1);
++        info->name =3D g_strdup(prop->name);
++        info->type =3D g_strdup(prop->type);
++        info->has_description =3D !!prop->description;
++        info->description =3D g_strdup(prop->description);
+=20
+         entry =3D g_malloc0(sizeof(*entry));
+         entry->value =3D info;
 --=20
 1.8.3.1
 
