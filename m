@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA1B14727B
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 21:18:49 +0100 (CET)
-Received: from localhost ([::1]:33240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E7D14728E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 21:26:27 +0100 (CET)
+Received: from localhost ([::1]:33438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuiwC-0008V9-9t
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 15:18:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42758)
+	id 1iuj3a-0006o1-D8
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 15:26:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57244)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iuff9-0006Ni-EP
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:49:00 -0500
+ (envelope-from <kwolf@redhat.com>) id 1iugQX-0005s9-EM
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:37:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iuff8-0000PF-5G
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:59 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52417
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1iugQW-0003Rz-9y
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:37:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43720
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iuff8-0000Oy-2d
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:48:58 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iugQW-0003RS-5q
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:37:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579798137;
+ s=mimecast20190719; t=1579801075;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AsLIGnsc4Kc2PIcdInCoGUfJ3yiSTnFajKGCNhtMMv0=;
- b=CXBDlvCo2rKBLhH/E8Zz21ZDcVLhvHBTulPLMee+QuT1OSBlE8mz1dRhIYY+4jaRYXVPSt
- vmT1Vjgk+acKD18gHBVjNzXjQ08LFZX7aRKZqDeTOOqB5EMvesHWEeq8yZP9cayy2PWSXv
- Ht24gOGgVm+I4eJLxm+J8zCM3lyibrc=
+ bh=wGmO6YBR71OibQ64YooA/A7r4z8iH4NhJle//Uq18Yk=;
+ b=X0fgRODAbHiIML3J9JMr/P/Dnt5MQQePZZ4RmleOXdJSHolcupLqCE/Om4FD4qAR+pJZEK
+ 24RUKRj0OMxBiv9dXFMpARWw4+iJznGl0u+nj8H8t7eTf8r3KMitW/8QIo6cNLsdekb1KV
+ VVICEMPF1NOCuqXTxapLk9dA/y2dEG0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-NjNHBdyHOWGKJj3ZUFlPzA-1; Thu, 23 Jan 2020 11:48:56 -0500
+ us-mta-157-NUS_HrbPNXGsvrNbejww9w-1; Thu, 23 Jan 2020 12:19:00 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B09E2F60
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:48:55 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-116-110.ams2.redhat.com
- [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 67CD128993;
- Thu, 23 Jan 2020 16:48:54 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	stefanha@redhat.com
-Subject: [PULL 107/108] virtiofsd: stop all queue threads on exit in
- virtio_loop()
-Date: Thu, 23 Jan 2020 16:46:29 +0000
-Message-Id: <20200123164630.91498-108-dgilbert@redhat.com>
-In-Reply-To: <20200123164630.91498-1-dgilbert@redhat.com>
-References: <20200123164630.91498-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AA781854337;
+ Thu, 23 Jan 2020 17:18:59 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-109.ams2.redhat.com [10.36.117.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 900323AE;
+ Thu, 23 Jan 2020 17:18:58 +0000 (UTC)
+Date: Thu, 23 Jan 2020 18:18:57 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: Maintainers, please add Message-Id: when merging patches
+Message-ID: <20200123171857.GC5021@linux.fritz.box>
+References: <CAJSP0QX22cYJvnpb+zDDXLaYg0yY4CV3Jn5QY+ExxJyFcmQ3Gw@mail.gmail.com>
+ <20200122122831.GB13482@linux.fritz.box>
 MIME-Version: 1.0
+In-Reply-To: <20200122122831.GB13482@linux.fritz.box>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: NjNHBdyHOWGKJj3ZUFlPzA-1
+X-MC-Unique: NUS_HrbPNXGsvrNbejww9w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,61 +73,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eryu Guan <eguan@linux.alibaba.com>
+Am 22.01.2020 um 13:28 hat Kevin Wolf geschrieben:
+> Am 22.01.2020 um 13:02 hat Stefan Hajnoczi geschrieben:
+> > Around 66% of qemu.git commits since v4.1.0 include a Message-Id: tag. =
+ Hooray!
+> >=20
+> > Message-Id: references the patch email that a commit was merged from.
+> > This information is helpful to anyone wishing to refer back to email
+> > discussions and patch series.
+> >=20
+> > Please use git-am(1) -m/--message-id or set am.messageid in your git-co=
+nfig(1).
+>=20
+> I've had -m in my scripts for a while (last time someone asked me to
+> make the change, I guess), but it wasn't effective, because my .muttrc
+> has 'set pipe_decode' enabled, which doesn't only decode the output, but
+> also throws away most headers.
+>=20
+> I seem to remember that this was necessary at some point because
+> otherwise some mails just wouldn't apply. Maybe 'git am' works better
+> these days and can actually parse the mails that used to give me
+> problems. I'll give it a try and disable pipe_decode.
 
-On guest graceful shutdown, virtiofsd receives VHOST_USER_GET_VRING_BASE
-request from VMM and shuts down virtqueues by calling fv_set_started(),
-which joins fv_queue_thread() threads. So when virtio_loop() returns,
-there should be no thread is still accessing data in fuse session and/or
-virtio dev.
+Here is the first patch for which it failed for me:
 
-But on abnormal exit, e.g. guest got killed for whatever reason,
-vhost-user socket is closed and virtio_loop() breaks out the main loop
-and returns to main(). But it's possible fv_queue_worker()s are still
-working and accessing fuse session and virtio dev, which results in
-crash or use-after-free.
+Message-ID: <20200123124357.124019-1-felipe@nutanix.com>
 
-Fix it by stopping fv_queue_thread()s before virtio_loop() returns,
-to make sure there's no-one could access fuse session and virtio dev.
+The problem seems to be related to line endings because the patch that
+git-apply sees eventually has "\r\n" whereas the file to be patched has
+only "\n".
 
-Reported-by: Qingming Su <qingming.su@linux.alibaba.com>
-Signed-off-by: Eryu Guan <eguan@linux.alibaba.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tools/virtiofsd/fuse_virtio.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+If I understand correctly (this is a bit of guesswork after reading man
+pages and trying out a few options), git-mailsplit would normally get
+rid of the "\r". However, this specific patch email is base64 encoded,
+so the encoded "\r" characters survive this stage.
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 9f6582343c..80a6e929df 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -815,6 +815,19 @@ int virtio_loop(struct fuse_session *se)
-         }
-     }
-=20
-+    /*
-+     * Make sure all fv_queue_thread()s quit on exit, as we're about to
-+     * free virtio dev and fuse session, no one should access them anymore=
-.
-+     */
-+    for (int i =3D 0; i < se->virtio_dev->nqueues; i++) {
-+        if (!se->virtio_dev->qi[i]) {
-+            continue;
-+        }
-+
-+        fuse_log(FUSE_LOG_INFO, "%s: Stopping queue %d thread\n", __func__=
-, i);
-+        fv_queue_cleanup_thread(se->virtio_dev, i);
-+    }
-+
-     fuse_log(FUSE_LOG_INFO, "%s: Exit\n", __func__);
-=20
-     return 0;
---=20
-2.24.1
+git-mailinfo later decodes the email, but doesn't seem to do anything
+about "\r" again, so it survives this one as well. This means feeding a
+patch with the wrong line endings to git-apply, which just fails.
+
+Any suggestion how to fix this? (For this patch, I just enabled
+pipe_decode again, so no Message-Id tag for it.)
+
+Kevin
 
 
