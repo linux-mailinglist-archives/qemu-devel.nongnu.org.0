@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D552C146387
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:32:48 +0100 (CET)
-Received: from localhost ([::1]:53156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A668146396
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:34:54 +0100 (CET)
+Received: from localhost ([::1]:53232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXux-00054t-8s
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:32:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55969)
+	id 1iuXwz-0008IL-Ga
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:34:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56121)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuXlK-00013E-C6
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:51 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuXlW-0001PC-IW
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:23:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuXlI-0002wm-Ak
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:50 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:35363)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlI-0002ul-1O
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:48 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuXlV-0003BT-3d
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:23:02 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:37613)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlU-0003An-Qd
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:23:01 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N4hj5-1je0iJ2zzz-011g10; Thu, 23 Jan 2020 09:22:36 +0100
+ id 1MekrN-1jUhKH0B5Z-00apiu; Thu, 23 Jan 2020 09:22:40 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/17] linux-user: Add support for
- FD<SETEMSGTRESH|SETMAXERRS|GETMAXERRS> ioctls
-Date: Thu, 23 Jan 2020 09:22:16 +0100
-Message-Id: <20200123082227.2037994-7-laurent@vivier.eu>
+Subject: [PULL 12/17] linux-user: Add support for enabling/disabling RTC
+ features using ioctls
+Date: Thu, 23 Jan 2020 09:22:22 +0100
+Message-Id: <20200123082227.2037994-13-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123082227.2037994-1-laurent@vivier.eu>
 References: <20200123082227.2037994-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:gBkw/jmdz/LtmzTMQt/NU0YwDNRHoYbQ+Zm9Z2cq50ywGcngvF4
- IG0GSEpMp7wC+C8bBVlu9D9KtLjqVKf0lwEbG+IQMnm6UsgHa1SksnCPKO8Qr2d5vrw7NcV
- Jq9lkY/K3BNsjimXi8rljwc+DZBFqQRGve689AkxqeXUAFisAn+JDKnUjaOXbfmyg0z/Nf0
- zjrV0H/YYJEYJ0j0qSb5w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JIla6PNb3nY=:FpT59qBYzckyiP7VbCW9CT
- 0mOoCoanUH1/xsS9qMPST19zZKueaNN2nZloAi5BKkvlY6jee9axJguEKEMwIrdngZfZoc/1P
- 7sdBRrExKSvvQRYT+kPx0x1NZ6lzz0kaX06O1v62lRBvt347rwVIl/pWmHQyXXjNQ36PPWPFQ
- 5fXxOuQH/btVONojV8vD2H8kjx+oPcx7livKGMFU2iwJZZkxvSZf0LfLAIijJaP1tByV1KFPI
- L7wYI6BN6hZMYcu7LXnMgT7GSWhOjdSzxQcccrW8huJ2IwX79/yhAa6Mnd3morWx0EXHIcnbY
- +R+WitynK05yPrhteVC/1/lq4AOMbHJnYoDfwvB3r/2ln2Tx4A5jG6DmxysqiKQAUzM70Jv03
- u0OolZLA0SVb3ZdMMk0KpE32GVM/xKDYxySDZGN6iF9AGaerjg7GjAkDWfz7n7Z4vum2FOFer
- 6bV2wdEfFHlLNyN3yMl7u0Y1ahqINeA5H0Nfsvns0E2IbkBLnxPCS+bscYvg0Dlwu/YCXUQ1e
- C0z5bsXx2epKKprinmihIQ5vRI8Li0yIlJ4wmtqfXKKxk/eN7hL3XsHE7gKtkJpvPljfgHGbN
- NPqF9EWTeJZoeRo6VJdHuQK7+nt3ZM/iOH5QNlmXH45VpM/rgVb1tZ5GIq6tNrBjokRxHKOPD
- 6jU3r+50XHGJm7shCU8wJcE14U5Q6JwMRXCz0GvS3h2na/1JOir1/lBDYKyXfUSP+HJZcbCuR
- J01j/0hI7IgqBiDwz6hTuJQ9uReZRM2+yK1kyPuxMw9bcA/Vall6PNwrXn5ndJFfBhao5rizO
- qISnnFG2U4BUy88d6OafLkiLjW2GcBGTGgVxqgpgItVwANWj44=
+X-Provags-ID: V03:K1:yMaEdQCad1FXyGHRpRa+gp1D7Uui/C8UVGYJSUGzDfxUAS98y45
+ ujZTAmNxh/jHTNZZJG5vvpKdR9k/Nxvqd2Bx8E7HX8Qw5PLVj0xXz3VKCmknn9w3jaNE7n/
+ 4pa1+l04lasGinjmhBmJkfpp+YO7rgKZoG8ouiLek5+e2sb+obNP/t1HCqv5G60qPWHyDK9
+ zFzdSpE9RMbPZqT574uhQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ek035P64zII=:OjM9J4c4kGEQ9wMy/dK/gV
+ ub23KNP6TYYC1KQCG93nTSlWyMDa+hASRusS0/egghSm7wavROUgS3h1IO9R2eoGpPSDFAuHf
+ p5CQrpuR42oJr48y2s1FfTIMAGAejzrW4Hh8YfyzhqBx2SW/p8P/QcU60Oqffqn14jb/KTPi6
+ sCxX6uKX4JQonDbduYFk83yWcKx3UpDTsWd47NpJwB1IDszVYKllMzmgtks2MGivVks3ZR6aM
+ HakpTi6O5YoQPoF3hFNTGVlXFQ91ZCl7wWgjtHTxHGV5wwUvAohcZqS+hEflqhVxVVSS/oU3i
+ fKKhu7aMwMP26EhassctD8KA/btw3p7M3CZf138xfJwxhy+cU/FHmQNV4LS7rMDUaOC8mF08F
+ XrqfW8MBbwkIQNKnPYaomukn0m4ObJa9lqpSH0GK+IhuKre9UAhYw+DMYw8LJ4LzWv9P+dVQq
+ TGMAVPYY+LJLmekq/R+VZ+UWefnveVIavRGd/X7qW9l8NTP0kQYqXNi5ROEzn8GJP8QuYY8ql
+ u6EVdsCjdBEXiGG055Y5X31UsIAu5FKNQnhf872Q4Y9gM9BhNp+jncUFQqZMR+6IXjWkFW556
+ ul0CuC2TGDdO9DYL86seFevpro571FqUUSD1nghIxRPHVFWnpbWFf1S9hGyOrGP++9DfLvsbN
+ JAfXRwl7I4KEjm/H/RkvYKMrp50TnNJhBb/G31JJMQ3WkFNwZitdSa9P7meZGpcstCfg1SGVS
+ hzaI4Y7XWdd7ZkUxkA1LTwgJJn/o8sgrznGGYi7cGs8N3ZLqkVv0ljnrmyBr5KXxE+vELPnwK
+ 6/TkbbjpKdesk5s8wBbnEI7UaWZ0FxCaO5tVmZQ+alI9AxSTcaazJpFOhuJQxdpNp4n+6g6
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,98 +66,115 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>
+ Filip Bozuta <Filip.Bozuta@rt-rk.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
 
-FDSETEMSGTRESH, FDSETMAXERRS, and FDGETMAXERRS ioctls are commands
-for controlling error reporting of a floppy drive.
+This patch implements functionalities of following ioctls:
 
-FDSETEMSGTRESH's third agrument is a pointer to the structure:
+RTC_AIE_ON, RTC_AIE_OFF - Alarm interrupt enabling on/off
 
-struct floppy_max_errors {
-    unsigned int
-      abort,      /* number of errors to be reached before aborting */
-      read_track, /* maximal number of errors permitted to read an
-                   * entire track at once */
-      reset,      /* maximal number of errors before a reset is tried */
-      recal,      /* maximal number of errors before a recalibrate is
-                   * tried */
-      /*
-       * Threshold for reporting FDC errors to the console.
-       * Setting this to zero may flood your screen when using
-       * ultra cheap floppies ;-)
-       */
-      reporting;
-};
+    Enable or disable the alarm interrupt, for RTCs that support
+    alarms.  The third ioctl's argument is ignored.
 
-defined in Linux kernel header <linux/fd.h>.
+RTC_UIE_ON, RTC_UIE_OFF - Update interrupt enabling on/off
 
-Since all fields of the structure are of type 'unsigned int', there is
-no need to define "target_floppy_max_errors".
+    Enable or disable the interrupt on every clock update, for
+    RTCs that support this once-per-second interrupt. The third
+    ioctl's argument is ignored.
 
-FDSETMAXERRS and FDGETMAXERRS ioctls do not use the third argument.
+RTC_PIE_ON, RTC_PIE_OFF - Periodic interrupt enabling on/off
+
+    Enable or disable the periodic interrupt, for RTCs that sup‐
+    port these periodic interrupts. The third ioctl's argument
+    is ignored. Only a privileged process (i.e., one having the
+    CAP_SYS_RESOURCE capability) can enable the periodic interrupt
+    if the frequency is currently set above the value specified in
+    /proc/sys/dev/rtc/max-user-freq.
+
+RTC_WIE_ON, RTC_WIE_OFF - Watchdog interrupt enabling on/off
+
+    Enable or disable the Watchdog interrupt, for RTCs that sup-
+    port this Watchdog interrupt. The third ioctl's argument is
+    ignored.
+
+Implementation notes:
+
+    Since all of involved ioctls have NULL as their third argument,
+    their implementation was straightforward.
+
+    The line '#include <linux/rtc.h>' was added to recognize
+    preprocessor definitions for these ioctls. This needs to be
+    done only once in this series of commits. Also, the content
+    of this file (with respect to ioctl definitions) remained
+    unchanged for a long time, therefore there is no need to
+    worry about supporting older Linux kernel version.
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <1579214991-19602-8-git-send-email-aleksandar.markovic@rt-rk.com>
+Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Message-Id: <1579117007-7565-2-git-send-email-Filip.Bozuta@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ioctls.h        | 3 +++
- linux-user/syscall_defs.h  | 3 +++
- linux-user/syscall_types.h | 7 +++++++
- 3 files changed, 13 insertions(+)
+ linux-user/ioctls.h       |  9 +++++++++
+ linux-user/syscall.c      |  1 +
+ linux-user/syscall_defs.h | 10 ++++++++++
+ 3 files changed, 20 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 3affd8814a86..2c3d798842e4 100644
+index 23f6d3feb5db..55ad47186dc0 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -114,7 +114,10 @@
+@@ -69,6 +69,15 @@
+      IOCTL(KDSETLED, 0, TYPE_INT)
+      IOCTL_SPECIAL(KDSIGACCEPT, 0, do_ioctl_kdsigaccept, TYPE_INT)
  
-      IOCTL(FDMSGON, 0, TYPE_NULL)
-      IOCTL(FDMSGOFF, 0, TYPE_NULL)
-+     IOCTL(FDSETEMSGTRESH, 0, TYPE_NULL)
-      IOCTL(FDFLUSH, 0, TYPE_NULL)
-+     IOCTL(FDSETMAXERRS, IOC_W, MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
-+     IOCTL(FDGETMAXERRS, IOC_R, MK_PTR(MK_STRUCT(STRUCT_floppy_max_errors)))
-      IOCTL(FDRESET, 0, TYPE_NULL)
-      IOCTL(FDRAWCMD, 0, TYPE_NULL)
-      IOCTL(FDTWADDLE, 0, TYPE_NULL)
++     IOCTL(RTC_AIE_ON, 0, TYPE_NULL)
++     IOCTL(RTC_AIE_OFF, 0, TYPE_NULL)
++     IOCTL(RTC_UIE_ON, 0, TYPE_NULL)
++     IOCTL(RTC_UIE_OFF, 0, TYPE_NULL)
++     IOCTL(RTC_PIE_ON, 0, TYPE_NULL)
++     IOCTL(RTC_PIE_OFF, 0, TYPE_NULL)
++     IOCTL(RTC_WIE_ON, 0, TYPE_NULL)
++     IOCTL(RTC_WIE_OFF, 0, TYPE_NULL)
++
+      IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
+      IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
+      IOCTL(BLKRRPART, 0, TYPE_NULL)
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index bd2436b31007..d60142f0691c 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -110,6 +110,7 @@
+ #include <netpacket/packet.h>
+ #include <linux/netlink.h>
+ #include <linux/if_alg.h>
++#include <linux/rtc.h>
+ #include "linux_loop.h"
+ #include "uname.h"
+ 
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index a73cc3d06790..48de76145f0c 100644
+index fb8318d12185..fc3d79ab9762 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -899,7 +899,10 @@ struct target_pollfd {
+@@ -763,6 +763,16 @@ struct target_pollfd {
+ #define TARGET_KDSETLED        0x4B32	/* set led state [lights, not flags] */
+ #define TARGET_KDSIGACCEPT     0x4B4E
  
- #define TARGET_FDMSGON        TARGET_IO(2, 0x45)
- #define TARGET_FDMSGOFF       TARGET_IO(2, 0x46)
-+#define TARGET_FDSETEMSGTRESH TARGET_IO(2, 0x4a)
- #define TARGET_FDFLUSH        TARGET_IO(2, 0x4b)
-+#define TARGET_FDSETMAXERRS  TARGET_IOW(2, 0x4c, struct floppy_max_errors)
-+#define TARGET_FDGETMAXERRS  TARGET_IOR(2, 0x0e, struct floppy_max_errors)
- #define TARGET_FDRESET        TARGET_IO(2, 0x54)
- #define TARGET_FDRAWCMD       TARGET_IO(2, 0x58)
- #define TARGET_FDTWADDLE      TARGET_IO(2, 0x59)
-diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-index 4e3698382629..e4e0429637c5 100644
---- a/linux-user/syscall_types.h
-+++ b/linux-user/syscall_types.h
-@@ -261,6 +261,13 @@ STRUCT(blkpg_ioctl_arg,
-        TYPE_INT, /* datalen */
-        TYPE_PTRVOID) /* data */
- 
-+STRUCT(floppy_max_errors,
-+       TYPE_INT, /* abort */
-+       TYPE_INT, /* read_track */
-+       TYPE_INT, /* reset */
-+       TYPE_INT, /* recal */
-+       TYPE_INT) /* reporting */
++/* real time clock ioctls */
++#define TARGET_RTC_AIE_ON           TARGET_IO('p', 0x01)
++#define TARGET_RTC_AIE_OFF          TARGET_IO('p', 0x02)
++#define TARGET_RTC_UIE_ON           TARGET_IO('p', 0x03)
++#define TARGET_RTC_UIE_OFF          TARGET_IO('p', 0x04)
++#define TARGET_RTC_PIE_ON           TARGET_IO('p', 0x05)
++#define TARGET_RTC_PIE_OFF          TARGET_IO('p', 0x06)
++#define TARGET_RTC_WIE_ON           TARGET_IO('p', 0x0f)
++#define TARGET_RTC_WIE_OFF          TARGET_IO('p', 0x10)
 +
- #if defined(CONFIG_USBFS)
- /* usb device ioctls */
- STRUCT(usbdevfs_ctrltransfer,
+ #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
+        defined(TARGET_XTENSA)
+ #define TARGET_FIOGETOWN       TARGET_IOR('f', 123, int)
 -- 
 2.24.1
 
