@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8BD146B66
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:33:28 +0100 (CET)
-Received: from localhost ([::1]:58122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C834146B73
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:36:39 +0100 (CET)
+Received: from localhost ([::1]:58172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iudXz-0002lv-0O
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:33:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41378)
+	id 1iudb3-0006eH-Ev
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:36:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41346)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iubAS-00042X-Sn
+ (envelope-from <dgilbert@redhat.com>) id 1iubAS-00041f-5X
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iubAR-0006KU-Ab
+ (envelope-from <dgilbert@redhat.com>) id 1iubAR-0006JN-2d
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:00 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35155
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33599
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAR-00069H-3c
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAQ-0006Bt-Tk
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:00:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780846;
+ s=mimecast20190719; t=1579780850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ToWv4QW9UcDr800cQKGwqIgPn5FyHttr3h3RgHnwWo=;
- b=TB/n6el7SAspWKXV8+KxG5CfNrsONZ4PVkpaFlavSRSR3cMZsV70OLhT/5jsCSJVVk/c+b
- oQJctRyuavpWDmXaOZWC0z1E0Qe4m1rTV0X0EaA1bfVZlyBnTfWRDqzWlfyaucEJtJw5uc
- +wLcLiU8MpIYKn6SugvuzXWCXiz9TVE=
+ bh=S1ZZK29IBYxR/Dk9Ph6fLhiurhPZ+mhhMZJrxkegYP0=;
+ b=IEs/rO1l4leAx1b8xiUKwl4cI0efVn9nBQ67kC3xOsMM4BFHImlNXaA8+EeUGw2849+/zk
+ rx58OLt8cy8AUC4Jm9wUlxnLUtPv/Rg2QVNPpO6CNiJW5pN08C2rnVgxYuC7vQe0Mn1lY5
+ f70g0NE2Vz63RXjOjm7og0aQaQDLy/k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-mZJ3Cq0vN4K24l9mmxy-0w-1; Thu, 23 Jan 2020 07:00:44 -0500
+ us-mta-366-crsRK2CIN0OYg_OhAht-Sg-1; Thu, 23 Jan 2020 07:00:48 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09A1B8010E2
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:00:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B3278018AD
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:00:48 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57AAD1CB;
- Thu, 23 Jan 2020 12:00:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 571D385754;
+ Thu, 23 Jan 2020 12:00:47 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 078/111] virtiofsd: support nanosecond resolution for file
- timestamp
-Date: Thu, 23 Jan 2020 11:58:08 +0000
-Message-Id: <20200123115841.138849-79-dgilbert@redhat.com>
+Subject: [PULL 082/111] virtiofsd: add helper for lo_data cleanup
+Date: Thu, 23 Jan 2020 11:58:12 +0000
+Message-Id: <20200123115841.138849-83-dgilbert@redhat.com>
 In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
 References: <20200123115841.138849-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: mZJ3Cq0vN4K24l9mmxy-0w-1
+X-MC-Unique: crsRK2CIN0OYg_OhAht-Sg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -75,66 +74,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jiufei Xue <jiufei.xue@linux.alibaba.com>
+From: Liu Bo <bo.liu@linux.alibaba.com>
 
-Define HAVE_STRUCT_STAT_ST_ATIM to 1 if `st_atim' is member of `struct
-stat' which means support nanosecond resolution for the file timestamp
-fields.
+This offers an helper function for lo_data's cleanup.
 
-Signed-off-by: Jiufei Xue <jiufei.xue@linux.alibaba.com>
+Signed-off-by: Liu Bo <bo.liu@linux.alibaba.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- configure                   | 16 ++++++++++++++++
- tools/virtiofsd/fuse_misc.h |  1 +
- 2 files changed, 17 insertions(+)
+ tools/virtiofsd/passthrough_ll.c | 37 ++++++++++++++++++--------------
+ 1 file changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/configure b/configure
-index 557e4382ea..9bc0441509 100755
---- a/configure
-+++ b/configure
-@@ -5191,6 +5191,19 @@ if compile_prog "" "" ; then
-     strchrnul=3Dyes
- fi
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index 056ebe8556..e8dc5c7320 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -2407,6 +2407,26 @@ static gboolean lo_key_equal(gconstpointer a, gconst=
+pointer b)
+     return la->ino =3D=3D lb->ino && la->dev =3D=3D lb->dev;
+ }
 =20
-+#########################################
-+# check if we have st_atim
++static void fuse_lo_data_cleanup(struct lo_data *lo)
++{
++    if (lo->inodes) {
++        g_hash_table_destroy(lo->inodes);
++    }
++    lo_map_destroy(&lo->fd_map);
++    lo_map_destroy(&lo->dirp_map);
++    lo_map_destroy(&lo->ino_map);
 +
-+st_atim=3Dno
-+cat > $TMPC << EOF
-+#include <sys/stat.h>
-+#include <stddef.h>
-+int main(void) { return offsetof(struct stat, st_atim); }
-+EOF
-+if compile_prog "" "" ; then
-+    st_atim=3Dyes
-+fi
++    if (lo->proc_self_fd >=3D 0) {
++        close(lo->proc_self_fd);
++    }
 +
- ##########################################
- # check if trace backend exists
++    if (lo->root.fd >=3D 0) {
++        close(lo->root.fd);
++    }
++
++    free(lo->source);
++}
++
+ int main(int argc, char *argv[])
+ {
+     struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
+@@ -2554,22 +2574,7 @@ err_out2:
+ err_out1:
+     fuse_opt_free_args(&args);
 =20
-@@ -6886,6 +6899,9 @@ fi
- if test "$strchrnul" =3D "yes" ; then
-   echo "HAVE_STRCHRNUL=3Dy" >> $config_host_mak
- fi
-+if test "$st_atim" =3D "yes" ; then
-+  echo "HAVE_STRUCT_STAT_ST_ATIM=3Dy" >> $config_host_mak
-+fi
- if test "$byteswap_h" =3D "yes" ; then
-   echo "CONFIG_BYTESWAP_H=3Dy" >> $config_host_mak
- fi
-diff --git a/tools/virtiofsd/fuse_misc.h b/tools/virtiofsd/fuse_misc.h
-index f252baa752..5c618ce21f 100644
---- a/tools/virtiofsd/fuse_misc.h
-+++ b/tools/virtiofsd/fuse_misc.h
-@@ -7,6 +7,7 @@
-  */
+-    if (lo.inodes) {
+-        g_hash_table_destroy(lo.inodes);
+-    }
+-    lo_map_destroy(&lo.fd_map);
+-    lo_map_destroy(&lo.dirp_map);
+-    lo_map_destroy(&lo.ino_map);
+-
+-    if (lo.proc_self_fd >=3D 0) {
+-        close(lo.proc_self_fd);
+-    }
+-
+-    if (lo.root.fd >=3D 0) {
+-        close(lo.root.fd);
+-    }
+-
+-    free(lo.source);
++    fuse_lo_data_cleanup(&lo);
 =20
- #include <pthread.h>
-+#include "config-host.h"
-=20
- /*
-  * Versioned symbols cannot be used in some cases because it
+     return ret ? 1 : 0;
+ }
 --=20
 2.24.1
 
