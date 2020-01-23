@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEFAC147014
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:52:58 +0100 (CET)
-Received: from localhost ([::1]:34002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0670A14701C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:55:51 +0100 (CET)
+Received: from localhost ([::1]:34044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugf3-0007Hr-6z
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:52:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35202)
+	id 1iughp-0002vO-Cz
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:55:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35293)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iudcR-0001jq-D2
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:38:04 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iudci-0002C7-GC
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:38:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iudcQ-0002R2-3j
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:38:03 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22190
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iudcQ-0002QS-01
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:38:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579790281;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZEOJ4hHDlpjG53G0NmYTegfHo15aL+AiedS0R0mF8Fw=;
- b=Bxe0gm8mjkIKV3ZNOu/ss840mDvGrYOASAG1+ONtuZ2jB2kST21dpCbkdH/yZO31rF9P+D
- UFErHbllAzPwriQRbOKuBrIWz+cDoK3Vv9xZiOuXYx6HD118+Q2pngMitD+aaMrXU3YCKq
- kLbB7I9C/e+sK5mjAcAaiuse+cGGzMM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-6OfRk62_Nb-FACkmJUQTyw-1; Thu, 23 Jan 2020 09:37:58 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01098107ACC4;
- Thu, 23 Jan 2020 14:37:57 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 032FE86810;
- Thu, 23 Jan 2020 14:37:55 +0000 (UTC)
-Date: Thu, 23 Jan 2020 15:37:53 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH REPOST v3 20/80] arm/mps2-tz: use memdev for RAM
-Message-ID: <20200123143753.5thh23czkypa76sh@kamzik.brq.redhat.com>
-References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
- <1579779525-20065-21-git-send-email-imammedo@redhat.com>
- <20200123125909.p2aq3ad2x5l24zq5@kamzik.brq.redhat.com>
- <20200123143948.4ef7b702@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iudch-0002q4-6I
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:38:20 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:44607)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iudcg-0002pX-VT
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:38:19 -0500
+Received: by mail-oi1-x241.google.com with SMTP id d62so3041071oia.11
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 06:38:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SxFvWTbqkliLVKhnhsE0xivx5tRZL7ECHFqrg4zoCWs=;
+ b=t3Ynoa5doxPYA1MNpIEqUKZpnmEB0pMKb4qWyR8hMx73z+z9UsQ1S8qqNleraxbpsi
+ 8AzKEaRbKO7Qn3hTuip1cbI0APNndmIGfxe78nsakW9fcveKMo+m0mYB1B/pbOpRtH13
+ gt33uImtYAWCWRee0l/vKSuAwE5O1KSPV68q0ODTd4UdqIMHkH74HlafXiJ7Xg7g6OPy
+ CcZoWeZ+Gnf4s8tPIC4szRfc0Q1XlOksjwzJLmma5AjDL3RHJOKxW8MqC/sNX1stSCFD
+ Ok2nM4vtOG5Z+twN1pyQ+oClZ+NChhkv2HtqrYlXrEE9lb4PP4zD9l4iRW5RVfvqAvVB
+ /U0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SxFvWTbqkliLVKhnhsE0xivx5tRZL7ECHFqrg4zoCWs=;
+ b=dTj7ytupuU06V4cHDYrJFoI9QuB8R3ofms6oPUThrmVK2AoZB7f8gauNIUrDnip71W
+ Vwze+nhSSvcjCiuKNy3n6D/Dr6wrpVAWNnHJnpvwsxRVFsYxNugXFA8bvV+xbQhxyJUo
+ 51LVxNh21wGQSkLJaAX0ZSULix9cn2VXo+Cg6WrY9hUGSaeccQNmuZIfVpG6PnCwIvSn
+ NCvgrzB9ZGxtNTEPc+sBdyDvpG4/kF5kvBbYI2uuNmaD5H/BgXspEWsgfeN0dvdE8PfM
+ X97mTPxZnkclsL+UYfPsTKOqxn0i5w/eU4xmapSkJFAp0M1PzxbEdN0wxCeqgoXscWwW
+ UhKw==
+X-Gm-Message-State: APjAAAVRBw7HHuQ1pEPU/E4oLdY3pRrFgiPu+Hx1FUljFgHN7aeustgk
+ LF/KYJQGbjpDuoAgFqGEkbhmnNUPnz8Voo7o5y9hiQ==
+X-Google-Smtp-Source: APXvYqwmRX/ekW9qSc+JUdv/mcFo538k/U4O8bMIa0IjfUSOLLpJybO6Hyc8y5OzKWvvGF7r+igYZ16gv3ircPN0Ibk=
+X-Received: by 2002:aca:3182:: with SMTP id
+ x124mr10786904oix.170.1579790298104; 
+ Thu, 23 Jan 2020 06:38:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200123143948.4ef7b702@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 6OfRk62_Nb-FACkmJUQTyw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+References: <20200121225703.148465-1-palmerdabbelt@google.com>
+In-Reply-To: <20200121225703.148465-1-palmerdabbelt@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Jan 2020 14:38:07 +0000
+Message-ID: <CAFEAcA9YoAjASu4F1hZRjbq5S+h8GtBUVb9dgecMdaWb9YENEw@mail.gmail.com>
+Subject: Re: [PULL] RISC-V Patches for the 5.0 Soft Freeze, Part 1
+To: Palmer Dabbelt <palmerdabbelt@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::241
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,113 +72,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 23, 2020 at 02:39:48PM +0100, Igor Mammedov wrote:
-> On Thu, 23 Jan 2020 13:59:09 +0100
-> Andrew Jones <drjones@redhat.com> wrote:
->=20
-> > On Thu, Jan 23, 2020 at 12:37:45PM +0100, Igor Mammedov wrote:
-> > > memory_region_allocate_system_memory() API is going away, so
-> > > replace it with memdev allocated MemoryRegion. The later is
-> > > initialized by generic code, so board only needs to opt in
-> > > to memdev scheme by providing
-> > >   MachineClass::default_ram_id
-> > > and using MachineState::ram instead of manually initializing
-> > > RAM memory region.
-> > >=20
-> > > PS:
-> > >  while at it add check for user supplied RAM size and error
-> > >  out if it mismatches board expected value.
-> > >=20
-> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > > ---
-> > > v2:
-> > >   * fix format string causing build failure on 32-bit host
-> > >     (Philippe Mathieu-Daud=E9 <philmd@redhat.com>)
-> > >=20
-> > > CC: drjones@redhat.com
-> > > CC: peter.maydell@linaro.org
-> > > CC: qemu-arm@nongnu.org
-> > > ---
-> > >  hw/arm/mps2-tz.c | 15 +++++++++++----
-> > >  1 file changed, 11 insertions(+), 4 deletions(-)
-> > >=20
-> > > diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-> > > index f8b620b..06dacf6 100644
-> > > --- a/hw/arm/mps2-tz.c
-> > > +++ b/hw/arm/mps2-tz.c
-> > > @@ -39,6 +39,7 @@
-> > > =20
-> > >  #include "qemu/osdep.h"
-> > >  #include "qemu/units.h"
-> > > +#include "qemu/cutils.h"
-> > >  #include "qapi/error.h"
-> > >  #include "qemu/error-report.h"
-> > >  #include "hw/arm/boot.h"
-> > > @@ -79,7 +80,6 @@ typedef struct {
-> > >      MachineState parent;
-> > > =20
-> > >      ARMSSE iotkit;
-> > > -    MemoryRegion psram;
-> > >      MemoryRegion ssram[3];
-> > >      MemoryRegion ssram1_m;
-> > >      MPS2SCC scc;
-> > > @@ -388,6 +388,13 @@ static void mps2tz_common_init(MachineState *mac=
-hine)
-> > >          exit(1);
-> > >      }
-> > > =20
-> > > +    if (machine->ram_size !=3D mc->default_ram_size) {
-> > > +        char *sz =3D size_to_str(mc->default_ram_size);
-> > > +        error_report("Invalid RAM size, should be %s", sz);
-> > > +        g_free(sz);
-> > > +        exit(EXIT_FAILURE);
-> > > +    }
-> > > +
-> > >      sysbus_init_child_obj(OBJECT(machine), "iotkit", &mms->iotkit,
-> > >                            sizeof(mms->iotkit), mmc->armsse_type);
-> > >      iotkitdev =3D DEVICE(&mms->iotkit);
-> > > @@ -458,9 +465,7 @@ static void mps2tz_common_init(MachineState *mach=
-ine)
-> > >       * tradeoffs. For QEMU they're all just RAM, though. We arbitrar=
-ily
-> > >       * call the 16MB our "system memory", as it's the largest lump.
-> > >       */
-> > > -    memory_region_allocate_system_memory(&mms->psram,
-> > > -                                         NULL, "mps.ram", 16 * MiB);
-> > > -    memory_region_add_subregion(system_memory, 0x80000000, &mms->psr=
-am);
-> > > +    memory_region_add_subregion(system_memory, 0x80000000, machine->=
-ram);
-> > > =20
-> > >      /* The overflow IRQs for all UARTs are ORed together.
-> > >       * Tx, Rx and "combined" IRQs are sent to the NVIC separately.
-> > > @@ -642,6 +647,7 @@ static void mps2tz_class_init(ObjectClass *oc, vo=
-id *data)
-> > > =20
-> > >      mc->init =3D mps2tz_common_init;
-> > >      iic->check =3D mps2_tz_idau_check;
-> > > +    mc->default_ram_id =3D "mps.ram";
-> > >  }
-> > > =20
-> > >  static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
-> > > @@ -657,6 +663,7 @@ static void mps2tz_an505_class_init(ObjectClass *=
-oc, void *data)
-> > >      mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-m33");
-> > >      mmc->scc_id =3D 0x41045050;
-> > >      mmc->armsse_type =3D TYPE_IOTKIT;
-> > > +    mc->default_ram_size =3D 16 * MiB; =20
-> >=20
-> > Shouldn't this line be added to mps2tz_class_init ?
->=20
-> Yep, it should be there
+On Tue, 21 Jan 2020 at 23:41, Palmer Dabbelt <palmerdabbelt@google.com> wrote:
+>
+> The following changes since commit 28b58f19d269633b3d14b6aebf1e92b3cd3ab56e:
+>
+>   ui/gtk: Get display refresh rate with GDK version 3.22 or later (2020-01-16 14:03:45 +0000)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:palmer-dabbelt/qemu.git tags/riscv-for-master-5.0-sf1
+>
+> for you to fetch changes up to 82f014671cf057de51c4a577c9e2ad637dcec6f9:
+>
+>   target/riscv: update mstatus.SD when FS is set dirty (2020-01-16 10:03:15 -0800)
+>
+> ----------------------------------------------------------------
+> RISC-V Patches for the 5.0 Soft Freeze, Part 1
+>
+> This patch set contains a handful of collected fixes that I'd like to target
+> for the 5.0 soft freeze (I know that's a long way away, I just don't know what
+> else to call these):
+>
+> * A fix for a memory leak initializing the sifive_u board.
+> * Fixes to privilege mode emulation related to interrupts and fstatus.
+>
+> Notably absent is the H extension implementation.  That's pretty much reviewed,
+> but not quite ready to go yet and I didn't want to hold back these important
+> fixes.  This boots 32-bit and 64-bit Linux (buildroot this time, just for fun)
+> and passes "make check".
 
-With that change you can add my r-b.
+Hi. This pull request doesn't seem to be signed with the GPG
+key that I have on record for you...
 
-Thanks,
-drew
-
+thanks
+-- PMM
 
