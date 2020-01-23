@@ -2,57 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6628F14638C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:33:40 +0100 (CET)
-Received: from localhost ([::1]:53166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E11146388
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:32:57 +0100 (CET)
+Received: from localhost ([::1]:53158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXvm-0005ym-OU
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:33:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56059)
+	id 1iuXv5-0005CA-VH
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:32:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58058)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iuXlR-0001GB-8b
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:58 -0500
+ (envelope-from <armbru@redhat.com>) id 1iuXqN-0000Dg-0a
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:28:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iuXlQ-00035N-5j
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:57 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:58937)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlP-00034v-T5
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:56 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N6KpF-1jeYg71cUb-016clM; Thu, 23 Jan 2020 09:22:42 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 17/17] linux-user: Add support for read/clear RTC voltage low
- detector using ioctls
-Date: Thu, 23 Jan 2020 09:22:27 +0100
-Message-Id: <20200123082227.2037994-18-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200123082227.2037994-1-laurent@vivier.eu>
-References: <20200123082227.2037994-1-laurent@vivier.eu>
+ (envelope-from <armbru@redhat.com>) id 1iuXqM-0006xD-0w
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:28:02 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26598
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iuXqL-0006wt-U1
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:28:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579768081;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n0pGTlu/qLAd1tPZ0Vp6WKFxgs274bN72X60GlWWxFI=;
+ b=KsLLpJr4V3YoxNgVOedQuMXg+/gpXsz8bIC3i2y80Mwt4RJs/eogRrcOBCXRzLYks322YT
+ lFGvrUHUy6eeRNZ5QE3Q4mzNjunqq+wDJWB5l/3l50AoBob6yChCeKjKoqAwzW3TEksee3
+ Vv5EH7t8/hb5jwlRuuM+d6Acl2VHh58=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-309-jPL44nrfOMWlNZPbX4xbkw-1; Thu, 23 Jan 2020 03:27:57 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13AF61005514;
+ Thu, 23 Jan 2020 08:27:56 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
+ [10.36.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D4F0185743;
+ Thu, 23 Jan 2020 08:27:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 66DEA1138600; Thu, 23 Jan 2020 09:27:54 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: Maintainers, please add Message-Id: when merging patches
+References: <CAJSP0QX22cYJvnpb+zDDXLaYg0yY4CV3Jn5QY+ExxJyFcmQ3Gw@mail.gmail.com>
+ <87v9p3znas.fsf@linaro.org>
+Date: Thu, 23 Jan 2020 09:27:54 +0100
+In-Reply-To: <87v9p3znas.fsf@linaro.org> ("Alex =?utf-8?Q?Benn=C3=A9e=22's?=
+ message of "Wed, 22 Jan 2020 12:30:03 +0000")
+Message-ID: <871rrqbmr9.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Gr9Cw03uQnZoGOJDZCLFvBQUvTYF5geC4VHLGRbkZhIZgbaW8Zw
- CxlhlXrBt3r5W+Eah86w3RiuRwd/0bof04IpjuYNNrM3ulRXqOh+Xtjf3bXn9ibZVENK0mo
- PDyMhIC+7b5RUgwyPiYifVWEVeHjJXFK6CswFM3bSI8j6ZtdlRt8r0IgqjPhECqOMSOMtwl
- qzf33rdT9C1TEVpHzCGCQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jJWSIJ0pyJA=:duqCn3GQrdsWSs9elTiW+/
- qFroFsQk+TKFp1+BevxB3qDj8n32TDvGNxqz9Zs/x4GoO+sH38x7R1VuxtIvGmfp/z0qCZXXd
- MKT7sfnm3Oxy4YpNXkCm9rCmGgNZsCGwDtINgWcABmoPT12gEqjypcKjCfh7ONMeeC4YSEFS2
- 8Q5dGYlW7ibek4jAdipAtV6JnIwcVwIcanIN/9aOyOokkM1lrdzu45f27fnp2B/0+zDLH7UuK
- 0LrqM5Z3t/4fx1OwuV+5V0lh7RMEbbhRdu5KHQysGIyIJ2mBWR8xobaOxl397+qbgA1E6u8Xn
- 4dVXkMkGqFlDghsHerRDcywuh5OsSjomojQo8GcUx0Jdy/h4xg/JqMrITf2BDIzbEfMZI7x6g
- /UBNlh/ciWX2jAQPXDrwuhBVdOE6aOmFgewLWFjaolXP0oqfQ5m7zqdoe8+s1qJfukXFvEvg6
- kYYZJLsSWWELKssvtoe8VvHRAfKTZ+yxBZVAgoy08TJDI5hh7sRsJ7kCJ1yggInec6laQojjB
- Ko4dEhk7wPgiTwUwE+vLIVHmsjAVeh7NLQGRVbhY4Cv6K/wq2DZ5tNPclGuJmx1//3jGb49Rq
- m1Z+3u4ZZikSDAEfz1btJEOgezDpVo/lzN/H7A8BPHtS9GEPgZ7Tm+HuMmwkCp/+ByWb0NfTh
- 9n94+pxWKD8ScKkoUKwhl6ZGon8thO5lCVql4iyh0jzP40n6DDNNY06dBuSoLppd43O1ffEFl
- TshczqSykLjlQgiBEZd2BKisLxEJJDvuVQijCgqZi0gkGNQZ6pZ9Tx0Z+sKU++LaCqnmDQEe2
- ogE+c7mbSflbJepULseNw6aLxoQ55H8YnfFhvDRxlvEo64BI3Q=
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: jPL44nrfOMWlNZPbX4xbkw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.187
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,69 +76,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-This patch implements functionalities of following ioctls:
+> Stefan Hajnoczi <stefanha@gmail.com> writes:
+>
+>> Around 66% of qemu.git commits since v4.1.0 include a Message-Id: tag.  =
+Hooray!
+>>
+>> Message-Id: references the patch email that a commit was merged from.
+>> This information is helpful to anyone wishing to refer back to email
+>> discussions and patch series.
+>
+> So I guess the ones that don't are maintainer originated patches unless
+> you actively rebuild your trees from a posted series?
 
-RTC_VL_READ - Read voltage low detection information
-
-    Read the voltage low for RTCs that support voltage low.
-    The third ioctl's' argument points to an int in which
-    the voltage low is returned.
-
-RTC_VL_CLR - Clear voltage low information
-
-    Clear the information about voltage low for RTCs that
-    support voltage low. The third ioctl(2) argument is
-    ignored.
-
-Implementation notes:
-
-    Since one ioctl has a pointer to 'int' as its third agrument,
-    and another ioctl has NULL as its third argument, their
-    implementation was straightforward.
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-Message-Id: <1579117007-7565-7-git-send-email-Filip.Bozuta@rt-rk.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/ioctls.h       | 2 ++
- linux-user/syscall_defs.h | 2 ++
- 2 files changed, 4 insertions(+)
-
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 789764d11314..73dcc761e642 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -89,6 +89,8 @@
-      IOCTL(RTC_WKALM_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_wkalrm)))
-      IOCTL(RTC_PLL_GET, IOC_R, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
-      IOCTL(RTC_PLL_SET, IOC_W, MK_PTR(MK_STRUCT(STRUCT_rtc_pll_info)))
-+     IOCTL(RTC_VL_READ, IOC_R, MK_PTR(TYPE_INT))
-+     IOCTL(RTC_VL_CLR, 0, TYPE_NULL)
- 
-      IOCTL(BLKROSET, IOC_W, MK_PTR(TYPE_INT))
-      IOCTL(BLKROGET, IOC_R, MK_PTR(TYPE_INT))
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 9f7aad49c683..9b61ae8547dd 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -796,6 +796,8 @@ struct target_rtc_pll_info {
-                                                struct target_rtc_pll_info)
- #define TARGET_RTC_PLL_SET          TARGET_IOW('p', 0x12,                      \
-                                                struct target_rtc_pll_info)
-+#define TARGET_RTC_VL_READ          TARGET_IOR('p', 0x13, int)
-+#define TARGET_RTC_VL_CLR           TARGET_IO('p', 0x14)
- 
- #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
-        defined(TARGET_XTENSA)
--- 
-2.24.1
+I recommend using the exact same workflow for constructing pull requests
+whether you wrote the patches yourself or not.
 
 
