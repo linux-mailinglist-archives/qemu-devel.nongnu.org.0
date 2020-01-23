@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F9C1470A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:21:03 +0100 (CET)
-Received: from localhost ([::1]:34576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6DA1470AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:23:05 +0100 (CET)
+Received: from localhost ([::1]:34620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuh6E-0001qk-5K
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:21:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48274)
+	id 1iuh8B-0005jX-H2
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:23:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iueRT-00005I-FQ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:48 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iueRW-0000A1-AQ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iueRS-0003Z3-5M
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:47 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33979)
+ (envelope-from <peter.maydell@linaro.org>) id 1iueRU-0003d5-TJ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:50 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:36489)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iueRR-0003Y4-Vd
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:46 -0500
-Received: by mail-wr1-x432.google.com with SMTP id t2so3585086wrr.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 07:30:45 -0800 (PST)
+ id 1iueRU-0003cA-Mu
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:30:48 -0500
+Received: by mail-wm1-x334.google.com with SMTP id p17so2982873wma.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 07:30:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=jiFm42luXRGQ/r26a989FdFKx0ijBFZqT4Y/4nl+p6I=;
- b=jmflZrYo/7+2fkwM6KpMQ3Zmmg1u357NTHiaZleVFhk1UQ0SyfCL5rWUHSoy/MB1cb
- J8QKFS5zGhnuxaehPX2Xt9sTAuG9/ChoS7SNQvs2Y1nTIVw5NRLvQhZGXU9J1ywTkK5i
- Od3tejUo/PWbZjQ0KkOnox9ZJYtFG0fiQug+D1qpAob1/up4gg6Lm5Zmq5Cub9ssiA4/
- nZeH/f/4QVTgA9a1M5YlKjKL/H4H+rhBq9gjnwuo/PQHWbmvgbSF2iVC0hdW71B1UDLt
- jBaaY+3BMCdPH77ZT6pB5PsHU6MbCs9DpZL4JD+aZypp/54TuDWnZ7XtrOS9hRxcmPYP
- qyKg==
+ bh=cLl48arpAObRN4ZJE2lzt8zWf4efO8tDW8tlBWZ2Av8=;
+ b=lqd+1yYXZihb2iQ9Xabrclijbd426prqbmbgMIU8Be4PAkkEEouwRwoXjjGBT7PDXf
+ 1o1LUun/MgyU0rYzKu/xPBZF3UkvTya/f5dPYafq77SSHoCgMbbDg62bU73GjV7kyEr6
+ j9ltT5hb79QFHn2Ew5fJ66HBGy0QKSw97srhuAXlpNiy2jnjAlzto4D+0+wxyN6Nj0sQ
+ qcS5houfX23ipIgWHgp6wVTGosTbwmZ+FPSPSI+EcZPQFMB6rCIT4QIZH0/CQJHzVzrK
+ 2v4MKF3AMMSW7LGHQEtXxaBaeRPaxVWJMFj0yfv0R5nWUN5d5+RKa+ka0W1lsR/iVVfV
+ TzNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jiFm42luXRGQ/r26a989FdFKx0ijBFZqT4Y/4nl+p6I=;
- b=ZXzkx2kHDzwS2EIzd7yn2PoHXsF3xmLQYPoHrBSYsboKf9+VojOo2QEuV4LGnTlc8o
- 1ZWWIhJUSlfnCDLHs5Hqc0+QNt4+3pAW7s1OiyYbKu2/YWXKLFChnEy/qQlZtQUzY2of
- IWxTONDFbZeXW6/ywul6xB2TS/JWygvh5FoTKCbcoqozgBx7zDJeXgiM34AqsEN708BO
- kPgXKbEtGoEK5hj+uJBBqc8zqlkTjlUNM3U1nR7ooyvlLNFvGgqdG19RVW0ZRdc3gJw5
- Xe+Auqbm1SrxXrw3dzRmMMpbuAyhTnTzPDyDCzM2VsLuj70dSOs5iY3cIO/ZnTvH4wUR
- i9SA==
-X-Gm-Message-State: APjAAAWeDvOGVM3imencmKACP2Myn/G4SaVx7qiTu2nC/UpR+YD+DTmC
- 9M7P7glGkj25e05WLPHMM1wRkx5b1YwzjA==
-X-Google-Smtp-Source: APXvYqwMr1zTAdm7mJG4LWx5bvG9EGpATodLmz53yTXha4NrY4vu33kH56FGHm9Q2GsK8C/7HsNbMw==
-X-Received: by 2002:a5d:6b88:: with SMTP id n8mr18602037wrx.288.1579793444691; 
- Thu, 23 Jan 2020 07:30:44 -0800 (PST)
+ bh=cLl48arpAObRN4ZJE2lzt8zWf4efO8tDW8tlBWZ2Av8=;
+ b=m6Gt5n+J64srNBk5qWuBfNU59jSOw26u8ib3LjIxHte3GeJESSpLQtq5EtWtH8N4Py
+ VMg5bYJvphhMR2Po/CxFX7lejIN2c739Jyqfuzc4ktkHkYGWd7voP0CYfCmDhxyayzaL
+ +cUgEH9lauvipkbdIrhytyVRaqFHKB6kdrvgNllx2Y9Q0mvOmtC9KeIfQ38G9WE/RwEA
+ ni0MpOzhab4OSPwxQfZE75qdrSXv7PMAX7xV+26r05pIG0AgPy2tBFlQZyZGulUwJ+Mf
+ DGh4BF80osK7rxEFMhslHiMg4f7acKQZx0rV+jFMmS4gvztPOR+ewlEwqLgDsByRvD7n
+ lOXQ==
+X-Gm-Message-State: APjAAAWnNml92IeVixvG/qgPawVqQnMUP51eACYsHYMnrqlK2r5On0QG
+ VpUWaa7vUJ+aPLHxwE648cTFl7SEvyGz8Q==
+X-Google-Smtp-Source: APXvYqwd5lfaXPraLqgbsUGr14ZlZmPapyU4NI+czk5c8Lw/CrQI0ClScVxC0bP0PsM/1QwdqPrrxQ==
+X-Received: by 2002:a7b:c7d4:: with SMTP id z20mr4685005wmk.42.1579793447382; 
+ Thu, 23 Jan 2020 07:30:47 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s139sm2903592wme.35.2020.01.23.07.30.43
+ by smtp.gmail.com with ESMTPSA id s139sm2903592wme.35.2020.01.23.07.30.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2020 07:30:44 -0800 (PST)
+ Thu, 23 Jan 2020 07:30:46 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/20] target/arm: add PMU feature to cortex-r5 and cortex-r5f
-Date: Thu, 23 Jan 2020 15:30:22 +0000
-Message-Id: <20200123153041.4248-2-peter.maydell@linaro.org>
+Subject: [PULL 04/20] tests/tcg/aarch64: Add pauth-3
+Date: Thu, 23 Jan 2020 15:30:25 +0000
+Message-Id: <20200123153041.4248-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200123153041.4248-1-peter.maydell@linaro.org>
 References: <20200123153041.4248-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,31 +81,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Clement Deschamps <clement.deschamps@greensocs.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-The PMU is not optional on cortex-r5 and cortex-r5f (see
-the "Features" chapter of the Technical Reference Manual).
+This is the test vector from the QARMA paper, run through PACGA.
 
-Signed-off-by: Clement Deschamps <clement.deschamps@greensocs.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200114105918.2366370-1-clement.deschamps@greensocs.com
+Suggested-by: Vincent Dehors <vincent.dehors@smile.fr>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200116230809.19078-4-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/tcg/aarch64/Makefile.softmmu-target |  5 ++-
+ tests/tcg/aarch64/system/pauth-3.c        | 40 +++++++++++++++++++++++
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 tests/tcg/aarch64/system/pauth-3.c
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index d62fd5fdc64..64cd0a7d73c 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2121,6 +2121,7 @@ static void cortex_r5_initfn(Object *obj)
-     set_feature(&cpu->env, ARM_FEATURE_V7);
-     set_feature(&cpu->env, ARM_FEATURE_V7MP);
-     set_feature(&cpu->env, ARM_FEATURE_PMSA);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-     cpu->midr = 0x411fc153; /* r1p3 */
-     cpu->id_pfr0 = 0x0131;
-     cpu->id_pfr1 = 0x001;
+diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
+index 7b4eede3f07..f6b5121f5ce 100644
+--- a/tests/tcg/aarch64/Makefile.softmmu-target
++++ b/tests/tcg/aarch64/Makefile.softmmu-target
+@@ -61,4 +61,7 @@ run-memory-replay: memory-replay run-memory-record
+ 	   	  $(QEMU_OPTS) memory, \
+ 	  "$< on $(TARGET_NAME)")
+ 
+-EXTRA_TESTS+=memory-record memory-replay
++run-pauth-3: pauth-3
++pauth-3: CFLAGS += -march=armv8.3-a
++
++EXTRA_TESTS+=memory-record memory-replay pauth-3
+diff --git a/tests/tcg/aarch64/system/pauth-3.c b/tests/tcg/aarch64/system/pauth-3.c
+new file mode 100644
+index 00000000000..42eff4d5eae
+--- /dev/null
++++ b/tests/tcg/aarch64/system/pauth-3.c
+@@ -0,0 +1,40 @@
++#include <inttypes.h>
++#include <minilib.h>
++
++int main()
++{
++    /*
++     * Test vector from QARMA paper (https://eprint.iacr.org/2016/444.pdf)
++     * to verify one computation of the pauth_computepac() function,
++     * which uses sbox2.
++     *
++     * Use PACGA, because it returns the most bits from ComputePAC.
++     * We still only get the most significant 32-bits of the result.
++     */
++
++    static const uint64_t d[5] = {
++        0xfb623599da6e8127ull,
++        0x477d469dec0b8762ull,
++        0x84be85ce9804e94bull,
++        0xec2802d4e0a488e9ull,
++        0xc003b93999b33765ull & 0xffffffff00000000ull
++    };
++    uint64_t r;
++
++    asm("msr apgakeyhi_el1, %[w0]\n\t"
++        "msr apgakeylo_el1, %[k0]\n\t"
++        "pacga %[r], %[P], %[T]"
++        : [r] "=r"(r)
++        : [P] "r" (d[0]),
++          [T] "r" (d[1]),
++          [w0] "r" (d[2]),
++          [k0] "r" (d[3]));
++
++    if (r == d[4]) {
++        ml_printf("OK\n");
++        return 0;
++    } else {
++        ml_printf("FAIL: %lx != %lx\n", r, d[4]);
++        return 1;
++    }
++}
 -- 
 2.20.1
 
