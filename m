@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393E21470E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:38:20 +0100 (CET)
-Received: from localhost ([::1]:34890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142801470FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:44:25 +0100 (CET)
+Received: from localhost ([::1]:34992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuhMw-00081G-I0
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:38:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40800)
+	id 1iuhSp-0007lW-LK
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:44:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41010)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iufdA-00045s-MC
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:46:57 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iufdT-0004Tp-BC
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iufd9-00066d-2E
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:46:56 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57311
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1iufdR-0006Hq-Ny
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:15 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30872
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufd8-00066G-Ve
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:46:55 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iufdR-0006Hg-LN
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:47:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579798014;
+ s=mimecast20190719; t=1579798033;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VAFTnJHC/SGksZeqr6y3mNjfvS+Vyi9jHQDEwDo7RCg=;
- b=DBALbrM+ucZfORQeUqXqlUrzpv74uP/PUg0OfnKa29VI+cs8bJ0swiKpB4J02na9mOblZP
- HGOKVJR2NVX/e4EwASd1P/w6ZGY0U9DCRhrkvpKOfVgnpZ3g62yLpWggSUdwITIAFNI2Gr
- +HxhHPUww813VYv9QlRSNDrJJJgr2Z0=
+ bh=Pa5Tc/5wbQWlujFEIsGw4Jvrr1IG5Qh8MD2XG2sAtKs=;
+ b=KoEGlIy75F5KbWhco+2Nzpyxk//iRuS6AfEZAsriGV3HKmcGHHw0baN0jOx4jRKj7YdaYb
+ eb4RecXSTHlLki0tOcI+nuIx/8UuHeeJbD48/8Q3sUmo58SS8FdkLuqBuuBrIeIqvMKNDN
+ yraQI1Z23ROh4tg8F25XW0Q3bq/5puI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-vKsIKWt_ME29qE7YUBUdBQ-1; Thu, 23 Jan 2020 11:46:52 -0500
+ us-mta-175-hXswx2bcOFKL-_ckM55Oug-1; Thu, 23 Jan 2020 11:47:11 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5739A0CDC
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:46:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0BB18C18E6
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:47:10 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-116-110.ams2.redhat.com
  [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 90BCA28994;
- Thu, 23 Jan 2020 16:46:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A54828991;
+ Thu, 23 Jan 2020 16:47:10 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 008/108] virtiofsd: remove mountpoint dummy argument
-Date: Thu, 23 Jan 2020 16:44:50 +0000
-Message-Id: <20200123164630.91498-9-dgilbert@redhat.com>
+Subject: [PULL 019/108] virtiofsd: Start wiring up vhost-user
+Date: Thu, 23 Jan 2020 16:45:01 +0000
+Message-Id: <20200123164630.91498-20-dgilbert@redhat.com>
 In-Reply-To: <20200123164630.91498-1-dgilbert@redhat.com>
 References: <20200123164630.91498-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: vKsIKWt_ME29qE7YUBUdBQ-1
+X-MC-Unique: hXswx2bcOFKL-_ckM55Oug-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,148 +75,241 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Classic FUSE file system daemons take a mountpoint argument but
-virtiofsd exposes a vhost-user UNIX domain socket instead.  The
-mountpoint argument is not used by virtiofsd but the user is still
-required to pass a dummy argument on the command-line.
+Listen on our unix socket for the connection from QEMU, when we get it
+initialise vhost-user and dive into our own loop variant (currently
+dummy).
 
-Remove the mountpoint argument to clean up the command-line.
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c  |  2 +-
- tools/virtiofsd/fuse_lowlevel.h  |  4 +---
- tools/virtiofsd/helper.c         | 20 +++-----------------
- tools/virtiofsd/passthrough_ll.c | 12 ++----------
- 4 files changed, 7 insertions(+), 31 deletions(-)
+ tools/virtiofsd/fuse_i.h         |  4 ++
+ tools/virtiofsd/fuse_lowlevel.c  |  5 ++
+ tools/virtiofsd/fuse_lowlevel.h  |  7 +++
+ tools/virtiofsd/fuse_virtio.c    | 87 +++++++++++++++++++++++++++++++-
+ tools/virtiofsd/fuse_virtio.h    |  2 +
+ tools/virtiofsd/passthrough_ll.c |  7 +--
+ 6 files changed, 106 insertions(+), 6 deletions(-)
 
+diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
+index 82d6ac7115..ec04449069 100644
+--- a/tools/virtiofsd/fuse_i.h
++++ b/tools/virtiofsd/fuse_i.h
+@@ -13,6 +13,8 @@
+ #include "fuse.h"
+ #include "fuse_lowlevel.h"
+=20
++struct fv_VuDev;
++
+ struct fuse_req {
+     struct fuse_session *se;
+     uint64_t unique;
+@@ -65,6 +67,8 @@ struct fuse_session {
+     size_t bufsize;
+     int error;
+     char *vu_socket_path;
++    int   vu_socketfd;
++    struct fv_VuDev *virtio_dev;
+ };
+=20
+ struct fuse_chan {
 diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
 l.c
-index 5c9cb52f2a..2f32c68161 100644
+index 5df124e64b..af09fa2b94 100644
 --- a/tools/virtiofsd/fuse_lowlevel.c
 +++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -2455,7 +2455,7 @@ out1:
-     return NULL;
+@@ -2242,6 +2242,11 @@ void fuse_session_unmount(struct fuse_session *se)
+ {
  }
 =20
--int fuse_session_mount(struct fuse_session *se, const char *mountpoint)
-+int fuse_session_mount(struct fuse_session *se)
++int fuse_lowlevel_is_virtio(struct fuse_session *se)
++{
++    return se->vu_socket_path !=3D NULL;
++}
++
+ #ifdef linux
+ int fuse_req_getgroups(fuse_req_t req, int size, gid_t list[])
  {
-     int fd;
-=20
 diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowleve=
 l.h
-index adb9054bb1..8d8909b35d 100644
+index 2fa225d40b..f6b34700af 100644
 --- a/tools/virtiofsd/fuse_lowlevel.h
 +++ b/tools/virtiofsd/fuse_lowlevel.h
-@@ -1863,7 +1863,6 @@ struct fuse_cmdline_opts {
-     int foreground;
-     int debug;
-     int nodefault_subtype;
--    char *mountpoint;
-     int show_version;
-     int show_help;
-     unsigned int max_idle_threads;
-@@ -1924,12 +1923,11 @@ struct fuse_session *fuse_session_new(struct fuse_a=
-rgs *args,
- /**
-  * Mount a FUSE file system.
-  *
-- * @param mountpoint the mount point path
-  * @param se session object
-  *
-  * @return 0 on success, -1 on failure.
-  **/
--int fuse_session_mount(struct fuse_session *se, const char *mountpoint);
-+int fuse_session_mount(struct fuse_session *se);
+@@ -1755,6 +1755,13 @@ void fuse_req_interrupt_func(fuse_req_t req, fuse_in=
+terrupt_func_t func,
+  */
+ int fuse_req_interrupted(fuse_req_t req);
 =20
- /**
-  * Enter a single threaded, blocking event loop.
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 5711dd2660..5e6f2051a7 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -140,27 +140,13 @@ void fuse_cmdline_help(void)
- static int fuse_helper_opt_proc(void *data, const char *arg, int key,
-                                 struct fuse_args *outargs)
++/**
++ * Check if the session is connected via virtio
++ *
++ * @param se session object
++ * @return 1 if the session is a virtio session
++ */
++int fuse_lowlevel_is_virtio(struct fuse_session *se);
+=20
+ /*
+  * Inquiry functions
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index cbef6ffdda..2ae3c764dd 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -19,18 +19,78 @@
+=20
+ #include <stdint.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <string.h>
+ #include <sys/socket.h>
+ #include <sys/types.h>
+ #include <sys/un.h>
+ #include <unistd.h>
+=20
++#include "contrib/libvhost-user/libvhost-user.h"
++
++/*
++ * We pass the dev element into libvhost-user
++ * and then use it to get back to the outer
++ * container for other data.
++ */
++struct fv_VuDev {
++    VuDev dev;
++    struct fuse_session *se;
++};
++
+ /* From spec */
+ struct virtio_fs_config {
+     char tag[36];
+     uint32_t num_queues;
+ };
+=20
++/*
++ * Callback from libvhost-user if there's a new fd we're supposed to liste=
+n
++ * to, typically a queue kick?
++ */
++static void fv_set_watch(VuDev *dev, int fd, int condition, vu_watch_cb cb=
+,
++                         void *data)
++{
++    fuse_log(FUSE_LOG_WARNING, "%s: TODO! fd=3D%d\n", __func__, fd);
++}
++
++/*
++ * Callback from libvhost-user if we're no longer supposed to listen on an=
+ fd
++ */
++static void fv_remove_watch(VuDev *dev, int fd)
++{
++    fuse_log(FUSE_LOG_WARNING, "%s: TODO! fd=3D%d\n", __func__, fd);
++}
++
++/* Callback from libvhost-user to panic */
++static void fv_panic(VuDev *dev, const char *err)
++{
++    fuse_log(FUSE_LOG_ERR, "%s: libvhost-user: %s\n", __func__, err);
++    /* TODO: Allow reconnects?? */
++    exit(EXIT_FAILURE);
++}
++
++static bool fv_queue_order(VuDev *dev, int qidx)
++{
++    return false;
++}
++
++static const VuDevIface fv_iface =3D {
++    /* TODO: Add other callbacks */
++    .queue_is_processed_in_order =3D fv_queue_order,
++};
++
++int virtio_loop(struct fuse_session *se)
++{
++    fuse_log(FUSE_LOG_INFO, "%s: Entry\n", __func__);
++
++    while (1) {
++        /* TODO: Add stuffing */
++    }
++
++    fuse_log(FUSE_LOG_INFO, "%s: Exit\n", __func__);
++}
++
+ int virtio_session_mount(struct fuse_session *se)
  {
-+    (void)data;
-     (void)outargs;
--    struct fuse_cmdline_opts *opts =3D data;
+     struct sockaddr_un un;
+@@ -75,5 +135,30 @@ int virtio_session_mount(struct fuse_session *se)
+         return -1;
+     }
 =20
-     switch (key) {
-     case FUSE_OPT_KEY_NONOPT:
--        if (!opts->mountpoint) {
--            if (fuse_mnt_parse_fuse_fd(arg) !=3D -1) {
--                return fuse_opt_add_opt(&opts->mountpoint, arg);
--            }
--
--            char mountpoint[PATH_MAX] =3D "";
--            if (realpath(arg, mountpoint) =3D=3D NULL) {
--                fuse_log(FUSE_LOG_ERR, "fuse: bad mount point `%s': %s\n",=
- arg,
--                         strerror(errno));
--                return -1;
--            }
--            return fuse_opt_add_opt(&opts->mountpoint, mountpoint);
--        } else {
--            fuse_log(FUSE_LOG_ERR, "fuse: invalid argument `%s'\n", arg);
--            return -1;
--        }
-+        fuse_log(FUSE_LOG_ERR, "fuse: invalid argument `%s'\n", arg);
+-    return -1;
++    fuse_log(FUSE_LOG_INFO, "%s: Waiting for vhost-user socket connection.=
+..\n",
++             __func__);
++    int data_sock =3D accept(listen_sock, NULL, NULL);
++    if (data_sock =3D=3D -1) {
++        fuse_log(FUSE_LOG_ERR, "vhost socket accept: %m\n");
++        close(listen_sock);
 +        return -1;
++    }
++    close(listen_sock);
++    fuse_log(FUSE_LOG_INFO, "%s: Received vhost-user socket connection\n",
++             __func__);
++
++    /* TODO: Some cleanup/deallocation! */
++    se->virtio_dev =3D calloc(sizeof(struct fv_VuDev), 1);
++    if (!se->virtio_dev) {
++        fuse_log(FUSE_LOG_ERR, "%s: virtio_dev calloc failed\n", __func__)=
+;
++        close(data_sock);
++        return -1;
++    }
++
++    se->vu_socketfd =3D data_sock;
++    se->virtio_dev->se =3D se;
++    vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, fv_set_wat=
+ch,
++            fv_remove_watch, &fv_iface);
++
++    return 0;
+ }
+diff --git a/tools/virtiofsd/fuse_virtio.h b/tools/virtiofsd/fuse_virtio.h
+index 8f2edb69ca..23026d6e4c 100644
+--- a/tools/virtiofsd/fuse_virtio.h
++++ b/tools/virtiofsd/fuse_virtio.h
+@@ -20,4 +20,6 @@ struct fuse_session;
 =20
-     default:
-         /* Pass through unknown options */
+ int virtio_session_mount(struct fuse_session *se);
+=20
++int virtio_loop(struct fuse_session *se);
++
+ #endif
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index c5850ef803..9377718d9d 100644
+index fc9b264d56..037c5d7b26 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -1297,7 +1297,7 @@ int main(int argc, char *argv[])
-         return 1;
-     }
-     if (opts.show_help) {
--        printf("usage: %s [options] <mountpoint>\n\n", argv[0]);
-+        printf("usage: %s [options]\n\n", argv[0]);
-         fuse_cmdline_help();
-         fuse_lowlevel_help();
-         ret =3D 0;
-@@ -1308,13 +1308,6 @@ int main(int argc, char *argv[])
-         goto err_out1;
-     }
+@@ -36,6 +36,7 @@
+  */
 =20
--    if (opts.mountpoint =3D=3D NULL) {
--        printf("usage: %s [options] <mountpoint>\n", argv[0]);
--        printf("       %s --help\n", argv[0]);
--        ret =3D 1;
--        goto err_out1;
+ #include "qemu/osdep.h"
++#include "fuse_virtio.h"
+ #include "fuse_lowlevel.h"
+ #include <assert.h>
+ #include <dirent.h>
+@@ -1395,11 +1396,7 @@ int main(int argc, char *argv[])
+     fuse_daemonize(opts.foreground);
+=20
+     /* Block until ctrl+c or fusermount -u */
+-    if (opts.singlethread) {
+-        ret =3D fuse_session_loop(se);
+-    } else {
+-        ret =3D fuse_session_loop_mt(se, opts.clone_fd);
 -    }
--
-     if (fuse_opt_parse(&args, &lo, lo_opts, NULL) =3D=3D -1) {
-         return 1;
-     }
-@@ -1374,7 +1367,7 @@ int main(int argc, char *argv[])
-         goto err_out2;
-     }
++    ret =3D virtio_loop(se);
 =20
--    if (fuse_session_mount(se, opts.mountpoint) !=3D 0) {
-+    if (fuse_session_mount(se) !=3D 0) {
-         goto err_out3;
-     }
-=20
-@@ -1393,7 +1386,6 @@ err_out3:
- err_out2:
-     fuse_session_destroy(se);
- err_out1:
--    free(opts.mountpoint);
-     fuse_opt_free_args(&args);
-=20
-     if (lo.root.fd >=3D 0) {
+     fuse_session_unmount(se);
+ err_out3:
 --=20
 2.24.1
 
