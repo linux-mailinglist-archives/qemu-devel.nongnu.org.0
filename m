@@ -2,116 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91FB1465FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 11:53:33 +0100 (CET)
-Received: from localhost ([::1]:54497 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02DD6146604
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 11:58:32 +0100 (CET)
+Received: from localhost ([::1]:54556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iua7A-0000VU-El
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 05:53:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52987)
+	id 1iuaBz-0003Zc-3h
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 05:58:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54321)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <a13xp0p0v88@gmail.com>) id 1iua6M-0008NT-T2
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 05:52:44 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iuaA4-0001Q4-4b
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 05:56:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <a13xp0p0v88@gmail.com>) id 1iua6K-0005OQ-Pz
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 05:52:42 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45825)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <a13xp0p0v88@gmail.com>)
- id 1iua6I-0005Iq-6l; Thu, 23 Jan 2020 05:52:38 -0500
-Received: by mail-lf1-f65.google.com with SMTP id 203so1909882lfa.12;
- Thu, 23 Jan 2020 02:52:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=aOtv4fL68InaKY4oVVV2poS3rOAPJn1sMawl2olOFy0=;
- b=BLutMHP0yjO5z/9ena/55NnH6engxipy4s6Z6aT1W45wVUF8Vu/pJRgLEEF2oofIUX
- g1AoB2e4p70eXU7r0BKad223H4KKFOmjER0nf6AXDKbNA4h/f35Xxqa4pQR2e9n0COL3
- yQyljigEuZxNJRu9WxD7dg3gXrWMcPwRfhuxKfsOGfnzTLm32CAepUkneP1KsxRBvK4J
- MrlBdaFlSJOsjSDTEc8FSfgEjC8r4WwLYZK6uZZhmjtvt4QPBrHj/UEaPQlnHgkKY2AG
- TXg1YhorpgioIi/oD+KYXZcKN5ODh7Thn+cAzPWfVFJhRNNZYl9vMDHidXfvGxn5aMRQ
- umqQ==
-X-Gm-Message-State: APjAAAWZ+ABl3AoWBwRXsKlkLYGjUFpMcMpRpLfXzDNeNp1m4go5CtkL
- TvI9cWVedYLouY+XtGR34I9gPAhRkqA=
-X-Google-Smtp-Source: APXvYqz4J5PFJWosIDVThpSSWb7c5QzBUaPCe+6bWa/OSBn45jw/a4823s9crcA60wC3/6BixJMeGw==
-X-Received: by 2002:a19:f514:: with SMTP id j20mr4412188lfb.31.1579776756961; 
- Thu, 23 Jan 2020 02:52:36 -0800 (PST)
-Received: from [192.168.42.234] ([213.87.157.243])
- by smtp.gmail.com with ESMTPSA id u3sm856699lfm.37.2020.01.23.02.52.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jan 2020 02:52:35 -0800 (PST)
-Subject: Re: [PATCH v3 0/2] ide: Fix incorrect handling of some PRDTs and add
- the corresponding unit-test
-To: John Snow <jsnow@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- pmatouse@redhat.com, sstabellini@kernel.org, mdroth@linux.vnet.ibm.com,
- pjp@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- Andrea Arcangeli <aarcange@redhat.com>,
- Kashyap Chamarthy <kashyap.cv@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-References: <20191223175117.508990-1-alex.popov@linux.com>
- <65254fe8-7865-f045-9e0c-1d56dd9fe8eb@redhat.com>
-From: Alexander Popov <alex.popov@linux.com>
-Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
- mQINBFX15q4BEADZartsIW3sQ9R+9TOuCFRIW+RDCoBWNHhqDLu+Tzf2mZevVSF0D5AMJW4f
- UB1QigxOuGIeSngfmgLspdYe2Kl8+P8qyfrnBcS4hLFyLGjaP7UVGtpUl7CUxz2Hct3yhsPz
- ID/rnCSd0Q+3thrJTq44b2kIKqM1swt/F2Er5Bl0B4o5WKx4J9k6Dz7bAMjKD8pHZJnScoP4
- dzKPhrytN/iWM01eRZRc1TcIdVsRZC3hcVE6OtFoamaYmePDwWTRhmDtWYngbRDVGe3Tl8bT
- 7BYN7gv7Ikt7Nq2T2TOfXEQqr9CtidxBNsqFEaajbFvpLDpUPw692+4lUbQ7FL0B1WYLvWkG
- cVysClEyX3VBSMzIG5eTF0Dng9RqItUxpbD317ihKqYL95jk6eK6XyI8wVOCEa1V3MhtvzUo
- WGZVkwm9eMVZ05GbhzmT7KHBEBbCkihS+TpVxOgzvuV+heCEaaxIDWY/k8u4tgbrVVk+tIVG
- 99v1//kNLqd5KuwY1Y2/h2MhRrfxqGz+l/f/qghKh+1iptm6McN//1nNaIbzXQ2Ej34jeWDa
- xAN1C1OANOyV7mYuYPNDl5c9QrbcNGg3D6gOeGeGiMn11NjbjHae3ipH8MkX7/k8pH5q4Lhh
- Ra0vtJspeg77CS4b7+WC5jlK3UAKoUja3kGgkCrnfNkvKjrkEwARAQABtCZBbGV4YW5kZXIg
- UG9wb3YgPGFsZXgucG9wb3ZAbGludXguY29tPokCVwQTAQgAQQIbIwIeAQIXgAULCQgHAwUV
- CgkICwUWAgMBAAIZARYhBLl2JLAkAVM0bVvWTo4Oneu8fo+qBQJdehKcBQkLRpLuAAoJEI4O
- neu8fo+qrkgP/jS0EhDnWhIFBnWaUKYWeiwR69DPwCs/lNezOu63vg30O9BViEkWsWwXQA+c
- SVVTz5f9eB9K2me7G06A3U5AblOJKdoZeNX5GWMdrrGNLVISsa0geXNT95TRnFqE1HOZJiHT
- NFyw2nv+qQBUHBAKPlk3eL4/Yev/P8w990Aiiv6/RN3IoxqTfSu2tBKdQqdxTjEJ7KLBlQBm
- 5oMpm/P2Y/gtBiXRvBd7xgv7Y3nShPUDymjBnc+efHFqARw84VQPIG4nqVhIei8gSWps49DX
- kp6v4wUzUAqFo+eh/ErWmyBNETuufpxZnAljtnKpwmpFCcq9yfcMlyOO9/viKn14grabE7qE
- 4j3/E60wraHu8uiXJlfXmt0vG16vXb8g5a25Ck09UKkXRGkNTylXsAmRbrBrA3Moqf8QzIk9
- p+aVu/vFUs4ywQrFNvn7Qwt2hWctastQJcH3jrrLk7oGLvue5KOThip0SNicnOxVhCqstjYx
- KEnzZxtna5+rYRg22Zbfg0sCAAEGOWFXjqg3hw400oRxTW7IhiE34Kz1wHQqNif0i5Eor+TS
- 22r9iF4jUSnk1jaVeRKOXY89KxzxWhnA06m8IvW1VySHoY1ZG6xEZLmbp3OuuFCbleaW07OU
- 9L8L1Gh1rkAz0Fc9eOR8a2HLVFnemmgAYTJqBks/sB/DD0SuuQINBFX15q4BEACtxRV/pF1P
- XiGSbTNPlM9z/cElzo/ICCFX+IKg+byRvOMoEgrzQ28ah0N5RXQydBtfjSOMV1IjSb3oc23z
- oW2J9DefC5b8G1Lx2Tz6VqRFXC5OAxuElaZeoowV1VEJuN3Ittlal0+KnRYY0PqnmLzTXGA9
- GYjw/p7l7iME7gLHVOggXIk7MP+O+1tSEf23n+dopQZrkEP2BKSC6ihdU4W8928pApxrX1Lt
- tv2HOPJKHrcfiqVuFSsb/skaFf4uveAPC4AausUhXQVpXIg8ZnxTZ+MsqlwELv+Vkm/SNEWl
- n0KMd58gvG3s0bE8H2GTaIO3a0TqNKUY16WgNglRUi0WYb7+CLNrYqteYMQUqX7+bB+NEj/4
- 8dHw+xxaIHtLXOGxW6zcPGFszaYArjGaYfiTTA1+AKWHRKvD3MJTYIonphy5EuL9EACLKjEF
- v3CdK5BLkqTGhPfYtE3B/Ix3CUS1Aala0L+8EjXdclVpvHQ5qXHs229EJxfUVf2ucpWNIUdf
- lgnjyF4B3R3BFWbM4Yv8QbLBvVv1Dc4hZ70QUXy2ZZX8keza2EzPj3apMcDmmbklSwdC5kYG
- EFT4ap06R2QW+6Nw27jDtbK4QhMEUCHmoOIaS9j0VTU4fR9ZCpVT/ksc2LPMhg3YqNTrnb1v
- RVNUZvh78zQeCXC2VamSl9DMcwARAQABiQI8BBgBCAAmAhsMFiEEuXYksCQBUzRtW9ZOjg6d
- 67x+j6oFAl16ErcFCQtGkwkACgkQjg6d67x+j6q7zA/+IsjSKSJypgOImN9LYjeb++7wDjXp
- qvEpq56oAn21CvtbGus3OcC0hrRtyZ/rC5Qc+S5SPaMRFUaK8S3j1vYC0wZJ99rrmQbcbYMh
- C2o0k4pSejaINmgyCajVOhUhln4IuwvZke1CLfXe1i3ZtlaIUrxfXqfYpeijfM/JSmliPxwW
- BRnQRcgS85xpC1pBUMrraxajaVPwu7hCTke03v6bu8zSZlgA1rd9E6KHu2VNS46VzUPjbR77
- kO7u6H5PgQPKcuJwQQ+d3qa+5ZeKmoVkc2SuHVrCd1yKtAMmKBoJtSku1evXPwyBzqHFOInk
- mLMtrWuUhj+wtcnOWxaP+n4ODgUwc/uvyuamo0L2Gp3V5ItdIUDO/7ZpZ/3JxvERF3Yc1md8
- 5kfflpLzpxyl2fKaRdvxr48ZLv9XLUQ4qNuADDmJArq/+foORAX4BBFWvqZQKe8a9ZMAvGSh
- uoGUVg4Ks0uC4IeG7iNtd+csmBj5dNf91C7zV4bsKt0JjiJ9a4D85dtCOPmOeNuusK7xaDZc
- gzBW8J8RW+nUJcTpudX4TC2SGeAOyxnM5O4XJ8yZyDUY334seDRJWtS4wRHxpfYcHKTewR96
- IsP1USE+9ndu6lrMXQ3aFsd1n1m1pfa/y8hiqsSYHy7JQ9Iuo9DxysOj22UNOmOE+OYPK48D
- j3lCqPk=
-Message-ID: <87bcb2e6-227a-af3d-5617-91aad1fef4e3@linux.com>
-Date: Thu, 23 Jan 2020 13:52:33 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <imammedo@redhat.com>) id 1iuaA1-0002Ty-BT
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 05:56:31 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53966
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuaA1-0002Rb-1J
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 05:56:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579776988;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Iyq+Rtbuqtxu1BqJxQu8py9Pd5zk5/GEbwjxm2miRNY=;
+ b=aqoZUihY7W/mFf21Zdu2dGCP58T0gWyAuAIDSh3ghVSJh4lgCSXePtMQ4JZFLwnIHG69Li
+ jglWsF3tQyR0sAEkh+LEotFytG8Y8ABU/aiXEL+yMnZzZqiUlKR/UwX4+iuG+4hbInAS0E
+ wocLWCSW1xd8mDNZDwMiTwpCzSR3ASI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-397-yfVIrSIlORWbxQdRYH6EyA-1; Thu, 23 Jan 2020 05:56:26 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 351B98017CC
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 10:56:25 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8BDB11001B11
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 10:56:24 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/80] refactor main RAM allocation to use hostmem backend
+Date: Thu, 23 Jan 2020 11:52:44 +0100
+Message-Id: <1579776844-163759-1-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <65254fe8-7865-f045-9e0c-1d56dd9fe8eb@redhat.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: yfVIrSIlORWbxQdRYH6EyA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.167.65
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -123,43 +68,271 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: alex.popov@linux.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.01.2020 02:14, John Snow wrote:
-> On 12/23/19 12:51 PM, Alexander Popov wrote:
->> Fuzzing the Linux kernel with syzkaller allowed to find how to crash qemu
->> using a special SCSI_IOCTL_SEND_COMMAND. It hits the assertion in
->> ide_dma_cb() introduced in the commit a718978ed58a in July 2015.
->>
->> This patch series fixes incorrect handling of some PRDTs in ide_dma_cb()
->> and improves the ide-test to cover more PRDT cases (including one
->> that causes that particular qemu crash).
->>
->> Changes from v2 (thanks to Kevin Wolf for the feedback):
->>  - the assertion about prepare_buf() return value is improved;
->>  - the patch order is reversed to keep the tree bisectable;
->>  - the unit-test performance is improved -- now it runs 8 seconds
->>    instead of 3 minutes on my laptop.
->>
->> Alexander Popov (2):
->>   ide: Fix incorrect handling of some PRDTs in ide_dma_cb()
->>   tests/ide-test: Create a single unit-test covering more PRDT cases
->>
->>  hw/ide/core.c    |  30 +++++---
->>  tests/ide-test.c | 174 ++++++++++++++++++++---------------------------
->>  2 files changed, 96 insertions(+), 108 deletions(-)
->>
-> 
-> Thanks, applied to my IDE tree:
-> 
-> https://github.com/jnsnow/qemu/commits/ide
-> https://github.com/jnsnow/qemu.git
+v3:
+  - due to libvirt not being ready, postpone till 5.1
+     * [PATCH v2 82/86] numa: forbid '-numa node,  mem' for 5.0 and newer m=
+achine types
+     and depended
+       [PATCH v2 86/86] numa: remove deprecated implicit RAM distribution  =
+between nodes
+  - drop as not related "[PATCH v2 85/86] numa: make exit() usage consisten=
+t"
+  - drop "[PATCH v2 76/86] post conversion default_ram_id cleanup"
+    so that default memory-backedend won't be created for boards that do no=
+t care
+    about -m. Which makes -m optin feature. We should decide  what do in  c=
+ase
+    board doesn't use -m (but that's out of scope of this series)
+  - use object_register_sugar_prop() instead of hacking compat props direct=
+ly
+  - simplified/reworked aspeed patches
+  - s/RAM_ADDR_FMT/size_to_str()/
+  - rename 'ram-memdev' property to 'memory-backend'
+  - minor fixes to numa-test
+  - fixes for issues noticed during review of
+       [PATCH v2 66/86] ppc/{ppc440_bamboo,sam460x}: drop RAM size fixup
 
-Happy end!
-Thanks a lot!
+v2:
+  - fix compile errors on mingw32 host by introducing RAM_ADDR_UFMT [11/86]
+  - replace "[PATCH 43/86] hppa: drop RAM size fixup" with alternative
+    patches made by Philippe (which effectively do the same thing but other
+    way around)
+  - ppc440: fix crash and add suggested valid RAM size in error output.
+    s/ppc4xx_sdram_adjust/ppc4xx_sdram_prep/ and simplify it by removing
+    not necessary nested loop
+  - rebase on current master due to new conflicts
 
-Best regards,
-Alexander
+
+Series removes ad hoc RAM allocation API (memory_region_allocate_system_mem=
+ory)
+and consolidates it around hostmem backend. It allows to
+ * resolve conflicts between global -mem-prealloc and hostmem's "policy" op=
+tion
+   fixing premature allocation before binding policy is applied
+ * simplify complicated memory allocation routines which had to deal with 2=
+ ways
+   to allocate RAM.
+ * it allows to reuse hostmem backends of a choice for main RAM without add=
+ing
+   extra CLI options to duplicate hostmem features.
+   Recent case was -mem-shared, to enable vhost-user on targets that don't
+   support hostmem backends [1] (ex: s390)
+ * move RAM allocation from individual boards into generic machine code and
+   provide them with prepared MemoryRegion.
+ * clean up deprecated NUMA features which were tied to the old API (see pa=
+tches)
+    - "numa: remove deprecated -mem-path fallback to anonymous RAM"
+    - (POSTPONED, waiting on libvirt side) "forbid '-numa node,mem' for 5.0=
+ and newer machine types"
+    - (POSTPONED) "numa: remove deprecated implicit RAM distribution betwee=
+n nodes"
+
+Conversion introduces a new machine.memory-backend property and wrapper cod=
+e that
+aliases global -mem-path and -mem-alloc into automatically created hostmem
+backend properties (provided memory-backend was not set explicitly given by=
+ user).
+And then follows bulk of trivial patches that incrementally convert individ=
+ual
+boards to using machine.memory-backend provided MemoryRegion.
+
+Board conversion typically involves:
+ * providing MachineClass::default_ram_size and MachineClass::default_ram_i=
+d
+   so generic code could create default backend if user didn't explicitly p=
+rovide
+   memory-backend or -m options
+ * dropping memory_region_allocate_system_memory() call
+ * using convenience MachineState::ram MemoryRegion, which points to Memory=
+Region
+   allocated by ram-memdev
+On top of that for some boards:
+ * added missing ram_size checks (typically it were boards with fixed ram s=
+ize)
+ * ram_size fixups were replaced by checks and hard errors, forcing user to
+   provide correct "-m" values instead of ignoring it and continuing runnin=
+g.
+
+After all boards are converted the old API is removed and memory allocation
+routines are cleaned up.
+
+git tree for testing:
+  https://github.com/imammedo/qemu convert_main_ram_to_memdev_v3
+
+previous rev:
+  https://github.com/imammedo/qemu convert_main_ram_to_memdev_v2
+  https://lists.nongnu.org/archive/html/qemu-devel/2020-01/msg02960.html
+
+Igor Mammedov (77):
+  numa: remove deprecated -mem-path fallback to anonymous RAM
+  machine: introduce memory-backend property
+  machine: alias -mem-path and -mem-prealloc into memory-foo backend
+  machine: introduce convenience MachineState::ram
+  initialize MachineState::ram in NUMA case
+  alpha:dp264: use memdev for RAM
+  arm/aspeed: actually check RAM size
+  arm/aspeed: use memdev for RAM
+  arm/collie: use memdev for RAM
+  arm/cubieboard: use memdev for RAM
+  arm/digic_boards: use memdev for RAM
+  arm/highbank: use memdev for RAM
+  arm/imx25_pdk: drop RAM size fixup
+  arm/imx25_pdk: use memdev for RAM
+  arm/integratorcp: use memdev for RAM
+  arm/kzm: drop RAM size fixup
+  arm/kzm: use memdev for RAM
+  arm/mcimx6ul-evk: use memdev for RAM
+  arm/mcimx7d-sabre: use memdev for RAM
+  arm/mps2-tz: use memdev for RAM
+  arm/mps2: use memdev for RAM
+  arm/musicpal: use memdev for RAM
+  arm/nseries: use memdev for RAM
+  arm/omap_sx1: use memdev for RAM
+  arm/palm: use memdev for RAM
+  arm/raspi: use memdev for RAM
+  arm/sabrelite: use memdev for RAM
+  arm/sbsa-ref: use memdev for RAM
+  arm/versatilepb: use memdev for RAM
+  arm/vexpress: use memdev for RAM
+  arm/virt: use memdev for RAM
+  arm/xilinx_zynq: drop RAM size fixup
+  arm/xilinx_zynq: use memdev for RAM
+  arm/xlnx-versal-virt: use memdev for RAM
+  arm/xlnx-zcu102: use memdev for RAM
+  s390x/s390-virtio-ccw: use memdev for RAM
+  null-machine: use memdev for RAM
+  cris/axis_dev88: use memdev for RAM
+  hppa: use memdev for RAM
+  x86/microvm: use memdev for RAM
+  x86/pc: use memdev for RAM
+  lm32/lm32_boards: use memdev for RAM
+  lm32/milkymist: use memdev for RAM
+  m68k/an5206: use memdev for RAM
+  m68k/mcf5208: use memdev for RAM
+  m68k/next-cube: use memdev for RAM
+  mips/boston-cube: use memdev for RAM
+  mips/mips_fulong2e: drop RAM size fixup
+  mips/mips_fulong2e: use memdev for RAM
+  mips/mips_jazz: use memdev for RAM
+  mips/mips_malta: use memdev for RAM
+  mips/mips_mipssim: use memdev for RAM
+  mips/mips_r4k: use memdev for RAM
+  ppc/e500: drop RAM size fixup
+  ppc/e500: use memdev for RAM
+  ppc/mac_newworld: use memdev for RAM
+  ppc/mac_oldworld: use memdev for RAM
+  ppc/pnv: use memdev for RAM
+  ppc/ppc405_boards: add RAM size checks
+  ppc/ppc405_boards: use memdev for RAM
+  ppc/{ppc440_bamboo,sam460ex}: drop RAM size fixup
+  ppc/{ppc440_bamboo, sam460ex}: use memdev for RAM
+  ppc/prep: use memdev for RAM
+  ppc/spapr: use memdev for RAM
+  ppc/virtex_ml507: remove unused arguments
+  ppc/virtex_ml507: use memdev for RAM
+  sparc/leon3: use memdev for RAM
+  sparc/sun4m: use memdev for RAM
+  sparc/niagara: use memdev for RAM
+  remove no longer used memory_region_allocate_system_memory()
+  exec: cleanup qemu_minrampagesize()/qemu_maxrampagesize()
+  exec: drop bogus mem_path from qemu_ram_alloc_from_fd()
+  make mem_path local variable
+  hostmem: introduce "prealloc-threads" property
+  hostmem: fix strict bind policy
+  tests:numa-test: make top level args dynamic and g_autofree(cli)
+    cleanups
+  tests:numa-test: use explicit memdev to specify node RAM
+
+Philippe Mathieu-Daud=C3=A9 (3):
+  hw/hppa/machine: Correctly check the firmware is in PDC range
+  hw/hppa/machine: Restrict the total memory size to 3GB
+  hw/hppa/machine: Map the PDC memory region with higher priority
+
+ hw/alpha/alpha_sys.h          |   2 +-
+ include/hw/boards.h           |  48 +++++----------
+ include/hw/misc/aspeed_sdmc.h |   1 +
+ include/hw/ppc/ppc4xx.h       |   9 ++-
+ include/sysemu/hostmem.h      |  20 +++++-
+ include/sysemu/numa.h         |   1 +
+ include/sysemu/sysemu.h       |   2 -
+ backends/hostmem-file.c       |   8 ---
+ backends/hostmem-memfd.c      |   1 -
+ backends/hostmem-ram.c        |   2 -
+ backends/hostmem.c            |  53 +++++++++++-----
+ exec.c                        |  66 +++-----------------
+ hw/alpha/dp264.c              |   3 +-
+ hw/alpha/typhoon.c            |   8 +--
+ hw/arm/aspeed.c               |  18 +++---
+ hw/arm/collie.c               |  17 ++++--
+ hw/arm/cubieboard.c           |  25 +++-----
+ hw/arm/digic_boards.c         |  40 ++++++------
+ hw/arm/highbank.c             |  10 ++-
+ hw/arm/imx25_pdk.c            |  13 ++--
+ hw/arm/integratorcp.c         |   9 ++-
+ hw/arm/kzm.c                  |  18 +++---
+ hw/arm/mcimx6ul-evk.c         |  25 +++-----
+ hw/arm/mcimx7d-sabre.c        |  25 +++-----
+ hw/arm/mps2-tz.c              |  15 +++--
+ hw/arm/mps2.c                 |  15 +++--
+ hw/arm/musicpal.c             |  18 ++++--
+ hw/arm/nseries.c              |  32 ++++++----
+ hw/arm/omap_sx1.c             |  20 ++++--
+ hw/arm/palm.c                 |  20 ++++--
+ hw/arm/raspi.c                |  34 ++++-------
+ hw/arm/sabrelite.c            |  23 +++----
+ hw/arm/sbsa-ref.c             |   7 +--
+ hw/arm/versatilepb.c          |   7 +--
+ hw/arm/vexpress.c             |  14 ++---
+ hw/arm/virt.c                 |   7 +--
+ hw/arm/xilinx_zynq.c          |  20 +++---
+ hw/arm/xlnx-versal-virt.c     |   7 +--
+ hw/arm/xlnx-zcu102.c          |   7 +--
+ hw/core/machine.c             |  30 +++++++++
+ hw/core/null-machine.c        |   8 +--
+ hw/core/numa.c                | 101 +++++++++----------------------
+ hw/cris/axis_dev88.c          |   8 +--
+ hw/hppa/machine.c             |  19 +++---
+ hw/i386/microvm.c             |  12 ++--
+ hw/i386/pc.c                  |  19 +++---
+ hw/lm32/lm32_boards.c         |  39 ++++++++----
+ hw/lm32/milkymist.c           |  21 ++++---
+ hw/m68k/an5206.c              |   5 +-
+ hw/m68k/mcf5208.c             |   5 +-
+ hw/m68k/next-cube.c           |   5 +-
+ hw/mips/boston.c              |  11 ++--
+ hw/mips/mips_fulong2e.c       |  15 ++---
+ hw/mips/mips_jazz.c           |   7 +--
+ hw/mips/mips_malta.c          |  10 ++-
+ hw/mips/mips_mipssim.c        |   9 +--
+ hw/mips/mips_r4k.c            |  12 ++--
+ hw/misc/aspeed_sdmc.c         |  83 +++++++++++++++++++------
+ hw/ppc/e500.c                 |  17 +++---
+ hw/ppc/e500plat.c             |   1 +
+ hw/ppc/mac_newworld.c         |   6 +-
+ hw/ppc/mac_oldworld.c         |   6 +-
+ hw/ppc/mpc8544ds.c            |   1 +
+ hw/ppc/pnv.c                  |   8 +--
+ hw/ppc/ppc405_boards.c        |  48 +++++++++------
+ hw/ppc/ppc440_bamboo.c        |  12 ++--
+ hw/ppc/ppc4xx_devs.c          |  63 +++++++++----------
+ hw/ppc/prep.c                 |  15 +++--
+ hw/ppc/sam460ex.c             |   6 +-
+ hw/ppc/spapr.c                |   8 +--
+ hw/ppc/virtex_ml507.c         |  19 +++---
+ hw/s390x/s390-virtio-ccw.c    |   7 +--
+ hw/sparc/leon3.c              |   6 +-
+ hw/sparc/sun4m.c              |  73 +++++++++++-----------
+ hw/sparc64/niagara.c          |   7 +--
+ qemu-deprecated.texi          |   9 ---
+ tests/qtest/numa-test.c       | 138 ++++++++++++++++++++++----------------=
+----
+ vl.c                          |  37 ++++++++++-
+ 78 files changed, 785 insertions(+), 791 deletions(-)
+
+--=20
+2.7.4
+
 
