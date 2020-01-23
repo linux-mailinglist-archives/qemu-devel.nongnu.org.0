@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C38D147202
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:45:10 +0100 (CET)
-Received: from localhost ([::1]:60460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02ED3147240
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:59:33 +0100 (CET)
+Received: from localhost ([::1]:60966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuiPd-0008RM-61
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:45:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58678)
+	id 1iuidY-0005Br-2l
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:59:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58718)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iuhya-0005D7-2h
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:17:13 -0500
+ (envelope-from <rjones@redhat.com>) id 1iuhyh-0005IS-Oo
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:17:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iuhyY-0007KA-HR
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:17:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44904
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <rjones@redhat.com>) id 1iuhyg-0007QU-5t
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:17:19 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39053
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuhyY-0007Ec-9K
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:17:10 -0500
+ (Exim 4.71) (envelope-from <rjones@redhat.com>) id 1iuhye-0007Oe-PI
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:17:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579807028;
+ s=mimecast20190719; t=1579807036;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hs/34wwrKTMaZiIef+KKkRxsLnhtqdfYoVIkNU6mp5o=;
- b=Zn6JV1r4U29xXStlzS+MSwlqMXYLENA/f1MflBpTVdhHhhp/Ny2gETP3kDDhW7ZERcxOzt
- swsSweH52/BD6BhTvJ30zlFgh2Rn6D3ezNACJyFSV7uqW9INRISJjzB8oA1z8bmlApII/D
- vT5DRVUvU4oA4ezZGuYyAwZWz6MNLG0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-QF1QO6j1MFeicya0MRUpyg-1; Thu, 23 Jan 2020 14:16:55 -0500
-Received: by mail-wr1-f72.google.com with SMTP id v17so2348589wrm.17
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 11:16:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Hs/34wwrKTMaZiIef+KKkRxsLnhtqdfYoVIkNU6mp5o=;
- b=aOJqJDUe/WL/8aIsJMCQ6dsic1SigPoUNNHbY1JgfWe2Ov5w1KDVd7E6KEAt4JoaIT
- nW1H9iTKveDoMorudFeQVfLToAKqKXGMgvhpn9uixw/w3Q2SEi3ePsBxMLLF2KMMstZh
- XmbDC5ps7IaXF8bmJ9/u3Go7ta/W2rDp2/Ox5xdjkv9XXh1BkDkTCK6VR1umMxS2cER+
- TMWdl/Zg3d8IEJTm90JzTCmRfayoRfBcQB5qu2RNzUX2dD8l0haRd2XjfQge7zFTdctk
- dx7hcfKS1hLMQobGM5Zz1a6EkU2/kjDQf3xV1PH/a6jgrpi8vXmh9iN+H5aInLNPtNAx
- 4LkA==
-X-Gm-Message-State: APjAAAW9cq0zaKDAE00bJ+4lMIsb23sDrAjVJIUKkKdzKQ1klQoSsMX9
- LIOrRFgMUrMTGyYMwA7xfvURCjujsv5PBrv5dkAvn5ImUJP7bh8aUsQ4+t76RRbP3i/fyT+FaJK
- dfQEHpVCU4xRIzpI=
-X-Received: by 2002:a7b:c00c:: with SMTP id c12mr5726632wmb.174.1579807014182; 
- Thu, 23 Jan 2020 11:16:54 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzk77xzwX8XwtpGMO+KJj0GckVJbFkjGlhF0YUWmwcL9P8sFYKrihn5dClnRd2vSAyoL2bEgA==
-X-Received: by 2002:a7b:c00c:: with SMTP id c12mr5726619wmb.174.1579807013980; 
- Thu, 23 Jan 2020 11:16:53 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:b8fe:679e:87eb:c059?
- ([2001:b07:6468:f312:b8fe:679e:87eb:c059])
- by smtp.gmail.com with ESMTPSA id q3sm3699795wmc.47.2020.01.23.11.16.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jan 2020 11:16:53 -0800 (PST)
-Subject: Re: 5.0 release schedule proposal
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAFEAcA-HPAXpeWcJOvyJM3hdFR86u4HyovAAB8qmoZaye-P3Vg@mail.gmail.com>
- <CAFEAcA-1QcPEVDodRFFKQ_WdSR-avKp2rZw39KFhO_hh3y=Lxg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <0af55f81-3f48-c61d-ffbb-ddb77ef78ca7@redhat.com>
-Date: Thu, 23 Jan 2020 20:16:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=RkR58KqxofQpgdgmcAyBAl8uI8mZ7kXFKca+7VTMeUo=;
+ b=hEwOH57KSHfaF/jyuMGKdI5YyuO/Dh23c/9TtEs9sBSC5vvCNl+c8uhpbqAgRQD5710raF
+ z76aQKdG6OENs8uHEzK3eN5D3/k8uxe1ecdmcgM3PEwlxksi2Fjnt80owjs6o8rGwZTUYR
+ blmiIOsxLfquzJ2JLrhT2ggazxmqycI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-bRPfJRW9NX2jxwmaDxOn2w-1; Thu, 23 Jan 2020 14:17:11 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10C0CDB61;
+ Thu, 23 Jan 2020 19:17:11 +0000 (UTC)
+Received: from localhost (ovpn-117-237.ams2.redhat.com [10.36.117.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A50AD60BF3;
+ Thu, 23 Jan 2020 19:17:10 +0000 (UTC)
+Date: Thu, 23 Jan 2020 19:17:09 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: qemu-img convert vs writing another copy tool
+Message-ID: <20200123191709.GM3888@redhat.com>
+References: <20200123183500.GA27166@redhat.com>
+ <ef3492f5-b1ab-52d2-9484-3c42e2b6af87@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-1QcPEVDodRFFKQ_WdSR-avKp2rZw39KFhO_hh3y=Lxg@mail.gmail.com>
-Content-Language: en-US
-X-MC-Unique: QF1QO6j1MFeicya0MRUpyg-1
+In-Reply-To: <ef3492f5-b1ab-52d2-9484-3c42e2b6af87@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: bRPfJRW9NX2jxwmaDxOn2w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,39 +73,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: berrange@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ ptoscano@redhat.com, marnold@redhat.com, mkletzan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/01/20 16:55, Peter Maydell wrote:
-> On Mon, 6 Jan 2020 at 15:29, Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> Here's a suggested set of dates for the 5.0 release:
->>
->> 2020-03-17 softfreeze
->> 2020-03-24 hardfreeze/rc0
->> 2020-03-31 rc1
->> 2020-04-07 rc2
->> 2020-04-14 rc3
->> 2020-04-21 release, or rc4
->> 2020-04-28 release if we needed rc4
->>
->> (I'm at a conference week of 23-27 March, so possibly rc0
->> might get a little delayed if I'm not able to handle
->> pullreqs while away, but usually the big rush is for
->> softfreeze so I think this should be OK.)
->>
->> NB: Easter is 10th-13th April, so between rc2 and rc3.
->>
->> Any opinions/suggested tweaks/etc?
->>
->> Of course if somebody else wants to do this release cycle
->> they can set the dates :-)
-> 
-> Ping? Any opinions? In the absence of complaints I'll just
-> go with this set of dates...
+On Thu, Jan 23, 2020 at 07:53:57PM +0100, Max Reitz wrote:
+> On 23.01.20 19:35, Richard W.M. Jones wrote:
+> >  - NBD multi-conn.  In my tests this makes a really massive
+> >    performance difference in certain situations.  Again, virt-v2v has
+> >    a lot of information that we cannot pass to qemu: we know, for
+> >    example, exactly if the server supports the feature, how many
+> >    threads are available, in some situations even have information
+> >    about the network and backing disks that the data will travel over
+> >    / be stored on.
+>=20
+> As far as I understand it, you use qemu-img convert with an NBD source
+> or target, too?
 
-Looks good to me.
+Virt-v2v has many modes, but yes generally there will be either an NBD
+source & target, or an NBD source to a local file target.
 
-Paolo
+> I suppose it=E2=80=99s always easier to let a specialized and freshly wri=
+tten
+> tool handle such information.  But it sounds like if such information is
+> useful and makes that big of a difference, then it would be good to be
+> able to specify it to qemu=E2=80=99s NBD block driver, too.
+
+qemu-img convert has worked really well for us, and I'm actually _not_
+confident that I could do better with a specialized tool.  But there's
+definitely more info we could pass, such as the amount of parallelism
+we believe is available in the NBD server / processors / disks.
+
+> >  - Machine-parsable progress bars.  You can, sort of, parse the
+> >    progress bar from qemu-img convert, but it's not as easy as it
+> >    could be.  In particular it would be nice if the format was treated
+> >    as ABI, and if there was a way to have the tool write the progress
+> >    bar info to a precreated file descriptor.
+>=20
+> It doesn=E2=80=99t seem impossible to add this feature to qemu-img, altho=
+ugh I
+> wonder about the interface.  I suppose we could make it an alternative
+> progress output mode (with some command-line flag), and then the
+> information would be emitted to stdout (just like the existing progress
+> report).  You can of course redirect stdout to whatever fd you=E2=80=99d =
+like,
+> so I don=E2=80=99t know whether qemu-img itself needs that specific capab=
+ility.
+>=20
+> OTOH, if you need this feature, why not just use qemu itself?  That is,
+> a mirror or a backup block job in an otherwise empty VM.
+
+I don't think we've really thought before about this approach.  Maybe
+the launching of a VM (even an empty / stopped one) could be a
+problem.  I guess this is what the new tool that was recently proposed
+upstream might help with?  (Was it called qemu-block-storage?  I can't
+find it right this minute)
+
+> >  - External block lists.  This is a rather obscure requirement, but
+> >    it's necessary in the case where we can get the allocated block map
+> >    from another source (eg. pyvmomi) and then want to use that with an
+> >    NBD source that does not support extents (eg. nbdkit-ssh-plugin /
+> >    libssh / sftp).  [Having said that, it may be possible to implement
+> >    this as an nbdkit filter, so maybe this is not a blocking feature.]
+>=20
+> That too seems like a feature that=E2=80=99s easily implementable in a
+> specialized tool, but hard to implement in qemu-img.
+>=20
+> I suppose we=E2=80=99d want a dirty bitmap copy mode which copies only th=
+e
+> regions that the bitmap reports as dirty =E2=80=93 but at that point you=
+=E2=80=99re
+> probably again better off not using qemu-img, but qemu itself.  Then
+> we=E2=80=99d need some way to import bitmaps, and I actually don=E2=80=99=
+t think we have
+> that yet.
+>=20
+> But again, if this is a generally useful feature, I think we want it in
+> qemu anyway.
+
+I think this is actually one we can more easily implement as an nbdkit
+filter.  I'm going to try this and see.
+
+> > One thing which qemu-img convert can do which nbdcp could not:
+> >=20
+> >  - Read or write from qcow2 files.
+> >=20
+> > So instead of splitting the ecosystem and writing a new tool that
+> > doesn't do as much as qemu-img convert, I wonder what qemu developers
+> > think about the above missing features?  For example, are they in
+> > scope for qemu-img convert?
+>=20
+> What I think is that there may be features that we don=E2=80=99t want in
+> qemu-img, because they are more appropriate for the mirror or backup
+> block job.  For example, I don=E2=80=99t think we want to let qemu-img co=
+nvert
+> mess around with dirty bitmaps.
+>=20
+> But apart from that, the features you propose all seem useful to have in
+> qemu itself.  Maybe some of them are too hard to implement (specifically
+> importing bitmaps from external sources), then it might be pragmatic to
+> write a new tool where such features can be easily implemented because
+> they don=E2=80=99t need to be integrated into an existing API.
+>=20
+> As for performance, well, if qemu=E2=80=99s NBD driver is slow, then naiv=
+ely I=E2=80=99d
+> think that=E2=80=99s a bug, isn=E2=80=99t it?  And if improving performan=
+ce requires
+> knobs, then that=E2=80=99s how it is.
+
+Thanks,
+
+Rich.
+
+--=20
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjon=
+es
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-df lists disk usage of guests without needing to install any
+software inside the virtual machine.  Supports Linux and Windows.
+http://people.redhat.com/~rjones/virt-df/
 
 
