@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C36146EAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:53:43 +0100 (CET)
-Received: from localhost ([::1]:32780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED040146ED7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 17:59:57 +0100 (CET)
+Received: from localhost ([::1]:32876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iufjh-0001WA-RV
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:53:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52238)
+	id 1iufpj-00008a-Sb
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 11:59:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iuct3-0007dq-5o
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:11 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iuct5-0007fJ-0r
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iuct2-0006pU-0x
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23262
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iuct2-0006qi-Sg
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:10 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21369
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuct1-0006pF-Up
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:07 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iuct2-0006qI-QJ
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:51:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787467;
+ s=mimecast20190719; t=1579787468;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sFBdusjTRivI83sKM4ZWIopYtK/Kmoyuru1DkptNNaY=;
- b=LMuoJDVKWj2uWth4m4IBu3t374QWpaLquuX8G/hes2ggeOwNJeE8dXGRHYEQRTCvGvTOva
- NxcUQc13wWo9qwRDWy4FH4+tPV9MNgCLzULzKV9GaoWXeQvxRP9ZeFCDoB1VTJ/PhFZH/Q
- /X9FhdFQmv/3y9KfrvZNeZDkxd0YE1E=
+ bh=E2MlMz4cN9CaACYckxJtaBM6X0v8cyJc+aK+uqDTqvw=;
+ b=Z9GZvQXALPYVeyywn1t7epdA9xEXChs8zyKTbbZTP3W/l9lN81cKicAriR9Zbsd0JNxlBW
+ CTG+YxS5aeVqyq1XtC7EG15E4Lg7rz8DjSP9BlA1ohsCCvzJc8OBafoi2nbgsTiWXMQ5bX
+ /xGaOp4C3Via+l6GEP8jxulSxoNJYJc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-UMrelfzONwm7B1DJ6aXS6w-1; Thu, 23 Jan 2020 08:51:06 -0500
+ us-mta-81-EVTXLLaOPCq7nCvxtYs2Ag-1; Thu, 23 Jan 2020 08:51:07 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9110C1800D48
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 119528017CC
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:51:05 +0000 (UTC)
 Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48A751CB;
- Thu, 23 Jan 2020 13:51:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E29085780;
+ Thu, 23 Jan 2020 13:51:03 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/59] qom/object: Display more helpful message when an
- interface is missing
-Date: Thu, 23 Jan 2020 14:49:55 +0100
-Message-Id: <1579787449-27599-6-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 06/59] audio/audio: Add missing fall through comment
+Date: Thu, 23 Jan 2020 14:49:56 +0100
+Message-Id: <1579787449-27599-7-git-send-email-pbonzini@redhat.com>
 In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: UMrelfzONwm7B1DJ6aXS6w-1
+X-MC-Unique: EVTXLLaOPCq7nCvxtYs2Ag-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,63 +76,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-When adding new devices implementing QOM interfaces, we might
-forgot to add the Kconfig dependency that pulls the required
-objects in when building.
+When building with GCC9 using CFLAG -Wimplicit-fallthrough=3D2 we get:
 
-Since QOM dependencies are resolved at runtime, we don't get any
-link-time failures, and QEMU aborts while starting:
+  audio/audio.c: In function =E2=80=98audio_pcm_init_info=E2=80=99:
+  audio/audio.c:306:14: error: this statement may fall through [-Werror=3Di=
+mplicit-fallthrough=3D]
+    306 |         sign =3D 1;
+        |         ~~~~~^~~
+  audio/audio.c:307:5: note: here
+    307 |     case AUDIO_FORMAT_U8:
+        |     ^~~~
+  cc1: all warnings being treated as errors
 
-  $ qemu ...
-  Segmentation fault (core dumped)
+Similarly to e46349414, add the missing fall through comment to
+hint GCC.
 
-  (gdb) bt
-  #0  0x00007ff6e96b1e35 in raise () from /lib64/libc.so.6
-  #1  0x00007ff6e969c895 in abort () from /lib64/libc.so.6
-  #2  0x00005572bc5051cf in type_initialize (ti=3D0x5572be6f1200) at qom/ob=
-ject.c:323
-  #3  0x00005572bc505074 in type_initialize (ti=3D0x5572be6f1800) at qom/ob=
-ject.c:301
-  #4  0x00005572bc505074 in type_initialize (ti=3D0x5572be6e48e0) at qom/ob=
-ject.c:301
-  #5  0x00005572bc506939 in object_class_by_name (typename=3D0x5572bc56109a=
-) at qom/object.c:959
-  #6  0x00005572bc503dd5 in cpu_class_by_name (typename=3D0x5572bc56109a, c=
-pu_model=3D0x5572be6d9930) at hw/core/cpu.c:286
-
-Since the caller has access to the qdev parent/interface names,
-we can simply display them to avoid starting a debugger:
-
-  $ qemu ...
-  qemu: missing interface 'fancy-if' for object 'fancy-dev'
-  Aborted (core dumped)
-
-This commit is similar to e02bdf1cecd2 ("Display more helpful message
-when an object type is missing").
-
+Fixes: 2b9cce8c8c
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20200118162348.17823-1-philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20191218192526.13845-2-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qom/object.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ audio/audio.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/qom/object.c b/qom/object.c
-index 0d971ca..36123fb 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -317,6 +317,11 @@ static void type_initialize(TypeImpl *ti)
-=20
-         for (i =3D 0; i < ti->num_interfaces; i++) {
-             TypeImpl *t =3D type_get_by_name(ti->interfaces[i].typename);
-+            if (!t) {
-+                error_report("missing interface '%s' for object '%s'",
-+                             ti->interfaces[i].typename, parent->name);
-+                abort();
-+            }
-             for (e =3D ti->class->interfaces; e; e =3D e->next) {
-                 TypeImpl *target_type =3D OBJECT_CLASS(e->data)->type;
-=20
+diff --git a/audio/audio.c b/audio/audio.c
+index abea027..f63f397 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -304,6 +304,7 @@ void audio_pcm_init_info (struct audio_pcm_info *info, =
+struct audsettings *as)
+     switch (as->fmt) {
+     case AUDIO_FORMAT_S8:
+         sign =3D 1;
++        /* fall through */
+     case AUDIO_FORMAT_U8:
+         mul =3D 1;
+         break;
 --=20
 1.8.3.1
 
