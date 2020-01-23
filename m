@@ -2,53 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC77146C69
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:14:55 +0100 (CET)
-Received: from localhost ([::1]:59042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA35146C83
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:19:01 +0100 (CET)
+Received: from localhost ([::1]:59116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueC6-0001mw-CT
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:14:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
+	id 1iueG3-0006FL-W9
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:19:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qemu_oss@crudebyte.com>) id 1iucCb-0002h2-3x
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:07:19 -0500
+ (envelope-from <drjones@redhat.com>) id 1iucEt-0005vU-3D
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:09:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1iucCZ-0004m1-82
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:07:16 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:39989)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1iucCY-0004jm-NV
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:07:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=sAZNKaKJi3tOvw5qAVuxxNi5Pn6NBVaDhiiwpqHWOtY=; b=JT8kMWH92MIHv2PTo/Kw/MBkhm
- n1P0E301xR0s2XzCmaD6QWZLpMi3O9LHi/uQbKH4tKeG4Qh9ykMcoVuF05fIRO6s1wA9vTSDlS8Bt
- wCxoS/sX2wqFHFeiN4lYJRBCtVcAspxXeF26rrTR0fZTOGYpHHpgfnTSvQmy2lp/LG7c8F6wmvFCs
- 6jpaUREXtgNgOEJTnHowPWaHcDQXH0tfkGLiTp8W0yg8tu60C8xj5HMKfpjTGipUr7TxxHtREgpC1
- o5yWysuTgg0Z6a9kDZ/rW+uJhY9u33EjV3bU4cpZwETdzfAi68Kr92PlLhg6srO/z/BPZ4hhBYuGb
- 97tB39qBkxizcWoKEVnA/HrOxkLcUt6eWscwRg6X510DqfsLmnVM1xuQHRvEPR3Km8YsDU/NqktOb
- HPnLQLilpxGk19Unw/Ktk+swlac+aeKpM2bp/dXYsNmFgphSrMFTXW0I9XDPlqM2tAljVU+Yy+JZA
- DnbjyKYADW3lMW3tf6uAMxjWfQTVxUcrX5WO23P39zL0bTwTR6Pnjz1UYZA0Zc4dCZOYQ2vce6Ul4
- 1Vg9ggraUcjKQCRxzjfVlYOTxabCi3OrCU+MRNFkEyQ+AKafAKUKNHRvlQkOHyTJ09vXp4nWGw8mq
- CDGBEJNN+fSno54IbjOIsbcXzvaKVTjy4dYJCCMws=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v4 06/11] tests/virtio-9p: added splitted readdir test
-Date: Thu, 23 Jan 2020 14:07:06 +0100
-Message-ID: <38533076.nkKmY2FMRI@silver>
-In-Reply-To: <20200123113058.17e2c88d@bahia.lan>
-References: <cover.1579567019.git.qemu_oss@crudebyte.com>
- <17952898.t909x8hp7r@silver> <20200123113058.17e2c88d@bahia.lan>
+ (envelope-from <drjones@redhat.com>) id 1iucEr-0000zN-UP
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:09:38 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48441
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iucEr-0000yk-Qf
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:09:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579784977;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xv5vbNu8PSICXX8AC75b7aG4Hck1gKUFS8RTUUuWOhY=;
+ b=EPTTzvRwLv1kojJGMtUEI2oFVg06W0bXSj03dP5EU3DubXxGXb25TyGsFSuAWun4jCzVbV
+ xUKi5W9KAn0NHd6v4uNC4v8GXlPHg2NE0SXKrIXL4tsTRtgNde+xrKP26qS/4RnkXOfVhP
+ gv8Jw75xAcH2IAumFp8doOJxX/AdPDE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-BBaqDW0eNyqFUI9_QqDwdA-1; Thu, 23 Jan 2020 08:09:35 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 626B018A8C80;
+ Thu, 23 Jan 2020 13:09:34 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4474E86C54;
+ Thu, 23 Jan 2020 13:09:33 +0000 (UTC)
+Date: Thu, 23 Jan 2020 14:09:30 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH REPOST v3 23/80] arm/nseries: use memdev for RAM
+Message-ID: <20200123130930.ysa5hgn2uefkyz2k@kamzik.brq.redhat.com>
+References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+ <1579779525-20065-24-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <1579779525-20065-24-git-send-email-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: BBaqDW0eNyqFUI9_QqDwdA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.189.157.229
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,145 +72,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 23. Januar 2020 11:30:58 CET Greg Kurz wrote:
-> On Wed, 22 Jan 2020 23:36:22 +0100
-> 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > On Mittwoch, 22. Januar 2020 22:19:05 CET Greg Kurz wrote:
-> > > On Tue, 21 Jan 2020 01:16:21 +0100
-> > > 
-> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > > The previous, already existing readdir test simply used a 'count'
-> > > > parameter big enough to retrieve all directory entries with a
-> > > > single Treaddir request.
-> > > > 
-> > > > In this new 'splitted' readdir test, directory entries are
-> > > > retrieved, splitted over several Treaddir requests by picking small
-> > > > 'count' parameters which force the server to truncate the response.
-> > > > So the test client sends as many Treaddir requests as necessary to
-> > > > get all directory entries. Currently this test covers actually two
-> > > > tests: a sequence of Treaddir requests with count=512 and then a
-> > > > subsequent test with a sequence of Treaddir requests with count=256.
-> > > > 
-> > > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > > ---
-> > > 
-> > > Not sure it is really needed to check with multiple values for 'count',
-> > > but it doesn't eat too many cycles so I guess it doesn't hurt.
-> > 
-> > Yes, it is a cheap test, nobody will feel the difference. One could argue
-> > about the precise 'count' values being used ...
-> > 
-> > > Applied as well.
-> > > 
-> > > >  tests/qtest/virtio-9p-test.c | 91
-> > > >  ++++++++++++++++++++++++++++++++++++
-> > > >  1 file changed, 91 insertions(+)
-> > > > 
-> > > > diff --git a/tests/qtest/virtio-9p-test.c
-> > > > b/tests/qtest/virtio-9p-test.c
-> > > > index 2167322985..8b0d94546e 100644
-> > > > --- a/tests/qtest/virtio-9p-test.c
-> > > > +++ b/tests/qtest/virtio-9p-test.c
-> > > > @@ -578,6 +578,7 @@ static bool fs_dirents_contain_name(struct
-> > > > V9fsDirent
-> > > > *e, const char* name)>
-> > > > 
-> > > >      return false;
-> > > >  
-> > > >  }
-> > > > 
-> > > > +/* basic readdir test where reply fits into a single response message
-> > > > */
-> > > > 
-> > > >  static void fs_readdir(void *obj, void *data, QGuestAllocator
-> > > >  *t_alloc)
-> > > >  {
-> > > >  
-> > > >      QVirtio9P *v9p = obj;
-> > > > 
-> > > > @@ -631,6 +632,95 @@ static void fs_readdir(void *obj, void *data,
-> > > > QGuestAllocator *t_alloc)>
-> > > > 
-> > > >      g_free(wnames[0]);
-> > > >  
-> > > >  }
-> > > > 
-> > > > +/* readdir test where overall request is splitted over several
-> > > > messages
-> > > > */
-> > > > +static void fs_readdir_split(void *obj, void *data, QGuestAllocator
-> > > > *t_alloc) +{
-> > > > +    QVirtio9P *v9p = obj;
-> > > > +    alloc = t_alloc;
-> > > > +    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR)
-> > > > };
-> > > > +    uint16_t nqid;
-> > > > +    v9fs_qid qid;
-> > > > +    uint32_t count, nentries, npartialentries;
-> > > > +    struct V9fsDirent *entries, *tail, *partialentries;
-> > > > +    P9Req *req;
-> > > > +    int subtest;
-> > > > +    int fid;
-> > > > +    uint64_t offset;
-> > > > +    /* the Treaddir 'count' parameter values to be tested */
-> > > > +    const uint32_t vcount[] = { 512, 256 };
-> > 
-> > ... here. But IMO it does make sense preserving the function's overall
-> > structure to allow testing with different 'count' values if necessary.
-> > Because that way this test could e.g. guard potential bugs when server's
-> > Treaddir handler is rolling back (or not) the dir offset for instance,
-> > which server has to do (or not) according to this 'count' value and the
-> > precise file name length of the individual directory entries.
-> 
-> I still agree it is useful to be able to check different values but I
-> now realize that it shouldn't be done like this because adding new
-> values to vcount[] doesn't scale well with the MAX_REQ limitation I
-> mentioned in another mail. More values, especially small ones, are
-> likely to trigger "Failed to decode VirtFS request type 40" at some
-> point.
-> 
-> I now think that fs_readdir_split() should rather get count as
-> an argument and only do one run. By default we would only call
-> this with an appropriate value, ideally derived from the test
-> environment (number of files, size of filenames... etc...).
-> If someone needs to test a specific value, it is easy as adding
-> a new qos_add_test() line.
+On Thu, Jan 23, 2020 at 12:37:48PM +0100, Igor Mammedov wrote:
+> memory_region_allocate_system_memory() API is going away, so
+> replace it with memdev allocated MemoryRegion. The later is
+> initialized by generic code, so board only needs to opt in
+> to memdev scheme by providing
+>   MachineClass::default_ram_id
+> and using MachineState::ram instead of manually initializing
+> RAM memory region.
+>=20
+> PS:
+>  while at it add check for user supplied RAM size and error
+>  out if it mismatches board expected value.
+>=20
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> v2:
+>   * fix format string causing build failure on 32-bit host
+>     (Philippe Mathieu-Daud=E9 <philmd@redhat.com>)
+>=20
+> CC: drjones@redhat.com
+> CC: balrogg@gmail.com
+> CC: peter.maydell@linaro.org
+> CC: qemu-arm@nongnu.org
+> ---
+>  hw/arm/nseries.c | 32 +++++++++++++++++++-------------
+>  1 file changed, 19 insertions(+), 13 deletions(-)
+>
 
-I actually had this variant in the exact same way as you're suggesting here as 
-well before (not submitted to the list though), that is I had a version of 
-this function with a count argument, and I had 3 separate qtest cases, but 
-that variant failed in the exact same way.
+I don't know anything about nseries, but I promised Igor to put
+another pair of eyes on his changes. Looks fine to me.
 
-Furthermore, I even get some strange "could not push stack" error messages 
-from the qtest environment when I just add some empty noop tests to the 9pfs 
-test suite. I am not sure if that's related to this ringbuffer issue here, but 
-it was a show stopper for this 'separate test for each count' variant, so I 
-reverted it to this suggested array solution for now.
-
-So to avoid any misapprehension: it seems to me as if you were thinking that 
-the ringbuffer is freed between every individual test. That's not what I am 
-observing here. It rather seems as space in the ringbuffer is never freed 
-(before the entire 9pfs test suite completed).
-
-> This would ensure at least that each run starts with the same
-> fixed number of possible requests, ie. MAX_REQ minus the cost of
-> fs_attach().
-> 
-> So I'll revert this patch for now.
-> 
-> > Whatever precise 'count' tests are desired, it would only mean a one line
-> > change here.
-> > 
-> > Best regards,
-> > Christian Schoenebeck
-
-
-Best regards,
-Christian Schoenebeck
-
+Reviewed-by: Andrew Jones <drjones@redhat.com>=20
 
 
