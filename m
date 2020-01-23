@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0743145FBA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:13:30 +0100 (CET)
-Received: from localhost ([::1]:48768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB31145FB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:11:06 +0100 (CET)
+Received: from localhost ([::1]:48708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuQ7l-0002cS-0S
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:13:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54581)
+	id 1iuQ5Q-0007UR-Nn
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:11:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54625)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzC-00028F-40
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:47 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iuPzE-00029m-Ga
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPz3-0001z5-NO
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:37 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:39449)
+ (envelope-from <richard.henderson@linaro.org>) id 1iuPz6-00020m-3t
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:39 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:53348)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iuPz3-0001yW-G5
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:29 -0500
-Received: by mail-pf1-f196.google.com with SMTP id q10so609914pfs.6
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:04:29 -0800 (PST)
+ id 1iuPz5-000200-Tc
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:32 -0500
+Received: by mail-pj1-f65.google.com with SMTP id n96so310176pjc.3
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:04:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zXV8kwpB1YEq5Vdk+d1pQVUnmUxRqGDEumGQUOCIABQ=;
- b=ZwyyANqxab3Ig7fd+aXEpgsoqOO6vQyoXSJ53+wjZePe5xamaZjTnG9C1B4HsVBHEy
- uDKb7gnr8bK+lCATgoSY3DycNUY+TS3TS/pbap7Q3DvKJflZB0ZTcQ+iT+aCPpNiksaf
- FTnf6Z30V7QHtuRVm5KQdKST5cmWFqBE173wlom3CXt0HtDGXW7LfhIygK+INMUPME3O
- aqxXM5hl+gaODdBBs0Z1/6SfFjCe4LjqcUzTvk32N6IuA9OndDID9vrd2IFwfWCyUWo2
- XdotgdwcX0YuJ5oRVQrJBesyyEGtQPdZ8sT56Kll+y0mHGV55HQrGOPiVFtBSj8eWf/S
- 1bpQ==
+ bh=BFKFdYg9bKKfhy9lDw8L1ZCFfQivRqO9ZppMWCQhFOg=;
+ b=guvLTyNyQmxd+Dr7uAFv7OVC2074iYqG9Ae5l6y6EebFnYP0BBFNhgCr5HHlb6RjG3
+ 4QufwmnB87K8iv8cJYew+oYSWbBu/hzzu8YyY+ybXBwwMSQkZ5tGGQu5JF8+/dC9jynf
+ tqS9Gz9NpgaqeTVM8+5tlVVg5R4j9hJDDezjbQRjrueW5nA02krA7qQe+GvXjvP4EvL6
+ H34HdhHeuK4QB/9BatXAzf+8xJvagyOcDStlm9WdLsQnzejlpENjDASkZDNmzeZWlz3G
+ J26B0fVi2iK/sL02LGcubCvGd16IhOwoERZpmZJO4qjsgvxCjEByCVeKxIHYv1ybYp0F
+ PAqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zXV8kwpB1YEq5Vdk+d1pQVUnmUxRqGDEumGQUOCIABQ=;
- b=ZUxDb/DJ7c4heAxN/C49eFTv4JFiiJHBbs0Odi5DJKhMiQMIyIGh1wPolcOmSV7xA1
- fkbu9vZtdtPAT5DT/l2PKdCWNVOFxDPE7vZjmNRvvrk6Pf+dI+YlhJlDGPFnRFqb1oDX
- 5mPqUZebLdphxkIiVZPb+7HMI6gefjNhf3eEKYIN42faTeadHOOrMl9peO32nfKGqxkW
- 6pOU3XCJ42mUstZCMewMcj70wX1wSHRsmyubOQ2FrgCqm3qx/dmfDZ5i2b+RoshLLOp6
- 2VqBMGEhsxXay/uvEQPeQuee2KslHX0jbVufo2eVB2M+xcmPtWMH6p442rIJLOd+6EXh
- MYjQ==
-X-Gm-Message-State: APjAAAWBSH0Is89fIG0Ew1nzD9MeJuUtfN/4pWJ9xYkxfsbi8C0Zhg/c
- GLSp4eoQyiGv/ZzLngJ98Fsmf+VtHu0=
-X-Google-Smtp-Source: APXvYqyeuAGIFhB7SdYsEVtUellqNUqnRzkz0ZfA6N7IYdewFEUt6LFI/zno2eZRVtwUmZHHCa5jsA==
-X-Received: by 2002:aa7:86c3:: with SMTP id h3mr5086580pfo.225.1579737808080; 
- Wed, 22 Jan 2020 16:03:28 -0800 (PST)
+ bh=BFKFdYg9bKKfhy9lDw8L1ZCFfQivRqO9ZppMWCQhFOg=;
+ b=n3FlxK8Vm4p4qjbw4R0ab5g8yqfyPhA9dCqhCFadgNt7lslfYyRKy8FPjg5prX3Uws
+ 4XTxWwg8QmaO0BHatjgnHMGWjqrZ6pBuWJEemXE/bf+XNsSFY2LJ7gncM8iA05Ty0MZm
+ /db68W0EfF84NP6lQtTakza3aLLa3Z3sg72tl5rdLZgyFbTyE3E2iOL0k3jC5zF99ynh
+ Dx1OiEMFSLcYjdN3s+LQG1Ygc2yXcNzMRH1++9tTgrj/aR/jw/75n7KL7CNzyH5VaNkR
+ 6zzM9wO0ER8Gy4VXK0nNSCu+FjcwjRcGZkueAq+Ope81y1Li6ikTzDy2rscK6jny1GbH
+ wrEA==
+X-Gm-Message-State: APjAAAXgqVvTUt1ikfK1OqdALG5pgAEtcShY6fwz4CMxZKEqPZjSUKxV
+ Y+nm9hNDEh2YvoBztg/gEqNFjihGFWM=
+X-Google-Smtp-Source: APXvYqx17PluGh9J356JA1rBSM8nRgls/9j4DZjMaTVGR0CHc3DFv7bSarMXozt5qj7y14AqwwagKg==
+X-Received: by 2002:a17:90a:2e84:: with SMTP id
+ r4mr1261013pjd.64.1579737810395; 
+ Wed, 22 Jan 2020 16:03:30 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-198-77-92.west.biz.rr.com.
  [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.03.25
+ by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.03.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 16:03:27 -0800 (PST)
+ Wed, 22 Jan 2020 16:03:29 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc1 07/24] target/avr: Add instruction translation - Bit and
- Bit-test Instructions
-Date: Wed, 22 Jan 2020 14:02:50 -1000
-Message-Id: <20200123000307.11541-8-richard.henderson@linaro.org>
+Subject: [PATCH rc1 08/24] target/avr: Add instruction translation - MCU
+ Control Instructions
+Date: Wed, 22 Jan 2020 14:02:51 -1000
+Message-Id: <20200123000307.11541-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200123000307.11541-1-richard.henderson@linaro.org>
 References: <20200123000307.11541-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.196
+X-Received-From: 209.85.216.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,7 +82,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: thuth@redhat.com, me@xcancerberox.com.ar, S.E.Harris@kent.ac.uk,
  dovgaluk@ispras.ru, imammedo@redhat.com, mrolnik@gmail.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -90,293 +89,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Michael Rolnik <mrolnik@gmail.com>
 
 This includes:
-    - LSR, ROR
-    - ASR
-    - SWAP
-    - SBI, CBI
-    - BST, BLD
-    - BSET, BCLR
+    - BREAK
+    - NOP
+    - SLEEP
+    - WDR
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200118191416.19934-8-mrolnik@gmail.com>
+Message-Id: <20200118191416.19934-9-mrolnik@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/translate.c | 241 +++++++++++++++++++++++++++++++++++++++++
- target/avr/insn.decode |  14 +++
- 2 files changed, 255 insertions(+)
+ target/avr/translate.c | 68 ++++++++++++++++++++++++++++++++++++++++++
+ target/avr/insn.decode |  8 +++++
+ 2 files changed, 76 insertions(+)
 
 diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 4a62d9312a..58775af17c 100644
+index 58775af17c..4c680070e2 100644
 --- a/target/avr/translate.c
 +++ b/target/avr/translate.c
-@@ -2440,3 +2440,244 @@ static bool trans_LAT(DisasContext *ctx, arg_LAT *a)
+@@ -2681,3 +2681,71 @@ static bool trans_BCLR(DisasContext *ctx, arg_BCLR *a)
  
      return true;
  }
 +
 +/*
-+ * Bit and Bit-test Instructions
++ * MCU Control Instructions
 + */
-+static void gen_rshift_ZNVSf(TCGv R)
-+{
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf = R == 0 */
-+    tcg_gen_shri_tl(cpu_Nf, R, 7); /* Nf = R(7) */
-+    tcg_gen_xor_tl(cpu_Vf, cpu_Nf, cpu_Cf);
-+    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf = Nf ^ Vf */
-+}
 +
 +/*
-+ *  Shifts all bits in Rd one place to the right. Bit 7 is cleared. Bit 0 is
-+ *  loaded into the C Flag of the SREG. This operation effectively divides an
-+ *  unsigned value by two. The C Flag can be used to round the result.
++ *  The BREAK instruction is used by the On-chip Debug system, and is
++ *  normally not used in the application software. When the BREAK instruction is
++ *  executed, the AVR CPU is set in the Stopped Mode. This gives the On-chip
++ *  Debugger access to internal resources.  If any Lock bits are set, or either
++ *  the JTAGEN or OCDEN Fuses are unprogrammed, the CPU will treat the BREAK
++ *  instruction as a NOP and will not enter the Stopped mode.  This instruction
++ *  is not available in all devices. Refer to the device specific instruction
++ *  set summary.
 + */
-+static bool trans_LSR(DisasContext *ctx, arg_LSR *a)
++static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)
 +{
-+    TCGv Rd = cpu_r[a->rd];
-+
-+    tcg_gen_andi_tl(cpu_Cf, Rd, 1);
-+    tcg_gen_shri_tl(Rd, Rd, 1);
-+    /* update status register */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, Rd, 0); /* Zf = Rd == 0 */
-+    tcg_gen_movi_tl(cpu_Nf, 0);
-+    tcg_gen_mov_tl(cpu_Vf, cpu_Cf);
-+    tcg_gen_mov_tl(cpu_Sf, cpu_Vf);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Shifts all bits in Rd one place to the right. The C Flag is shifted into
-+ *  bit 7 of Rd. Bit 0 is shifted into the C Flag.  This operation, combined
-+ *  with ASR, effectively divides multi-byte signed values by two. Combined with
-+ *  LSR it effectively divides multi-byte unsigned values by two. The Carry Flag
-+ *  can be used to round the result.
-+ */
-+static bool trans_ROR(DisasContext *ctx, arg_ROR *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv t0 = tcg_temp_new_i32();
-+
-+    tcg_gen_shli_tl(t0, cpu_Cf, 7);
-+    /* update status register */
-+    tcg_gen_andi_tl(cpu_Cf, Rd, 1);
-+    /* update output register */
-+    tcg_gen_shri_tl(Rd, Rd, 1);
-+    tcg_gen_or_tl(Rd, Rd, t0);
-+    /* update status register */
-+    gen_rshift_ZNVSf(Rd);
-+
-+    tcg_temp_free_i32(t0);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Shifts all bits in Rd one place to the right. Bit 7 is held constant. Bit 0
-+ *  is loaded into the C Flag of the SREG. This operation effectively divides a
-+ *  signed value by two without changing its sign. The Carry Flag can be used to
-+ *  round the result.
-+ */
-+static bool trans_ASR(DisasContext *ctx, arg_ASR *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv t0 = tcg_temp_new_i32();
-+
-+    /* update status register */
-+    tcg_gen_andi_tl(cpu_Cf, Rd, 1); /* Cf = Rd(0) */
-+    /* update output register */
-+    tcg_gen_andi_tl(t0, Rd, 0x80); /* Rd = (Rd & 0x80) | (Rd >> 1) */
-+    tcg_gen_shri_tl(Rd, Rd, 1);
-+    tcg_gen_or_tl(Rd, Rd, t0);
-+    /* update status register */
-+    gen_rshift_ZNVSf(Rd);
-+
-+    tcg_temp_free_i32(t0);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Swaps high and low nibbles in a register.
-+ */
-+static bool trans_SWAP(DisasContext *ctx, arg_SWAP *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv t0 = tcg_temp_new_i32();
-+    TCGv t1 = tcg_temp_new_i32();
-+
-+    tcg_gen_andi_tl(t0, Rd, 0x0f);
-+    tcg_gen_shli_tl(t0, t0, 4);
-+    tcg_gen_andi_tl(t1, Rd, 0xf0);
-+    tcg_gen_shri_tl(t1, t1, 4);
-+    tcg_gen_or_tl(Rd, t0, t1);
-+
-+    tcg_temp_free_i32(t1);
-+    tcg_temp_free_i32(t0);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Sets a specified bit in an I/O Register. This instruction operates on
-+ *  the lower 32 I/O Registers -- addresses 0-31.
-+ */
-+static bool trans_SBI(DisasContext *ctx, arg_SBI *a)
-+{
-+    TCGv data = tcg_temp_new_i32();
-+    TCGv port = tcg_const_i32(a->reg);
-+
-+    gen_helper_inb(data, cpu_env, port);
-+    tcg_gen_ori_tl(data, data, 1 << a->bit);
-+    gen_helper_outb(cpu_env, port, data);
-+
-+    tcg_temp_free_i32(port);
-+    tcg_temp_free_i32(data);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Clears a specified bit in an I/O Register. This instruction operates on
-+ *  the lower 32 I/O Registers -- addresses 0-31.
-+ */
-+static bool trans_CBI(DisasContext *ctx, arg_CBI *a)
-+{
-+    TCGv data = tcg_temp_new_i32();
-+    TCGv port = tcg_const_i32(a->reg);
-+
-+    gen_helper_inb(data, cpu_env, port);
-+    tcg_gen_andi_tl(data, data, ~(1 << a->bit));
-+    gen_helper_outb(cpu_env, port, data);
-+
-+    tcg_temp_free_i32(data);
-+    tcg_temp_free_i32(port);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Stores bit b from Rd to the T Flag in SREG (Status Register).
-+ */
-+static bool trans_BST(DisasContext *ctx, arg_BST *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+
-+    tcg_gen_andi_tl(cpu_Tf, Rd, 1 << a->bit);
-+    tcg_gen_shri_tl(cpu_Tf, cpu_Tf, a->bit);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Copies the T Flag in the SREG (Status Register) to bit b in register Rd.
-+ */
-+static bool trans_BLD(DisasContext *ctx, arg_BLD *a)
-+{
-+    TCGv Rd = cpu_r[a->rd];
-+    TCGv t1 = tcg_temp_new_i32();
-+
-+    tcg_gen_andi_tl(Rd, Rd, ~(1u << a->bit)); /* clear bit */
-+    tcg_gen_shli_tl(t1, cpu_Tf, a->bit); /* create mask */
-+    tcg_gen_or_tl(Rd, Rd, t1);
-+
-+    tcg_temp_free_i32(t1);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Sets a single Flag or bit in SREG.
-+ */
-+static bool trans_BSET(DisasContext *ctx, arg_BSET *a)
-+{
-+    switch (a->bit) {
-+    case 0x00:
-+        tcg_gen_movi_tl(cpu_Cf, 0x01);
-+        break;
-+    case 0x01:
-+        tcg_gen_movi_tl(cpu_Zf, 0x01);
-+        break;
-+    case 0x02:
-+        tcg_gen_movi_tl(cpu_Nf, 0x01);
-+        break;
-+    case 0x03:
-+        tcg_gen_movi_tl(cpu_Vf, 0x01);
-+        break;
-+    case 0x04:
-+        tcg_gen_movi_tl(cpu_Sf, 0x01);
-+        break;
-+    case 0x05:
-+        tcg_gen_movi_tl(cpu_Hf, 0x01);
-+        break;
-+    case 0x06:
-+        tcg_gen_movi_tl(cpu_Tf, 0x01);
-+        break;
-+    case 0x07:
-+        tcg_gen_movi_tl(cpu_If, 0x01);
-+        break;
++    if (!avr_have_feature(ctx, AVR_FEATURE_BREAK)) {
++        return true;
 +    }
 +
++#ifdef BREAKPOINT_ON_BREAK
++    tcg_gen_movi_tl(cpu_pc, ctx->npc - 1);
++    gen_helper_debug(cpu_env);
++    ctx->bstate = DISAS_EXIT;
++#else
++    /* NOP */
++#endif
++
 +    return true;
 +}
 +
++
 +/*
-+ *  Clears a single Flag in SREG.
++ *  This instruction performs a single cycle No Operation.
 + */
-+static bool trans_BCLR(DisasContext *ctx, arg_BCLR *a)
++static bool trans_NOP(DisasContext *ctx, arg_NOP *a)
 +{
-+    switch (a->bit) {
-+    case 0x00:
-+        tcg_gen_movi_tl(cpu_Cf, 0x00);
-+        break;
-+    case 0x01:
-+        tcg_gen_movi_tl(cpu_Zf, 0x00);
-+        break;
-+    case 0x02:
-+        tcg_gen_movi_tl(cpu_Nf, 0x00);
-+        break;
-+    case 0x03:
-+        tcg_gen_movi_tl(cpu_Vf, 0x00);
-+        break;
-+    case 0x04:
-+        tcg_gen_movi_tl(cpu_Sf, 0x00);
-+        break;
-+    case 0x05:
-+        tcg_gen_movi_tl(cpu_Hf, 0x00);
-+        break;
-+    case 0x06:
-+        tcg_gen_movi_tl(cpu_Tf, 0x00);
-+        break;
-+    case 0x07:
-+        tcg_gen_movi_tl(cpu_If, 0x00);
-+        break;
-+    }
++
++    /* NOP */
++
++    return true;
++}
++
++
++/*
++ *  This instruction sets the circuit in sleep mode defined by the MCU
++ *  Control Register.
++ */
++static bool trans_SLEEP(DisasContext *ctx, arg_SLEEP *a)
++{
++    gen_helper_sleep(cpu_env);
++    ctx->bstate = DISAS_NORETURN;
++    return true;
++}
++
++
++/*
++ *  This instruction resets the Watchdog Timer. This instruction must be
++ *  executed within a limited time given by the WD prescaler. See the Watchdog
++ *  Timer hardware specification.
++ */
++static bool trans_WDR(DisasContext *ctx, arg_WDR *a)
++{
++    gen_helper_wdr(cpu_env);
 +
 +    return true;
 +}
 diff --git a/target/avr/insn.decode b/target/avr/insn.decode
-index 3f9304f8b0..4ee55862b2 100644
+index 4ee55862b2..f8d32f2258 100644
 --- a/target/avr/insn.decode
 +++ b/target/avr/insn.decode
-@@ -158,3 +158,17 @@ XCH             1001 001 rd:5 0100
- LAC             1001 001 rd:5 0110
- LAS             1001 001 rd:5 0101
- LAT             1001 001 rd:5 0111
+@@ -172,3 +172,11 @@ BST             1111 101 rd:5 0 bit:3
+ BLD             1111 100 rd:5 0 bit:3
+ BSET            1001 0100 0 bit:3 1000
+ BCLR            1001 0100 1 bit:3 1000
 +
 +#
-+# Bit and Bit-test Instructions
++# MCU Control Instructions
 +#
-+LSR             1001 010 rd:5 0110
-+ROR             1001 010 rd:5 0111
-+ASR             1001 010 rd:5 0101
-+SWAP            1001 010 rd:5 0010
-+SBI             1001 1010 reg:5 bit:3
-+CBI             1001 1000 reg:5 bit:3
-+BST             1111 101 rd:5 0 bit:3
-+BLD             1111 100 rd:5 0 bit:3
-+BSET            1001 0100 0 bit:3 1000
-+BCLR            1001 0100 1 bit:3 1000
++BREAK           1001 0101 1001 1000
++NOP             0000 0000 0000 0000
++SLEEP           1001 0101 1000 1000
++WDR             1001 0101 1010 1000
 -- 
 2.20.1
 
