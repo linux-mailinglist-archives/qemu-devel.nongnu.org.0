@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5FB51466F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 12:40:43 +0100 (CET)
-Received: from localhost ([::1]:54982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F08146777
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 13:02:40 +0100 (CET)
+Received: from localhost ([::1]:55786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuaqo-00049T-Qu
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 06:40:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34305)
+	id 1iubC2-0004Ia-BP
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 07:02:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35282)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iuapp-0003iG-KW
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:39:42 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iuarw-0005cn-9o
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1iuapo-0002te-Id
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:39:41 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55035)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1iuapo-0002t5-CF
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:39:40 -0500
-Received: by mail-wm1-x341.google.com with SMTP id b19so2201771wmj.4
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 03:39:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=n0tMWs3StmJUjvh7UqoyhGYJQxb3xLIGGA3i9fUY/xQ=;
- b=A/rpVbN7ci9y/rAwYBdiM3xQfRP+5lmzG5O5/YG5ac1QbalrnhmwpBVMaNGePxn81H
- nlVRvX/kuKrb8Tdp8ZA5B70GTGl9RFjeO08IvF5wO8A+Prg5W8jhJ9dtP4ptgnXMWfvo
- 9WPYHtYPwB4u4LhpK4ePgECSVpLCzDXlHactZQY0wzZXfZhgcHpxpokO/4YKDjxU5JnJ
- tLJIIao6zoSjqwi2AAJv3Au5fy8aupiKoomBWs/PrxfdfzpqYRBbMILtb7tHV1BJ/7KZ
- kwU0vnSENElNCwgaVoLaRXxbUNTp/ttLzerH8xNfYLbjCD7hldw2/xIUz7q1VzXSfdRS
- /SYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=n0tMWs3StmJUjvh7UqoyhGYJQxb3xLIGGA3i9fUY/xQ=;
- b=hsXwdiN20lTVf8SfQyWcQltnpfgSr3NYG5R3HZOqUBY6ID/LhtZQs17Xyw2Zx31TL1
- K5vBw6qdKB78n1QvKhClKr/FfAntZlVBTLg43Av1OCcklKji1ZSAuksz1pQ3qeHbnDVd
- uw28rsIgQYkKXGXmvwlRX7p6OBuQYNgbUTlWWJgPmy5QILXtFRE/kbGbBORQniPbCBvn
- H8QAxZLw3kguoU41bp89SeKrELMW4NHj6raqMtSgUfNaPcb4z8ZmjFSJxuJFm50K1utj
- YRdTKlw8bqW05OT9TpR3TgnO8z+arT/PCQHqU/ZKE4bCISTeO9o7ZkdceRSRChLvdSCH
- LQ0A==
-X-Gm-Message-State: APjAAAW5Dv6wh6tC6IHsSZq4+ial9BtZN62fVREy+2KvtL+pAfXknJvp
- Th6269d97bwRLHCt2uPTRqpxDbwuy2XF3sfxQPA=
-X-Google-Smtp-Source: APXvYqzkiHUhXXwgz19jq0VXJs8bScrM2f/VU721+VulEkF+BybtSOtCQ9t2Qh56FqGo0zOYYq/2uphn4KoU045Ce68=
-X-Received: by 2002:a1c:9c87:: with SMTP id f129mr3950059wme.26.1579779579260; 
- Thu, 23 Jan 2020 03:39:39 -0800 (PST)
-MIME-Version: 1.0
-References: <20200110153039.1379601-1-marcandre.lureau@redhat.com>
- <20200110153039.1379601-11-marcandre.lureau@redhat.com>
- <2a3b0024-fb80-c34d-16fd-78f8bc722807@redhat.com>
-In-Reply-To: <2a3b0024-fb80-c34d-16fd-78f8bc722807@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 23 Jan 2020 15:39:27 +0400
-Message-ID: <CAJ+F1CJBFT7j6qenmD-C053dN4p3YgXFzi3ed=e9vXzr4Hr_ng@mail.gmail.com>
-Subject: Re: [PATCH 10/26] object: add object_property_set_defaut_{bool, str, 
- int, uint}()
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+ (envelope-from <imammedo@redhat.com>) id 1iuaru-0004Hk-28
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33636
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iuart-0004HO-UO
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 06:41:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579779709;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V/wrov4O4wn7GL/SGFlz2u8WrJvONHS8pnZqMiaNP7E=;
+ b=RQA8aY74PSIg8IKAfjFvN9yz4vQBh7JtDJUNAeKCjhpiC8e0AalPOxEzLRxCa24qhKvXj/
+ YU5nob9FSVlAP6tFZKV3ZN5WFLx6UF3SYGMy3f+xsApOePj0R0GNavQu1H6y5MkPDZqn9F
+ dBkr4NtiK+OoCB8mG3tsEp4XC99xjVc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-AFK1qEqXPh63efE0MrAX1A-1; Thu, 23 Jan 2020 06:41:42 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80DC8107ACC4;
+ Thu, 23 Jan 2020 11:41:41 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FA8510842A9;
+ Thu, 23 Jan 2020 11:41:40 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH REPOST v3 19/80] arm/mcimx7d-sabre: use memdev for RAM
+Date: Thu, 23 Jan 2020 12:37:44 +0100
+Message-Id: <1579779525-20065-20-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: AFK1qEqXPh63efE0MrAX1A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,124 +70,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: andrew.smirnov@gmail.com, peter.maydell@linaro.org, drjones@redhat.com,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+memory_region_allocate_system_memory() API is going away, so
+replace it with memdev allocated MemoryRegion. The later is
+initialized by generic code, so board only needs to opt in
+to memdev scheme by providing
+  MachineClass::default_ram_id
+and using MachineState::ram instead of manually initializing
+RAM memory region.
 
-On Thu, Jan 23, 2020 at 3:29 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> This patch caught my attention because of the typo in the function, but
+PS:
+ remove no longer needed MCIMX7Sabre
 
-Ah! a french "d=C3=A9faut".
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+CC: drjones@redhat.com
+CC: andrew.smirnov@gmail.com
+CC: peter.maydell@linaro.org
+CC: qemu-arm@nongnu.org
+---
+ hw/arm/mcimx7d-sabre.c | 25 +++++++++----------------
+ 1 file changed, 9 insertions(+), 16 deletions(-)
 
-> I also noticed that get_default is never set to anything but
-> object_property_get_defval.
->
-> What do you think about removing the method and just relying on defval?
-> In practice there would be a new patch that squashes 7, 10 and the thing
-> after my signature.
-
-Indeed, we could remove the get_default callback. I can't find the
-reason I added it now.
-
-Are you resending the series then?
-
->
-> Paolo
->
-> diff --git a/include/qom/object.h b/include/qom/object.h
-> index 1ea5c8c..035e41c 100644
-> --- a/include/qom/object.h
-> +++ b/include/qom/object.h
-> @@ -367,13 +367,6 @@ typedef void (ObjectPropertyRelease)(Object *obj,
->   */
->  typedef void (ObjectPropertyInit)(Object *obj, ObjectProperty *prop);
->
-> -/**
-> - * ObjectPropertyGetDefault:
-> - *
-> - * Get an allocated string representation of the default value.
-> - */
-> -typedef char *(ObjectPropertyGetDefault)(ObjectProperty *prop);
-> -
->  struct ObjectProperty
->  {
->      gchar *name;
-> @@ -384,7 +377,6 @@ struct ObjectProperty
->      ObjectPropertyResolve *resolve;
->      ObjectPropertyRelease *release;
->      ObjectPropertyInit *init;
-> -    ObjectPropertyGetDefault *get_default;
->      void *opaque;
->      QObject *defval;
->  };
-> diff --git a/qom/object.c b/qom/object.c
-> index 2464a9f..aa6cf19 100644
-> --- a/qom/object.c
-> +++ b/qom/object.c
-> @@ -1444,15 +1444,6 @@ int64_t object_property_get_int(Object *obj, const=
- char *name,
->      return retval;
->  }
->
-> -char *object_property_get_default(ObjectProperty *prop)
-> -{
-> -    if (!prop->get_default) {
-> -        return NULL;
-> -    }
-> -
-> -    return prop->get_default(prop);
-> -}
-> -
->  static void object_property_init_defval(Object *obj, ObjectProperty *pro=
-p)
->  {
->      Visitor *v =3D qobject_input_visitor_new(prop->defval);
-> @@ -1463,8 +1454,12 @@ static void object_property_init_defval(Object *ob=
-j, ObjectProperty *prop)
->      visit_free(v);
->  }
->
-> -static char *object_property_get_defval(ObjectProperty *prop)
-> +char *object_property_get_default(ObjectProperty *prop)
->  {
-> +    if (!prop->defval) {
-> +        return NULL;
-> +    }
-> +
->      return qstring_free(qobject_to_json(prop->defval), TRUE);
->  }
->
-> @@ -1472,11 +1467,9 @@ static void object_property_set_default(ObjectProp=
-erty *prop, QObject *defval)
->  {
->      assert(!prop->defval);
->      assert(!prop->init);
-> -    assert(!prop->get_default);
->
->      prop->defval =3D defval;
->      prop->init =3D object_property_init_defval;
-> -    prop->get_default =3D object_property_get_defval;
->  }
->
->  void object_property_set_default_bool(ObjectProperty *prop, bool value)
-> @@ -2610,8 +2603,7 @@ void object_property_add_alias(Object *obj, const c=
-har *name,
->          goto out;
->      }
->      op->resolve =3D property_resolve_alias;
-> -    if (target_prop->get_default) {
-> -        op->get_default =3D target_prop->get_default;
-> +    if (target_prop->defval) {
->          op->defval =3D qobject_ref(target_prop->defval);
->      }
->
->
->
-
-
+diff --git a/hw/arm/mcimx7d-sabre.c b/hw/arm/mcimx7d-sabre.c
+index 0d1f62d..de1e264 100644
+--- a/hw/arm/mcimx7d-sabre.c
++++ b/hw/arm/mcimx7d-sabre.c
+@@ -21,15 +21,10 @@
+ #include "qemu/error-report.h"
+ #include "sysemu/qtest.h"
+=20
+-typedef struct {
+-    FslIMX7State soc;
+-    MemoryRegion ram;
+-} MCIMX7Sabre;
+-
+ static void mcimx7d_sabre_init(MachineState *machine)
+ {
+     static struct arm_boot_info boot_info;
+-    MCIMX7Sabre *s =3D g_new0(MCIMX7Sabre, 1);
++    FslIMX7State *s;
+     int i;
+=20
+     if (machine->ram_size > FSL_IMX7_MMDC_SIZE) {
+@@ -45,15 +40,12 @@ static void mcimx7d_sabre_init(MachineState *machine)
+         .nb_cpus =3D machine->smp.cpus,
+     };
+=20
+-    object_initialize_child(OBJECT(machine), "soc",
+-                            &s->soc, sizeof(s->soc),
+-                            TYPE_FSL_IMX7, &error_fatal, NULL);
+-    object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_fat=
+al);
++    s =3D FSL_IMX7(object_new(TYPE_FSL_IMX7));
++    object_property_add_child(OBJECT(machine), "soc", OBJECT(s), &error_fa=
+tal);
++    object_property_set_bool(OBJECT(s), true, "realized", &error_fatal);
+=20
+-    memory_region_allocate_system_memory(&s->ram, NULL, "mcimx7d-sabre.ram=
+",
+-                                         machine->ram_size);
+-    memory_region_add_subregion(get_system_memory(),
+-                                FSL_IMX7_MMDC_ADDR, &s->ram);
++    memory_region_add_subregion(get_system_memory(), FSL_IMX7_MMDC_ADDR,
++                                machine->ram);
+=20
+     for (i =3D 0; i < FSL_IMX7_NUM_USDHCS; i++) {
+         BusState *bus;
+@@ -63,7 +55,7 @@ static void mcimx7d_sabre_init(MachineState *machine)
+=20
+         di =3D drive_get_next(IF_SD);
+         blk =3D di ? blk_by_legacy_dinfo(di) : NULL;
+-        bus =3D qdev_get_child_bus(DEVICE(&s->soc.usdhc[i]), "sd-bus");
++        bus =3D qdev_get_child_bus(DEVICE(&s->usdhc[i]), "sd-bus");
+         carddev =3D qdev_create(bus, TYPE_SD_CARD);
+         qdev_prop_set_drive(carddev, "drive", blk, &error_fatal);
+         object_property_set_bool(OBJECT(carddev), true,
+@@ -71,7 +63,7 @@ static void mcimx7d_sabre_init(MachineState *machine)
+     }
+=20
+     if (!qtest_enabled()) {
+-        arm_load_kernel(&s->soc.cpu[0], machine, &boot_info);
++        arm_load_kernel(&s->cpu[0], machine, &boot_info);
+     }
+ }
+=20
+@@ -80,5 +72,6 @@ static void mcimx7d_sabre_machine_init(MachineClass *mc)
+     mc->desc =3D "Freescale i.MX7 DUAL SABRE (Cortex A7)";
+     mc->init =3D mcimx7d_sabre_init;
+     mc->max_cpus =3D FSL_IMX7_NUM_CPUS;
++    mc->default_ram_id =3D "mcimx7d-sabre.ram";
+ }
+ DEFINE_MACHINE("mcimx7d-sabre", mcimx7d_sabre_machine_init)
 --=20
-Marc-Andr=C3=A9 Lureau
+2.7.4
+
 
