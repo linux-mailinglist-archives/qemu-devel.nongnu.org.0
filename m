@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C95145FE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:26:14 +0100 (CET)
-Received: from localhost ([::1]:49078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6256B145FD3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:21:58 +0100 (CET)
+Received: from localhost ([::1]:48948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuQK5-0001GI-O4
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:26:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54846)
+	id 1iuQFx-0003fC-11
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:21:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54866)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzg-0002Hi-KX
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:17 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iuPzi-0002IO-LP
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzX-0002KK-OO
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:07 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:36974)
+ (envelope-from <richard.henderson@linaro.org>) id 1iuPzZ-0002LA-Re
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:09 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:38423)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iuPzX-0002Jw-Ha
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:59 -0500
-Received: by mail-pf1-f194.google.com with SMTP id p14so617442pfn.4
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:04:59 -0800 (PST)
+ id 1iuPzZ-0002Kz-Lf
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:01 -0500
+Received: by mail-pf1-f195.google.com with SMTP id x185so615368pfc.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:05:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+Yoj9Ef3PvobNNzt7Mf8CoMZH4vxGIaCLIOj2GwlEFM=;
- b=dNPTnF9zEaYZbnlx9Ct88GAB0is7fVBD5d+DOy9ktdvYkKh/ANHlbv+5zKsnQpxLtw
- QFf8bksfs1OLqzgACS0faP8BpoAmZT/vhiGpcoQzzKyJXzXXbmupyx+cE8KWOZijYtsp
- QtbSg2NBIL7FT6ixSAiB4ruzubGYvm3T5e2i71bJWm3i/qByLY6yceZd6uVYjFMQs5aW
- 1swWSszHg7RTGnMS23KavHKywNy08DrdSMNxfOSRmB9N2sOLPTxP60Zz8mkngc9G3yI7
- ky3c3KZMkZqZgtanMP3fGeNhn8/khpspQJMnrMPgypB6T44/7H0gSDK5VIoMIkDmKtdW
- 7EtQ==
+ bh=zvq+Ll0OMhGkeTT4nxRG0eqc6IV0o3wiUiAqy9VRhew=;
+ b=bJTqS4LA1A8MVdsHkoi16Putg4JfpuR+BuFYOHUy7bd7Q8OeFqtwQHVjpx+QJ4TAP8
+ pouQItys7bJq5QJpaqwiTczAPnbXXNO7TeKDZrtvRzLoY1zYBRzcKB3mFOO06Q2ew4v/
+ s4mtnSiHk0l/yHN2o9PV0vXUWdXf9Q8Ws6x82j5o3PunFM96RmxiMKEy9J+sVl6qFPeo
+ Xriot1TygdW839qC85ejxXu/6BwqoFpPXRcn5b5lLLSri4JQw8njS+WReH9UY+Y+erhu
+ rcGM/IlVUapLJai6ec7+F1vqkP7vTI8CN4STBo1ql6QkIjc2trbZKdjXLNupy0FD9E3l
+ zfyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+Yoj9Ef3PvobNNzt7Mf8CoMZH4vxGIaCLIOj2GwlEFM=;
- b=G9R51LMRKaNyJotbw+V9tg/3TY9FEt24fIBqUfbfSOoIYNdxFFTH/qq7p8aICC34rm
- FKzbRF7dGy81NBGWZtDPFU307j8tUDZ2WPgcZIUN3cyqY4GYL0Hsoc3flk91D8lLjS5o
- J41B8+7QJtIzYpQ1UpiYC+K3wDpahKyMFYLzys5hRiBrvWuKtV/0Evo6T9l7AaEvo0Yn
- d93voD3WxIc9LwDi433jSquxHBUzyQDho7RQceo6zp2ZSjcsckOAZqVrfK0SwnR1iNnb
- 4FGLWf1bdIcAhTp5A/hitPRpoYUqUehMbGN1LJWhyB1uef8hLqiTHsya4RIg8f/z4XBd
- znOQ==
-X-Gm-Message-State: APjAAAV4bEa65MKelPVhquQfNuzOBD2UYaSAhOynQo7rEKSu3MWw/Y/I
- AFQ6w/oiHR9LHabiFa9TLNzXC/UWO0I=
-X-Google-Smtp-Source: APXvYqyYk9tpvrdPO+53VNYEZyKMKzqC6lTZQ13jPnRVALpacDI5ZD1EHsQfmyiYXCA0kee7nbof8A==
-X-Received: by 2002:a65:68ca:: with SMTP id k10mr932404pgt.222.1579737838231; 
- Wed, 22 Jan 2020 16:03:58 -0800 (PST)
+ bh=zvq+Ll0OMhGkeTT4nxRG0eqc6IV0o3wiUiAqy9VRhew=;
+ b=mX4UkbXZ8HQstHIW2YKxd6JqEHm9elfi8Vq6+NHDGUq/slj6F7phlr6ttpa22rTgZL
+ PqRBKtdGUfGCuroo194BhbMEp5WpNQ4wGm4nD5bWaHNHDiwvxehC/jui7/WYbLPRPJBH
+ 2UZgV5wz9uZpXYv0zC8+tJ5uTm/SaXnKqqFsjgn6DSdmlhzlx/ZgkUW3dAyl5PwefMs7
+ z3Z6ODwLGYXWNlKP2yRB5ePC5qIpBvPZrrf4yfu5EfjLASZR9TwRgEy/XmnKdobxE/Ob
+ sZZ6ZcBilshHXWGQgcSnKaiyK94QmwJz3ek9x41oWNRXNDxzldOfnzrrTTZJyCcxuPIQ
+ pVFw==
+X-Gm-Message-State: APjAAAWdXpdRHCN1w9f5y398JRYaCCZ6pwAmh/mHN8qhGjn/sLyPLL1s
+ zzVrFUuvbXhvhtF/zVLPfq0KB5OcmeQ=
+X-Google-Smtp-Source: APXvYqwnxiV3tZ7Vms0RUI215SYPIYvVOlcZaANAvzEkqKywqTpnqm3gSBSQZ02/xt0S4D/kzgChPw==
+X-Received: by 2002:aa7:8699:: with SMTP id d25mr4899835pfo.139.1579737840374; 
+ Wed, 22 Jan 2020 16:04:00 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-198-77-92.west.biz.rr.com.
  [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.03.56
+ by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.03.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 16:03:57 -0800 (PST)
+ Wed, 22 Jan 2020 16:03:59 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc1 20/24] hw/avr: Add some Arduino boards
-Date: Wed, 22 Jan 2020 14:03:03 -1000
-Message-Id: <20200123000307.11541-21-richard.henderson@linaro.org>
+Subject: [PATCH rc1 21/24] target/avr: Update build system
+Date: Wed, 22 Jan 2020 14:03:04 -1000
+Message-Id: <20200123000307.11541-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200123000307.11541-1-richard.henderson@linaro.org>
 References: <20200123000307.11541-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.194
+X-Received-From: 209.85.210.195
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,236 +80,106 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: thuth@redhat.com, me@xcancerberox.com.ar, S.E.Harris@kent.ac.uk,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- dovgaluk@ispras.ru, imammedo@redhat.com, mrolnik@gmail.com,
+ dovgaluk@ispras.ru, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ imammedo@redhat.com, mrolnik@gmail.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Michael Rolnik <mrolnik@gmail.com>
 
-Arduino boards are build with AVR chipsets.
-Add some of the popular boards:
+Make AVR support buildable
 
-- Arduino Duemilanove
-- Arduino Uno
-- Arduino Mega
-
-For more information:
-  https://www.arduino.cc/en/Main/Products
-  https://store.arduino.cc/arduino-genuino/most-popular
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200120220107.17825-15-f4bug@amsat.org>
+Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Message-Id: <20200118191416.19934-19-mrolnik@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/avr/arduino.c     | 175 +++++++++++++++++++++++++++++++++++++++++++
- hw/avr/Kconfig       |   4 +
- hw/avr/Makefile.objs |   1 +
- 3 files changed, 180 insertions(+)
- create mode 100644 hw/avr/arduino.c
+ configure                       |  7 +++++++
+ default-configs/avr-softmmu.mak |  5 +++++
+ target/avr/Makefile.objs        | 34 +++++++++++++++++++++++++++++++++
+ 3 files changed, 46 insertions(+)
+ create mode 100644 default-configs/avr-softmmu.mak
+ create mode 100644 target/avr/Makefile.objs
 
-diff --git a/hw/avr/arduino.c b/hw/avr/arduino.c
+diff --git a/configure b/configure
+index 557e4382ea..94e79ca634 100755
+--- a/configure
++++ b/configure
+@@ -7612,6 +7612,10 @@ case "$target_name" in
+     mttcg="yes"
+     gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml"
+   ;;
++  avr)
++    gdb_xml_files="avr-cpu.xml"
++    target_compiler=$cross_cc_avr
++  ;;
+   cris)
+   ;;
+   hppa)
+@@ -7831,6 +7835,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
+       disas_config "ARM_A64"
+     fi
+   ;;
++  avr)
++    disas_config "AVR"
++  ;;
+   cris)
+     disas_config "CRIS"
+   ;;
+diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmmu.mak
 new file mode 100644
-index 0000000000..784246baba
+index 0000000000..80218add98
 --- /dev/null
-+++ b/hw/avr/arduino.c
-@@ -0,0 +1,175 @@
-+/*
-+ * QEMU Arduino boards
-+ *
-+ * Copyright (c) 2019 Philippe Mathieu-Daudé
-+ *
-+ * This work is licensed under the terms of the GNU GPLv2 or later.
-+ * See the COPYING file in the top-level directory.
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
++++ b/default-configs/avr-softmmu.mak
+@@ -0,0 +1,5 @@
++# Default configuration for avr-softmmu
 +
-+/* TODO: Implement the use of EXTRAM */
++# Boards:
++#
++CONFIG_ARDUINO=y
+diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
+new file mode 100644
+index 0000000000..7523e0c6e2
+--- /dev/null
++++ b/target/avr/Makefile.objs
+@@ -0,0 +1,34 @@
++#
++#  QEMU AVR CPU
++#
++#  Copyright (c) 2019 Michael Rolnik
++#
++#  This library is free software; you can redistribute it and/or
++#  modify it under the terms of the GNU Lesser General Public
++#  License as published by the Free Software Foundation; either
++#  version 2.1 of the License, or (at your option) any later version.
++#
++#  This library is distributed in the hope that it will be useful,
++#  but WITHOUT ANY WARRANTY; without even the implied warranty of
++#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++#  Lesser General Public License for more details.
++#
++#  You should have received a copy of the GNU Lesser General Public
++#  License along with this library; if not, see
++#  <http://www.gnu.org/licenses/lgpl-2.1.html>
++#
 +
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "qapi/error.h"
-+#include "hw/boards.h"
-+#include "hw/loader.h"
-+#include "elf.h"
-+#include "atmel_atmega.h"
++DECODETREE = $(SRC_PATH)/scripts/decodetree.py
++decode-y = $(SRC_PATH)/target/avr/insn.decode
 +
-+typedef struct ArduinoMachineState {
-+    /*< private >*/
-+    MachineState parent_obj;
-+    /*< public >*/
-+    AtmegaMcuState mcu;
-+} ArduinoMachineState;
++target/avr/decode_insn.inc.c: $(decode-y) $(DECODETREE)
++	$(call quiet-command, \
++	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn --insnwidth 16 $<, \
++	  "GEN", $(TARGET_DIR)$@)
 +
-+typedef struct ArduinoMachineClass {
-+    /*< private >*/
-+    MachineClass parent_class;
-+    /*< public >*/
-+    const char *mcu_type;
-+    uint64_t xtal_hz;
-+} ArduinoMachineClass;
++target/avr/translate.o: target/avr/decode_insn.inc.c
 +
-+#define TYPE_ARDUINO_MACHINE \
-+        MACHINE_TYPE_NAME("arduino")
-+#define ARDUINO_MACHINE(obj) \
-+        OBJECT_CHECK(ArduinoMachineState, (obj), TYPE_ARDUINO_MACHINE)
-+#define ARDUINO_MACHINE_CLASS(klass) \
-+        OBJECT_CLASS_CHECK(ArduinoMachineClass, (klass), TYPE_ARDUINO_MACHINE)
-+#define ARDUINO_MACHINE_GET_CLASS(obj) \
-+        OBJECT_GET_CLASS(ArduinoMachineClass, (obj), TYPE_ARDUINO_MACHINE)
-+
-+static void load_firmware(const char *firmware, uint64_t flash_size)
-+{
-+    const char *filename;
-+    int bytes_loaded;
-+
-+    /* Load firmware (contents of flash) trying to auto-detect format */
-+    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware);
-+    if (filename == NULL) {
-+        error_report("Unable to find %s", firmware);
-+        exit(1);
-+    }
-+
-+    bytes_loaded = load_elf(filename, NULL, NULL, NULL, NULL, NULL, NULL,
-+                            0, EM_NONE, 0, 0);
-+    if (bytes_loaded < 0) {
-+        bytes_loaded = load_image_targphys(filename, OFFSET_CODE, flash_size);
-+    }
-+    if (bytes_loaded < 0) {
-+        error_report("Unable to load firmware image %s as ELF or raw binary",
-+                     firmware);
-+        exit(1);
-+    }
-+}
-+
-+static void arduino_machine_init(MachineState *machine)
-+{
-+    ArduinoMachineClass *amc = ARDUINO_MACHINE_GET_CLASS(machine);
-+    ArduinoMachineState *ams = ARDUINO_MACHINE(machine);
-+
-+    sysbus_init_child_obj(OBJECT(machine), "mcu", &ams->mcu, sizeof(ams->mcu),
-+                          amc->mcu_type);
-+    object_property_set_uint(OBJECT(&ams->mcu), amc->xtal_hz,
-+                             "xtal-frequency-hz", &error_abort);
-+    object_property_set_bool(OBJECT(&ams->mcu), true, "realized",
-+                             &error_abort);
-+
-+    if (machine->firmware) {
-+        load_firmware(machine->firmware, memory_region_size(&ams->mcu.flash));
-+    }
-+}
-+
-+static void arduino_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    mc->init = arduino_machine_init;
-+    mc->default_cpus = 1;
-+    mc->min_cpus = mc->default_cpus;
-+    mc->max_cpus = mc->default_cpus;
-+    mc->no_floppy = 1;
-+    mc->no_cdrom = 1;
-+    mc->no_parallel = 1;
-+}
-+
-+static void arduino_duemilanove_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    ArduinoMachineClass *amc = ARDUINO_MACHINE_CLASS(oc);
-+
-+    /* https://www.arduino.cc/en/Main/ArduinoBoardDuemilanove */
-+    mc->desc        = "Arduino Duemilanove (ATmega168)",
-+    mc->alias       = "2009";
-+    amc->mcu_type   = TYPE_ATMEGA168_MCU;
-+    amc->xtal_hz    = 16 * 1000 * 1000;
-+};
-+
-+static void arduino_uno_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    ArduinoMachineClass *amc = ARDUINO_MACHINE_CLASS(oc);
-+
-+    /* https://store.arduino.cc/arduino-uno-rev3 */
-+    mc->desc        = "Arduino UNO (ATmega328P)";
-+    mc->alias       = "uno";
-+    amc->mcu_type   = TYPE_ATMEGA328_MCU;
-+    amc->xtal_hz    = 16 * 1000 * 1000;
-+};
-+
-+static void arduino_mega_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    ArduinoMachineClass *amc = ARDUINO_MACHINE_CLASS(oc);
-+
-+    /* https://www.arduino.cc/en/Main/ArduinoBoardMega */
-+    mc->desc        = "Arduino Mega (ATmega1280)";
-+    mc->alias       = "mega";
-+    amc->mcu_type   = TYPE_ATMEGA1280_MCU;
-+    amc->xtal_hz    = 16 * 1000 * 1000;
-+};
-+
-+static void arduino_mega2560_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    ArduinoMachineClass *amc = ARDUINO_MACHINE_CLASS(oc);
-+
-+    /* https://store.arduino.cc/arduino-mega-2560-rev3 */
-+    mc->desc        = "Arduino Mega 2560 (ATmega2560)";
-+    mc->alias       = "mega2560";
-+    mc->is_default  = true;
-+    amc->mcu_type   = TYPE_ATMEGA2560_MCU;
-+    amc->xtal_hz    = 16 * 1000 * 1000; /* CSTCE16M0V53-R0 */
-+};
-+
-+static const TypeInfo arduino_machine_types[] = {
-+    {
-+        .name          = MACHINE_TYPE_NAME("arduino-duemilanove"),
-+        .parent        = TYPE_ARDUINO_MACHINE,
-+        .class_init    = arduino_duemilanove_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("arduino-uno"),
-+        .parent        = TYPE_ARDUINO_MACHINE,
-+        .class_init    = arduino_uno_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("arduino-mega"),
-+        .parent        = TYPE_ARDUINO_MACHINE,
-+        .class_init    = arduino_mega_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("arduino-mega-2560-v3"),
-+        .parent        = TYPE_ARDUINO_MACHINE,
-+        .class_init    = arduino_mega2560_class_init,
-+    }, {
-+        .name           = TYPE_ARDUINO_MACHINE,
-+        .parent         = TYPE_MACHINE,
-+        .instance_size  = sizeof(ArduinoMachineState),
-+        .class_size     = sizeof(ArduinoMachineClass),
-+        .class_init     = arduino_machine_class_init,
-+        .abstract       = true,
-+    }
-+};
-+
-+DEFINE_TYPES(arduino_machine_types)
-diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
-index da3b10afec..59d9649d27 100644
---- a/hw/avr/Kconfig
-+++ b/hw/avr/Kconfig
-@@ -3,3 +3,7 @@ config ATMEL_ATMEGA_MCU
-     select ATMEL_TIMER16
-     select ATMEL_USART
-     select ATMEL_POWER
-+
-+config ARDUINO
-+    select ATMEL_ATMEGA_MCU
-+    select UNIMP
-diff --git a/hw/avr/Makefile.objs b/hw/avr/Makefile.objs
-index 7c7a4c3f67..f6aab1438d 100644
---- a/hw/avr/Makefile.objs
-+++ b/hw/avr/Makefile.objs
-@@ -1 +1,2 @@
- obj-$(CONFIG_ATMEL_ATMEGA_MCU) += atmel_atmega.o
-+obj-$(CONFIG_ARDUINO) += arduino.o
++obj-y += translate.o cpu.o helper.o
++obj-y += gdbstub.o
++obj-y += disas.o
++obj-$(CONFIG_SOFTMMU) += machine.o
 -- 
 2.20.1
 
