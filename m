@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B5014707E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:10:57 +0100 (CET)
-Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 302A1147080
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:11:26 +0100 (CET)
+Received: from localhost ([::1]:34378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugwR-0004Ve-AE
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:10:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56713)
+	id 1iugwu-0005IW-Do
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:11:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57506)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iuew1-0000F0-UI
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:02:23 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iuf0f-0007Lo-PX
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:07:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iuew0-0004IV-D3
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:02:21 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34026
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iuew0-0004I2-9P
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:02:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579795339;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Og0ui2Hp6TvCDFLGi8YO2Ic3NyIuzFMzSg/nbUR+QyI=;
- b=Rtfk+5PXfUbwAuOBfJgW3bdJea2WBTXQXzyDQ5vKRQkvrHz+y6qDAluVqQa1T8Px+GVIGY
- O9t+Xq0j7DQgCFvxkIWjsZHAkTNigeUiaLL/nE4deQsFv6xJXYZKMP8+RXl+AqMmtv6HPP
- z1lGf/5L3H/yimEVdQos4ZQs69sjiNY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-F0GOoBZ2MiuvmUsCEXDlEA-1; Thu, 23 Jan 2020 11:02:10 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A6358010D6;
- Thu, 23 Jan 2020 16:02:09 +0000 (UTC)
-Received: from work-vm (ovpn-116-110.ams2.redhat.com [10.36.116.110])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38C1A80896;
- Thu, 23 Jan 2020 16:02:05 +0000 (UTC)
-Date: Thu, 23 Jan 2020 16:02:02 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 000/111] virtiofs queue
-Message-ID: <20200123160202.GB2732@work-vm>
+ (envelope-from <peter.maydell@linaro.org>) id 1iuf0e-0000CJ-Kr
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:07:09 -0500
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:44370)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iuf0e-0000BP-EE
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:07:08 -0500
+Received: by mail-ot1-x334.google.com with SMTP id h9so3185169otj.11
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 08:07:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=U/YjFI0CtZzo0kATNomTvVMQr19vPgXteDBlslQgbnQ=;
+ b=D8ER0gTIxqnrvXra2rTAUwJzp3VPMAKWJ/iuSifSDaPGIaausRk+vkxYQZt5bWzNAB
+ BffmOo/k9S3N3MkwLl99/eP5jIKn4Zj4/iGpDEsA5yMnF8nghA3KB60ngvwN8YMsWaUK
+ r/U0gxNcGYRty8MulxCQ13y3NP+Y/dywyWNAI1pa4LK7u6QWK88acu/YMcirUwgIdgHi
+ QnaDVp6mRsVoGaRIVewANzDkTc39yP9mK3e9ZoOK8a6sWkMukVbap/XBrjy7y/4vHSxK
+ mM1lh25U7kNkdsYNlXJfvhcrCr6TRtoK+TcWY4Ijdh/GQPSVwadZZY6/AGy8C1X6GNcj
+ b42A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=U/YjFI0CtZzo0kATNomTvVMQr19vPgXteDBlslQgbnQ=;
+ b=RAAYcD+BcwtH5AYc21Yl/mfedRCE1mUOLxJ6/yndM5omXHaCRF8OkztMivsP94Q8S7
+ UHRixYy6ulradkckMlCvECwXjnMi8kYnB4Hp+bka6yMTFn/G91oPS3U4YPZxCh/pGZiy
+ Ep+a6D0OqGmaCrXABrfe0LInTf5/Z5NvZu9z0w6+RGKGiFnOHsV3rhPB3l9w3UyypL7E
+ igVAjj0gLKAZp5lNTYqkNaHX6OsvY6JFMMyBp7Jqci8Tk+z70G7p+08mMoeVE5QwD0gl
+ GDpIeArBzKvnxNDTm4KFULTidW6Mc15FjA6PAPlxk5fbTaYa7Qt00fMdNEm1UMy93Hrc
+ zV2w==
+X-Gm-Message-State: APjAAAVrQlGbhOqFyq7y+j7pri8HDPVeuoRy3xTZVCzzzVq/y/uEwBPG
+ +SkKCgHplVTLttd2bqdVRvk3Gu/vBlDpCYqn2u4ODw==
+X-Google-Smtp-Source: APXvYqxa0j7F0RKmHXDsKDQHbkcNCmQgkeGcWzET5BHsQvL9z2aOfkrdfZ4FSv4blaLQakLBDeD55cc44tMqmCZ91CE=
+X-Received: by 2002:a05:6830:4a4:: with SMTP id
+ l4mr5974413otd.91.1579795627485; 
+ Thu, 23 Jan 2020 08:07:07 -0800 (PST)
+MIME-Version: 1.0
 References: <20200123115841.138849-1-dgilbert@redhat.com>
  <CAFEAcA_7T2Yu8fXv7XycSSN=8xoi8aciR5NMh76o8LQxNU6rDw@mail.gmail.com>
  <20200123153052.GA2732@work-vm>
  <CAFEAcA8ufZTy=T_iixbHMN6a7GZxxRkod6y_1Vu_vbsoioDV=g@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8ufZTy=T_iixbHMN6a7GZxxRkod6y_1Vu_vbsoioDV=g@mail.gmail.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: F0GOoBZ2MiuvmUsCEXDlEA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+ <20200123160202.GB2732@work-vm>
+In-Reply-To: <20200123160202.GB2732@work-vm>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Jan 2020 16:06:56 +0000
+Message-ID: <CAFEAcA_GqmeuYZO-SWAiMxjn6LOSpE2y8dJ2N6tvVprYWHZeOQ@mail.gmail.com>
+Subject: Re: [PULL 000/111] virtiofs queue
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::334
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,73 +81,22 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> On Thu, 23 Jan 2020 at 15:31, Dr. David Alan Gilbert
-> <dgilbert@redhat.com> wrote:
-> >
-> > * Peter Maydell (peter.maydell@linaro.org) wrote:
-> > > On Thu, 23 Jan 2020 at 12:54, Dr. David Alan Gilbert (git)
-> > > <dgilbert@redhat.com> wrote:
-> > > >  docs/tools/conf.py                        |   16 +
-> > > >  docs/tools/index.rst                      |   14 +
-> > > >  docs/tools/virtiofsd-security.rst         |  118 ++
-> > >
-> > > Do we really want a new top-level manual? This isn't
-> > > in the plan: https://wiki.qemu.org/Features/Documentation
-> > >
-> > > What defines what goes in docs/tools rather than
-> > > docs/interop (like qemu-nbd and qemu-img do) ?
-> >
-> > In my v1 patchset this lived in tools/virtiofsd and I hadn't
-> > wired up the top level index, however discussion with Daniel
-> > we came up with docs/tools/virtiofsd. See:
-> >
-> > https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg00793.html
-> >
-> > My suggestion is that more should move into tools and docs/tools
-> > since they're not really 'interop' - but I don't have a strong feeling
-> > as long as we can quickly come to an agreement.
->=20
-> I guess that's probably not unreasonable. It's going to clash
-> with the various docs patchsets already on list, though.
+On Thu, 23 Jan 2020 at 16:02, Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
+>
+> * Peter Maydell (peter.maydell@linaro.org) wrote:
+> > I think the case would be better if the
+> > doc you were adding was the virtiofsd manpage, which doesn't
+> > seem to exist yet).
+>
+> Yes it does, see 'virtiofsd: add man page' (patch 0094),
+> tools/virtiofsd/virtiofsd.texi
 
-Which ones exactly?
-Do you want me to rebuild this set on top of those, or drop the docs for
-now until after they're in (I'm happy for you to drop the docs patches
-and merge the rest of this series, which would seem the quickest way).
+I would really like to enforce "no new texi documentation".
+Otherwise it ends up on my todo list to have to do the
+conversion to rST later, and there's already enough
+texi that needs converting :-(
 
-> And it's a bit odd that the only doc file in docs/tools
-> doesn't seem to be documenting a tool (it's a more general
-> 'security guide';
-
-I think it is actually specific to this virtiofsd implementation.
-
-> I think the case would be better if the
-> doc you were adding was the virtiofsd manpage, which doesn't
-> seem to exist yet).
-
-Yes it does, see 'virtiofsd: add man page' (patch 0094),
-tools/virtiofsd/virtiofsd.texi
-
-> Our other "stuff between guest and host"
-> docs (including other vhost-user topics and the qemu-ga guest
-> agent docs) are all in interop/.
-
-Note that doc I've added here doesn't define protocol or anything like
-that between qemu and the guest; it's purely a doc talking about what
-someone using that daemon sees.
-
-> PS: you forgot to add the new docs/tools entry to
-> docs/index.html.in.
-
-Ah, happy to fix that.
-
-Dave
-
-> thanks
-> -- PMM
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+thanks
+-- PMM
 
