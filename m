@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0670A14701C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:55:51 +0100 (CET)
-Received: from localhost ([::1]:34044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E059146FF3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:45:01 +0100 (CET)
+Received: from localhost ([::1]:33862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iughp-0002vO-Cz
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:55:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35293)
+	id 1iugXL-0005g6-UD
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:45:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45732)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iudci-0002C7-GC
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:38:21 -0500
+ (envelope-from <lvivier@redhat.com>) id 1iueEL-0005dL-T5
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:17:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iudch-0002q4-6I
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:38:20 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:44607)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iudcg-0002pX-VT
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:38:19 -0500
-Received: by mail-oi1-x241.google.com with SMTP id d62so3041071oia.11
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 06:38:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SxFvWTbqkliLVKhnhsE0xivx5tRZL7ECHFqrg4zoCWs=;
- b=t3Ynoa5doxPYA1MNpIEqUKZpnmEB0pMKb4qWyR8hMx73z+z9UsQ1S8qqNleraxbpsi
- 8AzKEaRbKO7Qn3hTuip1cbI0APNndmIGfxe78nsakW9fcveKMo+m0mYB1B/pbOpRtH13
- gt33uImtYAWCWRee0l/vKSuAwE5O1KSPV68q0ODTd4UdqIMHkH74HlafXiJ7Xg7g6OPy
- CcZoWeZ+Gnf4s8tPIC4szRfc0Q1XlOksjwzJLmma5AjDL3RHJOKxW8MqC/sNX1stSCFD
- Ok2nM4vtOG5Z+twN1pyQ+oClZ+NChhkv2HtqrYlXrEE9lb4PP4zD9l4iRW5RVfvqAvVB
- /U0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SxFvWTbqkliLVKhnhsE0xivx5tRZL7ECHFqrg4zoCWs=;
- b=dTj7ytupuU06V4cHDYrJFoI9QuB8R3ofms6oPUThrmVK2AoZB7f8gauNIUrDnip71W
- Vwze+nhSSvcjCiuKNy3n6D/Dr6wrpVAWNnHJnpvwsxRVFsYxNugXFA8bvV+xbQhxyJUo
- 51LVxNh21wGQSkLJaAX0ZSULix9cn2VXo+Cg6WrY9hUGSaeccQNmuZIfVpG6PnCwIvSn
- NCvgrzB9ZGxtNTEPc+sBdyDvpG4/kF5kvBbYI2uuNmaD5H/BgXspEWsgfeN0dvdE8PfM
- X97mTPxZnkclsL+UYfPsTKOqxn0i5w/eU4xmapSkJFAp0M1PzxbEdN0wxCeqgoXscWwW
- UhKw==
-X-Gm-Message-State: APjAAAVRBw7HHuQ1pEPU/E4oLdY3pRrFgiPu+Hx1FUljFgHN7aeustgk
- LF/KYJQGbjpDuoAgFqGEkbhmnNUPnz8Voo7o5y9hiQ==
-X-Google-Smtp-Source: APXvYqwmRX/ekW9qSc+JUdv/mcFo538k/U4O8bMIa0IjfUSOLLpJybO6Hyc8y5OzKWvvGF7r+igYZ16gv3ircPN0Ibk=
-X-Received: by 2002:aca:3182:: with SMTP id
- x124mr10786904oix.170.1579790298104; 
- Thu, 23 Jan 2020 06:38:18 -0800 (PST)
+ (envelope-from <lvivier@redhat.com>) id 1iueEK-0002ho-Ll
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:17:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58954
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1iueEK-0002gw-I6
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:17:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579792631;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=68sbMevOE0+sJzBwUQc9YIhSbLOj7g9t97LkpQaW2WI=;
+ b=HTvjcun5E/flJqWl7VuRqFPMoLVB3KhzKgZuvl6d0D+UOhb6ARBBXUt3I+4odsVsHL+5BL
+ wp0mRRncZjgRV419hzAc/X3Y3AbBtkCOp9YX+D08CSQV4wwLuHjs6GL3ajGP809hpbH5Rj
+ eZ0wwKgEJDd5ytOsSN1REq5yjVbvecU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-432-jOCIGxhsNsyVylKxUwjnmg-1; Thu, 23 Jan 2020 10:17:07 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 034B58018A3;
+ Thu, 23 Jan 2020 15:17:06 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-204-119.brq.redhat.com
+ [10.40.204.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A13D05DA89;
+ Thu, 23 Jan 2020 15:17:01 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC 0/2] virtio-rng: add a control queue
+Date: Thu, 23 Jan 2020 16:16:58 +0100
+Message-Id: <20200123151700.1367857-1-lvivier@redhat.com>
 MIME-Version: 1.0
-References: <20200121225703.148465-1-palmerdabbelt@google.com>
-In-Reply-To: <20200121225703.148465-1-palmerdabbelt@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jan 2020 14:38:07 +0000
-Message-ID: <CAFEAcA9YoAjASu4F1hZRjbq5S+h8GtBUVb9dgecMdaWb9YENEw@mail.gmail.com>
-Subject: Re: [PULL] RISC-V Patches for the 5.0 Soft Freeze, Part 1
-To: Palmer Dabbelt <palmerdabbelt@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: jOCIGxhsNsyVylKxUwjnmg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,43 +68,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Amit Shah <amit@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Jan 2020 at 23:41, Palmer Dabbelt <palmerdabbelt@google.com> wrote:
->
-> The following changes since commit 28b58f19d269633b3d14b6aebf1e92b3cd3ab56e:
->
->   ui/gtk: Get display refresh rate with GDK version 3.22 or later (2020-01-16 14:03:45 +0000)
->
-> are available in the Git repository at:
->
->   git@github.com:palmer-dabbelt/qemu.git tags/riscv-for-master-5.0-sf1
->
-> for you to fetch changes up to 82f014671cf057de51c4a577c9e2ad637dcec6f9:
->
->   target/riscv: update mstatus.SD when FS is set dirty (2020-01-16 10:03:15 -0800)
->
-> ----------------------------------------------------------------
-> RISC-V Patches for the 5.0 Soft Freeze, Part 1
->
-> This patch set contains a handful of collected fixes that I'd like to target
-> for the 5.0 soft freeze (I know that's a long way away, I just don't know what
-> else to call these):
->
-> * A fix for a memory leak initializing the sifive_u board.
-> * Fixes to privilege mode emulation related to interrupts and fstatus.
->
-> Notably absent is the H extension implementation.  That's pretty much reviewed,
-> but not quite ready to go yet and I didn't want to hold back these important
-> fixes.  This boots 32-bit and 64-bit Linux (buildroot this time, just for fun)
-> and passes "make check".
+The kernel needs sometime to be able to cancel an ongoing command.
 
-Hi. This pull request doesn't seem to be signed with the GPG
-key that I have on record for you...
+For instance, if the virtio-rng device uses the egd backend
+and this backend doesn't provide data, the buffer provided by the
+kernel is kept as long as it is needed.
 
-thanks
--- PMM
+On the kernel side, a read blocks until the buffer returns from QEMU.
+
+As the read is done with a mutex held, all the hw_random interface
+hangs and we cannot switch to another hw_random backend.
+
+So this series adds a control queue to the virtio-rng device to allow
+to flush the virtio-rng input queue to release the kernel mutex and
+to allow to switch to another device.
+
+The kernel side series can be found at:
+
+https://github.com/vivier/linux/commits/virtio-rng-ctrl
+
+Laurent Vivier (2):
+  virtio-rng: prepare the introduction of a control queue
+  virtio-rng: add a control queue
+
+ hw/core/machine.c                           |  1 +
+ hw/virtio/trace-events                      |  6 ++
+ hw/virtio/virtio-rng.c                      | 99 ++++++++++++++++++---
+ include/hw/virtio/virtio-rng.h              |  5 +-
+ include/standard-headers/linux/virtio_rng.h | 14 +++
+ 5 files changed, 111 insertions(+), 14 deletions(-)
+
+--=20
+2.23.0
+
 
