@@ -2,60 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D05146F53
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:16:26 +0100 (CET)
-Received: from localhost ([::1]:33160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871DC146F9E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:26:49 +0100 (CET)
+Received: from localhost ([::1]:33386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iug5g-0002rs-Fi
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:16:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53172)
+	id 1iugFk-0007ty-23
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:26:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59229)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iucuf-0001oe-BT
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:50 -0500
+ (envelope-from <david@redhat.com>) id 1iudKh-0002IH-O0
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:19:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iucue-0001R0-8r
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35060
+ (envelope-from <david@redhat.com>) id 1iudKg-0001Xl-Ad
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:19:43 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42636
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iucud-0001Qd-W4
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:52:48 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iudKg-0001W3-2H
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 09:19:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579787567;
+ s=mimecast20190719; t=1579789181;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bIJKW7r6m3lfEsrrQFwr4hlFi3X2sjt8/eoVtOOO/2M=;
- b=c+Y7okPdE25gXeYvJdk/Em0B0Sfn3SbzLQc5LDeH/BxWlX0OeFlj+9kEwJIVob0Se2DWkO
- Mzl/yEwPzJIaPNL8H7JCA5NR9ki6/xRnE4+L6vVLO65p4s5GNArYpGQkSvjSZwkyTeqaxu
- jvFLTRTmzXTpcL1+/Z3IMjjg4qp0+io=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=zEFTjEc5wJSSsnhS9STGsyyki88yZ5imKfjR2oAi24g=;
+ b=L93vsgvserUrS88VZDnoZPODN1rhxUNlQ+MFZiK7sIeWYulRwkXR7Qu8lvHaFE/jUTGJL1
+ jreVelG6sNZeoiB0YtxNviJd7T4TmDfeKu+IZQmAGlycdwncM3nKMJiOo68I5G56HiplzF
+ JlB0c2K1a56+uEw0LQu9rJklJcDkkWc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-JvTf-q1pOWO2_vnm09GUrQ-1; Thu, 23 Jan 2020 08:52:46 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-42-R1NIw9fBMve2216g-2fz8g-1; Thu, 23 Jan 2020 09:17:43 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3159199116
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 13:52:45 +0000 (UTC)
-Received: from 640k.localdomain.com (unknown [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2FE871CB;
- Thu, 23 Jan 2020 13:52:43 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 56/59] qdev: use object_property_help()
-Date: Thu, 23 Jan 2020 14:50:46 +0100
-Message-Id: <1579787449-27599-57-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
-References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C935518FE879
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 14:17:42 +0000 (UTC)
+Received: from [10.36.117.56] (ovpn-117-56.ams2.redhat.com [10.36.117.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E8F73A9;
+ Thu, 23 Jan 2020 14:17:33 +0000 (UTC)
+Subject: Re: [PATCH 2/2] virtio-balloon: Reject qmp_balloon during hot-unplug
+To: Julia Suvorova <jusual@redhat.com>
+References: <20200115224025.538368-1-jusual@redhat.com>
+ <20200115224025.538368-3-jusual@redhat.com>
+ <38fdd88d-1399-effb-b74b-e02b7343f044@redhat.com>
+ <CAMDeoFX1eFToYOWmBaVOYHTnNka8Fwruq6PtX7GsAGTuS++u8w@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <095236a0-ba8c-55c6-f9fc-e2a4a809b274@redhat.com>
+Date: Thu, 23 Jan 2020 15:17:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: JvTf-q1pOWO2_vnm09GUrQ-1
+In-Reply-To: <CAMDeoFX1eFToYOWmBaVOYHTnNka8Fwruq6PtX7GsAGTuS++u8w@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: R1NIw9fBMve2216g-2fz8g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
@@ -70,79 +120,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On 23.01.20 15:08, Julia Suvorova wrote:
+> On Thu, Jan 16, 2020 at 1:36 PM David Hildenbrand <david@redhat.com> wrot=
+e:
+>>
+>> On 15.01.20 23:40, Julia Suvorova wrote:
+>>> Hot-unplug takes some time due to communication with the guest.
+>>> Do not change the device while freeing up resources.
+>>>
+>>> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+>>> ---
+>>>  balloon.c                  | 2 +-
+>>>  hw/virtio/virtio-balloon.c | 9 ++++++++-
+>>>  include/sysemu/balloon.h   | 2 +-
+>>>  3 files changed, 10 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/balloon.c b/balloon.c
+>>> index f104b42961..998ec53a0f 100644
+>>> --- a/balloon.c
+>>> +++ b/balloon.c
+>>> @@ -119,5 +119,5 @@ void qmp_balloon(int64_t target, Error **errp)
+>>>      }
+>>>
+>>>      trace_balloon_event(balloon_opaque, target);
+>>> -    balloon_event_fn(balloon_opaque, target);
+>>> +    balloon_event_fn(balloon_opaque, target, errp);
+>>>  }
+>>> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+>>> index 57f3b9f22d..0fa4e4454b 100644
+>>> --- a/hw/virtio/virtio-balloon.c
+>>> +++ b/hw/virtio/virtio-balloon.c
+>>> @@ -717,12 +717,19 @@ static void virtio_balloon_stat(void *opaque, Bal=
+loonInfo *info)
+>>>                                               VIRTIO_BALLOON_PFN_SHIFT)=
+;
+>>>  }
+>>>
+>>> -static void virtio_balloon_to_target(void *opaque, ram_addr_t target)
+>>> +static void virtio_balloon_to_target(void *opaque, ram_addr_t target,
+>>> +                                     Error **errp)
+>>>  {
+>>> +    DeviceState *bus_dev =3D qdev_get_bus_device(DEVICE(opaque));
+>>>      VirtIOBalloon *dev =3D VIRTIO_BALLOON(opaque);
+>>>      VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+>>>      ram_addr_t vm_ram_size =3D get_current_ram_size();
+>>>
+>>> +    if (bus_dev && bus_dev->pending_deleted_event) {
+>>> +        error_setg(errp, "Hot-unplug of %s is in progress", vdev->name=
+);
+>>> +        return;
+>>> +    }
+>>> +
+>>
+>> How exactly does this help? The guest is free to inflate/deflate
+>> whenever it wants.
+>=20
+> Guest is aware of hot-unplug start, and virtio driver should not
+> initiate any operations. This patch just restricts issuing commands
+> from qmp monitor.
 
-Use the common function introduced earlier, and report default value.
+Why shouldn't the guest driver inflate/deflate while memory hotplug is
+going on?
 
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20200110153039.1379601-27-marcandre.lureau@redhat.com>
-[Sort the properties, following what is done for -object ...,help. - Paolo]
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- qdev-monitor.c | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+Simple balloon compaction in a Linux guest -> deflate/inflate triggered
+in the hypervisor.
 
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index c929262..8ce71a2 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -37,6 +37,7 @@
- #include "sysemu/sysemu.h"
- #include "migration/misc.h"
- #include "migration/migration.h"
-+#include "qemu/cutils.h"
-=20
- /*
-  * Aliases were a bad idea from the start.  Let's keep them
-@@ -256,6 +257,8 @@ int qdev_device_help(QemuOpts *opts)
-     const char *driver;
-     ObjectPropertyInfoList *prop_list;
-     ObjectPropertyInfoList *prop;
-+    GPtrArray *array;
-+    int i;
-=20
-     driver =3D qemu_opt_get(opts, "driver");
-     if (driver && is_help_option(driver)) {
-@@ -285,19 +288,20 @@ int qdev_device_help(QemuOpts *opts)
-     } else {
-         qemu_printf("There are no options for %s.\n", driver);
-     }
-+    array =3D g_ptr_array_new();
-     for (prop =3D prop_list; prop; prop =3D prop->next) {
--        int len;
--        qemu_printf("  %s=3D<%s>%n", prop->value->name, prop->value->type,=
- &len);
--        if (prop->value->has_description) {
--            if (len < 24) {
--                qemu_printf("%*s", 24 - len, "");
--            }
--            qemu_printf(" - %s\n", prop->value->description);
--        } else {
--            qemu_printf("\n");
--        }
--    }
--
-+        g_ptr_array_add(array,
-+                        object_property_help(prop->value->name,
-+                                             prop->value->type,
-+                                             prop->value->default_value,
-+                                             prop->value->description));
-+    }
-+    g_ptr_array_sort(array, (GCompareFunc)qemu_pstrcmp0);
-+    for (i =3D 0; i < array->len; i++) {
-+        printf("%s\n", (char *)array->pdata[i]);
-+    }
-+    g_ptr_array_set_free_func(array, g_free);
-+    g_ptr_array_free(array, true);
-     qapi_free_ObjectPropertyInfoList(prop_list);
-     return 1;
-=20
 --=20
-1.8.3.1
+Thanks,
 
+David / dhildenb
 
 
