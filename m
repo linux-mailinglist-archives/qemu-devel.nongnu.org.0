@@ -2,69 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B49A1471E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:41:38 +0100 (CET)
-Received: from localhost ([::1]:60386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75EE11471C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:30:40 +0100 (CET)
+Received: from localhost ([::1]:35766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuiMD-0008Oo-AI
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:41:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56925)
+	id 1iuiBa-0003Pl-De
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:30:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60229)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iugPT-00049k-6W
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:36:52 -0500
+ (envelope-from <philmd@redhat.com>) id 1iugYs-0001B1-BL
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:46:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iugPS-0002eH-5M
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:36:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34920
+ (envelope-from <philmd@redhat.com>) id 1iugYr-0001kW-2p
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:46:34 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34507
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iugPS-0002eA-0T
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:36:50 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iugYq-0001jt-Tv
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:46:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579801009;
+ s=mimecast20190719; t=1579801592;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=u4I5sPZ0KV2tFyBD30BSwH+JDJsmHG5U+2z2Fwrie2I=;
- b=QR/QYxJdu9pd6u6Fy2ufyNicSW2aeYdmISDxkRQ3WzB4FV1VXaCQUsG+A6SnbU+ny5b7Jv
- /jbf/GvB1Oy9pxo3XZMirAY3rKTYDMfU+0pbW3MRdHUFkpafPKZ9t9Kg+FerkB5k26CR2g
- IxTRBETnGE2T48s6nwpw3wb8KELZswY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-5YfkmUWtMKGwVKbBTEga6g-1; Thu, 23 Jan 2020 12:36:39 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A621800D4C;
- Thu, 23 Jan 2020 17:36:37 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-64.ams2.redhat.com [10.36.116.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8868F5DA2C;
- Thu, 23 Jan 2020 17:36:35 +0000 (UTC)
-Subject: Re: [PATCH rc1 00/24] target/avr merger
-To: Michael Rolnik <mrolnik@gmail.com>
-References: <20200123000307.11541-1-richard.henderson@linaro.org>
- <bdcf69f2-a88a-6484-8321-f8b6a9977763@redhat.com>
- <CAK4993j5xy6uJhi4e-denFjPt3BX+2yLnLcHKSg9hEYHj7QpKw@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <d3fe7b9d-37ac-e445-4bca-403cdd2dfd80@redhat.com>
-Date: Thu, 23 Jan 2020 18:36:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ in-reply-to:in-reply-to:references:references;
+ bh=Txe1hVSZM6rRfrzRJ0bDbAftCeHHtCU8jnW8nDv//uM=;
+ b=HlKweBAtvItlCFiGBslHkjz6PqTAI0oODSWXVCtY/tVAdo5DhBmuEqgL3D/iKA+QtW/EB5
+ 8qoiTjJkWKMdBFkVpp2y2vZ8CRdpbt+T3kpDmr2r0ouWOBKhb5hOzWciOat8v6Sa/sECgw
+ 8whLkN6IZl9yIj4G9p7Nad16nbZPn9c=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-R3nB6urVNGKX6kHe5vLvmw-1; Thu, 23 Jan 2020 12:46:29 -0500
+Received: by mail-wr1-f72.google.com with SMTP id f17so2227710wrt.19
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 09:46:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Txe1hVSZM6rRfrzRJ0bDbAftCeHHtCU8jnW8nDv//uM=;
+ b=CQiTF8P9gOK0KEHISCuQ2YomAk6snDr2zsQdvzJ8t6hup8BgVOOAg1kDv79nDQUDfw
+ KkIHtNnm0azTTeQkrc5h/B3Hpp/m5zCZ29UsMaEp6Qd/+i5JVdl/5HNdesObEEBdgIg0
+ 3hJTfEmG7bhQ7W4EcLTe9WoCAiv1wtFj6dScc3HMxL6p4ZK1VfN9skt0DVMpZTiQqAP4
+ jryYA8wNHoTzzRddINWsbcO8QCMDVZvW7+QqndqA9qLAFyUGvfaByQ0h23lkEiu2AUGK
+ Refx8Nqa/MzfxkblRKKf0a3oWPTcK+gWQat6cAdMY3yyHgm6KxPgg6amOCjXh0RKAMlo
+ Vn5g==
+X-Gm-Message-State: APjAAAU+fHjJZVB39r0gTopZDpXA8MiJ+ioA2w8Wxu8C+gCYcAQoQmc+
+ g9PcTE7v7qEKgDGiLcAfxijU7WWFOO0hzyJKI4Rq8T2V0jvoXj9m5+WoKjUgyYBgkB+vygjjUtS
+ 9ixIoskq2HMwpJEk=
+X-Received: by 2002:a7b:cf2d:: with SMTP id m13mr5503974wmg.163.1579801587965; 
+ Thu, 23 Jan 2020 09:46:27 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzZ5GjUBeXghFIr2RwszBtxh90LN3+b16dXFgziG3y+vAFF8jm2YEu0npYG5fBOXVF2bGw77A==
+X-Received: by 2002:a7b:cf2d:: with SMTP id m13mr5503951wmg.163.1579801587740; 
+ Thu, 23 Jan 2020 09:46:27 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id x132sm10120601wmg.0.2020.01.23.09.46.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jan 2020 09:46:27 -0800 (PST)
+Subject: Re: [PATCH] iscsi: Cap block count from GET LBA STATUS (CVE-2020-1711)
+To: Felipe Franciosi <felipe@nutanix.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Lieven <pl@kamp.de>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20200123124357.124019-1-felipe@nutanix.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3cb32404-e8ee-ba8c-3684-bfa6d0827d39@redhat.com>
+Date: Thu, 23 Jan 2020 18:46:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <CAK4993j5xy6uJhi4e-denFjPt3BX+2yLnLcHKSg9hEYHj7QpKw@mail.gmail.com>
+In-Reply-To: <20200123124357.124019-1-felipe@nutanix.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 5YfkmUWtMKGwVKbBTEga6g-1
+X-MC-Unique: R3nB6urVNGKX6kHe5vLvmw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,43 +95,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Pavel Dovgalyuk <dovgaluk@ispras.ru>,
- Igor Mammedov <imammedo@redhat.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Turschmid <peter.turschm@nutanix.com>,
+ Max Reitz <mreitz@redhat.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ P J P <ppandit@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/01/2020 12.56, Michael Rolnik wrote:
-> How do I get it? from where?
+On 1/23/20 1:44 PM, Felipe Franciosi wrote:
+> When querying an iSCSI server for the provisioning status of blocks (via
+> GET LBA STATUS), Qemu only validates that the response descriptor zero's
+> LBA matches the one requested. Given the SCSI spec allows servers to
+> respond with the status of blocks beyond the end of the LUN, Qemu may
+> have its heap corrupted by clearing/setting too many bits at the end of
+> its allocmap for the LUN.
+> 
+> A malicious guest in control of the iSCSI server could carefully program
+> Qemu's heap (by selectively setting the bitmap) and then smash it.
+> 
+> This limits the number of bits that iscsi_co_block_status() will try to
+> update in the allocmap so it can't overflow the bitmap.
+> 
 
-It's not merged yet. But I hope Richard will send a pull request for
-these patches soon...?
+Please add:
 
- Thomas
+Fixes: CVE-2020-1711 (title of CVE if possible)
+Cc: qemu-stable@nongnu.org
 
+> Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
+> Signed-off-by: Peter Turschmid <peter.turschm@nutanix.com>
+> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> ---
+>   block/iscsi.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/block/iscsi.c b/block/iscsi.c
+> index 2aea7e3f13..cbd57294ab 100644
+> --- a/block/iscsi.c
+> +++ b/block/iscsi.c
+> @@ -701,7 +701,7 @@ static int coroutine_fn iscsi_co_block_status(BlockDriverState *bs,
+>       struct scsi_get_lba_status *lbas = NULL;
+>       struct scsi_lba_status_descriptor *lbasd = NULL;
+>       struct IscsiTask iTask;
+> -    uint64_t lba;
+> +    uint64_t lba, max_bytes;
+>       int ret;
+>   
+>       iscsi_co_init_iscsitask(iscsilun, &iTask);
+> @@ -721,6 +721,7 @@ static int coroutine_fn iscsi_co_block_status(BlockDriverState *bs,
+>       }
+>   
+>       lba = offset / iscsilun->block_size;
+> +    max_bytes = (iscsilun->num_blocks - lba) * iscsilun->block_size;
+>   
+>       qemu_mutex_lock(&iscsilun->mutex);
+>   retry:
+> @@ -764,7 +765,7 @@ retry:
+>           goto out_unlock;
+>       }
+>   
+> -    *pnum = (int64_t) lbasd->num_blocks * iscsilun->block_size;
+> +    *pnum = MIN((int64_t) lbasd->num_blocks * iscsilun->block_size, max_bytes);
+>   
+>       if (lbasd->provisioning == SCSI_PROVISIONING_TYPE_DEALLOCATED ||
+>           lbasd->provisioning == SCSI_PROVISIONING_TYPE_ANCHORED) {
+> 
 
-> On Thu, Jan 23, 2020 at 7:12 AM Thomas Huth <thuth@redhat.com
-> <mailto:thuth@redhat.com>> wrote:
->=20
->     On 23/01/2020 01.02, Richard Henderson wrote:
->     > This is a merger of Michael's v41 of the base avr architecture,
->     > and v4 of Phil's arduino target boards.=C2=A0 Call this release, or
->     > merge, candidate 1.
->     >
->     > Has all commentary been addressed?=C2=A0 How much more, if anything=
-,
->     > does anyone require before allowing normal development in tree?
->=20
->     I just had a quick look at the series. Apart from some few nits, it
->     looks fine to me, so I think it's fine to merge it now.
->=20
->     =C2=A0Thomas
->=20
-> --=20
-> Best Regards,
-> Michael Rolnik
+What about this?
+
+-- >8 --
+diff --git a/block/iscsi.c b/block/iscsi.c
+index 2aea7e3f13..25598accbb 100644
+--- a/block/iscsi.c
++++ b/block/iscsi.c
+@@ -506,6 +506,11 @@ iscsi_allocmap_update(IscsiLun *iscsilun, int64_t 
+offset,
+      /* shrink to touch only completely contained clusters */
+      cl_num_shrunk = DIV_ROUND_UP(offset, iscsilun->cluster_size);
+      nb_cls_shrunk = (offset + bytes) / iscsilun->cluster_size - 
+cl_num_shrunk;
++    if (nb_cls_expanded >= iscsilun->allocmap_size
++        || nb_cls_shrunk >= iscsilun->allocmap_size) {
++        error_report("iSCSI invalid request: ..." /* TODO */);
++        return;
++    }
+      if (allocated) {
+          bitmap_set(iscsilun->allocmap, cl_num_expanded, nb_cls_expanded);
+      } else {
+---
 
 
