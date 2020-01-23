@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAE4146D67
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:54:21 +0100 (CET)
-Received: from localhost ([::1]:59818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0602146D8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:56:51 +0100 (CET)
+Received: from localhost ([::1]:59862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueoG-000537-6w
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:54:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51163)
+	id 1iueqg-0008VZ-BF
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:56:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51204)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrA-0004gh-5R
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:13 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrB-0004j9-VV
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucr9-00030k-4R
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:12 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:33949)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrA-00032S-J8
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:13 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54625)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucr7-0002yp-Ox
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:11 -0500
-Received: by mail-wm1-x336.google.com with SMTP id s144so1922732wme.1
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:09 -0800 (PST)
+ id 1iucrA-00030J-CG
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:12 -0500
+Received: by mail-wm1-x333.google.com with SMTP id b19so2627771wmj.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=iersXa6LYLpYQZtE6C4xTYe9qeAHp3QZ3EqBuEU1RLI=;
- b=oPJy3guXU0WXAv2qCnJgOpi23y0ly2qrhOAcIPnAcwA84d6Dhik/3XMuRgKNcfZKQL
- ZjapA2D5EotzxDBilyRCeFa/tE2WT5ilXj0AjfjHEiEUEw2T47Un4BXjIGAOZLbbUoJD
- Qd8xMviylmmaekXd1Ub3et9KicDNiA936/5tdEl7b+12fhhtlZmF1gOx3yOiY3ZVQQf7
- lC3IK2aasqmgRn0cFgeN4GeZMsobbqntaH8lde5tnYzURWKj2NPKJxFeuBIQ0YjCcFcW
- wQ7dxa0jmWWSr6TujJn8lJrAfdr2JA1e86kRzVJUhcHEMUqkJGlqmqC81NqRP7afomum
- bzMQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OucTBWXsjhFgmzRgCBoTRR2Qk1l2bk/1eGxf/v19814=;
+ b=AOZ947dUpJUNt0ImnYdsmIR4oHJvg92uJIlY1faGeMPxXs+Hx2cyJ3CToMPPPjzsW1
+ lYZrVvVhz05kC0EQoBcIi0TF6gok7QlvI3sHlc/5DlPUpR0Mz+lhA+bkVmihca5AytMh
+ drOQhUvpKr7hYX7lcmezLFM1iha4rjTFzI9lEoiJppR0bpqUTwmZa/s6Edyd7faKOOy6
+ HWK0Xj/wN/TouNedBpGXexZCkkErZx+uU1hj6/i87XrMYaKK+lG6LUTcTgrUj3E09BJH
+ KKhUajG8a2+fW7HKyauwjhOrfRmvy6WK5vNP1ttJPzQ+TrzvMglHjV768QZAgSpwEbEJ
+ +M9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=iersXa6LYLpYQZtE6C4xTYe9qeAHp3QZ3EqBuEU1RLI=;
- b=BcqDxIevJ03HmYFfBzGNXjE9AcGgr8kEUfLP9nqtzlXfn9cO5xlQERaazsir4QjxSk
- /UHU7iQFjv+V0uwCNUmTg8fUk9CtLstQU3UWFqq7Ld5q2/pBfL1LfnS3fF8iRVqogEEZ
- 93tz/JMaW7OJ3hu6/G4G3upZeZJ2Ub6sS4myWB8aueiU+jIrKFHvuSPZCmWA8VF/+j6y
- IIvq9mnzXedViq/2GpnEIUBDxAFQlm33Txje9itDX84BjCqQEFYQNFQrpCbtD2fJn9uy
- nb7d9dhuofL+CP1Hp5/9Wgt7SAeOarvPaEfjghms5vot1hpvhUSKfDaPvQwKY7im12My
- 5c9A==
-X-Gm-Message-State: APjAAAWiNt+g1JknzlkPbcV1+qHk5EUvrc8ObJ1cYMLumvhad4lir37M
- +hGXd6/9csWzkpwUMIe9j7NO71Ea
-X-Google-Smtp-Source: APXvYqxsG8z3lwWetDOD0OrOIj4v5yV/2y8g3hh1v8V0kJGpqETJ4tZaQ+av6ErsPpcINeAvXCqx2A==
-X-Received: by 2002:a05:600c:22d3:: with SMTP id
- 19mr4318632wmg.20.1579787348419; 
- Thu, 23 Jan 2020 05:49:08 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=OucTBWXsjhFgmzRgCBoTRR2Qk1l2bk/1eGxf/v19814=;
+ b=d4zoNobUAV0tC5hxDc+H3PTrErmQ2Qnc46L316oTVXwq78reXWUz2OgSxDVYxT+Tfc
+ gnpfTE2wm6nmbw6EOhHqSddyY0Qh+Xc15yQtW/0NuHO8pSQiG4rZmo1QBZXXv7bRElkd
+ zF3UGDt0KlOiVZlGDpzX+AjG/GByzm0y5PCMPwp4JYSTJwzPD0F6Oqm5BqejniSeVe4/
+ FQFiZHDPA5yZSP6fuXcJ6AoNgZqrIJuJ5ZcZgL4GcZmhtf+yP7OuRcYu18v6nTG95Lcc
+ GUTixEI6G3q/SBs8iAcFa1r8hmc0XYo108BsRz95HMUOuCYm7uMuSRFZ9PqOxA+PRGqH
+ 6XrQ==
+X-Gm-Message-State: APjAAAW/KLNpwFWJBj0ZkmGRmRfea/qIbO4aohT0qYIZWHYN15PXSgNW
+ 0g/mzA0gF0TDxZv6bn31iHDnHsWc
+X-Google-Smtp-Source: APXvYqz1cnMMVijYti84UU33HGEpmLm5QjRJP43b/T9vyB/nVZ6uKvJDrKpKUUkBOESfSpM3H4AS8w==
+X-Received: by 2002:a1c:6485:: with SMTP id y127mr4445066wmb.11.1579787350100; 
+ Thu, 23 Jan 2020 05:49:10 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.07
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.09
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:07 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:09 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/59] pvpanic: introduce crashloaded for pvpanic
-Date: Thu, 23 Jan 2020 14:48:06 +0100
-Message-Id: <1579787342-27146-4-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 05/59] qom/object: Display more helpful message when an
+ interface is missing
+Date: Thu, 23 Jan 2020 14:48:08 +0100
+Message-Id: <1579787342-27146-6-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::336
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,43 +79,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhenwei pi <pizhenwei@bytedance.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: zhenwei pi <pizhenwei@bytedance.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Add bit 1 for pvpanic. This bit means that guest hits a panic, but
-guest wants to handle error by itself. Typical case: Linux guest runs
-kdump in panic. It will help us to separate the abnormal reboot from
-normal operation.
+When adding new devices implementing QOM interfaces, we might
+forgot to add the Kconfig dependency that pulls the required
+objects in when building.
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-Message-Id: <20200114023102.612548-2-pizhenwei@bytedance.com>
+Since QOM dependencies are resolved at runtime, we don't get any
+link-time failures, and QEMU aborts while starting:
+
+  $ qemu ...
+  Segmentation fault (core dumped)
+
+  (gdb) bt
+  #0  0x00007ff6e96b1e35 in raise () from /lib64/libc.so.6
+  #1  0x00007ff6e969c895 in abort () from /lib64/libc.so.6
+  #2  0x00005572bc5051cf in type_initialize (ti=0x5572be6f1200) at qom/object.c:323
+  #3  0x00005572bc505074 in type_initialize (ti=0x5572be6f1800) at qom/object.c:301
+  #4  0x00005572bc505074 in type_initialize (ti=0x5572be6e48e0) at qom/object.c:301
+  #5  0x00005572bc506939 in object_class_by_name (typename=0x5572bc56109a) at qom/object.c:959
+  #6  0x00005572bc503dd5 in cpu_class_by_name (typename=0x5572bc56109a, cpu_model=0x5572be6d9930) at hw/core/cpu.c:286
+
+Since the caller has access to the qdev parent/interface names,
+we can simply display them to avoid starting a debugger:
+
+  $ qemu ...
+  qemu: missing interface 'fancy-if' for object 'fancy-dev'
+  Aborted (core dumped)
+
+This commit is similar to e02bdf1cecd2 ("Display more helpful message
+when an object type is missing").
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200118162348.17823-1-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/specs/pvpanic.txt | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ qom/object.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
-index c7bbacc..bdea68a 100644
---- a/docs/specs/pvpanic.txt
-+++ b/docs/specs/pvpanic.txt
-@@ -16,8 +16,12 @@ pvpanic exposes a single I/O port, by default 0x505. On read, the bits
- recognized by the device are set. Software should ignore bits it doesn't
- recognize. On write, the bits not recognized by the device are ignored.
- Software should set only bits both itself and the device recognize.
--Currently, only bit 0 is recognized, setting it indicates a guest panic
--has happened.
-+
-+Bit Definition
-+--------------
-+bit 0: setting it indicates a guest panic has happened.
-+bit 1: named crashloaded. setting it indicates a guest panic and run
-+       kexec to handle error by guest itself.
+diff --git a/qom/object.c b/qom/object.c
+index 0d971ca..36123fb 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -317,6 +317,11 @@ static void type_initialize(TypeImpl *ti)
  
- ACPI Interface
- --------------
+         for (i = 0; i < ti->num_interfaces; i++) {
+             TypeImpl *t = type_get_by_name(ti->interfaces[i].typename);
++            if (!t) {
++                error_report("missing interface '%s' for object '%s'",
++                             ti->interfaces[i].typename, parent->name);
++                abort();
++            }
+             for (e = ti->class->interfaces; e; e = e->next) {
+                 TypeImpl *target_type = OBJECT_CLASS(e->data)->type;
+ 
 -- 
 1.8.3.1
 
