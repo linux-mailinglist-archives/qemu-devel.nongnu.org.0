@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3622147075
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:08:13 +0100 (CET)
-Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B5014707E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 19:10:57 +0100 (CET)
+Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugtn-00014l-UV
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:08:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56495)
+	id 1iugwR-0004Ve-AE
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 13:10:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56713)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iueul-0007Q0-Kc
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:01:06 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iuew1-0000F0-UI
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:02:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iueuj-0002sS-1M
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:01:02 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44434
+ (envelope-from <dgilbert@redhat.com>) id 1iuew0-0004IV-D3
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:02:21 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34026
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iueui-0002rR-R8
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:01:00 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iuew0-0004I2-9P
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:02:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579795260;
+ s=mimecast20190719; t=1579795339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YFTDM+x0VAdB0nagmEK2b9vblxyqjSTWW94FriwaigY=;
- b=P6Px9yScsEeHrqqJ1t5IAtHjm/PIf0Fi362IE01KN9IKXMWrNiDX/iX/h3BMQaX7vdXnEo
- sC8NrCm6LPAZh3tW6xm4u0txVTryxbGpMgaoIb/trhLiqf9kXv9MzV1xgRoyy/Sn2xTue5
- rGGRl8ou7D1zi6XgHVsFt1FKXa2USx8=
+ bh=Og0ui2Hp6TvCDFLGi8YO2Ic3NyIuzFMzSg/nbUR+QyI=;
+ b=Rtfk+5PXfUbwAuOBfJgW3bdJea2WBTXQXzyDQ5vKRQkvrHz+y6qDAluVqQa1T8Px+GVIGY
+ O9t+Xq0j7DQgCFvxkIWjsZHAkTNigeUiaLL/nE4deQsFv6xJXYZKMP8+RXl+AqMmtv6HPP
+ z1lGf/5L3H/yimEVdQos4ZQs69sjiNY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-ipf40sDDONahXRoxuxyxgA-1; Thu, 23 Jan 2020 11:00:58 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-361-F0GOoBZ2MiuvmUsCEXDlEA-1; Thu, 23 Jan 2020 11:02:10 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2162210054E3;
- Thu, 23 Jan 2020 16:00:57 +0000 (UTC)
-Received: from gondolin (ovpn-116-120.ams2.redhat.com [10.36.116.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 997E010016EB;
- Thu, 23 Jan 2020 16:00:43 +0000 (UTC)
-Date: Thu, 23 Jan 2020 17:00:40 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH 5/6] tests/acceptance/virtio_seg_max_adjust: Restrict to
- X86 architecture
-Message-ID: <20200123170040.2ffdd0d8.cohuck@redhat.com>
-In-Reply-To: <814cb9da-696c-0716-c1fe-247fd4e6cb05@redhat.com>
-References: <20200122223247.30419-1-philmd@redhat.com>
- <20200122223247.30419-6-philmd@redhat.com>
- <20200123124844.32e2aa09.cohuck@redhat.com>
- <814cb9da-696c-0716-c1fe-247fd4e6cb05@redhat.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A6358010D6;
+ Thu, 23 Jan 2020 16:02:09 +0000 (UTC)
+Received: from work-vm (ovpn-116-110.ams2.redhat.com [10.36.116.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 38C1A80896;
+ Thu, 23 Jan 2020 16:02:05 +0000 (UTC)
+Date: Thu, 23 Jan 2020 16:02:02 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 000/111] virtiofs queue
+Message-ID: <20200123160202.GB2732@work-vm>
+References: <20200123115841.138849-1-dgilbert@redhat.com>
+ <CAFEAcA_7T2Yu8fXv7XycSSN=8xoi8aciR5NMh76o8LQxNU6rDw@mail.gmail.com>
+ <20200123153052.GA2732@work-vm>
+ <CAFEAcA8ufZTy=T_iixbHMN6a7GZxxRkod6y_1Vu_vbsoioDV=g@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: ipf40sDDONahXRoxuxyxgA-1
+In-Reply-To: <CAFEAcA8ufZTy=T_iixbHMN6a7GZxxRkod6y_1Vu_vbsoioDV=g@mail.gmail.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: F0GOoBZ2MiuvmUsCEXDlEA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,103 +75,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jan 2020 11:36:55 -0200
-Wainer dos Santos Moschetta <wainersm@redhat.com> wrote:
-
-> On 1/23/20 9:48 AM, Cornelia Huck wrote:
-> > On Wed, 22 Jan 2020 23:32:46 +0100
-> > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> > =20
-> >> Running on mainstream KVM architectures, we get:
-> >>
-> >> - Aarch64
-> >>
-> >>    Timeout.
-> >>
-> >>    job.log:
-> >>    -------
-> >>    No machine specified, and there is no default
-> >>    Use -machine help to list supported machines =20
-> > The code probably needs to be made more clever to find the machines to
-> > run?
-> > =20
-> >> - MIPS:
-> >>
-> >>     (1/1) VirtioMaxSegSettingsCheck.test_machine_types: ERROR: argumen=
-t of type 'NoneType' is not iterable (0.14 s)
-> >>
-> >>    job.log:
-> >>    -------
-> >>    Could not load MIPS bios 'mipsel_bios.bin', and no -kernel argument=
- was specified =20
-> > Probably needs some hint from mips folks how this can be set up.
-> > =20
-> >> - PowerPC
-> >>
-> >>     (1/1) VirtioMaxSegSettingsCheck.test_machine_types: ERROR: invalid=
- literal for int() with base 10: 'sxxm' (0.16 s)
-> >>
-> >>    job.log:
-> >>    ------- =20
-> >>    >>> {'execute': 'query-machines'} =20
-> >>    <<< {'return': [{'hotpluggable-cpus': True, 'name': 'pseries-2.12-s=
-xxm', 'numa-mem-supported': True, 'default-cpu-type': 'power8_v2.0-powerpc6=
-4-cpu', 'cpu-max': 1024, 'deprecated': False}, ... =20
-> > This seems to be because the machine type parsing code cannot deal with
-> > the format used here. =20
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Thu, 23 Jan 2020 at 15:31, Dr. David Alan Gilbert
+> <dgilbert@redhat.com> wrote:
+> >
+> > * Peter Maydell (peter.maydell@linaro.org) wrote:
+> > > On Thu, 23 Jan 2020 at 12:54, Dr. David Alan Gilbert (git)
+> > > <dgilbert@redhat.com> wrote:
+> > > >  docs/tools/conf.py                        |   16 +
+> > > >  docs/tools/index.rst                      |   14 +
+> > > >  docs/tools/virtiofsd-security.rst         |  118 ++
+> > >
+> > > Do we really want a new top-level manual? This isn't
+> > > in the plan: https://wiki.qemu.org/Features/Documentation
+> > >
+> > > What defines what goes in docs/tools rather than
+> > > docs/interop (like qemu-nbd and qemu-img do) ?
+> >
+> > In my v1 patchset this lived in tools/virtiofsd and I hadn't
+> > wired up the top level index, however discussion with Daniel
+> > we came up with docs/tools/virtiofsd. See:
+> >
+> > https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg00793.html
+> >
+> > My suggestion is that more should move into tools and docs/tools
+> > since they're not really 'interop' - but I don't have a strong feeling
+> > as long as we can quickly come to an agreement.
 >=20
->=20
-> Indeed, looking at the comments in code the parser was meant for PC types=
-.
->=20
-> Is there a way to obtain the machine type version other than parsing its=
-=20
-> name? If not, wouldn't be useful for management apps have that=20
-> information returned with 'query-machines'?
+> I guess that's probably not unreasonable. It's going to clash
+> with the various docs patchsets already on list, though.
 
-The question would be "What version?". The pseries machine type the
-code chokes upon above has an additional suffix. Not all machine types
-are versioned, obviously, and we don't have an uniform way to build
-machine type names, either.
+Which ones exactly?
+Do you want me to rebuild this set on top of those, or drop the docs for
+now until after they're in (I'm happy for you to drop the docs patches
+and merge the rest of this series, which would seem the quickest way).
 
-If I understand this test correctly, the idea is to distinguish between
-"version that defaults the feature to off" and "version that defaults
-the feature to on". So, the pseries machine with the extra suffix from
-above and the one without would basically be the same 2.12 compatible
-machine (both in the first bucket). For other tests, those two machines
-might be very different, though.
+> And it's a bit odd that the only doc file in docs/tools
+> doesn't seem to be documenting a tool (it's a more general
+> 'security guide';
 
-tl;dr "version" might not be well-defined enough.
+I think it is actually specific to this virtiofsd implementation.
 
+> I think the case would be better if the
+> doc you were adding was the virtiofsd manpage, which doesn't
+> seem to exist yet).
+
+Yes it does, see 'virtiofsd: add man page' (patch 0094),
+tools/virtiofsd/virtiofsd.texi
+
+> Our other "stuff between guest and host"
+> docs (including other vhost-user topics and the qemu-ga guest
+> agent docs) are all in interop/.
+
+Note that doc I've added here doesn't define protocol or anything like
+that between qemu and the guest; it's purely a doc talking about what
+someone using that daemon sees.
+
+> PS: you forgot to add the new docs/tools entry to
+> docs/index.html.in.
+
+Ah, happy to fix that.
+
+Dave
+
+> thanks
+> -- PMM
 >=20
-> - Wainer
->=20
-> >> - S390X:
-> >>
-> >>     (1/1) VirtioMaxSegSettingsCheck.test_machine_types: ERROR: invalid=
- literal for int() with base 10: 'virtio' (0.14 s)
-> >>
-> >>    job.log:
-> >>    -------
-> >>    Traceback (most recent call last):
-> >>      File "virtio_seg_max_adjust.py", line 139, in test_machine_types
-> >>        if self.seg_max_adjust_enabled(m):
-> >>      File "virtio_seg_max_adjust.py", line 113, in seg_max_adjust_enab=
-led
-> >>        major =3D int(ver[0])
-> >>    ValueError: invalid literal for int() with base 10: 'virtio' =20
-> >>    >>> {'execute': 'query-machines'} =20
-> >>    <<< {'return': [{'hotpluggable-cpus': True, 'name': 's390-ccw-virti=
-o-4.0', 'numa-mem-supported': False, 'default-cpu-type': 'qemu-s390x-cpu', =
-'cpu-max': 248, 'deprecated': False}, ... =20
-> > Same here.
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
