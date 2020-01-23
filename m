@@ -2,69 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584C3146139
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 05:57:49 +0100 (CET)
-Received: from localhost ([::1]:50910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1BAE146145
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 06:13:26 +0100 (CET)
+Received: from localhost ([::1]:51034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuUYu-0002Vh-5i
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 23:57:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57283)
+	id 1iuUo1-0007at-Lz
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 00:13:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36675)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iuUY6-00020o-2j
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 23:56:59 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iuUn1-0006uV-E5
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 00:12:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iuUY4-0003hy-6S
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 23:56:57 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39700
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iuUn0-00083l-0d
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 00:12:23 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:53859 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iuUY4-0003gh-2Z
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 23:56:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579755415;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=d99YhoPkiXFx61RJGFaj73S8dt/TyKjeSwwEtWpr/7U=;
- b=UgJpvHg8QYWc5CbMEIb+Aw9yWXMPQn8jJw6qGkcflx6JQ5Bih6BdI3k0gGFCBlV7i9vjN3
- a2Gofkc7Ybhl1cAI2OSITSj9wUehFSL7AbiDzOJPToPjd1PClkGT5H1PkxPpsBk4huq8oy
- K+fpWSGaWXZzX7YpHj/Xbs/A+Tgba8M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-2tXPqHN3O9i2WY0AFCoYRw-1; Wed, 22 Jan 2020 23:56:50 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6EEB8017CC;
- Thu, 23 Jan 2020 04:56:47 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-64.ams2.redhat.com [10.36.116.64])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE5482898C;
- Thu, 23 Jan 2020 04:56:45 +0000 (UTC)
-Subject: Re: [PATCH rc1 14/24] target/avr: Add section about AVR into QEMU
- documentation
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200123000307.11541-1-richard.henderson@linaro.org>
- <20200123000307.11541-15-richard.henderson@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <486b80d9-4f11-0888-7327-d6a72f2bb67c@redhat.com>
-Date: Thu, 23 Jan 2020 05:56:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iuUmy-00081V-VC; Thu, 23 Jan 2020 00:12:21 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4839PX1mJJz9sSL; Thu, 23 Jan 2020 16:12:15 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1579756336;
+ bh=ebRqJnIRoOoWB5UuDmfgJAZGA1WzqHhkVT3dHXfYHaw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BDHPWFUGXGjCPiG+NT92T+lvJ3z5ZDosGlwo4673nCrg3BbkKnf3QJ2hPKBm0IwIv
+ iNKt+Zj/raVUOnRlQokJNnY7i8nFojsJa91bZatuQXvMZ5drTP5s10KvIkdrtGS84R
+ TYaIoKdW/kVr5EbgyX1Q1F3Xi8iNojCX5MYs+ScA=
+Date: Thu, 23 Jan 2020 15:59:33 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] spapr: Don't allow multiple active vCPUs at CAS
+Message-ID: <20200123045933.GM2347@umbus.fritz.box>
+References: <157969867170.571404.12117797348882189656.stgit@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <20200123000307.11541-15-richard.henderson@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 2tXPqHN3O9i2WY0AFCoYRw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8c07nsHwQobhlezh"
+Content-Disposition: inline
+In-Reply-To: <157969867170.571404.12117797348882189656.stgit@bahia.lan>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,109 +53,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: S.E.Harris@kent.ac.uk, me@xcancerberox.com.ar, dovgaluk@ispras.ru,
- imammedo@redhat.com, mrolnik@gmail.com, aleksandar.m.mail@gmail.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/01/2020 01.02, Richard Henderson wrote:
-> From: Michael Rolnik <mrolnik@gmail.com>
-> 
-> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-> Message-Id: <20200118191416.19934-16-mrolnik@gmail.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+--8c07nsHwQobhlezh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jan 22, 2020 at 02:11:12PM +0100, Greg Kurz wrote:
+> According to the description of "ibm,client-architecture-support" that
+> can found in LoPAPR "B.6.2.3 Root Node Methods":
+>=20
+> If multiple partition processors or threads are active at the time of
+> the ibm,client-architecture-support method call, or an error is detected
+> in the format of the ibm,architecture.vec structure, the err? boolean
+> shall be TRUE; else FALSE.
+>=20
+> We certainly don't want to temper with the platform or with the PCR of
+> the other vCPUs if they happen to be active. Ensure we have only one
+> active vCPU and fail CAS otherwise. This is just for conformance and
+> robustness, it doesn't fix any known bugs.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+Applied to ppc-for-5.0, thanks.
+
 > ---
->  qemu-doc.texi | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 51 insertions(+)
-> 
-> diff --git a/qemu-doc.texi b/qemu-doc.texi
-> index 39f950471f..515aacfae9 100644
-> --- a/qemu-doc.texi
-> +++ b/qemu-doc.texi
-> @@ -1741,6 +1741,7 @@ differences are mentioned in the following sections.
->  * Microblaze System emulator::
->  * SH4 System emulator::
->  * Xtensa System emulator::
-> +* AVR System emulator::
->  @end menu
->  
->  @node PowerPC System emulator
-> @@ -2514,6 +2515,56 @@ so should only be used with trusted guest OS.
->  
->  @c man end
->  
-> +@node AVR System emulator
-> +@section AVR System emulator
-> +@cindex system emulation (AVR)
+>  hw/ppc/spapr_hcall.c |   12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index ffb14641f9d3..b8bb66b5c0d4 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1676,6 +1676,18 @@ static target_ulong h_client_architecture_support(=
+PowerPCCPU *cpu,
+>      Error *local_err =3D NULL;
+>      bool raw_mode_supported =3D false;
+>      bool guest_xive;
+> +    CPUState *cs;
 > +
-> +Use the executable @file{qemu-system-avr} to emulates a AVR 8 bit based machine having one for the following cores: avr1, avr2, avr25, avr3, avr31, avr35, avr4, avr5, avr51, avr6, avrtiny, xmega2, xmega3, xmega4, xmega5, xmega6 and xmega7.
-> +
-> +As for now it does not support any real MCUs. However, it does support a "sample" board for educational and testing purposes. This "sample" board hosts USART & 16 bit timer devices and it's enought to run FreeRTOS based applicaton (like this @url{https://github.com/seharris/qemu-avr-tests/blob/master/free-rtos/Demo/AVR_ATMega2560_GCC/demo.elf,,demo})
+> +    /* CAS is supposed to be called early when only the boot vCPU is act=
+ive. */
+> +    CPU_FOREACH(cs) {
+> +        if (cs =3D=3D CPU(cpu)) {
+> +            continue;
+> +        }
+> +        if (!cs->halted) {
+> +            warn_report("guest has multiple active vCPUs at CAS, which i=
+s not allowed");
+> +            return H_MULTI_THREADS_ACTIVE;
+> +        }
+> +    }
+> =20
+>      cas_pvr =3D cas_check_pvr(spapr, cpu, &addr, &raw_mode_supported, &l=
+ocal_err);
+>      if (local_err) {
+>=20
 
-The "sample" board has been replaced by the boards that Philippe added,
-hasn't it? In that case, the above sentence should be adjusted accordingly.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-> +Following are examples of possible usages, assuming program.elf is compiled for AVR cpu
-> +@itemize
-> +
-> +@item Continious non interrupted execution
+--8c07nsHwQobhlezh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-s/Continious/Continuous/
+-----BEGIN PGP SIGNATURE-----
 
-> +@example
-> +qemu-system-avr -kernel program.elf
-> +@end example
-> +
-> +@item Continious non interrupted execution with serial output into telnet window
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4pKDMACgkQbDjKyiDZ
+s5KnwBAAxMqy59Hk0aoY8MNQQULstXcRNQKkn3tSOmy+Y0m1ApMJ/PrZlPzmr0F8
+0apFN/FdKwUZG1015DXOLaW+Jwpw4GgkfqmzQkqAyndDVwsni+U2mg/1IyHAJXan
+acccSvh6RBh9D/u5ochgxQQ57jRuQ1IiA2dM1o+6zy4I9baOk7PMP1PUqFyt9jwP
+bVZQMIP7v2npMm9XFpZBbV+29k4JRGlI9GxWUOr3RGGdWHqomk+JXphfIWD34l8Q
++9VD/du4IBxtIIbuKB6hxk12w3GFHQxEJC6qahjTGs8sdtH28Rv1C/NS5xw/LsBK
+GJ4vvGRUKv4ydRtt6emwHv923VGNk8iXZAciRs3ixZ+MFkjEBw72X7uWLxU9eDy1
+gvndkd11Oh4US8v1gZuNTdcLEC31F+yhtnpYR3jgXLX8JbpUPdVo5kNzYq4T0M45
+yxQJHlEpfsoz8uYJzJhsmXjXCjIp0+KItmgczyUBSpMrVkUP3C4fCJyFKHM0olu/
+sNRB55qTZ6it6Xp9Y6zXCWhMw6HEZVQYeEV4flc8mpuln6zxh5Wd/yHP8U9mljwO
+hPV99Ip74pAe6hnchrWNRZMY2FGeR9uCVJSYmR2mGYXyGjqVq8HbY5efkiS/6EN0
+KI09VlPthx6tfwuE0BhTIxatNejP9HUpwUb65XlrSZr4i/LNRbo=
+=TE+g
+-----END PGP SIGNATURE-----
 
-s/Continious/Continuous/
-
-> +@example
-> +qemu-system-avr -kernel program.elf -serial tcp::5678,server,nowait -nographic
-> +@end example
-> +and then in another shell
-> +@example
-> +telent localhost 5678
-
-s/telent/telnet/
-
-> +@end example
-> +
-> +@item Continious non interrupted execution with serial output into stdout
-
-s/Continious/Continuous/
-
-> +@example
-> +qemu-system-avr -kernel program.elf -serial stdio
-> +@end example
-
-... and I'm not sure whether we really need multiple examples for
-"-serial" here ... one should be enough, "-serial" is described
-somewhere else in the documentation already.
-
-> +@item Debugging wit GDB debugger
-> +@example
-> +qemu-system-avr -kernel program.elf -s -S
-> +@end example
-> +and then in another shell
-> +@example
-> +avr-gdb program.elf
-> +@end example
-> +and then within GDB shell
-> +@example
-> +target remote :1234
-> +@end example
-> +
-> +@item Print out executed instructions
-> +@example
-> +qemu-system-avr -kernel program.elf -d in_asm
-> +@end example
-> +
-> +@end itemize
-> +
->  @node QEMU User space emulator
->  @chapter QEMU User space emulator
-
- Thomas
-
+--8c07nsHwQobhlezh--
 
