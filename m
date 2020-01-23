@@ -2,77 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32ADB146361
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:23:06 +0100 (CET)
-Received: from localhost ([::1]:52936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE76A146370
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 09:25:42 +0100 (CET)
+Received: from localhost ([::1]:53026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuXlY-0000aF-ID
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:23:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55543)
+	id 1iuXo5-0003j5-9J
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 03:25:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55889)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iuXjs-00080q-QB
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:21:22 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iuXlG-00010h-BG
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iuXjq-0001hm-80
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:21:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60963
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iuXjq-0001h6-3G
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:21:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579767677;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ILqPFNt0idVIU2/k8UfJS2Y/3wTjfynlJ4HusQkCCZ8=;
- b=haB5QFP3JvcCRB9dlt9WcnRFAik2Vj5RW16rfdgZ0eTbpDVFc/NwBxGZQXEutrmOW+gwG0
- 2OwYsIaiDYgX42dE0T38UIJWwFUYvdScjdgF7WH+JzvvJp9QZBXej2EeDw+YaEzzwYcg+m
- zdQCLxbHtVnJdPQTXw2TYB4QxmgXFeo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-U7Y41MzrPqqW0S5RBx-hww-1; Thu, 23 Jan 2020 03:21:15 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AA1C107ACC4
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 08:21:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
- [10.36.116.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A91B25C298;
- Thu, 23 Jan 2020 08:21:11 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3B12B1138600; Thu, 23 Jan 2020 09:21:10 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH] qapi: Incorrect attempt to fix building with
- MC146818RTC=n
-References: <20191231184916.10235-1-philmd@redhat.com>
- <875zhfzc9l.fsf@dusky.pond.sub.org>
- <a06fd97c-b149-2f24-1180-4e4efa8ff79d@redhat.com>
- <87wo9ll5on.fsf@dusky.pond.sub.org>
- <b0559940-7b97-901b-5729-587d8649eede@redhat.com>
- <87lfq0c2jq.fsf@dusky.pond.sub.org>
- <CABgObfaPrbbx6Bw0Cj14evAvA_TSUo-+iOCkBzEBfPVn6qDLBg@mail.gmail.com>
- <87tv4oyrnj.fsf@dusky.pond.sub.org>
- <3b991266-de2a-a9a6-ef68-1791f7bd838b@redhat.com>
-Date: Thu, 23 Jan 2020 09:21:10 +0100
-In-Reply-To: <3b991266-de2a-a9a6-ef68-1791f7bd838b@redhat.com> (Paolo
- Bonzini's message of "Wed, 22 Jan 2020 15:30:59 +0100")
-Message-ID: <878slybn2h.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <laurent@vivier.eu>) id 1iuXlE-0002nl-S1
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:46 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:48123)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iuXlD-0002e1-5d
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 03:22:44 -0500
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MGzI3-1iqQtx429T-00E66U; Thu, 23 Jan 2020 09:22:31 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/17] Linux user for 5.0 patches
+Date: Thu, 23 Jan 2020 09:22:10 +0100
+Message-Id: <20200123082227.2037994-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: U7Y41MzrPqqW0S5RBx-hww-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:S90B/Zx5VE0kp1RMh+5FqltpV9iTwUKPQgfx4dp0E+iyMiEIZlz
+ aQ/4RstKTErLG3zi6Bls/bSgUXw5H2W8aA0qq4KM0hSxRc1+jdvGk0d393NOjSz6enqzHrm
+ /zaAAZiVMPxqAUjS0hgmFAebNm3TF0xQMChjPRWJssmPKMvCktG4KKc9R505Lls1z13nA4H
+ 6zKFV6XY26kDoBtxegA0g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zn9JmtC6FoA=:d4p2lcuh7/FQs15c7sWvmI
+ dxcXZOod++szeKlhXy1RDDqXJvGHHumpEpeSvu0QnRSkzNZ2KTozCupYgbiA2kKmbREW04mou
+ 9poFDVmYamBfrUXbfcxOPTyWZBIjGrCdQ4U5NiziNPHzw3BnWOANRwrUxazo/2Iq4fJY4kg2K
+ C5/fREDEvv8iek6PXLG4nJ6xdHmJNt04qbcL8hFqTNClcnVc9gmxwz8IwDlgDUqbBOEVUC41G
+ rJUnwHCBq8+cdyc4a9uv2O8Px3Tye8SwsfcwjXAGZYGzPz0oWLW+eE0AUFSLebUe9e8OCm3fj
+ 4mSlb2HAf9hrmJQSy15vVvFQTVB4MAJOiW30ukX+LpXUhfyIZs6tGzxWmnYcWADlZBsnqtydO
+ uEc9lD92Lu6dcD4CLJs9lUOlqnAO8zJpwgobl6KC0HLy+s50as7QvT+OWRG0eETA5mmfi5yMc
+ lMtTekpIhmGfDYX78bShQYbnW8rRcbV0JtAdImqEpA1grrZIVf95kxzawM8OX23ugBs5uh1q8
+ VUON4g3QEaPwPLErypmznXNkxV2/QRF+U7tRTSCjg60XPQtH5xTamjXN7sPL9L6zPv1sKSe/W
+ BNjJn5luFapaUCadOWIfVTwFBnearWphJF4W5RXjnI/WdxWyDVvgPb7kZtzwipHZmSLj0u5Bm
+ LogYiaDFB3qnAsdxz5mzl5qY5Enlzf5kiQUDgtlfEKUgnycyjkYFOt8iLcbE0WRMXt7EjZ3T3
+ KBQhnY2ozw7nBXI8qovDuR7OLorw/VHqb+vhcQEg5n+1046TpLym/MrtOxw24Ic9kGo296msP
+ 0i+4FC8k6q6WB6vyEag/wvfTcqu0JSueTwcd6sBMbz3eaBxs1Q=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 212.227.126.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,108 +62,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+The following changes since commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde0dd40:
 
-> On 22/01/20 06:41, Markus Armbruster wrote:
->> Paolo Bonzini <pbonzini@redhat.com> writes:
->>=20
->>> Il mar 21 gen 2020, 15:22 Markus Armbruster <armbru@redhat.com> ha scri=
-tto:
->>>
->>>>> To see it a different way, these are the "C bindings" to QMP, just th=
-at
->>>>> the implementation is an in-process call rather than RPC.  If the QAP=
-I
->>>>> code generator was also able to generate Python bindings and the like=
-,
->>>>> they would have to be the same for all QEMU binaries, wouldn't they?
->>>>
->>>> Ommitting the kind of #if we've been discussing is relatively harmless
->>>> but what about this one, in qapi-types-block-core.h:
->>>>
->>>>     typedef enum BlockdevDriver {
->>>>         BLOCKDEV_DRIVER_BLKDEBUG,
->>>>         [...]
->>>>     #if defined(CONFIG_REPLICATION)
->>>>         BLOCKDEV_DRIVER_REPLICATION,
->>>>     #endif /* defined(CONFIG_REPLICATION) */
->>>>         [...]
->>>>         BLOCKDEV_DRIVER__MAX,
->>>>     } BlockdevDriver;
->>>>
->>>
->>> Well, I don't think this should be conditional at all. Introspection is=
- a
->>> tool to detect unsupported features, not working features.
->>=20
->> Isn't this what it does?  To detect "replication" is unsupported, check
->> whether it's absent, and "supported" does not imply "works".
->
-> Indeed...
->
->>>                                                            KVM will be
->>> present in introspection data even if /dev/kvm doesn't exist on your
->>> machine or you don't have permission to access it.
->>=20
->> Yes.
->>=20
->> QAPI/QMP introspection is compile-time static by design.  It can't tell
->> you more than "this QEMU build supports X".
->
-> ... and I think it would be fine even if it told you less: "this QEMU
-> will not give a parse error if X appears in QMP syntax".  For example,
-> QEMU could accept "replication" even if CONFIG_REPLICATION is not
-> defined and therefore using it would always fail.  This would allow
-> limiting even more use of conditional compilation.
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-20200121' into staging (2020-01-21 15:29:25 +0000)
 
-This is effectively how things worked before we added 'if' to the QAPI
-schema language.
+are available in the Git repository at:
 
-A feature F may
+  git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
 
-(1) not exist in this version of QEMU
+for you to fetch changes up to a7b09746679c1815115249ec69197e454efdfb15:
 
-(2) exist, but configured off for this build of QEMU
+  linux-user: Add support for read/clear RTC voltage low detector using ioctls (2020-01-22 15:21:37 +0100)
 
-(3) be present in this build of QEMU
+----------------------------------------------------------------
+Fix mmap guest space and brk
+Add FS/FD/RTC/KCOV ioctls
 
-When the management application sees (1) or (2), it knows that using F
-cannot possibly work no matter what you do to the host short of using
-another build of QEMU.  The management application can then reject
-attempts to use F with a useful error message, or make such attempts
-impossible (think graying out menu entries).
+----------------------------------------------------------------
 
-When the management application sees (3), it still needs to be prepared
-for actual use to fail.  Possible failures depend on the feature.
-Identifying the various kinds of failures can be awkward and/or brittle.
-Useful error reporting is often hard.
+Aleksandar Markovic (8):
+  linux-user: Add support for FS_IOC_<GET|SET>VERSION ioctls
+  linux-user: Add support for FS_IOC32_<GET|SET>FLAGS ioctls
+  linux-user: Add support for FS_IOC32_<GET|SET>VERSION ioctls
+  linux-user: Add support for FD<SETEMSGTRESH|SETMAXERRS|GETMAXERRS>
+    ioctls
+  linux-user: Add support for FDFMT<BEG|TRK|END> ioctls
+  configure: Detect kcov support and introduce CONFIG_KCOV
+  linux-user: Add support for KCOV_<ENABLE|DISABLE> ioctls
+  linux-user: Add support for KCOV_INIT_TRACE ioctl
 
-A management application doesn't care for the difference between (1) and
-(2).  We added 'if' to the QAPI schema language in part to make the
-difference disappear.
+Filip Bozuta (7):
+  linux-user: Add support for TYPE_LONG and TYPE_ULONG in do_ioctl()
+  linux-user: Add support for enabling/disabling RTC features using
+    ioctls
+  linux-user: Add support for getting/setting RTC time and alarm using
+    ioctls
+  linux-user: Add support for getting/setting RTC periodic interrupt and
+    epoch using ioctls
+  linux-user: Add support for getting/setting RTC wakeup alarm using
+    ioctls
+  linux-user: Add support for getting/setting RTC PLL correction using
+    ioctls
+  linux-user: Add support for read/clear RTC voltage low detector using
+    ioctls
 
-Without it, introspection munges together (2) and (3) instead.  The
-management application's information degrades from "the QEMU I have does
-not provide F" to "something went wrong".  Perhaps the management
-application can figure out what went wrong, perhaps it can't.  Perhaps
-it doesn't need to know.
+Richard Henderson (1):
+  linux-user: Reserve space for brk
 
-My point is: we trade away information at the external interface for the
-benefit of "limiting even more use of conditional compilation".  I doubt
-that's a good trade, not least because I can't quite see how exactly the
-benefit is, well, beneficial[*].
+Xinyu Li (1):
+  linux-user:Fix align mistake when mmap guest space
 
-Anyway, we've had introspection reflect compile time configuration since
-v3.0.0.  I don't think we can break that now.
+ configure                  |  9 +++++
+ linux-user/elfload.c       | 75 +++++++++++++++++++++++++++++---------
+ linux-user/ioctls.h        | 41 +++++++++++++++++++++
+ linux-user/qemu.h          |  1 +
+ linux-user/syscall.c       |  6 +++
+ linux-user/syscall_defs.h  | 59 ++++++++++++++++++++++++++++--
+ linux-user/syscall_types.h | 37 +++++++++++++++++++
+ 7 files changed, 207 insertions(+), 21 deletions(-)
 
-
-
-[*] It saves us including headers we really should be including.
-Anything else?
+-- 
+2.24.1
 
 
