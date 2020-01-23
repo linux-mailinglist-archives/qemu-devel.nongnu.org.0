@@ -2,64 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64E9146C84
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:19:29 +0100 (CET)
-Received: from localhost ([::1]:59122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5000146C87
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:22:28 +0100 (CET)
+Received: from localhost ([::1]:59218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueGW-0007AL-M7
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:19:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43049)
+	id 1iueJK-00033c-3e
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:22:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45023)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <drjones@redhat.com>) id 1iucHP-0003Da-8C
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:12:17 -0500
+ (envelope-from <qemu_oss@crudebyte.com>) id 1iucPL-0002q0-5I
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:20:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1iucHO-0001Wj-5L
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:12:15 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33715)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1iucHO-0001Uv-1b
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:12:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579785133;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iLxTbnOG8vDH7PQwBtLcGLHK7NiXIN80ZHr5O/oU7KU=;
- b=OXnqoFWKpZjzzjQb5EdYvPGfRvnb4Ne2c8GDAf5x3g1kAb7e+sUyK+hRT5L/gjoQyWKFyU
- nYOvxn4jSTq2B5DVIlCwz99zbF7vpO2awGleuhfnxra/r2ZqrFeFhvUbAN5NIUe67+Rh2t
- nnK9/YlBhdzVcAiyUpOcJsCwZTx//9w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-_mUU-qebNLehTgkE4NG_ww-1; Thu, 23 Jan 2020 08:12:09 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D227318AAFA2;
- Thu, 23 Jan 2020 13:12:08 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D9B9B1CB;
- Thu, 23 Jan 2020 13:12:07 +0000 (UTC)
-Date: Thu, 23 Jan 2020 14:12:05 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH REPOST v3 24/80] arm/omap_sx1: use memdev for RAM
-Message-ID: <20200123131205.4ss6d3ss6y7c5fxz@kamzik.brq.redhat.com>
-References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
- <1579779525-20065-25-git-send-email-imammedo@redhat.com>
+ (envelope-from <qemu_oss@crudebyte.com>) id 1iucPJ-0003mS-Al
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:20:26 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:52035)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1iucPI-0003lQ-TK
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:20:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=ufSTKWNJBsOr6nwNgTV0mB/CpItf1Y923UOdrrfjA+A=; b=JfuqBhSWsmHGFPYtFZvjvU9/0g
+ Aetl1hAmei1U8imVv9Gs4GXnh7vxWo47/016Y+J9La+MbzcwklVapsEapjMPBDTlhJttu4TeWvnlg
+ vezDYBN+Teua3hfy6jpaVT1Vp44xKqmndnW0HrL3lZTiyaDwbQV+Z84yF9EqC7ctxb1E2IsEbtYxw
+ 6k2dDOB5Gv/KIv+sBP6txT3+V3QmKyCadxrTXkeuDW/xHjRLuE3EjBuLTFLjVJB1DfQXXDnGyY0a2
+ 0ZoHu89EuyzMuwJj1xiVL8iLeBqiT82f7kw+CfHAh1VumXKmbaS5bYNkuiXBLEloW26HHpa/pGUq9
+ AubaeVxdO+LsT3ZGLzZdtMzkBa5D69GErUYH3rtY2N1k44Tpj8zNWgakk1Oa+T0UZl85Q91+hqCIF
+ BFt4kKWog61sdyn9NRG+U/0ts/lDR121eeuJCsyiUAcH4L/llUu5gTFsKMGawwfRBHcPC+UGaMeBE
+ s1bMQ2WidGaOarbLAQQ87kMbxtrTw1BcB/lrkil7lXOyLbBErrA/4maz4otH83SBu076CPLWsXF47
+ yvKHzHwPXgUX8mT5evBpbO/cWV7OVaEOnwpWDX7OiQBmvD0zyoeBu3q1JCiZPI4EMFwDv/YdZx4h/
+ qNeLo4NMna8Zpe+zkrdgbLQVhWAleDR5x2LnNwXB8=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v4 08/11] 9pfs: readdir benchmark
+Date: Thu, 23 Jan 2020 14:20:22 +0100
+Message-ID: <3428605.7UbGDvY7BO@silver>
+In-Reply-To: <20200123113415.33ba5b2a@bahia.lan>
+References: <cover.1579567019.git.qemu_oss@crudebyte.com>
+ <b1eae734604cdbda0cecf1fbb7d103dd249642ee.1579567020.git.qemu_oss@crudebyte.com>
+ <20200123113415.33ba5b2a@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <1579779525-20065-25-git-send-email-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: _mUU-qebNLehTgkE4NG_ww-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 5.189.157.229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,40 +61,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 23, 2020 at 12:37:49PM +0100, Igor Mammedov wrote:
-> memory_region_allocate_system_memory() API is going away, so
-> replace it with memdev allocated MemoryRegion. The later is
-> initialized by generic code, so board only needs to opt in
-> to memdev scheme by providing
->   MachineClass::default_ram_id
-> and using MachineState::ram instead of manually initializing
-> RAM memory region.
->=20
-> PS:
->  while at it add check for user supplied RAM size and error
->  out if it mismatches board expected value.
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
-> v2:
->   * fix format string causing build failure on 32-bit host
->     (Philippe Mathieu-Daud=E9 <philmd@redhat.com>)
->=20
-> CC: drjones@redhat.com
-> CC: peter.maydell@linaro.org
-> CC: qemu-arm@nongnu.org
-> ---
->  hw/arm/omap_sx1.c | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
->
+On Donnerstag, 23. Januar 2020 11:34:15 CET Greg Kurz wrote:
+> On Tue, 21 Jan 2020 01:23:55 +0100
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > This patch is not intended to be merged. It just provides a
+> 
+> Well I like the idea of having such a benchmark available.
+> It could probably be merged after a few changes...
 
-I don't know anything about omap_sx1, but I promised Igor to put
-another pair of eyes on his changes. Looks fine to me.
+Never thought about this benchmark patch being useful in general, because it's 
+just few lines of code actually to benchmark readdir performance. Plus, as you 
+just found out, it does matter whether the synth driver's n-square issue 
+taints the benchmark results.
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+So sure, I could add a boolean macro P9_BENCHMARK_READDIR or whatever, that 
+one could just enable if desired, but my concern would be that people would 
+not interpret the values correctly, since they are certainly unaware about the 
+impact of the driver performance on these values being printed.
+
+I mean if you missed that point, then other ones will definitely as well.
+
+> > temporary benchmark foundation for coneniently A/B comparison
+> > of the subsequent 9p readdir optimization patches:
+> > 
+> > * hw/9pfs/9p-synth: increase amount of simulated files for
+> > 
+> >   readdir test to 2000 files.
+> 
+> ... the 9p-synth backend could maybe always create this number
+> of files ?
+
+That's up to you. I don't mind about the precise value in the production 
+version. The tests just take more time to execute if there are 2000 files.
+
+> > * tests/virtio-9p: measure wall time that elapsed between
+> > 
+> >   sending T_readdir request and arrival of R_readdir response
+> >   and print out that measured duration, as well as amount of
+> >   directory entries received, and the amount of bytes of the
+> >   response message.
+> 
+> ... maybe we should make the printing optional and off by
+> default so that it doesn't pollute CI logs.
+> 
+> > * tests/virtio-9p: increased msize to 256kiB to allow
+> > 
+> >   retrieving all 2000 files (simulated by 9pfs synth driver)
+> >   with only one T_readdir request.
+> 
+> ... always use 256k for both the basic test and a revisited
+> split test ?
+
+Same thing, I don't mind, it's up to you to decide.
+
+Actually I would find it more important to document it somewhere how to 
+actually run these tests and/or just run one specific individual test. Because 
+I don't find it obvious for external people how to do that. That might explain 
+why there are so little 9p tests so far. I also did many tests manually before 
+(with a real guest OS, and fs rollbacks, etc.), simply because I did not know.
+
+> > Running this benchmark is fairly quick & simple and does not
+> > require any guest OS installation or other prerequisites:
+> > 
+> > cd build
+> > make && make tests/qtest/qos-test
+> > export QTEST_QEMU_BINARY=x86_64-softmmu/qemu-system-x86_64
+> > tests/qtest/qos-test -p $(tests/qtest/qos-test -l | grep readdir/basic)
+> > 
+> > Since this benchmark uses the 9pfs synth driver, the host
+> > machine's I/O hardware (SSDs/HDDs) is not relevant for the
+> > benchmark result, because the synth backend's readdir
+> > implementation returns immediately (without any blocking I/O
+> > that would incur with a real-life fs driver) and just returns
+> > already prepared, simulated directory entries directly from RAM.
+> > So this benchmark focuses on the efficiency of the 9pfs
+> > controller code (or top half) for readdir request handling.
+> > 
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> > 
+> >  hw/9pfs/9p-synth.h           |  2 +-
+> >  tests/qtest/virtio-9p-test.c | 37 +++++++++++++++++++++++++++++++++++-
+> >  2 files changed, 37 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/hw/9pfs/9p-synth.h b/hw/9pfs/9p-synth.h
+> > index 036d7e4a5b..7d6cedcdac 100644
+> > --- a/hw/9pfs/9p-synth.h
+> > +++ b/hw/9pfs/9p-synth.h
+> > @@ -58,7 +58,7 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int
+> > mode,> 
+> >  /* for READDIR test */
+> >  #define QTEST_V9FS_SYNTH_READDIR_DIR "ReadDirDir"
+> >  #define QTEST_V9FS_SYNTH_READDIR_FILE "ReadDirFile%d"
+> > 
+> > -#define QTEST_V9FS_SYNTH_READDIR_NFILES 100
+> > +#define QTEST_V9FS_SYNTH_READDIR_NFILES 2000
+> > 
+> >  /* Any write to the "FLUSH" file is handled one byte at a time by the
+> >  
+> >   * backend. If the byte is zero, the backend returns success (ie, 1),
+> > 
+> > diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+> > index e47b286340..d71b37aa6c 100644
+> > --- a/tests/qtest/virtio-9p-test.c
+> > +++ b/tests/qtest/virtio-9p-test.c
+> > @@ -15,6 +15,18 @@
+> > 
+> >  #include "libqos/virtio-9p.h"
+> >  #include "libqos/qgraph.h"
+> > 
+> > +/*
+> > + * to benchmark the real time (not CPU time) that elapsed between start
+> > of
+> > + * a request and arrival of its response
+> > + */
+> > +static double wall_time(void)
+> > +{
+> > +    struct timeval t;
+> > +    struct timezone tz;
+> > +    gettimeofday(&t, &tz);
+> > +    return t.tv_sec + t.tv_usec * 0.000001;
+> > +}
+> > +
+> > 
+> >  #define QVIRTIO_9P_TIMEOUT_US (10 * 1000 * 1000)
+> >  static QGuestAllocator *alloc;
+> > 
+> > @@ -36,7 +48,7 @@ static void pci_config(void *obj, void *data,
+> > QGuestAllocator *t_alloc)> 
+> >      g_free(tag);
+> >  
+> >  }
+> > 
+> > -#define P9_MAX_SIZE 4096 /* Max size of a T-message or R-message */
+> > +#define P9_MAX_SIZE (256 * 1024) /* Max size of a T-message or R-message
+> > */> 
+> >  typedef struct {
+> >  
+> >      QTestState *qts;
+> > 
+> > @@ -600,12 +612,35 @@ static void fs_readdir(void *obj, void *data,
+> > QGuestAllocator *t_alloc)> 
+> >      v9fs_req_wait_for_reply(req, NULL);
+> >      v9fs_rlopen(req, &qid, NULL);
+> > 
+> > +    const double start = wall_time();
+> > +
+> > 
+> >      /*
+> >      
+> >       * submit count = msize - 11, because 11 is the header size of
+> >       Rreaddir
+> >       */
+> >      
+> >      req = v9fs_treaddir(v9p, 1, 0, P9_MAX_SIZE - 11, 0);
+> > 
+> > +    const double treaddir = wall_time();
+> > 
+> >      v9fs_req_wait_for_reply(req, NULL);
+> > 
+> > +    const double waitforreply = wall_time();
+> > 
+> >      v9fs_rreaddir(req, &count, &nentries, &entries);
+> > 
+> > +    const double end = wall_time();
+> > +
+> > +    printf("\nTime client spent on sending T_readdir: %fs\n\n",
+> > +           treaddir - start);
+> > +
+> > +    printf("Time client spent for waiting for reply from server: %fs "
+> > +           "[MOST IMPORTANT]\n", waitforreply - start);
+> > +    printf("(This is the most important value, because it reflects the
+> > time\n" +           "the 9p server required to process and return the
+> > result of the\n" +           "T_readdir request.)\n\n");
+> > +
+> > +    printf("Total client time: %fs\n", end - start);
+> > +    printf("(NOTE: this time is not relevant; this huge time comes
+> > from\n"
+> > +           "inefficient qtest_memread() calls. So you can discard this\n"
+> > +           "value as a problem of this test client implementation
+> > while\n"
+> > +           "processing the received server T_readdir reply.)\n\n");
+> > +
+> > +    printf("Details of response message data: R_readddir nentries=%d "
+> > +           "rbytes=%d\n", nentries, count);
+> > 
+> >      /*
+> >      
+> >       * Assuming msize (P9_MAX_SIZE) is large enough so we can retrieve
+> >       all
+
+Best regards,
+Christian Schoenebeck
+
 
 
