@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6256B145FD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:21:58 +0100 (CET)
-Received: from localhost ([::1]:48948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A0B145FEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:27:37 +0100 (CET)
+Received: from localhost ([::1]:49101 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuQFx-0003fC-11
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:21:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54866)
+	id 1iuQLP-00038M-P0
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:27:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54877)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzi-0002IO-LP
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:21 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iuPzk-0002J5-PB
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzZ-0002LA-Re
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:09 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:38423)
+ (envelope-from <richard.henderson@linaro.org>) id 1iuPzc-0002Lr-64
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:11 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:34087)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iuPzZ-0002Kz-Lf
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:01 -0500
-Received: by mail-pf1-f195.google.com with SMTP id x185so615368pfc.5
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:05:01 -0800 (PST)
+ id 1iuPzc-0002Li-09
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:04 -0500
+Received: by mail-pl1-f193.google.com with SMTP id c9so533315plo.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:05:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zvq+Ll0OMhGkeTT4nxRG0eqc6IV0o3wiUiAqy9VRhew=;
- b=bJTqS4LA1A8MVdsHkoi16Putg4JfpuR+BuFYOHUy7bd7Q8OeFqtwQHVjpx+QJ4TAP8
- pouQItys7bJq5QJpaqwiTczAPnbXXNO7TeKDZrtvRzLoY1zYBRzcKB3mFOO06Q2ew4v/
- s4mtnSiHk0l/yHN2o9PV0vXUWdXf9Q8Ws6x82j5o3PunFM96RmxiMKEy9J+sVl6qFPeo
- Xriot1TygdW839qC85ejxXu/6BwqoFpPXRcn5b5lLLSri4JQw8njS+WReH9UY+Y+erhu
- rcGM/IlVUapLJai6ec7+F1vqkP7vTI8CN4STBo1ql6QkIjc2trbZKdjXLNupy0FD9E3l
- zfyg==
+ bh=SlxqTjIPt9dUcMT1pJil25PNJ90pZv9wieksrOmXI1I=;
+ b=h8rp30lbJdpfgYnjsyMAMp5x6JqBU8zicnAT4wmSxAAxQzK6WwgkOLlNEdyWPDHoNf
+ zFzXSUXDYDrqkIxnLbYEK2hCOB1q1JVjPaEP9Qm3NjdGf/irsu5pO8adARCpj3sHzA8+
+ WdGdsUi+Z3kTq6Cj25rwtsWdx2eSR0FUvsm7dIFZBvNfyDqqIY4OArz8ZGNoyf8Voha2
+ PtmGiohcfAD70MvVvyzF5kBUfmgMKH0YVzVlXJkpymuyqLjpygOeY4kZ7/qW1Eb6jjXl
+ cJc1TNakVRuX+QQsMftePY4wItQ28oI0z+DPSmw7Jqxosch9lMAGFwkTcsRLm7sbmaVE
+ DBqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zvq+Ll0OMhGkeTT4nxRG0eqc6IV0o3wiUiAqy9VRhew=;
- b=mX4UkbXZ8HQstHIW2YKxd6JqEHm9elfi8Vq6+NHDGUq/slj6F7phlr6ttpa22rTgZL
- PqRBKtdGUfGCuroo194BhbMEp5WpNQ4wGm4nD5bWaHNHDiwvxehC/jui7/WYbLPRPJBH
- 2UZgV5wz9uZpXYv0zC8+tJ5uTm/SaXnKqqFsjgn6DSdmlhzlx/ZgkUW3dAyl5PwefMs7
- z3Z6ODwLGYXWNlKP2yRB5ePC5qIpBvPZrrf4yfu5EfjLASZR9TwRgEy/XmnKdobxE/Ob
- sZZ6ZcBilshHXWGQgcSnKaiyK94QmwJz3ek9x41oWNRXNDxzldOfnzrrTTZJyCcxuPIQ
- pVFw==
-X-Gm-Message-State: APjAAAWdXpdRHCN1w9f5y398JRYaCCZ6pwAmh/mHN8qhGjn/sLyPLL1s
- zzVrFUuvbXhvhtF/zVLPfq0KB5OcmeQ=
-X-Google-Smtp-Source: APXvYqwnxiV3tZ7Vms0RUI215SYPIYvVOlcZaANAvzEkqKywqTpnqm3gSBSQZ02/xt0S4D/kzgChPw==
-X-Received: by 2002:aa7:8699:: with SMTP id d25mr4899835pfo.139.1579737840374; 
- Wed, 22 Jan 2020 16:04:00 -0800 (PST)
+ bh=SlxqTjIPt9dUcMT1pJil25PNJ90pZv9wieksrOmXI1I=;
+ b=tWyOGU7H4eC5MR/vyqiBoUTa025PJwmYvLmMz+NK81ji/2TX256mbfXiwwz95Fut/b
+ QhQKzmGedhqrSUs56e+NqGEtsHxPD3b7yPnry9XVLA3kx+8gPFwhybiQEg7bWcz7VJzF
+ dkQyb7wLUIb8zw8dTX6w8MbalMaATgNbggCR3icAIf2d7ucGK9PDl204aBFSrlAbyWDj
+ U86QKjjT8Q/QhzbEVGlIULSH1JfeaPgP71I36dnowQldmeNa71dkRGiwU3jfU6g/EbHs
+ WyaYwPCsP/etH/MTiZFYhU/WhA2nKiPgVkZm4mDHnsGXUMPwd4vzEJV9Nf6z46un/h74
+ idQw==
+X-Gm-Message-State: APjAAAXmwaoSC9OU+K4gzTkVb/iMfPZZM9GfhxweWelRaifhTc6OmLpl
+ wRpSJMCq5zJS3Hmn/vOAT+apC1uKoVU=
+X-Google-Smtp-Source: APXvYqys8wejwqNMR56wA7oJjcWq+MHiCyeb2wU9J5Tw8rG8grQuOOo7pJtBa8/wCRKisHmvC3pTow==
+X-Received: by 2002:a17:902:9a8e:: with SMTP id
+ w14mr13332545plp.315.1579737842846; 
+ Wed, 22 Jan 2020 16:04:02 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-198-77-92.west.biz.rr.com.
  [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.03.58
+ by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.04.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 16:03:59 -0800 (PST)
+ Wed, 22 Jan 2020 16:04:02 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc1 21/24] target/avr: Update build system
-Date: Wed, 22 Jan 2020 14:03:04 -1000
-Message-Id: <20200123000307.11541-22-richard.henderson@linaro.org>
+Subject: [PATCH rc1 22/24] tests/boot-serial-test: Test some Arduino boards
+ (AVR based)
+Date: Wed, 22 Jan 2020 14:03:05 -1000
+Message-Id: <20200123000307.11541-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200123000307.11541-1-richard.henderson@linaro.org>
 References: <20200123000307.11541-1-richard.henderson@linaro.org>
@@ -67,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.195
+X-Received-From: 209.85.214.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,8 +82,8 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: thuth@redhat.com, me@xcancerberox.com.ar, S.E.Harris@kent.ac.uk,
- dovgaluk@ispras.ru, Aleksandar Markovic <amarkovic@wavecomp.com>,
- imammedo@redhat.com, mrolnik@gmail.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ dovgaluk@ispras.ru, imammedo@redhat.com, mrolnik@gmail.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -89,97 +91,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-Make AVR support buildable
+Print out 'T' through serial port
+
+The Arduino Duemilanove is based on a AVR5 CPU, while the
+Arduino MEGA2560 on a AVR6 CPU.
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <20200118191416.19934-19-mrolnik@gmail.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+[rth: Squash Arduino adjustments from f4bug]
+Tested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- configure                       |  7 +++++++
- default-configs/avr-softmmu.mak |  5 +++++
- target/avr/Makefile.objs        | 34 +++++++++++++++++++++++++++++++++
- 3 files changed, 46 insertions(+)
- create mode 100644 default-configs/avr-softmmu.mak
- create mode 100644 target/avr/Makefile.objs
+ tests/qtest/boot-serial-test.c | 11 +++++++++++
+ tests/qtest/Makefile.include   |  2 ++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/configure b/configure
-index 557e4382ea..94e79ca634 100755
---- a/configure
-+++ b/configure
-@@ -7612,6 +7612,10 @@ case "$target_name" in
-     mttcg="yes"
-     gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml"
-   ;;
-+  avr)
-+    gdb_xml_files="avr-cpu.xml"
-+    target_compiler=$cross_cc_avr
-+  ;;
-   cris)
-   ;;
-   hppa)
-@@ -7831,6 +7835,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
-       disas_config "ARM_A64"
-     fi
-   ;;
-+  avr)
-+    disas_config "AVR"
-+  ;;
-   cris)
-     disas_config "CRIS"
-   ;;
-diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmmu.mak
-new file mode 100644
-index 0000000000..80218add98
---- /dev/null
-+++ b/default-configs/avr-softmmu.mak
-@@ -0,0 +1,5 @@
-+# Default configuration for avr-softmmu
+diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
+index 05c7f44457..07067b76a2 100644
+--- a/tests/qtest/boot-serial-test.c
++++ b/tests/qtest/boot-serial-test.c
+@@ -16,6 +16,15 @@
+ #include "qemu/osdep.h"
+ #include "libqtest.h"
+ 
++static const uint8_t bios_avr[] = {
++    0x88, 0xe0,             /* ldi r24, 0x08   */
++    0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
++    0x86, 0xe0,             /* ldi r24, 0x06   */
++    0x80, 0x93, 0xc2, 0x00, /* sts 0x00C2, r24 ; Set the data bits to 8 */
++    0x84, 0xe5,             /* ldi r24, 0x54   */
++    0x80, 0x93, 0xc6, 0x00, /* sts 0x00C6, r24 ; Output 'T' */
++};
 +
-+# Boards:
-+#
-+CONFIG_ARDUINO=y
-diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
-new file mode 100644
-index 0000000000..7523e0c6e2
---- /dev/null
-+++ b/target/avr/Makefile.objs
-@@ -0,0 +1,34 @@
-+#
-+#  QEMU AVR CPU
-+#
-+#  Copyright (c) 2019 Michael Rolnik
-+#
-+#  This library is free software; you can redistribute it and/or
-+#  modify it under the terms of the GNU Lesser General Public
-+#  License as published by the Free Software Foundation; either
-+#  version 2.1 of the License, or (at your option) any later version.
-+#
-+#  This library is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+#  Lesser General Public License for more details.
-+#
-+#  You should have received a copy of the GNU Lesser General Public
-+#  License along with this library; if not, see
-+#  <http://www.gnu.org/licenses/lgpl-2.1.html>
-+#
+ static const uint8_t kernel_mcf5208[] = {
+     0x41, 0xf9, 0xfc, 0x06, 0x00, 0x00,     /* lea 0xfc060000,%a0 */
+     0x10, 0x3c, 0x00, 0x54,                 /* move.b #'T',%d0 */
+@@ -103,6 +112,8 @@ typedef struct testdef {
+ 
+ static testdef_t tests[] = {
+     { "alpha", "clipper", "", "PCI:" },
++    { "avr", "arduino-duemilanove", "", "T", sizeof(bios_avr), NULL, bios_avr },
++    { "avr", "arduino-mega-2560-v3", "", "T", sizeof(bios_avr), NULL, bios_avr},
+     { "ppc", "ppce500", "", "U-Boot" },
+     { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
+     { "ppc", "g3beige", "", "PowerPC,750" },
+diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+index e6bb4ab28c..4817b6320f 100644
+--- a/tests/qtest/Makefile.include
++++ b/tests/qtest/Makefile.include
+@@ -65,6 +65,8 @@ check-qtest-i386-y += numa-test
+ 
+ check-qtest-x86_64-y += $(check-qtest-i386-y)
+ 
++check-qtest-avr-y += boot-serial-test
 +
-+DECODETREE = $(SRC_PATH)/scripts/decodetree.py
-+decode-y = $(SRC_PATH)/target/avr/insn.decode
-+
-+target/avr/decode_insn.inc.c: $(decode-y) $(DECODETREE)
-+	$(call quiet-command, \
-+	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn --insnwidth 16 $<, \
-+	  "GEN", $(TARGET_DIR)$@)
-+
-+target/avr/translate.o: target/avr/decode_insn.inc.c
-+
-+obj-y += translate.o cpu.o helper.o
-+obj-y += gdbstub.o
-+obj-y += disas.o
-+obj-$(CONFIG_SOFTMMU) += machine.o
+ check-qtest-alpha-y += boot-serial-test
+ check-qtest-alpha-$(CONFIG_VGA) += display-vga-test
+ 
 -- 
 2.20.1
 
