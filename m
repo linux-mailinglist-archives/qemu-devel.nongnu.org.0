@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749B9146CC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:28:12 +0100 (CET)
-Received: from localhost ([::1]:59314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7A4146CD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:30:32 +0100 (CET)
+Received: from localhost ([::1]:59336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueOx-0003bk-10
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:28:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51610)
+	id 1iueRD-0006l0-2y
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:30:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51639)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrY-0005Ei-Pe
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:37 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucra-0005Hm-Sp
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrX-0003pm-PI
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:36 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:35779)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrZ-0003xq-Ce
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:38 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:55789)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucrX-0003lj-Iy
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:35 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id p17so2626280wmb.0
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:35 -0800 (PST)
+ id 1iucrZ-0003tm-55
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:37 -0500
+Received: by mail-wm1-x335.google.com with SMTP id q9so2636076wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ep2zLWRWUErqyW26G/7lhPUdGhrXWSwt7t7lct6ZAZY=;
- b=sRy8iOPNqjb9Q0e2dDwtuRigFidACVrae3MelcvgkdCPP+ArYPOnJAlPxN21NoOPS0
- 4sct7Lr1t7i6GZe2+TVWQTIGbzCn75rWzZyh2b9T2YGp/WRPYmo3hyPy63NMu+kP5IGp
- SqKwMKwKiicnAonCavYGT+14n8nxy6AbPIzpoIF4N6qHSwa/emeigKZhnf8qdqmwc8I9
- chyUg/GKnjtGgP/5l/Vb1dMBSDKeYrP1WJp/jA9onsw6dj3GtujQW7iWc2QyWkssmBAV
- 7qR1dUUa2pcVrUtQHm6E8bfIAobPZaYYrpHzq3yOJVby2HAahgCuFEs7XUfJxBx4rqYp
- YFIw==
+ bh=wOZKXE7AorDry02zwCbHQd2VJJlOO0auii3FGQwWC48=;
+ b=VjAs6WXMmqWPkBZfM9WJdJ39aEbu49bbcM0h9eMYw/J4uuzLZMsUAkq4MOVDHAZ4tD
+ zH1VJIq6IezJmfkpSumT1rzpeYtBjftzreYHBCrVcI3d/qKmQPEDdQcGgKWpPW0mrNm8
+ FSpEDPftoXZfhWnEwL9GVClekbi78tSWDrIR2amWzYjWZVl8AIlCCdHpVp/HrdkGZIc2
+ Loq5wl55EG3nsf5BF9xfKIL6zKXoZLOwcv7oVElSf5pQF15vbpNzl4SGNEuWiFVqW4Fc
+ tQI5hwUsstpzZXolhTFTAPuwATB+oymgOWiIng6iA5j7eZjB5LAXtn7ZRsZ7xdz0FkI4
+ 0Hqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ep2zLWRWUErqyW26G/7lhPUdGhrXWSwt7t7lct6ZAZY=;
- b=N9UXYUhbE40jQu9WvaPna8oJZOEik0wqcBFrFP//3ZdiyGi3UgTjnru/T3nX5m/XYI
- oTL+5fHPOy1IY5RDtd/AXcID/UzhFyQqCKFqKfJC3tB1lxnL1WGxLJmEgAC038XiERK7
- 9tIZH+TaVFZDcZiYCYHz+vWaVbREviiuULAgOcRk4bnhqmvZ3k9BVAa/McHLG3w+7LDD
- QwuUha9q+ziRBt6hBI4Pi6EDiYIoG+Dfm1xbP+cWTZYQSsMRwi3crJWYCIbP0JkRxQ+H
- Wx8a/b1PojwIm8S9guReJebUeVbkOSd/xGYlPXvcMVWR6WDF+37uqdUAG6lv3sLO1d4q
- MIRQ==
-X-Gm-Message-State: APjAAAWTX2dhwEWbyvbSZRBoMcm12vgp3LrUFXKjJm33uASMphA9YnN0
- RbXj+KUjqK7NyfxXXhgBLhWD2C/6
-X-Google-Smtp-Source: APXvYqyPtPwo4u5aktCz6eQ0F5hMEgXvZG5rGa+U9tUQtKJcRAcTxTBgGp82kgslX/PZCP7WeVXpgw==
-X-Received: by 2002:a05:600c:54c:: with SMTP id
- k12mr4320665wmc.124.1579787374395; 
- Thu, 23 Jan 2020 05:49:34 -0800 (PST)
+ bh=wOZKXE7AorDry02zwCbHQd2VJJlOO0auii3FGQwWC48=;
+ b=L9ge6CIVLs6yyiBMJ0bg5vKGEKBrarPfrEmNZhdOlyCHz572OyrDyf0fdQebCHJMzO
+ m46sTAFMvYz9HwfBwSzrMlrqvGv4kq45eWIcRBnLottY7NoDEpb96zrMQzRvp23IQdv2
+ oP4qb4qrnVEMGHcjRLDaMP/EsjDUr3DKaca7l8viv7t2nl0cvYyKuoKKYqQWblJ460pI
+ ltSHy8X7MXIBwmeOCVgJDz2PCYBKyFLv1GyQnva1dDiVvRUHRbIrqmtCgWTCFye4pkW6
+ r1nyhxnTuBVVfy3DjGMt5C64nmdo3xJW3vmFeL9PDuBnWoCyVnN8mm0pkTShY8H/IPZo
+ aPiQ==
+X-Gm-Message-State: APjAAAV9vjYT4rEhsq8egTdpfVg5mU6V3+decP2kPz4W/96+zA6h4UjO
+ ncpQc5QjCYAz8SOgcn07Cz+OLqfJ
+X-Google-Smtp-Source: APXvYqx5BGq6bmGTmqnu+hlYgoACuIcZqwp4NMRg6le4qfa50fLZwbJuLCnrT5ojRRVk1OFzwq1nxg==
+X-Received: by 2002:a1c:5f41:: with SMTP id t62mr4429316wmb.42.1579787376018; 
+ Thu, 23 Jan 2020 05:49:36 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.33
+ by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.35
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:33 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:35 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/59] object: add extra sanity checks
-Date: Thu, 23 Jan 2020 14:48:34 +0100
-Message-Id: <1579787342-27146-32-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 33/59] qdev: remove extraneous error
+Date: Thu, 23 Jan 2020 14:48:36 +0100
+Message-Id: <1579787342-27146-34-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -67,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,29 +84,176 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Type system checked that children class_size >= parent class_size, but
-not instances. Fix that.
+All callers use error_abort, and even the function itself calls with
+error_abort.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200110153039.1379601-2-marcandre.lureau@redhat.com>
+Message-Id: <20200110153039.1379601-4-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qom/object.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/core/qdev.c               | 15 ++++-----------
+ include/hw/qdev-properties.h |  3 +--
+ target/arm/cpu.c             | 36 ++++++++++++------------------------
+ 3 files changed, 17 insertions(+), 37 deletions(-)
 
-diff --git a/qom/object.c b/qom/object.c
-index 90155fa..dcb6863 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -307,6 +307,7 @@ static void type_initialize(TypeImpl *ti)
-         int i;
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index b47dc07..60aec8b 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -717,24 +717,17 @@ static void qdev_property_add_legacy(DeviceState *dev, Property *prop,
+     g_free(name);
+ }
  
-         g_assert(parent->class_size <= ti->class_size);
-+        g_assert(parent->instance_size <= ti->instance_size);
-         memcpy(ti->class, parent->class, parent->class_size);
-         ti->class->interfaces = NULL;
-         ti->class->properties = g_hash_table_new_full(
+-void qdev_property_add_static(DeviceState *dev, Property *prop,
+-                              Error **errp)
++void qdev_property_add_static(DeviceState *dev, Property *prop)
+ {
+-    Error *local_err = NULL;
+     Object *obj = OBJECT(dev);
+ 
+     if (prop->info->create) {
+-        prop->info->create(obj, prop, &local_err);
++        prop->info->create(obj, prop, &error_abort);
+     } else {
+         object_property_add(obj, prop->name, prop->info->name,
+                             prop->info->get, prop->info->set,
+                             prop->info->release,
+-                            prop, &local_err);
+-    }
+-
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        return;
++                            prop, &error_abort);
+     }
+ 
+     object_property_set_description(obj, prop->name,
+@@ -989,7 +982,7 @@ static void device_initfn(Object *obj)
+     do {
+         for (prop = DEVICE_CLASS(class)->props; prop && prop->name; prop++) {
+             qdev_property_add_legacy(dev, prop, &error_abort);
+-            qdev_property_add_static(dev, prop, &error_abort);
++            qdev_property_add_static(dev, prop);
+         }
+         class = object_class_get_parent(class);
+     } while (class != object_class_by_name(TYPE_DEVICE));
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index a90a9ce..906e697 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -253,13 +253,12 @@ void error_set_from_qdev_prop_error(Error **errp, int ret, DeviceState *dev,
+  * qdev_property_add_static:
+  * @dev: Device to add the property to.
+  * @prop: The qdev property definition.
+- * @errp: location to store error information.
+  *
+  * Add a static QOM property to @dev for qdev property @prop.
+  * On error, store error in @errp.  Static properties access data in a struct.
+  * The type of the QOM property is derived from prop->info.
+  */
+-void qdev_property_add_static(DeviceState *dev, Property *prop, Error **errp);
++void qdev_property_add_static(DeviceState *dev, Property *prop);
+ 
+ void qdev_alias_all_properties(DeviceState *target, Object *source);
+ 
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 411faaa..d161da8 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1104,26 +1104,22 @@ void arm_cpu_post_init(Object *obj)
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_CBAR) ||
+         arm_feature(&cpu->env, ARM_FEATURE_CBAR_RO)) {
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_cbar_property,
+-                                 &error_abort);
++        qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_cbar_property);
+     }
+ 
+     if (!arm_feature(&cpu->env, ARM_FEATURE_M)) {
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_hivecs_property,
+-                                 &error_abort);
++        qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_hivecs_property);
+     }
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_rvbar_property,
+-                                 &error_abort);
++        qdev_property_add_static(DEVICE(obj), &arm_cpu_rvbar_property);
+     }
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_EL3)) {
+         /* Add the has_el3 state CPU property only if EL3 is allowed.  This will
+          * prevent "has_el3" from existing on CPUs which cannot support EL3.
+          */
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_el3_property,
+-                                 &error_abort);
++        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_el3_property);
+ 
+ #ifndef CONFIG_USER_ONLY
+         object_property_add_link(obj, "secure-memory",
+@@ -1136,8 +1132,7 @@ void arm_cpu_post_init(Object *obj)
+     }
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_EL2)) {
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_el2_property,
+-                                 &error_abort);
++        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_el2_property);
+     }
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_PMU)) {
+@@ -1154,32 +1149,27 @@ void arm_cpu_post_init(Object *obj)
+     if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
+         cpu->has_vfp = true;
+         if (!kvm_enabled()) {
+-            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_vfp_property,
+-                                     &error_abort);
++            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_vfp_property);
+         }
+     }
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_NEON)) {
+         cpu->has_neon = true;
+         if (!kvm_enabled()) {
+-            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_neon_property,
+-                                     &error_abort);
++            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_neon_property);
+         }
+     }
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_M) &&
+         arm_feature(&cpu->env, ARM_FEATURE_THUMB_DSP)) {
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_dsp_property,
+-                                 &error_abort);
++        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_dsp_property);
+     }
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_PMSA)) {
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_mpu_property,
+-                                 &error_abort);
++        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_mpu_property);
+         if (arm_feature(&cpu->env, ARM_FEATURE_V7)) {
+             qdev_property_add_static(DEVICE(obj),
+-                                     &arm_cpu_pmsav7_dregion_property,
+-                                     &error_abort);
++                                     &arm_cpu_pmsav7_dregion_property);
+         }
+     }
+ 
+@@ -1198,12 +1188,10 @@ void arm_cpu_post_init(Object *obj)
+                             NULL, NULL, &error_abort);
+     }
+ 
+-    qdev_property_add_static(DEVICE(obj), &arm_cpu_cfgend_property,
+-                             &error_abort);
++    qdev_property_add_static(DEVICE(obj), &arm_cpu_cfgend_property);
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER)) {
+-        qdev_property_add_static(DEVICE(cpu), &arm_cpu_gt_cntfrq_property,
+-                                 &error_abort);
++        qdev_property_add_static(DEVICE(cpu), &arm_cpu_gt_cntfrq_property);
+     }
+ }
+ 
 -- 
 1.8.3.1
 
