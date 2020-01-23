@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D61146BA3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:46:58 +0100 (CET)
-Received: from localhost ([::1]:58368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A085146C02
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 15:57:12 +0100 (CET)
+Received: from localhost ([::1]:58564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iudl1-0004iT-92
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:46:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41874)
+	id 1iuduw-0000r1-JK
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 09:57:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43538)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iubAs-0004ML-8H
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:27 -0500
+ (envelope-from <joel.stan@gmail.com>) id 1iubHu-0004Nw-11
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:08:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iubAr-0006mu-2c
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:26 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37912
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iubAq-0006mi-VJ
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:01:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579780884;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DxAJgeP+0hPstRiShwv7lrQwRfRqOxM1T7uh9S2eayU=;
- b=c/Nah05zO82E51FISIc5bkFJ+5oC5qVkPFxvqF1wzBrtqH0fKdmXrlf7QtCow9kBFvIUY3
- 5hwg2FCAE6DnDEIuThVVpiulom+/03/w8Wj+bwm5dKF3bTEbl00fYeKzeG1ZHVIe/lHGfh
- /Et4bXgtU243xKa2lekZylGYKwiozOY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107-NNfni3rROTmtLJgqqeASbw-1; Thu, 23 Jan 2020 07:01:23 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D8A8477
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 12:01:22 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 767871CB;
- Thu, 23 Jan 2020 12:01:21 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	stefanha@redhat.com
-Subject: [PULL 111/111] virtiofsd: add some options to the help message
-Date: Thu, 23 Jan 2020 11:58:41 +0000
-Message-Id: <20200123115841.138849-112-dgilbert@redhat.com>
-In-Reply-To: <20200123115841.138849-1-dgilbert@redhat.com>
-References: <20200123115841.138849-1-dgilbert@redhat.com>
+ (envelope-from <joel.stan@gmail.com>) id 1iubHs-0003lG-Q1
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 07:08:41 -0500
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:34234)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
+ id 1iubHr-0003ju-U7; Thu, 23 Jan 2020 07:08:40 -0500
+Received: by mail-qk1-x741.google.com with SMTP id d10so3157571qke.1;
+ Thu, 23 Jan 2020 04:08:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=x1zPMPRwH8V1NuBAfOtzpPIFwMe/8BZ49osDpSQatNM=;
+ b=KgS9T9d/GluJ10UYL+oo5SyszfczX1DhWYTHmnoORj1vZG7ic5EWgKq69S2tT4ccMK
+ L4LaKxfWnCr+lghuE56yGl2oH6jnhiekEF0wLNmbxl3MV9EYIJjHF8MPHzwLuE+n8smC
+ +9Nh7sGNHTOmvOMyK4by8Cssddje3XudMm4vs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=x1zPMPRwH8V1NuBAfOtzpPIFwMe/8BZ49osDpSQatNM=;
+ b=fb4JhPB5g/B/5GEUQt0vHaE0f6aWlwn6Z2laMLQYYPuwbNXPShIYxx2iYIxGxoBbBJ
+ nqJ881p2RTEC5hKfJ07shanMYH086rE99nauJP6dE5YBxEeO3COp14uRRbSXMJs/WeR2
+ ebGd6zPVKepFPYHnnDiVcehbjqGQUaao35D/3RVunzue5pUbwIX0vEOlunOnY56Yz6h0
+ SCf40NkDJG38Zy69jEkFqZmH/Yps0R0+ivTCdZBnQrDOBzZNRZx2YE/o7dnYDGm7VXMK
+ oAMObRewoeJLCEQ3YXA2LZ8zRefGqX6tWrr+kBQt8IEeHTKMLRi8+dEGzp+aOBGgBm+v
+ KSqw==
+X-Gm-Message-State: APjAAAVDapHJFkSP9quCPyyi4hgq4VUvl+5I8cmBKTTIc4/3OPHa3wvj
+ YdYCW9eGnn81jTXl37W6I+dpRKH4sg72uYxkjnc=
+X-Google-Smtp-Source: APXvYqx76TKhb4+LXCnXonmLcV01U2CtesprBSXnmhRiDxlThyvnZ5tiGtH7RmnX0O8Lc7qoUNLhmvrO2yMnvdhJKAE=
+X-Received: by 2002:ae9:e702:: with SMTP id m2mr15282686qka.208.1579781317185; 
+ Thu, 23 Jan 2020 04:08:37 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: NNfni3rROTmtLJgqqeASbw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+ <1579779525-20065-9-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1579779525-20065-9-git-send-email-imammedo@redhat.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 23 Jan 2020 12:08:25 +0000
+Message-ID: <CACPK8XfpFrpRgP6LyWv8AxJdjYTGLGRfzgDNxommBLNfV3mtHQ@mail.gmail.com>
+Subject: Re: [PATCH REPOST v3 08/80] arm/aspeed: use memdev for RAM
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::741
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,68 +70,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
+On Thu, 23 Jan 2020 at 11:41, Igor Mammedov <imammedo@redhat.com> wrote:
+>
+> memory_region_allocate_system_memory() API is going away, so
+> replace it with memdev allocated MemoryRegion. The later is
+> initialized by generic code, so board only needs to opt in
+> to memdev scheme by providing
+>   MachineClass::default_ram_id
+> and using MachineState::ram instead of manually initializing
+> RAM memory region.
+>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Add following options to the help message:
-- cache
-- flock|no_flock
-- norace
-- posix_lock|no_posix_lock
-- readdirplus|no_readdirplus
-- timeout
-- writeback|no_writeback
-- xattr|no_xattr
-
-Signed-off-by: Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>
-
-dgilbert: Split cache, norace, posix_lock, readdirplus off
-  into our own earlier patches that added the options
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tools/virtiofsd/helper.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index f98d8f2eb2..0801cf752c 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -148,6 +148,8 @@ void fuse_cmdline_help(void)
-            "    -o cache=3D<mode>            cache mode. could be one of \=
-"auto, "
-            "always, none\"\n"
-            "                               default: auto\n"
-+           "    -o flock|no_flock          enable/disable flock\n"
-+           "                               default: no_flock\n"
-            "    -o log_level=3D<level>       log level, default to \"info\=
-"\n"
-            "                               level could be one of \"debug, =
-"
-            "info, warn, err\"\n"
-@@ -163,7 +165,13 @@ void fuse_cmdline_help(void)
-            "                               enable/disable readirplus\n"
-            "                               default: readdirplus except wit=
-h "
-            "cache=3Dnone\n"
--          );
-+           "    -o timeout=3D<number>        I/O timeout (second)\n"
-+           "                               default: depends on cache=3D op=
-tion.\n"
-+           "    -o writeback|no_writeback  enable/disable writeback cache\=
-n"
-+           "                               default: no_writeback\n"
-+           "    -o xattr|no_xattr          enable/disable xattr\n"
-+           "                               default: no_xattr\n"
-+           );
- }
-=20
- static int fuse_helper_opt_proc(void *data, const char *arg, int key,
---=20
-2.24.1
-
+Acked-by: Joel Stanley <joel@jms.id.au>
 
