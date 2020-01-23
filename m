@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5072B146CFA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:34:34 +0100 (CET)
-Received: from localhost ([::1]:59520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E16146D0A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 16:36:58 +0100 (CET)
+Received: from localhost ([::1]:59564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iueV6-0002Ru-Ce
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:34:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51647)
+	id 1iueXQ-0006CM-TB
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 10:36:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51659)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucrb-0005Ik-DI
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:40 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrc-0005KV-4m
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iucra-00042M-6n
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iucrb-00044m-00
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:39 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42618)
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36380)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iucra-0003yD-04
+ id 1iucra-00042j-QI
  for qemu-devel@nongnu.org; Thu, 23 Jan 2020 08:49:38 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id q6so3120238wro.9
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:37 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id z3so3162078wru.3
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 05:49:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iMY7RCyLDjVvD/6DMcsQnff3G2M3+BaxKEPV2kf0Sdo=;
- b=B11h9vC83d5DX0RkqTTv9sx7Q7jXyKLFhtU7h63Qa0zeZr3NRynrFYzWwVbPs5NSAy
- Ijz/pXUodkRbllvzhuO0EMzH1QdeFe1O6GYhF121iQH3VLUUWb0forb0h7KWPYZ8J4Ij
- 6ylvnBlfBadurrb/YX+50E2yMuBWJ4uWSphaw9jgX9rnbB4Jwek7twrF1sHzzwNdvRL+
- ootgy8NOWV3a5TTeMywcj2lgJ9aozjcEJtJSUuxYAb5frdPB3DSJ0U/MXVC42nMQmqDN
- wfID7t34uU9K/mcTXFV5TuoBAvyLcDyXJCMxkiARSt+EfJYI2r76E/n2z18cWgCTWNuT
- fd0A==
+ bh=DKAk75UkCwuPlyN5K83IjxSwbXLW3UXbzJBFox5GXjM=;
+ b=bwN2Pb4aKherd8cZVUeShzKQgdOZLj3/lQKOidaGEdjYS2Ne4WnqPTi/vU5lJoZWlI
+ x0c8OVPM6p+bKKHcMgUa8EhQAkIgeK5hSTY3wXdQ5KOwa4jRQq7qGYYuehEk6IUlLA21
+ Myf8NYrZVV5KHGCcBBJCdOHDfwnhlDaQW0PcZ2RPBvs4oARyuU14IF4Gn6xXWYQdWQcp
+ t+DWWzDNVPX1YYrNFBpN67yAGYMg8SbLAJzBkbJl7a9ylg917NZakhdy1kxPNQkHh4x6
+ iSQPzHiDC5xMBStt0LLbGBf27I2kz3spT8MEJqRlTg0WznHsSfEdPiLzjoXKlzB6w0RR
+ 0UbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iMY7RCyLDjVvD/6DMcsQnff3G2M3+BaxKEPV2kf0Sdo=;
- b=qY4++3jSGYwc9/Sl1PI8OcCCeaxqpOaJQRO+vCgGfZ6k7hJctNGlbvQRe9IpV6gWh+
- OXxcEKiuExQWuWmaPDSXagL+JWKu6YbdcFc7SiNur2hbp8QZMOBYAoxOaGMx5i8HVzXH
- 8iqYK1xHoG5k5H6/1MYqP9knbfPQ5Y3P46h9VbDu/Y5aQiz5TKb/gJKafplwcweC8/wd
- GwEu2fH8jxjBtrSRnB/dD45LWrv3TjNRXPTPj8WuUO7P4Hijwm0OoK8yx+z9pHSlCWpG
- ruT4Emv0OCdqMRvq0oWHU8XfcixgSmjE335+dl+ijF0b5xOR92GOpqu9QXtClusslZL9
- 9lWQ==
-X-Gm-Message-State: APjAAAXhBFEibv1muDeO6cNYqneU9vqmocc1f0OeHMF2rYADGpLnpk6P
- ejSz0B8ri5hKCpjN0ppPTXoiepgi
-X-Google-Smtp-Source: APXvYqzO/wfzNBsPUxWqsX52SJ/PORF98s8kBd5OzOY0JXkcvF9O/qESv5FHWKRy5Y7qIOprMaKSqg==
-X-Received: by 2002:adf:df03:: with SMTP id y3mr17892903wrl.260.1579787376819; 
- Thu, 23 Jan 2020 05:49:36 -0800 (PST)
+ bh=DKAk75UkCwuPlyN5K83IjxSwbXLW3UXbzJBFox5GXjM=;
+ b=aSTbYpcbGZiuaJyNkpkw2a2Cek2qXQal764OjdCWzrOD7hzu1o8E+XFiOdNXjVTqCB
+ bVGr2zUtyoTM6DVZgzrD3PUfKKj9s1Vso3A0q3rkJBjpkk10qIEmjHCCjn19WJtStYzK
+ ZHE7d9rieVt4tOCDgLZaKle8aHDTvX4Ro7i27OdWqqr4GfYunkeKNuzJ/aOjYhbZbu4u
+ HMioFNXv+DHR2TJwaKnad0ECKPpJct6iM+VOxqrRcw0Wauod/ygu9OfM5i+iKU95/NOa
+ aclbbpr1rd3zipNKODLFrfxgUQVwRIAcJNY84BcQk8jNjX3nXsUVitGur0AyKrJ2gR0l
+ 4Q5g==
+X-Gm-Message-State: APjAAAXhjYGm/0vbYcCrmUcrZswXbnd1JBgp/wAVcKbncLo5/Jqttc7j
+ KyPToGOEbsrtPZzL9tzHKyeQI4js
+X-Google-Smtp-Source: APXvYqzixxqyeY1Omgo9V2GyCeO1+ilKjr1ZAqg29pzqQd5Fj9FAnxeWZrlEbwurxYM1CHKcJUqr/A==
+X-Received: by 2002:a5d:44ca:: with SMTP id z10mr17817602wrr.266.1579787377731; 
+ Thu, 23 Jan 2020 05:49:37 -0800 (PST)
 Received: from 640k.localdomain.com ([93.56.166.5])
  by smtp.gmail.com with ESMTPSA id s15sm3073171wrp.4.2020.01.23.05.49.36
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 23 Jan 2020 05:49:36 -0800 (PST)
+ Thu, 23 Jan 2020 05:49:37 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/59] qdev: move helper function to monitor/misc
-Date: Thu, 23 Jan 2020 14:48:37 +0100
-Message-Id: <1579787342-27146-35-git-send-email-pbonzini@redhat.com>
+Subject: [PULL 35/59] object: avoid extra class property key duplication
+Date: Thu, 23 Jan 2020 14:48:38 +0100
+Message-Id: <1579787342-27146-36-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
 References: <1579787342-27146-1-git-send-email-pbonzini@redhat.com>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,105 +84,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Move the one-user function to the place it is being used.
+Like object properties, no need to duplicate property name, as it is
+owned already by ObjectProperty value.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200110153039.1379601-5-marcandre.lureau@redhat.com>
+Message-Id: <20200110153039.1379601-6-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/qdev.c         | 26 --------------------------
- include/hw/qdev-core.h |  2 --
- monitor/misc.c         | 26 ++++++++++++++++++++++++++
- 3 files changed, 26 insertions(+), 28 deletions(-)
+ qom/object.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 60aec8b..8708605 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -760,32 +760,6 @@ void qdev_alias_all_properties(DeviceState *target, Object *source)
-     } while (class != object_class_by_name(TYPE_DEVICE));
+diff --git a/qom/object.c b/qom/object.c
+index dcb6863..e921363 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -311,7 +311,7 @@ static void type_initialize(TypeImpl *ti)
+         memcpy(ti->class, parent->class, parent->class_size);
+         ti->class->interfaces = NULL;
+         ti->class->properties = g_hash_table_new_full(
+-            g_str_hash, g_str_equal, g_free, object_property_free);
++            g_str_hash, g_str_equal, NULL, object_property_free);
+ 
+         for (e = parent->class->interfaces; e; e = e->next) {
+             InterfaceClass *iface = e->data;
+@@ -343,7 +343,7 @@ static void type_initialize(TypeImpl *ti)
+         }
+     } else {
+         ti->class->properties = g_hash_table_new_full(
+-            g_str_hash, g_str_equal, g_free, object_property_free);
++            g_str_hash, g_str_equal, NULL, object_property_free);
+     }
+ 
+     ti->class->type = ti;
+@@ -1187,7 +1187,7 @@ object_class_property_add(ObjectClass *klass,
+     prop->release = release;
+     prop->opaque = opaque;
+ 
+-    g_hash_table_insert(klass->properties, g_strdup(name), prop);
++    g_hash_table_insert(klass->properties, prop->name, prop);
+ 
+     return prop;
  }
- 
--static int qdev_add_hotpluggable_device(Object *obj, void *opaque)
--{
--    GSList **list = opaque;
--    DeviceState *dev = (DeviceState *)object_dynamic_cast(OBJECT(obj),
--                                                          TYPE_DEVICE);
--
--    if (dev == NULL) {
--        return 0;
--    }
--
--    if (dev->realized && object_property_get_bool(obj, "hotpluggable", NULL)) {
--        *list = g_slist_append(*list, dev);
--    }
--
--    return 0;
--}
--
--GSList *qdev_build_hotpluggable_device_list(Object *peripheral)
--{
--    GSList *list = NULL;
--
--    object_child_foreach(peripheral, qdev_add_hotpluggable_device, &list);
--
--    return list;
--}
--
- static bool device_get_realized(Object *obj, Error **errp)
- {
-     DeviceState *dev = DEVICE(obj);
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 1518495..6b0e7b2 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -457,8 +457,6 @@ extern bool qdev_hot_removed;
- 
- char *qdev_get_dev_path(DeviceState *dev);
- 
--GSList *qdev_build_hotpluggable_device_list(Object *peripheral);
--
- void qbus_set_hotplug_handler(BusState *bus, Object *handler, Error **errp);
- 
- void qbus_set_bus_hotplug_handler(BusState *bus, Error **errp);
-diff --git a/monitor/misc.c b/monitor/misc.c
-index de1ca4d..4752150 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -1959,6 +1959,32 @@ void object_add_completion(ReadLineState *rs, int nb_args, const char *str)
-     g_slist_free(list);
- }
- 
-+static int qdev_add_hotpluggable_device(Object *obj, void *opaque)
-+{
-+    GSList **list = opaque;
-+    DeviceState *dev = (DeviceState *)object_dynamic_cast(OBJECT(obj),
-+                                                          TYPE_DEVICE);
-+
-+    if (dev == NULL) {
-+        return 0;
-+    }
-+
-+    if (dev->realized && object_property_get_bool(obj, "hotpluggable", NULL)) {
-+        *list = g_slist_append(*list, dev);
-+    }
-+
-+    return 0;
-+}
-+
-+static GSList *qdev_build_hotpluggable_device_list(Object *peripheral)
-+{
-+    GSList *list = NULL;
-+
-+    object_child_foreach(peripheral, qdev_add_hotpluggable_device, &list);
-+
-+    return list;
-+}
-+
- static void peripheral_device_del_completion(ReadLineState *rs,
-                                              const char *str, size_t len)
- {
 -- 
 1.8.3.1
 
