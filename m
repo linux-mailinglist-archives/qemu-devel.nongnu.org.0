@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A1E1471E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:42:13 +0100 (CET)
-Received: from localhost ([::1]:60390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764301471ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:43:43 +0100 (CET)
+Received: from localhost ([::1]:60424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuiMm-0000xh-B4
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:42:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52673)
+	id 1iuiOE-0004lG-CQ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:43:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iuhcF-0003MZ-AP
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:54:08 -0500
+ (envelope-from <berrange@redhat.com>) id 1iuhui-0008UD-TG
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:13:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iuhcD-0006XN-Id
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:54:07 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51051
+ (envelope-from <berrange@redhat.com>) id 1iuhuf-0001LM-0H
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:13:11 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53052
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iuhcD-0006WW-DM
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 13:54:05 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iuhue-0001Iz-Ry
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 14:13:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579805644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=FKpXVIMznCBmvilSjxuwt9752+QjXVA0fS6vVcbMg3o=;
- b=Vhydb0LY28WgPtFTmlIvl1WnTcaa6YqNkhH0J3N7mAszovnvixcxWUW3xf48Rbg0MN0BAx
- w6mfIydsegHS8AnTq+i2g6KdNWto9tuOr53pF8eC1n0d296YKn9vzG5XlmhYRjN7AiE3Tq
- lE8IPubc+Clk5MahSWpIExZG1LU13aE=
+ s=mimecast20190719; t=1579806787;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nmqwHsq/6kNZleyUcpr94GK0qacjySOyfnFrjzvetHo=;
+ b=RdISksXJ9b4pJWtZQ0XSEkG2CKUxIgAatjTR5ajFfsSbyt9cXdsqYVfcHmTv/Xcm8FfZyJ
+ 3WoVPhf9uVOQy8r9J1Mb1R+nqmzFhqlRB4NnUxXf5UPtmVYllTjF/JoQRRIDuz2zYKpQ4Z
+ diaCpiNPElCJcAWqRjBexTrOsYCOd2c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181--6RrpPOHMXemS56nwhwviw-1; Thu, 23 Jan 2020 13:54:01 -0500
-X-MC-Unique: -6RrpPOHMXemS56nwhwviw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-260-vrD4GUDvMcOVL4jzcWl0JQ-1; Thu, 23 Jan 2020 14:13:06 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3F50108A47F;
- Thu, 23 Jan 2020 18:54:00 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EF94E5C1BB;
- Thu, 23 Jan 2020 18:53:58 +0000 (UTC)
-Subject: Re: qemu-img convert vs writing another copy tool
-To: "Richard W.M. Jones" <rjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, eblake@redhat.com, berrange@redhat.com,
- mkletzan@redhat.com, ptoscano@redhat.com
-References: <20200123183500.GA27166@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <ef3492f5-b1ab-52d2-9484-3c42e2b6af87@redhat.com>
-Date: Thu, 23 Jan 2020 19:53:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC801107ACC7;
+ Thu, 23 Jan 2020 19:13:04 +0000 (UTC)
+Received: from redhat.com (ovpn-112-57.ams2.redhat.com [10.36.112.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54DA487EED;
+ Thu, 23 Jan 2020 19:12:55 +0000 (UTC)
+Date: Thu, 23 Jan 2020 19:12:52 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: Making QEMU easier for management tools and applications
+Message-ID: <20200123191252.GJ657556@redhat.com>
+References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
+ <20191224130035.GC2710539@redhat.com>
+ <a95b7572-d863-bc88-66aa-3beed679cefe@redhat.com>
+ <20200123102705.GC657556@redhat.com>
+ <0ba8f074-fde8-a0f6-5880-d2f5eabeca98@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200123183500.GA27166@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <0ba8f074-fde8-a0f6-5880-d2f5eabeca98@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: vrD4GUDvMcOVL4jzcWl0JQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="4TiBvYcsh27VMFOkKSo7ptnrudESTcV8N"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,155 +77,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marnold@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "Denis V. Lunev" <den@virtuozzo.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---4TiBvYcsh27VMFOkKSo7ptnrudESTcV8N
-Content-Type: multipart/mixed; boundary="Ir2pAMNq2gMygFO56H2A6Yc6OvRJsf40e"
-
---Ir2pAMNq2gMygFO56H2A6Yc6OvRJsf40e
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 23.01.20 19:35, Richard W.M. Jones wrote:
-> I guess some people are aware that virt-v2v, which is a tool which
-> converts guests from VMware to run on KVM, and some other
-> OpenStack-OpenStack migration tools we have, use "qemu-img convert" to
-> copy the data around.
+On Thu, Jan 23, 2020 at 01:13:33PM -0500, John Snow wrote:
 >=20
-> Historically we've had bugs here.  The most recent was discussed in
-> the thread on this list called "Bug? qemu-img convert to preallocated
-> image makes it sparse"
-> (https://www.mail-archive.com/qemu-block@nongnu.org/msg60479.html)
 >=20
-> We've been kicking around the idea of writing some alternate tool.  My
-> proposal would be a tool (not yet written, maybe it will never be
-> written) called nbdcp for copying between NBD servers and local files.
-> An outline manual page for this proposed tool is attached.
+> On 1/23/20 5:27 AM, Daniel P. Berrang=C3=A9 wrote:
+> > On Wed, Jan 22, 2020 at 05:42:10PM -0500, John Snow wrote:
+> >>
+> >>
+> >> On 12/24/19 8:00 AM, Daniel P. Berrang=C3=A9 wrote:
+> >>> Based on experiance in libvirt, this is an even larger job than (4),
+> >>> as the feature set here is huge.  Much of it directly ties into the
+> >>> config problem, as to deal with SELinux / namespace setup the code
+> >>> needs to understand what resources to provide access to. This
+> >>> requires a way to express 100% coverage of all QEMU configuration
+> >>> in use & analyse it to determine what resources it implies. So this
+> >>> ties strongly into QAPI-ification completion.
+> >>
+> >> Is it totally bonkers to suggest that QEMU provide a method of digesti=
+ng
+> >> a given configuration and returning a configuration object that a
+> >> standalone jailer can use?
+> >>
+> >> So we have a QEMU manager, the generic jailer, and QEMU. QEMU and the
+> >> manager cooperate to produce the jailing configuration, and the jailer
+> >> does what we ask it to.
+> >=20
+> > It isn't clear what you mean by "QEMU" here. If this QEMU, the system
+> > emulator process, then this is the untrustworthy part of the stack,
+> > so the jailer must not use any data that QEMU is providing. In fact
+> > during startup the jailer does its work before QEMU even exists.
+> >=20
 >=20
-> Some of the things which this tool might do which qemu-img convert
-> cannot do right now:
+> I worried about this. Hence the "Nuts?" ask. It sounds like the ultimate
+> problem is nobody can know -- except QEMU -- what permissions are truly
+> needed for a given configuration. Even if we had an immaculate API, how
+> would anyone except QEMU developers know?
 >=20
->  - Hint that the target already contains zeroes.  It's almost always
->    the case that we know this, but we cannot tell qemu.  This was the
->    cause of a big performance regression last year.
+> Trial and error, perhaps, on behalf of the jailer developers. Trial and
+> error is not the greatest feature of a security mechanism. Clearly, a
+> lot of effort has been spent to get libvirt's implementation correct,
+> but Stefan raises the idea that other projects have need of
+> understanding how to map QEMU configurations to appropriate jails.
 >=20
->  - Declare that we want the target to be either sparse or
->    preallocated.  qemu-img convert can sort of do this in a
->    round-about way (create the target in advance and use the -n
->    option), but also it's broken at the moment.
-
-Both of these would be solved by --target-is-zero, I think.
-
->  - NBD multi-conn.  In my tests this makes a really massive
->    performance difference in certain situations.  Again, virt-v2v has
->    a lot of information that we cannot pass to qemu: we know, for
->    example, exactly if the server supports the feature, how many
->    threads are available, in some situations even have information
->    about the network and backing disks that the data will travel over
->    / be stored on.
-
-As far as I understand it, you use qemu-img convert with an NBD source
-or target, too?
-
-I suppose it=E2=80=99s always easier to let a specialized and freshly writt=
-en
-tool handle such information.  But it sounds like if such information is
-useful and makes that big of a difference, then it would be good to be
-able to specify it to qemu=E2=80=99s NBD block driver, too.
-
->  - Machine-parsable progress bars.  You can, sort of, parse the
->    progress bar from qemu-img convert, but it's not as easy as it
->    could be.  In particular it would be nice if the format was treated
->    as ABI, and if there was a way to have the tool write the progress
->    bar info to a precreated file descriptor.
-
-It doesn=E2=80=99t seem impossible to add this feature to qemu-img, althoug=
-h I
-wonder about the interface.  I suppose we could make it an alternative
-progress output mode (with some command-line flag), and then the
-information would be emitted to stdout (just like the existing progress
-report).  You can of course redirect stdout to whatever fd you=E2=80=99d li=
-ke,
-so I don=E2=80=99t know whether qemu-img itself needs that specific capabil=
-ity.
-
-OTOH, if you need this feature, why not just use qemu itself?  That is,
-a mirror or a backup block job in an otherwise empty VM.
-
->  - External block lists.  This is a rather obscure requirement, but
->    it's necessary in the case where we can get the allocated block map
->    from another source (eg. pyvmomi) and then want to use that with an
->    NBD source that does not support extents (eg. nbdkit-ssh-plugin /
->    libssh / sftp).  [Having said that, it may be possible to implement
->    this as an nbdkit filter, so maybe this is not a blocking feature.]
-
-That too seems like a feature that=E2=80=99s easily implementable in a
-specialized tool, but hard to implement in qemu-img.
-
-I suppose we=E2=80=99d want a dirty bitmap copy mode which copies only the
-regions that the bitmap reports as dirty =E2=80=93 but at that point you=E2=
-=80=99re
-probably again better off not using qemu-img, but qemu itself.  Then
-we=E2=80=99d need some way to import bitmaps, and I actually don=E2=80=99t =
-think we have
-that yet.
-
-But again, if this is a generally useful feature, I think we want it in
-qemu anyway.
-
-> One thing which qemu-img convert can do which nbdcp could not:
+> Worse, it could still change on a whim. We (QEMU developers) probably
+> are not used to thinking of permitted syscall lists as ABI that we
+> strive to maintain. It can change.
 >=20
->  - Read or write from qcow2 files.
->=20
-> So instead of splitting the ecosystem and writing a new tool that
-> doesn't do as much as qemu-img convert, I wonder what qemu developers
-> think about the above missing features?  For example, are they in
-> scope for qemu-img convert?
+> How do we make this easier in a way that doesn't trust QEMU? I feel like
+> QEMU needs to provide *some* kind of information that can be used to
+> build better jailing configurations...
 
-What I think is that there may be features that we don=E2=80=99t want in
-qemu-img, because they are more appropriate for the mirror or backup
-block job.  For example, I don=E2=80=99t think we want to let qemu-img conv=
-ert
-mess around with dirty bitmaps.
+I think the key thing to understand is that once you involve a "jailer"
+then "QEMU" is no longer a single thing we can refer to. It is immediately
+split into two pieces, "the launcher" and "the runtime", with a jailer
+sitting in between the pair.
 
-But apart from that, the features you propose all seem useful to have in
-qemu itself.  Maybe some of them are too hard to implement (specifically
-importing bitmaps from external sources), then it might be pragmatic to
-write a new tool where such features can be easily implemented because
-they don=E2=80=99t need to be integrated into an existing API.
+The configuration information needed by the launcher is a superset
+of the information needed by the runtime. The launcher is trustworthy
+and the runtime is untrustworthy.
 
-As for performance, well, if qemu=E2=80=99s NBD driver is slow, then naivel=
-y I=E2=80=99d
-think that=E2=80=99s a bug, isn=E2=80=99t it?  And if improving performance=
- requires
-knobs, then that=E2=80=99s how it is.
+In the current world qemu-system-* is the runtime and libvirt is
+the launcher, and they each have their own completely different
+vocabulary for configuration.
 
-Max
+Essentially what you're talking about is a way to bring the concept
+of the launcher under the responsibility of the QEMU project, and
+have much closer alignment between the configuration for the launcher
+and the runtime. One would still need to be the superset of the
+other, but they could be 90% common.=20
 
+Having "the launcher" be part of the QEMU project deliverables is
+a completely reasonable concept. Libvirt only took on that role
+itself because QEMU has never provided any solution for this
+problem itself.  I don't think this is a technically difficult
+task. The issues are simply around the practicality of the size/
+scope of the work required in order to achieve deliver it for the
+diverse range of QEMU functionality & use cases.
 
---Ir2pAMNq2gMygFO56H2A6Yc6OvRJsf40e--
-
---4TiBvYcsh27VMFOkKSo7ptnrudESTcV8N
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl4p68UACgkQ9AfbAGHV
-z0BWUggArKIbC+vzzBfEz5Udm5AqqXlHuGZlOo0IP3BCxjyYNNOVV16lNZoHCrcG
-J+ao+tFl+hCzPC+YL60Eud+gNeUKjjhbME9EE+EyfcUi69AYzNTxxnetmuh34UuP
-ntaqA+C+sI3NW9RSOrjtFXdqletkSWT0m+ulop5H2zX1yM31Wjga7mhV+GURLcuC
-r57aHAzOfDCQR8jQc5H3LDAsIUSj9efAlRMq90wbgUo+slhKbZDYT//tImVodylb
-X/7UcDyqStGGBKHD5HEY3mE4P9tKlry11fkzBNbihE1loDIBg0dFmy4fJ37QAvyD
-YwNOJOEOguv1b6qWjuiP5+BgMNsGaw==
-=bEjd
------END PGP SIGNATURE-----
-
---4TiBvYcsh27VMFOkKSo7ptnrudESTcV8N--
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
