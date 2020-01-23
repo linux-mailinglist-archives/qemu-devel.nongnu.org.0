@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54796146FC0
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:31:41 +0100 (CET)
-Received: from localhost ([::1]:33500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 953D0146FE0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 18:38:14 +0100 (CET)
+Received: from localhost ([::1]:33678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iugKR-0005qL-AK
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:31:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54883)
+	id 1iugQn-00050D-9s
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 12:38:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36508)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iuem4-0002oc-A5
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:52:05 -0500
+ (envelope-from <thuth@redhat.com>) id 1iufPp-0003Ig-MC
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:33:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iuem3-0003qM-4m
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:52:04 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:39923)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iuem2-0003pS-V5
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 10:52:03 -0500
-Received: by mail-ot1-x341.google.com with SMTP id 77so3169551oty.6
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 07:52:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SWNap8R8ZnIAl0BSUogEYnS2gly8w+H/8PxKyv9Hqmw=;
- b=cg/pFHRQ9kK95fxZkc1yQpxyxLlWQtJH1p7pw4dcowxwZXK11yvQCL8StRsUqmsXXg
- kpyun0yYZzNoQQ+okqexKf9uKwMfB2opHmqlJ7K8Wlul13PvFJaxPuQtXMjgUjelFyTp
- rjBLNjPpBvfUERmp+7Gpy85hoZMaHYtPnmmhykGnOdjHfIpZrMJS8IeCiTWry7DVUGu9
- BW84kwKJdMkabUKiI+M9QHHu1XfIvFxEhOJo7T4ZTXzpVae9nG5GChu6/Q//Z1Po7xDD
- 9+7jlJfiuyMD/k2GR0kFq0Qs61ukaPhCtEWCmjYxCHB+O1vS3lU06cS3kRbW2aeu9tR6
- Kd7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SWNap8R8ZnIAl0BSUogEYnS2gly8w+H/8PxKyv9Hqmw=;
- b=naVYCVAsjrqp6hbnjFkWR+zHMXrYsz70vyTtk473fsbI1I1juZ2/CFyH+I0SP9Jl+W
- EldKgxdic8UM7qDtqLHfkcfyr050bETIMIVjwII0F7UvYpGcD/mtIFFzGvuLbD2vnGZY
- gvjrgHvkZMEBFmAnVEjq1dF6hhMtIAolPyOLQ5wHwrhFeRT4Dx9x4ytOXwHtZNZm1St4
- xkn4HhuajWqF+eSWk7G3MgrSYzlmSuYRrkCoF+f08qub1EULp1PA+oK6h2VrFlDb5fu1
- Mhk9di2F0/hvQynZncf450j189gb25LcS/a7F+pVKs7DQnnsHWGYOK2ja5mtIT0Kemn4
- oPgw==
-X-Gm-Message-State: APjAAAURiiVJfKz7KXl/Sb8Dl0FmzTfGMnK2yql8qZrUrasqTz0TlpL9
- B/qgTzPX4IcPkDW2E1ZVA6LIOd284F6bpf9XnE32xQ==
-X-Google-Smtp-Source: APXvYqybZN0NH3Yczpgqr15kHy92InyiikrTfOb4dp4BT23HlS0uSeE9WM9LlgORx/I4eowF5LQyAxoCe7aqJMTtdKE=
-X-Received: by 2002:a05:6830:4a4:: with SMTP id
- l4mr5915207otd.91.1579794721814; 
- Thu, 23 Jan 2020 07:52:01 -0800 (PST)
+ (envelope-from <thuth@redhat.com>) id 1iufPn-0004Ta-Uw
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:33:08 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56322
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iufPn-0004TB-Re
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 11:33:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579797187;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=XvsCxfYHPkOwJtOmxnFNVMVwLGcwQY4mid4xzGSHM5I=;
+ b=YS7l5KqanGUO/dulxOP3c8/abn74wc0W8HusRksDJRKESnR6Dfq5Miz6Bv2M7hAnebEqn+
+ n+Nn+w4OUqyz1zppHyFp23WCMPQSJMviqaEVU801JN4d/u75AXcBC/qyMCZSbA+A2i7Lg6
+ tjtFDhkgORckWtdwX1uWNXRriBqr4pw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-135--mXEEN07P46abtx8EqrWVg-1; Thu, 23 Jan 2020 11:33:05 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E6291800D78
+ for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 16:33:04 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-64.ams2.redhat.com [10.36.116.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C44975DA89;
+ Thu, 23 Jan 2020 16:33:03 +0000 (UTC)
+Subject: Re: [PATCH REPOST v3 79/80] tests:numa-test: make top level args
+ dynamic and g_autofree(cli) cleanups
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+ <1579779525-20065-80-git-send-email-imammedo@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <3b1eb789-34d2-4c05-8174-1f0033246f83@redhat.com>
+Date: Thu, 23 Jan 2020 17:33:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200123052540.6132-1-linux@roeck-us.net>
- <20200123052540.6132-2-linux@roeck-us.net>
-In-Reply-To: <20200123052540.6132-2-linux@roeck-us.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jan 2020 15:51:51 +0000
-Message-ID: <CAFEAcA-SPUPEcV4Uw9=8-5EJmLztVorV++ypFp=vYxasncBrZw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/8] dma/pl330: Convert to support tracing
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+In-Reply-To: <1579779525-20065-80-git-send-email-imammedo@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: -mXEEN07P46abtx8EqrWVg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,36 +76,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: lvivier@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jan 2020 at 05:25, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> Replace debug logging code with tracing.
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+On 23/01/2020 12.38, Igor Mammedov wrote:
+> Use GString to pass argument to make_cli() so that it would be easy
+> to dynamically change test case arguments from main(). The follow up
+> patch will use it to change RAM size options depending on target.
+> 
+> While at it cleanup 'cli' freeing, using g_autofree annotation.
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+[...]
+> @@ -539,11 +539,11 @@ static void pc_hmat_erange_cfg(const void *data)
+>  
+>  int main(int argc, char **argv)
+>  {
+> -    const char *args = NULL;
+> +    g_autoptr(GString) args = g_string_new("");
 
-This turns out not to compile on OSX, which is a bit
-stricter about format strings:
+Nit: You could use g_string_new(NULL) here to save two bytes ;-)
 
-These two:
+>      const char *arch = qtest_get_arch();
+>  
+> -    if (strcmp(arch, "aarch64") == 0) {
+> -        args = "-machine virt";
+> +    if (g_str_equal(arch, "aarch64")) {
+> +        g_string_append(args, " -machine virt");
+>      }
+>  
+>      g_test_init(&argc, &argv, NULL);
+> 
 
-> +pl330_dmald(uint32_t chan, uint32_t addr, uint32_t size, uint32_t num, uint32_t ch) "channel:%"PRId8" address:0x%08"PRIx32" size:0x%"PRIx32" num:%"PRId32"%c"
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-> +pl330_dmast(uint32_t chn, uint32_t addr, uint32_t sz, uint32_t num, uint32_t c) "channel:%"PRId8" address:0x%08"PRIx32" size:0x%"PRIx32" num:%"PRId32" %c"
-
-both provoke
- error: format specifies type 'char' but the argument has type
-'uint32_t' (aka 'unsigned int') [-Werror,-Wformat]
-
-because of the last argument.
-
-Easy fix would seem to be to change 'uint32_t ch' to 'char ch'
-(the argument is always a literal constant 'Y' or 'N').
-
-thanks
--- PMM
 
