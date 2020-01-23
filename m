@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A891471AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:21:21 +0100 (CET)
-Received: from localhost ([::1]:35552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8CB1471B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 20:27:28 +0100 (CET)
+Received: from localhost ([::1]:35684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iui2a-000899-M9
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:21:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56210)
+	id 1iui8T-00087L-DA
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 14:27:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60105)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iugMP-0000Hb-2x
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:33:42 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iugYT-0000Wh-H0
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:46:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iugMN-0000yg-A9
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:33:40 -0500
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:35448)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iugMN-0000ww-3n
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:33:39 -0500
-Received: by mail-il1-x135.google.com with SMTP id g12so2699383ild.2
- for <qemu-devel@nongnu.org>; Thu, 23 Jan 2020 09:33:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uOC//XPFGiuT/ieL7eFSRItnN7Qsl3kIUUTCbY8mr+I=;
- b=SypIhZn9XEH1BAU0ShQSJI9kJIxqiBValFl27ZqvO75kgnRYl4+sQX5dCIbJ+UubW7
- kA/YZIJDgj1MRTkMxU6yclkg1k0Vz6oU5raBLywvxDJiD/8HNAvJlvrRfL3orSVNeuwC
- TDYUPgmrLfSzWwI2wXUn6eWVNLd2PxnpEozIpiMaRDrnp4v3Ry2Qq88dTYOdRv6WHaij
- alf4sU+6U0UUtduCJJcPrimIYQ6YL80pmGOip0X3TnHNMtjePE/z8qqvolIRbokVjCTJ
- NPmmBwuSrjGP/kACNxgALb8R8S56kr84QFbZwvHx6Opqztml/IapsKHUYEaJXZ5+OMQl
- 7Gdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uOC//XPFGiuT/ieL7eFSRItnN7Qsl3kIUUTCbY8mr+I=;
- b=ulP/jneVXbyoR4XxRqkY2mRfSGt85/O7kEd/T3ctVngNTkL/PEtTfsYnw15AC8/SPt
- JAGaSvYCt+XQec3/LZtbtNWlJSYWIFQ3YG5dzc8G6+kfIHbALB1Dp/eP81zQkhKA9KCv
- LLxiQFXJ0ug5WMtT16sZa9UTRucm5k7fNe6FDZz7WM+7jcGn/bdRG0++KvtXUcs75NR/
- ohDq47Rb14/0Hr8ypA2yQNX71NLykYfRZo14P/9RRhlIhI+279VaHTXGG+YZdiqYVV50
- IFaCRPjIju5Oo5sR/fsc/F8uktekPHBCW0jssi7s7R6hA5fvvYd1bbonezHHggVVr//0
- RiTw==
-X-Gm-Message-State: APjAAAXVr3/r/OASyIIR7Ly8zsBXJifPFHbsaRAVOwjHSivysN1g+ssE
- awSZGaKW7M5O8o4nwCxIGEAU2uYfP6llnrKZYy3mtw==
-X-Google-Smtp-Source: APXvYqwM3dvx2kS2cKMTrUKAko3YPRy2/USXEX9OeTZrtrS+xZ68vgVL+z/1IgfAEcezsq2Aw0bXkNfzDPiWJcC4/ck=
-X-Received: by 2002:a92:5c8a:: with SMTP id d10mr14299332ilg.137.1579800818230; 
- Thu, 23 Jan 2020 09:33:38 -0800 (PST)
+ (envelope-from <cohuck@redhat.com>) id 1iugYR-0001OB-I6
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:46:09 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53806
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iugYQ-0001Lh-5Z
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 12:46:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579801564;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UqWcpkAG6te6ZTvC2GtC5y6/78hHzB3HNAboiyHr1mk=;
+ b=btl2dM4IShfJRowXDRfO5PGQxYQbzzYLh3NiMhkw+essdPv0UeOC2N7RDGk5ABYdap0ils
+ U/JLpJk0JzfEmMZY11nhJTSoteDk62oEcxOL8Cq5dG+agVongVq0WF3SwtAWiFoLv1Ot/d
+ WqoFeDBuBT0pDspfkHOtv7RybTFHyIE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-305-VKrPNoDkNa6ETS99cjkW6A-1; Thu, 23 Jan 2020 12:42:27 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 081D11800D48;
+ Thu, 23 Jan 2020 17:42:24 +0000 (UTC)
+Received: from gondolin (ovpn-116-120.ams2.redhat.com [10.36.116.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 327CD100164D;
+ Thu, 23 Jan 2020 17:42:20 +0000 (UTC)
+Date: Thu, 23 Jan 2020 18:42:17 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] hw/s390x: Add a more verbose comment about
+ get_machine_class() and the wrappers
+Message-ID: <20200123184217.21c0503a.cohuck@redhat.com>
+In-Reply-To: <20200123170256.12386-1-thuth@redhat.com>
+References: <20200123170256.12386-1-thuth@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20200121191033.28195-1-peter.maydell@linaro.org>
- <20200121191033.28195-3-peter.maydell@linaro.org>
- <5fa9a519-d9c8-13b6-2d38-efa12c29780d@linaro.org>
- <CAFEAcA9ty4srYsjbGDEQshttcA97yFco=7fLGV8SV2oT7FeQ+A@mail.gmail.com>
-In-Reply-To: <CAFEAcA9ty4srYsjbGDEQshttcA97yFco=7fLGV8SV2oT7FeQ+A@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 23 Jan 2020 17:33:27 +0000
-Message-ID: <CAFEAcA-FDd1vsKGZHnYM=ewFoaAsZCz0YuNitv=0wh-+=w8iRQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] docs/sphinx: Add new hxtool Sphinx extension
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::135
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: VKrPNoDkNa6ETS99cjkW6A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,32 +72,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Jan 2020 at 22:22, Peter Maydell <peter.maydell@linaro.org> wrote:
-> I suspect this is an incompatibility (or possibly just a
-> dropped back-compatibility I was accidentally relying on)
-> between Sphinx 1.7 and 1.8. (I tested with a 1.6 and a 1.7.)
->
-> It looks like ExtensionError is now in sphinx.errors, so if you
-> change
-> +from sphinx.application import ExtensionError
->
-> to "from sphinx.errors import ExtensionError" does that help?
->
-> If so then I'll test later this week whether that works also
-> for 1.7/1.6 or if we need to do some version-specific stuff.
+On Thu, 23 Jan 2020 18:02:56 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-This does indeed work for older Sphinx too, and it looks like
-it's been the intended way to import ExtensionError for a
-long time -- I guess it was just an accident of implementation
-that importing from sphinx.application worked too.
+> While working on the "Enable adapter interruption suppression again"
+> recently, I had to discover that the meaning of get_machine_class()
+> and the related *_allowed() wrappers is not very obvious. Add a more
+> verbose comment here to clarify how these should be used.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  hw/s390x/s390-virtio-ccw.c | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index e0e28139a2..7fb389f0e5 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -505,6 +505,18 @@ static inline void machine_set_dea_key_wrap(Object *obj, bool value,
+>  
+>  static S390CcwMachineClass *current_mc;
+>  
+> +/*
+> + * Get the class of the s390-ccw-virtio machine that is currently in use.
+> + * Note: libvirt is using the "none" machine to probe for the features of the
+> + * host CPU, so in case this is called with the "none" machine, the function
+> + * returns the TYPE_S390_CCW_MACHINE base class. In this base class, all the
+> + * various "*_allowed" variables are enabled, so that the *_allowed() wrappers
+> + * below return the correct default value for the "none" machine.
 
-thanks
--- PMM
+Maybe add a blank line here for readability? (Can do so while applying.)
+
+> + * Attention! Do *not* add additional new wrappers for CPU features (e.g. like
+> + * the ri_allowed() wrapper) via this mechanism anymore. CPU features should
+> + * be handled via the CPU models, i.e. checking with cpu_model_allowed() during
+> + * CPU initialization and s390_has_feat() later should be sufficient.
+> + */
+>  static S390CcwMachineClass *get_machine_class(void)
+>  {
+>      if (unlikely(!current_mc)) {
+> @@ -521,19 +533,16 @@ static S390CcwMachineClass *get_machine_class(void)
+>  
+>  bool ri_allowed(void)
+>  {
+> -    /* for "none" machine this results in true */
+>      return get_machine_class()->ri_allowed;
+>  }
+>  
+>  bool cpu_model_allowed(void)
+>  {
+> -    /* for "none" machine this results in true */
+>      return get_machine_class()->cpu_model_allowed;
+>  }
+>  
+>  bool hpage_1m_allowed(void)
+>  {
+> -    /* for "none" machine this results in true */
+>      return get_machine_class()->hpage_1m_allowed;
+>  }
+>  
+
+Looks good to me, but will wait for a review or two.
+
 
