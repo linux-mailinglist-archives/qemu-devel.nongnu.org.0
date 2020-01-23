@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE21145FC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:16:41 +0100 (CET)
-Received: from localhost ([::1]:48816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E3D145FD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Jan 2020 01:22:54 +0100 (CET)
+Received: from localhost ([::1]:48962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuQAp-00066q-Od
-	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:16:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54771)
+	id 1iuQGq-0004vB-Rc
+	for lists+qemu-devel@lfdr.de; Wed, 22 Jan 2020 19:22:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54778)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzZ-0002F3-DU
- for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:09 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iuPzZ-0002F9-Rs
+ for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iuPzQ-0002GA-Qc
+ (envelope-from <richard.henderson@linaro.org>) id 1iuPzR-0002GM-1M
  for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:05:00 -0500
-Received: from mail-pf1-f178.google.com ([209.85.210.178]:40435)
+Received: from mail-pf1-f176.google.com ([209.85.210.176]:45709)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iuPzQ-0002Dv-4L
+ id 1iuPzQ-0002FR-Po
  for qemu-devel@nongnu.org; Wed, 22 Jan 2020 19:04:52 -0500
-Received: by mail-pf1-f178.google.com with SMTP id q8so609447pfh.7
- for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:04:50 -0800 (PST)
+Received: by mail-pf1-f176.google.com with SMTP id 2so597813pfg.12
+ for <qemu-devel@nongnu.org>; Wed, 22 Jan 2020 16:04:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rlIp4XTZtTxjVzIGixZMSBGNZLFWLQy2m4oEKua7yhQ=;
- b=iwlvuR7xkCkYPCDDeHWajhFmiVzwCuWDW0x4D3PkcFW/r/glxTOtIeAAoAhYcDcoUO
- Cj6OCHqoJOqeP/D19K1sCXz302NfiRiKuKDkE5Fh7dQjHuGNTHBrrhvobx4SbXGel7ao
- aFKiaB0mbTkC5cr+cRNNKYpxprWaE60nDPWIVAzEDgNbo/FnLytWyjQou/+UnMvjMn1a
- 5CFJbRtilmsUe30Q47s7pe+k2ugCemhTIrWwLBg2OdKrmNUXxTWXY1MXMrUqGpC4PUL2
- SkV9zTrsPhVStGmVtuqbj5Cd3re+ifNYTNBDdwSEtuwi1CNXktXMgJGRKpNICLv7uUAL
- Bwiw==
+ bh=SwL4bj5FyPVtbDbu1kSJciAaavdFuuCM9S3gjDN6Z6k=;
+ b=AeDRwnVIv0ulImf6reL/yVqGxFj/1If6iiGxF/deGZ/enIXdSuzKDBrnHrdt5S2CnR
+ AmibAmn+UuabFcI3Bcb3hFTTKvw5tndMydSLBX153B1Q7tSLefKtOUincCDHcT/W1Z9O
+ /7/irvSZCMSEpZqXGl32UWoo0ibQKZYj2zNn7yXBHpTXrceLktC50MeEPJbUqQU5n7A2
+ kjk/Q0youS27Li82tADKdIT+JwvGwcJajguqmRO55NeAaRjoYEXazA4NPO9Zyqlqcxlh
+ HP5dD/BRZIW4LcJPYBhaVbIMCcRwCJLXByhwQmzVQliDIJWP8N77cPfRjAWsHXq7JWHy
+ N+eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rlIp4XTZtTxjVzIGixZMSBGNZLFWLQy2m4oEKua7yhQ=;
- b=cDHa03kMs9H9Ig8zQORTMvAcKIFpZaTDEEZj1+31f3WRbYVZ/v5L6JoKrq42aV6zi3
- ID+c+eR7FYQTVwM7gHT2X4ieqeR12cvxv6YO2X9d5zre71qmp/eF5rdMPdtLQOefyLn+
- iyVvqIT+rbo1WcSxm16B2wXUb/xzM+05JWvDfncFhSVEINgomYSYjH4mR4ODM/ljTHmB
- Hu7I/K7NLuLSM7aDezLApXO5UlGwDOYJF3pCpDw53PKvKkBdDZwVgkWot6rpY+thW6du
- PD4nsbjNsbncLKUyieKd1TSN+a3mqFRjSUELcxhowRWZon4ZwzmB0su0kY4mn514qHAN
- rgzA==
-X-Gm-Message-State: APjAAAXOV0fudQ2fn+W4rul6r+LgN6vV4f0KSypvQhFHIUjw+jtIqzGh
- dGq/EaJa5Fhx0hnKrTiokG8OSUsktgE=
-X-Google-Smtp-Source: APXvYqwKO54wbOya75mkNOcbIe6L8W7GbAFgba6heULhRrZZUNShhU8FQg3/YTGsrrIOrWfAYHWg/Q==
-X-Received: by 2002:a63:e309:: with SMTP id f9mr910909pgh.391.1579737829149;
- Wed, 22 Jan 2020 16:03:49 -0800 (PST)
+ bh=SwL4bj5FyPVtbDbu1kSJciAaavdFuuCM9S3gjDN6Z6k=;
+ b=gHJajbttmRxuoF6oP+00cE323Z82gBlHFKfZAxCDblnrRpsGFAFYeq64nmRXPGzqfN
+ vcL61XOZijBWXoB/THXZwxj2y9HEyp1SkK+vC+BbwRzrNo38YphWkDbqoX9wN/VO6+Ts
+ K3ZD/nVYaNEKxBdiSq217de3+puqJipNy0FY1GFQ9zH9Awf4FFl1pvvO/nXr3ZVBL/av
+ Fnt9YJQUp7zfhQN+/+visjWD9sp9avF2ha3fHiGFdBt5Zbnxa5fVG5xj+xULusJbDKUA
+ jd+4zHknMF7SBDe8CJZEDjtQGkovtSBLvZu1qZguZ+AMCEX7vqmh900LuZ6mAu/ZDYxJ
+ cSAw==
+X-Gm-Message-State: APjAAAVBlhel4eeZeXCFvd97b3Os2V475ZVkHUTnC8c5G2b65TPBuivI
+ FitSpnpIfkrjWrH/TCY16MV7vQfxpeU=
+X-Google-Smtp-Source: APXvYqz2+BsSLGxet0myOuXqpRmoSj4EnxUvcci69RPDzKVXv2ycZ+PX64qQmE8zW1dsopTIzdqmuw==
+X-Received: by 2002:a65:680f:: with SMTP id l15mr940576pgt.307.1579737831348; 
+ Wed, 22 Jan 2020 16:03:51 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-198-77-92.west.biz.rr.com.
  [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.03.47
+ by smtp.gmail.com with ESMTPSA id b21sm84521pfp.0.2020.01.22.16.03.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2020 16:03:48 -0800 (PST)
+ Wed, 22 Jan 2020 16:03:50 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc1 16/24] target/avr: Add machine none test
-Date: Wed, 22 Jan 2020 14:02:59 -1000
-Message-Id: <20200123000307.11541-17-richard.henderson@linaro.org>
+Subject: [PATCH rc1 17/24] target/avr: Update MAINTAINERS file
+Date: Wed, 22 Jan 2020 14:03:00 -1000
+Message-Id: <20200123000307.11541-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200123000307.11541-1-richard.henderson@linaro.org>
 References: <20200123000307.11541-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.178
+X-Received-From: 209.85.210.176
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,36 +80,69 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: thuth@redhat.com, me@xcancerberox.com.ar, S.E.Harris@kent.ac.uk,
- dovgaluk@ispras.ru, Aleksandar Markovic <amarkovic@wavecomp.com>,
- imammedo@redhat.com, mrolnik@gmail.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ dovgaluk@ispras.ru, imammedo@redhat.com, mrolnik@gmail.com,
  aleksandar.m.mail@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
+Include AVR maintaners in MAINTAINERS file
+
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <20200118191416.19934-18-mrolnik@gmail.com>
+Message-Id: <20200118191416.19934-22-mrolnik@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+[rth: Squash ordering fixes from f4bug]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/qtest/machine-none-test.c | 1 +
- 1 file changed, 1 insertion(+)
+ MAINTAINERS | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
-index 5953d31755..3e5c74e73e 100644
---- a/tests/qtest/machine-none-test.c
-+++ b/tests/qtest/machine-none-test.c
-@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] = {
-     /* tested targets list */
-     { "arm", "cortex-a15" },
-     { "aarch64", "cortex-a57" },
-+    { "avr", "avr6-avr-cpu" },
-     { "x86_64", "qemu64,apic-id=0" },
-     { "i386", "qemu32,apic-id=0" },
-     { "alpha", "ev67" },
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2c768ed3d8..8caa94f782 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -163,6 +163,14 @@ S: Maintained
+ F: hw/arm/smmu*
+ F: include/hw/arm/smmu*
+ 
++AVR TCG CPUs
++M: Michael Rolnik <mrolnik@gmail.com>
++R: Sarah Harris <S.E.Harris@kent.ac.uk>
++S: Maintained
++F: target/avr/
++F: default-configs/avr-softmmu.mak
++F: gdb-xml/avr-cpu.xml
++
+ CRIS TCG CPUs
+ M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+ S: Maintained
+@@ -880,6 +888,24 @@ F: include/hw/*/nrf51*.h
+ F: include/hw/*/microbit*.h
+ F: tests/qtest/microbit-test.c
+ 
++AVR Machines
++-------------
++
++Atmel MCU
++M: Michael Rolnik <mrolnik@gmail.com>
++R: Sarah Harris <S.E.Harris@kent.ac.uk>
++S: Maintained
++F: hw/avr/
++F: hw/char/atmel_usart.c
++F: include/hw/char/atmel_usart.h
++F: hw/timer/atmel_timer16.c
++F: include/hw/timer/atmel_timer16.h
++F: hw/misc/atmel_power.c
++F: include/hw/misc/atmel_power.h
++F: hw/misc/avr_mask.c
++F: include/hw/misc/avr_mask.h
++F: tests/acceptance/machine_avr6.py
++
+ CRIS Machines
+ -------------
+ Axis Dev88
 -- 
 2.20.1
 
