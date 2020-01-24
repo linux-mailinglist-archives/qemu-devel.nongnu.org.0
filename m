@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F8A148BFA
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 17:27:40 +0100 (CET)
-Received: from localhost ([::1]:44420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB25148BFC
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 17:28:00 +0100 (CET)
+Received: from localhost ([::1]:44430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv1o2-0004Aw-Pz
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 11:27:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37844)
+	id 1iv1oN-0004tp-DD
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 11:27:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37906)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iv1me-0002Qy-S7
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:26:14 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iv1mh-0002SU-Ck
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:26:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iv1md-0002if-9o
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:26:12 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37939)
+ (envelope-from <peter.maydell@linaro.org>) id 1iv1mf-0002oD-UP
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:26:15 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:52077)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iv1md-0002hI-1L
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:26:11 -0500
-Received: by mail-wr1-x433.google.com with SMTP id y17so2698288wrh.5
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 08:26:10 -0800 (PST)
+ id 1iv1mf-0002ms-On
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:26:13 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id t23so56443wmi.1
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 08:26:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9L8Au1O+yS2ujy0IZd2JyDoMFFfJ1Tv3zUpArmasx6s=;
- b=ofEmVvu4trlq5QUH+GX5LF+fazMSqp+7F10Ck4K2hhxR5NXcOjmeev1/ozwBYVEzxl
- qLMTaE0T6Z3LgR+yW86bD697nuMqVm20dvUvstJ17Z+ZCA7qrPqig6Eq41HNwGaNgAAv
- RUBGxk/pg40GpE0MHRiNLYx1k99F+3g54O1I0Yjz8n8gWDAeqfvHegSDDysx5UjldNFQ
- 3xsppSjjaXsapDLSWZcu/8qpFbvAXoaqcGAYhRXD7N+MseokSAjagIZjfhmshrirs+M1
- kdvw9ErQva2VNDWFDJGxjlCYibCWixnChm+Nnjnxj/SGSfN5isIwncCDCsE+Zuw2VX35
- eUMg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=oOLCLALD3GcgJUBOZ9tz3obHiRR8ETIrIGcxOBvtbNk=;
+ b=OBbo5yX7o6dwaoqXuL1Is8LOx6HZBSkcU0PpObp/WwXEi0/80kPJnas0UZd9jLZzHS
+ JL4TA6bXVMCw6MMOLZq3qSXeX3igxYgGOJyfKE1KixG3LQf3nHBha71RTHSFz3wcEBnF
+ rWe6l74iNmeCjuLfIc/jlMPQectzaHKORod70eh7XYrSh7htONcZKxV+90sXm/PrtF6i
+ Wk87+Y61+cMJeOoC/83aBj/eBl6lyZT4Nw63H1Sca5xITXGZ5Jm0erivwcomMwpj1R9c
+ uIqTDHWpVcYfkghknMlwRushYZNinHtAGW+5/oZNs5FWOIzF6smTgYaSy5rllHp35mXd
+ aFtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9L8Au1O+yS2ujy0IZd2JyDoMFFfJ1Tv3zUpArmasx6s=;
- b=P9mSk+TCn0AGp1vq40az/+MnGM7WtfskWSUWEFN71l34vFSIWghLZ/o5hqLvLTlvS/
- m2XHobcIMlO+7PeUoRbgqF5Higxcjzm5zzITp+A24a8Mmck0UgtzABaZzhTe/4B0EMyh
- kDUmzVVi2ZKgRsDJ7H3ULkNBK0Z05aXdIP+lTWV8t/IPBa9hh4oV1e9FWYNVeQfF0PDH
- Jj3uU5u81fU48k5CmbIHW1X9zKW5meSRIWCiojQoubMx8nsfD6PLDXm4smTymSC0IfjF
- qYBKIjq4ETSKfDRVSVqBqzS7HN2iv9LRUw9j2G1KenE6q9RYgZ+1DCZc+/9f8go+TqwG
- W1+A==
-X-Gm-Message-State: APjAAAUt9rvpHQssGh2EwNjCv0tMKXSCxGo0f/jcStG4JiksbufH3iJd
- CdH2evkahZs56VAyk2Ky8r+OXrXjl2tz2w==
-X-Google-Smtp-Source: APXvYqx5+yCVMpOVrVaAWfaF3iBnoBPB1zGYKKfZT8ZmytOeI5FT5813U0uad7OsrMGvT8n6varsdQ==
-X-Received: by 2002:adf:ebc1:: with SMTP id v1mr5413919wrn.351.1579883169439; 
- Fri, 24 Jan 2020 08:26:09 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=oOLCLALD3GcgJUBOZ9tz3obHiRR8ETIrIGcxOBvtbNk=;
+ b=nw8JTdAgKxEDShTIBT/jMaP6qapj8qptAcx24QOUBGzylNMix7YBmpDetBBAlZYaSh
+ z1zzhEiSoNhrTf2JU0Vm01lBLh78IRij3STngZ3suCvnQBSdITg5tcitr/S4jmYVAejs
+ TjcNOpBD/sHenNxnUFGFoPdTndnGHG86w2TMoQVxpHhtlZaLgqDw4RIq97roNtxdxY79
+ 5QWds5yW8Jbg/IGhi4TPMrGd1AB/mtX9S7n14hMWySjpPL/FXb4a0E3C8mu1L5go5aeq
+ zUPNvvAWe/t0exqp5sXHT3p/blVA30tNpOhJkiH2c4CVKNMI8kzRxQXQK7dd0RvLuxUu
+ TkQA==
+X-Gm-Message-State: APjAAAVwgSY281CUynswnRXmKQZ4D3Vs8HX8giwowA2RxliG7W2VeMpa
+ a8QZkd/Qu/2fuqFsF3H0YpLHdX005rlEGA==
+X-Google-Smtp-Source: APXvYqyoARovtMX5fFiulhMbDetgUj9B0CwlmuOP9vflUWZdCLIItAd1yVhRGslZjznXYuqslcQrJg==
+X-Received: by 2002:a1c:a796:: with SMTP id q144mr70633wme.6.1579883170885;
+ Fri, 24 Jan 2020 08:26:10 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q3sm7054998wmj.38.2020.01.24.08.26.08
+ by smtp.gmail.com with ESMTPSA id q3sm7054998wmj.38.2020.01.24.08.26.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2020 08:26:08 -0800 (PST)
+ Fri, 24 Jan 2020 08:26:10 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/8] qemu-img, qemu-trace-stap,
- virtfs-proxy-helper: convert to rST
-Date: Fri, 24 Jan 2020 16:25:58 +0000
-Message-Id: <20200124162606.8787-1-peter.maydell@linaro.org>
+Subject: [PATCH v2 1/8] Makefile: Ensure we don't run Sphinx in parallel for
+ manpages
+Date: Fri, 24 Jan 2020 16:25:59 +0000
+Message-Id: <20200124162606.8787-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200124162606.8787-1-peter.maydell@linaro.org>
+References: <20200124162606.8787-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,108 +86,116 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset converts the following documentation to rST format:
- * qemu-img
- * qemu-trace-stap
- * virtfs-proxy-helper
+Sphinx will corrupt its doctree cache if we run two copies
+of it in parallel. In commit 6bda415c10d966c8d3 we worked
+around this by having separate doctrees for 'html' vs 'manpage'
+runs. However now that we have more than one manpage produced
+from a single manual we can run into this again when trying
+to produce the two manpages.
 
-(That means everything in step 3 in the plan:
-https://wiki.qemu.org/Features/Documentation#3:_Convert_things_which_are_mostly_standalone_manpages
-will be done except for qemu-cpu-models.texi. That
-should be a straightforward conversion but I haven't
-touched it yet because I know there's an on-list patch
-that updates the texi and wanted to avoid a conflict.)
+Use the trick described in 'Atomic Rules in GNU Make'
+https://www.cmcrossroads.com/article/atomic-rules-gnu-make
+to ensure that we only run the Sphinx manpage builder once
+for each manual, even if we're producing several manpages.
+This fixes doctree corruption in parallel builds and also
+avoids pointlessly running Sphinx more often than we need to.
 
-The patchset includes a new Sphinx extension which handles parsing
-the .hx files which provide documentation fragments for the qemu-img
-manual.
+(In GNU Make 4.3 there is builtin support for this, via
+the "&:" syntax, but we can't wait for that to be available
+in all the distros we support...)
 
-Changes from v1 to v2:
- * rebased on master, since the qemu-nbd conversion has now
-   gone in
- * the patches at the end to convert qemu-trace-stap and
-   virtfs-proxy-helper are new
- * new patch at the start of the series which fixes a
-   bug in our makefiles where we could try to invoke
-   Sphinx twice in parallel on the same doctree (which
-   causes it to crash, as well as being unnecessary work)
- * fixed the import line for ExtensionError, so this
-   should now work with Sphinx 1.8
+The generic "one invocation for multiple output files"
+machinery is provided as a macro named 'atomic' in rules.mak;
+we then wrap this in a more specific macro for defining
+the rule and dependencies for the manpages in a Sphinx
+manual, to avoid excessive repetition.
 
-I've assigned manpages to interop/ or system/ according
-to the structure set out in the wiki page above. We should
-have a discussion about whether some of these should go
-in a new tools/ manual or not (I'll start a separate
-thread for that), but it's easy enough to move them
-later if we need to.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ Makefile  | 17 ++++++++++-------
+ rules.mak | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 46 insertions(+), 7 deletions(-)
 
-The general approach follows the outline in the email I
-sent the other day:
-https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg03786.html
-
-The new Sphinx extension implements the hxtool-doc::
-directive, which indicates where the assembled rST
-document fragments should be inserted into the manual.
-qemu-img-cmds.hx doesn't use the DEFHEADING or ARCHHEADING
-directives, but the extension implements them (tested
-with some local modifications to the .hx file to check
-that they do the right thing).
-
-As noted in the commit message for the qemu-img.texi conversion,
-I have not attempted to tackle any of the muddle in the
-current documentation structure or the repetition between
-the manual document, the fragments in the .hx file and
-the C code; this is a "simplest thing that works"
-like-for-like conversion.
-
-Another deliberate omission is that I have not attempted
-to get links between our various Sphinx manuals (system,
-interop, etc) working yet, as this is not totally trivial
-and the odd minor missed hyperlink doesn't seem to me
-to be a deal-breaker.
-
-Sorry about the size of the main 'convert qemu-img'
-patch, but it's unavoidable when converting a big
-document between formats.
-
-thanks
--- PMM
-
-Peter Maydell (8):
-  Makefile: Ensure we don't run Sphinx in parallel for manpages
-  hxtool: Support SRST/ERST directives
-  docs/sphinx: Add new hxtool Sphinx extension
-  qemu-img-cmds.hx: Add rST documentation fragments
-  qemu-img: Convert invocation documentation to rST
-  qemu-img-cmds.hx: Remove texinfo document fragments
-  scripts/qemu-trace-stap: Convert documentation to rST
-  virtfs-proxy-helper: Convert documentation to rST
-
- Makefile                             |  46 +-
- MAINTAINERS                          |   3 +
- docs/conf.py                         |   3 +-
- docs/interop/conf.py                 |   9 +-
- docs/interop/index.rst               |   3 +
- docs/interop/qemu-img.rst            | 822 +++++++++++++++++++++++++++
- docs/interop/qemu-trace-stap.rst     | 124 ++++
- docs/interop/virtfs-proxy-helper.rst |  72 +++
- docs/sphinx/hxtool.py                | 210 +++++++
- fsdev/virtfs-proxy-helper.texi       |  63 --
- qemu-doc.texi                        |  10 +-
- qemu-img-cmds.hx                     |  99 ++--
- qemu-img.texi                        | 795 --------------------------
- rules.mak                            |  36 ++
- scripts/hxtool                       |  33 +-
- scripts/qemu-trace-stap.texi         | 140 -----
- 16 files changed, 1383 insertions(+), 1085 deletions(-)
- create mode 100644 docs/interop/qemu-img.rst
- create mode 100644 docs/interop/qemu-trace-stap.rst
- create mode 100644 docs/interop/virtfs-proxy-helper.rst
- create mode 100644 docs/sphinx/hxtool.py
- delete mode 100644 fsdev/virtfs-proxy-helper.texi
- delete mode 100644 qemu-img.texi
- delete mode 100644 scripts/qemu-trace-stap.texi
-
+diff --git a/Makefile b/Makefile
+index 04c77d3b962..9b7ff1dc82f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1028,6 +1028,14 @@ build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if
+ manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst) \
+               $(wildcard $(SRC_PATH)/docs/$1/*.rst.inc) \
+               $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
++# Macro to write out the rule and dependencies for building manpages
++# Usage: $(call define-manpage-rule,manualname,manpage1 manpage2...[,extradeps])
++# 'extradeps' is optional, and specifies extra files (eg .hx files) that
++# the manual page depends on.
++define define-manpage-rule
++$(call atomic,$(foreach manpage,$2,$(MANUAL_BUILDDIR)/$1/$(manpage)),$(call manual-deps,$1) $3)
++	$(call build-manual,$1,man)
++endef
+ 
+ $(MANUAL_BUILDDIR)/devel/index.html: $(call manual-deps,devel)
+ 	$(call build-manual,devel,html)
+@@ -1041,14 +1049,9 @@ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
+ $(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system)
+ 	$(call build-manual,system,html)
+ 
+-$(MANUAL_BUILDDIR)/interop/qemu-ga.8: $(call manual-deps,interop)
+-	$(call build-manual,interop,man)
++$(call define-manpage-rule,interop,qemu-ga.8 qemu-nbd.8)
+ 
+-$(MANUAL_BUILDDIR)/interop/qemu-nbd.8: $(call manual-deps,interop)
+-	$(call build-manual,interop,man)
+-
+-$(MANUAL_BUILDDIR)/system/qemu-block-drivers.7: $(call manual-deps,system)
+-	$(call build-manual,system,man)
++$(call define-manpage-rule,system,qemu-block-drivers.7)
+ 
+ $(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-version.h
+ 	@mkdir -p "$(MANUAL_BUILDDIR)"
+diff --git a/rules.mak b/rules.mak
+index 967295dd2b6..50f6776f529 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -399,3 +399,39 @@ GEN_SUBST = $(call quiet-command, \
+ 
+ %.json: %.json.in
+ 	$(call GEN_SUBST)
++
++# Support for building multiple output files by atomically executing
++# a single rule which depends on several input files (so the rule
++# will be executed exactly once, not once per output file, and
++# not multiple times in parallel.) For more explanation see:
++# https://www.cmcrossroads.com/article/atomic-rules-gnu-make
++
++# Given a space-separated list of filenames, create the name of
++# a 'sentinel' file to use to indicate that they have been built.
++# We use fixed text on the end to avoid accidentally triggering
++# automatic pattern rules, and . on the start to make the file
++# not show up in ls output.
++sentinel = .$(subst $(SPACE),_,$(subst /,_,$1)).sentinel.
++
++# Define an atomic rule that builds multiple outputs from multiple inputs.
++# To use:
++#    $(call atomic,out1 out2 ...,in1 in2 ...)
++#    <TAB>rule to do the operation
++#
++# Make 4.3 will have native support for this, and you would be able
++# to instead write:
++#    out1 out2 ... &: in1 in2 ...
++#    <TAB>rule to do the operation
++#
++# The way this works is that it creates a make rule
++# "out1 out2 ... : sentinel-file ; @:" which says that the sentinel
++# depends on the dependencies, and the rule to do that is "do nothing".
++# Then we have a rule
++# "sentinel-file : in1 in2 ..."
++# whose commands start with "touch sentinel-file" and then continue
++# with the rule text provided by the user of this 'atomic' function.
++# The foreach... is there to delete the sentinel file if any of the
++# output files don't exist, so that we correctly rebuild in that situation.
++atomic = $(eval $1: $(call sentinel,$1) ; @:) \
++         $(call sentinel,$1) : $2 ; @touch $$@ \
++         $(foreach t,$1,$(if $(wildcard $t),,$(shell rm -f $(call sentinel,$1))))
 -- 
 2.20.1
 
