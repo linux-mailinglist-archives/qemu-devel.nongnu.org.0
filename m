@@ -2,87 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554A91489F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 15:39:05 +0100 (CET)
-Received: from localhost ([::1]:43162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE6B1489FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 15:40:17 +0100 (CET)
+Received: from localhost ([::1]:43176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv06y-0002pN-0g
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 09:39:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45426)
+	id 1iv088-0004M7-CC
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 09:40:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45497)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iv06D-0002Oz-BB
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 09:38:18 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iv06M-0002Wi-6v
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 09:38:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iv06C-0002ae-0D
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 09:38:16 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42941
+ (envelope-from <cohuck@redhat.com>) id 1iv06L-0002ri-9B
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 09:38:26 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27349
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iv06B-0002X6-Hs
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 09:38:15 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iv06L-0002qX-55
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 09:38:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579876694;
+ s=mimecast20190719; t=1579876704;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eyUcU+V4lHSk5W8E9HKjD42DV58uLud3FhLk+VSRftQ=;
- b=ahNZNMflyYREXlNHLfAQLPF9X5dRRvJuKBP2KC7WFygR3dwqxyzdJgfWb2TKlEcQmMe4d7
- 9D1jhItcvYY5370s+t7pfN6nfEXDQ3UKWqUUSzVmJDZJN8/BC6NpyrvNdK1xz3Bj/eDpHu
- H3s0ENN3kO2jyq9rSMx/q3s74dPo4Kk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-OeJ8yHCaOeWXyrz5qI6AwA-1; Fri, 24 Jan 2020 09:38:10 -0500
-Received: by mail-wr1-f69.google.com with SMTP id f17so1358457wrt.19
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 06:38:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JttKX3bF0Km785u25+/taSKxdyIum3B6Pbv+HGQwX34=;
- b=l+Xf415HzOyu+6X2ZqYNdtmi4ssjWzUVZijkqqst6kA4vsbJEDgX4mol+Oj/wvijTH
- bcLpEKuMYoFPJlvJFURIRIZ75u8b26awBlzm8//mMBIWXNZ/2llr/EJ49Zme3lotNzaO
- Fhdvn0aC3+CGuLZ1EzM/lZtZtmD03tzqZRw977dCgonQ2MkWoQ7ov2UQn1dihXGLGg01
- LyjuKX04Tns8arYoPv4E0UsQwgHDqMvXXbzKhFi4GqCj7mpKUfJw7OSVmPxWJxYffEmZ
- vHOJ57DWJrCj4RE9dnikqqCrbX9eXEgkZGGeiOkcN0HPW5WWQnu0A65idVmWJwAZflnE
- K5OA==
-X-Gm-Message-State: APjAAAUHbXJj/7o1xEH6W40EUaU8Nc5HBMZOjKLjZYY49WnWRD8xD0pK
- Lej7kax8r0zlUTggk55WanLIhVfFI6UQwmo5mbqRN5p4gFs5qnTXDWUNFr7kOoyzD/C9E8bnsxx
- k6zo83Jmx1Suf1jU=
-X-Received: by 2002:a7b:c318:: with SMTP id k24mr3855829wmj.54.1579876689315; 
- Fri, 24 Jan 2020 06:38:09 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzU/6hLSaAhU4Pc8cjUkXKJoVRhBhuNbPq3Nan3xIueOYPQCnMBF6az9DIc42uE4FnhFSTH5Q==
-X-Received: by 2002:a7b:c318:: with SMTP id k24mr3855804wmj.54.1579876688995; 
- Fri, 24 Jan 2020 06:38:08 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:b8fe:679e:87eb:c059?
- ([2001:b07:6468:f312:b8fe:679e:87eb:c059])
- by smtp.gmail.com with ESMTPSA id q19sm6742846wmc.12.2020.01.24.06.38.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jan 2020 06:38:08 -0800 (PST)
-Subject: Re: [PULL v2 00/59] Misc (x86 and QOM) patches for 2020-01-23
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
- <CAFEAcA8R5yDfAYYraeBStD_Oh7G60QSgUaw_JVdqC=C8y4n0Jw@mail.gmail.com>
- <CABgObfZF7D+MgxXMDbrqZQpOb6WaOiKFaLSUv9U+3Ufb0GGKMw@mail.gmail.com>
- <f03723ca-9514-149a-180e-172a88f6e4f0@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <96dbb37e-b99a-17f3-0fc4-aa914ceda0f0@redhat.com>
-Date: Fri, 24 Jan 2020 15:38:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ bh=DYetcd5h3Wq+91aAYyWvkdyLOphK0l4o9PE3bHv320Y=;
+ b=TcgSiHftZ+cm3S6jLsvjknCHxKZvPSbY+iPoRVLXTwbnstENuA9LgoEUqCicF/rARPXeeM
+ krem/P5MuRQxT5BOblRLiUfVEAW+03FbsNjcpvYTumRonOygla77AcWUbLfK4ygzNZC/Gl
+ ItW9bN+jBBqkMD0dWhTO2TkdvRc29Vg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-178-5uS8GJERPBKl0Q0qSqacOA-1; Fri, 24 Jan 2020 09:38:22 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 915EE8B5DE2;
+ Fri, 24 Jan 2020 14:38:20 +0000 (UTC)
+Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FA5E60BEC;
+ Fri, 24 Jan 2020 14:38:16 +0000 (UTC)
+Date: Fri, 24 Jan 2020 15:38:14 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] hw/s390x: Add a more verbose comment about
+ get_machine_class() and the wrappers
+Message-ID: <20200124153814.2e77bc74.cohuck@redhat.com>
+In-Reply-To: <20200123170256.12386-1-thuth@redhat.com>
+References: <20200123170256.12386-1-thuth@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <f03723ca-9514-149a-180e-172a88f6e4f0@linaro.org>
-Content-Language: en-US
-X-MC-Unique: OeJ8yHCaOeWXyrz5qI6AwA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: 5uS8GJERPBKl0Q0qSqacOA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,36 +72,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/01/20 00:31, Richard Henderson wrote:
-> On 1/23/20 9:20 AM, Paolo Bonzini wrote:
->> Il gio 23 gen 2020, 19:43 Peter Maydell <peter.maydell@linaro.org
->> <mailto:peter.maydell@linaro.org>> ha scritto:
->>     When I try to build-test this merge, the clang sanitizer
->>     build seems to fail whenever it tries to link anything:
->>     (configure args '--cc=3Dclang' '--cxx=3Dclang++' '--enable-gtk'
->>     '--extra-cflags=3D-fsanitize=3Dundefined=C2=A0 -fno-sanitize=3Dshift=
--base -Werror')
->>
->>
->> That's intended, you need to add -fsanitize=3Dundefined to --extra-ldfla=
-gs as
->> well now. I can change that back, but then I am not sure what one would =
-use
->> --extra-ldflags for.
->=20
-> This seems broken to me.  Most cflags have to be present on the link line=
- as
-> well, unless you know very much what you're doing.  I would not expect
-> --extra-cflags to have to be repeated.
+On Thu, 23 Jan 2020 18:02:56 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-But then Peter's command line is missing --extra-cxxflags.  So I think
-more clarity is better even at the cost of verbosity.  Anyway, for now
-I'll make --extra-cflags affect both EXTRA_CFLAGS and EXTRA_LDFLAGS.
+> While working on the "Enable adapter interruption suppression again"
+> recently, I had to discover that the meaning of get_machine_class()
+> and the related *_allowed() wrappers is not very obvious. Add a more
+> verbose comment here to clarify how these should be used.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  hw/s390x/s390-virtio-ccw.c | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
 
-Paolo
+Thanks, applied.
 
 
