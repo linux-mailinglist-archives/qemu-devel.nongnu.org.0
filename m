@@ -2,88 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702F8148E90
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 20:16:04 +0100 (CET)
-Received: from localhost ([::1]:46756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A71D1148EA6
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 20:21:59 +0100 (CET)
+Received: from localhost ([::1]:46820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv4R0-0002RC-RU
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 14:16:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57280)
+	id 1iv4Wk-0006GA-KE
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 14:21:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58581)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liam.merwick@oracle.com>) id 1iv4Ph-0001yQ-J6
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:14:42 -0500
+ (envelope-from <bounces@canonical.com>) id 1iv4VZ-0005li-69
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:20:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liam.merwick@oracle.com>) id 1iv4Pg-0001MA-K4
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:14:41 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:56902)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
- id 1iv4Pa-0000yD-PU; Fri, 24 Jan 2020 14:14:34 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00OJDITf091426;
- Fri, 24 Jan 2020 19:14:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=aphHIKS+HxyX89TcvbfoeV/688kxWJiT89qFcIyE/nw=;
- b=izZqo4r93PTQkDv2ZuL+TUkT4sLZhxtvaavGqaOt/gyChpLQTFCesVZl9zah/AMVlNDo
- o9ldNVaFu8z6SxLrNL+YxG1Q2pxSvXZXIQiAusoAyzEybWMeW8hJBQxC9ukjp5v2kWs0
- 9LIpJXuVfIohrrQarxP7rba9JxtZaQAMTEJGqjV+mUYYqYrxPRImXZDRv4umeJOyRsY3
- 4A836SzKxkd8Pwz132h8MJlQ40ukScuxAAdNAoKAe9zxUx26jrfNw7IEMk0H4wY6oCzL
- EBANz7fBHnLitR/XB5AtK4Y2jacjy87wFMlh0fMHLCbLJFv3Ycsk+0nGYOEmcFdE8aEr JQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 2xksyqtvhx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Jan 2020 19:14:30 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00OJEFXU175378;
- Fri, 24 Jan 2020 19:14:30 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 2xqmufn5jr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Jan 2020 19:14:29 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00OJE7GU015287;
- Fri, 24 Jan 2020 19:14:08 GMT
-Received: from [10.175.179.249] (/10.175.179.249)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 24 Jan 2020 11:14:07 -0800
-Subject: Re: [PATCH] tests/acceptance: Add boot tests for some of the QEMU
- advent calendar images
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20200124170325.30072-1-thuth@redhat.com>
-From: Liam Merwick <liam.merwick@oracle.com>
-Message-ID: <59b4d74b-c09e-3c8a-e4ab-015ec405f545@oracle.com>
-Date: Fri, 24 Jan 2020 19:14:02 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (envelope-from <bounces@canonical.com>) id 1iv4VX-0002g3-Ic
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:20:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38436)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iv4VX-0002fS-Cx
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:20:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iv4VU-0007l6-82
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 19:20:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2C02A2E80C9
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 19:20:40 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200124170325.30072-1-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9510
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001240157
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9510
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001240157
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 24 Jan 2020 19:15:26 -0000
+From: Richard Henderson <rth@twiddle.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: glaubitz laurent-vivier rth
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <157970117843.5560.13252417721225198010.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157989332690.18540.1671332584108575797.malone@gac.canonical.com>
+Subject: [Bug 1860553] Re: cmake crashes on qemu-alpha-user with Illegal
+ Instruction
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 04529a16fec1a6cd39e630d768db7e75b16febff
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,31 +65,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1860553 <1860553@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/01/2020 17:03, Thomas Huth wrote:
-> The 2018 edition of the QEMU advent calendar 2018 featured Linux images
-> for various non-x86 machines. We can use them for a boot tests in our
-> acceptance test suite.
-> 
-> Let's also make sure that we build the corresponding machines in Travis,
-> and while we're there, drop the superfluous --python parameter (python3
-> is now the only supported version anyway).
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+There is no call insn in your listing at 0x40007fd988,
+so the easy assumption is that the return address has
+been corrupted on the stack.
 
+You'll have to dig deeper than just the insn listing.
 
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1860553
 
-> ---
->   .travis.yml                            |  2 +-
->   tests/acceptance/boot_linux_console.py | 96 ++++++++++++++++++++++++++
->   2 files changed, 97 insertions(+), 1 deletion(-)
-> 
+Title:
+  cmake crashes on qemu-alpha-user with Illegal Instruction
+
+Status in QEMU:
+  New
+
+Bug description:
+  I tried building cmake on Debian unstable for Alpha today using qemu-
+  user and the compiled cmake binary crashed with "Illegal Instruction":
+
+  g++ -Wl,-z,relro -Wl,--as-needed -g -O2 -fdebug-prefix-map=3D/<<PKGBUILDD=
+IR>>=3D. -Wformat -Werror=3Dformat-security -Wdate-time -D_FORTIFY_SOURCE=
+=3D2             -I/<<PKGBUILDDIR>>/Build/Bootstrap.cmk   -I/<<PKGBUILDDIR>=
+>/Source   -I/<<PKGBUILDDIR>>/Source/LexerParser   -I/<<PKGBUILDDIR>>/Utili=
+ties  cmAddCustomCommandCommand.o cmAddCustomTargetCommand.o cmAddDefinitio=
+nsCommand.o cmAddDependenciesCommand.o cmAddExecutableCommand.o cmAddLibrar=
+yCommand.o cmAddSubDirectoryCommand.o cmAddTestCommand.o cmArgumentParser.o=
+ cmBreakCommand.o cmBuildCommand.o cmCMakeMinimumRequired.o cmCMakePolicyCo=
+mmand.o cmCPackPropertiesGenerator.o cmCacheManager.o cmCommand.o cmCommand=
+ArgumentParserHelper.o cmCommands.o cmCommonTargetGenerator.o cmComputeComp=
+onentGraph.o cmComputeLinkDepends.o cmComputeLinkInformation.o cmComputeTar=
+getDepends.o cmConditionEvaluator.o cmConfigureFileCommand.o cmContinueComm=
+and.o cmCoreTryCompile.o cmCreateTestSourceList.o cmCustomCommand.o cmCusto=
+mCommandGenerator.o cmDefinePropertyCommand.o cmDefinitions.o cmDepends.o c=
+mDependsC.o cmDisallowedCommand.o cmDocumentationFormatter.o cmEnableLangua=
+geCommand.o cmEnableTestingCommand.o cmExecProgramCommand.o cmExecuteProces=
+sCommand.o cmExpandedCommandArgument.o cmExportBuildFileGenerator.o cmExpor=
+tFileGenerator.o cmExportInstallFileGenerator.o cmExportSet.o cmExportSetMa=
+p.o cmExportTryCompileFileGenerator.o cmExprParserHelper.o cmExternalMakefi=
+leProjectGenerator.o cmFileCommand.o cmFileCopier.o cmFileInstaller.o cmFil=
+eTime.o cmFileTimeCache.o cmFileTimes.o cmFindBase.o cmFindCommon.o cmFindF=
+ileCommand.o cmFindLibraryCommand.o cmFindPackageCommand.o cmFindPathComman=
+d.o cmFindProgramCommand.o cmForEachCommand.o cmFunctionCommand.o cmFSPermi=
+ssions.o cmGeneratedFileStream.o cmGeneratorExpression.o cmGeneratorExpress=
+ionContext.o cmGeneratorExpressionDAGChecker.o cmGeneratorExpressionEvaluat=
+ionFile.o cmGeneratorExpressionEvaluator.o cmGeneratorExpressionLexer.o cmG=
+eneratorExpressionNode.o cmGeneratorExpressionParser.o cmGeneratorTarget.o =
+cmGetCMakePropertyCommand.o cmGetDirectoryPropertyCommand.o cmGetFilenameCo=
+mponentCommand.o cmGetPipes.o cmGetPropertyCommand.o cmGetSourceFilePropert=
+yCommand.o cmGetTargetPropertyCommand.o cmGetTestPropertyCommand.o cmGlobal=
+CommonGenerator.o cmGlobalGenerator.o cmGlobalUnixMakefileGenerator3.o cmGl=
+obVerificationManager.o cmHexFileConverter.o cmIfCommand.o cmIncludeCommand=
+.o cmIncludeGuardCommand.o cmIncludeDirectoryCommand.o cmIncludeRegularExpr=
+essionCommand.o cmInstallCommand.o cmInstallCommandArguments.o cmInstallDir=
+ectoryGenerator.o cmInstallExportGenerator.o cmInstallFilesCommand.o cmInst=
+allFilesGenerator.o cmInstallGenerator.o cmInstallScriptGenerator.o cmInsta=
+llSubdirectoryGenerator.o cmInstallTargetGenerator.o cmInstallTargetsComman=
+d.o cmInstalledFile.o cmLinkDirectoriesCommand.o cmLinkItem.o cmLinkLineCom=
+puter.o cmLinkLineDeviceComputer.o cmListCommand.o cmListFileCache.o cmLoca=
+lCommonGenerator.o cmLocalGenerator.o cmLocalUnixMakefileGenerator3.o cmMSV=
+C60LinkLineComputer.o cmMacroCommand.o cmMakeDirectoryCommand.o cmMakefile.=
+o cmMakefileExecutableTargetGenerator.o cmMakefileLibraryTargetGenerator.o =
+cmMakefileTargetGenerator.o cmMakefileUtilityTargetGenerator.o cmMarkAsAdva=
+ncedCommand.o cmMathCommand.o cmMessageCommand.o cmMessenger.o cmNewLineSty=
+le.o cmOSXBundleGenerator.o cmOptionCommand.o cmOrderDirectories.o cmOutput=
+Converter.o cmParseArgumentsCommand.o cmPathLabel.o cmPolicies.o cmProcessO=
+utput.o cmProjectCommand.o cmProperty.o cmPropertyDefinition.o cmPropertyDe=
+finitionMap.o cmPropertyMap.o cmReturnCommand.o cmRulePlaceholderExpander.o=
+ cmScriptGenerator.o cmSearchPath.o cmSeparateArgumentsCommand.o cmSetComma=
+nd.o cmSetDirectoryPropertiesCommand.o cmSetPropertyCommand.o cmSetSourceFi=
+lesPropertiesCommand.o cmSetTargetPropertiesCommand.o cmSetTestsPropertiesC=
+ommand.o cmSiteNameCommand.o cmSourceFile.o cmSourceFileLocation.o cmState.=
+o cmStateDirectory.o cmStateSnapshot.o cmStringReplaceHelper.o cmStringComm=
+and.o cmSubdirCommand.o cmSystemTools.o cmTarget.o cmTargetCompileDefinitio=
+nsCommand.o cmTargetCompileFeaturesCommand.o cmTargetCompileOptionsCommand.=
+o cmTargetIncludeDirectoriesCommand.o cmTargetLinkLibrariesCommand.o cmTarg=
+etPropCommandBase.o cmTargetPropertyComputer.o cmTargetSourcesCommand.o cmT=
+est.o cmTestGenerator.o cmTimestamp.o cmTryCompileCommand.o cmTryRunCommand=
+.o cmUnexpectedCommand.o cmUnsetCommand.o cmUVHandlePtr.o cmUVProcessChain.=
+o cmVersion.o cmWhileCommand.o cmWorkingDirectory.o cmake.o cmakemain.o cmc=
+md.o cm_string_view.o cmCommandArgumentLexer.o cmCommandArgumentParser.o cm=
+ExprLexer.o cmExprParser.o cmListFileLexer.o Directory.o EncodingCXX.o FStr=
+eam.o Glob.o RegularExpression.o SystemTools.o EncodingC.o ProcessUNIX.o St=
+ring.o System.o Terminal.o uv-src-strscpy.c.o uv-src-timer.c.o uv-src-uv-co=
+mmon.c.o uv-src-unix-cmake-bootstrap.c.o uv-src-unix-core.c.o uv-src-unix-f=
+s.c.o uv-src-unix-loop.c.o uv-src-unix-loop-watcher.c.o uv-src-unix-no-fsev=
+ents.c.o uv-src-unix-pipe.c.o uv-src-unix-poll.c.o uv-src-unix-posix-hrtime=
+.c.o uv-src-unix-posix-poll.c.o uv-src-unix-process.c.o uv-src-unix-signal.=
+c.o uv-src-unix-stream.c.o  -ldl -lrt -o cmake
+  make[2]: Leaving directory '/<<PKGBUILDDIR>>/Build/Bootstrap.cmk'
+  loading initial cache file /<<PKGBUILDDIR>>/Build/Bootstrap.cmk/InitialCa=
+cheFlags.cmake
+  Illegal instruction
+  ---------------------------------------------
+  Error when bootstrapping CMake:
+  Problem while running initial CMake
+  ---------------------------------------------
+
+  I'm working on creating a chroot for download to reproduce the issue.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1860553/+subscriptions
 
