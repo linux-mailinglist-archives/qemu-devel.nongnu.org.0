@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5991489F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 15:39:47 +0100 (CET)
-Received: from localhost ([::1]:43174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46BC8148A94
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 15:52:15 +0100 (CET)
+Received: from localhost ([::1]:43342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv07e-0003qu-9n
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 09:39:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45553)
+	id 1iv0Jh-0001j8-T6
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 09:52:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47085)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iv06m-0002yZ-St
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 09:38:53 -0500
+ (envelope-from <graemebrett.houston@btopenworld.com>)
+ id 1iv0GK-0008RG-Rt
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 09:48:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iv06l-0003d1-Sp
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 09:38:52 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43500
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <graemebrett.houston@btopenworld.com>)
+ id 1iv0GJ-00074N-Eu
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 09:48:44 -0500
+Received: from mailomta17-sa.btinternet.com ([213.120.69.23]:14434
+ helo=sa-prd-fep-048.btinternet.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iv06l-0003bq-P1
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 09:38:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579876731;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=29ngSap+YlzXoQtrMvM9m6xaLe0OtFbyI+sHNqiLM7A=;
- b=KDKM7yyKWIxJHU3nLllsdDzt8HZI8cyaOssWDHD6DVM0XDX+0ZJH0BDaj5uwfhCY4vj0H1
- ZyzTEKJ5mcNrdftDzH7jVlpzBv8hE1ooTX+epTTdzkeynnxDiKbk9De5OqXFwa3TbMU0ma
- NYIRKLWZrO11tHhg8DKh/uI75Jaja4A=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-f7dMJLjjMdefdct9xZ2YZA-1; Fri, 24 Jan 2020 09:38:49 -0500
-Received: by mail-wm1-f71.google.com with SMTP id t17so813450wmi.7
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 06:38:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Cv4GM/ocuRhwML2ImM+MrVyzan2+ttDzeIrs5FTjt2U=;
- b=jk9Qc2WULsI+/GxUUwX4Sj7aqQdz+Z6Lbv+W/n6+cKJfZMvgVh+CPBP50ZBPUMC5Ns
- vfLUR00Pd+En+Dl4S27GDE2qQXhE4ZI7WgG5m4EOopHKXevoF6Lwt2nQEzXa4FXhWWuV
- yLD4aNBTkgewXn4ZWYyuioxtdc8IN3UP+zNFGazY99GbhCh4+tHfuOgmbwwK8Y1DWebi
- RuoiUqVEWtJKRkcGdpuoQF+bMjmtYuhr14BL81Gt3C41xMv1Nf8n1oK7PNsuuGOYEJXR
- zYt5eUmOQX2mlKL4b/caHJMJPjvgXTVySroS0ZtdM0Zec4qBFBp1KYeKAZt4qljdz15P
- LKkA==
-X-Gm-Message-State: APjAAAVA0cMgXE1gxYDPgrPAafw0pIte9Q2boHtmzkFYz8h45STjr24H
- Db86A7nSMpSPISA+SFhaDAZ78Gt1UJ83CL5QZOvZxvIJtRIjZCrBJlRe2DmXc5VVH9O5lkw/Ql6
- ajrUG0iVtyIg85IY=
-X-Received: by 2002:a7b:c190:: with SMTP id y16mr3714848wmi.107.1579876727189; 
- Fri, 24 Jan 2020 06:38:47 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyWomUiKvZ4+CPbW8ZJs5YbXJ/7/ffwOKvU05AgVb5FnNDjNO5Els6Fy4h8dVPx/ZLeIE67Ug==
-X-Received: by 2002:a7b:c190:: with SMTP id y16mr3714829wmi.107.1579876726939; 
- Fri, 24 Jan 2020 06:38:46 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:b8fe:679e:87eb:c059?
- ([2001:b07:6468:f312:b8fe:679e:87eb:c059])
- by smtp.gmail.com with ESMTPSA id z8sm7602408wrq.22.2020.01.24.06.38.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jan 2020 06:38:46 -0800 (PST)
-Subject: Re: [PULL v2 00/59] Misc (x86 and QOM) patches for 2020-01-23
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <1579857411-12996-1-git-send-email-pbonzini@redhat.com>
- <CAFEAcA-XOP=z+2NU-vebFO7qenOf-V21Vbwp-+VH5oDZfm+WGg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <46eb66b2-2c6b-207b-83f3-81759955787d@redhat.com>
-Date: Fri, 24 Jan 2020 15:38:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (Exim 4.71) (envelope-from <graemebrett.houston@btopenworld.com>)
+ id 1iv0GI-00072T-Tb
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 09:48:43 -0500
+Received: from sa-prd-rgout-003.btmx-prd.synchronoss.net ([10.2.38.6])
+ by sa-prd-fep-048.btinternet.com with ESMTP id
+ <20200124144840.BKXM8264.sa-prd-fep-048.btinternet.com@sa-prd-rgout-003.btmx-prd.synchronoss.net>
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 14:48:40 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=btopenworld.com;
+ s=btmx201904; t=1579877320; 
+ bh=xBZsUAPfjODqUwfi2NB8MMJhwP+8SvR4JdTYTRRd+LQ=;
+ h=To:From:Subject:Message-ID:Date:MIME-Version;
+ b=pjQI3RNOqTGCj2UD+DrE8cqUOuPizwz6I1i9NIXIss5iQ0+zitMKFPZ6h3AiOroGwIQ84z1BPMbVXc0EDBuZ7qAjSnpb6Xqe8PMf/uDwalrUzEJbUXoK3luT+scmPpRGGS0Vx6uKR5n0b5mNpaR9URo8T7PtrNbZRj5L9UxZBzalsmeo1LPRC9uEe1OfVWj3whDjGQ9ED80EJvvhELj3ijvybFnOcyUY6rlX5a4B7QmNl3rX/VrtWJIzu1PJnZeumrQt/Ji/q5ZhVCpZJhyNvWoWekSUFyUSAHZMnrpT+ZNfzhnLR1DZbjit3ODsTMuFpuV6yeBJAANlwY8Opt8Z0A==
+Authentication-Results: btinternet.com;
+ auth=pass (PLAIN) smtp.auth=graemebrett.houston@btopenworld.com
+X-Originating-IP: [86.183.95.28]
+X-OWM-Source-IP: 86.183.95.28 (GB)
+X-OWM-Env-Sender: graemebrett.houston@btinternet.com
+X-VadeSecure-score: verdict=clean score=0/300, class=clean
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedugedrvdeggdeikecutefuodetggdotefrodftvfcurfhrohhfihhlvgemuceutffkvffkuffjvffgnffgvefqofdpqfgfvfenuceurghilhhouhhtmecufedttdenucenucfjughrpefvhffukffffgggtgfgsehtjeertddtfeejnecuhfhrohhmpefirhgrvghmvgcuuehrvghtthcujfhouhhsthhonhcuoehgrhgrvghmvggsrhgvthhtrdhhohhushhtohhnsegsthhophgvnhifohhrlhgurdgtohhmqeenucfkphepkeeirddukeefrdelhedrvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehhvghloheplgduledvrdduieekrddtrdduvddtngdpihhnvghtpeekiedrudekfedrleehrddvkedpmhgrihhlfhhrohhmpeeoghhrrggvmhgvsghrvghtthdrhhhouhhsthhonhessghtihhnthgvrhhnvghtrdgtohhmqecuuefqffgjpeekuefkvffokffogfdprhgtphhtthhopeeoqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgheq
+X-RazorGate-Vade-Verdict: clean 0
+X-RazorGate-Vade-Classification: clean
+Received: from [192.168.0.120] (86.183.95.28) by
+ sa-prd-rgout-003.btmx-prd.synchronoss.net (5.8.337) (authenticated as
+ graemebrett.houston@btopenworld.com)
+ id 5E1A306602030F4E for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:48:40 +0000
+To: qemu-devel@nongnu.org
+From: Graeme Brett Houston <graemebrett.houston@btopenworld.com>
+Subject: Documentation and VFIO on SPARC
+Message-ID: <1fe252e9-5c9d-a572-d3ae-76d51ef77026@btopenworld.com>
+Date: Fri, 24 Jan 2020 14:48:40 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-XOP=z+2NU-vebFO7qenOf-V21Vbwp-+VH5oDZfm+WGg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-MC-Unique: f7dMJLjjMdefdct9xZ2YZA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 213.120.69.23
+X-Mailman-Approved-At: Fri, 24 Jan 2020 09:51:25 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,43 +71,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/01/20 11:11, Peter Maydell wrote:
-> On Fri, 24 Jan 2020 at 09:18, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> The following changes since commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde0d=
-d40:
->>
->>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-202=
-00121' into staging (2020-01-21 15:29:25 +0000)
->>
->> are available in the git repository at:
->>
->>
->>   git://github.com/bonzini/qemu.git tags/for-upstream
->>
->> for you to fetch changes up to b0993e347e065d2323fbb051fdd5a72c95a6e872:
->>
->>   tests: fix test-qga on macosx (2020-01-24 10:14:32 +0100)
->>
->> ----------------------------------------------------------------
->> * Register qdev properties as class properties (Marc-Andr=C3=A9)
->> * Cleanups (Philippe)
->> * virtio-scsi fix (Pan Nengyuan)
->> * Tweak Skylake-v3 model id (Kashyap)
->> * x86 UCODE_REV support and nested live migration fix (myself)
->> * Advisory mode for pvpanic (Zhenwei
->=20
-> Hi -- this says 'v2', which is the same as the previous one
-> did, but the commit hash to fetch is different. Presumably
-> it's a v3? What are the v2->v3 differences, please?
+2 Queries:
 
-Sorry; the v2->v3 difference is just that it doesn't separate cflags
-from ldflags.
+1st is there any Good Documentation on Writing VGA devices?
 
-Paolo
+2nd Can VFIO devices be successfully passed to the sparc engine & 
+hopefully Solaris 9 actually bootup
+
+I am thinking a Actual PCI SPARC Card with OpenFirmware ROM and other 
+dev ices i am interested in getting a PCI trace from.
 
 
