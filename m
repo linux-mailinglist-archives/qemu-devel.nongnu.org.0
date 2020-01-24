@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106BD149021
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 22:29:47 +0100 (CET)
-Received: from localhost ([::1]:48234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD6A1490C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 23:15:59 +0100 (CET)
+Received: from localhost ([::1]:48630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv6WP-0000hx-LC
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 16:29:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59477)
+	id 1iv7F8-0000pB-DS
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 17:15:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51273)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1iv6V9-0008Kx-FK
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 16:28:28 -0500
+ (envelope-from <walling@linux.ibm.com>) id 1iv7Dd-0007nw-LU
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 17:14:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1iv6V7-0002Hl-7j
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 16:28:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34563
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iv6V6-0002Gm-W0
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 16:28:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579901304;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MHdnecRYf4mM9JFnSebp4hnxSswXhAnm979xUf63zTE=;
- b=ItpBtEY3R6l7Ekslkilvf7g6ORkR5DP0jHfApmWYOZ4BBEfM/sjtjHlM0sAcCQ3yy7Gf42
- 76GLUddihb6Z9tS6til2cKnrWIsHK0tsOEfN3gSV0Sntn8BQ/2SkuzDeQh3HByNcaXy40j
- l73F1u81E91ZFkSH7l1EgPEtlGJdaFg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-RKUPo4bWOzKL9BY0uKakuQ-1; Fri, 24 Jan 2020 16:28:18 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFD7A800D54;
- Fri, 24 Jan 2020 21:28:17 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-27.gru2.redhat.com
- [10.97.116.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6F9860BE1;
- Fri, 24 Jan 2020 21:28:12 +0000 (UTC)
-Subject: Re: [PATCH] tests/acceptance: Add boot tests for some of the QEMU
- advent calendar images
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20200124170325.30072-1-thuth@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <8f085a1a-b9df-29d4-db51-eb345a44a971@redhat.com>
-Date: Fri, 24 Jan 2020 19:28:10 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <20200124170325.30072-1-thuth@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: RKUPo4bWOzKL9BY0uKakuQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ (envelope-from <walling@linux.ibm.com>) id 1iv7Dc-0000EE-6n
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 17:14:25 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58868
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <walling@linux.ibm.com>)
+ id 1iv7Dc-0000Bj-27; Fri, 24 Jan 2020 17:14:24 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 00OMCFam035396; Fri, 24 Jan 2020 17:14:21 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xr61pdjxd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 24 Jan 2020 17:14:21 -0500
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 00OMELgV039544;
+ Fri, 24 Jan 2020 17:14:21 -0500
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xr61pdjwp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 24 Jan 2020 17:14:21 -0500
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 00OMDqna031517;
+ Fri, 24 Jan 2020 22:14:20 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma01dal.us.ibm.com with ESMTP id 2xksn7rk6m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 24 Jan 2020 22:14:20 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 00OMEJnU60686612
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 24 Jan 2020 22:14:19 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0959CC609C;
+ Fri, 24 Jan 2020 22:14:19 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A1BC7C609E;
+ Fri, 24 Jan 2020 22:14:18 +0000 (GMT)
+Received: from collin-ThinkPad-W541.pok.ibm.com (unknown [9.56.58.87])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 24 Jan 2020 22:14:18 +0000 (GMT)
+From: Collin Walling <walling@linux.ibm.com>
+To: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v6 0/2] Use DIAG318 to set Control Program Name & Version Codes
+Date: Fri, 24 Jan 2020 17:14:02 -0500
+Message-Id: <1579904044-20790-1-git-send-email-walling@linux.ibm.com>
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-01-24_07:2020-01-24,
+ 2020-01-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 mlxscore=0
+ impostorscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0
+ priorityscore=1501 mlxlogscore=999 spamscore=0 adultscore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1911200001 definitions=main-2001240180
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,154 +88,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: borntraeger@de.ibm.com, cohuck@redhat.com, david@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Changes from v5 -> v6
 
-On 1/24/20 3:03 PM, Thomas Huth wrote:
-> The 2018 edition of the QEMU advent calendar 2018 featured Linux images
-> for various non-x86 machines. We can use them for a boot tests in our
-> acceptance test suite.
->
-> Let's also make sure that we build the corresponding machines in Travis,
-> and while we're there, drop the superfluous --python parameter (python3
-> is now the only supported version anyway).
+    Migration and DeviceObject Code:
+        - load/save/needed functions now check if kvm_enabled before calling
+            kvm_get/set and has_feat (respectively)
 
-Yes, please, removal of --python was in my wish list.
+    QEMU->KVM Code:
+        - added kvm_s390_* stubs for get/set functions for TCG compilation
 
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   .travis.yml                            |  2 +-
->   tests/acceptance/boot_linux_console.py | 96 ++++++++++++++++++++++++++
->   2 files changed, 97 insertions(+), 1 deletion(-)
->
-> diff --git a/.travis.yml b/.travis.yml
-> index 6c1038a0f1..73ca12c921 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -268,7 +268,7 @@ matrix:
->   
->       # Acceptance (Functional) tests
->       - env:
-> -        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,sparc-softmmu"
-> +        - CONFIG="--target-list=aarch64-softmmu,alpha-softmmu,arm-softmmu,m68k-softmmu,microblaze-softmmu,mips-softmmu,mips64el-softmmu,nios2-softmmu,or1k-softmmu,ppc-softmmu,ppc64-softmmu,s390x-softmmu,sparc-softmmu,x86_64-softmmu,xtensa-softmmu"
+    VCPU Discussion:
+        - calculate the maximum allowed cpu entries by taking the SCCB size,
+            subtracting the offset where the CPU entries begin, then dividing
+            by the size of a CPU Entry struct
+        - if the number of CPU entries exceeds the maximum allowed entries,
+            print a warning and break out of the loop
+        - no longer imposing a reduced CPU max
 
+Last post: https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg05535.html
 
-Perhaps use MAIN_SOFTMMU_TARGETS in only append the other targets, like:
+The data associated with DIAGNOSE 0x318 helps to identify the underlying 
+hypervisor level (pre-determined by an internal set of codes), as well as the
+guest environment (such as Linux, z/VM, etc). These patches, in tandem with
+KVM, allow this instruction to be enabled at the guest level, and also to 
+enable migration of this data.
 
---target-list=${MAIN_SOFTMMU_TARGETS},alpha-softmmu,sparc-softmmu,....
+The DIAGNOSE 0x318 instruction is a privileged instruction that is executed by
+the Linux kernel once and only once during setup (IPL). This requires 
+interception by KVM to handle the instruction call safely. The instruction sets
+an 8-byte value corresponding to the environment the control program (i.e.
+guest) is running with, as well as what hypervisor it is running on.
 
+An update to the analogous KVM patches associated with this patchset are
+forthcoming and I will provide a link to the post as a reply to this chain.
 
->           - TEST_CMD="make check-acceptance"
->         after_script:
->           - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP")]' | xargs cat
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index e03add2989..f7ac2a3a59 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -584,3 +584,99 @@ class BootLinuxConsole(Test):
->           self.wait_for_console_pattern(console_pattern)
->           console_pattern = 'No filesystem could mount root'
->           self.wait_for_console_pattern(console_pattern)
-> +
-> +    def do_test_advcal_2018(self, day, tar_hash, kernel_name):
-> +        tar_url = ('https://www.qemu-advent-calendar.org'
-> +                   '/2018/download/day' + day + '.tar.xz')
-> +        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-> +        archive.extract(file_path, self.workdir)
-> +        self.vm.set_console()
-> +        self.vm.add_args('-kernel',
-> +                         self.workdir + '/day' + day + '/' + kernel_name)
-> +        self.vm.launch()
-> +        self.wait_for_console_pattern('QEMU advent calendar')
-> +
-> +    def test_arm_vexpressa9(self):
-> +        """
-> +        :avocado: tags=arch:arm
-> +        :avocado: tags=machine:vexpress-a9
-> +        """
-> +        tar_hash = '32b7677ce8b6f1471fb0059865f451169934245b'
-> +        self.vm.add_args('-dtb', self.workdir + '/day16/vexpress-v2p-ca9.dtb')
-> +        self.do_test_advcal_2018('16', tar_hash, 'winter.zImage')
-> +
-> +    def test_m68k_mcf5208evb(self):
-> +        """
-> +        :avocado: tags=arch:m68k
-> +        :avocado: tags=machine:mcf5208evb
-> +        """
-> +        tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
-> +        self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
-> +
-> +    def test_microblaze_s3adsp1800(self):
-> +        """
-> +        :avocado: tags=arch:microblaze
-> +        :avocado: tags=machine:petalogix-s3adsp1800
-> +        """
-> +        tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
-> +        self.do_test_advcal_2018('17', tar_hash, 'ballerina.bin')
-> +
-> +    def test_or1k_sim(self):
-> +        """
-> +        :avocado: tags=arch:or1k
-> +        :avocado: tags=machine:or1k-sim
-> +        """
-> +        tar_hash = '20334cdaf386108c530ff0badaecc955693027dd'
-> +        self.do_test_advcal_2018('20', tar_hash, 'vmlinux')
-> +
-> +    def test_nios2_10m50(self):
-> +        """
-> +        :avocado: tags=arch:nios2
-> +        :avocado: tags=machine:10m50-ghrd
-> +        """
-> +        tar_hash = 'e4251141726c412ac0407c5a6bceefbbff018918'
-> +        self.do_test_advcal_2018('14', tar_hash, 'vmlinux.elf')
-> +
-> +    def test_ppc64_e500(self):
-> +        """
-> +        :avocado: tags=arch:ppc64
-> +        :avocado: tags=machine:ppce500
-> +        """
-> +        tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
-> +        self.vm.add_args('-cpu', 'e5500')
-> +        self.do_test_advcal_2018('19', tar_hash, 'uImage')
-> +
-> +    def test_ppc_g3beige(self):
-> +        """
-> +        :avocado: tags=arch:ppc
-> +        :avocado: tags=machine:g3beige
-> +        """
-> +        tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
-> +        self.vm.add_args('-M', 'graphics=off')
-> +        self.do_test_advcal_2018('15', tar_hash, 'invaders.elf')
-> +
-> +    def test_ppc_mac99(self):
-> +        """
-> +        :avocado: tags=arch:ppc
-> +        :avocado: tags=machine:mac99
-> +        """
-> +        tar_hash = 'e0b872a5eb8fdc5bed19bd43ffe863900ebcedfc'
-> +        self.vm.add_args('-M', 'graphics=off')
-> +        self.do_test_advcal_2018('15', tar_hash, 'invaders.elf')
-> +
-> +    def test_sparc_ss20(self):
-> +        """
-> +        :avocado: tags=arch:sparc
-> +        :avocado: tags=machine:SS-20
-> +        """
-> +        tar_hash = 'b18550d5d61c7615d989a06edace051017726a9f'
-> +        self.do_test_advcal_2018('11', tar_hash, 'zImage.elf')
-> +
-> +    def test_xtensa_lx60(self):
-> +        """
-> +        :avocado: tags=arch:xtensa
-> +        :avocado: tags=machine:lx60
-> +        """
-> +        tar_hash = '49e88d9933742f0164b60839886c9739cb7a0d34'
-> +        self.vm.add_args('-cpu', 'dc233c')
-> +        self.do_test_advcal_2018('02', tar_hash, 'santas-sleigh-ride.elf')
+Guest support for the diag 318 instruction is accomplished by implementing a 
+device class, a cpu model feature, and adjusting the Read Info struct. The Read
+Info struct adjustment coincidentally reduces the maximum number of VCPUs we 
+can have for a single guest by one.
+
+The instruction is determined by a Read Info byte 134 bit 0. This new byte
+expands into the space of the Read Info SCCB, which also contains CPU entries
+at the tail-end of this block of data. Due to this expansion, we lose space for
+one CPU entry.
+
+A guest can still run safely with the original 248 maximum CPUs, but will lose
+access to the 248th CPU entry, meaning that the hypervisor will be unable to
+retrieve any information regarding that CPU (weather this means the guest
+will actually run with 247 CPUs when 248 are specified is uncertain to me, but
+the guest operates just fine on my end).
+
+A device class is used for this instruction in order to streamline the 
+migration and reset of the DIAG 318 related data.
+
+A CPU model feature is added for this instruction, appropriately named diag318,
+and is available starting with the zEC12 full model, though as long as KVM can
+support emulation of this instruction, we can theoretically enable it for _any_
+CPU model. It is recommended to explicitly enable the feature via 
+-cpu ...,diag318=on (or via libvirt feature XML).
+
+Collin L. Walling (2):
+  s390/kvm: header sync for diag318
+  s390: diagnose 318 info reset and migration support
+
+ hw/s390x/Makefile.objs              |  1 +
+ hw/s390x/diag318.c                  | 85 +++++++++++++++++++++++++++++++++++++
+ hw/s390x/diag318.h                  | 40 +++++++++++++++++
+ hw/s390x/s390-virtio-ccw.c          | 17 ++++++++
+ hw/s390x/sclp.c                     | 13 ++++++
+ include/hw/s390x/sclp.h             |  2 +
+ linux-headers/asm-s390/kvm.h        |  4 ++
+ target/s390x/cpu_features.h         |  1 +
+ target/s390x/cpu_features_def.inc.h |  3 ++
+ target/s390x/gen-features.c         |  1 +
+ target/s390x/kvm-stub.c             | 10 +++++
+ target/s390x/kvm.c                  | 29 +++++++++++++
+ target/s390x/kvm_s390x.h            |  2 +
+ 13 files changed, 208 insertions(+)
+ create mode 100644 hw/s390x/diag318.c
+ create mode 100644 hw/s390x/diag318.h
+
+-- 
+2.7.4
 
 
