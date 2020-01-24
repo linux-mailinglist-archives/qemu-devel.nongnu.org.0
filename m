@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB77148BB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 17:16:16 +0100 (CET)
-Received: from localhost ([::1]:44130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E21148BC2
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 17:18:44 +0100 (CET)
+Received: from localhost ([::1]:44168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv1d1-0002qh-Ek
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 11:16:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35250)
+	id 1iv1fP-0005ro-7d
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 11:18:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35489)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iv1cB-0002Ff-At
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:15:24 -0500
+ (envelope-from <eblake@redhat.com>) id 1iv1dU-0003u8-Q5
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:16:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iv1c9-0002I4-Op
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:15:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50519
+ (envelope-from <eblake@redhat.com>) id 1iv1dT-000377-PN
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:16:44 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50224
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iv1c9-0002Gj-3S
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:15:21 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iv1dT-00036e-MI
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:16:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579882519;
+ s=mimecast20190719; t=1579882603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3MtR/81t0xiwo1PwJLHOKouCO2rLV0l/xlXQjcP2szU=;
- b=eM48wzl3sKhHslZjvu8aKBu+9iqenO/Tz+w+fqegAY7s2XqsplGWIGrKg4xKMwh/fmtVxq
- 5T4iTB+3Qds9kFDOESr4U1Ny9nRmSscFhvlkzh3umSMscnPyeWNPJ3RBurxh55T0HK7c/E
- ov/hGpSXYun+5mkWO7DSNfvpv5HQTwQ=
+ bh=bI4CSnalcLAfc7WG8qJEwR+Wy9JV+byuVV+IuNEMYRk=;
+ b=ffCLT4GuSFrhp5DJVwVQprIBQqd4qZIMxNH/icBQEX17ap4cV1QmlizLyVrC4JtXtvL/4A
+ b+c3jOnEt476JJZ+OJrBJWMnIdAhXJ0bRaWxO1LTBlf/VhpHyhJw0JbMHdx4NyhAivvfTU
+ P8OwAUPqmSX2xt+QSLcj9jFodOxsw5g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-26YmTvJpONGCW53yl-QsjA-1; Fri, 24 Jan 2020 11:15:16 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-205-fFZi1-1KP-iCU4nCYnf0GQ-1; Fri, 24 Jan 2020 11:16:41 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E33EB109F65B
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 16:15:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43F58100E36C
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 16:16:40 +0000 (UTC)
 Received: from [10.3.117.16] (ovpn-117-16.phx2.redhat.com [10.3.117.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 066935DA75;
- Fri, 24 Jan 2020 16:15:14 +0000 (UTC)
-Subject: Re: [PATCH v3 09/21] migration: Add multifd-compress parameter
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 76E3A8680C;
+ Fri, 24 Jan 2020 16:16:39 +0000 (UTC)
+Subject: Re: [PATCH v3 19/21] migration: Add zlib compression multifd support
 To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
 References: <20200123115831.36842-1-quintela@redhat.com>
- <20200123115831.36842-10-quintela@redhat.com>
+ <20200123115831.36842-20-quintela@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <c7c0c5bc-6eb4-1ca0-f7d7-5d2b573a3335@redhat.com>
-Date: Fri, 24 Jan 2020 10:15:14 -0600
+Message-ID: <944a3e53-95cf-bf91-c846-b5b0715b51ca@redhat.com>
+Date: Fri, 24 Jan 2020 10:16:38 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200123115831.36842-10-quintela@redhat.com>
+In-Reply-To: <20200123115831.36842-20-quintela@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 26YmTvJpONGCW53yl-QsjA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: fFZi1-1KP-iCU4nCYnf0GQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,57 +85,20 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/23/20 5:58 AM, Juan Quintela wrote:
 > Signed-off-by: Juan Quintela <quintela@redhat.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
 > ---
-> Rename it to NONE
-> Fix typos (dave)
-> We don't need to chek values returned by visit_type_MultifdCompress (markus)
-> Fix yet more typos (wei)
-> ---
->   hw/core/qdev-properties.c    | 13 +++++++++++++
 
 > +++ b/qapi/migration.json
-> @@ -488,6 +488,19 @@
+> @@ -499,7 +499,7 @@
+>   #
 >   ##
->   { 'command': 'query-migrate-capabilities', 'returns':   ['MigrationCapabilityStatus']}
+>   { 'enum': 'MultifdCompress',
+> -  'data': [ 'none' ] }
+> +  'data': [ 'none', 'zlib' ] }
 >   
-> +##
-> +# @MultifdCompress:
-> +#
-> +# An enumeration of multifd compression.
-> +#
-> +# @none: no compression.
-> +#
-> +# Since: 4.1
 
-5.0, now
+Patch 9 added 'none' and documented it; it looks odd if 'zlib' is not 
+documented.
 
-> +#
-> +##
-> +{ 'enum': 'MultifdCompress',
-> +  'data': [ 'none' ] }
-> +
->   ##
->   # @MigrationParameter:
->   #
-> @@ -586,6 +599,9 @@
->   # @max-cpu-throttle: maximum cpu throttle percentage.
->   #                    Defaults to 99. (Since 3.1)
->   #
-> +# @multifd-compress: Which compression method to use.
-> +#                    Defaults to none. (Since 5.0)
-> +#
->   # Since: 2.4
->   ##
->   { 'enum': 'MigrationParameter',
-> @@ -598,7 +614,7 @@
->              'downtime-limit', 'x-checkpoint-delay', 'block-incremental',
->              'multifd-channels',
->              'xbzrle-cache-size', 'max-postcopy-bandwidth',
-> -           'max-cpu-throttle' ] }
-> +           'max-cpu-throttle', 'multifd-compress' ] }
 -- 
 Eric Blake, Principal Software Engineer
 Red Hat, Inc.           +1-919-301-3226
