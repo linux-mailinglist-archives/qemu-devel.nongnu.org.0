@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208F71477B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 05:47:10 +0100 (CET)
-Received: from localhost ([::1]:37426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF641477F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 06:21:30 +0100 (CET)
+Received: from localhost ([::1]:37578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuqs8-0006Ky-Td
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 23:47:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44666)
+	id 1iurPM-0004Z8-7r
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 00:21:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iuqqi-0005XV-Vt
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 23:45:42 -0500
+ (envelope-from <bounces@canonical.com>) id 1iurOb-00046Y-Tz
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 00:20:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iuqqh-0000s9-BB
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 23:45:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56548)
+ (envelope-from <bounces@canonical.com>) id 1iurOa-0005Tr-1b
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 00:20:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57836)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iuqqh-0000rY-5m
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 23:45:39 -0500
+ id 1iurOZ-0005Rr-SD
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 00:20:39 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iuqqf-0007R1-MN
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 04:45:37 +0000
+ id 1iurOY-0000ZN-Dd
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 05:20:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9B95F2E8055
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 04:45:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5D3E02E80C8
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 05:20:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 24 Jan 2020 04:39:39 -0000
-From: Richard Henderson <rth@twiddle.net>
+Date: Fri, 24 Jan 2020 05:11:43 -0000
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,10 +41,11 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: glaubitz rth
 X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+X-Launchpad-Bug-Modifier: John Paul Adrian Glaubitz (glaubitz)
 References: <157970117843.5560.13252417721225198010.malonedeb@chaenomeles.canonical.com>
-Message-Id: <157984077993.4848.14343541039529400435.malone@chaenomeles.canonical.com>
-Subject: [Bug 1860553] Re: cmake crashes on qemu-alpha-user with Illegal
+ <157984077993.4848.14343541039529400435.malone@chaenomeles.canonical.com>
+Message-Id: <6fba89cf-456e-8341-4e86-77dee000a93d@physik.fu-berlin.de>
+Subject: Re: [Bug 1860553] Re: cmake crashes on qemu-alpha-user with Illegal
  Instruction
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -52,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c45e2fd58784318ab75283562890d9a62d50506c
+X-Launchpad-Hash: 227c50e57e7eb88f241080e4a3fe9cc2b853ca19
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,9 +70,30 @@ Reply-To: Bug 1860553 <1860553@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-# chroot $root
-...
-# qemu-alpha-static -D logfile -d in_asm ./Bootstrap.cmk/cmake ..
+On 1/24/20 5:39 AM, Richard Henderson wrote:
+> # chroot $root
+> ...
+> # qemu-alpha-static -D logfile -d in_asm ./Bootstrap.cmk/cmake ..
+
+Last one seems to be a halt instruction:
+
+----------------
+IN: =
+
+0x00000040007fd988:  halt
+
+Illegal instruction
+
+Full log in [1].
+
+> [1] https://people.debian.org/~glaubitz/logfile
+
+-- =
+
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
 -- =
 
