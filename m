@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48366148EDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 20:47:08 +0100 (CET)
-Received: from localhost ([::1]:46978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F08FC148EED
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 20:57:11 +0100 (CET)
+Received: from localhost ([::1]:47168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv4v5-0003vH-7f
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 14:47:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34752)
+	id 1iv54o-0000AO-AI
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 14:57:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37014)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iv4tC-0002IP-To
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:45:16 -0500
+ (envelope-from <wainersm@redhat.com>) id 1iv53v-0008B5-Vh
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:56:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iv4t7-0005fv-9q
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:45:10 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:40636)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iv4t7-0005dr-32
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:45:05 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id bg7so278344pjb.5
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 11:45:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CS1T8g6exv4pZWkk1CKFOOp8Y6k1wtSU7Ui31Lt3wUc=;
- b=BqOqYhrxJvNRQ4syh5+yFYy3OnlDQzw2suJo7y4UbkhEhPQuJFy3KOvfqxpt2pEsNH
- JWHv5ZVS/ICpquVo5Y5h3LnX++FjKHof8zov2mwC2Ed3mOsmygZYUcy3u7xrgWvKQKlk
- KsyLoIHc+1LOrfwZ1TTY40VP0y16oYNVuG7YLvYnUxhM+20H1FR9h4BSddrxESI+gImY
- AXhYFhFpwWc+1WgKErpUDZJF6OGkDslETvoeysB4vTLKCqn0xsYl0o0/KjF7B2+yo0hx
- wrYKPLyzv5fihHXijX020dZyxzEEqlyVh5kVa+NyjynOg+SZ6msiM+H37qaDoSCGEcCf
- bzeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CS1T8g6exv4pZWkk1CKFOOp8Y6k1wtSU7Ui31Lt3wUc=;
- b=m+kbQ9KvUTTxBw+T61u8lFS5IB4SUUE4XRNq3mC4bnvi4O0il5ZLmjDef8CiRtbw79
- +D2OvrP0KgRQUiI5PhEoqx3G/0YGxVZcvSwUuMUVCCe1SgH15URaSXzDJLeLAoEECRjQ
- mmWAjXgNiOdmUZ1T/Zi1rV/DtrJjhhTs/pEq1Navd4Aw6EqVv94AvPtPFvlOJwng85Vm
- JB0j3Ir3d1D719hrda96ePYR999tWCrZzQJZey5BSB4JPBkkQcv7yrLcOkHACnMx5Ufo
- QV6XErgp20OJQTFXbVKSrDsq7E3nREhfdjOM4/xHPFOTyRsl5B95x7Kp8azFq0yPj5Ww
- ds8w==
-X-Gm-Message-State: APjAAAWE7LHiESgYAY8P4ilFKB+HHdlTM/VguZkmqYVzQ2NmqHV90vJz
- /8whKKT303IDjntzZIA9T3Yltg==
-X-Google-Smtp-Source: APXvYqwK3T3PDq2eH4C078z6mvbMYuXE/umz7Y/DSJJD16uCw9WMk+3xtsLXEo9ktxfQ7v+omjm52Q==
-X-Received: by 2002:a17:902:8b89:: with SMTP id
- ay9mr5066508plb.309.1579895103611; 
- Fri, 24 Jan 2020 11:45:03 -0800 (PST)
-Received: from [10.5.50.117] (rrcs-173-198-77-92.west.biz.rr.com.
- [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id h128sm7230819pfe.172.2020.01.24.11.45.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jan 2020 11:45:02 -0800 (PST)
-Subject: Re: [PATCH v4 6/7] disas: mips: Add micromips R6 disassembler -
- infrastructure and 16-bit instructions
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1579883929-1517-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1579883929-1517-7-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <779b7b35-16a8-0538-ad87-fac218c93e82@linaro.org>
-Date: Fri, 24 Jan 2020 09:44:57 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <wainersm@redhat.com>) id 1iv53r-0008Cl-Nk
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:56:12 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27743
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iv53r-0008C5-CP
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:56:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579895770;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LU+95+MxRODU7EmfL/VH2msq12zdmadWA+kBB9sy0JI=;
+ b=PUvT5Q2B+J6jXQyGLe8QhwBQJ7JiA79x1vr6L+ELDT2a1JMojt6TLFXzvjRZ4PbdPH0029
+ znxo+9oyxDS82syaYHNFF96zPRadv7/AHioj//A9csRNVpvqjBeKlh2TsTv1VQ+54xlcUH
+ vslTA0uGy19pcbEHiyO38pBRDlmx7gI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-zWtH9qSoMeSpHUuwsadzPg-1; Fri, 24 Jan 2020 14:56:07 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1F25800D41;
+ Fri, 24 Jan 2020 19:56:06 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-27.gru2.redhat.com
+ [10.97.116.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B58D8DC18;
+ Fri, 24 Jan 2020 19:56:00 +0000 (UTC)
+Subject: Re: [PATCH v3 4/4] travis.yml: Enable acceptance KVM tests
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, alex.bennee@linaro.org
+References: <20200122012753.9846-1-wainersm@redhat.com>
+ <20200122012753.9846-5-wainersm@redhat.com>
+ <e500a1ce-d2b6-b372-b1cb-f9bddcbf8334@redhat.com>
+ <e9461b25-14d6-900c-1558-78a7aa910f92@redhat.com>
+ <e5689532-cfa7-1db7-ade2-c3a274083b25@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <86ba7b67-a69a-bfc3-2d70-d4328acda2de@redhat.com>
+Date: Fri, 24 Jan 2020 17:55:58 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <1579883929-1517-7-git-send-email-aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <e5689532-cfa7-1db7-ade2-c3a274083b25@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1044
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: zWtH9qSoMeSpHUuwsadzPg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,89 +79,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@rt-rk.com, amarkovic@wavecomp.com, aurelien@aurel32.net
+Cc: ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/24/20 6:38 AM, Aleksandar Markovic wrote:
-> The basic disassembly logic was obtained by somewhat modified script
-> decodetree.py, and such output was further manually modified to
-> handle numerous details of micromips 32R6 instruction coding scheme.
 
-What modifications to the script?
-What manual modifications to the output?
-
-It's been a while since I looked at micromips, but I don't recall anything so
-odd that it couldn't be handled with the current output of decodetree.py.
-
-
-> +static void getAlias(char *buffer, int regNo)
-> +{
-> +    switch (regNo) {
-> +    case 0:
-> +        strncpy(buffer, "zero", 5);
-> +        break;
-> +    case 1:
-> +        strncpy(buffer, "at", 5);
-> +        break;
-> +    case 2:
-> +    case 3:
-> +        sprintf(buffer, "v%d", regNo - 2);
-> +        break;
-> +    case 4:
-> +    case 5:
-> +    case 6:
-> +    case 7:
-> +        sprintf(buffer, "a%d", regNo - 4);
-> +        break;
-> +    case 8:
-> +    case 9:
-> +    case 10:
-> +    case 11:
-> +    case 12:
-> +    case 13:
-> +    case 14:
-> +    case 15:
-> +        sprintf(buffer, "t%d", regNo - 8);
-> +        break;
-> +    case 16:
-> +    case 17:
-> +    case 18:
-> +    case 19:
-> +    case 20:
-> +    case 21:
-> +    case 22:
-> +    case 23:
-> +        sprintf(buffer, "s%d", regNo - 16);
-> +        break;
-> +    case 24:
-> +    case 25:
-> +        sprintf(buffer, "t%d", regNo - 16);
-> +        break;
-> +    case 28:
-> +        strncpy(buffer, "gp", 5);
-> +        break;
-> +    case 29:
-> +        strncpy(buffer, "sp", 5);
-> +        break;
-> +    case 30:
-> +        strncpy(buffer, "s8", 5);
-> +        break;
-> +    case 31:
-> +        strncpy(buffer, "ra", 5);
-> +        break;
-> +    default:
-> +        sprintf(buffer, "r%d", regNo);
-> +        break;
-> +    }
-> +}
-
-Surely this would be better as a const array of string literals.  There are
-only 32 of them after all.
-
-Then you can just return the const char *, which is much better than
-sprintf'ing into a caller-provided buffer of unknown size.
+On 1/24/20 7:54 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 1/24/20 10:44 AM, Thomas Huth wrote:
+>> On 24/01/2020 10.38, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> On 1/22/20 2:27 AM, Wainer dos Santos Moschetta wrote:
+>>>> Some acceptance tests require KVM or they are skipped. Travis
+>>>> enables nested virtualization by default with Ubuntu
+>>>> 18.04 (Bionic) on x86_64. So in order to run the kvm tests, this
+>>>> changed the acceptance builder to run in a Bionic VM. Also
+>>>> it was needed to ensure the current user has rw permission
+>>>> to /dev/kvm.
+>>>>
+>>>> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>>>> ---
+>>>> =C2=A0=C2=A0 .travis.yml | 7 ++++++-
+>>>> =C2=A0=C2=A0 1 file changed, 6 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/.travis.yml b/.travis.yml
+>>>> index 6c1038a0f1..c3edd0a907 100644
+>>>> --- a/.travis.yml
+>>>> +++ b/.travis.yml
+>>>> @@ -2,6 +2,7 @@
+>>>> =C2=A0=C2=A0 # Additional builds with specific requirements for a full=
+ VM=20
+>>>> need to
+>>>> =C2=A0=C2=A0 # be added as additional matrix: entries later on
+>>>> =C2=A0=C2=A0 dist: xenial
+>>>> +sudo: true
+>>>> =C2=A0=C2=A0 language: c
+>>>> =C2=A0=C2=A0 compiler:
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 - gcc
+>>>> @@ -83,6 +84,9 @@ git:
+>>>> =C2=A0=C2=A0 =C2=A0 before_script:
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 - if command -v ccache ; then ccache --zero-s=
+tats ; fi
+>>>> +=C2=A0 - if [[ -e /dev/kvm ]] && ! [[ -r /dev/kvm && -w /dev/kvm ]]; =
+then
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sudo chmod o+rw /dev/kvm ;
+>>>> +=C2=A0=C2=A0=C2=A0 fi
 
 
-r~
+Philippe, anwsering here your question about 'sudo'.
+
+The above statement runs on before_script for all the builders. As far=20
+as I know only on Bionic-based builders 'chmod' (that needs sudo) will=20
+be executed, so technically 'sudo' should=C2=A0 be enabled only on those=20
+builders. But I thought that would be error-prone not enable it globally=20
+since the code requiring it is globally declared too. All in all, I=20
+don't have a strong option for this.
+
+
+>>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFI=
+G} || { cat
+>>>> config.log && exit 1; }
+>>>> =C2=A0=C2=A0 script:
+>>>> @@ -272,12 +276,13 @@ matrix:
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - TEST_CM=
+D=3D"make check-acceptance"
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 after_script:
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - python3=
+ -c 'import json; r =3D
+>>>> json.load(open("tests/results/latest/results.json"));
+>>>> [print(t["logfile"]) for t in r["tests"] if t["status"] not in
+>>>> ("PASS", "SKIP")]' | xargs cat
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dist: bionic
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 addons:
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 apt:
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 packages:
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 - python3-pil
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 - python3-pip
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - =
+python3.5-venv
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - =
+python3.6-venv
+>>>
+>>> This line doesn't seem related to the patch.
+>>
+>> "dist:" has been switched from xenial to bionic, so I think it is
+>> required to update to python3.6 here, too?
+
+
+Thomas is right, python3.5-venv isn't available on Ubuntu Bionic.
+
+
+>>
+>
+> OK, I got confused because line 4 is still "dist: xenial".
+
+
+I'm about to send a proposal to bump dist to bionic. There are some=20
+non-acceptance tests being skipped because of the lack of nested kvm on=20
+Travis's xenial VMs, so that would be beneficial to them as well.
+
+Thomas mentioned in another email thread that there is a build problem=20
+with the libssh version of Bionic (I hope that can be worked out). Other=20
+than that, do you see any impediment to switch all builders completely?
+
+
+>
+>
+> Wainer can you add a comment about this in the commit description?
+
+
+Sure, actually I should have done it. Thanks for raising that point too.
+
+- Wainer
+
+>
+>
+> I'm still not convinced we should enable "sudo: true" on all our jobs.
+>
+
 
