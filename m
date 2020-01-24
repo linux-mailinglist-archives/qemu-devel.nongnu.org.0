@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B38E5147C59
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 10:51:28 +0100 (CET)
-Received: from localhost ([::1]:39462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09493147C8A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 10:53:07 +0100 (CET)
+Received: from localhost ([::1]:39476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuvcd-0004b1-Ne
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 04:51:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36020)
+	id 1iuveE-0006YJ-2U
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 04:53:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36095)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iuvbY-0003py-8V
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 04:50:21 -0500
+ (envelope-from <berrange@redhat.com>) id 1iuvc1-0004UG-3b
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 04:50:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iuvbW-0003J4-Mo
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 04:50:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60612
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1iuvbz-00043X-DO
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 04:50:49 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26870
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iuvbW-0003I5-Ii
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 04:50:18 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iuvbz-000436-96
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 04:50:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579859417;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1579859447;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K4MbEmUcjT26ki78wRel742Jm5k5425+QlV0Ts2IY8o=;
- b=A5FwnkZ732vc7/7dDhKkwEzFNrH7Jg2ISWYVNqWx6qgrOMAtFY1votZtYZoRyIfMetBtXB
- lvo2FBYVlTNiBqKpNrQIRIrCsggL+JTh6b+HEJlFi1WBaeCcZ/DIg9/dWtdgCWFQQ+Pmiv
- 2/sWKoOz54T+ciHIm0pGcSwlsEjTkwo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-pDRW068zO26idzDfqZuswQ-1; Fri, 24 Jan 2020 04:50:13 -0500
-Received: by mail-wr1-f69.google.com with SMTP id z15so917922wrw.0
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 01:50:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mgid5mXPvk6KVOb6p24Xkfu9zXyL4soPCRdPvTqWdkM=;
- b=DKgh7KM2FoAJ6dq+vBfucBtCes3Bo4dVkQEajTrZQABWgFB997Wu9SyWcAAJRuG5BG
- pXfXZciLAXbLPqyw8g7nTlVsZ5ycyQFJ7PTCVAj5V7KT1bgladMwqit7pC5scKbkUFli
- STZl23a8jjYuw8mW3XMMvt9PPcbQB3Zki5BfxPlxu0Gj5OIZdqthNTa9koG9VqtCi5HR
- O1qJH4KSUgD6IcP/7FrG6HrJOovuDBNPMqJVYwxeyUaI/OvUOrwQEHiaCvKM7/F3bCXI
- N5xFnsbNR8t3WQPoOfmW0WF06UQzy+3oedei8+gIq5+sPrh35Wk3x3VS5gCp73VLTSD3
- DQxg==
-X-Gm-Message-State: APjAAAWxk7t+iz2GWk49U414BaUWpfb/wUDNqpotu/13W5okpS4exBfY
- t5/0ZRdxhvjogl/1sIcR2s30pe9NRknbrsT+F75zPli34Gz3lhfI+o3Vhcc/VWNCzCuz6HksevN
- ISgrSyWe0L+m5vyk=
-X-Received: by 2002:adf:82e7:: with SMTP id 94mr3608288wrc.60.1579859412127;
- Fri, 24 Jan 2020 01:50:12 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwjGnolcGId0nm0hBc6Mg9dhq0NcNe8eCN2JUqG/V7Evhv/ahd0BkXLN9r8De4pauhS4pN5Hg==
-X-Received: by 2002:adf:82e7:: with SMTP id 94mr3608266wrc.60.1579859411871;
- Fri, 24 Jan 2020 01:50:11 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id 60sm7026786wrn.86.2020.01.24.01.50.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jan 2020 01:50:11 -0800 (PST)
-Subject: Re: [PATCH v3 01/21] migration-test: Use g_free() instead of free()
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-References: <20200123115831.36842-1-quintela@redhat.com>
- <20200123115831.36842-2-quintela@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ae7e0c5c-1d6d-60a9-91bf-3e3866af6509@redhat.com>
-Date: Fri, 24 Jan 2020 10:50:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ bh=psCmyVvj912t2AYjaRoKtJzzrooJP0iYLVnRHIsFElo=;
+ b=b4MAh8JrN/qrM1M6AYtx4p8KSkNQpkI0wutZZfp5aGJgS/QxQu7z/6qdwUqqpDCnuvh/q3
+ SE4cPegiTRGAs/VI7JNagkGPhrywrbLEq4OBYDDsnfi6gnVVLhayYgMstOuDRBVD0I/vVC
+ Qy/hprg9XiW7y8OMEeLSaXNO9+TBKVo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-339-S2rSNH1_OFGOiTo6rq9nSw-1; Fri, 24 Jan 2020 04:50:43 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3BB3106BAAE;
+ Fri, 24 Jan 2020 09:50:41 +0000 (UTC)
+Received: from redhat.com (ovpn-112-52.ams2.redhat.com [10.36.112.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B940B5C1BB;
+ Fri, 24 Jan 2020 09:50:30 +0000 (UTC)
+Date: Fri, 24 Jan 2020 09:50:27 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: Making QEMU easier for management tools and applications
+Message-ID: <20200124095027.GA824327@redhat.com>
+References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
+ <87h81unja8.fsf@dusky.pond.sub.org>
+ <20191224134139.GD2710539@redhat.com>
+ <30664f6e-81da-a6e6-9b20-037fc91290fb@redhat.com>
+ <878slyej29.fsf@dusky.pond.sub.org>
+ <a41ae09b-021f-2fda-0b03-7b37c5624ab3@redhat.com>
+ <20200123190145.GI657556@redhat.com>
+ <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200123115831.36842-2-quintela@redhat.com>
-Content-Language: en-US
-X-MC-Unique: pDRW068zO26idzDfqZuswQ-1
+In-Reply-To: <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: S2rSNH1_OFGOiTo6rq9nSw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,45 +80,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Dominik Csapak <d.csapak@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/23/20 12:58 PM, Juan Quintela wrote:
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-
-Nothing changed since v4 (apart it is now v3),
-however it misses:
-
-Fixes: b99784ef6c3
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-See:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg672805.html
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg672853.html
-
-> ---
->   tests/qtest/migration-test.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Jan 23, 2020 at 04:07:09PM -0500, John Snow wrote:
 >=20
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 26e2e77289..b6a74a05ce 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -1291,7 +1291,7 @@ static void test_multifd_tcp(void)
->       wait_for_serial("dest_serial");
->       wait_for_migration_complete(from);
->       test_migrate_end(from, to, true);
-> -    free(uri);
-> +    g_free(uri);
->   }
->  =20
->   int main(int argc, char **argv)
 >=20
+> On 1/23/20 2:01 PM, Daniel P. Berrang=C3=A9 wrote:
+> > IOW, the difficulty with configuring QEMU via JSON is not the fault
+> > of JSON itself, it is the lack of knowledge amongst users and docs,
+> > compounded by our never ending "improvements" to the human syntax.
+> > There are other factors too, such as our only partial coverage of
+> > config using JSON - some is only possible via the CLI still.
+> >=20
+>=20
+> I'm fine with getting rid of HMP entirely, I think. It's a weird
+> interface with bizarre behavior that's hard to support.
+>=20
+> There's a few commands in there we just don't support at all, but maybe
+> it's time to start deprecating one-by-one any of the individual commands
+> that are better served by QMP these days, to send the message that HMP's
+> days are numbered.
+>=20
+> Bye-bye!
+>=20
+> As for the CLI, well, that's part of the discussion at hand...
+>=20
+> >=20
+> > I guess my point is that with a scrap & startover view point, we
+> > should arguably completely ignore the design question of how to
+> > flatten JSON for humans/command line, as it is the wrong problem.
+> > Instead focus on the problem of making use of JSON the best way
+> > to deal with QEMU both functionally and practically, for humans
+> > and machines alike.
+> >=20
+>=20
+> Well, sure. The context of this email was qmp-shell though, which is
+> meant to help facilitate the entry of JSON commands so that you *can*
+> indeed just forego the CLI/HMP entirely.
+>=20
+> If you are of the opinion that every user of QEMU should be copy/pasting
+> JSON straight into a socket and we should delete qmp-shell, that's
+> certainly a fine opinion.
+
+I think part of the pain of qmp-shell comes from the very fact that
+it is trying to be an interactive shell. This points people towards
+interactively typing in the commands, which is horrific when you get
+anywhere near the JSON, or even dot-notation traditional commands.
+
+If it was just a qmp-client that was single shot, we'd encourage
+people to create the JSON in a sensible way - vim/emacs/whatever.
+
+Bash/dash/zsh/$whatever is their interactive shell, with massively
+more features than qmp-shell. You have command history, autocomplete,
+conditional and looping constructs, and everything a normal shell
+offers.
+
+The only strong reason for qmp-shell to be interactive would be if
+the initial protoocl handshake was too slow. I can't see that being
+a problem with QMP.=20
+
+> I'm coming from the side that I love qmp-shell; I find it useful, but it
+> has some syntax problems. How do I solve them? Is there a way to solve
+> them? QAPI is here to stay, and QAPI involves hierarchical data. That
+> data is usually best represented by something like json or yaml, but
+> those are hard to type in a shell.
+>=20
+> What do we do about that?
+
+Here's one conceptual vision of how a better QEMU might look:
+
+  * qemu-runtime-$TARGET
+
+    A binary that contains the implementation for the machine
+    emulator for $TARGET.
+
+    This has no command line arguments except for a UNIX
+    socket path which is a QMP server
+
+
+  * qemu-launcher-$TARGET
+
+    A binary that is able to launch qemu-runtime-$TARGET
+    with jailers active.
+
+    This has no command line arguments except for a pair
+    of UNIX socket paths. One is a QMP server, the other
+    is the path for the QMP of qemu-runtime-$TARGET.
+
+    Commands it processes will be in automatically proxied
+    through to the qemu-runtime-$TARGET QMP, with appropriate
+    jailer updates being done in between.
+
+
+  * qemu-client
+
+    A binary that speaks QMP, connects, runs a single command,
+    disconnects.
+
+    It is used to talk to either qemu-runtime-$TARGET or
+    qemu-launcher-$TARGET, depending on whether the mgmt app
+    or user wants to be making use of the jailer facilities
+    or not. =20
+
+
+  * qemu-system-$TARGET
+
+    The current binaries that exist today.
+
+    qemu-system-$TARGET should not be part of our formal
+    stability promise. We won't gratuitously / knowingly
+    break without good reason, but we will accept that
+    breakage can happen. Stability is only offered by
+    the qemu-{runtime,launcher}-$TARGET.
+
+    Several choices for their future in long term:
+
+      - Leave them as-is and basically ignore them
+        whereever practical going forward, so we
+=09minimally worry about backcompat breakage
+
+      - Plan to re-write them so that they are simply
+        a shim the forks+execs qemu-runtime-$TARGET
+=09and does syntax translation from CLI/HMP/QMP.
+
+      - Deprecate them with a view to deletion entirely
+        in $NNN years. For some large-ish value of NNN,
+=09given how well known they are
+
+
+Example usage:
+
+1. Launch the QEMU runtime for the desired target
+
+     $ qemu-runtime-x86_64 myvm.sock
+
+2. Load the configuration to define the VM
+
+   $ cat myvm.yaml
+   commands:
+     - machine_declare:
+         name: pc-q35-5.0
+=09 ...
+     - blockdev_add:
+         ...
+     - device_add:
+         ...
+     - blockdev_add:
+         ...
+     - device_add:
+         ...
+   $ qemu-client myvm.sock myvm.yaml
+
+
+3. Hotplug a disk
+
+   $ cat mynewdisk.yaml
+   commands:
+     - blockdev_add:
+         ...
+     - device_add:
+         ...
+   $ qemu-client myvm.sock mynewdisk.yaml
+
+
+3. Hotunplug a disk
+
+   $ cat myolddisk.yaml
+   commands:
+     - device_del:
+         ...
+     - blockdev_del:
+         ...
+   $ qemu-client myvm.sock myolddisk.yaml
+
+Using jailers, just means adding in a use of qemu-launcher-$TARGET
+at the start.
+
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
