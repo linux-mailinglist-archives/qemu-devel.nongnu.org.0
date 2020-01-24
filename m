@@ -2,39 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C401C148D81
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 19:09:34 +0100 (CET)
-Received: from localhost ([::1]:46062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67C4148D95
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 19:11:16 +0100 (CET)
+Received: from localhost ([::1]:46098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv3Of-0002Vg-DS
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 13:09:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35263)
+	id 1iv3QJ-0005br-Th
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 13:11:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35283)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv3NB-0000u5-3Z
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv3NB-0000uA-Nb
  for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:08:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv3N9-0004ut-Lx
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:08:00 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:46475 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv3N9-0004un-Lq
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:08:01 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:46479 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iv3N9-0004rJ-DK
+ id 1iv3N9-0004rK-EH
  for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:07:59 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 8EF861A211B;
+ by mail.rt-rk.com (Postfix) with ESMTP id 950F01A20F6;
  Fri, 24 Jan 2020 19:07:55 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 770501A1E2C;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 7D6FE1A20EF;
  Fri, 24 Jan 2020 19:07:55 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 0/7] MIPS queue for Jan 24th, 2020
-Date: Fri, 24 Jan 2020 19:07:42 +0100
-Message-Id: <1579889269-8122-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PULL v2 1/7] target/mips: Rectify documentation on deprecating r4k
+ machine
+Date: Fri, 24 Jan 2020 19:07:43 +0100
+Message-Id: <1579889269-8122-2-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1579889269-8122-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1579889269-8122-1-git-send-email-aleksandar.markovic@rt-rk.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,58 +60,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-The following changes since commit ba2ed84fe6a78f64b2da441750fc6e925d94106a:
+Change the documented (in file qemu-deprecated.texi) release since
+r4k machine is deprecated from 4.2 to 5.0.
 
-  Merge remote-tracking branch 'remotes/palmer/tags/riscv-for-master-5.0-sf1' into staging (2020-01-24 12:34:04 +0000)
+Fixes: d32dc61421b
 
-are available in the git repository at:
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Message-Id: <1579883929-1517-2-git-send-email-aleksandar.markovic@rt-rk.c=
+om>
+---
+ qemu-deprecated.texi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://github.com/AMarkovic/qemu tags/mips-queue-jan-24-2020
-
-for you to fetch changes up to 6e128a2e792b316281f6f1409fe9ffaf522a5a38:
-
-  mips/mips_r4k: use memdev for RAM (2020-01-24 19:01:19 +0100)
-
-----------------------------------------------------------------
-
-MIPS queue for Jan 24th, 2020
-
-  History:
-
-    - v2: Inserted one missing "Signed-off-by:"
-
-  Content:
-
-    - correct a detail on r4k deprecation
-    - style cleanup in helper_do_semihosting()
-    - improving passing data to disassembler
-    - refactoring of memdev usage for RAM for four MIPS machines
-
-----------------------------------------------------------------
-
-Aleksandar Markovic (2):
-  target/mips: Rectify documentation on deprecating r4k machine
-  disas: Add a field for target-dependant data
-
-Daniel Henrique Barboza (1):
-  mips-semi.c: remove 'uhi_done' label in helper_do_semihosting()
-
-Igor Mammedov (4):
-  mips/mips_jazz: use memdev for RAM
-  mips/mips_malta: use memdev for RAM
-  mips/mips_mipssim: use memdev for RAM
-  mips/mips_r4k: use memdev for RAM
-
- hw/mips/mips_jazz.c     |  7 +++----
- hw/mips/mips_malta.c    | 10 ++++------
- hw/mips/mips_mipssim.c  |  9 +++------
- hw/mips/mips_r4k.c      | 12 ++++--------
- include/disas/dis-asm.h |  3 +++
- qemu-deprecated.texi    |  2 +-
- target/mips/mips-semi.c | 15 +++++++--------
- 7 files changed, 25 insertions(+), 33 deletions(-)
-
--- 
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index 0968d37..3d2a8ff 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -260,7 +260,7 @@ The 'scsi-disk' device is deprecated. Users should us=
+e 'scsi-hd' or
+=20
+ @section System emulator machines
+=20
+-@subsection mips r4k platform (since 4.2)
++@subsection mips r4k platform (since 5.0)
+=20
+ This machine type is very old and unmaintained. Users should use the 'ma=
+lta'
+ machine type instead.
+--=20
 2.7.4
 
 
