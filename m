@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E33421475DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 02:01:45 +0100 (CET)
-Received: from localhost ([::1]:36168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758831475D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 02:00:48 +0100 (CET)
+Received: from localhost ([::1]:36142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iunLz-0004ci-L5
-	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 20:01:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44468)
+	id 1iunL5-0002zF-F1
+	for lists+qemu-devel@lfdr.de; Thu, 23 Jan 2020 20:00:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iunCo-0002Nt-7t
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 19:52:15 -0500
+ id 1iunCw-0002YN-4O
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 19:52:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iunCn-0005RI-4I
- for qemu-devel@nongnu.org; Thu, 23 Jan 2020 19:52:14 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46972)
+ id 1iunCr-0005Xv-Qb
+ for qemu-devel@nongnu.org; Thu, 23 Jan 2020 19:52:22 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33400)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iunCm-0005PL-U4; Thu, 23 Jan 2020 19:52:13 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id z7so43247wrl.13;
- Thu, 23 Jan 2020 16:52:12 -0800 (PST)
+ id 1iunCr-0005Wh-JW; Thu, 23 Jan 2020 19:52:17 -0500
+Received: by mail-wr1-x443.google.com with SMTP id b6so93009wrq.0;
+ Thu, 23 Jan 2020 16:52:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=snGPMGGzDkx/q5i5nbwiSLKBDBMSQiGmJwzb4+cKa74=;
- b=lvuGH/EIK0s4j4G97CjjfF/PJOh29VX7HpEjT3a2UEoSlrykF9i/SN5A1rCe/q9X1q
- 3NHlMaAHOuamk6M8MsbSsX3tgPEkpQvzuokD8Xw0FSUNL2lfEh9x/PzLVKsIu5TFnuCF
- vNj0Tt9XF0a2ELtxNDWsK5+1PeSchAQMhXY0jp8D8CApwRqyhK4CnBvmacQwEZmYQzEJ
- yRWXBGvbUoJD3cvqgYK5Y4mb/NgDcCWpeM5OVugr8NlTas2PXNKVwHug0hNKa2s59VVD
- Jv2/L5qEQ9HoLD7TqFpqkDiF6X+23UgO0pe32Mes5SrqDfyIgEaJGteS0uoEOoJ0JBw9
- ADbw==
+ bh=dGXYfTp1tAJSxkUbjHMAEY4QwD94q//Di6i1M2vBqg8=;
+ b=rJXHPXxVsSFpjxXqwp+Qnd5zHRqmU2NWiYFTlyIhLD7zKrfxRIJhpj4aZW22Nx2XEI
+ Z1TYLhpPwO8zrlDVbexQRPAaVJa+ua74BTDpFHcMWRI27MDG5OMOlnJUTcGdLFd86SgG
+ DwkMVefqfPZBCCyfIuRyi2G9OcHvmaHBjBMog0VsXcTbrVaAOVRNhxsSbsXJAJVlaWSx
+ OH9Mxjqbobm7mKzEJQJmP4kSnov/yBjCnZfUkQ5Au0fqSD8oQUXoeKqSECGiJDhOHzmy
+ 9bQMRaZfeDV2YQwKFfZ60WbauHPx2uDjiDCcSaGbLR+wOxktxXbFZCr3/MTQtn7HuG9R
+ f+BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=snGPMGGzDkx/q5i5nbwiSLKBDBMSQiGmJwzb4+cKa74=;
- b=XnioTcWxmD7tt2w0OOIjp2sRuy0D1qn9CYgUD5JXXl87PzD6Gk0g5l8sQDJttMO05a
- Kf5o1ZP98cy2rAKmoznCX/yHoR3vTcSM0IEzB0j4oPX/cDVBFyhOzz7NXKKU7uVRtbNw
- PvmreNVzrpkenbLmBYvaHEvZUqDl7y94w5fWBRdTglrN5opO1ZfO9FNX6i27i1WG8mhj
- 0GvTst8UFJAx78FBwyCrLMI3MtC2Ye/fEDMK/vukhjpi3l8NqPFSujzc7tmUGZuA1Dfh
- xCHxnBNDtyBWD3L7x26L1BchuBoEHTlJQibSBwieLatt0p2m+qCCWuatGWZFMwfw6MiA
- +TWg==
-X-Gm-Message-State: APjAAAXvLukIWpy8SuuatrYgxwovtrB6XK4NxNfe5rVO3oXPRCHgqmq2
- KhvXqbLrJ4/AdAL+6xSUbuJkfEjW
-X-Google-Smtp-Source: APXvYqxNkCwWPhWQjsnZ1XbG513q0walLkyxOXnIfjtWkE9PnIZZoGwDD4nUJNoQ1Qz0P2qsgkDYEA==
-X-Received: by 2002:adf:e290:: with SMTP id v16mr922311wri.16.1579827131714;
- Thu, 23 Jan 2020 16:52:11 -0800 (PST)
+ bh=dGXYfTp1tAJSxkUbjHMAEY4QwD94q//Di6i1M2vBqg8=;
+ b=E0aWRC1jbfTpCDJn26K94RKX9EdZQ60Os9hkKFINzmSUqkStu+WCvy3QrD7lnFNrog
+ okD2qvbRUwUhyaoIH8xVqXTPtGpqXcHmyseMPFLg0iQJGzjBftiREpwzyIYf9cOe3mm4
+ PTNDJLS/OiY2h6g5DclJFKJzebO2dnyMCD6NV5E85xhhW1W1rT/ccdi0yRs0adwUZdaE
+ rT684X6VrPLMB1umEyrXjbdetGxWipk9CA0hCTBw54QMsCKEouiFzUfEqSGyJSfnZW7Q
+ NIhzHMEk/EnQgcl7bvPzb8r5yxYrd9zYHb70aaI8l2O17CQYkq2OobqdE8O+GINnNGlG
+ f0qw==
+X-Gm-Message-State: APjAAAX5p2KvIeyGGKO2Ey00KKUC3PWlbAR6EsUhcfr73S/ncJWYKzsF
+ lndqqs/x/50fSfY/idUDVyVxCe8X
+X-Google-Smtp-Source: APXvYqzJyMp4pn8qYZJFl0vNPC1Is6VnlD3AF/RY6fL1eC8lo+QlqVu1hOyynAuSp6/QOpWHZ8OGRw==
+X-Received: by 2002:a5d:6344:: with SMTP id b4mr832418wrw.414.1579827136244;
+ Thu, 23 Jan 2020 16:52:16 -0800 (PST)
 Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id s139sm4598271wme.35.2020.01.23.16.52.09
+ by smtp.gmail.com with ESMTPSA id s139sm4598271wme.35.2020.01.23.16.52.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2020 16:52:11 -0800 (PST)
+ Thu, 23 Jan 2020 16:52:15 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org, mrolnik@gmail.com, richard.henderson@linaro.org,
  me@xcancerberox.com.ar
-Subject: [PATCH rc2 16/25] target/avr: Add machine none test
-Date: Fri, 24 Jan 2020 01:51:22 +0100
-Message-Id: <20200124005131.16276-17-f4bug@amsat.org>
+Subject: [PATCH rc2 18/25] hw/core/loader: Let load_elf populate the
+ processor-specific flags
+Date: Fri, 24 Jan 2020 01:51:24 +0100
+Message-Id: <20200124005131.16276-19-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200124005131.16276-1-f4bug@amsat.org>
 References: <20200124005131.16276-1-f4bug@amsat.org>
@@ -70,7 +71,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,46 +83,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Fam Zheng <fam@euphon.net>,
- S.E.Harris@kent.ac.uk, qemu-riscv@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, dovgaluk@ispras.ru,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, thuth@redhat.com,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: Fam Zheng <fam@euphon.net>, S.E.Harris@kent.ac.uk,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Markus Armbruster <armbru@redhat.com>, dovgaluk@ispras.ru,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, imammedo@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, aleksandar.m.mail@gmail.com
+ aleksandar.m.mail@gmail.com, Laurent Vivier <lvivier@redhat.com>,
+ thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Rolnik <mrolnik@gmail.com>
+One some architectures (like AVR) we can determine
+the cpu type by reading the ELF flags.
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <20200118191416.19934-18-mrolnik@gmail.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <<20191218210329.1960-16-mrolnik@gmail.com>
+[PMD: Extracted from bigger patch,
+      Replaced 'uint32_t *pe_flags' by 'int proc_flags']
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/qtest/machine-none-test.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/hw/elf_ops.h |  6 +++++-
+ include/hw/loader.h  |  6 ++++--
+ hw/core/loader.c     | 15 ++++++++-------
+ hw/riscv/boot.c      |  2 +-
+ 4 files changed, 18 insertions(+), 11 deletions(-)
 
-diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-test.c
-index 5953d31755..3e5c74e73e 100644
---- a/tests/qtest/machine-none-test.c
-+++ b/tests/qtest/machine-none-test.c
-@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] = {
-     /* tested targets list */
-     { "arm", "cortex-a15" },
-     { "aarch64", "cortex-a57" },
-+    { "avr", "avr6-avr-cpu" },
-     { "x86_64", "qemu64,apic-id=0" },
-     { "i386", "qemu32,apic-id=0" },
-     { "alpha", "ev67" },
+diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+index e07d276df7..5d0f9587d3 100644
+--- a/include/hw/elf_ops.h
++++ b/include/hw/elf_ops.h
+@@ -316,7 +316,8 @@ static int glue(load_elf, SZ)(const char *name, int fd,
+                               void *translate_opaque,
+                               int must_swab, uint64_t *pentry,
+                               uint64_t *lowaddr, uint64_t *highaddr,
+-                              int elf_machine, int clear_lsb, int data_swab,
++                              int *proc_flags, int elf_machine,
++                              int clear_lsb, int data_swab,
+                               AddressSpace *as, bool load_rom,
+                               symbol_fn_t sym_cb)
+ {
+@@ -389,6 +390,9 @@ static int glue(load_elf, SZ)(const char *name, int fd,
+             }
+     }
+ 
++    if (proc_flags) {
++        *proc_flags = (elf_sword)ehdr.e_flags;
++    }
+     if (pentry)
+         *pentry = (uint64_t)(elf_sword)ehdr.e_entry;
+ 
+diff --git a/include/hw/loader.h b/include/hw/loader.h
+index 48a96cd559..cc5ede7b90 100644
+--- a/include/hw/loader.h
++++ b/include/hw/loader.h
+@@ -101,6 +101,7 @@ const char *load_elf_strerror(int error);
+  * @pentry: Populated with program entry point. Ignored if NULL.
+  * @lowaddr: Populated with lowest loaded address. Ignored if NULL.
+  * @highaddr: Populated with highest loaded address. Ignored if NULL.
++ * @proc_flags: Populated with ELF processor-specific flags. Ignore if NULL.
+  * @bigendian: Expected ELF endianness. 0 for LE otherwise BE
+  * @elf_machine: Expected ELF machine type
+  * @clear_lsb: Set to mask off LSB of addresses (Some architectures use
+@@ -131,8 +132,9 @@ int load_elf_ram_sym(const char *filename,
+                      uint64_t (*elf_note_fn)(void *, void *, bool),
+                      uint64_t (*translate_fn)(void *, uint64_t),
+                      void *translate_opaque, uint64_t *pentry,
+-                     uint64_t *lowaddr, uint64_t *highaddr, int big_endian,
+-                     int elf_machine, int clear_lsb, int data_swab,
++                     uint64_t *lowaddr, uint64_t *highaddr, int *proc_flags,
++                     int big_endian, int elf_machine,
++                     int clear_lsb, int data_swab,
+                      AddressSpace *as, bool load_rom, symbol_fn_t sym_cb);
+ 
+ /** load_elf_ram:
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index 5099f27dc8..3bee2f8ae0 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -438,7 +438,7 @@ int load_elf_ram(const char *filename,
+ {
+     return load_elf_ram_sym(filename, elf_note_fn,
+                             translate_fn, translate_opaque,
+-                            pentry, lowaddr, highaddr, big_endian,
++                            pentry, lowaddr, highaddr, NULL, big_endian,
+                             elf_machine, clear_lsb, data_swab, as,
+                             load_rom, NULL);
+ }
+@@ -448,8 +448,9 @@ int load_elf_ram_sym(const char *filename,
+                      uint64_t (*elf_note_fn)(void *, void *, bool),
+                      uint64_t (*translate_fn)(void *, uint64_t),
+                      void *translate_opaque, uint64_t *pentry,
+-                     uint64_t *lowaddr, uint64_t *highaddr, int big_endian,
+-                     int elf_machine, int clear_lsb, int data_swab,
++                     uint64_t *lowaddr, uint64_t *highaddr, int *proc_flags,
++                     int big_endian, int elf_machine,
++                     int clear_lsb, int data_swab,
+                      AddressSpace *as, bool load_rom, symbol_fn_t sym_cb)
+ {
+     int fd, data_order, target_data_order, must_swab, ret = ELF_LOAD_FAILED;
+@@ -490,13 +491,13 @@ int load_elf_ram_sym(const char *filename,
+     if (e_ident[EI_CLASS] == ELFCLASS64) {
+         ret = load_elf64(filename, fd, elf_note_fn,
+                          translate_fn, translate_opaque, must_swab,
+-                         pentry, lowaddr, highaddr, elf_machine, clear_lsb,
+-                         data_swab, as, load_rom, sym_cb);
++                         pentry, lowaddr, highaddr, proc_flags, elf_machine,
++                         clear_lsb, data_swab, as, load_rom, sym_cb);
+     } else {
+         ret = load_elf32(filename, fd, elf_note_fn,
+                          translate_fn, translate_opaque, must_swab,
+-                         pentry, lowaddr, highaddr, elf_machine, clear_lsb,
+-                         data_swab, as, load_rom, sym_cb);
++                         pentry, lowaddr, highaddr, proc_flags, elf_machine,
++                         clear_lsb, data_swab, as, load_rom, sym_cb);
+     }
+ 
+  fail:
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index 027303d2a3..746ca1f795 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -119,7 +119,7 @@ target_ulong riscv_load_kernel(const char *kernel_filename, symbol_fn_t sym_cb)
+     uint64_t kernel_entry, kernel_high;
+ 
+     if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+-                         &kernel_entry, NULL, &kernel_high, 0,
++                         &kernel_entry, NULL, &kernel_high, NULL, 0,
+                          EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+         return kernel_entry;
+     }
 -- 
 2.21.1
 
