@@ -2,62 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C9E147F07
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:53:59 +0100 (CET)
-Received: from localhost ([::1]:40552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BFC6147EEA
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:43:10 +0100 (CET)
+Received: from localhost ([::1]:40396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuwb8-00007W-Ju
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:53:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54444)
+	id 1iuwQf-0001Wu-Ad
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:43:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48938)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iuwYi-0005Lj-BB
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:52:11 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iuwPv-0000xm-NR
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:42:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iuwXy-00082x-9D
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:51:28 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33398)
+ (envelope-from <alex.bennee@linaro.org>) id 1iuwPu-0002fi-Cr
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:42:23 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34550)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iuwXy-0007yF-1d
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:50:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iuwXw-0004bL-C0
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 10:50:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4E7EE2E80C9
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 10:50:40 +0000 (UTC)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iuwPu-0002e0-4k
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:42:22 -0500
+Received: by mail-wr1-x444.google.com with SMTP id t2so1398246wrr.1
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 02:42:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=56X4lhl7aUsrpjShD+4augsF21pKrzc55x7wSaRwTgQ=;
+ b=NUP+aFt/Wp2O9lVrcoF3I3kWqJitIZlkZpebR+wHFsHCLre7xhIAlbkFh2GeenmL+/
+ GRiThvSbYjYHnhI5lolFYa+WzX83NEHxqRPx6AuYavPzrvdyTOtpKYQ1iQlDeUq4SuKQ
+ 63YQinYBVHbFCLyT1iiQx8d9BvXXa4FqkGpa90/kpFtt8OC465xr2jWR5vwI8xXLlCeg
+ 0/TiF/BxdwQckmKN2yYUNSNVI8OXiqffkVyF6mxs/JT1NDqUS1vf/B/XkJF0FdjFOO4g
+ NFSehBuQTeUKFJeKeD/EUbw8khXQfnPGRztK8QWkLvtxUmXAlbYSYUlV+tMhHxqzFKDa
+ IXhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=56X4lhl7aUsrpjShD+4augsF21pKrzc55x7wSaRwTgQ=;
+ b=We4dTc7zFmJYVrskwl9O2YJHmNdiKEJ8lQy4/VtKlOV9NjYxNthfhn2iknhwkLiC11
+ DsaTZ1IFagck3NfpJVs1gKb4huPZRghvnOypygKpT2FQqSzog3IPcmPNmiImwSyUDeR4
+ CYDPVUEzOH5R0OrzqdfHRZBDykNgvtlCfVlv5D2OXrU1mLKzQwB/STRrQyTFcTPRL447
+ mK5kot5IcJONYHBG0zjSyFjV2fkg9Mkf5+MnDz2qY3DpaJl36X2gCbszO67UHY06D1RK
+ wvb86ViVNfOPMAXhCPyHrWP+j6HCiktiqtudtLvr1GIYjTBm4n7jTuzWPZq0G0asDqTH
+ QkOg==
+X-Gm-Message-State: APjAAAX9ynF4Z+T5ph7sUwvJHwrbv6rzZLeWnfyLH5eALkj8wqmFYd2Q
+ omQ/Ig+oxsPV1s6S3F9ts/rP/A==
+X-Google-Smtp-Source: APXvYqw2ELldAEOVUsONVf6STrTmfIEZ4vnSByUyHFX7DixVZ6YtEb4zeLjZ+IjXNAxJ7zoH/8sGfQ==
+X-Received: by 2002:adf:fa43:: with SMTP id y3mr3544652wrr.65.1579862540848;
+ Fri, 24 Jan 2020 02:42:20 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f1sm7021817wro.85.2020.01.24.02.42.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jan 2020 02:42:19 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 18C7A1FF87;
+ Fri, 24 Jan 2020 10:42:19 +0000 (GMT)
+References: <20200124005131.16276-1-f4bug@amsat.org>
+ <20200124005131.16276-13-f4bug@amsat.org>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH rc2 12/25] hw/timer: Add limited support for Atmel 16
+ bit timer peripheral
+In-reply-to: <20200124005131.16276-13-f4bug@amsat.org>
+Date: Fri, 24 Jan 2020 10:42:19 +0000
+Message-ID: <875zh1yw38.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 24 Jan 2020 10:41:37 -0000
-From: Ildar <1860759@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ildar-users xanclic
-X-Launchpad-Bug-Reporter: Ildar (ildar-users)
-X-Launchpad-Bug-Modifier: Ildar (ildar-users)
-References: <157985376657.5102.13233182944615356318.malonedeb@wampee.canonical.com>
- <157986030424.5154.393920880621051062.malone@chaenomeles.canonical.com>
-Message-Id: <CACAYGhuurXCHk7b9we2P7Vbx_dajAN5_i4FyL7Ck3q4-m7fbQA@mail.gmail.com>
-Subject: Re: [Bug 1860759] Re: [REGRESSION] option `-snapshot` ignored with
- blockdev
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0729af11953132df803be25b42beaba6f53e576a
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,77 +83,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1860759 <1860759@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, S.E.Harris@kent.ac.uk,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, me@xcancerberox.com.ar,
+ qemu-devel@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ Markus Armbruster <armbru@redhat.com>, dovgaluk@ispras.ru,
+ =?utf-8?Q?Marc-A?= =?utf-8?Q?ndr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ aleksandar.m.mail@gmail.com, Laurent Vivier <lvivier@redhat.com>,
+ thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ richard.henderson@linaro.org, mrolnik@gmail.com,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@dabbelt.com>, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Max, thanks a lot for the explanation.
-Do you mean that snapshot-ing isn't possible totally for blockdev? Then I
-guess some libvirt users are in trouble :((
-Actually I didn't quite caught the reason why a blockdev supports backing
-but not {backing to a file on /tmp then promptly deleted} ? What's the
-technical difference?
 
--- =
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1860759
+> From: Michael Rolnik <mrolnik@gmail.com>
+>
+> These were designed to facilitate testing but should provide enough
+> function to be useful in other contexts.  Only a subset of the functions
+> of each peripheral is implemented, mainly due to the lack of a standard
+> way to handle electrical connections (like GPIO pins).
+>
+> Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
+> Message-Id: <20200118191416.19934-13-mrolnik@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> [rth: Squash info mtree fixes and a file rename from f4bug, which was:]
+> Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> [PMD: Use qemu_log_mask(LOG_UNIMP), replace goto by return]
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+<snip>
+> --- /dev/null
+> +++ b/include/hw/timer/atmel_timer16.h
+> @@ -0,0 +1,94 @@
+> +/*
+> + * Atmel AVR 16 bit timer
+> + *
+> + * Copyright (c) 2018 University of Kent
+> + * Author: Ed Robbins
 
-Title:
-  [REGRESSION] option `-snapshot` ignored with blockdev
+No sign off from the author here?
+> --- /dev/null
+> +++ b/hw/timer/atmel_timer16.c
+> @@ -0,0 +1,605 @@
+<snip>
+> +
+> +/* Helper macros */
+> +#define VAL16(l, h) ((h << 8) | l)
+> +#define DB_PRINT(fmt, args...) /* Nothing */
+> +/*#define DB_PRINT(fmt, args...) printf("%s: " fmt "\n", __func__, ##
+> args)*/
 
-Status in QEMU:
-  New
+Format strings are likely to bitrot. Either use a if (GATE) or
+tracepoints.
 
-Bug description:
-  After upgrade of qemu 3.1.0 =E2=86=92 4.2.0 I found that running with lib=
-virt doesn't honor `-snapshot` option anymore. I.e. disk images get modifie=
-d.
-  Using `-hda` option honors `-snapshot`
+<snip>
 
-  So I made a test case without libvirt. Testcase using 4.2.0:
+Otherwise:
 
-  > qemu -hda tmp-16G.img -cdrom regular-rescue-latest-x86_64.iso -m 2G
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-  This works fine and tmp-16G.img stays unmodified.
-
-  But:
-  > /usr/bin/qemu-system-x86_64 -name guest=3Dtest-linux,debug-threads=3Don=
- -S -machine pc-i440fx-3.1,accel=3Dkvm,usb=3Doff,vmport=3Doff,dump-guest-co=
-re=3Doff -cpu Broadwell-noTSX,vme=3Don,ss=3Don,f16c=3Don,rdrand=3Don,hyperv=
-isor=3Don,arat=3Don,tsc-adjust=3Don,xsaveopt=3Don,pdpe1gb=3Don,abm=3Don -m =
-2048 -overcommit mem-lock=3Doff -smp 3,sockets=3D3,cores=3D1,threads=3D1 -u=
-uid d32a9191-f51d-4fae-a419-b73d85b49198 -no-user-config -nodefaults -rtc b=
-ase=3Dutc,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay -no-hpet=
- -no-shutdown -global PIIX4_PM.disable_s3=3D1 -global PIIX4_PM.disable_s4=
-=3D1 -boot strict=3Don -device ich9-usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0=
-x5.0x7 -device ich9-usb-uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,m=
-ultifunction=3Don,addr=3D0x5 -device ich9-usb-uhci2,masterbus=3Dusb.0,first=
-port=3D2,bus=3Dpci.0,addr=3D0x5.0x1 -device ich9-usb-uhci3,masterbus=3Dusb.=
-0,firstport=3D4,bus=3Dpci.0,addr=3D0x5.0x2 -blockdev \{\"driver\":\"file\",=
-\"filename\":\"/tmp/regular-rescue-latest-x86_64.iso\",\"node-name\":\"libv=
-irt-2-storage\",\"auto-read-only\":true,\"discard\":\"unmap\"} -blockdev \{=
-\"node-name\":\"libvirt-2-format\",\"read-only\":true,\"driver\":\"raw\",\"=
-file\":\"libvirt-2-storage\"} -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Dl=
-ibvirt-2-format,id=3Dide0-0-0,bootindex=3D1 -blockdev \{\"driver\":\"file\"=
-,\"filename\":\"/tmp/tmp-2G.img\",\"node-name\":\"libvirt-1-storage\",\"aut=
-o-read-only\":true,\"discard\":\"unmap\"} -blockdev \{\"node-name\":\"libvi=
-rt-1-format\",\"read-only\":false,\"driver\":\"qcow2\",\"file\":\"libvirt-1=
--storage\",\"backing\":null} -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,=
-addr=3D0x7,drive=3Dlibvirt-1-format,id=3Dvirtio-disk0 -netdev user,id=3Dhos=
-tnet0 -device e1000,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:ab:d8:29,bus=
-=3Dpci.0,addr=3D0x3 -chardev pty,id=3Dcharserial0 -device isa-serial,charde=
-v=3Dcharserial0,id=3Dserial0 -device qxl-vga,id=3Dvideo0,ram_size=3D6710886=
-4,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1,bu=
-s=3Dpci.0,addr=3D0x2 -device intel-hda,id=3Dsound0,bus=3Dpci.0,addr=3D0x4 -=
-device hda-duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -device virtio-=
-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x6 -snapshot -sandbox on,obso=
-lete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=3Ddeny -m=
-sg timestamp=3Don
-
-  This modifies tmp-16G.img.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1860759/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
