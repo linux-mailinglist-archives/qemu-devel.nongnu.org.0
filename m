@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1427147EB0
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:21:46 +0100 (CET)
-Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B034147DB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:07:25 +0100 (CET)
+Received: from localhost ([::1]:39782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuw5x-0000Qi-O7
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:21:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42656)
+	id 1iuvs4-00068U-Al
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:07:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38894)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iuw58-0008QX-1s
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:20:55 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iuvq6-0003O8-19
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:05:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iuw56-0000gn-Gc
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:20:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52232)
+ (envelope-from <peter.maydell@linaro.org>) id 1iuvq4-00016r-Oz
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:05:21 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45285)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iuw56-0000fC-BC
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:20:52 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iuw54-0007Pb-R9
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 10:20:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 94AB02E80C9
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 10:20:50 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iuvq4-00015R-Iu
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:05:20 -0500
+Received: by mail-ot1-x344.google.com with SMTP id 59so1076620otp.12
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 02:05:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5nTWtV7lYukw91KpsAmGaCUsmanaGccNVUAvd8pQvGs=;
+ b=ByNIU5GfDgKvdSQXlPtHFOhUl7EAEdZcioOWGYMfCFRMh1c07xVxzSWCZLsaVrh4Us
+ 99whgTD6GRR6bQz5nOdLY2gK86DCW9LVDEAnlb7x/DQsKMNxcNSoGMldtaaeupqSuYr3
+ fG/xQBNvLGsXIG6Ph3E0+DOU9E6Od2eqAipCAcv2cdwgl3vEQQGlRVJmOyg5iv4iGZZZ
+ AClhQ4cyIuIBQEICzIyHr5I8S6jzaOaXF1rtdsdj7RjddLftRNMJqzAkfBe8SLJR0V1Y
+ qgCivGXmU4FOG+KGmAhxL0QzMFsQan+AjQYFdSFHMbKp/s30UwGp/9Q8LISsmNrMEmel
+ ev1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5nTWtV7lYukw91KpsAmGaCUsmanaGccNVUAvd8pQvGs=;
+ b=GlabRniXH/tgH6ELXwtI3+UZYntzNC55mQuc2D55FehKzWGyoiZ6nsQD7lDzHpHENa
+ Q7+QkxX9cJPSt1Y69Dlxxog8SrHKGpw/rsbevCUEk5NEW9aYf4I5l46vEQ1am9I1MYZe
+ m/YTfhR4B7k6omNPm/XkjcpG+Xxo7AVGXjBFIKTNm2L+Xjpljz/783uIbkQOCd5l8cp/
+ zmR2G8oumqB0Cz+XgDeysmDne90cK/TlDqlWB1PRr3kwlc+UmqEqHvYHoc+wADl5R4s1
+ FCJ/Obf9g8YiMffX/0boLI7U4/yTB69Wg4dptCKHvYZPKmcq6pBaHSB8/cARyH1Gn6di
+ y/3Q==
+X-Gm-Message-State: APjAAAV6PpbqtBKyYehHF98Gy+38S+03JcgviNnDIzpVwbAxm+cHFP84
+ 9t/n+hRaoNQY/cdAx2xArDhWFy55bIjEsOthaIUBgQ==
+X-Google-Smtp-Source: APXvYqwBxzvQwY0N9sFHUW9ZPPq2vVPgAj/+kV4Mu7iKr64k490XWmtACz+lYB6u5HrDU6vRCc22Xepz53DwiVe6RB8=
+X-Received: by 2002:a05:6830:13d3:: with SMTP id
+ e19mr2115886otq.135.1579860319633; 
+ Fri, 24 Jan 2020 02:05:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 24 Jan 2020 10:05:04 -0000
-From: Max Reitz <1860759@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ildar-users xanclic
-X-Launchpad-Bug-Reporter: Ildar (ildar-users)
-X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
-References: <157985376657.5102.13233182944615356318.malonedeb@wampee.canonical.com>
-Message-Id: <157986030424.5154.393920880621051062.malone@chaenomeles.canonical.com>
-Subject: [Bug 1860759] Re: [REGRESSION] option `-snapshot` ignored with
- blockdev
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7403c2729f7f54f1183904611414ad31b2339b12
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+References: <20200123132823.1117486-1-damien.hedde@greensocs.com>
+In-Reply-To: <20200123132823.1117486-1-damien.hedde@greensocs.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 24 Jan 2020 10:05:07 +0000
+Message-ID: <CAFEAcA8G7zGwRkbGRjyK4P7KZ9V+cboBHwnTH=jJs4NWu7rMMA@mail.gmail.com>
+Subject: Re: [PATCH v8 00/11] Multi-phase reset mechanism
+To: Damien Hedde <damien.hedde@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,97 +72,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1860759 <1860759@bugs.launchpad.net>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Cornelia Huck <cohuck@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Edgar Iglesias <edgari@xilinx.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Thu, 23 Jan 2020 at 13:28, Damien Hedde <damien.hedde@greensocs.com> wrote:
+> v8:
+>   + patch 3&5: ResettableState::count type from uint32_t to unsigned
+>     (Philippe)
 
-I don=E2=80=99t know much about libvirt, but I would have thought that any
-manual modification of the qemu command line isn=E2=80=99t supported and mi=
-ght
-always break.
+We'll have to change that back if we ever want to migrate
+the count (migration insists on fixed-sized types), but
+I guess we can do that when we get to it...
 
-Anyway, from a QEMU POV, -snapshot only works with -drive (this includes
--hda, etc.).  It doesn=E2=80=99t work with -blockdev.  I can see that this =
-isn=E2=80=99t
-documented for -snapshot, but basically whenever -blockdev is used, the
-user assumes full responsibility for the block graph (or at least that
-particular subgraph).  We cannot enable snapshot functionality then.
-
-So this can=E2=80=99t be fixed in qemu, as -snapshot doesn=E2=80=99t make s=
-ense for
--blockdev.  This behavior should be documented, though.
-
-As for libvirt, I don=E2=80=99t know.  I would be surprised if it had a
-guarantee for keeping manual qemu command line additions working, and I
-can=E2=80=99t imagine that it would scan the XML for =E2=80=9Clegacy=E2=80=
-=9D qemu parameters
-and interpret them itself (which it would need to do to keep -snapshot
-working for -blockdev).
-
-Max
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1860759
-
-Title:
-  [REGRESSION] option `-snapshot` ignored with blockdev
-
-Status in QEMU:
-  New
-
-Bug description:
-  After upgrade of qemu 3.1.0 =E2=86=92 4.2.0 I found that running with lib=
-virt doesn't honor `-snapshot` option anymore. I.e. disk images get modifie=
-d.
-  Using `-hda` option honors `-snapshot`
-
-  So I made a test case without libvirt. Testcase using 4.2.0:
-
-  > qemu -hda tmp-16G.img -cdrom regular-rescue-latest-x86_64.iso -m 2G
-
-  This works fine and tmp-16G.img stays unmodified.
-
-  But:
-  > /usr/bin/qemu-system-x86_64 -name guest=3Dtest-linux,debug-threads=3Don=
- -S -machine pc-i440fx-3.1,accel=3Dkvm,usb=3Doff,vmport=3Doff,dump-guest-co=
-re=3Doff -cpu Broadwell-noTSX,vme=3Don,ss=3Don,f16c=3Don,rdrand=3Don,hyperv=
-isor=3Don,arat=3Don,tsc-adjust=3Don,xsaveopt=3Don,pdpe1gb=3Don,abm=3Don -m =
-2048 -overcommit mem-lock=3Doff -smp 3,sockets=3D3,cores=3D1,threads=3D1 -u=
-uid d32a9191-f51d-4fae-a419-b73d85b49198 -no-user-config -nodefaults -rtc b=
-ase=3Dutc,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay -no-hpet=
- -no-shutdown -global PIIX4_PM.disable_s3=3D1 -global PIIX4_PM.disable_s4=
-=3D1 -boot strict=3Don -device ich9-usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0=
-x5.0x7 -device ich9-usb-uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,m=
-ultifunction=3Don,addr=3D0x5 -device ich9-usb-uhci2,masterbus=3Dusb.0,first=
-port=3D2,bus=3Dpci.0,addr=3D0x5.0x1 -device ich9-usb-uhci3,masterbus=3Dusb.=
-0,firstport=3D4,bus=3Dpci.0,addr=3D0x5.0x2 -blockdev \{\"driver\":\"file\",=
-\"filename\":\"/tmp/regular-rescue-latest-x86_64.iso\",\"node-name\":\"libv=
-irt-2-storage\",\"auto-read-only\":true,\"discard\":\"unmap\"} -blockdev \{=
-\"node-name\":\"libvirt-2-format\",\"read-only\":true,\"driver\":\"raw\",\"=
-file\":\"libvirt-2-storage\"} -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Dl=
-ibvirt-2-format,id=3Dide0-0-0,bootindex=3D1 -blockdev \{\"driver\":\"file\"=
-,\"filename\":\"/tmp/tmp-2G.img\",\"node-name\":\"libvirt-1-storage\",\"aut=
-o-read-only\":true,\"discard\":\"unmap\"} -blockdev \{\"node-name\":\"libvi=
-rt-1-format\",\"read-only\":false,\"driver\":\"qcow2\",\"file\":\"libvirt-1=
--storage\",\"backing\":null} -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,=
-addr=3D0x7,drive=3Dlibvirt-1-format,id=3Dvirtio-disk0 -netdev user,id=3Dhos=
-tnet0 -device e1000,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:ab:d8:29,bus=
-=3Dpci.0,addr=3D0x3 -chardev pty,id=3Dcharserial0 -device isa-serial,charde=
-v=3Dcharserial0,id=3Dserial0 -device qxl-vga,id=3Dvideo0,ram_size=3D6710886=
-4,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1,bu=
-s=3Dpci.0,addr=3D0x2 -device intel-hda,id=3Dsound0,bus=3Dpci.0,addr=3D0x4 -=
-device hda-duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -device virtio-=
-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x6 -snapshot -sandbox on,obso=
-lete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=3Ddeny -m=
-sg timestamp=3Don
-
-  This modifies tmp-16G.img.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1860759/+subscriptions
+-- PMM
 
