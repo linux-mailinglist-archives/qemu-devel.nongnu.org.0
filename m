@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82B2A147DBA
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:08:24 +0100 (CET)
-Received: from localhost ([::1]:39808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76C0147DBD
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:12:11 +0100 (CET)
+Received: from localhost ([::1]:39860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuvt1-0007ez-Ie
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:08:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39192)
+	id 1iuvwg-0002nF-Ca
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:12:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40400)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fweimer@redhat.com>) id 1iuvrU-0006Eb-3K
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:06:49 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iuvvn-0002Du-FT
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:11:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fweimer@redhat.com>) id 1iuvrT-0002XF-24
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:06:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58064
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <fweimer@redhat.com>) id 1iuvrS-0002X7-V8
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:06:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579860406;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=74C+5iWMNbx/6qzkfaGhSiws9DNP9mgMM2ZEaHlfVvw=;
- b=Azb8I0qCXT1FrbWxEuGc2WwsA1i/m5fcPjb5v//5UK6OVHxlOTdwOdxrQ/CHnGc39AdaCf
- 5iSOc2im6bjjt4thzJ+0YvAA/YMhLNeyJRGWfEZwGWgW9pHkE7n2tzSoHD3Bl2Mrohexkh
- YkqCAQAChFG4Cby8roMRZUcA4fKJfok=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-w7YJt3BHN5StT3PbXL9q5A-1; Fri, 24 Jan 2020 05:06:43 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E43C3DBF0;
- Fri, 24 Jan 2020 10:06:41 +0000 (UTC)
-Received: from oldenburg2.str.redhat.com (dhcp-192-227.str.redhat.com
- [10.33.192.227])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C84719C69;
- Fri, 24 Jan 2020 10:06:33 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 051/109] virtiofsd: add seccomp whitelist
-References: <20200121122433.50803-1-dgilbert@redhat.com>
- <20200121122433.50803-52-dgilbert@redhat.com>
- <877e1h426k.fsf@oldenburg2.str.redhat.com>
- <20200124095750.GF2970@work-vm>
-Date: Fri, 24 Jan 2020 11:06:32 +0100
-In-Reply-To: <20200124095750.GF2970@work-vm> (David Alan Gilbert's message of
- "Fri, 24 Jan 2020 09:57:50 +0000")
-Message-ID: <87tv4l2mon.fsf@oldenburg2.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <peter.maydell@linaro.org>) id 1iuvvm-0007QX-CA
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:11:15 -0500
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:33499)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iuvvm-0007Pg-5u
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:11:14 -0500
+Received: by mail-ot1-x333.google.com with SMTP id b18so1138699otp.0
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 02:11:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=BfCojYil1OiD2Vp0D0ZKJaK+JLnUyOcA7erIIjTUYfw=;
+ b=vlwLkF1M6LSNJIOA4eID1RhgY4k/CqzD6mfEabpjgXkPFNkXY/KXAbMgIuy8k63nal
+ ixHithWeFPrqb+6NUDyagArqnN1pFRXGjPt9ONxZlVrMLBC9kNp0myjmAlyrG0IK17BK
+ OEBuWBMSdBgedwbend0eAm61HGIx+uZtL/c091YxuidtM9z+PFUBWkVp5Nz8o4YAsUNX
+ V2ovCqOzzpGmZRs0FL6V1YUfZ9eCyMHX3v8jcsfE5v/zeCUHhog63SVoUpSg43CoeHX2
+ 37cXXtodBj3Y1kQ6T/4hpQfQ4Ds8ZAKccX1DyswSKuq8VdKjq46/wL4R9MeJ5hJQckIg
+ CoTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BfCojYil1OiD2Vp0D0ZKJaK+JLnUyOcA7erIIjTUYfw=;
+ b=jXwBTEXIAvn4JiQfT+3whgG1WcqWWkA5X7PWRdcb+nYVjB+W1b3RaVbb/M61BanqHz
+ mLPvL8uCWI4bdckEg6bXLNxRLRNiWYfcnaTC1g1+fVED+/xzRBPwawvn1GmwD+cTytAW
+ ild9hvNFtG2tm3HTMWgos02Lt7EZJ0T9EXNEP5HNnNDY89iq26LDAoeoNKIfvOCWzHP0
+ IOXJh1qfYswihlbWCJr9pLcehNqWJYJJ3/SUkp/ztEX9AlZfD+ycI5Gvnu4MDr5r6gGJ
+ cyMV342DjX/wO8iPDw7QcGpKtQfHAid2qQ9jhH3W/dKC+6kzV7i/UqpvUj8Oyp/DwlGi
+ J+CA==
+X-Gm-Message-State: APjAAAUwS8X7Os5ixFT2jotgHYwlyVdlzN5hTZ301UsmYb8gooLLu3SJ
+ 4Qt9RsAXEvR4Ohz8UyJc+OtJ/cmeC+NipUmLqQ9dsw==
+X-Google-Smtp-Source: APXvYqyAdxJ/2ntHd6vLesiPFWuN0o0x3o4hnJ13wRYNRpy+P7/3PvSkBFOy7ASzlOO/n30zFUfsyUE713X2f/pcLjM=
+X-Received: by 2002:a05:6830:184:: with SMTP id
+ q4mr2143287ota.232.1579860673163; 
+ Fri, 24 Jan 2020 02:11:13 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: w7YJt3BHN5StT3PbXL9q5A-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <1579857411-12996-1-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1579857411-12996-1-git-send-email-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 24 Jan 2020 10:11:01 +0000
+Message-ID: <CAFEAcA-XOP=z+2NU-vebFO7qenOf-V21Vbwp-+VH5oDZfm+WGg@mail.gmail.com>
+Subject: Re: [PULL v2 00/59] Misc (x86 and QOM) patches for 2020-01-23
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,44 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: m.mizuma@jp.fujitsu.com, berrange@redhat.com, slp@redhat.com,
- qemu-devel@nongnu.org, misono.tomohiro@jp.fujitsu.com, stefanha@redhat.com,
- philmd@redhat.com, vgoyal@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* David Alan Gilbert:
-
-> * Florian Weimer (fweimer@redhat.com) wrote:
->> * David Alan Gilbert:
->>=20
->> > +static const int syscall_whitelist[] =3D {
->> > +    /* TODO ireg sem*() syscalls */
->> > +    SCMP_SYS(brk),
->> > +    SCMP_SYS(capget), /* For CAP_FSETID */
->> > +    SCMP_SYS(capset),
->> > +    SCMP_SYS(clock_gettime),
->>=20
->> > +    SCMP_SYS(gettimeofday),
->>=20
->> Is this to suppose to work on 32-bit architectures?  Then you need to
->> add the time64 system call variants as well.
+On Fri, 24 Jan 2020 at 09:18, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> Trying SCMP_SYS(time64) gives me an error for an undefined __NR_time64
-> on both 64 and 32 bit.
+> The following changes since commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde0dd=
+40:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/edk2-next-2020=
+0121' into staging (2020-01-21 15:29:25 +0000)
+>
+> are available in the git repository at:
+>
+>
+>   git://github.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to b0993e347e065d2323fbb051fdd5a72c95a6e872:
+>
+>   tests: fix test-qga on macosx (2020-01-24 10:14:32 +0100)
+>
+> ----------------------------------------------------------------
+> * Register qdev properties as class properties (Marc-Andr=C3=A9)
+> * Cleanups (Philippe)
+> * virtio-scsi fix (Pan Nengyuan)
+> * Tweak Skylake-v3 model id (Kashyap)
+> * x86 UCODE_REV support and nested live migration fix (myself)
+> * Advisory mode for pvpanic (Zhenwei
 
-Sorry, time64 does not exist, Userspace is supposed to use
-clock_gettime64 with CLOCK_REALTIME_COARSE.
+Hi -- this says 'v2', which is the same as the previous one
+did, but the commit hash to fetch is different. Presumably
+it's a v3? What are the v2->v3 differences, please?
 
-I actually meant that you'll also need futex_time64, ppoll_time64,
-recvmmsg_time64, utimensat_time64.  (Based on cursory checking against
-the permit list you posted.)
-
-And for a port to 32-bit RISC-V, I think the 32-bit syscalls need to be
-protected by #ifdef because new 32-bit architectures do not have them
-anymore.
-
-Thanks,
-Florian
-
+thanks
+-- PMM
 
