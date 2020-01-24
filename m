@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637A5148C89
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 17:52:52 +0100 (CET)
-Received: from localhost ([::1]:44834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C53148C95
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 17:57:30 +0100 (CET)
+Received: from localhost ([::1]:44938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv2CR-0001r1-Ei
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 11:52:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44583)
+	id 1iv2Gv-00059j-8N
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 11:57:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45536)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iv2BY-0001Cs-88
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:51:57 -0500
+ (envelope-from <robert.foley@linaro.org>) id 1iv2Fr-0003cS-MH
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:56:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iv2BV-0008U2-MO
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:51:54 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31976
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iv2BV-0008Sr-Bj
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:51:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579884712;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:openpgp:openpgp;
- bh=x9FsuIAfGUDXqzlYBq2H3+I7Vtpi2lBfDhxCiluRJFo=;
- b=L2ByoyQi9wrjnJ8iDHbDQBifahcllAKViBb8seJSbwizOngZn0d6Vfp4tyyxu6CsDs1KrE
- lGWL11hpU0NFM2PIp008AihHMX2wAq5fnsQO8ZJiyuVzkjzh/iAlxrBN9ajOMsacFc0wIO
- DMKMnq/meuGfSwLsN5XAxCVkZn1ahD8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-bQDtHHHuP8S_obt5wp3QRA-1; Fri, 24 Jan 2020 11:51:44 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F36C8005A2;
- Fri, 24 Jan 2020 16:51:43 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-156.ams2.redhat.com [10.36.116.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B42BC857BB;
- Fri, 24 Jan 2020 16:51:42 +0000 (UTC)
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-From: Thomas Huth <thuth@redhat.com>
-Subject: OpenBIOS update broke Linux boot on qemu-system-sparc64
-Openpgp: preference=signencrypt
-Message-ID: <82c4a7e1-aafc-70e5-b00a-bd56c9cd1b61@redhat.com>
-Date: Fri, 24 Jan 2020 17:51:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: bQDtHHHuP8S_obt5wp3QRA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+ (envelope-from <robert.foley@linaro.org>) id 1iv2Fq-0002uu-30
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:56:23 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:51818)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
+ id 1iv2Fp-0002tj-SA
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 11:56:22 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id d15so74554pjw.1
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 08:56:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=P3FjDLSvY6klGr+XZZEP0o2JxToDunv0eh5czGMlPCg=;
+ b=c4BeJ1J7+/Fys2NcB5SK42oqUNo9hxOM9wr6TXer2HWdjyyzRLbD+GYGc4kKHCReNA
+ doUhKhaFfZS8qBnRpxiRhrGZ3uk4mZEcI9rNgDQNotSWQwKgAKRyeYM0/fR0WsqaTJPY
+ 8/YuLEcyOLmhcN3RJHQkJiOfRo3qEypJiUONZbhvjwmpZknNyWexUkQsC9UzQoM8/MB8
+ GCX5cNLn0suPEoL7Hj9OeXpA71xV9+o5++anemDWZ1RthP9nSa35FHsn482M7/7FG9PN
+ zXw1t1BaIZIviNbbj5jXlou37yHNB5aQYQiDdNuafV83+T0ZxkIJsSwbp4a7TMT5Ba5J
+ z5Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=P3FjDLSvY6klGr+XZZEP0o2JxToDunv0eh5czGMlPCg=;
+ b=SH2g3g/yr5Jr7bw2ML9FnTSpQrIouJqnFSnkfSQvxLql4tvgMv5x4qg/Kk2fro6AuH
+ 2TqVkD9mTIsrC20QwBunTZFXtOYHSi5C8Uko9kujkpmQDAUOSepqDz1d1bAIAefWwA8P
+ m0LDBj3v2LR4JIitLG5W/R4RxHZ2ZNbaeqnlM3BIoxsIWSNNTdIPZzQaseT2nBNn2nW2
+ LJRBxao6g/5KkKw8Cy6YVOd8eNKmrSmV+L7c6s112e9P85X8FhT5wBydD5egZKZFX4H0
+ gPilK/jpJiPMcgk8aBqmH6sFxzFh6ykMPhxw1WEljxnEMht4z27pQhMV2cEhQ2ZEN5kS
+ TjHw==
+X-Gm-Message-State: APjAAAV9W42vC7lCzZZP3VJFXjxqJb+zQQ68hObLISiHvpAsFXt2x6pa
+ iesQ6F0HhriF7+qM8Vi+xu8qcBuOFtk=
+X-Google-Smtp-Source: APXvYqzU6GVKHffP7hlD7pCEMC5ZNWa+VWKGuGvFA6eMcl8OxRLc7ABuK9lToZkC384aiYWDr0mKAQ==
+X-Received: by 2002:a17:90a:c78f:: with SMTP id
+ gn15mr189519pjb.88.1579884979757; 
+ Fri, 24 Jan 2020 08:56:19 -0800 (PST)
+Received: from Rfoley-MA01.usrd.futurewei.com ([12.111.81.71])
+ by smtp.gmail.com with ESMTPSA id l10sm6969953pjy.5.2020.01.24.08.56.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jan 2020 08:56:19 -0800 (PST)
+From: Robert Foley <robert.foley@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/8] tests/vm: Add support for aarch64 VMs
+Date: Fri, 24 Jan 2020 11:53:27 -0500
+Message-Id: <20200124165335.422-1-robert.foley@linaro.org>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::102b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,27 +72,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, philmd@redhat.com, alex.bennee@linaro.org,
+ robert.foley@linaro.org, peter.puhov@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch adds support for 2 aarch64 VMs.  
+ - Ubuntu 18.04 aarch64 VM
+ - CentOS 8 aarch64 VM
 
- Hi Mark,
+In order to add support for the two new aarch64 VMs, we
+generalized and parameterized basevm.py.  
+We added a new concept of a configuration, which is really just a 
+set of parameters which define how to configure the VM.  
+Some examples of parameters are "machine", "memory" and "cpu".
+We preserved current default parameters.
+Current configuration of pre-existing VMs is supported by default
+without need to override default parameters.
+ 
+For example, previously only the 'pc' machine was supported in basevm.py. 
+The new aarch64 VMs will override machine to use virt. 
+There are a few other examples where we needed to add parameters 
+in order to add support for these aarch64 VMs.
+In some other cases we added parameters that we thought would be useful
+in general, for example username/password, ssh keys, 
 
-today, I noticed that the Sparc64 image from the QEMU advent calendar
-2018 does not work anymore with the recent QEMU:
+In the case of the aarch64 VMs, they override certain parameters
+by default.  However, it is also of value to be able to 
+dynamically specify other values for these parameters.
+Take the case where you create a new VM using vm-build,
+but then want to test it using various hardware configurations
+such as for example different NUMA topologies. 
+Or maybe you want to use a different amount of memory or a different cpu type.
 
- https://www.qemu-advent-calendar.org/2018/download/day23.tar.xz
+In order to support these use cases we added support
+for a configuration .yml file, which allows the user to
+specify certain values dynamically such as:
+ - machine
+ - cpu
+ - memory size
+ - other qemu args, which allow configuring alternate
+   hardware topologies such as NUMA nodes.
+ - username, password
+ - ssh keys
+ For an example of a .yml file, see the included config_example.yml
+ 
+The main use case for using this config.yml file is for where we
+are testing/debugging with qemu (vm-build), and need to configure
+the VM differently.  However, there is another use case we have
+developed, which is a project called lisa-qemu 
+(https://github.com/rf972/lisa-qemu).  
+This project is an integration between the LISA tool and QEMU.  
+This project uses the VMs created by
+QEMU's vm-build scripts for use in testing with LISA.  
+This use case is similar to the vm-build case in that,
+the VM gets created once, and we want to launch the VM with different
+configurations (memory, cpu, etc.).
+ 
+As part of developing the scripts for these VMs, we implemented
+a few enhancements to help with testing.
+For example, we added support for allowing debug mode to
+show the ssh output.
+We also added support for a new --boot-console option which
+will show the boot console as the VM boots up to aid in 
+debugging problems during VM boot.
 
-The Linux kernel now crashes during the boot process.
+Robert Foley (8):
+  tests/vm: Debug mode shows ssh output.
+  tests/vm: increased max timeout for vm boot.
+  tests/vm: change wait_ssh to optionally wait for root.
+  tests/vm: Add configuration to basevm.py
+  tests/vm: Added configuration file support
+  tests/vm: add --boot-console switch
+  tests/vm: Added a new script for ubuntu.aarch64.
+  tests/vm: Added a new script for centos.aarch64.
 
-Bisecting the issues pointed to:
+ tests/vm/Makefile.include    |   8 +-
+ tests/vm/aarch64vm.py        |  41 +++++++
+ tests/vm/basevm.py           | 192 +++++++++++++++++++++++++-----
+ tests/vm/centos-8-aarch64.ks |  52 +++++++++
+ tests/vm/centos.aarch64      | 218 +++++++++++++++++++++++++++++++++++
+ tests/vm/config_example.yml  |  52 +++++++++
+ tests/vm/ubuntu.aarch64      | 144 +++++++++++++++++++++++
+ 7 files changed, 675 insertions(+), 32 deletions(-)
+ create mode 100644 tests/vm/aarch64vm.py
+ create mode 100644 tests/vm/centos-8-aarch64.ks
+ create mode 100755 tests/vm/centos.aarch64
+ create mode 100644 tests/vm/config_example.yml
+ create mode 100755 tests/vm/ubuntu.aarch64
 
- commit e9deadb1c10351213845428de7591931f790f111
- Update OpenBIOS images to 3464681b built from submodule.
-
-Do you maybe have an idea what might be going wrong here?
-
- Thomas
+-- 
+2.17.1
 
 
