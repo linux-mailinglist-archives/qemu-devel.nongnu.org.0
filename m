@@ -2,87 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8DD147DB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:06:14 +0100 (CET)
-Received: from localhost ([::1]:39760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1427147EB0
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:21:46 +0100 (CET)
+Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuvqv-00047F-Pc
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:06:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38792)
+	id 1iuw5x-0000Qi-O7
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:21:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42656)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iuvpf-0002ea-DS
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:04:56 -0500
+ (envelope-from <bounces@canonical.com>) id 1iuw58-0008QX-1s
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:20:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iuvpd-0000eM-Ob
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:04:55 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28795
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iuvpd-0000e6-Ln
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:04:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579860293;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ALN8xT5kNKC8r5YVfSBSvOWu3WRfR02eB9Y0mr6SHxc=;
- b=HX8u381ONghqYfvIqAfUXjeD0lC+CiQ7IBcnu6SlAS5MtqHXU2TEjVgfDz+s9ZXulOsUWe
- zklWO4p+A+QnLNmF585AIH4LtGCzYRaqvqnf7yz4HAsTnzMIl9AP+vWpjAI+uy3tVJpV7F
- GY0O8AU61L7skF7dJBTs1KI3vsCue/E=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-xBZKP_jTPoiiqgTyXYH8zg-1; Fri, 24 Jan 2020 05:04:33 -0500
-Received: by mail-wm1-f69.google.com with SMTP id t17so440519wmi.7
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 02:04:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ewy6KQ+MWXO2rt78qPTnlhcYWm7Y5wnzJhR3Ety0fMc=;
- b=ENdtYYoIfmv9LRMtTu9FL1gSjMZ6vRxWYghbOmOkwygl/DyodDQb7z4JPxPBpbSF3+
- dG1qE+tN5BsQxBW8qXzQ/QY9J9Q6vCdtQfFvIHL2T8mE3r4EoxF+VIyL9o8hLXrJ0nCA
- maRtRpmCjSdOLE9AEZ6vHUDSHZ0vz5KwYcFE8golPx7mfR5NOncRUH3ju2V5hTziTnVM
- 7sw+Jb6i/0+IirPCgUVi9Ty5W/7ADJ1rf7Qj7sG/Y3/f2c1Xd2SmoZz9mixbdJsOiBM8
- Y9NAX990ObpHO/DClots4MyTo+c7Pf3YM+I7EQgaXQIF+3BhunLyFphey72Hh5Fxj9Qq
- NStA==
-X-Gm-Message-State: APjAAAUuV4I0ZSE7oE3NndoWeT/5EmUAtTq3F/JMFPvmiOUrpPc8x3BS
- fkv49SSWJj44fdOfSXN3ZmKRfveG4vuWMRc8NyJMdRDXJ0ZJfRvKfz3MSLLhtuZ4/bMjP0K1e5l
- NWqEwdhiK3xniYDQ=
-X-Received: by 2002:a5d:4e0a:: with SMTP id p10mr3576351wrt.229.1579860271905; 
- Fri, 24 Jan 2020 02:04:31 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxtRzM/I9oUEaj0DFgTOL1VYMcTYi4JyqFve28BAG1mUGNbLwXwBqFqY5EhUor+KqW3x8rsHQ==
-X-Received: by 2002:a5d:4e0a:: with SMTP id p10mr3576321wrt.229.1579860271632; 
- Fri, 24 Jan 2020 02:04:31 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id t5sm6615893wrr.35.2020.01.24.02.04.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jan 2020 02:04:31 -0800 (PST)
-Subject: Re: [PATCH] iscsi: Cap block count from GET LBA STATUS (CVE-2020-1711)
-To: Peter Lieven <pl@kamp.de>, Felipe Franciosi <felipe@nutanix.com>
-References: <B07CB62A-7860-4385-A6A4-4ECA211DBE42@nutanix.com>
- <9F93582E-139B-45B2-8630-FDD331F09DEF@kamp.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c00fc076-3a46-7a52-a539-66751fb2943a@redhat.com>
-Date: Fri, 24 Jan 2020 11:04:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <bounces@canonical.com>) id 1iuw56-0000gn-Gc
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:20:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:52232)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iuw56-0000fC-BC
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:20:52 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iuw54-0007Pb-R9
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 10:20:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 94AB02E80C9
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 10:20:50 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <9F93582E-139B-45B2-8630-FDD331F09DEF@kamp.de>
-Content-Language: en-US
-X-MC-Unique: xBZKP_jTPoiiqgTyXYH8zg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 24 Jan 2020 10:05:04 -0000
+From: Max Reitz <1860759@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ildar-users xanclic
+X-Launchpad-Bug-Reporter: Ildar (ildar-users)
+X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
+References: <157985376657.5102.13233182944615356318.malonedeb@wampee.canonical.com>
+Message-Id: <157986030424.5154.393920880621051062.malone@chaenomeles.canonical.com>
+Subject: [Bug 1860759] Re: [REGRESSION] option `-snapshot` ignored with
+ blockdev
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7403c2729f7f54f1183904611414ad31b2339b12
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,129 +65,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Turschmid <peter.turschm@nutanix.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>, P J P <ppandit@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Reply-To: Bug 1860759 <1860759@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/23/20 11:58 PM, Peter Lieven wrote:
->> Am 23.01.2020 um 22:29 schrieb Felipe Franciosi <felipe@nutanix.com>:
->>> On Jan 23, 2020, at 5:46 PM, Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
-.com> wrote:
->>>> On 1/23/20 1:44 PM, Felipe Franciosi wrote:
->>>> When querying an iSCSI server for the provisioning status of blocks (v=
-ia
->>>> GET LBA STATUS), Qemu only validates that the response descriptor zero=
-'s
->>>> LBA matches the one requested. Given the SCSI spec allows servers to
->>>> respond with the status of blocks beyond the end of the LUN, Qemu may
->>>> have its heap corrupted by clearing/setting too many bits at the end o=
-f
->>>> its allocmap for the LUN.
->>>> A malicious guest in control of the iSCSI server could carefully progr=
-am
->>>> Qemu's heap (by selectively setting the bitmap) and then smash it.
->>>> This limits the number of bits that iscsi_co_block_status() will try t=
-o
->>>> update in the allocmap so it can't overflow the bitmap.
->>>
->>> Please add:
->>>
->>> Fixes: CVE-2020-1711 (title of CVE if possible)
->>
->> I wasn't sure we had one yet. Kevin: can you do the needful in your bran=
-ch?
->>
->>> Cc: qemu-stable@nongnu.org
->>
->> Yeah, that's there.
->>
->>>
->>>> Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
->>>> Signed-off-by: Peter Turschmid <peter.turschm@nutanix.com>
->>>> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
->>>> ---
->>>> block/iscsi.c | 5 +++--
->>>> 1 file changed, 3 insertions(+), 2 deletions(-)
->>>> diff --git a/block/iscsi.c b/block/iscsi.c
->>>> index 2aea7e3f13..cbd57294ab 100644
->>>> --- a/block/iscsi.c
->>>> +++ b/block/iscsi.c
->>>> @@ -701,7 +701,7 @@ static int coroutine_fn iscsi_co_block_status(Bloc=
-kDriverState *bs,
->>>>      struct scsi_get_lba_status *lbas =3D NULL;
->>>>      struct scsi_lba_status_descriptor *lbasd =3D NULL;
->>>>      struct IscsiTask iTask;
->>>> -    uint64_t lba;
->>>> +    uint64_t lba, max_bytes;
->>>>      int ret;
->>>>        iscsi_co_init_iscsitask(iscsilun, &iTask);
->>>> @@ -721,6 +721,7 @@ static int coroutine_fn iscsi_co_block_status(Bloc=
-kDriverState *bs,
->>>>      }
->>>>        lba =3D offset / iscsilun->block_size;
->>>> +    max_bytes =3D (iscsilun->num_blocks - lba) * iscsilun->block_size=
-;
->>>>        qemu_mutex_lock(&iscsilun->mutex);
->>>> retry:
->>>> @@ -764,7 +765,7 @@ retry:
->>>>          goto out_unlock;
->>>>      }
->>>> -    *pnum =3D (int64_t) lbasd->num_blocks * iscsilun->block_size;
->>>> +    *pnum =3D MIN((int64_t) lbasd->num_blocks * iscsilun->block_size,=
- max_bytes);
->>>>        if (lbasd->provisioning =3D=3D SCSI_PROVISIONING_TYPE_DEALLOCAT=
-ED ||
->>>>          lbasd->provisioning =3D=3D SCSI_PROVISIONING_TYPE_ANCHORED) {
->>>
->>> What about this?
->>>
->>> -- >8 --
->>> diff --git a/block/iscsi.c b/block/iscsi.c
->>> index 2aea7e3f13..25598accbb 100644
->>> --- a/block/iscsi.c
->>> +++ b/block/iscsi.c
->>> @@ -506,6 +506,11 @@ iscsi_allocmap_update(IscsiLun *iscsilun, int64_t =
-offset,
->>>     /* shrink to touch only completely contained clusters */
->>>     cl_num_shrunk =3D DIV_ROUND_UP(offset, iscsilun->cluster_size);
->>>     nb_cls_shrunk =3D (offset + bytes) / iscsilun->cluster_size - cl_nu=
-m_shrunk;
->>> +    if (nb_cls_expanded >=3D iscsilun->allocmap_size
->>> +        || nb_cls_shrunk >=3D iscsilun->allocmap_size) {
->>> +        error_report("iSCSI invalid request: ..." /* TODO */);
->>> +        return;
->>> +    }
->>>     if (allocated) {
->>>         bitmap_set(iscsilun->allocmap, cl_num_expanded, nb_cls_expanded=
-);
->>>     } else {
->>> ---
->>
->> I'm not sure the above is correct because (if I read this right)
->> nb_cls_* represents the number of clusters, not the last cluster.
->>
->> Personally, I would have the checks (or "trim"s) closer to where they
->> were issued (to fail sooner) and assert()s closer to bitmap (as no oob
->> accesses should be happening at this point). There were also
->> discussions about using safer (higher level) bitmaps for this. I'm
->> always in favour of adding all reasonable checks. :)
->=20
-> I would add assertions that cl_num + nb_cls <=3D allocmap_size before eve=
-ry set and clear.
+Hi,
 
-The description starts with "A malicious guest in control of the iSCSI=20
-server ..." so asserting (and killing the VM) doesn't seem correct... I=20
-suppose the iSCSI protocol has some error to return for invalid requests.
+I don=E2=80=99t know much about libvirt, but I would have thought that any
+manual modification of the qemu command line isn=E2=80=99t supported and mi=
+ght
+always break.
 
-Also shouldn't we report some warning in case of such invalid request?=20
-So the management side can look at the 'malicious iSCSI server'?
+Anyway, from a QEMU POV, -snapshot only works with -drive (this includes
+-hda, etc.).  It doesn=E2=80=99t work with -blockdev.  I can see that this =
+isn=E2=80=99t
+documented for -snapshot, but basically whenever -blockdev is used, the
+user assumes full responsibility for the block graph (or at least that
+particular subgraph).  We cannot enable snapshot functionality then.
 
+So this can=E2=80=99t be fixed in qemu, as -snapshot doesn=E2=80=99t make s=
+ense for
+-blockdev.  This behavior should be documented, though.
+
+As for libvirt, I don=E2=80=99t know.  I would be surprised if it had a
+guarantee for keeping manual qemu command line additions working, and I
+can=E2=80=99t imagine that it would scan the XML for =E2=80=9Clegacy=E2=80=
+=9D qemu parameters
+and interpret them itself (which it would need to do to keep -snapshot
+working for -blockdev).
+
+Max
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1860759
+
+Title:
+  [REGRESSION] option `-snapshot` ignored with blockdev
+
+Status in QEMU:
+  New
+
+Bug description:
+  After upgrade of qemu 3.1.0 =E2=86=92 4.2.0 I found that running with lib=
+virt doesn't honor `-snapshot` option anymore. I.e. disk images get modifie=
+d.
+  Using `-hda` option honors `-snapshot`
+
+  So I made a test case without libvirt. Testcase using 4.2.0:
+
+  > qemu -hda tmp-16G.img -cdrom regular-rescue-latest-x86_64.iso -m 2G
+
+  This works fine and tmp-16G.img stays unmodified.
+
+  But:
+  > /usr/bin/qemu-system-x86_64 -name guest=3Dtest-linux,debug-threads=3Don=
+ -S -machine pc-i440fx-3.1,accel=3Dkvm,usb=3Doff,vmport=3Doff,dump-guest-co=
+re=3Doff -cpu Broadwell-noTSX,vme=3Don,ss=3Don,f16c=3Don,rdrand=3Don,hyperv=
+isor=3Don,arat=3Don,tsc-adjust=3Don,xsaveopt=3Don,pdpe1gb=3Don,abm=3Don -m =
+2048 -overcommit mem-lock=3Doff -smp 3,sockets=3D3,cores=3D1,threads=3D1 -u=
+uid d32a9191-f51d-4fae-a419-b73d85b49198 -no-user-config -nodefaults -rtc b=
+ase=3Dutc,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay -no-hpet=
+ -no-shutdown -global PIIX4_PM.disable_s3=3D1 -global PIIX4_PM.disable_s4=
+=3D1 -boot strict=3Don -device ich9-usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0=
+x5.0x7 -device ich9-usb-uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,m=
+ultifunction=3Don,addr=3D0x5 -device ich9-usb-uhci2,masterbus=3Dusb.0,first=
+port=3D2,bus=3Dpci.0,addr=3D0x5.0x1 -device ich9-usb-uhci3,masterbus=3Dusb.=
+0,firstport=3D4,bus=3Dpci.0,addr=3D0x5.0x2 -blockdev \{\"driver\":\"file\",=
+\"filename\":\"/tmp/regular-rescue-latest-x86_64.iso\",\"node-name\":\"libv=
+irt-2-storage\",\"auto-read-only\":true,\"discard\":\"unmap\"} -blockdev \{=
+\"node-name\":\"libvirt-2-format\",\"read-only\":true,\"driver\":\"raw\",\"=
+file\":\"libvirt-2-storage\"} -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Dl=
+ibvirt-2-format,id=3Dide0-0-0,bootindex=3D1 -blockdev \{\"driver\":\"file\"=
+,\"filename\":\"/tmp/tmp-2G.img\",\"node-name\":\"libvirt-1-storage\",\"aut=
+o-read-only\":true,\"discard\":\"unmap\"} -blockdev \{\"node-name\":\"libvi=
+rt-1-format\",\"read-only\":false,\"driver\":\"qcow2\",\"file\":\"libvirt-1=
+-storage\",\"backing\":null} -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,=
+addr=3D0x7,drive=3Dlibvirt-1-format,id=3Dvirtio-disk0 -netdev user,id=3Dhos=
+tnet0 -device e1000,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:ab:d8:29,bus=
+=3Dpci.0,addr=3D0x3 -chardev pty,id=3Dcharserial0 -device isa-serial,charde=
+v=3Dcharserial0,id=3Dserial0 -device qxl-vga,id=3Dvideo0,ram_size=3D6710886=
+4,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1,bu=
+s=3Dpci.0,addr=3D0x2 -device intel-hda,id=3Dsound0,bus=3Dpci.0,addr=3D0x4 -=
+device hda-duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -device virtio-=
+balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x6 -snapshot -sandbox on,obso=
+lete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=3Ddeny -m=
+sg timestamp=3Don
+
+  This modifies tmp-16G.img.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1860759/+subscriptions
 
