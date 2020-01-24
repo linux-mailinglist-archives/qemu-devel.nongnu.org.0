@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F97F147970
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 09:32:20 +0100 (CET)
-Received: from localhost ([::1]:38728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF3414798C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 09:43:50 +0100 (CET)
+Received: from localhost ([::1]:38798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuuO3-0001Dh-4k
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 03:32:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51957)
+	id 1iuuZB-0004ks-6Y
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 03:43:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iuuMm-0000Lc-OV
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 03:31:02 -0500
+ (envelope-from <thuth@redhat.com>) id 1iuuYU-0004ED-8p
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 03:43:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iuuMl-0001Wr-Dc
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 03:31:00 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41532)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iuuMj-0001S5-BP
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 03:30:59 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iuuMh-0002aU-2i
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 08:30:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 136112E80C9
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 08:30:55 +0000 (UTC)
+ (envelope-from <thuth@redhat.com>) id 1iuuYS-0003aF-3Z
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 03:43:05 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21663
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iuuYR-0003Yj-Rs
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 03:43:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579855383;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=F0dKAezAUoq2O15lxlDaiSE56ulEoQSPfQ6cxsPIVX4=;
+ b=B9RMlbUq6qR4zeO55GB747J1TJ+vnVoPuv4fTQl0cf6sN1BMaJgyNWmbnAbGs7mYXzSJp+
+ Z2SW0z3ZKPEZiC6Mi8WZFOs7XbHGxMr0F6zCgyn0Us8q3nLfjWvAt2HGHwEBjSj58pAmqo
+ xotO7yJabrTDf6w27w8BRvt83DUcPMk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-UJBVmduQMieAuryfbByHvA-1; Fri, 24 Jan 2020 03:42:58 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2ADD7DBA3;
+ Fri, 24 Jan 2020 08:42:57 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-156.ams2.redhat.com [10.36.116.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CA26620D8;
+ Fri, 24 Jan 2020 08:42:52 +0000 (UTC)
+Subject: Re: [PATCH] hw/s390x: Add a more verbose comment about
+ get_machine_class() and the wrappers
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20200123170256.12386-1-thuth@redhat.com>
+ <20200123184217.21c0503a.cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <92229a37-5f93-f463-f9c3-733e41c27361@redhat.com>
+Date: Fri, 24 Jan 2020 09:42:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 24 Jan 2020 08:20:36 -0000
-From: Ildar <1860759@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ildar-users
-X-Launchpad-Bug-Reporter: Ildar (ildar-users)
-X-Launchpad-Bug-Modifier: Ildar (ildar-users)
-References: <157985376657.5102.13233182944615356318.malonedeb@wampee.canonical.com>
-Message-Id: <157985403622.4848.3147615788197077514.malone@chaenomeles.canonical.com>
-Subject: [Bug 1860759] Re: [REGRESSION] option `-snapshot` ignored with
- blockdev
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 4afe6848ae074338f9889ec96b7bc9dc752bd594
+In-Reply-To: <20200123184217.21c0503a.cohuck@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: UJBVmduQMieAuryfbByHvA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,75 +76,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1860759 <1860759@bugs.launchpad.net>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-JFYI, I know that snapshot=3Don option should be used. But `-snapshot` opti=
-on exists and must work.
-Also libvirt doesn't yet support it: https://bugzilla.redhat.com/show_bug.c=
-gi?id=3D508662
+On 23/01/2020 18.42, Cornelia Huck wrote:
+> On Thu, 23 Jan 2020 18:02:56 +0100
+> Thomas Huth <thuth@redhat.com> wrote:
+> 
+>> While working on the "Enable adapter interruption suppression again"
+>> recently, I had to discover that the meaning of get_machine_class()
+>> and the related *_allowed() wrappers is not very obvious. Add a more
+>> verbose comment here to clarify how these should be used.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>  hw/s390x/s390-virtio-ccw.c | 15 ++++++++++++---
+>>  1 file changed, 12 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index e0e28139a2..7fb389f0e5 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -505,6 +505,18 @@ static inline void machine_set_dea_key_wrap(Object *obj, bool value,
+>>  
+>>  static S390CcwMachineClass *current_mc;
+>>  
+>> +/*
+>> + * Get the class of the s390-ccw-virtio machine that is currently in use.
+>> + * Note: libvirt is using the "none" machine to probe for the features of the
+>> + * host CPU, so in case this is called with the "none" machine, the function
+>> + * returns the TYPE_S390_CCW_MACHINE base class. In this base class, all the
+>> + * various "*_allowed" variables are enabled, so that the *_allowed() wrappers
+>> + * below return the correct default value for the "none" machine.
+> 
+> Maybe add a blank line here for readability? (Can do so while applying.)
 
--- =
+Sure, fine for me!
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1860759
+>> + * Attention! Do *not* add additional new wrappers for CPU features (e.g. like
+>> + * the ri_allowed() wrapper) via this mechanism anymore. CPU features should
+>> + * be handled via the CPU models, i.e. checking with cpu_model_allowed() during
+>> + * CPU initialization and s390_has_feat() later should be sufficient.
+>> + */
+>>  static S390CcwMachineClass *get_machine_class(void)
+>>  {
+>>      if (unlikely(!current_mc)) {
+>> @@ -521,19 +533,16 @@ static S390CcwMachineClass *get_machine_class(void)
+>>  
+>>  bool ri_allowed(void)
+>>  {
+>> -    /* for "none" machine this results in true */
+>>      return get_machine_class()->ri_allowed;
+>>  }
+>>  
+>>  bool cpu_model_allowed(void)
+>>  {
+>> -    /* for "none" machine this results in true */
+>>      return get_machine_class()->cpu_model_allowed;
+>>  }
+>>  
+>>  bool hpage_1m_allowed(void)
+>>  {
+>> -    /* for "none" machine this results in true */
+>>      return get_machine_class()->hpage_1m_allowed;
+>>  }
+>>  
+> 
+> Looks good to me, but will wait for a review or two.
+> 
 
-Title:
-  [REGRESSION] option `-snapshot` ignored with blockdev
+ Thanks,
+  Thomas
 
-Status in QEMU:
-  New
-
-Bug description:
-  After upgrade of qemu 3.1.0 =E2=86=92 4.2.0 I found that running with lib=
-virt doesn't honor `-snapshot` option anymore. I.e. disk images get modifie=
-d.
-  Using `-hda` option honors `-snapshot`
-
-  So I made a test case without libvirt. Testcase using 4.2.0:
-
-  > qemu -hda tmp-16G.img -cdrom regular-rescue-latest-x86_64.iso -m 2G
-
-  This works fine and tmp-16G.img stays unmodified.
-
-  But:
-  > /usr/bin/qemu-system-x86_64 -name guest=3Dtest-linux,debug-threads=3Don=
- -S -machine pc-i440fx-3.1,accel=3Dkvm,usb=3Doff,vmport=3Doff,dump-guest-co=
-re=3Doff -cpu Broadwell-noTSX,vme=3Don,ss=3Don,f16c=3Don,rdrand=3Don,hyperv=
-isor=3Don,arat=3Don,tsc-adjust=3Don,xsaveopt=3Don,pdpe1gb=3Don,abm=3Don -m =
-2048 -overcommit mem-lock=3Doff -smp 3,sockets=3D3,cores=3D1,threads=3D1 -u=
-uid d32a9191-f51d-4fae-a419-b73d85b49198 -no-user-config -nodefaults -rtc b=
-ase=3Dutc,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay -no-hpet=
- -no-shutdown -global PIIX4_PM.disable_s3=3D1 -global PIIX4_PM.disable_s4=
-=3D1 -boot strict=3Don -device ich9-usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0=
-x5.0x7 -device ich9-usb-uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,m=
-ultifunction=3Don,addr=3D0x5 -device ich9-usb-uhci2,masterbus=3Dusb.0,first=
-port=3D2,bus=3Dpci.0,addr=3D0x5.0x1 -device ich9-usb-uhci3,masterbus=3Dusb.=
-0,firstport=3D4,bus=3Dpci.0,addr=3D0x5.0x2 -blockdev \{\"driver\":\"file\",=
-\"filename\":\"/tmp/regular-rescue-latest-x86_64.iso\",\"node-name\":\"libv=
-irt-2-storage\",\"auto-read-only\":true,\"discard\":\"unmap\"} -blockdev \{=
-\"node-name\":\"libvirt-2-format\",\"read-only\":true,\"driver\":\"raw\",\"=
-file\":\"libvirt-2-storage\"} -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Dl=
-ibvirt-2-format,id=3Dide0-0-0,bootindex=3D1 -blockdev \{\"driver\":\"file\"=
-,\"filename\":\"/tmp/tmp-2G.img\",\"node-name\":\"libvirt-1-storage\",\"aut=
-o-read-only\":true,\"discard\":\"unmap\"} -blockdev \{\"node-name\":\"libvi=
-rt-1-format\",\"read-only\":false,\"driver\":\"qcow2\",\"file\":\"libvirt-1=
--storage\",\"backing\":null} -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,=
-addr=3D0x7,drive=3Dlibvirt-1-format,id=3Dvirtio-disk0 -netdev user,id=3Dhos=
-tnet0 -device e1000,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:ab:d8:29,bus=
-=3Dpci.0,addr=3D0x3 -chardev pty,id=3Dcharserial0 -device isa-serial,charde=
-v=3Dcharserial0,id=3Dserial0 -device qxl-vga,id=3Dvideo0,ram_size=3D6710886=
-4,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1,bu=
-s=3Dpci.0,addr=3D0x2 -device intel-hda,id=3Dsound0,bus=3Dpci.0,addr=3D0x4 -=
-device hda-duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -device virtio-=
-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x6 -snapshot -sandbox on,obso=
-lete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=3Ddeny -m=
-sg timestamp=3Don
-
-  This modifies tmp-16G.img.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1860759/+subscriptions
 
