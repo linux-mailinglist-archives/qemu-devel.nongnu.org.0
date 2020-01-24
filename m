@@ -2,75 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FCC148F8B
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 21:45:27 +0100 (CET)
-Received: from localhost ([::1]:47752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33CB148FCD
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 21:53:12 +0100 (CET)
+Received: from localhost ([::1]:47878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv5pW-0007xC-KZ
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 15:45:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42822)
+	id 1iv5x1-0005mX-Gn
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 15:53:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iv5l3-0008Fc-U7
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:51 -0500
+ (envelope-from <glaubitz@physik.fu-berlin.de>) id 1iv5w3-0005MD-R9
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:52:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iv5l2-0006Ek-4c
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:49 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54653)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iv5l0-0006Cy-Fj
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:48 -0500
-Received: by mail-wm1-x344.google.com with SMTP id g1so709237wmh.4
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 12:40:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/+jNmQLLkrLRuLeA6WjHIEWFKmBV3BttYfXACj4o0jI=;
- b=bnPOY3OgSY2zAdWMxMTSLM8Q3/0gfOqVnGAcY146rUK1eS4G0541hNdDKUkOS5zVFO
- RNdqgiljZCo5ZpR9jlidhcOKqanxTk3gpBEA2vcQDRRj+RMFhdPl1vIAWEtoqu88Esvz
- QmynrWwMCl4B0ZOBCqdyEcQ1h8oBBtUKS2XifK7SPQWBQVzbhMse0j9rC4kUkeZH3WVs
- vANiwD6VeIUiOijj5lW7IhmtVQjBujhRY0T8+tendeThwoI5q0PSahftTlbetmk/6JAq
- zdtsFhJ7pZ6qA/UIWWeIRILMuIQjpQgjNkPN1YWrN/g96/W+6FfNHWaUwx8WkK6EKCVm
- 4CyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/+jNmQLLkrLRuLeA6WjHIEWFKmBV3BttYfXACj4o0jI=;
- b=Q2htjoA1wQHi/iHWNuLRMAaKMpLLrvivzdOcj10ae+7yCGIAi9DdI4fECQPdepFocD
- OJjrI69L8ytaQRX1i0aetHtDI+niZaHXXk3GsZVmpre8dCfYu1U0e+4+4vU0iNwThs7S
- IBQnUGlHb6gPZnJQ9AuTDRl0NcDYqQX/SoeD9/eDBcriEf8vpdhpDMC+75o1DoRR0465
- cnIfyyT9QXcdCUlCKsrFB3mgbNdXoejFCAlx7ieu3qJSWpcUbfszugrbvDJCfT94qiPU
- oWJUarV2h7iXYEJZCGlw4IbIY2IEqKJBX3IFIH2XgTukqQrZZxd4L3scBnaDej48lank
- caWA==
-X-Gm-Message-State: APjAAAU+SLPaWp4BVnZWfnkncPOankH+U/XxGooX0abKsHq3r+0MBBIP
- Yqxve6AhTkqaQ4K0Iq6YdBpgFw==
-X-Google-Smtp-Source: APXvYqyBayAIttlYT236O+LWhXNmGQN1lRgNfO+if479VsqTAvf78pf5UQKQSQoa/TLbBVLazpbKeA==
-X-Received: by 2002:a05:600c:295a:: with SMTP id
- n26mr874082wmd.187.1579898444020; 
- Fri, 24 Jan 2020 12:40:44 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w8sm14904131wmd.2.2020.01.24.12.40.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2020 12:40:41 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B4CD21FF9D;
- Fri, 24 Jan 2020 20:40:27 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 13/13] tests/docker: enable cross-compilers for aarch64
-Date: Fri, 24 Jan 2020 20:40:26 +0000
-Message-Id: <20200124204026.2107-14-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200124204026.2107-1-alex.bennee@linaro.org>
-References: <20200124204026.2107-1-alex.bennee@linaro.org>
+ (envelope-from <glaubitz@physik.fu-berlin.de>) id 1iv5w2-0004P5-R1
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:52:11 -0500
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:53495)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1iv5w2-0004OQ-K3
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:52:10 -0500
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.85)
+ with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id <1iv5w0-002b1k-5r>; Fri, 24 Jan 2020 21:52:08 +0100
+Received: from x4e3685f7.dyn.telefonica.de ([78.54.133.247] helo=[192.168.1.8])
+ by inpost2.zedat.fu-berlin.de (Exim 4.85)
+ with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id <1iv5vz-000RWP-VR>; Fri, 24 Jan 2020 21:52:08 +0100
+Subject: Re: Booting Debian in qemu-system-alpha
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <b71832b2-8b2e-a49b-1bf9-6590056bbdbe@physik.fu-berlin.de>
+ <f3843562-cd89-d1b1-19ed-6ae505a94148@linaro.org>
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Autocrypt: addr=glaubitz@physik.fu-berlin.de; keydata=
+ mQINBE3JE9wBEADMrYGNfz3oz6XLw9XcWvuIxIlPWoTyw9BxTicfGAv0d87wngs9U+d52t/R
+ EggPePf34gb7/k8FBY1IgyxnZEB5NxUb1WtW0M3GUxpPx6gBZqOm7SK1ZW3oSORw+T7Aezl3
+ Zq4Nr4Nptqx7fnLpXfRDs5iYO/GX8WuL8fkGS/gIXtxKewd0LkTlb6jq9KKq8qn8/BN5YEKq
+ JlM7jsENyA5PIe2npN3MjEg6p+qFrmrzJRuFjjdf5vvGfzskrXCAKGlNjMMA4TgZvugOFmBI
+ /iSyV0IOaj0uKhes0ZNX+lQFrOB4j6I5fTBy7L/T3W/pCWo3wVkknNYa8TDYT73oIZ7Aimv+
+ k7OzRfnxsSOAZT8Re1Yt8mvzr6FHVFjr/VdyTtO5JgQZ6LEmvo4Ro+2ByBmCHORCQ0NJhD1U
+ 3avjGfvfslG999W0WEZLTeaGkBAN1yG/1bgGAytQQkD9NsVXqBy7S3LVv9bB844ysW5Aj1nv
+ tgIz14E2WL8rbpfjJMXi7B5ha6Lxf3rFOgxpr6ZoEn+bGG4hmrO+/ReA4SerfMqwSTnjZsZv
+ xMJsx2B9c8DaZE8GsA4I6lsihbJmXhw8i7Cta8Dx418wtEbXhL6m/UEk60O7QD1VBgGqDMnJ
+ DFSlvKa9D+tZde/kHSNmQmLLzxtDbNgBgmR0jUlmxirijnm8bwARAQABtFRKb2huIFBhdWwg
+ QWRyaWFuIEdsYXViaXR6IChGcmVpZSBVbml2ZXJzaXRhZXQgQmVybGluKSA8Z2xhdWJpdHpA
+ cGh5c2lrLmZ1LWJlcmxpbi5kZT6JAlEEEwEIADsCGwMFCwkIBwMFFQoJCAsFFgIDAQACHgEC
+ F4AWIQRi/4p1hOApVpVGAAZ0Jjs39bX5EwUCWhQoUgIZAQAKCRB0Jjs39bX5Ez/ID/98r9c4
+ WUSgOHVPSMVcOVziMOi+zPWfF1OhOXW+atpTM4LSSp66196xOlDFHOdNNmO6kxckXAX9ptvp
+ Bc0mRxa7OrC168fKzqR7P75eTsJnVaOu+uI/vvgsbUIosYdkkekCxDAbYCUwmzNotIspnFbx
+ iSPMNrpw7Ud/yQkS9TDYeXnrZDhBp7p5+naWCD/yMvh7yVCA4Ea8+xDVoX+kjv6EHJrwVupO
+ pMa39cGs2rKYZbWTazcflKH+bXG3FHBrwh9XRjA6A1CTeC/zTVNgGF6wvw/qT2x9tS7WeeZ1
+ jvBCJub2cb07qIfuvxXiGcYGr+W4z9GuLCiWsMmoff/Gmo1aeMZDRYKLAZLGlEr6zkYh1Abt
+ iz0YLqIYVbZAnf8dCjmYhuwPq77IeqSjqUqI2Cb0oOOlwRKVWDlqAeo0Bh8DrvZvBAojJf4H
+ nQZ/pSz0yaRed/0FAmkVfV+1yR6BtRXhkRF6NCmguSITC96IzE26C6n5DBb43MR7Ga/mof4M
+ UufnKADNG4qz57CBwENHyx6ftWJeWZNdRZq10o0NXuCJZf/iulHCWS/hFOM5ygfONq1Vsj2Z
+ DSWvVpSLj+Ufd2QnmsnrCr1ZGcl72OC24AmqFWJY+IyReHWpuABEVZVeVDQooJ0K4yqucmrF
+ R7HyH7oZGgR0CgYHCI+9yhrXHrQpyLkCDQRNyRQuARAArCaWhVbMXw9iHmMH0BN/TuSmeKtV
+ h/+QOT5C5Uw+XJ3A+OHr9rB+SpndJEcDIhv70gLrpEuloXhZI9VYazfTv6lrkCZObXq/NgDQ
+ Mnu+9E/E/PE9irqnZZOMWpurQRh41MibRii0iSr+AH2IhRL6CN2egZID6f93Cdu7US53ZqIx
+ bXoguqGB2CK115bcnsswMW9YiVegFA5J9dAMsCI9/6M8li+CSYICi9gq0LdpODdsVfaxmo4+
+ xYFdXoDN33b8Yyzhbh/I5gtVIRpfL+Yjfk8xAsfz78wzifSDckSB3NGPAXvs6HxKc50bvf+P
+ 6t2tLpmB/KrpozlZazq16iktY97QulyEY9JWCiEgDs6EKb4wTx+lUe4yS9eo95cBV+YlL+BX
+ kJSAMyxgSOy35BeBaeUSIrYqfHpbNn6/nidwDhg/nxyJs8mPlBvHiCLwotje2AhtYndDEhGQ
+ KEtEaMQEhDi9MsCGHe+00QegCv3FRveHwzGphY1YlRItLjF4TcFz1SsHn30e7uLTDe/pUMZU
+ Kd1xU73WWr0NlWG1g49ITyaBpwdv/cs/RQ5laYYeivnag81TcPCDbTm7zXiwo53aLQOZj4u3
+ gSQvAUhgYTQUstMdkOMOn0PSIpyVAq3zrEFEYf7bNSTcdGrgwCuCBe4DgI3Vu4LOoAeI428t
+ 2dj1K1EAEQEAAYkCHwQYAQgACQUCTckULgIbDAAKCRB0Jjs39bX5E683EAC1huywL4BlxTj7
+ FTm7FiKd5/KEH5/oaxLQN26mn8yRkP/L3xwiqXxdd0hnrPyUe8mUOrSg7KLMul+pSRxPgaHA
+ xt1I1hQZ30cJ1j/SkDIV2ImSf75Yzz5v72fPiYLq9+H3qKZwrgof9yM/s0bfsSX/GWyFatvo
+ Koo+TgrE0rmtQw82vv7/cbDAYceQm1bRB8Nr8agPyGXYcjohAj7NJcra4hnu1wUw3yD05p/B
+ Rntv7NvPWV3Oo7DKCWIS4RpEd6I6E+tN3GCePqROeK1nDv+FJWLkyvwLigfNaCLro6/292YK
+ VMdBISNYN4s6IGPrXGGvoDwo9RVo6kBhlYEfg6+2eaPCwq40IVfKbYNwLLB2MR2ssL4yzmDo
+ OR3rQFDPj+QcDvH4/0gCQ+qRpYATIegS8zU5xQ8nPL8lba9YNejaOMzw8RB80g+2oPOJ3Wzx
+ oMsmw8taUmd9TIw/bJ2VO1HniiJUGUXCqoeg8homvBOQ0PmWAWIwjC6nf6CIuIM4Egu2I5Kl
+ jEF9ImTPcYZpw5vhdyPwBdXW2lSjV3EAqknWujRgcsm84nycuJnImwJptR481EWmtuH6ysj5
+ YhRVGbQPfdsjVUQfZdRdkEv4CZ90pdscBi1nRqcqANtzC+WQFwekDzk2lGqNRDg56s+q0KtY
+ scOkTAZQGVpD/8AaLH4v1w==
+Message-ID: <22dd1024-6dd1-81b1-1a91-8d2cbf31853c@physik.fu-berlin.de>
+Date: Fri, 24 Jan 2020 21:52:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+In-Reply-To: <f3843562-cd89-d1b1-19ed-6ae505a94148@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: 78.54.133.247
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 130.133.4.66
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,86 +103,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: debian-alpha@lists.debian.org, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While Debian's aarch64 mainly only packages other ARM compilers we do
-have access to x86_64 cross compilers and a few system compilers for
-various micro controllers.
+On 1/24/20 9:19 PM, Richard Henderson wrote:
+> Oh.  Hah!  I just tried again, cutting and pasting your command-line.  You've
+> got unicode quotes, not ascii ' (\x27).  That gets passed through to the kernel
+> as-is and prevents console=ttyS0 from being parsed properly.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .../dockerfiles.aarch64/Makefile.include      | 24 +++++++++++++++++++
- .../debian10-aarch64-qemu-build.docker        |  1 +
- .../debian10-x86_64-qemu-build.docker         |  1 +
- .../debian9-armel-qemu-build.docker           |  1 +
- 4 files changed, 27 insertions(+)
- create mode 100644 tests/docker/dockerfiles.aarch64/Makefile.include
- create mode 120000 tests/docker/dockerfiles.aarch64/debian10-aarch64-qemu-build.docker
- create mode 120000 tests/docker/dockerfiles.aarch64/debian10-x86_64-qemu-build.docker
- create mode 120000 tests/docker/dockerfiles.aarch64/debian9-armel-qemu-build.docker
+Good catch. That helped. Thanks.
 
-diff --git a/tests/docker/dockerfiles.aarch64/Makefile.include b/tests/docker/dockerfiles.aarch64/Makefile.include
-new file mode 100644
-index 0000000000..791ddf856b
---- /dev/null
-+++ b/tests/docker/dockerfiles.aarch64/Makefile.include
-@@ -0,0 +1,24 @@
-+# -*- Mode: makefile -*-
-+#
-+# AArch64 Containers
-+#
-+# The cross-compilers are not as well packaged for AArch64 although we
-+# do have access to 32 bit ARM, x86 and a smattering of the
-+# microcontrollers.
-+#
-+
-+AARCH64_BASE = $(DOCKER_BASE)/dockerfiles.aarch64
-+VPATH += $(AARCH64_BASE)
-+
-+#
-+# We have both QEMU build and TEST build containers we can access
-+#
-+QEMU_BUILD_CONTAINERS += $(call get-basenames,$(wildcard $(AARCH64_BASE)/*-qemu-build.docker))
-+TEST_BUILD_CONTAINERS += $(call get-basenames,$(wildcard $(AARCH64_BASE)/*-test-build.docker))
-+
-+# Generate build-deps based on names
-+#
-+# Most of this architecture are based on Debian images
-+AARCH64_CONTAINERS=$(call get-basenames,$(wildcard $(AARCH64_BASE)/*.docker))
-+$(filter-out,debian9,$(AARCH64_CONTAINERS)): docker-image-debian9
-+$(filter-out,debian10,$(AARCH64_CONTAINERS)): docker-image-debian10
-diff --git a/tests/docker/dockerfiles.aarch64/debian10-aarch64-qemu-build.docker b/tests/docker/dockerfiles.aarch64/debian10-aarch64-qemu-build.docker
-new file mode 120000
-index 0000000000..cd1caa0704
---- /dev/null
-+++ b/tests/docker/dockerfiles.aarch64/debian10-aarch64-qemu-build.docker
-@@ -0,0 +1 @@
-+../dockerfiles/debian10-native-qemu-build.docker
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles.aarch64/debian10-x86_64-qemu-build.docker b/tests/docker/dockerfiles.aarch64/debian10-x86_64-qemu-build.docker
-new file mode 120000
-index 0000000000..63e9a69855
---- /dev/null
-+++ b/tests/docker/dockerfiles.aarch64/debian10-x86_64-qemu-build.docker
-@@ -0,0 +1 @@
-+../dockerfiles.cross/debian-amd64-full-cross.docker
-\ No newline at end of file
-diff --git a/tests/docker/dockerfiles.aarch64/debian9-armel-qemu-build.docker b/tests/docker/dockerfiles.aarch64/debian9-armel-qemu-build.docker
-new file mode 120000
-index 0000000000..b818459261
---- /dev/null
-+++ b/tests/docker/dockerfiles.aarch64/debian9-armel-qemu-build.docker
-@@ -0,0 +1 @@
-+../dockerfiles.cross/debian-armel-full-cross.docker
-\ No newline at end of file
+I'm considering setting up two qemu-based buildds for alpha in the cloud now.
+
+Adrian
+
 -- 
-2.20.1
-
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
