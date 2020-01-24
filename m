@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E95147DB1
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:03:21 +0100 (CET)
-Received: from localhost ([::1]:39678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC138147DB5
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:04:54 +0100 (CET)
+Received: from localhost ([::1]:39708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuvo8-00075o-1H
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:03:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38034)
+	id 1iuvpd-000215-V6
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:04:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38102)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1iuvmk-0005fZ-9N
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:01:55 -0500
+ (envelope-from <stefanha@redhat.com>) id 1iuvn3-00069l-8S
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:02:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1iuvmf-00063d-G9
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:01:54 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27156)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1iuvmf-00061q-8e
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:01:49 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00O9vcMd081422
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 05:01:48 -0500
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xqmjt0hkc-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 05:01:47 -0500
-Received: from localhost
- by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Fri, 24 Jan 2020 10:01:45 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 24 Jan 2020 10:01:42 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 00OA0ote21758242
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Jan 2020 10:00:50 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5266C4204C;
- Fri, 24 Jan 2020 10:01:41 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B004642042;
- Fri, 24 Jan 2020 10:01:39 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.180.45])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 24 Jan 2020 10:01:39 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
+ (envelope-from <stefanha@redhat.com>) id 1iuvn1-0006NN-TN
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:02:13 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60578
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iuvn1-0006MT-Q6
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:02:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579860130;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kWikCDmOGAbrSgZhG31+QcepqYLZGbzykBMQZNIcJHQ=;
+ b=cQ++j/c7sPJNng5mdwiuqNuVoMxu6nP7zHeBKO+4yMSlW/pppmxdsE1dIaP8JM2lTxuS/C
+ 1YdmCf3KUSpha4rL84+F721Ber1Bb01k3XXb+1XQARxgsK5eq3+pZqJzD1LIr1WZRzXoXY
+ b12ghttvIX0HneGOit0hfMBLYseE+uk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-113-CrYtSojqNRGJZ9XzoeJxEg-1; Fri, 24 Jan 2020 05:02:07 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 242DB8017CC;
+ Fri, 24 Jan 2020 10:02:06 +0000 (UTC)
+Received: from localhost (ovpn-117-162.ams2.redhat.com [10.36.117.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D845019481;
+ Fri, 24 Jan 2020 10:02:00 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] s390x: sigp: Fix sense running reporting
-Date: Fri, 24 Jan 2020 05:01:37 -0500
-X-Mailer: git-send-email 2.20.1
+Subject: [PATCH v2 0/4] virtio-pci: enable blk and scsi multi-queue by default
+Date: Fri, 24 Jan 2020 10:01:55 +0000
+Message-Id: <20200124100159.736209-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 20012410-0012-0000-0000-000003803E94
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20012410-0013-0000-0000-000021BC883F
-Message-Id: <20200124100137.28656-1-frankja@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-24_02:2020-01-24,
- 2020-01-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015
- spamscore=0 suspectscore=1 priorityscore=1501 mlxscore=0 phishscore=0
- bulkscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-2001240082
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: CrYtSojqNRGJZ9XzoeJxEg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,33 +67,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, thuth@redhat.com, cohuck@redhat.com,
- qemu-s390x@nongnu.org, david@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The logic was inversed and reported running if the cpu was stopped.
-Let's fix that.
+v2:
+ * Let the virtio-DEVICE-pci device select num-queues because the optimal
+   multi-queue configuration may differ between virtio-pci, virtio-mmio, an=
+d
+   virtio-ccw [Cornelia]
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
- target/s390x/sigp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Enabling multi-queue on virtio-pci storage devices improves performance on =
+SMP
+guests because the completion interrupt is handled on the vCPU that submitt=
+ed
+the I/O request.  This avoids IPIs inside the guest.
 
-diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
-index 727875bb4a..286c0d6c9c 100644
---- a/target/s390x/sigp.c
-+++ b/target/s390x/sigp.c
-@@ -347,7 +347,7 @@ static void sigp_sense_running(S390CPU *dst_cpu, SigpInfo *si)
-     }
- 
-     /* If halted (which includes also STOPPED), it is not running */
--    if (CPU(dst_cpu)->halted) {
-+    if (!CPU(dst_cpu)->halted) {
-         si->cc = SIGP_CC_ORDER_CODE_ACCEPTED;
-     } else {
-         set_sigp_status(si, SIGP_STAT_NOT_RUNNING);
--- 
-2.20.1
+Note that performance is unchanged in these cases:
+1. Uniprocessor guests.  They don't have IPIs.
+2. Application threads might be scheduled on the sole vCPU that handles
+   completion interrupts purely by chance.  (This is one reason why benchma=
+rk
+   results can vary noticably between runs.)
+3. Users may bind the application to the vCPU that handles completion
+   interrupts.
+
+Set the number of queues to the number of vCPUs by default.  Older machine
+types continue to default to 1 queue for live migration compatibility.
+
+This patch improves IOPS by 1-4% on an Intel Optane SSD with 4 vCPUs, -driv=
+e
+aio=3Dnative, and fio bs=3D4k direct=3D1 rw=3Drandread.
+
+Stefan Hajnoczi (4):
+  virtio-scsi: introduce a constant for fixed virtqueues
+  virtio-scsi: default num_queues to -smp N
+  virtio-blk: default num_queues to -smp N
+  vhost-user-blk: default num_queues to -smp N
+
+ hw/block/vhost-user-blk.c          |  6 +++++-
+ hw/block/virtio-blk.c              |  6 +++++-
+ hw/core/machine.c                  |  5 +++++
+ hw/scsi/vhost-scsi.c               |  3 ++-
+ hw/scsi/vhost-user-scsi.c          |  5 +++--
+ hw/scsi/virtio-scsi.c              | 13 +++++++++----
+ hw/virtio/vhost-scsi-pci.c         | 10 ++++++++--
+ hw/virtio/vhost-user-blk-pci.c     |  6 ++++++
+ hw/virtio/vhost-user-scsi-pci.c    | 10 ++++++++--
+ hw/virtio/virtio-blk-pci.c         |  9 ++++++++-
+ hw/virtio/virtio-scsi-pci.c        | 10 ++++++++--
+ include/hw/virtio/vhost-user-blk.h |  2 ++
+ include/hw/virtio/virtio-blk.h     |  2 ++
+ include/hw/virtio/virtio-scsi.h    |  5 +++++
+ 14 files changed, 76 insertions(+), 16 deletions(-)
+
+--=20
+2.24.1
 
 
