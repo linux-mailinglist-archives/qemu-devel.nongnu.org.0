@@ -2,68 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CD0147AF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 10:40:40 +0100 (CET)
-Received: from localhost ([::1]:39317 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F474147D00
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 10:58:05 +0100 (CET)
+Received: from localhost ([::1]:39552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuvSB-0004w5-Tf
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 04:40:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33890)
+	id 1iuvj2-0002lM-Mh
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 04:58:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37070)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iuvRA-0003gm-Bz
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 04:39:37 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iuviG-0001xp-0n
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 04:57:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iuvR9-0006GS-6r
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 04:39:36 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37119
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iuviE-0001Sx-D1
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 04:57:15 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34067 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iuvR9-0006G3-2e
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 04:39:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579858774;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=1vY8OaegJzn5LL8P6e2mC+9dCQ/2UJodKmSZqQ08NEE=;
- b=YLYnxSNZY8wlW/4PZXyeJMpJIWvSdSM8p9CxhLybm4bS2jt0poVDqCCCClVJyv+ZOE4eMR
- Xm/IejJwVVyJBTst5dJ66bVzlIY6riMAeXnwHOPXuGfIWOgD8TuzyBuPQMmdesIZ5MO3kt
- 7HoEu0L4Hyt/MmV487grt0B4exQjxOU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-NSA5XfRQM4-QKvwhR5zeWQ-1; Fri, 24 Jan 2020 04:39:31 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22A798010CA;
- Fri, 24 Jan 2020 09:39:30 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-156.ams2.redhat.com [10.36.116.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 423DE388;
- Fri, 24 Jan 2020 09:39:29 +0000 (UTC)
-Subject: Re: [PATCH 4/5] target/s390x: Move DisasFields into DisasContext
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200123232248.1800-1-richard.henderson@linaro.org>
- <20200123232248.1800-5-richard.henderson@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <49e5c963-ae6a-f0da-5943-14f193ae62fc@redhat.com>
-Date: Fri, 24 Jan 2020 10:39:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iuviD-0001NK-4A; Fri, 24 Jan 2020 04:57:14 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 483vgh6TM4z9sSg; Fri, 24 Jan 2020 20:57:04 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1579859824;
+ bh=Jv9n+UHA2DQ1DSZSZ0KSEU+QAMycleC8pBL5mcEEMwI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bGXQub9MjyKbqy2KBXmR17Cfdxrm41EPqll4hs8CXFA67cKl5y8Gl12OP+Mwy9s/s
+ 40NAJ+WWPTOTmyZRR/TrXtPO8wnSWCSS/rnHk0bOWhJnm6hKFJNRouMqbElLNStN5p
+ sQNs25JbqmPit9zjnbzhnibm9oSp3qRFB6MzPTiI=
+Date: Fri, 24 Jan 2020 20:40:00 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH REPOST v3 68/80] ppc/virtex_ml507: remove unused arguments
+Message-ID: <20200124094000.GT2347@umbus.fritz.box>
+References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
+ <1579779525-20065-69-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200123232248.1800-5-richard.henderson@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: NSA5XfRQM4-QKvwhR5zeWQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8DtChEGCcMdSgkU2"
+Content-Disposition: inline
+In-Reply-To: <1579779525-20065-69-git-send-email-imammedo@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,28 +55,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com
+Cc: edgar.iglesias@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/01/2020 00.22, Richard Henderson wrote:
-> I believe that the separate allocation of DisasFields from DisasContext
-> was meant to limit the places from which we could access fields.  But
-> that plan did not go unchanged, and since DisasContext contains a pointer
-> to fields, the substructure is accessible everywhere.
-> 
-> By allocating the substructure with DisasContext, we improve the locality
-> of the accesses by avoiding one level of pointer chasing.  In addition,
-> we avoid a dangling pointer to stack allocated memory, diagnosed by static
-> checkers.
-> 
-> Launchpad: https://bugs.launchpad.net/bugs/1661815
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+--8DtChEGCcMdSgkU2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jan 23, 2020 at 12:38:33PM +0100, Igor Mammedov wrote:
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+
+Acked-by: David Gibson <david@gibson.dopbear.id.au>
+
 > ---
->  target/s390x/translate.c        | 22 +++++++++---------
->  target/s390x/translate_vx.inc.c | 40 ++++++++++++++++-----------------
->  2 files changed, 30 insertions(+), 32 deletions(-)
+> CC: david@gibson.dropbear.id.au
+> CC: qemu-ppc@nongnu.org
+> CC: edgar.iglesias@gmail.com
+> ---
+>  hw/ppc/virtex_ml507.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+> index 6862552..651d8db 100644
+> --- a/hw/ppc/virtex_ml507.c
+> +++ b/hw/ppc/virtex_ml507.c
+> @@ -89,10 +89,7 @@ static void mmubooke_create_initial_mapping(CPUPPCStat=
+e *env,
+>      tlb->PID =3D 0;
+>  }
+> =20
+> -static PowerPCCPU *ppc440_init_xilinx(ram_addr_t *ram_size,
+> -                                      int do_init,
+> -                                      const char *cpu_type,
+> -                                      uint32_t sysclk)
+> +static PowerPCCPU *ppc440_init_xilinx(const char *cpu_type, uint32_t sys=
+clk)
+>  {
+>      PowerPCCPU *cpu;
+>      CPUPPCState *env;
+> @@ -213,7 +210,7 @@ static void virtex_init(MachineState *machine)
+>      int i;
+> =20
+>      /* init CPUs */
+> -    cpu =3D ppc440_init_xilinx(&ram_size, 1, machine->cpu_type, 40000000=
+0);
+> +    cpu =3D ppc440_init_xilinx(machine->cpu_type, 400000000);
+>      env =3D &cpu->env;
+> =20
+>      if (env->mmu_model !=3D POWERPC_MMU_BOOKE) {
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--8DtChEGCcMdSgkU2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4qu20ACgkQbDjKyiDZ
+s5Jf7g//RjH5CD6/IPbvi+gGZ17KiQRFqaRaGJ6upvAW2Ei3+pcKdGpvhvFI2Hi9
+nbwuQv/1WCWYlpDrXKh2xTJ9993JLEmpOqUsMVUcuU21owb9Ij48JVltpMI8BEJD
+BhC7GdHP13Rnkmh61hCgt9pHRL+POteAFr4l7VJ8qIrVSHTbq9GSmJZNHqGhO7KI
+tVHqMorhDkiPCJlSmLZ775a18kiI2wgCY/l3/XGMGouSsozRTqZMwRRIPCGeoKyN
+us2PLrv5dGPc9tNa3g/eJTD4WGJoejGAz0iCSxIc6vE9GtPJ9KoxamAwaP9Aik+L
+goeFOFh2nkJDiTW8jT/qb2IYmQzxR5guehiMeQxqa0yDP2VYgmbvyrINQscR8cWB
+L+zoVFzQmiBB3RJO68c2VPLJ2qGIxyo0+cA8wEtgmvX2TAM38leZofDs2U9EDZEc
+Ma9VUQ8q4CDG376QKqDlKOBN7DC8x7AY2q2Pw/+94oMcgP6gtJVmc/wGb1b66RzA
+y9kngC/9m0JgRAhUhy15yqnkDN5bQWZ5MUkajYzm9opZpH2HzWpAQeKZP7YOQpMt
+sHe/Ufl8ovYBYESgNiyijxpYrYrVN8482nSPQDBLK/DAHU5LO2sbznTodUb57Svm
+BETIK1K8WGzC5OHK90sq5/sflVGALkjszCzRqVfHw81BiELzq0E=
+=pVMG
+-----END PGP SIGNATURE-----
+
+--8DtChEGCcMdSgkU2--
 
