@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B034147DB9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:07:25 +0100 (CET)
-Received: from localhost ([::1]:39782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E88FC147DBB
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:08:54 +0100 (CET)
+Received: from localhost ([::1]:39816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuvs4-00068U-Al
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:07:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38894)
+	id 1iuvtW-0000Po-0O
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:08:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39012)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iuvq6-0003O8-19
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:05:22 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iuvqf-0004ZX-Gz
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:05:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iuvq4-00016r-Oz
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:05:21 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45285)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iuvq4-00015R-Iu
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:05:20 -0500
-Received: by mail-ot1-x344.google.com with SMTP id 59so1076620otp.12
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 02:05:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5nTWtV7lYukw91KpsAmGaCUsmanaGccNVUAvd8pQvGs=;
- b=ByNIU5GfDgKvdSQXlPtHFOhUl7EAEdZcioOWGYMfCFRMh1c07xVxzSWCZLsaVrh4Us
- 99whgTD6GRR6bQz5nOdLY2gK86DCW9LVDEAnlb7x/DQsKMNxcNSoGMldtaaeupqSuYr3
- fG/xQBNvLGsXIG6Ph3E0+DOU9E6Od2eqAipCAcv2cdwgl3vEQQGlRVJmOyg5iv4iGZZZ
- AClhQ4cyIuIBQEICzIyHr5I8S6jzaOaXF1rtdsdj7RjddLftRNMJqzAkfBe8SLJR0V1Y
- qgCivGXmU4FOG+KGmAhxL0QzMFsQan+AjQYFdSFHMbKp/s30UwGp/9Q8LISsmNrMEmel
- ev1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5nTWtV7lYukw91KpsAmGaCUsmanaGccNVUAvd8pQvGs=;
- b=GlabRniXH/tgH6ELXwtI3+UZYntzNC55mQuc2D55FehKzWGyoiZ6nsQD7lDzHpHENa
- Q7+QkxX9cJPSt1Y69Dlxxog8SrHKGpw/rsbevCUEk5NEW9aYf4I5l46vEQ1am9I1MYZe
- m/YTfhR4B7k6omNPm/XkjcpG+Xxo7AVGXjBFIKTNm2L+Xjpljz/783uIbkQOCd5l8cp/
- zmR2G8oumqB0Cz+XgDeysmDne90cK/TlDqlWB1PRr3kwlc+UmqEqHvYHoc+wADl5R4s1
- FCJ/Obf9g8YiMffX/0boLI7U4/yTB69Wg4dptCKHvYZPKmcq6pBaHSB8/cARyH1Gn6di
- y/3Q==
-X-Gm-Message-State: APjAAAV6PpbqtBKyYehHF98Gy+38S+03JcgviNnDIzpVwbAxm+cHFP84
- 9t/n+hRaoNQY/cdAx2xArDhWFy55bIjEsOthaIUBgQ==
-X-Google-Smtp-Source: APXvYqwBxzvQwY0N9sFHUW9ZPPq2vVPgAj/+kV4Mu7iKr64k490XWmtACz+lYB6u5HrDU6vRCc22Xepz53DwiVe6RB8=
-X-Received: by 2002:a05:6830:13d3:: with SMTP id
- e19mr2115886otq.135.1579860319633; 
- Fri, 24 Jan 2020 02:05:19 -0800 (PST)
+ (envelope-from <cohuck@redhat.com>) id 1iuvqe-0001hg-FV
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:05:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38396
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iuvqe-0001hN-Bc
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:05:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579860356;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wy5YzHDdsr2qqpSVhC05VXyiO7gJIKM1+zMcbcg62TM=;
+ b=Sk8B+OyO/nvrmI48c0G3I18AdVY9ciS13cZWo/rb+lo53pTdmugaIid5ikupVdXNGDT3bi
+ a1vgajy5gLeALurzjC6QXI/j/ktbr/hKG2v+LBhXZTnmHTkY5n7J64dopkopoYAYQo1mw5
+ YIFajtDuBMSyq/JVAmXujSqC+QjmPRg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-pZ_4rxarMV2qhAbp-v5b9A-1; Fri, 24 Jan 2020 05:05:54 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32553805731;
+ Fri, 24 Jan 2020 10:05:53 +0000 (UTC)
+Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D70BA5C28D;
+ Fri, 24 Jan 2020 10:05:49 +0000 (UTC)
+Date: Fri, 24 Jan 2020 11:05:47 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH] s390x: sigp: Fix sense running reporting
+Message-ID: <20200124110547.50c73851.cohuck@redhat.com>
+In-Reply-To: <20200124100137.28656-1-frankja@linux.ibm.com>
+References: <20200124100137.28656-1-frankja@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20200123132823.1117486-1-damien.hedde@greensocs.com>
-In-Reply-To: <20200123132823.1117486-1-damien.hedde@greensocs.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 Jan 2020 10:05:07 +0000
-Message-ID: <CAFEAcA8G7zGwRkbGRjyK4P7KZ9V+cboBHwnTH=jJs4NWu7rMMA@mail.gmail.com>
-Subject: Re: [PATCH v8 00/11] Multi-phase reset mechanism
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: pZ_4rxarMV2qhAbp-v5b9A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,24 +71,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
- Cornelia Huck <cohuck@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Edgar Iglesias <edgari@xilinx.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-s390x@nongnu.org, borntraeger@de.ibm.com, thuth@redhat.com,
+ qemu-devel@nongnu.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jan 2020 at 13:28, Damien Hedde <damien.hedde@greensocs.com> wrote:
-> v8:
->   + patch 3&5: ResettableState::count type from uint32_t to unsigned
->     (Philippe)
+On Fri, 24 Jan 2020 05:01:37 -0500
+Janosch Frank <frankja@linux.ibm.com> wrote:
 
-We'll have to change that back if we ever want to migrate
-the count (migration insists on fixed-sized types), but
-I guess we can do that when we get to it...
+> The logic was inversed and reported running if the cpu was stopped.
 
--- PMM
+s/inversed/inverted/ ?
+
+> Let's fix that.
+>
+
+Fixes: d1b468bc8869 ("s390x/tcg: implement SIGP SENSE RUNNING STATUS")
+
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>  target/s390x/sigp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
+> index 727875bb4a..286c0d6c9c 100644
+> --- a/target/s390x/sigp.c
+> +++ b/target/s390x/sigp.c
+> @@ -347,7 +347,7 @@ static void sigp_sense_running(S390CPU *dst_cpu, SigpInfo *si)
+>      }
+>  
+>      /* If halted (which includes also STOPPED), it is not running */
+> -    if (CPU(dst_cpu)->halted) {
+> +    if (!CPU(dst_cpu)->halted) {
+>          si->cc = SIGP_CC_ORDER_CODE_ACCEPTED;
+>      } else {
+>          set_sigp_status(si, SIGP_STAT_NOT_RUNNING);
+
+I'm wondering why nobody noticed this before...
+
 
