@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFFE11491EC
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jan 2020 00:22:20 +0100 (CET)
-Received: from localhost ([::1]:49180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7503F149202
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jan 2020 00:27:12 +0100 (CET)
+Received: from localhost ([::1]:49312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv8HL-0006Ux-Qx
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 18:22:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59567)
+	id 1iv8M3-0006WH-9S
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 18:27:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59681)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iv8Fm-0004n4-9q
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 18:20:43 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iv8Fo-0004sE-N2
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 18:20:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iv8Fl-0006C9-5s
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 18:20:42 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:35553)
+ (envelope-from <richard.henderson@linaro.org>) id 1iv8Fn-0006Gj-G5
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 18:20:44 -0500
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:38214)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iv8Fl-0006Ai-0X
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 18:20:41 -0500
-Received: by mail-pg1-x541.google.com with SMTP id l24so1900218pgk.2
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 15:20:40 -0800 (PST)
+ id 1iv8Fn-0006FK-9s
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 18:20:43 -0500
+Received: by mail-pg1-x531.google.com with SMTP id a33so1897279pgm.5
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 15:20:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LyaUkwCB5pGZjL9QvGR1TmTQePhraVEHq9yGAmQ9nZc=;
- b=UDiHsYBjAC2ByTUjNn9PUOMXnx1fxjmjqFEtvM6laTHPD3zUEqz4zIdVN9lxORFvOK
- aH/LfFE1wJFya8+wf1T/zlTQnsHbh2aosxXgGdlsT2sclWLqKuJPFciUiMP5I370csP/
- sJFo8asCGtIDep5mYZLv9oWBTYAmlt2NFOSZfOJuNO2Z4p0hiKyK9VubHqAwZbXFtg+A
- NKn82O7+/xj3RPHlHVXRm8JBo/vGtUFg2+CZXE0cO1C3rntET5UtyvB9wTDIGPVTw4rD
- Xfygs5hA7CXLhbJ2ek5wOH+UTcgjY20tiUXcIsr4ALjRzO7rp8mNgBkfZqmBr9xXhmbc
- BRuQ==
+ bh=UyCQge1KXUAicsccNG4/t552CMDJ9UzmYHcJdartGao=;
+ b=nAA/OUw8/taL8k9ueq3WwA8/0jMt6J9uHGCXCVyFueNRE3zHqMdkwnvvdRGIbX6rCR
+ k6cajBM+YHyX2DxdFt57Px2pI9/g1abHMFFjW22teQU+AtbdOfnuCODK3Op7EJin4IHv
+ 5DjPXbFYvbZ4QK4da3YZws6p95xoNEk2AqsU/MzKyjLmVKpyzYCQCHssBqoTdLygR9NM
+ bcTTdQ2fXCjMLy18bdg+8uynCY72FWETb/7Bf54ZC+wj7mDKklvvRFedVWe/qSYBgJvB
+ upryRslcoAY7x/2XoV6FcqVnvwdKDUVJd7b00QZ6L2DuQ9aFWKSr6+sc6CjwhZBIKBHE
+ O1Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LyaUkwCB5pGZjL9QvGR1TmTQePhraVEHq9yGAmQ9nZc=;
- b=eWig4pKwIq/VR2PhnxZ/rN4H6mNPrscsO7x1g3N8reobO9q6zBpif0Wo/CHhMXCsrf
- j0wFk8AlYEtrnjQrl8AHcUXVfjX+acQVCXytKC8JUMturbzLM50u/bNgiMfYAF+ucoup
- HPDxmt7IlPLbXAPmh1UYXOUHVZfrpX5lw1nGEyj9NraAiyRMao+fd1G3nDCfPJHegf/6
- lTbBXHhJC0kflFA1eGk3qf0jgTTfv//V0PJ3WkFRRfksXXl5vKTxgt5LJsT7a6EjPpRu
- 1QHHib/6iMDaP8jQyKNFqAaJYrUHdVmGush+LFS6HuCdYLRxcWMfoRJJpuyl22HlFDTW
- hcwg==
-X-Gm-Message-State: APjAAAUob9/vEgHIb4a5RLQTRDZsbU9AkkSK55/Xz30Zk+h5eUUD/qJn
- y7CUTH4tpEsS1Lf6dO9X2RvUx5BaIHQ=
-X-Google-Smtp-Source: APXvYqzd0/4058c0PGwL7h2gqwBoqHRjoElaMJThZlTyPYZoQYc2u7bIwv0aKgdGv1X0c+/izPRkzA==
-X-Received: by 2002:a65:4c8b:: with SMTP id m11mr7008888pgt.208.1579908039652; 
- Fri, 24 Jan 2020 15:20:39 -0800 (PST)
+ bh=UyCQge1KXUAicsccNG4/t552CMDJ9UzmYHcJdartGao=;
+ b=qEOJgU7NIqIKFP3yW+lIgiEMaT9x7IyV0LIrSszgNwHZf9H5CqK1TZJtfCLBA1Kajj
+ kOvLrc1k0qllnBzySyCuIfI3IGaZGkMq9J8WiCp0clPMJh56eGmvuiwFbRCy2/sVbdKz
+ M4bNtV1XOzIllTJ9XUO7NjosKWyMbtlLsewmqq4IQF9iIV82xwFkNbn5/qj8utkCS6uN
+ IcMAiFQ2DWFQa8NR8nCi5z9LNgAbZkFmooWjRmzaRUzZkAp6oAsMLtlmLSzcDzKUFiaX
+ IgO4XQJn4qv55YdjNHUTYhoM5V4BzPa3UrINzfHbsQoQorRbJaXn1dQDJQVMjoPuWkvy
+ kk7Q==
+X-Gm-Message-State: APjAAAVKWLEqQCrh1Ol1vvrlCOv4tlVgnQ8eNGQxux9rbxflkNF2P2Gy
+ z5TvWZhXpcsIvumJ4x4RwT+68zczbdQ=
+X-Google-Smtp-Source: APXvYqx7J7VQGSC0UN8DQSwXlvCVd6mqyTrkKrH6/hLA3eS7vCh/9ExC5w3Q0oY9LwBa66JqR3McQw==
+X-Received: by 2002:a63:5220:: with SMTP id g32mr3720534pgb.116.1579908041931; 
+ Fri, 24 Jan 2020 15:20:41 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-198-77-92.west.biz.rr.com.
  [173.198.77.92])
- by smtp.gmail.com with ESMTPSA id v4sm8377880pgo.63.2020.01.24.15.20.37
+ by smtp.gmail.com with ESMTPSA id v4sm8377880pgo.63.2020.01.24.15.20.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2020 15:20:39 -0800 (PST)
+ Fri, 24 Jan 2020 15:20:41 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 10/11] hw/hppa/machine: Map the PDC memory region with
- higher priority
-Date: Fri, 24 Jan 2020 13:20:08 -1000
-Message-Id: <20200124232009.12928-11-richard.henderson@linaro.org>
+Subject: [PULL v3 11/11] target/hppa: Allow, but diagnose,
+ LDCW aligned only mod 4
+Date: Fri, 24 Jan 2020 13:20:09 -1000
+Message-Id: <20200124232009.12928-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200124232009.12928-1-richard.henderson@linaro.org>
 References: <20200124232009.12928-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::531
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,48 +79,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, deller@gmx.de, svens@stackframe.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, deller@gmx.de,
+ John David Anglin <dave.anglin@bell.net>, svens@stackframe.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The PA-RISC 1.1 specification says that LDCW must be aligned mod 16
+or the operation is undefined.  However, real hardware only generates
+an unaligned access trap for unaligned mod 4.
 
-The region in range [0xf0000000 - 0xf1000000] is the PDC area
-(Processor Dependent Code), where the firmware is loaded.
-This region has higher priority than the main memory.
+Match real hardware, but diagnose with GUEST_ERROR a violation of
+the specification.
 
-When the machine has more than 3840MB of RAM, there is an
-overlap. Since the PDC is closer to the CPU in the bus
-hierarchy, it gets accessed first, and the CPU does not have
-access to the RAM in this range.
+At the same time fix a bug in the initialization of mop, where the
+size was specified twice, and another to free the zero temporary.
 
-To model the same behavior and keep a simple memory layout,
-reduce the priority of the RAM region. The PDC region ends
-overlapping the RAM.
-
-Acked-by: Helge Deller <deller@gmx.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200109000525.24744-4-f4bug@amsat.org>
+Tested-by: Helge Deller <deller@gmx.de>
+Reported-by: Helge Deller <deller@gmx.de>
+Suggested-by: John David Anglin <dave.anglin@bell.net>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/hppa/machine.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/hppa/helper.h    |  2 ++
+ target/hppa/op_helper.c |  9 +++++++++
+ target/hppa/translate.c | 15 ++++++++++++++-
+ 3 files changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 57cb4e0f34..2d62a248b8 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -100,7 +100,7 @@ static void machine_hppa_init(MachineState *machine)
-     ram_region = g_new(MemoryRegion, 1);
-     memory_region_allocate_system_memory(ram_region, OBJECT(machine),
-                                          "ram", ram_size);
--    memory_region_add_subregion(addr_space, 0, ram_region);
-+    memory_region_add_subregion_overlap(addr_space, 0, ram_region, -1);
+diff --git a/target/hppa/helper.h b/target/hppa/helper.h
+index 38d834ef6b..2d483aab58 100644
+--- a/target/hppa/helper.h
++++ b/target/hppa/helper.h
+@@ -17,6 +17,8 @@ DEF_HELPER_FLAGS_3(stby_b_parallel, TCG_CALL_NO_WG, void, env, tl, tr)
+ DEF_HELPER_FLAGS_3(stby_e, TCG_CALL_NO_WG, void, env, tl, tr)
+ DEF_HELPER_FLAGS_3(stby_e_parallel, TCG_CALL_NO_WG, void, env, tl, tr)
  
-     /* Init Lasi chip */
-     lasi_init(addr_space);
++DEF_HELPER_FLAGS_1(ldc_check, TCG_CALL_NO_RWG, void, tl)
++
+ DEF_HELPER_FLAGS_4(probe, TCG_CALL_NO_WG, tr, env, tl, i32, i32)
+ 
+ DEF_HELPER_FLAGS_1(loaded_fr0, TCG_CALL_NO_RWG, void, env)
+diff --git a/target/hppa/op_helper.c b/target/hppa/op_helper.c
+index f0516e81f1..7823706e9c 100644
+--- a/target/hppa/op_helper.c
++++ b/target/hppa/op_helper.c
+@@ -153,6 +153,15 @@ void HELPER(stby_e_parallel)(CPUHPPAState *env, target_ulong addr,
+     do_stby_e(env, addr, val, true, GETPC());
+ }
+ 
++void HELPER(ldc_check)(target_ulong addr)
++{
++    if (unlikely(addr & 0xf)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "Undefined ldc to unaligned address mod 16: "
++                      TARGET_FMT_lx "\n", addr);
++    }
++}
++
+ target_ureg HELPER(probe)(CPUHPPAState *env, target_ulong addr,
+                           uint32_t level, uint32_t want)
+ {
+diff --git a/target/hppa/translate.c b/target/hppa/translate.c
+index f25927aeca..52d7bea1ea 100644
+--- a/target/hppa/translate.c
++++ b/target/hppa/translate.c
+@@ -2942,7 +2942,7 @@ static bool trans_st(DisasContext *ctx, arg_ldst *a)
+ 
+ static bool trans_ldc(DisasContext *ctx, arg_ldst *a)
+ {
+-    MemOp mop = MO_TEUL | MO_ALIGN_16 | a->size;
++    MemOp mop = MO_TE | MO_ALIGN | a->size;
+     TCGv_reg zero, dest, ofs;
+     TCGv_tl addr;
+ 
+@@ -2958,8 +2958,21 @@ static bool trans_ldc(DisasContext *ctx, arg_ldst *a)
+ 
+     form_gva(ctx, &addr, &ofs, a->b, a->x, a->scale ? a->size : 0,
+              a->disp, a->sp, a->m, ctx->mmu_idx == MMU_PHYS_IDX);
++
++    /*
++     * For hppa1.1, LDCW is undefined unless aligned mod 16.
++     * However actual hardware succeeds with aligned mod 4.
++     * Detect this case and log a GUEST_ERROR.
++     *
++     * TODO: HPPA64 relaxes the over-alignment requirement
++     * with the ,co completer.
++     */
++    gen_helper_ldc_check(addr);
++
+     zero = tcg_const_reg(0);
+     tcg_gen_atomic_xchg_reg(dest, addr, zero, ctx->mmu_idx, mop);
++    tcg_temp_free(zero);
++
+     if (a->m) {
+         save_gpr(ctx, a->b, ofs);
+     }
 -- 
 2.20.1
 
