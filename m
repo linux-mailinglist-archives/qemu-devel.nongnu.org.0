@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B5A147EDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:41:17 +0100 (CET)
-Received: from localhost ([::1]:40362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C9E147F07
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:53:59 +0100 (CET)
+Received: from localhost ([::1]:40552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuwOq-0000DB-W5
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:41:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48268)
+	id 1iuwb8-00007W-Ju
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:53:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54444)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iuwNW-0007Us-NZ
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:39:55 -0500
+ (envelope-from <bounces@canonical.com>) id 1iuwYi-0005Lj-BB
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:52:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iuwNV-0006ii-AU
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:39:54 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34335
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iuwNV-0006hD-6J
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:39:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579862392;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Txes1tHFlN8wGGxefrtpyxNb8B5mcTcHfPI095nKwOI=;
- b=dA+79j36bdBybNpV4enX3mYRN3Lpq15YfA3J+Z9yld03pk5emD0QpOF75a2EUs2bStc9g+
- qi2Byhid3rV/tF7BVrObzC2nGSdpKJCImKrJ3Nr4d1p+Boa8u44EmHCUeQNOryA6o5obYu
- 5nfygAmD5CwGHOF6K4zbUePkRd7IEb4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-Fy8A_Ro3O_uPJZHUB_3WfA-1; Fri, 24 Jan 2020 05:39:50 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E46608010F5
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 10:39:49 +0000 (UTC)
-Received: from work-vm (ovpn-117-253.ams2.redhat.com [10.36.117.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F14FE28997;
- Fri, 24 Jan 2020 10:39:47 +0000 (UTC)
-Date: Fri, 24 Jan 2020 10:39:45 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v3 10/21] ram_addr: Split RAMBlock definition
-Message-ID: <20200124103945.GH2970@work-vm>
-References: <20200123115831.36842-1-quintela@redhat.com>
- <20200123115831.36842-11-quintela@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1iuwXy-00082x-9D
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:51:28 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33398)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iuwXy-0007yF-1d
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:50:42 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iuwXw-0004bL-C0
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 10:50:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4E7EE2E80C9
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 10:50:40 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200123115831.36842-11-quintela@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: Fy8A_Ro3O_uPJZHUB_3WfA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Fri, 24 Jan 2020 10:41:37 -0000
+From: Ildar <1860759@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ildar-users xanclic
+X-Launchpad-Bug-Reporter: Ildar (ildar-users)
+X-Launchpad-Bug-Modifier: Ildar (ildar-users)
+References: <157985376657.5102.13233182944615356318.malonedeb@wampee.canonical.com>
+ <157986030424.5154.393920880621051062.malone@chaenomeles.canonical.com>
+Message-Id: <CACAYGhuurXCHk7b9we2P7Vbx_dajAN5_i4FyL7Ck3q4-m7fbQA@mail.gmail.com>
+Subject: Re: [Bug 1860759] Re: [REGRESSION] option `-snapshot` ignored with
+ blockdev
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0729af11953132df803be25b42beaba6f53e576a
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,172 +66,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1860759 <1860759@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> We need some of the fields without having to poison everything else.
->=20
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+Max, thanks a lot for the explanation.
+Do you mean that snapshot-ing isn't possible totally for blockdev? Then I
+guess some libvirt users are in trouble :((
+Actually I didn't quite caught the reason why a blockdev supports backing
+but not {backing to a file on /tmp then promptly deleted} ? What's the
+technical difference?
 
-OK.
-(I guess the copyright matches the file we're splitting from; would be
-good to update the date some time).
+-- =
 
-I wondered if any of the RAMBlock related function declarations should
-move as wlel; but it's not obvious which ones.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1860759
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Title:
+  [REGRESSION] option `-snapshot` ignored with blockdev
 
-> ---
->  MAINTAINERS             |  1 +
->  include/exec/ram_addr.h | 40 +-------------------------
->  include/exec/ramblock.h | 64 +++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 66 insertions(+), 39 deletions(-)
->  create mode 100644 include/exec/ramblock.h
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2c768ed3d8..3732f746b3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1965,6 +1965,7 @@ F: ioport.c
->  F: include/exec/memop.h
->  F: include/exec/memory.h
->  F: include/exec/ram_addr.h
-> +F: include/exec/ramblock.h
->  F: memory.c
->  F: include/exec/memory-internal.h
->  F: exec.c
-> diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-> index 5adebb0bc7..5e59a3d8d7 100644
-> --- a/include/exec/ram_addr.h
-> +++ b/include/exec/ram_addr.h
-> @@ -24,45 +24,7 @@
->  #include "hw/xen/xen.h"
->  #include "sysemu/tcg.h"
->  #include "exec/ramlist.h"
-> -
-> -struct RAMBlock {
-> -    struct rcu_head rcu;
-> -    struct MemoryRegion *mr;
-> -    uint8_t *host;
-> -    uint8_t *colo_cache; /* For colo, VM's ram cache */
-> -    ram_addr_t offset;
-> -    ram_addr_t used_length;
-> -    ram_addr_t max_length;
-> -    void (*resized)(const char*, uint64_t length, void *host);
-> -    uint32_t flags;
-> -    /* Protected by iothread lock.  */
-> -    char idstr[256];
-> -    /* RCU-enabled, writes protected by the ramlist lock */
-> -    QLIST_ENTRY(RAMBlock) next;
-> -    QLIST_HEAD(, RAMBlockNotifier) ramblock_notifiers;
-> -    int fd;
-> -    size_t page_size;
-> -    /* dirty bitmap used during migration */
-> -    unsigned long *bmap;
-> -    /* bitmap of already received pages in postcopy */
-> -    unsigned long *receivedmap;
-> -
-> -    /*
-> -     * bitmap to track already cleared dirty bitmap.  When the bit is
-> -     * set, it means the corresponding memory chunk needs a log-clear.
-> -     * Set this up to non-NULL to enable the capability to postpone
-> -     * and split clearing of dirty bitmap on the remote node (e.g.,
-> -     * KVM).  The bitmap will be set only when doing global sync.
-> -     *
-> -     * NOTE: this bitmap is different comparing to the other bitmaps
-> -     * in that one bit can represent multiple guest pages (which is
-> -     * decided by the `clear_bmap_shift' variable below).  On
-> -     * destination side, this should always be NULL, and the variable
-> -     * `clear_bmap_shift' is meaningless.
-> -     */
-> -    unsigned long *clear_bmap;
-> -    uint8_t clear_bmap_shift;
-> -};
-> +#include "exec/ramblock.h"
-> =20
->  /**
->   * clear_bmap_size: calculate clear bitmap size
-> diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
-> new file mode 100644
-> index 0000000000..07d50864d8
-> --- /dev/null
-> +++ b/include/exec/ramblock.h
-> @@ -0,0 +1,64 @@
-> +/*
-> + * Declarations for cpu physical memory functions
-> + *
-> + * Copyright 2011 Red Hat, Inc. and/or its affiliates
-> + *
-> + * Authors:
-> + *  Avi Kivity <avi@redhat.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * later.  See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +/*
-> + * This header is for use by exec.c and memory.c ONLY.  Do not include i=
-t.
-> + * The functions declared here will be removed soon.
-> + */
-> +
-> +#ifndef QEMU_EXEC_RAMBLOCK_H
-> +#define QEMU_EXEC_RAMBLOCK_H
-> +
-> +#ifndef CONFIG_USER_ONLY
-> +#include "cpu-common.h"
-> +
-> +struct RAMBlock {
-> +    struct rcu_head rcu;
-> +    struct MemoryRegion *mr;
-> +    uint8_t *host;
-> +    uint8_t *colo_cache; /* For colo, VM's ram cache */
-> +    ram_addr_t offset;
-> +    ram_addr_t used_length;
-> +    ram_addr_t max_length;
-> +    void (*resized)(const char*, uint64_t length, void *host);
-> +    uint32_t flags;
-> +    /* Protected by iothread lock.  */
-> +    char idstr[256];
-> +    /* RCU-enabled, writes protected by the ramlist lock */
-> +    QLIST_ENTRY(RAMBlock) next;
-> +    QLIST_HEAD(, RAMBlockNotifier) ramblock_notifiers;
-> +    int fd;
-> +    size_t page_size;
-> +    /* dirty bitmap used during migration */
-> +    unsigned long *bmap;
-> +    /* bitmap of already received pages in postcopy */
-> +    unsigned long *receivedmap;
-> +
-> +    /*
-> +     * bitmap to track already cleared dirty bitmap.  When the bit is
-> +     * set, it means the corresponding memory chunk needs a log-clear.
-> +     * Set this up to non-NULL to enable the capability to postpone
-> +     * and split clearing of dirty bitmap on the remote node (e.g.,
-> +     * KVM).  The bitmap will be set only when doing global sync.
-> +     *
-> +     * NOTE: this bitmap is different comparing to the other bitmaps
-> +     * in that one bit can represent multiple guest pages (which is
-> +     * decided by the `clear_bmap_shift' variable below).  On
-> +     * destination side, this should always be NULL, and the variable
-> +     * `clear_bmap_shift' is meaningless.
-> +     */
-> +    unsigned long *clear_bmap;
-> +    uint8_t clear_bmap_shift;
-> +};
-> +#endif
-> +#endif
-> --=20
-> 2.24.1
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Status in QEMU:
+  New
 
+Bug description:
+  After upgrade of qemu 3.1.0 =E2=86=92 4.2.0 I found that running with lib=
+virt doesn't honor `-snapshot` option anymore. I.e. disk images get modifie=
+d.
+  Using `-hda` option honors `-snapshot`
+
+  So I made a test case without libvirt. Testcase using 4.2.0:
+
+  > qemu -hda tmp-16G.img -cdrom regular-rescue-latest-x86_64.iso -m 2G
+
+  This works fine and tmp-16G.img stays unmodified.
+
+  But:
+  > /usr/bin/qemu-system-x86_64 -name guest=3Dtest-linux,debug-threads=3Don=
+ -S -machine pc-i440fx-3.1,accel=3Dkvm,usb=3Doff,vmport=3Doff,dump-guest-co=
+re=3Doff -cpu Broadwell-noTSX,vme=3Don,ss=3Don,f16c=3Don,rdrand=3Don,hyperv=
+isor=3Don,arat=3Don,tsc-adjust=3Don,xsaveopt=3Don,pdpe1gb=3Don,abm=3Don -m =
+2048 -overcommit mem-lock=3Doff -smp 3,sockets=3D3,cores=3D1,threads=3D1 -u=
+uid d32a9191-f51d-4fae-a419-b73d85b49198 -no-user-config -nodefaults -rtc b=
+ase=3Dutc,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay -no-hpet=
+ -no-shutdown -global PIIX4_PM.disable_s3=3D1 -global PIIX4_PM.disable_s4=
+=3D1 -boot strict=3Don -device ich9-usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0=
+x5.0x7 -device ich9-usb-uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,m=
+ultifunction=3Don,addr=3D0x5 -device ich9-usb-uhci2,masterbus=3Dusb.0,first=
+port=3D2,bus=3Dpci.0,addr=3D0x5.0x1 -device ich9-usb-uhci3,masterbus=3Dusb.=
+0,firstport=3D4,bus=3Dpci.0,addr=3D0x5.0x2 -blockdev \{\"driver\":\"file\",=
+\"filename\":\"/tmp/regular-rescue-latest-x86_64.iso\",\"node-name\":\"libv=
+irt-2-storage\",\"auto-read-only\":true,\"discard\":\"unmap\"} -blockdev \{=
+\"node-name\":\"libvirt-2-format\",\"read-only\":true,\"driver\":\"raw\",\"=
+file\":\"libvirt-2-storage\"} -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Dl=
+ibvirt-2-format,id=3Dide0-0-0,bootindex=3D1 -blockdev \{\"driver\":\"file\"=
+,\"filename\":\"/tmp/tmp-2G.img\",\"node-name\":\"libvirt-1-storage\",\"aut=
+o-read-only\":true,\"discard\":\"unmap\"} -blockdev \{\"node-name\":\"libvi=
+rt-1-format\",\"read-only\":false,\"driver\":\"qcow2\",\"file\":\"libvirt-1=
+-storage\",\"backing\":null} -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,=
+addr=3D0x7,drive=3Dlibvirt-1-format,id=3Dvirtio-disk0 -netdev user,id=3Dhos=
+tnet0 -device e1000,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:ab:d8:29,bus=
+=3Dpci.0,addr=3D0x3 -chardev pty,id=3Dcharserial0 -device isa-serial,charde=
+v=3Dcharserial0,id=3Dserial0 -device qxl-vga,id=3Dvideo0,ram_size=3D6710886=
+4,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1,bu=
+s=3Dpci.0,addr=3D0x2 -device intel-hda,id=3Dsound0,bus=3Dpci.0,addr=3D0x4 -=
+device hda-duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -device virtio-=
+balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x6 -snapshot -sandbox on,obso=
+lete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=3Ddeny -m=
+sg timestamp=3Don
+
+  This modifies tmp-16G.img.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1860759/+subscriptions
 
