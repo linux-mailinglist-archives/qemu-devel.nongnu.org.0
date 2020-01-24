@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F65148D1C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 18:42:11 +0100 (CET)
-Received: from localhost ([::1]:45836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF96148D1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 18:42:13 +0100 (CET)
+Received: from localhost ([::1]:45840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv2y9-0005CY-UB
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 12:42:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
+	id 1iv2yC-0005KS-Gp
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 12:42:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57146)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv2x3-0003fM-89
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv2x3-0003fP-SJ
  for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:41:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv2x1-0001hD-Mm
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv2x2-0001ho-Qd
  for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:41:01 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:38458 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:38470 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iv2x1-0001ek-Ba
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:40:59 -0500
+ id 1iv2x2-0001hH-JD
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:41:00 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 92B961A212D;
+ by mail.rt-rk.com (Postfix) with ESMTP id A45811A2158;
  Fri, 24 Jan 2020 18:40:55 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 5F58A1A2131;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 680641A2140;
  Fri, 24 Jan 2020 18:40:55 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/7] mips-semi.c: remove 'uhi_done' label in
- helper_do_semihosting()
-Date: Fri, 24 Jan 2020 18:40:42 +0100
-Message-Id: <1579887646-5949-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PULL 4/7] mips/mips_jazz: use memdev for RAM
+Date: Fri, 24 Jan 2020 18:40:43 +0100
+Message-Id: <1579887646-5949-5-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1579887646-5949-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1579887646-5949-1-git-send-email-aleksandar.markovic@rt-rk.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,94 +57,67 @@ Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-The label 'uhi_done' is a simple 'return' call and can
-be removed for a bit more clarity in the code.
+memory_region_allocate_system_memory() API is going away, so
+replace it with memdev allocated MemoryRegion. The later is
+initialized by generic code, so board only needs to opt in
+to memdev scheme by providing
+  MachineClass::default_ram_id
+and using MachineState::ram instead of manually initializing
+RAM memory region.
 
-CC: Aurelien Jarno <aurelien@aurel32.net>
-CC: Aleksandar Markovic <amarkovic@wavecomp.com>
-CC: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <20200106182425.20312-7-danielhb413@gmail.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <1579779525-20065-54-git-send-email-imammedo@redhat.com>
 ---
- target/mips/mips-semi.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ hw/mips/mips_jazz.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/target/mips/mips-semi.c b/target/mips/mips-semi.c
-index 35bdfd7..10a710c 100644
---- a/target/mips/mips-semi.c
-+++ b/target/mips/mips-semi.c
-@@ -218,7 +218,7 @@ static int copy_argn_to_target(CPUMIPSState *env, int arg_num,
-         if (!p) {                               \
-             gpr[2] = -1;                        \
-             gpr[3] = EFAULT;                    \
--            goto uhi_done;                      \
-+            return;                             \
-         }                                       \
-     } while (0)
- 
-@@ -228,14 +228,14 @@ static int copy_argn_to_target(CPUMIPSState *env, int arg_num,
-         if (!p) {                                       \
-             gpr[2] = -1;                                \
-             gpr[3] = EFAULT;                            \
--            goto uhi_done;                              \
-+            return;                                     \
-         }                                               \
-         p2 = lock_user_string(addr2);                   \
-         if (!p2) {                                      \
-             unlock_user(p, addr, 0);                    \
-             gpr[2] = -1;                                \
-             gpr[3] = EFAULT;                            \
--            goto uhi_done;                              \
-+            return;                                     \
-         }                                               \
-     } while (0)
- 
-@@ -272,7 +272,7 @@ void helper_do_semihosting(CPUMIPSState *env)
-         if (gpr[4] < 3) {
-             /* ignore closing stdin/stdout/stderr */
-             gpr[2] = 0;
--            goto uhi_done;
-+            return;
-         }
-         gpr[2] = close(gpr[4]);
-         gpr[3] = errno_mips(errno);
-@@ -302,7 +302,7 @@ void helper_do_semihosting(CPUMIPSState *env)
-             gpr[2] = fstat(gpr[4], &sbuf);
-             gpr[3] = errno_mips(errno);
-             if (gpr[2]) {
--                goto uhi_done;
-+                return;
-             }
-             gpr[2] = copy_stat_to_target(env, &sbuf, gpr[5]);
-             gpr[3] = errno_mips(errno);
-@@ -314,14 +314,14 @@ void helper_do_semihosting(CPUMIPSState *env)
-     case UHI_argnlen:
-         if (gpr[4] >= semihosting_get_argc()) {
-             gpr[2] = -1;
--            goto uhi_done;
-+            return;
-         }
-         gpr[2] = strlen(semihosting_get_arg(gpr[4]));
-         break;
-     case UHI_argn:
-         if (gpr[4] >= semihosting_get_argc()) {
-             gpr[2] = -1;
--            goto uhi_done;
-+            return;
-         }
-         gpr[2] = copy_argn_to_target(env, gpr[4], gpr[5]);
-         break;
-@@ -369,6 +369,5 @@ void helper_do_semihosting(CPUMIPSState *env)
-         fprintf(stderr, "Unknown UHI operation %d\n", op);
-         abort();
-     }
--uhi_done:
-     return;
+diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
+index 66fd4d8..85d49cf 100644
+--- a/hw/mips/mips_jazz.c
++++ b/hw/mips/mips_jazz.c
+@@ -159,7 +159,6 @@ static void mips_jazz_init(MachineState *machine,
+     ISABus *isa_bus;
+     ISADevice *pit;
+     DriveInfo *fds[MAX_FD];
+-    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
+     MemoryRegion *bios =3D g_new(MemoryRegion, 1);
+     MemoryRegion *bios2 =3D g_new(MemoryRegion, 1);
+     SysBusESPState *sysbus_esp;
+@@ -191,9 +190,7 @@ static void mips_jazz_init(MachineState *machine,
+     cc->do_transaction_failed =3D mips_jazz_do_transaction_failed;
+=20
+     /* allocate RAM */
+-    memory_region_allocate_system_memory(ram, NULL, "mips_jazz.ram",
+-                                         machine->ram_size);
+-    memory_region_add_subregion(address_space, 0, ram);
++    memory_region_add_subregion(address_space, 0, machine->ram);
+=20
+     memory_region_init_ram(bios, NULL, "mips_jazz.bios", MAGNUM_BIOS_SIZ=
+E,
+                            &error_fatal);
+@@ -393,6 +390,7 @@ static void mips_magnum_class_init(ObjectClass *oc, v=
+oid *data)
+     mc->init =3D mips_magnum_init;
+     mc->block_default_type =3D IF_SCSI;
+     mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("R4000");
++    mc->default_ram_id =3D "mips_jazz.ram";
  }
--- 
+=20
+ static const TypeInfo mips_magnum_type =3D {
+@@ -409,6 +407,7 @@ static void mips_pica61_class_init(ObjectClass *oc, v=
+oid *data)
+     mc->init =3D mips_pica61_init;
+     mc->block_default_type =3D IF_SCSI;
+     mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("R4000");
++    mc->default_ram_id =3D "mips_jazz.ram";
+ }
+=20
+ static const TypeInfo mips_pica61_type =3D {
+--=20
 2.7.4
 
 
