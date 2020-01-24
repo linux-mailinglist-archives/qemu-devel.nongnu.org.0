@@ -2,86 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0EA148B73
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 16:46:53 +0100 (CET)
-Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E2A148B7B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 16:50:40 +0100 (CET)
+Received: from localhost ([::1]:43862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv1AZ-0004Nj-Fj
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 10:46:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57111)
+	id 1iv1EF-00083v-86
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 10:50:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57657)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iv19V-0003pO-Gw
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 10:45:46 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv1CM-0005YZ-0G
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 10:48:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iv19S-0004f5-Uv
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 10:45:44 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57517
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv1CK-0006MP-NK
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 10:48:41 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:43512 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iv19S-0004ej-F0
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 10:45:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579880741;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ft6Js2g8r48tbCyOVcYZwWFlaXb0cqxAevi/+1+w3dI=;
- b=agPiy6TsetFFYD1QfMN29RTyvekRwUjwf5qy3I8xmFJU3WExG/YEAq13+rale/i7+WI2dQ
- qWU+JWvGbLPALuyrBCn/+yvA1aTq5bQFeorFT4VwlHHbJq00dHBAUJI/hW9JlSdxkPWdjw
- HXrCFpTDKmySCnSLbrcGTBIpH0P6hv8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-Bxlvy91nPB-LEHQiD0k-gw-1; Fri, 24 Jan 2020 10:45:39 -0500
-Received: by mail-wr1-f69.google.com with SMTP id z10so1503577wrt.21
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 07:45:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ft6Js2g8r48tbCyOVcYZwWFlaXb0cqxAevi/+1+w3dI=;
- b=lhPuwmkttwstyyOPh3Ww+0D7SN1cJX+NapxmNV1b6cceaDSkvdDVpFdZWfmQtYWtYJ
- YPXX2nlN/kNzcJGztL0LK5+OlAD96OB4ou/HP+4cJsiRnOkALhYtMLmtmPbwLqUbz+I8
- 8vM+DCmKGDEBXpJcevEaOiTX7ino4XIF+ocO/HSXVrhvr3+WN28dbGt7LVAJDvdrHsz5
- jFoOMugqpi3vzLNREpTNqyZ63WSuy9iwKqtgA8DC92GJp9a+pjLNVbyz/gSFp8t7ZdZv
- BLICOvmo/BHunu346Lo8/3MVh1dLvD1ubp5c/0en5dfcFTK6kymOp5ix+auoh/Gv4IPr
- rxYQ==
-X-Gm-Message-State: APjAAAV+60xtdzNoPmEyo2CAgcPZzARsfKcCdrGj7HujD41TPyoZLRTF
- V70WD6UeRbkHphlt45XCGy+yPneqIzRdcYwqvFWMP2Jq3bQg4KDbVsRekQaovh9UcPWiX3tGhof
- He5i9uwTtBQHinnE=
-X-Received: by 2002:adf:e6c5:: with SMTP id y5mr5356017wrm.210.1579880737862; 
- Fri, 24 Jan 2020 07:45:37 -0800 (PST)
-X-Google-Smtp-Source: APXvYqw8E+bOB8enthnxzpbWR/rKmpgxCmZH1uNOPahdEE8uDe2p7akV4Ebs8ZPwcY+7FfML0O28+g==
-X-Received: by 2002:adf:e6c5:: with SMTP id y5mr5355996wrm.210.1579880737640; 
- Fri, 24 Jan 2020 07:45:37 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id i5sm8012970wrv.34.2020.01.24.07.45.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jan 2020 07:45:37 -0800 (PST)
-Subject: Re: [PATCH v3 2/4] tests/acceptance: boot_linux_console: Add boot
- Linux with kvm tests
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org, 
- crosa@redhat.com
-References: <20200122012753.9846-1-wainersm@redhat.com>
- <20200122012753.9846-3-wainersm@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <75a9cd31-a978-0b31-1d6d-1b34800e13a6@redhat.com>
-Date: Fri, 24 Jan 2020 16:45:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <20200122012753.9846-3-wainersm@redhat.com>
-Content-Language: en-US
-X-MC-Unique: Bxlvy91nPB-LEHQiD0k-gw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1iv1CK-0005wI-Em
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 10:48:40 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 0E3EA1A20C5;
+ Fri, 24 Jan 2020 16:47:35 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.14.106])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id E2D841A1FE9;
+ Fri, 24 Jan 2020 16:47:34 +0100 (CET)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] linux-user: Add support for fs and fd ioctls
+Date: Fri, 24 Jan 2020 16:47:15 +0100
+Message-Id: <1579880839-31466-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,86 +48,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, thuth@redhat.com,
- alex.bennee@linaro.org, ehabkost@redhat.com
+Cc: laurent@vivier.eu, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/22/20 2:27 AM, Wainer dos Santos Moschetta wrote:
-> Added boot Linux test cases that launch QEMU with kvm
-> enabled. Likewise it was added tests for tcg.
-> 
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> ---
->   tests/acceptance/boot_linux_console.py | 88 ++++++++++++++++++++------
->   1 file changed, 68 insertions(+), 20 deletions(-)
-> 
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index e40b84651b..a36eae630c 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -51,11 +51,7 @@ class BootLinuxConsole(Test):
->           os.chdir(cwd)
->           return self.workdir + path
->   
-> -    def test_x86_64_pc(self):
-> -        """
-> -        :avocado: tags=arch:x86_64
-> -        :avocado: tags=machine:pc
-> -        """
-> +    def do_test_x86_64_pc(self):
->           kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
->                         '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
->                         '/vmlinuz')
-> @@ -70,6 +66,22 @@ class BootLinuxConsole(Test):
->           console_pattern = 'Kernel command line: %s' % kernel_command_line
->           self.wait_for_console_pattern(console_pattern)
->   
-> +    def test_x86_64_pc_kvm(self):
-> +        """
-> +        :avocado: tags=arch:x86_64
-> +        :avocado: tags=machine:pc
-> +        :avocado: tags=accel:kvm
-> +        """
-> +        self.do_test_x86_64_pc()
-> +
-> +    def test_x86_64_pc_tcg(self):
-> +        """
-> +        :avocado: tags=arch:x86_64
-> +        :avocado: tags=machine:pc
-> +        :avocado: tags=accel:tcg
-> +        """
-> +        self.do_test_x86_64_pc()
-[...]
-So you want to test a binary linked with multiple accelerators.
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Isn't it possible to have something clever/simpler?
+This series is a spin-off of v5 of earlier series "linux-user: Misc
+patches for 5.0", that became too large to manage. I will submit the
+rest of that large series separately.
 
-    def test_x86_64_pc(self):
-        """
-        :avocado: tags=arch:x86_64
-        :avocado: tags=machine:pc
-        :avocado: tags=accel:kvm
-        :avocado: tags=accel:tcg
-        """
-        self.do_test_x86_64_pc()
+The only difference between patches in this series and in the former
+series is that all Laurent's comments and concerns were addressed.
 
-And use a mux config?
+The summary of the patches is as follows:
 
-Because else we are duplicating a lot of code, and there are various 
-accelerators available:
+Patches 1-3: Adding support for some filesystem-related ioctls
+Patch 4: Adding support for a floppy-drive-related ioctls
 
-$ git grep ACCEL_CLASS_NAME
-accel/qtest.c:41:#define TYPE_QTEST_ACCEL ACCEL_CLASS_NAME("qtest")
-accel/tcg/tcg-all.c:46:#define TYPE_TCG_ACCEL ACCEL_CLASS_NAME("tcg")
-hw/xen/xen-common.c:200:#define TYPE_XEN_ACCEL ACCEL_CLASS_NAME("xen")
-include/sysemu/hvf.h:100:#define TYPE_HVF_ACCEL ACCEL_CLASS_NAME("hvf")
-include/sysemu/kvm_int.h:36:#define TYPE_KVM_ACCEL ACCEL_CLASS_NAME("kvm")
-target/i386/hax-all.c:1127:    .name = ACCEL_CLASS_NAME("hax"),
-target/i386/whpx-all.c:1533:    .name = ACCEL_CLASS_NAME("whpx"),
+v1->v2:
 
-And also pending:
-target/i386/nvmm-all.c:   .name = ACCEL_CLASS_NAME("nvmm"),
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg668697.html
+  - removed patches that have been already merged
+  - recheck that I addressed all Laurent's concerns
+  - rebased to the latest upstram code
+
+Aleksandar Markovic (4):
+  linux-user: Add support for FS_IOC_FS<GET|SET>XATTR ioctls
+  linux-user: Add support for FITRIM ioctl
+  linux-user: Add support for FIFREEZE and FITHAW ioctls
+  linux-user: Add support for FDGETFDCSTAT ioctl
+
+ linux-user/ioctls.h        | 18 ++++++++++++++++++
+ linux-user/syscall_defs.h  | 29 +++++++++++++++++++++++++++++
+ linux-user/syscall_types.h | 17 +++++++++++++++++
+ 3 files changed, 64 insertions(+)
+
+-- 
+2.7.4
 
 
