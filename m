@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13AE147EA6
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:19:39 +0100 (CET)
-Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDF8147EB4
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:24:20 +0100 (CET)
+Received: from localhost ([::1]:40032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuw3u-0007q2-VZ
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:19:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41989)
+	id 1iuw8R-0003hJ-9a
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:24:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43305)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iuw2q-0007M3-29
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:18:33 -0500
+ (envelope-from <stefanha@redhat.com>) id 1iuw7Y-00036N-Md
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:23:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iuw2p-0006lb-03
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:18:31 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:33637)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iuw2o-0006ko-Qb
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:18:30 -0500
-Received: by mail-oi1-x241.google.com with SMTP id q81so1390374oig.0
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 02:18:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=i0Ggrkt05j/Cpp4BpkNtZgwYDpuvZIRtVSjOkoUjDkA=;
- b=G1aCw2TEIkwTEcPkjpLCw6mDxHiaMDvi3ne2xOLul3nogl7hAo/fDCCtcDD+p6Um0M
- bxD664JKykB6EnKnnZgdT1xUZSLHVOu5RTFDq4zlJ62QsTI9HwjOgGlD5Pd1J3Dt+WJX
- oOVgsjhPS8tlk1x7tgXv8QrhFmlYyJY9vTGZxA2xfLiMWUVxjUPavTG4nAIq3JbbevTe
- 6C1UYwF8hf1jghU/Ak3heImhQG1/nQ3GpWIDGj3fUV9n8GNeIG5IxxG3oqeyU++mvLRg
- sWZoD7TlxJdPewiXCaiDWjFV/lJjuaIesVjR8PvKukTrV0XSXW+ZGooVL/ytS2krh+Q1
- 0M5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=i0Ggrkt05j/Cpp4BpkNtZgwYDpuvZIRtVSjOkoUjDkA=;
- b=goO9NtTSA/unzPwLOISbJw4/6Iqx42LMyP19cYP5/dGKuIhr/RIvLSDlnNyEcsHeu6
- v4cSaWio/hxT99nhL+76nBIdowrfbWVLKRB8Cmep5hF+IaVsymGY6Bs1pdEXs3DH0Brk
- Dozr8d7PHqu16nRvTclMk3eimKlEip9mw5DQiDfMlkA9M0FO5lSNWoUIkCOmiA+AgtKf
- PTuZWmz0odYhEFjT9lBtQ7w8C+IHv6y9vQkokrrJZoTNAXJYIhoxCFr9LbFhCB6qX+oi
- BelzYJnS/woorSQ3u5bERQ5jpwzxWcDZMRsa49lDYgtnOYjCz9eLmPxcvZP+itVvStYW
- whhw==
-X-Gm-Message-State: APjAAAXBaEcGbRSUAw6ykkWvmQi4wT1qt0zw/Yn3qpa1BOWHoHCrFWNE
- JQj7onjpIGz16AIthnE9C6qfTHygLS3ycWAYW4yDdQ==
-X-Google-Smtp-Source: APXvYqy6SanwZWy5ThpRFnC6QcyIbsZSSNS7uwIV/htKZ4F7x2AYBIdoiUrYVX3NbdVahRjhBPykoWSnyQ9dxX+PXZA=
-X-Received: by 2002:aca:f484:: with SMTP id s126mr1454918oih.48.1579861109740; 
- Fri, 24 Jan 2020 02:18:29 -0800 (PST)
+ (envelope-from <stefanha@redhat.com>) id 1iuw7W-0003OQ-O8
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:23:23 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50835
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1iuw7W-0003Nc-JS
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:23:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579861401;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=14u5b1h+uqFIpe/+DiUKIQrNuO2yt2Y1/rH9pZADhs4=;
+ b=UAD1rFp2SthNUjN6CmkVi+LM6o7qRwFzTXtwReEHb49JY77Rd23u3L+gYYvQbL7IsYlgYa
+ x0EENLbF3sGi8FepOkx+5nGW6PjDtO39SeHQRveMcY4N1mRRSeCt6iDM96IR69eqHm8O+h
+ XJpcps2VtSR7nkEcYZRojaaZIDJ9Fo0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-Qy4cuX_YMFaE68mybwEicw-1; Fri, 24 Jan 2020 05:23:19 -0500
+X-MC-Unique: Qy4cuX_YMFaE68mybwEicw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F378107ACCA;
+ Fri, 24 Jan 2020 10:23:18 +0000 (UTC)
+Received: from localhost (ovpn-117-162.ams2.redhat.com [10.36.117.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6317845A0;
+ Fri, 24 Jan 2020 10:23:17 +0000 (UTC)
+Date: Fri, 24 Jan 2020 10:23:16 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: salvador@qindel.com
+Subject: Re: [PATCH] qemu_set_log_filename: filename argument may be NULL
+Message-ID: <20200124102316.GB736986@stefanha-x1.localdomain>
+References: <20200123113225.GB691377@stefanha-x1.localdomain>
+ <20200123193626.19956-1-salvador@qindel.com>
 MIME-Version: 1.0
-References: <20200123132823.1117486-1-damien.hedde@greensocs.com>
- <CAFEAcA8G7zGwRkbGRjyK4P7KZ9V+cboBHwnTH=jJs4NWu7rMMA@mail.gmail.com>
- <81bde2c9-76d3-f5a0-3e54-089028be9dfb@redhat.com>
-In-Reply-To: <81bde2c9-76d3-f5a0-3e54-089028be9dfb@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 24 Jan 2020 10:18:18 +0000
-Message-ID: <CAFEAcA_927erQTvG3LS9ffqwY2WochmF4cKNSs12aPqiReTfRg@mail.gmail.com>
-Subject: Re: [PATCH v8 00/11] Multi-phase reset mechanism
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+In-Reply-To: <20200123193626.19956-1-salvador@qindel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dc+cDN39EJAMEtIO"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,37 +71,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
- Cornelia Huck <cohuck@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Edgar Iglesias <edgari@xilinx.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-trivial@nongnu.org, sfandino@yahoo.com,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org, stefanha@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 Jan 2020 at 10:17, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> On 1/24/20 11:05 AM, Peter Maydell wrote:
-> > On Thu, 23 Jan 2020 at 13:28, Damien Hedde <damien.hedde@greensocs.com>=
- wrote:
-> >> v8:
-> >>    + patch 3&5: ResettableState::count type from uint32_t to unsigned
-> >>      (Philippe)
-> >
-> > We'll have to change that back if we ever want to migrate
-> > the count (migration insists on fixed-sized types), but
-> > I guess we can do that when we get to it...
->
-> Oh I forgot about migration :( (this was just a suggestion, not a
-> requirement).
+--dc+cDN39EJAMEtIO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Migration handling is going to require changes anyway, flipping
-the type of the field will just be a minor part of that patch
-if/when it arrives. It seems easier to take v8 if it's otherwise OK.
+On Thu, Jan 23, 2020 at 08:36:26PM +0100, salvador@qindel.com wrote:
+> From: Salvador Fandino <salvador@qindel.com>
+>=20
+> NULL is a valid log filename used to indicate we want to use stderr
+> but qemu_set_log_filename (which is called by bsd-user/main.c) was not
+> handling it correctly.
+>=20
+> That also made redundant a couple of NULL checks in calling code which
+> have been removed.
+>=20
+> Signed-off-by: Salvador Fandino <salvador@qindel.com>
+> ---
+>  trace/control.c |  4 +---
+>  util/log.c      | 28 ++++++++++++++++------------
+>  vl.c            |  5 +----
+>  3 files changed, 18 insertions(+), 19 deletions(-)
 
-thanks
--- PMM
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--dc+cDN39EJAMEtIO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl4qxZQACgkQnKSrs4Gr
+c8hS5gf/b3nLNl3uIzDOvqiBwsckgkvOWheZPjk9qJhXGSDciadsDxAiejjNXrtk
+H7umpUYKfT+CAPC250lIHVg3TqVVsArg/EJBpoWfiGa6x/ivJ9Wt3AJqN/2JKExU
+kdK8i1bAHz7wvxpUS8+uE5IMwb4pfGfwYG6GCKhYHbSMEZaYJ47r0vtk2u9ksoLh
+e9sTfTiXcfvkFHDvDe+TeWJowseK6FRZSOquSh4KUAN/z11qZmL80LTf+BJbaEAn
+jLgrdaFFyw7ubllkvrNXd670rrk2F6TvYtZy0doVKSceKoDAPZ/bDNFuZPFAi0oj
+N0ZfqDK0K/QoU8bjk9xR9S5fdIhFTw==
+=H7i+
+-----END PGP SIGNATURE-----
+
+--dc+cDN39EJAMEtIO--
+
 
