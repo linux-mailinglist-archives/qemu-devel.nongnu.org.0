@@ -2,66 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1746148CD9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 18:19:00 +0100 (CET)
-Received: from localhost ([::1]:45556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05F2148CE0
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 18:24:27 +0100 (CET)
+Received: from localhost ([::1]:45652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv2bj-0000AO-UL
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 12:18:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52460)
+	id 1iv2h0-0004Ls-LY
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 12:24:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53903)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iv2a9-0007Ld-Be
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:17:25 -0500
+ (envelope-from <aleksandar.rikalo@rt-rk.com>) id 1iv2fn-0003Nw-WD
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:23:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iv2a7-0006d1-3y
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:17:21 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:45594)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iv2a6-0006bx-UD
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:17:19 -0500
-Received: by mail-ot1-x343.google.com with SMTP id 59so2285136otp.12
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 09:17:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WHbtYtunOdgRjOTdqhwxgP5ee0OMJ+u6/lce82RTh88=;
- b=RlLAbCYLepwOq606r+DGe06GOXroXzwRqdgFSO3XBI6uk5dkl0jztkfwaTVA2wv0Yr
- EUp/4XTZnIn5QyZxjgnfIm9e7PSizu+HhB1LM3JMsn4mBFkUPX8gkapp3PAru9dsrHVY
- dclbl4A2TCvFAfgZuF6iABrzw2dDy6JMZR2ApF73CQQx/eXtPLytv5hsbtoxjYvRBhqL
- bxF0B01sUjWGB/NQT4lVKv11WXiEFMBoGjBhcHAa7kugfHpBAzPWOgnUrSZA/2OK3NoA
- XNJwRV5rlvHmqinjTDuegY+PHsKL9s0+TB6z/KBn/p1HbsklsCgP1r9H1fhPxA0n6c7j
- jhKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WHbtYtunOdgRjOTdqhwxgP5ee0OMJ+u6/lce82RTh88=;
- b=Ut1ZSmh6OngXfVZo+BzdrkAq1AfJaKEnSLXH23cniZStQdWklPd7tREoP4VQFtI8xa
- Aa6hbMa97POtPSOQ+XW+cxJcrDG6gOwYgvoy+VNPkHxVXHjbrazQoeBIAYw5o18klxM1
- FNCVCKQwXk7j4MA+G0IIvZ08T+AvwxeLL3nXVJxYKqr/HNO67yM6zn4UWQlY4UqvfzSm
- PoJ2UsAqzxP3eFdWEvWuvqTzj00MVMrVyXQEdmKHC0HmZUTBSoJ+EJCA08S6Og50qUB6
- QkMRQHWTCRfGdxAAKpcRsTbz4xQIMS7WhfDEWmT6TFowwGQco9KYzA4mkkmECSIoYse6
- +iPg==
-X-Gm-Message-State: APjAAAXREEpssZpQ3wbGTgD1Uev1OKJahQYKCJk6Z4GZt1X08M1kv5i4
- vytjTNLQfaJ+QsNwtwPXtZ7jI1G2nh/PQaJnbQY=
-X-Google-Smtp-Source: APXvYqx4LZR12VqqEvn9FV5Bz4rpirKsNzB4LuPex9Q7znWbw5LfweChAiUk1eO0lTggT70tepKrFyi3XJkAAIA/dpc=
-X-Received: by 2002:a05:6830:1042:: with SMTP id
- b2mr3441571otp.306.1579886237994; 
- Fri, 24 Jan 2020 09:17:17 -0800 (PST)
+ (envelope-from <aleksandar.rikalo@rt-rk.com>) id 1iv2fm-0003wA-0w
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:23:11 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:47491 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aleksandar.rikalo@rt-rk.com>)
+ id 1iv2fl-0003Nh-LE
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:23:09 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 3BE211A2040;
+ Fri, 24 Jan 2020 18:22:04 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from [10.10.14.141] (rtrkw304-lin.domain.local [10.10.14.141])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 22D501A1E2C;
+ Fri, 24 Jan 2020 18:22:04 +0100 (CET)
+Subject: Re: [PATCH v4 3/7] target/mips: Amend CP0 WatchHi register
+ implementation
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
+References: <1579883929-1517-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1579883929-1517-4-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+Message-ID: <d2d3e6ca-969f-f5e6-32cb-9854ca18e1e9@rt-rk.com>
+Date: Fri, 24 Jan 2020 18:22:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <1579779525-20065-1-git-send-email-imammedo@redhat.com>
- <1579779525-20065-56-git-send-email-imammedo@redhat.com>
-In-Reply-To: <1579779525-20065-56-git-send-email-imammedo@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 24 Jan 2020 18:17:07 +0100
-Message-ID: <CAL1e-=hYfyyCXqE5=N=yKXc89M_kf9We28kJx=hLGC_qe-Myiw@mail.gmail.com>
-Subject: Re: [PATCH REPOST v3 55/80] mips/mips_mipssim: use memdev for RAM
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000005493059ce5ee17"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+In-Reply-To: <1579883929-1517-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,197 +56,285 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Yongbok Kim <yongbok.kim@mips.com>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000005493059ce5ee17
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 23, 2020 at 1:22 PM Igor Mammedov <imammedo@redhat.com> wrote:
+ > From: Yongbok Kim <yongbok.kim@mips.com>
+ >
+ > WatchHi is extended by the field MemoryMapID with the GINVT instructio=
+n.
+ > The field is accessible by MTHC0/MFHC0 in 32-bit architectures and DMT=
+C0/
+ > DMFC0 in 64-bit architectures.
+ >
+ > Signed-off-by: Yongbok Kim <yongbok.kim@mips.com>
+ > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+ > ---
+ >=C2=A0 target/mips/cpu.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 =
++-
+ >=C2=A0 target/mips/helper.h=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +++
+ >=C2=A0 target/mips/machine.c=C2=A0=C2=A0 |=C2=A0 6 +++---
+ >=C2=A0 target/mips/op_helper.c | 23 +++++++++++++++++++++--
+ >=C2=A0 target/mips/translate.c | 42 +++++++++++++++++++++++++++++++++++=
+++++++-
+ >=C2=A0 5 files changed, 69 insertions(+), 7 deletions(-)
+ >
+ > diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+ > index ca00f41..a7e9857 100644
+ > --- a/target/mips/cpu.h
+ > +++ b/target/mips/cpu.h
+ > @@ -961,7 +961,7 @@ struct CPUMIPSState {
+ >=C2=A0 /*
+ >=C2=A0=C2=A0 * CP0 Register 19
+ >=C2=A0=C2=A0 */
+ > -=C2=A0=C2=A0=C2=A0 int32_t CP0_WatchHi[8];
+ > +=C2=A0=C2=A0=C2=A0 uint64_t CP0_WatchHi[8];
+ >=C2=A0 #define CP0WH_ASID 16
+ >=C2=A0 /*
+ >=C2=A0=C2=A0 * CP0 Register 20
+ > diff --git a/target/mips/helper.h b/target/mips/helper.h
+ > index 2095330..032ea8a 100644
+ > --- a/target/mips/helper.h
+ > +++ b/target/mips/helper.h
+ > @@ -80,6 +80,7 @@ DEF_HELPER_1(mfc0_maar, tl, env)
+ >=C2=A0 DEF_HELPER_1(mfhc0_maar, tl, env)
+ >=C2=A0 DEF_HELPER_2(mfc0_watchlo, tl, env, i32)
+ >=C2=A0 DEF_HELPER_2(mfc0_watchhi, tl, env, i32)
+ > +DEF_HELPER_2(mfhc0_watchhi, tl, env, i32)
+ >=C2=A0 DEF_HELPER_1(mfc0_debug, tl, env)
+ >=C2=A0 DEF_HELPER_1(mftc0_debug, tl, env)
+ >=C2=A0 #ifdef TARGET_MIPS64
+ > @@ -91,6 +92,7 @@ DEF_HELPER_1(dmfc0_tcschefback, tl, env)
+ >=C2=A0 DEF_HELPER_1(dmfc0_lladdr, tl, env)
+ >=C2=A0 DEF_HELPER_1(dmfc0_maar, tl, env)
+ >=C2=A0 DEF_HELPER_2(dmfc0_watchlo, tl, env, i32)
+ > +DEF_HELPER_2(dmfc0_watchhi, tl, env, i32)
+ >=C2=A0 DEF_HELPER_1(dmfc0_saar, tl, env)
+ >=C2=A0 #endif /* TARGET_MIPS64 */
+ >
+ > @@ -161,6 +163,7 @@ DEF_HELPER_2(mthc0_maar, void, env, tl)
+ >=C2=A0 DEF_HELPER_2(mtc0_maari, void, env, tl)
+ >=C2=A0 DEF_HELPER_3(mtc0_watchlo, void, env, tl, i32)
+ >=C2=A0 DEF_HELPER_3(mtc0_watchhi, void, env, tl, i32)
+ > +DEF_HELPER_3(mthc0_watchhi, void, env, tl, i32)
+ >=C2=A0 DEF_HELPER_2(mtc0_xcontext, void, env, tl)
+ >=C2=A0 DEF_HELPER_2(mtc0_framemask, void, env, tl)
+ >=C2=A0 DEF_HELPER_2(mtc0_debug, void, env, tl)
+ > diff --git a/target/mips/machine.c b/target/mips/machine.c
+ > index c139239..8d5b18b 100644
+ > --- a/target/mips/machine.c
+ > +++ b/target/mips/machine.c
+ > @@ -212,8 +212,8 @@ const VMStateDescription vmstate_tlb =3D {
+ >
+ >=C2=A0 const VMStateDescription vmstate_mips_cpu =3D {
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D "cpu",
+ > -=C2=A0=C2=A0=C2=A0 .version_id =3D 18,
+ > -=C2=A0=C2=A0=C2=A0 .minimum_version_id =3D 18,
+ > +=C2=A0=C2=A0=C2=A0 .version_id =3D 19,
+ > +=C2=A0=C2=A0=C2=A0 .minimum_version_id =3D 19,
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .post_load =3D cpu_post_load,
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fields =3D (VMStateField[]) {
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Active TC */
+ > @@ -296,7 +296,7 @@ const VMStateDescription vmstate_mips_cpu =3D {
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_INT32(en=
+v.CP0_MAARI, MIPSCPU),
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_UINTTL(e=
+nv.lladdr, MIPSCPU),
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_UINTTL_A=
+RRAY(env.CP0_WatchLo, MIPSCPU, 8),
+ > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_INT32_ARRAY(env.CP=
+0_WatchHi, MIPSCPU, 8),
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_UINT64_ARRAY(env.C=
+P0_WatchHi, MIPSCPU, 8),
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_UINTTL(e=
+nv.CP0_XContext, MIPSCPU),
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_INT32(en=
+v.CP0_Framemask, MIPSCPU),
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_INT32(en=
+v.CP0_Debug, MIPSCPU),
+ > diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
+ > index 5cd396d..bcff2f9 100644
+ > --- a/target/mips/op_helper.c
+ > +++ b/target/mips/op_helper.c
+ > @@ -1026,7 +1026,12 @@ target_ulong helper_mfc0_watchlo(CPUMIPSState=20
+*env, uint32_t sel)
+ >
+ >=C2=A0 target_ulong helper_mfc0_watchhi(CPUMIPSState *env, uint32_t sel=
+)
+ >=C2=A0 {
+ > -=C2=A0=C2=A0=C2=A0 return env->CP0_WatchHi[sel];
+ > +=C2=A0=C2=A0=C2=A0 return (int32_t) env->CP0_WatchHi[sel];
+ > +}
+ > +
+ > +target_ulong helper_mfhc0_watchhi(CPUMIPSState *env, uint32_t sel)
+ > +{
+ > +=C2=A0=C2=A0=C2=A0 return env->CP0_WatchHi[sel] >> 32;
+ >=C2=A0 }
+ >
+ >=C2=A0 target_ulong helper_mfc0_debug(CPUMIPSState *env)
+ > @@ -1104,6 +1109,11 @@ target_ulong helper_dmfc0_saar(CPUMIPSState *en=
+v)
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+ >=C2=A0 }
+ > +
+ > +target_ulong helper_dmfc0_watchhi(CPUMIPSState *env, uint32_t sel)
+ > +{
+ > +=C2=A0=C2=A0=C2=A0 return env->CP0_WatchHi[sel];
+ > +}
+ >=C2=A0 #endif /* TARGET_MIPS64 */
+ >
+ >=C2=A0 void helper_mtc0_index(CPUMIPSState *env, target_ulong arg1)
+ > @@ -1950,11 +1960,20 @@ void helper_mtc0_watchlo(CPUMIPSState *env,=20
+target_ulong arg1, uint32_t sel)
+ >
+ >=C2=A0 void helper_mtc0_watchhi(CPUMIPSState *env, target_ulong arg1,=20
+uint32_t sel)
+ >=C2=A0 {
+ > -=C2=A0=C2=A0=C2=A0 int mask =3D 0x40000FF8 | (env->CP0_EntryHi_ASID_m=
+ask << CP0WH_ASID);
+ > +=C2=A0=C2=A0=C2=A0 uint64_t mask =3D 0x40000FF8 | (env->CP0_EntryHi_A=
+SID_mask <<=20
+CP0WH_ASID);
+ > +=C2=A0=C2=A0=C2=A0 if ((env->CP0_Config5 >> CP0C5_MI) & 1) {
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mask |=3D 0xFFFFFFFF000000=
+00ULL; /* MMID */
+ > +=C2=A0=C2=A0=C2=A0 }
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env->CP0_WatchHi[sel] =3D arg1 & mask;
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env->CP0_WatchHi[sel] &=3D ~(env->CP0_Wa=
+tchHi[sel] & arg1 & 0x7);
+ >=C2=A0 }
+ >
+ > +void helper_mthc0_watchhi(CPUMIPSState *env, target_ulong arg1,=20
+uint32_t sel)
+ > +{
+ > +=C2=A0=C2=A0=C2=A0 env->CP0_WatchHi[sel] =3D ((uint64_t) (arg1) << 32=
+) |
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 (env->CP0_WatchHi[sel] &=20
+0x00000000ffffffffULL);
+ > +}
+ > +
+ >=C2=A0 void helper_mtc0_xcontext(CPUMIPSState *env, target_ulong arg1)
+ >=C2=A0 {
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 target_ulong mask =3D (1ULL << (env->SEG=
+BITS - 7)) - 1;
+ > diff --git a/target/mips/translate.c b/target/mips/translate.c
+ > index 1b38356..7cda5c7 100644
+ > --- a/target/mips/translate.c
+ > +++ b/target/mips/translate.c
+ > @@ -2549,6 +2549,7 @@ typedef struct DisasContext {
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool abs2008;
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool saar;
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool crcp;
+ > +=C2=A0=C2=A0=C2=A0 bool mi;
+ >=C2=A0 } DisasContext;
+ >
+ >=C2=A0 #define DISAS_STOP=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DISAS_TAR=
+GET_0
+ > @@ -6785,6 +6786,25 @@ static void gen_mfhc0(DisasContext *ctx, TCGv=20
+arg, int reg, int sel)
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 goto cp0_unimplemented;
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+ > +=C2=A0=C2=A0=C2=A0 case CP0_REGISTER_19:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (sel) {
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 0:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 1:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 2:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 3:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 4:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 5:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 6:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 7:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*=
+ upper 32 bits are only available when Config5MI !=3D 0 */
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CP=
+0_CHECK(ctx->mi);
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ge=
+n_mfhc0_load64(arg, offsetof(CPUMIPSState,=20
+CP0_WatchHi[sel]), 0);
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 re=
+gister_name =3D "WatchHi";
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 br=
+eak;
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 go=
+to cp0_unimplemented;
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case CP0_REGISTER_28:
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (sel) {
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 0:
+ > @@ -6871,6 +6891,25 @@ static void gen_mthc0(DisasContext *ctx, TCGv=20
+arg, int reg, int sel)
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 goto cp0_unimplemented;
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+ > +=C2=A0=C2=A0=C2=A0 case CP0_REGISTER_19:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (sel) {
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 0:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 1:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 2:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 3:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 4:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 5:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 6:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 7:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*=
+ upper 32 bits are only available when Config5MI !=3D 0 */
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CP=
+0_CHECK(ctx->mi);
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ge=
+n_helper_0e1i(mthc0_watchhi, arg, sel);
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 re=
+gister_name =3D "WatchHi";
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 br=
+eak;
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default:
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 go=
+to cp0_unimplemented;
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case CP0_REGISTER_28:
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (sel) {
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case 0:
+ > @@ -8924,7 +8963,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv=20
+arg, int reg, int sel)
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case CP0_REG19__=
+WATCHHI6:
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case CP0_REG19__=
+WATCHHI7:
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 CP0_CHECK(ctx->CP0_Config1 & (1 << CP0C1_WR));
+ > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ge=
+n_helper_1e0i(mfc0_watchhi, arg, sel);
+ > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ge=
+n_helper_1e0i(dmfc0_watchhi, arg, sel);
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 register_name =3D "WatchHi";
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 break;
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 default:
+ > @@ -30854,6 +30893,7 @@ static void=20
+mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ctx->nan2008 =3D (env->active_fpu.fcr31 =
+>> FCR31_NAN2008) & 1;
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ctx->abs2008 =3D (env->active_fpu.fcr31 =
+>> FCR31_ABS2008) & 1;
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ctx->crcp =3D (env->CP0_Config5 >> CP0C5=
+_CRCP) & 1;
+ > +=C2=A0=C2=A0=C2=A0 ctx->mi =3D (env->CP0_Config5 >> CP0C5_MI) & 1;
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 restore_cpu_state(env, ctx);
+ >=C2=A0 #ifdef CONFIG_USER_ONLY
+ >=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ctx->mem_idx =3D=
+ MIPS_HFLAG_UM;
 
-> memory_region_allocate_system_memory() API is going away, so
-> replace it with memdev allocated MemoryRegion. The later is
-> initialized by generic code, so board only needs to opt in
-> to memdev scheme by providing
->   MachineClass::default_ram_id
-> and using MachineState::ram instead of manually initializing
-> RAM memory region.
->
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/mips/mips_mipssim.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->
->
-Applied to MIPS queue.
+Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
 
-
-> diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
-> index 84c03dd..8df16d8 100644
-> --- a/hw/mips/mips_mipssim.c
-> +++ b/hw/mips/mips_mipssim.c
-> @@ -143,14 +143,12 @@ static void mipsnet_init(int base, qemu_irq irq,
-> NICInfo *nd)
->  static void
->  mips_mipssim_init(MachineState *machine)
->  {
-> -    ram_addr_t ram_size =3D machine->ram_size;
->      const char *kernel_filename =3D machine->kernel_filename;
->      const char *kernel_cmdline =3D machine->kernel_cmdline;
->      const char *initrd_filename =3D machine->initrd_filename;
->      char *filename;
->      MemoryRegion *address_space_mem =3D get_system_memory();
->      MemoryRegion *isa =3D g_new(MemoryRegion, 1);
-> -    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
->      MemoryRegion *bios =3D g_new(MemoryRegion, 1);
->      MIPSCPU *cpu;
->      CPUMIPSState *env;
-> @@ -167,13 +165,11 @@ mips_mipssim_init(MachineState *machine)
->      qemu_register_reset(main_cpu_reset, reset_info);
->
->      /* Allocate RAM. */
-> -    memory_region_allocate_system_memory(ram, NULL, "mips_mipssim.ram",
-> -                                         ram_size);
->      memory_region_init_ram(bios, NULL, "mips_mipssim.bios", BIOS_SIZE,
->                             &error_fatal);
->      memory_region_set_readonly(bios, true);
->
-> -    memory_region_add_subregion(address_space_mem, 0, ram);
-> +    memory_region_add_subregion(address_space_mem, 0, machine->ram);
->
->      /* Map the BIOS / boot exception handler. */
->      memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
-> @@ -200,7 +196,7 @@ mips_mipssim_init(MachineState *machine)
->      }
->
->      if (kernel_filename) {
-> -        loaderparams.ram_size =3D ram_size;
-> +        loaderparams.ram_size =3D machine->ram_size;
->          loaderparams.kernel_filename =3D kernel_filename;
->          loaderparams.kernel_cmdline =3D kernel_cmdline;
->          loaderparams.initrd_filename =3D initrd_filename;
-> @@ -245,6 +241,7 @@ static void mips_mipssim_machine_init(MachineClass *m=
-c)
->  #else
->      mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("24Kf");
->  #endif
-> +    mc->default_ram_id =3D "mips_mipssim.ram";
->  }
->
->  DEFINE_MACHINE("mipssim", mips_mipssim_machine_init)
-> --
-> 2.7.4
->
->
->
-
---000000000000005493059ce5ee17
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 23, 2020 at 1:22 PM Igor =
-Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com">imammedo@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">memo=
-ry_region_allocate_system_memory() API is going away, so<br>
-replace it with memdev allocated MemoryRegion. The later is<br>
-initialized by generic code, so board only needs to opt in<br>
-to memdev scheme by providing<br>
-=C2=A0 MachineClass::default_ram_id<br>
-and using MachineState::ram instead of manually initializing<br>
-RAM memory region.<br>
-<br>
-Signed-off-by: Igor Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com" tar=
-get=3D"_blank">imammedo@redhat.com</a>&gt;<br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redha=
-t.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
-Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.=
-com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
----<br>
-=C2=A0hw/mips/mips_mipssim.c | 9 +++------<br>
-=C2=A01 file changed, 3 insertions(+), 6 deletions(-)<br>
-<br></blockquote><div><br></div><div>Applied to MIPS queue.</div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c<br>
-index 84c03dd..8df16d8 100644<br>
---- a/hw/mips/mips_mipssim.c<br>
-+++ b/hw/mips/mips_mipssim.c<br>
-@@ -143,14 +143,12 @@ static void mipsnet_init(int base, qemu_irq irq, NICI=
-nfo *nd)<br>
-=C2=A0static void<br>
-=C2=A0mips_mipssim_init(MachineState *machine)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 ram_addr_t ram_size =3D machine-&gt;ram_size;<br>
-=C2=A0 =C2=A0 =C2=A0const char *kernel_filename =3D machine-&gt;kernel_file=
-name;<br>
-=C2=A0 =C2=A0 =C2=A0const char *kernel_cmdline =3D machine-&gt;kernel_cmdli=
-ne;<br>
-=C2=A0 =C2=A0 =C2=A0const char *initrd_filename =3D machine-&gt;initrd_file=
-name;<br>
-=C2=A0 =C2=A0 =C2=A0char *filename;<br>
-=C2=A0 =C2=A0 =C2=A0MemoryRegion *address_space_mem =3D get_system_memory()=
-;<br>
-=C2=A0 =C2=A0 =C2=A0MemoryRegion *isa =3D g_new(MemoryRegion, 1);<br>
--=C2=A0 =C2=A0 MemoryRegion *ram =3D g_new(MemoryRegion, 1);<br>
-=C2=A0 =C2=A0 =C2=A0MemoryRegion *bios =3D g_new(MemoryRegion, 1);<br>
-=C2=A0 =C2=A0 =C2=A0MIPSCPU *cpu;<br>
-=C2=A0 =C2=A0 =C2=A0CPUMIPSState *env;<br>
-@@ -167,13 +165,11 @@ mips_mipssim_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0qemu_register_reset(main_cpu_reset, reset_info);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Allocate RAM. */<br>
--=C2=A0 =C2=A0 memory_region_allocate_system_memory(ram, NULL, &quot;mips_m=
-ipssim.ram&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ra=
-m_size);<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_init_ram(bios, NULL, &quot;mips_mipssim.b=
-ios&quot;, BIOS_SIZE,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &amp;error_fatal);<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_set_readonly(bios, true);<br>
-<br>
--=C2=A0 =C2=A0 memory_region_add_subregion(address_space_mem, 0, ram);<br>
-+=C2=A0 =C2=A0 memory_region_add_subregion(address_space_mem, 0, machine-&g=
-t;ram);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Map the BIOS / boot exception handler. */<br>
-=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion(address_space_mem, 0x1fc000=
-00LL, bios);<br>
-@@ -200,7 +196,7 @@ mips_mipssim_init(MachineState *machine)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (kernel_filename) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 loaderparams.ram_size =3D ram_size;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 loaderparams.ram_size =3D machine-&gt;ram_size=
-;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0loaderparams.kernel_filename =3D kernel_f=
-ilename;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0loaderparams.kernel_cmdline =3D kernel_cm=
-dline;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0loaderparams.initrd_filename =3D initrd_f=
-ilename;<br>
-@@ -245,6 +241,7 @@ static void mips_mipssim_machine_init(MachineClass *mc)=
-<br>
-=C2=A0#else<br>
-=C2=A0 =C2=A0 =C2=A0mc-&gt;default_cpu_type =3D MIPS_CPU_TYPE_NAME(&quot;24=
-Kf&quot;);<br>
-=C2=A0#endif<br>
-+=C2=A0 =C2=A0 mc-&gt;default_ram_id =3D &quot;mips_mipssim.ram&quot;;<br>
-=C2=A0}<br>
-<br>
-=C2=A0DEFINE_MACHINE(&quot;mipssim&quot;, mips_mipssim_machine_init)<br>
--- <br>
-2.7.4<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000005493059ce5ee17--
 
