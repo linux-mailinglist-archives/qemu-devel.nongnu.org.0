@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309C9148F78
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 21:42:10 +0100 (CET)
-Received: from localhost ([::1]:47654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C177148F7A
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 21:42:12 +0100 (CET)
+Received: from localhost ([::1]:47662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv5mK-00017T-U1
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 15:42:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42665)
+	id 1iv5mN-0001Bd-9Z
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 15:42:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42675)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iv5kp-0007wc-34
+ (envelope-from <alex.bennee@linaro.org>) id 1iv5kp-0007we-DL
  for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iv5kn-0005nL-TG
+ (envelope-from <alex.bennee@linaro.org>) id 1iv5ko-0005np-74
  for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:35 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42493)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41712)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iv5kn-0005mA-NA
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:33 -0500
-Received: by mail-wr1-x433.google.com with SMTP id q6so3562075wro.9
+ id 1iv5ko-0005ma-1S
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:34 -0500
+Received: by mail-wr1-x441.google.com with SMTP id c9so3580245wrw.8
  for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 12:40:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DM/iBTyh2fgUt8WZi/uAjOeBrV5p8xgv4SqZb7PmcyM=;
- b=pF06MuQlTiebqtsEadqxlyao3qzmI6AAe3dPUg+pUb2X2thZCN6+MNOJe2GV0jieJj
- IhpUR5ufOoL83G+rSW/dVTZLhkT3qxTGNOwrNg2xrb9WlKuTJhoUd8/OZR3ekjbETWBn
- EKb/h7d/2r9EcUnX2IZKP1b/rAT3fNghX8WflRGnFLYJsapio/5G7OoIYE6Tl9hDoSjK
- 45/OKFD9IzULOoSk9DuBi4nFthl+77WSuTTzIXxypHCAZwVpN+jIiTHiEMNYokjg94TT
- qCl3DHDn6MkuuTWyMY1fn5pr4+5Ie2b9imMMukBkoRq+9mZtowHLhAXBn5qaxIoQXCM4
- T7OQ==
+ bh=DxyUL09mP/E2gi/BJdtPzSscycJU2l67msm7AJIa0aI=;
+ b=HQmAbYktc84wg/Sr2RixfvIiThYjJ/XK+UrBBnUDuXL+893t5g+WV6BO1RMbacW8yO
+ HmIg7jfZap/DKN9/279VjCufs0uUfeJ1ty6qdiC2nClPEa75AF56yo/DF3ht7D36wfaV
+ abOOjuSjriIqMwg1c3mPFVwkPxLY3LNZRSVFelohDQ9r5ODWKJdirCsk7bLh1/LRuG2I
+ L7xOcKPTxIl5WYIXLdfD0TKeIzxVZiulRnUGLLLRFhJ6L0n1Og77LyrqUIU8P32EZoqY
+ Lg0hkNCUELoCFd5ibZ3nhi3CjnG0/iBUYs5V9UcroRxupj4hnXyL7set1bjtm/k+K7Dj
+ qOOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DM/iBTyh2fgUt8WZi/uAjOeBrV5p8xgv4SqZb7PmcyM=;
- b=I6doA3bzhGZnNVXwg4He7CEpK3LO2Q6t6LAFgPeYUc1grAV/Et57ZJGeBV/us3W2lC
- zLcuW1MOr4CVcIKnYmQ9Wa83dDW3C+EJZ6jBD9PPlhut5K1LdqKHZUbIEj682wFEdsXy
- qOhdGcmICxElLok32HvK0lzg6nu1gO78LZinrkVTZ6eaC+PAkIRBnDfxHuzfGcwTD9aI
- 38yN44jnU3oWyoSS1AR/1N+34Y5fC0sH6BmNioqMX1r+jjA06d59TqXx11OzWSoBMx2M
- iK6huVnyVGKR1sMq+f0AriSFDGL7Emfg/QD8BouMqpoUxVc84Rk7jOczIpDqkcAVFKg/
- bi+g==
-X-Gm-Message-State: APjAAAVOFSpaFnL4ocppN2Hhiju+mdNYASZbRBZLoCQRWUh4eZf/Pdle
- jxk55C0EkdJd+55jtcEKe6qr4w==
-X-Google-Smtp-Source: APXvYqxa3CE2Mzl0NbIS7x3erYeX/6g7F1yFTJUKeveVB5DgnOzp0H4YnNxNyMxm2JtGHMSpC5epeg==
-X-Received: by 2002:a5d:5044:: with SMTP id h4mr5972566wrt.4.1579898432037;
- Fri, 24 Jan 2020 12:40:32 -0800 (PST)
+ bh=DxyUL09mP/E2gi/BJdtPzSscycJU2l67msm7AJIa0aI=;
+ b=qxRe3Iy+tJHfwTj2RKUY0kyJEVi8E+gxD7a2y+F1siVOZccfIAI08Xc7M+BzKxJjG4
+ +uypraoXxRem6gkXOs4LyrkTkl8DYgbfIurSd7B14C5FdHxdfP2VqxmJ02Hqi8huIvNs
+ qSio+VLuE0aimUl9wAA0RbiTyTn1tWQhJJbxp0AYzDq4FJ8srLX3dShA1CIpNlC+IINc
+ At6otJDwaz52ak9qfKz4MTpcClc2nmhqudgn3NzfzFuYwcXlNyIMMat+cCOkId+y314e
+ Lax3Ds7MWg6jRyohr1akh2wuOWkTV/Mhxj7gqjiYiO1ucTe3gGWxi9qaWShxDxFynWb9
+ Egqw==
+X-Gm-Message-State: APjAAAU+bnairACGRbowss2OJuEKoFJiMnDMO1O9FXDK+Scj4iZdGIBE
+ SwknSNmBl6B12RsmkhnIuRPAkw==
+X-Google-Smtp-Source: APXvYqxezXLgjnKGxHXOg4nR6OOwAHhUJ+Qn88Rg6y9HZp95lkZNsH3OFJ2nOq7xNbq9manVD3dF2w==
+X-Received: by 2002:adf:ef03:: with SMTP id e3mr6139820wro.216.1579898433066; 
+ Fri, 24 Jan 2020 12:40:33 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f1sm9052872wro.85.2020.01.24.12.40.27
+ by smtp.gmail.com with ESMTPSA id r6sm8776363wrq.92.2020.01.24.12.40.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2020 12:40:27 -0800 (PST)
+ Fri, 24 Jan 2020 12:40:29 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AA0461FF90;
+ by zen.linaroharston (Postfix) with ESMTP id BF7F51FF91;
  Fri, 24 Jan 2020 20:40:26 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 03/13] gitlab-ci: Refresh the list of iotests
-Date: Fri, 24 Jan 2020 20:40:16 +0000
-Message-Id: <20200124204026.2107-4-alex.bennee@linaro.org>
+Subject: [PATCH  v1 04/13] travis.yml: Install genisoimage package
+Date: Fri, 24 Jan 2020 20:40:17 +0000
+Message-Id: <20200124204026.2107-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200124204026.2107-1-alex.bennee@linaro.org>
 References: <20200124204026.2107-1-alex.bennee@linaro.org>
@@ -68,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,58 +80,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- stefanb@linux.vnet.ibm.com, richard.henderson@linaro.org, f4bug@amsat.org,
- cota@braap.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com, aurelien@aurel32.net
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-iotest 147 and 205 have recently been marked as "NBD-only", so they
-are currently simply skipped and thus can be removed.
+The genisoimage program is required for tests/cdrom-test
+tests, otherwise they are skipped. The current Travis
+environments do not provide it by default, so let's
+explicitly require the genisoimage package.
 
-iotest 129 occasionally fails in the gitlab-CI, and according to Max,
-there are some known issues with this test (see for example this URL:
-https://lists.nongnu.org/archive/html/qemu-block/2019-06/msg00499.html ),
-so for the time being, let's disable it until the problems are fixed.
-
-The iotests 040, 127, 203 and 256 are scheduled to become part of "make
-check-block", so we also do not have to test them seperately here anymore.
-
-On the other side, new iotests have been added to the QEMU repository
-in the past months, so we can now add some new test > 256 instead.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200121131936.8214-1-thuth@redhat.com>
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-Id: <20200110191254.11303-2-wainersm@redhat.com>
 ---
- .gitlab-ci.yml | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .travis.yml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 228783993e..c15e394f09 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -54,12 +54,12 @@ build-tcg-disabled:
-  - make check-qapi-schema
-  - cd tests/qemu-iotests/
-  - ./check -raw 001 002 003 004 005 008 009 010 011 012 021 025 032 033 048
--            052 063 077 086 101 104 106 113 147 148 150 151 152 157 159 160
--            163 170 171 183 184 192 194 197 205 208 215 221 222 226 227 236
-- - ./check -qcow2 028 040 051 056 057 058 065 067 068 082 085 091 095 096 102
--            122 124 127 129 132 139 142 144 145 147 151 152 155 157 165 194
--            196 197 200 202 203 205 208 209 215 216 218 222 227 234 246 247
--            248 250 254 255 256
-+            052 063 077 086 101 104 106 113 148 150 151 152 157 159 160 163
-+            170 171 183 184 192 194 197 208 215 221 222 226 227 236 253 277
-+ - ./check -qcow2 028 051 056 057 058 065 067 068 082 085 091 095 096 102 122
-+            124 132 139 142 144 145 151 152 155 157 165 194 196 197 200 202
-+            208 209 215 216 218 222 227 234 246 247 248 250 254 255 257 258
-+            260 261 262 263 264 270 272 273 277 279
+diff --git a/.travis.yml b/.travis.yml
+index 6c1038a0f1..131c920255 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -51,6 +51,8 @@ addons:
+       - sparse
+       - uuid-dev
+       - gcovr
++      # Tests dependencies
++      - genisoimage
  
- build-user:
-  script:
+ 
+ # The channel name "irc.oftc.net#qemu" is encrypted against qemu/qemu
+@@ -383,6 +385,8 @@ matrix:
+           - libusb-1.0-0-dev
+           - libvdeplug-dev
+           - libvte-2.91-dev
++          # Tests dependencies
++          - genisoimage
+       env:
+         - TEST_CMD="make check check-tcg V=1"
+         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS}"
+@@ -412,6 +416,8 @@ matrix:
+           - libusb-1.0-0-dev
+           - libvdeplug-dev
+           - libvte-2.91-dev
++          # Tests dependencies
++          - genisoimage
+       env:
+         - TEST_CMD="make check check-tcg V=1"
+         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},ppc64le-linux-user"
+@@ -441,6 +447,8 @@ matrix:
+           - libusb-1.0-0-dev
+           - libvdeplug-dev
+           - libvte-2.91-dev
++          # Tests dependencies
++          - genisoimage
+       env:
+         - TEST_CMD="make check check-tcg V=1"
+         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
 -- 
 2.20.1
 
