@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD386148D9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 19:12:05 +0100 (CET)
-Received: from localhost ([::1]:46124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11404148DA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 19:14:35 +0100 (CET)
+Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv3R6-0007FI-UB
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 13:12:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36448)
+	id 1iv3TW-0002OG-5z
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 13:14:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37081)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iv3Q4-0005wv-82
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:11:01 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iv3SW-0001XN-7I
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:13:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iv3Q3-0008Fm-1t
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:11:00 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34427)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iv3Q2-0008D4-Pj
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:10:58 -0500
-Received: by mail-wr1-x441.google.com with SMTP id t2so3110389wrr.1
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 10:10:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=J2YJMGDddkGlNZgbZfO+LPfPsL7DVmh3wByqFMcxuTQ=;
- b=sWPiSaLQH0tnAtza/bI5lc5w+EJjKnM/1GJFWwQ5HOCWMSTCIrslXzeWTX6eKVxr/O
- u7S/Zs3+Q57TfHxmYpFIrgg850GLJWcTexIV4eAKdvaahf+HM0AqxwnbHD5amhTif1w0
- ST6H4k2KZg/7TtyEeuA2odlpW4PKveu/T5yA/bjHBNR2F9QP4S/V5pphSTGEWMBikSFi
- r3C4YjK1W+yjDXS425wXD3RKeAtXCWgdj9EHUa6MPE8oIjpbnlgZ1WHWUGjw65agd/dP
- aURNtKRBDrF+oejDaSesBcKMqT1Lm7MMZ7nmv0NuRoTgpGrgXRqR6wjTRcUuf7rQs6Cb
- UsVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=J2YJMGDddkGlNZgbZfO+LPfPsL7DVmh3wByqFMcxuTQ=;
- b=nseQVlZ6G7psnQ8MC9mKIe/NjP3a9huHXxGPfOn73gKnUKkEuPlJjzvW9c7ZKFpSRF
- o+i4Bro7mC2yM6dOWu6/Hgp5wx1dza+Dk8SUFUt0+VZSuMJcdih7WFA0hovvnqWDp4uw
- NMOjgF3ilIcNZxZQbduFgnVNSQCuLAxUI0ud3JjtmMEji5CRlYI+NxxSFpzE/95F8/J4
- 1h2L257r6cUclNcQLKJbkDRs8OL3uCItylY9JQe1Fr02/rq/Z35/JyfpdwCoQ7XfcVqe
- YOIzHI7xdXN3rWT46lwyqe5nwCSP9rNHMJqk0tpEW0s9pjBPlXY4NgJeuZrn53e1SNbJ
- 3WtA==
-X-Gm-Message-State: APjAAAUPAzWlEEkYN/P3jdqMBxBxQIGBsvXxIECuln2KEsvlV2+ooPMA
- M9sO2rjMWaX9VAOIK6LFYVQyPg==
-X-Google-Smtp-Source: APXvYqyBp3nBzEc3AP5iY+yGb7kWJoPqHaNsrrokvAGNxlRWMeM4HXvGUpeK3KRWz+IZuM90PuvIDA==
-X-Received: by 2002:a5d:4b88:: with SMTP id b8mr5631490wrt.343.1579889457092; 
- Fri, 24 Jan 2020 10:10:57 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r15sm7553523wmh.21.2020.01.24.10.10.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2020 10:10:56 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 108D71FF87;
- Fri, 24 Jan 2020 18:10:55 +0000 (GMT)
-References: <20200124162606.8787-1-peter.maydell@linaro.org>
- <20200124162606.8787-3-peter.maydell@linaro.org>
-User-agent: mu4e 1.3.7; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 2/8] hxtool: Support SRST/ERST directives
-In-reply-to: <20200124162606.8787-3-peter.maydell@linaro.org>
-Date: Fri, 24 Jan 2020 18:10:55 +0000
-Message-ID: <878slwafo0.fsf@linaro.org>
+ (envelope-from <dgilbert@redhat.com>) id 1iv3SU-00037H-D5
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:13:31 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48887
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iv3SU-00036e-5q
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:13:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1579889609;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TLXDjjSKeHl7McRay9CND9SUlvC4pHsnz6BStnRFjUM=;
+ b=S3qUw9HQM+F4nHUS98b48RL7pbIGvwOVYR6hDwDF3xExGkjDMwsmKRZs7nztZqtgdzFNmQ
+ /3Rx8sFwJWos+4/sjO1RMcTgdaKPh8/gLnMFYNT500NZpQGQ8eRH+B68BXTcZAzE/DeAhY
+ lTiPSWcxejiRuK5rNS/WamB5HGAX8es=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-88-pnTgzRAzPl6uD8xyjA3EyA-1; Fri, 24 Jan 2020 13:13:27 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C8B918FE860
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 18:13:26 +0000 (UTC)
+Received: from work-vm (ovpn-117-253.ams2.redhat.com [10.36.117.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ABC1C85794;
+ Fri, 24 Jan 2020 18:13:24 +0000 (UTC)
+Date: Fri, 24 Jan 2020 18:13:22 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v3 16/21] migration: Add support for modules
+Message-ID: <20200124181322.GY2970@work-vm>
+References: <20200123115831.36842-1-quintela@redhat.com>
+ <20200123115831.36842-17-quintela@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200123115831.36842-17-quintela@redhat.com>
+User-Agent: Mutt/1.13.0 (2019-11-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: pnTgzRAzPl6uD8xyjA3EyA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,41 +73,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Juan Quintela (quintela@redhat.com) wrote:
+> So we don't have to compile everything in, or have ifdefs
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Can you explain to me what this is allowing us to do?
 
-> We want to add support for including rST document fragments
-> in our .hx files, in the same way we currently have texinfo
-> fragments. These will be delimited by SRST and ERST directives,
-> in the same way the texinfo is delimited by STEXI/ETEXI.
-> The rST fragments will not be extracted by the hxtool
-> script, but by a different mechanism, so all we need to
-> do in hxtool is have it ignore all the text inside a
-> SRST/ERST section, with suitable error-checking for
-> mismatched rST-vs-texi fragment delimiters.
->
-> The resulting effective state machine has only three states:
->  * flag =3D 0, rstflag =3D 0 : reading section for C output
->  * flag =3D 1, rstflag =3D 0 : reading texi fragment
->  * flag =3D 0, rstflag =3D 1 : reading rST fragment
-> and flag =3D 1, rstflag =3D 1 is not possible. Using two
-> variables makes the parallel between the rST handling and
-> the texi handling clearer; in any case all this code will
-> be deleted once we've converted entirely to rST.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Dave
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  include/qemu/module.h | 2 ++
+>  vl.c                  | 1 +
+>  2 files changed, 3 insertions(+)
+>=20
+> diff --git a/include/qemu/module.h b/include/qemu/module.h
+> index 65ba596e46..907cb5c0a5 100644
+> --- a/include/qemu/module.h
+> +++ b/include/qemu/module.h
+> @@ -40,6 +40,7 @@ static void __attribute__((constructor)) do_qemu_init_ =
+## function(void)    \
+>  #endif
+> =20
+>  typedef enum {
+> +    MODULE_INIT_MIGRATION,
+>      MODULE_INIT_BLOCK,
+>      MODULE_INIT_OPTS,
+>      MODULE_INIT_QOM,
+> @@ -56,6 +57,7 @@ typedef enum {
+>  #define xen_backend_init(function) module_init(function, \
+>                                                 MODULE_INIT_XEN_BACKEND)
+>  #define libqos_init(function) module_init(function, MODULE_INIT_LIBQOS)
+> +#define migration_init(function) module_init(function, MODULE_INIT_MIGRA=
+TION)
+> =20
+>  #define block_module_load_one(lib) module_load_one("block-", lib)
+>  #define ui_module_load_one(lib) module_load_one("ui-", lib)
+> diff --git a/vl.c b/vl.c
+> index 71d3e7eefb..f331a3921f 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -2873,6 +2873,7 @@ int main(int argc, char **argv, char **envp)
+>      qemu_init_exec_dir(argv[0]);
+> =20
+>      module_call_init(MODULE_INIT_QOM);
+> +    module_call_init(MODULE_INIT_MIGRATION);
+> =20
+>      qemu_add_opts(&qemu_drive_opts);
+>      qemu_add_drive_opts(&qemu_legacy_drive_opts);
+> --=20
+> 2.24.1
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
---=20
-Alex Benn=C3=A9e
 
