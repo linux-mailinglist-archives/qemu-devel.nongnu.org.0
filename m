@@ -2,103 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A155B148F70
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 21:37:16 +0100 (CET)
-Received: from localhost ([::1]:47532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C5D148F87
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 21:43:40 +0100 (CET)
+Received: from localhost ([::1]:47710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv5hb-0006J3-OI
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 15:37:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42095)
+	id 1iv5nn-0004bz-65
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 15:43:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42635)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Babu.Moger@amd.com>) id 1iv5gS-0005Be-Qt
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:36:05 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iv5ko-0007wZ-0w
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Babu.Moger@amd.com>) id 1iv5gR-00010W-NW
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:36:04 -0500
-Received: from mail-mw2nam10on2056.outbound.protection.outlook.com
- ([40.107.94.56]:48388 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1iv5gR-0000yZ-Dy
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:36:03 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K+CUKV/SCgJPGS1YB4NbVx8zUumXL9uydUsHnA35rh4iqGJDepOUaj9i/iw0TfUx07iqnaALxxk3cWIBMkOCFzD+O+ZdaE65JIPJAFRHQcrhUq0YM518d0bssXm9KjhfJDfYNOietmWkq1zasgQ5/zcztZVNCmWmXdiVTB/Kh9FkTn/7LQ5cKIw2YpfisgIzjpllZczM8ON+olO1ob0q6/VwHLpg0A9r8EluDlwF49ZuMm4dHMmIALbiP/6+5fmSoPu2/c0c+JP3hS8YDbhzMmVN/qthsMG4LTaxnM8Nc6yHmzwub4IPg9/d4xu3a8QLdxHNnUZm+dkB026YQGqImA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tKyQGit5A6vr62a/T+vq9oIfbUk32PTIwD810Rzty5Y=;
- b=R7H5qVlql5cpHUiMK3iyoIBbZ2SXvwxPNkVMexghBFLbR3KaHtg56fmoZwYfjcnQ5WJiVdZ79XWhx1qF3O4Xn0YOdtaKoLgEOAoRduyUNMQMlpkECai32jK9HzoR01H82uN9VjjLObR6IduI2hk33iJA4WYdc0vtFEfDo+VxgRckSDGEDU9+ugZ93z5++Fn3Q+oudb3oDKAcE3EanA4m59qAuufwc35CJno+843X1FlIzq7OqkoUOSgM2FZYmrLVOGJhRjsRiimI5R9zaafMucWOmh0+avoPZ+iEvJHnJ31jCHyziRDltO+JL7yrbqyPa8/CHZ7YQTG58qfr3lynXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tKyQGit5A6vr62a/T+vq9oIfbUk32PTIwD810Rzty5Y=;
- b=LTcKIWwON1gHb4YjFi2Vt9zpa8QC9d+6V7o5HfI5AqTU7u7ihEN1KbXlbytkZ4I8wX0OFuaIv5wUplXL4JrKXj96TM/pflR9dylVEvADjpAXkW3nfdo5zRP9IckN2Bj1uvtxZyYZoyo8PXriE8oyqnGfkJIhTCe17e0OFWlukdE=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Babu.Moger@amd.com; 
-Received: from CY4PR12MB1574.namprd12.prod.outlook.com (10.172.71.23) by
- CY4PR12MB1142.namprd12.prod.outlook.com (10.168.168.135) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.21; Fri, 24 Jan 2020 20:36:00 +0000
-Received: from CY4PR12MB1574.namprd12.prod.outlook.com
- ([fe80::610a:6908:1e18:49fd]) by CY4PR12MB1574.namprd12.prod.outlook.com
- ([fe80::610a:6908:1e18:49fd%7]) with mapi id 15.20.2665.017; Fri, 24 Jan 2020
- 20:36:00 +0000
-Subject: Re: [PATCH v2 0/2] Add support for 2nd generation AMD EPYC processors
-To: "mst@redhat.com" <mst@redhat.com>,
- "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>
-References: <157314957337.23828.3860599077487615762.stgit@naples-babu.amd.com>
-From: Babu Moger <babu.moger@amd.com>
-Message-ID: <d69d6c10-9b37-075b-7dd4-1f0a6dd46dc4@amd.com>
-Date: Fri, 24 Jan 2020 14:35:58 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-In-Reply-To: <157314957337.23828.3860599077487615762.stgit@naples-babu.amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0701CA0003.namprd07.prod.outlook.com
- (2603:10b6:803:28::13) To CY4PR12MB1574.namprd12.prod.outlook.com
- (2603:10b6:910:e::23)
+ (envelope-from <alex.bennee@linaro.org>) id 1iv5kl-0005lG-8s
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:33 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44762)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iv5kk-0005iY-9e
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:31 -0500
+Received: by mail-wr1-x431.google.com with SMTP id q10so3579080wrm.11
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 12:40:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rEefxeUNNS2j/aJvCCEEz4ubbk9y+0Pqz8JBjFY76jc=;
+ b=h+7pIAYJlLuYKaAVcf20uMcHY1GL4Wfgml3KsKrMpUeRiOKbl/9KgArkBjE/g5pXBS
+ h4IqepB3n8LGvleNK9CZ8j47Tt5Ax46ER/zJi6P43a0kP0J8nLXuPhJzPITZcsjHdKjJ
+ 5TrA/ucWVjsNiV7Bi1tGxvbuzzc15O7OzY2VAvg07d1kuUS5Zptni+OZon12Xmzeor9D
+ F6aEt1eNK8fHalzrH+PnISEtRHDhFb5bT2rUlHhYSPtVUdfoVm3w45VxpEixcAm7Dll/
+ F/7eCtn8kjXeTb4kigtL/daulW2XeT2opBw9NENOvzrbHVOAY/yLz1dYl1SY0YLgeNqV
+ 4Jsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rEefxeUNNS2j/aJvCCEEz4ubbk9y+0Pqz8JBjFY76jc=;
+ b=HT0EIf0ZyIwCp670QJSZ+BA0Wuq6UP0U62/EqbnubrOf1auUiwkUtP2AbBCdhohYnd
+ xXIR3vWUWREYjM8f+9QFNoZEz7gP98lQJr9G8XwV2uQlEoo35E/wJZ0rkpKOoQi/d81/
+ aDDdSfNXS9ndYH8PLKxKM7BynbUIbfR405ZM06R1pbGVgsYddSFcZUEExp0GU6Kd/Wg7
+ 4K7QJXoYN30n7uZS0GUVg/uWhoggkKUbtRlnh6TLc758gBlOEkjxMl4mA7PCoTglxaFw
+ 5vV8bnAx2mgJSOORPKeMVhEyWsDywS7TwDIEgc2bg8+Cyqz7IB6YIr6g3m5Gavz1B5BM
+ dnKg==
+X-Gm-Message-State: APjAAAUF+Ll63kohB4wBWSOs4fH2QvZOFFUoKl9Pxp+07W5i29TdC6g2
+ SzvyZ5yXcAiKTH0H5GC5u52Jgg==
+X-Google-Smtp-Source: APXvYqzdZ2e73x9HvdZuWCLAlVjljhxjufGr1jMT6EbhGdAnBNK9v6fwly5pciBcL4CTNIbawalCRg==
+X-Received: by 2002:adf:e683:: with SMTP id r3mr6684708wrm.38.1579898428753;
+ Fri, 24 Jan 2020 12:40:28 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p15sm7751750wma.40.2020.01.24.12.40.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jan 2020 12:40:27 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5E0041FF87;
+ Fri, 24 Jan 2020 20:40:26 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 00/13] docker multiarch awareness
+Date: Fri, 24 Jan 2020 20:40:13 +0000
+Message-Id: <20200124204026.2107-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Received: from [10.236.30.87] (165.204.77.1) by
- SN4PR0701CA0003.namprd07.prod.outlook.com (2603:10b6:803:28::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2665.20 via Frontend
- Transport; Fri, 24 Jan 2020 20:35:59 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: fd6f94ce-4685-4cea-7a41-08d7a10d05f1
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1142:
-X-Microsoft-Antispam-PRVS: <CY4PR12MB11423072573421E906252B05950E0@CY4PR12MB1142.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-Forefront-PRVS: 02929ECF07
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(346002)(396003)(366004)(376002)(39860400002)(199004)(189003)(8676002)(5660300002)(8936002)(81156014)(4326008)(6486002)(81166006)(4744005)(52116002)(26005)(53546011)(186003)(16526019)(31686004)(966005)(36756003)(956004)(2616005)(44832011)(478600001)(66946007)(2906002)(31696002)(16576012)(316002)(66476007)(86362001)(66556008)(110136005);
- DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1142;
- H:CY4PR12MB1574.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RxqAorO9Lcah6fsZrhuWNLTU/TorAlsPsnvv+nPXFMlIFR2UiKurFh5tYAAfktrjXFKfqCk5LA5O3X9eiJnNecYAL56VczdcLDGNVDQxHC8xokMvT2m2ejCkDf7YvpsaE6TOEkggfeegdAu2SsJ9hTPRUbFfwCvnPT/74Yp3L423n2CNWGSm5gmmRkL/rgzff+930aznYT9R6f7+xwwZKsg+EMcD1sB+KREkPJyVEMTfyoZZ8sQ/1qpb+qnTFDJw9p/VkPu1/Thk79cs6HHKa/prGZnrTms/HeFjFbpLsz0tQg4cQRiNy3hGj4D9Tlbco+zRHhEc+uOc5qERzP9SMmfC+G8QIyJ2FOoG2agwwXZ4CfQpQz2tRKoWujM9KhnulEqMOD9pDuQOEuf1tCoUc2PkeQ9KN5nOzIUmaJuIOroUma9rrYSTST8lDqTneCZcSNId3z5NBaeITNvMZfbnZ6wlVua+KxGGpuaYb0KMTWM=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fd6f94ce-4685-4cea-7a41-08d7a10d05f1
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2020 20:36:00.6631 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jFEIMlepwhQQ2LNYL3lj7UCdis8GXm9f27kePf8KocJEJyx6MGDqHVZ3NbWxJ5T9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1142
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.94.56
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,35 +79,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Its been a while. Pinging again.  Please review.
+Hi,
 
-On 11/7/19 12:00 PM, Moger, Babu wrote:
-> The following series adds the support for 2nd generation AMD EPYC Processors
-> on qemu guests. The model display name for 2nd generation will be EPYC-Rome.
-> 
-> Also fixes few missed cpu feature bits in 1st generation EPYC models.
-> 
-> The Reference documents are available at
-> https://developer.amd.com/wp-content/resources/55803_0.54-PUB.pdf
-> https://www.amd.com/system/files/TechDocs/24594.pdf
-> 
-> ---
-> v2: Used the versioned CPU models instead of machine-type-based CPU
->     compatibility (commented by Eduardo).
-> 
-> Babu Moger (2):
->       i386: Add missing cpu feature bits in EPYC model
->       i386: Add 2nd Generation AMD EPYC processors
-> 
-> 
->  target/i386/cpu.c |  119 +++++++++++++++++++++++++++++++++++++++++++++++++++--
->  target/i386/cpu.h |    2 +
->  2 files changed, 116 insertions(+), 5 deletions(-)
-> 
-> --
-> 
+This is a series I've had on the back-burner for awhile. The idea is
+to make the docker build system fully multiarch aware. Much like the
+check-tcg system this involves a bunch of included Makefile
+fragments. It also tries to address the need to track docker
+dependencies in the Makefile explicitly by allowing more automatic
+resolution.
+
+One area where I'd like advice is if we should bother to make the
+build targets backwards compatible - or is it fair to ask developers
+to go through the pain of retraining their brains for the more regular
+naming:
+
+  make docker-test-build@debian10-arm64-build-qemu J=30
+
+I've included testing/next out of completeness.
+
+Alex Bennée (11):
+  tests/docker: move most cross compilers to buster base
+  tests/docker: better handle symlinked libs
+  .shippable: --disable-docs for cross-compile tests
+  tests/docker: move all cross-compilers images into dockerfiles.cross
+  tests/docker: move all multiarch containers into dockerfiles.multiarch
+  tests/docker: search the tests/docker tree to inline parent dockerfile
+  tests/docker: switch to multiarch aware container support
+  tests/docker: add debian10-native-qemu-build
+  tests/docker: rename the cross builds
+  tests/docker: re-enable cross-compiling for x86_64 hosts
+  tests/docker: enable cross-compilers for aarch64
+
+Thomas Huth (1):
+  gitlab-ci: Refresh the list of iotests
+
+Wainer dos Santos Moschetta (1):
+  travis.yml: Install genisoimage package
+
+ .gitlab-ci.yml                                |  12 +-
+ .shippable.yml                                |   2 +-
+ .travis.yml                                   |   8 ++
+ tests/docker/Makefile.include                 | 126 +++++++-----------
+ tests/docker/docker.py                        |  12 +-
+ .../dockerfiles.aarch64/Makefile.include      |  24 ++++
+ .../debian10-aarch64-qemu-build.docker        |   1 +
+ .../debian10-alpha-test-build.docker          |   1 +
+ .../debian10-x86_64-qemu-build.docker         |   1 +
+ .../debian9-armel-qemu-build.docker           |   1 +
+ .../debian10-alpha-build-tests.docker}        |   0
+ .../debian10-amd64-build-qemu.docker}         |   0
+ .../debian10-arm64-build-qemu.docker}         |   0
+ .../debian10-armel-build-qemu.docker}         |   2 +-
+ .../debian10-armhf-build-qemu.docker}         |   2 +-
+ .../debian10-hppa-build-tests.docker}         |   0
+ .../debian10-m68k-build-tests.docker}         |   0
+ .../debian10-mips-build-qemu.docker}          |   0
+ .../debian10-mips64-build-tests.docker}       |   0
+ .../debian10-mips64el-build-qemu.docker}      |   2 +-
+ .../debian10-mipsel-build-qemu.docker}        |   2 +-
+ .../debian10-powerpc-build-tests.docker}      |   0
+ .../debian10-ppc64-build-tests.docker}        |   0
+ .../debian10-ppc64el-build-qemu.docker}       |   2 +-
+ .../debian10-riscv64-build-tests.docker}      |   0
+ .../debian10-s390x-build-qemu.docker}         |   2 +-
+ .../debian10-sh4-build-tests.docker}          |   0
+ .../debian10-sparc64-build-tests.docker}      |   0
+ .../debian9-tricore-build-tests.docker}       |   0
+ .../debian9-xtensa-build-tests.docker}        |   0
+ .../fedora-cris-build-tests.docker}           |   0
+ .../fedora-i386-build-qemu.docker}            |   0
+ .../dockerfiles.multiarch/Makefile.include    |  17 +++
+ .../debian10.docker                           |   0
+ .../debian9.docker                            |   0
+ .../dockerfiles.x86_64/Makefile.include       |  26 ++++
+ .../debain10-x86_64-qemu-build.docker         |   1 +
+ .../debian10-alpha-build-tests.docker         |   1 +
+ .../debian10-amd64-build-qemu.docker          |   1 +
+ .../debian10-arm64-build-qemu.docker          |   1 +
+ .../debian10-armel-build-qemu.docker          |   1 +
+ .../debian10-armhf-build-qemu.docker          |   1 +
+ .../debian10-hppa-build-tests.docker          |   1 +
+ .../debian10-m68k-build-tests.docker          |   1 +
+ .../debian10-mips-build-qemu.docker           |   1 +
+ .../debian10-mips64-build-tests.docker        |   1 +
+ .../debian10-mips64el-build-qemu.docker       |   1 +
+ .../debian10-mipsel-build-qemu.docker         |   1 +
+ .../debian10-native-qemu-build.docker         |   1 +
+ .../debian10-powerpc-build-tests.docker       |   1 +
+ .../debian10-ppc64-build-tests.docker         |   1 +
+ .../debian10-ppc64el-build-qemu.docker        |   1 +
+ .../debian10-riscv64-build-tests.docker       |   1 +
+ .../debian10-s390x-build-qemu.docker          |   1 +
+ .../debian10-sh4-build-tests.docker           |   1 +
+ .../debian10-sparc64-build-tests.docker       |   1 +
+ .../debian9-mxe-win32-build-qemu.docker}      |   0
+ .../debian9-mxe-win64-build-qemu.docker}      |   0
+ .../debian9-mxe.docker                        |   0
+ .../debian9-tricore-build-tests.docker        |   1 +
+ .../debian9-xtensa-build-tests.docker         |   1 +
+ .../fedora-cris-build-tests.docker            |   1 +
+ .../fedora-i386-build-tests.docker            |   1 +
+ .../travis.docker                             |   0
+ tests/docker/dockerfiles/debian-amd64.docker  |   2 +-
+ .../debian10-native-qemu-build.docker         |  15 +++
+ tests/tcg/configure.sh                        |  38 +++---
+ 67 files changed, 204 insertions(+), 118 deletions(-)
+ create mode 100644 tests/docker/dockerfiles.aarch64/Makefile.include
+ create mode 120000 tests/docker/dockerfiles.aarch64/debian10-aarch64-qemu-build.docker
+ create mode 120000 tests/docker/dockerfiles.aarch64/debian10-alpha-test-build.docker
+ create mode 120000 tests/docker/dockerfiles.aarch64/debian10-x86_64-qemu-build.docker
+ create mode 120000 tests/docker/dockerfiles.aarch64/debian9-armel-qemu-build.docker
+ rename tests/docker/{dockerfiles/debian-alpha-cross.docker => dockerfiles.cross/debian10-alpha-build-tests.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-amd64-cross.docker => dockerfiles.cross/debian10-amd64-build-qemu.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-arm64-cross.docker => dockerfiles.cross/debian10-arm64-build-qemu.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-armel-cross.docker => dockerfiles.cross/debian10-armel-build-qemu.docker} (97%)
+ rename tests/docker/{dockerfiles/debian-armhf-cross.docker => dockerfiles.cross/debian10-armhf-build-qemu.docker} (97%)
+ rename tests/docker/{dockerfiles/debian-hppa-cross.docker => dockerfiles.cross/debian10-hppa-build-tests.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-m68k-cross.docker => dockerfiles.cross/debian10-m68k-build-tests.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-mips-cross.docker => dockerfiles.cross/debian10-mips-build-qemu.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-mips64-cross.docker => dockerfiles.cross/debian10-mips64-build-tests.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-mips64el-cross.docker => dockerfiles.cross/debian10-mips64el-build-qemu.docker} (98%)
+ rename tests/docker/{dockerfiles/debian-mipsel-cross.docker => dockerfiles.cross/debian10-mipsel-build-qemu.docker} (97%)
+ rename tests/docker/{dockerfiles/debian-powerpc-cross.docker => dockerfiles.cross/debian10-powerpc-build-tests.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-ppc64-cross.docker => dockerfiles.cross/debian10-ppc64-build-tests.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-ppc64el-cross.docker => dockerfiles.cross/debian10-ppc64el-build-qemu.docker} (97%)
+ rename tests/docker/{dockerfiles/debian-riscv64-cross.docker => dockerfiles.cross/debian10-riscv64-build-tests.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-s390x-cross.docker => dockerfiles.cross/debian10-s390x-build-qemu.docker} (98%)
+ rename tests/docker/{dockerfiles/debian-sh4-cross.docker => dockerfiles.cross/debian10-sh4-build-tests.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-sparc64-cross.docker => dockerfiles.cross/debian10-sparc64-build-tests.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-tricore-cross.docker => dockerfiles.cross/debian9-tricore-build-tests.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-xtensa-cross.docker => dockerfiles.cross/debian9-xtensa-build-tests.docker} (100%)
+ rename tests/docker/{dockerfiles/fedora-cris-cross.docker => dockerfiles.cross/fedora-cris-build-tests.docker} (100%)
+ rename tests/docker/{dockerfiles/fedora-i386-cross.docker => dockerfiles.cross/fedora-i386-build-qemu.docker} (100%)
+ create mode 100644 tests/docker/dockerfiles.multiarch/Makefile.include
+ rename tests/docker/{dockerfiles => dockerfiles.multiarch}/debian10.docker (100%)
+ rename tests/docker/{dockerfiles => dockerfiles.multiarch}/debian9.docker (100%)
+ create mode 100644 tests/docker/dockerfiles.x86_64/Makefile.include
+ create mode 120000 tests/docker/dockerfiles.x86_64/debain10-x86_64-qemu-build.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-alpha-build-tests.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-amd64-build-qemu.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-arm64-build-qemu.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-armel-build-qemu.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-armhf-build-qemu.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-hppa-build-tests.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-m68k-build-tests.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-mips-build-qemu.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-mips64-build-tests.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-mips64el-build-qemu.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-mipsel-build-qemu.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-native-qemu-build.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-powerpc-build-tests.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-ppc64-build-tests.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-ppc64el-build-qemu.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-riscv64-build-tests.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-s390x-build-qemu.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-sh4-build-tests.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian10-sparc64-build-tests.docker
+ rename tests/docker/{dockerfiles/debian-win32-cross.docker => dockerfiles.x86_64/debian9-mxe-win32-build-qemu.docker} (100%)
+ rename tests/docker/{dockerfiles/debian-win64-cross.docker => dockerfiles.x86_64/debian9-mxe-win64-build-qemu.docker} (100%)
+ rename tests/docker/{dockerfiles => dockerfiles.x86_64}/debian9-mxe.docker (100%)
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian9-tricore-build-tests.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/debian9-xtensa-build-tests.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/fedora-cris-build-tests.docker
+ create mode 120000 tests/docker/dockerfiles.x86_64/fedora-i386-build-tests.docker
+ rename tests/docker/{dockerfiles => dockerfiles.x86_64}/travis.docker (100%)
+ create mode 100644 tests/docker/dockerfiles/debian10-native-qemu-build.docker
+
+-- 
+2.20.1
+
 
