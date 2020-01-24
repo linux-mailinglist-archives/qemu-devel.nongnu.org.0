@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26EC0147ED6
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:37:22 +0100 (CET)
-Received: from localhost ([::1]:40236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A004A147EDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:39:31 +0100 (CET)
+Received: from localhost ([::1]:40292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuwL3-000428-7l
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:37:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46985)
+	id 1iuwN8-0006RM-Mh
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:39:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47668)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david.edmondson@oracle.com>) id 1iuwJv-0003A5-Uf
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:36:13 -0500
+ (envelope-from <david.edmondson@oracle.com>) id 1iuwLp-0005Wo-Le
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:38:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david.edmondson@oracle.com>) id 1iuwJu-00064G-Im
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:36:11 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:48166)
+ (envelope-from <david.edmondson@oracle.com>) id 1iuwLo-0002Ty-Cz
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:38:09 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:50238)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <david.edmondson@oracle.com>)
- id 1iuwJr-0005tS-6w; Fri, 24 Jan 2020 05:36:07 -0500
+ id 1iuwLl-0002MS-Lw; Fri, 24 Jan 2020 05:38:05 -0500
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00OANFkR051386;
- Fri, 24 Jan 2020 10:36:05 GMT
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00OANHpE051393;
+ Fri, 24 Jan 2020 10:38:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2019-08-05;
- bh=5GljaixeKsOYoXfgulGKQys/W9vJqv766ycj8860+Jw=;
- b=mTA5uwvc/+BJ9Vzt8Ju/fOzWtn3zJZVqqrEAnRmK7jzGYdMhqNipwKb9UiYz9h1LugvY
- A5LUfjFYO/7laAz9gmqaz0jYK3AIldJoKF9ykaQKri8fPTrv9jhdBt/IgMOu5noG9k8b
- luEM8c04rSYMGC7iWK5ybvVWBCp/uqRyWE0PgEw6VdKgDyj7u76yQ42d2myXtBhQQwez
- a5gWYpA0YBDApKiO1sgSc/7YY5+uS2swb4A5m4s42/MSKFhY/5L37nWo3NfBkOncRx2k
- IV98HfZ6VfmCbEd5yDmreT9IMu3rKMYPbtRzbReIiQV/LhZy9OMVLm0ku9rtqy5wygXu MQ== 
+ bh=kJYuGOHxAJSijG0ahMlaMAPg8iWcWaOUuXKZkKmTajM=;
+ b=nwIL5M96u+fRUucd+2W4y5k2wj7QcyeRG4jse2aOnCimgRkuRORkEFX7YJON6ePCeN8M
+ fEAw7knrbEfnBPaTtUw0P2vvPjlG2ASNmmOWeL6Qjb/ksJlrd9DrrZcNLk72d7ttMmiI
+ M2co+IZqEQCs0V8RCP1HztsXK4viXk4SDdEk/O41qN0cX1tW2MBcZFw0KNNjEaSqdAu5
+ ukWVY6jtNcymDZxn+33lmR9VSUP65E7947qKq8KaAyXCSQ3n+JC9d79PlZrrbMCKcw+d
+ QVii+Mk3GYdAW75q1vIjAYl8q2DVz4tJ7OmH2dsMaQ4u+qz8dpYgkh7+sMbJyp3rPpTm Lg== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 2xksyqr7tb-1
+ by aserp2120.oracle.com with ESMTP id 2xksyqr853-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Jan 2020 10:36:05 +0000
+ Fri, 24 Jan 2020 10:38:04 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00OAVIwT112194;
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00OAVJGR112268;
  Fri, 24 Jan 2020 10:36:04 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 2xqmuepud9-1
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 2xqmuepue4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 24 Jan 2020 10:36:04 +0000
 Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00OAa3t8025711;
- Fri, 24 Jan 2020 10:36:03 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00OAa4pa007328;
+ Fri, 24 Jan 2020 10:36:04 GMT
 Received: from disaster-area.hh.sledj.net (/81.149.164.25)
  by default (Oracle Beehive Gateway v4.0)
  with ESMTP ; Fri, 24 Jan 2020 02:36:03 -0800
 Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 3b9029b8;
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 4f429e87;
  Fri, 24 Jan 2020 10:36:00 +0000 (UTC)
 From: David Edmondson <david.edmondson@oracle.com>
 To: qemu-devel@nongnu.org, qemu-block@nongnu.org
-Subject: [PATCH v2 1/2] qemu-img: Add --target-is-zero to convert
-Date: Fri, 24 Jan 2020 10:34:57 +0000
-Message-Id: <20200124103458.1525982-2-david.edmondson@oracle.com>
+Subject: [PATCH v2 2/2] doc: Use @code rather than @var for options
+Date: Fri, 24 Jan 2020 10:34:58 +0000
+Message-Id: <20200124103458.1525982-3-david.edmondson@oracle.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200124103458.1525982-1-david.edmondson@oracle.com>
 References: <20200124103458.1525982-1-david.edmondson@oracle.com>
@@ -95,124 +95,74 @@ Cc: David Edmondson <david.edmondson@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In many cases the target of a convert operation is a newly provisioned
-target that the user knows is blank (filled with zeroes). In this
-situation there is no requirement for qemu-img to wastefully zero out
-the entire device.
+Texinfo defines @var for metasyntactic variables and such terms are
+shown in upper-case or italics in the output of makeinfo. When
+considering an option to a command, such as "-n", upper-casing is
+undesirable as it may confuse the reader or be in conflict with the
+equivalent upper-case option.
 
-Add a new option, --target-is-zero, allowing the user to indicate that
-an existing target device is already zero filled.
+Replace the use of @var for options with @code to avoid this.
 
 Signed-off-by: David Edmondson <david.edmondson@oracle.com>
 ---
- qemu-img-cmds.hx |  4 ++--
- qemu-img.c       | 25 ++++++++++++++++++++++---
- qemu-img.texi    |  4 ++++
- 3 files changed, 28 insertions(+), 5 deletions(-)
+ qemu-img.texi | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index 1c93e6d185..6f958a0a48 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -44,9 +44,9 @@ STEXI
- ETEXI
- 
- DEF("convert", img_convert,
--    "convert [--object objectdef] [--image-opts] [--target-image-opts] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_fmt] [-B backing_file] [-o options] [-l snapshot_param] [-S sparse_size] [-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filename")
-+    "convert [--object objectdef] [--image-opts] [--target-image-opts] [--target-is-zero] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_fmt] [-B backing_file] [-o options] [-l snapshot_param] [-S sparse_size] [-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filename")
- STEXI
--@item convert [--object @var{objectdef}] [--image-opts] [--target-image-opts] [-U] [-C] [-c] [-p] [-q] [-n] [-f @var{fmt}] [-t @var{cache}] [-T @var{src_cache}] [-O @var{output_fmt}] [-B @var{backing_file}] [-o @var{options}] [-l @var{snapshot_param}] [-S @var{sparse_size}] [-m @var{num_coroutines}] [-W] [--salvage] @var{filename} [@var{filename2} [...]] @var{output_filename}
-+@item convert [--object @var{objectdef}] [--image-opts] [--target-image-opts] [--target-is-zero] [-U] [-C] [-c] [-p] [-q] [-n] [-f @var{fmt}] [-t @var{cache}] [-T @var{src_cache}] [-O @var{output_fmt}] [-B @var{backing_file}] [-o @var{options}] [-l @var{snapshot_param}] [-S @var{sparse_size}] [-m @var{num_coroutines}] [-W] [--salvage] @var{filename} [@var{filename2} [...]] @var{output_filename}
- ETEXI
- 
- DEF("create", img_create,
-diff --git a/qemu-img.c b/qemu-img.c
-index 6233b8ca56..46db72dbe0 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -70,6 +70,7 @@ enum {
-     OPTION_PREALLOCATION = 265,
-     OPTION_SHRINK = 266,
-     OPTION_SALVAGE = 267,
-+    OPTION_TARGET_IS_ZERO = 268,
- };
- 
- typedef enum OutputFormat {
-@@ -1984,10 +1985,9 @@ static int convert_do_copy(ImgConvertState *s)
-     int64_t sector_num = 0;
- 
-     /* Check whether we have zero initialisation or can get it efficiently */
--    if (s->target_is_new && s->min_sparse && !s->target_has_backing) {
-+    if (!s->has_zero_init && s->target_is_new && s->min_sparse &&
-+        !s->target_has_backing) {
-         s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
--    } else {
--        s->has_zero_init = false;
-     }
- 
-     if (!s->has_zero_init && !s->target_has_backing &&
-@@ -2086,6 +2086,7 @@ static int img_convert(int argc, char **argv)
-             {"force-share", no_argument, 0, 'U'},
-             {"target-image-opts", no_argument, 0, OPTION_TARGET_IMAGE_OPTS},
-             {"salvage", no_argument, 0, OPTION_SALVAGE},
-+            {"target-is-zero", no_argument, 0, OPTION_TARGET_IS_ZERO},
-             {0, 0, 0, 0}
-         };
-         c = getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WU",
-@@ -2209,6 +2210,14 @@ static int img_convert(int argc, char **argv)
-         case OPTION_TARGET_IMAGE_OPTS:
-             tgt_image_opts = true;
-             break;
-+        case OPTION_TARGET_IS_ZERO:
-+            /*
-+             * The user asserting that the target is blank has the
-+             * same effect as the target driver supporting zero
-+             * initialisation.
-+             */
-+            s.has_zero_init = true;
-+            break;
-         }
-     }
- 
-@@ -2247,6 +2256,11 @@ static int img_convert(int argc, char **argv)
-         warn_report("This will become an error in future QEMU versions.");
-     }
- 
-+    if (s.has_zero_init && !skip_create) {
-+        error_report("--target-is-zero requires use of -n flag");
-+        goto fail_getopt;
-+    }
-+
-     s.src_num = argc - optind - 1;
-     out_filename = s.src_num >= 1 ? argv[argc - 1] : NULL;
- 
-@@ -2380,6 +2394,11 @@ static int img_convert(int argc, char **argv)
-     }
-     s.target_has_backing = (bool) out_baseimg;
- 
-+    if (s.has_zero_init && s.target_has_backing) {
-+        error_report("Cannot use --target-is-zero with a backing file");
-+        goto out;
-+    }
-+
-     if (s.src_num > 1 && out_baseimg) {
-         error_report("Having a backing file for the target makes no sense when "
-                      "concatenating multiple input images");
 diff --git a/qemu-img.texi b/qemu-img.texi
-index b5156d6316..3b6dfd8682 100644
+index 3b6dfd8682..6b4a1ac961 100644
 --- a/qemu-img.texi
 +++ b/qemu-img.texi
-@@ -179,6 +179,10 @@ information.
- Try to ignore I/O errors when reading.  Unless in quiet mode (@code{-q}), errors
- will still be printed.  Areas that cannot be read from the source will be
- treated as containing only zeroes.
-+@item --target-is-zero
-+Assume that the destination is filled with zeros. This parameter is
-+mutually exclusive with the use of a backing file. It is required to
-+also use the @code{-n} parameter to skip image creation.
- @end table
+@@ -74,13 +74,13 @@ keys.
+ @item --image-opts
+ Indicates that the source @var{filename} parameter is to be interpreted as a
+ full option string, not a plain filename. This parameter is mutually
+-exclusive with the @var{-f} parameter.
++exclusive with the @code{-f} parameter.
  
- Parameters to dd subcommand:
+ @item --target-image-opts
+ Indicates that the @var{output_filename} parameter(s) are to be interpreted as
+ a full option string, not a plain filename. This parameter is mutually
+-exclusive with the @var{-O} parameters. It is currently required to also use
+-the @var{-n} parameter to skip image creation. This restriction may be relaxed
++exclusive with the @code{-O} parameters. It is currently required to also use
++the @code{-n} parameter to skip image creation. This restriction may be relaxed
+ in a future release.
+ 
+ @item --force-share (-U)
+@@ -103,13 +103,13 @@ with or without a command shows help and lists the supported formats
+ 
+ @item -p
+ display progress bar (compare, convert and rebase commands only).
+-If the @var{-p} option is not used for a command that supports it, the
++If the @code{-p} option is not used for a command that supports it, the
+ progress is reported when the process receives a @code{SIGUSR1} or
+ @code{SIGINFO} signal.
+ 
+ @item -q
+ Quiet mode - do not print any output (except errors). There's no progress bar
+-in case both @var{-q} and @var{-p} options are used.
++in case both @code{-q} and @code{-p} options are used.
+ 
+ @item -S @var{size}
+ indicates the consecutive number of bytes that must contain only zeros
+@@ -298,14 +298,14 @@ the top image stays valid).
+ Check if two images have the same content. You can compare images with
+ different format or settings.
+ 
+-The format is probed unless you specify it by @var{-f} (used for
+-@var{filename1}) and/or @var{-F} (used for @var{filename2}) option.
++The format is probed unless you specify it by @code{-f} (used for
++@var{filename1}) and/or @code{-F} (used for @var{filename2}) option.
+ 
+ By default, images with different size are considered identical if the larger
+ image contains only unallocated and/or zeroed sectors in the area after the end
+ of the other image. In addition, if any sector is not allocated in one image
+ and contains only zero bytes in the second one, it is evaluated as equal. You
+-can use Strict mode by specifying the @var{-s} option. When compare runs in
++can use Strict mode by specifying the @code{-s} option. When compare runs in
+ Strict mode, it fails in case image size differs or a sector is allocated in
+ one image and is not allocated in the second one.
+ 
 -- 
 2.24.1
 
