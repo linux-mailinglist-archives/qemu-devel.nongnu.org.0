@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A52BA148D7F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 19:09:34 +0100 (CET)
-Received: from localhost ([::1]:46060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D669148D9C
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 19:12:40 +0100 (CET)
+Received: from localhost ([::1]:46130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv3Of-0002Uf-DJ
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 13:09:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35282)
+	id 1iv3Rf-0008A6-BT
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 13:12:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35305)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv3NB-0000u9-N5
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:08:02 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv3NC-0000uH-8M
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:08:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv3N9-0004v3-PU
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:08:01 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:46487 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv3N9-0004uu-Md
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:08:02 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:46492 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iv3N9-0004rP-JP
+ id 1iv3N9-0004rS-9X
  for qemu-devel@nongnu.org; Fri, 24 Jan 2020 13:07:59 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 9F2A01A20EF;
+ by mail.rt-rk.com (Postfix) with ESMTP id B65991A2134;
  Fri, 24 Jan 2020 19:07:55 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 8590E1A20F0;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 8C9BD1A20F1;
  Fri, 24 Jan 2020 19:07:55 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 2/7] disas: Add a field for target-dependant data
-Date: Fri, 24 Jan 2020 19:07:44 +0100
-Message-Id: <1579889269-8122-3-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PULL v2 3/7] mips-semi.c: remove 'uhi_done' label in
+ helper_do_semihosting()
+Date: Fri, 24 Jan 2020 19:07:45 +0100
+Message-Id: <1579889269-8122-4-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1579889269-8122-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1579889269-8122-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -54,33 +55,94 @@ Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-This patch adds a field "target_info" to the structure
-disassemble_info. The purpose of this field is to enable targets
-to pass to disassembler code any additional data thet deem suitable.
+The label 'uhi_done' is a simple 'return' call and can
+be removed for a bit more clarity in the code.
 
-Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+CC: Aurelien Jarno <aurelien@aurel32.net>
+CC: Aleksandar Markovic <amarkovic@wavecomp.com>
+CC: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <1579883929-1517-6-git-send-email-aleksandar.markovic@rt-rk.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20200106182425.20312-7-danielhb413@gmail.com>
 ---
- include/disas/dis-asm.h | 3 +++
- 1 file changed, 3 insertions(+)
+ target/mips/mips-semi.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index e9c7dd8..f87f468 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -372,6 +372,9 @@ typedef struct disassemble_info {
-   /* Command line options specific to the target disassembler.  */
-   char * disassembler_options;
+diff --git a/target/mips/mips-semi.c b/target/mips/mips-semi.c
+index 35bdfd7..10a710c 100644
+--- a/target/mips/mips-semi.c
++++ b/target/mips/mips-semi.c
+@@ -218,7 +218,7 @@ static int copy_argn_to_target(CPUMIPSState *env, int arg_num,
+         if (!p) {                               \
+             gpr[2] = -1;                        \
+             gpr[3] = EFAULT;                    \
+-            goto uhi_done;                      \
++            return;                             \
+         }                                       \
+     } while (0)
  
-+  /* Field intended to be used by targets in any way they deem suitable.  */
-+  int64_t target_info;
-+
-   /* Options for Capstone disassembly.  */
-   int cap_arch;
-   int cap_mode;
+@@ -228,14 +228,14 @@ static int copy_argn_to_target(CPUMIPSState *env, int arg_num,
+         if (!p) {                                       \
+             gpr[2] = -1;                                \
+             gpr[3] = EFAULT;                            \
+-            goto uhi_done;                              \
++            return;                                     \
+         }                                               \
+         p2 = lock_user_string(addr2);                   \
+         if (!p2) {                                      \
+             unlock_user(p, addr, 0);                    \
+             gpr[2] = -1;                                \
+             gpr[3] = EFAULT;                            \
+-            goto uhi_done;                              \
++            return;                                     \
+         }                                               \
+     } while (0)
+ 
+@@ -272,7 +272,7 @@ void helper_do_semihosting(CPUMIPSState *env)
+         if (gpr[4] < 3) {
+             /* ignore closing stdin/stdout/stderr */
+             gpr[2] = 0;
+-            goto uhi_done;
++            return;
+         }
+         gpr[2] = close(gpr[4]);
+         gpr[3] = errno_mips(errno);
+@@ -302,7 +302,7 @@ void helper_do_semihosting(CPUMIPSState *env)
+             gpr[2] = fstat(gpr[4], &sbuf);
+             gpr[3] = errno_mips(errno);
+             if (gpr[2]) {
+-                goto uhi_done;
++                return;
+             }
+             gpr[2] = copy_stat_to_target(env, &sbuf, gpr[5]);
+             gpr[3] = errno_mips(errno);
+@@ -314,14 +314,14 @@ void helper_do_semihosting(CPUMIPSState *env)
+     case UHI_argnlen:
+         if (gpr[4] >= semihosting_get_argc()) {
+             gpr[2] = -1;
+-            goto uhi_done;
++            return;
+         }
+         gpr[2] = strlen(semihosting_get_arg(gpr[4]));
+         break;
+     case UHI_argn:
+         if (gpr[4] >= semihosting_get_argc()) {
+             gpr[2] = -1;
+-            goto uhi_done;
++            return;
+         }
+         gpr[2] = copy_argn_to_target(env, gpr[4], gpr[5]);
+         break;
+@@ -369,6 +369,5 @@ void helper_do_semihosting(CPUMIPSState *env)
+         fprintf(stderr, "Unknown UHI operation %d\n", op);
+         abort();
+     }
+-uhi_done:
+     return;
+ }
 -- 
 2.7.4
 
