@@ -2,45 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9B2148D1F
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 18:42:15 +0100 (CET)
-Received: from localhost ([::1]:45842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95AB9148D21
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 18:43:20 +0100 (CET)
+Received: from localhost ([::1]:45858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv2yE-0005MN-7Q
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 12:42:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57107)
+	id 1iv2zH-00081a-Kw
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 12:43:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57128)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv2x2-0003fK-TS
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:41:01 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv2x3-0003fO-En
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:41:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv2x1-0001gy-J8
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:41:00 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:38456 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv2x1-0001gu-Iv
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:41:01 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:38461 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iv2x1-0001ei-Bc
+ id 1iv2x1-0001el-Bb
  for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:40:59 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 76D561A2134;
+ by mail.rt-rk.com (Postfix) with ESMTP id 79E411A214F;
  Fri, 24 Jan 2020 18:40:55 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 5052B1A212D;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 58A931A212E;
  Fri, 24 Jan 2020 18:40:55 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/7] target/mips: Rectify documentation on deprecating r4k
- machine
-Date: Fri, 24 Jan 2020 18:40:40 +0100
-Message-Id: <1579887646-5949-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PULL 2/7] disas: Add a field for target-dependant data
+Date: Fri, 24 Jan 2020 18:40:41 +0100
+Message-Id: <1579887646-5949-3-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1579887646-5949-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1579887646-5949-1-git-send-email-aleksandar.markovic@rt-rk.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,35 +56,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Change the documented (in file qemu-deprecated.texi) release since
-r4k machine is deprecated from 4.2 to 5.0.
+This patch adds a field "target_info" to the structure
+disassemble_info. The purpose of this field is to enable targets
+to pass to disassembler code any additional data thet deem suitable.
 
-Fixes: d32dc61421b
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <1579883929-1517-2-git-send-email-aleksandar.markovic@rt-rk.c=
-om>
+Message-Id: <1579883929-1517-6-git-send-email-aleksandar.markovic@rt-rk.com>
 ---
- qemu-deprecated.texi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/disas/dis-asm.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 0968d37..3d2a8ff 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -260,7 +260,7 @@ The 'scsi-disk' device is deprecated. Users should us=
-e 'scsi-hd' or
-=20
- @section System emulator machines
-=20
--@subsection mips r4k platform (since 4.2)
-+@subsection mips r4k platform (since 5.0)
-=20
- This machine type is very old and unmaintained. Users should use the 'ma=
-lta'
- machine type instead.
---=20
+diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+index e9c7dd8..f87f468 100644
+--- a/include/disas/dis-asm.h
++++ b/include/disas/dis-asm.h
+@@ -372,6 +372,9 @@ typedef struct disassemble_info {
+   /* Command line options specific to the target disassembler.  */
+   char * disassembler_options;
+ 
++  /* Field intended to be used by targets in any way they deem suitable.  */
++  int64_t target_info;
++
+   /* Options for Capstone disassembly.  */
+   int cap_arch;
+   int cap_mode;
+-- 
 2.7.4
 
 
