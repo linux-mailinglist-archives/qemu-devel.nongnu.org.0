@@ -2,46 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99CF4148D27
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 18:44:35 +0100 (CET)
-Received: from localhost ([::1]:45870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D5C148D3F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 18:48:34 +0100 (CET)
+Received: from localhost ([::1]:45914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv30U-0001Mw-Lj
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 12:44:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57156)
+	id 1iv34L-0003hg-5l
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 12:48:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58661)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv2x4-0003fg-6d
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:41:03 -0500
+ (envelope-from <amarkovic@wavecomp.com>) id 1iv338-00036w-93
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:47:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iv2x2-0001i5-TX
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:41:02 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:38471 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iv2x2-0001hL-Ma
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:41:00 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id B16541A2140;
- Fri, 24 Jan 2020 18:40:55 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 8D75C1A212E;
- Fri, 24 Jan 2020 18:40:55 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] mips/mips_r4k: use memdev for RAM
-Date: Fri, 24 Jan 2020 18:40:46 +0100
-Message-Id: <1579887646-5949-8-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1579887646-5949-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ (envelope-from <amarkovic@wavecomp.com>) id 1iv337-0005Zx-3H
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:47:17 -0500
+Received: from mail-mw2nam10on2116.outbound.protection.outlook.com
+ ([40.107.94.116]:21632 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <amarkovic@wavecomp.com>)
+ id 1iv336-0005Yp-M8
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 12:47:17 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eO2wcDPc+46H1tVbfIJFMF0DBPg3Tc8o9rCqlFXm/Ci9PpSR0r/yLr3K6lhZ9eeAG420V0Y627+Jf2N5c8AjkBxLiOBuZeKjjTE1KFVa85fZNBspf/vIiLZMOSqp5v8VJKii+wwhu4yrPgemFaSxudtrVQnXzoqyDRMK8ojLhPovW9fRrrdakAHXh4vK2yx0fn5rvdd/MM/9PrAclyFQ6DZSAgy5givW/WryueDZX6t5eBuHv3nOW+M0nZcEUP1JW3gpx5WdVng0uQsLVHqsNRdIL57aYPXAHPtNrMw5CioOhuPoDfG77JZMU8ySXqmX+JRxOiaKb8yZBfvtbrpLfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RrFl80WWcygiZrYMh4ptmWs4WWEzQOdVUNYwL+QZK28=;
+ b=dP+t220sKs2wIoC8cv67rtuYGS3PKqnML6sfrrBZrxGYgx8PJshK1/+Cme1HfoIlcQ3H0DbxAIRKL9LQGPqmIGUZlN42g1Ol4C3qN0YYqWkRtg+kn31baAmRoxmLbcBcanHRrAooxWqLzjy/Z03cxCfnNQugK4/n5jv0CkDaDxwIeImzdHx1/3s8FSbi5PlEKbqsmuc1CBYVsu1f6WhQTif+RujEXLyKBzwH/WWtY1/SnwuPOOFelys9BQOyXk73ammtwp8HuMEXVtAf16SFB6svyqrFgR/W3SAqir9vSJbcZv+5/kbFqoKljKxDQ2its1PEEZ/JqAyYjl65gTN8MQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wavecomp.com; dmarc=pass action=none header.from=wavecomp.com;
+ dkim=pass header.d=wavecomp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wavecomp.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RrFl80WWcygiZrYMh4ptmWs4WWEzQOdVUNYwL+QZK28=;
+ b=fQxxYYr2JosnGjXEZy3RLlO9QaNlti7De66RDMpJEAvoNNNhVal44IzbMX14KYl93JFM5SFQ7u/gxLH5RkXBJwHAnnletlOS5TbjWJI7ZOBwpN7zXUZAQBx4tf9gxMxDs76ktUd0EeMiUJcHrRXUfB05VOG3fi5F7x9YCoV5I2U=
+Received: from BN6PR2201MB1251.namprd22.prod.outlook.com (10.174.81.139) by
+ BN6PR2201MB1555.namprd22.prod.outlook.com (10.174.81.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2644.24; Fri, 24 Jan 2020 17:47:13 +0000
+Received: from BN6PR2201MB1251.namprd22.prod.outlook.com
+ ([fe80::1594:9447:698:8486]) by BN6PR2201MB1251.namprd22.prod.outlook.com
+ ([fe80::1594:9447:698:8486%6]) with mapi id 15.20.2644.028; Fri, 24 Jan 2020
+ 17:47:13 +0000
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [EXTERNAL][PULL 0/7] MIPS queue for January 24th, 2020
+Thread-Topic: [EXTERNAL][PULL 0/7] MIPS queue for January 24th, 2020
+Thread-Index: AQHV0t1ylmERqGh0GU6immV1sDP946f6FppJ
+Date: Fri, 24 Jan 2020 17:47:13 +0000
+Message-ID: <BN6PR2201MB12519AA892772D96C4B3993CC60E0@BN6PR2201MB1251.namprd22.prod.outlook.com>
 References: <1579887646-5949-1-git-send-email-aleksandar.markovic@rt-rk.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <1579887646-5949-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=amarkovic@wavecomp.com; 
+x-originating-ip: [82.117.201.26]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 110ac066-8852-4987-5b88-08d7a0f5720a
+x-ms-traffictypediagnostic: BN6PR2201MB1555:
+x-microsoft-antispam-prvs: <BN6PR2201MB155598E888936E6EBACE6008C60E0@BN6PR2201MB1555.namprd22.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2958;
+x-forefront-prvs: 02929ECF07
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(396003)(39840400004)(376002)(136003)(346002)(189003)(199004)(33656002)(55016002)(9686003)(7696005)(86362001)(558084003)(316002)(110136005)(71200400001)(8936002)(81156014)(81166006)(8676002)(55236004)(66446008)(2906002)(66556008)(66476007)(66946007)(64756008)(508600001)(186003)(91956017)(5660300002)(52536014)(26005)(6506007)(76116006)(4326008);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BN6PR2201MB1555;
+ H:BN6PR2201MB1251.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: wavecomp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Uq9a1To5zn0djyUZMaURmb5D/pmb7K1+A1kqxXFi448ygnt7n7lYaP+KUF3Iisyqtx+h0oGO//kLNHMtm/OxHBLkgV9WfZCZuxIGRJglvk0pQdgtEdP1hLKy2ZbeD1UcU7mU94KaIImvT4MSH++y+QcBQaQfSi8LVgxYCML+/iIsdphp8mDKDqlXEDpyVX5DVtD57OX4YgQ96Ctm0qBwyZCyWBoev8nowc/GGUhgrd9OQnTUtcypkbQB/c1kV8ZdtmtPPaYybQVLytkIOqwafU8oz4SKFK21N8LpgsJ6ZjihsquWpC7RMQaohlGH5QmibfWhvVyXfbgyHnbzoPz6oY/6/w+/l2yoNxTFY6yvyYGV15aZTJW3WHqSnolU+8tuu2R2GhghfTLA5q76MRUURDgjs5Ga6E1Yz5rGLAcfBftLLu9suYU9NS7SAZ1sY6fU
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
+MIME-Version: 1.0
+X-OriginatorOrg: wavecomp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 110ac066-8852-4987-5b88-08d7a0f5720a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2020 17:47:13.5328 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jZ49Co1rfM5UNlqoixvzZ0kuEDGwFcQFDqtUraheM1qtHG8IhvzCAPNvUgR0wIcnBcUA1NI+VERaA5hTCgrbiQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR2201MB1555
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.94.116
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,83 +103,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
-
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
-
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <1579779525-20065-57-git-send-email-imammedo@redhat.com>
----
- hw/mips/mips_r4k.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
-
-diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
-index fd926a3..69b6549 100644
---- a/hw/mips/mips_r4k.c
-+++ b/hw/mips/mips_r4k.c
-@@ -171,13 +171,11 @@ static const int sector_len =3D 32 * KiB;
- static
- void mips_r4k_init(MachineState *machine)
- {
--    ram_addr_t ram_size =3D machine->ram_size;
-     const char *kernel_filename =3D machine->kernel_filename;
-     const char *kernel_cmdline =3D machine->kernel_cmdline;
-     const char *initrd_filename =3D machine->initrd_filename;
-     char *filename;
-     MemoryRegion *address_space_mem =3D get_system_memory();
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     MemoryRegion *bios;
-     MemoryRegion *iomem =3D g_new(MemoryRegion, 1);
-     MemoryRegion *isa_io =3D g_new(MemoryRegion, 1);
-@@ -203,14 +201,12 @@ void mips_r4k_init(MachineState *machine)
-     qemu_register_reset(main_cpu_reset, reset_info);
-=20
-     /* allocate RAM */
--    if (ram_size > 256 * MiB) {
-+    if (machine->ram_size > 256 * MiB) {
-         error_report("Too much memory for this machine: %" PRId64 "MB,"
-                      " maximum 256MB", ram_size / MiB);
-         exit(1);
-     }
--    memory_region_allocate_system_memory(ram, NULL, "mips_r4k.ram", ram_=
-size);
--
--    memory_region_add_subregion(address_space_mem, 0, ram);
-+    memory_region_add_subregion(address_space_mem, 0, machine->ram);
-=20
-     memory_region_init_io(iomem, NULL, &mips_qemu_ops,
-                           NULL, "mips-qemu", 0x10000);
-@@ -261,7 +257,7 @@ void mips_r4k_init(MachineState *machine)
-     g_free(filename);
-=20
-     if (kernel_filename) {
--        loaderparams.ram_size =3D ram_size;
-+        loaderparams.ram_size =3D machine->ram_size;
-         loaderparams.kernel_filename =3D kernel_filename;
-         loaderparams.kernel_cmdline =3D kernel_cmdline;
-         loaderparams.initrd_filename =3D initrd_filename;
-@@ -316,7 +312,7 @@ static void mips_machine_init(MachineClass *mc)
- #else
-     mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("24Kf");
- #endif
--
-+    mc->default_ram_id =3D "mips_r4k.ram";
- }
-=20
- DEFINE_MACHINE("mips", mips_machine_init)
---=20
-2.7.4
-
+=0A=
+=0A=
+> From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>=0A=
+> Cc: peter.maydell@linaro.org; Aleksandar Markovic=0A=
+> Subject: [EXTERNAL][PULL 0/7] MIPS queue for January 24th, 2020=0A=
+=0A=
+I forgot one "Signed-off-by:". Will send v2 shortly.=0A=
+=0A=
+Thanks,=0A=
+Aleksandar=0A=
 
