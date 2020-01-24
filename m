@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72CFB148E27
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 20:01:37 +0100 (CET)
-Received: from localhost ([::1]:46632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE0A148E97
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 20:17:17 +0100 (CET)
+Received: from localhost ([::1]:46788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv4D2-0007W3-GF
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 14:01:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50834)
+	id 1iv4SC-0003pf-MB
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 14:17:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57579)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1iv4C9-00074J-Lz
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:00:42 -0500
+ (envelope-from <bounces@canonical.com>) id 1iv4Qf-0002uI-LM
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:15:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1iv4C8-0003VD-BN
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:00:41 -0500
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:44558)
+ (envelope-from <bounces@canonical.com>) id 1iv4Qd-0004ew-Mp
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:15:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38152)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1iv4C8-0003U7-3L
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:00:40 -0500
-Received: by mail-lf1-x144.google.com with SMTP id v201so1817691lfa.11
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 11:00:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=TMOSvFyLCpcLQiGDexwQOGb8tdaJr5bI8TnhXQlrHwU=;
- b=VBpQDvjHmgkFEG3h8bkr+0BvpRgQ6+yQ9sqnl44JvgffK9yVapGsBjqCU2kQA8S2cQ
- amYw9bUc4NOyQUI9Q4LVFi2yU4LOdMvAwtaHeL0PxPCt18XgrJ5Kn78MZQ1Wj00voflH
- npLoxyA94OkFn5t7w0WhAdU8hH6FZWOlsy/NkkQlfwx5wraAhimR7EfGrh54qOzb/Msm
- RVkGSwcKzcBpOc556W3m5eZCqzMUovGe7u27XM8yNnUpIh+I3rl4zPBmsYumFT/oznl9
- Q6lM8g0gH3MTc7iw4PgIJ/UKjTBBGia4VYRes4gB148yz4h61eq5t8hVnNhfL3nIQWe4
- 4vgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TMOSvFyLCpcLQiGDexwQOGb8tdaJr5bI8TnhXQlrHwU=;
- b=nNYfUT8SRhgAhXF/2VtflYylwclmI7izj7cpI7RvA9bmoL2+AI7P1B7tiCeezpy7+a
- QU0zRsoaEjq8yZVo+D6hS2x/kd1p0uPRy1fA4CnIs/9yWpxoESJA1FhxE/ZZWhk80ESg
- b+r7BpwfUb2zntCc/mKIuIGfcTQYQ6DRRUwUbN2UFiXUOUiRI5aOzXD+YsBInSibROv2
- bZFMOYrMQnjXxF69dMd+TRStJchPklfSHaLV2uaRdyRZamC7IEkUQ4jNJ2oWgyhWEKsF
- Qt3hyYJ7sG8Q1YLKKLupF2iEjnVzGCpt9f8pCRVu0oD+f8DW8Pox+ZBPIMlKDgVAUQRk
- EBFw==
-X-Gm-Message-State: APjAAAXjHxSUIibM6hZG+bTXAkycUc9tv/ILe+tyBx6KLu9XnVzx9GCJ
- tWGD9FAKfsBgcLguW52jqcG8uv6wqZizmgDfPGRuBw==
-X-Google-Smtp-Source: APXvYqwV3dhw75EKsVgBw5SEvBjJG5jm/VV3idIWN5IuA82JOwcz1D5vSJCmzvGx+Jnz9EKMl/SFpz0IXWelTmzBys4=
-X-Received: by 2002:a19:6445:: with SMTP id b5mr2023547lfj.187.1579892438510; 
- Fri, 24 Jan 2020 11:00:38 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iv4Qd-0004Vg-FH
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 14:15:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iv4QZ-0007Wb-O1
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 19:15:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8C5D82E80C9
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 19:15:35 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200124165335.422-1-robert.foley@linaro.org>
- <20200124165335.422-3-robert.foley@linaro.org>
- <075d1da4-f59a-489e-4c64-63e76265d5c4@redhat.com>
-In-Reply-To: <075d1da4-f59a-489e-4c64-63e76265d5c4@redhat.com>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Fri, 24 Jan 2020 14:00:27 -0500
-Message-ID: <CAEyhzFsqvjooH0SbmedKGAX51AUgGMvOfVdB3gcF7aziKUddOQ@mail.gmail.com>
-Subject: Re: [PATCH 2/8] tests/vm: increased max timeout for vm boot.
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::144
+Date: Fri, 24 Jan 2020 19:04:33 -0000
+From: Richard Henderson <rth@twiddle.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: glaubitz laurent-vivier rth
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <157970117843.5560.13252417721225198010.malonedeb@chaenomeles.canonical.com>
+Message-Id: <157989267330.4473.13252875423750514455.malone@soybean.canonical.com>
+Subject: [Bug 1860553] Re: cmake crashes on qemu-alpha-user with Illegal
+ Instruction
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7344d5ad5732c2ae8642c5a46b72cdda50e57ac8
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,63 +65,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Puhov <peter.puhov@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Reply-To: Bug 1860553 <1860553@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Phil,
+Of course.  Trying to use halt from userland on hw will SIGILL as well.
 
-> I once suggested "When using TCG, wait longer for a VM to start"
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg550610.html
->
-Thanks for the pointer.  This increase in timeout under TCG seems just
-right for the case we saw.  I will incorporate this into the patch.
+-- =
 
-Thanks & Regards,
--Rob
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1860553
 
-On Fri, 24 Jan 2020 at 12:12, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> Hi Robert,
->
-> On 1/24/20 5:53 PM, Robert Foley wrote:
-> > Add change to increase timeout waiting for VM to boot.
-> > Needed for some emulation cases where it can take longer
-> > than 5 minutes to boot.
-> >
-> > Signed-off-by: Robert Foley <robert.foley@linaro.org>
-> > Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
-> > ---
-> >   tests/vm/basevm.py | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> > index 991115e44b..86908f58ec 100755
-> > --- a/tests/vm/basevm.py
-> > +++ b/tests/vm/basevm.py
-> > @@ -310,7 +310,7 @@ class BaseVM(object):
-> >       def print_step(self, text):
-> >           sys.stderr.write("### %s ...\n" % text)
-> >
-> > -    def wait_ssh(self, seconds=3D300):
-> > +    def wait_ssh(self, seconds=3D600):
-> >           starttime =3D datetime.datetime.now()
-> >           endtime =3D starttime + datetime.timedelta(seconds=3Dseconds)
-> >           guest_up =3D False
-> >
->
-> I once suggested "When using TCG, wait longer for a VM to start"
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg550610.html
->
-> Cleber took some notes about 'kicking a expiring timer' but I can't find
-> it. This might be related:
-> https://trello.com/c/MYdgH4mz/90-delayed-failures
->
-> Regards,
->
-> Phil.
->
+Title:
+  cmake crashes on qemu-alpha-user with Illegal Instruction
+
+Status in QEMU:
+  New
+
+Bug description:
+  I tried building cmake on Debian unstable for Alpha today using qemu-
+  user and the compiled cmake binary crashed with "Illegal Instruction":
+
+  g++ -Wl,-z,relro -Wl,--as-needed -g -O2 -fdebug-prefix-map=3D/<<PKGBUILDD=
+IR>>=3D. -Wformat -Werror=3Dformat-security -Wdate-time -D_FORTIFY_SOURCE=
+=3D2             -I/<<PKGBUILDDIR>>/Build/Bootstrap.cmk   -I/<<PKGBUILDDIR>=
+>/Source   -I/<<PKGBUILDDIR>>/Source/LexerParser   -I/<<PKGBUILDDIR>>/Utili=
+ties  cmAddCustomCommandCommand.o cmAddCustomTargetCommand.o cmAddDefinitio=
+nsCommand.o cmAddDependenciesCommand.o cmAddExecutableCommand.o cmAddLibrar=
+yCommand.o cmAddSubDirectoryCommand.o cmAddTestCommand.o cmArgumentParser.o=
+ cmBreakCommand.o cmBuildCommand.o cmCMakeMinimumRequired.o cmCMakePolicyCo=
+mmand.o cmCPackPropertiesGenerator.o cmCacheManager.o cmCommand.o cmCommand=
+ArgumentParserHelper.o cmCommands.o cmCommonTargetGenerator.o cmComputeComp=
+onentGraph.o cmComputeLinkDepends.o cmComputeLinkInformation.o cmComputeTar=
+getDepends.o cmConditionEvaluator.o cmConfigureFileCommand.o cmContinueComm=
+and.o cmCoreTryCompile.o cmCreateTestSourceList.o cmCustomCommand.o cmCusto=
+mCommandGenerator.o cmDefinePropertyCommand.o cmDefinitions.o cmDepends.o c=
+mDependsC.o cmDisallowedCommand.o cmDocumentationFormatter.o cmEnableLangua=
+geCommand.o cmEnableTestingCommand.o cmExecProgramCommand.o cmExecuteProces=
+sCommand.o cmExpandedCommandArgument.o cmExportBuildFileGenerator.o cmExpor=
+tFileGenerator.o cmExportInstallFileGenerator.o cmExportSet.o cmExportSetMa=
+p.o cmExportTryCompileFileGenerator.o cmExprParserHelper.o cmExternalMakefi=
+leProjectGenerator.o cmFileCommand.o cmFileCopier.o cmFileInstaller.o cmFil=
+eTime.o cmFileTimeCache.o cmFileTimes.o cmFindBase.o cmFindCommon.o cmFindF=
+ileCommand.o cmFindLibraryCommand.o cmFindPackageCommand.o cmFindPathComman=
+d.o cmFindProgramCommand.o cmForEachCommand.o cmFunctionCommand.o cmFSPermi=
+ssions.o cmGeneratedFileStream.o cmGeneratorExpression.o cmGeneratorExpress=
+ionContext.o cmGeneratorExpressionDAGChecker.o cmGeneratorExpressionEvaluat=
+ionFile.o cmGeneratorExpressionEvaluator.o cmGeneratorExpressionLexer.o cmG=
+eneratorExpressionNode.o cmGeneratorExpressionParser.o cmGeneratorTarget.o =
+cmGetCMakePropertyCommand.o cmGetDirectoryPropertyCommand.o cmGetFilenameCo=
+mponentCommand.o cmGetPipes.o cmGetPropertyCommand.o cmGetSourceFilePropert=
+yCommand.o cmGetTargetPropertyCommand.o cmGetTestPropertyCommand.o cmGlobal=
+CommonGenerator.o cmGlobalGenerator.o cmGlobalUnixMakefileGenerator3.o cmGl=
+obVerificationManager.o cmHexFileConverter.o cmIfCommand.o cmIncludeCommand=
+.o cmIncludeGuardCommand.o cmIncludeDirectoryCommand.o cmIncludeRegularExpr=
+essionCommand.o cmInstallCommand.o cmInstallCommandArguments.o cmInstallDir=
+ectoryGenerator.o cmInstallExportGenerator.o cmInstallFilesCommand.o cmInst=
+allFilesGenerator.o cmInstallGenerator.o cmInstallScriptGenerator.o cmInsta=
+llSubdirectoryGenerator.o cmInstallTargetGenerator.o cmInstallTargetsComman=
+d.o cmInstalledFile.o cmLinkDirectoriesCommand.o cmLinkItem.o cmLinkLineCom=
+puter.o cmLinkLineDeviceComputer.o cmListCommand.o cmListFileCache.o cmLoca=
+lCommonGenerator.o cmLocalGenerator.o cmLocalUnixMakefileGenerator3.o cmMSV=
+C60LinkLineComputer.o cmMacroCommand.o cmMakeDirectoryCommand.o cmMakefile.=
+o cmMakefileExecutableTargetGenerator.o cmMakefileLibraryTargetGenerator.o =
+cmMakefileTargetGenerator.o cmMakefileUtilityTargetGenerator.o cmMarkAsAdva=
+ncedCommand.o cmMathCommand.o cmMessageCommand.o cmMessenger.o cmNewLineSty=
+le.o cmOSXBundleGenerator.o cmOptionCommand.o cmOrderDirectories.o cmOutput=
+Converter.o cmParseArgumentsCommand.o cmPathLabel.o cmPolicies.o cmProcessO=
+utput.o cmProjectCommand.o cmProperty.o cmPropertyDefinition.o cmPropertyDe=
+finitionMap.o cmPropertyMap.o cmReturnCommand.o cmRulePlaceholderExpander.o=
+ cmScriptGenerator.o cmSearchPath.o cmSeparateArgumentsCommand.o cmSetComma=
+nd.o cmSetDirectoryPropertiesCommand.o cmSetPropertyCommand.o cmSetSourceFi=
+lesPropertiesCommand.o cmSetTargetPropertiesCommand.o cmSetTestsPropertiesC=
+ommand.o cmSiteNameCommand.o cmSourceFile.o cmSourceFileLocation.o cmState.=
+o cmStateDirectory.o cmStateSnapshot.o cmStringReplaceHelper.o cmStringComm=
+and.o cmSubdirCommand.o cmSystemTools.o cmTarget.o cmTargetCompileDefinitio=
+nsCommand.o cmTargetCompileFeaturesCommand.o cmTargetCompileOptionsCommand.=
+o cmTargetIncludeDirectoriesCommand.o cmTargetLinkLibrariesCommand.o cmTarg=
+etPropCommandBase.o cmTargetPropertyComputer.o cmTargetSourcesCommand.o cmT=
+est.o cmTestGenerator.o cmTimestamp.o cmTryCompileCommand.o cmTryRunCommand=
+.o cmUnexpectedCommand.o cmUnsetCommand.o cmUVHandlePtr.o cmUVProcessChain.=
+o cmVersion.o cmWhileCommand.o cmWorkingDirectory.o cmake.o cmakemain.o cmc=
+md.o cm_string_view.o cmCommandArgumentLexer.o cmCommandArgumentParser.o cm=
+ExprLexer.o cmExprParser.o cmListFileLexer.o Directory.o EncodingCXX.o FStr=
+eam.o Glob.o RegularExpression.o SystemTools.o EncodingC.o ProcessUNIX.o St=
+ring.o System.o Terminal.o uv-src-strscpy.c.o uv-src-timer.c.o uv-src-uv-co=
+mmon.c.o uv-src-unix-cmake-bootstrap.c.o uv-src-unix-core.c.o uv-src-unix-f=
+s.c.o uv-src-unix-loop.c.o uv-src-unix-loop-watcher.c.o uv-src-unix-no-fsev=
+ents.c.o uv-src-unix-pipe.c.o uv-src-unix-poll.c.o uv-src-unix-posix-hrtime=
+.c.o uv-src-unix-posix-poll.c.o uv-src-unix-process.c.o uv-src-unix-signal.=
+c.o uv-src-unix-stream.c.o  -ldl -lrt -o cmake
+  make[2]: Leaving directory '/<<PKGBUILDDIR>>/Build/Bootstrap.cmk'
+  loading initial cache file /<<PKGBUILDDIR>>/Build/Bootstrap.cmk/InitialCa=
+cheFlags.cmake
+  Illegal instruction
+  ---------------------------------------------
+  Error when bootstrapping CMake:
+  Problem while running initial CMake
+  ---------------------------------------------
+
+  I'm working on creating a chroot for download to reproduce the issue.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1860553/+subscriptions
 
