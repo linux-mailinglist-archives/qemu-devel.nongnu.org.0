@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFCE5148FB4
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 21:48:25 +0100 (CET)
-Received: from localhost ([::1]:47828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3539E148F7B
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 21:42:20 +0100 (CET)
+Received: from localhost ([::1]:47666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv5sO-0003Zr-Og
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 15:48:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42779)
+	id 1iv5mV-0001SN-8h
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 15:42:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42772)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iv5kx-0008BA-L4
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:46 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iv5kx-00089u-4I
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iv5ku-00065y-WA
+ (envelope-from <alex.bennee@linaro.org>) id 1iv5kw-000687-4M
  for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:43 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35990)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51273)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iv5ku-00063w-Oi
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:40 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id z3so3602380wru.3
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 12:40:40 -0800 (PST)
+ id 1iv5kv-000679-UV
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:42 -0500
+Received: by mail-wm1-x341.google.com with SMTP id t23so728860wmi.1
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 12:40:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CO6Bh5iCXjaTaQynC+oib+Hg/v44ekrp+1dnmcnUnXM=;
- b=YXdYUiwC+kskyrxKRiG0WuNYg7xAiqdjeV9ItNT2q8p54GRtB9XcpDKbXMA+BnknGN
- IjFvspL9XBEB6Xefggz2xBlDRxqP0rRLmv17vR7UItX5EGAhq7/3vhombcyr2I7zyISk
- qGQDpYyrCzG4YgQjDuTytt8YyKozdfZOqoR1ifXoBRCLJZXOgUNjKqi0ZS7QQgbtKGwH
- RKdEmwSB6URxoU77HwdICnJL6DoQHVdSru+lVIUeBArgendSxLk+CsOhWcSG/7pbWWDG
- o6Yu+0Axjp0h6ZCtfEghSG77Jr8VQl/LqHafKFimh/y0nKz6J/tUyhla8RbQ4zBMcn1r
- uiaA==
+ bh=jkv4M+AkP1pQlh1PhGkDNRhpNbkYFJfPzkZzb2OKC/o=;
+ b=si5GAm+TB98zvWp8qmGJvQuncs4iDqEeqOzJ/1JfRfUlKrKUtvdyGhXvWHnVlFZMfW
+ UxEADr5++DP9koHT8HHn514XfGO7Xcd7rmNiqKekoGteTyC7SInkAloek+K66+TkNCzJ
+ ZINuTtLIAZbV12Mi0OQ9IaaY3duroufG4qWQyB8HdvUZxqRRNE0CoaeoSveN4QXQV+kR
+ tyqg8l18Ylt8+30LwUUA1JmxhvXWvYuczRbqnz293ljA33ZH1bdwWcg88phsQlEgBaqa
+ cnrGmSWIHMw5ud9wVlJ2JVFeczjjFg7bbIrxNoLGA4a5t24VRJHNk1SIMvifiZXJEyW5
+ OSzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CO6Bh5iCXjaTaQynC+oib+Hg/v44ekrp+1dnmcnUnXM=;
- b=SZer4ZL7Lzlx0orOuICg1zgviTqgB6rARBg2x6KawwPGW+1Zr1EvpDv+LM+heBfgqf
- oXqGtz6ipApKjMYVC9FaFNTtvM93Xycd21UxuEidCuNY0Nq6C0XRjpHqyE6FCrxaGYia
- 6r2I/vySjF8FTNrjsC6abAjCsOpmgVfUv98FE6ZxTo612jfXlG0ygrDPjJCpkYAXIS6M
- CKlqJA7deqmfsLsiMsWOi96Y65ZsvAZI1je3rXwGdWKJ0n79SJxsN6QZo3CBaUj+LlAu
- VJMARGmIi4b5n+sBsjQjv1ZB1kCuFYiA5pjFeExJzRaMQyLaPMTr/F3OQ3Ct1QrZjBOu
- iqRA==
-X-Gm-Message-State: APjAAAUV7/1iAfk0YtjvTtLAhCIfcH3hyGGoY7ytn8cnK2HOXorIW3ig
- rUgc4ajTgsLwrPuXlxR6WhntSQ==
-X-Google-Smtp-Source: APXvYqw6b5Y7RfoCS77JpioH/+3gAcR2znNFrr9ZLZ/ec+lLJlk2K8sWieYE+Nggd8juDSUABpLsYg==
-X-Received: by 2002:adf:f6c1:: with SMTP id y1mr6098434wrp.17.1579898439673;
- Fri, 24 Jan 2020 12:40:39 -0800 (PST)
+ bh=jkv4M+AkP1pQlh1PhGkDNRhpNbkYFJfPzkZzb2OKC/o=;
+ b=NZbmflNIEIKeBw22ptNRnXCRk7JXIf2B0Kb655ZiRXGk0BlJ/6+ZyHH3oBWRsJ4IG3
+ XsrFIuL9ORIuz2Q1sjIdHwHGJ9GOayxy4Rlv23rOYzOkinyh2jO8mXkwQxVLLHZA10W1
+ mVwEge1me2U0/ufC9H/+2P38aPc6F6Bpwbu4J99vXbI514Z8fQ0f+LvuOoTkDB2F6JIj
+ ppJtTrPXxcshoIx2PyXc/o0esQI3QqgEUq6AUrlQRyuUjqzor6Wp1J0R6BiEy2hHgWf8
+ usTR0js048it9aND9JYXTuHqPy3tUn4qFyCfvmBo99s/c7R25kq6zbfKVjNxid7e4leM
+ Yhwg==
+X-Gm-Message-State: APjAAAW6ZlEULfmToDhvCY9VhlIVFaRyj4FguXBWof2xYamETpVTG6Uf
+ mpQJ/saBkM8Ex48iXDxu/MCa4w==
+X-Google-Smtp-Source: APXvYqzfWKuZ318cl96r3j+FNaiYAffBWFCgex7eV9gLysY/loHTzPqUazmLHD7ybeMVLEclLNrsow==
+X-Received: by 2002:a1c:451:: with SMTP id 78mr827656wme.125.1579898440997;
+ Fri, 24 Jan 2020 12:40:40 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e12sm8804760wrn.56.2020.01.24.12.40.31
+ by smtp.gmail.com with ESMTPSA id a1sm8725970wrr.80.2020.01.24.12.40.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 24 Jan 2020 12:40:33 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 319821FF99;
+ by zen.linaroharston (Postfix) with ESMTP id 473991FF9A;
  Fri, 24 Jan 2020 20:40:27 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 09/13] tests/docker: switch to multiarch aware container
- support
-Date: Fri, 24 Jan 2020 20:40:22 +0000
-Message-Id: <20200124204026.2107-10-alex.bennee@linaro.org>
+Subject: [PATCH  v1 10/13] tests/docker: add debian10-native-qemu-build
+Date: Fri, 24 Jan 2020 20:40:23 +0000
+Message-Id: <20200124204026.2107-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200124204026.2107-1-alex.bennee@linaro.org>
 References: <20200124204026.2107-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,195 +90,36 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We drop support for DOCKER_PARTIAL_IMAGE and related hacks in favour
-of explicit building of lists of images by type. Currently we can't do
-any of the QEMU builds but the docker-image target will allow us to
-test that every docker image we declare can actually be built.
-
-Later commits will re-enable the builds for each host architecture we
-support.
+This is a new dockerfile which can build the native architecture QEMU
+on a Debian 10 based image whatever architecture that may be.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include | 124 +++++++++++++---------------------
- 1 file changed, 46 insertions(+), 78 deletions(-)
+ .../dockerfiles/debian10-native-qemu-build.docker | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 tests/docker/dockerfiles/debian10-native-qemu-build.docker
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index c9e8bc40a1..b2b41c3e9b 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -5,12 +5,37 @@
- HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
- 
- DOCKER_SUFFIX := .docker
--DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
--# we don't run tests on intermediate images (used as base by another image)
--DOCKER_PARTIAL_IMAGES := debian9 debian10
--DOCKER_PARTIAL_IMAGES += debian9-mxe debian-bootstrap
--DOCKER_IMAGES := $(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker))))
--DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
-+DOCKER_BASE := $(SRC_PATH)/tests/docker
+diff --git a/tests/docker/dockerfiles/debian10-native-qemu-build.docker b/tests/docker/dockerfiles/debian10-native-qemu-build.docker
+new file mode 100644
+index 0000000000..71bd2b1d83
+--- /dev/null
++++ b/tests/docker/dockerfiles/debian10-native-qemu-build.docker
+@@ -0,0 +1,15 @@
++#
++# Debain Native Build
++#
++# This docker target builds on the Debian Buster base image. It is
++# deliberatly architecture agnostic as it can build on any Debian
++# supported architecture.
++#
++FROM qemu:debian10
++MAINTAINER Alex Bennée <alex.bennee@linaro.org>
 +
-+#
-+# There are 3 classes of containers
-+#
-+#    BASE_CONTAINERS - intermeadiate containers which are used to build others
-+#    TEST_BUILD_CONTAINERS - contain enough compiler support to build tests
-+#    QEMU_BUILD_CONTAINERS - contain build dependencies enough to build QEMU
-+#
-+
-+BASE_CONTAINERS :=
-+TEST_BUILD_CONTAINERS :=
-+QEMU_BUILD_CONTAINERS :=
-+
-+#
-+# Helpers for sub-arch includes
-+#
-+# $1 = list of dockerfile paths
-+get-basenames = $(sort $(notdir $(basename $1)))
-+
-+#
-+# Dealing with different host architectures.
-+#
-+# For x86_64 this is easy enough as most cross compilers are built for
-+# x86. However for other build hosts we may have a limited choice. To
-+# fully support all potential build hosts we can use QEMU's own
-+# linux-user support to have a native version of the toolchain.
-+#
-+-include $(DOCKER_BASE)/dockerfiles.multiarch/Makefile.include
-+-include $(DOCKER_BASE)/dockerfiles.$(HOST_ARCH)/Makefile.include
-+
- # Use a global constant ccache directory to speed up repetitive builds
- DOCKER_CCACHE_DIR := $$HOME/.cache/qemu-docker-ccache
- 
-@@ -42,18 +67,21 @@ $(DOCKER_SRC_COPY):
- 
- docker-qemu-src: $(DOCKER_SRC_COPY)
- 
--docker-image: ${DOCKER_TARGETS}
-+# The global docker-image rule builds all docker images we are capable of building
-+DOCKER_TARGETS := $(patsubst %,docker-image-%,$(BASE_CONTAINERS) $(TEST_BUILD_CONTAINERS) $(QEMU_BUILD_CONTAINERS))
-+
-+docker-image: $(DOCKER_TARGETS)
- 
- # General rule for building docker images. If we are a sub-make
- # invoked with SKIP_DOCKER_BUILD we still check the image is up to date
- # though
- ifdef SKIP_DOCKER_BUILD
--docker-image-%: $(DOCKER_FILES_DIR)/%.docker
-+docker-image-%: %.docker
- 	$(call quiet-command, \
- 		$(DOCKER_SCRIPT) check --quiet qemu:$* $<, \
- 		"CHECK", "$*")
- else
--docker-image-%: $(DOCKER_FILES_DIR)/%.docker
-+docker-image-%: %.docker
- 	$(call quiet-command,\
- 		$(DOCKER_SCRIPT) build qemu:$* $< \
- 		$(if $V,,--quiet) $(if $(NOCACHE),--no-cache) \
-@@ -62,7 +90,7 @@ docker-image-%: $(DOCKER_FILES_DIR)/%.docker
- 		$(if $(EXECUTABLE),--include-executable=$(EXECUTABLE)),\
- 		"BUILD","$*")
- 
--docker-binfmt-image-debian-%: $(MULTARCH_BASE)/debian-bootstrap.docker
-+docker-binfmt-image-debian-%: $(DOCKER_BASE)/dockerfiles/debian-bootstrap.docker
- 	$(if $(EXECUTABLE),,\
- 		$(error EXECUTABLE not set, debootstrap of debian-$* would fail))
- 	$(if $(DEB_ARCH),,\
-@@ -86,69 +114,8 @@ docker-binfmt-image-debian-%: $(MULTARCH_BASE)/debian-bootstrap.docker
- 			"CHECK", "debian-$* exists"))
- endif
- 
--# Enforce dependencies for composite images
--docker-image-debian9-mxe: docker-image-debian9
--ifeq ($(HOST_ARCH),x86_64)
--docker-image-debian-amd64: docker-image-debian10
--DOCKER_PARTIAL_IMAGES += debian-amd64-cross
--else
--docker-image-debian-amd64-cross: docker-image-debian10
--DOCKER_PARTIAL_IMAGES += debian-amd64
--endif
--docker-image-debian-win32-cross: docker-image-debian9-mxe
--docker-image-debian-win64-cross: docker-image-debian9-mxe
--
--# For non-x86 hosts not all cross-compilers have been packaged
--ifneq ($(HOST_ARCH),x86_64)
--DOCKER_PARTIAL_IMAGES += debian-mips-cross debian-mipsel-cross debian-mips64el-cross
--DOCKER_PARTIAL_IMAGES += debian-ppc64el-cross
--DOCKER_PARTIAL_IMAGES += debian-s390x-cross
--DOCKER_PARTIAL_IMAGES += debian-win32-cross debian-win64-cross
--DOCKER_PARTIAL_IMAGES += fedora travis
--endif
--
--docker-image-debian-alpha-cross: docker-image-debian10
--docker-image-debian-arm64-cross: docker-image-debian10
--docker-image-debian-armel-cross: docker-image-debian10
--docker-image-debian-armhf-cross: docker-image-debian10
--docker-image-debian-hppa-cross: docker-image-debian10
--docker-image-debian-m68k-cross: docker-image-debian10
--docker-image-debian-mips-cross: docker-image-debian10
--docker-image-debian-mips64-cross: docker-image-debian10
--docker-image-debian-mips64el-cross: docker-image-debian10
--docker-image-debian-mipsel-cross: docker-image-debian10
--docker-image-debian-powerpc-cross: docker-image-debian10
--docker-image-debian-ppc64-cross: docker-image-debian10
--docker-image-debian-ppc64el-cross: docker-image-debian10
--docker-image-debian-riscv64-cross: docker-image-debian10
--docker-image-debian-s390x-cross: docker-image-debian10
--docker-image-debian-sh4-cross: docker-image-debian10
--docker-image-debian-sparc64-cross: docker-image-debian10
--
--docker-image-travis: NOUSER=1
--
--# Specialist build images, sometimes very limited tools
--docker-image-tricore-cross: docker-image-debian9
--
--# These images may be good enough for building tests but not for test builds
--DOCKER_PARTIAL_IMAGES += debian-alpha-cross
--DOCKER_PARTIAL_IMAGES += debian-hppa-cross
--DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
--DOCKER_PARTIAL_IMAGES += debian-powerpc-cross debian-ppc64-cross
--DOCKER_PARTIAL_IMAGES += debian-riscv64-cross
--DOCKER_PARTIAL_IMAGES += debian-sh4-cross debian-sparc64-cross
--DOCKER_PARTIAL_IMAGES += debian-tricore-cross
--DOCKER_PARTIAL_IMAGES += debian-xtensa-cross
--DOCKER_PARTIAL_IMAGES += fedora-i386-cross fedora-cris-cross
--
--# Rules for building linux-user powered images
--#
--# These are slower than using native cross compiler setups but can
--# work around issues with poorly working multi-arch systems and broken
--# packages.
--
- # Expand all the pre-requistes for each docker image and test combination
--$(foreach i,$(filter-out $(DOCKER_PARTIAL_IMAGES),$(DOCKER_IMAGES)), \
-+$(foreach i,$(QEMU_BUILD_CONTAINERS), \
- 	$(foreach t,$(DOCKER_TESTS) $(DOCKER_TOOLS), \
- 		$(eval .PHONY: docker-$t@$i) \
- 		$(eval docker-$t@$i: docker-image-$i docker-run-$t@$i) \
-@@ -174,15 +141,16 @@ docker:
- 	@echo '                         "IMAGE" is one of the listed container name.'
- 	@echo '    docker-image:        Build all images.'
- 	@echo '    docker-image-IMAGE:  Build image "IMAGE".'
-+	@echo '    docker-binfmt-image-debian-IMAGE:'
-+	@echo '                         Build a binfmt Debian bootstraped IMAGE'
-+	@echo '                         Specify DEB_ARCH, DEB_TYPE and EXECUTABLE.'
-+	@echo '				Optionally specify DEB_URL'
- 	@echo '    docker-run:          For manually running a "TEST" with "IMAGE".'
- 	@echo
- 	@echo 'Available container images:'
--	@echo '    $(DOCKER_IMAGES)'
--ifneq ($(DOCKER_USER_IMAGES),)
--	@echo
--	@echo 'Available linux-user images (docker-binfmt-image-debian-%):'
--	@echo '    $(DOCKER_USER_IMAGES)'
--endif
-+	@echo '    BASE: $(BASE_CONTAINERS)'
-+	@echo '    BUILD TESTS: $(TEST_BUILD_CONTAINERS)'
-+	@echo '    BUILD QEMU: $(QEMU_BUILD_CONTAINERS)'
- 	@echo
- 	@echo 'Available tests:'
- 	@echo '    $(DOCKER_TESTS)'
++# We use --arch-only as not all hosts have what's needed to build all
++# the binpkg's that come with QEMU (roms etc).
++RUN apt update && \
++    DEBIAN_FRONTEND=noninteractive eatmydata \
++    apt build-dep --arch-only -yy qemu
 -- 
 2.20.1
 
