@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBCD148F8C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 21:45:28 +0100 (CET)
-Received: from localhost ([::1]:47756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53765148F8F
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 21:46:45 +0100 (CET)
+Received: from localhost ([::1]:47804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iv5pX-0007xo-1C
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 15:45:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42737)
+	id 1iv5qm-0001vY-DV
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 15:46:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iv5kt-00081R-IG
+ (envelope-from <alex.bennee@linaro.org>) id 1iv5ku-000849-Kq
  for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iv5ks-0005x0-Cr
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:39 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39811)
+ (envelope-from <alex.bennee@linaro.org>) id 1iv5kt-00062Z-J0
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:40 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42360)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iv5ks-0005vQ-67
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:38 -0500
-Received: by mail-wr1-x442.google.com with SMTP id y11so3595327wrt.6
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 12:40:38 -0800 (PST)
+ id 1iv5kt-0005ym-Cs
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 15:40:39 -0500
+Received: by mail-wr1-x443.google.com with SMTP id q6so3562389wro.9
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 12:40:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qWVK9xW79o2SyKcnD6sKK7jgJNF31Jb/exBE+/34Imc=;
- b=PC/jBEjWM8bZydpb2myI59UE57n0+JTfSzMKj2URz3YuqmULhYS4KCRgNBvgybZitq
- C8HQe+dEtK7Jr8ntzduEO1C24tsvmHZkjJT5fVGtSe4YMZNjrrzzHjrYvUvlCbAT17Ob
- 6qY8yKn5IH5E5C5DRPz7dXp+hP/cnyCAUnnOPGdkGe7yQl/MNkzdQdpM4J0buWyGVfoF
- UvUOWpRO7fNiAKViSyPLT7+n/DT0rXEMyrHL2H4CpRdeQkPKXJj07jfgeUnH8tsMJXgQ
- 8rXctbtnk7GpSENuEzApp1VsQNk4w/DcaS6gQdedrxgIgqVjhNsRsTN1h7Yjpj9izRjH
- MILQ==
+ bh=/e7JMoVkTL0YKCvYVnwUpluBW/+JXre0urP4WxCc+Fo=;
+ b=njASb2Z4HS1dS6ACGg4UJLEI/O8RRNj12xgogyBc129TZFz/7pP7fYHHKhzfXWsfDF
+ WEfcL8/XhZxrFFFsSN5LRdcKcsbGTVZckN+RLpWJRH4hY+RQf6J4NTtHOlF1DG2Bkg7R
+ FuOULJxMcoCOOVuMG+jPyZx/DVJ6kns+yG2JQmkKQtEFaPY05THZFlnwQwlChFjo69qx
+ Kp0H9XYZb1BBy5xc61h6X4u7mIeVHie1XGp5cM1d4j66r0M+kR6630Vi8rGuzJQgcmXR
+ 4GzVO9uuouNh7zt74FGs9PCCreEJ7OhjAZtdFsEBp7f7YU5B2of8RY9ANbeY7roX54bK
+ 6lTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qWVK9xW79o2SyKcnD6sKK7jgJNF31Jb/exBE+/34Imc=;
- b=KvnqozcsOurjiw1nH43JxqzNZxorEIkqQjoJiN00c8N+bE0k9Ozcna5tGagjpg5piB
- irt+X3LyxzTWjbMYua6bAcHrO7fQQiFOUA+MAACrK1nszpBGgqwc3mYAdPFm1x2fdNuf
- 1Pec4AniPjjNRJ5CsVdIxbgHfaxTcqRCEFqZ/Ryhscvw+CDjOEKQh3R16iU+U+LguhaL
- 9SbP0VPDFywotU5lG+XPGVRE4dX19Jj0q7g9tiKNzdlzq2y0VOFYANFx3iMqhEkLS3lj
- Kmxn12cjhKuyvMC21Qwr5Z5T1I9iYRBkhkPKTCi2mV5ibM2gxUrM2Zt2pl1yKlpFHxQ/
- JMWw==
-X-Gm-Message-State: APjAAAXJs69HOOFwpEXXZr9nqxAoWANRxo8xhynGhNfuyjZmFg8dYaby
- inX00+7WAs+T/+QUh++f+rAEEA==
-X-Google-Smtp-Source: APXvYqyd6BzxiSI4s1rlRFyvWWV9K+sC157d7f1Ci8rKpc0yTAXIe94oC0hWvZi+Fi76PlrWe3uvnQ==
-X-Received: by 2002:adf:9427:: with SMTP id 36mr6617368wrq.166.1579898437227; 
- Fri, 24 Jan 2020 12:40:37 -0800 (PST)
+ bh=/e7JMoVkTL0YKCvYVnwUpluBW/+JXre0urP4WxCc+Fo=;
+ b=GqgMI5RdvpgKNtmJSNIXn8kyEXS/gllAGZPk0kEe52s4xNEMPrzouPIh/yCDf/yvIB
+ F2pDZWHc4OeDt1GE1Md/Vdkfs2mk+V9njLscS5O5WISLAf7T6YuxNfyL41im3ntKfQH6
+ f1s1xE2/K6R0adSzHqArb7eA+MJ6gI0MKGpsSNWgvBoGmKqrI64yGAfdA3BuBoB570+b
+ th2XzF4VSX5tAg9fbc6I9hXOeb/DQHg/WpNkzGcrUxEvoh/a5MjLabpZFRHqfdjE0429
+ QOGBdQ4GmkykHsI83eYBngT7Nv/Taq8nK6T152AJ27GsEBODAMp6zyUzgpQrlen0TFVF
+ Fk5g==
+X-Gm-Message-State: APjAAAUHSKouOWDZQ9cvRwW4E/iT46B8cSlujKaz22TdduOArewvtMmi
+ d/aVQZ7p8MOSBDJSPQVJ0zlvHA==
+X-Google-Smtp-Source: APXvYqwhCtlbwkoHD2lDPeWQTl7db9w2SN7joRX+EF7YdLH6pfmBklQ7cQhDaWc7jUaIMhdDQWzkKQ==
+X-Received: by 2002:a5d:4b88:: with SMTP id b8mr6271916wrt.343.1579898438340; 
+ Fri, 24 Jan 2020 12:40:38 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b16sm7926036wmj.39.2020.01.24.12.40.30
+ by smtp.gmail.com with ESMTPSA id a16sm8864167wrt.37.2020.01.24.12.40.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 24 Jan 2020 12:40:33 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 088B61FF96;
+ by zen.linaroharston (Postfix) with ESMTP id 1CE311FF98;
  Fri, 24 Jan 2020 20:40:27 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 07/13] tests/docker: move all multiarch containers into
- dockerfiles.multiarch
-Date: Fri, 24 Jan 2020 20:40:20 +0000
-Message-Id: <20200124204026.2107-8-alex.bennee@linaro.org>
+Subject: [PATCH v1 08/13] tests/docker: search the tests/docker tree to inline
+ parent dockerfile
+Date: Fri, 24 Jan 2020 20:40:21 +0000
+Message-Id: <20200124204026.2107-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200124204026.2107-1-alex.bennee@linaro.org>
 References: <20200124204026.2107-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,75 +91,33 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We define multiarch as base distributions that are likely to have
-images for any given host architecture.
-
-They will shortly be re-included in the make Makefile.
+The changes to a multi-directory set of dockerfiles means we can't
+rely on hardcoding any more. Just search down the tree until we find
+the file we are looking for.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include                   |  4 +---
- .../dockerfiles.multiarch/Makefile.include      | 17 +++++++++++++++++
- .../debian10.docker                             |  0
- .../debian9.docker                              |  0
- 4 files changed, 18 insertions(+), 3 deletions(-)
- create mode 100644 tests/docker/dockerfiles.multiarch/Makefile.include
- rename tests/docker/{dockerfiles => dockerfiles.multiarch}/debian10.docker (100%)
- rename tests/docker/{dockerfiles => dockerfiles.multiarch}/debian9.docker (100%)
+ tests/docker/docker.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 43a8678688..c9e8bc40a1 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -62,8 +62,7 @@ docker-image-%: $(DOCKER_FILES_DIR)/%.docker
- 		$(if $(EXECUTABLE),--include-executable=$(EXECUTABLE)),\
- 		"BUILD","$*")
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 7dfca63fe4..892d70b568 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -189,9 +189,10 @@ def _read_qemu_dockerfile(img_name):
+     if img_name.startswith("debian") and img_name.endswith("user"):
+         img_name = "debian-bootstrap"
  
--# Special rule for debootstraped binfmt linux-user images
--docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
-+docker-binfmt-image-debian-%: $(MULTARCH_BASE)/debian-bootstrap.docker
- 	$(if $(EXECUTABLE),,\
- 		$(error EXECUTABLE not set, debootstrap of debian-$* would fail))
- 	$(if $(DEB_ARCH),,\
-@@ -85,7 +84,6 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
- 			$(DOCKER_SCRIPT) check --quiet qemu:debian-$* $< || 	\
- 			{ echo "You will need to build $(EXECUTABLE)"; exit 1;},\
- 			"CHECK", "debian-$* exists"))
--
- endif
+-    df = os.path.join(os.path.dirname(__file__), "dockerfiles",
+-                      img_name + ".docker")
+-    return _read_dockerfile(df)
++    dockerfile = img_name + ".docker"
++    for root, dirs, files in os.walk(os.path.dirname(__file__)):
++        if dockerfile in files:
++            return _read_dockerfile(os.path.join(root, dockerfile))
  
- # Enforce dependencies for composite images
-diff --git a/tests/docker/dockerfiles.multiarch/Makefile.include b/tests/docker/dockerfiles.multiarch/Makefile.include
-new file mode 100644
-index 0000000000..60617dd7db
---- /dev/null
-+++ b/tests/docker/dockerfiles.multiarch/Makefile.include
-@@ -0,0 +1,17 @@
-+# -*- Mode: makefile -*-
-+#
-+# Multiarch Containers
-+#
-+# These containers are ones that will build on any of the major
-+# architectures. As a result we can share the rules with whatever
-+# system we are installed on.
-+#
-+
-+MULTIARCH_BASE = $(DOCKER_BASE)/dockerfiles.multiarch
-+VPATH += $(MULTIARCH_BASE)
-+
-+#
-+# None of the multiarch images can build anything by themselves so
-+# they are all BASE containers.
-+#
-+BASE_CONTAINERS += $(sort $(notdir $(basename $(wildcard $(MULTIARCH_BASE)/*.docker))))
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles.multiarch/debian10.docker
-similarity index 100%
-rename from tests/docker/dockerfiles/debian10.docker
-rename to tests/docker/dockerfiles.multiarch/debian10.docker
-diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/dockerfiles.multiarch/debian9.docker
-similarity index 100%
-rename from tests/docker/dockerfiles/debian9.docker
-rename to tests/docker/dockerfiles.multiarch/debian9.docker
+ 
+ def _dockerfile_preprocess(df):
 -- 
 2.20.1
 
