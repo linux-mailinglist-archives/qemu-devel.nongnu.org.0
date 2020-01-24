@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F24147ED9
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:38:26 +0100 (CET)
-Received: from localhost ([::1]:40262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B79147EDD
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Jan 2020 11:40:17 +0100 (CET)
+Received: from localhost ([::1]:40324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iuwM5-0005UB-CO
-	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:38:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47376)
+	id 1iuwNs-0007Wr-I0
+	for lists+qemu-devel@lfdr.de; Fri, 24 Jan 2020 05:40:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48099)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iuwLM-0004xW-43
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:37:41 -0500
+ (envelope-from <berrange@redhat.com>) id 1iuwMx-0006r4-S4
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:39:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iuwLL-0001MS-2a
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:37:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47299
+ (envelope-from <berrange@redhat.com>) id 1iuwMw-00057v-OL
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:39:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60983
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iuwLK-0001Le-VI
- for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:37:39 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iuwMw-00056P-K3
+ for qemu-devel@nongnu.org; Fri, 24 Jan 2020 05:39:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579862258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1579862358;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vWOuboyoxa8QftgZfcKl6xF2AJTk56c63OEGp+yDjlQ=;
- b=hXn8kvKPleLZRjr7af/tynEUcXEEUg5V3LSVWgOC7zNuJ9L6DeuBMzZod+4kUn2/xsAou1
- +l8Hr5auJ7EHggLbUYVka/ZBBUe+dlabjkeBNJSzzNeHvCvSht7zytbjdDGDZA68oxQxy9
- rBAtHf4Bfq5Fhos8v1PniYDKiHYHpnk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-FPfMage-O8euliBgaoNuog-1; Fri, 24 Jan 2020 05:37:36 -0500
-Received: by mail-wm1-f72.google.com with SMTP id b202so479731wmb.2
- for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 02:37:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NsRO/WuimR/M0aK+OudLIB1OER2zEAaKoIEePYYCFW4=;
- b=iEia22DJe8gY4fKHPY/2LbLQFpJZ0jtHkHmSkc5saNWK8nT4M3BLPwSbl2qYdqHM3P
- OWCLR9vPMWCdKP1al9IC3QqlShhYsLo4lk0Nr2WyE2+8c+zQbwETyDtVLCv+26UTnLZq
- Qy7YBrdpi1qB0Ywh/X0VdVUoj4/gs5G9FsRxtWv/4ONwWwkL0kmMzS0r8+QuDsmRufge
- oJN/SNJ9QlhvS2bjpW9i3IU2+ehFum7RnjrTVa+wqSfyAvkA2aOSXJSv8vVK4qs/1vMt
- IO5fZTrMSJQAL+DZ9WXwz7EXrFuEKQUa4HGyc5wRamnjORefcgidKPIdvf9Fb0Finx/2
- 8tLg==
-X-Gm-Message-State: APjAAAWvaMGuM6E4GrlceCMjtSHtqx9yNmKxO4tFSPTt/6H7ukLRrpT5
- nEUz+NaUFPzzIxcVHlfhmvkFAjeVg/rfbnxv3WdAI2ij1b7IYhK2yVcF9CynTjFTZo8NARFN+wd
- ydhHJQJ9zKQ1opAw=
-X-Received: by 2002:adf:d0c1:: with SMTP id z1mr3757546wrh.371.1579862255441; 
- Fri, 24 Jan 2020 02:37:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz6rrDXzGMn8JPtjb4stqeevNFSEUNFDYHzgdc5XXLA//L973BAmMdlapDGh1uJj4n2bZXcUQ==
-X-Received: by 2002:adf:d0c1:: with SMTP id z1mr3757487wrh.371.1579862255073; 
- Fri, 24 Jan 2020 02:37:35 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id f12sm6318461wmf.28.2020.01.24.02.37.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jan 2020 02:37:34 -0800 (PST)
-Subject: Re: [PATCH v8 01/11] add device_legacy_reset function to prepare for
- reset api change
-To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
-References: <20200123132823.1117486-1-damien.hedde@greensocs.com>
- <20200123132823.1117486-2-damien.hedde@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <40a77809-275f-9f88-7ae6-fba90a1edd63@redhat.com>
-Date: Fri, 24 Jan 2020 11:37:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ bh=lzwOxQ0YetL2nkFOGH0j8PrGQhM5k+5KlQojPyVn/Pc=;
+ b=CZQUawZTSxd0C2Ws0NkAr4O1w3jHXN+PaWm3vW2VNhaD9tyHgsQoOdwWij6ujrz/5n40NG
+ Red0wnXYKv4AWMGP6aaa5kUBj+xxOZcTziD8wLedNK4+x7lv9t00IUIkRzwLhRMkEs7nC/
+ +2/g5u9XV//JABCIEG0lUzkXxTgboTU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-85-quvBKfy5NV-k3buE2byETg-1; Fri, 24 Jan 2020 05:39:14 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71E1C1083E80
+ for <qemu-devel@nongnu.org>; Fri, 24 Jan 2020 10:39:13 +0000 (UTC)
+Received: from redhat.com (ovpn-112-52.ams2.redhat.com [10.36.112.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DAA265DA8C;
+ Fri, 24 Jan 2020 10:39:10 +0000 (UTC)
+Date: Fri, 24 Jan 2020 10:39:07 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v3 01/21] migration-test: Use g_free() instead of free()
+Message-ID: <20200124103907.GC824327@redhat.com>
+References: <20200123115831.36842-1-quintela@redhat.com>
+ <20200123115831.36842-2-quintela@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200123132823.1117486-2-damien.hedde@greensocs.com>
-Content-Language: en-US
-X-MC-Unique: FPfMage-O8euliBgaoNuog-1
+In-Reply-To: <20200123115831.36842-2-quintela@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: quvBKfy5NV-k3buE2byETg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,40 +74,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
- Collin Walling <walling@linux.ibm.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, david@gibson.dropbear.id.au,
- ehabkost@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-s390x@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
- berrange@redhat.com, cohuck@redhat.com, mark.burton@greensocs.com,
- edgari@xilinx.com, pbonzini@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/23/20 2:28 PM, Damien Hedde wrote:
-> Provide a temporary device_legacy_reset function doing what
-> device_reset does to prepare for the transition with Resettable
-> API.
+On Thu, Jan 23, 2020 at 12:58:11PM +0100, Juan Quintela wrote:
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> ---
+>  tests/qtest/migration-test.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> All occurrence of device_reset in the code tree are also replaced
-> by device_legacy_reset.
->=20
-> The new resettable API has different prototype and semantics
-> (resetting child buses as well as the specified device). Subsequent
-> commits will make the changeover for each call site individually; once
-> that is complete device_legacy_reset() will be removed.
->=20
-> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
-> Acked-by: Cornelia Huck <cohuck@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 26e2e77289..b6a74a05ce 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -1291,7 +1291,7 @@ static void test_multifd_tcp(void)
+>      wait_for_serial("dest_serial");
+>      wait_for_migration_complete(from);
+>      test_migrate_end(from, to, true);
+> -    free(uri);
+> +    g_free(uri);
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Not an objection to this patch, just a general FYI.
+
+Our min glib guarantees that g_malloc/g_free are always using the
+system allocator. So using free() is not a correctness problem
+these days.
+
+In general I'd suggest eliminating both free() and g_free(), and instead
+annotating the variable decl for automatic free. eg
+
+  g_autofree char *uri =3D NULL;
+
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
