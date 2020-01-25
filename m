@@ -2,62 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E861496E2
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jan 2020 18:28:27 +0100 (CET)
-Received: from localhost ([::1]:55892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D63149715
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Jan 2020 19:07:51 +0100 (CET)
+Received: from localhost ([::1]:56196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ivPEQ-0000li-9X
-	for lists+qemu-devel@lfdr.de; Sat, 25 Jan 2020 12:28:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39375)
+	id 1ivPqY-0005bI-CF
+	for lists+qemu-devel@lfdr.de; Sat, 25 Jan 2020 13:07:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49623)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1ivPBC-000640-CR
- for qemu-devel@nongnu.org; Sat, 25 Jan 2020 12:25:07 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ivPpZ-00059a-BP
+ for qemu-devel@nongnu.org; Sat, 25 Jan 2020 13:06:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1ivPBA-00086d-G3
- for qemu-devel@nongnu.org; Sat, 25 Jan 2020 12:25:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49769
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1ivPBA-0007xT-Au
- for qemu-devel@nongnu.org; Sat, 25 Jan 2020 12:25:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1579973102;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=CYRkzMGr0qa4lzTOn1tCfqrIUWVP++89tVcGXamSgg0=;
- b=hVfBKVWgMcPh5CIeuoEfru2gSSbgUgQgQ8J4umFzyHMr7sBNrL1TnwzWC+Uq4l+zfH/2lU
- WNaJ5j8YRkS0Bb7aBEwACy3dANW6YhXzdCS+jADlyhbdZdad6Bmn33xKuHDRwEKDqtvJxz
- xvWgUduJ6TQbx/n8blFE4l4jIObW3Vg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-1r9HeJ-YNZGI1g2H6C76tw-1; Sat, 25 Jan 2020 12:25:00 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E528B18543A4;
- Sat, 25 Jan 2020 17:24:59 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-37.ams2.redhat.com [10.36.116.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6AB2E8E5E2;
- Sat, 25 Jan 2020 17:24:53 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, quintela@redhat.com
-Subject: [PATCH] migration: Simplify get_qlist
-Date: Sat, 25 Jan 2020 18:24:49 +0100
-Message-Id: <20200125172449.13175-1-eric.auger@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1ivPpY-0005SQ-1I
+ for qemu-devel@nongnu.org; Sat, 25 Jan 2020 13:06:49 -0500
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:44566)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1ivPpX-0005P9-Pz
+ for qemu-devel@nongnu.org; Sat, 25 Jan 2020 13:06:47 -0500
+Received: by mail-pf1-x443.google.com with SMTP id 62so2775337pfu.11
+ for <qemu-devel@nongnu.org>; Sat, 25 Jan 2020 10:06:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Q5g4omBeNcDIHxeacwbhBiUNww+gLEAuo56iL6JptDg=;
+ b=Ae5X1N1p4jy9mkcf7eJikXm4oUcUBI/Pb930L1H9FD3oOWYaJ/IvoolJ2RJ4er3NVJ
+ Wu+vVllRfzijYyKcWrfu/t07Rzqm7oiAhCjkHo15t0LDDDmoN7VC+/IGEH7dzqY8qll2
+ eOxsl2ZKI4VI9bvmDAkztujWwkSYg2aGQ9tl9dfe0y/B+jsXm5iGtB+dHo2+a4PhvRpV
+ uBrvw+hlvdu1gy23ABGcljL+rFRi6j57ZvjaQIJmNq7Z+62tdLNpirCR7yd/NI+zpCpQ
+ ktw5NLI7NbwMTdIFC4nAI7RA3LC8BNa2SMynCZS4gAWBsDJDp/8NX7A9HxsMcf5cJiKR
+ iNMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Q5g4omBeNcDIHxeacwbhBiUNww+gLEAuo56iL6JptDg=;
+ b=MJIM/wDpNP+bmyfvKGCgpHgkEzxuGAwsiqxkzupYTZjgd6g8Eq8xwdyhwyfmyYGMAw
+ ncf+MYSLIbVBacviUTEd2E1/qhWvP6klxhIY97IAWR6WhHPaSNhKD65mMWiPPCiU+sX/
+ nXkCWyB2h3kJujALueAdU81fi3K69nsRA0U2uZ/4WyH4UeIF6Y6pKsTTuBa5lh7qvZUs
+ 5c5HxHh1Cm8W1bKZOZHWBrBiSElvbqWm9fyv2p+yViasRgRbnXmrmDNTATIyzzhikG1v
+ LcK4T4EAk7wbVpmz2yH5j8MuJJBBS56/vcXvmVVYZTJw6AXqRWCywNWIDgPhmPpXQuwy
+ cwCg==
+X-Gm-Message-State: APjAAAVPe0VYshggNvwgZ9sV2NYceWmU3jfiwjyau6p8O0kKQxUVPDEx
+ 9sl+ctsbovmKPQIOby9gKUA/4Q==
+X-Google-Smtp-Source: APXvYqxH+s6Jl6l1gBywhluv+kUq13OojiaNi8NwHIO7Rib6SfXu1BLFJmUcO2xNMoqZrA3YshQxjw==
+X-Received: by 2002:a65:5809:: with SMTP id g9mr10828177pgr.146.1579975606096; 
+ Sat, 25 Jan 2020 10:06:46 -0800 (PST)
+Received: from [10.5.50.117] (rrcs-173-198-77-92.west.biz.rr.com.
+ [173.198.77.92])
+ by smtp.gmail.com with ESMTPSA id l66sm10819490pga.30.2020.01.25.10.06.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 25 Jan 2020 10:06:45 -0800 (PST)
+Subject: Re: [PATCH v4 6/7] disas: mips: Add micromips R6 disassembler -
+ infrastructure and 16-bit instructions
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+References: <1579883929-1517-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1579883929-1517-7-git-send-email-aleksandar.markovic@rt-rk.com>
+ <779b7b35-16a8-0538-ad87-fac218c93e82@linaro.org>
+ <CAL1e-=hqgWesfm9f8fsSQ8JS54LybNMMGygbCNi0O+VyfSAJvg@mail.gmail.com>
+ <c3c80f0a-e348-4c7c-e8c4-579b16ec22a4@linaro.org>
+ <CAL1e-=g89vC8gw6xNiGcNAhDixX2xZgnDjKgvDsChkvHHpduQA@mail.gmail.com>
+ <0d2d0fff-302b-b8e6-cbc6-5c2bb66f1f8e@linaro.org>
+ <CAL1e-=gsX+_G28i3MbFn3qLW7YKyQapaAdEhpkCKtvwS6juHHQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c1b65e3f-ea37-ebca-e47e-1fb1a30df9f2@linaro.org>
+Date: Sat, 25 Jan 2020 08:06:40 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 1r9HeJ-YNZGI1g2H6C76tw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+In-Reply-To: <CAL1e-=gsX+_G28i3MbFn3qLW7YKyQapaAdEhpkCKtvwS6juHHQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,114 +90,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peterx@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ "amarkovic@wavecomp.com" <amarkovic@wavecomp.com>,
+ "aleksandar.rikalo@rt-rk.com" <aleksandar.rikalo@rt-rk.com>,
+ "aurelien@aurel32.net" <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of inserting read elements at the head and
-then reversing the list, it is simpler to add
-each element after the previous one. Introduce
-QLIST_RAW_INSERT_AFTER helper and use it in
-get_qlist().
+On 1/25/20 12:22 AM, Aleksandar Markovic wrote:
+> 
+> 
+> On Saturday, January 25, 2020, Richard Henderson <richard.henderson@linaro.org
+> <mailto:richard.henderson@linaro.org>> wrote:
+> 
+>     On 1/24/20 1:38 PM, Aleksandar Markovic wrote:
+>     > On Friday, January 24, 2020, Richard Henderson
+>     <richard.henderson@linaro.org <mailto:richard.henderson@linaro.org>
+>     > <mailto:richard.henderson@linaro.org
+>     <mailto:richard.henderson@linaro.org>>> wrote:
+>     >     The thing I'm concerned about here is any future maintenance of this
+>     file.  One
+>     >     would surely prefer to edit the original decodetree input than this
+>     output.
+>     >
+>     >
+>     > Here is the deal: This dissasembler is meant to reflect the
+>      documentation of a
+>     > particular ISA, and as the documentation largely stays constant (except
+>     adding
+>     > some insignificant errata), the disassembler will stay virtually constant, we
+>     > wouldn't like even to touch it, and we like it this way.
+> 
+>     No, this is neither right nor proper.
+> 
+>     To review the code in this form is significantly harder than in its decodetree
+>     form.  That is in fact the whole point of the decodetree form: otherwise we'd
+>     still be writing these sorts of parsers by hand.
+> 
+>     While there's no license on this new file (another problem), if as assumed this
+>     is GPL 2+, then you are in violation of the GPL.  From section 3:
+> 
+>       # The source code for a work means the preferred form of
+>       # the work for making modifications to it.
+> 
+>     You cannot with a straight face claim that the generated c is the preferred
+>     form for making modifications.
+> 
+>     Finally, suppose we improve decodetree.py, so that it produces code with which
+>     the compiler produces better code, for some metric of better.  We would want
+>     this disassembler to benefit as well.
+> 
+> 
+> I think you got some things upside-down. A tool developent and usage should be
+> driven by the needs of users of a tool, and not dictated by the author. Users
+> should be free to use the tool in any way they seem suitable, including its
+> modification.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Suggested-by: Juan Quintela <quintela@redhat.com>
+That's exactly right, provided that by "tool" you mean QEMU and by "users" you
+mean everyone downstream of us.
 
----
----
- include/qemu/queue.h      | 19 ++++++-------------
- migration/vmstate-types.c | 10 +++++++---
- 2 files changed, 13 insertions(+), 16 deletions(-)
+Let me state for the record that I object to this generated file being merged
+in this form, for the reasons I stated above.
 
-diff --git a/include/qemu/queue.h b/include/qemu/queue.h
-index 4d4554a7ce..19425f973f 100644
---- a/include/qemu/queue.h
-+++ b/include/qemu/queue.h
-@@ -515,6 +515,12 @@ union {                                               =
-                  \
-              (elm);                                                       =
-     \
-              (elm) =3D *QLIST_RAW_NEXT(elm, entry))
-=20
-+#define QLIST_RAW_INSERT_AFTER(head, prev, elem, entry) do {              =
-     \
-+        *QLIST_RAW_NEXT(prev, entry) =3D elem;                            =
-       \
-+        *QLIST_RAW_PREVIOUS(elem, entry) =3D QLIST_RAW_NEXT(prev, entry); =
-       \
-+        *QLIST_RAW_NEXT(elem, entry) =3D NULL;                            =
-       \
-+} while (0)
-+
- #define QLIST_RAW_INSERT_HEAD(head, elm, entry) do {                      =
-     \
-         void *first =3D *QLIST_RAW_FIRST(head);                           =
-       \
-         *QLIST_RAW_FIRST(head) =3D elm;                                   =
-       \
-@@ -527,17 +533,4 @@ union {                                               =
-                  \
-         }                                                                 =
-     \
- } while (0)
-=20
--#define QLIST_RAW_REVERSE(head, elm, entry) do {                          =
-     \
--        void *iter =3D *QLIST_RAW_FIRST(head), *prev =3D NULL, *next;     =
-         \
--        while (iter) {                                                    =
-     \
--            next =3D *QLIST_RAW_NEXT(iter, entry);                        =
-       \
--            *QLIST_RAW_PREVIOUS(iter, entry) =3D QLIST_RAW_NEXT(next, entr=
-y);    \
--            *QLIST_RAW_NEXT(iter, entry) =3D prev;                        =
-       \
--            prev =3D iter;                                                =
-       \
--            iter =3D next;                                                =
-       \
--        }                                                                 =
-     \
--        *QLIST_RAW_FIRST(head) =3D prev;                                  =
-       \
--        *QLIST_RAW_PREVIOUS(prev, entry) =3D QLIST_RAW_FIRST(head);       =
-       \
--} while (0)
--
- #endif /* QEMU_SYS_QUEUE_H */
-diff --git a/migration/vmstate-types.c b/migration/vmstate-types.c
-index 1eee36773a..35e784c9d9 100644
---- a/migration/vmstate-types.c
-+++ b/migration/vmstate-types.c
-@@ -879,7 +879,7 @@ static int get_qlist(QEMUFile *f, void *pv, size_t unus=
-ed_size,
-     /* offset of the QLIST entry in a QLIST element */
-     size_t entry_offset =3D field->start;
-     int version_id =3D field->version_id;
--    void *elm;
-+    void *elm, *prev =3D NULL;
-=20
-     trace_get_qlist(field->name, vmsd->name, vmsd->version_id);
-     if (version_id > vmsd->version_id) {
-@@ -900,9 +900,13 @@ static int get_qlist(QEMUFile *f, void *pv, size_t unu=
-sed_size,
-             g_free(elm);
-             return ret;
-         }
--        QLIST_RAW_INSERT_HEAD(pv, elm, entry_offset);
-+        if (!prev) {
-+            QLIST_RAW_INSERT_HEAD(pv, elm, entry_offset);
-+        } else {
-+            QLIST_RAW_INSERT_AFTER(pv, prev, elm, entry_offset);
-+        }
-+        prev =3D elm;
-     }
--    QLIST_RAW_REVERSE(pv, elm, entry_offset);
-     trace_get_qlist_end(field->name, vmsd->name);
-=20
-     return ret;
---=20
-2.20.1
 
+r~
 
