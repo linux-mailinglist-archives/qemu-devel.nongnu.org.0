@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05058149D79
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 00:01:19 +0100 (CET)
-Received: from localhost ([::1]:37980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75091149D8A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 00:09:21 +0100 (CET)
+Received: from localhost ([::1]:38118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ivqu5-0004Bg-VW
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jan 2020 18:01:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33565)
+	id 1ivr1s-0001aE-If
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jan 2020 18:09:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33582)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpz-00061G-89
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpz-00062a-Oq
  for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:57:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpw-0000Z3-TM
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpw-0000ZG-W8
  for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:57:03 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:37953 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:37954 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1ivqpw-0000Pn-G6
+ id 1ivqpw-0000Pp-IU
  for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:57:00 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 504271A1DB3;
- Sun, 26 Jan 2020 23:56:04 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTP id 5B07F1A1DB9;
+ Sun, 26 Jan 2020 23:56:07 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 2F0471A1D62;
- Sun, 26 Jan 2020 23:56:04 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 354121A1D62;
+ Sun, 26 Jan 2020 23:56:07 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc3 15/30] target/avr: Add instruction disassembly function
-Date: Sun, 26 Jan 2020 23:54:56 +0100
-Message-Id: <1580079311-20447-16-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH rc3 16/30] hw/char: Add limited support for Atmel USART
+ peripheral
+Date: Sun, 26 Jan 2020 23:54:57 +0100
+Message-Id: <1580079311-20447-17-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1580079311-20447-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1580079311-20447-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -54,368 +55,489 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Michael Rolnik <mrolnik@gmail.com>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-Provide function disassembles executed instruction when `-d in_asm` is
-provided
+These were designed to facilitate testing but should provide enough
+function to be useful in other contexts.  Only a subset of the functions
+of each peripheral is implemented, mainly due to the lack of a standard
+way to handle electrical connections (like GPIO pins).
 
-Example:
-`./avr-softmmu/qemu-system-avr -bios free-rtos/Demo/AVR_ATMega2560_GCC/de=
-mo.elf -d in_asm` will produce something like the following
-
-```
-    ...
-    IN:
-    0x0000014a:  CALL      0x3808
-
-    IN: main
-    0x00003808:  CALL      0x4b4
-
-    IN: vParTestInitialise
-    0x000004b4:  LDI       r24, 255
-    0x000004b6:  STS       r24, 0
-    0x000004b8:  MULS      r16, r20
-    0x000004ba:  OUT       $1, r24
-    0x000004bc:  LDS       r24, 0
-    0x000004be:  MULS      r16, r20
-    0x000004c0:  OUT       $2, r24
-    0x000004c2:  RET
-    ...
-```
-
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+[rth: Squash I/O size fix and file rename from f4bug, which was:]
 Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-[rth: Fix spacing and const mnemonic arrays]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 ---
- target/avr/cpu.c       |   2 +-
- target/avr/cpu.h       |   1 +
- target/avr/disas.c     | 246 +++++++++++++++++++++++++++++++++++++++++++=
+ hw/char/Kconfig               |   3 +
+ hw/char/Makefile.objs         |   1 +
+ hw/char/atmel_usart.c         | 320 ++++++++++++++++++++++++++++++++++++=
 ++++++
- target/avr/translate.c |  12 +++
- 4 files changed, 260 insertions(+), 1 deletion(-)
- create mode 100644 target/avr/disas.c
+ include/hw/char/atmel_usart.h |  93 ++++++++++++
+ 4 files changed, 417 insertions(+)
+ create mode 100644 hw/char/atmel_usart.c
+ create mode 100644 include/hw/char/atmel_usart.h
 
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index c74c510..fa51f77 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -84,7 +84,7 @@ static void avr_cpu_reset(CPUState *cs)
- static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *info=
-)
- {
-     info->mach =3D bfd_arch_avr;
--    info->print_insn =3D NULL;
-+    info->print_insn =3D avr_print_insn;
- }
+diff --git a/hw/char/Kconfig b/hw/char/Kconfig
+index 40e7a8b..5a27681 100644
+--- a/hw/char/Kconfig
++++ b/hw/char/Kconfig
+@@ -46,3 +46,6 @@ config SCLPCONSOLE
 =20
- static void avr_cpu_realizefn(DeviceState *dev, Error **errp)
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index b74bcf0..af89b66 100644
---- a/target/avr/cpu.h
-+++ b/target/avr/cpu.h
-@@ -160,6 +160,7 @@ bool avr_cpu_exec_interrupt(CPUState *cpu, int int_re=
-q);
- hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int avr_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
- int avr_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-+int avr_print_insn(bfd_vma addr, disassemble_info *info);
+ config TERMINAL3270
+     bool
++
++config ATMEL_USART
++    bool
+diff --git a/hw/char/Makefile.objs b/hw/char/Makefile.objs
+index 02d8a66..c23ad3b 100644
+--- a/hw/char/Makefile.objs
++++ b/hw/char/Makefile.objs
+@@ -21,6 +21,7 @@ obj-$(CONFIG_PSERIES) +=3D spapr_vty.o
+ obj-$(CONFIG_DIGIC) +=3D digic-uart.o
+ obj-$(CONFIG_STM32F2XX_USART) +=3D stm32f2xx_usart.o
+ obj-$(CONFIG_RASPI) +=3D bcm2835_aux.o
++common-obj-$(CONFIG_ATMEL_USART) +=3D atmel_usart.o
 =20
- static inline int avr_feature(CPUAVRState *env, AVRFeature feature)
- {
-diff --git a/target/avr/disas.c b/target/avr/disas.c
+ common-obj-$(CONFIG_CMSDK_APB_UART) +=3D cmsdk-apb-uart.o
+ common-obj-$(CONFIG_ETRAXFS) +=3D etraxfs_ser.o
+diff --git a/hw/char/atmel_usart.c b/hw/char/atmel_usart.c
 new file mode 100644
-index 0000000..23bd991
+index 0000000..a7004c2
 --- /dev/null
-+++ b/target/avr/disas.c
-@@ -0,0 +1,246 @@
++++ b/hw/char/atmel_usart.c
+@@ -0,0 +1,320 @@
 +/*
-+ * AVR disassembler
++ * Atmel AVR USART
 + *
-+ * Copyright (c) 2019 Richard Henderson <rth@twiddle.net>
-+ * Copyright (c) 2019 Michael Rolnik <mrolnik@gmail.com>
++ * Copyright (c) 2018 University of Kent
++ * Author: Sarah Harris
 + *
-+ * This program is free software: you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation, either version 2 of the License, or
-+ * (at your option) any later version.
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
 + *
-+ * This program is distributed in the hope that it will be useful,
++ * This library is distributed in the hope that it will be useful,
 + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
 + *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
 + */
 +
 +#include "qemu/osdep.h"
-+#include "cpu.h"
++#include "hw/char/atmel_usart.h"
++#include "qemu/log.h"
++#include "hw/irq.h"
++#include "hw/qdev-properties.h"
++
++static int avr_usart_can_receive(void *opaque)
++{
++    AVRUsartState *usart =3D opaque;
++
++    if (usart->data_valid || !(usart->csrb & USART_CSRB_RXEN)) {
++        return 0;
++    }
++    return 1;
++}
++
++static void avr_usart_receive(void *opaque, const uint8_t *buffer, int s=
+ize)
++{
++    AVRUsartState *usart =3D opaque;
++    assert(size =3D=3D 1);
++    assert(!usart->data_valid);
++    usart->data =3D buffer[0];
++    usart->data_valid =3D true;
++    usart->csra |=3D USART_CSRA_RXC;
++    if (usart->csrb & USART_CSRB_RXCIE) {
++        qemu_set_irq(usart->rxc_irq, 1);
++    }
++}
++
++static void update_char_mask(AVRUsartState *usart)
++{
++    uint8_t mode =3D ((usart->csrc & USART_CSRC_CSZ0) ? 1 : 0) |
++        ((usart->csrc & USART_CSRC_CSZ1) ? 2 : 0) |
++        ((usart->csrb & USART_CSRB_CSZ2) ? 4 : 0);
++    switch (mode) {
++    case 0:
++        usart->char_mask =3D 0b11111;
++        break;
++    case 1:
++        usart->char_mask =3D 0b111111;
++        break;
++    case 2:
++        usart->char_mask =3D 0b1111111;
++        break;
++    case 3:
++        usart->char_mask =3D 0b11111111;
++        break;
++    case 4:
++        /* Fallthrough. */
++    case 5:
++        /* Fallthrough. */
++    case 6:
++        qemu_log_mask(
++            LOG_GUEST_ERROR,
++            "%s: Reserved character size 0x%x\n",
++            __func__,
++            mode);
++        break;
++    case 7:
++        qemu_log_mask(
++            LOG_GUEST_ERROR,
++            "%s: Nine bit character size not supported (forcing eight)\n=
+",
++            __func__);
++        usart->char_mask =3D 0b11111111;
++        break;
++    default:
++        assert(0);
++    }
++}
++
++static void avr_usart_reset(DeviceState *dev)
++{
++    AVRUsartState *usart =3D AVR_USART(dev);
++    usart->data_valid =3D false;
++    usart->csra =3D 0b00100000;
++    usart->csrb =3D 0b00000000;
++    usart->csrc =3D 0b00000110;
++    usart->brrl =3D 0;
++    usart->brrh =3D 0;
++    update_char_mask(usart);
++    qemu_set_irq(usart->rxc_irq, 0);
++    qemu_set_irq(usart->txc_irq, 0);
++    qemu_set_irq(usart->dre_irq, 0);
++}
++
++static uint64_t avr_usart_read(void *opaque, hwaddr addr, unsigned int s=
+ize)
++{
++    AVRUsartState *usart =3D opaque;
++    uint8_t data;
++    assert(size =3D=3D 1);
++
++    if (!usart->enabled) {
++        return 0;
++    }
++
++    switch (addr) {
++    case USART_DR:
++        if (!(usart->csrb & USART_CSRB_RXEN)) {
++            /* Receiver disabled, ignore. */
++            return 0;
++        }
++        if (usart->data_valid) {
++            data =3D usart->data & usart->char_mask;
++            usart->data_valid =3D false;
++        } else {
++            data =3D 0;
++        }
++        usart->csra &=3D 0xff ^ USART_CSRA_RXC;
++        qemu_set_irq(usart->rxc_irq, 0);
++        qemu_chr_fe_accept_input(&usart->chr);
++        return data;
++    case USART_CSRA:
++        return usart->csra;
++    case USART_CSRB:
++        return usart->csrb;
++    case USART_CSRC:
++        return usart->csrc;
++    case USART_BRRL:
++        return usart->brrl;
++    case USART_BRRH:
++        return usart->brrh;
++    default:
++        qemu_log_mask(
++            LOG_GUEST_ERROR,
++            "%s: Bad offset 0x%"HWADDR_PRIx"\n",
++            __func__,
++            addr);
++    }
++    return 0;
++}
++
++static void avr_usart_write(void *opaque, hwaddr addr, uint64_t value,
++                                unsigned int size)
++{
++    AVRUsartState *usart =3D opaque;
++    uint8_t mask;
++    uint8_t data;
++    assert((value & 0xff) =3D=3D value);
++    assert(size =3D=3D 1);
++
++    if (!usart->enabled) {
++        return;
++    }
++
++    switch (addr) {
++    case USART_DR:
++        if (!(usart->csrb & USART_CSRB_TXEN)) {
++            /* Transmitter disabled, ignore. */
++            return;
++        }
++        usart->csra |=3D USART_CSRA_TXC;
++        usart->csra |=3D USART_CSRA_DRE;
++        if (usart->csrb & USART_CSRB_TXCIE) {
++            qemu_set_irq(usart->txc_irq, 1);
++            usart->csra &=3D 0xff ^ USART_CSRA_TXC;
++        }
++        if (usart->csrb & USART_CSRB_DREIE) {
++            qemu_set_irq(usart->dre_irq, 1);
++        }
++        data =3D value;
++        qemu_chr_fe_write_all(&usart->chr, &data, 1);
++        break;
++    case USART_CSRA:
++        mask =3D 0b01000011;
++        /* Mask read-only bits. */
++        value =3D (value & mask) | (usart->csra & (0xff ^ mask));
++        usart->csra =3D value;
++        if (value & USART_CSRA_TXC) {
++            usart->csra ^=3D USART_CSRA_TXC;
++            qemu_set_irq(usart->txc_irq, 0);
++        }
++        if (value & USART_CSRA_MPCM) {
++            qemu_log_mask(
++                LOG_GUEST_ERROR,
++                "%s: MPCM not supported by USART\n",
++                __func__);
++        }
++        break;
++    case USART_CSRB:
++        mask =3D 0b11111101;
++        /* Mask read-only bits. */
++        value =3D (value & mask) | (usart->csrb & (0xff ^ mask));
++        usart->csrb =3D value;
++        if (!(value & USART_CSRB_RXEN)) {
++            /* Receiver disabled, flush input buffer. */
++            usart->data_valid =3D false;
++        }
++        qemu_set_irq(usart->rxc_irq,
++            ((value & USART_CSRB_RXCIE) &&
++            (usart->csra & USART_CSRA_RXC)) ? 1 : 0);
++        qemu_set_irq(usart->txc_irq,
++            ((value & USART_CSRB_TXCIE) &&
++            (usart->csra & USART_CSRA_TXC)) ? 1 : 0);
++        qemu_set_irq(usart->dre_irq,
++            ((value & USART_CSRB_DREIE) &&
++            (usart->csra & USART_CSRA_DRE)) ? 1 : 0);
++        update_char_mask(usart);
++        break;
++    case USART_CSRC:
++        usart->csrc =3D value;
++        if ((value & USART_CSRC_MSEL1) && (value & USART_CSRC_MSEL0)) {
++            qemu_log_mask(
++                LOG_GUEST_ERROR,
++                "%s: SPI mode not supported by USART\n",
++                __func__);
++        }
++        if ((value & USART_CSRC_MSEL1) && !(value & USART_CSRC_MSEL0)) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad USART mode\n", __fun=
+c__);
++        }
++        if (!(value & USART_CSRC_PM1) && (value & USART_CSRC_PM0)) {
++            qemu_log_mask(
++                LOG_GUEST_ERROR,
++                "%s: Bad USART parity mode\n",
++                __func__);
++        }
++        update_char_mask(usart);
++        break;
++    case USART_BRRL:
++        usart->brrl =3D value;
++        break;
++    case USART_BRRH:
++        usart->brrh =3D value & 0b00001111;
++        break;
++    default:
++        qemu_log_mask(
++            LOG_GUEST_ERROR,
++            "%s: Bad offset 0x%"HWADDR_PRIx"\n",
++            __func__,
++            addr);
++    }
++}
++
++static const MemoryRegionOps avr_usart_ops =3D {
++    .read =3D avr_usart_read,
++    .write =3D avr_usart_write,
++    .endianness =3D DEVICE_NATIVE_ENDIAN,
++    .impl =3D {.min_access_size =3D 1, .max_access_size =3D 1}
++};
++
++static Property avr_usart_properties[] =3D {
++    DEFINE_PROP_CHR("chardev", AVRUsartState, chr),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void avr_usart_pr(void *opaque, int irq, int level)
++{
++    AVRUsartState *s =3D AVR_USART(opaque);
++
++    s->enabled =3D !level;
++
++    if (!s->enabled) {
++        avr_usart_reset(DEVICE(s));
++    }
++}
++
++static void avr_usart_init(Object *obj)
++{
++    AVRUsartState *s =3D AVR_USART(obj);
++    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->rxc_irq);
++    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->dre_irq);
++    sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->txc_irq);
++    memory_region_init_io(&s->mmio, obj, &avr_usart_ops, s, TYPE_AVR_USA=
+RT, 7);
++    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
++    qdev_init_gpio_in(DEVICE(s), avr_usart_pr, 1);
++    s->enabled =3D true;
++}
++
++static void avr_usart_realize(DeviceState *dev, Error **errp)
++{
++    AVRUsartState *s =3D AVR_USART(dev);
++    qemu_chr_fe_set_handlers(&s->chr, avr_usart_can_receive,
++                             avr_usart_receive, NULL, NULL,
++                             s, NULL, true);
++    avr_usart_reset(dev);
++}
++
++static void avr_usart_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc =3D DEVICE_CLASS(klass);
++
++    dc->reset =3D avr_usart_reset;
++    dc->props =3D avr_usart_properties;
++    dc->realize =3D avr_usart_realize;
++}
++
++static const TypeInfo avr_usart_info =3D {
++    .name          =3D TYPE_AVR_USART,
++    .parent        =3D TYPE_SYS_BUS_DEVICE,
++    .instance_size =3D sizeof(AVRUsartState),
++    .instance_init =3D avr_usart_init,
++    .class_init    =3D avr_usart_class_init,
++};
++
++static void avr_usart_register_types(void)
++{
++    type_register_static(&avr_usart_info);
++}
++
++type_init(avr_usart_register_types)
+diff --git a/include/hw/char/atmel_usart.h b/include/hw/char/atmel_usart.=
+h
+new file mode 100644
+index 0000000..fd35fea
+--- /dev/null
++++ b/include/hw/char/atmel_usart.h
+@@ -0,0 +1,93 @@
++/*
++ * Atmel AVR USART
++ *
++ * Copyright (c) 2018 University of Kent
++ * Author: Sarah Harris
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
++ */
++
++#ifndef HW_CHAR_ATMEL_USART_H
++#define HW_CHAR_ATMEL_USART_H
++
++#include "hw/sysbus.h"
++#include "chardev/char-fe.h"
++#include "hw/hw.h"
++
++/* Offsets of registers. */
++#define USART_DR   0x06
++#define USART_CSRA  0x00
++#define USART_CSRB  0x01
++#define USART_CSRC  0x02
++#define USART_BRRH 0x05
++#define USART_BRRL 0x04
++
++/* Relevant bits in regiters. */
++#define USART_CSRA_RXC    (1 << 7)
++#define USART_CSRA_TXC    (1 << 6)
++#define USART_CSRA_DRE    (1 << 5)
++#define USART_CSRA_MPCM   (1 << 0)
++
++#define USART_CSRB_RXCIE  (1 << 7)
++#define USART_CSRB_TXCIE  (1 << 6)
++#define USART_CSRB_DREIE  (1 << 5)
++#define USART_CSRB_RXEN   (1 << 4)
++#define USART_CSRB_TXEN   (1 << 3)
++#define USART_CSRB_CSZ2   (1 << 2)
++#define USART_CSRB_RXB8   (1 << 1)
++#define USART_CSRB_TXB8   (1 << 0)
++
++#define USART_CSRC_MSEL1  (1 << 7)
++#define USART_CSRC_MSEL0  (1 << 6)
++#define USART_CSRC_PM1    (1 << 5)
++#define USART_CSRC_PM0    (1 << 4)
++#define USART_CSRC_CSZ1   (1 << 2)
++#define USART_CSRC_CSZ0   (1 << 1)
++
++#define TYPE_AVR_USART "atmel-usart"
++#define AVR_USART(obj) \
++    OBJECT_CHECK(AVRUsartState, (obj), TYPE_AVR_USART)
 +
 +typedef struct {
-+    disassemble_info *info;
-+    uint16_t next_word;
-+    bool next_word_used;
-+} DisasContext;
++    /* <private> */
++    SysBusDevice parent_obj;
 +
-+static int to_regs_16_31_by_one(DisasContext *ctx, int indx)
-+{
-+    return 16 + (indx % 16);
-+}
++    /* <public> */
++    MemoryRegion mmio;
 +
-+static int to_regs_16_23_by_one(DisasContext *ctx, int indx)
-+{
-+    return 16 + (indx % 8);
-+}
++    CharBackend chr;
 +
-+static int to_regs_24_30_by_two(DisasContext *ctx, int indx)
-+{
-+    return 24 + (indx % 4) * 2;
-+}
++    bool enabled;
 +
-+static int to_regs_00_30_by_two(DisasContext *ctx, int indx)
-+{
-+    return (indx % 16) * 2;
-+}
++    uint8_t data;
++    bool data_valid;
++    uint8_t char_mask;
++    /* Control and Status Registers */
++    uint8_t csra;
++    uint8_t csrb;
++    uint8_t csrc;
++    /* Baud Rate Registers (low/high byte) */
++    uint8_t brrh;
++    uint8_t brrl;
 +
-+static uint16_t next_word(DisasContext *ctx)
-+{
-+    ctx->next_word_used =3D true;
-+    return ctx->next_word;
-+}
++    /* Receive Complete */
++    qemu_irq rxc_irq;
++    /* Transmit Complete */
++    qemu_irq txc_irq;
++    /* Data Register Empty */
++    qemu_irq dre_irq;
++} AVRUsartState;
 +
-+static int append_16(DisasContext *ctx, int x)
-+{
-+    return x << 16 | next_word(ctx);
-+}
-+
-+
-+/* Include the auto-generated decoder.  */
-+static bool decode_insn(DisasContext *ctx, uint16_t insn);
-+#include "decode_insn.inc.c"
-+
-+#define output(mnemonic, format, ...) \
-+    (pctx->info->fprintf_func(pctx->info->stream, "%-9s " format, \
-+                        mnemonic, ##__VA_ARGS__))
-+
-+int avr_print_insn(bfd_vma addr, disassemble_info *info)
-+{
-+    DisasContext ctx;
-+    DisasContext *pctx =3D &ctx;
-+    bfd_byte buffer[4];
-+    uint16_t insn;
-+    int status;
-+
-+    ctx.info =3D info;
-+
-+    status =3D info->read_memory_func(addr, buffer, 4, info);
-+    if (status !=3D 0) {
-+        info->memory_error_func(status, addr, info);
-+        return -1;
-+    }
-+    insn =3D bfd_getl16(buffer);
-+    ctx.next_word =3D bfd_getl16(buffer + 2);
-+    ctx.next_word_used =3D false;
-+
-+    if (!decode_insn(&ctx, insn)) {
-+        output(".db", "0x%02x, 0x%02x", buffer[0], buffer[1]);
-+    }
-+
-+    return ctx.next_word_used ? 4 : 2;
-+}
-+
-+
-+#define INSN(opcode, format, ...)                                   \
-+static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)        =
-\
-+{                                                                       =
-\
-+    output(#opcode, format, ##__VA_ARGS__);                             =
-\
-+    return true;                                                        =
-\
-+}
-+
-+#define INSN_MNEMONIC(opcode, mnemonic, format, ...)                \
-+static bool trans_##opcode(DisasContext *pctx, arg_##opcode * a)        =
-\
-+{                                                                       =
-\
-+    output(mnemonic, format, ##__VA_ARGS__);                            =
-\
-+    return true;                                                        =
-\
-+}
-+
-+/*
-+ *   C       Z       N       V       S       H       T       I
-+ *   0       1       2       3       4       5       6       7
-+ */
-+static const char brbc[][5] =3D {
-+    "BRCC", "BRNE", "BRPL", "BRVC", "BRGE", "BRHC", "BRTC", "BRID"
-+};
-+
-+static const char brbs[][5] =3D {
-+    "BRCS", "BREQ", "BRMI", "BRVS", "BRLT", "BRHS", "BRTS", "BRIE"
-+};
-+
-+static const char bset[][4] =3D {
-+    "SEC",  "SEZ",  "SEN",  "SEZ",  "SES",  "SEH",  "SET",  "SEI"
-+};
-+
-+static const char bclr[][4] =3D {
-+    "CLC",  "CLZ",  "CLN",  "CLZ",  "CLS",  "CLH",  "CLT",  "CLI"
-+};
-+
-+/*
-+ * Arithmetic Instructions
-+ */
-+INSN(ADD,    "r%d, r%d", a->rd, a->rr)
-+INSN(ADC,    "r%d, r%d", a->rd, a->rr)
-+INSN(ADIW,   "r%d:r%d, %d", a->rd + 1, a->rd, a->imm)
-+INSN(SUB,    "r%d, r%d", a->rd, a->rr)
-+INSN(SUBI,   "r%d, %d", a->rd, a->imm)
-+INSN(SBC,    "r%d, r%d", a->rd, a->rr)
-+INSN(SBCI,   "r%d, %d", a->rd, a->imm)
-+INSN(SBIW,   "r%d:r%d, %d", a->rd + 1, a->rd, a->imm)
-+INSN(AND,    "r%d, r%d", a->rd, a->rr)
-+INSN(ANDI,   "r%d, %d", a->rd, a->imm)
-+INSN(OR,     "r%d, r%d", a->rd, a->rr)
-+INSN(ORI,    "r%d, %d", a->rd, a->imm)
-+INSN(EOR,    "r%d, r%d", a->rd, a->rr)
-+INSN(COM,    "r%d", a->rd)
-+INSN(NEG,    "r%d", a->rd)
-+INSN(INC,    "r%d", a->rd)
-+INSN(DEC,    "r%d", a->rd)
-+INSN(MUL,    "r%d, r%d", a->rd, a->rr)
-+INSN(MULS,   "r%d, r%d", a->rd, a->rr)
-+INSN(MULSU,  "r%d, r%d", a->rd, a->rr)
-+INSN(FMUL,   "r%d, r%d", a->rd, a->rr)
-+INSN(FMULS,  "r%d, r%d", a->rd, a->rr)
-+INSN(FMULSU, "r%d, r%d", a->rd, a->rr)
-+INSN(DES,    "%d", a->imm)
-+
-+/*
-+ * Branch Instructions
-+ */
-+INSN(RJMP,   ".%+d", a->imm * 2)
-+INSN(IJMP,   "")
-+INSN(EIJMP,  "")
-+INSN(JMP,    "0x%x", a->imm * 2)
-+INSN(RCALL,  ".%+d", a->imm * 2)
-+INSN(ICALL,  "")
-+INSN(EICALL, "")
-+INSN(CALL,   "0x%x", a->imm * 2)
-+INSN(RET,    "")
-+INSN(RETI,   "")
-+INSN(CPSE,   "r%d, r%d", a->rd, a->rr)
-+INSN(CP,     "r%d, r%d", a->rd, a->rr)
-+INSN(CPC,    "r%d, r%d", a->rd, a->rr)
-+INSN(CPI,    "r%d, %d", a->rd, a->imm)
-+INSN(SBRC,   "r%d, %d", a->rr, a->bit)
-+INSN(SBRS,   "r%d, %d", a->rr, a->bit)
-+INSN(SBIC,   "$%d, %d", a->reg, a->bit)
-+INSN(SBIS,   "$%d, %d", a->reg, a->bit)
-+INSN_MNEMONIC(BRBS,  brbs[a->bit], ".%+d", a->imm * 2)
-+INSN_MNEMONIC(BRBC,  brbc[a->bit], ".%+d", a->imm * 2)
-+
-+/*
-+ * Data Transfer Instructions
-+ */
-+INSN(MOV,    "r%d, r%d", a->rd, a->rr)
-+INSN(MOVW,   "r%d:r%d, r%d:r%d", a->rd + 1, a->rd, a->rr + 1, a->rr)
-+INSN(LDI,    "r%d, %d", a->rd, a->imm)
-+INSN(LDS,    "r%d, %d", a->rd, a->imm)
-+INSN(LDX1,   "r%d, X", a->rd)
-+INSN(LDX2,   "r%d, X+", a->rd)
-+INSN(LDX3,   "r%d, -X", a->rd)
-+INSN(LDY2,   "r%d, Y+", a->rd)
-+INSN(LDY3,   "r%d, -Y", a->rd)
-+INSN(LDZ2,   "r%d, Z+", a->rd)
-+INSN(LDZ3,   "r%d, -Z", a->rd)
-+INSN(LDDY,   "r%d, Y+%d", a->rd, a->imm)
-+INSN(LDDZ,   "r%d, Z+%d", a->rd, a->imm)
-+INSN(STS,    "r%d, %d", a->rd, a->imm)
-+INSN(STX1,   "r%d, X", a->rr)
-+INSN(STX2,   "r%d, X+", a->rr)
-+INSN(STX3,   "r%d, -X", a->rr)
-+INSN(STY2,   "r%d, Y+", a->rd)
-+INSN(STY3,   "r%d, -Y", a->rd)
-+INSN(STZ2,   "r%d, Z+", a->rd)
-+INSN(STZ3,   "r%d, -Z", a->rd)
-+INSN(STDY,   "r%d, Y+%d", a->rd, a->imm)
-+INSN(STDZ,   "r%d, Z+%d", a->rd, a->imm)
-+INSN(LPM1,   "")
-+INSN(LPM2,   "r%d, Z", a->rd)
-+INSN(LPMX,   "r%d, Z+", a->rd)
-+INSN(ELPM1,  "")
-+INSN(ELPM2,  "r%d, Z", a->rd)
-+INSN(ELPMX,  "r%d, Z+", a->rd)
-+INSN(SPM,    "")
-+INSN(SPMX,   "Z+")
-+INSN(IN,     "r%d, $%d", a->rd, a->imm)
-+INSN(OUT,    "$%d, r%d", a->imm, a->rd)
-+INSN(PUSH,   "r%d", a->rd)
-+INSN(POP,    "r%d", a->rd)
-+INSN(XCH,    "Z, r%d", a->rd)
-+INSN(LAC,    "Z, r%d", a->rd)
-+INSN(LAS,    "Z, r%d", a->rd)
-+INSN(LAT,    "Z, r%d", a->rd)
-+
-+/*
-+ * Bit and Bit-test Instructions
-+ */
-+INSN(LSR,    "r%d", a->rd)
-+INSN(ROR,    "r%d", a->rd)
-+INSN(ASR,    "r%d", a->rd)
-+INSN(SWAP,   "r%d", a->rd)
-+INSN(SBI,    "$%d, %d", a->reg, a->bit)
-+INSN(CBI,    "%d, %d", a->reg, a->bit)
-+INSN(BST,    "r%d, %d", a->rd, a->bit)
-+INSN(BLD,    "r%d, %d", a->rd, a->bit)
-+INSN_MNEMONIC(BSET,  bset[a->bit], "")
-+INSN_MNEMONIC(BCLR,  bclr[a->bit], "")
-+
-+/*
-+ * MCU Control Instructions
-+ */
-+INSN(BREAK,  "")
-+INSN(NOP,    "")
-+INSN(SLEEP,  "")
-+INSN(WDR,    "")
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index af88bb2..064eee0 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -2976,6 +2976,18 @@ done_generating:
-=20
-     tb->size =3D (ctx.npc - pc_start) * 2;
-     tb->icount =3D num_insns;
-+
-+#ifdef DEBUG_DISAS
-+    if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
-+        && qemu_log_in_addr_range(tb->pc)) {
-+        FILE *fd;
-+        fd =3D qemu_log_lock();
-+        qemu_log("IN: %s\n", lookup_symbol(tb->pc));
-+        log_target_disas(cs, tb->pc, tb->size);
-+        qemu_log("\n");
-+        qemu_log_unlock(fd);
-+    }
-+#endif
- }
-=20
- void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
++#endif /* HW_CHAR_ATMEL_USART_H */
 --=20
 2.7.4
 
