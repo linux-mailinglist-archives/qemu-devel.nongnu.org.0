@@ -2,69 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820EC149BEF
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jan 2020 17:51:29 +0100 (CET)
-Received: from localhost ([::1]:35148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233C5149D70
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Jan 2020 23:58:32 +0100 (CET)
+Received: from localhost ([::1]:37918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ivl8C-0004JT-Iz
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jan 2020 11:51:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35344)
+	id 1ivqrP-0007HM-1d
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jan 2020 17:58:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33312)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ivl7N-0003re-Rz
- for qemu-devel@nongnu.org; Sun, 26 Jan 2020 11:50:39 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpk-0005UF-4V
+ for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:56:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ivl7M-0006Z7-Cv
- for qemu-devel@nongnu.org; Sun, 26 Jan 2020 11:50:37 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:41856)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ivl7M-0006YW-7k
- for qemu-devel@nongnu.org; Sun, 26 Jan 2020 11:50:36 -0500
-Received: by mail-oi1-x243.google.com with SMTP id i1so4483572oie.8
- for <qemu-devel@nongnu.org>; Sun, 26 Jan 2020 08:50:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tIVFwxogzwnrFBuYVAn08RcmIO8VOZNo3EoNm0qw4SE=;
- b=PL15SHowEw5GlMDtU7TBD4PFCwThZ2CP3wdZ2+9tWYgU5yB6l9b4nuBjonnmFtyfxE
- OJQIqebj5iHoTYFEUA4lVAcWBkX5IZWcllqkNYb+WezKfNugAp2wY7F3UbGPjE3g+8D4
- dp0wUMURZLIKJZPHXux0mEYKIpUq5SEIDZjrx6wjdtJJyq/in/4piVzRYDon6JsFaHD6
- ByXeGtiYKzpmvZue62PorD/ZesnUCUaoUgx8netUXPuhXNLnra/SpPlsB5P6PpD0tkjL
- 18DsRNZ9F8y8v0LcgIc8Dox177N86tgNQ0bkE/AO0QNAUv+FAU72VA6sFW4znMLukfzp
- aE4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tIVFwxogzwnrFBuYVAn08RcmIO8VOZNo3EoNm0qw4SE=;
- b=Uk8uSKG/++ueAssoa5IopM5ifvK7lJCAyqfFpZV1UfzFo0K+djsxS+bw9pSgOO7amC
- gWCZjzNJF3hhvWjo8oeo7D3VWn8sbxe1vfPUmozwAoIOXWnB1QVOwFtBVR92Jp1YPdR6
- uZCFFHyGsxkafzivAcIuFuWB5g4sTsuqLBI7ALV7aQcHTBwxUtHyeoCCaZIpmxeEllZq
- kjwgfbfh6oysY5OGFvVTAdUm8cBsUP3O6DdhwqHgvBkrsfS3qfitFP1EEePdZT1Prr8J
- zew50pVYnOxwaMAUZATgHWWXFY1H/C8XeMAMhgwb54Z6hASWFs/0lAin9k9f59nmY2W1
- rYrA==
-X-Gm-Message-State: APjAAAVlPc1jmTFnTHCFf9MPnxSjGNqjkHt+nwJwPkKhy/9+P2cP9RtU
- qwbVMmZHQgvpSPwQu+VYnKlsZUmDCsu824N87+c=
-X-Google-Smtp-Source: APXvYqzu+7nowUD6WGs0Z+UjQMOZWwrZs50vLvLAfBOPc4VMXKnviIPb9uKCnIM4zd51IIYBdeL5zZNuMD38sizxqhU=
-X-Received: by 2002:a05:6808:64e:: with SMTP id
- z14mr4980526oih.79.1580057435307; 
- Sun, 26 Jan 2020 08:50:35 -0800 (PST)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpi-0000LA-9N
+ for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:56:47 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:37669 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1ivqph-0007zK-UJ
+ for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:56:46 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id A18DE1A1526;
+ Sun, 26 Jan 2020 23:55:40 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.14.106])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 83C761A0F00;
+ Sun, 26 Jan 2020 23:55:40 +0100 (CET)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH rc3 00/30] target/avr merger
+Date: Sun, 26 Jan 2020 23:54:41 +0100
+Message-Id: <1580079311-20447-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <324a-5e231180-7-6946d180@169257031>
- <20200120145024.GJ345995@stefanha-x1.localdomain>
- <CAL1e-=in3inmtH=4ZjM2bxnVPJz2GVW4pwTJ8PVkWoqiunPPfA@mail.gmail.com>
- <20200122112818.GA663955@stefanha-x1.localdomain>
-In-Reply-To: <20200122112818.GA663955@stefanha-x1.localdomain>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Sun, 26 Jan 2020 17:50:24 +0100
-Message-ID: <CAL1e-=hJ=vD6Ngy0_w-kGA2X4EP-yni+S0ZTkPKW36moqaBozg@mail.gmail.com>
-Subject: Re: [GSoC/Outreachy QEMU project proposal] Measure and Analyze QEMU
- Performance
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,95 +51,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <Aleksandar.Markovic@rt-rk.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 22, 2020 at 12:28 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->
-> On Tue, Jan 21, 2020 at 03:07:53PM +0100, Aleksandar Markovic wrote:
-> > On Mon, Jan 20, 2020 at 3:51 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> > >
-> > > On Sat, Jan 18, 2020 at 03:08:37PM +0100, Aleksandar Markovic wrote:
-> > > > 3) The community will be given all devised performance measurement methods in the form of easily reproducible step-by-step setup and execution procedures.
-> > >
-> > > Tracking performance is a good idea and something that has not been done
-> > > upstream yet.
-> >
-> > Thanks for the interest, Stefan!
-> >
-> > >  A few questions:
-> > >
-> > >  * Will benchmarks be run automatically (e.g. nightly or weekly) on
-> > >    someone's hardware or does every TCG architecture maintainer need to
-> > >    run them manually for themselves?
-> >
-> > If the community wants it, definitely yes. Once the methodology is
-> > developed, it should be straightforward to setup nightly and/or weekly
-> > benchmarks - that could definitely include sending mails with reports
-> > to the entire list or just individuals or subgroups. The recipient
-> > choice is just a matter or having decent criteria about
-> > appropriateness of information within the message (e.g. not to flood
-> > the list with the data most people are not really interested).
-> >
-> > For linux-user tests, they are typically very quick, and nightly tests
-> > are quite feasible to run. On someone hardware, of course, and
-> > consistently always on the same hardware, if possible. If it makes
-> > sense, one could setup multiple test beds with a variety of hardware
-> > setups.
-> >
-> > For system mode tests, I knoe they are much more difficult to
-> > automate, and, on top of that, there could be greater risk of
-> > hangs/crashes Also, considering the number of machines we support,
-> > those tests could consume much more time - perhaps even one day would
-> > not be sufficient, if we have many machines and boot/shutdown
-> > variants. For these reason, perhaps weekly executions would be more
-> > appropriate for them, and, in general, given greater complexity, the
-> > expectation from system-mode performance tests should be better kept
-> > quite low for now.
-> >
-> > >  * Where will the benchmark result history be stored?
-> > >
-> >
-> > If emailing is set up, the results could be reconstructed from emails.
-> > But, yes, it would be better if the result history is kept somewhere
-> > on an internet-connected file server
->
-> Thanks.  I don't want to overcomplicate this project.  The main thing is
-> to identify the stakeholders (TCG target maintainers?) and make sure
-> they are happy.
->
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Yes, Stefan, TCG target maintainers would be the main stakeholders. To
-some extent, various Machine maintainers would also be stakeholders,
-but they will most likely come back to TCG target maintainers looking
-for solution. In a literal sense, a number of maintainers were
-initially going to be very unhappy seeing the results (for example,
-seeing that the machine or entire target performs poorly compared to
-similar machines/targets), but after a while they should and will
-become happy realizing the problem was identified, and the culprit is
-at least approximately determined.
+This is the AVR port from Michael release (merge) candidate 3.
 
-I intentionally wanted to keep the project description simple in order
-to be realistic and not develop high expectation among any of us. And
-if the student proved to be capable, it will be very easy to add some
-more useful tasks for him in this area, to be included in his/hers
-GSoC/Outreachy activities.
+The series can be found also in this repository:
 
-He had just today one case of performance degradation identified manually:
+https://github.com/AMarkovic/qemu-avr-merger-rc3
 
-https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg06326.html
+History:
 
-This project aims to do these kind of things easier, and possibly in
-an automated way. Howard did this by manual measurements for one
-particular setup, but this project will cover much much more.
+Since v2:
 
-Thanks, Stefan, again for your interest - and everything else!
+- First patch is split into six smaller logical units (net result
+  remains the same)
+- Patch "hw/core/loader: Let load_elf populate the processor-specific
+  flags" was redone to reflect the original intent that was lost in
+  transalation between multiple autors
+- Patch "hw/avr: Add helper to load raw/ELF firmware binaries" was
+  corrected only in one line to rectify type of "e_flags"
+- Patch "target/avr: Add section about AVR into QEMU documentation"
+- Spurious <message-Id:> elements were removed
+- The series was rebased to the latest code
 
-Aleksandar
+Since v1:
 
+- Addressed Thomas comments
+- Fixed a non-critical bug in ATmega (incorrect SRAM base address)
+- Added ELF parsing requested by Aleksandar
+- Dropped default machine (as with the ARM port)
 
+Michael Rolnik (25):
+  target/avr: Add basic parameters for new AVR platform
+  target/avr: Introduce AVR CPU class object
+  target/avr: Add migration support
+  target/avr: Add GDB support
+  target/avr: Introduce AVR features
+  target/avr: Add defintions of AVR core types
+  target/avr: Add instruction helpers
+  target/avr: Add instruction translation - Registers definition
+  target/avr: Add instruction translation - Arithmetic and Logic
+    Instructions
+  target/avr: Add instruction translation - Branch Instructions
+  target/avr: Add instruction translation - Data Transfer Instructions
+  target/avr: Add instruction translation - Bit and Bit-test
+    Instructions
+  target/avr: Add instruction translation - MCU Control Instructions
+  target/avr: Add instruction translation - CPU main translation
+    function
+  target/avr: Add instruction disassembly function
+  hw/char: Add limited support for Atmel USART peripheral
+  hw/timer: Add limited support for Atmel 16 bit timer peripheral
+  hw/misc: Add Atmel power device
+  target/avr: Add section about AVR into QEMU documentation
+  target/avr: Register AVR support with the rest of QEMU
+  target/avr: Add machine none test
+  target/avr: Update MAINTAINERS file
+  target/avr: Update build system
+  tests/boot-serial-test: Test some Arduino boards (AVR based)
+  tests/acceptance: Test the Arduino MEGA2560 board
 
-> Stefan
+Philippe Mathieu-Daud=C3=A9 (5):
+  hw/core/loader: Let load_elf populate the processor-specific flags
+  hw/avr: Add helper to load raw/ELF firmware binaries
+  hw/avr: Add some ATmega microcontrollers
+  hw/avr: Add some Arduino boards
+  .travis.yml: Run the AVR acceptance tests
+
+ .travis.yml                      |    2 +-
+ MAINTAINERS                      |   30 +
+ arch_init.c                      |    2 +
+ configure                        |    7 +
+ default-configs/avr-softmmu.mak  |    5 +
+ gdb-xml/avr-cpu.xml              |   49 +
+ hw/alpha/dp264.c                 |    4 +-
+ hw/arm/armv7m.c                  |    2 +-
+ hw/arm/boot.c                    |    2 +-
+ hw/avr/Kconfig                   |    9 +
+ hw/avr/Makefile.objs             |    3 +
+ hw/avr/arduino.c                 |  151 ++
+ hw/avr/atmel_atmega.c            |  470 ++++++
+ hw/avr/atmel_atmega.h            |   48 +
+ hw/avr/boot.c                    |   74 +
+ hw/avr/boot.h                    |   33 +
+ hw/char/Kconfig                  |    3 +
+ hw/char/Makefile.objs            |    1 +
+ hw/char/atmel_usart.c            |  320 ++++
+ hw/core/generic-loader.c         |    2 +-
+ hw/core/loader.c                 |   37 +-
+ hw/cris/boot.c                   |    2 +-
+ hw/hppa/machine.c                |    4 +-
+ hw/i386/multiboot.c              |    2 +-
+ hw/i386/x86.c                    |    2 +-
+ hw/lm32/lm32_boards.c            |    4 +-
+ hw/lm32/milkymist.c              |    2 +-
+ hw/m68k/an5206.c                 |    2 +-
+ hw/m68k/mcf5208.c                |    2 +-
+ hw/m68k/q800.c                   |    2 +-
+ hw/microblaze/boot.c             |    4 +-
+ hw/mips/mips_fulong2e.c          |    2 +-
+ hw/mips/mips_malta.c             |    3 +-
+ hw/mips/mips_mipssim.c           |    2 +-
+ hw/mips/mips_r4k.c               |    2 +-
+ hw/misc/Kconfig                  |    3 +
+ hw/misc/Makefile.objs            |    2 +
+ hw/misc/atmel_power.c            |  112 ++
+ hw/moxie/moxiesim.c              |    2 +-
+ hw/nios2/boot.c                  |    4 +-
+ hw/openrisc/openrisc_sim.c       |    2 +-
+ hw/pci-host/prep.c               |    3 +-
+ hw/ppc/e500.c                    |    2 +-
+ hw/ppc/mac_newworld.c            |    4 +-
+ hw/ppc/mac_oldworld.c            |    4 +-
+ hw/ppc/ppc440_bamboo.c           |    2 +-
+ hw/ppc/sam460ex.c                |    3 +-
+ hw/ppc/spapr.c                   |    6 +-
+ hw/ppc/virtex_ml507.c            |    2 +-
+ hw/riscv/boot.c                  |    4 +-
+ hw/s390x/ipl.c                   |    7 +-
+ hw/sparc/leon3.c                 |    2 +-
+ hw/sparc/sun4m.c                 |    4 +-
+ hw/sparc64/sun4u.c               |    5 +-
+ hw/timer/Kconfig                 |    3 +
+ hw/timer/Makefile.objs           |    2 +
+ hw/timer/atmel_timer16.c         |  605 ++++++++
+ hw/tricore/tricore_testboard.c   |    2 +-
+ hw/xtensa/sim.c                  |    2 +-
+ hw/xtensa/xtfpga.c               |    2 +-
+ include/disas/dis-asm.h          |   19 +
+ include/elf.h                    |    2 +
+ include/hw/char/atmel_usart.h    |   93 ++
+ include/hw/elf_ops.h             |    6 +-
+ include/hw/loader.h              |   21 +-
+ include/hw/misc/atmel_power.h    |   46 +
+ include/hw/timer/atmel_timer16.h |   94 ++
+ include/sysemu/arch_init.h       |    1 +
+ qapi/machine.json                |    3 +-
+ qemu-doc.texi                    |   51 +
+ target/avr/Makefile.objs         |   34 +
+ target/avr/cpu-param.h           |   37 +
+ target/avr/cpu-qom.h             |   54 +
+ target/avr/cpu.c                 |  826 +++++++++++
+ target/avr/cpu.h                 |  259 ++++
+ target/avr/disas.c               |  246 ++++
+ target/avr/gdbstub.c             |   84 ++
+ target/avr/helper.c              |  347 +++++
+ target/avr/helper.h              |   29 +
+ target/avr/insn.decode           |  182 +++
+ target/avr/machine.c             |  121 ++
+ target/avr/translate.c           | 2997 ++++++++++++++++++++++++++++++++=
+++++++
+ tests/acceptance/machine_avr6.py |   50 +
+ tests/qtest/Makefile.include     |    2 +
+ tests/qtest/boot-serial-test.c   |   11 +
+ tests/qtest/machine-none-test.c  |    1 +
+ 86 files changed, 7613 insertions(+), 81 deletions(-)
+ create mode 100644 default-configs/avr-softmmu.mak
+ create mode 100644 gdb-xml/avr-cpu.xml
+ create mode 100644 hw/avr/Kconfig
+ create mode 100644 hw/avr/Makefile.objs
+ create mode 100644 hw/avr/arduino.c
+ create mode 100644 hw/avr/atmel_atmega.c
+ create mode 100644 hw/avr/atmel_atmega.h
+ create mode 100644 hw/avr/boot.c
+ create mode 100644 hw/avr/boot.h
+ create mode 100644 hw/char/atmel_usart.c
+ create mode 100644 hw/misc/atmel_power.c
+ create mode 100644 hw/timer/atmel_timer16.c
+ create mode 100644 include/hw/char/atmel_usart.h
+ create mode 100644 include/hw/misc/atmel_power.h
+ create mode 100644 include/hw/timer/atmel_timer16.h
+ create mode 100644 target/avr/Makefile.objs
+ create mode 100644 target/avr/cpu-param.h
+ create mode 100644 target/avr/cpu-qom.h
+ create mode 100644 target/avr/cpu.c
+ create mode 100644 target/avr/cpu.h
+ create mode 100644 target/avr/disas.c
+ create mode 100644 target/avr/gdbstub.c
+ create mode 100644 target/avr/helper.c
+ create mode 100644 target/avr/helper.h
+ create mode 100644 target/avr/insn.decode
+ create mode 100644 target/avr/machine.c
+ create mode 100644 target/avr/translate.c
+ create mode 100644 tests/acceptance/machine_avr6.py
+
+--=20
+2.7.4
+
 
