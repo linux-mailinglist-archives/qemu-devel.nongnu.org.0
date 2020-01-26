@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C40149D8B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 00:09:23 +0100 (CET)
-Received: from localhost ([::1]:38120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DBC1149D7E
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 00:04:04 +0100 (CET)
+Received: from localhost ([::1]:38024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ivr1u-0001eh-EF
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jan 2020 18:09:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33571)
+	id 1ivqwl-0000pY-58
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jan 2020 18:04:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33577)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpz-00061m-Eo
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpz-000627-J2
  for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:57:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpy-0000ak-6t
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpy-0000ay-9M
  for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:57:03 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:37960 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:37961 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1ivqpx-0000R6-Ut
+ id 1ivqpx-0000R4-W6
  for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:57:02 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 2BA9D1A1DE3;
+ by mail.rt-rk.com (Postfix) with ESMTP id F17D41A1DEE;
  Sun, 26 Jan 2020 23:56:12 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 144901A1DBD;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id D8EC71A1DBD;
  Sun, 26 Jan 2020 23:56:12 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc3 21/30] target/avr: Add machine none test
-Date: Sun, 26 Jan 2020 23:55:02 +0100
-Message-Id: <1580079311-20447-22-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH rc3 22/30] target/avr: Update MAINTAINERS file
+Date: Sun, 26 Jan 2020 23:55:03 +0100
+Message-Id: <1580079311-20447-23-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1580079311-20447-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1580079311-20447-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -55,35 +55,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
+Include AVR maintaners in MAINTAINERS file
+
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+[rth: Squash ordering fixes from f4bug]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 ---
- tests/qtest/machine-none-test.c | 1 +
- 1 file changed, 1 insertion(+)
+ MAINTAINERS | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-t=
-est.c
-index 5953d31..3e5c74e 100644
---- a/tests/qtest/machine-none-test.c
-+++ b/tests/qtest/machine-none-test.c
-@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] =3D {
-     /* tested targets list */
-     { "arm", "cortex-a15" },
-     { "aarch64", "cortex-a57" },
-+    { "avr", "avr6-avr-cpu" },
-     { "x86_64", "qemu64,apic-id=3D0" },
-     { "i386", "qemu32,apic-id=3D0" },
-     { "alpha", "ev67" },
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f6511d5..0678e12 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -163,6 +163,14 @@ S: Maintained
+ F: hw/arm/smmu*
+ F: include/hw/arm/smmu*
+=20
++AVR TCG CPUs
++M: Michael Rolnik <mrolnik@gmail.com>
++R: Sarah Harris <S.E.Harris@kent.ac.uk>
++S: Maintained
++F: target/avr/
++F: default-configs/avr-softmmu.mak
++F: gdb-xml/avr-cpu.xml
++
+ CRIS TCG CPUs
+ M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+ S: Maintained
+@@ -880,6 +888,22 @@ F: include/hw/*/nrf51*.h
+ F: include/hw/*/microbit*.h
+ F: tests/qtest/microbit-test.c
+=20
++AVR Machines
++-------------
++
++Atmel MCU
++M: Michael Rolnik <mrolnik@gmail.com>
++R: Sarah Harris <S.E.Harris@kent.ac.uk>
++S: Maintained
++F: hw/avr/
++F: hw/char/atmel_usart.c
++F: include/hw/char/atmel_usart.h
++F: hw/timer/atmel_timer16.c
++F: include/hw/timer/atmel_timer16.h
++F: hw/misc/atmel_power.c
++F: include/hw/misc/atmel_power.h
++F: tests/acceptance/machine_avr6.py
++
+ CRIS Machines
+ -------------
+ Axis Dev88
 --=20
 2.7.4
 
