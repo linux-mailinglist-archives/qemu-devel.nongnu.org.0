@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464A5149D77
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 00:00:03 +0100 (CET)
-Received: from localhost ([::1]:37952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6CE3149D87
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 00:07:43 +0100 (CET)
+Received: from localhost ([::1]:38100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ivqsr-0002MM-Uw
-	for lists+qemu-devel@lfdr.de; Sun, 26 Jan 2020 18:00:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33405)
+	id 1ivr0I-0007Xz-P9
+	for lists+qemu-devel@lfdr.de; Sun, 26 Jan 2020 18:07:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33455)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpo-0005Xv-Ha
- for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:56:54 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpr-0005ce-1D
+ for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:56:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpm-0000Qg-Mk
- for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:56:52 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:37949 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ivqpo-0000SH-2W
+ for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:56:54 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:37692 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1ivqpm-0000PS-Ak
- for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:56:50 -0500
+ id 1ivqpn-00082h-MA
+ for qemu-devel@nongnu.org; Sun, 26 Jan 2020 17:56:52 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 62F721A1DAA;
- Sun, 26 Jan 2020 23:55:58 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTP id AC1111A1CB9;
+ Sun, 26 Jan 2020 23:55:48 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 44B351A1D62;
- Sun, 26 Jan 2020 23:55:58 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 890A81A0F00;
+ Sun, 26 Jan 2020 23:55:48 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc3 12/30] target/avr: Add instruction translation - Bit and
- Bit-test Instructions
-Date: Sun, 26 Jan 2020 23:54:53 +0100
-Message-Id: <1580079311-20447-13-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH rc3 02/30] target/avr: Introduce AVR CPU class object
+Date: Sun, 26 Jan 2020 23:54:43 +0100
+Message-Id: <1580079311-20447-3-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1580079311-20447-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1580079311-20447-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -55,317 +54,469 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Michael Rolnik <mrolnik@gmail.com>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-This includes:
-    - LSR, ROR
-    - ASR
-    - SWAP
-    - SBI, CBI
-    - BST, BLD
-    - BSET, BCLR
+This introduces AVR CPU class object and its bacis elements
+and functions.
 
+Co-developed-by: Michael Rolnik <mrolnik@gmail.com>
+Co-developed-by: Sarah Harris <S.E.Harris@kent.ac.uk>
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
+Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 ---
- target/avr/insn.decode |  14 +++
- target/avr/translate.c | 241 +++++++++++++++++++++++++++++++++++++++++++=
+ target/avr/cpu-qom.h |  54 +++++++++++++
+ target/avr/cpu.c     | 220 +++++++++++++++++++++++++++++++++++++++++++++=
 ++++++
- 2 files changed, 255 insertions(+)
+ target/avr/cpu.h     | 134 +++++++++++++++++++++++++++++++
+ 3 files changed, 408 insertions(+)
+ create mode 100644 target/avr/cpu-qom.h
+ create mode 100644 target/avr/cpu.c
 
-diff --git a/target/avr/insn.decode b/target/avr/insn.decode
-index 3f9304f..4ee5586 100644
---- a/target/avr/insn.decode
-+++ b/target/avr/insn.decode
-@@ -158,3 +158,17 @@ XCH             1001 001 rd:5 0100
- LAC             1001 001 rd:5 0110
- LAS             1001 001 rd:5 0101
- LAT             1001 001 rd:5 0111
-+
-+#
-+# Bit and Bit-test Instructions
-+#
-+LSR             1001 010 rd:5 0110
-+ROR             1001 010 rd:5 0111
-+ASR             1001 010 rd:5 0101
-+SWAP            1001 010 rd:5 0010
-+SBI             1001 1010 reg:5 bit:3
-+CBI             1001 1000 reg:5 bit:3
-+BST             1111 101 rd:5 0 bit:3
-+BLD             1111 100 rd:5 0 bit:3
-+BSET            1001 0100 0 bit:3 1000
-+BCLR            1001 0100 1 bit:3 1000
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 4a62d93..58775af 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -2440,3 +2440,244 @@ static bool trans_LAT(DisasContext *ctx, arg_LAT =
-*a)
-=20
-     return true;
- }
-+
+diff --git a/target/avr/cpu-qom.h b/target/avr/cpu-qom.h
+new file mode 100644
+index 0000000..e28b58c
+--- /dev/null
++++ b/target/avr/cpu-qom.h
+@@ -0,0 +1,54 @@
 +/*
-+ * Bit and Bit-test Instructions
++ * QEMU AVR CPU
++ *
++ * Copyright (c) 2019 Michael Rolnik
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
 + */
-+static void gen_rshift_ZNVSf(TCGv R)
++
++#ifndef QEMU_AVR_QOM_H
++#define QEMU_AVR_QOM_H
++
++#include "hw/core/cpu.h"
++
++#define TYPE_AVR_CPU "avr-cpu"
++
++#define AVR_CPU_CLASS(klass) \
++    OBJECT_CLASS_CHECK(AVRCPUClass, (klass), TYPE_AVR_CPU)
++#define AVR_CPU(obj) \
++    OBJECT_CHECK(AVRCPU, (obj), TYPE_AVR_CPU)
++#define AVR_CPU_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(AVRCPUClass, (obj), TYPE_AVR_CPU)
++
++/**
++ *  AVRCPUClass:
++ *  @parent_realize: The parent class' realize handler.
++ *  @parent_reset: The parent class' reset handler.
++ *  @vr: Version Register value.
++ *
++ *  A AVR CPU model.
++ */
++typedef struct AVRCPUClass {
++    /*< private >*/
++    CPUClass parent_class;
++    /*< public >*/
++    DeviceRealize parent_realize;
++    void (*parent_reset)(CPUState *cpu);
++} AVRCPUClass;
++
++typedef struct AVRCPU AVRCPU;
++
++
++#endif /* !defined (QEMU_AVR_CPU_QOM_H) */
+diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+new file mode 100644
+index 0000000..3f3d840
+--- /dev/null
++++ b/target/avr/cpu.c
+@@ -0,0 +1,220 @@
++/*
++ * QEMU AVR CPU
++ *
++ * Copyright (c) 2019 Michael Rolnik
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see
++ * <http://www.gnu.org/licenses/lgpl-2.1.html>
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "qemu/qemu-print.h"
++#include "exec/exec-all.h"
++#include "cpu.h"
++#include "disas/dis-asm.h"
++
++static void avr_cpu_set_pc(CPUState *cs, vaddr value)
 +{
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf =3D R =3D=3D 0=
++    AVRCPU *cpu =3D AVR_CPU(cs);
++
++    cpu->env.pc_w =3D value / 2; /* internally PC points to words */
++}
++
++static bool avr_cpu_has_work(CPUState *cs)
++{
++    AVRCPU *cpu =3D AVR_CPU(cs);
++    CPUAVRState *env =3D &cpu->env;
++
++    return (cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_=
+RESET))
++            && cpu_interrupts_enabled(env);
++}
++
++static void avr_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *=
+tb)
++{
++    AVRCPU *cpu =3D AVR_CPU(cs);
++    CPUAVRState *env =3D &cpu->env;
++
++    env->pc_w =3D tb->pc / 2; /* internally PC points to words */
++}
++
++static void avr_cpu_reset(CPUState *cs)
++{
++    AVRCPU *cpu =3D AVR_CPU(cs);
++    AVRCPUClass *mcc =3D AVR_CPU_GET_CLASS(cpu);
++    CPUAVRState *env =3D &cpu->env;
++
++    mcc->parent_reset(cs);
++
++    env->pc_w =3D 0;
++    env->sregI =3D 1;
++    env->sregC =3D 0;
++    env->sregZ =3D 0;
++    env->sregN =3D 0;
++    env->sregV =3D 0;
++    env->sregS =3D 0;
++    env->sregH =3D 0;
++    env->sregT =3D 0;
++
++    env->rampD =3D 0;
++    env->rampX =3D 0;
++    env->rampY =3D 0;
++    env->rampZ =3D 0;
++    env->eind =3D 0;
++    env->sp =3D 0;
++
++    env->skip =3D 0;
++
++    memset(env->r, 0, sizeof(env->r));
++
++    tlb_flush(cs);
++}
++
++static void avr_cpu_disas_set_info(CPUState *cpu, disassemble_info *info=
+)
++{
++    info->mach =3D bfd_arch_avr;
++    info->print_insn =3D NULL;
++}
++
++static void avr_cpu_realizefn(DeviceState *dev, Error **errp)
++{
++    CPUState *cs =3D CPU(dev);
++    AVRCPUClass *mcc =3D AVR_CPU_GET_CLASS(dev);
++    Error *local_err =3D NULL;
++
++    cpu_exec_realizefn(cs, &local_err);
++    if (local_err !=3D NULL) {
++        error_propagate(errp, local_err);
++        return;
++    }
++    qemu_init_vcpu(cs);
++    cpu_reset(cs);
++
++    mcc->parent_realize(dev, errp);
++}
++
++static void avr_cpu_set_int(void *opaque, int irq, int level)
++{
++    AVRCPU *cpu =3D opaque;
++    CPUAVRState *env =3D &cpu->env;
++    CPUState *cs =3D CPU(cpu);
++
++    uint64_t mask =3D (1ull << irq);
++    if (level) {
++        env->intsrc |=3D mask;
++        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++    } else {
++        env->intsrc &=3D ~mask;
++        if (env->intsrc =3D=3D 0) {
++            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
++        }
++    }
++}
++
++static void avr_cpu_initfn(Object *obj)
++{
++    AVRCPU *cpu =3D AVR_CPU(obj);
++
++    cpu_set_cpustate_pointers(cpu);
++
++#ifndef CONFIG_USER_ONLY
++    /* Set the number of interrupts supported by the CPU. */
++    qdev_init_gpio_in(DEVICE(cpu), avr_cpu_set_int,
++            sizeof(cpu->env.intsrc) * 8);
++#endif
++}
++
++static ObjectClass *avr_cpu_class_by_name(const char *cpu_model)
++{
++    ObjectClass *oc;
++
++    oc =3D object_class_by_name(cpu_model);
++    if (object_class_dynamic_cast(oc, TYPE_AVR_CPU) =3D=3D NULL ||
++        object_class_is_abstract(oc)) {
++        oc =3D NULL;
++    }
++    return oc;
++}
++
++static void avr_cpu_dump_state(CPUState *cs, FILE *f, int flags)
++{
++    AVRCPU *cpu =3D AVR_CPU(cs);
++    CPUAVRState *env =3D &cpu->env;
++    int i;
++
++    qemu_fprintf(f, "\n");
++    qemu_fprintf(f, "PC:    %06x\n", env->pc_w);
++    qemu_fprintf(f, "SP:      %04x\n", env->sp);
++    qemu_fprintf(f, "rampD:     %02x\n", env->rampD >> 16);
++    qemu_fprintf(f, "rampX:     %02x\n", env->rampX >> 16);
++    qemu_fprintf(f, "rampY:     %02x\n", env->rampY >> 16);
++    qemu_fprintf(f, "rampZ:     %02x\n", env->rampZ >> 16);
++    qemu_fprintf(f, "EIND:      %02x\n", env->eind >> 16);
++    qemu_fprintf(f, "X:       %02x%02x\n", env->r[27], env->r[26]);
++    qemu_fprintf(f, "Y:       %02x%02x\n", env->r[29], env->r[28]);
++    qemu_fprintf(f, "Z:       %02x%02x\n", env->r[31], env->r[30]);
++    qemu_fprintf(f, "SREG:    [ %c %c %c %c %c %c %c %c ]\n",
++                        env->sregI ? 'I' : '-',
++                        env->sregT ? 'T' : '-',
++                        env->sregH ? 'H' : '-',
++                        env->sregS ? 'S' : '-',
++                        env->sregV ? 'V' : '-',
++                        env->sregN ? '-' : 'N', /* Zf has negative logic=
  */
-+    tcg_gen_shri_tl(cpu_Nf, R, 7); /* Nf =3D R(7) */
-+    tcg_gen_xor_tl(cpu_Vf, cpu_Nf, cpu_Cf);
-+    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf =3D Nf ^ Vf */
++                        env->sregZ ? 'Z' : '-',
++                        env->sregC ? 'I' : '-');
++    qemu_fprintf(f, "SKIP:    %02x\n", env->skip);
++
++    qemu_fprintf(f, "\n");
++    for (i =3D 0; i < ARRAY_SIZE(env->r); i++) {
++        qemu_fprintf(f, "R[%02d]:  %02x   ", i, env->r[i]);
++
++        if ((i % 8) =3D=3D 7) {
++            qemu_fprintf(f, "\n");
++        }
++    }
++    qemu_fprintf(f, "\n");
 +}
 +
-+/*
-+ *  Shifts all bits in Rd one place to the right. Bit 7 is cleared. Bit =
-0 is
-+ *  loaded into the C Flag of the SREG. This operation effectively divid=
-es an
-+ *  unsigned value by two. The C Flag can be used to round the result.
-+ */
-+static bool trans_LSR(DisasContext *ctx, arg_LSR *a)
++static void avr_cpu_class_init(ObjectClass *oc, void *data)
 +{
-+    TCGv Rd =3D cpu_r[a->rd];
++    DeviceClass *dc =3D DEVICE_CLASS(oc);
++    CPUClass *cc =3D CPU_CLASS(oc);
++    AVRCPUClass *mcc =3D AVR_CPU_CLASS(oc);
 +
-+    tcg_gen_andi_tl(cpu_Cf, Rd, 1);
-+    tcg_gen_shri_tl(Rd, Rd, 1);
-+    /* update status register */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, Rd, 0); /* Zf =3D Rd =3D=3D=
- 0 */
-+    tcg_gen_movi_tl(cpu_Nf, 0);
-+    tcg_gen_mov_tl(cpu_Vf, cpu_Cf);
-+    tcg_gen_mov_tl(cpu_Sf, cpu_Vf);
++    mcc->parent_realize =3D dc->realize;
++    dc->realize =3D avr_cpu_realizefn;
 +
-+    return true;
++    mcc->parent_reset =3D cc->reset;
++    cc->reset =3D avr_cpu_reset;
++
++    cc->class_by_name =3D avr_cpu_class_by_name;
++
++    cc->has_work =3D avr_cpu_has_work;
++    cc->do_interrupt =3D avr_cpu_do_interrupt;
++    cc->cpu_exec_interrupt =3D avr_cpu_exec_interrupt;
++    cc->dump_state =3D avr_cpu_dump_state;
++    cc->set_pc =3D avr_cpu_set_pc;
++#if !defined(CONFIG_USER_ONLY)
++    cc->memory_rw_debug =3D avr_cpu_memory_rw_debug;
++#endif
++#ifdef CONFIG_USER_ONLY
++    cc->handle_mmu_fault =3D avr_cpu_handle_mmu_fault;
++#else
++    cc->get_phys_page_debug =3D avr_cpu_get_phys_page_debug;
++#endif
++    cc->disas_set_info =3D avr_cpu_disas_set_info;
++    cc->tlb_fill =3D avr_cpu_tlb_fill;
++    cc->tcg_initialize =3D avr_cpu_tcg_init;
++    cc->synchronize_from_tb =3D avr_cpu_synchronize_from_tb;
++}
+diff --git a/target/avr/cpu.h b/target/avr/cpu.h
+index d122611..f7a403a 100644
+--- a/target/avr/cpu.h
++++ b/target/avr/cpu.h
+@@ -69,4 +69,138 @@
+=20
+ #define EF_AVR_MACH 0x7F
+=20
++typedef struct CPUAVRState CPUAVRState;
++
++struct CPUAVRState {
++    uint32_t pc_w; /* 0x003fffff up to 22 bits */
++
++    uint32_t sregC; /* 0x00000001 1 bit */
++    uint32_t sregZ; /* 0x00000001 1 bit */
++    uint32_t sregN; /* 0x00000001 1 bit */
++    uint32_t sregV; /* 0x00000001 1 bit */
++    uint32_t sregS; /* 0x00000001 1 bit */
++    uint32_t sregH; /* 0x00000001 1 bit */
++    uint32_t sregT; /* 0x00000001 1 bit */
++    uint32_t sregI; /* 0x00000001 1 bit */
++
++    uint32_t rampD; /* 0x00ff0000 8 bits */
++    uint32_t rampX; /* 0x00ff0000 8 bits */
++    uint32_t rampY; /* 0x00ff0000 8 bits */
++    uint32_t rampZ; /* 0x00ff0000 8 bits */
++    uint32_t eind; /* 0x00ff0000 8 bits */
++
++    uint32_t r[NUMBER_OF_CPU_REGISTERS]; /* 8 bits each */
++    uint32_t sp; /* 16 bits */
++
++    uint32_t skip; /* if set skip instruction */
++
++    uint64_t intsrc; /* interrupt sources */
++    bool fullacc; /* CPU/MEM if true MEM only otherwise */
++
++    uint32_t features;
++};
++
++/**
++ *  AVRCPU:
++ *  @env: #CPUAVRState
++ *
++ *  A AVR CPU.
++ */
++typedef struct AVRCPU {
++    /*< private >*/
++    CPUState parent_obj;
++    /*< public >*/
++
++    CPUNegativeOffsetState neg;
++    CPUAVRState env;
++} AVRCPU;
++
++void avr_cpu_do_interrupt(CPUState *cpu);
++bool avr_cpu_exec_interrupt(CPUState *cpu, int int_req);
++hwaddr avr_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
++
++#define cpu_list avr_cpu_list
++#define cpu_signal_handler cpu_avr_signal_handler
++#define cpu_mmu_index avr_cpu_mmu_index
++
++static inline int avr_cpu_mmu_index(CPUAVRState *env, bool ifetch)
++{
++    return ifetch ? MMU_CODE_IDX : MMU_DATA_IDX;
 +}
 +
-+/*
-+ *  Shifts all bits in Rd one place to the right. The C Flag is shifted =
-into
-+ *  bit 7 of Rd. Bit 0 is shifted into the C Flag.  This operation, comb=
-ined
-+ *  with ASR, effectively divides multi-byte signed values by two. Combi=
-ned with
-+ *  LSR it effectively divides multi-byte unsigned values by two. The Ca=
-rry Flag
-+ *  can be used to round the result.
-+ */
-+static bool trans_ROR(DisasContext *ctx, arg_ROR *a)
++void avr_cpu_tcg_init(void);
++
++void avr_cpu_list(void);
++int cpu_avr_exec(CPUState *cpu);
++int cpu_avr_signal_handler(int host_signum, void *pinfo, void *puc);
++int avr_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size,
++                                int rw, int mmu_idx);
++int avr_cpu_memory_rw_debug(CPUState *cs, vaddr address, uint8_t *buf,
++                                int len, bool is_write);
++
++enum {
++    TB_FLAGS_FULL_ACCESS =3D 1,
++    TB_FLAGS_SKIP =3D 2,
++};
++
++static inline void cpu_get_tb_cpu_state(CPUAVRState *env, target_ulong *=
+pc,
++                                target_ulong *cs_base, uint32_t *pflags)
 +{
-+    TCGv Rd =3D cpu_r[a->rd];
-+    TCGv t0 =3D tcg_temp_new_i32();
++    uint32_t flags =3D 0;
 +
-+    tcg_gen_shli_tl(t0, cpu_Cf, 7);
-+    /* update status register */
-+    tcg_gen_andi_tl(cpu_Cf, Rd, 1);
-+    /* update output register */
-+    tcg_gen_shri_tl(Rd, Rd, 1);
-+    tcg_gen_or_tl(Rd, Rd, t0);
-+    /* update status register */
-+    gen_rshift_ZNVSf(Rd);
++    *pc =3D env->pc_w * 2;
++    *cs_base =3D 0;
 +
-+    tcg_temp_free_i32(t0);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Shifts all bits in Rd one place to the right. Bit 7 is held constant=
-. Bit 0
-+ *  is loaded into the C Flag of the SREG. This operation effectively di=
-vides a
-+ *  signed value by two without changing its sign. The Carry Flag can be=
- used to
-+ *  round the result.
-+ */
-+static bool trans_ASR(DisasContext *ctx, arg_ASR *a)
-+{
-+    TCGv Rd =3D cpu_r[a->rd];
-+    TCGv t0 =3D tcg_temp_new_i32();
-+
-+    /* update status register */
-+    tcg_gen_andi_tl(cpu_Cf, Rd, 1); /* Cf =3D Rd(0) */
-+    /* update output register */
-+    tcg_gen_andi_tl(t0, Rd, 0x80); /* Rd =3D (Rd & 0x80) | (Rd >> 1) */
-+    tcg_gen_shri_tl(Rd, Rd, 1);
-+    tcg_gen_or_tl(Rd, Rd, t0);
-+    /* update status register */
-+    gen_rshift_ZNVSf(Rd);
-+
-+    tcg_temp_free_i32(t0);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Swaps high and low nibbles in a register.
-+ */
-+static bool trans_SWAP(DisasContext *ctx, arg_SWAP *a)
-+{
-+    TCGv Rd =3D cpu_r[a->rd];
-+    TCGv t0 =3D tcg_temp_new_i32();
-+    TCGv t1 =3D tcg_temp_new_i32();
-+
-+    tcg_gen_andi_tl(t0, Rd, 0x0f);
-+    tcg_gen_shli_tl(t0, t0, 4);
-+    tcg_gen_andi_tl(t1, Rd, 0xf0);
-+    tcg_gen_shri_tl(t1, t1, 4);
-+    tcg_gen_or_tl(Rd, t0, t1);
-+
-+    tcg_temp_free_i32(t1);
-+    tcg_temp_free_i32(t0);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Sets a specified bit in an I/O Register. This instruction operates o=
-n
-+ *  the lower 32 I/O Registers -- addresses 0-31.
-+ */
-+static bool trans_SBI(DisasContext *ctx, arg_SBI *a)
-+{
-+    TCGv data =3D tcg_temp_new_i32();
-+    TCGv port =3D tcg_const_i32(a->reg);
-+
-+    gen_helper_inb(data, cpu_env, port);
-+    tcg_gen_ori_tl(data, data, 1 << a->bit);
-+    gen_helper_outb(cpu_env, port, data);
-+
-+    tcg_temp_free_i32(port);
-+    tcg_temp_free_i32(data);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Clears a specified bit in an I/O Register. This instruction operates=
- on
-+ *  the lower 32 I/O Registers -- addresses 0-31.
-+ */
-+static bool trans_CBI(DisasContext *ctx, arg_CBI *a)
-+{
-+    TCGv data =3D tcg_temp_new_i32();
-+    TCGv port =3D tcg_const_i32(a->reg);
-+
-+    gen_helper_inb(data, cpu_env, port);
-+    tcg_gen_andi_tl(data, data, ~(1 << a->bit));
-+    gen_helper_outb(cpu_env, port, data);
-+
-+    tcg_temp_free_i32(data);
-+    tcg_temp_free_i32(port);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Stores bit b from Rd to the T Flag in SREG (Status Register).
-+ */
-+static bool trans_BST(DisasContext *ctx, arg_BST *a)
-+{
-+    TCGv Rd =3D cpu_r[a->rd];
-+
-+    tcg_gen_andi_tl(cpu_Tf, Rd, 1 << a->bit);
-+    tcg_gen_shri_tl(cpu_Tf, cpu_Tf, a->bit);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Copies the T Flag in the SREG (Status Register) to bit b in register=
- Rd.
-+ */
-+static bool trans_BLD(DisasContext *ctx, arg_BLD *a)
-+{
-+    TCGv Rd =3D cpu_r[a->rd];
-+    TCGv t1 =3D tcg_temp_new_i32();
-+
-+    tcg_gen_andi_tl(Rd, Rd, ~(1u << a->bit)); /* clear bit */
-+    tcg_gen_shli_tl(t1, cpu_Tf, a->bit); /* create mask */
-+    tcg_gen_or_tl(Rd, Rd, t1);
-+
-+    tcg_temp_free_i32(t1);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Sets a single Flag or bit in SREG.
-+ */
-+static bool trans_BSET(DisasContext *ctx, arg_BSET *a)
-+{
-+    switch (a->bit) {
-+    case 0x00:
-+        tcg_gen_movi_tl(cpu_Cf, 0x01);
-+        break;
-+    case 0x01:
-+        tcg_gen_movi_tl(cpu_Zf, 0x01);
-+        break;
-+    case 0x02:
-+        tcg_gen_movi_tl(cpu_Nf, 0x01);
-+        break;
-+    case 0x03:
-+        tcg_gen_movi_tl(cpu_Vf, 0x01);
-+        break;
-+    case 0x04:
-+        tcg_gen_movi_tl(cpu_Sf, 0x01);
-+        break;
-+    case 0x05:
-+        tcg_gen_movi_tl(cpu_Hf, 0x01);
-+        break;
-+    case 0x06:
-+        tcg_gen_movi_tl(cpu_Tf, 0x01);
-+        break;
-+    case 0x07:
-+        tcg_gen_movi_tl(cpu_If, 0x01);
-+        break;
++    if (env->fullacc) {
++        flags |=3D TB_FLAGS_FULL_ACCESS;
++    }
++    if (env->skip) {
++        flags |=3D TB_FLAGS_SKIP;
 +    }
 +
-+    return true;
++    *pflags =3D flags;
 +}
 +
-+/*
-+ *  Clears a single Flag in SREG.
-+ */
-+static bool trans_BCLR(DisasContext *ctx, arg_BCLR *a)
++static inline int cpu_interrupts_enabled(CPUAVRState *env)
 +{
-+    switch (a->bit) {
-+    case 0x00:
-+        tcg_gen_movi_tl(cpu_Cf, 0x00);
-+        break;
-+    case 0x01:
-+        tcg_gen_movi_tl(cpu_Zf, 0x00);
-+        break;
-+    case 0x02:
-+        tcg_gen_movi_tl(cpu_Nf, 0x00);
-+        break;
-+    case 0x03:
-+        tcg_gen_movi_tl(cpu_Vf, 0x00);
-+        break;
-+    case 0x04:
-+        tcg_gen_movi_tl(cpu_Sf, 0x00);
-+        break;
-+    case 0x05:
-+        tcg_gen_movi_tl(cpu_Hf, 0x00);
-+        break;
-+    case 0x06:
-+        tcg_gen_movi_tl(cpu_Tf, 0x00);
-+        break;
-+    case 0x07:
-+        tcg_gen_movi_tl(cpu_If, 0x00);
-+        break;
-+    }
-+
-+    return true;
++    return env->sregI !=3D 0;
 +}
++
++static inline uint8_t cpu_get_sreg(CPUAVRState *env)
++{
++    uint8_t sreg;
++    sreg =3D (env->sregC) << 0
++         | (env->sregZ) << 1
++         | (env->sregN) << 2
++         | (env->sregV) << 3
++         | (env->sregS) << 4
++         | (env->sregH) << 5
++         | (env->sregT) << 6
++         | (env->sregI) << 7;
++    return sreg;
++}
++
++static inline void cpu_set_sreg(CPUAVRState *env, uint8_t sreg)
++{
++    env->sregC =3D (sreg >> 0) & 0x01;
++    env->sregZ =3D (sreg >> 1) & 0x01;
++    env->sregN =3D (sreg >> 2) & 0x01;
++    env->sregV =3D (sreg >> 3) & 0x01;
++    env->sregS =3D (sreg >> 4) & 0x01;
++    env->sregH =3D (sreg >> 5) & 0x01;
++    env->sregT =3D (sreg >> 6) & 0x01;
++    env->sregI =3D (sreg >> 7) & 0x01;
++}
++
++bool avr_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr);
++
++typedef CPUAVRState CPUArchState;
++typedef AVRCPU ArchCPU;
++
++#include "exec/cpu-all.h"
++
++const char *avr_flags_to_cpu_type(uint32_t flags, const char *def_cpu_ty=
+pe);
++
+ #endif /* !defined (QEMU_AVR_CPU_H) */
 --=20
 2.7.4
 
