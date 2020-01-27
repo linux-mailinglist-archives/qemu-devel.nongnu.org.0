@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3688E14A348
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 12:49:46 +0100 (CET)
-Received: from localhost ([::1]:43674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A33014A34D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 12:55:10 +0100 (CET)
+Received: from localhost ([::1]:43716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw2tl-0005SC-Av
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 06:49:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56988)
+	id 1iw2yy-0007OS-QU
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 06:55:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58079)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iw2sh-0004S5-Qe
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 06:48:40 -0500
+ (envelope-from <yuri.benditovich@daynix.com>) id 1iw2y7-0006b8-QX
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 06:54:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iw2sg-0003Ro-UY
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 06:48:39 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27144
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iw2sg-0003RK-RD
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 06:48:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580125718;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N5E44Hdp2FnxHUSbbkYd39A738TOKjLOGNAKdY52Hl4=;
- b=ar+yk8jMBZavUg1vWKvRp+ZfyWZJas5VeLm0eh9AYDZ0AUQZB+s9Mfz6cH8alt6T9SOJfP
- ZyFdAojqW8VbMswdSshCaUJaMfdvuJwkRIwYd5hPQyGYuVk0b8t2bWIog/R8MVbQetn3x2
- NwTrZK0guXhfAdpGQpy1m/L1QXIUWcI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-mZQc7LUyOiCc4cmlOTqFCQ-1; Mon, 27 Jan 2020 06:48:36 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E737801E67;
- Mon, 27 Jan 2020 11:48:35 +0000 (UTC)
-Received: from redhat.com (ovpn-116-91.ams2.redhat.com [10.36.116.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A155938C;
- Mon, 27 Jan 2020 11:48:30 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH] migration: Simplify get_qlist
-In-Reply-To: <20200125172449.13175-1-eric.auger@redhat.com> (Eric Auger's
- message of "Sat, 25 Jan 2020 18:24:49 +0100")
-References: <20200125172449.13175-1-eric.auger@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Mon, 27 Jan 2020 12:48:27 +0100
-Message-ID: <87r1zl2k8k.fsf@secure.laptop>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: mZQc7LUyOiCc4cmlOTqFCQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ (envelope-from <yuri.benditovich@daynix.com>) id 1iw2y6-0007CP-Ka
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 06:54:15 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35037)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1iw2y6-0007B1-8e
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 06:54:14 -0500
+Received: by mail-wm1-x344.google.com with SMTP id p17so6757952wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 03:54:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=CBQWlQ+e9xHpvFgCMnkhKOFdTaOlhA9b2acXy9cEd68=;
+ b=FvwT9+enG8MTe8OqRI7Fyf4qr0V1vV2/cgN60daAO5vdIjWjVQPrT3NWfrcgXk6cBj
+ q7eTbF0si5zPuHvYyxjogZVytB/kTIHQhYNjddea7O1+cZhUgDnhvtt8IWT/dTYrJbip
+ zF03lRDCmH8B90nj1Sp9cXVijkDvaYyELhf370NzEavX8kNICJQvtiWOzgpgIsaGUXl2
+ JdLcoVwVo3opfxOCPSPIdE2A/TmE3JW53azApMWXngHZlL4Z99TkAyVE1pYKTYOCIZnl
+ YkL/ojqX5ZXvRJc47ZfKTaAEZ4INDnRqhBpnBG9ARVzRBX+SYwG/d2UFhfeWHprNiD8n
+ +BLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=CBQWlQ+e9xHpvFgCMnkhKOFdTaOlhA9b2acXy9cEd68=;
+ b=tM4iWg6p53oxDx2dmS5oW9XLepzUwQBPobGQuGP2oWDXMRWx0Q0woAXrt2KSZyPxpc
+ 7brPk+CFu8BLBTtl8qcKWtHDqOR6Lz2vrGZeCLtRovZQGUdwBs2yoc867/BRmMQCbQ0R
+ cnCN56V872/r4vWdnvxC7LGTCMNE3NkPY/eVf0M9XPzw30XOFmpJnD+DLIHtUKzWmrH+
+ XmWSp8n9Wl6VdiAUhfkn6o9+cfrH98NzGd6QyUNn0keN2ucQ6fh3ElAZvhkCAiPymTP2
+ HQanSRYCLYPwIt6X7cKvv84GEMBqKWxyuT6RR3N6JSrEAQPdnOj3uy6kI0dJR+2bxrsb
+ vO3Q==
+X-Gm-Message-State: APjAAAXRU0zGNP/gwBaPUtDZWBO7HsF613/vt0i//Q5U5mQ+bUXdFGwT
+ hcqkUOe4XDjTQ2FogtBtZLBQBA==
+X-Google-Smtp-Source: APXvYqzs7Eu5FW5Q7MAFuQ+alsnfSo2Xrc7+/DmQbVd3thnhq66GTyV4fhfbru02Esp21gCndzvGsg==
+X-Received: by 2002:a1c:791a:: with SMTP id l26mr8404349wme.58.1580126052778; 
+ Mon, 27 Jan 2020 03:54:12 -0800 (PST)
+Received: from f2.redhat.com (bzq-79-177-42-131.red.bezeqint.net.
+ [79.177.42.131])
+ by smtp.gmail.com with ESMTPSA id s16sm20866490wrn.78.2020.01.27.03.54.11
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 27 Jan 2020 03:54:12 -0800 (PST)
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+To: dmitry.fleytman@gmail.com,
+	jasowang@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [PATCH 1/2] NetRxPkt: Introduce support for additional hash types
+Date: Mon, 27 Jan 2020 13:54:04 +0200
+Message-Id: <20200127115405.13459-1-yuri.benditovich@daynix.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,27 +75,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: peterx@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- eric.auger.pro@gmail.com
+Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Auger <eric.auger@redhat.com> wrote:
-> Instead of inserting read elements at the head and
-> then reversing the list, it is simpler to add
-> each element after the previous one. Introduce
-> QLIST_RAW_INSERT_AFTER helper and use it in
-> get_qlist().
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Suggested-by: Juan Quintela <quintela@redhat.com>
+Add support for following hash types:
+IPV6 TCP with extension headers
+IPV4 UDP
+IPV6 UDP
+IPV6 UDP with extension headers
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+---
+ hw/net/net_rx_pkt.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ hw/net/net_rx_pkt.h |  6 +++++-
+ hw/net/trace-events |  4 ++++
+ 3 files changed, 51 insertions(+), 1 deletion(-)
 
-It wis really suggested by Dave, I just gave a sample implementation
-O:-)
-
-Later, Juan.
+diff --git a/hw/net/net_rx_pkt.c b/hw/net/net_rx_pkt.c
+index 98a5030ace..b2a06bd27d 100644
+--- a/hw/net/net_rx_pkt.c
++++ b/hw/net/net_rx_pkt.c
+@@ -307,6 +307,20 @@ _net_rx_rss_prepare_tcp(uint8_t *rss_input,
+                           &tcphdr->th_dport, sizeof(uint16_t));
+ }
+ 
++static inline void
++_net_rx_rss_prepare_udp(uint8_t *rss_input,
++                        struct NetRxPkt *pkt,
++                        size_t *bytes_written)
++{
++    struct udp_header *udphdr = &pkt->l4hdr_info.hdr.udp;
++
++    _net_rx_rss_add_chunk(rss_input, bytes_written,
++                          &udphdr->uh_sport, sizeof(uint16_t));
++
++    _net_rx_rss_add_chunk(rss_input, bytes_written,
++                          &udphdr->uh_dport, sizeof(uint16_t));
++}
++
+ uint32_t
+ net_rx_pkt_calc_rss_hash(struct NetRxPkt *pkt,
+                          NetRxPktRssType type,
+@@ -347,6 +361,34 @@ net_rx_pkt_calc_rss_hash(struct NetRxPkt *pkt,
+         trace_net_rx_pkt_rss_ip6_ex();
+         _net_rx_rss_prepare_ip6(&rss_input[0], pkt, true, &rss_length);
+         break;
++    case NetPktRssIpV6TcpEx:
++        assert(pkt->isip6);
++        assert(pkt->istcp);
++        trace_net_rx_pkt_rss_ip6_ex_tcp();
++        _net_rx_rss_prepare_ip6(&rss_input[0], pkt, true, &rss_length);
++        _net_rx_rss_prepare_tcp(&rss_input[0], pkt, &rss_length);
++        break;
++    case NetPktRssIpV4Udp:
++        assert(pkt->isip4);
++        assert(pkt->isudp);
++        trace_net_rx_pkt_rss_ip4_udp();
++        _net_rx_rss_prepare_ip4(&rss_input[0], pkt, &rss_length);
++        _net_rx_rss_prepare_udp(&rss_input[0], pkt, &rss_length);
++        break;
++    case NetPktRssIpV6Udp:
++        assert(pkt->isip6);
++        assert(pkt->isudp);
++        trace_net_rx_pkt_rss_ip6_udp();
++        _net_rx_rss_prepare_ip6(&rss_input[0], pkt, false, &rss_length);
++        _net_rx_rss_prepare_udp(&rss_input[0], pkt, &rss_length);
++        break;
++    case NetPktRssIpV6UdpEx:
++        assert(pkt->isip6);
++        assert(pkt->isudp);
++        trace_net_rx_pkt_rss_ip6_ex_udp();
++        _net_rx_rss_prepare_ip6(&rss_input[0], pkt, true, &rss_length);
++        _net_rx_rss_prepare_udp(&rss_input[0], pkt, &rss_length);
++        break;
+     default:
+         assert(false);
+         break;
+diff --git a/hw/net/net_rx_pkt.h b/hw/net/net_rx_pkt.h
+index 7adf0fad51..048e3461f0 100644
+--- a/hw/net/net_rx_pkt.h
++++ b/hw/net/net_rx_pkt.h
+@@ -133,7 +133,11 @@ typedef enum {
+     NetPktRssIpV4Tcp,
+     NetPktRssIpV6Tcp,
+     NetPktRssIpV6,
+-    NetPktRssIpV6Ex
++    NetPktRssIpV6Ex,
++    NetPktRssIpV6TcpEx,
++    NetPktRssIpV4Udp,
++    NetPktRssIpV6Udp,
++    NetPktRssIpV6UdpEx,
+ } NetRxPktRssType;
+ 
+ /**
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index 6f990ede87..73d4558f7e 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -92,9 +92,13 @@ net_rx_pkt_l3_csum_validate_csum(size_t l3hdr_off, uint32_t csl, uint32_t cntr,
+ 
+ net_rx_pkt_rss_ip4(void) "Calculating IPv4 RSS  hash"
+ net_rx_pkt_rss_ip4_tcp(void) "Calculating IPv4/TCP RSS  hash"
++net_rx_pkt_rss_ip4_udp(void) "Calculating IPv4/UDP RSS  hash"
+ net_rx_pkt_rss_ip6_tcp(void) "Calculating IPv6/TCP RSS  hash"
++net_rx_pkt_rss_ip6_udp(void) "Calculating IPv6/UDP RSS  hash"
+ net_rx_pkt_rss_ip6(void) "Calculating IPv6 RSS  hash"
+ net_rx_pkt_rss_ip6_ex(void) "Calculating IPv6/EX RSS  hash"
++net_rx_pkt_rss_ip6_ex_tcp(void) "Calculating IPv6/EX/TCP RSS  hash"
++net_rx_pkt_rss_ip6_ex_udp(void) "Calculating IPv6/EX/UDP RSS  hash"
+ net_rx_pkt_rss_hash(size_t rss_length, uint32_t rss_hash) "RSS hash for %zu bytes: 0x%X"
+ net_rx_pkt_rss_add_chunk(void* ptr, size_t size, size_t input_offset) "Add RSS chunk %p, %zu bytes, RSS input offset %zu bytes"
+ 
+-- 
+2.17.1
 
 
