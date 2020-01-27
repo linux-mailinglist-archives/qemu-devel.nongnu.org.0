@@ -2,61 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CFA149FEF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 09:37:24 +0100 (CET)
-Received: from localhost ([::1]:41650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74BE149FE4
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 09:31:11 +0100 (CET)
+Received: from localhost ([::1]:41592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ivztb-0007OP-U0
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 03:37:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49716)
+	id 1ivznZ-0004bE-O3
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 03:31:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49041)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ivzrz-0006BQ-H8
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:35:44 -0500
+ (envelope-from <philmd@redhat.com>) id 1ivzmY-0003b9-G4
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:30:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ivzry-0000iC-8m
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:35:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:45786)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ivzry-0000hC-3Y
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:35:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ivzrw-0008Uc-JN
- for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 08:35:40 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 906E62E8078
- for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 08:35:40 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1ivzmW-0002IF-Vb
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:30:05 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26695
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ivzmW-0002Gt-S7
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:30:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580113803;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aDFiPwB3g7qXtkl/qjLNFZ6iknAFbfpVNydSC/I8930=;
+ b=RxQHMGKx2TSneHJMonsstZNBXhufQK8y2HdZQx/Q5f+NFAbMf98JYHpBVJxBDGZgXqwepO
+ 0F7xqNuj5JGVllo7+aqpatHvuGXiPrca6Qt49qxDINtdaoKI5dim0O26sL+oeSsUH3uAkK
+ ntNmK9BdGlu7nxsxHMm5VgHxcOLEkqc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-SW84JxFMOiODcjlo0Ui3sA-1; Mon, 27 Jan 2020 03:30:02 -0500
+Received: by mail-wr1-f71.google.com with SMTP id j13so5715125wrr.20
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 00:30:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aDFiPwB3g7qXtkl/qjLNFZ6iknAFbfpVNydSC/I8930=;
+ b=qY0Xz8xOxKZ+SAUTBjcSVvI8IQNlOsIh/i4o/We25WQC0pYpQAWjF9hTRxrjiJNgMA
+ 0Bgi3K5CeX475k5NtnbwduMKD8IzIdUjyjjf32lFskSFTN85zXTxwIkFCMQFqGx114VA
+ 5oX2hAk9MmUXY7FWvTY4+AF1lET10ziIJpBf1Va5Vo54zoUzQ1CyWrRqD/WZ2MhCvOsT
+ qup1AlHym8FLMM+3BMVzxa3Vp55U02gyMEv1qlK8bMhTBdCyjHSMutu0KVh3CxJIqL1l
+ KWyvGsCyfUkl69LeCAoet1NvuZfKUqZmZUkpYwBWKaVo0bv9wn8Fo1BHnh8zdfnOksPs
+ USdQ==
+X-Gm-Message-State: APjAAAVOy2adUI3wf/jsMjWujilY6M63/soWpcTHjXCrmCY+dgMksQFx
+ dkzcDVuBkhrCQ/MWtEz1AExf/RdAtfnsO18Jrr/gYccYxsrmpRiTEg1D3afwgUoFL8u3XDsyr5T
+ /JpBrYj4OdWzdCzw=
+X-Received: by 2002:adf:f18b:: with SMTP id h11mr21619825wro.56.1580113801263; 
+ Mon, 27 Jan 2020 00:30:01 -0800 (PST)
+X-Google-Smtp-Source: APXvYqymZuRFhovgJfKX4mNY6IOppddHndRu/IRUlXKJOLNPuIJTaMlwoQ4dDOI5d4ywcyNc+gMp4A==
+X-Received: by 2002:adf:f18b:: with SMTP id h11mr21619807wro.56.1580113801065; 
+ Mon, 27 Jan 2020 00:30:01 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id q6sm21437416wrx.72.2020.01.27.00.30.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jan 2020 00:30:00 -0800 (PST)
+Subject: Re: [PATCH] bcm2835_dma: Fix TD mode
+To: Rene Stange <rsta2@o2online.de>, qemu-devel@nongnu.org
+References: <5099495.CBsx362VbF@desktop2>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9d885f77-0bb2-2ab6-cf46-400a0bc2deb8@redhat.com>
+Date: Mon, 27 Jan 2020 09:29:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 27 Jan 2020 08:27:54 -0000
-From: Samuel <samuel@cendio.se>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange npes87184 samuel-t
-X-Launchpad-Bug-Reporter: Samuel (samuel-t)
-X-Launchpad-Bug-Modifier: Samuel (samuel-t)
-References: <157191258679.29920.9268940625941119092.malonedeb@soybean.canonical.com>
-Message-Id: <158011367423.18650.5092374241551535609.malone@gac.canonical.com>
-Subject: [Bug 1849644] Re: QEMU VNC websocket proxy requires non-standard
- 'binary' subprotocol
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5f01cb6219fa05ba59690af8a8714f2818d04362
+In-Reply-To: <5099495.CBsx362VbF@desktop2>
+Content-Language: en-US
+X-MC-Unique: SW84JxFMOiODcjlo0Ui3sA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,47 +90,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1849644 <1849644@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, thanks!
+Hi Rene,
 
--- =
+On 1/24/20 6:55 PM, Rene Stange wrote:
+> TD (two dimensions) DMA mode did not work, because the xlen variable has
+> not been re-initialized before each additional ylen run through in
+> bcm2835_dma_update(). Furthermore ylen has to be increased by one after
+> reading it from the TXFR_LEN register, because a value of zero has to
+> result in one run through of the ylen loop. Both issues have been fixed.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1849644
+What were you running, how can we reproduce?
 
-Title:
-  QEMU VNC websocket proxy requires non-standard 'binary' subprotocol
+> 
+> Signed-off-by: Rene Stange <rsta2@o2online.de>
+> ---
+>   hw/dma/bcm2835_dma.c | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
+> index 1e458d7fba..0881c9506e 100644
+> --- a/hw/dma/bcm2835_dma.c
+> +++ b/hw/dma/bcm2835_dma.c
+> @@ -54,7 +54,7 @@
+>   static void bcm2835_dma_update(BCM2835DMAState *s, unsigned c)
+>   {
+>       BCM2835DMAChan *ch = &s->chan[c];
+> -    uint32_t data, xlen, ylen;
+> +    uint32_t data, xlen, xlen_td, ylen;
+>       int16_t dst_stride, src_stride;
+>   
+>       if (!(s->enable & (1 << c))) {
+> @@ -72,13 +72,13 @@ static void bcm2835_dma_update(BCM2835DMAState *s, unsigned c)
+>   
+>           if (ch->ti & BCM2708_DMA_TDMODE) {
+>               /* 2D transfer mode */
+> -            ylen = (ch->txfr_len >> 16) & 0x3fff;
+> -            xlen = ch->txfr_len & 0xffff;
+> +            ylen = ((ch->txfr_len >> 16) & 0x3fff) + 1;
+> +            xlen_td = xlen = ch->txfr_len & 0xffff;
+>               dst_stride = ch->stride >> 16;
+>               src_stride = ch->stride & 0xffff;
+>           } else {
+>               ylen = 1;
+> -            xlen = ch->txfr_len;
+> +            xlen_td = xlen = ch->txfr_len;
+>               dst_stride = 0;
+>               src_stride = 0;
+>           }
+> @@ -117,6 +117,7 @@ static void bcm2835_dma_update(BCM2835DMAState *s, unsigned c)
+>               if (--ylen != 0) {
+>                   ch->source_ad += src_stride;
+>                   ch->dest_ad += dst_stride;
+> +                xlen = xlen_td;
+>               }
+>           }
+>           ch->cs |= BCM2708_DMA_END;
+> 
 
-Status in QEMU:
-  New
-
-Bug description:
-  When running a machine using "-vnc" and the "websocket" option QEMU
-  seems to require the subprotocol called 'binary'. This subprotocol
-  does not exist in the WebSocket specification. In fact it has never
-  existed in the spec, in one of the very early drafts of WebSockets it
-  was briefly mentioned but it never made it to a final version.
-
-  When the WebSocket server requires a non-standard subprotocol any
-  WebSocket client that works correctly won't be able to connect.
-
-  One example of such a client is noVNC, it tells the server that it
-  doesn't want to use any subprotocol. QEMU's WebSocket proxy doesn't
-  let noVNC connect. If noVNC is modified to ask for 'binary' it will
-  work, this is, however, incorrect behavior.
-
-  Looking at the code in "io/channel-websock.c" it seems it's quite
-  hard-coded to binary:
-
-  Look at line 58 and 433 here:
-  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dio/channel-websock.c
-
-  This code has to be made more dynamic, and shouldn't require binary.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1849644/+subscriptions
 
