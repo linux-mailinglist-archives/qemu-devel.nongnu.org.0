@@ -2,49 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1415914A098
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 10:21:48 +0100 (CET)
-Received: from localhost ([::1]:41940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE5714A072
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 10:07:48 +0100 (CET)
+Received: from localhost ([::1]:41838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw0aZ-0003gM-5x
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 04:21:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55755)
+	id 1iw0N1-00087k-6H
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 04:07:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53578)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iw0Zp-00038h-6F
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 04:21:02 -0500
+ (envelope-from <armbru@redhat.com>) id 1iw0MH-0007gN-Fr
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 04:07:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iw0Zn-0007PS-M3
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 04:21:00 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:43063)
+ (envelope-from <armbru@redhat.com>) id 1iw0MF-00005a-1Y
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 04:07:00 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23695
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iw0Zm-0007Ln-Tw; Mon, 27 Jan 2020 04:20:59 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 485kkZ15R2z9sRR; Mon, 27 Jan 2020 20:20:54 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1580116854;
- bh=wrO7VlkgeV4ypWjsPlmWLbiZrckiZtBRGDxecI+M+lY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=F2p/+giDQiLVHNDNfMY/vlsBb5bnqRbJLXJAq2HH5HyTgTVMq/sBEv/N8HHt/mS5i
- KodAi3wg7zkod6cyGYr5MVJBbaINbOhlI53pxk5iKzNe0d5pRdVQjA4zGxVlWD4n//
- 9FK48dt+ehaG3QLzj6jB3MUSkUcDirH+KkKtfYX0=
-Date: Mon, 27 Jan 2020 19:18:46 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v3.1 74/80] exec: cleanup
- qemu_minrampagesize()/qemu_maxrampagesize()
-Message-ID: <20200127081846.GA34829@umbus.fritz.box>
-References: <1579779525-20065-75-git-send-email-imammedo@redhat.com>
- <1580112408-93354-1-git-send-email-imammedo@redhat.com>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iw0ME-0008VL-R5
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 04:06:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580116017;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G9AFEWdiRXfRPCdQ/5HXfvyjbwcaOra1jkJk2OAgcEg=;
+ b=JnhNlyKsaF4FKjJ49XbtP3CAux+GryV1i3V45RhZJ65qYCGn+rsbAmmi16Djj1L+XxDAYl
+ ZnBgzEEpdfzZ+tgI72nDslVTWEP5FbBu62dhQLli33kK7B++qSb4QzEjvv1VoXVeYQv2WN
+ QD3DZi6vYjuN9xlTMfM7zX9z41fEf0g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-293-crj07tLINDi2xtB-l8Ie1A-1; Mon, 27 Jan 2020 04:06:56 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCBAC8010D6;
+ Mon, 27 Jan 2020 09:06:54 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
+ [10.36.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1913686E22;
+ Mon, 27 Jan 2020 09:06:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A6DD01138600; Mon, 27 Jan 2020 10:06:45 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: Making QEMU easier for management tools and applications
+References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
+ <87h81unja8.fsf@dusky.pond.sub.org>
+ <20191224134139.GD2710539@redhat.com>
+ <30664f6e-81da-a6e6-9b20-037fc91290fb@redhat.com>
+ <878slyej29.fsf@dusky.pond.sub.org>
+ <a41ae09b-021f-2fda-0b03-7b37c5624ab3@redhat.com>
+ <20200123190145.GI657556@redhat.com>
+ <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
+ <20200124095027.GA824327@redhat.com>
+Date: Mon, 27 Jan 2020 10:06:45 +0100
+In-Reply-To: <20200124095027.GA824327@redhat.com> ("Daniel P. =?utf-8?Q?Be?=
+ =?utf-8?Q?rrang=C3=A9=22's?=
+ message of "Fri, 24 Jan 2020 09:50:27 +0000")
+Message-ID: <87a769s1y2.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
-Content-Disposition: inline
-In-Reply-To: <1580112408-93354-1-git-send-email-imammedo@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: crj07tLINDi2xtB-l8Ie1A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,143 +84,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org,
- mdroth@linux.vnet.ibm.com, qemu-ppc@nongnu.org, pbonzini@redhat.com,
- rth@twiddle.net
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
---sdtB3X0nJg68CQEu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Thu, Jan 23, 2020 at 04:07:09PM -0500, John Snow wrote:
+>>=20
+>>=20
+>> On 1/23/20 2:01 PM, Daniel P. Berrang=C3=A9 wrote:
+[...]
+>> > I guess my point is that with a scrap & startover view point, we
+>> > should arguably completely ignore the design question of how to
+>> > flatten JSON for humans/command line, as it is the wrong problem.
+>> > Instead focus on the problem of making use of JSON the best way
+>> > to deal with QEMU both functionally and practically, for humans
+>> > and machines alike.
 
-On Mon, Jan 27, 2020 at 09:06:48AM +0100, Igor Mammedov wrote:
-> Since all RAM is backed by hostmem backends, drop
-> global -mem-path invariant and simplify code.
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
-> v4:
->   * fix access to uninitialized pagesize/hpsize
->     (David Gibson <david@gibson.dropbear.id.au>)
+Note: I understand "JSON" to stand for "JSON and possibly another
+concrete syntax better suited for humans".  Your examples below show
+YAML in that role.
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+[...]
+> Here's one conceptual vision of how a better QEMU might look:
+>
+>   * qemu-runtime-$TARGET
+>
+>     A binary that contains the implementation for the machine
+>     emulator for $TARGET.
+>
+>     This has no command line arguments except for a UNIX
+>     socket path which is a QMP server
+>
+>
+>   * qemu-launcher-$TARGET
+>
+>     A binary that is able to launch qemu-runtime-$TARGET
+>     with jailers active.
+>
+>     This has no command line arguments except for a pair
+>     of UNIX socket paths. One is a QMP server, the other
+>     is the path for the QMP of qemu-runtime-$TARGET.
+>
+>     Commands it processes will be in automatically proxied
+>     through to the qemu-runtime-$TARGET QMP, with appropriate
+>     jailer updates being done in between.
 
-> CC: thuth@redhat.com
-> CC: aik@ozlabs.ru
-> CC: mdroth@linux.vnet.ibm.com
-> CC: david@gibson.dropbear.id.au
-> CC: qemu-ppc@nongnu.org
-> CC: pbonzini@redhat.com
-> CC: rth@twiddle.net
-> ---
->  exec.c | 49 ++++---------------------------------------------
->  1 file changed, 4 insertions(+), 45 deletions(-)
->=20
-> diff --git a/exec.c b/exec.c
-> index 67e520d..9f5421c 100644
-> --- a/exec.c
-> +++ b/exec.c
-> @@ -1668,59 +1668,18 @@ static int find_max_backend_pagesize(Object *obj,=
- void *opaque)
->  long qemu_minrampagesize(void)
->  {
->      long hpsize =3D LONG_MAX;
-> -    long mainrampagesize;
-> -    Object *memdev_root;
-> -    MachineState *ms =3D MACHINE(qdev_get_machine());
-> -
-> -    mainrampagesize =3D qemu_mempath_getpagesize(mem_path);
-> -
-> -    /* it's possible we have memory-backend objects with
-> -     * hugepage-backed RAM. these may get mapped into system
-> -     * address space via -numa parameters or memory hotplug
-> -     * hooks. we want to take these into account, but we
-> -     * also want to make sure these supported hugepage
-> -     * sizes are applicable across the entire range of memory
-> -     * we may boot from, so we take the min across all
-> -     * backends, and assume normal pages in cases where a
-> -     * backend isn't backed by hugepages.
-> -     */
-> -    memdev_root =3D object_resolve_path("/objects", NULL);
-> -    if (memdev_root) {
-> -        object_child_foreach(memdev_root, find_min_backend_pagesize, &hp=
-size);
-> -    }
-> -    if (hpsize =3D=3D LONG_MAX) {
-> -        /* No additional memory regions found =3D=3D> Report main RAM pa=
-ge size */
-> -        return mainrampagesize;
-> -    }
-> -
-> -    /* If NUMA is disabled or the NUMA nodes are not backed with a
-> -     * memory-backend, then there is at least one node using "normal" RA=
-M,
-> -     * so if its page size is smaller we have got to report that size in=
-stead.
-> -     */
-> -    if (hpsize > mainrampagesize &&
-> -        (ms->numa_state =3D=3D NULL ||
-> -         ms->numa_state->num_nodes =3D=3D 0 ||
-> -         ms->numa_state->nodes[0].node_memdev =3D=3D NULL)) {
-> -        static bool warned;
-> -        if (!warned) {
-> -            error_report("Huge page support disabled (n/a for main memor=
-y).");
-> -            warned =3D true;
-> -        }
-> -        return mainrampagesize;
-> -    }
-> +    Object *memdev_root =3D object_resolve_path("/objects", NULL);
-> =20
-> +    object_child_foreach(memdev_root, find_min_backend_pagesize, &hpsize=
-);
->      return hpsize;
->  }
-> =20
->  long qemu_maxrampagesize(void)
->  {
-> -    long pagesize =3D qemu_mempath_getpagesize(mem_path);
-> +    long pagesize =3D 0;
->      Object *memdev_root =3D object_resolve_path("/objects", NULL);
-> =20
-> -    if (memdev_root) {
-> -        object_child_foreach(memdev_root, find_max_backend_pagesize,
-> -                             &pagesize);
-> -    }
-> +    object_child_foreach(memdev_root, find_max_backend_pagesize, &pagesi=
-ze);
->      return pagesize;
->  }
->  #else
+See Paolo's reply.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+>   * qemu-client
+>
+>     A binary that speaks QMP, connects, runs a single command,
+>     disconnects.
 
---sdtB3X0nJg68CQEu
-Content-Type: application/pgp-signature; name="signature.asc"
+The single command is specified how?
 
------BEGIN PGP SIGNATURE-----
+Ah, "Example usage" below shows it's taken from a file argument.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4unOQACgkQbDjKyiDZ
-s5JJXg//YCQvsE1JVDU5f8xvKbTsZpaf4WRmDNbJCbQkY3S/Hbzr40IEQVDR+Wyu
-Q+JmWYCAKbrBwi+S5VpSC8hVovj5CH6AJ9BROEH25QVBVg+gMUhPxq30fOz0Ospw
-25l9cjWVY7rY/Ec1O/6RQ+4Ip41FpK4QJxZY7PoQDuG/5Sb1dFGhGPkHx+2IOosd
-IEUVIDhc6UlQN2+c/IetZTV/WgxjwNloeKNwjUaTNyuMjm5RGi5QuUZqhc0Y+OUc
-1HoRIDU79U4iaPPoAIik5cpqwVK48Hbb7SWutCbI6mmOrYJ7VSqVazEIGgYaBohp
-5in3LgNio3LOyvDjq4jvV8FGcM7AIgqfNZs8DLnp8zaD/2UK0XH6gYTP/m/a4+Mh
-pzxGM/8GzkPBep3j8ORoc4KggmcHALgO3FloOodM/l54WrpMZR+NS/Tp6jCRKRwQ
-qzJRL9YkfCOEvPFx6/aJeidVBVsb7Vi3GHLqKyhZ5BfdErWzEjGVHfpliKHnThTv
-fXv5eU6Fb1w4tI4YU6ZrTwM+3Ka65syLERF7cj+klMERDC37WC/nrC6FWOOPiKly
-kUZCuPsbWwZIdbMiKZtdMDokGjyaPuqP3kZTxGEAsYHyQmcE/3gNuFFxiOU7XY/J
-4GNY6c2TaxHeQfvjQRDwBB/8iZNdG9rLv9QDl7Mim8QoIET0sxI=
-=iQJw
------END PGP SIGNATURE-----
+>     It is used to talk to either qemu-runtime-$TARGET or
+>     qemu-launcher-$TARGET, depending on whether the mgmt app
+>     or user wants to be making use of the jailer facilities
+>     or not. =20
 
---sdtB3X0nJg68CQEu--
+Effectively ditches the CLI in favor of QMP.  One major external host
+interface instead of two.
+
+The connection to "making use of JSON the best way to deal with QEMU
+both functionally and practically, for humans and machines alike" is
+"make it possible to use just QMP for *everything*".  Correct?
+
+We've toyed with the "Just QMP" idea almost since QMP exists.  We never
+went beyond "wouldn't it be nice if".
+
+The main chunk of work is providing the CLI functionality we need in
+QMP.  Requires QAPIfication of the parts that aren't QAPIfied, yet.
+
+Since parts of CLI overlap with QMP, providing CLI functionality need
+not require new QMP commands.  For instance, CLI does cold plug, QMP
+does hot plug.  The existing QMP interface could do both: hot while the
+machine runs, else cold.
+
+Some functionality makes sense only during initial startup.  Implied in
+CLI.  In QMP, it has to be tied to the run state.  No big deal.
+
+"Just QMP" is of course not the only way to do "JSON first".  Another
+one is bringing JSON to the CLI.  I explored that: CLI QAPIfication.
+
+Requires the same QAPIfication as "Just QMP" does.
+
+Where "Just QMP" is a hard compatibility break by design, "JSON in CLI"
+gives us a choice: we can choose to break compatibility, e.g. by
+creating the exact same set of new executables you propose.  Or we can
+try to evolve the existing CLI compatibly.  The latter is a tar pit,
+because the existing CLI is.  But it's a tar pit *we* get to choose.  We
+can't blame "JSON in CLI" for it, only ourselves.
+
+Even though I've worked on "JSON in CLI", I'm not overly attached to it.
+If we decide "Just QMP" is the better path forward, I'll happily go
+along.  I believe the bulk of the work will be the same: QAPIfying
+stuff.
+
+>   * qemu-system-$TARGET
+>
+>     The current binaries that exist today.
+>
+>     qemu-system-$TARGET should not be part of our formal
+>     stability promise. We won't gratuitously / knowingly
+>     break without good reason, but we will accept that
+>     breakage can happen. Stability is only offered by
+>     the qemu-{runtime,launcher}-$TARGET.
+>
+>     Several choices for their future in long term:
+>
+>       - Leave them as-is and basically ignore them
+>         whereever practical going forward, so we
+> =09minimally worry about backcompat breakage
+>
+>       - Plan to re-write them so that they are simply
+>         a shim the forks+execs qemu-runtime-$TARGET
+> =09and does syntax translation from CLI/HMP/QMP.
+>
+>       - Deprecate them with a view to deletion entirely
+>         in $NNN years. For some large-ish value of NNN,
+> =09given how well known they are
+
+How do the other complex executables like qemu-img, qemu-nbd fit into
+this picture?
+
+Do they become redundant somehow for non-human users?
+
+If not, will they get a QMP-only sibling, like qemu-system-$TARGET gets
+qemu-runtime-$TARGET?
+
+> Example usage:
+>
+> 1. Launch the QEMU runtime for the desired target
+>
+>      $ qemu-runtime-x86_64 myvm.sock
+>
+> 2. Load the configuration to define the VM
+>
+>    $ cat myvm.yaml
+>    commands:
+>      - machine_declare:
+>          name: pc-q35-5.0
+> =09 ...
+>      - blockdev_add:
+>          ...
+>      - device_add:
+>          ...
+>      - blockdev_add:
+>          ...
+>      - device_add:
+>          ...
+>    $ qemu-client myvm.sock myvm.yaml
+>
+>
+> 3. Hotplug a disk
+>
+>    $ cat mynewdisk.yaml
+>    commands:
+>      - blockdev_add:
+>          ...
+>      - device_add:
+>          ...
+>    $ qemu-client myvm.sock mynewdisk.yaml
+>
+>
+> 3. Hotunplug a disk
+>
+>    $ cat myolddisk.yaml
+>    commands:
+>      - device_del:
+>          ...
+>      - blockdev_del:
+>          ...
+>    $ qemu-client myvm.sock myolddisk.yaml
+>
+> Using jailers, just means adding in a use of qemu-launcher-$TARGET
+> at the start.
+>
+>
+> Regards,
+> Daniel
+
 
