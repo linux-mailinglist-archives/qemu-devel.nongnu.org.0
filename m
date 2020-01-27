@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C969314A675
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 15:45:40 +0100 (CET)
-Received: from localhost ([::1]:46316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA9314A671
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 15:44:20 +0100 (CET)
+Received: from localhost ([::1]:46287 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw5dz-00074e-Sd
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 09:45:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37509)
+	id 1iw5ch-0004yx-P7
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 09:44:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37551)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1iw5ad-0002lJ-F6
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 09:42:12 -0500
+ (envelope-from <clg@kaod.org>) id 1iw5ah-0002uo-BE
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 09:42:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1iw5ac-0002rB-Aq
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 09:42:11 -0500
-Received: from 3.mo2.mail-out.ovh.net ([46.105.58.226]:53963)
+ (envelope-from <clg@kaod.org>) id 1iw5ag-0002tC-CN
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 09:42:15 -0500
+Received: from 17.mo4.mail-out.ovh.net ([46.105.41.16]:36619)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iw5ac-0002lb-5E
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 09:42:10 -0500
-Received: from player159.ha.ovh.net (unknown [10.108.54.209])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id A074C1C0392
- for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 15:42:04 +0100 (CET)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1iw5ag-0002sZ-62
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 09:42:14 -0500
+Received: from player159.ha.ovh.net (unknown [10.108.35.27])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id C00A422233B
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 15:42:12 +0100 (CET)
 Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
  (Authenticated sender: clg@kaod.org)
- by player159.ha.ovh.net (Postfix) with ESMTPSA id 1E9EEEA8C420;
- Mon, 27 Jan 2020 14:41:56 +0000 (UTC)
+ by player159.ha.ovh.net (Postfix) with ESMTPSA id 400BAEA8C54D;
+ Mon, 27 Jan 2020 14:42:04 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 0/3] ppc/pnv: Add a "hostboot" mode 
-Date: Mon, 27 Jan 2020 15:41:51 +0100
-Message-Id: <20200127144154.10170-1-clg@kaod.org>
+Subject: [PATCH 1/3] ppc/pnv: Add support for HRMOR on Radix host
+Date: Mon, 27 Jan 2020 15:41:52 +0100
+Message-Id: <20200127144154.10170-2-clg@kaod.org>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200127144154.10170-1-clg@kaod.org>
+References: <20200127144154.10170-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 17779085432929618918
+X-Ovh-Tracer-Id: 17781337232201714662
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrfedvgdeijecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhduheelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrfedvgdeijecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdduleehrddvuddvrddvledrudeiieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhduheelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.58.226
+X-Received-From: 46.105.41.16
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,35 +60,33 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+When in HV mode, if EA[0] is 0, the Hypervisor Offset Real Mode
+Register controls the access.
 
-The QEMU PowerNV machine was first designed to start with a skiboot
-firmware at 0x0, which then loads a kernel and ramfs acting as a boot
-loader. Support of the POWER processor improving in QEMU, it has been
-possible to support other firmwares.
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ target/ppc/mmu-radix64.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-These changes add support for firmwares mapped at a different address
-than 0x0. First two patches are fixes/cleanups and the last one adds a
-"hb-mode" option to the machine for this purpose. It needs some
-discussion to see how we want to activate this new mode.
-
-Thanks,
-
-C.
-
-C=C3=A9dric Le Goater (3):
-  ppc/pnv: Add support for HRMOR on Radix host
-  ppc/pnv: remove useless "core-pir" property alias.
-  ppc/pnv: Add support for "hostboot" mode
-
- include/hw/ppc/pnv.h      |  2 ++
- include/hw/ppc/pnv_core.h |  1 +
- hw/ppc/pnv.c              | 28 +++++++++++++++++++++++++++-
- hw/ppc/pnv_core.c         | 31 ++++++++++++++++---------------
- hw/ppc/pnv_lpc.c          |  5 ++++-
- target/ppc/mmu-radix64.c  |  6 ++++++
- 6 files changed, 56 insertions(+), 17 deletions(-)
-
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 066e324464db..224e646c5094 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -235,6 +235,12 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, va=
+ddr eaddr, int rwx,
+         /* In real mode top 4 effective addr bits (mostly) ignored */
+         raddr =3D eaddr & 0x0FFFFFFFFFFFFFFFULL;
+=20
++        /* In HV mode, add HRMOR if top EA bit is clear */
++        if (msr_hv || !env->has_hv_mode) {
++            if (!(eaddr >> 63)) {
++                raddr |=3D env->spr[SPR_HRMOR];
++           }
++        }
+         tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_M=
+ASK,
+                      PAGE_READ | PAGE_WRITE | PAGE_EXEC, mmu_idx,
+                      TARGET_PAGE_SIZE);
 --=20
 2.21.1
 
