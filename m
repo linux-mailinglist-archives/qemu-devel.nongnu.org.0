@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A947D14A9BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 19:22:50 +0100 (CET)
-Received: from localhost ([::1]:49338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A80214A9D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 19:31:49 +0100 (CET)
+Received: from localhost ([::1]:49418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw929-0005oc-95
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 13:22:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33739)
+	id 1iw9Ap-0002FP-Lb
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 13:31:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35919)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <walling@linux.ibm.com>) id 1iw90z-0004yS-6M
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 13:21:39 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iw99o-0001ni-9S
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 13:30:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <walling@linux.ibm.com>) id 1iw90y-0005bW-2n
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 13:21:37 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56086)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <walling@linux.ibm.com>)
- id 1iw90x-0005ax-Q9; Mon, 27 Jan 2020 13:21:36 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00RIF9LH104743; Mon, 27 Jan 2020 13:21:34 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xrhv0rpwy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Jan 2020 13:21:34 -0500
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 00RIFNtk106490;
- Mon, 27 Jan 2020 13:21:33 -0500
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xrhv0rpwj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Jan 2020 13:21:33 -0500
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 00RIIFxn021666;
- Mon, 27 Jan 2020 18:21:32 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma03wdc.us.ibm.com with ESMTP id 2xrda6369h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Jan 2020 18:21:32 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 00RILW1n51118498
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Jan 2020 18:21:32 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 075BC112062;
- Mon, 27 Jan 2020 18:21:32 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EA1D0112066;
- Mon, 27 Jan 2020 18:21:31 +0000 (GMT)
-Received: from [9.56.58.87] (unknown [9.56.58.87])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 27 Jan 2020 18:21:31 +0000 (GMT)
-Subject: Re: [PATCH v6 2/2] s390: diagnose 318 info reset and migration support
-To: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-References: <1579904044-20790-1-git-send-email-walling@linux.ibm.com>
- <1579904044-20790-3-git-send-email-walling@linux.ibm.com>
- <380c4902-e67d-0aff-103d-18815b221ac4@redhat.com>
- <11435889-57d6-ed0b-d410-2f715324a20e@linux.ibm.com>
- <899b67fb-a337-c30d-e250-42399276fe38@redhat.com>
- <20200127182942.4071f54f.cohuck@redhat.com>
- <f6708858-78ea-06d1-427f-704c09e75b3a@redhat.com>
-From: Collin Walling <walling@linux.ibm.com>
-Organization: IBM
-Message-ID: <6d735fe2-5cf8-32da-982d-95af5151eca8@linux.ibm.com>
-Date: Mon, 27 Jan 2020 13:21:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <alex.bennee@linaro.org>) id 1iw99m-0006Uj-4o
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 13:30:43 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37699)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iw99k-0006Ra-FJ
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 13:30:40 -0500
+Received: by mail-wr1-x441.google.com with SMTP id w15so12696311wru.4
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 10:30:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=S3YXwoL82AsiK//EaxvVX9B5IwfKKfgSehznpT7Q2sE=;
+ b=DB4CqfSOCSnhMn9m8oLHJCwkUAYqtVcySk6XWsANNBvkC9fVw7k2ONj+Zab+/Bzf98
+ SNjXgf5gfLMfade96qrDuNSPN9tyJTs6nrVltq3nRa2atHoyWwkgWDvTlFZK6ibI5g99
+ E6f9ZS+qtN0jX47omWTXG28tzO83teYWPTAHlY3cCxoTguPqtPvKngxw7TTwGf2zBsTs
+ naOKJ4t3giSISicPyA2utl2aDHTUkUIT6k8KNOG+73ZuoTURl5CJFILC4pNsuGIQawRC
+ Vn70LzNvMv2H5mYy159RQ3bMWQyf/en7NQzL55qdGtCwpKfvvmTCrWK9sx2yFvYjy4eH
+ J8bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=S3YXwoL82AsiK//EaxvVX9B5IwfKKfgSehznpT7Q2sE=;
+ b=m5J3dwaOtKNZongD9Rsbs4MhQLrxMsKvdvZz4BDujz884VKqdKw2eqbXM+4uexT8BD
+ kHSNMRtDytcePlpi+Fauv2WitSsyZMpwRWggKOPsyyxZqRasuDrRK7QXPbLO6GgZXE4z
+ qupfk6rAUHtpqD7Pku9g2y04rgEFYLutIpVvrLtI6eQOqhRFt9NRm5SbP0oM3/hYX07w
+ W4+ybct0IxsY6cemKWQcmP9kB8U2He+iBDNTRRCf5nckRIhI9y5QsvT2RgnZvpeUF3BG
+ zATACuO5fUyJht5/Y5nwBdXEEUpC4DqZvfvMqN9qZ3liv4zW2c1QrJ0KPkG1JBOd+FRR
+ KsBQ==
+X-Gm-Message-State: APjAAAViWww0wrZbdCBegQH6DLMbXMmFMNfT8lKOq1le7wW0cB4Aq/ku
+ qnmIxWfWoU7ItOnrmByabOkWGw==
+X-Google-Smtp-Source: APXvYqw/JQNEbxTTGGNgozGHkMH+NWeW+Xf9GgyVB2zAFYhzByTuLptOSXj120FNB6a+jJ6cG6dFuA==
+X-Received: by 2002:adf:fa50:: with SMTP id y16mr22251734wrr.183.1580149838881; 
+ Mon, 27 Jan 2020 10:30:38 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 60sm22984022wrn.86.2020.01.27.10.30.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jan 2020 10:30:37 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A93381FF87;
+ Mon, 27 Jan 2020 18:30:36 +0000 (GMT)
+References: <20200124204026.2107-1-alex.bennee@linaro.org>
+ <20200124204026.2107-13-alex.bennee@linaro.org>
+ <7b3d8af5-0c37-9ba9-6503-0f15cba4d451@linaro.org>
+User-agent: mu4e 1.3.7; emacs 27.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v1 12/13] tests/docker: re-enable cross-compiling for
+ x86_64 hosts
+In-reply-to: <7b3d8af5-0c37-9ba9-6503-0f15cba4d451@linaro.org>
+Date: Mon, 27 Jan 2020 18:30:36 +0000
+Message-ID: <87ftg0g3ar.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <f6708858-78ea-06d1-427f-704c09e75b3a@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-27_06:2020-01-24,
- 2020-01-27 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 mlxlogscore=999 clxscore=1015 phishscore=0 suspectscore=0
- priorityscore=1501 bulkscore=0 malwarescore=0 mlxscore=0 impostorscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1911200001 definitions=main-2001270146
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,83 +84,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- rth@twiddle.net
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, f4bug@amsat.org, cota@braap.org, stefanha@redhat.com,
+ marcandre.lureau@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/27/20 12:55 PM, David Hildenbrand wrote:
-> On 27.01.20 18:29, Cornelia Huck wrote:
->> On Mon, 27 Jan 2020 18:09:11 +0100
->> David Hildenbrand <david@redhat.com> wrote:
->>
->>>>>> +static void s390_diag318_reset(DeviceState *dev)
->>>>>> +{
->>>>>> +    if (kvm_enabled())
->>>>>> +        kvm_s390_set_diag318_info(0);
->>>>>> +}
->>>>>> +
->>>>>> +static void s390_diag318_class_init(ObjectClass *klass, void *data)
->>>>>> +{
->>>>>> +    DeviceClass *dc = DEVICE_CLASS(klass);
->>>>>> +
->>>>>> +    dc->reset = s390_diag318_reset;
->>>>>> +    dc->vmsd = &vmstate_diag318;
->>>>>> +    dc->hotpluggable = false;
->>>>>> +    /* Reason: Created automatically during machine instantiation */
->>>>>> +    dc->user_creatable = false;
->>>>>> +}
->>>>>> +
->>>>>> +static const TypeInfo s390_diag318_info = {
->>>>>> +    .class_init = s390_diag318_class_init,
->>>>>> +    .parent = TYPE_DEVICE,
->>>>>> +    .name = TYPE_S390_DIAG318,
->>>>>> +    .instance_size = sizeof(DIAG318State),
->>>>>> +};
->>>>>> +
->>>>>> +static void s390_diag318_register_types(void)
->>>>>> +{
->>>>>> +    type_register_static(&s390_diag318_info);
->>>>>> +}  
->>>>>
->>>>> Do we really need a new device? Can't we simply glue that extended state
->>>>> to the machine state?
->>>>>  
->>>>> -> target/s390x/machine.c  
->>>>>  
->>>>
->>>> Those VM States relate to the CPU state... does it make sense to store the
->>>> diag318 info in a CPU state? (It doesn't seem necessary to store / migrate
->>>> this info for each CPU).  
->>>
->>> I'm sorry, I was looking at the wrong file ...
->>>
->>>>
->>>> Should we store this in the S390CcwMachineState? Or perhaps create a generic
->>>> S390MachineState for information that needs to be stored once and migrated
->>>> once?  
->>>
->>> ... I actually thought we have something like this already. Personally,
->>> I think that would make sense. At least spapr seems to have something
->>> like this already (hw/ppc/spapr.c:spapr_machine_init().
->>>
->>> @Conny?
->>
->> What are you referring to? I only see the one with the FIXME in front
->> of it...
-> 
-> That's the one I mean. The fixme states something about qdev ... but
-> AFAIK that's only applicable if TYPE_DEVICE is involved. So maybe right
-> now there is no other way than registering the vmstate directly.
-> 
 
-Hmm okay. I'll take a look at how spapr does it. I think I've registered a
-vmstate via register_savevm_live() in an earlier version, but had difficulties
-figuring out where to store the data. I'll revisit this approach.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Thanks for the feedback!
+> On 1/24/20 10:40 AM, Alex Benn=C3=A9e wrote:
+>> +../dockerfiles.cross/fedora-i386-build-qemu.docker
+>> \ No newline at end of file
+>
+> Lots of no trailing newlines.  Probably not intentional?
 
--- 
-Respectfully,
-- Collin Walling
+I think that's just a vagary of the git symlink representation.
+
+
+--=20
+Alex Benn=C3=A9e
 
