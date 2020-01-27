@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6D514A3D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 13:28:18 +0100 (CET)
-Received: from localhost ([::1]:44190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13D814A3C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 13:25:55 +0100 (CET)
+Received: from localhost ([::1]:44144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw3V3-00045r-HB
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 07:28:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35309)
+	id 1iw3Sk-0008S3-MN
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 07:25:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35345)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iw3Ny-0000Ij-UC
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:00 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iw3O2-0000L7-U9
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iw3Nv-0006lw-IH
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:57 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26247
+ (envelope-from <cohuck@redhat.com>) id 1iw3O0-0006oJ-LN
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:02 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48573
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iw3Nv-0006lT-8B
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:55 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iw3Nz-0006nH-5a
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580127654;
+ s=mimecast20190719; t=1580127657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gJPpUMTl9xvd/yGy009EG4AZlQWW/AJ/DDOd21vVNMI=;
- b=S9opr43oU+Wy+3Tn63EMrVKGA4PZyWmJo9nnNmACH8ZC5IAyxPFgbxhQxaqpvR8yMJuZuh
- wfO0e07IxxJxtklTO5mpdyhErUGypqt4bvW/E/aYwCWlTWq66SzqfrhuiQDtg+s8Typ6Um
- j6K/HEhhHidD28yC0smaEZqXssYCAS0=
+ bh=k8YucE4UApzky3K+4WAG+uLtPXit8LdY1RPuICjSYcc=;
+ b=WtIU/I+oqvu7+mrZtXrnei7Nc4O2lzsG1gfW04/ZDJJ8XXK6u8nYCBlpCc4VIHbTzEZiRT
+ AMSjEshGMjt1IInBTjtXsDhri7xkNQ6IvLpgcK988jj4rUtSiJ5WJPfoAuK66GvnoXZgdg
+ yR13fFnr2zmigYNk0Wxz6EXQfLuzZ5w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-3Dmfx6KROdSYzPubOzBI5A-1; Mon, 27 Jan 2020 07:20:51 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-417-Msdqpf-iPyS7Xgd6-Dx-3w-1; Mon, 27 Jan 2020 07:20:54 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A91548010C9;
- Mon, 27 Jan 2020 12:20:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C140A13E2;
+ Mon, 27 Jan 2020 12:20:52 +0000 (UTC)
 Received: from localhost (ovpn-116-220.ams2.redhat.com [10.36.116.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D0D2D8702A;
- Mon, 27 Jan 2020 12:20:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6472560BF1;
+ Mon, 27 Jan 2020 12:20:52 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 08/15] target/s390x/kvm: Enable adapter interruption
- suppression again
-Date: Mon, 27 Jan 2020 13:20:09 +0100
-Message-Id: <20200127122016.18752-9-cohuck@redhat.com>
+Subject: [PULL 09/15] target/s390x: Move struct DisasFields definition earlier
+Date: Mon, 27 Jan 2020 13:20:10 +0100
+Message-Id: <20200127122016.18752-10-cohuck@redhat.com>
 In-Reply-To: <20200127122016.18752-1-cohuck@redhat.com>
 References: <20200127122016.18752-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 3Dmfx6KROdSYzPubOzBI5A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: Msdqpf-iPyS7Xgd6-Dx-3w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -71,52 +70,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-The AIS feature has been disabled late in the v2.10 development cycle since
-there were some issues with migration (see commit 3f2d07b3b01ea61126b -
-"s390x/ais: for 2.10 stable: disable ais facility"). We originally wanted
-to enable it again for newer machine types, but apparently we forgot to do
-this so far. Let's do it now for the machines that support proper CPU model=
-s.
+We will want to include the struct in DisasContext.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1756946
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200122101437.5069-1-thuth@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Tested-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200123232248.1800-2-richard.henderson@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/kvm.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/s390x/translate.c | 164 ++++++++++++++++++++-------------------
+ 1 file changed, 83 insertions(+), 81 deletions(-)
 
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index 15260aeb9aac..30112e529c2e 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -365,10 +365,13 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     /*
-      * The migration interface for ais was introduced with kernel 4.13
-      * but the capability itself had been active since 4.12. As migration
--     * support is considered necessary let's disable ais in the 2.10
--     * machine.
-+     * support is considered necessary, we only try to enable this for
-+     * newer machine types if KVM_CAP_S390_AIS_MIGRATION is available.
-      */
--    /* kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0); */
-+    if (cpu_model_allowed() && kvm_kernel_irqchip_allowed() &&
-+        kvm_check_extension(s, KVM_CAP_S390_AIS_MIGRATION)) {
-+        kvm_vm_enable_cap(s, KVM_CAP_S390_AIS, 0);
-+    }
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index b764ec3140ff..7ef228843aa4 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -53,6 +53,89 @@ typedef struct DisasContext DisasContext;
+ typedef struct DisasInsn DisasInsn;
+ typedef struct DisasFields DisasFields;
 =20
-     kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
-     return 0;
++/*
++ * Define a structure to hold the decoded fields.  We'll store each inside
++ * an array indexed by an enum.  In order to conserve memory, we'll arrang=
+e
++ * for fields that do not exist at the same time to overlap, thus the "C"
++ * for compact.  For checking purposes there is an "O" for original index
++ * as well that will be applied to availability bitmaps.
++ */
++
++enum DisasFieldIndexO {
++    FLD_O_r1,
++    FLD_O_r2,
++    FLD_O_r3,
++    FLD_O_m1,
++    FLD_O_m3,
++    FLD_O_m4,
++    FLD_O_m5,
++    FLD_O_m6,
++    FLD_O_b1,
++    FLD_O_b2,
++    FLD_O_b4,
++    FLD_O_d1,
++    FLD_O_d2,
++    FLD_O_d4,
++    FLD_O_x2,
++    FLD_O_l1,
++    FLD_O_l2,
++    FLD_O_i1,
++    FLD_O_i2,
++    FLD_O_i3,
++    FLD_O_i4,
++    FLD_O_i5,
++    FLD_O_v1,
++    FLD_O_v2,
++    FLD_O_v3,
++    FLD_O_v4,
++};
++
++enum DisasFieldIndexC {
++    FLD_C_r1 =3D 0,
++    FLD_C_m1 =3D 0,
++    FLD_C_b1 =3D 0,
++    FLD_C_i1 =3D 0,
++    FLD_C_v1 =3D 0,
++
++    FLD_C_r2 =3D 1,
++    FLD_C_b2 =3D 1,
++    FLD_C_i2 =3D 1,
++
++    FLD_C_r3 =3D 2,
++    FLD_C_m3 =3D 2,
++    FLD_C_i3 =3D 2,
++    FLD_C_v3 =3D 2,
++
++    FLD_C_m4 =3D 3,
++    FLD_C_b4 =3D 3,
++    FLD_C_i4 =3D 3,
++    FLD_C_l1 =3D 3,
++    FLD_C_v4 =3D 3,
++
++    FLD_C_i5 =3D 4,
++    FLD_C_d1 =3D 4,
++    FLD_C_m5 =3D 4,
++
++    FLD_C_d2 =3D 5,
++    FLD_C_m6 =3D 5,
++
++    FLD_C_d4 =3D 6,
++    FLD_C_x2 =3D 6,
++    FLD_C_l2 =3D 6,
++    FLD_C_v2 =3D 6,
++
++    NUM_C_FIELD =3D 7
++};
++
++struct DisasFields {
++    uint64_t raw_insn;
++    unsigned op:8;
++    unsigned op2:8;
++    unsigned presentC:16;
++    unsigned int presentO;
++    int c[NUM_C_FIELD];
++};
++
+ struct DisasContext {
+     DisasContextBase base;
+     const DisasInsn *insn;
+@@ -1005,87 +1088,6 @@ typedef enum {
+ #undef F5
+ #undef F6
+=20
+-/* Define a structure to hold the decoded fields.  We'll store each inside
+-   an array indexed by an enum.  In order to conserve memory, we'll arrang=
+e
+-   for fields that do not exist at the same time to overlap, thus the "C"
+-   for compact.  For checking purposes there is an "O" for original index
+-   as well that will be applied to availability bitmaps.  */
+-
+-enum DisasFieldIndexO {
+-    FLD_O_r1,
+-    FLD_O_r2,
+-    FLD_O_r3,
+-    FLD_O_m1,
+-    FLD_O_m3,
+-    FLD_O_m4,
+-    FLD_O_m5,
+-    FLD_O_m6,
+-    FLD_O_b1,
+-    FLD_O_b2,
+-    FLD_O_b4,
+-    FLD_O_d1,
+-    FLD_O_d2,
+-    FLD_O_d4,
+-    FLD_O_x2,
+-    FLD_O_l1,
+-    FLD_O_l2,
+-    FLD_O_i1,
+-    FLD_O_i2,
+-    FLD_O_i3,
+-    FLD_O_i4,
+-    FLD_O_i5,
+-    FLD_O_v1,
+-    FLD_O_v2,
+-    FLD_O_v3,
+-    FLD_O_v4,
+-};
+-
+-enum DisasFieldIndexC {
+-    FLD_C_r1 =3D 0,
+-    FLD_C_m1 =3D 0,
+-    FLD_C_b1 =3D 0,
+-    FLD_C_i1 =3D 0,
+-    FLD_C_v1 =3D 0,
+-
+-    FLD_C_r2 =3D 1,
+-    FLD_C_b2 =3D 1,
+-    FLD_C_i2 =3D 1,
+-
+-    FLD_C_r3 =3D 2,
+-    FLD_C_m3 =3D 2,
+-    FLD_C_i3 =3D 2,
+-    FLD_C_v3 =3D 2,
+-
+-    FLD_C_m4 =3D 3,
+-    FLD_C_b4 =3D 3,
+-    FLD_C_i4 =3D 3,
+-    FLD_C_l1 =3D 3,
+-    FLD_C_v4 =3D 3,
+-
+-    FLD_C_i5 =3D 4,
+-    FLD_C_d1 =3D 4,
+-    FLD_C_m5 =3D 4,
+-
+-    FLD_C_d2 =3D 5,
+-    FLD_C_m6 =3D 5,
+-
+-    FLD_C_d4 =3D 6,
+-    FLD_C_x2 =3D 6,
+-    FLD_C_l2 =3D 6,
+-    FLD_C_v2 =3D 6,
+-
+-    NUM_C_FIELD =3D 7
+-};
+-
+-struct DisasFields {
+-    uint64_t raw_insn;
+-    unsigned op:8;
+-    unsigned op2:8;
+-    unsigned presentC:16;
+-    unsigned int presentO;
+-    int c[NUM_C_FIELD];
+-};
+-
+ /* This is the way fields are to be accessed out of DisasFields.  */
+ #define have_field(S, F)  have_field1((S), FLD_O_##F)
+ #define get_field(S, F)   get_field1((S), FLD_O_##F, FLD_C_##F)
 --=20
 2.21.1
 
