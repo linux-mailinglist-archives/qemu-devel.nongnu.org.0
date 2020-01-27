@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F3B614A7C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 17:05:36 +0100 (CET)
-Received: from localhost ([::1]:47314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CAC114A7C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 17:06:53 +0100 (CET)
+Received: from localhost ([::1]:47340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw6tL-0001oh-8e
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 11:05:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55513)
+	id 1iw6ua-0003I6-Af
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 11:06:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55729)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1iw6sR-0001Hl-9g
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:04:40 -0500
+ (envelope-from <thuth@redhat.com>) id 1iw6tp-0002fi-HM
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:06:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1iw6sQ-00011a-DS
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:04:39 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59877
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <thuth@redhat.com>) id 1iw6to-0001ua-Dx
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:06:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29686
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1iw6sQ-00010G-8e
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:04:38 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iw6to-0001uQ-Ab
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:06:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580141076;
+ s=mimecast20190719; t=1580141164;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NoKVjHd4fM7JngAm/gJmrlcPTfKhZZiwN/9rnEYuHzE=;
- b=IcezoVoj8azKd3AqqVx4wyZiTvD7xrZHoKvyUHCC1DE1703mLFO+kibkvhPkz3ltZo8oeY
- m6I32oKNQdKZXCF9lLQKPdeF7MDf3degrkl0QWu7YQ/FdGmGaEbCOSk4Ee1SxXnaqV4vL5
- hCl/O06iu0Pbkmlxi0l8jDDvxtXzAfA=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=zIY6K1MaE0r4zDufInqIXB8XjuRww+MPQ9sST5zR4ss=;
+ b=e91ZPsHMXYMKgqg3YwSKvq1R1a+gv/F9upJRMTtpgXaavFEv1r8gXLb1262JeBVjcYjrN1
+ b+b87rscvwgqHrhUE4Q+F6t/FQamo48Z5Bxqoedur9rCwCyQVW2jNlsicfkZqKTsvmqOyb
+ EXh623SLwrJ1/5AKo4ALC3lcHR0TmeA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-TRw9jrdBP52h_rBHSXqLcA-1; Mon, 27 Jan 2020 11:04:33 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-57-zf7F07bBMEKzehgEODRaVw-1; Mon, 27 Jan 2020 11:05:49 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C439A1089A7D;
- Mon, 27 Jan 2020 16:04:32 +0000 (UTC)
-Received: from w520.home (ovpn-116-28.phx2.redhat.com [10.3.116.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9764585747;
- Mon, 27 Jan 2020 16:04:32 +0000 (UTC)
-Date: Mon, 27 Jan 2020 09:04:32 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Graeme Brett Houston <graemebrett.houston@btopenworld.com>
-Subject: Re: Documentation and VFIO on SPARC
-Message-ID: <20200127090432.57e41910@w520.home>
-In-Reply-To: <1fe252e9-5c9d-a572-d3ae-76d51ef77026@btopenworld.com>
-References: <1fe252e9-5c9d-a572-d3ae-76d51ef77026@btopenworld.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA7C78024F5;
+ Mon, 27 Jan 2020 16:05:47 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-117-94.ams2.redhat.com [10.36.117.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ED9E55D9CA;
+ Mon, 27 Jan 2020 16:05:40 +0000 (UTC)
+Subject: Re: [PATCH v4 7/7] tests/boot_linux_console: Tag Emcraft Smartfusion2
+ as running 'u-boot'
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200120235159.18510-1-f4bug@amsat.org>
+ <20200120235159.18510-8-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <addb50ef-b6cd-fec1-2266-f062cae65090@redhat.com>
+Date: Mon, 27 Jan 2020 17:05:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: TRw9jrdBP52h_rBHSXqLcA-1
+In-Reply-To: <20200120235159.18510-8-f4bug@amsat.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: zf7F07bBMEKzehgEODRaVw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,29 +77,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 Jan 2020 14:48:40 +0000
-Graeme Brett Houston <graemebrett.houston@btopenworld.com> wrote:
+On 21/01/2020 00.51, Philippe Mathieu-Daud=C3=A9 wrote:
+> Avocado tags are handy to automatically select tests matching
+> the tags. Since this test also runs U-Boot, tag it.
+>=20
+> We can run all the tests using U-Boot as once with:
+>=20
+>   $ avocado --show=3Dapp run -t u-boot tests/acceptance/
+>   JOB LOG    : avocado/job-results/job-2020-01-21T00.16-ee9344e/job.log
+>    (1/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm=
+_emcraft_sf2: PASS (16.59 s)
+>    (2/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm=
+_raspi2_uboot: PASS (0.47 s)
+>    (3/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_aar=
+ch64_raspi3_uboot: PASS (2.43 s)
+>   RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 =
+| CANCEL 0
+>   JOB TIME   : 19.78 s
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  tests/acceptance/boot_linux_console.py | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
+ot_linux_console.py
+> index 22b360118d..4a4cf9d0ea 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -305,6 +305,7 @@ class BootLinuxConsole(Test):
+>          :avocado: tags=3Darch:arm
+>          :avocado: tags=3Dmachine:emcraft-sf2
+>          :avocado: tags=3Dendian:little
+> +        :avocado: tags=3Du-boot
+>          """
+>          uboot_url =3D ('https://raw.githubusercontent.com/'
+>                       'Subbaraya-Sundeep/qemu-test-binaries/'
+>=20
 
-> 2 Queries:
-> 
-> 1st is there any Good Documentation on Writing VGA devices?
-> 
-> 2nd Can VFIO devices be successfully passed to the sparc engine & 
-> hopefully Solaris 9 actually bootup
-> 
-> I am thinking a Actual PCI SPARC Card with OpenFirmware ROM and other 
-> dev ices i am interested in getting a PCI trace from.
+We should maybe move that test to another file, too, since it is not
+using Linux. Or should we maybe rename boot_linux_console.py to simply
+boot_console.py ?
 
-Re: 2, try it and see.  When developing vfio I tested with an emulated
-powerpc machine as it was one of the few archs other than x86 systems
-that seemed to have functional PCI in QEMU, it worked.  I'm not sure
-what might have broken since then, it's been a long time since I've run
-that test case, but worth a shot.  Thanks,
-
-Alex
+ Thomas
 
 
