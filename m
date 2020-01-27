@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4936014A57D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 14:55:42 +0100 (CET)
-Received: from localhost ([::1]:45538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9E714A585
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 14:57:32 +0100 (CET)
+Received: from localhost ([::1]:45580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw4rd-0001j3-BI
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 08:55:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55361)
+	id 1iw4tP-0003f4-KA
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 08:57:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55751)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iw4qk-00016Y-NJ
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 08:54:48 -0500
+ (envelope-from <robert.foley@linaro.org>) id 1iw4sU-00030l-FD
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 08:56:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iw4qi-0000mM-Fq
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 08:54:46 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55462
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iw4qg-0000kY-Vm
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 08:54:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580133282;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KWNPfH9iDtTfSVr70t15jeD9NtyfQH3GjcSgtfZSHEo=;
- b=IMoXVOIB7NvzCMkCeLzbcpuuiOYbtHDrrtBhNEmfLIhRokTLi6/ja03GJuoXaDdgOXxcll
- QAIZMU4jjYZ3BOtVS8NkpSIPy4Hr/2knXfrrQOO75dWsrvE3QLSrBIR9ElJxwnBatsE2GF
- iUMDnAcK7d3nkw6LIRFCkqhLz+nfqrc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-ImGhBmmQOpaoMpBsEPTQBQ-1; Mon, 27 Jan 2020 08:54:40 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 918DDDB60;
- Mon, 27 Jan 2020 13:54:39 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.86])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F384E88820;
- Mon, 27 Jan 2020 13:54:37 +0000 (UTC)
-Message-ID: <3857b9ee3a4cdf7aae16b065bc8d7ae776f58138.camel@redhat.com>
-Subject: Re: [PATCH 8/9] monitor: move hmp_info_block* to blockdev-hmp-cmds.c
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Date: Mon, 27 Jan 2020 15:54:37 +0200
-In-Reply-To: <878sltowh4.fsf@dusky.pond.sub.org>
-References: <20191120185850.18986-1-mlevitsk@redhat.com>
- <20191120185850.18986-9-mlevitsk@redhat.com>
- <87blsxkahl.fsf@dusky.pond.sub.org>
- <f3b90836b28bcc59876fb3692a8344bd13d01d1d.camel@redhat.com>
- <878sltowh4.fsf@dusky.pond.sub.org>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: ImGhBmmQOpaoMpBsEPTQBQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (envelope-from <robert.foley@linaro.org>) id 1iw4sT-0002zr-0Y
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 08:56:34 -0500
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:33847)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
+ id 1iw4sS-0002yn-OW
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 08:56:32 -0500
+Received: by mail-lj1-x232.google.com with SMTP id x7so10727936ljc.1
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 05:56:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=1uWxbNbiek7eP9l1TB5J6fznoMQZoDDzbH9u8QTUPV8=;
+ b=kUx7UKCpfdT0IDuRUPeoRbtUWDU7N3TM4ShDlSNzNxKYabnarayaSw7yQTOigbUxjU
+ WDgxcBtCaMvj2ubbp7OPXLoILKu4ApbDJlaiMydKAUtPgE1nezsO6pwH0RETSj++vb+b
+ kdtrOq7LpI7CxHXto+Zy9fpxMnsyMO+6TSPS3PVeUDqXmqplYFVWNqv9xqtPXMWC8k7M
+ rr0yYCP/DlIOwqFja31vTb0oDGF5EsQ8+6AtWEYtZThxVjdJn93lArQT1ORKq0ptLHPS
+ frYsPEXN68A28ylBg/OKyXQAmXknmzMUFmZnGA3Yzcv7TJpF3h6dnorMv6pzMl3XpHX1
+ pClw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1uWxbNbiek7eP9l1TB5J6fznoMQZoDDzbH9u8QTUPV8=;
+ b=mnHcRXeFSXg/pz8H7KcrxORGKx46vBkNO0QLRhItCfyRMgqtSLq8oU2inA89w4a7iE
+ tlaeCbAoACIxdVbHxI6ygTT+v1sv3lc4ed5TOMkvoc6XfE6Q5NGhl7avXiS0bzDnc+wO
+ PesRXnVt9r/GQf/Qq11wtTcXJEqqh3RP2zXQPX+mOnJ6veA2BQC9ORCoisCBm/KI3I3o
+ eqNqajbnhTde5buMB5tcj+cCVv/8Ynvqe/imCcKqMAtjbgf74/B9B6/T+y4X2E2XTUEn
+ qCy5aw0j5ASwxM8vqvzEP96XIUFZTOJ1/bmYN6oQyWJo9fYLxDE0fBNZwgwNMTB+EgBe
+ Pn5w==
+X-Gm-Message-State: APjAAAUi3nG8s/yftQmQvgZimHgq947DgA/EOw0koKUV9DjMdJk9vqG2
+ mfuG8i9DHXyaiz2LgooDIxqsBzexiBxhEGVhwTjlXg==
+X-Google-Smtp-Source: APXvYqxVrc7cZLe8cNWulVFXZjsVruMCREgolAxhCYB9WRklW1WCoUGOaGiyoJH5kOp8I+rCxJ5jUN5TNOXH7Ac+1Jk=
+X-Received: by 2002:a2e:81d0:: with SMTP id s16mr10453207ljg.166.1580133391166; 
+ Mon, 27 Jan 2020 05:56:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20200124165335.422-1-robert.foley@linaro.org>
+ <20200124165335.422-5-robert.foley@linaro.org>
+ <87sgk1f5ko.fsf@linaro.org>
+In-Reply-To: <87sgk1f5ko.fsf@linaro.org>
+From: Robert Foley <robert.foley@linaro.org>
+Date: Mon, 27 Jan 2020 08:56:20 -0500
+Message-ID: <CAEyhzFvf2YcuKfB2+RS+iU0JBSMLn1eGhLq6VVKoks-5WPgGCA@mail.gmail.com>
+Subject: Re: [PATCH 4/8] tests/vm: Add configuration to basevm.py
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::232
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,136 +75,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-block@nongnu.org,
+Cc: fam@euphon.net, Peter Puhov <peter.puhov@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2020-01-27 at 14:33 +0100, Markus Armbruster wrote:
-> Maxim Levitsky <mlevitsk@redhat.com> writes:
-> 
-> > On Wed, 2019-11-27 at 09:08 +0100, Markus Armbruster wrote:
-> > > I think it makes sense to collect *all* block HMP stuff here.
-> > > 
-> > > Left in monitor/hmp-cmds.c: hmp_eject(), hmp_nbd_server_start(), ...
-> > > 
-> > > I guess hmp_change() has to stay there, because it's both block and ui.
-> > > 
-> > > Left in blockdev.c: hmp_drive_add_node().
-> > 
-> > Thank you very much. I added these and bunch more to my patchset.
-> > 
-> > > 
-> > > Quick grep for possible files to check:
-> > > 
-> > > $ git-grep -l 'monitor[a-z_-]*.h' | xargs grep -l 'block[a-z_-]*\.h'
-> > > MAINTAINERS
-> > > blockdev-hmp-cmds.c
-> > > 
-> > > blockdev.c
-> > 
-> > hmp_drive_add_node is there and I moved it too.
-> > 
-> > 
-> > > cpus.c
-> > 
-> > Nothing suspicious
-> > 
-> > > dump/dump.c
-> > 
-> > qmp_dump_guest_memory is only monitor reference there I think
-> > 
-> > > hw/display/qxl.c
-> > 
-> > No way that is related to the block layer
-> > 
-> > > hw/scsi/vhost-scsi.c
-> > 
-> > All right, the monitor_fd_param is an interesting thing.
-> > Not related to block though.
-> > 
-> > > hw/usb/dev-storage.c
-> > 
-> > All right, this for no reason includes monitor/monitor.h,
-> > added patch to remove this because why not.
-> > 
-> > > include/monitor/monitor.h
-> > 
-> > Nothing suspicious
-> > 
-> > > migration/migration.c
-> > 
-> > Nothing suspicious
-> > 
-> > > monitor/hmp-cmds.c
-> > 
-> > Added hmp_qemu_io
-> > 
-> > Maybe I need to add hmp_delvm too?
-> > savevm/delvm do old style snapshots
-> > which are stored to the first block device
-> 
-> One foot in the block subsystem, the other foot in the migration
-> subsystem.  I'm not sure where this should go.  Kevin?
-> 
-> > > monitor/hmp.c
-> > 
-> > There are some block references in monitor_find_completion,
-> > but I guess it is not worth it to move that
-> > 
-> > > monitor/misc.c
-> > 
-> > vm_completion for delvm/loadvm.
-> 
-> Having completion close to whatever it completes would be nice, I guess.
-> 
-> When in doubt, leave the savevm / delvm stuff alone.
-Yep.
+On Mon, 27 Jan 2020 at 07:26, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+> > -SSH_KEY =3D open(os.path.join(os.path.dirname(__file__),
+> > -               "..", "keys", "id_rsa")).read()
+> > -SSH_PUB_KEY =3D open(os.path.join(os.path.dirname(__file__),
+> > -                   "..", "keys", "id_rsa.pub")).read()
+> > -
+> > +SSH_KEY_FILE =3D os.path.join(os.path.dirname(__file__),
+> > +               "..", "keys", "id_rsa")
+> > +SSH_PUB_KEY_FILE =3D os.path.join(os.path.dirname(__file__),
+> > +                   "..", "keys", "id_rsa.pub")
+> > +SSH_KEY =3D open(SSH_KEY_FILE).read()
+> > +SSH_PUB_KEY =3D open(SSH_PUB_KEY_FILE).read()
+>
+> Why are we tracking more information about the keyfile than we used to
+> now? Is this because it's harder to embed keys over paths in the config?
+We now allow the user to override the ssh keys.  Because of this we
+need to track
+the filename separately from the contents of the file, so that we can
+put this default
+filename into the DEFAULT_CONFIG below.
+We also keep the original SSH_PUB_KEY since it is still
+used by some pre-existing VM scripts, and we did not want to break backward=
+s
+compatibility for those scripts.
+Actually upon further inspection, it looks like we can delete SSH_KEY,
+this is no longer needed. :)
+>
+> > +
+> > +# This is the standard configuration.
+> > +# Any or all of these can be overridden by
+> > +# passing in a config argument to the VM constructor.
+> > +DEFAULT_CONFIG =3D {
+> > +    'cpu'             : "max",
+> > +    'machine'         : 'pc',
+> > +    'guest_user'      : "qemu",
+> > +    'guest_pass'      : "qemupass",
+> > +    'root_pass'       : "qemupass",
+> > +    'ssh_key_file'    : SSH_KEY_FILE,
+> > +    'ssh_pub_key_file': SSH_PUB_KEY_FILE,
+> > +    'memory'          : "4G",
+> > +    'extra_args'      : [],
+> > +    'dns'             : "",
+> > +    'ssh_port'        : 0,
+> > +    'install_cmds'    : "",
+> > +    'boot_dev_type'   : "block",
+> > +    'ssh_timeout'     : 1,
+> > +}
+> > +BOOT_DEVICE =3D {
+> > +    'block' :  "-drive file=3D{},if=3Dnone,id=3Ddrive0,cache=3Dwriteba=
+ck "\
+> > +               "-device virtio-blk,drive=3Ddrive0,bootindex=3D0",
+> > +    'scsi'  :  "-device virtio-scsi-device,id=3Dscsi "\
+> > +               "-drive file=3D{},format=3Draw,if=3Dnone,id=3Dhd0 "\
+> > +               "-device scsi-hd,drive=3Dhd0,bootindex=3D0",
+> > +}
+> >  class BaseVM(object):
+> > -    GUEST_USER =3D "qemu"
+> > -    GUEST_PASS =3D "qemupass"
+> > -    ROOT_PASS =3D "qemupass"
+>
+> Don't we need these?
+We don't need these since we moved them up to the new DEFAULT_CONFIG.
+These are essentially the default values now since the user
+can now override these.
+We also handle the cases where these are accessed by existing scripts,
+and ensuring backwards compatibility by referencing these values in the
+_config (see the code in __getattr__).
 
-> 
-> > > monitor/qmp-cmds.c
-> > 
-> > Nothing hmp related at first glance.
-> > 
-> > > qdev-monitor.c
-> > 
-> > blk_by_qdev_id - used by both hmp and qmp code
-> > 
-> > > vl.c
-> > 
-> > Hopefully nothing hmp+block related, I searched the file for
-> > few things but I can't be fully sure.
-> > Out of the curiosity do you know why this file is called like that,
-> > since it hosts qemu main(), shouldn't it be called main.c ?
-> 
-> Its first commit 0824d6fc67 "for hard core developpers only: a new user
-> mode linux project :-)" calls the executable "vl", and has
-> 
->     void help(void)
->     {
->         printf("Virtual Linux version " QEMU_VERSION ", Copyright (c) 2003 Fabrice Bellard\n"
->                "usage: vl [-h] bzImage initrd [kernel parameters...]\n"
->                "\n"
->     [...]
->         exit(1);
->     }
-> 
-> The executable was renamed soon after.  I guess the source file name has
-> made people wonder ever since.
-Nice :-)
+This actually brings up a good point that I wanted to mention.
+Our initial plan was to leave the existing VM scripts unchanged.
+We were thinking that it would also clarify things for a later patch to
+simply change references to ROOT_PASS, GUEST_USER/ PASS,
+and SSH_PUB_KEY, within the existing VM scripts (centos, openbsd, etc)
+to use _config, and then we could get rid of the __getattr__ change entirel=
+y.
+Actually, we could even put it at the end of this series too.
+I think I will add this change to the next version of this patch unless you
+think we should keep it separate?
+> >
+> >      envvars =3D [
+> >          "https_proxy",
+> > @@ -59,19 +84,26 @@ class BaseVM(object):
+> >      poweroff =3D "poweroff"
+> >      # enable IPv6 networking
+> >      ipv6 =3D True
+> > -    def __init__(self, debug=3DFalse, vcpus=3DNone):
+> > +    def __init__(self, debug=3DFalse, vcpus=3DNone, config=3DNone):
+> >          self._guest =3D None
+> > +        # Allow input config to override defaults.
+> > +        self._config =3D DEFAULT_CONFIG.copy()
+> > +        if config !=3D None:
+> > +            self._config.update(config)
+> >          self._tmpdir =3D os.path.realpath(tempfile.mkdtemp(prefix=3D"v=
+m-test-",
+> >                                                           suffix=3D".tm=
+p",
+> >                                                           dir=3D"."))
+> >          atexit.register(shutil.rmtree, self._tmpdir)
+> > -
+> > +        self._config['ssh_key'] =3D \
+> > +            open(self._config['ssh_key_file']).read().rstrip()
+> > +        self._config['ssh_pub_key'] =3D \
+> > +            open(self._config['ssh_pub_key_file']).read().rstrip()
+> >          self._ssh_key_file =3D os.path.join(self._tmpdir, "id_rsa")
+> > -        open(self._ssh_key_file, "w").write(SSH_KEY)
+> > +        open(self._ssh_key_file, "w").write(self._config['ssh_key'])
+> >          subprocess.check_call(["chmod", "600", self._ssh_key_file])
+> >
+> >          self._ssh_pub_key_file =3D os.path.join(self._tmpdir, "id_rsa.=
+pub")
+> > -        open(self._ssh_pub_key_file, "w").write(SSH_PUB_KEY)
+> > +        open(self._ssh_pub_key_file,
+> >          "w").write(self._config['ssh_pub_key'])
+>
+> Read as a block I find this confusing:
+>
+>         self._config['ssh_key'] =3D \
+>             open(self._config['ssh_key_file']).read().rstrip()
+>         self._config['ssh_pub_key'] =3D \
+>             open(self._config['ssh_pub_key_file']).read().rstrip()
+>         self._ssh_key_file =3D os.path.join(self._tmpdir, "id_rsa")
+>         open(self._ssh_key_file, "w").write(self._config['ssh_key'])
+>         subprocess.check_call(["chmod", "600", self._ssh_key_file])
+>
+>         self._ssh_pub_key_file =3D os.path.join(self._tmpdir, "id_rsa.pub=
+")
+>         open(self._ssh_pub_key_file, "w").write(self._config['ssh_pub_key=
+'])
+>
+> We read config['ssh_key_file'] but write out _ssh_pub_key_file which
+> doesn't seem related.
+I agree we can clarify this. :) Most of this logic was here previously,
+we're just adding the parameterization of the keys.
+This is the current flow:
+1) copy the key file (config['ssh_key_file']) to a temporary file
+(_ssh_pub_key_file)
+2) chmod the key file so that ssh is happy with the permissions.
+Without this chmod ssh will refuse to use the key file.
+It seems to make sense to add a comment here to clarify all this.
+It also seems like we could change the name _ssh_pub_key_file to
+_ssh_tmp_pub_key_file
+to make it more clear it is a temp file.
+What do you think, would that be enough to clarify things?
 
-> 
-> > 
-> > Best regards and thanks for the detailed review!
-> > 	Maxim Levitsky
-> 
-> You're welcome!
+Thanks & Regards,
+-Rob
+> <snip>
 
-I hope we can move forward with this patch series as well.
-
-Best regards,
-	Maxim Levitsky
-
-
+>
+> --
+> Alex Benn=C3=A9e
 
