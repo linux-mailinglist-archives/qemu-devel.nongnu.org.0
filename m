@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CDFF14A6E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 16:05:14 +0100 (CET)
-Received: from localhost ([::1]:46604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1BD14A6FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 16:14:44 +0100 (CET)
+Received: from localhost ([::1]:46686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw5wu-0002Hc-QT
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 10:05:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42606)
+	id 1iw667-0005LR-Cz
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 10:14:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iw5vt-0001VR-A9
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 10:04:11 -0500
+ (envelope-from <jsuvorov@redhat.com>) id 1iw64k-0004IR-Oo
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 10:13:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iw5vq-0007cO-8y
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 10:04:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34473
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <jsuvorov@redhat.com>) id 1iw64i-0000kW-Aj
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 10:13:18 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56835
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iw5vp-0007at-R5
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 10:04:06 -0500
+ (Exim 4.71) (envelope-from <jsuvorov@redhat.com>) id 1iw64i-0000k4-5l
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 10:13:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580137445;
+ s=mimecast20190719; t=1580137995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xo5zbZlHZbJ2t2WdV1ju8mBi1UCFiVEluP3IfP0hbug=;
- b=K2Eqf2idQqLby/2jtCoI5YAoHzFPQmmsin8AJgAqJWVUgcFTbKs/hFy9Woz97K022pcuQk
- lUtQsPVIpCHdAb7C1/+j9J9v8H/MqOtGt5r/cdR65ndWSHvKCaAJlARzJGOq47VbnbR1SZ
- njlu2Ov2g3SsBt1EoiMtasmFYf4BWH8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-kBFQ6xCwMwebjrQyEIHIew-1; Mon, 27 Jan 2020 10:04:02 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F7121800D41;
- Mon, 27 Jan 2020 15:04:00 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE92260BF4;
- Mon, 27 Jan 2020 15:03:53 +0000 (UTC)
-Date: Mon, 27 Jan 2020 16:03:52 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Salil Mehta <salil.mehta@huawei.com>
-Subject: Re: [Question] Regarding containers
- "unattached/peripheral/anonymous" - their relation with hot(un)plug of
- devices
-Message-ID: <20200127160352.54f95875@redhat.com>
-In-Reply-To: <b8fccc99d7344b2485c0db76886af9c8@huawei.com>
-References: <70446b6cbf5442488a40fe809f38c3c8@huawei.com>
- <20200124145404.1d15209e@redhat.com>
- <77dbc712482545078986adcd72567630@huawei.com>
- <20200124170645.3d794ac6@redhat.com>
- <b8fccc99d7344b2485c0db76886af9c8@huawei.com>
+ bh=H8DCnK9pq2pZ0r1WtlEWrRQo7/UslgIbA+I3afA298g=;
+ b=a3Z6M+spRUtqZRHotmUnK0QuJbbQBwLCM3IBkmEhiAbJb27HQ8JI5DSXDiJD747R/2iPYe
+ gISDmjxmR6adgM5psBPlC5z7nFVVedXheuACq8MB1U5X3Zh+IFi21yPr3OqB8DwrxEWpVL
+ 7MLCAaxSR/pXNiDue3NCZSnI3fu0Gsg=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-62-7h_jBX31OIaLAVW-Pw-WUQ-1; Mon, 27 Jan 2020 10:13:13 -0500
+Received: by mail-lf1-f71.google.com with SMTP id f26so1668679lfh.15
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 07:13:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+od48/H+rRc+WznhEkLY43pGe0Tuib/m/Ih8SeKs+9c=;
+ b=qnje4SEotYRPTixh1t1ksNQmi4NRpn6Pos22Sqk3kvXDiGmARTyfvmnb5Q0zO8QhgA
+ lZ+ESOEJYE2F7XV6HIqK9mef2dZ5uVhaPB643iifg2prCbtMRRcYHz+dFJ3i6QDnBDE6
+ O08mutSIZIHsnEjTpg3xhDG2o4pmhiq/Pod30zL3VhmuNQoybWHnf/NQdvJzD+wrk8uv
+ UH+QVBMr8P+TScJz4jW1n2h/+mKfaBqR5TdKLcSVMnLdy95PcMmSRshY+2iJoS4GhYuD
+ ZBQb9yAOcxPEsRkxdyQ3dsOuLTX1+c0jbYXBPl/eqYd7xlA76azcbzLIhsA2z3+kHzhQ
+ UnoA==
+X-Gm-Message-State: APjAAAVDpwWaH2eWuISu3vd7U5sgCoNpYDu8KrpKDdKKt9N6bYZHGA1u
+ xulQkrWbdwvDOPXu6y5N/Iw5jTRAdldh2ND9HOSAmhlBOV2+9USK2xLfczw8p0vs8AxVA2Jm3ix
+ /lK04n0zEWttejtvNsJrlIf/M47h+XhY=
+X-Received: by 2002:a2e:580c:: with SMTP id m12mr10596844ljb.252.1580137991251; 
+ Mon, 27 Jan 2020 07:13:11 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwCauTlvovu0Wi/+ZXOZcSVjR7v75jcX407afO4swN+6+8LdLMuPSE6G8BhVYt4pCSNDTk9oocwry0JPEopfiU=
+X-Received: by 2002:a2e:580c:: with SMTP id m12mr10596825ljb.252.1580137990827; 
+ Mon, 27 Jan 2020 07:13:10 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: kBFQ6xCwMwebjrQyEIHIew-1
+References: <20200113140122.29486-1-yury-kotov@yandex-team.ru>
+ <CAMDeoFUw_Kd39FwQ3x1F6whfZ9eJL6Erm4SXHhPmoe=Wc9+X6g@mail.gmail.com>
+ <20200117165640.GP3209@work-vm>
+In-Reply-To: <20200117165640.GP3209@work-vm>
+From: Julia Suvorova <jusual@redhat.com>
+Date: Mon, 27 Jan 2020 16:12:59 +0100
+Message-ID: <CAMDeoFXVHPCxV2CkBoOThms_uw0XAk5by80_8Uv7RWeKQfgNyQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] pcie: Defer hot unplug until migration is complete
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+X-MC-Unique: 7h_jBX31OIaLAVW-Pw-WUQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,404 +83,406 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, gshan@redhat.com,
- "mst@redhat.com" <mst@redhat.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will.deacon@arm.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Linuxarm <linuxarm@huawei.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, pbonzini <pbonzini@redhat.com>
+Cc: Yury Kotov <yury-kotov@yandex-team.ru>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ yc-core@yandex-team.ru, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 Jan 2020 18:44:16 +0000
-Salil Mehta <salil.mehta@huawei.com> wrote:
-
-> > From: Igor Mammedov [mailto:imammedo@redhat.com]
-> > Sent: Friday, January 24, 2020 4:07 PM
-> >=20
-> > On Fri, 24 Jan 2020 15:02:10 +0000
-> > Salil Mehta <salil.mehta@huawei.com> wrote:
-> >  =20
-> > > > From: Igor Mammedov [mailto:imammedo@redhat.com]
-> > > > Sent: Friday, January 24, 2020 1:54 PM
-> > > > To: Salil Mehta <salil.mehta@huawei.com>
-> > > >
-> > > > On Fri, 24 Jan 2020 11:20:15 +0000
-> > > > Salil Mehta <salil.mehta@huawei.com> wrote:
-> > > > =20
-> > > > > Hello,
-> > > > > I am working on vCPU Hotplug feature for ARM64 and I am in mid of=
- understanding
-> > > > > some aspect of device_add/device_del interface of the QEMU.
-> > > > >
-> > > > > Observations:
-> > > > > 1. Any object initialised by qmp_device_add() gets into /machine/=
-unattached
-> > > > > container. I traced the flow to code leg inside  device_set_reali=
-zed()
-> > > > > 2. I could see the reverse qmp_device_del() expects the device to=
- be in
-> > > > > /machine/peripheral container.
-> > > > > 3. I could see any object initially added to unattached container=
- did not had
-> > > > > their parents until object_add_property_child() was called furthe=
-r in the leg.
-> > > > > which effectively meant a new property was created and property t=
-able
-> > > > > populated and child was parented.
-> > > > > 4. Generally, container  /machine/peripheral was being used where=
-ver
-> > > > > DEVICE(dev)->id was present and non-null.
-> > > > >
-> > > > > Question:
-> > > > > 1. Wanted to confirm my understanding about the use of having sep=
-arate
-> > > > > containers like unattached, peripheral and anonymous. =20
-> > > > =20
-> > > > > 2. At init time all the vcpus goes under *unattached* container. =
-Now,
-> > > > > qmp_device_del() cannot be used to unplug them. I am wondering =
-=20
-> > > >
-> > > > device is put into 'unattached' in case it wasn't assigned a parent=
-.
-> > > > Usually it happens when board creates device directly. =20
-> > >
-> > >
-> > > Sure, but if we decide that certain number(N) of vcpus are hotplugabb=
-le
-> > > and certain subset of N (say 'n' < 'N') should be allowed to be prese=
-nt
-> > > or cold-plugged at the init time then I wonder which of the following
-> > > is correct approach:
-> > >
-> > > 1. Bring all of N vcpus at boot time under "peripheral" container
-> > >                                    OR
-> > > 2. Just bring subset 'n' of 'N' under "peripheral" container and rest
-> > >     under "unattached" container? And later as and when rest of the
-> > >     vcpus are hotplugged they should be transferred from "unattached"
-> > >     container to "peripheral" container? =20
-> >=20
-> > issue with that is that to put device into "peripheral" container,
-> > 'the user' must provide 'id'. (currently QEMU isn't able to do it on it=
-s own
-> > [1])
-> >=20
-> > But it doesn't mean that cold-plugged CPUs can't be unpluged.
-> > What current users could do is start QEMU like this (simplified version=
-):
-> >=20
-> >  $QEMU -smp 1,maxcpus=3DN -device foo-cpu-type,id=3DCPU00 -device
-> > foo-cpu-type,id=3DCPU01 ...
-> >=20
-> > i.e. 1st CPU is not manageable due to lack if 'id' and is created by bo=
-ard code,
-> > the rest have 'id' and could be managed. =20
->=20
->=20
-> I understand, that we can somehow assign ids from the QMP interface but
-> above will not push vcpus into "peripheral" container. They will appear
-> in "unattached" container but with specified names and as-far-as I can
-> see in the code 'device_del' can only delete objects/devices from the
-> 'peripheral' container?
-
-qemu-system-x86_64 -monitor stdio \
-    -smp 1,maxcpus=3D3 \
-    -device qemu64-x86_64-cpu,id=3Dfoo,socket-id=3D1,core-id=3D0,thread-id=
-=3D0 \
-    -device qemu64-x86_64-cpu,socket-id=3D2,core-id=3D0,thread-id=3D0
-
-(qemu) info hotpluggable-cpus=20
-Hotpluggable CPUs:
-  type: "qemu64-x86_64-cpu"
-  vcpus_count: "1"
-  qom_path: "/machine/peripheral-anon/device[0]"
-                      ^^^^^^^^^^^^^^^
-  CPUInstance Properties:
-    socket-id: "2"
-    core-id: "0"
-    thread-id: "0"
-  type: "qemu64-x86_64-cpu"
-  vcpus_count: "1"
-  qom_path: "/machine/peripheral/foo"
-                      ^^^^^^^^^^
-
-in gist, if device is created with any variant of device_add,
-it goes to "peripheral[-anon]" including cold-plugged one.
-
-  CPUInstance Properties:
-    socket-id: "1"
-    core-id: "0"
-    thread-id: "0"
-  type: "qemu64-x86_64-cpu"
-  vcpus_count: "1"
-  qom_path: "/machine/unattached/device[0]"
-  CPUInstance Properties:
-    socket-id: "0"
-    core-id: "0"
-    thread-id: "0"
-
-
-
-
-
->=20
-> Plus, having those many ids specified for over large number of vcpus
-> does not looks very practical solution. We need interface like auto
-number of IDs is not a problem since it's usually handled by management
-software just fine (ex: libvirt does it)
-
-> Generation of ids even at the boot time. I could see from the link you
-> have shared that it is already being used by ID_BLOCK subsystem. Can we
-> create a new subsystem for cpus under this and do the auto Generation
-> of vcpu ids as well?
-
-I'm not sure that auto ids was actually merged.
-(I thought it wasn't)
-
-Anyway auto IDs are not directly related to enabling CPU hotplug for ARM,
-if you feel they should be generated you can try to propose patches.
-
-> > Question is:
-> >   why you are looking into 'what container' is used for CPUs? =20
->=20
->=20
-> Idea is to be able to use 'device_del' interface to unplug vcpus
-> both for the cold-plugged and hot-plugged cases using the standard
-> 'device_add' interface.
-
-As far as CPU devices in QEMU are created with help of -device/device_add
-with 'id' provided it should work with current code.
-
-=20
-> Plus, there is another unique requirement specifically for realizing
-> vcpu hotplug for ARM64.
->=20
-> Summary:
-> Right now ARM architecture does not allows reinitializing the GIC
-> after VM has booted. Therefore, we are planning to pre-size the GIC
-> interfaces at init time by initializing all of the possible vcpus
-> and keep them in 'realized' but 'unavailable' state to the Guest
-> VM. They shall be made available as-and-when vcpus are hot-plugged
-> later-on. Therefore, current efforts are to be able to plug and
-> unplug from the qemu QOM without destroying the existing state of
-> the devices/objects representing vcpus. These all possible vcpus
-> shall be created once at the boot time of the VM. The vcpus which
-> are not available to the Guest VM can be Parked.=20
+On Fri, Jan 17, 2020 at 5:56 PM Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
 >
-> Once the vcpus are hot-(un)plug'ged only the (pre-)plug/unplug(-request)
-> interfaces are used to convey this even information to the Guest
-> VM.
->=20
-> I have tested this solution and it works but I wanted to make sure
-> that I am not doing anything which breaks any of the existing Qemu
-> QOM interfaces and basic fundamental idea behind being able to attach
-> and detach from the Qemu QOM is okay?
->=20
-> Any suggestion are welcome in this regard?
+> * Julia Suvorova (jusual@redhat.com) wrote:
+> > On Mon, Jan 13, 2020 at 3:04 PM Yury Kotov <yury-kotov@yandex-team.ru> =
+wrote:
+> > >
+> > > Devices hot-plug during migration is not allowed and disabled in
+> > > corresponding QMP-commands (device_add, device_del).
+> > > But guest still can unplug device by powering it off
+> > > (Example: echo 0 > /sys/bus/pci/slots/XXX/power).
+> >
+> > You don't want to unplug device due to powering the slot off in the
+> > first place. Instead, you can hide the device (see f3a8505656), and
+> > make it visible again when the slot is powered on. Thus, the guest
+> > will not be able to unplug the device and your problem will disappear.
+> >
+> > Best regards, Julia Suvorova.
+>
+> I don't really understand how hidden a hidden device is;
+> will it still get it's migration data migrated?
+>   - if so what state is it in? What gets migrated?
+> is the behaviour after reset/reboot consistent with what we want
+> in the existing unplug behaviour?
+> Say it's a disk device; will it release the lock on the disk backend?
+>
+> It feels like the semantics need to be tied down a bit.
 
-From discussion with Drew [CCed], I got that kvm/arm isn't designed
-to support vCPU hotplug (and it would require heavy refactoring to
-separate GIC and VCPUs, which probably won't be welcomed by maintainers).
+Yes. the concept is still raw, and patches presented don't provide
+functionality we need. I'm working on it now.
 
-But that's only KVM side of the equation. Assuming that we don't
-touch KVM much, the only QEMU side is left.
+Best regards, Julia Suvorova.
 
-Further lets call
- * vCPU - a kvm's part of CPU
- * CPU - QEMU object which is linked to vCPU via file descriptor.
-
-In QEMU we have CPU devices which optionally might create vCPUs
-during device realize time (if QEMU runs with KVM accelerator).
-
-So from design point of view, I'd suggest to dynamically
-create/remove CPU devices on demand using existing
- -device/device_add/device_del interface
-like we do for other architectures.
-
-But in case of running with KVM accelerator, to accommodate
-current non dynamic ARM/KVM, I'd move vCPU creation to "kvm_init()"
-time or board init time, so it would pre-create vCPUs in
-KVM early in parked state and put them in 'kvm_parked_vcpus' list
-but won't create CPU devices for them.
-
-Then later when management adds CPU device either with
-'-device' or 'device_add', a new CPU device will pick up
-pre-created parked vCPU file descriptor and re-use it.
-
-Parked vCPU infrastructure is already exists in QEMU as we use it
-for hot-unplugged CPUs for the same reasons (it needs too much
-refactoring on KVM side to really remove vCPU).
-
-So when CPU is hot-unplugged, we put linked vCPU file descriptor
-into kvm_parked_vcpus (see: kvm_destroy_vcpu) and completely delete
-CPU device on QEMU side. Then when the same CPU is hot-plugged again,
-we reuse previously parked vCPU file descriptor (see: kvm_get_vcpu).
-
-
-> NOTE: I plan to share the patches with the community which includes
-> both the changes of the Linux Kernel and the QEMU in near future.
->=20
->=20
->=20
-> > 1) here is what I could find on IDs topic
-> >    https://lists.gnu.org/archive/html/qemu-block/2015-09/msg00011.html
-> >  =20
-> > > > >    if all the hotplug devices need to go under the *peripheral* c=
-ontainer while
-> > > > > they are hotplugged and during object init time as well? =20
-> > > >
-> > > > theoretically device_del may use QOM path (the later users can get =
-with
-> > > > query-hotpluggable-cpus),
-> > > > but I think it's mostly debugging feature. =20
+> > > Fix it by deferring unplugging until the migration is complete.
+> > >
+> > > Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+> > > ---
+> > >  hw/pci-bridge/gen_pcie_root_port.c |  7 ++++
+> > >  hw/pci-bridge/ioh3420.c            |  7 ++++
+> > >  hw/pci-bridge/xio3130_downstream.c |  7 ++++
+> > >  hw/pci/pcie.c                      | 54 +++++++++++++++++++++++-----=
+--
+> > >  hw/pci/pcie_port.c                 | 47 ++++++++++++++++++++++++++
+> > >  include/hw/pci/pcie.h              |  1 +
+> > >  include/hw/pci/pcie_port.h         | 20 +++++++++++
+> > >  7 files changed, 130 insertions(+), 13 deletions(-)
+> > >
+> > > diff --git a/hw/pci-bridge/gen_pcie_root_port.c b/hw/pci-bridge/gen_p=
+cie_root_port.c
+> > > index 9eaefebca8..5b3c202341 100644
+> > > --- a/hw/pci-bridge/gen_pcie_root_port.c
+> > > +++ b/hw/pci-bridge/gen_pcie_root_port.c
+> > > @@ -100,6 +100,9 @@ static void gen_rp_realize(DeviceState *dev, Erro=
+r **errp)
+> > >      }
+> > >  }
+> > >
+> > > +static const VMStateDescription vmstate_rp_deffered_unplug =3D
+> > > +    VMSTATE_DEFFERED_UNPLUG("pcie-root-port");
+> > > +
+> > >  static const VMStateDescription vmstate_rp_dev =3D {
+> > >      .name =3D "pcie-root-port",
+> > >      .priority =3D MIG_PRI_PCI_BUS,
+> > > @@ -114,6 +117,10 @@ static const VMStateDescription vmstate_rp_dev =
+=3D {
+> > >                            GenPCIERootPort,
+> > >                            gen_rp_test_migrate_msix),
+> > >          VMSTATE_END_OF_LIST()
+> > > +    },
+> > > +    .subsections =3D (const VMStateDescription * []) {
+> > > +        &vmstate_rp_deffered_unplug,
+> > > +        NULL
+> > >      }
+> > >  };
+> > >
+> > > diff --git a/hw/pci-bridge/ioh3420.c b/hw/pci-bridge/ioh3420.c
+> > > index f1e16135a3..2399a9a87f 100644
+> > > --- a/hw/pci-bridge/ioh3420.c
+> > > +++ b/hw/pci-bridge/ioh3420.c
+> > > @@ -82,6 +82,9 @@ static void ioh3420_interrupts_uninit(PCIDevice *d)
+> > >      msi_uninit(d);
+> > >  }
+> > >
+> > > +static const VMStateDescription vmstate_ioh3420_deffered_unplug =3D
+> > > +    VMSTATE_DEFFERED_UNPLUG("ioh-3240-express-root-port");
+> > > +
+> > >  static const VMStateDescription vmstate_ioh3420 =3D {
+> > >      .name =3D "ioh-3240-express-root-port",
+> > >      .priority =3D MIG_PRI_PCI_BUS,
+> > > @@ -93,6 +96,10 @@ static const VMStateDescription vmstate_ioh3420 =
+=3D {
+> > >          VMSTATE_STRUCT(parent_obj.parent_obj.parent_obj.exp.aer_log,
+> > >                         PCIESlot, 0, vmstate_pcie_aer_log, PCIEAERLog=
+),
+> > >          VMSTATE_END_OF_LIST()
+> > > +    },
+> > > +    .subsections =3D (const VMStateDescription * []) {
+> > > +        &vmstate_ioh3420_deffered_unplug,
+> > > +        NULL
+> > >      }
+> > >  };
+> > >
+> > > diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio31=
+30_downstream.c
+> > > index a9f084b863..a5b4fe08ee 100644
+> > > --- a/hw/pci-bridge/xio3130_downstream.c
+> > > +++ b/hw/pci-bridge/xio3130_downstream.c
+> > > @@ -139,6 +139,9 @@ static Property xio3130_downstream_props[] =3D {
+> > >      DEFINE_PROP_END_OF_LIST()
+> > >  };
+> > >
+> > > +static const VMStateDescription vmstate_xio3130_downstream_deffered_=
+unplug =3D
+> > > +    VMSTATE_DEFFERED_UNPLUG("xio3130-express-downstream-port");
+> > > +
+> > >  static const VMStateDescription vmstate_xio3130_downstream =3D {
+> > >      .name =3D "xio3130-express-downstream-port",
+> > >      .priority =3D MIG_PRI_PCI_BUS,
+> > > @@ -150,6 +153,10 @@ static const VMStateDescription vmstate_xio3130_=
+downstream =3D {
+> > >          VMSTATE_STRUCT(parent_obj.parent_obj.parent_obj.exp.aer_log,
+> > >                         PCIESlot, 0, vmstate_pcie_aer_log, PCIEAERLog=
+),
+> > >          VMSTATE_END_OF_LIST()
+> > > +    },
+> > > +    .subsections =3D (const VMStateDescription * []) {
+> > > +        &vmstate_xio3130_downstream_deffered_unplug,
+> > > +        NULL
+> > >      }
+> > >  };
+> > >
+> > > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+> > > index 08718188bb..29f0e5c05b 100644
+> > > --- a/hw/pci/pcie.c
+> > > +++ b/hw/pci/pcie.c
+> > > @@ -28,6 +28,8 @@
+> > >  #include "hw/pci/pcie_regs.h"
+> > >  #include "hw/pci/pcie_port.h"
+> > >  #include "qemu/range.h"
+> > > +#include "sysemu/sysemu.h"
+> > > +#include "migration/misc.h"
+> > >
+> > >  //#define DEBUG_PCIE
+> > >  #ifdef DEBUG_PCIE
+> > > @@ -575,6 +577,7 @@ void pcie_cap_slot_reset(PCIDevice *dev)
+> > >
+> > >      if (dev->cap_present & QEMU_PCIE_SLTCAP_PCP) {
+> > >          /* Downstream ports enforce device number 0. */
+> > > +        PCIESlot *slot =3D PCIE_SLOT(dev);
+> > >          bool populated =3D pci_bridge_get_sec_bus(PCI_BRIDGE(dev))->=
+devices[0];
+> > >          uint16_t pic;
+> > >
+> > > @@ -588,6 +591,7 @@ void pcie_cap_slot_reset(PCIDevice *dev)
+> > >
+> > >          pic =3D populated ? PCI_EXP_SLTCTL_PIC_ON : PCI_EXP_SLTCTL_P=
+IC_OFF;
+> > >          pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTCTL, pic);
+> > > +        slot->unplug_is_deferred =3D false;
+> > >      }
+> > >
+> > >      pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
+> > > @@ -608,13 +612,42 @@ void pcie_cap_slot_get(PCIDevice *dev, uint16_t=
+ *slt_ctl, uint16_t *slt_sta)
+> > >      *slt_sta =3D pci_get_word(exp_cap + PCI_EXP_SLTSTA);
+> > >  }
+> > >
+> > > +static void pcie_cap_slot_unplug(PCIDevice *dev)
+> > > +{
+> > > +    uint32_t pos =3D dev->exp.exp_cap;
+> > > +    uint8_t *exp_cap =3D dev->config + pos;
+> > > +    PCIBus *sec_bus =3D pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
+> > > +
+> > > +    pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+> > > +                        pcie_unplug_device, NULL);
+> > > +    pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA, PCI_EXP_S=
+LTSTA_PDS);
+> > > +    if (dev->cap_present & QEMU_PCIE_LNKSTA_DLLLA) {
+> > > +        pci_word_test_and_clear_mask(exp_cap + PCI_EXP_LNKSTA,
+> > > +                                     PCI_EXP_LNKSTA_DLLLA);
+> > > +    }
+> > > +    pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA, PCI_EXP_SLT=
+STA_PDC);
+> > > +    hotplug_event_notify(dev);
+> > > +}
+> > > +
+> > > +void pcie_cap_slot_deferred_unplug(PCIDevice *dev)
+> > > +{
+> > > +    PCIESlot *slot =3D PCIE_SLOT(dev);
+> > > +
+> > > +    if (migration_is_idle() && slot->unplug_is_deferred) {
+> > > +        pcie_cap_slot_unplug(dev);
+> > > +        slot->unplug_is_deferred =3D false;
+> > > +    }
+> > > +}
+> > > +
+> > >  void pcie_cap_slot_write_config(PCIDevice *dev,
+> > >                                  uint16_t old_slt_ctl, uint16_t old_s=
+lt_sta,
+> > >                                  uint32_t addr, uint32_t val, int len=
+)
+> > >  {
+> > > +    PCIESlot *slot =3D PCIE_SLOT(dev);
+> > >      uint32_t pos =3D dev->exp.exp_cap;
+> > >      uint8_t *exp_cap =3D dev->config + pos;
+> > >      uint16_t sltsta =3D pci_get_word(exp_cap + PCI_EXP_SLTSTA);
+> > > +    bool may_unplug;
+> > >
+> > >      if (ranges_overlap(addr, len, pos + PCI_EXP_SLTSTA, 2)) {
+> > >          /*
+> > > @@ -660,22 +693,17 @@ void pcie_cap_slot_write_config(PCIDevice *dev,
+> > >       * this is a work around for guests that overwrite
+> > >       * control of powered off slots before powering them on.
+> > >       */
+> > > -    if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) =
+&&
+> > > -        (val & PCI_EXP_SLTCTL_PIC_OFF) =3D=3D PCI_EXP_SLTCTL_PIC_OFF=
+ &&
+> > > +    may_unplug =3D (val & PCI_EXP_SLTCTL_PCC) &&
+> > > +                 (val & PCI_EXP_SLTCTL_PIC_OFF) =3D=3D PCI_EXP_SLTCT=
+L_PIC_OFF;
+> > > +    if (may_unplug && (sltsta & PCI_EXP_SLTSTA_PDS) &&
+> > >          (!(old_slt_ctl & PCI_EXP_SLTCTL_PCC) ||
+> > >          (old_slt_ctl & PCI_EXP_SLTCTL_PIC_OFF) !=3D PCI_EXP_SLTCTL_P=
+IC_OFF)) {
+> > > -        PCIBus *sec_bus =3D pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
+> > > -        pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
+> > > -                            pcie_unplug_device, NULL);
+> > > -
+> > > -        pci_word_test_and_clear_mask(exp_cap + PCI_EXP_SLTSTA,
+> > > -                                     PCI_EXP_SLTSTA_PDS);
+> > > -        if (dev->cap_present & QEMU_PCIE_LNKSTA_DLLLA) {
+> > > -            pci_word_test_and_clear_mask(exp_cap + PCI_EXP_LNKSTA,
+> > > -                                         PCI_EXP_LNKSTA_DLLLA);
+> > > +        slot->unplug_is_deferred =3D !migration_is_idle();
+> > > +        if (!slot->unplug_is_deferred) {
+> > > +            pcie_cap_slot_unplug(dev);
+> > >          }
+> > > -        pci_word_test_and_set_mask(exp_cap + PCI_EXP_SLTSTA,
+> > > -                                       PCI_EXP_SLTSTA_PDC);
+> > > +    } else if (!may_unplug) {
+> > > +        slot->unplug_is_deferred =3D false;
+> > >      }
+> > >
+> > >      hotplug_event_notify(dev);
+> > > diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
+> > > index c19a9be592..bd5fbf6827 100644
+> > > --- a/hw/pci/pcie_port.c
+> > > +++ b/hw/pci/pcie_port.c
+> > > @@ -23,6 +23,9 @@
+> > >  #include "hw/qdev-properties.h"
+> > >  #include "qemu/module.h"
+> > >  #include "hw/hotplug.h"
+> > > +#include "sysemu/runstate.h"
+> > > +#include "migration/migration.h"
+> > > +#include "migration/misc.h"
+> > >
+> > >  void pcie_port_init_reg(PCIDevice *d)
+> > >  {
+> > > @@ -150,6 +153,48 @@ static Property pcie_slot_props[] =3D {
+> > >      DEFINE_PROP_END_OF_LIST()
+> > >  };
+> > >
+> > > +bool vmstate_deffered_unplug_needed(void *opaque)
+> > > +{
+> > > +    PCIESlot *slot =3D opaque;
+> > > +
+> > > +    return slot->unplug_is_deferred;
+> > > +}
+> > > +
+> > > +static void pcie_slot_migration_notifier_cb(Notifier *notifier, void=
+ *data)
+> > > +{
+> > > +    PCIESlot *slot =3D container_of(notifier, PCIESlot, migration_no=
+tifier);
+> > > +
+> > > +    pcie_cap_slot_deferred_unplug(PCI_DEVICE(slot));
+> > > +}
+> > > +
+> > > +static void pcie_slot_vm_state_change(void *opaque, int running, Run=
+State state)
+> > > +{
+> > > +    PCIESlot *slot =3D opaque;
+> > > +
+> > > +    pcie_cap_slot_deferred_unplug(PCI_DEVICE(slot));
+> > > +}
+> > > +
+> > > +static void pcie_slot_init(Object *obj)
+> > > +{
+> > > +    PCIESlot *slot =3D PCIE_SLOT(obj);
+> > > +
+> > > +    slot->unplug_is_deferred =3D false;
+> > > +    slot->migration_notifier =3D (Notifier) {
+> > > +        .notify =3D pcie_slot_migration_notifier_cb
+> > > +    };
+> > > +    add_migration_state_change_notifier(&slot->migration_notifier);
+> > > +    slot->vmstate_change =3D
+> > > +        qemu_add_vm_change_state_handler(pcie_slot_vm_state_change, =
+slot);
+> > > +}
+> > > +
+> > > +static void pcie_slot_finalize(Object *obj)
+> > > +{
+> > > +    PCIESlot *slot =3D PCIE_SLOT(obj);
+> > > +
+> > > +    remove_migration_state_change_notifier(&slot->migration_notifier=
+);
+> > > +    qemu_del_vm_change_state_handler(slot->vmstate_change);
+> > > +}
+> > > +
+> > >  static void pcie_slot_class_init(ObjectClass *oc, void *data)
+> > >  {
+> > >      DeviceClass *dc =3D DEVICE_CLASS(oc);
+> > > @@ -166,6 +211,8 @@ static const TypeInfo pcie_slot_type_info =3D {
+> > >      .name =3D TYPE_PCIE_SLOT,
+> > >      .parent =3D TYPE_PCIE_PORT,
+> > >      .instance_size =3D sizeof(PCIESlot),
+> > > +    .instance_init =3D pcie_slot_init,
+> > > +    .instance_finalize =3D pcie_slot_finalize,
+> > >      .abstract =3D true,
+> > >      .class_init =3D pcie_slot_class_init,
+> > >      .interfaces =3D (InterfaceInfo[]) {
+> > > diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
+> > > index 7064875835..128f26199e 100644
+> > > --- a/include/hw/pci/pcie.h
+> > > +++ b/include/hw/pci/pcie.h
+> > > @@ -110,6 +110,7 @@ void pcie_cap_slot_get(PCIDevice *dev, uint16_t *=
+slt_ctl, uint16_t *slt_sta);
+> > >  void pcie_cap_slot_write_config(PCIDevice *dev,
+> > >                                  uint16_t old_slt_ctl, uint16_t old_s=
+lt_sta,
+> > >                                  uint32_t addr, uint32_t val, int len=
+);
+> > > +void pcie_cap_slot_deferred_unplug(PCIDevice *dev);
+> > >  int pcie_cap_slot_post_load(void *opaque, int version_id);
+> > >  void pcie_cap_slot_push_attention_button(PCIDevice *dev);
+> > >
+> > > diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
+> > > index 7515430087..32e45f0c89 100644
+> > > --- a/include/hw/pci/pcie_port.h
+> > > +++ b/include/hw/pci/pcie_port.h
+> > > @@ -23,6 +23,9 @@
+> > >
+> > >  #include "hw/pci/pci_bridge.h"
+> > >  #include "hw/pci/pci_bus.h"
+> > > +#include "qemu/notify.h"
+> > > +#include "sysemu/sysemu.h"
+> > > +#include "migration/vmstate.h"
+> > >
+> > >  #define TYPE_PCIE_PORT "pcie-port"
+> > >  #define PCIE_PORT(obj) OBJECT_CHECK(PCIEPort, (obj), TYPE_PCIE_PORT)
+> > > @@ -44,6 +47,10 @@ void pcie_port_init_reg(PCIDevice *d);
+> > >  struct PCIESlot {
+> > >      /*< private >*/
+> > >      PCIEPort    parent_obj;
+> > > +    bool        unplug_is_deferred;
+> > > +    Notifier    migration_notifier;
+> > > +    VMChangeStateEntry *vmstate_change;
+> > > +
+> > >      /*< public >*/
+> > >
+> > >      /* pci express switch port with slot */
+> > > @@ -58,6 +65,19 @@ struct PCIESlot {
+> > >      QLIST_ENTRY(PCIESlot) next;
+> > >  };
+> > >
+> > > +bool vmstate_deffered_unplug_needed(void *opaque);
+> > > +
+> > > +#define VMSTATE_DEFFERED_UNPLUG(parent_section_name) {            \
+> > > +    .name =3D parent_section_name "/deffered-unplug",               =
+\
+> > > +    .version_id =3D 1,                                              =
+\
+> > > +    .minimum_version_id =3D 1,                                      =
+\
+> > > +    .needed =3D vmstate_deffered_unplug_needed,                     =
+\
+> > > +    .fields =3D (VMStateField[]) {                                  =
+\
+> > > +        VMSTATE_BOOL(unplug_is_deferred, PCIESlot),               \
+> > > +        VMSTATE_END_OF_LIST()                                     \
+> > > +    }                                                             \
+> > > +}
+> > > +
+> > >  void pcie_chassis_create(uint8_t chassis_number);
+> > >  PCIESlot *pcie_chassis_find_slot(uint8_t chassis, uint16_t slot);
+> > >  int pcie_chassis_add_slot(struct PCIESlot *slot);
+> > > --
+> > > 2.24.1
 > > >
 > > >
-> > > Sure.
-> > >
-> > > =20
-> > > > users are supposed to specify 'id' during -device/device_add if the=
-y are going
-> > > > to manage that device.
-> > > > afterwards (like unplugging it). Then they could use that 'id' in o=
-ther commands
-> > > > (including device_del)
-> > > >
-> > > > So 'id'-ed devices end up in 'peripheral' container. =20
-> > >
-> > >
-> > > Sure, what if hotplugged device is removed and then added again? It l=
-ooks
-> > > qmp_device_add() interface will again end up calling the device_set_r=
-ealized()
-> > > which eventually would put hotplugged devices under "unattached" cont=
-ainer? =20
-> >=20
-> > it won't, see call chain:
-> >=20
-> >   qmp_device_add() =20
-> >       -> qdev_device_add()
-> >           -> qdev_set_id() =20
->=20
-> Ok, sure. I did see the qdev_set_id() interface. Infact, earlier I was ac=
-tually
-> trying to play with it by making it more generic and adding even the 'una=
-ttached'
-> container handling to it(which is missing right now) and calling it insid=
-e the
-> device_set_realized()  instead of below code:
->=20
->         if (!obj->parent) {
->             gchar *name =3D g_strdup_printf("device[%d]", unattached_coun=
-t++);
->=20
->             object_property_add_child(container_get(qdev_get_machine(),
->                                                     "/unattached"),
->                                       name, obj, &error_abort);
->             unattached_parent =3D true;
->             g_free(name);
->         }
->=20
-> Idea of above dabbling was to have common interface for 'unattached' cont=
-ainer
-> and call it from virt.c from machvirt_init() where possible vcpus are bei=
-ng
-> created. Force them to be located either inside 'unttached' or 'periphera=
-l'
-> container akin to the example you had given.
->=20
-> If we look at qdev_device_add() function, after setting dev->id using
-> qdev_set_id() (which would also result in parenting of an object under
-> 'peripheral' container), it calls the function to 'realize' the device/ob=
-ject
-> which would end up in hitting above shared code excerpt and now because
-> it will have the parent already set, the object won't go into 'unattached=
-'
-> container.
->=20
-> Currently, later cannot be controlled for the cold-lugged vcpus. Therefor=
-e,
-> before this discussion my initial thought process was to either make
-> qdev_set_id() universal (i.e. include handling for all type of containers
-> unattached/peripheral/anonymous in qdev_set_id()). Then call it from
-> machvirt_init() just before the vcpus have been 'realized' so that
-> cold-plugged cpus could get into 'peripheral' container. This would help
-> in hot-unplugging using the standard 'device_del' interface.
-
-I think we understand cold-plugged vcpus differently.
-From QEMU point of view there are 2 kinds of cold-plugged CPU devices.
-
-Ones that are currently created by board directly following pattern
-
- object_new()
- set properties
- relalize
-
-these are created (lets call them builtin) in amount specified by -smp X
-and are not manageable by external applications.
-
-The second kind of cold-plugged CPUs are the ones created on command
-line with help of:
-
- -device cpu-type-foo
-
-these are created by management applications and could be hot-removed
-if management supplied 'id'. For example libvirt starts qemu with 1
-built-in cpu in paused mode (-s) QEMU, then it hotplugs via QMP N cpus
-and lets VM run (it's essentially the same as using -device on CLI).
-This way it can remove all CPUs except of 1st one which is good enough
-in almost all the cases.
-
-> Earlier, I was not sure if there was any special significance to the
-> 'unattached' container - which by the discussion it looks there is not
-> any and we could actually choose to place all of the cold-plugged vpus
-> as well in the 'peripheral' container. Please correct me here if I
-> have mis-understood anything here?
->=20
-> Now, assuming we are allowed to push all of the vcpus in the 'peripheral'
-> container then I could simply call unmodified qdev_set_id() just before
-> the 'realization' of the cold-plugged vcpus. And maybe we could generate
-> the cpus-ids using auto generate function which has been mentioned in the
-> link you shared and just like it is being done for the block devices.
-
-In ARM case, I'd consider to implementing -device/device_add support first.
-So it would be on par with other architectures in QEMU that support cpu hot=
-plug.
-
-Then try to implement id auto-generation on top and discuss if making
-built-in CPUs hot-removable is worthwhile, as it's a separate issues
-and could be done later.
-
-Separating feature on distinct self-sufficient chunks usually makes
-reviews/merging easier comparing to trying to do everything at once.
-
-> Thoughts?
->=20
->=20
-> > > > > 3. I could not see any device being place under *anonymous* conta=
-iner during =20
-> > > > init time. What is the use of this container?
-> > > >
-> > > > if I recall it right, devices created with help of device_add but w=
-ithout =20
-> > 'id' =20
-> > > > go to this container =20
-> > >
-> > >
-> > > Any examples on top of your head where such an interface might be of =
-use? =20
-> >=20
-> > ex:
-> > one could use -device/device_add without any ids if such devices aren't=
- planned
-> > to be unplugged during runtime or for unpluggable devices =20
->=20
-> Ok. Thanks!
->=20
->=20
-> Best Regards
-> Salil
->=20
+> >
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>
 
 
