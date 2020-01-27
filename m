@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B640E14A28B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 12:06:49 +0100 (CET)
-Received: from localhost ([::1]:43174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 137A414A289
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 12:05:58 +0100 (CET)
+Received: from localhost ([::1]:43128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw2EC-0005yg-Q0
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 06:06:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47759)
+	id 1iw2DN-0003tD-3u
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 06:05:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47834)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iw2Ba-0001s7-Hm
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 06:04:07 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1iw2Bo-00029h-D9
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 06:04:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iw2BZ-0004X0-JA
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 06:04:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29769
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mlevitsk@redhat.com>) id 1iw2Bm-0004kR-EG
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 06:04:20 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38030
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iw2BZ-0004VC-Bz
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 06:04:05 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iw2Bm-0004jd-9v
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 06:04:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580123045;
+ s=mimecast20190719; t=1580123058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sin60CkYijCQ8Cz22jWHN+WjsGUcRdh8Q2kQCNrT+7Q=;
- b=SsYoU3t3o+p9r5flUOb7YrWYeZERFdGnd+N1DcZlNRf3mDw+qYZp6oskC+/Gxk62utl9C7
- bBxLzyfGAEsemyWz88t2nFhS/yD0nx8AdYL+jqzSpsxegIJ8jUqVLCnFkIL28BcEAdNjvR
- nYEpBi2dQAQ59m4NdOpmzPUfqL2wtKc=
+ bh=yxeYiAkTfmieddP6dht/OzwCYXi/c+1yJWln6vwt9LY=;
+ b=IVOjUL0eIcIMcNUAoOdtCzx6l1wqRAqPj1+4zSKtmtDPqhy9vppwaOxRAcj7RX6wp2BR5I
+ 2rdUeZ72vmU5JMMlr/vPSDx36iqqrQKcYhJRTkrEY3lxAXB37o6vNZTwrOYkLeaNrKOOW0
+ gt60LxAEUz4HA7WuJUZV9JdnXn1d//8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-WoTbAEw_MbKJFMU0UYJ4MQ-1; Mon, 27 Jan 2020 06:04:02 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-219-hi0jkxWFNgSkP1A_jxxBAA-1; Mon, 27 Jan 2020 06:04:16 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8D688045D1;
- Mon, 27 Jan 2020 11:04:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46FFE100F801;
+ Mon, 27 Jan 2020 11:04:15 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.86])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 522191084192;
- Mon, 27 Jan 2020 11:03:55 +0000 (UTC)
-Message-ID: <158f709d0d3eb4a8029a7f7d38028db97b5cbe2b.camel@redhat.com>
-Subject: Re: [PATCH 5/9] monitor: move hmp_block_job* to blockdev-hmp-cmd.c
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4E395C1D6;
+ Mon, 27 Jan 2020 11:04:13 +0000 (UTC)
+Message-ID: <25e53bd89ca030ba8088355c2647496c974f83bc.camel@redhat.com>
+Subject: Re: [PATCH 4/9] monitor: move hmp_drive_mirror and hmp_drive_backup
+ to blockdev-hmp-cmds.c
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Date: Mon, 27 Jan 2020 13:03:55 +0200
-In-Reply-To: <87r21tkcig.fsf@dusky.pond.sub.org>
+Date: Mon, 27 Jan 2020 13:04:12 +0200
+In-Reply-To: <87v9r5kcm7.fsf@dusky.pond.sub.org>
 References: <20191120185850.18986-1-mlevitsk@redhat.com>
- <20191120185850.18986-6-mlevitsk@redhat.com>
- <87r21tkcig.fsf@dusky.pond.sub.org>
+ <20191120185850.18986-5-mlevitsk@redhat.com>
+ <87v9r5kcm7.fsf@dusky.pond.sub.org>
 Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: WoTbAEw_MbKJFMU0UYJ4MQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: hi0jkxWFNgSkP1A_jxxBAA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,31 +79,23 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2019-11-27 at 08:24 +0100, Markus Armbruster wrote:
+On Wed, 2019-11-27 at 08:22 +0100, Markus Armbruster wrote:
 > Maxim Levitsky <mlevitsk@redhat.com> writes:
 > 
 > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 > > ---
-> >  blockdev-hmp-cmds.c | 52 +++++++++++++++++++++++++++++++++++++++++++++
-> >  monitor/hmp-cmds.c  | 52 ---------------------------------------------
-> >  2 files changed, 52 insertions(+), 52 deletions(-)
-> > 
-> > diff --git a/blockdev-hmp-cmds.c b/blockdev-hmp-cmds.c
-> > index 5ae899a324..e333de27b1 100644
-> > --- a/blockdev-hmp-cmds.c
-> > +++ b/blockdev-hmp-cmds.c
-> > @@ -238,3 +238,55 @@ void hmp_drive_backup(Monitor *mon, const QDict *qdict)
-> >      hmp_handle_error(mon, &err);
-> >  }
-> >  
-> > +
+> >  blockdev-hmp-cmds.c | 61 +++++++++++++++++++++++++++++++++++++++++++++
+> >  monitor/hmp-cmds.c  | 58 ------------------------------------------
+> >  2 files changed, 61 insertions(+), 58 deletions(-)
 > 
-> Is this extra blank line intentional?
+> Licensing issue: blockdev-hmp-cmds.c is BSD, the code you moved there is
+> GPLv2+.  The combined work must be GPLv2+.
+> 
+> 
 
-Yes, it gives me 1 black line spacing between all functions.
+Fixed, thanks!
 
 Best regards,
 	Maxim Levitsky
-
 
 
