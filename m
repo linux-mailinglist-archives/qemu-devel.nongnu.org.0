@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DFB414A3CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 13:26:45 +0100 (CET)
-Received: from localhost ([::1]:44166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE78314A3D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 13:28:18 +0100 (CET)
+Received: from localhost ([::1]:44192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw3TY-0001eB-Lh
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 07:26:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35440)
+	id 1iw3V4-000473-2d
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 07:28:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35468)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iw3OB-0000es-9k
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:14 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iw3OD-0000jM-Vp
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iw3O9-0006ul-3j
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44880
+ (envelope-from <cohuck@redhat.com>) id 1iw3OC-0006wR-Ir
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51732
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iw3O8-0006uU-VI
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:09 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iw3OC-0006wI-GU
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580127668;
+ s=mimecast20190719; t=1580127672;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g7RuH5GiafUYcGO/Y8Mt8jZfLcnwM6fwDONt3sWDv/0=;
- b=h9NksTVQt6Bx23rqGXOuVjAmKgZHO1O21qkS+8WaUm0YyyMVXYTaEqtTfYB/2b5Hhb4USD
- 6QxK6g2SZhVZ9ee/7txR5n/F4t34TrAypf+QyYBjdNwaQwf91FhKxSiYITozD0LBDmeYM1
- 2QIXXC8NSAE6cVdbVLIACIjayuNsYoU=
+ bh=CGluW5iqejwG7DeKJme/BLxyORrWws2kTLRoEn1h2m8=;
+ b=bwawL77Euj3vsue9e+wV+hfwPh/W0o70MURqEfb+qi5Lhy3ahWPhw0IVhK3a91hYMy3JnK
+ leC5SQd/sxELrTyqXcUIJ3BGjEHg5NjDJy7GaJsZI2RmDQUjoocTt+PdE2lFt3T1n1izTn
+ n/2zb8X32Yy3MV3ijX7k3vw3RBnDxbg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-UQaNrpweNOiOQw93jLa70w-1; Mon, 27 Jan 2020 07:21:03 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-119-H7m74h8tM6O3hkBp4JT3AA-1; Mon, 27 Jan 2020 07:21:08 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE5D3800D41;
- Mon, 27 Jan 2020 12:21:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D5441005514;
+ Mon, 27 Jan 2020 12:21:07 +0000 (UTC)
 Received: from localhost (ovpn-116-220.ams2.redhat.com [10.36.116.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F37986441;
- Mon, 27 Jan 2020 12:21:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61BC785735;
+ Mon, 27 Jan 2020 12:21:04 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 13/15] target/s390x: Remove DisasFields argument from
- extract_insn
-Date: Mon, 27 Jan 2020 13:20:14 +0100
-Message-Id: <20200127122016.18752-14-cohuck@redhat.com>
+Subject: [PULL 14/15] hw/s390x: Add a more verbose comment about
+ get_machine_class() and the wrappers
+Date: Mon, 27 Jan 2020 13:20:15 +0100
+Message-Id: <20200127122016.18752-15-cohuck@redhat.com>
 In-Reply-To: <20200127122016.18752-1-cohuck@redhat.com>
 References: <20200127122016.18752-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: UQaNrpweNOiOQw93jLa70w-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: H7m74h8tM6O3hkBp4JT3AA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,82 +72,78 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
 
-The separate pointer is now redundant.
+While working on the "Enable adapter interruption suppression again"
+recently, I had to discover that the meaning of get_machine_class()
+and the related *_allowed() wrappers is not very obvious. Add a more
+verbose comment here to clarify how these should be used.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200123232248.1800-6-richard.henderson@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20200123170256.12386-1-thuth@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/translate.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ hw/s390x/s390-virtio-ccw.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index 3674fee10c83..0bd2073718ed 100644
---- a/target/s390x/translate.c
-+++ b/target/s390x/translate.c
-@@ -6183,8 +6183,7 @@ static void extract_field(DisasFields *o, const Disas=
-Field *f, uint64_t insn)
- /* Lookup the insn at the current PC, extracting the operands into O and
-    returning the info struct for the insn.  Returns NULL for invalid insn.=
-  */
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index e0e28139a263..e759eb5f83cf 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -505,6 +505,19 @@ static inline void machine_set_dea_key_wrap(Object *ob=
+j, bool value,
 =20
--static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s,
--                                     DisasFields *f)
-+static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s)
+ static S390CcwMachineClass *current_mc;
+=20
++/*
++ * Get the class of the s390-ccw-virtio machine that is currently in use.
++ * Note: libvirt is using the "none" machine to probe for the features of =
+the
++ * host CPU, so in case this is called with the "none" machine, the functi=
+on
++ * returns the TYPE_S390_CCW_MACHINE base class. In this base class, all t=
+he
++ * various "*_allowed" variables are enabled, so that the *_allowed() wrap=
+pers
++ * below return the correct default value for the "none" machine.
++ *
++ * Attention! Do *not* add additional new wrappers for CPU features (e.g. =
+like
++ * the ri_allowed() wrapper) via this mechanism anymore. CPU features shou=
+ld
++ * be handled via the CPU models, i.e. checking with cpu_model_allowed() d=
+uring
++ * CPU initialization and s390_has_feat() later should be sufficient.
++ */
+ static S390CcwMachineClass *get_machine_class(void)
  {
-     uint64_t insn, pc =3D s->base.pc_next;
-     int op, op2, ilen;
-@@ -6264,13 +6263,14 @@ static const DisasInsn *extract_insn(CPUS390XState =
-*env, DisasContext *s,
-         break;
-     }
+     if (unlikely(!current_mc)) {
+@@ -521,19 +534,16 @@ static S390CcwMachineClass *get_machine_class(void)
 =20
--    memset(f, 0, sizeof(*f));
--    f->raw_insn =3D insn;
--    f->op =3D op;
--    f->op2 =3D op2;
-+    memset(&s->fields, 0, sizeof(s->fields));
-+    s->fields.raw_insn =3D insn;
-+    s->fields.op =3D op;
-+    s->fields.op2 =3D op2;
+ bool ri_allowed(void)
+ {
+-    /* for "none" machine this results in true */
+     return get_machine_class()->ri_allowed;
+ }
 =20
-     /* Lookup the instruction.  */
-     info =3D lookup_opc(op << 8 | op2);
-+    s->insn =3D info;
+ bool cpu_model_allowed(void)
+ {
+-    /* for "none" machine this results in true */
+     return get_machine_class()->cpu_model_allowed;
+ }
 =20
-     /* If we found it, extract the operands.  */
-     if (info !=3D NULL) {
-@@ -6278,7 +6278,7 @@ static const DisasInsn *extract_insn(CPUS390XState *e=
-nv, DisasContext *s,
-         int i;
+ bool hpage_1m_allowed(void)
+ {
+-    /* for "none" machine this results in true */
+     return get_machine_class()->hpage_1m_allowed;
+ }
 =20
-         for (i =3D 0; i < NUM_C_FIELD; ++i) {
--            extract_field(f, &format_info[fmt].op[i], insn);
-+            extract_field(&s->fields, &format_info[fmt].op[i], insn);
-         }
-     }
-     return info;
-@@ -6302,10 +6302,7 @@ static DisasJumpType translate_one(CPUS390XState *en=
-v, DisasContext *s)
-     DisasOps o =3D {};
-=20
-     /* Search for the insn in the table.  */
--    insn =3D extract_insn(env, s, &s->fields);
--
--    /* Set up the strutures we use to communicate with the helpers. */
--    s->insn =3D insn;
-+    insn =3D extract_insn(env, s);
-=20
-     /* Emit insn_start now that we know the ILEN.  */
-     tcg_gen_insn_start(s->base.pc_next, s->cc_op, s->ilen);
 --=20
 2.21.1
 
