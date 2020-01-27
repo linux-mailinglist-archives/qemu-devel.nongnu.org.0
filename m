@@ -2,50 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531D014AAA2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 20:40:17 +0100 (CET)
-Received: from localhost ([::1]:50158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE60F14AAAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 20:42:21 +0100 (CET)
+Received: from localhost ([::1]:50206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwAF6-0007QM-AP
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 14:40:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57911)
+	id 1iwAH6-000168-UI
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 14:42:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1iwAE4-0006ZX-IJ
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 14:39:13 -0500
+ (envelope-from <jsnow@redhat.com>) id 1iwAG2-0000Wn-FA
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 14:41:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1iwAE3-00057t-3y
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 14:39:12 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37058
+ (envelope-from <jsnow@redhat.com>) id 1iwAG1-0008Im-Ef
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 14:41:14 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27740
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iwAE2-00055S-WA
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 14:39:11 -0500
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1iwAG1-0008HX-A4
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 14:41:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580153949;
+ s=mimecast20190719; t=1580154072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Uvolh9/PG2lF4vOROp/Gc+nfb1v2LcVxTQsqmMCLPZc=;
- b=LEb4SuI0Hp1CwL6f0YnHOObrtpW3fUj9v2yCX8/RgDT1gQ+JC9N5DKO3aEBc/DjH+T+D8D
- IIqmQyhBkCJUKLZXO2QgofCrjvQxj/M9GxKbHTnzecaavy5s+V5RsaDEamrCtjsMEdUbh/
- 31NJ/YRJEWyezskdR11Xv6pD2LDKhIc=
+ bh=/0Bi8ibiZfmseSD2duMxadHTmQYKc3THFLissIh+yQs=;
+ b=iCi3fKN+fEsLkFM/D1hM5mKpiA2gXBXFUfASsy2iK1APZhiDBzgWwxNVpLi2FuxCWMi/hT
+ kgq/vP+aCTBpii+rVChZnI9OnDpWGS4PTJtdHfZWmjKTAZUOW6byWXFT/Cq5q/drzNXN8O
+ gdQDDTbLhx3VnXiVsiGyCAmb835BHgY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-5sl4QJezNxG3Wx3EfkiewA-1; Mon, 27 Jan 2020 14:39:07 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-324-565XBKrBPx2Jwes4gAD-zg-1; Mon, 27 Jan 2020 14:41:10 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D68618B9FC1;
- Mon, 27 Jan 2020 19:39:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 619DC8017CC;
+ Mon, 27 Jan 2020 19:41:09 +0000 (UTC)
 Received: from [10.18.17.116] (dhcp-17-116.bos.redhat.com [10.18.17.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8219319E9C;
- Mon, 27 Jan 2020 19:39:02 +0000 (UTC)
-Subject: Re: [PATCH v3 00/13] RFC: [for 5.0]: HMP monitor handlers cleanups
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20200127103647.17761-1-mlevitsk@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 13B5D5D9CA;
+ Mon, 27 Jan 2020 19:41:00 +0000 (UTC)
+Subject: Re: Making QEMU easier for management tools and applications
+To: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi
+ <stefanha@gmail.com>, Kashyap Chamarthy <kchamart@redhat.com>
+References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
+ <87h81unja8.fsf@dusky.pond.sub.org>
+ <20200102144722.GL121208@stefanha-x1.localdomain>
+ <20200116110314.GA24159@paraplu>
+ <20200120095554.GA345995@stefanha-x1.localdomain>
+ <89636ffa-712d-a163-538f-c1db8ad1467c@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
@@ -121,18 +127,18 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <2e885a1d-94c7-53b5-44f7-feffe70f57c3@redhat.com>
-Date: Mon, 27 Jan 2020 14:39:02 -0500
+Message-ID: <9b3e8ac8-2900-b585-37e1-d9f2b808a689@redhat.com>
+Date: Mon, 27 Jan 2020 14:41:00 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200127103647.17761-1-mlevitsk@redhat.com>
+In-Reply-To: <89636ffa-712d-a163-538f-c1db8ad1467c@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 5sl4QJezNxG3Wx3EfkiewA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 565XBKrBPx2Jwes4gAD-zg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
@@ -147,40 +153,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- Jan Tomko <jtomko@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Dominik Csapak <d.csapak@proxmox.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 1/27/20 5:36 AM, Maxim Levitsky wrote:
-> This patch series is bunch of cleanups
-> to the hmp monitor code.
+On 1/25/20 6:41 AM, Paolo Bonzini wrote:
+> On 20/01/20 10:55, Stefan Hajnoczi wrote:
+>>>
+>>> [1] https://qemu.readthedocs.io/en/latest/interop/live-block-operations.html
+>> John and I discussed async events in the past.  qmp-shell currently uses
+>> the input() built-in function.  If we modify it with a
+>> select(2)/poll(2)-style function that monitors both stdin and the QMP
+>> socket then it could print QMP events as soon as they are received.
 > 
-> This series only touched blockdev related hmp handlers.
+> I think it should be rewritten using async/await.  A simple example:
 > 
-> No functional changes expected other that
-> light error message changes by the last patch.
+>     import asyncio
+>     import sys
+>     from concurrent.futures import ThreadPoolExecutor
 > 
-> This was inspired by this bugzilla:
-> https://bugzilla.redhat.com/show_bug.cgi?id=1719169
+>     async def ainput(prompt: str = ""):
+>         with ThreadPoolExecutor(1, "ainput") as executor:
+>             return (await asyncio.get_event_loop().run_in_executor(
+>                 executor, sys.stdin.readline
+>             )).rstrip()
 > 
-> Basically some users still parse hmp error messages,
-> and they would like to have them prefixed with 'Error:'
+>     async def numbers():
+>         i = 1
+>         while True:
+>             print(i)
+>             i = i + 1
+>             await asyncio.sleep(1)
+> 
+>     async def main():
+>         name = await ainput("What's your name? ")
+>         print("Hello, {}!".format(name))
+> 
+>     asyncio.get_event_loop().create_task(numbers())
+>     asyncio.get_event_loop().run_until_complete(main())
+> 
+> This would be a great Summer of Code project.  Even an autocompletion
+> interface using readline should be possible.
+> 
+> Paolo
 > 
 
-HMP isn't meant to be parsed. It's explicitly *not* API or ABI. I do
-like consistency in my UIs (it's useful for human eyes, too), but I'd
-like to know more about the request.
-
-Is this request coming from libvirt? Can we wean them off of this
-interface? What do they need as a replacement?
-
-(Is blockdev not enough?)
+I wrote an async version at one point; I had problems integrating
+asyncio with readline functionality.
 
 --js
 
