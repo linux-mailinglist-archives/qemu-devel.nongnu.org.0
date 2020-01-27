@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F9714A7E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 17:16:55 +0100 (CET)
-Received: from localhost ([::1]:47478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AB6214A7EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 17:20:14 +0100 (CET)
+Received: from localhost ([::1]:47496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw74H-0001OC-Qu
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 11:16:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57785)
+	id 1iw77U-000361-Pn
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 11:20:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58413)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iw730-0000jS-6y
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:15:35 -0500
+ (envelope-from <kraxel@redhat.com>) id 1iw76A-0002Ut-DX
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:18:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iw72y-0002VZ-BN
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:15:33 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36842
+ (envelope-from <kraxel@redhat.com>) id 1iw769-0004gk-7Y
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:18:50 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34143
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iw72y-0002U2-7q
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:15:32 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1iw769-0004gD-3f
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:18:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580141731;
+ s=mimecast20190719; t=1580141928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=Dj7QIN1+MoxU3tR+bRA4GkKXxZ3NCp2a4N/Dz5RnPJ8=;
- b=JpOszko65xpaTm62Sxfo8Y0xAfC/i6nr+vPXQ8fYCHd6jtJOPVxGlyxVWMajWFaZn5vAnZ
- aa/xScEtNLzKrkQyxGXI4HfPL+pxOrD8IPxzLczQJ6WdcjyUtGWDblKidekWU9goNwsZ6f
- vSY9j9CjyyJ/ANZU1wcwVMRnBWhkw70=
+ in-reply-to:in-reply-to:references:references;
+ bh=3z5F/5L1XRLqZjLqch4jwuA6WwN4doiOZyvEJx6eFzw=;
+ b=bTPQs2Cfgkq8ESJuDpbJ82kKmwZ8dJssQQaN1Ong0uThC1so89AE5y3rXxzl/ujxctQm+E
+ td87hpJwrb6VNpEyLRwZ6jeF+ZBdo0+RdydclvRS08fdizd/0fRzHw7OS2i8i16C95apaN
+ GF7nRhOGEySj2OAXjpc8Ki5OccNOqpo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-ibpgfjG8MMuKbj1E3AvAMQ-1; Mon, 27 Jan 2020 11:15:27 -0500
+ us-mta-142-RmCOp7YxMNud-erLdsZHJA-1; Mon, 27 Jan 2020 11:18:44 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A317685EE71;
- Mon, 27 Jan 2020 16:15:25 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-117-94.ams2.redhat.com [10.36.117.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3292B88836;
- Mon, 27 Jan 2020 16:15:12 +0000 (UTC)
-Subject: Re: [PATCH v4 5/7] tests/boot_linux_console: Test booting U-Boot on
- the Raspberry Pi 2
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200120235159.18510-1-f4bug@amsat.org>
- <20200120235159.18510-6-f4bug@amsat.org>
- <d432f2d7-f238-0503-a242-373be81b7622@redhat.com>
- <5e986679-7aff-a33c-eefb-d878b72089ad@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <940afac4-2b25-0de9-9fd2-a9903d9fcd04@redhat.com>
-Date: Mon, 27 Jan 2020 17:15:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40CD3DBF3;
+ Mon, 27 Jan 2020 16:18:41 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-84.ams2.redhat.com
+ [10.36.116.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C53A811FA;
+ Mon, 27 Jan 2020 16:18:33 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 90B881747D; Mon, 27 Jan 2020 17:18:32 +0100 (CET)
+Date: Mon, 27 Jan 2020 17:18:32 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: Making QEMU easier for management tools and applications
+Message-ID: <20200127161832.pp2u4lx23hiuudr6@sirius.home.kraxel.org>
+References: <20191224134139.GD2710539@redhat.com>
+ <30664f6e-81da-a6e6-9b20-037fc91290fb@redhat.com>
+ <878slyej29.fsf@dusky.pond.sub.org>
+ <a41ae09b-021f-2fda-0b03-7b37c5624ab3@redhat.com>
+ <20200123190145.GI657556@redhat.com>
+ <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
+ <871rrp474i.fsf@dusky.pond.sub.org>
+ <f24ff946-2c37-d7c7-ff18-d67e22aa438e@redhat.com>
+ <20200127083513.hgl5ydgpn4mkuho5@sirius.home.kraxel.org>
+ <20200127121311.GB5669@linux.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <5e986679-7aff-a33c-eefb-d878b72089ad@redhat.com>
-Content-Language: en-US
+In-Reply-To: <20200127121311.GB5669@linux.fritz.box>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: ibpgfjG8MMuKbj1E3AvAMQ-1
+X-MC-Unique: RmCOp7YxMNud-erLdsZHJA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,93 +84,42 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Laurent Bonnans <laurent.bonnans@here.com>,
- Cheng Xiang <ext-cheng.xiang@here.com>
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/01/2020 17.09, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 1/27/20 5:02 PM, Thomas Huth wrote:
->> On 21/01/2020 00.51, Philippe Mathieu-Daud=C3=A9 wrote:
->>> This test runs U-Boot on the Raspberry Pi 2.
->>> It is very simple and fast:
->>>
->>> =C2=A0=C2=A0 $ avocado --show=3Dapp,console run -t raspi2 -t u-boot
->>> tests/acceptance/
->>> =C2=A0=C2=A0 JOB LOG=C2=A0=C2=A0=C2=A0 : avocado/job-results/job-2020-0=
-1-20T23.40-2424777/job.log
->>> =C2=A0=C2=A0=C2=A0 (1/1)
->>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2=
-_uboot:
->>>
->>> =C2=A0=C2=A0 console: MMC:=C2=A0=C2=A0 sdhci@7e300000: 0
->>> =C2=A0=C2=A0 console: Loading Environment from FAT... Card did not resp=
-ond to
->>> voltage select!
->>> =C2=A0=C2=A0 console: In:=C2=A0=C2=A0=C2=A0 serial
->>> =C2=A0=C2=A0 console: Out:=C2=A0=C2=A0 vidconsole
->>> =C2=A0=C2=A0 console: Err:=C2=A0=C2=A0 vidconsole
->>> =C2=A0=C2=A0 console: Net:=C2=A0=C2=A0 No ethernet found.
->>> =C2=A0=C2=A0 console: starting USB...
->>> =C2=A0=C2=A0 console: USB0:=C2=A0=C2=A0 Port not available.
->>> =C2=A0=C2=A0 console: Hit any key to stop autoboot:=C2=A0 0
->>> =C2=A0=C2=A0 console: U-Boot>
->>> =C2=A0=C2=A0 console: U-Boot> bdinfo
->>> =C2=A0=C2=A0 console: arch_number =3D 0x00000000
->>> =C2=A0=C2=A0 console: boot_params =3D 0x00000100
->>> =C2=A0=C2=A0 console: DRAM bank=C2=A0=C2=A0 =3D 0x00000000
->>> =C2=A0=C2=A0 console: -> start=C2=A0=C2=A0=C2=A0 =3D 0x00000000
->>> =C2=A0=C2=A0 console: -> size=C2=A0=C2=A0=C2=A0=C2=A0 =3D 0x3c000000
->>> =C2=A0=C2=A0 console: baudrate=C2=A0=C2=A0=C2=A0 =3D 115200 bps
->>> =C2=A0=C2=A0 console: TLB addr=C2=A0=C2=A0=C2=A0 =3D 0x3bff0000
->>> =C2=A0=C2=A0 console: relocaddr=C2=A0=C2=A0 =3D 0x3bf64000
->>> =C2=A0=C2=A0 console: reloc off=C2=A0=C2=A0 =3D 0x3bf5c000
->>> =C2=A0=C2=A0 console: irq_sp=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D 0x3bb5fe=
-c0
->>> =C2=A0=C2=A0 console: sp start=C2=A0=C2=A0=C2=A0 =3D 0x3bb5feb0
->>> =C2=A0=C2=A0 console: Early malloc usage: 2a4 / 400
->>> =C2=A0=C2=A0 console: fdt_blob=C2=A0=C2=A0=C2=A0 =3D 0x3bfbdfb0
->>> =C2=A0=C2=A0 console: U-Boot> version
->>> =C2=A0=C2=A0 console: U-Boot 2019.01+dfsg-7 (May 14 2019 - 02:07:44 +00=
-00)
->>> =C2=A0=C2=A0 console: gcc (Debian 8.3.0-7) 8.3.0
->>> =C2=A0=C2=A0 console: GNU ld (GNU Binutils for Debian) 2.31.1
->>> =C2=A0=C2=A0 console: U-Boot> reset
->>> =C2=A0=C2=A0 console: resetting ...
->>> =C2=A0=C2=A0 PASS (0.46 s)
->>>
->>> U-Boot is built by the Debian project, see:
->>> https://wiki.debian.org/InstallingDebianOn/Allwinner#Creating_a_bootabl=
-e_SD_Card_with_u-boot
->>>
->>>
->>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>> ---
->>> =C2=A0 tests/acceptance/boot_linux_console.py | 28 ++++++++++++++++++++=
-++++++
->>> =C2=A0 1 file changed, 28 insertions(+)
->>>
->>> diff --git a/tests/acceptance/boot_linux_console.py
->>> b/tests/acceptance/boot_linux_console.py
->>> index e40b84651b..682b801b4f 100644
->>> --- a/tests/acceptance/boot_linux_console.py
->>> +++ b/tests/acceptance/boot_linux_console.py
->>
->> The file is called boot_*linux*_console.py ... so shouldn't tests that
->> don't use Linux rather go into another file instead?
->> Either machine_arm_raspi.py or maybe a boot_firmware_console.py file?
+ Hi,
+
+> > We already have qapi schema for -blockdev + -display + -audiodev +
+> > -chardev, creating a configuration struct which supports these
+> > shouldn't be that much effort.  Then move over QemuOpts one by one.
 >=20
-> Yes I have a series ready splitting boot_linux_console.py per machines
-> (as suggested machine_arm_raspi.py) not for consistency with fw/linux
-> but because I'm tired of fixing conflicts while rebasing since months.
+> chardev-add uses a QAPI type that has too deep nesting to be user
+> friendly.
 
-Ah, great, good idea. That will also make it easier to assign the files
-to entries in MAINTAINERS, I guess.
+Yea, right, it is relatively old and doesn't use stuff like base types
+which didn't exist back then ...
 
- Thanks,
-  Thomas
+> > Once config file support is complete enough we should be able to offloa=
+d
+> > backward compatibility command line parsing to some script which
+> > transforms the cli into a config file.  Which is probably better than
+> > trying to add -writeconfig to qemu as we don't have to do the string
+> > processing in C then.
+>=20
+> If we get a launcher script anyway, I would argue that the system
+> emulator binary written in C should only support JSON (like it already
+> does) and the script can easily translate from YAML to JSON.
+
+That makes sense indeed.
+
+cheers,
+  Gerd
 
 
