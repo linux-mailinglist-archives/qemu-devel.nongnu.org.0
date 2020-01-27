@@ -2,65 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CA814A042
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 09:56:09 +0100 (CET)
-Received: from localhost ([::1]:41778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1415914A098
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 10:21:48 +0100 (CET)
+Received: from localhost ([::1]:41940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw0Bk-0005WJ-Tc
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 03:56:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51997)
+	id 1iw0aZ-0003gM-5x
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 04:21:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55755)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrolnik@gmail.com>) id 1iw0Aq-0004hh-TM
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:55:14 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iw0Zp-00038h-6F
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 04:21:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1iw0Ao-0003T8-Fs
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:55:12 -0500
-Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:42504)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1iw0Ao-0003Sw-AK
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:55:10 -0500
-Received: by mail-qv1-xf41.google.com with SMTP id dc14so4100798qvb.9
- for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 00:55:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NqDee+KM7MyUdml3onoslb1/X5F9cEJtYYQA7vXgqJE=;
- b=TsaWa8llTLbjPdXLmfC5msNphVymXFvciSp+qjuNnBeKw93mq02PxL5SAtzzlFFDNN
- o+4hmibJIe3QniRK5mgYSPPpnR+RAu3cr8puYPyoLvLDQH+qR07MT1nGwPVmMKyHhA4t
- cBWQUStQepln4dXur6/wNQbl7s939lw7KAs2AYGUQxIWH/e95zkqbHjBbDxd/87bfsvL
- dXcszaa7b03XXwcUAZBGRZxpZFN/VdXdxx5zikBgR1ZUWvotlPlC0v8Uxdo8OnB2PIX6
- d8iIJywhxyLqFu6CkEZc9yXhqElYL+4r1SiPtIj0O6vmOj6fa3QPdfhDgNOJ//aNagjQ
- a7pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NqDee+KM7MyUdml3onoslb1/X5F9cEJtYYQA7vXgqJE=;
- b=slWU/MSZkLMCvTEu/09+xlA3vg7M3UJVJTfZ/pEJx4HYK3m6wtPTsdW3eP0rc4Qibc
- qLEDaD3Ay8qaZ1mmeKm2aIWTGwXRkz4Ei+5Z9kshMcefGS6JtCpCezzgJeSYhsK8RAA/
- Il5NZld1k2Gt1/sDwEcjSwzlvPxBn3xPx6kB2R6e0B5eJqeCUVCGD1hRSn+w7EYKzC6T
- VFgLiweF8YeRINMtKQnrE6L4is+Zy+9lVTK3TzbiwkIUOTZDwcClFFoP+n9/+ZHD66zU
- ugnvytcC+XrKYy+iar4mRGLPN6GLe1NTJdszz/KoRmD8N0bdpSW4koQkMOY4NRI7R2+H
- +r3g==
-X-Gm-Message-State: APjAAAUVQQv9m/3H7fxWhWyGC/+3vQxCx8fnFQWksuNBnW5ukPIOPfOa
- fR+TQffA52A/7k4lcBBDj9rnqpDy46m5LmtSXWs=
-X-Google-Smtp-Source: APXvYqyccws+iTMuD4BOeVI4cwh63aj6M64D6Tpgln8CXSc0ClEICdOEjvwqHYbp5awDLJVnInhOxYeNne+/rw/mkQk=
-X-Received: by 2002:a0c:8d0a:: with SMTP id r10mr14694895qvb.7.1580115309651; 
- Mon, 27 Jan 2020 00:55:09 -0800 (PST)
+ (envelope-from <dgibson@ozlabs.org>) id 1iw0Zn-0007PS-M3
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 04:21:00 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:43063)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iw0Zm-0007Ln-Tw; Mon, 27 Jan 2020 04:20:59 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 485kkZ15R2z9sRR; Mon, 27 Jan 2020 20:20:54 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1580116854;
+ bh=wrO7VlkgeV4ypWjsPlmWLbiZrckiZtBRGDxecI+M+lY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=F2p/+giDQiLVHNDNfMY/vlsBb5bnqRbJLXJAq2HH5HyTgTVMq/sBEv/N8HHt/mS5i
+ KodAi3wg7zkod6cyGYr5MVJBbaINbOhlI53pxk5iKzNe0d5pRdVQjA4zGxVlWD4n//
+ 9FK48dt+ehaG3QLzj6jB3MUSkUcDirH+KkKtfYX0=
+Date: Mon, 27 Jan 2020 19:18:46 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v3.1 74/80] exec: cleanup
+ qemu_minrampagesize()/qemu_maxrampagesize()
+Message-ID: <20200127081846.GA34829@umbus.fritz.box>
+References: <1579779525-20065-75-git-send-email-imammedo@redhat.com>
+ <1580112408-93354-1-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-References: <1580079311-20447-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1580079311-20447-2-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1580079311-20447-2-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Mon, 27 Jan 2020 10:54:26 +0200
-Message-ID: <CAK4993itnp5EyT8g-zGcMY6Oud9pC9GRv1Aa2dvofrH8mLWnOQ@mail.gmail.com>
-Subject: Re: [PATCH rc3 01/30] target/avr: Add basic parameters for new AVR
- platform
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-Content-Type: multipart/alternative; boundary="000000000000bc6c9f059d1b43bd"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
+Content-Disposition: inline
+In-Reply-To: <1580112408-93354-1-git-send-email-imammedo@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f41
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,352 +56,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: thuth@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org,
+ mdroth@linux.vnet.ibm.com, qemu-ppc@nongnu.org, pbonzini@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bc6c9f059d1b43bd
-Content-Type: text/plain; charset="UTF-8"
+
+--sdtB3X0nJg68CQEu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Thanks for you help guys.
-
-On Mon, Jan 27, 2020 at 12:55 AM Aleksandar Markovic <
-aleksandar.markovic@rt-rk.com> wrote:
-
-> From: Michael Rolnik <mrolnik@gmail.com>
->
-> This includes definitions of various basic parameters needed
-> for integration of a new platform into QEMU.
->
-> Co-developed-by: Michael Rolnik <mrolnik@gmail.com>
-> Co-developed-by: Sarah Harris <S.E.Harris@kent.ac.uk>
-> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-> Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
-> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-> Acked-by: Igor Mammedov <imammedo@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+On Mon, Jan 27, 2020 at 09:06:48AM +0100, Igor Mammedov wrote:
+> Since all RAM is backed by hostmem backends, drop
+> global -mem-path invariant and simplify code.
+>=20
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 > ---
->  target/avr/cpu-param.h | 37 ++++++++++++++++++++++++++
->  target/avr/cpu.h       | 72
-> ++++++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 109 insertions(+)
->  create mode 100644 target/avr/cpu-param.h
->  create mode 100644 target/avr/cpu.h
->
-> diff --git a/target/avr/cpu-param.h b/target/avr/cpu-param.h
-> new file mode 100644
-> index 0000000..0c29ce4
-> --- /dev/null
-> +++ b/target/avr/cpu-param.h
-> @@ -0,0 +1,37 @@
-> +/*
-> + * QEMU AVR CPU
-> + *
-> + * Copyright (c) 2019 Michael Rolnik
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see
-> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
-> + */
-> +
-> +#ifndef AVR_CPU_PARAM_H
-> +#define AVR_CPU_PARAM_H
-> +
-> +#define TARGET_LONG_BITS 32
-> +/*
-> + * TARGET_PAGE_BITS cannot be more than 8 bits because
-> + * 1.  all IO registers occupy [0x0000 .. 0x00ff] address range, and the=
-y
-> + *     should be implemented as a device and not memory
-> + * 2.  SRAM starts at the address 0x0100
-> + */
-> +#define TARGET_PAGE_BITS 8
-> +#define TARGET_PHYS_ADDR_SPACE_BITS 24
-> +#define TARGET_VIRT_ADDR_SPACE_BITS 24
-> +#define NB_MMU_MODES 2
-> +
-> +
-> +#endif
-> diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-> new file mode 100644
-> index 0000000..d122611
-> --- /dev/null
-> +++ b/target/avr/cpu.h
-> @@ -0,0 +1,72 @@
-> +/*
-> + * QEMU AVR CPU
-> + *
-> + * Copyright (c) 2019 Michael Rolnik
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see
-> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
-> + */
-> +
-> +#ifndef QEMU_AVR_CPU_H
-> +#define QEMU_AVR_CPU_H
-> +
-> +#include "cpu-qom.h"
-> +#include "exec/cpu-defs.h"
-> +
-> +#define TCG_GUEST_DEFAULT_MO 0
-> +#define AVR_CPU_TYPE_SUFFIX "-" TYPE_AVR_CPU
-> +#define AVR_CPU_TYPE_NAME(name) (name AVR_CPU_TYPE_SUFFIX)
-> +#define CPU_RESOLVING_TYPE TYPE_AVR_CPU
-> +
-> +/*
-> + * AVR has two memory spaces, data & code.
-> + * e.g. both have 0 address
-> + * ST/LD instructions access data space
-> + * LPM/SPM and instruction fetching access code memory space
-> + */
-> +#define MMU_CODE_IDX 0
-> +#define MMU_DATA_IDX 1
-> +
-> +#define EXCP_RESET 1
-> +#define EXCP_INT(n) (EXCP_RESET + (n) + 1)
-> +
-> +/* Number of CPU registers */
-> +#define NUMBER_OF_CPU_REGISTERS 32
-> +/* Number of IO registers accessible by ld/st/in/out */
-> +#define NUMBER_OF_IO_REGISTERS 64
-> +
-> +/*
-> + * Offsets of AVR memory regions in host memory space.
-> + *
-> + * This is needed because the AVR has separate code and data address
-> + * spaces that both have start from zero but have to go somewhere in
-> + * host memory.
-> + *
-> + * It's also useful to know where some things are, like the IO registers=
-.
-> + */
-> +/* Flash program memory */
-> +#define OFFSET_CODE 0x00000000
-> +/* CPU registers, IO registers, and SRAM */
-> +#define OFFSET_DATA 0x00800000
-> +/* CPU registers specifically, these are mapped at the start of data */
-> +#define OFFSET_CPU_REGISTERS OFFSET_DATA
-> +/*
-> + * IO registers, including status register, stack pointer, and memory
-> + * mapped peripherals, mapped just after CPU registers
-> + */
-> +#define OFFSET_IO_REGISTERS (OFFSET_DATA + NUMBER_OF_CPU_REGISTERS)
-> +
-> +#define EF_AVR_MACH 0x7F
-> +
-> +#endif /* !defined (QEMU_AVR_CPU_H) */
-> --
-> 2.7.4
->
->
+> v4:
+>   * fix access to uninitialized pagesize/hpsize
+>     (David Gibson <david@gibson.dropbear.id.au>)
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+> CC: thuth@redhat.com
+> CC: aik@ozlabs.ru
+> CC: mdroth@linux.vnet.ibm.com
+> CC: david@gibson.dropbear.id.au
+> CC: qemu-ppc@nongnu.org
+> CC: pbonzini@redhat.com
+> CC: rth@twiddle.net
+> ---
+>  exec.c | 49 ++++---------------------------------------------
+>  1 file changed, 4 insertions(+), 45 deletions(-)
+>=20
+> diff --git a/exec.c b/exec.c
+> index 67e520d..9f5421c 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -1668,59 +1668,18 @@ static int find_max_backend_pagesize(Object *obj,=
+ void *opaque)
+>  long qemu_minrampagesize(void)
+>  {
+>      long hpsize =3D LONG_MAX;
+> -    long mainrampagesize;
+> -    Object *memdev_root;
+> -    MachineState *ms =3D MACHINE(qdev_get_machine());
+> -
+> -    mainrampagesize =3D qemu_mempath_getpagesize(mem_path);
+> -
+> -    /* it's possible we have memory-backend objects with
+> -     * hugepage-backed RAM. these may get mapped into system
+> -     * address space via -numa parameters or memory hotplug
+> -     * hooks. we want to take these into account, but we
+> -     * also want to make sure these supported hugepage
+> -     * sizes are applicable across the entire range of memory
+> -     * we may boot from, so we take the min across all
+> -     * backends, and assume normal pages in cases where a
+> -     * backend isn't backed by hugepages.
+> -     */
+> -    memdev_root =3D object_resolve_path("/objects", NULL);
+> -    if (memdev_root) {
+> -        object_child_foreach(memdev_root, find_min_backend_pagesize, &hp=
+size);
+> -    }
+> -    if (hpsize =3D=3D LONG_MAX) {
+> -        /* No additional memory regions found =3D=3D> Report main RAM pa=
+ge size */
+> -        return mainrampagesize;
+> -    }
+> -
+> -    /* If NUMA is disabled or the NUMA nodes are not backed with a
+> -     * memory-backend, then there is at least one node using "normal" RA=
+M,
+> -     * so if its page size is smaller we have got to report that size in=
+stead.
+> -     */
+> -    if (hpsize > mainrampagesize &&
+> -        (ms->numa_state =3D=3D NULL ||
+> -         ms->numa_state->num_nodes =3D=3D 0 ||
+> -         ms->numa_state->nodes[0].node_memdev =3D=3D NULL)) {
+> -        static bool warned;
+> -        if (!warned) {
+> -            error_report("Huge page support disabled (n/a for main memor=
+y).");
+> -            warned =3D true;
+> -        }
+> -        return mainrampagesize;
+> -    }
+> +    Object *memdev_root =3D object_resolve_path("/objects", NULL);
+> =20
+> +    object_child_foreach(memdev_root, find_min_backend_pagesize, &hpsize=
+);
+>      return hpsize;
+>  }
+> =20
+>  long qemu_maxrampagesize(void)
+>  {
+> -    long pagesize =3D qemu_mempath_getpagesize(mem_path);
+> +    long pagesize =3D 0;
+>      Object *memdev_root =3D object_resolve_path("/objects", NULL);
+> =20
+> -    if (memdev_root) {
+> -        object_child_foreach(memdev_root, find_max_backend_pagesize,
+> -                             &pagesize);
+> -    }
+> +    object_child_foreach(memdev_root, find_max_backend_pagesize, &pagesi=
+ze);
+>      return pagesize;
+>  }
+>  #else
 
 --=20
-Best Regards,
-Michael Rolnik
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
---000000000000bc6c9f059d1b43bd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--sdtB3X0nJg68CQEu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-<div dir=3D"ltr">Thanks for you help guys.</div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 27, 2020 at 12:55 AM =
-Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.markovic@rt-rk.com">al=
-eksandar.markovic@rt-rk.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">From: Michael Rolnik &lt;<a href=3D"mailto:mroln=
-ik@gmail.com" target=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
-<br>
-This includes definitions of various basic parameters needed<br>
-for integration of a new platform into QEMU.<br>
-<br>
-Co-developed-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com" ta=
-rget=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
-Co-developed-by: Sarah Harris &lt;<a href=3D"mailto:S.E.Harris@kent.ac.uk" =
-target=3D"_blank">S.E.Harris@kent.ac.uk</a>&gt;<br>
-Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com" targ=
-et=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
-Signed-off-by: Sarah Harris &lt;<a href=3D"mailto:S.E.Harris@kent.ac.uk" ta=
-rget=3D"_blank">S.E.Harris@kent.ac.uk</a>&gt;<br>
-Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com" targ=
-et=3D"_blank">mrolnik@gmail.com</a>&gt;<br>
-Acked-by: Igor Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com" target=
-=3D"_blank">imammedo@redhat.com</a>&gt;<br>
-Tested-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.=
-com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
-Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
-naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
-Signed-off-by: Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.m.mail@=
-gmail.com" target=3D"_blank">aleksandar.m.mail@gmail.com</a>&gt;<br>
----<br>
-=C2=A0target/avr/cpu-param.h | 37 ++++++++++++++++++++++++++<br>
-=C2=A0target/avr/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0| 72 +++++++++++++++++++++=
-+++++++++++++++++++++++++++++<br>
-=C2=A02 files changed, 109 insertions(+)<br>
-=C2=A0create mode 100644 target/avr/cpu-param.h<br>
-=C2=A0create mode 100644 target/avr/cpu.h<br>
-<br>
-diff --git a/target/avr/cpu-param.h b/target/avr/cpu-param.h<br>
-new file mode 100644<br>
-index 0000000..0c29ce4<br>
---- /dev/null<br>
-+++ b/target/avr/cpu-param.h<br>
-@@ -0,0 +1,37 @@<br>
-+/*<br>
-+ * QEMU AVR CPU<br>
-+ *<br>
-+ * Copyright (c) 2019 Michael Rolnik<br>
-+ *<br>
-+ * This library is free software; you can redistribute it and/or<br>
-+ * modify it under the terms of the GNU Lesser General Public<br>
-+ * License as published by the Free Software Foundation; either<br>
-+ * version 2.1 of the License, or (at your option) any later version.<br>
-+ *<br>
-+ * This library is distributed in the hope that it will be useful,<br>
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU<=
-br>
-+ * Lesser General Public License for more details.<br>
-+ *<br>
-+ * You should have received a copy of the GNU Lesser General Public<br>
-+ * License along with this library; if not, see<br>
-+ * &lt;<a href=3D"http://www.gnu.org/licenses/lgpl-2.1.html" rel=3D"norefe=
-rrer" target=3D"_blank">http://www.gnu.org/licenses/lgpl-2.1.html</a>&gt;<b=
-r>
-+ */<br>
-+<br>
-+#ifndef AVR_CPU_PARAM_H<br>
-+#define AVR_CPU_PARAM_H<br>
-+<br>
-+#define TARGET_LONG_BITS 32<br>
-+/*<br>
-+ * TARGET_PAGE_BITS cannot be more than 8 bits because<br>
-+ * 1.=C2=A0 all IO registers occupy [0x0000 .. 0x00ff] address range, and =
-they<br>
-+ *=C2=A0 =C2=A0 =C2=A0should be implemented as a device and not memory<br>
-+ * 2.=C2=A0 SRAM starts at the address 0x0100<br>
-+ */<br>
-+#define TARGET_PAGE_BITS 8<br>
-+#define TARGET_PHYS_ADDR_SPACE_BITS 24<br>
-+#define TARGET_VIRT_ADDR_SPACE_BITS 24<br>
-+#define NB_MMU_MODES 2<br>
-+<br>
-+<br>
-+#endif<br>
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h<br>
-new file mode 100644<br>
-index 0000000..d122611<br>
---- /dev/null<br>
-+++ b/target/avr/cpu.h<br>
-@@ -0,0 +1,72 @@<br>
-+/*<br>
-+ * QEMU AVR CPU<br>
-+ *<br>
-+ * Copyright (c) 2019 Michael Rolnik<br>
-+ *<br>
-+ * This library is free software; you can redistribute it and/or<br>
-+ * modify it under the terms of the GNU Lesser General Public<br>
-+ * License as published by the Free Software Foundation; either<br>
-+ * version 2.1 of the License, or (at your option) any later version.<br>
-+ *<br>
-+ * This library is distributed in the hope that it will be useful,<br>
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU<=
-br>
-+ * Lesser General Public License for more details.<br>
-+ *<br>
-+ * You should have received a copy of the GNU Lesser General Public<br>
-+ * License along with this library; if not, see<br>
-+ * &lt;<a href=3D"http://www.gnu.org/licenses/lgpl-2.1.html" rel=3D"norefe=
-rrer" target=3D"_blank">http://www.gnu.org/licenses/lgpl-2.1.html</a>&gt;<b=
-r>
-+ */<br>
-+<br>
-+#ifndef QEMU_AVR_CPU_H<br>
-+#define QEMU_AVR_CPU_H<br>
-+<br>
-+#include &quot;cpu-qom.h&quot;<br>
-+#include &quot;exec/cpu-defs.h&quot;<br>
-+<br>
-+#define TCG_GUEST_DEFAULT_MO 0<br>
-+#define AVR_CPU_TYPE_SUFFIX &quot;-&quot; TYPE_AVR_CPU<br>
-+#define AVR_CPU_TYPE_NAME(name) (name AVR_CPU_TYPE_SUFFIX)<br>
-+#define CPU_RESOLVING_TYPE TYPE_AVR_CPU<br>
-+<br>
-+/*<br>
-+ * AVR has two memory spaces, data &amp; code.<br>
-+ * e.g. both have 0 address<br>
-+ * ST/LD instructions access data space<br>
-+ * LPM/SPM and instruction fetching access code memory space<br>
-+ */<br>
-+#define MMU_CODE_IDX 0<br>
-+#define MMU_DATA_IDX 1<br>
-+<br>
-+#define EXCP_RESET 1<br>
-+#define EXCP_INT(n) (EXCP_RESET + (n) + 1)<br>
-+<br>
-+/* Number of CPU registers */<br>
-+#define NUMBER_OF_CPU_REGISTERS 32<br>
-+/* Number of IO registers accessible by ld/st/in/out */<br>
-+#define NUMBER_OF_IO_REGISTERS 64<br>
-+<br>
-+/*<br>
-+ * Offsets of AVR memory regions in host memory space.<br>
-+ *<br>
-+ * This is needed because the AVR has separate code and data address<br>
-+ * spaces that both have start from zero but have to go somewhere in<br>
-+ * host memory.<br>
-+ *<br>
-+ * It&#39;s also useful to know where some things are, like the IO registe=
-rs.<br>
-+ */<br>
-+/* Flash program memory */<br>
-+#define OFFSET_CODE 0x00000000<br>
-+/* CPU registers, IO registers, and SRAM */<br>
-+#define OFFSET_DATA 0x00800000<br>
-+/* CPU registers specifically, these are mapped at the start of data */<br=
->
-+#define OFFSET_CPU_REGISTERS OFFSET_DATA<br>
-+/*<br>
-+ * IO registers, including status register, stack pointer, and memory<br>
-+ * mapped peripherals, mapped just after CPU registers<br>
-+ */<br>
-+#define OFFSET_IO_REGISTERS (OFFSET_DATA + NUMBER_OF_CPU_REGISTERS)<br>
-+<br>
-+#define EF_AVR_MACH 0x7F<br>
-+<br>
-+#endif /* !defined (QEMU_AVR_CPU_H) */<br>
--- <br>
-2.7.4<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
+-----BEGIN PGP SIGNATURE-----
 
---000000000000bc6c9f059d1b43bd--
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4unOQACgkQbDjKyiDZ
+s5JJXg//YCQvsE1JVDU5f8xvKbTsZpaf4WRmDNbJCbQkY3S/Hbzr40IEQVDR+Wyu
+Q+JmWYCAKbrBwi+S5VpSC8hVovj5CH6AJ9BROEH25QVBVg+gMUhPxq30fOz0Ospw
+25l9cjWVY7rY/Ec1O/6RQ+4Ip41FpK4QJxZY7PoQDuG/5Sb1dFGhGPkHx+2IOosd
+IEUVIDhc6UlQN2+c/IetZTV/WgxjwNloeKNwjUaTNyuMjm5RGi5QuUZqhc0Y+OUc
+1HoRIDU79U4iaPPoAIik5cpqwVK48Hbb7SWutCbI6mmOrYJ7VSqVazEIGgYaBohp
+5in3LgNio3LOyvDjq4jvV8FGcM7AIgqfNZs8DLnp8zaD/2UK0XH6gYTP/m/a4+Mh
+pzxGM/8GzkPBep3j8ORoc4KggmcHALgO3FloOodM/l54WrpMZR+NS/Tp6jCRKRwQ
+qzJRL9YkfCOEvPFx6/aJeidVBVsb7Vi3GHLqKyhZ5BfdErWzEjGVHfpliKHnThTv
+fXv5eU6Fb1w4tI4YU6ZrTwM+3Ka65syLERF7cj+klMERDC37WC/nrC6FWOOPiKly
+kUZCuPsbWwZIdbMiKZtdMDokGjyaPuqP3kZTxGEAsYHyQmcE/3gNuFFxiOU7XY/J
+4GNY6c2TaxHeQfvjQRDwBB/8iZNdG9rLv9QDl7Mim8QoIET0sxI=
+=iQJw
+-----END PGP SIGNATURE-----
+
+--sdtB3X0nJg68CQEu--
 
