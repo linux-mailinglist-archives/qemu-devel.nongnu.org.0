@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE78314A3D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 13:28:18 +0100 (CET)
-Received: from localhost ([::1]:44192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A3314A3BF
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 13:22:45 +0100 (CET)
+Received: from localhost ([::1]:44080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw3V4-000473-2d
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 07:28:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35468)
+	id 1iw3Pg-0002Wy-6O
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 07:22:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35515)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iw3OD-0000jM-Vp
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:15 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iw3OG-0000m8-NA
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iw3OC-0006wR-Ir
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51732
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1iw3OF-0006yR-Nw
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:16 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58608
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iw3OC-0006wI-GU
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:12 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iw3OF-0006xi-Kx
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:21:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580127672;
+ s=mimecast20190719; t=1580127674;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CGluW5iqejwG7DeKJme/BLxyORrWws2kTLRoEn1h2m8=;
- b=bwawL77Euj3vsue9e+wV+hfwPh/W0o70MURqEfb+qi5Lhy3ahWPhw0IVhK3a91hYMy3JnK
- leC5SQd/sxELrTyqXcUIJ3BGjEHg5NjDJy7GaJsZI2RmDQUjoocTt+PdE2lFt3T1n1izTn
- n/2zb8X32Yy3MV3ijX7k3vw3RBnDxbg=
+ bh=DhuMbySQ17qf1TgYeTmFMPWbFOgHMrVY55n1lhLZ9QE=;
+ b=MEPjphmkpLP0NxKlAlDyOcrtU1vzIWJCv1L2cKGRermksD7aUId2JtozoM98GJ10fTHxtu
+ yudXz2YjyDEgsgJLDOuxGgWtheO6ms3vaJ1dcNZeoNjwfbf4SpI3GDTonQ9TphHAiEM/0r
+ /8NXEKLn9MzOsmRxmGJtpmFScftaL5s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-H7m74h8tM6O3hkBp4JT3AA-1; Mon, 27 Jan 2020 07:21:08 -0500
+ us-mta-37-MVEYNbMsO_63QpGSn9PGqw-1; Mon, 27 Jan 2020 07:21:10 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D5441005514;
- Mon, 27 Jan 2020 12:21:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30451800D41;
+ Mon, 27 Jan 2020 12:21:09 +0000 (UTC)
 Received: from localhost (ovpn-116-220.ams2.redhat.com [10.36.116.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 61BC785735;
- Mon, 27 Jan 2020 12:21:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C7BD5863C0;
+ Mon, 27 Jan 2020 12:21:08 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 14/15] hw/s390x: Add a more verbose comment about
- get_machine_class() and the wrappers
-Date: Mon, 27 Jan 2020 13:20:15 +0100
-Message-Id: <20200127122016.18752-15-cohuck@redhat.com>
+Subject: [PULL 15/15] s390x: sigp: Fix sense running reporting
+Date: Mon, 27 Jan 2020 13:20:16 +0100
+Message-Id: <20200127122016.18752-16-cohuck@redhat.com>
 In-Reply-To: <20200127122016.18752-1-cohuck@redhat.com>
 References: <20200127122016.18752-1-cohuck@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: H7m74h8tM6O3hkBp4JT3AA-1
+X-MC-Unique: MVEYNbMsO_63QpGSn9PGqw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,77 +70,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- David Hildenbrand <david@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Janosch Frank <frankja@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
 
-While working on the "Enable adapter interruption suppression again"
-recently, I had to discover that the meaning of get_machine_class()
-and the related *_allowed() wrappers is not very obvious. Add a more
-verbose comment here to clarify how these should be used.
+The logic was inverted and reported running if the cpu was stopped.
+Let's fix that.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200123170256.12386-1-thuth@redhat.com>
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Fixes: d1b468bc8869 ("s390x/tcg: implement SIGP SENSE RUNNING STATUS")
 Reviewed-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20200124134818.9981-1-frankja@linux.ibm.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/s390x/s390-virtio-ccw.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ target/s390x/sigp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index e0e28139a263..e759eb5f83cf 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -505,6 +505,19 @@ static inline void machine_set_dea_key_wrap(Object *ob=
-j, bool value,
+diff --git a/target/s390x/sigp.c b/target/s390x/sigp.c
+index 727875bb4ab9..c604f177100f 100644
+--- a/target/s390x/sigp.c
++++ b/target/s390x/sigp.c
+@@ -348,9 +348,9 @@ static void sigp_sense_running(S390CPU *dst_cpu, SigpIn=
+fo *si)
 =20
- static S390CcwMachineClass *current_mc;
-=20
-+/*
-+ * Get the class of the s390-ccw-virtio machine that is currently in use.
-+ * Note: libvirt is using the "none" machine to probe for the features of =
-the
-+ * host CPU, so in case this is called with the "none" machine, the functi=
-on
-+ * returns the TYPE_S390_CCW_MACHINE base class. In this base class, all t=
-he
-+ * various "*_allowed" variables are enabled, so that the *_allowed() wrap=
-pers
-+ * below return the correct default value for the "none" machine.
-+ *
-+ * Attention! Do *not* add additional new wrappers for CPU features (e.g. =
-like
-+ * the ri_allowed() wrapper) via this mechanism anymore. CPU features shou=
-ld
-+ * be handled via the CPU models, i.e. checking with cpu_model_allowed() d=
-uring
-+ * CPU initialization and s390_has_feat() later should be sufficient.
-+ */
- static S390CcwMachineClass *get_machine_class(void)
- {
-     if (unlikely(!current_mc)) {
-@@ -521,19 +534,16 @@ static S390CcwMachineClass *get_machine_class(void)
-=20
- bool ri_allowed(void)
- {
--    /* for "none" machine this results in true */
-     return get_machine_class()->ri_allowed;
- }
-=20
- bool cpu_model_allowed(void)
- {
--    /* for "none" machine this results in true */
-     return get_machine_class()->cpu_model_allowed;
- }
-=20
- bool hpage_1m_allowed(void)
- {
--    /* for "none" machine this results in true */
-     return get_machine_class()->hpage_1m_allowed;
+     /* If halted (which includes also STOPPED), it is not running */
+     if (CPU(dst_cpu)->halted) {
+-        si->cc =3D SIGP_CC_ORDER_CODE_ACCEPTED;
+-    } else {
+         set_sigp_status(si, SIGP_STAT_NOT_RUNNING);
++    } else {
++        si->cc =3D SIGP_CC_ORDER_CODE_ACCEPTED;
+     }
  }
 =20
 --=20
