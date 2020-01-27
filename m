@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1297E14AAA1
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 20:39:34 +0100 (CET)
-Received: from localhost ([::1]:50138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEB014AAA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 20:40:47 +0100 (CET)
+Received: from localhost ([::1]:50160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwAEO-0006PQ-Jp
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 14:39:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57657)
+	id 1iwAFb-00085F-2C
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 14:40:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iwADH-0005lD-Gk
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 14:38:24 -0500
+ (envelope-from <philmd@redhat.com>) id 1iwADL-0005ox-UK
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 14:38:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iwADF-0004e6-Kf
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 14:38:22 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34613
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iwADJ-0004fS-KJ
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 14:38:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26147
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iwADF-0004dk-AK
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 14:38:21 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwADJ-0004fE-Fm
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 14:38:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580153899;
+ s=mimecast20190719; t=1580153905;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mcKv3IplqNlyl2lcPdqIrwlnvS+S/oIGzJdupMEuVHM=;
- b=hDbDNhv0Nn+pRrcQhtXLuDpzjly6FlMQNSh5XfpS9VJEZt1MtCstu/Mt4E8EWoxVTE5WlC
- J94O+bx9xyxrtkuA3m6XP6iSTi6UX5EI6on6XnR9mMtK4K1AOCa0l56UVA6HtPjOAzKQg6
- tT8u6vIsxhkmHvLHjVM2bV+J/e0fqCY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-YAizSOXANL6TgsC5kwIDFg-1; Mon, 27 Jan 2020 14:38:17 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E06DA18B9FC4
- for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 19:38:16 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 496E21001B30;
- Mon, 27 Jan 2020 19:38:10 +0000 (UTC)
-Date: Mon, 27 Jan 2020 19:38:08 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Christophe de Dinechin <dinechin@redhat.com>
-Subject: Re: [PULL 016/111] virtiofsd: Add options for virtio
-Message-ID: <20200127193808.GB3419@work-vm>
-References: <20200123115841.138849-1-dgilbert@redhat.com>
- <20200123115841.138849-17-dgilbert@redhat.com>
- <m1r1zlqf71.fsf@redhat.com>
+ bh=qkMecImG3rMWf8+JBYkWZB7fvAqcQupl2je140SFll4=;
+ b=JSknMuwGR+yGrt7ZSc72KL8IeZQmqibBM9noz5sKX2GU+y6xlvrwTeABN7675PKo0osGBi
+ rmp09QKNvBV5Gb9ldYmDJYDGr5CeXqYZ/B3nmKCFwH+DFcawc8qXn3GwX1Zwi/+b13axBd
+ VDL//KSddeyuZTt+aTZRgm2Qx2o8+UA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-Y5YeObU0N16drQSwvvvCOQ-1; Mon, 27 Jan 2020 14:38:23 -0500
+Received: by mail-wm1-f71.google.com with SMTP id b133so1962071wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 11:38:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tQTITZqzuIkj8lv/WQX/4kxGZwtENH88gD7RT9uFXM0=;
+ b=g3Z1xO1k/StzCRE910qwyl6fCsVTzBViasWytIesvGullXgGcJxp9paQWRr+ee2NRx
+ b60ApGVpqeJrykdFCLsyPwUxVI3wGyVaSTAlZR5oFPVe1EYglC9Ia8ieyyzS5ubo+d7P
+ Ykg486q9oZ7l6pvdp/dzfUV0H6tXSi/R6Rxe2x7IOqSvOD5cCDxHBs1UBlThO7NpMm1c
+ lSjPgk8WLJZ/rUR6swEpjJ9UHChH64SwWnlMUixnZEIPuvjCxshONeCRGAseH6CDQ5cX
+ hxPJBEk/oIcLCVBXOLEQw+KQLrINO0hjvAdDWFW2sg6i7CmYvPlF7Upm9zP6LmmRkO09
+ wz1A==
+X-Gm-Message-State: APjAAAWKMyn2S+AswboWqaLdNC+X9QmiZPKDLWVXeby457vdenWg0pGU
+ CGRTZaV6yR6qIoFX3spbTO/QlHFfTCQXcCVaL7BG6QqR7zV9UA7sR+nxat4TfNRQDP60AvgVNCT
+ Up97/0drNrrfIe5o=
+X-Received: by 2002:a5d:6406:: with SMTP id z6mr23684903wru.294.1580153902160; 
+ Mon, 27 Jan 2020 11:38:22 -0800 (PST)
+X-Google-Smtp-Source: APXvYqypeDYvs5GLo1ml+LSDAk5KqB41jR2B2BwpSP06+s/+7mLEE35gsMkuofWbqjfclkQ6AX/EyA==
+X-Received: by 2002:a5d:6406:: with SMTP id z6mr23684857wru.294.1580153901744; 
+ Mon, 27 Jan 2020 11:38:21 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id f12sm19511587wmj.10.2020.01.27.11.38.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jan 2020 11:38:21 -0800 (PST)
+Subject: Re: [PATCH v1 12/13] tests/docker: re-enable cross-compiling for
+ x86_64 hosts
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200124204026.2107-1-alex.bennee@linaro.org>
+ <20200124204026.2107-13-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <066bd5bc-c6b8-33fe-bcd9-2d4e7172d72d@redhat.com>
+Date: Mon, 27 Jan 2020 20:38:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <m1r1zlqf71.fsf@redhat.com>
-User-Agent: Mutt/1.13.0 (2019-11-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: YAizSOXANL6TgsC5kwIDFg-1
+In-Reply-To: <20200124204026.2107-13-alex.bennee@linaro.org>
+Content-Language: en-US
+X-MC-Unique: Y5YeObU0N16drQSwvvvCOQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,116 +93,410 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Christophe de Dinechin (dinechin@redhat.com) wrote:
+On 1/24/20 9:40 PM, Alex Benn=C3=A9e wrote:
+> Now we have moved everything around we can re-enable the builds for
+> x86_64. Thanks to the descriptive names we are able to sort out QEMU
+> build and tests build dockerfiles and ensure the correct debian
+> dependencies.
 >=20
-> Dr. David Alan Gilbert (git) writes:
+> Move the fedora, mxe and travis dockerfiles into the x86_64 directory
+> as they cannot be used on other architectures.
 >=20
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >
-> > Add options to specify parameters for virtio-fs paths, i.e.
-> >
-> >    ./virtiofsd -o vhost_user_socket=3D/tmp/vhostqemu
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>   .../dockerfiles.x86_64/Makefile.include       | 26 +++++++++++++++++++
+>   .../debain10-x86_64-qemu-build.docker         |  1 +
+>   .../debian10-alpha-build-tests.docker         |  1 +
+>   .../debian10-amd64-build-qemu.docker          |  1 +
+>   .../debian10-arm64-build-qemu.docker          |  1 +
+>   .../debian10-armel-build-qemu.docker          |  1 +
+>   .../debian10-armhf-build-qemu.docker          |  1 +
+>   .../debian10-hppa-build-tests.docker          |  1 +
+>   .../debian10-m68k-build-tests.docker          |  1 +
+>   .../debian10-mips-build-qemu.docker           |  1 +
+>   .../debian10-mips64-build-tests.docker        |  1 +
+>   .../debian10-mips64el-build-qemu.docker       |  1 +
+>   .../debian10-mipsel-build-qemu.docker         |  1 +
+>   .../debian10-native-qemu-build.docker         |  1 +
+>   .../debian10-powerpc-build-tests.docker       |  1 +
+>   .../debian10-ppc64-build-tests.docker         |  1 +
+>   .../debian10-ppc64el-build-qemu.docker        |  1 +
+>   .../debian10-riscv64-build-tests.docker       |  1 +
+>   .../debian10-s390x-build-qemu.docker          |  1 +
+>   .../debian10-sh4-build-tests.docker           |  1 +
+>   .../debian10-sparc64-build-tests.docker       |  1 +
+>   .../debian9-mxe-win32-build-qemu.docker       |  0
+>   .../debian9-mxe-win64-build-qemu.docker       |  0
+>   .../debian9-mxe.docker                        |  0
+>   .../debian9-tricore-build-tests.docker        |  1 +
+>   .../debian9-xtensa-build-tests.docker         |  1 +
+>   .../fedora-cris-build-tests.docker            |  1 +
+>   .../fedora-i386-build-tests.docker            |  1 +
+>   .../travis.docker                             |  0
+>   29 files changed, 50 insertions(+)
+>   create mode 100644 tests/docker/dockerfiles.x86_64/Makefile.include
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debain10-x86_64-qemu=
+-build.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-alpha-build=
+-tests.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-amd64-build=
+-qemu.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-arm64-build=
+-qemu.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-armel-build=
+-qemu.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-armhf-build=
+-qemu.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-hppa-build-=
+tests.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-m68k-build-=
+tests.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-mips-build-=
+qemu.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-mips64-buil=
+d-tests.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-mips64el-bu=
+ild-qemu.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-mipsel-buil=
+d-qemu.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-native-qemu=
+-build.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-powerpc-bui=
+ld-tests.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-ppc64-build=
+-tests.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-ppc64el-bui=
+ld-qemu.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-riscv64-bui=
+ld-tests.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-s390x-build=
+-qemu.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-sh4-build-t=
+ests.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian10-sparc64-bui=
+ld-tests.docker
+>   rename tests/docker/{dockerfiles.cross =3D> dockerfiles.x86_64}/debian9=
+-mxe-win32-build-qemu.docker (100%)
+>   rename tests/docker/{dockerfiles.cross =3D> dockerfiles.x86_64}/debian9=
+-mxe-win64-build-qemu.docker (100%)
+>   rename tests/docker/{dockerfiles =3D> dockerfiles.x86_64}/debian9-mxe.d=
+ocker (100%)
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian9-tricore-buil=
+d-tests.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/debian9-xtensa-build=
+-tests.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/fedora-cris-build-te=
+sts.docker
+>   create mode 120000 tests/docker/dockerfiles.x86_64/fedora-i386-build-te=
+sts.docker
+>   rename tests/docker/{dockerfiles =3D> dockerfiles.x86_64}/travis.docker=
+ (100%)
 >=20
-> Shouldn't that be --socket-path=3D/tmp/vhostqemu now?
+> diff --git a/tests/docker/dockerfiles.x86_64/Makefile.include b/tests/doc=
+ker/dockerfiles.x86_64/Makefile.include
+> new file mode 100644
+> index 0000000000..6237eb500e
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/Makefile.include
+> @@ -0,0 +1,26 @@
+> +# -*- Mode: makefile -*-
+> +#
+> +# x86_64 Containers
+> +#
+> +# This architecture has by far the largest number of cross compilers
+> +# enabled for it.
+> +#
+> +
+> +X86_64_BASE =3D $(DOCKER_BASE)/dockerfiles.x86_64
+> +VPATH +=3D $(X86_64_BASE)
+> +
+> +#
+> +# We have both QEMU build and TEST build containers we can access
+> +#
+> +QEMU_BUILD_CONTAINERS +=3D $(call get-basenames,$(wildcard $(X86_64_BASE=
+)/*-build-qemu.docker))
+> +TEST_BUILD_CONTAINERS +=3D $(call get-basenames,$(wildcard $(X86_64_BASE=
+)/*-build-tests.docker))
+> +
+> +# Generate build-deps based on names
+> +#
+> +# Most of this architecture are based on Debian images
+> +X86_64_CONTAINERS=3D$(call get-basenames,$(wildcard $(X86_64_BASE)/*.doc=
+ker))
+> +$(filter-out,debian9,$(X86_64_CONTAINERS)): docker-image-debian9
+> +$(filter-out,debian10,$(X86_64_CONTAINERS)): docker-image-debian10
+> +
+> +# MXE windows cross compilers are all based on stretch
+> +debian9-mxe-%: docker-image-debian9-mxe
+> diff --git a/tests/docker/dockerfiles.x86_64/debain10-x86_64-qemu-build.d=
+ocker b/tests/docker/dockerfiles.x86_64/debain10-x86_64-qemu-build.docker
+> new file mode 120000
+> index 0000000000..cd1caa0704
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debain10-x86_64-qemu-build.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles/debian10-native-qemu-build.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-alpha-build-tests.d=
+ocker b/tests/docker/dockerfiles.x86_64/debian10-alpha-build-tests.docker
+> new file mode 120000
+> index 0000000000..614c8525ef
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-alpha-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-alpha-build-tests.docker
+> \ No newline at end of file
 
-Oops yes it should, that was the old syntax
+On Aarch64:
 
-> >
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >  tools/virtiofsd/fuse_i.h        |  1 +
-> >  tools/virtiofsd/fuse_lowlevel.c | 11 ++++++++---
-> >  tools/virtiofsd/helper.c        | 14 +++++++-------
-> >  3 files changed, 16 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/tools/virtiofsd/fuse_i.h b/tools/virtiofsd/fuse_i.h
-> > index bae06992e0..26b1a7da88 100644
-> > --- a/tools/virtiofsd/fuse_i.h
-> > +++ b/tools/virtiofsd/fuse_i.h
-> > @@ -63,6 +63,7 @@ struct fuse_session {
-> >      struct fuse_notify_req notify_list;
-> >      size_t bufsize;
-> >      int error;
-> > +    char *vu_socket_path;
-> >  };
-> >
-> >  struct fuse_chan {
-> > diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_low=
-level.c
-> > index 8552cfb8af..17e8718283 100644
-> > --- a/tools/virtiofsd/fuse_lowlevel.c
-> > +++ b/tools/virtiofsd/fuse_lowlevel.c
-> > @@ -2115,8 +2115,11 @@ reply_err:
-> >      }
-> >
-> >  static const struct fuse_opt fuse_ll_opts[] =3D {
-> > -    LL_OPTION("debug", debug, 1), LL_OPTION("-d", debug, 1),
-> > -    LL_OPTION("--debug", debug, 1), LL_OPTION("allow_root", deny_other=
-s, 1),
-> > +    LL_OPTION("debug", debug, 1),
-> > +    LL_OPTION("-d", debug, 1),
-> > +    LL_OPTION("--debug", debug, 1),
-> > +    LL_OPTION("allow_root", deny_others, 1),
-> > +    LL_OPTION("--socket-path=3D%s", vu_socket_path, 0),
-> >      FUSE_OPT_END
-> >  };
-> >
-> > @@ -2132,7 +2135,9 @@ void fuse_lowlevel_help(void)
-> >       * These are not all options, but the ones that are
-> >       * potentially of interest to an end-user
-> >       */
-> > -    printf("    -o allow_root          allow access by root\n");
-> > +    printf(
-> > +        "    -o allow_root              allow access by root\n"
-> > +        "    --socket-path=3DPATH         path for the vhost-user sock=
-et\n");
-> >  }
-> >
-> >  void fuse_session_destroy(struct fuse_session *se)
-> > diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-> > index 9333691525..676032e71f 100644
-> > --- a/tools/virtiofsd/helper.c
-> > +++ b/tools/virtiofsd/helper.c
-> > @@ -127,13 +127,13 @@ static const struct fuse_opt conn_info_opt_spec[]=
- =3D {
-> >
-> >  void fuse_cmdline_help(void)
-> >  {
-> > -    printf(
-> > -        "    -h   --help            print help\n"
-> > -        "    -V   --version         print version\n"
-> > -        "    -d   -o debug          enable debug output (implies -f)\n=
-"
-> > -        "    -f                     foreground operation\n"
-> > -        "    -o max_idle_threads    the maximum number of idle worker =
-threads\n"
-> > -        "                           allowed (default: 10)\n");
-> > +    printf("    -h   --help                print help\n"
-> > +           "    -V   --version             print version\n"
-> > +           "    -d   -o debug              enable debug output (implie=
-s -f)\n"
-> > +           "    -f                         foreground operation\n"
-> > +           "    -o max_idle_threads        the maximum number of idle =
-worker "
-> > +           "threads\n"
-> > +           "                               allowed (default: 10)\n");
-> >  }
-> >
-> >  static int fuse_helper_opt_proc(void *data, const char *arg, int key,
+$ make docker-image V=3D1
+./tests/docker/docker.py --engine auto build qemu:debian10=20
+./tests/docker/dockerfiles.multiarch/debian10.docker   --add-current-user
+Sending build context to Docker daemon  3.072kB
+Step 1/5 : FROM debian:buster-slim
+[...]
+Successfully tagged qemu:debian10
+./tests/docker/docker.py --engine auto build qemu:debian9=20
+./tests/docker/dockerfiles.multiarch/debian9.docker   --add-current-user
+Image is up to date.
+make: *** No rule to make target=20
+'docker-image-debian10-alpha-test-build', needed by 'docker-image'.  Stop.
+
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-amd64-build-qemu.do=
+cker b/tests/docker/dockerfiles.x86_64/debian10-amd64-build-qemu.docker
+> new file mode 120000
+> index 0000000000..81aa695b35
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-amd64-build-qemu.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-amd64-build-qemu.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-arm64-build-qemu.do=
+cker b/tests/docker/dockerfiles.x86_64/debian10-arm64-build-qemu.docker
+> new file mode 120000
+> index 0000000000..911274674a
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-arm64-build-qemu.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-arm64-build-qemu.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-armel-build-qemu.do=
+cker b/tests/docker/dockerfiles.x86_64/debian10-armel-build-qemu.docker
+> new file mode 120000
+> index 0000000000..ad6302f721
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-armel-build-qemu.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-armel-build-qemu.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-armhf-build-qemu.do=
+cker b/tests/docker/dockerfiles.x86_64/debian10-armhf-build-qemu.docker
+> new file mode 120000
+> index 0000000000..a5111afb01
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-armhf-build-qemu.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-armhf-build-qemu.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-hppa-build-tests.do=
+cker b/tests/docker/dockerfiles.x86_64/debian10-hppa-build-tests.docker
+> new file mode 120000
+> index 0000000000..4ce5da228d
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-hppa-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-hppa-build-tests.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-m68k-build-tests.do=
+cker b/tests/docker/dockerfiles.x86_64/debian10-m68k-build-tests.docker
+> new file mode 120000
+> index 0000000000..402972365f
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-m68k-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-m68k-build-tests.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-mips-build-qemu.doc=
+ker b/tests/docker/dockerfiles.x86_64/debian10-mips-build-qemu.docker
+> new file mode 120000
+> index 0000000000..9b4fc155f3
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-mips-build-qemu.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-mips-build-qemu.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-mips64-build-tests.=
+docker b/tests/docker/dockerfiles.x86_64/debian10-mips64-build-tests.docker
+> new file mode 120000
+> index 0000000000..89fef7d8ac
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-mips64-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-mips64-build-tests.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-mips64el-build-qemu=
+.docker b/tests/docker/dockerfiles.x86_64/debian10-mips64el-build-qemu.dock=
+er
+> new file mode 120000
+> index 0000000000..1ef8ccfec6
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-mips64el-build-qemu.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-mips64el-build-qemu.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-mipsel-build-qemu.d=
+ocker b/tests/docker/dockerfiles.x86_64/debian10-mipsel-build-qemu.docker
+> new file mode 120000
+> index 0000000000..9c1a090aba
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-mipsel-build-qemu.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-mipsel-build-qemu.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-native-qemu-build.d=
+ocker b/tests/docker/dockerfiles.x86_64/debian10-native-qemu-build.docker
+> new file mode 120000
+> index 0000000000..cd1caa0704
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-native-qemu-build.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles/debian10-native-qemu-build.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-powerpc-build-tests=
+.docker b/tests/docker/dockerfiles.x86_64/debian10-powerpc-build-tests.dock=
+er
+> new file mode 120000
+> index 0000000000..2480077366
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-powerpc-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-powerpc-build-tests.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-ppc64-build-tests.d=
+ocker b/tests/docker/dockerfiles.x86_64/debian10-ppc64-build-tests.docker
+> new file mode 120000
+> index 0000000000..e9290dcf63
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-ppc64-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-ppc64-build-tests.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-ppc64el-build-qemu.=
+docker b/tests/docker/dockerfiles.x86_64/debian10-ppc64el-build-qemu.docker
+> new file mode 120000
+> index 0000000000..6c1639cf6d
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-ppc64el-build-qemu.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-ppc64el-build-qemu.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-riscv64-build-tests=
+.docker b/tests/docker/dockerfiles.x86_64/debian10-riscv64-build-tests.dock=
+er
+> new file mode 120000
+> index 0000000000..06493c2663
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-riscv64-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-riscv64-build-tests.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-s390x-build-qemu.do=
+cker b/tests/docker/dockerfiles.x86_64/debian10-s390x-build-qemu.docker
+> new file mode 120000
+> index 0000000000..f08338748e
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-s390x-build-qemu.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-s390x-build-qemu.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-sh4-build-tests.doc=
+ker b/tests/docker/dockerfiles.x86_64/debian10-sh4-build-tests.docker
+> new file mode 120000
+> index 0000000000..771ac25b23
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-sh4-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-sh4-build-tests.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian10-sparc64-build-tests=
+.docker b/tests/docker/dockerfiles.x86_64/debian10-sparc64-build-tests.dock=
+er
+> new file mode 120000
+> index 0000000000..0187622e06
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian10-sparc64-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian10-sparc64-build-tests.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.cross/debian9-mxe-win32-build-qemu.=
+docker b/tests/docker/dockerfiles.x86_64/debian9-mxe-win32-build-qemu.docke=
+r
+> similarity index 100%
+> rename from tests/docker/dockerfiles.cross/debian9-mxe-win32-build-qemu.d=
+ocker
+> rename to tests/docker/dockerfiles.x86_64/debian9-mxe-win32-build-qemu.do=
+cker
+> diff --git a/tests/docker/dockerfiles.cross/debian9-mxe-win64-build-qemu.=
+docker b/tests/docker/dockerfiles.x86_64/debian9-mxe-win64-build-qemu.docke=
+r
+> similarity index 100%
+> rename from tests/docker/dockerfiles.cross/debian9-mxe-win64-build-qemu.d=
+ocker
+> rename to tests/docker/dockerfiles.x86_64/debian9-mxe-win64-build-qemu.do=
+cker
+> diff --git a/tests/docker/dockerfiles/debian9-mxe.docker b/tests/docker/d=
+ockerfiles.x86_64/debian9-mxe.docker
+> similarity index 100%
+> rename from tests/docker/dockerfiles/debian9-mxe.docker
+> rename to tests/docker/dockerfiles.x86_64/debian9-mxe.docker
+> diff --git a/tests/docker/dockerfiles.x86_64/debian9-tricore-build-tests.=
+docker b/tests/docker/dockerfiles.x86_64/debian9-tricore-build-tests.docker
+> new file mode 120000
+> index 0000000000..75f342fc01
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian9-tricore-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian9-tricore-build-tests.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/debian9-xtensa-build-tests.d=
+ocker b/tests/docker/dockerfiles.x86_64/debian9-xtensa-build-tests.docker
+> new file mode 120000
+> index 0000000000..b531d9332d
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/debian9-xtensa-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/debian9-xtensa-build-tests.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/fedora-cris-build-tests.dock=
+er b/tests/docker/dockerfiles.x86_64/fedora-cris-build-tests.docker
+> new file mode 120000
+> index 0000000000..4f260380a9
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/fedora-cris-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/fedora-cris-build-tests.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles.x86_64/fedora-i386-build-tests.dock=
+er b/tests/docker/dockerfiles.x86_64/fedora-i386-build-tests.docker
+> new file mode 120000
+> index 0000000000..373f15ee40
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles.x86_64/fedora-i386-build-tests.docker
+> @@ -0,0 +1 @@
+> +../dockerfiles.cross/fedora-i386-build-qemu.docker
+> \ No newline at end of file
+> diff --git a/tests/docker/dockerfiles/travis.docker b/tests/docker/docker=
+files.x86_64/travis.docker
+> similarity index 100%
+> rename from tests/docker/dockerfiles/travis.docker
+> rename to tests/docker/dockerfiles.x86_64/travis.docker
 >=20
->=20
-> --
-> Cheers,
-> Christophe de Dinechin (IRC c3d)
->=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
