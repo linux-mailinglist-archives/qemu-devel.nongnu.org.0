@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4398C14A225
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 11:42:19 +0100 (CET)
-Received: from localhost ([::1]:42754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF93314A224
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 11:42:18 +0100 (CET)
+Received: from localhost ([::1]:42752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw1qU-0002xp-AN
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 05:42:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42257)
+	id 1iw1qT-0002x0-R2
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 05:42:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42350)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iw1la-0002d7-7d
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:37:15 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1iw1lj-000302-Cb
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:37:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iw1lY-0002hK-PL
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:37:14 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32414
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mlevitsk@redhat.com>) id 1iw1lh-0002r0-Tg
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:37:23 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37940
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iw1lY-0002h7-Kp
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:37:12 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iw1lh-0002pv-P7
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:37:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580121432;
+ s=mimecast20190719; t=1580121441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NDjvXUBukfhRwJQSnKZ8WLKTPhZssMZ7mCFAtCzLico=;
- b=B5nIrJ/v7C5wT7q7YLEtRe+F88Pnc9aH1JLykMux7Hy+GCbZjMbfMvXwYMnTHts64+zsWp
- EMSYaKuSLma6qM5NXDxID1gYf3oxt3yCZ5OpWP/mTpOYZaNj9tn6/xuSLNmerCW5HZT5lp
- WCL2doWRBUdBzs+yWk42viJB1YHWm04=
+ bh=MmFcROfWRkeC1DI3WzPI55BH+QEm/43yZcC21qCHTp0=;
+ b=IGFsv7RrhltERvcwUFYHtHpzd9uQtMJ78BnyiWEMHNzgNd7Ok/+kvIhTpEuVN4jFN/dhXT
+ oPW71lUppdKq76wNNoxS3Qwp5VPhpmr3X8/IL8/bY4L5RVtfUggA4uaBO7sYLtmUNnGpah
+ aCqaN+ZGBBHjtLetslaQj1W9COVrer0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-tVaALd9fO_6sKkCBcS3YPw-1; Mon, 27 Jan 2020 05:37:10 -0500
+ us-mta-280-JGfzrRyYP7GdZXISCHX3IQ-1; Mon, 27 Jan 2020 05:37:15 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E2E9107ACC4;
- Mon, 27 Jan 2020 10:37:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16DCC800D50;
+ Mon, 27 Jan 2020 10:37:14 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.86])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 28C1FF6C1;
- Mon, 27 Jan 2020 10:37:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 85376F6C1;
+ Mon, 27 Jan 2020 10:37:09 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/13] monitor/hmp: move hmp_drive_mirror and
- hmp_drive_backup to block-hmp-cmds.c
-Date: Mon, 27 Jan 2020 12:36:39 +0200
-Message-Id: <20200127103647.17761-6-mlevitsk@redhat.com>
+Subject: [PATCH v3 06/13] monitor/hmp: move hmp_block_job* to block-hmp-cmds.c
+Date: Mon, 27 Jan 2020 12:36:40 +0200
+Message-Id: <20200127103647.17761-7-mlevitsk@redhat.com>
 In-Reply-To: <20200127103647.17761-1-mlevitsk@redhat.com>
 References: <20200127103647.17761-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: tVaALd9fO_6sKkCBcS3YPw-1
+X-MC-Unique: JGfzrRyYP7GdZXISCHX3IQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,207 +78,170 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- block/monitor/block-hmp-cmds.c     | 64 ++++++++++++++++++++++++++++++
- include/block/block-hmp-commands.h |  3 ++
- include/monitor/hmp.h              |  2 -
- monitor/hmp-cmds.c                 | 58 ---------------------------
- 4 files changed, 67 insertions(+), 60 deletions(-)
+ block/monitor/block-hmp-cmds.c     | 52 ++++++++++++++++++++++++++++++
+ include/block/block-hmp-commands.h |  6 ++++
+ include/monitor/hmp.h              |  5 ---
+ monitor/hmp-cmds.c                 | 52 ------------------------------
+ 4 files changed, 58 insertions(+), 57 deletions(-)
 
 diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.=
 c
-index 9614c67e77..ae3890aaab 100644
+index ae3890aaab..ed3c350143 100644
 --- a/block/monitor/block-hmp-cmds.c
 +++ b/block/monitor/block-hmp-cmds.c
-@@ -2,6 +2,10 @@
-  * Blockdev HMP commands
-  *
-  * Copyright (c) 2004 Fabrice Bellard
-+ * Copyright IBM, Corp. 2011
-+ *
-+ * Authors:
-+ *  Anthony Liguori   <aliguori@us.ibm.com>
-  *
-  * This work is licensed under the terms of the GNU GPL, version 2.
-  * or (at your option) any later version.
-@@ -15,12 +19,14 @@
- #include "qapi/qapi-commands-block.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/error.h"
-+#include "qapi/qmp/qerror.h"
- #include "qemu/config-file.h"
- #include "qemu/option.h"
- #include "sysemu/sysemu.h"
- #include "monitor/monitor.h"
- #include "block/block_int.h"
- #include "block/block-hmp-commands.h"
-+#include "monitor/hmp.h"
-=20
- void hmp_drive_add(Monitor *mon, const QDict *qdict)
- {
-@@ -164,3 +170,61 @@ void hmp_commit(Monitor *mon, const QDict *qdict)
-         error_report("'commit' error for '%s': %s", device, strerror(-ret)=
-);
-     }
+@@ -228,3 +228,55 @@ void hmp_drive_backup(Monitor *mon, const QDict *qdict=
+)
+     qmp_drive_backup(&backup, &err);
+     hmp_handle_error(mon, err);
  }
 +
-+void hmp_drive_mirror(Monitor *mon, const QDict *qdict)
++void hmp_block_job_set_speed(Monitor *mon, const QDict *qdict)
 +{
-+    const char *filename =3D qdict_get_str(qdict, "target");
-+    const char *format =3D qdict_get_try_str(qdict, "format");
-+    bool reuse =3D qdict_get_try_bool(qdict, "reuse", false);
-+    bool full =3D qdict_get_try_bool(qdict, "full", false);
-+    Error *err =3D NULL;
-+    DriveMirror mirror =3D {
-+        .device =3D (char *)qdict_get_str(qdict, "device"),
-+        .target =3D (char *)filename,
-+        .has_format =3D !!format,
-+        .format =3D (char *)format,
-+        .sync =3D full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
-+        .has_mode =3D true,
-+        .mode =3D reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUT=
-E_PATHS,
-+        .unmap =3D true,
-+    };
++    Error *error =3D NULL;
++    const char *device =3D qdict_get_str(qdict, "device");
++    int64_t value =3D qdict_get_int(qdict, "speed");
 +
-+    if (!filename) {
-+        error_setg(&err, QERR_MISSING_PARAMETER, "target");
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
-+    qmp_drive_mirror(&mirror, &err);
-+    hmp_handle_error(mon, err);
++    qmp_block_job_set_speed(device, value, &error);
++
++    hmp_handle_error(mon, error);
 +}
 +
-+void hmp_drive_backup(Monitor *mon, const QDict *qdict)
++void hmp_block_job_cancel(Monitor *mon, const QDict *qdict)
 +{
++    Error *error =3D NULL;
 +    const char *device =3D qdict_get_str(qdict, "device");
-+    const char *filename =3D qdict_get_str(qdict, "target");
-+    const char *format =3D qdict_get_try_str(qdict, "format");
-+    bool reuse =3D qdict_get_try_bool(qdict, "reuse", false);
-+    bool full =3D qdict_get_try_bool(qdict, "full", false);
-+    bool compress =3D qdict_get_try_bool(qdict, "compress", false);
-+    Error *err =3D NULL;
-+    DriveBackup backup =3D {
-+        .device =3D (char *)device,
-+        .target =3D (char *)filename,
-+        .has_format =3D !!format,
-+        .format =3D (char *)format,
-+        .sync =3D full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
-+        .has_mode =3D true,
-+        .mode =3D reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUT=
-E_PATHS,
-+        .has_compress =3D !!compress,
-+        .compress =3D compress,
-+    };
++    bool force =3D qdict_get_try_bool(qdict, "force", false);
 +
-+    if (!filename) {
-+        error_setg(&err, QERR_MISSING_PARAMETER, "target");
-+        hmp_handle_error(mon, err);
-+        return;
-+    }
++    qmp_block_job_cancel(device, true, force, &error);
 +
-+    qmp_drive_backup(&backup, &err);
-+    hmp_handle_error(mon, err);
++    hmp_handle_error(mon, error);
++}
++
++void hmp_block_job_pause(Monitor *mon, const QDict *qdict)
++{
++    Error *error =3D NULL;
++    const char *device =3D qdict_get_str(qdict, "device");
++
++    qmp_block_job_pause(device, &error);
++
++    hmp_handle_error(mon, error);
++}
++
++void hmp_block_job_resume(Monitor *mon, const QDict *qdict)
++{
++    Error *error =3D NULL;
++    const char *device =3D qdict_get_str(qdict, "device");
++
++    qmp_block_job_resume(device, &error);
++
++    hmp_handle_error(mon, error);
++}
++
++void hmp_block_job_complete(Monitor *mon, const QDict *qdict)
++{
++    Error *error =3D NULL;
++    const char *device =3D qdict_get_str(qdict, "device");
++
++    qmp_block_job_complete(device, &error);
++
++    hmp_handle_error(mon, error);
 +}
 diff --git a/include/block/block-hmp-commands.h b/include/block/block-hmp-c=
 ommands.h
-index c5e394c0fc..fcaf753118 100644
+index fcaf753118..ea6578a5f6 100644
 --- a/include/block/block-hmp-commands.h
 +++ b/include/block/block-hmp-commands.h
-@@ -8,4 +8,7 @@ void hmp_drive_add(Monitor *mon, const QDict *qdict);
- void hmp_commit(Monitor *mon, const QDict *qdict);
- void hmp_drive_del(Monitor *mon, const QDict *qdict);
+@@ -11,4 +11,10 @@ void hmp_drive_del(Monitor *mon, const QDict *qdict);
+ void hmp_drive_mirror(Monitor *mon, const QDict *qdict);
+ void hmp_drive_backup(Monitor *mon, const QDict *qdict);
 =20
-+void hmp_drive_mirror(Monitor *mon, const QDict *qdict);
-+void hmp_drive_backup(Monitor *mon, const QDict *qdict);
++void hmp_block_job_set_speed(Monitor *mon, const QDict *qdict);
++void hmp_block_job_cancel(Monitor *mon, const QDict *qdict);
++void hmp_block_job_pause(Monitor *mon, const QDict *qdict);
++void hmp_block_job_resume(Monitor *mon, const QDict *qdict);
++void hmp_block_job_complete(Monitor *mon, const QDict *qdict);
 +
  #endif
 diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 3d329853b2..c1b363ee57 100644
+index c1b363ee57..592ce0ccfe 100644
 --- a/include/monitor/hmp.h
 +++ b/include/monitor/hmp.h
-@@ -64,8 +64,6 @@ void hmp_block_resize(Monitor *mon, const QDict *qdict);
- void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict);
- void hmp_snapshot_blkdev_internal(Monitor *mon, const QDict *qdict);
- void hmp_snapshot_delete_blkdev_internal(Monitor *mon, const QDict *qdict)=
-;
--void hmp_drive_mirror(Monitor *mon, const QDict *qdict);
--void hmp_drive_backup(Monitor *mon, const QDict *qdict);
- void hmp_loadvm(Monitor *mon, const QDict *qdict);
- void hmp_savevm(Monitor *mon, const QDict *qdict);
- void hmp_delvm(Monitor *mon, const QDict *qdict);
+@@ -87,11 +87,6 @@ void hmp_eject(Monitor *mon, const QDict *qdict);
+ void hmp_change(Monitor *mon, const QDict *qdict);
+ void hmp_block_set_io_throttle(Monitor *mon, const QDict *qdict);
+ void hmp_block_stream(Monitor *mon, const QDict *qdict);
+-void hmp_block_job_set_speed(Monitor *mon, const QDict *qdict);
+-void hmp_block_job_cancel(Monitor *mon, const QDict *qdict);
+-void hmp_block_job_pause(Monitor *mon, const QDict *qdict);
+-void hmp_block_job_resume(Monitor *mon, const QDict *qdict);
+-void hmp_block_job_complete(Monitor *mon, const QDict *qdict);
+ void hmp_migrate(Monitor *mon, const QDict *qdict);
+ void hmp_device_add(Monitor *mon, const QDict *qdict);
+ void hmp_device_del(Monitor *mon, const QDict *qdict);
 diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index d0e0af893a..a70bcb1d16 100644
+index a70bcb1d16..996ce96430 100644
 --- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -1337,64 +1337,6 @@ void hmp_block_resize(Monitor *mon, const QDict *qdi=
+@@ -1975,58 +1975,6 @@ void hmp_block_stream(Monitor *mon, const QDict *qdi=
 ct)
-     hmp_handle_error(mon, err);
+     hmp_handle_error(mon, error);
  }
 =20
--void hmp_drive_mirror(Monitor *mon, const QDict *qdict)
+-void hmp_block_job_set_speed(Monitor *mon, const QDict *qdict)
 -{
--    const char *filename =3D qdict_get_str(qdict, "target");
--    const char *format =3D qdict_get_try_str(qdict, "format");
--    bool reuse =3D qdict_get_try_bool(qdict, "reuse", false);
--    bool full =3D qdict_get_try_bool(qdict, "full", false);
--    Error *err =3D NULL;
--    DriveMirror mirror =3D {
--        .device =3D (char *)qdict_get_str(qdict, "device"),
--        .target =3D (char *)filename,
--        .has_format =3D !!format,
--        .format =3D (char *)format,
--        .sync =3D full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
--        .has_mode =3D true,
--        .mode =3D reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUT=
-E_PATHS,
--        .unmap =3D true,
--    };
--
--    if (!filename) {
--        error_setg(&err, QERR_MISSING_PARAMETER, "target");
--        hmp_handle_error(mon, err);
--        return;
--    }
--    qmp_drive_mirror(&mirror, &err);
--    hmp_handle_error(mon, err);
--}
--
--void hmp_drive_backup(Monitor *mon, const QDict *qdict)
--{
+-    Error *error =3D NULL;
 -    const char *device =3D qdict_get_str(qdict, "device");
--    const char *filename =3D qdict_get_str(qdict, "target");
--    const char *format =3D qdict_get_try_str(qdict, "format");
--    bool reuse =3D qdict_get_try_bool(qdict, "reuse", false);
--    bool full =3D qdict_get_try_bool(qdict, "full", false);
--    bool compress =3D qdict_get_try_bool(qdict, "compress", false);
--    Error *err =3D NULL;
--    DriveBackup backup =3D {
--        .device =3D (char *)device,
--        .target =3D (char *)filename,
--        .has_format =3D !!format,
--        .format =3D (char *)format,
--        .sync =3D full ? MIRROR_SYNC_MODE_FULL : MIRROR_SYNC_MODE_TOP,
--        .has_mode =3D true,
--        .mode =3D reuse ? NEW_IMAGE_MODE_EXISTING : NEW_IMAGE_MODE_ABSOLUT=
-E_PATHS,
--        .has_compress =3D !!compress,
--        .compress =3D compress,
--    };
+-    int64_t value =3D qdict_get_int(qdict, "speed");
 -
--    if (!filename) {
--        error_setg(&err, QERR_MISSING_PARAMETER, "target");
--        hmp_handle_error(mon, err);
--        return;
--    }
+-    qmp_block_job_set_speed(device, value, &error);
 -
--    qmp_drive_backup(&backup, &err);
--    hmp_handle_error(mon, err);
+-    hmp_handle_error(mon, error);
 -}
 -
- void hmp_snapshot_blkdev(Monitor *mon, const QDict *qdict)
+-void hmp_block_job_cancel(Monitor *mon, const QDict *qdict)
+-{
+-    Error *error =3D NULL;
+-    const char *device =3D qdict_get_str(qdict, "device");
+-    bool force =3D qdict_get_try_bool(qdict, "force", false);
+-
+-    qmp_block_job_cancel(device, true, force, &error);
+-
+-    hmp_handle_error(mon, error);
+-}
+-
+-void hmp_block_job_pause(Monitor *mon, const QDict *qdict)
+-{
+-    Error *error =3D NULL;
+-    const char *device =3D qdict_get_str(qdict, "device");
+-
+-    qmp_block_job_pause(device, &error);
+-
+-    hmp_handle_error(mon, error);
+-}
+-
+-void hmp_block_job_resume(Monitor *mon, const QDict *qdict)
+-{
+-    Error *error =3D NULL;
+-    const char *device =3D qdict_get_str(qdict, "device");
+-
+-    qmp_block_job_resume(device, &error);
+-
+-    hmp_handle_error(mon, error);
+-}
+-
+-void hmp_block_job_complete(Monitor *mon, const QDict *qdict)
+-{
+-    Error *error =3D NULL;
+-    const char *device =3D qdict_get_str(qdict, "device");
+-
+-    qmp_block_job_complete(device, &error);
+-
+-    hmp_handle_error(mon, error);
+-}
+-
+ typedef struct HMPMigrationStatus
  {
-     const char *device =3D qdict_get_str(qdict, "device");
+     QEMUTimer *timer;
 --=20
 2.17.2
 
