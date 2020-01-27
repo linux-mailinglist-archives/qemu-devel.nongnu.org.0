@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB9914AC2A
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 23:37:40 +0100 (CET)
-Received: from localhost ([::1]:51789 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7853114AC28
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 23:37:28 +0100 (CET)
+Received: from localhost ([::1]:51784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwD0l-0005Zr-Kx
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 17:37:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47361)
+	id 1iwD0Z-00053z-Dv
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 17:37:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47390)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iwCxE-0000Sl-Ty
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 17:34:01 -0500
+ (envelope-from <quintela@redhat.com>) id 1iwCxK-0000Y6-Gy
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 17:34:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iwCxD-0003O8-S9
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 17:34:00 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21455
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1iwCxJ-0003Sj-GJ
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 17:34:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36160
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iwCxD-0003Ny-JC
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 17:33:59 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iwCxJ-0003Sd-CW
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 17:34:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580164439;
+ s=mimecast20190719; t=1580164445;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SfOEBksXfMRxpb3ed1fXsQ6OsxE8LMx1lirzH+aCkio=;
- b=Gou1tVI7q6yGqZbcvNkQHA8kXf7zUVXANaC4AJ/7JDgH9bSeRdfqer7ZfWmkYcZgGdn02j
- 9wHd1QsTTRspq85dTtdF5NKDQNsqyZ7GFIgOkQjoo4kRkOvgp+m+aJAl0axGdIXRp1ghIl
- Tu1oBaxikWIvyANbhOb9cvykuAE61gM=
+ bh=ODGnHSNVJSUkrrQsMhUmiBKE7p98IabU3841tLj6X7c=;
+ b=Sx3pAlud+8dytvslO0/mnzcW/RK6wDnCtVjJy29dY9s9qSjKXIMWf3NcJCt53JLcXGH5AX
+ PBNHACmx580fe5u16syRSh2K9i+H1HXIlyUaD6dLwixWzoQ5WnqzFWdxpROJ1DjwAR9988
+ hGZxNTSp7cPRQur4z4EgYSLnjvU1YsE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-1Ya3OiBAN0efV50QldzkpQ-1; Mon, 27 Jan 2020 17:33:57 -0500
+ us-mta-169-NcDbwinPOAGL_4rVAO6bMg-1; Mon, 27 Jan 2020 17:34:00 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF606800D4C
- for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 22:33:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55515107ACC5
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 22:33:59 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-64.ams2.redhat.com [10.36.116.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CC75451D;
- Mon, 27 Jan 2020 22:33:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 11AE43B7;
+ Mon, 27 Jan 2020 22:33:56 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/19] multifd: multifd_send_pages only needs the qemufile
-Date: Mon, 27 Jan 2020 23:33:11 +0100
-Message-Id: <20200127223321.2742-10-quintela@redhat.com>
+Subject: [PULL 10/19] multifd: multifd_queue_page only needs the qemufile
+Date: Mon, 27 Jan 2020 23:33:12 +0100
+Message-Id: <20200127223321.2742-11-quintela@redhat.com>
 In-Reply-To: <20200127223321.2742-1-quintela@redhat.com>
 References: <20200127223321.2742-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 1Ya3OiBAN0efV50QldzkpQ-1
+X-MC-Unique: NcDbwinPOAGL_4rVAO6bMg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,47 +86,46 @@ Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 82c7edb083..602e9ca5a0 100644
+index 602e9ca5a0..ad9cc3e7bd 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -929,7 +929,7 @@ struct {
-  * false.
-  */
+@@ -974,7 +974,7 @@ static int multifd_send_pages(QEMUFile *f)
+     return 1;
+ }
 =20
--static int multifd_send_pages(RAMState *rs)
-+static int multifd_send_pages(QEMUFile *f)
+-static int multifd_queue_page(RAMState *rs, RAMBlock *block, ram_addr_t of=
+fset)
++static int multifd_queue_page(QEMUFile *f, RAMBlock *block, ram_addr_t off=
+set)
  {
-     int i;
-     static int next_channel;
-@@ -965,7 +965,7 @@ static int multifd_send_pages(RAMState *rs)
-     multifd_send_state->pages =3D p->pages;
-     p->pages =3D pages;
-     transferred =3D ((uint64_t) pages->used) * TARGET_PAGE_SIZE + p->packe=
-t_len;
--    qemu_file_update_transfer(rs->f, transferred);
-+    qemu_file_update_transfer(f, transferred);
-     ram_counters.multifd_bytes +=3D transferred;
-     ram_counters.transferred +=3D transferred;;
-     qemu_mutex_unlock(&p->mutex);
-@@ -993,7 +993,7 @@ static int multifd_queue_page(RAMState *rs, RAMBlock *b=
-lock, ram_addr_t offset)
+     MultiFDPages_t *pages =3D multifd_send_state->pages;
+=20
+@@ -993,12 +993,12 @@ static int multifd_queue_page(RAMState *rs, RAMBlock =
+*block, ram_addr_t offset)
          }
      }
 =20
--    if (multifd_send_pages(rs) < 0) {
-+    if (multifd_send_pages(rs->f) < 0) {
+-    if (multifd_send_pages(rs->f) < 0) {
++    if (multifd_send_pages(f) < 0) {
          return -1;
      }
 =20
-@@ -1090,7 +1090,7 @@ static void multifd_send_sync_main(RAMState *rs)
-         return;
+     if (pages->block !=3D block) {
+-        return  multifd_queue_page(rs, block, offset);
++        return  multifd_queue_page(f, block, offset);
      }
-     if (multifd_send_state->pages->used) {
--        if (multifd_send_pages(rs) < 0) {
-+        if (multifd_send_pages(rs->f) < 0) {
-             error_report("%s: multifd_send_pages fail", __func__);
-             return;
-         }
+=20
+     return 1;
+@@ -2136,7 +2136,7 @@ static int ram_save_page(RAMState *rs, PageSearchStat=
+us *pss, bool last_stage)
+ static int ram_save_multifd_page(RAMState *rs, RAMBlock *block,
+                                  ram_addr_t offset)
+ {
+-    if (multifd_queue_page(rs, block, offset) < 0) {
++    if (multifd_queue_page(rs->f, block, offset) < 0) {
+         return -1;
+     }
+     ram_counters.normal++;
 --=20
 2.24.1
 
