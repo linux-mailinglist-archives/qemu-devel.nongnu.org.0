@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB96014A958
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 18:58:57 +0100 (CET)
-Received: from localhost ([::1]:49032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE99314A960
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 19:01:28 +0100 (CET)
+Received: from localhost ([::1]:49106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw8f2-0005he-Pj
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 12:58:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55093)
+	id 1iw8hT-0000tY-QR
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 13:01:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54884)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iw8cb-0002My-S1
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 12:56:27 -0500
+ (envelope-from <kwolf@redhat.com>) id 1iw8cP-00023B-Mn
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 12:56:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iw8cZ-0002vb-FH
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 12:56:25 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23465
+ (envelope-from <kwolf@redhat.com>) id 1iw8cO-0002jQ-Fq
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 12:56:13 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32789
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iw8cZ-0002ut-9d
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 12:56:23 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iw8cO-0002ip-CS
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 12:56:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580147782;
+ s=mimecast20190719; t=1580147772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kgYVzUu7uSw5ID+mth66811eFcWviQoHdDvyj1J4PM0=;
- b=HM+tp6CDokDBqBn44csHaANmJhJCb/7J4+SvObIN0PPRDgtsH4bsatpJ1SEB4x7iEItijS
- L6Ue+evod+oUZKVXbgG2laQ3M9xzngjmnKK5GNPO7pk7fG3AC4L5G0o9g6w/+G+Vq+xffO
- SZtfOn/hUVqcchgNmj/oJYjDuieE/Qw=
+ bh=mJuBfHMwEGp02SAr4dkBpu+8wDNXv0Qba2ws4MC9toU=;
+ b=W9ZKYq9AMadX7+cl3ll2+R+QeAeoHAE9ljeXLMFxo48E97oUvrFy23wUgLJLXsl5F+Yx2C
+ k5Dz3bZP5tOphTSJ78OiqjzxguQSQt8AaYvtOqQe4DE0mWDnuTWAZMJ6T3zf7x1QI+F198
+ WFFfE6vd4g0i7tBo5ObKMfPa1HAOl7o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-QXSuOeqMNCq3ZQL4amIrYA-1; Mon, 27 Jan 2020 12:56:20 -0500
+ us-mta-308-4xA8Ppo7OTKtT9dMynd0KQ-1; Mon, 27 Jan 2020 12:56:07 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86AB01882CC9;
- Mon, 27 Jan 2020 17:56:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9A3A107ACC4;
+ Mon, 27 Jan 2020 17:56:06 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-108.ams2.redhat.com
  [10.36.117.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9146F863C0;
- Mon, 27 Jan 2020 17:56:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF505863C0;
+ Mon, 27 Jan 2020 17:56:05 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 11/13] block/backup: fix memory leak in bdrv_backup_top_append()
-Date: Mon, 27 Jan 2020 18:55:57 +0100
-Message-Id: <20200127175559.18173-12-kwolf@redhat.com>
+Subject: [PULL 01/13] iotests.py: Let wait_migration wait even more
+Date: Mon, 27 Jan 2020 18:55:47 +0100
+Message-Id: <20200127175559.18173-2-kwolf@redhat.com>
 In-Reply-To: <20200127175559.18173-1-kwolf@redhat.com>
 References: <20200127175559.18173-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: QXSuOeqMNCq3ZQL4amIrYA-1
+X-MC-Unique: 4xA8Ppo7OTKtT9dMynd0KQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -75,56 +75,110 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eiichi Tsukata <devel@etsukata.com>
+From: Max Reitz <mreitz@redhat.com>
 
-bdrv_open_driver() allocates bs->opaque according to drv->instance_size.
-There is no need to allocate it and overwrite opaque in
-bdrv_backup_top_append().
+The "migration completed" event may be sent (on the source, to be
+specific) before the migration is actually completed, so the VM runstate
+will still be "finish-migrate" instead of "postmigrate".  So ask the
+users of VM.wait_migration() to specify the final runstate they desire
+and then poll the VM until it has reached that state.  (This should be
+over very quickly, so busy polling is fine.)
 
-Reproducer:
+Without this patch, I see intermittent failures in the new iotest 280
+under high system load.  I have not yet seen such failures with other
+iotests that use VM.wait_migration() and query-status afterwards, but
+maybe they just occur even more rarely, or it is because they also wait
+on the destination VM to be running.
 
-  $ QTEST_QEMU_BINARY=3D./x86_64-softmmu/qemu-system-x86_64 valgrind -q --l=
-eak-check=3Dfull tests/test-replication -p /replication/secondary/start
-  =3D=3D29792=3D=3D 24 bytes in 1 blocks are definitely lost in loss record=
- 52 of 226
-  =3D=3D29792=3D=3D    at 0x483AB1A: calloc (vg_replace_malloc.c:762)
-  =3D=3D29792=3D=3D    by 0x4B07CE0: g_malloc0 (in /usr/lib64/libglib-2.0.s=
-o.0.6000.7)
-  =3D=3D29792=3D=3D    by 0x12BAB9: bdrv_open_driver (block.c:1289)
-  =3D=3D29792=3D=3D    by 0x12BEA9: bdrv_new_open_driver (block.c:1359)
-  =3D=3D29792=3D=3D    by 0x1D15CB: bdrv_backup_top_append (backup-top.c:19=
-0)
-  =3D=3D29792=3D=3D    by 0x1CC11A: backup_job_create (backup.c:439)
-  =3D=3D29792=3D=3D    by 0x1CD542: replication_start (replication.c:544)
-  =3D=3D29792=3D=3D    by 0x1401B9: replication_start_all (replication.c:52=
-)
-  =3D=3D29792=3D=3D    by 0x128B50: test_secondary_start (test-replication.=
-c:427)
-  ...
-
-Fixes: 7df7868b9640 ("block: introduce backup-top filter driver")
-Signed-off-by: Eiichi Tsukata <devel@etsukata.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/backup-top.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/iotests.py | 6 +++++-
+ tests/qemu-iotests/234        | 8 ++++----
+ tests/qemu-iotests/262        | 4 ++--
+ tests/qemu-iotests/280        | 2 +-
+ 4 files changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index b8d863ff08..9aed2eb4c0 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -196,7 +196,7 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverSta=
-te *source,
-     }
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 13fd8b5cd2..0b62c42851 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -668,12 +668,16 @@ class VM(qtest.QEMUQtestMachine):
+             }
+         ]))
 =20
-     top->total_sectors =3D source->total_sectors;
--    top->opaque =3D state =3D g_new0(BDRVBackupTopState, 1);
-+    state =3D top->opaque;
+-    def wait_migration(self):
++    def wait_migration(self, expect_runstate):
+         while True:
+             event =3D self.event_wait('MIGRATION')
+             log(event, filters=3D[filter_qmp_event])
+             if event['data']['status'] =3D=3D 'completed':
+                 break
++        # The event may occur in finish-migrate, so wait for the expected
++        # post-migration runstate
++        while self.qmp('query-status')['return']['status'] !=3D expect_run=
+state:
++            pass
 =20
-     bdrv_ref(target);
-     state->target =3D bdrv_attach_child(top, target, "target", &child_file=
-, errp);
+     def node_info(self, node_name):
+         nodes =3D self.qmp('query-named-block-nodes')
+diff --git a/tests/qemu-iotests/234 b/tests/qemu-iotests/234
+index 34c818c485..59a7f949ec 100755
+--- a/tests/qemu-iotests/234
++++ b/tests/qemu-iotests/234
+@@ -69,9 +69,9 @@ with iotests.FilePath('img') as img_path, \
+     iotests.log(vm_a.qmp('migrate', uri=3D'exec:cat >%s' % (fifo_a)))
+     with iotests.Timeout(3, 'Migration does not complete'):
+         # Wait for the source first (which includes setup=3Dsetup)
+-        vm_a.wait_migration()
++        vm_a.wait_migration('postmigrate')
+         # Wait for the destination second (which does not)
+-        vm_b.wait_migration()
++        vm_b.wait_migration('running')
+=20
+     iotests.log(vm_a.qmp('query-migrate')['return']['status'])
+     iotests.log(vm_b.qmp('query-migrate')['return']['status'])
+@@ -98,9 +98,9 @@ with iotests.FilePath('img') as img_path, \
+     iotests.log(vm_b.qmp('migrate', uri=3D'exec:cat >%s' % (fifo_b)))
+     with iotests.Timeout(3, 'Migration does not complete'):
+         # Wait for the source first (which includes setup=3Dsetup)
+-        vm_b.wait_migration()
++        vm_b.wait_migration('postmigrate')
+         # Wait for the destination second (which does not)
+-        vm_a.wait_migration()
++        vm_a.wait_migration('running')
+=20
+     iotests.log(vm_a.qmp('query-migrate')['return']['status'])
+     iotests.log(vm_b.qmp('query-migrate')['return']['status'])
+diff --git a/tests/qemu-iotests/262 b/tests/qemu-iotests/262
+index 0963daa806..bbcb5260a6 100755
+--- a/tests/qemu-iotests/262
++++ b/tests/qemu-iotests/262
+@@ -71,9 +71,9 @@ with iotests.FilePath('img') as img_path, \
+     iotests.log(vm_a.qmp('migrate', uri=3D'exec:cat >%s' % (fifo)))
+     with iotests.Timeout(3, 'Migration does not complete'):
+         # Wait for the source first (which includes setup=3Dsetup)
+-        vm_a.wait_migration()
++        vm_a.wait_migration('postmigrate')
+         # Wait for the destination second (which does not)
+-        vm_b.wait_migration()
++        vm_b.wait_migration('running')
+=20
+     iotests.log(vm_a.qmp('query-migrate')['return']['status'])
+     iotests.log(vm_b.qmp('query-migrate')['return']['status'])
+diff --git a/tests/qemu-iotests/280 b/tests/qemu-iotests/280
+index 0b1fa8e1d8..85e9114c5e 100755
+--- a/tests/qemu-iotests/280
++++ b/tests/qemu-iotests/280
+@@ -45,7 +45,7 @@ with iotests.FilePath('base') as base_path , \
+     vm.qmp_log('migrate', uri=3D'exec:cat > /dev/null')
+=20
+     with iotests.Timeout(3, 'Migration does not complete'):
+-        vm.wait_migration()
++        vm.wait_migration('postmigrate')
+=20
+     iotests.log('\nVM is now stopped:')
+     iotests.log(vm.qmp('query-migrate')['return']['status'])
 --=20
 2.20.1
 
