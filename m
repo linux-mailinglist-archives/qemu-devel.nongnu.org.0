@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68347149FED
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 09:36:30 +0100 (CET)
-Received: from localhost ([::1]:41642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB5F514A002
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 09:44:27 +0100 (CET)
+Received: from localhost ([::1]:41688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ivzsj-0006PE-7c
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 03:36:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49666)
+	id 1iw00Q-0000YF-Ng
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 03:44:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50684)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1ivzrl-0005wo-QA
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:35:30 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ivzzi-000054-28
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:43:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1ivzrk-0000ME-D5
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:35:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37569
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1ivzrk-0000Jd-9J
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:35:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580114127;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wxtEmNwkLR3DxAPqrUM8T7w/Fm8VY+Vs+GJm63sjt80=;
- b=b50eVI416+il++QIWUvsW/vwwb70xO5vL1D2KIhCH/WZM7v14wedbVIk4J1SACDSR5dszJ
- K0ezx7ZoXoRc5crjTd70EWAXd1FuTYu7T6DWDMOvUlasAe+OtGQ4pHP4OrEpnifGZ/tN/h
- oTnNJqvHDfRWZv306KY6+3tsUhmS+dU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-E6tsTxcEOR-x8O8UeXmd8Q-1; Mon, 27 Jan 2020 03:35:23 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8ECA6107ACC4;
- Mon, 27 Jan 2020 08:35:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-84.ams2.redhat.com
- [10.36.116.84])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD9C938C;
- Mon, 27 Jan 2020 08:35:14 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 05AAE1747D; Mon, 27 Jan 2020 09:35:14 +0100 (CET)
-Date: Mon, 27 Jan 2020 09:35:13 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: Making QEMU easier for management tools and applications
-Message-ID: <20200127083513.hgl5ydgpn4mkuho5@sirius.home.kraxel.org>
-References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
- <87h81unja8.fsf@dusky.pond.sub.org>
- <20191224134139.GD2710539@redhat.com>
- <30664f6e-81da-a6e6-9b20-037fc91290fb@redhat.com>
- <878slyej29.fsf@dusky.pond.sub.org>
- <a41ae09b-021f-2fda-0b03-7b37c5624ab3@redhat.com>
- <20200123190145.GI657556@redhat.com>
- <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
- <871rrp474i.fsf@dusky.pond.sub.org>
- <f24ff946-2c37-d7c7-ff18-d67e22aa438e@redhat.com>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ivzzg-0007WE-T0
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:43:41 -0500
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:45679)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1ivzzg-0007Vr-OL
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:43:40 -0500
+Received: by mail-ot1-x32b.google.com with SMTP id 59so7575312otp.12
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 00:43:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1psS0DChZfHyVl9f5I3meG7sOTB+AatQBd5eNH9crhY=;
+ b=N0qpoGIEbdAoBKC9c9GK7E/NRqErKoVd976Y3vFqpWy4Ys6OXWdrb1V92kIbW7pbdg
+ i2UMYsSSjcobwPrYj5Lj+7/+bMOnJgqI0jSU/0LIzBxUFsADgL1mECAK/nnVKGBWol/A
+ bRyBrMDmhuixZTo7JSLXvjyecBTDZmV7ksKQt1KKA/yMsFUth/iPDcScoHNpQSpHOFAm
+ UClRQCfv13dgy6cxuvpHSNNsxnnE8cz+bnb5voWp4kymnLY11WMTS8iuhDap4zyj/Ysp
+ Bwo59AubZcLxKDw0shHxPuC0ijRLc/E05180z0yW1o2LhaIOobtGLSAn8/CqRVCHDRJl
+ EcBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1psS0DChZfHyVl9f5I3meG7sOTB+AatQBd5eNH9crhY=;
+ b=KCuMLH0ccNvGOz3vRkK6fJlL7N+HXwIUkJjrNdaH1Cbrutqt3FufSw7G2QGInaS3W3
+ P/dhcJXBIk2LNEnA3aaBJ+nUhIvLKvv8cTAm96DXWsFFj63nYSb9N+9ikUvNsnDsEEXf
+ 5TP4bAI9FaW+D6JqgLINGXWgfGKsX335lTkpz528LlhhFF6mT50uCKfPf2IXgi4wHzyp
+ f/aO+U7vmH4RaJ0uCzWrf8xNEs/Lmbq9/h8QsXkCsoKo6FloOn/ff1cqmgWEeL6b+jDV
+ rQjshBvoUrZ6A2a+YH7E0cTwYXrfPCPo7XXst0NUzC/HvohmHigLG0wRms4b9FRzIHyW
+ krpQ==
+X-Gm-Message-State: APjAAAVgZoUyQhk5aOaJNhKEGqi0Mqx85d83AihsLx1ifzVzjWGQhYlF
+ UDVm9FOYO06F6DLCMCALTYyyfddPu+PX/z/vJw4=
+X-Google-Smtp-Source: APXvYqzQ3lNwinQZxrQmWfTzFxk3cEwV2Cp6Awf1V3zf8wYdA6N5tIRfn+qR9+kXIxXKtPY+pJ2Aw82X0ZNly8yub0U=
+X-Received: by 2002:a9d:7305:: with SMTP id e5mr11214875otk.64.1580114619642; 
+ Mon, 27 Jan 2020 00:43:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <f24ff946-2c37-d7c7-ff18-d67e22aa438e@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: E6tsTxcEOR-x8O8UeXmd8Q-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+References: <1580079311-20447-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1580079311-20447-3-git-send-email-aleksandar.markovic@rt-rk.com>
+ <CAL1e-=h5v5nXBkoxhSx6inU6G59AHca_8_XrkOsX13C7uRU1jA@mail.gmail.com>
+ <8743beb5-22e1-4500-7e81-649298316580@redhat.com>
+In-Reply-To: <8743beb5-22e1-4500-7e81-649298316580@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Mon, 27 Jan 2020 09:43:22 +0100
+Message-ID: <CAL1e-=ip-KYeo9M1qRacXcari8HbwFJu3zyK4iz0tRFJYt0fcA@mail.gmail.com>
+Subject: Re: [PATCH rc3 02/30] target/avr: Introduce AVR CPU class object
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000009bb698059d1b1ae7"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,68 +74,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Dominik Csapak <d.csapak@proxmox.com>
+Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ Michael Rolnik <mrolnik@gmail.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+--0000000000009bb698059d1b1ae7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> We build a "configuration" struct in QAPI, and extend from there.
->=20
-> (2) We offer "--config myconfig.yaml" as an option for specifying
-> options.
+09:03 Pon, 27.01.2020. Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =D1=
+=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> On 1/27/20 3:39 AM, Aleksandar Markovic wrote:
+> >> +static void avr_cpu_initfn(Object *obj)
+> >> +{
+> >> +    AVRCPU *cpu =3D AVR_CPU(obj);
+> >> +
+> >> +    cpu_set_cpustate_pointers(cpu);
+> >> +
+> >> +#ifndef CONFIG_USER_ONLY
+> >> +    /* Set the number of interrupts supported by the CPU. */
+> >> +    qdev_init_gpio_in(DEVICE(cpu), avr_cpu_set_int,
+> >> +            sizeof(cpu->env.intsrc) * 8);
+> >> +#endif
+> >> +}
+> >
+> > A question for Michael:
+> >
+> > What is CONFIG_USER_ONLY doing here, if we know AVR cores from this
+> > series doesn't have and will never have user mode, since they do not
+> > work with the kernel?
+> >
+> > Do you plan to support some AVR 32-bit CPUs in the same file, which
+> > would be able to have linux-user mode? But, in this case, many files
+> > must be completely redone. My advice is to separate them completely,
+> > and that this file supports only 8-bit AVR cores, and in that case
+> > checks for CONFIG_USER_ONLY do not make sense.
+>
+> You are right, CONFIG_USER_ONLY doesn't make sense.
+>
+> Suggestion: add in target/avr/cpu.h:
+>
+>    #ifdef CONFIG_USER_ONLY
+>    #error "AVR 8-bit does not support user mode"
+>    #endif
+>
 
-Yes.
+I agree with your suggestion, in fact, it is an excellent one.
 
-> This precludes the use of *any* traditional command line flags.
+--0000000000009bb698059d1b1ae7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hmm.  Given that the transition effort will probably take a while
-I think it makes sense to allow mixing config file and cmd line
-switches, if it is only for testing the config file parsing and
-processing.  Maybe have a (temporary) -x-config for that?
+<p dir=3D"ltr"></p>
+<p dir=3D"ltr">09:03 Pon, 27.01.2020. Philippe Mathieu-Daud=C3=A9 &lt;<a hr=
+ef=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; =D1=98=D0=B5 =D0=
+=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+&gt;<br>
+&gt; On 1/27/20 3:39 AM, Aleksandar Markovic wrote:<br>
+&gt; &gt;&gt; +static void avr_cpu_initfn(Object *obj)<br>
+&gt; &gt;&gt; +{<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 AVRCPU *cpu =3D AVR_CPU(obj);<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 cpu_set_cpustate_pointers(cpu);<br>
+&gt; &gt;&gt; +<br>
+&gt; &gt;&gt; +#ifndef CONFIG_USER_ONLY<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 /* Set the number of interrupts supported by t=
+he CPU. */<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 qdev_init_gpio_in(DEVICE(cpu), avr_cpu_set_int=
+,<br>
+&gt; &gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(cpu-&gt;env=
+.intsrc) * 8);<br>
+&gt; &gt;&gt; +#endif<br>
+&gt; &gt;&gt; +}<br>
+&gt; &gt; <br>
+&gt; &gt; A question for Michael:<br>
+&gt; &gt; <br>
+&gt; &gt; What is CONFIG_USER_ONLY doing here, if we know AVR cores from th=
+is<br>
+&gt; &gt; series doesn&#39;t have and will never have user mode, since they=
+ do not<br>
+&gt; &gt; work with the kernel?<br>
+&gt; &gt; <br>
+&gt; &gt; Do you plan to support some AVR 32-bit CPUs in the same file, whi=
+ch<br>
+&gt; &gt; would be able to have linux-user mode? But, in this case, many fi=
+les<br>
+&gt; &gt; must be completely redone. My advice is to separate them complete=
+ly,<br>
+&gt; &gt; and that this file supports only 8-bit AVR cores, and in that cas=
+e<br>
+&gt; &gt; checks for CONFIG_USER_ONLY do not make sense.<br>
+&gt;<br>
+&gt; You are right, CONFIG_USER_ONLY doesn&#39;t make sense.<br>
+&gt;<br>
+&gt; Suggestion: add in target/avr/cpu.h:<br>
+&gt;<br>
+&gt; =C2=A0 =C2=A0#ifdef CONFIG_USER_ONLY<br>
+&gt; =C2=A0 =C2=A0#error &quot;AVR 8-bit does not support user mode&quot;<b=
+r>
+&gt; =C2=A0 =C2=A0#endif<br>
+&gt;</p>
+<p dir=3D"ltr">I agree with your suggestion, in fact, it is an excellent on=
+e.<br>
+</p>
 
-We already have qapi schema for -blockdev + -display + -audiodev +
--chardev, creating a configuration struct which supports these
-shouldn't be that much effort.  Then move over QemuOpts one by one.
-
-The most tricky part here probably is -device support.
-
-> (4) Just scrap the existing config file system entirely. It was never
-> finished and does not help solve the existing problem that we do not
-> have a schema for our configuration syntax.
-
-Yep.  Zero reason to keep that once everything transitioned to qapi.
-
-> - We WOULD need a new YAML parsing layer in QEMU, generated by QAPI.
-> Supporting two deserialization layers could lead to strange
-> discrepancies between the two formats at runtime. So, admittedly, using
-> JSON would be *even easier*, as we could re-use the same parsers already
-> battle-tested in QEMU. We could get *MAXIMUM* code re-use this way.
-
-Well, we can support multiple formats, much like openshift accepts both
-json and yaml.  json is pretty much there already, so we could start
-with that and add yaml later on.  Possibly even the ini-style syntax
-accepted by -readconfig today, although I'm not sure there is much
-benefit in that.
-
-> - We will break compatibility with our existing CLI. People will not be
-> happy about this, especially, perhaps, embedded board and TCG developers
-> who use fairly minimal command lines regularly.
-
-Once config file support is complete enough we should be able to offload
-backward compatibility command line parsing to some script which
-transforms the cli into a config file.  Which is probably better than
-trying to add -writeconfig to qemu as we don't have to do the string
-processing in C then.
-
-cheers,
-  Gerd
-
+--0000000000009bb698059d1b1ae7--
 
