@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F10BE14A3C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 13:25:22 +0100 (CET)
-Received: from localhost ([::1]:44134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085C314A3CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 13:26:45 +0100 (CET)
+Received: from localhost ([::1]:44164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw3SD-0007Ei-UP
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 07:25:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35227)
+	id 1iw3TY-0001Zr-3l
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 07:26:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iw3Ni-0008QB-R2
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:43 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iw3Nn-00009A-H7
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iw3Nh-0006gk-RY
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:42 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46875
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1iw3Nm-0006iP-HU
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47460
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iw3Nh-0006gV-OD
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:41 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iw3Nm-0006iE-EM
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580127641;
+ s=mimecast20190719; t=1580127646;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VEpvByjsK7BTvQ7tVGoNJWNSskkiuwcEMPuPnaYPnuE=;
- b=HORK+Idj6aPlZPAtg/IupZ+Ft4pGLDGtoMl2hjDuzDh1p0+HV1x9z9wFu3TAhE1UFm6p6J
- 5qonci6pIBNm0pmI0iXAfEMf1ImVARhAQt7rlFkmCFdbU2KJ8mi9w8Gjr7Rp0U7ArpfNRY
- J31OliQ43+scbYQxnIU4dlx+nx4X+f8=
+ bh=8y9fXBUdPTW7NOsPKa6f8zca8IFTfYpujeh3gvINECI=;
+ b=X0Sx+A09SJZ2CPOv3sIqs12CmAn6h91fWDHnO0Irzr0vobyNt1dAkVKOki0R83e4oqEeIr
+ xWBn4VoJr6UNwjEDQ1SYd7Ds5JcssCdL+ENahnt4rXmGzlSc+AtaOfzyZBwxveXKrFjVs7
+ Wr3VuMqrSmweYKHZSzoEgkT2FCVdKuk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-kn65e204Ny2bg7QzXWrJBw-1; Mon, 27 Jan 2020 07:20:37 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-104-GzH27D7PM5yL0oug7la0uA-1; Mon, 27 Jan 2020 07:20:41 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BA7F800D50;
- Mon, 27 Jan 2020 12:20:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC59C8017CC;
+ Mon, 27 Jan 2020 12:20:40 +0000 (UTC)
 Received: from localhost (ovpn-116-220.ams2.redhat.com [10.36.116.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 630B8451F;
- Mon, 27 Jan 2020 12:20:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EDDF98702B;
+ Mon, 27 Jan 2020 12:20:37 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 05/15] s390x/event-facility: fix error propagation
-Date: Mon, 27 Jan 2020 13:20:06 +0100
-Message-Id: <20200127122016.18752-6-cohuck@redhat.com>
+Subject: [PULL 06/15] target/s390x: Remove duplicated ifdef macro
+Date: Mon, 27 Jan 2020 13:20:07 +0100
+Message-Id: <20200127122016.18752-7-cohuck@redhat.com>
 In-Reply-To: <20200127122016.18752-1-cohuck@redhat.com>
 References: <20200127122016.18752-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: kn65e204Ny2bg7QzXWrJBw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: GzH27D7PM5yL0oug7la0uA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,46 +70,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently check (by error) if the passed-in Error pointer errp
-is non-null and return after realizing the first child of the
-event facility in that case. Symptom is that 'virsh shutdown'
-does not work, as the sclpquiesce device is not realized.
+From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Fix this by (correctly) checking the local Error err.
+Commit ae71ed8610 replaced the use of global max_cpus variable
+with a machine property, but introduced a unnecessary ifdef, as
+this block is already in the 'not CONFIG_USER_ONLY' branch part:
 
-Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Fixes: 3d508334dd2c ("s390x/event-facility: Fix realize() error API violati=
-ons")
-Message-Id: <20200121095506.8537-1-cohuck@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+   86 #if defined(CONFIG_USER_ONLY)
+   87
+  ...
+  106 #else /* !CONFIG_USER_ONLY */
+  107
+  ...
+  292 static void do_ext_interrupt(CPUS390XState *env)
+  293 {
+  ...
+  313 #ifndef CONFIG_USER_ONLY
+  314         MachineState *ms =3D MACHINE(qdev_get_machine());
+  315         unsigned int max_cpus =3D ms->smp.max_cpus;
+  316 #endif
+
+To ease code review, remove the duplicated preprocessor macro,
+and move the declarations at the beginning of the statement.
+
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20200121110349.25842-6-philmd@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/s390x/event-facility.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/s390x/excp_helper.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
-index 8a93b8a1da97..9d6972afa8b3 100644
---- a/hw/s390x/event-facility.c
-+++ b/hw/s390x/event-facility.c
-@@ -338,7 +338,7 @@ static void sclp_events_bus_realize(BusState *bus, Erro=
-r **errp)
-         DeviceState *dev =3D kid->child;
+diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+index e70c20d363a4..1e9d6f20c188 100644
+--- a/target/s390x/excp_helper.c
++++ b/target/s390x/excp_helper.c
+@@ -305,15 +305,14 @@ static void do_ext_interrupt(CPUS390XState *env)
 =20
-         object_property_set_bool(OBJECT(dev), true, "realized", &err);
--        if (errp) {
-+        if (err) {
-             error_propagate(errp, err);
-             return;
+     if ((env->pending_int & INTERRUPT_EMERGENCY_SIGNAL) &&
+         (env->cregs[0] & CR0_EMERGENCY_SIGNAL_SC)) {
++        MachineState *ms =3D MACHINE(qdev_get_machine());
++        unsigned int max_cpus =3D ms->smp.max_cpus;
++
+         lowcore->ext_int_code =3D cpu_to_be16(EXT_EMERGENCY);
+         cpu_addr =3D find_first_bit(env->emergency_signals, S390_MAX_CPUS)=
+;
+         g_assert(cpu_addr < S390_MAX_CPUS);
+         lowcore->cpu_addr =3D cpu_to_be16(cpu_addr);
+         clear_bit(cpu_addr, env->emergency_signals);
+-#ifndef CONFIG_USER_ONLY
+-        MachineState *ms =3D MACHINE(qdev_get_machine());
+-        unsigned int max_cpus =3D ms->smp.max_cpus;
+-#endif
+         if (bitmap_empty(env->emergency_signals, max_cpus)) {
+             env->pending_int &=3D ~INTERRUPT_EMERGENCY_SIGNAL;
          }
 --=20
 2.21.1
