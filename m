@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E783149F18
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 07:46:53 +0100 (CET)
-Received: from localhost ([::1]:40860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF161149F1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 07:51:42 +0100 (CET)
+Received: from localhost ([::1]:40882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ivyAe-0001j8-2q
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 01:46:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34496)
+	id 1ivyFJ-00035h-Fu
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 01:51:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35175)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1ivy9U-0001DW-Pi
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 01:45:41 -0500
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1ivyEV-0002el-Ei
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 01:50:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1ivy9T-0003eO-LZ
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 01:45:40 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44894
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1ivyEU-00048G-Aw
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 01:50:51 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:44914
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ivy9S-0003cn-Of
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 01:45:38 -0500
+ id 1ivyEU-00047a-4w
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 01:50:50 -0500
 Received: from [86.188.254.49] (helo=[172.30.1.185])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ivy9P-0001j1-Do; Mon, 27 Jan 2020 06:45:40 +0000
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <1e29e1d3-b59b-fcd6-cdff-a680bcdbffa4@t-online.de>
+ id 1ivyER-0001kh-1w; Mon, 27 Jan 2020 06:50:52 +0000
+To: Thomas Huth <thuth@redhat.com>
+References: <82c4a7e1-aafc-70e5-b00a-bd56c9cd1b61@redhat.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
@@ -55,18 +54,18 @@ Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
  Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
  KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
  imgcU9TTGC5qd9g=
-Message-ID: <082c8009-9bd4-3e2e-4846-359e637895b8@ilande.co.uk>
-Date: Mon, 27 Jan 2020 06:45:27 +0000
+Message-ID: <9471c139-04d6-56d7-642e-72d4283d6463@ilande.co.uk>
+Date: Mon, 27 Jan 2020 06:50:41 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <1e29e1d3-b59b-fcd6-cdff-a680bcdbffa4@t-online.de>
+In-Reply-To: <82c4a7e1-aafc-70e5-b00a-bd56c9cd1b61@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 86.188.254.49
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 0/9] more audio fixes and improvements
+Subject: Re: OpenBIOS update broke Linux boot on qemu-system-sparc64
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
@@ -83,47 +82,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>, QEMU <qemu-devel@nongnu.org>,
- =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?= <dirty.ice.hu@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/01/2020 07:41, Volker Rümelin wrote:
+On 24/01/2020 16:51, Thomas Huth wrote:
 
-> The first two patches "audio: fix audio_generic_write" and
-> "audio: fix audio_generic_read" are only compile tested. The
-> code is only reachable from the DirectSound backend with the
-> mixing-engine off. I don't know if it is reachable at all.
-> I can't test because I don't have a Windows computer.
+>  Hi Mark,
 > 
-> Volker Rümelin (9):
->   audio: fix audio_generic_write
->   audio: fix audio_generic_read
->   paaudio: remove unused variables
->   audio: prevent SIGSEGV in AUD_get_buffer_size_out
->   audio: fix bug 1858488
->   ossaudio: prevent SIGSEGV in oss_enable_out
->   ossaudio: prevent SIGPFE in oss_write
->   ossaudio: disable poll mode can't be reached
->   audio: audio_generic_get_buffer_in should honor *size
+> today, I noticed that the Sparc64 image from the QEMU advent calendar
+> 2018 does not work anymore with the recent QEMU:
 > 
->  audio/alsaaudio.c |  1 +
->  audio/audio.c     | 77 ++++++++++++++++++++++++++-----------------------------
->  audio/audio_int.h |  4 +--
->  audio/coreaudio.c |  7 +++--
->  audio/noaudio.c   |  1 +
->  audio/ossaudio.c  | 28 ++++++++++++--------
->  audio/paaudio.c   |  6 ++---
->  audio/sdlaudio.c  |  7 +++--
->  audio/wavaudio.c  |  1 +
->  9 files changed, 71 insertions(+), 61 deletions(-)
+>  https://www.qemu-advent-calendar.org/2018/download/day23.tar.xz
+> 
+> The Linux kernel now crashes during the boot process.
+> 
+> Bisecting the issues pointed to:
+> 
+>  commit e9deadb1c10351213845428de7591931f790f111
+>  Update OpenBIOS images to 3464681b built from submodule.
+> 
+> Do you maybe have an idea what might be going wrong here?
+> 
+>  Thomas
 
-Thanks for your patches! I've had reports from some of the PPC emulation guys that
-the switch to the new audio API broke the coreaudio backend on Macs (see
-https://bugs.launchpad.net/qemu/+bug/1859916) and I've pointed them towards this
-patchset, but sadly it still doesn't appear to fix the issue.
-
-Have you seen any issues with the coreaudio backend during your testing?
+Thanks - I wasn't aware of any issues there, but I'll see if I can dig a bit further
+into this. From a quick glance I suspect it's most likely the commits immediately
+below the one above to mark the memory used by -kernel and -initrd in use, but these
+were added to make sure that we didn't accidentally claim from the memory containing
+the kernel/initrd...
 
 
 ATB,
