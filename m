@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75DE314A1F7
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 11:29:58 +0100 (CET)
-Received: from localhost ([::1]:42506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9FC14A219
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 11:38:42 +0100 (CET)
+Received: from localhost ([::1]:42634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw1eX-000886-7S
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 05:29:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40980)
+	id 1iw1mz-0004CZ-7T
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 05:38:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42185)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kchamart@redhat.com>) id 1iw1do-0007jR-Hq
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:29:13 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1iw1lS-0002PF-NC
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:37:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kchamart@redhat.com>) id 1iw1dn-0002xf-3q
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:29:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34016
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mlevitsk@redhat.com>) id 1iw1lQ-0002Y5-R7
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:37:06 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47062
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kchamart@redhat.com>) id 1iw1dm-0002xD-St
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:29:11 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iw1lQ-0002XT-O9
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:37:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580120949;
+ s=mimecast20190719; t=1580121424;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uuNhzB6XztjWiEcjPEzKyepRptuWnLe0yx1S7FSKiGg=;
- b=BuYzkBvEosSZOyDvGM7SbB30M+ac5ivUqX573oQYpqb/5UQFV8oCo3u9ykztyb+p9ugd2X
- a4zvNOkRYcOB4YZI42hYDk+2hd6iPXf/WxkrVgnGt4xSHgOjvrUqcPET5b+fW4amnRU/1R
- nVjeCt8yE6IXGUSYi+4/ZPRJNjxDN00=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bEZBUSI+T2V8TDYRTQq0xDhrQPT8zUv9+CBFdQ3L8sA=;
+ b=ErJuSGnZ10wFjHdI85TBLkdcznE2z8JSIt0ALnP+g8TJWeFM/V2rm8pGvpx4oapH56BPXB
+ DrQ1b+oxEtzxAmAhuzFBHULbo+e0JK36OC0eEsVMpGsEi0MgkoTE9dO+UUKCgl/Mc0loMt
+ oJcnhbFAtwAeO8mV7dVqPSxyjX6Qfrk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-OGa3K9k6PYCcJ34_TBJdlw-1; Mon, 27 Jan 2020 05:29:08 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-245-YgtqEWhZOW2bsdRiTNacVg-1; Mon, 27 Jan 2020 05:36:56 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3ED5E477
- for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 10:29:07 +0000 (UTC)
-Received: from paraplu.localdomain (ovpn-117-97.ams2.redhat.com [10.36.117.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BF045C1D6;
- Mon, 27 Jan 2020 10:29:06 +0000 (UTC)
-Received: by paraplu.localdomain (Postfix, from userid 1001)
- id 1BD0A3E0489; Mon, 27 Jan 2020 11:29:05 +0100 (CET)
-Date: Mon, 27 Jan 2020 11:29:05 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2] qemu-cpu-models: Document -noTSX, mds-no, taa-no, and
- tsx-ctrl
-Message-ID: <20200127102905.GA17663@paraplu.home>
-References: <20200121184940.26520-1-kchamart@redhat.com>
- <5fe2c318-6212-feb5-960a-d6b96c022d3f@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <5fe2c318-6212-feb5-960a-d6b96c022d3f@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: OGa3K9k6PYCcJ34_TBJdlw-1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA39C10054E3;
+ Mon, 27 Jan 2020 10:36:54 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 311353B7;
+ Mon, 27 Jan 2020 10:36:49 +0000 (UTC)
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/13] RFC: [for 5.0]: HMP monitor handlers cleanups
+Date: Mon, 27 Jan 2020 12:36:34 +0200
+Message-Id: <20200127103647.17761-1-mlevitsk@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: YgtqEWhZOW2bsdRiTNacVg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,63 +66,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 22, 2020 at 06:20:51PM +0100, Paolo Bonzini wrote:
-> On 21/01/20 19:49, Kashyap Chamarthy wrote:
-> > Question: How can a user validate that TSX is indeed disabled for the
-> >           guest?
->=20
-> Look for rtm in /proc/cpuinfo, or look at the TAA entry in the sysfs
-> vulnerabilities directory.
+This patch series is bunch of cleanups
+to the hmp monitor code.
 
-Noted.
+This series only touched blockdev related hmp handlers.
 
-[...]
+No functional changes expected other that
+light error message changes by the last patch.
 
-> > +@item @code{taa-no}
-> > +
-> > +Recommended to inform that the guest that the host is @i{not} vulnerab=
-le
-> > +to CVE-2019-11135, TSX Asyncrnous Abort (TAA).
->=20
-> Asynchronous
+This was inspired by this bugzilla:
+https://bugzilla.redhat.com/show_bug.cgi?id=3D1719169
 
-Will fix.
+Basically some users still parse hmp error messages,
+and they would like to have them prefixed with 'Error:'
 
-[...]
+In commit 66363e9a43f649360a3f74d2805c9f864da027eb we added
+the hmp_handle_error which does exactl that but some hmp handlers
+don't use it.
 
-> > +@item @code{tsx-ctrl}
-> > +
-> > +Recommended to inform the guest to @i{disable} the Intel TSX
-> > +(Transactional Synchronization Extensions) feature.
->=20
-> Not "to disable" but rather:
->=20
-> Recommended to inform the guest that it can disable the Intel TSX
-> feature or (if vulnerable) use the VERW instruction as a mitigation for
-> the TAA vulnerability.
+In this patch series, I moved all the block related hmp handlers
+into blockdev-hmp-cmds.c, and then made them use this function
+to report the errors.
 
-Thanks.  I'll make that last bit to:
+I hope I didn't change too much code, I just felt that if
+I touch this code, I can also make it easier to find these
+handlers, that were scattered over 3 different files.
 
-    ... use the Intel 'VERW' instruction (a processor-level instruction
-    that performs checks on memory access) as a mitigation for the
-    TAA vulnerability.
+Changes from V1:
+   * move the handlers to block/monitor/block-hmp-cmds.c
+   * tiny cleanup for the commit messages
 
-Hope that's accurate-but-vague-enough description of 'VERW'.  (I
-realize, as Dave Gilbert said on IRC, the actual description of VERW is
-besides the point, as Intel reused that to do something else in addition
-to its original purpose).
+Changes from V2:
+   * Moved all the function prototypes to new header (blockdev-hmp-cmds.h)
+   * Set the license of blockdev-hmp-cmds.c to GPLv2+
+   * Moved hmp_snapshot_* functions to blockdev-hmp-cmds.c
+   * Moved hmp_drive_add_node to blockdev-hmp-cmds.c
+     (this change needed some new exports, thus in separate new patch)
+   * Moved hmp_qemu_io and hmp_eject to blockdev-hmp-cmds.c
+   * Added 'error:' prefix to vreport, and updated the iotests
+     This is invasive change, but really feels like the right one
+   * Added minor refactoring patch that drops an unused #include
 
-I just wanted to note a small, high-level blurb on _what_ VERW is,
-because I feel awkward leaving such words like that in the air in a
-user-facing doc.
+Best regards,
+=09Maxim Levitsky
 
-[...]
+Maxim Levitsky (13):
+  usb/dev-storage: remove unused include
+  monitor/hmp: uninline add_init_drive
+  monitor/hmp: rename device-hotplug.c to block/monitor/block-hmp-cmds.c
+  monitor/hmp: move hmp_drive_del and hmp_commit to block-hmp-cmds.c
+  monitor/hmp: move hmp_drive_mirror and hmp_drive_backup to
+    block-hmp-cmds.c
+  monitor/hmp: move hmp_block_job* to block-hmp-cmds.c
+  monitor/hmp: move hmp_snapshot_* to block-hmp-cmds.c
+  monitor/hmp: move hmp_nbd_server* to block-hmp-cmds.c
+  monitor/hmp: move remaining hmp_block* functions to block-hmp-cmds.c
+  monitor/hmp: move hmp_info_block* to block-hmp-cmds.c
+  monitor: Move hmp_drive_add_node to block-hmp-cmds.c
+  add 'error' prefix to vreport
+  monitor/hmp: Prefer to use hmp_handle_error for error reporting in
+    block hmp commands
+
+ MAINTAINERS                        |   1 +
+ Makefile.objs                      |   2 +-
+ block/Makefile.objs                |   1 +
+ block/monitor/Makefile.objs        |   1 +
+ block/monitor/block-hmp-cmds.c     | 980 +++++++++++++++++++++++++++++
+ blockdev.c                         | 137 +---
+ device-hotplug.c                   |  91 ---
+ hw/usb/dev-storage.c               |   1 -
+ include/block/block-hmp-commands.h |  42 ++
+ include/block/block_int.h          |   5 +-
+ include/monitor/hmp.h              |  24 -
+ include/sysemu/blockdev.h          |   4 -
+ include/sysemu/sysemu.h            |   3 -
+ monitor/hmp-cmds.c                 | 771 +----------------------
+ monitor/misc.c                     |   1 +
+ tests/qemu-iotests/020.out         |   2 +-
+ tests/qemu-iotests/026.out         | 260 ++++----
+ tests/qemu-iotests/036.out         |  16 +-
+ tests/qemu-iotests/043.out         |   6 +-
+ tests/qemu-iotests/049.out         |  30 +-
+ tests/qemu-iotests/051.pc.out      | 150 ++---
+ tests/qemu-iotests/054.out         |   4 +-
+ tests/qemu-iotests/060.out         |  20 +-
+ tests/qemu-iotests/061.out         |  26 +-
+ tests/qemu-iotests/069.out         |   2 +-
+ tests/qemu-iotests/071.out         |   4 +-
+ tests/qemu-iotests/074.out         |   4 +-
+ tests/qemu-iotests/079.out         |   2 +-
+ tests/qemu-iotests/080.out         |  72 +--
+ tests/qemu-iotests/081.out         |   2 +-
+ tests/qemu-iotests/082.out         |  38 +-
+ tests/qemu-iotests/083.out         |  68 +-
+ tests/qemu-iotests/098.out         |   8 +-
+ tests/qemu-iotests/103.out         |  14 +-
+ tests/qemu-iotests/106.out         |   4 +-
+ tests/qemu-iotests/111.out         |   2 +-
+ tests/qemu-iotests/112.out         |  24 +-
+ tests/qemu-iotests/113.out         |   6 +-
+ tests/qemu-iotests/114.out         |   2 +-
+ tests/qemu-iotests/122.out         |   4 +-
+ tests/qemu-iotests/133.out         |  30 +-
+ tests/qemu-iotests/137.out         |  28 +-
+ tests/qemu-iotests/140.out         |   2 +-
+ tests/qemu-iotests/142.out         |  38 +-
+ tests/qemu-iotests/143.out         |   2 +-
+ tests/qemu-iotests/153.out         | 118 ++--
+ tests/qemu-iotests/162.out         |  10 +-
+ tests/qemu-iotests/172.out         |  16 +-
+ tests/qemu-iotests/178.out.qcow2   |  30 +-
+ tests/qemu-iotests/178.out.raw     |  26 +-
+ tests/qemu-iotests/182.out         |   2 +-
+ tests/qemu-iotests/187.out         |   6 +-
+ tests/qemu-iotests/188.out         |   2 +-
+ tests/qemu-iotests/197.out         |   2 +-
+ tests/qemu-iotests/205             |   2 +-
+ tests/qemu-iotests/215.out         |   2 +-
+ tests/qemu-iotests/217.out         |   2 +-
+ tests/qemu-iotests/226.out         |  12 +-
+ tests/qemu-iotests/232.out         |  12 +-
+ tests/qemu-iotests/233.out         |  24 +-
+ tests/qemu-iotests/242.out         |   2 +-
+ tests/qemu-iotests/244.out         |  14 +-
+ tests/qemu-iotests/249.out         |   6 +-
+ tests/qemu-iotests/261.out         |  24 +-
+ tests/qemu-iotests/267.out         |  16 +-
+ tests/qemu-iotests/common.filter   |   2 +-
+ util/qemu-error.c                  |   1 +
+ 67 files changed, 1640 insertions(+), 1625 deletions(-)
+ create mode 100644 block/monitor/Makefile.objs
+ create mode 100644 block/monitor/block-hmp-cmds.c
+ delete mode 100644 device-hotplug.c
+ create mode 100644 include/block/block-hmp-commands.h
 
 --=20
-/kashyap
+2.17.2
 
 
