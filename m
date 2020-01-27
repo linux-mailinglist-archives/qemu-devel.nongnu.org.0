@@ -2,65 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082D814A974
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 19:09:54 +0100 (CET)
-Received: from localhost ([::1]:49242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A481D14A9C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 19:22:51 +0100 (CET)
+Received: from localhost ([::1]:49340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw8pd-0001Q2-4N
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 13:09:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55257)
+	id 1iw92A-0005pr-NU
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 13:22:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33738)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iw8ce-0002Ty-W0
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 12:56:29 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iw910-0004yR-9Z
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 13:21:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iw8cd-00031Y-8N
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 12:56:28 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52767
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iw90y-0005bc-3e
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 13:21:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27776
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iw8cd-00030u-30
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 12:56:27 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iw90x-0005b4-Kl
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 13:21:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580147786;
+ s=mimecast20190719; t=1580149295;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SUz5RWsEGqxHVI5aeGTjm6JjUoqyUOJxn3a+tb1QVSw=;
- b=fRTc28xFV2aCoQCPe1HJwVT50w0xli3HTgQEsY29cmQLj5kf0xHTV8ekvxrk1In1wgGRVm
- p6QD42WQNU50BBkcpiiuU8g68F2YIyj2yn7JHFAL7Rd5tq9w+tHvZGUtD90QD09T+vN1q1
- 5ms59jBi3A4fm78Mq1LFZ7e0H+lD+VI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-_jCNf9zHOtqIzkxJRBECfg-1; Mon, 27 Jan 2020 12:56:23 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0ED8110054E3;
- Mon, 27 Jan 2020 17:56:22 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-117-108.ams2.redhat.com
- [10.36.117.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 18363811FA;
- Mon, 27 Jan 2020 17:56:20 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 13/13] iscsi: Don't access non-existent
- scsi_lba_status_descriptor
-Date: Mon, 27 Jan 2020 18:55:59 +0100
-Message-Id: <20200127175559.18173-14-kwolf@redhat.com>
-In-Reply-To: <20200127175559.18173-1-kwolf@redhat.com>
-References: <20200127175559.18173-1-kwolf@redhat.com>
+ bh=l2GUz6MZCI+ErzVvt+jFXb7dJsjljrMUI1rS55mowu4=;
+ b=ZzQ8xkSyxgADGLeXtPg/MBYUUoXoF3Y9GJPZ1POV67mu4+0e9oeC3akxFX9rcSJs057pXo
+ 9OvejMMjJv7IWQaoZ2oUNeec7rtVKb9VDjoqNQkVAZGDk3vtUJTh/jUCGtozyEnOx2utP1
+ NKQPlL7mYuD6pa38xZ5pd0RyUxxYvTU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-117-FpLHdvCiOpmVuFe8cIUu3A-1; Mon, 27 Jan 2020 13:21:33 -0500
+Received: by mail-wm1-f72.google.com with SMTP id p26so1752704wmg.5
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 10:21:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wa+S1rnHsWHtgHsZT02OQSRmrQ4hC8h5NGviPeEUguk=;
+ b=mz4HxqnSxBX2NcoVtbjEy45tAOE+s3lgDxoxsnLLvUhHYNYNvC9spxDzTHndBw+BZP
+ iP5EWC9+ctThPnPUSu6DlR3e4+CpZg7eM/vMblQ/OgUP1SpR7xkX/exWbhOk2VLPOUja
+ wE9Kpqtn5tjAXwKavQWiLSTJ2JXZVT3QJoqx0zr2kf4BKhZJv0llS/g5Gp6TpEL0IYSE
+ PQxMme9XmsV07Q+2kbt+noXoOf/Yj+AZlGAiyW3groR4/VXKeCzf+IMq4M3PGcEKT+CO
+ +XFd3qdNk5vM+dDs3PQ4F6NiTou4fzMt1Gtfc/U95na3TNTgY3aB0qluykOg9cXhL0Bh
+ jQkw==
+X-Gm-Message-State: APjAAAXUKlRf40XtCnRIoqeqzLtGm/nyz7nS+iWbu7qRyi1nVm5JDKi9
+ 8+UMUzHpsQfl8QiuiEpYUu6gewKTiL12yqITk1rklW8+9ixCPOOOQv2m32j/63DmQWbCRiN3qSI
+ Y6yiR8lWz5B4MGWk=
+X-Received: by 2002:a1c:9c4c:: with SMTP id f73mr266800wme.125.1580149290893; 
+ Mon, 27 Jan 2020 10:21:30 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxKM5AhUtK0JPELPq70+sSKIsGXemVPhWXJ2wFVg/iaH6LKLJNEUhPdZ7DMZRGZkQSqPfsnDA==
+X-Received: by 2002:a1c:9c4c:: with SMTP id f73mr266790wme.125.1580149290626; 
+ Mon, 27 Jan 2020 10:21:30 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:b8fe:679e:87eb:c059?
+ ([2001:b07:6468:f312:b8fe:679e:87eb:c059])
+ by smtp.gmail.com with ESMTPSA id y12sm7611743wmj.6.2020.01.27.10.21.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jan 2020 10:21:30 -0800 (PST)
+Subject: Re: [PATCH v2] hw/i386: disable smbus migration for xenfv
+To: Olaf Hering <olaf@aepfle.de>
+References: <20200113174521.3336-1-olaf@aepfle.de>
+ <20200116180321.24968-1-olaf@aepfle.de>
+ <0335edd2-3d33-88f8-2ab4-4791f7289885@redhat.com>
+ <20200117102244.22edd8a6.olaf@aepfle.de>
+ <ea3a65c3-bd69-7815-6893-cb1cd8b9cfd6@redhat.com>
+ <20200117140616.18cb8c45.olaf@aepfle.de>
+ <CACCGGhCO_OqPq__t+V9RrFMYhXCJ5N4PPkq9CASJULV2rTkT-g@mail.gmail.com>
+ <d8d31bb7-01d1-8bb9-889e-c03c55818df3@redhat.com>
+ <20200127142630.48551ea3.olaf@aepfle.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <cc92d4ad-e6e7-0aaa-ffcb-0b037c3b7e97@redhat.com>
+Date: Mon, 27 Jan 2020 19:21:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: _jCNf9zHOtqIzkxJRBECfg-1
+In-Reply-To: <20200127142630.48551ea3.olaf@aepfle.de>
+Content-Language: en-US
+X-MC-Unique: FpLHdvCiOpmVuFe8cIUu3A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,37 +98,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Paul Durrant <pdurrant@gmail.com>, Anthony Perard <anthony.perard@citrix.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In iscsi_co_block_status(), we may have received num_descriptors =3D=3D 0
-from the iscsi server. Therefore, we can't unconditionally access
-lbas->descriptors[0]. Add the missing check.
+On 27/01/20 14:26, Olaf Hering wrote:
+>> That's years away, so ideally libxl would have migrated away from
+>> xenfv before that.  For now, sticking to a fixed version as in
+>> Olaf's patch is a good stopgap measure.
+> Is there a way to inspect a running qemu process to see what version
+> it is? I assume one thing is to poke at /proc/$PID/cmdline and make
+> some guesses. Would a running qemu report what pc-i440fx it supports?
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Felipe Franciosi <felipe@nutanix.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Peter Lieven <pl@kamp.de>
----
- block/iscsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yes, via QMP. For example on QEMU 3.1 with "-M pc" you would get:
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index cbd57294ab..c8feaa2f0e 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -753,7 +753,7 @@ retry:
-     }
-=20
-     lbas =3D scsi_datain_unmarshall(iTask.task);
--    if (lbas =3D=3D NULL) {
-+    if (lbas =3D=3D NULL || lbas->num_descriptors =3D=3D 0) {
-         ret =3D -EIO;
-         goto out_unlock;
-     }
---=20
-2.20.1
+{"execute":"qom-get",
+ "arguments":{"path":"/machine", "property":"type"}}
+{"return": "pc-i440fx-3.1-machine"}
+
+So libxl would start QEMU with "-M pc,accel=3Dxen -device xen-platform"
+when _not_ migrating, but on the destination of live migration it would
+query the machine type and use "-Mpc-i440fx-3.1,accel=3Dxen -device
+xen-platform".
+
+A cleaner possibility is to do {"execute": "query-machines"} and search
+the result for an entry like
+
+{"hotpluggable-cpus": true,
+ "name": "pc-i440fx-3.1", "is-default": true, "cpu-max": 255,
+ "alias": "pc"}
+
+i.e. the name corresponding to the entry with "alias": "pc" would be
+used on the destination.
+
+Thanks,
+
+Paolo
+
+> With such info an enlightened libxl might be able construct a
+> compatible commandline for the receiving host.
 
 
