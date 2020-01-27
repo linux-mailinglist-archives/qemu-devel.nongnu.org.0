@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441F714A3BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 13:22:19 +0100 (CET)
-Received: from localhost ([::1]:44078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA34114A3C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 13:23:58 +0100 (CET)
+Received: from localhost ([::1]:44110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw3PG-0001ZF-9I
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 07:22:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35149)
+	id 1iw3Qr-0004nZ-Pf
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 07:23:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35171)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iw3Nc-0008AD-12
+ (envelope-from <cohuck@redhat.com>) id 1iw3Nc-0008Bs-Pr
  for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iw3NZ-0006Xv-Tw
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:35 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51004
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1iw3Nb-0006at-DB
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:36 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50989
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iw3NZ-0006Vw-QM
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:33 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iw3Nb-0006aQ-AG
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580127632;
+ s=mimecast20190719; t=1580127634;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D1dKsuUbWfD5OIwrrNq1iWHaDUOTD0Yfi+NwoQ/d9JQ=;
- b=Gb+xxs+OEqH+FeSiX7jmseD1FiwZ8wTRo+7fZNNCSxfKgJb9jYz6vhMx0FGc7ari++3sjq
- 0URJcOpjii/WoUhB/igmbdQzTBXrV6KpiZjtvHSQBj8HV5QYmB1eWa3fWlhrv/ph3Punbe
- hGyYAd/mvPegaAbRf92nBKYx7EWg3rI=
+ bh=cncAuSOMFbgiPUwOSEdisJBUTZXFaD6Po/LyaOSBQ18=;
+ b=JpjS47SZXsTgQcopq1RTpP1s5Ox/DEZb39/QAhwi+oZBfB/Zsmmzs051KlYvQDYqr4aTQM
+ n6CIGlnME+YwTF/MCUgAhFhAoLQfv1IO/icRlMZAzjVz3HBLE5fwl9y+kTpvo0emmaXVD7
+ NUAVRZEkjbJ7EHaKSBx6Ws0mILHeVNw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-wnmTBV8jNFKgNMcENNalTw-1; Mon, 27 Jan 2020 07:20:28 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-246-RsQ4mHZrODSU8ioZD_IoTQ-1; Mon, 27 Jan 2020 07:20:30 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CBC71005510;
- Mon, 27 Jan 2020 12:20:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 890B5800D48;
+ Mon, 27 Jan 2020 12:20:29 +0000 (UTC)
 Received: from localhost (ovpn-116-220.ams2.redhat.com [10.36.116.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A4A41001B08;
- Mon, 27 Jan 2020 12:20:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 26221451F;
+ Mon, 27 Jan 2020 12:20:28 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 02/15] intc/s390_flic_kvm.c: remove unneeded label in
- kvm_flic_load()
-Date: Mon, 27 Jan 2020 13:20:03 +0100
-Message-Id: <20200127122016.18752-3-cohuck@redhat.com>
+Subject: [PULL 03/15] s390x/event-facility.c: remove unneeded labels
+Date: Mon, 27 Jan 2020 13:20:04 +0100
+Message-Id: <20200127122016.18752-4-cohuck@redhat.com>
 In-Reply-To: <20200127122016.18752-1-cohuck@redhat.com>
 References: <20200127122016.18752-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: wnmTBV8jNFKgNMcENNalTw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: RsQ4mHZrODSU8ioZD_IoTQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,59 +72,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-'out' label can be replaced by 'return' with the appropriate
-value that is set by 'r' right before the jump.
+'out' label from write_event_mask() and write_event_data()
+can be replaced by 'return'.
 
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+The 'out' label from read_event_data() can also be replaced.
+However, as suggested by Cornelia Huck, instead of simply
+replacing the 'out' label, let's also change the code flow
+a bit to make it clearer that sccb events are always handled
+regardless of the mask for unconditional reads, while selective
+reads are handled if the mask is valid.
+
+CC: Cornelia Huck <cohuck@redhat.com>
+CC: Thomas Huth <thuth@redhat.com>
+CC: Halil Pasic <pasic@linux.ibm.com>
+CC: Christian Borntraeger <borntraeger@de.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20200106182425.20312-42-danielhb413@gmail.com>
+Message-Id: <20200108144607.878862-1-danielhb413@gmail.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/intc/s390_flic_kvm.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ hw/s390x/event-facility.c | 33 ++++++++++++---------------------
+ 1 file changed, 12 insertions(+), 21 deletions(-)
 
-diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
-index dddd33ea61c8..2e1e70c61d5b 100644
---- a/hw/intc/s390_flic_kvm.c
-+++ b/hw/intc/s390_flic_kvm.c
-@@ -439,17 +439,14 @@ static int kvm_flic_load(QEMUFile *f, void *opaque, s=
-ize_t size,
-     count =3D qemu_get_be64(f);
-     len =3D count * sizeof(struct kvm_s390_irq);
-     if (count =3D=3D FLIC_FAILED) {
--        r =3D -EINVAL;
+diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+index 6afe278cad15..8a93b8a1da97 100644
+--- a/hw/s390x/event-facility.c
++++ b/hw/s390x/event-facility.c
+@@ -182,11 +182,11 @@ static void write_event_data(SCLPEventFacility *ef, S=
+CCB *sccb)
+ {
+     if (sccb->h.function_code !=3D SCLP_FC_NORMAL_WRITE) {
+         sccb->h.response_code =3D cpu_to_be16(SCLP_RC_INVALID_FUNCTION);
 -        goto out;
-+        return -EINVAL;
++        return;
      }
-     if (count =3D=3D 0) {
--        r =3D 0;
+     if (be16_to_cpu(sccb->h.length) < 8) {
+         sccb->h.response_code =3D cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LE=
+NGTH);
 -        goto out;
-+        return 0;
++        return;
      }
-     buf =3D g_try_malloc0(len);
-     if (!buf) {
--        r =3D -ENOMEM;
--        goto out;
-+        return -ENOMEM;
+     /* first do a sanity check of the write events */
+     sccb->h.response_code =3D cpu_to_be16(write_event_length_check(sccb));
+@@ -196,9 +196,6 @@ static void write_event_data(SCLPEventFacility *ef, SCC=
+B *sccb)
+         sccb->h.response_code =3D
+                 cpu_to_be16(handle_sccb_write_events(ef, sccb));
      }
-=20
-     if (qemu_get_buffer(f, (uint8_t *) buf, len) !=3D len) {
-@@ -460,7 +457,6 @@ static int kvm_flic_load(QEMUFile *f, void *opaque, siz=
-e_t size,
-=20
- out_free:
-     g_free(buf);
+-
 -out:
-     return r;
+-    return;
  }
 =20
+ static uint16_t handle_sccb_read_events(SCLPEventFacility *ef, SCCB *sccb,
+@@ -262,17 +259,18 @@ static void read_event_data(SCLPEventFacility *ef, SC=
+CB *sccb)
+=20
+     if (be16_to_cpu(sccb->h.length) !=3D SCCB_SIZE) {
+         sccb->h.response_code =3D cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LE=
+NGTH);
+-        goto out;
++        return;
+     }
+=20
+-    sclp_cp_receive_mask =3D ef->receive_mask;
+-
+-    /* get active selection mask */
+     switch (sccb->h.function_code) {
+     case SCLP_UNCONDITIONAL_READ:
+-        sclp_active_selection_mask =3D sclp_cp_receive_mask;
++        sccb->h.response_code =3D cpu_to_be16(
++            handle_sccb_read_events(ef, sccb, ef->receive_mask));
+         break;
+     case SCLP_SELECTIVE_READ:
++        /* get active selection mask */
++        sclp_cp_receive_mask =3D ef->receive_mask;
++
+         copy_mask((uint8_t *)&sclp_active_selection_mask, (uint8_t *)&red-=
+>mask,
+                   sizeof(sclp_active_selection_mask), ef->mask_length);
+         sclp_active_selection_mask =3D be64_to_cpu(sclp_active_selection_m=
+ask);
+@@ -280,18 +278,14 @@ static void read_event_data(SCLPEventFacility *ef, SC=
+CB *sccb)
+             (sclp_active_selection_mask & ~sclp_cp_receive_mask)) {
+             sccb->h.response_code =3D
+                     cpu_to_be16(SCLP_RC_INVALID_SELECTION_MASK);
+-            goto out;
++        } else {
++            sccb->h.response_code =3D cpu_to_be16(
++                handle_sccb_read_events(ef, sccb, sclp_active_selection_ma=
+sk));
+         }
+         break;
+     default:
+         sccb->h.response_code =3D cpu_to_be16(SCLP_RC_INVALID_FUNCTION);
+-        goto out;
+     }
+-    sccb->h.response_code =3D cpu_to_be16(
+-            handle_sccb_read_events(ef, sccb, sclp_active_selection_mask))=
+;
+-
+-out:
+-    return;
+ }
+=20
+ static void write_event_mask(SCLPEventFacility *ef, SCCB *sccb)
+@@ -303,7 +297,7 @@ static void write_event_mask(SCLPEventFacility *ef, SCC=
+B *sccb)
+     if (!mask_length || (mask_length > SCLP_EVENT_MASK_LEN_MAX) ||
+         ((mask_length !=3D 4) && !ef->allow_all_mask_sizes)) {
+         sccb->h.response_code =3D cpu_to_be16(SCLP_RC_INVALID_MASK_LENGTH)=
+;
+-        goto out;
++        return;
+     }
+=20
+     /*
+@@ -328,9 +322,6 @@ static void write_event_mask(SCLPEventFacility *ef, SCC=
+B *sccb)
+=20
+     sccb->h.response_code =3D cpu_to_be16(SCLP_RC_NORMAL_COMPLETION);
+     ef->mask_length =3D mask_length;
+-
+-out:
+-    return;
+ }
+=20
+ /* qemu object creation and initialization functions */
 --=20
 2.21.1
 
