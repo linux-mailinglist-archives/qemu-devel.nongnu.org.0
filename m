@@ -2,81 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F9B149FDB
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 09:26:44 +0100 (CET)
-Received: from localhost ([::1]:41544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2CFA149FEF
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 09:37:24 +0100 (CET)
+Received: from localhost ([::1]:41650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ivzjH-0002Oa-57
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 03:26:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48334)
+	id 1ivztb-0007OP-U0
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 03:37:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49716)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ivziP-0001vP-V6
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:25:50 -0500
+ (envelope-from <bounces@canonical.com>) id 1ivzrz-0006BQ-H8
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:35:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ivziO-0005ZO-Lx
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:25:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29434
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ivziO-0005VA-FU
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:25:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580113547;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eS+8KnQhjpgFVhOTwFKsQTKCr5vQ+ilq2DvalclO4vY=;
- b=Zh7v++B7WJg1m7op8XQh/DFbt0YSJWuVmipFI9DxoX4+5Mch/LlhTnNqRu1LS324pFruwV
- guF8sK8zlV9APTmL+0T+5iVvL3+pMcvpJzz+mbWCwEQ66u0BW/lCY64nROiW+2gn8PuwcU
- /zLNl50ReOqt2/tikQbPWfu0rX0TThI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-6s7nVDUWNgqpnBVNScTfmQ-1; Mon, 27 Jan 2020 03:25:46 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C4C7107ACC4;
- Mon, 27 Jan 2020 08:25:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
- [10.36.116.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E08381084192;
- Mon, 27 Jan 2020 08:25:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 799661138600; Mon, 27 Jan 2020 09:25:35 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Tooling to help humans use JSON (was: Making QEMU easier for
- management tools and applications)
-References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
- <87h81unja8.fsf@dusky.pond.sub.org>
- <20191224134139.GD2710539@redhat.com>
- <30664f6e-81da-a6e6-9b20-037fc91290fb@redhat.com>
- <878slyej29.fsf@dusky.pond.sub.org>
- <a41ae09b-021f-2fda-0b03-7b37c5624ab3@redhat.com>
- <20200123190145.GI657556@redhat.com>
- <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
- <20200124095027.GA824327@redhat.com>
-Date: Mon, 27 Jan 2020 09:25:35 +0100
-In-Reply-To: <20200124095027.GA824327@redhat.com> ("Daniel P. =?utf-8?Q?Be?=
- =?utf-8?Q?rrang=C3=A9=22's?=
- message of "Fri, 24 Jan 2020 09:50:27 +0000")
-Message-ID: <87zhe9s3uo.fsf_-_@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <bounces@canonical.com>) id 1ivzry-0000iC-8m
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:35:43 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45786)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ivzry-0000hC-3Y
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:35:42 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ivzrw-0008Uc-JN
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 08:35:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 906E62E8078
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 08:35:40 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 6s7nVDUWNgqpnBVNScTfmQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 27 Jan 2020 08:27:54 -0000
+From: Samuel <samuel@cendio.se>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange npes87184 samuel-t
+X-Launchpad-Bug-Reporter: Samuel (samuel-t)
+X-Launchpad-Bug-Modifier: Samuel (samuel-t)
+References: <157191258679.29920.9268940625941119092.malonedeb@soybean.canonical.com>
+Message-Id: <158011367423.18650.5092374241551535609.malone@gac.canonical.com>
+Subject: [Bug 1849644] Re: QEMU VNC websocket proxy requires non-standard
+ 'binary' subprotocol
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5f01cb6219fa05ba59690af8a8714f2818d04362
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,71 +65,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1849644 <1849644@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Ok, thanks!
 
-> On Thu, Jan 23, 2020 at 04:07:09PM -0500, John Snow wrote:
->>=20
->>=20
->> On 1/23/20 2:01 PM, Daniel P. Berrang=C3=A9 wrote:
-[...]
->> Well, sure. The context of this email was qmp-shell though, which is
->> meant to help facilitate the entry of JSON commands so that you *can*
->> indeed just forego the CLI/HMP entirely.
->>=20
->> If you are of the opinion that every user of QEMU should be copy/pasting
->> JSON straight into a socket and we should delete qmp-shell, that's
->> certainly a fine opinion.
->
-> I think part of the pain of qmp-shell comes from the very fact that
-> it is trying to be an interactive shell. This points people towards
-> interactively typing in the commands, which is horrific when you get
-> anywhere near the JSON, or even dot-notation traditional commands.
->
-> If it was just a qmp-client that was single shot, we'd encourage
-> people to create the JSON in a sensible way - vim/emacs/whatever.
+-- =
 
-Tooling can help with typing JSON.  Mature tooling for editing JSON
-files exists.  I'm not aware of such tooling for interactive use of
-JSON.  It certainly could be made.  qmp-shell tries to help by
-"improving" the JSON syntax, half-heartedly.  I doubt that's a good
-idea.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1849644
 
-Kubernetes went the "put complex configuration into files, use the
-mature tooling for editing files" route.  I think we can call that a
-success.
+Title:
+  QEMU VNC websocket proxy requires non-standard 'binary' subprotocol
 
-The fact that JSON is not meant to serve as configuration file format /
-command language for human users bears repeating.  It's a data
-interchange format.
+Status in QEMU:
+  New
 
-Kubernetes supplemented JSON (adequate for machines) with YAML (more
-pleasant for humans, I guess).  I'm no friend of YAML myself (too much
-syntax, not enough types), but once again, I think we can call that a
-success, at least for Kubernetes.
+Bug description:
+  When running a machine using "-vnc" and the "websocket" option QEMU
+  seems to require the subprotocol called 'binary'. This subprotocol
+  does not exist in the WebSocket specification. In fact it has never
+  existed in the spec, in one of the very early drafts of WebSockets it
+  was briefly mentioned but it never made it to a final version.
 
-> Bash/dash/zsh/$whatever is their interactive shell, with massively
-> more features than qmp-shell. You have command history, autocomplete,
-> conditional and looping constructs, and everything a normal shell
-> offers.
->
-> The only strong reason for qmp-shell to be interactive would be if
-> the initial protoocl handshake was too slow. I can't see that being
-> a problem with QMP.=20
+  When the WebSocket server requires a non-standard subprotocol any
+  WebSocket client that works correctly won't be able to connect.
 
-Me neither.
+  One example of such a client is noVNC, it tells the server that it
+  doesn't want to use any subprotocol. QEMU's WebSocket proxy doesn't
+  let noVNC connect. If noVNC is modified to ask for 'binary' it will
+  work, this is, however, incorrect behavior.
 
-The connection overhead may matter for non-interactive uses.  These are
-better off without a middleman.
+  Looking at the code in "io/channel-websock.c" it seems it's quite
+  hard-coded to binary:
 
-[...]
+  Look at line 58 and 433 here:
+  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dio/channel-websock.c
 
+  This code has to be made more dynamic, and shouldn't require binary.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1849644/+subscriptions
 
