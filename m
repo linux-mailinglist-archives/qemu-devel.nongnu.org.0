@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BFC714AC29
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 23:37:36 +0100 (CET)
-Received: from localhost ([::1]:51786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10E114AC31
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 23:39:26 +0100 (CET)
+Received: from localhost ([::1]:51810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwD0h-0005Oo-6m
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 17:37:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47300)
+	id 1iwD2T-0000L9-P6
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 17:39:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47322)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iwCx7-0000Mr-1l
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 17:33:54 -0500
+ (envelope-from <quintela@redhat.com>) id 1iwCxA-0000Pf-7n
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 17:33:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iwCx5-0003Dc-Gw
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 17:33:52 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48878
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <quintela@redhat.com>) id 1iwCx9-0003Gj-3Z
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 17:33:56 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27384
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iwCx5-0003DL-AM
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 17:33:51 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iwCx8-0003Fm-TV
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 17:33:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580164431;
+ s=mimecast20190719; t=1580164434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QShwzqsSqNNWsL07G5daaUgnmf/VhkxFoYYuPVdlVVA=;
- b=aEUdiRU5a/8+swBYZHVJpIFqh2W/9psbUv+iqTJKyrvF/ygUVUwJe09c4YvdCaavpj8GE2
- YhPwPYpk4SmWmFORmcHxaae2+ypu/1svWRNsi6rgQX73Byj3vphYbu7N9maWb+O67CZR1a
- hUkU/jzqmkENttihFxxKViYrKm8ZRxI=
+ bh=uQoCp+lsDv7BBjx8uaBMQWgkPzFniwH4ongsNqa/KJM=;
+ b=WeTJ9Ym5+Z7dqDZb4pHYzpF/zcvexpltEHhKyCtCG8ChTZJXoCfJvEEGZ18nwIqnBhOVOk
+ giK2h8wNHlqDNDYrqhRZExgN9cJKO6NehfPXgJCX61RW3zZ/J49fvukqgOdbAqIRgmCwtU
+ srEgYob8+KlP6lO3u3w7bEiT33jjZm4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-jNhoSIMBNX2z4QzGi3VeEA-1; Mon, 27 Jan 2020 17:33:49 -0500
+ us-mta-256-mXuJI8FwP2q0fK08CN_XFg-1; Mon, 27 Jan 2020 17:33:52 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98801800D41
- for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 22:33:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7032A18C43C1;
+ Mon, 27 Jan 2020 22:33:51 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-64.ams2.redhat.com [10.36.116.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0EA64165D3;
- Mon, 27 Jan 2020 22:33:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EEBBA451D;
+ Mon, 27 Jan 2020 22:33:48 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/19] migration: Create migration_is_running()
-Date: Mon, 27 Jan 2020 23:33:08 +0100
-Message-Id: <20200127223321.2742-7-quintela@redhat.com>
+Subject: [PULL 07/19] migration/multifd: fix nullptr access in
+ multifd_send_terminate_threads
+Date: Mon, 27 Jan 2020 23:33:09 +0100
+Message-Id: <20200127223321.2742-8-quintela@redhat.com>
 In-Reply-To: <20200127223321.2742-1-quintela@redhat.com>
 References: <20200127223321.2742-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: jNhoSIMBNX2z4QzGi3VeEA-1
+X-MC-Unique: mXuJI8FwP2q0fK08CN_XFg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,120 +74,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
+ Zhimin Feng <fengzhimin1@huawei.com>, Markus Armbruster <armbru@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function returns true if we are in the middle of a migration.
-It is like migration_is_setup_or_active() with CANCELLING and COLO.
-Adapt all callers that are needed.
+From: Zhimin Feng <fengzhimin1@huawei.com>
 
+If the multifd_send_threads is not created when migration is failed,
+multifd_save_cleanup would be called twice. In this senario, the
+multifd_send_state is accessed after it has been released, the result
+is that the source VM is crashing down.
+
+Here is the coredump stack:
+    Program received signal SIGSEGV, Segmentation fault.
+    0x00005629333a78ef in multifd_send_terminate_threads (err=3Derr@entry=
+=3D0x0) at migration/ram.c:1012
+    1012            MultiFDSendParams *p =3D &multifd_send_state->params[i]=
+;
+    #0  0x00005629333a78ef in multifd_send_terminate_threads (err=3Derr@ent=
+ry=3D0x0) at migration/ram.c:1012
+    #1  0x00005629333ab8a9 in multifd_save_cleanup () at migration/ram.c:10=
+28
+    #2  0x00005629333abaea in multifd_new_send_channel_async (task=3D0x5629=
+35450e70, opaque=3D<optimized out>) at migration/ram.c:1202
+    #3  0x000056293373a562 in qio_task_complete (task=3Dtask@entry=3D0x5629=
+35450e70) at io/task.c:196
+    #4  0x000056293373a6e0 in qio_task_thread_result (opaque=3D0x562935450e=
+70) at io/task.c:111
+    #5  0x00007f475d4d75a7 in g_idle_dispatch () from /usr/lib64/libglib-2.=
+0.so.0
+    #6  0x00007f475d4da9a9 in g_main_context_dispatch () from /usr/lib64/li=
+bglib-2.0.so.0
+    #7  0x0000562933785b33 in glib_pollfds_poll () at util/main-loop.c:219
+    #8  os_host_main_loop_wait (timeout=3D<optimized out>) at util/main-loo=
+p.c:242
+    #9  main_loop_wait (nonblocking=3Dnonblocking@entry=3D0) at util/main-l=
+oop.c:518
+    #10 0x00005629334c5acf in main_loop () at vl.c:1810
+    #11 0x000056293334d7bb in main (argc=3D<optimized out>, argv=3D<optimiz=
+ed out>, envp=3D<optimized out>) at vl.c:4471
+
+If the multifd_send_threads is not created when migration is failed.
+In this senario, we don't call multifd_save_cleanup in multifd_new_send_cha=
+nnel_async.
+
+Signed-off-by: Zhimin Feng <fengzhimin1@huawei.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
 ---
+ migration/ram.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-Fix typo.  Thanks Denis.
----
- migration/migration.c | 29 ++++++++++++++++++++++++-----
- migration/migration.h |  1 +
- migration/savevm.c    |  4 +---
- 3 files changed, 26 insertions(+), 8 deletions(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index efd5350e84..77768fb2c7 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -829,6 +829,27 @@ bool migration_is_setup_or_active(int state)
-     }
- }
-=20
-+bool migration_is_running(int state)
-+{
-+    switch (state) {
-+    case MIGRATION_STATUS_ACTIVE:
-+    case MIGRATION_STATUS_POSTCOPY_ACTIVE:
-+    case MIGRATION_STATUS_POSTCOPY_PAUSED:
-+    case MIGRATION_STATUS_POSTCOPY_RECOVER:
-+    case MIGRATION_STATUS_SETUP:
-+    case MIGRATION_STATUS_PRE_SWITCHOVER:
-+    case MIGRATION_STATUS_DEVICE:
-+    case MIGRATION_STATUS_WAIT_UNPLUG:
-+    case MIGRATION_STATUS_CANCELLING:
-+    case MIGRATION_STATUS_COLO:
-+        return true;
-+
-+    default:
-+        return false;
-+
-+    }
-+}
-+
- static void populate_time_info(MigrationInfo *info, MigrationState *s)
- {
-     info->has_status =3D true;
-@@ -1077,7 +1098,7 @@ void qmp_migrate_set_capabilities(MigrationCapability=
-StatusList *params,
-     MigrationCapabilityStatusList *cap;
-     bool cap_list[MIGRATION_CAPABILITY__MAX];
-=20
--    if (migration_is_setup_or_active(s->state)) {
-+    if (migration_is_running(s->state)) {
-         error_setg(errp, QERR_MIGRATION_ACTIVE);
-         return;
-     }
-@@ -1590,7 +1611,7 @@ static void migrate_fd_cancel(MigrationState *s)
-=20
-     do {
-         old_state =3D s->state;
--        if (!migration_is_setup_or_active(old_state)) {
-+        if (!migration_is_running(old_state)) {
-             break;
-         }
-         /* If the migration is paused, kick it out of the pause */
-@@ -1888,9 +1909,7 @@ static bool migrate_prepare(MigrationState *s, bool b=
-lk, bool blk_inc,
-         return true;
-     }
-=20
--    if (migration_is_setup_or_active(s->state) ||
--        s->state =3D=3D MIGRATION_STATUS_CANCELLING ||
--        s->state =3D=3D MIGRATION_STATUS_COLO) {
-+    if (migration_is_running(s->state)) {
-         error_setg(errp, QERR_MIGRATION_ACTIVE);
-         return false;
-     }
-diff --git a/migration/migration.h b/migration/migration.h
-index aa9ff6f27b..44b1d56929 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -279,6 +279,7 @@ void migrate_fd_error(MigrationState *s, const Error *e=
-rror);
- void migrate_fd_connect(MigrationState *s, Error *error_in);
-=20
- bool migration_is_setup_or_active(int state);
-+bool migration_is_running(int state);
-=20
- void migrate_init(MigrationState *s);
- bool migration_is_blocked(Error **errp);
-diff --git a/migration/savevm.c b/migration/savevm.c
-index adfdca26ac..f19cb9ec7a 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1531,9 +1531,7 @@ static int qemu_savevm_state(QEMUFile *f, Error **err=
-p)
-     MigrationState *ms =3D migrate_get_current();
-     MigrationStatus status;
-=20
--    if (migration_is_setup_or_active(ms->state) ||
--        ms->state =3D=3D MIGRATION_STATUS_CANCELLING ||
--        ms->state =3D=3D MIGRATION_STATUS_COLO) {
-+    if (migration_is_running(ms->state)) {
-         error_setg(errp, QERR_MIGRATION_ACTIVE);
-         return -EINVAL;
-     }
+diff --git a/migration/ram.c b/migration/ram.c
+index 3fd7fdffcf..82c7edb083 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1233,7 +1233,15 @@ static void multifd_new_send_channel_async(QIOTask *=
+task, gpointer opaque)
+     trace_multifd_new_send_channel_async(p->id);
+     if (qio_task_propagate_error(task, &local_err)) {
+         migrate_set_error(migrate_get_current(), local_err);
+-        multifd_save_cleanup();
++        /* Error happen, we need to tell who pay attention to me */
++        qemu_sem_post(&multifd_send_state->channels_ready);
++        qemu_sem_post(&p->sem_sync);
++        /*
++         * Although multifd_send_thread is not created, but main migration
++         * thread neet to judge whether it is running, so we need to mark
++         * its status.
++         */
++        p->quit =3D true;
+     } else {
+         p->c =3D QIO_CHANNEL(sioc);
+         qio_channel_set_delay(p->c, false);
 --=20
 2.24.1
 
