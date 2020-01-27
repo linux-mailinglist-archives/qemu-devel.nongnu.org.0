@@ -2,117 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979A114A7C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 17:07:06 +0100 (CET)
-Received: from localhost ([::1]:47316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32F414A7BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 17:04:11 +0100 (CET)
+Received: from localhost ([::1]:47300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw6un-000227-EQ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 11:07:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55105)
+	id 1iw6ry-0000gV-JT
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 11:04:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55231)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <n54@gmx.com>) id 1iw6qZ-0008Ti-0N
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:02:44 -0500
+ (envelope-from <thuth@redhat.com>) id 1iw6r5-00009w-3W
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:03:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <n54@gmx.com>) id 1iw6qX-00081G-TC
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:02:42 -0500
-Received: from mout.gmx.net ([212.227.17.21]:55523)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <n54@gmx.com>) id 1iw6qX-0007zy-FP
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:02:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1580140949;
- bh=UQDIRZOUUL9w3Mf0tALUps1kgp20Xa2aiqp+sG/NrCg=;
- h=X-UI-Sender-Class:Subject:From:To:Cc:References:Date:In-Reply-To;
- b=dRiGVSRZtLXyz/dz1IHiQWiKu4Z9LgD2byU66Upj5Tfwy44FuSIBpzOpIN/ztyyc2
- XqQ564emNiE0AwR4Q1YQlSPWssDUIhXJah+K7iFloRQVDUdB5fiK6ulYlWsKFuT0NE
- m6sUgyA8qW0Cs5AIhue9N8BfI2ImVIewL/+psh7Q=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.0.241] ([89.71.135.231]) by mail.gmx.com (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1Ma20q-1j8Kjw3Dca-00VvwD; Mon, 27
- Jan 2020 17:02:28 +0100
-Subject: Re: [PATCH 0/4] Implements the NetBSD Virtual Machine Monitor
- accelerator
-From: Kamil Rytarowski <n54@gmx.com>
-To: qemu-devel@nongnu.org
-References: <20200107125401.18126-1-n54@gmx.com>
- <7f786d62-fafb-13d1-df1a-5a706ad4a665@gmx.com>
-Autocrypt: addr=n54@gmx.com; prefer-encrypt=mutual; keydata=
- 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
- 4XSbcg==
-Message-ID: <2c986674-ba87-885a-ccb3-787e7aededee@gmx.com>
-Date: Mon, 27 Jan 2020 17:01:41 +0100
-User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <thuth@redhat.com>) id 1iw6r2-0008R1-Sx
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:03:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28881
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iw6r2-0008QN-Ju
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 11:03:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580140991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=loIpsZIkwosFCXAjDjlBPhzh2PKJrGEFPIMU+fqO9jc=;
+ b=NXlAiIsvEzIVMF/nH2AKEHnkN6BYI3Q6FiLuewWPfcFmBYFmlhmKgW9RoGkiFfdzLs8khg
+ +saYblWPBMKyPQwY82Jd2n7hjY8PdE7X8J/9Ai2aaJmotxGqJZjzJXxS/ZLgXDdLFCbfKS
+ URmUeGsArD17eExYtZNVz4uzQIuo/wo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-407-EZ0tzpAFNAWQ0Rv-WKNBPA-1; Mon, 27 Jan 2020 11:03:08 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E10D81083E98;
+ Mon, 27 Jan 2020 16:03:06 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-117-94.ams2.redhat.com [10.36.117.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A8E5C19C58;
+ Mon, 27 Jan 2020 16:03:01 +0000 (UTC)
+Subject: Re: [PATCH v4 5/7] tests/boot_linux_console: Test booting U-Boot on
+ the Raspberry Pi 2
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200120235159.18510-1-f4bug@amsat.org>
+ <20200120235159.18510-6-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <d432f2d7-f238-0503-a242-373be81b7622@redhat.com>
+Date: Mon, 27 Jan 2020 17:02:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <7f786d62-fafb-13d1-df1a-5a706ad4a665@gmx.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="e1JpJWfvnKK38AgOlqUWqo0qjW08EPlu3"
-X-Provags-ID: V03:K1:1Rt17XP+zB8owl+HGLtZV/Vhr02uOB1YsNxK1uAaRiwVrEfT8oM
- Zwlw4Crqo7H2qEoFNfGNE5umCU3MJ1EkmjhSVpTQ27sYOYVg4qebxCSYzKkuB7HHPswdXS8
- You6bnpY1aWHn46CdRP4gf4IoU9982qTu0jkCqVur5fXbAa6KhR+2jSo/zBxuPn/Z/fOPC6
- gKr0mRC0lb1Ln+A7T7iUg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0STxjNcz6Yc=:+g4AhDsIb6b1NGjNZBEodi
- X0Aujl4N79HYKyvOinmU7UkRzK3D8gq/PNFepixb7yN+6OKbWUUAU5nvvbwxzxpsFSOlDQ2bt
- HjTRs9OQM56uUbpq2lXPNjec8RD4OGEV4yN56d0AY1ZgZ8QgatLXcllIKNgQtEpule6U1LpQe
- ZmclWwR4aFUx+/5Uwod0UCBs29n6mKvlbY+Py/pocVZqOpkrMzflIuXjuMxbYrBwePkCy3I7w
- IUihvvXmqIjwl/xB7hc2E0OluuNIJGnC5nufx1JnXTnMxz0lAKj0PC68bJPmdd1ILnR9eOOhy
- rOsJNW9P5uQgdaGpQOKiBq4LxdTjrkRO+rtFJpPMiCYx9TM/xwf5bS7beEAIUYN2soK9rC2xN
- 2REZQq0vfOyMpwLLHBnMyRgJ8jQK1Sp8W8uVkSf4ZzugC9o8n35W7eOPejpM6a/Q+cuiqkd6p
- /8CBWgkX+w7aLRwtIfrQ5fupxg9EDVPRWhS3zrRWwOCGwxfDORfPUpHSinb9ss7lvDukRpgZX
- Jr621ANbZxSxpFyG+8PDedFT66V5FiqOi21kGZGZkoSP0BQT4k9gnzojy+Q8zmK6DzResyqoe
- 5hl9esm5Qfmxnis/Wiiy3xLGkH2WU5vq//US5T7jgG8rheUAVE0rAvkfS4Q8reIiyNRMjqQ8A
- HdUBHpEHD71hX6S7A4wQKN9InUSL9jH2ReC5/tmvdroSiYdsIs1NEqpJTzzrLMhCXPddPgdO4
- m8bMmeruFc2I97pEsUjodfyTeUnm6jhzAASI0jrwXk2zuSSOFshPwHAG1DgSROpiBQfTLwtuI
- oV4Pa6D83+JlwKT8yofuUxBgGG3737FmuGBBIBBL0E+7pTDgz+Va2W4LoLyhWTsSV06EQH5PN
- 4Lhk9M9Bn6/VFJ4GpK3Mnyl+1XGo3mFhwJL9tal2/vlFfaVMZbdNgeRQhjSeXcavNg6WOVY5O
- BZYDy6XCiDufwWk3cmj82nAMY4zNcd+a/sIIRL9LAIdUcOgRXZSuSs04CaD/nBbJPz/n5q8d1
- jqWM1Dv48qKzqpEU02uHpb+VBzfuVQe/8fXyrf6mmkD5aKcOwyKbfEXjrzJ/uk77cN0AlPeiz
- 8MdhAfCzzlOZFFgyOhw5EuhcfcLrYIXgu5KLmgbESEs8L4tLiUSurlftbpPcfvRQpbe6fZyrU
- hLugRVYaASP5iUcAGfcawniR2TE7hLYBw9S5xw2+nvk2v85Cj5EMoFX7Uv6I/yY/QaqiQ=
+In-Reply-To: <20200120235159.18510-6-f4bug@amsat.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: EZ0tzpAFNAWQ0Rv-WKNBPA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.21
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -124,122 +77,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Maxime Villard <maxv@netbsd.org>,
- peter.maydell@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---e1JpJWfvnKK38AgOlqUWqo0qjW08EPlu3
-Content-Type: multipart/mixed; boundary="in89QeMdSgpvpVTFC6acuvXBaNlx44mUk";
- protected-headers="v1"
-From: Kamil Rytarowski <n54@gmx.com>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, peter.maydell@linaro.org,
- Maxime Villard <maxv@netbsd.org>
-Message-ID: <2c986674-ba87-885a-ccb3-787e7aededee@gmx.com>
-Subject: Re: [PATCH 0/4] Implements the NetBSD Virtual Machine Monitor
- accelerator
-References: <20200107125401.18126-1-n54@gmx.com>
- <7f786d62-fafb-13d1-df1a-5a706ad4a665@gmx.com>
-In-Reply-To: <7f786d62-fafb-13d1-df1a-5a706ad4a665@gmx.com>
-
---in89QeMdSgpvpVTFC6acuvXBaNlx44mUk
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Ping? 2x
-
-On 15.01.2020 14:14, Kamil Rytarowski wrote:
-> Ping?
+On 21/01/2020 00.51, Philippe Mathieu-Daud=C3=A9 wrote:
+> This test runs U-Boot on the Raspberry Pi 2.
+> It is very simple and fast:
 >=20
-> On 07.01.2020 13:53, Kamil Rytarowski wrote:
->> Hello QEMU Community!
->>
->> Over the past year the NetBSD team has been working hard on a new user=
--mode API
->> for our hypervisor that will be released as part of the upcoming NetBS=
-D 9.0.
->> This new API adds user-mode capabilities to create and manage virtual =
-machines,
->> configure memory mappings for guest machines, and create and control e=
-xecution
->> of virtual processors.
->>
->> With this new API we are now able to bring our hypervisor to the QEMU
->> community! The following patches implement the NetBSD Virtual Machine =
-Monitor
->> accelerator (NVMM) for QEMU on NetBSD 9.0 and newer hosts.
->>
->> When compiling QEMU for x86_64 passing the --enable-nvmm flag will com=
-pile the
->> accelerator for use. At runtime using the '-accel nvmm' should see a
->> significant performance improvement over emulation, much like when usi=
-ng 'hax'
->> on NetBSD.
->>
->> The documentation for this new API is visible at https://man.netbsd.or=
-g under
->> the libnvmm(3) and nvmm(4) pages.
->>
->> NVMM was designed and implemented by Maxime Villard.
->>
->> Thank you for your feedback.
->>
->> Maxime Villard (4):
->>   Add the NVMM vcpu API
->>   Add the NetBSD Virtual Machine Monitor accelerator.
->>   Introduce the NVMM impl
->>   Add the NVMM acceleration enlightenments
->>
->>  accel/stubs/Makefile.objs |    1 +
->>  accel/stubs/nvmm-stub.c   |   43 ++
->>  configure                 |   36 ++
->>  cpus.c                    |   58 ++
->>  include/sysemu/hw_accel.h |   14 +
->>  include/sysemu/nvmm.h     |   35 ++
->>  qemu-options.hx           |    4 +-
->>  target/i386/Makefile.objs |    1 +
->>  target/i386/helper.c      |    2 +-
->>  target/i386/nvmm-all.c    | 1222 ++++++++++++++++++++++++++++++++++++=
-+
->>  10 files changed, 1413 insertions(+), 3 deletions(-)
->>  create mode 100644 accel/stubs/nvmm-stub.c
->>  create mode 100644 include/sysemu/nvmm.h
->>  create mode 100644 target/i386/nvmm-all.c
->>
->> --
->> 2.24.0
->>
+>   $ avocado --show=3Dapp,console run -t raspi2 -t u-boot tests/acceptance=
+/
+>   JOB LOG    : avocado/job-results/job-2020-01-20T23.40-2424777/job.log
+>    (1/1) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm=
+_raspi2_uboot:
+>   console: MMC:   sdhci@7e300000: 0
+>   console: Loading Environment from FAT... Card did not respond to voltag=
+e select!
+>   console: In:    serial
+>   console: Out:   vidconsole
+>   console: Err:   vidconsole
+>   console: Net:   No ethernet found.
+>   console: starting USB...
+>   console: USB0:   Port not available.
+>   console: Hit any key to stop autoboot:  0
+>   console: U-Boot>
+>   console: U-Boot> bdinfo
+>   console: arch_number =3D 0x00000000
+>   console: boot_params =3D 0x00000100
+>   console: DRAM bank   =3D 0x00000000
+>   console: -> start    =3D 0x00000000
+>   console: -> size     =3D 0x3c000000
+>   console: baudrate    =3D 115200 bps
+>   console: TLB addr    =3D 0x3bff0000
+>   console: relocaddr   =3D 0x3bf64000
+>   console: reloc off   =3D 0x3bf5c000
+>   console: irq_sp      =3D 0x3bb5fec0
+>   console: sp start    =3D 0x3bb5feb0
+>   console: Early malloc usage: 2a4 / 400
+>   console: fdt_blob    =3D 0x3bfbdfb0
+>   console: U-Boot> version
+>   console: U-Boot 2019.01+dfsg-7 (May 14 2019 - 02:07:44 +0000)
+>   console: gcc (Debian 8.3.0-7) 8.3.0
+>   console: GNU ld (GNU Binutils for Debian) 2.31.1
+>   console: U-Boot> reset
+>   console: resetting ...
+>   PASS (0.46 s)
 >=20
+> U-Boot is built by the Debian project, see:
+> https://wiki.debian.org/InstallingDebianOn/Allwinner#Creating_a_bootable_=
+SD_Card_with_u-boot
 >=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  tests/acceptance/boot_linux_console.py | 28 ++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+>=20
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
+ot_linux_console.py
+> index e40b84651b..682b801b4f 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
 
+The file is called boot_*linux*_console.py ... so shouldn't tests that
+don't use Linux rather go into another file instead?
+Either machine_arm_raspi.py or maybe a boot_firmware_console.py file?
 
+ Thomas
 
---in89QeMdSgpvpVTFC6acuvXBaNlx44mUk--
-
---e1JpJWfvnKK38AgOlqUWqo0qjW08EPlu3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEELaxVpweEzw+lMDwuS7MI6bAudmwFAl4vCWwACgkQS7MI6bAu
-dmyF2Q/5AdKPDQIBQGg37euT9r3aR0WPtdspGtLKltrEkQRuV4z5qBEl1N3DPpVx
-u6OSRXdGBIGuG/bflvQ9Zz8bv9+SvXT8M6GlnlkpwGSU9qeno4mhfyZD7MyujZ3P
-rluUz8om8yFYlNv1SD3XMUJ8WN3pRwWFYmLW+HwJfTWdZ979w78c8631BNIueV7o
-I+V+2LX1rD6624dVbi/wLF092m874Jfwx5wkKRkpNDGHbKEpU3xydYzlTlapuDbP
-43Ur0oCgfgwvPa7Ccm7RVAxUyIk392MjbNOQKTKtX6o/dH77G2cHIYIhJILBCThX
-VRLJfD9KBLEJ341yzkhX6UNXlfV1RmuFajDGWjBG7MSod779SAVZJROZBDhJ1HET
-Jm8iJ4ZDiUm2KbVfYbCJcsIqfUCn5rn8cT0CodYuu3KQNJGMKpO2vZCHWY/BIJA9
-j99BmWBR3EDC5fIthuCVFNGCSiD8ObbBG7f88Gjs7PtpXtQlGQhX/jMvud6bkT9/
-OwoBMvRXH21/pexoktEQD1rFBHmPBpolgUdJq917162UvTZvSEj6SDIwIyIOtX4O
-gNQCi0kbIUZ+bdeZsgeVrSM6z/KIT6EvACXiAlBUmzsrgnOq6GTObr5XNGlZPhMY
-jrdqM8RyGBoZLWSTwHiGxNjTyxIg5IEO7SqFH/oX8KeO6vnzInk=
-=3tRh
------END PGP SIGNATURE-----
-
---e1JpJWfvnKK38AgOlqUWqo0qjW08EPlu3--
 
