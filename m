@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B9314A1D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 11:19:32 +0100 (CET)
-Received: from localhost ([::1]:42450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75DE314A1F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 11:29:58 +0100 (CET)
+Received: from localhost ([::1]:42506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw1UR-0006C4-5t
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 05:19:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39293)
+	id 1iw1eX-000886-7S
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 05:29:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40980)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iw1TY-0005kq-TU
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:18:37 -0500
+ (envelope-from <kchamart@redhat.com>) id 1iw1do-0007jR-Hq
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:29:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iw1TX-0004ze-0R
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:18:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42652
+ (envelope-from <kchamart@redhat.com>) id 1iw1dn-0002xf-3q
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:29:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34016
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iw1TW-0004zA-TZ
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:18:34 -0500
+ (Exim 4.71) (envelope-from <kchamart@redhat.com>) id 1iw1dm-0002xD-St
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 05:29:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580120314;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1580120949;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7dY2dr80K2QrKye3Sl+XOMrvIm2z2Bgr5HdW9O9waFA=;
- b=KDWuThcdhmzGdnq7XXVx3bSg3jcjWONXS5ppHbmBOBJRRN887+E8UNp10ZcNl3LqRrGhV3
- WZ2vr8fhf0YhXk8yc8dn+x7oF0xu7u8n/8qp+JGi774ooSXQsoTqz/bh6t7c/iZwHXFLb0
- hFyYrT90lZJkaUKZdFUSnM9y3T912D8=
+ bh=uuNhzB6XztjWiEcjPEzKyepRptuWnLe0yx1S7FSKiGg=;
+ b=BuYzkBvEosSZOyDvGM7SbB30M+ac5ivUqX573oQYpqb/5UQFV8oCo3u9ykztyb+p9ugd2X
+ a4zvNOkRYcOB4YZI42hYDk+2hd6iPXf/WxkrVgnGt4xSHgOjvrUqcPET5b+fW4amnRU/1R
+ nVjeCt8yE6IXGUSYi+4/ZPRJNjxDN00=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-GXg7TWpiO5qhgnF1KH1Jjw-1; Mon, 27 Jan 2020 05:18:32 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-204-OGa3K9k6PYCcJ34_TBJdlw-1; Mon, 27 Jan 2020 05:29:08 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18DEA800D48;
- Mon, 27 Jan 2020 10:18:31 +0000 (UTC)
-Received: from redhat.com (ovpn-112-52.ams2.redhat.com [10.36.112.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B67C619C58;
- Mon, 27 Jan 2020 10:18:19 +0000 (UTC)
-Date: Mon, 27 Jan 2020 10:18:16 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: Making QEMU easier for management tools and applications
-Message-ID: <20200127101816.GD837450@redhat.com>
-References: <20191224134139.GD2710539@redhat.com>
- <30664f6e-81da-a6e6-9b20-037fc91290fb@redhat.com>
- <878slyej29.fsf@dusky.pond.sub.org>
- <a41ae09b-021f-2fda-0b03-7b37c5624ab3@redhat.com>
- <20200123190145.GI657556@redhat.com>
- <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
- <871rrp474i.fsf@dusky.pond.sub.org>
- <20200124102743.GB824327@redhat.com>
- <20200124143841.GG4732@dhcp-200-226.str.redhat.com>
- <87sgk3x2im.fsf@dusky.pond.sub.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3ED5E477
+ for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 10:29:07 +0000 (UTC)
+Received: from paraplu.localdomain (ovpn-117-97.ams2.redhat.com [10.36.117.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BF045C1D6;
+ Mon, 27 Jan 2020 10:29:06 +0000 (UTC)
+Received: by paraplu.localdomain (Postfix, from userid 1001)
+ id 1BD0A3E0489; Mon, 27 Jan 2020 11:29:05 +0100 (CET)
+Date: Mon, 27 Jan 2020 11:29:05 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2] qemu-cpu-models: Document -noTSX, mds-no, taa-no, and
+ tsx-ctrl
+Message-ID: <20200127102905.GA17663@paraplu.home>
+References: <20200121184940.26520-1-kchamart@redhat.com>
+ <5fe2c318-6212-feb5-960a-d6b96c022d3f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87sgk3x2im.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: GXg7TWpiO5qhgnF1KH1Jjw-1
+In-Reply-To: <5fe2c318-6212-feb5-960a-d6b96c022d3f@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: OGa3K9k6PYCcJ34_TBJdlw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,88 +75,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jan 25, 2020 at 11:18:41AM +0100, Markus Armbruster wrote:
-> Kevin Wolf <kwolf@redhat.com> writes:
+On Wed, Jan 22, 2020 at 06:20:51PM +0100, Paolo Bonzini wrote:
+> On 21/01/20 19:49, Kashyap Chamarthy wrote:
+> > Question: How can a user validate that TSX is indeed disabled for the
+> >           guest?
 >=20
-> > Am 24.01.2020 um 11:27 hat Daniel P. Berrang=C3=A9 geschrieben:
-> >> So if we allowed YAML instead of JSON, now we get...
-> >>=20
-> >>   $ cat qemu.yaml
-> >>   ---
-> >>   arguments:
-> >>   - arg: object
-> >>     data:
-> >>       type: secret
-> >>       id: libvirt-5-storage-secret0
-> >>       data: 9eao5F8qtkGt+seB1HYivWIxbtwUu6MQtg1zpj/oDtUsPr1q8wBYM91uEH=
-Cn6j/1
-> >>       keyid: masterKey0
-> >>       iv: AAECAwQFBgcICQoLDA0ODw=3D=3D
-> >>       format: base64
-> >>   - arg: object
-> >>     data:
-> >>       type: secret
-> >>       id: libvirt-5-format-luks-secret0
-> >>       data: 9eao5F8qtkGt+seB1HYivWIxbtwUu6MQtg1zpj/oDtUsPr1q8wBYM91uEH=
-Cn6j/1
-> >>       keyid: masterKey0
-> >>       iv: AAECAwQFBgcICQoLDA0ODw=3D=3D
-> >>       format: base64
-> >>   - arg: blockdev
-> >>     data:
-> >>       node-name: libvirt-5-format
-> >>       read-only: false
-> >>       driver: qcow2
-> >>       encrypt:
-> >>         format: luks
-> >>         key-secret: libvirt-5-format-luks-secret0
-> >>       file:
-> >>         driver: iscsi
-> >>         portal: example.org:6000
-> >>         target: iqn.1992-01.com.example:storage
-> >>         lun: 1
-> >>         transport: tcp
-> >>         user: myname
-> >>         password-secret: libvirt-5-storage-secret0
-> >>         node-name: libvirt-5-storage
-> >>         auto-read-only: true
-> >>         discard: unmap
-> >>   $ qemu-system-x86_64 -f qemu.yaml
-> >>=20
-> >> This is finally something I'd consider to be on a par with the
-> >> original QEMU syntax, before we added hierarchical data. You
-> >> have the minimal possible amount of syntax here. No commas,
-> >> no quotes, no curly brackets, etc.
-> >
-> > This seems to have the same problems as the QEMU command line (how do
-> > you distinguish strings from ints, from bools, from null?).
+> Look for rtm in /proc/cpuinfo, or look at the TAA entry in the sysfs
+> vulnerabilities directory.
+
+Noted.
+
+[...]
+
+> > +@item @code{taa-no}
+> > +
+> > +Recommended to inform that the guest that the host is @i{not} vulnerab=
+le
+> > +to CVE-2019-11135, TSX Asyncrnous Abort (TAA).
 >=20
-> True: YAML provides only string scalars.
+> Asynchronous
 
-Actually, YAML provides  strings, integers, booleans & nulls, the same
-level of typing at JSON, but with added benefit of supporting comments
-officially:
+Will fix.
 
-  https://rollout.io/blog/yaml-tutorial-everything-you-need-get-started/
+[...]
 
-Regards,
-Daniel
+> > +@item @code{tsx-ctrl}
+> > +
+> > +Recommended to inform the guest to @i{disable} the Intel TSX
+> > +(Transactional Synchronization Extensions) feature.
+>=20
+> Not "to disable" but rather:
+>=20
+> Recommended to inform the guest that it can disable the Intel TSX
+> feature or (if vulnerable) use the VERW instruction as a mitigation for
+> the TAA vulnerability.
+
+Thanks.  I'll make that last bit to:
+
+    ... use the Intel 'VERW' instruction (a processor-level instruction
+    that performs checks on memory access) as a mitigation for the
+    TAA vulnerability.
+
+Hope that's accurate-but-vague-enough description of 'VERW'.  (I
+realize, as Dave Gilbert said on IRC, the actual description of VERW is
+besides the point, as Intel reused that to do something else in addition
+to its original purpose).
+
+I just wanted to note a small, high-level blurb on _what_ VERW is,
+because I feel awkward leaving such words like that in the air in a
+user-facing doc.
+
+[...]
+
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+/kashyap
 
 
