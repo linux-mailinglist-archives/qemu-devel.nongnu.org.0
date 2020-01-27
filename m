@@ -2,68 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9E714A585
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 14:57:32 +0100 (CET)
-Received: from localhost ([::1]:45580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CF214A5AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 15:06:45 +0100 (CET)
+Received: from localhost ([::1]:45751 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw4tP-0003f4-KA
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 08:57:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55751)
+	id 1iw52J-0008Kj-FU
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 09:06:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49419)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1iw4sU-00030l-FD
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 08:56:35 -0500
+ (envelope-from <adrian.glaubitz@suse.com>) id 1ivzpz-0005OL-Ps
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:33:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1iw4sT-0002zr-0Y
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 08:56:34 -0500
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:33847)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1iw4sS-0002yn-OW
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 08:56:32 -0500
-Received: by mail-lj1-x232.google.com with SMTP id x7so10727936ljc.1
- for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 05:56:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1uWxbNbiek7eP9l1TB5J6fznoMQZoDDzbH9u8QTUPV8=;
- b=kUx7UKCpfdT0IDuRUPeoRbtUWDU7N3TM4ShDlSNzNxKYabnarayaSw7yQTOigbUxjU
- WDgxcBtCaMvj2ubbp7OPXLoILKu4ApbDJlaiMydKAUtPgE1nezsO6pwH0RETSj++vb+b
- kdtrOq7LpI7CxHXto+Zy9fpxMnsyMO+6TSPS3PVeUDqXmqplYFVWNqv9xqtPXMWC8k7M
- rr0yYCP/DlIOwqFja31vTb0oDGF5EsQ8+6AtWEYtZThxVjdJn93lArQT1ORKq0ptLHPS
- frYsPEXN68A28ylBg/OKyXQAmXknmzMUFmZnGA3Yzcv7TJpF3h6dnorMv6pzMl3XpHX1
- pClw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1uWxbNbiek7eP9l1TB5J6fznoMQZoDDzbH9u8QTUPV8=;
- b=mnHcRXeFSXg/pz8H7KcrxORGKx46vBkNO0QLRhItCfyRMgqtSLq8oU2inA89w4a7iE
- tlaeCbAoACIxdVbHxI6ygTT+v1sv3lc4ed5TOMkvoc6XfE6Q5NGhl7avXiS0bzDnc+wO
- PesRXnVt9r/GQf/Qq11wtTcXJEqqh3RP2zXQPX+mOnJ6veA2BQC9ORCoisCBm/KI3I3o
- eqNqajbnhTde5buMB5tcj+cCVv/8Ynvqe/imCcKqMAtjbgf74/B9B6/T+y4X2E2XTUEn
- qCy5aw0j5ASwxM8vqvzEP96XIUFZTOJ1/bmYN6oQyWJo9fYLxDE0fBNZwgwNMTB+EgBe
- Pn5w==
-X-Gm-Message-State: APjAAAUi3nG8s/yftQmQvgZimHgq947DgA/EOw0koKUV9DjMdJk9vqG2
- mfuG8i9DHXyaiz2LgooDIxqsBzexiBxhEGVhwTjlXg==
-X-Google-Smtp-Source: APXvYqxVrc7cZLe8cNWulVFXZjsVruMCREgolAxhCYB9WRklW1WCoUGOaGiyoJH5kOp8I+rCxJ5jUN5TNOXH7Ac+1Jk=
-X-Received: by 2002:a2e:81d0:: with SMTP id s16mr10453207ljg.166.1580133391166; 
- Mon, 27 Jan 2020 05:56:31 -0800 (PST)
+ (envelope-from <adrian.glaubitz@suse.com>) id 1ivzpx-0006TQ-Lk
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:33:38 -0500
+Received: from m9a0013g.houston.softwaregrp.com ([15.124.64.91]:53380)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <adrian.glaubitz@suse.com>) id 1ivzpx-00064r-Fn
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 03:33:37 -0500
+Received: FROM m9a0013g.houston.softwaregrp.com (15.121.0.191) BY
+ m9a0013g.houston.softwaregrp.com WITH ESMTP; 
+ Mon, 27 Jan 2020 08:32:41 +0000
+Received: from M9W0067.microfocus.com (2002:f79:be::f79:be) by
+ M9W0068.microfocus.com (2002:f79:bf::f79:bf) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1591.10; Mon, 27 Jan 2020 08:30:48 +0000
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com (15.124.72.10) by
+ M9W0067.microfocus.com (15.121.0.190) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1591.10 via Frontend Transport; Mon, 27 Jan 2020 08:30:48 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hRIB7HK+b+JlXsPiGcK9rSCY644CyFENwPEmi3YeZyDaZ0Sb5cTDMSrLWhO42ZkF0cMRVY1pNU/m+ymj58wzAXAK0+YhKfJ+DYL3RDBZTvbx8kz3Sm6+BQqh/SLSJz6jhqFD/2MR9HywJnJ8ouHzKFIExo0oUKamKd5CoOxDpBnznDDW5LGDuY88yXCsu0EqiTQqW1mRhj38QLvY2HqsTVNDmF02F29XOsgRBvLTRrhffLOvN+KRadOf+tFKptZhcbgV4YVGSQtKSQ2pPfGaJt352Xhlr8lTpnYOKTfP96O9b+ruduYNhR1EZHCN9LXSbZXqA75WxciseTMftA2r7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zMrWZHe8ff21m7bxfWRm5tK9uV+/7aZ0XXPCBlw9924=;
+ b=bK87rGii0EoPXU+ZK85u67uo3rBE07r0FpRgcsrZXL6vdRc9irv+hKyuPlSnu8EolReQTm5uEzYgvEieRBpfpYiRtNyvArazpBuJ8L2ZiH/A/69o/CF3o8FWmd2OLlDGjWwDYMAG5wE2opNmCmSVmSKMDZFwiW3ZvK96rIeNlD0jgPkDVpGRj5et5NZ9z0cZx4A/UoC5wH43iOInVpkEdNPOX4x8KNfa1IAFwE+3kT5Omr0y5idPNfe2lSo31j+OBcvpMpB9XWTLzRkR1TAdK3gmJmay9+0sanEDmIgu4AKwA3DnCo3RPphUM2PwrcS/Yv7wi2EKj49DxOWuZwMExg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Received: from DM6PR18MB3436.namprd18.prod.outlook.com (10.255.173.25) by
+ DM6PR18MB3402.namprd18.prod.outlook.com (10.255.172.27) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2665.23; Mon, 27 Jan 2020 08:30:48 +0000
+Received: from DM6PR18MB3436.namprd18.prod.outlook.com
+ ([fe80::a989:db8:3a72:6ace]) by DM6PR18MB3436.namprd18.prod.outlook.com
+ ([fe80::a989:db8:3a72:6ace%7]) with mapi id 15.20.2665.017; Mon, 27 Jan 2020
+ 08:30:48 +0000
+Received: from [IPv6:2003:d1:df16:ef00:7292:cc72:6b0:c7e0]
+ (2003:d1:df16:ef00:7292:cc72:6b0:c7e0) by
+ LNXP265CA0073.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:76::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2665.20 via Frontend Transport; Mon, 27 Jan 2020 08:30:47 +0000
+From: John Paul Adrian Glaubitz <adrian.glaubitz@suse.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>, "Richard
+ Henderson" <richard.henderson@linaro.org>
+Subject: Re: Booting Debian in qemu-system-alpha
+Thread-Topic: Booting Debian in qemu-system-alpha
+Thread-Index: AQHV1OwTgHfbLF6YKEeVFRfuNKZNaw==
+Date: Mon, 27 Jan 2020 08:30:48 +0000
+Message-ID: <f7e044ca-17a4-7ef3-e8a7-ad830e7b062b@suse.com>
+References: <b71832b2-8b2e-a49b-1bf9-6590056bbdbe@physik.fu-berlin.de>
+ <f3843562-cd89-d1b1-19ed-6ae505a94148@linaro.org>
+ <22dd1024-6dd1-81b1-1a91-8d2cbf31853c@physik.fu-berlin.de>
+ <775a62cd-8041-de5e-97c9-b1def80b3f58@redhat.com>
+In-Reply-To: <775a62cd-8041-de5e-97c9-b1def80b3f58@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: LNXP265CA0073.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:76::13) To DM6PR18MB3436.namprd18.prod.outlook.com
+ (2603:10b6:5:1c5::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=adrian.glaubitz@suse.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [2003:d1:df16:ef00:7292:cc72:6b0:c7e0]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f89e519f-afe2-4af1-5b45-08d7a30335ce
+x-ms-traffictypediagnostic: DM6PR18MB3402:
+x-microsoft-antispam-prvs: <DM6PR18MB3402F19BF09BB37810134C75800B0@DM6PR18MB3402.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-forefront-prvs: 02951C14DC
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(376002)(396003)(39860400002)(346002)(366004)(136003)(199004)(189003)(4326008)(5660300002)(66446008)(64756008)(66556008)(66476007)(66946007)(2616005)(86362001)(8676002)(81156014)(81166006)(31686004)(8936002)(6486002)(36756003)(31696002)(16526019)(478600001)(71200400001)(2906002)(186003)(53546011)(110136005)(52116002)(54906003)(316002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR18MB3402;
+ H:DM6PR18MB3436.namprd18.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: suse.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: qdqW1rZMx1IWBjtkNAYRwvpynJgd3BlmpLSsihZp1EDDMojJM9EBKsze0QqXQX13022GSF1nXXuRaeAuT1dxUdyxYroVi8qHIuO1oea8ynagtkTvvq7NrLyMFrWjf6IhnB8Ffv97L6TGST9+Xyt+kWr+OKDxGvMaLzB+FeIVAvirviiJZnts3+IEQEO6VIv/QidlE6sQD+/5KhzmoxpqUoEPXKteiVWO7FtmljKtUeUPvTWXzBSB/fOQjd/D1iID4WtwQ18zA3XixolkCfXzIX5D662RIO6uZpN/3f9W7yMbhs7M4etNbBGTV2hm/ltbRXr15LsdTtLRsySG+N2/L7+qmCJNOOO77z+H54mVImSXjs9j1W9LguS9fmyZP4GrAGCrMvmbOP90h8v5cgwVV+lJb908KGNIKXZmrQX/1FcQwhm8W1ErCPCSZISSVW3q
+x-ms-exchange-antispam-messagedata: NbVBMxpVOL+95TW97OVt7bfs6U5KYeaEKNVEV8gmij5yJvVvrtbVDaK8ZsbcmnYVFriwWhRCFiRf3HasJa9BKodokyDDmdHzbzigq1qhFxjyw0ygC0ADXGCP+FNGA8gAKD51Kij4KxtYRozNN8xn2c+rlVc2xvwDeTSceh2HaxooIc+cwvNfEqHm6oNkFEpecHdjktvWOhTZ5aJ6Qra1/A==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <CD4FC1C82CB7574FAC615205D44A2B25@namprd18.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20200124165335.422-1-robert.foley@linaro.org>
- <20200124165335.422-5-robert.foley@linaro.org>
- <87sgk1f5ko.fsf@linaro.org>
-In-Reply-To: <87sgk1f5ko.fsf@linaro.org>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Mon, 27 Jan 2020 08:56:20 -0500
-Message-ID: <CAEyhzFvf2YcuKfB2+RS+iU0JBSMLn1eGhLq6VVKoks-5WPgGCA@mail.gmail.com>
-Subject: Re: [PATCH 4/8] tests/vm: Add configuration to basevm.py
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::232
+X-MS-Exchange-CrossTenant-Network-Message-Id: f89e519f-afe2-4af1-5b45-08d7a30335ce
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jan 2020 08:30:48.1958 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 856b813c-16e5-49a5-85ec-6f081e13b527
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: I3CT3rEqm5wK9EQ2N7FA7/BtyN62N12AE0j785PzJrgrFHCqK1AAEO9WbJln5CYGK2Y5QYecuGGbVQpady5ysPg6E43fhVzFtrowAb2fiIM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR18MB3402
+X-OriginatorOrg: suse.com
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 15.124.64.91
+X-Mailman-Approved-At: Mon, 27 Jan 2020 09:04:34 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,162 +122,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Puhov <peter.puhov@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: "debian-alpha@lists.debian.org" <debian-alpha@lists.debian.org>, QEMU
+ Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 27 Jan 2020 at 07:26, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
-> > -SSH_KEY =3D open(os.path.join(os.path.dirname(__file__),
-> > -               "..", "keys", "id_rsa")).read()
-> > -SSH_PUB_KEY =3D open(os.path.join(os.path.dirname(__file__),
-> > -                   "..", "keys", "id_rsa.pub")).read()
-> > -
-> > +SSH_KEY_FILE =3D os.path.join(os.path.dirname(__file__),
-> > +               "..", "keys", "id_rsa")
-> > +SSH_PUB_KEY_FILE =3D os.path.join(os.path.dirname(__file__),
-> > +                   "..", "keys", "id_rsa.pub")
-> > +SSH_KEY =3D open(SSH_KEY_FILE).read()
-> > +SSH_PUB_KEY =3D open(SSH_PUB_KEY_FILE).read()
->
-> Why are we tracking more information about the keyfile than we used to
-> now? Is this because it's harder to embed keys over paths in the config?
-We now allow the user to override the ssh keys.  Because of this we
-need to track
-the filename separately from the contents of the file, so that we can
-put this default
-filename into the DEFAULT_CONFIG below.
-We also keep the original SSH_PUB_KEY since it is still
-used by some pre-existing VM scripts, and we did not want to break backward=
-s
-compatibility for those scripts.
-Actually upon further inspection, it looks like we can delete SSH_KEY,
-this is no longer needed. :)
->
-> > +
-> > +# This is the standard configuration.
-> > +# Any or all of these can be overridden by
-> > +# passing in a config argument to the VM constructor.
-> > +DEFAULT_CONFIG =3D {
-> > +    'cpu'             : "max",
-> > +    'machine'         : 'pc',
-> > +    'guest_user'      : "qemu",
-> > +    'guest_pass'      : "qemupass",
-> > +    'root_pass'       : "qemupass",
-> > +    'ssh_key_file'    : SSH_KEY_FILE,
-> > +    'ssh_pub_key_file': SSH_PUB_KEY_FILE,
-> > +    'memory'          : "4G",
-> > +    'extra_args'      : [],
-> > +    'dns'             : "",
-> > +    'ssh_port'        : 0,
-> > +    'install_cmds'    : "",
-> > +    'boot_dev_type'   : "block",
-> > +    'ssh_timeout'     : 1,
-> > +}
-> > +BOOT_DEVICE =3D {
-> > +    'block' :  "-drive file=3D{},if=3Dnone,id=3Ddrive0,cache=3Dwriteba=
-ck "\
-> > +               "-device virtio-blk,drive=3Ddrive0,bootindex=3D0",
-> > +    'scsi'  :  "-device virtio-scsi-device,id=3Dscsi "\
-> > +               "-drive file=3D{},format=3Draw,if=3Dnone,id=3Dhd0 "\
-> > +               "-device scsi-hd,drive=3Dhd0,bootindex=3D0",
-> > +}
-> >  class BaseVM(object):
-> > -    GUEST_USER =3D "qemu"
-> > -    GUEST_PASS =3D "qemupass"
-> > -    ROOT_PASS =3D "qemupass"
->
-> Don't we need these?
-We don't need these since we moved them up to the new DEFAULT_CONFIG.
-These are essentially the default values now since the user
-can now override these.
-We also handle the cases where these are accessed by existing scripts,
-and ensuring backwards compatibility by referencing these values in the
-_config (see the code in __getattr__).
-
-This actually brings up a good point that I wanted to mention.
-Our initial plan was to leave the existing VM scripts unchanged.
-We were thinking that it would also clarify things for a later patch to
-simply change references to ROOT_PASS, GUEST_USER/ PASS,
-and SSH_PUB_KEY, within the existing VM scripts (centos, openbsd, etc)
-to use _config, and then we could get rid of the __getattr__ change entirel=
-y.
-Actually, we could even put it at the end of this series too.
-I think I will add this change to the next version of this patch unless you
-think we should keep it separate?
-> >
-> >      envvars =3D [
-> >          "https_proxy",
-> > @@ -59,19 +84,26 @@ class BaseVM(object):
-> >      poweroff =3D "poweroff"
-> >      # enable IPv6 networking
-> >      ipv6 =3D True
-> > -    def __init__(self, debug=3DFalse, vcpus=3DNone):
-> > +    def __init__(self, debug=3DFalse, vcpus=3DNone, config=3DNone):
-> >          self._guest =3D None
-> > +        # Allow input config to override defaults.
-> > +        self._config =3D DEFAULT_CONFIG.copy()
-> > +        if config !=3D None:
-> > +            self._config.update(config)
-> >          self._tmpdir =3D os.path.realpath(tempfile.mkdtemp(prefix=3D"v=
-m-test-",
-> >                                                           suffix=3D".tm=
-p",
-> >                                                           dir=3D"."))
-> >          atexit.register(shutil.rmtree, self._tmpdir)
-> > -
-> > +        self._config['ssh_key'] =3D \
-> > +            open(self._config['ssh_key_file']).read().rstrip()
-> > +        self._config['ssh_pub_key'] =3D \
-> > +            open(self._config['ssh_pub_key_file']).read().rstrip()
-> >          self._ssh_key_file =3D os.path.join(self._tmpdir, "id_rsa")
-> > -        open(self._ssh_key_file, "w").write(SSH_KEY)
-> > +        open(self._ssh_key_file, "w").write(self._config['ssh_key'])
-> >          subprocess.check_call(["chmod", "600", self._ssh_key_file])
-> >
-> >          self._ssh_pub_key_file =3D os.path.join(self._tmpdir, "id_rsa.=
-pub")
-> > -        open(self._ssh_pub_key_file, "w").write(SSH_PUB_KEY)
-> > +        open(self._ssh_pub_key_file,
-> >          "w").write(self._config['ssh_pub_key'])
->
-> Read as a block I find this confusing:
->
->         self._config['ssh_key'] =3D \
->             open(self._config['ssh_key_file']).read().rstrip()
->         self._config['ssh_pub_key'] =3D \
->             open(self._config['ssh_pub_key_file']).read().rstrip()
->         self._ssh_key_file =3D os.path.join(self._tmpdir, "id_rsa")
->         open(self._ssh_key_file, "w").write(self._config['ssh_key'])
->         subprocess.check_call(["chmod", "600", self._ssh_key_file])
->
->         self._ssh_pub_key_file =3D os.path.join(self._tmpdir, "id_rsa.pub=
-")
->         open(self._ssh_pub_key_file, "w").write(self._config['ssh_pub_key=
-'])
->
-> We read config['ssh_key_file'] but write out _ssh_pub_key_file which
-> doesn't seem related.
-I agree we can clarify this. :) Most of this logic was here previously,
-we're just adding the parameterization of the keys.
-This is the current flow:
-1) copy the key file (config['ssh_key_file']) to a temporary file
-(_ssh_pub_key_file)
-2) chmod the key file so that ssh is happy with the permissions.
-Without this chmod ssh will refuse to use the key file.
-It seems to make sense to add a comment here to clarify all this.
-It also seems like we could change the name _ssh_pub_key_file to
-_ssh_tmp_pub_key_file
-to make it more clear it is a temp file.
-What do you think, would that be enough to clarify things?
-
-Thanks & Regards,
--Rob
-> <snip>
-
->
-> --
-> Alex Benn=C3=A9e
+T24gMS8yNy8yMCA4OjQ3IEFNLCBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSB3cm90ZToNCj4+IEkn
+bSBjb25zaWRlcmluZyBzZXR0aW5nIHVwIHR3byBxZW11LWJhc2VkIGJ1aWxkZHMgZm9yIGFscGhh
+IGluIHRoZSBjbG91ZCBub3cuDQo+IA0KPiBOaWNlIQ0KPiANCj4gTG9va2luZyBhdCBjbG91ZCBw
+cm92aWRlciBkZWZhdWx0IHBsYW5zLCBhbmQgcHJvYmxlbXMgd2l0aCBidWlsZGQgb24gb3RoZXIg
+YXJjaHMNCj4gKG1pcHNlbCBpbiBwYXJ0aWN1bGFyKSBJIHJlY29tbWVuZCB5b3UgdG8gdXNlIGF0
+IGxlYXN0IDJHQiBpbnN0ZWFkIG9mIDUxMk1CLg0KDQpTdXJlLiBJIGhhdmUgdHdvIGZyZWUgY2xv
+dWQgVk1zIHdoaWNoIEkgd2lsbCB1c2UgZm9yIHRoZSBhbHBoYSBidWlsZGRzLiBXZSdyZQ0KYWxy
+ZWFkeSB1c2luZyBxZW11IGZvciBidWlsZHMgaW4gRGViaWFuLg0KDQpGb3IgbTY4ayBhbmQgc2g0
+LCB3ZSdyZSB1c2luZyBxZW11LXVzZXIgd2hpY2ggaGVscGVkIGRpc2NvdmVyaW5nIGEgbG90IG9m
+IGJ1Z3MsDQplc3BlY2lhbGx5IHdpdGggcWVtdS11c2VyLiBDdXJyZW50bHksIHdlIGNhbid0IHVz
+ZSBxZW11LXN5c3RlbSBvbiBtNjhrIGFuZCBzaDQNCnNpbmNlIHRoZSBzeXN0ZW0gbWVtb3J5IGlz
+IGxpbWl0ZWQgdGhlcmUgdG8gMSBHaUIgYW5kIDY0IE1pQiwgYWx0aG91Z2ggdGhlIGxhdHRlcg0K
+aXMgYSBsaW1pdGF0aW9uIGJ5IHFlbXUgYXMgZmFyIGFzIEkga25vdy4NCg0KRm9yIHJpc2N2NjQs
+IG1vc3QgYnVpbGRkcyBpbiBEZWJpYW4gYW5kIGJ1aWxkIHdvcmtlcnMgaW4gb3BlblNVU0UgYXJl
+IGJhc2VkIG9uDQpxZW11LXN5c3RlbSBhcyBjaGVhcCByaXNjdjY0IGhhcmR3YXJlIGlzIHN0aWxs
+IHZlcnkgaGFyZCB0byBjb21lIGJ5Lg0KDQpBZHJpYW4NCg0KLS0gDQogLicnYC4gIEpvaG4gUGF1
+bCBBZHJpYW4gR2xhdWJpdHoNCjogOicgOiAgRGViaWFuIERldmVsb3BlciAtIGdsYXViaXR6QGRl
+Ymlhbi5vcmcNCmAuIGAnICAgRnJlaWUgVW5pdmVyc2l0YWV0IEJlcmxpbiAtIGdsYXViaXR6QHBo
+eXNpay5mdS1iZXJsaW4uZGUNCiAgYC0gICAgR1BHOiA2MkZGIDhBNzUgODRFMCAyOTU2IDk1NDYg
+IDAwMDYgNzQyNiAzQjM3IEY1QjUgRjkxMw0K
 
