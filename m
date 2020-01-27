@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7321914A3C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 13:23:52 +0100 (CET)
-Received: from localhost ([::1]:44108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F10BE14A3C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Jan 2020 13:25:22 +0100 (CET)
+Received: from localhost ([::1]:44134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iw3Ql-0004jV-FJ
-	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 07:23:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35201)
+	id 1iw3SD-0007Ei-UP
+	for lists+qemu-devel@lfdr.de; Mon, 27 Jan 2020 07:25:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35227)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iw3Ne-0008FA-Fl
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:39 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iw3Ni-0008QB-R2
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iw3Nd-0006eJ-Bn
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40875
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1iw3Nh-0006gk-RY
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:42 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46875
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iw3Nd-0006e7-8k
- for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:37 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iw3Nh-0006gV-OD
+ for qemu-devel@nongnu.org; Mon, 27 Jan 2020 07:20:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580127637;
+ s=mimecast20190719; t=1580127641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x7ciA+2dv33wSg1Rz2Apen9ggs1Zl82xLEBdpTZePi4=;
- b=eVBkcCWxGyGsqz9oHc8WsAeXl9E/GhJHyGcafc1E7rSK16CyS4KS+laSnWJ3EYDFHJHJdV
- xxt2WgZucOaL+Kaijm6R0q0iOrYc98zWkvXor/rxthvvj/L6ac23/ZlTZG72Uu4LaQGfyn
- GjxjgyFM5JN7z3ccs7c5cmm+SuHc7Ug=
+ bh=VEpvByjsK7BTvQ7tVGoNJWNSskkiuwcEMPuPnaYPnuE=;
+ b=HORK+Idj6aPlZPAtg/IupZ+Ft4pGLDGtoMl2hjDuzDh1p0+HV1x9z9wFu3TAhE1UFm6p6J
+ 5qonci6pIBNm0pmI0iXAfEMf1ImVARhAQt7rlFkmCFdbU2KJ8mi9w8Gjr7Rp0U7ArpfNRY
+ J31OliQ43+scbYQxnIU4dlx+nx4X+f8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-huz9j7rMMxm4UQC17tm1MQ-1; Mon, 27 Jan 2020 07:20:32 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-274-kn65e204Ny2bg7QzXWrJBw-1; Mon, 27 Jan 2020 07:20:37 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C3B910054E3;
- Mon, 27 Jan 2020 12:20:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BA7F800D50;
+ Mon, 27 Jan 2020 12:20:36 +0000 (UTC)
 Received: from localhost (ovpn-116-220.ams2.redhat.com [10.36.116.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EE845DC1E;
- Mon, 27 Jan 2020 12:20:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 630B8451F;
+ Mon, 27 Jan 2020 12:20:33 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 04/15] s390x: adapter routes error handling
-Date: Mon, 27 Jan 2020 13:20:05 +0100
-Message-Id: <20200127122016.18752-5-cohuck@redhat.com>
+Subject: [PULL 05/15] s390x/event-facility: fix error propagation
+Date: Mon, 27 Jan 2020 13:20:06 +0100
+Message-Id: <20200127122016.18752-6-cohuck@redhat.com>
 In-Reply-To: <20200127122016.18752-1-cohuck@redhat.com>
 References: <20200127122016.18752-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: huz9j7rMMxm4UQC17tm1MQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: kn65e204Ny2bg7QzXWrJBw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,86 +70,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the kernel irqchip has been disabled, we don't want the
-{add,release}_adapter_routes routines to call any kvm_irqchip_*
-interfaces, as they may rely on an irqchip actually having been
-created. Just take a quick exit in that case instead. If you are
-trying to use irqfd without a kernel irqchip, we will fail with
-an error.
+We currently check (by error) if the passed-in Error pointer errp
+is non-null and return after realizing the first child of the
+event facility in that case. Symptom is that 'virsh shutdown'
+does not work, as the sclpquiesce device is not realized.
 
-Also initialize routes->gsi[] with -1 in the virtio-ccw handling,
-to make sure we don't trip over other errors, either. (Nobody
-else uses the gsi array in that structure.)
+Fix this by (correctly) checking the local Error err.
 
-Fixes: d426d9fba8ea ("s390x/virtio-ccw: wire up irq routing and irqfds")
+Reported-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Fixes: 3d508334dd2c ("s390x/event-facility: Fix realize() error API violati=
+ons")
+Message-Id: <20200121095506.8537-1-cohuck@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-Id: <20200117111147.5006-1-cohuck@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/intc/s390_flic_kvm.c | 8 ++++++++
- hw/s390x/virtio-ccw.c   | 4 ++++
- 2 files changed, 12 insertions(+)
+ hw/s390x/event-facility.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/intc/s390_flic_kvm.c b/hw/intc/s390_flic_kvm.c
-index 2e1e70c61d5b..a306b26faa07 100644
---- a/hw/intc/s390_flic_kvm.c
-+++ b/hw/intc/s390_flic_kvm.c
-@@ -331,6 +331,10 @@ static int kvm_s390_add_adapter_routes(S390FLICState *=
-fs,
-     int ret, i;
-     uint64_t ind_offset =3D routes->adapter.ind_offset;
+diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
+index 8a93b8a1da97..9d6972afa8b3 100644
+--- a/hw/s390x/event-facility.c
++++ b/hw/s390x/event-facility.c
+@@ -338,7 +338,7 @@ static void sclp_events_bus_realize(BusState *bus, Erro=
+r **errp)
+         DeviceState *dev =3D kid->child;
 =20
-+    if (!kvm_gsi_routing_enabled()) {
-+        return -ENOSYS;
-+    }
-+
-     for (i =3D 0; i < routes->num_routes; i++) {
-         ret =3D kvm_irqchip_add_adapter_route(kvm_state, &routes->adapter)=
-;
-         if (ret < 0) {
-@@ -358,6 +362,10 @@ static void kvm_s390_release_adapter_routes(S390FLICSt=
-ate *fs,
- {
-     int i;
-=20
-+    if (!kvm_gsi_routing_enabled()) {
-+        return;
-+    }
-+
-     for (i =3D 0; i < routes->num_routes; i++) {
-         if (routes->gsi[i] >=3D 0) {
-             kvm_irqchip_release_virq(kvm_state, routes->gsi[i]);
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 6580ce5907dd..13f57e7b67f1 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -697,6 +697,7 @@ static void virtio_ccw_device_realize(VirtioCcwDevice *=
-dev, Error **errp)
-     CCWDeviceClass *ck =3D CCW_DEVICE_GET_CLASS(ccw_dev);
-     SubchDev *sch;
-     Error *err =3D NULL;
-+    int i;
-=20
-     sch =3D css_create_sch(ccw_dev->devno, errp);
-     if (!sch) {
-@@ -717,6 +718,9 @@ static void virtio_ccw_device_realize(VirtioCcwDevice *=
-dev, Error **errp)
-     ccw_dev->sch =3D sch;
-     dev->indicators =3D NULL;
-     dev->revision =3D -1;
-+    for (i =3D 0; i < ADAPTER_ROUTES_MAX_GSI; i++) {
-+        dev->routes.gsi[i] =3D -1;
-+    }
-     css_sch_build_virtual_schib(sch, 0, VIRTIO_CCW_CHPID_TYPE);
-=20
-     trace_virtio_ccw_new_device(
+         object_property_set_bool(OBJECT(dev), true, "realized", &err);
+-        if (errp) {
++        if (err) {
+             error_propagate(errp, err);
+             return;
+         }
 --=20
 2.21.1
 
