@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD2914C385
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 00:28:47 +0100 (CET)
-Received: from localhost ([::1]:38668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341AF14C38F
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 00:34:27 +0100 (CET)
+Received: from localhost ([::1]:38762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwaHm-0000Cm-80
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 18:28:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57275)
+	id 1iwaNG-0002Zj-5b
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 18:34:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60380)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1iwaGp-0008AI-3k
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 18:27:48 -0500
+ (envelope-from <keithp@keithp.org>) id 1iwaLE-0001tJ-Tx
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 18:32:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1iwaGn-000225-Ud
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 18:27:46 -0500
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:33677)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1iwaGn-0001yO-NE; Tue, 28 Jan 2020 18:27:45 -0500
-Received: by mail-lj1-x243.google.com with SMTP id y6so16562761lji.0;
- Tue, 28 Jan 2020 15:27:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4PKHUnAgCm58jfcKAD2lQvWlutxR+lsplLxYXjp+J8U=;
- b=iz+A5+ezpMUpgEllWqUgb2E1P8tEqSlGnLRkeKsJm4r8Y3SKGqi5HYqsBEHr+XmUxU
- Qky9dy/+XRH9cHyd74er74v6qNc3N9+GnL/GDSAHzkC6w+930PcjaELdtsbxbhYTlSqI
- JgEr/aWhaUtSeKNPUuA4T0Ta3s86RfZ3LHrDPVQPQ8bpZjHAxwkvHgPHA3NUULxZmGnt
- 9nBcJQtJEzFqF8e573hDjDGk44yEEJ6xi8MwAhLtOI3/6tGRzZKkLTuYEjyLSx0hX76W
- OYaUsMNTCxorFU4zwVXLPuJIH7MzmCC9orfwrNEo6jrv1Ik7/LXt/9z64U0JH5A4iP9N
- 3F4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4PKHUnAgCm58jfcKAD2lQvWlutxR+lsplLxYXjp+J8U=;
- b=GJvefw0ul+lqnCpuKj+xysQAzAa6XmHeXxtTozyne4Nrh1b2cnuY5gD12yMSQyqjyx
- 0V/DQCdPE2kNBPduPQ2jq3uByrvbahJXawyGlL39kxzIQiWg0QDJ/ExNJwzd8ZcfbBzL
- qzNQECgB7lgCoOaeYRlhpqPOLvGRoL/GRZPNUhAgI4UO0fuNY45zrIC4hFo4/8ZeEB7g
- DDRwXPv6/r/kitIQ3Jsk9ioOn+3Bap7GZY0qDYNrZ3NTW8fP5RSl0mBaj13aqvJDcc6O
- WVKqZ12JWXa5Y5TmdL+xchjQmoELUuKZvwBOIjYsEVLeyGz+KwwwMR+pEXP4mAtuRVqm
- YsNQ==
-X-Gm-Message-State: APjAAAVL59otTwP7GPpVJbkaHm0nL8I3phhIj5YUXVFKLzu38D4up1r+
- VLw7BunnS3qXgnd3eyy4c06Mt/150nOWEFYkhfk=
-X-Google-Smtp-Source: APXvYqwPiptIIYpFmtKZSLyA2wg4IdYhDO5bgU6Lj7/v8XcJrdhVJ6G4ewSZX2ni6k4U0IPspWVOyJaqja89g+wM6iw=
-X-Received: by 2002:a2e:b4ac:: with SMTP id q12mr10001289ljm.285.1580254063352; 
- Tue, 28 Jan 2020 15:27:43 -0800 (PST)
+ (envelope-from <keithp@keithp.org>) id 1iwaLD-0006I2-Rz
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 18:32:20 -0500
+Received: from home.keithp.com ([63.227.221.253]:44598 helo=elaine.keithp.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <keithp@keithp.org>)
+ id 1iwaLD-0006FJ-Lm; Tue, 28 Jan 2020 18:32:19 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by elaine.keithp.com (Postfix) with ESMTP id BAC5C3F2A89B;
+ Tue, 28 Jan 2020 15:32:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1580254338; bh=wh4Wst2qJAcsdTxmbufjJzuxkXZslL6kirqAxDIsWJk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=nLSfw7SzEimqF03zxuDpUM5EQ9A+pzPWACHF7QrQJsRrNJm2KvoWINBQy91sqi3Oz
+ e0UHovFx5DP8HUiT7nc95Zfq+7AmPw9GR5AXK7l0W5lF8fVzxODWKTobSv2eM6pB+3
+ jgFu9bH6+Yf2gcsX1IBrXkPXGhilF3D3IgZLyYbUtPvW0S5FREOElilbLj9xpmrEWR
+ JBArULQJhWTOMZBeOisGOLeIB4OQ2E6ak7av3sbLX/uu1iPVrc/AvPZRuP6xjsyXGT
+ MnYA3rXFUpDQxr/50ztLg9fIeXObDdCJknv8L5MDhKk6CnBWU/J0oF1HAr4Zs2DkZh
+ Oi8K1jrYDJvlA==
+X-Virus-Scanned: Debian amavisd-new at keithp.com
+Received: from elaine.keithp.com ([127.0.0.1])
+ by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id 2GCMjx2hAEOq; Tue, 28 Jan 2020 15:32:18 -0800 (PST)
+Received: from keithp.com (koto.keithp.com [10.0.0.2])
+ by elaine.keithp.com (Postfix) with ESMTPSA id 616843F2A895;
+ Tue, 28 Jan 2020 15:32:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1580254338; bh=wh4Wst2qJAcsdTxmbufjJzuxkXZslL6kirqAxDIsWJk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=nLSfw7SzEimqF03zxuDpUM5EQ9A+pzPWACHF7QrQJsRrNJm2KvoWINBQy91sqi3Oz
+ e0UHovFx5DP8HUiT7nc95Zfq+7AmPw9GR5AXK7l0W5lF8fVzxODWKTobSv2eM6pB+3
+ jgFu9bH6+Yf2gcsX1IBrXkPXGhilF3D3IgZLyYbUtPvW0S5FREOElilbLj9xpmrEWR
+ JBArULQJhWTOMZBeOisGOLeIB4OQ2E6ak7av3sbLX/uu1iPVrc/AvPZRuP6xjsyXGT
+ MnYA3rXFUpDQxr/50ztLg9fIeXObDdCJknv8L5MDhKk6CnBWU/J0oF1HAr4Zs2DkZh
+ Oi8K1jrYDJvlA==
+Received: by keithp.com (Postfix, from userid 1000)
+ id 419691582162; Tue, 28 Jan 2020 15:32:18 -0800 (PST)
+To: qemu-devel@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-riscv@nongnu.org,
+ Keith Packard <keithp@keithp.com>
+Subject: [PATCH] riscv: Separate FPU register size from core register size in
+ gdbstub [v2]
+Date: Tue, 28 Jan 2020 15:32:16 -0800
+Message-Id: <20200128233216.515171-1-keithp@keithp.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-References: <20200128223955.464556-1-keithp@keithp.com>
-In-Reply-To: <20200128223955.464556-1-keithp@keithp.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 28 Jan 2020 15:27:16 -0800
-Message-ID: <CAKmqyKOpG1QYD_w1EHEUEs-8J1RAx=k8xMqxRZ5H0nD2N7q_+w@mail.gmail.com>
-Subject: Re: [PATCH] riscv: Separate FPU register size from core register size
- in gdbstub
-To: Keith Packard <keithp@keithp.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::243
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.227.221.253
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,102 +76,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Keith Packard <keithp@keithp.com>
+From: Keith Packard via <qemu-devel@nongnu.org>
 
-On Tue, Jan 28, 2020 at 2:40 PM Keith Packard via <qemu-devel@nongnu.org> wrote:
->
-> The size of the FPU registers is dictated by the 'f' and 'd' features,
-> not the core processor register size. Processors with the 'd' feature
-> have 64-bit FPU registers. Processors without the 'd' feature but with
-> the 'f' feature have 32-bit FPU registers.
->
-> Signed-off-by: Keith Packard <keithp@keithp.com>
-> ---
->  configure              |  4 ++--
->  target/riscv/gdbstub.c | 18 +++++++++---------
->  2 files changed, 11 insertions(+), 11 deletions(-)
->
-> diff --git a/configure b/configure
-> index a72a5def57..c21bff8d10 100755
-> --- a/configure
-> +++ b/configure
-> @@ -7709,13 +7709,13 @@ case "$target_name" in
->      TARGET_BASE_ARCH=riscv
->      TARGET_ABI_DIR=riscv
->      mttcg=yes
-> -    gdb_xml_files="riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-32bit-csr.xml riscv-32bit-virtual.xml"
-> +    gdb_xml_files="riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-64bit-fpu.xml riscv-32bit-csr.xml riscv-32bit-virtual.xml"
->    ;;
->    riscv64)
->      TARGET_BASE_ARCH=riscv
->      TARGET_ABI_DIR=riscv
->      mttcg=yes
-> -    gdb_xml_files="riscv-64bit-cpu.xml riscv-64bit-fpu.xml riscv-64bit-csr.xml riscv-64bit-virtual.xml"
-> +    gdb_xml_files="riscv-64bit-cpu.xml riscv-32bit-fpu.xml riscv-64bit-fpu.xml riscv-64bit-csr.xml riscv-64bit-virtual.xml"
->    ;;
->    sh4|sh4eb)
->      TARGET_ARCH=sh4
-> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-> index 1a7947e019..c1803a5916 100644
-> --- a/target/riscv/gdbstub.c
-> +++ b/target/riscv/gdbstub.c
-> @@ -303,7 +303,10 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
->  static int riscv_gdb_get_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
->  {
->      if (n < 32) {
-> -        return gdb_get_reg64(mem_buf, env->fpr[n]);
-> +        if (env->misa & RVD)
-> +            return gdb_get_reg64(mem_buf, env->fpr[n]);
-> +        if (env->misa & RVF)
-> +            return gdb_get_reg32(mem_buf, env->fpr[n]);
+The size of the FPU registers is dictated by the 'f' and 'd' features,
+not the core processor register size. Processors with the 'd' feature
+have 64-bit FPU registers. Processors without the 'd' feature but with
+the 'f' feature have 32-bit FPU registers.
 
-You need brackets around all if statements, besides that:
+Signed-off-by: Keith Packard <keithp@keithp.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+---
 
-Alistair
+v2:
+    Fix checkpatch formatting complaints.
+---
+ configure              |  4 ++--
+ target/riscv/gdbstub.c | 20 +++++++++++---------
+ 2 files changed, 13 insertions(+), 11 deletions(-)
 
->      /* there is hole between ft11 and fflags in fpu.xml */
->      } else if (n < 36 && n > 32) {
->          target_ulong val = 0;
-> @@ -403,23 +406,20 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
->  {
->      RISCVCPU *cpu = RISCV_CPU(cs);
->      CPURISCVState *env = &cpu->env;
-> -#if defined(TARGET_RISCV32)
-> -    if (env->misa & RVF) {
-> +    if (env->misa & RVD) {
-> +        gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
-> +                                 36, "riscv-64bit-fpu.xml", 0);
-> +    } else if (env->misa & RVF) {
->          gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
->                                   36, "riscv-32bit-fpu.xml", 0);
->      }
-> -
-> +#if defined(TARGET_RISCV32)
->      gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
->                               240, "riscv-32bit-csr.xml", 0);
->
->      gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
->                               1, "riscv-32bit-virtual.xml", 0);
->  #elif defined(TARGET_RISCV64)
-> -    if (env->misa & RVF) {
-> -        gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fpu,
-> -                                 36, "riscv-64bit-fpu.xml", 0);
-> -    }
-> -
->      gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
->                               240, "riscv-64bit-csr.xml", 0);
->
-> --
-> 2.25.0
->
->
+diff --git a/configure b/configure
+index a72a5def57..c21bff8d10 100755
+--- a/configure
++++ b/configure
+@@ -7709,13 +7709,13 @@ case "$target_name" in
+     TARGET_BASE_ARCH=3Driscv
+     TARGET_ABI_DIR=3Driscv
+     mttcg=3Dyes
+-    gdb_xml_files=3D"riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-32bit=
+-csr.xml riscv-32bit-virtual.xml"
++    gdb_xml_files=3D"riscv-32bit-cpu.xml riscv-32bit-fpu.xml riscv-64bit=
+-fpu.xml riscv-32bit-csr.xml riscv-32bit-virtual.xml"
+   ;;
+   riscv64)
+     TARGET_BASE_ARCH=3Driscv
+     TARGET_ABI_DIR=3Driscv
+     mttcg=3Dyes
+-    gdb_xml_files=3D"riscv-64bit-cpu.xml riscv-64bit-fpu.xml riscv-64bit=
+-csr.xml riscv-64bit-virtual.xml"
++    gdb_xml_files=3D"riscv-64bit-cpu.xml riscv-32bit-fpu.xml riscv-64bit=
+-fpu.xml riscv-64bit-csr.xml riscv-64bit-virtual.xml"
+   ;;
+   sh4|sh4eb)
+     TARGET_ARCH=3Dsh4
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index 1a7947e019..1a72f7be9c 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -303,7 +303,12 @@ int riscv_cpu_gdb_write_register(CPUState *cs, uint8=
+_t *mem_buf, int n)
+ static int riscv_gdb_get_fpu(CPURISCVState *env, uint8_t *mem_buf, int n=
+)
+ {
+     if (n < 32) {
+-        return gdb_get_reg64(mem_buf, env->fpr[n]);
++        if (env->misa & RVD) {
++            return gdb_get_reg64(mem_buf, env->fpr[n]);
++        }
++        if (env->misa & RVF) {
++            return gdb_get_reg32(mem_buf, env->fpr[n]);
++        }
+     /* there is hole between ft11 and fflags in fpu.xml */
+     } else if (n < 36 && n > 32) {
+         target_ulong val =3D 0;
+@@ -403,23 +408,20 @@ void riscv_cpu_register_gdb_regs_for_features(CPUSt=
+ate *cs)
+ {
+     RISCVCPU *cpu =3D RISCV_CPU(cs);
+     CPURISCVState *env =3D &cpu->env;
+-#if defined(TARGET_RISCV32)
+-    if (env->misa & RVF) {
++    if (env->misa & RVD) {
++        gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fp=
+u,
++                                 36, "riscv-64bit-fpu.xml", 0);
++    } else if (env->misa & RVF) {
+         gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fp=
+u,
+                                  36, "riscv-32bit-fpu.xml", 0);
+     }
+-
++#if defined(TARGET_RISCV32)
+     gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+                              240, "riscv-32bit-csr.xml", 0);
+=20
+     gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_vi=
+rtual,
+                              1, "riscv-32bit-virtual.xml", 0);
+ #elif defined(TARGET_RISCV64)
+-    if (env->misa & RVF) {
+-        gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fp=
+u,
+-                                 36, "riscv-64bit-fpu.xml", 0);
+-    }
+-
+     gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+                              240, "riscv-64bit-csr.xml", 0);
+=20
+--=20
+2.25.0
+
 
