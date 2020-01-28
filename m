@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1793F14BFFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:40:03 +0100 (CET)
-Received: from localhost ([::1]:35320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991CB14C045
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:50:13 +0100 (CET)
+Received: from localhost ([::1]:35466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVmM-00012V-1Y
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:40:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34527)
+	id 1iwVwC-0000NU-FI
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:50:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34657)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6p-00027q-6r
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:08 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6r-0002CQ-1W
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6n-0005eo-2R
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:07 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37768)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6p-0005lK-S3
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:08 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40842)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV6l-0005aP-Rt
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:05 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id f129so3583030wmf.2
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:57:01 -0800 (PST)
+ id 1iwV6p-0005f1-Kb
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:07 -0500
+Received: by mail-wr1-x444.google.com with SMTP id j104so1202229wrj.7
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:57:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d8v5bRzec34yfkf1QOj74f3k3RNnmyYBfKj/VWRJGh0=;
- b=AOG8gFL2aUs+0fmtmQCWVOuKUsR7Rd8LFFBIKLnPDFdAsEnQ3IZwWnSiVULiQxTeKy
- TprEzk2n24K6SmMfKoYnmCmua089DHptLbX10OMSRbZm1uoGrZAng/iO4UFZlkToF4VW
- LccfrQ8xt8otlGqFvg78CQeLNLEwgxHHsvpEe+pdltI7W6D+T2DW+B4i3p1kiDqRsOKM
- /uSHe4qnFlpZ60Ov3Elz0F+7H3/0yCYc+Oje0fOTAmgfwk4ItDbI6W98AoX6Mnpvf7gh
- olNfl4GKgBgoAoI5p6qkPTPKT+ZrtVc388Ob8dNaZIOQ7bD5+NBqnvSZiJKFaK6LLpcT
- 4lYw==
+ bh=AcA80Oa9glsB9Xn7cH9me7kaQhwthAOTPazgC6s1fw8=;
+ b=NrsHSgFa8uoc5/W3Uv3nq2HJk6pB4f/1Oehf8qGn4vbDzk1EaV1qIqKMIG+XaEj6hy
+ LQ3yq/jo3hOlDoVDBeAXbc2H4hFQf0YqZ5n7mBn8iHteNFbVRqGtLzNIUWJarYLwJxR+
+ bmEfwtcaBgdowW8+3ykHHTpsLeq2bt6jGNTEjGUNVt3EN0SQzZE+sRrUZoZhdfg88YYV
+ N8EDXTsiTb7MXfFokdbnUb8+0yqOtd+228qdMiAK1a1aClW1Ss9vu4xr88UtAWc9jC16
+ 0W161G95mjjibc7lXaHpTKcgRVnSploFOEBxnDx6cca6Baj/MPP0h+pXeei97ANOvvom
+ h3EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=d8v5bRzec34yfkf1QOj74f3k3RNnmyYBfKj/VWRJGh0=;
- b=jYoxenCrLkAfyO3b31DweWLh/7Rl+O1H1CD3v6K1Wt6zhEO7cuhGi3pVjJ7Gq90gp7
- E8slbRusVHE0lMA3sUI6jYIdEC7dkxROKsCPqYmBpl3drG3M3zPcitTlpNAm++A9upAG
- DWBEb39ntPTYFbQEbEo2JZ4ccOdR7xzgntfgRFIdH/uCXvp4bYPTr16+K241UCIbRRil
- 4+xZkgNOlCXDVwYzzFCeNV6MxvibDP3G+6ZSRXZ9qnWTwGSIo3kuugaEnQAcHvryTzoq
- 1v0uHhSapk/PU8a2Tgoo2lpNmBEA7fLyoahhiRKKY7F1pqebgi1d0qJen2pa0zIZ7OHu
- +9Mw==
-X-Gm-Message-State: APjAAAWOk/3XxQHXMFYkaQWHL4UHl74rW1rGJc/aJfCTVNsLYDfASu5r
- Ve+0l/xC5Z4mf1SC1p0CTnqQNDOb
-X-Google-Smtp-Source: APXvYqzC3+/UX5xBMv0XUbQd0XWBkGSjTvttFXlRVi4lUd69+CH6WANvmkk7t223JzUextwJNtgpTQ==
-X-Received: by 2002:a1c:6755:: with SMTP id b82mr6504771wmc.126.1580234220762; 
- Tue, 28 Jan 2020 09:57:00 -0800 (PST)
+ bh=AcA80Oa9glsB9Xn7cH9me7kaQhwthAOTPazgC6s1fw8=;
+ b=Y8crLzuBrRtutxbW7rMa4R2I9YokqvqDg/Wq3mXay+sUmzavFA0JZjWIUZfkHLWcWx
+ lfnahk5VABSyfW32upx6O2G9MdqCsMjXBkWqbkq9I+QCjSk1Af8P08kj9lnYzYGdv73A
+ Tx7WkF5I5SVDHRikTHfacn64s0EPAmC730oPFwDlgEZ/uv9SKYEotn0lvLhOR0DJAqH4
+ /GCMb9AbW3m1bHB+SV2Il0cZwxoWNcqd+ljw6Hb6/OKbX5TJWHUMDjk7kHEXFdbU4Xv7
+ f0BwAKqca8vLsTpVyWot+1JubrI/ZgHloRrR59HRjNhCcjFwaL7pI0kldUEVo3Uj6BAQ
+ 2rVg==
+X-Gm-Message-State: APjAAAUtavtUFvTaP2r29gnJWyZwGvN2CRpDWQKAewqyGc2Qt1V+ULpU
+ 8applrUneUsWr7YUsjcMBabH73bD
+X-Google-Smtp-Source: APXvYqy1aWzC2bbJf0FDKmIZq6RqPs0kcF9JkTHAKpoOt+KZ5Imhtw+bWsW3IU4jedxP4+sMMlDIbw==
+X-Received: by 2002:adf:90e7:: with SMTP id i94mr28549602wri.47.1580234225001; 
+ Tue, 28 Jan 2020 09:57:05 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.56.58
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.57.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:57:00 -0800 (PST)
+ Tue, 28 Jan 2020 09:57:04 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 081/142] meson: convert hw/rtc
-Date: Tue, 28 Jan 2020 18:52:41 +0100
-Message-Id: <20200128175342.9066-82-pbonzini@redhat.com>
+Subject: [PATCH 083/142] meson: convert hw/sd
+Date: Tue, 28 Jan 2020 18:52:43 +0100
+Message-Id: <20200128175342.9066-84-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,82 +79,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs     |  1 -
- hw/meson.build       |  1 +
- hw/rtc/Makefile.objs | 13 -------------
- hw/rtc/meson.build   | 14 ++++++++++++++
- 4 files changed, 15 insertions(+), 14 deletions(-)
- delete mode 100644 hw/rtc/Makefile.objs
- create mode 100644 hw/rtc/meson.build
+ hw/Makefile.objs    |  1 -
+ hw/meson.build      |  1 +
+ hw/sd/Makefile.objs | 11 -----------
+ hw/sd/meson.build   | 11 +++++++++++
+ 4 files changed, 12 insertions(+), 12 deletions(-)
+ delete mode 100644 hw/sd/Makefile.objs
+ create mode 100644 hw/sd/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 9df81ac96e..6152f8074b 100644
+index 55433f352e..a72fa7895c 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -24,7 +24,6 @@ devices-dirs-y += nvram/
- devices-dirs-y += pci/
+@@ -25,7 +25,6 @@ devices-dirs-y += pci/
  devices-dirs-$(CONFIG_PCI) += pci-bridge/ pci-host/
  devices-dirs-y += pcmcia/
--devices-dirs-y += rtc/
  devices-dirs-$(CONFIG_SCSI) += scsi/
- devices-dirs-y += sd/
- devices-dirs-y += ssi/
+-devices-dirs-y += sd/
+ endif
+ 
+ common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 50b26db852..1fb1687e1e 100644
+index 75644266f2..a73f4aebde 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -1,6 +1,7 @@
- subdir('core')
+@@ -2,6 +2,7 @@ subdir('core')
  subdir('mem')
  subdir('nubus')
-+subdir('rtc')
+ subdir('rtc')
++subdir('sd')
  subdir('semihosting')
  subdir('smbios')
- subdir('timer')
-diff --git a/hw/rtc/Makefile.objs b/hw/rtc/Makefile.objs
+ subdir('ssi')
+diff --git a/hw/sd/Makefile.objs b/hw/sd/Makefile.objs
 deleted file mode 100644
-index 8dc9fcd3a9..0000000000
---- a/hw/rtc/Makefile.objs
+index a884c238df..0000000000
+--- a/hw/sd/Makefile.objs
 +++ /dev/null
-@@ -1,13 +0,0 @@
--common-obj-$(CONFIG_DS1338) += ds1338.o
--common-obj-$(CONFIG_M41T80) += m41t80.o
--common-obj-$(CONFIG_M48T59) += m48t59.o
--ifeq ($(CONFIG_ISA_BUS),y)
--common-obj-$(CONFIG_M48T59) += m48t59-isa.o
--endif
--common-obj-$(CONFIG_PL031) += pl031.o
--common-obj-$(CONFIG_TWL92230) += twl92230.o
--common-obj-$(CONFIG_XLNX_ZYNQMP) += xlnx-zynqmp-rtc.o
--common-obj-$(CONFIG_EXYNOS4) += exynos4210_rtc.o
--obj-$(CONFIG_MC146818RTC) += mc146818rtc.o
--common-obj-$(CONFIG_SUN4V_RTC) += sun4v-rtc.o
--common-obj-$(CONFIG_ASPEED_SOC) += aspeed_rtc.o
-diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
+@@ -1,11 +0,0 @@
+-common-obj-$(CONFIG_PL181) += pl181.o
+-common-obj-$(CONFIG_SSI_SD) += ssi-sd.o
+-common-obj-$(CONFIG_SD) += sd.o core.o sdmmc-internal.o
+-common-obj-$(CONFIG_SDHCI) += sdhci.o
+-common-obj-$(CONFIG_SDHCI_PCI) += sdhci-pci.o
+-
+-obj-$(CONFIG_MILKYMIST) += milkymist-memcard.o
+-obj-$(CONFIG_OMAP) += omap_mmc.o
+-obj-$(CONFIG_PXA2XX) += pxa2xx_mmci.o
+-obj-$(CONFIG_RASPI) += bcm2835_sdhost.o
+-obj-$(CONFIG_ASPEED_SOC) += aspeed_sdhci.o
+diff --git a/hw/sd/meson.build b/hw/sd/meson.build
 new file mode 100644
-index 0000000000..665a539a37
+index 0000000000..2b88a956d6
 --- /dev/null
-+++ b/hw/rtc/meson.build
-@@ -0,0 +1,14 @@
++++ b/hw/sd/meson.build
+@@ -0,0 +1,11 @@
++softmmu_ss.add(when: 'CONFIG_PL181', if_true: files('pl181.c'))
++softmmu_ss.add(when: 'CONFIG_SD', if_true: files('sd.c', 'core.c', 'sdmmc-internal.c'))
++softmmu_ss.add(when: 'CONFIG_SDHCI', if_true: files('sdhci.c'))
++softmmu_ss.add(when: 'CONFIG_SDHCI_PCI', if_true: files('sdhci-pci.c'))
++softmmu_ss.add(when: 'CONFIG_SSI_SD', if_true: files('ssi-sd.c'))
 +
-+softmmu_ss.add(when: 'CONFIG_DS1338', if_true: files('ds1338.c'))
-+softmmu_ss.add(when: 'CONFIG_M41T80', if_true: files('m41t80.c'))
-+softmmu_ss.add(when: 'CONFIG_M48T59', if_true: files('m48t59.c'))
-+softmmu_ss.add(when: 'CONFIG_PL031', if_true: files('pl031.c'))
-+softmmu_ss.add(when: 'CONFIG_TWL92230', if_true: files('twl92230.c'))
-+softmmu_ss.add(when: ['CONFIG_ISA_BUS', 'CONFIG_M48T59'], if_true: files('m48t59-isa.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP', if_true: files('xlnx-zynqmp-rtc.c'))
-+
-+softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_rtc.c'))
-+softmmu_ss.add(when: 'CONFIG_SUN4V_RTC', if_true: files('sun4v-rtc.c'))
-+softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_rtc.c'))
-+
-+specific_ss.add(when: 'CONFIG_MC146818RTC', if_true: files('mc146818rtc.c'))
++specific_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-memcard.c'))
++specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_mmc.c'))
++specific_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_mmci.c'))
++specific_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_sdhost.c'))
++specific_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_sdhci.c'))
 -- 
 2.21.0
 
