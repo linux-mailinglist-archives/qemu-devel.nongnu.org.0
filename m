@@ -2,70 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48EB14C185
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 21:18:33 +0100 (CET)
-Received: from localhost ([::1]:37220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CCE14C18A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 21:20:51 +0100 (CET)
+Received: from localhost ([::1]:37256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwXJg-0004Jg-F4
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 15:18:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37271)
+	id 1iwXLu-0006u3-3X
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 15:20:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38343)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1iwXIS-0003ZR-QI
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 15:17:18 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iwXKe-0005Mi-S3
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 15:19:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1iwXIR-0003rN-2J
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 15:17:16 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29331
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iwXKd-0001AO-47
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 15:19:32 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:41529 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iwXIQ-0003oe-Tf
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 15:17:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580242634;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pc8NOi0faJUWVA3FoOLpgOr2lmB7ci5vdpsvcWsKE1M=;
- b=QS6+/brCRmLXjgc8PnJJJl+nda7/gZqJQvx2u5zaxEUwxoYRa2JrsF+4ACBUpe79OvrAHr
- MVn3vmA6TDAnAM945hR6msuarQB+9XDMAELn1wkYzW6qOYj8ta3znNMiH11tf782InoKMq
- WdrrxexgWanD+01gwc6RR+Zb1Xi0LQY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-EfWOoimCOqqYqS4AhsMZJw-1; Tue, 28 Jan 2020 15:08:52 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 792A3107ACCC;
- Tue, 28 Jan 2020 20:08:50 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-65.gru2.redhat.com
- [10.97.116.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 16CD85C3F8;
- Tue, 28 Jan 2020 20:08:42 +0000 (UTC)
-Subject: Re: [PATCH v4 5/7] tests/boot_linux_console: Test booting U-Boot on
- the Raspberry Pi 2
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200120235159.18510-1-f4bug@amsat.org>
- <20200120235159.18510-6-f4bug@amsat.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <1a512e40-36d5-0de2-2590-b580f48a5599@redhat.com>
-Date: Tue, 28 Jan 2020 18:08:40 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1iwXKc-0006gK-PZ
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 15:19:31 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 2CECD1A1EA4;
+ Tue, 28 Jan 2020 21:09:38 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.14.106])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 153B31A1E9A;
+ Tue, 28 Jan 2020 21:09:38 +0100 (CET)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/6] MIPS queue for January 28th, 2020
+Date: Tue, 28 Jan 2020 21:09:15 +0100
+Message-Id: <1580242161-20333-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20200120235159.18510-6-f4bug@amsat.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: EfWOoimCOqqYqS4AhsMZJw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,121 +51,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Laurent Bonnans <laurent.bonnans@here.com>,
- Cheng Xiang <ext-cheng.xiang@here.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-On 1/20/20 9:51 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> This test runs U-Boot on the Raspberry Pi 2.
-> It is very simple and fast:
->
->    $ avocado --show=3Dapp,console run -t raspi2 -t u-boot tests/acceptanc=
-e/
->    JOB LOG    : avocado/job-results/job-2020-01-20T23.40-2424777/job.log
->     (1/1) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_ar=
-m_raspi2_uboot:
->    console: MMC:   sdhci@7e300000: 0
->    console: Loading Environment from FAT... Card did not respond to volta=
-ge select!
->    console: In:    serial
->    console: Out:   vidconsole
->    console: Err:   vidconsole
->    console: Net:   No ethernet found.
->    console: starting USB...
->    console: USB0:   Port not available.
->    console: Hit any key to stop autoboot:  0
->    console: U-Boot>
->    console: U-Boot> bdinfo
->    console: arch_number =3D 0x00000000
->    console: boot_params =3D 0x00000100
->    console: DRAM bank   =3D 0x00000000
->    console: -> start    =3D 0x00000000
->    console: -> size     =3D 0x3c000000
->    console: baudrate    =3D 115200 bps
->    console: TLB addr    =3D 0x3bff0000
->    console: relocaddr   =3D 0x3bf64000
->    console: reloc off   =3D 0x3bf5c000
->    console: irq_sp      =3D 0x3bb5fec0
->    console: sp start    =3D 0x3bb5feb0
->    console: Early malloc usage: 2a4 / 400
->    console: fdt_blob    =3D 0x3bfbdfb0
->    console: U-Boot> version
->    console: U-Boot 2019.01+dfsg-7 (May 14 2019 - 02:07:44 +0000)
->    console: gcc (Debian 8.3.0-7) 8.3.0
->    console: GNU ld (GNU Binutils for Debian) 2.31.1
->    console: U-Boot> reset
->    console: resetting ...
->    PASS (0.46 s)
->
-> U-Boot is built by the Debian project, see:
-> https://wiki.debian.org/InstallingDebianOn/Allwinner#Creating_a_bootable_=
-SD_Card_with_u-boot
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->   tests/acceptance/boot_linux_console.py | 28 ++++++++++++++++++++++++++
->   1 file changed, 28 insertions(+)
+The following changes since commit 4c60e3289875ae6c516a37523bcecb87f68ce6=
+7c:
 
+  Merge remote-tracking branch 'remotes/rth/tags/pull-pa-20200127' into s=
+taging (2020-01-28 15:11:04 +0000)
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+are available in the git repository at:
 
+  https://github.com/AMarkovic/qemu tags/mips-queue-jan-28-2020
 
->
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-> index e40b84651b..682b801b4f 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -16,6 +16,7 @@ import shutil
->   from avocado import skipUnless
->   from avocado_qemu import Test
->   from avocado_qemu import exec_command_and_wait_for_pattern
-> +from avocado_qemu import interrupt_interactive_console_until_pattern
->   from avocado_qemu import wait_for_console_pattern
->   from avocado.utils import process
->   from avocado.utils import archive
-> @@ -485,6 +486,33 @@ class BootLinuxConsole(Test):
->           exec_command_and_wait_for_pattern(self, 'reboot',
->                                                   'reboot: Restarting sys=
-tem')
->  =20
-> +    def test_arm_raspi2_uboot(self):
-> +        """
-> +        :avocado: tags=3Darch:arm
-> +        :avocado: tags=3Dmachine:raspi2
-> +        :avocado: tags=3Du-boot
-> +        """
-> +        deb_url =3D ('https://snapshot.debian.org/archive/debian/'
-> +                   '20190514T084354Z/pool/main/u/u-boot/'
-> +                   'u-boot-rpi_2019.01%2Bdfsg-7_armhf.deb')
-> +        deb_hash =3D 'ad858cf3afe623b6c3fa2e20dcdd1768fcb9ae83'
-> +        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
-> +        uboot_path =3D '/usr/lib/u-boot/rpi_2/uboot.elf'
-> +        uboot_path =3D self.extract_from_deb(deb_path, uboot_path)
-> +
-> +        self.vm.set_console()
-> +        self.vm.add_args('-kernel', uboot_path,
-> +                         # VideoCore starts CPU with only 1 core enabled
-> +                         '-global', 'bcm2836.enabled-cpus=3D1',
-> +                         '-no-reboot')
-> +        self.vm.launch()
-> +        interrupt_interactive_console_until_pattern(self,
-> +                                       'Hit any key to stop autoboot:',
-> +                                       'Config file not found')
-> +        exec_command_and_wait_for_pattern(self, 'bdinfo', 'U-Boot')
-> +        exec_command_and_wait_for_pattern(self, 'version', 'U-Boot')
-> +        exec_command_and_wait_for_pattern(self, 'reset', 'resetting ...'=
-)
-> +
->       def test_s390x_s390_ccw_virtio(self):
->           """
->           :avocado: tags=3Darch:s390x
+for you to fetch changes up to 370bf3a4196ebef247752a68b89d497522168ebb:
+
+  target/mips: Add implementation of GINVT instruction (2020-01-28 20:52:=
+20 +0100)
+
+----------------------------------------------------------------
+
+MIPS queue for January 28th, 2020
+
+  A diverse set of fixes and improvements:
+
+    - finalize documentation on deprecating r4k machine
+    - enable disassembler to receive target-specific data
+    - enable kernel loader to get e_flags from ELF header
+    - improve code flow in helper_do_semihosting()
+    - amend CP0 WatchHi register implementation
+    - add GINVT instruction emulation
+
+----------------------------------------------------------------
+
+Aleksandar Markovic (2):
+  target/mips: Rectify documentation on deprecating r4k machine
+  disas: Add a field for target-dependant data
+
+Daniel Henrique Barboza (1):
+  mips-semi.c: remove 'uhi_done' label in helper_do_semihosting()
+
+Philippe Mathieu-Daud=C3=A9 (1):
+  hw/core/loader: Let load_elf() populate the processor-specific flags
+
+Yongbok Kim (2):
+  target/mips: Amend CP0 WatchHi register implementation
+  target/mips: Add implementation of GINVT instruction
+
+ disas/mips.c                   |  10 +++
+ hw/alpha/dp264.c               |   4 +-
+ hw/arm/armv7m.c                |   2 +-
+ hw/arm/boot.c                  |   2 +-
+ hw/core/generic-loader.c       |   2 +-
+ hw/core/loader.c               |  37 +++++-----
+ hw/cris/boot.c                 |   2 +-
+ hw/hppa/machine.c              |   4 +-
+ hw/i386/multiboot.c            |   2 +-
+ hw/i386/x86.c                  |   2 +-
+ hw/lm32/lm32_boards.c          |   4 +-
+ hw/lm32/milkymist.c            |   2 +-
+ hw/m68k/an5206.c               |   2 +-
+ hw/m68k/mcf5208.c              |   2 +-
+ hw/m68k/q800.c                 |   2 +-
+ hw/microblaze/boot.c           |   4 +-
+ hw/mips/mips_fulong2e.c        |   2 +-
+ hw/mips/mips_malta.c           |   3 +-
+ hw/mips/mips_mipssim.c         |   2 +-
+ hw/mips/mips_r4k.c             |   2 +-
+ hw/moxie/moxiesim.c            |   2 +-
+ hw/nios2/boot.c                |   4 +-
+ hw/openrisc/openrisc_sim.c     |   2 +-
+ hw/pci-host/prep.c             |   3 +-
+ hw/ppc/e500.c                  |   2 +-
+ hw/ppc/mac_newworld.c          |   4 +-
+ hw/ppc/mac_oldworld.c          |   4 +-
+ hw/ppc/ppc440_bamboo.c         |   2 +-
+ hw/ppc/sam460ex.c              |   3 +-
+ hw/ppc/spapr.c                 |   6 +-
+ hw/ppc/virtex_ml507.c          |   2 +-
+ hw/riscv/boot.c                |   4 +-
+ hw/s390x/ipl.c                 |   7 +-
+ hw/sparc/leon3.c               |   2 +-
+ hw/sparc/sun4m.c               |   4 +-
+ hw/sparc64/sun4u.c             |   5 +-
+ hw/tricore/tricore_testboard.c |   2 +-
+ hw/xtensa/sim.c                |   2 +-
+ hw/xtensa/xtfpga.c             |   2 +-
+ include/disas/dis-asm.h        |   3 +
+ include/hw/elf_ops.h           |   6 +-
+ include/hw/loader.h            |  21 +++---
+ qemu-deprecated.texi           |   2 +-
+ target/mips/cpu.h              |   4 +-
+ target/mips/helper.c           |  20 ++++--
+ target/mips/helper.h           |   5 ++
+ target/mips/internal.h         |   1 +
+ target/mips/machine.c          |   6 +-
+ target/mips/mips-semi.c        |  15 ++--
+ target/mips/op_helper.c        | 152 +++++++++++++++++++++++++++++++++++=
+------
+ target/mips/translate.c        |  88 +++++++++++++++++++++++-
+ 51 files changed, 356 insertions(+), 121 deletions(-)
+
+--=20
+2.7.4
 
 
