@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804DE14C142
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:53:15 +0100 (CET)
-Received: from localhost ([::1]:36914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3A014C13D
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:49:38 +0100 (CET)
+Received: from localhost ([::1]:36818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWvC-0006Ap-Ia
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:53:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54484)
+	id 1iwWrh-0001MV-Cl
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:49:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54740)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iwWZ7-0001Jn-7X
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:30:26 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1iwWZi-0002SX-Mp
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:31:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iwWZ5-0006NJ-Hh
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:30:25 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46869
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mlevitsk@redhat.com>) id 1iwWZh-0006y1-Jz
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:31:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37799
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iwWZ5-0006Mw-Bl
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:30:23 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iwWZh-0006xM-E0
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:31:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580239822;
+ s=mimecast20190719; t=1580239861;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d72Y5e3qg4iJDZz0PP3RQutpY7e5grjvLeONlXAIftQ=;
- b=DoWdhBbtnVTRR27AghDpeBlX5h925VVQwUI9kfCq/9pbbBuH8CjZFfgnDYTx12X2x8VSXF
- 4XOWHn3h9aSA1fOO/zsA3EbIOp6zlU/LCR+iNpsDc+5gqDw/+gB+gYhyJ+IFOoCYU6fh4L
- b3yODhgodBWWlEu15UUa8zzgk1JlVdU=
+ bh=q2R7nUuvkGjCuLBvUWzOveozSblD371N8yCoXHuEkeA=;
+ b=FD6Z1rS6JLHavGbDDhrNCAQ8ozSJDLMr/TYvqjI0EitvApGm0yQJX1/P1lICruSYfircIo
+ NXnQ0zx5/7rKG0t7XRzEc9jf8SC5VGA4SBXACqrUyEqaMxeJIz6D+AK0jdwuGSRrQFASo8
+ xgrz+9W6CY/ZgzditRW7KN0DySGTvqo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-lTC1fW7VNNCyQUqQq99Xjg-1; Tue, 28 Jan 2020 14:30:21 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-370-ifedSkNlNTKUWYVTLCyPdw-1; Tue, 28 Jan 2020 14:30:59 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E7A263ADA;
- Tue, 28 Jan 2020 19:30:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A9301005F79;
+ Tue, 28 Jan 2020 19:30:58 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03E2D1073028;
- Tue, 28 Jan 2020 19:30:08 +0000 (UTC)
-Message-ID: <90ba08dbccd81b4fc48aacd1ad2a291b70f1c206.camel@redhat.com>
-Subject: Re: [PATCH v3 11/13] monitor: Move hmp_drive_add_node to
- block-hmp-cmds.c
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 947CB66834;
+ Tue, 28 Jan 2020 19:30:53 +0000 (UTC)
+Message-ID: <cc410f54aeb01a517b74283a497e7ce861c92dab.camel@redhat.com>
+Subject: Re: [PATCH v3 12/13] add 'error' prefix to vreport
 From: Maxim Levitsky <mlevitsk@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Date: Tue, 28 Jan 2020 21:30:07 +0200
-In-Reply-To: <20200128190337.GF3215@work-vm>
+To: qemu-devel@nongnu.org
+Date: Tue, 28 Jan 2020 21:30:52 +0200
+In-Reply-To: <20200127103647.17761-13-mlevitsk@redhat.com>
 References: <20200127103647.17761-1-mlevitsk@redhat.com>
- <20200127103647.17761-12-mlevitsk@redhat.com>
- <20200128190337.GF3215@work-vm>
+ <20200127103647.17761-13-mlevitsk@redhat.com>
 Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: lTC1fW7VNNCyQUqQq99Xjg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: ifedSkNlNTKUWYVTLCyPdw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,189 +71,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2020-01-28 at 19:03 +0000, Dr. David Alan Gilbert wrote:
-> * Maxim Levitsky (mlevitsk@redhat.com) wrote:
-> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+On Mon, 2020-01-27 at 12:36 +0200, Maxim Levitsky wrote:
+> This changes most of qemu's error messages,
+> but it feels like the right thing to do.
 > 
-> Looks OK to me, I'm not clear on the name for 'bdrv_set_monitor_owned'
-> I'd want a block person to OK that, but:
+> This is WIP patch, since I updated most of iotests but not all of them,
+> and will be updated if this patch is accepeted in the review.
+> Also few error message already have 'error' prefix, which should be removed.
+> 
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
 
-
-The name inspiration came from 'bdrv_next_monitor_owned'. To me it looks
-like list of all BlockDriverState which are created by the monitor.
-Also comment on 'monitor_list' link chain more or less confirms this.
-
-Thanks for the review!
+Since Peter Krempa pointed out that libvirt doesn't need the error prefixes any more
+(this wasn't the case when I developed this sadly) I guess I'll drop that patch,
+although to me it looks just better to have errors cleanly prefixed to be honest.
 
 Best regards,
 	Maxim Levitsky
-
-
-> 
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> > ---
-> >  block/monitor/block-hmp-cmds.c | 30 ++++++++++++++++++++++++
-> >  blockdev.c                     | 42 +++++++---------------------------
-> >  include/block/block_int.h      |  5 ++--
-> >  3 files changed, 41 insertions(+), 36 deletions(-)
-> > 
-> > diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
-> > index a4b1604aee..7bbe4e3814 100644
-> > --- a/block/monitor/block-hmp-cmds.c
-> > +++ b/block/monitor/block-hmp-cmds.c
-> > @@ -33,6 +33,36 @@
-> >  #include "monitor/hmp.h"
-> >  #include "qemu-io.h"
-> >  
-> > +static void hmp_drive_add_node(Monitor *mon, const char *optstr)
-> > +{
-> > +    QemuOpts *opts;
-> > +    QDict *qdict;
-> > +    Error *local_err = NULL;
-> > +
-> > +    opts = qemu_opts_parse_noisily(&qemu_drive_opts, optstr, false);
-> > +    if (!opts) {
-> > +        return;
-> > +    }
-> > +
-> > +    qdict = qemu_opts_to_qdict(opts, NULL);
-> > +
-> > +    if (!qdict_get_try_str(qdict, "node-name")) {
-> > +        qobject_unref(qdict);
-> > +        error_report("'node-name' needs to be specified");
-> > +        goto out;
-> > +    }
-> > +
-> > +    BlockDriverState *bs = bds_tree_init(qdict, &local_err);
-> > +    if (!bs) {
-> > +        error_report_err(local_err);
-> > +        goto out;
-> > +    }
-> > +
-> > +    bdrv_set_monitor_owned(bs);
-> > +out:
-> > +    qemu_opts_del(opts);
-> > +}
-> > +
-> >  void hmp_drive_add(Monitor *mon, const QDict *qdict)
-> >  {
-> >      Error *err = NULL;
-> > diff --git a/blockdev.c b/blockdev.c
-> > index df43e0aaef..63805f34b5 100644
-> > --- a/blockdev.c
-> > +++ b/blockdev.c
-> > @@ -64,7 +64,7 @@
-> >  #include "qemu/main-loop.h"
-> >  #include "qemu/throttle-options.h"
-> >  
-> > -static QTAILQ_HEAD(, BlockDriverState) monitor_bdrv_states =
-> > +QTAILQ_HEAD(, BlockDriverState) monitor_bdrv_states =
-> >      QTAILQ_HEAD_INITIALIZER(monitor_bdrv_states);
-> >  
-> >  static int do_open_tray(const char *blk_name, const char *qdev_id,
-> > @@ -75,6 +75,11 @@ static void blockdev_insert_medium(bool has_device, const char *device,
-> >                                     bool has_id, const char *id,
-> >                                     const char *node_name, Error **errp);
-> >  
-> > +void bdrv_set_monitor_owned(BlockDriverState *bs)
-> > +{
-> > +    QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
-> > +}
-> > +
-> >  static const char *const if_name[IF_COUNT] = {
-> >      [IF_NONE] = "none",
-> >      [IF_IDE] = "ide",
-> > @@ -652,7 +657,7 @@ err_no_opts:
-> >  }
-> >  
-> >  /* Takes the ownership of bs_opts */
-> > -static BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp)
-> > +BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp)
-> >  {
-> >      int bdrv_flags = 0;
-> >  
-> > @@ -4201,37 +4206,6 @@ out:
-> >      aio_context_release(aio_context);
-> >  }
-> >  
-> > -void hmp_drive_add_node(Monitor *mon, const char *optstr)
-> > -{
-> > -    QemuOpts *opts;
-> > -    QDict *qdict;
-> > -    Error *local_err = NULL;
-> > -
-> > -    opts = qemu_opts_parse_noisily(&qemu_drive_opts, optstr, false);
-> > -    if (!opts) {
-> > -        return;
-> > -    }
-> > -
-> > -    qdict = qemu_opts_to_qdict(opts, NULL);
-> > -
-> > -    if (!qdict_get_try_str(qdict, "node-name")) {
-> > -        qobject_unref(qdict);
-> > -        error_report("'node-name' needs to be specified");
-> > -        goto out;
-> > -    }
-> > -
-> > -    BlockDriverState *bs = bds_tree_init(qdict, &local_err);
-> > -    if (!bs) {
-> > -        error_report_err(local_err);
-> > -        goto out;
-> > -    }
-> > -
-> > -    QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
-> > -
-> > -out:
-> > -    qemu_opts_del(opts);
-> > -}
-> > -
-> >  void qmp_blockdev_add(BlockdevOptions *options, Error **errp)
-> >  {
-> >      BlockDriverState *bs;
-> > @@ -4261,7 +4235,7 @@ void qmp_blockdev_add(BlockdevOptions *options, Error **errp)
-> >          goto fail;
-> >      }
-> >  
-> > -    QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
-> > +    bdrv_set_monitor_owned(bs);
-> >  
-> >  fail:
-> >      visit_free(v);
-> > diff --git a/include/block/block_int.h b/include/block/block_int.h
-> > index dd033d0b37..10df257a61 100644
-> > --- a/include/block/block_int.h
-> > +++ b/include/block/block_int.h
-> > @@ -1217,8 +1217,6 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-> >                              BlockCompletionFunc *cb, void *opaque,
-> >                              JobTxn *txn, Error **errp);
-> >  
-> > -void hmp_drive_add_node(Monitor *mon, const char *optstr);
-> > -
-> >  BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
-> >                                    const char *child_name,
-> >                                    const BdrvChildRole *child_role,
-> > @@ -1320,4 +1318,7 @@ int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, uint64_t src_offset,
-> >  
-> >  int refresh_total_sectors(BlockDriverState *bs, int64_t hint);
-> >  
-> > +void bdrv_set_monitor_owned(BlockDriverState *bs);
-> > +BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp);
-> > +
-> >  #endif /* BLOCK_INT_H */
-> > -- 
-> > 2.17.2
-> > 
-> 
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
 
 
