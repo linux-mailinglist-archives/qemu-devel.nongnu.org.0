@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB0114BF1A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:03:24 +0100 (CET)
-Received: from localhost ([::1]:34842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA9714BF4E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:12:11 +0100 (CET)
+Received: from localhost ([::1]:34950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVCt-0000xi-Hw
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:03:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57995)
+	id 1iwVLO-0004Wv-6G
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:12:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57993)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4B-0006Q6-KJ
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4B-0006Q5-KK
  for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV49-00088B-2D
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV49-00088M-4p
  for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:22 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:56048)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:37751)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV47-00080E-Sr
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:20 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id q9so3483870wmj.5
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:18 -0800 (PST)
+ id 1iwV48-00085X-Se
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:21 -0500
+Received: by mail-wm1-x332.google.com with SMTP id f129so3574816wmf.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zla3h/TZTZZ2FJmQlbkLgAItmfO88rZ4mtPOcgpOO7o=;
- b=abQFFxVxu41nvvH9iqBOmtDbSbqC+lpXQYIBo3rSjJ+YlasWi4OPP7kAwEV3bIsuo9
- LJOllBDQSWVKV+0KNBgJcnTU9KLp9RPDP9GHGgcVrUX2bhtf+aJVe5r6PY7AkkTqrXjD
- Dh9Xl8zGKmgNvRys5GrQJmW1vdp7/A6fukGy/R6B5G2JqXh7fAZ5k2D/WH2hqja3mwl6
- dKPxW3Bc7INiShS13UHidysb3jb+4XvZ89iLg38J8uymBylcqXsfGyDaazvpgWUvXYJS
- n+EvJqRGaxejji+sOsEOuhxoshVSJDYVy9/6XmHpwFr3LmF/jDxaUbAUn9WTBtjXR9Ri
- UWEw==
+ bh=HVk4rk8Hs1aHWLt8//y3A+CwPwqc2G6pl0VklRB6s3U=;
+ b=U+dRQ59xaEnQ9FxMU+Qi/hn+nPFFoTZGRaTotxR+jjuHfiNcLFX7GB8q7zi8Jm9q/6
+ fkaeBckJkKLX19LF8AgMi9h+nPRoZgiIlG7nb5dFmxcMs4BuArawS3VSSO5n+uGrLYU7
+ cYMdDYT0BPJ+THETPZ7CFlX1iSgHgqn2LfJlAZU5ND59x/L3dpP9SueSl07Qsy4vVKCj
+ IbzaJo6AeqKulb1QG1TzhGWnudlVZTp6c1pEq9HzNLLdiB3Dh5JV/4ENIisfdeB6kyR/
+ 0tV83cottLg8ffNY0XW8a8WOjYhvMbMf3Lb06PbwhNaXL+lIfxSmfm2/29D5LswrrABh
+ 5XmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zla3h/TZTZZ2FJmQlbkLgAItmfO88rZ4mtPOcgpOO7o=;
- b=sVpuZxqAAD8nQvglWa5tNztsXTz5vxckjTfRUdFww2IKmJJdsJ7bsoQnm+f+Sm/M0n
- /x28WGLHGW44JegA2ZwuKfpGHNc5I+y/lOaFkZw/IVGNoiHU3/YfS4z6FV7wincF9mL6
- cdUQsig7BvDgme1Lvw4YggyQSHRTSu50cVMOD4uO4aWXuIfOAylPtgnOANfPNUN0jEn4
- y3xcb04hWN0M/ZkZkhOHdvTxtqHpROff5divl/4fHlq6/7JAgTzLa1FbL+KoOIVQMjCV
- S0djrnPeR4rADkG1dfCX/obwL+DsfjYzKki8IwRpB8LHKQh+rGeSA/uyfrMZA7yOr+r+
- THAw==
-X-Gm-Message-State: APjAAAUq/XQzTYqCk6ATsQgedXgShkOT5BprPD6qelSPtgvzBmqqfLej
- uqVC4D7z22cE/5QJfCT1s2X0Oizw
-X-Google-Smtp-Source: APXvYqyQ/iz11+YmQI3A1an9z+arJ6+y6ksgHQdzlGHdU5T/GQ/H7NGVOI8lAL7fnL2jOz+C8WGf8w==
-X-Received: by 2002:a7b:cc6a:: with SMTP id n10mr6351282wmj.170.1580234056476; 
- Tue, 28 Jan 2020 09:54:16 -0800 (PST)
+ bh=HVk4rk8Hs1aHWLt8//y3A+CwPwqc2G6pl0VklRB6s3U=;
+ b=d1uBXb9uQQO+lH0PGTuXaxZFDkqp94xHNKr54KWD9wJbUQuXBuFtlqriycC4JTfdNy
+ ZW22jRLKmrpSLEZC6M5puPozsH93Mrstag3PzyX1huiH9WY7qpm3hnRDnyUOh9eod7Gy
+ iHLufbHJd6yNDeT1UzFhlg/S4hKPgUMcTFLykhWR03VXA+YBojNf/25m9GWxdpf5vsmU
+ QW3u7N8q+xt/CvVX/+5uB7feczHVD6uWNs4z+uSaRWpStBXzEp2nm6W/jHdBdx2FOipf
+ OSQw8+MQ6nr5rbfIcmJvkQ2MmJtFoGLevyEo0pisOahFM1PboBm0WMBOq+DnfJbEBfMz
+ psaA==
+X-Gm-Message-State: APjAAAWg3jCbOFWSPQzPV5ytzulXpulS4jru5qI38H3CgGeRiZu7pbFv
+ Jjm5KtheO4rw4KLfkcu7mAPcGotT
+X-Google-Smtp-Source: APXvYqztby9Bt1WnlIj9WjbqI3r55vtOQ7MEwpJCjTB3lWFUCh+xPqJk2OiP9UDHOtx0E+wcx7KHWg==
+X-Received: by 2002:a05:600c:230d:: with SMTP id
+ 13mr6610655wmo.12.1580234058715; 
+ Tue, 28 Jan 2020 09:54:18 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.54.14
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.54.17
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:54:15 -0800 (PST)
+ Tue, 28 Jan 2020 09:54:18 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 011/142] meson: use coverage option
-Date: Tue, 28 Jan 2020 18:51:31 +0100
-Message-Id: <20200128175342.9066-12-pbonzini@redhat.com>
+Subject: [PATCH 012/142] meson: add testsuite Makefile generator
+Date: Tue, 28 Jan 2020 18:51:32 +0100
+Message-Id: <20200128175342.9066-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,167 +80,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Rules to execute tests are generated by a simple Python program
+that integrates into the existing "make check" mechanism.  This
+provides familiarity for developers, and also allows piecewise
+conversion of the testsuite Makefiles to meson.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+The generated rules are based on QEMU's existing test harness
+Makefile and TAP parser.
 ---
- Makefile               | 14 --------------
- Makefile.target        | 16 ----------------
- configure              | 10 ++--------
- docs/devel/testing.rst |  7 +++----
- 4 files changed, 5 insertions(+), 42 deletions(-)
+ Makefile               |   4 ++
+ scripts/mtest2make.py  | 101 +++++++++++++++++++++++++++++++++++++++++
+ tests/Makefile.include |   1 -
+ 3 files changed, 105 insertions(+), 1 deletion(-)
+ create mode 100644 scripts/mtest2make.py
 
 diff --git a/Makefile b/Makefile
-index 3b127ef5c8..9aa0808649 100644
+index 9aa0808649..fee6f739fd 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -692,14 +692,6 @@ module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
- 	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
- 	"GEN","$@")
+@@ -61,6 +61,10 @@ ninjatool: ninjatool.stamp
+ ninjatool.stamp: $(SRC_PATH)/scripts/ninjatool.py
+ 	$(MESON) setup --reconfigure . $(SRC_PATH) && touch $@
  
--ifdef CONFIG_GCOV
--.PHONY: clean-coverage
--clean-coverage:
--	$(call quiet-command, \
--		find . \( -name '*.gcda' -o -name '*.gcov' \) -type f -exec rm {} +, \
--		"CLEAN", "coverage files")
--endif
--
- clean: recurse-clean
- # avoid old build problems by removing potentially incorrect old files
- 	rm -f config.mak op-i386.h opc-i386.h gen-op-i386.h op-arm.h opc-arm.h gen-op-arm.h
-@@ -1170,9 +1162,6 @@ endif
- 		echo '')
- 	@echo  'Cleaning targets:'
- 	@echo  '  clean           - Remove most generated files but keep the config'
--ifdef CONFIG_GCOV
--	@echo  '  clean-coverage  - Remove coverage files'
--endif
- 	@echo  '  distclean       - Remove all generated files'
- 	@echo  '  dist            - Build a distributable tarball'
- 	@echo  ''
-@@ -1184,9 +1173,6 @@ endif
- 	@echo  'Documentation targets:'
- 	@echo  '  html info pdf txt'
- 	@echo  '                  - Build documentation in specified format'
--ifdef CONFIG_GCOV
--	@echo  '  coverage-report - Create code coverage report'
--endif
- 	@echo  ''
- ifdef CONFIG_WIN32
- 	@echo  'Windows targets:'
-diff --git a/Makefile.target b/Makefile.target
-index 6e61f607b1..3bb5d75eb9 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -240,19 +240,3 @@ endif
++Makefile.mtest: build.ninja scripts/mtest2make.py
++	$(MESON) introspect --tests | $(PYTHON) scripts/mtest2make.py > $@
++-include Makefile.mtest
++
+ .git-submodule-status: git-submodule-update config-host.mak
  
- generated-files-y += config-target.h
- Makefile: $(generated-files-y)
--
--# Reports/Analysis
--#
--# The target specific coverage report only cares about target specific
--# blobs and not the shared code.
--#
--
--%/coverage-report.html:
--	@mkdir -p $*
--	$(call quiet-command,\
--		gcovr -r $(SRC_PATH) --object-directory $(CURDIR) \
--		-p --html --html-details -o $@, \
--		"GEN", "coverage-report.html")
--
--.PHONY: coverage-report
--coverage-report: $(CURDIR)/reports/coverage/coverage-report.html
-diff --git a/configure b/configure
-index a9ab67bf26..c3409938f2 100755
---- a/configure
-+++ b/configure
-@@ -418,7 +418,6 @@ tcg_interpreter="no"
- bigendian="no"
- mingw32="no"
- gcov="no"
--gcov_tool="gcov"
- EXESUF=""
- DSOSUF=".so"
- LDFLAGS_SHARED="-shared"
-@@ -980,8 +979,6 @@ for opt do
-   ;;
-   --meson=*) meson="$optarg"
-   ;;
--  --gcov=*) gcov_tool="$optarg"
--  ;;
-   --smbd=*) smbd="$optarg"
-   ;;
-   --extra-cflags=*)
-@@ -1739,7 +1736,6 @@ Advanced options (experts only):
-   --with-coroutine=BACKEND coroutine backend. Supported options:
-                            ucontext, sigaltstack, windows
-   --enable-gcov            enable test coverage analysis with gcov
--  --gcov=GCOV              use specified gcov [$gcov_tool]
-   --disable-blobs          disable installing provided firmware blobs
-   --with-vss-sdk=SDK-path  enable Windows VSS support in QEMU Guest Agent
-   --with-win-sdk=SDK-path  path to Windows Platform SDK (to build VSS .tlb)
-@@ -6111,8 +6107,7 @@ esac
- write_c_skeleton
+ # Check that we're not trying to do an out-of-tree build from
+diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
+new file mode 100644
+index 0000000000..ac4010ff8f
+--- /dev/null
++++ b/scripts/mtest2make.py
+@@ -0,0 +1,101 @@
++#! /usr/bin/env python3
++
++# Create Makefile targets to run tests, from Meson's test introspection data.
++#
++# Author: Paolo Bonzini <pbonzini@redhat.com>
++
++from collections import defaultdict
++import json
++import os
++import shlex
++import sys
++
++class Suite(object):
++    def __init__(self):
++        self.tests = list()
++        self.slow_tests = list()
++        self.executables = set()
++
++print('''
++SPEED = quick
++
++# $1 = test command, $2 = test name
++.test-human-tap = $1 < /dev/null | ./scripts/tap-driver.pl --test-name="$2" $(if $(V),, --show-failures-only)
++.test-human-exitcode = $1 < /dev/null $(if $(V),,> /dev/null 2>&1)
++.test-tap-tap = $1 < /dev/null | sed "s/^[a-z][a-z]* [0-9]*/& $2/" || true
++.test-tap-exitcode = printf "%s\\n" 1..1 "`$1 < /dev/null > /dev/null || echo "not "`ok 1 $2"
++.test.print = echo $(if $(V),'$1','Running test $2') >&3
++.test.env = MALLOC_PERTURB_=$${MALLOC_PERTURB_:-$$(( $${RANDOM:-0} % 255 + 1))}
++
++# $1 = test name, $2 = test target (human or tap)
++.test.run = $(call .test.print,$(.test.cmd.$1),$(.test.name.$1)) && $(call .test-$2-$(.test.driver.$1),$(.test.cmd.$1),$(.test.name.$1))
++
++define .test.human_k
++        @exec 3>&1; rc=0; $(foreach TEST, $1, $(call .test.run,$(TEST),human) || rc=$$?;) \\
++              exit $$rc
++endef
++define .test.human_no_k
++        $(foreach TEST, $1, @exec 3>&1; $(call .test.run,$(TEST),human)
++)
++endef
++.test.human = \\
++        $(if $(findstring k, $(MAKEFLAGS)), $(.test.human_k), $(.test.human_no_k))
++
++define .test.tap
++        @exec 3>&1; { $(foreach TEST, $1, $(call .test.run,$(TEST),tap); ) } \\
++              | ./scripts/tap-merge.pl | tee "$@" \\
++              | ./scripts/tap-driver.pl $(if $(V),, --show-failures-only)
++endef
++''')
++
++suites = defaultdict(Suite)
++i = 0
++for test in json.load(sys.stdin):
++    env = ' '.join(('%s=%s' % (shlex.quote(k), shlex.quote(v))
++                    for k, v in test['env'].items()))
++    executable = os.path.relpath(test['cmd'][0])
++    if test['workdir'] is not None:
++        test['cmd'][0] = os.path.relpath(test['cmd'][0], test['workdir'])
++    else:
++        test['cmd'][0] = executable
++    cmd = '$(.test.env) %s %s' % (env, ' '.join((shlex.quote(x) for x in test['cmd'])))
++    if test['workdir'] is not None:
++        cmd = '(cd %s && %s)' % (shlex.quote(test['workdir']), cmd)
++    driver = test['protocol'] if 'protocol' in test else 'exitcode'
++
++    i += 1
++    print('.test.name.%d := %s' % (i, test['name']))
++    print('.test.driver.%d := %s' % (i, driver))
++    print('.test.cmd.%d := %s' % (i, cmd))
++
++    test_suites = test['suite'] or ['default']
++    is_slow = 'slow' in test_suites
++    for s in test_suites:
++        if s == 'slow':
++            continue
++        # The suite name in the introspection info is "PROJECT:SUITE"
++        s = s.split(':')[1]
++        if is_slow:
++            suites[s].slow_tests.append(i)
++        else:
++            suites[s].tests.append(i)
++        suites[s].executables.add(executable)
++
++print('.PHONY: check check-report.tap')
++print('check:')
++print('check-report.tap:')
++print('\t$(call quiet-command, cat $^ | scripts/tap-merge.pl >$@,"GEN","$@")')
++for name, suite in suites.items():
++    executables = ' '.join(suite.executables)
++    slow_test_numbers = ' '.join((str(x) for x in suite.slow_tests))
++    test_numbers = ' '.join((str(x) for x in suite.tests))
++    print('.test.suite-quick.%s := %s' % (name, test_numbers))
++    print('.test.suite-slow.%s := $(.test.suite-quick.%s) %s' % (name, name, slow_test_numbers))
++    print('.PHONY: check-%s' % name)
++    print('.PHONY: check-report-%s.tap' % name)
++    print('check: check-%s' % name)
++    print('check-%s: %s' % (name, executables))
++    print('\t$(call .test.human, $(.test.suite-$(SPEED).%s))' % (name, ))
++    print('check-report.tap: check-report-%s.tap' % name)
++    print('check-report-%s.tap: %s' % (name, executables))
++    print('\t$(call .test.tap, $(.test.suite-$(SPEED).%s))' % (name, ))
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 9146e1bdee..eaa57196f9 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -936,7 +936,6 @@ check-report-unit.tap: $(check-unit-y)
+ # Reports and overall runs
  
- if test "$gcov" = "yes" ; then
--  CFLAGS="-fprofile-arcs -ftest-coverage -g $CFLAGS"
--  LDFLAGS="-fprofile-arcs -ftest-coverage $LDFLAGS"
-+  :
- elif test "$fortify_source" = "yes" ; then
-   CFLAGS="-O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $CFLAGS"
- elif test "$debug" = "no"; then
-@@ -6587,7 +6582,6 @@ echo "debug stack usage $debug_stack_usage"
- echo "mutex debugging   $debug_mutex"
- echo "crypto afalg      $crypto_afalg"
- echo "GlusterFS support $glusterfs"
--echo "gcov              $gcov_tool"
- echo "gcov enabled      $gcov"
- echo "TPM support       $tpm"
- echo "libssh support    $libssh"
-@@ -7537,7 +7531,6 @@ echo "TASN1_CFLAGS=$tasn1_cflags" >> $config_host_mak
- echo "POD2MAN=$POD2MAN" >> $config_host_mak
- if test "$gcov" = "yes" ; then
-   echo "CONFIG_GCOV=y" >> $config_host_mak
--  echo "GCOV=$gcov_tool" >> $config_host_mak
- fi
+ check-report.tap: $(patsubst %,check-report-qtest-%.tap, $(QTEST_TARGETS)) check-report-unit.tap
+-	$(call quiet-command, cat $^ | scripts/tap-merge.pl >$@,"GEN","$@")
  
- if test "$libudev" != "no"; then
-@@ -8125,6 +8118,7 @@ NINJA=$PWD/ninjatool $python $meson setup \
- 	$(test "$strip_opt" = yes && echo --strip) \
- 	--buildtype $(if test "$debug" = yes; then echo debug; else echo debugoptimized; fi) \
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-+        -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
-         $cross_arg \
- 	"$PWD" "$source_path"
- 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index ab5be0c729..053ce37da2 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -163,13 +163,12 @@ instrumenting the tested code. To use it, configure QEMU with
- ``--enable-gcov`` option and build. Then run ``make check`` as usual.
- 
- If you want to gather coverage information on a single test the ``make
--clean-coverage`` target can be used to delete any existing coverage
-+clean-gcda`` target can be used to delete any existing coverage
- information before running a single test.
- 
- You can generate a HTML coverage report by executing ``make
--coverage-report`` which will create
--./reports/coverage/coverage-report.html. If you want to create it
--elsewhere simply execute ``make /foo/bar/baz/coverage-report.html``.
-+coverage-html`` which will create
-+``meson-logs/coveragereport/index.html``.
- 
- Further analysis can be conducted by running the ``gcov`` command
- directly on the various .gcda output files. Please read the ``gcov``
+ # FPU Emulation tests (aka softfloat)
+ #
 -- 
 2.21.0
 
