@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF3714BF64
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:17:09 +0100 (CET)
-Received: from localhost ([::1]:35014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F267414BF69
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:20:18 +0100 (CET)
+Received: from localhost ([::1]:35040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVQC-0001V2-4j
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:17:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58368)
+	id 1iwVTE-0005nL-Rh
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:20:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58453)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4W-000723-KH
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:45 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4Y-00075P-IY
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4V-0000Ij-1Y
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:44 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38589)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4W-0000MD-9V
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:45 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39937)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV4U-0000Dt-QV
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:42 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id a9so3565119wmj.3
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:41 -0800 (PST)
+ id 1iwV4W-0000Jf-2Y
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:44 -0500
+Received: by mail-wr1-x430.google.com with SMTP id j104so1193427wrj.7
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h755r6Ys4Hk7ZRHLjfISHRxt60EtDeGxbGM6erYTA8I=;
- b=myRHrI5E0DPj0NqN4n0XA/JjAZ15VBHSg/UsL3k+dLoSwBW/RuacNHXayO4TKSuS+u
- i1ysZQxolQnVysyMU3C7z3bjjXN5ozTiYcunXDZTWdeVTLPosUsROUaVnd42pKqq4zQl
- SaX+yWhDTbyYlnVqTsHjTUFLudFZPiSCCufQDzqnGDHIE7kWKJhfWG8OZmXDQOKAVNYK
- 7vUqoqR3X73WvohhYaja+JBDYNjgzVu8XtJA/gtw/ccllw8yztn37mZ6i1s0Apim4su4
- y5+8gtECZXJ8t2LsalopKIC5EqALWDKM0IuugcSAiCctNaDcxDyvhaT/ZYScZRAHDGhM
- b1fQ==
+ bh=e6DA9mr38ESVjvtg3ifwRo8CjKVJ17mRZERMj+nppdE=;
+ b=hCfYrrm14tjUmvQt8yRWkPjYKWkdHlFIEf1iAqjUYpIK6oiQYuVVHOn1fkjU+JcLHR
+ 2mHLdZsD7rsgqsnsn+yP8yCvTCEzR5u/np0PLISF4EfaIjdJsp1kHFQDzOxTEbfvGxZW
+ ghbDIAF/8MnFo0bQD1IBuuWQH6jNnw4Nre4TQqTocF9+TPJrCkOdDJVYdT+uoeIUDO2x
+ JkO4nwn1R9ah3j7idQY9bAMVJ414qY5PtM0dD/+hexuhMSN9UqMp0lJCp+bLcTihbYaL
+ v7r2D7LDw6v2ZpTn011hdKKwaZvSfU3Trn3CjfZUkWm4/nq0zlFpuh5iGK5hLcayaJri
+ WJKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=h755r6Ys4Hk7ZRHLjfISHRxt60EtDeGxbGM6erYTA8I=;
- b=FO5vAbnz3W19VUmc7cu6tbzUpKa/kwNnv22vEfu0VZXe2MqHrUgiuzUfo1Pd1fkqFu
- 1O6fGkX5HHf8DuO9hvVWV4r1Qzj8gTNdJ1JSloMoswoImmeCRs1riVenZH/3M0AsQxxG
- kTMer9BHsS41AXvUhW3p/EbdoXzNCCWAioG57rp3k2BjjoRpGcPS+BRnnetvV09UkwLh
- uky7U/wy6BZlS0ZfVNcPfrF6LXirBsQbCfCT6eIvGfElTN39QgoLkoje/qp9C2EXe+mc
- /iO83HWh68s3BMeOit31bJ1FBM8rPBR0GhDgLqRqq9vPVWhWzpPYxPe6x6kGSv1LYbll
- 0ctg==
-X-Gm-Message-State: APjAAAWpz8GGjM8qeCaz6CyBVSMFXxW7FJjHeMiFrmYI0Ofq86dmPy/W
- OvqTLrCU7+6tVHO8O484nzKSNv81
-X-Google-Smtp-Source: APXvYqzLZ0l+ONDtb7jR8G/6xmtJRDLMaNVr+03fDpBTVkOq3kMjzL7epFQMA+oL4S7b4DYnN1thcQ==
-X-Received: by 2002:a1c:4e05:: with SMTP id g5mr6125503wmh.138.1580234080525; 
- Tue, 28 Jan 2020 09:54:40 -0800 (PST)
+ bh=e6DA9mr38ESVjvtg3ifwRo8CjKVJ17mRZERMj+nppdE=;
+ b=AU78V2TcPf3GDNIajOpePZct4lsgpEd6/T2Rfhx0XhR1jytG+F4v1HEDMP0hD2YTqi
+ FSOxEMpE/sQW2CAEXNcQBcUArjbBjLICuOX3oLTPE+yQmPTlRk7R3tosmsnyxcIm4Y42
+ OPp7BBjUTI9gIMpKbWuPc/6EVwHZORrb1ReWV5U8GGs4E3lY42rk7KY3GRSwjGfxmWbo
+ F2EgQUNMSbnvGVmsxzcz44CnCfZub0L5iUncV+LA6jr4A3yLkR1/HXfWR2YVJiZyXgGF
+ TC/4otAoYO5UOyZ5LTK5uVdyFj1GOHhyt03qDEMBxs8C5s4vOmZW4Gx/nJqidYUq8hMX
+ 1rVg==
+X-Gm-Message-State: APjAAAWIpIxT3CEZDq2psCLetxRTdxcq2sxjtc8T3xSjsGet1yLBQOwt
+ caYzunm8qh/aVO9/iVrtbCWxRv8e
+X-Google-Smtp-Source: APXvYqzJ0h+boB/iSNUnqJ2VRkK33ED1lVPpOsDjibBwQAvF8OTekGm6u0vd+1RTAvkrvIJECv5Z7w==
+X-Received: by 2002:adf:ed83:: with SMTP id c3mr29046095wro.51.1580234082920; 
+ Tue, 28 Jan 2020 09:54:42 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.54.38
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.54.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:54:40 -0800 (PST)
+ Tue, 28 Jan 2020 09:54:42 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 022/142] contrib/ivshmem: convert to meson
-Date: Tue, 28 Jan 2020 18:51:42 +0100
-Message-Id: <20200128175342.9066-23-pbonzini@redhat.com>
+Subject: [PATCH 023/142] contrib/elf2dmp: convert to meson
+Date: Tue, 28 Jan 2020 18:51:43 +0100
+Message-Id: <20200128175342.9066-24-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,127 +88,110 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                             | 9 ---------
- Makefile.objs                        | 2 --
- configure                            | 3 ---
- contrib/ivshmem-client/Makefile.objs | 1 -
- contrib/ivshmem-client/meson.build   | 3 +++
- contrib/ivshmem-server/Makefile.objs | 1 -
- contrib/ivshmem-server/meson.build   | 3 +++
- meson.build                          | 6 ++++++
- 8 files changed, 12 insertions(+), 16 deletions(-)
- delete mode 100644 contrib/ivshmem-client/Makefile.objs
- create mode 100644 contrib/ivshmem-client/meson.build
- delete mode 100644 contrib/ivshmem-server/Makefile.objs
- create mode 100644 contrib/ivshmem-server/meson.build
+ Makefile                      | 4 ----
+ Makefile.objs                 | 6 ------
+ configure                     | 3 ---
+ contrib/elf2dmp/Makefile.objs | 4 ----
+ contrib/elf2dmp/meson.build   | 4 ++++
+ meson.build                   | 6 ++++++
+ 6 files changed, 10 insertions(+), 17 deletions(-)
+ delete mode 100644 contrib/elf2dmp/Makefile.objs
+ create mode 100644 contrib/elf2dmp/meson.build
 
 diff --git a/Makefile b/Makefile
-index 5c000b2a2f..c0e62d8053 100644
+index c0e62d8053..1ee3e8cb06 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -286,8 +286,6 @@ dummy := $(call unnest-vars,, \
+@@ -285,7 +285,6 @@ dummy := $(call unnest-vars,, \
+                 authz-obj-y \
                  chardev-obj-y \
                  qga-obj-y \
-                 elf2dmp-obj-y \
--                ivshmem-client-obj-y \
--                ivshmem-server-obj-y \
+-                elf2dmp-obj-y \
                  qga-vss-dll-obj-y \
                  block-obj-y \
                  block-obj-m \
-@@ -488,13 +486,6 @@ endif
- elf2dmp$(EXESUF): $(elf2dmp-obj-y)
- 	$(call LINK, $^)
+@@ -483,9 +482,6 @@ ifneq ($(EXESUF),)
+ qemu-ga: qemu-ga$(EXESUF) $(QGA_VSS_PROVIDER) $(QEMU_GA_MSI)
+ endif
  
--ifdef CONFIG_IVSHMEM
--ivshmem-client$(EXESUF): $(ivshmem-client-obj-y) $(COMMON_LDADDS)
+-elf2dmp$(EXESUF): $(elf2dmp-obj-y)
 -	$(call LINK, $^)
--ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
--	$(call LINK, $^)
--endif
 -
  module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
  	$(call quiet-command,$(PYTHON) $< $@ \
  	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
 diff --git a/Makefile.objs b/Makefile.objs
-index 2f375be444..92dc309fd7 100644
+index 92dc309fd7..4ffe38c7b1 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -106,7 +106,5 @@ qga-vss-dll-obj-y = qga/
- ######################################################################
- # contrib
- elf2dmp-obj-y = contrib/elf2dmp/
--ivshmem-client-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-client/
--ivshmem-server-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-server/
- 
- ######################################################################
+@@ -102,9 +102,3 @@ util-obj-y +=  trace/
+ # extracted into a QAPI schema module, or perhaps a separate schema.
+ qga-obj-y = qga/
+ qga-vss-dll-obj-y = qga/
+-
+-######################################################################
+-# contrib
+-elf2dmp-obj-y = contrib/elf2dmp/
+-
+-######################################################################
 diff --git a/configure b/configure
-index a650183ff6..52269b4ca6 100755
+index 52269b4ca6..6e107521d9 100755
 --- a/configure
 +++ b/configure
 @@ -6209,9 +6209,6 @@ if test "$want_tools" = "yes" ; then
    if [ "$linux" = "yes" -o "$bsd" = "yes" -o "$solaris" = "yes" ] ; then
      tools="qemu-nbd\$(EXESUF) $tools"
    fi
--  if [ "$ivshmem" = "yes" ]; then
--    tools="ivshmem-client\$(EXESUF) ivshmem-server\$(EXESUF) $tools"
+-  if [ "$curl" = "yes" ]; then
+-      tools="elf2dmp\$(EXESUF) $tools"
 -  fi
-   if [ "$curl" = "yes" ]; then
-       tools="elf2dmp\$(EXESUF) $tools"
-   fi
-diff --git a/contrib/ivshmem-client/Makefile.objs b/contrib/ivshmem-client/Makefile.objs
+ fi
+ if test "$softmmu" = yes ; then
+   if test "$linux" = yes; then
+diff --git a/contrib/elf2dmp/Makefile.objs b/contrib/elf2dmp/Makefile.objs
 deleted file mode 100644
-index bfab2d20dd..0000000000
---- a/contrib/ivshmem-client/Makefile.objs
+index 1505716916..0000000000
+--- a/contrib/elf2dmp/Makefile.objs
 +++ /dev/null
-@@ -1 +0,0 @@
--ivshmem-client-obj-y = ivshmem-client.o main.o
-diff --git a/contrib/ivshmem-client/meson.build b/contrib/ivshmem-client/meson.build
+@@ -1,4 +0,0 @@
+-elf2dmp-obj-y = main.o addrspace.o download.o pdb.o qemu_elf.o
+-
+-download.o-cflags := $(CURL_CFLAGS)
+-download.o-libs   := $(CURL_LIBS)
+diff --git a/contrib/elf2dmp/meson.build b/contrib/elf2dmp/meson.build
 new file mode 100644
-index 0000000000..92ad844a9c
+index 0000000000..b9e51996e5
 --- /dev/null
-+++ b/contrib/ivshmem-client/meson.build
-@@ -0,0 +1,3 @@
-+executable('ivshmem-client', files('ivshmem-client.c', 'main.c'),
-+           dependencies: glib,
-+           install: true)
-diff --git a/contrib/ivshmem-server/Makefile.objs b/contrib/ivshmem-server/Makefile.objs
-deleted file mode 100644
-index c060dd3698..0000000000
---- a/contrib/ivshmem-server/Makefile.objs
-+++ /dev/null
-@@ -1 +0,0 @@
--ivshmem-server-obj-y = ivshmem-server.o main.o
-diff --git a/contrib/ivshmem-server/meson.build b/contrib/ivshmem-server/meson.build
-new file mode 100644
-index 0000000000..6dbe240df6
---- /dev/null
-+++ b/contrib/ivshmem-server/meson.build
-@@ -0,0 +1,3 @@
-+executable('ivshmem-server', files('ivshmem-server.c', 'main.c'),
-+           dependencies: [qemuutil, rt],
-+           install: true)
++++ b/contrib/elf2dmp/meson.build
+@@ -0,0 +1,4 @@
++if 'CONFIG_CURL' in config_host
++  executable('elf2dmp', files('main.c', 'addrspace.c', 'download.c', 'pdb.c', 'qemu_elf.c'),
++             dependencies: [glib, curl])
++endif
 diff --git a/meson.build b/meson.build
-index 6613eae7e2..53e453026c 100644
+index 53e453026c..979e7f091d 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -54,6 +54,7 @@ if 'CONFIG_GNUTLS' in config_host
+@@ -70,6 +70,11 @@ if 'CONFIG_VIRGL' in config_host
+   virgl = declare_dependency(compile_args: config_host['VIRGL_CFLAGS'].split(),
+                              link_args: config_host['VIRGL_LIBS'].split())
  endif
- pixman = declare_dependency(compile_args: config_host['PIXMAN_CFLAGS'].split(),
-                             link_args: config_host['PIXMAN_LIBS'].split())
-+rt = cc.find_library('rt', required: false)
- libiscsi = declare_dependency()
- if 'CONFIG_LIBISCSI' in config_host
-   libiscsi = declare_dependency(compile_args: config_host['LIBISCSI_CFLAGS'].split(),
-@@ -219,4 +220,9 @@ if have_tools
-     subdir('contrib/vhost-user-input')
-     subdir('contrib/vhost-user-scsi')
-   endif
-+
-+  if 'CONFIG_IVSHMEM' in config_host
-+    subdir('contrib/ivshmem-client')
-+    subdir('contrib/ivshmem-server')
-+  endif
- endif
++curl = declare_dependency()
++if 'CONFIG_CURL' in config_host
++  curl = declare_dependency(compile_args: config_host['CURL_CFLAGS'].split(),
++                            link_args: config_host['CURL_LIBS'].split())
++endif
+ 
+ target_dirs = config_host['TARGET_DIRS'].split()
+ have_user = false
+@@ -210,6 +215,7 @@ qemuutil = declare_dependency(link_with: libqemuutil,
+ 
+ if have_tools
+   subdir('contrib/rdmacm-mux')
++  subdir('contrib/elf2dmp')
+ 
+   if 'CONFIG_VHOST_USER' in config_host
+     subdir('contrib/libvhost-user')
 -- 
 2.21.0
 
