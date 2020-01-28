@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE1D14C09B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:08:18 +0100 (CET)
-Received: from localhost ([::1]:35728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D561114C0E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:24:53 +0100 (CET)
+Received: from localhost ([::1]:36032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWDh-0001O0-OH
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:08:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37793)
+	id 1iwWTk-0005EJ-Td
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:24:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37942)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8K-0004mt-JC
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:42 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8N-0004v0-AQ
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8H-0000uO-Va
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:39 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39635)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8L-00015y-15
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:43 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45425)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV8H-0000rm-Ne
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:37 -0500
-Received: by mail-wm1-x344.google.com with SMTP id c84so3564823wme.4
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:37 -0800 (PST)
+ id 1iwV8K-00012k-Md
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:40 -0500
+Received: by mail-wr1-x435.google.com with SMTP id a6so2512841wrx.12
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RqwRDXjlWxEGitCZIkJjTP2S+VjFa8u5d7/ofPj58Po=;
- b=Sb5+SykzgTVWjnHbnQ7rcHMnO7PMtjHYCmfa23XfzD/Jwmhyvg9BXMiY0E43wFpXOw
- yhLdzwOIfnv3BuRCappH40DXqGMbcbAei5pZSx4sSS09WyvwiBoxUidLhTIlcr4fST70
- JoyRqTm4AkNqMNp3FEQJi5cNsDwOu2pDc9z/gjHyRXT5Ao27W2e/vK/REJmQTNF9MzwX
- kFo04+q5fTY/VK8ghOBkdgc/r137uow6qSkX9++aKlZI3DfDhBU2+frLlqkb/HtRSwKk
- DHIMbsiZhXM7Jry+7II6GtsgWsETy36X1fPBWIwS39ysA3kByCU0Bplid7XA/7Y5AyIc
- pQ9g==
+ bh=qDLCPnXjd/iVjHweWz1qT0ww0/vBO7l7RrD/8qo57Hk=;
+ b=OcBh34H4WJ+GgiSNW84/wAjA2FRc5At4htUh/r8kv86N18t5tiwxr8j+m6iiQNKP9s
+ vsP/df5YdfyrzLoBskjJyzcVIqN0JawMRlP9yOD0N2+2aTGVAkF6WX1Fv6koQ/u4Szw8
+ K1x3q5rIOw77UrARjcIEVZKyshf0J+dgFYnoGxx35Q0kTaOiEkYklgMF3wo0PeJWYLRM
+ 21TD6RHe6BD4rWxQvZMC/9thOQ9zo+wza62VM+Ahis1H79DuekPOj0XaHn3dQuFS9VIe
+ 768SpMK+xS5wrjiRu7j8ey/ICctmVbMHsmx1AxyjRh6Ddx8BDITzRRxIjfE8f4P7W4ce
+ /aiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RqwRDXjlWxEGitCZIkJjTP2S+VjFa8u5d7/ofPj58Po=;
- b=OHPa9jONZEJk5qBBzO/6jzEbBxrJRNYvk/tDiGnH2EvEz/OS7cK0bU16Ps1V6MEo9Y
- anpfTFhcG0bnFXrCGgNdO15dV3IMWemwGWPdhRFT2cMsNPLILaTBUMAgUjeZH4WHuNdv
- xp4KtbdtvSHKIQBuDrxIVihxoBiKT/03tL6ljsJsz0hKXqQLsolVJ27jy0dWEYNcHR7G
- mHJCmoG+BNMxDBravPO58nXjd3gWrBsxMmVehvo0Fd4hydQhVX4s52vf33eDMN636hsq
- N6ASvRAR8IafWIKqdH4xJLbWkQLosRlN/4DITBB6mXR912ZdwY+DTfP68etFUurdfmh3
- IluQ==
-X-Gm-Message-State: APjAAAXsO9rfz00agDUNX4q8uOKtjzpyLTYsiMdchREKDwJCYH3ne/8V
- 766BwALbsgA7JTEYEedqGyaDcKF2
-X-Google-Smtp-Source: APXvYqwNveUE7auu22khwcOulv5F1DoR0GXKJZn9J6Nyk9MfAehBC6AyAk9y8GllKVaD5I1qGWWrAg==
-X-Received: by 2002:a1c:9dcb:: with SMTP id g194mr6199807wme.53.1580234316493; 
- Tue, 28 Jan 2020 09:58:36 -0800 (PST)
+ bh=qDLCPnXjd/iVjHweWz1qT0ww0/vBO7l7RrD/8qo57Hk=;
+ b=p79f6WkBylElHoNjK070QBP1ke2OOUpH7W/eCc7yABOxy+qO9ff7De709SGM7JUVw4
+ B8vc3SLe2mON7EeGJkfU5L0Qbgqt3heT+jTc222KEEYgO4Ltnf0UVjYuPFnKbq73qZGE
+ Qpiqj7EoU9yar/tUrME59GPFoBSniCgfbcrIv9DWCmtu/vpPz+bpBWWJMEPdSbeNTrYZ
+ jk9VpxCGuDxAYH8Hn3jEtH2AP/JXnQxSq3QE9DE3bpSJ1D733atb7M9PEOkeM42fjId6
+ toSmbGxmIV9PKkJrlyoUY6YZcJL9VfY479FThuZo6sB3jnpULgGLhxP6blpnBIDX21NM
+ YPSQ==
+X-Gm-Message-State: APjAAAXzQnEvQx4qRCVg/omsn1w2/SxBjmjtN2B842T8VifgDLrP2POM
+ Pl6i72VtDGwnj+noFVTXmK3XYP3V
+X-Google-Smtp-Source: APXvYqx5E6ZFrvT5cL/i3rWArR00ORfhLBw1L2T/G3BVZIoiPmm6PnY5Z/mWGERvW50eGU9de1FQ+w==
+X-Received: by 2002:a5d:608a:: with SMTP id w10mr28447293wrt.136.1580234319453; 
+ Tue, 28 Jan 2020 09:58:39 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.34
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:58:36 -0800 (PST)
+ Tue, 28 Jan 2020 09:58:38 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 122/142] remove Makefile.target
-Date: Tue, 28 Jan 2020 18:53:22 +0100
-Message-Id: <20200128175342.9066-123-pbonzini@redhat.com>
+Subject: [PATCH 123/142] meson: sphinx-build
+Date: Tue, 28 Jan 2020 18:53:23 +0100
+Message-Id: <20200128175342.9066-124-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,200 +83,241 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile        | 52 ++++---------------------------------------------
- Makefile.objs   | 27 -------------------------
- Makefile.target | 13 -------------
- configure       |  2 --
- 4 files changed, 4 insertions(+), 90 deletions(-)
- delete mode 100644 Makefile.target
+ Makefile         | 67 ++----------------------------------
+ docs/meson.build | 88 ++++++++++++++++++++++++++++++++++++++++++++++++
+ meson.build      |  2 ++
+ 3 files changed, 92 insertions(+), 65 deletions(-)
+ create mode 100644 docs/meson.build
 
 diff --git a/Makefile b/Makefile
-index ddcd39fad5..898aa81232 100644
+index 898aa81232..c8681ddec7 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -154,24 +154,10 @@ ifneq ($(wildcard config-host.mak),)
- include $(SRC_PATH)/Makefile.objs
- endif
+@@ -121,19 +121,8 @@ $(call set-vpath, $(SRC_PATH))
  
--dummy := $(call unnest-vars,, common-obj-y)
+ LIBS+=-lz $(LIBS_TOOLS)
+ 
+-# Sphinx does not allow building manuals into the same directory as
+-# the source files, so if we're doing an in-tree QEMU build we must
+-# build the manuals into a subdirectory (and then install them from
+-# there for 'make install'). For an out-of-tree build we can just
+-# use the docs/ subdirectory in the build tree as normal.
+-ifeq ($(realpath $(SRC_PATH)),$(realpath .))
+-MANUAL_BUILDDIR := docs/built
+-else
+-MANUAL_BUILDDIR := docs
+-endif
 -
- include $(SRC_PATH)/tests/Makefile.include
+ ifdef BUILD_DOCS
+-DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8 $(MANUAL_BUILDDIR)/interop/qemu-ga.8
++DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8
+ DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7
+ DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
+ DOCS+=docs/qemu-block-drivers.7
+@@ -231,11 +220,6 @@ dist: qemu-$(VERSION).tar.bz2
+ qemu-%.tar.bz2:
+ 	$(SRC_PATH)/scripts/make-release "$(SRC_PATH)" "$(patsubst qemu-%.tar.bz2,%,$@)"
  
- all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) recurse-all modules
- 
--TARGET_DIRS_RULES := $(foreach t, all clean install, $(addsuffix /$(t), $(TARGET_DIRS)))
--SUBDIR_RULES=$(patsubst %,subdir-%, $(TARGET_DIRS))
--SOFTMMU_SUBDIR_RULES=$(filter %-softmmu,$(SUBDIR_RULES))
+-define clean-manual =
+-rm -rf $(MANUAL_BUILDDIR)/$1/_static
+-rm -f $(MANUAL_BUILDDIR)/$1/objects.inv $(MANUAL_BUILDDIR)/$1/searchindex.js $(MANUAL_BUILDDIR)/$1/*.html
+-endef
 -
--SOFTMMU_ALL_RULES=$(filter %-softmmu/all, $(TARGET_DIRS_RULES))
--
--.PHONY: $(TARGET_DIRS_RULES)
--# The $(TARGET_DIRS_RULES) are of the form SUBDIR/GOAL, so that
--# $(dir $@) yields the sub-directory, and $(notdir $@) yields the sub-goal
--$(TARGET_DIRS_RULES): $(TARGET_DEPS)
--	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" $(notdir $@),)
--
- DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_srcdir=$(SRC_PATH)/dtc/libfdt
- DTC_CFLAGS=$(CFLAGS) $(QEMU_CFLAGS)
- DTC_CPPFLAGS=-I$(BUILD_DIR)/dtc -I$(SRC_PATH)/dtc -I$(SRC_PATH)/dtc/libfdt
-@@ -213,8 +199,6 @@ subdir-dtc: dtc/all
- subdir-capstone: capstone/all
- subdir-slirp: slirp/all
- 
--$(filter %/all, $(TARGET_DIRS_RULES)):
--
- ROM_DIRS = $(addprefix pc-bios/, $(ROMS))
- ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
- # Only keep -O and -g cflags
-@@ -222,11 +206,9 @@ ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
- $(ROM_DIRS_RULES):
- 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" CFLAGS="$(filter -O% -g%,$(CFLAGS))" $(notdir $@),)
- 
--.PHONY: recurse-all recurse-clean recurse-install
--recurse-all: $(addsuffix /all, $(TARGET_DIRS) $(ROM_DIRS))
--recurse-clean: $(addsuffix /clean, $(TARGET_DIRS) $(ROM_DIRS))
--recurse-install: $(addsuffix /install, $(TARGET_DIRS))
--$(addsuffix /install, $(TARGET_DIRS)): all
-+.PHONY: recurse-all recurse-clean
-+recurse-all: $(ROM_DIRS)
-+recurse-clean: $(addsuffix /clean, $(ROM_DIRS))
- 
- ######################################################################
- 
-@@ -279,9 +261,6 @@ distclean: clean
- 	$(call clean-manual,devel)
- 	$(call clean-manual,interop)
- 	$(call clean-manual,specs)
--	for d in $(TARGET_DIRS); do \
--	rm -rf $$d || exit 1 ; \
--        done
+ distclean: clean
+ 	rm -f config-host.mak config-host.h* config-host.ld $(DOCS) qemu-options.texi qemu-img-cmds.texi qemu-monitor.texi qemu-monitor-info.texi
+ 	rm -f tests/tcg/config-*.mak
+@@ -257,10 +241,6 @@ distclean: clean
+ 	rm -f docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html
+ 	rm -f docs/qemu-block-drivers.7
+ 	rm -f docs/qemu-cpu-models.7
+-	rm -rf .doctrees
+-	$(call clean-manual,devel)
+-	$(call clean-manual,interop)
+-	$(call clean-manual,specs)
  	rm -Rf .sdk
  	if test -f dtc/version_gen.h; then $(MAKE) $(DTC_MAKE_ARGS) clean; fi
  
-@@ -383,8 +362,7 @@ ICON_SIZES=16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
- 
- install: all $(if $(BUILD_DOCS),install-doc) \
- 	install-datadir install-localstatedir \
--	$(if $(INSTALL_BLOBS),$(edk2-decompressed)) \
--	recurse-install
-+	$(if $(INSTALL_BLOBS),$(edk2-decompressed))
- ifdef CONFIG_TRACE_SYSTEMTAP
- 	$(INSTALL_PROG) "scripts/qemu-trace-stap" $(DESTDIR)$(bindir)
+@@ -300,22 +280,7 @@ BLOBS=
+ DESCS=
  endif
-@@ -429,9 +407,6 @@ endif
- 	set -e; for x in $(KEYMAPS); do \
- 		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/keymaps/$$x "$(DESTDIR)$(qemu_datadir)/keymaps"; \
- 	done
--	for d in $(TARGET_DIRS); do \
--	$(MAKE) $(SUBDIR_MAKEFLAGS) TARGET_DIR=$$d/ -C $$d $@ || exit 1 ; \
--        done
  
- # documentation
- MAKEINFO=makeinfo
-@@ -526,20 +501,6 @@ docs/interop/qemu-qmp-ref.dvi docs/interop/qemu-qmp-ref.html \
+-# Note that we manually filter-out the non-Sphinx documentation which
+-# is currently built into the docs/interop directory in the build tree,
+-# and also any sphinx-built manpages.
+-define install-manual =
+-for d in $$(cd $(MANUAL_BUILDDIR) && find $1 -type d); do $(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)/$$d"; done
+-for f in $$(cd $(MANUAL_BUILDDIR) && find $1 -type f -a '!' '(' -name '*.[0-9]' -o -name 'qemu-*-qapi.*' -o -name 'qemu-*-ref.*' ')' ); do $(INSTALL_DATA) "$(MANUAL_BUILDDIR)/$$f" "$(DESTDIR)$(qemu_docdir)/$$f"; done
+-endef
+-
+-# Note that we deliberately do not install the "devel" manual: it is
+-# for QEMU developers, and not interesting to our users.
+-.PHONY: install-sphinxdocs
+-install-sphinxdocs: sphinxdocs
+-	$(call install-manual,interop)
+-	$(call install-manual,specs)
+-
+-install-doc: $(DOCS) install-sphinxdocs
++install-doc: $(DOCS)
+ 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
+ 	$(INSTALL_DATA) qemu-doc.html "$(DESTDIR)$(qemu_docdir)"
+ 	$(INSTALL_DATA) qemu-doc.txt "$(DESTDIR)$(qemu_docdir)"
+@@ -337,7 +302,6 @@ ifdef CONFIG_TRACE_SYSTEMTAP
+ 	$(INSTALL_DATA) scripts/qemu-trace-stap.1 "$(DESTDIR)$(mandir)/man1"
+ endif
+ ifeq ($(CONFIG_GUEST_AGENT),y)
+-	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-ga.8 "$(DESTDIR)$(mandir)/man8"
+ 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.html "$(DESTDIR)$(qemu_docdir)"
+ 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.txt "$(DESTDIR)$(qemu_docdir)"
+ 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.7 "$(DESTDIR)$(mandir)/man7"
+@@ -435,33 +399,6 @@ docs/version.texi: $(SRC_PATH)/VERSION config-host.mak
+ %.pdf: %.texi docs/version.texi
+ 	$(call quiet-command,texi2pdf $(TEXI2PDFFLAGS) $< -o $@,"GEN","$@")
  
- $(filter %.1 %.7 %.8,$(DOCS)): scripts/texi2pod.pl
+-# Sphinx builds all its documentation at once in one invocation
+-# and handles "don't rebuild things unless necessary" itself.
+-# The '.doctrees' files are cached information to speed this up.
+-.PHONY: sphinxdocs
+-sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html $(MANUAL_BUILDDIR)/interop/index.html $(MANUAL_BUILDDIR)/specs/index.html
+-
+-# Canned command to build a single manual
+-# Arguments: $1 = manual name, $2 = Sphinx builder ('html' or 'man')
+-# Note the use of different doctree for each (manual, builder) tuple;
+-# this works around Sphinx not handling parallel invocation on
+-# a single doctree: https://github.com/sphinx-doc/sphinx/issues/2946
+-build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+-# We assume all RST files in the manual's directory are used in it
+-manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst) $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
+-
+-$(MANUAL_BUILDDIR)/devel/index.html: $(call manual-deps,devel)
+-	$(call build-manual,devel,html)
+-
+-$(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop)
+-	$(call build-manual,interop,html)
+-
+-$(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
+-	$(call build-manual,specs,html)
+-
+-$(MANUAL_BUILDDIR)/interop/qemu-ga.8: $(call manual-deps,interop)
+-	$(call build-manual,interop,man)
+-
+ docs/interop/qemu-qmp-qapi.texi: qapi/qapi-doc.texi
+ 	@cp -p $< $@
  
--# Reports/Analysis
--
--%/coverage-report.html:
--	@mkdir -p $*
--	$(call quiet-command,\
--		gcovr -r $(SRC_PATH) \
--		$(foreach t, $(TARGET_DIRS), --object-directory $(BUILD_DIR)/$(t)) \
--		 --object-directory $(BUILD_DIR) \
--		-p --html --html-details -o $@, \
--		"GEN", "coverage-report.html")
--
--.PHONY: coverage-report
--coverage-report: $(CURDIR)/reports/coverage/coverage-report.html
--
- ifdef CONFIG_WIN32
+diff --git a/docs/meson.build b/docs/meson.build
+new file mode 100644
+index 0000000000..0f86c0b522
+--- /dev/null
++++ b/docs/meson.build
+@@ -0,0 +1,88 @@
++sphinx = find_program('sphinx-build', required: build_docs)
++
++SPHINX_ARGS = [sphinx, '-W', '-q', '-d', '@PRIVATE_DIR@',
++               '-Dversion=' + config_host['VERSION'],
++               '-Drelease=' + config_host['PKGVERSION']]
++
++if sphinx.found()
++  devel_rst = [
++    'devel/decodetree.rst',
++    'devel/index.rst',
++    'devel/kconfig.rst',
++    'devel/loads-stores.rst',
++    'devel/memory.rst',
++    'devel/migration.rst',
++    'devel/secure-coding-practices.rst',
++    'devel/stable-process.rst',
++    'devel/tcg.rst',
++    'devel/testing.rst',
++  ]
++  devel = custom_target('sphinx-devel',
++                build_by_default: build_docs,
++                input: devel_rst,
++                depend_files: [files('conf.py', 'devel/conf.py')],
++                output: 'devel',
++                command: [SPHINX_ARGS, '-b', 'html',
++                          meson.current_source_dir() / 'devel',
++                          '@OUTPUT@',
++                         ])
++
++  interop_rst = [
++    'interop/bitmaps.rst',
++    'interop/index.rst',
++    'interop/live-block-operations.rst',
++    'interop/qemu-ga.rst',
++    'interop/pr-helper.rst',
++    'interop/vhost-user-gpu.rst',
++    'interop/vhost-user.rst',
++  ]
++  interop_man_pages = []
++  if 'CONFIG_GUEST_AGENT' in config_host
++    interop_man_pages += ['qemu-ga.8']
++  endif
++  interop = custom_target('sphinx-interop',
++                build_by_default: build_docs,
++                input: interop_rst,
++                depend_files: [files('conf.py', 'interop/conf.py')],
++                output: 'interop',
++                command: [SPHINX_ARGS, '-b', 'html',
++                          meson.current_source_dir() / 'interop',
++                          '@OUTPUT@',
++                         ])
++  interop_man = custom_target('sphinx-interop-man',
++                   build_by_default: build_docs,
++                   input: interop_rst,
++                   depend_files: [files('conf.py', 'interop/conf.py')],
++                   output: interop_man_pages,
++                   install_dir: get_option('mandir') / 'man8',
++                   command: [SPHINX_ARGS, '-b', 'man',
++                             meson.current_source_dir() / 'interop',
++                             '@OUTPUT@',
++                            ])
++  if build_docs
++    install_subdir(meson.current_build_dir() / 'interop',
++                   install_dir: config_host['qemu_docdir'],
++                   exclude_directories: '.doctrees')
++  endif
++
++  specs_rst = [
++    'specs/index.rst',
++    'specs/ppc-spapr-xive.rst',
++    'specs/ppc-xive.rst',
++  ]
++  specs = custom_target('sphinx-specs',
++                input: specs_rst,
++                depend_files: [files('conf.py', 'specs/conf.py')],
++                output: 'specs',
++                command: [SPHINX_ARGS, '-b', 'html',
++                          meson.current_source_dir() / 'specs',
++                          '@OUTPUT@',
++                         ])
++  if build_docs
++    install_subdir(meson.current_build_dir() / 'specs',
++                   install_dir: config_host['qemu_docdir'],
++                   exclude_directories: '.doctrees')
++  endif
++
++  sphinxdocs = alias_target('sphinxdocs', devel, interop, interop_man, specs)
++endif
+diff --git a/meson.build b/meson.build
+index 0dd6d9f723..04068fd765 100644
+--- a/meson.build
++++ b/meson.build
+@@ -7,6 +7,7 @@ config_host = kconfig.load(meson.current_build_dir() / 'config-host.mak')
+ config_all_disas = kconfig.load(meson.current_build_dir() / 'config-all-disas.mak')
  
- INSTALLER = qemu-setup-$(VERSION)$(EXESUF)
-@@ -623,11 +584,6 @@ endif
- 	@echo  '  ctags/TAGS      - Generate tags file for editors'
- 	@echo  '  cscope          - Generate cscope index'
- 	@echo  ''
--	@$(if $(TARGET_DIRS), \
--		echo 'Architecture specific targets:'; \
--		$(foreach t, $(TARGET_DIRS), \
--		printf "  %-30s - Build for %s\\n" $(t)/all $(t);) \
--		echo '')
- 	@echo  'Cleaning targets:'
- 	@echo  '  clean           - Remove most generated files but keep the config'
- 	@echo  '  distclean       - Remove all generated files'
-diff --git a/Makefile.objs b/Makefile.objs
-index 9fd3932ae0..654667f501 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -28,30 +28,3 @@ crypto-obj-y = crypto/libcrypto.fa
- io-obj-y = io/libio.fa
+ enable_modules = 'CONFIG_MODULES' in config_host
++build_docs = 'BUILD_DOCS' in config_host
  
- qom-obj-y = qom/libqom.fa
--
--######################################################################
--# Target independent part of system emulation. The long term path is to
--# suppress *all* target specific code in case of system emulation, i.e. a
--# single QEMU executable should support all CPUs and machines.
--
--ifeq ($(CONFIG_SOFTMMU),y)
--common-obj-$(CONFIG_AUDIO_ALSA) += audio-alsa$(DSOSUF)
--common-obj-$(CONFIG_AUDIO_OSS) += audio-oss$(DSOSUF)
--common-obj-$(CONFIG_AUDIO_PA) += audio-pa$(DSOSUF)
--common-obj-$(CONFIG_AUDIO_SDL) += audio-sdl$(DSOSUF)
--
--common-obj-$(if $(CONFIG_CURSES),m) += ui-curses$(DSOSUF)
--common-obj-$(if $(CONFIG_GTK),m) += ui-gtk$(DSOSUF)
--common-obj-$(if $(CONFIG_SDL),m) += ui-sdl$(DSOSUF)
--common-obj-$(if $(CONFIG_SPICE),m) += ui-spice-app$(DSOSUF)
--
--common-obj-$(if $(CONFIG_CURL),m) += block-curl$(DSOSUF)
--common-obj-$(if $(CONFIG_GLUSTERFS),m) += block-gluster$(DSOSUF)
--common-obj-$(if $(CONFIG_LIBISCSI),m) += block-iscsi$(DSOSUF)
--common-obj-$(if $(CONFIG_LIBNFS),m) += block-nfs$(DSOSUF)
--common-obj-$(if $(CONFIG_LIBSSH),m) += block-ssh$(DSOSUF)
--common-obj-$(if $(CONFIG_RBD),m) += block-rbd$(DSOSUF)
--
--common-obj-$(if $(CONFIG_LZFSE),m) += block-dmg-lzfse$(DSOSUF)
--common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF)
--endif
-diff --git a/Makefile.target b/Makefile.target
-deleted file mode 100644
-index 4f72a8950d..0000000000
---- a/Makefile.target
-+++ /dev/null
-@@ -1,13 +0,0 @@
--# -*- Mode: makefile -*-
--
--BUILD_DIR?=$(CURDIR)/..
--
--include ../config-host.mak
--include config-target.mak
--include $(SRC_PATH)/rules.mak
--
--all:
--clean:
--install: all
--	
--.PHONY: all clean install
-diff --git a/configure b/configure
-index e39d7ac2d1..089bff7c37 100755
---- a/configure
-+++ b/configure
-@@ -7796,8 +7796,6 @@ if [ "$TARGET_BASE_ARCH" = "" ]; then
-   TARGET_BASE_ARCH=$TARGET_ARCH
- fi
+ add_project_arguments(config_host['CFLAGS'].split(),
+                       language: ['c', 'objc'])
+@@ -949,3 +950,4 @@ if have_tools
+ endif
  
--symlink "$source_path/Makefile.target" "$target_dir/Makefile"
--
- upper() {
-     echo "$@"| LC_ALL=C tr '[a-z]' '[A-Z]'
- }
+ subdir('pc-bios')
++subdir('docs')
 -- 
 2.21.0
 
