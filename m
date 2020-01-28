@@ -2,67 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9331014C124
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:40:45 +0100 (CET)
-Received: from localhost ([::1]:36568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557DB14C10D
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:33:52 +0100 (CET)
+Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWj6-0002NE-JQ
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:40:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36419)
+	id 1iwWcR-0006Jl-Ak
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:33:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42934)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iwVOk-0001Gr-Tz
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:15:40 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iwVSg-0006YA-LI
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:19:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iwVOj-0001BZ-7v
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:15:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31156
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iwVOi-0001A2-Tw
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:15:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580235336;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vB8bRgsl1wOabwuyBJiR1sNWzMD1CYoWuLVu6A4rM9c=;
- b=gUoPZsIjBALmJK06NyL+u4OanawvPgsTLUNVACS0ZkX7jpuOxj5GCgFVFoxH4IKYa2wt0A
- UqXKGUZcbJ4m6eI+qoUPT6SoE8UTjf4oeOz+Ls3B2bairgv1dh/WulPgGABJca71nhTMTa
- 32fjX3TGv+9LrtREv0s7/7U08qafBZ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-uhcXm0t3On2qOGIR-_3iNQ-1; Tue, 28 Jan 2020 13:15:34 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A80C477;
- Tue, 28 Jan 2020 18:15:33 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 96B96845C5;
- Tue, 28 Jan 2020 18:15:29 +0000 (UTC)
-Date: Tue, 28 Jan 2020 18:15:27 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH v3 06/13] monitor/hmp: move hmp_block_job* to
- block-hmp-cmds.c
-Message-ID: <20200128181527.GZ3215@work-vm>
-References: <20200127103647.17761-1-mlevitsk@redhat.com>
- <20200127103647.17761-7-mlevitsk@redhat.com>
+ (envelope-from <laurent@vivier.eu>) id 1iwVSf-0000uc-70
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:19:42 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:41029)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iwVSe-0000pv-PF
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:19:41 -0500
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MElhb-1imGi92Wmh-00GJKw; Tue, 28 Jan 2020 19:19:22 +0100
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
+References: <1579227117-6310-1-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Subject: Re: [PATCH 0/4] linux-user: Fix some issues in termbits.h files
+Message-ID: <994d96ac-ce43-9ff5-7212-eda6e12264fb@vivier.eu>
+Date: Tue, 28 Jan 2020 19:19:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200127103647.17761-7-mlevitsk@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: uhcXm0t3On2qOGIR-_3iNQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+In-Reply-To: <1579227117-6310-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:nDvJHc227Wpfv1exZCsxDLhBA9GSI2Uuytp/pj+RTz8bTL3Yg8x
+ vPFbr0Ne+EqasmG4+RtHCtOrsONokgxGKY408Ii3D2DiGxbGcA5vjRmy2hzAxNUdnUPhX1i
+ zJQlBey0cBNBSQeqq4vjnERlSUbLfWtc9y8irCLq6VSNnPk/1mUPm9iSJpmJphMK5LuGsw8
+ wRvZ+1HrexfEOxjw5SNtg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IzbYpwGHuUw=:9n9fm9tdPHyI3+tKIZdBfV
+ 7DgW9/MYAkZbQWs0qjfZ7K4yZXzM26IQSofW5Li00Z+jAQ+q0j20fKOp8LfwiCplKN6QJQTE0
+ yFEyWxc7r2AuJ9zUNrZmfzpo0ddqORmDRqGrbDwUwC25CVypXJGRH0aNpm87hN0fLoqykItoE
+ lUQqX+05eQYfyNEWYMW8PRmyReVv+saxBsKmV5xTzhHB/hljTE3meJkxKtqbm/AX4tcOa17rj
+ /JzJmnz6e1zdcIsE0k1TjEW9iuKGl/9y/7pYMnjQdCH5gm2nNEf/kXGeO9klz9Py70qS4Ws1z
+ wu+p5aK2v7yl88kwwBcA2w73goeWk7cun5NJM9M4R7fy0aws1yyNHrOJbhq5c4s2vYVkI9ufR
+ t6KC1dlxFd8NzNdA+wDTw7OA9h/H7sxNPXjNcK6BuRwZaK6LiOpoz/SVFAlaCh/7pwCLI7cGu
+ SEmkPzPoe733TzoAaIeAV1LJc9TP1PZ5dxofiERNya2s9rP7p1j/21y6grw/Q2RAC15+HX4KU
+ SplES+ROPxie7+R/WMt4oyATutBZQnhlp3ioPV8SWRnczn/uxKbxVNL5x3mSTnoTRVRcfe+i0
+ SVi1UjE1/wPol9899xCokyIOgsbBf6zdSZXDRhRSWOjvrMSq47W9ygtHWynFwLR1eq1TQy0yS
+ jIo6lDFcnEUx1fWlRtBgk1nPn5CNmUNXJOjMwZK/fPZ/OCNI+CLFFM2TjzCUyRT/obixEQamJ
+ pKo/CMcEkLKds8cjk+0aKkbI4KOrJnysbpBHQst3ECi3NmyXMS6kMSLf8gLIbto1eyBAP2NER
+ SKQ36oxAQw2rHvHS5c+JV0GTpytab/50sDW36T5xt4JWuna2G0/WDovB0AVgNeeSCllDzDs
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 212.227.126.187
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,186 +108,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Maxim Levitsky (mlevitsk@redhat.com) wrote:
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Le 17/01/2020 à 03:11, Aleksandar Markovic a écrit :
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> 
+> This series is a spin-off of v5 of earlier series "linux-user: Misc
+> patches for 5.0", that became too large to manage. I will submit the
+> rest of that large series separately.
+> 
+> Files linux-user/<target>/termbits.h seem to be in a very bad shape:
+> unsynchronized with kernel, containing wrong elements expressed in
+> terms of host instead of target, many being updated wrt kernel
+> content at various times, and on top of that all contain visually
+> very ugly combinations of tabs and spaces.
+> 
+> This series attempts to fix great majority of issues in termbits.
+> 
+> Alpha's and mips' termbits.h were in the worst shape, missing large
+> bits and pieces, and for them as complete as possible synchronization
+> with kernel code is done - this constitutes the first two patches.
+> 
+> Xtensa's termbits.h contained the most elements wrongly expressed in
+> terms of host instead of target, and that is the reason the changes
+> in this file are placed in a separate, third, patch. Previous "R-B"
+> given by Max Filippov was transferred to this patch only.
+> 
+> The fourth patch fixes remaining elements wrongly expressed in
+> terms of host instead of target.
+> 
+> As an additional note, structures "serial_iso7816" and "serial_rs485"
+> (at times mentioned as the third argument of certain ioctls) are
+> platform-independant in kernel, and do not need "target_" variant
+> in QEMU. Also, structure "winsize" (also appearing as the third
+> ioctl's argument at times) is defined at multiple places in kernel
+> (for several architectures) in kernel, but all such definitions are
+> identical, and, therefore, it also does not need "target_" variant
+> in QEMU.
+> 
+> A checkpatch warning related to "#if 0" in patch 2 is benign, and
+> should be ignored.
+> 
+> Aleksandar Markovic (4):
+>   linux-user: alpha: Synchronize termbits.h with kernel
+>   linux-user: mips: Synchronize termbits.h with kernel
+>   linux-user: xtensa: Fix some constants in termbits.h
+>   linux-user: Fix some constants in remaining termbits.h
+> 
+>  linux-user/aarch64/termbits.h    |   4 +-
+>  linux-user/alpha/termbits.h      |  82 ++++++++++++++--
+>  linux-user/arm/termbits.h        |   4 +-
+>  linux-user/cris/termbits.h       |   4 +-
+>  linux-user/hppa/termbits.h       |   4 +-
+>  linux-user/i386/termbits.h       |   4 +-
+>  linux-user/m68k/termbits.h       |   4 +-
+>  linux-user/microblaze/termbits.h |   4 +-
+>  linux-user/mips/termbits.h       | 140 ++++++++++++++++----------
+>  linux-user/nios2/termbits.h      |   4 +-
+>  linux-user/openrisc/termbits.h   |  14 +--
+>  linux-user/ppc/termbits.h        |   4 +-
+>  linux-user/riscv/termbits.h      |   4 +-
+>  linux-user/s390x/termbits.h      |  26 ++---
+>  linux-user/sh4/termbits.h        |   4 +-
+>  linux-user/sparc/termbits.h      |   4 +-
+>  linux-user/sparc64/termbits.h    |   4 +-
+>  linux-user/tilegx/termbits.h     |  12 ++-
+>  linux-user/x86_64/termbits.h     |  26 +++--
+>  linux-user/xtensa/termbits.h     | 207 +++++++++++++++++++++------------------
+>  20 files changed, 353 insertions(+), 206 deletions(-)
+> 
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+I think we should first introduce a linux-user/generic/termbits.h as we
+have an asm-generic/termbits.h in the kernel and use it with all the
+targets except alpha, mips, hppa, sparc and xtensa.
 
-> ---
->  block/monitor/block-hmp-cmds.c     | 52 ++++++++++++++++++++++++++++++
->  include/block/block-hmp-commands.h |  6 ++++
->  include/monitor/hmp.h              |  5 ---
->  monitor/hmp-cmds.c                 | 52 ------------------------------
->  4 files changed, 58 insertions(+), 57 deletions(-)
->=20
-> diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmd=
-s.c
-> index ae3890aaab..ed3c350143 100644
-> --- a/block/monitor/block-hmp-cmds.c
-> +++ b/block/monitor/block-hmp-cmds.c
-> @@ -228,3 +228,55 @@ void hmp_drive_backup(Monitor *mon, const QDict *qdi=
-ct)
->      qmp_drive_backup(&backup, &err);
->      hmp_handle_error(mon, err);
->  }
-> +
-> +void hmp_block_job_set_speed(Monitor *mon, const QDict *qdict)
-> +{
-> +    Error *error =3D NULL;
-> +    const char *device =3D qdict_get_str(qdict, "device");
-> +    int64_t value =3D qdict_get_int(qdict, "speed");
-> +
-> +    qmp_block_job_set_speed(device, value, &error);
-> +
-> +    hmp_handle_error(mon, error);
-> +}
-> +
-> +void hmp_block_job_cancel(Monitor *mon, const QDict *qdict)
-> +{
-> +    Error *error =3D NULL;
-> +    const char *device =3D qdict_get_str(qdict, "device");
-> +    bool force =3D qdict_get_try_bool(qdict, "force", false);
-> +
-> +    qmp_block_job_cancel(device, true, force, &error);
-> +
-> +    hmp_handle_error(mon, error);
-> +}
-> +
-> +void hmp_block_job_pause(Monitor *mon, const QDict *qdict)
-> +{
-> +    Error *error =3D NULL;
-> +    const char *device =3D qdict_get_str(qdict, "device");
-> +
-> +    qmp_block_job_pause(device, &error);
-> +
-> +    hmp_handle_error(mon, error);
-> +}
-> +
-> +void hmp_block_job_resume(Monitor *mon, const QDict *qdict)
-> +{
-> +    Error *error =3D NULL;
-> +    const char *device =3D qdict_get_str(qdict, "device");
-> +
-> +    qmp_block_job_resume(device, &error);
-> +
-> +    hmp_handle_error(mon, error);
-> +}
-> +
-> +void hmp_block_job_complete(Monitor *mon, const QDict *qdict)
-> +{
-> +    Error *error =3D NULL;
-> +    const char *device =3D qdict_get_str(qdict, "device");
-> +
-> +    qmp_block_job_complete(device, &error);
-> +
-> +    hmp_handle_error(mon, error);
-> +}
-> diff --git a/include/block/block-hmp-commands.h b/include/block/block-hmp=
--commands.h
-> index fcaf753118..ea6578a5f6 100644
-> --- a/include/block/block-hmp-commands.h
-> +++ b/include/block/block-hmp-commands.h
-> @@ -11,4 +11,10 @@ void hmp_drive_del(Monitor *mon, const QDict *qdict);
->  void hmp_drive_mirror(Monitor *mon, const QDict *qdict);
->  void hmp_drive_backup(Monitor *mon, const QDict *qdict);
-> =20
-> +void hmp_block_job_set_speed(Monitor *mon, const QDict *qdict);
-> +void hmp_block_job_cancel(Monitor *mon, const QDict *qdict);
-> +void hmp_block_job_pause(Monitor *mon, const QDict *qdict);
-> +void hmp_block_job_resume(Monitor *mon, const QDict *qdict);
-> +void hmp_block_job_complete(Monitor *mon, const QDict *qdict);
-> +
->  #endif
-> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> index c1b363ee57..592ce0ccfe 100644
-> --- a/include/monitor/hmp.h
-> +++ b/include/monitor/hmp.h
-> @@ -87,11 +87,6 @@ void hmp_eject(Monitor *mon, const QDict *qdict);
->  void hmp_change(Monitor *mon, const QDict *qdict);
->  void hmp_block_set_io_throttle(Monitor *mon, const QDict *qdict);
->  void hmp_block_stream(Monitor *mon, const QDict *qdict);
-> -void hmp_block_job_set_speed(Monitor *mon, const QDict *qdict);
-> -void hmp_block_job_cancel(Monitor *mon, const QDict *qdict);
-> -void hmp_block_job_pause(Monitor *mon, const QDict *qdict);
-> -void hmp_block_job_resume(Monitor *mon, const QDict *qdict);
-> -void hmp_block_job_complete(Monitor *mon, const QDict *qdict);
->  void hmp_migrate(Monitor *mon, const QDict *qdict);
->  void hmp_device_add(Monitor *mon, const QDict *qdict);
->  void hmp_device_del(Monitor *mon, const QDict *qdict);
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index a70bcb1d16..996ce96430 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1975,58 +1975,6 @@ void hmp_block_stream(Monitor *mon, const QDict *q=
-dict)
->      hmp_handle_error(mon, error);
->  }
-> =20
-> -void hmp_block_job_set_speed(Monitor *mon, const QDict *qdict)
-> -{
-> -    Error *error =3D NULL;
-> -    const char *device =3D qdict_get_str(qdict, "device");
-> -    int64_t value =3D qdict_get_int(qdict, "speed");
-> -
-> -    qmp_block_job_set_speed(device, value, &error);
-> -
-> -    hmp_handle_error(mon, error);
-> -}
-> -
-> -void hmp_block_job_cancel(Monitor *mon, const QDict *qdict)
-> -{
-> -    Error *error =3D NULL;
-> -    const char *device =3D qdict_get_str(qdict, "device");
-> -    bool force =3D qdict_get_try_bool(qdict, "force", false);
-> -
-> -    qmp_block_job_cancel(device, true, force, &error);
-> -
-> -    hmp_handle_error(mon, error);
-> -}
-> -
-> -void hmp_block_job_pause(Monitor *mon, const QDict *qdict)
-> -{
-> -    Error *error =3D NULL;
-> -    const char *device =3D qdict_get_str(qdict, "device");
-> -
-> -    qmp_block_job_pause(device, &error);
-> -
-> -    hmp_handle_error(mon, error);
-> -}
-> -
-> -void hmp_block_job_resume(Monitor *mon, const QDict *qdict)
-> -{
-> -    Error *error =3D NULL;
-> -    const char *device =3D qdict_get_str(qdict, "device");
-> -
-> -    qmp_block_job_resume(device, &error);
-> -
-> -    hmp_handle_error(mon, error);
-> -}
-> -
-> -void hmp_block_job_complete(Monitor *mon, const QDict *qdict)
-> -{
-> -    Error *error =3D NULL;
-> -    const char *device =3D qdict_get_str(qdict, "device");
-> -
-> -    qmp_block_job_complete(device, &error);
-> -
-> -    hmp_handle_error(mon, error);
-> -}
-> -
->  typedef struct HMPMigrationStatus
->  {
->      QEMUTimer *timer;
-> --=20
-> 2.17.2
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+I think this linux-user/generic/termbits.h could be copied from
+linux-user/openrisc/termbits.h (without the ioctl definitions)
 
+Then you could update the remaining ones.
+
+Thanks,
+Laurent
 
