@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3DC14BFAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:27:13 +0100 (CET)
-Received: from localhost ([::1]:35152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317AC14BF28
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:06:20 +0100 (CET)
+Received: from localhost ([::1]:34868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVZw-0008F1-5w
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:27:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59479)
+	id 1iwVFj-0004We-67
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:06:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59570)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV50-0007mY-Lu
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:15 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV53-0007rl-1n
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4x-0001Su-Bf
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:13 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39939)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV51-0001ZP-8K
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:16 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37422)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV4w-0001Pf-U2
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:11 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id j104so1194978wrj.7
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:55:09 -0800 (PST)
+ id 1iwV4z-0001TH-AY
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:14 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id w15so17137435wru.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:55:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+PRwhO35mAAi2GwkKyXhmnr9zSDCkYdOi56nsRT+0tI=;
- b=nk/nuWjMpMnKXBWo4fMsQOMIs8msHBuy4OVTPuHK8aBhDziJzV+EIzQfE5twBRuoUQ
- acokM9YWrWJYI5IoS1Bc0vfExIgdEjPCZNz89BNz3aYe54JnXvKSf9a5K9X7M2eRgXBG
- w6kI7w12kJ+GsxctqRuWevx9P4GfhNndmsEJetoO0yvY10rbyDcUGHVC8c8v6i0GeSKy
- XtLRPxn+7Gdi5ytdZ6bOCLxz5yYNyYDPwOsxEiFOXI8M+wVnGVsqIK0pUihCkF0DW2zX
- wEJ6X2kmacwQs4MeUWilGgMlZb4txB8GBtGMoaMUN2kFnQRmuM4mlUhnR9fQ6ublIn/J
- Bk0A==
+ bh=D5LxvnY5IZc28SYdcZboPCuIF0vRTrcCTrJo+qmKr0I=;
+ b=Hg2XOctw1OZr91UFnR7vGHQo+mqz/GyXjAN8MO33StKUfVO+gjygKdKyKkKMcyIUmr
+ krLwHQEJB/YNlO65b27l8Clk9tYFcrnyUB2lBA3gsXsk24kl5iC3WbsY4DHg+t/M8C8E
+ 52+HFrH/NTPVian0DwrptB/hLAqjwFWsg4KWOWaEywdmUXB0WhzaItkn3QJm+LlVtv8L
+ HizoumxIN/CuercxV9iBM1DSgI6xvCr2EcxogzuOOqHyFJZC7+YLpXSS4w5oBjlx39I9
+ 5kugQp916G9nvaX9cnUEhY9m56zpTsAk0WppCg5UxSMDTRFF8Q/4447WcT6bL/WHaIBW
+ Qgbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+PRwhO35mAAi2GwkKyXhmnr9zSDCkYdOi56nsRT+0tI=;
- b=C/eZ1r6RqkhBIY2vJgcajU5Jr30ZlUdOHEGy9Q2NvJYv5xdNoLVanZeauKu41D+1BQ
- MHVE2s3NokCxKslpDaJ3Ja3hSlogCL3P3IzhtJiyYXJhlwIMYwmzwmi+67IBxEg4vEDk
- tv9FKpxXemTsducjZUGTl+XsTFCpKY2U1NKUvWPzmW9tohj9muzSlZ3/Hvw/jF3ZyHFK
- WQXq5NOD4UWw3iIpELbuPDsrxwmzfQMvd3N9BM35vYv82MYp5Zdhvw4WLrC+lMk9/LkS
- aJW/CgdWg2oO0jJU80d4FeHPAume+RGlPx35PQ5Ykn17Xa1C01KderPz+ZEbC4sl/QqA
- VQ4Q==
-X-Gm-Message-State: APjAAAUXYv+OzUMjVYscu7OTiu191wKqajS+/PYxkxQIdfCh3Ev1v3uR
- 5758uiXynlR9UTdc6FnLrvDuzC0Z
-X-Google-Smtp-Source: APXvYqyfAjpfZcam8weYzst7OWwnfpOB9MKDDpP8fJ/JHdORsvfLVig3IRW6ySrUKq2kujJWAKcvhg==
-X-Received: by 2002:adf:f80b:: with SMTP id s11mr31543100wrp.12.1580234108712; 
- Tue, 28 Jan 2020 09:55:08 -0800 (PST)
+ bh=D5LxvnY5IZc28SYdcZboPCuIF0vRTrcCTrJo+qmKr0I=;
+ b=ZDvnOpkTGWCwIo9r+C8C0JiZm/xGWER01EuPnkY08BDH4QJLSjE0y6xLor0Z7LazdB
+ gxFY5m9eW3UeNL6+qNB0mUZFDnX1SdNwOgbX65UdhndJZwVuhFUw+NBR0xvZ3rjbMbh2
+ VzgkOuGwX4FZEYEgaHcFqRuTNShiNUxFdV3QiJ3cPD9hXz1IkLOp+9Kwq/Fv/qfEVxWG
+ Wu36HHo4atbsjjYZjF1yOWLmwsXaYpJ8uxV27n+wqLVWd9qoEGecez87Mf6mMFLQP0mr
+ MuxGljTVDfjFLFXX5ZPBdvzTrwDEFq/w2H6lHya3AWMByGdZm8Kmdwj6cyxFPb91qCs/
+ fw3w==
+X-Gm-Message-State: APjAAAWcKFszkRbbyYFrcm4SInkNmYucuWI3C6Nvg3AMZXf5qmMYDIBn
+ x5E4VjFtGtFfex51grpZEriAsUPS
+X-Google-Smtp-Source: APXvYqxVXadD06BS9Ggz3M1UKyXw54Rs7nKz4YLd6RiI0/7FAdCiKqpkguQgj4zK/NMv5QXod9Gkvw==
+X-Received: by 2002:a5d:608a:: with SMTP id w10mr28433800wrt.136.1580234110944; 
+ Tue, 28 Jan 2020 09:55:10 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.55.06
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.55.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:55:08 -0800 (PST)
+ Tue, 28 Jan 2020 09:55:10 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 033/142] meson: generate qemu-version.h
-Date: Tue, 28 Jan 2020 18:51:53 +0100
-Message-Id: <20200128175342.9066-34-pbonzini@redhat.com>
+Subject: [PATCH 034/142] meson: generate shader headers
+Date: Tue, 28 Jan 2020 18:51:54 +0100
+Message-Id: <20200128175342.9066-35-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::42f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,109 +88,93 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                | 27 +--------------------------
- meson.build             | 10 ++++++++++
- scripts/qemu-version.sh | 25 +++++++++++++++++++++++++
- 3 files changed, 36 insertions(+), 26 deletions(-)
- create mode 100755 scripts/qemu-version.sh
+ Makefile              | 19 -------------------
+ meson.build           |  1 +
+ ui/meson.build        |  2 ++
+ ui/shader/meson.build | 15 +++++++++++++++
+ 4 files changed, 18 insertions(+), 19 deletions(-)
+ create mode 100644 ui/shader/meson.build
 
 diff --git a/Makefile b/Makefile
-index 54249c6fc2..b77014faa4 100644
+index b77014faa4..a1cddb8476 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -106,21 +106,7 @@ include $(SRC_PATH)/rules.mak
- # lor is defined in rules.mak
- CONFIG_BLOCK := $(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS))
+@@ -364,7 +364,6 @@ clean: recurse-clean
+ 	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
+ 	rm -f fsdev/*.pod scsi/*.pod
+ 	rm -f qemu-img-cmds.h
+-	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
+ 	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
+ 	rm -f config-all-devices.mak
  
--# Create QEMU_PKGVERSION and FULL_VERSION strings
--# If PKGVERSION is set, use that; otherwise get version and -dirty status from git
--QEMU_PKGVERSION := $(if $(PKGVERSION),$(PKGVERSION),$(shell \
--  cd $(SRC_PATH); \
--  if test -e .git; then \
--    git describe --match 'v*' 2>/dev/null | tr -d '\n'; \
--    if ! git diff-index --quiet HEAD &>/dev/null; then \
--      echo "-dirty"; \
--    fi; \
--  fi))
+@@ -586,24 +585,6 @@ endif
+ 	$(MAKE) $(SUBDIR_MAKEFLAGS) TARGET_DIR=$$d/ -C $$d $@ || exit 1 ; \
+         done
+ 
+-# opengl shader programs
+-ui/shader/%-vert.h: $(SRC_PATH)/ui/shader/%.vert $(SRC_PATH)/scripts/shaderinclude.pl
+-	@mkdir -p $(dir $@)
+-	$(call quiet-command,\
+-		perl $(SRC_PATH)/scripts/shaderinclude.pl $< > $@,\
+-		"VERT","$@")
 -
--# Either "version (pkgversion)", or just "version" if pkgversion not set
--FULL_VERSION := $(if $(QEMU_PKGVERSION),$(VERSION) ($(QEMU_PKGVERSION)),$(VERSION))
+-ui/shader/%-frag.h: $(SRC_PATH)/ui/shader/%.frag $(SRC_PATH)/scripts/shaderinclude.pl
+-	@mkdir -p $(dir $@)
+-	$(call quiet-command,\
+-		perl $(SRC_PATH)/scripts/shaderinclude.pl $< > $@,\
+-		"FRAG","$@")
 -
--generated-files-y = qemu-version.h config-host.h qemu-options.def
-+generated-files-y = config-host.h qemu-options.def
- 
- generated-files-y += module_block.h
- 
-@@ -256,17 +242,6 @@ include $(SRC_PATH)/tests/Makefile.include
- 
- all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all modules $(vhost-user-json-y)
- 
--qemu-version.h: FORCE
--	$(call quiet-command, \
--                (printf '#define QEMU_PKGVERSION "$(QEMU_PKGVERSION)"\n'; \
--		printf '#define QEMU_FULL_VERSION "$(FULL_VERSION)"\n'; \
--		) > $@.tmp)
--	$(call quiet-command, if ! cmp -s $@ $@.tmp; then \
--	  mv $@.tmp $@; \
--	 else \
--	  rm $@.tmp; \
--	 fi)
+-ui/shader.o: $(SRC_PATH)/ui/shader.c \
+-	ui/shader/texture-blit-vert.h \
+-	ui/shader/texture-blit-flip-vert.h \
+-	ui/shader/texture-blit-frag.h
 -
- config-host.h: config-host.h-timestamp
- config-host.h-timestamp: config-host.mak
- qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
+ # documentation
+ MAKEINFO=makeinfo
+ MAKEINFOINCLUDES= -I docs -I $(<D) -I $(@D)
 diff --git a/meson.build b/meson.build
-index 5cde258529..afa53bee00 100644
+index afa53bee00..c0122a1ab9 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -18,6 +18,16 @@ add_project_link_arguments(config_host['QEMU_LDFLAGS'].split(),
- add_project_arguments(config_host['QEMU_INCLUDES'].split(),
-                       language: ['c', 'cpp'])
+@@ -117,6 +117,7 @@ have_block = have_system or have_tools
  
-+qemu_version_cmd = [find_program('scripts/qemu-version.sh'),
-+                    meson.current_source_dir(),
-+                    config_host['PKGVERSION'], config_host['VERSION']]
-+qemu_version = custom_target('QEMU version',
-+                             output: 'qemu-version.h',
-+                             command: qemu_version_cmd,
-+                             capture: true,
-+                             build_by_default: true,
-+                             build_always_stale: true)
+ # Generators
+ 
++shaderinclude = find_program('scripts/shaderinclude.pl')
+ qapi_gen = find_program('scripts/qapi-gen.py')
+ qapi_gen_depends = [ meson.source_root() / 'scripts/qapi/__init__.py',
+                      meson.source_root() / 'scripts/qapi/commands.py',
+diff --git a/ui/meson.build b/ui/meson.build
+index cad97635d8..81577546e0 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -32,3 +32,5 @@ foreach e : keymaps
+                           '--varname', 'qemu_input_map_@0@_to_@1@'.format(e[0], e[1]),
+                           'code-map', '@INPUT0@', e[0], e[1]])
+ endforeach
 +
- configure_file(input: files('scripts/ninjatool.py'),
-                output: 'ninjatool',
-                configuration: config_host)
-diff --git a/scripts/qemu-version.sh b/scripts/qemu-version.sh
-new file mode 100755
-index 0000000000..4847385e42
++subdir('shader')
+diff --git a/ui/shader/meson.build b/ui/shader/meson.build
+new file mode 100644
+index 0000000000..26c7a187b0
 --- /dev/null
-+++ b/scripts/qemu-version.sh
-@@ -0,0 +1,25 @@
-+#!/bin/sh
++++ b/ui/shader/meson.build
+@@ -0,0 +1,15 @@
++shaders = [
++  ['texture-blit', 'frag'],
++  ['texture-blit', 'vert'],
++  ['texture-blit-flip', 'vert'],
++]
 +
-+set -eu
-+
-+dir="$1"
-+pkgversion="$2"
-+version="$3"
-+
-+if [ -z "$pkgversion"]; then
-+    cd "$dir"
-+    if [ -e .git ]; then
-+        pkgversion=$(git describe --match 'v*' --dirty | echo "")
-+    fi
-+fi
-+
-+if [ -n "$pkgversion" ]; then
-+    fullversion="$version ($pkgversion)"
-+else
-+    fullversion="$version"
-+fi
-+
-+cat <<EOF
-+#define QEMU_PKGVERSION "$pkgversion"
-+#define QEMU_FULL_VERSION "$fullversion"
-+EOF
++foreach e : shaders
++  output = '@0@-@1@.h'.format(e[0], e[1])
++  custom_target(output,
++                output: output,
++                capture: true,
++                build_by_default: true, # to be removed when added to a target
++                input: files('@0@.@1@'.format(e[0], e[1])),
++                command: [shaderinclude, '@INPUT0@'])
++endforeach
 -- 
 2.21.0
 
