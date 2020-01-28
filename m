@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AD614C05B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:52:00 +0100 (CET)
-Received: from localhost ([::1]:35496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E35B714C067
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:54:19 +0100 (CET)
+Received: from localhost ([::1]:35534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVxv-0002zG-25
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:51:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
+	id 1iwW0B-0006vr-0U
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:54:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33995)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6K-0001b4-9Y
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:37 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6L-0001ed-U0
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6I-0004iL-Ue
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:36 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46939)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6K-0004m5-FV
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:37 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39007)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV6I-0004fQ-Ne
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:34 -0500
-Received: by mail-wr1-x432.google.com with SMTP id z7so17066804wrl.13
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:56:34 -0800 (PST)
+ id 1iwV6K-0004kD-6F
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:36 -0500
+Received: by mail-wr1-x434.google.com with SMTP id y11so17090012wrt.6
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:56:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eP2TeH3k4aghmGxxgRo9140T1AoNaykBBCsOV4MtnLA=;
- b=f0pZXWFnppHhh16/xBuYKmOEDJ9gzUf1qxegkpmFGqYKn/JpAI1f/qCThXW6Rffo/R
- SRAx+mmahW+rY2EeCBJW1bbNhMY1l9NVHoOIasNIVi4ylEpXs9E/la+dAkK9sM0xE34r
- qpITC/ASUfoRhloJQ8RIOLCJyrStJitc6AhWhhbC6id0Y9Hl3/c5qwJLKdfsivbiDDwu
- 4BDl27Vb6rQsVrS2JAbzHWL3KLSo/mJSkUEd9yjy41BUGBvdYEryjBq16OI8YRjbHIAd
- IRr+ZUZEnrmMXSHQsq9IffqwObUTpKi15g3or5bl2/etFCiC3W3VwAdPysJt5QYWxQ9T
- 4KFQ==
+ bh=Hg/3yo5twaEsNTU2uJXGbIo5hUz72j4nbvEVGvGacGw=;
+ b=UHzyAfmwGODENgptXqIC74/sQsRJW2jamgxjBP3OwGhJG/Vc4sjIMXVCx+i499D5aT
+ TwbBdaJk1Q87NE5cq9u2wGPHparLZG1oZMDbDpAIAlsiOFwmFcd3NaIplwBg3C9AjGF3
+ GZlyHsNSDDD7MB0AXbsNrKDMh/ZSRVj1F0M38ZyUpVq4k4m2UzT60gz9rd9z2/Gs23ZY
+ rtXUNDc0tjbAj2AWE6C4PgWP/i8PL0JVfCloJ40cGydCbuorhvWwXOqdwjPDjTKv+0cX
+ dOFqt++cz9d0zbzvUrlltrXAIuD2vh3hiEMKmgU7wgFML39YNlzXy0IB40dVFtlbwg6O
+ m2sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eP2TeH3k4aghmGxxgRo9140T1AoNaykBBCsOV4MtnLA=;
- b=BZhC5Pdhs9KJ3L73aTZ4QZde0TJdvpz8V1edJ1t7vXSHPFN/ZlnoWt0Y6uOgkN7DhN
- /ja72DmpuegIXGyTuxngk93oHd1dY4y+jQqEqcps/3Flkw9HwllNCotDXchVPAhw4buG
- 5dBSYDSjzN03fGUdZKzKKeocq/EsTnv9AS0Or4SHnBjCNoxdGVqOmtz2JuLV+Sgpp2af
- 9m8g6wZKiexgQ40q0bALodfFooaX//qmIyN9izav6PsLFNsZJDnQDPV14NO+ANZh9qgm
- LEK1gXEuEXL9ym0/jealduQPg3I2+K5pXDRtinEimJV/Wx0YF0ppe8GjqlCVH8e6wOQn
- ZRkg==
-X-Gm-Message-State: APjAAAW1vllAFIJmqR/EWYw3yRiYjomU5Wxnrfo865w0vxiUJEpPrqaT
- Vg/ewOH5RMn9Na2yw/vhNpqTAKCg
-X-Google-Smtp-Source: APXvYqx14u/RepPQU3rPJiK630UeBt4ureTNvhDewFLWMuS+5doj14DDydVUNTuudV/jm6gb2dVQtQ==
-X-Received: by 2002:adf:e8ca:: with SMTP id k10mr28089244wrn.50.1580234193220; 
- Tue, 28 Jan 2020 09:56:33 -0800 (PST)
+ bh=Hg/3yo5twaEsNTU2uJXGbIo5hUz72j4nbvEVGvGacGw=;
+ b=H1N/Xah/sPFhYfs4iQUaeQr/jHQ1PqB9nXCzgH+mgN8Wo29PERbuyVqTDf4TPI4VIJ
+ +TSHza6JuIssPgOHGerZk8FNGUVXLB+wlEP/GGRFsv3kdeWWiiOuGWvRIx/hVC7hH91Q
+ mhUnNwNw8xEJsKkux05HjCq4TaxMqXUb7n2b6SxiGwwj9EImz6ZR5iupJ4keioX2LDhV
+ Be6RgxGxyiSFEkWE+/KJRQLppl1gyHS361pcuZwXN0/fbiPjj3PwoCoWV54GGpBnVlRh
+ 68ll9YdBiGDFXCokBtDKdBgveYiE8KGW0GLhMnp4hnjAbI5hUdkt3cadhMSF2Aj3WLMI
+ L9oQ==
+X-Gm-Message-State: APjAAAW8M8NzIXAaoJhuXl8MZa7D6kXsF5zZXbiW8nYGYn1+f3P/Eth7
+ XmOyIFqhGPNZKOxO2EEsy529E0En
+X-Google-Smtp-Source: APXvYqxf6j+crG22rD7XsalW3wxqShD8wPm2id2c3ExbO7ueYbex4coi0BBz3qW5/nr0h1lmUppJwg==
+X-Received: by 2002:adf:ea51:: with SMTP id j17mr30134285wrn.83.1580234194963; 
+ Tue, 28 Jan 2020 09:56:34 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.56.31
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.56.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:56:32 -0800 (PST)
+ Tue, 28 Jan 2020 09:56:34 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 069/142] meson: convert hw/xen
-Date: Tue, 28 Jan 2020 18:52:29 +0100
-Message-Id: <20200128175342.9066-70-pbonzini@redhat.com>
+Subject: [PATCH 070/142] meson: convert hw/core
+Date: Tue, 28 Jan 2020 18:52:30 +0100
+Message-Id: <20200128175342.9066-71-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,118 +87,111 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- configure            |  4 ++++
- hw/Makefile.objs     |  1 -
- hw/meson.build       |  1 +
- hw/xen/Makefile.objs |  6 ------
- hw/xen/meson.build   | 18 ++++++++++++++++++
- meson.build          |  6 ++++++
- 6 files changed, 29 insertions(+), 7 deletions(-)
- create mode 100644 hw/meson.build
- delete mode 100644 hw/xen/Makefile.objs
- create mode 100644 hw/xen/meson.build
+ hw/Makefile.objs      |  1 -
+ hw/core/Makefile.objs | 30 ------------------------------
+ hw/core/meson.build   | 39 +++++++++++++++++++++++++++++++++++++++
+ hw/meson.build        |  1 +
+ 4 files changed, 40 insertions(+), 31 deletions(-)
+ delete mode 100644 hw/core/Makefile.objs
+ create mode 100644 hw/core/meson.build
 
-diff --git a/configure b/configure
-index cfc7a5352c..aa51bb783c 100755
---- a/configure
-+++ b/configure
-@@ -2494,6 +2494,8 @@ if test "$xen" != "no" ; then
-     fi
-     QEMU_CFLAGS="$QEMU_CFLAGS $($pkg_config --cflags $xen_pc)"
-     libs_softmmu="$($pkg_config --libs $xen_pc) $libs_softmmu"
-+    xen_cflags="$($pkg_config --cflags $xen_pc)"
-+    xen_libs="$($pkg_config --libs $xen_pc)"
-   else
- 
-     xen_libs="-lxenstore -lxenctrl -lxenguest"
-@@ -7014,6 +7016,8 @@ fi
- if test "$xen" = "yes" ; then
-   echo "CONFIG_XEN_BACKEND=y" >> $config_host_mak
-   echo "CONFIG_XEN_CTRL_INTERFACE_VERSION=$xen_ctrl_version" >> $config_host_mak
-+  echo "XEN_CFLAGS=$xen_cflags" >> $config_host_mak
-+  echo "XEN_LIBS=$xen_libs" >> $config_host_mak
- fi
- if test "$linux_aio" = "yes" ; then
-   echo "CONFIG_LINUX_AIO=y" >> $config_host_mak
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 660e2b4373..f0ca15595a 100644
+index f0ca15595a..3e3ac7fe79 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -35,7 +35,6 @@ devices-dirs-y += usb/
- devices-dirs-$(CONFIG_VFIO) += vfio/
- devices-dirs-y += virtio/
- devices-dirs-y += watchdog/
--devices-dirs-y += xen/
- devices-dirs-$(CONFIG_MEM_DEVICE) += mem/
- devices-dirs-$(CONFIG_NUBUS) += nubus/
- devices-dirs-y += semihosting/
-diff --git a/hw/meson.build b/hw/meson.build
-new file mode 100644
-index 0000000000..08112a5e4b
---- /dev/null
-+++ b/hw/meson.build
-@@ -0,0 +1 @@
-+subdir('xen')
-diff --git a/hw/xen/Makefile.objs b/hw/xen/Makefile.objs
+@@ -1,4 +1,3 @@
+-devices-dirs-y = core/
+ ifeq ($(CONFIG_SOFTMMU), y)
+ devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call land,$(CONFIG_VIRTFS),$(CONFIG_XEN))) += 9pfs/
+ devices-dirs-y += acpi/
+diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
 deleted file mode 100644
-index 84df60a928..0000000000
---- a/hw/xen/Makefile.objs
+index fd0550d1d9..0000000000
+--- a/hw/core/Makefile.objs
 +++ /dev/null
-@@ -1,6 +0,0 @@
--# xen backend driver support
--common-obj-$(CONFIG_XEN) += xen-legacy-backend.o xen_devconfig.o xen_pvdev.o xen-common.o xen-bus.o xen-bus-helper.o xen-backend.o
+@@ -1,30 +0,0 @@
+-# core qdev-related obj files, also used by *-user:
+-common-obj-y += qdev.o qdev-properties.o
+-common-obj-y += bus.o reset.o
+-common-obj-$(CONFIG_SOFTMMU) += qdev-fw.o
+-common-obj-$(CONFIG_SOFTMMU) += fw-path-provider.o
+-# irq.o needed for qdev GPIO handling:
+-common-obj-y += irq.o
+-common-obj-y += hotplug.o
+-common-obj-$(CONFIG_SOFTMMU) += nmi.o
+-common-obj-$(CONFIG_SOFTMMU) += vm-change-state-handler.o
+-common-obj-y += cpu.o
 -
--obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen-host-pci-device.o
--obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt.o xen_pt_config_init.o xen_pt_graphics.o xen_pt_msi.o
--obj-$(CONFIG_XEN_PCI_PASSTHROUGH) += xen_pt_load_rom.o
-diff --git a/hw/xen/meson.build b/hw/xen/meson.build
+-common-obj-$(CONFIG_EMPTY_SLOT) += empty_slot.o
+-common-obj-$(CONFIG_XILINX_AXI) += stream.o
+-common-obj-$(CONFIG_PTIMER) += ptimer.o
+-common-obj-$(CONFIG_SOFTMMU) += sysbus.o
+-common-obj-$(CONFIG_SOFTMMU) += machine.o
+-common-obj-$(CONFIG_SOFTMMU) += loader.o
+-common-obj-$(CONFIG_FITLOADER) += loader-fit.o
+-common-obj-$(CONFIG_SOFTMMU) += qdev-properties-system.o
+-common-obj-$(CONFIG_REGISTER) += register.o
+-common-obj-$(CONFIG_OR_IRQ) += or-irq.o
+-common-obj-$(CONFIG_SPLIT_IRQ) += split-irq.o
+-common-obj-$(CONFIG_PLATFORM_BUS) += platform-bus.o
+-common-obj-$(CONFIG_GENERIC_LOADER) += generic-loader.o
+-common-obj-$(CONFIG_SOFTMMU) += null-machine.o
+-
+-obj-$(CONFIG_SOFTMMU) += machine-qmp-cmds.o
+-obj-$(CONFIG_SOFTMMU) += numa.o
+-common-obj-$(CONFIG_SOFTMMU) += machine-hmp-cmds.o
+diff --git a/hw/core/meson.build b/hw/core/meson.build
 new file mode 100644
-index 0000000000..e9587b61ce
+index 0000000000..3b0d2af593
 --- /dev/null
-+++ b/hw/xen/meson.build
-@@ -0,0 +1,18 @@
-+softmmu_ss.add(when: ['CONFIG_XEN', xen], if_true: files(
-+  'xen-backend.c',
-+  'xen-bus-helper.c',
-+  'xen-bus.c',
-+  'xen-common.c',
-+  'xen-legacy-backend.c',
-+  'xen_devconfig.c',
-+  'xen_pvdev.c',
++++ b/hw/core/meson.build
+@@ -0,0 +1,39 @@
++common_ss.add(files(
++  # core qdev-related obj files, also used by *-user:
++  'bus.c',
++  'cpu.c',
++  'fw-path-provider.c',
++  'hotplug.c',
++  'qdev-properties.c',
++  'qdev.c',
++  'reset.c',
++  # irq.c needed for qdev GPIO handling:
++  'irq.c',
 +))
 +
-+specific_ss.add(when: 'CONFIG_XEN_PCI_PASSTHROUGH', if_true: files(
-+  'xen-host-pci-device.c',
-+  'xen_pt.c',
-+  'xen_pt_config_init.c',
-+  'xen_pt_graphics.c',
-+  'xen_pt_load_rom.c',
-+  'xen_pt_msi.c',
++common_ss.add(when: 'CONFIG_EMPTY_SLOT', if_true: files('empty_slot.c'))
++common_ss.add(when: 'CONFIG_FITLOADER', if_true: files('loader-fit.c'))
++common_ss.add(when: 'CONFIG_GENERIC_LOADER', if_true: files('generic-loader.c'))
++common_ss.add(when: 'CONFIG_OR_IRQ', if_true: files('or-irq.c'))
++common_ss.add(when: 'CONFIG_PLATFORM_BUS', if_true: files('platform-bus.c'))
++common_ss.add(when: 'CONFIG_PTIMER', if_true: files('ptimer.c'))
++common_ss.add(when: 'CONFIG_REGISTER', if_true: files('register.c'))
++common_ss.add(when: 'CONFIG_SPLIT_IRQ', if_true: files('split-irq.c'))
++common_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('stream.c'))
++
++softmmu_ss.add(files(
++  'loader.c',
++  'machine-hmp-cmds.c',
++  'machine.c',
++  'nmi.c',
++  'null-machine.c',
++  'qdev-fw.c',
++  'qdev-properties-system.c',
++  'sysbus.c',
++  'vm-change-state-handler.c',
 +))
-diff --git a/meson.build b/meson.build
-index 701f079345..583c42ccf5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -294,6 +294,11 @@ numa = declare_dependency()
- if 'CONFIG_NUMA' in config_host
-   numa = declare_dependency(link_args: config_host['NUMA_LIBS'].split())
- endif
-+xen = declare_dependency()
-+if 'CONFIG_XEN_BACKEND' in config_host
-+  xen = declare_dependency(compile_args: config_host['XEN_CFLAGS'].split(),
-+                           link_args: config_host['XEN_LIBS'].split())
-+endif
- 
- create_config = find_program('scripts/create_config')
- minikconf = find_program('scripts/minikconf.py')
-@@ -628,6 +633,7 @@ subdir('migration')
- subdir('monitor')
- subdir('net')
- subdir('replay')
-+subdir('hw')
- 
- mods = []
- block_mods = []
++
++specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
++  'machine-qmp-cmds.c',
++  'numa.c',
++))
+diff --git a/hw/meson.build b/hw/meson.build
+index 08112a5e4b..fe7c466460 100644
+--- a/hw/meson.build
++++ b/hw/meson.build
+@@ -1 +1,2 @@
++subdir('core')
+ subdir('xen')
 -- 
 2.21.0
 
