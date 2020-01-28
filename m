@@ -2,94 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7D314BA5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 15:39:41 +0100 (CET)
-Received: from localhost ([::1]:60014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA92114BAE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 15:42:21 +0100 (CET)
+Received: from localhost ([::1]:60080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwS1k-0008JU-5F
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 09:39:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52713)
+	id 1iwS4K-0002kI-Pb
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 09:42:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53404)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <walling@linux.ibm.com>) id 1iwS0o-0007fF-H5
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:38:43 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iwS3Q-00029B-PM
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:41:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <walling@linux.ibm.com>) id 1iwS0n-000578-BX
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:38:42 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34268)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <walling@linux.ibm.com>)
- id 1iwS0n-00056P-3f; Tue, 28 Jan 2020 09:38:41 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00SEaRqT066617; Tue, 28 Jan 2020 09:38:39 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xtmstn70k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jan 2020 09:38:39 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 00SEaqH5068472;
- Tue, 28 Jan 2020 09:38:38 -0500
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xtmstn6yb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jan 2020 09:38:38 -0500
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 00SEZihu012380;
- Tue, 28 Jan 2020 14:38:37 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01dal.us.ibm.com with ESMTP id 2xrda6rhp8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 28 Jan 2020 14:38:37 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 00SEcan448562450
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Jan 2020 14:38:36 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 341FFC605B;
- Tue, 28 Jan 2020 14:38:36 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 284D2C6062;
- Tue, 28 Jan 2020 14:38:35 +0000 (GMT)
-Received: from [9.56.58.87] (unknown [9.56.58.87])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 28 Jan 2020 14:38:35 +0000 (GMT)
-Subject: Re: [PATCH v6 2/2] s390: diagnose 318 info reset and migration support
-To: Cornelia Huck <cohuck@redhat.com>
-References: <1579904044-20790-1-git-send-email-walling@linux.ibm.com>
- <1579904044-20790-3-git-send-email-walling@linux.ibm.com>
- <20200127124756.3627f754.cohuck@redhat.com>
- <1cbd5354-d9ca-a10e-0053-a61a00223f53@linux.ibm.com>
- <20200127183504.2de2654f.cohuck@redhat.com>
- <a4bfb688-3641-6c31-ad7b-e72afd5e6d50@linux.ibm.com>
- <20200128122418.7533f4bb.cohuck@redhat.com>
-From: Collin Walling <walling@linux.ibm.com>
-Organization: IBM
-Message-ID: <ac8e9782-e95a-b11a-7749-faaa020ca94f@linux.ibm.com>
-Date: Tue, 28 Jan 2020 09:38:34 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <imammedo@redhat.com>) id 1iwS3O-0007Ph-Mn
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:41:23 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35154
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iwS3O-0007Om-DM
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:41:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580222481;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YCe3+L7di9I3yalYd5A8ayFZkGHdC0vR0KLagp0ado8=;
+ b=V7Mu2MaM3B1f2xjl9GCerubEcysRjShA1doS74i3IIY40AphRhCyIzb3uny6i9Oe0sjCPf
+ B6aF4AzvrH+JeGo8FkmAkGrg2TbPJS5+QJKLRI7Mhz8pjtWoo4/9tHaVAoA2QiuKwhsSDy
+ KuJC1cK/e0b87lN9iJSsSsH2TuQY7k4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-239-CC3YDS7aOpCiWWUZbRp6UQ-1; Tue, 28 Jan 2020 09:41:20 -0500
+X-MC-Unique: CC3YDS7aOpCiWWUZbRp6UQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B68F100726D;
+ Tue, 28 Jan 2020 14:41:18 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7398310098FB;
+ Tue, 28 Jan 2020 14:41:12 +0000 (UTC)
+Date: Tue, 28 Jan 2020 15:41:10 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Dongjiu Geng <gengdongjiu@huawei.com>
+Subject: Re: [PATCH v22 5/9] ACPI: Record the Generic Error Status Block
+ address
+Message-ID: <20200128154110.04baa5bc@redhat.com>
+In-Reply-To: <1578483143-14905-6-git-send-email-gengdongjiu@huawei.com>
+References: <1578483143-14905-1-git-send-email-gengdongjiu@huawei.com>
+ <1578483143-14905-6-git-send-email-gengdongjiu@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20200128122418.7533f4bb.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-28_03:2020-01-28,
- 2020-01-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 mlxlogscore=999 spamscore=0 clxscore=1015 malwarescore=0
- priorityscore=1501 mlxscore=0 adultscore=0 bulkscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1911200001 definitions=main-2001280117
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,86 +70,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, rth@twiddle.net,
- qemu-devel@nongnu.org, david@redhat.com
+Cc: fam@euphon.net, peter.maydell@linaro.org, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, linuxarm@huawei.com, shannon.zhaosl@gmail.com,
+ zhengxiang9@huawei.com, qemu-arm@nongnu.org, james.morse@arm.com,
+ xuwei5@huawei.com, jonathan.cameron@huawei.com, pbonzini@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/28/20 6:24 AM, Cornelia Huck wrote:
-> On Mon, 27 Jan 2020 18:05:36 -0500
-> Collin Walling <walling@linux.ibm.com> wrote:
-> 
->> On 1/27/20 12:35 PM, Cornelia Huck wrote:
->>> On Mon, 27 Jan 2020 11:39:02 -0500
->>> Collin Walling <walling@linux.ibm.com> wrote:
->>>   
->>>> On 1/27/20 6:47 AM, Cornelia Huck wrote:  
->>>>> On Fri, 24 Jan 2020 17:14:04 -0500
->>>>> Collin Walling <walling@linux.ibm.com> wrote:
->>>>>     
->>
->> [...]
->>
->>>>>>
->>>>>> The availability of this instruction is determined by byte 134, bit 0
->>>>>> of the Read Info block. This coincidentally expands into the space used    
->>>>>
->>>>> "SCLP Read Info"
->>>>>     
->>>>>> for CPU entries by taking away one byte, which means VMs running with
->>>>>> the diag318 capability will not be able to retrieve information regarding
->>>>>> the 248th CPU. This will not effect performance, and VMs can still be
->>>>>> ran with 248 CPUs.    
->>>>>
->>>>> Are there other ways in which that might affect guests? I assume Linux
->>>>> can deal with it? Is it ok architecture-wise?
->>>>>
->>>>> In any case, should go into the patch description :)
->>>>>     
->>>>
->>>> Same as above. I'll try to provide more information regarding what happens
->>>> here in my next reply.  
->>>
->>> I think you can lift some stuff from the cover letter.
->>>   
->>
->> Here's what I found out:
->>
->> Each CPU entry holds info regarding the CPU's address / ID as well as an 
->> indication of the availability of certain CPU features. With these patches,
->> we lose a CPU entry for one CPU (essentially what would be the CPU at the
->> tail-end of the list). This CPU exists, but is essentially in limbo... the
->> machine cannot access any information regarding it.
-> 
-> s/machine/guest/ ?
-> 
+On Wed, 8 Jan 2020 19:32:19 +0800
+Dongjiu Geng <gengdongjiu@huawei.com> wrote:
 
-Correct.
+in addition to comments of others:
 
->>
->> So, a VM can run with the original N max CPUs, but in reality we can only
->> utilize n-1. 
+> Record the GHEB address via fw_cfg file, when recording
+> a error to CPER, it will use this address to find out
+> Generic Error Data Entries and write the error.
 > 
-> s/we/the guest/ ?
-> 
+> Make the HEST GHES to a GED device.
 
-Correct again.
-
-> With those changes, it makes sense to put your explanations into the
-> patch description (for later reference).
-> 
->>
->>>>  
->>>>>>  
->>
->> [...]
->>
->>
-> 
-> 
+It's hard to parse this even kno
+Pls rephrase/make commit message more verbose,
+so it would describe why and what patch is supposed to do
 
 
--- 
-Respectfully,
-- Collin Walling
+> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+> ---
+>  hw/acpi/generic_event_device.c         | 15 ++++++++++++++-
+>  hw/acpi/ghes.c                         | 16 ++++++++++++++++
+>  hw/arm/virt-acpi-build.c               | 13 ++++++++++++-
+>  include/hw/acpi/generic_event_device.h |  2 ++
+>  include/hw/acpi/ghes.h                 |  6 ++++++
+>  5 files changed, 50 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+> index 9cee90c..9bf37e4 100644
+> --- a/hw/acpi/generic_event_device.c
+> +++ b/hw/acpi/generic_event_device.c
+> @@ -234,12 +234,25 @@ static const VMStateDescription vmstate_ged_state = {
+>      }
+>  };
+>  
+> +static const VMStateDescription vmstate_ghes_state = {
+> +    .name = "acpi-ghes-state",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields      = (VMStateField[]) {
+> +        VMSTATE_UINT64(ghes_addr_le, AcpiGhesState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static const VMStateDescription vmstate_acpi_ged = {
+>      .name = "acpi-ged",
+>      .version_id = 1,
+>      .minimum_version_id = 1,
+>      .fields = (VMStateField[]) {
+> -        VMSTATE_STRUCT(ged_state, AcpiGedState, 1, vmstate_ged_state, GEDState),
+> +        VMSTATE_STRUCT(ged_state, AcpiGedState, 1,
+> +                       vmstate_ged_state, GEDState),
+> +        VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
+> +                       vmstate_ghes_state, AcpiGhesState),
+>          VMSTATE_END_OF_LIST(),
+>      },
+>      .subsections = (const VMStateDescription * []) {
+> diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
+> index 9d37798..68f4abf 100644
+> --- a/hw/acpi/ghes.c
+> +++ b/hw/acpi/ghes.c
+> @@ -23,6 +23,7 @@
+>  #include "hw/acpi/acpi.h"
+>  #include "hw/acpi/ghes.h"
+>  #include "hw/acpi/aml-build.h"
+> +#include "hw/acpi/generic_event_device.h"
+>  #include "hw/nvram/fw_cfg.h"
+>  #include "sysemu/sysemu.h"
+>  #include "qemu/error-report.h"
+> @@ -208,3 +209,18 @@ void acpi_build_hest(GArray *table_data, GArray *hardware_errors,
+>      build_header(linker, table_data, (void *)(table_data->data + hest_start),
+>          "HEST", table_data->len - hest_start, 1, NULL, "");
+>  }
+> +
+> +void acpi_ghes_add_fw_cfg(AcpiGhesState *ags, FWCfgState *s,
+> +                            GArray *hardware_error)
+
+not aligned properly
+
+> +{
+> +    size_t size = 2 * sizeof(uint64_t) + ACPI_GHES_MAX_RAW_DATA_LENGTH;
+> +    size_t request_block_size = ACPI_GHES_ERROR_SOURCE_COUNT * size;
+> +
+> +    /* Create a read-only fw_cfg file for GHES */
+> +    fw_cfg_add_file(s, ACPI_GHES_ERRORS_FW_CFG_FILE, hardware_error->data,
+> +                    request_block_size);
+> +
+> +    /* Create a read-write fw_cfg file for Address */
+> +    fw_cfg_add_file_callback(s, ACPI_GHES_DATA_ADDR_FW_CFG_FILE, NULL, NULL,
+> +        NULL, &(ags->ghes_addr_le), sizeof(ags->ghes_addr_le), false);
+> +}
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 837bbf9..c8aa94d 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -797,6 +797,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>      unsigned dsdt, xsdt;
+>      GArray *tables_blob = tables->table_data;
+>      MachineState *ms = MACHINE(vms);
+> +    AcpiGedState *acpi_ged_state;
+>  
+>      table_offsets = g_array_new(false, true /* clear */,
+>                                          sizeof(uint32_t));
+> @@ -831,7 +832,9 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>      acpi_add_table(table_offsets, tables_blob);
+>      build_spcr(tables_blob, tables->linker, vms);
+>  
+> -    if (vms->ras) {
+> +    acpi_ged_state = ACPI_GED(object_resolve_path_type("", TYPE_ACPI_GED,
+> +                                                       NULL));
+> +    if (acpi_ged_state &&  vms->ras) {
+
+there is vms->acpi_dev which is GED, so you don't need to look it up
+
+suggest:
+ if (ras) {
+    assert(ged)
+    do other fun stuff ...
+ }
+
+>          acpi_add_table(table_offsets, tables_blob);
+>          build_ghes_error_table(tables->hardware_errors, tables->linker);
+>          acpi_build_hest(tables_blob, tables->hardware_errors,
+> @@ -925,6 +928,7 @@ void virt_acpi_setup(VirtMachineState *vms)
+>  {
+>      AcpiBuildTables tables;
+>      AcpiBuildState *build_state;
+> +    AcpiGedState *acpi_ged_state;
+>  
+>      if (!vms->fw_cfg) {
+>          trace_virt_acpi_setup();
+> @@ -955,6 +959,13 @@ void virt_acpi_setup(VirtMachineState *vms)
+>      fw_cfg_add_file(vms->fw_cfg, ACPI_BUILD_TPMLOG_FILE, tables.tcpalog->data,
+>                      acpi_data_len(tables.tcpalog));
+>  
+> +    acpi_ged_state = ACPI_GED(object_resolve_path_type("", TYPE_ACPI_GED,
+> +                                                       NULL));
+> +    if (acpi_ged_state && vms->ras) {
+
+ditto
+
+> +        acpi_ghes_add_fw_cfg(&acpi_ged_state->ghes_state,
+> +                             vms->fw_cfg, tables.hardware_errors);
+> +    }
+> +
+>      build_state->rsdp_mr = acpi_add_rom_blob(virt_acpi_build_update,
+>                                               build_state, tables.rsdp,
+>                                               ACPI_BUILD_RSDP_FILE, 0);
+> diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
+> index d157eac..037d2b5 100644
+> --- a/include/hw/acpi/generic_event_device.h
+> +++ b/include/hw/acpi/generic_event_device.h
+> @@ -61,6 +61,7 @@
+>  
+>  #include "hw/sysbus.h"
+>  #include "hw/acpi/memory_hotplug.h"
+> +#include "hw/acpi/ghes.h"
+>  
+>  #define ACPI_POWER_BUTTON_DEVICE "PWRB"
+>  
+> @@ -95,6 +96,7 @@ typedef struct AcpiGedState {
+>      GEDState ged_state;
+>      uint32_t ged_event_bitmap;
+>      qemu_irq irq;
+> +    AcpiGhesState ghes_state;
+>  } AcpiGedState;
+>  
+>  void build_ged_aml(Aml *table, const char* name, HotplugHandler *hotplug_dev,
+> diff --git a/include/hw/acpi/ghes.h b/include/hw/acpi/ghes.h
+> index 09a7f86..a6761e6 100644
+> --- a/include/hw/acpi/ghes.h
+> +++ b/include/hw/acpi/ghes.h
+> @@ -60,7 +60,13 @@ enum {
+>      ACPI_HEST_SRC_ID_RESERVED,
+>  };
+>  
+> +typedef struct AcpiGhesState {
+> +    uint64_t ghes_addr_le;
+> +} AcpiGhesState;
+> +
+>  void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker);
+>  void acpi_build_hest(GArray *table_data, GArray *hardware_error,
+>                            BIOSLinker *linker);
+> +void acpi_ghes_add_fw_cfg(AcpiGhesState *vms, FWCfgState *s,
+> +                          GArray *hardware_errors);
+>  #endif
+
 
