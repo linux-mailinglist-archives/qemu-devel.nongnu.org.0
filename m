@@ -2,74 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E72914B299
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 11:30:18 +0100 (CET)
-Received: from localhost ([::1]:56490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7061014B2CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 11:36:43 +0100 (CET)
+Received: from localhost ([::1]:56594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwO8O-0005GC-Oq
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 05:30:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46778)
+	id 1iwOEc-0008Qk-E0
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 05:36:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47955)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iwO7O-0004fH-SS
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:29:16 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1iwODK-0006sE-C7
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:35:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iwO7M-0005at-DF
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:29:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26789
+ (envelope-from <eric.auger@redhat.com>) id 1iwODI-0000Ee-SV
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:35:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36520
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iwO7M-0005Ys-2f
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:29:12 -0500
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1iwODI-0000EJ-Ot
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:35:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580207350;
+ s=mimecast20190719; t=1580207720;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0WRlafOtzdRzq1cH1YL0Bv+Tv10kY0hQOUvw3qrR160=;
- b=LObAPnrQUj0q22Y/E+E26vnBK991TEAcDv52hz9S3iNqRpg+UBLPcdphHPPaXPZ4iqoFFr
- DMDzTi+y+PS8ys4rNE4Kx2fozyOKxEtWGvQpeZ4Lc0w4ytq8QhdkGwjJNiv3ZHL+VrmfH2
- Xix+sg7YKuVQm4y1whvW95NfWcgOGkI=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fkt49j2omiFhxKeCwkMFncGz7jKFhFRQ1Z0P3fqpgS4=;
+ b=HQ8JFqMVz/ns9fq4gWHhXcFohEr8xe/M7Oc0Cvrk/AsEjkztK0r7RBoKi28blx7v2MVIPx
+ 5LDLYIqWe6DEqz1E0oM0yj97VtAPietFzGtQTJwL47GXFG/wVjMWGTpavgQt16+/sF0K9C
+ IFfPap4htUFlWAuCEFcvKqk2RuKiv2E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-uKwCSp2oPIqyseZvkmTkzw-1; Tue, 28 Jan 2020 05:29:08 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-171-iOkdwkQ5PaOa_EbpL-qEKQ-1; Tue, 28 Jan 2020 05:35:12 -0500
+X-MC-Unique: iOkdwkQ5PaOa_EbpL-qEKQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6D7118C35A0;
- Tue, 28 Jan 2020 10:29:06 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-106.ams2.redhat.com [10.36.117.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6205A60BE0;
- Tue, 28 Jan 2020 10:28:56 +0000 (UTC)
-Date: Tue, 28 Jan 2020 11:28:55 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: Making QEMU easier for management tools and applications
-Message-ID: <20200128102855.GA6431@linux.fritz.box>
-References: <878slyej29.fsf@dusky.pond.sub.org>
- <a41ae09b-021f-2fda-0b03-7b37c5624ab3@redhat.com>
- <20200123190145.GI657556@redhat.com>
- <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
- <871rrp474i.fsf@dusky.pond.sub.org>
- <20200124102743.GB824327@redhat.com>
- <20200124143841.GG4732@dhcp-200-226.str.redhat.com>
- <87sgk3x2im.fsf@dusky.pond.sub.org>
- <20200127115606.GA5669@linux.fritz.box>
- <1c65b678-7bb4-a4cc-5fa6-03d6d27cf381@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 357E618C43C0;
+ Tue, 28 Jan 2020 10:35:10 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-116-37.ams2.redhat.com [10.36.116.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AD6381001B08;
+ Tue, 28 Jan 2020 10:35:01 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
+ kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+Subject: [kvm-unit-tests PATCH v3 00/14] arm/arm64: Add ITS tests
+Date: Tue, 28 Jan 2020 11:34:45 +0100
+Message-Id: <20200128103459.19413-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1c65b678-7bb4-a4cc-5fa6-03d6d27cf381@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: uKwCSp2oPIqyseZvkmTkzw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,103 +67,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Dominik Csapak <d.csapak@proxmox.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, andre.przywara@arm.com,
+ thuth@redhat.com, yuzenghui@huawei.com, alexandru.elisei@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.01.2020 um 21:11 hat John Snow geschrieben:
-> On 1/27/20 6:56 AM, Kevin Wolf wrote:
-> > Am 25.01.2020 um 11:18 hat Markus Armbruster geschrieben:
-> >> Kevin Wolf <kwolf@redhat.com> writes:
-> >>> basically just a pretty-printed version of it with the consequence th=
-at
-> >>> it needs to be stored in an external file and there is no reasonable =
-way
-> >>> to keep it in my shell history.
-> >>
-> >> There is a reasonable way to keep it in my file system, though.  I fin=
-d
-> >> that decidedly superior.
-> >=20
-> > That depends a lot on your use case.
-> >=20
-> > If you have a long-lived production VM that you always run with the sam=
-e
-> > configuration, then yes, having a config file for it in the file system
-> > is what you probably want. Currently, for this case, people directly
-> > using QEMU tend to write a script that contains the command line. I
-> > think I do have such scripts somewhere, but their number is very small.
-> >=20
-> > My common case is short-lived VMs with configurations that change very
-> > often between QEMU invocations. Here the command line is decidedly
-> > superior.
-> >=20
-> > Requiring me to create a file in the file system each time and to
-> > remember deleting it after I'm done feels about as convenient as a *nix
-> > shell that doesn't accept parameters for commands on the command line,
-> > but instead requires you to write a one-off script first and then run
-> > that.
-> >=20
-> > Kevin
-> >=20
->=20
-> > ./qemu-core <<EOF
-> {
->     "machine": "Q35",
->     "memory": "2GiB",
->     "accel": "kvm"
-> }
-> EOF
+This series is a revival of an RFC series sent in Dec 2016 [1].
+Given the amount of code and the lack of traction at that time,
+I haven't respinned until now. However a recent bug found related
+to the ITS migration convinced me that this work may deserve to be
+respinned and enhanced.
 
-I'm not sure why everybody is trying to come up with crude workarounds
-when all I said is that keeping things in a file is not always
-"decidedly superior".
+Tests exercise main ITS commands and also test migration.
+With the migration framework, we are able to trigger the
+migration from guest and that is very practical actually.
 
-Of course, I would have points to make about that workaround (like that
-I often want to use stdin for an interactive monitor, or that I don't
-see how this is superior to --machine Q35 --memory 2GiB --accel kvm),
-but that's all beside the point.
+What is particular with the ITS programming is that most of
+the commands are passed through queues and there is real error
+handling. Invalid commands are just ignored and that is not
+really tester friendly.
 
-> No file required, cooperates with readline, avoids crunchy,
-> hard-to-maintain CLI syntax. Directly and easily translatable to a
-> stored-file configuration. All configuration and documentation is
-> centralized via QAPI.
->=20
-> A little worse to type manually, yes. Maybe not bad /enough/ for me to
-> want to rescue the CLI which prevents full QAPI-fication and a working
-> configuration file.
->=20
-> Arguably, a well documented configuration schema will be much easier to
-> browse, discover, and use than a labyrinthine CLI with many stub
-> definitions whose options are not exposed in the documentation.
->=20
-> (The argument here is: It's a little harder and a little longer to type,
-> but the benefits from the schema organization may improve productivity
-> of using QEMU directly instead of harming it.)
+This series includes Andre's patch: "arm: gic: Provide
+per-IRQ helper functions" [2]
 
-I think this is a false dichotomy.
+test_migrate_unmapped_collection is currently failing with
+upstream kernel. See [3].
 
-You can have everything defined by the schema and properly documented
-and still have a non-JSON command line. Translating the QAPI schema to
-a command line option is a solved problem, this is exactly how
--blockdev works.
+The series can be fount at:
+https://github.com/eauger/kut/tree/its-v3
 
-The unsolved part is how to compatibly convert the existing options. If
-you're willing to sacrifice compatibility, great. Then we can just
-define stuff in the QAPI schema and still keep a command line syntax
-that is usable for humans. The code for mapping a QAPI type to the
-argument of an option is basically already there.
+Best Regards
 
-The only question is "is compatibility important"? If the answer is no,
-then we'll be there in no time.
+Eric
 
-Kevin
+History:
+v2 -> v3:
+- fix 32b compilation
+- take into account Drew's comments (see individual diff logs)
+
+v1 -> v2:
+- took into account Zenghui's comments
+- collect R-b's from Thomas
+
+References:
+[1] [kvm-unit-tests RFC 00/15] arm/arm64: add ITS framework
+    https://lists.gnu.org/archive/html/qemu-devel/2016-12/msg00575.html
+
+[2] [kvm-unit-tests PATCH 00/17] arm: gic: Test SPIs and interrupt groups
+    https://patchwork.kernel.org/cover/11234975/
+
+[3] [PATCH] KVM: arm/arm64: vgic-its: Fix restoration of unmapped
+    collections (https://lkml.org/lkml/2019/12/13/205)
+
+Execution:
+x For ITS migration testing use:
+  ./run_tests.sh -g migration (block on TCG)
+
+x For other ITS tests:
+  ./run_tests.sh -g its
+
+x non migration tests can be launched invidually. For instance:
+  ./arm-run arm/gic.flat -smp 8 -append 'its-trigger'
+
+
+Andre Przywara (1):
+  arm: gic: Provide per-IRQ helper functions
+
+Eric Auger (13):
+  libcflat: Add other size defines
+  arm/arm64: gic: Introduce setup_irq() helper
+  arm/arm64: gicv3: Add some re-distributor defines
+  arm/arm64: ITS: Introspection tests
+  arm/arm64: gicv3: Set the LPI config and pending tables
+  arm/arm64: gicv3: Enable/Disable LPIs at re-distributor level
+  arm/arm64: ITS: its_enable_defaults
+  arm/arm64: ITS: Device and collection Initialization
+  arm/arm64: ITS: commands
+  arm/arm64: ITS: INT functional tests
+  arm/run: Allow Migration tests
+  arm/arm64: ITS: migration tests
+  arm/arm64: ITS: pending table migration test
+
+ arm/Makefile.arm64         |   1 +
+ arm/Makefile.common        |   2 +-
+ arm/gic.c                  | 488 +++++++++++++++++++++++++++++++++++--
+ arm/run                    |   2 +-
+ arm/unittests.cfg          |  38 +++
+ lib/arm/asm/gic-v3-its.h   | 167 +++++++++++++
+ lib/arm/asm/gic-v3.h       |  25 ++
+ lib/arm/asm/gic.h          |   8 +
+ lib/arm/gic-v3-its-cmd.c   | 454 ++++++++++++++++++++++++++++++++++
+ lib/arm/gic-v3-its.c       | 243 ++++++++++++++++++
+ lib/arm/gic-v3.c           |  81 ++++++
+ lib/arm/gic.c              | 120 ++++++++-
+ lib/arm/io.c               |  28 +++
+ lib/arm64/asm/gic-v3-its.h |   1 +
+ lib/libcflat.h             |   3 +
+ 15 files changed, 1633 insertions(+), 28 deletions(-)
+ create mode 100644 lib/arm/asm/gic-v3-its.h
+ create mode 100644 lib/arm/gic-v3-its-cmd.c
+ create mode 100644 lib/arm/gic-v3-its.c
+ create mode 100644 lib/arm64/asm/gic-v3-its.h
+
+--=20
+2.20.1
 
 
