@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EFAD14BFE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:32:20 +0100 (CET)
-Received: from localhost ([::1]:35222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA2914BFEE
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:34:28 +0100 (CET)
+Received: from localhost ([::1]:35256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVet-000730-53
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:32:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34246)
+	id 1iwVgx-00028Q-V5
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:34:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34320)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6W-00021G-IK
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:51 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6d-000236-0w
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6V-0005AZ-DR
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:48 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:56067)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6b-0005KM-KI
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:54 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:37764)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV6V-00058y-5z
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:47 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id q9so3491722wmj.5
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:56:47 -0800 (PST)
+ id 1iwV6b-0005IO-5o
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:53 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id f129so3582589wmf.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:56:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rMmxgyGCK3HTQI8GNZelCdY94AvBq67a6Ic8G295BbI=;
- b=jBIVJCzVxlFpbCThx7EQusHzGrC8XMgT8OWIlH+7LgUifljkqTtwo7DOunYX0XY9N+
- uFfniTOsU9EnH9Solj+S99bPP0cZSS5HY4IZBOa769+AtGnwpU8lSNr7PNv69SvM84TP
- SVuPPXd8Gtuu/MenFa1Lo1HIeKC5NuVUW5zJ90GfnnJZY8HXs8xyl+/yIaJtPibMIkzi
- 5i9P6nA7YH8aThX8WodtqssKRCBenOz8HXbAnJXxJYcv+WjQdsTH3MiYb5UjPy33z8SR
- eQyUPNs5Jzglnr0DRHSBwpfc/VFrgdEy9sIk7ZCSwPV0x7gToR3ufdwfwo9nk1ATdtKs
- ggZQ==
+ bh=Vp0ZbOZIEBGYBbtolu8tVtbusC0ujkh32S2sGuGwqEE=;
+ b=V6btbjtQiz5SCLOXDG2NjSlvBzVw2MjJQ7I/lHfOO9cWPDJVGmwqVicxBIT/ReYfZH
+ wdudF2DZHvgYN+0jl196MmLo1VpZH+qjbTWMEOFIA8K11cRKOw3uXqOmnF6FgTTwRKte
+ tCDuGzYrBxEn092WZMK1w3ncMWqw+eyZvqOQiTQWCTKhR01g/C6XDnEBSnZ3TvBud0D0
+ nmiPNDViJLAkhcMFgLEMcFqhQ3wmYRv/UaYy1eX8wRtEuHRoA3myTUuu3/WocRpZwGnB
+ 8SnuXvDfF7keVfvgTP1MgqAfe3NYncjO01G26oicxKNDAOewPXzmX7bEcFIPEyGT3TDo
+ e6jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rMmxgyGCK3HTQI8GNZelCdY94AvBq67a6Ic8G295BbI=;
- b=lRl2B4ATnSzSQGtpGXXRXiKJhpxuMlT0euE1Mnz2RVDyfvxs1zzzP6EYErx4+3ICOc
- FK7XGUQZnSpyjapo48JrFeDDMw7OfNHqb3YM9SL2XfK2PjZ7SRexkLQ02lTEix0PZJ3L
- IufvSszuQjB3HkW4V/Vlr89TQzQ7KNbYLJa5W2JAiNQVWYOiGML5Jatzmc8so8Z57EHX
- wXl606hxatxgu36m7ZMrCJaEme2KYSvk38Ny18r8vNlOYyJxvu7QHQ7HqddKlD+jON8B
- kb3PiwBeVdA7w9BQOg9F8K6KQcMShPR05qjImGuyeTOwSk8sAJKYlb2MjoS6oSiJJX2p
- whFg==
-X-Gm-Message-State: APjAAAWFbO27zE5maJZNw+lcraG4MIaWo0hxM8DHIUAZ+3PUIJNAMeTU
- jiV7btDrNXUuelyeouMt4pqiC/tu
-X-Google-Smtp-Source: APXvYqzHe0A5aBEegu+iLx5cr2qa/F3G7SddwRO9t77Le2dq6khpj4oFPIAIBjTwvGeEjd4Z1fhW7Q==
-X-Received: by 2002:a7b:c109:: with SMTP id w9mr6186224wmi.14.1580234206084;
- Tue, 28 Jan 2020 09:56:46 -0800 (PST)
+ bh=Vp0ZbOZIEBGYBbtolu8tVtbusC0ujkh32S2sGuGwqEE=;
+ b=GxlIHTYqaWQG539I4O0dTDCs/Z/mBkGHVLfn3x2gDebrXHR0p1uDsq8NwpxPTWOL+a
+ vmdnjTEeUAQ1+JXpZfodMaq/JlpV2ZMp8Jrx/3Tp599+0PLpu9MJCLmjqGyMrsgIulnq
+ j1IwuNTwV1gWtPo8x1ILnkKYDPDW6xwc0znRnbZsRh8ZChxwgJxOAxE9aATA3+/7UHHz
+ 1g7zLGFvMpSvxisW0GmqDJbsFTitvE0hxGWufmT9JuT8kNKHXOB+lNKuJghQK8Jmt4E/
+ 57deApHmWb0zNVo6ReE92B12egQ3Dow17c8fNrOyY1jTPAEMA1aMuMyRLgHd4yDXOh7o
+ DFMg==
+X-Gm-Message-State: APjAAAWjBfghynTyk9RLhjPJ6xSfXBlEnlQbwnuO+CRvfn8K8Z6vDa1P
+ Ys9ww+AeHNhTriUnNubrxonEAdmG
+X-Google-Smtp-Source: APXvYqx/VCS61MXEM/fKKGJ1L7steaHjvnWBglhcwCi/nbHH9QZLlNHkDUye1Fm0ckgbwnUEsTMuBQ==
+X-Received: by 2002:a05:600c:108a:: with SMTP id
+ e10mr6264037wmd.10.1580234211486; 
+ Tue, 28 Jan 2020 09:56:51 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.56.44
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.56.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:56:45 -0800 (PST)
+ Tue, 28 Jan 2020 09:56:51 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 075/142] meson: convert hw/watchdog
-Date: Tue, 28 Jan 2020 18:52:35 +0100
-Message-Id: <20200128175342.9066-76-pbonzini@redhat.com>
+Subject: [PATCH 077/142] meson: convert hw/vfio
+Date: Tue, 28 Jan 2020 18:52:37 +0100
+Message-Id: <20200128175342.9066-78-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,60 +88,74 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs          | 1 -
- hw/meson.build            | 1 +
- hw/watchdog/Makefile.objs | 6 ------
- hw/watchdog/meson.build   | 6 ++++++
- 4 files changed, 7 insertions(+), 7 deletions(-)
- delete mode 100644 hw/watchdog/Makefile.objs
- create mode 100644 hw/watchdog/meson.build
+ hw/Makefile.objs      |  1 -
+ hw/meson.build        |  1 +
+ hw/vfio/Makefile.objs |  7 -------
+ hw/vfio/meson.build   | 17 +++++++++++++++++
+ 4 files changed, 18 insertions(+), 8 deletions(-)
+ delete mode 100644 hw/vfio/Makefile.objs
+ create mode 100644 hw/vfio/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 636c4f1fed..9232919ac3 100644
+index 742b310f13..cbd4e07fe5 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -33,7 +33,6 @@ devices-dirs-$(CONFIG_TPM) += tpm/
+@@ -31,7 +31,6 @@ devices-dirs-y += ssi/
+ devices-dirs-y += timer/
+ devices-dirs-$(CONFIG_TPM) += tpm/
  devices-dirs-y += usb/
- devices-dirs-$(CONFIG_VFIO) += vfio/
- devices-dirs-y += virtio/
--devices-dirs-y += watchdog/
+-devices-dirs-$(CONFIG_VFIO) += vfio/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 542d675618..f2209d900c 100644
+index 8338fc4408..4dafc8a08e 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -3,4 +3,5 @@ subdir('mem')
+@@ -3,6 +3,7 @@ subdir('mem')
  subdir('nubus')
  subdir('semihosting')
  subdir('smbios')
-+subdir('watchdog')
++subdir('vfio')
+ subdir('virtio')
+ subdir('watchdog')
  subdir('xen')
-diff --git a/hw/watchdog/Makefile.objs b/hw/watchdog/Makefile.objs
+diff --git a/hw/vfio/Makefile.objs b/hw/vfio/Makefile.objs
 deleted file mode 100644
-index 3f536d1cad..0000000000
---- a/hw/watchdog/Makefile.objs
+index abad8b818c..0000000000
+--- a/hw/vfio/Makefile.objs
 +++ /dev/null
-@@ -1,6 +0,0 @@
--common-obj-y += watchdog.o
--common-obj-$(CONFIG_CMSDK_APB_WATCHDOG) += cmsdk-apb-watchdog.o
--common-obj-$(CONFIG_WDT_IB6300ESB) += wdt_i6300esb.o
--common-obj-$(CONFIG_WDT_IB700) += wdt_ib700.o
--common-obj-$(CONFIG_WDT_DIAG288) += wdt_diag288.o
--common-obj-$(CONFIG_ASPEED_SOC) += wdt_aspeed.o
-diff --git a/hw/watchdog/meson.build b/hw/watchdog/meson.build
+@@ -1,7 +0,0 @@
+-obj-y += common.o spapr.o
+-obj-$(CONFIG_VFIO_PCI) += pci.o pci-quirks.o display.o
+-obj-$(CONFIG_VFIO_CCW) += ccw.o
+-obj-$(CONFIG_VFIO_PLATFORM) += platform.o
+-obj-$(CONFIG_VFIO_XGMAC) += calxeda-xgmac.o
+-obj-$(CONFIG_VFIO_AMD_XGBE) += amd-xgbe.o
+-obj-$(CONFIG_VFIO_AP) += ap.o
+diff --git a/hw/vfio/meson.build b/hw/vfio/meson.build
 new file mode 100644
-index 0000000000..eafb57b6a9
+index 0000000000..b9a31caf74
 --- /dev/null
-+++ b/hw/watchdog/meson.build
-@@ -0,0 +1,6 @@
-+softmmu_ss.add(files('watchdog.c'))
-+softmmu_ss.add(when: 'CONFIG_CMSDK_APB_WATCHDOG', if_true: files('cmsdk-apb-watchdog.c'))
-+softmmu_ss.add(when: 'CONFIG_WDT_IB6300ESB', if_true: files('wdt_i6300esb.c'))
-+softmmu_ss.add(when: 'CONFIG_WDT_IB700', if_true: files('wdt_ib700.c'))
-+softmmu_ss.add(when: 'CONFIG_WDT_DIAG288', if_true: files('wdt_diag288.c'))
-+softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('wdt_aspeed.c'))
++++ b/hw/vfio/meson.build
+@@ -0,0 +1,17 @@
++vfio_ss = ss.source_set()
++vfio_ss.add(files(
++  'common.c',
++  'spapr.c',
++))
++vfio_ss.add(when: 'CONFIG_VFIO_PCI', if_true: files(
++  'display.c',
++  'pci-quirks.c',
++  'pci.c',
++))
++vfio_ss.add(when: 'CONFIG_VFIO_CCW', if_true: files('ccw.c'))
++vfio_ss.add(when: 'CONFIG_VFIO_PLATFORM', if_true: files('platform.c'))
++vfio_ss.add(when: 'CONFIG_VFIO_XGMAC', if_true: files('calxeda-xgmac.c'))
++vfio_ss.add(when: 'CONFIG_VFIO_AMD_XGBE', if_true: files('amd-xgbe.c'))
++vfio_ss.add(when: 'CONFIG_VFIO_AP', if_true: files('ap.c'))
++
++specific_ss.add_all(when: 'CONFIG_VFIO', if_true: vfio_ss)
 -- 
 2.21.0
 
