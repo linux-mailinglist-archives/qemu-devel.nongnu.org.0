@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5221014C025
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:47:44 +0100 (CET)
-Received: from localhost ([::1]:35444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0546C14BFFD
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:39:24 +0100 (CET)
+Received: from localhost ([::1]:35316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVtn-0005ep-9C
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:47:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60709)
+	id 1iwVli-0008C9-Uj
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:39:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5h-0000X4-TZ
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:59 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5j-0000bN-Ve
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5g-00035L-8m
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:57 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41172)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5h-00038J-UY
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:59 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41010)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV5f-000336-OZ
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:55 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id c9so17105148wrw.8
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:55:55 -0800 (PST)
+ id 1iwV5h-00036F-Lb
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:57 -0500
+Received: by mail-wr1-x441.google.com with SMTP id c9so17105256wrw.8
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:55:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eoheQ8HlhGuMbB55vzhA1L21TCFP+rW1Af+5caLX/8s=;
- b=FzZFIxF9wj4nBUsAtUK1/qi8D7pcn2GmKKd6pdlhJPcPs/SMkqNwOTkP0BXBIQdd3u
- TfnrskRVpDpoQbXgaSjiXVHAqb+nBNGK7vk/QWFhQAswQf5nvmFajBARDf6sU4tZd+JC
- qCDCVr76uTHvoBztlZs/dayTZ9x4dxeE9pbudiaV2ctERet8Hfh68uZs+2rI5klSpMt5
- RKuDc3Zgu33yZ1CZ57TYPMdTT/kXDG16ooiuc4O5GVfhyxPkHEE9N7fECRmyerwEqBDt
- Eg5DLIy5QbLPWgU0kp1mZ0rZSt6BCFZabEbVPhNO2+9HXEYAzQYF66xkNpG5G6u/jhxW
- PXGg==
+ bh=WF3vmzZwKpjUlVEK4MzWD8XjLu3RcG5SfaH1ELKlW2o=;
+ b=jcrRAFzUGz+LL3IjuMXkY5aaBkz82gOnMfWmEb68RiaVj3XWuJ24PWPa/j/ofb5kgb
+ 3XA/6wwHku8ixOHc5fda48WyyWbMTVEc9v3jCde2vTMc1OFvEgdJrXymV9jRFC2E1ohG
+ fJSNiyzGjSGWpmtJZAlshTQ7QwsIojoYUJ+OgaqMtpd4JeoXSnHWjilki66ZRJU9Ma0R
+ bG+Zn/1RnGR4rOw33N4xI9+X8cLvlApvs7F/vZSyezVmImjJ0qChLnP1B5pxg9/1fziY
+ KpU/0uLxhDiVCDH65HkwWDnGozSGrzHstOiq7Th7oD4EkRT9KECPDpxRLeHxTc2n1I5N
+ dYLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eoheQ8HlhGuMbB55vzhA1L21TCFP+rW1Af+5caLX/8s=;
- b=tChguMcMOxu07Ov7xE2lisyh0l5wjy/96Ji4g02CVxlI0baBhOpwrlRDwnrF/sJVUh
- 6RzzHXm/FMlkxTIPbCF55uwHTuZuanefShRuOt2Mub3JITXwHdLB8jFlih/6K+mvuq/a
- c9byzyWiFBOO0/xNt7Q0C/EY1/zerbHcbT3uPFmMPeZd01AmrGisbGnugYgk0ll0hvGN
- 4sA48Ql2rmvT/gZWvcxTvYidK1Va8ZS7t55mXBKG4LDjtuepqfyer631J2JTu9O+japJ
- igNT4xz3xo9eqIhCdnvaSB+9T262v7q3lbvN2UYDgJFbDBqJUXFSwYws72xdbVmM3sZI
- 4+7Q==
-X-Gm-Message-State: APjAAAVb2NX16lk6X8OQa4W2gouTki4900vcMCFoxpK49YCW1hlS8CIV
- bCOLw22G08qmCMOyEWZ6mZNRLbri
-X-Google-Smtp-Source: APXvYqx6yvyGdduJUQZ7/bfH4bUhGuMUVHF1NCbbq6fQkh6VQStIRZliY9Qj0VRm8un3ZebfTI8YJQ==
-X-Received: by 2002:adf:edd0:: with SMTP id v16mr29344908wro.310.1580234154273; 
- Tue, 28 Jan 2020 09:55:54 -0800 (PST)
+ bh=WF3vmzZwKpjUlVEK4MzWD8XjLu3RcG5SfaH1ELKlW2o=;
+ b=Q2kBUbvwWARkkqecVaBRNGDwPSm5uahFjiC5QFYTYQ+yX5wUPAXiqjByhd7OELZLOi
+ m1zKlq2i7r8GPac+q57fLU10S6RmfsgFNz1S/IBoDvwnIZiWXmod4ddmr/6/umItHzlp
+ 7p8EXZ3729yRImBxZ3Ta11olU3L9qpLVcdEzU3LCou0VRY+Q/jTKFg/OL1M1dtQDWQXr
+ 6bVqpGG+dUyL35SKxlqacl7fG42ZX4YesdFFuYqwkYK5w+ZLnVmrH03qGGkoWNqLoCIP
+ zwoynklRGVNk4QsFucaQfxsZuJhf5jAPdjZQzdi12jiGovldVRUq7ILXzqKBtORV65q5
+ /Smw==
+X-Gm-Message-State: APjAAAVvJpTefw8DXPdjX6idbxtqw/zmh/DDFbSs55GhPs3HRnp8sZ1g
+ uKmnq2UbE1RhnOl9bBJpMDb3LXhZ
+X-Google-Smtp-Source: APXvYqwNZTRtUDKWOGklTndcauZXS0waLMXiXJ3c2if8pDqw7ddXh4ZuOZOZVzYHLsLWqr5vD8xfEA==
+X-Received: by 2002:adf:f244:: with SMTP id b4mr28613963wrp.88.1580234156421; 
+ Tue, 28 Jan 2020 09:55:56 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.55.52
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.55.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:55:53 -0800 (PST)
+ Tue, 28 Jan 2020 09:55:55 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 053/142] meson: convert audio directory to Meson
-Date: Tue, 28 Jan 2020 18:52:13 +0100
-Message-Id: <20200128175342.9066-54-pbonzini@redhat.com>
+Subject: [PATCH 054/142] meson: convert ui directory to Meson
+Date: Tue, 28 Jan 2020 18:52:14 +0100
+Message-Id: <20200128175342.9066-55-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,236 +83,355 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs       |  8 ++++++--
- Makefile.target     |  3 ++-
- audio/Makefile.objs | 30 ------------------------------
- audio/meson.build   | 29 +++++++++++++++++++++++++++++
- configure           | 12 ++++++++++++
- meson.build         | 25 ++++++++++++++++++++++++-
- 6 files changed, 73 insertions(+), 34 deletions(-)
- delete mode 100644 audio/Makefile.objs
- create mode 100644 audio/meson.build
+ Makefile         |  4 +--
+ Makefile.objs    |  8 +++--
+ Makefile.target  |  8 ++---
+ configure        |  6 ++++
+ meson.build      | 50 +++++++++++++++++++++++++++++++
+ ui/Makefile.objs | 70 --------------------------------------------
+ ui/meson.build   | 76 ++++++++++++++++++++++++++++++++++++++++++++++++
+ ui/shader.c      |  6 ++--
+ 8 files changed, 145 insertions(+), 83 deletions(-)
+ delete mode 100644 ui/Makefile.objs
 
+diff --git a/Makefile b/Makefile
+index 25eb7336cc..3706b6d142 100644
+--- a/Makefile
++++ b/Makefile
+@@ -157,9 +157,7 @@ ifneq ($(wildcard config-host.mak),)
+ include $(SRC_PATH)/Makefile.objs
+ endif
+ 
+-dummy := $(call unnest-vars,, \
+-                common-obj-y \
+-                common-obj-m)
++dummy := $(call unnest-vars,, common-obj-y)
+ 
+ include $(SRC_PATH)/tests/Makefile.include
+ 
 diff --git a/Makefile.objs b/Makefile.objs
-index 32822e3c7e..68bb44f875 100644
+index 68bb44f875..5081994123 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -36,6 +36,7 @@ qom-obj-y = qom/libqom.fa
+@@ -56,6 +56,11 @@ common-obj-$(CONFIG_AUDIO_OSS) += audio-oss$(DSOSUF)
+ common-obj-$(CONFIG_AUDIO_PA) += audio-pa$(DSOSUF)
+ common-obj-$(CONFIG_AUDIO_SDL) += audio-sdl$(DSOSUF)
  
- ifeq ($(CONFIG_SOFTMMU),y)
- common-obj-y = blockdev.o blockdev-nbd.o block/
-+
- common-obj-y += bootdevice.o iothread.o
- common-obj-y += dump/
- common-obj-y += job-qmp.o
-@@ -50,6 +51,11 @@ common-obj-$(CONFIG_LINUX) += fsdev/
- common-obj-y += accel/
- common-obj-y += migration/
- 
-+common-obj-$(CONFIG_AUDIO_ALSA) += audio-alsa$(DSOSUF)
-+common-obj-$(CONFIG_AUDIO_OSS) += audio-oss$(DSOSUF)
-+common-obj-$(CONFIG_AUDIO_PA) += audio-pa$(DSOSUF)
-+common-obj-$(CONFIG_AUDIO_SDL) += audio-sdl$(DSOSUF)
++common-obj-$(if $(CONFIG_CURSES),m) += ui-curses$(DSOSUF)
++common-obj-$(if $(CONFIG_GTK),m) += ui-gtk$(DSOSUF)
++common-obj-$(if $(CONFIG_SDL),m) += ui-sdl$(DSOSUF)
++common-obj-$(if $(CONFIG_SPICE),m) += ui-spice-app$(DSOSUF)
 +
  common-obj-$(if $(CONFIG_CURL),m) += block-curl$(DSOSUF)
  common-obj-$(if $(CONFIG_GLUSTERFS),m) += block-gluster$(DSOSUF)
  common-obj-$(if $(CONFIG_LIBISCSI),m) += block-iscsi$(DSOSUF)
-@@ -60,8 +66,6 @@ common-obj-$(if $(CONFIG_RBD),m) += block-rbd$(DSOSUF)
- common-obj-$(if $(CONFIG_LZFSE),m) += block-dmg-lzfse$(DSOSUF)
- common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF)
- 
--common-obj-y += audio/
--common-obj-m += audio/
- common-obj-y += hw/
+@@ -70,9 +75,6 @@ common-obj-y += hw/
  
  common-obj-y += replay/
+ 
+-common-obj-y += ui/
+-common-obj-m += ui/
+-
+ common-obj-y += dma-helpers.o
+ common-obj-y += vl.o
+ vl.o-cflags := $(GPROF_CFLAGS) $(SDL_CFLAGS)
 diff --git a/Makefile.target b/Makefile.target
-index d98e956e42..15157c7684 100644
+index 15157c7684..ae4e494ec6 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -167,9 +167,10 @@ LIBS := $(libs_softmmu) $(LIBS)
- # Temporary until emulators are linked by Meson
+@@ -168,8 +168,9 @@ LIBS := $(libs_softmmu) $(LIBS)
  LIBS := $(LIBS) @../block.syms @../qemu.syms
  ifneq ($(CONFIG_MODULES),y)
--LIBS := $(LIBS)
-+LIBS := $(LIBS) $(ALSA_LIBS) $(OSS_LIBS) $(PULSE_LIBS) $(SDL_LIBS)
+ LIBS := $(LIBS) $(ALSA_LIBS) $(OSS_LIBS) $(PULSE_LIBS) $(SDL_LIBS)
++LIBS := $(LIBS) $(GTK_LIBS) $(VTE_LIBS) $(X11_LIBS) $(CURSES_LIBS) $(ICONV_LIBS) $(GIO_LIBS)
  endif
- LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS)
-+LIBS := $(LIBS) $(COREAUDIO_LIBS) $(DSOUND_LIBS)
+-LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS)
++LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS) $(OPENGL_LIBS)
+ LIBS := $(LIBS) $(COREAUDIO_LIBS) $(DSOUND_LIBS)
  
  # Hardware support
- ifeq ($(TARGET_NAME), sparc64)
-diff --git a/audio/Makefile.objs b/audio/Makefile.objs
-deleted file mode 100644
-index d7490a379f..0000000000
---- a/audio/Makefile.objs
-+++ /dev/null
-@@ -1,30 +0,0 @@
--common-obj-y = audio.o audio_legacy.o noaudio.o wavaudio.o mixeng.o
--common-obj-$(CONFIG_SPICE) += spiceaudio.o
--common-obj-$(CONFIG_AUDIO_COREAUDIO) += coreaudio.o
--common-obj-$(CONFIG_AUDIO_DSOUND) += dsoundaudio.o
--common-obj-$(CONFIG_AUDIO_WIN_INT) += audio_win_int.o
--common-obj-y += wavcapture.o
--
--coreaudio.o-libs := $(COREAUDIO_LIBS)
--dsoundaudio.o-libs := $(DSOUND_LIBS)
--
--# alsa module
--common-obj-$(CONFIG_AUDIO_ALSA) += alsa.mo
--alsa.mo-objs = alsaaudio.o
--alsa.mo-libs := $(ALSA_LIBS)
--
--# oss module
--common-obj-$(CONFIG_AUDIO_OSS) += oss.mo
--oss.mo-objs = ossaudio.o
--oss.mo-libs := $(OSS_LIBS)
--
--# pulseaudio module
--common-obj-$(CONFIG_AUDIO_PA) += pa.mo
--pa.mo-objs = paaudio.o
--pa.mo-libs := $(PULSE_LIBS)
--
--# sdl module
--common-obj-$(CONFIG_AUDIO_SDL) += sdl.mo
--sdl.mo-objs = sdlaudio.o
--sdl.mo-cflags := $(SDL_CFLAGS)
--sdl.mo-libs := $(SDL_LIBS)
-diff --git a/audio/meson.build b/audio/meson.build
-new file mode 100644
-index 0000000000..5146dbd87c
---- /dev/null
-+++ b/audio/meson.build
-@@ -0,0 +1,29 @@
-+softmmu_ss.add(files(
-+  'audio.c',
-+  'audio_legacy.c',
-+  'mixeng.c',
-+  'noaudio.c',
-+  'wavaudio.c',
-+  'wavcapture.c',
-+))
+@@ -194,9 +195,8 @@ dummy := $(call fix-paths,../,, \
+               crypto-obj-y \
+               io-obj-y \
+               qom-obj-y)
+-dummy := $(call unnest-vars,.., \
+-               common-obj-y \
+-               common-obj-m)
++dummy := $(call unnest-vars,..,common-obj-y)
 +
-+softmmu_ss.add(when: [spice, 'CONFIG_SPICE'], if_true: files('spiceaudio.c'))
-+softmmu_ss.add(when: [coreaudio, 'CONFIG_AUDIO_COREAUDIO'], if_true: files('coreaudio.c'))
-+softmmu_ss.add(when: [dsound, 'CONFIG_AUDIO_DSOUND'], if_true: files('dsoundaudio.c'))
-+softmmu_ss.add(when: ['CONFIG_AUDIO_WIN_INT'], if_true: files('audio_win_int.c'))
-+
-+audio_modules = []
-+if 'CONFIG_AUDIO_ALSA' in config_host
-+  audio_modules += [['alsa', files('alsaaudio.c'), alsa]]
-+endif
-+if 'CONFIG_AUDIO_OSS' in config_host
-+  audio_modules += [['oss', files('ossaudio.c'), oss]]
-+endif
-+if 'CONFIG_AUDIO_PA' in config_host
-+  audio_modules += [['pa', files('paaudio.c'), pulse]]
-+endif
-+if 'CONFIG_AUDIO_SDL' in config_host
-+  audio_modules += [['sdl', files('sdlaudio.c'), sdl]]
-+endif
-+
-+modules += {'audio': audio_modules}
+ all-obj-y += $(common-obj-y)
+ all-obj-y += $(qom-obj-y)
+ all-obj-$(CONFIG_SOFTMMU) += $(authz-obj-y)
 diff --git a/configure b/configure
-index 1dd48e4f8b..434c24f0f0 100755
+index 434c24f0f0..80a7c0f069 100755
 --- a/configure
 +++ b/configure
-@@ -3505,6 +3505,8 @@ for drv in $audio_drv_list; do
-     alsa | try-alsa)
-     if $pkg_config alsa --exists; then
-         alsa_libs=$($pkg_config alsa --libs)
-+        alsa_cflags=$($pkg_config alsa --cflags)
-+        alsa=yes
-         if test "$drv" = "try-alsa"; then
-             audio_drv_list=$(echo "$audio_drv_list" | sed -e 's/try-alsa/alsa/')
-         fi
-@@ -3520,7 +3522,9 @@ for drv in $audio_drv_list; do
- 
-     pa | try-pa)
-     if $pkg_config libpulse --exists; then
-+        libpulse=yes
-         pulse_libs=$($pkg_config libpulse --libs)
-+        pulse_cflags=$($pkg_config libpulse --cflags)
-         if test "$drv" = "try-pa"; then
-             audio_drv_list=$(echo "$audio_drv_list" | sed -e 's/try-pa/pa/')
-         fi
-@@ -6760,8 +6764,16 @@ for drv in $audio_drv_list; do
- 	    echo "$def=y" >> $config_host_mak ;;
-     esac
- done
-+if test "$alsa" = "yes" ; then
-+    echo "CONFIG_ALSA=y" >> $config_host_mak
-+fi
- echo "ALSA_LIBS=$alsa_libs" >> $config_host_mak
-+echo "ALSA_CFLAGS=$alsa_cflags" >> $config_host_mak
-+if test "$libpulse" = "yes" ; then
-+    echo "CONFIG_LIBPULSE=y" >> $config_host_mak
-+fi
- echo "PULSE_LIBS=$pulse_libs" >> $config_host_mak
-+echo "PULSE_CFLAGS=$pulse_cflags" >> $config_host_mak
- echo "COREAUDIO_LIBS=$coreaudio_libs" >> $config_host_mak
- echo "DSOUND_LIBS=$dsound_libs" >> $config_host_mak
- echo "OSS_LIBS=$oss_libs" >> $config_host_mak
+@@ -6788,12 +6788,18 @@ fi
+ if test "$vnc_sasl" = "yes" ; then
+   echo "CONFIG_VNC_SASL=y" >> $config_host_mak
+ fi
++echo "SASL_CFLAGS=$vnc_sasl_cflags" >> $config_host_mak
++echo "SASL_LIBS=$vnc_sasl_libs" >> $config_host_mak
+ if test "$vnc_jpeg" = "yes" ; then
+   echo "CONFIG_VNC_JPEG=y" >> $config_host_mak
+ fi
++echo "JPEG_CFLAGS=$vnc_jpeg_cflags" >> $config_host_mak
++echo "JPEG_LIBS=$vnc_jpeg_libs" >> $config_host_mak
+ if test "$vnc_png" = "yes" ; then
+   echo "CONFIG_VNC_PNG=y" >> $config_host_mak
+ fi
++echo "PNG_CFLAGS=$vnc_png_cflags" >> $config_host_mak
++echo "PNG_LIBS=$vnc_png_libs" >> $config_host_mak
+ if test "$xkbcommon" = "yes" ; then
+   echo "CONFIG_XKBCOMMON=y" >> $config_host_mak
+   echo "XKBCOMMON_CFLAGS=$xkbcommon_cflags" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index 4c42df980f..d66d49152b 100644
+index d66d49152b..6fb86e4bd3 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -111,6 +111,16 @@ if 'CONFIG_XKBCOMMON' in config_host
-   xkbcommon = declare_dependency(compile_args: config_host['XKBCOMMON_CFLAGS'].split(),
-                                  link_args: config_host['XKBCOMMON_LIBS'].split())
+@@ -202,6 +202,56 @@ coreaudio = declare_dependency()
+ if 'CONFIG_AUDIO_COREAUDIO' in config_host
+   coreaudio = declare_dependency(link_args: config_host['COREAUDIO_LIBS'].split())
  endif
-+pulse = declare_dependency()
-+if 'CONFIG_LIBPULSE' in config_host
-+  pulse = declare_dependency(compile_args: config_host['PULSE_CFLAGS'].split(),
-+                             link_args: config_host['PULSE_LIBS'].split())
++opengl = declare_dependency()
++if 'CONFIG_OPENGL' in config_host
++  opengl = declare_dependency(link_args: config_host['OPENGL_LIBS'].split())
++else
 +endif
-+alsa = declare_dependency()
-+if 'CONFIG_ALSA' in config_host
-+  alsa = declare_dependency(compile_args: config_host['ALSA_CFLAGS'].split(),
-+                            link_args: config_host['ALSA_LIBS'].split())
++gtk = declare_dependency()
++if 'CONFIG_GTK' in config_host
++  gtk = declare_dependency(compile_args: config_host['GTK_CFLAGS'].split(),
++                              link_args: config_host['GTK_LIBS'].split())
 +endif
- spice = declare_dependency()
- if 'CONFIG_SPICE' in config_host
-   spice = declare_dependency(compile_args: config_host['SPICE_CFLAGS'].split(),
-@@ -180,6 +190,18 @@ liblzfse = declare_dependency()
- if 'CONFIG_LZFSE' in config_host
-   liblzfse = declare_dependency(link_args: config_host['LZFSE_LIBS'].split())
- endif
-+oss = declare_dependency()
-+if 'CONFIG_AUDIO_OSS' in config_host
-+  oss = declare_dependency(link_args: config_host['OSS_LIBS'].split())
++vte = declare_dependency()
++if 'CONFIG_VTE' in config_host
++  vte = declare_dependency(compile_args: config_host['VTE_CFLAGS'].split(),
++                           link_args: config_host['VTE_LIBS'].split())
 +endif
-+dsound = declare_dependency()
-+if 'CONFIG_AUDIO_DSOUND' in config_host
-+  dsound = declare_dependency(link_args: config_host['DSOUND_LIBS'].split())
++x11 = declare_dependency()
++if 'CONFIG_X11' in config_host
++  x11 = declare_dependency(compile_args: config_host['X11_CFLAGS'].split(),
++                           link_args: config_host['X11_LIBS'].split())
 +endif
-+coreaudio = declare_dependency()
-+if 'CONFIG_AUDIO_COREAUDIO' in config_host
-+  coreaudio = declare_dependency(link_args: config_host['COREAUDIO_LIBS'].split())
++curses = declare_dependency()
++if 'CONFIG_CURSES' in config_host
++  curses = declare_dependency(compile_args: config_host['CURSES_CFLAGS'].split(),
++                              link_args: config_host['CURSES_LIBS'].split())
++endif
++iconv = declare_dependency()
++if 'CONFIG_ICONV' in config_host
++  iconv = declare_dependency(compile_args: config_host['ICONV_CFLAGS'].split(),
++                             link_args: config_host['ICONV_LIBS'].split())
++endif
++gio = declare_dependency()
++if 'CONFIG_GIO' in config_host
++  gio = declare_dependency(compile_args: config_host['GIO_CFLAGS'].split(),
++                           link_args: config_host['GIO_LIBS'].split())
++endif
++png = declare_dependency()
++if 'CONFIG_VNC_PNG' in config_host
++  png = declare_dependency(compile_args: config_host['PNG_CFLAGS'].split(),
++                           link_args: config_host['PNG_LIBS'].split())
++endif
++jpeg = declare_dependency()
++if 'CONFIG_VNC_JPEG' in config_host
++  jpeg = declare_dependency(compile_args: config_host['JPEG_CFLAGS'].split(),
++                            link_args: config_host['JPEG_LIBS'].split())
++endif
++sasl = declare_dependency()
++if 'CONFIG_VNC_SASL' in config_host
++  sasl = declare_dependency(compile_args: config_host['SASL_CFLAGS'].split(),
++                            link_args: config_host['SASL_LIBS'].split())
 +endif
  
  create_config = find_program('scripts/create_config')
  minikconf = find_program('scripts/minikconf.py')
-@@ -469,6 +491,7 @@ libqemuutil = static_library('qemuutil',
- qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: version_res)
+diff --git a/ui/Makefile.objs b/ui/Makefile.objs
+deleted file mode 100644
+index e6da6ff047..0000000000
+--- a/ui/Makefile.objs
++++ /dev/null
+@@ -1,70 +0,0 @@
+-vnc-obj-y += vnc.o
+-vnc-obj-y += vnc-enc-zlib.o vnc-enc-hextile.o
+-vnc-obj-y += vnc-enc-tight.o vnc-palette.o
+-vnc-obj-y += vnc-enc-zrle.o
+-vnc-obj-y += vnc-auth-vencrypt.o
+-vnc-obj-$(CONFIG_VNC_SASL) += vnc-auth-sasl.o
+-vnc-obj-y += vnc-ws.o
+-vnc-obj-y += vnc-jobs.o
+-
+-common-obj-y += keymaps.o console.o cursor.o qemu-pixman.o
+-common-obj-y += input.o input-keymap.o input-legacy.o kbd-state.o
+-common-obj-y += input-barrier.o
+-common-obj-$(CONFIG_LINUX) += input-linux.o
+-common-obj-$(CONFIG_SPICE) += spice-core.o spice-input.o spice-display.o
+-common-obj-$(CONFIG_COCOA) += cocoa.o
+-common-obj-$(CONFIG_VNC) += $(vnc-obj-y)
+-common-obj-$(call lnot,$(CONFIG_VNC)) += vnc-stubs.o
+-
+-# ui-sdl module
+-common-obj-$(CONFIG_SDL) += sdl.mo
+-sdl.mo-objs := sdl2.o sdl2-input.o sdl2-2d.o
+-ifeq ($(CONFIG_OPENGL),y)
+-sdl.mo-objs += sdl2-gl.o
+-endif
+-sdl.mo-cflags := $(SDL_CFLAGS)
+-sdl.mo-libs := $(SDL_LIBS)
+-
+-# ui-gtk module
+-common-obj-$(CONFIG_GTK) += gtk.mo
+-gtk.mo-objs := gtk.o
+-gtk.mo-cflags := $(GTK_CFLAGS) $(VTE_CFLAGS)
+-gtk.mo-libs := $(GTK_LIBS) $(VTE_LIBS)
+-ifeq ($(CONFIG_OPENGL),y)
+-gtk.mo-objs += gtk-egl.o
+-gtk.mo-libs += $(OPENGL_LIBS)
+-ifeq ($(CONFIG_GTK_GL),y)
+-gtk.mo-objs += gtk-gl-area.o
+-endif
+-endif
+-
+-ifeq ($(CONFIG_X11),y)
+-sdl.mo-objs += x_keymap.o
+-gtk.mo-objs += x_keymap.o
+-x_keymap.o-cflags := $(X11_CFLAGS)
+-x_keymap.o-libs := $(X11_LIBS)
+-endif
+-
+-common-obj-$(CONFIG_CURSES) += curses.mo
+-curses.mo-objs := curses.o
+-curses.mo-cflags := $(CURSES_CFLAGS) $(ICONV_CFLAGS)
+-curses.mo-libs := $(CURSES_LIBS) $(ICONV_LIBS)
+-
+-ifeq ($(CONFIG_GIO)$(CONFIG_SPICE),yy)
+-common-obj-$(if $(CONFIG_MODULES),m,y) += spice-app.mo
+-endif
+-spice-app.mo-objs := spice-app.o
+-spice-app.mo-cflags := $(GIO_CFLAGS)
+-spice-app.mo-libs := $(GIO_LIBS)
+-
+-common-obj-$(CONFIG_OPENGL) += shader.o
+-common-obj-$(CONFIG_OPENGL) += console-gl.o
+-common-obj-$(CONFIG_OPENGL) += egl-helpers.o
+-common-obj-$(CONFIG_OPENGL) += egl-context.o
+-common-obj-$(CONFIG_OPENGL_DMABUF) += egl-headless.o
+-
+-shader.o-libs += $(OPENGL_LIBS)
+-console-gl.o-libs += $(OPENGL_LIBS)
+-egl-helpers.o-libs += $(OPENGL_LIBS)
+-egl-context.o-libs += $(OPENGL_LIBS)
+-egl-headless.o-libs += $(OPENGL_LIBS)
+diff --git a/ui/meson.build b/ui/meson.build
+index 81577546e0..95ffde3f9a 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -1,3 +1,77 @@
++softmmu_ss.add(files(
++  'console.c',
++  'cursor.c',
++  'input-keymap.c',
++  'input-legacy.c',
++  'input-barrier.c',
++  'input.c',
++  'kbd-state.c',
++  'keymaps.c',
++  'qemu-pixman.c',
++))
++softmmu_ss.add(pixman)
++
++softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('input-linux.c'))
++softmmu_ss.add(when: 'CONFIG_SPICE', if_true: files('spice-core.c', 'spice-input.c', 'spice-display.c'))
++softmmu_ss.add(when: [cocoa, 'CONFIG_COCOA'], if_true: files('cocoa.m'))
++
++vnc_ss = ss.source_set()
++vnc_ss.add(files(
++  'vnc.c',
++  'vnc-enc-zlib.c',
++  'vnc-enc-hextile.c',
++  'vnc-enc-tight.c',
++  'vnc-palette.c',
++  'vnc-enc-zrle.c',
++  'vnc-auth-vencrypt.c',
++  'vnc-ws.c',
++  'vnc-jobs.c',
++))
++vnc_ss.add(zlib)
++vnc_ss.add(when: 'CONFIG_VNC_SASL', if_true: [files('vnc-auth-sasl.c'), sasl])
++softmmu_ss.add_all(when: 'CONFIG_VNC', if_true: vnc_ss)
++softmmu_ss.add(when: 'CONFIG_VNC', if_false: files('vnc-stubs.c'))
++softmmu_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('shader.c', 'console-gl.c', 'egl-helpers.c', 'egl-context.c'))
++softmmu_ss.add(when: [opengl, 'CONFIG_OPENGL_DMABUF'], if_true: files('egl-headless.c'))
++softmmu_ss.add(when: 'CONFIG_VNC_PNG', if_true: png)
++softmmu_ss.add(when: 'CONFIG_VNC_JPEG', if_true: jpeg)
++
++ui_modules = []
++
++if config_host.has_key('CONFIG_CURSES')
++  ui_modules += [['curses', files('curses.c'), [curses, iconv]]]
++endif
++
++if config_host.has_key('CONFIG_GTK') and config_host.has_key('CONFIG_VTE')
++  gtk_ss = ss.source_set()
++  gtk_ss.add(gtk, vte, files('gtk.c'))
++  gtk_ss.add(when: [x11, 'CONFIG_X11'], if_true: files('x_keymap.c'))
++  gtk_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('gtk-egl.c'))
++  gtk_ss.add(when: [opengl, 'CONFIG_GTK_GL'], if_true: files('gtk-gl-area.c'))
++  gtk_ss = gtk_ss.apply(config_host, strict: false)
++  ui_modules += [['gtk', gtk_ss.sources(), gtk_ss.dependencies()]]
++endif
++
++if config_host.has_key('CONFIG_SDL')
++  sdl_ss = ss.source_set()
++  sdl_ss.add([sdl, pixman, glib], files(
++    'sdl2-2d.c',
++    'sdl2-input.c',
++    'sdl2.c',
++  ))
++  sdl_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('sdl2-gl.c'))
++  sdl_ss.add(when: [x11, 'CONFIG_X11'], if_true: files('x_keymap.c'))
++  sdl_ss = sdl_ss.apply(config_host, strict: false)
++  ui_modules += [['sdl', sdl_ss.sources(), sdl_ss.dependencies()]]
++endif
++
++if config_host.has_key('CONFIG_SPICE') and config_host.has_key('CONFIG_GIO')
++  spice_ss = ss.source_set()
++  spice_ss.add(spice, gio, files('spice-app.c'))
++  spice_ss = spice_ss.apply(config_host, strict: false)
++  ui_modules += [['spice-app', spice_ss.sources(), spice_ss.dependencies()]]
++endif
++
+ keymap_gen = find_program('keycodemapdb/tools/keymap-gen')
  
-+subdir('audio')
- subdir('io')
- subdir('chardev')
- subdir('fsdev')
-@@ -498,7 +521,7 @@ foreach d, list : modules
-       else
-         softmmu_mods += sl
-       endif
--      mods += {'dir': d, 'name': m[0], 'lib': sl, 'deps': m[2]}
-+      mods += {'dir': d, 'name': m[0], 'lib': [sl, libmodulecommon], 'deps': m[2]}
-     else
-       if d == 'block'
-         block_ss.add(when: m[2], if_true: m[1])
+ keymaps = [
+@@ -34,3 +108,5 @@ foreach e : keymaps
+ endforeach
+ 
+ subdir('shader')
++
++modules += {'ui': ui_modules}
+diff --git a/ui/shader.c b/ui/shader.c
+index d78829f43b..e8b8d321b7 100644
+--- a/ui/shader.c
++++ b/ui/shader.c
+@@ -27,9 +27,9 @@
+ #include "qemu/osdep.h"
+ #include "ui/shader.h"
+ 
+-#include "shader/texture-blit-vert.h"
+-#include "shader/texture-blit-flip-vert.h"
+-#include "shader/texture-blit-frag.h"
++#include "ui/shader/texture-blit-vert.h"
++#include "ui/shader/texture-blit-flip-vert.h"
++#include "ui/shader/texture-blit-frag.h"
+ 
+ struct QemuGLShader {
+     GLint texture_blit_prog;
 -- 
 2.21.0
 
