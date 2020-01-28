@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A96A14BE9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 18:32:17 +0100 (CET)
-Received: from localhost ([::1]:34416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5F414BEA9
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 18:36:01 +0100 (CET)
+Received: from localhost ([::1]:34464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwUil-0005ak-Tf
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 12:32:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50849)
+	id 1iwUmO-0000wy-Mw
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 12:36:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54078)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1iwUhJ-000550-43
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:30:46 -0500
+ (envelope-from <berrange@redhat.com>) id 1iwUjg-0006fw-M6
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:33:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1iwUhH-000751-E1
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:30:44 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54208
+ (envelope-from <berrange@redhat.com>) id 1iwUje-0002mS-7h
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:33:12 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25098
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iwUhH-00074R-9I
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:30:43 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iwUja-0002h4-1B
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:33:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580232642;
+ s=mimecast20190719; t=1580232783;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KfBz0LnZUOTKQclEZ/tpSkuZ6Mha0T3PH+RDQ+mMWLU=;
- b=FCnj1TWAMH6We/LMq6i9ZxOvk+FCEaP1SO7BTOlaEiMstt904s2N9GdfOsmNmQQg7vvDMB
- QxOGmgq/g6AE/7mA1ULBhPBVYbqyT3OjL/J30axuEGrdZCltaxkpC62tMixNIAzw6wNf9W
- /Li14YNcSttBsT8uKlq1gwWyHYT58rY=
+ bh=sKs91koXvRHhuchystOq4ZoZQfcupWaFG38wVLLiB6g=;
+ b=DE11XLILEx0QvWBTg6j9PClNPznQ37vvHvKVx9bRB2PMhDQbr8xxfSSBdKA2NhgXMGkH0E
+ kS0HILCm3Vi5rvzVqrrSA9Jzrn6pTb2dO04DXFj8lCEPBkmIrPJ7jncnLj4Ve+61INl+Tx
+ n+jA6UEE6ROdu6nLfJl7qYxrxPr811E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-QQSQ2FubO-u1aSD7UBKNyA-1; Tue, 28 Jan 2020 12:30:40 -0500
+ us-mta-81-DzjmXy4pOOKsaEas3kOYvA-1; Tue, 28 Jan 2020 12:33:01 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 306D018C43C2;
- Tue, 28 Jan 2020 17:30:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3716013E5;
+ Tue, 28 Jan 2020 17:33:00 +0000 (UTC)
 Received: from redhat.com (ovpn-112-34.ams2.redhat.com [10.36.112.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 64E9F80A5C;
- Tue, 28 Jan 2020 17:30:30 +0000 (UTC)
-Date: Tue, 28 Jan 2020 17:30:27 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F76480A5C;
+ Tue, 28 Jan 2020 17:32:54 +0000 (UTC)
+Date: Tue, 28 Jan 2020 17:32:51 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH 07/13] qcow2: extend qemu-img amend interface with crypto
- options
-Message-ID: <20200128173027.GY1446339@redhat.com>
+Subject: Re: [PATCH 02/13] qcrypto-luks: implement encryption key management
+Message-ID: <20200128173251.GZ1446339@redhat.com>
 References: <20200114193350.10830-1-mlevitsk@redhat.com>
- <20200114193350.10830-8-mlevitsk@redhat.com>
+ <20200114193350.10830-3-mlevitsk@redhat.com>
+ <87r1zti6r8.fsf@dusky.pond.sub.org>
+ <dc902f2ba314b63da7ae7a003463f9268e7b3535.camel@redhat.com>
+ <20200128171116.GU1446339@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200114193350.10830-8-mlevitsk@redhat.com>
+In-Reply-To: <20200128171116.GU1446339@redhat.com>
 User-Agent: Mutt/1.13.3 (2020-01-12)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: QQSQ2FubO-u1aSD7UBKNyA-1
+X-MC-Unique: DzjmXy4pOOKsaEas3kOYvA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,224 +78,93 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 14, 2020 at 09:33:44PM +0200, Maxim Levitsky wrote:
-> Now that we have all the infrastructure in place,
-> wire it in the qcow2 driver and expose this to the user.
+On Tue, Jan 28, 2020 at 05:11:16PM +0000, Daniel P. Berrang=C3=A9 wrote:
+> On Tue, Jan 21, 2020 at 03:13:01PM +0200, Maxim Levitsky wrote:
+> > On Tue, 2020-01-21 at 08:54 +0100, Markus Armbruster wrote:
+> >=20
+> > <trimmed>
+> >=20
+> > > > +##
+> > > > +# @LUKSKeyslotUpdate:
+> > > > +#
+> > > > +# @keyslot:         If specified, will update only keyslot with th=
+is index
+> > > > +#
+> > > > +# @old-secret:      If specified, will only update keyslots that
+> > > > +#                   can be opened with password which is contained=
+ in
+> > > > +#                   QCryptoSecret with @old-secret ID
+> > > > +#
+> > > > +#                   If neither @keyslot nor @old-secret is specifi=
+ed,
+> > > > +#                   first empty keyslot is selected for the update
+> > > > +#
+> > > > +# @new-secret:      The ID of a QCryptoSecret object providing a n=
+ew decryption
+> > > > +#                   key to place in all matching keyslots.
+> > > > +#                   null/empty string erases all matching keyslots
+> > >=20
+> > > I hate making the empty string do something completely different than=
+ a
+> > > non-empty string.
+> > >=20
+> > > What about making @new-secret optional, and have absent @new-secret
+> > > erase?
+> >=20
+> > I don't remember already why I and Keven Wolf decided to do this this w=
+ay, but I think that you are right here.
+> > I don't mind personally to do this this way.
+> > empty string though is my addition, since its not possible to pass null=
+ on command line.
 >=20
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  block/qcow2.c | 101 +++++++++++++++++++++++++++++++++++++++-----------
->  1 file changed, 79 insertions(+), 22 deletions(-)
+> IIUC this a result of using  "StrOrNull" for this one field...
 >=20
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index c6c2deee75..1b01174aed 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-> @@ -173,6 +173,19 @@ static ssize_t qcow2_crypto_hdr_write_func(QCryptoBl=
-ock *block, size_t offset,
->      return ret;
->  }
-> =20
-> +static QDict*
-> +qcow2_extract_crypto_opts(QemuOpts *opts, const char *fmt, Error **errp)
-> +{
-> +    QDict *cryptoopts_qdict;
-> +    QDict *opts_qdict;
-> +
-> +    /* Extract "encrypt." options into a qdict */
-> +    opts_qdict =3D qemu_opts_to_qdict(opts, NULL);
-> +    qdict_extract_subqdict(opts_qdict, &cryptoopts_qdict, "encrypt.");
-> +    qobject_unref(opts_qdict);
-> +    qdict_put_str(cryptoopts_qdict, "format", "luks");
-> +    return cryptoopts_qdict;
-> +}
-> =20
->  /*=20
->   * read qcow2 extension and fill bs
-> @@ -4631,20 +4644,18 @@ static ssize_t qcow2_measure_crypto_hdr_write_fun=
-c(QCryptoBlock *block,
->  static bool qcow2_measure_luks_headerlen(QemuOpts *opts, size_t *len,
->                                           Error **errp)
->  {
-> -    QDict *opts_qdict;
-> -    QDict *cryptoopts_qdict;
->      QCryptoBlockCreateOptions *cryptoopts;
-> +    QDict* crypto_opts_dict;
->      QCryptoBlock *crypto;
-> =20
-> -    /* Extract "encrypt." options into a qdict */
-> -    opts_qdict =3D qemu_opts_to_qdict(opts, NULL);
-> -    qdict_extract_subqdict(opts_qdict, &cryptoopts_qdict, "encrypt.");
-> -    qobject_unref(opts_qdict);
-> +    crypto_opts_dict =3D qcow2_extract_crypto_opts(opts, "luks", errp);
-> +    if (!crypto_opts_dict) {
-> +        return false;
-> +    }
-> +
-> +    cryptoopts =3D block_crypto_create_opts_init(crypto_opts_dict, errp)=
-;
-> +    qobject_unref(crypto_opts_dict);
-> =20
-> -    /* Build QCryptoBlockCreateOptions object from qdict */
-> -    qdict_put_str(cryptoopts_qdict, "format", "luks");
-> -    cryptoopts =3D block_crypto_create_opts_init(cryptoopts_qdict, errp)=
-;
-> -    qobject_unref(cryptoopts_qdict);
->      if (!cryptoopts) {
->          return false;
->      }
-> @@ -5083,6 +5094,7 @@ typedef enum Qcow2AmendOperation {
->      QCOW2_NO_OPERATION =3D 0,
-> =20
->      QCOW2_UPGRADING,
-> +    QCOW2_UPDATING_ENCRYPTION,
->      QCOW2_CHANGING_REFCOUNT_ORDER,
->      QCOW2_DOWNGRADING,
->  } Qcow2AmendOperation;
-> @@ -5167,6 +5179,7 @@ static int qcow2_amend_options(BlockDriverState *bs=
-, QemuOpts *opts,
->      int ret;
->      QemuOptDesc *desc =3D opts->list->desc;
->      Qcow2AmendHelperCBInfo helper_cb_info;
-> +    bool encryption_update =3D false;
-> =20
->      while (desc && desc->name) {
->          if (!qemu_opt_find(opts, desc->name)) {
-> @@ -5215,9 +5228,17 @@ static int qcow2_amend_options(BlockDriverState *b=
-s, QemuOpts *opts,
->                  return -ENOTSUP;
->              }
->          } else if (g_str_has_prefix(desc->name, "encrypt.")) {
-> -            error_setg(errp,
-> -                       "Changing the encryption parameters is not suppor=
-ted");
-> -            return -ENOTSUP;
-> +            if (!s->crypto) {
-> +                error_setg(errp,
-> +                           "Can't amend encryption options - encryption =
-not present");
-> +                return -EINVAL;
-> +            }
-> +            if (s->crypt_method_header !=3D QCOW_CRYPT_LUKS) {
-> +                error_setg(errp,
-> +                           "Only LUKS encryption options can be amended"=
-);
-> +                return -ENOTSUP;
-> +            }
-> +            encryption_update =3D true;
->          } else if (!strcmp(desc->name, BLOCK_OPT_CLUSTER_SIZE)) {
->              cluster_size =3D qemu_opt_get_size(opts, BLOCK_OPT_CLUSTER_S=
-IZE,
->                                               cluster_size);
-> @@ -5267,7 +5288,8 @@ static int qcow2_amend_options(BlockDriverState *bs=
-, QemuOpts *opts,
->          .original_status_cb =3D status_cb,
->          .original_cb_opaque =3D cb_opaque,
->          .total_operations =3D (new_version !=3D old_version)
-> -                          + (s->refcount_bits !=3D refcount_bits)
-> +                          + (s->refcount_bits !=3D refcount_bits) +
-> +                            (encryption_update =3D=3D true)
->      };
-> =20
->      /* Upgrade first (some features may require compat=3D1.1) */
-> @@ -5280,6 +5302,33 @@ static int qcow2_amend_options(BlockDriverState *b=
-s, QemuOpts *opts,
->          }
->      }
-> =20
-> +    if (encryption_update) {
-> +        QDict *amend_opts_dict;
-> +        QCryptoBlockAmendOptions *amend_opts;
-> +
-> +        helper_cb_info.current_operation =3D QCOW2_UPDATING_ENCRYPTION;
-> +        amend_opts_dict =3D qcow2_extract_crypto_opts(opts, "luks", errp=
-);
-> +        if (!amend_opts_dict) {
-> +            return -EINVAL;
-> +        }
-> +        amend_opts =3D block_crypto_amend_opts_init(amend_opts_dict, err=
-p);
-> +        qobject_unref(amend_opts_dict);
-> +        if (!amend_opts) {
-> +            return -EINVAL;
-> +        }
-> +        ret =3D qcrypto_block_amend_options(s->crypto,
-> +                                          qcow2_crypto_hdr_read_func,
-> +                                          qcow2_crypto_hdr_write_func,
-> +                                          bs,
-> +                                          amend_opts,
-> +                                          force,
-> +                                          errp);
-> +        qapi_free_QCryptoBlockAmendOptions(amend_opts);
-> +        if (ret < 0) {
-> +            return ret;
-> +        }
-> +    }
-> +
->      if (s->refcount_bits !=3D refcount_bits) {
->          int refcount_order =3D ctz32(refcount_bits);
-> =20
-> @@ -5488,14 +5537,6 @@ void qcow2_signal_corruption(BlockDriverState *bs,=
- bool fatal, int64_t offset,
->          .type =3D QEMU_OPT_STRING,                                    \
->          .help =3D "Encrypt the image, format choices: 'aes', 'luks'", \
->      },                                                              \
-> -    BLOCK_CRYPTO_OPT_DEF_KEY_SECRET("encrypt.",                     \
-> -        "ID of secret providing qcow AES key or LUKS passphrase"),  \
-> -    BLOCK_CRYPTO_OPT_DEF_LUKS_CIPHER_ALG("encrypt."),               \
-> -    BLOCK_CRYPTO_OPT_DEF_LUKS_CIPHER_MODE("encrypt."),              \
-> -    BLOCK_CRYPTO_OPT_DEF_LUKS_IVGEN_ALG("encrypt."),                \
-> -    BLOCK_CRYPTO_OPT_DEF_LUKS_IVGEN_HASH_ALG("encrypt."),           \
-> -    BLOCK_CRYPTO_OPT_DEF_LUKS_HASH_ALG("encrypt."),                 \
-> -    BLOCK_CRYPTO_OPT_DEF_LUKS_ITER_TIME("encrypt."),                \
->      {                                                               \
->          .name =3D BLOCK_OPT_CLUSTER_SIZE,                             \
->          .type =3D QEMU_OPT_SIZE,                                      \
-> @@ -5526,6 +5567,14 @@ static QemuOptsList qcow2_create_opts =3D {
->      .head =3D QTAILQ_HEAD_INITIALIZER(qcow2_create_opts.head),
->      .desc =3D {
->          QCOW_COMMON_OPTIONS,
-> +        BLOCK_CRYPTO_OPT_DEF_KEY_SECRET("encrypt.",
-> +            "ID of secret providing qcow AES key or LUKS passphrase"),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_CIPHER_ALG("encrypt."),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_CIPHER_MODE("encrypt."),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_IVGEN_ALG("encrypt."),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_IVGEN_HASH_ALG("encrypt."),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_HASH_ALG("encrypt."),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_ITER_TIME("encrypt."),
->          { /* end of list */ }
->      }
-
-These two chunks should habe been in the earlier patch IMHO.
-
->  };
-> @@ -5535,6 +5584,14 @@ static QemuOptsList qcow2_amend_opts =3D {
->      .head =3D QTAILQ_HEAD_INITIALIZER(qcow2_amend_opts.head),
->      .desc =3D {
->          QCOW_COMMON_OPTIONS,
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.0."),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.1."),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.2."),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.3."),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.4."),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.5."),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.6."),
-> +        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.7."),
->          { /* end of list */ }
-
-Same naming idea about  "encrypt.key.0" or "encrypt.keyslot.0"
-
->      }
->  };
-> --=20
-> 2.17.2
 >=20
+> > > > +# Since: 5.0
+> > > > +##
+> > > > +{ 'struct': 'LUKSKeyslotUpdate',
+> > > > +  'data': {
+> > > > +           '*keyslot': 'int',
+> > > > +           '*old-secret': 'str',
+> > > > +           'new-secret' : 'StrOrNull',
+> > > > +           '*iter-time' : 'int' } }
+>=20
+> It looks wierd here to be special casing "new-secret" to "StrOrNull"
+> instead of just marking it as an optional string field
+>=20
+>    "*new-secret": "str"
+>=20
+> which would be possible to use from the command line, as you simply
+> omit the field.
+>=20
+> I guess the main danger here is that we're using this as a trigger
+> to erase keyslots. So simply omitting "new-secret" can result
+> in damage to the volume by accident which is not an attractive
+> mode.
+
+Thinking about this again, I really believe we ought to be moire
+explicit about disabling the keyslot by having the "active" field.
+eg
+
+{ 'struct': 'LUKSKeyslotUpdate',
+  'data': {
+          'active': 'bool',
+          '*keyslot': 'int',
+          '*old-secret': 'str',
+          '*new-secret' : 'str',
+          '*iter-time' : 'int' } }
+
+"new-secret" is thus only needed when "active" =3D=3D true.
+
+This avoids the problem with being unable to specify a
+null for StrOrNull on the command line too.
+
 
 Regards,
 Daniel
