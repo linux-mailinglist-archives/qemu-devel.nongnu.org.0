@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C121E14C0D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:21:44 +0100 (CET)
-Received: from localhost ([::1]:35956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 645CA14C0DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:23:13 +0100 (CET)
+Received: from localhost ([::1]:36000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWQh-00077v-Py
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:21:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35230)
+	id 1iwWS8-0002Uv-BH
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:23:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35432)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV73-0002c5-KI
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:22 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV77-0002k4-Ub
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV72-0006P4-Ea
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:21 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39012)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV76-0006cR-6N
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:25 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43655)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV72-0006KH-6S
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:20 -0500
-Received: by mail-wr1-x434.google.com with SMTP id y11so17092615wrt.6
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:57:19 -0800 (PST)
+ id 1iwV75-0006Yv-U2
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:24 -0500
+Received: by mail-wr1-x436.google.com with SMTP id d16so17103726wre.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:57:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W41DdWEFwizuRfaoKAqL7nttmrqY2CyAtnYYue+m/GY=;
- b=KrrTjGT9eU4oH43XKk9ZzthUuNF7JVKJ1LFUnbee0UtHnSQCf38rTi0yNqAYNRxqSD
- am2jePWa7GV8NFwBvuq7yLI80CwTboasqzcRQ45M/TGajBJTLaBKygePtj044zUM9uPv
- AY3y4U85Jxfpe5bqfHV6E2BXGXGKZnaMiAp+MD3hnzbPd1U1imPjfl09RgMHOo8R4pAA
- 0Y1pdQlNFbxmmHm/YzUG9OITVTR/bhQExvH2+WUhphtdC5isaLkLj8FuHWVL07A6qOIt
- jTkqQv4tXrf0Dg+MvaOspnGS/IUu+wNUWxvosHFmKBIXWC6r/dJNi9eYUT7ckRhJlE7A
- HloA==
+ bh=xj75gozY8WWu3paBGxKL2HvIAmaV+6/hcJd12RC2vvI=;
+ b=pMTDknbwFwsagPqHJQJUVNca/W8BdiwoXgq/5jPpEkMG+FsADcN0mkZRXyQA2Eu9YH
+ HiO3XiTl6KKCl3OxBErdUhTU3UoXyfJbtU6uNBYsCmYa9yKZkjOeXm0qtXO4YVcMcmFb
+ aabAQlcTiK+FUxcSz3qsS2J4Gj24WPmEVu8+Ss63Q/ZCWiAwMu3vq9shjMPaidq4mpUH
+ PUUbfLcNyw/HT1R+/8xMuP5XMOrWuV71xf1mipNpchiHNmWNyhQBNyxHDCc9wehBcIFS
+ 9zn4kh8rwi6wdG603+APrrg7DFbhKGiBsVErg28vMebklW7IIp13SFKvdivXvC+RW0CD
+ riYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=W41DdWEFwizuRfaoKAqL7nttmrqY2CyAtnYYue+m/GY=;
- b=YhgWe+y5xa4f12MxGeNKHya5b8Ei1AmJOt88ZVF7UXrN5Lrn4yC0pL8DTgoC9II6lV
- OGcvwv89YGO/j7S8Pnp95H9CTZx+euQRF8JUGbhU3y1qofYFzb9HA3wQSeqHm5QfcBPu
- MFyEvQS9nl1Ug7eQMY4wf/lp33eKO8Foels2fv28V28or5S4w+16mBHppP68M2o4Cm/B
- Fs4qWrrs2/yGEFPMYNoSJdzQWlNbhk8yPFIUaYSK36J+0ZapASB7yvoyCVMDoPV/Y77/
- ljCFbD/zGYxr8HUhaoUdvJlMHB1rQzyBd8V/XhND5F0G8fPafDgIc1fT6nSEC9wrJt4Q
- e5Zg==
-X-Gm-Message-State: APjAAAUyOesLeONkt/9jcYcPVfWC7zJi6HvOxpjT0SgnsJBDgcb3KUnW
- e3CaP8SSQg2Ne2s32bemU1MEk4BW
-X-Google-Smtp-Source: APXvYqws3eTp7z63cFjtZZ0cFdItWcsTbI4LTJjeRZUCWyl46yKMyFK212C6EPnEHrTZiT8DuO9smQ==
-X-Received: by 2002:a5d:5345:: with SMTP id t5mr32015320wrv.0.1580234238077;
- Tue, 28 Jan 2020 09:57:18 -0800 (PST)
+ bh=xj75gozY8WWu3paBGxKL2HvIAmaV+6/hcJd12RC2vvI=;
+ b=ow3MCeSfndxG7DXuO/U0PKXM/xf+7jWbU3Cyvd0yXgdp859gHqilADJTfG6zxI3b9k
+ uLSDp13QlQH9ZKjXndiHu+lT+1GnOp4ZRXqziqT/t2+QkSuErp6DV+hBhVuQNWnr41Lh
+ Nulgqi3wlLdZ7MfUE1EMfDoal6pWIMuBGbNBCPPvMxiRuwqF4zKmfd/UkoNNKeD9vSLo
+ W+MIr9sVY+P+cgj0PmL1GyM06zA8caz4oCqfQr+iw4lG0TnaCuudcT8YSKIbFMBGH6Xv
+ Bj26ehfSy0PKmhrES85mNCN8W6QH4lF9R2yeKfDLJC5SLU/R5g59PY5GL6a/xmTE39l6
+ +AHg==
+X-Gm-Message-State: APjAAAWiXzLqx71vdT8KWGV+a/XL6iiHX+yNSaBUwDHzsTQcrsbbIhmb
+ CD8gDS/hwanJeA7YVjBFXbCX9jgu
+X-Google-Smtp-Source: APXvYqz+T9ENCQisuekOgGCWX3P0+DQCVSK6NQ4hrdNiItN6cYy6wVXNk+hHQ5sUzsxNlP5AoV1gXQ==
+X-Received: by 2002:a05:6000:11c3:: with SMTP id
+ i3mr29596335wrx.244.1580234242417; 
+ Tue, 28 Jan 2020 09:57:22 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.57.16
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.57.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:57:17 -0800 (PST)
+ Tue, 28 Jan 2020 09:57:21 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 089/142] meson: convert hw/nvram
-Date: Tue, 28 Jan 2020 18:52:49 +0100
-Message-Id: <20200128175342.9066-90-pbonzini@redhat.com>
+Subject: [PATCH 091/142] meson: convert hw/net
+Date: Tue, 28 Jan 2020 18:52:51 +0100
+Message-Id: <20200128175342.9066-92-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,69 +88,189 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs       |  1 -
- hw/meson.build         |  1 +
- hw/nvram/Makefile.objs |  8 --------
- hw/nvram/meson.build   | 11 +++++++++++
- 4 files changed, 12 insertions(+), 9 deletions(-)
- delete mode 100644 hw/nvram/Makefile.objs
- create mode 100644 hw/nvram/meson.build
+ hw/Makefile.objs         |  1 -
+ hw/meson.build           |  1 +
+ hw/net/Makefile.objs     | 54 ----------------------------------
+ hw/net/can/Makefile.objs |  4 ---
+ hw/net/can/meson.build   |  4 +++
+ hw/net/meson.build       | 62 ++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 67 insertions(+), 59 deletions(-)
+ delete mode 100644 hw/net/Makefile.objs
+ delete mode 100644 hw/net/can/Makefile.objs
+ create mode 100644 hw/net/can/meson.build
+ create mode 100644 hw/net/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index cad6354eae..951d451b77 100644
+index d27c8f989d..8da7540793 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -20,7 +20,6 @@ devices-dirs-y += isa/
+@@ -18,7 +18,6 @@ devices-dirs-$(CONFIG_IPACK) += ipack/
+ devices-dirs-$(CONFIG_IPMI) += ipmi/
+ devices-dirs-y += isa/
  devices-dirs-y += misc/
- devices-dirs-y += net/
- devices-dirs-y += rdma/
--devices-dirs-y += nvram/
+-devices-dirs-y += net/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index 53c347c395..0bdd6a2613 100644
+index f704e51361..1f7b2c4fb9 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -1,6 +1,7 @@
+@@ -1,5 +1,6 @@
  subdir('core')
  subdir('mem')
++subdir('net')
  subdir('nubus')
-+subdir('nvram')
+ subdir('nvram')
  subdir('pci')
- subdir('pci-bridge')
- subdir('pci-host')
-diff --git a/hw/nvram/Makefile.objs b/hw/nvram/Makefile.objs
+diff --git a/hw/net/Makefile.objs b/hw/net/Makefile.objs
 deleted file mode 100644
-index 26f7b4ca35..0000000000
---- a/hw/nvram/Makefile.objs
+index 7907d2c199..0000000000
+--- a/hw/net/Makefile.objs
 +++ /dev/null
-@@ -1,8 +0,0 @@
--common-obj-$(CONFIG_DS1225Y) += ds1225y.o
--common-obj-y += eeprom93xx.o
--common-obj-$(CONFIG_AT24C) += eeprom_at24c.o
--common-obj-y += fw_cfg.o
--common-obj-y += chrp_nvram.o
--common-obj-$(CONFIG_MAC_NVRAM) += mac_nvram.o
--obj-$(CONFIG_PSERIES) += spapr_nvram.o
--obj-$(CONFIG_NRF51_SOC) += nrf51_nvm.o
-diff --git a/hw/nvram/meson.build b/hw/nvram/meson.build
+@@ -1,54 +0,0 @@
+-common-obj-$(CONFIG_DP8393X) += dp8393x.o
+-common-obj-$(CONFIG_XEN) += xen_nic.o
+-common-obj-$(CONFIG_NE2000_COMMON) += ne2000.o
+-
+-# PCI network cards
+-common-obj-$(CONFIG_NE2000_PCI) += ne2000-pci.o
+-common-obj-$(CONFIG_EEPRO100_PCI) += eepro100.o
+-common-obj-$(CONFIG_PCNET_PCI) += pcnet-pci.o
+-common-obj-$(CONFIG_PCNET_COMMON) += pcnet.o
+-common-obj-$(CONFIG_E1000_PCI) += e1000.o e1000x_common.o
+-common-obj-$(CONFIG_E1000E_PCI_EXPRESS) += net_tx_pkt.o net_rx_pkt.o
+-common-obj-$(CONFIG_E1000E_PCI_EXPRESS) += e1000e.o e1000e_core.o e1000x_common.o
+-common-obj-$(CONFIG_RTL8139_PCI) += rtl8139.o
+-common-obj-$(CONFIG_VMXNET3_PCI) += net_tx_pkt.o net_rx_pkt.o
+-common-obj-$(CONFIG_VMXNET3_PCI) += vmxnet3.o
+-common-obj-$(CONFIG_TULIP) += tulip.o
+-
+-common-obj-$(CONFIG_SMC91C111) += smc91c111.o
+-common-obj-$(CONFIG_LAN9118) += lan9118.o
+-common-obj-$(CONFIG_NE2000_ISA) += ne2000-isa.o
+-common-obj-$(CONFIG_OPENCORES_ETH) += opencores_eth.o
+-common-obj-$(CONFIG_XGMAC) += xgmac.o
+-common-obj-$(CONFIG_MIPSNET) += mipsnet.o
+-common-obj-$(CONFIG_XILINX_AXI) += xilinx_axienet.o
+-common-obj-$(CONFIG_ALLWINNER_EMAC) += allwinner_emac.o
+-common-obj-$(CONFIG_IMX_FEC) += imx_fec.o
+-
+-common-obj-$(CONFIG_CADENCE) += cadence_gem.o
+-common-obj-$(CONFIG_STELLARIS_ENET) += stellaris_enet.o
+-common-obj-$(CONFIG_LANCE) += lance.o
+-common-obj-$(CONFIG_SUNHME) += sunhme.o
+-common-obj-$(CONFIG_FTGMAC100) += ftgmac100.o
+-common-obj-$(CONFIG_SUNGEM) += sungem.o
+-
+-obj-$(CONFIG_ETRAXFS) += etraxfs_eth.o
+-obj-$(CONFIG_COLDFIRE) += mcf_fec.o
+-obj-$(CONFIG_MILKYMIST) += milkymist-minimac2.o
+-obj-$(CONFIG_PSERIES) += spapr_llan.o
+-obj-$(CONFIG_XILINX_ETHLITE) += xilinx_ethlite.o
+-
+-obj-$(CONFIG_VIRTIO_NET) += virtio-net.o
+-common-obj-$(call land,$(CONFIG_VIRTIO_NET),$(CONFIG_VHOST_NET)) += vhost_net.o
+-common-obj-$(call lnot,$(call land,$(CONFIG_VIRTIO_NET),$(CONFIG_VHOST_NET))) += vhost_net-stub.o
+-common-obj-$(CONFIG_ALL) += vhost_net-stub.o
+-
+-obj-$(CONFIG_ETSEC) += fsl_etsec/etsec.o fsl_etsec/registers.o \
+-			fsl_etsec/rings.o fsl_etsec/miim.o
+-
+-common-obj-$(CONFIG_ROCKER) += rocker/rocker.o rocker/rocker_fp.o \
+-                               rocker/rocker_desc.o rocker/rocker_world.o \
+-                               rocker/rocker_of_dpa.o
+-obj-$(call lnot,$(CONFIG_ROCKER)) += rocker/qmp-norocker.o
+-
+-common-obj-$(CONFIG_CAN_BUS) += can/
+diff --git a/hw/net/can/Makefile.objs b/hw/net/can/Makefile.objs
+deleted file mode 100644
+index 9f0c4ee332..0000000000
+--- a/hw/net/can/Makefile.objs
++++ /dev/null
+@@ -1,4 +0,0 @@
+-common-obj-$(CONFIG_CAN_SJA1000) += can_sja1000.o
+-common-obj-$(CONFIG_CAN_PCI) += can_kvaser_pci.o
+-common-obj-$(CONFIG_CAN_PCI) += can_pcm3680_pci.o
+-common-obj-$(CONFIG_CAN_PCI) += can_mioe3680_pci.o
+diff --git a/hw/net/can/meson.build b/hw/net/can/meson.build
 new file mode 100644
-index 0000000000..75fca7b939
+index 0000000000..c9cfeb7954
 --- /dev/null
-+++ b/hw/nvram/meson.build
-@@ -0,0 +1,11 @@
-+softmmu_ss.add(files(
-+  'chrp_nvram.c',
-+  'eeprom93xx.c',
-+  'fw_cfg.c',
-+))
-+softmmu_ss.add(when: 'CONFIG_AT24C', if_true: files('eeprom_at24c.c'))
-+softmmu_ss.add(when: 'CONFIG_DS1225Y', if_true: files('ds1225y.c'))
-+softmmu_ss.add(when: 'CONFIG_MAC_NVRAM', if_true: files('mac_nvram.c'))
++++ b/hw/net/can/meson.build
+@@ -0,0 +1,4 @@
++softmmu_ss.add(when: 'CONFIG_CAN_SJA1000', if_true: files('can_sja1000.c'))
++softmmu_ss.add(when: 'CONFIG_CAN_PCI', if_true: files('can_kvaser_pci.c'))
++softmmu_ss.add(when: 'CONFIG_CAN_PCI', if_true: files('can_pcm3680_pci.c'))
++softmmu_ss.add(when: 'CONFIG_CAN_PCI', if_true: files('can_mioe3680_pci.c'))
+diff --git a/hw/net/meson.build b/hw/net/meson.build
+new file mode 100644
+index 0000000000..cd19be2c43
+--- /dev/null
++++ b/hw/net/meson.build
+@@ -0,0 +1,62 @@
++softmmu_ss.add(when: 'CONFIG_DP8393X', if_true: files('dp8393x.c'))
++softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen_nic.c'))
++softmmu_ss.add(when: 'CONFIG_NE2000_COMMON', if_true: files('ne2000.c'))
 +
-+specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_nvram.c'))
-+specific_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_nvm.c'))
++# PCI network cards
++softmmu_ss.add(when: 'CONFIG_NE2000_PCI', if_true: files('ne2000-pci.c'))
++softmmu_ss.add(when: 'CONFIG_EEPRO100_PCI', if_true: files('eepro100.c'))
++softmmu_ss.add(when: 'CONFIG_PCNET_PCI', if_true: files('pcnet-pci.c'))
++softmmu_ss.add(when: 'CONFIG_PCNET_COMMON', if_true: files('pcnet.c'))
++softmmu_ss.add(when: 'CONFIG_E1000_PCI', if_true: files('e1000.c', 'e1000x_common.c'))
++softmmu_ss.add(when: 'CONFIG_E1000E_PCI_EXPRESS', if_true: files('net_tx_pkt.c', 'net_rx_pkt.c'))
++softmmu_ss.add(when: 'CONFIG_E1000E_PCI_EXPRESS', if_true: files('e1000e.c', 'e1000e_core.c', 'e1000x_common.c'))
++softmmu_ss.add(when: 'CONFIG_RTL8139_PCI', if_true: files('rtl8139.c'))
++softmmu_ss.add(when: 'CONFIG_TULIP', if_true: files('tulip.c'))
++softmmu_ss.add(when: 'CONFIG_VMXNET3_PCI', if_true: files('net_tx_pkt.c', 'net_rx_pkt.c'))
++softmmu_ss.add(when: 'CONFIG_VMXNET3_PCI', if_true: files('vmxnet3.c'))
++
++softmmu_ss.add(when: 'CONFIG_SMC91C111', if_true: files('smc91c111.c'))
++softmmu_ss.add(when: 'CONFIG_LAN9118', if_true: files('lan9118.c'))
++softmmu_ss.add(when: 'CONFIG_NE2000_ISA', if_true: files('ne2000-isa.c'))
++softmmu_ss.add(when: 'CONFIG_OPENCORES_ETH', if_true: files('opencores_eth.c'))
++softmmu_ss.add(when: 'CONFIG_XGMAC', if_true: files('xgmac.c'))
++softmmu_ss.add(when: 'CONFIG_MIPSNET', if_true: files('mipsnet.c'))
++softmmu_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('xilinx_axienet.c'))
++softmmu_ss.add(when: 'CONFIG_ALLWINNER_EMAC', if_true: files('allwinner_emac.c'))
++softmmu_ss.add(when: 'CONFIG_IMX_FEC', if_true: files('imx_fec.c'))
++
++softmmu_ss.add(when: 'CONFIG_CADENCE', if_true: files('cadence_gem.c'))
++softmmu_ss.add(when: 'CONFIG_STELLARIS_ENET', if_true: files('stellaris_enet.c'))
++softmmu_ss.add(when: 'CONFIG_LANCE', if_true: files('lance.c'))
++softmmu_ss.add(when: 'CONFIG_SUNHME', if_true: files('sunhme.c'))
++softmmu_ss.add(when: 'CONFIG_FTGMAC100', if_true: files('ftgmac100.c'))
++softmmu_ss.add(when: 'CONFIG_SUNGEM', if_true: files('sungem.c'))
++
++specific_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_eth.c'))
++specific_ss.add(when: 'CONFIG_COLDFIRE', if_true: files('mcf_fec.c'))
++specific_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-minimac2.c'))
++specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_llan.c'))
++specific_ss.add(when: 'CONFIG_XILINX_ETHLITE', if_true: files('xilinx_ethlite.c'))
++
++specific_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-net.c'))
++
++softmmu_ss.add(when: ['CONFIG_VIRTIO_NET', 'CONFIG_VHOST_NET'], if_true: files('vhost_net.c'), if_false: files('vhost_net-stub.c'))
++softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('vhost_net-stub.c'))
++
++specific_ss.add(when: 'CONFIG_ETSEC', if_true: files(
++  'fsl_etsec/etsec.c',
++  'fsl_etsec/miim.c',
++  'fsl_etsec/registers.c',
++  'fsl_etsec/rings.c',
++))
++
++softmmu_ss.add(when: 'CONFIG_ROCKER', if_true: files(
++  'rocker/rocker.c',
++  'rocker/rocker_desc.c',
++  'rocker/rocker_fp.c',
++  'rocker/rocker_of_dpa.c',
++  'rocker/rocker_world.c',
++), if_false: files('rocker/qmp-norocker.c'))
++softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('rocker/qmp-norocker.c'))
++
++subdir('can')
 -- 
 2.21.0
 
