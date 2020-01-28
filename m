@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031F614BEFD
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 18:56:08 +0100 (CET)
-Received: from localhost ([::1]:34706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4669014BF0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 18:59:47 +0100 (CET)
+Received: from localhost ([::1]:34768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwV5q-0007gi-28
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 12:56:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57185)
+	id 1iwV9O-0004Ua-8s
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 12:59:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57287)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV3n-0005kh-Lj
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:01 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV3q-0005pt-1R
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV3m-0007LL-7W
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:53:59 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42876)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV3o-0007S7-N8
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:01 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54791)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV3l-0007Fo-VY
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:53:58 -0500
-Received: by mail-wr1-x444.google.com with SMTP id k11so2413997wrd.9
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:53:55 -0800 (PST)
+ id 1iwV3o-0007Pr-FY
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:00 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id g1so3491840wmh.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v7fP+V9ixvBHX58L9pfbBMpyNUVrGlItPTLd0Obr3k0=;
- b=BoL1lgahF/lhS3PwpFzVequl9uOTx1rqxrGLix5RU2vYzZfPCHDMjrdT9GC/aD0AP0
- LrsnuCPOQQwpd+AcqWFv2emQevs/KOv1HWWatq5cttz3f4CxpWmJ/MsMv+X3uVfNs/Ev
- wJUhr41qj4Ql8iOKaIVm9bHHu+4t7+2bLG7woITR8e6oa7dI3TlHFJmKZUy674JiW6dz
- 0Y9BCkdlvz0zRoNfx03WQ3wKycf91iFVJzcav8ZsImFhtRVi6iA6RDxNNJDiGUGyfwyS
- qgy4bTpFkYKcOg66SG5xSMdUgrKrPJ6u7r2M7GSH4AjpL5cbjDVDLNMkBBpNQSVqtv6T
- STyA==
+ bh=Oy+iZyCBorIM63EY2Md4vrVEQjwIf0u0WuvCdwfh8WQ=;
+ b=Hnv7cETyQudHvcI0Q+i9EwLUwbd91pAU4DcxA/ku4jxJw1Wtr/GvYfh6pN/8Ac/xJo
+ FsYPYz8zlA8dYu4D7xunhmXZS0e31ConzMGJIYlV/OQ/xVUr9KgHamIGOkqvJWP757tk
+ Q5CLuPSN/qiCMaw0pOYti0N1DDLBfs+Bt2B9q0VK7VNmqXGEvb4hzMl4N2n5kvWftznX
+ NuiEb98DBTFAixw9QfEHUJXQJcfhvzaHvaPLZbdFIIVRhWFFLdvSTrDqTDQbie7h1qxB
+ s6tx7QRnX2boFTJqayGzhTFF9nVLDbGcV2GjKm//QbZofkhSno/YgyVfFHx66xrEaqUa
+ xOOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=v7fP+V9ixvBHX58L9pfbBMpyNUVrGlItPTLd0Obr3k0=;
- b=ubThG8asSLEGRvDhIprGm9IKVh0MQJCKAQmTPutrOUDr5UlJeYWjt9fOe7JuT28roK
- 0DI0DrChGWjoMcm34hje3zoGF8vzUAj8ynWlr2YD0zzUo5wHOGh2nYoSig4er8YGBqxv
- fbzm69FgGdbLAjFth5RJMFKq4RQcWpK6+e2DZuJJ/OwmtcU79QdPwb/gtEV/RQAC8JD8
- AY4s9+dVJVDxHIQBnbKCIP/Ekcog7DwZP8ARJGUO2JRWTOqIMTiFT6lTclh6mmV49M2T
- PyqXlcAXlsiBtMXj3Y01aA+Wd+XGWkr3aiGNZAaCu+yyMPo1N4HsXEK2N1ozA+JmtjPU
- 6O5w==
-X-Gm-Message-State: APjAAAWprpU+mJzQQ6I3dvy+y6SFMGUJiatVld1ieZHde6ptbDwS1itZ
- aS2Snh8bvGO2yVM8bMSSoQ+sOxS1
-X-Google-Smtp-Source: APXvYqx7+JDUBgRIRAqx9jXuaF/WlEqWtQMCBODqVDGDnWfO8D0uAM7+RAPMheVYfKchdOgtPpctEA==
-X-Received: by 2002:adf:edd0:: with SMTP id v16mr29337586wro.310.1580234034537; 
- Tue, 28 Jan 2020 09:53:54 -0800 (PST)
+ bh=Oy+iZyCBorIM63EY2Md4vrVEQjwIf0u0WuvCdwfh8WQ=;
+ b=clzj7vRSFWdEfB0A54h82U+DeafmDaV7zrnYsTG3/Xq42P6wiIrxB11Fhe1sTWhK9W
+ QS1ZJlygY86cuDwHgauI/Ab0X343BUoyqqse/dvgx7wtwsKJowlNVKMT921AYJ0e7D2X
+ xz/mUNvVMD7IZB81MZO760GjMJ017NlaZo4tGRVHsPbRzRma4HkiqGGKNWz+1MlRPYey
+ ofKaAsI/Rc3p3dQTHnzVv7tTMc/F9ybaJ2Us5cfAx87X3kIVUOj1Arz3Yc6U7BP4cA2g
+ HY/ELyp4hkJ5Bc0XNzZD0XJGgO4Pw660K2qVt6SRwsZr/ZCP2sLcBLVJKPG0urmKU7Q+
+ ylkw==
+X-Gm-Message-State: APjAAAV77M3up5Gy8ziss0VlZiW5HiHE421NbfPwPbCQZuRoZKjBp+o5
+ nJ8tIjqdIWWiDjLiFz7aGl7whLWQ
+X-Google-Smtp-Source: APXvYqwNfXNj8yjia4dBO+HrVf07prk6LJTt6Od9HQsEdm7DS5EGFTR3FmHZFthtWh5mj+vyM1Dnuw==
+X-Received: by 2002:a1c:7215:: with SMTP id n21mr6667684wmc.154.1580234039288; 
+ Tue, 28 Jan 2020 09:53:59 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.53.52
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.53.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:53:54 -0800 (PST)
+ Tue, 28 Jan 2020 09:53:58 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 002/142] optionrom: simplify Makefile
-Date: Tue, 28 Jan 2020 18:51:22 +0100
-Message-Id: <20200128175342.9066-3-pbonzini@redhat.com>
+Subject: [PATCH 004/142] build-sys hack: ensure target directory is there
+Date: Tue, 28 Jan 2020 18:51:24 +0100
+Message-Id: <20200128175342.9066-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,122 +85,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Make it independent from the rules.mak, and clean up to use pattern rules.
+By removing some unnest-vars calls, we miss some directory creation
+that may be required by some/dir/object.d.
+
+This will go away once everything is converted to Meson.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- pc-bios/optionrom/Makefile | 67 +++++++++++++++++++++++---------------
- 1 file changed, 41 insertions(+), 26 deletions(-)
+ rules.mak | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-index e33a24da0d..51cb6ca9d8 100644
---- a/pc-bios/optionrom/Makefile
-+++ b/pc-bios/optionrom/Makefile
-@@ -1,13 +1,16 @@
--all: build-all
-+CURRENT_MAKEFILE := $(realpath $(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST)))
-+SRC_DIR := $(dir $(CURRENT_MAKEFILE))
-+TOPSRC_DIR := $(SRC_DIR)/../..
-+VPATH = $(SRC_DIR)
-+
-+all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
- # Dummy command so that make thinks it has done something
- 	@true
+diff --git a/rules.mak b/rules.mak
+index 967295dd2b..e19ad194af 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -66,6 +66,7 @@ expand-objs = $(strip $(sort $(filter %.o,$1)) \
+                   $(filter-out %.o %.mo,$1))
  
- include ../../config-host.mak
--include $(SRC_PATH)/rules.mak
--
--$(call set-vpath, $(SRC_PATH)/pc-bios/optionrom)
- 
--.PHONY : all clean build-all
-+quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
-+cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null >/dev/null 2>&1 && echo OK), $1, $2)
- 
- # Compiling with no optimization creates ROMs that are too large
- ifeq ($(lastword $(filter -O%, -O0 $(CFLAGS))),-O0)
-@@ -15,48 +18,60 @@ override CFLAGS += -O2
- endif
- override CFLAGS += -march=i486
- 
--# Drop -fstack-protector and the like
--QEMU_CFLAGS := $(filter -W%, $(QEMU_CFLAGS)) $(CFLAGS_NOPIE) -ffreestanding
--QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-stack-protector)
--QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -m16)
--ifeq ($(filter -m16, $(QEMU_CFLAGS)),)
-+# Flags for dependency generation
-+override CPPFLAGS += -MMD -MP -MT $@ -MF $(@D)/$(*F).d
-+
-+override CFLAGS += $(filter -W%, $(QEMU_CFLAGS))
-+override CFLAGS += $(CFLAGS_NOPIE) -ffreestanding -I$(TOPSRC_DIR)/include
-+override CFLAGS += $(call cc-option, -fno-stack-protector)
-+override CFLAGS += $(call cc-option, -m16)
-+
-+ifeq ($(filter -m16, $(CFLAGS)),)
- # Attempt to work around compilers that lack -m16 (GCC <= 4.8, clang <= ??)
- # On GCC we add -fno-toplevel-reorder to keep the order of asm blocks with
- # respect to the rest of the code.  clang does not have -fno-toplevel-reorder,
- # but it places all asm blocks at the beginning and we're relying on it for
- # the option ROM header.  So just force clang not to use the integrated
- # assembler, which doesn't support .code16gcc.
--QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-toplevel-reorder)
--QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -no-integrated-as)
--QEMU_CFLAGS += -m32 -include $(SRC_PATH)/pc-bios/optionrom/code16gcc.h
-+override CFLAGS += $(call cc-option, -fno-toplevel-reorder)
-+override CFLAGS += $(call cc-option, -no-integrated-as)
-+override CFLAGS += -m32 -include $(SRC_DIR)/code16gcc.h
- endif
- 
--QEMU_INCLUDES += -I$(SRC_PATH)
--
- Wa = -Wa,
--ASFLAGS += -32
--QEMU_CFLAGS += $(call cc-c-option, $(QEMU_CFLAGS), $(Wa)-32)
-+override ASFLAGS += -32
-+override CFLAGS += $(call cc-option, $(Wa)-32)
- 
--build-all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
- 
--# suppress auto-removal of intermediate files
--.SECONDARY:
-+LD_I386_EMULATION ?= elf_i386
-+override LDFLAGS = -m $(LD_I386_EMULATION) -T $(SRC_DIR)/flat.lds
-+override LDFLAGS += $(LDFLAGS_NOPIE)
- 
-+all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
-+
-+pvh.img: pvh.o pvh_main.o
- 
- %.o: %.S
--	$(call quiet-command,$(CPP) $(QEMU_INCLUDES) $(QEMU_DGFLAGS) -c -o - $< | $(AS) $(ASFLAGS) -o $@,"AS","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(CPP) $(CPPFLAGS) -c -o - $< | $(AS) $(ASFLAGS) -o $@,"AS","$@")
- 
--pvh.img: pvh.o pvh_main.o
--	$(call quiet-command,$(LD) $(LDFLAGS_NOPIE) -m $(LD_I386_EMULATION) -T $(SRC_PATH)/pc-bios/optionrom/flat.lds -s -o $@ $^,"BUILD","$(TARGET_DIR)$@")
-+%.o: %.c
-+	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@,"CC","$@")
- 
- %.img: %.o
--	$(call quiet-command,$(LD) $(LDFLAGS_NOPIE) -m $(LD_I386_EMULATION) -T $(SRC_PATH)/pc-bios/optionrom/flat.lds -s -o $@ $<,"BUILD","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(LD) $(LDFLAGS) -s -o $@ $^,"BUILD","$@")
- 
- %.raw: %.img
--	$(call quiet-command,$(OBJCOPY) -O binary -j .text $< $@,"BUILD","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(OBJCOPY) -O binary -j .text $< $@,"BUILD","$@")
- 
- %.bin: %.raw
--	$(call quiet-command,$(PYTHON) $(SRC_PATH)/scripts/signrom.py $< $@,"SIGN","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(PYTHON) $(TOPSRC_DIR)/scripts/signrom.py $< $@,"SIGN","$@")
-+
-+include $(wildcard *.d)
- 
- clean:
- 	rm -f *.o *.d *.raw *.img *.bin *~
-+
-+# suppress auto-removal of intermediate files
-+.SECONDARY:
-+
-+.PHONY: all clean
+ %.o: %.c
++	@mkdir -p $(dir $@)
+ 	$(call quiet-command,$(CC) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
+ 	       $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) $($@-cflags) \
+ 	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
 -- 
 2.21.0
 
