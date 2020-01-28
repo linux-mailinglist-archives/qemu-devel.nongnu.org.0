@@ -2,76 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B26214B07F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 08:40:10 +0100 (CET)
-Received: from localhost ([::1]:54974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B0714B087
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 08:48:45 +0100 (CET)
+Received: from localhost ([::1]:55060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwLTl-0003Ov-1y
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 02:40:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37698)
+	id 1iwLc4-0006C0-Of
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 02:48:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39517)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dme@dme.org>) id 1iwLSv-0002vA-1H
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 02:39:18 -0500
+ (envelope-from <david.edmondson@oracle.com>) id 1iwLaC-0005Gg-EQ
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 02:46:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dme@dme.org>) id 1iwLSt-0001X5-PH
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 02:39:16 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53533)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dme@dme.org>) id 1iwLSt-0001WE-ER
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 02:39:15 -0500
-Received: by mail-wm1-x342.google.com with SMTP id s10so1334236wmh.3
- for <qemu-devel@nongnu.org>; Mon, 27 Jan 2020 23:39:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dme-org.20150623.gappssmtp.com; s=20150623;
- h=to:subject:in-reply-to:references:from:date:message-id:mime-version;
- bh=ebCi1LDysOkXXC38u1i+mPgHoG6dAotOoZjAyRPynOM=;
- b=l+IrpJcgpAcbNMGmJrbwEg9zJixiQO1J48Fl0FGjp9r60aKpgeRhp1tehE3Y246R0G
- 4NdycpasgmRFyo9ptGZlaoH92+Llhx1kRFx5YAmwSPvM3/hiTQ52LNQJCUfzJ22jgSoZ
- /50Nqdt5bDE4FQQDfqElDQCCba+rDVEgy/ergjWsGWZvyUK9dAQtiaRMJsXYbQH2CbB9
- Igv3h+CVKQtevTSxlKS6IyLy8EPRmojeo8R+c9SLs4hyHKIpEPGtW6yg28XePmAZouuJ
- 7y4j4K9Sg2Hrwn9AxdtPYx3C33rEtISysZiF3FwIT75RORYeE0WYvS9xZ+sS2P5PC+V7
- pPPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:subject:in-reply-to:references:from:date
- :message-id:mime-version;
- bh=ebCi1LDysOkXXC38u1i+mPgHoG6dAotOoZjAyRPynOM=;
- b=lMR6/DTpJsAcIgkAbguXWM6dP39txz7DPsg0SAIVgd4FuWZdmeRN/20rQYVDFMgXym
- Ml55IelsEYYdovrzMprQdfiJo2atEtM+4GRLPNn6eZLUJ4DW/665sfhPW5yehBqujAGv
- tadEsVZLv/dkXz7KRX3iOQTS8j384Fq7ffVtF1+7CpvTAYFAcP/OYxCogqT2ZiuUoyqN
- BhBjuOTi5EepdIbV5KsTuKmU4cRAiLqXIAaw/OCoQDWyZW8VSNKGunarUK9d0rxDf5gp
- 7pJiJUno3GLP0VtikLQtSHnxi1/1z4xvpeWCstV6TUIhi2efugP76qSDYwYdarvXQgcD
- 3MEw==
-X-Gm-Message-State: APjAAAUyVKLAeMiVzKZv74OJVemI71UNL14ICWEmESsJ8Cz+nGKHV2Sm
- ijQ8LJew+Apyezj6ukvHJA8zqA==
-X-Google-Smtp-Source: APXvYqxjvBbEmKuLErExrM55eC1pv/rmqOG3zsG8V2m6hunH4POog2ETQ1jF0IohKsmscVA9C3LPBA==
-X-Received: by 2002:a1c:4e05:: with SMTP id g5mr3159044wmh.138.1580197153458; 
- Mon, 27 Jan 2020 23:39:13 -0800 (PST)
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
- [81.149.164.25])
- by smtp.gmail.com with ESMTPSA id n3sm22921949wrs.8.2020.01.27.23.39.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jan 2020 23:39:12 -0800 (PST)
+ (envelope-from <david.edmondson@oracle.com>) id 1iwLaB-0007Yl-AO
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 02:46:48 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:34450)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david.edmondson@oracle.com>)
+ id 1iwLa2-0007II-Ev; Tue, 28 Jan 2020 02:46:38 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00S7XWTu137188;
+ Tue, 28 Jan 2020 07:46:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=to : cc : subject :
+ in-reply-to : references : sender : from : date : message-id :
+ mime-version : content-type; s=corp-2019-08-05;
+ bh=X438L84DasH+Sc/PilMQMTWr6Ph3ja4xJ64yUf9v4lI=;
+ b=ejXeXJNkQ2tQEXSZCdMyl07NkfvBGkzjlExma6KGeE0jbGyjQp/A2geOmi8NwoPsClGn
+ jAMfaK975e3BadFEYbpGgTBnTwfqUtAWf02EbC6SWa3/LukQUAPNiDTx6V654ON+pzgM
+ Msk+i/7ZzTrW9ZmlnqmOjBovs4sAyIAjPQxZ8+DMdpsuaugxYG12RzZJ0hRdWMaoomy+
+ WsO0WaiO0zzUIRuTghr/WfmXcvVTQZMR9vyuBW7CTonq2UvmixwzQGD4BTDvJ4/aUSJe
+ 10WJyN5G7dpbFxHfREL53ledYPlO/Ok9txbYfUWhTZCueGDfGkbvvKU9OhlBo1HsuMk3 RA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 2xrdmqc9jk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Jan 2020 07:46:30 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00S7XcJp130901;
+ Tue, 28 Jan 2020 07:46:29 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 2xry4w35jg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Jan 2020 07:46:29 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00S7kSqu010093;
+ Tue, 28 Jan 2020 07:46:28 GMT
+Received: from disaster-area.hh.sledj.net (/81.149.164.25)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 27 Jan 2020 23:46:28 -0800
 Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 22222fc7;
- Tue, 28 Jan 2020 07:39:11 +0000 (UTC)
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 0f3efdcd;
+ Tue, 28 Jan 2020 07:46:26 +0000 (UTC)
 To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 2/2] doc: Use @code rather than @var for options
-In-Reply-To: <8412b6bf-3819-9042-4ade-d42f36fd3a97@redhat.com>
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v2 1/2] qemu-img: Add --target-is-zero to convert
+In-Reply-To: <a689f9d9-a4b1-9201-1847-02a5afc255fd@redhat.com>
 References: <20200124103458.1525982-1-david.edmondson@oracle.com>
- <20200124103458.1525982-3-david.edmondson@oracle.com>
- <8412b6bf-3819-9042-4ade-d42f36fd3a97@redhat.com>
+ <20200124103458.1525982-2-david.edmondson@oracle.com>
+ <a689f9d9-a4b1-9201-1847-02a5afc255fd@redhat.com>
 X-HGTTG: gag-halfrunt
-From: David Edmondson <dme@dme.org>
-Date: Tue, 28 Jan 2020 07:39:11 +0000
-Message-ID: <cunr1zk9gio.fsf@gag-halfrunt.hh.sledj.net>
+From: David Edmondson <david.edmondson@oracle.com>
+Date: Tue, 28 Jan 2020 07:46:26 +0000
+Message-ID: <cuno8uo9g6l.fsf@gag-halfrunt.hh.sledj.net>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9513
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001280062
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9513
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001280062
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,44 +100,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Eric Blake <eblake@redhat.com> writes:
 
 > On 1/24/20 4:34 AM, David Edmondson wrote:
->> Texinfo defines @var for metasyntactic variables and such terms are
->> shown in upper-case or italics in the output of makeinfo. When
->> considering an option to a command, such as "-n", upper-casing is
->> undesirable as it may confuse the reader or be in conflict with the
->> equivalent upper-case option.
+>> In many cases the target of a convert operation is a newly provisioned
+>> target that the user knows is blank (filled with zeroes). In this
+>> situation there is no requirement for qemu-img to wastefully zero out
+>> the entire device.
 >> 
->> Replace the use of @var for options with @code to avoid this.
+>> Add a new option, --target-is-zero, allowing the user to indicate that
+>> an existing target device is already zero filled.
 >> 
 >> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
 >> ---
->>   qemu-img.texi | 16 ++++++++--------
->>   1 file changed, 8 insertions(+), 8 deletions(-)
+>>   qemu-img-cmds.hx |  4 ++--
+>>   qemu-img.c       | 25 ++++++++++++++++++++++---
+>>   qemu-img.texi    |  4 ++++
+>>   3 files changed, 28 insertions(+), 5 deletions(-)
 >
-> Is this patch still needed given Peter's recent push to move to rST 
-> documentation?
+> I'm working up a patch series that tries to auto-set this flag without 
+> user interaction where possible (for example, if lseek(fd, 0, SEEK_DATA) 
+> returns EOF, or if fstat() reports 0 blocks allocated, or if qcow2 sees 
+> no L2 tables allocated, or a proposed extension to NBD passes on the 
+> same...).  I may rebase my series on top of your patch and tweak things 
+> in yours accordingly.
+>
+> But as it stands, the idea makes sense to me; even if we add ways for 
+> some images to efficiently report initial state (and our existing 
+> bdrv_has_zero_init() is NOT such a method), there are enough other 
+> scenarios where the knob will be the only way to let qemu-img know the 
+> intent.
 
-No, it would be obviated by those changes.
+Having qemu-img figure things out on its own is obviously desirable, but
+I agree that there are enough cases where this won't be possible and,
+given the resulting performance improvement, it will still be useful to
+allow the caller to force things.
 
->> 
->> diff --git a/qemu-img.texi b/qemu-img.texi
->> index 3b6dfd8682..6b4a1ac961 100644
->> --- a/qemu-img.texi
->> +++ b/qemu-img.texi
->> @@ -74,13 +74,13 @@ keys.
->>   @item --image-opts
->>   Indicates that the source @var{filename} parameter is to be interpreted as a
->>   full option string, not a plain filename. This parameter is mutually
->> -exclusive with the @var{-f} parameter.
->> +exclusive with the @code{-f} parameter.
->>   
+>> +        case OPTION_TARGET_IS_ZERO:
+>> +            /*
+>> +             * The user asserting that the target is blank has the
+>> +             * same effect as the target driver supporting zero
+>> +             * initialisation.
 >
->
-> -- 
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
+> Hmm. A git grep shows that 'initialization' has 200 hits, 
+> 'initialisation' has only 29. But I think it's a US vs. UK thing, so I 
+> don't care which spelling you use.
+
+Yes, it's British English spelling. It was unconscious - I'll switch if
+there is an existing policy.
+
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+
+Thanks.
+
+If the conversion of the documentation to rST is imminent then I'll wait
+for that before submitting a followup with corresponding changes applied
+to the new docs.
 
 dme.
 -- 
-Don't you know you're never going to get to France.
+I'd come on over but I haven't got a raincoat.
 
