@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C0814C0FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:29:57 +0100 (CET)
-Received: from localhost ([::1]:36166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A847914C0C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:16:03 +0100 (CET)
+Received: from localhost ([::1]:35840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWYe-0007Uu-AT
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:29:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38654)
+	id 1iwWLC-0005JO-Jz
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:16:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8f-0005L1-P4
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:02 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8h-0005Mv-54
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8e-0001rQ-FG
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:01 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:50759)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8f-0001vm-Us
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:03 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50764)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV8e-0001oS-7u
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:00 -0500
-Received: by mail-wm1-x329.google.com with SMTP id a5so3537141wmb.0
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:59:00 -0800 (PST)
+ id 1iwV8f-0001su-Nl
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:01 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id a5so3537223wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:59:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ttwRYFAemNRv4jrg+BhgI1CmXV5jMDYq2H8cD28Br+A=;
- b=F1s2Y7fvA4zvPnHtKq5g6PALWfO40vxT8CrNO1C0EiMf+4B6V5ZJrzYFagBbo0mofW
- uho3KtQFexwFkpND4+EaIgxd8f7I6tBYUgld0p2xNlKAccGQaR4JwOSN8fsQbRVM3y6h
- 9mqavpfTwegkoNCcBMWJGn3QRFfq9uR5VPdsVR9OLTvnPMkroLFSzOl2xXVcUqXlgRzm
- Zv7CKX0F1bDTXc2JwAHdRyhoX9T6/+PjjFKw3sfjH0yAdeFjMTvkrFZ3tKf2B/Y1WTYQ
- Re8OGcfblifd5WpYC24TDLdVKW5zPNBnRCICu477DSZcLZMgXEL/moI+jC2eGIW50sQD
- Kz4A==
+ bh=S2BwddqM4KyEVlQnjNFvdzFycjeND7cyvTUeQLgDTTs=;
+ b=Sz7RcOcrjl9IB3PtZC14PcihXqhH3w7rg3n09nKJOSgusvKEuvacTzHtn0Dit26Z93
+ mD8/jWVRpO/EStt6gPthcp//XpK86sDrp2dcxK0GBr3VNFZnCPXP03RlWy9DMI7ZTRUG
+ YD5D7G86ZtfwCF8+Bn07yDPU+4FOpmhLqGWBW8MOa3jOGKWQ81RCWbCUyeYE51XdvVKu
+ 30sP4qBwcD5pK4eguWBbL0DQMMxZoRNMDhpxPnslCueVe4+3tSD2qoMC0phifxJYbqFt
+ FrK9Excikre86QTI/VbYo7NG2DPZ3NYKhDBDV5ZTkbmXGvDS4a13h6N08XWGWBg2wJb1
+ dNUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ttwRYFAemNRv4jrg+BhgI1CmXV5jMDYq2H8cD28Br+A=;
- b=TDjpJWaZKgt2Q6Kthoq3an0h5XvLguOkJy/LiiP+GnINpiYzxM7J6dC3P8MqtbodxR
- AKHs9aJTHTsGjOJABU5o4pWent6v3T+PnNzswbdJQxNOgJXou1n/OBm0yZV1Wf26mf95
- XJHSu1kmXFDk519TtWcLgPo80hgJma0MGRtuMJzn8mua5mNhdnce4e7Cv/ULgVhhIfmV
- +9jiG7UhM3+lgQFZU3fzgYJCjpseGNauwLit0BDP2wsS3ugJ50MpRsyPdTeMdjh1uli3
- ssNpH9POpz5tq0QdSgU9WbS3Kn99hZQ09648WWT6J9VvUr2vGj4VME5MDVs3MoU/wuIu
- uqDg==
-X-Gm-Message-State: APjAAAVkc/pOVL3BT+djV25xyVpfOGvQmYs05WppsnQga9XJwlpOVxh5
- XVUDG860Ccd5TQV1q2BDxtSey5yG
-X-Google-Smtp-Source: APXvYqxpN2+j+rDLsyVUmbmwbrjUY7JvO9YAmwHUXmkYtXWhXZ/ZnN+9qkJ5fa517125a/BMMC5kXw==
-X-Received: by 2002:a1c:61c1:: with SMTP id v184mr6614181wmb.160.1580234338604; 
- Tue, 28 Jan 2020 09:58:58 -0800 (PST)
+ bh=S2BwddqM4KyEVlQnjNFvdzFycjeND7cyvTUeQLgDTTs=;
+ b=HRpvJu485RzrXFYhoV0rY2dDzrZTtbJ3OHZMsjZiiwZ8W5KcHa991DlnyIYpZArqNQ
+ 3ttAKNJwQDP/2t/jeHptgNJjeW+2C4mnbg5ditomWSk/kAIsVmjA565mZegy0L03FJrg
+ 78vFvkGbRU+qpiKsXwd1DwrZrwZW9fvHxfpLqRDT+uK17eLknCPG7U0A6N/lXt6A0XjB
+ zFknLJ8v1/vhHzidHDYY6oiz41vJRQZATTxDcwRTIf7NsJOlRkJ1F7WYQyVdfzj9LmIS
+ nTyjEv+31HfxSIrFrYoOggk/EVQjsHSt+Awbi99mKqqCSayvDYV0Bv5niXbFAr7hmSkq
+ wSOw==
+X-Gm-Message-State: APjAAAXKmyaqWvvbEbeYzQ2SB2vFV4dd0LXcmnTn0GgqWpxBH6goazYP
+ SGHtTPXP9BgF7B2j+GACH8n7Eb/t
+X-Google-Smtp-Source: APXvYqybloEqI3Ro+mNzl0NAhNupOn3aTZaU1dlmkmT+6ikp2p58TdI/vE6hqU8i83o3QCNtLSpGNw==
+X-Received: by 2002:a7b:cc14:: with SMTP id f20mr6257925wmh.58.1580234340496; 
+ Tue, 28 Jan 2020 09:59:00 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.56
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:58:58 -0800 (PST)
+ Tue, 28 Jan 2020 09:59:00 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 131/142] meson: install icons
-Date: Tue, 28 Jan 2020 18:53:31 +0100
-Message-Id: <20200128175342.9066-132-pbonzini@redhat.com>
+Subject: [PATCH 132/142] meson: install desktop file
+Date: Tue, 28 Jan 2020 18:53:32 +0100
+Message-Id: <20200128175342.9066-133-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,66 +87,34 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile             | 13 -------------
- ui/icons/meson.build | 13 +++++++++++++
- ui/meson.build       |  1 +
- 3 files changed, 14 insertions(+), 13 deletions(-)
- create mode 100644 ui/icons/meson.build
+ Makefile       | 3 ---
+ ui/meson.build | 2 ++
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 11e87a0c77..898949ded6 100644
+index 898949ded6..474aaeb1a9 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -229,20 +229,7 @@ ifeq ($(CONFIG_GUEST_AGENT),y)
- endif
+@@ -230,9 +230,6 @@ endif
  endif
  
--ICON_SIZES=16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
--
  install: all install-datadir install-localstatedir
--	for s in $(ICON_SIZES); do \
--		mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps"; \
--		$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_$${s}.png \
--			"$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps/qemu.png"; \
--	done; \
--	mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/32x32/apps"; \
--	$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_32x32.bmp \
--		"$(DESTDIR)$(qemu_icondir)/hicolor/32x32/apps/qemu.bmp"; \
--	mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/scalable/apps"; \
--	$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu.svg \
--		"$(DESTDIR)$(qemu_icondir)/hicolor/scalable/apps/qemu.svg"
- 	mkdir -p "$(DESTDIR)$(qemu_desktopdir)"
- 	$(INSTALL_DATA) $(SRC_PATH)/ui/qemu.desktop \
- 		"$(DESTDIR)$(qemu_desktopdir)/qemu.desktop"
-diff --git a/ui/icons/meson.build b/ui/icons/meson.build
-new file mode 100644
-index 0000000000..b6e21f6ad7
---- /dev/null
-+++ b/ui/icons/meson.build
-@@ -0,0 +1,13 @@
-+foreach s: [16, 24, 32, 48, 64, 128, 256, 512]
-+  s = '@0@x@0@'.format(s.to_string())
-+  install_data('qemu_@0@.png'.format(s),
-+               rename: 'qemu.png',
-+               install_dir: config_host['qemu_icondir'] / 'hicolor' / s / 'apps')
-+endforeach
-+
-+install_data('qemu_32x32.bmp',
-+             rename: 'qemu.bmp',
-+             install_dir: config_host['qemu_icondir'] / 'hicolor' / '32x32' / 'apps')
-+
-+install_data('qemu.svg',
-+             install_dir: config_host['qemu_icondir'] / 'hicolor' / 'scalable' / 'apps')
+-	mkdir -p "$(DESTDIR)$(qemu_desktopdir)"
+-	$(INSTALL_DATA) $(SRC_PATH)/ui/qemu.desktop \
+-		"$(DESTDIR)$(qemu_desktopdir)/qemu.desktop"
+ ifdef CONFIG_GTK
+ 	$(MAKE) -C po $@
+ endif
 diff --git a/ui/meson.build b/ui/meson.build
-index 95ffde3f9a..1d87b975e1 100644
+index 1d87b975e1..024aa18bac 100644
 --- a/ui/meson.build
 +++ b/ui/meson.build
-@@ -108,5 +108,6 @@ foreach e : keymaps
- endforeach
- 
+@@ -110,4 +110,6 @@ endforeach
  subdir('shader')
-+subdir('icons')
+ subdir('icons')
  
++install_data('qemu.desktop', install_dir: config_host['qemu_desktopdir'])
++
  modules += {'ui': ui_modules}
 -- 
 2.21.0
