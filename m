@@ -2,101 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557DB14C10D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:33:52 +0100 (CET)
-Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86CF214C130
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:44:00 +0100 (CET)
+Received: from localhost ([::1]:36688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWcR-0006Jl-Ak
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:33:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42934)
+	id 1iwWmF-0000ju-JM
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:43:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34002)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iwVSg-0006YA-LI
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:19:43 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iwVf8-0000CM-Mo
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:32:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iwVSf-0000uc-70
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:19:42 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:41029)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iwVSe-0000pv-PF
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:19:41 -0500
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MElhb-1imGi92Wmh-00GJKw; Tue, 28 Jan 2020 19:19:22 +0100
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1579227117-6310-1-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH 0/4] linux-user: Fix some issues in termbits.h files
-Message-ID: <994d96ac-ce43-9ff5-7212-eda6e12264fb@vivier.eu>
-Date: Tue, 28 Jan 2020 19:19:20 +0100
+ (envelope-from <richard.henderson@linaro.org>) id 1iwVf7-0000Eg-HU
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:32:34 -0500
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:38785)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iwVf7-0000CR-9o
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:32:33 -0500
+Received: by mail-pl1-x641.google.com with SMTP id t6so5449879plj.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 10:32:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=3FFMCR8sdXEoSiA365oWEWFgYiyrqQdXUFAmRVZXTUw=;
+ b=hdSYwsPrGkkncCD4J9tQsacjrzQ13mi6LmEzBkuRoA8MQ1YLREp2945t/WLphzXB/P
+ 12JXkr2qYeUF7G5CAuckEeabC1rHXYaoC8azN6QkTrcQ4221G5DvJhwxqPXUTUWRZZN0
+ FYtXOBBF+JYvzKtq6rHTz5Q4bAN/W0NZq0SN5f8iRE1xcEDoTA69NqV6Gbqo8CKn4BCZ
+ T35M1urJgR69+C+lPyFSPbHggQpH6xlbEV+72to5fKx6kSzghfxdeOj8lpDuP7M82ZhR
+ lzfHQeSSyI4IwLGIa/Hx3s+eR4FoJgjgqfKVTQsFyMY7DAwnkX+oIZ/EraZs6g0zseb7
+ gUOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3FFMCR8sdXEoSiA365oWEWFgYiyrqQdXUFAmRVZXTUw=;
+ b=EhOGFAq7dMDRuvcNeKEEVldK+jSlN8adtVDuYb3RWU0rTON+OReGGEX432mufiG+M7
+ FgpCnEfbVau9KlWIhoURhLV1+YtBl9r+Li93u8H7A6p9DN1XuOvRv7FKdxc0WXur+msc
+ wZbSnxI7YFdmpIsSMBqMJA1cJ5VH/aSNw+GwRcKFWirMGX8lahoIHksi7jqsiR3ssQ3H
+ fAR4Vf++61Y7sHZ/ZMN6DPwdjV9OQsM3Zl7+57TZ7hhkbJl3y10W4IFd4Vh0qRLfPWr5
+ NXFaAga9Kpwo61KmMyDN6lP4wGLBV7kesXtD4ssGkq7RD5CVGb21gd6J0FPmgZK1Pg8P
+ C/+Q==
+X-Gm-Message-State: APjAAAXBwIgBC9KkMu16Go9ESUXQTr5jnf+TXIEI8uXfuzoqvz2gLkcf
+ mtJEAIfW2WcNcZjATMLdHxdwrQ==
+X-Google-Smtp-Source: APXvYqyFLSDUuIkAvp4Uc3BBRrFgmW3hn5+6demG/yFr7hjJiR1ZJs7TN7OooI/cgyecvjc780jISA==
+X-Received: by 2002:a17:90a:a88f:: with SMTP id
+ h15mr6503848pjq.32.1580236351958; 
+ Tue, 28 Jan 2020 10:32:31 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ m71sm3440296pje.0.2020.01.28.10.32.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Jan 2020 10:32:31 -0800 (PST)
+Subject: Re: [PATCH v2] riscv: Add helper to make NaN-boxing for FP register
+To: Ian Jiang <ianjiang.ict@gmail.com>, qemu-devel@nongnu.org
+References: <20200128003707.17028-1-ianjiang.ict@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b14a65dd-b565-77ca-d479-f88e53ca0721@linaro.org>
+Date: Tue, 28 Jan 2020 10:32:29 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <1579227117-6310-1-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <20200128003707.17028-1-ianjiang.ict@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nDvJHc227Wpfv1exZCsxDLhBA9GSI2Uuytp/pj+RTz8bTL3Yg8x
- vPFbr0Ne+EqasmG4+RtHCtOrsONokgxGKY408Ii3D2DiGxbGcA5vjRmy2hzAxNUdnUPhX1i
- zJQlBey0cBNBSQeqq4vjnERlSUbLfWtc9y8irCLq6VSNnPk/1mUPm9iSJpmJphMK5LuGsw8
- wRvZ+1HrexfEOxjw5SNtg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IzbYpwGHuUw=:9n9fm9tdPHyI3+tKIZdBfV
- 7DgW9/MYAkZbQWs0qjfZ7K4yZXzM26IQSofW5Li00Z+jAQ+q0j20fKOp8LfwiCplKN6QJQTE0
- yFEyWxc7r2AuJ9zUNrZmfzpo0ddqORmDRqGrbDwUwC25CVypXJGRH0aNpm87hN0fLoqykItoE
- lUQqX+05eQYfyNEWYMW8PRmyReVv+saxBsKmV5xTzhHB/hljTE3meJkxKtqbm/AX4tcOa17rj
- /JzJmnz6e1zdcIsE0k1TjEW9iuKGl/9y/7pYMnjQdCH5gm2nNEf/kXGeO9klz9Py70qS4Ws1z
- wu+p5aK2v7yl88kwwBcA2w73goeWk7cun5NJM9M4R7fy0aws1yyNHrOJbhq5c4s2vYVkI9ufR
- t6KC1dlxFd8NzNdA+wDTw7OA9h/H7sxNPXjNcK6BuRwZaK6LiOpoz/SVFAlaCh/7pwCLI7cGu
- SEmkPzPoe733TzoAaIeAV1LJc9TP1PZ5dxofiERNya2s9rP7p1j/21y6grw/Q2RAC15+HX4KU
- SplES+ROPxie7+R/WMt4oyATutBZQnhlp3ioPV8SWRnczn/uxKbxVNL5x3mSTnoTRVRcfe+i0
- SVi1UjE1/wPol9899xCokyIOgsbBf6zdSZXDRhRSWOjvrMSq47W9ygtHWynFwLR1eq1TQy0yS
- jIo6lDFcnEUx1fWlRtBgk1nPn5CNmUNXJOjMwZK/fPZ/OCNI+CLFFM2TjzCUyRT/obixEQamJ
- pKo/CMcEkLKds8cjk+0aKkbI4KOrJnysbpBHQst3ECi3NmyXMS6kMSLf8gLIbto1eyBAP2NER
- SKQ36oxAQw2rHvHS5c+JV0GTpytab/50sDW36T5xt4JWuna2G0/WDovB0AVgNeeSCllDzDs
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.187
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,87 +83,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: amarkovic@wavecomp.com
+Cc: palmer@dabbelt.com, Alistair.Francis@wdc.com, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/01/2020 à 03:11, Aleksandar Markovic a écrit :
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On 1/27/20 4:37 PM, Ian Jiang wrote:
+> The function that makes NaN-boxing when a 32-bit value is assigned
+> to a 64-bit FP register is split out to a helper gen_nanbox_fpr().
+> Then it is applied in translating of the FLW instruction.
 > 
-> This series is a spin-off of v5 of earlier series "linux-user: Misc
-> patches for 5.0", that became too large to manage. I will submit the
-> rest of that large series separately.
-> 
-> Files linux-user/<target>/termbits.h seem to be in a very bad shape:
-> unsynchronized with kernel, containing wrong elements expressed in
-> terms of host instead of target, many being updated wrt kernel
-> content at various times, and on top of that all contain visually
-> very ugly combinations of tabs and spaces.
-> 
-> This series attempts to fix great majority of issues in termbits.
-> 
-> Alpha's and mips' termbits.h were in the worst shape, missing large
-> bits and pieces, and for them as complete as possible synchronization
-> with kernel code is done - this constitutes the first two patches.
-> 
-> Xtensa's termbits.h contained the most elements wrongly expressed in
-> terms of host instead of target, and that is the reason the changes
-> in this file are placed in a separate, third, patch. Previous "R-B"
-> given by Max Filippov was transferred to this patch only.
-> 
-> The fourth patch fixes remaining elements wrongly expressed in
-> terms of host instead of target.
-> 
-> As an additional note, structures "serial_iso7816" and "serial_rs485"
-> (at times mentioned as the third argument of certain ioctls) are
-> platform-independant in kernel, and do not need "target_" variant
-> in QEMU. Also, structure "winsize" (also appearing as the third
-> ioctl's argument at times) is defined at multiple places in kernel
-> (for several architectures) in kernel, but all such definitions are
-> identical, and, therefore, it also does not need "target_" variant
-> in QEMU.
-> 
-> A checkpatch warning related to "#if 0" in patch 2 is benign, and
-> should be ignored.
-> 
-> Aleksandar Markovic (4):
->   linux-user: alpha: Synchronize termbits.h with kernel
->   linux-user: mips: Synchronize termbits.h with kernel
->   linux-user: xtensa: Fix some constants in termbits.h
->   linux-user: Fix some constants in remaining termbits.h
-> 
->  linux-user/aarch64/termbits.h    |   4 +-
->  linux-user/alpha/termbits.h      |  82 ++++++++++++++--
->  linux-user/arm/termbits.h        |   4 +-
->  linux-user/cris/termbits.h       |   4 +-
->  linux-user/hppa/termbits.h       |   4 +-
->  linux-user/i386/termbits.h       |   4 +-
->  linux-user/m68k/termbits.h       |   4 +-
->  linux-user/microblaze/termbits.h |   4 +-
->  linux-user/mips/termbits.h       | 140 ++++++++++++++++----------
->  linux-user/nios2/termbits.h      |   4 +-
->  linux-user/openrisc/termbits.h   |  14 +--
->  linux-user/ppc/termbits.h        |   4 +-
->  linux-user/riscv/termbits.h      |   4 +-
->  linux-user/s390x/termbits.h      |  26 ++---
->  linux-user/sh4/termbits.h        |   4 +-
->  linux-user/sparc/termbits.h      |   4 +-
->  linux-user/sparc64/termbits.h    |   4 +-
->  linux-user/tilegx/termbits.h     |  12 ++-
->  linux-user/x86_64/termbits.h     |  26 +++--
->  linux-user/xtensa/termbits.h     | 207 +++++++++++++++++++++------------------
->  20 files changed, 353 insertions(+), 206 deletions(-)
-> 
+> Signed-off-by: Ian Jiang <ianjiang.ict@gmail.com>
+> ---
+>  target/riscv/insn_trans/trans_rvf.inc.c | 17 +++++++++++++++--
+>  1 file changed, 15 insertions(+), 2 deletions(-)
 
-I think we should first introduce a linux-user/generic/termbits.h as we
-have an asm-generic/termbits.h in the kernel and use it with all the
-targets except alpha, mips, hppa, sparc and xtensa.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-I think this linux-user/generic/termbits.h could be copied from
-linux-user/openrisc/termbits.h (without the ioctl definitions)
 
-Then you could update the remaining ones.
-
-Thanks,
-Laurent
+r~
 
