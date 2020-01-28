@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F81214C029
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:49:05 +0100 (CET)
-Received: from localhost ([::1]:35456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC1A14C058
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:51:39 +0100 (CET)
+Received: from localhost ([::1]:35494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVv5-00077D-Vf
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:49:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35756)
+	id 1iwVxa-0002hm-Dy
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:51:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35995)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7L-0002ul-9P
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:40 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7R-0002zy-8x
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7J-000722-7t
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:39 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37774)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7P-0007Fd-Tw
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:45 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38272)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV7I-0006ya-Uo
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:37 -0500
-Received: by mail-wm1-x330.google.com with SMTP id f129so3584822wmf.2
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:57:36 -0800 (PST)
+ id 1iwV7P-0007Bk-EY
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:43 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id y17so17113534wrh.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:57:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d6l4tZ9pfhRBA9Czb1QwHQR1aHPqNcmnt0bAAwSfWBM=;
- b=rbEFGWGVu7HIM6A3qDFBA+ZFva4kwMezhr/N0idbJREmahdpjqVF5pM3u3bJwDJ/er
- B2pl6mtkjcZtg8ycYBFHO9b8YMd2gH+qzEFBqrYjERLyGhOCDyayQ4uNtvevi9tM8qXH
- T4I+euraVGIxcRiHfeko0ZiqRjB1VWlsUKx8yVOFandxdR8PVsEwPygnI97XUr+4kdqG
- cpUubYrM+xgDN6R/keVn41PQomNeUFHNrbSTyVBHVAqlmPvufx1Qy/J3uKhfg88XxEbA
- 4X6Zw7S8J62YqpoWqaeEwQV76cVjOqM2zvqkwtzw1woAJ3Y9v5oB7p99qIWRigPNrv+I
- qz9Q==
+ bh=V7HQM6ZWCaBttTOQek/jXmWm+z3vGBaU4dKSv+ffCGg=;
+ b=tJ3gtYngsrvJwfx0Sk0sabugYaQInlk8AUdNSLOVkF+h1OnJWcLss7ZejXMl8AVKd3
+ x9UIHz2feTdWs1SlXlT2tntgiJsiohVuXvdqCBkLXoklOmxGA6BN7KYS3JOJPKmEuV4z
+ bFBRmulM9fq0JRuHlcpuom0nuZu6OILLvsVmm5Zy2zPEKOObPmkd/Zw8f+I+gHMi4xDM
+ OaH8etwLNkAHvwCVQIi8os2skL0z7yWzVTM/r2bE7e9eNnwe0UpmdC86EqPvOaWab1IW
+ w4sVSkLD2z7IN3dK3KE6k6WKZ9MKOHiImyDP/W5l9YAifaNH/lSezZwuubfu/NeX4q+3
+ d/2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=d6l4tZ9pfhRBA9Czb1QwHQR1aHPqNcmnt0bAAwSfWBM=;
- b=k3tdkjjw/nuiiIHOiWS2CQey5jdYx0cx+oy1q8bWb+11p4tT5Gif1Pk7OOhib9cNAa
- 8aoUEPZL+/FR04seGLtiX21liQ+IyCuT844KrmGBENGy165mpgB0QIumqTBRtRmalIVq
- sBfrNsX7VoF0A07/VynyEl33TxGJTDm816EnMso+vV9y6sC+OiHH2g6AFnSR4i0eD7nf
- ujV4LWJoY0ixHElyg72DAy0dNye83qGzHzDRkuJqy8K2RpWPly/rTvctBxjPAaa7PYgq
- OLUfUfFHBRAn/QFMGRNJzBVevYsRtK85KqByykpO2hFI5s+iwSyFK3nYAEY3Lx26nFbs
- bmqQ==
-X-Gm-Message-State: APjAAAXir5qNEPnrmF2xC4QF7dYqdH3Jrv3mDN8xMBPvjotaJlao1eZ6
- bHGJevjaxRU60F5DfWy80IcJmSHX
-X-Google-Smtp-Source: APXvYqz3RvjxQ5S23twztyV9bwbB4OvMj/TRCpyMXEC11IKKMU19o7S6MBKzQY2Gg97bYMd3PFye0A==
-X-Received: by 2002:a1c:1f56:: with SMTP id f83mr6233998wmf.93.1580234255351; 
- Tue, 28 Jan 2020 09:57:35 -0800 (PST)
+ bh=V7HQM6ZWCaBttTOQek/jXmWm+z3vGBaU4dKSv+ffCGg=;
+ b=mpsYZUz6SO+R6M0WS37NLDVGvAdJ5F/a76698kF/LK6gR8rjaTnGge84YhF9SQNgQC
+ 2UkihW7qxkYuXe9rA0mWg/7uHONZy39v9r9S90h9D7afkPMehdhHIOctOcOHtm1qngtm
+ i8WjFquXwEQ7FakdjwPttmo6m2kXGAJ+iCi2S33ctT1IeqVffqYjlFURXHzSDFPT/5HR
+ yqJ7IlyynwqR2deiPoDNbvUqaJEgybDCMoPiNmdBRR65byCfApRuPvQqbwQ1LuN7mMdl
+ Ga+wmKwvOXADlbeLI1PK1ita7K2gucyKUwmM3+hFJ70e1mYtVwz3gyoIYvDCZspOozx9
+ pbog==
+X-Gm-Message-State: APjAAAX1XsHdsZ3mVD87TEjPEjnccjcXRudk8wMFcMZransjSQNJaIR/
+ JFVZCGcxq5docwJ96YlOkzDggDCZ
+X-Google-Smtp-Source: APXvYqzaqL2+n2+zkD6VSO9o0pmZ+t1zzRsNFYN122jVs1B8MwGDJgi5nQz3FCs94cFfWi8PNI69Aw==
+X-Received: by 2002:adf:e40f:: with SMTP id g15mr29409067wrm.223.1580234261044; 
+ Tue, 28 Jan 2020 09:57:41 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.57.33
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.57.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:57:34 -0800 (PST)
+ Tue, 28 Jan 2020 09:57:40 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 097/142] meson: convert hw/input
-Date: Tue, 28 Jan 2020 18:52:57 +0100
-Message-Id: <20200128175342.9066-98-pbonzini@redhat.com>
+Subject: [PATCH 099/142] meson: convert hw/i2c
+Date: Tue, 28 Jan 2020 18:52:59 +0100
+Message-Id: <20200128175342.9066-100-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,82 +87,79 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs       |  1 -
- hw/input/Makefile.objs | 17 -----------------
- hw/input/meson.build   | 17 +++++++++++++++++
- hw/meson.build         |  1 +
- 4 files changed, 18 insertions(+), 18 deletions(-)
- delete mode 100644 hw/input/Makefile.objs
- create mode 100644 hw/input/meson.build
+ hw/Makefile.objs     |  1 -
+ hw/i2c/Makefile.objs | 13 -------------
+ hw/i2c/meson.build   | 18 ++++++++++++++++++
+ hw/meson.build       |  1 +
+ 4 files changed, 19 insertions(+), 14 deletions(-)
+ delete mode 100644 hw/i2c/Makefile.objs
+ create mode 100644 hw/i2c/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 1e52bc3b1a..52a99a8760 100644
+index 545d7440b5..95c065d18f 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -12,7 +12,6 @@ devices-dirs-y += gpio/
+@@ -10,7 +10,6 @@ devices-dirs-y += display/
+ devices-dirs-y += dma/
+ devices-dirs-y += gpio/
  devices-dirs-$(CONFIG_HYPERV) += hyperv/
- devices-dirs-$(CONFIG_I2C) += i2c/
- devices-dirs-y += ide/
--devices-dirs-y += input/
+-devices-dirs-$(CONFIG_I2C) += i2c/
  endif
  
  common-obj-y += $(devices-dirs-y)
-diff --git a/hw/input/Makefile.objs b/hw/input/Makefile.objs
+diff --git a/hw/i2c/Makefile.objs b/hw/i2c/Makefile.objs
 deleted file mode 100644
-index a1bc502ed0..0000000000
---- a/hw/input/Makefile.objs
+index d7073a401f..0000000000
+--- a/hw/i2c/Makefile.objs
 +++ /dev/null
-@@ -1,17 +0,0 @@
--common-obj-$(CONFIG_ADB) += adb.o adb-mouse.o adb-kbd.o
--common-obj-y += hid.o
--common-obj-$(CONFIG_LM832X) += lm832x.o
--common-obj-$(CONFIG_PCKBD) += pckbd.o
--common-obj-$(CONFIG_PL050) += pl050.o
--common-obj-$(CONFIG_PS2) += ps2.o
--common-obj-$(CONFIG_STELLARIS_INPUT) += stellaris_input.o
--common-obj-$(CONFIG_TSC2005) += tsc2005.o
--
--common-obj-$(CONFIG_VIRTIO_INPUT) += virtio-input.o
--common-obj-$(CONFIG_VIRTIO_INPUT) += virtio-input-hid.o
--common-obj-$(CONFIG_VIRTIO_INPUT_HOST) += virtio-input-host.o
--common-obj-$(CONFIG_VHOST_USER_INPUT) += vhost-user-input.o
--
--obj-$(CONFIG_MILKYMIST) += milkymist-softusb.o
--obj-$(CONFIG_PXA2XX) += pxa2xx_keypad.o
--obj-$(CONFIG_TSC210X) += tsc210x.o
-diff --git a/hw/input/meson.build b/hw/input/meson.build
+@@ -1,13 +0,0 @@
+-common-obj-$(CONFIG_I2C) += core.o smbus_slave.o smbus_master.o
+-common-obj-$(CONFIG_SMBUS_EEPROM) += smbus_eeprom.o
+-common-obj-$(CONFIG_VERSATILE_I2C) += versatile_i2c.o
+-common-obj-$(CONFIG_ACPI_X86_ICH) += smbus_ich9.o
+-common-obj-$(CONFIG_ACPI_SMBUS) += pm_smbus.o
+-common-obj-$(CONFIG_BITBANG_I2C) += bitbang_i2c.o
+-common-obj-$(CONFIG_EXYNOS4) += exynos4210_i2c.o
+-common-obj-$(CONFIG_IMX_I2C) += imx_i2c.o
+-common-obj-$(CONFIG_ASPEED_SOC) += aspeed_i2c.o
+-common-obj-$(CONFIG_NRF51_SOC) += microbit_i2c.o
+-common-obj-$(CONFIG_MPC_I2C) += mpc_i2c.o
+-obj-$(CONFIG_OMAP) += omap_i2c.o
+-obj-$(CONFIG_PPC4XX) += ppc4xx_i2c.o
+diff --git a/hw/i2c/meson.build b/hw/i2c/meson.build
 new file mode 100644
-index 0000000000..6cc59e6037
+index 0000000000..43901e6f24
 --- /dev/null
-+++ b/hw/input/meson.build
-@@ -0,0 +1,17 @@
-+softmmu_ss.add(files('hid.c'))
-+softmmu_ss.add(when: 'CONFIG_ADB', if_true: files('adb.c', 'adb-mouse.c', 'adb-kbd.c'))
-+softmmu_ss.add(when: 'CONFIG_LM832X', if_true: files('lm832x.c'))
-+softmmu_ss.add(when: 'CONFIG_PCKBD', if_true: files('pckbd.c'))
-+softmmu_ss.add(when: 'CONFIG_PL050', if_true: files('pl050.c'))
-+softmmu_ss.add(when: 'CONFIG_PS2', if_true: files('ps2.c'))
-+softmmu_ss.add(when: 'CONFIG_STELLARIS_INPUT', if_true: files('stellaris_input.c'))
-+softmmu_ss.add(when: 'CONFIG_TSC2005', if_true: files('tsc2005.c'))
++++ b/hw/i2c/meson.build
+@@ -0,0 +1,18 @@
++i2c_ss = ss.source_set()
++i2c_ss.add(when: 'CONFIG_ACPI_SMBUS', if_true: files('pm_smbus.c'))
++i2c_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('smbus_ich9.c'))
++i2c_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_i2c.c'))
++i2c_ss.add(when: 'CONFIG_BITBANG_I2C', if_true: files('bitbang_i2c.c'))
++i2c_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_i2c.c'))
++i2c_ss.add(when: 'CONFIG_I2C', if_true: files('core.c', 'smbus_slave.c', 'smbus_master.c'))
++i2c_ss.add(when: 'CONFIG_IMX_I2C', if_true: files('imx_i2c.c'))
++i2c_ss.add(when: 'CONFIG_MPC_I2C', if_true: files('mpc_i2c.c'))
++i2c_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('microbit_i2c.c'))
++i2c_ss.add(when: 'CONFIG_SMBUS_EEPROM', if_true: files('smbus_eeprom.c'))
++i2c_ss.add(when: 'CONFIG_VERSATILE_I2C', if_true: files('versatile_i2c.c'))
++softmmu_ss.add_all(when: 'CONFIG_I2C', if_true: i2c_ss)
 +
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-input.c'))
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-input-hid.c'))
-+softmmu_ss.add(when: 'CONFIG_VIRTIO_INPUT_HOST', if_true: files('virtio-input-host.c'))
-+softmmu_ss.add(when: 'CONFIG_VHOST_USER_INPUT', if_true: files('vhost-user-input.c'))
-+
-+specific_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-softusb.c'))
-+specific_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_keypad.c'))
-+specific_ss.add(when: 'CONFIG_TSC210X', if_true: files('tsc210x.c'))
++specific_i2c_ss = ss.source_set()
++specific_i2c_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_i2c.c'))
++specific_i2c_ss.add(when: 'CONFIG_PPC4XX', if_true: files('ppc4xx_i2c.c'))
++specific_ss.add_all(when: 'CONFIG_I2C', if_true: specific_i2c_ss)
 diff --git a/hw/meson.build b/hw/meson.build
-index 986e710287..b15c8d0970 100644
+index 4d7c31c652..983edc1d47 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,4 +1,5 @@
  subdir('core')
-+subdir('input')
++subdir('i2c')
+ subdir('ide')
+ subdir('input')
  subdir('intc')
- subdir('ipack')
- subdir('ipmi')
 -- 
 2.21.0
 
