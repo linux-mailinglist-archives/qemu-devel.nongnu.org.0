@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E83014B2E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 11:42:15 +0100 (CET)
-Received: from localhost ([::1]:56774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DD814B2F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 11:48:25 +0100 (CET)
+Received: from localhost ([::1]:56846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwOJy-0003qZ-9t
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 05:42:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49267)
+	id 1iwOPw-0007lW-KX
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 05:48:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51241)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iwOHy-0000QB-7V
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:40:11 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1iwOOu-00072g-Ns
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:47:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iwOHw-0002mY-W2
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:40:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29548
+ (envelope-from <eric.auger@redhat.com>) id 1iwOOt-0001KA-Re
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:47:20 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46828
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iwOHw-0002mJ-Ra
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:40:08 -0500
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1iwOOt-0001Jv-Oj
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:47:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580208008;
+ s=mimecast20190719; t=1580208439;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UvEH43SRCWad+s2by8ERmczOsieaoKG/DjhsXrp0vns=;
- b=QleiOTHna8joeQAMoXweds4fwavTrAgklEPWKAuWgyyA59NiPNRzQfDLNyy44CfLWx0BaQ
- cPNWpSuFURkUBm2CBdwfEQs1YpdUph6hxJeUeMqBxHSrfytmB3uIsRnKWo2gDaNkzimarC
- 4xOqrIwNA9vs9E86ZdUwc5E1/CLa7zc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=z43FRblCwedOjRZvSZiB/yhTk6UmQiFMUw8swuZX8Wo=;
+ b=M7Xn4ZwyRb4NTUaBbx0AvgfdKFILtDOPE4KleJGR0m1Z8Y+e34lLIu0opbwiKwMdvKvbW3
+ pABQ8AHORTyGkmOvdofOkU0IIsTf3VGl3qbCoIE6vwRu8Iev92025zM3V/X2DhO7KeiaTG
+ zZx5wI2zeke5Y+PoBHCkpOvJetstR6U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-Jfx_wHs-NvSDRXipNXGxqQ-1; Tue, 28 Jan 2020 05:39:59 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-301-2W3dnW85NyWrDNwJwjlzmQ-1; Tue, 28 Jan 2020 05:47:15 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82BC618C43C2;
- Tue, 28 Jan 2020 10:39:58 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-106.ams2.redhat.com [10.36.117.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C2D960BE0;
- Tue, 28 Jan 2020 10:39:48 +0000 (UTC)
-Date: Tue, 28 Jan 2020 11:39:47 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: Making QEMU easier for management tools and applications
-Message-ID: <20200128103947.GB6431@linux.fritz.box>
-References: <20200123190145.GI657556@redhat.com>
- <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
- <871rrp474i.fsf@dusky.pond.sub.org>
- <20200124102743.GB824327@redhat.com>
- <20200124143841.GG4732@dhcp-200-226.str.redhat.com>
- <87sgk3x2im.fsf@dusky.pond.sub.org>
- <20200127115606.GA5669@linux.fritz.box>
- <1c65b678-7bb4-a4cc-5fa6-03d6d27cf381@redhat.com>
- <CABgObfZNHP68i4xLEYhBw=cRFgXcKnUKnqEk_7LFseoeKizB=Q@mail.gmail.com>
- <20200128101622.GG1446339@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9181813E1;
+ Tue, 28 Jan 2020 10:47:14 +0000 (UTC)
+Received: from [10.36.116.37] (ovpn-116-37.ams2.redhat.com [10.36.116.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E0AE1001B08;
+ Tue, 28 Jan 2020 10:47:12 +0000 (UTC)
+To: qemu list <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+From: Auger Eric <eric.auger@redhat.com>
+Subject: [question] hw/arm/virt: about the default gic-version in accelerated
+ mode
+Message-ID: <df1d6ae5-b734-ef64-4ef9-c661e8f797e8@redhat.com>
+Date: Tue, 28 Jan 2020 11:47:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <20200128101622.GG1446339@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Jfx_wHs-NvSDRXipNXGxqQ-1
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: 2W3dnW85NyWrDNwJwjlzmQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,85 +73,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.01.2020 um 11:16 hat Daniel P. Berrang=E9 geschrieben:
-> On Mon, Jan 27, 2020 at 11:38:49PM +0100, Paolo Bonzini wrote:
-> > Il lun 27 gen 2020, 21:11 John Snow <jsnow@redhat.com> ha scritto:
-> >=20
-> > >
-> > > > ./qemu-core <<EOF
-> > > {
-> > >     "machine": "Q35",
-> > >     "memory": "2GiB",
-> > >     "accel": "kvm"
-> > > }
-> > > EOF
-> > >
-> >=20
-> > And now you have to keep all the syntactic sugar that is in vl.c. I don=
-'t
-> > think a redesign of -readconfig should accept anything less verbose tha=
-n
-> >=20
-> > - machine:
-> >     type: q35
-> >     ram:
-> >        type: memory-backend-hostmem
-> >        size: 2G
-> > - accel:
-> >   - type: kvm
-> >=20
-> > And this is not even taking into account disks.
-> >=20
-> > I like the idea of refactoring all the syntactic sugar into a pre-pass =
-on
-> > command line options. This is not an entirely new idea, see
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg35024.html.
-> >=20
-> > I am afraid that this thread is derailing a bit, with lots of pipe drea=
-ms
-> > and no actionable items. How do we get it back in track?
->=20
-> To me the one thing that is clear. No matter what approach we want to
-> take to QEMU configuration/interaction/CLI/etc, one critical bit of
-> work is a pre-requisite...
->=20
-> ...we must finish[1] the QAPI modelling of QEMU's features in some
-> short, finite timeframe. We can't let it drag on for another 5 years
-> or more. I'd say we need a timeframe that is 2 years max, preferrably
-> 1 year.
->=20
-> I don't think we can achieve this by leaving the task up to to the
-> QAPI maintainers alone. It is unreasonable to put such a burden to
-> on a small number of people to both implement & review it all. We
-> need to consider it a project wide priority item so that we can get
-> broader involvement across all maintainers, in closing the gaps.
->=20
-> I'm not sure if we have any clear list of where our known gaps exist ?
+Hi Peter,
 
-I don't know about a full list, but I've been discussing command line
-QAPIfication a bit with Markus recently because we had the idea of using
-qemu-storage-daemon as a guinea pig for it.
+When arm virt machine is run in accelerated mode with "-cpu host
+-machine virt", the default gic version is 2.
 
-The big one seems to be QOM (and qdev). object-add and device-add are
-both not defined in terms of QAPI. One of them uses an "any" type (which
-results in QObjects with arbitrary content being passed), the other one
-"gen": false (which avoids generating anything from the schema).
+I understand the rationale with TCG where we don't have MSI ITS
+emulation along with GICv3 so we need to choose GICv2 to get GICv2M
+functionality.
 
-I know that some more options exist that have unusual syntax and are
-hard to convert to QAPI while maintaining command line compatibility.
-Maybe that should be solved by just designing new options and
-deprecating the old ones.
+However in KVM mode, I would have expected to see the host GIC probed to
+set the same version on guest. Indeed most of our HW now have GICv3
+without GICv2 compat mode so our default values lead to weird traces:
 
-Kevin
+"
+qemu-system-aarch64: PMU: KVM_SET_DEVICE_ATTR: Invalid argument
+qemu-system-aarch64: failed to set irq for PMU
+"
+
+I would like to propose a patch to improve those errors and also suggest
+a hint. But I also wanted to know whether you would accept to change the
+default value with KVM and choose the host version instead of 2. For TCG
+we would keep v2.
+
+Thanks
+
+Eric
 
 
