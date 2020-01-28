@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91DC414C08C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:05:50 +0100 (CET)
-Received: from localhost ([::1]:35690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E04214C09A
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:08:11 +0100 (CET)
+Received: from localhost ([::1]:35724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWBJ-0005Zq-96
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:05:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36954)
+	id 1iwWDa-0001BD-Jo
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:08:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37227)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7y-00044u-Hi
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:20 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV85-0004Io-SA
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7w-0008RW-O2
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:18 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:34282)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV83-0000Ht-SZ
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:25 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39012)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV7w-0008La-Dy
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:16 -0500
-Received: by mail-wm1-x331.google.com with SMTP id s144so2324240wme.1
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:15 -0800 (PST)
+ id 1iwV83-0000Bk-0o
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:23 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id y11so17096231wrt.6
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xOLcc7vySa6212sQson5/jRLaAfT4+4UeV400SoBqZE=;
- b=Msn0uEf9jmw1bBKNGOB+whouMj925Aq/OSwqLcfd95yayO5PehfrpgqXMdgGXF90ff
- y+I/IMWw+q1jtdO1NMzGzVOyVs+o+6TrTNs7zK4YI4rem6El/g4NkJcNdu6tBq3PFZgK
- kOhXL9wrjPEErTT+6GCknEbc/+scsmkNckqFbmd6lum3YKB0iMfKyK8+c1plvFySyJZN
- PlkzygzjfIAUfs9GCfD6EmLPS2JVqJsCsQEDlQTkLZkB+lVv17tMmkZRjd7DcbLvabLh
- bhsVfKRJDgQX4Ax2ylHz7EqrKflMOC7vGm4+Ea9mVRCpL3ytbMnEWscXZShr3h34o8Wu
- do7g==
+ bh=l9hO5PgZb/Nyq4E6wf+anMGT7YhM7l+MgQPxon2X7xQ=;
+ b=oBIU1tOrdsx3uBOfyVSibPSbMN5DgIyL+Cif+L1CJZI26In89xDvbTp63wAVEHXhkN
+ scEWyh9BHkakrsF00oq81j/ksVzq8Y8qJEINwnXdPqufqjin7gtEveVJyxnmq/gk7omd
+ SIoi4SGHSA0yjF07WZ0rnRdru0VPcUZ8/ARRip9N7RSqWaY8ra/NUVtLbNk9vSsdYPRT
+ BrrTEEag4Lixy4ESQd/ESpWfMLLdJvYLXlY4B3a6Sv5l84OkRSPs7yOYRWOKADXniovy
+ xUvaZCTa2sTcP9zCruCz+OTFOkcYFnJw9r8u7S+qVpoVIgmUJYuUBrk+Ca0t8Ge1T5D7
+ /B5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xOLcc7vySa6212sQson5/jRLaAfT4+4UeV400SoBqZE=;
- b=CqrnHN9hI7fuQyQOBRiGPbuu5d3VDlyf/5BVwJcm0CHYP/3NlPQ9YQOxU4XyM/Tb95
- j895MZqVA0yq07IIQ9MIw6AfRsGqYK8eCdv7HU29d8lHQoEoMgUpaiiIAv7n99puNzXF
- 1bJOZe5rKrqV3R0yh5aY7qFuFIpST5C2O+25Ngd8yK4wMnJauGxIRplPJO48a0msyFPk
- AAgF0U2zFUspN4Y9p58X6GHqbCYwP8REjjFsmPaWTjU2ZUil9HPZbneTxyFm4ASKPzmy
- 4R2GyfIWVkcWaiz+ZFIEY6CROQj05613D19rgqB46OCrlauoZWecMd0ok1zEez/cZfS1
- awPQ==
-X-Gm-Message-State: APjAAAU5SM5rbuOQj6xFUPTDdJ7jZqxjTSgWxYUzd7DPRq/kJRksjztv
- visfUgXBLAL+vblIvzdPF6Zdtk+y
-X-Google-Smtp-Source: APXvYqzPcSTXdn+A2YhUxDoYUF+jwXOkiCPX8I2AaRZfsvTkB0Kv4lgvmZMTt45KtUVtSMr+YzJ4uw==
-X-Received: by 2002:a7b:cc6a:: with SMTP id n10mr6365689wmj.170.1580234294264; 
- Tue, 28 Jan 2020 09:58:14 -0800 (PST)
+ bh=l9hO5PgZb/Nyq4E6wf+anMGT7YhM7l+MgQPxon2X7xQ=;
+ b=shrXPUYE+StU5cNBAIEMuPmdcmWnC2GddW77DQ0yo3jKM6opFP1xLNV5PjXN5l93VJ
+ 659j2CI2R8LpDVJYaSq6Fj/s3eAXuGmmEm1hN+pfNKtU2NTWDigFKzKmLhq1rLpHVTEO
+ JmEETGUEVkon7HF3RhGgIu3emjR2/Y5ixpn2xLmV3tZktWLANKgmag/Bp34yx4WOlfOm
+ PYc0JMffJrIScm13ARqmCeE0zQVqO6qFs0dv/PyVJPYtGy3VY98mY99MXIs+Leg/Fqvc
+ xJ6czdPfTbL6T/FVVlBJtadLqAE0wEwp85EygQaZracCE8fjF8ZSYE9B2rdovDGhCAbX
+ SFMg==
+X-Gm-Message-State: APjAAAUDbaKjhqyEpDB+FdugbSXHm9JDldALzfCry/pM1EmJ/G5IQSg4
+ WOjP0ax5V+dAvF75fYOqcKjGkPc5
+X-Google-Smtp-Source: APXvYqz5jazxdp2FrcwkbQPW+eIDxDjbSzfr5igdRCTkRQ2Y6Nt5saMd7d5uX4UXPoMbOd3VkNAd6Q==
+X-Received: by 2002:adf:c746:: with SMTP id b6mr29687331wrh.298.1580234300744; 
+ Tue, 28 Jan 2020 09:58:20 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.12
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:58:13 -0800 (PST)
+ Tue, 28 Jan 2020 09:58:20 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 113/142] meson: accel
-Date: Tue, 28 Jan 2020 18:53:13 +0100
-Message-Id: <20200128175342.9066-114-pbonzini@redhat.com>
+Subject: [PATCH 116/142] meson: cpu-emu
+Date: Tue, 28 Jan 2020 18:53:16 +0100
+Message-Id: <20200128175342.9066-117-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,164 +87,177 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile.objs             |  2 --
- Makefile.target           |  1 -
- accel/Makefile.objs       |  5 -----
- accel/kvm/Makefile.objs   |  2 --
- accel/kvm/meson.build     |  5 +++++
- accel/meson.build         |  6 ++++++
- accel/stubs/Makefile.objs |  5 -----
- accel/stubs/meson.build   |  5 +++++
- accel/tcg/Makefile.objs   |  9 ---------
- accel/tcg/meson.build     | 15 +++++++++++++++
- meson.build               |  1 +
- 11 files changed, 32 insertions(+), 24 deletions(-)
- delete mode 100644 accel/Makefile.objs
- delete mode 100644 accel/kvm/Makefile.objs
- create mode 100644 accel/kvm/meson.build
- create mode 100644 accel/meson.build
- delete mode 100644 accel/stubs/Makefile.objs
- create mode 100644 accel/stubs/meson.build
- delete mode 100644 accel/tcg/Makefile.objs
- create mode 100644 accel/tcg/meson.build
+ Makefile.target         | 12 ------------
+ configure               |  6 ++++++
+ meson.build             | 29 +++++++++++++++++++++++++++++
+ scripts/feature_to_c.sh | 24 ++++++++----------------
+ 4 files changed, 43 insertions(+), 28 deletions(-)
 
-diff --git a/Makefile.objs b/Makefile.objs
-index 9006b282bd..76326e9d22 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -35,8 +35,6 @@ qom-obj-y = qom/libqom.fa
- # single QEMU executable should support all CPUs and machines.
- 
- ifeq ($(CONFIG_SOFTMMU),y)
--common-obj-y += accel/
--
- common-obj-$(CONFIG_AUDIO_ALSA) += audio-alsa$(DSOSUF)
- common-obj-$(CONFIG_AUDIO_OSS) += audio-oss$(DSOSUF)
- common-obj-$(CONFIG_AUDIO_PA) += audio-pa$(DSOSUF)
 diff --git a/Makefile.target b/Makefile.target
-index 675c23acc8..3aec144e82 100644
+index 3671c29f97..5c4ba3db54 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -110,7 +110,6 @@ obj-y += trace/
+@@ -108,15 +108,6 @@ obj-y += $(LIBQEMU)
+ obj-y += trace/
+ 
  #########################################################
- # cpu emulator library
- obj-y += exec.o exec-vary.o
--obj-y += accel/
- obj-$(CONFIG_TCG) += tcg/tcg.o tcg/tcg-op.o tcg/tcg-op-vec.o tcg/tcg-op-gvec.o
- obj-$(CONFIG_TCG) += tcg/tcg-common.o tcg/optimize.o
- obj-$(CONFIG_TCG_INTERPRETER) += tcg/tci.o
-diff --git a/accel/Makefile.objs b/accel/Makefile.objs
-deleted file mode 100644
-index 17e5ac6061..0000000000
---- a/accel/Makefile.objs
-+++ /dev/null
-@@ -1,5 +0,0 @@
--common-obj-$(CONFIG_SOFTMMU) += accel.o
--obj-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_POSIX)) += qtest.o
--obj-$(CONFIG_KVM) += kvm/
--obj-$(CONFIG_TCG) += tcg/
--obj-y += stubs/
-diff --git a/accel/kvm/Makefile.objs b/accel/kvm/Makefile.objs
-deleted file mode 100644
-index fdfa481578..0000000000
---- a/accel/kvm/Makefile.objs
-+++ /dev/null
-@@ -1,2 +0,0 @@
--obj-y += kvm-all.o
--obj-$(call lnot,$(CONFIG_SEV)) += sev-stub.o
-diff --git a/accel/kvm/meson.build b/accel/kvm/meson.build
-new file mode 100644
-index 0000000000..4db2388e2f
---- /dev/null
-+++ b/accel/kvm/meson.build
-@@ -0,0 +1,5 @@
-+kvm_ss = ss.source_set()
-+kvm_ss.add(files('kvm-all.c'))
-+kvm_ss.add(when: 'CONFIG_SEV', if_false: files('sev-stub.c'))
-+
-+specific_ss.add_all(when: 'CONFIG_KVM', if_true: kvm_ss)
-diff --git a/accel/meson.build b/accel/meson.build
-new file mode 100644
-index 0000000000..95184667ff
---- /dev/null
-+++ b/accel/meson.build
-@@ -0,0 +1,6 @@
-+softmmu_ss.add(files('accel.c'))
-+specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: files('qtest.c'))
-+
-+subdir('kvm')
-+subdir('tcg')
-+subdir('stubs')
-diff --git a/accel/stubs/Makefile.objs b/accel/stubs/Makefile.objs
-deleted file mode 100644
-index 3894caf95d..0000000000
---- a/accel/stubs/Makefile.objs
-+++ /dev/null
-@@ -1,5 +0,0 @@
--obj-$(call lnot,$(CONFIG_HAX))  += hax-stub.o
--obj-$(call lnot,$(CONFIG_HVF))  += hvf-stub.o
--obj-$(call lnot,$(CONFIG_WHPX)) += whpx-stub.o
--obj-$(call lnot,$(CONFIG_KVM))  += kvm-stub.o
--obj-$(call lnot,$(CONFIG_TCG))  += tcg-stub.o
-diff --git a/accel/stubs/meson.build b/accel/stubs/meson.build
-new file mode 100644
-index 0000000000..8456de4d69
---- /dev/null
-+++ b/accel/stubs/meson.build
-@@ -0,0 +1,5 @@
-+specific_ss.add(when: 'CONFIG_HAX', if_false: files('hax-stub.c'))
-+specific_ss.add(when: 'CONFIG_HVF', if_false: files('hvf-stub.c'))
-+specific_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
-+specific_ss.add(when: 'CONFIG_TCG', if_false: files('tcg-stub.c'))
-+specific_ss.add(when: 'CONFIG_WHPX', if_false: files('whpx-stub.c'))
-diff --git a/accel/tcg/Makefile.objs b/accel/tcg/Makefile.objs
-deleted file mode 100644
-index a92f2c454b..0000000000
---- a/accel/tcg/Makefile.objs
-+++ /dev/null
-@@ -1,9 +0,0 @@
--obj-$(CONFIG_SOFTMMU) += tcg-all.o
--obj-$(CONFIG_SOFTMMU) += cputlb.o
--obj-y += tcg-runtime.o tcg-runtime-gvec.o
--obj-y += cpu-exec.o cpu-exec-common.o translate-all.o
--obj-y += translator.o
+-# cpu emulator library
+-obj-y += exec.o exec-vary.o
+-obj-$(CONFIG_TCG) += tcg/tcg.o tcg/tcg-op.o tcg/tcg-op-vec.o tcg/tcg-op-gvec.o
+-obj-$(CONFIG_TCG) += tcg/tcg-common.o tcg/optimize.o
+-obj-$(CONFIG_TCG_INTERPRETER) += tcg/tci.o
+-obj-$(CONFIG_TCG_INTERPRETER) += disas/tci.o
+-obj-$(CONFIG_TCG) += fpu/softfloat.o
+-obj-y += disas.o
+-obj-$(call notempty,$(TARGET_XML_FILES)) += gdbstub-xml.o
+ LIBS := $(libs_cpu) $(LIBS)
+ 
+ obj-$(CONFIG_PLUGIN) += plugins/
+@@ -201,9 +192,6 @@ ifdef CONFIG_DARWIN
+ 	$(call quiet-command,SetFile -a C $@,"SETFILE","$(TARGET_DIR)$@")
+ endif
+ 
+-gdbstub-xml.c: $(TARGET_XML_FILES) $(SRC_PATH)/scripts/feature_to_c.sh
+-	$(call quiet-command,rm -f $@ && $(SHELL) $(SRC_PATH)/scripts/feature_to_c.sh $@ $(TARGET_XML_FILES),"GEN","$(TARGET_DIR)$@")
 -
--obj-$(CONFIG_USER_ONLY) += user-exec.o
--obj-$(call lnot,$(CONFIG_SOFTMMU)) += user-exec-stub.o
--obj-$(CONFIG_PLUGIN) += plugin-gen.o
-diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
-new file mode 100644
-index 0000000000..2a335b50f2
---- /dev/null
-+++ b/accel/tcg/meson.build
-@@ -0,0 +1,15 @@
-+tcg_ss = ss.source_set()
-+tcg_ss.add(files(
-+  'cpu-exec-common.c',
-+  'cpu-exec.c',
-+  'tcg-runtime-gvec.c',
-+  'tcg-runtime.c',
-+  'translate-all.c',
-+  'translator.c',
-+))
-+tcg_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user-exec.c'))
-+tcg_ss.add(when: 'CONFIG_SOFTMMU', if_false: files('user-exec-stub.c'))
-+tcg_ss.add(when: 'CONFIG_PLUGIN', if_true: files('plugin-gen.c'))
-+specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
-+
-+specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files('tcg-all.c', 'cputlb.c'))
+ clean: clean-target
+ 	rm -f *.a *~ $(PROGS)
+ 	rm -f $(shell find . -name '*.[od]')
+diff --git a/configure b/configure
+index aa51bb783c..5c6217e7e6 100755
+--- a/configure
++++ b/configure
+@@ -5125,9 +5125,13 @@ case "$capstone" in
+       LIBCAPSTONE=libcapstone.a
+     fi
+     libs_cpu="-L$PWD/capstone -lcapstone $libs_cpu"
++    capstone_libs="-L$PWD/capstone -lcapstone"
++    capstone_cflags="-I${source_path}/capstone/include"
+     ;;
+ 
+   system)
++    capstone_libs="$($pkg_config --libs capstone)"
++    capstone_cflags="$($pkg_config --cflags capstone)"
+     QEMU_CFLAGS="$QEMU_CFLAGS $($pkg_config --cflags capstone)"
+     libs_cpu="$($pkg_config --libs capstone) $libs_cpu"
+     ;;
+@@ -7408,6 +7412,8 @@ if test "$ivshmem" = "yes" ; then
+ fi
+ if test "$capstone" != "no" ; then
+   echo "CONFIG_CAPSTONE=y" >> $config_host_mak
++  echo "CAPSTONE_CFLAGS=$capstone_cflags" >> $config_host_mak
++  echo "CAPSTONE_LIBS=$capstone_libs" >> $config_host_mak
+ fi
+ if test "$debug_mutex" = "yes" ; then
+   echo "CONFIG_DEBUG_MUTEX=y" >> $config_host_mak
 diff --git a/meson.build b/meson.build
-index e24f927f37..bd0067ba5b 100644
+index a96c54ceb1..91326b12d8 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -654,6 +654,7 @@ subdir('monitor')
- subdir('net')
- subdir('replay')
- subdir('hw')
-+subdir('accel')
+@@ -318,6 +318,11 @@ if 'CONFIG_USB_LIBUSB' in config_host
+   libusb = declare_dependency(compile_args: config_host['LIBUSB_CFLAGS'].split(),
+                               link_args: config_host['LIBUSB_LIBS'].split())
+ endif
++capstone = declare_dependency()
++if 'CONFIG_CAPSTONE' in config_host
++  capstone = declare_dependency(compile_args: config_host['CAPSTONE_CFLAGS'].split(),
++                                link_args: config_host['CAPSTONE_LIBS'].split())
++endif
  
- mods = []
- block_mods = []
+ create_config = find_program('scripts/create_config')
+ minikconf = find_program('scripts/minikconf.py')
+@@ -490,6 +495,19 @@ hw_arch = {}
+ target_arch = {}
+ target_softmmu_arch = {}
+ 
++specific_ss.add(files('disas.c', 'exec.c'), capstone)
++specific_ss.add(files('exec-vary.c'), capstone)
++specific_ss.add(when: 'CONFIG_TCG', if_true: files(
++  'fpu/softfloat.c',
++  'tcg/optimize.c',
++  'tcg/tcg-common.c',
++  'tcg/tcg-op-gvec.c',
++  'tcg/tcg-op-vec.c',
++  'tcg/tcg-op.c',
++  'tcg/tcg.c',
++))
++specific_ss.add(when: 'CONFIG_TCG_INTERPRETER', if_true: files('disas/tci.c', 'tcg/tci.c'))
++
+ # TODO: add each directory to the subdirs from its own meson.build, once
+ # we have those
+ trace_events_subdirs = [
+@@ -725,6 +743,8 @@ common_all = static_library('common',
+                             dependencies: common_all.dependencies(),
+                             name_suffix: 'fa')
+ 
++feature_to_c = find_program('scripts/feature_to_c.sh')
++
+ foreach target : target_dirs
+   config_target = target_config[target]
+   target_name = config_target['TARGET_NAME']
+@@ -766,6 +786,15 @@ foreach target : target_dirs
+     endif
+   endif
+ 
++  if 'TARGET_XML_FILES' in config_target
++    gdbstub_xml = custom_target(target + '-gdbstub-xml.c',
++                                output: target + '-gdbstub-xml.c',
++                                input: files(config_target['TARGET_XML_FILES'].split()),
++                                command: [feature_to_c, '@INPUT@'],
++                                capture: true)
++    arch_srcs += gdbstub_xml
++  endif
++
+   t = target_arch[arch].apply(config_target, strict: false)
+   arch_srcs += t.sources()
+ 
+diff --git a/scripts/feature_to_c.sh b/scripts/feature_to_c.sh
+index c8ce9b88f6..b1169899c1 100644
+--- a/scripts/feature_to_c.sh
++++ b/scripts/feature_to_c.sh
+@@ -19,16 +19,8 @@
+ # You should have received a copy of the GNU General Public License
+ # along with this program; if not, see <http://www.gnu.org/licenses/>.
+ 
+-output=$1
+-shift
+-
+-if test -z "$output" || test -z "$1"; then
+-  echo "Usage: $0 OUTPUTFILE INPUTFILE..."
+-  exit 1
+-fi
+-
+-if test -e "$output"; then
+-  echo "Output file \"$output\" already exists; refusing to overwrite."
++if test -z "$1"; then
++  echo "Usage: $0 INPUTFILE..."
+   exit 1
+ fi
+ 
+@@ -60,17 +52,17 @@ for input; do
+       printf "'\''\\n'\'', \n"
+     } END {
+       print "  0 };"
+-    }' < $input >> $output
++    }' < $input
+ done
+ 
+-echo >> $output
+-echo "const char *const xml_builtin[][2] = {" >> $output
++echo
++echo "const char *const xml_builtin[][2] = {"
+ 
+ for input; do
+   basename=$(echo $input | sed 's,.*/,,')
+   arrayname=xml_feature_$(echo $input | sed 's,.*/,,; s/[-.]/_/g')
+-  echo "  { \"$basename\", $arrayname }," >> $output
++  echo "  { \"$basename\", $arrayname },"
+ done
+ 
+-echo "  { (char *)0, (char *)0 }" >> $output
+-echo "};" >> $output
++echo "  { (char *)0, (char *)0 }"
++echo "};"
 -- 
 2.21.0
 
