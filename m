@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589C214BE55
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 18:09:34 +0100 (CET)
-Received: from localhost ([::1]:34120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB8A814BE58
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 18:12:30 +0100 (CET)
+Received: from localhost ([::1]:34188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwUMn-0007ic-Ct
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 12:09:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41813)
+	id 1iwUPd-0002Vl-Pa
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 12:12:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42548)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iwULi-0006z0-Lc
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:08:27 -0500
+ (envelope-from <berrange@redhat.com>) id 1iwUOf-0001lW-TA
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:11:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iwULh-0004QA-41
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:08:26 -0500
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:38310)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iwULg-0004PS-UA
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:08:25 -0500
-Received: by mail-oi1-x234.google.com with SMTP id l9so11012543oii.5
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:08:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wmzoqy8k1kzXmOa/zrELDkdQsFfgG9CcwS5D4eS717o=;
- b=o88fwNaAW4J7DSi5BnWVxtEEQWqVZBDOcKBErrorSLf194wJqyml+Gc/HIB0rqNhRf
- p4m5b/SZIebcRLe7SyTn90+wv3j25Dtg15njZUbtUpgK4KVCGLdOtC9Hc6OgXIwGTfYq
- jPZXnMnE6XlsA1pqHU07nOwm83A3Hrpjn6kjdcJ6diRulWZ/cogpucPVyY7/33g6ktBk
- mNF8f57/XfF3MR3Vkth+Zr+Lc0RqxM5zunQi4RAVs8ml0HesGG8blUUnaQyyCgL3q58Y
- kcNWEFLjWvbR81JA0hNv8xRXGfImOF0r2DuNirKY7mE6Tlo00HlWMPke1NinzykO/l6T
- vulA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wmzoqy8k1kzXmOa/zrELDkdQsFfgG9CcwS5D4eS717o=;
- b=aeMvzIpA8j9CXJDdgQ5ZNnH32NfLGq9oQotkSXK/hpvzPagrdmLgNrmVkRmm482O5b
- V67asW+V/3b5O9088Zp2SwCiGGRxuAJl/9KD1RGR4sqYtc+i8mjrOx04nTmCQUp39s2f
- q7b4Kh+UkL0KS/Lcx+InSaXyzuJCGhaSuEo1/jQx2r3EgLezS3UrQZ5phox0Q6vd79zp
- OBmiDM7IvQy01kkopdR2oPzeC22OiVRMZi1swcs/RlP/cRNHV9J56Np5aHFTvqVSQCpN
- wWmec8w/0mXhRBM6jtWV2nc17enD8fFGRvIFfUK6BtL+dkgIM2/UL00LS7CpZbZicAlf
- taDw==
-X-Gm-Message-State: APjAAAXAfmZlElqOeUnq4+CKCgG5gF1i1R85eft8Ot/aqf3UDvzfYStz
- Qxn4KJUDD58KIuh7B88cZLFiIXqi9ndNtSj1OtI+MQ==
-X-Google-Smtp-Source: APXvYqzkKEN+f5bXZD7BDiiatT4qRJoW/GEPRhQ2ci+T0a4vfn4Zy0AQXJJbqaZPSWspjrBKo8xEB3jIc8oes3V84BU=
-X-Received: by 2002:aca:b2c5:: with SMTP id b188mr3554643oif.163.1580231303773; 
- Tue, 28 Jan 2020 09:08:23 -0800 (PST)
+ (envelope-from <berrange@redhat.com>) id 1iwUOe-0008Tv-KT
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:11:29 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48777
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iwUOe-0008TT-Fs
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:11:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580231488;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HWdm63lPMuZWQtJ0tqNsHhKTsM98q/xiw5TAlY3QbM4=;
+ b=I2Qdgs7Nkmfo5xC01aX0MSLZX/65kdlTIKhY4o2O8I//XoHt7CE5SCzTRWlAxYXR6HpYFT
+ 8LLOVRQJqED8a66dqbfbbynkr1n80BEgnK8AEXeduoM1rBIReN+SL02sGzFs0RnHfDoGNh
+ oV0n9Hf/xdHPg0ITJlTY33v+QqVzRUw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-154-60muBxmeMQ6efd1SE05TZQ-1; Tue, 28 Jan 2020 12:11:25 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E5CB477;
+ Tue, 28 Jan 2020 17:11:24 +0000 (UTC)
+Received: from redhat.com (ovpn-112-34.ams2.redhat.com [10.36.112.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 022335C1D8;
+ Tue, 28 Jan 2020 17:11:19 +0000 (UTC)
+Date: Tue, 28 Jan 2020 17:11:16 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH 02/13] qcrypto-luks: implement encryption key management
+Message-ID: <20200128171116.GU1446339@redhat.com>
+References: <20200114193350.10830-1-mlevitsk@redhat.com>
+ <20200114193350.10830-3-mlevitsk@redhat.com>
+ <87r1zti6r8.fsf@dusky.pond.sub.org>
+ <dc902f2ba314b63da7ae7a003463f9268e7b3535.camel@redhat.com>
 MIME-Version: 1.0
-References: <20200127223321.2742-1-quintela@redhat.com>
-In-Reply-To: <20200127223321.2742-1-quintela@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 28 Jan 2020 17:08:12 +0000
-Message-ID: <CAFEAcA-46VVr2sGWEEdxKOCBVxAFZhTJJUiVpVLUO3BTapBu2w@mail.gmail.com>
-Subject: Re: [PULL 00/19] 10 next patches
-To: Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::234
+In-Reply-To: <dc902f2ba314b63da7ae7a003463f9268e7b3535.camel@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: 60muBxmeMQ6efd1SE05TZQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,44 +76,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 27 Jan 2020 at 22:34, Juan Quintela <quintela@redhat.com> wrote:
->
-> The following changes since commit 105b07f1ba462ec48b27e5cb74ddf81c6a79364c:
->
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20200127' into staging (2020-01-27 13:02:36 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/juanquintela/qemu.git tags/10_next-pull-request
->
-> for you to fetch changes up to 3189f80ee7b44c968796e63f81c92c915fccdb08:
->
->   migration/compress: compress QEMUFile is not writable (2020-01-27 20:47:24 +0100)
->
-> ----------------------------------------------------------------
-> Migration pull request
->
-> This pull request include:
-> - simplify get_qlist (eric)
-> - fix null in multifd_send_terminate_threads (zhimin)
-> - small fix for compress (wei)
-> - migrate multifd + cancel fixes (juan)
-> - migrate compression: the bits that are reviewed (juan)
->
+On Tue, Jan 21, 2020 at 03:13:01PM +0200, Maxim Levitsky wrote:
+> On Tue, 2020-01-21 at 08:54 +0100, Markus Armbruster wrote:
+>=20
+> <trimmed>
+>=20
+> > > +##
+> > > +# @LUKSKeyslotUpdate:
+> > > +#
+> > > +# @keyslot:         If specified, will update only keyslot with this=
+ index
+> > > +#
+> > > +# @old-secret:      If specified, will only update keyslots that
+> > > +#                   can be opened with password which is contained i=
+n
+> > > +#                   QCryptoSecret with @old-secret ID
+> > > +#
+> > > +#                   If neither @keyslot nor @old-secret is specified=
+,
+> > > +#                   first empty keyslot is selected for the update
+> > > +#
+> > > +# @new-secret:      The ID of a QCryptoSecret object providing a new=
+ decryption
+> > > +#                   key to place in all matching keyslots.
+> > > +#                   null/empty string erases all matching keyslots
+> >=20
+> > I hate making the empty string do something completely different than a
+> > non-empty string.
+> >=20
+> > What about making @new-secret optional, and have absent @new-secret
+> > erase?
+>=20
+> I don't remember already why I and Keven Wolf decided to do this this way=
+, but I think that you are right here.
+> I don't mind personally to do this this way.
+> empty string though is my addition, since its not possible to pass null o=
+n command line.
 
-Hi -- this passed tests, but half the commits seem to
-have incorrectly still got the below-the-'---'-line
-remarks in them: could you strip those out and resend,
-please?
+IIUC this a result of using  "StrOrNull" for this one field...
 
-thanks
--- PMM
+
+> > > +# Since: 5.0
+> > > +##
+> > > +{ 'struct': 'LUKSKeyslotUpdate',
+> > > +  'data': {
+> > > +           '*keyslot': 'int',
+> > > +           '*old-secret': 'str',
+> > > +           'new-secret' : 'StrOrNull',
+> > > +           '*iter-time' : 'int' } }
+
+It looks wierd here to be special casing "new-secret" to "StrOrNull"
+instead of just marking it as an optional string field
+
+   "*new-secret": "str"
+
+which would be possible to use from the command line, as you simply
+omit the field.
+
+I guess the main danger here is that we're using this as a trigger
+to erase keyslots. So simply omitting "new-secret" can result
+in damage to the volume by accident which is not an attractive
+mode.=20
+
+
+> > > +
+> > > +##
+> > > +# @QCryptoBlockAmendOptionsLUKS:
+> > > +#
+> > > +# The options that can be changed on existing luks encrypted device
+> > > +# @keys:           list of keyslot updates to perform
+> > > +#                  (updates are performed in order)
+> > > +# @unlock-secret:  use this secret to retrieve the current master ke=
+y
+> > > +#                  if not given will use the same secret as one
+> >=20
+> > "as the one"?
+> Yea, this is wrong wording, I'll drop those words. Thanks.
+>=20
+> >=20
+> > > +#                  that was used to open the image
+> > > +#
+> > > +# Since: 5.0
+> > > +##
+> > > +{ 'struct': 'QCryptoBlockAmendOptionsLUKS',
+> > > +  'data' : {
+> > > +            'keys': ['LUKSKeyslotUpdate'],
+> > > +             '*unlock-secret' : 'str' } }
+> > > +
+> > >  =20
+> > >  =20
+> > >   ##
+> > > @@ -324,4 +372,4 @@
+> > >     'base': 'QCryptoBlockOptionsBase',
+> > >     'discriminator': 'format',
+> > >     'data': {
+> > > -            } }
+> > > +          'luks': 'QCryptoBlockAmendOptionsLUKS' } }
+>=20
+>=20
+> Thanks for review,
+> =09Best regards,
+> =09=09Maxim Levitsky
+>=20
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
+
 
