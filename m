@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90DB414BF99
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:24:47 +0100 (CET)
-Received: from localhost ([::1]:35110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF3B14BFA9
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:27:07 +0100 (CET)
+Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVXa-0004WH-Kr
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:24:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58945)
+	id 1iwVZq-00084P-IV
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:27:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59053)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4m-0007Sn-99
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:01 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4n-0007XA-Ut
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4j-0000vS-46
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:59 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51663)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4l-000121-LP
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:01 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37749)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV4i-0000u0-TK
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:57 -0500
-Received: by mail-wm1-x331.google.com with SMTP id t23so3523017wmi.1
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:56 -0800 (PST)
+ id 1iwV4l-00010d-EU
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:59 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id f129so3577052wmf.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PrREOzGlC8UTQY/8R3lPzuUNWu2GYWSoDDy9DYpF2l4=;
- b=VyDcpvJ9WJmr96btdcukNT6lmgvuYZybYUVOJxMC4ttlHf5BkfbgWRLPR2171yCaMg
- R7ZptyTmzVzzQi2IU7XRenrQOyC9UI17fhTWMHV6oxX0gxn/QWnPJpUaiZdQK6UEJP7U
- KU6NWt0ha31tzE10+ZrDKyGH3sgEKLYOEjNTE6qaoe6eqC9u7jqdoDVf2RJIfcSgGYBc
- msytnscB8JkpBYQKjnjn1I31BX7xhMEnjmDUU6Add4wwl/lPORz38irTgng9lgOMu6Uy
- OJ8ZUfbk22mKDcTumQ2E37E5Rt2dy+JLDKSpi9Ekq4e7u4xoEKCKpO9mljQKrxkFRMru
- rFWg==
+ bh=UsuPxgPVJIh9FtR830VABN8hknsWVe9jdzcI2a69WiI=;
+ b=bp9Y+UpD2A8bzd26f5wCb2FCR6rXE5LSwi39EVbqjx+bNylAX6e/9qCS9Q4al9sxQz
+ NO+TayutpzSIPJ1zpqBKkTCD7WOMQlacq8RV+XXUJpyCZJICuhmDInfkwJ1rXSi19emp
+ c2V2HYzjMOQilKJ8PqD3qDg1H4TmaCsnkLqWzp+ws78ZLI5oN1iUj+EgDKS/C58usPM3
+ eNDJNh7MDxkkekk5AxeMaTztVsuSW+/N0szlb3V27j/5HXPiA/eAZ95tuI+kjPC/Tu7J
+ dynRaUAKjD4ttYZDRzowQQH/Lls/ucsis1naBNmQYifsQQXGm9rk+nNoiXVxyIXKkGHX
+ Wurw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PrREOzGlC8UTQY/8R3lPzuUNWu2GYWSoDDy9DYpF2l4=;
- b=IVbGYZxjqsCBZi61dhGSIyZtk6U7xRwymv3nFNj/QFbDjK22JO/fmHcXxmyJU7lAaX
- uyJcmPHIf8UYqZi6AKMg9Oz5aG9+ffhzwncGxNPymuhznc8165sZ/aYVepuILNO2FrYP
- W5k4tF56aAWX9ADB4OLfroEaa5QVAqwTqusC/V5Ls3htqOFaiJFJ8uewnaKTG8ZxcX3P
- O9hX0rsWqt0obUOtEEtnfmf0FKiMMN3W3rbgA1GMV7Xd2etIs8qimWK6LQHkC2SHIX+k
- 7xOzQXeU117oB0Cdby7Pghf9HjzCdNybQo9zyWF+YW9be57Q+Z1n7x9MUzwnq5Hx5UPY
- UrdA==
-X-Gm-Message-State: APjAAAWn45HjN7RgptfwMGi6tyxnDSsqKzXnC/L7Z3v6WsLpKRdBgPlH
- i+ta5IeMfc2sdSRuQSFhzi35ie9A
-X-Google-Smtp-Source: APXvYqzZUrBcg46cGJTQJ37Ua2sBRemOTBjbmi1z3sXrQsbvlTsY1nuRxrQKwBlggIaGQLFBPgtL+A==
-X-Received: by 2002:a1c:e108:: with SMTP id y8mr5982741wmg.147.1580234095819; 
- Tue, 28 Jan 2020 09:54:55 -0800 (PST)
+ bh=UsuPxgPVJIh9FtR830VABN8hknsWVe9jdzcI2a69WiI=;
+ b=sxQHFd3VK2chaopBhZYAv4mP8i22orzEqVEauiNJEfTVkoH1WYaT1T+t2YFGnZzNsa
+ PutaxpYaPxP2qw54u75jxrhBjbgCOQ+dH3qcck6X7K3MmnOtWvb9HkE6IZk+T1paxp40
+ 4pg0egyIowDoJGa78CWVuVR9EC/7MU72BGFmTfleJfGOpvuXRJY3i3I/ndMvp9Cbvwpb
+ ZLXkPhQ+pbAIe2bQVv2iOJMzY4JsWCdsEBPzd9d7HCdeVt7nIbZKoFSwcqJffMdCfT4V
+ ahs6GiZFa14qC27Q1MAMZAgS6rqyO1OIA74tHeXJVTZInhjpWukKzjx2bOylXofixEmz
+ uTcg==
+X-Gm-Message-State: APjAAAUinuhqHAyDgRhNEMVjtcyOKk7UCnbZO9cyi7JOrCwWt+F28oBv
+ bateM3kOHBsNK5oeqoQsKxC+KShX
+X-Google-Smtp-Source: APXvYqxSHrLkjoP3xsNeV5y+KdpYgHd+fTM4eDCrj7h0QaPuEbL9Hq1lYlDQ1Evn49fz3GHAWQeq8g==
+X-Received: by 2002:a05:600c:34b:: with SMTP id
+ u11mr6236819wmd.69.1580234098290; 
+ Tue, 28 Jan 2020 09:54:58 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.54.53
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.54.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:54:54 -0800 (PST)
+ Tue, 28 Jan 2020 09:54:57 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 028/142] meson: add qemu-bridge-helper
-Date: Tue, 28 Jan 2020 18:51:48 +0100
-Message-Id: <20200128175342.9066-29-pbonzini@redhat.com>
+Subject: [PATCH 029/142] meson: add qemu-keymap
+Date: Tue, 28 Jan 2020 18:51:49 +0100
+Message-Id: <20200128175342.9066-30-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,82 +89,84 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile    |  4 ----
- configure   |  1 +
- meson.build | 12 +++++++++++-
- 3 files changed, 12 insertions(+), 5 deletions(-)
+ Makefile    |  5 -----
+ configure   |  4 +---
+ meson.build | 10 ++++++++++
+ 3 files changed, 11 insertions(+), 8 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index b37312f2fb..69105cdfac 100644
+index 69105cdfac..ae9f1157d8 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -183,8 +183,6 @@ LIBS+=-lz $(LIBS_TOOLS)
- vhost-user-json-y =
- HELPERS-y =
- 
--HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = qemu-bridge-helper$(EXESUF)
--
- ifeq ($(CONFIG_LINUX)$(CONFIG_VIRGL)$(CONFIG_GBM)$(CONFIG_TOOLS),yyyy)
- vhost-user-json-y += contrib/vhost-user-gpu/50-qemu-gpu.json
- endif
-@@ -403,8 +401,6 @@ qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io
+@@ -401,8 +401,6 @@ qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io
  qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
  qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
  
--qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
+-qemu-keymap$(EXESUF): qemu-keymap.o ui/input-keymap.o $(COMMON_LDADDS)
 -
- qemu-keymap$(EXESUF): qemu-keymap.o ui/input-keymap.o $(COMMON_LDADDS)
- 
  qemu-edid$(EXESUF): qemu-edid.o hw/display/edid-generate.o $(COMMON_LDADDS)
+ 
+ fsdev/virtfs-proxy-helper$(EXESUF): fsdev/virtfs-proxy-helper.o fsdev/9p-marshal.o fsdev/9p-iov-marshal.o $(COMMON_LDADDS)
+@@ -415,9 +413,6 @@ endif
+ qemu-img-cmds.h: $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/scripts/hxtool
+ 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -h < $< > $@,"GEN","$@")
+ 
+-qemu-keymap$(EXESUF): LIBS += $(XKBCOMMON_LIBS)
+-qemu-keymap$(EXESUF): QEMU_CFLAGS += $(XKBCOMMON_CFLAGS)
+-
+ module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
+ 	$(call quiet-command,$(PYTHON) $< $@ \
+ 	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
 diff --git a/configure b/configure
-index 78cc3451ad..5a78782c25 100755
+index 5a78782c25..0b8b31aedb 100755
 --- a/configure
 +++ b/configure
-@@ -6757,6 +6757,7 @@ if test "$l2tpv3" = "yes" ; then
+@@ -6237,9 +6237,6 @@ if test "$softmmu" = yes ; then
+     fi
+     mpath=no
+   fi
+-  if test "$xkbcommon" = "yes"; then
+-    tools="qemu-keymap\$(EXESUF) $tools"
+-  fi
  fi
- if test "$cap_ng" = "yes" ; then
-   echo "CONFIG_LIBCAP_NG=y" >> $config_host_mak
-+  echo "LIBCAP_NG_LIBS=$cap_libs" >> $config_host_mak
+ 
+ # Probe for guest agent support/options
+@@ -6792,6 +6789,7 @@ if test "$vnc_png" = "yes" ; then
+   echo "CONFIG_VNC_PNG=y" >> $config_host_mak
  fi
- echo "CONFIG_AUDIO_DRIVERS=$audio_drv_list" >> $config_host_mak
- for drv in $audio_drv_list; do
+ if test "$xkbcommon" = "yes" ; then
++  echo "CONFIG_XKBCOMMON=y" >> $config_host_mak
+   echo "XKBCOMMON_CFLAGS=$xkbcommon_cflags" >> $config_host_mak
+   echo "XKBCOMMON_LIBS=$xkbcommon_libs" >> $config_host_mak
+ fi
 diff --git a/meson.build b/meson.build
-index 8709847493..79919df761 100644
+index 79919df761..b8707f25d2 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -56,6 +56,10 @@ if 'CONFIG_GNUTLS' in config_host
+@@ -60,6 +60,11 @@ libcap_ng = declare_dependency()
+ if 'CONFIG_LIBCAP_NG' in config_host
+   libcap_ng = declare_dependency(link_args: config_host['LIBCAP_NG_LIBS'].split())
  endif
- pixman = declare_dependency(compile_args: config_host['PIXMAN_CFLAGS'].split(),
-                             link_args: config_host['PIXMAN_LIBS'].split())
-+libcap_ng = declare_dependency()
-+if 'CONFIG_LIBCAP_NG' in config_host
-+  libcap_ng = declare_dependency(link_args: config_host['LIBCAP_NG_LIBS'].split())
++xkbcommon = declare_dependency()
++if 'CONFIG_XKBCOMMON' in config_host
++  xkbcommon = declare_dependency(compile_args: config_host['XKBCOMMON_CFLAGS'].split(),
++                                 link_args: config_host['XKBCOMMON_LIBS'].split())
 +endif
  rt = cc.find_library('rt', required: false)
  libiscsi = declare_dependency()
  if 'CONFIG_LIBISCSI' in config_host
-@@ -228,7 +232,6 @@ qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: version_res)
+@@ -240,6 +245,11 @@ if have_tools
+   subdir('contrib/rdmacm-mux')
+   subdir('contrib/elf2dmp')
  
- # Other build targets
--
- if 'CONFIG_GUEST_AGENT' in config_host
-   subdir('qga')
- endif
-@@ -247,6 +250,13 @@ if have_tools
-     subdir('contrib/vhost-user-scsi')
-   endif
- 
-+  if host_machine.system() == 'linux'
-+    executable('qemu-bridge-helper', files('qemu-bridge-helper.c'),
-+               dependencies: [qemuutil, libcap_ng],
-+               install: true,
-+               install_dir: get_option('libexecdir'))
++  if 'CONFIG_XKBCOMMON' in config_host
++    executable('qemu-keymap', files('qemu-keymap.c', 'ui/input-keymap.c'),
++               dependencies: [qemuutil, xkbcommon], install: true)
 +  endif
 +
-   if 'CONFIG_IVSHMEM' in config_host
-     subdir('contrib/ivshmem-client')
-     subdir('contrib/ivshmem-server')
+   if 'CONFIG_VHOST_USER' in config_host
+     subdir('contrib/libvhost-user')
+     subdir('contrib/vhost-user-blk')
 -- 
 2.21.0
 
