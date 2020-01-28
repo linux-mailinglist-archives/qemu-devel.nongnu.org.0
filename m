@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4669014BF0C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 18:59:47 +0100 (CET)
-Received: from localhost ([::1]:34768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35AFC14BF0F
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:00:19 +0100 (CET)
+Received: from localhost ([::1]:34770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwV9O-0004Ua-8s
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 12:59:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57287)
+	id 1iwV9u-0005HI-69
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:00:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57826)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV3q-0005pt-1R
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:02 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV44-0006Jb-Iw
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV3o-0007S7-N8
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:01 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54791)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV43-0007wB-Gz
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:16 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33865)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV3o-0007Pr-FY
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:00 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id g1so3491840wmh.4
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:00 -0800 (PST)
+ id 1iwV43-0007uX-7h
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:15 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id t2so17092568wrr.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Oy+iZyCBorIM63EY2Md4vrVEQjwIf0u0WuvCdwfh8WQ=;
- b=Hnv7cETyQudHvcI0Q+i9EwLUwbd91pAU4DcxA/ku4jxJw1Wtr/GvYfh6pN/8Ac/xJo
- FsYPYz8zlA8dYu4D7xunhmXZS0e31ConzMGJIYlV/OQ/xVUr9KgHamIGOkqvJWP757tk
- Q5CLuPSN/qiCMaw0pOYti0N1DDLBfs+Bt2B9q0VK7VNmqXGEvb4hzMl4N2n5kvWftznX
- NuiEb98DBTFAixw9QfEHUJXQJcfhvzaHvaPLZbdFIIVRhWFFLdvSTrDqTDQbie7h1qxB
- s6tx7QRnX2boFTJqayGzhTFF9nVLDbGcV2GjKm//QbZofkhSno/YgyVfFHx66xrEaqUa
- xOOA==
+ bh=dErvkepkYgUBIWRCc2un1YcfpszwmABIk9M1+FNSCyQ=;
+ b=b0UAcBCKuQUQPye+XxgYPImD3EoDZagWNc1LbEySVdZbdDxej3DzJ93Q+HVbSZ0d4s
+ L1hhw+PpjH9KLxH9A4AiekMB798H9I65Ms5MJwyLor9YDACRXC7/MxtEDI+nWykB2LFO
+ v3+ydt2s0SgIGB2j3/c9PFFKSPaNtfBG6HatIw1uXa9/4x9ST7VALQYNivH1hjGR1ItN
+ aq5kYJvb92OE86aySQv3JTbguMOCcR5Wtk7xAp0TElMdc+hSzFTD+LzfIqyiKM7BmI2s
+ nKwKQEdMz+c9KAzPYgVTFB228QPU/VXy3C4Ll6vkMtWJOvo9DaCiFklbXIPHJK+MTUBm
+ 9AJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Oy+iZyCBorIM63EY2Md4vrVEQjwIf0u0WuvCdwfh8WQ=;
- b=clzj7vRSFWdEfB0A54h82U+DeafmDaV7zrnYsTG3/Xq42P6wiIrxB11Fhe1sTWhK9W
- QS1ZJlygY86cuDwHgauI/Ab0X343BUoyqqse/dvgx7wtwsKJowlNVKMT921AYJ0e7D2X
- xz/mUNvVMD7IZB81MZO760GjMJ017NlaZo4tGRVHsPbRzRma4HkiqGGKNWz+1MlRPYey
- ofKaAsI/Rc3p3dQTHnzVv7tTMc/F9ybaJ2Us5cfAx87X3kIVUOj1Arz3Yc6U7BP4cA2g
- HY/ELyp4hkJ5Bc0XNzZD0XJGgO4Pw660K2qVt6SRwsZr/ZCP2sLcBLVJKPG0urmKU7Q+
- ylkw==
-X-Gm-Message-State: APjAAAV77M3up5Gy8ziss0VlZiW5HiHE421NbfPwPbCQZuRoZKjBp+o5
- nJ8tIjqdIWWiDjLiFz7aGl7whLWQ
-X-Google-Smtp-Source: APXvYqwNfXNj8yjia4dBO+HrVf07prk6LJTt6Od9HQsEdm7DS5EGFTR3FmHZFthtWh5mj+vyM1Dnuw==
-X-Received: by 2002:a1c:7215:: with SMTP id n21mr6667684wmc.154.1580234039288; 
- Tue, 28 Jan 2020 09:53:59 -0800 (PST)
+ bh=dErvkepkYgUBIWRCc2un1YcfpszwmABIk9M1+FNSCyQ=;
+ b=VcBatMjt5D5uupsUCm1pT0tfQF1ClKigtC6L6GHOVCx1LZeCpjTOQZpU8vhTNjxEcq
+ +sXKlIAh36zXV47KwPscufo+alrNCwAQ+U98fkghiPeJJptBrdAa0DfzD2+Y91pYVE22
+ maUjjOjmsPc+uKW5qDvtn59z89YesZ8hympuJEYj0RtBKl1AiAKhXnLtwnT2VE+HkkKq
+ keasvYXe1/gG+fMRHptkQPhOC9Ry+6RjAg9pg9uoFiwphHpctfT+LbL2qkOv4hshbabF
+ afspAyaJgPmYGd4BZ6sJPfXoOTanpREqOk4BJwi2qhgAXDlKvMNDF66SfZhMwfhiRwQG
+ SgvQ==
+X-Gm-Message-State: APjAAAVJSA7BSrKgKjE8YVid7v04d7AARxIw0uuSHPqjcdJEetoVh/wk
+ C5BDVpC/1tw0WeXiEM4KYl0+IHl0
+X-Google-Smtp-Source: APXvYqy5yEAVWFpwQbhe0kmXFctPtqp5j86+ifP4xHUofV8GrJUb8W6uDxdAs6x1VCz1q2EMcF/Zpw==
+X-Received: by 2002:adf:f244:: with SMTP id b4mr28607741wrp.88.1580234054138; 
+ Tue, 28 Jan 2020 09:54:14 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.53.56
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.54.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:53:58 -0800 (PST)
+ Tue, 28 Jan 2020 09:54:12 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 004/142] build-sys hack: ensure target directory is there
-Date: Tue, 28 Jan 2020 18:51:24 +0100
-Message-Id: <20200128175342.9066-5-pbonzini@redhat.com>
+Subject: [PATCH 010/142] meson: enable pie
+Date: Tue, 28 Jan 2020 18:51:30 +0100
+Message-Id: <20200128175342.9066-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,28 +85,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-By removing some unnest-vars calls, we miss some directory creation
-that may be required by some/dir/object.d.
-
-This will go away once everything is converted to Meson.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- rules.mak | 1 +
- 1 file changed, 1 insertion(+)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/rules.mak b/rules.mak
-index 967295dd2b..e19ad194af 100644
---- a/rules.mak
-+++ b/rules.mak
-@@ -66,6 +66,7 @@ expand-objs = $(strip $(sort $(filter %.o,$1)) \
-                   $(filter-out %.o %.mo,$1))
+diff --git a/configure b/configure
+index b4f36820da..a9ab67bf26 100755
+--- a/configure
++++ b/configure
+@@ -2103,7 +2103,6 @@ EOF
  
- %.o: %.c
-+	@mkdir -p $(dir $@)
- 	$(call quiet-command,$(CC) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
- 	       $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) $($@-cflags) \
- 	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
+   if compile_prog "-fPIE -DPIE" "-pie"; then
+     QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
+-    LDFLAGS="-pie $LDFLAGS"
+     pie="yes"
+     if compile_prog "" "-Wl,-z,relro -Wl,-z,now" ; then
+       LDFLAGS="-Wl,-z,relro -Wl,-z,now $LDFLAGS"
+@@ -8125,6 +8124,7 @@ NINJA=$PWD/ninjatool $python $meson setup \
+ 	--localstatedir "$local_statedir" \
+ 	$(test "$strip_opt" = yes && echo --strip) \
+ 	--buildtype $(if test "$debug" = yes; then echo debug; else echo debugoptimized; fi) \
++        -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+         $cross_arg \
+ 	"$PWD" "$source_path"
+ 
 -- 
 2.21.0
 
