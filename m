@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BAE914BFE4
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:32:07 +0100 (CET)
-Received: from localhost ([::1]:35220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CEB614BFEF
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:34:39 +0100 (CET)
+Received: from localhost ([::1]:35258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVeg-0006qS-5e
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:32:06 -0500
-Received: from [2001:470:142:3::10] (port=59770 helo=eggs.gnu.org)
+	id 1iwVh8-0002OD-Ch
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:34:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59797)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5A-0007zy-6c
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:25 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5A-000828-OU
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV58-0001oU-Ut
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV59-0001qI-Ak
  for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:24 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37425)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43432)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV58-0001jq-6x
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:22 -0500
-Received: by mail-wr1-x431.google.com with SMTP id w15so17137995wru.4
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:55:21 -0800 (PST)
+ id 1iwV58-0001mR-UX
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:23 -0500
+Received: by mail-wr1-x441.google.com with SMTP id d16so17096464wre.10
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:55:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LMZiYWum7K5FFftwGEHqxzP9jxnxtuhS2JjQK1I+4dg=;
- b=bry2SMkg+aOeqbx9Wph87sODEbLIQjqukHRjPcqT4j1UST5ZE2jrWA/fr1YbwFce/0
- bbAOOzQyU3ijQIHfNSSFqbLYsQLhae8cWFKLinEDlz/JV9BjkDQOeQowMVRk5sEI/EZ4
- pzE0yG5w7bAPJ4h3c78J1Dd1W+PbgTC/BylBzbFRfNe67OQZlmN5DbjOrL7YVTMiAz9B
- DjtmEsyBrcPQ7A7t188AlUje112v0Ira63YWrNodlbXkfjS0DoHUx3Y3nGB7Y9mzll38
- IzbWgDwFb3Ss+3k+6EQhZyev+HnA3qQzUc3ldj+eAwMd5eQfCdbKy2EFB0XkLZyDLp0U
- 1j/g==
+ bh=6aTXzl4RBhwocYJkxuMJOQNVj38LQZD8twjzizQLzLI=;
+ b=RP2VThL6HzXF94BgUwIHgpArNIOfQLPvSf1WKSfH1Caq8j2eiKcsTKSSgySaN58ynM
+ 9z1yjBty8K50tA/+KOZcGNM/HDP6aHy04ykIm4cQbB4ls3r7urIzUdx7W555NtdnYeZW
+ YgUKEFg2x2Y4ITb0qOoNAINEUJqbjvwzaTOOWlGv8SJUZUDKZFxluwW70zDkodgE3Kh6
+ 2TyV5hhsEpTx8xyF/Dg+YB/0LbYdSRDsl155RQpxYJ7Nl4mioOWP90IuoFQA1HM9zU9X
+ CIjWCiwZcnJFXjq5z3r5FBaAMhj0JRnpClKTMw5oKf6v6Z9fVPexqJyrWRJjjdxlQSWh
+ JBKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LMZiYWum7K5FFftwGEHqxzP9jxnxtuhS2JjQK1I+4dg=;
- b=mpdXdEOT6FWWVj40LFg1kOjBWdNwJj4weUbPFxXAAI7u1CRoDLLYLESrm6k/Ds2qAA
- txlceSc95vkpSUytlQxnseiH471UE+4nta5LVxYlcxy3coFEgMD/NZqspiRzzccuaTf6
- 9vshSNIr4UteLf9dhoyHtaTloYQBr6rvMUrrWgp7zCs9pCOksC5vPdCjcwqiS96v+t5t
- gz0GIHhf6cS4YO7AzkzINOSbBfblOM7D3Q9vpsnDIPVNteOadSWQK5OmVRs7fMGn5hny
- cd1x9CqCpJ+VnCxncQTB2nE9qHYNz35s/d84XekHEZJG0nttKdjugCkQItPvl+Vtww0R
- nqfw==
-X-Gm-Message-State: APjAAAVggc3qYIdRc1Xhy8wPwnD359vS7GfiLy3gsfDN1sW358zudj0o
- bEx/usai2mEoF8pWnXajX1b9BOmp
-X-Google-Smtp-Source: APXvYqx3+wRRfJZFD7BZQuWnFHDOT2nBDB9//wros/hHAHW9VoA3I+a88+9EREtmn42itFj2QAp/Bw==
-X-Received: by 2002:a5d:44ca:: with SMTP id z10mr29998882wrr.266.1580234119833; 
- Tue, 28 Jan 2020 09:55:19 -0800 (PST)
+ bh=6aTXzl4RBhwocYJkxuMJOQNVj38LQZD8twjzizQLzLI=;
+ b=t8cTarYZnyGwAGTh2fm5aEUJda8xDW3JkrAUIa7zcxGj4ZdHDUYixOd+nV81t9MDsM
+ Wq1YW8LcOoWo0dsEZBSnwGT67x5usME9pk09rir4tNLl8G6FnTC2Oo0Ar2D+NbIk73wS
+ WXD8ZJKfMqavTArDA4zQWphQ3EWmATmDfkSgWVa/UwlAidU8Mg842JPyCNr4IzzDaSlm
+ ztnvZA9CSij2+5JYauCZfyTf4MzEP3JIhw/Z6jt+RfaPBVrofSGdFEbmUKHsrIFnO/Rz
+ mev2SLkpH77m3Fx9iDZEmjnDdHQrBlh/KnHTzoKPd4nJ0GU324fY1i+Fz64kmV1lFQiK
+ zSow==
+X-Gm-Message-State: APjAAAU/wFRxuT1ukCEd7+NWI/Ka7GL4DXVoG7Q7vTpA+lo9Snu2JbtA
+ KzZduovaQ5CYOZvoPO7PC7+4xflU
+X-Google-Smtp-Source: APXvYqyQul52g1I5gzuJmzBLu/60Ha32wwAeXA2U2x8+G7rOHPLYMALC20cmk5i3kBmEgwh9q9dVWg==
+X-Received: by 2002:a5d:4fd0:: with SMTP id h16mr31198093wrw.255.1580234121520; 
+ Tue, 28 Jan 2020 09:55:21 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.55.18
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.55.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:55:19 -0800 (PST)
+ Tue, 28 Jan 2020 09:55:20 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 038/142] build-sys hack: link with whole .fa archives
-Date: Tue, 28 Jan 2020 18:51:58 +0100
-Message-Id: <20200128175342.9066-39-pbonzini@redhat.com>
+Subject: [PATCH 039/142] meson: convert qom directory to Meson
+Date: Tue, 28 Jan 2020 18:51:59 +0100
+Message-Id: <20200128175342.9066-40-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,69 +85,130 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-In order to link the *-obj-y files into tests, we will make static
-libraries of them in Meson, and then link them as whole archives
-into the tests.  To separate regular static libraries from link-whole
-libraries, give them a different file extension.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- rules.mak | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ Makefile               |  2 +-
+ Makefile.objs          |  4 ++--
+ Makefile.target        |  3 ++-
+ meson.build            |  1 +
+ qom/Makefile.objs      |  3 ---
+ qom/meson.build        | 15 +++++++++++++++
+ tests/Makefile.include |  2 +-
+ 7 files changed, 22 insertions(+), 8 deletions(-)
+ create mode 100644 qom/meson.build
 
-diff --git a/rules.mak b/rules.mak
-index 52891849c8..a10a972521 100644
---- a/rules.mak
-+++ b/rules.mak
-@@ -39,6 +39,13 @@ find-symbols = $(if $1, $(sort $(shell $(NM) -P -g $1 | $2)))
- defined-symbols = $(call find-symbols,$1,awk '$$2!="U"{print $$1}')
- undefined-symbols = $(call find-symbols,$1,awk '$$2=="U"{print $$1}')
+diff --git a/Makefile b/Makefile
+index e863250107..80894601dc 100644
+--- a/Makefile
++++ b/Makefile
+@@ -225,7 +225,6 @@ dummy := $(call unnest-vars,, \
+                 block-obj-y \
+                 block-obj-m \
+                 crypto-obj-y \
+-                qom-obj-y \
+                 io-obj-y \
+                 common-obj-y \
+                 common-obj-m)
+@@ -245,6 +244,7 @@ $(SOFTMMU_ALL_RULES): $(block-obj-y)
+ $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
+ $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
+ $(SOFTMMU_ALL_RULES): $(io-obj-y)
++$(SOFTMMU_ALL_RULES): $(qom-obj-y)
+ $(SOFTMMU_ALL_RULES): config-all-devices.mak
  
-+WL := -Wl,
-+ifdef CONFIG_DARWIN
-+whole-archive = $(WL)-force_load,$1
-+else
-+whole-archive = $(WL)--whole-archive $1 $(WL)--no-whole-archive
-+endif
+ .PHONY: $(TARGET_DIRS_RULES)
+diff --git a/Makefile.objs b/Makefile.objs
+index f1465a620e..18caccdba8 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -24,9 +24,9 @@ block-obj-m = block/
+ crypto-obj-y = crypto/
+ 
+ #######################################################################
+-# qom-obj-y is code used by both qemu system emulation and qemu-img
++# libraries built entirely from meson
+ 
+-qom-obj-y = qom/
++qom-obj-y = qom/libqom.fa
+ 
+ #######################################################################
+ # io-obj-y is code used by both qemu system emulation and qemu-img
+diff --git a/Makefile.target b/Makefile.target
+index d94fa687bf..40ab105568 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -178,13 +178,14 @@ dummy := $(call unnest-vars,,obj-y)
+ all-obj-y := $(obj-y)
+ 
+ include $(SRC_PATH)/Makefile.objs
++dummy := $(call fix-paths,../,, \
++              qom-obj-y)
+ dummy := $(call unnest-vars,.., \
+                authz-obj-y \
+                block-obj-y \
+                block-obj-m \
+                chardev-obj-y \
+                crypto-obj-y \
+-               qom-obj-y \
+                io-obj-y \
+                common-obj-y \
+                common-obj-m)
+diff --git a/meson.build b/meson.build
+index 585fc7aca5..0c4e5e5823 100644
+--- a/meson.build
++++ b/meson.build
+@@ -287,6 +287,7 @@ libqemuutil = static_library('qemuutil',
+ qemuutil = declare_dependency(link_with: libqemuutil,
+                               sources: version_res)
+ 
++subdir('qom')
+ subdir('fsdev')
+ 
+ # Other build targets
+diff --git a/qom/Makefile.objs b/qom/Makefile.objs
+index f9d77350ac..fc1248e3f3 100644
+--- a/qom/Makefile.objs
++++ b/qom/Makefile.objs
+@@ -1,4 +1 @@
+-qom-obj-y = object.o container.o qom-qobject.o
+-qom-obj-y += object_interfaces.o
+-
+ common-obj-$(CONFIG_SOFTMMU) += qom-hmp-cmds.o qom-qmp-cmds.o
+diff --git a/qom/meson.build b/qom/meson.build
+new file mode 100644
+index 0000000000..3c41ed37e4
+--- /dev/null
++++ b/qom/meson.build
+@@ -0,0 +1,15 @@
++qom_ss = ss.source_set()
++qom_ss.add(files(
++  'container.c',
++  'object.c',
++  'object_interfaces.c',
++  'qom-qobject.c',
++))
 +
- # All the .mo objects in -m variables are also added into corresponding -y
- # variable in unnest-vars, but filtered out here, when LINK is called.
- #
-@@ -54,11 +61,12 @@ undefined-symbols = $(call find-symbols,$1,awk '$$2=="U"{print $$1}')
- # This is necessary because the exectuable itself may not use the function, in
- # which case the function would not be linked in. Then the DSO loading will
- # fail because of the missing symbol.
--process-archive-undefs = $(filter-out %.a %.mo,$1) \
-+process-archive-undefs = $(filter-out %.a %.fa %.mo,$1) \
-                 $(addprefix $(WL_U), \
--                     $(filter $(call defined-symbols,$(filter %.a, $1)), \
-+                     $(filter $(call defined-symbols,$(filter %.a %.fa, $1)), \
-                               $(call undefined-symbols,$(filter %.mo,$1)))) \
--                $(filter %.a,$1)
-+		$(foreach l,$(filter %.fa,$1),$(call whole-archive,$l)) \
-+		$(filter %.a,$1)
++qom_ss = qom_ss.apply(config_host, strict: false)
++libqom = static_library('qom', qom_ss.sources(),
++                        dependencies: [qom_ss.dependencies()],
++                        link_with: [libqemuutil],
++                        name_suffix: 'fa')
++
++qom = declare_dependency(link_whole: libqom)
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 7838a45a18..62b65f409d 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -511,7 +511,7 @@ QEMU_CFLAGS += -I$(SRC_PATH)/tests
  
- extract-libs = $(strip $(foreach o,$(filter-out %.mo,$1),$($o-libs)))
- expand-objs = $(strip $(sort $(filter %.o,$1)) \
-@@ -122,7 +130,7 @@ LD_REL := $(CC) -nostdlib $(LD_REL_FLAGS)
- modules:
- 
- %$(EXESUF): %.o
--	$(call LINK,$(filter %.o %.a %.mo, $^))
-+	$(call LINK,$(filter %.o %.a %.mo %.fa, $^))
- 
- %.a:
- 	$(call quiet-command,rm -f $@ && $(AR) rcs $@ $^,"AR","$(TARGET_DIR)$@")
-@@ -378,7 +386,7 @@ define unnest-vars
-                 $(error $o added in $v but $o-objs is not set)))
-         $(shell mkdir -p ./ $(sort $(dir $($v))))
-         # Include all the .d files
--        $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$($v))))
-+        $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$(filter %.o,$($v)))))
-         $(eval $v := $(filter-out %/,$($v))))
- endef
- 
+ # Deps that are common to various different sets of tests below
+ test-util-obj-y = libqemuutil.a
+-test-qom-obj-y = $(qom-obj-y) $(test-util-obj-y)
++test-qom-obj-y = qom/libqom.fa $(test-util-obj-y)
+ test-qapi-obj-y = tests/test-qapi-types.o \
+ 	tests/include/test-qapi-types-sub-module.o \
+ 	tests/test-qapi-types-sub-sub-module.o \
 -- 
 2.21.0
 
