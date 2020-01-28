@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1223F14C0D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:19:40 +0100 (CET)
-Received: from localhost ([::1]:35916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C121E14C0D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:21:44 +0100 (CET)
+Received: from localhost ([::1]:35956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWOh-0003ZF-1a
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:19:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35137)
+	id 1iwWQh-00077v-Py
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:21:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35230)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV71-0002Wg-Db
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:20 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV73-0002c5-KI
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6z-0006H8-CV
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:19 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36735)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV72-0006P4-Ea
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:21 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39012)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV6z-0006Ew-5w
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:17 -0500
-Received: by mail-wm1-x342.google.com with SMTP id p17so3583176wma.1
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:57:17 -0800 (PST)
+ id 1iwV72-0006KH-6S
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:20 -0500
+Received: by mail-wr1-x434.google.com with SMTP id y11so17092615wrt.6
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:57:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xi9kSU3ukJ7iJvnP7TnZRVG8u6MmneTgKX5jY403d9Y=;
- b=N4rZThAwl1vZm3bRguGhk9jqUQxG1vHQ5hlrfPVHUjbY6AgkwDIh4+ka8cHJaQPTXU
- GCnVTuE81542Ppn094DzK6dyYlpncL1AHOJOSbCobH7+qjQrSEsxEZPrsj2HYEicNsMA
- 41o9TRAIrYRV47zrs02uWbaE1JP28mUn/R4GNvzrfSA1OEeIjqGSyfi/bScE63CqLVpU
- aDcVM5875dIWXP1u0bKZ56sA6D5wwHCF/PvRHeJEKY8vxQKnwc0+9UApgC94DWSNI2CA
- MWtfNI65TXLJLugcqPZChBwLjUU18utPo8/lxh/vs192HWftmQl6fK7bd5EtpQwxgz3M
- NKDw==
+ bh=W41DdWEFwizuRfaoKAqL7nttmrqY2CyAtnYYue+m/GY=;
+ b=KrrTjGT9eU4oH43XKk9ZzthUuNF7JVKJ1LFUnbee0UtHnSQCf38rTi0yNqAYNRxqSD
+ am2jePWa7GV8NFwBvuq7yLI80CwTboasqzcRQ45M/TGajBJTLaBKygePtj044zUM9uPv
+ AY3y4U85Jxfpe5bqfHV6E2BXGXGKZnaMiAp+MD3hnzbPd1U1imPjfl09RgMHOo8R4pAA
+ 0Y1pdQlNFbxmmHm/YzUG9OITVTR/bhQExvH2+WUhphtdC5isaLkLj8FuHWVL07A6qOIt
+ jTkqQv4tXrf0Dg+MvaOspnGS/IUu+wNUWxvosHFmKBIXWC6r/dJNi9eYUT7ckRhJlE7A
+ HloA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xi9kSU3ukJ7iJvnP7TnZRVG8u6MmneTgKX5jY403d9Y=;
- b=U9qe2cAag6Tm/YkeWie6ES38IaEr24hrDEaDfyGyG89pQJaJGz14ZkqM3MxKdczn7J
- rt5I+aU6nXoIeHWa+ZLSnY6794kj7baqGhKVSni1NmrBTzHSSSA21kPVr6Psr7brYz/x
- rvibjvjHJQaN3SIG+RLCUGjOjrlgnfqJhA9znY0L1ojZI5m7tv1O5lLT1raDaz4n6tMk
- DTptTn6m8Dr9FVAUWwVZ5lGKgSlANAoBI273/ULc2bj5BXqHSgymcRDT7dNlHlngX2kT
- bL4nJJwVdog0tYvp2709R7mecMCPgXL9m4gaZA2hSVPxSMgSmpjag1lVOr2zCxHC5wxE
- ZSVA==
-X-Gm-Message-State: APjAAAVZO0FbBys1knSGyPfuiski1+q6FTfOZg1B/bsgve5Aa5Yry8fK
- M/edNAo3VY5nW3UrahXLvbw71ekc
-X-Google-Smtp-Source: APXvYqxy34DJX01j66c9zKW8hkjcjCZubjXxQkHLsFs5UbCmmgUAnHSSZ7hc2HDisMREF7o67ISIfw==
-X-Received: by 2002:a05:600c:2283:: with SMTP id
- 3mr6329819wmf.100.1580234235779; 
- Tue, 28 Jan 2020 09:57:15 -0800 (PST)
+ bh=W41DdWEFwizuRfaoKAqL7nttmrqY2CyAtnYYue+m/GY=;
+ b=YhgWe+y5xa4f12MxGeNKHya5b8Ei1AmJOt88ZVF7UXrN5Lrn4yC0pL8DTgoC9II6lV
+ OGcvwv89YGO/j7S8Pnp95H9CTZx+euQRF8JUGbhU3y1qofYFzb9HA3wQSeqHm5QfcBPu
+ MFyEvQS9nl1Ug7eQMY4wf/lp33eKO8Foels2fv28V28or5S4w+16mBHppP68M2o4Cm/B
+ Fs4qWrrs2/yGEFPMYNoSJdzQWlNbhk8yPFIUaYSK36J+0ZapASB7yvoyCVMDoPV/Y77/
+ ljCFbD/zGYxr8HUhaoUdvJlMHB1rQzyBd8V/XhND5F0G8fPafDgIc1fT6nSEC9wrJt4Q
+ e5Zg==
+X-Gm-Message-State: APjAAAUyOesLeONkt/9jcYcPVfWC7zJi6HvOxpjT0SgnsJBDgcb3KUnW
+ e3CaP8SSQg2Ne2s32bemU1MEk4BW
+X-Google-Smtp-Source: APXvYqws3eTp7z63cFjtZZ0cFdItWcsTbI4LTJjeRZUCWyl46yKMyFK212C6EPnEHrTZiT8DuO9smQ==
+X-Received: by 2002:a5d:5345:: with SMTP id t5mr32015320wrv.0.1580234238077;
+ Tue, 28 Jan 2020 09:57:18 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.57.14
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.57.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:57:15 -0800 (PST)
+ Tue, 28 Jan 2020 09:57:17 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 088/142] meson: convert hw/pci
-Date: Tue, 28 Jan 2020 18:52:48 +0100
-Message-Id: <20200128175342.9066-89-pbonzini@redhat.com>
+Subject: [PATCH 089/142] meson: convert hw/nvram
+Date: Tue, 28 Jan 2020 18:52:49 +0100
+Message-Id: <20200128175342.9066-90-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,83 +87,69 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs     |  1 -
- hw/meson.build       |  1 +
- hw/pci/Makefile.objs | 14 --------------
- hw/pci/meson.build   | 19 +++++++++++++++++++
- 4 files changed, 20 insertions(+), 15 deletions(-)
- delete mode 100644 hw/pci/Makefile.objs
- create mode 100644 hw/pci/meson.build
+ hw/Makefile.objs       |  1 -
+ hw/meson.build         |  1 +
+ hw/nvram/Makefile.objs |  8 --------
+ hw/nvram/meson.build   | 11 +++++++++++
+ 4 files changed, 12 insertions(+), 9 deletions(-)
+ delete mode 100644 hw/nvram/Makefile.objs
+ create mode 100644 hw/nvram/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index d8833d54d1..cad6354eae 100644
+index cad6354eae..951d451b77 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -21,7 +21,6 @@ devices-dirs-y += misc/
+@@ -20,7 +20,6 @@ devices-dirs-y += isa/
+ devices-dirs-y += misc/
  devices-dirs-y += net/
  devices-dirs-y += rdma/
- devices-dirs-y += nvram/
--devices-dirs-y += pci/
+-devices-dirs-y += nvram/
  endif
  
  common-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index a7301f21e8..53c347c395 100644
+index 53c347c395..0bdd6a2613 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,6 +1,7 @@
  subdir('core')
  subdir('mem')
  subdir('nubus')
-+subdir('pci')
++subdir('nvram')
+ subdir('pci')
  subdir('pci-bridge')
  subdir('pci-host')
- subdir('pcmcia')
-diff --git a/hw/pci/Makefile.objs b/hw/pci/Makefile.objs
+diff --git a/hw/nvram/Makefile.objs b/hw/nvram/Makefile.objs
 deleted file mode 100644
-index c78f2fb24b..0000000000
---- a/hw/pci/Makefile.objs
+index 26f7b4ca35..0000000000
+--- a/hw/nvram/Makefile.objs
 +++ /dev/null
-@@ -1,14 +0,0 @@
--common-obj-$(CONFIG_PCI) += pci.o pci_bridge.o
--common-obj-$(CONFIG_PCI) += msix.o msi.o
--common-obj-$(CONFIG_PCI) += shpc.o
--common-obj-$(CONFIG_PCI) += slotid_cap.o
--common-obj-$(CONFIG_PCI) += pci_host.o
--
--# The functions in these modules can be used by devices too.  Since we
--# allow plugging PCIe devices into PCI buses, include them even if
--# CONFIG_PCI_EXPRESS=n.
--common-obj-$(CONFIG_PCI) += pcie.o pcie_aer.o
--common-obj-$(CONFIG_PCI_EXPRESS) += pcie_port.o pcie_host.o
--
--common-obj-$(call lnot,$(CONFIG_PCI)) += pci-stub.o
--common-obj-$(CONFIG_ALL) += pci-stub.o
-diff --git a/hw/pci/meson.build b/hw/pci/meson.build
+@@ -1,8 +0,0 @@
+-common-obj-$(CONFIG_DS1225Y) += ds1225y.o
+-common-obj-y += eeprom93xx.o
+-common-obj-$(CONFIG_AT24C) += eeprom_at24c.o
+-common-obj-y += fw_cfg.o
+-common-obj-y += chrp_nvram.o
+-common-obj-$(CONFIG_MAC_NVRAM) += mac_nvram.o
+-obj-$(CONFIG_PSERIES) += spapr_nvram.o
+-obj-$(CONFIG_NRF51_SOC) += nrf51_nvm.o
+diff --git a/hw/nvram/meson.build b/hw/nvram/meson.build
 new file mode 100644
-index 0000000000..5c4bbac817
+index 0000000000..75fca7b939
 --- /dev/null
-+++ b/hw/pci/meson.build
-@@ -0,0 +1,19 @@
-+pci_ss = ss.source_set()
-+pci_ss.add(files(
-+  'msi.c',
-+  'msix.c',
-+  'pci.c',
-+  'pci_bridge.c',
-+  'pci_host.c',
-+  'shpc.c',
-+  'slotid_cap.c'
++++ b/hw/nvram/meson.build
+@@ -0,0 +1,11 @@
++softmmu_ss.add(files(
++  'chrp_nvram.c',
++  'eeprom93xx.c',
++  'fw_cfg.c',
 +))
-+# The functions in these modules can be used by devices too.  Since we
-+# allow plugging PCIe devices into PCI buses, include them even if
-+# CONFIG_PCI_EXPRESS=n.
-+pci_ss.add(files('pcie.c', 'pcie_aer.c'))
-+softmmu_ss.add(when: 'CONFIG_PCI_EXPRESS', if_true: files('pcie_port.c', 'pcie_host.c'))
-+softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
++softmmu_ss.add(when: 'CONFIG_AT24C', if_true: files('eeprom_at24c.c'))
++softmmu_ss.add(when: 'CONFIG_DS1225Y', if_true: files('ds1225y.c'))
++softmmu_ss.add(when: 'CONFIG_MAC_NVRAM', if_true: files('mac_nvram.c'))
 +
-+softmmu_ss.add(when: 'CONFIG_PCI', if_false: files('pci-stub.c'))
-+softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('pci-stub.c'))
++specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_nvram.c'))
++specific_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_nvm.c'))
 -- 
 2.21.0
 
