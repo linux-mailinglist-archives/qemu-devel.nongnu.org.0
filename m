@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 661AE14BF2B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:07:55 +0100 (CET)
-Received: from localhost ([::1]:34898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821CF14BF18
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:02:53 +0100 (CET)
+Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVHG-0007Ea-0D
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:07:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57189)
+	id 1iwVCO-00006m-7x
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:02:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57363)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV3n-0005l6-QC
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:01 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV3r-0005uL-VF
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV3m-0007Ks-2w
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:53:59 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:39652)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV3q-0007WB-KI
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:03 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39603)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV3l-0007Iq-QV
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:53:57 -0500
-Received: by mail-wm1-x331.google.com with SMTP id c84so3550817wme.4
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:53:57 -0800 (PST)
+ id 1iwV3q-0007UI-Av
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:02 -0500
+Received: by mail-wr1-x441.google.com with SMTP id y11so17080503wrt.6
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=X2lfVM7ckKSwoX89GxD0295PFR6/+IbeOu9As0+XJQM=;
- b=oWm2+pIQQcFTSSeShwv8uzWCDUNO6kSTpLxhXHRvM2tCIQDaQCr/xZjJHtr3x5y7v1
- bxAYI03TFjTgSCSPD967uUGEgl/HJmMnB69Rp4OuJyokbqdYTYkYJQvmoGBeS7cYd+D2
- Yese4tJzb0+xoNGB3PpSGYQLvSg3fRrTb+bdXbfXtNW3RqAQ494DtBqdtL/RaMo/J6yh
- giSijEzh02ZqqibOyOtjbn03B+ap0OnI9ea9+HCyzZhluF7mQxz0+O58QiQll5fZ8Q8P
- 5/rPtrBHWlXdbK+S/k8G2xSU0j2Al7JjMkjrkTV4pJ6x7hM68UAZ4Mo13Rs9mBiIJz2u
- FXnQ==
+ bh=t6yu/hHd3ew1mjyu/w2fYK8aAU0FFsCYdDxOQ+5HMVE=;
+ b=spQVRdMZQ1IKU3iMqDo0qX/tCs2E8w5/2e6+cZECbVB9aA7oUWalEIg9M8rUHYnvys
+ 3PpIP+KS5CSCa3p4hcEatmtIpeC/k7QgBPL1n1l4oTitxJKybWg9TDC82TRVAc11NgtQ
+ b1ZDNbtFRgqp0mDemCQzg3zsK4zZva5uKkwpg6x0n7NGem/EVqQvW1TbzsAWoN25ZTLc
+ pDMWxTdLCXyuwFnCYF5vYYAdLd51Xdr4p5kTV5275ypqonpBolYiYBgylb7spgjfH7M5
+ EQa3sH2fxhFIYgYwd8edeC/OvB13Ep6Ro6wg9hnwfjkIv6PGMq6UJ2IJtb3kue8QK1pM
+ og3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=X2lfVM7ckKSwoX89GxD0295PFR6/+IbeOu9As0+XJQM=;
- b=gTY1lt6Fj85n9h4Q+fkUwDNcx3yiLBSbD7w8/ZuC60AXQNex80SnoPiB5P7jtw2t3z
- 9ZKRHOhzjrL6mQVu/JM94G5Bpzjy/Xmr+WrJNhvu2ZMSHJOngJUbrVtcBDgpFJGzyCfM
- vIs9THdYKM8pv77G0sn5Gbdj+yEjTiERJ4x5ExC6Q6ICLeegUwcFjP0ktFODBqV9aYSY
- ZkAt6/DsCBaccI6oliVHlxTseO/42AMw0HRFBhH2mOfq1Plon4fcvWL1OKC9mGjN4uCa
- CKT/Y/xbvaAWFIg6W2ULljloeKuMBucr0SBGybXU33sjThdb7/NlCLklPJF02sm7Cj4F
- vejA==
-X-Gm-Message-State: APjAAAWELTAbwcHXIJRr5HDOX/cbF2OMHo9r4+sZ/wbyyQX4W1GQ/hOG
- tCmZgu4bYNxDieAnR2MNVkBac8+/
-X-Google-Smtp-Source: APXvYqxVsjDLrl7K+IuIRqAIV0+snXiz3jQDQdH5BrTVk4PpENLqKJW5cTkxK/uDfTFcAuQcZLPxqQ==
-X-Received: by 2002:a1c:1b4d:: with SMTP id b74mr6505267wmb.33.1580234036536; 
- Tue, 28 Jan 2020 09:53:56 -0800 (PST)
+ bh=t6yu/hHd3ew1mjyu/w2fYK8aAU0FFsCYdDxOQ+5HMVE=;
+ b=WoG+XMR8L3LGLAQsQLCysm3FpMiAubFetmLBMPcMllHFCGG4i6wbOJIhgU7i06SkQi
+ pbz8XPndaUc6hGE+TFPla+LT433YSr23AV/CL7OVfdYAzYwLO3n4pVwiB3Uk2F1DSVPE
+ DIo/Wp92kN3zOp6NpKtTK9AFt5DDFRTosssZGjzGBg3g2ouUIR9KLT2LVHShYXGtXNGA
+ RfJJwm53yrHcueSH9m1hWA2O6cqFIWNp/zlGcG4gbuh1iUjDoVsdZao4xLZJYZNm/wEB
+ 9rsfnURJj4MCQG4ZVkjJht8uUHGx4R+dh24RI2qn81h+kEnxlnGHNysC7A+TmaUPtIOB
+ B6Pw==
+X-Gm-Message-State: APjAAAV1RiTSruUmQCkHupltPcrg0+PMt2aB2KnYBFPFrothmJHFHyNT
+ w4pUHsPcBUAgSd2LSzhKNVFsO/f+
+X-Google-Smtp-Source: APXvYqxs7DtFSpKyZbES0n5Bwzq+Bsmoja+ulGptJRwuPr82C4SMAiQ2owdpfDMXTvv9jkln1MxR0Q==
+X-Received: by 2002:adf:ea51:: with SMTP id j17mr30124434wrn.83.1580234041070; 
+ Tue, 28 Jan 2020 09:54:01 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.53.54
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.53.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:53:56 -0800 (PST)
+ Tue, 28 Jan 2020 09:54:00 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 003/142] pc-bios/s390-ccw: simplify Makefile
-Date: Tue, 28 Jan 2020 18:51:23 +0100
-Message-Id: <20200128175342.9066-4-pbonzini@redhat.com>
+Subject: [PATCH 005/142] configure: do not include $(...) variables in
+ config-host.mak
+Date: Tue, 28 Jan 2020 18:51:25 +0100
+Message-Id: <20200128175342.9066-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,211 +83,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make it independent from the rules.mak, and clean up to use pattern rules.
+This ensures that Meson will be able to reuse the results of
+the tests that are performed in the configure script.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- pc-bios/s390-ccw/Makefile    | 103 ++++++++++++++++++++++++++++-------
- pc-bios/s390-ccw/netboot.mak |  61 ---------------------
- 2 files changed, 82 insertions(+), 82 deletions(-)
- delete mode 100644 pc-bios/s390-ccw/netboot.mak
+ configure | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-index a048b6b077..b512074e3a 100644
---- a/pc-bios/s390-ccw/Makefile
-+++ b/pc-bios/s390-ccw/Makefile
-@@ -1,42 +1,103 @@
--all: build-all
-+CURRENT_MAKEFILE := $(realpath $(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST)))
-+SRC_DIR := $(dir $(CURRENT_MAKEFILE))
-+TOPSRC_DIR := $(SRC_DIR)/../..
-+VPATH = $(SRC_DIR)
-+
-+all:
- # Dummy command so that make thinks it has done something
- 	@true
+diff --git a/configure b/configure
+index 747d3b4120..e85c8bc515 100755
+--- a/configure
++++ b/configure
+@@ -595,8 +595,8 @@ QEMU_CFLAGS="-fno-strict-aliasing -fno-common -fwrapv -std=gnu99 $QEMU_CFLAGS"
+ QEMU_CFLAGS="-Wall -Wundef -Wwrite-strings -Wmissing-prototypes $QEMU_CFLAGS"
+ QEMU_CFLAGS="-Wstrict-prototypes -Wredundant-decls $QEMU_CFLAGS"
+ QEMU_CFLAGS="-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $QEMU_CFLAGS"
+-QEMU_INCLUDES="-iquote . -iquote \$(SRC_PATH) -iquote \$(SRC_PATH)/accel/tcg -iquote \$(SRC_PATH)/include"
+-QEMU_INCLUDES="$QEMU_INCLUDES -iquote \$(SRC_PATH)/disas/libvixl"
++QEMU_INCLUDES="-iquote . -iquote ${source_path} -iquote ${source_path}/accel/tcg -iquote ${source_path}/include"
++QEMU_INCLUDES="$QEMU_INCLUDES -iquote ${source_path}/disas/libvixl"
+ if test "$debug_info" = "yes"; then
+     CFLAGS="-g $CFLAGS"
+     LDFLAGS="-g $LDFLAGS"
+@@ -887,7 +887,7 @@ Linux)
+   linux="yes"
+   linux_user="yes"
+   kvm="yes"
+-  QEMU_INCLUDES="-I\$(SRC_PATH)/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
++  QEMU_INCLUDES="-I${source_path}/linux-headers -I$PWD/linux-headers $QEMU_INCLUDES"
+   supported_os="yes"
+   libudev="yes"
+ ;;
+@@ -4112,8 +4112,8 @@ EOF
+               symlink "$source_path/dtc/Makefile" "dtc/Makefile"
+               symlink "$source_path/dtc/scripts" "dtc/scripts"
+           fi
+-          fdt_cflags="-I\$(SRC_PATH)/dtc/libfdt"
+-          fdt_ldflags="-L\$(BUILD_DIR)/dtc/libfdt"
++          fdt_cflags="-I${source_path}/dtc/libfdt"
++          fdt_ldflags="-L$PWD/dtc/libfdt"
+           fdt_libs="$fdt_libs"
+       elif test "$fdt" = "yes" ; then
+           # Not a git build & no libfdt found, prompt for system install
+@@ -5062,13 +5062,13 @@ case "$capstone" in
+       git_submodules="${git_submodules} capstone"
+     fi
+     mkdir -p capstone
+-    QEMU_CFLAGS="$QEMU_CFLAGS -I\$(SRC_PATH)/capstone/include"
++    QEMU_CFLAGS="$QEMU_CFLAGS -I${source_path}/capstone/include"
+     if test "$mingw32" = "yes"; then
+       LIBCAPSTONE=capstone.lib
+     else
+       LIBCAPSTONE=libcapstone.a
+     fi
+-    libs_cpu="-L\$(BUILD_DIR)/capstone -lcapstone $libs_cpu"
++    libs_cpu="-L$PWD/capstone -lcapstone $libs_cpu"
+     ;;
  
- include ../../config-host.mak
--include $(SRC_PATH)/rules.mak
+   system)
+@@ -6032,8 +6032,8 @@ case "$slirp" in
+       git_submodules="${git_submodules} slirp"
+     fi
+     mkdir -p slirp
+-    slirp_cflags="-I\$(SRC_PATH)/slirp/src -I\$(BUILD_DIR)/slirp/src"
+-    slirp_libs="-L\$(BUILD_DIR)/slirp -lslirp"
++    slirp_cflags="-I${source_path}/slirp/src -I$PWD/slirp/src"
++    slirp_libs="-L$PWD/slirp -lslirp"
+     if test "$mingw32" = "yes" ; then
+       slirp_libs="$slirp_libs -lws2_32 -liphlpapi"
+     fi
+@@ -7413,21 +7413,21 @@ if test "$plugins" = "yes" ; then
+ fi
  
--$(call set-vpath, $(SRC_PATH)/pc-bios/s390-ccw)
-+quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
-+cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null >/dev/null 2>&1 && echo OK), $1, $2)
+ if test "$tcg_interpreter" = "yes"; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/tci $QEMU_INCLUDES"
+ elif test "$ARCH" = "sparc64" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/sparc $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/sparc $QEMU_INCLUDES"
+ elif test "$ARCH" = "s390x" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/s390 $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/s390 $QEMU_INCLUDES"
+ elif test "$ARCH" = "x86_64" || test "$ARCH" = "x32" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/i386 $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/i386 $QEMU_INCLUDES"
+ elif test "$ARCH" = "ppc64" ; then
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/ppc $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/ppc $QEMU_INCLUDES"
+ elif test "$ARCH" = "riscv32" || test "$ARCH" = "riscv64" ; then
+-  QEMU_INCLUDES="-I\$(SRC_PATH)/tcg/riscv $QEMU_INCLUDES"
++  QEMU_INCLUDES="-I${source_path}/tcg/riscv $QEMU_INCLUDES"
+ else
+-  QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/\$(ARCH) $QEMU_INCLUDES"
++  QEMU_INCLUDES="-iquote ${source_path}/tcg/\$(ARCH) $QEMU_INCLUDES"
+ fi
+-QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg $QEMU_INCLUDES"
++QEMU_INCLUDES="-iquote ${source_path}/tcg $QEMU_INCLUDES"
  
--.PHONY : all clean build-all
-+override CFLAGS += $(filter -W%, $(QEMU_CFLAGS))
-+override CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -msoft-float
-+override CFLAGS += -march=z900 -fPIE -fno-strict-aliasing
-+override CFLAGS += -fno-asynchronous-unwind-tables
-+override CFLAGS += $(call cc-option, -fno-stack-protector)
-+LDFLAGS += -Wl,-pie -nostdlib
- 
- OBJECTS = start.o main.o bootmap.o jump2ipl.o sclp.o menu.o \
- 	  virtio.o virtio-scsi.o virtio-blkdev.o libc.o cio.o dasd-ipl.o
- 
--QEMU_CFLAGS := $(filter -W%, $(QEMU_CFLAGS))
--QEMU_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -msoft-float
--QEMU_CFLAGS += -march=z900 -fPIE -fno-strict-aliasing
--QEMU_CFLAGS += -fno-asynchronous-unwind-tables
--QEMU_CFLAGS += $(call cc-option, $(QEMU_CFLAGS), -fno-stack-protector)
--LDFLAGS += -Wl,-pie -nostdlib
-+STRIP ?= strip
- 
--build-all: s390-ccw.img s390-netboot.img
-+$(OBJECTS): Makefile
- 
--s390-ccw.elf: $(OBJECTS)
--	$(call quiet-command,$(CC) $(LDFLAGS) -o $@ $(OBJECTS),"BUILD","$(TARGET_DIR)$@")
-+SLOF_DIR := $(SRC_PATH)/roms/SLOF
- 
--STRIP ?= strip
-+NETOBJS := start.o sclp.o cio.o virtio.o virtio-net.o jump2ipl.o netmain.o \
-+	   libnet.a libc.a
- 
--s390-ccw.img: s390-ccw.elf
-+LIBC_INC := -nostdinc -I$(SLOF_DIR)/lib/libc/include
-+LIBNET_INC := -I$(SLOF_DIR)/lib/libnet
-+
-+$(NETOBJS): QEMU_CFLAGS += $(LIBC_INC) $(LIBNET_INC)
-+
-+# libc files:
-+
-+LIBC_CFLAGS :=  $(QEMU_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC)
-+
-+CTYPE_OBJS = isdigit.o isxdigit.o toupper.o
-+$(CTYPE_OBJS) : %.o : $(SLOF_DIR)/lib/libc/ctype/%.c
-+	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+
-+STRING_OBJS = strcat.o strchr.o strrchr.o strcpy.o strlen.o strncpy.o \
-+	      strcmp.o strncmp.o strcasecmp.o strncasecmp.o strstr.o \
-+	      memset.o memcpy.o memmove.o memcmp.o
-+$(STRING_OBJS) : %.o : $(SLOF_DIR)/lib/libc/string/%.c
-+	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+
-+STDLIB_OBJS = atoi.o atol.o strtoul.o strtol.o rand.o malloc.o free.o
-+$(STDLIB_OBJS) : %.o : $(SLOF_DIR)/lib/libc/stdlib/%.c
-+	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+
-+STDIO_OBJS = sprintf.o snprintf.o vfprintf.o vsnprintf.o vsprintf.o fprintf.o \
-+	     printf.o putc.o puts.o putchar.o stdchnls.o fileno.o
-+$(STDIO_OBJS) : %.o : $(SLOF_DIR)/lib/libc/stdio/%.c
-+	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+
-+sbrk.o: $(SLOF_DIR)/slof/sbrk.c
-+	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+
-+LIBCOBJS := $(STRING_OBJS) $(CTYPE_OBJS) $(STDLIB_OBJS) $(STDIO_OBJS) sbrk.o
-+
-+libc.a: $(LIBCOBJS)
-+	$(call quiet-command,$(AR) -rc $@ $^,"AR","$(TARGET_DIR)$@")
-+
-+# libnet files:
-+
-+LIBNETOBJS := args.o dhcp.o dns.o icmpv6.o ipv6.o tcp.o udp.o bootp.o \
-+	      dhcpv6.o ethernet.o ipv4.o ndp.o tftp.o pxelinux.o
-+LIBNETCFLAGS := $(CFLAGS) -DDHCPARCH=0x1F $(LIBC_INC) $(LIBNET_INC)
-+
-+$(LIBNETOBJS) : %.o : $(SLOF_DIR)/lib/libnet/%.c
-+	$(call quiet-command,$(CC) $(LIBNETCFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+
-+libnet.a: $(LIBNETOBJS)
-+	$(call quiet-command,$(AR) -rc $@ $^,"AR","$(TARGET_DIR)$@")
-+
-+%.elf:
-+	$(call quiet-command,$(CC) $(LDFLAGS) -o $@ $^,"BUILD","$(TARGET_DIR)$@")
-+
-+%.img: %.elf
- 	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,"STRIP","$(TARGET_DIR)$@")
- 
--$(OBJECTS): Makefile
-+s390-ccw.elf: $(OBJECTS)
-+s390-ccw.img: s390-ccw.elf
-+all: s390-ccw.img
-+
-+ifneq ($(wildcard $(SLOF_DIR)/lib/libnet),)
-+s390-netboot.elf: $(NETOBJS)
-+s390-netboot.elf: LDFLAGS += -Ttext=0x7800000
- 
--ifneq ($(wildcard $(SRC_PATH)/roms/SLOF/lib/libnet),)
--include $(SRC_PATH)/pc-bios/s390-ccw/netboot.mak
--else
--s390-netboot.img:
--	@echo "s390-netboot.img not built since roms/SLOF/ is not available."
-+s390-netboot.img: s390-netboot.elf
-+all: s390-netboot.img
- endif
- 
- clean:
- 	rm -f *.o *.d *.img *.elf *~ *.a
-+
-+.PHONY : all clean
-diff --git a/pc-bios/s390-ccw/netboot.mak b/pc-bios/s390-ccw/netboot.mak
-deleted file mode 100644
-index 5eefb7c289..0000000000
---- a/pc-bios/s390-ccw/netboot.mak
-+++ /dev/null
-@@ -1,61 +0,0 @@
--
--SLOF_DIR := $(SRC_PATH)/roms/SLOF
--
--NETOBJS := start.o sclp.o cio.o virtio.o virtio-net.o jump2ipl.o netmain.o \
--	   libnet.a libc.a
--
--LIBC_INC := -nostdinc -I$(SLOF_DIR)/lib/libc/include
--LIBNET_INC := -I$(SLOF_DIR)/lib/libnet
--
--NETLDFLAGS := $(LDFLAGS) -Ttext=0x7800000
--
--$(NETOBJS): QEMU_CFLAGS += $(LIBC_INC) $(LIBNET_INC)
--
--s390-netboot.elf: $(NETOBJS)
--	$(call quiet-command,$(CC) $(NETLDFLAGS) -o $@ $(NETOBJS),"BUILD","$(TARGET_DIR)$@")
--
--s390-netboot.img: s390-netboot.elf
--	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,"STRIP","$(TARGET_DIR)$@")
--
--# libc files:
--
--LIBC_CFLAGS :=  $(QEMU_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC)
--
--CTYPE_OBJS = isdigit.o isxdigit.o toupper.o
--%.o : $(SLOF_DIR)/lib/libc/ctype/%.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--STRING_OBJS = strcat.o strchr.o strrchr.o strcpy.o strlen.o strncpy.o \
--	      strcmp.o strncmp.o strcasecmp.o strncasecmp.o strstr.o \
--	      memset.o memcpy.o memmove.o memcmp.o
--%.o : $(SLOF_DIR)/lib/libc/string/%.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--STDLIB_OBJS = atoi.o atol.o strtoul.o strtol.o rand.o malloc.o free.o
--%.o : $(SLOF_DIR)/lib/libc/stdlib/%.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--STDIO_OBJS = sprintf.o snprintf.o vfprintf.o vsnprintf.o vsprintf.o fprintf.o \
--	     printf.o putc.o puts.o putchar.o stdchnls.o fileno.o
--%.o : $(SLOF_DIR)/lib/libc/stdio/%.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--sbrk.o: $(SLOF_DIR)/slof/sbrk.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--LIBCOBJS := $(STRING_OBJS) $(CTYPE_OBJS) $(STDLIB_OBJS) $(STDIO_OBJS) sbrk.o
--
--libc.a: $(LIBCOBJS)
--	$(call quiet-command,$(AR) -rc $@ $^,"AR","$(TARGET_DIR)$@")
--
--# libnet files:
--
--LIBNETOBJS := args.o dhcp.o dns.o icmpv6.o ipv6.o tcp.o udp.o bootp.o \
--	      dhcpv6.o ethernet.o ipv4.o ndp.o tftp.o pxelinux.o
--LIBNETCFLAGS := $(QEMU_CFLAGS) $(CFLAGS) -DDHCPARCH=0x1F $(LIBC_INC) $(LIBNET_INC)
--
--%.o : $(SLOF_DIR)/lib/libnet/%.c
--	$(call quiet-command,$(CC) $(LIBNETCFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--
--libnet.a: $(LIBNETOBJS)
--	$(call quiet-command,$(AR) -rc $@ $^,"AR","$(TARGET_DIR)$@")
+ echo "TOOLS=$tools" >> $config_host_mak
+ echo "ROMS=$roms" >> $config_host_mak
 -- 
 2.21.0
 
