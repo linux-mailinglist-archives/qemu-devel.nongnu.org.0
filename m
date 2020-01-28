@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C4014B7CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 15:20:26 +0100 (CET)
-Received: from localhost ([::1]:59770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE4714B75F
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 15:15:15 +0100 (CET)
+Received: from localhost ([::1]:59714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwRj4-0007cN-5N
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 09:20:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44264)
+	id 1iwRe6-0004bk-L5
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 09:15:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44234)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <n54@gmx.com>) id 1iwRaD-0003HX-DE
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:11:14 -0500
+ (envelope-from <n54@gmx.com>) id 1iwRa5-0003BJ-LI
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:11:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <n54@gmx.com>) id 1iwRaC-0005cJ-8z
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:11:13 -0500
-Received: from mout.gmx.net ([212.227.15.18]:57449)
+ (envelope-from <n54@gmx.com>) id 1iwRa4-0005Sl-8K
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:11:05 -0500
+Received: from mout.gmx.net ([212.227.15.19]:40255)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <n54@gmx.com>) id 1iwRaC-0005bT-08
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:11:12 -0500
+ (Exim 4.71) (envelope-from <n54@gmx.com>) id 1iwRa3-0005SC-Ux
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:11:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1580220651;
- bh=OoHgIpPDwZT/Pi0VaFQwgC5IRulseQbJKr5lVQNbNWg=;
+ s=badeba3b8450; t=1580220652;
+ bh=/24CcQSAisqVsMOTbVgPxfxH8tCDghR0Bs9U0kK9Ef8=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=TaupwFdqoRqEgwCuQNKONOXie4+IkKiW0lfBGwFpKBpQoz/h0kR0XuhFNEy7WHUpC
- PPhz6lvLRVzxhmtvESfZrFum9e0iNL1Hp0ezi8cgQ35R8npsTyo4o8U5cYBOk06LhR
- suVRqCB7RNesmGY9R1K362WuyUrA+VxIi1gNV+o8=
+ b=EJIiY3IFIrmomA/HB6g2SlTYlmIF0hybaj9XkIQ0E6tP4ZfvUneF346R86tUFlXcn
+ qFkyfbF4/Lxa8w9nZJqJLEyht5KRISijzxYs7p1I3u1DEWH3ddWgPe3cQUqKZC4MEe
+ Iw2SmlfPZN2EB/ozRyG08BXBIhrg0rNQ4LdHSq4Y=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([89.71.135.231]) by mail.gmx.com
  (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MWASe-1j3aQT1xpy-00XdTt; Tue, 28 Jan 2020 15:10:51 +0100
+ 1M5fMe-1iup1C05X8-007Ce9; Tue, 28 Jan 2020 15:10:52 +0100
 From: Kamil Rytarowski <n54@gmx.com>
 To: rth@twiddle.net, ehabkost@redhat.com, philmd@redhat.com, slp@redhat.com,
  pbonzini@redhat.com, peter.maydell@linaro.org, max@m00nbsd.net
-Subject: [PATCH v2 1/4] Add the NVMM vcpu API
-Date: Tue, 28 Jan 2020 15:09:42 +0100
-Message-Id: <20200128140945.929-2-n54@gmx.com>
+Subject: [PATCH v2 2/4] Add the NetBSD Virtual Machine Monitor accelerator.
+Date: Tue, 28 Jan 2020 15:09:43 +0100
+Message-Id: <20200128140945.929-3-n54@gmx.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200128140945.929-1-n54@gmx.com>
 References: <20200107124903.16505-1-n54@gmx.com>
  <20200128140945.929-1-n54@gmx.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:rTSJ6Vi5eEuJytv/jnXdWerXHKnL14v6wdqK/Q78EBeRTUE4OHt
- VATGJSUXBkGGOABd3elCdLeANW4b6RLa1kuiCI2Ux3a4DVq4L+VfbhMj6gIZKG/cbYC+Foc
- Ob+Xz9k60SwzS4U+hPPTjT8k3VtQrcFy6xyJxJqZ0pr/TFA630gaG9x21qGq3+kZCJthINT
- a+tGOzUiCeD088aDwe+Zw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:cxTmhJIF5Js=:GQCs/up3wwqb7ihBdo8bxf
- svvvCp8//dNbHryQi8Ji3emaJaouFbtuKoD79ES7xEDvgiG00iZuEABRbcmZ6M3FK7vCDZdO7
- DLoyIk9kW3rnAHHqdTm94vWQE8hah0fLuxnnf+o8ZL2LwbDg+BNhQjTu2rkS3aKF7mpQbn4UD
- I/q4XUbcXkC3DYAHzoHhV0Bau8cmJWFtIWTO1iAXIJw/H06oayaX/IP6bPx6q3bXWsD6XJhmA
- pyxVQhc152gym8lzcojME8wi1czW0zOLVZIQZsgHTM2vC4Q630rSGOonikSJ1hvru8/Ac5nhf
- MLGE5utiG1y+UEfUY0y9S5/amova2mB6352kLOHE7ICoklwXaiffnEC6ZuyVahPu5sOQb3JfR
- W1RXap0PqE2LtCXTS4YolZwrI4coVKtFnTFO0wl+m5jaty9TA+L1n5899CogXtNe23lziwc9Z
- yfsyVacxCQq/Pp3s8hEiBhH192PVrw0gJPftsZglUjcfrM1YdiZeaAwT+lglyy3nlxHjU5/uj
- tnMJyM3FBcdpPP+JS4BQ+qf5Va8M/vK8EvtJuSsiYih67kWIITPry12Z29lWcaNYXaCN/aAMA
- 94TpcsLpQxih3UymPSogCii25Pu1PzM4Wj5KRF4Ea+Wd+SvIVlVnTb09jPLwa/s3pwmM7MvVo
- 33sSknF08e/rTnoE59+N2pfFMTpxaWATWdx9f1qQwF1rqxE5sZaedLU9jqxUAoC6NukNeE836
- YCLrnMfZ/0KiTKT5Q2rRP0cArioHG0hvyTIG7AUC2132TM9cikOv+/7MZTaDEeW6REfOrlmvP
- vgG/5YBFD/7GY0kBcaIN/vmH6beW+QHE60pnWxs88uKR2mBzIij/DDRnUKioT7onyzI/nLFX3
- I0uaoSbOhq3OFQ26C7FZzdODMzK96LoS5ZKaOKzRUOuyQrLzt+OuLLJv18xV1Y7H7PvSkkBc8
- 24ecZLIcFX5IU0rjYc0AQzmwg2BsVkXtpNLwIL3KsPpDAzYJnD/uftzxPv5snB3P5bOCZrMxb
- uIAFicU3D8BZhMlg83ff7QLeewq0tiXnwxujOHH9gbfFPPQB5bDLLb/vxH0M4Y/BiGY3A+BF0
- i93aiN3xS2lZaRDD2njCZNlURdTYMMhYw5cpUf1oQ9TCY7q5SEyaYyfpvoVcO2tkTv8V/sHa3
- aeMtg8SpDdUNhu/c5YVbLjyt85kdL6Hvqfp7vYEPsTmcNBWzmByZOVumwE/Xn/x7pHS34=
+X-Provags-ID: V03:K1:iOxFGtDFHqGiT/EhkGdfgi5P1gRUyj9Swl5Wwz7WmQZR4rSBlGK
+ 1308s0DEpEs0jAn6zkIuf5Ud+EykHrfkdLKiUCAL49/bwQTc9SmEETnBRCAH8tKjd8QS1FW
+ FB/OJzq5N7vqEyBcuHTZsm4g/epi2DiGCdMJM+cWkcw/EFjwSF7n6uhASGzq2d3j7dzTcvx
+ 82uL1vVpJgMPPyFDP6lpA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SFBYLXpqWcM=:MDfmyvTjOpGZXntBMZnWVx
+ NWMthH8j688KkUlnJL8dE/faD7X1HqX7Pm8BVHqQ7zULd4Yh8NyBq8ISnD7NmWyOzJtnhzkMm
+ 4ElnPj2370tjs3ApznhxTzluvrNXWw72ygvAkJVpfsQyilv02aRiyMS/exiDQ3QZiY6zQSFSD
+ urKLGadOUlodq5e3dc07XGk7MkNOKTgOy/nWrTnO2ed4k+yv4kLM95s8x0DQycvzo16JCxygL
+ tWFbc+l7U42eWT8VTSghMaMYlFQMAy7snD+DRhn2D/UfUEs9hsPMfItlqVuIR9nSl8fR78Qhg
+ +ySHnzQnUcmIgi/pM5oGViU+f6JCnodk5uiGVob4slOsmCmfwRn7EX0PlTCjxOosjyL7D9e0M
+ u+Akf4wm4M0odfY8FqN3lnGGlmPlZSwmc2XO8sCZSOsy4JlEuUvxr+RAfTLSNna5P5MX/j16U
+ aP/1XHPx9HSkKYVqZrCbD32kQWEs7U0knUT6ZfsXGq+SXgW48LsybpcZDTAw6gSLRoZZhL04B
+ M89M+b5JjNQjl7ilsQudfF9/X15KO3b+m9yANONz1Ft/ZfLPtCRb+AxgAaEFlLvYE0Zl/VOUH
+ ULg+yGUszjZwwnGuoCVLyLWASb2Bv8dN4ZDyxCW6MscvZi3HcObg/wgcHs49KgkioSZYbGsGe
+ THR/JK+k2mhN3MN2bsVu0hsDA1oQXs0Z+/G6ElrSjCYpGcV8/NYIFPq1Fo4xyDnFIbHyA/37D
+ HQSYGeuyrRyvxQ0czpceVagEKkDYdFk3h3TmFOLZ8+Q6/3Z6d4y5G0ucnteA02bK3K9cP1B6a
+ r+LP2I4hoV9m7JELjRFE4LN3tjS1Y1PYzcnXMM3Q0o+GF+lLgwnfePVoA6cCh0A1f0Vz3m9hB
+ ZF5z9BvS8g8BOB7UVxw43cVvwW1HxDca7lSKA0QgLPmZF5uEwIexCUPWhgpT/oEGB6uc4glU/
+ K7grovmk6uGV/P9lGS6Jc4aFCpfloSn3FeNYVEqiUTuuQcDmFlEBDqgsBTP+tXTZd2icdIFiY
+ BdjwagXuEkdE65HzeNKaS7MWLh/fechdbQilzwiKGdnKqzf/KehvfftVaFvPEcMt5zOmbmskQ
+ ucxaq0yU6TfeiLpUTd3PoOldK4hRH6le7mt3nRGDVnphgMRtags1dbIQ6EQ+8hA0UzDVuRcfv
+ XyGdEv3hg6htIYZ9EV0gCnCa5ThF1YRpIyzCDhvMtgqoJ0RYGIbewfQXVpTv7KMdMX3RA=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.15.18
+X-Received-From: 212.227.15.19
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,124 +84,189 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Maxime Villard <max@m00nbsd.net>
 
-Adds support for the NetBSD Virtual Machine Monitor (NVMM) stubs and
-introduces the nvmm.h sysemu API for managing the vcpu scheduling and
-management.
+Introduces the configure support for the new NetBSD Virtual Machine Monito=
+r that
+allows for hypervisor acceleration from usermode components on the NetBSD
+platform.
 
 Signed-off-by: Maxime Villard <max@m00nbsd.net>
 Signed-off-by: Kamil Rytarowski <n54@gmx.com>
 Reviewed-by: Sergio Lopez <slp@redhat.com>
 =2D--
- accel/stubs/Makefile.objs |  1 +
- accel/stubs/nvmm-stub.c   | 43 +++++++++++++++++++++++++++++++++++++++
- include/sysemu/nvmm.h     | 35 +++++++++++++++++++++++++++++++
- 3 files changed, 79 insertions(+)
- create mode 100644 accel/stubs/nvmm-stub.c
- create mode 100644 include/sysemu/nvmm.h
+ configure       | 36 ++++++++++++++++++++++++++++++++++++
+ qemu-options.hx | 16 ++++++++--------
+ 2 files changed, 44 insertions(+), 8 deletions(-)
 
-diff --git a/accel/stubs/Makefile.objs b/accel/stubs/Makefile.objs
-index 3894caf95d..09f2d3e1dd 100644
-=2D-- a/accel/stubs/Makefile.objs
-+++ b/accel/stubs/Makefile.objs
-@@ -1,5 +1,6 @@
- obj-$(call lnot,$(CONFIG_HAX))  +=3D hax-stub.o
- obj-$(call lnot,$(CONFIG_HVF))  +=3D hvf-stub.o
- obj-$(call lnot,$(CONFIG_WHPX)) +=3D whpx-stub.o
-+obj-$(call lnot,$(CONFIG_NVMM)) +=3D nvmm-stub.o
- obj-$(call lnot,$(CONFIG_KVM))  +=3D kvm-stub.o
- obj-$(call lnot,$(CONFIG_TCG))  +=3D tcg-stub.o
-diff --git a/accel/stubs/nvmm-stub.c b/accel/stubs/nvmm-stub.c
-new file mode 100644
-index 0000000000..c2208b84a3
-=2D-- /dev/null
-+++ b/accel/stubs/nvmm-stub.c
-@@ -0,0 +1,43 @@
-+/*
-+ * Copyright (c) 2018-2019 Maxime Villard, All rights reserved.
-+ *
-+ * NetBSD Virtual Machine Monitor (NVMM) accelerator stub.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or lat=
-er.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "cpu.h"
-+#include "sysemu/nvmm.h"
-+
-+int nvmm_init_vcpu(CPUState *cpu)
-+{
-+    return -1;
+diff --git a/configure b/configure
+index 0ce2c0354a..eb456a271e 100755
+=2D-- a/configure
++++ b/configure
+@@ -241,6 +241,17 @@ supported_whpx_target() {
+     return 1
+ }
+
++supported_nvmm_target() {
++    test "$nvmm" =3D "yes" || return 1
++    glob "$1" "*-softmmu" || return 1
++    case "${1%-softmmu}" in
++        i386|x86_64)
++            return 0
++        ;;
++    esac
++    return 1
 +}
 +
-+int nvmm_vcpu_exec(CPUState *cpu)
-+{
-+    return -1;
-+}
+ supported_target() {
+     case "$1" in
+         *-softmmu)
+@@ -268,6 +279,7 @@ supported_target() {
+     supported_hax_target "$1" && return 0
+     supported_hvf_target "$1" && return 0
+     supported_whpx_target "$1" && return 0
++    supported_nvmm_target "$1" && return 0
+     print_error "TCG disabled, but hardware accelerator not available for=
+ '$target'"
+     return 1
+ }
+@@ -387,6 +399,7 @@ kvm=3D"no"
+ hax=3D"no"
+ hvf=3D"no"
+ whpx=3D"no"
++nvmm=3D"no"
+ rdma=3D""
+ pvrdma=3D""
+ gprof=3D"no"
+@@ -1168,6 +1181,10 @@ for opt do
+   ;;
+   --enable-whpx) whpx=3D"yes"
+   ;;
++  --disable-nvmm) nvmm=3D"no"
++  ;;
++  --enable-nvmm) nvmm=3D"yes"
++  ;;
+   --disable-tcg-interpreter) tcg_interpreter=3D"no"
+   ;;
+   --enable-tcg-interpreter) tcg_interpreter=3D"yes"
+@@ -1768,6 +1785,7 @@ disabled with --disable-FEATURE, default is enabled =
+if available:
+   hax             HAX acceleration support
+   hvf             Hypervisor.framework acceleration support
+   whpx            Windows Hypervisor Platform acceleration support
++  nvmm            NetBSD Virtual Machine Monitor acceleration support
+   rdma            Enable RDMA-based migration
+   pvrdma          Enable PVRDMA support
+   vde             support for vde network
+@@ -2757,6 +2775,20 @@ if test "$whpx" !=3D "no" ; then
+     fi
+ fi
+
++##########################################
++# NetBSD Virtual Machine Monitor (NVMM) accelerator check
++if test "$nvmm" !=3D "no" ; then
++    if check_include "nvmm.h" ; then
++        nvmm=3D"yes"
++	LIBS=3D"-lnvmm $LIBS"
++    else
++        if test "$nvmm" =3D "yes"; then
++            feature_not_found "NVMM" "NVMM is not available"
++        fi
++        nvmm=3D"no"
++    fi
++fi
 +
-+void nvmm_destroy_vcpu(CPUState *cpu)
-+{
-+}
-+
-+void nvmm_cpu_synchronize_state(CPUState *cpu)
-+{
-+}
-+
-+void nvmm_cpu_synchronize_post_reset(CPUState *cpu)
-+{
-+}
-+
-+void nvmm_cpu_synchronize_post_init(CPUState *cpu)
-+{
-+}
-+
-+void nvmm_cpu_synchronize_pre_loadvm(CPUState *cpu)
-+{
-+}
-diff --git a/include/sysemu/nvmm.h b/include/sysemu/nvmm.h
-new file mode 100644
-index 0000000000..10496f3980
-=2D-- /dev/null
-+++ b/include/sysemu/nvmm.h
-@@ -0,0 +1,35 @@
-+/*
-+ * Copyright (c) 2018-2019 Maxime Villard, All rights reserved.
-+ *
-+ * NetBSD Virtual Machine Monitor (NVMM) accelerator support.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or lat=
-er.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef QEMU_NVMM_H
-+#define QEMU_NVMM_H
-+
-+#include "config-host.h"
-+#include "qemu-common.h"
-+
-+int nvmm_init_vcpu(CPUState *);
-+int nvmm_vcpu_exec(CPUState *);
-+void nvmm_destroy_vcpu(CPUState *);
-+
-+void nvmm_cpu_synchronize_state(CPUState *);
-+void nvmm_cpu_synchronize_post_reset(CPUState *);
-+void nvmm_cpu_synchronize_post_init(CPUState *);
-+void nvmm_cpu_synchronize_pre_loadvm(CPUState *);
-+
-+#ifdef CONFIG_NVMM
-+
-+int nvmm_enabled(void);
-+
-+#else /* CONFIG_NVMM */
-+
-+#define nvmm_enabled() (0)
-+
-+#endif /* CONFIG_NVMM */
-+
-+#endif /* CONFIG_NVMM */
+ ##########################################
+ # Sparse probe
+ if test "$sparse" !=3D "no" ; then
+@@ -6495,6 +6527,7 @@ echo "KVM support       $kvm"
+ echo "HAX support       $hax"
+ echo "HVF support       $hvf"
+ echo "WHPX support      $whpx"
++echo "NVMM support      $nvmm"
+ echo "TCG support       $tcg"
+ if test "$tcg" =3D "yes" ; then
+     echo "TCG debug enabled $debug_tcg"
+@@ -7771,6 +7804,9 @@ fi
+ if test "$target_aligned_only" =3D "yes" ; then
+   echo "TARGET_ALIGNED_ONLY=3Dy" >> $config_target_mak
+ fi
++if supported_nvmm_target $target; then
++    echo "CONFIG_NVMM=3Dy" >> $config_target_mak
++fi
+ if test "$target_bigendian" =3D "yes" ; then
+   echo "TARGET_WORDS_BIGENDIAN=3Dy" >> $config_target_mak
+ fi
+diff --git a/qemu-options.hx b/qemu-options.hx
+index e9d6231438..4ddf7c91a0 100644
+=2D-- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -31,7 +31,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+     "-machine [type=3D]name[,prop[=3Dvalue][,...]]\n"
+     "                selects emulated machine ('-machine help' for list)\=
+n"
+     "                property accel=3Daccel1[:accel2[:...]] selects accel=
+erator\n"
+-    "                supported accelerators are kvm, xen, hax, hvf, whpx =
+or tcg (default: tcg)\n"
++    "                supported accelerators are kvm, xen, hax, hvf, nvmm,=
+ whpx or tcg (default: tcg)\n"
+     "                vmport=3Don|off|auto controls emulation of vmport (d=
+efault: auto)\n"
+     "                dump-guest-core=3Don|off include guest memory in a c=
+ore dump (default=3Don)\n"
+     "                mem-merge=3Don|off controls memory merge support (de=
+fault: on)\n"
+@@ -63,9 +63,9 @@ Supported machine properties are:
+ @table @option
+ @item accel=3D@var{accels1}[:@var{accels2}[:...]]
+ This is used to enable an accelerator. Depending on the target architectu=
+re,
+-kvm, xen, hax, hvf, whpx or tcg can be available. By default, tcg is used=
+. If there is
+-more than one accelerator specified, the next one is used if the previous=
+ one
+-fails to initialize.
++kvm, xen, hax, hvf, nvmm, whpx or tcg can be available. By default, tcg i=
+s used.
++If there is more than one accelerator specified, the next one is used if =
+the
++previous one fails to initialize.
+ @item vmport=3Don|off|auto
+ Enables emulation of VMWare IO port, for vmmouse etc. auto says to select=
+ the
+ value based on accel. For accel=3Dxen the default is off otherwise the de=
+fault
+@@ -110,7 +110,7 @@ ETEXI
+
+ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+     "-accel [accel=3D]accelerator[,prop[=3Dvalue][,...]]\n"
+-    "                select accelerator (kvm, xen, hax, hvf, whpx or tcg;=
+ use 'help' for a list)\n"
++    "                select accelerator (kvm, xen, hax, hvf, nvmm, whpx o=
+r tcg; use 'help' for a list)\n"
+     "                igd-passthru=3Don|off (enable Xen integrated Intel g=
+raphics passthrough, default=3Doff)\n"
+     "                kernel-irqchip=3Don|off|split controls accelerated i=
+rqchip support (default=3Don)\n"
+     "                kvm-shadow-mem=3Dsize of KVM shadow MMU in bytes\n"
+@@ -120,9 +120,9 @@ STEXI
+ @item -accel @var{name}[,prop=3D@var{value}[,...]]
+ @findex -accel
+ This is used to enable an accelerator. Depending on the target architectu=
+re,
+-kvm, xen, hax, hvf, whpx or tcg can be available. By default, tcg is used=
+. If there is
+-more than one accelerator specified, the next one is used if the previous=
+ one
+-fails to initialize.
++kvm, xen, hax, hvf, nvmm, whpx or tcg can be available. By default, tcg i=
+s used.
++If there is more than one accelerator specified, the next one is used if =
+the
++previous one fails to initialize.
+ @table @option
+ @item igd-passthru=3Don|off
+ When Xen is in use, this option controls whether Intel integrated graphic=
+s
 =2D-
 2.24.1
 
