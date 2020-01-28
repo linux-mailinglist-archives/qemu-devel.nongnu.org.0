@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4750A14C0EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:26:44 +0100 (CET)
-Received: from localhost ([::1]:36072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF8214C0F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:28:12 +0100 (CET)
+Received: from localhost ([::1]:36124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWVW-0000e5-US
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:26:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38458)
+	id 1iwWWx-0003xq-FL
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:28:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38473)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8b-0005CS-LR
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:58 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8b-0005Cp-T4
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8a-0001ev-IA
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8a-0001fD-KK
  for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:57 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:32915)
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:40200)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV8a-0001b6-B4
+ id 1iwV8a-0001cW-CI
  for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:56 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id m10so2326220wmc.0
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:53 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id t14so3553553wmi.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Y6aarOlqeEYb9zVlMhA1Wi0kU2BUV7vynZz97xCsCcg=;
- b=KJAB6R+14LnVJ4xAbOB9SyjTrRjPAMfdPbP6ynakG9o5TVrCobmu/aUnjOA3mMJXUV
- myFJbagU58aKJE7fO8BgTUAFJXpfVOkv1XrpHLkgq8KeGOldwqbhWesekWPoiHz/iCrR
- /AFvwVjF/W6hEcLpFPqVyTPWc6Dh59vOwhOfUXXpSuFSm0ss/8krm1eoH4/eCn6WFGhI
- jvnGJenY6jr+B4lS5JXtZi9fxlluMFn67LjIg6hEf2+c7M2pbCleeNswx/ztoSRlHIzX
- ESZonGynOQ6CYQHyxe0eB+zgpX14VnUIVOvQ4jtblDsX7yVPxanfXOjiLPYcIul5y+fi
- khew==
+ bh=+6LrB4p/7+2niYri4fOgK5UHmuuztp867wBvGY2t3Mw=;
+ b=b1spwdenBj9jOJd6U5NcS9nBWN50hXKrfZkccng3lYPtbuoyNuuEgDIG9pSS1wVWtl
+ 2DG6fyljVFUBwb4Dj1Xfi06fEAGm2pOy5zWtimyhBZe9LmHRbTyh2rs4AKPUIfbOHKCz
+ b2kbuarmJjK0p55vafk9x22DaylOQ9NIsmaI8r53o0LgA8n2dvcW55pMOmF/ZjwNGGcT
+ 9UXtrLzJEICP4/QEYslUpCAJqDk2txoIR6JP7h/Aha6crI/n/ITQ7QNoOUFZCABfVUQp
+ uMCchcU3RcpkUkrPXHgFV660c4CcD/u2Q7ZuX+Po1K2vY1DATFoSqcs+eLSlFqiX8VB8
+ E+Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Y6aarOlqeEYb9zVlMhA1Wi0kU2BUV7vynZz97xCsCcg=;
- b=PQTVqQlEXdevVgwpkaswEbwTq2ADGRQDkp2shvRPse5TxMvRty/7ncGSXBc44QlCoa
- dqgYEtJbxvhaH+tPGOyopGLcUr/rtnYaufvERfBj0gW1M6U9sMjey1eLIFTHaUNcyI4x
- f02av8x9L2plVqIXAMOl0WHI99ZUgwbdoKyUWZf2PMVfNzMqvfdeq36w/M+GS0TCd2lE
- UNxrxca/hNkRkVFNGWHypOs9u6fxROmtREngiyfKw8W1Orqu7Ff5fMXAzl2CSHh91GrX
- DX65mlNvTXlsdJkXXy6hwAy5yOQQAny4m1gtSFfxD1JxWFMFruhGXoqMifr8eiC6Z2Uh
- o4vA==
-X-Gm-Message-State: APjAAAWFViySQW7VsVBisTL3UTY8x4j1GMWbVpKruj9YPTYXJGivLQmj
- jH6mqZhdCvbtX8wCJqmRpzH8WxO6
-X-Google-Smtp-Source: APXvYqxWXhNC0TQB6gKxXNWZJP5lLBWISaUOCwjf/ejnp9uMrpKIagZ0YAqBaQKxlqW+BxKnp4hkGw==
-X-Received: by 2002:a05:600c:34b:: with SMTP id
- u11mr6251114wmd.69.1580234331810; 
- Tue, 28 Jan 2020 09:58:51 -0800 (PST)
+ bh=+6LrB4p/7+2niYri4fOgK5UHmuuztp867wBvGY2t3Mw=;
+ b=OGw4bd6h8cSUtR3OigxAEOEmu9zzTZyIilTPHVnIef62bkqKvzR04pZ6lLIKTrq6V0
+ IESK1ytgMTGGtCffINLfPR6dvrCiVbTCykWaXBJ4zqreoZBrW4eXm+VfKmJmCyVSM76o
+ +DvBxsR69XeKvziJW7jOGa9YDyRLVpaV3WmLE3U1wVE7AX3SqEb3b7VBq0BxmdPrfYpL
+ 4cMrHnHX/sB23lGNjwlIFm4GmgudikM5h5gyiXwBmVYHux7+X7Un7V7r1r/0/DJkCU8o
+ sZUSryk43w7LAZgXQYGeRIwfPeBv0zD0kjf7ltb8PWD3Rhp03Zh5+sjUIuZ4Efs9jOj2
+ 7hMQ==
+X-Gm-Message-State: APjAAAXJS3rT7giCAplSR9qyDUQhQWz4DEltSKzyOyni/6+So8gCtfSw
+ saWxIPB9dkTBcJVS1gRTj8xN1w1x
+X-Google-Smtp-Source: APXvYqxhao7Fbesu5CC6UAsJhGxpMTxF4Ow9q1voR5ro0hRSrSZh79pCQMh4f2jC7H5k1p13JYOEUQ==
+X-Received: by 2002:a7b:cab1:: with SMTP id r17mr6295766wml.116.1580234333954; 
+ Tue, 28 Jan 2020 09:58:53 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.49
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:58:51 -0800 (PST)
+ Tue, 28 Jan 2020 09:58:53 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 128/142] meson: install edk2
-Date: Tue, 28 Jan 2020 18:53:28 +0100
-Message-Id: <20200128175342.9066-129-pbonzini@redhat.com>
+Subject: [PATCH 129/142] meson: install blobs
+Date: Tue, 28 Jan 2020 18:53:29 +0100
+Message-Id: <20200128175342.9066-130-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -88,62 +87,130 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile            | 9 +--------
- pc-bios/meson.build | 3 +++
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ Makefile            | 29 ---------------------
+ pc-bios/meson.build | 62 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 62 insertions(+), 29 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 98582518a8..e4b3470b36 100644
+index e4b3470b36..af635a3939 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -107,7 +107,6 @@ CONFIG_BLOCK := $(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS))
+@@ -220,33 +220,9 @@ de-ch  es     fo  fr-ca  hu     ja  mk  pt  sl     tr \
+ bepo    cz
  
- generated-files-y += .git-submodule-status
+ ifdef INSTALL_BLOBS
+-BLOBS=bios.bin bios-256k.bin bios-microvm.bin sgabios.bin vgabios.bin vgabios-cirrus.bin \
+-vgabios-stdvga.bin vgabios-vmware.bin vgabios-qxl.bin vgabios-virtio.bin \
+-vgabios-ramfb.bin vgabios-bochs-display.bin vgabios-ati.bin \
+-ppc_rom.bin openbios-sparc32 openbios-sparc64 openbios-ppc QEMU,tcx.bin QEMU,cgthree.bin \
+-pxe-e1000.rom pxe-eepro100.rom pxe-ne2k_pci.rom \
+-pxe-pcnet.rom pxe-rtl8139.rom pxe-virtio.rom \
+-efi-e1000.rom efi-eepro100.rom efi-ne2k_pci.rom \
+-efi-pcnet.rom efi-rtl8139.rom efi-virtio.rom \
+-efi-e1000e.rom efi-vmxnet3.rom \
+-qemu-nsis.bmp \
+-bamboo.dtb canyonlands.dtb petalogix-s3adsp1800.dtb petalogix-ml605.dtb \
+-multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin \
+-s390-ccw.img s390-netboot.img \
+-slof.bin skiboot.lid \
+-palcode-clipper \
+-u-boot.e500 u-boot-sam460-20100605.bin \
+-qemu_vga.ndrv \
+-edk2-licenses.txt \
+-hppa-firmware.img \
+-opensbi-riscv32-virt-fw_jump.bin \
+-opensbi-riscv64-sifive_u-fw_jump.bin opensbi-riscv64-virt-fw_jump.bin
+-
+-
+ DESCS=50-edk2-i386-secure.json 50-edk2-x86_64-secure.json \
+ 60-edk2-aarch64.json 60-edk2-arm.json 60-edk2-i386.json 60-edk2-x86_64.json
+ else
+-BLOBS=
+ DESCS=
+ endif
  
--edk2-decompressed = $(basename $(wildcard pc-bios/edk2-*.fd.bz2))
- # Don't try to regenerate Makefile or configure
- # We don't generate any of them
- Makefile: ;
-@@ -263,18 +262,12 @@ endif
- 
+@@ -263,11 +239,6 @@ endif
  ICON_SIZES=16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
  
--install: all install-datadir install-localstatedir \
--	$(if $(INSTALL_BLOBS),$(edk2-decompressed))
-+install: all install-datadir install-localstatedir
- ifneq ($(BLOBS),)
- 	set -e; for x in $(BLOBS); do \
- 		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/$$x "$(DESTDIR)$(qemu_datadir)"; \
- 	done
- endif
--ifdef INSTALL_BLOBS
--	set -e; for x in $(edk2-decompressed); do \
--		$(INSTALL_DATA) $$x "$(DESTDIR)$(qemu_datadir)"; \
+ install: all install-datadir install-localstatedir
+-ifneq ($(BLOBS),)
+-	set -e; for x in $(BLOBS); do \
+-		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/$$x "$(DESTDIR)$(qemu_datadir)"; \
 -	done
 -endif
  ifneq ($(DESCS),)
  	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/firmware"
  	set -e; tmpf=$$(mktemp); trap 'rm -f -- "$$tmpf"' EXIT; \
 diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index 8a3d335545..792679d396 100644
+index 792679d396..6988c81f51 100644
 --- a/pc-bios/meson.build
 +++ b/pc-bios/meson.build
-@@ -1,5 +1,6 @@
- bzip2 = find_program('bzip2')
- 
-+install_blobs = 'INSTALL_BLOBS' in config_host
- if 'DECOMPRESS_EDK2_BLOBS' in config_host
-   fds = [
-     'edk2-aarch64-code.fd',
-@@ -18,6 +19,8 @@ if 'DECOMPRESS_EDK2_BLOBS' in config_host
-                   input: '@0@.bz2'.format(f),
-                   capture: true,
-                   build_by_default: true,
-+                  install: install_blobs,
-+                  install_dir: config_host['qemu_datadir'],
+@@ -24,3 +24,65 @@ if 'DECOMPRESS_EDK2_BLOBS' in config_host
                    command: [ bzip2, '-dc', '@INPUT0@' ])
    endforeach
  endif
++
++blobs = files(
++  'QEMU,cgthree.bin',
++  'QEMU,tcx.bin',
++  'bamboo.dtb',
++  'bios-256k.bin',
++  'bios.bin',
++  'bios-microvm.bin',
++  'canyonlands.dtb',
++  'edk2-licenses.txt',
++  'efi-e1000.rom',
++  'efi-e1000e.rom',
++  'efi-eepro100.rom',
++  'efi-ne2k_pci.rom',
++  'efi-pcnet.rom',
++  'efi-rtl8139.rom',
++  'efi-virtio.rom',
++  'efi-vmxnet3.rom',
++  'hppa-firmware.img',
++  'kvmvapic.bin',
++  'linuxboot.bin',
++  'linuxboot_dma.bin',
++  'multiboot.bin',
++  'openbios-ppc',
++  'openbios-sparc32',
++  'openbios-sparc64',
++  'opensbi-riscv32-virt-fw_jump.bin',
++  'opensbi-riscv64-sifive_u-fw_jump.bin',
++  'opensbi-riscv64-virt-fw_jump.bin',
++  'palcode-clipper',
++  'petalogix-ml605.dtb',
++  'petalogix-s3adsp1800.dtb',
++  'ppc_rom.bin',
++  'pvh.bin',
++  'pxe-e1000.rom',
++  'pxe-eepro100.rom',
++  'pxe-ne2k_pci.rom',
++  'pxe-pcnet.rom',
++  'pxe-rtl8139.rom',
++  'pxe-virtio.rom',
++  'qemu-nsis.bmp',
++  'qemu_vga.ndrv',
++  's390-ccw.img',
++  's390-netboot.img',
++  'sgabios.bin',
++  'skiboot.lid',
++  'slof.bin',
++  'u-boot-sam460-20100605.bin',
++  'u-boot.e500',
++  'vgabios-ati.bin',
++  'vgabios-bochs-display.bin',
++  'vgabios-cirrus.bin',
++  'vgabios-qxl.bin',
++  'vgabios-ramfb.bin',
++  'vgabios-stdvga.bin',
++  'vgabios-virtio.bin',
++  'vgabios-vmware.bin',
++)
++
++if install_blobs
++  install_data(blobs, install_dir: config_host['qemu_datadir'])
++endif
 -- 
 2.21.0
 
