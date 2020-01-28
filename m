@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AFC14BF0F
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:00:19 +0100 (CET)
-Received: from localhost ([::1]:34770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4D214BEF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 18:53:51 +0100 (CET)
+Received: from localhost ([::1]:34684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwV9u-0005HI-69
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:00:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57826)
+	id 1iwV3e-0004AU-1P
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 12:53:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54209)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV44-0006Jb-Iw
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:17 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iwV1q-0002XF-R2
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:52:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV43-0007wB-Gz
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:16 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33865)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iwV1p-0003wC-HC
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:51:58 -0500
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:37602)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV43-0007uX-7h
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:15 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id t2so17092568wrr.1
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:15 -0800 (PST)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iwV1p-0003ty-9b
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:51:57 -0500
+Received: by mail-ot1-x332.google.com with SMTP id d3so12563152otp.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:51:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dErvkepkYgUBIWRCc2un1YcfpszwmABIk9M1+FNSCyQ=;
- b=b0UAcBCKuQUQPye+XxgYPImD3EoDZagWNc1LbEySVdZbdDxej3DzJ93Q+HVbSZ0d4s
- L1hhw+PpjH9KLxH9A4AiekMB798H9I65Ms5MJwyLor9YDACRXC7/MxtEDI+nWykB2LFO
- v3+ydt2s0SgIGB2j3/c9PFFKSPaNtfBG6HatIw1uXa9/4x9ST7VALQYNivH1hjGR1ItN
- aq5kYJvb92OE86aySQv3JTbguMOCcR5Wtk7xAp0TElMdc+hSzFTD+LzfIqyiKM7BmI2s
- nKwKQEdMz+c9KAzPYgVTFB228QPU/VXy3C4Ll6vkMtWJOvo9DaCiFklbXIPHJK+MTUBm
- 9AJA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ua/tkmadg/51CBS18E4Vj9FG7LbC+pKCsq7+VT4z6Vs=;
+ b=sapxPwi/+DiXx3xyFDaMqs1pZnbs/e4bmNXRh4E8MooU/ryL2YSiIoVJhqfaa5Z0ne
+ dbKBNDPdgjhDw+CZJ5/GId1s7cyU3jpmsFHv5X8X6fD9M5BqeHfDGfACuEEEnNdJc/wa
+ RxjDnC3enMpWWZ6i+rDtWPfK1X+hpBMMZXXSvWm9QYLOaeMKo7gsLYcjYCyZoDfZt0cb
+ RuYyS10ux5vfUkiE18Mv6beu2XuLBiRAOC0mLommIVl+qBpMJLodbHlnVYwtgqi531k7
+ +YinsdXVoFRwyOp3H8uKUx6nyOHLflZEXRUd8PGnZh+YaluI2SyDuGNk8HyFKn3Z3jZt
+ B7Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dErvkepkYgUBIWRCc2un1YcfpszwmABIk9M1+FNSCyQ=;
- b=VcBatMjt5D5uupsUCm1pT0tfQF1ClKigtC6L6GHOVCx1LZeCpjTOQZpU8vhTNjxEcq
- +sXKlIAh36zXV47KwPscufo+alrNCwAQ+U98fkghiPeJJptBrdAa0DfzD2+Y91pYVE22
- maUjjOjmsPc+uKW5qDvtn59z89YesZ8hympuJEYj0RtBKl1AiAKhXnLtwnT2VE+HkkKq
- keasvYXe1/gG+fMRHptkQPhOC9Ry+6RjAg9pg9uoFiwphHpctfT+LbL2qkOv4hshbabF
- afspAyaJgPmYGd4BZ6sJPfXoOTanpREqOk4BJwi2qhgAXDlKvMNDF66SfZhMwfhiRwQG
- SgvQ==
-X-Gm-Message-State: APjAAAVJSA7BSrKgKjE8YVid7v04d7AARxIw0uuSHPqjcdJEetoVh/wk
- C5BDVpC/1tw0WeXiEM4KYl0+IHl0
-X-Google-Smtp-Source: APXvYqy5yEAVWFpwQbhe0kmXFctPtqp5j86+ifP4xHUofV8GrJUb8W6uDxdAs6x1VCz1q2EMcF/Zpw==
-X-Received: by 2002:adf:f244:: with SMTP id b4mr28607741wrp.88.1580234054138; 
- Tue, 28 Jan 2020 09:54:14 -0800 (PST)
-Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
- [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.54.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:54:12 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 010/142] meson: enable pie
-Date: Tue, 28 Jan 2020 18:51:30 +0100
-Message-Id: <20200128175342.9066-11-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
-References: <20200128175342.9066-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ua/tkmadg/51CBS18E4Vj9FG7LbC+pKCsq7+VT4z6Vs=;
+ b=lzRK9H9F3BqMRqnCu89Ak8SGzErTZ9bpkq5EmXZRsmAMnl6Azkbs+M3JmDtqvmn/ko
+ QoX6OwV1LCmU4DJp6lVi/q0bs6lDDMM9gOyaJY41sZYg4cwlBnIkISTQdKDVGkuYgeil
+ br8DzFYhTkPOpou/YJw73BJbGNvr6YYHFOUotYVddeqHLFPIzEPbbck9DfgOLvIXEBgs
+ 2D80ueWawHcIx04PCf62Z2dSP73Ismdr4anVF/nN1L73N60WEmKAbMgAvWlhNUVNJVlw
+ 35ST6rXphDBOv+UxgQLV9IeWRbkqJoEMDJNkqh+aet7Qj7821vtjIutWN9ifQfFDiOO4
+ WYyQ==
+X-Gm-Message-State: APjAAAWMtaW8e2d5GQZIFj5d1T75XSxAjIfFl6EcQA0NUvwSQ+0xd4TH
+ MwqR1tD3tMbAiqzyU8Pprp+HqujS2mmYBSzBOv0=
+X-Google-Smtp-Source: APXvYqzIn9FbzNnWeMRyCHQOFzaEZCBVNxukH1PvgFWglrcLpGfAjmvQQLs9+bMEAFJBEI/UMrNiqStoZ3IB7hsAiW8=
+X-Received: by 2002:a9d:831:: with SMTP id 46mr5711792oty.295.1580233915308;
+ Tue, 28 Jan 2020 09:51:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <CAL1e-=j5WJkV=X+KkfBuS3pjf6z3aJrtu4xpYeVbjEUYiWxxTQ@mail.gmail.com>
+ <CAFEAcA8E9s2wZWVxanUDXu=5qcjn6XY5_6t8vUO+LjuJnA7nOQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA8E9s2wZWVxanUDXu=5qcjn6XY5_6t8vUO+LjuJnA7nOQ@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Tue, 28 Jan 2020 18:51:37 +0100
+Message-ID: <CAL1e-=j=nVJd9Q3JmZsimgSPy=noYhqE8hz4r5RjwgTPw9WwuA@mail.gmail.com>
+Subject: Re: [GSoC/Outreachy QEMU proposal] Extend support for ioctls in QEMU
+ linux-user mode
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000002f1e30059d36e167"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2607:f8b0:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,39 +73,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>, Stefan Hajnoczi <stefanha@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+--0000000000002f1e30059d36e167
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+15:38 Uto, 28.01.2020. Peter Maydell <peter.maydell@linaro.org> =D1=98=D0=
+=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> On Thu, 23 Jan 2020 at 15:33, Aleksandar Markovic
+> <aleksandar.m.mail@gmail.com> wrote:
+> > PART III:
+> >
+> >   a) Develop unit tests for selected ioctls that are already supported
+in QEMU.
+>
+> These should probably just be part of the external Linux Test Project
+> test suite.
+>
 
-diff --git a/configure b/configure
-index b4f36820da..a9ab67bf26 100755
---- a/configure
-+++ b/configure
-@@ -2103,7 +2103,6 @@ EOF
- 
-   if compile_prog "-fPIE -DPIE" "-pie"; then
-     QEMU_CFLAGS="-fPIE -DPIE $QEMU_CFLAGS"
--    LDFLAGS="-pie $LDFLAGS"
-     pie="yes"
-     if compile_prog "" "-Wl,-z,relro -Wl,-z,now" ; then
-       LDFLAGS="-Wl,-z,relro -Wl,-z,now $LDFLAGS"
-@@ -8125,6 +8124,7 @@ NINJA=$PWD/ninjatool $python $meson setup \
- 	--localstatedir "$local_statedir" \
- 	$(test "$strip_opt" = yes && echo --strip) \
- 	--buildtype $(if test "$debug" = yes; then echo debug; else echo debugoptimized; fi) \
-+        -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         $cross_arg \
- 	"$PWD" "$source_path"
- 
--- 
-2.21.0
+I like the idea! This would free the student from reinventing the wheel
+(ioctl test framework) - most probably resulting in more work done during
+the project.
 
+I am just not sure how this stands with GSoC/Outreachy rules. The project
+would touch two open source project. Stefan?
 
+> Incidentally a related topic would be to look at recent
+> new syscalls added to the kernel and see which ones we
+> could/should add support for. But maybe you're interested
+> in ioctls specifically.
+>
+
+I am personally interested in both. However, learning about syscalls and
+implementation of support for them in QEMU would require more ramp-up time
+from student (as is the case for any new employee in a similar situation
+for that matter). In the worst case, the student would spend much more time
+on learning than on productive work. My impression is at it is better to
+leave the student focused on just one area - ioctl support.
+
+Thanks, Peter, for comments and ideas!
+
+Aleksandar
+
+> thanks
+> -- PMM
+
+--0000000000002f1e30059d36e167
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<p dir=3D"ltr">15:38 Uto, 28.01.2020. Peter Maydell &lt;<a href=3D"mailto:p=
+eter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; =D1=98=D0=B5 =D0=
+=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+&gt;<br>
+&gt; On Thu, 23 Jan 2020 at 15:33, Aleksandar Markovic<br>
+&gt; &lt;<a href=3D"mailto:aleksandar.m.mail@gmail.com">aleksandar.m.mail@g=
+mail.com</a>&gt; wrote:<br>
+&gt; &gt; PART III:<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0a) Develop unit tests for selected ioctls that are al=
+ready supported in QEMU.<br>
+&gt;<br>
+&gt; These should probably just be part of the external Linux Test Project<=
+br>
+&gt; test suite.<br>
+&gt;</p>
+<p dir=3D"ltr">I like the idea! This would free the student from reinventin=
+g the wheel (ioctl test framework) - most probably resulting in more work d=
+one during the project.</p>
+<p dir=3D"ltr">I am just not sure how this stands with GSoC/Outreachy rules=
+. The project would touch two open source project. Stefan?</p>
+<p dir=3D"ltr">&gt; Incidentally a related topic would be to look at recent=
+<br>
+&gt; new syscalls added to the kernel and see which ones we<br>
+&gt; could/should add support for. But maybe you&#39;re interested<br>
+&gt; in ioctls specifically.<br>
+&gt;</p>
+<p dir=3D"ltr">I am personally interested in both. However, learning about =
+syscalls and implementation of support for them in QEMU would require more =
+ramp-up time from student (as is the case for any new employee in a similar=
+ situation for that matter). In the worst case, the student would spend muc=
+h more time on learning than on productive work. My impression is at it is =
+better to leave the student focused on just one area - ioctl support.</p>
+<p dir=3D"ltr">Thanks, Peter, for comments and ideas!</p>
+<p dir=3D"ltr">Aleksandar</p>
+<p dir=3D"ltr">&gt; thanks<br>
+&gt; -- PMM<br>
+</p>
+
+--0000000000002f1e30059d36e167--
 
