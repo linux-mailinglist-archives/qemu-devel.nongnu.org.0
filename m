@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E4A14C128
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:42:18 +0100 (CET)
-Received: from localhost ([::1]:36648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804DE14C142
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:53:15 +0100 (CET)
+Received: from localhost ([::1]:36914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWkb-00066N-Hw
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:42:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53941)
+	id 1iwWvC-0006Ap-Ia
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:53:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54484)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1iwWYA-0007mQ-No
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:29:28 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1iwWZ7-0001Jn-7X
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:30:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1iwWY9-0005Te-15
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:29:26 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41753
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mlevitsk@redhat.com>) id 1iwWZ5-0006NJ-Hh
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:30:25 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46869
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iwWY8-0005TL-TL
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:29:24 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1iwWZ5-0006Mw-Bl
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:30:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580239764;
+ s=mimecast20190719; t=1580239822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qtMvPOxCDMMMo+38UjjeCsodWHOlDJYgdeX8lEHywzg=;
- b=MdoKkAqYUxgN7Brt0EcLG4Vvl2BjP5PGXvmQgYW+A0To8acbtBrwBwn35c3FznU5UzEM6K
- GMkoOvZNPYzAZC/5str0yF0SlQ6gxkKMU7IlWDtDN/warJ2G+JyYOys5gppy+2UX8iKwQi
- a0WUE2PU6O0F0zRxenPFelw1IDp9E3c=
+ bh=d72Y5e3qg4iJDZz0PP3RQutpY7e5grjvLeONlXAIftQ=;
+ b=DoWdhBbtnVTRR27AghDpeBlX5h925VVQwUI9kfCq/9pbbBuH8CjZFfgnDYTx12X2x8VSXF
+ 4XOWHn3h9aSA1fOO/zsA3EbIOp6zlU/LCR+iNpsDc+5gqDw/+gB+gYhyJ+IFOoCYU6fh4L
+ b3yODhgodBWWlEu15UUa8zzgk1JlVdU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-rAdKsa55MBSpWqslkmYNJw-1; Tue, 28 Jan 2020 14:29:21 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-187-lTC1fW7VNNCyQUqQq99Xjg-1; Tue, 28 Jan 2020 14:30:21 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C5188010D0;
- Tue, 28 Jan 2020 19:29:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E7A263ADA;
+ Tue, 28 Jan 2020 19:30:20 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D197060BE0;
- Tue, 28 Jan 2020 19:29:15 +0000 (UTC)
-Message-ID: <706ed868240fafd8a04c5013d1f71740f63e8656.camel@redhat.com>
-Subject: Re: [PATCH v3 04/13] monitor/hmp: move hmp_drive_del and hmp_commit
- to block-hmp-cmds.c
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03E2D1073028;
+ Tue, 28 Jan 2020 19:30:08 +0000 (UTC)
+Message-ID: <90ba08dbccd81b4fc48aacd1ad2a291b70f1c206.camel@redhat.com>
+Subject: Re: [PATCH v3 11/13] monitor: Move hmp_drive_add_node to
+ block-hmp-cmds.c
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Date: Tue, 28 Jan 2020 21:29:14 +0200
-In-Reply-To: <20200128175147.GW3215@work-vm>
+Date: Tue, 28 Jan 2020 21:30:07 +0200
+In-Reply-To: <20200128190337.GF3215@work-vm>
 References: <20200127103647.17761-1-mlevitsk@redhat.com>
- <20200127103647.17761-5-mlevitsk@redhat.com>
- <20200128175147.GW3215@work-vm>
+ <20200127103647.17761-12-mlevitsk@redhat.com>
+ <20200128190337.GF3215@work-vm>
 Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: rAdKsa55MBSpWqslkmYNJw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: lTC1fW7VNNCyQUqQq99Xjg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,283 +79,177 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2020-01-28 at 17:51 +0000, Dr. David Alan Gilbert wrote:
+On Tue, 2020-01-28 at 19:03 +0000, Dr. David Alan Gilbert wrote:
 > * Maxim Levitsky (mlevitsk@redhat.com) wrote:
 > > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 > 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> (It's easier to compare if you keep the function order the same)
+> Looks OK to me, I'm not clear on the name for 'bdrv_set_monitor_owned'
+> I'd want a block person to OK that, but:
 
-Sorry about that, next time I will do that.
-Thanks a lot for the review!
+
+The name inspiration came from 'bdrv_next_monitor_owned'. To me it looks
+like list of all BlockDriverState which are created by the monitor.
+Also comment on 'monitor_list' link chain more or less confirms this.
+
+Thanks for the review!
+
 Best regards,
 	Maxim Levitsky
+
+
+> 
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > 
 > > ---
-> >  block/monitor/block-hmp-cmds.c     | 97 +++++++++++++++++++++++++++++-
-> >  blockdev.c                         | 95 -----------------------------
-> >  include/block/block-hmp-commands.h |  3 +
-> >  include/sysemu/blockdev.h          |  4 --
-> >  4 files changed, 99 insertions(+), 100 deletions(-)
+> >  block/monitor/block-hmp-cmds.c | 30 ++++++++++++++++++++++++
+> >  blockdev.c                     | 42 +++++++---------------------------
+> >  include/block/block_int.h      |  5 ++--
+> >  3 files changed, 41 insertions(+), 36 deletions(-)
 > > 
 > > diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
-> > index c65aaa86ea..9614c67e77 100644
+> > index a4b1604aee..7bbe4e3814 100644
 > > --- a/block/monitor/block-hmp-cmds.c
 > > +++ b/block/monitor/block-hmp-cmds.c
-> > @@ -12,6 +12,7 @@
-> >  #include "hw/boards.h"
-> >  #include "sysemu/block-backend.h"
-> >  #include "sysemu/blockdev.h"
-> > +#include "qapi/qapi-commands-block.h"
-> >  #include "qapi/qmp/qdict.h"
-> >  #include "qapi/error.h"
-> >  #include "qemu/config-file.h"
-> > @@ -21,7 +22,6 @@
-> >  #include "block/block_int.h"
-> >  #include "block/block-hmp-commands.h"
+> > @@ -33,6 +33,36 @@
+> >  #include "monitor/hmp.h"
+> >  #include "qemu-io.h"
 > >  
-> > -
+> > +static void hmp_drive_add_node(Monitor *mon, const char *optstr)
+> > +{
+> > +    QemuOpts *opts;
+> > +    QDict *qdict;
+> > +    Error *local_err = NULL;
+> > +
+> > +    opts = qemu_opts_parse_noisily(&qemu_drive_opts, optstr, false);
+> > +    if (!opts) {
+> > +        return;
+> > +    }
+> > +
+> > +    qdict = qemu_opts_to_qdict(opts, NULL);
+> > +
+> > +    if (!qdict_get_try_str(qdict, "node-name")) {
+> > +        qobject_unref(qdict);
+> > +        error_report("'node-name' needs to be specified");
+> > +        goto out;
+> > +    }
+> > +
+> > +    BlockDriverState *bs = bds_tree_init(qdict, &local_err);
+> > +    if (!bs) {
+> > +        error_report_err(local_err);
+> > +        goto out;
+> > +    }
+> > +
+> > +    bdrv_set_monitor_owned(bs);
+> > +out:
+> > +    qemu_opts_del(opts);
+> > +}
+> > +
 > >  void hmp_drive_add(Monitor *mon, const QDict *qdict)
 > >  {
 > >      Error *err = NULL;
-> > @@ -69,3 +69,98 @@ err:
-> >          blk_unref(blk);
-> >      }
-> >  }
-> > +
-> > +void hmp_drive_del(Monitor *mon, const QDict *qdict)
-> > +{
-> > +    const char *id = qdict_get_str(qdict, "id");
-> > +    BlockBackend *blk;
-> > +    BlockDriverState *bs;
-> > +    AioContext *aio_context;
-> > +    Error *local_err = NULL;
-> > +
-> > +    bs = bdrv_find_node(id);
-> > +    if (bs) {
-> > +        qmp_blockdev_del(id, &local_err);
-> > +        if (local_err) {
-> > +            error_report_err(local_err);
-> > +        }
-> > +        return;
-> > +    }
-> > +
-> > +    blk = blk_by_name(id);
-> > +    if (!blk) {
-> > +        error_report("Device '%s' not found", id);
-> > +        return;
-> > +    }
-> > +
-> > +    if (!blk_legacy_dinfo(blk)) {
-> > +        error_report("Deleting device added with blockdev-add"
-> > +                     " is not supported");
-> > +        return;
-> > +    }
-> > +
-> > +    aio_context = blk_get_aio_context(blk);
-> > +    aio_context_acquire(aio_context);
-> > +
-> > +    bs = blk_bs(blk);
-> > +    if (bs) {
-> > +        if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_DRIVE_DEL, &local_err)) {
-> > +            error_report_err(local_err);
-> > +            aio_context_release(aio_context);
-> > +            return;
-> > +        }
-> > +
-> > +        blk_remove_bs(blk);
-> > +    }
-> > +
-> > +    /* Make the BlockBackend and the attached BlockDriverState anonymous */
-> > +    monitor_remove_blk(blk);
-> > +
-> > +    /* If this BlockBackend has a device attached to it, its refcount will be
-> > +     * decremented when the device is removed; otherwise we have to do so here.
-> > +     */
-> > +    if (blk_get_attached_dev(blk)) {
-> > +        /* Further I/O must not pause the guest */
-> > +        blk_set_on_error(blk, BLOCKDEV_ON_ERROR_REPORT,
-> > +                         BLOCKDEV_ON_ERROR_REPORT);
-> > +    } else {
-> > +        blk_unref(blk);
-> > +    }
-> > +
-> > +    aio_context_release(aio_context);
-> > +}
-> > +
-> > +void hmp_commit(Monitor *mon, const QDict *qdict)
-> > +{
-> > +    const char *device = qdict_get_str(qdict, "device");
-> > +    BlockBackend *blk;
-> > +    int ret;
-> > +
-> > +    if (!strcmp(device, "all")) {
-> > +        ret = blk_commit_all();
-> > +    } else {
-> > +        BlockDriverState *bs;
-> > +        AioContext *aio_context;
-> > +
-> > +        blk = blk_by_name(device);
-> > +        if (!blk) {
-> > +            error_report("Device '%s' not found", device);
-> > +            return;
-> > +        }
-> > +        if (!blk_is_available(blk)) {
-> > +            error_report("Device '%s' has no medium", device);
-> > +            return;
-> > +        }
-> > +
-> > +        bs = blk_bs(blk);
-> > +        aio_context = bdrv_get_aio_context(bs);
-> > +        aio_context_acquire(aio_context);
-> > +
-> > +        ret = bdrv_commit(bs);
-> > +
-> > +        aio_context_release(aio_context);
-> > +    }
-> > +    if (ret < 0) {
-> > +        error_report("'commit' error for '%s': %s", device, strerror(-ret));
-> > +    }
-> > +}
 > > diff --git a/blockdev.c b/blockdev.c
-> > index 8e029e9c01..df43e0aaef 100644
+> > index df43e0aaef..63805f34b5 100644
 > > --- a/blockdev.c
 > > +++ b/blockdev.c
-> > @@ -1074,41 +1074,6 @@ static BlockBackend *qmp_get_blk(const char *blk_name, const char *qdev_id,
-> >      return blk;
+> > @@ -64,7 +64,7 @@
+> >  #include "qemu/main-loop.h"
+> >  #include "qemu/throttle-options.h"
+> >  
+> > -static QTAILQ_HEAD(, BlockDriverState) monitor_bdrv_states =
+> > +QTAILQ_HEAD(, BlockDriverState) monitor_bdrv_states =
+> >      QTAILQ_HEAD_INITIALIZER(monitor_bdrv_states);
+> >  
+> >  static int do_open_tray(const char *blk_name, const char *qdev_id,
+> > @@ -75,6 +75,11 @@ static void blockdev_insert_medium(bool has_device, const char *device,
+> >                                     bool has_id, const char *id,
+> >                                     const char *node_name, Error **errp);
+> >  
+> > +void bdrv_set_monitor_owned(BlockDriverState *bs)
+> > +{
+> > +    QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
+> > +}
+> > +
+> >  static const char *const if_name[IF_COUNT] = {
+> >      [IF_NONE] = "none",
+> >      [IF_IDE] = "ide",
+> > @@ -652,7 +657,7 @@ err_no_opts:
 > >  }
 > >  
-> > -void hmp_commit(Monitor *mon, const QDict *qdict)
-> > -{
-> > -    const char *device = qdict_get_str(qdict, "device");
-> > -    BlockBackend *blk;
-> > -    int ret;
-> > -
-> > -    if (!strcmp(device, "all")) {
-> > -        ret = blk_commit_all();
-> > -    } else {
-> > -        BlockDriverState *bs;
-> > -        AioContext *aio_context;
-> > -
-> > -        blk = blk_by_name(device);
-> > -        if (!blk) {
-> > -            error_report("Device '%s' not found", device);
-> > -            return;
-> > -        }
-> > -        if (!blk_is_available(blk)) {
-> > -            error_report("Device '%s' has no medium", device);
-> > -            return;
-> > -        }
-> > -
-> > -        bs = blk_bs(blk);
-> > -        aio_context = bdrv_get_aio_context(bs);
-> > -        aio_context_acquire(aio_context);
-> > -
-> > -        ret = bdrv_commit(bs);
-> > -
-> > -        aio_context_release(aio_context);
-> > -    }
-> > -    if (ret < 0) {
-> > -        error_report("'commit' error for '%s': %s", device, strerror(-ret));
-> > -    }
-> > -}
-> > -
-> >  static void blockdev_do_action(TransactionAction *action, Error **errp)
+> >  /* Takes the ownership of bs_opts */
+> > -static BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp)
+> > +BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp)
 > >  {
-> >      TransactionActionList list;
-> > @@ -3101,66 +3066,6 @@ BlockDirtyBitmapSha256 *qmp_x_debug_block_dirty_bitmap_sha256(const char *node,
-> >      return ret;
+> >      int bdrv_flags = 0;
+> >  
+> > @@ -4201,37 +4206,6 @@ out:
+> >      aio_context_release(aio_context);
 > >  }
 > >  
-> > -void hmp_drive_del(Monitor *mon, const QDict *qdict)
+> > -void hmp_drive_add_node(Monitor *mon, const char *optstr)
 > > -{
-> > -    const char *id = qdict_get_str(qdict, "id");
-> > -    BlockBackend *blk;
-> > -    BlockDriverState *bs;
-> > -    AioContext *aio_context;
+> > -    QemuOpts *opts;
+> > -    QDict *qdict;
 > > -    Error *local_err = NULL;
 > > -
-> > -    bs = bdrv_find_node(id);
-> > -    if (bs) {
-> > -        qmp_blockdev_del(id, &local_err);
-> > -        if (local_err) {
-> > -            error_report_err(local_err);
-> > -        }
+> > -    opts = qemu_opts_parse_noisily(&qemu_drive_opts, optstr, false);
+> > -    if (!opts) {
 > > -        return;
 > > -    }
 > > -
-> > -    blk = blk_by_name(id);
-> > -    if (!blk) {
-> > -        error_report("Device '%s' not found", id);
-> > -        return;
+> > -    qdict = qemu_opts_to_qdict(opts, NULL);
+> > -
+> > -    if (!qdict_get_try_str(qdict, "node-name")) {
+> > -        qobject_unref(qdict);
+> > -        error_report("'node-name' needs to be specified");
+> > -        goto out;
 > > -    }
 > > -
-> > -    if (!blk_legacy_dinfo(blk)) {
-> > -        error_report("Deleting device added with blockdev-add"
-> > -                     " is not supported");
-> > -        return;
+> > -    BlockDriverState *bs = bds_tree_init(qdict, &local_err);
+> > -    if (!bs) {
+> > -        error_report_err(local_err);
+> > -        goto out;
 > > -    }
 > > -
-> > -    aio_context = blk_get_aio_context(blk);
-> > -    aio_context_acquire(aio_context);
+> > -    QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
 > > -
-> > -    bs = blk_bs(blk);
-> > -    if (bs) {
-> > -        if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_DRIVE_DEL, &local_err)) {
-> > -            error_report_err(local_err);
-> > -            aio_context_release(aio_context);
-> > -            return;
-> > -        }
-> > -
-> > -        blk_remove_bs(blk);
-> > -    }
-> > -
-> > -    /* Make the BlockBackend and the attached BlockDriverState anonymous */
-> > -    monitor_remove_blk(blk);
-> > -
-> > -    /* If this BlockBackend has a device attached to it, its refcount will be
-> > -     * decremented when the device is removed; otherwise we have to do so here.
-> > -     */
-> > -    if (blk_get_attached_dev(blk)) {
-> > -        /* Further I/O must not pause the guest */
-> > -        blk_set_on_error(blk, BLOCKDEV_ON_ERROR_REPORT,
-> > -                         BLOCKDEV_ON_ERROR_REPORT);
-> > -    } else {
-> > -        blk_unref(blk);
-> > -    }
-> > -
-> > -    aio_context_release(aio_context);
+> > -out:
+> > -    qemu_opts_del(opts);
 > > -}
 > > -
-> >  void qmp_block_resize(bool has_device, const char *device,
-> >                        bool has_node_name, const char *node_name,
-> >                        int64_t size, Error **errp)
-> > diff --git a/include/block/block-hmp-commands.h b/include/block/block-hmp-commands.h
-> > index 4f9033a8a6..c5e394c0fc 100644
-> > --- a/include/block/block-hmp-commands.h
-> > +++ b/include/block/block-hmp-commands.h
-> > @@ -5,4 +5,7 @@
+> >  void qmp_blockdev_add(BlockdevOptions *options, Error **errp)
+> >  {
+> >      BlockDriverState *bs;
+> > @@ -4261,7 +4235,7 @@ void qmp_blockdev_add(BlockdevOptions *options, Error **errp)
+> >          goto fail;
+> >      }
 > >  
-> >  void hmp_drive_add(Monitor *mon, const QDict *qdict);
+> > -    QTAILQ_INSERT_TAIL(&monitor_bdrv_states, bs, monitor_list);
+> > +    bdrv_set_monitor_owned(bs);
 > >  
-> > +void hmp_commit(Monitor *mon, const QDict *qdict);
-> > +void hmp_drive_del(Monitor *mon, const QDict *qdict);
-> > +
-> >  #endif
-> > diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
-> > index d34c4920dc..a86d99b3d8 100644
-> > --- a/include/sysemu/blockdev.h
-> > +++ b/include/sysemu/blockdev.h
-> > @@ -57,8 +57,4 @@ QemuOpts *drive_add(BlockInterfaceType type, int index, const char *file,
-> >  DriveInfo *drive_new(QemuOpts *arg, BlockInterfaceType block_default_type,
-> >                       Error **errp);
+> >  fail:
+> >      visit_free(v);
+> > diff --git a/include/block/block_int.h b/include/block/block_int.h
+> > index dd033d0b37..10df257a61 100644
+> > --- a/include/block/block_int.h
+> > +++ b/include/block/block_int.h
+> > @@ -1217,8 +1217,6 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+> >                              BlockCompletionFunc *cb, void *opaque,
+> >                              JobTxn *txn, Error **errp);
 > >  
-> > -/* device-hotplug */
+> > -void hmp_drive_add_node(Monitor *mon, const char *optstr);
 > > -
-> > -void hmp_commit(Monitor *mon, const QDict *qdict);
-> > -void hmp_drive_del(Monitor *mon, const QDict *qdict);
-> >  #endif
+> >  BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+> >                                    const char *child_name,
+> >                                    const BdrvChildRole *child_role,
+> > @@ -1320,4 +1318,7 @@ int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, uint64_t src_offset,
+> >  
+> >  int refresh_total_sectors(BlockDriverState *bs, int64_t hint);
+> >  
+> > +void bdrv_set_monitor_owned(BlockDriverState *bs);
+> > +BlockDriverState *bds_tree_init(QDict *bs_opts, Error **errp);
+> > +
+> >  #endif /* BLOCK_INT_H */
 > > -- 
 > > 2.17.2
 > > 
