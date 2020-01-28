@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9700B14B50E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 14:35:18 +0100 (CET)
-Received: from localhost ([::1]:59258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352F414B54B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 14:45:21 +0100 (CET)
+Received: from localhost ([::1]:59420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwR1R-0001ox-43
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 08:35:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34328)
+	id 1iwRBA-0000b6-1h
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 08:45:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37274)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1iwR0X-0000z5-0U
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 08:34:22 -0500
+ (envelope-from <wainersm@redhat.com>) id 1iwRAL-0008Uq-OT
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 08:44:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1iwR0T-0006XV-1w
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 08:34:19 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32145
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <wainersm@redhat.com>) id 1iwRAJ-0001zI-8r
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 08:44:28 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34581
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iwR0S-0006X2-U4
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 08:34:17 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iwRAJ-0001yC-4J
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 08:44:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580218455;
+ s=mimecast20190719; t=1580219066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=prJ7CyNKefmrUV0g8Vhe2T6WaZwHKQuc+8DwRKfss/A=;
- b=DKXaLHsDzCZuSDb6BLEfeYhU8GivIcjbWhlSl+l75ds+srwqJalAv5kaR1Gxe32zxizGhE
- P8T53Cs4k4FGNfDUFaAoMIzvCi+ULvohMRUvZPCaBM1CmprjR3Lr+Db9XPKclHwpXVj832
- AKU6PjmAtSL6AUDQV92+Y57HHj+BZxE=
+ bh=Hn1V9dao3s0n6SRjp1KNElxBAN/oRodnjrt1IoSuGl0=;
+ b=V/RwbKvzIvMJye/egcGMviXBWN9PA3OtcGuE2w57KWHySVirQS4ymbjOozx26W0RvvOrMe
+ 8hk5IFoDubJZAR75fIPkLDMX7Bl4LY4FaOrVwx8xzLB+EgFJyUO+4o4x5wazJuKOvtDquS
+ Q96g5gRFmAOqrrioH0JTvTmcRBhr8PE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-uylLu2oCPBCIVkPr0pUdkw-1; Tue, 28 Jan 2020 08:34:11 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-271-zUfYqqyLOieeo0uZO6Fs6g-1; Tue, 28 Jan 2020 08:44:25 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77B798010DC;
- Tue, 28 Jan 2020 13:34:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AA8613EC;
+ Tue, 28 Jan 2020 13:44:24 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-116-65.gru2.redhat.com
  [10.97.116.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74AB860C05;
- Tue, 28 Jan 2020 13:34:01 +0000 (UTC)
-Subject: Re: [PATCH] .travis.yml: Add description to each job
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9267D8703F;
+ Tue, 28 Jan 2020 13:44:17 +0000 (UTC)
+Subject: Re: [PATCH] tests/acceptance: Add a test for the canon-a1100 machine
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200125183135.28317-1-f4bug@amsat.org>
- <79c2d168-498c-88eb-0857-4c3b195f7e32@redhat.com> <874kwfg2qh.fsf@linaro.org>
- <CAP+75-U0XZe31+QSv7t3oDwmy9fPxgQ7U165w=HU0UN_h2Jc5Q@mail.gmail.com>
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20200127144126.15515-1-thuth@redhat.com>
+ <cd60a444-620e-3366-09e8-e9c8d72894ad@redhat.com>
+ <c4976fd4-f1f0-c48b-aad4-4414564f8258@redhat.com>
+ <05f7e133-8ad3-8627-79a1-a046e6d42d16@redhat.com>
+ <2a303987-ad19-538b-98ce-a2cb83d8fade@redhat.com>
+ <9856cc15-2365-4609-5af9-f6582cb20ed8@redhat.com>
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <266be40c-6f5c-ad76-d326-bb174ebf047f@redhat.com>
-Date: Tue, 28 Jan 2020 11:33:58 -0200
+Message-ID: <f4362239-7dbd-def7-83dc-59836ed33340@redhat.com>
+Date: Tue, 28 Jan 2020 11:44:15 -0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAP+75-U0XZe31+QSv7t3oDwmy9fPxgQ7U165w=HU0UN_h2Jc5Q@mail.gmail.com>
+In-Reply-To: <9856cc15-2365-4609-5af9-f6582cb20ed8@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: uylLu2oCPBCIVkPr0pUdkw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: zUfYqqyLOieeo0uZO6Fs6g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,71 +80,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, qemu-arm@nongnu.org,
+ Antony Pavlov <antonynpavlov@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 1/28/20 11:18 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> On Tue, Jan 28, 2020 at 1:55 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
->> Thomas Huth <thuth@redhat.com> writes:
->>> On 25/01/2020 19.31, Philippe Mathieu-Daud=C3=A9 wrote:
->>>> The NAME variable can be used to describe nicely a job (see [*]).
->>>> As we currently have 32 jobs, use it. This helps for quickly
->>>> finding a particular job.
->>>>
->>>>    before: https://travis-ci.org/qemu/qemu/builds/639887646
->>>>    after: https://travis-ci.org/philmd/qemu/builds/641795043
->>> Very good idea, correlating a job in the GUI to an entry in the yml fil=
-e
->>> was really a pain, so far.
->>>
->>>> [*] https://docs.travis-ci.com/user/customizing-the-build/#naming-jobs=
--within-matrices
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>>> ---
->>>>   .travis.yml | 101 ++++++++++++++++++++++++++++++++++----------------=
---
->>>>   1 file changed, 67 insertions(+), 34 deletions(-)
->>>>
->>>> diff --git a/.travis.yml b/.travis.yml
->>>> index 6c1038a0f1..d68e35a2c5 100644
->>>> --- a/.travis.yml
->>>> +++ b/.travis.yml
->>>> @@ -94,24 +94,28 @@ after_script:
->>>>
->>>>   matrix:
->>>>     include:
->>>> -    - env:
->>>> +    - name: "[x86] GCC static (user)"
->>> Could you please drop the [x86] and other architectures from the names?
->>> Travis already lists the build architecture in the job status page, so
->>> this information is redundant.
->> Hmm for me the Travis page mis-renders the architecture (on firefox) so
->> I do find the arch in the text fairly handy.
-> This might be a font problem, I can't see the architecture on neither
-> Firefox nor Chrome:
+On 1/27/20 6:56 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hey Wainer,
 >
-> https://pasteboard.co/IS3O358.png
+> On 1/27/20 6:45 PM, Wainer dos Santos Moschetta wrote:
+>> On 1/27/20 1:41 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> On 1/27/20 4:39 PM, Thomas Huth wrote:
+>>>> On 27/01/2020 16.18, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>>> On 1/27/20 3:41 PM, Thomas Huth wrote:
+>>>>>> The canon-a1100 machine can be used with the Barebox firmware. The
+>>>>>> QEMU Advent Calendar 2018 features a pre-compiled image which we
+>>>>>> can use for testing.
+>>>>>>
+>>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>>> ---
+>>>>>> =C2=A0=C2=A0 tests/acceptance/machine_arm_canon-a1100.py | 33=20
+>>>>>> +++++++++++++++++++++
+>>
+>>
+>> What is the reason for not adding this case in boot_linux_console suite?
+>
+> Because there are too many tests in this file and it became hardly=20
+> maintainable. Also it is easier to add a 'F:' entry in the MAINTAINERS=20
+> file to each machine section.
+>
+>>>>>> =C2=A0=C2=A0 1 file changed, 33 insertions(+)
+>>>>>> =C2=A0=C2=A0 create mode 100644 tests/acceptance/machine_arm_canon-a=
+1100.py
+>>>>>>
+>>>>>> diff --git a/tests/acceptance/machine_arm_canon-a1100.py
+>>>>>> b/tests/acceptance/machine_arm_canon-a1100.py
+>>>>>> new file mode 100644
+>>>>>> index 0000000000..3888168451
+>>>>>> --- /dev/null
+>>>>>> +++ b/tests/acceptance/machine_arm_canon-a1100.py
+>>>>>> @@ -0,0 +1,33 @@
+>>>>>> +# Functional test that boots the canon-a1100 machine with firmware
+>>>>>> +#
+>>>>>> +# Copyright (c) 2020 Red Hat, Inc.
+>>>>>> +#
+>>>>>> +# Author:
+>>>>>> +#=C2=A0 Thomas Huth <thuth@redhat.com>
+>>>>>> +#
+>>>>>> +# This work is licensed under the terms of the GNU GPL, version=20
+>>>>>> 2 or
+>>>>>> +# later.=C2=A0 See the COPYING file in the top-level directory.
+>>>>>> +
+>>>>>> +from avocado_qemu import Test
+>>>>>> +from avocado_qemu import wait_for_console_pattern
+>>>>>> +from avocado.utils import archive
+>>>>>> +
+>>>>>> +class CanonA1100Machine(Test):
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 timeout =3D 90
+>>>>>> +
+>>>>>> +=C2=A0=C2=A0=C2=A0 def test_arm_canona1100(self):
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Darch:ar=
+m
+>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Dmachine=
+:canon-a1100
+>>>>>
+>>>>> To the maintainer taking this, please add:
+>>>>>
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :a=
+vocado: tags=3Dpflash_cfi02
+>>>>
+>>>> Should there be a "device:" between the "=3D" and the device name? At
+>>>> least I can see some other files using "device:" for similar tags...
+>>>
+>>> Ah yes you are right, it is clearer.
+>>
+>>
+>> Notice that avocado_qemu won't automatically convert that tag into=20
+>> QEMU's -device option, If that is the intention...
+>
+> That could be useful, but currently my usage is 'avocado run -t=20
+> device:pcnet32' to run all tests using the pcnet32 network device.
+>
+> I have pflash tests which I plan to use the same way.
+>
+> This is a hint to other maintainers, who don't have to look at each=20
+> test to find the set of tests that suits them.
+>
+> IOW "As a maintainer of the device:pflash I'm interested to run all=20
+> tests using this device, and while they pass I won't look at them".
+>
+> (This is how I expect maintainers to use the acceptance tests when I=20
+> add some).
 
 
-It is the partially hidden column between the job number and the penguin=20
-(or apple if MacOS).
-
-Funny, I can see the arch on Philippe's dashboard=20
-(https://travis-ci.org/philmd/qemu) but it disappears on my own=20
-(https://travis-ci.org/wainersm/qemu).
-
-Anyway, most of the jobs run on x86_64. So perhaps mark only the non-x86=20
-ones?
+OK, understood. Thanks for sharing your usage of acceptance tests!
 
 - Wainer
 
->
->
 
 
