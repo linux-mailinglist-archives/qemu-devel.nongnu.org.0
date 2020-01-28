@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C7114C02B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:49:17 +0100 (CET)
-Received: from localhost ([::1]:35462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13BF14C020
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:46:28 +0100 (CET)
+Received: from localhost ([::1]:35424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVvI-0007Vr-U8
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:49:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33855)
+	id 1iwVsZ-0003d5-RH
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:46:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33808)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6H-0001Wh-2J
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:34 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6F-0001VI-0C
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6B-0004R1-Tk
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:32 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40184)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV6D-0004WT-Iy
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:30 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38534)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV6B-0004O7-4T
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:27 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id t14so3546120wmi.5
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:56:27 -0800 (PST)
+ id 1iwV6D-0004UM-By
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:29 -0500
+Received: by mail-wr1-x442.google.com with SMTP id y17so17109134wrh.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:56:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UHb/Mcs6Z7m1KUajTQkHLwnYid7R1JKme9HPwSSvlZU=;
- b=VyH0VlA9x+xJwvZpAY7BXDyiOmMs7KjmTSG/D/wW6+wuA1cy04Gn50Saagc/nKiHco
- B5S4oAI5+W7IL52ZPvGS85Hf427gHhj6QYXTLrctv3xqRicnuaQBkJ55Z22ZHV97Sjsr
- yrcNhGWY2qhK0csQHBbQTtNlOOzKO12k1e41DljrgrKuYKy8ZDUcom0Xg64MtKbO4OnU
- D1edXcID4t2i3IcxH+YtyA53fFyW/54wG+w6Fhocm5ej5dkEdTFGRnOy9CHbepYtpI2+
- mRSI7UVhsNm9ecrYs6v5rFA/Y1fLIC/5uH5wfEw7/luzOTWZVMZ1fXatARJPs6eYcY54
- YSgQ==
+ bh=z5fpbhhm7PwIe6YFJVApmaP2O9I2UhXOqjOXPuaLpWQ=;
+ b=BG3ZVc1v9/U1LTapIo0jydGENJxNloD6t67e6f9gPf8Zttmg8J/Ht+xeiLq+SgAIms
+ zw7ecgl7Y3NXKIFtVHOb34948+918sS19dV9ij/UbKe0qGgPqFc0RBz6jyU3tScXxk8Z
+ IP3LnJeC4kn1vKvzMXPA4j/d/Qgv4BJO73xoTurrqK3MrY7B+RaSxbFdY/Nrppaa15SF
+ Wc1OzmtM8DrBHpnVCKiC/f+BcEGbkcr7pp+fJ35WhDFD52LGpKBK2RjSfHw/3ScFNy47
+ udOeZBOq/stwOFXTnVoACccSBhcUCaXB7wGitf3Wj7auZdf/6bHdELo6Y9HA9OE3akjg
+ SmKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UHb/Mcs6Z7m1KUajTQkHLwnYid7R1JKme9HPwSSvlZU=;
- b=ZP6SqAbrolORxllU6wU4ZH8/paX8GtvY1AzawiVa0g5sJ4hqXC7K35IVpgA8FuLVBm
- FI+symcSOJa2RbEFfo89YVREHqRbtWGhNrlKkM5V/9xp1Km2ctC2z218JdeCEX/HO+0D
- d9X2sDALtv/RgADgSk++Y2BUWdbobOks5AebdPMgmbV1g8BW+/LwysWKjLUqHb/fE1op
- p8EP2b2hMZiHnXaHOEj55xLoycngK7sED6uE/YgGUKqQft7ngN9PNQiZgFeZCjdkw1GD
- SIxtx+zgLHVnSD5qcMKiluUH1ZCIqP7sndxIGBiGBOTJPN9eF/FyTW47ruFYiE5JFPVe
- EHUw==
-X-Gm-Message-State: APjAAAXAmtrkVyjKyciqB/8+nDtVJNDGHD/URX7IOKgc051/nahhxqX2
- s6TPrRwXVUDeyRFN0UQl18UxvP8P
-X-Google-Smtp-Source: APXvYqw25K2VcI2o9tmRkAksJw0KCr/OWNEvmfYTEi+N1OErYXujC5CU1tgtmcDNbTruIOsGWrvwCQ==
-X-Received: by 2002:a05:600c:108a:: with SMTP id
- e10mr6262462wmd.10.1580234185721; 
- Tue, 28 Jan 2020 09:56:25 -0800 (PST)
+ bh=z5fpbhhm7PwIe6YFJVApmaP2O9I2UhXOqjOXPuaLpWQ=;
+ b=E6RZmG2SoBZjSB4LCY9AAqTs8RgZ6vpICKWc3xXQ15j8HlyvPBC63e1rtp26A17txb
+ +AEj5aGJ3JPUR/n21LMJMqwm+K8DtbxTed/fHIZAvNkMcsPIAGuvXKiA7FyVcXiCyi4E
+ z8GkPMk7aW/YU96aO/4KOH4uObXzfaoKPuUhe3qrl1wPPZpsODaaGLPdE6Rfq1umf8LX
+ E8xVoIAu2dcs3bqXhOesK74plA+tNrH/HOYMsvrkvXqqOJIU65tl+k3orQPqhT9UyoEE
+ cwrIVDExebu0gPn14WFt9uRDi2fsulKtEBUwlOsVi8U+Z/g27EsRsszfYLy+iEdDtVA5
+ KQOw==
+X-Gm-Message-State: APjAAAX4Ek0vVr1TdaNojPQYaA+E85K9NhnllQANNusYay9avdhIj0mw
+ 55rF5u1+VZxLe6I2ViWoCjtF1uGB
+X-Google-Smtp-Source: APXvYqyRNC3g521BdWta+bvwi8w0La0wLLF48+7mEtW+mBLsOt6esrB4KYNVNHcbgsT1qEsY9Rk+fQ==
+X-Received: by 2002:adf:8297:: with SMTP id 23mr28698682wrc.379.1580234188186; 
+ Tue, 28 Jan 2020 09:56:28 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.56.23
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.56.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:56:25 -0800 (PST)
+ Tue, 28 Jan 2020 09:56:27 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 066/142] meson: convert fsdev/
-Date: Tue, 28 Jan 2020 18:52:26 +0100
-Message-Id: <20200128175342.9066-67-pbonzini@redhat.com>
+Subject: [PATCH 067/142] meson: convert disas directory to Meson
+Date: Tue, 28 Jan 2020 18:52:27 +0100
+Message-Id: <20200128175342.9066-68-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,78 +86,137 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs       |  6 +-----
- fsdev/Makefile.objs | 12 ------------
- fsdev/meson.build   | 10 ++++++++++
- 3 files changed, 11 insertions(+), 17 deletions(-)
- delete mode 100644 fsdev/Makefile.objs
+ Makefile.objs               |  1 -
+ disas/Makefile.objs         | 30 ------------------------------
+ disas/libvixl/Makefile.objs |  5 -----
+ disas/libvixl/meson.build   |  7 +++++++
+ disas/meson.build           | 27 +++++++++++++++++++++++++++
+ meson.build                 |  1 +
+ 6 files changed, 35 insertions(+), 36 deletions(-)
+ delete mode 100644 disas/Makefile.objs
+ delete mode 100644 disas/libvixl/Makefile.objs
+ create mode 100644 disas/libvixl/meson.build
+ create mode 100644 disas/meson.build
 
 diff --git a/Makefile.objs b/Makefile.objs
-index e56106400c..63796fe8bc 100644
+index 63796fe8bc..25468baee4 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -35,8 +35,6 @@ qom-obj-y = qom/libqom.fa
- # single QEMU executable should support all CPUs and machines.
- 
- ifeq ($(CONFIG_SOFTMMU),y)
--common-obj-$(CONFIG_LINUX) = fsdev/
--
- common-obj-y += accel/
- 
- common-obj-$(CONFIG_AUDIO_ALSA) += audio-alsa$(DSOSUF)
-@@ -58,14 +56,12 @@ common-obj-$(if $(CONFIG_RBD),m) += block-rbd$(DSOSUF)
- 
- common-obj-$(if $(CONFIG_LZFSE),m) += block-dmg-lzfse$(DSOSUF)
- common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF)
--
--common-obj-y += hw/
- endif
- 
- #######################################################################
+@@ -62,7 +62,6 @@ endif
  # Target-independent parts used in system and user emulation
  
--common-obj-y += hw/
-+common-obj-y = hw/
- common-obj-y += disas/
+ common-obj-y = hw/
+-common-obj-y += disas/
  
  ######################################################################
-diff --git a/fsdev/Makefile.objs b/fsdev/Makefile.objs
+ # Resource file for Windows executables
+diff --git a/disas/Makefile.objs b/disas/Makefile.objs
 deleted file mode 100644
-index 42cd70c367..0000000000
---- a/fsdev/Makefile.objs
+index 3c1cdce026..0000000000
+--- a/disas/Makefile.objs
 +++ /dev/null
-@@ -1,12 +0,0 @@
--# Lots of the fsdev/9pcode is pulled in by vl.c via qemu_fsdev_add.
--# only pull in the actual 9p backend if we also enabled virtio or xen.
--ifeq ($(CONFIG_FSDEV_9P),y)
--common-obj-y = qemu-fsdev.o 9p-marshal.o 9p-iov-marshal.o
--else
--common-obj-y = qemu-fsdev-dummy.o
--endif
--common-obj-y += qemu-fsdev-opts.o qemu-fsdev-throttle.o
+@@ -1,30 +0,0 @@
 -
--# Toplevel always builds this; targets without virtio will put it in
--# common-obj-y
--common-obj-$(CONFIG_ALL) += qemu-fsdev-dummy.o
-diff --git a/fsdev/meson.build b/fsdev/meson.build
-index eee8507033..ae84c13069 100644
---- a/fsdev/meson.build
-+++ b/fsdev/meson.build
-@@ -1,3 +1,13 @@
-+fsdev_ss = ss.source_set()
-+fsdev_ss.add(files('qemu-fsdev-opts.c', 'qemu-fsdev-throttle.c'))
-+fsdev_ss.add(when: 'CONFIG_ALL', if_true: files('qemu-fsdev-dummy.c'))
-+fsdev_ss.add(when: ['CONFIG_FSDEV_9P'], if_true: files(
-+  '9p-iov-marshal.c',
-+  '9p-marshal.c',
-+  'qemu-fsdev.c',
-+), if_false: files('qemu-fsdev-dummy.c'))
-+softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
+-common-obj-$(CONFIG_ALPHA_DIS) += alpha.o
+-common-obj-$(CONFIG_ARM_DIS) += arm.o
+-common-obj-$(CONFIG_ARM_A64_DIS) += arm-a64.o
+-common-obj-$(CONFIG_ARM_A64_DIS) += libvixl/
+-libvixldir = $(SRC_PATH)/disas/libvixl
+-# The -Wno-sign-compare is needed only for gcc 4.6, which complains about
+-# some signed-unsigned equality comparisons in libvixl which later gcc
+-# versions do not.
+-arm-a64.o-cflags := -I$(libvixldir) -Wno-sign-compare
+-common-obj-$(CONFIG_CRIS_DIS) += cris.o
+-common-obj-$(CONFIG_HPPA_DIS) += hppa.o
+-common-obj-$(CONFIG_I386_DIS) += i386.o
+-common-obj-$(CONFIG_M68K_DIS) += m68k.o
+-common-obj-$(CONFIG_MICROBLAZE_DIS) += microblaze.o
+-common-obj-$(CONFIG_MIPS_DIS) += mips.o
+-common-obj-$(CONFIG_NANOMIPS_DIS) += nanomips.o
+-common-obj-$(CONFIG_NIOS2_DIS) += nios2.o
+-common-obj-$(CONFIG_MOXIE_DIS) += moxie.o
+-common-obj-$(CONFIG_PPC_DIS) += ppc.o
+-common-obj-$(CONFIG_RISCV_DIS) += riscv.o
+-common-obj-$(CONFIG_S390_DIS) += s390.o
+-common-obj-$(CONFIG_SH4_DIS) += sh4.o
+-common-obj-$(CONFIG_SPARC_DIS) += sparc.o
+-common-obj-$(CONFIG_LM32_DIS) += lm32.o
+-common-obj-$(CONFIG_XTENSA_DIS) += xtensa.o
+-
+-# TODO: As long as the TCG interpreter and its generated code depend
+-# on the QEMU target, we cannot compile the disassembler here.
+-#common-obj-$(CONFIG_TCI_DIS) += tci.o
+diff --git a/disas/libvixl/Makefile.objs b/disas/libvixl/Makefile.objs
+deleted file mode 100644
+index 99a637f6a0..0000000000
+--- a/disas/libvixl/Makefile.objs
++++ /dev/null
+@@ -1,5 +0,0 @@
+-common-obj-$(CONFIG_ARM_A64_DIS) = vixl/utils.o \
+-               vixl/compiler-intrinsics.o \
+-               vixl/a64/instructions-a64.o \
+-               vixl/a64/decoder-a64.o \
+-               vixl/a64/disasm-a64.o
+diff --git a/disas/libvixl/meson.build b/disas/libvixl/meson.build
+new file mode 100644
+index 0000000000..5e2eb33e8e
+--- /dev/null
++++ b/disas/libvixl/meson.build
+@@ -0,0 +1,7 @@
++libvixl_ss.add(files(
++  'vixl/a64/decoder-a64.cc',
++  'vixl/a64/disasm-a64.cc',
++  'vixl/a64/instructions-a64.cc',
++  'vixl/compiler-intrinsics.cc',
++  'vixl/utils.cc',
++))
+diff --git a/disas/meson.build b/disas/meson.build
+new file mode 100644
+index 0000000000..0527d69128
+--- /dev/null
++++ b/disas/meson.build
+@@ -0,0 +1,27 @@
++libvixl_ss = ss.source_set()
++subdir('libvixl')
 +
- if have_tools and libattr.found() and libcap_ng.found() and 'CONFIG_VIRTFS' in config_host
-   executable('virtfs-proxy-helper', files('virtfs-proxy-helper.c', '9p-marshal.c', '9p-iov-marshal.c'),
-              dependencies: [qemuutil, libattr, libcap_ng])
++common_ss.add(when: 'CONFIG_ALPHA_DIS', if_true: files('alpha.c'))
++common_ss.add(when: 'CONFIG_ARM_A64_DIS', if_true: files('arm-a64.cc'))
++common_ss.add_all(when: 'CONFIG_ARM_A64_DIS', if_true: libvixl_ss)
++common_ss.add(when: 'CONFIG_ARM_DIS', if_true: files('arm.c'))
++common_ss.add(when: 'CONFIG_CRIS_DIS', if_true: files('cris.c'))
++common_ss.add(when: 'CONFIG_HPPA_DIS', if_true: files('hppa.c'))
++common_ss.add(when: 'CONFIG_I386_DIS', if_true: files('i386.c'))
++common_ss.add(when: 'CONFIG_LM32_DIS', if_true: files('lm32.c'))
++common_ss.add(when: 'CONFIG_M68K_DIS', if_true: files('m68k.c'))
++common_ss.add(when: 'CONFIG_MICROBLAZE_DIS', if_true: files('microblaze.c'))
++common_ss.add(when: 'CONFIG_MIPS_DIS', if_true: files('mips.c'))
++common_ss.add(when: 'CONFIG_MOXIE_DIS', if_true: files('moxie.c'))
++common_ss.add(when: 'CONFIG_NANOMIPS_DIS', if_true: files('nanomips.cpp'))
++common_ss.add(when: 'CONFIG_NIOS2_DIS', if_true: files('nios2.c'))
++common_ss.add(when: 'CONFIG_PPC_DIS', if_true: files('ppc.c'))
++common_ss.add(when: 'CONFIG_RISCV_DIS', if_true: files('riscv.c'))
++common_ss.add(when: 'CONFIG_S390_DIS', if_true: files('s390.c'))
++common_ss.add(when: 'CONFIG_SH4_DIS', if_true: files('sh4.c'))
++common_ss.add(when: 'CONFIG_SPARC_DIS', if_true: files('sparc.c'))
++common_ss.add(when: 'CONFIG_XTENSA_DIS', if_true: files('xtensa.c'))
++
++# TODO: As long as the TCG interpreter and its generated code depend
++# on the QEMU target, we cannot compile the disassembler here.
++#common_ss.add(when: 'CONFIG_TCI_DIS', if_true: files('tci.c'))
+diff --git a/meson.build b/meson.build
+index 24fe26e635..701f079345 100644
+--- a/meson.build
++++ b/meson.build
+@@ -623,6 +623,7 @@ softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
+ common_ss.add(files('cpus-common.c'))
+ 
+ subdir('backends')
++subdir('disas')
+ subdir('migration')
+ subdir('monitor')
+ subdir('net')
 -- 
 2.21.0
 
