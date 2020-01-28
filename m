@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7322F14BF97
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:24:41 +0100 (CET)
-Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DB414BF99
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:24:47 +0100 (CET)
+Received: from localhost ([::1]:35110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVXT-0004In-EB
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:24:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58821)
+	id 1iwVXa-0004WH-Kr
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:24:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58945)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4i-0007OR-Hk
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:57 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4m-0007Sn-99
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4h-0000r2-HC
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:56 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:54802)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4j-0000vS-46
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:59 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51663)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV4h-0000ko-AE
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:55 -0500
-Received: by mail-wm1-x336.google.com with SMTP id g1so3494205wmh.4
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:54 -0800 (PST)
+ id 1iwV4i-0000u0-TK
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:57 -0500
+Received: by mail-wm1-x331.google.com with SMTP id t23so3523017wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dpSAi521z8YHNBXKWiBmHfLRxFov0f4gbou1uTaVM70=;
- b=eOu4R78j8VFR/t+vJsyys8F/B3nWN4P/4LFjPgkrHG4OCJ/ge7zayWS4+UqJ5+t22Z
- 0onWYf7vqIV/ogielBIGFNuClZui7DGS/8XBw8ijp8Pgv/J1xZZTZBVBVoxR6t691iy3
- W1w7VY4vCYDFujpXwgFNHBhB+GJMhERGKWhB0QmOscoqVkkFswmG68HBTslljRQfCAbC
- h+C3Mxxwb+EdVT2SlNfhtuzwphN5CFioRStAPcdr2KtlKWbzUtQzNzET13axyc5emJxl
- Q/R/EJkG3PMXFn+mpCyE8tRU2uQTfHWhL2Uw/viMNuYgs7Q6CdH9kQ3P+cC1eMPzDZGC
- XaFQ==
+ bh=PrREOzGlC8UTQY/8R3lPzuUNWu2GYWSoDDy9DYpF2l4=;
+ b=VyDcpvJ9WJmr96btdcukNT6lmgvuYZybYUVOJxMC4ttlHf5BkfbgWRLPR2171yCaMg
+ R7ZptyTmzVzzQi2IU7XRenrQOyC9UI17fhTWMHV6oxX0gxn/QWnPJpUaiZdQK6UEJP7U
+ KU6NWt0ha31tzE10+ZrDKyGH3sgEKLYOEjNTE6qaoe6eqC9u7jqdoDVf2RJIfcSgGYBc
+ msytnscB8JkpBYQKjnjn1I31BX7xhMEnjmDUU6Add4wwl/lPORz38irTgng9lgOMu6Uy
+ OJ8ZUfbk22mKDcTumQ2E37E5Rt2dy+JLDKSpi9Ekq4e7u4xoEKCKpO9mljQKrxkFRMru
+ rFWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dpSAi521z8YHNBXKWiBmHfLRxFov0f4gbou1uTaVM70=;
- b=WjoxZByA2xXMvd3XKtOxgt6opQYJTUWcy96A8HJ6sU3m1CdHLHuKeMudfhOyxSwp3G
- e0YltAXWNX2ckopZD3BsGe9hPtxGwnLTJFV+olQeq9AZrSuxc1vPyn3+UixYvBgkUG8Z
- wBv+rK0vdGj0hVzek3qt0Yc36RSSwusX0fHjr1diLepdQbzL09ocm2nYpB64vX9JzZ21
- yufnTrSW/SSe8BvVmu2GFHf0NAS5DxhATUkuSNhZ67VzKE5t9aprMLr3q/wHg3qmdnuL
- OepohQilj7p7zuofFQ5m/iCVN2qSKUZJc2STu+ZzaxpAxdIm+3w6/fI+BnRLrMRi8m41
- dUYg==
-X-Gm-Message-State: APjAAAVXpu5HZD+o3qDrprnDzAa8KYdIpg0ojf5lVjKqO8LBBaB1iyi0
- noEFbWrK6gvKtlB/Oqy10/c0Nrc7
-X-Google-Smtp-Source: APXvYqxPHxpTFoXytmQFmKqNUde1fjWC0E7oUbvxAqMvCFTTuPag2fK8ApsLh+PPYeYZGY50LRMC/A==
-X-Received: by 2002:a1c:9dcb:: with SMTP id g194mr6186259wme.53.1580234093070; 
- Tue, 28 Jan 2020 09:54:53 -0800 (PST)
+ bh=PrREOzGlC8UTQY/8R3lPzuUNWu2GYWSoDDy9DYpF2l4=;
+ b=IVbGYZxjqsCBZi61dhGSIyZtk6U7xRwymv3nFNj/QFbDjK22JO/fmHcXxmyJU7lAaX
+ uyJcmPHIf8UYqZi6AKMg9Oz5aG9+ffhzwncGxNPymuhznc8165sZ/aYVepuILNO2FrYP
+ W5k4tF56aAWX9ADB4OLfroEaa5QVAqwTqusC/V5Ls3htqOFaiJFJ8uewnaKTG8ZxcX3P
+ O9hX0rsWqt0obUOtEEtnfmf0FKiMMN3W3rbgA1GMV7Xd2etIs8qimWK6LQHkC2SHIX+k
+ 7xOzQXeU117oB0Cdby7Pghf9HjzCdNybQo9zyWF+YW9be57Q+Z1n7x9MUzwnq5Hx5UPY
+ UrdA==
+X-Gm-Message-State: APjAAAWn45HjN7RgptfwMGi6tyxnDSsqKzXnC/L7Z3v6WsLpKRdBgPlH
+ i+ta5IeMfc2sdSRuQSFhzi35ie9A
+X-Google-Smtp-Source: APXvYqzZUrBcg46cGJTQJ37Ua2sBRemOTBjbmi1z3sXrQsbvlTsY1nuRxrQKwBlggIaGQLFBPgtL+A==
+X-Received: by 2002:a1c:e108:: with SMTP id y8mr5982741wmg.147.1580234095819; 
+ Tue, 28 Jan 2020 09:54:55 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.54.51
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.54.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:54:52 -0800 (PST)
+ Tue, 28 Jan 2020 09:54:54 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 027/142] meson: convert dummy Windows qga/qemu-ga target
-Date: Tue, 28 Jan 2020 18:51:47 +0100
-Message-Id: <20200128175342.9066-28-pbonzini@redhat.com>
+Subject: [PATCH 028/142] meson: add qemu-bridge-helper
+Date: Tue, 28 Jan 2020 18:51:48 +0100
+Message-Id: <20200128175342.9066-29-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::336
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,66 +79,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                  | 5 -----
- qga/meson.build           | 4 ++++
- qga/vss-win32/meson.build | 1 +
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ Makefile    |  4 ----
+ configure   |  1 +
+ meson.build | 12 +++++++++++-
+ 3 files changed, 12 insertions(+), 5 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 8d1028ed99..b37312f2fb 100644
+index b37312f2fb..69105cdfac 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -422,11 +422,6 @@ qemu-img-cmds.h: $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/scripts/hxtool
- qemu-keymap$(EXESUF): LIBS += $(XKBCOMMON_LIBS)
- qemu-keymap$(EXESUF): QEMU_CFLAGS += $(XKBCOMMON_CFLAGS)
+@@ -183,8 +183,6 @@ LIBS+=-lz $(LIBS_TOOLS)
+ vhost-user-json-y =
+ HELPERS-y =
  
--ifneq ($(EXESUF),)
--.PHONY: qga/qemu-ga
--qga/qemu-ga: qga/qemu-ga$(EXESUF) $(QGA_VSS_PROVIDER) $(QEMU_GA_MSI)
--endif
+-HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = qemu-bridge-helper$(EXESUF)
 -
- module_block.h: $(SRC_PATH)/scripts/modules/module_block.py config-host.mak
- 	$(call quiet-command,$(PYTHON) $< $@ \
- 	$(addprefix $(SRC_PATH)/,$(patsubst %.mo,%.c,$(block-obj-m))), \
-diff --git a/qga/meson.build b/qga/meson.build
-index e0e5344feb..f5f2dbd879 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -41,6 +41,7 @@ qga_ss = qga_ss.apply(config_host, strict: false)
- qga = executable('qemu-ga', qga_ss.sources(),
-                  link_args: config_host['LIBS_QGA'].split(),
-                  dependencies: [qemuutil, libudev])
-+all_qga = [qga]
+ ifeq ($(CONFIG_LINUX)$(CONFIG_VIRGL)$(CONFIG_GBM)$(CONFIG_TOOLS),yyyy)
+ vhost-user-json-y += contrib/vhost-user-gpu/50-qemu-gpu.json
+ endif
+@@ -403,8 +401,6 @@ qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io
+ qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+ qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
  
- if host_machine.system() == 'windows'
-   if 'CONFIG_QGA_VSS' in config_host
-@@ -69,6 +70,9 @@ if host_machine.system() == 'windows'
-                               config_host['QEMU_GA_MSI_WITH_VSS'].split(),
-                               config_host['QEMU_GA_MSI_MINGW_DLL_PATH'].split(),
-                             ])
-+    all_qga += [qga-msi]
-     alias_target('msi', qga_msi)
+-qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
+-
+ qemu-keymap$(EXESUF): qemu-keymap.o ui/input-keymap.o $(COMMON_LDADDS)
+ 
+ qemu-edid$(EXESUF): qemu-edid.o hw/display/edid-generate.o $(COMMON_LDADDS)
+diff --git a/configure b/configure
+index 78cc3451ad..5a78782c25 100755
+--- a/configure
++++ b/configure
+@@ -6757,6 +6757,7 @@ if test "$l2tpv3" = "yes" ; then
+ fi
+ if test "$cap_ng" = "yes" ; then
+   echo "CONFIG_LIBCAP_NG=y" >> $config_host_mak
++  echo "LIBCAP_NG_LIBS=$cap_libs" >> $config_host_mak
+ fi
+ echo "CONFIG_AUDIO_DRIVERS=$audio_drv_list" >> $config_host_mak
+ for drv in $audio_drv_list; do
+diff --git a/meson.build b/meson.build
+index 8709847493..79919df761 100644
+--- a/meson.build
++++ b/meson.build
+@@ -56,6 +56,10 @@ if 'CONFIG_GNUTLS' in config_host
+ endif
+ pixman = declare_dependency(compile_args: config_host['PIXMAN_CFLAGS'].split(),
+                             link_args: config_host['PIXMAN_LIBS'].split())
++libcap_ng = declare_dependency()
++if 'CONFIG_LIBCAP_NG' in config_host
++  libcap_ng = declare_dependency(link_args: config_host['LIBCAP_NG_LIBS'].split())
++endif
+ rt = cc.find_library('rt', required: false)
+ libiscsi = declare_dependency()
+ if 'CONFIG_LIBISCSI' in config_host
+@@ -228,7 +232,6 @@ qemuutil = declare_dependency(link_with: libqemuutil,
+                               sources: version_res)
+ 
+ # Other build targets
+-
+ if 'CONFIG_GUEST_AGENT' in config_host
+   subdir('qga')
+ endif
+@@ -247,6 +250,13 @@ if have_tools
+     subdir('contrib/vhost-user-scsi')
    endif
-+
-+  alias_target('qga/qemu-ga', all_qga)
- endif
-diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
-index 147a680d1f..f08001f338 100644
---- a/qga/vss-win32/meson.build
-+++ b/qga/vss-win32/meson.build
-@@ -8,6 +8,7 @@ if add_languages('cpp', required: false)
-                 link_args: link_args,
-                 vs_module_defs: 'qga-vss.def',
-                 dependencies: glib_static)
-+  all_qga += qga_vss
- endif
  
- # rules to build qga-vss.tlb
++  if host_machine.system() == 'linux'
++    executable('qemu-bridge-helper', files('qemu-bridge-helper.c'),
++               dependencies: [qemuutil, libcap_ng],
++               install: true,
++               install_dir: get_option('libexecdir'))
++  endif
++
+   if 'CONFIG_IVSHMEM' in config_host
+     subdir('contrib/ivshmem-client')
+     subdir('contrib/ivshmem-server')
 -- 
 2.21.0
 
