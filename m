@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D2A14C0BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:13:21 +0100 (CET)
-Received: from localhost ([::1]:35784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE1D14C09B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:08:18 +0100 (CET)
+Received: from localhost ([::1]:35728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWIa-0008Tk-DP
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:13:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37689)
+	id 1iwWDh-0001O0-OH
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:08:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37793)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8G-0004gI-TW
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:37 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8K-0004mt-JC
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8F-0000nz-Ol
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:36 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38579)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8H-0000uO-Va
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:39 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39635)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV8F-0000l6-Gh
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:35 -0500
-Received: by mail-wr1-x441.google.com with SMTP id y17so17116627wrh.5
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:35 -0800 (PST)
+ id 1iwV8H-0000rm-Ne
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:37 -0500
+Received: by mail-wm1-x344.google.com with SMTP id c84so3564823wme.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Iq04Q8iXl0fdIsz4N/T/ro7/7J4llBrEYyewQ0WC0y0=;
- b=KW0lJV7uR32t3q7j0KwAw3TGsLpajCv/MCQMWsC+GwYz3ccg7AvS+TnQNV9By/sF73
- duvWOz53bNhtWflsEDUwyTdANzr8kJYL5u8pR6iOnq73mXtHOabRDAh/FOfRZJ2M9xRx
- qzqJzSCM1DfYaSDRd5R/vbk3q0Frfw9unQmuaJxIkQylhrmVdvIMCD4Gp0hotCCQmTxA
- VmXeqvofj6x8H25PCCaL5vs9itGDjb9vNlqw479F1mg6jfb3wJp95k3bIhVPtXyPYufx
- 76FtQlb9twiAtcLK1B1JoFCO0Mu27xAqDciwEWL+ziN6IsZymfWwRW55FQZiwwYV6HMR
- uwZw==
+ bh=RqwRDXjlWxEGitCZIkJjTP2S+VjFa8u5d7/ofPj58Po=;
+ b=Sb5+SykzgTVWjnHbnQ7rcHMnO7PMtjHYCmfa23XfzD/Jwmhyvg9BXMiY0E43wFpXOw
+ yhLdzwOIfnv3BuRCappH40DXqGMbcbAei5pZSx4sSS09WyvwiBoxUidLhTIlcr4fST70
+ JoyRqTm4AkNqMNp3FEQJi5cNsDwOu2pDc9z/gjHyRXT5Ao27W2e/vK/REJmQTNF9MzwX
+ kFo04+q5fTY/VK8ghOBkdgc/r137uow6qSkX9++aKlZI3DfDhBU2+frLlqkb/HtRSwKk
+ DHIMbsiZhXM7Jry+7II6GtsgWsETy36X1fPBWIwS39ysA3kByCU0Bplid7XA/7Y5AyIc
+ pQ9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Iq04Q8iXl0fdIsz4N/T/ro7/7J4llBrEYyewQ0WC0y0=;
- b=dr13GdluFP9/fiEPI4PiP1ciSng665Tjulpxg5qMgdPxMgZyuzWV6Yer5MZLuBzQCN
- hDWLEsn3Wp4qeYB+XhZxfvU3DtZgeO0/Piy6Z08R7NxBPNBHoO9zbMr9vunKjlZV3hzz
- FYcDRg/yMJJUt+S7rij1p/cRhElCBBhoiLvhJhO70tl/EWqdp1U3096zyagn6mNshjWG
- mVwF6TzmE3rDjrqgcXgEmmjnOEtgwFYnBUgYFYJOmXm1q/h7blztloq+oiT9xKXTOEsh
- PjNW1iCd34GT4QCqN62tc1Djy+Sj8oziw2Rzh582MLdLc70BUZ3sD2YLYLOp+6bNa8sY
- CMNg==
-X-Gm-Message-State: APjAAAVUhTmlX3zkPs4AHwa+YvHsSHRQEdlXdlasXdMJXn+2ELGn3OF6
- lJFoY72fn6/pUyCVDzdPB29QSuPS
-X-Google-Smtp-Source: APXvYqzGSJr9kQLrku6/Ca0timlBlo/pQOMrxP6Zr0uiWAVlKSp2S7zcgUU312jH5aWff6bCPMJBVA==
-X-Received: by 2002:adf:fc4b:: with SMTP id e11mr31059640wrs.326.1580234314350; 
- Tue, 28 Jan 2020 09:58:34 -0800 (PST)
+ bh=RqwRDXjlWxEGitCZIkJjTP2S+VjFa8u5d7/ofPj58Po=;
+ b=OHPa9jONZEJk5qBBzO/6jzEbBxrJRNYvk/tDiGnH2EvEz/OS7cK0bU16Ps1V6MEo9Y
+ anpfTFhcG0bnFXrCGgNdO15dV3IMWemwGWPdhRFT2cMsNPLILaTBUMAgUjeZH4WHuNdv
+ xp4KtbdtvSHKIQBuDrxIVihxoBiKT/03tL6ljsJsz0hKXqQLsolVJ27jy0dWEYNcHR7G
+ mHJCmoG+BNMxDBravPO58nXjd3gWrBsxMmVehvo0Fd4hydQhVX4s52vf33eDMN636hsq
+ N6ASvRAR8IafWIKqdH4xJLbWkQLosRlN/4DITBB6mXR912ZdwY+DTfP68etFUurdfmh3
+ IluQ==
+X-Gm-Message-State: APjAAAXsO9rfz00agDUNX4q8uOKtjzpyLTYsiMdchREKDwJCYH3ne/8V
+ 766BwALbsgA7JTEYEedqGyaDcKF2
+X-Google-Smtp-Source: APXvYqwNveUE7auu22khwcOulv5F1DoR0GXKJZn9J6Nyk9MfAehBC6AyAk9y8GllKVaD5I1qGWWrAg==
+X-Received: by 2002:a1c:9dcb:: with SMTP id g194mr6199807wme.53.1580234316493; 
+ Tue, 28 Jan 2020 09:58:36 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.32
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:58:33 -0800 (PST)
+ Tue, 28 Jan 2020 09:58:36 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 121/142] build-sys/rules.mak: remove version.o
-Date: Tue, 28 Jan 2020 18:53:21 +0100
-Message-Id: <20200128175342.9066-122-pbonzini@redhat.com>
+Subject: [PATCH 122/142] remove Makefile.target
+Date: Tue, 28 Jan 2020 18:53:22 +0100
+Message-Id: <20200128175342.9066-123-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,65 +83,200 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile      | 5 -----
- Makefile.objs | 4 ----
- rules.mak     | 4 +---
- 3 files changed, 1 insertion(+), 12 deletions(-)
+ Makefile        | 52 ++++---------------------------------------------
+ Makefile.objs   | 27 -------------------------
+ Makefile.target | 13 -------------
+ configure       |  2 --
+ 4 files changed, 4 insertions(+), 90 deletions(-)
+ delete mode 100644 Makefile.target
 
 diff --git a/Makefile b/Makefile
-index 91fa9025c9..ddcd39fad5 100644
+index ddcd39fad5..898aa81232 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -228,11 +228,6 @@ recurse-clean: $(addsuffix /clean, $(TARGET_DIRS) $(ROM_DIRS))
- recurse-install: $(addsuffix /install, $(TARGET_DIRS))
- $(addsuffix /install, $(TARGET_DIRS)): all
+@@ -154,24 +154,10 @@ ifneq ($(wildcard config-host.mak),)
+ include $(SRC_PATH)/Makefile.objs
+ endif
  
--$(BUILD_DIR)/version.o: $(SRC_PATH)/version.rc config-host.h
--	$(call quiet-command,$(WINDRES) -I$(BUILD_DIR) -o $@ $<,"RC","version.o")
+-dummy := $(call unnest-vars,, common-obj-y)
 -
--Makefile: $(version-obj-y)
+ include $(SRC_PATH)/tests/Makefile.include
+ 
+ all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) recurse-all modules
+ 
+-TARGET_DIRS_RULES := $(foreach t, all clean install, $(addsuffix /$(t), $(TARGET_DIRS)))
+-SUBDIR_RULES=$(patsubst %,subdir-%, $(TARGET_DIRS))
+-SOFTMMU_SUBDIR_RULES=$(filter %-softmmu,$(SUBDIR_RULES))
 -
+-SOFTMMU_ALL_RULES=$(filter %-softmmu/all, $(TARGET_DIRS_RULES))
+-
+-.PHONY: $(TARGET_DIRS_RULES)
+-# The $(TARGET_DIRS_RULES) are of the form SUBDIR/GOAL, so that
+-# $(dir $@) yields the sub-directory, and $(notdir $@) yields the sub-goal
+-$(TARGET_DIRS_RULES): $(TARGET_DEPS)
+-	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" $(notdir $@),)
+-
+ DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_srcdir=$(SRC_PATH)/dtc/libfdt
+ DTC_CFLAGS=$(CFLAGS) $(QEMU_CFLAGS)
+ DTC_CPPFLAGS=-I$(BUILD_DIR)/dtc -I$(SRC_PATH)/dtc -I$(SRC_PATH)/dtc/libfdt
+@@ -213,8 +199,6 @@ subdir-dtc: dtc/all
+ subdir-capstone: capstone/all
+ subdir-slirp: slirp/all
+ 
+-$(filter %/all, $(TARGET_DIRS_RULES)):
+-
+ ROM_DIRS = $(addprefix pc-bios/, $(ROMS))
+ ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
+ # Only keep -O and -g cflags
+@@ -222,11 +206,9 @@ ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
+ $(ROM_DIRS_RULES):
+ 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" CFLAGS="$(filter -O% -g%,$(CFLAGS))" $(notdir $@),)
+ 
+-.PHONY: recurse-all recurse-clean recurse-install
+-recurse-all: $(addsuffix /all, $(TARGET_DIRS) $(ROM_DIRS))
+-recurse-clean: $(addsuffix /clean, $(TARGET_DIRS) $(ROM_DIRS))
+-recurse-install: $(addsuffix /install, $(TARGET_DIRS))
+-$(addsuffix /install, $(TARGET_DIRS)): all
++.PHONY: recurse-all recurse-clean
++recurse-all: $(ROM_DIRS)
++recurse-clean: $(addsuffix /clean, $(ROM_DIRS))
+ 
  ######################################################################
  
- clean: recurse-clean
+@@ -279,9 +261,6 @@ distclean: clean
+ 	$(call clean-manual,devel)
+ 	$(call clean-manual,interop)
+ 	$(call clean-manual,specs)
+-	for d in $(TARGET_DIRS); do \
+-	rm -rf $$d || exit 1 ; \
+-        done
+ 	rm -Rf .sdk
+ 	if test -f dtc/version_gen.h; then $(MAKE) $(DTC_MAKE_ARGS) clean; fi
+ 
+@@ -383,8 +362,7 @@ ICON_SIZES=16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
+ 
+ install: all $(if $(BUILD_DOCS),install-doc) \
+ 	install-datadir install-localstatedir \
+-	$(if $(INSTALL_BLOBS),$(edk2-decompressed)) \
+-	recurse-install
++	$(if $(INSTALL_BLOBS),$(edk2-decompressed))
+ ifdef CONFIG_TRACE_SYSTEMTAP
+ 	$(INSTALL_PROG) "scripts/qemu-trace-stap" $(DESTDIR)$(bindir)
+ endif
+@@ -429,9 +407,6 @@ endif
+ 	set -e; for x in $(KEYMAPS); do \
+ 		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/keymaps/$$x "$(DESTDIR)$(qemu_datadir)/keymaps"; \
+ 	done
+-	for d in $(TARGET_DIRS); do \
+-	$(MAKE) $(SUBDIR_MAKEFLAGS) TARGET_DIR=$$d/ -C $$d $@ || exit 1 ; \
+-        done
+ 
+ # documentation
+ MAKEINFO=makeinfo
+@@ -526,20 +501,6 @@ docs/interop/qemu-qmp-ref.dvi docs/interop/qemu-qmp-ref.html \
+ 
+ $(filter %.1 %.7 %.8,$(DOCS)): scripts/texi2pod.pl
+ 
+-# Reports/Analysis
+-
+-%/coverage-report.html:
+-	@mkdir -p $*
+-	$(call quiet-command,\
+-		gcovr -r $(SRC_PATH) \
+-		$(foreach t, $(TARGET_DIRS), --object-directory $(BUILD_DIR)/$(t)) \
+-		 --object-directory $(BUILD_DIR) \
+-		-p --html --html-details -o $@, \
+-		"GEN", "coverage-report.html")
+-
+-.PHONY: coverage-report
+-coverage-report: $(CURDIR)/reports/coverage/coverage-report.html
+-
+ ifdef CONFIG_WIN32
+ 
+ INSTALLER = qemu-setup-$(VERSION)$(EXESUF)
+@@ -623,11 +584,6 @@ endif
+ 	@echo  '  ctags/TAGS      - Generate tags file for editors'
+ 	@echo  '  cscope          - Generate cscope index'
+ 	@echo  ''
+-	@$(if $(TARGET_DIRS), \
+-		echo 'Architecture specific targets:'; \
+-		$(foreach t, $(TARGET_DIRS), \
+-		printf "  %-30s - Build for %s\\n" $(t)/all $(t);) \
+-		echo '')
+ 	@echo  'Cleaning targets:'
+ 	@echo  '  clean           - Remove most generated files but keep the config'
+ 	@echo  '  distclean       - Remove all generated files'
 diff --git a/Makefile.objs b/Makefile.objs
-index 76326e9d22..9fd3932ae0 100644
+index 9fd3932ae0..654667f501 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -55,7 +55,3 @@ common-obj-$(if $(CONFIG_RBD),m) += block-rbd$(DSOSUF)
- common-obj-$(if $(CONFIG_LZFSE),m) += block-dmg-lzfse$(DSOSUF)
- common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF)
- endif
+@@ -28,30 +28,3 @@ crypto-obj-y = crypto/libcrypto.fa
+ io-obj-y = io/libio.fa
+ 
+ qom-obj-y = qom/libqom.fa
 -
 -######################################################################
--# Resource file for Windows executables
--version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
-diff --git a/rules.mak b/rules.mak
-index 162ecb5635..6c6b9098e7 100644
---- a/rules.mak
-+++ b/rules.mak
-@@ -78,8 +78,6 @@ expand-objs = $(strip $(sort $(filter %.o,$1)) \
- 	$(call quiet-command,$(CC) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
- 	       $(QEMU_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) $($@-cflags) \
- 	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
--%.o: %.rc
--	$(call quiet-command,$(WINDRES) -I. -o $@ $<,"RC","$(TARGET_DIR)$@")
+-# Target independent part of system emulation. The long term path is to
+-# suppress *all* target specific code in case of system emulation, i.e. a
+-# single QEMU executable should support all CPUs and machines.
+-
+-ifeq ($(CONFIG_SOFTMMU),y)
+-common-obj-$(CONFIG_AUDIO_ALSA) += audio-alsa$(DSOSUF)
+-common-obj-$(CONFIG_AUDIO_OSS) += audio-oss$(DSOSUF)
+-common-obj-$(CONFIG_AUDIO_PA) += audio-pa$(DSOSUF)
+-common-obj-$(CONFIG_AUDIO_SDL) += audio-sdl$(DSOSUF)
+-
+-common-obj-$(if $(CONFIG_CURSES),m) += ui-curses$(DSOSUF)
+-common-obj-$(if $(CONFIG_GTK),m) += ui-gtk$(DSOSUF)
+-common-obj-$(if $(CONFIG_SDL),m) += ui-sdl$(DSOSUF)
+-common-obj-$(if $(CONFIG_SPICE),m) += ui-spice-app$(DSOSUF)
+-
+-common-obj-$(if $(CONFIG_CURL),m) += block-curl$(DSOSUF)
+-common-obj-$(if $(CONFIG_GLUSTERFS),m) += block-gluster$(DSOSUF)
+-common-obj-$(if $(CONFIG_LIBISCSI),m) += block-iscsi$(DSOSUF)
+-common-obj-$(if $(CONFIG_LIBNFS),m) += block-nfs$(DSOSUF)
+-common-obj-$(if $(CONFIG_LIBSSH),m) += block-ssh$(DSOSUF)
+-common-obj-$(if $(CONFIG_RBD),m) += block-rbd$(DSOSUF)
+-
+-common-obj-$(if $(CONFIG_LZFSE),m) += block-dmg-lzfse$(DSOSUF)
+-common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF)
+-endif
+diff --git a/Makefile.target b/Makefile.target
+deleted file mode 100644
+index 4f72a8950d..0000000000
+--- a/Makefile.target
++++ /dev/null
+@@ -1,13 +0,0 @@
+-# -*- Mode: makefile -*-
+-
+-BUILD_DIR?=$(CURDIR)/..
+-
+-include ../config-host.mak
+-include config-target.mak
+-include $(SRC_PATH)/rules.mak
+-
+-all:
+-clean:
+-install: all
+-	
+-.PHONY: all clean install
+diff --git a/configure b/configure
+index e39d7ac2d1..089bff7c37 100755
+--- a/configure
++++ b/configure
+@@ -7796,8 +7796,6 @@ if [ "$TARGET_BASE_ARCH" = "" ]; then
+   TARGET_BASE_ARCH=$TARGET_ARCH
+ fi
  
- # If we have a CXX we might have some C++ objects, in which case we
- # must link with the C++ compiler, not the plain C compiler.
-@@ -87,7 +85,7 @@ LINKPROG = $(or $(CXX),$(CC))
- 
- LINK = $(call quiet-command, $(LINKPROG) $(QEMU_LDFLAGS) $(QEMU_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@ \
-        $(call process-archive-undefs, $1) \
--       $(version-obj-y) $(call extract-libs,$1) $(LIBS),"LINK","$(TARGET_DIR)$@")
-+       $(call extract-libs,$1) $(LIBS),"LINK","$(TARGET_DIR)$@")
- 
- %.o: %.S
- 	$(call quiet-command,$(CCAS) $(QEMU_LOCAL_INCLUDES) $(QEMU_INCLUDES) \
+-symlink "$source_path/Makefile.target" "$target_dir/Makefile"
+-
+ upper() {
+     echo "$@"| LC_ALL=C tr '[a-z]' '[A-Z]'
+ }
 -- 
 2.21.0
 
