@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C872A14C072
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:57:19 +0100 (CET)
-Received: from localhost ([::1]:35580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F6814C079
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:59:44 +0100 (CET)
+Received: from localhost ([::1]:35608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwW34-0002nS-PA
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:57:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37019)
+	id 1iwW5O-0006bX-Tw
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:59:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37110)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7z-00047G-SX
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:21 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV82-0004BW-0G
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7y-0008W2-9g
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:19 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44273)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV80-0000A7-TB
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:21 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54074)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV7y-0008TI-1P
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:18 -0500
-Received: by mail-wr1-x443.google.com with SMTP id q10so17104297wrm.11
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:17 -0800 (PST)
+ id 1iwV7z-00006X-SJ
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:20 -0500
+Received: by mail-wm1-x344.google.com with SMTP id s10so3525762wmh.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BDWglfYgMOtl659xP+q/5QhfEoszYG7S7GJUoVLsayU=;
- b=ko2Id6n4YpLrrmGSJvTQC2VYEys8LEzfQtFwruleVJQ9xSRmzpNDjrcVeqGv7/zmE9
- DV3pDbS8xP/ygxQpEAc5gG3+hxU9LYINMojH1G6/YMZPzKgeVdUAGarAlSAns5N3Y10u
- CAmTkTXZNrcChIx/mEWJQvDptg00IAZo4KZjGa9nw8M44W9zwpucuQd++qdM8RrEBVAg
- +fgLNsjy783Xp4XJKcSr1Wuo4w5UgFUfyV0eW8vkB24xhfOdHFcdhnnLFr92Doss48vd
- ZQp5pRBAipKiqPqlrEw1ZJ4dmXLiGKZqmagrUdqRBUxeRkbbit+fDSv1zlW6a0CY5Ltu
- 9g/g==
+ bh=i76w+t9B1oPmwkSkSk0YuyoRnJ4nJrrRU+Nru66pFgs=;
+ b=DiJgDRh1A5JOXMFjLe+It2ts8eNNnsmRJqNu9ypDdb5B+mAXbe3W0X3wldg2iMGvu5
+ 8qUmQL5DBs7QxoqLDQWi7t+vLpBCDoGmUvnAll+85lcPWtPZyL6Azpa777l97ajjtb11
+ AO++jcqW84kPE6KBBVxq8w0IpAEU5RhBSOhVQvH/Ua0Cg40bkb3TGRWq2Yux85e6IF4J
+ Go4/nHBjzDSkHp+DL4weuO6u2VMIQ3aznWgOZi3tOkiFvcasV9I+iSsZtRPhxdhS38eU
+ rURG2MZiqLTC3RyjonaXd2qbOucPtKDhfSl5IWoh3cM9bLsglXrAGmzQ7uCIfCI2+JT3
+ o6qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BDWglfYgMOtl659xP+q/5QhfEoszYG7S7GJUoVLsayU=;
- b=nu4EU5K7eUkXgvfGiaz25AMJ/4MS/iNnj0Ni8oilrpylVhBcNc/r8BP9Yj3gXN6TNx
- TZK+sfbOxUj/yjqxo6FxgM1QLlL0VF2DgpbSsgAi72N0onSZaI12tdvWiA9pEfTC+/jF
- PAw2wWGyFEdimTUGnfQzh/zEvzG6E0MzYXVGbPxjYuATYiw9Depp2atH0FfYKTxHRuIb
- lWhK2ilqd2QRHjtN1P881KJVKOOcRbm9C/QV1n51yq0FI2/LmwISpRHI6Y1fY3CDoRrx
- I60SGyQtwz0BfAHzGH49APTRz0zoPZ5WWiieGU9fRMawmz1sVlUYj/ZM0JV0GnkS2aV2
- KzJQ==
-X-Gm-Message-State: APjAAAXa3ECkZuT0kRyWoKFk0VY+L9SN1DTFQuUHvWuQy3N1tRdPhPDN
- 0CTpykKNJ0uuZYXrUGSxKZpd62ls
-X-Google-Smtp-Source: APXvYqx1cxNwdW/zUqfqLzfSGttYQ3AboO0X3fX8x2ZC5fGO64uYwooS8U14uZZ+nn61k0KHBYZZEA==
-X-Received: by 2002:adf:e6c5:: with SMTP id y5mr31856493wrm.210.1580234296720; 
- Tue, 28 Jan 2020 09:58:16 -0800 (PST)
+ bh=i76w+t9B1oPmwkSkSk0YuyoRnJ4nJrrRU+Nru66pFgs=;
+ b=SXJaweqDLy9LL4vIUWs8fpP+bH7ReC4CSQholmbHDI7FswiZg78U+bPELsqNdgSI+M
+ JsNYMUWgblOiqLEkJJ8WntyGSpC/95RfnjOWj9I1jOdBZenBuaUnuEtPEkUQ0PwX/zRR
+ t+9Gz2oTdyBe/AqPxCMY4orRZdDX7kvCyFE9liLPfE0i4c5ynyKGP5FN1Cf9vL47zg9P
+ GVYTpEDrc4N/ouvEOT3YDIWiPCNDY+gfUv5RQpEfPyv+MH5iH5bhhtdQKxNP4PgblmLb
+ lu5z+tBU6Tv9OSzuF5B/o88zijJQPzLYPU5+2BWJ77dt59apPev4fM44l4WnEjKuXGVG
+ RMxg==
+X-Gm-Message-State: APjAAAUW2FNvdHCc2dy0BqEjMgIZnVkpseXP3kEnwE2mHV2Yzn7pgMlg
+ NqAtkdQphJHcA7AqSBNOcQQAZb8G
+X-Google-Smtp-Source: APXvYqyP4f2tAujZQEN5glk6MWn/gDMcJFODNC82DU9m0H8+9I/3kjR3Lho0f+nLl7GH5A/3rpG5Cg==
+X-Received: by 2002:a1c:6389:: with SMTP id x131mr6555294wmb.155.1580234298641; 
+ Tue, 28 Jan 2020 09:58:18 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.14
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:58:16 -0800 (PST)
+ Tue, 28 Jan 2020 09:58:18 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 114/142] meson: linux-user
-Date: Tue, 28 Jan 2020 18:53:14 +0100
-Message-Id: <20200128175342.9066-115-pbonzini@redhat.com>
+Subject: [PATCH 115/142] meson: bsd-user
+Date: Tue, 28 Jan 2020 18:53:15 +0100
+Message-Id: <20200128175342.9066-116-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,127 +87,69 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile.target                    |  3 ---
- linux-user/Makefile.objs           | 10 ----------
- linux-user/arm/nwfpe/Makefile.objs |  2 --
- linux-user/arm/nwfpe/meson.build   | 10 ++++++++++
- linux-user/meson.build             | 22 ++++++++++++++++++++++
- meson.build                        |  9 +++++++++
- 6 files changed, 41 insertions(+), 15 deletions(-)
- delete mode 100644 linux-user/Makefile.objs
- delete mode 100644 linux-user/arm/nwfpe/Makefile.objs
- create mode 100644 linux-user/arm/nwfpe/meson.build
- create mode 100644 linux-user/meson.build
+ Makefile.target        |  3 ---
+ bsd-user/Makefile.objs |  2 --
+ bsd-user/meson.build   | 10 ++++++++++
+ meson.build            |  4 ++++
+ 4 files changed, 14 insertions(+), 5 deletions(-)
+ delete mode 100644 bsd-user/Makefile.objs
+ create mode 100644 bsd-user/meson.build
 
 diff --git a/Makefile.target b/Makefile.target
-index 3aec144e82..8c3f838ec6 100644
+index 8c3f838ec6..3671c29f97 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -130,9 +130,6 @@ QEMU_CFLAGS+=-I$(SRC_PATH)/linux-user/$(TARGET_ABI_DIR) \
-              -I$(SRC_PATH)/linux-user/host/$(ARCH) \
-              -I$(SRC_PATH)/linux-user
+@@ -140,9 +140,6 @@ ifdef CONFIG_BSD_USER
+ QEMU_CFLAGS+=-I$(SRC_PATH)/bsd-user -I$(SRC_PATH)/bsd-user/$(TARGET_ABI_DIR) \
+ 			 -I$(SRC_PATH)/bsd-user/$(HOST_VARIANT_DIR)
  
--obj-y += linux-user/
--obj-y += gdbstub.o thunk.o
+-obj-y += bsd-user/
+-obj-y += gdbstub.o
 -
- endif #CONFIG_LINUX_USER
+ endif #CONFIG_BSD_USER
  
  #########################################################
-diff --git a/linux-user/Makefile.objs b/linux-user/Makefile.objs
+diff --git a/bsd-user/Makefile.objs b/bsd-user/Makefile.objs
 deleted file mode 100644
-index d2f33beb5e..0000000000
---- a/linux-user/Makefile.objs
-+++ /dev/null
-@@ -1,10 +0,0 @@
--obj-y = main.o syscall.o strace.o mmap.o signal.o \
--	elfload.o linuxload.o uaccess.o uname.o \
--	safe-syscall.o $(TARGET_ABI_DIR)/signal.o \
--        $(TARGET_ABI_DIR)/cpu_loop.o exit.o fd-trans.o
--
--obj-$(TARGET_HAS_BFLT) += flatload.o
--obj-$(TARGET_I386) += vm86.o
--obj-$(TARGET_ARM) += arm/nwfpe/
--obj-$(TARGET_ARM) += arm/semihost.o
--obj-$(TARGET_AARCH64) += arm/semihost.o
-diff --git a/linux-user/arm/nwfpe/Makefile.objs b/linux-user/arm/nwfpe/Makefile.objs
-deleted file mode 100644
-index 51b0c32c2a..0000000000
---- a/linux-user/arm/nwfpe/Makefile.objs
+index 5e77f57782..0000000000
+--- a/bsd-user/Makefile.objs
 +++ /dev/null
 @@ -1,2 +0,0 @@
--obj-y = fpa11.o fpa11_cpdo.o fpa11_cpdt.o fpa11_cprt.o fpopcode.o
--obj-y += single_cpdo.o double_cpdo.o extended_cpdo.o
-diff --git a/linux-user/arm/nwfpe/meson.build b/linux-user/arm/nwfpe/meson.build
+-obj-y = main.o bsdload.o elfload.o mmap.o signal.o strace.o syscall.o \
+-	        uaccess.o
+diff --git a/bsd-user/meson.build b/bsd-user/meson.build
 new file mode 100644
-index 0000000000..1c27e55f2a
+index 0000000000..0369549340
 --- /dev/null
-+++ b/linux-user/arm/nwfpe/meson.build
++++ b/bsd-user/meson.build
 @@ -0,0 +1,10 @@
-+linux_user_ss.add(when: 'TARGET_ARM', if_true: files(
-+  'double_cpdo.c',
-+  'extended_cpdo.c',
-+  'fpa11.c',
-+  'fpa11_cpdo.c',
-+  'fpa11_cpdt.c',
-+  'fpa11_cprt.c',
-+  'fpopcode.c',
-+  'single_cpdo.c',
-+))
-diff --git a/linux-user/meson.build b/linux-user/meson.build
-new file mode 100644
-index 0000000000..b5711d9b78
---- /dev/null
-+++ b/linux-user/meson.build
-@@ -0,0 +1,22 @@
-+linux_user_ss.add(files(
++bsd_user_ss.add(files(
++  'bsdload.c',
 +  'elfload.c',
-+  'exit.c',
-+  'fd-trans.c',
-+  'linuxload.c',
 +  'main.c',
 +  'mmap.c',
-+  'safe-syscall.S',
 +  'signal.c',
 +  'strace.c',
 +  'syscall.c',
 +  'uaccess.c',
-+  'uname.c',
 +))
-+linux_user_ss.add(rt)
-+
-+linux_user_ss.add(when: 'TARGET_AARCH64', if_true: files('arm/semihost.c'))
-+linux_user_ss.add(when: 'TARGET_ARM', if_true: files('arm/semihost.c'))
-+linux_user_ss.add(when: 'TARGET_HAS_BFLT', if_true: files('flatload.c'))
-+linux_user_ss.add(when: 'TARGET_I386', if_true: files('vm86.c'))
-+
-+subdir('arm/nwfpe')
 diff --git a/meson.build b/meson.build
-index bd0067ba5b..07d97d452c 100644
+index 07d97d452c..a96c54ceb1 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -655,6 +655,10 @@ subdir('net')
+@@ -655,8 +655,12 @@ subdir('net')
  subdir('replay')
  subdir('hw')
  subdir('accel')
-+subdir('linux-user')
++subdir('bsd-user')
+ subdir('linux-user')
+ 
++bsd_user_ss.add(files('gdbstub.c'))
++specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
 +
-+linux_user_ss.add(files('gdbstub.c', 'thunk.c'))
-+specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
+ linux_user_ss.add(files('gdbstub.c', 'thunk.c'))
+ specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
  
- mods = []
- block_mods = []
-@@ -751,6 +755,11 @@ foreach target : target_dirs
-       base_dir,
-       base_dir / config_target['TARGET_ABI_DIR'],
-     )
-+    if 'CONFIG_LINUX_USER' in config_target
-+      dir = base_dir / config_target['TARGET_ABI_DIR']
-+      target_inc += include_directories(base_dir / 'host' / config_target['ARCH'])
-+      arch_srcs += files(dir / 'signal.c', dir / 'cpu_loop.c')
-+    endif
-   endif
- 
-   t = target_arch[arch].apply(config_target, strict: false)
 -- 
 2.21.0
 
