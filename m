@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF97714C066
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:54:02 +0100 (CET)
-Received: from localhost ([::1]:35526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 469FD14C07B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:00:12 +0100 (CET)
+Received: from localhost ([::1]:35610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVzt-0006LL-PD
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:54:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36266)
+	id 1iwW5r-00078o-6d
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:00:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36586)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7X-0003DI-Ak
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:52 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7f-0003Pz-Ej
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7W-0007W1-3H
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:51 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45418)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7e-0007rO-0u
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:59 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50764)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV7V-0007Qt-SA
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:50 -0500
-Received: by mail-wr1-x433.google.com with SMTP id a6so2509842wrx.12
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:57:48 -0800 (PST)
+ id 1iwV7d-0007o2-L2
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:57:57 -0500
+Received: by mail-wm1-x335.google.com with SMTP id a5so3534188wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:57:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LzHvcXhHqxz4BlJdedh4/3e5PmkuBe+KInP2ViD+Wx4=;
- b=PR1UVUL6AE5r0pvb6lr2x18dMtl/a5DZpS5GpqB67b/Wwl70v6UpQ/Eu2b9XDAxXDk
- 0OypqPqV+Artka4EHEz56d8N8yAEdx0E4DWzQVxnK1tr7r1bEp8r10uVK+xIPtdJf15I
- OYJfJo7W2csuJA046KKKqte8Hm3wojicmByALRZXd4f0E2TidlRdqvK9H1adJWMn5WgA
- ObOK+rw8iytD9PvKapFiGb1smhsJsBfrMSJ+cGsNeenjYyMXyd7lC4+Paeyfvp6Ju7a6
- 45X5E5ksyiqrGLowSKD1Wl/KkCsu9EtNCENUtkQe/vdT8B0gsOdrvy2i2UrO/ExlJiYO
- iw4A==
+ bh=9DgqWnWCxy8tt44ULg7kNP/pB4huP4GqDZOAtPow0Ac=;
+ b=Rbtgsg2FzjQXgveR04huu+tq4Lr3WAEiDY/o2pErwCGhFvt18N+xOHfDF1l5bC0mqG
+ gV7OemwenrSqIycIIDdB2TT9+4jnr9A5/Iaj2NXOh2im3R93xeA9GypY69fOqaUiaCOl
+ TEm75wPiqJeqV7Zc7UnPEjJ1kO4C2pZvvi0y9U5dHoOrxAqiOtJcmqSriV70nxG5ZeT0
+ 6Y8Km3XOq3J8HN2TmdknGYVshT8og3kPkbrHnASBno64PJzi7u02e7/20AUpRiIQwGey
+ wQ7flGpTDxp4nwQG9UVnOQXnA4s1IVsdA6KRptLy14Qstu40uoae2+KO6elBpK1h47ZD
+ 3tiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LzHvcXhHqxz4BlJdedh4/3e5PmkuBe+KInP2ViD+Wx4=;
- b=VK2GTm7eqPZ8sLdudRd5WUQdilhhrDvP17ssrm/p0kGjHeYriwiu/PwsKYbE+7BLmn
- cX6sAV+fJX1vsDJ5R5rRl0SAyqKKILcI/XHlyo8mlJgkk4TDTPQwP85Qw7x0+9P9Lyrv
- 0+6v9Hr6+V+OuUfb+JD0bvCKW4OxCdP7BO6tXb0MEeem8YGMmj7a5u/5fcQ896UuU5SS
- aAlZpxLVcWb3ubcaVF0CItuMA+MXc7/Gc/mApxNRUTtOmsAcyfUmuMxn0UwbDS9cIhTz
- qU7gXhrZi5AwPHCyseQlPqY1V3DjwfetMWPfNv3QeJ5T3HadUfKEFgW3W1wV+NLdwcAc
- dP4w==
-X-Gm-Message-State: APjAAAX3HUhPb9UpW8eNSqQawGaNKZHVpa8AOr32fFwMwyiLVv5Rmk23
- +au7cjNt79I2KQWWqsBSAWj+vuRW
-X-Google-Smtp-Source: APXvYqxwwd2Zbq2GQnY5DlN8BbUXf8BVHLDxg7suZ289nsN0x5i063Pjv9onryIwlMWfEIfikGJdOw==
-X-Received: by 2002:a5d:4a91:: with SMTP id o17mr28496969wrq.232.1580234267779; 
- Tue, 28 Jan 2020 09:57:47 -0800 (PST)
+ bh=9DgqWnWCxy8tt44ULg7kNP/pB4huP4GqDZOAtPow0Ac=;
+ b=IAqOTAuPmQ6x1BqD+qtgeCqdfUAWVcfNa/CeCagtgnl0jWmoaG3Kw+gEe/s7bUHNLY
+ VtqvTd2LYak7GOx7oHgbXCtYEq1INkBj7mqqKi64O/ISWnS9rFtKQ+L1a3AeKw/nU6J0
+ ROdspYBNhWF8sN/lkA8+3btWvt5OFO4kPGLThrYMhO3H21gP+XUzte2f6npWErd23xxu
+ lcO5O8roMlnPDa5WJogH2uDqsBIhbNaZiQLgBlPbP5bpyrMETWgOYyRqNCcmB08H7gDt
+ yYZNBV+kcJ9zUejra1Vq/qWMGSISqeVP5iMfhtXjbPHwNdzXuySZ8GkOn/wU6BI4/Kbu
+ 8iRg==
+X-Gm-Message-State: APjAAAV3l0A/PIR32liGShY/W6P47OwwJHouPyPOAdYoPs34tdJDfCwc
+ jtW8lBITseKlRn7NIKYyUL8Mf1v1
+X-Google-Smtp-Source: APXvYqxXbAKwULMxOc+M94HoFbrwiFblxQ2zzlKE8fslFtqmLClxQiI+wzG+HQj2fTYF4+BG9YPyBA==
+X-Received: by 2002:a7b:c109:: with SMTP id w9mr6190469wmi.14.1580234275255;
+ Tue, 28 Jan 2020 09:57:55 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.57.45
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.57.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:57:47 -0800 (PST)
+ Tue, 28 Jan 2020 09:57:54 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 102/142] meson: convert hw/dma
-Date: Tue, 28 Jan 2020 18:53:02 +0100
-Message-Id: <20200128175342.9066-103-pbonzini@redhat.com>
+Subject: [PATCH 105/142] meson: convert hw/char
+Date: Tue, 28 Jan 2020 18:53:05 +0100
+Message-Id: <20200128175342.9066-106-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,80 +87,117 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs     |  1 -
- hw/dma/Makefile.objs | 16 ----------------
- hw/dma/meson.build   | 16 ++++++++++++++++
- hw/meson.build       |  1 +
- 4 files changed, 17 insertions(+), 17 deletions(-)
- delete mode 100644 hw/dma/Makefile.objs
- create mode 100644 hw/dma/meson.build
+ hw/Makefile.objs      |  1 -
+ hw/char/Makefile.objs | 36 ------------------------------------
+ hw/char/meson.build   | 34 ++++++++++++++++++++++++++++++++++
+ hw/meson.build        |  1 +
+ 4 files changed, 35 insertions(+), 37 deletions(-)
+ delete mode 100644 hw/char/Makefile.objs
+ create mode 100644 hw/char/meson.build
 
 diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index d9b7d6b912..1f946ee6f3 100644
+index 0b9879456f..6ddffced72 100644
 --- a/hw/Makefile.objs
 +++ b/hw/Makefile.objs
-@@ -7,7 +7,6 @@ devices-dirs-y += block/
- devices-dirs-y += char/
- devices-dirs-y += cpu/
- devices-dirs-y += display/
--devices-dirs-y += dma/
+@@ -4,7 +4,6 @@ devices-dirs-y += acpi/
+ devices-dirs-y += adc/
+ devices-dirs-y += audio/
+ devices-dirs-y += block/
+-devices-dirs-y += char/
  endif
  
  common-obj-y += $(devices-dirs-y)
-diff --git a/hw/dma/Makefile.objs b/hw/dma/Makefile.objs
+diff --git a/hw/char/Makefile.objs b/hw/char/Makefile.objs
 deleted file mode 100644
-index b672e7a522..0000000000
---- a/hw/dma/Makefile.objs
+index 02d8a66925..0000000000
+--- a/hw/char/Makefile.objs
 +++ /dev/null
-@@ -1,16 +0,0 @@
--common-obj-$(CONFIG_PUV3) += puv3_dma.o
--common-obj-$(CONFIG_RC4030) += rc4030.o
--common-obj-$(CONFIG_PL080) += pl080.o
--common-obj-$(CONFIG_PL330) += pl330.o
--common-obj-$(CONFIG_I82374) += i82374.o
--common-obj-$(CONFIG_I8257) += i8257.o
--common-obj-$(CONFIG_XILINX_AXI) += xilinx_axidma.o
--common-obj-$(CONFIG_ZYNQ_DEVCFG) += xlnx-zynq-devcfg.o
--common-obj-$(CONFIG_ETRAXFS) += etraxfs_dma.o
--common-obj-$(CONFIG_STP2000) += sparc32_dma.o
--obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx_dpdma.o
--common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx-zdma.o
+@@ -1,36 +0,0 @@
+-common-obj-$(CONFIG_IPACK) += ipoctal232.o
+-common-obj-$(CONFIG_ESCC) += escc.o
+-common-obj-$(CONFIG_NRF51_SOC) += nrf51_uart.o
+-common-obj-$(CONFIG_PARALLEL) += parallel.o
+-common-obj-$(CONFIG_ISA_BUS) += parallel-isa.o
+-common-obj-$(CONFIG_PL011) += pl011.o
+-common-obj-$(CONFIG_SERIAL) += serial.o
+-common-obj-$(CONFIG_SERIAL_ISA) += serial-isa.o
+-common-obj-$(CONFIG_SERIAL_PCI) += serial-pci.o
+-common-obj-$(CONFIG_SERIAL_PCI_MULTI) += serial-pci-multi.o
+-common-obj-$(CONFIG_VIRTIO_SERIAL) += virtio-console.o
+-common-obj-$(CONFIG_XILINX) += xilinx_uartlite.o
+-common-obj-$(CONFIG_XEN) += xen_console.o
+-common-obj-$(CONFIG_CADENCE) += cadence_uart.o
 -
--obj-$(CONFIG_OMAP) += omap_dma.o soc_dma.o
--obj-$(CONFIG_PXA2XX) += pxa2xx_dma.o
--common-obj-$(CONFIG_RASPI) += bcm2835_dma.o
-diff --git a/hw/dma/meson.build b/hw/dma/meson.build
+-obj-$(CONFIG_EXYNOS4) += exynos4210_uart.o
+-obj-$(CONFIG_COLDFIRE) += mcf_uart.o
+-obj-$(CONFIG_OMAP) += omap_uart.o
+-obj-$(CONFIG_SH4) += sh_serial.o
+-obj-$(CONFIG_PSERIES) += spapr_vty.o
+-obj-$(CONFIG_DIGIC) += digic-uart.o
+-obj-$(CONFIG_STM32F2XX_USART) += stm32f2xx_usart.o
+-obj-$(CONFIG_RASPI) += bcm2835_aux.o
+-
+-common-obj-$(CONFIG_CMSDK_APB_UART) += cmsdk-apb-uart.o
+-common-obj-$(CONFIG_ETRAXFS) += etraxfs_ser.o
+-common-obj-$(CONFIG_ISA_DEBUG) += debugcon.o
+-common-obj-$(CONFIG_GRLIB) += grlib_apbuart.o
+-common-obj-$(CONFIG_IMX) += imx_serial.o
+-common-obj-$(CONFIG_LM32) += lm32_juart.o
+-common-obj-$(CONFIG_LM32) += lm32_uart.o
+-common-obj-$(CONFIG_MILKYMIST) += milkymist-uart.o
+-common-obj-$(CONFIG_SCLPCONSOLE) += sclpconsole.o sclpconsole-lm.o
+-
+-obj-$(CONFIG_VIRTIO) += virtio-serial-bus.o
+-obj-$(CONFIG_TERMINAL3270) += terminal3270.o
+diff --git a/hw/char/meson.build b/hw/char/meson.build
 new file mode 100644
-index 0000000000..84677ad7f0
+index 0000000000..002e5d01d3
 --- /dev/null
-+++ b/hw/dma/meson.build
-@@ -0,0 +1,16 @@
-+softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_dma.c'))
-+softmmu_ss.add(when: 'CONFIG_RC4030', if_true: files('rc4030.c'))
-+softmmu_ss.add(when: 'CONFIG_PL080', if_true: files('pl080.c'))
-+softmmu_ss.add(when: 'CONFIG_PL330', if_true: files('pl330.c'))
-+softmmu_ss.add(when: 'CONFIG_I82374', if_true: files('i82374.c'))
-+softmmu_ss.add(when: 'CONFIG_I8257', if_true: files('i8257.c'))
-+softmmu_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('xilinx_axidma.c'))
-+softmmu_ss.add(when: 'CONFIG_ZYNQ_DEVCFG', if_true: files('xlnx-zynq-devcfg.c'))
-+softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_dma.c'))
-+softmmu_ss.add(when: 'CONFIG_STP2000', if_true: files('sparc32_dma.c'))
-+specific_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx_dpdma.c'))
-+softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zdma.c'))
++++ b/hw/char/meson.build
+@@ -0,0 +1,34 @@
++softmmu_ss.add(when: 'CONFIG_CADENCE', if_true: files('cadence_uart.c'))
++softmmu_ss.add(when: 'CONFIG_CMSDK_APB_UART', if_true: files('cmsdk-apb-uart.c'))
++softmmu_ss.add(when: 'CONFIG_ESCC', if_true: files('escc.c'))
++softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_ser.c'))
++softmmu_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_apbuart.c'))
++softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_serial.c'))
++softmmu_ss.add(when: 'CONFIG_IPACK', if_true: files('ipoctal232.c'))
++softmmu_ss.add(when: 'CONFIG_ISA_BUS', if_true: files('parallel-isa.c'))
++softmmu_ss.add(when: 'CONFIG_ISA_DEBUG', if_true: files('debugcon.c'))
++softmmu_ss.add(when: 'CONFIG_LM32', if_true: files('lm32_juart.c'))
++softmmu_ss.add(when: 'CONFIG_LM32', if_true: files('lm32_uart.c'))
++softmmu_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-uart.c'))
++softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_uart.c'))
++softmmu_ss.add(when: 'CONFIG_PARALLEL', if_true: files('parallel.c'))
++softmmu_ss.add(when: 'CONFIG_PL011', if_true: files('pl011.c'))
++softmmu_ss.add(when: 'CONFIG_SCLPCONSOLE', if_true: files('sclpconsole.c', 'sclpconsole-lm.c'))
++softmmu_ss.add(when: 'CONFIG_SERIAL', if_true: files('serial.c'))
++softmmu_ss.add(when: 'CONFIG_SERIAL_ISA', if_true: files('serial-isa.c'))
++softmmu_ss.add(when: 'CONFIG_SERIAL_PCI', if_true: files('serial-pci.c'))
++softmmu_ss.add(when: 'CONFIG_SERIAL_PCI_MULTI', if_true: files('serial-pci-multi.c'))
++softmmu_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-console.c'))
++softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen_console.c'))
++softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_uartlite.c'))
 +
-+specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_dma.c', 'soc_dma.c'))
-+specific_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_dma.c'))
-+softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_dma.c'))
++specific_ss.add(when: 'CONFIG_COLDFIRE', if_true: files('mcf_uart.c'))
++specific_ss.add(when: 'CONFIG_DIGIC', if_true: files('digic-uart.c'))
++specific_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_uart.c'))
++specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_uart.c'))
++specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_vty.c'))
++specific_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_aux.c'))
++specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_serial.c'))
++specific_ss.add(when: 'CONFIG_STM32F2XX_USART', if_true: files('stm32f2xx_usart.c'))
++specific_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('terminal3270.c'))
++specific_ss.add(when: 'CONFIG_VIRTIO', if_true: files('virtio-serial-bus.c'))
 diff --git a/hw/meson.build b/hw/meson.build
-index 52577c3205..96da0bba7e 100644
+index 103da4840b..dd0c77ec2b 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
-@@ -1,4 +1,5 @@
+@@ -1,3 +1,4 @@
++subdir('char')
  subdir('core')
-+subdir('dma')
- subdir('gpio')
- subdir('hyperv')
- subdir('i2c')
+ subdir('cpu')
+ subdir('display')
 -- 
 2.21.0
 
