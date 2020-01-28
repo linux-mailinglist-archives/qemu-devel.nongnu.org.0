@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B362D14BDBB
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 17:29:19 +0100 (CET)
-Received: from localhost ([::1]:32932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B013D14BDE1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 17:37:52 +0100 (CET)
+Received: from localhost ([::1]:33308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwTjq-0007jK-Or
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 11:29:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55725)
+	id 1iwTs7-0007Af-GR
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 11:37:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42058)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iwTif-0006vf-4H
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 11:28:06 -0500
+ (envelope-from <bounces@canonical.com>) id 1iwTEB-00082r-CF
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 10:56:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iwTid-0002lU-Qk
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 11:28:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33365
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iwTid-0002kz-Mn
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 11:28:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580228882;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=odW+lJDZ2Lmz7BsIl51gbc4/c2wH2TyvgUXdFuUpFw4=;
- b=F+tZehiF0sOF0Dn5LRSfNSO7sE0QEW8yHdET0s5a2tn4zcx4lZKF7FrM6PxiLjCdTJB3gp
- A3pqTClfO15p5Tg7rp0x9dyiNAn1Wv+lAuyVmVc+g+A2JIdVDOuaekCq+EX/ZVb9uVBQfK
- lATxdheDt45akbdYwphaGkvuqH2OhKM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-QxAxctJxPbaSRYz0R4NUVw-1; Tue, 28 Jan 2020 11:28:00 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42EF68C30E8;
- Tue, 28 Jan 2020 16:27:59 +0000 (UTC)
-Received: from [10.3.117.16] (ovpn-117-16.phx2.redhat.com [10.3.117.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8795C7C35A;
- Tue, 28 Jan 2020 16:27:56 +0000 (UTC)
-Subject: Re: [PATCH 2/2] mirror: Don't let an operation wait for itself
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200128151755.25162-1-kwolf@redhat.com>
- <20200128151755.25162-3-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <72ac830e-b8de-8c9e-4e80-b9af2bbfb9a0@redhat.com>
-Date: Tue, 28 Jan 2020 10:27:56 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <bounces@canonical.com>) id 1iwTE8-0000rP-P8
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 10:56:35 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44040)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iwTE8-0000qS-Go
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 10:56:32 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iwTE3-0005h3-J6
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 15:56:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5E9AC2E80D2
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 15:56:27 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200128151755.25162-3-kwolf@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: QxAxctJxPbaSRYz0R4NUVw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 28 Jan 2020 15:37:06 -0000
+From: Philippe Vaucher <philippe.vaucher@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philippe-vaucher
+X-Launchpad-Bug-Reporter: Philippe Vaucher (philippe-vaucher)
+X-Launchpad-Bug-Modifier: Philippe Vaucher (philippe-vaucher)
+Message-Id: <158022582642.18726.3284794136336139049.malonedeb@gac.canonical.com>
+Subject: [Bug 1861161] [NEW] qemu-arm-static 100% CPU when cross-compiling
+ emacs on alpine
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 95f9689e67f1693349710a4af5a13de93d26e52e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Tue, 28 Jan 2020 11:36:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,54 +65,542 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
+Reply-To: Bug 1861161 <1861161@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/28/20 9:17 AM, Kevin Wolf wrote:
-> mirror_wait_for_free_in_flight_slot() just picks a random operation to
-> wait for. However, when mirror_co_read() waits for free slots, its
-> MirrorOp is already in s->ops_in_flight, so if not enough slots are
-> immediately available, an operation can end up waiting for itself to
-> complete, which results in a hang.
+Public bug reported:
 
-Eww. That can't have been fun to debug.
+Hello,
 
-> 
-> Fix this by passing the current MirrorOp and skipping this operation
-> when picking an operation to wait for.
-> 
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1794692
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   block/mirror.c | 21 ++++++++++++---------
->   1 file changed, 12 insertions(+), 9 deletions(-)
-> 
-> diff --git a/block/mirror.c b/block/mirror.c
-> index 8959e4255f..cacbc70014 100644
-> --- a/block/mirror.c
-> +++ b/block/mirror.c
-> @@ -283,11 +283,14 @@ static int mirror_cow_align(MirrorBlockJob *s, int64_t *offset,
->   }
->   
->   static inline void coroutine_fn
-> -mirror_wait_for_any_operation(MirrorBlockJob *s, bool active)
-> +mirror_wait_for_any_operation(MirrorBlockJob *s, MirrorOp *self, bool active)
->   {
->       MirrorOp *op;
->   
->       QTAILQ_FOREACH(op, &s->ops_in_flight, next) {
-> +        if (self == op) {
-> +            continue;
-> +        }
+I'm trying to build multi-arch docker images for
+https://hub.docker.com/r/silex/emacs.
 
-But this is the obvious fix.
+Here is the machine I'm building on (hetzner cloud machine):
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+root@ubuntu-4gb-fsn1-1:~# lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 18.04.3 LTS
+Release:        18.04
+Codename:       bionic
+root@ubuntu-4gb-fsn1-1:~# uname -a
+Linux ubuntu-4gb-fsn1-1 4.15.0-74-generic #84-Ubuntu SMP Thu Dec 19 08:06:2=
+8 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Whenever I try to build the following alpine Dockerfile
+https://gitlab.com/Silex777/docker-
+emacs/blob/master/26.3/alpine/3.9/dev/Dockerfile like this:
 
+$ sysctl kernel.randomize_va_space=3D0
+$ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+$ docker build --pull -t test --platform arm .
+
+It builds fine until this:
+
+root@ubuntu-4gb-fsn1-1:~# ps -ef | grep qemu
+root     26473 26465 99 14:26 pts/0    01:59:58 /usr/bin/qemu-arm-static ..=
+/src/bootstrap-emacs -batch --no-site-file --no-site-lisp --eval (setq load=
+-prefer-newer t) -f batch-byte-compile emacs-lisp/macroexp.el
+
+This is supposed to take a few seconds, but in practice it takes 100%
+CPU and never ends. When I strace the process I see a never ending loop
+like this:
+
+getdents64(5, /* 0 entries */, 2048)    =3D 0
+lseek(5, 0, SEEK_SET)                   =3D 0
+getdents64(5, /* 5 entries */, 2048)    =3D 120
+tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporarily=
+ unavailable)
+getdents64(5, /* 0 entries */, 2048)    =3D 0
+lseek(5, 0, SEEK_SET)                   =3D 0
+getdents64(5, /* 5 entries */, 2048)    =3D 120
+tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporarily=
+ unavailable)
+getdents64(5, /* 0 entries */, 2048)    =3D 0
+lseek(5, 0, SEEK_SET)                   =3D 0
+getdents64(5, /* 5 entries */, 2048)    =3D 120
+tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporarily=
+ unavailable)
+getdents64(5, /* 0 entries */, 2048)    =3D 0
+lseek(5, 0, SEEK_SET)                   =3D 0
+getdents64(5, /* 5 entries */, 2048)    =3D 120
+tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporarily=
+ unavailable)
+getdents64(5, /* 0 entries */, 2048)    =3D 0
+lseek(5, 0, SEEK_SET)                   =3D 0
+getdents64(5, /* 5 entries */, 2048)    =3D 120
+tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporarily=
+ unavailable)
+
+It happens with all the QEMU versions I tested:
+- 2.11.1 (OS version)
+- 4.1.1-1 (from multiarch/qemu-user-static:4.1.1-1)
+- 4.2.0-2 (from multiarch/qemu-user-static)
+
+Any ideas of what I could do to debug it further?
+
+Kind regards,
+Philippe
+
+p.s: Everything builds fine when the base image is ubuntu. I also had
+similar hangs with basic commands like "apt-get install foo" sometimes.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Description changed:
+
+  Hello,
+  =
+
+  I'm trying to build multi-arch docker images for
+  https://hub.docker.com/r/silex/emacs.
+  =
+
+  Here is the machine I'm building on:
+  =
+
+  root@ubuntu-4gb-fsn1-1:~# lsb_release -a
+  No LSB modules are available.
+  Distributor ID: Ubuntu
+  Description:    Ubuntu 18.04.3 LTS
+  Release:        18.04
+  Codename:       bionic
+  root@ubuntu-4gb-fsn1-1:~# uname -a
+  Linux ubuntu-4gb-fsn1-1 4.15.0-74-generic #84-Ubuntu SMP Thu Dec 19 08:06=
+:28 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+  =
+
+  Whenever I try to build the following alpine Dockerfile
+  https://gitlab.com/Silex777/docker-
+  emacs/blob/master/26.3/alpine/3.9/dev/Dockerfile with this command:
+  =
+
+  $ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  $ docker build --pull -t test --platform arm .
+  =
+
+  It builds fine until this:
+  =
+
+  root@ubuntu-4gb-fsn1-1:~# ps -ef | grep qemu
+  root     26473 26465 99 14:26 pts/0    01:59:58 /usr/bin/qemu-arm-static =
+../src/bootstrap-emacs -batch --no-site-file --no-site-lisp --eval (setq lo=
+ad-prefer-newer t) -f batch-byte-compile emacs-lisp/macroexp.el
+  =
+
+  This is supposed to take a few seconds, but in practice it takes 100%
+  CPU and never ends. When I strace the process I see this:
+  =
+
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  =
+
+- It happens with all the QEMU versions I tested: =
+
++ It happens with all the QEMU versions I tested:
+  - 2.11.1 (OS version)
+  - 4.1.1-1 (from multiarch/qemu-user-static:4.1.1-1)
+  - 4.2.0-2 (from multiarch/qemu-user-static)
+  =
+
+  Any ideas of what I could do to debug it further?
+  =
+
+  Kind regards,
+  Philippe
++ =
+
++ p.s: Everything builds fine when the base image is ubuntu. I also had
++ similar hangs with basic commands like "apt-get install foo" sometimes.
+
+** Description changed:
+
+  Hello,
+  =
+
+  I'm trying to build multi-arch docker images for
+  https://hub.docker.com/r/silex/emacs.
+  =
+
+  Here is the machine I'm building on:
+  =
+
+  root@ubuntu-4gb-fsn1-1:~# lsb_release -a
+  No LSB modules are available.
+  Distributor ID: Ubuntu
+  Description:    Ubuntu 18.04.3 LTS
+  Release:        18.04
+  Codename:       bionic
+  root@ubuntu-4gb-fsn1-1:~# uname -a
+  Linux ubuntu-4gb-fsn1-1 4.15.0-74-generic #84-Ubuntu SMP Thu Dec 19 08:06=
+:28 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+  =
+
+  Whenever I try to build the following alpine Dockerfile
+  https://gitlab.com/Silex777/docker-
+  emacs/blob/master/26.3/alpine/3.9/dev/Dockerfile with this command:
+  =
+
+  $ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  $ docker build --pull -t test --platform arm .
+  =
+
+  It builds fine until this:
+  =
+
+  root@ubuntu-4gb-fsn1-1:~# ps -ef | grep qemu
+  root     26473 26465 99 14:26 pts/0    01:59:58 /usr/bin/qemu-arm-static =
+../src/bootstrap-emacs -batch --no-site-file --no-site-lisp --eval (setq lo=
+ad-prefer-newer t) -f batch-byte-compile emacs-lisp/macroexp.el
+  =
+
+  This is supposed to take a few seconds, but in practice it takes 100%
+- CPU and never ends. When I strace the process I see this:
++ CPU and never ends. When I strace the process I see a never ending loop
++ like this:
+  =
+
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  =
+
+  It happens with all the QEMU versions I tested:
+  - 2.11.1 (OS version)
+  - 4.1.1-1 (from multiarch/qemu-user-static:4.1.1-1)
+  - 4.2.0-2 (from multiarch/qemu-user-static)
+  =
+
+  Any ideas of what I could do to debug it further?
+  =
+
+  Kind regards,
+  Philippe
+  =
+
+  p.s: Everything builds fine when the base image is ubuntu. I also had
+  similar hangs with basic commands like "apt-get install foo" sometimes.
+
+** Description changed:
+
+  Hello,
+  =
+
+  I'm trying to build multi-arch docker images for
+  https://hub.docker.com/r/silex/emacs.
+  =
+
+  Here is the machine I'm building on:
+  =
+
+  root@ubuntu-4gb-fsn1-1:~# lsb_release -a
+  No LSB modules are available.
+  Distributor ID: Ubuntu
+  Description:    Ubuntu 18.04.3 LTS
+  Release:        18.04
+  Codename:       bionic
+  root@ubuntu-4gb-fsn1-1:~# uname -a
+  Linux ubuntu-4gb-fsn1-1 4.15.0-74-generic #84-Ubuntu SMP Thu Dec 19 08:06=
+:28 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+  =
+
+  Whenever I try to build the following alpine Dockerfile
+  https://gitlab.com/Silex777/docker-
+- emacs/blob/master/26.3/alpine/3.9/dev/Dockerfile with this command:
++ emacs/blob/master/26.3/alpine/3.9/dev/Dockerfile like this:
+  =
+
++ $ sysctl kernel.randomize_va_space=3D0
+  $ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  $ docker build --pull -t test --platform arm .
+  =
+
+  It builds fine until this:
+  =
+
+  root@ubuntu-4gb-fsn1-1:~# ps -ef | grep qemu
+  root     26473 26465 99 14:26 pts/0    01:59:58 /usr/bin/qemu-arm-static =
+../src/bootstrap-emacs -batch --no-site-file --no-site-lisp --eval (setq lo=
+ad-prefer-newer t) -f batch-byte-compile emacs-lisp/macroexp.el
+  =
+
+  This is supposed to take a few seconds, but in practice it takes 100%
+  CPU and never ends. When I strace the process I see a never ending loop
+  like this:
+  =
+
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  =
+
+  It happens with all the QEMU versions I tested:
+  - 2.11.1 (OS version)
+  - 4.1.1-1 (from multiarch/qemu-user-static:4.1.1-1)
+  - 4.2.0-2 (from multiarch/qemu-user-static)
+  =
+
+  Any ideas of what I could do to debug it further?
+  =
+
+  Kind regards,
+  Philippe
+  =
+
+  p.s: Everything builds fine when the base image is ubuntu. I also had
+  similar hangs with basic commands like "apt-get install foo" sometimes.
+
+** Description changed:
+
+  Hello,
+  =
+
+  I'm trying to build multi-arch docker images for
+  https://hub.docker.com/r/silex/emacs.
+  =
+
+- Here is the machine I'm building on:
++ Here is the machine I'm building on (hetzner cloud machine):
+  =
+
+  root@ubuntu-4gb-fsn1-1:~# lsb_release -a
+  No LSB modules are available.
+  Distributor ID: Ubuntu
+  Description:    Ubuntu 18.04.3 LTS
+  Release:        18.04
+  Codename:       bionic
+  root@ubuntu-4gb-fsn1-1:~# uname -a
+  Linux ubuntu-4gb-fsn1-1 4.15.0-74-generic #84-Ubuntu SMP Thu Dec 19 08:06=
+:28 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+  =
+
+  Whenever I try to build the following alpine Dockerfile
+  https://gitlab.com/Silex777/docker-
+  emacs/blob/master/26.3/alpine/3.9/dev/Dockerfile like this:
+  =
+
+  $ sysctl kernel.randomize_va_space=3D0
+  $ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  $ docker build --pull -t test --platform arm .
+  =
+
+  It builds fine until this:
+  =
+
+  root@ubuntu-4gb-fsn1-1:~# ps -ef | grep qemu
+  root     26473 26465 99 14:26 pts/0    01:59:58 /usr/bin/qemu-arm-static =
+../src/bootstrap-emacs -batch --no-site-file --no-site-lisp --eval (setq lo=
+ad-prefer-newer t) -f batch-byte-compile emacs-lisp/macroexp.el
+  =
+
+  This is supposed to take a few seconds, but in practice it takes 100%
+  CPU and never ends. When I strace the process I see a never ending loop
+  like this:
+  =
+
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  =
+
+  It happens with all the QEMU versions I tested:
+  - 2.11.1 (OS version)
+  - 4.1.1-1 (from multiarch/qemu-user-static:4.1.1-1)
+  - 4.2.0-2 (from multiarch/qemu-user-static)
+  =
+
+  Any ideas of what I could do to debug it further?
+  =
+
+  Kind regards,
+  Philippe
+  =
+
+  p.s: Everything builds fine when the base image is ubuntu. I also had
+  similar hangs with basic commands like "apt-get install foo" sometimes.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1861161
+
+Title:
+  qemu-arm-static 100% CPU when cross-compiling emacs on alpine
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  I'm trying to build multi-arch docker images for
+  https://hub.docker.com/r/silex/emacs.
+
+  Here is the machine I'm building on (hetzner cloud machine):
+
+  root@ubuntu-4gb-fsn1-1:~# lsb_release -a
+  No LSB modules are available.
+  Distributor ID: Ubuntu
+  Description:    Ubuntu 18.04.3 LTS
+  Release:        18.04
+  Codename:       bionic
+  root@ubuntu-4gb-fsn1-1:~# uname -a
+  Linux ubuntu-4gb-fsn1-1 4.15.0-74-generic #84-Ubuntu SMP Thu Dec 19 08:06=
+:28 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+
+  Whenever I try to build the following alpine Dockerfile
+  https://gitlab.com/Silex777/docker-
+  emacs/blob/master/26.3/alpine/3.9/dev/Dockerfile like this:
+
+  $ sysctl kernel.randomize_va_space=3D0
+  $ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  $ docker build --pull -t test --platform arm .
+
+  It builds fine until this:
+
+  root@ubuntu-4gb-fsn1-1:~# ps -ef | grep qemu
+  root     26473 26465 99 14:26 pts/0    01:59:58 /usr/bin/qemu-arm-static =
+../src/bootstrap-emacs -batch --no-site-file --no-site-lisp --eval (setq lo=
+ad-prefer-newer t) -f batch-byte-compile emacs-lisp/macroexp.el
+
+  This is supposed to take a few seconds, but in practice it takes 100%
+  CPU and never ends. When I strace the process I see a never ending
+  loop like this:
+
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+  getdents64(5, /* 0 entries */, 2048)    =3D 0
+  lseek(5, 0, SEEK_SET)                   =3D 0
+  getdents64(5, /* 5 entries */, 2048)    =3D 120
+  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
+ly unavailable)
+
+  It happens with all the QEMU versions I tested:
+  - 2.11.1 (OS version)
+  - 4.1.1-1 (from multiarch/qemu-user-static:4.1.1-1)
+  - 4.2.0-2 (from multiarch/qemu-user-static)
+
+  Any ideas of what I could do to debug it further?
+
+  Kind regards,
+  Philippe
+
+  p.s: Everything builds fine when the base image is ubuntu. I also had
+  similar hangs with basic commands like "apt-get install foo"
+  sometimes.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1861161/+subscriptions
 
