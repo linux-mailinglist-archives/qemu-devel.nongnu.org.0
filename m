@@ -2,71 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879BE14B760
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 15:15:39 +0100 (CET)
-Received: from localhost ([::1]:59716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD2B14B8ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 15:28:54 +0100 (CET)
+Received: from localhost ([::1]:59906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwReU-0004p8-GX
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 09:15:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44357)
+	id 1iwRrJ-0005H2-5j
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 09:28:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50071)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <n54@gmx.com>) id 1iwRaX-0003PF-2E
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:11:34 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iwRqa-0004pl-LJ
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:28:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <n54@gmx.com>) id 1iwRaV-0005uV-OI
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:11:33 -0500
-Received: from mout.gmx.net ([212.227.15.19]:50553)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <n54@gmx.com>) id 1iwRaV-0005u8-F6
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:11:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1580220653;
- bh=cRgESy6sLo0BIQ+50LV01B/uYevHPkdheIzJwHdtPko=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=D44TzvlCRJnuB1HFk4BUy/QoczmbTbvDYu/CXT4iXojKMzkly1ZU0J+adTC3zwIBH
- WUqTbm3N5ERAeZ6ZASuzPCqtWBA26sjQig8rUUj+sGmF0l0UlHq/q/LImAp0DbqZs/
- Vv/GDN31PUfD+gJYAh/yUrdhMlVDXTP3F6bV86hE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([89.71.135.231]) by mail.gmx.com
- (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1M9Wys-1itAKH0eIO-005Z1T; Tue, 28 Jan 2020 15:10:53 +0100
-From: Kamil Rytarowski <n54@gmx.com>
-To: rth@twiddle.net, ehabkost@redhat.com, philmd@redhat.com, slp@redhat.com,
- pbonzini@redhat.com, peter.maydell@linaro.org, max@m00nbsd.net
-Subject: [PATCH v2 4/4] Add the NVMM acceleration enlightenments
-Date: Tue, 28 Jan 2020 15:09:45 +0100
-Message-Id: <20200128140945.929-5-n54@gmx.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200128140945.929-1-n54@gmx.com>
-References: <20200107124903.16505-1-n54@gmx.com>
- <20200128140945.929-1-n54@gmx.com>
+ (envelope-from <laurent@vivier.eu>) id 1iwRqZ-0005kK-6k
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:28:08 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:36829)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iwRqY-0005jf-Tq
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 09:28:07 -0500
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MelWf-1jX9ds3mab-00aoRI; Tue, 28 Jan 2020 15:28:02 +0100
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <CAL1e-=j5WJkV=X+KkfBuS3pjf6z3aJrtu4xpYeVbjEUYiWxxTQ@mail.gmail.com>
+ <20200127093004.GA18565@stefanha-x1.localdomain>
+ <CAL1e-=h+g4FWVDVe6a4T_X_nEA-catKd+7LiKXx++qS+G7mqOQ@mail.gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Subject: Re: [GSoC/Outreachy QEMU proposal] Extend support for ioctls in QEMU
+ linux-user mode
+Message-ID: <74b19db2-8ed2-c0c4-2870-b60dd49789cd@vivier.eu>
+Date: Tue, 28 Jan 2020 15:28:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:WsZiGyDicBKO/T4XoU9HxVVmPgMXCvdft7rDaRfjFwvAQJDmEc4
- 00HmYR3R/F+GzhZ/DCNmIls7RGKYqrdc2D32JpVU4hjse6KxouSKx3RbHUWgNolHo6yNUed
- i9Eby4TN/sMaRKjAlePiHqEpokRWtljU7ZW67qaW4wTJnqDTditeoI3C8Y/WdMypGCb58wy
- p3doh3dhtm3Kkj1yu1QcQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LA6O0mCUXvM=:ADet+3e3fLTsQZ3rK/6uTR
- 88adevBRofzb/Hs0f45L5h/QK/MxxjkryrN2LaDF5NAHzRIZbrJiqS4bVKhBcvqmJdmpSd/cP
- fyasCGjCz/JWE30W9ieynh43jQIVKeTOTJy0IrpzwpOBERSf2F7jRq47YHomqNG4bJHebsskz
- J8SYccmIPS+kluW2Wu71/1TCihKNp5wToTyzxElOh8bHnjAsXWY9W1urmZ69jGbM1A9ryTK/S
- jyaa6WatvsEQtIYZr2yj9z+9IdxiDaYaBLh+k4u1iP6HPswz4P2ITJTmmmtkvYs/fkSAXCtiL
- 5z43pg7iRgMfl9NpxLyAUeZkh5rjbtqd/rpfbeLQfCFMm70Wa6zujD2SHzl7RDMFp0M6iCTcX
- npUnMrei4kVpxrARkc1RO0JyE31zrBtqM5zXHzBiG1/b9pxO1rp44zxOhzYCuXe39RRQv3H/u
- ez58/cEUYNdIlgqKwmKFGYK31gDM2iVB6vSlLyt+Axmstp3zOWZWdNb3vY/JSLL+NZX+zRbD2
- AXjbRdiZuIWpNFknBl0aK4AyKE8zb551j6GMcJp9cARtwlavKsmN/IEXd5KgMdQAqnKzM9kRb
- BEsMuj2DCxL+8mHgFlu3nCwGy7AkTTdAA85iC3EYbN77vGS/9DAXswbp5i59qdIwPgcjcTY10
- rRKjz3SHFLvBlDHOYSbdZVQfkUllPkw8tT66otNhxi1t3bNM5ZFDuO/OO5P7yh3Y6f05+8Yk9
- 4Yvpupqj/yX0k5t3B4n6b47cy62/9hNGFzLz95tGJB+dVKG4psxlAaPVpGhBAH2mxu6lMuDTt
- 9/jn4F1IbekqY9vigUcOmDo9X1i3uLVgX7a8HQk7em2ZOVAXXXuU7LfOxp4Vo7cPn8Hsxsrdo
- THwR1v8WiUfNkJfCu9uQE/PUohgZDgGDn9icBWd/HP5m0u0t0JATuiU5ciiRZsfhtjSA07cyc
- PfSF+cPXC/jdq/iOzpXpidgVD+/RrkI2sPD48yHKVSthI36vd9VcmmF0pXsZYRj99rPZ7OPWu
- m3Tf/gNgG0N4Pc4A/UDv1985ASWhIywCRj1BJYqcnqP5HiVxYCJT3TCSXnkSd5Bck1dxuClH+
- U+GcjyyCQ15BhLufoUDTyML7goSDt4JUEq+f07MRURwjrldagkbWwS8FB+PJBx9ExUZGqpna/
- IvxdixMxGUOz9olxCGaRoVbo7+e/GuD4V6yRRkyFt79Z5LGO7/5bwfQPqFRUF5a+irgy8=
+In-Reply-To: <CAL1e-=h+g4FWVDVe6a4T_X_nEA-catKd+7LiKXx++qS+G7mqOQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:S5qTP4wx21f5vTo3i9ds+4jnuNc9ciczjmlneFJq+PLDE5Vc/qB
+ YqdG2iKMzlSrLOLkhpP0dBNbmUs/yFY8t/DuZZpdSq01dqJlUJfXuBCPwFaz0ZL+fnQn4ng
+ CSmEot5ydRAfEJW7LocWYGltdhZCl1NQlfdlFQUhWV7nfhE8KUI4j06z0arJaAEkYgP3prd
+ 6co0rmqqXEf088msrIkfg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hQ5jTdjc8WQ=:6zpg3lAvV9w5nWoZiBdgmi
+ FrxRl2z27BCFDwMFSx3y5Pd/gtY3i8/Ti5fEZ+T9NGuudS2LxCkr9VuO52UuVstwoJ0+cL3pa
+ Tg3zHNjeglaI5zvb9a5ZfuRXxvhTW3Wt0fvldv6Iq7idy0XGBaREZ7ix30sScoDybwv3VTsg0
+ ySHFrAblw3WklXzRFaa1rHE1gTfvN6z2+olO6n7uAMKiAvyGVVNswKKW51xuBedJtheXIj013
+ UPZ86W+GPDOXcLCm+SN0VsiDvddyNqFgpL2PBCs+nub4BHCxmgKDSxMhkDiufouDLboTL+i8A
+ jylQMS/HLdoe3pzjh+sBCmhd5fM/lPCDEjwy6QZ4lo9nPYxwyUG6XMilj2R9Z9/NYt5PO7Ob+
+ MZkU3K9FSvRDwmEQUewt8kPiO08yJ8fqVJhJMMRMcGAuN+vt90QzfSy3RVJMs0hXH0IXMABfH
+ Qw30Ar89Tg5Dm0SSXgTWfsmJUZs8bQZs5U+Kwnf9C8ToRStby483k9o50ARB5RACp0YTDRVo3
+ biFh/ZVLe5Kv/uSAhszLpem4fiopW0ErHwREfulXzmNl0tp5sojgiapW8PvpRawfgFmcrlQ1e
+ L1RpOeFkB3pVLQ2XqsmPPUJqvD9c/43MVvO/aQKNGl7nSbMw1nUAoI3sfG2D1HmgSKmH+9mRc
+ eCqEdHpm2qsmCMQ8PrjSbPMYDk0zGVsa87yKPnyBaN93yrEMdBxfuo4SEFDphY+p5/d0N5//z
+ 4hJnhPQQvN+VjEZgG+9MGWkF1p/9K3QWmuLSCRnuha0kKNIN9zhFZ4uGXDQMk3ui2JLeF41jH
+ ENTK1Q5K5AcgKAyWBen6YG41WcHwehIgXZO0oCqZjo/Ih+jQR8BaEk5iYdSu5mluOjL+0xL
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.15.19
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,186 +112,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kamil Rytarowski <n54@gmx.com>, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxime Villard <max@m00nbsd.net>
+Le 27/01/2020 à 17:30, Aleksandar Markovic a écrit :
+> 
+> 
+> On Mon, Jan 27, 2020 at 10:30 AM Stefan Hajnoczi <stefanha@redhat.com
+> <mailto:stefanha@redhat.com>> wrote:
+>>
+>> On Thu, Jan 23, 2020 at 02:34:01PM +0100, Aleksandar Markovic wrote:
+>> > *Extend support for ioctls in QEMU linux-user mode*
+>> >
+>> >
+>> >
+>> > *PLANNED ACTIVITIES*
+>> >
+>> > BACKGROUND
+>> >
+>> > There is currently 2500+ ioctls defined in Linux kernel. QEMU linux-user
+>> > currently supports only several hundred. There is a constant need for
+>> > expanding ioctl support in QEMU. Users use Linux-user mode in variety of
+>> > setups (for example, building and testing tools and applications under
+>> > chroot environment), and, on a regular basis, efforts by multiple people
+>> > are made to fill in missing support. However, these efforts have been
+>> > usually done on a piece-by-piece basis, i a limited way covering a
+>>
+>> s/ i / in /
+>>
+>> > partucular need. This project will take more proactive stance, and
+> try to
+>>
+>> s/partucular/particular/
+>>
+>> > improve QEMU before users start complaining.
+>> >
+>> > PART I:
+>> >
+>> >    a) Add strace support for outputing ioctl IDs (the second argument of
+>> > ioctl()) as strings rather than numbers - for all platform independant
+>> > ioctls.
+>> >    b) Add strace support for printing the third argument of ioctl()
+> (be it
+>> > int, string, structure or array) - limited to selected ioctls that are
+>> > frequently used.
+>> >
+>> > PART II:
+>> >
+>> >    a) Amend support for existing groups of ioctls that are not completed
+>> > 100% (let's say, filesystem ioctls)
+>> >    b) Add support for a selected group of ioctls that are not currently
+>> > supported (for example, dm ioctls, Bluetooth ioctls, or Radeon DRM
+> ioctls)
+>> >
+>> > PART III:
+>> >
+>> >   a) Develop unit tests for selected ioctls that are already
+> supported in
+>> > QEMU.
+>> >
+>> >
+>> > *DELIVERABLES*
+>> >
+>> > The deliverables are in the form of source code for each part,
+> intended to
+>> > be upstreamed, and time needed for upstreaming (addressing reviews,
+> etc.)
+>> > process is included int this project.
+>> >
+>> > The delivery of results can and should be distributed over larger
+> period of
+>> > time 2-3 months.
+>>
+>> Good project idea.  Please choose concrete ioctls.  Applicants may not
+>> have the necessary experience to choose a set of ioctls that are useful.
+>>
+> 
+> PART I should not be that difficult. PART II is, however, a minefield.
+> An implementation of support of a ioctl range from 15 minutes to two
+> months. The least we wont to happen is that the student is stuck with a
+> problem for months. Therefore I suggest first some "low hanging fruit"
+> for a student to get self-confidence and experience. One such group is
+> DM ioctl group ( link
+> <https://github.com/torvalds/linux/blob/master/include/uapi/linux/dm-ioctl.h#L251>
+> ) (Laurent may confirm, or "unconfirm" that). The next shoudl be
 
-Implements the NVMM accelerator cpu enlightenments to actually use the nvm=
-m-all
-accelerator on NetBSD platforms.
+Well, ioctl are generally implemented on demand when we see there is one
+missing. DM can be interresting, but do we have an easy way to test them?
 
-Signed-off-by: Maxime Villard <max@m00nbsd.net>
-Signed-off-by: Kamil Rytarowski <n54@gmx.com>
-Reviewed-by: Sergio Lopez <slp@redhat.com>
-=2D--
- cpus.c                    | 58 +++++++++++++++++++++++++++++++++++++++
- include/sysemu/hw_accel.h | 14 ++++++++++
- target/i386/helper.c      |  2 +-
- 3 files changed, 73 insertions(+), 1 deletion(-)
+> something a little harder, but useful in terms of end user. PART III
+> should be developed on the fly, but we need to provide a
+> guideline/framework prior to starting working with a student, IMHO..
+> 
+>> I wonder if it's possible to use something like the Debian popularity
+>> contest (https://popcon.debian.org/) and then scan the source of the
+>> most popular N packages for ioctl() calls.
+> 
+> Great! I'll try. A very interesting site and method.
+> 
 
-diff --git a/cpus.c b/cpus.c
-index b472378b70..3c3f63588c 100644
-=2D-- a/cpus.c
-+++ b/cpus.c
-@@ -42,6 +42,7 @@
- #include "sysemu/hax.h"
- #include "sysemu/hvf.h"
- #include "sysemu/whpx.h"
-+#include "sysemu/nvmm.h"
- #include "exec/exec-all.h"
+The other point to implement ioctl that we know are used by a given
+package is we can run this package to see if it works or not before and
+after the implementation of the missing ioctl.
 
- #include "qemu/thread.h"
-@@ -1666,6 +1667,48 @@ static void *qemu_whpx_cpu_thread_fn(void *arg)
-     return NULL;
- }
+We can also rely on some test suites provided by the packages.
 
-+static void *qemu_nvmm_cpu_thread_fn(void *arg)
-+{
-+    CPUState *cpu =3D arg;
-+    int r;
-+
-+    assert(nvmm_enabled());
-+
-+    rcu_register_thread();
-+
-+    qemu_mutex_lock_iothread();
-+    qemu_thread_get_self(cpu->thread);
-+    cpu->thread_id =3D qemu_get_thread_id();
-+    current_cpu =3D cpu;
-+
-+    r =3D nvmm_init_vcpu(cpu);
-+    if (r < 0) {
-+        fprintf(stderr, "nvmm_init_vcpu failed: %s\n", strerror(-r));
-+        exit(1);
-+    }
-+
-+    /* signal CPU creation */
-+    cpu->created =3D true;
-+    qemu_cond_signal(&qemu_cpu_cond);
-+
-+    do {
-+        if (cpu_can_run(cpu)) {
-+            r =3D nvmm_vcpu_exec(cpu);
-+            if (r =3D=3D EXCP_DEBUG) {
-+                cpu_handle_guest_debug(cpu);
-+            }
-+        }
-+        qemu_wait_io_event(cpu);
-+    } while (!cpu->unplug || cpu_can_run(cpu));
-+
-+    nvmm_destroy_vcpu(cpu);
-+    cpu->created =3D false;
-+    qemu_cond_signal(&qemu_cpu_cond);
-+    qemu_mutex_unlock_iothread();
-+    rcu_unregister_thread();
-+    return NULL;
-+}
-+
- #ifdef _WIN32
- static void CALLBACK dummy_apc_func(ULONG_PTR unused)
- {
-@@ -2029,6 +2072,19 @@ static void qemu_whpx_start_vcpu(CPUState *cpu)
- #endif
- }
+We can also detect missing ioctl by looking at "Unsupported ioctl: cmd="
+error message while we run chroot.
 
-+static void qemu_nvmm_start_vcpu(CPUState *cpu)
-+{
-+    char thread_name[VCPU_THREAD_NAME_SIZE];
-+
-+    cpu->thread =3D g_malloc0(sizeof(QemuThread));
-+    cpu->halt_cond =3D g_malloc0(sizeof(QemuCond));
-+    qemu_cond_init(cpu->halt_cond);
-+    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/NVMM",
-+             cpu->cpu_index);
-+    qemu_thread_create(cpu->thread, thread_name, qemu_nvmm_cpu_thread_fn,
-+                       cpu, QEMU_THREAD_JOINABLE);
-+}
-+
- static void qemu_dummy_start_vcpu(CPUState *cpu)
- {
-     char thread_name[VCPU_THREAD_NAME_SIZE];
-@@ -2069,6 +2125,8 @@ void qemu_init_vcpu(CPUState *cpu)
-         qemu_tcg_init_vcpu(cpu);
-     } else if (whpx_enabled()) {
-         qemu_whpx_start_vcpu(cpu);
-+    } else if (nvmm_enabled()) {
-+        qemu_nvmm_start_vcpu(cpu);
-     } else {
-         qemu_dummy_start_vcpu(cpu);
-     }
-diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
-index 0ec2372477..dbfa7a02f9 100644
-=2D-- a/include/sysemu/hw_accel.h
-+++ b/include/sysemu/hw_accel.h
-@@ -15,6 +15,7 @@
- #include "sysemu/hax.h"
- #include "sysemu/kvm.h"
- #include "sysemu/whpx.h"
-+#include "sysemu/nvmm.h"
+It could be interesting to run a gnome-session from inside a chroot with
+qemu-linux-user to trigger more multimedia related ioctl.
 
- static inline void cpu_synchronize_state(CPUState *cpu)
- {
-@@ -27,6 +28,9 @@ static inline void cpu_synchronize_state(CPUState *cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_state(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_state(cpu);
-+    }
- }
-
- static inline void cpu_synchronize_post_reset(CPUState *cpu)
-@@ -40,6 +44,10 @@ static inline void cpu_synchronize_post_reset(CPUState =
-*cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_post_reset(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_post_reset(cpu);
-+    }
-+
- }
-
- static inline void cpu_synchronize_post_init(CPUState *cpu)
-@@ -53,6 +61,9 @@ static inline void cpu_synchronize_post_init(CPUState *c=
-pu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_post_init(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_post_init(cpu);
-+    }
- }
-
- static inline void cpu_synchronize_pre_loadvm(CPUState *cpu)
-@@ -66,6 +77,9 @@ static inline void cpu_synchronize_pre_loadvm(CPUState *=
-cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_pre_loadvm(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_pre_loadvm(cpu);
-+    }
- }
-
- #endif /* QEMU_HW_ACCEL_H */
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index c3a6e4fabe..2e79d61329 100644
-=2D-- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -981,7 +981,7 @@ void cpu_report_tpr_access(CPUX86State *env, TPRAccess=
- access)
-     X86CPU *cpu =3D env_archcpu(env);
-     CPUState *cs =3D env_cpu(env);
-
--    if (kvm_enabled() || whpx_enabled()) {
-+    if (kvm_enabled() || whpx_enabled() || nvmm_enabled()) {
-         env->tpr_access_type =3D access;
-
-         cpu_interrupt(cs, CPU_INTERRUPT_TPR);
-=2D-
-2.24.1
+Thanks,
+Laurent
 
 
