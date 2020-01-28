@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE81A14C004
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:42:28 +0100 (CET)
-Received: from localhost ([::1]:35354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356EA14C012
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:44:10 +0100 (CET)
+Received: from localhost ([::1]:35382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVoh-0004Um-Ij
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:42:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33197)
+	id 1iwVqL-00007q-7x
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:44:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33464)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV60-00013E-8V
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:18 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV66-0001Ee-FE
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5y-0003qL-R3
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:16 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38904)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV65-000472-7b
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:22 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38257)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV5y-0003ny-Ik
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:14 -0500
-Received: by mail-wm1-x344.google.com with SMTP id a9so3569850wmj.3
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:56:14 -0800 (PST)
+ id 1iwV64-00040Q-VX
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:21 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id y17so17108519wrh.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:56:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TeH0JwK9IkWiUyAxej3j/G9tNh3AQcxNkFOZ44jNwuA=;
- b=YeZfSfLcuTsjX95g5SlE60zCyoG8x6rVc+/sDNMu0yCnqCvUepjkUInr0ssoqsMtKO
- Pxdrfe/j1ehM5R9wgPuV+MeWhlZNQ7MxgsQzJt9JmhqB+kaRSrk7+5OZBM/mWmbqBXpC
- dvah4Ema+9HgBfEpZZ3EWmjyUYsuVts9cE6H+7LqhxdGoX8uxi9haaV3yy/T83NeDHyc
- QFLEeu8DgBkJ+VFQypMUHJvo15aaGvxyNR0OqRzY6kWpHn9sdtJ8rqgW6DvtDg3m4pv2
- alqbFq+ym2TafIQMKVe20LTN6kUcSgbE6u0peDjgafOjVt9dSmd3Nxf+rKliVpyxdYug
- +uow==
+ bh=xoczCtDwo/LLw3HXr+/2TLIhdeFkE4hJuDs5QLeOcp8=;
+ b=flLjnX4wcFjQXbe3CanwRMmBqVuzhCbHSWBsVpOqz49r6TntMa/CA3/9qrdpeFGpSc
+ feXc5AR+n0t8C14BYcDD2iIwYaoj6ONt48ziWmaSr2MVbalTxPnYZbSTcqr+NzghIZJi
+ CTcTCISJVsez8N91RBE5ujqj2S1dwn1smgJDbcds8XUwctwfbtmFTgU3i9sABmMARRfe
+ +csRWuGRkaVarJZ2qE70JIAY+ibCDoIaAtciv/ReXZkqAUpMZn1ZNGAZW0gOiP4+iV6m
+ y12y0nWpeJdBXNLq2G/VqV1F/KTZpzqGWuBzERlYxMGX5owa3wR40dkodO8RQRKOafC/
+ uOJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TeH0JwK9IkWiUyAxej3j/G9tNh3AQcxNkFOZ44jNwuA=;
- b=XcZ/I3fvBCsy8kWH+Z4TQYO4pj5FOHxojRbgG3z2ifHNElHCojHSzZ58MTwJ7f2hHZ
- jDSGf4UX07yMqFfXhrWdFUEwegLrVbMJN8pCdkxGA2IQ+eI0WxQ5n1p5gruYzuJLCtL2
- ppiaZW51WiiDgTge/pfRpeOppIs5l/qsDOFqrQVJxUUGleNps70+q4wNsnYbY1WQi23p
- Tyr41npZkGycjl2Mf0RSC0rTgGFSm8PEyAmGSIE4tths4wzodxweNcWa2wY9iQTPUZ+M
- cZacfi4BJYl9d74KeyWNVeL39PTGmBsJAWxqmVc1J5jO86dlIb7uKBNaT3nEO1bauzYk
- UJ+A==
-X-Gm-Message-State: APjAAAV1nQFvr37vx7DPUq+aysfwqJVsCnpBxuunPIHxm/DDKgUUUqhk
- 9qg7qVHKBYeNfFG4frf+oXqH3DXR
-X-Google-Smtp-Source: APXvYqycd7aCvNo8DOoCX7hxlLNXZ9LdcDO7nFvGmXU+GIhYof4YKlJmrRdTnqoXUMOPooq+Fl13OA==
-X-Received: by 2002:a1c:1b4d:: with SMTP id b74mr6513368wmb.33.1580234173330; 
- Tue, 28 Jan 2020 09:56:13 -0800 (PST)
+ bh=xoczCtDwo/LLw3HXr+/2TLIhdeFkE4hJuDs5QLeOcp8=;
+ b=VfkECY/bXNdRGFPCeLXn8802CPkHh4ZUYO6BgM+j3mOS7uNND0Bx296Wc70VsIBF+1
+ MfGk0Xus0MEv4KIb3xtbgtsxrdxDm/z3CyH+X749JehO08uZ+rzUQchZ5CwxGr+GgiLC
+ 7grN8uStIZ/AhN9rsWYRCyCDlYwdv4YO348V497HEZWWlB/X735GdVOyvykZrGZGlZYt
+ XrPqFZp552KkqjLlGiHajNjYbm/JOgLz2Gz1W2wkuojstdqjX652GHYXI/sPdZw8xVQ+
+ ruqCz+q993Y28kqTc363KePI9SWvZiIWTl/gfgvSwbRfVzv9RQEHtTylr26pInqSPpPk
+ 6dsw==
+X-Gm-Message-State: APjAAAUxh5p61/OHyg/AvE6zItWkrkqqV9HokN0QecTX+75Oo6X5xhNi
+ wiWD4J/qqLocfHtso7YE0YaMuYXt
+X-Google-Smtp-Source: APXvYqzXOLkkN9lK/1u4UQQgEHjEh2KTCuTpxdbUiJsypL05JCtmfOnyb/fCVwWi/ie46qZ/Zymv8g==
+X-Received: by 2002:adf:8297:: with SMTP id 23mr28697996wrc.379.1580234177743; 
+ Tue, 28 Jan 2020 09:56:17 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.56.11
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.56.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:56:12 -0800 (PST)
+ Tue, 28 Jan 2020 09:56:17 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 061/142] meson: convert replay directory to Meson
-Date: Tue, 28 Jan 2020 18:52:21 +0100
-Message-Id: <20200128175342.9066-62-pbonzini@redhat.com>
+Subject: [PATCH 063/142] meson: build softmmu-specific migration/ram.c
+Date: Tue, 28 Jan 2020 18:52:23 +0100
+Message-Id: <20200128175342.9066-64-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,73 +86,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs        |  1 -
- meson.build          |  1 +
- replay/Makefile.objs |  9 ---------
- replay/meson.build   | 11 +++++++++++
- 4 files changed, 12 insertions(+), 10 deletions(-)
- delete mode 100644 replay/Makefile.objs
- create mode 100644 replay/meson.build
+ Makefile.target       | 1 -
+ configure             | 2 ++
+ meson.build           | 5 +++++
+ migration/meson.build | 2 ++
+ 4 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/Makefile.objs b/Makefile.objs
-index c4cea8d046..7b6985b4fb 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -62,7 +62,6 @@ common-obj-$(if $(CONFIG_LZFSE),m) += block-dmg-lzfse$(DSOSUF)
- common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF)
+diff --git a/Makefile.target b/Makefile.target
+index d8afffbce5..3587da499e 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -159,7 +159,6 @@ obj-y += hw/
+ obj-y += qapi/
+ obj-y += memory.o
+ obj-y += memory_mapping.o
+-obj-y += migration/ram.o
+ LIBS := $(libs_softmmu) $(LIBS)
  
- common-obj-y += hw/
--common-obj-y += replay/
- common-obj-y += backends/
- endif
+ # Temporary until emulators are linked by Meson
+diff --git a/configure b/configure
+index 3868d60222..5f579b2ea3 100755
+--- a/configure
++++ b/configure
+@@ -7428,6 +7428,8 @@ fi
  
+ if test "$libpmem" = "yes" ; then
+   echo "CONFIG_LIBPMEM=y" >> $config_host_mak
++  echo "LIBPMEM_LIBS=$libpmem_libs" >> $config_host_mak
++  echo "LIBPMEM_CFLAGS=$libpmem_cflags" >> $config_host_mak
+ fi
+ 
+ if test "$bochs" = "yes" ; then
 diff --git a/meson.build b/meson.build
-index 0532ab3101..d72edea6a8 100644
+index 4472d0b311..40411f0960 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -601,6 +601,7 @@ softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
- common_ss.add(files('cpus-common.c'))
+@@ -276,6 +276,11 @@ rdma = declare_dependency()
+ if 'CONFIG_RDMA' in config_host
+   rdma = declare_dependency(link_args: config_host['RDMA_LIBS'].split())
+ endif
++libpmem = declare_dependency()
++if 'CONFIG_LIBPMEM' in config_host
++  libpmem = declare_dependency(compile_args: config_host['LIBPMEM_CFLAGS'].split(),
++                               link_args: config_host['LIBPMEM_LIBS'].split())
++endif
  
- subdir('monitor')
-+subdir('replay')
+ create_config = find_program('scripts/create_config')
+ minikconf = find_program('scripts/minikconf.py')
+diff --git a/migration/meson.build b/migration/meson.build
+index ee5a713069..1231e4389e 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -22,3 +22,5 @@ softmmu_ss.add(files(
  
- mods = []
- block_mods = []
-diff --git a/replay/Makefile.objs b/replay/Makefile.objs
-deleted file mode 100644
-index cee6539a23..0000000000
---- a/replay/Makefile.objs
-+++ /dev/null
-@@ -1,9 +0,0 @@
--common-obj-y += replay.o
--common-obj-y += replay-internal.o
--common-obj-y += replay-events.o
--common-obj-y += replay-time.o
--common-obj-y += replay-input.o
--common-obj-y += replay-char.o
--common-obj-y += replay-snapshot.o
--common-obj-y += replay-net.o
--common-obj-y += replay-audio.o
-\ No newline at end of file
-diff --git a/replay/meson.build b/replay/meson.build
-new file mode 100644
-index 0000000000..b53218940a
---- /dev/null
-+++ b/replay/meson.build
-@@ -0,0 +1,11 @@
-+softmmu_ss.add(files(
-+  'replay.c',
-+  'replay-internal.c',
-+  'replay-events.c',
-+  'replay-time.c',
-+  'replay-input.c',
-+  'replay-char.c',
-+  'replay-snapshot.c',
-+  'replay-net.c',
-+  'replay-audio.c',
-+))
+ softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
+ softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
++
++specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('ram.c'), libpmem])
 -- 
 2.21.0
 
